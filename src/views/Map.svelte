@@ -4,7 +4,7 @@
   import dagre from 'cytoscape-dagre';
   import { buildElements, cyStyle } from '../lib/graph.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
-  import { applyStrandBands, drawBands } from '../lib/swimlane.js';
+  import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
 
@@ -87,13 +87,9 @@
       style: cyStyle
     });
 
-    // Run dagre for x = prerequisite rank, then band by strand once it settles.
-    const layout = cy.layout({ name: 'dagre', rankDir: 'LR', nodeSep: 60, rankSep: 140, edgeSep: 20 });
-    layout.one('layoutstop', () => {
-      bands = applyStrandBands(cy);
-      redraw();
-    });
-    layout.run();
+    // Lay each strand out independently and stack them into bands.
+    bands = layoutSwimlanes(cy);
+    redraw();
 
     cy.on('render', redraw);
 

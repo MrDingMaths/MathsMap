@@ -17,6 +17,21 @@ export const masteryLabel = {
   mastered: 'Mastered'
 };
 
+// Node diameter as a function of how many prerequisite links touch it. Sub-linear
+// (sqrt) so heavily-connected hubs stand out without dwarfing everything else.
+export const nodeSize = (degree) => Math.round(Math.min(64, 20 + 7 * Math.sqrt(degree)));
+
+// Tallies degree from the built edge list and writes `size` onto each node's data.
+// Shared by the skill graph and the topic meta-graph so sizing is consistent.
+export function applyNodeSizes(nodes, edges) {
+  const deg = new Map();
+  for (const e of edges) {
+    deg.set(e.data.source, (deg.get(e.data.source) || 0) + 1);
+    deg.set(e.data.target, (deg.get(e.data.target) || 0) + 1);
+  }
+  for (const n of nodes) n.data.size = nodeSize(deg.get(n.data.id) || 0);
+}
+
 // `courseIds` may be a string or an array of course ids. With several courses
 // selected, prerequisite edges that cross between courses become visible.
 // `topicIds`, when given, scopes the skill graph to skills under those topics —
@@ -65,6 +80,7 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null 
       });
     }
   }
+  applyNodeSizes(nodes, edges);
   return [...nodes, ...edges];
 }
 
@@ -82,8 +98,8 @@ export const cyStyle = [
       'text-max-width': 130,
       'text-valign': 'bottom',
       'text-margin-y': 4,
-      width: 22,
-      height: 22
+      width: 'data(size)',
+      height: 'data(size)'
     }
   },
   {

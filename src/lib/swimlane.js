@@ -1,8 +1,8 @@
 // Strand swimlanes for the Map view. Cytoscape has no native swimlanes, so we
-// run dagre first (which fixes x = prerequisite rank) and then translate each
-// strand's nodes into its own horizontal band. Translation (not rescaling)
-// preserves dagre's overlap-free intra-strand layout exactly, so banding never
-// introduces node overlaps while still separating the strands vertically.
+// lay out each strand independently with its own dagre pass (left→right prereq
+// flow), then stack those layouts into horizontal bands. Laying each strand out
+// on its own — rather than running one global dagre and pulling strands apart —
+// is what gives a band a meaningful internal order instead of leftover scatter.
 import { STRANDS } from './data.js';
 
 // Subtle background tints + label colour per strand.
@@ -13,17 +13,17 @@ const BAND_STYLE = {
 };
 const DEFAULT_STYLE = { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163, 184, 0.7)' };
 
-// Repositions nodes into per-strand bands. Returns the band geometry (model
-// coords) for drawBands(). Call after the dagre layout has finished.
-export function applyStrandBands(cy, { gap = 40, pad = 44 } = {}) {
+// Lays out each strand on its own and stacks the results into bands. Returns the
+// band geometry (model coords) for drawBands(). Replaces a single global layout.
+export function layoutSwimlanes(cy, { gap = 60, pad = 48, nodeSep = 45, rankSep = 110 } = {}) {
   const byStrand = new Map();
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];
-    if (!byStrand.has(strand)) byStrand.set(strand, []);
-    byStrand.get(strand).push(n);
+    if (!byStrand.has(strand)) byStrand.set(strand, cy.collection());
+    byStrand.set(strand, byStrand.get(strand).union(n));
   });
 
-  // Keep the fixed strand order, but only emit bands that actually have nodes.
+  // Fixed strand order, but only emit bands that actually have nodes.
   const order = [...STRANDS, ...[...byStrand.keys()].filter((s) => !STRANDS.includes(s))];
 
   const bands = [];
@@ -32,19 +32,22 @@ export function applyStrandBands(cy, { gap = 40, pad = 44 } = {}) {
     const nodes = byStrand.get(strand);
     if (!nodes || nodes.length === 0) continue;
 
-    let minY = Infinity;
-    let maxY = -Infinity;
-    for (const n of nodes) {
-      const y = n.position('y');
-      if (y < minY) minY = y;
-      if (y > maxY) maxY = y;
-    }
+    // Lay out just this strand (its nodes + the edges among them) left→right.
+    // Cross-strand edges are excluded from the layout but still drawn between bands.
+    const intra = nodes.edgesWith(nodes);
+    nodes
+      .union(intra)
+      .layout({ name: 'dagre', rankDir: 'LR', nodeSep, rankSep, edgeSep: 20, fit: false, animate: false })
+      .run();
 
+    // Translate this strand: left edges aligned at x = 0, top at cursorY + pad.
+    const bb = nodes.boundingBox();
+    const dx = -bb.x1;
     const bandTop = cursorY;
-    const dy = bandTop + pad - minY; // translate so the strand starts at bandTop + pad
-    for (const n of nodes) n.position('y', n.position('y') + dy);
+    const dy = bandTop + pad - bb.y1;
+    nodes.positions((n) => ({ x: n.position('x') + dx, y: n.position('y') + dy }));
 
-    const bandHeight = maxY - minY + 2 * pad;
+    const bandHeight = bb.h + 2 * pad;
     bands.push({ strand, yTop: bandTop, yBottom: bandTop + bandHeight });
     cursorY = bandTop + bandHeight + gap;
   }
@@ -75,6 +78,7 @@ export function drawBands(cy, canvas, bands) {
 
   const zoom = cy.zoom();
   const pan = cy.pan();
+  const lineH = 13;
   for (const band of bands) {
     const style = BAND_STYLE[band.strand] || DEFAULT_STYLE;
     const top = band.yTop * zoom + pan.y;
@@ -83,9 +87,15 @@ export function drawBands(cy, canvas, bands) {
     ctx.fillStyle = style.fill;
     ctx.fillRect(0, top, w, bottom - top);
 
+    // Skip labels for bands scrolled entirely out of view, and keep each label
+    // pinned within its own band's visible span so they never stack up at the top.
+    if (bottom < 8 || top > h - 8) continue;
+    const labelY = Math.min(Math.max(top + 8, 8), bottom - lineH - 8);
+    if (labelY < top || labelY + lineH > bottom) continue;
+
     ctx.fillStyle = style.text;
-    ctx.font = '600 13px system-ui, sans-serif';
+    ctx.font = `600 ${lineH}px system-ui, sans-serif`;
     ctx.textBaseline = 'top';
-    ctx.fillText(band.strand, 12, Math.max(top, 0) + 8);
+    ctx.fillText(band.strand, 12, labelY);
   }
 }

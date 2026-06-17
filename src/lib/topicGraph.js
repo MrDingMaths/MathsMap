@@ -4,7 +4,7 @@
 // full skill graph, so it stays legible with several courses selected.
 import { skills, topicById, skillById, topicsForSkill } from './data.js';
 import { getMastery } from './store.js';
-import { masteryColour, masteryLabel } from './graph.js';
+import { masteryColour, masteryLabel, applyNodeSizes } from './graph.js';
 
 const MASTERY_KEYS = ['none', 'learning', 'proficient', 'mastered'];
 
@@ -88,5 +88,6 @@ export function buildTopicElements({ courseIds = null } = {}) {
     edges.push({ data: { id: key, source, target }, classes: cross ? 'cross-course' : '' });
   }
 
+  applyNodeSizes(nodes, edges);
   return [...nodes, ...edges];
 }
