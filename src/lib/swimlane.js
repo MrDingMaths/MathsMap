@@ -1,8 +1,10 @@
 // Strand swimlanes for the Map view. Cytoscape has no native swimlanes, so we
-// lay out each strand independently with its own dagre pass (left→right prereq
-// flow), then stack those layouts into horizontal bands. Laying each strand out
-// on its own — rather than running one global dagre and pulling strands apart —
-// is what gives a band a meaningful internal order instead of leftover scatter.
+// lay out each strand independently with its own dagre pass (top→down prereq
+// flow), then stack those layouts side by side into vertical lanes. Laying each
+// strand out on its own — rather than running one global dagre and pulling
+// strands apart — is what gives a lane a meaningful internal order instead of
+// leftover scatter. Flow runs downward so the long prerequisite-depth axis uses
+// the (scrollable) vertical dimension and the 3 strands span the wide axis.
 import { STRANDS } from './data.js';
 
 // Subtle background tints + label colour per strand.
@@ -13,9 +15,10 @@ const BAND_STYLE = {
 };
 const DEFAULT_STYLE = { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163, 184, 0.7)' };
 
-// Lays out each strand on its own and stacks the results into bands. Returns the
-// band geometry (model coords) for drawBands(). Replaces a single global layout.
-export function layoutSwimlanes(cy, { gap = 60, pad = 48, nodeSep = 45, rankSep = 110 } = {}) {
+// Lays out each strand on its own and stacks the results side by side into lanes.
+// Returns the lane geometry (model coords) for drawBands(). Replaces a single
+// global layout.
+export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 45, rankSep = 110 } = {}) {
   const byStrand = new Map();
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];
@@ -23,42 +26,42 @@ export function layoutSwimlanes(cy, { gap = 60, pad = 48, nodeSep = 45, rankSep 
     byStrand.set(strand, byStrand.get(strand).union(n));
   });
 
-  // Fixed strand order, but only emit bands that actually have nodes.
+  // Fixed strand order, but only emit lanes that actually have nodes.
   const order = [...STRANDS, ...[...byStrand.keys()].filter((s) => !STRANDS.includes(s))];
 
-  const bands = [];
-  let cursorY = 0;
+  const lanes = [];
+  let cursorX = 0;
   for (const strand of order) {
     const nodes = byStrand.get(strand);
     if (!nodes || nodes.length === 0) continue;
 
-    // Lay out just this strand (its nodes + the edges among them) left→right.
-    // Cross-strand edges are excluded from the layout but still drawn between bands.
+    // Lay out just this strand (its nodes + the edges among them) top→down.
+    // Cross-strand edges are excluded from the layout but still drawn between lanes.
     const intra = nodes.edgesWith(nodes);
     nodes
       .union(intra)
-      .layout({ name: 'dagre', rankDir: 'LR', nodeSep, rankSep, edgeSep: 20, fit: false, animate: false })
+      .layout({ name: 'dagre', rankDir: 'TB', nodeSep, rankSep, edgeSep: 20, fit: false, animate: false })
       .run();
 
-    // Translate this strand: left edges aligned at x = 0, top at cursorY + pad.
+    // Translate this strand: top edges aligned at y = pad, left at cursorX + pad.
     const bb = nodes.boundingBox();
-    const dx = -bb.x1;
-    const bandTop = cursorY;
-    const dy = bandTop + pad - bb.y1;
+    const dy = pad - bb.y1;
+    const laneLeft = cursorX;
+    const dx = laneLeft + pad - bb.x1;
     nodes.positions((n) => ({ x: n.position('x') + dx, y: n.position('y') + dy }));
 
-    const bandHeight = bb.h + 2 * pad;
-    bands.push({ strand, yTop: bandTop, yBottom: bandTop + bandHeight });
-    cursorY = bandTop + bandHeight + gap;
+    const laneWidth = bb.w + 2 * pad;
+    lanes.push({ strand, xLeft: laneLeft, xRight: laneLeft + laneWidth });
+    cursorX = laneLeft + laneWidth + gap;
   }
 
   cy.fit(undefined, 30);
-  return bands;
+  return lanes;
 }
 
-// Paints the band stripes + strand labels onto a <canvas> overlay sitting behind
-// the Cytoscape canvas. Re-invoke on every pan/zoom/render so bands track the graph.
-export function drawBands(cy, canvas, bands) {
+// Paints the lane stripes + strand labels onto a <canvas> overlay sitting behind
+// the Cytoscape canvas. Re-invoke on every pan/zoom/render so lanes track the graph.
+export function drawBands(cy, canvas, lanes) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
@@ -71,31 +74,31 @@ export function drawBands(cy, canvas, bands) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
   // This canvas sits behind the (transparent) Cytoscape container, so it owns
-  // the graph backdrop as well as the band stripes.
+  // the graph backdrop as well as the lane stripes.
   ctx.fillStyle = '#0b1220';
   ctx.fillRect(0, 0, w, h);
-  if (!bands || bands.length === 0) return;
+  if (!lanes || lanes.length === 0) return;
 
   const zoom = cy.zoom();
   const pan = cy.pan();
-  const lineH = 13;
-  for (const band of bands) {
-    const style = BAND_STYLE[band.strand] || DEFAULT_STYLE;
-    const top = band.yTop * zoom + pan.y;
-    const bottom = band.yBottom * zoom + pan.y;
+  ctx.font = '600 13px system-ui, sans-serif';
+  ctx.textBaseline = 'top';
+  for (const lane of lanes) {
+    const style = BAND_STYLE[lane.strand] || DEFAULT_STYLE;
+    const left = lane.xLeft * zoom + pan.x;
+    const right = lane.xRight * zoom + pan.x;
 
     ctx.fillStyle = style.fill;
-    ctx.fillRect(0, top, w, bottom - top);
+    ctx.fillRect(left, 0, right - left, h);
 
-    // Skip labels for bands scrolled entirely out of view, and keep each label
-    // pinned within its own band's visible span so they never stack up at the top.
-    if (bottom < 8 || top > h - 8) continue;
-    const labelY = Math.min(Math.max(top + 8, 8), bottom - lineH - 8);
-    if (labelY < top || labelY + lineH > bottom) continue;
+    // Skip labels for lanes scrolled entirely out of view, and keep each label
+    // pinned within its own lane's visible span so it never drifts to a neighbour.
+    if (right < 8 || left > w - 8) continue;
+    const textW = ctx.measureText(lane.strand).width;
+    const labelX = Math.min(Math.max(left + 10, 8), right - textW - 10);
+    if (labelX < left || labelX + textW > right) continue;
 
     ctx.fillStyle = style.text;
-    ctx.font = `600 ${lineH}px system-ui, sans-serif`;
-    ctx.textBaseline = 'top';
-    ctx.fillText(band.strand, 12, labelY);
+    ctx.fillText(lane.strand, labelX, 8);
   }
 }
