@@ -65,19 +65,27 @@ export function buildTopicElements({ courseIds = null } = {}) {
   // (A != B). Cross-course when the contributing skill relationship spans courses.
   const edgeMap = new Map(); // `${a}->${b}` -> cross flag
   for (const [topicB, skillIds] of topicSkills) {
+    const stageB = topicById.get(topicB)?.stage;
     for (const sid of skillIds) {
       const s = skillById.get(sid);
       for (const p of s?.prereqs || []) {
         if (!poolIds.has(p)) continue;
+        // Attribute the prerequisite to a single source topic — its primary
+        // (first) topic that is visible. A skill shared across stages otherwise
+        // injects spurious edges from its later-stage topics, creating cycles
+        // that scramble dagre's ranking.
+        const topicA = topicsForSkill(p).find((t) => topicSkills.has(t));
+        if (!topicA || topicA === topicB) continue;
+        // Skill prerequisites are stage-monotonic, so a later -> earlier topic
+        // edge is always an artifact of shared skills; drop it.
+        const stageA = topicById.get(topicA)?.stage;
+        if (stageA != null && stageB != null && stageA > stageB) continue;
         const cross = !(skillById.get(p)?.courses || []).some((c) =>
           (s.courses || []).includes(c)
         );
-        for (const topicA of topicsForSkill(p)) {
-          if (!topicSkills.has(topicA) || topicA === topicB) continue;
-          const key = `${topicA}->${topicB}`;
-          // Keep cross=true if any contributing relationship crosses courses.
-          edgeMap.set(key, (edgeMap.get(key) || false) || cross);
-        }
+        const key = `${topicA}->${topicB}`;
+        // Keep cross=true if any contributing relationship crosses courses.
+        edgeMap.set(key, (edgeMap.get(key) || false) || cross);
       }
     }
   }
