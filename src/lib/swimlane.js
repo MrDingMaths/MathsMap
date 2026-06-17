@@ -18,7 +18,7 @@ const DEFAULT_STYLE = { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163,
 // Lays out each strand on its own and stacks the results side by side into lanes.
 // Returns the lane geometry (model coords) for drawBands(). Replaces a single
 // global layout.
-export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 45, rankSep = 110 } = {}) {
+export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 95, rankSep = 110 } = {}) {
   const byStrand = new Map();
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];

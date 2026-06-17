@@ -95,7 +95,7 @@ export const cyStyle = [
       color: '#e2e8f0',
       'font-size': 10,
       'text-wrap': 'wrap',
-      'text-max-width': 130,
+      'text-max-width': 84,
       'text-valign': 'bottom',
       'text-margin-y': 4,
       width: 'data(size)',
@@ -112,14 +112,16 @@ export const cyStyle = [
       'curve-style': 'bezier'
     }
   },
-  // Prerequisite links that span two different courses stand out.
+  // Prerequisite links that span two different courses stand out — but gently.
   {
     selector: 'edge.cross-course',
     style: {
-      width: 2.5,
-      'line-color': '#f59e0b',
-      'target-arrow-color': '#f59e0b',
-      'line-style': 'dashed'
+      width: 1.5,
+      'line-color': '#b9823c',
+      'target-arrow-color': '#b9823c',
+      'line-style': 'dashed',
+      'line-opacity': 0.75,
+      'arrow-scale': 0.8
     }
   },
   { selector: '.faded', style: { opacity: 0.1 } },
