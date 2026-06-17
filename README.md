@@ -2,8 +2,7 @@
 
 A student-facing map of NSW maths, **Stage 3 → Stage 6**. It imposes a clear
 hierarchy and prerequisite graph over the curriculum so students can see what
-they know, what they're ready for, and what to learn next — the things Leibniz's
-flat "constellation" doesn't give them.
+they know, what they're ready for, and what to learn next.
 
 ```
 Stage → Course → Topic → Dot point → Skill   (browsing hierarchy)
