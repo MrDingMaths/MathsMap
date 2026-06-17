@@ -60,3 +60,34 @@ export const searchSkills = (query) => {
 
 export const topicOf = (skill) =>
   topicById.get(dotpointById.get((skill.dotPointIds || [])[0])?.topicId);
+
+// Fixed strand order — used as the swimlane band order in the Map view.
+export const STRANDS = [
+  'Number & Algebra',
+  'Measurement & Space',
+  'Statistics & Probability'
+];
+
+// Ordered, unique topic ids a skill maps to (via its dot points).
+export const topicsForSkill = (skillId) => {
+  const skill = skillById.get(skillId);
+  if (!skill) return [];
+  const seen = new Set();
+  const out = [];
+  for (const dpId of skill.dotPointIds || []) {
+    const topicId = dotpointById.get(dpId)?.topicId;
+    if (topicId && !seen.has(topicId)) {
+      seen.add(topicId);
+      out.push(topicId);
+    }
+  }
+  return out;
+};
+
+// The skill's primary topic (first dot point's topic) — used for band assignment.
+export const primaryTopicForSkill = (skillId) =>
+  topicById.get(topicsForSkill(skillId)[0]);
+
+// The strand a skill belongs to, via its primary topic. Falls back to the first band.
+export const strandForSkill = (skillId) =>
+  primaryTopicForSkill(skillId)?.strand || STRANDS[0];

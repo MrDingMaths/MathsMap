@@ -3,23 +3,32 @@
   import cytoscape from 'cytoscape';
   import dagre from 'cytoscape-dagre';
   import { buildElements, cyStyle } from '../lib/graph.js';
-  import { courses } from '../lib/data.js';
+  import { buildTopicElements } from '../lib/topicGraph.js';
+  import { applyStrandBands, drawBands } from '../lib/swimlane.js';
+  import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
 
   cytoscape.use(dagre);
 
   let { courseId = null } = $props();
   let container;
+  let bandCanvas;
   let cy;
+  let bands = [];
 
   // Which courses are shown. Selecting several reveals cross-course prerequisites.
   const initial = untrack(() => courseId);
-  let selected = $state(
-    initial ? [initial] : ['s4', 's5-core']
-  );
+  let selected = $state(initial ? [initial] : ['s4', 's5-core']);
+
+  // 'topic' = topic meta-graph (default, low detail); 'skill' = full skill graph.
+  let mode = $state('topic');
+  // When drilling into a topic, the skill graph is scoped to these topic ids.
+  let scopeTopicIds = $state(null);
+  // Show only prerequisite links that cross between courses.
+  let crossOnly = $state(false);
 
   // Tooltip state, positioned over the graph on hover.
-  let tip = $state(null); // { x, y, title, blurb, course, mastery }
+  let tip = $state(null);
 
   function toggle(id) {
     selected = selected.includes(id)
@@ -27,16 +36,66 @@
       : [...selected, id];
   }
 
+  function setMode(m) {
+    if (m === 'topic') scopeTopicIds = null;
+    mode = m;
+  }
+
+  // Keep only cross-course edges and the nodes they connect.
+  function filterCrossOnly(elements) {
+    const edges = elements.filter(
+      (e) => 'source' in (e.data || {}) && (e.classes || '').includes('cross-course')
+    );
+    const keep = new Set();
+    for (const e of edges) {
+      keep.add(e.data.source);
+      keep.add(e.data.target);
+    }
+    const nodes = elements.filter((e) => !('source' in (e.data || {})) && keep.has(e.data.id));
+    return [...nodes, ...edges];
+  }
+
+  function buildGraphElements() {
+    let els =
+      mode === 'topic'
+        ? buildTopicElements({ courseIds: selected })
+        : buildElements({ courseIds: selected, topicIds: scopeTopicIds });
+    if (crossOnly) els = filterCrossOnly(els);
+    return els;
+  }
+
+  function redraw() {
+    drawBands(cy, bandCanvas, bands);
+  }
+
+  function drillIntoTopic(node) {
+    // Skill view scoped to this topic plus its immediate topic neighbours.
+    const ids = node.neighborhood('node').union(node).map((n) => n.id());
+    scopeTopicIds = ids;
+    mode = 'skill';
+  }
+
   function render() {
     if (!container) return;
     cy?.destroy();
     tip = null;
+    bands = [];
+
     cy = cytoscape({
       container,
-      elements: buildElements({ courseIds: selected }),
-      style: cyStyle,
-      layout: { name: 'dagre', rankDir: 'LR', nodeSep: 60, rankSep: 140, edgeSep: 20 }
+      elements: buildGraphElements(),
+      style: cyStyle
     });
+
+    // Run dagre for x = prerequisite rank, then band by strand once it settles.
+    const layout = cy.layout({ name: 'dagre', rankDir: 'LR', nodeSep: 60, rankSep: 140, edgeSep: 20 });
+    layout.one('layoutstop', () => {
+      bands = applyStrandBands(cy);
+      redraw();
+    });
+    layout.run();
+
+    cy.on('render', redraw);
 
     cy.on('tap', 'node', (e) => {
       cy.elements().addClass('faded').removeClass('highlight');
@@ -46,12 +105,24 @@
     cy.on('tap', (e) => {
       if (e.target === cy) cy.elements().removeClass('faded highlight');
     });
-    cy.on('dbltap', 'node', (e) => go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`));
+    cy.on('dbltap', 'node', (e) => {
+      if (mode === 'topic') drillIntoTopic(e.target);
+      else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
+    });
 
     const showTip = (e) => {
       const d = e.target.data();
       const p = e.target.renderedPosition();
-      tip = { x: p.x, y: p.y, title: d.label, blurb: d.blurb, course: d.course, mastery: d.masteryLabel, colour: d.colour };
+      tip = {
+        x: p.x,
+        y: p.y,
+        title: d.label,
+        blurb: d.blurb,
+        course: d.course,
+        mastery: d.masteryLabel,
+        colour: d.colour,
+        skillCount: d.skillCount
+      };
     };
     cy.on('mouseover', 'node', showTip);
     cy.on('tap', 'node', showTip);
@@ -59,18 +130,50 @@
     cy.on('pan zoom', () => { tip = null; });
   }
 
-  // Re-render whenever the selected set changes.
-  $effect(() => { selected; render(); return () => cy?.destroy(); });
+  // Re-render whenever any view input changes.
+  $effect(() => {
+    selected; mode; scopeTopicIds; crossOnly;
+    render();
+    return () => cy?.destroy();
+  });
+
+  let scopeLabel = $derived(
+    scopeTopicIds && scopeTopicIds.length
+      ? topicById.get(scopeTopicIds[0])?.title
+      : null
+  );
 </script>
 
 <div class="map-wrap">
   <aside class="sidebar">
     <h1>Skill Map</h1>
     <p class="muted hint">
-      Prerequisites flow left → right. Tick courses to compare them — dashed
-      <span class="cross-key">amber</span> links cross between courses. Click a node to trace
-      its chain, double-click to open it.
+      Prerequisites flow left → right, grouped into strand bands. Tick courses to
+      compare them — dashed <span class="cross-key">amber</span> links cross between
+      courses. Click a node to trace its chain.
     </p>
+
+    <div class="section-label">View</div>
+    <div class="seg">
+      <button class:on={mode === 'topic'} onclick={() => setMode('topic')}>Topics</button>
+      <button class:on={mode === 'skill'} onclick={() => setMode('skill')}>Skills</button>
+    </div>
+    {#if mode === 'topic'}
+      <p class="muted hint">Double-click a topic to open its skills.</p>
+    {:else}
+      <p class="muted hint">Double-click a skill to open it.</p>
+    {/if}
+    {#if scopeLabel}
+      <div class="scope-pill">
+        Scoped to <strong>{scopeLabel}</strong>
+        <button class="link" onclick={() => { scopeTopicIds = null; }}>show all skills</button>
+      </div>
+    {/if}
+
+    <label class="cross-toggle">
+      <input type="checkbox" checked={crossOnly} onchange={() => (crossOnly = !crossOnly)} />
+      Cross-course links only
+    </label>
 
     <div class="section-label">Courses</div>
     <div class="course-list">
@@ -90,16 +193,19 @@
       <li><span class="dot" style="background:#2563eb"></span> Proficient</li>
       <li><span class="dot" style="background:#16a34a"></span> Mastered</li>
     </ul>
-    <p class="muted hint">Node border = course colour, fill = your mastery.</p>
+    <p class="muted hint">Node border = course colour, fill = mastery (topics show the dominant level).</p>
   </aside>
 
   <div class="graph-area">
+    <canvas bind:this={bandCanvas} class="bands"></canvas>
     <div bind:this={container} class="graph"></div>
     {#if tip}
       <div class="tip" style="left:{tip.x}px; top:{tip.y}px; --c:{tip.colour}">
         <strong>{tip.title}</strong>
         {#if tip.blurb}<span class="tip-blurb">{tip.blurb}</span>{/if}
-        <span class="tip-meta">{tip.course} · {tip.mastery}</span>
+        <span class="tip-meta">
+          {tip.course} · {tip.mastery}{#if tip.skillCount} · {tip.skillCount} skills{/if}
+        </span>
       </div>
     {/if}
     {#if selected.length === 0}
@@ -126,6 +232,55 @@
   .hint { font-size: 0.8rem; margin: 0.3rem 0 0; }
   .cross-key { color: #f59e0b; font-weight: 600; }
 
+  .section-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 1rem 0 0.4rem;
+  }
+
+  .seg { display: flex; gap: 0.25rem; }
+  .seg button {
+    flex: 1;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.82rem;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .seg button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .scope-pill {
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 0.4rem 0.5rem;
+  }
+  .scope-pill .link {
+    display: block;
+    margin-top: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.76rem;
+  }
+
+  .cross-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+
   .course-list { display: flex; flex-direction: column; gap: 0.25rem; }
   .course-opt {
     display: flex;
@@ -148,7 +303,8 @@
   .legend .dot { width: 11px; height: 11px; border-radius: 50%; }
 
   .graph-area { position: relative; flex: 1 1 auto; min-width: 0; }
-  .graph { position: absolute; inset: 0; background: #0b1220; }
+  .bands { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .graph { position: absolute; inset: 0; z-index: 1; background: transparent; }
 
   .tip {
     position: absolute;
@@ -177,5 +333,6 @@
     align-items: center;
     justify-content: center;
     color: var(--muted);
+    z-index: 2;
   }
 </style>

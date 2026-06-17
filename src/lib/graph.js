@@ -1,15 +1,16 @@
 // Builds Cytoscape elements (nodes + prerequisite edges) from the taxonomy.
-import { skills, courseById, skillById } from './data.js';
+import { skills, courseById, skillById, strandForSkill, topicsForSkill } from './data.js';
 import { getMastery } from './store.js';
 
-const masteryColour = {
+// Shared so the topic meta-graph (topicGraph.js) renders with the same palette.
+export const masteryColour = {
   none: '#475569',
   learning: '#d97706',
   proficient: '#2563eb',
   mastered: '#16a34a'
 };
 
-const masteryLabel = {
+export const masteryLabel = {
   none: 'Not started',
   learning: 'Learning',
   proficient: 'Proficient',
@@ -18,12 +19,17 @@ const masteryLabel = {
 
 // `courseIds` may be a string or an array of course ids. With several courses
 // selected, prerequisite edges that cross between courses become visible.
-export function buildElements({ courseIds = null, stage = null } = {}) {
+// `topicIds`, when given, scopes the skill graph to skills under those topics —
+// used for the "drill into a topic" view so the skill graph stays small.
+export function buildElements({ courseIds = null, stage = null, topicIds = null } = {}) {
   const wanted = courseIds == null ? null : new Set([].concat(courseIds));
+  const wantedTopics = topicIds == null ? null : new Set([].concat(topicIds));
 
   let pool = skills;
   if (wanted) pool = pool.filter((s) => (s.courses || []).some((c) => wanted.has(c)));
   if (stage) pool = pool.filter((s) => s.stage === Number(stage));
+  if (wantedTopics)
+    pool = pool.filter((s) => topicsForSkill(s.id).some((t) => wantedTopics.has(t)));
   const ids = new Set(pool.map((s) => s.id));
 
   const nodes = pool.map((s) => {
@@ -35,6 +41,7 @@ export function buildElements({ courseIds = null, stage = null } = {}) {
         label: s.title,
         blurb: s.blurb || '',
         stage: s.stage,
+        strand: strandForSkill(s.id),
         courseId: course?.id || '',
         course: course?.title || '',
         colour: course?.color || '#64748b',
