@@ -116,7 +116,7 @@
       tip = {
         x: p.x,
         y: p.y,
-        title: d.label,
+        title: d.name ?? d.label,
         blurb: d.blurb,
         course: d.course,
         mastery: d.masteryLabel,

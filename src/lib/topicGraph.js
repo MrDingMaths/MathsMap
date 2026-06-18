@@ -5,6 +5,7 @@
 import { skills, topicById, skillById, topicsForSkill } from './data.js';
 import { getMastery } from './store.js';
 import { masteryColour, masteryLabel, applyNodeSizes } from './graph.js';
+import { plainMath } from './mathText.js';
 
 const MASTERY_KEYS = ['none', 'learning', 'proficient', 'mastered'];
 
@@ -47,7 +48,8 @@ export function buildTopicElements({ courseIds = null } = {}) {
     nodes.push({
       data: {
         id: topicId,
-        label: topic.title,
+        label: plainMath(topic.title),
+        name: topic.title,
         blurb: topic.blurb || '',
         strand: topic.strand,
         stage: topic.stage,

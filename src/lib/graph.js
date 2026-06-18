@@ -1,6 +1,7 @@
 // Builds Cytoscape elements (nodes + prerequisite edges) from the taxonomy.
 import { skills, courseById, skillById, strandForSkill, topicsForSkill } from './data.js';
 import { getMastery } from './store.js';
+import { plainMath } from './mathText.js';
 
 // Shared so the topic meta-graph (topicGraph.js) renders with the same palette.
 export const masteryColour = {
@@ -53,7 +54,8 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null 
     return {
       data: {
         id: s.id,
-        label: s.title,
+        label: plainMath(s.title), // canvas label: Unicode, no $…$
+        name: s.title,             // raw LaTeX for the HTML tooltip
         blurb: s.blurb || '',
         stage: s.stage,
         strand: strandForSkill(s.id),
