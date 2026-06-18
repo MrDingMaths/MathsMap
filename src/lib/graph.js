@@ -44,18 +44,41 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null 
   let pool = skills;
   if (wanted) pool = pool.filter((s) => (s.courses || []).some((c) => wanted.has(c)));
   if (stage) pool = pool.filter((s) => s.stage === Number(stage));
-  if (wantedTopics)
-    pool = pool.filter((s) => topicsForSkill(s.id).some((t) => wantedTopics.has(t)));
-  const ids = new Set(pool.map((s) => s.id));
 
-  const nodes = pool.map((s) => {
+  // When scoped to topics, split into core (belongs to those topics) and boundary
+  // (outside the topics but directly connected to a core skill via prereq edge).
+  let corePool = pool;
+  if (wantedTopics)
+    corePool = pool.filter((s) => topicsForSkill(s.id).some((t) => wantedTopics.has(t)));
+  const coreIds = new Set(corePool.map((s) => s.id));
+
+  const boundaryIds = new Set();
+  if (wantedTopics) {
+    const poolIds = new Set(pool.map((s) => s.id));
+    for (const s of corePool) {
+      for (const p of s.prereqs || []) {
+        if (!coreIds.has(p) && poolIds.has(p)) boundaryIds.add(p);
+      }
+    }
+    for (const s of pool) {
+      if (coreIds.has(s.id)) continue;
+      for (const p of s.prereqs || []) {
+        if (coreIds.has(p)) { boundaryIds.add(s.id); break; }
+      }
+    }
+  }
+
+  const finalPool = [...corePool, ...pool.filter((s) => boundaryIds.has(s.id))];
+  const finalIds = new Set(finalPool.map((s) => s.id));
+
+  const nodes = finalPool.map((s) => {
     const course = courseById.get((s.courses || [])[0]);
     const mastery = getMastery(s.id);
     return {
       data: {
         id: s.id,
-        label: plainMath(s.title), // canvas label: Unicode, no $…$
-        name: s.title,             // raw LaTeX for the HTML tooltip
+        label: plainMath(s.title),
+        name: s.title,
         blurb: s.blurb || '',
         stage: s.stage,
         strand: strandForSkill(s.id),
@@ -65,21 +88,24 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null 
         masteryKey: mastery,
         masteryLabel: masteryLabel[mastery],
         mastery: masteryColour[mastery]
-      }
+      },
+      classes: boundaryIds.has(s.id) ? 'boundary' : ''
     };
   });
 
   const edges = [];
-  for (const s of pool) {
+  for (const s of finalPool) {
     for (const p of s.prereqs || []) {
-      if (!ids.has(p)) continue;
+      if (!finalIds.has(p)) continue;
+      // When scoped, only draw edges where at least one endpoint is a core skill.
+      if (wantedTopics && !coreIds.has(s.id) && !coreIds.has(p)) continue;
       const cross = !(skillById.get(p)?.courses || []).some((c) =>
         (s.courses || []).includes(c)
       );
-      edges.push({
-        data: { id: `${p}->${s.id}`, source: p, target: s.id },
-        classes: cross ? 'cross-course' : ''
-      });
+      const isBoundaryEdge = boundaryIds.has(s.id) || boundaryIds.has(p);
+      const classes = [cross ? 'cross-course' : '', isBoundaryEdge ? 'boundary-edge' : '']
+        .filter(Boolean).join(' ');
+      edges.push({ data: { id: `${p}->${s.id}`, source: p, target: s.id }, classes });
     }
   }
   applyNodeSizes(nodes, edges);
@@ -126,6 +152,8 @@ export const cyStyle = [
       'arrow-scale': 0.8
     }
   },
+  { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 8 } },
+  { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
   { selector: '.faded', style: { opacity: 0.1 } },
   { selector: 'node.highlight', style: { 'border-color': '#38bdf8', 'border-width': 4 } },
   { selector: 'edge.highlight', style: { 'line-color': '#38bdf8', 'target-arrow-color': '#38bdf8', width: 3 } }

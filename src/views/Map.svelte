@@ -72,9 +72,7 @@
   }
 
   function drillIntoTopic(node) {
-    // Skill view scoped to this topic plus its immediate topic neighbours.
-    const ids = node.neighborhood('node').union(node).map((n) => n.id());
-    scopeTopicIds = ids;
+    scopeTopicIds = [node.id()];
     scopeTopicId = node.id();
     mode = 'skill';
   }
