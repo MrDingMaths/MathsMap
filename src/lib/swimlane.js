@@ -85,7 +85,7 @@ export function drawBands(cy, canvas, lanes, isDark = true) {
   ctx.clearRect(0, 0, w, h);
   // This canvas sits behind the (transparent) Cytoscape container, so it owns
   // the graph backdrop as well as the lane stripes.
-  ctx.fillStyle = isDark ? '#0b1220' : '#f0f4f8';
+  ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, w, h);
   if (!lanes || lanes.length === 0) return;
 

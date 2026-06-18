@@ -156,6 +156,7 @@ export function getCyStyle(isDark = true) {
         'arrow-scale': 0.8
       }
     },
+    ...(!isDark ? [{ selector: 'node[masteryKey = "none"]', style: { 'background-color': '#ffffff' } }] : []),
     { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 8 } },
     { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
     { selector: '.faded', style: { opacity: 0.1 } },

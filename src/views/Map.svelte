@@ -185,7 +185,7 @@
 
     <div class="section-label">Mastery legend</div>
     <ul class="legend">
-      <li><span class="dot" style="background:#475569"></span> Not started</li>
+      <li><span class="dot" style={theme.current === 'dark' ? 'background:#475569' : 'background:#fff;border:2px solid #94a3b8'}></span> Not started</li>
       <li><span class="dot" style="background:#d97706"></span> Learning</li>
       <li><span class="dot" style="background:#2563eb"></span> Proficient</li>
       <li><span class="dot" style="background:#16a34a"></span> Mastered</li>
