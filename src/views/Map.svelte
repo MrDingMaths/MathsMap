@@ -2,7 +2,8 @@
   import { untrack } from 'svelte';
   import cytoscape from 'cytoscape';
   import dagre from 'cytoscape-dagre';
-  import { buildElements, cyStyle } from '../lib/graph.js';
+  import { buildElements, getCyStyle } from '../lib/graph.js';
+  import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';

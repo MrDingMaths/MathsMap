@@ -18,27 +18,27 @@
   <a href={href('/')} class={route.name === 'home' ? 'active' : ''}>Browse</a>
   <a href={href('/map')} class={route.name === 'map' ? 'active' : ''}>Map</a>
   <a href={href('/progress')} class={route.name === 'progress' ? 'active' : ''}>Progress</a>
-  <button class="theme-toggle" onclick={() => theme.toggle()} title={theme.current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}>
-    {theme.current === 'dark' ? '☀' : '☾'}
+  <button class="theme-toggle" onclick={() => theme.toggle()}>
+    {theme.current === 'dark' ? 'Light' : 'Dark'}
   </button>
 </nav>
 
 <style>
   .theme-toggle {
     margin-left: auto;
-    background: none;
+    background: var(--panel-2);
     border: 1px solid var(--border);
     border-radius: 6px;
-    color: var(--muted);
+    color: var(--text);
     cursor: pointer;
-    font-size: 0.95rem;
-    padding: 0.2rem 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
     line-height: 1;
-    transition: color 0.12s, border-color 0.12s;
+    transition: background 0.12s;
   }
   .theme-toggle:hover {
-    color: var(--text);
-    border-color: var(--muted);
+    background: var(--border);
   }
 </style>
 
