@@ -34,7 +34,9 @@ function extract() {
     for (const obj of loadData(file)) {
       for (const field of FIELDS) {
         const before = obj[field];
-        if (typeof before === 'string' && SIGNAL.test(before)) {
+        // Skip fields already converted (they contain `$…$`): extract only the
+        // remaining unconverted maths, so re-running picks up newly-added data.
+        if (typeof before === 'string' && SIGNAL.test(before) && !before.includes('$')) {
           items.push({ file, id: obj.id, field, before });
         }
       }

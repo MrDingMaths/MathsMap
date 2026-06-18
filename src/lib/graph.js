@@ -112,49 +112,54 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null 
   return [...nodes, ...edges];
 }
 
-export const cyStyle = [
-  {
-    selector: 'node',
-    style: {
-      'background-color': 'data(mastery)',
-      'border-width': 3,
-      'border-color': 'data(colour)',
-      label: 'data(label)',
-      color: '#e2e8f0',
-      'font-size': 10,
-      'text-wrap': 'wrap',
-      'text-max-width': 84,
-      'text-valign': 'bottom',
-      'text-margin-y': 4,
-      width: 'data(size)',
-      height: 'data(size)'
-    }
-  },
-  {
-    selector: 'edge',
-    style: {
-      width: 2,
-      'line-color': '#475569',
-      'target-arrow-color': '#475569',
-      'target-arrow-shape': 'triangle',
-      'curve-style': 'bezier'
-    }
-  },
-  // Prerequisite links that span two different courses stand out — but gently.
-  {
-    selector: 'edge.cross-course',
-    style: {
-      width: 1.5,
-      'line-color': '#b9823c',
-      'target-arrow-color': '#b9823c',
-      'line-style': 'dashed',
-      'line-opacity': 0.75,
-      'arrow-scale': 0.8
-    }
-  },
-  { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 8 } },
-  { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
-  { selector: '.faded', style: { opacity: 0.1 } },
-  { selector: 'node.highlight', style: { 'border-color': '#38bdf8', 'border-width': 4 } },
-  { selector: 'edge.highlight', style: { 'line-color': '#38bdf8', 'target-arrow-color': '#38bdf8', width: 3 } }
-];
+export function getCyStyle(isDark = true) {
+  const nodeText = isDark ? '#e2e8f0' : '#1e293b';
+  const edgeColor = isDark ? '#475569' : '#94a3b8';
+  const highlight = isDark ? '#38bdf8' : '#0284c7';
+  return [
+    {
+      selector: 'node',
+      style: {
+        'background-color': 'data(mastery)',
+        'border-width': 3,
+        'border-color': 'data(colour)',
+        label: 'data(label)',
+        color: nodeText,
+        'font-size': 10,
+        'text-wrap': 'wrap',
+        'text-max-width': 84,
+        'text-valign': 'bottom',
+        'text-margin-y': 4,
+        width: 'data(size)',
+        height: 'data(size)'
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        width: 2,
+        'line-color': edgeColor,
+        'target-arrow-color': edgeColor,
+        'target-arrow-shape': 'triangle',
+        'curve-style': 'bezier'
+      }
+    },
+    // Prerequisite links that span two different courses stand out — but gently.
+    {
+      selector: 'edge.cross-course',
+      style: {
+        width: 1.5,
+        'line-color': '#b9823c',
+        'target-arrow-color': '#b9823c',
+        'line-style': 'dashed',
+        'line-opacity': 0.75,
+        'arrow-scale': 0.8
+      }
+    },
+    { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 8 } },
+    { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
+    { selector: '.faded', style: { opacity: 0.1 } },
+    { selector: 'node.highlight', style: { 'border-color': highlight, 'border-width': 4 } },
+    { selector: 'edge.highlight', style: { 'line-color': highlight, 'target-arrow-color': highlight, width: 3 } }
+  ];
+}

@@ -7,13 +7,23 @@
 // the (scrollable) vertical dimension and the 3 strands span the wide axis.
 import { STRANDS } from './data.js';
 
-// Subtle background tints + label colour per strand.
+// Subtle background tints + label colour per strand, for dark and light themes.
 const BAND_STYLE = {
-  'Number & Algebra': { fill: 'rgba(56, 189, 248, 0.05)', text: 'rgba(148, 196, 224, 0.7)' },
-  'Measurement & Space': { fill: 'rgba(168, 247, 148, 0.05)', text: 'rgba(170, 210, 150, 0.7)' },
-  'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.05)', text: 'rgba(220, 180, 130, 0.7)' }
+  dark: {
+    'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.05)',  text: 'rgba(148, 196, 224, 0.7)' },
+    'Measurement & Space':   { fill: 'rgba(168, 247, 148, 0.05)', text: 'rgba(170, 210, 150, 0.7)' },
+    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.05)', text: 'rgba(220, 180, 130, 0.7)' }
+  },
+  light: {
+    'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.07)',   text: 'rgba(2, 100, 160, 0.75)' },
+    'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.07)',   text: 'rgba(20, 120, 50, 0.75)' },
+    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.07)', text: 'rgba(160, 80, 0, 0.75)' }
+  }
 };
-const DEFAULT_STYLE = { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163, 184, 0.7)' };
+const DEFAULT_STYLE = {
+  dark:  { fill: 'rgba(148, 163, 184, 0.05)', text: 'rgba(148, 163, 184, 0.7)' },
+  light: { fill: 'rgba(100, 116, 139, 0.07)', text: 'rgba(60, 80, 110, 0.75)' }
+};
 
 // Lays out each strand on its own and stacks the results side by side into lanes.
 // Returns the lane geometry (model coords) for drawBands(). Replaces a single
@@ -61,7 +71,7 @@ export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 95, rankSep 
 
 // Paints the lane stripes + strand labels onto a <canvas> overlay sitting behind
 // the Cytoscape canvas. Re-invoke on every pan/zoom/render so lanes track the graph.
-export function drawBands(cy, canvas, lanes) {
+export function drawBands(cy, canvas, lanes, isDark = true) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
@@ -75,16 +85,18 @@ export function drawBands(cy, canvas, lanes) {
   ctx.clearRect(0, 0, w, h);
   // This canvas sits behind the (transparent) Cytoscape container, so it owns
   // the graph backdrop as well as the lane stripes.
-  ctx.fillStyle = '#0b1220';
+  ctx.fillStyle = isDark ? '#0b1220' : '#f0f4f8';
   ctx.fillRect(0, 0, w, h);
   if (!lanes || lanes.length === 0) return;
 
+  const palette = isDark ? BAND_STYLE.dark : BAND_STYLE.light;
+  const defaultStyle = isDark ? DEFAULT_STYLE.dark : DEFAULT_STYLE.light;
   const zoom = cy.zoom();
   const pan = cy.pan();
   ctx.font = '600 13px system-ui, sans-serif';
   ctx.textBaseline = 'top';
   for (const lane of lanes) {
-    const style = BAND_STYLE[lane.strand] || DEFAULT_STYLE;
+    const style = palette[lane.strand] || defaultStyle;
     const left = lane.xLeft * zoom + pan.x;
     const right = lane.xRight * zoom + pan.x;
 
