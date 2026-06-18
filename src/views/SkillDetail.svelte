@@ -23,8 +23,6 @@
 
     <div class="row">
       {#each skill.courses as c}<span class="tag" style="border-left:3px solid {courseById.get(c)?.color}">{courseById.get(c)?.title}</span>{/each}
-      <span class="tag">Stage {skill.stage}</span>
-      <span class="tag">Difficulty {skill.difficulty}</span>
     </div>
 
     <MasteryControl skillId={skill.id} />

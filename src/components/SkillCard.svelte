@@ -1,7 +1,6 @@
 <script>
   import { href } from '../lib/router.svelte.js';
   import { courseById } from '../lib/data.js';
-  import MasteryControl from './MasteryControl.svelte';
   import Math from './Math.svelte';
 
   let { skill, courseId = null } = $props();
@@ -15,5 +14,4 @@
       <span class="tag" style="border-left:3px solid {courseById.get(c)?.color}">{courseById.get(c)?.title ?? c}</span>
     {/each}
   </div>
-  <MasteryControl skillId={skill.id} />
 </a>

@@ -1,12 +1,23 @@
 <script>
-  import { coursesByStage, searchSkills } from '../lib/data.js';
+  import { coursesByStage, topicsForCourse, searchSkills } from '../lib/data.js';
   import { nextSkills } from '../lib/recommender.js';
   import { subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import SkillCard from '../components/SkillCard.svelte';
+  import Math from '../components/Math.svelte';
 
   const stages = coursesByStage();
   const stageLabel = { 3: 'Stage 3', 4: 'Stage 4', 5: 'Stage 5', 6: 'Stage 6' };
+
+  function topicsByStrand(courseId) {
+    const map = new Map();
+    for (const t of topicsForCourse(courseId)) {
+      const s = t.strand || 'Other';
+      if (!map.has(s)) map.set(s, []);
+      map.get(s).push(t);
+    }
+    return map;
+  }
 
   let query = $state('');
   let results = $derived(searchSkills(query));
@@ -23,7 +34,7 @@
   {#if query}
     <div class="grid" style="margin-top:0.8rem">
       {#each results as skill}<SkillCard {skill} />{/each}
-      {#if results.length === 0}<p class="muted">No skills match “{query}”.</p>{/if}
+      {#if results.length === 0}<p class="muted">No skills match "{query}".</p>{/if}
     </div>
   {:else}
     <div class="section-label">Recommended next</div>
@@ -35,14 +46,21 @@
 
     {#each [...stages] as [stage, courses]}
       <div class="section-label">{stageLabel[stage] ?? `Stage ${stage}`}</div>
-      <div class="grid">
-        {#each courses as c}
-          <a class="card" href={href(`/course/${c.id}`)} style="border-left-color:{c.color}">
-            <h3>{c.title}</h3>
-            <div class="blurb">{c.stream}</div>
-          </a>
+      {#each courses as c}
+        {#if courses.length > 1}
+          <div class="course-label" style="color:{c.color}">{c.title}</div>
+        {/if}
+        {#each [...topicsByStrand(c.id)] as [strand, strandTopics]}
+          <div class="strand-label">{strand}</div>
+          <div class="grid">
+            {#each strandTopics as t}
+              <a class="card" href={href(`/topic/${t.id}?course=${c.id}`)} style="border-left-color:{t.color}">
+                <h3><Math text={t.title} /></h3>
+              </a>
+            {/each}
+          </div>
         {/each}
-      </div>
+      {/each}
     {/each}
   {/if}
 </div>
