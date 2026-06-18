@@ -69,7 +69,7 @@
   }
 
   function redraw() {
-    drawBands(cy, bandCanvas, bands);
+    drawBands(cy, bandCanvas, bands, theme.current === 'dark');
   }
 
   function drillIntoTopic(node) {
@@ -87,7 +87,7 @@
     cy = cytoscape({
       container,
       elements: buildGraphElements(),
-      style: cyStyle
+      style: getCyStyle(theme.current === 'dark')
     });
 
     // Lay each strand out independently and stack them into bands.
@@ -131,7 +131,7 @@
 
   // Re-render whenever any view input changes.
   $effect(() => {
-    selected; mode; scopeTopicIds; crossOnly;
+    selected; mode; scopeTopicIds; crossOnly; theme.current;
     render();
     return () => cy?.destroy();
   });
