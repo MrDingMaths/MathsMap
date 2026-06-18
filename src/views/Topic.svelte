@@ -2,6 +2,7 @@
   import { topicById, courseById, skillsForTopic } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
   import SkillCard from '../components/SkillCard.svelte';
+  import Math from '../components/Math.svelte';
 
   let { id, courseId = null } = $props();
   let topic = $derived(topicById.get(id));
@@ -14,12 +15,12 @@
     <div class="crumbs">
       <a href={href('/')}>Home</a>
       {#if course} / <a href={href(`/course/${course.id}`)}>{course.title}</a>{/if}
-      / {topic.title}
+      / <Math text={topic.title} />
     </div>
-    <h1 style="border-left:5px solid {topic.color}; padding-left:0.6rem">{topic.title}</h1>
+    <h1 style="border-left:5px solid {topic.color}; padding-left:0.6rem"><Math text={topic.title} /></h1>
 
     {#each groups as group}
-      <div class="section-label">{group.dotpoint.code} — {group.dotpoint.text}</div>
+      <div class="section-label">{group.dotpoint.code} — <Math text={group.dotpoint.text} /></div>
       <div class="grid">
         {#each group.skills as skill}<SkillCard {skill} {courseId} />{/each}
         {#if group.skills.length === 0}<p class="muted">No skills under this dot point yet.</p>{/if}

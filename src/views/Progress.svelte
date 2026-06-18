@@ -2,6 +2,7 @@
   import { courses, skills, topicsForCourse, skillsForTopic } from '../lib/data.js';
   import { getMastery, subscribe, resetProgress } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
+  import Math from '../components/Math.svelte';
 
   let tick = $state(0);
   $effect(() => subscribe(() => tick++));
@@ -38,7 +39,7 @@
     {#each row.topics as t}
       <div style="margin:0.35rem 0">
         <div class="row" style="justify-content:space-between;font-size:0.85rem">
-          <a href={href(`/topic/${t.topic.id}?course=${row.course.id}`)}>{t.topic.title}</a>
+          <a href={href(`/topic/${t.topic.id}?course=${row.course.id}`)}><Math text={t.topic.title} /></a>
           <span class="muted">{t.pct}%</span>
         </div>
         <div class="bar"><span style="width:{t.pct}%"></span></div>

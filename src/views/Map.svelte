@@ -7,6 +7,7 @@
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
+  import Math from '../components/Math.svelte';
 
   cytoscape.use(dagre);
 
@@ -24,6 +25,8 @@
   let mode = $state('topic');
   // When drilling into a topic, the skill graph is scoped to these topic ids.
   let scopeTopicIds = $state(null);
+  // The topic actually drilled into (scopeTopicIds also includes its neighbours).
+  let scopeTopicId = $state(null);
   // Show only prerequisite links that cross between courses.
   let crossOnly = $state(false);
 
@@ -37,7 +40,7 @@
   }
 
   function setMode(m) {
-    if (m === 'topic') scopeTopicIds = null;
+    if (m === 'topic') { scopeTopicIds = null; scopeTopicId = null; }
     mode = m;
   }
 
@@ -72,6 +75,7 @@
     // Skill view scoped to this topic plus its immediate topic neighbours.
     const ids = node.neighborhood('node').union(node).map((n) => n.id());
     scopeTopicIds = ids;
+    scopeTopicId = node.id();
     mode = 'skill';
   }
 
@@ -134,9 +138,7 @@
   });
 
   let scopeLabel = $derived(
-    scopeTopicIds && scopeTopicIds.length
-      ? topicById.get(scopeTopicIds[0])?.title
-      : null
+    scopeTopicId ? topicById.get(scopeTopicId)?.title : null
   );
 </script>
 
@@ -162,7 +164,7 @@
     {#if scopeLabel}
       <div class="scope-pill">
         Scoped to <strong>{scopeLabel}</strong>
-        <button class="link" onclick={() => { scopeTopicIds = null; }}>show all skills</button>
+        <button class="link" onclick={() => { scopeTopicIds = null; scopeTopicId = null; }}>show all skills</button>
       </div>
     {/if}
 
@@ -197,8 +199,8 @@
     <div bind:this={container} class="graph"></div>
     {#if tip}
       <div class="tip" style="left:{tip.x}px; top:{tip.y}px; --c:{tip.colour}">
-        <strong>{tip.title}</strong>
-        {#if tip.blurb}<span class="tip-blurb">{tip.blurb}</span>{/if}
+        <strong><Math text={tip.title} /></strong>
+        {#if tip.blurb}<span class="tip-blurb"><Math text={tip.blurb} /></span>{/if}
         <span class="tip-meta">
           {tip.course} · {tip.mastery}{#if tip.skillCount} · {tip.skillCount} skills{/if}
         </span>

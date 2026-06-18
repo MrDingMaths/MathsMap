@@ -4,6 +4,7 @@
   import { lockedSkills } from '../lib/recommender.js';
   import { subscribe } from '../lib/store.js';
   import MasteryControl from '../components/MasteryControl.svelte';
+  import Math from '../components/Math.svelte';
 
   let { id, courseId = null } = $props();
   let skill = $derived(skillById.get(id));
@@ -17,8 +18,8 @@
 <div class="container">
   {#if skill}
     <div class="crumbs"><a href={href('/')}>Home</a> / Skill</div>
-    <h1>{skill.title}</h1>
-    {#if skill.blurb}<p class="muted">{skill.blurb}</p>{/if}
+    <h1><Math text={skill.title} /></h1>
+    {#if skill.blurb}<p class="muted"><Math text={skill.blurb} /></p>{/if}
 
     <div class="row">
       {#each skill.courses as c}<span class="tag" style="border-left:3px solid {courseById.get(c)?.color}">{courseById.get(c)?.title}</span>{/each}
@@ -32,7 +33,7 @@
     <ul>
       {#each skill.dotPointIds as dp}
         {@const d = dotpointById.get(dp)}
-        {#if d}<li><strong>{d.code}</strong> — {d.text} <span class="muted">({topicById.get(d.topicId)?.title})</span></li>{/if}
+        {#if d}<li><strong>{d.code}</strong> — <Math text={d.text} /> <span class="muted">(<Math text={topicById.get(d.topicId)?.title} />)</span></li>{/if}
       {/each}
     </ul>
 
@@ -41,7 +42,7 @@
       <ul>
         {#each skill.prereqs as p}
           {@const pre = skillById.get(p)}
-          <li><a href={link(pre)}>{pre?.title ?? p}</a>{#if locked.includes(p)} <span class="muted">🔒</span>{/if}</li>
+          <li><a href={link(pre)}><Math text={pre?.title ?? p} /></a>{#if locked.includes(p)} <span class="muted">🔒</span>{/if}</li>
         {/each}
       </ul>
     {:else}
@@ -53,7 +54,7 @@
       <ul>
         {#each dependentsOf.get(skill.id) as d}
           {@const dep = skillById.get(d)}
-          <li><a href={link(dep)}>{dep?.title ?? d}</a></li>
+          <li><a href={link(dep)}><Math text={dep?.title ?? d} /></a></li>
         {/each}
       </ul>
     {:else}

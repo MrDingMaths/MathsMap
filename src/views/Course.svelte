@@ -1,6 +1,7 @@
 <script>
   import { courseById, topicsForCourse } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
+  import Math from '../components/Math.svelte';
 
   let { id } = $props();
   let course = $derived(courseById.get(id));
@@ -14,8 +15,8 @@
     <div class="grid">
       {#each topics as t}
         <a class="card" href={href(`/topic/${t.id}?course=${id}`)} style="border-left-color:{t.color}">
-          <h3>{t.title}</h3>
-          <div class="blurb">{t.blurb}</div>
+          <h3><Math text={t.title} /></h3>
+          <div class="blurb"><Math text={t.blurb} /></div>
           <span class="tag">{t.strand}</span>
         </a>
       {/each}
