@@ -13,8 +13,13 @@ const SUB = { '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'�
 const COMMANDS = {
   times: '×', div: '÷', cdot: '·', pm: '±', mp: '∓', le: '≤', leq: '≤', ge: '≥', geq: '≥',
   ne: '≠', neq: '≠', approx: '≈', equiv: '≡', Leftrightarrow: '⇔', to: '→', rightarrow: '→',
-  infty: '∞', propto: '∝', cup: '∪', cap: '∩', in: '∈', int: '∫', sum: 'Σ', Sigma: 'Σ',
+  Rightarrow: '⇒', Leftarrow: '⇐', mapsto: '↦',
+  land: '∧', wedge: '∧', lor: '∨', vee: '∨', neg: '¬', lnot: '¬',
+  forall: '∀', exists: '∃', therefore: '∴', nabla: '∇', partial: '∂',
+  infty: '∞', propto: '∝', cup: '∪', cap: '∩', in: '∈', notin: '∉', subseteq: '⊆', subset: '⊂',
+  int: '∫', sum: 'Σ', Sigma: 'Σ', prod: '∏', lambda: 'λ', alpha: 'α', beta: 'β', gamma: 'γ', omega: 'ω', phi: 'φ',
   Delta: 'Δ', mu: 'μ', sigma: 'σ', pi: 'π', theta: 'θ', circ: '°', ldots: '…', cdots: '⋯',
+  left: '', right: '',
   displaystyle: '', textstyle: '', ',': ' ', ';': ' ', ' ': ' ', '!': '',
   ln: 'ln', log: 'log', sin: 'sin', cos: 'cos', tan: 'tan', sec: 'sec', cot: 'cot',
   csc: 'csc', lim: 'lim', exp: 'exp'
@@ -34,10 +39,14 @@ function renderRun(tex) {
   let s = tex;
 
   // Structural commands first.
-  // \operatorname{name} / \text{words} / \mathrm{..} -> inner text
-  s = s.replace(/\\(?:operatorname|text|mathrm)\s*\{([^{}]*)\}/g, '$1');
-  // \bar{X}/\overline{X} -> X̄ (combining macron); \underset{..}{x} -> base x
-  s = s.replace(/\\(?:bar|overline)\s*\{([^{}]*)\}/g, (_, x) => x + '̄');
+  // \operatorname{name} / \text{words} / \mathrm{..} / \mathbf{..} -> inner text
+  s = s.replace(/\\(?:operatorname|text|mathrm|mathbf|mathrm|boldsymbol)\s*\{([^{}]*)\}/g, '$1');
+  // Accents: append the matching combining mark to the inner text.
+  s = s.replace(/\\(?:vec|overrightarrow)\s*\{([^{}]*)\}/g, (_, x) => x + '⃗'); // →
+  s = s.replace(/\\(?:bar|overline)\s*\{([^{}]*)\}/g, (_, x) => x + '̄'); // macron
+  s = s.replace(/\\ddot\s*\{([^{}]*)\}/g, (_, x) => x + '̈'); // diaeresis
+  s = s.replace(/\\dot\s*\{([^{}]*)\}/g, (_, x) => x + '̇');
+  s = s.replace(/\\hat\s*\{([^{}]*)\}/g, (_, x) => x + '̂');
   s = s.replace(/\\underset\s*\{[^{}]*\}\s*\{([^{}]*)\}/g, '$1');
   // \frac/\tfrac/\dfrac{a}{b} -> a/b (parenthesise multi-symbol parts)
   s = s.replace(/\\[tdc]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => {
