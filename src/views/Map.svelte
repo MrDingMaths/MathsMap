@@ -2,7 +2,7 @@
   import { untrack } from 'svelte';
   import cytoscape from 'cytoscape';
   import dagre from 'cytoscape-dagre';
-  import { buildElements, getCyStyle } from '../lib/graph.js';
+  import { buildElements, getCyStyle, staggerEdges } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
@@ -97,8 +97,10 @@
     // disable selection to avoid the big selection/active overlay on edge taps.
     cy.autounselectify(true);
 
-    // Lay each strand out independently and stack them into bands.
+    // Lay each strand out as a strand × course-band grid, then spread parallel taxi
+    // edges onto distinct lanes so they don't stack or run under nodes.
     bands = layoutSwimlanes(cy);
+    staggerEdges(cy);
     redraw();
 
     cy.on('render', redraw);

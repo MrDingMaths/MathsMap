@@ -91,3 +91,28 @@ export const primaryTopicForSkill = (skillId) =>
 // The strand a skill belongs to, via its primary topic. Falls back to the first band.
 export const strandForSkill = (skillId) =>
   primaryTopicForSkill(skillId)?.strand || STRANDS[0];
+
+// Vertical band key for the Map grid: the `order` of the earliest *selected* course a
+// node belongs to. Earliest selected course wins for nodes shared across courses, so a
+// node always lands in one band. Falls back to 0 (single band) when no selection.
+export const bandOrderFor = (courseIds, selectedSet) => {
+  let min = Infinity;
+  for (const c of courseIds || []) {
+    if (selectedSet && !selectedSet.has(c)) continue;
+    const o = courseById.get(c)?.order ?? 0;
+    if (o < min) min = o;
+  }
+  return Number.isFinite(min) ? min : 0;
+};
+
+// Title of the earliest selected course a node belongs to — the band's label.
+export const bandLabelFor = (courseIds, selectedSet) => {
+  let best = null;
+  let min = Infinity;
+  for (const c of courseIds || []) {
+    if (selectedSet && !selectedSet.has(c)) continue;
+    const o = courseById.get(c)?.order ?? 0;
+    if (o < min) { min = o; best = courseById.get(c)?.title || null; }
+  }
+  return best;
+};

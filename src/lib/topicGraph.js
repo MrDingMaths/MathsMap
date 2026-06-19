@@ -2,7 +2,7 @@
 // prerequisite relationship rolled up from the underlying skill prerequisites.
 // This is the default, low-detail view of the Map — far fewer nodes than the
 // full skill graph, so it stays legible with several courses selected.
-import { skills, topicById, skillById, topicsForSkill } from './data.js';
+import { skills, topicById, skillById, topicsForSkill, bandOrderFor, bandLabelFor } from './data.js';
 import { getMastery } from './store.js';
 import { masteryColour, masteryLabel } from './graph.js';
 import { ringSvg, trackColour } from './ring.js';
@@ -87,6 +87,8 @@ export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
         blurb: topic.blurb || '',
         strand: topic.strand,
         stage: topic.stage,
+        band: bandOrderFor(topic.courses, wanted),
+        bandLabel: bandLabelFor(topic.courses, wanted),
         course: topic.title,
         colour: topic.color || '#64748b',
         skillCount: skillIds.length,

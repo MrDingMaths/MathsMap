@@ -1,5 +1,5 @@
 // Builds Cytoscape elements (nodes + prerequisite edges) from the taxonomy.
-import { skills, courseById, skillById, strandForSkill, topicsForSkill } from './data.js';
+import { skills, courseById, skillById, strandForSkill, topicsForSkill, bandOrderFor, bandLabelFor } from './data.js';
 import { getMastery } from './store.js';
 import { plainMath } from './mathText.js';
 import { ringSvg, trackColour } from './ring.js';
@@ -86,6 +86,8 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
         blurb: s.blurb || '',
         stage: s.stage,
         strand: strandForSkill(s.id),
+        band: bandOrderFor(s.courses, wanted),
+        bandLabel: bandLabelFor(s.courses, wanted),
         courseId: course?.id || '',
         course: course?.title || '',
         colour: course?.color || '#64748b',
@@ -116,6 +118,18 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
     }
   }
   return [...nodes, ...edges];
+}
+
+// Spreads the horizontal "jog" of parallel taxi edges onto distinct y-lines so they don't
+// stack into one thick lane. Deterministic by index, varying the turn point around the
+// midpoint. Cross-course edges are bezier curves, so they're left alone. Best-effort —
+// combined with the grid's band gutters, it keeps most edges clear of node rows.
+export function staggerEdges(cy) {
+  const edges = cy.edges().filter((e) => !e.hasClass('cross-course'));
+  edges.forEach((e, i) => {
+    const frac = 0.35 + ((i % 7) / 6) * 0.3; // 35%–65%
+    e.style('taxi-turn', `${Math.round(frac * 100)}%`);
+  });
 }
 
 export function getCyStyle(isDark = true) {
