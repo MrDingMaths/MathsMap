@@ -152,9 +152,11 @@ export function getCyStyle(isDark = true) {
       }
     },
     {
-      // Smooth curved (bezier) links. Faint by default so a dense graph reads
-      // cleanly; focusing a node lights its chain via the `lit` class below.
-      // control-point-step-size bows multiple edges on the same node apart.
+      // Intra-topic links: crisp orthogonal taxi lanes. Downward (bottom-exit)
+      // flow — leave the node's bottom, drop down a vertical lane, branch
+      // horizontally into the target. staggerEdges() overrides taxi-turn per edge
+      // so parallel lanes land on distinct Y lines instead of overlapping. Faint
+      // by default so a dense graph reads cleanly; focus lights the chain (`lit`).
       selector: 'edge',
       style: {
         width: 1.5,
@@ -163,8 +165,10 @@ export function getCyStyle(isDark = true) {
         'target-arrow-color': edgeColor,
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.7,
-        'curve-style': 'bezier',
-        'control-point-step-size': 30
+        'curve-style': 'taxi',
+        'taxi-direction': 'vertical',
+        'taxi-turn': '50%',
+        'taxi-turn-min-distance': 10
       }
     },
     // Focus state: the chain of the hovered/clicked node comes to full strength.
@@ -176,7 +180,9 @@ export function getCyStyle(isDark = true) {
         'arrow-scale': 0.85
       }
     },
-    // Prerequisite links that span two different courses stand out — but gently.
+    // Cross-topic links span between courses/strands. Drawn as a gentle bezier
+    // bow so they read as clearly different from the square intra-topic lanes,
+    // dashed amber, and faint until a node is focused.
     {
       selector: 'edge.cross-course',
       style: {
@@ -185,7 +191,10 @@ export function getCyStyle(isDark = true) {
         'target-arrow-color': '#b9823c',
         'line-style': 'dashed',
         'line-opacity': 0.18,
-        'arrow-scale': 0.7
+        'arrow-scale': 0.7,
+        'curve-style': 'unbundled-bezier',
+        'control-point-distances': '40',
+        'control-point-weights': '0.5'
       }
     },
     { selector: 'edge.cross-course.lit', style: { 'line-opacity': 0.85, width: 1.5 } },
