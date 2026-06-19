@@ -123,6 +123,7 @@ export function getCyStyle(isDark = true) {
   const edgeColor = isDark ? '#475569' : '#94a3b8';
   const highlight = isDark ? '#38bdf8' : '#0284c7';
   const chipBg = isDark ? '#273449' : '#f1f5f9'; // --panel-2
+  const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
   const ready = '#06b6d4'; // cyan "ready now" halo
   return [
     {
@@ -132,9 +133,13 @@ export function getCyStyle(isDark = true) {
       // lands on an edge.
       selector: 'node',
       style: {
-        'background-opacity': 0,
+        // Solid disc (white in light, dark in dark) so the band tint and crossing
+        // links don't show through the centre; the ring SVG composites on top.
+        'background-color': nodeFill,
+        'background-opacity': 1,
         'background-image': 'data(ring)',
         'background-fit': 'cover',
+        'overlay-opacity': 0,
         'border-width': 0,
         width: 40,
         height: 40,
@@ -165,6 +170,7 @@ export function getCyStyle(isDark = true) {
         'target-arrow-color': edgeColor,
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.7,
+        'overlay-opacity': 0,
         'curve-style': 'taxi',
         'taxi-direction': 'vertical',
         'taxi-turn': '50%',

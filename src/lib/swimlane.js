@@ -53,15 +53,6 @@ export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 110, rankSep
       .layout({ name: 'dagre', rankDir: 'TB', nodeSep, rankSep, edgeSep: 26, fit: false, animate: false })
       .run();
 
-    // Vertical separation within a stage for high-prereq skills: drop the busiest
-    // targets a little below their rank-mates so their many incoming lanes have
-    // vertical room to fan in without crossing neighbours. Clamped well under
-    // rankSep so a nudged node never collides with the stage below.
-    nodes.forEach((n) => {
-      const inDeg = n.incomers('edge').length;
-      if (inDeg > 1) n.position('y', n.position('y') + Math.min(inDeg, 4) * 12);
-    });
-
     // Translate this strand: top edges aligned at y = pad, left at cursorX + pad.
     const bb = nodes.boundingBox();
     const dy = pad - bb.y1;
@@ -76,52 +67,6 @@ export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 110, rankSep
 
   cy.fit(undefined, 30);
   return lanes;
-}
-
-// Taxi edges all turn at 50% of the rank gap and attach to node centres, so
-// parallel lanes collapse onto the same horizontal lines and converge to a single
-// point per node. Run this once after layout (positions known) to spread them.
-// Cross-topic edges (`.cross-course`) are gentle beziers, not taxi, so the
-// taxi-turn pass skips them; the endpoint fan-out still applies to every edge.
-export function staggerEdges(cy, { turnLo = 0.3, turnHi = 0.7, fanSpread = 28 } = {}) {
-  // a. Stagger turn points (taxi lanes only). Edges sharing a vertical corridor
-  // (same rounded source/target Y) would jog at the same height — spread their
-  // turn fractions so each horizontal branch lands on its own Y line.
-  const corridors = new Map(); // `${sy}|${ty}` -> edges
-  cy.edges().not('.cross-course').forEach((e) => {
-    const sy = Math.round(e.source().position('y') / 20) * 20;
-    const ty = Math.round(e.target().position('y') / 20) * 20;
-    const key = `${sy}|${ty}`;
-    if (!corridors.has(key)) corridors.set(key, []);
-    corridors.get(key).push(e);
-  });
-  for (const group of corridors.values()) {
-    if (group.length === 1) {
-      group[0].style('taxi-turn', '50%');
-      continue;
-    }
-    group.sort((a, b) => a.target().position('x') - b.target().position('x'));
-    group.forEach((e, i) => {
-      const t = turnLo + (turnHi - turnLo) * (i / (group.length - 1));
-      e.style('taxi-turn', `${Math.round(t * 100)}%`);
-    });
-  }
-
-  // b. Fan out attachment points (all edges). Distribute each node's outgoing
-  // edges across its bottom face and incoming edges across its top face, sorted
-  // by the other end's X so the stubs don't cross.
-  cy.nodes().forEach((n) => {
-    const fan = (edges, towardX, setter) => {
-      if (edges.length === 0) return;
-      edges.sort((a, b) => towardX(a) - towardX(b));
-      edges.forEach((e, i) => {
-        const frac = edges.length === 1 ? 0 : i / (edges.length - 1) - 0.5;
-        e.style(setter, `${Math.round(frac * fanSpread)} 0`);
-      });
-    };
-    fan(n.outgoers('edge').toArray(), (e) => e.target().position('x'), 'source-endpoint');
-    fan(n.incomers('edge').toArray(), (e) => e.source().position('x'), 'target-endpoint');
-  });
 }
 
 // Paints the lane stripes + strand labels onto a <canvas> overlay sitting behind

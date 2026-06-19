@@ -5,7 +5,7 @@
   import { buildElements, getCyStyle } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
-  import { layoutSwimlanes, staggerEdges, drawBands } from '../lib/swimlane.js';
+  import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
   import Math from '../components/Math.svelte';
@@ -93,9 +93,12 @@
       maxZoom: 3
     });
 
+    // Highlight is driven by our lit/dim classes, not Cytoscape selection — so
+    // disable selection to avoid the big selection/active overlay on edge taps.
+    cy.autounselectify(true);
+
     // Lay each strand out independently and stack them into bands.
     bands = layoutSwimlanes(cy);
-    staggerEdges(cy);
     redraw();
 
     cy.on('render', redraw);
