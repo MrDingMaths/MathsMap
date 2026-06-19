@@ -14,10 +14,10 @@
 </script>
 
 <nav class="top">
-  <span class="brand"><a href={href('/')} style="color:var(--text)">▲ MathsMap</a></span>
-  <a href={href('/')} class={route.name === 'home' ? 'active' : ''}>Browse</a>
-  <a href={href('/map')} class={route.name === 'map' ? 'active' : ''}>Map</a>
-  <a href={href('/progress')} class={route.name === 'progress' ? 'active' : ''}>Progress</a>
+  <span class="brand"><a href={href('/')}><span class="logo">M</span>MathsMap</a></span>
+  <a href={href('/')} class="navlink {route.name === 'home' ? 'active' : ''}">Browse</a>
+  <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
+  <a href={href('/progress')} class="navlink {route.name === 'progress' ? 'active' : ''}">Progress</a>
   <button class="theme-toggle" onclick={() => theme.toggle()}>
     {theme.current === 'dark' ? 'Light' : 'Dark'}
   </button>
@@ -28,12 +28,13 @@
     margin-left: auto;
     background: var(--panel-2);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 7px;
     color: var(--text);
     cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.3rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
     line-height: 1;
     transition: background 0.12s;
   }

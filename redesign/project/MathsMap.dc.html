@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#fff;-webkit-font-smoothing:antialiased;}
+  *{box-sizing:border-box;}
+  ::selection{background:#bae6fd;}
+</style>
+</helmet>
+
+<div style="min-height:100vh; background:#fff; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#0f172a;">
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:50; height:52px; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid #e7ebf1;">
+    <div style="max-width:1280px; margin:0 auto; padding:0 24px; height:100%; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:8px; cursor:pointer;" onClick="{{ goHome }}">
+        <span style="display:grid; place-items:center; width:24px; height:24px; border-radius:7px; background:#0f172a; color:#fff; font:800 12px/1 'Hanken Grotesk';">M</span>
+        <span style="font:700 15px/1 'Hanken Grotesk'; letter-spacing:-.01em; color:#0f172a;">MathsMap</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:1px;">
+        <a style="font:500 13px/1 'Hanken Grotesk'; color:#64748b; padding:7px 11px; border-radius:7px; text-decoration:none; cursor:pointer;" style-hover="color:#0f172a; background:#f1f5f9;">Browse</a>
+        <a style="font:500 13px/1 'Hanken Grotesk'; color:#64748b; padding:7px 11px; border-radius:7px; text-decoration:none; cursor:pointer;" style-hover="color:#0f172a; background:#f1f5f9;">Progress</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HOME ===================== -->
+  <sc-if value="{{ homeView }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="Home">
+
+    <!-- HERO -->
+    <section style="max-width:1280px; margin:0 auto; padding:28px 24px 16px;">
+      <h1 style="margin:0 0 6px; font:800 28px/1.05 'Hanken Grotesk'; letter-spacing:-.02em; color:#0f172a;">Your maths skill map</h1>
+      <p style="margin:0 0 18px; font:400 14px/1.5 'Hanken Grotesk'; color:#64748b; max-width:520px;">Every Maths skill from Stage 3 to Stage 6, mapped to your progress. Find a topic, see what's inside, pick up where you left off.</p>
+      <div style="position:relative; max-width:520px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="position:absolute; left:14px; top:50%; transform:translateY(-50%);"><circle cx="11" cy="11" r="7" stroke="#94a3b8" stroke-width="2"></circle><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"></line></svg>
+        <input type="text" placeholder="Search skills…" value="{{ query }}" onInput="{{ onSearchInput }}" style="width:100%; height:44px; padding:0 14px 0 40px; font:500 14px/1 'Hanken Grotesk'; color:#0f172a; background:#fff; border:1px solid #e2e8f0; border-radius:10px; outline:none; box-shadow:0 1px 4px -2px rgba(15,23,42,.1);" style-focus="border-color:#7dd3fc; box-shadow:0 0 0 3px rgba(125,211,252,.2);">
+      </div>
+    </section>
+
+    <!-- SEARCH RESULTS -->
+    <sc-if value="{{ searchActive }}">
+    <section style="max-width:1280px; margin:0 auto; padding:8px 24px 60px;">
+      <div style="display:flex; align-items:baseline; gap:10px; margin:6px 0 16px;">
+        <h2 style="margin:0; font:700 17px/1 'Hanken Grotesk'; color:#0f172a;">{{ resultsHeading }}</h2>
+        <span style="font:500 12px/1 'Geist Mono'; color:#94a3b8;">{{ resultsCount }}</span>
+      </div>
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(266px,1fr)); gap:14px;">
+          <sc-for list="{{ results }}" as="item" hint-placeholder-count="6">
+            <dc-import name="SkillCard" data="{{ item }}" hint-size="100%,188px" style="min-height:188px;"></dc-import>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noResults }}">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:6px; padding:64px 20px; text-align:center;">
+          <span style="font:600 15px/1.3 'Hanken Grotesk'; color:#334155;">No skills match "{{ query }}"</span>
+          <span style="font:400 13px/1.4 'Hanken Grotesk'; color:#94a3b8;">Try a topic name like "fractions", "trigonometry", or "calculus".</span>
+        </div>
+      </sc-if>
+    </section>
+    </sc-if>
+
+    <!-- BROWSE -->
+    <sc-if value="{{ browseActive }}" hint-placeholder-val="{{ true }}">
+    <section style="max-width:1280px; margin:0 auto; padding:8px 24px 70px;">
+      <div style="border-top:1px solid #e7ebf1;">
+        <sc-for list="{{ stages }}" as="stage" hint-placeholder-count="6">
+          <sc-if value="{{ stage.showStage6Header }}">
+            <div style="display:flex; align-items:center; gap:10px; padding:28px 0 0;">
+              <span style="flex:1; height:1px; background:#e2e8f0;"></span>
+              <span style="font:600 10px/1 'Geist Mono'; letter-spacing:.08em; text-transform:uppercase; color:#c1c8d4;">Stage 6</span>
+              <span style="flex:1; height:1px; background:#e2e8f0;"></span>
+            </div>
+          </sc-if>
+          <div style="border-bottom:1px solid #e7ebf1;">
+            <div onClick="{{ stage.toggle }}" style="display:flex; align-items:center; gap:14px; padding:18px 0; cursor:pointer;" style-hover="opacity:.8;">
+              <div style="flex:1; display:flex; align-items:baseline; gap:10px;">
+                <span style="font:700 16px/1 'Hanken Grotesk'; color:#0f172a;">{{ stage.label }}</span>
+                
+              </div>
+              <a onClick="{{ stage.openCourse }}" style="font:500 12px/1 'Hanken Grotesk'; color:#0284c7; text-decoration:none; white-space:nowrap;" style-hover="text-decoration:underline;">View all →</a>
+              <span style="font:500 12px/1 'Hanken Grotesk'; color:#94a3b8; white-space:nowrap;">{{ stage.topicCount }} topics</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none; transition:transform .2s; transform:{{ stage.chevronTransform }};">
+                <polyline points="6 9 12 15 18 9" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              </svg>
+            </div>
+            <sc-if value="{{ stage.isOpen }}">
+              <div style="padding-bottom:32px; display:flex; flex-direction:column; gap:22px;">
+                <sc-for list="{{ stage.flatStrands }}" as="strand" hint-placeholder-count="3">
+                  <div>
+                    <div style="display:flex; align-items:center; gap:7px; margin:0 0 11px;">
+                      <span style="width:3px; height:12px; border-radius:2px; background:{{ strand.color }};"></span>
+                      <span style="font:600 11px/1 'Geist Mono'; letter-spacing:.04em; text-transform:uppercase; color:#64748b;">{{ strand.name }}</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;">
+                      <sc-for list="{{ strand.topics }}" as="topic" hint-placeholder-count="4">
+                        <dc-import name="TopicCard" data="{{ topic }}" hint-size="100%,148px" style="min-height:148px;"></dc-import>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+
+  </div>
+  </sc-if>
+
+  <!-- ===================== COURSE ===================== -->
+  <sc-if value="{{ courseView }}">
+  <div data-screen-label="Course">
+    <section style="max-width:1080px; margin:0 auto; padding:22px 24px 8px;">
+      <div style="display:flex; align-items:center; gap:8px; font:500 12px/1 'Hanken Grotesk'; color:#94a3b8; margin-bottom:20px;">
+        <a onClick="{{ goHome }}" style="color:#0284c7; text-decoration:none; cursor:pointer;" style-hover="text-decoration:underline;">Home</a>
+        <span>/</span>
+        <span style="color:#475569;">{{ course.name }}</span>
+      </div>
+      <div style="display:flex; gap:16px; align-items:flex-start;">
+        <span style="width:4px; align-self:stretch; min-height:56px; border-radius:99px; background:#0ea5e9; flex:none;"></span>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:7px;">
+            <span style="font:600 10.5px/1 'Geist Mono'; letter-spacing:.06em; text-transform:uppercase; color:#0284c7; background:#e0f2fe; border-radius:99px; padding:4px 10px;">{{ course.stageLabel }}</span>
+          </div>
+          <h1 style="margin:0 0 12px; font:800 28px/1.05 'Hanken Grotesk'; letter-spacing:-.02em; color:#0f172a;">{{ course.name }}</h1>
+          <div style="display:flex; gap:24px; flex-wrap:wrap;">
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font:700 20px/1 'Hanken Grotesk'; color:#0f172a;">{{ course.topicCount }}</span>
+              <span style="font:500 10.5px/1 'Geist Mono'; letter-spacing:.04em; text-transform:uppercase; color:#94a3b8;">Topics</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font:700 20px/1 'Hanken Grotesk'; color:#0f172a;">{{ course.skillCount }}</span>
+              <span style="font:500 10.5px/1 'Geist Mono'; letter-spacing:.04em; text-transform:uppercase; color:#94a3b8;">Skills</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font:700 20px/1 'Hanken Grotesk'; color:#10b981;">{{ course.pctLabel }}</span>
+              <span style="font:500 10.5px/1 'Geist Mono'; letter-spacing:.04em; text-transform:uppercase; color:#94a3b8;">Mastered</span>
+            </div>
+          </div>
+          <div style="height:6px; border-radius:99px; background:#eef1f6; overflow:hidden; margin-top:14px; max-width:480px; display:flex; gap:2px;">
+            <span style="display:block; height:100%; width:{{ course.masteredPct }}; background:#10b981;"></span>
+            <span style="display:block; height:100%; width:{{ course.inProgressPct }}; background:#fbbf24;"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRAND FILTER -->
+    <section style="max-width:1080px; margin:0 auto; padding:20px 24px 4px; display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+      <sc-for list="{{ course.chips }}" as="chip" hint-placeholder-count="4">
+        <button onClick="{{ chip.onClick }}" style="{{ chip.style }}">
+          <span style="width:6px; height:6px; border-radius:50%; background:{{ chip.color }};"></span>
+          {{ chip.label }}
+        </button>
+      </sc-for>
+    </section>
+
+    <section style="max-width:1080px; margin:0 auto; padding:12px 24px 70px; display:flex; flex-direction:column; gap:28px;">
+      <sc-for list="{{ course.visibleStrands }}" as="strand" hint-placeholder-count="4">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin:0 0 13px;">
+            <span style="width:3px; height:14px; border-radius:2px; background:{{ strand.color }};"></span>
+            <h3 style="margin:0; font:700 15px/1 'Hanken Grotesk'; color:#0f172a;">{{ strand.name }}</h3>
+            <span style="font:400 11.5px/1 'Geist Mono'; color:#b0bbc9;">{{ strand.topicLabel }}</span>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(226px,1fr)); gap:12px;">
+            <sc-for list="{{ strand.topics }}" as="topic" hint-placeholder-count="4">
+              <dc-import name="TopicCard" data="{{ topic }}" hint-size="100%,148px" style="min-height:148px;"></dc-import>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view:'home', courseId:null, query:'', strandFilter:null, openStages:{'stage-3':true} };
+
+  STRAND = {
+    na:  {name:'Number & Algebra',       short:'Number & Algebra', color:'#2563eb'},
+    alg: {name:'Algebra',                short:'Algebra',          color:'#2563eb'},
+    mg:  {name:'Measurement & Geometry', short:'Measurement',      color:'#0f9d6e'},
+    meas:{name:'Measurement',            short:'Measurement',      color:'#0f9d6e'},
+    sp:  {name:'Statistics & Probability',short:'Statistics',      color:'#7c3aed'},
+    stat:{name:'Statistics',             short:'Statistics',       color:'#7c3aed'},
+    fn:  {name:'Functions',              short:'Functions',        color:'#ea580c'},
+    trig:{name:'Trigonometry',           short:'Trigonometry',     color:'#0891b2'},
+    calc:{name:'Calculus',               short:'Calculus',         color:'#e11d48'},
+    fin: {name:'Financial Mathematics',  short:'Financial',        color:'#ca8a04'},
+    net: {name:'Networks',               short:'Networks',         color:'#0d9488'},
+  };
+
+  RAW = [
+    {id:'stage-3', label:'Stage 3', sub:'Years 5–6', courses:[
+      {id:'s3', name:'Stage 3 Mathematics', short:'Stage 3', strands:[
+        {k:'na', t:['Place value & large numbers','Multiplication & division','Fractions & decimals','Patterns & number sentences']},
+        {k:'mg', t:['Length, perimeter & area','Angles','2D & 3D shapes','Position & maps']},
+        {k:'sp', t:['Data displays','Chance & likelihood']},
+      ]},
+    ]},
+    {id:'stage-4', label:'Stage 4', sub:'Years 7–8', courses:[
+      {id:'s4', name:'Stage 4 Mathematics', short:'Stage 4', strands:[
+        {k:'na', t:['Integers & directed numbers','Fractions, decimals & percentages','Ratios & rates','Algebraic techniques','Linear equations']},
+        {k:'mg', t:['Length & area','Volume & capacity','Angles & parallel lines','Properties of geometric shapes']},
+        {k:'sp', t:['Data collection & representation','Probability']},
+      ]},
+    ]},
+    {id:'stage-5-core', label:'Core', sub:'Stage 5 · Years 9–10', courses:[
+      {id:'s5core', name:'Stage 5 Core', short:'S5 Core', strands:[
+        {k:'na', t:['Indices','Algebraic fractions','Linear relationships','Equations & inequalities','Quadratic expressions']},
+        {k:'mg', t:['Pythagoras theorem','Area & surface area','Volume']},
+        {k:'sp', t:['Single variable data','Probability']},
+      ]},
+    ]},
+    {id:'stage-5-path', label:'Path', sub:'Stage 5 · Years 9–10', courses:[
+      {id:'s5path', name:'Stage 5 Path', short:'S5 Path', strands:[
+        {k:'na', t:['Surds & irrationals','Non-linear relationships','Polynomials']},
+        {k:'mg', t:['Right-angled trigonometry','Similarity & scale']},
+        {k:'sp', t:['Bivariate data']},
+      ]},
+    ]},
+    {id:'stage-6-std', label:'Standard', sub:'Stage 6 · Years 11–12', courses:[
+      {id:'std', name:'Mathematics Standard', short:'Standard', strands:[
+        {k:'alg', t:['Formulae & equations','Linear relationships']},
+        {k:'meas', t:['Rates & ratios','Working with time','Scale drawings & right-angled triangles']},
+        {k:'fin', t:['Earning & managing money','Investments & loans']},
+        {k:'stat', t:['Data analysis','Relative frequency & probability']},
+        {k:'net', t:['Networks & paths']},
+      ]},
+    ]},
+    {id:'stage-6-adv', label:'Advanced', sub:'Stage 6 · Years 11–12', courses:[
+      {id:'adv', name:'Mathematics Advanced', short:'Advanced', strands:[
+        {k:'fn', t:['Working with functions','Quadratic & cubic functions','Exponential & logarithmic functions']},
+        {k:'trig', t:['Trigonometric functions','Graphing trig functions']},
+        {k:'calc', t:['Introduction to differentiation','Applications of differentiation','Integration']},
+        {k:'stat', t:['Discrete probability distributions','The normal distribution']},
+      ]},
+    ]},
+    {id:'stage-6-ext1', label:'Extension 1', sub:'Stage 6 · Years 11–12', courses:[
+      {id:'ext1', name:'Mathematics Extension 1', short:'Ext 1', strands:[
+        {k:'fn', t:['Further functions','Inverse functions','Combinatorics & proof']},
+        {k:'trig', t:['Inverse trigonometric functions','Further trig identities']},
+        {k:'calc', t:['Integration techniques','Volumes of solids','Differential equations']},
+        {k:'stat', t:['The binomial distribution']},
+      ]},
+    ]},
+  ];
+
+  pct(a,b){ return b ? Math.round(a/b*100)+'%' : '0%'; }
+
+  build(){
+    if(this._model) return this._model;
+    let seed = 0;
+    const tint = (hex, amt) => {
+      const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      return 'rgb('+Math.round(255*(1-amt)+r*amt)+','+Math.round(255*(1-amt)+g*amt)+','+Math.round(255*(1-amt)+b*amt)+')';
+    };
+    const mk = (name,k)=>{
+      seed++;
+      const total = 6 + (seed*7)%11;
+      const mastered = (seed*5)%(total+1);
+      const inProg = Math.min(total-mastered, (seed*3)%5);
+      const s = this.STRAND[k];
+      return {
+        name, strandKey:k, strandShort:s.short, color:s.color,
+        total, mastered, inProg,
+        skillLabel: total+' skills',
+        masteredLabel: mastered+'/'+total,
+        statusColor: mastered>0 ? '#0f9d6e' : '#94a3b8',
+        masteredPct: this.pct(mastered,total),
+        inProgressPct: this.pct(inProg,total),
+        tintBg: tint(s.color, 0.07),
+        isFullyMastered: mastered===total,
+      };
+    };
+    const courseById = {};
+    const allTopics = [];
+    const stages = this.RAW.map((st)=>{
+      let sT=0, sM=0;
+      const courses = st.courses.map(c=>{
+        let cT=0, cM=0, cIn=0;
+        const strands = c.strands.map(sd=>{
+          const meta = this.STRAND[sd.k];
+          const topics = sd.t.map(n=>{
+            const tp = mk(n, sd.k);
+            cT+=tp.total; cM+=tp.mastered; cIn+=tp.inProg;
+            allTopics.push({tp, stageLabel:st.label, courseShort:c.short, courseName:c.name, strand:meta});
+            return tp;
+          });
+          return {key:sd.k, name:meta.name, short:meta.short, color:meta.color, topics, topicLabel: topics.length+' topics'};
+        });
+        const obj = {
+          id:c.id, name:c.name, short:c.short, stageLabel:st.label, stageId:st.id,
+          strands, topicCount: strands.reduce((a,x)=>a+x.topics.length,0),
+          skillCount:cT, masteredCount:cM, inProgCount:cIn,
+          pctLabel: this.pct(cM,cT),
+          masteredPct: this.pct(cM,cT), inProgressPct: this.pct(cIn,cT),
+        };
+        sT+=cT; sM+=cM;
+        courseById[c.id]=obj;
+        return obj;
+      });
+      const topicTotal = courses.reduce((a,c)=>a+c.topicCount,0);
+      return {
+        id:st.id, label:st.label, sub:st.sub, courses,
+        skillCount:sT, masteredCount:sM, topicCount:topicTotal,
+        pctLabel: this.pct(sM,sT),
+      };
+    });
+    this._model = { stages, courseById, allTopics };
+    return this._model;
+  }
+
+  toggleStage(id){
+    this.setState(s=>{
+      const next = {...s.openStages};
+      if(next[id]) delete next[id]; else next[id]=true;
+      return {openStages:next};
+    });
+  }
+
+  goHome(){ this.setState({view:'home', courseId:null, strandFilter:null}); window.scrollTo({top:0}); }
+  openCourse(id){ this.setState({view:'course', courseId:id, strandFilter:null}); window.scrollTo({top:0}); }
+  onSearchInput(e){ this.setState({query:e.target.value}); }
+  setFilter(k){ this.setState(s=>({strandFilter: s.strandFilter===k ? null : k})); }
+
+  chipBtn(active){
+    return 'display:inline-flex; align-items:center; gap:6px; font:600 12px/1 \'Hanken Grotesk\'; padding:7px 12px; border-radius:99px; cursor:pointer; transition:all .12s; '
+      + (active ? 'background:#0f172a; color:#fff; border:1px solid #0f172a;' : 'background:#fff; color:#334155; border:1px solid #e2e8f0;');
+  }
+
+  renderVals(){
+    const m = this.build();
+    const { view, query, strandFilter, openStages } = this.state;
+    const homeView = view==='home';
+    const courseView = view==='course';
+    const q = query.trim().toLowerCase();
+    const searchActive = homeView && q.length>0;
+    const browseActive = homeView && !searchActive;
+
+    const stages = m.stages.map(s=>({
+      ...s,
+      isOpen: !!openStages[s.id],
+      chevronTransform: openStages[s.id] ? 'rotate(180deg)' : 'rotate(0deg)',
+      showStage6Header: s.id==='stage-6-std',
+      toggle: ()=>this.toggleStage(s.id),
+      flatStrands: s.courses[0].strands,
+      openCourse: (e)=>{ e && e.stopPropagation(); this.openCourse(s.courses[0].id); },
+    }));
+
+    let results=[], resultsHeading='', resultsCount='', hasResults=false, noResults=false;
+    if(searchActive){
+      const hits = m.allTopics.filter(x=> x.tp.name.toLowerCase().includes(q) || x.strand.name.toLowerCase().includes(q));
+      results = hits.map(x=>({
+        name:x.tp.name, blurb: x.strand.name+' · '+x.tp.total+' skills',
+        reason:x.stageLabel, color:x.tp.color, tags:[x.courseShort, x.tp.strandShort],
+      }));
+      hasResults = results.length>0; noResults = !hasResults;
+      resultsHeading = 'Search results';
+      resultsCount = results.length+(results.length===1?' skill':' skills');
+    }
+
+    let course=null;
+    if(courseView){
+      const c = m.courseById[this.state.courseId];
+      if(c){
+        const chips = [{key:null,label:'All',color:'#64748b'}].concat(c.strands.map(s=>({key:s.key,label:s.short,color:s.color})));
+        const visibleStrands = strandFilter ? c.strands.filter(s=>s.key===strandFilter) : c.strands;
+        course = {
+          ...c,
+          visibleStrands,
+          chips: chips.map(ch=>({
+            label:ch.label, color:ch.color,
+            onClick:()=>this.setFilter(ch.key),
+            style:this.chipBtn(strandFilter===ch.key),
+          })),
+        };
+      }
+    }
+
+    return {
+      homeView, courseView, searchActive, browseActive,
+      stages,
+      query: this.state.query,
+      onSearchInput: this.onSearchInput.bind(this),
+      results, resultsHeading, resultsCount, hasResults, noResults,
+      course,
+      goHome: this.goHome.bind(this),
+    };
+  }
+}
+</script>
+</body>
+</html>
