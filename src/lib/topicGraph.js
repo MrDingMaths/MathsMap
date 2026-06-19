@@ -4,7 +4,8 @@
 // full skill graph, so it stays legible with several courses selected.
 import { skills, topicById, skillById, topicsForSkill } from './data.js';
 import { getMastery } from './store.js';
-import { masteryColour, masteryLabel, applyNodeSizes } from './graph.js';
+import { masteryColour, masteryLabel } from './graph.js';
+import { ringSvg, trackColour } from './ring.js';
 import { plainMath } from './mathText.js';
 
 const MASTERY_KEYS = ['none', 'learning', 'proficient', 'mastered'];
@@ -20,8 +21,27 @@ function dominantMastery(skillIds) {
   return best;
 }
 
+// Mastered / in-progress proportions across a topic's skills, for a two-segment
+// ring (mirrors statsFor in store.js — in-progress folds learning + proficient).
+function masteryStats(skillIds) {
+  let mastered = 0;
+  let inProgress = 0;
+  for (const id of skillIds) {
+    const m = getMastery(id);
+    if (m === 'mastered') mastered++;
+    else if (m === 'learning' || m === 'proficient') inProgress++;
+  }
+  const total = skillIds.length || 1;
+  return {
+    masteredPct: Math.round((mastered / total) * 100),
+    inProgressPct: Math.round((inProgress / total) * 100),
+    fullyMastered: mastered === skillIds.length && skillIds.length > 0,
+    started: mastered + inProgress > 0
+  };
+}
+
 // `courseIds` may be a string or an array of course ids.
-export function buildTopicElements({ courseIds = null } = {}) {
+export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
   const wanted = courseIds == null ? null : new Set([].concat(courseIds));
 
   let pool = skills;
@@ -41,10 +61,24 @@ export function buildTopicElements({ courseIds = null } = {}) {
     }
   }
 
+  const track = trackColour(isDark);
   const nodes = [];
+  const statsById = new Map(); // topicId -> { fullyMastered, started }
   for (const [topicId, skillIds] of topicSkills) {
     const topic = topicById.get(topicId);
     const mastery = dominantMastery(skillIds);
+    const stats = masteryStats(skillIds);
+    statsById.set(topicId, stats);
+    const ring = stats.fullyMastered
+      ? ringSvg({ track, full: true })
+      : ringSvg({
+          track,
+          // Longer (amber) arc first so the green mastered arc sits on top.
+          segments: [
+            { pct: stats.masteredPct + stats.inProgressPct, color: '#fbbf24' },
+            { pct: stats.masteredPct, color: '#16a34a' }
+          ]
+        });
     nodes.push({
       data: {
         id: topicId,
@@ -58,7 +92,8 @@ export function buildTopicElements({ courseIds = null } = {}) {
         skillCount: skillIds.length,
         masteryKey: mastery,
         masteryLabel: masteryLabel[mastery],
-        mastery: masteryColour[mastery]
+        mastery: masteryColour[mastery],
+        ring
       }
     });
   }
@@ -93,11 +128,25 @@ export function buildTopicElements({ courseIds = null } = {}) {
   }
 
   const edges = [];
+  const prereqsOf = new Map(); // topic -> [prerequisite topics]
   for (const [key, cross] of edgeMap) {
     const [source, target] = key.split('->');
     edges.push({ data: { id: key, source, target }, classes: cross ? 'cross-course' : '' });
+    if (!prereqsOf.has(target)) prereqsOf.set(target, []);
+    prereqsOf.get(target).push(source);
   }
 
-  applyNodeSizes(nodes, edges);
+  // "Ready now": a topic not yet started whose every prerequisite topic is fully
+  // mastered — the frontier the student can pick up next.
+  for (const n of nodes) {
+    const stats = statsById.get(n.data.id);
+    const prereqs = prereqsOf.get(n.data.id) || [];
+    const ready =
+      !stats.started &&
+      prereqs.length > 0 &&
+      prereqs.every((t) => statsById.get(t)?.fullyMastered);
+    if (ready) n.classes = 'ready';
+  }
+
   return [...nodes, ...edges];
 }

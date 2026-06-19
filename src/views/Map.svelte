@@ -60,10 +60,11 @@
   }
 
   function buildGraphElements() {
+    const isDark = theme.current === 'dark';
     let els =
       mode === 'topic'
-        ? buildTopicElements({ courseIds: selected })
-        : buildElements({ courseIds: selected, topicIds: scopeTopicIds });
+        ? buildTopicElements({ courseIds: selected, isDark })
+        : buildElements({ courseIds: selected, topicIds: scopeTopicIds, isDark });
     if (crossOnly) els = filterCrossOnly(els);
     return els;
   }
@@ -145,7 +146,7 @@
   <aside class="sidebar">
     <h1>Skill Map</h1>
     <p class="muted hint">
-      Prerequisites flow left → right, grouped into strand bands. Tick courses to
+      Prerequisites flow top → bottom, grouped into strand bands. Tick courses to
       compare them — dashed <span class="cross-key">amber</span> links cross between
       courses. Click a node to trace its chain.
     </p>
@@ -185,12 +186,13 @@
 
     <div class="section-label">Mastery legend</div>
     <ul class="legend">
-      <li><span class="dot" style={theme.current === 'dark' ? 'background:#475569' : 'background:#fff;border:2px solid #94a3b8'}></span> Not started</li>
-      <li><span class="dot" style="background:#d97706"></span> Learning</li>
-      <li><span class="dot" style="background:#2563eb"></span> Proficient</li>
-      <li><span class="dot" style="background:#16a34a"></span> Mastered</li>
+      <li><span class="ring" style="--c:var(--track); --p:100%"></span> Not started</li>
+      <li><span class="ring" style="--c:#d97706; --p:33%"></span> Learning</li>
+      <li><span class="ring" style="--c:#2563eb; --p:66%"></span> Proficient</li>
+      <li><span class="ring" style="--c:#16a34a; --p:100%"></span> Mastered</li>
+      <li><span class="ring ready"></span> Ready now</li>
     </ul>
-    <p class="muted hint">Node border = course colour, fill = mastery (topics show the dominant level).</p>
+    <p class="muted hint">Each node is a mastery ring that fills as you progress; topics fill by share of skills mastered. A dashed cyan halo marks topics whose prerequisites are all done.</p>
   </aside>
 
   <div class="graph-area">
@@ -297,7 +299,27 @@
 
   .legend { list-style: none; margin: 0; padding: 0; font-size: 0.8rem; }
   .legend li { display: flex; align-items: center; gap: 0.5rem; margin: 0.25rem 0; }
-  .legend .dot { width: 11px; height: 11px; border-radius: 50%; }
+  /* Mini progress ring: coloured arc over a track, with a punched-out centre. */
+  .legend .ring {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(var(--c) 0 var(--p), var(--track) var(--p) 100%);
+  }
+  .legend .ring::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--panel);
+  }
+  .legend .ring.ready {
+    background: none;
+    border: 2px dashed #06b6d4;
+  }
+  .legend .ring.ready::before { content: none; }
 
   .graph-area { position: relative; flex: 1 1 auto; min-width: 0; }
   .bands { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
