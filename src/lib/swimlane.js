@@ -28,7 +28,7 @@ const DEFAULT_STYLE = {
 // Lays out each strand on its own and stacks the results side by side into lanes.
 // Returns the lane geometry (model coords) for drawBands(). Replaces a single
 // global layout.
-export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 95, rankSep = 110 } = {}) {
+export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 95, rankSep = 150 } = {}) {
   const byStrand = new Map();
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];
@@ -67,6 +67,51 @@ export function layoutSwimlanes(cy, { gap = 80, pad = 48, nodeSep = 95, rankSep 
 
   cy.fit(undefined, 30);
   return lanes;
+}
+
+// Taxi edges all turn at 50% of the rank gap and attach to node centres, so
+// parallel links collapse onto the same horizontal lines and converge to a
+// single point per node. Run this once after layout (positions known) to spread
+// them: each edge gets its own turn fraction and its own attachment offset.
+export function staggerEdges(cy, { turnLo = 0.28, turnHi = 0.72, fanSpread = 28 } = {}) {
+  // a. Stagger turn points. Edges sharing a vertical corridor (same rounded
+  // source/target Y) would jog at the same Y — spread their turn fractions so
+  // the horizontal segments land on distinct lines.
+  const corridors = new Map(); // `${sy}|${ty}` -> edges
+  cy.edges().forEach((e) => {
+    const sy = Math.round(e.source().position('y') / 20) * 20;
+    const ty = Math.round(e.target().position('y') / 20) * 20;
+    const key = `${sy}|${ty}`;
+    if (!corridors.has(key)) corridors.set(key, []);
+    corridors.get(key).push(e);
+  });
+  for (const group of corridors.values()) {
+    if (group.length === 1) {
+      group[0].style('taxi-turn', '50%');
+      continue;
+    }
+    group.sort((a, b) => a.target().position('x') - b.target().position('x'));
+    group.forEach((e, i) => {
+      const t = turnLo + (turnHi - turnLo) * (i / (group.length - 1));
+      e.style('taxi-turn', `${Math.round(t * 100)}%`);
+    });
+  }
+
+  // b. Fan out attachment points. Distribute each node's outgoing edges across
+  // its bottom face and incoming edges across its top face, sorted by the other
+  // end's X so the stubs don't cross.
+  cy.nodes().forEach((n) => {
+    const fan = (edges, towardX, setter) => {
+      if (edges.length === 0) return;
+      edges.sort((a, b) => towardX(a) - towardX(b));
+      edges.forEach((e, i) => {
+        const frac = edges.length === 1 ? 0 : i / (edges.length - 1) - 0.5;
+        e.style(setter, `${Math.round(frac * fanSpread)} 0`);
+      });
+    };
+    fan(n.outgoers('edge').toArray(), (e) => e.target().position('x'), 'source-endpoint');
+    fan(n.incomers('edge').toArray(), (e) => e.source().position('x'), 'target-endpoint');
+  });
 }
 
 // Paints the lane stripes + strand labels onto a <canvas> overlay sitting behind

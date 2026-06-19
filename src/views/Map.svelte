@@ -5,7 +5,7 @@
   import { buildElements, getCyStyle } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
-  import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
+  import { layoutSwimlanes, staggerEdges, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
   import Math from '../components/Math.svelte';
@@ -93,6 +93,7 @@
 
     // Lay each strand out independently and stack them into bands.
     bands = layoutSwimlanes(cy);
+    staggerEdges(cy);
     redraw();
 
     cy.on('render', redraw);

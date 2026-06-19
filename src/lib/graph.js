@@ -161,8 +161,10 @@ export function getCyStyle(isDark = true) {
         'arrow-scale': 0.8,
         'curve-style': 'taxi',
         'taxi-direction': 'vertical',
+        // Default fallback; staggerEdges() overrides taxi-turn per edge so
+        // parallel horizontal segments separate onto distinct Y lines.
         'taxi-turn': '50%',
-        'taxi-turn-min-distance': 5
+        'taxi-turn-min-distance': 2
       }
     },
     // Prerequisite links that span two different courses stand out — but gently.
