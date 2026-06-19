@@ -124,6 +124,7 @@ export function getCyStyle(isDark = true) {
   const highlight = isDark ? '#38bdf8' : '#0284c7';
   const chipBg = isDark ? '#273449' : '#f1f5f9'; // --panel-2
   const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
+  const litColor = isDark ? '#f8fafc' : '#000000'; // bold near-black/near-white for the focused chain
   const ready = '#06b6d4'; // cyan "ready now" halo
   return [
     {
@@ -166,7 +167,7 @@ export function getCyStyle(isDark = true) {
       style: {
         width: 1.5,
         'line-color': edgeColor,
-        'line-opacity': 0.18,
+        'line-opacity': 0.32,
         'target-arrow-color': edgeColor,
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.7,
@@ -177,13 +178,16 @@ export function getCyStyle(isDark = true) {
         'taxi-turn-min-distance': 10
       }
     },
-    // Focus state: the chain of the hovered/clicked node comes to full strength.
+    // Focus state: the chain of the hovered/clicked node comes to full strength —
+    // bold near-black (light) / near-white (dark), thicker, fully opaque.
     {
       selector: 'edge.lit',
       style: {
-        width: 2,
+        width: 3,
+        'line-color': litColor,
+        'target-arrow-color': litColor,
         'line-opacity': 1,
-        'arrow-scale': 0.85
+        'arrow-scale': 1
       }
     },
     // Cross-topic links span between courses/strands. Drawn as a gentle bezier
