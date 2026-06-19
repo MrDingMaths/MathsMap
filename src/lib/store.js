@@ -6,6 +6,15 @@ import { meta, skills, topicsForCourse, skillsForTopic } from './data.js';
 const KEY = 'mathsmap.progress.v1';
 export const LEVELS = meta.masteryLevels; // ['none','learning','proficient','mastered']
 
+// Shared presentation for each mastery level. `fill` (0–3) drives the segmented
+// bars; colors live in CSS (`--m-*`), reached via an `m-{level}` class.
+export const MASTERY = {
+  none: { label: 'Not started', fill: 0 },
+  learning: { label: 'Learning', fill: 1 },
+  proficient: { label: 'Proficient', fill: 2 },
+  mastered: { label: 'Mastered', fill: 3 }
+};
+
 function read() {
   try {
     return JSON.parse(localStorage.getItem(KEY)) || {};
@@ -57,18 +66,27 @@ const pct = (n, total) => (total ? Math.round((n / total) * 100) : 0);
 // "inProgress" folds the two middle levels (learning + proficient).
 function statsFor(list) {
   let mastered = 0;
-  let inProgress = 0;
+  let proficient = 0;
+  let learning = 0;
   for (const s of list) {
     const m = getMastery(s.id);
     if (m === 'mastered') mastered++;
-    else if (m === 'learning' || m === 'proficient') inProgress++;
+    else if (m === 'proficient') proficient++;
+    else if (m === 'learning') learning++;
   }
   const total = list.length;
+  const inProgress = learning + proficient;
+  const none = total - mastered - inProgress;
   return {
     total,
     mastered,
+    proficient,
+    learning,
+    none,
     inProgress,
     masteredPct: pct(mastered, total),
+    proficientPct: pct(proficient, total),
+    learningPct: pct(learning, total),
     inProgressPct: pct(inProgress, total),
     fullyMastered: total > 0 && mastered === total
   };
