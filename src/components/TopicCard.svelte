@@ -1,4 +1,5 @@
 <script>
+  import { untrack } from 'svelte';
   import { href } from '../lib/router.svelte.js';
   import { topicStats, subscribe } from '../lib/store.js';
   import Math from './Math.svelte';
@@ -6,7 +7,9 @@
   let { topic, courseId = null } = $props();
 
   let tick = $state(0);
-  $effect(() => subscribe(() => tick++));
+  // untrack the increment: subscribe() invokes the callback synchronously while
+  // this effect runs, so a bare tick++ would read+write tick and self-loop.
+  $effect(() => subscribe(() => untrack(() => tick++)));
 
   let stats = $derived.by(() => {
     tick; // re-run when mastery changes

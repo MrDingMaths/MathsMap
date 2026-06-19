@@ -1,4 +1,5 @@
 <script>
+  import { untrack } from 'svelte';
   import { courseById, topicsForCourse } from '../lib/data.js';
   import { courseStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
@@ -28,7 +29,9 @@
   let visible = $derived(strandFilter ? groups.filter((g) => g.name === strandFilter) : groups);
 
   let tick = $state(0);
-  $effect(() => subscribe(() => tick++));
+  // untrack: subscribe() fires the callback synchronously inside this effect,
+  // so a bare tick++ would read+write tick and self-loop.
+  $effect(() => subscribe(() => untrack(() => tick++)));
   let stats = $derived.by(() => {
     tick;
     return course ? courseStats(id) : null;

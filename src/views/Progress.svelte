@@ -1,11 +1,14 @@
 <script>
+  import { untrack } from 'svelte';
   import { courses, skills, topicsForCourse, skillsForTopic } from '../lib/data.js';
   import { getMastery, subscribe, resetProgress } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import Math from '../components/Math.svelte';
 
   let tick = $state(0);
-  $effect(() => subscribe(() => tick++));
+  // untrack: subscribe() fires the callback synchronously inside this effect,
+  // so a bare tick++ would read+write tick and self-loop.
+  $effect(() => subscribe(() => untrack(() => tick++)));
 
   const pct = (list) => {
     if (!list.length) return 0;
