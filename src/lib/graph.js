@@ -152,19 +152,28 @@ export function getCyStyle(isDark = true) {
       }
     },
     {
+      // Smooth curved (bezier) links. Faint by default so a dense graph reads
+      // cleanly; focusing a node lights its chain via the `lit` class below.
+      // control-point-step-size bows multiple edges on the same node apart.
       selector: 'edge',
       style: {
-        width: 2,
+        width: 1.5,
         'line-color': edgeColor,
+        'line-opacity': 0.18,
         'target-arrow-color': edgeColor,
         'target-arrow-shape': 'triangle',
-        'arrow-scale': 0.8,
-        'curve-style': 'taxi',
-        'taxi-direction': 'vertical',
-        // Default fallback; staggerEdges() overrides taxi-turn per edge so
-        // parallel horizontal segments separate onto distinct Y lines.
-        'taxi-turn': '50%',
-        'taxi-turn-min-distance': 2
+        'arrow-scale': 0.7,
+        'curve-style': 'bezier',
+        'control-point-step-size': 30
+      }
+    },
+    // Focus state: the chain of the hovered/clicked node comes to full strength.
+    {
+      selector: 'edge.lit',
+      style: {
+        width: 2,
+        'line-opacity': 1,
+        'arrow-scale': 0.85
       }
     },
     // Prerequisite links that span two different courses stand out — but gently.
@@ -175,10 +184,11 @@ export function getCyStyle(isDark = true) {
         'line-color': '#b9823c',
         'target-arrow-color': '#b9823c',
         'line-style': 'dashed',
-        'line-opacity': 0.75,
-        'arrow-scale': 0.8
+        'line-opacity': 0.18,
+        'arrow-scale': 0.7
       }
     },
+    { selector: 'edge.cross-course.lit', style: { 'line-opacity': 0.85, width: 1.5 } },
     // Ready-now frontier: dashed cyan halo + bolded, tinted label chip.
     {
       selector: 'node.ready',
@@ -192,6 +202,8 @@ export function getCyStyle(isDark = true) {
     },
     { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 11 } },
     { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
+    // Nodes outside the focused chain dim back so the lit chain stands out.
+    { selector: 'node.dim', style: { opacity: 0.4 } },
     { selector: '.faded', style: { opacity: 0.1 } },
     { selector: 'node.highlight', style: { 'border-width': 4, 'border-style': 'solid', 'border-color': highlight } },
     { selector: 'edge.highlight', style: { 'line-color': highlight, 'target-arrow-color': highlight, width: 3 } }

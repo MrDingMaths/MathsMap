@@ -5,7 +5,7 @@
   import { buildElements, getCyStyle } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
-  import { layoutSwimlanes, staggerEdges, drawBands } from '../lib/swimlane.js';
+  import { layoutSwimlanes, fanEdges, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
   import Math from '../components/Math.svelte';
@@ -88,28 +88,34 @@
     cy = cytoscape({
       container,
       elements: buildGraphElements(),
-      style: getCyStyle(theme.current === 'dark')
+      style: getCyStyle(theme.current === 'dark'),
+      minZoom: 0.1,
+      maxZoom: 3
     });
 
     // Lay each strand out independently and stack them into bands.
     bands = layoutSwimlanes(cy);
-    staggerEdges(cy);
+    fanEdges(cy);
     redraw();
 
     cy.on('render', redraw);
 
-    cy.on('tap', 'node', (e) => {
-      cy.elements().addClass('faded').removeClass('highlight');
-      const hood = e.target.predecessors().union(e.target.successors()).union(e.target);
-      hood.removeClass('faded').addClass('highlight');
-    });
-    cy.on('tap', (e) => {
-      if (e.target === cy) cy.elements().removeClass('faded highlight');
-    });
-    cy.on('dbltap', 'node', (e) => {
-      if (mode === 'topic') drillIntoTopic(e.target);
-      else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
-    });
+    // Focus a node's prerequisite chain: light up its edges, dim every node that
+    // isn't part of the chain. `stuck` keeps the focus on after the cursor leaves
+    // (set by a click); a plain hover clears on mouse-out.
+    let stuck = false;
+    const focusChain = (node, sticky) => {
+      const hood = node.predecessors().union(node.successors()).union(node);
+      cy.edges().removeClass('lit');
+      hood.edges().addClass('lit');
+      cy.nodes().addClass('dim');
+      hood.nodes().removeClass('dim');
+      stuck = sticky;
+    };
+    const clearFocus = () => {
+      cy.elements().removeClass('lit dim');
+      stuck = false;
+    };
 
     const showTip = (e) => {
       const d = e.target.data();
@@ -125,9 +131,15 @@
         skillCount: d.skillCount
       };
     };
-    cy.on('mouseover', 'node', showTip);
-    cy.on('tap', 'node', showTip);
-    cy.on('mouseout', 'node', () => { tip = null; });
+
+    cy.on('mouseover', 'node', (e) => { focusChain(e.target, stuck); showTip(e); });
+    cy.on('mouseout', 'node', () => { tip = null; if (!stuck) clearFocus(); });
+    cy.on('tap', 'node', (e) => { focusChain(e.target, true); showTip(e); });
+    cy.on('tap', (e) => { if (e.target === cy) clearFocus(); });
+    cy.on('dbltap', 'node', (e) => {
+      if (mode === 'topic') drillIntoTopic(e.target);
+      else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
+    });
     cy.on('pan zoom', () => { tip = null; });
   }
 
