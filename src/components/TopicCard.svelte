@@ -56,7 +56,7 @@
     display: grid;
     place-items: center;
   }
-  h3 { font-size: 0.97rem; font-weight: 500; margin: 0 0 0.9rem; padding-right: 1.2rem; }
+  h3 { font-size: 1.12rem; font-weight: 500; margin: 0 0 0.9rem; padding-right: 1.2rem; }
   .meter { margin-top: auto; }
   .meter-top { display: flex; justify-content: flex-end; margin-bottom: 0.45rem; }
   .count { font-size: 0.75rem; font-weight: 500; }

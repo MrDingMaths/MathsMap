@@ -1,5 +1,7 @@
 <script>
+  import { untrack } from 'svelte';
   import { courses, topicsForCourse, searchSkills } from '../lib/data.js';
+  import { topicStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import SkillCard from '../components/SkillCard.svelte';
   import TopicCard from '../components/TopicCard.svelte';
@@ -25,9 +27,19 @@
   let query = $state('');
   let results = $derived(searchSkills(query));
 
-  // First course open by default.
-  let open = $state({ [ordered[0]?.id]: true });
+  // Nothing expanded by default — the student opens what they want.
+  let open = $state({});
   const toggle = (id) => (open = { ...open, [id]: !open[id] });
+
+  // React to mastery changes so the per-course mastered count stays live.
+  let tick = $state(0);
+  $effect(() => subscribe(() => untrack(() => tick++)));
+
+  // How many topics in a course are fully mastered.
+  function masteredTopics(courseId) {
+    tick; // re-run when mastery changes
+    return topicsForCourse(courseId).filter((t) => topicStats(t.id, courseId).fullyMastered).length;
+  }
 </script>
 
 <div class="container">
@@ -70,9 +82,9 @@
         {/if}
         <div class="course">
           <button class="course-head" onclick={() => toggle(c.id)}>
-            <span class="course-title">{c.title}</span>
+            <span class="course-title" style="color:{c.color}">{c.title}</span>
             <a class="view-all" href={href(`/course/${c.id}`)} onclick={(e) => e.stopPropagation()}>View all →</a>
-            <span class="topic-count">{topicsForCourse(c.id).length} topics</span>
+            <span class="topic-count">{masteredTopics(c.id)}/{topicsForCourse(c.id).length} topics mastered</span>
             <svg class="chevron" class:open={open[c.id]} width="15" height="15" viewBox="0 0 24 24" fill="none">
               <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -132,7 +144,7 @@
     text-align: left;
   }
   .course-head:hover { opacity: 0.8; }
-  .course-title { flex: 1; font-size: 1rem; font-weight: 600; }
+  .course-title { flex: 1; font-size: 1.1rem; font-weight: 700; }
   .view-all { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
   .topic-count { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
   .chevron { flex: none; color: var(--muted); transition: transform 0.2s; }
