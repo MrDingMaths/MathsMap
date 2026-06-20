@@ -6,7 +6,6 @@
   import Topic from './views/Topic.svelte';
   import SkillDetail from './views/SkillDetail.svelte';
   import Map from './views/Map.svelte';
-  import Progress from './views/Progress.svelte';
 
   $effect(() => {
     document.documentElement.setAttribute('data-theme', theme.current);
@@ -25,12 +24,10 @@
       <circle cx="24" cy="27" r="4.2" fill="#E8443A"/>
       <circle cx="10" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
       <circle cx="38" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
-    </svg>
-    Maths<span class="accent">Map</span>
+    </svg>Maths<span class="accent">Map</span>
   </a></span>
   <a href={href('/')} class="navlink {route.name === 'home' ? 'active' : ''}">Browse</a>
   <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
-  <a href={href('/progress')} class="navlink {route.name === 'progress' ? 'active' : ''}">Progress</a>
   <button class="theme-toggle" onclick={() => theme.toggle()}>
     {theme.current === 'dark' ? 'Light' : 'Dark'}
   </button>
@@ -70,8 +67,6 @@
     skillId={route.query.skill ?? null}
     topicId={route.query.topic ?? null}
   />
-{:else if route.name === 'progress'}
-  <Progress />
 {:else}
   <div class="container"><p class="muted">Page not found. <a href={href('/')}>Go home</a>.</p></div>
 {/if}
