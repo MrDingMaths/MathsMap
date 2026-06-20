@@ -28,28 +28,54 @@
   </a></span>
   <a href={href('/')} class="navlink {route.name === 'home' ? 'active' : ''}">Browse</a>
   <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
-  <button class="theme-toggle" onclick={() => theme.toggle()}>
-    {theme.current === 'dark' ? 'Light' : 'Dark'}
+  <button
+    class="dark-mode-toggle"
+    role="switch"
+    aria-checked={theme.current === 'dark' ? 'true' : 'false'}
+    aria-label="Toggle dark mode"
+    onclick={() => theme.toggle()}
+  >
+    <span class="knob">
+      <span class="icon">{theme.current === 'dark' ? '🌙' : '☀️'}</span>
+    </span>
   </button>
 </nav>
 
 <style>
-  .theme-toggle {
+  .dark-mode-toggle {
     margin-left: auto;
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    color: var(--text);
+    position: relative;
+    width: 52px;
+    height: 28px;
+    background: #e5e7eb;
+    border: none;
+    border-radius: 14px;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.35rem 0.75rem;
-    line-height: 1;
-    transition: background 0.12s;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.25s ease;
   }
-  .theme-toggle:hover {
-    background: var(--border);
+  .dark-mode-toggle[aria-checked="true"] {
+    background: #1e3a5f;
+  }
+  .dark-mode-toggle .knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .dark-mode-toggle[aria-checked="true"] .knob {
+    transform: translateX(24px);
+    background: #000000;
   }
 </style>
 
