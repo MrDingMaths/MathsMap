@@ -8,7 +8,7 @@
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
-  import Math, { renderMath } from '../components/Math.svelte';
+  import MathText, { renderMath } from '../components/Math.svelte';
 
   cytoscape.use(dagre);
 
@@ -267,8 +267,8 @@
     </div>
     {#if tip}
       <div class="tip" style="left:{tip.x}px; top:{tip.y}px; --c:{tip.colour}">
-        <strong><Math text={tip.title} /></strong>
-        {#if tip.blurb}<span class="tip-blurb"><Math text={tip.blurb} /></span>{/if}
+        <strong><MathText text={tip.title} /></strong>
+        {#if tip.blurb}<span class="tip-blurb"><MathText text={tip.blurb} /></span>{/if}
         <span class="tip-meta">
           {tip.course} · {tip.mastery}{#if tip.skillCount} · {tip.skillCount} skills{/if}
         </span>
