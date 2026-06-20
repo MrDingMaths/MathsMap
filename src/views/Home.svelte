@@ -166,7 +166,7 @@
     padding: 0.4rem 0.85rem;
     border-radius: 999px;
   }
-  .progress { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; min-width: 120px; max-width: 260px; }
+  .progress { width: 200px; margin-left: auto; display: flex; flex-direction: column; gap: 0.35rem; }
   .topic-count { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
   .view-all { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
   .chevron { flex: none; color: var(--muted); transition: transform 0.2s; }
