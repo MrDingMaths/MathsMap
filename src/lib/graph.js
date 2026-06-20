@@ -33,6 +33,21 @@ export const masteryLabel = {
   mastered: 'Mastered'
 };
 
+// Node diameter as a function of its connection count (in + out degree), so
+// well-connected hubs read as bigger. Square-root growth keeps high-degree nodes
+// from ballooning. Used by both the skill and topic graphs.
+export const nodeSize = (degree) => Math.round(34 + 8 * Math.sqrt(Math.max(0, degree)));
+
+// in+out degree per node id, from an array of edge elements.
+export function degreeMap(edges) {
+  const deg = new Map();
+  for (const e of edges) {
+    deg.set(e.data.source, (deg.get(e.data.source) || 0) + 1);
+    deg.set(e.data.target, (deg.get(e.data.target) || 0) + 1);
+  }
+  return deg;
+}
+
 // `courseIds` may be a string or an array of course ids. With several courses
 // selected, prerequisite edges that cross between courses become visible.
 // `topicIds`, when given, scopes the skill graph to skills under those topics —
@@ -117,6 +132,11 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
       edges.push({ data: { id: `${p}->${s.id}`, source: p, target: s.id }, classes });
     }
   }
+
+  // Size each node by its connection count.
+  const deg = degreeMap(edges);
+  for (const n of nodes) n.data.size = nodeSize(deg.get(n.data.id) || 0);
+
   return [...nodes, ...edges];
 }
 
@@ -133,19 +153,18 @@ export function staggerEdges(cy) {
 }
 
 export function getCyStyle(isDark = true) {
-  const nodeText = isDark ? '#e2e8f0' : '#1e293b';
   const edgeColor = isDark ? '#475569' : '#94a3b8';
   const highlight = isDark ? '#38bdf8' : '#0284c7';
-  const chipBg = isDark ? '#273449' : '#f1f5f9'; // --panel-2
   const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
   const litColor = isDark ? '#f8fafc' : '#000000'; // bold near-black/near-white for the focused chain
   const ready = '#06b6d4'; // cyan "ready now" halo
   return [
     {
-      // Uniform circle whose face is a mastery progress ring (data(ring), an SVG
-      // data URI baked at build time). Course colour is intentionally not shown —
-      // strand grouping comes from the lane tints. Label sits in a chip so it never
-      // lands on an edge.
+      // Circle whose face is a mastery progress ring (data(ring), an SVG data URI
+      // baked at build time) and whose diameter (data(size)) grows with connection
+      // count. Course colour is intentionally not shown — strand grouping comes from
+      // the lane tints. Labels are drawn by a KaTeX HTML overlay (see Map.svelte), not
+      // by Cytoscape's canvas text, so no label styling lives here.
       selector: 'node',
       style: {
         // Solid disc (white in light, dark in dark) so the band tint and crossing
@@ -156,19 +175,8 @@ export function getCyStyle(isDark = true) {
         'background-fit': 'cover',
         'overlay-opacity': 0,
         'border-width': 0,
-        width: 40,
-        height: 40,
-        label: 'data(label)',
-        color: nodeText,
-        'font-size': 13,
-        'text-wrap': 'wrap',
-        'text-max-width': 92,
-        'text-valign': 'bottom',
-        'text-margin-y': 6,
-        'text-background-color': chipBg,
-        'text-background-opacity': 1,
-        'text-background-shape': 'round-rectangle',
-        'text-background-padding': 3
+        width: 'data(size)',
+        height: 'data(size)'
       }
     },
     {

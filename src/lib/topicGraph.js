@@ -4,7 +4,7 @@
 // full skill graph, so it stays legible with several courses selected.
 import { skills, topicById, skillById, topicsForSkill, bandOrderFor, bandLabelFor } from './data.js';
 import { getMastery } from './store.js';
-import { masteryColour, masteryLabel } from './graph.js';
+import { masteryColour, masteryLabel, nodeSize, degreeMap } from './graph.js';
 import { ringSvg, trackColour } from './ring.js';
 import { plainMath } from './mathText.js';
 
@@ -149,6 +149,10 @@ export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
       prereqs.every((t) => statsById.get(t)?.fullyMastered);
     if (ready) n.classes = 'ready';
   }
+
+  // Size each topic by its connection count.
+  const deg = degreeMap(edges);
+  for (const n of nodes) n.data.size = nodeSize(deg.get(n.data.id) || 0);
 
   return [...nodes, ...edges];
 }

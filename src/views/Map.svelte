@@ -8,7 +8,7 @@
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import { courses, topicById } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
-  import Math from '../components/Math.svelte';
+  import Math, { renderMath } from '../components/Math.svelte';
 
   cytoscape.use(dagre);
 
@@ -33,6 +33,11 @@
 
   // Tooltip state, positioned over the graph on hover.
   let tip = $state(null);
+
+  // KaTeX node labels, rendered as an HTML overlay (Cytoscape's canvas text can't do
+  // KaTeX). Each entry tracks the node's rendered position so it follows pan/zoom.
+  let labels = $state([]);
+  let labelRaf = null;
 
   function toggle(id) {
     selected = selected.includes(id)
@@ -73,6 +78,36 @@
     drawBands(cy, bandCanvas, bands, theme.current === 'dark');
   }
 
+  // Reposition the KaTeX label overlay to track the graph. Coalesced to one update
+  // per frame since Cytoscape fires 'render' rapidly during pan/zoom. Labels sit just
+  // below each node and scale with zoom so they track the graph like canvas text would.
+  function syncLabels() {
+    if (labelRaf) return;
+    labelRaf = requestAnimationFrame(() => {
+      labelRaf = null;
+      if (!cy || cy.destroyed()) { labels = []; return; }
+      const zoom = cy.zoom();
+      // Keep labels readable: track zoom, but never shrink below a legible floor (or
+      // balloon when zoomed right in).
+      const scale = Math.min(Math.max(zoom, 0.85), 1.25);
+      labels = cy.nodes().map((n) => {
+        const p = n.renderedPosition();
+        const half = (n.height() * zoom) / 2;
+        return {
+          id: n.id(),
+          html: renderMath(n.data('name') ?? n.data('label')),
+          x: p.x,
+          y: p.y + half + 4,
+          scale,
+          dim: n.hasClass('dim'),
+          faded: n.hasClass('faded'),
+          boundary: n.hasClass('boundary'),
+          ready: n.hasClass('ready')
+        };
+      });
+    });
+  }
+
   function drillIntoTopic(node) {
     scopeTopicIds = [node.id()];
     scopeTopicId = node.id();
@@ -84,6 +119,7 @@
     cy?.destroy();
     tip = null;
     bands = [];
+    labels = [];
 
     cy = cytoscape({
       container,
@@ -102,8 +138,9 @@
     bands = layoutSwimlanes(cy);
     staggerEdges(cy);
     redraw();
+    syncLabels();
 
-    cy.on('render', redraw);
+    cy.on('render', () => { redraw(); syncLabels(); });
 
     // Focus a node's prerequisite chain: light up its edges, dim every node that
     // isn't part of the chain. `stuck` keeps the focus on after the cursor leaves
@@ -152,7 +189,7 @@
   $effect(() => {
     selected; mode; scopeTopicIds; crossOnly; theme.current;
     render();
-    return () => cy?.destroy();
+    return () => { if (labelRaf) cancelAnimationFrame(labelRaf); labelRaf = null; cy?.destroy(); };
   });
 
   let scopeLabel = $derived(
@@ -216,6 +253,18 @@
   <div class="graph-area">
     <canvas bind:this={bandCanvas} class="bands"></canvas>
     <div bind:this={container} class="graph"></div>
+    <div class="label-layer">
+      {#each labels as l (l.id)}
+        <div
+          class="node-label"
+          class:dim={l.dim}
+          class:faded={l.faded}
+          class:boundary={l.boundary}
+          class:ready={l.ready}
+          style="left:{l.x}px; top:{l.y}px; transform:translateX(-50%) scale({l.scale});"
+        >{@html l.html}</div>
+      {/each}
+    </div>
     {#if tip}
       <div class="tip" style="left:{tip.x}px; top:{tip.y}px; --c:{tip.colour}">
         <strong><Math text={tip.title} /></strong>
@@ -342,6 +391,35 @@
   .graph-area { position: relative; flex: 1 1 auto; min-width: 0; }
   .bands { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
   .graph { position: absolute; inset: 0; z-index: 1; background: transparent; }
+
+  /* KaTeX label overlay: one chip per node, positioned in screen space and scaled to
+     match the graph zoom. Non-interactive so graph taps/hovers pass through. */
+  .label-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .node-label {
+    position: absolute;
+    transform-origin: top center;
+    max-width: 150px;
+    padding: 2px 7px;
+    text-align: center;
+    line-height: 1.2;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--panel-2);
+    border-radius: 7px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    white-space: normal;
+  }
+  .node-label.dim { opacity: 0.4; }
+  .node-label.faded { opacity: 0.12; }
+  .node-label.boundary { opacity: 0.5; font-size: 13px; }
+  .node-label.ready { color: #06b6d4; font-weight: 700; }
+  .node-label :global(.katex) { font-size: 1em; }
 
   .tip {
     position: absolute;
