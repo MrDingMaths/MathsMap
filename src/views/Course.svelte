@@ -4,6 +4,7 @@
   import { courseStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
   import TopicCard from '../components/TopicCard.svelte';
+  import SlabHero from '../components/SlabHero.svelte';
 
   let { id } = $props();
   let course = $derived(courseById.get(id));
@@ -42,24 +43,15 @@
   {#if course}
     <div class="crumbs"><a href={href('/')}>Home</a> / {course.title}</div>
 
-    <div class="head">
-      <span class="accent" style="background:{course.color}"></span>
-      <div class="head-main">
-        <span class="badge" style="color:{course.color}; background:color-mix(in srgb, {course.color} 14%, var(--panel))">Stage {course.stage}</span>
-        <h1>{course.title}</h1>
-        {#if stats}
-          <div class="stats">
-            <div class="stat"><span class="num">{stats.topicCount}</span><span class="lbl">Topics</span></div>
-            <div class="stat"><span class="num">{stats.skillCount}</span><span class="lbl">Skills</span></div>
-            <div class="stat"><span class="num" style="color:var(--success)">{stats.masteredPct}%</span><span class="lbl">Mastered</span></div>
-          </div>
-          <div class="bar course-bar">
-            <span class="mastered" style="width:{stats.masteredPct}%"></span>
-            <span class="inprogress" style="width:{stats.inProgressPct}%"></span>
-          </div>
-        {/if}
-      </div>
-    </div>
+    {#if stats}
+      <SlabHero
+        color={course.color}
+        eyebrow={`Stage ${course.stage}`}
+        title={course.title}
+        meta={`${stats.topicCount} ${stats.topicCount === 1 ? 'topic' : 'topics'} · ${stats.skillCount} ${stats.skillCount === 1 ? 'skill' : 'skills'}`}
+        {stats}
+      />
+    {/if}
 
     {#if groups.length}
       <div class="chips">
@@ -96,26 +88,6 @@
 </div>
 
 <style>
-  .head { display: flex; gap: 1rem; align-items: stretch; margin-bottom: 0.5rem; }
-  .accent { width: 4px; align-self: stretch; min-height: 56px; border-radius: 99px; flex: none; }
-  .head-main { flex: 1; }
-  .badge {
-    display: inline-block;
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-radius: 99px;
-    padding: 0.25rem 0.65rem;
-    margin-bottom: 0.55rem;
-  }
-  h1 { font-size: 1.75rem; margin: 0 0 0.85rem; }
-  .stats { display: flex; gap: 1.6rem; flex-wrap: wrap; }
-  .stat { display: flex; flex-direction: column; gap: 0.15rem; }
-  .stat .num { font-size: 1.25rem; font-weight: 600; }
-  .stat .lbl { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
-  .course-bar { max-width: 480px; height: 6px; margin-top: 0.9rem; }
-
   .chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin: 1.3rem 0 1rem; }
   .chip {
     display: inline-flex;

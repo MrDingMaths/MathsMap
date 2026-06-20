@@ -28,10 +28,7 @@
 
 <a class="card skill" href={href(`/skill/${skill.id}${courseId ? `?course=${courseId}` : ''}`)}>
   <div class="top">
-    <div class="reason" style="color:{color}">
-      <span class="dot" style="background:{color}"></span>
-      {strand}
-    </div>
+    <div class="reason" style="color:{color}">{strand}</div>
     {#if level === 'mastered'}
       <span class="check" aria-label="Mastered">
         <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
@@ -60,15 +57,11 @@
   .skill { display: flex; flex-direction: column; min-height: 176px; }
   .top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.6rem; }
   .reason {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
     font-size: 0.66rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .reason .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
   .check {
     width: 20px; height: 20px; border-radius: 50%; flex: none;
     background: var(--m-mastered);
