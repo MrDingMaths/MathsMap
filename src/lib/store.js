@@ -9,10 +9,10 @@ export const LEVELS = meta.masteryLevels; // ['none','learning','proficient','ma
 // Shared presentation for each mastery level. `fill` (0–3) drives the segmented
 // bars; colors live in CSS (`--m-*`), reached via an `m-{level}` class.
 export const MASTERY = {
-  none: { label: 'Not started', fill: 0 },
-  learning: { label: 'Learning', fill: 1 },
-  proficient: { label: 'Proficient', fill: 2 },
-  mastered: { label: 'Mastered', fill: 3 }
+  none: { label: 'Not started', fill: 0, verb: 'Not started yet' },
+  learning: { label: 'Learning', fill: 1, verb: "You're learning this skill" },
+  proficient: { label: 'Proficient', fill: 2, verb: "You're proficient at this" },
+  mastered: { label: 'Mastered', fill: 3, verb: "You've mastered this skill" }
 };
 
 function read() {
