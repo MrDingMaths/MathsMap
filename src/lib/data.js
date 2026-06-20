@@ -65,7 +65,8 @@ export const topicOf = (skill) =>
 export const STRANDS = [
   'Number & Algebra',
   'Measurement & Space',
-  'Statistics & Probability'
+  'Statistics & Probability',
+  'Functions & Calculus'
 ];
 
 // Ordered, unique topic ids a skill maps to (via its dot points).

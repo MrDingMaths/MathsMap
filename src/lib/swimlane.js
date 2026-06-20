@@ -12,12 +12,14 @@ const BAND_STYLE = {
   dark: {
     'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.05)',  text: 'rgba(148, 196, 224, 0.7)' },
     'Measurement & Space':   { fill: 'rgba(168, 247, 148, 0.05)', text: 'rgba(170, 210, 150, 0.7)' },
-    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.05)', text: 'rgba(220, 180, 130, 0.7)' }
+    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.05)', text: 'rgba(220, 180, 130, 0.7)' },
+    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.06)',  text: 'rgba(192, 160, 230, 0.7)' }
   },
   light: {
     'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.07)',   text: 'rgba(2, 100, 160, 0.75)' },
     'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.07)',   text: 'rgba(20, 120, 50, 0.75)' },
-    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.07)', text: 'rgba(160, 80, 0, 0.75)' }
+    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.07)', text: 'rgba(160, 80, 0, 0.75)' },
+    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.07)',  text: 'rgba(110, 50, 170, 0.75)' }
   }
 };
 const DEFAULT_STYLE = {
