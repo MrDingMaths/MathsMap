@@ -1,14 +1,13 @@
 <script>
   import { untrack } from 'svelte';
   import { href } from '../lib/router.svelte.js';
-  import { courseById, primaryTopicForSkill, strandForSkill } from '../lib/data.js';
+  import { courseById, primaryTopicForSkill } from '../lib/data.js';
   import { getMastery, subscribe, MASTERY } from '../lib/store.js';
   import Math from './Math.svelte';
 
   let { skill, courseId = null } = $props();
 
   let topic = $derived(primaryTopicForSkill(skill.id));
-  let strand = $derived(strandForSkill(skill.id));
   let color = $derived(topic?.color ?? 'var(--accent)');
 
   let tick = $state(0);
@@ -28,7 +27,6 @@
 
 <a class="card skill" href={href(`/skill/${skill.id}${courseId ? `?course=${courseId}` : ''}`)}>
   <div class="top">
-    <div class="reason" style="color:{color}">{strand}</div>
     {#if level === 'mastered'}
       <span class="check" aria-label="Mastered">
         <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
@@ -55,13 +53,7 @@
 
 <style>
   .skill { display: flex; flex-direction: column; min-height: 176px; }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.6rem; }
-  .reason {
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+  .top { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; min-height: 20px; margin-bottom: 0.6rem; }
   .check {
     width: 20px; height: 20px; border-radius: 50%; flex: none;
     background: var(--m-mastered);

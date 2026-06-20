@@ -14,7 +14,20 @@
 </script>
 
 <nav class="top">
-  <span class="brand"><a href={href('/')}><span class="logo">M</span>MathsMap</a></span>
+  <span class="brand"><a href={href('/')}>
+    <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <line x1="10" y1="38" x2="10" y2="13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="10" y1="13" x2="24" y2="27" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="24" y1="27" x2="38" y2="13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="38" y1="13" x2="38" y2="38" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="10" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="38" cy="13" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="24" cy="27" r="4.2" fill="#E8443A"/>
+      <circle cx="10" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
+      <circle cx="38" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
+    </svg>
+    Maths<span class="accent">Map</span>
+  </a></span>
   <a href={href('/')} class="navlink {route.name === 'home' ? 'active' : ''}">Browse</a>
   <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
   <a href={href('/progress')} class="navlink {route.name === 'progress' ? 'active' : ''}">Progress</a>
