@@ -23,6 +23,7 @@
 
     <div class="row">
       {#each skill.courses as c}<span class="tag" style="border-left:3px solid {courseById.get(c)?.color}">{courseById.get(c)?.title}</span>{/each}
+      <a class="map-link" href={href(`/map?skill=${skill.id}`)}>View on map →</a>
     </div>
 
     <MasteryControl skillId={skill.id} />

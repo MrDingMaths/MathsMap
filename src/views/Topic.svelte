@@ -31,6 +31,10 @@
       / <Math text={topic.title} />
     </div>
 
+    <div class="row topic-actions">
+      <a class="map-link" href={href(`/map?topic=${topic.id}${courseId ? `&course=${courseId}` : ''}`)}>View on map →</a>
+    </div>
+
     <SlabHero
       color={topic.color}
       eyebrow={course?.title}
@@ -59,6 +63,7 @@
 </div>
 
 <style>
+  .topic-actions { margin: -0.4rem 0 1rem; }
   .section { margin-top: 1.8rem; }
 
   /* Dot-point heading: tinted code badge + sentence text + inline rule + count. */

@@ -6,28 +6,51 @@
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
-  import { courses, topicById } from '../lib/data.js';
+  import { courses, topicById, skillById, topicsForSkill } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
   import MathText, { renderMath } from '../components/Math.svelte';
 
   cytoscape.use(dagre);
 
-  let { courseId = null } = $props();
+  let { courseId = null, skillId = null, topicId = null } = $props();
   let container;
   let bandCanvas;
   let cy;
   let bands = [];
 
-  // Which courses are shown. Selecting several reveals cross-course prerequisites.
+  // Deep-link target: open the map already focused on a skill or topic. Read once,
+  // untracked — these only seed the initial view state.
   const initial = untrack(() => courseId);
-  let selected = $state(initial ? [initial] : ['s4', 's5-core']);
+  const initSkillId = untrack(() => skillId);
+  const initTopicId = untrack(() => topicId);
+  const focusSkill = initSkillId ? skillById.get(initSkillId) : null;
+  const focusTopic = initTopicId ? topicById.get(initTopicId) : null;
+
+  // Which courses are shown. Selecting several reveals cross-course prerequisites.
+  let selected = $state(
+    focusSkill
+      ? [...(focusSkill.courses || [])]
+      : focusTopic
+        ? (initial ? [initial] : [...(focusTopic.courses || [])])
+        : initial
+          ? [initial]
+          : ['s4', 's5-core']
+  );
 
   // 'topic' = topic meta-graph (default, low detail); 'skill' = full skill graph.
-  let mode = $state('topic');
+  // A deep-link target opens straight into the scoped skill graph.
+  let mode = $state(focusSkill || focusTopic ? 'skill' : 'topic');
   // When drilling into a topic, the skill graph is scoped to these topic ids.
-  let scopeTopicIds = $state(null);
+  let scopeTopicIds = $state(
+    focusSkill ? topicsForSkill(initSkillId) : focusTopic ? [initTopicId] : null
+  );
   // The topic actually drilled into (scopeTopicIds also includes its neighbours).
-  let scopeTopicId = $state(null);
+  let scopeTopicId = $state(
+    focusSkill ? topicsForSkill(initSkillId)[0] ?? null : initTopicId ?? null
+  );
+
+  // One-shot: center and highlight a deep-linked skill node after the first render.
+  let pendingFocusSkill = focusSkill ? initSkillId : null;
   // Show only prerequisite links that cross between courses.
   let crossOnly = $state(false);
 
@@ -183,6 +206,18 @@
       else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
     });
     cy.on('pan zoom', () => { tip = null; });
+
+    // Deep-link focus: center on the target skill node and light its chain. Consumed
+    // once so later re-renders (theme/course toggles) don't yank the viewport back.
+    if (pendingFocusSkill) {
+      const node = cy.getElementById(pendingFocusSkill);
+      if (node?.nonempty()) {
+        cy.animate({ center: { eles: node }, zoom: 1.2 }, { duration: 350 });
+        node.addClass('highlight');
+        focusChain(node, true);
+      }
+      pendingFocusSkill = null;
+    }
   }
 
   // Re-render whenever any view input changes.

@@ -52,7 +52,11 @@
 {:else if route.name === 'skill'}
   <SkillDetail id={route.params[0]} courseId={route.query.course ?? null} />
 {:else if route.name === 'map'}
-  <Map courseId={route.query.course ?? null} />
+  <Map
+    courseId={route.query.course ?? null}
+    skillId={route.query.skill ?? null}
+    topicId={route.query.topic ?? null}
+  />
 {:else if route.name === 'progress'}
   <Progress />
 {:else}
