@@ -5,6 +5,7 @@
   import { href } from '../lib/router.svelte.js';
   import SkillCard from '../components/SkillCard.svelte';
   import TopicCard from '../components/TopicCard.svelte';
+  import MasteryBar from '../components/MasteryBar.svelte';
 
   // Flat, ordered course list — each course is its own collapsible section.
   const ordered = [...courses].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -35,10 +36,20 @@
   let tick = $state(0);
   $effect(() => subscribe(() => untrack(() => tick++)));
 
-  // How many topics in a course are fully mastered.
-  function masteredTopics(courseId) {
+  // Per-course topic mastery: how many topics are fully mastered out of the total.
+  // Returned as a stats-shaped object so it can drive the shared MasteryBar.
+  function topicMastery(courseId) {
     tick; // re-run when mastery changes
-    return topicsForCourse(courseId).filter((t) => topicStats(t.id, courseId).fullyMastered).length;
+    const topics = topicsForCourse(courseId);
+    const mastered = topics.filter((t) => topicStats(t.id, courseId).fullyMastered).length;
+    const total = topics.length;
+    return {
+      mastered,
+      total,
+      masteredPct: total ? Math.round((mastered / total) * 100) : 0,
+      proficientPct: 0,
+      learningPct: 0
+    };
   }
 </script>
 
@@ -77,14 +88,18 @@
     <!-- BROWSE -->
     <div class="browse">
       {#each ordered as c (c.id)}
+        {@const tm = topicMastery(c.id)}
         {#if c.id === firstStage6}
           <div class="stage-divider"><span></span><em>Stage 6</em><span></span></div>
         {/if}
         <div class="course">
           <button class="course-head" onclick={() => toggle(c.id)}>
-            <span class="course-title" style="color:{c.color}">{c.title}</span>
+            <span class="course-title" style="background:{c.color}">{c.title}</span>
+            <div class="progress">
+              <span class="topic-count">{tm.mastered}/{tm.total} topics mastered</span>
+              <MasteryBar stats={tm} height="6px" />
+            </div>
             <a class="view-all" href={href(`/course/${c.id}`)} onclick={(e) => e.stopPropagation()}>View all →</a>
-            <span class="topic-count">{masteredTopics(c.id)}/{topicsForCourse(c.id).length} topics mastered</span>
             <svg class="chevron" class:open={open[c.id]} width="15" height="15" viewBox="0 0 24 24" fill="none">
               <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -144,9 +159,16 @@
     text-align: left;
   }
   .course-head:hover { opacity: 0.8; }
-  .course-title { flex: 1; font-size: 1.1rem; font-weight: 700; }
-  .view-all { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
+  .course-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+  }
+  .progress { flex: 1; display: flex; flex-direction: column; gap: 0.35rem; min-width: 120px; max-width: 260px; }
   .topic-count { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+  .view-all { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
   .chevron { flex: none; color: var(--muted); transition: transform 0.2s; }
   .chevron.open { transform: rotate(180deg); }
 

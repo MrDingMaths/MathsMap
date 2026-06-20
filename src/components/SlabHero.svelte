@@ -1,5 +1,6 @@
 <script>
   import Math from './Math.svelte';
+  import MasteryBar from './MasteryBar.svelte';
 
   // Bold gradient banner shared by the Topic and Course pages. The gradient is
   // derived from `color` (via color-mix) so it adapts to each topic/course hue,
@@ -25,11 +26,7 @@
       <div class="tile"><div class="tile-top"><span class="tdot" style="background:var(--m-learning)"></span>Learning</div><div class="tnum">{stats.learning}</div></div>
       <div class="tile"><div class="tile-top"><span class="tdot tdot-none"></span>Not started</div><div class="tnum">{stats.none}</div></div>
     </div>
-    <div class="hero-bar">
-      <span style="width:{stats.masteredPct}%;background:var(--m-mastered)"></span>
-      <span style="width:{stats.proficientPct}%;background:var(--m-proficient)"></span>
-      <span style="width:{stats.learningPct}%;background:var(--m-learning)"></span>
-    </div>
+    <div class="hero-bar"><MasteryBar {stats} light /></div>
   </div>
 </div>
 
@@ -89,13 +86,5 @@
   .tile-top .tdot-none { background: rgba(255, 255, 255, 0.55); }
   .tnum { font-size: 1.5rem; font-weight: 600; line-height: 1; }
 
-  .hero-bar {
-    display: flex;
-    height: 10px;
-    margin-top: 1.1rem;
-    border-radius: 999px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.22);
-  }
-  .hero-bar > span { display: block; height: 100%; }
+  .hero-bar { margin-top: 1.1rem; }
 </style>

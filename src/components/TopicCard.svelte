@@ -3,6 +3,7 @@
   import { href } from '../lib/router.svelte.js';
   import { topicStats, subscribe } from '../lib/store.js';
   import Math from './Math.svelte';
+  import MasteryBar from './MasteryBar.svelte';
 
   let { topic, courseId = null } = $props();
 
@@ -36,10 +37,7 @@
     <div class="meter-top">
       <span class="count" style="color:{statusColor}">{stats.mastered}/{stats.total}</span>
     </div>
-    <div class="bar">
-      <span class="mastered" style="width:{stats.masteredPct}%"></span>
-      <span class="inprogress" style="width:{stats.inProgressPct}%"></span>
-    </div>
+    <MasteryBar {stats} height="7px" />
   </div>
 </a>
 
@@ -59,5 +57,5 @@
   h3 { font-size: 1.12rem; font-weight: 500; margin: 0 0 0.9rem; padding-right: 1.2rem; }
   .meter { margin-top: auto; }
   .meter-top { display: flex; justify-content: flex-end; margin-bottom: 0.45rem; }
-  .count { font-size: 0.75rem; font-weight: 500; }
+  .count { font-size: 0.95rem; font-weight: 600; }
 </style>
