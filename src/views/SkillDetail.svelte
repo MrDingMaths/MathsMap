@@ -145,12 +145,14 @@
                               <div class="flip-back-q"><MathText text={item.q} /></div>
                               {#if item.solution?.length}
                                 <ol class="wx-steps flip-sol">
-                                  {#each item.solution as line}
+                                  {#each item.solution as line, i}
                                     {@const p = splitEq(line.math)}
                                     <li>
-                                      <span class="wx-eq"><MathText text={p.eq} /></span>
-                                      <span class="wx-math"><MathText text={p.expr} /></span>
-                                      <span class="wx-note"><MathText text={line.note ?? ''} /></span>
+                                      {#if i > 0}
+                                        <span class="wx-note" style="grid-row:{2 * i}">{#if line.note}<MathText text={line.note} />{/if}</span>
+                                      {/if}
+                                      <span class="wx-eq" style="grid-row:{2 * i + 1}"><MathText text={p.eq} /></span>
+                                      <span class="wx-math" style="grid-row:{2 * i + 1}"><MathText text={p.expr} /></span>
                                     </li>
                                   {/each}
                                 </ol>
@@ -334,22 +336,24 @@
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: auto 1fr;
-    row-gap: 0;
+    grid-template-columns: auto auto auto;
+    row-gap: 0.15rem;
     column-gap: 0.55rem;
     align-items: baseline;
   }
   .wx-steps li { display: contents; }
-  .wx-eq { text-align: right; font-size: 1.02rem; }
-  .wx-math { font-size: 1.02rem; }
+  .wx-eq { grid-column: 1; text-align: right; font-size: 1.02rem; }
+  .wx-math { grid-column: 2; font-size: 1.02rem; }
   .wx-note {
-    grid-column: 1 / -1;
-    justify-self: end;
-    padding-right: 1.25rem;
-    min-height: 1rem;
+    grid-column: 3;
+    justify-self: start;
+    align-self: center;
+    margin-left: 0.75rem;
+    min-height: 0.9rem;
     font-size: 0.72rem;
     color: var(--muted);
     line-height: 1;
+    white-space: nowrap;
   }
 
   /* practice tiers */
@@ -432,7 +436,7 @@
   .flip-q { font-size: 1.05rem; text-align: center; }
   .flip-back-q { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.65rem; color: var(--muted); }
   .flip-answer { font-size: 1.05rem; }
-  .flip-sol { margin: 0; width: 100%; }
+  .flip-sol { margin: 0; }
 
   /* sidebar sections */
   .side-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
