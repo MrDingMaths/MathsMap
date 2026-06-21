@@ -89,6 +89,20 @@ export const topicsForSkill = (skillId) => {
 export const primaryTopicForSkill = (skillId) =>
   topicById.get(topicsForSkill(skillId)[0]);
 
+// Previous/next sibling skills under the same (primary) dot point, optionally scoped
+// to a course — drives the prev/next stepper on the skill page. Nulls at the ends.
+export const siblingSkills = (skillId, courseId = null) => {
+  const skill = skillById.get(skillId);
+  const topic = skill ? primaryTopicForSkill(skillId) : null;
+  if (!skill || !topic) return { prev: null, next: null };
+  const dpId = (skill.dotPointIds || [])[0];
+  const group = skillsForTopic(topic.id, courseId).find((g) => g.dotpoint.id === dpId);
+  const list = group?.skills ?? [];
+  const i = list.findIndex((s) => s.id === skillId);
+  if (i < 0) return { prev: null, next: null };
+  return { prev: list[i - 1] ?? null, next: list[i + 1] ?? null };
+};
+
 // The strand a skill belongs to, via its primary topic. Falls back to the first band.
 export const strandForSkill = (skillId) =>
   primaryTopicForSkill(skillId)?.strand || STRANDS[0];

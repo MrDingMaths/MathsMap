@@ -1,5 +1,5 @@
 ﻿<script>
-  import { skillById, dependentsOf, courseById, dotpointById, topicById } from '../lib/data.js';
+  import { skillById, dependentsOf, courseById, dotpointById, topicById, primaryTopicForSkill, siblingSkills } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
   import { lockedSkills } from '../lib/recommender.js';
   import { subscribe } from '../lib/store.js';
@@ -12,6 +12,12 @@
 
   let { id, courseId = null } = $props();
   let skill = $derived(skillById.get(id));
+
+  // Breadcrumb parents + sibling stepper.
+  let courseQuery = $derived(courseId ? `?course=${courseId}` : '');
+  let topic = $derived(skill ? primaryTopicForSkill(skill.id) : null);
+  let course = $derived(courseId ? courseById.get(courseId) : null);
+  let siblings = $derived(skill ? siblingSkills(skill.id, courseId) : { prev: null, next: null });
 
   let locked = $state([]);
   $effect(() => subscribe(() => {
@@ -73,7 +79,12 @@
 <div class="container">
   {#if skill}
     <div class="page-head">
-      <div class="crumbs"><a href={href('/')}>Home</a> / Skill</div>
+      <div class="crumbs">
+        <a href={href('/')}>Home</a>
+        {#if course} / <a href={href(`/course/${course.id}`)}>{course.title}</a>{/if}
+        {#if topic} / <a href={href(`/topic/${topic.id}${courseQuery}`)}><MathText text={topic.title} /></a>{/if}
+        / <MathText text={skill.title} />
+      </div>
       <MapLink to={`/map?skill=${skill.id}${courseId ? `&course=${courseId}` : ''}`} />
     </div>
 
@@ -141,7 +152,7 @@
                               <div class="flip-q"><MathText text={item.q} /></div>
                             </div>
                             <div class="flip-back">
-                              {#if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
+                              {#if item.tikzSolution}<div class="flip-diagram"><Tikz code={item.tikzSolution} /></div>{:else if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
                               <div class="flip-back-q"><MathText text={item.q} /></div>
                               {#if item.solution?.length}
                                 <ol class="wx-steps flip-sol">
@@ -182,6 +193,23 @@
               <p class="muted">Teaching content for this skill is coming soon.</p>
             </div>
           </section>
+        {/if}
+
+        {#if siblings.prev || siblings.next}
+          <nav class="skill-nav" aria-label="Sibling skills">
+            {#if siblings.prev}
+              <a class="snav prev" href={href(`/skill/${siblings.prev.id}${courseQuery}`)}>
+                <span class="snav-arrow">←</span>
+                <span class="snav-title"><MathText text={siblings.prev.title} /></span>
+              </a>
+            {:else}<span></span>{/if}
+            {#if siblings.next}
+              <a class="snav next" href={href(`/skill/${siblings.next.id}${courseQuery}`)}>
+                <span class="snav-title"><MathText text={siblings.next.title} /></span>
+                <span class="snav-arrow">→</span>
+              </a>
+            {:else}<span></span>{/if}
+          </nav>
         {/if}
       </div>
 
@@ -249,6 +277,33 @@
 
   .title-block h1 { font-size: 2.2rem; margin: 0 0 0.6rem; }
   .title-block .blurb { font-size: 1.05rem; color: var(--muted); margin: 0 0 1rem; max-width: 60ch; }
+
+  /* sibling prev/next stepper */
+  .skill-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+  }
+  .snav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 48%;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 0.92rem;
+    transition: background 0.12s;
+  }
+  .snav:hover { background: var(--panel-2); }
+  .snav.next { margin-left: auto; text-align: right; }
+  .snav-arrow { color: var(--muted); flex: none; }
+  .snav-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   .tag { display: inline-flex; align-items: center; gap: 0.45rem; }
   .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }

@@ -26,7 +26,7 @@
       <circle cx="38" cy="38" r="4.2" fill="var(--bg)" stroke="currentColor" stroke-width="2.4"/>
     </svg><span>Maths<span class="accent">Map</span></span>
   </a></span>
-  <a href={href('/')} class="navlink {route.name === 'home' ? 'active' : ''}">Browse</a>
+  <a href={href('/')} class="navlink {['home', 'course', 'topic', 'skill'].includes(route.name) ? 'active' : ''}">Browse</a>
   <a href={href('/map')} class="navlink {route.name === 'map' ? 'active' : ''}">Map</a>
   <button
     class="dark-mode-toggle"
