@@ -18,10 +18,24 @@ How to choose and present the worked example a skill is built around. Companion 
 - **Vary one critical feature per example** when showing several, so each change's
   effect is trackable.
 
+## A short theory block first
+Precede the worked example with a concise **theory block** the learner can return to:
+the key definitions/formulas and a short numbered **procedure** (one line per step).
+Keep it minimal — it states the rule and the atoms, it does **not** replace the worked
+example or do the thinking for the learner. On the site this is the *Theory* section
+(fields `theory.intro`, `theory.facts`, `theory.steps`).
+
 ## Presenting it
 - Write the solution **line by line**; each line corresponds to one or more atoms
   (see [atomisation-teaching.md](atomisation-teaching.md)). Line-by-line structure
   also lets the UI reveal or annotate steps individually.
+- **Align the working on the equals sign.** The opening line (the bare expression, no
+  `=`) sits offset under the aligned `= …` lines; keep a short note beside each line,
+  tab-aligned in its own column, naming the atom/decision used.
+- **Note labels are the procedure step name only** — a terse label of ≤ 3 words
+  (e.g. "Rewrite", "Move right", "Decide sign"); never a prose sentence or explanation. **Line notes are step
+  names only** — a terse imperative label (≤ 3 words) drawn from `theory.steps`, not a
+  prose sentence or explanation. The opening bare-expression line carries no note.
 - Everything shown should already be familiar (atoms presented first); the worked
   example is about how the pieces **combine**.
 - Keep it clear and self-contained — don't introduce a new prerequisite mid-solution.

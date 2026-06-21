@@ -6,6 +6,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/libs/tikzjax/fonts.css" />
+    <script>
+      // Track every Worker the page spawns so we can terminate TikZJax's worker on stall.
+      // Must run before tikzjax.js so the patched constructor is in place when the bundle spawns its worker.
+      window.__tikzWorkers = new Set();
+      const _OrigWorker = window.Worker;
+      window.Worker = function PatchedWorker(...args) {
+        const w = new _OrigWorker(...args);
+        window.__tikzWorkers.add(w);
+        return w;
+      };
+      window.Worker.prototype = _OrigWorker.prototype;
+    </script>
+    <script src="/libs/tikzjax/tikzjax.js"></script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>MathsMap</title>
   </head>

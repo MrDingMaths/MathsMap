@@ -1,4 +1,4 @@
-<script>
+﻿<script>
   import { skillById, dependentsOf, courseById, dotpointById, topicById } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
   import { lockedSkills } from '../lib/recommender.js';
@@ -7,7 +7,8 @@
   import MasteryControl from '../components/MasteryControl.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
-  import Math from '../components/Math.svelte';
+  import MathText from '../components/Math.svelte';
+  import Tikz from '../components/Tikz.svelte';
 
   let { id, courseId = null } = $props();
   let skill = $derived(skillById.get(id));
@@ -37,12 +38,36 @@
     { key: 'development', label: 'Development', dot: 'learning' },
     { key: 'mastery', label: 'Mastery', dot: 'mastered' }
   ];
-  const seqHeading = (kind) =>
-    kind === 'NPPPN' || kind === 'NPPPNN' || kind === 'PPNN' ? 'Examples & non-examples'
-      : kind === 'callRespond' ? 'Key fact'
-        : 'Guided examples';
-  const wedoLabel = (type) =>
-    type === 'whatIf' ? 'What if' : type === 'reset' ? 'Reset' : 'Extension';
+  // Split a working line into a leading `=` and the expression, so steps align on
+  // the equals sign and the first (no-`=`) line sits offset under them.
+  const splitEq = (math) => {
+    const m = /^\$\s*=\s*([\s\S]*)\$$/.exec(math ?? '');
+    return m ? { eq: '$=$', expr: '$' + m[1] + '$' } : { eq: '', expr: math ?? '' };
+  };
+
+  // Practice carousel state
+  let trackEls = {};
+  let carouselIdx = $state({ foundation: 0, development: 0, mastery: 0 });
+  let flippedCards = $state(new Set());
+
+  function scrollCarousel(tierKey, dir) {
+    const el = trackEls[tierKey];
+    if (!el || !el.children.length) return;
+    const newIdx = Math.max(0, Math.min(carouselIdx[tierKey] + dir, el.children.length - 1));
+    carouselIdx[tierKey] = newIdx;
+    el.children[newIdx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }
+  function onTrackScroll(tierKey) {
+    const el = trackEls[tierKey];
+    if (!el || !el.children.length) return;
+    const w = el.children[0].offsetWidth;
+    if (w) carouselIdx[tierKey] = Math.round(el.scrollLeft / w);
+  }
+  function toggleFlip(key) {
+    const next = new Set(flippedCards);
+    next.has(key) ? next.delete(key) : next.add(key);
+    flippedCards = next;
+  }
 </script>
 
 <div class="container">
@@ -56,121 +81,28 @@
       <!-- ============ LEFT: content ============ -->
       <div>
         <div class="title-block">
-          <h1><Math text={skill.title} /></h1>
-          {#if skill.blurb}<p class="blurb"><Math text={skill.blurb} /></p>{/if}
-          <div class="row">
-            {#each skill.courses as c}
-              <span class="tag"><span class="tag-dot"></span>{courseById.get(c)?.title ?? c}</span>
-            {/each}
-          </div>
+          <h1><MathText text={skill.title} /></h1>
+          {#if skill.blurb}<p class="blurb"><MathText text={skill.blurb} /></p>{/if}
         </div>
-
-        <!-- syllabus -->
-        <section>
-          <div class="sec-head"><span class="sec-dot accent"></span>Syllabus dot points</div>
-          <div class="stack">
-            {#each skill.dotPointIds as dp}
-              {@const d = dotpointById.get(dp)}
-              {#if d}
-                <div class="dp-card">
-                  <span class="code">{d.code}</span>
-                  <div class="dp-body">
-                    <div class="dp-text"><Math text={d.text} /></div>
-                    <div class="dp-topic"><Math text={topicById.get(d.topicId)?.title} /></div>
-                  </div>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        </section>
-
-        <!-- prerequisites -->
-        <section>
-          <div class="sec-head">
-            <span class="sec-dot learning"></span>Prerequisites
-            {#if prereqLabel}<span class="sec-pill">{prereqLabel}</span>{/if}
-          </div>
-          {#if prereqs.length}
-            <div class="link-grid">
-              {#each prereqs as pre}<SkillLink skill={pre} {courseId} variant="prereq" />{/each}
-            </div>
-          {:else}
-            <p class="muted">None — a good entry point.</p>
-          {/if}
-        </section>
-
-        <!-- needed for -->
-        <section>
-          <div class="sec-head">
-            <span class="sec-dot mastered"></span>Needed for
-            {#if unlocks.length}<span class="sec-pill">{unlocks.length} {unlocks.length === 1 ? 'skill' : 'skills'}</span>{/if}
-          </div>
-          {#if unlocks.length}
-            <div class="link-grid">
-              {#each unlocks as dep}<SkillLink skill={dep} {courseId} variant="unlock" />{/each}
-            </div>
-          {:else}
-            <p class="muted">Nothing yet depends on this skill.</p>
-          {/if}
-        </section>
 
         <!-- teaching content -->
         {#if content}
-          {#if content.iDo}
+          {#if content.theory}
             <section>
-              <div class="sec-head"><span class="sec-dot accent"></span>Worked example</div>
-              <div class="wx">
-                <p class="wx-problem"><Math text={content.iDo.problem} /></p>
-                <ol class="wx-steps">
-                  {#each content.iDo.solution as line}
-                    <li>
-                      <span class="wx-math"><Math text={line.math} /></span>
-                      {#if line.note}<span class="wx-note"><Math text={line.note} /></span>{/if}
-                    </li>
-                  {/each}
-                </ol>
-              </div>
-            </section>
-          {/if}
-
-          {#if content.atomSequence}
-            <section>
-              <div class="sec-head"><span class="sec-dot accent"></span>{seqHeading(content.atomSequence.kind)}</div>
-              {#if content.atomSequence.intro}<p class="seq-intro"><Math text={content.atomSequence.intro} /></p>{/if}
-              <div class="stack">
-                {#each content.atomSequence.items as item}
-                  <div class="seq-item">
-                    {#if item.label}<span class="seq-badge {item.label === 'P' ? 'pos' : 'neg'}">{item.label}</span>{/if}
-                    <div class="seq-body">
-                      <div class="seq-text"><Math text={item.text} /></div>
-                      {#if item.note}<div class="seq-note"><Math text={item.note} /></div>{/if}
-                    </div>
-                  </div>
-                {/each}
-              </div>
-            </section>
-          {/if}
-
-          {#if content.weDo?.length}
-            <section>
-              <div class="sec-head"><span class="sec-dot learning"></span>Your turn — guided</div>
-              <div class="stack">
-                {#each content.weDo as q}
-                  <div class="wedo">
-                    <div class="wedo-head">
-                      <span class="wedo-tag {q.type}">{wedoLabel(q.type)}</span>
-                      <span class="wedo-problem"><Math text={q.problem} /></span>
-                    </div>
-                    <div class="reveal-stack">
-                      {#each q.steps as step, i}
-                        <details class="reveal">
-                          <summary>Step {i + 1}</summary>
-                          <div class="reveal-body"><Math text={step} /></div>
-                        </details>
-                      {/each}
-                    </div>
-                  </div>
-                {/each}
+              <div class="sec-head"><span class="sec-dot accent"></span>Theory</div>
+              <div class="theory">
+                {#if content.theory.intro}<p class="theory-intro"><MathText text={content.theory.intro} /></p>{/if}
+                {#if content.theory.facts?.length}
+                  <ul class="theory-facts">
+                    {#each content.theory.facts as f}<li><MathText text={f} /></li>{/each}
+                  </ul>
+                {/if}
+                {#if content.theory.steps?.length}
+                  <div class="theory-sub">Procedure</div>
+                  <ol class="theory-steps">
+                    {#each content.theory.steps as s}<li><MathText text={s} /></li>{/each}
+                  </ol>
+                {/if}
               </div>
             </section>
           {/if}
@@ -180,19 +112,56 @@
               <div class="sec-head"><span class="sec-dot muted-dot"></span>Practice</div>
               {#each TIERS as tier}
                 {#if content.practice[tier.key]?.length}
+                  {@const items = content.practice[tier.key]}
                   <div class="ptier">
-                    <div class="ptier-head"><span class="tier-dot {tier.dot}"></span>{tier.label}</div>
-                    <ol class="plist">
-                      {#each content.practice[tier.key] as item}
-                        <li>
-                          <div class="pq"><Math text={item.q} /></div>
-                          <details class="reveal">
-                            <summary>Answer</summary>
-                            <div class="reveal-body"><Math text={item.a} /></div>
-                          </details>
-                        </li>
+                    <div class="carousel-header">
+                      <div class="ptier-head"><span class="tier-dot {tier.dot}"></span>{tier.label}</div>
+                      <div class="carousel-nav">
+                        <button class="cnav-btn" onclick={() => scrollCarousel(tier.key, -1)} aria-label="Previous question">‹</button>
+                        <span class="cnav-pos">{carouselIdx[tier.key] + 1} / {items.length}</span>
+                        <button class="cnav-btn" onclick={() => scrollCarousel(tier.key, 1)} aria-label="Next question">›</button>
+                      </div>
+                    </div>
+                    <div class="carousel-track"
+                         bind:this={trackEls[tier.key]}
+                         onscroll={() => onTrackScroll(tier.key)}>
+                      {#each items as item, i}
+                        {@const key = `${tier.key}-${i}`}
+                        {@const isFlipped = flippedCards.has(key)}
+                        <div class="flip-card"
+                             class:is-flipped={isFlipped}
+                             role="button"
+                             tabindex="0"
+                             aria-label="Question {i + 1}. Press Enter or Space to flip."
+                             onclick={() => toggleFlip(key)}
+                             onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFlip(key); } }}>
+                          <div class="flip-inner">
+                            <div class="flip-front">
+                              {#if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
+                              <div class="flip-q"><MathText text={item.q} /></div>
+                            </div>
+                            <div class="flip-back">
+                              {#if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
+                              <div class="flip-back-q"><MathText text={item.q} /></div>
+                              {#if item.solution?.length}
+                                <ol class="wx-steps flip-sol">
+                                  {#each item.solution as line}
+                                    {@const p = splitEq(line.math)}
+                                    <li>
+                                      <span class="wx-eq"><MathText text={p.eq} /></span>
+                                      <span class="wx-math"><MathText text={p.expr} /></span>
+                                      <span class="wx-note"><MathText text={line.note ?? ''} /></span>
+                                    </li>
+                                  {/each}
+                                </ol>
+                              {:else}
+                                <div class="flip-answer"><MathText text={item.a} /></div>
+                              {/if}
+                            </div>
+                          </div>
+                        </div>
                       {/each}
-                    </ol>
+                    </div>
                   </div>
                 {/if}
               {/each}
@@ -218,10 +187,41 @@
       <div class="skill-side">
         <MasteryControl skillId={skill.id} />
 
-        <div class="card meta">
-          <div class="meta-row"><span class="meta-dot accent"></span><span class="meta-label">Stage</span><span class="meta-val">Stage {skill.stage}</span></div>
-          <div class="meta-row"><span class="meta-dot learning"></span><span class="meta-label">Prerequisites</span><span class="meta-val">{prereqs.length}</span></div>
-          <div class="meta-row"><span class="meta-dot mastered"></span><span class="meta-label">Needed for</span><span class="meta-val">{unlocks.length}</span></div>
+        <!-- course pills -->
+        <div class="side-pills">
+          {#each skill.courses as c}
+            <span class="tag"><span class="tag-dot"></span>{courseById.get(c)?.title ?? c}</span>
+          {/each}
+        </div>
+
+        <!-- prerequisites -->
+        <div class="side-section">
+          <div class="sec-head">
+            <span class="sec-dot learning"></span>Prerequisites
+            {#if prereqLabel}<span class="sec-pill">{prereqLabel}</span>{/if}
+          </div>
+          {#if prereqs.length}
+            <div class="side-link-stack">
+              {#each prereqs as pre}<SkillLink skill={pre} {courseId} variant="prereq" />{/each}
+            </div>
+          {:else}
+            <p class="muted">None — a good entry point.</p>
+          {/if}
+        </div>
+
+        <!-- needed for -->
+        <div class="side-section">
+          <div class="sec-head">
+            <span class="sec-dot mastered"></span>Needed for
+            {#if unlocks.length}<span class="sec-pill">{unlocks.length} {unlocks.length === 1 ? 'skill' : 'skills'}</span>{/if}
+          </div>
+          {#if unlocks.length}
+            <div class="side-link-stack">
+              {#each unlocks as dep}<SkillLink skill={dep} {courseId} variant="unlock" />{/each}
+            </div>
+          {:else}
+            <p class="muted">Nothing yet depends on this skill.</p>
+          {/if}
         </div>
       </div>
     </div>
@@ -282,31 +282,6 @@
   .stack { display: flex; flex-direction: column; gap: 0.6rem; }
   .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.7rem; }
 
-  /* syllabus dot-point card */
-  .dp-card {
-    display: flex;
-    gap: 0.85rem;
-    align-items: flex-start;
-    padding: 0.95rem 1.1rem;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-  }
-  .dp-card .code {
-    flex: none;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--accent);
-    background: var(--panel-2);
-    padding: 0.3rem 0.5rem;
-    border-radius: 7px;
-    margin-top: 1px;
-  }
-  .dp-body { min-width: 0; }
-  .dp-text { font-size: 0.98rem; line-height: 1.45; }
-  .dp-topic { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
-
   /* practice placeholder */
   .practice {
     padding: 1.6rem 1.4rem;
@@ -332,99 +307,50 @@
   .tier-dot.proficient { background: var(--m-proficient); }
   .tier-dot.mastered { background: var(--m-mastered); }
 
-  /* worked example */
-  .wx {
+  /* theory */
+  .theory {
     padding: 1.1rem 1.3rem;
     border: 1px solid var(--border);
     border-radius: 14px;
     background: var(--panel);
   }
-  .wx-problem { margin: 0 0 0.9rem; font-size: 1.05rem; font-weight: 600; }
-  .wx-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-  .wx-steps li {
+  .theory-intro { margin: 0 0 0.8rem; font-size: 1rem; }
+  .theory-facts { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .theory-facts li { font-size: 1rem; }
+  .theory-sub {
+    margin: 1rem 0 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .theory-steps { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .theory-steps li { font-size: 1rem; }
+
+  /* shared working grid (equals · expression · note) — used by practice solutions */
+  .wx-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: minmax(0, auto) 1fr;
-    gap: 0.6rem 1.1rem;
+    grid-template-columns: auto 1fr;
+    row-gap: 0;
+    column-gap: 0.55rem;
     align-items: baseline;
   }
+  .wx-steps li { display: contents; }
+  .wx-eq { text-align: right; font-size: 1.02rem; }
   .wx-math { font-size: 1.02rem; }
-  .wx-note { font-size: 0.85rem; color: var(--muted); }
-  @media (max-width: 560px) {
-    .wx-steps li { grid-template-columns: 1fr; gap: 0.15rem; }
-  }
-
-  /* atom (NPPN) sequence */
-  .seq-intro { margin: 0 0 0.9rem; color: var(--muted); font-size: 0.95rem; }
-  .seq-item {
-    display: flex;
-    gap: 0.85rem;
-    align-items: flex-start;
-    padding: 0.85rem 1.05rem;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-  }
-  .seq-badge {
-    flex: none;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #fff;
-  }
-  .seq-badge.pos { background: var(--m-mastered); }
-  .seq-badge.neg { background: var(--muted); }
-  .seq-body { min-width: 0; }
-  .seq-text { font-size: 1.02rem; }
-  .seq-note { font-size: 0.85rem; color: var(--muted); margin-top: 3px; }
-
-  /* We Do */
-  .wedo {
-    padding: 0.95rem 1.15rem;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-  }
-  .wedo-head { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.65rem; }
-  .wedo-tag {
-    flex: none;
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.18rem 0.5rem;
-    border-radius: 999px;
-    background: var(--panel-2);
+  .wx-note {
+    grid-column: 1 / -1;
+    justify-self: end;
+    padding-right: 1.25rem;
+    min-height: 1rem;
+    font-size: 0.72rem;
     color: var(--muted);
+    line-height: 1;
   }
-  .wedo-tag.whatIf { color: var(--m-learning); }
-  .wedo-tag.extension { color: var(--accent); }
-  .wedo-problem { font-size: 1.02rem; font-weight: 600; }
-  .reveal-stack { display: flex; flex-direction: column; gap: 0.4rem; }
-
-  /* reveal (steps + answers) */
-  .reveal {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--panel-2);
-  }
-  .reveal > summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 0.5rem 0.85rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
-    user-select: none;
-  }
-  .reveal > summary::-webkit-details-marker { display: none; }
-  .reveal > summary::before { content: '▸ '; color: var(--accent); }
-  .reveal[open] > summary::before { content: '▾ '; }
-  .reveal[open] > summary { color: var(--text, inherit); }
-  .reveal-body { padding: 0 0.85rem 0.7rem; font-size: 1rem; }
 
   /* practice tiers */
   .ptier { margin-top: 1.1rem; }
@@ -434,25 +360,82 @@
     gap: 0.5rem;
     font-size: 0.85rem;
     font-weight: 600;
-    margin-bottom: 0.6rem;
   }
-  .plist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-  .plist li {
-    padding: 0.8rem 1.05rem;
-    background: var(--panel);
+
+  /* carousel */
+  .carousel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .carousel-nav { display: flex; align-items: center; gap: 0.4rem; }
+  .cnav-btn {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    width: 2rem; height: 2rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    color: var(--text);
+    transition: background 0.12s;
+  }
+  .cnav-btn:hover { background: var(--panel); }
+  .cnav-pos { font-size: 0.8rem; color: var(--muted); min-width: 3rem; text-align: center; }
+  .carousel-track {
+    display: flex;
+    gap: 0.8rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.3rem;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  /* flip card */
+  .flip-card {
+    flex: none;
+    width: 100%;
+    scroll-snap-align: start;
+    perspective: 900px;
+    cursor: pointer;
+    outline: none;
+  }
+  .flip-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 14px; }
+  .flip-inner {
+    display: grid;
+    transform-style: preserve-3d;
+    transition: transform 0.38s ease;
+  }
+  .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner { transition: none; }
+  }
+  .flip-front, .flip-back {
+    grid-row: 1;
+    grid-column: 1;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     border: 1px solid var(--border);
     border-radius: 14px;
+    background: var(--panel);
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 5rem;
   }
-  .pq { font-size: 1.02rem; margin-bottom: 0.55rem; }
+  .flip-back { transform: rotateY(180deg); align-items: flex-start; justify-content: flex-start; }
+  .flip-diagram { width: 100%; display: flex; justify-content: center; overflow-x: auto; }
+  .flip-diagram :global(svg) { max-width: 100%; height: auto; }
+  .flip-q { font-size: 1.05rem; text-align: center; }
+  .flip-back-q { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.65rem; color: var(--muted); }
+  .flip-answer { font-size: 1.05rem; }
+  .flip-sol { margin: 0; width: 100%; }
 
-  /* metadata panel */
-  .meta { padding: 0.4rem 0.3rem; }
-  .meta:hover { transform: none; box-shadow: none; border-color: var(--border); }
-  .meta-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1rem; }
-  .meta-dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
-  .meta-dot.accent { background: var(--accent); }
-  .meta-dot.learning { background: var(--m-learning); }
-  .meta-dot.mastered { background: var(--m-mastered); }
-  .meta-label { flex: 1; font-size: 0.88rem; color: var(--muted); }
-  .meta-val { font-size: 0.88rem; font-weight: 600; }
+  /* sidebar sections */
+  .side-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .side-section { display: flex; flex-direction: column; }
+  .side-link-stack { display: flex; flex-direction: column; gap: 0.55rem; }
 </style>

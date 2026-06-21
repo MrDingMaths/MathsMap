@@ -23,7 +23,10 @@
     const parts = str.split(/(?<!\\)\$([^$]*?)(?<!\\)\$/);
     for (let i = 0; i < parts.length; i++) {
       if (i % 2 === 0) {
-        html += escapeHtml(parts[i]).replace(/\\\$/g, '$');
+        // Prose: escape, unescape literal `\$`, then render markdown-style **bold**.
+        html += escapeHtml(parts[i])
+          .replace(/\\\$/g, '$')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
       } else {
         try {
           html += katex.renderToString(parts[i], {

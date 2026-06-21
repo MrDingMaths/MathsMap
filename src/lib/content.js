@@ -1,5 +1,5 @@
-// Lazily load per-skill teaching content (worked example, atom sequence, We Do,
-// practice tiers) from data/content/{skillId}.json. Files are optional — a skill
+// Lazily load per-skill teaching content (theory, atom sequence, practice tiers)
+// from data/content/{skillId}.json. Files are optional — a skill
 // without one falls back to the placeholder in SkillDetail. Vite resolves the glob
 // to per-file dynamic imports, so only the viewed skill's content is fetched.
 const modules = import.meta.glob('../../data/content/*.json');
