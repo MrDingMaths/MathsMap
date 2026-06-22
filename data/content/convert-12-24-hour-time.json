@@ -1,0 +1,85 @@
+{
+  "skillId": "convert-12-24-hour-time",
+  "atomType": "R",
+  "theory": {
+    "intro": "12-hour time uses am and pm; 24-hour time uses four digits from $0000$ to $2359$. We can swap between them with a simple rule.",
+    "facts": [
+      "**am** times keep the same hour: $7\\!:\\!30$ am $= 0730$ (write a leading zero for hours under $10$).",
+      "**pm** times (except $12$ pm) add $12$ to the hour: $3\\!:\\!15$ pm $= 1515$.",
+      "$12$ am (midnight) $= 0000$; $12$ pm (noon) $= 1200$."
+    ],
+    "steps": [
+      "For am: keep the hour, add a leading zero if needed.",
+      "For pm: add $12$ to the hour (noon stays $12$).",
+      "To go back: hours $13$–$23$ are pm (subtract $12$); $00$ is $12$ am."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      { "q": "Write $8\\!:\\!00$ am in 24-hour time.", "a": "$0800$",
+        "solution": [ { "math": "$\\text{am} \\to \\text{keep hour}$", "note": "Add leading zero" }, { "math": "$0800$", "note": "Done" } ] },
+      { "q": "Write $3\\!:\\!00$ pm in 24-hour time.", "a": "$1500$",
+        "solution": [ { "math": "$3 + 12 = 15$", "note": "pm rule" }, { "math": "$1500$", "note": "Done" } ] },
+      { "q": "Write $0900$ in 12-hour time.", "a": "$9\\!:\\!00$ am",
+        "solution": [ { "math": "$09 < 12 \\to \\text{am}$", "note": "Morning" }, { "math": "$9\\!:\\!00\\text{ am}$", "note": "Done" } ] },
+      { "q": "Write $1700$ in 12-hour time.", "a": "$5\\!:\\!00$ pm",
+        "solution": [ { "math": "$17 - 12 = 5$", "note": "Past noon" }, { "math": "$5\\!:\\!00\\text{ pm}$", "note": "Done" } ] },
+      { "q": "Write $6\\!:\\!45$ pm in 24-hour time.", "a": "$1845$",
+        "solution": [ { "math": "$6 + 12 = 18$", "note": "pm rule" }, { "math": "$1845$", "note": "Keep minutes" } ] },
+      { "q": "Write $11\\!:\\!20$ am in 24-hour time.", "a": "$1120$",
+        "solution": [ { "math": "$\\text{am} \\to \\text{keep hour}$", "note": "No change" }, { "math": "$1120$", "note": "Done" } ] },
+      { "q": "Write $2200$ in 12-hour time.", "a": "$10\\!:\\!00$ pm",
+        "solution": [ { "math": "$22 - 12 = 10$", "note": "Evening" }, { "math": "$10\\!:\\!00\\text{ pm}$", "note": "Done" } ] },
+      { "q": "Write $12\\!:\\!00$ noon in 24-hour time.", "a": "$1200$",
+        "solution": [ { "math": "$\\text{noon stays } 12$", "note": "Special case" }, { "math": "$1200$", "note": "Done" } ] },
+      { "q": "Write $0730$ in 12-hour time.", "a": "$7\\!:\\!30$ am",
+        "solution": [ { "math": "$07 < 12 \\to \\text{am}$", "note": "Morning" }, { "math": "$7\\!:\\!30\\text{ am}$", "note": "Done" } ] },
+      { "q": "Write $4\\!:\\!15$ pm in 24-hour time.", "a": "$1615$",
+        "solution": [ { "math": "$4 + 12 = 16$", "note": "pm rule" }, { "math": "$1615$", "note": "Keep minutes" } ] }
+    ],
+    "development": [
+      { "q": "Write $12\\!:\\!00$ midnight in 24-hour time.", "a": "$0000$",
+        "solution": [ { "math": "$12\\text{ am} \\to 00$", "note": "Midnight rule" }, { "math": "$0000$", "note": "Start of day" } ] },
+      { "q": "Write $12\\!:\\!30$ am in 24-hour time.", "a": "$0030$",
+        "solution": [ { "math": "$12\\text{ am} \\to 00\\text{ hour}$", "note": "After midnight" }, { "math": "$0030$", "note": "Keep minutes" } ] },
+      { "q": "Write $12\\!:\\!45$ pm in 24-hour time.", "a": "$1245$",
+        "solution": [ { "math": "$\\text{noon hour stays } 12$", "note": "Do not add 12" }, { "math": "$1245$", "note": "Done" } ] },
+      { "q": "Write $0005$ in 12-hour time.", "a": "$12\\!:\\!05$ am",
+        "solution": [ { "math": "$00 \\to 12\\text{ am}$", "note": "Midnight hour" }, { "math": "$12\\!:\\!05\\text{ am}$", "note": "Done" } ] },
+      { "q": "Write $2359$ in 12-hour time.", "a": "$11\\!:\\!59$ pm",
+        "solution": [ { "math": "$23 - 12 = 11$", "note": "Evening" }, { "math": "$11\\!:\\!59\\text{ pm}$", "note": "Last minute of day" } ] },
+      { "q": "Write $9\\!:\\!05$ pm in 24-hour time.", "a": "$2105$",
+        "solution": [ { "math": "$9 + 12 = 21$", "note": "pm rule" }, { "math": "$2105$", "note": "Keep minutes" } ] },
+      { "q": "Write $0150$ in 12-hour time.", "a": "$1\\!:\\!50$ am",
+        "solution": [ { "math": "$01 < 12 \\to \\text{am}$", "note": "Early morning" }, { "math": "$1\\!:\\!50\\text{ am}$", "note": "Done" } ] },
+      { "q": "Write $1305$ in 12-hour time.", "a": "$1\\!:\\!05$ pm",
+        "solution": [ { "math": "$13 - 12 = 1$", "note": "Just past noon" }, { "math": "$1\\!:\\!05\\text{ pm}$", "note": "Done" } ] },
+      { "q": "Write $10\\!:\\!40$ pm in 24-hour time.", "a": "$2240$",
+        "solution": [ { "math": "$10 + 12 = 22$", "note": "pm rule" }, { "math": "$2240$", "note": "Keep minutes" } ] },
+      { "q": "Write $0025$ in 12-hour time.", "a": "$12\\!:\\!25$ am",
+        "solution": [ { "math": "$00 \\to 12\\text{ am}$", "note": "Midnight hour" }, { "math": "$12\\!:\\!25\\text{ am}$", "note": "Done" } ] }
+    ],
+    "mastery": [
+      { "q": "A student wrote $3\\!:\\!00$ pm as $0300$. Explain the error and give the correct time.", "a": "should add $12$: $1500$",
+        "solution": [ { "math": "$\\text{pm needs } +12$", "note": "Not just a zero" }, { "math": "$3 + 12 = 1500$", "note": "Correct" } ] },
+      { "q": "Convert $12\\!:\\!10$ am to 24-hour time and explain why it is not $1210$.", "a": "$0010$ — $12$ am is the midnight ($00$) hour",
+        "solution": [ { "math": "$12\\text{ am} \\to 00$", "note": "Midnight, not noon" }, { "math": "$0010$", "note": "$1210$ would be 12:10 pm" } ] },
+      { "q": "A clock shows $1815$. A friend says '$6\\!:\\!15$ am'. Correct them.", "a": "it is $6\\!:\\!15$ pm",
+        "solution": [ { "math": "$18 - 12 = 6$", "note": "Hour $> 12 \\to$ pm" }, { "math": "$6\\!:\\!15\\text{ pm}$", "note": "Afternoon" } ] },
+      { "q": "Convert these to 24-hour time: $7\\!:\\!05$ am, $7\\!:\\!05$ pm.", "a": "$0705$ and $1905$",
+        "solution": [ { "math": "$\\text{am} \\to 0705$", "note": "Keep hour" }, { "math": "$7 + 12 = 1905$", "note": "pm adds 12" } ] },
+      { "q": "An appointment card says '$1430$'. Write it as you would say it.", "a": "half past two in the afternoon ($2\\!:\\!30$ pm)",
+        "solution": [ { "math": "$14 - 12 = 2$", "note": "2 pm" }, { "math": "$2\\!:\\!30\\text{ pm}$", "note": "Half past" } ] },
+      { "q": "Convert $11\\!:\\!55$ pm to 24-hour time, then add $10$ minutes. Give the result.", "a": "$2355$, then $0005$",
+        "solution": [ { "math": "$11 + 12 = 2355$", "note": "pm rule" }, { "math": "$2355 + 10\\text{ min} = 0005$", "note": "Crosses midnight" } ] },
+      { "q": "Sort to 24-hour time and order earliest first: $6\\!:\\!00$ pm, $6\\!:\\!00$ am, $12\\!:\\!00$ noon.", "a": "$0600, 1200, 1800$",
+        "solution": [ { "math": "$0600,\\ 1200,\\ 1800$", "note": "Convert each" }, { "math": "$0600 < 1200 < 1800$", "note": "Earliest first" } ] },
+      { "q": "A bus runs at $0015$ and $1215$. State both in 12-hour time.", "a": "$12\\!:\\!15$ am and $12\\!:\\!15$ pm",
+        "solution": [ { "math": "$0015 \\to 12\\!:\\!15\\text{ am}$", "note": "Midnight hour" }, { "math": "$1215 \\to 12\\!:\\!15\\text{ pm}$", "note": "Noon hour" } ] },
+      { "q": "Why is $1\\!:\\!00$ pm written $1300$ but $1\\!:\\!00$ am written $0100$?", "a": "pm adds $12$ ($1300$); am keeps the hour ($0100$)",
+        "solution": [ { "math": "$1 + 12 = 1300$", "note": "pm rule" }, { "math": "$01 \\to 0100$", "note": "am keeps hour" } ] },
+      { "q": "Convert $9\\!:\\!50$ pm to 24-hour time, then say how long until midnight.", "a": "$2150$; $2$ hours $10$ minutes",
+        "solution": [ { "math": "$9 + 12 = 2150$", "note": "pm rule" }, { "math": "$2400 - 2150 = 2\\text{ h } 10\\text{ min}$", "note": "Time to midnight" } ] }
+    ]
+  }
+}

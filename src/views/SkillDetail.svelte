@@ -3,12 +3,15 @@
   import { href } from '../lib/router.svelte.js';
   import { lockedSkills } from '../lib/recommender.js';
   import { subscribe } from '../lib/store.js';
-  import { loadSkillContent } from '../lib/content.js';
+  import { loadSkillContent, setContentCache } from '../lib/content.js';
+  import { adminState, saveContent } from '../lib/admin.svelte.js';
   import MasteryControl from '../components/MasteryControl.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
   import MathText from '../components/Math.svelte';
   import Tikz from '../components/Tikz.svelte';
+  import TheoryEditor from '../admin/TheoryEditor.svelte';
+  import PracticeEditor from '../admin/PracticeEditor.svelte';
 
   let { id, courseId = null } = $props();
   let skill = $derived(skillById.get(id));
@@ -55,24 +58,67 @@
   let trackEls = {};
   let carouselIdx = $state({ foundation: 0, development: 0, mastery: 0 });
   let flippedCards = $state(new Set());
+  let flippingCards = $state(new Set());
 
+  let slidingTiers = $state(new Set());
   function scrollCarousel(tierKey, dir) {
-    const el = trackEls[tierKey];
-    if (!el || !el.children.length) return;
-    const newIdx = Math.max(0, Math.min(carouselIdx[tierKey] + dir, el.children.length - 1));
+    const n = trackEls[tierKey]?.children.length ?? 0;
+    if (!n) return;
+    const newIdx = Math.max(0, Math.min(carouselIdx[tierKey] + dir, n - 1));
+    if (newIdx === carouselIdx[tierKey]) return;
     carouselIdx[tierKey] = newIdx;
-    el.children[newIdx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    // Trigger the shrink/expand "pop" that plays alongside the slide.
+    slidingTiers = new Set(slidingTiers).add(tierKey);
+    setTimeout(() => {
+      const s = new Set(slidingTiers);
+      s.delete(tierKey);
+      slidingTiers = s;
+    }, 340);
   }
-  function onTrackScroll(tierKey) {
-    const el = trackEls[tierKey];
-    if (!el || !el.children.length) return;
-    const w = el.children[0].offsetWidth;
-    if (w) carouselIdx[tierKey] = Math.round(el.scrollLeft / w);
+  let touchX = 0;
+  function onTouchStart(_tierKey, e) { touchX = e.changedTouches[0].clientX; }
+  function onTouchEnd(tierKey, e) {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) scrollCarousel(tierKey, dx < 0 ? 1 : -1);
   }
   function toggleFlip(key) {
     const next = new Set(flippedCards);
     next.has(key) ? next.delete(key) : next.add(key);
     flippedCards = next;
+    // Trigger the shrink/expand "pop" that plays alongside the flip.
+    flippingCards = new Set(flippingCards).add(key);
+    setTimeout(() => {
+      const s = new Set(flippingCards);
+      s.delete(key);
+      flippingCards = s;
+    }, 360);
+  }
+
+  // --- Admin: persist edited content back to disk via the dev endpoint. ---
+  // Always merge over the full existing content object so untouched keys
+  // (skillId, atomType, per-card tikzSolution, …) survive the round-trip.
+  let savedToast = $state(false);
+  let saveError = $state('');
+
+  async function persist(updated) {
+    saveError = '';
+    await saveContent(skill.id, updated);
+    content = updated;          // reflect immediately in the view
+    setContentCache(skill.id, updated); // keep the in-memory cache in sync
+    savedToast = true;
+    setTimeout(() => (savedToast = false), 1800);
+  }
+
+  async function saveTheory(theory) {
+    try {
+      await persist({ ...content, theory });
+    } catch (e) { saveError = String(e.message ?? e); throw e; }
+  }
+
+  async function savePractice(practice) {
+    try {
+      await persist({ ...content, practice });
+    } catch (e) { saveError = String(e.message ?? e); throw e; }
   }
 </script>
 
@@ -98,29 +144,36 @@
 
         <!-- teaching content -->
         {#if content}
-          {#if content.theory}
+          {#if content.theory || adminState.isAdmin}
             <section>
               <div class="sec-head"><span class="sec-dot accent"></span>Theory</div>
-              <div class="theory">
-                {#if content.theory.intro}<p class="theory-intro"><MathText text={content.theory.intro} /></p>{/if}
-                {#if content.theory.facts?.length}
-                  <ul class="theory-facts">
-                    {#each content.theory.facts as f}<li><MathText text={f} /></li>{/each}
-                  </ul>
-                {/if}
-                {#if content.theory.steps?.length}
-                  <div class="theory-sub">Procedure</div>
-                  <ol class="theory-steps">
-                    {#each content.theory.steps as s}<li><MathText text={s} /></li>{/each}
-                  </ol>
-                {/if}
-              </div>
+              {#if adminState.isAdmin}
+                <TheoryEditor theory={content.theory ?? {}} onSave={saveTheory} />
+              {:else}
+                <div class="theory">
+                  {#if content.theory.intro}<p class="theory-intro"><MathText text={content.theory.intro} /></p>{/if}
+                  {#if content.theory.facts?.length}
+                    <ul class="theory-facts">
+                      {#each content.theory.facts as f}<li><MathText text={f} /></li>{/each}
+                    </ul>
+                  {/if}
+                  {#if content.theory.steps?.length}
+                    <div class="theory-sub">Procedure</div>
+                    <ol class="theory-steps">
+                      {#each content.theory.steps as s}<li><MathText text={s} /></li>{/each}
+                    </ol>
+                  {/if}
+                </div>
+              {/if}
             </section>
           {/if}
 
-          {#if content.practice}
+          {#if content.practice || adminState.isAdmin}
             <section>
               <div class="sec-head"><span class="sec-dot muted-dot"></span>Practice</div>
+              {#if adminState.isAdmin}
+                <PracticeEditor practice={content.practice ?? {}} onSave={savePractice} />
+              {:else}
               {#each TIERS as tier}
                 {#if content.practice[tier.key]?.length}
                   {@const items = content.practice[tier.key]}
@@ -133,14 +186,19 @@
                         <button class="cnav-btn" onclick={() => scrollCarousel(tier.key, 1)} aria-label="Next question">›</button>
                       </div>
                     </div>
+                    <div class="carousel-viewport"
+                         class:is-sliding={slidingTiers.has(tier.key)}
+                         ontouchstart={(e) => onTouchStart(tier.key, e)}
+                         ontouchend={(e) => onTouchEnd(tier.key, e)}>
                     <div class="carousel-track"
                          bind:this={trackEls[tier.key]}
-                         onscroll={() => onTrackScroll(tier.key)}>
+                         style="transform: translateX(calc({-carouselIdx[tier.key]} * (100% + 1.5rem)))">
                       {#each items as item, i}
                         {@const key = `${tier.key}-${i}`}
                         {@const isFlipped = flippedCards.has(key)}
                         <div class="flip-card"
                              class:is-flipped={isFlipped}
+                             class:is-flipping={flippingCards.has(key)}
                              role="button"
                              tabindex="0"
                              aria-label="Question {i + 1}. Press Enter or Space to flip."
@@ -175,9 +233,11 @@
                         </div>
                       {/each}
                     </div>
+                    </div>
                   </div>
                 {/if}
               {/each}
+              {/if}
             </section>
           {/if}
         {:else}
@@ -439,36 +499,37 @@
   }
   .cnav-btn:hover { background: var(--panel); }
   .cnav-pos { font-size: 0.8rem; color: var(--muted); min-width: 3rem; text-align: center; }
+  .carousel-viewport { overflow: hidden; padding-bottom: 0.3rem; }
+  .carousel-viewport.is-sliding .flip-card { animation: flip-pop 0.34s ease; }
   .carousel-track {
     display: flex;
-    gap: 0.8rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 0.3rem;
+    gap: 1.5rem;
+    transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
+    touch-action: pan-y;
   }
-  .carousel-track::-webkit-scrollbar { display: none; }
 
   /* flip card */
   .flip-card {
-    flex: none;
-    width: 100%;
-    scroll-snap-align: start;
+    flex: 0 0 100%;
     perspective: 900px;
     cursor: pointer;
     outline: none;
+  }
+  /* shrink → flip → expand: scale dips to 0 at the edge-on midpoint */
+  .flip-card.is-flipping { animation: flip-pop 0.34s ease; }
+  @keyframes flip-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(0.86); }
+    100% { transform: scale(1); }
   }
   .flip-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 14px; }
   .flip-inner {
     display: grid;
     transform-style: preserve-3d;
-    transition: transform 0.38s ease;
+    transition: transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
-  @media (prefers-reduced-motion: reduce) {
-    .flip-inner { transition: none; }
-  }
   .flip-front, .flip-back {
     grid-row: 1;
     grid-column: 1;
