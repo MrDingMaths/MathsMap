@@ -1,11 +1,21 @@
-// Strand swimlanes for the Map view. Cytoscape has no native swimlanes, so we
-// lay out each strand independently with its own dagre pass (top→down prereq
-// flow), then stack those layouts side by side into vertical lanes. Laying each
-// strand out on its own — rather than running one global dagre and pulling
-// strands apart — is what gives a lane a meaningful internal order instead of
-// leftover scatter. Flow runs downward so the long prerequisite-depth axis uses
-// the (scrollable) vertical dimension and the 3 strands span the wide axis.
+// Strand swimlanes for the Map view. Cytoscape has no native swimlanes, so we lay
+// the whole graph out ourselves: strands become columns (as before), and within a
+// column nodes are split into course bands stacked top→bottom in course order, so
+// a later course (e.g. Year 11 Advanced) always sits below an earlier one (e.g.
+// Stage 5 Core). Unlike a per-cell dagre pass, ranks (row-within-band depth) are
+// computed **once per band, across all strands in that band** — a topo sort +
+// ASAP longest-path + pull-down over every intra-band prerequisite edge, whichever
+// strand its endpoints live in. That's what makes a topic and its prerequisite in
+// a different strand land on different rows instead of the same flat one: prereq
+// depth is now a band-wide property, not a per-cell one. Flow runs downward so the
+// long prerequisite-depth axis uses the (scrollable) vertical dimension and the
+// strands span the wide axis.
 import { STRANDS } from './data.js';
+
+// Shared with graph.js's staggerEdges(), which needs to know the gutter height
+// between rank rows to place taxi turns inside it. Keep in sync with the default
+// passed to layoutSwimlanes() below.
+export const RANK_SEP = 200;
 
 // Subtle background tints + label colour per strand, for dark and light themes.
 const BAND_STYLE = {
@@ -27,60 +37,191 @@ const DEFAULT_STYLE = {
   light: { fill: 'rgba(100, 116, 139, 0.07)', text: 'rgba(60, 80, 110, 0.75)' }
 };
 
-// Lays the graph out as a strand × course-band grid: strands become columns (as
-// before), and within each column nodes are split into course bands stacked
-// top→bottom in course order, so a later course (e.g. Year 11 Advanced) always sits
-// below an earlier one (e.g. Stage 5 Core). Each (strand, band) cell gets its own
-// dagre TB pass, so intra-cell prereq chains still flow downward. Rows align across
-// columns so a band sits at the same y in every strand. Returns { lanes, rows } in
-// model coords for drawBands(). Generous band gutters keep cross-band taxi turns off
-// the node rows.
-export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep = 110, rankSep = 200 } = {}) {
-  // Bucket nodes into grid cells keyed by strand + band.
-  const cellNodes = new Map(); // `${strand}|${band}` -> collection
+// Kahn's algorithm over a small DAG: `nodeIds` is the full node set, `edges` is
+// [[predId, succId], ...]. Ties broken by id so the order — and everything ranked
+// from it — is deterministic across renders. If a cycle survives (shouldn't
+// happen: topicGraph.js already drops later→earlier-stage edges, but this is the
+// defensive fallback the plan calls for), the nodes involved never reach indegree
+// 0 and are appended in id order at the end; their still-dangling incoming edges
+// are then dropped by edgesWithoutBackEdges() below so rank/pull-down never sees
+// a back-edge.
+function topoSortWithFallback(nodeIds, edges) {
+  const idSet = new Set(nodeIds);
+  const succ = new Map(nodeIds.map((id) => [id, []]));
+  const indeg = new Map(nodeIds.map((id) => [id, 0]));
+  for (const [p, s] of edges) {
+    if (!idSet.has(p) || !idSet.has(s) || p === s) continue;
+    succ.get(p).push(s);
+    indeg.set(s, (indeg.get(s) || 0) + 1);
+  }
+  let queue = nodeIds.filter((id) => indeg.get(id) === 0).sort();
+  const order = [];
+  const seen = new Set();
+  while (queue.length) {
+    queue.sort();
+    const id = queue.shift();
+    if (seen.has(id)) continue;
+    seen.add(id);
+    order.push(id);
+    for (const s of succ.get(id) || []) {
+      indeg.set(s, indeg.get(s) - 1);
+      if (indeg.get(s) === 0) queue.push(s);
+    }
+  }
+  if (order.length < nodeIds.length) {
+    for (const id of nodeIds) if (!seen.has(id)) order.push(id);
+  }
+  return order;
+}
+
+// Drops any edge that doesn't flow forward through the topo order — i.e. back-edges
+// from a surviving cycle. What's left is a clean DAG safe for ASAP ranking.
+function edgesWithoutBackEdges(edges, order) {
+  const pos = new Map(order.map((id, i) => [id, i]));
+  return edges.filter(([p, s]) => pos.has(p) && pos.has(s) && pos.get(p) < pos.get(s));
+}
+
+// ASAP longest-path rank over the topo order (rank(n) = max(rank(pred)) + 1, roots
+// at 0), then a reverse-topo **pull-down** pass: any node with successors slides
+// down to min(rank(succ)) − 1 whenever that's deeper than its ASAP rank. This is
+// what keeps a prereq-free topic from being stranded on the crowded top row — it
+// sinks to sit just above whichever dependent needs it soonest. Nodes with no
+// intra-band edges at all (no preds, no succs) simply stay at rank 0. Because
+// pull-down only ever increases a rank and only past the (already-ranked)
+// successors' ranks, `rank(pred) < rank(succ)` stays true for every edge, which is
+// what lets the caller do a single top-down sweep for x-ordering afterwards.
+function computeRanks(topoOrder, pred, succ) {
+  const rank = new Map();
+  for (const id of topoOrder) {
+    const preds = pred.get(id) || [];
+    rank.set(id, preds.length ? Math.max(...preds.map((p) => rank.get(p) ?? 0)) + 1 : 0);
+  }
+  for (let i = topoOrder.length - 1; i >= 0; i--) {
+    const id = topoOrder[i];
+    const succs = succ.get(id) || [];
+    if (!succs.length) continue;
+    const minSuccRank = Math.min(...succs.map((s) => rank.get(s)));
+    if (minSuccRank - 1 > rank.get(id)) rank.set(id, minSuccRank - 1);
+  }
+  return rank;
+}
+
+// Ranks one band's worth of nodes (pooled across every strand present in that
+// band). `edges` is [[predId, succId], ...] restricted to that band's intra-band,
+// non-cross-course prerequisites. Exported so a scratch script can sanity-check
+// the ranking logic in isolation from Cytoscape/DOM.
+export function rankBand(nodeIds, edges) {
+  const order = topoSortWithFallback(nodeIds, edges);
+  const clean = edgesWithoutBackEdges(edges, order);
+  const pred = new Map(nodeIds.map((id) => [id, []]));
+  const succ = new Map(nodeIds.map((id) => [id, []]));
+  for (const [p, s] of clean) {
+    pred.get(s).push(p);
+    succ.get(p).push(s);
+  }
+  const rank = computeRanks(order, pred, succ);
+  return { order, rank, pred, succ };
+}
+
+// Lays the graph out as a strand × course-band grid: strands become columns, bands
+// (course stages) become rows. Within a band, ranks are shared across every strand
+// in it (see rankBand above), so a cross-strand prerequisite still flows strictly
+// downward instead of landing flat. x-position within a (strand, band, rank) slot
+// is a barycenter of already-placed predecessors — a single top-down sweep since
+// pred rank is always strictly less than succ rank — falling back to id order when
+// a node has no predecessors. Returns { lanes, rows } in model coords for
+// drawBands(). Generous band gutters keep cross-band taxi turns off the node rows.
+export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep = 110, rankSep = RANK_SEP } = {}) {
+  // Bucket nodes by band alone (not band+strand) so rankBand sees the full
+  // cross-strand DAG for that band.
+  const bandNodes = new Map(); // band -> cy collection
   const presentStrands = new Set();
   const presentBands = new Set();
-  const bandLabels = new Map(); // band -> label
+  const bandLabels = new Map();
+  const nodeById = new Map();
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];
     const band = n.data('band') ?? 0;
-    const key = `${strand}|${band}`;
-    if (!cellNodes.has(key)) cellNodes.set(key, cy.collection());
-    cellNodes.set(key, cellNodes.get(key).union(n));
+    if (!bandNodes.has(band)) bandNodes.set(band, cy.collection());
+    bandNodes.set(band, bandNodes.get(band).union(n));
     presentStrands.add(strand);
     presentBands.add(band);
     if (!bandLabels.has(band)) bandLabels.set(band, n.data('bandLabel') || null);
+    nodeById.set(n.id(), n);
   });
 
   // Fixed strand order for columns, then any extras; ascending band order for rows.
   const colOrder = [...STRANDS, ...[...presentStrands].filter((s) => !STRANDS.includes(s))]
     .filter((s) => presentStrands.has(s));
   const rowOrder = [...presentBands].sort((a, b) => a - b);
+  const strandIndex = new Map(colOrder.map((s, i) => [s, i]));
 
-  // Pass A: lay out each non-empty cell on its own; record its bounding box.
-  const cells = []; // { strand, band, nodes, bb }
-  for (const strand of colOrder) {
-    for (const band of rowOrder) {
-      const nodes = cellNodes.get(`${strand}|${band}`);
-      if (!nodes || nodes.length === 0) continue;
-      // Only the edges among this cell's nodes drive its layout; cross-cell edges are
-      // still drawn, just not laid out.
-      const intra = nodes.edgesWith(nodes);
-      nodes
-        .union(intra)
-        .layout({ name: 'dagre', rankDir: 'TB', nodeSep, rankSep, edgeSep: 26, fit: false, animate: false })
-        .run();
-      cells.push({ strand, band, nodes, bb: nodes.boundingBox() });
+  // Pass A: rank + x-order every node, band by band. `groups` collects the final
+  // left-to-right node-id order for every (strand, band, rank) slot.
+  const groups = new Map(); // `${strand}|${band}|${rank}` -> node id[]
+  const orderKey = new Map(); // node id -> sortable scalar, used as "x" for barycenter of successors
+
+  for (const band of rowOrder) {
+    const nodes = bandNodes.get(band);
+    const ids = nodes.map((n) => n.id());
+    // Only non-cross-course edges among this band's nodes (any strand) drive rank;
+    // cross-course edges keep their bezier style and never drove layout anyway.
+    const intra = nodes.edgesWith(nodes).filter((e) => !e.hasClass('cross-course'));
+    const edgeList = intra.map((e) => [e.data('source'), e.data('target')]);
+    const { rank, pred } = rankBand(ids, edgeList);
+    for (const id of ids) nodeById.get(id).data('_rank', rank.get(id));
+
+    // Group by (rank, strand); process ranks ascending so every predecessor's
+    // orderKey is already set (predecessors always have a strictly lower rank —
+    // see computeRanks) by the time we need it for a barycenter sort.
+    const byRank = new Map(); // rank -> Map(strand -> id[])
+    for (const id of ids) {
+      const r = rank.get(id);
+      const strand = nodeById.get(id).data('strand') || STRANDS[0];
+      if (!byRank.has(r)) byRank.set(r, new Map());
+      if (!byRank.get(r).has(strand)) byRank.get(r).set(strand, []);
+      byRank.get(r).get(strand).push(id);
+    }
+    const ranksAsc = [...byRank.keys()].sort((a, b) => a - b);
+    for (const r of ranksAsc) {
+      for (const [strand, groupIds] of byRank.get(r)) {
+        const baseline = strandIndex.get(strand) * 1e6;
+        const medianPredKey = (id) => {
+          const keys = (pred.get(id) || [])
+            .map((p) => orderKey.get(p))
+            .filter((v) => v != null)
+            .sort((a, b) => a - b);
+          return keys.length ? keys[Math.floor((keys.length - 1) / 2)] : baseline;
+        };
+        groupIds.sort((a, b) => {
+          const diff = medianPredKey(a) - medianPredKey(b);
+          return diff !== 0 ? diff : a < b ? -1 : a > b ? 1 : 0;
+        });
+        groupIds.forEach((id, i) => orderKey.set(id, baseline + i));
+        groups.set(`${strand}|${band}|${r}`, groupIds);
+      }
     }
   }
 
-  // Pass B: column widths / row heights = widest / tallest cell in that column / row.
+  // Pass B: per-strand column width = widest (strand, *, rank) slot anywhere in
+  // that strand; per-band row height = deepest rank reached in that band. Same
+  // shape as the old per-cell bounding-box pass so drawBands() and the
+  // { lanes, rows } contract are unchanged.
   const colW = new Map();
-  const rowH = new Map();
-  for (const { strand, band, bb } of cells) {
-    colW.set(strand, Math.max(colW.get(strand) || 0, bb.w));
-    rowH.set(band, Math.max(rowH.get(band) || 0, bb.h));
+  const maxRankInBand = new Map();
+  const maxNodeHeightInBand = new Map();
+  for (const [key, ids] of groups) {
+    const [strand, bandStr, rankStr] = key.split('|');
+    const band = Number(bandStr);
+    const rank = Number(rankStr);
+    const widths = ids.map((id) => nodeById.get(id).width() || 60);
+    const heights = ids.map((id) => nodeById.get(id).height() || 60);
+    const slotW = ids.length > 1 ? (ids.length - 1) * nodeSep + Math.max(...widths) : Math.max(...widths);
+    colW.set(strand, Math.max(colW.get(strand) || 0, slotW));
+    maxRankInBand.set(band, Math.max(maxRankInBand.get(band) || 0, rank));
+    maxNodeHeightInBand.set(band, Math.max(maxNodeHeightInBand.get(band) || 0, Math.max(...heights)));
   }
+
   const colX = new Map();
   let cx = 0;
   for (const strand of colOrder) {
@@ -91,16 +232,25 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep 
   const rowY = new Map();
   let cyTop = 0;
   for (const band of rowOrder) {
-    if (!rowH.has(band)) continue;
+    if (!maxRankInBand.has(band)) continue;
+    const h = maxRankInBand.get(band) * rankSep + (maxNodeHeightInBand.get(band) || 60);
     rowY.set(band, cyTop);
-    cyTop += rowH.get(band) + 2 * pad + bandGap;
+    cyTop += h + 2 * pad + bandGap;
   }
 
-  // Pass C: translate each cell to its grid origin (top-left at colX/rowY + pad).
-  for (const { strand, band, nodes, bb } of cells) {
-    const dx = colX.get(strand) + pad - bb.x1;
-    const dy = rowY.get(band) + pad - bb.y1;
-    nodes.positions((n) => ({ x: n.position('x') + dx, y: n.position('y') + dy }));
+  // Pass C: place every node — column-centred x within its (strand, band, rank)
+  // slot, row-top-anchored y at bandTop + rank * rankSep.
+  for (const [key, ids] of groups) {
+    const [strand, bandStr, rankStr] = key.split('|');
+    const band = Number(bandStr);
+    const rank = Number(rankStr);
+    const n = ids.length;
+    const centerX = colX.get(strand) + pad + colW.get(strand) / 2;
+    const topY = rowY.get(band) + pad + (maxNodeHeightInBand.get(band) || 60) / 2;
+    ids.forEach((id, i) => {
+      const offset = (i - (n - 1) / 2) * nodeSep;
+      nodeById.get(id).position({ x: centerX + offset, y: topY + rank * rankSep });
+    });
   }
 
   cy.fit(undefined, 30);
@@ -113,12 +263,12 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep 
       xRight: colX.get(strand) + colW.get(strand) + 2 * pad
     }));
   const rows = rowOrder
-    .filter((b) => rowH.has(b))
+    .filter((b) => maxRankInBand.has(b))
     .map((band) => ({
       band,
       label: bandLabels.get(band),
       yTop: rowY.get(band),
-      yBottom: rowY.get(band) + rowH.get(band) + 2 * pad
+      yBottom: rowY.get(band) + maxRankInBand.get(band) * rankSep + (maxNodeHeightInBand.get(band) || 60) + 2 * pad
     }));
   return { lanes, rows };
 }

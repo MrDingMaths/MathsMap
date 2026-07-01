@@ -3,6 +3,7 @@ import { skills, courseById, skillById, strandForSkill, topicsForSkill, bandOrde
 import { getMastery } from './store.js';
 import { plainMath } from './mathText.js';
 import { ringSvg, trackColour } from './ring.js';
+import { RANK_SEP } from './swimlane.js';
 
 // Discrete-state ring for a single skill: one coloured arc whose length grows with
 // mastery, matching the legend colours below. `mastered` is the full ring + check.
@@ -140,16 +141,39 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
   return [...nodes, ...edges];
 }
 
-// Spreads the horizontal "jog" of parallel taxi edges onto distinct y-lines so they don't
-// stack into one thick lane. Deterministic by index, varying the turn point around the
-// midpoint. Cross-course edges are bezier curves, so they're left alone. Best-effort —
-// combined with the grid's band gutters, it keeps most edges clear of node rows.
-export function staggerEdges(cy) {
+// Places every taxi edge's horizontal jog inside the empty gutter just above its
+// target node — every gutter between rank rows is node-free (layoutSwimlanes()
+// guarantees it), so an absolute px turn measured from the target end never
+// crosses a node row the way the old midpoint-percentage turn could. `-Npx` means
+// "N px up from the target end" (a negative taxi-turn is measured from the target
+// instead of the source). Edges sharing a target's gutter are staggered across a
+// handful of deterministic lines so parallel jogs don't stack into one lane.
+// Cross-course edges are bezier curves and are left untouched. `rankSep` must
+// match the value layoutSwimlanes() was run with (default RANK_SEP, shared via
+// import) so the stagger band actually lands inside the gutter.
+export function staggerEdges(cy, rankSep = RANK_SEP) {
   const edges = cy.edges().filter((e) => !e.hasClass('cross-course'));
-  edges.forEach((e, i) => {
-    const frac = 0.35 + ((i % 7) / 6) * 0.3; // 35%–65%
-    e.style('taxi-turn', `${Math.round(frac * 100)}%`);
+
+  // Group by the target's rank (its gutter). Falls back to the rendered y ÷
+  // rankSep if a node somehow has no `_rank` (e.g. layoutSwimlanes wasn't run) —
+  // still deterministic, just coarser.
+  const byGutter = new Map();
+  edges.forEach((e) => {
+    const t = e.target();
+    const gutter = t.data('_rank') ?? Math.round(t.position('y') / rankSep);
+    if (!byGutter.has(gutter)) byGutter.set(gutter, []);
+    byGutter.get(gutter).push(e);
   });
+
+  const LINES = 7; // distinct jog lines per gutter
+  const SPREAD = 30; // px either side of the gutter midline
+  const mid = rankSep / 2;
+  for (const group of byGutter.values()) {
+    group.forEach((e, i) => {
+      const px = mid - SPREAD + ((i % LINES) / (LINES - 1)) * (2 * SPREAD);
+      e.style('taxi-turn', `-${Math.round(px)}px`);
+    });
+  }
 }
 
 export function getCyStyle(isDark = true) {
