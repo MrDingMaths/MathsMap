@@ -148,11 +148,14 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
 // "N px up from the target end" (a negative taxi-turn is measured from the target
 // instead of the source). Edges sharing a target's gutter are staggered across a
 // handful of deterministic lines so parallel jogs don't stack into one lane.
-// Cross-course edges are bezier curves and are left untouched. `rankSep` must
-// match the value layoutSwimlanes() was run with (default RANK_SEP, shared via
-// import) so the stagger band actually lands inside the gutter.
+// Cross-course edges are taxi-routed too (same style family, dashed amber) and
+// get the same treatment: they may span whole band gaps, but the turn sits just
+// above the *target*, inside the target's own node-free gutter, regardless of how
+// far up the source is. `rankSep` must match the value layoutSwimlanes() was run
+// with (default RANK_SEP, shared via import) so the stagger band actually lands
+// inside the gutter.
 export function staggerEdges(cy, rankSep = RANK_SEP) {
-  const edges = cy.edges().filter((e) => !e.hasClass('cross-course'));
+  const edges = cy.edges();
 
   // Group by the target's rank (its gutter). Falls back to the rendered y ÷
   // rankSep if a node somehow has no `_rank` (e.g. layoutSwimlanes wasn't run) —
@@ -224,6 +227,12 @@ export function getCyStyle(isDark = true) {
         'taxi-turn-min-distance': 10
       }
     },
+    // Zoomed-out legibility: Map.svelte toggles `far` on every edge when the zoom
+    // drops below a threshold — thicker, more opaque strokes so the graph's shape
+    // still reads from a distance. Placed before the cross-course rules so those
+    // (equal class-specificity, later in the sheet) keep their width/colour; the
+    // dedicated cross-course.far rule below re-softens their opacity.
+    { selector: 'edge.far', style: { width: 2.5, 'line-opacity': 0.5, 'arrow-scale': 1 } },
     // Focus state: the chain of the hovered/clicked node comes to full strength —
     // bold near-black (light) / near-white (dark), thicker, fully opaque.
     {
@@ -236,9 +245,10 @@ export function getCyStyle(isDark = true) {
         'arrow-scale': 1
       }
     },
-    // Cross-topic links span between courses/strands. Drawn as a gentle bezier
-    // bow so they read as clearly different from the square intra-topic lanes,
-    // dashed amber, and faint until a node is focused.
+    // Cross-topic links span between courses/strands. Same orthogonal taxi
+    // family as intra-topic edges (staggerEdges places their turn in the gutter
+    // above the target, like every other edge) but dashed amber and faint until a
+    // node is focused, so they still read as a different kind of link.
     {
       selector: 'edge.cross-course',
       style: {
@@ -248,11 +258,15 @@ export function getCyStyle(isDark = true) {
         'line-style': 'dashed',
         'line-opacity': 0.18,
         'arrow-scale': 0.7,
-        'curve-style': 'unbundled-bezier',
-        'control-point-distances': '40',
-        'control-point-weights': '0.5'
+        'curve-style': 'taxi',
+        'taxi-direction': 'vertical',
+        'taxi-turn': '50%',
+        'taxi-turn-min-distance': 10
       }
     },
+    // Zoomed-out variant, softer than plain edge.far so the dashed amber layer
+    // doesn't overwhelm the in-course structure. Before .lit so lit still wins.
+    { selector: 'edge.cross-course.far', style: { 'line-opacity': 0.3 } },
     { selector: 'edge.cross-course.lit', style: { 'line-opacity': 0.85, width: 1.5 } },
     // Ready-now frontier: dashed cyan halo + bolded, tinted label chip.
     {

@@ -17,6 +17,18 @@ import { STRANDS } from './data.js';
 // passed to layoutSwimlanes() below.
 export const RANK_SEP = 200;
 
+// Approximate rendered width of a node's label chip, so same-row neighbours can be
+// spaced far enough apart that chips never overlap. Must stay in sync with the
+// .node-label CSS in Map.svelte: max-width 130px, width: max-content, padding
+// 2px 7px (14px horizontal), 15px system font (~7.2px per character on average).
+const CHIP_MAX_TEXT = 130;
+const CHIP_PAD = 14;
+const CHIP_PX_PER_CHAR = 7.2;
+export function estimateChipWidth(text) {
+  const len = (text || '').length;
+  return Math.min(CHIP_MAX_TEXT, Math.ceil(len * CHIP_PX_PER_CHAR)) + CHIP_PAD;
+}
+
 // Subtle background tints + label colour per strand, for dark and light themes.
 const BAND_STYLE = {
   dark: {
@@ -129,9 +141,12 @@ export function rankBand(nodeIds, edges) {
 // downward instead of landing flat. x-position within a (strand, band, rank) slot
 // is a barycenter of already-placed predecessors — a single top-down sweep since
 // pred rank is always strictly less than succ rank — falling back to id order when
-// a node has no predecessors. Returns { lanes, rows } in model coords for
-// drawBands(). Generous band gutters keep cross-band taxi turns off the node rows.
-export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep = 110, rankSep = RANK_SEP } = {}) {
+// a node has no predecessors. Neighbour spacing within a slot is label-aware: the
+// gap between two centres is driven by the wider of each node's disc and its
+// estimated label chip (see estimateChipWidth), so chips never collide. Returns
+// { lanes, rows } in model coords for drawBands(). Generous band gutters keep
+// cross-band taxi turns off the node rows.
+export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep = 40, rankSep = RANK_SEP } = {}) {
   // Bucket nodes by band alone (not band+strand) so rankBand sees the full
   // cross-strand DAG for that band.
   const bandNodes = new Map(); // band -> cy collection
@@ -206,17 +221,32 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep 
   // Pass B: per-strand column width = widest (strand, *, rank) slot anywhere in
   // that strand; per-band row height = deepest rank reached in that band. Same
   // shape as the old per-cell bounding-box pass so drawBands() and the
-  // { lanes, rows } contract are unchanged.
+  // { lanes, rows } contract are unchanged. Spacing within a slot is cumulative
+  // and label-aware: each node's "effective width" is the wider of its disc and
+  // its label chip, and the centre-to-centre gap between neighbours is
+  // max(minSep, half of each effective width + breathing room) — a wide chip next
+  // to a narrow one still gets exactly the room the pair needs, no more.
+  const GAP_PAD = 16; // breathing room between two adjacent chips' edges
   const colW = new Map();
   const maxRankInBand = new Map();
   const maxNodeHeightInBand = new Map();
+  const groupOffsets = new Map(); // group key -> cumulative centre-x offsets (offsets[0] = 0)
   for (const [key, ids] of groups) {
     const [strand, bandStr, rankStr] = key.split('|');
     const band = Number(bandStr);
     const rank = Number(rankStr);
-    const widths = ids.map((id) => nodeById.get(id).width() || 60);
+    const eff = ids.map((id) => {
+      const node = nodeById.get(id);
+      return Math.max(node.width() || 60, estimateChipWidth(node.data('label') || node.data('name') || ''));
+    });
     const heights = ids.map((id) => nodeById.get(id).height() || 60);
-    const slotW = ids.length > 1 ? (ids.length - 1) * nodeSep + Math.max(...widths) : Math.max(...widths);
+    const offsets = [0];
+    for (let i = 1; i < ids.length; i++)
+      offsets.push(offsets[i - 1] + Math.max(minSep, (eff[i - 1] + eff[i]) / 2 + GAP_PAD));
+    groupOffsets.set(key, offsets);
+    // Slot span includes each end's half-chip overhang so the outermost chips fit
+    // inside the column too.
+    const slotW = offsets[offsets.length - 1] + eff[0] / 2 + eff[eff.length - 1] / 2;
     colW.set(strand, Math.max(colW.get(strand) || 0, slotW));
     maxRankInBand.set(band, Math.max(maxRankInBand.get(band) || 0, rank));
     maxNodeHeightInBand.set(band, Math.max(maxNodeHeightInBand.get(band) || 0, Math.max(...heights)));
@@ -239,17 +269,18 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, nodeSep 
   }
 
   // Pass C: place every node — column-centred x within its (strand, band, rank)
-  // slot, row-top-anchored y at bandTop + rank * rankSep.
+  // slot using the label-aware cumulative offsets from Pass B, row-top-anchored y
+  // at bandTop + rank * rankSep.
   for (const [key, ids] of groups) {
     const [strand, bandStr, rankStr] = key.split('|');
     const band = Number(bandStr);
     const rank = Number(rankStr);
-    const n = ids.length;
     const centerX = colX.get(strand) + pad + colW.get(strand) / 2;
     const topY = rowY.get(band) + pad + (maxNodeHeightInBand.get(band) || 60) / 2;
+    const offsets = groupOffsets.get(key);
+    const span = offsets[offsets.length - 1];
     ids.forEach((id, i) => {
-      const offset = (i - (n - 1) / 2) * nodeSep;
-      nodeById.get(id).position({ x: centerX + offset, y: topY + rank * rankSep });
+      nodeById.get(id).position({ x: centerX + offsets[i] - span / 2, y: topY + rank * rankSep });
     });
   }
 
@@ -343,9 +374,14 @@ export function drawBands(cy, canvas, layout, isDark = true) {
           ctx.stroke();
         }
       }
-      if (row.label && top > -20 && top < h) {
+      // Pin the course name while any part of its band is on screen: clamp
+      // between the viewport top (just below the strand labels) and the band's
+      // own bottom, so scrolling inside a tall band keeps the label visible
+      // instead of letting it scroll away with the band top.
+      const bottom = row.yBottom * zoom + pan.y;
+      if (row.label && bottom > 26 && top < h) {
         ctx.fillStyle = bandText;
-        ctx.fillText(row.label, 10, Math.max(top + 4, 26));
+        ctx.fillText(row.label, 10, Math.min(Math.max(top + 4, 26), bottom - 24));
       }
     });
   }

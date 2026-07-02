@@ -53,6 +53,14 @@
   let pendingFocusSkill = focusSkill ? initSkillId : null;
   // Show only prerequisite links that cross between courses.
   let crossOnly = $state(false);
+  // Hide the KaTeX label chips entirely; tooltips still name nodes on hover.
+  let showLabels = $state(true);
+
+  // Chip interactivity bridge: label chips live in an HTML overlay, so Cytoscape
+  // events can't reach them. render() assigns this with handlers closing over that
+  // render's focusChain/clearFocus/stuck state, so hovering/clicking a chip
+  // behaves exactly like hovering/clicking its node disc.
+  let chip = null;
 
   // Tooltip state, positioned over the graph on hover.
   let tip = $state(null);
@@ -105,6 +113,7 @@
   // per frame since Cytoscape fires 'render' rapidly during pan/zoom. Labels sit just
   // below each node and scale with zoom so they track the graph like canvas text would.
   function syncLabels() {
+    if (!showLabels) { labels = []; return; }
     if (labelRaf) return;
     labelRaf = requestAnimationFrame(() => {
       labelRaf = null;
@@ -137,6 +146,59 @@
     mode = 'skill';
   }
 
+  // Zoomed out, the fine 1.5px/0.32-opacity edges vanish; below this zoom every
+  // edge gets the bolder `far` style (see getCyStyle). RAF-coalesced like
+  // syncLabels since 'zoom' fires rapidly during pinch/scroll.
+  const FAR_ZOOM = 0.55;
+  let farRaf = null;
+  function syncFar() {
+    if (!cy || cy.destroyed()) return;
+    cy.edges().toggleClass('far', cy.zoom() < FAR_ZOOM);
+  }
+  function scheduleFar() {
+    if (farRaf) return;
+    farRaf = requestAnimationFrame(() => { farRaf = null; syncFar(); });
+  }
+
+  // On-screen zoom controls: scale about the viewport centre so the view doesn't
+  // lurch toward the graph origin.
+  function zoomBy(factor) {
+    if (!cy || cy.destroyed()) return;
+    cy.zoom({
+      level: cy.zoom() * factor,
+      renderedPosition: { x: container.clientWidth / 2, y: container.clientHeight / 2 }
+    });
+  }
+  function fitAll() {
+    if (!cy || cy.destroyed()) return;
+    cy.fit(undefined, 30);
+  }
+
+  // Pan/zoom to a selected course's band. bands.rows carries each band's model-
+  // space geometry from layoutSwimlanes; bandLabel is the course title, so a
+  // label match finds the right row. Fit spans all lanes horizontally.
+  function jumpToCourse(title) {
+    if (!cy || cy.destroyed()) return;
+    const rows = bands?.rows || [];
+    const lanes = bands?.lanes || [];
+    const row = rows.find((r) => r.label === title);
+    if (!row || !lanes.length) return;
+    cy.animate(
+      {
+        fit: {
+          boundingBox: {
+            x1: lanes[0].xLeft,
+            y1: row.yTop,
+            x2: lanes[lanes.length - 1].xRight,
+            y2: row.yBottom
+          },
+          padding: 30
+        }
+      },
+      { duration: 350 }
+    );
+  }
+
   function render() {
     if (!container) return;
     cy?.destroy();
@@ -160,10 +222,12 @@
     // edges onto distinct lanes so they don't stack or run under nodes.
     bands = layoutSwimlanes(cy);
     staggerEdges(cy);
+    syncFar(); // layoutSwimlanes just fit the viewport, so set the initial far/near state now
     redraw();
     syncLabels();
 
     cy.on('render', () => { redraw(); syncLabels(); });
+    cy.on('zoom', scheduleFar);
 
     // Focus a node's prerequisite chain: light up its edges, dim every node that
     // isn't part of the chain. `stuck` keeps the focus on after the cursor leaves
@@ -182,9 +246,10 @@
       stuck = false;
     };
 
-    const showTip = (e) => {
-      const d = e.target.data();
-      const p = e.target.renderedPosition();
+    // Takes a node (not an event) so the chip handlers below can reuse it.
+    const showTip = (n) => {
+      const d = n.data();
+      const p = n.renderedPosition();
       tip = {
         x: p.x,
         y: p.y,
@@ -197,15 +262,36 @@
       };
     };
 
-    cy.on('mouseover', 'node', (e) => { focusChain(e.target, stuck); showTip(e); });
+    cy.on('mouseover', 'node', (e) => { focusChain(e.target, stuck); showTip(e.target); });
     cy.on('mouseout', 'node', () => { tip = null; if (!stuck) clearFocus(); });
-    cy.on('tap', 'node', (e) => { focusChain(e.target, true); showTip(e); });
+    cy.on('tap', 'node', (e) => { focusChain(e.target, true); showTip(e.target); });
     cy.on('tap', (e) => { if (e.target === cy) clearFocus(); });
     cy.on('dbltap', 'node', (e) => {
       if (mode === 'topic') drillIntoTopic(e.target);
       else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
     });
     cy.on('pan zoom', () => { tip = null; });
+
+    // Same behaviours, reachable from the HTML label chips (which Cytoscape's
+    // canvas events can't see). Looked up by id per call because `cy` is rebuilt
+    // on every render.
+    chip = {
+      enter: (id) => {
+        const n = cy.getElementById(id);
+        if (n.nonempty()) { focusChain(n, stuck); showTip(n); }
+      },
+      leave: () => { tip = null; if (!stuck) clearFocus(); },
+      click: (id) => {
+        const n = cy.getElementById(id);
+        if (n.nonempty()) { focusChain(n, true); showTip(n); }
+      },
+      dbl: (id) => {
+        const n = cy.getElementById(id);
+        if (!n.nonempty()) return;
+        if (mode === 'topic') drillIntoTopic(n);
+        else go(`/skill/${n.id()}?course=${n.data('courseId') || selected[0]}`);
+      }
+    };
 
     // Deep-link focus: center on the target skill node and light its chain. Consumed
     // once so later re-renders (theme/course toggles) don't yank the viewport back.
@@ -224,7 +310,13 @@
   $effect(() => {
     selected; mode; scopeTopicIds; crossOnly; theme.current;
     render();
-    return () => { if (labelRaf) cancelAnimationFrame(labelRaf); labelRaf = null; cy?.destroy(); };
+    return () => {
+      if (labelRaf) cancelAnimationFrame(labelRaf);
+      labelRaf = null;
+      if (farRaf) cancelAnimationFrame(farRaf);
+      farRaf = null;
+      cy?.destroy();
+    };
   });
 
   let scopeLabel = $derived(
@@ -263,6 +355,15 @@
       Cross-course links only
     </label>
 
+    <label class="cross-toggle">
+      <input
+        type="checkbox"
+        checked={showLabels}
+        onchange={() => { showLabels = !showLabels; syncLabels(); }}
+      />
+      Show labels
+    </label>
+
     <div class="section-label">Courses</div>
     <div class="course-list">
       {#each courses as c}
@@ -270,6 +371,15 @@
           <input type="checkbox" checked={selected.includes(c.id)} onchange={() => toggle(c.id)} />
           <span class="swatch" style="background:{c.color}"></span>
           <span class="course-title">{c.title}</span>
+          {#if selected.includes(c.id)}
+            <!-- stopPropagation + preventDefault so the locate click doesn't also
+                 toggle the wrapping label's checkbox. -->
+            <button
+              class="locate"
+              title="Jump to this course on the map"
+              onclick={(e) => { e.preventDefault(); e.stopPropagation(); jumpToCourse(c.title); }}
+            >⌖</button>
+          {/if}
         </label>
       {/each}
     </div>
@@ -290,13 +400,23 @@
     <div bind:this={container} class="graph"></div>
     <div class="label-layer">
       {#each labels as l (l.id)}
+        <!-- Chips are interactive proxies for their node: same focus/tip/drill
+             behaviour, so the whole visual unit (disc + label) responds, not just
+             the small circle. -->
         <div
           class="node-label"
+          role="button"
+          tabindex="-1"
           class:dim={l.dim}
           class:faded={l.faded}
           class:boundary={l.boundary}
           class:ready={l.ready}
           style="left:{l.x}px; top:{l.y}px; transform:translateX(-50%) scale({l.scale});"
+          onmouseenter={() => chip?.enter(l.id)}
+          onmouseleave={() => chip?.leave()}
+          onclick={() => chip?.click(l.id)}
+          ondblclick={() => chip?.dbl(l.id)}
+          onkeydown={(e) => { if (e.key === 'Enter') chip?.click(l.id); }}
         >{@html l.html}</div>
       {/each}
     </div>
@@ -309,6 +429,11 @@
         </span>
       </div>
     {/if}
+    <div class="zoom-controls">
+      <button title="Zoom in" onclick={() => zoomBy(1.3)}>＋</button>
+      <button title="Zoom out" onclick={() => zoomBy(1 / 1.3)}>−</button>
+      <button title="Fit whole map" onclick={fitAll}>⤢</button>
+    </div>
     {#if selected.length === 0}
       <p class="empty">Select one or more courses to display the map.</p>
     {/if}
@@ -398,6 +523,22 @@
   .course-opt input { cursor: pointer; }
   .swatch { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; }
   .course-title { line-height: 1.2; }
+  /* Locate (jump-to-band) button, shown only for selected courses. */
+  .locate {
+    margin-left: auto;
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    line-height: 1;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--panel);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .locate:hover { color: var(--accent); border-color: var(--accent); }
 
   .legend { list-style: none; margin: 0; padding: 0; font-size: 0.8rem; }
   .legend li { display: flex; align-items: center; gap: 0.5rem; margin: 0.25rem 0; }
@@ -424,6 +565,31 @@
   .legend .ring.ready::before { content: none; }
 
   .graph-area { position: relative; flex: 1 1 auto; min-width: 0; }
+
+  /* On-screen zoom controls, floated over the graph bottom-right. Styled to
+     match the .seg buttons. */
+  .zoom-controls {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .zoom-controls button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    line-height: 1;
+    font-size: 1rem;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .zoom-controls button:hover { background: var(--panel); border-color: var(--accent); }
   .bands { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
   .graph { position: absolute; inset: 0; z-index: 1; background: transparent; }
 
@@ -436,10 +602,20 @@
     overflow: hidden;
     pointer-events: none;
   }
+  /* Chip metrics (max-width, padding, font-size) must stay in sync with
+     estimateChipWidth() in swimlane.js, which spaces nodes so chips don't
+     overlap. text-wrap: balance evens the lines out (no orphan last word);
+     width: max-content lets short labels shrink-wrap instead of claiming the
+     full max-width. Chips are individually interactive (pointer-events: auto)
+     even though the layer around them stays click-through. */
   .node-label {
     position: absolute;
     transform-origin: top center;
-    max-width: 150px;
+    max-width: 130px;
+    width: max-content;
+    text-wrap: balance;
+    pointer-events: auto;
+    cursor: pointer;
     padding: 2px 7px;
     text-align: center;
     line-height: 1.2;
