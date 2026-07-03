@@ -12,7 +12,7 @@
 // strands span the wide axis.
 import { STRANDS } from './data.js';
 
-// Shared with graph.js's staggerEdges(), which needs to know the gutter height
+// Shared with graph.js's routeEdges(), which needs to know the gutter height
 // between rank rows to place taxi turns inside it. Keep in sync with the default
 // passed to layoutSwimlanes() below.
 export const RANK_SEP = 200;

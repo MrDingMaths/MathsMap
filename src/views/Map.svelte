@@ -2,7 +2,7 @@
   import { untrack } from 'svelte';
   import cytoscape from 'cytoscape';
   import dagre from 'cytoscape-dagre';
-  import { buildElements, getCyStyle, staggerEdges } from '../lib/graph.js';
+  import { buildElements, getCyStyle, routeEdges } from '../lib/graph.js';
   import { theme } from '../lib/theme.svelte.js';
   import { buildTopicElements } from '../lib/topicGraph.js';
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
@@ -218,10 +218,12 @@
     // disable selection to avoid the big selection/active overlay on edge taps.
     cy.autounselectify(true);
 
-    // Lay each strand out as a strand × course-band grid, then spread parallel taxi
-    // edges onto distinct lanes so they don't stack or run under nodes.
+
+    // Lay each strand out as a strand × course-band grid, then route edges into
+    // node-free gutters and inter-column corridors so they never run under nodes
+    // (routeEdges needs the lane geometry, hence the bands pass-through).
     bands = layoutSwimlanes(cy);
-    staggerEdges(cy);
+    routeEdges(cy, bands);
     syncFar(); // layoutSwimlanes just fit the viewport, so set the initial far/near state now
     redraw();
     syncLabels();
@@ -262,10 +264,16 @@
       };
     };
 
-    cy.on('mouseover', 'node', (e) => { focusChain(e.target, stuck); showTip(e.target); });
+    // A clicked (stuck) chain must survive hovering other nodes: hover only
+    // drives the lit chain when nothing is pinned. The tooltip still follows the
+    // cursor either way, so browsing names doesn't disturb a pinned chain.
+    cy.on('mouseover', 'node', (e) => { if (!stuck) focusChain(e.target, false); showTip(e.target); });
     cy.on('mouseout', 'node', () => { tip = null; if (!stuck) clearFocus(); });
     cy.on('tap', 'node', (e) => { focusChain(e.target, true); showTip(e.target); });
     cy.on('tap', (e) => { if (e.target === cy) clearFocus(); });
+    // Edges cover a lot of "looks like background" area; tapping one clears the
+    // pinned chain just like tapping true background.
+    cy.on('tap', 'edge', clearFocus);
     cy.on('dbltap', 'node', (e) => {
       if (mode === 'topic') drillIntoTopic(e.target);
       else go(`/skill/${e.target.id()}?course=${e.target.data('courseId') || selected[0]}`);
@@ -278,7 +286,8 @@
     chip = {
       enter: (id) => {
         const n = cy.getElementById(id);
-        if (n.nonempty()) { focusChain(n, stuck); showTip(n); }
+        // Same stuck-guard as node mouseover: hover never replaces a pinned chain.
+        if (n.nonempty()) { if (!stuck) focusChain(n, false); showTip(n); }
       },
       leave: () => { tip = null; if (!stuck) clearFocus(); },
       click: (id) => {

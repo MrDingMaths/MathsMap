@@ -141,24 +141,51 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
   return [...nodes, ...edges];
 }
 
-// Places every taxi edge's horizontal jog inside the empty gutter just above its
-// target node — every gutter between rank rows is node-free (layoutSwimlanes()
-// guarantees it), so an absolute px turn measured from the target end never
-// crosses a node row the way the old midpoint-percentage turn could. `-Npx` means
-// "N px up from the target end" (a negative taxi-turn is measured from the target
-// instead of the source). Edges sharing a target's gutter are staggered across a
-// handful of deterministic lines so parallel jogs don't stack into one lane.
-// Cross-course edges are taxi-routed too (same style family, dashed amber) and
-// get the same treatment: they may span whole band gaps, but the turn sits just
-// above the *target*, inside the target's own node-free gutter, regardless of how
-// far up the source is. `rankSep` must match the value layoutSwimlanes() was run
-// with (default RANK_SEP, shared via import) so the stagger band actually lands
-// inside the gutter.
-export function staggerEdges(cy, rankSep = RANK_SEP) {
+// Routes every edge clear of node rows as an explicit orthogonal polyline
+// (`curve-style: segments` via the `routed` class) — every edge gets literal
+// waypoints rather than leaning on Cytoscape's `taxi` solver, which can
+// collapse its turn into a diagonal near the endpoints when there isn't room
+// to honour `taxi-turn-min-distance`. Two regimes for computing the waypoints:
+//
+// **Short edges** (vertical span ≤ 1.5 × rankSep — adjacent ranks, or a band-gap
+// hop onto the next band's first rank): a single horizontal jog in the gutter
+// between the source and target ranks. Every gutter between rank rows is
+// node-free (layoutSwimlanes() guarantees it), so the jog never crosses a
+// node row.
+//
+// **Long edges** (span > 1.5 × rankSep) would still drop their single vertical
+// run straight through every intermediate node row, so they get a longer
+// polyline instead: down from the source into the gutter below it, across to
+// a vertical **corridor between strand columns** (the inter-lane gap zones
+// are node-free at every y), down the corridor, then across the gutter above
+// the target and into it. Corridor candidates come from `layout.lanes` —
+// midpoints between consecutive lanes plus an outer margin either side — and
+// parallel edges spread a few px apart within the ~80px corridor so they
+// don't fuse into one line.
+//
+// Both regimes stagger their gutter lines by index within the target's gutter
+// group so parallel jogs land on distinct y lines. Cross-course edges get the
+// same routing (they're the likeliest to be long) and stay dashed amber via
+// their style class. `layout` is the { lanes, rows } object layoutSwimlanes()
+// returns; `rankSep` must match the value it was run with (default RANK_SEP,
+// shared via import) so the gutter lines actually land in the gutters.
+export function routeEdges(cy, layout, rankSep = RANK_SEP) {
   const edges = cy.edges();
 
-  // Group by the target's rank (its gutter). Falls back to the rendered y ÷
-  // rankSep if a node somehow has no `_rank` (e.g. layoutSwimlanes wasn't run) —
+  // Node-free vertical corridor x's: between consecutive strand columns, plus a
+  // margin corridor outside each end so outermost-lane edges have a side channel.
+  const lanes = layout?.lanes || [];
+  const corridors = [];
+  if (lanes.length) {
+    corridors.push(lanes[0].xLeft - 40);
+    for (let i = 0; i + 1 < lanes.length; i++)
+      corridors.push((lanes[i].xRight + lanes[i + 1].xLeft) / 2);
+    corridors.push(lanes[lanes.length - 1].xRight + 40);
+  }
+  const laneIndexOf = (x) => lanes.findIndex((l) => x >= l.xLeft && x <= l.xRight);
+
+  // Group by the target's rank (its gutter). Falls back to the position-derived
+  // gutter if a node somehow has no `_rank` (e.g. layoutSwimlanes wasn't run) —
   // still deterministic, just coarser.
   const byGutter = new Map();
   edges.forEach((e) => {
@@ -170,11 +197,89 @@ export function staggerEdges(cy, rankSep = RANK_SEP) {
 
   const LINES = 7; // distinct jog lines per gutter
   const SPREAD = 30; // px either side of the gutter midline
-  const mid = rankSep / 2;
   for (const group of byGutter.values()) {
     group.forEach((e, i) => {
-      const px = mid - SPREAD + ((i % LINES) / (LINES - 1)) * (2 * SPREAD);
-      e.style('taxi-turn', `-${Math.round(px)}px`);
+      // Per-edge stagger offset, shared by both of this edge's gutter lines so
+      // one edge stays on one line throughout its route.
+      const stag = -SPREAD + ((i % LINES) / (LINES - 1)) * (2 * SPREAD);
+      const S = e.source().position();
+      const T = e.target().position();
+      const down = T.y >= S.y ? 1 : -1;
+      const sN = e.source(), tN = e.target();
+      // Pinned endpoints directly above/below each node's centre — see the
+      // note below on why segments project against these rather than S/T.
+      const SE = { x: S.x, y: S.y + down * (sN.outerHeight() / 2) };
+      const TE = { x: T.x, y: T.y - down * (tN.outerHeight() / 2) };
+
+      let pts;
+      if (Math.abs(T.y - S.y) <= 1.5 * rankSep || corridors.length === 0) {
+        // Short edge (or no corridor geometry to work with): a single
+        // horizontal jog in the gutter between source and target ranks —
+        // explicit waypoints rather than a `taxi-turn` offset, so the bend
+        // is a guaranteed right angle instead of Cytoscape's `taxi` solver
+        // occasionally collapsing the turn into a diagonal near the ends.
+        const g = S.y + down * (rankSep / 2 + stag);
+        pts = [
+          [S.x, g],
+          [T.x, g]
+        ];
+      } else {
+        // Long edge: pick the corridor nearest the route's centre of gravity —
+        // between the two columns when source and target sit in different lanes,
+        // beside the shared column when they don't (so the edge hugs its own lane
+        // instead of wandering across the map).
+        const sameLane = laneIndexOf(S.x) === laneIndexOf(T.x);
+        const ref = sameLane ? S.x : (S.x + T.x) / 2;
+        let cx = corridors.reduce((best, c) => (Math.abs(c - ref) < Math.abs(best - ref) ? c : best));
+        cx += ((i % LINES) - (LINES - 1) / 2) * 8; // spread within the ~80px corridor
+
+        // Orthogonal waypoints: source → its gutter → corridor → target's gutter →
+        // target. Both horizontal runs sit in node-free gutters and the vertical
+        // run sits in the node-free corridor, so nothing crosses a node row.
+        // `down` handles the (defensive) upward-edge case by mirroring the gutters.
+        const g1 = S.y + down * (rankSep / 2 + stag);
+        const g2 = T.y - down * (rankSep / 2 + stag);
+        pts = [
+          [S.x, g1],
+          [cx, g1],
+          [cx, g2],
+          [T.x, g2]
+        ];
+      }
+
+      // Cytoscape 'segments' expresses each waypoint P relative to the
+      // *actual edge endpoints* (source-endpoint/target-endpoint), not the
+      // node centres — so weight/distance are projected against SE→TE
+      // (vector V) rather than S→T: weight = projection of (P−SE) onto V as
+      // a fraction of |V|, distance = signed offset along the unit
+      // perpendicular (−Vy, Vx)/|V|. We also pin source-endpoint/
+      // target-endpoint below to these same points (straight above/below
+      // each node's centre) so the entry/exit stubs and arrowheads stay
+      // vertical instead of angling toward the node centre.
+      const vx = TE.x - SE.x;
+      const vy = TE.y - SE.y;
+      const len2 = vx * vx + vy * vy;
+      if (len2 === 0) return; // coincident endpoints; nothing sane to route
+      const len = Math.sqrt(len2);
+      const weights = [];
+      const dists = [];
+      for (const [px, py] of pts) {
+        const rx = px - SE.x;
+        const ry = py - SE.y;
+        weights.push(((rx * vx + ry * vy) / len2).toFixed(4));
+        dists.push(((rx * -vy + ry * vx) / len).toFixed(2));
+      }
+      e.addClass('routed');
+      e.style({
+        'segment-weights': weights.join(' '),
+        'segment-distances': dists.join(' '),
+        'source-endpoint': `0 ${down * sN.outerHeight() / 2}`,
+        'target-endpoint': `0 ${-down * tN.outerHeight() / 2}`,
+        // Without this, Cytoscape projects the weights/distances against the
+        // node-border intersection line (`edge-distances: intersection`), not
+        // the endpoints above — which skews every reconstructed waypoint.
+        'edge-distances': 'endpoints'
+      });
     });
   }
 }
@@ -209,9 +314,10 @@ export function getCyStyle(isDark = true) {
     {
       // Intra-topic links: crisp orthogonal taxi lanes. Downward (bottom-exit)
       // flow — leave the node's bottom, drop down a vertical lane, branch
-      // horizontally into the target. staggerEdges() overrides taxi-turn per edge
-      // so parallel lanes land on distinct Y lines instead of overlapping. Faint
-      // by default so a dense graph reads cleanly; focus lights the chain (`lit`).
+      // horizontally into the target. routeEdges() overrides taxi-turn per edge
+      // so parallel lanes land on distinct Y lines instead of overlapping (and
+      // upgrades long edges to segments — see edge.routed below). Faint by
+      // default so a dense graph reads cleanly; focus lights the chain (`lit`).
       selector: 'edge',
       style: {
         width: 1.5,
@@ -245,10 +351,10 @@ export function getCyStyle(isDark = true) {
         'arrow-scale': 1
       }
     },
-    // Cross-topic links span between courses/strands. Same orthogonal taxi
-    // family as intra-topic edges (staggerEdges places their turn in the gutter
-    // above the target, like every other edge) but dashed amber and faint until a
-    // node is focused, so they still read as a different kind of link.
+    // Cross-topic links span between courses/strands. Same orthogonal routing
+    // family as intra-topic edges (routeEdges places their turns in node-free
+    // gutters/corridors, like every other edge) but dashed amber and faint until
+    // a node is focused, so they still read as a different kind of link.
     {
       selector: 'edge.cross-course',
       style: {
@@ -268,6 +374,12 @@ export function getCyStyle(isDark = true) {
     // doesn't overwhelm the in-course structure. Before .lit so lit still wins.
     { selector: 'edge.cross-course.far', style: { 'line-opacity': 0.3 } },
     { selector: 'edge.cross-course.lit', style: { 'line-opacity': 0.85, width: 1.5 } },
+    // Long edges routed through inter-column corridors by routeEdges(): explicit
+    // orthogonal polylines whose waypoints live in per-edge segment-weights/
+    // -distances styles. Placed after the taxi rules (base edge and
+    // cross-course) so this curve-style wins for routed edges of either kind;
+    // .far/.lit only touch width/opacity so they compose with it unchanged.
+    { selector: 'edge.routed', style: { 'curve-style': 'segments' } },
     // Ready-now frontier: dashed cyan halo + bolded, tinted label chip.
     {
       selector: 'node.ready',
