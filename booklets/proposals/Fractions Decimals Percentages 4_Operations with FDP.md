@@ -1,6 +1,6 @@
 # Atomisation proposal — Fractions Decimals Percentages 4: Operations with FDP
 
-**Source booklet:** `booklets/Fractions Decimals Percentages 4_Operations with FDP.md`
+**Source booklet:** `booklets/Stage 4/Fractions Decimals Percentages 4_Operations with FDP.md`
 **Topic:** `t-s4-frc` (Stage 4) · **Target dot points:** `dp-s4-frc-7`, `dp-s4-frc-8`
 (`dp-s4-frc-4` already owns `improper-mixed-numbers`, used as a prereq below)
 **Status:** proposal only — **not yet applied to `data/skills.json`**.

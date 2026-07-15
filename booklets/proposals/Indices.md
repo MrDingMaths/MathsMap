@@ -6,7 +6,7 @@ edges to existing skills.
 
 ## Scope
 
-Atomised `booklets/Indices.md` into genuinely-missing skills + prereq edges for
+Atomised `booklets/Stage 4/Indices.md` into genuinely-missing skills + prereq edges for
 `data/skills.json`, per `docs/atomisation-principles.md`.
 
 Edge-inclusion bar: add `X ← P` only if P is (1) distinctive, (2) at-risk,

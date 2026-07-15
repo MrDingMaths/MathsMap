@@ -1,6 +1,6 @@
 # Atomisation proposal — Algebraic Techniques 3: Expanding Brackets (Stage 4)
 
-Source booklet: `booklets/Algebraic Techniques 3_Expanding Brackets.md`
+Source booklet: `booklets/Stage 4/Algebraic Techniques 3_Expanding Brackets.md`
 Target dot point: `dp-s4-alg-4` (topic `t-s4-alg`, MA4-ALG-C-01)
 Rubric: `docs/atomisation-principles.md`
 

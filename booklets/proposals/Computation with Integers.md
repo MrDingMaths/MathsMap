@@ -1,6 +1,6 @@
 # Atomisation proposal — Computation with Integers (Stage 4)
 
-Source booklet: `booklets/Computation with Integers.md`
+Source booklet: `booklets/Stage 4/Computation with Integers.md`
 Target dot points: `dp-s4-int-1` … `dp-s4-int-4` (topic `t-s4-int`, MA4-INT-C-01)
 Rubric: `docs/atomisation-principles.md`
 

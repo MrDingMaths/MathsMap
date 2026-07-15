@@ -1,4 +1,4 @@
-# Proposal — Atomise `booklets/Angle Relationships.md`
+# Proposal — Atomise `booklets/Stage 4/Angle Relationships.md`
 
 ## Context
 

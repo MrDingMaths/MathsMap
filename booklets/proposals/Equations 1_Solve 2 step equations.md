@@ -1,6 +1,6 @@
 # Atomisation proposal — Equations 1: Solve 2-step equations (Stage 4)
 
-Source booklet: `booklets/Equations 1_Solve 2 step equations.md`
+Source booklet: `booklets/Stage 4/Equations 1_Solve 2 step equations.md`
 Target dot point: `dp-s4-equ-1` (topic `t-s4-equ`, MA4-EQU-C-01 — "Solve linear
 equations up to 2 steps"). All proposed skills attach here.
 Rubric: `docs/atomisation-principles.md`

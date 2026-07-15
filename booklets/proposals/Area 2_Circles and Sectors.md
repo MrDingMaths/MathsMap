@@ -2,7 +2,7 @@
 
 ## Context
 
-Booklet: `booklets/Area 2_Circles and Sectors.md`. Target dot point: **`dp-s4-are-2`**
+Booklet: `booklets/Stage 4/Area 2_Circles and Sectors.md`. Target dot point: **`dp-s4-are-2`**
 ("Develop and use the formula to find the area of circles and sectors to solve
 problems", topic `t-s4-are`, MA4-ARE-C-01). Proposal **only** — nothing applied to
 `data/skills.json` yet.

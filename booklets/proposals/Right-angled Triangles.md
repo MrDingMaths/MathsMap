@@ -1,6 +1,6 @@
 # Proposal — Atomise `Right-angled Triangles` booklet
 
-Target booklet: `booklets/Right-angled Triangles.md` (Pythagoras' theorem).
+Target booklet: `booklets/Stage 4/Right-angled Triangles.md` (Pythagoras' theorem).
 Target dot points: **dp-s4-pyt-1** ("Identify and define Pythagoras' theorem")
 and **dp-s4-pyt-2** ("Examine problems involving Pythagoras' theorem"),
 topic `t-s4-pyt` (Stage 4).

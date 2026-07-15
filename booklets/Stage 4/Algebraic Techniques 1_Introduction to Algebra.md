@@ -1,0 +1,2602 @@
+  -------------------------------------------------------------------
+  Mathematics Stage 4
+  -------------------------------------------------------------------
+  **Introduction to Algebra**
+
+  -------------------------------------------------------------------
+
++--------------------------------+-----------------------------------+--------------------------------+
+| **Book 1**                     | Pronumerals\                      | Version: 260524                |
+|                                | Substitution                      |                                |
+|                                |                                   | Feedback:\                     |
+|                                |                                   | https://MrDingMaths.com        |
++================================+===================================+================================+
+| **Contents**                                                                                        |
+|                                                                                                     |
+| [Syllabus Content [2](#syllabus-content)](#syllabus-content)                                        |
+|                                                                                                     |
+| [Generalising Relationships using Algebra                                                           |
+| [5](#generalising-relationships-using-algebra)](#generalising-relationships-using-algebra)          |
+|                                                                                                     |
+| [Algebraic Conventions [8](#algebraic-conventions)](#algebraic-conventions)                         |
+|                                                                                                     |
+| [Parts of an Expression [13](#parts-of-an-expression)](#parts-of-an-expression)                     |
+|                                                                                                     |
+| [Forming Expressions from Diagrams                                                                  |
+| [18](#forming-expressions-from-diagrams)](#forming-expressions-from-diagrams)                       |
+|                                                                                                     |
+| [Forming Expressions from Descriptions                                                              |
+| [23](#forming-expressions-from-descriptions)](#forming-expressions-from-descriptions)               |
+|                                                                                                     |
+| [Substitution and Evaluation [30](#substitution-and-evaluation)](#substitution-and-evaluation)      |
+|                                                                                                     |
+| [Substitution with Negative Numbers                                                                 |
+| [39](#substitution-with-negative-numbers)](#substitution-with-negative-numbers)                     |
+|                                                                                                     |
+| [Generating Patterns by Substitution                                                                |
+| [45](#generating-patterns-by-substitution)](#generating-patterns-by-substitution)                   |
++-----------------------------------------------------------------------------------------------------+
+
+# Syllabus Content
+
+**MA4-ALG-C-01** generalises number properties to operate with algebraic
+expressions including expansion and factorisation
+
+**Examine the concept of pronumerals as a way of representing numbers**
+
+- Examine and recognise that pronumerals can be used to represent one or
+  more numerical values and when pronumerals have more than one
+  numerical value, they may then be referred to as variables
+
+- Identify and define an algebraic expression as an expression formed by
+  combining numbers and algebraic symbols using arithmetic operations
+
+- Use concise algebraic notation and conventions for multiplication,
+  division and powers, and explain the meanings for each convention
+
+**Create algebraic expressions and evaluate them by substitution**
+
+- Generate algebraic expressions by translating descriptions and vice
+  versa
+
+- Substitute numbers into algebraic expressions and evaluate the result
+
+- Generate a number pattern from an algebraic expression
+
+![](media/Algebraic Techniques 1_Introduction to Algebra/media/image1.png){width="7.113043525809274in"
+height="6.978997156605424in"}
+
+![](media/Algebraic Techniques 1_Introduction to Algebra/media/image2.png){width="7.480555555555555in"
+height="6.802777777777778in"}
+
+# Generalising Relationships using Algebra
+
++-------------------------------------------------------------------+
+| - **Algebra**                                                     |
++===================================================================+
+| - **Algebra** communicates patterns, rules, and relationships     |
+|   involving numbers.                                              |
+|                                                                   |
+| - **Pronumerals** are letters or symbols that represent numbers,  |
+|   such as $x,y$ or $\pi$.                                         |
+|                                                                   |
+| - **Variables** are pronumerals with many possible numerical      |
+|   values.                                                         |
++-------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Generalising**                                                |
++===================================================================+
+| - An **algebraic expression** combines numbers, pronumerals, and  |
+|   symbols.                                                        |
+|                                                                   |
+| - Algebra shows relationships that work for any number, not just  |
+|   one specific example.                                           |
+|                                                                   |
+| - Showing a pattern works for any number is called                |
+|   **generalising**.                                               |
++-------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Example** Generalise rules of arithmetic                      |
++===================================================================+
+| Look at the pattern and generalise a rule.*\*                     |
+| $${5 \times 0 = 0                                                 |
+| }{6 \times 0 = 0                                                  |
+| }{51 \times 0 = 0                                                 |
+| }{\frac{1}{2} \times 0 = 0}$$                                     |
+|                                                                   |
+| English expression: Any number times zero is zero                 |
++-------------------------------------------------------------------+
+
++-------------------------------------------------------------------------------------------+
+| - **Guided Practice**                                                                     |
++=========================================+=================================================+
+| Generalise these relationships.                                                           |
++-----------------------------------------+-------------------------------------------------+
+| a.                                      | b.                                              |
+|                                         |                                                 |
+| $${4 \times 1 = 4                       | $${9 + 9 + 9 = 3 \times 9                       |
+| }{7 \times 1 = 7                        | }{2 + 2 + 2 = 3 \times 2                        |
+| }{( - 3) \times 1 = - 3}$$              | }{( - 4) + ( - 4) + ( - 4) = 3 \times ( - 4)}$$ |
+|                                         |                                                 |
+| English\                                | English\                                        |
+| expression:                             | expression:                                     |
+| ....................................... | .......................................         |
+|                                         |                                                 |
+| ....................................... | .......................................         |
+|                                         |                                                 |
+| Any number multiplied by 1 is itself.   | Any number added to itself twice is three times |
+|                                         | the number.                                     |
+| Algebraic\                              |                                                 |
+| expression:                             | Algebraic\                                      |
+| ....................................... | expression:                                     |
+|                                         | .......................................         |
+| $n \times 1 = n$                        |                                                 |
+|                                         | $n + n + n = 3 \times n$                        |
++-----------------------------------------+-------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  Pronumerals are letters or symbols that represent             |
+|     .....................                                         |
+|                                                                   |
+| 2.  If a pronumeral represents *any* number, then we call it a    |
+|     ........................                                      |
+|                                                                   |
+| 3.  Algebra involves using ........................... to         |
+|     represent numbers so we can quickly communicate mathematical  |
+|     relationships.                                                |
++-------------------------------------------------------------------+
+
+**Foundation**
+
+1.  Generalise these number facts.
+
++-----------------------------------+----------------------------------------+
+| a.                                | b.                                     |
+|                                   |                                        |
+| $${6 - 6 = 0                      | $${9 + 9 = 2 \times 9                  |
+| }{1 - 1 = 0                       | }{3 + 3 = 2 \times 3                   |
+| }{17 - 17 = 0                     | }{( - 4) + ( - 4) = 2 \times ( - 4)}$$ |
+| }$$                               |                                        |
+|                                   | English\                               |
+| English\                          | expression:                            |
+| expression: Any number subtract   | .................................      |
+| by                                |                                        |
+|                                   | .................................      |
+| itself is zero.                   |                                        |
+|                                   | Any number added to itself is two      |
+| Algebraic\                        | times the number..                     |
+| expression:                       |                                        |
+| ................................. | Algebraic\                             |
+|                                   | expression:                            |
+| $n - n = 0$                       | .................................      |
+|                                   |                                        |
+|                                   | $n + n = 2 \times n$                   |
++===================================+========================================+
+| c.                                | d.                                     |
+|                                   |                                        |
+| $${\frac{1}{100} = 1 \div 100     | $${2 + ( - 5) = 2 - 5                  |
+| }{\frac{3}{20} = 3 \div 20        | }{4 + ( - 1) = 4 - 1                   |
+| }{\frac{7}{3} = 7 \div 3          | }{9 + ( - 12) = 9 - 12                 |
+| }{\frac{11}{7} = 11 \div 7}$$     | }{( - 3) + ( - 5) = ( - 3) - 5}$$      |
+|                                   |                                        |
+| English\                          | English\                               |
+| expression:                       | expression:                            |
+| ................................. | .................................      |
+|                                   |                                        |
+| ................................. | .................................      |
+|                                   |                                        |
+| Any fraction is the numerator     | Adding a negative number is the same   |
+| divided by the denominator        | as subtracting the positive.           |
+|                                   |                                        |
+| Algebraic\                        | Algebraic\                             |
+| expression:                       | expression:                            |
+| ................................. | .................................      |
+|                                   |                                        |
+| $$\frac{a}{b} = a \div b$$        | $a + ( - b) = a - b$                   |
++-----------------------------------+----------------------------------------+
+| e.                                | f.                                     |
+|                                   |                                        |
+| $${2 \div 2 = 1                   | $$8 \div 1 = 8$$                       |
+| }{8 \div 8 = 1                    |                                        |
+| }{6 \div 6 = 1                    | $${5 \div 1 = 5                        |
+| }{14 \div 14 = 1}$$               | }{12 \div 1 = 12                       |
+|                                   | }{13 \div 1 = 13}$$                    |
+| English\                          |                                        |
+| expression:                       | English\                               |
+| ................................. | expression:                            |
+|                                   | .................................      |
+| ................................. |                                        |
+|                                   | .................................      |
+| Any number divided by itself is 1 |                                        |
+|                                   | Any number divided by 1 is itself.     |
+| Algebraic\                        |                                        |
+| expression:                       | Algebraic\                             |
+| ................................. | expression:                            |
+|                                   | .................................      |
+| $$n \div n = 1$$                  |                                        |
+|                                   | $n \div 1 = n$                         |
++-----------------------------------+----------------------------------------+
+
+2.  
+
++----------------------------------------+------------------------------------------------+
+| a.                                     | b.                                             |
+|                                        |                                                |
+| $${6 - 0 = 6                           | $${3 + 4 = 4 + 3                               |
+| }{1 - 0 = 1                            | }{8 + 6 = 6 + 8                                |
+| }{12 - 0 = 12                          | }{16 + 7 = 7 + 16                              |
+| }{17 - 0 = 17}$$                       | }{( - 2) + 8 = 8 + ( - 2)}$$                   |
+|                                        |                                                |
+| Algebraic\                             | Algebraic\                                     |
+| expression:                            | expression:                                    |
+|                                        |                                                |
+| $n - 0 = n$                            | $a + b = b + a$                                |
++========================================+================================================+
+| c.                                     | d.                                             |
+|                                        |                                                |
+| $${2 \times 3 = 3 \times 2             | $${2 + ( - 2) = 0                              |
+| }{4 \times 7 = 7 \times 4              | }{3 + ( - 3) = 0                               |
+| }{111 \times 56 = 56 \times 111        | }{15 + ( - 15) = 0                             |
+| }{( - 2) \times 4 = 4 \times ( - 2)}$$ | }{8 + ( - 8) = 0}$$                            |
+|                                        |                                                |
+| Algebraic\                             | Algebraic\                                     |
+| expression:                            | expression:                                    |
+|                                        |                                                |
+| $a \times b = b \times a$              | $n + ( - n) = 0$                               |
++----------------------------------------+------------------------------------------------+
+| e.                                     | f.                                             |
+|                                        |                                                |
+| $${2 \times 2 = 2^{2}                  | $${7 \div 2 = 7 \times \frac{1}{2}             |
+| }{10 \times 10 = 10^{2}                | }{8 \div 4 = 8 \times \frac{1}{4}              |
+| }{( - 3) \times ( - 3) = ( - 3)^{2}    | }{11 \div \frac{2}{3} = 11 \times \frac{3}{2}  |
+| }{24 \times 24 = 24^{2}}$$             | }{9 \div \frac{5}{4} = 9 \times \frac{4}{5}}$$ |
+|                                        |                                                |
+| Algebraic\                             | Algebraic\                                     |
+| expression:                            | expression:                                    |
+|                                        |                                                |
+| $n \times n = n^{2}$                   | $$a \div b = a \times \frac{1}{b}$$            |
++----------------------------------------+------------------------------------------------+
+
+3.  Change these English expressions to algebraic expressions.
+
++---------------------------------+-----------------------------------+
+| a.  Any number add zero equals  | b.  Any number added to itself is |
+|     itself.                     |     the same as multiplying that  |
+|                                 |     number by 2.                  |
+| $n + 0 = n$                     |                                   |
+|                                 | $n + n = 2n$                      |
++=================================+===================================+
+| c.  Doubling any number twice   | d.  Multiplying any number by 5   |
+|     is the same as multiplying  |     is the same as multiplying it |
+|     it by 4.                    |     by 10, then dividing by 2.    |
+|                                 |                                   |
+| $n \times 2 \times 2 = 4n$      | $n \times 5 = n \times 10 \div 2$ |
++---------------------------------+-----------------------------------+
+
+# Algebraic Conventions
+
++-------------------------------------------------------------------------------------------------------------------------------------+
+| - **Apply** algebraic conventions to simplify expressions                                                                           |
++=====================================================================================================================================+
+| **Leave out × symbol when multiplying.** $3 \times x = \ 3x$                                                                        |
+|                                                                                                                                     |
+| **Write numbers first, then variables.** $x \times 6 = \ 6x$                                                                        |
+|                                                                                                                                     |
+| **Hide the 1 when multiplying by 1 or** $\mathbf{- 1}$**.** $1 \times x = x$ $- 1 \times x = \  - x$                                |
+|                                                                                                                                     |
+| +----------------------------+--------------------+------------------+-----------------------------+                                |
+| | a.  $6 \times a$           | b.  $t \times 3$   | c.  $h \times z$ | d.  $x \times 5 \times y$   |                                |
+| |                            |                    |                  |                             |                                |
+| | $6a$                       | $3t$               | $hz$             | $5xy$                       |                                |
+| +============================+====================+==================+=============================+                                |
+| | e.  $12 \times y \times x$ | f.  $- 1 \times y$ | g.  $z \times 1$ | h.  $h \times - 1 \times n$ |                                |
+| |                            |                    |                  |                             |                                |
+| | $12yx$                     | $- y$              | $z$              | $- hn$                      |                                |
+| +----------------------------+--------------------+------------------+-----------------------------+                                |
+|                                                                                                                                     |
+| **Brackets without an operation in front means multiply.** $3 \times 5 = \ 3(5)$                                                    |
+|                                                                                                                                     |
+| +---------------------------+-------------------------+--------------------------+--------------------------+                       |
+| | a.  $6 \times 8$          | b.  $12 \times 4$       | c.  $- 2 \times 12$      | d.  $- 3 \times 7$       |                       |
+| |                           |                         |                          |                          |                       |
+| | $6(8)$                    | $12(4)$                 | $- 2(12)$                | $- 3(7)$                 |                       |
+| +===========================+=========================+==========================+==========================+                       |
+| | e.  $7 \times 4 \times 5$ | f.  $12 \times (x - 3)$ | g.  $(x - 5) \times - 3$ | h.  $- 1 \times (x + 4)$ |                       |
+| |                           |                         |                          |                          |                       |
+| | $7(4)(5)$                 | $12(x - 3)$             | $- 3(x - 5)$             | $- (x + 4)$              |                       |
+| +---------------------------+-------------------------+--------------------------+--------------------------+                       |
+|                                                                                                                                     |
+| **Indices (powers) show repeated multiplication.** $x \times x \times x\  \rightarrow x^{3}$                                        |
+|                                                                                                                                     |
+| +---------------------------+---------------------------+------------------------------------+------------------------------------+ |
+| | a.  $w \times w$          | b.  $9 \times w \times w$ | c.  $z \times z \times z \times z$ | d.  $x \times x \times w$          | |
+| |                           |                           |                                    |                                    | |
+| | $w^{2}$                   | $9w^{2}$                  | $z^{4}$                            | $x^{2}w$                           | |
+| +===========================+===========================+====================================+====================================+ |
+| | e.  $y \times 6 \times y$ | f.  $y \times y \times z$ | g.  $z \times y \times y$          | h.  $x \times 7 \times x \times y$ | |
+| |                           |                           |                                    |                                    | |
+| | $6y^{2}$                  | $y^{2}z$                  | $zy^{2}$                           | $7x^{2}y$                          | |
+| +---------------------------+---------------------------+------------------------------------+------------------------------------+ |
+|                                                                                                                                     |
+| **Show division using fractions.** $x \div 3 =$ $\frac{x}{3}$                                                                       |
+|                                                                                                                                     |
+| +-----------------+-----------------+-------------------+-----------------+                                                         |
+| | a.  $a \div 7$  | b.  $7 \div a$  | c.  $2x \div 13$  | d.  $n \div y$  |                                                         |
+| |                 |                 |                   |                 |                                                         |
+| | $$\frac{a}{7}$$ | $$\frac{7}{a}$$ | $$\frac{2x}{13}$$ | $$\frac{n}{y}$$ |                                                         |
+| +=================+=================+===================+=================+                                                         |
++-------------------------------------------------------------------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------+
+| - **Algebraic Conventions**                                           |
++===================================+===================================+
+| Hide the × symbol when            | $3 \times x = \ 3x$               |
+| multiplying.                      |                                   |
++-----------------------------------+-----------------------------------+
+| Write numbers before pronumerals. | $x \times 6 = \ 6x$               |
++-----------------------------------+-----------------------------------+
+| Hide 1 when multiplying by 1 or   | $1 \times x = x$                  |
+| $- 1$.                            |                                   |
+|                                   | $- 1 \times x = \  - x$           |
++-----------------------------------+-----------------------------------+
+| Brackets without an operation     | $3 \times 5 = \ 3(5)$             |
+| means multiply.                   |                                   |
++-----------------------------------+-----------------------------------+
+| Indices show repeated             | $x \times x \times x = x^{3}$     |
+| multiplication.                   |                                   |
++-----------------------------------+-----------------------------------+
+| Show division as fractions.       | $x \div 3 =$ $\frac{x}{3}$        |
++-----------------------------------+-----------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  Rules of reading and writing algebra are called algebraic     |
+|     ......................                                        |
+|                                                                   |
+| 2.  Using algebraic conventions make mathematical expressions     |
+|     ........................,\                                    |
+|     so communication is more efficient.                           |
++-------------------------------------------------------------------+
+
+Foundation
+
+1.  Simplify these expressions by writing them without multiplication
+    signs.
+
++---------------------------+---------------------------+------------------------------------+---------------------------+
+| a.  $4 \times m$          | b.  $6 \times t$          | c.  $3 \times k$                   | d.  $10 \times z$         |
+|                           |                           |                                    |                           |
+| $4m$                      | $6t$                      | $3k$                               | $10z$                     |
++===========================+===========================+====================================+===========================+
+| e.  $p \times 7$          | f.  $m \times 5$          | g.  $k \times 8$                   | h.  $n \times 2$          |
+|                           |                           |                                    |                           |
+| $7p$                      | $5m$                      | $8k$                               | $2n$                      |
++---------------------------+---------------------------+------------------------------------+---------------------------+
+| i.  $w \times z$          | j.  $c \times v$          | k.  $p \times q$                   | l.  $a \times b$          |
+|                           |                           |                                    |                           |
+| $wz$                      | $cv$                      | $pq$                               | $ab$                      |
++---------------------------+---------------------------+------------------------------------+---------------------------+
+| m.  $t \times t$          | n.  $q \times q$          | o.  $- 1 \times s$                 | p.  $a \times b \times c$ |
+|                           |                           |                                    |                           |
+| $t^{2}$                   | $q^{2}$                   | $- s$                              | $abc$                     |
++---------------------------+---------------------------+------------------------------------+---------------------------+
+| q.  $2 \times s \times t$ | r.  $6 \times q \times p$ | s.  $8 \times p \times q \times r$ | t.  $a \times a \times c$ |
+|                           |                           |                                    |                           |
+| $2st$                     | $6qp$                     | $8pqr$                             | $a^{2}c$                  |
++---------------------------+---------------------------+------------------------------------+---------------------------+
+| u.  $2 \times v \times v$ | v.  $5 \times w \times w$ | w.  $p \times p \times 8$          | x.  $p \times 8 \times p$ |
+|                           |                           |                                    |                           |
+| $2v^{2}$                  | $5w^{2}$                  | $8p^{2}$                           | $8p^{2}$                  |
++---------------------------+---------------------------+------------------------------------+---------------------------+
+
+2.  Show the meaning of each algebraic expression by inserting
+    multiplication signs.
+
++-----------------------+--------------------------------+----------------------------------+
+| a.  $9w$              | b.  $5g$                       | c.  $52m$                        |
+|                       |                                |                                  |
+| $9 \times w$          | $5 \times g$                   | $52 \times m$                    |
++=======================+================================+==================================+
+| d.  $tz$              | e.  $v^{2}$                    | f.  $3pq$                        |
+|                       |                                |                                  |
+| $t \times z$          | $v \times v$                   | $3 \times p \times q$            |
++-----------------------+--------------------------------+----------------------------------+
+| g.  $8ab$             | h.  $b^{2}$                    | i.  $12mn$                       |
+|                       |                                |                                  |
+| $8 \times a \times b$ | $b \times b$                   | $12 \times m \times n$           |
++-----------------------+--------------------------------+----------------------------------+
+| j.  $krz$             | k.  $3abc$                     | l.  $35hs$                       |
+|                       |                                |                                  |
+| $k \times r \times z$ | $3 \times a \times b \times c$ | $35 \times h \times s$           |
++-----------------------+--------------------------------+----------------------------------+
+| m.  $- y$             | n.  $- 4xy$                    | o.  $- x^{3}$                    |
+|                       |                                |                                  |
+| $- 1 \times y$        | $- 4 \times x \times y$        | $- 1 \times x \times x \times x$ |
++-----------------------+--------------------------------+----------------------------------+
+
+3.  Simplify these expressions by writing them as fractions.
+
++----------------------+------------------------+-------------------------+
+| a.  $y \div 6$       | b.  $8 \div k$         | c.  $6 \div w$          |
+|                      |                        |                         |
+| $$\frac{y}{6}$$      | $$\frac{8}{k}$$        | $$\frac{6}{w}$$         |
++======================+========================+=========================+
+| d.  $2 \div s$       | e.  $9 \div t$         | f.  $ab \div 3$         |
+|                      |                        |                         |
+| $$\frac{2}{s}$$      | $$\frac{9}{t}$$        | $$\frac{ab}{3}$$        |
++----------------------+------------------------+-------------------------+
+| g.  $pq \div 7$      | h.  $3t \div 4$        | i.  $7y \div 3$         |
+|                      |                        |                         |
+| $$\frac{pq}{7}$$     | $$\frac{3t}{4}$$       | $$\frac{7y}{3}$$        |
++----------------------+------------------------+-------------------------+
+| j.  $4k \div 9$      | k.  $7tv \div 2$       | l.  $12xy \div z$       |
+|                      |                        |                         |
+| $$\frac{4k}{9}$$     | $$\frac{7tv}{2}$$      | $$\frac{12xy}{z}$$      |
++----------------------+------------------------+-------------------------+
+| m.  $(z + 3) \div 2$ | n.  $(3 + x) \div - 4$ | o.  $- 11 \div (x + 1)$ |
+|                      |                        |                         |
+| $$\frac{z + 3}{2}$$  | $$\frac{3 + x}{- 4}$$  | $$\frac{- 11}{x + 1}$$  |
++----------------------+------------------------+-------------------------+
+
+4.  Show the meaning of each expression by rewriting them with division
+    signs.
+
++----------------------+----------------------+----------------------+
+| a.  $\frac{3}{10}$   | b.  $\frac{m}{6}$    | c.  $\frac{8}{n}$    |
+|                      |                      |                      |
+| $3 \div 10$          | $m \div 6$           | $8 \div n$           |
++======================+======================+======================+
+| d.  $\frac{h}{3}$    | e.  $\frac{z}{2}$    | f.  $\frac{2}{p}$    |
+|                      |                      |                      |
+| $h \div 3$           | $z \div 2$           | $2 \div p$           |
++----------------------+----------------------+----------------------+
+| g.  $\frac{pq}{2}$   | h.  $\frac{km}{5}$   | i.  $\frac{4}{5t}$   |
+|                      |                      |                      |
+| $pq \div 2$          | $km \div 5$          | $4 \div 5t$          |
++----------------------+----------------------+----------------------+
+
+5.  Simplify these expressions using algebraic conventions.
+
++------------------------------------+-----------------------------------+----------------------------+
+| a.  $4\  \times \ m$               | b.  $6\  \times \ t$              | c.  $m\  \times \ 5$       |
+|                                    |                                   |                            |
+| $$4m$$                             | $$6t$$                            | $$5m$$                     |
++====================================+===================================+============================+
+| d.  $x\  \times \ w$               | e.  $5\  \times \ w\  \times \ w$ | f.  $4q\  \times (n + 5)$  |
+|                                    |                                   |                            |
+| $$xw$$                             | $$5w^{2}$$                        | $$4q(n + 5)$$              |
++------------------------------------+-----------------------------------+----------------------------+
+| g.  $a \times 3 \times b$          | h.  $h \div 3$                    | i.  $3 \div h$             |
+|                                    |                                   |                            |
+| $$3ab$$                            | $$\frac{h}{3}$$                   | $$\frac{3}{h}$$            |
++------------------------------------+-----------------------------------+----------------------------+
+| j.  $a \times b \div 3$            | k.  $7 \div (3 + y)$              | l.  $(a + 3) \div 4$       |
+|                                    |                                   |                            |
+| $$\frac{ab}{3}$$                   | $$\frac{7}{3 + y}$$               | $$\frac{a + 3}{4}$$        |
++------------------------------------+-----------------------------------+----------------------------+
+| m.  $a \times b \times a \times a$ | n.  $c \times c \div 4$           | o.  $(a - 4) \div (b + 9)$ |
+|                                    |                                   |                            |
+| $$a^{3}b$$                         | $$\frac{c^{2}}{4}$$               | $$\frac{a - 4}{b + 9}$$    |
++------------------------------------+-----------------------------------+----------------------------+
+
+6.  Write the operations to show the difference between these three
+    expressions.
+
++----------------------+-------------------------+----------------------+
+| a.  $2a$             | b.  $\frac{2}{a}$       | c.  $\frac{a}{2}$    |
+|                      |                         |                      |
+| $$2 \times a$$       | $$2 \div a$$            | $$a \div 2$$         |
++======================+=========================+======================+
+| d.  $a^{2}$          | e.  $2ab$               | f.  $(ab)^{2}$       |
+|                      |                         |                      |
+| $$a \times a$$       | $$2 \times a \times b$$ | $$ab \times ab$$     |
++----------------------+-------------------------+----------------------+
+
+7.  Show the meaning of each expression by writing it out in full.
+
++--------------------------------+-----------------------------------------+-----------------------------------------+
+| a.  $9w$                       | b.  $48z$                               | c.  $tz$                                |
+|                                |                                         |                                         |
+| $9 \times w$                   | $48 \times z$                           | $t \times z$                            |
++================================+=========================================+=========================================+
+| d.  $3abc$                     | e.  $2w - 9$                            | f.  $4(k - 9m)$                         |
+|                                |                                         |                                         |
+| $3 \times a \times b \times c$ | $2 \times w - 9$                        | $4 \times (k - 9 \times m)$             |
++--------------------------------+-----------------------------------------+-----------------------------------------+
+| g.  $d^{2}$                    | h.  ${3x}^{4}$                          | i.  $3ac^{2}d$                          |
+|                                |                                         |                                         |
+| $d \times d$                   | $3 \times x \times x \times x \times x$ | $3 \times a \times c \times c \times d$ |
++--------------------------------+-----------------------------------------+-----------------------------------------+
+| j.  $\frac{1}{9}$              | k.  $\frac{h}{7}$                       | l.  $\frac{2a}{p}$                      |
+|                                |                                         |                                         |
+| $1 \div 9$                     | $h \div 7$                              | $2 \times a \div p$                     |
++--------------------------------+-----------------------------------------+-----------------------------------------+
+
+# Parts of an Expression
+
++-------------------------------------------------------------------+
+| - **Terms**                                                       |
++===================================================================+
+| - A **term** is part of an expression.                            |
+|                                                                   |
+| - Terms are **separated by addition**.                            |
+|                                                                   |
+| - Terms can be pronumerals, numbers, or a combination.            |
++-------------------------------------------------------------------+
+
++---------------------------------------------------------------------------------+
+| - **Identify** terms of an expression                                           |
++===================+===================+=====================+===================+
+| $3a + b + 13c$                        | $3xy + y - 12$                          |
+|                                       |                                         |
+| The terms are: $3a,\ b,\ 13c$         | $\mathbf{=}3xy + y + ( - 12)$           |
+|                                       |                                         |
+|                                       | The terms are: $3xy,y,( - 12)$          |
++---------------------------------------+-----------------------------------------+
+| Identify the terms of these expressions                                         |
++-------------------+-------------------+---------------------+-------------------+
+| **Expression**    | **Terms**         | **Expression**      | **Terms**         |
++-------------------+-------------------+---------------------+-------------------+
+| $$3x + 9$$        |                   | $$9 - 3x - 4y$$     |                   |
++-------------------+-------------------+---------------------+-------------------+
+| $$3x - 9$$        |                   | $$9 - 3a - 4b$$     |                   |
++-------------------+-------------------+---------------------+-------------------+
+| $$3x + 4y - 9$$   |                   | $$3a^{2}$$          |                   |
++-------------------+-------------------+---------------------+-------------------+
+| $$3x - 4y - 9$$   |                   | $$3a^{2} - 4$$      |                   |
++-------------------+-------------------+---------------------+-------------------+
+| $$3x - 4y + 9$$   |                   | $$3a^{2} - 4b + 9$$ |                   |
++-------------------+-------------------+---------------------+-------------------+
+| $$- 3x - 4y + 9$$ |                   | $$3a^{2} - 4a + 9$$ |                   |
++-------------------+-------------------+---------------------+-------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  Terms are parts of an algebraic expression that are separated |
+|     by ...........................                                |
+|                                                                   |
+| 2.  In algebra, treat subtraction as adding the                   |
+|     ...........................                                   |
+|                                                                   |
+| 3.  In the expression $3x - 7$, the terms are: ............ and   |
+|     ...............                                               |
++-------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Coefficients**                                                |
++===================================================================+
+| - A **coefficient** is the number multiplying a pronumeral.       |
++-------------------------------------------------------------------+
+
++---------------------------------------------------------------------------------------------------------------+
+| - **Identify** the coefficient of $x$                                                                         |
++===================+=================+=================+=================+=================+===================+
+| $$3x$$                              | $$\frac{x}{3}$$                   | $$3 - x$$                           |
+|                                     |                                   |                                     |
+| Coefficient is $3$                  | Coefficient is $\frac{1}{3}$      | Coefficient is $- 1$                |
++-------------------------------------+-----------------------------------+-------------------------------------+
+| Identify the coefficient of $x.$                                                                              |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+| a.  $3x$          | b.  $5x$                          | c.  $13x$                         | d.  $2481x$       |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+| e.  $0.5x$        | f.  $- 123x$                      | g.  $x$                           | h.  $- x$         |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+| i.  $2x + y$      | j.  $y + 2x$                      | k.  $y - 2x$                      | l.  $18 - 9x$     |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+| m.  $y$           | n.  $2y$                          | o.  $\frac{1}{2}$ $x$             | p.  $\frac{x}{2}$ |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+| q.  $\frac{x}{5}$ | r.  $\frac{3}{7}$ $x$             | s.  $\frac{3x}{7}$                | t.  $x^{2} + 5x$  |
++-------------------+-----------------------------------+-----------------------------------+-------------------+
+
++-------------------------------------------------------------------+
+| - **Constant Term**                                               |
++===================================================================+
+| - **Constant terms** are numbers without variables.               |
++-------------------------------------------------------------------+
+
++-------------------------------------------------------------------------------------------------------------+
+| - **Identify** the constant term                                                                            |
++===================+=================+=================+=================+=================+=================+
+| $$3x + 5$$                          | $$- 9x + 11$$                     | $$3x - 11$$                       |
+|                                     |                                   |                                   |
+| Constant is 5                       | Constant is 11                    | Constant is $- 11$                |
++-------------------------------------+-----------------------------------+-----------------------------------+
+| Identify the constant term                                                                                  |
++-------------------+-----------------------------------+-----------------------------------+-----------------+
+| a.  $3x + 6$      | b.  $4x + 9$                      | c.  $12x + 7$                     | d.  $7 + 12x$   |
++-------------------+-----------------------------------+-----------------------------------+-----------------+
+| e.  $4x + 0.5$    | f.  $4x +$ $\frac{1}{2}$          | g.  $4x - 1$                      | h.  $4x - 48$   |
++-------------------+-----------------------------------+-----------------------------------+-----------------+
+| i.  $y + 3x + 12$ | j.  $2y - 3x + 4$                 | k.  $2xy - 9$                     | l.  $9y$        |
++-------------------+-----------------------------------+-----------------------------------+-----------------+
+
++--------------------------------------------------------------------------------------------------------+
+| - **Parts of an Expression**                                                                           |
++========================================================================================================+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image3.png){width="2.065764435695538in" |
+| height="1.5520002187226596in"}                                                                         |
++--------------------------------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Example** Identify the parts of an algebraic expression       |
++===================================================================+
+| $2x - 4y - 9$                                                     |
+|                                                                   |
+| Terms: $2x,\  - 4y,\  - 9$                                        |
+|                                                                   |
+| Pronumerals: $x$, $y$                                             |
+|                                                                   |
+| Coefficient of $x:$ $2$                                           |
+|                                                                   |
+| Coefficient of $y$: $- 4$                                         |
+|                                                                   |
+| Constant term: $- 9$                                              |
++-------------------------------------------------------------------+
+
++-----------------------------------------------------------------------+
+| - **Guided Practice**                                                 |
++===================================+===================================+
+| a.  $3x - 6y + 14$                | b.  $- 2a + 4b + 9$               |
+|                                   |                                   |
+| Terms:                            | Terms:                            |
+|                                   |                                   |
+| $$3x,\  - 6y,\ 14$$               | $- 2a,\ 4b,\ 9$                   |
+|                                   |                                   |
+| Pronumerals:                      | Pronumerals:                      |
+|                                   |                                   |
+| $$x,\ y$$                         | $a,b$                             |
+|                                   |                                   |
+| Coefficient of $x:$               | Coefficient of $a:$               |
+|                                   |                                   |
+| $$3$$                             | $- 2$                             |
+|                                   |                                   |
+| Coefficient of $y$:               | Coefficient of $b$:               |
+|                                   |                                   |
+| $$- 6$$                           | $4$                               |
+|                                   |                                   |
+| Constant term:                    | Constant term:                    |
+|                                   |                                   |
+| $$14$$                            | $9$                               |
++-----------------------------------+-----------------------------------+
+| c.  $17u +$ $\frac{b}{2}$ $- 12$                                      |
+|                                                                       |
+| Terms:                                                                |
+|                                                                       |
+| $$17u,\frac{b}{2},\  - 12$$                                           |
+|                                                                       |
+| Pronumerals:                                                          |
+|                                                                       |
+| $u,b$                                                                 |
+|                                                                       |
+| Coefficient of $u:$                                                   |
+|                                                                       |
+| $17$                                                                  |
+|                                                                       |
+| Coefficient of $b$:                                                   |
+|                                                                       |
+| $$\frac{1}{2}$$                                                       |
+|                                                                       |
+| Constant term:                                                        |
+|                                                                       |
+| $- 12$                                                                |
++-----------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  A constant term is a term that has no                         |
+|     .................................                             |
+|                                                                   |
+| 2.  The coefficient is the number that a pronumeral is            |
+|     .............................. by.                            |
++-------------------------------------------------------------------+
+
+Foundation
+
+1.  List all the terms in these expressions.
+
++----------------+-------------------+-------------------+----------------+
+| a.  $3x + 2y$  | b.  $4a + 2b + c$ | c.  $5a + 3b + 2$ | d.  $2x + 5$   |
+|                |                   |                   |                |
+| $3x,\ 2y$      | $4a,2b,c$         | $5a,3b,2$         | $2x,5$         |
++================+===================+===================+================+
+
+2.  Identify the constant terms in these expressions.
+
++----------------+-------------------+-------------------+-------------------+
+| a.  $7a + 5$   | b.  $2x + 3y + 6$ | c.  $8 + 3x + 2y$ | d.  $5a + 1 + 3b$ |
+|                |                   |                   |                   |
+| $5$            | $6$               | $8$               | $1$               |
++================+===================+===================+===================+
+
+3.  For each of the following expressions, state the coefficient of $n$.
+
++----------------+----------------------+---------------------+---------------------+
+| a.  $17n + 24$ | b.  $31 - 27a + 15n$ | c.  $15w + 21n + 1$ | d.  $15a + 2n + xy$ |
+|                |                      |                     |                     |
+| $17$           | $15$                 | $21$                | $2$                 |
++================+======================+=====================+=====================+
+| e.  $n + 51$   | f.  $21 - n$         | g.  $0.5 - 8n$      | h.  $5 -$           |
+|                |                      |                     |     $\frac{3n}{4}$  |
+| $1$            | $- 1$                | $- 8$               |                     |
+|                |                      |                     | i.                  |
+|                |                      |                     |                     |
+|                |                      |                     | $$- \frac{3}{4}$$   |
++----------------+----------------------+---------------------+---------------------+
+
+4.  The expression $4x + 3y + 24z + 7$ has four terms.
+
++----------------+----------------+-----------------+-----------------+
+| a.  List all   | b.  Identify   | c.  Identify    | d.  Which       |
+|     the terms. |     the        |     the         |     pronumeral  |
+|                |     constant   |     coefficient |     has         |
+| $4x,3y,24z,7$  |     term.      |     of $x.$     |     coefficient |
+|                |                |                 |     24?         |
+|                | 7              | 4               |                 |
+|                |                |                 | $z$             |
++================+================+=================+=================+
+
+5.  Consider the expression $5a + 3b - 7c + 12$
+
++----------------------+----------------------+----------------------+
+| a.  List all the     | b.  Identify the     | c.  Identify the     |
+|     terms.           |     constant term.   |     coefficient of   |
+|                      |                      |     $c$.             |
+| $5a,3b, - 7c,12$     | $12$                 |                      |
+|                      |                      | $- 7$                |
++======================+======================+======================+
+
+6.  Consider expression $3a + b + 13c$
+
++----------------------+----------------------+----------------------+
+| a.  List all the     | b.  Identify the     | c.  Identify the     |
+|     terms.           |     constant term.   |     coefficient of   |
+|                      |                      |     $b$.             |
+| $3a,b,13c$           | $0$                  |                      |
+|                      |                      | $1$                  |
++======================+======================+======================+
+
+Development
+
+7.  
+
+  ----------------------------------------------------------------------------------
+  **Expression**                 **Pronumerals**   **Coefficient of**  **Constant
+                                                   $\mathbf{a}$        Term**
+  ------------------------------ ----------------- ------------------- -------------
+  $3a + 9$                       $a$               $3$                 9
+
+  $$3a - 9$$                     $a$               $3$                 $- 9$
+
+  $3b - 9$                       $b$               $3$                 $- 9$
+
+  $3b$                           $b$               $3$                 $0$
+
+  $3a$                           $a$               $3$                 $0$
+
+  $- 9$                          None              $0$                 $- 9$
+
+  $$2a + 3b - 9$$                $a,b$             $2$                 $- 9$
+
+  $$2a - 3b - 9$$                $a,b$             $2$                 $- 9$
+
+  $$2a - 3b + 9$$                $a,b$             $2$                 $9$
+
+  $$- 2a - 3b + 9$$              $a,b$             $- 2$               $9$
+
+  $$9 - 2a - 3b$$                $a,b$             $- 2$               $9$
+
+  $$a - 3b + 2$$                 $a,b$             $1$                 $2$
+
+  $$\frac{a}{3} - 3b + 2$$       $a,b$             $$\frac{1}{3}$$     $2$
+
+  $$\frac{2a}{3} - 3b + 2$$      $a,b$             $$\frac{2}{3}$$     $2$
+
+  $$- \frac{4a}{5} + 3b + 15$$   $a,b$             $$- \frac{4}{5}$$   $15$
+
+  $$3b - \frac{3a}{7} - 14$$     $a,b$             $$- \frac{3}{7}$$   $- 14$
+
+  $$3a^{2} + 4a + 1$$            $a$               $4$                 $1$
+
+  $$3a^{2} - 4a$$                $a$               $- 4$               $0$
+  ----------------------------------------------------------------------------------
+
+# Forming Expressions from Diagrams
+
++-------------------------------------------------------------------+
+| - **Algebraic Expressions**                                       |
++===================================================================+
+| - **Algebraic expressions** communicate relationships involving   |
+|   numbers.                                                        |
+|                                                                   |
+| - The **pronumeral** represents an unknown amount.                |
+|                                                                   |
+| - The same **pronumeral** always represents the same number in    |
+|   one expression.                                                 |
++-------------------------------------------------------------------+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+| - **Example** Represent a concrete scenario as an algebraic expression                                                                             |
++================================================================================================================+===================================+
+| Write an algebraic expression for the total number of music discs.                                                                                 |
++----------------------------------------------------------------------------------------------------------------+-----------------------------------+
+| ![Diagram, engineering drawing Description automatically                                                       | What does the pronumeral $n$      |
+| generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image4.png){width="2.9791666666666665in" | represent?                        |
+| height="0.8939391951006124in"}                                                                                 |                                   |
+|                                                                                                                | $n$ *represents the               |
+| $$4n + 3$$                                                                                                     | ............... of music discs in |
+|                                                                                                                | each chest.*                      |
++----------------------------------------------------------------------------------------------------------------+-----------------------------------+
+| ![Diagram, engineering drawing Description automatically                                                       | Why did we need two pronumerals,\ |
+| generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image5.png){width="2.1006944444444446in" | $x$ and $y$ in this scenario?     |
+| height="1.06875in"}                                                                                            |                                   |
+|                                                                                                                | *One of the chests contains a     |
+| $$2x + y + 1$$                                                                                                 | ............... number of music   |
+|                                                                                                                | discs, so we must use a different |
+|                                                                                                                | pronumeral.*                      |
++----------------------------------------------------------------------------------------------------------------+-----------------------------------+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| - **Guided Practice**                                                                                                                                                                                                                             |
++======================================================================================================+============================================================================================================================================+
+| Represent these scenarios as algebraic expressions                                                                                                                                                                                                |
++------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
+| a.  ![Diagram, engineering drawing Description automatically                                         | b.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image7.png){width="3.142361111111111in" height="1.0395833333333333in"}  |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image6.png){width="3.15in" |                                                                                                                                            |
+|     height="0.9520833333333333in"}                                                                   | $$3x + y + 5$$                                                                                                                             |
+|                                                                                                      |                                                                                                                                            |
+| $$5x + 2$$                                                                                           |                                                                                                                                            |
++------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
+| c.                                                                                                   | d.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image8.png){width="2.8465277777777778in"                                |
+|                                                                                                      |     height="0.30833333333333335in"}![A picture containing text, screenshot Description automatically                                       |
+| $c + 2t$                                                                                             |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image9.png){width="2.796134076990376in"                          |
+|                                                                                                      |     height="0.34270122484689414in"}                                                                                                        |
+|                                                                                                      |                                                                                                                                            |
+|                                                                                                      | $16 + 4r$                                                                                                                                  |
++------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
+| e.                                                                                                   | f.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image10.png){width="2.9743055555555555in"                               |
+|                                                                                                      |     height="0.3402777777777778in"}![](media/Algebraic Techniques 1_Introduction to Algebra/media/image11.png){width="3.0928816710411198in" |
+| $6 + 3a + b$                                                                                         |     height="0.3405774278215223in"}                                                                                                         |
+|                                                                                                      |                                                                                                                                            |
+|                                                                                                      | $40 + 2k + j$                                                                                                                              |
++------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
+
+Foundation
+
+1.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image12.png){width="1.3576388888888888in"
+    height="0.7534722222222222in"}The diagram shows 1 cup and 4 marbles.
+
+    a.  If the cup has 6 marbles, total marbles = 6 + 4 = ......
+
+$6 + 4 = 10$
+
+b.  If the cup has 20 marbles, total marbles = ...... + ...... = ......
+
+$20 + 4 = 24$
+
+c.  If the cup has $n$ marbles, total marbles = ............
+
+$n + 4$
+
+2.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image13.png){width="2.247916666666667in"
+    height="0.66875in"}The diagram shows 4 cups.
+
+    a.  If each cup has 5 marbles, total marbles = 4 × ... = ......
+
+$4 \times 5 = 20$
+
+b.  If each cup has 8 marbles, total marbles = = 4 × ... = ......
+
+$4 \times 8 = 32$
+
+c.  If each cup has $n$ marbles, total marbles = 4 × ... = ......
+
+$4 \times n = 4n$
+
+3.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image14.png){width="2.0229166666666667in"
+    height="0.66875in"}The diagram shows 3 cups and 2 marbles.
+
+    a.  If each cup has 5 marbles, total marbles = 3 × ...... + 2 =
+        .........
+
+$3 \times 5 + 2 = 17$
+
+b.  If each cup has 10 marbles, total marbles = 3 × ...... + 2 =
+    .........
+
+$3 \times 10 + 2 = 32$
+
+c.  If each cup has $n$ marbles, total marbles = = 3 × ...... + 2 =
+    .........
+
+$3 \times n + 2 = 3n + 2$
+
+4.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image15.png){width="1.1666666666666667in"
+    height="0.7666666666666667in"}These two cups have a different number
+    of marbles in them.\
+    Explain why the total number of marbles is NOT $2n$
+
+$2n$ means the two cups have the same number of marbles.
+
+5.  There are $n$ marbles in each cup.\
+    Write an algebraic expression for the total number of marbles in
+    each diagram.
+
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| a.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.1176465441819774in"        | b.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.1176465441819774in"        |
+|     height="0.7395384951881014in"}                                                                                  |     height="0.7395384951881014in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| Total marbles $=$ ...... $+ \ 3$                                                                                    | Total marbles $=$ $4 \times$ ......... = ............                                                               |
+|                                                                                                                     |                                                                                                                     |
+| $n + 3$                                                                                                             | $4 \times n = 4n$                                                                                                   |
++=====================================================================================================================+=====================================================================================================================+
+| c.  ![A picture containing text, cup, indoor Description automatically                                              | d.  ![A picture containing text, cup, indoor Description automatically                                              |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.1176465441819774in" |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.1176465441819774in" |
+|     height="0.7395384951881014in"}                                                                                  |     height="0.7395384951881014in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| $3n + 2$                                                                                                            | $4n + 3$                                                                                                            |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| e.  ![A picture containing text, cup, indoor Description automatically                                              | f.  ![A picture containing text, cup, indoor Description automatically                                              |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.1176465441819774in" |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="3.179876421697288in"  |
+|     height="0.7395384951881014in"}                                                                                  |     height="0.7395384951881014in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| $2n + 4$                                                                                                            | $5n + 1$                                                                                                            |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+6.  ![A picture containing text Description automatically
+    generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image17.png){width="2.965269028871391in"
+    height="1.0136056430446194in"}There are $x$ biscuits in each packet.
+    Write an expression for the total number of biscuits.
+
+$$2x + 3$$
+
+7.  ![Icon Description automatically
+    generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image18.png){width="3.9315824584426946in"
+    height="0.6332414698162729in"}There are $x$ blocks in each bag.
+    Write an expression for the total number of blocks.
+
+$5x + 4$
+
+![the total number of blocks is $5x + 4$, which is the same as
+$9x$.](media/Algebraic Techniques 1_Introduction to Algebra/media/image19.png){alt="A cartoon of a child AI-generated content may be incorrect."
+width="0.7462729658792651in" height="0.984251968503937in"}
+
+Issy says:
+
+Explain why she is incorrect.
+
+There are not 9 bags of blocks.
+
+8.  $x$ represents the number of marbles in a cup. Draw a diagram to
+    represent:
+
++---------------------------------+---------------------------------+
+| a.  $4x + 2$                    | b.  $7x + 5$                    |
++=================================+=================================+
+
+Development
+
+9.  ![A picture containing text, cup Description automatically
+    generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image20.png){width="1.2347222222222223in"
+    height="0.7090277777777778in"}Each cup contains $x$ pills. Each
+    bottle contains $y$ pills.\
+    Write the total number of pills in each scenario.
+
++--------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+| a.                                                                                                                                         | b.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image20.png){width="1.8034722222222221in"         |
+|                                                                                                                                            |     height="0.7090277777777778in"}                                                                                   |
+| $x + y$                                                                                                                                    |                                                                                                                      |
+|                                                                                                                                            | $x + 2y$                                                                                                             |
++============================================================================================================================================+======================================================================================================================+
+| c.  ![A picture containing text, cup, indoor Description automatically                                                                     | d.  ![A picture containing text, cup, tableware Description automatically                                            |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="0.4166666666666667in"                        |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image21.png){width="1.7048611111111112in"  |
+|     height="0.7388888888888889in"}![](media/Algebraic Techniques 1_Introduction to Algebra/media/image20.png){width="1.7913451443569555in" |     height="0.7340277777777777in"}                                                                                   |
+|     height="0.7097790901137357in"}                                                                                                         |                                                                                                                      |
+|                                                                                                                                            | $3y$                                                                                                                 |
+| $x + 2y + 2$                                                                                                                               |                                                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+| e.  ![A picture containing text, cup, indoor Description automatically                                                                     | f.  ![A picture containing text, cup, indoor Description automatically                                               |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="0.15138888888888888in" height="0.7375in"}![A |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="0.15138888888888888in" |
+|     picture containing text, cup, indoor Description automatically                                                                         |     height="0.7375in"}![A picture containing text, cup, tableware Description automatically                          |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image16.png){width="0.4166666666666667in"                        |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image21.png){width="3.0208333333333335in"  |
+|     height="0.7388888888888889in"}![A picture containing text, cup Description automatically                                               |     height="0.7340277777777777in"}                                                                                   |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image20.png){width="1.7913451443569555in"                        |                                                                                                                      |
+|     height="0.7097790901137357in"}                                                                                                         | $2x + 3y + 1$                                                                                                        |
+|                                                                                                                                            |                                                                                                                      |
+| $3 + x + 2y$                                                                                                                               |                                                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+| g.  Draw $x + y + 5$                                                                                                                       | h.  Draw $5x + 2y + 2$                                                                                               |
++--------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+| i.  Draw $x + 3y$                                                                                                                          | j.  Draw $3x + 2y + 4$                                                                                               |
++--------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------+
+
+10. What expressions are represented by the question marks? Match the
+    answers.
+
+![](media/Algebraic Techniques 1_Introduction to Algebra/media/image22.png){width="6.772222222222222in"
+height="0.6375in"}
+
+![](media/Algebraic Techniques 1_Introduction to Algebra/media/image22.png){width="3.0902777777777777in"
+height="0.5in"}
+
+$$a:2x + 5,\ b:2x - 5,\ c:5 - 2x$$
+
+11. What expression is shown by the question mark in these bar models?
+
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| a.                                                                                                                  | b.  ![A picture containing text, clock Description automatically                                                    |
+|                                                                                                                     |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.5055555555555555in" |
+| $5n$                                                                                                                |     height="0.5895833333333333in"}![A picture containing text, clock Description automatically                      |
+|                                                                                                                     |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.5055555555555555in" |
+|                                                                                                                     |     height="0.5895833333333333in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+|                                                                                                                     | $3q$                                                                                                                |
++=====================================================================================================================+=====================================================================================================================+
+| c.  ![A picture containing text, clock Description automatically                                                    | d.                                                                                                                  |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.5055555555555555in" |                                                                                                                     |
+|     height="0.5895833333333333in"}![A picture containing text, clock Description automatically                      | $t + 7$                                                                                                             |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.529166666666667in"  |                                                                                                                     |
+|     height="0.5895833333333333in"}                                                                                  |                                                                                                                     |
+|                                                                                                                     |                                                                                                                     |
+| $3x$                                                                                                                |                                                                                                                     |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| e.  ![A picture containing text, clock Description automatically                                                    | f.  ![A picture containing text, clock Description automatically                                                    |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.505952537182852in"  |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image23.png){width="2.529761592300962in"  |
+|     height="0.5899431321084865in"}                                                                                  |     height="0.5895833333333333in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| $t - 12$                                                                                                            | $30 - y$                                                                                                            |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| g.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image24.png){width="2.5166666666666666in"        | h.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image24.png){width="2.295138888888889in"         |
+|     height="0.6270833333333333in"}                                                                                  |     height="0.6270833333333333in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| $4a + 5$                                                                                                            | $2a + 12$                                                                                                           |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| i.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image24.png){width="2.5530293088363956in"        | j.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image24.png){width="2.484722222222222in"         |
+|     height="0.6270833333333333in"}                                                                                  |     height="0.6263888888888889in"}                                                                                  |
+|                                                                                                                     |                                                                                                                     |
+| $3a - 2$                                                                                                            | $4a - 6$                                                                                                            |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+12. Draw bar models to represent these expressions.
+
++---------------------------------+---------------------------------+
+| a.  $b + 4$                     | b.  $b - 4$                     |
++=================================+=================================+
+| c.  $\frac{b}{4}$               | d.  $4b$                        |
++---------------------------------+---------------------------------+
+
+# Forming Expressions from Descriptions
+
++-----------------------------------------------------------------------+
+| - **The Language of Operations**                                      |
++===================================+===================================+
+| **Addition**: combining two or    | **Subtraction**: removing an      |
+| more amounts.                     | amount.                           |
+|                                   |                                   |
+| - Sum                             | - Difference between              |
+|                                   |                                   |
+| - Total                           | - Less than                       |
+|                                   |                                   |
+| - More than                       |                                   |
+|                                   |                                   |
+| - Combined                        |                                   |
++-----------------------------------+-----------------------------------+
+| **Multiplication**: combining     | **Division**: Splitting into      |
+| equal groups.                     | equal groups.                     |
+|                                   |                                   |
+| - Each                            | - Each                            |
+|                                   |                                   |
+| - Per                             | - Per                             |
+|                                   |                                   |
+| - Product                         | - Divided by                      |
+|                                   |                                   |
+| - Lots of                         | - Shared between                  |
+|                                   |                                   |
+| - Triple $( \times 3)$,           | - Quotient                        |
+|                                   |                                   |
+| - Quadruple...                    | - Halve $( \div 2)$,              |
+|                                   |                                   |
+|                                   | - Third $( \div 3)$,              |
+|                                   |                                   |
+|                                   | - Quarter...                      |
++-----------------------------------+-----------------------------------+
+| > We often swap number order when we see \"**than**\" or              |
+| > \"**from**\"\                                                       |
+| > "9 subtracted **from** 7" $7 - 9$                                   |
+| >                                                                     |
+| > "12 less **than** 8" $8 - 12$                                       |
++-----------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------+
+| - **Write** algebraic expressions from a description                        |
++:=======================:+:=======================:+:=======================:+
+| Sum of 5 and $a$        | Product of $a$ and $b$  | 3 less than $a$         |
+|                         |                         |                         |
+| $$5 + a$$               | $$ab$$                  | $$a - 3$$               |
++-------------------------+-------------------------+-------------------------+
+| Represent these as an algebraic expression.                                 |
++-------------------------+-------------------------+-------------------------+
+| a.  7 less than $a$     | b.  $a$ divided by 5    | c.  $b$ less than $a$   |
++-------------------------+-------------------------+-------------------------+
+| d.  14 shared between   | e.  Product of $x$ and  | f.  $n$ subtracted from |
+|     $n$                 |     2                   |     11                  |
++-------------------------+-------------------------+-------------------------+
+| g.  Double $n$, then    | h.  Product of $x$ and  | i.  $n$ subtracted from |
+|     add 7               |     2,\                 |     11, then multiplied |
+|                         |     then divided by $y$ |     by 3                |
++-------------------------+-------------------------+-------------------------+
+
+Foundation
+
+1.  Write an expression for each of the following.
+
++---------------------------------+---------------------------------+
+| a.  The sum of 3 and 5 is       | b.  5 groups of 3 is ......     |
+|     ......+ ......              |     $\times$ ......             |
+|                                 |                                 |
+| $3 + 5$                         | $5 \times 3$                    |
+|                                 |                                 |
+| the sum of $p$ and $q$ is       | 5 groups of $x$ is ......       |
+| ...... + ......                 | $\times \$......                |
+|                                 |                                 |
+| $p + q$                         | $5 \times x$                    |
++=================================+=================================+
+| c.  The product of 2 and 6 is   | d.  5 more than 4 is ......+    |
+|     ......× ......              |     ......                      |
+|                                 |                                 |
+| $2 \times 6$                    | $5 + 4$                         |
+|                                 |                                 |
+| the product of $k$ and $m$ is   | 5 more than $w$ is ......+      |
+| ......× ......                  | ......                          |
+|                                 |                                 |
+| $k \times m$                    | $5 + w$                         |
++---------------------------------+---------------------------------+
+| e.  2 less than $8$ is ......−  | f.  9 squared is ......         |
+|     ......                      |                                 |
+|                                 | $9^{2}$                         |
+| $8 - 2$                         |                                 |
+|                                 | $k$ squared is ......           |
+| 2 less than $c$ is ......−      |                                 |
+| ......                          | $k^{2}$                         |
+|                                 |                                 |
+| $c - 2$                         |                                 |
++---------------------------------+---------------------------------+
+| g.  Double 7 is ......          | h.  Half of 10 is ......        |
+|                                 |                                 |
+| $2 \times 7$                    | $$\frac{10}{2}$$                |
+|                                 |                                 |
+| Double $a$ is ......            | Half of $b$ is ......           |
+|                                 |                                 |
+| $2a$                            | $$\frac{b}{2}$$                 |
++---------------------------------+---------------------------------+
+| i.  A third of 6 is ......      | j.  A quarter of 12 is ......   |
+|                                 |                                 |
+| $$\frac{6}{3}$$                 | $$\frac{12}{4}$$                |
+|                                 |                                 |
+| A third of $g$ is ......        | A quarter of $h$ is ......      |
+|                                 |                                 |
+| $$\frac{g}{3}$$                 | $$\frac{h}{4}$$                 |
++---------------------------------+---------------------------------+
+
+2.  Write an algebraic expression for each of the following.
+
++----------------------+----------------------+----------------------+
+| a.  The sum of 2 and | b.  The sum of $ab$  | c.  5 less than $x$  |
+|     $x$              |     and $y$          |                      |
+|                      |                      | $x - 5$              |
+| $2 + x$              | $ab + y$             |                      |
++======================+======================+======================+
+| d.  The product of   | e.  One quarter of   | f.  Half of $s$      |
+|     $x$ and 3        |     $n$              |                      |
+|                      |                      | $$\frac{s}{2}$$      |
+| $3x$                 | $$\frac{n}{4}$$      |                      |
++----------------------+----------------------+----------------------+
+| g.  The product of   | h.  $y$ shared       | i.  $t$ subtracted   |
+|     $n$ and $9$      |     between 8        |     from 10          |
+|                      |                      |                      |
+| $$9n$$               | $$\frac{y}{8}$$      | $10 - t$             |
++----------------------+----------------------+----------------------+
+
+3.  Write an algebraic expression for each of the following.
+
++----------------------+----------------------+----------------------+
+| d.  5 is added to    | e.  $a$ is tripled,\ | f.  3 more than half |
+|     $x$,\            |     then 4 is added. |     of $n$           |
+|     then the result  |                      |                      |
+|     is doubled.      | $$3a + 4$$           | $$\frac{n}{2} + 3$$  |
+|                      |                      |                      |
+| $2(5 + x)$           |                      |                      |
++======================+======================+======================+
+| g.  6 more than      | h.  The square of\   | i.  The sum of $x$   |
+|     double $n$       |     the sum of $m$   |     and $y$ is       |
+|                      |     and $n$          |     multiplied by 6. |
+| $2n + 6$             |                      |                      |
+|                      | $$(m + n)^{2}$$      | $$6(x + y)$$         |
++----------------------+----------------------+----------------------+
+| j.  $k$ is           | k.  The cube of\     | l.  The sum of $x$   |
+|     multiplied by 8, |     the sum of $m$   |     and $y$\         |
+|     then 3 is        |     and $n$          |     is divided by 5  |
+|     subtracted.      |                      |                      |
+|                      | $$(m + n)^{3}$$      | $$\frac{x + y}{5}$$  |
+| $8k - 3$             |                      |                      |
++----------------------+----------------------+----------------------+
+| m.  $x$ is           | n.  $k$ is           | o.  10 less than\    |
+|     multiplied by 7\ |     multiplied by    |     the product of 4 |
+|     and the result   |     8,\              |     and $x$          |
+|     is halved.       |     then 3 is        |                      |
+|                      |     subtracted.      | $$4x - 10$$          |
+| $$\frac{7x}{2}$$     |                      |                      |
+|                      | $$8k - 3$$           |                      |
++----------------------+----------------------+----------------------+
+| p.  The square root  | q.  The product of   | r.  3 is subtracted  |
+|     of\              |     $x$ and $y$\     |     from $k$,\       |
+|     the sum of $x$   |     is subtracted    |     then the result  |
+|     and $y$          |     from 12.         |     is multiplied by |
+|                      |                      |     8.               |
+| $$\sqrt{x + y}$$     | $$12 - xy$$          |                      |
+|                      |                      | $$8(k - 3)$$         |
++----------------------+----------------------+----------------------+
+
+4.  Write an expression for each of the following.
+
++---------------------------------+---------------------------------+
+| a.   7 more than $x$            | k.  $x$ more than $y$           |
+|                                 |                                 |
+| $$x + 7$$                       | $$y + x$$                       |
++=================================+=================================+
+| b.  7 less than $x$             | l.  $x$ multiplied by $y$       |
+|                                 |                                 |
+| $$x - 7$$                       | $$xy$$                          |
++---------------------------------+---------------------------------+
+| c.  9 less than $x$             | m.  $x$ divided by $y$          |
+|                                 |                                 |
+| $$x - 9$$                       | $$\frac{x}{y}$$                 |
++---------------------------------+---------------------------------+
+| d.  9 lots of$\ x$              | n.  $x$ divided by 3            |
+|                                 |                                 |
+| $$9x$$                          | $$\frac{x}{3}$$                 |
++---------------------------------+---------------------------------+
+| e.  19 lots of $x$              | o.  $x$ divided by 3 and then   |
+|                                 |     add 2                       |
+| $$19x$$                         |                                 |
+|                                 | $$\frac{x}{3} + 2$$             |
++---------------------------------+---------------------------------+
+| f.  $x\$divided by 19           | p.  $x$ divided by 3 and then   |
+|                                 |     subtract 2                  |
+| $$\frac{x}{19}$$                |                                 |
+|                                 | $$\frac{x}{3} - 2$$             |
++---------------------------------+---------------------------------+
+| g.  $x$ shared between 19       | q.  $x$ lots of 3 and then      |
+|                                 |     subtract 2                  |
+| $$\frac{x}{19}$$                |                                 |
+|                                 | $$3x - 2$$                      |
++---------------------------------+---------------------------------+
+| h.  $x$ less than 19            | r.  $x$ lots of 3 and then      |
+|                                 |     squared                     |
+| $$19 - x$$                      |                                 |
+|                                 | $$(3x)^{2}$$                    |
++---------------------------------+---------------------------------+
+| i.  $x$ less than 3             | s.  $x$ lots of 3 squared       |
+|                                 |                                 |
+| $$3 - x$$                       | $$3^{2}x$$                      |
++---------------------------------+---------------------------------+
+| j.  $x$ less than y             | t.  $x$ squared and then        |
+|                                 |     multiply by 3               |
+| $$y - x$$                       |                                 |
+|                                 | $$3x^{2}$$                      |
++---------------------------------+---------------------------------+
+
+Development
+
+5.  Write the calculation in numbers, then write the expression in
+    algebra.
+
++---------------------------------+---------------------------------+
+| **Using Numbers**               | **Using Algebra**               |
++=================================+=================================+
+| Becky begins a game with 12     | Becky begins a game with $x$    |
+| marbles. She wins 3 and loses   | marbles. She wins $y$ and loses |
+| 5. How many marbles does she    | $z$. How many marbles does she  |
+| have at the end of the game?    | have at the end of the game?    |
+|                                 |                                 |
+| $$12 + 3 - 5$$                  | $$x + y - z$$                   |
++---------------------------------+---------------------------------+
+| In a class of $30$ children,    | In a class of $a$               |
+| $10$ have a sister. How many    | children,$\ b$ have a sister.   |
+| children don't have a sister?   | How many children don't have a  |
+|                                 | sister?                         |
+| $30 - 10$                       |                                 |
+|                                 | $a - b$                         |
++---------------------------------+---------------------------------+
+| There were $30$ questions in a  | There were $x$ questions in a   |
+| test. Megan got $25$ correct.   | test. Megan got $y$ correct.    |
+| How many did she get wrong?     | How many did she get wrong?     |
+|                                 |                                 |
+| $30 - 25$                       | $x - y$                         |
++---------------------------------+---------------------------------+
+| Lucy went on a journey, going   | Lucy went on a journey, going   |
+| $25$ kilometres by train, $4$   | $x$ kilometres by train, $y$    |
+| kilometres by bus, and $2$      | kilometres by bus, and $z$      |
+| kilometres on foot. What is the | kilometres on foot. What is the |
+| total distance she travelled?   | total distance she travelled?   |
+|                                 |                                 |
+| $25 + 4 + 2$                    | $x + y + z$                     |
++---------------------------------+---------------------------------+
+| Mark buys $7$ chocolate bars,   | Mark buys $a$ chocolate bars,   |
+| each costing $3$ dollars. How   | each costing $b$ dollars. How   |
+| much does he spend in total?    | much does he spend in total?    |
+|                                 |                                 |
+| $7 \times 3$                    | $ab$                            |
++---------------------------------+---------------------------------+
+| Maddie has $5$ cards. Emma has  | Maddie has $a$ cards. Emma has  |
+| $2$ times as many as Maddie.    | $b$ times as many as Maddie.    |
+| How many cards does Emma have?  | How many cards does Emma have?  |
+|                                 |                                 |
+| $5 \times 2$                    | $ab$                            |
++---------------------------------+---------------------------------+
+
+6.  Write an expression for each of the following:
+
++---------------------------------+---------------------------------+
+| a.  There are 12 people on a    | b.  A train has 88 passengers.  |
+|     bus.                        |                                 |
+|                                 | $y$ people get on.              |
+| $x$ get off.                    |                                 |
+|                                 | How many are on the train?      |
+| How many people remain?         |                                 |
+|                                 | $88 + y$                        |
+| $12 - x$                        |                                 |
++=================================+=================================+
+| c.  A can of lemonade costs $c$ | d.  Each ice block is \$3.      |
+|     dollars.                    |                                 |
+|                                 | Each lolly bag is \$2           |
+| How much do 5 cans of lemonade  |                                 |
+| cost?                           | How much money is earned from   |
+|                                 | selling $x$ ice blocks and $y$  |
+| $5c$                            | lolly bags?                     |
+|                                 |                                 |
+|                                 | $3x + 2y$                       |
++---------------------------------+---------------------------------+
+| e.  A rope is $x$ metres long.\ | f.  $n$ students go on an       |
+|     I cut off four lengths of   |     excursion.                  |
+|     $y$ metres each. How much   |                                 |
+|     rope remains?               | How much should Ms Ali charge   |
+|                                 | each student if she wants to    |
+| $x - 4y$                        | share the bus hire fee of       |
+|                                 | \$200?                          |
+|                                 |                                 |
+|                                 | $$\frac{200}{n}$$               |
++---------------------------------+---------------------------------+
+
+7.  Nicholas buys 10 lolly bags from a supermarket.
+
++---------------------------------+---------------------------------+
+| a.  If there are 7 lollies in   | b.  If there are $n$ lollies in |
+|     each bag,\                  |     each bag,\                  |
+|     how many lollies does he    |     how many lollies does he    |
+|     buy in total?               |     buy in total?               |
+|                                 |                                 |
+| $7 \times 10 = 70$              | $10n$                           |
++=================================+=================================+
+
+8.  Write an algebraic expression for the cost of:
+
++---------------------------------+---------------------------------+
+| a.  $x$ pies at \$6 each.       | b.  $6$ pies at \$$x$ each.     |
+|                                 |                                 |
+| $6x$                            | $6x$                            |
++=================================+=================================+
+| c.  10 pies at $\$ n$ each.     | d.  $y$ drinks at $\$ 2$ each.  |
+|                                 |                                 |
+| $10n$                           | $2y$                            |
++---------------------------------+---------------------------------+
+| e.  $x$ pies at \$5 and $y$     | f.  $x$ pies at \$2 and $y$     |
+|     drinks at \$2               |     drinks at \$6               |
+|                                 |                                 |
+| $5x + 2y$                       | $2x + 6y$                       |
++---------------------------------+---------------------------------+
+
+9.  The cost of 10 cans of drink is \$$x$. Write an expression for:
+
++---------------------------------+---------------------------------+
+| a.  The cost of one can of      | b.  The cost of $n$ cans        |
+|     drink                       |                                 |
+|                                 | $$\frac{nx}{10}$$               |
+| $$\frac{x}{10}$$                |                                 |
++=================================+=================================+
+
+10. If pencils cost $\$ x$ each, write an expression for the cost of:
+
++----------------------+----------------------+----------------------+
+| a.  10 pencils       | b.  $k$ pencils      | c.  3 packets of     |
+|                      |                      |     pencils,\        |
+| $10x$                | $kx$                 |     if each packet   |
+|                      |                      |     contains 5       |
+|                      |                      |     pencils          |
+|                      |                      |                      |
+|                      |                      | $15x$                |
++======================+======================+======================+
+
+11. Recall that there are 100 centimetres in 1 metre and 1000 metres in
+    1 kilometre.\
+    Write expressions for each of the following.
+
++----------------------+----------------------+----------------------+
+| a.  How many metres  | b.  How many         | c.  How many         |
+|     are there in $x$ |     centimetres are  |     centimetres are  |
+|     km?              |     there in $x$     |     there in $x$ km? |
+|                      |     metres?          |                      |
+| $1000x$              |                      | $100\ 000x$          |
+|                      | $100x$               |                      |
++======================+======================+======================+
+
+12. a.  Ed is 12 years old. How old will he be in 2 years\' time?
+
+$12 + 2 = 14$
+
+b.  Faith is $y$ years old. How old will she be:
+
++----------------------+----------------------+------------------+
+| i.  in 2 years\'     | ii. in $x$ years\'   | iii. 5 years     |
+|     time             |     time?            |      ago?        |
+|                      |                      |                  |
+| $y + 2$              | $y + x$              | $y - 5$          |
++======================+======================+==================+
+
+12. A rectangular garden bed is 12 m long and 5 m wide.
+
+    a.  Find the area of the garden bed. Show your working out.
+
+60 m^2^
+
+b.  The length is increased by $x$ cm and the width are decreased by $y$
+    cm.\
+    Find the new length and width of the garden.
+
+length: $12 + x$
+
+width: $5 - y$
+
+c.  Write an expression for the area of the new garden bed.
+
+$$(12 + x)(5 - y)
+$$
+
+13. Mikayla is paid \$$x$ per hour at her job. Write an expression for
+    each of the following:
+
+    a.  How much does Mikayla earn if she works 8 hours?
+
+$8x$
+
+b.  Mikayla gets a pay rise of \$3 per hour, what is her new hourly
+    wage?
+
+$$x + 3$$
+
+c.  Mikayla works 8 hours at the increased hourly rate, write how much
+    she earns as an expression.
+
+$8(x + 3)$
+
+Mastery
+
+14. Match up each sentence to its algebraic expression.
+
++-----------------------------+--------+--------+---------------------+
+| Multiply $b$ by 2 then      | a.     | A.     | $$a(b - c)$$        |
+| subtract from $a$           |        |        |                     |
++=============================+========+========+=====================+
+| Subtract $c$ from $a$ then  | b.     | B.     | $$4a - c$$          |
+| multiply by $b$             |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Multiply $a$ by $b$ then    | c.     | C.     | $$\frac{c}{a + b}$$ |
+| divide **by** $c$           |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Add $b$ to $a$ then divide  | d.     | D.     | $$\frac{ab}{c}$$    |
+| **into** $c$                |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Divide $c$ by $b$ then      | e.     | E.     | $$abc$$             |
+| multiply by $a$             |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Multiply $a$ by $c$ then    | f.     | F.     | $$b(a - c)$$        |
+| divide into $b$             |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Add $b$ to $a$ then divide  | g.     | G.     | $$a - 2b$$          |
+| by $c$                      |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Multiply $ab$ by $c$        | h.     | H.     | $$\frac{b}{ac}$$    |
++-----------------------------+--------+--------+---------------------+
+| Multiply $a$ by $4$ then    | i.     | I.     | $$\frac{a + b}{c}$$ |
+| subtract $c$                |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+| Subtract $c$ from $b$ then  | j.     | J.     | $$\frac{ac}{b}$$    |
+| multiply by $a$             |        |        |                     |
++-----------------------------+--------+--------+---------------------+
+
+a -- G,
+
+b -- F,
+
+c -- D,
+
+d -- C,
+
+e -- J,
+
+f -- H,
+
+g -- I,
+
+h -- E,
+
+i -- B,
+
+j -- A
+
+# Substitution and Evaluation
+
++-------------------------------------------------------------------+
+| - **Substitution and Evaluation**                                 |
++===================================================================+
+| - To **substitute** means to **replace** pronumerals with         |
+|   numbers.                                                        |
+|                                                                   |
+| - To **evaluate** means to work out the final number by following |
+|   the **order of operations.**                                    |
++-------------------------------------------------------------------+
+
++----------------------------------------------------------------------------------------------------------------------------------------+
+| - **Example** Substitute and evaluate expressions                                                                                      |
++========================================================================================================================================+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image25.png){width="1.5631944444444446in"                               |
+| height="0.3680555555555556in"}The bar model shows $10 + 4x$. Evaluate the expression when $x = 3$.                                     |
+|                                                                                                                                        |
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image25.png){width="1.5631944444444446in"                               |
+| height="0.3680555555555556in"}![](media/Algebraic Techniques 1_Introduction to Algebra/media/image26.png){width="1.5743055555555556in" |
+| height="0.3625in"} $10 + 4x$                                                                                                           |
+|                                                                                                                                        |
+| $$= 10 + 4(3)$$                                                                                                                        |
+|                                                                                                                                        |
+| $$= 10 + 12$$                                                                                                                          |
+|                                                                                                                                        |
+| $$= 22$$                                                                                                                               |
++----------------------------------------------------------------------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| - **Guided Practice**                                                                                                                                                                                                             |
++=================================================================================================================+=================================================================================================================+
+| a.  The total number of oranges is $x + 1$                                                                      | b.  The number of Lego pieces is $2x + 3$                                                                       |
+|                                                                                                                 |                                                                                                                 |
+| ![A picture containing text, clipart, vector graphics Description automatically                                 | ![Chart, funnel chart Description automatically                                                                 |
+| generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image27.png){width="1.3918580489938757in" | generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image28.png){width="1.7585411198600176in" |
+| height="0.6988265529308837in"}Evaluate the expression for $x = 5$                                               | height="0.7760422134733158in"}Evaluate the expression for $x = 6$                                               |
+|                                                                                                                 |                                                                                                                 |
+| > $\ x\  + 1$                                                                                                   | > $2x + 3$                                                                                                      |
+|                                                                                                                 |                                                                                                                 |
+| $\ \ \ \ \ \  =$ ... $+ \ 1$                                                                                    | $\ \ \ \ \ \  =$ ............                                                                                   |
+|                                                                                                                 |                                                                                                                 |
+| $\ \ \ \ \ \  =$ .........                                                                                      | $\ \ \ \ \ \  =$ ............                                                                                   |
+|                                                                                                                 |                                                                                                                 |
+| 6                                                                                                               | 15                                                                                                              |
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| c.  Evaluate $7 + 5b$ when $b = 5$                                                                              | d.  Evaluate $\frac{x}{2}$ $+ 5$ when $x = 12$                                                                  |
+|                                                                                                                 |                                                                                                                 |
+| 32                                                                                                              | 11                                                                                                              |
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| e.  Evaluate $\frac{n + 7}{3}$ when $n = 8$                                                                     | f.  Evaluate $7 - 4x$ when $x = 2$                                                                              |
+|                                                                                                                 |                                                                                                                 |
+| 5                                                                                                               | $$- 1$$                                                                                                         |
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  Substitution means to .............................. a letter |
+|     with a number.                                                |
+|                                                                   |
+| 2.  ..................... means to calculate the numerical value  |
+|     of an expression.                                             |
+|                                                                   |
+| 3.  When evaluating, always follow the .....................      |
+|     ...... ...........................                            |
++-------------------------------------------------------------------+
+
+Foundation
+
+1.  
+
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| a.  The diagram shows $2t + 12$ tennis balls.                                                                       | b.  The diagram shows $3c + 4$ coins.                                                                               |
+|                                                                                                                     |                                                                                                                     |
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image29.png){width="1.8411942257217848in"            | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image30.png){width="3.1631944444444446in"            |
+| height="1.0984853455818022in"}                                                                                      | height="0.7395833333333334in"}                                                                                      |
+|                                                                                                                     |                                                                                                                     |
+| Evaluate when $t = 6$.                                                                                              | Evaluate when $c = 10$.                                                                                             |
+|                                                                                                                     |                                                                                                                     |
+| $2t + 12$                                                                                                           | $3c + 4$                                                                                                            |
+|                                                                                                                     |                                                                                                                     |
+| $= 2(\ \ \ \ \ \ \ \ ) + 12$                                                                                        | $= 3(\ \ \ \ \ \ \ \ ) + 4$                                                                                         |
+|                                                                                                                     |                                                                                                                     |
+| $=$ ..................                                                                                              | $=$ ..................                                                                                              |
+|                                                                                                                     |                                                                                                                     |
+| 24                                                                                                                  | 34                                                                                                                  |
++=====================================================================================================================+=====================================================================================================================+
+| c.  ![A picture containing icon Description automatically                                                           | d.  ![A picture containing handcart, concrete mixer Description automatically                                       |
+|     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image31.png){width="3.4444444444444446in" |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image32.png){width="0.6597222222222222in" |
+|     height="0.8145833333333333in"} The diagram shows $4x + 3$ coins.                                                |     height="0.8201388888888889in"}![A picture containing handcart, concrete mixer Description automatically         |
+|                                                                                                                     |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image32.png){width="2.013888888888889in"  |
+| How many coins are there if $x = 12$?                                                                               |     height="0.8201388888888889in"} The diagram shows $2c + 3$ cars.                                                 |
+|                                                                                                                     |                                                                                                                     |
+| 51                                                                                                                  | How many cars are there if $c = 6?$                                                                                 |
+|                                                                                                                     |                                                                                                                     |
+|                                                                                                                     | 15                                                                                                                  |
++---------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+2.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image33.png){width="2.5616010498687665in"
+    height="1.344786745406824in"}The bar model shows $2f + b$. Evaluate
+    when $f = 7$, $b = 3$
+
+> $2f + b$
+>
+> $= 2(\ \ \ \ \ \ \ \ ) + (\ \ \ \ \ \ \ \ )$
+>
+> $=$ .....................
+
+17
+
+3.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image34.png){width="2.5616010498687665in"
+    height="1.3341666666666667in"}The bar model shows $3f + 2b$.
+    Evaluate when $f = 7$, $b = 3$
+
+> $3f + 2b$
+>
+> $= 3(\ \ \ \ \ \ \ \ ) + 2(\ \ \ \ \ \ \ \ )$
+>
+> $=$ .....................
+
+27
+
+4.  Substitute $c = 5$ to evaluate each expression.
+
++-----------------------------------------------------------------------------------------------+-------------+-----------+-----------+-------------+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image35.png){width="6.24375in" | 15          | 50        | 0.5       | 2           |
+| height="0.3347222222222222in"}                                                                |             |           |           |             |
+|                                                                                               |             |           |           |             |
+| 15                                                                                            |             |           |           |             |
++===============================================================================================+=============+===========+===========+=============+
+
+5.  Substitute $x = 5$ into these expressions and evaluate the result.
+    Show the substitution step.
+
++---------------------+---------------------+---------------------+
+| **a** $x + 3$       | **b** $14 - x$      | **c** $2x$          |
+|                     |                     |                     |
+| $= (5) + 3$         | 9                   | 10                  |
+|                     |                     |                     |
+| $=$ ............    |                     |                     |
+|                     |                     |                     |
+| 8                   |                     |                     |
++=====================+=====================+=====================+
+| **d** $2x + 4$      | **e** $13 - 2x$     | **f** $3x - 6$      |
+|                     |                     |                     |
+| 14                  | 3                   | 9                   |
++---------------------+---------------------+---------------------+
+| **d** $10x$         | **e** $10 + x$      | **f**               |
+|                     |                     | $\frac{x}{10}$      |
+| 50                  | 15                  |                     |
+|                     |                     | $$\frac{1}{2}$$     |
++---------------------+---------------------+---------------------+
+| **d** $x - 10$      | **e** $10 - x$      | **f** $x^{2}$       |
+|                     |                     |                     |
+| $$- 5$$             | 5                   | 25                  |
++---------------------+---------------------+---------------------+
+
+6.  Evaluate these expressions for $g = 400$.
+
++------------------------------------------------------------------------------------------------------------------+------------------+----------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------------+
+| $$40$$                                                                                                           | $$\frac{1}{40}$$ | $$4$$    | $$\frac{1}{4}$$ | $$20$$          | ![A math equations and numbers Description automatically generated with medium                                   |
+|                                                                                                                  |                  |          |                 |                 | confidence](media/Algebraic Techniques 1_Introduction to Algebra/media/image36.png){width="7.1090277777777775in" |
+|                                                                                                                  |                  |          |                 |                 | height="0.375in"}                                                                                                |
+|                                                                                                                  |                  |          |                 |                 |                                                                                                                  |
+|                                                                                                                  |                  |          |                 |                 | $$\frac{1}{20}$$                                                                                                 |
++==================================================================================================================+==================+==========+=================+=================+==================================================================================================================+
+| ![A math equations and numbers Description automatically generated with medium                                   | $$\frac{1}{2}$$  | $$1$$    | $$1$$           | $$\frac{2}{5}$$ | $$\frac{5}{2}$$                                                                                                  |
+| confidence](media/Algebraic Techniques 1_Introduction to Algebra/media/image36.png){width="7.1090277777777775in" |                  |          |                 |                 |                                                                                                                  |
+| height="0.4111111111111111in"}                                                                                   |                  |          |                 |                 |                                                                                                                  |
+|                                                                                                                  |                  |          |                 |                 |                                                                                                                  |
+| $$2$$                                                                                                            |                  |          |                 |                 |                                                                                                                  |
++------------------------------------------------------------------------------------------------------------------+------------------+----------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------------+
+
+Development
+
+7.  Work out the value of each of these expressions when $a = 5$
+
++-----------------+------------------+----------------+---------------------------------------------------------------------------------------------------------+
+| $$53$$          | $$5$$            | $$47$$         | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image37.png){width="6.596527777777778in" |
+|                 |                  |                | height="0.36319444444444443in"}                                                                         |
+|                 |                  |                |                                                                                                         |
+|                 |                  |                | $$3.5$$                                                                                                 |
++=================+==================+================+=========================================================================================================+
+| $$80$$          | $$\frac{5}{4}$$  | $$20$$         | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image37.png){width="6.596527777777778in" |
+|                 |                  |                | height="0.36319444444444443in"}                                                                         |
+|                 |                  |                |                                                                                                         |
+|                 |                  |                | $$3.5$$                                                                                                 |
++-----------------+------------------+----------------+---------------------------------------------------------------------------------------------------------+
+| $$\frac{5}{3}$$ | $$\frac{47}{5}$$ | $$5$$          | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image37.png){width="6.596527777777778in" |
+|                 |                  |                | height="0.36319444444444443in"}                                                                         |
+|                 |                  |                |                                                                                                         |
+|                 |                  |                | $$1$$                                                                                                   |
++-----------------+------------------+----------------+---------------------------------------------------------------------------------------------------------+
+
+8.  If $c = 3$, evaluate these expressions.
+
++---------------------------------+---------------------------------+
+| a.  $4 + c$                     | h.  $\frac{5c - 7}{2}$          |
+|                                 |                                 |
+| > 7                             | 4                               |
++=================================+=================================+
+| b.  $4c$                        | i.  $\frac{4c}{4}$              |
+|                                 |                                 |
+| 12                              | 3                               |
++---------------------------------+---------------------------------+
+| c.  $4c + c$                    | j.  $\frac{c}{4c}$              |
+|                                 |                                 |
+| 15                              | $$\frac{1}{4}$$                 |
++---------------------------------+---------------------------------+
+| d.  $5c$                        | k.  $c^{2}$                     |
+|                                 |                                 |
+| 15                              | $9$                             |
++---------------------------------+---------------------------------+
+| e.  $5c - 7$                    | l.  $2c^{2}$                    |
+|                                 |                                 |
+| 8                               | $$18$$                          |
++---------------------------------+---------------------------------+
+| f.  $(5c - 7) \div 2$           | m.  $(2c)^{2}$                  |
+|                                 |                                 |
+| 4                               | $$36$$                          |
++---------------------------------+---------------------------------+
+| g.  $5c - 7 \div 2$             | n.  $\frac{4c}{4}$              |
+|                                 |                                 |
+| 11.5                            | $$3$$                           |
++---------------------------------+---------------------------------+
+
+9.  Evaluate these expressions when $g = 80$.
+
++---------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+----------+-------------------+----------+
+| 13                                                                                                      | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image38.png){width="5.907638888888889in" | 805      | 13                | 795      |
+|                                                                                                         | height="0.4326388888888889in"}                                                                          |          |                   |          |
+|                                                                                                         |                                                                                                         |          |                   |          |
+|                                                                                                         | 3                                                                                                       |          |                   |          |
++=========================================================================================================+=========================================================================================================+==========+===================+==========+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image38.png){width="5.907638888888889in" | $$9\frac{3}{4}$$                                                                                        | 10.5     | $$40\frac{1}{8}$$ | 5000     |
+| height="0.4326388888888889in"}                                                                          |                                                                                                         |          |                   |          |
+|                                                                                                         |                                                                                                         |          |                   |          |
+| 6                                                                                                       |                                                                                                         |          |                   |          |
++---------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+----------+-------------------+----------+
+
+10. Find the values of each of these expressions when $c = 100$
+
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------+-------------------+----------+--------------------+
+| ![A math equations on a white background Description automatically                                              | $$\frac{101}{5}$$                                                                                               | 26       | $$\frac{101}{4}$$ | 11       | $$\frac{101}{10}$$ |
+| generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image39.png){width="6.9222222222222225in" |                                                                                                                 |          |                   |          |                    |
+| height="0.37777777777777777in"}                                                                                 |                                                                                                                 |          |                   |          |                    |
+|                                                                                                                 |                                                                                                                 |          |                   |          |                    |
+| 21                                                                                                              |                                                                                                                 |          |                   |          |                    |
++=================================================================================================================+=================================================================================================================+==========+===================+==========+====================+
+| 22                                                                                                              | ![A math equations on a white background Description automatically                                              | 2002     | 2010              | 1998     | 1990               |
+|                                                                                                                 | generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image39.png){width="6.9222222222222225in" |          |                   |          |                    |
+|                                                                                                                 | height="0.37777777777777777in"}                                                                                 |          |                   |          |                    |
+|                                                                                                                 |                                                                                                                 |          |                   |          |                    |
+|                                                                                                                 | 30                                                                                                              |          |                   |          |                    |
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------+-------------------+----------+--------------------+
+| 10                                                                                                              | ![A math equations on a white background Description automatically                                              | 2        | 15                | 15       | 51                 |
+|                                                                                                                 | generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image39.png){width="6.9222222222222225in" |          |                   |          |                    |
+|                                                                                                                 | height="0.37777777777777777in"}                                                                                 |          |                   |          |                    |
+|                                                                                                                 |                                                                                                                 |          |                   |          |                    |
+|                                                                                                                 | 100                                                                                                             |          |                   |          |                    |
++-----------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+----------+-------------------+----------+--------------------+
+
+11. Work out the value of each of these expressions when $x = 3$ and
+    $y = 0$
+
++---------------------------------------------------------------------------------------------------------+----------------+----------------+---------------------------------------------------------------------------------------------------------+
+| 3                                                                                                       | 3              | 3              | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image40.png){width="6.454166666666667in" |
+|                                                                                                         |                |                | height="0.27361111111111114in"}                                                                         |
+|                                                                                                         |                |                |                                                                                                         |
+|                                                                                                         |                |                | 3                                                                                                       |
++=========================================================================================================+================+================+=========================================================================================================+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image40.png){width="6.454166666666667in" | 0              | 1.5            | 1.5                                                                                                     |
+| height="0.36666666666666664in"}                                                                         |                |                |                                                                                                         |
+|                                                                                                         |                |                |                                                                                                         |
+| 0                                                                                                       |                |                |                                                                                                         |
++---------------------------------------------------------------------------------------------------------+----------------+----------------+---------------------------------------------------------------------------------------------------------+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image40.png){width="6.454166666666667in" | 9              | 3              | 6                                                                                                       |
+| height="0.2465277777777778in"}                                                                          |                |                |                                                                                                         |
+|                                                                                                         |                |                |                                                                                                         |
+| 9                                                                                                       |                |                |                                                                                                         |
++---------------------------------------------------------------------------------------------------------+----------------+----------------+---------------------------------------------------------------------------------------------------------+
+
+Mastery
+
+12. If $m = 9$ and $n = 16$, find the values of:
+
++--------------+------------+---------------------------------------------------------------------------------------------------------+-----------+------------+
+| 7            | 5          | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image41.png){width="6.576388888888889in" | 48        | 12         |
+|              |            | height="0.3770833333333333in"}                                                                          |           |            |
+|              |            |                                                                                                         |           |            |
+|              |            | 36                                                                                                      |           |            |
++==============+============+=========================================================================================================+===========+============+
+
+13. $x$ and $y$ are two numbers, where $xy\  = \ 24$.
+
+    a.  What values could $x$ and $y$ equal if they are whole numbers?\
+        Try to list as many as possible.
+
+    b.  What values could $x$ and $y$ be if they can be decimals,
+        fractions, or whole numbers?
+
+14. Write two different expressions involving $x$ that evaluate to
+    $- 10$ if $x = - 5$.
+
+15. a.  Find the difference between $4a + 3$ and $4(a + 3)$ when $a = 2$
+
+    b.  Find the difference between $4a + 3$ and $4(a + 3)$ when
+        $a = 10$
+
+    c.  Find the difference between $4a + 3$ and $4(a + 3)$ when
+        $a = 100$
+
+    d.  Find the difference between $4a + 3$ and $4(a + 3)$ when
+        $a = 0.2$
+
+    e.  What do you notice?
+
+    f.  Without any calculations, find the difference between $4a + 3$
+        and $4(a + 3)$\
+        when $a = 786.174$
+
+9
+
+16. Complete the table.
+
+  ----------------------------------------------------------------------------------------
+            $$\mathbf{a}$$              10     0    2       12             5           1
+  ----------------------------------- ------- ---- ---- ---------- ----------------- -----
+          $$\mathbf{a + 2}$$            12     2    4       14             7           3
+
+            $$\mathbf{2a}$$             20     0    4       24            10           2
+
+      $$\mathbf{a}^{\mathbf{2}}$$       100    0    4      144            25           1
+
+          $$\mathbf{2 - a}$$           $- 8$   2    0    $$- 10$$        $- 3$         1
+
+   $$\frac{\mathbf{a}}{\mathbf{2}}$$     5     0    1       6       $$\frac{5}{2}$$   0.5
+  ----------------------------------------------------------------------------------------
+
+17. Complete the table.
+
+  ------------------------------------------------------------
+     $$\mathbf{x}$$      5    10   7    9    5    8      6
+  -------------------- ----- ---- ---- ---- ---- ---- --------
+     $$\mathbf{y}$$      3    4    2    5    2    0    $- 6$
+
+   $$\mathbf{x + y}$$    8    14   9    14   7    8      0
+
+   $$\mathbf{x - y}$$   $2$   6    5    4    3    8      12
+
+    $$\mathbf{xy}$$     15    40   14   45   10   0    $- 36$
+  ------------------------------------------------------------
+
+18. ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image42.png){width="5.752306430446194in"
+    height="4.299850174978128in"}Evaluate each expression for $n = 10$.
+
+31
+
+19. Substitute $n = 8$ into each expression and evaluate the result.
+
+![A diagram of a mathematical problem Description automatically
+generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image43.png){width="4.076216097987752in"
+height="2.485074365704287in"}
+
+Which of the expressions are equivalent?
+
+$$\frac{5n}{2} - 4\ \ \ and\ \ \ 5\frac{n}{2} - 4,$$
+
+$$\frac{5(n - 4)}{2}\ \ \ and\ \ \ 5\left( \frac{n - 4}{2} \right)$$
+
+20. **NAPLAN B**\
+    Evaluate the expression $x^{2} + 3x - 4$ when $x = 3$
+
+14
+
+21. $R = 2d - 3e - 4f$ Find the value of $R$ if $d = 2,\ e = 3,\ f =$
+    $\frac{1}{2}$
+
+$- 7$
+
+22. Evaluate $\frac{20}{y}$ $+ \ 3x$ when $x =$ $\frac{1}{5}$, $y = 2$
+
+$$10\frac{3}{5}$$
+
+23. Evaluate $\frac{20}{x}$ $+ \ 3y\$when $x =$ $\frac{1}{5}$, $y = 2$
+
+106
+
+24. Evaluate the expressions for the given value of $n$
+
++--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| a.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image44.png){width="2.3434634733158357in" | b.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image44.png){width="2.3434634733158357in"        |
+|     height="2.6083333333333334in"}                                                                           |     height="2.6083333333333334in"}                                                                                  |
+|                                                                                                              |                                                                                                                     |
+| 5                                                                                                            | 2                                                                                                                   |
++==============================================================================================================+=====================================================================================================================+
+| c.                                                                                                           | d.  ![A group of math equations Description automatically                                                           |
+|                                                                                                              |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image44.png){width="2.3430555555555554in" |
+| 14                                                                                                           |     height="2.15625in"}![A group of math equations Description automatically                                        |
+|                                                                                                              |     generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image44.png){width="2.3430555555555554in" |
+|                                                                                                              |     height="2.286457786526684in"}                                                                                   |
+|                                                                                                              |                                                                                                                     |
+|                                                                                                              | 14                                                                                                                  |
++--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+25. Find the value of $n$ by working backwards.
+
+![](media/Algebraic Techniques 1_Introduction to Algebra/media/image45.png){width="5.577366579177602in"
+height="4.0625in"}
+
+$$n = 2$$
+
+# Substitution with Negative Numbers
+
++-------------------------------------------------------------------+
+| - **Substituting Negative Numbers**                               |
++===================================================================+
+| - **Always put brackets around negative numbers when              |
+|   substituting.**                                                 |
+|                                                                   |
+| - Without brackets, we might mistake a negative sign for          |
+|   subtraction.                                                    |
+|                                                                   |
+| - Brackets help calculators follow the order of operations,       |
+|   especially when raising negative numbers to a power.            |
++-------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------+
+| - **Example** Evaluate expressions after substituting negative integers     |
++=========================+=========================+=========================+
+| Evaluate:                                                                   |
++-------------------------+-------------------------+-------------------------+
+| $10 + 4b$ for $b = - 2$ | $12 - 3b$ for $b = - 5$ | $2b^{2}$ for $b = - 3$  |
+|                         |                         |                         |
+| $10 + 4b$               | $12 - 3b$               | $2b^{2}$                |
+|                         |                         |                         |
+| $= 10 + 4( - 2)$        | $= 12 - 3( - 5)$        | $= 2( - 3)^{2}$         |
+|                         |                         |                         |
+| $= 10 + ( - 8)$         | $= 12 - ( - 15)$        | $= 2(9)$                |
+|                         |                         |                         |
+| $= 2$                   | $= 27$                  | $= 18$                  |
++-------------------------+-------------------------+-------------------------+
+
++-----------------------------------------------------------------------+
+| - **Guided Practice**                                                 |
++===================================+===================================+
+| a.  Evaluate $x + 1$ for          | b.  Evaluate $2x + 3$ for         |
+|     $x = - 5$                     |     $x = - 3$                     |
+|                                   |                                   |
+| > $\ x\  + 1$                     | > $2x + 3$                        |
+|                                   |                                   |
+| $\ \ \ \ \ \  =$ ...... $+ \ 1$   | $\ \ \ \ \ \  =$ ............     |
+|                                   |                                   |
+| $\ \ \ \ \ \  =$ .........        | $\ \ \ \ \ \  =$ ............     |
+|                                   |                                   |
+| $$- 4$$                           | $$- 3$$                           |
++-----------------------------------+-----------------------------------+
+| c.  Evaluate $4b^{2}$             | d.  Evaluate $4 - x$ for          |
+|     for$\ b = - 3$                |     $x = - 3$                     |
+|                                   |                                   |
+| $$36$$                            | $$7$$                             |
++-----------------------------------+-----------------------------------+
+| e.  Evaluate $\frac{2x + 7}{3}$   | f.  Evaluate $12 - 3b$ for        |
+|     for $x = - 4$                 |     $b = - 5$                     |
+|                                   |                                   |
+| $$- \frac{1}{3}$$                 | $$27$$                            |
++-----------------------------------+-----------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  Always substitute negative numbers in .....................   |
+|     so you are less likely to make a mistake.                     |
++-------------------------------------------------------------------+
+
+Foundation
+
+1.  For $x = - 5$, evaluate these expressions.
+
++---------------------+---------------------+---------------------+
+| **a** $x + 3$       | **b** $14 - x$      | **c** $2x$          |
+|                     |                     |                     |
+| $= ( - 5) + 3$      | $19$                | $- 10$              |
+|                     |                     |                     |
+| $=$ ............    |                     |                     |
+|                     |                     |                     |
+| $- 2$               |                     |                     |
++=====================+=====================+=====================+
+| **d** $2x + 4$      | **e** $13 - 2x$     | **f** $3x - 6$      |
+|                     |                     |                     |
+| $- 6$               | $23$                | $- 21$              |
++---------------------+---------------------+---------------------+
+| **d**               | **e** $- 3x + 15$   | **f** $10x - 50$    |
+| $\frac{5x}{7}$      |                     |                     |
+|                     | $30$                | $- 100$             |
+| $$- \frac{25}{7}$$  |                     |                     |
++---------------------+---------------------+---------------------+
+
+2.  For $a = 6$ and $b = - 2$, evaluate these expressions.
+
++---------------------+---------------------+---------------------+
+| **a** $a + b$       | **b** $a - b$       | **c** $b - a$       |
+|                     |                     |                     |
+| $4$                 | $8$                 | $- 8$               |
++=====================+=====================+=====================+
+| **d** $2a + b$      | **e** $5b + 2a$     | **f** $6b - 7a$     |
+|                     |                     |                     |
+| $10$                | $2$                 | $- 54$              |
++---------------------+---------------------+---------------------+
+
+3.  Flo is working out the value of $c - d$. She is told that $c = 4$
+    and $d = - 9$. She writes:
+
+$c - d$
+
+$= 4 - 9$
+
+$= - 5$
+
+Explain why she is wrong.
+
+She substituted 9, not $- 9$
+
+Provide the correct answer.
+
+13
+
+Development
+
+4.  If $m = - 4$ and $n = 20$, find the value of:
+
++----------------+---------------------------------------------------------------------------------------------------------+----------------+----------------+
+| 5              | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image46.png){width="6.267361111111111in" | 3              | 16             |
+|                | height="0.22569444444444445in"}                                                                         |                |                |
+|                |                                                                                                         |                |                |
+|                | $- 5$                                                                                                   |                |                |
++================+=========================================================================================================+================+================+
+| 24             | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image46.png){width="6.267361111111111in" | $- 8$          | 40             |
+|                | height="0.22569444444444445in"}                                                                         |                |                |
+|                |                                                                                                         |                |                |
+|                | $- 24$                                                                                                  |                |                |
++----------------+---------------------------------------------------------------------------------------------------------+----------------+----------------+
+| 8              | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image46.png){width="6.267361111111111in" | 400            | 16             |
+|                | height="0.22569444444444445in"}                                                                         |                |                |
+|                |                                                                                                         |                |                |
+|                | $- 80$                                                                                                  |                |                |
++----------------+---------------------------------------------------------------------------------------------------------+----------------+----------------+
+
+5.  ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image47.png){width="6.972222222222222in"
+    height="0.22083333333333333in"}If $p = 4$, $q = - 3$, $r = 5$, work
+    out the value of:
+
+  -----------------------------------------------------------------------
+  $- 27$            3                 25                $- 4$
+  ----------------- ----------------- ----------------- -----------------
+
+  -----------------------------------------------------------------------
+
+6.  $f = - 3$, $g = - 10$, $h = 9$. Find the value of:
+
++---------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+----------------+----------------+
+| 3                                                                                                       | ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image48.png){width="6.210416666666666in" | 19             | 17             |
+|                                                                                                         | height="0.2791666666666667in"}                                                                          |                |                |
+|                                                                                                         |                                                                                                         |                |                |
+|                                                                                                         | 0                                                                                                       |                |                |
++=========================================================================================================+=========================================================================================================+================+================+
+| ![](media/Algebraic Techniques 1_Introduction to Algebra/media/image48.png){width="6.210416666666666in" | $- 90$                                                                                                  | 270            | 10             |
+| height="0.2791666666666667in"}                                                                          |                                                                                                         |                |                |
+|                                                                                                         |                                                                                                         |                |                |
+| 30                                                                                                      |                                                                                                         |                |                |
++---------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+----------------+----------------+
+
+7.  For $m = 3$ and $n = 7$, find the value of:
+
++---------------------+------------------------+-----------------------+----------------------+
+| a.  $\sqrt{6m + n}$ | b.  $\sqrt{10(m + n)}$ | c.  $\sqrt{4(n - m)}$ | d.  $\sqrt{7m + 4n}$ |
+|                     |                        |                       |                      |
+| 5                   | 10                     | 4                     | 7                    |
++=====================+========================+=======================+======================+
+
+8.  For $x = 3$ ,$y =$ $\frac{1}{2}$, $z = - 5$ evaluate these
+    expressions.
+
++-----------------------------+-------------------------------------------+
+| a.  $x + 4$                 | k.  $- 2z$                                |
+|                             |                                           |
+| 7                           | 10                                        |
+|                             |                                           |
+| b.  $x - 4$                 | l.  $- 2z - x$                            |
+|                             |                                           |
+| $- 1$                       | 7                                         |
+|                             |                                           |
+| c.  $4x$                    | m.  $- 2z - x - y$                        |
+|                             |                                           |
+| 12                          | 6.5                                       |
+|                             |                                           |
+| d.  $4x + y$                | n.  $2( - 2z - x - y)$                    |
+|                             |                                           |
+| 12.5                        | 13                                        |
+|                             |                                           |
+| e.  $4x + 2y$               | o.  $2(2z + x + y)$                       |
+|                             |                                           |
+| 13                          | -13                                       |
+|                             |                                           |
+| f.  $4x - 2y$               | p.  $2x + x + y$                          |
+|                             |                                           |
+| 11                          | 9.5                                       |
+|                             |                                           |
+| g.  $2y - 4x$               | q.  $\frac{2x + x + y}{2}$                |
+|                             |                                           |
+| $- 11$                      | 4.75                                      |
+|                             |                                           |
+| h.  $2y + z$                | r.  $\frac{y + x + 2z}{2}$                |
+|                             |                                           |
+| $- 4$                       | $- 3.25$                                  |
+|                             |                                           |
+| i.  $3x + z$                | s.  $\frac{y + x - 2z}{2}$                |
+|                             |                                           |
+| 4                           | $6.75$                                    |
+|                             |                                           |
+| j.  $3x - z$                | t.  $y + x - \left( \frac{2z}{2} \right)$ |
+|                             |                                           |
+| 14                          | $8.5$                                     |
++=============================+===========================================+
+
+9.  Evaluate these expressions by substituting $a = - 2$, $b = 6$,
+    $c = - 3$
+
++---------------------+---------------------+---------------------+
+| **a** $a^{2} - b$   | **b** $a - b^{2}$   | **c** $2c + a$      |
+|                     |                     |                     |
+| $- 2$               | $- 38$              | $- 8$               |
++=====================+=====================+=====================+
+| **d**               | **e**               | **f** $3ab + ac$    |
+| $b^{2} - c^{2}$     | $a^{3} + c^{2}$     |                     |
+|                     |                     | $- 30$              |
+| 27                  | 1                   |                     |
++---------------------+---------------------+---------------------+
+| **g** $c - 2ab$     | **h**               | **i** $c(a + b)$    |
+|                     | $abc - (ac)^{2}$    |                     |
+| $21$                |                     | $- 12$              |
+|                     | 0                   |                     |
++---------------------+---------------------+---------------------+
+
+![A math equations on a white background Description automatically
+generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image49.png){width="5.708333333333333in"
+height="0.3611111111111111in"}Mastery
+
+10. $p = 8$ and $q = - 12$. Work out
+
++----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------+----------------------+
+| ![A math equations on a white background Description automatically                                             | $- 20$                                                                                                         | $- 96$               |
+| generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image49.png){width="5.708333333333333in" |                                                                                                                |                      |
+| height="0.2326388888888889in"}                                                                                 |                                                                                                                |                      |
+|                                                                                                                |                                                                                                                |                      |
+| $- 4$                                                                                                          |                                                                                                                |                      |
++================================================================================================================+================================================================================================================+======================+
+| 32                                                                                                             | ![A math equations on a white background Description automatically                                             | $- 48$               |
+|                                                                                                                | generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image49.png){width="5.708333333333333in" |                      |
+|                                                                                                                | height="0.3611111111111111in"}                                                                                 |                      |
+|                                                                                                                |                                                                                                                |                      |
+|                                                                                                                | $- 3$                                                                                                          |                      |
++----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------+----------------------+
+| 14                                                                                                             | 10                                                                                                             | $- 5$                |
++----------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------+----------------------+
+
+11. **2008 HSC Standard 2 Band 4**
+
+![A close up of numbers Description automatically
+generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image50.png){width="0.6347222222222222in"
+height="1.3888888888888888in"} What is the value of
+$\sqrt{\frac{x + 2y}{8y}}$ if $x = 5.6$ and $y = 3.1$, correct to 2
+decimal places?
+
+A
+
+12. **HSC Standard 2 Sample Question Band 4**
+
+What is the value of $\frac{a + b}{ab}$ if $a = - 2.1$ and $b = - 3.6$,
+correct to 1 decimal place?
+
+$- 0.8$
+
+13. **2010 HSC Standard 2 Band 5**
+
+![A close up of numbers Description automatically
+generated](media/Algebraic Techniques 1_Introduction to Algebra/media/image51.png){width="0.92in"
+height="1.3125in"} If $M = - 9$, what is the value of
+$\frac{3M^{2} + 5M}{6}$?
+
+C
+
+14. Evaluate $8p -$ $\frac{14}{q}$ when $p =$ $\frac{- 3}{8}$, $q = - 7$
+
+$- 1$
+
+15. Complete the table.
+
+  ----------------------------------------------------------------------------------------------
+     $$\mathbf{x}$$         3         1        0.25      $$- 2$$      2       $$\frac{8}{7}$$
+  --------------------- --------- --------- ----------- --------- --------- --------------------
+   $$\mathbf{4x + 2}$$     14         6          3        $- 6$      10       $$\frac{46}{7}$$
+
+   $$\mathbf{4 - 3x}$$   $$- 5$$      1        3.25        10      $$- 2$$    $$\frac{4}{7}$$
+
+   $$\mathbf{2x - 4}$$      2      $$- 2$$   $$- 3.5$$   $$- 8$$      0      $$- \frac{12}{7}$$
+  ----------------------------------------------------------------------------------------------
+
+16. Complete the table.
+
+  ------------------------------------------------------------------
+     $$\mathbf{a}$$       5     8     2      3     $$- 20$$    10
+  --------------------- ----- ----- ----- ------- ---------- -------
+     $$\mathbf{b}$$       2     2     1      7        10      $- 3$
+
+   $$\mathbf{a + b}$$     7    10     3     10      $- 10$      7
+
+   $$\mathbf{a + 2b}$$    9    12     4     17        0         4
+
+   $$\mathbf{a - b}$$     3     6     1    $- 4$    $- 30$     13
+  ------------------------------------------------------------------
+
+# Generating Patterns by Substitution
+
++-------------------------------------------------------------------+
+| - **Consecutive Numbers Create Patterns**                         |
++===================================================================+
+| Substituting **consecutive** numbers into an expression can make  |
+| a **number pattern**.                                             |
++-------------------------------------------------------------------+
+
++---------------------------------------------------------------------------------------------+
+| - **Example** Generate a number pattern by substitution                                     |
++=============================================================================================+
+| +--------------------+---+---+---+---+---+---+---+----+---+-----+------------------+        |
+| | $$\mathbf{x}$$     | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by 1,\    |        |
+| |                    |   |   |   |   |   |   |   |    |   |     | starting at 3    |        |
+| +--------------------+---+---+---+---+---+---+---+----+---+-----+                  |        |
+| | $$\mathbf{x + 3}$$ | 3 | 4 | 5 | 6 | 7 | 8 |   | 13 |   | 103 |                  |        |
+| +====================+===+===+===+===+===+===+===+====+===+=====+==================+        |
+|                                                                                             |
+| +---------------------+---------+---+---+---+---+---+---+----+---+-----+------------------+ |
+| | $$\mathbf{x}$$      | 0       | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by 2,\    | |
+| |                     |         |   |   |   |   |   |   |    |   |     | starting at      | |
+| |                     |         |   |   |   |   |   |   |    |   |     | $- 1$            | |
+| +---------------------+---------+---+---+---+---+---+---+----+---+-----+                  | |
+| | $$\mathbf{2x - 1}$$ | $$- 1$$ | 1 | 3 | 5 | 7 | 9 |   | 19 |   | 199 |                  | |
+| +=====================+=========+===+===+===+===+===+===+====+===+=====+==================+ |
++---------------------------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------------+
+| - **Guided Practice**                                                             |
++===================================================================================+
+| Complete these tables to generate a number pattern from the algebraic expression. |
+|                                                                                   |
+| +-----------------+---+---+---+---+---+---+---+----+---+-----+--------------+     |
+| | $$\mathbf{x}$$  | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |     |
+| |                 |   |   |   |   |   |   |   |    |   |     | .........    |     |
+| |                 |   |   |   |   |   |   |   |    |   |     |              |     |
+| |                 |   |   |   |   |   |   |   |    |   |     | Starting at  |     |
+| |                 |   |   |   |   |   |   |   |    |   |     | .........    |     |
+| +-----------------+---+---+---+---+---+---+---+----+---+-----+              |     |
+| | $$\mathbf{2x}$$ |   |   |   |   |   |   |   |    |   |     |              |     |
+| +=================+===+===+===+===+===+===+===+====+===+=====+==============+     |
+|                                                                                   |
+| a.                                                                                |
+|                                                                                   |
+| 0 2 4 6 8 10 20 200; change by 2 starting at 0                                    |
+|                                                                                   |
+| +---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+ |
+| | $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    | |
+| |                     |   |   |   |   |   |   |   |    |   |     | .........    | |
+| |                     |   |   |   |   |   |   |   |    |   |     |              | |
+| |                     |   |   |   |   |   |   |   |    |   |     | Starting at  | |
+| |                     |   |   |   |   |   |   |   |    |   |     | .........    | |
+| +---------------------+---+---+---+---+---+---+---+----+---+-----+              | |
+| | $$\mathbf{2x + 3}$$ |   |   |   |   |   |   |   |    |   |     |              | |
+| +=====================+===+===+===+===+===+===+===+====+===+=====+==============+ |
+|                                                                                   |
+| b.                                                                                |
+|                                                                                   |
+| 3 5 7 9 11 13 23 203 change by 2 starting at 3                                    |
+|                                                                                   |
+| +---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+ |
+| | $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    | |
+| |                     |   |   |   |   |   |   |   |    |   |     | .........    | |
+| |                     |   |   |   |   |   |   |   |    |   |     |              | |
+| |                     |   |   |   |   |   |   |   |    |   |     | Starting at  | |
+| |                     |   |   |   |   |   |   |   |    |   |     | .........    | |
+| +---------------------+---+---+---+---+---+---+---+----+---+-----+              | |
+| | $$\mathbf{5x - 7}$$ |   |   |   |   |   |   |   |    |   |     |              | |
+| +=====================+===+===+===+===+===+===+===+====+===+=====+==============+ |
+|                                                                                   |
+| c.                                                                                |
+|                                                                                   |
+| $- 7$ $- 2$ 3 8 13 18 43 493 change by 5 starting at $- 7$                        |
+|                                                                                   |
+| +-------------------+---+---+---+---+---+---+---+----+---+-----+--------------+   |
+| | $$\mathbf{x}$$    | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |   |
+| |                   |   |   |   |   |   |   |   |    |   |     | .........    |   |
+| |                   |   |   |   |   |   |   |   |    |   |     |              |   |
+| |                   |   |   |   |   |   |   |   |    |   |     | Starting at  |   |
+| |                   |   |   |   |   |   |   |   |    |   |     | .........    |   |
+| +-------------------+---+---+---+---+---+---+---+----+---+-----+              |   |
+| | $$\mathbf{- 4x}$$ |   |   |   |   |   |   |   |    |   |     |              |   |
+| +===================+===+===+===+===+===+===+===+====+===+=====+==============+   |
+|                                                                                   |
+| d.                                                                                |
+|                                                                                   |
+| 0 $- 4$ $- 8$ $- 12$ $- 16$ $- 20$ $- 40$ $- 400$ change by $- 4$ starting at 0   |
++-----------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------+
+| - **Key Ideas**                                                   |
++===================================================================+
+| 1.  By substituting ........................... numbers, we can   |
+|     form a number pattern.                                        |
++-------------------------------------------------------------------+
+
+Foundation
+
+1.  Complete these tables to generate a number pattern from the
+    algebraic expression.
+
++-----------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$  | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                 |   |   |   |   |   |   |   |    |   |     | .........    |
+|                 |   |   |   |   |   |   |   |    |   |     |              |
+|                 |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                 |   |   |   |   |   |   |   |    |   |     | .........    |
++-----------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{3x}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+a.  
+
+0 3 6 9 12 15 30 300 change by 3 starting at 0
+
++---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
+|                     |   |   |   |   |   |   |   |    |   |     |              |
+|                     |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
++---------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{3x + 1}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+b.  
+
+1 4 7 10 13 16 31 301 change by 3 starting at 1
+
++---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
+|                     |   |   |   |   |   |   |   |    |   |     |              |
+|                     |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
++---------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{3x + 2}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+c.  
+
+2 5 8 11 14 17 32 302 change by 3 starting at 2
+
++---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
+|                     |   |   |   |   |   |   |   |    |   |     |              |
+|                     |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
++---------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{2 + 3x}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+d.  
+
+2 5 8 11 14 17 32 302 change by 3 starting at 2
+
++-----------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$        | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                       |   |   |   |   |   |   |   |    |   |     | .........    |
+|                       |   |   |   |   |   |   |   |    |   |     |              |
+|                       |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                       |   |   |   |   |   |   |   |    |   |     | .........    |
++-----------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{- 3x + 2}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=======================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+e.  
+
+2 $- 1$ $- 4$ $- 7$ $- 10$ $- 13$ $- 28$ $- 298$ change by $- 3$
+starting at 2
+
++---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
+|                     |   |   |   |   |   |   |   |    |   |     |              |
+|                     |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
++---------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{2 - 3x}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+f.  
+
+2 $- 1$ $- 4$ $- 7$ $- 10$ $- 13$ $- 28$ $- 298$ change by $- 3$
+starting at 2
+
++-----------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$        | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                       |   |   |   |   |   |   |   |    |   |     | .........    |
+|                       |   |   |   |   |   |   |   |    |   |     |              |
+|                       |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                       |   |   |   |   |   |   |   |    |   |     | .........    |
++-----------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{- 2x + 2}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=======================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+g.  
+
+0 $- 2$ $- 4$ $- 6$ $- 8$ $- 18$ $- 198$ change by $- 2$ start at 2
+
++----------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$       | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                      |   |   |   |   |   |   |   |    |   |     | .........    |
+|                      |   |   |   |   |   |   |   |    |   |     |              |
+|                      |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                      |   |   |   |   |   |   |   |    |   |     | .........    |
++----------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{- x - 2}$$ |   |   |   |   |   |   |   |    |   |     |              |
++======================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+h.  
+
+$- 2$ $- 3$ $- 4$ $- 5$ $- 6$ $- 7$ $- 12$ $- 102$ change by $- 1$
+starting at $- 2$
+
++----------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$       | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                      |   |   |   |   |   |   |   |    |   |     | .........    |
+|                      |   |   |   |   |   |   |   |    |   |     |              |
+|                      |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                      |   |   |   |   |   |   |   |    |   |     | .........    |
++----------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{- x + 1}$$ |   |   |   |   |   |   |   |    |   |     |              |
++======================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+i.  
+
+1 0 $- 1$ $- 2$ $- 3$ $- 4$ $- 9$ $- 99$ change by $- 1$ starting at 1
+
++--------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$     | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                    |   |   |   |   |   |   |   |    |   |     | .........    |
+|                    |   |   |   |   |   |   |   |    |   |     |              |
+|                    |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                    |   |   |   |   |   |   |   |    |   |     | .........    |
++--------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{1 - x}$$ |   |   |   |   |   |   |   |    |   |     |              |
++====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+j.  
+
+1 0 $- 1$ $- 2$ $- 3$ $- 4$ $- 9$ $- 99$ change by $- 1$ starting at 1
+
++------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$   | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                  |   |   |   |   |   |   |   |    |   |     | .........    |
+|                  |   |   |   |   |   |   |   |    |   |     |              |
+|                  |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                  |   |   |   |   |   |   |   |    |   |     | .........    |
++------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{- x}$$ |   |   |   |   |   |   |   |    |   |     |              |
++==================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+k.  
+
+> 0 $- 1$ $- 2$ $- 3$ $- 4$ $- 5$ $- 10$ $- 100$ change by $- 1$
+> starting at 0
+
++---------------------+---+---+---+---+---+---+---+----+---+-----+--------------+
+| $$\mathbf{x}$$      | 0 | 1 | 2 | 3 | 4 | 5 |   | 10 |   | 100 | Change by    |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
+|                     |   |   |   |   |   |   |   |    |   |     |              |
+|                     |   |   |   |   |   |   |   |    |   |     | Starting at  |
+|                     |   |   |   |   |   |   |   |    |   |     | .........    |
++---------------------+---+---+---+---+---+---+---+----+---+-----+              |
+| $$\mathbf{3x - 5}$$ |   |   |   |   |   |   |   |    |   |     |              |
++=====================+===+===+===+===+===+===+===+====+===+=====+==============+
+
+l.  
+
+$- 5$ $- 2$ 1 4 7 10 $25$ $295$ change by 3 starting at $- 5$
+
+Development
+
+2.  By looking at the questions in **Q1**, complete the sentences:
+
+> In the expression $mx + c$: the coefficient of $x$ is ............ and
+> the constant term is ............
+>
+> The coefficient of $x$ represents how much to change as you increase
+> $x$ by .........
+>
+> The constant term represents the number to ............ at, i.e., when
+> $x = 0$
+
+3.  Determine the number pattern formed by these equations.
+
++----------------------+----------------------+----------------------+
+| a.  $3x + 6$         | b.  $3x + 9$         | c.  $6x + 18$        |
+|                      |                      |                      |
+| Change by 3          | Change by            | Change by            |
+|                      | ...............      | ...............      |
+| Starting at 6        |                      |                      |
+|                      | > Starting at        | > Starting at        |
+|                      | > ...............    | > ...............    |
+|                      |                      |                      |
+|                      | Change by 3 starting | Change by 6 starting |
+|                      | at 9                 | at 18                |
++======================+======================+======================+
+| d.  $3x + 18$        | e.  $3x - 18$        | f.  $2x - 18$        |
+|                      |                      |                      |
+| Change by            | Change by            | Change by            |
+| ...............      | ...............      | ...............      |
+|                      |                      |                      |
+| Starting at          | > Starting at        | > Starting at        |
+| ...............      | > ...............    | > ...............    |
+|                      |                      |                      |
+| Change by 3 starting | Change by 3 starting | Change by 2 starting |
+| at 18                | at $- 18$            | at $- 18$            |
++----------------------+----------------------+----------------------+
+| g.  $18 - 2x$        | h.  $- 2x + 18$      | i.  $- 4x + 18$      |
+|                      |                      |                      |
+| Change by            | Change by            | Change by            |
+| ...............      | ...............      | ...............      |
+|                      |                      |                      |
+| Starting at          | > Starting at        | > Starting at        |
+| ...............      | > ...............    | > ...............    |
+|                      |                      |                      |
+| Change by $- 2$      | Change by $- 2$      | Change by $- 4$      |
+| starting at 18       | starting at 18       | starting at 18       |
++----------------------+----------------------+----------------------+
+| j.  $- 4x - 18$      | k.  $4x - 18$        | l.  $- 5.4 -$        |
+|                      |                      |     $\frac{9}{4}$    |
+| Change by            | Change by            |     $x$              |
+| ...............      | ...............      |                      |
+|                      |                      | Change by            |
+| Starting at          | > Starting at        | ...............      |
+| ...............      | > ...............    |                      |
+|                      |                      | > Starting at        |
+| Change by $- 4$      | Change by 4 starting | > ...............    |
+| starting at $- 18$   | at $- 18$            |                      |
+|                      |                      | Change by            |
+|                      |                      | $- \frac{9}{4}$      |
+|                      |                      | starting at $- 5.4$  |
++----------------------+----------------------+----------------------+

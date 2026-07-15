@@ -1,6 +1,6 @@
 # Atomisation proposal — Algebraic Techniques 4: Factorise Expressions (Stage 4)
 
-Source booklet: `booklets/Algebraic Techniques 4_Factorise Expressions.md`
+Source booklet: `booklets/Stage 4/Algebraic Techniques 4_Factorise Expressions.md`
 (sub-booklets Factorising 1 / 2 / 3)
 Target dot point: `dp-s4-alg-5` (topic `t-s4-alg`, MA4-ALG-C-01)
 Rubric: `docs/atomisation-principles.md`

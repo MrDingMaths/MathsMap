@@ -1,4 +1,4 @@
-# Atomisation proposal — `booklets/Linear Relationships.md`
+# Atomisation proposal — `booklets/Stage 4/Linear Relationships.md`
 
 ## Context
 

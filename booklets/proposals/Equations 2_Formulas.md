@@ -5,7 +5,7 @@
 
 ## Scope
 
-Atomised `booklets/Equations 2_Formulas.md` into genuinely-missing skills +
+Atomised `booklets/Stage 4/Equations 2_Formulas.md` into genuinely-missing skills +
 prereq edges for `data/skills.json`, per `docs/atomisation-principles.md`.
 
 Edge-inclusion bar: add `X ← P` only if P is (1) distinctive, (2) at-risk,

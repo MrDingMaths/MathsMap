@@ -1,4 +1,4 @@
-# Proposal — Atomise `booklets/Fractions Decimals Percentages 2_Decimals.md`
+# Proposal — Atomise `booklets/Stage 4/Fractions Decimals Percentages 2_Decimals.md`
 
 ## Context
 
