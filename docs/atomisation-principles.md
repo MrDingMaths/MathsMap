@@ -79,6 +79,45 @@ hold**:
 Skills *used* in a routine but failing these tests are **omitted entirely** — not
 recorded in any form.
 
+## De-bundling a coarse skill
+
+An existing skill's blurb can bundle more than the graph currently records. Two
+different situations call for splitting it, and they resolve differently.
+
+**Lift-out (a sub-step, not a progression).** When a skill's blurb nominally
+mentions a distinctive, at-risk sub-step (a sign rule, a converse direction, a
+special case), lifting that sub-step out as its own skill plus a prerequisite
+edge into the existing skill is legitimate — it is **not** redundant. A blurb
+merely *mentioning* the sub-step does not mean it is already reachable in the
+graph; redundant means already reachable through an *included* edge (rule 4
+above), and only an explicit prior skill/edge satisfies that. If you lift one
+such sub-step out, apply the same treatment to its structural twins (sibling
+skills bundling the same kind of sub-step), so the graph doesn't end up
+inconsistent.
+
+**Progression chain (a taught sequence, not a sub-step).** When a skill's blurb
+instead bundles a *taught progression* — a base case plus one or more harder
+variants taught as a sequence — don't hang the harder variant off the easy case
+as a sibling prerequisite. Decompose into an ordered chain, placing the harder
+variants **downstream as dependents** of the base skill: a harder case requires
+fluency at the base case first, not the reverse. Re-scope the original skill's
+blurb to its now-narrower meaning (the base case only).
+
+*Precedent:* `solve-linear-2-step` bundled one-step equations, positive
+two-step equations, negative-coefficient equations, and x-on-both-sides
+equations under one blurb. It was split into
+`solve-one-step-equation → solve-linear-2-step → {solve-equation-negative-coefficient,
+solve-equation-x-both-sides}` — the harder variants sit downstream of the
+re-scoped `solve-linear-2-step`, not beside it.
+
+## Check prior decisions
+
+Before proposing anything, read every existing file in `booklets/proposals/`
+for precedents *and* rejections. Never re-propose a candidate the user has
+already rejected — e.g. `interpret-percentage-vocabulary` was considered and
+rejected; that knowledge stays bundled in `financial-percentage-problems`, not
+split out. A rejection is a decision, not an oversight to revisit next session.
+
 ## Math notation
 
 Follow the project notation table in the root `CLAUDE.md` when writing titles and
