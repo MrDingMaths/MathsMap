@@ -6414,9 +6414,25 @@
     "difficulty": 2
   },
   {
+    "id": "evaluate-trig-ratio",
+    "title": "Evaluate a trigonometric ratio",
+    "blurb": "Use a calculator to evaluate $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ for a given angle, including compound forms such as $12\\sin 13^{\\circ}$ and $\\dfrac{9}{\\sin 57^{\\circ}}$.",
+    "stage": 5,
+    "courses": [
+      "s5-core"
+    ],
+    "dotPointIds": [
+      "dp-s5c-trga-1"
+    ],
+    "difficulty": 1,
+    "prereqs": [
+      "define-trig-ratios"
+    ]
+  },
+  {
     "id": "trig-find-side",
     "title": "Find an unknown side using trigonometry",
-    "blurb": "Apply trig ratios to find unknown side lengths in right-angled triangles.",
+    "blurb": "Apply trig ratios to find an unknown side that is in the numerator, e.g. $\\sin 38^{\\circ}=\\dfrac{x}{7}$.",
     "stage": 5,
     "courses": [
       "s5-core",
@@ -6427,14 +6443,30 @@
       "dp-s6st12-trig-1"
     ],
     "prereqs": [
-      "define-trig-ratios"
+      "evaluate-trig-ratio"
     ],
     "difficulty": 2
   },
   {
+    "id": "trig-find-side-denominator",
+    "title": "Find an unknown side in the denominator",
+    "blurb": "Solve for an unknown side when it sits in the denominator, e.g. $\\sin 35^{\\circ}=\\dfrac{5}{x}$, by multiplying by $x$ then dividing by the ratio.",
+    "stage": 5,
+    "courses": [
+      "s5-core"
+    ],
+    "dotPointIds": [
+      "dp-s5c-trga-2"
+    ],
+    "difficulty": 2,
+    "prereqs": [
+      "trig-find-side"
+    ]
+  },
+  {
     "id": "trig-find-angle",
     "title": "Find an unknown angle using trigonometry",
-    "blurb": "Apply trig ratios to find unknown angles, including in degrees and minutes.",
+    "blurb": "Apply trig ratios to find unknown angles in a right-angled triangle, using the inverse trig functions.",
     "stage": 5,
     "courses": [
       "s5-core",
@@ -6445,9 +6477,24 @@
       "dp-s6st12-trig-1"
     ],
     "prereqs": [
-      "find-angle-from-ratio"
+      "find-angle-from-ratio",
+      "round-angle-degrees-minutes"
     ],
     "difficulty": 2
+  },
+  {
+    "id": "round-angle-degrees-minutes",
+    "title": "Round an angle to the nearest degree or minute",
+    "blurb": "Round an angle in sexagesimal form, rounding up when the critical unit is $30$ or more, e.g. $43^{\\circ}\\,44'\\,8.4'' \\approx 44^{\\circ}$.",
+    "stage": 5,
+    "courses": [
+      "s5-core"
+    ],
+    "dotPointIds": [
+      "dp-s5c-trga-2"
+    ],
+    "difficulty": 1,
+    "prereqs": []
   },
   {
     "id": "trig-practical-problems",
@@ -6465,15 +6512,29 @@
       "dp-s6adv11-trig-1"
     ],
     "prereqs": [
-      "trig-find-side",
+      "trig-find-side-denominator",
       "trig-find-angle"
     ],
     "difficulty": 3
   },
   {
+    "id": "identify-elevation-depression",
+    "title": "Identify an angle of elevation or depression",
+    "blurb": "Identify and mark the angle of elevation or depression on a diagram, measuring from the horizontal to the line of sight.",
+    "stage": 5,
+    "courses": [
+      "s5-core"
+    ],
+    "dotPointIds": [
+      "dp-s5c-trgb-1"
+    ],
+    "difficulty": 1,
+    "prereqs": []
+  },
+  {
     "id": "elevation-depression",
     "title": "Solve elevation and depression problems",
-    "blurb": "Identify and solve problems involving angles of elevation and depression.",
+    "blurb": "Solve practical problems involving angles of elevation and depression using trigonometry.",
     "stage": 5,
     "courses": [
       "s5-core",
@@ -6486,7 +6547,8 @@
       "dp-s6adv11-trig-1"
     ],
     "prereqs": [
-      "trig-practical-problems"
+      "trig-practical-problems",
+      "identify-elevation-depression"
     ],
     "difficulty": 2
   },
@@ -6509,6 +6571,22 @@
     "difficulty": 2
   },
   {
+    "id": "bearing-between-two-points",
+    "title": "Find the bearing between two points",
+    "blurb": "Find the bearing of one point from another, placing the compass rose at the \"from\" point, e.g. the bearing of $A$ from $B$ is $244^{\\circ}$.",
+    "stage": 5,
+    "courses": [
+      "s5-core"
+    ],
+    "dotPointIds": [
+      "dp-s5c-trgb-2"
+    ],
+    "difficulty": 2,
+    "prereqs": [
+      "bearings"
+    ]
+  },
+  {
     "id": "bearings-problems",
     "title": "Solve bearings problems",
     "blurb": "Solve practical problems involving bearings using trigonometry.",
@@ -6520,7 +6598,7 @@
       "dp-s5c-trgb-2"
     ],
     "prereqs": [
-      "bearings",
+      "bearing-between-two-points",
       "trig-practical-problems"
     ],
     "difficulty": 3
@@ -9079,7 +9157,7 @@
   {
     "id": "pythagoras-3d",
     "title": "Apply Pythagoras' theorem in 3D",
-    "blurb": "Find edge and diagonal lengths of rectangular prisms and other 3D objects.",
+    "blurb": "Find edge and face-diagonal lengths of rectangular prisms, using the face diagonal as the hypotenuse of a right-angled triangle.",
     "stage": 5,
     "courses": [
       "s5-path"
@@ -9091,6 +9169,22 @@
       "pythagoras-problems"
     ],
     "difficulty": 2
+  },
+  {
+    "id": "space-diagonal-3d",
+    "title": "Find a space diagonal in 3D",
+    "blurb": "Apply Pythagoras' theorem twice — face diagonal first, kept exact — to find the space diagonal through the interior of a prism.",
+    "stage": 5,
+    "courses": [
+      "s5-path"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-c-1"
+    ],
+    "difficulty": 2,
+    "prereqs": [
+      "pythagoras-3d"
+    ]
   },
   {
     "id": "trigonometry-3d",
@@ -9105,16 +9199,30 @@
     ],
     "prereqs": [
       "interpret-3d-trig-context",
-      "pythagoras-3d",
+      "space-diagonal-3d",
       "trig-practical-problems",
       "elevation-depression"
     ],
     "difficulty": 3
   },
   {
+    "id": "label-triangle-sides-angles",
+    "title": "Label the sides and angles of a triangle",
+    "blurb": "Use the convention that side $a$ is opposite angle $A$, and identify opposite side–angle pairs in any triangle.",
+    "stage": 5,
+    "courses": [
+      "s5-path"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-c-2"
+    ],
+    "difficulty": 1,
+    "prereqs": []
+  },
+  {
     "id": "sine-rule",
     "title": "Apply the sine rule",
-    "blurb": "Use $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$ to find unknown sides and angles (ambiguous case excluded).",
+    "blurb": "Use $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}$ to find an unknown side, given a complete opposite pair.",
     "stage": 5,
     "courses": [
       "s5-path",
@@ -9128,14 +9236,35 @@
     ],
     "prereqs": [
       "trig-find-side",
-      "trig-find-angle"
+      "trig-find-angle",
+      "label-triangle-sides-angles"
     ],
     "difficulty": 2
   },
   {
+    "id": "sine-rule-angles",
+    "title": "Apply the sine rule to find an angle",
+    "blurb": "Use $\\dfrac{\\sin A}{a}=\\dfrac{\\sin B}{b}$, with $\\sin$ in the numerator, to find an unknown angle (ambiguous case excluded).",
+    "stage": 5,
+    "courses": [
+      "s5-path",
+      "s6-std12",
+      "s6-adv11"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-c-2",
+      "dp-s6st12-trig-2",
+      "dp-s6adv11-trig-3"
+    ],
+    "difficulty": 2,
+    "prereqs": [
+      "sine-rule"
+    ]
+  },
+  {
     "id": "cosine-rule",
     "title": "Apply the cosine rule",
-    "blurb": "Use $c^{2}=a^{2}+b^{2}-2ab\\cdot\\cos C$ to find unknown sides, and rearrange to find unknown angles.",
+    "blurb": "Use $c^{2}=a^{2}+b^{2}-2ab\\cos C$ to find an unknown side from two sides and the included angle.",
     "stage": 5,
     "courses": [
       "s5-path",
@@ -9149,9 +9278,30 @@
     ],
     "prereqs": [
       "trig-find-side",
-      "trig-find-angle"
+      "trig-find-angle",
+      "label-triangle-sides-angles"
     ],
     "difficulty": 2
+  },
+  {
+    "id": "cosine-rule-angles",
+    "title": "Apply the cosine rule to find an angle",
+    "blurb": "Use the rearranged form $\\cos C=\\dfrac{a^{2}+b^{2}-c^{2}}{2ab}$, where $c$ is the side opposite the required angle, to find an angle from three known sides.",
+    "stage": 5,
+    "courses": [
+      "s5-path",
+      "s6-std12",
+      "s6-adv11"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-c-2",
+      "dp-s6st12-trig-3",
+      "dp-s6adv11-trig-3"
+    ],
+    "difficulty": 2,
+    "prereqs": [
+      "cosine-rule"
+    ]
   },
   {
     "id": "area-rule-triangle",
@@ -9189,8 +9339,8 @@
       "dp-s6adv11-trig-3"
     ],
     "prereqs": [
-      "sine-rule",
-      "cosine-rule",
+      "sine-rule-angles",
+      "cosine-rule-angles",
       "area-rule-triangle"
     ],
     "difficulty": 3
@@ -9226,6 +9376,20 @@
       "unit-circle-definitions"
     ],
     "difficulty": 2
+  },
+  {
+    "id": "rewrite-angle-within-revolution",
+    "title": "Rewrite an angle within one revolution",
+    "blurb": "Add or subtract $360^{\\circ}$ repeatedly to rewrite any angle as an equivalent angle with $0^{\\circ}\\le\\theta<360^{\\circ}$, e.g. $-110^{\\circ}\\equiv250^{\\circ}$.",
+    "stage": 5,
+    "courses": [
+      "s5-path"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-d-1"
+    ],
+    "difficulty": 1,
+    "prereqs": []
   },
   {
     "id": "graph-trig-functions",
@@ -9317,7 +9481,7 @@
   {
     "id": "solve-trig-equations",
     "title": "Solve trigonometric equations",
-    "blurb": "Find acute and obtuse angles for a given trig ratio and solve, including the ambiguous case of the sine rule.",
+    "blurb": "Find all solutions of a trigonometric equation for $0^{\\circ}\\le\\theta<360^{\\circ}$ using the acute reference angle and the relevant quadrants.",
     "stage": 5,
     "courses": [
       "s5-path"
@@ -9327,8 +9491,8 @@
     ],
     "prereqs": [
       "trig-obtuse-relationships",
-      "exact-trig-ratios",
-      "sine-rule"
+      "trig-ratios-quadrant-forms",
+      "astc-sign-of-ratio"
     ],
     "difficulty": 3
   },
@@ -10765,7 +10929,7 @@
       "dp-s6st12-trig-2"
     ],
     "prereqs": [
-      "sine-rule"
+      "sine-rule-angles"
     ],
     "difficulty": 2
   },
@@ -11569,27 +11733,48 @@
     "id": "related-angles",
     "title": "Use the related angle",
     "blurb": "Identify the related (reference) angle and use it to obtain trig ratios of an angle of any magnitude.",
-    "stage": 6,
+    "stage": 5,
     "courses": [
+      "s5-path",
       "s6-adv11"
     ],
     "dotPointIds": [
+      "dp-s5p-trg-d-1",
       "dp-s6adv11-trig-2"
     ],
     "prereqs": [
-      "angles-any-magnitude-definitions"
+      "unit-circle-definitions",
+      "rewrite-angle-within-revolution"
     ],
     "difficulty": 2
+  },
+  {
+    "id": "astc-sign-of-ratio",
+    "title": "Determine the sign of a trig ratio using ASTC",
+    "blurb": "Identify the quadrant of an angle and use ASTC to decide whether $\\sin\\theta$, $\\cos\\theta$ or $\\tan\\theta$ is positive or negative.",
+    "stage": 5,
+    "courses": [
+      "s5-path"
+    ],
+    "dotPointIds": [
+      "dp-s5p-trg-d-1"
+    ],
+    "difficulty": 1,
+    "prereqs": [
+      "related-angles"
+    ]
   },
   {
     "id": "trig-ratios-quadrant-forms",
     "title": "Find ratios for $180^{\\circ}\\pm A$ and $360^{\\circ}-A$",
     "blurb": "Develop and use the trigonometric ratios for angles of the form $180^{\\circ}\\pm A$ and $360^{\\circ}-A$ to find exact values.",
-    "stage": 6,
+    "stage": 5,
     "courses": [
+      "s5-path",
       "s6-adv11"
     ],
     "dotPointIds": [
+      "dp-s5p-trg-d-2",
       "dp-s6adv11-trig-2"
     ],
     "prereqs": [
@@ -11635,15 +11820,18 @@
     "id": "ambiguous-case-sine-rule",
     "title": "Apply the ambiguous case of the sine rule",
     "blurb": "Examine and apply the ambiguous case of the sine rule, where two solutions for an angle are possible.",
-    "stage": 6,
+    "stage": 5,
     "courses": [
+      "s5-path",
       "s6-adv11"
     ],
     "dotPointIds": [
+      "dp-s5p-trg-d-2",
       "dp-s6adv11-trig-3"
     ],
     "prereqs": [
-      "sine-rule"
+      "sine-rule-angles",
+      "trig-obtuse-relationships"
     ],
     "difficulty": 3
   },
