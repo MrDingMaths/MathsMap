@@ -1,13 +1,24 @@
 <script>
   import { untrack } from 'svelte';
-  import { courseById, topicsForCourse } from '../lib/data.js';
+  import { courseById, topicsForCourse, skills } from '../lib/data.js';
   import { courseStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
+  import { loadManifest, quizPool } from '../lib/manifest.js';
   import TopicCard from '../components/TopicCard.svelte';
   import SlabHero from '../components/SlabHero.svelte';
 
   let { id } = $props();
   let course = $derived(courseById.get(id));
+
+  // "Check my skills" entry — only offered once the manifest confirms at
+  // least one skill in this course has a quiz.
+  let manifestLoaded = $state(false);
+  $effect(() => { loadManifest().then(() => { manifestLoaded = true; }); });
+  let quizzableCount = $derived.by(() => {
+    if (!manifestLoaded) return 0;
+    const ids = skills.filter((s) => (s.courses || []).includes(id)).map((s) => s.id);
+    return quizPool(ids).length;
+  });
 
   function strandGroups(courseId) {
     const map = new Map();
@@ -41,7 +52,12 @@
 
 <div class="container">
   {#if course}
-    <div class="crumbs"><a href={href('/')}>Home</a> / {course.title}</div>
+    <div class="page-head">
+      <div class="crumbs"><a href={href('/')}>Home</a> / {course.title}</div>
+      {#if quizzableCount > 0}
+        <a class="map-link" href={href(`/quiz?course=${id}`)}>Check my skills</a>
+      {/if}
+    </div>
 
     {#if stats}
       <SlabHero

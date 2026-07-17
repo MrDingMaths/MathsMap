@@ -68,6 +68,11 @@
     <input class="search" placeholder="Search skills…" bind:value={query} />
   </div>
 
+  <a class="quiz-cta" href={href('/quiz')}>
+    <span class="quiz-cta-title">Diagnostic quiz</span>
+    <span class="quiz-cta-sub">Not sure what to revise? Answer a few questions and find out.</span>
+  </a>
+
   {#if query.trim()}
     <!-- SEARCH RESULTS -->
     <div class="results-head">
@@ -131,6 +136,23 @@
   .search-wrap { position: relative; max-width: 520px; }
   .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
   .search { padding-left: 2.5rem; }
+
+  .quiz-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-width: 520px;
+    margin-top: 0.9rem;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+    color: var(--text);
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .quiz-cta:hover { border-color: var(--accent); text-decoration: none; }
+  .quiz-cta-title { font-weight: 600; color: var(--accent); }
+  .quiz-cta-sub { font-size: 0.82rem; color: var(--muted); }
 
   .results-head { display: flex; align-items: baseline; gap: 0.65rem; margin: 1.4rem 0 1rem; }
   .results-head h2 { font-size: 1.05rem; margin: 0; }

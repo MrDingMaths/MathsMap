@@ -3,6 +3,7 @@
   import { topicById, courseById, skillsForTopic } from '../lib/data.js';
   import { topicStats, subscribe } from '../lib/store.js';
   import { href } from '../lib/router.svelte.js';
+  import { loadManifest, quizPool } from '../lib/manifest.js';
   import SkillCard from '../components/SkillCard.svelte';
   import SlabHero from '../components/SlabHero.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -12,6 +13,15 @@
   let topic = $derived(topicById.get(id));
   let course = $derived(courseId ? courseById.get(courseId) : null);
   let groups = $derived(skillsForTopic(id, courseId));
+
+  // "Check my skills" entry — only offered once the manifest confirms at
+  // least one skill in this topic (scoped to the course, if given) has a quiz.
+  let manifestLoaded = $state(false);
+  $effect(() => { loadManifest().then(() => { manifestLoaded = true; }); });
+  let quizzableCount = $derived.by(() => {
+    if (!manifestLoaded) return 0;
+    return quizPool(groups.flatMap((g) => g.skills.map((s) => s.id))).length;
+  });
 
   let tick = $state(0);
   // untrack the increment: subscribe() invokes the callback synchronously while
@@ -32,7 +42,12 @@
         {#if course} / <a href={href(`/course/${course.id}`)}>{course.title}</a>{/if}
         / <Math text={topic.title} />
       </div>
-      <MapLink to={`/map?topic=${topic.id}${courseId ? `&course=${courseId}` : ''}`} />
+      <div class="page-actions">
+        {#if quizzableCount > 0}
+          <a class="map-link" href={href(`/quiz?topic=${topic.id}${courseId ? `&course=${courseId}` : ''}`)}>Check my skills</a>
+        {/if}
+        <MapLink to={`/map?topic=${topic.id}${courseId ? `&course=${courseId}` : ''}`} />
+      </div>
     </div>
 
     <SlabHero
@@ -62,6 +77,7 @@
 </div>
 
 <style>
+  .page-actions { display: flex; align-items: center; gap: 0.6rem; flex: none; }
   .section { margin-top: 1.8rem; }
 
   /* Dot-point heading: sentence text + inline rule + count. */

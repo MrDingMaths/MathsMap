@@ -6,6 +6,8 @@
   import Topic from './views/Topic.svelte';
   import SkillDetail from './views/SkillDetail.svelte';
   import Map from './views/Map.svelte';
+  import Quiz from './views/Quiz.svelte';
+  import TikzCheck from './views/TikzCheck.svelte';
 
   $effect(() => {
     document.documentElement.setAttribute('data-theme', theme.current);
@@ -93,6 +95,10 @@
     skillId={route.query.skill ?? null}
     topicId={route.query.topic ?? null}
   />
+{:else if route.name === 'quiz'}
+  <Quiz topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
+{:else if route.name === 'tikz-check' && import.meta.env.DEV}
+  <TikzCheck topicId={route.query.topic ?? null} ids={route.query.ids ?? null} />
 {:else}
   <div class="container"><p class="muted">Page not found. <a href={href('/')}>Go home</a>.</p></div>
 {/if}
