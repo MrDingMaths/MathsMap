@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 // Validates the MathsMap taxonomy in /data: referential integrity, acyclic
 // prerequisite graph, stage-monotonic prereqs, and orphan reporting.
-import { readFileSync } from 'node:fs';
+// Also validates per-skill teaching content (public/content/*.json) and
+// quizzes (public/quizzes/*.json) against docs/content-schema.md.
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import katex from 'katex';
 
-const dataDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'data');
+const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
+const dataDir = join(rootDir, 'data');
+const contentDir = join(rootDir, 'public', 'content');
+const quizzesDir = join(rootDir, 'public', 'quizzes');
 const load = (f) => JSON.parse(readFileSync(join(dataDir, f), 'utf8'));
 
 const courses = load('courses.json');
@@ -79,12 +85,412 @@ for (const s of skills) if (colour.get(s.id) === WHITE) visit(s.id);
 const usedDotpoints = new Set(skills.flatMap((s) => s.dotPointIds || []));
 for (const d of dotpoints) if (!usedDotpoints.has(d.id)) warnings.push(`dotpoint ${d.id} has no skill`);
 
+// ---------------------------------------------------------------------------
+// Content & quiz validation (docs/content-schema.md is the source of truth)
+// ---------------------------------------------------------------------------
+
+// Is the character at `idx` a literal `$` (i.e. not preceded by an odd run of
+// backslashes, which would make it an escaped `\$`)?
+function isEscaped(str, idx) {
+  let count = 0;
+  let i = idx - 1;
+  while (i >= 0 && str[i] === '\\') {
+    count++;
+    i--;
+  }
+  return count % 2 === 1;
+}
+
+// Lints a single human-visible text field: balanced unescaped `$…$` math
+// delimiters (each segment must KaTeX-render), and balanced `**bold**` pairs.
+// Pushes formatted error strings onto `problems`.
+// Raw control characters in a string value are the fingerprint of a
+// single-escaped LaTeX macro silently corrupted by JSON.parse
+// (`\times` → TAB+`imes`, `\frac` → FF+`rac`, `\text` → TAB+`ext`) — KaTeX
+// then renders the residue as innocent italic letters, so only this check
+// catches it. Newline is allowed (legitimate in multi-line tikz code).
+const CONTROL_CHAR_NAMES = { '\t': 'TAB (\\t — corrupted \\times/\\text/\\tfrac?)', '\f': 'FORMFEED (\\f — corrupted \\frac?)', '\b': 'BACKSPACE (\\b — corrupted \\begin/\\bar?)', '\r': 'CR (\\r — corrupted \\right/\\rule?)' };
+function lintControlChars(str, where, problems) {
+  const m = str.match(/[\x00-\x09\x0B-\x1F]/);
+  if (m) {
+    const name = CONTROL_CHAR_NAMES[m[0]] || `control char 0x${m[0].charCodeAt(0).toString(16).padStart(2, '0')}`;
+    problems.push(`${where}: raw ${name} in string — a LaTeX backslash was probably not doubled in the JSON`);
+  }
+}
+
+function lintMathString(str, where, problems) {
+  if (typeof str !== 'string') {
+    problems.push(`${where}: expected a string, got ${typeof str}`);
+    return;
+  }
+  lintControlChars(str, where, problems);
+  const dollarIdx = [];
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '$' && !isEscaped(str, i)) dollarIdx.push(i);
+  }
+  if (dollarIdx.length % 2 !== 0) {
+    problems.push(`${where}: unbalanced $ delimiters — "${str}"`);
+  } else {
+    for (let k = 0; k < dollarIdx.length; k += 2) {
+      const seg = str.slice(dollarIdx[k] + 1, dollarIdx[k + 1]);
+      try {
+        katex.renderToString(seg, { throwOnError: true });
+      } catch (e) {
+        problems.push(`${where}: KaTeX error in "$${seg}$" — ${e.message}`);
+      }
+    }
+  }
+  const starMatches = str.match(/\*\*/g) || [];
+  if (starMatches.length % 2 !== 0) {
+    problems.push(`${where}: unbalanced ** pairs — "${str}"`);
+  }
+}
+
+function validateTikz(value, where, problems) {
+  if (typeof value !== 'string') {
+    problems.push(`${where}: must be a string`);
+    return;
+  }
+  lintControlChars(value, where, problems);
+  if (!value.includes('\\begin{tikzpicture}')) {
+    problems.push(`${where}: must contain \\begin{tikzpicture}`);
+  }
+  if (value.includes('\\usepackage')) {
+    problems.push(`${where}: must not contain \\usepackage`);
+  }
+}
+
+// Shared shape for card / question `solution[]`: { math (required), note? }
+function validateSolution(solution, where, problems) {
+  if (!Array.isArray(solution)) {
+    problems.push(`${where}: must be an array`);
+    return;
+  }
+  const allowed = new Set(['math', 'note']);
+  solution.forEach((line, i) => {
+    const ltag = `${where}[${i}]`;
+    if (!line || typeof line !== 'object' || Array.isArray(line)) {
+      problems.push(`${ltag}: must be an object`);
+      return;
+    }
+    for (const key of Object.keys(line)) {
+      if (!allowed.has(key)) problems.push(`${ltag}: unknown key "${key}"`);
+    }
+    if (typeof line.math !== 'string' || !line.math) {
+      problems.push(`${ltag}: math is required and must be a non-empty string`);
+    } else {
+      lintMathString(line.math, `${ltag}.math`, problems);
+    }
+    if (line.note !== undefined) {
+      if (typeof line.note !== 'string') problems.push(`${ltag}: note must be a string`);
+      else lintMathString(line.note, `${ltag}.note`, problems);
+    }
+  });
+}
+
+// Shared shape for a practice `Card`: { q, a, solution?, tikz?, tikzSolution? }
+function validateCard(card, where, problems) {
+  if (!card || typeof card !== 'object' || Array.isArray(card)) {
+    problems.push(`${where}: card must be an object`);
+    return;
+  }
+  const allowed = new Set(['q', 'a', 'solution', 'tikz', 'tikzSolution']);
+  for (const key of Object.keys(card)) {
+    if (!allowed.has(key)) problems.push(`${where}: unknown card key "${key}"`);
+  }
+  if (typeof card.q !== 'string' || !card.q) {
+    problems.push(`${where}: q is required and must be a non-empty string`);
+  } else {
+    lintMathString(card.q, `${where}.q`, problems);
+  }
+  if (typeof card.a !== 'string' || !card.a) {
+    problems.push(`${where}: a is required and must be a non-empty string`);
+  } else {
+    lintMathString(card.a, `${where}.a`, problems);
+  }
+  if (card.solution !== undefined) validateSolution(card.solution, `${where}.solution`, problems);
+  for (const tikzKey of ['tikz', 'tikzSolution']) {
+    if (card[tikzKey] !== undefined) validateTikz(card[tikzKey], `${where}.${tikzKey}`, problems);
+  }
+}
+
+function validateContent(filterFn) {
+  const errs = [];
+  const warns = [];
+  const masteryTierSkills = new Set(); // skills whose practice carries a mastery tier
+  let files = [];
+  try {
+    files = readdirSync(contentDir).filter((f) => f.endsWith('.json'));
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err;
+  }
+  let checked = 0;
+  for (const filename of files) {
+    const skillId = filename.slice(0, -'.json'.length);
+    if (filterFn && !filterFn(skillId)) continue;
+    checked++;
+    const tag = `content ${skillId}`;
+    let data;
+    try {
+      data = JSON.parse(readFileSync(join(contentDir, filename), 'utf8'));
+    } catch (e) {
+      errs.push(`${tag}: invalid JSON — ${e.message}`);
+      continue;
+    }
+    if (data.skillId !== skillId) {
+      errs.push(`${tag}: skillId "${data.skillId}" does not match filename`);
+    }
+    if (!skillById.has(data.skillId)) {
+      errs.push(`${tag}: skillId does not exist in skills.json`);
+    }
+
+    // Top-level keys: skillId, atomType, theory, practice; iDo/weDo reserved (warn only).
+    const allowedTop = new Set(['skillId', 'atomType', 'theory', 'practice']);
+    const reservedTop = new Set(['iDo', 'weDo']);
+    for (const key of Object.keys(data)) {
+      if (reservedTop.has(key)) {
+        warns.push(`${tag}: reserved key "${key}" present (not yet specified by schema)`);
+      } else if (!allowedTop.has(key)) {
+        errs.push(`${tag}: unknown top-level key "${key}"`);
+      }
+    }
+    if (typeof data.atomType !== 'string' || !data.atomType) {
+      errs.push(`${tag}: atomType is required and must be a non-empty string`);
+    }
+
+    // theory
+    const theory = data.theory;
+    if (!theory || typeof theory !== 'object' || Array.isArray(theory)) {
+      errs.push(`${tag}: theory is required and must be an object`);
+    } else {
+      const allowedTheory = new Set(['intro', 'facts', 'steps']);
+      for (const key of Object.keys(theory)) {
+        if (!allowedTheory.has(key)) errs.push(`${tag}: unknown theory key "${key}"`);
+      }
+      if (typeof theory.intro !== 'string' || !theory.intro) {
+        errs.push(`${tag}: theory.intro is required and must be a non-empty string`);
+      } else {
+        lintMathString(theory.intro, `${tag} theory.intro`, errs);
+      }
+      if (!Array.isArray(theory.facts)) {
+        errs.push(`${tag}: theory.facts is required and must be an array`);
+      } else {
+        theory.facts.forEach((f, i) => {
+          if (typeof f !== 'string') errs.push(`${tag}: theory.facts[${i}] must be a string`);
+          else lintMathString(f, `${tag} theory.facts[${i}]`, errs);
+        });
+      }
+      if (theory.steps !== undefined) {
+        if (!Array.isArray(theory.steps)) {
+          errs.push(`${tag}: theory.steps must be an array`);
+        } else {
+          theory.steps.forEach((s, i) => {
+            if (typeof s !== 'string') errs.push(`${tag}: theory.steps[${i}] must be a string`);
+            else lintMathString(s, `${tag} theory.steps[${i}]`, errs);
+          });
+        }
+      }
+    }
+
+    // practice (optional)
+    if (data.practice !== undefined) {
+      const practice = data.practice;
+      if (!practice || typeof practice !== 'object' || Array.isArray(practice)) {
+        errs.push(`${tag}: practice must be an object`);
+      } else {
+        const allowedTiers = new Set(['foundation', 'development', 'mastery', 'masteryOmitted']);
+        for (const key of Object.keys(practice)) {
+          if (!allowedTiers.has(key)) errs.push(`${tag}: unknown practice key "${key}"`);
+        }
+        for (const tierName of ['foundation', 'development']) {
+          if (!Array.isArray(practice[tierName])) {
+            errs.push(`${tag}: practice.${tierName} is required and must be an array when practice is present`);
+          } else {
+            const n = practice[tierName].length;
+            if (n < 3) errs.push(`${tag}: practice.${tierName} has ${n} card(s); minimum 3`);
+            else if (n < 4) warns.push(`${tag}: practice.${tierName} has ${n} card(s); target is 4`);
+            practice[tierName].forEach((card, i) =>
+              validateCard(card, `${tag} practice.${tierName}[${i}]`, errs)
+            );
+          }
+        }
+        if (practice.mastery !== undefined) {
+          masteryTierSkills.add(skillId);
+          if (!Array.isArray(practice.mastery)) {
+            errs.push(`${tag}: practice.mastery must be an array`);
+          } else {
+            if (practice.mastery.length < 2) {
+              errs.push(`${tag}: practice.mastery has ${practice.mastery.length} card(s); minimum 2`);
+            }
+            practice.mastery.forEach((card, i) => validateCard(card, `${tag} practice.mastery[${i}]`, errs));
+          }
+          if (practice.masteryOmitted !== undefined) {
+            errs.push(`${tag}: practice.masteryOmitted present but practice.mastery is also present (mutually exclusive)`);
+          }
+        } else if (typeof practice.masteryOmitted !== 'string' || practice.masteryOmitted.trim() === '') {
+          errs.push(`${tag}: practice.masteryOmitted (non-empty string) is required when practice.mastery is absent`);
+        }
+      }
+    }
+  }
+  return { checked, errors: errs, warnings: warns, masteryTierSkills };
+}
+
+function validateQuizzes(filterFn) {
+  const errs = [];
+  const warns = [];
+  const masteryTagged = new Map(); // skillId → count of mastery:true questions
+  let files = [];
+  try {
+    files = readdirSync(quizzesDir).filter((f) => f.endsWith('.json'));
+  } catch (err) {
+    if (err.code !== 'ENOENT') throw err;
+  }
+  let checked = 0;
+  for (const filename of files) {
+    const skillId = filename.slice(0, -'.json'.length);
+    if (filterFn && !filterFn(skillId)) continue;
+    checked++;
+    const tag = `quiz ${skillId}`;
+    let data;
+    try {
+      data = JSON.parse(readFileSync(join(quizzesDir, filename), 'utf8'));
+    } catch (e) {
+      errs.push(`${tag}: invalid JSON — ${e.message}`);
+      continue;
+    }
+    if (data.skillId !== skillId) {
+      errs.push(`${tag}: skillId "${data.skillId}" does not match filename`);
+    }
+    if (!skillById.has(data.skillId)) {
+      errs.push(`${tag}: skillId does not exist in skills.json`);
+    }
+    if (!existsSync(join(contentDir, `${skillId}.json`))) {
+      warns.push(`${tag}: quiz exists without a matching content file`);
+    }
+
+    if (!Array.isArray(data.questions)) {
+      errs.push(`${tag}: questions is required and must be an array`);
+      continue;
+    }
+    if (data.questions.length < 3) {
+      errs.push(`${tag}: questions has ${data.questions.length} item(s); minimum 3`);
+    }
+
+    const seenIds = new Set();
+    masteryTagged.set(skillId, data.questions.filter((q) => q && q.mastery === true).length);
+    data.questions.forEach((q, i) => {
+      const qtag = `${tag} questions[${i}]`;
+      if (!q || typeof q !== 'object' || Array.isArray(q)) {
+        errs.push(`${qtag}: must be an object`);
+        return;
+      }
+      if (typeof q.id !== 'string' || !q.id) {
+        errs.push(`${qtag}: id is required and must be a non-empty string`);
+      } else {
+        if (seenIds.has(q.id)) errs.push(`${qtag}: duplicate id "${q.id}"`);
+        seenIds.add(q.id);
+      }
+      if (typeof q.q !== 'string' || !q.q) {
+        errs.push(`${qtag}: q is required and must be a non-empty string`);
+      } else {
+        lintMathString(q.q, `${qtag}.q`, errs);
+      }
+      if (q.tikz !== undefined) validateTikz(q.tikz, `${qtag}.tikz`, errs);
+      if (typeof q.structure !== 'string' || !q.structure.trim()) {
+        errs.push(`${qtag}: structure is required and must be a non-empty string`);
+      }
+      if (typeof q.mastery !== 'boolean') {
+        errs.push(`${qtag}: mastery is required and must be a boolean`);
+      }
+      if (!Array.isArray(q.options)) {
+        errs.push(`${qtag}: options is required and must be an array`);
+      } else {
+        const n = q.options.length;
+        if (n < 3 || n > 5) errs.push(`${qtag}: options has ${n} item(s); must be 3-5`);
+        let correctCount = 0;
+        q.options.forEach((opt, oi) => {
+          const otag = `${qtag}.options[${oi}]`;
+          if (!opt || typeof opt !== 'object' || Array.isArray(opt)) {
+            errs.push(`${otag}: must be an object`);
+            return;
+          }
+          if (typeof opt.text !== 'string' || !opt.text) {
+            errs.push(`${otag}: text is required and must be a non-empty string`);
+          } else {
+            lintMathString(opt.text, `${otag}.text`, errs);
+          }
+          if (opt.correct === true) {
+            correctCount++;
+            if (opt.why !== undefined) errs.push(`${otag}: correct option must not have "why"`);
+          } else {
+            if (typeof opt.why !== 'string' || opt.why.trim().length < 15) {
+              errs.push(`${otag}: why is required and must be at least 15 characters, naming a specific misconception`);
+            } else {
+              lintMathString(opt.why, `${otag}.why`, errs);
+            }
+          }
+        });
+        if (correctCount !== 1) {
+          errs.push(`${qtag}: options must have exactly one correct:true (found ${correctCount})`);
+        }
+      }
+      if (q.solution !== undefined) validateSolution(q.solution, `${qtag}.solution`, errs);
+    });
+  }
+  return { checked, errors: errs, warnings: warns, masteryTagged };
+}
+
+// Cross-file check: a content file carrying a mastery practice tier must have a
+// quiz with at least one mastery:true question (quiz→mastered is unreachable
+// otherwise). Runs on the filtered set only.
+function crossCheckMastery(contentResult, quizResult) {
+  const errs = [];
+  for (const skillId of contentResult.masteryTierSkills) {
+    const tagged = quizResult.masteryTagged.get(skillId);
+    if (tagged === undefined) {
+      errs.push(`cross-check ${skillId}: content has a mastery tier but no quiz file exists`);
+    } else if (tagged === 0) {
+      errs.push(`cross-check ${skillId}: content has a mastery tier but quiz has no mastery:true question`);
+    }
+  }
+  return errs;
+}
+
+// --only id1,id2,... | prefix — restricts content+quiz checks to matching skill ids.
+// Taxonomy checks above always run in full.
+function parseOnlyArg(argv) {
+  const idx = argv.indexOf('--only');
+  if (idx === -1 || idx === argv.length - 1) return null;
+  const raw = argv[idx + 1];
+  if (raw.includes(',')) {
+    const ids = new Set(raw.split(',').map((s) => s.trim()).filter(Boolean));
+    return (id) => ids.has(id);
+  }
+  const prefix = raw.trim();
+  return (id) => id.startsWith(prefix);
+}
+
+const filterFn = parseOnlyArg(process.argv.slice(2));
+const contentResult = validateContent(filterFn);
+const quizResult = validateQuizzes(filterFn);
+const crossErrors = crossCheckMastery(contentResult, quizResult);
+
 // Report
 console.log(`Loaded: ${courses.length} courses, ${topics.length} topics, ${dotpoints.length} dot points, ${skills.length} skills.`);
 for (const w of warnings) console.log(`  ⚠ ${w}`);
-if (errors.length) {
-  console.error(`\n✗ ${errors.length} error(s):`);
-  for (const e of errors) console.error(`  ✗ ${e}`);
+
+console.log(`\nContent: checked ${contentResult.checked} file(s) in public/content/${filterFn ? ' (filtered)' : ''}.`);
+for (const w of contentResult.warnings) console.log(`  ⚠ ${w}`);
+
+console.log(`\nQuizzes: checked ${quizResult.checked} file(s) in public/quizzes/${filterFn ? ' (filtered)' : ''}.`);
+for (const w of quizResult.warnings) console.log(`  ⚠ ${w}`);
+
+const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...crossErrors];
+const totalWarnings = warnings.length + contentResult.warnings.length + quizResult.warnings.length;
+if (allErrors.length) {
+  console.error(`\n✗ ${allErrors.length} error(s):`);
+  for (const e of allErrors) console.error(`  ✗ ${e}`);
   process.exit(1);
 }
-console.log(`\n✓ Taxonomy valid (${warnings.length} warning(s)).`);
+console.log(`\n✓ All checks passed (${totalWarnings} warning(s)).`);

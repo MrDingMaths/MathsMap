@@ -1,6 +1,7 @@
 <script>
   import MathText from '../components/Math.svelte';
   import Tikz from '../components/Tikz.svelte';
+  import SolutionSteps from '../components/SolutionSteps.svelte';
 
   let { card = null, onSave, onCancel } = $props();
 
@@ -105,14 +106,7 @@
           {:else if tikz.trim()}<div class="pv-diagram"><Tikz code={tikz} /></div>{/if}
           <div class="pv-back-q"><MathText text={q} /></div>
           {#if solution.length}
-            <ol class="pv-sol">
-              {#each solution as line}
-                <li>
-                  <span class="pv-math"><MathText text={line.math} /></span>
-                  {#if line.note}<span class="pv-note"><MathText text={line.note} /></span>{/if}
-                </li>
-              {/each}
-            </ol>
+            <SolutionSteps {solution} />
           {:else}
             <div class="pv-answer"><MathText text={a} /></div>
           {/if}
@@ -201,7 +195,4 @@
   .pv-q { font-size: 1.05rem; text-align: center; }
   .pv-back-q { font-size: 0.9rem; font-weight: 600; color: var(--muted); margin-bottom: 0.5rem; }
   .pv-answer { font-size: 1.05rem; }
-  .pv-sol { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
-  .pv-sol li { font-size: 1rem; }
-  .pv-note { color: var(--muted); font-size: 0.78rem; margin-left: 0.5rem; }
 </style>
