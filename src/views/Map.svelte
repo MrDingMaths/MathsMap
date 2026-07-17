@@ -70,6 +70,11 @@
   let labels = $state([]);
   let labelRaf = null;
 
+  // Zoom band over which node labels fade out. At/above _MAX they're fully shown;
+  // at/below _MIN they're gone (too small/dense to read when zoomed right out).
+  const LABEL_FADE_MAX = 0.6;
+  const LABEL_FADE_MIN = 0.32;
+
   function toggle(id) {
     selected = selected.includes(id)
       ? selected.filter((c) => c !== id)
@@ -122,18 +127,31 @@
       // Keep labels readable: track zoom, but never shrink below a legible floor (or
       // balloon when zoomed right in).
       const scale = Math.min(Math.max(zoom, 0.85), 1.25);
-      labels = cy.nodes().map((n) => {
+      // Zoomed far out the labels turn to unreadable clutter, so fade them: fully
+      // shown at/above LABEL_FADE_MAX, gone at/below LABEL_FADE_MIN, linear between.
+      const fade = Math.max(
+        0,
+        Math.min(1, (zoom - LABEL_FADE_MIN) / (LABEL_FADE_MAX - LABEL_FADE_MIN))
+      );
+      // Fully-faded chips leave the DOM entirely — no point positioning invisible,
+      // non-interactive nodes every frame.
+      labels = fade === 0 ? [] : cy.nodes().map((n) => {
         const p = n.renderedPosition();
         const half = (n.height() * zoom) / 2;
+        const dim = n.hasClass('dim');
+        const faded = n.hasClass('faded');
+        const boundary = n.hasClass('boundary');
+        // Focus/boundary states already dim a chip; multiply by the zoom fade so the
+        // two stack instead of one clobbering the other.
+        const base = faded ? 0.12 : dim ? 0.4 : boundary ? 0.5 : 1;
         return {
           id: n.id(),
           html: renderMath(n.data('name') ?? n.data('label')),
           x: p.x,
           y: p.y + half + 4,
           scale,
-          dim: n.hasClass('dim'),
-          faded: n.hasClass('faded'),
-          boundary: n.hasClass('boundary'),
+          opacity: base * fade,
+          boundary,
           ready: n.hasClass('ready')
         };
       });
@@ -416,11 +434,9 @@
           class="node-label"
           role="button"
           tabindex="-1"
-          class:dim={l.dim}
-          class:faded={l.faded}
           class:boundary={l.boundary}
           class:ready={l.ready}
-          style="left:{l.x}px; top:{l.y}px; transform:translateX(-50%) scale({l.scale});"
+          style="left:{l.x}px; top:{l.y}px; transform:translateX(-50%) scale({l.scale}); opacity:{l.opacity}; pointer-events:{l.opacity < 0.15 ? 'none' : 'auto'};"
           onmouseenter={() => chip?.enter(l.id)}
           onmouseleave={() => chip?.leave()}
           onclick={() => chip?.click(l.id)}
@@ -635,9 +651,9 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     white-space: normal;
   }
-  .node-label.dim { opacity: 0.4; }
-  .node-label.faded { opacity: 0.12; }
-  .node-label.boundary { opacity: 0.5; font-size: 13px; }
+  /* Dim/faded/zoom-fade opacity is computed in syncLabels and applied inline so the
+     states stack; boundary keeps only its smaller type here. */
+  .node-label.boundary { font-size: 13px; }
   .node-label.ready { color: #06b6d4; font-weight: 700; }
   .node-label :global(.katex) { font-size: 1em; }
 
