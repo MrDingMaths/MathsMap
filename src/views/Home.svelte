@@ -1,198 +1,273 @@
 <script>
   import { untrack } from 'svelte';
-  import { courses, topicsForCourse, searchSkills } from '../lib/data.js';
-  import { topicStats, subscribe } from '../lib/store.js';
-  import { href } from '../lib/router.svelte.js';
-  import SkillCard from '../components/SkillCard.svelte';
+  import { courses, coursesByStage, topicsForCourse, skillById } from '../lib/data.js';
+  import { topicStats, subscribe, allProgress } from '../lib/store.js';
+  import { nextSkills } from '../lib/recommender.js';
+  import { route, href, go } from '../lib/router.svelte.js';
   import TopicCard from '../components/TopicCard.svelte';
   import MasteryBar from '../components/MasteryBar.svelte';
 
-  // Flat, ordered course list — each course is its own collapsible section.
-  const ordered = [...courses].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  const firstStage6 = ordered.find((c) => c.stage === 6)?.id;
+  const orderedCourses = [...courses].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  const groupedCourses = coursesByStage();
+  const stages = [...groupedCourses.keys()];
 
-  function strandGroups(courseId) {
-    const map = new Map();
-    for (const t of topicsForCourse(courseId)) {
-      const s = t.strand || 'Other';
-      if (!map.has(s)) map.set(s, []);
-      map.get(s).push(t);
-    }
-    return [...map].map(([name, topics]) => ({
-      name,
-      topics,
-      color: topics[0]?.color ?? 'var(--accent)'
-    }));
-  }
-
-  let query = $state('');
-  let results = $derived(searchSkills(query));
-
-  // Nothing expanded by default — the student opens what they want.
-  let open = $state({});
-  const toggle = (id) => (open = { ...open, [id]: !open[id] });
-
-  // React to mastery changes so the per-course mastered count stays live.
   let tick = $state(0);
   $effect(() => subscribe(() => untrack(() => tick++)));
 
-  // Per-course topic mastery: how many topics are fully mastered out of the total.
-  // Returned as a stats-shaped object so it can drive the shared MasteryBar.
-  function topicMastery(courseId) {
-    tick; // re-run when mastery changes
+  let selectedStage = $derived.by(() => {
+    const requested = Number(route.query.stage);
+    return stages.includes(requested) ? requested : stages[0];
+  });
+  let stageCourses = $derived(groupedCourses.get(selectedStage) ?? []);
+  let selectedCourse = $derived.by(() => {
+    const requested = route.query.course;
+    return stageCourses.find((course) => course.id === requested) ?? stageCourses[0] ?? orderedCourses[0];
+  });
+  let selectedTopics = $derived(selectedCourse ? topicsForCourse(selectedCourse.id) : []);
+
+  let continueSkill = $derived.by(() => {
+    tick;
+    const recent = Object.entries(allProgress())
+      .filter(([, record]) => record.level !== 'mastered')
+      .sort((a, b) => b[1].at - a[1].at)
+      .map(([id]) => skillById.get(id))
+      .find(Boolean);
+    return recent ?? nextSkills({ limit: 1 })[0] ?? null;
+  });
+
+  function masteryFor(courseId) {
+    tick;
     const topics = topicsForCourse(courseId);
-    const mastered = topics.filter((t) => topicStats(t.id, courseId).fullyMastered).length;
+    const mastered = topics.filter((topic) => topicStats(topic.id, courseId).fullyMastered).length;
     const total = topics.length;
     return {
       mastered,
       total,
+      proficient: 0,
+      learning: 0,
+      none: total - mastered,
       masteredPct: total ? Math.round((mastered / total) * 100) : 0,
       proficientPct: 0,
       learningPct: 0
     };
   }
+
+  function chooseStage(stage) {
+    const first = groupedCourses.get(stage)?.[0];
+    go(`/?stage=${stage}${first ? `&course=${first.id}` : ''}`);
+  }
+
+  function chooseCourse(course) {
+    go(`/?stage=${course.stage}&course=${course.id}`);
+  }
+
+  function stageKeydown(event, index) {
+    let nextIndex = index;
+    if (event.key === 'ArrowRight') nextIndex = (index + 1) % stages.length;
+    else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + stages.length) % stages.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = stages.length - 1;
+    else return;
+    event.preventDefault();
+    chooseStage(stages[nextIndex]);
+    requestAnimationFrame(() => document.getElementById(`stage-tab-${stages[nextIndex]}`)?.focus());
+  }
+
+  function strandSummary(courseId) {
+    const seen = new Set();
+    for (const topic of topicsForCourse(courseId)) seen.add(topic.strand || 'Other');
+    return [...seen];
+  }
+
+  function selectedStrandGroups() {
+    const groups = new Map();
+    for (const topic of selectedTopics) {
+      const strand = topic.strand || 'Other';
+      if (!groups.has(strand)) groups.set(strand, []);
+      groups.get(strand).push(topic);
+    }
+    return [...groups].map(([name, topics]) => ({ name, topics }));
+  }
 </script>
 
-<div class="container">
-  <!-- HERO -->
-  <h1>Your maths skill map</h1>
-  <p class="lede">
-    Every Maths skill from Stage 3 to Stage 6, mapped to your progress. Find a topic,
-    see what's inside, pick up where you left off.
-  </p>
-  <div class="search-wrap">
-    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
-      <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-    </svg>
-    <input class="search" placeholder="Search skills…" bind:value={query} />
-  </div>
-
-  <a class="quiz-cta" href={href('/quiz')}>
-    <span class="quiz-cta-title">Diagnostic quiz</span>
-    <span class="quiz-cta-sub">Not sure what to revise? Answer a few questions and find out.</span>
-  </a>
-
-  {#if query.trim()}
-    <!-- SEARCH RESULTS -->
-    <div class="results-head">
-      <h2>Search results</h2>
-      <span class="results-count">{results.length} {results.length === 1 ? 'skill' : 'skills'}</span>
+<div class="container browse-page">
+  <section class="home-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Your learning route</span>
+      <h1>Find the next maths skill that makes sense</h1>
+      <p class="lede">Choose your stage, explore a course, and see the topics that connect your next steps.</p>
     </div>
-    {#if results.length}
-      <div class="grid">
-        {#each results as skill}<SkillCard {skill} />{/each}
+    <div class="hero-actions">
+      {#if continueSkill}
+        <a class="continue-cta" href={href(`/skill/${continueSkill.id}`)}>
+          <span class="cta-icon" aria-hidden="true">&rarr;</span>
+          <span><small>Continue learning</small><strong>{continueSkill.title}</strong></span>
+        </a>
+      {/if}
+      <a class="quiz-cta" href={href('/quiz')}>
+        <span class="cta-icon quiz-icon" aria-hidden="true">&#10003;</span>
+        <span><small>Not sure where to start?</small><strong>Take a diagnostic quiz</strong></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="dashboard" aria-labelledby="browse-title">
+    <div class="dashboard-head">
+      <div>
+        <span class="eyebrow">Browse the curriculum</span>
+        <h2 id="browse-title">Choose a stage</h2>
       </div>
-    {:else}
-      <div class="empty">
-        <span class="empty-title">No skills match "{query}"</span>
-        <span class="empty-sub">Try a topic name like "fractions", "trigonometry", or "calculus".</span>
-      </div>
-    {/if}
-  {:else}
-    <!-- BROWSE -->
-    <div class="browse">
-      {#each ordered as c (c.id)}
-        {@const tm = topicMastery(c.id)}
-        {#if c.id === firstStage6}
-          <div class="stage-divider"><span></span><em>Stage 6</em><span></span></div>
-        {/if}
-        <div class="course">
-          <button class="course-head" onclick={() => toggle(c.id)}>
-            <span class="course-title" style="background:{c.color}">{c.title}</span>
-            <div class="progress">
-              <span class="topic-count">{tm.mastered}/{tm.total} topics mastered</span>
-              <MasteryBar stats={tm} height="6px" />
-            </div>
-            <a class="view-all" href={href(`/course/${c.id}`)} onclick={(e) => e.stopPropagation()}>View all →</a>
-            <svg class="chevron" class:open={open[c.id]} width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-          {#if open[c.id]}
-            <div class="course-body">
-              {#each strandGroups(c.id) as strand}
-                <div>
-                  <div class="strand-label">
-                    <span class="dot" style="background:{strand.color}"></span>
-                    {strand.name}
-                  </div>
-                  <div class="grid">
-                    {#each strand.topics as t}<TopicCard topic={t} courseId={c.id} />{/each}
-                  </div>
-                </div>
-              {/each}
-            </div>
-          {/if}
-        </div>
+      <span class="dashboard-hint">Use Search in the navigation to jump straight to any skill.</span>
+    </div>
+
+    <div class="stage-tabs" role="tablist" aria-label="Curriculum stage">
+      {#each stages as stage, index}
+        <button
+          id="stage-tab-{stage}"
+          type="button"
+          role="tab"
+          aria-selected={stage === selectedStage}
+          tabindex={stage === selectedStage ? 0 : -1}
+          class:active={stage === selectedStage}
+          onclick={() => chooseStage(stage)}
+          onkeydown={(event) => stageKeydown(event, index)}
+        >Stage {stage}</button>
       {/each}
     </div>
+
+    <div class="course-grid" aria-live="polite">
+      {#each stageCourses as course, index (course.id)}
+        {@const mastery = masteryFor(course.id)}
+        {@const strands = strandSummary(course.id)}
+        <article
+          class="course-card"
+          class:selected={selectedCourse?.id === course.id}
+          style="--course-color:{course.color}; --enter-index:{Math.min(index, 5)}"
+        >
+          <button class="course-select" type="button" onclick={() => chooseCourse(course)} aria-pressed={selectedCourse?.id === course.id}>
+            <span class="course-topline">
+              <span class="course-mark" aria-hidden="true">{course.stage === 6 ? 'Y' : 'S'}{course.stage}</span>
+              {#if selectedCourse?.id === course.id}<span class="selected-label">Exploring</span>{/if}
+            </span>
+            <strong class="course-title">{course.title}</strong>
+            <span class="strand-list">{strands.join(' · ')}</span>
+            <span class="course-progress">
+              <span>{mastery.mastered}/{mastery.total} topics mastered</span>
+              <MasteryBar stats={mastery} height="7px" />
+            </span>
+          </button>
+          <div class="course-links">
+            {#each topicsForCourse(course.id).slice(0, 3) as topic}
+              <a href={href(`/topic/${topic.id}?course=${course.id}`)}>{topic.title}</a>
+            {/each}
+          </div>
+          <a class="explore-course" href={href(`/course/${course.id}`)}>Explore course <span aria-hidden="true">&rarr;</span></a>
+        </article>
+      {/each}
+    </div>
+  </section>
+
+  {#if selectedCourse}
+    {#key selectedCourse.id}
+      <section class="topic-explorer" aria-labelledby="topic-explorer-title">
+      <header>
+        <div>
+          <span class="course-context" style="--course-color:{selectedCourse.color}">{selectedCourse.title}</span>
+          <h2 id="topic-explorer-title">Pick a topic to explore</h2>
+          <p>Each topic shows how much you have mastered in this course.</p>
+        </div>
+        <a class="all-topics" href={href(`/course/${selectedCourse.id}`)}>See the full course <span aria-hidden="true">&rarr;</span></a>
+      </header>
+
+      {#each selectedStrandGroups() as group, groupIndex}
+        <div class="strand-group" style="--enter-index:{Math.min(groupIndex, 4)}">
+          <div class="strand-heading">
+            <span class="strand-icon" aria-hidden="true">{groupIndex + 1}</span>
+            <h3>{group.name}</h3>
+            <span>{group.topics.length} {group.topics.length === 1 ? 'topic' : 'topics'}</span>
+          </div>
+          <div class="topic-grid">
+            {#each group.topics as topic}<TopicCard {topic} courseId={selectedCourse.id} />{/each}
+          </div>
+        </div>
+      {/each}
+      </section>
+    {/key}
   {/if}
 </div>
 
 <style>
-  h1 { font-size: 1.75rem; margin: 0.4rem 0 0.4rem; }
-  .lede { color: var(--muted); font-size: 0.9rem; max-width: 520px; margin: 0 0 1.2rem; }
-  .search-wrap { position: relative; max-width: 520px; }
-  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-  .search { padding-left: 2.5rem; }
+  .browse-page { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.8rem); }
+  .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(130deg, var(--surface-warm), var(--panel)); animation: route-enter var(--motion-base) var(--ease-out) both; }
+  .home-hero::after { content: ''; position: absolute; width: 280px; height: 160px; right: -100px; top: -85px; border: 2px dashed color-mix(in srgb, var(--accent) 20%, transparent); border-radius: 50%; transform: rotate(-15deg); pointer-events: none; }
+  .hero-copy, .hero-actions { position: relative; z-index: 1; }
+  .eyebrow { color: var(--accent); font-size: 0.68rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
+  h1 { max-width: 690px; margin: 0.28rem 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
+  .lede { max-width: 580px; margin: 0; color: var(--muted); }
+  .hero-actions { display: grid; gap: 0.65rem; }
+  .continue-cta, .quiz-cta { display: grid; grid-template-columns: 2rem 1fr; align-items: center; gap: 0.8rem; min-height: 70px; padding: 0.8rem 1rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--panel); color: var(--text); transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast); }
+  .continue-cta { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .continue-cta:hover, .quiz-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow); text-decoration: none; }
+  .quiz-cta:hover { border-color: var(--accent); }
+  .continue-cta:active, .quiz-cta:active { transform: scale(0.98); }
+  .cta-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid currentColor; border-radius: 10px; font-weight: 800; }
+  .quiz-icon { color: var(--status-proficient); }
+  .hero-actions small, .hero-actions strong { display: block; }
+  .hero-actions small { margin-bottom: 0.12rem; font-size: 0.68rem; opacity: 0.78; }
+  .hero-actions strong { font-size: 0.86rem; }
 
-  .quiz-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    max-width: 520px;
-    margin-top: 0.9rem;
-    padding: 0.85rem 1.1rem;
-    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-    border-radius: 12px;
-    background: color-mix(in srgb, var(--accent) 8%, var(--panel));
-    color: var(--text);
-    transition: border-color 0.12s, background 0.12s;
+  .dashboard { display: flex; flex-direction: column; gap: 1rem; }
+  .dashboard-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
+  .dashboard-head h2 { margin: 0.15rem 0 0; font-size: 1.5rem; }
+  .dashboard-hint { max-width: 340px; color: var(--muted); font-size: 0.76rem; text-align: right; }
+  .stage-tabs { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.45rem; scrollbar-width: thin; }
+  .stage-tabs button { position: relative; flex: none; min-width: 92px; min-height: 42px; padding: 0.55rem 1rem; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--muted); font: 700 0.82rem var(--font-body); cursor: pointer; transition: transform var(--motion-fast) var(--ease-snap), color var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast); }
+  .stage-tabs button:hover { color: var(--text); border-color: var(--accent); transform: translateY(-1px); }
+  .stage-tabs button:active { transform: scale(0.96); }
+  .stage-tabs button.active { color: #fff; border-color: var(--accent); background: var(--accent); box-shadow: 0 6px 18px -10px var(--accent); animation: selection-pop var(--motion-base) var(--ease-snap); }
+
+  .course-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+  .course-card { position: relative; display: flex; flex-direction: column; min-height: 260px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: inset 0 3px 0 color-mix(in srgb, var(--course-color) 65%, transparent); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast); }
+  .course-card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--course-color) 55%, var(--border)); box-shadow: var(--shadow); }
+  .course-card.selected { border-color: var(--course-color); box-shadow: inset 4px 0 0 var(--course-color), var(--shadow); }
+  .course-select { flex: 1; width: 100%; padding: 1rem 1rem 0.8rem; border: 0; background: transparent; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+  .course-select:active { transform: scale(0.99); }
+  .course-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .course-mark { display: grid; place-items: center; min-width: 2rem; height: 2rem; padding: 0 0.4rem; border-radius: 9px; background: color-mix(in srgb, var(--course-color) 15%, var(--panel)); color: var(--course-color); font-weight: 800; font-size: 0.72rem; }
+  .selected-label { color: var(--course-color); font-size: 0.66rem; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; }
+  .course-title { display: block; margin-bottom: 0.3rem; font: 600 1.2rem var(--font-display); }
+  .strand-list { display: block; min-height: 2.3em; color: var(--muted); font-size: 0.72rem; line-height: 1.4; }
+  .course-progress { display: grid; gap: 0.45rem; margin-top: 1rem; color: var(--muted); font-size: 0.72rem; }
+  .course-links { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0 1rem 0.75rem; }
+  .course-links a { padding: 0.25rem 0.5rem; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 0.66rem; transition: color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap); }
+  .course-links a:hover { color: var(--course-color); background: color-mix(in srgb, var(--course-color) 10%, var(--surface-soft)); text-decoration: none; transform: translateY(-1px); }
+  .explore-course { display: flex; justify-content: space-between; padding: 0.72rem 1rem; border-top: 1px solid var(--border); color: var(--course-color); font-size: 0.76rem; font-weight: 750; transition: background var(--motion-fast); }
+  .explore-course:hover { background: color-mix(in srgb, var(--course-color) 7%, var(--panel)); text-decoration: none; }
+
+  .topic-explorer { padding: clamp(1.1rem, 3vw, 1.7rem); border: 1px solid var(--border); border-radius: var(--radius-xl); background: color-mix(in srgb, var(--panel) 92%, var(--surface-warm)); animation: content-rise var(--motion-slow) var(--ease-out) both; }
+  .topic-explorer > header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .topic-explorer h2 { margin: 0.35rem 0 0.25rem; font-size: 1.45rem; }
+  .topic-explorer header p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+  .course-context { display: inline-flex; padding: 0.28rem 0.6rem; border-radius: 999px; background: color-mix(in srgb, var(--course-color) 12%, var(--panel)); color: var(--course-color); font-size: 0.68rem; font-weight: 750; }
+  .all-topics { flex: none; font-size: 0.78rem; font-weight: 750; }
+  .strand-group { margin-top: 1.25rem; animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; }
+  .strand-heading { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.65rem; }
+  .strand-heading h3 { margin: 0; font: 750 0.78rem var(--font-body); text-transform: uppercase; letter-spacing: 0.05em; }
+  .strand-heading > span:last-child { margin-left: auto; color: var(--muted); font-size: 0.68rem; }
+  .strand-icon { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--border-strong); border-radius: 7px; color: var(--muted); font-size: 0.68rem; font-weight: 750; }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(225px, 1fr)); gap: 0.7rem; }
+
+  @media (max-width: 820px) {
+    .home-hero { grid-template-columns: 1fr; gap: 1.25rem; }
+    .hero-actions { grid-template-columns: 1fr 1fr; }
   }
-  .quiz-cta:hover { border-color: var(--accent); text-decoration: none; }
-  .quiz-cta-title { font-weight: 600; color: var(--accent); }
-  .quiz-cta-sub { font-size: 0.82rem; color: var(--muted); }
-
-  .results-head { display: flex; align-items: baseline; gap: 0.65rem; margin: 1.4rem 0 1rem; }
-  .results-head h2 { font-size: 1.05rem; margin: 0; }
-  .results-count { font-size: 0.78rem; color: var(--muted); }
-  .empty { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 4rem 1rem; text-align: center; }
-  .empty-title { font-weight: 500; color: var(--text); }
-  .empty-sub { font-size: 0.85rem; color: var(--muted); }
-
-  .browse { border-top: 1px solid var(--border); margin-top: 1.5rem; }
-  .stage-divider { display: flex; align-items: center; gap: 0.6rem; padding-top: 1.6rem; }
-  .stage-divider span { flex: 1; height: 1px; background: var(--border); }
-  .stage-divider em { font-style: normal; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); opacity: 0.7; }
-
-  .course { border-bottom: 1px solid var(--border); }
-  .course-head {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 1.1rem 0;
-    background: none;
-    border: none;
-    color: var(--text);
-    font-family: inherit;
-    cursor: pointer;
-    text-align: left;
+  @media (max-width: 640px) {
+    .dashboard-head, .topic-explorer > header { align-items: flex-start; flex-direction: column; }
+    .dashboard-hint { text-align: left; }
+    .hero-actions, .course-grid { grid-template-columns: 1fr; }
+    .stage-tabs { margin-inline: -1rem; padding-inline: 1rem; }
+    .course-card { min-height: 0; }
+    .topic-explorer { margin-inline: -0.25rem; }
+    .all-topics { align-self: stretch; padding: 0.65rem 0.8rem; border: 1px solid var(--border); border-radius: 9px; text-align: center; }
   }
-  .course-head:hover { opacity: 0.8; }
-  .course-title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #fff;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-  }
-  .progress { width: 200px; margin-left: auto; display: flex; flex-direction: column; gap: 0.35rem; }
-  .topic-count { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
-  .view-all { font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; }
-  .chevron { flex: none; color: var(--muted); transition: transform 0.2s; }
-  .chevron.open { transform: rotate(180deg); }
-
-  .course-body { padding-bottom: 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
 </style>

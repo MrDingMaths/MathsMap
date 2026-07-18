@@ -22,9 +22,9 @@ const skillRing = (masteryKey, isDark) => {
 // Shared so the topic meta-graph (topicGraph.js) renders with the same palette.
 export const masteryColour = {
   none: '#475569',
-  learning: '#d97706',
-  proficient: '#2563eb',
-  mastered: '#16a34a'
+  learning: '#f59e0b',
+  proficient: '#3b82f6',
+  mastered: '#22c55e'
 };
 
 export const masteryLabel = {
@@ -295,7 +295,7 @@ export function getCyStyle(isDark = true) {
   const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
   const litColor = isDark ? '#f8fafc' : '#000000'; // bold near-black/near-white for the focused chain
   const crossColor = isDark ? '#f59e0b' : '#b45309';
-  const ready = '#06b6d4'; // cyan "ready now" halo
+  const ready = isDark ? '#22d3ee' : '#0e7490'; // theme-safe "ready now" halo
   return [
     {
       // Circle whose face is a mastery progress ring (data(ring), an SVG data URI

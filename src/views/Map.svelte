@@ -33,7 +33,6 @@
   let labelTimer = null;
   let farState = null;
   let resizeObserver = null;
-  let reduceMotion = false;
 
   const initial = untrack(() => courseId);
   const initSkillId = untrack(() => skillId);
@@ -338,9 +337,7 @@
     if (pendingFocusSkill) {
       const node = cy.getElementById(pendingFocusSkill);
       if (node.nonempty()) {
-        const duration = reduceMotion ? 0 : 350;
-        if (duration) cy.animate({ center: { eles: node }, zoom: 1.2 }, { duration });
-        else { cy.center(node); cy.zoom(1.2); }
+        cy.animate({ center: { eles: node }, zoom: 1.2 }, { duration: 350 });
         focusChain(node, true);
         showTip(node, touchMode);
       }
@@ -390,8 +387,7 @@
       x2: lanes[lanes.length - 1].xRight,
       y2: row.yBottom
     };
-    if (reduceMotion) cy.fit(boundingBox, 30);
-    else cy.animate({ fit: { boundingBox, padding: 30 } }, { duration: 350 });
+    cy.animate({ fit: { boundingBox, padding: 30 } }, { duration: 350 });
   }
 
   function labelEnter(id) {
@@ -413,7 +409,6 @@
 
   onMount(() => {
     touchMode = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     currentDark = theme.current === 'dark';
     cy = cytoscape({
       container,
@@ -483,13 +478,14 @@
 
   <aside class="sidebar" class:open={sidebarOpen} aria-label="Map filters">
     <div class="sidebar-head">
-      <h1>Skill Map</h1>
+      <div>
+        <span class="sidebar-kicker">Explore</span>
+        <h1>Maths map</h1>
+      </div>
       <button class="drawer-close" aria-label="Close map filters" onclick={() => (sidebarOpen = false)}>×</button>
     </div>
     <p class="muted hint">
-      Prerequisites flow top → bottom, grouped into strand bands. Tick courses to
-      compare them — dashed <span class="cross-key">amber</span> links cross between
-      courses. Click a node to trace its chain.
+      Choose courses to compare, then select a node to trace what comes before and after it.
     </p>
 
     <div class="section-label">View</div>
@@ -502,13 +498,13 @@
     {#if scopeLabel}
       <div class="scope-pill">
         Scoped to <strong>{scopeLabel}</strong>
-        <button class="link" onclick={() => { scopeTopicIds = null; scopeTopicId = null; }}>show all skills</button>
+        <button class="link" onclick={() => { scopeTopicIds = null; scopeTopicId = null; }}>Show all skills</button>
       </div>
     {/if}
 
     <label class="cross-toggle">
       <input type="checkbox" checked={crossOnly} onchange={() => (crossOnly = !crossOnly)} />
-      Cross-course links only
+      Only show cross-course links
     </label>
     <label class="cross-toggle">
       <input
@@ -543,15 +539,15 @@
       {/each}
     </div>
 
-    <div class="section-label">Mastery legend</div>
+    <div class="section-label">Progress key</div>
     <ul class="legend">
       <li><span class="ring" style="--c:var(--track); --p:100%"></span> Not started</li>
-      <li><span class="ring" style="--c:#d97706; --p:33%"></span> Learning</li>
-      <li><span class="ring" style="--c:#2563eb; --p:66%"></span> Proficient</li>
-      <li><span class="ring" style="--c:#16a34a; --p:100%"></span> Mastered</li>
+      <li><span class="ring" style="--c:var(--status-learning-fill); --p:33%"></span> Learning</li>
+      <li><span class="ring" style="--c:var(--status-proficient-fill); --p:66%"></span> Proficient</li>
+      <li><span class="ring" style="--c:var(--status-mastered-fill); --p:100%"></span> Mastered</li>
       <li><span class="ring ready"></span> Ready now</li>
     </ul>
-    <p class="muted hint">Each node is a mastery ring. A dashed cyan halo marks topics whose prerequisites are complete.</p>
+    <p class="muted hint">Each node is a mastery ring. A dashed teal halo marks topics whose prerequisites are complete.</p>
   </aside>
 
   <div class="graph-area">
@@ -612,23 +608,27 @@
       <button aria-label="Fit whole map" title="Fit whole map" onclick={fitAll}>⤢</button>
     </div>
     {#if selected.length === 0}
-      <p class="empty">Select one or more courses to display the map.</p>
+      <div class="empty"><span aria-hidden="true">↝</span><strong>Choose a course to begin</strong><small>The learning routes will appear here.</small></div>
     {/if}
   </div>
 </div>
 
 <style>
   .map-wrap {
-    --map-label-bg: rgba(28, 31, 40, 0.97);
+    --map-label-bg: color-mix(in srgb, var(--panel) 96%, transparent);
     --map-label-border: rgba(148, 163, 184, 0.38);
+    --map-ready: #22d3ee;
     position: relative;
     display: flex;
     height: calc(100dvh - var(--top-nav-height, 72px));
     overflow: hidden;
+    background: var(--app-canvas);
+    font-family: var(--font-body);
   }
   :global([data-theme="light"]) .map-wrap {
     --map-label-bg: rgba(255, 255, 255, 0.98);
     --map-label-border: #cbd5e1;
+    --map-ready: #0e7490;
   }
 
   .sidebar {
@@ -636,57 +636,59 @@
     flex: 0 0 280px;
     overflow-y: auto;
     padding: 1rem 1.1rem max(1rem, env(safe-area-inset-bottom));
-    border-right: 1px solid var(--border);
-    background: var(--panel);
+    border-right: 1px solid var(--border-strong);
+    background: linear-gradient(165deg, var(--surface-warm), var(--panel) 32%);
     z-index: 7;
   }
   .sidebar-head { display: flex; align-items: center; justify-content: space-between; }
-  .sidebar h1 { font-size: 1.25rem; }
+  .sidebar h1 { margin: 0.08rem 0 0; font-family: var(--font-display); font-size: 1.35rem; }
+  .sidebar-kicker { display: block; color: var(--accent); font-size: 0.64rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
   .drawer-close { display: none; }
-  .hint { font-size: 0.8rem; margin: 0.3rem 0 0; }
-  .cross-key { color: #f59e0b; font-weight: 600; }
+  .hint { font-size: 0.76rem; line-height: 1.5; margin: 0.45rem 0 0; }
   .section-label {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
+    font-weight: 750;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.09em;
     color: var(--muted);
-    margin: 1rem 0 0.4rem;
+    margin: 1.15rem 0 0.45rem;
   }
   .seg { display: flex; gap: 0.3rem; }
   .seg button,
   .zoom-controls button,
   .filters-button,
   .drawer-close {
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--panel-2) 92%, transparent);
+    border: 1px solid var(--border-strong);
+    background: color-mix(in srgb, var(--panel) 92%, transparent);
     color: var(--text);
     cursor: pointer;
   }
-  .seg button { flex: 1; min-height: 36px; padding: 0.35rem 0.5rem; font: inherit; font-size: 0.82rem; border-radius: 8px; }
+  .seg button { flex: 1; min-height: 38px; padding: 0.35rem 0.5rem; border-radius: 10px; font: 650 0.78rem var(--font-body); }
   .seg button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
   .seg button:hover:not(.on), .zoom-controls button:hover, .filters-button:hover { border-color: var(--accent); }
   button:focus-visible, .node-label:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; }
 
-  .scope-pill { margin-top: 0.55rem; font-size: 0.78rem; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem; }
+  .scope-pill { margin-top: 0.65rem; padding: 0.65rem; border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border)); border-radius: 10px; background: color-mix(in srgb, var(--accent) 6%, var(--panel)); font-size: 0.76rem; }
   .scope-pill .link { display: block; margin-top: 0.25rem; padding: 0; border: 0; background: none; color: var(--accent); cursor: pointer; font-size: 0.76rem; }
-  .cross-toggle { display: flex; align-items: center; gap: 0.55rem; min-height: 36px; margin-top: 0.45rem; font-size: 0.82rem; cursor: pointer; }
+  .cross-toggle { display: flex; align-items: center; gap: 0.55rem; min-height: 36px; margin-top: 0.25rem; padding: 0.2rem 0.25rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer; }
+  .cross-toggle:hover { background: var(--surface-soft); }
   .cross-toggle input, .course-opt input { accent-color: var(--accent); cursor: pointer; }
-  .course-list { display: flex; flex-direction: column; gap: 0.25rem; }
-  .course-opt { display: flex; align-items: center; gap: 0.5rem; min-height: 38px; padding: 0.35rem 0.45rem; border: 1px solid transparent; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
-  .course-opt:hover, .course-opt.on { background: var(--panel-2); }
-  .course-opt.on { border-color: var(--border); }
+  .course-list { display: flex; flex-direction: column; gap: 0.3rem; }
+  .course-opt { display: flex; align-items: center; gap: 0.5rem; min-height: 40px; padding: 0.4rem 0.5rem; border: 1px solid transparent; border-radius: 10px; cursor: pointer; font-size: 0.8rem; }
+  .course-opt:hover, .course-opt.on { background: var(--surface-soft); }
+  .course-opt.on { border-color: var(--border); box-shadow: inset 3px 0 0 var(--accent); }
   .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
   .course-title { line-height: 1.2; }
-  .locate { margin-left: auto; width: 28px; height: 28px; flex: none; padding: 0; border: 1px solid var(--border); border-radius: 6px; background: var(--panel); color: var(--muted); cursor: pointer; }
+  .locate { margin-left: auto; width: 28px; height: 28px; flex: none; padding: 0; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--panel); color: var(--muted); cursor: pointer; }
   .locate:hover { color: var(--accent); border-color: var(--accent); }
-  .legend { list-style: none; margin: 0; padding: 0; font-size: 0.8rem; }
-  .legend li { display: flex; align-items: center; gap: 0.5rem; margin: 0.3rem 0; }
+  .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.65rem; list-style: none; margin: 0; padding: 0; font-size: 0.74rem; }
+  .legend li { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
   .legend .ring { position: relative; width: 16px; height: 16px; flex: none; border-radius: 50%; background: conic-gradient(var(--c) 0 var(--p), var(--track) var(--p) 100%); }
   .legend .ring::before { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--panel); }
-  .legend .ring.ready { background: none; border: 2px dashed #06b6d4; }
+  .legend .ring.ready { background: none; border: 2px dashed var(--map-ready); }
   .legend .ring.ready::before { content: none; }
 
-  .graph-area { position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden; contain: layout paint style; }
+  .graph-area { position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden; contain: layout paint style; background: var(--app-canvas); }
   .bands, .graph, .label-layer { position: absolute; inset: 0; }
   .bands { width: 100%; height: 100%; z-index: 0; }
   .graph { z-index: 1; background: transparent; touch-action: none; }
@@ -701,12 +703,13 @@
     width: max-content;
     padding: 4px 8px;
     border: 1px solid var(--map-label-border);
-    border-radius: 8px;
+    border-radius: 10px;
     background: var(--map-label-bg);
     color: var(--text);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.34);
-    font-size: 15px;
-    font-weight: 500;
+    box-shadow: var(--shadow);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
     line-height: 1.2;
     text-align: center;
     text-wrap: balance;
@@ -717,23 +720,26 @@
     user-select: none;
   }
   .node-label.boundary { font-size: 13px; opacity: 0.62; }
-  .node-label.ready { color: #06b6d4; font-weight: 600; }
+  .node-label.ready { color: var(--map-ready); font-weight: 700; }
   .node-label.dimmed { opacity: 0.16; }
   .node-label.focused { opacity: 1; border-color: color-mix(in srgb, var(--text) 42%, transparent); }
   .node-label.focus-root { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent), 0 5px 16px rgba(0, 0, 0, 0.42); }
   .node-label :global(.katex) { font-size: 1em; }
 
-  .tip { position: absolute; z-index: 5; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: 270px; padding: 0.6rem 0.7rem; border: 1px solid var(--border); border-left: 3px solid var(--c, var(--accent)); border-radius: 10px; background: var(--panel); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); pointer-events: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .tip { position: absolute; z-index: 5; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: 270px; padding: 0.7rem 0.8rem; border: 1px solid var(--border-strong); border-left: 3px solid var(--c, var(--accent)); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-lg); pointer-events: none; display: flex; flex-direction: column; gap: 0.3rem; }
   .tip strong { font-size: 0.88rem; line-height: 1.25; }
   .tip-blurb { font-size: 0.77rem; color: var(--muted); }
-  .tip-meta { font-size: 0.72rem; color: var(--accent); }
-  .tip-open { min-height: 40px; margin-top: 0.25rem; border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  .tip-meta { font-size: 0.7rem; color: var(--muted); }
+  .tip-open { min-height: 40px; margin-top: 0.25rem; border: 0; border-radius: 9px; background: var(--accent); color: #fff; font: 700 0.78rem var(--font-body); cursor: pointer; }
 
   .map-toolbar { position: absolute; z-index: 4; top: 12px; left: 12px; }
-  .filters-button { display: none; min-height: 44px; padding: 0 0.8rem; border-radius: 9px; align-items: center; gap: 0.45rem; box-shadow: 0 5px 18px rgba(0,0,0,.22); backdrop-filter: blur(10px); }
-  .zoom-controls { position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); z-index: 4; display: flex; flex-direction: column; gap: 5px; padding: 5px; border: 1px solid var(--border); border-radius: 11px; background: color-mix(in srgb, var(--panel) 82%, transparent); box-shadow: 0 8px 24px rgba(0,0,0,.28); backdrop-filter: blur(10px); }
-  .zoom-controls button { width: 40px; height: 40px; padding: 0; border-radius: 8px; font-size: 1.15rem; }
-  .empty { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; margin: 0; color: var(--muted); pointer-events: none; }
+  .filters-button { display: none; min-height: 44px; padding: 0 0.85rem; border-radius: 10px; align-items: center; gap: 0.45rem; box-shadow: var(--shadow); backdrop-filter: blur(10px); font: 700 0.78rem var(--font-body); }
+  .zoom-controls { position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); z-index: 4; display: flex; flex-direction: column; gap: 5px; padding: 5px; border: 1px solid var(--border-strong); border-radius: 14px; background: color-mix(in srgb, var(--panel) 88%, transparent); box-shadow: var(--shadow); backdrop-filter: blur(10px); }
+  .zoom-controls button { width: 40px; height: 40px; padding: 0; border-radius: 9px; font-size: 1.15rem; }
+  .empty { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; margin: auto; width: max-content; height: max-content; padding: 1.1rem 1.4rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); color: var(--muted); box-shadow: var(--shadow); pointer-events: none; }
+  .empty > span { color: var(--accent); font-size: 1.6rem; transform: rotate(-18deg); }
+  .empty strong { color: var(--text); font-family: var(--font-display); font-size: 1rem; }
+  .empty small { font-size: 0.72rem; }
   .drawer-backdrop { display: none; }
 
   @media (max-width: 768px) {
@@ -746,8 +752,4 @@
     .tip.touch { position: absolute; left: 12px !important; right: 12px; top: auto !important; bottom: calc(70px + env(safe-area-inset-bottom)); width: auto; max-width: none; transform: none; pointer-events: auto; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .sidebar { transition: none; }
-    *, *::before, *::after { scroll-behavior: auto !important; }
-  }
 </style>

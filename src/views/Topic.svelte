@@ -38,7 +38,7 @@
   {#if topic}
     <div class="page-head">
       <div class="crumbs">
-        <a href={href('/')}>Home</a>
+        <a href={href('/')}>Browse</a>
         {#if course} / <a href={href(`/course/${course.id}`)}>{course.title}</a>{/if}
         / <Math text={topic.title} />
       </div>

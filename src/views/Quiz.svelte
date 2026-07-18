@@ -5,6 +5,7 @@
   import { loadSkillQuiz } from '../lib/quiz.js';
   import { allProgress, upgradeMastery } from '../lib/store.js';
   import { createSession, nextStep, answerQuestion, extendCap, getResults } from '../lib/quiz-engine.js';
+  import { shouldCelebrateQuiz } from '../lib/quiz-ui.js';
   import MathText from '../components/Math.svelte';
   import QuizQuestion from '../components/QuizQuestion.svelte';
   import QuizResults from '../components/QuizResults.svelte';
@@ -64,6 +65,7 @@
   let answeredCount = $state(0);
   let cap = $state(20);
   let sessionResults = $state(null);
+  let celebrateResults = $state(false);
   let startError = $state('');
 
   function resetForScopeChange() {
@@ -71,6 +73,7 @@
     session = null;
     currentStep = null;
     sessionResults = null;
+    celebrateResults = false;
     startError = '';
     answeredCount = 0;
   }
@@ -143,6 +146,7 @@
   }
 
   function finish() {
+    celebrateResults = shouldCelebrateQuiz(session?.log);
     sessionResults = getResults(session);
     phase = 'results';
   }
@@ -152,8 +156,8 @@
   {#if scopeSkillIds === null}
     <!-- ===== GLOBAL PICKER: no topic/course in the URL ===== -->
     <h1>Diagnostic quiz</h1>
-    <p class="lede">Pick a course to check what you already know. The quiz adapts as you go —
-      pass a skill and its prerequisites are assumed too; struggle, and anything built on it is skipped.</p>
+    <p class="lede">Pick a course to check what you already know. The quiz adapts as you go:
+      pass a later skill and earlier skills can be counted as demonstrated; if you need practice, dependent skills wait for another time.</p>
     <div class="picker-grid">
       {#each orderedCourses as c}
         {@const n = quizzableCountFor(c.id)}
@@ -168,7 +172,7 @@
 
   {:else if phase === 'intro'}
     <!-- ===== INTRO / SCOPE CONFIRM ===== -->
-    <div class="crumbs"><a href={href('/')}>Home</a> / Diagnostic quiz</div>
+    <div class="crumbs"><a href={href('/')}>Browse</a> / Diagnostic quiz</div>
     <h1>Check my skills{#if scopeLabel}: <MathText text={scopeLabel} />{/if}</h1>
     <p class="lede">
       {#if !manifestLoaded}
@@ -213,7 +217,7 @@
   {:else if phase === 'results'}
     <!-- ===== RESULTS ===== -->
     <h1>Your results</h1>
-    <QuizResults results={sessionResults} {courseId} {scopeLabel} />
+    <QuizResults results={sessionResults} {courseId} {scopeLabel} {scopeSkillIds} celebrate={celebrateResults} />
   {/if}
 </div>
 
@@ -233,8 +237,11 @@
     border-radius: 14px;
     background: var(--panel);
     color: var(--text);
+    animation: card-enter var(--motion-base) var(--ease-out) both;
+    transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast);
   }
-  .picker-card:hover { border-color: var(--accent); text-decoration: none; }
+  .picker-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }
+  .picker-card:active { transform: scale(0.98); }
   .picker-card.disabled { opacity: 0.5; pointer-events: none; }
   .picker-title { align-self: flex-start; font-size: 0.95rem; font-weight: 600; color: #fff; padding: 0.35rem 0.75rem; border-radius: 999px; }
   .picker-count { font-size: 0.8rem; }
@@ -250,9 +257,11 @@
     font-size: 0.95rem;
     cursor: pointer;
     margin-top: 0.4rem;
+    transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast);
   }
   .start-btn:disabled { opacity: 0.5; cursor: default; }
-  .start-btn:hover:not(:disabled) { opacity: 0.9; }
+  .start-btn:hover:not(:disabled) { background: var(--accent-strong); box-shadow: var(--shadow); transform: translateY(-1px); }
+  .start-btn:active:not(:disabled) { transform: scale(0.97); }
 
   .loading-state { padding: 3rem 0; text-align: center; color: var(--muted); }
 
@@ -267,8 +276,10 @@
     font-family: inherit;
     font-size: 0.8rem;
     cursor: pointer;
+    transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
   }
   .finish-early:hover { border-color: var(--accent); color: var(--accent); }
+  .finish-early:active { transform: scale(0.96); }
 
   .cap-screen { text-align: center; padding: 2rem 0; }
   .cap-screen .lede { max-width: 48ch; margin: 0.5rem auto 1.2rem; }

@@ -102,7 +102,10 @@
 </div>
 
 <style>
-  .quiz-question { display: flex; flex-direction: column; gap: 1.1rem; }
+  .quiz-question { display: flex; flex-direction: column; gap: 1.1rem; animation: question-enter var(--motion-base) var(--ease-out) both; }
+  @keyframes question-enter { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes answer-correct { 0% { transform: scale(0.985); box-shadow: 0 0 0 0 color-mix(in srgb, var(--m-mastered) 42%, transparent); } 55% { transform: scale(1.012); } 100% { transform: scale(1); box-shadow: 0 0 0 10px transparent; } }
+  @keyframes answer-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 55% { transform: translateX(4px); } 78% { transform: translateX(-2px); } }
   .qq-diagram { display: flex; justify-content: center; overflow-x: auto; }
   .qq-diagram :global(svg) { max-width: 100%; height: auto; }
   .qq-stem { font-size: 1.15rem; }
@@ -122,9 +125,10 @@
     font-family: inherit;
     font-size: 0.98rem;
     cursor: pointer;
-    transition: border-color 0.12s, background 0.12s;
+    transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap), opacity var(--motion-fast), box-shadow var(--motion-fast);
   }
-  .qq-opt:hover:not(:disabled) { border-color: var(--accent); background: var(--panel-2); }
+  .qq-opt:hover:not(:disabled) { transform: translateX(3px); border-color: var(--accent); background: var(--panel-2); }
+  .qq-opt:active:not(:disabled) { transform: translateX(3px) scale(0.985); }
   .qq-opt:disabled { cursor: default; }
   .opt-key {
     flex: none;
@@ -141,10 +145,10 @@
   .opt-text { flex: 1; }
   .opt-mark { flex: none; font-weight: 700; }
 
-  .qq-opt.correct { border-color: var(--m-mastered); background: color-mix(in srgb, var(--m-mastered) 12%, var(--panel)); }
+  .qq-opt.correct { border-color: var(--m-mastered); background: color-mix(in srgb, var(--m-mastered) 12%, var(--panel)); animation: answer-correct 430ms var(--ease-out); }
   .qq-opt.correct .opt-key { background: var(--m-mastered); color: #fff; }
   .qq-opt.correct .opt-mark { color: var(--m-mastered); }
-  .qq-opt.wrong { border-color: #ef4444; background: color-mix(in srgb, #ef4444 12%, var(--panel)); }
+  .qq-opt.wrong { border-color: #ef4444; background: color-mix(in srgb, #ef4444 12%, var(--panel)); animation: answer-shake 260ms var(--ease-out); }
   .qq-opt.wrong .opt-key { background: #ef4444; color: #fff; }
   .qq-opt.wrong .opt-mark { color: #ef4444; }
   .qq-opt.dim { opacity: 0.55; }
@@ -153,6 +157,7 @@
     padding: 0.85rem 1rem;
     border-radius: 12px;
     border: 1px solid var(--border);
+    animation: content-rise var(--motion-base) var(--ease-out) both;
   }
   .qq-feedback.is-correct { background: color-mix(in srgb, var(--m-mastered) 10%, var(--panel)); border-color: var(--m-mastered); }
   .qq-feedback.is-wrong { background: color-mix(in srgb, #ef4444 10%, var(--panel)); border-color: #ef4444; }
@@ -165,7 +170,10 @@
     padding: 0.85rem 1rem;
     border-radius: 12px;
     background: var(--panel-2);
+    transform-origin: top;
+    animation: solution-open var(--motion-slow) var(--ease-out) both;
   }
+  @keyframes solution-open { from { opacity: 0; transform: translateY(-5px) scaleY(0.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
 
   .qq-next {
     align-self: flex-end;
@@ -178,7 +186,8 @@
     font-weight: 600;
     font-size: 0.92rem;
     cursor: pointer;
-    transition: opacity 0.12s;
+    transition: opacity var(--motion-fast), transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-fast);
   }
-  .qq-next:hover { opacity: 0.88; }
+  .qq-next:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .qq-next:active { transform: scale(0.96); }
 </style>

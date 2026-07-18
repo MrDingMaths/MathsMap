@@ -390,3 +390,35 @@ test('single-question skill: 1/1 passes, 0/1 fails', () => {
   assert.deepEqual(r.writes, []);
   assert.equal(s.status.X, 'FAILED');
 });
+
+test('result buckets stay inside the effective quiz scope', () => {
+  const skills = [skill('A'), skill('B', ['A']), skill('C'), skill('OUTSIDE')];
+  const quizzes = {
+    A: quiz2('A'),
+    B: quiz2('B'),
+    OUTSIDE: quiz2('OUTSIDE')
+  };
+  const session = createSession({
+    skills,
+    scopeSkillIds: ['A', 'B', 'C'],
+    quizzes
+  });
+
+  // C has no usable quiz and OUTSIDE was not selected, so neither enters S.
+  assert.deepEqual(session.scope, ['A', 'B']);
+  nextStep(session);
+  answer(session, false);
+  nextStep(session);
+  answer(session, false);
+
+  const results = getResults(session);
+  const resultIds = [
+    ...results.tested.map((item) => item.id),
+    ...results.inferred,
+    ...results.blocked.map((item) => item.id),
+    ...results.notAssessed
+  ];
+  assert.ok(resultIds.every((id) => session.scope.includes(id)));
+  assert.ok(!resultIds.includes('C'));
+  assert.ok(!resultIds.includes('OUTSIDE'));
+});

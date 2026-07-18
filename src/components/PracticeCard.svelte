@@ -35,7 +35,7 @@
     outline: none;
   }
   /* shrink → flip → expand: scale dips to 0 at the edge-on midpoint */
-  .flip-card.is-flipping { animation: flip-pop 0.34s ease; }
+  .flip-card.is-flipping { animation: flip-pop var(--motion-slow) var(--ease-snap); }
   @keyframes flip-pop {
     0%   { transform: scale(1); }
     50%  { transform: scale(0.86); }
@@ -45,7 +45,7 @@
   .flip-inner {
     display: grid;
     transform-style: preserve-3d;
-    transition: transform 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: transform var(--motion-slow) var(--ease-out);
   }
   .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
   .flip-front, .flip-back {

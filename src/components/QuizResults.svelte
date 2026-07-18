@@ -1,74 +1,80 @@
 <script>
   import { skillById } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
-  import { MASTERY, LEVELS } from '../lib/store.js';
   import { nextSkills } from '../lib/recommender.js';
-  import Math from './Math.svelte';
+  import { uncheckedResultItems, visibleResultItems } from '../lib/quiz-ui.js';
+  import MathText from './Math.svelte';
+  import MasteryStatus from './MasteryStatus.svelte';
+  import Confetti from './Confetti.svelte';
 
-  // Results screen for a finished (or early-finished) diagnostic session.
-  // `results` is the object returned by quiz-engine's getResults(session):
-  // { tested, inferred, blocked, notAssessed, writes }.
-  let { results, courseId = null, scopeLabel = null } = $props();
+  let { results, courseId = null, scopeLabel = null, scopeSkillIds = null, celebrate = false } = $props();
+  let showAllUnchecked = $state(false);
 
-  const RANK = Object.fromEntries(LEVELS.map((l, i) => [l, i]));
   let query = $derived(courseId ? `?course=${courseId}` : '');
   const titleOf = (id) => skillById.get(id)?.title ?? id;
 
-  // Dedupe writes per skill down to the highest level reached this session
-  // (a skill can be written twice — once PASSED→proficient, again on a later
-  // mastery follow-up →mastered).
-  let upgraded = $derived.by(() => {
-    const map = new Map();
-    for (const w of results.writes) {
-      const prev = map.get(w.id);
-      if (!prev || RANK[w.level] > RANK[prev]) map.set(w.id, w.level);
-    }
-    return [...map.entries()].map(([id, level]) => ({ id, level }));
+  let needsWork = $derived(results.tested.filter((item) => item.status === 'PARTIAL' || item.status === 'FAILED'));
+  let passed = $derived(results.tested.filter((item) => item.status === 'PASSED'));
+  let demonstrated = $derived([
+    ...passed.map((item) => ({ id: item.id, level: item.level, source: `${item.correctCount}/${item.questionsAsked} correct` })),
+    ...results.inferred.map((id) => ({ id, level: 'proficient', source: 'Shown through a later skill you passed' }))
+  ]);
+  let uncheckedItems = $derived(uncheckedResultItems(results));
+  let notCheckedCount = $derived(uncheckedItems.length);
+  let visibleUnchecked = $derived(visibleResultItems(uncheckedItems, showAllUnchecked));
+
+  let summaryItems = $derived([
+    demonstrated.length ? { key: 'demonstrated', icon: '✓', count: demonstrated.length, label: 'Demonstrated', tone: 'proficient' } : null,
+    needsWork.length ? { key: 'practice', icon: '↗', count: needsWork.length, label: 'Needs practice', tone: 'learning' } : null,
+    notCheckedCount ? { key: 'unchecked', icon: '○', count: notCheckedCount, label: 'Not checked yet', tone: 'none' } : null
+  ].filter(Boolean));
+
+  let summaryText = $derived.by(() => {
+    const parts = [];
+    if (demonstrated.length) parts.push(`${demonstrated.length} ${demonstrated.length === 1 ? 'skill was' : 'skills were'} demonstrated`);
+    if (needsWork.length) parts.push(`${needsWork.length} ${needsWork.length === 1 ? 'skill needs' : 'skills need'} more practice`);
+    if (notCheckedCount) parts.push(`${notCheckedCount} ${notCheckedCount === 1 ? 'skill was' : 'skills were'} not checked`);
+    return parts.length ? `${parts.join(', ')}.` : 'This quiz did not produce any new skill results.';
   });
 
-  let needsWork = $derived(
-    results.tested.filter((t) => t.status === 'PARTIAL' || t.status === 'FAILED')
-  );
-  let passed = $derived(results.tested.filter((t) => t.status === 'PASSED'));
-
-  let upNext = $derived(nextSkills({ courseId, limit: 6 }));
-
-  const summaryTiles = [
-    { key: 'passed', label: 'Passed', color: 'var(--m-mastered)' },
-    { key: 'needsWork', label: 'Needs work', color: 'var(--m-learning)' },
-    { key: 'inferred', label: 'Inferred', color: 'var(--m-proficient)' },
-    { key: 'blocked', label: 'Blocked', color: 'var(--muted)' },
-    { key: 'notAssessed', label: 'Not assessed', color: 'var(--muted)' }
-  ];
-  let counts = $derived({
-    passed: passed.length,
-    needsWork: needsWork.length,
-    inferred: results.inferred.length,
-    blocked: results.blocked.length,
-    notAssessed: results.notAssessed.length
-  });
+  let candidates = $derived(nextSkills({ courseId, limit: 30 }));
+  let scopedRecommendations = $derived(scopeSkillIds ? candidates.filter((skill) => scopeSkillIds.includes(skill.id)).slice(0, 6) : candidates.slice(0, 6));
+  let recommendationsAreScoped = $derived(!scopeSkillIds || scopedRecommendations.length > 0);
+  let upNext = $derived(scopedRecommendations.length ? scopedRecommendations : candidates.slice(0, 6));
+  let recommendationTitle = $derived(recommendationsAreScoped && scopeLabel ? `Recommended next in ${scopeLabel}` : 'Recommended next');
 </script>
 
-<div class="qr">
-  <div class="qr-summary">
-    {#each summaryTiles as tile}
-      <div class="tile">
-        <span class="tdot" style="background:{tile.color}"></span>
-        <span class="tnum">{counts[tile.key]}</span>
-        <span class="tlabel">{tile.label}</span>
-      </div>
-    {/each}
-  </div>
+<Confetti active={celebrate} />
 
-  {#if upgraded.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot" style="background:var(--m-mastered)"></span>Upgraded this quiz</div>
-      <div class="qr-list">
-        {#each upgraded as u}
-          <a class="qr-row" href={href(`/skill/${u.id}${query}`)}>
-            <span class="row-title"><Math text={titleOf(u.id)} /></span>
-            <span class="row-badge m-{u.level}">{MASTERY[u.level].label}</span>
-            <span class="row-source">via quiz</span>
+<div class="results">
+  <section class="summary" aria-labelledby="result-summary-title">
+    <div class="summary-copy">
+      <span class="eyebrow">Quiz complete</span>
+      <h2 id="result-summary-title">Here’s your clearest next step</h2>
+      <p>{summaryText}</p>
+      {#if upNext[0]}
+        <a class="primary-action" href={href(`/skill/${upNext[0].id}${query}`)}>Practise <MathText text={upNext[0].title} /> <span aria-hidden="true">&rarr;</span></a>
+      {/if}
+    </div>
+    {#if summaryItems.length}
+      <div class="summary-stats">
+        {#each summaryItems as item, index}
+          <div class="summary-stat tone-{item.tone}" style="--enter-index:{index}"><span class="summary-icon" aria-hidden="true">{item.icon}</span><strong>{item.count}</strong><span>{item.label}</span></div>
+        {/each}
+      </div>
+    {/if}
+  </section>
+
+  {#if demonstrated.length}
+    <section class="result-section">
+      <div class="section-heading"><span class="section-icon tone-proficient" aria-hidden="true">✓</span><div><span class="eyebrow">Demonstrated</span><h2>Skills you showed</h2></div></div>
+      <div class="result-list">
+        {#each demonstrated as item, index}
+          <a class="result-row" style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${item.id}${query}`)}>
+            <span class="row-title"><MathText text={titleOf(item.id)} /></span>
+            <MasteryStatus level={item.level} />
+            <span class="row-source">{item.source}</span>
+            <span class="row-arrow" aria-hidden="true">&rarr;</span>
           </a>
         {/each}
       </div>
@@ -76,71 +82,55 @@
   {/if}
 
   {#if needsWork.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot" style="background:var(--m-learning)"></span>Needs work</div>
-      <div class="qr-list">
-        {#each needsWork as t}
-          <a class="qr-row" href={href(`/skill/${t.id}${query}`)}>
-            <span class="row-title"><Math text={titleOf(t.id)} /></span>
-            <span class="row-badge m-{t.level}">{t.level === 'none' ? 'Not yet' : MASTERY[t.level].label}</span>
-            <span class="row-source">{t.correctCount}/{t.questionsAsked} correct</span>
+    <section class="result-section">
+      <div class="section-heading"><span class="section-icon tone-learning" aria-hidden="true">↗</span><div><span class="eyebrow">Needs practice</span><h2>Worth revisiting</h2></div></div>
+      <div class="result-list">
+        {#each needsWork as item, index}
+          <a class="result-row" style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${item.id}${query}`)}>
+            <span class="row-title"><MathText text={titleOf(item.id)} /></span>
+            <MasteryStatus level={item.level} />
+            <span class="row-source">{item.correctCount}/{item.questionsAsked} correct</span>
+            <span class="row-arrow" aria-hidden="true">&rarr;</span>
           </a>
         {/each}
       </div>
     </section>
   {/if}
 
-  {#if results.inferred.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot" style="background:var(--m-proficient)"></span>Inferred proficient</div>
-      <div class="qr-list">
-        {#each results.inferred as id}
-          <a class="qr-row" href={href(`/skill/${id}${query}`)}>
-            <span class="row-title"><Math text={titleOf(id)} /></span>
-            <span class="row-source">inferred from a later skill you passed</span>
-          </a>
+  {#if notCheckedCount}
+    <section class="result-section">
+      <div class="section-heading"><span class="section-icon tone-none" aria-hidden="true">○</span><div><span class="eyebrow">Not checked yet</span><h2>Not checked in this quiz</h2></div></div>
+      <p class="scope-note">
+        This is limited to quiz-ready skills in {#if scopeLabel}<strong><MathText text={scopeLabel} /></strong>{:else}the selected quiz scope{/if}, not every unchecked skill in MathsMap.
+      </p>
+      <div class="result-list quiet">
+        {#each visibleUnchecked as item, index (item.id)}
+          {#if item.kind === 'blocked'}
+            <div class="result-row" style="--enter-index:{Math.min(index, 6)}">
+              <a class="row-title" href={href(`/skill/${item.id}${query}`)}><MathText text={titleOf(item.id)} /></a>
+              <span class="reason">Prerequisite needed</span>
+              <span class="row-source">First practise <a href={href(`/skill/${item.blockedBy}${query}`)}><MathText text={titleOf(item.blockedBy)} /></a></span>
+            </div>
+          {:else}
+            <a class="result-row" style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${item.id}${query}`)}><span class="row-title"><MathText text={titleOf(item.id)} /></span><span class="reason">Not included in this quiz</span><span class="row-arrow" aria-hidden="true">&rarr;</span></a>
+          {/if}
         {/each}
       </div>
-    </section>
-  {/if}
-
-  {#if results.blocked.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot" style="background:var(--muted)"></span>Not assessed — blocked</div>
-      <div class="qr-list">
-        {#each results.blocked as b}
-          <div class="qr-row">
-            <a class="row-title" href={href(`/skill/${b.id}${query}`)}><Math text={titleOf(b.id)} /></a>
-            <span class="row-source">
-              depends on <a href={href(`/skill/${b.blockedBy}${query}`)}><Math text={titleOf(b.blockedBy)} /></a>
-            </span>
-          </div>
-        {/each}
-      </div>
-    </section>
-  {/if}
-
-  {#if results.notAssessed.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot" style="background:var(--muted)"></span>Not reached this time</div>
-      <div class="qr-list">
-        {#each results.notAssessed as id}
-          <a class="qr-row" href={href(`/skill/${id}${query}`)}>
-            <span class="row-title"><Math text={titleOf(id)} /></span>
-          </a>
-        {/each}
-      </div>
+      {#if notCheckedCount > 5}
+        <button class="disclosure" type="button" aria-expanded={showAllUnchecked} onclick={() => (showAllUnchecked = !showAllUnchecked)}>
+          {showAllUnchecked ? 'Show fewer skills' : `Show all ${notCheckedCount} skills`}
+          <span class:open={showAllUnchecked} aria-hidden="true">⌄</span>
+        </button>
+      {/if}
     </section>
   {/if}
 
   {#if upNext.length}
-    <section class="qr-section">
-      <div class="qr-head"><span class="sec-dot accent"></span>What next{scopeLabel ? ` in ${scopeLabel}` : ''}</div>
-      <div class="qr-grid">
-        {#each upNext as s}
-          <a class="qr-next-card" href={href(`/skill/${s.id}${query}`)}>
-            <Math text={s.title} />
-          </a>
+    <section class="result-section recommendations">
+      <div class="section-heading"><span class="section-icon accent" aria-hidden="true">→</span><div><span class="eyebrow">Keep moving</span><h2>{recommendationTitle}</h2></div></div>
+      <div class="recommendation-grid">
+        {#each upNext as skill, index}
+          <a class:featured={index === 0} style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${skill.id}${query}`)}><span><MathText text={skill.title} /></span><span aria-hidden="true">&rarr;</span></a>
         {/each}
       </div>
     </section>
@@ -148,75 +138,46 @@
 </div>
 
 <style>
-  .qr { display: flex; flex-direction: column; gap: 1.6rem; }
-
-  .qr-summary { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  .tile {
-    flex: 1;
-    min-width: 110px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--panel);
-  }
-  .tdot { width: 8px; height: 8px; border-radius: 999px; }
-  .tnum { font-size: 1.4rem; font-weight: 600; line-height: 1; }
-  .tlabel { font-size: 0.75rem; color: var(--muted); }
-
-  .qr-section { display: flex; flex-direction: column; gap: 0.7rem; }
-  .qr-head {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .sec-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
-  .sec-dot.accent { background: var(--accent); }
-
-  .qr-list { display: flex; flex-direction: column; gap: 0.5rem; }
-  .qr-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--panel);
-    color: var(--text);
-  }
-  .qr-row:hover { border-color: var(--accent); text-decoration: none; }
-  .row-title { font-weight: 500; }
-  .row-badge {
-    flex: none;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.55rem;
-    border-radius: 999px;
-    background: var(--panel-2);
-    color: var(--muted);
-  }
-  .row-badge.m-learning { background: color-mix(in srgb, var(--m-learning) 18%, transparent); color: var(--m-learning); }
-  .row-badge.m-proficient { background: color-mix(in srgb, var(--m-proficient) 18%, transparent); color: var(--m-proficient); }
-  .row-badge.m-mastered { background: color-mix(in srgb, var(--m-mastered) 18%, transparent); color: var(--m-mastered); }
-  .row-source { margin-left: auto; font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+  .results { display: flex; flex-direction: column; gap: 2rem; }
+  .summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; padding: 1.4rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--surface-warm), var(--panel)); animation: content-rise var(--motion-slow) var(--ease-out) both; }
+  .eyebrow { color: var(--muted); font-size: 0.66rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
+  .summary h2, .section-heading h2 { margin: 0.15rem 0 0; font-size: 1.2rem; }
+  .summary p { margin: 0.45rem 0 0.9rem; color: var(--muted); }
+  .primary-action { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 0.85rem; border-radius: 9px; background: var(--accent); color: #fff; font-size: 0.82rem; font-weight: 750; transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast); }
+  .primary-action:hover { transform: translateY(-2px); background: var(--accent-strong); box-shadow: var(--shadow); text-decoration: none; }
+  .primary-action:active { transform: scale(0.97); }
+  .summary-stats { display: flex; gap: 0.6rem; }
+  .summary-stat { min-width: 92px; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.1rem 0.4rem; padding: 0.7rem; border-radius: 11px; background: var(--panel); color: var(--status-none); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 55ms + 80ms) both; }
+  .summary-stat strong { color: var(--text); font: 700 1.25rem var(--font-display); }
+  .summary-stat > span:last-child { grid-column: 1 / -1; color: var(--muted); font-size: 0.68rem; }
+  .summary-icon { display: grid; place-items: center; width: 1.3rem; height: 1.3rem; border: 1px solid currentColor; border-radius: 50%; }
+  .tone-learning { color: var(--status-learning); }
+  .tone-proficient { color: var(--status-proficient); }
+  .tone-none { color: var(--status-none); }
+  .section-heading { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.75rem; }
+  .section-icon { display: grid; place-items: center; width: 2rem; height: 2rem; flex: none; border: 1px solid currentColor; border-radius: 9px; font-weight: 750; }
+  .section-icon.accent { color: var(--accent); }
+  .result-list { border-block: 1px solid var(--border); }
+  .result-row { display: flex; align-items: center; gap: 0.75rem; min-height: 52px; padding: 0.7rem 0.15rem; border-bottom: 1px solid var(--border); color: var(--text); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 35ms) both; }
+  .result-row:last-child { border-bottom: 0; }
+  a.result-row:hover, .result-row .row-title:hover { color: var(--accent); text-decoration: none; }
+  .row-title { flex: 1; font-weight: 650; color: inherit; }
+  .row-source { color: var(--muted); font-size: 0.72rem; }
   .row-source a { color: var(--accent); }
-
-  .qr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.6rem; }
-  .qr-next-card {
-    padding: 0.75rem 0.9rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--panel);
-    color: var(--text);
-    font-size: 0.92rem;
-  }
-  .qr-next-card:hover { border-color: var(--accent); text-decoration: none; }
+  .row-arrow { color: var(--muted); }
+  .reason { padding: 0.18rem 0.5rem; border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 0.66rem; font-weight: 700; }
+  .scope-note { max-width: 68ch; margin: -0.25rem 0 0.75rem; color: var(--muted); font-size: 0.78rem; }
+  .quiet { opacity: 0.9; }
+  .disclosure { display: flex; align-items: center; justify-content: center; gap: 0.45rem; width: 100%; margin-top: 0.65rem; padding: 0.55rem; border: 1px solid var(--border); border-radius: 9px; background: var(--panel); color: var(--muted); font: 700 0.74rem var(--font-body); cursor: pointer; transition: color var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast) var(--ease-snap); }
+  .disclosure:hover { color: var(--accent); border-color: var(--accent); }
+  .disclosure:active { transform: scale(0.985); }
+  .disclosure span { transition: transform var(--motion-base) var(--ease-snap); }
+  .disclosure span.open { transform: rotate(180deg); }
+  .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.65rem; }
+  .recommendation-grid a { display: flex; justify-content: space-between; gap: 0.8rem; padding: 0.8rem 0.9rem; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); color: var(--text); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 40ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast); }
+  .recommendation-grid a:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }
+  .recommendation-grid a:active { transform: scale(0.98); }
+  .recommendation-grid a.featured { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: color-mix(in srgb, var(--accent) 7%, var(--panel)); animation: card-enter var(--motion-base) var(--ease-out) both, recommendation-glow 700ms var(--ease-out) 220ms both; }
+  @keyframes recommendation-glow { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 30%, transparent); } 100% { box-shadow: 0 0 0 10px transparent; } }
+  @media (max-width: 680px) { .summary { grid-template-columns: 1fr; } .summary-stats { flex-wrap: wrap; } .summary-stat { flex: 1; } .result-row { align-items: flex-start; flex-wrap: wrap; } .row-title { flex-basis: 100%; } .row-source { flex: 1; } }
 </style>

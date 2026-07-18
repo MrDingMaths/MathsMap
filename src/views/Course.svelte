@@ -53,7 +53,7 @@
 <div class="container">
   {#if course}
     <div class="page-head">
-      <div class="crumbs"><a href={href('/')}>Home</a> / {course.title}</div>
+      <div class="crumbs"><a href={href('/')}>Browse</a> / {course.title}</div>
       {#if quizzableCount > 0}
         <a class="map-link" href={href(`/quiz?course=${id}`)}>Check my skills</a>
       {/if}
@@ -72,7 +72,7 @@
     {#if groups.length}
       <div class="chips">
         <button class="chip" class:active={strandFilter === null} onclick={() => (strandFilter = null)}>
-          <span class="dot" style="background:var(--muted)"></span>All
+          All
         </button>
         {#each groups as g}
           <button class="chip" class:active={strandFilter === g.name} onclick={() => toggleFilter(g.name)}>
@@ -118,10 +118,11 @@
     color: var(--text);
     border: 1px solid var(--border);
     cursor: pointer;
-    transition: all 0.12s;
+    transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
   }
   .chip .dot { width: 6px; height: 6px; border-radius: 50%; }
   .chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip:active { transform: scale(0.96); }
 
   .strands { display: flex; flex-direction: column; gap: 1.75rem; }
 </style>

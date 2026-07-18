@@ -39,7 +39,7 @@ export function ringSvg({ track, segments = [], full = false }) {
 
   let body;
   if (full) {
-    const green = '#16a34a';
+    const green = '#22c55e';
     const check =
       `<path d="M14 20.5 L18 24.5 L26.5 15.5" fill="none" stroke="${green}" ` +
       `stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;

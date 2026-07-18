@@ -6,15 +6,41 @@
   --text: #f3f4f6;
   --muted: #9ca3af;
   --border: #303545;
+  --border-strong: #41485a;
   --accent: #E8443A;
+  --accent-strong: #c9342c;
   --success: #10b981;
   --in-progress: #fbbf24;
   /* Per-level mastery palette — read well on both dark and light surfaces. */
   --m-learning: #f59e0b;
   --m-proficient: #14b8a6;
   --m-mastered: #10b981;
+  /* Non-map status system. Map colours deliberately remain on --m-* tokens. */
+  --status-none: #a8b3c5;
+  --status-learning: #fbbf24;
+  --status-proficient: #60a5fa;
+  --status-mastered: #4ade80;
+  --status-learning-fill: #f59e0b;
+  --status-proficient-fill: #3b82f6;
+  --status-mastered-fill: #22c55e;
+  --surface-soft: #20242f;
+  --surface-warm: #242127;
+  --app-canvas: #15171e;
   --track: rgba(255, 255, 255, 0.08);
   --shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 24px 70px -22px rgba(0, 0, 0, 0.72);
+  --focus-ring: 0 0 0 3px rgba(232, 68, 58, 0.22);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --motion-fast: 140ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 0.72, 0.22, 1);
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.28, 1.18);
+  --font-display: 'Fredoka', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-family: 'Fredoka', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color-scheme: dark;
 }
@@ -26,18 +52,49 @@
   --text: #11131a;
   --muted: #64748b;
   --border: #e7ebf1;
+  --border-strong: #d5dbe5;
   --accent: #E8443A;
+  --accent-strong: #c9342c;
   --success: #10b981;
   --in-progress: #fbbf24;
   --m-learning: #f59e0b;
   --m-proficient: #0d9488;
   --m-mastered: #10b981;
+  --status-none: #64748b;
+  --status-learning: #b45309;
+  --status-proficient: #2563eb;
+  --status-mastered: #15803d;
+  --status-learning-fill: #f59e0b;
+  --status-proficient-fill: #3b82f6;
+  --status-mastered-fill: #22c55e;
+  --surface-soft: #f4f6f8;
+  --surface-warm: #f7f2ec;
+  --app-canvas: #fbfaf7;
   --track: rgba(15, 23, 42, 0.07);
   --shadow: 0 10px 24px -14px rgba(15, 23, 42, 0.28);
+  --shadow-lg: 0 24px 70px -24px rgba(15, 23, 42, 0.36);
   color-scheme: light;
 }
 
 * { box-sizing: border-box; }
+
+@keyframes route-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes content-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes selection-pop {
+  0% { transform: scale(0.94); }
+  65% { transform: scale(1.035); }
+  100% { transform: scale(1); }
+}
 
 body {
   margin: 0;
@@ -45,6 +102,23 @@ body {
   color: var(--text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+.site-content {
+  min-height: calc(100dvh - var(--top-nav-height, 72px));
+  background:
+    radial-gradient(circle at 8% 0%, color-mix(in srgb, var(--accent) 4%, transparent), transparent 28rem),
+    var(--app-canvas);
+  font-family: var(--font-body);
+}
+.route-stage { animation: route-enter var(--motion-base) var(--ease-out) both; }
+.site-content h1,
+.site-content h2,
+.site-content h3,
+.site-content .brand-type { font-family: var(--font-display); }
+.site-content :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 ::selection { background: #f9bbb8; color: #11131a; }
@@ -59,7 +133,7 @@ a:hover { text-decoration: underline; }
 /* Fredoka tops out at 600 — never request a heavier weight. */
 h1, h2, h3 { margin: 0 0 0.4em; line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; }
 
-.container { max-width: 1280px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+.container { max-width: 1280px; margin: 0 auto; padding: 1.5rem 1.5rem 5rem; }
 
 .grid {
   display: grid;
@@ -75,7 +149,7 @@ h1, h2, h3 { margin: 0 0 0.4em; line-height: 1.15; font-weight: 600; letter-spac
   border-radius: 14px;
   padding: 0.95rem 1.05rem;
   color: var(--text);
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
 }
 .card:hover {
   text-decoration: none;
@@ -142,18 +216,23 @@ nav.top a.navlink {
   font-weight: 500;
   padding: 0.4rem 0.7rem;
   border-radius: 7px;
-  transition: color 0.15s;
+  transition: color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
 }
 nav.top a.navlink:hover { color: var(--text); background: var(--panel-2); text-decoration: none; }
 nav.top a.navlink.active { color: var(--text); }
+nav.top a.navlink:active { transform: scale(0.96); }
 @media (max-width: 768px) {
   :root { --top-nav-height: 60px; }
   nav.top {
-    flex-direction: column;
-    height: auto;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    flex-direction: row;
+    height: 60px;
+    gap: 0.35rem;
+    padding: 0.55rem 1rem;
   }
+  nav.top .brand { font-size: 1.25rem; margin-right: 0; }
+  nav.top .brand svg { width: 34px; height: 34px; }
+  .site-content { padding-bottom: 3.6rem; }
+  .container { padding: 1.1rem 1rem 4.5rem; }
 }
 @media (max-width: 480px) {
   nav.top a.navlink {
@@ -173,7 +252,7 @@ input.search {
   font-family: inherit;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
 }
 input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 58, 0.18); }
 
@@ -200,7 +279,7 @@ input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 
 
 /* Split progress bar: mastered (green) + in-progress (amber) over a track. */
 .bar { background: var(--track); border-radius: 999px; height: 6px; overflow: hidden; display: flex; gap: 1.5px; }
-.bar > span { display: block; height: 100%; }
+.bar > span { display: block; height: 100%; transition: width var(--motion-slow) var(--ease-out); }
 .bar > span.mastered { background: var(--success); }
 .bar > span.inprogress { background: var(--in-progress); }
 
@@ -210,13 +289,29 @@ input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 
 /* Page header row: breadcrumbs on the left, "View on map" button on the right.
    Keeps the button in a consistent spot across skill/topic pages. */
 .page-head {
+  position: sticky;
+  top: var(--top-nav-height, 72px);
+  z-index: 40;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.1rem;
+  margin: -0.25rem -0.75rem 1.1rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--app-canvas) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 22px -22px rgba(0, 0, 0, 0.7);
 }
 .page-head .crumbs { margin-bottom: 0; }
+.page-head > :first-child { min-width: 0; }
+
+@media (max-width: 768px) {
+  .page-head { align-items: flex-start; flex-wrap: wrap; margin-inline: -0.35rem; padding: 0.55rem; }
+  .page-head .crumbs { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .page-head .page-actions { width: 100%; flex-wrap: wrap; }
+}
 
 /* Action button — e.g. "View on map" on skill/topic pages. */
 .map-link {
@@ -233,7 +328,7 @@ input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   border-radius: 999px;
   text-decoration: none;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  transition: background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
 }
 .map-link svg {
   width: 20px;
@@ -246,3 +341,4 @@ input.search:focus { border-color: #E8443A; box-shadow: 0 0 0 3px rgba(232, 68, 
   border-color: var(--accent);
   text-decoration: none;
 }
+.map-link:active { transform: scale(0.97); }

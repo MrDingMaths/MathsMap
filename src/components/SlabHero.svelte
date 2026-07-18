@@ -1,90 +1,40 @@
 <script>
   import Math from './Math.svelte';
   import MasteryBar from './MasteryBar.svelte';
+  import MasteryStatus from './MasteryStatus.svelte';
 
-  // Bold gradient banner shared by the Topic and Course pages. The gradient is
-  // derived from `color` (via color-mix) so it adapts to each topic/course hue,
-  // and white text sits over it in both themes. `stats` carries the per-level
-  // mastery breakdown produced by store.js.
   let { color, eyebrow = null, title, meta = null, stats } = $props();
 </script>
 
-<div
-  class="hero"
-  style="background:linear-gradient(135deg, color-mix(in srgb, {color} 78%, #000) 0%, {color} 55%, color-mix(in srgb, {color} 80%, #fff) 100%)"
->
-  <span class="glow"></span>
-  <div class="hero-body">
-    {#if eyebrow}
-      <div class="eyebrow"><span class="dot"></span>{eyebrow}</div>
-    {/if}
+<section class="hero" style="--hero-color:{color}">
+  <span class="route-line" aria-hidden="true"></span>
+  <div class="hero-copy">
+    {#if eyebrow}<div class="eyebrow">{eyebrow}</div>{/if}
     <h1><Math text={title} /></h1>
     {#if meta}<div class="meta">{meta}</div>{/if}
-    <div class="tiles">
-      <div class="tile"><div class="tile-top"><span class="tdot" style="background:var(--m-mastered)"></span>Mastered</div><div class="tnum">{stats.mastered}</div></div>
-      <div class="tile"><div class="tile-top"><span class="tdot" style="background:var(--m-proficient)"></span>Proficient</div><div class="tnum">{stats.proficient}</div></div>
-      <div class="tile"><div class="tile-top"><span class="tdot" style="background:var(--m-learning)"></span>Learning</div><div class="tnum">{stats.learning}</div></div>
-      <div class="tile"><div class="tile-top"><span class="tdot tdot-none"></span>Not started</div><div class="tnum">{stats.none}</div></div>
-    </div>
-    <div class="hero-bar"><MasteryBar {stats} light /></div>
   </div>
-</div>
+  <div class="progress-panel">
+    <div class="stats">
+      <span><MasteryStatus level="mastered" compact /><strong>{stats.mastered}</strong></span>
+      <span><MasteryStatus level="proficient" compact /><strong>{stats.proficient}</strong></span>
+      <span><MasteryStatus level="learning" compact /><strong>{stats.learning}</strong></span>
+      <span><MasteryStatus level="none" compact /><strong>{stats.none}</strong></span>
+    </div>
+    <MasteryBar {stats} height="8px" />
+  </div>
+</section>
 
 <style>
-  .hero {
-    position: relative;
-    overflow: hidden;
-    border-radius: 18px;
-    padding: 2rem 2.2rem;
-    margin-bottom: 0.5rem;
-    color: #fff;
-  }
-  .glow {
-    position: absolute;
-    top: -120px;
-    left: -60px;
-    width: 360px;
-    height: 360px;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 60%);
-    pointer-events: none;
-  }
-  .hero-body { position: relative; }
-  .eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 0.7rem;
-  }
-  .eyebrow .dot { width: 8px; height: 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.85); flex: none; }
-  h1 { font-size: 2.1rem; margin: 0; line-height: 1.05; color: #fff; }
-  .meta { font-size: 0.85rem; color: rgba(255, 255, 255, 0.82); margin-top: 0.7rem; }
-
-  .tiles { display: flex; gap: 0.75rem; margin-top: 1.3rem; }
-  .tile {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 12px;
-    padding: 0.7rem 0.85rem;
-  }
-  .tile-top {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.82);
-    margin-bottom: 0.55rem;
-  }
-  .tile-top .tdot { width: 8px; height: 8px; border-radius: 999px; flex: none; }
-  .tile-top .tdot-none { background: rgba(255, 255, 255, 0.55); }
-  .tnum { font-size: 1.5rem; font-weight: 600; line-height: 1; }
-
-  .hero-bar { margin-top: 1.1rem; }
+  .hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr); align-items: end; gap: 2rem; padding: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 0.5rem; border: 1px solid color-mix(in srgb, var(--hero-color) 24%, var(--border)); border-top: 4px solid var(--hero-color); border-radius: var(--radius-xl); background: linear-gradient(135deg, color-mix(in srgb, var(--hero-color) 8%, var(--panel)), var(--panel)); }
+  .route-line { position: absolute; width: 260px; height: 150px; right: -60px; top: -75px; border: 2px dashed color-mix(in srgb, var(--hero-color) 24%, transparent); border-radius: 50%; transform: rotate(-12deg); pointer-events: none; }
+  .hero-copy, .progress-panel { position: relative; z-index: 1; }
+  .eyebrow { margin-bottom: 0.45rem; color: var(--hero-color); font-size: 0.7rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
+  h1 { margin: 0; color: var(--text); font-size: clamp(1.8rem, 4vw, 2.45rem); line-height: 1.06; }
+  .meta { margin-top: 0.65rem; color: var(--muted); font-size: 0.83rem; }
+  .progress-panel { display: flex; flex-direction: column; gap: 0.8rem; padding: 0.85rem 0.95rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: color-mix(in srgb, var(--panel) 88%, transparent); }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
+  .stats > span { display: flex; align-items: center; justify-content: space-between; gap: 0.45rem; min-width: 0; }
+  .stats strong { font-family: var(--font-display); font-size: 1.05rem; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; gap: 1.2rem; } }
+  @media (max-width: 420px) { .stats { grid-template-columns: 1fr; } }
 </style>

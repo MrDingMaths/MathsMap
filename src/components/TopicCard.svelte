@@ -17,7 +17,7 @@
     return topicStats(topic.id, courseId);
   });
 
-  let statusColor = $derived(stats.mastered > 0 ? 'var(--success)' : 'var(--muted)');
+  let statusColor = $derived(stats.mastered > 0 ? 'var(--status-mastered)' : 'var(--muted)');
 </script>
 
 <a
@@ -50,7 +50,7 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: var(--success);
+    background: var(--status-mastered-fill);
     display: grid;
     place-items: center;
   }
