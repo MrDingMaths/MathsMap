@@ -46,8 +46,9 @@ The session then:
 1. **`docs/content-schema.md`** — the full output contract. The two JSON shapes, the
    shared text rules, the tier minimums, the MCQ/distractor rules, the TikZ allowlist.
    Re-read the sections your skill exercises; do not work from memory of them.
-   For any skill needing a diagram, also read **`docs/tikz-templates.md`** and start every
-   figure from the matching template.
+   For any skill needing a diagram, also read the complete canonical
+   **[`docs/tikz-prompt.md`](tikz-prompt.md)** and follow its semantic audit, construction,
+   fixed-template, and rendered-verification workflow.
 2. **The three principle docs** —
    [worked-example-principles.md](worked-example-principles.md),
    [guided-practice-principles.md](guided-practice-principles.md),
@@ -195,14 +196,12 @@ preloaded libraries, the auto-detected packages, the forbidden/stripped preamble
 snapped `\fontsize` set. A diagram that falls outside it shows a "⚠ Diagram failed to
 render" placeholder.
 
-- **START FROM A TEMPLATE.** [tikz-templates.md](tikz-templates.md) holds vetted,
-  fixed-geometry skeletons (transversal + 8 angles, parallel+transversal+unknown, angles
-  at a point / on a line, crossing lines, right-angle split, auxiliary parallel, angle
-  naming, parallel/perpendicular marks). **Pick the template matching your structural type
-  and substitute only the label text — never move a coordinate.** Free-hand coordinate
-  maths is the #1 source of broken diagrams (labels detached from their intersection,
-  adjacent numbers merging into "14", missing marks). If no template fits, hand-draw using
-  the same principles and flag the skill for extra visual review.
+- **FOLLOW THE CANONICAL PROMPT.** [tikz-prompt.md](tikz-prompt.md) is the sole TikZ
+  authoring authority. It requires a semantic/topology audit before coordinates, provides
+  fixed angle constructions and relationship maps, defines coordinate-derived marks for
+  other geometry, and includes the rendered visual gate. Use its matching fixed construction
+  without hand-nudging; if none fits, use its general construction rules and flag the figure
+  for extra visual review.
 - **Degrees are `^{\circ}`, never a literal `°`** inside a `\node` — the literal character
   does not compile in TikZJax and can stall the diagram worker.
 - **Be generous with diagrams on geometry, measurement, and data skills** (length, area,
@@ -298,8 +297,8 @@ The orchestrator drives the batch; generation and checking run in parallel group
      `scripts/build-vision-gate.mjs` (see the batch-2 run for the head/tail templates), then
      run it. Every `ok:false` verdict of severity `major` is a blocker; `minor` (e.g. a
      missing parallel-mark) is orchestrator's judgement.
-   - **Repair flagged diagrams by re-instantiating the correct
-     [template](tikz-templates.md)** — do not hand-nudge coordinates. Then re-shoot and
+   - **Repair flagged diagrams by re-instantiating the correct construction from the
+     [canonical prompt](tikz-prompt.md)** — do not hand-nudge coordinates. Then re-shoot and
      re-gate the repaired skills only, until clean. This gate is why geometry topics
      (`ang`, `dat`, `pyt`, area/volume/geometry) get a diagram pass before human review.
 7. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
@@ -317,7 +316,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Schema-exact.** [content-schema.md](content-schema.md) is the contract; validate clean.
 - **Single skill per file.** Prereqs only in service; no cross-topic mixing.
 - **Every distractor is a named misconception** with a specific `why`.
-- **Diagrams start from a [template](tikz-templates.md)**; degrees are `^{\circ}`.
+- **Diagrams follow the [canonical TikZ prompt](tikz-prompt.md)**; degrees are `^{\circ}`.
 - **TikZ batches pass the visual gate** (`shoot-tikz.mjs` → vision workflow) before human review.
 - **Byte-for-byte theory** for stage-3 skills that already have a content file.
 - **One batch per session**; statuses updated by the orchestrator; do not commit.

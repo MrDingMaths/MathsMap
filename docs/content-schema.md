@@ -134,7 +134,8 @@ note.)
 ## TikZ allowlist (`tikz` / `tikzSolution`)
 
 Diagrams render through **TikZJax** (`src/lib/tikz.js`), a WASM TeX that is **not** full
-LaTeX. Author to this subset:
+LaTeX. Author to this subset and follow the complete semantic construction and rendered
+verification workflow in the canonical [`tikz-prompt.md`](tikz-prompt.md):
 
 **Required**
 - Must contain `\begin{tikzpicture}` … `\end{tikzpicture}`. No surrounding `\documentclass`
