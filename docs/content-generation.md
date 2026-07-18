@@ -46,6 +46,8 @@ The session then:
 1. **`docs/content-schema.md`** — the full output contract. The two JSON shapes, the
    shared text rules, the tier minimums, the MCQ/distractor rules, the TikZ allowlist.
    Re-read the sections your skill exercises; do not work from memory of them.
+   For any skill needing a diagram, also read **`docs/tikz-templates.md`** and start every
+   figure from the matching template.
 2. **The three principle docs** —
    [worked-example-principles.md](worked-example-principles.md),
    [guided-practice-principles.md](guided-practice-principles.md),
@@ -193,6 +195,16 @@ preloaded libraries, the auto-detected packages, the forbidden/stripped preamble
 snapped `\fontsize` set. A diagram that falls outside it shows a "⚠ Diagram failed to
 render" placeholder.
 
+- **START FROM A TEMPLATE.** [tikz-templates.md](tikz-templates.md) holds vetted,
+  fixed-geometry skeletons (transversal + 8 angles, parallel+transversal+unknown, angles
+  at a point / on a line, crossing lines, right-angle split, auxiliary parallel, angle
+  naming, parallel/perpendicular marks). **Pick the template matching your structural type
+  and substitute only the label text — never move a coordinate.** Free-hand coordinate
+  maths is the #1 source of broken diagrams (labels detached from their intersection,
+  adjacent numbers merging into "14", missing marks). If no template fits, hand-draw using
+  the same principles and flag the skill for extra visual review.
+- **Degrees are `^{\circ}`, never a literal `°`** inside a `\node` — the literal character
+  does not compile in TikZJax and can stall the diagram worker.
 - **Be generous with diagrams on geometry, measurement, and data skills** (length, area,
   volume, Pythagoras, angles, geometrical figures, data displays) — a labelled figure
   usually carries the question. Number/algebra skills rarely need one.
@@ -201,6 +213,17 @@ render" placeholder.
 - Use **both** a `tikz` on the question front and a `tikzSolution` on the back **where
   each aids** — a bare figure on the front, a fuller annotated figure (marks, working,
   the found value) on the back. `tikzSolution` falls back to `tikz` if absent.
+- **Diagram-reading skills must carry the diagram into the QUIZ, not just practice.**
+  If the skill is about reading a figure (identifying angle pairs, finding an unknown
+  angle from a configuration, reading a graph/plot), an MCQ posed in words only tests
+  vocabulary recall, not the skill — give those MCQs a `tikz` figure. The exception is a
+  genuinely notational/definitional skill (naming conventions, symbol recognition,
+  numeric-relationship recall like "complementary to $27°$"), where a figure would be
+  forced — there, symbolic/verbal options are correct.
+- **A figure that contradicts its answer is a defect.** When you draw a labelled angle,
+  draw it to roughly its stated size, and make the marked positions match the property
+  named (alternate = interior + opposite sides, etc.). The blind checker reads your TikZ
+  as the diagram; if the drawing implies a different answer than the key, it fails.
 
 ---
 
@@ -260,13 +283,32 @@ The orchestrator drives the batch; generation and checking run in parallel group
    with a quick **cross-skill scan** of the batch for shared scenarios or near-identical
    stems between skills that shared a booklet section; dedupe by editing the lesser item.
 5. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
-6. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
-7. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
-   include** every `anchor: none` skill and every checker-triggered regenerated skill in
-   the sample set.
-8. **Update the queue.** Record per-batch status, the review-sample ids, and any
-   `anchor: none` gaps in `docs/content-queue.md`. Do **not** commit — leave that to the
-   human.
+6. **Visual diagram gate — MANDATORY for any batch containing TikZ** (skip only for a
+   purely symbolic batch like algebra with zero `tikz` fields). The source-reading blind
+   check in steps 3–4 verifies **answers**; it is blind to the **rendered picture**
+   (colliding/merged labels, a line that doesn't reach its intersection, a stray arrowhead,
+   a parallel-mark on the transversal, an angle drawn in the wrong region). Close that gap:
+   - Ensure the dev server is running (`npm run dev`).
+   - `node scripts/shoot-tikz.mjs --topic <topicId> --out .shots` — headless Chrome renders
+     every diagram in scope and writes one PNG per card plus `.shots/manifest.json`
+     (each entry carries the skillId, field, question, answer, and compile status). Any
+     `status:"fail"` is a compile failure — fix the TikZ before proceeding.
+   - Assemble and run the vision gate (one agent per PNG *reads the image* and flags visual
+     defects against the question + answer): build the workflow with
+     `scripts/build-vision-gate.mjs` (see the batch-2 run for the head/tail templates), then
+     run it. Every `ok:false` verdict of severity `major` is a blocker; `minor` (e.g. a
+     missing parallel-mark) is orchestrator's judgement.
+   - **Repair flagged diagrams by re-instantiating the correct
+     [template](tikz-templates.md)** — do not hand-nudge coordinates. Then re-shoot and
+     re-gate the repaired skills only, until clean. This gate is why geometry topics
+     (`ang`, `dat`, `pyt`, area/volume/geometry) get a diagram pass before human review.
+7. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
+8. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
+   include** every `anchor: none` skill, every checker-triggered regenerated skill, and (for
+   TikZ batches) any diagram the vision gate flagged, in the sample set.
+9. **Update the queue.** Record per-batch status, the review-sample ids, any `anchor: none`
+   gaps, and the visual-gate result (clean / N repaired) in `docs/content-queue.md`. Do
+   **not** commit — leave that to the human.
 
 ---
 
@@ -275,5 +317,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Schema-exact.** [content-schema.md](content-schema.md) is the contract; validate clean.
 - **Single skill per file.** Prereqs only in service; no cross-topic mixing.
 - **Every distractor is a named misconception** with a specific `why`.
+- **Diagrams start from a [template](tikz-templates.md)**; degrees are `^{\circ}`.
+- **TikZ batches pass the visual gate** (`shoot-tikz.mjs` → vision workflow) before human review.
 - **Byte-for-byte theory** for stage-3 skills that already have a content file.
 - **One batch per session**; statuses updated by the orchestrator; do not commit.
