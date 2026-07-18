@@ -1,0 +1,130 @@
+{
+  "skillId": "apply-pattern-equation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55] \\foreach \\sx/\\n in {0/1,3.1/2,7.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[very thick,orange] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} \\draw[very thick,orange] (\\k,0)--(\\k,1); \\node at ({0.5*\\n},-0.42) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis matchstick pattern of squares has the equation $y = 3x + 1$, where $x$ is the number of squares and $y$ is the number of matchsticks. How many matchsticks are needed for $25$ squares?",
+      "structure": "forward-substitution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$76$",
+          "correct": true
+        },
+        {
+          "text": "$75$",
+          "why": "Multiplied by $3$ but forgot to add the fixed $1$."
+        },
+        {
+          "text": "$78$",
+          "why": "Added $1$ to $25$ before multiplying instead of after: $3(26)$."
+        },
+        {
+          "text": "$26$",
+          "why": "Added $1$ to $25$ instead of multiplying by $3$ first."
+        }
+      ],
+      "solution_text": "$y = 3x + 1$\n$= 3(25) + 1$\n$= 76$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.52] \\foreach \\sx/\\n in {0/1,3.3/2,7.7/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[fill=brown!35] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} { \\draw (\\k,0)--(\\k,1); \\fill[red!70] ({\\k-0.5},1.28) circle (0.13); \\fill[red!70] ({\\k-0.5},-0.28) circle (0.13); } \\foreach \\yy in {0.25,0.75} { \\fill[red!70] (-0.28,\\yy) circle (0.13); \\fill[red!70] ({\\n+0.28},\\yy) circle (0.13); } \\node at ({0.5*\\n},-0.72) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis table pattern has the equation $y = 2x + 4$, where $x$ is the number of tables and $y$ is the number of chairs. How many tables are needed for $40$ chairs?",
+      "structure": "reverse-solve",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$18$",
+          "correct": true
+        },
+        {
+          "text": "$20$",
+          "why": "Divided the total by $2$ without first removing the fixed $4$."
+        },
+        {
+          "text": "$22$",
+          "why": "Added the fixed $4$ instead of subtracting it before dividing."
+        },
+        {
+          "text": "$36$",
+          "why": "Subtracted $4$ but forgot to divide by $2$."
+        }
+      ],
+      "solution_text": "$2x + 4 = 40$\n$2x = 36$\n$x = 18$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.5/2,7.6/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\c in {0,...,2} { \\foreach \\r in {0,...,2} \\fill[orange] ({-1.15+0.38*\\c},{0.38*\\r}) circle (0.1); } \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,2} \\fill[blue!65] ({0.42*(\\k-1)}, {0.38*\\r}) circle (0.1); } \\node at ({-0.35+0.21*(\\n-1)},-0.45) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis counter pattern has the equation $y = 3x + 9$, where $x$ is the stage number and $y$ is the total number of counters. Which stage has $45$ counters?",
+      "structure": "reverse-solve",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12$",
+          "correct": true
+        },
+        {
+          "text": "$15$",
+          "why": "Divided by $3$ without first subtracting the fixed $9$."
+        },
+        {
+          "text": "$18$",
+          "why": "Added the fixed $9$ instead of subtracting it before dividing."
+        },
+        {
+          "text": "$36$",
+          "why": "Subtracted $9$ but forgot to divide by $3$."
+        }
+      ],
+      "solution_text": "$3x + 9 = 45$\n$3x = 36$\n$x = 12$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.52] \\foreach \\sx/\\n in {0/1,3.3/2,7.7/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[fill=brown!35] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} { \\draw (\\k,0)--(\\k,1); \\fill[red!70] ({\\k-0.5},1.28) circle (0.13); \\fill[red!70] ({\\k-0.5},-0.28) circle (0.13); } \\foreach \\yy in {0.25,0.75} { \\fill[red!70] (-0.28,\\yy) circle (0.13); \\fill[red!70] ({\\n+0.28},\\yy) circle (0.13); } \\node at ({0.5*\\n},-0.72) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nA row of tables follows the equation $y = 2x + 4$, where $x$ is the number of tables and $y$ is the number of chairs. Can exactly $63$ chairs be arranged in one row?",
+      "structure": "feasibility",
+      "mastery": true,
+      "options": [
+        {
+          "text": "No — solving gives $x = 29.5$, which is not a whole number of tables.",
+          "correct": true
+        },
+        {
+          "text": "Yes — $29$ tables.",
+          "why": "Rounded $29.5$ down to force a whole-number answer instead of rejecting it."
+        },
+        {
+          "text": "Yes — $30$ tables.",
+          "why": "Rounded up; $30$ tables give $2(30)+4=64$ chairs, not $63$."
+        },
+        {
+          "text": "Yes — $29.5$ tables.",
+          "why": "Solved for $x$ but ignored that the number of tables must be a whole number."
+        }
+      ],
+      "solution_text": "$2x + 4 = 63$\n$2x = 59$\n$x = 29.5$\nSince $29.5$ is not a whole number, exactly $63$ chairs is not possible."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,3} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\fill[orange] ({0.52*\\n+0.2},0.42) circle (0.12); \\fill[orange] ({0.52*\\n+0.2},0.84) circle (0.12); \\node at ({0.26*(\\n-1)+0.2},-0.45) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nA counter pattern has the equation $y = 4x + 2$, where $x$ is the stage number and $y$ is the total number of counters. Which stage uses exactly $202$ counters?",
+      "structure": "feasibility",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Stage $50$",
+          "correct": true
+        },
+        {
+          "text": "Stage $51$",
+          "why": "Added the fixed $2$ instead of subtracting it: $(202+2)\\div4$."
+        },
+        {
+          "text": "Stage $100$",
+          "why": "Divided by $2$ instead of the coefficient $4$ after subtracting: $200\\div2$."
+        },
+        {
+          "text": "Stage $200$",
+          "why": "Subtracted the fixed $2$ but forgot to divide by $4$."
+        }
+      ],
+      "solution_text": "$4x + 2 = 202$\n$4x = 200$\n$x = 50$\nIt is stage $50$."
+    }
+  ]
+}

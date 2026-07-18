@@ -1,0 +1,155 @@
+{
+  "skillId": "plot-points-cartesian",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What are the coordinates of point $F$? Each small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-2.5,-1.5) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (-2.5,-1.5) {$F$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-noninteger-point",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(-2.5, -1.5)$",
+          "correct": true
+        },
+        {
+          "text": "$(-1.5, -2.5)$",
+          "why": "Read the vertical distance as the first coordinate, swapping $x$ and $y$."
+        },
+        {
+          "text": "$(-2, -1)$",
+          "why": "Ignored the half-gridlines and rounded each coordinate toward the origin."
+        },
+        {
+          "text": "$(-2.5, 1.5)$",
+          "why": "Read the point as above the origin instead of below, giving the wrong $y$-sign."
+        }
+      ],
+      "solution_text": "$F$ is $2.5$ units left and $1.5$ units down.\n$(-2.5, -1.5)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "To plot the point $(-1.5, 3)$, start at the origin and move:",
+      "structure": "plot-directions",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1.5$ left, then $3$ up",
+          "correct": true
+        },
+        {
+          "text": "$3$ left, then $1.5$ up",
+          "why": "Used the $y$-coordinate for the horizontal move, reading the pair in the wrong order."
+        },
+        {
+          "text": "$1.5$ right, then $3$ up",
+          "why": "Treated the negative $x$-coordinate as a move to the right."
+        },
+        {
+          "text": "$1.5$ left, then $3$ down",
+          "why": "Treated the positive $y$-coordinate as a downward move."
+        }
+      ],
+      "solution_text": "$x = -1.5$ means $1.5$ left; $y = 3$ means $3$ up.\n$1.5$ left, then $3$ up"
+    },
+    {
+      "id": "q3",
+      "question_text": "What are the coordinates of point $K$ on the $x$-axis? Each small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (2.5,0) circle (2.2pt);\n\\node[above,font=\\footnotesize] at (2.5,0.15) {$K$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "point-on-axis",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(2.5, 0)$",
+          "correct": true
+        },
+        {
+          "text": "$(0, 2.5)$",
+          "why": "Swapped the pair; a point on the $x$-axis has $y = 0$, not $x = 0$."
+        },
+        {
+          "text": "$(2, 0)$",
+          "why": "Rounded the half-gridline position to the nearest whole unit."
+        },
+        {
+          "text": "$(2.5, 1)$",
+          "why": "Counted the $x$-axis itself as one unit up instead of using $y = 0$."
+        }
+      ],
+      "solution_text": "$K$ is on the $x$-axis, so $y = 0$; its $x$-value is halfway between $2$ and $3$.\n$(2.5, 0)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "What do points $P$ and $Q$ have in common about their positions?\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-3,1) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (-3,1) {$P$};\n\\fill (-3,-2) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (-3,-2) {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "aligned-points",
+      "mastery": false,
+      "options": [
+        {
+          "text": "They have the same $x$-coordinate, so they lie on the same vertical line.",
+          "correct": true
+        },
+        {
+          "text": "They have the same $y$-coordinate, so they lie on the same horizontal line.",
+          "why": "Confused the axes; a shared $x$-value gives a vertical line, not a horizontal one."
+        },
+        {
+          "text": "They are reflections of each other across the $x$-axis.",
+          "why": "Reflection across the $x$-axis needs opposite $y$-values of equal size, but $1$ and $-2$ are not opposites."
+        },
+        {
+          "text": "They both lie on the $y$-axis.",
+          "why": "Both points are at $x = -3$, well left of the $y$-axis, not on it."
+        }
+      ],
+      "solution_text": "$P = (-3, 1)$ and $Q = (-3, -2)$; both have $x = -3$.\nThey have the same $x$-coordinate, so they lie on the same vertical line."
+    },
+    {
+      "id": "q5",
+      "question_text": "$P$, $Q$ and $R$ are three vertices of a rectangle with sides parallel to the axes. What are the coordinates of the fourth vertex $S$? Each small square is $0.5$ of a unit.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[step=0.5,gray!18] (-4,-4) grid (4,4);\n\\draw[step=1,gray!40] (-4,-4) grid (4,4);\n\\draw[<->,thick] (-4.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->,thick] (0,-4.4)--(0,4.4) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-4,-3,-2,-1,1,2,3,4} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[thick] (-2,2)--(1.5,2)--(1.5,-1);\n\\fill (-2,2) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (-2,2) {$P$};\n\\fill (1.5,2) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (1.5,2) {$Q$};\n\\fill (1.5,-1) circle (2.2pt);\n\\node[below right,font=\\footnotesize] at (1.5,-1) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rectangle-vertex",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-2, -1)$",
+          "correct": true
+        },
+        {
+          "text": "$(-1, -2)$",
+          "why": "Swapped the two coordinates of the fourth vertex."
+        },
+        {
+          "text": "$(1.5, -1)$",
+          "why": "Repeated $R$'s $x$-value; $S$ should share $P$'s $x$-value of $-2$."
+        },
+        {
+          "text": "$(-2, 2)$",
+          "why": "Repeated $P$'s $y$-value; $S$ should share $R$'s $y$-value of $-1$."
+        }
+      ],
+      "solution_text": "$S$ shares $P$'s $x$-value ($-2$) and $R$'s $y$-value ($-1$).\n$(-2, -1)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A point lies $3$ units left of the origin and $4$ units up. Which coordinates are correct?",
+      "structure": "diagnose-coordinates",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-3, 4)$",
+          "correct": true
+        },
+        {
+          "text": "$(4, -3)$",
+          "why": "Wrote the vertical distance first and horizontal second, swapping the pair and its signs."
+        },
+        {
+          "text": "$(3, 4)$",
+          "why": "Recorded 'left' as a positive $x$-coordinate instead of negative."
+        },
+        {
+          "text": "$(-4, 3)$",
+          "why": "Swapped the two values while keeping the horizontal sign negative."
+        }
+      ],
+      "solution_text": "Left of the origin gives $x = -3$; up gives $y = 4$.\n$(-3, 4)$"
+    }
+  ]
+}

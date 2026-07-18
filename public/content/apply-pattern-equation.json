@@ -1,0 +1,78 @@
+{
+  "skillId": "apply-pattern-equation",
+  "atomType": "R",
+  "theory": {
+    "intro": "Once a pattern has an equation, you can use it to find values for any number without drawing out the whole pattern. Substitute the value you know and work out the one you want.",
+    "facts": [
+      "The equation links $x$ (the stage number or number of shapes) and $y$ (the total).",
+      "To find $y$ from $x$: **substitute** the $x$-value and evaluate.",
+      "To find $x$ from $y$: substitute the $y$-value and **solve** the equation.",
+      "Because $x$ counts whole shapes or stages, it must be a **whole number** — a non-whole answer means that total is not possible."
+    ],
+    "steps": [
+      "Decide whether $x$ or $y$ is given.",
+      "Substitute the known value into the equation.",
+      "Evaluate or solve for the unknown."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55] \\foreach \\sx/\\n in {0/1,3.1/2,7.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[very thick,orange] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} \\draw[very thick,orange] (\\k,0)--(\\k,1); \\node at ({0.5*\\n},-0.42) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis matchstick pattern of squares has the equation $y = 3x + 1$, where $x$ is the number of squares and $y$ is the number of matchsticks. How many matchsticks are needed to make $20$ squares?",
+        "solution_text": "$y = 3x + 1$\n$= 3(20) + 1$\n$= 61$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,3} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\fill[orange] ({0.52*\\n+0.2},0.42) circle (0.12); \\fill[orange] ({0.52*\\n+0.2},0.84) circle (0.12); \\node at ({0.26*(\\n-1)+0.2},-0.45) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis counter pattern has the equation $y = 4x + 2$, where $x$ is the stage number and $y$ is the total number of counters. How many counters are in stage $15$?",
+        "solution_text": "$y = 4x + 2$\n$= 4(15) + 2$\n$= 62$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.52] \\foreach \\sx/\\n in {0/1,3.3/2,7.7/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[fill=brown!35] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} { \\draw (\\k,0)--(\\k,1); \\fill[red!70] ({\\k-0.5},1.28) circle (0.13); \\fill[red!70] ({\\k-0.5},-0.28) circle (0.13); } \\foreach \\yy in {0.25,0.75} { \\fill[red!70] (-0.28,\\yy) circle (0.13); \\fill[red!70] ({\\n+0.28},\\yy) circle (0.13); } \\node at ({0.5*\\n},-0.72) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nFor this row of tables, the equation is $y = 2x + 4$, where $x$ is the number of tables and $y$ is the number of chairs. How many chairs are needed for $25$ tables?",
+        "solution_text": "$y = 2x + 4$\n$= 2(25) + 4$\n$= 54$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.6/2,8.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\b in {1,...,\\n} { \\begin{scope}[shift={({1.35*(\\b-1)},0.85)}] \\draw[gray] (90:0.48) -- (18:0.48) -- (-54:0.48) -- (-126:0.48) -- (162:0.48) -- cycle; \\foreach \\a in {90,18,-54,-126,162} \\fill[blue!65] (\\a:0.48) circle (0.11); \\end{scope} } \\node at ({0.675*(\\n-1)},-0.15) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis bracelet pattern has the equation $y = 5x$, where $x$ is the number of bracelets and $y$ is the number of beads. How many beads are used for $14$ bracelets?",
+        "solution_text": "$y = 5x$\n$= 5(14)$\n$= 70$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,5} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\node at ({0.26*(\\n-1)},-0.5) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThis counter pattern has the equation $y = 6x$, where $x$ is the stage number and $y$ is the total number of counters. How many counters are in stage $11$?",
+        "solution_text": "$y = 6x$\n$= 6(11)$\n$= 66$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55] \\foreach \\sx/\\n in {0/1,3.1/2,7.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[very thick,orange] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} \\draw[very thick,orange] (\\k,0)--(\\k,1); \\node at ({0.5*\\n},-0.42) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe square pattern has the equation $y = 3x + 1$, where $x$ is the number of squares and $y$ is the number of matchsticks. How many squares can be made with $46$ matchsticks?",
+        "solution_text": "$3x + 1 = 46$\n$3x = 45$\n$x = 15$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.52] \\foreach \\sx/\\n in {0/1,3.3/2,7.7/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[fill=brown!35] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} { \\draw (\\k,0)--(\\k,1); \\fill[red!70] ({\\k-0.5},1.28) circle (0.13); \\fill[red!70] ({\\k-0.5},-0.28) circle (0.13); } \\foreach \\yy in {0.25,0.75} { \\fill[red!70] (-0.28,\\yy) circle (0.13); \\fill[red!70] ({\\n+0.28},\\yy) circle (0.13); } \\node at ({0.5*\\n},-0.72) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe table pattern has the equation $y = 2x + 4$, where $x$ is the number of tables and $y$ is the number of chairs. How many tables are needed for $40$ chairs?",
+        "solution_text": "$2x + 4 = 40$\n$2x = 36$\n$x = 18$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.6/2,8.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\b in {1,...,\\n} { \\begin{scope}[shift={({1.35*(\\b-1)},0.85)}] \\draw[gray] (90:0.48) -- (18:0.48) -- (-54:0.48) -- (-126:0.48) -- (162:0.48) -- cycle; \\foreach \\a in {90,18,-54,-126,162} \\fill[blue!65] (\\a:0.48) circle (0.11); \\end{scope} } \\node at ({0.675*(\\n-1)},-0.15) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe bracelet pattern has the equation $y = 5x$, where $x$ is the number of bracelets and $y$ is the number of beads. How many bracelets use $85$ beads?",
+        "solution_text": "$5x = 85$\n$x = 17$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,3} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\fill[orange] ({0.52*\\n+0.2},0.42) circle (0.12); \\fill[orange] ({0.52*\\n+0.2},0.84) circle (0.12); \\node at ({0.26*(\\n-1)+0.2},-0.45) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe counter pattern has the equation $y = 4x + 2$, where $x$ is the stage number and $y$ is the total number of counters. Which stage has $50$ counters?",
+        "solution_text": "$4x + 2 = 50$\n$4x = 48$\n$x = 12$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,5} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\node at ({0.26*(\\n-1)},-0.5) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe counter pattern has the equation $y = 6x$, where $x$ is the stage number and $y$ is the total number of counters. Which stage has $90$ counters?",
+        "solution_text": "$6x = 90$\n$x = 15$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55] \\foreach \\sx/\\n in {0/1,3.1/2,7.2/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[very thick,orange] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} \\draw[very thick,orange] (\\k,0)--(\\k,1); \\node at ({0.5*\\n},-0.42) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe square pattern has the equation $y = 3x + 1$, where $x$ is the number of squares and $y$ is the number of matchsticks. Is it possible to build a stage of this pattern using exactly $101$ matchsticks? Justify your answer.",
+        "solution_text": "$3x + 1 = 101$\n$3x = 100$\n$x = \\frac{100}{3}$\nSince $\\frac{100}{3}$ is not a whole number, exactly $101$ matchsticks is not possible."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5] \\foreach \\sx/\\n in {0/1,3.4/2,7.5/3} { \\begin{scope}[shift={(\\sx,0)}] \\foreach \\k in {1,...,\\n} { \\foreach \\r in {0,...,3} \\fill[blue!65] ({0.52*(\\k-1)}, {0.42*\\r}) circle (0.12); } \\fill[orange] ({0.52*\\n+0.2},0.42) circle (0.12); \\fill[orange] ({0.52*\\n+0.2},0.84) circle (0.12); \\node at ({0.26*(\\n-1)+0.2},-0.45) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe counter pattern has the equation $y = 4x + 2$, where $x$ is the stage number and $y$ is the total number of counters. Is it possible to have a stage with exactly $202$ counters? If so, which stage?",
+        "solution_text": "$4x + 2 = 202$\n$4x = 200$\n$x = 50$\n$50$ is a whole number, so yes — it is stage $50$."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.52] \\foreach \\sx/\\n in {0/1,3.3/2,7.7/3} { \\begin{scope}[shift={(\\sx,0)}] \\draw[fill=brown!35] (0,0) rectangle (\\n,1); \\foreach \\k in {1,...,\\n} { \\draw (\\k,0)--(\\k,1); \\fill[red!70] ({\\k-0.5},1.28) circle (0.13); \\fill[red!70] ({\\k-0.5},-0.28) circle (0.13); } \\foreach \\yy in {0.25,0.75} { \\fill[red!70] (-0.28,\\yy) circle (0.13); \\fill[red!70] ({\\n+0.28},\\yy) circle (0.13); } \\node at ({0.5*\\n},-0.72) {$\\text{Stage }\\n$}; \\end{scope} } \\end{tikzpicture}\n[/tikz]\nThe table pattern has the equation $y = 2x + 4$, where $x$ is the number of tables and $y$ is the number of chairs. Can exactly $63$ chairs be arranged in one row of this pattern? Justify your answer.",
+        "solution_text": "$2x + 4 = 63$\n$2x = 59$\n$x = 29.5$\nSince $29.5$ is not a whole number, exactly $63$ chairs is not possible."
+      }
+    ]
+  }
+}

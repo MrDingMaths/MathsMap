@@ -1,0 +1,83 @@
+{
+  "skillId": "graph-linear-relationship",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which point lies on the graph of $y = 2x + 1$?",
+      "structure": "point-increasing-line",
+      "mastery": false,
+      "options": [
+        { "text": "$(3,7)$", "correct": true },
+        { "text": "$(3,6)$", "why": "Worked out $2\\times3=6$ but forgot to add the $+1$." },
+        { "text": "$(3,4)$", "why": "Added the coefficient to $x$ as $3+1$ instead of multiplying by it." },
+        { "text": "$(7,3)$", "why": "Found the values but wrote the coordinate as $(y,x)$ instead of $(x,y)$." }
+      ],
+      "solution_text": "$y=2(3)+1$\n$=7$\n$(3,7)$ lies on the line."
+    },
+    {
+      "id": "q2",
+      "question_text": "Which point lies on the graph of $y = -2x - 1$?",
+      "structure": "point-decreasing-line",
+      "mastery": false,
+      "options": [
+        { "text": "$(1,-3)$", "correct": true },
+        { "text": "$(1,1)$", "why": "Ignored the negative signs and computed $2\\times1-1=1$." },
+        { "text": "$(1,-1)$", "why": "Dropped the $-2x$ term and kept only the constant $-1$." },
+        { "text": "$(1,3)$", "why": "Used $2x+1$, reversing the sign of both terms in the equation." }
+      ],
+      "solution_text": "$y=-2(1)-1$\n$=-3$\n$(1,-3)$ lies on the line."
+    },
+    {
+      "id": "q3",
+      "question_text": "The line $y = \\frac{1}{2}x + 1$ passes through $(0,1)$. Which other point also lies on it?",
+      "structure": "point-fractional-gradient",
+      "mastery": false,
+      "options": [
+        { "text": "$(4,3)$", "correct": true },
+        { "text": "$(4,2)$", "why": "Worked out $\\frac{1}{2}\\times4=2$ but forgot to add the $+1$." },
+        { "text": "$(4,5)$", "why": "Ignored the $\\frac{1}{2}$ and computed $4+1$." },
+        { "text": "$(4,2.5)$", "why": "Halved after adding, computing $\\frac{1}{2}(4+1)$ instead of $\\frac{1}{2}(4)+1$." }
+      ],
+      "solution_text": "$y=\\frac{1}{2}(4)+1$\n$=3$\n$(4,3)$ lies on the line."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-1,ymax=9,xtick={-1,0,1,2,3,4,5},ytick={-1,1,3,5,7,9},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.7:3.9,samples=2] {2*x+1};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,1) (1,3) (2,5) (3,7)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nWhich equation matches the line shown?",
+      "structure": "match-equation-to-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$y = 2x + 1$", "correct": true },
+        { "text": "$y = x + 1$", "why": "Read the gradient as $1$; the line actually rises $2$ for each $1$ across." },
+        { "text": "$y = 2x - 1$", "why": "Misread the $y$-intercept as $-1$; the line crosses the $y$-axis at $+1$." },
+        { "text": "$y = 3x + 1$", "why": "Counted the rise as $3$ instead of $2$ for each step across." }
+      ],
+      "solution_text": "The line crosses the $y$-axis at $(0,1)$, so $c=1$.\nFrom $(0,1)$ to $(1,3)$ it rises $2$ across $1$, so $m=2$.\n$y=2x+1$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.4cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-1,ymax=5,xtick={-1,0,1,2,3,4,5},ytick={-1,0,1,2,3,4,5},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-0.7:4.7,samples=2] {-x+4};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,4) (1,3) (2,2) (3,1) (4,0)};\\end{axis}\\end{tikzpicture}\n[/tikz]\nWhich equation matches the line shown?",
+      "structure": "match-equation-to-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$y = -x + 4$", "correct": true },
+        { "text": "$y = x + 4$", "why": "Missed that the line falls from left to right, which needs a negative gradient." },
+        { "text": "$y = -x - 4$", "why": "Misread the $y$-intercept as $-4$; the line crosses the $y$-axis at $+4$." },
+        { "text": "$y = x - 4$", "why": "Reversed both the gradient sign and the intercept sign." }
+      ],
+      "solution_text": "The line crosses the $y$-axis at $(0,4)$, so $c=4$.\nFrom $(0,4)$ to $(1,3)$ it falls $1$ across $1$, so $m=-1$.\n$y=-x+4$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.4cm,height=5.8cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=5,ymin=-1,ymax=8,xtick={-1,0,1,2,3,4,5},ytick={-1,1,3,5,7},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue,<->,domain=-0.7:4.7,samples=2] {x+1};\\addplot[only marks,blue,mark=*,mark size=1.6pt] coordinates {(0,1) (1,2) (2,3) (3,4)};\\addplot[thick,red,dashed,<->,domain=-0.7:3.5,samples=2] {2*x+1};\\addplot[only marks,red,mark=*,mark size=1.6pt] coordinates {(0,1) (1,3) (2,5) (3,7)};\\node[red] at (axis cs:1.5,6.6) {$y=2x+1$};\\node[blue] at (axis cs:4.1,3.3) {$y=x+1$};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe lines $y = x + 1$ and $y = 2x + 1$ are graphed on the same axes. Which statement is correct?",
+      "structure": "compare-two-lines",
+      "mastery": true,
+      "options": [
+        { "text": "Both lines pass through $(0,1)$, and $y = 2x + 1$ is the steeper line.", "correct": true },
+        { "text": "The lines are parallel because they meet the $y$-axis at the same point.", "why": "A shared $y$-intercept does not make lines parallel; parallel lines have equal steepness and never meet." },
+        { "text": "The line $y = x + 1$ is steeper because its equation is listed first.", "why": "Steepness is read from the coefficient of $x$, not the order the equations are written." },
+        { "text": "The two lines never cross each other.", "why": "The graphs clearly meet at $(0,1)$; only lines with equal gradients never cross." }
+      ],
+      "solution_text": "Both lines cross the $y$-axis at $(0,1)$.\n$y=2x+1$ rises $2$ for each $1$ across, while $y=x+1$ rises $1$, so $y=2x+1$ is steeper."
+    }
+  ]
+}

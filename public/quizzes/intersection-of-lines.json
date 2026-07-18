@@ -1,0 +1,130 @@
+{
+  "skillId": "intersection-of-lines",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=7,ymin=-4,ymax=8,xtick={-2,-1,...,7},ytick={-3,-1,...,7},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue!70!black,<->,domain=-1.8:6.8,samples=2] {x-2};\\addplot[thick,red!75!black,dashed,<->,domain=-1.8:6.8,samples=2] {-x+6};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe graph shows $y=x-2$ and $y=-x+6$. What is their point of intersection?",
+      "structure": "read-intersection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(4,2)$",
+          "correct": true
+        },
+        {
+          "text": "$(2,4)$",
+          "why": "Read the $y$-value before the $x$-value, reversing the coordinate order."
+        },
+        {
+          "text": "$(0,6)$",
+          "why": "Read the $y$-intercept of $y=-x+6$ instead of where the two lines cross."
+        },
+        {
+          "text": "$(0,-2)$",
+          "why": "Read the $y$-intercept of $y=x-2$ instead of the shared point."
+        }
+      ],
+      "solution_text": "$(x,y)=(4,2)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=5,ymin=-3,ymax=9,xtick={-2,-1,...,5},ytick={-3,-1,...,9},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue!70!black,<->,domain=-0.4:3.2,samples=2] {3*x-1};\\addplot[thick,red!75!black,dashed,<->,domain=-1.8:4.8,samples=2] {-x+7};\\addplot[only marks,mark=*,mark size=2.5pt] coordinates {(2,5)};\\node[above right,fill=white,inner sep=1pt] at (axis cs:2,5) {$(2,5)$};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe graph shows $y=3x-1$ and $y=-x+7$ crossing at $(2,5)$. Which check confirms $(2,5)$ is the point of intersection?",
+      "structure": "verify-point",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3(2)-1=5$ and $-2+7=5$",
+          "correct": true
+        },
+        {
+          "text": "$3(5)-1=14$ and $-5+7=2$",
+          "why": "Substituted the $y$-value $5$ for $x$ instead of using $x=2$."
+        },
+        {
+          "text": "$3(2)-1=5$ only",
+          "why": "Checked just one equation; the point must satisfy both lines."
+        },
+        {
+          "text": "$3(2)+1=7$ and $-2+7=5$",
+          "why": "Changed the $-1$ to $+1$ in the first equation when substituting."
+        }
+      ],
+      "solution_text": "$3(2)-1=5$\n$-2+7=5$\n$(2,5)$ satisfies both equations."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=5,ymin=-5,ymax=9,xtick={-2,-1,...,5},ytick={-5,-3,...,9},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue!70!black,<->,domain=-1.8:4.8,samples=2] {x+2} node[pos=0.92,right,text=blue!70!black] {$A$};\\addplot[thick,red!75!black,dashed,<->,domain=0.4:4.4,samples=2] {-2*x+8} node[pos=0.08,above,text=red!75!black] {$B$};\\addplot[thick,green!50!black,dotted,<->,domain=0.1:3.6,samples=2] {3*x-4} node[pos=0.92,right,text=green!50!black] {$C$};\\end{axis}\\end{tikzpicture}\n[/tikz]\nLines $A:y=x+2$, $B:y=-2x+8$ and $C:y=3x-4$ are shown. What is the point of intersection of lines $A$ and $B$?",
+      "structure": "choose-pair",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(2,4)$",
+          "correct": true
+        },
+        {
+          "text": "$(3,5)$",
+          "why": "Read where $A$ crosses $C$ instead of where $A$ crosses $B$."
+        },
+        {
+          "text": "$(4,2)$",
+          "why": "Located the crossing of $A$ and $B$ but reversed its coordinates."
+        },
+        {
+          "text": "$(0,8)$",
+          "why": "Read line $B$'s $y$-intercept instead of the crossing of $A$ and $B$."
+        }
+      ],
+      "solution_text": "$(x,y)=(2,4)$\n$A:\\quad 2+2=4$\n$B:\\quad -2(2)+8=4$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3,xmax=4,ymin=-6,ymax=8,xtick={-3,-2,...,4},ytick={-5,-3,...,7},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue!70!black,<->,domain=-2.8:3.2,samples=2] {2*x+1};\\addplot[thick,red!75!black,dashed,<->,domain=-1.4:3.8,samples=2] {2*x-3};\\end{axis}\\end{tikzpicture}\n[/tikz]\nThe graph shows $y=2x+1$ and $y=2x-3$. What is their point of intersection?",
+      "structure": "parallel-no-solution",
+      "mastery": true,
+      "options": [
+        {
+          "text": "There is none: the lines have the same gradient $2$, so they are parallel and never cross.",
+          "correct": true
+        },
+        {
+          "text": "$(0,1)$, where the upper line meets the $y$-axis.",
+          "why": "A $y$-intercept is where one line meets an axis, not where two lines cross; parallel lines share no point."
+        },
+        {
+          "text": "$(2,5)$, a point that lies on the upper line.",
+          "why": "A point on one line only is not shared by both; these parallel lines never meet."
+        },
+        {
+          "text": "$(0,-1)$, halfway between the two $y$-intercepts.",
+          "why": "The midpoint of the two intercepts is not an intersection; parallel lines never actually meet."
+        }
+      ],
+      "solution_text": "Both lines have gradient $2$.\nEqual gradients means the lines are parallel.\nThere is no point of intersection: parallel lines never meet."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=5.6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=3,ymin=-3,ymax=6,xtick={-4,-3,...,3},ytick={-3,-1,...,5},minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,blue!70!black,<->,domain=-3.8:2.4,samples=2] {x+3};\\addplot[thick,red!75!black,dashed,<->,domain=-3.8:2.4,samples=2] {-x+1};\\addplot[only marks,mark=x,mark size=4pt] coordinates {(1,4)};\\node[above right,fill=white,inner sep=1pt] at (axis cs:1,4) {$(1,4)$};\\end{axis}\\end{tikzpicture}\n[/tikz]\nA learner marks $(1,4)$ as the intersection of $y=x+3$ and $y=-x+1$ because $(1,4)$ lies on $y=x+3$. What is the correct point of intersection?",
+      "structure": "one-line-only-claim",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-1,2)$",
+          "correct": true
+        },
+        {
+          "text": "$(1,4)$",
+          "why": "Only checked $y=x+3$; the point fails $y=-x+1$ because $-1+1=0\\ne4$."
+        },
+        {
+          "text": "$(2,-1)$",
+          "why": "Found the correct crossing but swapped its $x$- and $y$-coordinates."
+        },
+        {
+          "text": "$(0,1)$",
+          "why": "Read the second line's $y$-intercept instead of where the lines cross."
+        }
+      ],
+      "solution_text": "$1+3=4$\n$-(1)+1=0\\ne4$\n$(x,y)=(-1,2)$\n$-1+3=2$\n$-(-1)+1=2$\nThe intersection is $(-1,2)$."
+    }
+  ]
+}
