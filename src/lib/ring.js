@@ -8,10 +8,11 @@
 // green mastered) to get adjacent-looking bands.
 
 const SIZE = 40;
-const STROKE = 4;
+const STROKE = 5;
 const R = (SIZE - STROKE) / 2; // 18
 const CX = SIZE / 2;
 const C = 2 * Math.PI * R; // circumference
+const cache = new Map();
 
 // One stroked arc, starting at the top (rotated -90°), covering `pct` of the ring.
 function arc(pct, color) {
@@ -31,6 +32,8 @@ function arc(pct, color) {
  * @param {boolean} [opts.full]    100% mastered → solid ring + check mark
  */
 export function ringSvg({ track, segments = [], full = false }) {
+  const key = `${track}|${full ? 1 : 0}|${segments.map((s) => `${s.pct}:${s.color}`).join(',')}`;
+  if (cache.has(key)) return cache.get(key);
   const trackCircle =
     `<circle cx="${CX}" cy="${CX}" r="${R}" fill="none" stroke="${track}" stroke-width="${STROKE}"/>`;
 
@@ -50,8 +53,10 @@ export function ringSvg({ track, segments = [], full = false }) {
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" ` +
     `viewBox="0 0 ${SIZE} ${SIZE}">${body}</svg>`;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  const uri = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  cache.set(key, uri);
+  return uri;
 }
 
 // Theme-aware track colour for the unfilled portion of the ring.
-export const trackColour = (isDark) => (isDark ? '#475569' : '#d9e0ea');
+export const trackColour = (isDark) => (isDark ? '#64748b' : '#c2ccd8');

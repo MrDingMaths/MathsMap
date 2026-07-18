@@ -19,10 +19,10 @@ export const RANK_SEP = 200;
 
 // Approximate rendered width of a node's label chip, so same-row neighbours can be
 // spaced far enough apart that chips never overlap. Must stay in sync with the
-// .node-label CSS in Map.svelte: max-width 130px, width: max-content, padding
-// 2px 7px (14px horizontal), 15px system font (~7.2px per character on average).
-const CHIP_MAX_TEXT = 130;
-const CHIP_PAD = 14;
+// .node-label CSS in Map.svelte: max-width 150px, width: max-content, padding
+// 4px 8px (16px horizontal), 15px system font (~7.2px per character on average).
+const CHIP_MAX_TEXT = 150;
+const CHIP_PAD = 16;
 const CHIP_PX_PER_CHAR = 7.2;
 export function estimateChipWidth(text) {
   const len = (text || '').length;
@@ -32,16 +32,16 @@ export function estimateChipWidth(text) {
 // Subtle background tints + label colour per strand, for dark and light themes.
 const BAND_STYLE = {
   dark: {
-    'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.05)',  text: 'rgba(148, 196, 224, 0.7)' },
-    'Measurement & Space':   { fill: 'rgba(168, 247, 148, 0.05)', text: 'rgba(170, 210, 150, 0.7)' },
-    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.05)', text: 'rgba(220, 180, 130, 0.7)' },
-    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.06)',  text: 'rgba(192, 160, 230, 0.7)' }
+    'Number & Algebra':      { fill: 'rgba(56, 189, 248, 0.075)',  text: 'rgba(164, 213, 240, 0.86)' },
+    'Measurement & Space':   { fill: 'rgba(168, 247, 148, 0.075)', text: 'rgba(184, 224, 166, 0.86)' },
+    'Statistics & Probability': { fill: 'rgba(244, 159, 11, 0.075)', text: 'rgba(235, 197, 146, 0.86)' },
+    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.08)',  text: 'rgba(207, 180, 240, 0.86)' }
   },
   light: {
-    'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.07)',   text: 'rgba(2, 100, 160, 0.75)' },
-    'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.07)',   text: 'rgba(20, 120, 50, 0.75)' },
-    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.07)', text: 'rgba(160, 80, 0, 0.75)' },
-    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.07)',  text: 'rgba(110, 50, 170, 0.75)' }
+    'Number & Algebra':      { fill: 'rgba(2, 132, 199, 0.09)',   text: 'rgba(2, 92, 148, 0.88)' },
+    'Measurement & Space':   { fill: 'rgba(22, 163, 74, 0.09)',   text: 'rgba(18, 108, 46, 0.88)' },
+    'Statistics & Probability': { fill: 'rgba(217, 119, 6, 0.09)', text: 'rgba(145, 72, 0, 0.88)' },
+    'Functions & Calculus':  { fill: 'rgba(147, 51, 234, 0.09)',  text: 'rgba(99, 42, 156, 0.88)' }
   }
 };
 const DEFAULT_STYLE = {
@@ -149,7 +149,7 @@ export function rankBand(nodeIds, edges) {
 export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep = 40, rankSep = RANK_SEP } = {}) {
   // Bucket nodes by band alone (not band+strand) so rankBand sees the full
   // cross-strand DAG for that band.
-  const bandNodes = new Map(); // band -> cy collection
+  const bandNodes = new Map(); // band -> node ids
   const presentStrands = new Set();
   const presentBands = new Set();
   const bandLabels = new Map();
@@ -157,12 +157,22 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
   cy.nodes().forEach((n) => {
     const strand = n.data('strand') || STRANDS[0];
     const band = n.data('band') ?? 0;
-    if (!bandNodes.has(band)) bandNodes.set(band, cy.collection());
-    bandNodes.set(band, bandNodes.get(band).union(n));
+    if (!bandNodes.has(band)) bandNodes.set(band, []);
+    bandNodes.get(band).push(n.id());
     presentStrands.add(strand);
     presentBands.add(band);
     if (!bandLabels.has(band)) bandLabels.set(band, n.data('bandLabel') || null);
     nodeById.set(n.id(), n);
+  });
+
+  const intraEdgesByBand = new Map();
+  cy.edges().forEach((e) => {
+    if (e.hasClass('cross-course')) return;
+    const sourceBand = e.source().data('band') ?? 0;
+    const targetBand = e.target().data('band') ?? 0;
+    if (sourceBand !== targetBand) return;
+    if (!intraEdgesByBand.has(sourceBand)) intraEdgesByBand.set(sourceBand, []);
+    intraEdgesByBand.get(sourceBand).push([e.data('source'), e.data('target')]);
   });
 
   // Fixed strand order for columns, then any extras; ascending band order for rows.
@@ -177,12 +187,10 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
   const orderKey = new Map(); // node id -> sortable scalar, used as "x" for barycenter of successors
 
   for (const band of rowOrder) {
-    const nodes = bandNodes.get(band);
-    const ids = nodes.map((n) => n.id());
+    const ids = bandNodes.get(band);
     // Only non-cross-course edges among this band's nodes (any strand) drive rank;
     // cross-course edges keep their bezier style and never drove layout anyway.
-    const intra = nodes.edgesWith(nodes).filter((e) => !e.hasClass('cross-course'));
-    const edgeList = intra.map((e) => [e.data('source'), e.data('target')]);
+    const edgeList = intraEdgesByBand.get(band) || [];
     const { rank, pred } = rankBand(ids, edgeList);
     for (const id of ids) nodeById.get(id).data('_rank', rank.get(id));
 
@@ -284,8 +292,6 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
     });
   }
 
-  cy.fit(undefined, 30);
-
   const lanes = colOrder
     .filter((s) => colW.has(s))
     .map((strand) => ({
@@ -312,7 +318,7 @@ export function drawBands(cy, canvas, layout, isDark = true) {
   const lanes = layout?.lanes || [];
   const rows = layout?.rows || [];
   const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
   if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
