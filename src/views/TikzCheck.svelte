@@ -3,7 +3,8 @@
   import { loadSkillContent } from '../lib/content.js';
   import { loadSkillQuiz } from '../lib/quiz.js';
   import { renderTikzCode } from '../lib/tikz.js';
-  import MathText from '../components/Math.svelte';
+  import InlineContent from '../components/InlineContent.svelte';
+  import { extractTikzBlocks, stripTikzBlocks } from '../lib/inline-content.js';
 
   // Dev-only visual diagram harness: loads every content/quiz TikZ in scope and
   // renders each into its OWN persistent card (question + expected answer beside
@@ -56,14 +57,15 @@
         if (content?.practice) {
           for (const tier of ['foundation', 'development', 'mastery']) {
             (content.practice[tier] || []).forEach((card, i) => {
-              if (card.tikz) out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].tikz`, q: card.q, a: card.a, code: card.tikz, status: 'pending' });
-              if (card.tikzSolution) out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].tikzSolution`, q: card.q, a: card.a, code: card.tikzSolution, status: 'pending' });
+              extractTikzBlocks(card.question_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].question_text[${j}]`, q: card.question_text, a: card.solution_text, code, status: 'pending' }));
+              extractTikzBlocks(card.solution_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].solution_text[${j}]`, q: card.question_text, a: card.solution_text, code, status: 'pending' }));
             });
           }
         }
         if (quiz?.questions) {
           quiz.questions.forEach((qq) => {
-            if (qq.tikz) out.push({ skillId: id, kind: 'quiz', field: `quiz ${qq.id}`, q: qq.q, a: correctText(qq), code: qq.tikz, status: 'pending' });
+            extractTikzBlocks(qq.question_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'quiz', field: `quiz ${qq.id}.question_text[${j}]`, q: qq.question_text, a: correctText(qq), code, status: 'pending' }));
+            extractTikzBlocks(qq.solution_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'quiz', field: `quiz ${qq.id}.solution_text[${j}]`, q: qq.question_text, a: correctText(qq), code, status: 'pending' }));
           });
         }
       }
@@ -163,9 +165,9 @@
             {#if it.status === 'pass'}✓{:else if it.status === 'fail'}✕{:else if i === cursor}…{:else}·{/if}
           </span>
         </div>
-        {#if it.q}<div class="q"><MathText text={it.q} /></div>{/if}
+        {#if it.q}<div class="q"><InlineContent text={stripTikzBlocks(it.q)} /></div>{/if}
         <div class="stage" bind:this={cardEls[i]}></div>
-        {#if it.a}<div class="a">answer: <MathText text={it.a} /></div>{/if}
+        {#if it.a}<div class="a">answer: <InlineContent text={stripTikzBlocks(it.a)} /></div>{/if}
         <button class="copy" onclick={() => copyCode(it.code)}>copy tikz</button>
       </article>
     {/each}

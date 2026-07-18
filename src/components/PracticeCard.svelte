@@ -1,7 +1,5 @@
 <script>
-  import MathText from './Math.svelte';
-  import Tikz from './Tikz.svelte';
-  import SolutionSteps from './SolutionSteps.svelte';
+  import InlineContent from './InlineContent.svelte';
 
   // Single flip-card: question on the front, worked solution (or final answer)
   // on the back. `flipping` also doubles as the carousel-slide "pop" trigger
@@ -20,17 +18,10 @@
      onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onFlip(); } }}>
   <div class="flip-inner">
     <div class="flip-front">
-      {#if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
-      <div class="flip-q"><MathText text={item.q} /></div>
+      <div class="flip-q"><InlineContent text={item.question_text} /></div>
     </div>
     <div class="flip-back">
-      {#if item.tikzSolution}<div class="flip-diagram"><Tikz code={item.tikzSolution} /></div>{:else if item.tikz}<div class="flip-diagram"><Tikz code={item.tikz} /></div>{/if}
-      <div class="flip-back-q"><MathText text={item.q} /></div>
-      {#if item.solution?.length}
-        <SolutionSteps solution={item.solution} />
-      {:else}
-        <div class="flip-answer"><MathText text={item.a} /></div>
-      {/if}
+      <div class="flip-answer"><InlineContent text={item.solution_text} /></div>
     </div>
   </div>
 </div>
@@ -74,9 +65,6 @@
     min-height: 5rem;
   }
   .flip-back { transform: rotateY(180deg); align-items: flex-start; justify-content: flex-start; }
-  .flip-diagram { width: 100%; display: flex; justify-content: center; overflow-x: auto; }
-  .flip-diagram :global(svg) { max-width: 100%; height: auto; }
   .flip-q { font-size: 1.05rem; text-align: center; }
-  .flip-back-q { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.65rem; color: var(--muted); }
-  .flip-answer { font-size: 1.05rem; }
+  .flip-answer { font-size: 1.02rem; width: 100%; }
 </style>

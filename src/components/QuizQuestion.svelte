@@ -1,7 +1,6 @@
 <script>
   import MathText from './Math.svelte';
-  import Tikz from './Tikz.svelte';
-  import SolutionSteps from './SolutionSteps.svelte';
+  import InlineContent from './InlineContent.svelte';
   import { mulberry32 } from '../lib/quiz-engine.js';
 
   // One question, one screen. The parent is expected to remount this component
@@ -74,8 +73,7 @@
 <svelte:window onkeydown={onKeydown} />
 
 <div class="quiz-question">
-  {#if question.tikz}<div class="qq-diagram"><Tikz code={question.tikz} /></div>{/if}
-  <div class="qq-stem"><MathText text={question.q} /></div>
+  <div class="qq-stem"><InlineContent text={question.question_text} /></div>
 
   <div class="qq-options">
     {#each shuffled as opt, i}
@@ -97,11 +95,7 @@
       {/if}
     </div>
 
-    {#if question.solution?.length}
-      <div class="qq-solution">
-        <SolutionSteps solution={question.solution} />
-      </div>
-    {/if}
+    <div class="qq-solution"><InlineContent text={question.solution_text} /></div>
 
     <button class="qq-next" onclick={next}>Next →</button>
   {/if}

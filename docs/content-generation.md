@@ -65,7 +65,7 @@ The session then:
    neighbouring atom unless it has seen what the neighbouring atoms are. Mastery-tier
    pressure is exactly what pushes questions over this line.
 6. **Each direct prerequisite's existing content file** (`public/content/{prereqId}.json`
-   where it exists) — read the `theory` and `solution` working of the prereqs for
+   where it exists) — read the `theory` and `solution_text` working of the prereqs for
    **notation and tone continuity**. New content must read as the same voice, the same
    house style, the same step-note vocabulary as the skills it builds on.
 7. **The mapped booklet section(s)** from `docs/content-queue.md` (files under
@@ -75,7 +75,7 @@ The session then:
    `booklets/Stage 4/media/<booklet-stem>/`. For any geometry/measurement/data figure —
    3D solids, labelled triangles, graphs, plots, distance–time graphs, or wherever alt
    text is thin — **`Read` the PNG directly** as the design reference before authoring a
-   `tikz` diagram.
+   inline `[tikz]...[/tikz]` diagram.
 9. **The syllabus dot point** (`data/dotpoints.json`, via the skill's `dotPointIds`) —
    the source of record for what the skill must cover, and the fallback when the booklet
    under-covers it (see Anchoring).
@@ -112,6 +112,54 @@ families do **not** throw a parse error — they silently corrupt: `\times` → 
 (`imes`, `rac`) as innocent italic letters, so the corruption is invisible to a quick
 skim. The validator errors on raw control characters in any string, but write it right
 the first time.
+
+---
+
+## Worked-solution setout
+
+`solution_text` reproduces the **booklet worked example's setout** for the skill (Read-first
+item 7 is the source of the stage structure). The house style, verbatim in
+[content-schema.md](content-schema.md) and [worked-example-principles.md](worked-example-principles.md):
+
+- **Align on `=`.** Opening line is the bare expression; every later line begins `=`. Keep
+  useful intermediate lines (e.g. the divide-out line when factorising).
+- **The final line is the answer.** No line that merely restates it.
+- **Step headers only at genuine stage boundaries**, as a standalone `N. **Step name**` line
+  (number outside the bold) drawn from `theory.steps` in order. **Single-stage routines carry
+  no headers** — do not label every line.
+
+```
+BEFORE (per-line label soup — banned)          AFTER (booklet setout)
+$4x+6$                                          $4x+6$
+$= 2(\frac{4x}{2}+\frac{6}{2})$  **Find the HCF**   $=2\left(\frac{4x}{2}+\frac{6}{2}\right)$
+$= 2(2x+3)$  **Check by expanding**            $=2(2x+3)$
+$2(2x+3)$  **Check by expanding**
+```
+
+Multi-stage skills header each stage the booklet numbers (e.g. `1. **Factorise the LHS**`
+then `2. **Solve each factor**`). The validator no longer *requires* a label; a header that
+is present must still name a `theory.steps` entry in order.
+
+### Don't force a procedure
+
+Recognition / comparison / conceptual skills with no genuine multi-stage method (e.g.
+`linear-representations`) **omit `theory.steps`** and write clean working plus a one-line
+answer. A vacuous procedure ("Check each representation", "Confirm the same line") is a defect
+— drop the steps and, if the `intro`/`facts` are equally hollow, rewrite them from the booklet
+and syllabus dot point.
+
+### Solution migration (already done — the house-style flip)
+
+The Stage-4 practice content was flipped from the old per-line-label style in two passes; a
+**regenerated** skill must land in the new style, matching its neighbours:
+
+1. **Mechanical strip** (one-off, since removed): stripped the trailing `**label**` from every
+   working line and the redundant restated-answer line across all content + quizzes. This
+   finished every single-stage skill.
+2. **Re-authored the subset**: pure-recognition skills had their vacuous `steps` dropped; the
+   slop-theory skill (`linear-representations`) had `steps` dropped and its contorted
+   `$\text{…}$` pseudo-working lines removed. Any future multi-stage skill that genuinely
+   stages its work adds booklet-style numbered headers here.
 
 ---
 
@@ -209,13 +257,13 @@ render" placeholder.
   usually carries the question. Number/algebra skills rarely need one.
 - **Keep diagrams small, deterministic, and clearly labelled.** Match the booklet's
   figure conventions (read the media PNG first).
-- Use **both** a `tikz` on the question front and a `tikzSolution` on the back **where
-  each aids** — a bare figure on the front, a fuller annotated figure (marks, working,
-  the found value) on the back. `tikzSolution` falls back to `tikz` if absent.
+- Embed a bare `[tikz]...[/tikz]` figure in `question_text` and, where it aids the
+  explanation, a fuller annotated figure in `solution_text`. Placement in the string is
+  placement on screen; there are no separate diagram fields or fallbacks.
 - **Diagram-reading skills must carry the diagram into the QUIZ, not just practice.**
   If the skill is about reading a figure (identifying angle pairs, finding an unknown
   angle from a configuration, reading a graph/plot), an MCQ posed in words only tests
-  vocabulary recall, not the skill — give those MCQs a `tikz` figure. The exception is a
+  vocabulary recall, not the skill — embed a figure in those MCQs' `question_text`. The exception is a
   genuinely notational/definitional skill (naming conventions, symbol recognition,
   numeric-relationship recall like "complementary to $27°$"), where a figure would be
   forced — there, symbolic/verbal options are correct.
@@ -265,7 +313,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
    completion** — never infer readiness from file presence or mtime. For each generated
    skill run `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/`
    (gitignored), a `{id}.blind.json` (quiz + mastery practice with correct flags / `why` /
-   `a` / `solution` stripped and options deterministically shuffled) and a `{id}.key.json`
+   `solution_text` stripped and options deterministically shuffled) and a `{id}.key.json`
    answer key. Hand **only** the blind bundle to an independent **checker agent**, which
    **re-solves every MCQ and every mastery practice question WITHOUT seeing the stated
    answers**. The checker is a **fresh agent every round** — never reuse a checker that
@@ -283,7 +331,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
    stems between skills that shared a booklet section; dedupe by editing the lesser item.
 5. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
 6. **Visual diagram gate — MANDATORY for any batch containing TikZ** (skip only for a
-   purely symbolic batch like algebra with zero `tikz` fields). The source-reading blind
+   purely symbolic batch like algebra with zero inline TikZ blocks). The source-reading blind
    check in steps 3–4 verifies **answers**; it is blind to the **rendered picture**
    (colliding/merged labels, a line that doesn't reach its intersection, a stray arrowhead,
    a parallel-mark on the transversal, an angle drawn in the wrong region). Close that gap:

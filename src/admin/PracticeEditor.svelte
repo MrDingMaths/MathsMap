@@ -1,5 +1,5 @@
 <script>
-  import MathText from '../components/Math.svelte';
+  import InlineContent from '../components/InlineContent.svelte';
   import PracticeCardEditor from './PracticeCardEditor.svelte';
 
   // Admin replacement for the practice carousel: a compact editable list per
@@ -18,7 +18,7 @@
 
   let editingCard = $derived(
     editing
-      ? (practice[editing.tier]?.[editing.index] ?? { q: '', a: '', solution: [] })
+      ? (practice[editing.tier]?.[editing.index] ?? { question_text: '', solution_text: '' })
       : null
   );
 
@@ -55,7 +55,7 @@
           {#each practice[tier.key] as item, i}
             <li class="pe-item">
               <span class="pe-num">{i + 1}.</span>
-              <span class="pe-q"><MathText text={item.q} /></span>
+              <span class="pe-q"><InlineContent text={item.question_text} /></span>
               <span class="pe-actions">
                 <button class="mini" onclick={() => (editing = { tier: tier.key, index: i })} aria-label="Edit question">✎</button>
                 <button class="mini del" onclick={() => deleteCard(tier.key, i)} aria-label="Delete question">🗑</button>

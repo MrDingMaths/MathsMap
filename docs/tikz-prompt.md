@@ -1,9 +1,9 @@
 # Canonical TikZ generation prompt
 
-This is the single source of truth for authoring MathsMap `tikz` and `tikzSolution`
+This is the single source of truth for authoring MathsMap inline `[tikz]...[/tikz]` blocks
 figures. It combines the renderer contract, construction workflow, fixed angle templates,
 and rendered-review rules. If this document conflicts with
-[`content-schema.md`](content-schema.md#tikz-allowlist-tikz--tikzsolution), the schema wins.
+[`content-schema.md`](content-schema.md#inline-tikz), the schema wins.
 
 Use the text below as the complete prompt for any agent generating a diagram.
 
@@ -19,7 +19,7 @@ You may receive:
 - a question stem;
 - the correct answer or worked solution;
 - a source image or booklet figure;
-- whether this is the question-side `tikz` or answer-side `tikzSolution`.
+- whether this block belongs in `question_text` or `solution_text`.
 
 The stem and answer define the required mathematics. A source image defines visual style
 and layout. If they contradict, do not silently copy the contradiction: report it to the
@@ -436,7 +436,7 @@ relationship from a sum to a difference.
 \end{tikzpicture}
 ```
 
-For `tikzSolution`, place transferred labels in the two sectors at `P`, separated above
+For a solution-side inline TikZ block, place transferred labels in the two sectors at `P`, separated above
 and below the dashed line, and place `x=<value>` farther right with white fill. Never stack
 `P`, both transferred values, and the result at the vertex.
 
@@ -473,6 +473,21 @@ a ray question.
 
 ## Other diagram playbooks
 
+### Growing patterns and concrete linear relationships
+
+- A skill that generates an equation from a visual pattern must show the concrete pattern;
+  prose alone does not test the intended representation. Carry the figure into quiz items as
+  well as practice.
+- Show at least three consecutive labelled stages unless the question deliberately asks the
+  learner to complete a missing stage. Make every tile, match, dot, chair, or other unit
+  individually countable at the displayed stages.
+- Derive the object count for every shown stage before drawing. Check that each count satisfies
+  the intended equation, including fixed starting objects and shared-boundary adjustments.
+- Keep stage spacing, object size, orientation, and label placement consistent so the changing
+  feature is visually isolated. Do not use ellipses to hide an unverified stage.
+- The figure may establish the pattern, but it must not display the general equation or reveal
+  the requested rule on the question side.
+
 ### Triangles and polygons
 
 - Define every vertex once and draw every required edge once.
@@ -492,8 +507,16 @@ a ray question.
 - Inside an axis, use `(axis cs:x,y)` for data coordinates.
 - Set `scaled ticks=false` and fixed number formatting; never display scientific notation on
   school-level axes.
+- Keep axis-number labels comfortably separated. When consecutive integer labels make the
+  vertical scale cramped, label every `2` units while retaining the grid; explicitly include
+  any non-sequence target value that the learner must read (for example `13`).
+- When two or more graphs share axes, give every graph both a distinct colour and a distinct
+  line pattern. Render each graph's identifying label in the same colour as its line; dash
+  pattern alone is not sufficient.
 - For straight lines, verify at least two plotted points satisfy the equation and that the
   displayed gradient/intercepts match the stem.
+- Whenever the surrounding question, answer, or option needs a table of values, render it as
+  a KaTeX `array` in the text. Do not substitute an inline `x: …; y: …` list for a table.
 
 ```tex
 \begin{tikzpicture}

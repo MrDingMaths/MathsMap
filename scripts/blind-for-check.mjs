@@ -100,12 +100,11 @@ function blindQuiz(quizData, skillId) {
 
     const blindQ = {
       id: question.id,
-      q: question.q,
+      question_text: question.question_text,
       structure: question.structure,
       mastery: question.mastery,
       options: blindOptions,
     };
-    if (question.tikz) blindQ.tikz = question.tikz;
     blindQuestions.push(blindQ);
 
     keyQuestions.push({
@@ -126,10 +125,9 @@ function blindMastery(contentData) {
 
   mastery.forEach((card, i) => {
     const idx = `m${i + 1}`;
-    const blindItem = { id: idx, q: card.q };
-    if (card.tikz) blindItem.tikz = card.tikz;
+    const blindItem = { id: idx, question_text: card.question_text };
     blindItems.push(blindItem);
-    keyItems.push({ id: idx, a: card.a });
+    keyItems.push({ id: idx, solution_text: card.solution_text });
   });
 
   return { blindItems, keyItems };

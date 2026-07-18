@@ -7,6 +7,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import katex from 'katex';
+import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys } from '../src/lib/inline-content.js';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(rootDir, 'data');
@@ -160,58 +161,36 @@ function validateTikz(value, where, problems) {
   }
 }
 
-// Shared shape for card / question `solution[]`: { math (required), note? }
-function validateSolution(solution, where, problems) {
-  if (!Array.isArray(solution)) {
-    problems.push(`${where}: must be an array`);
+function validateInlineText(value, where, problems) {
+  if (typeof value !== 'string' || !value.trim()) {
+    problems.push(`${where}: is required and must be a non-empty string`);
     return;
   }
-  const allowed = new Set(['math', 'note']);
-  solution.forEach((line, i) => {
-    const ltag = `${where}[${i}]`;
-    if (!line || typeof line !== 'object' || Array.isArray(line)) {
-      problems.push(`${ltag}: must be an object`);
-      return;
-    }
-    for (const key of Object.keys(line)) {
-      if (!allowed.has(key)) problems.push(`${ltag}: unknown key "${key}"`);
-    }
-    if (typeof line.math !== 'string' || !line.math) {
-      problems.push(`${ltag}: math is required and must be a non-empty string`);
-    } else {
-      lintMathString(line.math, `${ltag}.math`, problems);
-    }
-    if (line.note !== undefined) {
-      if (typeof line.note !== 'string') problems.push(`${ltag}: note must be a string`);
-      else lintMathString(line.note, `${ltag}.note`, problems);
-    }
-  });
+  lintControlChars(value, where, problems);
+  const parsed = splitInlineContent(value);
+  for (const error of parsed.errors) problems.push(`${where}: ${error}`);
+  let diagramIndex = 0;
+  for (const part of parsed.parts) {
+    if (part.type === 'tikz') validateTikz(part.value, `${where} [tikz ${++diagramIndex}]`, problems);
+    else lintMathString(part.value, where, problems);
+  }
 }
 
-// Shared shape for a practice `Card`: { q, a, solution?, tikz?, tikzSolution? }
-function validateCard(card, where, problems) {
+function validateProcedure(solutionText, theory, where, problems) {
+  const steps = Array.isArray(theory?.steps) ? theory.steps : [];
+  for (const error of validateProcedureLabels(solutionText, steps)) problems.push(`${where}: ${error}`);
+}
+
+// Practice cards are exactly { question_text, solution_text }.
+function validateCard(card, theory, where, problems) {
   if (!card || typeof card !== 'object' || Array.isArray(card)) {
     problems.push(`${where}: card must be an object`);
     return;
   }
-  const allowed = new Set(['q', 'a', 'solution', 'tikz', 'tikzSolution']);
-  for (const key of Object.keys(card)) {
-    if (!allowed.has(key)) problems.push(`${where}: unknown card key "${key}"`);
-  }
-  if (typeof card.q !== 'string' || !card.q) {
-    problems.push(`${where}: q is required and must be a non-empty string`);
-  } else {
-    lintMathString(card.q, `${where}.q`, problems);
-  }
-  if (typeof card.a !== 'string' || !card.a) {
-    problems.push(`${where}: a is required and must be a non-empty string`);
-  } else {
-    lintMathString(card.a, `${where}.a`, problems);
-  }
-  if (card.solution !== undefined) validateSolution(card.solution, `${where}.solution`, problems);
-  for (const tikzKey of ['tikz', 'tikzSolution']) {
-    if (card[tikzKey] !== undefined) validateTikz(card[tikzKey], `${where}.${tikzKey}`, problems);
-  }
+  for (const key of unknownKeys(card, PRACTICE_CARD_KEYS)) problems.push(`${where}: unknown card key "${key}"`);
+  validateInlineText(card.question_text, `${where}.question_text`, problems);
+  validateInlineText(card.solution_text, `${where}.solution_text`, problems);
+  if (typeof card.solution_text === 'string') validateProcedure(card.solution_text, theory, `${where}.solution_text`, problems);
 }
 
 function validateContent(filterFn) {
@@ -310,7 +289,7 @@ function validateContent(filterFn) {
             if (n < 3) errs.push(`${tag}: practice.${tierName} has ${n} card(s); minimum 3`);
             else if (n < 4) warns.push(`${tag}: practice.${tierName} has ${n} card(s); target is 4`);
             practice[tierName].forEach((card, i) =>
-              validateCard(card, `${tag} practice.${tierName}[${i}]`, errs)
+              validateCard(card, theory, `${tag} practice.${tierName}[${i}]`, errs)
             );
           }
         }
@@ -322,7 +301,7 @@ function validateContent(filterFn) {
             if (practice.mastery.length < 2) {
               errs.push(`${tag}: practice.mastery has ${practice.mastery.length} card(s); minimum 2`);
             }
-            practice.mastery.forEach((card, i) => validateCard(card, `${tag} practice.mastery[${i}]`, errs));
+            practice.mastery.forEach((card, i) => validateCard(card, theory, `${tag} practice.mastery[${i}]`, errs));
           }
           if (practice.masteryOmitted !== undefined) {
             errs.push(`${tag}: practice.masteryOmitted present but practice.mastery is also present (mutually exclusive)`);
@@ -353,11 +332,18 @@ function validateQuizzes(filterFn) {
     checked++;
     const tag = `quiz ${skillId}`;
     let data;
+    let theory = null;
     try {
       data = JSON.parse(readFileSync(join(quizzesDir, filename), 'utf8'));
     } catch (e) {
       errs.push(`${tag}: invalid JSON — ${e.message}`);
       continue;
+    }
+    try {
+      const contentPath = join(contentDir, filename);
+      if (existsSync(contentPath)) theory = JSON.parse(readFileSync(contentPath, 'utf8')).theory;
+    } catch (e) {
+      errs.push(`${tag}: matching content file is invalid - ${e.message}`);
     }
     if (data.skillId !== skillId) {
       errs.push(`${tag}: skillId "${data.skillId}" does not match filename`);
@@ -385,18 +371,14 @@ function validateQuizzes(filterFn) {
         errs.push(`${qtag}: must be an object`);
         return;
       }
+      for (const key of unknownKeys(q, QUIZ_QUESTION_KEYS)) errs.push(`${qtag}: unknown question key "${key}"`);
       if (typeof q.id !== 'string' || !q.id) {
         errs.push(`${qtag}: id is required and must be a non-empty string`);
       } else {
         if (seenIds.has(q.id)) errs.push(`${qtag}: duplicate id "${q.id}"`);
         seenIds.add(q.id);
       }
-      if (typeof q.q !== 'string' || !q.q) {
-        errs.push(`${qtag}: q is required and must be a non-empty string`);
-      } else {
-        lintMathString(q.q, `${qtag}.q`, errs);
-      }
-      if (q.tikz !== undefined) validateTikz(q.tikz, `${qtag}.tikz`, errs);
+      validateInlineText(q.question_text, `${qtag}.question_text`, errs);
       if (typeof q.structure !== 'string' || !q.structure.trim()) {
         errs.push(`${qtag}: structure is required and must be a non-empty string`);
       }
@@ -435,7 +417,8 @@ function validateQuizzes(filterFn) {
           errs.push(`${qtag}: options must have exactly one correct:true (found ${correctCount})`);
         }
       }
-      if (q.solution !== undefined) validateSolution(q.solution, `${qtag}.solution`, errs);
+      validateInlineText(q.solution_text, `${qtag}.solution_text`, errs);
+      if (typeof q.solution_text === 'string') validateProcedure(q.solution_text, theory, `${qtag}.solution_text`, errs);
     });
   }
   return { checked, errors: errs, warnings: warns, masteryTagged };

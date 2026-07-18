@@ -51,7 +51,7 @@
 
   // --- Admin: persist edited content back to disk via the dev endpoint. ---
   // Always merge over the full existing content object so untouched keys
-  // (skillId, atomType, per-card tikzSolution, …) survive the round-trip.
+  // (skillId, atomType, inline question/solution text, …) survive the round-trip.
   let savedToast = $state(false);
   let saveError = $state('');
 
