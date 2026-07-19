@@ -543,6 +543,120 @@ a ray question.
 - For stem-and-leaf plots, preserve leaf order and include the key; a text/table layout is
   preferable to pretending it is a coordinate graph.
 
+#### Label placement — the anti-collision rule (MANDATORY)
+
+The one recurring defect is the **y-axis label colliding with the title** (both crammed at
+the top-left corner). It is eliminated by fixed anchors — never place a title and an axis
+label at the same corner:
+
+- **Title** — its own line, **centred over the plot**, at `y = <ymax> + 1.1` (well clear of
+  the top tick, which sits at `<ymax>`). Extend the y-axis arrow to `<ymax> + 1.4` so the
+  title has headroom. `\node at (<xmid>, <ymax>+1.1) {Title here};`
+- **y-axis label** — **rotated 90°**, placed to the **left of the axis at its vertical
+  midpoint**, never in the top corner: `\node[rotate=90] at (-1.1, <ymid>) {Number of …};`
+  A vertical label beside the axis physically cannot reach a horizontal title. (This is the
+  fix for the old `\node[above left] at (0,ymax)` bug.)
+- **x-axis label** — on its **own line, centred UNDER the category-label row**, at
+  `(<xmid>, -1.0)` where `<xmid>` is the midpoint of the category positions:
+  `\node[below] at (<xmid>, -1.0) {Category};`. **Never place it at the arrow tip on the
+  `y = 0` baseline** — there it crowds the last category/tick label (the exact "Corby/Town",
+  "2019/Year" overlap). The category labels sit at `y = 0` `[below]` (≈ −0.35); a title line
+  at `y = -1.0` clears them.
+- Keep tick labels at `x = -0.2` (left of the axis); the rotated y-label sits further left
+  than the widest tick text, so they never touch. **Offset by tick width:** short ticks
+  (1–2 chars) → `x ≈ -1.1`; **wide ticks — percentages (`$60\%$`) or ≥3-digit numbers
+  (`$5000$`) → `x ≈ -2.0`** (a fixed −1.1 lands inside wide tick text and overlaps it).
+
+#### Sizing & fit — text must not outgrow the plot (MANDATORY)
+
+Text nodes render at a fixed point size regardless of `scale`, so a **small `scale` makes
+labels relatively huge** and they collide. Size the plot to the labels:
+
+- **Minimum `scale` 0.85 for any labelled data graph.** Below that, category words and wide
+  tick labels overrun their slots. Prefer a larger plot over shrinking everything.
+- **Font sizes.** Isolated labels (y-tick numbers, the rotated y-axis label, the x-axis
+  name line, the chart title) read at `\scriptsize`–`\small`. **Reserve `\tiny` for
+  genuinely crowded category rows only** — do not shrink isolated labels to `\tiny`, and
+  never downscale text into illegibility to force a fit.
+- **Category labels must fit their slot.** With word categories, the centre-to-centre bar
+  spacing must exceed the widest label. **Prefer a short/abbreviated category label**
+  (`Eng`, `Sci`, `Vic`) so it fits at `\scriptsize`; only if the full word is required drop
+  that label to `font=\tiny` and/or widen the spacing — never let adjacent category labels
+  touch. On-screen category text is ultimately bounded by (container width ÷ number of
+  categories), so fewer/shorter category labels read larger than many long ones.
+- **Titles stay short and must not reach the y-axis.** A title centred at `xmid` must not
+  extend left of `x = 0` (there it overlaps the y-axis, top tick, and y-label). Keep titles
+  ≤ ~22 characters; a longer one drops to `font=\scriptsize`, and if it still overruns,
+  widen the plot (larger `xmax`) rather than let it collide.
+
+#### Variety (MANDATORY — the reviewer rejects samey graphs)
+
+Parallel generation converges on one booklet exemplar. Force spread:
+
+- **Never reuse a scenario across sibling skills.** Rotate through a bank — e.g. pets, goals
+  per match, books read, cars per colour, pizza slices sold, daily rainfall, temperature,
+  website visits, shoe sizes, test scores, plants grown. One scenario per figure; a scenario
+  used in one skill's figures must not reappear in a sibling skill's figures.
+- **Vary the column count 3–7** across figures — not always 4.
+- **Vary the value pattern** — do NOT default to a clean descending run (8,6,4,2). Mix
+  ascending, a peak in the middle, a tie, an odd-valued bar, a scale in 5s or 10s.
+- **Line graphs must have a non-constant slope** — a rise-then-fall, a dip, a plateau, or
+  varying step sizes. A perfectly linear 10,20,30,40 is banned unless the skill is
+  specifically teaching constant rate. Plot each point at its true coordinate.
+- **Vary dot-plot n and shape** (a gap, an outlier, a bimodal cluster), and vary stem-leaf
+  data ranges.
+
+#### Copy-ready templates (safe placement baked in)
+
+**Column graph** (`n` categories; here 5, values 6,9,4,7,3 — deliberately non-monotone):
+```tex
+\begin{tikzpicture}[scale=0.5]
+\draw[->] (0,0)--(0,11.4);                                  % ymax=10, +1.4 headroom
+\draw[->] (0,0)--(13.5,0);
+\foreach \y in {2,4,6,8,10} {\draw (-0.2,\y)--(0,\y); \node[left] at (-0.2,\y) {$\y$};}
+\node[left] at (-0.2,0) {$0$};
+\draw (0.8,0) rectangle (2.3,6);
+\draw (3.1,0) rectangle (4.6,9);
+\draw (5.4,0) rectangle (6.9,4);
+\draw (7.7,0) rectangle (9.2,7);
+\draw (10.0,0) rectangle (11.5,3);
+\node[below] at (1.55,0) {Red};   \node[below] at (3.85,0) {Blue};
+\node[below] at (6.15,0) {Green}; \node[below] at (8.45,0) {White};
+\node[below] at (10.75,0) {Black};
+\node[rotate=90] at (-1.4,5) {Number of cars};              % y-label: rotated, mid-axis
+\node[below] at (6.15,-1.0) {Colour};                       % x-label: centred lower line
+\node at (6.15,11.1) {Cars by colour in a car park};        % title: centred, ymax+1.1
+\end{tikzpicture}
+```
+
+**Line graph** (non-constant slope: rise, dip, recover):
+```tex
+\begin{tikzpicture}[scale=0.6]
+\draw[->] (0,0)--(0,7.4);
+\draw[->] (0,0)--(8.5,0);
+\foreach \y in {10,20,30,40,50,60} {\draw (-0.15,\y/10)--(0,\y/10); \node[left,font=\scriptsize] at (-0.15,\y/10) {$\y$};}
+\node[left,font=\scriptsize] at (-0.15,0) {$0$};
+\foreach \x/\lbl in {1/Mon,2.4/Tue,3.8/Wed,5.2/Thu,6.6/Fri} {\node[below,font=\scriptsize] at (\x,0) {\lbl};}
+\draw[thick] (1,2.0)--(2.4,4.5)--(3.8,3.0)--(5.2,5.5)--(6.6,5.0);   % true coords, varied steps
+\foreach \p in {(1,2.0),(2.4,4.5),(3.8,3.0),(5.2,5.5),(6.6,5.0)} {\fill \p circle (2.5pt);}
+\node[rotate=90] at (-1.0,3) {Visitors};
+\node[below] at (3.8,-1.0) {Day};                                  % x-label: centred lower line
+\node at (3.8,7.1) {Daily visitors to the museum};
+\end{tikzpicture}
+```
+
+**Dot plot** (with a gap and an outlier; vary n):
+```tex
+\begin{tikzpicture}[scale=0.55]
+\draw[->] (-0.5,0)--(9,0);
+\foreach \x in {0,1,2,3,4,5,6,7,8} {\node[below,font=\scriptsize] at (\x,0) {$\x$};}
+\foreach \x/\c in {1/2,2/4,3/3,4/1,7/1} {\foreach \k in {1,...,\c} {\fill (\x,{0.35*\k}) circle (2.2pt);}}
+\node[below] at (4,-0.9) {Goals scored per match};
+\end{tikzpicture}
+```
+(Adjust counts/coords to your data; keep the axis from zero, the title centred, and any
+y-label rotated at the left midpoint.)
+
 ### Circle geometry
 
 - Define and mark the centre.

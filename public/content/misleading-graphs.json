@@ -1,0 +1,72 @@
+{
+  "skillId": "misleading-graphs",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "A misleading graph shows correct data but is drawn so it gives a false impression. To explain why one misleads, name the exact feature that distorts the picture and say what wrong impression it creates.",
+    "facts": [
+      "A **truncated axis** (vertical axis not starting at $0$) makes small differences look large.",
+      "An **irregular or missing scale** — uneven steps, unequal time gaps, or no numbers — hides the true size of a change.",
+      "**Unequal bar widths** or an **enlarged pictograph symbol** exaggerate a value by area, not just height.",
+      "**Cherry-picked or missing data** mislead — for example percentages that add to more than $100\\%$ cannot be shares of one whole.",
+      "A **fair** graph starts its scale at $0$, uses equal steps and equal widths, and shows all the data."
+    ],
+    "steps": [
+      "Check the vertical axis starts at $0$ and rises in equal steps.",
+      "Check the categories have equal bar widths or equal symbol sizes.",
+      "Check all the data is shown and any percentages add to $100\\%$.",
+      "Name the feature that distorts the picture and the false impression it gives."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,8.4);\n\\draw[->] (0,0)--(5.5,0);\n\\foreach \\v/\\p in {5000/0,5100/1,5200/2,5300/3,5400/4,5500/5,5600/6,5700/7} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,2.8);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,6.8);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,0.8);\n\\node[below,font=\\scriptsize] at (1.1,0) {Ashby};\n\\node[below,font=\\tiny] at (2.5,0) {Belford};\n\\node[below,font=\\scriptsize] at (3.9,0) {Corby};\n\\node[rotate=90,font=\\small] at (-1.9,3.5) {Population};\n\\node[below,font=\\small] at (2.50,-1.0) {Town};\n\\node[font=\\small] at (2.5,8.1) {Town populations};\n\\end{tikzpicture}\n[/tikz]\nThe graph shows the populations of three towns. Explain why it makes Belford's population look far greater than Ashby's.",
+        "solution_text": "The vertical axis starts at $5000$, not $0$. Cutting off the bottom makes Belford's bar look several times taller than Ashby's, even though $5680$ is only a little more than $5280$."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(4.8,0);\n\\foreach \\v/\\p in {100/1,200/2,300/3,400/4,500/5,600/6} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\node[left,font=\\small] at (-0.2,0) {$0$};\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.2,5);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.6,5.5);\n\\node[below,font=\\scriptsize] at (0.9,0) {Shop A};\n\\node[below,font=\\scriptsize] at (2.8,0) {Shop B};\n\\node[rotate=90,font=\\small] at (-1.3,3) {Sales (units)};\n\\node[below,font=\\small] at (1.85,-1.0) {Shop};\n\\node[font=\\small] at (2.2,7.1) {Monthly sales by shop};\n\\end{tikzpicture}\n[/tikz]\nShop A sold $500$ items and Shop B sold $550$. Explain why this graph is misleading.",
+        "solution_text": "Shop B's bar is drawn much wider than Shop A's. The extra width makes Shop B look far bigger by area, even though it sold only slightly more ($550$ against $500$)."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.4);\n\\draw[->] (0,0)--(5.2,0);\n\\foreach \\v/\\p in {20/1,40/2,60/3} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v\\%$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,3.0);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,2.75);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,2.25);\n\\node[below,font=\\scriptsize] at (1.1,0) {Maths};\n\\node[below,font=\\tiny] at (2.5,0) {English};\n\\node[below,font=\\tiny] at (3.9,0) {Science};\n\\node[rotate=90,font=\\small] at (-2.0,1.5) {Share of A grades};\n\\node[below,font=\\scriptsize] at (2.50,-1.0) {Subject};\n\\node[font=\\scriptsize] at (2.5,4.1) {Share of the school's A grades};\n\\end{tikzpicture}\n[/tikz]\nThe graph claims to show each subject's share of the school's A grades. Explain why it is misleading.",
+        "solution_text": "The three percentages are $60\\%$, $55\\%$ and $45\\%$, which add to $160\\%$. Shares of one whole must total $100\\%$, so these figures cannot all be shares of the same set of A grades."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.6);\n\\draw[->] (0,0)--(5.0,0);\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,1.8);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,2.8);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,3.4);\n\\node[below,font=\\scriptsize] at (1.1,0) {Jan};\n\\node[below,font=\\scriptsize] at (2.5,0) {Feb};\n\\node[below,font=\\scriptsize] at (3.9,0) {Mar};\n\\node[rotate=90,font=\\small] at (-0.7,2.0) {Sales};\n\\node[below,font=\\small] at (2.50,-1.0) {Month};\n\\node[font=\\small] at (2.5,4.5) {Monthly sales};\n\\end{tikzpicture}\n[/tikz]\nExplain why you cannot tell from this graph how much the sales really grew.",
+        "solution_text": "The vertical axis has no scale or numbers. Without a scale you cannot read the actual sales for any month, so the size of the increase cannot be judged."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(5.5,0);\n\\foreach \\v/\\p in {0/0,1000/1,2000/2,3000/3,4000/4,5000/5,6000/6} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,5.28);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,5.68);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,5.08);\n\\node[below,font=\\scriptsize] at (1.1,0) {Ashby};\n\\node[below,font=\\tiny] at (2.5,0) {Belford};\n\\node[below,font=\\scriptsize] at (3.9,0) {Corby};\n\\node[rotate=90,font=\\small] at (-1.9,3) {Population};\n\\node[below,font=\\small] at (2.50,-1.0) {Town};\n\\node[font=\\small] at (2.5,7.1) {Town populations};\n\\end{tikzpicture}\n[/tikz]\nHere is the same population data drawn again. Is this version misleading? Explain.",
+        "solution_text": "No. The vertical axis starts at $0$ and rises in equal steps, and the bars have equal widths. The bars are almost the same height, which fairly shows that the three populations are close."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\fill[orange!40,draw=black] (0,0) rectangle (0.8,0.8);\n\\fill[orange!40,draw=black] (2.2,0) rectangle (3.8,1.6);\n\\node[below,font=\\scriptsize] at (0.4,0) {2020};\n\\node[below,font=\\scriptsize] at (3.0,0) {2021};\n\\node[above,font=\\small] at (0.4,0.8) {$100$};\n\\node[above,font=\\small] at (3.0,1.6) {$200$};\n\\node[font=\\scriptsize] at (1.7,2.6) {Students achieving Band 6};\n\\end{tikzpicture}\n[/tikz]\nEach square is a symbol for the number of students achieving Band 6. Explain why this pictograph is misleading.",
+        "solution_text": "The 2021 value ($200$) is double the 2020 value ($100$), but the symbol is doubled in both width and height. That makes its area four times as large, so the increase looks far bigger than doubling."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,4.4);\n\\draw[->] (0,0)--(5.2,0);\n\\foreach \\v/\\p in {10/1,20/2,30/3} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\node[left,font=\\small] at (-0.2,0) {$0$};\n\\foreach \\x/\\lbl in {1/2014,2.5/2015,4/2019} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\draw[thick,blue] (1,1)--(2.5,2)--(4,3);\n\\fill[blue] (1,1) circle (2pt) (2.5,2) circle (2pt) (4,3) circle (2pt);\n\\node[rotate=90,font=\\small] at (-0.9,1.5) {Sales (1000s)};\n\\node[below,font=\\small] at (2.50,-1.0) {Year};\n\\node[font=\\small] at (2.5,4.1) {Yearly sales};\n\\end{tikzpicture}\n[/tikz]\nExplain why this line graph makes the sales look like they rose at a steady rate.",
+        "solution_text": "The years $2014$, $2015$ and $2019$ are drawn with equal gaps, but the last gap is four years, not one. Spacing unequal time gaps equally makes the rate of increase look steady when it actually slowed after $2015$."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,5.3);\n\\draw[->] (0,0)--(6.0,0);\n\\foreach \\v/\\p in {71.8/0.3,72.0/0.9,72.2/1.5,72.4/2.1,72.6/2.7,72.8/3.3,73.0/3.9} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\node[left,font=\\small] at (-0.2,0) {$71.7$};\n\\fill[blue!25,draw=black] (0.5,0) rectangle (1.2,0.9);\n\\fill[blue!25,draw=black] (1.5,0) rectangle (2.2,3.6);\n\\fill[blue!25,draw=black] (2.5,0) rectangle (3.2,0.3);\n\\fill[blue!25,draw=black] (3.5,0) rectangle (4.2,0.6);\n\\fill[blue!25,draw=black] (4.5,0) rectangle (5.2,1.2);\n\\node[below,font=\\scriptsize] at (0.85,0) {A};\n\\node[below,font=\\scriptsize] at (1.85,0) {B};\n\\node[below,font=\\scriptsize] at (2.85,0) {C};\n\\node[below,font=\\scriptsize] at (3.85,0) {D};\n\\node[below,font=\\scriptsize] at (4.85,0) {E};\n\\node[rotate=90,font=\\small] at (-1.4,1.95) {Average mark};\n\\node[below,font=\\small] at (2.85,-1.0) {Class};\n\\node[font=\\small] at (2.85,5.0) {Class exam averages};\n\\end{tikzpicture}\n[/tikz]\nFaith says Class B's average mark was far higher than every other class. Explain why she thinks this and why the graph is misleading.",
+        "solution_text": "Faith sees that Class B's bar towers over the rest. The graph is misleading because the axis starts at $71.7$, not $0$. Every class averaged about $72$, so the real differences are only tenths of a mark; the cut-off axis blows them up."
+      },
+      {
+        "question_text": "Graph P below and Graph Q both show the same population data.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,8.4);\n\\draw[->] (0,0)--(5.5,0);\n\\foreach \\v/\\p in {5000/0,5100/1,5200/2,5300/3,5400/4,5500/5,5600/6,5700/7} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,2.8);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,6.8);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,0.8);\n\\node[below,font=\\scriptsize] at (1.1,0) {Ashby};\n\\node[below,font=\\tiny] at (2.5,0) {Belford};\n\\node[below,font=\\scriptsize] at (3.9,0) {Corby};\n\\node[rotate=90,font=\\small] at (-1.9,3.5) {Population};\n\\node[below,font=\\small] at (2.50,-1.0) {Town};\n\\node[font=\\small] at (2.5,8.1) {Graph P};\n\\end{tikzpicture}\n[/tikz]\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(5.5,0);\n\\foreach \\v/\\p in {0/0,1000/1,2000/2,3000/3,4000/4,5000/5,6000/6} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,5.28);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,5.68);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,5.08);\n\\node[below,font=\\scriptsize] at (1.1,0) {Ashby};\n\\node[below,font=\\tiny] at (2.5,0) {Belford};\n\\node[below,font=\\scriptsize] at (3.9,0) {Corby};\n\\node[rotate=90,font=\\small] at (-1.9,3) {Population};\n\\node[below,font=\\small] at (2.50,-1.0) {Town};\n\\node[font=\\small] at (2.5,7.1) {Graph Q};\n\\end{tikzpicture}\n[/tikz]\nWhich graph is misleading, and why?",
+        "solution_text": "Graph P is misleading. Its vertical axis starts at $5000$, not $0$, so Belford's bar looks several times taller than the others. Graph Q starts at $0$, so the bars are almost equal, fairly showing that the three populations are close."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,3.65);\n\\draw[->] (0,0)--(4.8,0);\n\\foreach \\v/\\p in {30/0,35/0.75,40/1.5,45/2.25} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.2,1.5);\n\\fill[blue!25,draw=black] (2.2,0) rectangle (4.0,2.1);\n\\node[below,font=\\tiny] at (0.9,0) {Store A};\n\\node[below,font=\\tiny] at (3.1,0) {Store B};\n\\node[rotate=90,font=\\small] at (-1.0,1.1) {Sales};\n\\node[below,font=\\small] at (2.00,-1.0) {Store};\n\\node[font=\\scriptsize] at (2.3,3.35) {Monthly sales by store};\n\\end{tikzpicture}\n[/tikz]\nStore A sold $40$ and Store B sold $44$. State TWO features that make this graph misleading.",
+        "solution_text": "First, the vertical axis starts at $30$, not $0$, so the small gap between $40$ and $44$ is stretched. Second, Store B's bar is drawn much wider than Store A's, so its larger area exaggerates the difference. Both make Store B look far ahead of a close result."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,8.4);\n\\draw[->] (0,0)--(5.5,0);\n\\foreach \\v/\\p in {5000/0,5100/1,5200/2,5300/3,5400/4,5500/5,5600/6,5700/7} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\fill[blue!25,draw=black] (0.6,0) rectangle (1.6,2.8);\n\\fill[blue!25,draw=black] (2.0,0) rectangle (3.0,6.8);\n\\fill[blue!25,draw=black] (3.4,0) rectangle (4.4,0.8);\n\\node[below,font=\\scriptsize] at (1.1,0) {Ashby};\n\\node[below,font=\\tiny] at (2.5,0) {Belford};\n\\node[below,font=\\scriptsize] at (3.9,0) {Corby};\n\\node[rotate=90,font=\\small] at (-1.9,3.5) {Population};\n\\node[below,font=\\small] at (2.50,-1.0) {Town};\n\\node[font=\\small] at (2.5,8.1) {Town populations};\n\\end{tikzpicture}\n[/tikz]\nAshby has $5280$ people and Belford has $5680$. Shelly says Belford has about twice as many people as Ashby. Explain why she is wrong.",
+        "solution_text": "Belford's bar looks about twice Ashby's only because the axis starts at $5000$, not $0$. In real numbers $5680$ is just $400$ more than $5280$ — about $8\\%$ more, nowhere near double. The truncated axis, not the data, creates that impression."
+      }
+    ]
+  }
+}

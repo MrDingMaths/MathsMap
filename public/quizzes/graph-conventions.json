@@ -1,0 +1,105 @@
+{
+  "skillId": "graph-conventions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,9.4);\\draw[->] (0,0)--(13.5,0);\\foreach \\y in {2,4,6,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,5);\\draw (3.1,0) rectangle (4.6,8);\\draw (5.4,0) rectangle (6.9,4);\\draw (7.7,0) rectangle (9.2,6);\\draw (10.0,0) rectangle (11.5,3);\\node[below] at (1.55,0) {Red};\\node[below] at (3.85,0) {Blue};\\node[below] at (6.15,0) {White};\\node[below] at (8.45,0) {Silver};\\node[below] at (10.75,0) {Black};\\node[rotate=90] at (-1.4,4) {Number of cars};\\node[below] at (6.15,-1.0) {Colour};\\end{tikzpicture}\n[/tikz]\nThis column graph has labelled axes and an even scale. Which convention is missing?",
+      "structure": "missing-title",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A title",
+          "correct": true
+        },
+        {
+          "text": "An even scale",
+          "why": "The vertical scale already goes up in equal steps of $2$."
+        },
+        {
+          "text": "A horizontal axis label",
+          "why": "The horizontal axis is already labelled \"Colour\"."
+        },
+        {
+          "text": "Category names",
+          "why": "Each bar is already named (Red, Blue, White, Silver, Black)."
+        }
+      ],
+      "solution_text": "The axes and scale are present, but nothing states what the graph is about.\nA title is missing."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,11.4);\\draw[->] (0,0)--(11.5,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left] at (-0.2,\\y) {$\\y$};}\\node[left] at (-0.2,0) {$0$};\\draw (0.8,0) rectangle (2.3,4);\\draw (3.1,0) rectangle (4.6,9);\\draw (5.4,0) rectangle (6.9,7);\\draw (7.7,0) rectangle (9.2,5);\\node[below] at (1.55,0) {A};\\node[below] at (3.85,0) {B};\\node[below] at (6.15,0) {C};\\node[below] at (8.45,0) {D};\\node[below] at (5.00,-1.0) {Grade};\\node at (5.0,11.1) {Test grades in a class};\\end{tikzpicture}\n[/tikz]\nThis column graph has a title, a labelled horizontal axis and an even scale. Which convention is missing?",
+      "structure": "missing-axis-label",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A label on the vertical axis",
+          "correct": true
+        },
+        {
+          "text": "A title",
+          "why": "The graph already has the title across the top."
+        },
+        {
+          "text": "An even scale",
+          "why": "The vertical axis already increases in equal steps of $2$."
+        },
+        {
+          "text": "A source",
+          "why": "A source is optional here; the reader still cannot tell what the vertical numbers count."
+        }
+      ],
+      "solution_text": "The vertical axis shows numbers but not what they measure.\nA vertical axis label is missing."
+    },
+    {
+      "id": "q3",
+      "question_text": "A frequency axis on a histogram is numbered $0, 2, 4, 6, 10, 12$.\nWhich graph convention does this break?",
+      "structure": "scale-fault",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The scale must go up in equal steps",
+          "correct": true
+        },
+        {
+          "text": "The scale must start at $0$",
+          "why": "The scale does start at $0$; the fault is the uneven jump from $6$ to $10$."
+        },
+        {
+          "text": "Frequency must be on the horizontal axis",
+          "why": "Frequency belongs on the vertical axis of a histogram, so this is not the fault."
+        },
+        {
+          "text": "Columns must have gaps between them",
+          "why": "Histogram columns touch by design; this is about the axis scale, not the bars."
+        }
+      ],
+      "solution_text": "The steps are $2, 2, 2, 4, 2$, so the jump from $6$ to $10$ is uneven.\nA scale must increase in equal steps."
+    },
+    {
+      "id": "q4",
+      "question_text": "A column graph compares two teams using green and orange bars, but nothing tells the reader what each colour represents.\nWhich convention is missing?",
+      "structure": "key-needed",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A key (legend)",
+          "correct": true
+        },
+        {
+          "text": "A title",
+          "why": "A title names the whole graph; it would not say which colour is which team."
+        },
+        {
+          "text": "An even scale",
+          "why": "The scale is unrelated to explaining what the two colours mean."
+        },
+        {
+          "text": "A source",
+          "why": "A source says where the data came from, not what each colour represents."
+        }
+      ],
+      "solution_text": "Two colours stand for two teams, so the reader must be told which colour is which.\nA key (legend) is missing."
+    }
+  ]
+}

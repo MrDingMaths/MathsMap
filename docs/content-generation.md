@@ -255,6 +255,17 @@ render" placeholder.
 - **Be generous with diagrams on geometry, measurement, and data skills** (length, area,
   volume, Pythagoras, angles, geometrical figures, data displays) — a labelled figure
   usually carries the question. Number/algebra skills rarely need one.
+- **Data displays: obey the anti-collision placement rule and the variety rule** in
+  [tikz-prompt.md](tikz-prompt.md) ("Data displays"). Title centred at `ymax+1.1`; y-axis
+  label **rotated 90° at the left midpoint** (never the top corner, which collides with the
+  title); **x-axis label on its own centred line UNDER the categories at `(xmid, -1.0)` —
+  never at the arrow tip on the `y=0` baseline** (there it collides with the last
+  category/tick label). **Fit the plot to its labels:** `scale ≥ 0.85`; y-label at `x≈-2.0`
+  when ticks are wide (`%`/≥3-digit); long category words (≥6 letters) use `font=\tiny`;
+  titles ≤ ~22 chars and never extending left of `x=0`. Across sibling skills **never reuse a scenario**, vary the
+  column count 3–7 and the value pattern, and draw line graphs with a **non-constant slope**
+  (no perfectly linear 10,20,30,40). Instantiate the copy-ready templates rather than
+  hand-rolling axes.
 - **Keep diagrams small, deterministic, and clearly labelled.** Match the booklet's
   figure conventions (read the media PNG first).
 - Embed a bare `[tikz]...[/tikz]` figure in `question_text` and, where it aids the
@@ -330,32 +341,30 @@ The orchestrator drives the batch; generation and checking run in parallel group
    with a quick **cross-skill scan** of the batch for shared scenarios or near-identical
    stems between skills that shared a booklet section; dedupe by editing the lesser item.
 5. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
-6. **Visual diagram gate — MANDATORY for any batch containing TikZ** (skip only for a
-   purely symbolic batch like algebra with zero inline TikZ blocks). The source-reading blind
-   check in steps 3–4 verifies **answers**; it is blind to the **rendered picture**
-   (colliding/merged labels, a line that doesn't reach its intersection, a stray arrowhead,
-   a parallel-mark on the transversal, an angle drawn in the wrong region). Close that gap:
-   - Ensure the dev server is running (`npm run dev`).
-   - `node scripts/shoot-tikz.mjs --topic <topicId> --out .shots` — headless Chrome renders
-     every diagram in scope and writes one PNG per card plus `.shots/manifest.json`
-     (each entry carries the skillId, field, question, answer, and compile status). Any
-     `status:"fail"` is a compile failure — fix the TikZ before proceeding.
-   - Assemble and run the vision gate (one agent per PNG *reads the image* and flags visual
-     defects against the question + answer): build the workflow with
-     `scripts/build-vision-gate.mjs` (see the batch-2 run for the head/tail templates), then
-     run it. Every `ok:false` verdict of severity `major` is a blocker; `minor` (e.g. a
-     missing parallel-mark) is orchestrator's judgement.
-   - **Repair flagged diagrams by re-instantiating the correct construction from the
-     [canonical prompt](tikz-prompt.md)** — do not hand-nudge coordinates. Then re-shoot and
-     re-gate the repaired skills only, until clean. This gate is why geometry topics
-     (`ang`, `dat`, `pyt`, area/volume/geometry) get a diagram pass before human review.
+6. **Diagram list for manual human visual review — REQUIRED for any batch containing
+   TikZ** (skip only for a purely symbolic batch like algebra with zero inline TikZ blocks).
+   The source-reading blind check in steps 3–4 verifies **answers**; it is blind to the
+   **rendered picture** (colliding/merged labels, a line that doesn't reach its
+   intersection, a stray arrowhead, a parallel-mark on the transversal, an angle drawn in
+   the wrong region). The **automated headless-Chrome vision gate has been retired as too
+   costly** — the human closes this gap by eye instead:
+   - The orchestrator does **not** run `shoot-tikz.mjs` or `build-vision-gate.mjs`.
+   - Instead, assemble the **list of every skill in the batch carrying an inline `[tikz]`
+     block** (in `question_text` or `solution_text`, content or quiz) and hand it to the
+     human as a required visual-review checklist — the batch is not committed until the
+     human has eyeballed each rendered diagram against its question + answer.
+   - **Repair any diagram the human flags by re-instantiating the correct construction from
+     the [canonical prompt](tikz-prompt.md)** — do not hand-nudge coordinates.
+   - `scripts/shoot-tikz.mjs` (needs `npm run dev`) remains available as an **optional**
+     local aid to preview renders; it is no longer a required pipeline step.
 7. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
 8. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
    include** every `anchor: none` skill, every checker-triggered regenerated skill, and (for
-   TikZ batches) any diagram the vision gate flagged, in the sample set.
+   TikZ batches) the full list of skills carrying diagrams, for manual visual review, in the
+   sample set.
 9. **Update the queue.** Record per-batch status, the review-sample ids, any `anchor: none`
-   gaps, and the visual-gate result (clean / N repaired) in `docs/content-queue.md`. Do
-   **not** commit — leave that to the human.
+   gaps, and the list of diagram skills flagged for manual visual review in
+   `docs/content-queue.md`. Do **not** commit — leave that to the human.
 
 ---
 
@@ -365,6 +374,6 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Single skill per file.** Prereqs only in service; no cross-topic mixing.
 - **Every distractor is a named misconception** with a specific `why`.
 - **Diagrams follow the [canonical TikZ prompt](tikz-prompt.md)**; degrees are `^{\circ}`.
-- **TikZ batches pass the visual gate** (`shoot-tikz.mjs` → vision workflow) before human review.
+- **TikZ batches list every diagram skill for manual human visual review** before commit.
 - **Byte-for-byte theory** for stage-3 skills that already have a content file.
 - **One batch per session**; statuses updated by the orchestrator; do not commit.
