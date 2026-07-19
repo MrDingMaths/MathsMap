@@ -2,8 +2,8 @@
 
 The session prompt for a **per-topic batch** that mass-generates teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for every skill in
-one Stage-4 topic, using a multi-agent workflow (one generation agent per skill, an
-independent blind checker, an orchestrator).
+one Stage-4 topic, using a multi-agent workflow (one generation agent per booklet section,
+an independent blind checker per section, an orchestrator).
 
 Companion to the schema and principle docs — this prompt tells agents **how to run the
 batch**; those docs remain the authority on **what to produce**:
@@ -314,21 +314,28 @@ The orchestrator drives the batch; generation and checking run in parallel group
    routines/scenarios of that section belong to *this* skill and which belong to its
    section-mates — parallel agents fed the same exemplars otherwise converge on the same
    questions.
-2. **Generate — one agent per skill, in parallel groups of 3–4.** Each agent follows the
-   full "Read first" list and every rule above, writes both files, and runs
-   `validate.mjs --only <id>` before reporting. **Model tier:** agents for
+2. **Generate — one agent per booklet SECTION (not per skill), sections run in parallel.**
+   This is the leaner default: a section-owning agent takes that section's 2–4 skills,
+   reads the shared authoring docs (schema, `tikz-prompt.md`, principle docs, the booklet
+   section + its media PNGs) **once**, then authors each of its skills — dealing the shared
+   exemplars disjointly across them (step 1). It writes both files per skill and runs
+   `validate.mjs --only <id>` for each before reporting. This cuts the duplicated
+   doc-reading that one-agent-per-skill pays N times, and one author-per-section improves
+   disjoint dealing. (Fall back to one agent per skill only when a section's skills are too
+   many or too heavy for a single agent.) **Model tier:** agents for
    geometry/measurement/data skills (PNG reading + TikZ authoring) must not run on a
    downgraded model — image misreading rates on smaller tiers are unacceptable for
    diagram-anchored content.
-3. **Blind check.** Proceed **only after every generation agent in the group has reported
-   completion** — never infer readiness from file presence or mtime. For each generated
-   skill run `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/`
-   (gitignored), a `{id}.blind.json` (quiz + mastery practice with correct flags / `why` /
-   `solution_text` stripped and options deterministically shuffled) and a `{id}.key.json`
-   answer key. Hand **only** the blind bundle to an independent **checker agent**, which
+3. **Blind check — one fresh checker agent per section.** Proceed **only after every
+   generation agent has reported completion** — never infer readiness from file presence or
+   mtime. For each generated skill run `node scripts/blind-for-check.mjs <skillId>` — it
+   emits, under `.checkwork/` (gitignored), a `{id}.blind.json` (quiz + mastery practice
+   with correct flags / `why` / `solution_text` stripped and options deterministically
+   shuffled) and a `{id}.key.json` answer key. Hand **only** the blind bundles for a
+   section's skills to one independent **checker agent** (never the generator), which
    **re-solves every MCQ and every mastery practice question WITHOUT seeing the stated
-   answers**. The checker is a **fresh agent every round** — never reuse a checker that
-   has seen a previous round's bundle or any key.
+   answers**. Each checker is a **fresh agent every round** — never reuse a checker that has
+   seen a previous round's bundle or any key.
 4. **Adjudicate.** The orchestrator compares the checker's answers against `{id}.key.json`.
    For each disagreement, decide whether it is a **formatting equivalence** (e.g. `3.5`
    vs `3.50`, `1/2` vs `0.5`, reordered but equal) — accept — or a **genuine mismatch**.
