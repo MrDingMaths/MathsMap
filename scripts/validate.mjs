@@ -277,17 +277,24 @@ function validateContent(filterFn) {
       if (!practice || typeof practice !== 'object' || Array.isArray(practice)) {
         errs.push(`${tag}: practice must be an object`);
       } else {
-        const allowedTiers = new Set(['foundation', 'development', 'mastery', 'masteryOmitted']);
+        const allowedTiers = new Set(['foundation', 'development', 'mastery', 'masteryOmitted', 'coverageNote']);
         for (const key of Object.keys(practice)) {
           if (!allowedTiers.has(key)) errs.push(`${tag}: unknown practice key "${key}"`);
         }
+        // An intentionally-narrow atom that ceilings out below the tier target
+        // records a one-line coverageNote to suppress its below-target warns
+        // (same pattern as masteryOmitted; targets are 6–8/6–8/3–4, not errors).
+        if (practice.coverageNote !== undefined && (typeof practice.coverageNote !== 'string' || practice.coverageNote.trim() === '')) {
+          errs.push(`${tag}: practice.coverageNote must be a non-empty string when present`);
+        }
+        const hasCoverageNote = typeof practice.coverageNote === 'string' && practice.coverageNote.trim() !== '';
         for (const tierName of ['foundation', 'development']) {
           if (!Array.isArray(practice[tierName])) {
             errs.push(`${tag}: practice.${tierName} is required and must be an array when practice is present`);
           } else {
             const n = practice[tierName].length;
             if (n < 3) errs.push(`${tag}: practice.${tierName} has ${n} card(s); minimum 3`);
-            else if (n < 4) warns.push(`${tag}: practice.${tierName} has ${n} card(s); target is 4`);
+            else if (n < 6 && !hasCoverageNote) warns.push(`${tag}: practice.${tierName} has ${n} card(s); target is 6–8`);
             practice[tierName].forEach((card, i) =>
               validateCard(card, theory, `${tag} practice.${tierName}[${i}]`, errs)
             );
@@ -300,6 +307,8 @@ function validateContent(filterFn) {
           } else {
             if (practice.mastery.length < 2) {
               errs.push(`${tag}: practice.mastery has ${practice.mastery.length} card(s); minimum 2`);
+            } else if (practice.mastery.length < 3 && !hasCoverageNote) {
+              warns.push(`${tag}: practice.mastery has ${practice.mastery.length} card(s); target is 3–4`);
             }
             practice.mastery.forEach((card, i) => validateCard(card, theory, `${tag} practice.mastery[${i}]`, errs));
           }
@@ -359,8 +368,13 @@ function validateQuizzes(filterFn) {
       errs.push(`${tag}: questions is required and must be an array`);
       continue;
     }
+    // A narrow atom suppresses its below-target quiz warn with a top-level
+    // coverageNote (mirrors the practice.coverageNote content-side escape hatch).
+    const hasCoverageNote = typeof data.coverageNote === 'string' && data.coverageNote.trim() !== '';
     if (data.questions.length < 3) {
       errs.push(`${tag}: questions has ${data.questions.length} item(s); minimum 3`);
+    } else if (data.questions.length < 6 && !hasCoverageNote) {
+      warns.push(`${tag}: questions has ${data.questions.length} item(s); target is 6–8`);
     }
 
     const seenIds = new Set();

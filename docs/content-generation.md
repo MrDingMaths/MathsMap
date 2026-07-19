@@ -165,21 +165,44 @@ The Stage-4 practice content was flipped from the old per-line-label style in tw
 
 ## Question-count rule
 
-The tier minimums are a **floor, not a target** (schema doc, "Question-count principle").
-Derive the count, don't guess it:
+The tier counts are a **target, not a hard error** — foundation **6–8**, development
+**6–8**, mastery **3–4**, quiz **6–8**. The validator hard-errors only below a safety floor
+(3 / 3 / 2 / 3) and *warns* below target; a genuinely narrow atom clears the warn with a
+`coverageNote`. Variety, not volume, buys the extra cards. Derive the count, don't guess it.
 
-1. **Enumerate the skill's distinct structural question types first.** These become the
-   quiz `structure` slugs (kebab-case) and the backbone of the practice cards. For
-   *round a decimal to a given place*: round-to-tenths, round-to-hundredths,
+### Variety is two-level
+
+A new card is justified only when it changes the learner's reasoning or the answer's
+character:
+
+1. **Structural type** — the procedure/shape of the question. Each distinct type becomes a
+   quiz `structure` slug (kebab-case) and a practice backbone card. **Enumerate these first.**
+   For *round a decimal to a given place*: round-to-tenths, round-to-hundredths,
    carry-boundary, nearest-value recognition — four structural types.
-2. **Meet every tier minimum:** foundation **4–5**, development **4–5**, mastery **2–3**.
-3. **On top of the minimum, guarantee at least one card per structural type.** If a skill
-   has more structural types than the tier floor, the count rises to cover them.
-4. **Quiz:** **≥ 3** questions total, **≥ 1 MCQ per structural type**, and **≥ 1**
-   `mastery: true` question whenever the content carries a `mastery` tier.
+2. **Meaningful case within a type** — a parameter change that flips the problem's
+   *character*, not just its digits. Legitimate distinct cards. Case axes:
+   - **sign / direction:** `y=2x+3` (increasing) vs `y=−2x+3` (decreasing); `+/−` operands.
+   - **regime:** proper / improper / mixed; acute / obtuse / reflex; like vs unlike denoms.
+   - **boundary / edge:** carry vs no-carry; crossing zero; the `0.5` tie; 0, 1, right angle.
+   - **representation:** fraction vs decimal input; diagram-given vs symbol-given.
 
-Prefer one clean item per structural type over many near-duplicates (schema doc,
-"Coverage over volume").
+**Near-duplicate (banned padding)** = same structural type **and** same case, only the
+literal numbers swapped (`y=2x+3` vs `y=2x+5`). Test: *would a student who can do one
+automatically get the other with no new thought?* If yes → padding, cut it.
+
+### Deriving the count
+
+1. Enumerate distinct **structural types**; cover each (≥1 card).
+2. Add a card per **meaningful case** (sign, regime, boundary, representation) until the
+   6–8 / 3–4 target is met — variety-first, ≤2 items per type.
+3. **Quiz:** target 6–8, **≥ 1 MCQ per structural type**, and **≥ 1** `mastery: true`
+   question whenever the content carries a `mastery` tier.
+4. A genuinely single-case atom that cannot reach target without near-duplicate padding
+   records a one-line `coverageNote` (practice-level in the content file, top-level in the
+   quiz file) instead of padding — same escape-hatch pattern as `masteryOmitted`. Push
+   variety as far as the atom honestly allows, then stop.
+
+Coverage over volume: one clean item per meaningful case beats many near-duplicates.
 
 ---
 

@@ -42,11 +42,18 @@ construction rules live in [tikz-prompt.md](tikz-prompt.md).
 - `skillId`: filename stem and an id from `data/skills.json`.
 - `atomType`: `R`, `T`, `Cat`, `Com`, or `F`.
 - `theory`: `{ intro: string, facts: string[], steps?: string[] }`.
-- `practice`: optional `{ foundation, development, mastery? | masteryOmitted }`.
+- `practice`: optional `{ foundation, development, mastery? | masteryOmitted, coverageNote? }`.
 
-Foundation and development contain at least four cards; mastery contains at least two when
-present. The validator currently accepts three-card foundation/development legacy sets with a
-warning. Every distinct question structure must be represented in the overall practice set.
+Foundation and development target **6–8** cards; mastery targets **3–4** when present. The
+validator hard-errors only below a safety floor (3 for foundation/development, 2 for mastery)
+and *warns* below target. Every distinct question structure must be represented in the overall
+practice set. Extra cards buy **variety** (distinct structural types, then meaningful cases —
+sign, regime, boundary, representation), never near-duplicate padding.
+
+`coverageNote` (optional non-empty string): a one-line reason recorded by a genuinely narrow
+atom that ceilings out below target without padding. Its presence suppresses the below-target
+tier warns for that file (same escape-hatch pattern as `masteryOmitted`). The quiz file carries
+its own top-level `coverageNote` to suppress the quiz below-target warn.
 
 ### Practice card
 
@@ -85,10 +92,12 @@ procedure omit `theory.steps` — do not force one** (see the worked-example pri
 ## Quiz file
 
 ```text
-{ skillId, questions: Question[] }
+{ skillId, questions: Question[], coverageNote? }
 ```
 
-At least three questions are required, with at least one question per distinct `structure`.
+Quizzes target **6–8** questions (hard floor 3), with at least one question per distinct
+`structure`. A narrow atom below target records an optional top-level `coverageNote` string to
+suppress its below-target warn.
 
 ```json
 {
