@@ -1,0 +1,70 @@
+{
+  "skillId": "pythagoras-multistep",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.3]\\coordinate (O) at (0,0);\\coordinate (R) at (9,0);\\coordinate (Q) at (9,12);\\coordinate (P) at (-6.4,4.8);\\draw (O)--(P) node[midway,above left,fill=white,inner sep=1pt]{$8$};\\draw (P)--(Q) node[midway,above,fill=white,inner sep=1pt]{$x$};\\draw (Q)--(R) node[midway,right,fill=white,inner sep=1pt]{$12$};\\draw (R)--(O) node[midway,below,fill=white,inner sep=1pt]{$9$};\\draw (O)--(Q) node[midway,below right,fill=white,inner sep=1pt]{$y$};\\draw (8.5,0)--(8.5,0.5)--(9,0.5);\\coordinate (va) at ($(O)!0.5cm!(P)$);\\coordinate (vb) at ($(O)!0.5cm!(Q)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\end{tikzpicture}\n[/tikz]\nAll lengths are in centimetres. Find $x$ by first finding the intermediate side $y$.",
+      "structure": "find-then-find",
+      "mastery": false,
+      "options": [
+        { "text": "$17$", "correct": true },
+        { "text": "$15$", "why": "Gave the intermediate side $y$ as the answer, forgetting the second step." },
+        { "text": "$23$", "why": "Added the two sides $8$ and $15$ in the second step without squaring them." },
+        { "text": "$\\sqrt{161}$", "why": "Subtracted the squares in the second step instead of adding them." }
+      ],
+      "solution_text": "1. **Find the intermediate side**\n$y=\\sqrt{9^{2}+12^{2}}$\n$=\\sqrt{225}$\n$=15$\n2. **Find the required side**\n$x=\\sqrt{8^{2}+15^{2}}$\n$=\\sqrt{289}$\n$=17$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A first right-angled triangle has shorter sides $4\\text{ cm}$ and $7\\text{ cm}$. Its hypotenuse is one side of a second right-angled triangle whose other side is $9\\text{ cm}$. Find the hypotenuse of the second triangle. Round to $2$ decimal places.",
+      "structure": "round-at-final-step",
+      "mastery": false,
+      "options": [
+        { "text": "$12.08\\text{ cm}$", "correct": true },
+        { "text": "$12.11\\text{ cm}$", "why": "Rounded the intermediate side before the second step instead of only at the end." },
+        { "text": "$8.06\\text{ cm}$", "why": "Stopped after the first step and gave the intermediate side." },
+        { "text": "$4.00\\text{ cm}$", "why": "Subtracted the squares in the second step instead of adding them." }
+      ],
+      "solution_text": "1. **Find the intermediate side**\n$\\sqrt{4^{2}+7^{2}}$\n$=\\sqrt{65}$\n2. **Find the required side**\n$\\sqrt{9^{2}+(\\sqrt{65})^{2}}$\n$=\\sqrt{81+65}$\n$=\\sqrt{146}$\n$\\approx12.08\\text{ cm}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\\coordinate (A) at (0,0);\\coordinate (M) at (5,0);\\coordinate (B) at (14,0);\\coordinate (T) at (5,6);\\draw (A)--(T) node[midway,above left,fill=white,inner sep=1pt]{$x$};\\draw (T)--(B) node[midway,above right,fill=white,inner sep=1pt]{$y$};\\draw[dashed] (T)--(M) node[midway,right,fill=white,inner sep=1pt]{$6\\text{ cm}$};\\draw (A)--(M) node[midway,below,fill=white,inner sep=1pt]{$5\\text{ cm}$};\\draw (M)--(B) node[midway,below,fill=white,inner sep=1pt]{$9\\text{ cm}$};\\draw (5,0.5)--(5.5,0.5)--(5.5,0);\\end{tikzpicture}\n[/tikz]\nThis triangle is split into two right-angled triangles by its perpendicular height of $6\\text{ cm}$. Find its perimeter. Round to $2$ decimal places.",
+      "structure": "perimeter",
+      "mastery": false,
+      "options": [
+        { "text": "$32.63\\text{ cm}$", "correct": true },
+        { "text": "$18.63\\text{ cm}$", "why": "Added only the two slant sides and left out the base." },
+        { "text": "$26.00\\text{ cm}$", "why": "Used the vertical height as each slant side instead of calculating them." },
+        { "text": "$32.63\\text{ m}$", "why": "Correct value but written in metres instead of centimetres." }
+      ],
+      "solution_text": "$x=\\sqrt{5^{2}+6^{2}}$\n$=\\sqrt{61}$\n$y=\\sqrt{9^{2}+6^{2}}$\n$=\\sqrt{117}$\nThe perimeter adds the two slant sides and the full base.\n$P=\\sqrt{61}+\\sqrt{117}+14$\n$\\approx32.63\\text{ cm}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\draw (0,0) circle (2.5);\\fill (0,0) circle (1.5pt);\\draw (0,0)--(2,-1.5) node[midway,above right,fill=white,inner sep=1pt]{$12.5\\text{ cm}$};\\draw[dashed] (0,0)--(0,-1.5);\\draw (-2,-1.5)--(2,-1.5);\\node[above] at (-0.9,-1.5) {$20\\text{ cm}$};\\draw (0.25,-1.5)--(0.25,-1.25)--(0,-1.25);\\draw[dashed] (0,-1.5)--(0,-2.5);\\node[right] at (0.05,-2.0) {$d$};\\end{tikzpicture}\n[/tikz]\nA cylindrical pipe of radius $12.5\\text{ cm}$ holds water with a flat surface $20\\text{ cm}$ wide. Find the depth $d$ of the water.",
+      "structure": "mastery-cylinder",
+      "mastery": true,
+      "options": [
+        { "text": "$5\\text{ cm}$", "correct": true },
+        { "text": "$7.5\\text{ cm}$", "why": "Gave the distance from the centre to the surface and forgot to subtract it from the radius." },
+        { "text": "$2.5\\text{ cm}$", "why": "Subtracted the half-width from the radius without using Pythagoras." },
+        { "text": "$20\\text{ cm}$", "why": "Added the intermediate length to the radius instead of subtracting it." }
+      ],
+      "solution_text": "1. **Find the intermediate side**\nHalf the surface is $10\\text{ cm}$, forming a right-angled triangle with the radius.\n$\\sqrt{12.5^{2}-10^{2}}$\n$=\\sqrt{56.25}$\n$=7.5\\text{ cm}$\nThe depth is the radius minus this length.\n$d=12.5-7.5$\n$=5\\text{ cm}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A first right-angled triangle has shorter sides $5\\text{ cm}$ and $8\\text{ cm}$. Its hypotenuse $x$ is one side of a second right-angled triangle whose hypotenuse is $13\\text{ cm}$. Find the third side $y$ of the second triangle in exact form.",
+      "structure": "exact-form",
+      "mastery": false,
+      "options": [
+        { "text": "$\\sqrt{80}\\text{ cm}$", "correct": true },
+        { "text": "$\\sqrt{258}\\text{ cm}$", "why": "Added the squares in the second step instead of subtracting them." },
+        { "text": "$\\sqrt{89}\\text{ cm}$", "why": "Gave the intermediate side $x$ instead of continuing to the second step." },
+        { "text": "$\\sqrt{105}\\text{ cm}$", "why": "Subtracted the original side $8$ instead of the intermediate hypotenuse." }
+      ],
+      "solution_text": "1. **Find the intermediate side**\n$x=\\sqrt{5^{2}+8^{2}}$\n$=\\sqrt{89}\\text{ cm}$\n2. **Find the required side**\n$y=\\sqrt{13^{2}-(\\sqrt{89})^{2}}$\n$=\\sqrt{169-89}$\n$=\\sqrt{80}\\text{ cm}$"
+    }
+  ]
+}

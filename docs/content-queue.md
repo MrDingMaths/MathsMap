@@ -58,8 +58,36 @@ the prompts/pipeline need no revision. Remaining 10 topics then run in curriculu
 | 2 | t-s4-ang | Angle relationships | 7 (0) | `Angle Relationships.md` | committed | `unknown-angles-parallel`, `transversal-angle-pairs`, `geometry-notation` | ChatGPT-generated. 68 TikZ fields; all 68 compile and user visual review approved. Quiz figures added to diagram-reading items. Blind check: MCQ 31/31 agree, 0 unanswerable; original auxiliary-line defect repaired and rechecked. Two visual sweeps made 16 targeted figure repairs (ray endpoints, on-line parallel marks, angle-pair positions, right-angle splits, reflex-arc selection, missing rays, and label collisions); fresh blind bundles generated for touched skills. |
 | 3 | t-s4-lin | Linear relationships | 12 (0) | `Linear Relationships.md` | committed | `graph-linear-relationship`, `intersection-of-lines`, `pattern-to-equation` | ChatGPT content discarded (archived at git tag `archive/t-s4-lin-chatgpt`); regenerated fresh with Opus, one agent per skill. `validate.mjs` clean; blind check 68/68 MCQ agree, 0 UNSURE, 0 mismatches. Visual diagram gate pending (done manually by human).  |
 | 4 | t-s4-dat | Data classification and visualisation | 8 (0) | `Data Visualisation.md` (dp-1, classification)<br>`Data Classification and Visualisation 2_Display data using graphical representations relevant to the purpose of the data.md` (dp-2)<br>`Data Classification and Visualisation 3_Interpret data in graphical representations.md` (dp-3) | committed | `statistical-variable`, `misleading-graphs`, `represent-data-graphs` | `statistical-variable` (booklet under-covers — only a variable-vs-value table, no "which/name the variable" drills; the variable-vs-value / name-the-variable / variable-vs-individual items authored fresh from the dot point → closer review). Generated fresh with Opus, one agent per booklet section (3 generators + 3 fresh blind checkers, per pared workflow). All 8 `validate --only` clean. Blind check: **40/40 quiz MCQ agree**, all mastery items agree, 0 UNSURE, 0 mismatches, 0 figure-mismatch flags — no repairs. **Automated vision gate retired (per updated runbook); diagram skills flagged for manual human visual review:** `represent-data-graphs` (9 tikz), `graph-conventions` (5), `choose-graph-type` (1), `interpret-graphs-conclusions` (17), `misleading-graphs` (19); the 3 classification skills are diagram-free. `graph-conventions` mastery omitted (single-step recognition; masteryOmitted recorded). **Diagram-revision pass (post first human review):** all data-display figures rewritten to fix (a) title/y-axis-label collision and (b) scenario/column/line-shape monotony — anti-collision placement rule + variety rule + copy-ready templates added to `docs/tikz-prompt.md` (Data displays) and pointed to from the runbook, so batches 5–6 inherit it. Scenarios now disjoint across skills (pizza/shoes/books/cars/rainfall/grades/plants; concert/goals/museum/temperature/battery/populations/sales/exam-marks), column counts 3–7, line graphs non-linear. Re-validated clean + re-blind-checked (26/26 revised MCQ + mastery agree, 0 flags). **Second placement fix (post 2nd human review):** x-axis name was colliding with the last category/tick label at the arrow tip; hand-moved all 45 axis-name nodes to a centred lower line `(xmid, -1.0)` off the `y=0` baseline (coordinate-only, answers untouched → no re-check), and updated the `tikz-prompt.md` rule + templates so future graphs place the x-label there. **Third fix (crowding, post 3rd human review):** cramped small-scale figures had y-label overlapping wide `%`/4-digit ticks, long category words touching, and long titles overrunning the y-axis; hand-applied fit knobs (scale→0.85 min, wide-tick y-label→x−2.0, long category labels→`\tiny`, over-long titles→`\scriptsize`) across 5 files (font/scale only, no data change), and added a "Sizing & fit" rule to `tikz-prompt.md`. Re-validated clean. Committed as 49463fb. |
-| 5 | t-s4-pyt | Right-angled triangles (Pythagoras) | 7 (0) | `Right-angled Triangles.md` | pending | — | — |
+| 5 | t-s4-pyt | Right-angled triangles (Pythagoras) | 7 (0) | `Right-angled Triangles.md` | committed | `converse-pythagoras`, `pythagoras-problems`, `pythagoras-multistep` + **full diagram list (all 7) for manual visual review** | none (all 7 booklet-covered) — see notes for two deliberate scope/figure decisions |
 | 6 | t-s4-frc | Fractions, decimals and percentages | 34 (2) | `Fractions Decimals Percentages 1_Comparing Fractions.md`<br>`Fractions Decimals Percentages 2_Decimals.md`<br>`Fractions Decimals Percentages 3_Converting FDP.md`<br>`Fractions Decimals Percentages 4_Operations with FDP.md`<br>`Fractions Decimals Percentages 5_Percentage Increase Decrease Change.md`<br>`Fractions Decimals Percentages 6_Percentages Problems.md` | pending | — | — |
+
+**Batch 5 (t-s4-pyt) notes.** Generated fresh with Opus, pared workflow — 3 section-owning
+generators (A: `hypotenuse`+`pythagoras-theorem-statement`+`converse-pythagoras`;
+B: `pythagoras-find-side`+`pythagoras-find-shorter-side`; C: `pythagoras-problems`+
+`pythagoras-multistep`) then 3 fresh blind checkers (one per group). atomTypes: `hypotenuse`=T,
+`pythagoras-theorem-statement`=F, `converse-pythagoras`=Cat, the four compute/apply skills=R.
+All 7 `validate --only` clean; whole-batch + full-repo validate clean (0 warnings); manifest
+rebuilt. **Blind check: 32/32 quiz MCQ agree, 21/21 mastery-practice items agree, 0 UNSURE,
+0 defect flags, 0 figure-mismatch flags — no repairs.** (One formatting-equivalence accepted:
+checker gave `5√3` where the `pythagoras-problems` mastery key shows the unsimplified `√75` —
+equal; surds are deliberately left unsimplified per the exact-vs-rounded rule.) Cross-skill
+dedupe scan: no near-duplicate stems (shared triples like 6-8-10 / 5-12-13 appear only as figure
+labels across identify/judge/compute skills — different tasks, not duplicate questions).
+Difficulty-drift watch held: exact-vs-rounded followed per question (surds where "exact form"
+asked, decimals where "round to N d.p." asked; intermediates carried exact, rounded once at the
+end); no reach into dependents (no 3D, coordinate-distance, trig, or area-as-task).
+**Automated vision gate retired — diagram skills flagged for manual human visual review (ALL 7
+carry inline `[tikz]`):** `hypotenuse` (content 11 / quiz 5), `pythagoras-theorem-statement`
+(10 / 3), `converse-pythagoras` (6 / 2), `pythagoras-find-side` (11 / 4),
+`pythagoras-find-shorter-side` (11 / 4), `pythagoras-problems` (11 / 4), `pythagoras-multistep`
+(11 / 3) — 96 `[tikz]` blocks total; eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s4-pyt`. **Two deliberate decisions to note at
+review:** (1) the booklet's touching-circles right-angle proof (image114) was NOT authored — it
+is a converse-of-Pythagoras task with no genuine Pythagoras step, out of `pythagoras-multistep`
+scope; (2) the quadrant+triangle mastery figure (image116) was reduced to its defining right
+triangle (sides 6/10, radius r) with the three-quarter arc described in text, because the
+booklet composite could not be reproduced self-consistently and a figure contradicting its
+answer would be a defect. Committed to master (batch content + manifest + this status flip).
 
 **Pilot gate: human review of pilot outcomes before batch 7 starts.**
 

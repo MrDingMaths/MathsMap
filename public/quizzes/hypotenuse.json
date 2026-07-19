@@ -1,0 +1,65 @@
+{
+  "skillId": "hypotenuse",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (0,3);\\draw (A)--(B) node[midway,below] {$q$};\\draw (A)--(C) node[midway,left] {$p$};\\draw (B)--(C) node[midway,above right] {$s$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nWhich side is the hypotenuse?",
+      "structure": "hypotenuse-from-right-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$s$", "correct": true },
+        { "text": "$p$", "why": "Chose a shorter side (a leg) that meets the right angle instead of the side opposite it." },
+        { "text": "$q$", "why": "Assumed the bottom horizontal side is always the hypotenuse." }
+      ],
+      "solution_text": "The hypotenuse is $s$, the side opposite the right angle."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (J) at (1,1.732);\\coordinate (L) at (-2,0);\\coordinate (K) at (2,0);\\draw (J)--(L) node[midway,above left] {$j$};\\draw (J)--(K) node[midway,above right] {$k$};\\draw (L)--(K) node[midway,below] {$m$};\\coordinate (va) at ($(J)!0.3cm!(L)$);\\coordinate (vb) at ($(J)!0.3cm!(K)$);\\draw (va)--($(va)+(vb)-(J)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe right angle is at the top vertex. Which side is the hypotenuse?",
+      "structure": "right-angle-varied-orientation",
+      "mastery": false,
+      "options": [
+        { "text": "$m$", "correct": true },
+        { "text": "$j$", "why": "Picked a slanted leg forming the right angle at the top, not the side opposite it." },
+        { "text": "$k$", "why": "Picked the other slanted leg forming the right angle rather than the opposite side." }
+      ],
+      "solution_text": "The hypotenuse is $m$, the base opposite the right angle at the top vertex."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (4.5,0);\\coordinate (C) at (0,2);\\draw (A)--(B) node[midway,below] {$12$};\\draw (A)--(C) node[midway,left] {$5$};\\draw (B)--(C) node[midway,above right] {$13$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nWhich side length is the hypotenuse?",
+      "structure": "hypotenuse-is-longest-side",
+      "mastery": false,
+      "options": [
+        { "text": "$13$", "correct": true },
+        { "text": "$12$", "why": "Chose the longer leg instead of the side opposite the right angle." },
+        { "text": "$5$", "why": "Chose the shortest side rather than the longest side, the hypotenuse." }
+      ],
+      "solution_text": "$13$, the side opposite the right angle and the longest side."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\coordinate (A) at (0,0);\\coordinate (W) at (0,2.5);\\coordinate (F) at (2,0);\\draw (A)--(W) node[midway,left] {wall};\\draw (A)--(F) node[midway,below] {ground};\\draw (W)--(F) node[midway,above right] {ladder};\\coordinate (va) at ($(A)!0.3cm!(F)$);\\coordinate (vb) at ($(A)!0.3cm!(W)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nA ladder leans against a wall, making a right angle between the wall and the ground. Which distance is the hypotenuse?",
+      "structure": "ladder-context",
+      "mastery": false,
+      "options": [
+        { "text": "The length of the ladder", "correct": true },
+        { "text": "The horizontal distance from the wall to the foot of the ladder", "why": "This is a shorter side along the ground, a leg that meets the right angle, not the side opposite it." },
+        { "text": "The vertical height the ladder reaches up the wall", "why": "This is the other leg, running up the wall to the right angle, not the side opposite it." }
+      ],
+      "solution_text": "The ladder is the hypotenuse, the side opposite the right angle between the wall and the ground."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (2,-1);\\coordinate (C) at (1,2);\\draw (A)--(B) node[midway,below] {$u$};\\draw (A)--(C) node[midway,left] {$v$};\\draw (B)--(C) node[midway,right] {$w$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThis right-angled triangle is rotated so the right angle points down. Which side is the hypotenuse?",
+      "structure": "right-angle-varied-orientation",
+      "mastery": true,
+      "options": [
+        { "text": "$w$", "correct": true },
+        { "text": "$u$", "why": "Picked a leg meeting the right angle because the triangle is rotated, not the opposite side." },
+        { "text": "$v$", "why": "Picked the other leg at the right angle instead of the side opposite it." }
+      ],
+      "solution_text": "The hypotenuse is $w$, the side opposite the right angle at $A$."
+    }
+  ]
+}

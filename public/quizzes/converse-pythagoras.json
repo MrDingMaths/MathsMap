@@ -1,0 +1,65 @@
+{
+  "skillId": "converse-pythagoras",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\coordinate (P) at (0,2.4);\\coordinate (Q) at (2.6,2.4);\\coordinate (R) at (2.6,0);\\draw (P)--(Q) node[midway,above] {$8$};\\draw (Q)--(R) node[midway,right] {$9$};\\draw (R)--(P) node[midway,below left] {$12$};\\end{tikzpicture}\n[/tikz]\nIs this triangle right-angled?",
+      "structure": "is-triangle-right-angled",
+      "mastery": false,
+      "options": [
+        { "text": "Not right-angled, since $8^2+9^2=145$ but $12^2=144$.", "correct": true },
+        { "text": "Right-angled, since $8^2+9^2=12^2$.", "why": "Assumes the equality holds without computing that $145\\neq144$." },
+        { "text": "Right-angled, because $12$ is clearly the longest side.", "why": "Assumes any triangle with a longest side must be right-angled." }
+      ],
+      "solution_text": "$8^2+9^2=145$ and $12^2=144$. Since $145\\neq144$, the triangle is **not** right-angled."
+    },
+    {
+      "id": "q2",
+      "question_text": "Is $(5,12,13)$ a Pythagorean triad?",
+      "structure": "is-triad",
+      "mastery": false,
+      "options": [
+        { "text": "Yes, since $5^2+12^2=169=13^2$.", "correct": true },
+        { "text": "No, since $5+12\\neq13$.", "why": "Adds the numbers instead of comparing the squares." },
+        { "text": "No, since $5^2+13^2\\neq12^2$.", "why": "Squares the largest number $13$ as a shorter side instead of as $c$." }
+      ],
+      "solution_text": "$5^2+12^2=25+144=169$ and $13^2=169$, so $(5,12,13)$ **is** a Pythagorean triad."
+    },
+    {
+      "id": "q3",
+      "question_text": "Is $(6,13,15)$ a Pythagorean triad?",
+      "structure": "is-triad",
+      "mastery": false,
+      "options": [
+        { "text": "Not a triad, since $6^2+13^2=205$ but $15^2=225$.", "correct": true },
+        { "text": "A triad, since $6^2+13^2=15^2$.", "why": "Assumes the sum matches without computing that $205\\neq225$." },
+        { "text": "A triad, since all three are whole numbers.", "why": "Assumes any three whole numbers form a triad without testing the squares." }
+      ],
+      "solution_text": "$6^2+13^2=36+169=205$ and $15^2=225$. Since $205\\neq225$, $(6,13,15)$ is **not** a Pythagorean triad."
+    },
+    {
+      "id": "q4",
+      "question_text": "$(3,4,5)$ is a Pythagorean triad. Which of these is also a Pythagorean triad?",
+      "structure": "scaled-triad",
+      "mastery": true,
+      "options": [
+        { "text": "$(9,12,15)$", "correct": true },
+        { "text": "$(4,5,6)$", "why": "Adds $1$ to each number, which does not scale a triad by a common factor." },
+        { "text": "$(6,7,8)$", "why": "Adds $3$ to each number instead of multiplying every number by the same factor." }
+      ],
+      "solution_text": "$(9,12,15)$ is $(3,4,5)$ with every number multiplied by $3$, so it **is** a Pythagorean triad."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\coordinate (A) at (0,0);\\coordinate (B) at (3.5,0);\\coordinate (C) at (0,3.3);\\draw (A)--(B) node[midway,below] {$21$};\\draw (A)--(C) node[midway,left] {$20$};\\draw (B)--(C) node[midway,above right] {$29$};\\end{tikzpicture}\n[/tikz]\nIs this triangle right-angled? The diagram is not to scale.",
+      "structure": "is-triangle-right-angled",
+      "mastery": false,
+      "options": [
+        { "text": "Right-angled, since $20^2+21^2=841=29^2$.", "correct": true },
+        { "text": "Not right-angled, since $20^2+21^2\\neq29^2$.", "why": "Makes an arithmetic slip; $400+441=841$, which equals $29^2$." },
+        { "text": "Not right-angled, since $20+21\\neq29$.", "why": "Adds the sides instead of comparing their squares." }
+      ],
+      "solution_text": "$20^2+21^2=400+441=841$ and $29^2=841$, so the triangle **is** right-angled."
+    }
+  ]
+}
