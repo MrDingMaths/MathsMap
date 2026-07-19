@@ -59,7 +59,7 @@ the prompts/pipeline need no revision. Remaining 10 topics then run in curriculu
 | 3 | t-s4-lin | Linear relationships | 12 (0) | `Linear Relationships.md` | committed | `graph-linear-relationship`, `intersection-of-lines`, `pattern-to-equation` | ChatGPT content discarded (archived at git tag `archive/t-s4-lin-chatgpt`); regenerated fresh with Opus, one agent per skill. `validate.mjs` clean; blind check 68/68 MCQ agree, 0 UNSURE, 0 mismatches. Visual diagram gate pending (done manually by human).  |
 | 4 | t-s4-dat | Data classification and visualisation | 8 (0) | `Data Visualisation.md` (dp-1, classification)<br>`Data Classification and Visualisation 2_Display data using graphical representations relevant to the purpose of the data.md` (dp-2)<br>`Data Classification and Visualisation 3_Interpret data in graphical representations.md` (dp-3) | committed | `statistical-variable`, `misleading-graphs`, `represent-data-graphs` | `statistical-variable` (booklet under-covers — only a variable-vs-value table, no "which/name the variable" drills; the variable-vs-value / name-the-variable / variable-vs-individual items authored fresh from the dot point → closer review). Generated fresh with Opus, one agent per booklet section (3 generators + 3 fresh blind checkers, per pared workflow). All 8 `validate --only` clean. Blind check: **40/40 quiz MCQ agree**, all mastery items agree, 0 UNSURE, 0 mismatches, 0 figure-mismatch flags — no repairs. **Automated vision gate retired (per updated runbook); diagram skills flagged for manual human visual review:** `represent-data-graphs` (9 tikz), `graph-conventions` (5), `choose-graph-type` (1), `interpret-graphs-conclusions` (17), `misleading-graphs` (19); the 3 classification skills are diagram-free. `graph-conventions` mastery omitted (single-step recognition; masteryOmitted recorded). **Diagram-revision pass (post first human review):** all data-display figures rewritten to fix (a) title/y-axis-label collision and (b) scenario/column/line-shape monotony — anti-collision placement rule + variety rule + copy-ready templates added to `docs/tikz-prompt.md` (Data displays) and pointed to from the runbook, so batches 5–6 inherit it. Scenarios now disjoint across skills (pizza/shoes/books/cars/rainfall/grades/plants; concert/goals/museum/temperature/battery/populations/sales/exam-marks), column counts 3–7, line graphs non-linear. Re-validated clean + re-blind-checked (26/26 revised MCQ + mastery agree, 0 flags). **Second placement fix (post 2nd human review):** x-axis name was colliding with the last category/tick label at the arrow tip; hand-moved all 45 axis-name nodes to a centred lower line `(xmid, -1.0)` off the `y=0` baseline (coordinate-only, answers untouched → no re-check), and updated the `tikz-prompt.md` rule + templates so future graphs place the x-label there. **Third fix (crowding, post 3rd human review):** cramped small-scale figures had y-label overlapping wide `%`/4-digit ticks, long category words touching, and long titles overrunning the y-axis; hand-applied fit knobs (scale→0.85 min, wide-tick y-label→x−2.0, long category labels→`\tiny`, over-long titles→`\scriptsize`) across 5 files (font/scale only, no data change), and added a "Sizing & fit" rule to `tikz-prompt.md`. Re-validated clean. Committed as 49463fb. |
 | 5 | t-s4-pyt | Right-angled triangles (Pythagoras) | 7 (0) | `Right-angled Triangles.md` | committed | `converse-pythagoras`, `pythagoras-problems`, `pythagoras-multistep` + **full diagram list (all 7) for manual visual review** | none (all 7 booklet-covered) — see notes for two deliberate scope/figure decisions |
-| 6 | t-s4-frc | Fractions, decimals and percentages | 34 (2) | `Fractions Decimals Percentages 1_Comparing Fractions.md`<br>`Fractions Decimals Percentages 2_Decimals.md`<br>`Fractions Decimals Percentages 3_Converting FDP.md`<br>`Fractions Decimals Percentages 4_Operations with FDP.md`<br>`Fractions Decimals Percentages 5_Percentage Increase Decrease Change.md`<br>`Fractions Decimals Percentages 6_Percentages Problems.md` | pending | — | — |
+| 6 | t-s4-frc | Fractions, decimals and percentages | 34 (2) | `Fractions Decimals Percentages 1_Comparing Fractions.md`<br>`Fractions Decimals Percentages 2_Decimals.md`<br>`Fractions Decimals Percentages 3_Converting FDP.md`<br>`Fractions Decimals Percentages 4_Operations with FDP.md`<br>`Fractions Decimals Percentages 5_Percentage Increase Decrease Change.md`<br>`Fractions Decimals Percentages 6_Percentages Problems.md` | in-review | `convert-fractions-decimals-percentages`, `reverse-percentage-problems`, `financial-percentage-problems` + **full diagram list (2: `equivalent-fractions`, `locate-irrationals-number-line`) for manual visual review** | none (all 34 booklet-covered) |
 
 **Batch 5 (t-s4-pyt) notes.** Generated fresh with Opus, pared workflow — 3 section-owning
 generators (A: `hypotenuse`+`pythagoras-theorem-statement`+`converse-pythagoras`;
@@ -88,6 +88,54 @@ scope; (2) the quadrant+triangle mastery figure (image116) was reduced to its de
 triangle (sides 6/10, radius r) with the three-quarter arc described in text, because the
 booklet composite could not be reproduced self-consistently and a figure contradicting its
 answer would be a defect. Committed to master (batch content + manifest + this status flip).
+
+**Batch 6 (t-s4-frc) notes.** Generated fresh with Opus, pared workflow — **7 section-owning
+generators** (author-per-section, booklet 4 split fraction/decimal for load), then **7 fresh blind
+checkers** (one per section):
+A `Comparing Fractions` = hcf-two-numbers, lcm-two-numbers, simplify-fractions,
+compare-order-fractions, equivalent-fractions[S3];
+B `Decimals` = round-decimals[S3], approximation-notation, round-decimals-carry,
+recurring-decimal-notation, classify-terminating-recurring;
+C `Converting FDP` = rational-numbers, convert-fractions-decimals-percentages,
+improper-mixed-numbers, irrational-numbers, locate-irrationals-number-line,
+order-fractions-decimals-percentages;
+D `Operations`/fractions = add-subtract-fractions, find-reciprocal, multiply-divide-fractions,
+effect-multiply-by-fraction, fraction-decimal-quantity-problems;
+E `Operations`/decimals = place-decimal-point-product, decimal-divisor-to-whole,
+multiply-divide-decimals;
+F `Percentage Increase Decrease Change` = quantity-as-fraction-percentage, percentage-of-quantity,
+percentage-increase-decrease, percentage-multiplier, percentage-change;
+G `Percentages Problems` = interpret-percentage-represented, unitary-method-percentages,
+reverse-percentage-problems, repeated-percentage-change, financial-percentage-problems.
+
+**STAGE 3 rule applied to both stage-3 skills.** `round-decimals` (content theory-only + quiz
+already present) and `equivalent-fractions` (content theory-only, quiz absent): `theory` object
+copied **byte-for-byte**; only practice tiers added, and the `equivalent-fractions` quiz created
+fresh. Pre-existing `round-decimals` quiz left untouched and re-validated.
+
+All 34 `validate --only` clean; whole-batch + full-repo `validate.mjs` clean (0 warnings);
+manifest rebuilt (238 content / 85 quiz). **Blind check: 171/171 quiz MCQ agree, all
+mastery-practice items agree, 0 UNSURE, 0 mismatches, 0 figure-mismatch flags — no repairs.**
+(One formatting-equivalence accepted: `multiply-divide-fractions` m1 checker gave `25/6` where the
+key shows `4⅙` — equal.) atomTypes recorded per skill in generator reports (recognition skills
+`rational-numbers`/`irrational-numbers`/`approximation-notation` = Cat; notation/transform skills
+`improper-mixed-numbers`/`find-reciprocal`/`place-decimal-point-product`/`decimal-divisor-to-whole`/
+`percentage-multiplier`/`recurring-decimal-notation` = T; `effect-multiply-by-fraction` = Com;
+remainder = R). **masteryOmitted** (single-step, no in-skill twist): `approximation-notation`,
+`recurring-decimal-notation`, `decimal-divisor-to-whole`. No `anchor:none` — the six FDP booklets
+cover all 34 skills. Difficulty-drift watch held on the flagged densest prereq cluster: each atom
+kept to its own scope (interpret-percentage-represented only names the percentage; reverse uses
+unitary+interpret in service; percentage-increase-decrease framed via (100±x)% not the multiplier;
+decimal point-placement / divisor-shift kept to their single step). Cross-skill dedupe scan: no
+near-duplicate stems between section-mates.
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review (only 2
+carry inline `[tikz]`; the other 32 are number skills, diagram-free):** `equivalent-fractions`
+(1 content bar area-model + 1 quiz) and `locate-irrationals-number-line` (20 content number-lines +
+5 quiz) — **27 `[tikz]` blocks total**; eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s4-frc`. Number-line placements use position = value×1.5
+(√2≈1.41, √3≈1.73, √5≈2.24, √7≈2.65, π≈3.14, and negatives); the blind checker read the TikZ
+coordinates and agreed every marked position. Not committed — awaiting human review + commit.
 
 **Pilot gate: human review of pilot outcomes before batch 7 starts.**
 
