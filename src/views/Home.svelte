@@ -146,7 +146,7 @@
         >
           <button class="course-select" type="button" onclick={() => chooseCourse(course)} aria-pressed={selectedCourse?.id === course.id}>
             <span class="course-topline">
-              <span class="course-mark" aria-hidden="true">{course.stage === 6 ? 'Y' : 'S'}{course.stage}</span>
+              <span class="course-mark" aria-hidden="true">S{course.stage}</span>
               {#if selectedCourse?.id === course.id}<span class="selected-label">Exploring</span>{/if}
             </span>
             <strong class="course-title">{course.title}</strong>
