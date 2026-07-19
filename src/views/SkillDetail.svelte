@@ -156,8 +156,8 @@
   .skill-header .blurb { max-width: 68ch; margin: 0.65rem 0 0; color: var(--muted); font-size: 1.02rem; }
   .title-actions { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; margin-top: 1rem; }
   .title-actions a, .title-actions button { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; padding: 0.5rem 0.75rem; border: 1px solid var(--border-strong); border-radius: 9px; background: var(--panel); color: var(--text); font: 650 0.78rem var(--font-body); cursor: pointer; }
-  .title-actions a:hover, .title-actions button:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-  .title-actions .primary-action { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .title-actions a:hover, .title-actions button:hover { border-color: var(--border-strong); background: var(--panel-2); color: var(--accent); text-decoration: none; }
+  .title-actions .primary-action { border-color: transparent; background: var(--accent); color: #fff; }
   .title-actions .primary-action:hover { background: var(--accent-strong); color: #fff; }
   .skill-grid { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 2.5rem; align-items: start; }
   .skill-side { position: sticky; top: 142px; display: flex; flex-direction: column; gap: 0.8rem; }

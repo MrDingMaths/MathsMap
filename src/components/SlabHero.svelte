@@ -7,7 +7,6 @@
 </script>
 
 <section class="hero" style="--hero-color:{color}">
-  <span class="route-line" aria-hidden="true"></span>
   <div class="hero-copy">
     {#if eyebrow}<div class="eyebrow">{eyebrow}</div>{/if}
     <h1><Math text={title} /></h1>
@@ -25,8 +24,7 @@
 </section>
 
 <style>
-  .hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr); align-items: end; gap: 2rem; padding: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 0.5rem; border: 1px solid color-mix(in srgb, var(--hero-color) 24%, var(--border)); border-top: 4px solid var(--hero-color); border-radius: var(--radius-xl); background: linear-gradient(135deg, color-mix(in srgb, var(--hero-color) 8%, var(--panel)), var(--panel)); }
-  .route-line { position: absolute; width: 260px; height: 150px; right: -60px; top: -75px; border: 2px dashed color-mix(in srgb, var(--hero-color) 24%, transparent); border-radius: 50%; transform: rotate(-12deg); pointer-events: none; }
+  .hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr); align-items: end; gap: 2rem; padding: clamp(1.5rem, 4vw, 2.25rem); margin-bottom: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(135deg, var(--surface-warm), var(--panel)); }
   .hero-copy, .progress-panel { position: relative; z-index: 1; }
   .eyebrow { margin-bottom: 0.45rem; color: var(--hero-color); font-size: 0.7rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
   h1 { margin: 0; color: var(--text); font-size: clamp(1.8rem, 4vw, 2.45rem); line-height: 1.06; }

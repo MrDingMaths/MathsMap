@@ -664,11 +664,11 @@
     cursor: pointer;
   }
   .seg button { flex: 1; min-height: 38px; padding: 0.35rem 0.5rem; border-radius: 10px; font: 650 0.78rem var(--font-body); }
-  .seg button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .seg button:hover:not(.on), .zoom-controls button:hover, .filters-button:hover { border-color: var(--accent); }
+  .seg button.on { background: var(--accent); border-color: transparent; color: #fff; }
+  .seg button:hover:not(.on), .zoom-controls button:hover, .filters-button:hover { border-color: var(--border-strong); background: var(--panel-2); }
   button:focus-visible, .node-label:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; }
 
-  .scope-pill { margin-top: 0.65rem; padding: 0.65rem; border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border)); border-radius: 10px; background: color-mix(in srgb, var(--accent) 6%, var(--panel)); font-size: 0.76rem; }
+  .scope-pill { margin-top: 0.65rem; padding: 0.65rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); font-size: 0.76rem; }
   .scope-pill .link { display: block; margin-top: 0.25rem; padding: 0; border: 0; background: none; color: var(--accent); cursor: pointer; font-size: 0.76rem; }
   .cross-toggle { display: flex; align-items: center; gap: 0.55rem; min-height: 36px; margin-top: 0.25rem; padding: 0.2rem 0.25rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer; }
   .cross-toggle:hover { background: var(--surface-soft); }
@@ -676,11 +676,11 @@
   .course-list { display: flex; flex-direction: column; gap: 0.3rem; }
   .course-opt { display: flex; align-items: center; gap: 0.5rem; min-height: 40px; padding: 0.4rem 0.5rem; border: 1px solid transparent; border-radius: 10px; cursor: pointer; font-size: 0.8rem; }
   .course-opt:hover, .course-opt.on { background: var(--surface-soft); }
-  .course-opt.on { border-color: var(--border); box-shadow: inset 3px 0 0 var(--accent); }
+  .course-opt.on { border-color: var(--border-strong); background: var(--surface-soft); }
   .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
   .course-title { line-height: 1.2; }
   .locate { margin-left: auto; width: 28px; height: 28px; flex: none; padding: 0; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--panel); color: var(--muted); cursor: pointer; }
-  .locate:hover { color: var(--accent); border-color: var(--accent); }
+  .locate:hover { color: var(--accent); border-color: var(--border-strong); background: var(--panel-2); }
   .legend { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 0.65rem; list-style: none; margin: 0; padding: 0; font-size: 0.74rem; }
   .legend li { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
   .legend .ring { position: relative; width: 16px; height: 16px; flex: none; border-radius: 50%; background: conic-gradient(var(--c) 0 var(--p), var(--track) var(--p) 100%); }
@@ -723,10 +723,10 @@
   .node-label.ready { color: var(--map-ready); font-weight: 700; }
   .node-label.dimmed { opacity: 0.16; }
   .node-label.focused { opacity: 1; border-color: color-mix(in srgb, var(--text) 42%, transparent); }
-  .node-label.focus-root { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 25%, transparent), 0 5px 16px rgba(0, 0, 0, 0.42); }
+  .node-label.focus-root { opacity: 1; border-color: var(--border-strong); background: var(--panel-2); box-shadow: var(--shadow); }
   .node-label :global(.katex) { font-size: 1em; }
 
-  .tip { position: absolute; z-index: 5; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: 270px; padding: 0.7rem 0.8rem; border: 1px solid var(--border-strong); border-left: 3px solid var(--c, var(--accent)); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-lg); pointer-events: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .tip { position: absolute; z-index: 5; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: 270px; padding: 0.7rem 0.8rem; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow-lg); pointer-events: none; display: flex; flex-direction: column; gap: 0.3rem; }
   .tip strong { font-size: 0.88rem; line-height: 1.25; }
   .tip-blurb { font-size: 0.77rem; color: var(--muted); }
   .tip-meta { font-size: 0.7rem; color: var(--muted); }

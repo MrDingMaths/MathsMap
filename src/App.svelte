@@ -133,7 +133,7 @@
     cursor: pointer;
     transition: color var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast) var(--ease-snap);
   }
-  .search-trigger:hover { color: var(--text); border-color: var(--accent); }
+  .search-trigger:hover { color: var(--text); border-color: var(--border-strong); background: var(--panel-2); }
   .search-trigger:active { transform: scale(0.97); }
   nav.top button:focus-visible, nav.top a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .search-trigger kbd { margin-left: auto; font: 0.64rem system-ui, sans-serif; color: var(--muted); }

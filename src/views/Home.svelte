@@ -199,16 +199,15 @@
 <style>
   .browse-page { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.8rem); }
   .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(130deg, var(--surface-warm), var(--panel)); animation: route-enter var(--motion-base) var(--ease-out) both; }
-  .home-hero::after { content: ''; position: absolute; width: 280px; height: 160px; right: -100px; top: -85px; border: 2px dashed color-mix(in srgb, var(--accent) 20%, transparent); border-radius: 50%; transform: rotate(-15deg); pointer-events: none; }
   .hero-copy, .hero-actions { position: relative; z-index: 1; }
   .eyebrow { color: var(--accent); font-size: 0.68rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
   h1 { max-width: 690px; margin: 0.28rem 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
   .lede { max-width: 580px; margin: 0; color: var(--muted); }
   .hero-actions { display: grid; gap: 0.65rem; }
   .continue-cta, .quiz-cta { display: grid; grid-template-columns: 2rem 1fr; align-items: center; gap: 0.8rem; min-height: 70px; padding: 0.8rem 1rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--panel); color: var(--text); transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast); }
-  .continue-cta { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .continue-cta { border-color: transparent; background: var(--accent); color: #fff; }
   .continue-cta:hover, .quiz-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow); text-decoration: none; }
-  .quiz-cta:hover { border-color: var(--accent); }
+  .quiz-cta:hover { border-color: var(--border-strong); background: var(--panel-2); }
   .continue-cta:active, .quiz-cta:active { transform: scale(0.98); }
   .cta-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid currentColor; border-radius: 10px; font-weight: 800; }
   .quiz-icon { color: var(--status-proficient); }
@@ -222,14 +221,14 @@
   .dashboard-hint { max-width: 340px; color: var(--muted); font-size: 0.76rem; text-align: right; }
   .stage-tabs { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.45rem; scrollbar-width: thin; }
   .stage-tabs button { position: relative; flex: none; min-width: 92px; min-height: 42px; padding: 0.55rem 1rem; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--muted); font: 700 0.82rem var(--font-body); cursor: pointer; transition: transform var(--motion-fast) var(--ease-snap), color var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast); }
-  .stage-tabs button:hover { color: var(--text); border-color: var(--accent); transform: translateY(-1px); }
+  .stage-tabs button:hover { color: var(--text); border-color: var(--border-strong); background: var(--panel-2); transform: translateY(-1px); }
   .stage-tabs button:active { transform: scale(0.96); }
-  .stage-tabs button.active { color: #fff; border-color: var(--accent); background: var(--accent); box-shadow: 0 6px 18px -10px var(--accent); animation: selection-pop var(--motion-base) var(--ease-snap); }
+  .stage-tabs button.active { color: #fff; border-color: transparent; background: var(--accent); animation: selection-pop var(--motion-base) var(--ease-snap); }
 
   .course-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
-  .course-card { position: relative; display: flex; flex-direction: column; min-height: 260px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: inset 0 3px 0 color-mix(in srgb, var(--course-color) 65%, transparent); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast); }
-  .course-card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--course-color) 55%, var(--border)); box-shadow: var(--shadow); }
-  .course-card.selected { border-color: var(--course-color); box-shadow: inset 4px 0 0 var(--course-color), var(--shadow); }
+  .course-card { position: relative; display: flex; flex-direction: column; min-height: 260px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast); }
+  .course-card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow); }
+  .course-card.selected { border-color: var(--border-strong); background: var(--surface-soft); box-shadow: var(--shadow); }
   .course-select { flex: 1; width: 100%; padding: 1rem 1rem 0.8rem; border: 0; background: transparent; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
   .course-select:active { transform: scale(0.99); }
   .course-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }

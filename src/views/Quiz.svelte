@@ -240,7 +240,7 @@
     animation: card-enter var(--motion-base) var(--ease-out) both;
     transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast);
   }
-  .picker-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }
+  .picker-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: var(--shadow); text-decoration: none; }
   .picker-card:active { transform: scale(0.98); }
   .picker-card.disabled { opacity: 0.5; pointer-events: none; }
   .picker-title { align-self: flex-start; font-size: 0.95rem; font-weight: 600; color: #fff; padding: 0.35rem 0.75rem; border-radius: 999px; }
@@ -278,7 +278,7 @@
     cursor: pointer;
     transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
   }
-  .finish-early:hover { border-color: var(--accent); color: var(--accent); }
+  .finish-early:hover { border-color: var(--border-strong); background: var(--panel-2); color: var(--accent); }
   .finish-early:active { transform: scale(0.96); }
 
   .cap-screen { text-align: center; padding: 2rem 0; }

@@ -127,7 +127,7 @@
     cursor: pointer;
     transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap), opacity var(--motion-fast), box-shadow var(--motion-fast);
   }
-  .qq-opt:hover:not(:disabled) { transform: translateX(3px); border-color: var(--accent); background: var(--panel-2); }
+  .qq-opt:hover:not(:disabled) { transform: translateX(3px); border-color: var(--border-strong); background: var(--panel-2); }
   .qq-opt:active:not(:disabled) { transform: translateX(3px) scale(0.985); }
   .qq-opt:disabled { cursor: default; }
   .opt-key {

@@ -77,7 +77,6 @@
 <style>
   .learning-view { max-width: 1080px; }
   .learning-hero { position: relative; overflow: hidden; padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(135deg, var(--surface-warm), var(--panel)); }
-  .learning-hero::after { content: ''; position: absolute; right: -35px; top: -65px; width: 210px; height: 210px; border: 2px dashed color-mix(in srgb, var(--accent) 25%, transparent); border-radius: 50%; pointer-events: none; }
   .eyebrow { color: var(--muted); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   h1 { margin: 0.25rem 0 0.45rem; font-size: clamp(1.8rem, 4vw, 2.5rem); }
   .learning-hero p { max-width: 55ch; margin: 0 0 1.25rem; color: var(--muted); }

@@ -13,7 +13,7 @@
 </div>
 
 <style>
-  .theory { padding: 1.2rem 1.35rem; border-left: 3px solid color-mix(in srgb, var(--accent) 65%, var(--border)); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--surface-soft); }
+  .theory { padding: 1.2rem 1.35rem; border-radius: var(--radius-md); background: var(--surface-soft); }
   .theory-intro { margin: 0 0 0.8rem; font-size: 1rem; line-height: 1.65; }
   .theory-facts { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.45rem; }
   .theory-facts li { padding-left: 0.2rem; font-size: 1rem; line-height: 1.6; }

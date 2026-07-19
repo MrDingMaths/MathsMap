@@ -72,7 +72,7 @@
   .carousel-track { display: flex; gap: 1.5rem; transition: transform var(--motion-slow) var(--ease-out); will-change: transform; touch-action: pan-y; }
   .carousel-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; margin-top: 0.55rem; }
   .carousel-nav button { min-height: 38px; padding: 0.45rem 0.75rem; border: 1px solid var(--border-strong); border-radius: 9px; background: var(--panel); color: var(--text); font: 650 0.78rem var(--font-body); cursor: pointer; }
-  .carousel-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .carousel-nav button:hover:not(:disabled) { border-color: var(--border-strong); background: var(--panel-2); color: var(--accent); }
   .carousel-nav button:disabled { opacity: 0.35; cursor: default; }
   .carousel-nav > span { color: var(--muted); font-size: 0.7rem; text-align: center; }
   @media (max-width: 520px) { .carousel-nav { grid-template-columns: 1fr 1fr; } .carousel-nav > span { display: none; } .position { font-size: 0.7rem; } }
