@@ -1,7 +1,7 @@
 <script>
   import MathText from './Math.svelte';
   import Tikz from './Tikz.svelte';
-  import { splitInlineContent } from '../lib/inline-content.js';
+  import { splitInlineContent, groupTextBlocks } from '../lib/inline-content.js';
 
   let { text = '', class: className = '' } = $props();
   let parsed = $derived(splitInlineContent(text));
@@ -12,8 +12,8 @@
     {#if part.type === 'tikz'}
       <div class="inline-tikz"><Tikz code={part.value} /></div>
     {:else if part.value}
-      {#each part.value.split(/\r?\n/) as line}
-        {#if line}<div class="text-line"><MathText text={line} /></div>{:else}<div class="blank-line" aria-hidden="true"></div>{/if}
+      {#each groupTextBlocks(part.value) as block}
+        {#if block.kind === 'blank'}<div class="blank-line" aria-hidden="true"></div>{:else}<div class="text-line"><MathText text={block.value} /></div>{/if}
       {/each}
     {/if}
   {/each}

@@ -47,6 +47,84 @@ export function splitInlineContent(value) {
   return { parts, errors };
 }
 
+// Relation macros (written `\le`, `\ge`, …) that an aligned block should line
+// up on, alongside the bare `=`/`<`/`>` characters.
+const RELATION_MACROS = new Set([
+  'le', 'ge', 'leq', 'geq', 'lt', 'gt', 'approx', 'ne', 'neq', 'equiv',
+  'cong', 'sim', 'simeq', 'propto', 'doteq', 'Rightarrow', 'rightarrow',
+  'Leftrightarrow', 'leftrightarrow', 'to', 'mapsto'
+]);
+
+// A whole-line single maths run: `$…$` with no interior `$` and no trailing prose.
+function pureMathInner(line) {
+  const t = line.trim();
+  if (t.length < 2 || t[0] !== '$' || t[t.length - 1] !== '$') return null;
+  if (t.indexOf('$', 1) !== t.length - 1) return null; // interior `$` ⇒ not a single run
+  const inner = t.slice(1, -1);
+  // An explicit environment (aligned/cases/array/matrix) already controls its
+  // own layout — leave it as a standalone line, never re-wrap it.
+  if (/\\begin\s*\{/.test(inner)) return null;
+  return inner;
+}
+
+// Index of the first top-level (brace-depth 0) relation to align on, or -1.
+function relationCut(s) {
+  let depth = 0;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === '\\') {
+      const m = /^\\([a-zA-Z]+)/.exec(s.slice(i));
+      if (m) {
+        if (depth === 0 && RELATION_MACROS.has(m[1])) return i;
+        i += m[0].length - 1; // skip the macro name
+      } else {
+        i += 1; // escaped punctuation like `\{`, `\,`
+      }
+      continue;
+    }
+    if (c === '{') depth++;
+    else if (c === '}') depth--;
+    else if (depth === 0 && (c === '=' || c === '<' || c === '>')) return i;
+  }
+  return -1;
+}
+
+// Turn a run of consecutive pure-maths lines into one KaTeX `aligned` block so
+// the relations column-align on screen (the house-style "align on =" setout).
+// A single line is left untouched — only genuine multi-line working is wrapped.
+function alignedFromRun(inners) {
+  const rows = inners.map((inner) => {
+    const cut = relationCut(inner);
+    return cut === -1 ? `&${inner}` : `${inner.slice(0, cut)}&${inner.slice(cut)}`;
+  });
+  return `$\\begin{aligned}${rows.join(' \\\\ ')}\\end{aligned}$`;
+}
+
+// Split a text part's value into render blocks. Consecutive whole-line maths
+// runs (2+) collapse into one `aligned` block; everything else stays as its own
+// line (or a blank spacer), preserving today's behaviour for prose and singles.
+export function groupTextBlocks(value) {
+  const blocks = [];
+  let run = [];
+  const flush = () => {
+    if (run.length >= 2) blocks.push({ kind: 'line', value: alignedFromRun(run) });
+    else if (run.length === 1) blocks.push({ kind: 'line', value: `$${run[0]}$` });
+    run = [];
+  };
+  for (const line of String(value ?? '').split(/\r?\n/)) {
+    const inner = pureMathInner(line);
+    if (inner !== null) {
+      run.push(inner);
+      continue;
+    }
+    flush();
+    if (line) blocks.push({ kind: 'line', value: line });
+    else blocks.push({ kind: 'blank' });
+  }
+  flush();
+  return blocks;
+}
+
 export function extractTikzBlocks(value) {
   const parsed = splitInlineContent(value);
   return {

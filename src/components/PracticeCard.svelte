@@ -1,11 +1,18 @@
 <script>
   import InlineContent from './InlineContent.svelte';
+  import { stripTikzBlocks } from '../lib/inline-content.js';
 
   // Single flip-card: question on the front, worked solution (or final answer)
   // on the back. `flipping` also doubles as the carousel-slide "pop" trigger
   // (the parent carousel ORs its own sliding state into this prop), so this
   // component only needs to know one boolean to play the pop animation.
   let { item, index = 0, flipped = false, flipping = false, onFlip } = $props();
+
+  // The back re-renders the question as a muted recap above the worked
+  // solution, so `solution_text` never has to repeat the prompt. Strip the
+  // question's figure from the recap — the solution carries its own (annotated)
+  // diagram — so the picture is not drawn twice on the same face.
+  const questionRecap = $derived(stripTikzBlocks(item.question_text));
 </script>
 
 <div class="flip-card"
@@ -21,6 +28,7 @@
       <div class="flip-q"><InlineContent text={item.question_text} /></div>
     </div>
     <div class="flip-back">
+      {#if questionRecap}<div class="flip-back-q"><InlineContent text={questionRecap} /></div>{/if}
       <div class="flip-answer"><InlineContent text={item.solution_text} /></div>
     </div>
   </div>
@@ -66,5 +74,14 @@
   }
   .flip-back { transform: rotateY(180deg); align-items: flex-start; justify-content: flex-start; }
   .flip-q { font-size: 1.05rem; text-align: center; }
+  .flip-back-q {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    width: 100%;
+    padding-bottom: 0.55rem;
+    margin-bottom: 0.2rem;
+    border-bottom: 1px solid var(--border);
+  }
   .flip-answer { font-size: 1.02rem; width: 100%; }
 </style>

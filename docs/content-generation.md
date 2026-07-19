@@ -3,7 +3,7 @@
 The session prompt for a **per-topic batch** that mass-generates teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for every skill in
 one Stage-4 topic, using a multi-agent workflow (one generation agent per booklet section,
-an independent blind checker per section, an orchestrator).
+a single independent blind checker for the whole batch, an orchestrator).
 
 Companion to the schema and principle docs — this prompt tells agents **how to run the
 batch**; those docs remain the authority on **what to produce**:
@@ -122,8 +122,17 @@ item 7 is the source of the stage structure). The house style, verbatim in
 [content-schema.md](content-schema.md) and [worked-example-principles.md](worked-example-principles.md):
 
 - **Align on `=`.** Opening line is the bare expression; every later line begins `=`. Keep
-  useful intermediate lines (e.g. the divide-out line when factorising).
-- **The final line is the answer.** No line that merely restates it.
+  useful intermediate lines (e.g. the divide-out line when factorising). **The renderer does
+  the visual alignment for you:** a run of consecutive whole-line `$…$` maths is collapsed
+  into one KaTeX `aligned` block, column-locked on each line's first top-level relation
+  (`InlineContent.groupTextBlocks`). So **write one plain `$…$` per line** — never hand-author
+  `\begin{aligned}`/`&`/`\\` (that doubles the JSON-backslash trap for no gain). A line with
+  trailing prose (e.g. `$x=112^{\circ}$, angles on a straight line`) breaks the run and renders
+  on its own — fine for a concluding reason line.
+- **The final line is the answer. No line that merely restates it.** In particular, do **not**
+  follow a computed `$=112^{\circ}$` with a bare `$x=112^{\circ}$` — that restatement is a
+  defect. And never write a false continuation: `$x+68^{\circ}=180^{\circ}$` then `$=180^{\circ}-68^{\circ}$`
+  reads as `180°=180°−68°`; the second line must re-anchor its LHS (`$x=180^{\circ}-68^{\circ}$`).
 - **Step headers only at genuine stage boundaries**, as a standalone `N. **Step name**` line
   (number outside the bold) drawn from `theory.steps` in order. **Single-stage routines carry
   no headers** — do not label every line.
@@ -139,6 +148,14 @@ $2(2x+3)$  **Check by expanding**
 Multi-stage skills header each stage the booklet numbers (e.g. `1. **Factorise the LHS**`
 then `2. **Solve each factor**`). The validator no longer *requires* a label; a header that
 is present must still name a `theory.steps` entry in order.
+
+### solution_text is working only — never restate the question
+
+The practice flip-card re-renders the question as a muted recap on the flipped back
+(`PracticeCard.svelte` `.flip-back-q`, prose stripped of the figure), then the solution
+below it. So **`solution_text` must not repeat the prompt prose** and must not redraw the
+plain question figure. Author only the working (and, per the TikZ rule, a *fuller annotated*
+figure when it adds construction the question figure lacks — never a duplicate of it).
 
 ### Don't force a procedure
 
@@ -349,16 +366,23 @@ The orchestrator drives the batch; generation and checking run in parallel group
    geometry/measurement/data skills (PNG reading + TikZ authoring) must not run on a
    downgraded model — image misreading rates on smaller tiers are unacceptable for
    diagram-anchored content.
-3. **Blind check — one fresh checker agent per section.** Proceed **only after every
-   generation agent has reported completion** — never infer readiness from file presence or
-   mtime. For each generated skill run `node scripts/blind-for-check.mjs <skillId>` — it
-   emits, under `.checkwork/` (gitignored), a `{id}.blind.json` (quiz + mastery practice
-   with correct flags / `why` / `solution_text` stripped and options deterministically
-   shuffled) and a `{id}.key.json` answer key. Hand **only** the blind bundles for a
-   section's skills to one independent **checker agent** (never the generator), which
-   **re-solves every MCQ and every mastery practice question WITHOUT seeing the stated
-   answers**. Each checker is a **fresh agent every round** — never reuse a checker that has
-   seen a previous round's bundle or any key.
+3. **Blind check — ONE fresh checker agent for the whole batch (not per section).**
+   Proceed **only after every generation agent has reported completion** — never infer
+   readiness from file presence or mtime. For each generated skill run
+   `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/` (gitignored),
+   a `{id}.blind.json` (quiz + mastery practice with correct flags / `why` / `solution_text`
+   stripped and options deterministically shuffled) and a `{id}.key.json` answer key. Hand
+   **only** the blind bundles for **all the batch's skills** to a **single** independent
+   **checker agent** (never a generator), which **re-solves every MCQ and every mastery
+   practice question WITHOUT seeing the stated answers**. The checker is a **fresh agent
+   every round** — never reuse a checker that has seen a previous round's bundle or any key.
+   **Why one, not per-section:** across the pilot's three Opus batches (~49 skills, 300+
+   items) the per-section fan-out found **zero** genuine defects; the only two real catches
+   (batches 1–2) predate all-Opus generation. Full-answer coverage is what caught them, and
+   a single checker still re-solves every item — so keep the coverage, drop the redundant
+   agents. **Only split** the check across 2+ checkers when the batch is large enough that
+   one agent's context can't hold every blind bundle at authoring quality (rule of thumb:
+   split above ~25 skills, keeping each checker's slice whole-skill, never a partial skill).
 4. **Adjudicate.** The orchestrator compares the checker's answers against `{id}.key.json`.
    For each disagreement, decide whether it is a **formatting equivalence** (e.g. `3.5`
    vs `3.50`, `1/2` vs `0.5`, reordered but equal) — accept — or a **genuine mismatch**.
