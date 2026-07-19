@@ -55,7 +55,7 @@ the prompts/pipeline need no revision. Remaining 10 topics then run in curriculu
 | # | Topic id | Topic title | Skills (stage-3 subset) | Mapped booklet file(s) | Status | Review samples | Anchor gaps |
 |---|---|---|---|---|---|---|---|
 | 1 | t-s4-alg | Algebraic techniques | 16 (0) | `Algebraic Techniques 1_Introduction to Algebra.md`<br>`Algebraic Techniques 2_Simplifying Expressions.md`<br>`Algebraic Techniques 3_Expanding Brackets.md`<br>`Algebraic Techniques 4_Factorise Expressions.md` | committed | `factors-of-algebraic-term`, `factorise-negative-common-factor`, `identify-parts-of-expression` | `factors-of-algebraic-term`, `factorise-negative-common-factor` (booklet under-covers; generated from dot point). Blind check: 99/101 MCQ agree; 1 checker index slip (hcf q4, adjudicated agree); 1 genuine defect repaired (identify-parts-of-expression q6+m1 constant-term-of-none ambiguity → replaced with signed-constant twist, round-2 check 7/7) |
-| 2 | t-s4-ang | Angle relationships | 7 (0) | `Angle Relationships.md` | committed | `unknown-angles-parallel`, `transversal-angle-pairs`, `geometry-notation` | ChatGPT-generated. 68 TikZ fields; all 68 compile and user visual review approved. Quiz figures added to diagram-reading items. Blind check: MCQ 31/31 agree, 0 unanswerable; original auxiliary-line defect repaired and rechecked. Two visual sweeps made 16 targeted figure repairs (ray endpoints, on-line parallel marks, angle-pair positions, right-angle splits, reflex-arc selection, missing rays, and label collisions); fresh blind bundles generated for touched skills. |
+| 2 | t-s4-ang | Angle relationships | 7 (0) | `Angle Relationships.md` | committed | `unknown-angles-parallel`, `transversal-angle-pairs`, `geometry-notation` | ChatGPT-generated. 68 TikZ fields; all 68 compile and user visual review approved. Quiz figures added to diagram-reading items. Blind check: MCQ 31/31 agree, 0 unanswerable; original auxiliary-line defect repaired and rechecked. Two visual sweeps made 16 targeted figure repairs (ray endpoints, on-line parallel marks, angle-pair positions, right-angle splits, reflex-arc selection, missing rays, and label collisions); fresh blind bundles generated for touched skills. **Diagram-conversion pass (2026-07-19, post-commit):** 19 wordy no-diagram practice cards across `unknown-angles-parallel` (11: f1–4, d0–4, m1–2), `unknown-angles-point` (3: d3, d4, m1), `parallel-line-angle-properties` (5: d0–2, m0–1) rewritten as diagram-based — configuration moved into a labelled TikZ figure, prose trimmed to a short instruction. `unknown-angles-parallel` m1 (self-scaffolding auxiliary-parallel reflex item) REPLACED with an in-scope transfer-then-straight-line item (x=75°); m2 (triangle-scope risk) REDRAWN as pure parallel transfer (x=73°). Genuinely conceptual cards left verbal (`angle-pairs-point` m1, `transversal-angle-pairs` m1, `parallel-line-angle-properties` f3/d3/d4). One fresh blind checker re-solved all 19 (+quizzes): **all agree, 0 mismatch**. Removed a pre-existing bare-restatement straggler in `unknown-angles-point` m0. Validate + full-repo clean, manifest rebuilt. **STILL VERBAL/self-scaffolding, flagged for decision:** `unknown-angles-parallel` m0 + quiz q5 remain "auxiliary line through P" items (already diagrammed, so outside this wordy pass). **19 new diagrams need manual visual review before re-commit.** |
 | 3 | t-s4-lin | Linear relationships | 12 (0) | `Linear Relationships.md` | committed | `graph-linear-relationship`, `intersection-of-lines`, `pattern-to-equation` | ChatGPT content discarded (archived at git tag `archive/t-s4-lin-chatgpt`); regenerated fresh with Opus, one agent per skill. `validate.mjs` clean; blind check 68/68 MCQ agree, 0 UNSURE, 0 mismatches. Visual diagram gate pending (done manually by human).  |
 | 4 | t-s4-dat | Data classification and visualisation | 8 (0) | `Data Visualisation.md` (dp-1, classification)<br>`Data Classification and Visualisation 2_Display data using graphical representations relevant to the purpose of the data.md` (dp-2)<br>`Data Classification and Visualisation 3_Interpret data in graphical representations.md` (dp-3) | committed | `statistical-variable`, `misleading-graphs`, `represent-data-graphs` | `statistical-variable` (booklet under-covers — only a variable-vs-value table, no "which/name the variable" drills; the variable-vs-value / name-the-variable / variable-vs-individual items authored fresh from the dot point → closer review). Generated fresh with Opus, one agent per booklet section (3 generators + 3 fresh blind checkers, per pared workflow). All 8 `validate --only` clean. Blind check: **40/40 quiz MCQ agree**, all mastery items agree, 0 UNSURE, 0 mismatches, 0 figure-mismatch flags — no repairs. **Automated vision gate retired (per updated runbook); diagram skills flagged for manual human visual review:** `represent-data-graphs` (9 tikz), `graph-conventions` (5), `choose-graph-type` (1), `interpret-graphs-conclusions` (17), `misleading-graphs` (19); the 3 classification skills are diagram-free. `graph-conventions` mastery omitted (single-step recognition; masteryOmitted recorded). **Diagram-revision pass (post first human review):** all data-display figures rewritten to fix (a) title/y-axis-label collision and (b) scenario/column/line-shape monotony — anti-collision placement rule + variety rule + copy-ready templates added to `docs/tikz-prompt.md` (Data displays) and pointed to from the runbook, so batches 5–6 inherit it. Scenarios now disjoint across skills (pizza/shoes/books/cars/rainfall/grades/plants; concert/goals/museum/temperature/battery/populations/sales/exam-marks), column counts 3–7, line graphs non-linear. Re-validated clean + re-blind-checked (26/26 revised MCQ + mastery agree, 0 flags). **Second placement fix (post 2nd human review):** x-axis name was colliding with the last category/tick label at the arrow tip; hand-moved all 45 axis-name nodes to a centred lower line `(xmid, -1.0)` off the `y=0` baseline (coordinate-only, answers untouched → no re-check), and updated the `tikz-prompt.md` rule + templates so future graphs place the x-label there. **Third fix (crowding, post 3rd human review):** cramped small-scale figures had y-label overlapping wide `%`/4-digit ticks, long category words touching, and long titles overrunning the y-axis; hand-applied fit knobs (scale→0.85 min, wide-tick y-label→x−2.0, long category labels→`\tiny`, over-long titles→`\scriptsize`) across 5 files (font/scale only, no data change), and added a "Sizing & fit" rule to `tikz-prompt.md`. Re-validated clean. Committed as 49463fb. |
 | 5 | t-s4-pyt | Right-angled triangles (Pythagoras) | 7 (0) | `Right-angled Triangles.md` | committed | `converse-pythagoras`, `pythagoras-problems`, `pythagoras-multistep` + **full diagram list (all 7) for manual visual review** | none (all 7 booklet-covered) — see notes for two deliberate scope/figure decisions |
@@ -143,7 +143,7 @@ coordinates and agreed every marked position. Not committed — awaiting human r
 
 | # | Topic id | Topic title | Skills (stage-3 subset) | Mapped booklet file(s) | Status | Review samples | Anchor gaps |
 |---|---|---|---|---|---|---|---|
-| 7 | t-s4-int | Computation with integers | 9 (1) | `Computation with Integers.md` | pending | — | — |
+| 7 | t-s4-int | Computation with integers | 9 (1) | `Computation with Integers.md` | in-review | `compare-order-integers`, `add-subtract-integers`, `order-of-operations-integers` + **diagram list (4: `locate-integers-number-line`, `compare-order-integers`, `add-subtract-positive-integers`, `add-subtract-integers`) for manual visual review** | none (all 9 booklet-covered) |
 | 8 | t-s4-rat | Ratios and rates | 22 (0) | `Ratios and Rates 1_Recognise and simplify ratios.md`<br>`Ratios and Rates 2_Solve problems involving ratios.md`<br>`Ratios and Rates 3_Recognise and simplify rates.md`<br>`Ratios and Rates 4_Solve problems involving rates.md`<br>`Ratios and Rates 5_Interpret and construct distance–time graphs from authentic data.md` | pending | — | — |
 | 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | pending | — | — |
 | 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | pending | — | — |
@@ -156,6 +156,56 @@ coordinates and agreed every marked position. Not committed — awaiting human r
 
 **Total: 206 skill-content pairs across 16 topics** (10 of them stage-3 skills → theory
 copied byte-for-byte, practice + quiz added).
+
+**Batch 7 (t-s4-int) notes.** First post-pilot batch, and first run at the **new higher
+counts** (Part A: foundation/development 6–8, mastery 3–4, quiz 6–8, variety-first;
+`coverageNote` escape-hatch available). Generated fresh with Opus, pared workflow — **4
+section-owning generators** by dot point: A dp-1 `locate-integers-number-line`[S3] +
+`compare-order-integers`; B dp-2 `rewrite-touching-signs` + `add-subtract-positive-integers`
++ `add-subtract-integers` + `directed-number-sentences`; C dp-3
+`determine-sign-product-quotient` + `multiply-divide-integers`; D dp-4
+`order-of-operations-integers`. (B and C were cut off by a session limit mid-run and
+**resumed from transcript** to finish — no quality impact; all files re-validated.) Then
+**one fresh blind checker for the whole batch**. atomTypes: `compare-order-integers` &
+`locate-integers-number-line` = R; `rewrite-touching-signs` = T;
+`determine-sign-product-quotient` = Cat; remainder = R. **STAGE 3 rule** applied to
+`locate-integers-number-line` (theory copied byte-for-byte from its existing content file,
+verified identical; only practice tiers added + quiz created fresh). No `masteryOmitted`, no
+`coverageNote` — every skill reached target honestly (all 9 validate at **0 warnings**).
+Final counts landed at foundation 6–8 / development 6–8 / mastery 3–4 / quiz 7 across the
+batch.
+
+All 9 `validate --only` clean; whole-batch + full-repo `validate.mjs` clean (0 errors; the
+248 repo warnings are the Part-A pilot-backfill targets, not this batch); manifest rebuilt
+(238 content / 94 quiz, +9 quizzes — the 9 int content files pre-existed as stage-3/stub
+theory). **Blind check: 64/64 quiz MCQ agree, all 40 mastery-practice items agree, 0 UNSURE,
+0 mismatches, 0 figure-mismatch flags — no repairs.** The checker read the number-line TikZ
+coordinates and agreed every marked position/scale.
+
+**Diagram support extended (post-review human request, 2026-07-19):** the human approved the
+batch-7 number lines and asked for **more diagram support in the foundation + development
+practice QUESTIONS** to help students. Added, to every foundation + development card of the
+three number-line skills: a **blank support number line** in `question_text` (scaled, labelled,
+arrowheads, no marks — a scaffold the student uses) and a **worked figure** in `solution_text`
+(compare-order: integers marked as dots in order; add/subtract: jump arcs to the answer). Reused
+the original section agents so the house style matches. Coverage: `compare-order-integers` 12
+question scaffolds + 12 marked solutions (was 0 diagrams → now diagram-bearing);
+`add-subtract-positive-integers` 15 + 15; `add-subtract-integers` 16 + 16 (its solution jumps
+show the **post-rewrite** movement). Mastery tiers, quizzes, theory, and every answer/working
+value left unchanged; all three re-validate `--only` clean, full-repo clean, manifest rebuilt
+(238/94, unchanged — only figures added, no card-count change). **Foundation/development cards
+are not in the blind bundle (checker sees quiz + mastery only) and no answers changed, so no
+re-blind-check was needed** — but the new figures DO need the human's manual visual review.
+
+**Diagram skills flagged for manual human visual review (now 4 carry inline `[tikz]`; the
+other 5 are number/word skills, diagram-free):** `locate-integers-number-line` (18 content
+number-lines + 7 quiz), `compare-order-integers` (24 content), `add-subtract-positive-integers`
+(30 content), `add-subtract-integers` (32 content) — **104 content + 7 quiz `[tikz]` blocks
+total**; eyeball via `http://localhost:5173/#/tikz-check?topic=t-s4-int`. Number-line jump arcs
+bow upward, filled dot at the start, move labelled above; blank question scaffolds carry no
+marks. Watch the wide-range add/subtract figures (highest tick-label density) and the four
+two-arc chain figures (reversing move drawn below the line). Not committed — awaiting human
+review + commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
