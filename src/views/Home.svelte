@@ -198,7 +198,7 @@
 
 <style>
   .browse-page { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.8rem); }
-  .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(130deg, var(--surface-warm), var(--panel)); animation: route-enter var(--motion-base) var(--ease-out) both; }
+  .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--accent) 12%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); animation: route-enter var(--motion-base) var(--ease-out) both; }
   .hero-copy, .hero-actions { position: relative; z-index: 1; }
   .eyebrow { color: var(--accent); font-size: 0.68rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
   h1 { max-width: 690px; margin: 0.28rem 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
@@ -226,9 +226,9 @@
   .stage-tabs button.active { color: #fff; border-color: transparent; background: var(--accent); animation: selection-pop var(--motion-base) var(--ease-snap); }
 
   .course-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
-  .course-card { position: relative; display: flex; flex-direction: column; min-height: 260px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast); }
+  .course-card { position: relative; display: flex; flex-direction: column; min-height: 260px; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: var(--shadow-rest); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), background var(--motion-fast), box-shadow var(--motion-fast); }
   .course-card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow); }
-  .course-card.selected { border-color: var(--border-strong); background: var(--surface-soft); box-shadow: var(--shadow); }
+  .course-card.selected { border-color: var(--course-color); background: color-mix(in srgb, var(--course-color) 9%, var(--surface-soft)); box-shadow: 0 0 0 1px var(--course-color), var(--shadow); }
   .course-select { flex: 1; width: 100%; padding: 1rem 1rem 0.8rem; border: 0; background: transparent; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
   .course-select:active { transform: scale(0.99); }
   .course-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }

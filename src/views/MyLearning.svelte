@@ -30,7 +30,7 @@
   <header class="learning-hero">
     <span class="eyebrow">My learning</span>
     <h1>Pick up where you left off</h1>
-    <p>Your active skills and sensible next steps, gathered in one place.</p>
+    <p>Continue a skill or start a new one.</p>
     {#if active[0]}
       <a class="primary-action" href={href(`/skill/${active[0].skill.id}`)}>Continue <Math text={active[0].skill.title} /> <span aria-hidden="true">&rarr;</span></a>
     {:else if recommended[0]}
@@ -76,7 +76,8 @@
 
 <style>
   .learning-view { max-width: 1080px; }
-  .learning-hero { position: relative; overflow: hidden; padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-xl); background: linear-gradient(135deg, var(--surface-warm), var(--panel)); }
+  .learning-hero { position: relative; overflow: hidden; padding: 2rem; border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--accent) 11%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); }
+  .learning-hero .eyebrow { color: var(--accent); }
   .eyebrow { color: var(--muted); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
   h1 { margin: 0.25rem 0 0.45rem; font-size: clamp(1.8rem, 4vw, 2.5rem); }
   .learning-hero p { max-width: 55ch; margin: 0 0 1.25rem; color: var(--muted); }
