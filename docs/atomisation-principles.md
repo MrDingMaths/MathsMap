@@ -53,10 +53,21 @@ between the basic atoms and the full routine.
 
 - **Routine questions only.** Atomise the standard question types for the topic;
   ignore one-off / non-routine / competition-style variants.
-- **No cross-topic prerequisites.** When a question grafts another topic onto the
-  routine (e.g. a trigonometric or polynomial proof by induction), do **not** add
-  that other topic's skill as a prerequisite. Prerequisites are limited to skills
-  **intrinsic to performing the routine itself**.
+- **Cross-topic prerequisites: constitutive yes, ambient no.** A skill from another
+  topic **is** a legitimate prerequisite when it is *constitutive machinery* of the
+  routine — the routine cannot be performed without executing that skill's procedure as
+  a step. `find-radius-from-circumference` cannot be done without solving a linear
+  equation, so `solve-one-step-equation` belongs in its prereqs even though it lives in
+  *Equations*.
+
+  It remains **excluded** when the other topic is *grafted context* — dressing that
+  varies the surface of a question without changing the routine (a trigonometric
+  identity used as the statement being proved in an induction proof). The routine is
+  the same routine whatever is grafted on; the graft is not a prerequisite.
+
+  Edge-inclusion rules 1–4 below still gate every such edge. Prefer the *simplest
+  sufficient* source skill (`solve-one-step-equation`, not
+  `model-word-problems-equations`, when one-step inversion is all the routine needs).
 - **Read the whole booklet**, worked examples *and* practice questions — worked
   examples often don't show the full range of the routine.
 
@@ -72,7 +83,8 @@ hold**:
 2. **At-risk** — a student ready for X could plausibly still be shaky on P. If P is
    universally mastered at X's course level, omit it.
 3. **Stage-proximity (heuristic)** — by default don't link P more than ~1 stage
-   below X; a *distinctive* P (rule 1) overrides this.
+   below X; a *distinctive* P (rule 1) overrides this, as does a *constitutive*
+   cross-topic P.
 4. **Non-redundant (transitive reduction)** — P must not already be reachable from
    X through another included prereq (no `A→C` when `A→B→C` exists).
 
