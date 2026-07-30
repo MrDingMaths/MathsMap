@@ -291,7 +291,9 @@ into a neighbouring atom. Candidate new skill for the atomisation queue.
 **Booklet erratum.** `Ratios and Rates 1`, §4 Q4c gives `24:60 → 1:2.4`; `60 ÷ 24 = 2.5`, so the
 booklet answer is wrong. Different numbers were used rather than reproduce it.
 
-Not committed — awaiting human review + commit.
+**Committed as `9b8e1fd` at the human's request, ahead of the visual review** (unlike earlier
+batches, which were committed only after it). The 173-diagram checklist above is therefore
+still outstanding — review it and repair in place on top of that commit.
 
 **Generation-agent bake-off: Opus vs ChatGPT/codex (run inside this batch).** Two independent
 agents authored the **same two skills** (`divide-quantity-in-ratio`, a plain number skill, and
