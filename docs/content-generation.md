@@ -295,6 +295,23 @@ render" placeholder.
 - **Be generous with diagrams on geometry, measurement, and data skills** (length, area,
   volume, Pythagoras, angles, geometrical figures, data displays) — a labelled figure
   usually carries the question. Number/algebra skills rarely need one.
+- **Diagrams belong in the QUESTIONS, not only the solutions — STANDARD, every batch.**
+  Wherever a figure genuinely helps the student reason — number lines, ratio bar/part
+  models, coordinate and distance–time graphs, labelled geometry — every **foundation and
+  development** card carries a figure in `question_text` (a **support scaffold**: the line
+  / axes / shape drawn, scaled and labelled, but the thing being asked for **not** marked)
+  and the matching **worked figure** in `solution_text` (the same figure with the reasoning
+  marked on — dots, jump arcs, the plotted segment, the split bar). This is now the default
+  treatment, not a per-batch request: it was added by hand to batch 2 (angle configurations
+  moved out of prose into figures) and batch 7 (blank support number lines + marked
+  solution lines) after human review, and both were approved.
+  - **Never pre-mark the answer.** A question figure that already shows the value being
+    asked for is a defect, as is a "support" figure on a card where the figure is purely
+    decorative (most rate/best-buy/word-problem arithmetic) — there, no figure.
+  - **Prefer a figure over wordy configuration prose.** If a card spends two sentences
+    describing where things sit, draw it and cut the prose to a short instruction.
+  - Mastery tiers follow the same judgement but are not required to carry a scaffold —
+    part of mastery can be building the representation yourself.
 - **Data displays: obey the anti-collision placement rule and the variety rule** in
   [tikz-prompt.md](tikz-prompt.md) ("Data displays"). Title centred at `ymax+1.1`; y-axis
   label **rotated 90° at the left midpoint** (never the top corner, which collides with the
@@ -317,7 +334,9 @@ render" placeholder.
   vocabulary recall, not the skill — embed a figure in those MCQs' `question_text`. The exception is a
   genuinely notational/definitional skill (naming conventions, symbol recognition,
   numeric-relationship recall like "complementary to $27°$"), where a figure would be
-  forced — there, symbolic/verbal options are correct.
+  forced — there, symbolic/verbal options are correct. The support-scaffold treatment
+  above applies to quiz stems too: an MCQ whose practice siblings carry a question figure
+  should carry one as well, subject to the same never-pre-mark-the-answer rule.
 - **A figure that contradicts its answer is a defect.** When you draw a labelled angle,
   draw it to roughly its stated size, and make the marked positions match the property
   named (alternate = interior + opposite sides, etc.). The blind checker reads your TikZ
@@ -366,7 +385,30 @@ The orchestrator drives the batch; generation and checking run in parallel group
    geometry/measurement/data skills (PNG reading + TikZ authoring) must not run on a
    downgraded model — image misreading rates on smaller tiers are unacceptable for
    diagram-anchored content.
-3. **Blind check — ONE fresh checker agent for the whole batch (not per section).**
+3. **Equivalent-option audit (deterministic, run it before the checker).**
+
+   ```
+   node scripts/audit-equivalent-options.mjs --only <all batch ids>
+   ```
+
+   Flags MCQ options that are **mathematically equal to one another** — a class the
+   validator cannot see (every option is well-formed and exactly one is `correct`) and
+   that the blind checkers have repeatedly missed, because a checker who solves the item
+   correctly never needs to look at the other options. Two shapes, both real defects:
+   - **distractor == distractor** — the pair is jointly eliminable ("a key can't be two
+     options"), so the student narrows the field without doing any maths. Fix by changing
+     one option's **value**, not just its `why`.
+   - **distractor == key** — the item has two defensible correct answers. Fix by **pinning
+     the required form in the stem** ("in simplest form", "to $2$ decimal places", "in the
+     form $1:n$"), which keeps the distractor's misconception live; the script treats a
+     form-pinning stem as intended and does not flag it.
+
+   Worst on ratios (2:6 = 12:36 = 1:3) but it bites anywhere an answer has more than one
+   written form: fraction vs decimal, trailing zeros (`2.50 h` vs `2.5 h`), unsimplified
+   fractions. The audit is advisory and parses conservatively (~45% of options), so it is
+   a floor, not a ceiling — it does not replace the checker.
+
+4. **Blind check — ONE fresh checker agent for the whole batch (not per section).**
    Proceed **only after every generation agent has reported completion** — never infer
    readiness from file presence or mtime. For each generated skill run
    `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/` (gitignored),
@@ -376,14 +418,45 @@ The orchestrator drives the batch; generation and checking run in parallel group
    **checker agent** (never a generator), which **re-solves every MCQ and every mastery
    practice question WITHOUT seeing the stated answers**. The checker is a **fresh agent
    every round** — never reuse a checker that has seen a previous round's bundle or any key.
-   **Why one, not per-section:** across the pilot's three Opus batches (~49 skills, 300+
-   items) the per-section fan-out found **zero** genuine defects; the only two real catches
-   (batches 1–2) predate all-Opus generation. Full-answer coverage is what caught them, and
-   a single checker still re-solves every item — so keep the coverage, drop the redundant
-   agents. **Only split** the check across 2+ checkers when the batch is large enough that
+   **Only split** the check across 2+ checkers when the batch is large enough that
    one agent's context can't hold every blind bundle at authoring quality (rule of thumb:
-   split above ~25 skills, keeping each checker's slice whole-skill, never a partial skill).
-4. **Adjudicate.** The orchestrator compares the checker's answers against `{id}.key.json`.
+   split above ~25 skills, keeping each checker's slice whole-skill, never a partial skill;
+   batch 8's 22 TikZ-dense skills were split 10/12 and that was the right call).
+
+   ### What the checker is actually for — brief it accordingly
+
+   **Answer-mismatch hunting is nearly exhausted.** Across batches 3–8 — roughly **800
+   items re-solved** — the compare-to-key step has found **zero** wrong answers. Both
+   historical catches (batches 1–2) predate all-Opus generation. This is expected, not
+   reassuring: the generator and the checker are the same model reading the same booklet,
+   so when the generator errs the checker tends to err the same way. **Correlated reasoners
+   do not cross-validate.**
+
+   **The yield is in the cold read, not the key comparison.** Batch 8's checkers found
+   **8 genuine defects and 0 answer mismatches** — every one surfaced in their
+   "UNSURE / suspected defect" notes:
+   - **Ambiguity** — two defensible correct options (a key of `8:5` sitting beside an
+     equivalent `1.6:1`), or a stem that never pins the rounding/form.
+   - **Duplication** — a quiz item cloning its own mastery card, so the quiz tests recall of
+     the flip-card rather than the skill.
+   - **Under-determination** — a construction whose stem doesn't pin every stage, so several
+     different graphs satisfy it while the solution shows one. A correct student is marked
+     wrong.
+   - **Unreachable distractors** — an option no single identifiable slip produces.
+   - **Figure contradicts its answer** — cell widths misrepresenting a ratio, a brace
+     spanning the wrong bar.
+   - **Implausible scenarios** — arithmetic correct, physics absurd (a 12 km/h swimmer, an
+     8 km/h "walk"). Credibility defects still reach students.
+
+   So **re-solving is the means, not the deliverable**: it is what forces genuine engagement
+   with each item (which is also why the bundle strips `why` and `solution_text` — a checker
+   handed the rationale skims and nods). Brief the checker to hunt the list above, report
+   its answers as evidence of having done the work, and expect the mismatch count to be
+   zero. Treat a checker that reports only answers and flags nothing as an under-performing
+   check, not a clean batch — and confirm it covered **every** skill you sent it (batch 8's
+   second checker silently omitted one skill; it was re-checked by a fresh agent rather than
+   have silence read as agreement).
+5. **Adjudicate.** The orchestrator compares the checker's answers against `{id}.key.json`.
    For each disagreement, decide whether it is a **formatting equivalence** (e.g. `3.5`
    vs `3.50`, `1/2` vs `0.5`, reordered but equal) — accept — or a **genuine mismatch**.
    **Repair is targeted, not wholesale:** the orchestrator (or a small fix agent)
@@ -394,8 +467,8 @@ The orchestrator drives the batch; generation and checking run in parallel group
    repair rounds per skill**, then **flag for human review** rather than loop. Finish
    with a quick **cross-skill scan** of the batch for shared scenarios or near-identical
    stems between skills that shared a booklet section; dedupe by editing the lesser item.
-5. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
-6. **Diagram list for manual human visual review — REQUIRED for any batch containing
+6. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
+7. **Diagram list for manual human visual review — REQUIRED for any batch containing
    TikZ** (skip only for a purely symbolic batch like algebra with zero inline TikZ blocks).
    The source-reading blind check in steps 3–4 verifies **answers**; it is blind to the
    **rendered picture** (colliding/merged labels, a line that doesn't reach its
@@ -411,12 +484,12 @@ The orchestrator drives the batch; generation and checking run in parallel group
      the [canonical prompt](tikz-prompt.md)** — do not hand-nudge coordinates.
    - `scripts/shoot-tikz.mjs` (needs `npm run dev`) remains available as an **optional**
      local aid to preview renders; it is no longer a required pipeline step.
-7. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
-8. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
+8. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
+9. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
    include** every `anchor: none` skill, every checker-triggered regenerated skill, and (for
    TikZ batches) the full list of skills carrying diagrams, for manual visual review, in the
    sample set.
-9. **Update the queue.** Record per-batch status, the review-sample ids, any `anchor: none`
+10. **Update the queue.** Record per-batch status, the review-sample ids, any `anchor: none`
    gaps, and the list of diagram skills flagged for manual visual review in
    `docs/content-queue.md`. Do **not** commit — leave that to the human.
 
@@ -428,6 +501,8 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Single skill per file.** Prereqs only in service; no cross-topic mixing.
 - **Every distractor is a named misconception** with a specific `why`.
 - **Diagrams follow the [canonical TikZ prompt](tikz-prompt.md)**; degrees are `^{\circ}`.
+- **Question-side support figures are standard** on foundation + development cards of any
+  skill a figure genuinely helps — never pre-marking the answer.
 - **TikZ batches list every diagram skill for manual human visual review** before commit.
 - **Byte-for-byte theory** for stage-3 skills that already have a content file.
 - **One batch per session**; statuses updated by the orchestrator; do not commit.

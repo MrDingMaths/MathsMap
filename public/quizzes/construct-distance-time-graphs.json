@@ -1,0 +1,155 @@
+{
+  "skillId": "construct-distance-time-graphs",
+  "questions": [
+    {
+      "id": "q1",
+      "structure": "plot-single-leg",
+      "mastery": false,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.8,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {30/1,60/2,90/3,120/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.6,-0.2)--(1.6,0); \\node[below,font=\\scriptsize] at (1.6,0) {$1$};\n\\draw (3.2,-0.2)--(3.2,0); \\node[below,font=\\scriptsize] at (3.2,0) {$2$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$3$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Steady drive};\n\\end{tikzpicture}\n[/tikz]\nA car leaves home and travels at a steady speed, covering $90$ km in $1$ hour $30$ minutes. Which point is the far end of the line drawn on this grid?",
+      "options": [
+        {
+          "text": "$(1.5\\text{ h},\\,90\\text{ km})$",
+          "correct": true
+        },
+        {
+          "text": "$(1.3\\text{ h},\\,90\\text{ km})$",
+          "why": "Wrote $1$ hour $30$ minutes as $1.3$ hours instead of $1.5$ hours."
+        },
+        {
+          "text": "$(1.5\\text{ h},\\,60\\text{ km})$",
+          "why": "Counted the vertical grid lines in $20$s instead of reading the labelled scale of $30$ km."
+        },
+        {
+          "text": "$(90\\text{ h},\\,1.5\\text{ km})$",
+          "why": "Put the distance on the horizontal axis and the time on the vertical axis."
+        }
+      ],
+      "solution_text": "Start: $(0,\\,0)$\nEnd: $(1.5\\text{ h},\\,90\\text{ km})$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.8,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {30/1,60/2,90/3,120/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.6,-0.2)--(1.6,0); \\node[below,font=\\scriptsize] at (1.6,0) {$1$};\n\\draw (3.2,-0.2)--(3.2,0); \\node[below,font=\\scriptsize] at (3.2,0) {$2$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$3$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(2.4,3);\n\\foreach \\pt in {(0,0),(2.4,3)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Steady drive};\n\\end{tikzpicture}\n[/tikz]\n"
+    },
+    {
+      "id": "q2",
+      "structure": "plot-with-stop",
+      "mastery": false,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {2/1,4/2,6/3,8/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (0,-0.2)--(0,0); \\node[below,font=\\scriptsize] at (0,0) {1 pm};\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {2 pm};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {3 pm};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {4 pm};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {5 pm};\n\\node[rotate=90,font=\\scriptsize] at (-1.5,2) {Distance walked (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time};\n\\node[font=\\scriptsize] at (2.4,5.1) {Afternoon walk};\n\\end{tikzpicture}\n[/tikz]\nA walker leaves home at $1$ pm and walks until $2{:}30$ pm, rests for $45$ minutes, then walks on until $5$ pm. Over which interval is her graph a horizontal line?",
+      "options": [
+        {
+          "text": "$2{:}30$ pm to $3{:}15$ pm",
+          "correct": true
+        },
+        {
+          "text": "$2{:}30$ pm to $3{:}00$ pm",
+          "why": "Took the rest as $30$ minutes rather than the stated $45$ minutes."
+        },
+        {
+          "text": "$1{:}00$ pm to $2{:}30$ pm",
+          "why": "Drew the walking stage horizontal, forgetting that distance increases while walking."
+        },
+        {
+          "text": "$3{:}15$ pm to $5{:}00$ pm",
+          "why": "Marked the final walking stage as the flat one instead of the rest."
+        }
+      ],
+      "solution_text": "Rest starts at $2{:}30$ pm.\n$2{:}30+45\\text{ min}=3{:}15$ pm\nThe distance reading does not change during the rest, so the segment from $2{:}30$ pm to $3{:}15$ pm is horizontal."
+    },
+    {
+      "id": "q3",
+      "structure": "plot-with-return",
+      "mastery": false,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {2/1,4/2,6/3,8/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (0,-0.2)--(0,0); \\node[below,font=\\scriptsize] at (0,0) {8 am};\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {9 am};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {10 am};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {11 am};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {12 pm};\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time};\n\\node[font=\\scriptsize] at (2.4,5.1) {Run to the park};\n\\end{tikzpicture}\n[/tikz]\nA runner leaves home at $8{:}00$ am, runs $8$ km to a park arriving at $8{:}40$ am, stays $20$ minutes, then runs home at the same speed. At what time does the line come back down to the time axis?",
+      "options": [
+        {
+          "text": "$9{:}40$ am",
+          "correct": true
+        },
+        {
+          "text": "$9{:}20$ am",
+          "why": "Used the $20$ minute stay as the time for the run home instead of $40$ minutes."
+        },
+        {
+          "text": "$9{:}00$ am",
+          "why": "Thought the graph reaches the axis as soon as the stop ends, with no time for the return."
+        },
+        {
+          "text": "$10{:}00$ am",
+          "why": "Allowed a full hour for the return run rather than the same $40$ minutes as the outward run."
+        }
+      ],
+      "solution_text": "Leaves the park at $8{:}40+20\\text{ min}=9{:}00$ am\nThe return is at the same speed, so it also takes $40$ minutes.\n$9{:}00+40\\text{ min}=9{:}40$ am"
+    },
+    {
+      "id": "q4",
+      "structure": "plot-from-table",
+      "mastery": false,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {20/1,40/2,60/3,80/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance travelled (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Staged journey};\n\\end{tikzpicture}\n[/tikz]\nThe table gives the time and the distance travelled during each stage of a journey. Which point marks the end of stage $3$ on the graph?\n$\\begin{array}{c|c|c}\\text{Stage}&\\text{Time}&\\text{Distance}\\\\\\hline 1&1\\text{ h}&25\\text{ km}\\\\ 2&0.5\\text{ h}&0\\text{ km}\\\\ 3&1.5\\text{ h}&35\\text{ km}\\end{array}$",
+      "options": [
+        {
+          "text": "$(3\\text{ h},\\,60\\text{ km})$",
+          "correct": true
+        },
+        {
+          "text": "$(3\\text{ h},\\,35\\text{ km})$",
+          "why": "Plotted stage $3$'s own distance instead of the running total of $25+35$."
+        },
+        {
+          "text": "$(2.5\\text{ h},\\,60\\text{ km})$",
+          "why": "Left the $0.5$ hour stop out of the running total of time."
+        },
+        {
+          "text": "$(1.5\\text{ h},\\,35\\text{ km})$",
+          "why": "Plotted stage $3$'s time and distance on their own rather than the cumulative totals."
+        }
+      ],
+      "solution_text": "Total time: $1+0.5+1.5=3\\text{ h}$\nTotal distance: $25+0+35=60\\text{ km}$"
+    },
+    {
+      "id": "q5",
+      "structure": "complete-partial-graph",
+      "mastery": false,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,5);\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {50/1,100/2,150/3,200/4,250/5} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(2.4,2)--(3,2);\n\\foreach \\pt in {(0,0),(2.4,2),(3,2)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2.5) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,6.1) {Drive to the coast};\n\\end{tikzpicture}\n[/tikz]\nThe graph shows the first two stages of a drive. The car then travels at $80$ km/h for $1$ hour $30$ minutes. Where does the completed graph end?",
+      "options": [
+        {
+          "text": "$(4\\text{ h},\\,220\\text{ km})$",
+          "correct": true
+        },
+        {
+          "text": "$(4\\text{ h},\\,120\\text{ km})$",
+          "why": "Plotted the new stage's $120$ km instead of adding it to the $100$ km already travelled."
+        },
+        {
+          "text": "$(4\\text{ h},\\,180\\text{ km})$",
+          "why": "Used $80$ km for the new stage, as though it lasted only $1$ hour."
+        },
+        {
+          "text": "$(3.5\\text{ h},\\,220\\text{ km})$",
+          "why": "Added $1$ hour rather than $1$ hour $30$ minutes to the $2.5$ hours already elapsed."
+        }
+      ],
+      "solution_text": "$d=st$\n$=80\\times1.5$\n$=120\\text{ km}$\nEnd point: $(2.5+1.5,\\,100+120)=(4\\text{ h},\\,220\\text{ km})$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,5);\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {50/1,100/2,150/3,200/4,250/5} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(2.4,2)--(3,2);\n\\foreach \\pt in {(0,0),(2.4,2),(3,2)} {\\fill[blue] \\pt circle (2pt);}\n\\draw[very thick,red] (3,2)--(4.8,4.4);\n\\foreach \\pt in {(3,2),(4.8,4.4)} {\\fill[red] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2.5) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,6.1) {Drive to the coast};\n\\end{tikzpicture}\n[/tikz]\n"
+    },
+    {
+      "id": "q6",
+      "structure": "plot-multi-stage-journey",
+      "mastery": true,
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {40/1,80/2,120/3,160/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Morning drive};\n\\end{tikzpicture}\n[/tikz]\nA driver sets off, drives at $90$ km/h for $40$ minutes, stops for $25$ minutes, then drives at $72$ km/h for $1$ hour $15$ minutes. What point marks the end of the second driving stage?",
+      "options": [
+        {
+          "text": "$(2\\text{ h }20\\text{ min},\\,150\\text{ km})$",
+          "correct": true
+        },
+        {
+          "text": "$(2\\text{ h }20\\text{ min},\\,90\\text{ km})$",
+          "why": "Plotted only the second stage's $90$ km instead of the running total of $60+90$."
+        },
+        {
+          "text": "$(1\\text{ h }55\\text{ min},\\,150\\text{ km})$",
+          "why": "Left the $25$ minute stop out of the elapsed time."
+        },
+        {
+          "text": "$(2\\text{ h }20\\text{ min},\\,138\\text{ km})$",
+          "why": "Used $72$ km/h for both driving stages, giving $48+90$ km."
+        }
+      ],
+      "solution_text": "$d_{1}=90\\times\\frac{40}{60}$\n$=60\\text{ km}$\n$d_{2}=72\\times1.25$\n$=90\\text{ km}$\nElapsed time: $40+25+75=140\\text{ min}=2\\text{ h }20\\text{ min}$\nTotal distance: $60+90=150\\text{ km}$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {40/1,80/2,120/3,160/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(0.8,1.5)--(1.3,1.5)--(2.8,3.75);\n\\foreach \\pt in {(0,0),(0.8,1.5),(1.3,1.5),(2.8,3.75)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Morning drive};\n\\end{tikzpicture}\n[/tikz]\n"
+    }
+  ]
+}

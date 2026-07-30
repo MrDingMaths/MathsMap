@@ -144,7 +144,7 @@ coordinates and agreed every marked position. Not committed — awaiting human r
 | # | Topic id | Topic title | Skills (stage-3 subset) | Mapped booklet file(s) | Status | Review samples | Anchor gaps |
 |---|---|---|---|---|---|---|---|
 | 7 | t-s4-int | Computation with integers | 9 (1) | `Computation with Integers.md` | in-review | `compare-order-integers`, `add-subtract-integers`, `order-of-operations-integers` + **diagram list (4: `locate-integers-number-line`, `compare-order-integers`, `add-subtract-positive-integers`, `add-subtract-integers`) for manual visual review** | none (all 9 booklet-covered) |
-| 8 | t-s4-rat | Ratios and rates | 22 (0) | `Ratios and Rates 1_Recognise and simplify ratios.md`<br>`Ratios and Rates 2_Solve problems involving ratios.md`<br>`Ratios and Rates 3_Recognise and simplify rates.md`<br>`Ratios and Rates 4_Solve problems involving rates.md`<br>`Ratios and Rates 5_Interpret and construct distance–time graphs from authentic data.md` | pending | — | — |
+| 8 | t-s4-rat | Ratios and rates | 22 (0) | `Ratios and Rates 1_Recognise and simplify ratios.md`<br>`Ratios and Rates 2_Solve problems involving ratios.md`<br>`Ratios and Rates 3_Recognise and simplify rates.md`<br>`Ratios and Rates 4_Solve problems involving rates.md`<br>`Ratios and Rates 5_Interpret and construct distance–time graphs from authentic data.md` | in-review | `divide-quantity-in-ratio`, `construct-distance-time-graphs`, `ratios-vs-rates` + **full diagram list (11 skills, 173 `[tikz]`) for manual visual review** | none (all 22 booklet-covered); `ratios-vs-rates` weakest-anchored (definitional prose only — mastery from the dot point) |
 | 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | pending | — | — |
 | 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | pending | — | — |
 | 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | pending | — | — |
@@ -206,6 +206,120 @@ bow upward, filled dot at the start, move labelled above; blank question scaffol
 marks. Watch the wide-range add/subtract figures (highest tick-label density) and the four
 two-arc chain figures (reversing move drawn below the line). Not committed — awaiting human
 review + commit.
+
+**Batch 8 (t-s4-rat) notes.** Largest batch so far (22 skills), first batch under the **new
+standing question-side diagram rule** (see below). Generated with Opus, **5 section-owning
+generators** by dot point: A dp-1 `ratios-compare-quantities` + `ratio-part-as-fraction` +
+`equivalent-ratios` + `simplify-ratios` + `simplify-ratios-different-units` +
+`simplify-ratios-fractions-decimals`; B dp-2 `unitary-method-ratios` +
+`divide-ratio-given-difference` + `ratio-real-life-problems`; C dp-3 `ratios-vs-rates` +
+`simplify-rates` + `convert-rate-units`; D dp-4 `rate-problems` + `best-buys` +
+`related-rates-problems`; E dp-5 `speed-from-distance-time` +
+`construct-distance-time-graphs` + `convert-time-decimal-sexagesimal` +
+`average-speed-journey` + `calculate-speed-distance-time`. The two remaining skills
+(`divide-quantity-in-ratio`, `interpret-distance-time-graphs`) came from the generation-agent
+bake-off below. atomTypes: `ratios-vs-rates` = Cat (steps deliberately omitted — "don't force a
+procedure"); `ratios-compare-quantities`, `ratio-part-as-fraction`, `equivalent-ratios`,
+`convert-time-decimal-sexagesimal` = T; remainder = R. **`masteryOmitted`** (one):
+`convert-time-decimal-sexagesimal` ("single-step transformation in either direction"). No
+`coverageNote` — every other skill reached target honestly. Final counts: foundation 6–8 /
+development 6–7 / mastery 3 / quiz 6–8. All 22 `validate --only` clean; whole-batch and
+full-repo `validate.mjs` clean at **0 errors** (the 248 repo warnings are the pre-existing
+Part-A backfill targets, unchanged by this batch); manifest rebuilt (**260 content / 116
+quiz**, +22/+22).
+
+**Blind check — 2 checkers on whole-skill slices** (22 skills sits at the ~25 threshold but the
+bundles are TikZ-dense): checker 1 = sections 1–2 (10 skills), checker 2 = sections 3–5 (12).
+**162/162 quiz MCQ and 66/66 mastery items agreed on the first pass — zero answer mismatches
+and zero figure mismatches across the batch.** Checker 2 silently omitted
+`calculate-speed-distance-time` from its report; that skill was re-checked by a fresh agent
+rather than assumed (7/7 + 3/3 agree). **Eight defects were found and repaired, none of them a
+wrong answer** — all were classes the validator cannot see:
+
+1. **Equivalent-option ambiguity (2 items).** `simplify-ratios` q2 keyed `8:5` while offering
+   `1.6:1`; `simplify-ratios-different-units` q4 keyed `2:5` while offering `1:2.5`. Both
+   distractors are *equal* to their key, and sibling skills in this same batch teach the `1:n`
+   decimal form as legitimate. Fixed by pinning the stems ("simplest whole-number form"), which
+   keeps each distractor's misconception live.
+2. **Quiz items cloning their own mastery card (4).** `unitary-method-ratios` q7 ≡ m2,
+   `divide-ratio-given-difference` q7 ≡ m1, `simplify-ratios-different-units` q7 ≡ m1,
+   `simplify-ratios-fractions-decimals` q7 ≡ m1 — zero extra assessment coverage. Quiz items
+   replaced (mastery cards kept); replacements given fresh contexts and, where possible,
+   different answers so practice recall gives nothing.
+3. **Under-determined construction (1).** `construct-distance-time-graphs` m3 never said *when*
+   Cal's 30-minute stop occurred, so many graphs satisfied the stem while the solution showed
+   one. Stem now pins the stop; round-2 check confirms exactly one polyline satisfies it.
+4. **Physically implausible scenarios (3).** A swimmer at 12 km/h (→ kayak), "Dana's walk" at
+   8 km/h (→ time axis rescaled to 4 km/h), Tomas "walking" 2.5 km in 20 min (→ 30 min, 5 km/h).
+   Arithmetic was correct in all three; only credibility was wrong.
+
+Plus an **option-equality sweep**: ratio questions are unusually prone to distractors that equal
+each other (infinitely many written forms denote one ratio), letting a student eliminate a pair
+without doing any maths. All 22 quiz files were audited by canonicalising every ratio-form option
+to lowest terms — **0 distractor-equals-distractor collisions and 0 key-equal options under an
+unpinned stem** remain; the 12 surviving key-equal options are intentional "did not simplify"
+misconceptions, each under a stem that pins the required form.
+
+**Diagram skills flagged for manual human visual review (11 of 22 carry inline `[tikz]`; the
+other 11 are rate/number/word skills, deliberately figure-free):** `ratios-compare-quantities`
+(8 content / 3 quiz), `ratio-part-as-fraction` (5/1), `equivalent-ratios` (3/1),
+`simplify-ratios` (2/1), `unitary-method-ratios` (17/3), `divide-quantity-in-ratio` (11/4),
+`divide-ratio-given-difference` (14/2), `ratio-real-life-problems` (3/1),
+`interpret-distance-time-graphs` (19/8), `speed-from-distance-time` (21/7),
+`construct-distance-time-graphs` (30/9) — **133 content + 40 quiz = 173 `[tikz]` blocks**;
+eyeball via `http://localhost:5173/#/tikz-check?topic=t-s4-rat`. Highest-risk first: the
+multi-line shared-axes graphs (two ferries, Robyn/Stewart, Bea and Cal, Amara/Kwame — colour +
+dash + on-line labels), the 3-panel matching figures using `\begin{scope}[xshift=…]`, the 15
+blank/partial construction grids paired with their completed plots, and the 11-cell
+Terry/Ash/Felicity bar model at `scale=0.6`.
+
+**Two items left deliberately, for the human to rule on at review:**
+- `interpret-distance-time-graphs` m3 (booklet's Robyn/Stewart): Stewart sustains **8 km/h for
+  3 h** on a forest track against Robyn's 4 km/h walk. Answer unaffected. Left alone because the
+  skill had already had its two repair rounds and the scenario is the booklet's own; lengthening
+  Stewart's leg to 4 h (6 km/h) is the fix if wanted.
+- `construct-distance-time-graphs` m3: Cal drives at **120 km/h**, above the 110 km/h national
+  maximum. Grid-compatible alternative on record: 90 km/h arriving 11:30 am keeps every vertex
+  on the existing grid.
+
+**Taxonomy gap found (not a batch defect).** The booklet's **"Combined Rates"** chapter (adding
+work rates, `1/20 + 1/25` — two people working together) has **no owning skill in
+`data/skills.json`**. It is neither a single-rate application (`rate-problems`) nor a
+multiplicative chain (`related-rates-problems`), so it was left unauthored rather than forced
+into a neighbouring atom. Candidate new skill for the atomisation queue.
+
+**Booklet erratum.** `Ratios and Rates 1`, §4 Q4c gives `24:60 → 1:2.4`; `60 ÷ 24 = 2.5`, so the
+booklet answer is wrong. Different numbers were used rather than reproduce it.
+
+Not committed — awaiting human review + commit.
+
+**Generation-agent bake-off: Opus vs ChatGPT/codex (run inside this batch).** Two independent
+agents authored the **same two skills** (`divide-quantity-in-ratio`, a plain number skill, and
+`interpret-distance-time-graphs`, TikZ-heavy) from an identical spec, into scratch dirs; a third
+Opus agent that had authored nothing reviewed both **with the arm labels stripped**.
+
+- **Both arms validated clean at 0 errors / 0 warnings on the first pass.** Codex needed **zero
+  continuations** — one MCP call, ~12 min, no sandbox refusals, no writes outside its output dir
+  — and it genuinely read the repo docs (its figures used repo-idiosyncratic Data-displays
+  conventions, not generic TikZ). Pipeline compliance was not the problem.
+- **The blind reviewer picked Opus on both skills, 6 of 8 criteria.** Codex's hard defects: a bar
+  model drawn with **unequal cell widths** (depicting ~1:2.4 for a stated 2:15); a total brace
+  drawn along **one bar only**, asserting one share = the whole (3 cards); a practice card asking
+  "which story matches the graph?" **with no stories supplied**; **0 of 7 quiz stems carrying
+  figures** while its practice siblings did; a likely y-label double-rotation on **all 22**
+  pgfplots figures; and **six distractor `why`s naming errors that do not produce the option they
+  sit on**. Its 12 foundation+development cards covered only 3 structural types.
+- Opus's own defect was one blocking but mechanical item: its distance–time quiz **recycled the
+  practice set** (8/8 figures byte-for-byte, 6/8 stems verbatim). Rebuilt on fresh journeys
+  before promotion, verified programmatically to share nothing with the content file.
+- **Verdict: codex is not yet viable as a generation agent for this pipeline.** It follows the
+  runbook and hits the schema; what it lacks is the self-checking that catches a figure
+  disagreeing with its own numbers and a distractor rationale that doesn't reach its option —
+  precisely the defects that survive review and reach students. (Consistent with the earlier
+  ChatGPT batches: row 2 shipped only after heavy repair, row 3 was discarded and regenerated.)
+- One transferable lesson was encoded into `docs/tikz-prompt.md`: **never add `rotate=90` to a
+  `pgfplots` `ylabel style`** — pgfplots already rotates it and the rotations compose, flipping
+  the label upside-down. The raw-TikZ data-display templates remain the house idiom.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 

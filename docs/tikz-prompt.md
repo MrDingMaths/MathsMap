@@ -562,6 +562,14 @@ label at the same corner:
   `y = 0` baseline** — there it crowds the last category/tick label (the exact "Corby/Town",
   "2019/Year" overlap). The category labels sit at `y = 0` `[below]` (≈ −0.35); a title line
   at `y = -1.0` clears them.
+- **`pgfplots` caveat.** The rotation instruction above is for the **raw-TikZ** data-display
+  templates below, which are what the shipped corpus uses. If you instead build an axis with
+  `pgfplots`, do **not** add `rotate=90` to `ylabel style` — pgfplots already rotates the y
+  label by default, and a second rotation composes with it and turns the label upside-down.
+  Use a bare `ylabel={…}` (as `public/content/linear-real-life.json` does) and keep the
+  shipped preset's `axis line style={-{Stealth}}`, `clip=false`, `scaled ticks=false`, and
+  `ticklabel style={/pgf/number format/fixed}`. **Prefer the raw-TikZ templates below** for
+  data displays so the whole corpus stays one idiom.
 - Keep tick labels at `x = -0.2` (left of the axis); the rotated y-label sits further left
   than the widest tick text, so they never touch. **Offset by tick width:** short ticks
   (1–2 chars) → `x ≈ -1.1`; **wide ticks — percentages (`$60\%$`) or ≥3-digit numbers
