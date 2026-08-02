@@ -148,7 +148,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | committed | `surd-product-rule`, `index-laws-establish`, `apply-index-laws-numerical` + **diagram list (4: `estimate-roots`, `prime-factorisation`, `square-cube-roots`, `sqrt-via-prime-factorisation`) for manual visual review** | `surd-product-rule` (booklet under-covers — two calculator items on one number pair; theory and all items beyond those generated from the dot point) |
 | 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | committed | `quadratic-two-solutions`, `solve-quadratic-ax2`, `model-word-problems-equations` + **diagram list (2: `equations-from-formulas`, `quadratics-from-formulas`) for manual visual review** | `quadratic-two-solutions`, `solve-quadratic-ax2` (neither booklet teaches the ±/two-solutions reasoning; generated from `dp-s4-equ-3`) |
 | 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | committed | `perimeter-composite-arc-figures`, `find-missing-sides-rectilinear`, `circle-features` + **full diagram list (all 10 skills, 263 `[tikz]`) for manual visual review** | none (all 10 booklet-covered) |
-| 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | in-review | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
+| 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | committed | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | pending | — | — |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | pending | — | — |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | pending | — | — |
@@ -907,7 +907,9 @@ $A_1$/$A_2$ labels in notch regions; (5) the **reflex sectors** (`sector-interio
 `area-of-sector`, `find-unknown-from-circle-area` d5) which use computed start/end arcs rather than
 `\pic` — check the arc sweeps the region the label names.
 
-**Not committed** — awaiting the human's visual review and commit.
+**Committed as `7169d15`** (batch 12, together with the first batch-11 visual-review repair). The
+435-block diagram checklist above is outstanding — review and repair in place on top of that
+commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
