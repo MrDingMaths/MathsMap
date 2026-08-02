@@ -1,0 +1,107 @@
+{
+  "skillId": "arc-length-perimeter-sector",
+  "atomType": "R",
+  "theory": {
+    "intro": "An **arc** is part of the circumference of a circle. The two radii drawn to the ends of the arc make an angle $\\theta$ at the centre, and the arc is the fraction $\\frac{\\theta}{360}$ of the whole circumference. A **sector** is the region enclosed by those two radii and the arc.",
+    "facts": [
+      "Arc length: $l = \\frac{\\theta}{360}\\times 2\\pi r$, where $\\theta$ is the angle at the centre.",
+      "Perimeter of a sector: $P = l + 2r$ — the arc plus **both** radii.",
+      "A quadrant is the case $\\theta = 90^{\\circ}$ and a semicircle is the case $\\theta = 180^{\\circ}$; for a semicircle the two radii lie in a straight line, so $2r$ is the diameter.",
+      "Angles at a point add to $360^{\\circ}$, so when the **exterior** angle of a sector is marked, the angle at the centre is $360^{\\circ}$ minus the marked angle.",
+      "Use the calculator value of $\\pi$, keep the working exact and round only at the last line, to the form the question asks for."
+    ],
+    "steps": [
+      "Write the formula.",
+      "Substitute the angle at the centre and the radius.",
+      "Evaluate, then round or leave in terms of $\\pi$ as asked."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The diagram shows a sector with centre $O$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (70:2.5);\n\\draw (O) -- (A) node[midway,below] {$r$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=70,radius=2.5];\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nExplain the difference between the **arc length** of this sector and the **perimeter** of this sector.",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (70:2.5);\n\\draw (O) -- (A) node[midway,below] {$r$};\n\\draw (O) -- (B) node[midway,above left] {$r$};\n\\draw[very thick] (A) arc[start angle=0,end angle=70,radius=2.5];\n\\node at (35:3.05) {$l$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nThe arc length is the curved edge only, marked $l$.\nThe perimeter is the whole boundary of the sector, so it also includes the two radii.\n$P = l + 2r$"
+      },
+      {
+        "question_text": "Calculate the arc length of the sector shown. Give your answer correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (60:2.5);\n\\draw (O) -- (A) node[midway,below] {$5\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=60,radius=2.5];\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{60}{360}\\times 2\\pi(5)$\n$= 5.24\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the arc length of the sector shown. Give your answer correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw (O) -- (0:2.4) node[midway,below] {$4\\text{ m}$};\n\\draw (O) -- (225:2.4);\n\\draw (0:2.4) arc[start angle=0,end angle=225,radius=2.4];\n\\draw (0:0.8) arc[start angle=0,end angle=225,radius=0.8];\n\\node at (112.5:1.3) {$225^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{225}{360}\\times 2\\pi(4)$\n$= 15.71\\text{ m}$"
+      },
+      {
+        "question_text": "Calculate the arc length of the sector shown. Give your answer in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (90:2.5);\n\\draw (O) -- (A) node[midway,below] {$6\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=90,radius=2.5];\n\\pic[draw,\"$90^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{90}{360}\\times 2\\pi(6)$\n$= \\frac{1}{4}\\times 12\\pi$\n$= 3\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the arc length of the sector shown. Give your answer in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (120:2.5);\n\\draw (O) -- (A) node[midway,below] {$7\\text{ mm}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=120,radius=2.5];\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{120}{360}\\times 2\\pi(7)$\n$= \\frac{1}{3}\\times 14\\pi$\n$= \\frac{14}{3}\\pi\\text{ mm}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of the sector shown. Give your answer correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (45:2.5);\n\\draw (O) -- (A) node[midway,below] {$8\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=45,radius=2.5];\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2.7] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$= \\frac{45}{360}\\times 2\\pi(8) + 2(8)$\n$= 22.3\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of this quadrant. Give your answer correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw (O) -- (2.6,0) node[midway,below] {$3\\text{ m}$};\n\\draw (O) -- (0,2.6);\n\\draw (2.6,0) arc[start angle=0,end angle=90,radius=2.6];\n\\draw (0.32,0) -- (0.32,0.32) -- (0,0.32);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw (O) -- (2.6,0) node[midway,below] {$3\\text{ m}$};\n\\draw (O) -- (0,2.6) node[midway,left] {$3\\text{ m}$};\n\\draw[very thick] (2.6,0) arc[start angle=0,end angle=90,radius=2.6];\n\\node at (45:3.2) {$l$};\n\\draw (0.32,0) -- (0.32,0.32) -- (0,0.32);\n\\end{tikzpicture}\n[/tikz]\n$P = l + 2r$\n$= \\frac{90}{360}\\times 2\\pi(3) + 2(3)$\n$= 10.7\\text{ m}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of this semicircle. Give your answer correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (-2.4,0) -- (2.4,0);\n\\draw (2.4,0) arc[start angle=0,end angle=180,radius=2.4];\n\\fill (0,0) circle (1.6pt);\n\\draw[<->] (0,-0.5) -- (2.4,-0.5) node[midway,below] {$5\\text{ km}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (-2.4,0) -- (2.4,0) node[midway,below] {$2r = 10\\text{ km}$};\n\\draw[very thick] (2.4,0) arc[start angle=0,end angle=180,radius=2.4];\n\\node at (90:2.85) {$l$};\n\\fill (0,0) circle (1.6pt);\n\\end{tikzpicture}\n[/tikz]\n$P = l + 2r$\n$= \\frac{180}{360}\\times 2\\pi(5) + 2(5)$\n$= 25.7\\text{ km}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of the sector shown. Give your answer correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw (O) -- (0:2.4) node[midway,below] {$6\\text{ mm}$};\n\\draw (O) -- (200:2.4);\n\\draw (0:2.4) arc[start angle=0,end angle=200,radius=2.4];\n\\draw (0:0.8) arc[start angle=0,end angle=200,radius=0.8];\n\\node at (100:1.3) {$200^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$= \\frac{200}{360}\\times 2\\pi(6) + 2(6)$\n$= 32.9\\text{ mm}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The angle marked on the diagram is the **exterior** angle of the sector. Calculate the arc length, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (100:2.5);\n\\draw (O) -- (A) node[midway,below] {$7\\text{ m}$};\n\\draw (O) -- (B);\n\\draw (100:2.5) arc[start angle=100,end angle=360,radius=2.5];\n\\pic[draw,\"$100^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (100:2.5);\n\\draw (O) -- (A) node[midway,below] {$7\\text{ m}$};\n\\draw (O) -- (B);\n\\draw[very thick] (100:2.5) arc[start angle=100,end angle=360,radius=2.5];\n\\pic[draw,\"$100^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\draw (100:1.15) arc[start angle=100,end angle=360,radius=1.15];\n\\node at (230:1.6) {$260^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\n$\\theta = 360^{\\circ}-100^{\\circ}$\n$= 260^{\\circ}$\n$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{260}{360}\\times 2\\pi(7)$\n$= 31.76\\text{ m}$"
+      },
+      {
+        "question_text": "The angle marked on the diagram is the **exterior** angle of the sector. Calculate the arc length in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (90:2.5);\n\\draw (O) -- (A) node[midway,below] {$8\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (90:2.5) arc[start angle=90,end angle=360,radius=2.5];\n\\pic[draw,\"$90^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (90:2.5);\n\\draw (O) -- (A) node[midway,below] {$8\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw[very thick] (90:2.5) arc[start angle=90,end angle=360,radius=2.5];\n\\pic[draw,\"$90^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\draw (90:1.15) arc[start angle=90,end angle=360,radius=1.15];\n\\node at (225:1.6) {$270^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\n$\\theta = 360^{\\circ}-90^{\\circ}$\n$= 270^{\\circ}$\n$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{270}{360}\\times 2\\pi(8)$\n$= 12\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of the sector shown. Give your answer correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (150:2.5);\n\\draw (O) -- (A) node[midway,below] {$12\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=150,radius=2.5];\n\\pic[draw,\"$150^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$= \\frac{150}{360}\\times 2\\pi(12) + 2(12)$\n$= 55.4\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of the sector shown, correct to the nearest centimetre.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw (O) -- (0:2.4) node[midway,below] {$9\\text{ cm}$};\n\\draw (O) -- (240:2.4);\n\\draw (0:2.4) arc[start angle=0,end angle=240,radius=2.4];\n\\draw (0:0.8) arc[start angle=0,end angle=240,radius=0.8];\n\\node at (120:1.3) {$240^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$= \\frac{240}{360}\\times 2\\pi(9) + 2(9)$\n$= 56\\text{ cm}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of the sector shown. Give your answer in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (60:2.5);\n\\draw (O) -- (A) node[midway,below] {$15\\text{ m}$};\n\\draw (O) -- (B);\n\\draw (A) arc[start angle=0,end angle=60,radius=2.5];\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.6cm,angle eccentricity=2] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$= \\frac{60}{360}\\times 2\\pi(15) + 2(15)$\n$= 5\\pi + 30\\text{ m}$"
+      },
+      {
+        "question_text": "Jaya says: \"The circumference of this circle is $44.0$ cm, so the perimeter of the semicircle is $44.0 \\div 2 = 22.0$ cm.\"\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (-2.4,0) -- (2.4,0);\n\\draw (2.4,0) arc[start angle=0,end angle=180,radius=2.4];\n\\fill (0,0) circle (1.6pt);\n\\draw[<->] (-2.4,-0.5) -- (2.4,-0.5) node[midway,below] {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nExplain why Jaya is wrong, then find the correct perimeter to $1$ decimal place.",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (-2.4,0) -- (2.4,0) node[midway,below] {$14\\text{ cm}$};\n\\draw[very thick] (2.4,0) arc[start angle=0,end angle=180,radius=2.4];\n\\node at (90:2.85) {$l$};\n\\fill (0,0) circle (1.6pt);\n\\end{tikzpicture}\n[/tikz]\nHalf the circumference is the curved edge only; the straight diameter is also part of the boundary.\n$P = l + 2r$\n$= \\frac{180}{360}\\times 2\\pi(7) + 14$\n$= 36.0\\text{ cm}$"
+      },
+      {
+        "question_text": "A pizza of diameter $30$ cm is cut into $8$ equal slices. Calculate the perimeter of one slice, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw[gray] (0,0) circle (2.3);\n\\foreach \\a in {0,45,90,135,180,225,270,315} {\\draw[gray] (O) -- (\\a:2.3);}\n\\draw[thick] (O) -- (0:2.3);\n\\draw[thick] (O) -- (45:2.3);\n\\draw[thick] (0:2.3) arc[start angle=0,end angle=45,radius=2.3];\n\\draw[<->] (-2.3,-2.85) -- (2.3,-2.85) node[midway,below] {$30\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$r = 30 \\div 2 = 15$, and one slice is $\\frac{360}{8}=45^{\\circ}$.\n$P = l + 2r$\n$= \\frac{45}{360}\\times 2\\pi(15) + 2(15)$\n$= 41.8\\text{ cm}$"
+      },
+      {
+        "question_text": "The circle below is divided into five equal sectors. Calculate the arc length of one sector, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw[gray] (0,0) circle (2.3);\n\\foreach \\a in {0,72,144,216,288} {\\draw[gray] (O) -- (\\a:2.3);}\n\\draw[thick] (O) -- (0:2.3) node[midway,below] {$25\\text{ cm}$};\n\\draw[thick] (O) -- (72:2.3);\n\\draw[thick] (0:2.3) arc[start angle=0,end angle=72,radius=2.3];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "One sector is $\\frac{1}{5}$ of the circle, so $\\theta = 360 \\div 5 = 72^{\\circ}$.\n$l = \\frac{\\theta}{360}\\times 2\\pi r$\n$= \\frac{72}{360}\\times 2\\pi(25)$\n$= 31.42\\text{ cm}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The perimeter of this sector is $30$ cm. Find the angle $\\theta$ at the centre, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.4);\n\\coordinate (B) at (172:2.4);\n\\draw (O) -- (A) node[midway,below] {$6\\text{ cm}$};\n\\draw (O) -- (B);\n\\pic[draw,\"$\\theta$\",angle radius=0.7cm,angle eccentricity=1.8] {angle=A--O--B};\n\\draw (A) arc[start angle=0,end angle=172,radius=2.4];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = l + 2r$\n$30 = l + 2(6)$\n$l = 18$\n$18 = \\frac{\\theta}{360}\\times 2\\pi(6)$\n$\\theta = \\frac{18\\times 360}{2\\pi(6)}$\n$= 171.9^{\\circ}$"
+      },
+      {
+        "question_text": "A sector has a radius of $20$ cm. Is it possible for that sector to have a perimeter of $200$ cm? Justify your answer with working, giving any angle correct to $1$ decimal place.",
+        "solution_text": "$P = l + 2r$\n$200 = l + 2(20)$\n$l = 160$\n$160 = \\frac{\\theta}{360}\\times 2\\pi(20)$\n$\\theta = \\frac{160\\times 360}{2\\pi(20)}$\n$= 458.4^{\\circ}$\nNo, it is not possible: the angle at the centre of a sector cannot be more than $360^{\\circ}$."
+      },
+      {
+        "question_text": "The shaded sector is three eighths of a whole circle of radius $16$ cm. Calculate its perimeter, correct to the nearest centimetre.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw[gray] (0,0) circle (2.3);\n\\foreach \\a in {0,45,90,135,180,225,270,315} {\\draw[gray] (O) -- (\\a:2.3);}\n\\draw[thick] (O) -- (0:2.3) node[midway,below] {$16\\text{ cm}$};\n\\draw[thick] (O) -- (135:2.3);\n\\draw[thick] (0:2.3) arc[start angle=0,end angle=135,radius=2.3];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\draw[gray] (0,0) circle (2.3);\n\\foreach \\a in {0,45,90,135,180,225,270,315} {\\draw[gray] (O) -- (\\a:2.3);}\n\\draw[thick] (O) -- (0:2.3) node[midway,below] {$16\\text{ cm}$};\n\\draw[thick] (O) -- (135:2.3) node[midway,below left] {$16\\text{ cm}$};\n\\draw[very thick] (0:2.3) arc[start angle=0,end angle=135,radius=2.3];\n\\node at (67.5:2.85) {$l$};\n\\end{tikzpicture}\n[/tikz]\n$P = l + 2r$\n$= \\frac{3}{8}\\times 2\\pi(16) + 2(16)$\n$= 70\\text{ cm}$"
+      }
+    ]
+  }
+}

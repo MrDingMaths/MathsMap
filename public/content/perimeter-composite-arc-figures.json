@@ -1,0 +1,95 @@
+{
+  "skillId": "perimeter-composite-arc-figures",
+  "atomType": "R",
+  "theory": {
+    "intro": "A composite shape here is built from straight edges and one or more arcs. Its perimeter is the total distance around the **outside boundary**, so it is the sum of the straight sections plus the length of every arc on the boundary. Any edge inside the shape, such as a diameter that an arc has replaced, is not counted.",
+    "facts": [
+      "Only edges on the outside boundary count. A dashed construction line drawn inside the shape is not part of the perimeter.",
+      "A semicircular arc of diameter $d$ has length $\\frac{1}{2}\\times \\pi d$; the diameter itself is not counted when the arc replaces it.",
+      "A quarter-circle arc of radius $r$ has length $\\frac{1}{4}\\times 2\\pi r$.",
+      "For any other arc, $l = \\frac{\\theta}{360}\\times 2\\pi r$, where $\\theta$ is the angle at the centre.",
+      "$P = l + 2r$ applies to a sector only. A shape with straight edges that are not both radii needs each boundary piece added separately."
+    ],
+    "steps": [
+      "Label every length on the perimeter.",
+      "Add the straight sections and the arc lengths.",
+      "Calculate and round as required."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The shape below is a rectangle with a semicircle on top.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (2.4,0) node[midway,below] {$6\\text{ cm}$};\n\\draw (0,0) -- (0,1.2) node[midway,left] {$3\\text{ cm}$};\n\\draw (2.4,0) -- (2.4,1.2);\n\\draw (2.4,1.2) arc[start angle=0,end angle=180,radius=1.2];\n\\end{tikzpicture}\n[/tikz]\nExplain why the formula $P = l + 2r$ cannot be used here, and list the sections that make up the perimeter.",
+        "solution_text": "$P = l + 2r$ is the perimeter of a **sector**, whose only straight edges are two radii meeting at the centre.\nThis shape is not a sector: its straight edges are three sides of a rectangle.\nThe perimeter is made of the bottom $6$ cm, the two sides of $3$ cm each, and the semicircular arc of diameter $6$ cm."
+      },
+      {
+        "question_text": "Calculate the perimeter of this shape, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0) -- (4,0) node[midway,below] {$8\\text{ m}$};\n\\draw (0,2.5) -- (4,2.5) node[midway,above] {$8\\text{ m}$};\n\\draw (0,0) -- (0,2.5) node[midway,left] {$5\\text{ m}$};\n\\draw (4,2.5) arc[start angle=90,end angle=-90,radius=1.25];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0) -- (4,0) node[midway,below] {$8\\text{ m}$};\n\\draw (0,2.5) -- (4,2.5) node[midway,above] {$8\\text{ m}$};\n\\draw (0,0) -- (0,2.5) node[midway,left] {$5\\text{ m}$};\n\\draw[very thick] (4,2.5) arc[start angle=90,end angle=-90,radius=1.25];\n\\draw[dashed] (4,0) -- (4,2.5);\n\\node at (5.75,1.25) {$l$};\n\\end{tikzpicture}\n[/tikz]\n$P = 8 + 8 + 5 + l$\n$= 21 + \\frac{1}{2}\\times \\pi(5)$\n$= 28.9\\text{ m}$"
+      },
+      {
+        "question_text": "Calculate the perimeter of this shape, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,1.5) -- (3.5,1.5) node[midway,above] {$7\\text{ m}$};\n\\draw (3.5,1.5) -- (3.5,0) node[midway,right] {$3\\text{ m}$};\n\\draw (3.5,0) -- (-1.5,0) node[midway,below] {$10\\text{ m}$};\n\\draw (-1.5,0) arc[start angle=180,end angle=90,radius=1.5];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,1.5) -- (3.5,1.5) node[midway,above] {$7\\text{ m}$};\n\\draw (3.5,1.5) -- (3.5,0) node[midway,right] {$3\\text{ m}$};\n\\draw (3.5,0) -- (-1.5,0) node[midway,below] {$10\\text{ m}$};\n\\draw[very thick] (-1.5,0) arc[start angle=180,end angle=90,radius=1.5];\n\\draw[dashed] (0,0) -- (0,1.5);\n\\draw[dashed] (0,0) -- (-1.5,0);\n\\fill (0,0) circle (1.5pt);\n\\node at (-1.45,1.45) {$l$};\n\\end{tikzpicture}\n[/tikz]\n$P = 7 + 3 + 10 + l$\n$= 20 + \\frac{1}{4}\\times 2\\pi(3)$\n$= 24.7\\text{ m}$"
+      },
+      {
+        "question_text": "This running-track shape has two straight sides and a semicircle at each end. Calculate its perimeter, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0) -- (4,0) node[midway,below] {$20\\text{ m}$};\n\\draw (0,2.4) -- (4,2.4) node[midway,above] {$20\\text{ m}$};\n\\draw (4,2.4) arc[start angle=90,end angle=-90,radius=1.2];\n\\draw (0,0) arc[start angle=-90,end angle=-270,radius=1.2];\n\\draw[<->] (-1.9,0) -- (-1.9,2.4) node[midway,left] {$12\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The two semicircular ends each have diameter $12$ m, so together they make one whole circle.\n$P = 20 + 20 + \\pi(12)$\n$= 77.7\\text{ m}$"
+      },
+      {
+        "question_text": "A semicircle sits on top of this rectangle and an identical semicircle is cut out of the bottom. Calculate the perimeter, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (0,3) node[midway,left] {$10\\text{ cm}$};\n\\draw (2.4,0) -- (2.4,3) node[midway,right] {$10\\text{ cm}$};\n\\draw (2.4,3) arc[start angle=0,end angle=180,radius=1.2];\n\\draw (0,0) arc[start angle=180,end angle=0,radius=1.2];\n\\draw[<->] (0,-0.75) -- (2.4,-0.75) node[midway,below] {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (0,3) node[midway,left] {$10\\text{ cm}$};\n\\draw (2.4,0) -- (2.4,3) node[midway,right] {$10\\text{ cm}$};\n\\draw[very thick] (2.4,3) arc[start angle=0,end angle=180,radius=1.2];\n\\draw[very thick] (0,0) arc[start angle=180,end angle=0,radius=1.2];\n\\node at (1.2,4.5) {$l_1$};\n\\node at (1.2,1.55) {$l_2$};\n\\end{tikzpicture}\n[/tikz]\nBoth arcs are semicircles of diameter $8$ cm, and the flat $8$ cm edges are not on the boundary.\n$P = 10 + 10 + l_1 + l_2$\n$= 20 + 2\\times \\frac{1}{2}\\times \\pi(8)$\n$= 45.13\\text{ cm}$"
+      },
+      {
+        "question_text": "A quarter circle has been cut from the corner of this rectangle. Calculate the perimeter of the shape that remains, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,2) -- (3.6,2) node[midway,above] {$9\\text{ mm}$};\n\\draw (3.6,2) -- (3.6,0) node[midway,right] {$5\\text{ mm}$};\n\\draw (3.6,0) -- (2,0);\n\\draw (2,0) arc[start angle=0,end angle=90,radius=2];\n\\draw[dashed] (0,0) -- (2,0);\n\\draw[dashed] (0,0) -- (0,2);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (1,0) {$5\\text{ mm}$};\n\\node[below] at (2.8,0) {$4\\text{ mm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,2) -- (3.6,2) node[midway,above] {$9\\text{ mm}$};\n\\draw (3.6,2) -- (3.6,0) node[midway,right] {$5\\text{ mm}$};\n\\draw (3.6,0) -- (2,0);\n\\draw[very thick] (2,0) arc[start angle=0,end angle=90,radius=2];\n\\draw[dashed] (0,0) -- (2,0);\n\\draw[dashed] (0,0) -- (0,2);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (2.8,0) {$4\\text{ mm}$};\n\\node at (1.75,1.75) {$l$};\n\\end{tikzpicture}\n[/tikz]\nThe cut removes the whole left side and part of the bottom, so neither is on the boundary.\n$P = 9 + 5 + 4 + l$\n$= 18 + \\frac{1}{4}\\times 2\\pi(5)$\n$= 25.9\\text{ mm}$"
+      },
+      {
+        "question_text": "A quarter circle is joined to the side of this square. Calculate the perimeter of the whole shape, correct to $1$ decimal place.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (0,2.4) node[midway,left] {$6\\text{ cm}$};\n\\draw (0,2.4) -- (2.4,2.4) node[midway,above] {$6\\text{ cm}$};\n\\draw (2.4,2.4) arc[start angle=90,end angle=0,radius=2.4];\n\\draw (4.8,0) -- (0,0);\n\\draw[dashed] (2.4,0) -- (2.4,2.4);\n\\node[below] at (1.2,0) {$6\\text{ cm}$};\n\\node[below] at (3.6,0) {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (0,2.4) node[midway,left] {$6\\text{ cm}$};\n\\draw (0,2.4) -- (2.4,2.4) node[midway,above] {$6\\text{ cm}$};\n\\draw[very thick] (2.4,2.4) arc[start angle=90,end angle=0,radius=2.4];\n\\draw (4.8,0) -- (0,0);\n\\draw[dashed] (2.4,0) -- (2.4,2.4);\n\\fill (2.4,0) circle (1.5pt);\n\\node[below] at (1.2,0) {$6\\text{ cm}$};\n\\node[below] at (3.6,0) {$6\\text{ cm}$};\n\\node at (3.6,1.9) {$l$};\n\\end{tikzpicture}\n[/tikz]\nThe dashed side of the square is inside the shape, so it is not part of the perimeter.\n$P = 6 + 6 + 6 + 6 + l$\n$= 24 + \\frac{1}{4}\\times 2\\pi(6)$\n$= 33.4\\text{ cm}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Calculate the perimeter of this shape in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (3,0) node[midway,below] {$10\\text{ m}$};\n\\draw (0,0) -- (0,1.5) node[midway,left] {$5\\text{ m}$};\n\\draw (3,0) -- (3,1.5) node[midway,right] {$5\\text{ m}$};\n\\draw (3,1.5) arc[start angle=0,end angle=180,radius=1.5];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = 10 + 5 + 5 + \\frac{1}{2}\\times \\pi(10)$\n$= 20 + 5\\pi\\text{ m}$"
+      },
+      {
+        "question_text": "The two curved edges below are semicircles. Calculate the perimeter of the shape in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (4,0) arc[start angle=0,end angle=180,radius=2];\n\\draw (0,0) -- (2,0) node[midway,below] {$8\\text{ cm}$};\n\\draw (2,0) arc[start angle=180,end angle=0,radius=1];\n\\draw[dashed] (2,0) -- (4,0);\n\\fill (3,0) circle (1.5pt);\n\\node[below] at (3,0) {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[very thick] (4,0) arc[start angle=0,end angle=180,radius=2];\n\\draw (0,0) -- (2,0) node[midway,below] {$8\\text{ cm}$};\n\\draw[very thick] (2,0) arc[start angle=180,end angle=0,radius=1];\n\\draw[dashed] (2,0) -- (4,0);\n\\fill (3,0) circle (1.5pt);\n\\node at (2,2.35) {$l_1$};\n\\node at (3,1.35) {$l_2$};\n\\end{tikzpicture}\n[/tikz]\nThe large arc has diameter $16$ cm and the small arc has diameter $8$ cm; only the left half of the base is straight.\n$P = l_1 + l_2 + 8$\n$= \\frac{1}{2}\\times \\pi(16) + \\frac{1}{2}\\times \\pi(8) + 8$\n$= 12\\pi + 8\\text{ cm}$"
+      },
+      {
+        "question_text": "A semicircle is drawn on each side of a dashed square of side $5$ cm. Calculate the perimeter of the shape in exact form, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[dashed] (0,0) rectangle (2,2);\n\\draw (2,0) arc[start angle=0,end angle=-180,radius=1];\n\\draw (0,2) arc[start angle=180,end angle=0,radius=1];\n\\draw (0,0) arc[start angle=-90,end angle=-270,radius=1];\n\\draw (2,2) arc[start angle=90,end angle=-90,radius=1];\n\\node[above] at (1,0.05) {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Each of the four arcs is a semicircle of diameter $5$ cm.\n$P = 4\\times \\frac{1}{2}\\times \\pi(5)$\n$= 10\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "The curved top of this shape is an arc of a circle whose centre is the midpoint of the base. Calculate the perimeter, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=1.15]\n\\coordinate (O) at (0,0);\n\\draw (-0.8,0) -- (0.8,0) node[midway,below] {$10\\text{ mm}$};\n\\draw (-0.8,0) -- (-0.8,1.92) node[midway,left] {$12\\text{ mm}$};\n\\draw (0.8,0) -- (0.8,1.92) node[midway,right] {$12\\text{ mm}$};\n\\draw (67.38:2.08) arc[start angle=67.38,end angle=112.62,radius=2.08];\n\\draw[dashed] (O) -- (67.38:2.08);\n\\node[fill=white,inner sep=1pt] at (0.42,1.01) {$13\\text{ mm}$};\n\\draw (67.38:0.5) arc[start angle=67.38,end angle=112.62,radius=0.5];\n\\node at (0,0.72) {$45.2^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$P = 10 + 12 + 12 + \\frac{45.2}{360}\\times 2\\pi(13)$\n$= 44.26\\text{ mm}$"
+      },
+      {
+        "question_text": "The inside lane of an athletics track is made of two straights of $84.4$ m and two semicircular ends of radius $36.5$ m. Calculate the total length of one lap, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,0) -- (3.4,0) node[midway,below] {$84.4\\text{ m}$};\n\\draw (0,2.9) -- (3.4,2.9) node[midway,above] {$84.4\\text{ m}$};\n\\draw (3.4,2.9) arc[start angle=90,end angle=-90,radius=1.45];\n\\draw (0,0) arc[start angle=-90,end angle=-270,radius=1.45];\n\\fill (3.4,1.45) circle (1.6pt);\n\\draw[dashed] (3.4,1.45) -- (4.85,1.45) node[midway,above] {$36.5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The two semicircular ends have the same radius, so together they make one whole circle.\n$P = 84.4 + 84.4 + 2\\pi(36.5)$\n$= 398.14\\text{ m}$"
+      },
+      {
+        "question_text": "A semicircle has been cut out of one end of this rectangular metal plate. Calculate the perimeter of the plate, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (3.5,0) node[midway,below] {$14\\text{ cm}$};\n\\draw (0,2) -- (3.5,2) node[midway,above] {$14\\text{ cm}$};\n\\draw (0,0) -- (0,2) node[midway,left] {$8\\text{ cm}$};\n\\draw (3.5,2) arc[start angle=90,end angle=270,radius=1];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (3.5,0) node[midway,below] {$14\\text{ cm}$};\n\\draw (0,2) -- (3.5,2) node[midway,above] {$14\\text{ cm}$};\n\\draw (0,0) -- (0,2) node[midway,left] {$8\\text{ cm}$};\n\\draw[very thick] (3.5,2) arc[start angle=90,end angle=270,radius=1];\n\\draw[dashed] (3.5,0) -- (3.5,2);\n\\fill (3.5,1) circle (1.5pt);\n\\node at (2.9,1) {$l$};\n\\end{tikzpicture}\n[/tikz]\nThe cut removes the right-hand $8$ cm edge, so the concave arc replaces it on the boundary.\n$P = 14 + 14 + 8 + l$\n$= 36 + \\frac{1}{2}\\times \\pi(8)$\n$= 48.57\\text{ cm}$"
+      },
+      {
+        "question_text": "This semicircular garden path has an outer edge of radius $7$ m, an inner edge of radius $4$ m, and two straight ends. Calculate the perimeter of the path, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (2.1,0) arc[start angle=0,end angle=180,radius=2.1];\n\\draw (1.2,0) arc[start angle=0,end angle=180,radius=1.2];\n\\draw (-2.1,0) -- (-1.2,0) node[midway,below] {$3\\text{ m}$};\n\\draw (1.2,0) -- (2.1,0) node[midway,below] {$3\\text{ m}$};\n\\fill (0,0) circle (1.5pt);\n\\draw[dashed] (0,0) -- (120:2.1) node[midway,above left] {$7\\text{ m}$};\n\\draw[dashed] (0,0) -- (60:1.2) node[midway,right] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[very thick] (2.1,0) arc[start angle=0,end angle=180,radius=2.1];\n\\draw[very thick] (1.2,0) arc[start angle=0,end angle=180,radius=1.2];\n\\draw (-2.1,0) -- (-1.2,0) node[midway,below] {$3\\text{ m}$};\n\\draw (1.2,0) -- (2.1,0) node[midway,below] {$3\\text{ m}$};\n\\fill (0,0) circle (1.5pt);\n\\node at (135:2.5) {$l_1$};\n\\node at (45:1.55) {$l_2$};\n\\end{tikzpicture}\n[/tikz]\n$P = l_1 + l_2 + 3 + 3$\n$= \\frac{1}{2}\\times 2\\pi(7) + \\frac{1}{2}\\times 2\\pi(4) + 6$\n$= 40.56\\text{ m}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "This shape is a rectangle with a semicircle on one end. The capped end is $6$ cm and the perimeter of the whole shape is $30$ cm. Find the length $x$ of the rectangle, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (0,0) -- (1.95,0) node[midway,below] {$x$};\n\\draw (0,1.6) -- (1.95,1.6) node[midway,above] {$x$};\n\\draw (0,0) -- (0,1.6) node[midway,left] {$6\\text{ cm}$};\n\\draw (1.95,1.6) arc[start angle=90,end angle=-90,radius=0.8];\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Label every length on the perimeter.**\nThe boundary is two lengths of $x$, the $6$ cm end, and a semicircular arc of diameter $6$ cm.\n2. **Add the straight sections and the arc lengths.**\n$P = 2x + 6 + \\frac{1}{2}\\times \\pi(6)$\n3. **Calculate and round as required.**\n$30 = 2x + 6 + 9.4247\\ldots$\n$2x = 14.5752\\ldots$\n$x = 7.29\\text{ cm}$"
+      },
+      {
+        "question_text": "Which of these two shapes has the larger perimeter, and by how much? Answer correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.75]\n\\draw (0,0) rectangle (3,3);\n\\node[below] at (1.5,0) {$10\\text{ cm}$};\n\\node[left] at (0,1.5) {$10\\text{ cm}$};\n\\node at (1.5,3.5) {Shape A};\n\\draw (6,0) -- (9,0) node[midway,below] {$10\\text{ cm}$};\n\\draw (6,1.8) -- (9,1.8) node[midway,above] {$10\\text{ cm}$};\n\\draw (9,1.8) arc[start angle=90,end angle=-90,radius=0.9];\n\\draw (6,0) arc[start angle=-90,end angle=-270,radius=0.9];\n\\draw[<->] (4.6,0) -- (4.6,1.8) node[midway,left] {$6\\text{ cm}$};\n\\node at (7.5,3.5) {Shape B};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Shape A: $P = 4\\times 10$\n$= 40\\text{ cm}$\nShape B: the two semicircular ends have diameter $6$ cm, so together they make one whole circle.\n$P = 10 + 10 + \\pi(6)$\n$= 38.8495\\ldots\\text{ cm}$\nShape A is larger by $40 - 38.8495\\ldots = 1.15\\text{ cm}$."
+      },
+      {
+        "question_text": "A quarter circle of radius $14$ cm is cut from a square of side $14$ cm. Calculate the exact perimeter of the piece that is left, in terms of $\\pi$.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (2.8,0) -- (2.8,2.8) node[midway,right] {$14\\text{ cm}$};\n\\draw (2.8,2.8) -- (0,2.8) node[midway,above] {$14\\text{ cm}$};\n\\draw (2.8,0) arc[start angle=0,end angle=90,radius=2.8];\n\\draw[dashed] (0,0) -- (2.8,0);\n\\draw[dashed] (0,0) -- (0,2.8);\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw (2.8,0) -- (2.8,2.8) node[midway,right] {$14\\text{ cm}$};\n\\draw (2.8,2.8) -- (0,2.8) node[midway,above] {$14\\text{ cm}$};\n\\draw[very thick] (2.8,0) arc[start angle=0,end angle=90,radius=2.8];\n\\draw[dashed] (0,0) -- (2.8,0);\n\\draw[dashed] (0,0) -- (0,2.8);\n\\fill (0,0) circle (1.5pt);\n\\node at (45:3.35) {$l$};\n\\end{tikzpicture}\n[/tikz]\nThe cut removes the bottom and left sides of the square completely, so only two sides and the arc remain.\n$P = 14 + 14 + l$\n$= 28 + \\frac{1}{4}\\times 2\\pi(14)$\n$= 28 + 7\\pi\\text{ cm}$"
+      }
+    ]
+  }
+}
