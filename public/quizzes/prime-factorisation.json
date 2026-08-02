@@ -1,0 +1,121 @@
+{
+  "skillId": "prime-factorisation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The factor tree for $90$ is started below. What is the prime factorisation of $90$ in index form?\n[tikz]\n\\begin{tikzpicture}\n\\node (a) at (0,2.5) {$90$};\n\\node (b) at (-1.4,1.5) {$9$};\n\\node (c) at (1.4,1.5) {$10$};\n\\node[draw,minimum size=0.5cm] (d) at (-2.2,0.5) {};\n\\node[draw,minimum size=0.5cm] (e) at (-0.6,0.5) {};\n\\node[draw,minimum size=0.5cm] (f) at (0.6,0.5) {};\n\\node[draw,minimum size=0.5cm] (g) at (2.2,0.5) {};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\draw (b)--(d);\n\\draw (b)--(e);\n\\draw (c)--(f);\n\\draw (c)--(g);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "complete-a-factor-tree",
+      "mastery": false,
+      "options": [
+        { "text": "$2\\times 3^{2}\\times 5$", "correct": true },
+        { "text": "$2\\times 3\\times 5$", "why": "Split the $9$ into $3\\times 3$ but recorded only one of the $3$s." },
+        { "text": "$2\\times 3^{3}\\times 5$", "why": "Counted the $9$ as three $3$s instead of two." },
+        { "text": "$3^{2}\\times 5^{2}$", "why": "Split the $10$ into $5\\times 5$ instead of $2\\times 5$." }
+      ],
+      "solution_text": "$9=3\\times 3$ and $10=2\\times 5$.\n$90$\n$=2\\times 3\\times 3\\times 5$\n$=2\\times 3^{2}\\times 5$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Write $108$ as a product of prime factors in index form.",
+      "structure": "build-prime-factorisation",
+      "mastery": false,
+      "options": [
+        { "text": "$2^{2}\\times 3^{3}$", "correct": true },
+        { "text": "$2^{3}\\times 3^{2}$", "why": "Attached each index to the wrong prime after splitting $4\\times 27$." },
+        { "text": "$2^{2}\\times 3^{2}$", "why": "Stopped after two factors of $3$, leaving $9$ where $27$ belongs." },
+        { "text": "$2\\times 3^{3}$", "why": "Halved only once, taking one factor of $2$ instead of two." }
+      ],
+      "solution_text": "$108$\n$=4\\times 27$\n$=2\\times 2\\times 3\\times 3\\times 3$\n$=2^{2}\\times 3^{3}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Write $124$ as a product of prime factors in index form.",
+      "structure": "factorisation-with-large-prime",
+      "mastery": false,
+      "options": [
+        { "text": "$2^{2}\\times 31$", "correct": true },
+        { "text": "$2\\times 31$", "why": "Took out only one factor of $2$ and stopped before checking $62$ again." },
+        { "text": "$2^{3}\\times 31$", "why": "Halved once too often, taking a third factor of $2$ that is not there." },
+        { "text": "$2^{2}\\times 29$", "why": "Used a nearby prime instead of dividing $124$ by $4$ to find the last factor." }
+      ],
+      "solution_text": "$124\\div 2=62$\n$62\\div 2=31$\n$31$ is prime.\n$124$\n$=2\\times 2\\times 31$\n$=2^{2}\\times 31$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A student writes the prime factorisation of $424$ as $2^{2}\\times 106$. What is wrong with this answer?",
+      "structure": "spot-the-non-prime-factor",
+      "mastery": false,
+      "options": [
+        { "text": "$106$ is not a prime number.", "correct": true },
+        { "text": "The factors do not multiply back to $424$.", "why": "They do multiply to $424$, so the product itself is not the problem." },
+        { "text": "$424$ is not divisible by $4$.", "why": "It is: $424\\div 4=106$, so taking two factors of $2$ was allowed." },
+        { "text": "A prime factorisation must not use index form.", "why": "Index form is exactly how repeated prime factors should be recorded." }
+      ],
+      "solution_text": "$106$\n$=2\\times 53$\n$424$\n$=2\\times 2\\times 2\\times 53$\n$=2^{3}\\times 53$"
+    },
+    {
+      "id": "q5",
+      "question_text": "What is wrong with this factor tree for $70$?\n[tikz]\n\\begin{tikzpicture}\n\\node (a) at (0,2) {$70$};\n\\node (b) at (-1.2,1) {$7$};\n\\node (c) at (1.2,1) {$10$};\n\\node (d) at (0.4,0) {$5$};\n\\node (e) at (2,0) {$5$};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\draw (c)--(d);\n\\draw (c)--(e);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "spot-the-tree-error",
+      "mastery": false,
+      "options": [
+        { "text": "The $10$ should split into $2\\times 5$, not $5\\times 5$.", "correct": true },
+        { "text": "The $7$ branch should be split further.", "why": "$7$ is prime, so that branch correctly ends there." },
+        { "text": "$70$ should have been split as $2\\times 35$ first.", "why": "Any factor pair may start the tree, so the first split is not the error." },
+        { "text": "The prime factors should have been written in index form.", "why": "Index form affects how the answer is recorded, not whether the tree is right." }
+      ],
+      "solution_text": "$5\\times 5=25$, not $10$.\n$10$\n$=2\\times 5$\n$70$\n$=2\\times 5\\times 7$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Two students draw different factor trees for $60$. One starts with $6\\times 10$ and the other with $4\\times 15$. What can be said about their final answers?",
+      "structure": "uniqueness-of-factorisation",
+      "mastery": false,
+      "options": [
+        { "text": "Both give $2^{2}\\times 3\\times 5$.", "correct": true },
+        { "text": "Each gives a different prime factorisation.", "why": "A number has only one prime factorisation, however the tree is drawn." },
+        { "text": "Only the tree starting with $6\\times 10$ is correct.", "why": "The starting factor pair does not change the primes the tree ends on." }
+      ],
+      "solution_text": "$6\\times 10$\n$=2\\times 3\\times 2\\times 5$, and\n$4\\times 15$\n$=2\\times 2\\times 3\\times 5$\nBoth give $2^{2}\\times 3\\times 5$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Given that $126=2\\times 3^{2}\\times 7$, write $630$ as a product of prime factors in index form.",
+      "structure": "factorise-from-a-given-result",
+      "mastery": true,
+      "options": [
+        { "text": "$2\\times 3^{2}\\times 5\\times 7$", "correct": true },
+        { "text": "$2\\times 3^{2}\\times 5^{2}\\times 7$", "why": "Squared the new prime $5$, although only one extra factor of $5$ is needed." },
+        { "text": "$2\\times 3^{2}\\times 7$", "why": "Copied the factorisation of $126$ without including the extra factor of $5$." },
+        { "text": "$2\\times 3^{2}\\times 5$", "why": "Replaced the $7$ with the new prime $5$ instead of keeping both." }
+      ],
+      "solution_text": "$630$\n$=5\\times 126$\n$=5\\times 2\\times 3^{2}\\times 7$\n$=2\\times 3^{2}\\times 5\\times 7$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Which of these is a factor of $2^{2}\\times 3\\times 5^{2}$?",
+      "structure": "factor-from-prime-factorisation",
+      "mastery": true,
+      "options": [
+        { "text": "$20$", "correct": true },
+        { "text": "$8$", "why": "Assumed a third factor of $2$ is available, but $2$ appears only twice." },
+        { "text": "$45$", "why": "Assumed a second factor of $3$ is available, but $3$ appears only once." },
+        { "text": "$14$", "why": "Assumed a factor of $7$ is available, but no $7$ appears in the product." }
+      ],
+      "solution_text": "$20$\n$=2^{2}\\times 5$\nBoth of these prime powers sit inside $2^{2}\\times 3\\times 5^{2}$, so $20$ is a factor."
+    },
+    {
+      "id": "q9",
+      "question_text": "$p$ is a prime number and the factor tree below is complete, so every leaf is that same prime. Which number could it be factorising?\n[tikz]\n\\begin{tikzpicture}\n\\node (a) at (0,2.4) {$?$};\n\\node (b) at (-1.3,1.4) {$p$};\n\\node[draw,minimum size=0.5cm] (c) at (1.3,1.4) {};\n\\node (d) at (0.5,0.4) {$p$};\n\\node (e) at (2.1,0.4) {$p$};\n\\draw (a)--(b);\n\\draw (a)--(c);\n\\draw (c)--(d);\n\\draw (c)--(e);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "deduce-number-from-tree-shape",
+      "mastery": true,
+      "options": [
+        { "text": "$27$", "correct": true },
+        { "text": "$12$", "why": "Its factorisation $2^{2}\\times 3$ has leaves that are not all the same prime." },
+        { "text": "$30$", "why": "Its factorisation $2\\times 3\\times 5$ has three different primes, not three copies of one." },
+        { "text": "$16$", "why": "Its factorisation $2^{4}$ needs four prime leaves, not three." }
+      ],
+      "solution_text": "The tree ends in three leaves, all equal to $p$, so the number is $p\\times p\\times p$.\n$27$\n$=3\\times 3\\times 3$\n$=3^{3}$"
+    }
+  ]
+}
