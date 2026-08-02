@@ -1,0 +1,109 @@
+{
+  "skillId": "effect-on-measures-centre",
+  "atomType": "Com",
+  "theory": {
+    "intro": "Adding a value to a dataset, removing one, or including an **outlier** changes its summary statistics in predictable ways. The **mean** uses every value, so it is pulled towards any value far from the rest. The **median** is only the middle of the ordered list, so it barely moves. The **mode** and the **range** respond differently again. To describe an effect, work out the statistic **before** the change and **after** the change, then state the direction and the size of the change.",
+    "facts": [
+      "Adding a value **above** the current mean raises the mean, a value **below** it lowers the mean, and a value **equal** to it leaves the mean unchanged.",
+      "Removing the **smallest** value raises the mean; removing the **largest** value lowers it.",
+      "An **outlier** pulls the mean strongly towards itself but moves the median only slightly, because the median depends on position rather than on size.",
+      "A single new value leaves the **mode** unchanged unless it ties or beats the highest frequency already in the data.",
+      "$\\text{Range} = \\text{Max} - \\text{Min}$, so the range changes only when the value added or removed is the largest or the smallest. An outlier makes the range much bigger.",
+      "New mean $= \\dfrac{\\text{new total}}{\\text{new number of values}}$, and a known mean gives the total: $\\text{total} = \\overline{x} \\times n$.",
+      "The **larger** the dataset, the **smaller** the effect one extra value has on the mean."
+    ],
+    "steps": [
+      "Find the summary statistic before the change",
+      "Find the summary statistic after the change",
+      "State the direction and size of the change"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The mean age of the $12$ members of a chess club is $34$ years. A new member aged $47$ years joins the club. Does the mean age increase, decrease or stay the same? Explain your answer.",
+        "solution_text": "$47 > 34$\nThe new age is above the current mean of $34$ years, so it pulls the mean up and the mean age increases."
+      },
+      {
+        "question_text": "The mean number of hours volunteered last month by the $8$ members of a community group was $15$ hours. A ninth member joins and volunteers $15$ hours. Describe the effect on the mean.",
+        "solution_text": "$15 = 15$\nThe new value is equal to the current mean, so it pulls the mean neither up nor down and the mean stays at $15$ hours."
+      },
+      {
+        "question_text": "The mean weight of $10$ parcels is $4.2$ kg. An eleventh parcel weighing $1.5$ kg is added. Does the mean weight increase, decrease or stay the same? Explain your answer.",
+        "solution_text": "$1.5 < 4.2$\nThe new weight is below the current mean of $4.2$ kg, so it pulls the mean down and the mean weight decreases."
+      },
+      {
+        "question_text": "The mean age of the members of a walking club is $58$ years. The youngest member, aged $31$ years, leaves the club. Does the mean age increase or decrease? Explain your answer.",
+        "solution_text": "$31 < 58$\nThe age removed was below the mean, so the ages that are left share a higher amount per member and the mean age increases."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.1,0);\n\\foreach \\x in {0,0.75,1.5,2.25,3,3.75,4.5,5.25,6,6.75,7.5,8.25,9,9.75,10.5} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\foreach \\x/\\lbl in {0/10,1.5/12,3/14,4.5/16,6/18,7.5/20,9/22,10.5/24} {\\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\foreach \\x in {1.5,3,3.75,5.25,9} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.25,-1.0) {Age (years)};\n\\node[font=\\small] at (5.25,1.6) {Ages of five members};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the age, in years, of one member of a junior chess club. A new member aged $28$ years joins. Find the new mean age.",
+        "solution_text": "$\\overline{x} = \\frac{12 + 14 + 15 + 17 + 22 + 28}{6}$\n$= \\frac{108}{6}$\n$= 18\\text{ years}$"
+      },
+      {
+        "question_text": "The hours volunteered in one month by six members of a group were $5$, $8$, $9$, $11$, $12$ and $15$. The member who volunteered $15$ hours leaves the group. Find the new mean number of hours.",
+        "solution_text": "$\\overline{x} = \\frac{5 + 8 + 9 + 11 + 12}{5}$\n$= \\frac{45}{5}$\n$= 9\\text{ hours}$"
+      },
+      {
+        "question_text": "The ages, in years, of five members of a club are $9$, $11$, $13$, $14$ and $18$. A new member aged $40$ years joins. Find the new median age.",
+        "solution_text": "$9, 11, 13, 14, 18, 40$\n$\\text{Median} = \\frac{13 + 14}{2}$\n$= 13.5\\text{ years}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(7.4,0);\n\\foreach \\y in {0,0.6,1.2,1.8,2.4,3.0,3.6,4.2,4.8,5.4,6.0} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,1.2/2,2.4/4,3.6/6,4.8/8,6.0/10} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\draw (0.8,0) rectangle (1.6,2.4);\n\\draw (2.0,0) rectangle (2.8,4.2);\n\\draw (3.2,0) rectangle (4.0,3.0);\n\\draw (4.4,0) rectangle (5.2,5.4);\n\\draw (5.6,0) rectangle (6.4,3.6);\n\\foreach \\x/\\lbl in {1.2/P1,2.4/P2,3.6/P3,4.8/P4,6.0/P5} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\node[rotate=90,font=\\scriptsize] at (-1.1,3.0) {Weight (kg)};\n\\node[below,font=\\scriptsize] at (3.6,-1.0) {Parcel};\n\\node[font=\\small] at (3.6,7.1) {Parcel weights};\n\\end{tikzpicture}\n[/tikz]\nThe column graph shows the weights of five parcels. A sixth parcel weighing $21$ kg is added. Find the new range of the weights.",
+        "solution_text": "$\\text{Range} = \\text{Max} - \\text{Min}$\n$= 21 - 4$\n$= 17\\text{ kg}$"
+      },
+      {
+        "question_text": "The ages, in years, of five members of a club are $14$, $15$, $15$, $16$ and $18$. A new member aged $32$ years joins. Does the mode change? Explain your answer.",
+        "solution_text": "$14, 15, 15, 16, 18, 32$\nThe age $32$ occurs once, so $15$ is still the only age that occurs more than once and the mode stays at $15$ years."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The weights, in kg, of six parcels are $1.4$, $1.6$, $1.8$, $2.0$, $2.2$ and $10.8$, and the outlier is $10.8$ kg. Find the mean and the median with the outlier and again without it, then state by how much each one falls when the outlier is removed.",
+        "solution_text": "1. **Find the summary statistic before the change**\n$\\overline{x} = \\frac{19.8}{6}$\n$= 3.3\\text{ kg}$\n$\\text{Median} = \\frac{1.8 + 2.0}{2}$\n$= 1.9\\text{ kg}$\n2. **Find the summary statistic after the change**\n$\\overline{x} = \\frac{9.0}{5}$\n$= 1.8\\text{ kg}$\n$\\text{Median} = 1.8\\text{ kg}$\n3. **State the direction and size of the change**\nThe mean falls by $1.5$ kg, but the median falls by only $0.1$ kg."
+      },
+      {
+        "question_text": "The ages, in years, of six members of a club are $20$, $22$, $22$, $26$, $28$ and $92$. The table shows the summary statistics with the outlier of $92$ years and without it.\n$\\begin{array}{lcccc}&\\textbf{Mean}&\\textbf{Median}&\\textbf{Mode}&\\textbf{Range}\\\\ \\hline \\text{With outlier}&35&24&22&72\\\\ \\text{Without outlier}&23.6&22&22&8\\end{array}$\nDescribe how the outlier affects each summary statistic.",
+        "solution_text": "The mean falls from $35$ years to $23.6$ years, a change of $11.4$ years, because the mean uses the value of every member.\nThe median falls from $24$ years to $22$ years, a change of only $2$ years.\nThe mode is $22$ years either way, so the outlier does not affect it.\nThe range falls from $72$ years to $8$ years, because the outlier was the largest value."
+      },
+      {
+        "question_text": "The mean number of hours volunteered last month by $9$ members of a group was $12$ hours. A tenth member volunteered $22$ hours. Find the mean number of hours for all $10$ members.",
+        "solution_text": "$\\text{Total} = 12 \\times 9$\n$= 108\\text{ hours}$\n$\\overline{x} = \\frac{108 + 22}{10}$\n$= \\frac{130}{10}$\n$= 13\\text{ hours}$"
+      },
+      {
+        "question_text": "A club with $5$ members has a mean age of $40$ years, and a second club with $29$ members also has a mean age of $40$ years. A person aged $10$ years joins each club. Find the new mean age of each club, then explain why the same new member changes one mean far more than the other.",
+        "solution_text": "$\\overline{x} = \\frac{5 \\times 40 + 10}{6}$\n$= \\frac{210}{6}$\n$= 35\\text{ years}$\n$\\overline{x} = \\frac{29 \\times 40 + 10}{30}$\n$= \\frac{1170}{30}$\n$= 39\\text{ years}$\nThe small club's mean falls by $5$ years, while the large club's mean falls by only $1$ year.\nIn the larger club the low age is shared between many more members, so one value has much less effect on the mean."
+      },
+      {
+        "question_text": "The hours volunteered in one month by seven members of a group were $4$, $6$, $7$, $9$, $10$, $12$ and $15$. An eighth member joins and volunteers $40$ hours. Find the mean and the median before and after, giving each mean correct to $1$ decimal place where it does not terminate. Which measure changed more?",
+        "solution_text": "1. **Find the summary statistic before the change**\n$4, 6, 7, 9, 10, 12, 15$\n$\\overline{x} = \\frac{63}{7}$\n$= 9\\text{ hours}$\n$\\text{Median} = 9\\text{ hours}$\n2. **Find the summary statistic after the change**\n$4, 6, 7, 9, 10, 12, 15, 40$\n$\\overline{x} = \\frac{103}{8}$\n$\\approx 12.9\\text{ hours}$\n$\\text{Median} = \\frac{9 + 10}{2}$\n$= 9.5\\text{ hours}$\n3. **State the direction and size of the change**\nThe mean rose by about $3.9$ hours while the median rose by only $0.5$ hours, so the mean changed more."
+      },
+      {
+        "question_text": "The weights, in kg, of six parcels are $2.5$, $3.1$, $3.4$, $3.8$, $4.2$ and $4.9$. The parcel weighing $3.4$ kg is removed. Find the new mean weight and the new range, and explain each change.",
+        "solution_text": "1. **Find the summary statistic before the change**\n$\\overline{x} = \\frac{21.9}{6}$\n$= 3.65\\text{ kg}$\n2. **Find the summary statistic after the change**\n$\\overline{x} = \\frac{18.5}{5}$\n$= 3.7\\text{ kg}$\n$\\text{Range} = 4.9 - 2.5$\n$= 2.4\\text{ kg}$\n3. **State the direction and size of the change**\nThe mean rises by $0.05$ kg, because the weight removed was below the mean.\nThe range is still $2.4$ kg, because the parcel removed was neither the heaviest nor the lightest."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.4);\n\\draw[->] (0,0)--(7.4,0);\n\\foreach \\y in {0,0.75,1.5,2.25,3.0,3.75,4.5,5.25,6.0} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,1.5/5,3.0/10,4.5/15,6.0/20} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\draw (0.8,0) rectangle (1.6,2.4);\n\\draw (2.0,0) rectangle (2.8,4.2);\n\\draw (3.2,0) rectangle (4.0,3.3);\n\\draw (4.4,0) rectangle (5.2,5.1);\n\\draw (5.6,0) rectangle (6.4,3.0);\n\\foreach \\x/\\lbl in {1.2/Ana,2.4/Ben,3.6/Cai,4.8/Dee,6.0/Eli} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\node[rotate=90,font=\\scriptsize] at (-1.1,3.0) {Hours};\n\\node[below,font=\\scriptsize] at (3.6,-1.0) {Member};\n\\node[font=\\small] at (3.6,7.1) {Hours volunteered};\n\\end{tikzpicture}\n[/tikz]\nThe column graph shows the number of hours volunteered last month by five members of a group. A sixth member who volunteered $26$ hours joins the group. Find the new mean number of hours, correct to $1$ decimal place.",
+        "solution_text": "$\\overline{x} = \\frac{8 + 14 + 11 + 17 + 10 + 26}{6}$\n$= \\frac{86}{6}$\n$\\approx 14.3\\text{ hours}$"
+      },
+      {
+        "question_text": "The ages, in years, of eight members of a club are $15$, $15$, $16$, $16$, $16$, $18$, $20$ and $44$. Find the mean, median, mode and range with the outlier of $44$ years, and again without it, giving the mean without the outlier correct to $1$ decimal place.",
+        "solution_text": "1. **Find the summary statistic before the change**\n$\\overline{x} = \\frac{160}{8}$\n$= 20\\text{ years}$\n$\\text{Median} = \\frac{16 + 16}{2}$\n$= 16\\text{ years}$\n$\\text{Mode} = 16\\text{ years}$\n$\\text{Range} = 44 - 15$\n$= 29\\text{ years}$\n2. **Find the summary statistic after the change**\n$\\overline{x} = \\frac{116}{7}$\n$\\approx 16.6\\text{ years}$\n$\\text{Median} = 16\\text{ years}$\n$\\text{Mode} = 16\\text{ years}$\n$\\text{Range} = 20 - 15$\n$= 5\\text{ years}$\n3. **State the direction and size of the change**\nThe mean falls by about $3.4$ years and the range falls by $24$ years, while the median and the mode do not change at all."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(5.2,0);\n\\foreach \\y in {0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,1.0/2,2.0/4,3.0/6,4.0/8,5.0/10} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\draw (0.6,0) rectangle (1.3,3.0);\n\\draw (1.65,0) rectangle (2.35,4.5);\n\\draw (2.7,0) rectangle (3.4,3.5);\n\\draw (3.75,0) rectangle (4.45,5.0);\n\\foreach \\x/\\lbl in {0.95/W1,2.0/W2,3.05/W3,4.1/W4} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\node[rotate=90,font=\\scriptsize] at (-1.0,2.5) {Hours};\n\\node[below,font=\\scriptsize] at (2.5,-1.0) {Week};\n\\node[font=\\small] at (2.5,6.1) {Weeks 1 to 4};\n\\draw[->] (7.0,0)--(7.0,6.4);\n\\draw[->] (7.0,0)--(13.0,0);\n\\foreach \\y in {0,0.5,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0} {\\draw (6.88,\\y)--(7.0,\\y);}\n\\foreach \\y/\\lbl in {0/0,1.0/2,2.0/4,3.0/6,4.0/8,5.0/10} {\\node[left,font=\\scriptsize] at (6.85,\\y) {$\\lbl$};}\n\\draw (7.6,0) rectangle (8.3,3.0);\n\\draw (8.65,0) rectangle (9.35,4.5);\n\\draw (9.7,0) rectangle (10.4,3.5);\n\\draw (10.75,0) rectangle (11.45,5.0);\n\\draw (11.8,0) rectangle (12.5,1.0);\n\\foreach \\x/\\lbl in {7.95/W1,9.0/W2,10.05/W3,11.1/W4,12.15/W5} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\node[rotate=90,font=\\scriptsize] at (6.0,2.5) {Hours};\n\\node[below,font=\\scriptsize] at (10.05,-1.0) {Week};\n\\node[font=\\small] at (10.05,6.1) {Weeks 1 to 5};\n\\end{tikzpicture}\n[/tikz]\nThe first column graph shows the hours a volunteer worked in each of four weeks. The second shows the same data once a fifth week is included. State whether the mean, the median and the range increase, decrease or stay the same, showing your working.",
+        "solution_text": "1. **Find the summary statistic before the change**\n$6, 7, 9, 10$\n$\\overline{x} = \\frac{32}{4}$\n$= 8\\text{ hours}$\n$\\text{Median} = \\frac{7 + 9}{2}$\n$= 8\\text{ hours}$\n$\\text{Range} = 10 - 6$\n$= 4\\text{ hours}$\n2. **Find the summary statistic after the change**\n$2, 6, 7, 9, 10$\n$\\overline{x} = \\frac{34}{5}$\n$= 6.8\\text{ hours}$\n$\\text{Median} = 7\\text{ hours}$\n$\\text{Range} = 10 - 2$\n$= 8\\text{ hours}$\n3. **State the direction and size of the change**\nThe mean decreases by $1.2$ hours and the median decreases by $1$ hour, while the range increases by $4$ hours."
+      },
+      {
+        "question_text": "A club has $20$ members and their mean age is $38$ years. A member aged $38$ years leaves and a new member aged $58$ years joins. Find the new mean age.",
+        "solution_text": "$\\text{Total} = 38 \\times 20$\n$= 760\\text{ years}$\n$\\overline{x} = \\frac{760 - 38 + 58}{20}$\n$= \\frac{780}{20}$\n$= 39\\text{ years}$\nThe club still has $20$ members, and swapping a member aged $38$ for one aged $58$ adds $20$ years to the total, so the mean rises by $1$ year."
+      },
+      {
+        "question_text": "The hours volunteered in one month by nine members of a group were $3$, $4$, $4$, $5$, $6$, $6$, $7$, $9$ and $46$. Kai says the $46$ hardly matters, because the middle value barely moves when it is removed. Find the mean and the median with the $46$ and without it, then explain why Kai's reasoning is misleading.",
+        "solution_text": "1. **Find the summary statistic before the change**\n$\\overline{x} = \\frac{90}{9}$\n$= 10\\text{ hours}$\n$\\text{Median} = 6\\text{ hours}$\n2. **Find the summary statistic after the change**\n$\\overline{x} = \\frac{44}{8}$\n$= 5.5\\text{ hours}$\n$\\text{Median} = \\frac{5 + 6}{2}$\n$= 5.5\\text{ hours}$\n3. **State the direction and size of the change**\nKai is right that the median falls by only $0.5$ hours, because the median depends on position rather than on size.\nThe mean, however, falls from $10$ hours to $5.5$ hours, so the single value of $46$ hours almost doubles it and it matters a great deal."
+      }
+    ]
+  }
+}

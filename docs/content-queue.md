@@ -151,7 +151,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | committed | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | committed | `views-of-prisms`, `volume-capacity-problems`, `find-dimension-from-volume` + **diagram list (7 of 8 skills, 178 `[tikz]`) for manual visual review** | none (all 8 booklet-covered; `find-dimension-from-volume` anchored on scattered Volume 2/3 items rather than a dedicated section) |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | in-review | `unknown-sides-angles-figures`, `quadrilateral-hierarchy`, `convex-nonconvex` + **full diagram list (all 9 skills, 185 `[tikz]`) for manual visual review** | none (all 9 booklet-covered) |
-| 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | pending | — | — |
+| 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | in-review | `skew-and-measures` (`anchor: none`), `draw-conclusions-data` (thin anchor), `summary-stats-frequency-table` + **diagram list (10 of 14 skills, 129 `[tikz]`) for manual visual review** | `skew-and-measures` (booklet never states the mean/median/mode ordering rule — only the mechanism; ordering generated from `dp-s4-dan-3`); `draw-conclusions-data` **partial** (2 of its 6 structural types have a booklet exemplar; the other 4 from `dp-s4-dan-3`) |
 | 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | pending | — | — |
 
 **Total: 206 skill-content pairs across 16 topics** (10 of them stage-3 skills → theory
@@ -1317,6 +1317,234 @@ mastery items) — a reflex arc drawn on the wrong side contradicts its answer; 
 marks must stay legible at `scale=0.75`–`0.8`.
 
 **Committed as `f0ddd8e`** (batch 14, together with the inclusive-trapezium ruling, the non-convex diagonal-test correction and the `area-trapezium` fix carried in from batch 12). The 185-block diagram checklist above is outstanding — review and repair in place on top of that commit.
+
+**Batch 15 (t-s4-dan) notes.** Generated with Opus, **8 generators in three waves** — the largest
+single-booklet batch so far (`Data Analysis.md`, 5,196 lines, 24 content sections, 14 skills, all
+new; **no stage-3 subset**, so the STAGE 3 rule did not apply anywhere). Wave 1: A §Summary
+Statistics/§Range/§Mode/§Mean/§Median/§Median Position/§Summary Statistics from a List/§Analysing
+Stem-and-Leaf = `calculate-mean-median-mode-range` → `measures-of-centre` → `find-value-from-mean`
+(§Mean Problems); E §Surveys + §Bias in Sampling + §Questionnaire Design = `census-vs-sample` →
+`identify-survey-bias`. Wave 2: B the five frequency-table sections + §Median from Cumulative
+Histograms + §Analysing Dot Plots = `summary-stats-frequency-table`; C §Shape of a Distribution =
+`modality` + `shape-of-distribution`; D §Clusters, Gaps, Outliers + §Comparing Datasets =
+`clusters-gaps-outliers` → `compare-datasets-measures`. Wave 3: F §Impact of Adding and Removing +
+§Relative Merits = `effect-on-measures-centre` → `choose-measure-of-centre`; G `skew-and-measures`;
+H `draw-conclusions-data`. The wave split is forced by Read-first item 6 (each prereq's content file
+must exist on disk); chained skills stayed with **one** agent so the later ones CITE rather than
+re-derive. atomTypes: `calculate-mean-median-mode-range`, `find-value-from-mean`,
+`summary-stats-frequency-table`, `compare-datasets-measures` = R; `effect-on-measures-centre` = Com;
+the remaining nine = Cat. **No `masteryOmitted` except `measures-of-centre`** (single classification
+decision; the harder in-context work is `choose-measure-of-centre`'s atom); **zero `coverageNote`**.
+Final counts: foundation 6–10 / development 6–10 / mastery 3–4 (one 4) / quiz 7–10. Manifest rebuilt
+(**337 content / 200 quiz**, +14 and +14). `npm test` 103/103 green.
+
+**Two ownership rulings made by the orchestrator, both against the suggested split.**
+(1) **§Analysing Dot Plots → `summary-stats-frequency-table`**, not `calculate-mean-median-mode-range`,
+because the booklet's own dot-plot mean there is $\frac{(4\times1)+(3\times2)+(2\times3)}{9}$ — the
+$\sum fx/\sum f$ routine, not a list routine. §Analysing Stem-and-Leaf stayed with the list skill.
+(2) **§Median from Cumulative Histograms → `summary-stats-frequency-table`, UNGROUPED ONLY** (the
+booklet says "for ungrouped data the median is simply the number"); grouped/ogive estimation is
+`grouped-summary-statistics` [s6]. Verified after the fact: **no class interval appears anywhere in
+the batch.**
+
+**Owner rulings confirmed before generation.** The §Summary Statistics using Spreadsheets gap is
+*reported only* — its comparison questions were dealt to `compare-datasets-measures` as ordinary
+non-spreadsheet material and **no file mentions Excel or any formula syntax**. The §Comparing
+Datasets boundary is **compare = compute and compare the statistics; conclusions = the inference on
+top** (`draw-conclusions-data`), which is why `draw-conclusions-data` never computes a statistic —
+they are always given or read off a display.
+
+**Dual-role scope check — the batch-11 stale-blurb class is ABSENT here.** Seven of the 14 skills
+carry a `dp-s6st11-data-*` dot point and list `s6-std11`. Every S6 extra clause resolves to a
+*different* owning skill, so no blurb under-describes its union: `dp-s6st11-data-6`'s "including
+standard deviation" → `standard-deviation` [s5] and `grouped-summary-statistics` [s6];
+`dp-s6st11-data-5`'s "interpret a range of data displays" → `interpret-graphs-conclusions` and
+`misleading-graphs` [both s4, `t-s4-dat`]; `dp-s6st11-data-8`'s "impact of outliers on measures" →
+`effect-on-measures-centre` (this batch) and `identify-outliers-iqr` [s6]. All five agents holding a
+dual-role skill re-checked independently and **all agreed; `data/skills.json` was not edited.**
+
+**Deterministic gate clean batch-wide on the FIRST run** (386 items / 121 quiz questions / 472
+options / 129 `[tikz]` figures): validate 0 errors 0 warnings, equivalent-options 0 defects (27%
+canonicalised), duplicate-stems 0 across all four classes, option-hygiene 0 leaked keys 0 vague
+`why`s, figure-scale 0 suspects, angle-arms 0 defects. Generators cleared it on their own skills
+first, and agents B/C/D/F/G/H each additionally ran duplicate-stems against every already-authored
+skill (up to 301 items), which is what kept a 14-skill single-booklet batch collision-free.
+**Note `audit-figure-scale` compared 0 multi-label figures** — data displays carry no segment-length
+labels, so this batch sits outside that gate's reach by design, and the weight shifts to the human
+visual review.
+
+**Two NEAR-DUP advisories, both adjudicated INVALID and left in place.** `modality` d4 ≈ m2 (0.87):
+d4 is three separated peaks ⇒ multimodal, m2 turns on an *adjacent tie* counting as one peak ⇒
+bimodal — different case, different answer, and neither is automatic from the other. `modality` q2 ≈
+`shape-of-distribution` f4 (0.85): different scenarios (bus arrivals vs exam marks) and different
+questions (modality vs skew); the similarity is only the shared frame "The dot plot shows… Describe
+the …", which is irreducible for a recognition atom.
+
+**Blind check — luna, one packet per skill, `figures-first`. All 14 OK, zero retries. 162/162 items
+re-solved, coverage complete on every skill, THREE answer mismatches and NINE flags. Only ONE flag
+valid — a majority-invalid round, so the accepted fix was applied and no further round was spawned**
+(the batch-9 stopping rule).
+
+VALID (1, repaired):
+- **`choose-measure-of-centre` q6 — the key asserted something false.** Prices (thousands) $540, 560,
+  580, 950, 950, 950, 970$; median $950$. The key read "The median, $\$950\,000$, **equals the three
+  dearest prices**" — but the three dearest are $950, 950, 970$, and $970 \neq 950$. Reworded to the
+  true statement "**has only one price above it**, so it sits near the top of the data", and the
+  matching line in `solution_text` ("The median equals the three dearest prices") to "Only
+  $\$970\,000$ is above the median, and two more prices equal it". **No option value and no key
+  changed** — a false justification replaced by a true one. Full gate re-run clean. Luna's companion
+  complaint on the same item (that "the median is not a central value" is wrong because the median
+  *is* the central ordered value) is invalid: that is the booklet's own sense of "not central" —
+  not representative of the centre of the spread — and it is what the skill teaches.
+
+INVALID (8 flags + all 3 answer mismatches; recorded so they are not re-raised):
+- **The no-mode convention accounts for FOUR flags across three skills** —
+  `calculate-mean-median-mode-range` m1 and `summary-stats-frequency-table` m3 ("the mode" singular
+  on a bimodal set: both solutions correctly report *both* modes, which is the house rule), and
+  `skew-and-measures` q8 + m4 and `modality` q7 (uniform data: luna calls "no mode" vs "every value
+  is a mode" convention-dependent). The house convention is settled and now recorded in
+  content-generation.md, and in every case the rival reading is supplied as a *modelled distractor*
+  with a rebuttal. Worth noting for future batches: **an outside model reads this convention as
+  genuinely contested, which is precisely why it is written down.**
+- **`shape-of-distribution` q2 "figure contains 30 dots, not the stated 31"** — luna miscounted.
+  The TikZ has $1+1+2+4+\mathbf{6}+8+6+3 = 31$ dots; luna read the $x=10$ stack as 5 when six
+  `\fill` commands are present. Verified by counting the source.
+- **`clusters-gaps-outliers` q1 distractor $19^{\circ}$C "not reachable"** — it is exactly the range,
+  $36-17=19$, and its `why` says so. This is luna's known false class: judging reachability against
+  the *correct* method rather than against the named slip.
+- **`choose-measure-of-centre` q3 "mean and median are both $720\,000$, so two options are
+  defensible"** — the stem asks which is *most appropriate to report* and the reason clauses
+  separate them; the rival option gives a definition ("half sold for less") rather than a reason to
+  prefer the median. The weakest of the eight; the item would be crisper if that distractor's reason
+  were false rather than merely irrelevant. Left as authored.
+- **Three answer mismatches, all checker slips, all verified numerically.** `modality` q2 (luna chose
+  Bimodal; the two equally tall stacks at $3$ and $4$ are adjacent with no dip, which the file
+  teaches as one peak in D2 and M2 — luna made the item's own modelled slip); `modality` q7 (luna
+  chose "Multimodal; six modes", the modelled six-equal-columns slip); `skew-and-measures` q5 (luna
+  chose $17$; the curve peaks at $x\approx1.9$ with a long right tail, so it is positively skewed and
+  the mean is the largest, $32$ — luna made the item's own "gave the mode instead" slip). In all
+  three the checker landing on a modelled distractor is *evidence the distractor is reachable*.
+- Six `--compare` **shuffle-sanity WARNs** on `draw-conclusions-data` and `compare-datasets-measures`
+  are formatting only — luna dropped the `$…$` around bare numerals when echoing the option text.
+
+**Booklet errata found (20+, none reproduced).** Answer-key arithmetic: §Summary Statistics
+Foundation Q1 prints the median as **$22$**, which is the median *position* $\frac{43+1}{2}$, not the
+median (true value $4$); §Summary Statistics Development Q8b prints the mean as $-5.\dot{3}$ when the
+table gives $\frac{-15}{80} = -0.1875$ — not the mean of that table at all; §Impact Foundation Q6
+prints the netball-heights mean as $151.67$ cm when it is $150.\overline{6}$ (transposed digits).
+**A wrong rule, not just a wrong answer:** §Median from a Frequency Table states the median as "the
+value where cumulative frequency first equals or exceeds $Mp$" **with no even-$n$ caveat**, which is
+false whenever $n$ is even and the two middle scores differ (it returns the upper one instead of
+their mean) — agent B taught the correct formulation and built M2 and q8 on exactly that failure
+case. Extraction damage: §Shape of a Distribution Foundation Q1 references a **single** PNG
+(`image173` for panels a–i, `image174` for j–u) while printing a different answer per panel, panel
+**m** has no answer at all, Q2 reuses `image175`/`image176` across pairs with different keys, and
+Q3's curve panel is unrecoverable because the images sit inside option (e) — so agents C and G
+authored **all** their distributions from the intact concept box (`image166`–`image172`). Wording:
+§Surveys heads its choice column "Census | **Survey**" throughout where it means "Census | Sample";
+§Surveys Q1(e) keys an automatic entrance counter as a census, which holds only if the population is
+that day's entrants (agent E pinned the population in its own stems); "bimondal" for bimodal;
+§Relative Merits Foundation Q1's stem says "Find the median" then asks for all three; §Relative
+Merits Q2a's reason is garbled (the mode $8$ is the *smallest* value, not "a central value");
+§Mean Problems' worked example writes $\overline{\overline{x}}$ and its Q12 uses $x$ for both a mean
+and a total; §Mean Q7 mixes cm and mm and prints a unitless answer. **Weak verdicts not reproduced:**
+§Comparing Datasets' Guided Practice keys Sampson "the more serious learner" off a 1-mark mean gap
+(57 vs 58) while ignoring a 32-vs-60 range gap, and §Spreadsheets Q2d calls Brent better "despite a
+slightly larger range" of 42 vs 40 — agent H's F2/D7/M1 teach *against* exactly this. Recurring-dot
+answers throughout ($18.\dot{3}$, $26.\dot{6}$, $8.\dot{3}$, …) are excluded by the form ruling.
+
+**Taxonomy gaps found (5, none a batch defect).**
+- **Summary statistics with digital tools** (§Summary Statistics using Spreadsheets, `=AVERAGE`,
+  `=MEDIAN`, `=MODE`, `=MAX-MIN`) — **confirmed unowned**. Nearest is `standard-deviation` [s5]
+  ("using digital tools"), a different atom. Reported per owner ruling; nothing taught.
+- **Causation vs correlation / experimental design** (§Comparing Datasets Q3: "what other
+  information would convince you the programme *caused* the change… we need a control group") —
+  raised by agent D, ruled by agent H: **out of scope and unowned**; `plan-statistical-inquiry` [s5]
+  is nearest but covers aim/collection/reporting, not controls. The weaker in-scope form *was*
+  authored ("the means rose $42 \to 58$, so more was recycled is supported; the posters caused it is
+  not"), including one mastery item where the causal claim fails on the figure's own evidence —
+  entries *fell* the year the scheme began. No card mentions control groups or fair tests.
+- **Sample size and the reliability of an estimate, positive form** ("a bigger representative sample
+  gives a better estimate") — `identify-survey-bias` names small sample size as a *bias*, but the
+  positive statement has no home.
+- **Reading the mode(s) off a display as a routine** — `calculate-mean-median-mode-range` works from
+  lists and stem-and-leaf, `summary-stats-frequency-table` from tables; agent C used it only in
+  service (uniform ⇒ no mode).
+- **The $\Sigma f$ vs $\Sigma fx$ interpretation routine** (the booklet's "Ed says there are 44
+  passengers" review — how many were surveyed vs what is the total) had no owner; agent B absorbed
+  it as a `totals-from-table` structural type, which is right because it is meaningless outside a
+  frequency table.
+
+**Two blurb-widening candidates for the owner — NEITHER edited, both the batch-11 staleness class.**
+(1) `identify-survey-bias` names selection, volunteer, survivorship and questioning bias but **not
+small sample size**, which the booklet's bias table, its exemplars (2 of 500 farmers) and the
+diagnosis practice all require; agent E taught it as a fourth label. (2) `draw-conclusions-data` —
+"Draw conclusions from data collected by census or sampling" does not reach the ~half of the atom
+that judges a conclusion against **what was measured** rather than how it was collected, which
+`dp-s4-dan-3` does license; suggested widening: "Judge whether a conclusion is supported by the data,
+including data collected by census or sampling." Also noted: `census-vs-sample` and
+`identify-survey-bias` both hang off `dp-s4-dan-3` ("Analyse datasets… and draw conclusions"), whose
+text covers neither census/sample nor bias — the real anchor for both is the booklet.
+
+**NEW PIPELINE CONSTRAINT — bold answer lines collide with `theory.steps`.** `extractProcedureLabels`
+(`src/lib/inline-content.js`) matches `\*\*([^*]+)\*\*\s*$`, i.e. **any line ending in a bold
+segment** is read as a procedure step header and validated against `theory.steps`. The house
+bold-answer style used across the data siblings (`**Selection bias.**`, `**Census.**`, cf.
+`classify-numerical-categorical.json`) therefore hard-errors — agent E hit 54 errors on one file.
+Two clean workarounds: put the full stop **outside** the bold (`**Census**.`), or omit `steps`
+(correct anyway for a recognition atom, per "Don't force a procedure"). Six of the 14 skills here
+omit `steps` on that basis; `skew-and-measures` keeps three genuine steps and simply keeps bold off
+line-ends. **This will bite the first skill that wants both real staged headers and bold answers.**
+
+**Scope lines held.** Every one of the four statistics is computed in exactly two places by design —
+from a list (`calculate-mean-median-mode-range`, which also owns stem-and-leaf) and from a frequency
+table (`summary-stats-frequency-table`, which also owns dot plots, histograms and ungrouped ogives) —
+and every other skill *consumes* them. `measures-of-centre` classifies and never calculates;
+`clusters-gaps-outliers` identifies but never quantifies an outlier's effect;
+`compare-datasets-measures` stops at the statistical verdict and never awards a prize;
+`draw-conclusions-data` never computes; `choose-measure-of-centre` never asks for a change in a
+statistic; `skew-and-measures` never asks which measure to report; `modality` counts peaks and
+`shape-of-distribution` reads tails, and neither relates skew to the mean/median/mode ordering.
+Excluded throughout and verified absent: quartiles, IQR, box plots, five-number summary, standard
+deviation, grouped-data/class-centre estimation, ogive estimation for grouped data, bivariate and
+scatter work, the formal IQR outlier rule, the sampling-method taxonomy, population parameter vs
+sample statistic, statistical-inquiry design, and the normal distribution. `represent-data-graphs`
+and `compare-displays-range-mode` are prereqs, so no skill ever *constructs* a display — they only
+read one.
+
+**Scenario collision control.** With 14 skills on one booklet all about the same four statistics,
+each skill was given an exclusive context domain in its spawn prompt (basketball points; shoe sizes;
+test marks; counts per unit; bus arrivals and café orders; exam marks and incomes; temperatures and
+house prices; two-brand/two-player comparisons; club-member ages; salaries and T-shirt sizes;
+reaction and marathon times; census/factory/wildlife; shopping-centre and online polls; school
+recycling and canteen surveys) **and** an exclusive display type (stem-and-leaf → A; dot plots,
+histograms and ogives → B; shape curves and modality columns → C; number lines and paired columns →
+D; before/after columns → F; curves with marked measures → G; survey columns and line graphs → H).
+Result: 0 cross-skill duplicate stems over 386 items, with only the two frame-level advisories above.
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review: 10 of the
+14 skills carry inline `[tikz]`, 129 blocks total** (94 content + 35 quiz):
+`shape-of-distribution` (23/8), `modality` (23/6), `skew-and-measures` (15/4),
+`summary-stats-frequency-table` (9/4), `clusters-gaps-outliers` (6/4),
+`calculate-mean-median-mode-range` (5/2), `draw-conclusions-data` (5/2),
+`effect-on-measures-centre` (4/2), `compare-datasets-measures` (3/2),
+`choose-measure-of-centre` (1/1). The four figure-free skills are `measures-of-centre`,
+`find-value-from-mean`, `census-vs-sample` and `identify-survey-bias` — all correctly so (a display
+there would be decorative). Eyeball via `http://localhost:5173/#/tikz-check?topic=t-s4-dan`.
+Highest-risk first: (1) **`skew-and-measures`'s marked-measure figures** — eight carry `$P$/$Q$/$R$`
+or named `Mode/Median/Mean` dashed lines, and four drop the x-axis label to $-1.4/-1.5$ to clear a
+mark-label row at $-0.35/-0.95$; that two-row arrangement is new this batch and is the likeliest
+collision. (2) **The ogives in `summary-stats-frequency-table`** — the $50\%$ read-off must visibly
+land inside the right column span (verified in source: crossing at $x\approx2.94$ within $[2.5,3.5]$,
+but it must *look* right). (3) **The dense dot plots** in `modality` and `shape-of-distribution` —
+tall stacks near the title, and `\tiny` category labels. (4) **`clusters-gaps-outliers`'s number-line
+value displays** — one cross per value, so a cluster must read as a cluster at `scale=0.85`.
+(5) **The paired/before-after column graphs** in `compare-datasets-measures` and
+`effect-on-measures-centre`, where two series share one axis and a legend. Note again that
+`audit-figure-scale` has **no reach** over data displays, so the human eye is the only check on
+these 129 renders.
+
+**Not committed** — left for the human, per the standing instruction.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 

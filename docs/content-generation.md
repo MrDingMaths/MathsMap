@@ -421,6 +421,17 @@ contradicting each other.
   diagram. Note the exclusive reading is still needed to *describe a figure* — "only one
   pair of sides carries the parallel arrows, so it is a trapezium and not a parallelogram"
   is correct and remains the right way to name a specific shape.
+- **No mode / multiple modes** (batch 15, following the batch-4 precedent already shipped in
+  `compare-displays-range-mode`'s `theory.facts`). A dataset in which **every value occurs
+  equally often has NO mode** — write "no mode", never "every value is a mode". Where two or
+  more values tie for the highest frequency, **all** of them are modes and all must be
+  reported. `Data Analysis` calls a uniform distribution "No mode", which agrees.
+- **Written form of a mean** (batch 15). A mean that does not terminate is asked for **"to
+  $1$ decimal place"** — the required form is pinned in the stem, and the booklet's
+  recurring-dot notation ($18.\dot{3}$) is **not** used in content. A terminating mean is
+  written exactly as a decimal ($7.5$), never as an unreduced fraction ($15/2$). A range is
+  stated with units when the data carry units; an MCQ must never offer the same value both
+  with and without its unit as two options.
 - **Non-convex diagonals** (batch 14). The same booklet's summary states the test as
   "diagonals meet outside the quadrilateral". That is **false** for diagonals as segments —
   in a dart they do not meet at all; only an extension does. Author the true test: **one

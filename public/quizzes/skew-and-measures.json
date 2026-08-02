@@ -1,0 +1,214 @@
+{
+  "skillId": "skew-and-measures",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.1)(0.9,1.6)(1.7,3.4)(2.5,2.7)(3.3,1.95)(4.3,1.3)(5.3,0.85)(6.3,0.5)(7.2,0.25)(8.1,0.08)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.05,-1.0) {Reaction time (ms)};\\node[font=\\small] at (4.05,4.5) {Reaction times};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the reaction times of a large group of people in a computer test. Listed from smallest to largest, what is the order of the mean, the median and the mode?",
+      "structure": "ordering-from-curve",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Mode, median, mean",
+          "correct": true
+        },
+        {
+          "text": "Mean, median, mode",
+          "why": "Used the negatively skewed order, naming the skew from the side the peak sits on instead of from the side the tail stretches to."
+        },
+        {
+          "text": "Median, mode, mean",
+          "why": "Placed the mean nearest the tail correctly but put the median at the peak instead of the mode."
+        },
+        {
+          "text": "Mode, mean, median",
+          "why": "Assumed the long tail moves the median further than the mean, when it is the mean that is calculated from every value."
+        }
+      ],
+      "solution_text": "The peak is near the left and the curve trails away over a long stretch to the right, so the tail is on the right and the distribution is positively skewed.\nThe mode stays at the peak, and the mean is dragged furthest towards the right-hand tail because it uses every reaction time.\nMode, median, mean."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,11.4);\\draw[->] (0,0)--(8.9,0);\\foreach \\y in {2,4,6,8,10} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\\draw (0.7,0) rectangle (2.1,1);\\draw (2.1,0) rectangle (3.5,2);\\draw (3.5,0) rectangle (4.9,4);\\draw (4.9,0) rectangle (6.3,10);\\draw (6.3,0) rectangle (7.7,6);\\node[below,font=\\scriptsize] at (0.7,0) {$2$};\\node[below,font=\\scriptsize] at (2.1,0) {$5$};\\node[below,font=\\scriptsize] at (3.5,0) {$8$};\\node[below,font=\\scriptsize] at (4.9,0) {$11$};\\node[below,font=\\scriptsize] at (6.3,0) {$14$};\\node[below,font=\\scriptsize] at (7.7,0) {$17$};\\node[rotate=90,font=\\scriptsize] at (-1.1,5) {Number of students};\\node[below,font=\\scriptsize] at (4.2,-1.0) {Time used (min)};\\node[font=\\small] at (4.2,11.1) {Quiz finishing times};\\end{tikzpicture}\n[/tikz]\nThe histogram shows how long each of $23$ students took to finish a timed quiz. Listed from smallest to largest, what is the order of the mean, the median and the mode?",
+      "structure": "ordering-from-histogram",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Mean, median, mode",
+          "correct": true
+        },
+        {
+          "text": "Mode, median, mean",
+          "why": "Used the positively skewed order, but here the columns fall away to the left, so the tail is on the left."
+        },
+        {
+          "text": "Median, mean, mode",
+          "why": "Kept the mode at the peak but swapped the mean and median, when the mean is the measure dragged furthest into the tail."
+        },
+        {
+          "text": "Mean, mode, median",
+          "why": "Put the mode between the other two, when the mode sits at the peak and so is at one end of the order."
+        }
+      ],
+      "solution_text": "The tallest column is the $11\\text{--}14$ class, near the right-hand end, and the columns fall away through $4$, $2$, $1$ towards the left.\nThe tail is on the left, so the distribution is negatively skewed and the mean is dragged furthest to the left.\nMean, median, mode."
+    },
+    {
+      "id": "q3",
+      "question_text": "The times taken by the finishers of a $10$ km fun run have a mean of $61$ minutes, a median of $57$ minutes and a mode of $54$ minutes. What is the shape of this distribution?",
+      "structure": "shape-from-stated-measures",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Positively skewed",
+          "correct": true
+        },
+        {
+          "text": "Negatively skewed",
+          "why": "Read the order backwards; a mean above the median means the tail is on the right, not the left."
+        },
+        {
+          "text": "Symmetrical",
+          "why": "Treated a $7$ minute gap between the mean and the mode as negligible, but the three measures are clearly separated."
+        }
+      ],
+      "solution_text": "$\\text{mode} = 54$, $\\text{median} = 57$ and $\\text{mean} = 61$, so $\\text{mode} < \\text{median} < \\text{mean}$.\nThe mean is the largest, so it has been dragged towards a tail on the right.\nPositively skewed."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9.1,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.08)(1.1,0.22)(2.1,0.48)(3.1,0.85)(4.1,1.3)(5.1,1.95)(6.0,2.7)(6.8,3.4)(7.6,1.55)(8.3,0.1)};\\draw[dashed] (4.7,0)--(4.7,1.85);\\draw[dashed] (5.7,0)--(5.7,2.55);\\draw[dashed] (6.8,0)--(6.8,3.4);\\node[below,font=\\scriptsize] at (4.7,0) {$P$};\\node[below,font=\\scriptsize] at (5.7,0) {$Q$};\\node[below,font=\\scriptsize] at (6.8,0) {$R$};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.15,-1.4) {Time used (min)};\\node[font=\\small] at (4.15,4.5) {Jigsaw times};\\end{tikzpicture}\n[/tikz]\nStudents worked on a jigsaw until a $40$-minute deadline, and the curve shows the distribution of the times they used. The lines $P$, $Q$ and $R$ mark the mean, the median and the mode, in some order. Which line marks the mode?",
+      "structure": "identify-marked-measure",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$R$",
+          "correct": true
+        },
+        {
+          "text": "$P$",
+          "why": "Chose the leftmost line, but on a distribution with a left-hand tail that line is the mean, the measure dragged furthest into the tail."
+        },
+        {
+          "text": "$Q$",
+          "why": "Chose the middle line, which marks the median — the value in the middle position, not the most common value."
+        }
+      ],
+      "solution_text": "The mode is the most common time, so it sits at the peak of the curve.\nThe peak is at the right of the three lines, where the curve is highest.\nThe rightmost line, $R$."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\\draw[->] (0,0)--(0,4.8);\\draw[->] (0,0)--(9,0);\\draw[thick] plot[smooth,tension=0.6] coordinates {(0.3,0.15)(1.0,1.7)(1.9,3.2)(2.7,2.5)(3.5,1.85)(4.5,1.2)(5.5,0.75)(6.5,0.42)(7.4,0.18)(8.2,0.07)};\\node[rotate=90,font=\\scriptsize] at (-1.1,1.7) {Frequency};\\node[below,font=\\scriptsize] at (4.1,-1.0) {Waiting time (min)};\\node[font=\\small] at (4.1,4.5) {Clinic waits};\\end{tikzpicture}\n[/tikz]\nThe curve shows the distribution of the waiting times at a clinic. The mean, the median and the mode of the times are $17$, $23$ and $32$ minutes, in some order. Which of these values is the mean?",
+      "structure": "match-values-to-measures",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$32$ minutes",
+          "correct": true
+        },
+        {
+          "text": "$17$ minutes",
+          "why": "Gave the mode instead; the smallest value belongs at the peak, and the peak of this curve is on the left."
+        },
+        {
+          "text": "$23$ minutes",
+          "why": "Chose the middle value, which is always the median whatever the shape of the distribution."
+        }
+      ],
+      "solution_text": "The peak is near the left and the curve trails away to the right, so the distribution is positively skewed.\nFor a positively skewed distribution, $\\text{mode} < \\text{median} < \\text{mean}$, so the mean is the largest of the three values.\n$32$ minutes."
+    },
+    {
+      "id": "q6",
+      "question_text": "The finishing times in a marathon are positively skewed. Which statement best explains why the mean finishing time is larger than the median finishing time?",
+      "structure": "explain-mechanism",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The mean uses every time, so the few very long times pull it up, while the median only reports the middle time.",
+          "correct": true
+        },
+        {
+          "text": "The median uses every time, so the few very long times pull it down, while the mean only reports the middle time.",
+          "why": "Swaps the two measures around; it is the mean, not the median, that is calculated from every value."
+        },
+        {
+          "text": "More runners finish after the median time than before it, so those extra times pull the mean above the median.",
+          "why": "Half the times lie on each side of the median by definition, so the two sides cannot be unequal in number."
+        },
+        {
+          "text": "The mean is always larger than the median, whichever way a distribution happens to be skewed.",
+          "why": "Ignores shape; in a negatively skewed distribution the mean is smaller than the median."
+        }
+      ],
+      "solution_text": "A positively skewed distribution has a tail on the right, so a few finishing times sit a long way above the rest.\nThe mean shares the total of every time equally, so those few very long times add a large amount to the total and pull the mean up.\nThe median only reports the middle time, so a very long time counts as one time and barely moves it.\nThe mean uses every time, so the few very long times pull it up, while the median only reports the middle time."
+    },
+    {
+      "id": "q7",
+      "question_text": "Eight friends recorded the time, in minutes, that each took to finish a fun run: $21$, $23$, $24$, $24$, $26$, $28$, $33$, $49$. What is the shape of this distribution?",
+      "structure": "shape-from-calculated-measures",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Positively skewed",
+          "correct": true
+        },
+        {
+          "text": "Negatively skewed",
+          "why": "Read the order backwards; here the mean is the largest of the three, so the tail is on the right."
+        },
+        {
+          "text": "Symmetrical",
+          "why": "Assumed the three measures are close enough to be equal, but the mean is $3.5$ minutes above the median."
+        }
+      ],
+      "solution_text": "$\\text{Mode} = 24$\n$\\text{Median} = \\frac{24 + 26}{2}$\n$= 25$\n$\\overline{x} = \\frac{228}{8}$\n$= 28.5$\nSo $\\text{mode} < \\text{median} < \\text{mean}$, with the single time of $49$ minutes dragging the mean out to the right.\nPositively skewed."
+    },
+    {
+      "id": "q8",
+      "question_text": "In a puzzle competition every completion time from $9$ to $14$ minutes occurred exactly $8$ times. Which statement about the measures of centre is correct?",
+      "structure": "uniform-edge-case",
+      "mastery": true,
+      "options": [
+        {
+          "text": "The mean and the median are both $11.5$ minutes, and there is no mode.",
+          "correct": true
+        },
+        {
+          "text": "The mean, the median and the mode are all $11.5$ minutes.",
+          "why": "Applies the symmetrical rule without checking that some value is the most common; here every time is equally frequent."
+        },
+        {
+          "text": "The mean and the median are both $11.5$ minutes, and every time is a mode.",
+          "why": "Reports six modes for a flat distribution, but when all values occur equally often the dataset has no mode."
+        },
+        {
+          "text": "The mean is $11.5$ minutes, the median is $12$ minutes and there is no mode.",
+          "why": "Takes a single middle time instead of averaging the $24$th and $25$th times, which are $11$ and $12$ minutes."
+        }
+      ],
+      "solution_text": "$\\overline{x} = \\frac{8(9 + 10 + 11 + 12 + 13 + 14)}{48}$\n$= \\frac{552}{48}$\n$= 11.5$\nThe $24$th time is $11$ minutes and the $25$th is $12$ minutes, so the median is $11.5$ minutes as well.\nEvery time occurs equally often, so the distribution is flat and symmetrical but has no mode.\nThe mean and the median are both $11.5$ minutes, and there is no mode."
+    },
+    {
+      "id": "q9",
+      "question_text": "A magazine reports that the times taken to finish a puzzle have a mean of $14$ minutes, a median of $17$ minutes and a mode of $19$ minutes, and calls the distribution positively skewed. Which statement is correct?",
+      "structure": "check-stated-shape",
+      "mastery": true,
+      "options": [
+        {
+          "text": "The report is wrong; the mean is the smallest of the three, so the tail is on the left and the distribution is negatively skewed.",
+          "correct": true
+        },
+        {
+          "text": "The report is correct; the mode is the largest of the three, so the tail is on the right.",
+          "why": "Locates the tail from the mode, but it is the mean that gets dragged towards the tail, and here the mean is the smallest."
+        },
+        {
+          "text": "The report is wrong; the three values are close enough that the distribution is symmetrical.",
+          "why": "Treats a $5$ minute spread in times of about $15$ minutes as negligible, but the three measures are clearly separated."
+        },
+        {
+          "text": "The report is wrong; there is no skew at all because the mean, median and mode are three different values.",
+          "why": "Three different values are exactly what skew produces; it is equal values that indicate a symmetrical distribution."
+        }
+      ],
+      "solution_text": "The reported values give $\\text{mean} < \\text{median} < \\text{mode}$.\nA positively skewed distribution has its tail on the right, which would drag the mean above the other two measures.\nHere the mean is the smallest, so the tail must stretch to the left.\nThe report is wrong; the mean is the smallest of the three, so the tail is on the left and the distribution is negatively skewed."
+    }
+  ]
+}
