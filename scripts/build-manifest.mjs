@@ -11,8 +11,6 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const contentDir = path.join(rootDir, 'public', 'content');
-const quizzesDir = path.join(rootDir, 'public', 'quizzes');
 const manifestPath = path.join(rootDir, 'public', 'content-manifest.json');
 
 async function listJsonFiles(dir) {
@@ -33,13 +31,17 @@ async function readJson(file) {
   return JSON.parse(raw);
 }
 
-export async function buildManifest() {
+export async function buildManifest(options = {}) {
+  const buildRootDir = options.rootDir || rootDir;
+  const buildContentDir = path.join(buildRootDir, 'public', 'content');
+  const buildQuizzesDir = path.join(buildRootDir, 'public', 'quizzes');
+  const buildManifestPath = options.manifestPath || path.join(buildRootDir, 'public', 'content-manifest.json');
   const content = {};
   const quiz = {};
 
-  for (const name of await listJsonFiles(contentDir)) {
+  for (const name of await listJsonFiles(buildContentDir)) {
     const skillId = name.slice(0, -'.json'.length);
-    const file = path.join(contentDir, name);
+    const file = path.join(buildContentDir, name);
     let data;
     try {
       data = await readJson(file);
@@ -54,9 +56,13 @@ export async function buildManifest() {
     content[skillId] = [foundation, development, mastery];
   }
 
-  for (const name of await listJsonFiles(quizzesDir)) {
+  for (const name of await listJsonFiles(buildQuizzesDir)) {
     const skillId = name.slice(0, -'.json'.length);
-    const file = path.join(quizzesDir, name);
+    if (!Object.hasOwn(content, skillId)) {
+      console.warn(`[build-manifest] skipping orphan quiz ${name}: no valid matching content file`);
+      continue;
+    }
+    const file = path.join(buildQuizzesDir, name);
     let data;
     try {
       data = await readJson(file);
@@ -75,7 +81,7 @@ export async function buildManifest() {
     quiz,
   };
 
-  await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+  await fs.writeFile(buildManifestPath, JSON.stringify(manifest, null, 2) + '\n');
   return manifest;
 }
 

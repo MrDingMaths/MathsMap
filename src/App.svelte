@@ -97,7 +97,13 @@
         {:else if route.name === 'quiz'}
           <Quiz topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
-          <TikzCheck topicId={route.query.topic ?? null} ids={route.query.ids ?? null} />
+          <TikzCheck
+            topicId={route.query.topic ?? null}
+            ids={route.query.ids ?? null}
+            inputUrl={route.query.input ?? null}
+            offset={route.query.offset ?? 0}
+            limit={route.query.limit ?? null}
+          />
         {:else}
           <div class="container"><p class="muted">Page not found. <a href={href('/')}>Go home</a>.</p></div>
         {/if}

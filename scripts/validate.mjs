@@ -8,11 +8,13 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import katex from 'katex';
 import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys } from '../src/lib/inline-content.js';
+import { rejectStrayPositionals } from './lib/argv.mjs';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(rootDir, 'data');
 const contentDir = join(rootDir, 'public', 'content');
 const quizzesDir = join(rootDir, 'public', 'quizzes');
+const MAX_QUIZ_QUESTIONS = 20;
 const load = (f) => JSON.parse(readFileSync(join(dataDir, f), 'utf8'));
 
 const courses = load('courses.json');
@@ -361,7 +363,7 @@ function validateQuizzes(filterFn) {
       errs.push(`${tag}: skillId does not exist in skills.json`);
     }
     if (!existsSync(join(contentDir, `${skillId}.json`))) {
-      warns.push(`${tag}: quiz exists without a matching content file`);
+      errs.push(`${tag}: quiz exists without a matching content file`);
     }
 
     if (!Array.isArray(data.questions)) {
@@ -375,6 +377,9 @@ function validateQuizzes(filterFn) {
       errs.push(`${tag}: questions has ${data.questions.length} item(s); minimum 3`);
     } else if (data.questions.length < 6 && !hasCoverageNote) {
       warns.push(`${tag}: questions has ${data.questions.length} item(s); target is 6–8`);
+    }
+    if (data.questions.length > MAX_QUIZ_QUESTIONS) {
+      errs.push(`${tag}: questions has ${data.questions.length} item(s); maximum ${MAX_QUIZ_QUESTIONS}`);
     }
 
     const seenIds = new Set();
@@ -468,7 +473,9 @@ function parseOnlyArg(argv) {
   return (id) => id.startsWith(prefix);
 }
 
-const filterFn = parseOnlyArg(process.argv.slice(2));
+const argv = process.argv.slice(2);
+rejectStrayPositionals(argv, { valueFlags: ['--only'], boolFlags: [] });
+const filterFn = parseOnlyArg(argv);
 const contentResult = validateContent(filterFn);
 const quizResult = validateQuizzes(filterFn);
 const crossErrors = crossCheckMastery(contentResult, quizResult);

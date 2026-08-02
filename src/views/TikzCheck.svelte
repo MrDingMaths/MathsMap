@@ -11,7 +11,13 @@
   // it) so you can eyeball geometric correctness, not just compile success.
   // Diagrams compile ONE AT A TIME (TikZJax is serial) but each stays on screen.
   // Route: 'tikz-check', ?topic=<id> or ?ids=<comma,skillIds>; no filter = all.
-  let { topicId = null, ids = null } = $props();
+  let {
+    topicId = null,
+    ids = null,
+    inputUrl = null,
+    offset = 0,
+    limit = null
+  } = $props();
 
   const TIMEOUT_MS = 45000;
 
@@ -30,6 +36,9 @@
     return allSkills.map((s) => s.id);
   });
 
+  let externalOffset = $derived(Math.max(0, Number.parseInt(offset, 10) || 0));
+  let externalLimit = $derived(limit == null ? null : Math.max(1, Number.parseInt(limit, 10) || 1));
+
   // Each item: {skillId, kind, field, q, a, code, status}
   let items = $state([]);
   let gathering = $state(true);
@@ -43,11 +52,36 @@
 
   $effect(() => {
     const ids2 = skillIds;
+    const sourceUrl = inputUrl;
+    const sourceOffset = externalOffset;
+    const sourceLimit = externalLimit;
+    let cancelled = false;
     gathering = true;
     items = [];
     cardEls = [];
     cursor = -1;
     (async () => {
+      if (sourceUrl) {
+        const response = await fetch(sourceUrl, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`TikZ audit input failed: HTTP ${response.status}`);
+        const payload = await response.json();
+        const sourceItems = Array.isArray(payload) ? payload : payload.items;
+        if (!Array.isArray(sourceItems)) throw new Error('TikZ audit input must be an array or contain an items array.');
+        const end = sourceLimit == null ? undefined : sourceOffset + sourceLimit;
+        const selected = sourceItems.slice(sourceOffset, end).map((item, index) => ({
+          ...item,
+          auditId: item.auditId ?? `${item.questionId ?? item.source ?? 'external'}:${item.field ?? index}`,
+          skillId: item.skillId ?? item.source ?? item.questionId ?? 'external',
+          kind: item.kind ?? 'database',
+          status: 'pending'
+        }));
+        if (cancelled) return;
+        items = selected;
+        cardEls = selected.map(() => null);
+        gathering = false;
+        cursor = selected.length ? 0 : -1;
+        return;
+      }
       const out = [];
       for (const id of ids2) {
         const [content, quiz] = await Promise.all([
@@ -69,11 +103,20 @@
           });
         }
       }
+      if (cancelled) return;
       items = out;
       cardEls = out.map(() => null);
       gathering = false;
       cursor = out.length ? 0 : -1;
-    })();
+    })().catch((error) => {
+      if (cancelled) return;
+      console.error(error);
+      gathering = false;
+      items = [];
+      cursor = -1;
+      if (typeof window !== 'undefined') window.__tikzCheckError = error.message;
+    });
+    return () => { cancelled = true; };
   });
 
   const hasCompiledSvg = (el) => [...el.querySelectorAll('svg')].some((s) => !s.querySelector('animate'));
@@ -113,7 +156,18 @@
   // window.__tikzItems exposes the per-card metadata to pair PNG ↔ Q/A.
   $effect(() => {
     if (typeof window === 'undefined') return;
-    window.__tikzItems = items.map((it) => ({ skillId: it.skillId, kind: it.kind, field: it.field, q: it.q, a: it.a, status: it.status }));
+    window.__tikzItems = items.map((it) => ({
+      auditId: it.auditId ?? null,
+      questionId: it.questionId ?? null,
+      source: it.source ?? null,
+      marks: it.marks ?? null,
+      skillId: it.skillId,
+      kind: it.kind,
+      field: it.field,
+      q: it.q,
+      a: it.a,
+      status: it.status
+    }));
     window.__tikzCheckDone = !gathering && items.length > 0 && doneCount === items.length;
   });
 
@@ -123,7 +177,7 @@
   ));
 
   function copyCode(code) { navigator.clipboard?.writeText(code); }
-  function titleFor(id) { return skillById.get(id)?.title ?? id; }
+  function titleFor(item) { return item.source ?? skillById.get(item.skillId)?.title ?? item.skillId; }
 </script>
 
 <div class="tikz-harness">
@@ -159,7 +213,7 @@
       <article class="card status-{it.status}">
         <div class="card-head">
           <span class="badge {it.kind}">{it.kind}</span>
-          <span class="sid">{titleFor(it.skillId)}</span>
+          <span class="sid">{titleFor(it)}</span>
           <span class="field">{it.field}</span>
           <span class="mark">
             {#if it.status === 'pass'}✓{:else if it.status === 'fail'}✕{:else if i === cursor}…{:else}·{/if}
@@ -201,6 +255,7 @@
   .card {
     border: 1px solid var(--border); border-radius: 12px; padding: 0.75rem;
     display: flex; flex-direction: column; gap: 0.5rem; background: var(--card, transparent);
+    min-width: 0; overflow: hidden;
   }
   .card.status-fail { border-color: #ef4444; box-shadow: 0 0 0 1px #ef4444 inset; }
   .card.status-pass { border-color: color-mix(in srgb, var(--m-mastered) 55%, var(--border)); }
@@ -208,13 +263,14 @@
   .badge { flex: none; padding: 0.1rem 0.45rem; border-radius: 6px; font-weight: 700; text-transform: uppercase; font-size: 0.62rem; letter-spacing: 0.04em; }
   .badge.practice { background: color-mix(in srgb, #6366f1 18%, transparent); color: #818cf8; }
   .badge.quiz { background: color-mix(in srgb, #f59e0b 20%, transparent); color: #f59e0b; }
+  .badge.database { background: color-mix(in srgb, #0ea5e9 18%, transparent); color: #0284c7; }
   .sid { font-weight: 600; }
   .field { color: var(--muted); font-family: monospace; margin-left: auto; }
   .mark { flex: none; width: 1.1em; text-align: center; font-weight: 700; }
   .card.status-pass .mark { color: var(--m-mastered); }
   .card.status-fail .mark { color: #ef4444; }
-  .q { font-size: 0.9rem; }
-  .a { font-size: 0.82rem; color: var(--muted); }
+  .q { font-size: 0.9rem; overflow-wrap: anywhere; }
+  .a { font-size: 0.82rem; color: var(--muted); overflow-wrap: anywhere; }
   .stage {
     min-height: 3rem; display: flex; justify-content: center; align-items: center;
     padding: 0.5rem; border-radius: 8px; background: #fff; overflow-x: auto;

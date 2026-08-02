@@ -3,7 +3,8 @@
 The session prompt for a **per-topic batch** that mass-generates teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for every skill in
 one Stage-4 topic, using a multi-agent workflow (one generation agent per booklet section,
-a single independent blind checker for the whole batch, an orchestrator).
+an independent blind checker on a **different model** — OpenAI `gpt-5.6-luna` via the
+`codex exec` CLI, driven by `scripts/run-luna-check.mjs` — and an orchestrator).
 
 Companion to the schema and principle docs — this prompt tells agents **how to run the
 batch**; those docs remain the authority on **what to produce**:
@@ -48,7 +49,12 @@ The session then:
    Re-read the sections your skill exercises; do not work from memory of them.
    For any skill needing a diagram, also read the complete canonical
    **[`docs/tikz-prompt.md`](tikz-prompt.md)** and follow its semantic audit, construction,
-   fixed-template, and rendered-verification workflow.
+   fixed-template, and rendered-verification workflow. **Figure-free sections skip it
+   entirely:** the orchestrator's spawn prompt states whether the section is
+   figure-bearing; an agent whose section carries no `[tikz]` must **not** open
+   `tikz-prompt.md` at all — it is ~65% of the shared doc bundle and reading it "just in
+   case" was the single largest duplicated cost in batch 9 (~150k tokens of re-read docs
+   across three generators).
 2. **The three principle docs** —
    [worked-example-principles.md](worked-example-principles.md),
    [guided-practice-principles.md](guided-practice-principles.md),
@@ -103,7 +109,9 @@ node scripts/validate.mjs --only <skillId>
 ```
 
 and fixes every error and warning it reports. An agent does not report success on a skill
-that does not validate clean in isolation.
+that does not validate clean in isolation. (Multiple ids after `--only` must be **one
+comma-joined argument** — `--only id1,id2,id3`. Space-separated ids after `--only` are a
+hard error in every audit script, not a silent single-file scan.)
 
 **JSON backslash trap.** Every LaTeX backslash inside a JSON string must be doubled:
 `"$3 \\times 4$"`, never `"$3 \times 4$"`. The single-escaped forms in the `\t \b \f \n \r`
@@ -182,10 +190,24 @@ The Stage-4 practice content was flipped from the old per-line-label style in tw
 
 ## Question-count rule
 
-The tier counts are a **target, not a hard error** — foundation **6–8**, development
-**6–8**, mastery **3–4**, quiz **6–8**. The validator hard-errors only below a safety floor
-(3 / 3 / 2 / 3) and *warns* below target; a genuinely narrow atom clears the warn with a
-`coverageNote`. Variety, not volume, buys the extra cards. Derive the count, don't guess it.
+The tier counts are a **ceiling you earn, not a quota you fill** — foundation **up to 10–12**,
+development **up to 10–12**, mastery **3–4**, quiz **8–10**. The validator hard-errors only
+below a safety floor (3 / 3 / 2 / 3) and *warns* below **6 / 6 / 3 / 6**; a genuinely narrow
+atom clears the warn with a `coverageNote`. Variety, not volume, buys the extra cards. Derive
+the count, don't guess it.
+
+**The warn thresholds are deliberately left at the old 6/6/3/6 and must not be raised to
+match.** A skill that honestly ceilings out at 7 foundation cards is a *correct* result, not a
+shortfall, and should pass silently. The raised numbers say "there is room to go further when
+the atom genuinely supplies the variety" — they do **not** say "reach 10 or explain yourself".
+An agent that pads to 10 has produced a worse file than one that stopped honestly at 7.
+
+**Why foundation/development rose further than mastery/quiz.** The blind bundle contains
+**quiz + mastery only** (`blind-for-check.mjs`) — foundation and development cards are never
+sent to the checker. So an extra foundation card costs generation tokens once and nothing
+downstream, while an extra quiz or mastery item is re-solved every check round and every flag
+it draws costs an adjudication ruling. Spend the added budget where it is cheap and where
+students get the most practice.
 
 ### Variety is two-level
 
@@ -210,16 +232,54 @@ automatically get the other with no new thought?* If yes → padding, cut it.
 ### Deriving the count
 
 1. Enumerate distinct **structural types**; cover each (≥1 card).
-2. Add a card per **meaningful case** (sign, regime, boundary, representation) until the
-   6–8 / 3–4 target is met — variety-first, ≤2 items per type.
-3. **Quiz:** target 6–8, **≥ 1 MCQ per structural type**, and **≥ 1** `mastery: true`
-   question whenever the content carries a `mastery` tier.
+2. Add a card per **meaningful case** (sign, regime, boundary, representation) — variety-first,
+   **≤2 items per structural type × case**. Stop when the meaningful cases run out, wherever
+   that lands. If they run out at 6, the tier has 6 cards; if the atom supplies 12 distinct
+   cases, take all 12. **The number is the output of the enumeration, never the input to it.**
+3. **Quiz:** up to 8–10, **≥ 1 MCQ per structural type**, and **≥ 1** `mastery: true`
+   question whenever the content carries a `mastery` tier. Extra quiz items beyond one per
+   type must each earn their place on a distinct *case*, not a re-run of a covered type.
 4. A genuinely single-case atom that cannot reach target without near-duplicate padding
    records a one-line `coverageNote` (practice-level in the content file, top-level in the
    quiz file) instead of padding — same escape-hatch pattern as `masteryOmitted`. Push
    variety as far as the atom honestly allows, then stop.
 
+**Every generation agent reports its structural-type enumeration** — the list of types, and
+the case that justifies each card beyond the first of its type. This is what makes padding
+visible to the orchestrator; a report that gives only counts hides exactly the defect the
+per-type cap exists to prevent.
+
 Coverage over volume: one clean item per meaningful case beats many near-duplicates.
+
+---
+
+## Quiz-independence rule
+
+**A quiz item must never restate a practice stem from the same skill — any tier,
+byte-for-byte or lightly reworded.** The practice cards are the flip-cards the student has
+just studied; a quiz item that repeats one tests recall of the card, not the skill. The
+quiz mirrors each practice **structural TYPE** with **fresh numbers and a fresh scenario**,
+and — wherever the maths allows — lands on a **different answer value** than the practice
+card of the same type.
+
+```
+PRACTICE mastery card                           QUIZ mastery item
+Evaluate $2^3 \times 2^4 \div 2^5$.
+
+BEFORE (banned — verbatim clone)                AFTER (same type, fresh numbers,
+Evaluate $2^3 \times 2^4 \div 2^5$.             different answer)
+                                                Evaluate $3^6 \div 3^4 \times 3^2$.
+```
+
+Copying the figure counts too: a quiz stem whose `[tikz]` block is byte-identical to a
+practice card's is the same defect wearing a diagram. Batch 9 measured this class at **21
+items across 7 of 14 skills** — the generators copied the mastery card verbatim into the
+quiz — and it alone cost 2 repair rounds and 2 extra check rounds.
+`scripts/audit-duplicate-stems.mjs` (deterministic gate, workflow step 3) enforces the
+byte-level floor; this rule owns the reworded cases the script cannot see. The
+near-duplicate test from the Question-count rule applies across the practice/quiz
+boundary: *would a student who just flipped the card answer this MCQ with no new thought?*
+If yes, it is not a quiz item.
 
 ---
 
@@ -377,19 +437,45 @@ The orchestrator drives the batch; generation and checking run in parallel group
    This is the leaner default: a section-owning agent takes that section's 2–4 skills,
    reads the shared authoring docs (schema, `tikz-prompt.md`, principle docs, the booklet
    section + its media PNGs) **once**, then authors each of its skills — dealing the shared
-   exemplars disjointly across them (step 1). It writes both files per skill and runs
-   `validate.mjs --only <id>` for each before reporting. This cuts the duplicated
+   exemplars disjointly across them (step 1). It writes both files per skill and then
+   **clears the full deterministic gate (step 3) on its own skills before reporting** —
+   all four commands, `--strict`, comma-form `--only`. An agent does not report success
+   with a dirty gate. This cuts the duplicated
    doc-reading that one-agent-per-skill pays N times, and one author-per-section improves
    disjoint dealing. (Fall back to one agent per skill only when a section's skills are too
    many or too heavy for a single agent.) **Model tier:** agents for
    geometry/measurement/data skills (PNG reading + TikZ authoring) must not run on a
    downgraded model — image misreading rates on smaller tiers are unacceptable for
    diagram-anchored content.
-3. **Equivalent-option audit (deterministic, run it before the checker).**
+3. **Deterministic gate — run it BEFORE any checker is spawned.** Every defect a script
+   can find must be found by a script, and found before a model is paid to read the
+   items. Four commands, always the comma-form `--only`, always `--strict`; the gate is
+   seconds, so it also re-runs after **every** repair edit:
 
    ```
-   node scripts/audit-equivalent-options.mjs --only <all batch ids>
+   node scripts/validate.mjs --only <id1,id2,...>
+   node scripts/audit-equivalent-options.mjs --strict --only <id1,id2,...>
+   node scripts/audit-duplicate-stems.mjs --strict --only <id1,id2,...>
+   node scripts/audit-option-hygiene.mjs --strict --only <id1,id2,...>
    ```
+
+   Generation agents clear the gate on their own skills before reporting (step 2); the
+   orchestrator re-runs it here over the **whole batch id list** — cross-skill
+   duplicates are invisible to a single section's agent.
+
+   - **`audit-duplicate-stems.mjs`** — normalised-stem duplication, `[tikz]` blocks
+     included so figure-identical clones are caught: quiz stem == practice stem in the
+     same skill (any tier — batch 9's 21-clone class), two equal stems in one file,
+     equal stems across the batch's skills, plus an advisory near-duplicate report.
+     It deliberately has **no minimum stem length** — an early ad-hoc scan with one hid
+     a five-clone cluster in a single quiz (`order-operations-indices`, batch 9).
+   - **`audit-option-hygiene.mjs`** — an option equal to the **key of a different item
+     sharing its `structure` slug** in the same quiz (cross-item leakage; a bare integer
+     coinciding with an unrelated item's answer is not a defect and is not flagged), and
+     any distractor `why` under 15 chars or matching a generic-phrase list. It attempts
+     no reachability judgement — that needs a model and stays with the checker.
+
+   ### Equivalent-option audit
 
    Flags MCQ options that are **mathematically equal to one another** — a class the
    validator cannot see (every option is well-formed and exactly one is `correct`) and
@@ -408,66 +494,112 @@ The orchestrator drives the batch; generation and checking run in parallel group
    fractions. The audit is advisory and parses conservatively (~45% of options), so it is
    a floor, not a ceiling — it does not replace the checker.
 
-4. **Blind check — ONE fresh checker agent for the whole batch (not per section).**
-   Proceed **only after every generation agent has reported completion** — never infer
-   readiness from file presence or mtime. For each generated skill run
+4. **Blind check — luna (`gpt-5.6-luna` via `codex exec`), one packet per skill.**
+   Proceed **only after every generation agent has reported completion AND the
+   deterministic gate is clean** — never infer readiness from file presence or mtime.
+   For each generated skill run
    `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/` (gitignored),
    a `{id}.blind.json` (quiz + mastery practice with correct flags / `why` / `solution_text`
-   stripped and options deterministically shuffled) and a `{id}.key.json` answer key. Hand
-   **only** the blind bundles for **all the batch's skills** to a **single** independent
-   **checker agent** (never a generator), which **re-solves every MCQ and every mastery
-   practice question WITHOUT seeing the stated answers**. The checker is a **fresh agent
-   every round** — never reuse a checker that has seen a previous round's bundle or any key.
-   **Only split** the check across 2+ checkers when the batch is large enough that
-   one agent's context can't hold every blind bundle at authoring quality (rule of thumb:
-   split above ~25 skills, keeping each checker's slice whole-skill, never a partial skill;
-   batch 8's 22 TikZ-dense skills were split 10/12 and that was the right call).
+   stripped and options deterministically shuffled) and a `{id}.key.json` answer key. Then:
+
+   ```
+   node scripts/run-luna-check.mjs --skills <id1,id2,...>
+   node scripts/run-luna-check.mjs --compare <id1,id2,...>
+   ```
+
+   The driver builds one **self-contained packet per skill** — the checker brief (the
+   brief's single source of truth lives in the script), the skill card from
+   `data/skills.json` **with its prereqs and dependents expanded to titles + blurbs**, and
+   the blind bundle — and spawns one stateless read-only `codex exec` call per skill
+   (**never the codex MCP** — owner instruction). Luna has no repo access; the packet is
+   its entire world. Replies land as `.checkwork/{id}.luna.json`; `--compare` then reads
+   them against the keys and prints mismatches, coverage shortfalls, and flags. Every
+   call is stateless, so **fresh checker every round** holds by construction; the old
+   split-above-~25-skills rule is moot (per-skill packets never share context). The
+   orchestrator (Claude) never plays checker, and the driver never reads a key file in
+   check mode.
 
    ### What the checker is actually for — brief it accordingly
 
-   **Answer-mismatch hunting is nearly exhausted.** Across batches 3–8 — roughly **800
-   items re-solved** — the compare-to-key step has found **zero** wrong answers. Both
-   historical catches (batches 1–2) predate all-Opus generation. This is expected, not
-   reassuring: the generator and the checker are the same model reading the same booklet,
-   so when the generator errs the checker tends to err the same way. **Correlated reasoners
-   do not cross-validate.**
+   **The correlated-reasoners caveat is retired** (batch 10, with the move to luna).
+   Through batch 9, generator and checker were the same model reading the same booklet —
+   across batches 3–9, roughly **1150 items re-solved, zero answer mismatches** — so the
+   compare-to-key step could not cross-validate. A different model's re-solve makes
+   answer mismatches **meaningful evidence again**; do not dismiss one as a formatting
+   quirk without adjudicating it.
 
-   **The yield is in the cold read, not the key comparison.** Batch 8's checkers found
-   **8 genuine defects and 0 answer mismatches** — every one surfaced in their
-   "UNSURE / suspected defect" notes:
+   **The yield is still expected in the cold read.** The defect classes the checker hunts
+   (all real catches from batches 8–9):
    - **Ambiguity** — two defensible correct options (a key of `8:5` sitting beside an
      equivalent `1.6:1`), or a stem that never pins the rounding/form.
-   - **Duplication** — a quiz item cloning its own mastery card, so the quiz tests recall of
-     the flip-card rather than the skill.
+   - **Duplication** — a quiz item *rewording* its own practice card (the byte-level
+     class is now caught by the deterministic gate before any checker runs).
    - **Under-determination** — a construction whose stem doesn't pin every stage, so several
      different graphs satisfy it while the solution shows one. A correct student is marked
      wrong.
    - **Unreachable distractors** — an option no single identifiable slip produces.
    - **Figure contradicts its answer** — cell widths misrepresenting a ratio, a brace
-     spanning the wrong bar.
+     spanning the wrong bar. Luna reads the `[tikz]` source as the diagram.
    - **Implausible scenarios** — arithmetic correct, physics absurd (a 12 km/h swimmer, an
      8 km/h "walk"). Credibility defects still reach students.
 
-   So **re-solving is the means, not the deliverable**: it is what forces genuine engagement
-   with each item (which is also why the bundle strips `why` and `solution_text` — a checker
-   handed the rationale skims and nods). Brief the checker to hunt the list above, report
-   its answers as evidence of having done the work, and expect the mismatch count to be
-   zero. Treat a checker that reports only answers and flags nothing as an under-performing
-   check, not a clean batch — and confirm it covered **every** skill you sent it (batch 8's
-   second checker silently omitted one skill; it was re-checked by a fresh agent rather than
-   have silence read as agreement).
-5. **Adjudicate.** The orchestrator compares the checker's answers against `{id}.key.json`.
-   For each disagreement, decide whether it is a **formatting equivalence** (e.g. `3.5`
-   vs `3.50`, `1/2` vs `0.5`, reordered but equal) — accept — or a **genuine mismatch**.
+   **NOT-A-DEFECT list** (embedded in the brief; each ruling was re-litigated across
+   batches until written down):
+   - A quiz item sharing a **structural type** with a practice card but using different
+     numbers and a different answer is **required coverage** (Quiz-independence rule),
+     not duplication.
+   - A small integer coinciding with an **unrelated** item's answer is not leakage — the
+     hygiene audit already flags the same-structure case.
+   - Booklet-anchored content is **in scope** even when it sits near a stage boundary.
+   - Anything listed in the skill card's **`prereqs` is taught and assumable** — batch 9's
+     round 3 flagged a legitimate zero-index use as "untaught" when zero-index was the
+     skill's direct prereq. The packet carries the prereqs precisely so this cannot recur.
+
+   **Coverage is verified mechanically** (`--compare` checks `itemsAnswered` against
+   `itemsReceived` — batch 8's silently-omitted skill can no longer hide), so a zero-flag
+   skill whose answers all match **is a clean result. Do not fish for flags** — batch 9's
+   round 3 produced 20 flags of which the orchestrator rejected the majority; invalid
+   flags cost real repair rounds.
+
+   **Re-solve depth** (`--resolve-mode`, default `figures-first`): full written re-solve
+   only for items carrying a `[tikz]` figure — the figure-vs-answer check genuinely needs
+   the item worked. Symbolic items get a verification pass against the defect list plus a
+   stated answer choice, without full working. `--resolve-mode full` reproduces the old
+   behaviour; batch 10 A/Bs the two modes (compare defect yield and wall-clock) before
+   `figures-first` is adopted outright. If a luna run fails outright after retry, fall
+   back to the old same-model Claude checker for that batch and **record the fallback in
+   the queue notes** — never silently skip the check.
+5. **Adjudicate.** The orchestrator runs `run-luna-check.mjs --compare` and reads the
+   mismatch/coverage/flag report. For each answer disagreement, decide whether it is a
+   **formatting equivalence** (e.g. `3.5` vs `3.50`, `1/2` vs `0.5`, reordered but equal)
+   — accept — or a **genuine mismatch**. For each flag, rule valid or invalid against the
+   NOT-A-DEFECT list.
    **Repair is targeted, not wholesale:** the orchestrator (or a small fix agent)
-   hand-edits the specific defective question(s), re-runs `validate.mjs --only <id>`,
-   **re-runs `blind-for-check.mjs`** (any edit invalidates the old bundle), and sends the
-   fresh bundle to a **new** checker. Full skill regeneration is reserved for output that
-   is structurally unusable — a rewrite of all items reintroduces new defects. **Max 2
-   repair rounds per skill**, then **flag for human review** rather than loop. Finish
-   with a quick **cross-skill scan** of the batch for shared scenarios or near-identical
-   stems between skills that shared a booklet section; dedupe by editing the lesser item.
-6. **Validate the batch.** `node scripts/validate.mjs --only <all batch ids>` clean.
+   hand-edits the specific defective question(s), re-runs the **full deterministic gate**
+   (step 3 — seconds, every edit), then re-checks **only what changed**:
+   `node scripts/blind-for-check.mjs <id> --items <changed ids>` emits a bundle of just
+   the edited items plus sibling context (stems + option texts of the unchanged items,
+   enough to judge duplication and cross-item leakage), and a fresh luna call checks it.
+   Never re-send the full batch for a handful of edits — batch 9's rounds 2–3 re-solved
+   **191 items to evaluate 27 edits**. Full skill regeneration is reserved for output that
+   is structurally unusable — a rewrite of all items reintroduces new defects.
+   **Repair contract:** any repair that replaces an option value must state, in its
+   report, the **misconception → derivation → value** chain for the new option — the
+   specific slip a student makes on *this* stem and the working that lands on exactly
+   that value. The orchestrator rejects a replacement without a derivation: a batch-9
+   repair swapped an unreachable distractor for another unreachable one and it survived
+   to the final report.
+   **Two stopping rules**, whichever bites first:
+   - **Max 2 repair rounds per skill**, then **flag for human review** rather than loop.
+   - **Majority-invalid round:** if more than half of a check round's flags are
+     adjudicated invalid, stop repairing the batch — apply the accepted fixes, record
+     the remainder in `docs/content-queue.md` for the human, and do not spawn another
+     round. Batch 9's round 3 (20 flags, majority rejected) is the measured case: past
+     that point the check is generating adjudication work, not finding defects.
+   (The old closing cross-skill stem scan is retired — `audit-duplicate-stems.mjs` in the
+   step-3 gate now does it deterministically, batch-wide, on every run.)
+6. **Validate the batch.** `node scripts/validate.mjs --only <id1,id2,...>` clean (one
+   comma-joined argument).
 7. **Diagram list for manual human visual review — REQUIRED for any batch containing
    TikZ** (skip only for a purely symbolic batch like algebra with zero inline TikZ blocks).
    The source-reading blind check in steps 3–4 verifies **answers**; it is blind to the
@@ -500,6 +632,10 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Schema-exact.** [content-schema.md](content-schema.md) is the contract; validate clean.
 - **Single skill per file.** Prereqs only in service; no cross-topic mixing.
 - **Every distractor is a named misconception** with a specific `why`.
+- **Quiz stems never duplicate practice stems** (any tier) — the deterministic gate
+  (step 3) is a hard gate, cleared by generators before they report.
+- **The blind check runs on luna via `codex exec` — never the codex MCP.** Checkers
+  never see keys, `why`, or `solution_text`; every call is fresh.
 - **Diagrams follow the [canonical TikZ prompt](tikz-prompt.md)**; degrees are `^{\circ}`.
 - **Question-side support figures are standard** on foundation + development cards of any
   skill a figure genuinely helps — never pre-marking the answer.

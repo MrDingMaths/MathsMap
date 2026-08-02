@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mathsmap.local/scripts/luna-check-schema.json",
+  "title": "MathsMap blind checker reply (gpt-5.6-luna)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["skillId", "quiz", "masteryPractice", "flags", "coverage"],
+  "properties": {
+    "skillId": { "type": "string", "minLength": 1 },
+    "quiz": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "chosenIndex", "chosenOptionText", "method", "confidence"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "chosenIndex": { "type": "integer", "minimum": 0 },
+          "chosenOptionText": { "type": "string", "minLength": 1 },
+          "method": { "type": "string", "minLength": 1 },
+          "confidence": { "enum": ["solid", "unsure"] }
+        }
+      }
+    },
+    "masteryPractice": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "answer", "method", "confidence"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "answer": { "type": "string", "minLength": 1 },
+          "method": { "type": "string", "minLength": 1 },
+          "confidence": { "enum": ["solid", "unsure"] }
+        }
+      }
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["itemId", "category", "note", "suggestedFix"],
+        "properties": {
+          "itemId": { "type": "string", "minLength": 1 },
+          "category": {
+            "enum": [
+              "ambiguity",
+              "duplication",
+              "under-determination",
+              "unreachable-distractor",
+              "figure-contradicts-answer",
+              "implausible-scenario",
+              "scope",
+              "other"
+            ]
+          },
+          "note": { "type": "string", "minLength": 1 },
+          "suggestedFix": { "type": "string" }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["itemsReceived", "itemsAnswered"],
+      "properties": {
+        "itemsReceived": { "type": "integer", "minimum": 0 },
+        "itemsAnswered": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

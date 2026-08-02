@@ -7,6 +7,15 @@
 //   {skillId}.key.json   — the answer key, for the orchestrator to compare later
 //
 // Usage: node scripts/blind-for-check.mjs <skillId> [<skillId>...] [--out <dir>]
+//        node scripts/blind-for-check.mjs <skillId> --items q3,q5,m1 [--out <dir>]
+//
+// --items restricts the emitted bundle to a comma-separated list of item ids (quiz question
+// ids as they appear in public/quizzes/{id}.json, or m<n> for the n-th (1-based) mastery
+// practice card, same synthesis as the full-bundle m1, m2, ... ids). Exactly one skillId
+// positional is required when --items is used. Every unchanged item (quiz question or mastery
+// card not named in --items) is still surfaced in blind.json under `siblingContext` — enough
+// for a checker to judge duplication/leakage against the rest of the bundle — but with
+// solution/correctness data withheld the same as any other blind item.
 //
 // See docs/content-schema.md for the quiz/content schemas this reads.
 import { promises as fs } from 'node:fs';
@@ -83,14 +92,33 @@ async function ensureGitignoreEntry(dir) {
   await fs.writeFile(gitignorePath, contents + (needsNewline ? '\n' : '') + entry + '\n');
 }
 
-function blindQuiz(quizData, skillId) {
+// `wantedIds`, when given, is a Set restricting which quiz question ids get a full blind
+// entry (question_text/structure/mastery/options) + a key entry. Every other question still
+// contributes a sibling-context entry (id/structure/question_text/option texts only, no
+// correct flags/why). `wantedIds` undefined/null means "emit everything" (today's behaviour;
+// siblingQuiz is then always empty since nothing is left over).
+function blindQuiz(quizData, skillId, wantedIds = null) {
   const questions = Array.isArray(quizData?.questions) ? quizData.questions : [];
   const blindQuestions = [];
   const keyQuestions = [];
+  const siblingQuiz = [];
+  const seenIds = new Set();
 
   for (const question of questions) {
+    seenIds.add(question.id);
     const seed = djb2(`${skillId}:${question.id}`);
     const { shuffled, originalOrder } = deterministicShuffle(question.options || [], seed);
+    const wanted = !wantedIds || wantedIds.has(question.id);
+
+    if (!wanted) {
+      siblingQuiz.push({
+        id: question.id,
+        structure: question.structure,
+        question_text: question.question_text,
+        options: shuffled.map((o) => o.text),
+      });
+      continue;
+    }
 
     const correctOriginalIdx = (question.options || []).findIndex((o) => o.correct === true);
     const shuffledIndexOfCorrect = originalOrder.indexOf(correctOriginalIdx);
@@ -115,25 +143,40 @@ function blindQuiz(quizData, skillId) {
     });
   }
 
-  return { blindQuestions, keyQuestions };
+  return { blindQuestions, keyQuestions, siblingQuiz, seenIds };
 }
 
-function blindMastery(contentData) {
+// `wantedIds`, when given, is a Set of "m<n>" ids (1-based) restricting which mastery
+// practice cards get a full blind entry + key entry. Every other card still contributes a
+// sibling-context entry (id/question_text only).
+function blindMastery(contentData, wantedIds = null) {
   const mastery = Array.isArray(contentData?.practice?.mastery) ? contentData.practice.mastery : [];
   const blindItems = [];
   const keyItems = [];
+  const siblingMastery = [];
+  const seenIds = new Set();
 
   mastery.forEach((card, i) => {
     const idx = `m${i + 1}`;
+    seenIds.add(idx);
+    const wanted = !wantedIds || wantedIds.has(idx);
+    if (!wanted) {
+      siblingMastery.push({ id: idx, question_text: card.question_text });
+      return;
+    }
     const blindItem = { id: idx, question_text: card.question_text };
     blindItems.push(blindItem);
     keyItems.push({ id: idx, solution_text: card.solution_text });
   });
 
-  return { blindItems, keyItems };
+  return { blindItems, keyItems, siblingMastery, seenIds };
 }
 
-async function processSkill(skillId, outDir) {
+// `itemIds`, when given, is the raw --items list (e.g. ["q3","q5","m1"]) for this (sole)
+// skill. Splits it into quiz-question wanted ids and mastery wanted ids for blindQuiz /
+// blindMastery, then validates every requested id was actually found once both files have
+// been read (an unmatched id is an error, not a silent no-op).
+async function processSkill(skillId, outDir, itemIds = null) {
   const quizFile = path.join(quizzesDir, `${skillId}.json`);
   const contentFile = path.join(contentDir, `${skillId}.json`);
 
@@ -153,17 +196,36 @@ async function processSkill(skillId, outDir) {
     console.warn(`[blind-for-check] ${skillId}: no content file (public/content/${skillId}.json)`);
   }
 
-  const { blindQuestions, keyQuestions } = quizData
-    ? blindQuiz(quizData, skillId)
-    : { blindQuestions: [], keyQuestions: [] };
-  const { blindItems, keyItems } = contentData
-    ? blindMastery(contentData)
-    : { blindItems: [], keyItems: [] };
+  const wantedQuizIds = itemIds ? new Set(itemIds.filter((id) => /^m\d+$/.test(id) === false)) : null;
+  const wantedMasteryIds = itemIds ? new Set(itemIds.filter((id) => /^m\d+$/.test(id))) : null;
+
+  const { blindQuestions, keyQuestions, siblingQuiz, seenIds: seenQuizIds } = quizData
+    ? blindQuiz(quizData, skillId, wantedQuizIds)
+    : { blindQuestions: [], keyQuestions: [], siblingQuiz: [], seenIds: new Set() };
+  const { blindItems, keyItems, siblingMastery, seenIds: seenMasteryIds } = contentData
+    ? blindMastery(contentData, wantedMasteryIds)
+    : { blindItems: [], keyItems: [], siblingMastery: [], seenIds: new Set() };
+
+  if (itemIds) {
+    const unknown = itemIds.filter((id) => !seenQuizIds.has(id) && !seenMasteryIds.has(id));
+    if (unknown.length > 0) {
+      throw new Error(`${skillId}: unknown --items id(s): ${unknown.join(', ')}`);
+    }
+  }
 
   const blindBundle = {
     skillId,
     quiz: blindQuestions,
     masteryPractice: blindItems,
+    ...(itemIds
+      ? {
+          siblingContext: {
+            note: 'siblingContext is context only — do not re-solve; use it to judge duplication and cross-item leakage',
+            quiz: siblingQuiz,
+            masteryPractice: siblingMastery,
+          },
+        }
+      : {}),
   };
   const keyBundle = {
     skillId,
@@ -186,22 +248,31 @@ async function processSkill(skillId, outDir) {
 function parseArgs(argv) {
   const skillIds = [];
   let outDir = defaultOutDir;
+  let items = null;
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--out') {
       outDir = path.resolve(argv[++i] ?? '');
+    } else if (arg === '--items') {
+      items = (argv[++i] ?? '').split(',').map((s) => s.trim()).filter(Boolean);
     } else {
       skillIds.push(arg);
     }
   }
-  return { skillIds, outDir };
+  return { skillIds, outDir, items };
 }
 
 async function main() {
-  const { skillIds, outDir } = parseArgs(process.argv.slice(2));
+  const { skillIds, outDir, items } = parseArgs(process.argv.slice(2));
 
   if (skillIds.length === 0) {
     console.error('Usage: node scripts/blind-for-check.mjs <skillId> [<skillId>...] [--out <dir>]');
+    console.error('       node scripts/blind-for-check.mjs <skillId> --items q3,q5,m1 [--out <dir>]');
+    process.exit(1);
+  }
+
+  if (items && skillIds.length !== 1) {
+    console.error('[blind-for-check] --items requires exactly one skillId positional argument.');
     process.exit(1);
   }
 
@@ -212,7 +283,7 @@ async function main() {
 
   const results = [];
   for (const skillId of skillIds) {
-    results.push(await processSkill(skillId, outDir));
+    results.push(await processSkill(skillId, outDir, items));
   }
 
   const failed = results.filter((r) => !r.ok);
