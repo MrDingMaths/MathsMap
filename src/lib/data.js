@@ -4,6 +4,7 @@ import topics from '../../data/topics.json';
 import dotpoints from '../../data/dotpoints.json';
 import skills from '../../data/skills.json';
 import meta from '../../data/meta.json';
+import { topoSortSkills } from './skillOrder.js';
 
 export { courses, topics, dotpoints, skills, meta };
 
@@ -22,6 +23,8 @@ for (const s of skills) {
 
 const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
 
+const skillIndex = new Map(skills.map((s, i) => [s.id, i]));
+
 export const coursesByStage = () => {
   const map = new Map();
   for (const c of [...courses].sort(byOrder)) {
@@ -38,14 +41,18 @@ export const dotpointsForTopic = (topicId) =>
   dotpoints.filter((d) => d.topicId === topicId).sort(byOrder);
 
 // Skills under a topic, optionally scoped to a course, grouped by dot point.
+// Each group is ordered so prerequisites come before the skills that need them.
 export const skillsForTopic = (topicId, courseId = null) => {
   const dps = dotpointsForTopic(topicId);
   return dps.map((dp) => ({
     dotpoint: dp,
-    skills: skills.filter(
-      (s) =>
-        (s.dotPointIds || []).includes(dp.id) &&
-        (!courseId || (s.courses || []).includes(courseId))
+    skills: topoSortSkills(
+      skills.filter(
+        (s) =>
+          (s.dotPointIds || []).includes(dp.id) &&
+          (!courseId || (s.courses || []).includes(courseId))
+      ),
+      skillIndex
     )
   }));
 };
