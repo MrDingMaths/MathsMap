@@ -1316,7 +1316,7 @@ mastery items) — a reflex arc drawn on the wrong side contradicts its answer; 
 **tick-mark/arrow-heavy quadrilaterals** in agent B's three skills, where equal-side and parallel
 marks must stay legible at `scale=0.75`–`0.8`.
 
-**Not committed** — left to the human, with the 185-block diagram checklist outstanding.
+**Committed as `f0ddd8e`** (batch 14, together with the inclusive-trapezium ruling, the non-convex diagonal-test correction and the `area-trapezium` fix carried in from batch 12). The 185-block diagram checklist above is outstanding — review and repair in place on top of that commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
