@@ -41,6 +41,19 @@ test('audit-figure-scale matches part-labels to sub-spans of a subdivided edge',
   assert.match(stdout, /✓ No figure-scale suspects/);
 });
 
+// A bare `-- cycle` is the standard TikZ spelling and the only one the corpus
+// uses (387 occurrences, 0 parenthesised). It was not tokenised as a path
+// point, so the closing edge of every closed polygon was dropped: its label
+// went unmatched and the figure fell below the 3-matched-label floor, being
+// skipped rather than compared. Found in batch 14.
+test('audit-figure-scale reads the closing edge of a bare `-- cycle` path', () => {
+  const { stdout, status } = run('audit-figure-scale.mjs', ['--dir', fxBad, '--only', 'skill-cycle', '--strict']);
+  assert.equal(status, 1);
+  // 3 matched labels, not 2 — proof the closing edge became a real segment.
+  assert.match(stdout, /compared 1 multi-label figure\(s\) \(3 matched labels\)/);
+  assert.match(stdout, /label "9 cm" drawn 5\.00 coord-units/);
+});
+
 test('audit-figure-scale rejects space-separated ids after --only', () => {
   const { status, stderr } = run('audit-figure-scale.mjs', ['--only', 'skill-a', 'skill-b']);
   assert.equal(status, 2);
