@@ -135,7 +135,7 @@ carry inline `[tikz]`; the other 32 are number skills, diagram-free):** `equival
 5 quiz) — **27 `[tikz]` blocks total**; eyeball via
 `http://localhost:5173/#/tikz-check?topic=t-s4-frc`. Number-line placements use position = value×1.5
 (√2≈1.41, √3≈1.73, √5≈2.24, √7≈2.65, π≈3.14, and negatives); the blind checker read the TikZ
-coordinates and agreed every marked position. **Committed as `560fa20`** (batch 9). Diagram checklist above still outstanding — review and repair in place on top of that commit.
+coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 6).
 
 **Pilot gate: human review of pilot outcomes before batch 7 starts.**
 
@@ -430,7 +430,7 @@ Practice Q3g gives $6^{-5}$ for $6^{-3}\times6^{2}$ (should be $6^{-1}$).
 
 **Taxonomy note.** The booklet's `HCF and LCM using Prime Factorisation` chapter (L3568–3798) was
 deliberately not authored — `hcf-two-numbers` / `lcm-two-numbers` shipped in batch 6 (`t-s4-frc`).
-**Committed as `092ed41`** (batch 10). Diagram checklist above still outstanding — review and repair in place on top of that commit.
+**Committed as `560fa20`** (batch 9). Diagram checklist above still outstanding — review and repair in place on top of that commit.
 
 **Batch 10 (t-s4-equ) notes.** **First batch on the revised pipeline** — deterministic gate
 before any checker, and the blind check on a *different* model (`gpt-5.6-luna` via `codex exec`).
@@ -568,7 +568,7 @@ zero retries, no fallback to a Claude checker needed.
 **`--resolve-mode` A/B not run** (owner instruction — the human is judging output quality by hand
 this batch), so `figures-first` is exercised but not yet measured against `full`.
 
-**Committed as `60f1793`** (batch 11), together with the pipeline commit `1bbcf96` (deterministic gate + luna checker). The 263-diagram checklist above is outstanding — review and repair in place on top of that commit.
+**Committed as `092ed41`** (batch 10), together with the pipeline commit `1bbcf96` (deterministic gate + luna checker). Diagram checklist above still outstanding — review and repair in place on top of that commit.
 
 **Batch 11 (t-s4-len) notes.** First **fully figure-bearing** batch under the revised pipeline
 (every one of the 10 skills carries inline `[tikz]`, so all four generators read
@@ -705,7 +705,8 @@ convex would contradict its answer; (3) the **sector figures** with a marked ext
 one; (4) `circle-features` multi-label figures (tangent touching without entering, segment vs sector
 shading).
 
-Not committed — awaiting human review + commit.
+**Committed as `60f1793`** (batch 11). The 263-block diagram checklist above is outstanding —
+review and repair in place on top of that commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
