@@ -404,6 +404,28 @@ render" placeholder.
 
 ---
 
+## House mathematical conventions
+
+Where a booklet is internally inconsistent on a definition, the ruling below is the house
+convention and **overrides the booklet**. Record any new case here rather than deciding it
+per batch — a convention settled in one batch and forgotten is how two skills end up
+contradicting each other.
+
+- **Trapezium — INCLUSIVE** (owner ruling, batch 14). A trapezium has **at least** one pair
+  of parallel sides, so **every parallelogram is a trapezium**, as are rectangles, rhombuses
+  and squares. Write "at least one pair", never "exactly one pair", in any definition.
+  `Properties of Geometrical Figures 2` uses both conventions and cannot be followed as
+  printed: its hierarchy diagram draws Trapezium → Parallelogram → Rhombus/Rectangle →
+  Square (inclusive), while its Foundation Q1 answer key gives a rectangle as
+  "quadrilateral, parallelogram, rectangle" with trapezium omitted (exclusive). Follow the
+  diagram. Note the exclusive reading is still needed to *describe a figure* — "only one
+  pair of sides carries the parallel arrows, so it is a trapezium and not a parallelogram"
+  is correct and remains the right way to name a specific shape.
+- **Non-convex diagonals** (batch 14). The same booklet's summary states the test as
+  "diagonals meet outside the quadrilateral". That is **false** for diagonals as segments —
+  in a dart they do not meet at all; only an extension does. Author the true test: **one
+  diagonal lies outside the shape**, so the two do not cross inside it.
+
 ## Anchoring & the STAGE 3 rule
 
 **Booklet sections are the primary source** for difficulty calibration, question style,

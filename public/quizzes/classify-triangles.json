@@ -1,0 +1,235 @@
+{
+  "skillId": "classify-triangles",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The marks on this triangle show which sides are equal. Classify it according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.8,0);\n\\coordinate (A) at (1.9,3.4);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-by-side-marks",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Isosceles",
+          "correct": true
+        },
+        {
+          "text": "Equilateral",
+          "why": "Judged the triangle by eye; only two of the three sides carry a tick."
+        },
+        {
+          "text": "Scalene",
+          "why": "Ignored the tick marks and assumed no two sides are equal."
+        }
+      ],
+      "solution_text": "Two sides carry a single tick, so those two sides are equal.\nThe base carries no tick, so it is a different length.\nExactly two sides are equal, so the triangle is isosceles."
+    },
+    {
+      "id": "q2",
+      "question_text": "Classify this triangle according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (2,3.4641);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$6\\text{ cm}$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$6\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left,font=\\small] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-by-side-lengths",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Equilateral",
+          "correct": true
+        },
+        {
+          "text": "Isosceles",
+          "why": "Stopped after finding one pair of equal sides; here all three are equal."
+        },
+        {
+          "text": "Scalene",
+          "why": "Read the three labels as three different lengths instead of comparing them."
+        }
+      ],
+      "solution_text": "All three sides are labelled $6\\text{ cm}$.\nAll three sides are equal.\nThe triangle is equilateral."
+    },
+    {
+      "id": "q3",
+      "question_text": "Classify this triangle according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.4,0);\n\\coordinate (A) at (2.1233,2.2771);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$47^{\\circ}$\",angle radius=0.62cm,angle eccentricity=1.85] {angle=C--B--A};\n\\pic[draw,\"$45^{\\circ}$\",angle radius=0.62cm,angle eccentricity=1.85] {angle=A--C--B};\n\\pic[draw,\"$88^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.3] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-by-angles",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Acute-angled",
+          "correct": true
+        },
+        {
+          "text": "Right-angled",
+          "why": "Rounded the $88^{\\circ}$ angle up to $90^{\\circ}$ instead of comparing it."
+        },
+        {
+          "text": "Obtuse-angled",
+          "why": "Treated the largest angle as being over $90^{\\circ}$ because it looks wide."
+        }
+      ],
+      "solution_text": "The largest angle is $88^{\\circ}$.\n$88^{\\circ}<90^{\\circ}$, so every angle is less than $90^{\\circ}$.\nThe triangle is acute-angled."
+    },
+    {
+      "id": "q4",
+      "question_text": "Classify $\\Delta PQR$ according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4,0);\n\\coordinate (R) at (1.2,1.833);\n\\draw (P) -- (Q) -- (R) -- cycle;\n\\coordinate (ra) at ($(R)!0.3cm!(P)$);\n\\coordinate (rb) at ($(R)!0.3cm!(Q)$);\n\\draw (ra) -- ($(ra)+(rb)-(R)$) -- (rb);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "right-angle-marker",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Right-angled",
+          "correct": true
+        },
+        {
+          "text": "Acute-angled",
+          "why": "Overlooked the small square at $R$, which marks an angle of $90^{\\circ}$."
+        },
+        {
+          "text": "Obtuse-angled",
+          "why": "Read the angle at $R$ as wider than $90^{\\circ}$ despite the square marking it."
+        }
+      ],
+      "solution_text": "The small square at $R$ marks an angle of $90^{\\circ}$.\n$\\Delta PQR$ is right-angled."
+    },
+    {
+      "id": "q5",
+      "question_text": "Classify this triangle according to both its side and its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (5,0);\n\\coordinate (A) at (2.5,1.5023);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\pic[draw,\"$118^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.5] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "combined-classification",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Isosceles and obtuse-angled",
+          "correct": true
+        },
+        {
+          "text": "Isosceles and acute-angled",
+          "why": "Compared $118^{\\circ}$ with $180^{\\circ}$ rather than with $90^{\\circ}$."
+        },
+        {
+          "text": "Scalene and obtuse-angled",
+          "why": "Overlooked the tick marks showing that two sides are equal."
+        },
+        {
+          "text": "Equilateral and obtuse-angled",
+          "why": "Counted the two ticked sides as meaning all three sides are equal."
+        }
+      ],
+      "solution_text": "The single ticks show two equal sides, so the triangle is isosceles.\nThe apex angle is $118^{\\circ}$, and $118^{\\circ}>90^{\\circ}$.\nThe triangle is isosceles and obtuse-angled."
+    },
+    {
+      "id": "q6",
+      "question_text": "In $\\Delta RST$ below, which angle is opposite the side $RS$?\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (R) at (0,0);\n\\coordinate (S) at (3.6,0);\n\\coordinate (T) at (1.1,2.5);\n\\draw (R) -- (S) -- (T) -- cycle;\n\\node[below left] at (R) {$R$};\n\\node[below right] at (S) {$S$};\n\\node[above] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "triangle-naming",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\angle RTS$",
+          "correct": true
+        },
+        {
+          "text": "$\\angle SRT$",
+          "why": "Named the angle at $R$, which is an endpoint of $RS$ rather than the vertex opposite it."
+        },
+        {
+          "text": "$\\angle RST$",
+          "why": "Named the angle at $S$, the other endpoint of the side $RS$."
+        }
+      ],
+      "solution_text": "The side $RS$ joins the vertices $R$ and $S$.\nThe remaining vertex is $T$, so the opposite angle has $T$ as its middle letter.\nThe angle opposite $RS$ is $\\angle RTS$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Which single piece of information guarantees that a triangle is scalene?",
+      "structure": "description-to-type",
+      "mastery": false,
+      "options": [
+        {
+          "text": "All three of its angles are different sizes",
+          "correct": true
+        },
+        {
+          "text": "Two of its angles are equal",
+          "why": "Equal angles sit opposite equal sides, which makes the triangle isosceles."
+        },
+        {
+          "text": "One of its angles is $90^{\\circ}$",
+          "why": "A right-angled triangle can be isosceles as well as scalene, so this decides nothing."
+        },
+        {
+          "text": "All three of its angles are less than $90^{\\circ}$",
+          "why": "Being acute-angled says nothing about the sides; an equilateral triangle is acute."
+        }
+      ],
+      "solution_text": "Equal angles sit opposite equal sides, so equal sides would force two equal angles.\nIf all three angles are different, no two sides can be equal.\nAll three angles being different sizes guarantees the triangle is scalene."
+    },
+    {
+      "id": "q8",
+      "question_text": "Mia writes that this triangle is **obtuse-angled and scalene**.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.2,0);\n\\coordinate (C) at (2.1,1.393);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$10\\text{ cm}$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$6\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left,font=\\small] {$6\\text{ cm}$};\n\\pic[draw,\"$113^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.6] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about Mia's naming is correct?",
+      "structure": "verify-naming-claim",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The angle name is right, but it is isosceles, not scalene.",
+          "correct": true
+        },
+        {
+          "text": "Both of Mia’s names are right.",
+          "why": "Accepts the side name even though two of the sides are both $6\\text{ cm}$."
+        },
+        {
+          "text": "The side name is right, but it is acute-angled, not obtuse-angled.",
+          "why": "Compares $113^{\\circ}$ with $180^{\\circ}$ instead of with $90^{\\circ}$, and misses the equal sides."
+        },
+        {
+          "text": "The angle name is right, but it is equilateral, not scalene.",
+          "why": "Treats the two equal $6\\text{ cm}$ sides as meaning all three sides are equal."
+        }
+      ],
+      "solution_text": "The largest angle is $113^{\\circ}$, and $113^{\\circ}>90^{\\circ}$, so obtuse-angled is correct.\nTwo sides are $6\\text{ cm}$ and the third is $10\\text{ cm}$, so exactly two sides are equal.\nThe angle name is right, but the triangle is isosceles, not scalene."
+    },
+    {
+      "id": "q9",
+      "question_text": "Which of these triangles is impossible to draw?",
+      "structure": "impossible-combination",
+      "mastery": true,
+      "options": [
+        {
+          "text": "A scalene triangle with two $50^{\\circ}$ angles",
+          "correct": true
+        },
+        {
+          "text": "A scalene triangle with a $90^{\\circ}$ angle",
+          "why": "Three sides of different lengths can still meet at an angle of $90^{\\circ}$."
+        },
+        {
+          "text": "An isosceles triangle with a $100^{\\circ}$ angle",
+          "why": "A triangle with two equal sides can have an apex angle of $100^{\\circ}$."
+        },
+        {
+          "text": "An acute-angled isosceles triangle",
+          "why": "Two equal sides with every angle under $90^{\\circ}$ is an ordinary isosceles triangle."
+        }
+      ],
+      "solution_text": "Equal angles sit opposite equal sides.\nTwo angles of $50^{\\circ}$ force the two sides opposite them to be equal.\nA triangle with two equal sides is isosceles, not scalene, so this triangle is impossible."
+    },
+    {
+      "id": "q10",
+      "question_text": "Ben claims that every isosceles triangle is acute-angled. Which triangle shows that his claim is false?",
+      "structure": "counterexample-reasoning",
+      "mastery": true,
+      "options": [
+        {
+          "text": "A triangle with angles $110^{\\circ}$, $35^{\\circ}$ and $35^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "A triangle with angles $80^{\\circ}$, $50^{\\circ}$ and $50^{\\circ}$",
+          "why": "This triangle is isosceles, but every angle is acute, so it fits the claim."
+        },
+        {
+          "text": "A triangle with angles $60^{\\circ}$, $60^{\\circ}$ and $60^{\\circ}$",
+          "why": "This triangle is equilateral and acute-angled, so it does not contradict the claim."
+        },
+        {
+          "text": "A triangle with sides $4$ cm, $6$ cm and $9$ cm",
+          "why": "All three sides differ, so this triangle is scalene and is not an isosceles example."
+        }
+      ],
+      "solution_text": "A counterexample must be isosceles but not acute-angled.\nAngles of $110^{\\circ}$, $35^{\\circ}$ and $35^{\\circ}$ include two equal angles, so that triangle is isosceles.\n$110^{\\circ}>90^{\\circ}$, so it is obtuse-angled and Ben’s claim is false."
+    }
+  ]
+}

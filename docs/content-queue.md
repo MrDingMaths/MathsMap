@@ -150,7 +150,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | committed | `perimeter-composite-arc-figures`, `find-missing-sides-rectilinear`, `circle-features` + **full diagram list (all 10 skills, 263 `[tikz]`) for manual visual review** | none (all 10 booklet-covered) |
 | 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | committed | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | committed | `views-of-prisms`, `volume-capacity-problems`, `find-dimension-from-volume` + **diagram list (7 of 8 skills, 178 `[tikz]`) for manual visual review** | none (all 8 booklet-covered; `find-dimension-from-volume` anchored on scattered Volume 2/3 items rather than a dedicated section) |
-| 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | pending | — | — |
+| 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | in-review | `unknown-sides-angles-figures`, `quadrilateral-hierarchy`, `convex-nonconvex` + **full diagram list (all 9 skills, 185 `[tikz]`) for manual visual review** | none (all 9 booklet-covered) |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | pending | — | — |
 | 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | pending | — | — |
 
@@ -1094,6 +1094,229 @@ which must show a variable and never the value.
 **Committed as `80e562c`** (batch 13, together with the two promoted gate scripts, the
 `area-composite-figures` prereq fix and the `area-of-triangle` decoy re-cut). The 178-block
 diagram checklist above is outstanding — review and repair in place on top of that commit.
+
+**Batch 14 (t-s4-geo) notes.** Generated with Opus, **5 generators in two waves** (the wave split is
+forced by in-batch prereqs). Wave 1: A `PGF1` §Classifying Triangles = `classify-triangles`[S3];
+B `PGF2` §Labelling + §Diagonals + §Convex + §Properties of Special Quadrilaterals =
+`classify-quadrilaterals`[S3] + `quadrilateral-properties` + `convex-nonconvex`; C `PGF3` §Angle Sum
+of a Triangle + §Exterior Angle Theorem + §Angle Sum of a Quadrilateral = `angle-sum-triangle` then
+`exterior-angle-triangle` then `angle-sum-quadrilateral` (one agent in sequence, so the latter two
+**cite** the $180^{\circ}$ sum instead of re-proving it). Wave 2: D §Hierarchy of Quadrilaterals =
+`quadrilateral-hierarchy`; E §Mixed Practice + §CYU = `unknown-sides-angles-figures`. atomTypes:
+`convex-nonconvex` and `quadrilateral-hierarchy` = Cat, remainder = R. **No `masteryOmitted`; one
+`coverageNote`** (`convex-nonconvex` — every candidate third mastery card needed the $360^{\circ}$
+sum, which is a sibling's atom). Final counts: foundation 7–10 / development 6–9 / mastery 2–4 /
+quiz 7–10. Whole-batch `validate.mjs` clean at **0 errors, 0 warnings**; manifest rebuilt
+(**323 content / 186 quiz**, +7 content — the two stage-3 files already existed — and +9 quizzes).
+
+**Two `data/skills.json` blurb fixes, both approved by the owner before/during generation.** Both are
+the batch-11 `perimeter-2d-shapes` staleness class — a blurb written against the skill's Stage-3 dot
+point and never revisited when a Stage-4 dot point was added, which checkers then read as the scope
+contract.
+1. `area-composite-figures` → *"Split a composite figure into rectangles and triangles to find its
+   area."* (was L-shape-only; commit `4eefcd8`, carried in from batch 13's prereq fix.)
+2. `classify-quadrilaterals` → the full **six** shapes, adding trapezium and kite (was four; commit
+   `edb7d4d`). Caught mid-run and passed to agent B, which then gave trapezium 6 cards and kite 5 as
+   first-class structural types rather than edge cases.
+
+A **parallel owner-run audit session** then landed `509b36c` (the dual-role `courses` fix — three
+skills carried a Stage-4 dot point but listed only `s3`, so `skillsForTopic` filtered them out of the
+Stage-4 Area topic; pinned by a new `tests/skill-courses.test.js`) and `8b29656` (26 further blurb
+widenings of the same class). One of those 26 touched this batch: `classify-triangles` →
+*"Name triangles and their sides using vertex letters, and classify them by side lengths and by angle
+size."* It landed **after** agent A had authored, but widened *towards* what the agent had already
+written (vertex-letter naming plus both classification axes), so no rework was needed — verified by
+re-reading the shipped cards against the new text. Full validate and the test suite are clean with
+both sessions' work in the tree.
+
+**STAGE 3 rule applied to both stage-3 skills** (`classify-triangles`, `classify-quadrilaterals`).
+Each content file held `skillId`/`atomType`/`theory` only and had no quiz; `theory` copied
+byte-for-byte and **re-verified by the orchestrator against `git show HEAD:`** (`JSON.stringify`
+equal, `atomType` unchanged, `practice` the only added key). Quizzes created fresh.
+
+**NEW FINDING — the STAGE 3 rule's assumption fails for a widened atom, and it is left for the
+owner.** Both stage-3 skills in this batch have frozen `theory` that teaches **less than their
+Stage-4 role**, in exactly the same shape as the stale blurbs above:
+- `classify-triangles` — `theory` covers only the **side** axis (equilateral/isosceles/scalene). Its
+  dot point `dp-s4-geo-1` and blurb also own the **angle** axis (acute/right/obtuse), so roughly half
+  the practice set has no theory behind it.
+- `classify-quadrilaterals` — `theory` names **four** shapes; the content now teaches six.
+Both agents correctly copied rather than extended, per the rule. The rule assumes the stage-3 theory
+is complete for the atom, which holds only where the Stage-4 dot point did not widen it. A carve-out
+(or a one-off theory extension for these two) needs an owner ruling. **The other eight dual-role
+stage-3 skills should be audited for the same thing.**
+
+**Gate bug found and fixed mid-batch (`bd8f4a1`).** Agent C reported that
+`scripts/lib/tikz-blocks.mjs` `parseFigure` never tokenised a bare `-- cycle` — `TOKEN_RE` only
+captured a point inside parentheses, so the `cycle` branch was unreachable for the standard TikZ
+spelling, and `(cycle)` (invalid TikZ) appears **zero** times in the corpus against **387** bare
+occurrences across 22 skills. The closing edge of every closed polygon was therefore dropped: angle-arms
+read one arm short at each polygon's first vertex, and figure-scale left the closing edge's label
+unmatched, which can drop a figure below its 3-matched-label floor and skip it **silently**. Fixed and
+pinned by a new fixture + test. Coverage widened corpus-wide: **angle-arms ~80 → 171 labelled angles
+checked; figure-scale 274 → 345 figures, 1230 → 1472 matched labels.** Both still clean, so the
+widening exposed no new defects — but batch 13's "clean controls" over `t-s4-are` and `t-s4-len` were
+measured through this blind spot and the re-run at full coverage is what actually clears them. The one
+surviving suspect repo-wide is the known, already-documented `equations-from-formulas` trapezium
+height (batch 10, unrepaired by prior decision).
+
+**Packaging defect in batch 13's commit, fixed here.** `80e562c` shipped `audit-figure-scale.mjs` and
+`audit-angle-arms.mjs` but **not** `scripts/lib/tikz-blocks.mjs`, which both import — the file was
+untracked, so from a clean checkout both gate scripts crashed. Now tracked; all script imports
+verified against `git ls-files`.
+
+**Deterministic gate clean batch-wide on the first run** (253 items / 78 quiz questions / 307 options /
+186 `[tikz]` figures): validate 0 warnings, equivalent-options 0 defects and 0 intended key-equal (9%
+canonicalised), duplicate-stems 0 across all four classes **including 0 near-dup advisories**,
+option-hygiene 0 leaked keys / 0 vague `why`s, figure-scale 0 suspects, angle-arms 0 over 142 checked
+angles. Generators cleared it on their own skills first; agents D and E additionally ran cross-skill
+duplicate-stems against their prereq siblings (108 and 225 items, 0 duplicates).
+
+**Blind check — luna, one packet per skill, `figures-first`. All 9 OK, zero retries. 106/106 items
+re-solved, coverage complete on every skill, ONE answer mismatch and 8 flags. 6 of 8 flags valid — a
+majority-VALID round, so the repairs were applied AND a targeted re-check was run** (unlike batches
+10–13, which all stopped on the majority-invalid rule).
+
+- **Answer mismatch — `exterior-angle-triangle` q4. Adjudicated: checker slip, content correct.**
+  Verified numerically: $|AC|=|BC|=3.092$ (genuinely equal as marked), $A$/$C$/$D$ collinear so the
+  side is truly produced, and the exterior angle at $C$ measures $95.98^{\circ}$. So $96=x+x$,
+  $x=48^{\circ}$. Luna chose $42^{\circ}$ — the item's own modelled "halved $180-96$ instead of the
+  exterior angle" distractor.
+
+INVALID (recorded so they are not re-raised) — both are luna testing reachability **against the
+correct method** rather than against the named slip:
+- **`angle-sum-triangle` q6, distractor $100$.** Derives exactly from using $360^{\circ}$ as a
+  triangle's angle sum: $3x+60=360 \Rightarrow x=100$. A live confusion in a batch that also teaches
+  the quadrilateral sum. Luna's own wording gives it away — "does not correspond to a plausible
+  calculation from $x+(2x+9)+51=180$", i.e. it assumed the correct sum.
+- **`angle-sum-triangle` q9, distractor $12^{\circ}$.** Derives from the stated sign slip:
+  $5x+20=180 \Rightarrow x=32$, giving angles $32/96/12$, smallest $12$.
+
+VALID — all five repaired, then re-checked:
+1. **`angle-sum-triangle` q4, distractor $113^{\circ}$ → $112^{\circ}$.** The stated slip ("treated
+   $34^{\circ}$ as one of the two equal base angles") yields $180-34-34=112$, not $113$ — off by one,
+   so no student reached that option. Misconception → derivation → value now stated in the `why`.
+   ($113$ is legitimate in **q1** of the same quiz, where it is $180-67$; only q4's was wrong.)
+2. **`quadrilateral-properties` q1 — figure under-determined its own key.** The key asserts "**each**
+   diagonal bisects the two vertex angles it passes through", but only diagonal $AC$'s four halves
+   were marked, leaving distractor "only one of the diagonals bisects a vertex angle" defensible from
+   the drawing. Added the four $b^{\circ}$ marks at $B$ and $D$ (bisector-direction placement at
+   radius $0.85$) and split the stem into $a^{\circ}$/$b^{\circ}$ groups — the two families must be
+   distinct letters because $\angle A=58^{\circ}$ and $\angle B=122^{\circ}$, so the halves are
+   $29^{\circ}$ and $61^{\circ}$ ($a+b=90$, verified). No option value or key changed.
+3. **`convex-nonconvex` q4 — the key was mathematically false and the figure had been drawn to hide
+   it.** The dashed "diagonal" ran $(0,0)$ to $(4.1,1.783)$, which is $AC$ **extended** past $C$ by a
+   factor of $1.783$; the diagonal *segments* intersect at $t=1.783>1$, i.e. they do not meet at all.
+   So "the diagonals meet outside it" is wrong under the standard segment definition. Redrew the
+   diagonal to stop at $C$ and re-keyed to the honest test, "one of the diagonals lies outside it" —
+   verified by ray-casting that the midpoint of $BD$, $(3.3,2.3)$, is outside the quadrilateral. The
+   stale "crossing point" `why` on the convex distractor was reworded to match.
+4. **`convex-nonconvex` q6 — two defensible answers.** The distractor "convex, because its opposite
+   sides are equal" is a *sound* argument: for a simple quadrilateral both pairs of opposite sides
+   equal $\Rightarrow$ parallelogram $\Rightarrow$ convex. Replaced with "convex, because all four of
+   its sides are straight", whose reason genuinely fails (every quadrilateral has straight sides,
+   dented ones included) — a named misconception rather than a second correct answer.
+5. **`angle-sum-quadrilateral` q2 — duplicated q1.** Same `find-fourth-angle` slug, same "Find the
+   value of $x$" stem, same task, only the numbers differing. **Deleted** rather than re-cut (batch
+   11's `pi-definition` q2 precedent): every structural type retains $\geq 1$ MCQ, both mastery items
+   survive, and the quiz lands at 8, above the warn floor. A replacement would have minted four fresh
+   option values for zero coverage gain.
+
+**Targeted re-check of the four edited items** (`blind-for-check.mjs --items` on
+`quadrilateral-properties` q1, `convex-nonconvex` q4+q6, `angle-sum-triangle` q4, then a fresh luna
+call): **4/4 agree, 0 flags.** Full deterministic gate re-run after every edit, clean.
+
+**Scope lines held.** Agent C's three atoms each apply **one** property once; agent E's composite
+skill chains two or more, and it named the properties each of its eight foundation cards combines to
+prove no card collapses into a sibling. `classify-triangles` computes no missing angle;
+`classify-quadrilaterals` draws no diagonal; `quadrilateral-properties` owns every diagonal property;
+`convex-nonconvex` is the single convexity judgement; `quadrilateral-hierarchy` draws **zero**
+diagonals in any of its 13 figures and never runs a plain name-this-shape drill. Excluded throughout:
+congruence, similarity, the polygon angle-sum formula $(n-2)\times180^{\circ}$, Pythagoras,
+trigonometry, circle theorems, coordinate geometry, area and perimeter.
+
+**Booklet errata found (17 across the three booklets, none reproduced).** Answer-key and reasoning
+errors: `PGF1`'s summary flowchart PNG defines an acute-angled triangle as "all angles acute
+($<60^{\circ}$)" — should be $<90^{\circ}$ (the prose table is right); `PGF2`'s property table is
+**column-corrupted** in extraction, giving Rectangle "adjacent sides equal: Y" and Rhombus "adjacent
+sides perpendicular: Y", both false and evidently swapped; `PGF2` Mastery Q10's proof concludes
+$\angle BCE$ where $\angle EBC$ belongs and asserts $BC=AD=BE$ without justifying $AD=BE$; `PGF3`
+§Angle Sum of a Triangle Q5 prints the garbled working $a=74+74=180^{\circ}$, $a=2^{\circ}$ (the
+answer $2^{\circ}$ is right); `PGF3` §Angle Sum of a Quadrilateral Mastery Q15 says co-interior angles
+are "equal" where *supplementary* is meant (the arithmetic that follows is correct); `PGF3` Mixed
+Practice Q13 argues its justification backwards (assumes the parallelogram, then verifies), so M3 uses
+the direct form. Structural/extraction damage: `PGF2` Foundation Q1's per-cell answers are scrambled
+relative to their image panels (right answer set, wrong mapping); `PGF2`'s §Hierarchy diagram PNG is
+truncated mid-arrow with the rhombus/rectangle/square boxes cut off, so agent D authored from the
+complete §Summary image; `PGF2` §Diagonals' worked example has no figures for parts a–e and g–i;
+`PGF3` §CYU Q5≡Q7 and Q6≡Q8 are byte-identical duplicates with **no answer key printed** for that
+section; `PGF3` Mixed Practice Q7/Q17/Q18 print figures with no answers. The rest are wording slips
+("why every angle **is** an equilateral triangle", "trangle", "quadrilaterial" ×2, "angle sum of
+straight line", a stray escaped `$` in an answer field, `PGF3` Q3a/b mixing pronumeral values and
+angle sizes indistinguishably, and duplicated item letters).
+
+**Owner ruling MADE — trapezium is INCLUSIVE.** Recorded as a house convention in
+[content-generation.md](content-generation.md) ("House mathematical conventions"), which overrides
+the booklet for all future batches: a trapezium has **at least** one pair of parallel sides, so every
+parallelogram is a trapezium. Two definitional statements contradicted it and were repaired — quiz
+`classify-quadrilaterals` q6, whose key read "**Exactly** one pair of opposite sides is parallel"
+(false under inclusive, since a parallelogram is a trapezium with two pairs) → "**At least** one
+pair", with the "both pairs" distractor's `why` reworded to keep its misconception live; and, outside
+this batch, `area-trapezium`'s `theory` fact (batch 12, committed) which asserted "exactly one pair".
+Everything else that reads "only one pair" is *describing a specific figure* rather than defining the
+class, which stays correct under inclusive. The original finding follows.
+
+**The contradiction, for the record.** `PGF2`'s summary and
+hierarchy diagrams define a trapezium as "**at least** one pair of parallel sides" and derive
+parallelogram *from* trapezium (the **inclusive** convention, under which every parallelogram is a
+trapezium), but Foundation Q1's answer key gives the rectangle panel as "quadrilateral, parallelogram,
+rectangle", omitting trapezium (the **exclusive** convention). Both readings are defensible in NSW
+Stage 4 and nothing shipped is wrong either way, because agent D **never tests the
+parallelogram/rectangle/square ↔ trapezium relationship** and lets "trapezium" appear in a candidate
+list only where its verdict is uncontested. The question is deferred, not resolved: the next batch
+touching quadrilaterals will hit it again.
+
+**Taxonomy gaps found (4, none a batch defect).**
+- **Constructing a figure from a description** — `PGF1` Foundation Q4 ("draw $\triangle ABC$ isosceles
+  with $AB=BC$…") and `PGF2` Foundation Q6 ("sketch a trapezium $ABCD$ with $\angle ABC$ acute"). A
+  *drawing* routine, not a classification one; no skill owns it. Both agents covered the reasoning in
+  a non-drawing form instead.
+- **Reflection / fold symmetry** — `PGF3` Mixed Practice Q6 ("Juna folds rectangular strips of paper")
+  needs the fold to map one angle onto another. No skill in `t-s4-geo` teaches it and no prereq
+  supplies it; left unauthored rather than smuggling in an untaught property.
+- **The isosceles trapezium** — agent D **refuted** the gap for `PGF2` (the term appears nowhere in
+  that booklet) and **confirmed** it for `PGF3` Q6, which asserts "adjacent angles in isosceles
+  trapeziums are equal" and then asks for angle values. No atom teaches the isosceles trapezium or
+  that base-angle property. (The booklet states it loosely too: it is the base angles at each end of a
+  *parallel* side that are equal, not any adjacent pair — agent E's D3 uses the precise wording.)
+- **Rhombus side from its two diagonals** (`PGF2` Q11/Q12) sits between `quadrilateral-properties` and
+  Pythagoras, owned by neither.
+
+**One judgement call flagged for review.** Agent E kept two general-pronumeral proofs
+(`unknown-sides-angles-figures` M2 and q9) that sit on the seam with the Stage-5 dependent
+`angle-properties-plane-shapes`. Its reasoning is that they chain only in-scope triangle/quadrilateral
+properties; it notes a reviewer may prefer them one level up.
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review: ALL 9 carry
+inline `[tikz]`, 185 blocks total** (133 content + 52 quiz): `unknown-sides-angles-figures` (28/10),
+`classify-triangles` (21/7), `exterior-angle-triangle` (15/8), `angle-sum-quadrilateral` (14/6),
+`angle-sum-triangle` (13/7), `convex-nonconvex` (12/5), `classify-quadrilaterals` (11/3),
+`quadrilateral-hierarchy` (10/3), `quadrilateral-properties` (9/3); eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s4-geo`. Agents C and E generated every figure from its
+stated angles with a coordinate solver (triangle from two angles; quadrilateral by closing an
+exterior-turn walk) and asserted the drawn sweep equals the stated value at each labelled vertex, so
+the arithmetic risk is low and the residual risk is **rendered layout**. Highest-risk first: (1) the
+**three repaired figures** — `quadrilateral-properties` q1's four new $b^{\circ}$ labels (placed on
+computed bisectors at radius $0.85$, never yet seen rendered, and the likeliest collision in the
+batch) and `convex-nonconvex` q4's shortened diagonal; (2) the **reflex-angle figures**
+(`convex-nonconvex`, `angle-sum-quadrilateral` reflex cases, agent E's $900^{\circ}$/$1080^{\circ}$
+mastery items) — a reflex arc drawn on the wrong side contradicts its answer; (3) agent E's
+**composite chains** (38 blocks, the densest file) where several marked properties share one figure;
+(4) the **exterior-angle figures** — the side must read as genuinely *produced*; (5) the
+**tick-mark/arrow-heavy quadrilaterals** in agent B's three skills, where equal-side and parallel
+marks must stay legible at `scale=0.75`–`0.8`.
+
+**Not committed** — left to the human, with the 185-block diagram checklist outstanding.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 

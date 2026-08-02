@@ -13,5 +13,105 @@
       "Count how many sides are equal.",
       "Three equal $\\Rightarrow$ equilateral; two equal $\\Rightarrow$ isosceles; none equal $\\Rightarrow$ scalene."
     ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Classify $\\Delta ABC$ according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (2,3);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The single ticks show $AB=AC$.\nExactly two sides are equal.\n$\\Delta ABC$ is isosceles."
+      },
+      {
+        "question_text": "Classify $\\Delta DEF$ according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (4,0);\n\\coordinate (F) at (2,3.4641);\n\\draw[tickmark] (D) -- (E);\n\\draw[tickmark] (E) -- (F);\n\\draw[tickmark] (F) -- (D);\n\\node[below left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\node[above] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The single ticks show $DE=EF=FD$.\nAll three sides are equal.\n$\\Delta DEF$ is equilateral."
+      },
+      {
+        "question_text": "Classify this triangle according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (C) at (2.9167,1.9347);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$9\\text{ cm}$};\n\\draw (B) -- (C) node[midway,right,font=\\small] {$5\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left,font=\\small] {$7\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The three side lengths are $5\\text{ cm}$, $7\\text{ cm}$ and $9\\text{ cm}$.\nNo two of them are equal.\nThe triangle is scalene."
+      },
+      {
+        "question_text": "Classify this triangle according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.4,0);\n\\coordinate (C) at (2.2,2.3238);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$11\\text{ cm}$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$8\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left,font=\\small] {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The two slant sides are both $8\\text{ cm}$, and the base is $11\\text{ cm}$.\nExactly two sides are equal.\nThe triangle is isosceles."
+      },
+      {
+        "question_text": "Classify this triangle according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (2.2225,2.845);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$52^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=C--B--A};\n\\pic[draw,\"$58^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=A--C--B};\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.9] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The largest angle is $70^{\\circ}$.\n$70^{\\circ}<90^{\\circ}$, so every angle is less than $90^{\\circ}$.\nThe triangle is acute-angled."
+      },
+      {
+        "question_text": "Classify this triangle according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.6,0);\n\\coordinate (A) at (2.7543,1.7212);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$32^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.6] {angle=C--B--A};\n\\pic[draw,\"$43^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=A--C--B};\n\\pic[draw,\"$105^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.3] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The largest angle is $105^{\\circ}$.\n$105^{\\circ}>90^{\\circ}$, so one angle is obtuse.\nThe triangle is obtuse-angled."
+      },
+      {
+        "question_text": "Classify $\\Delta PQR$ according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (Q) at (0,0);\n\\coordinate (R) at (3.4,0);\n\\coordinate (P) at (0,2.6);\n\\draw (Q) -- (R) -- (P) -- cycle;\n\\coordinate (qa) at ($(Q)!0.3cm!(R)$);\n\\coordinate (qb) at ($(Q)!0.3cm!(P)$);\n\\draw (qa) -- ($(qa)+(qb)-(Q)$) -- (qb);\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The small square at $Q$ marks an angle of $90^{\\circ}$.\n$\\Delta PQR$ is right-angled."
+      },
+      {
+        "question_text": "Name this triangle using its three vertices, starting at $X$ and reading clockwise.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (X) at (0.4,2.8);\n\\coordinate (Y) at (3.6,0.8);\n\\coordinate (Z) at (0,0);\n\\draw (X) -- (Y) -- (Z) -- cycle;\n\\node[above left] at (X) {$X$};\n\\node[right] at (Y) {$Y$};\n\\node[below left] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Reading clockwise from $X$, the vertices are $X$, then $Y$, then $Z$.\nThe triangle is $\\Delta XYZ$."
+      },
+      {
+        "question_text": "A triangle has no two sides of equal length. Name this type of triangle.",
+        "solution_text": "None of the three sides are equal.\nThe triangle is scalene."
+      },
+      {
+        "question_text": "A triangle has an angle of $91^{\\circ}$. Classify the triangle according to its angle properties.",
+        "solution_text": "$91^{\\circ}>90^{\\circ}$, so one angle is obtuse.\nThe triangle is obtuse-angled."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Classify this triangle according to **both** its side and its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (2,2.6);\n\\coordinate (B) at (0,0.6);\n\\coordinate (C) at (4,0.6);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\coordinate (aa) at ($(A)!0.32cm!(B)$);\n\\coordinate (ab) at ($(A)!0.32cm!(C)$);\n\\draw (aa) -- ($(aa)+(ab)-(A)$) -- (ab);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The single ticks show $AB=AC$, so exactly two sides are equal.\nThe square at $A$ marks an angle of $90^{\\circ}$.\nThe triangle is isosceles and right-angled."
+      },
+      {
+        "question_text": "Classify this triangle according to **both** its side and its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (5,0);\n\\coordinate (A) at (2.5,1.1657);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\pic[draw,\"$130^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.6] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The single ticks show two equal sides.\nThe apex angle is $130^{\\circ}$, and $130^{\\circ}>90^{\\circ}$.\nThe triangle is isosceles and obtuse-angled."
+      },
+      {
+        "question_text": "Classify this triangle according to **both** its side and its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.2,0);\n\\coordinate (A) at (2.0154,3.6358);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$61^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.8] {angle=C--B--A};\n\\pic[draw,\"$59^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.8] {angle=A--C--B};\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The three angles $59^{\\circ}$, $60^{\\circ}$ and $61^{\\circ}$ are all different, so the three sides are all different.\nThe largest angle is $61^{\\circ}$, and $61^{\\circ}<90^{\\circ}$.\nThe triangle is scalene and acute-angled."
+      },
+      {
+        "question_text": "Classify this triangle according to **both** its side and its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (0,3);\n\\draw (B) -- (C) node[midway,below,font=\\small] {$4\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above right,font=\\small] {$5\\text{ cm}$};\n\\draw (A) -- (B) node[midway,left,font=\\small] {$3\\text{ cm}$};\n\\coordinate (ba) at ($(B)!0.3cm!(C)$);\n\\coordinate (bb) at ($(B)!0.3cm!(A)$);\n\\draw (ba) -- ($(ba)+(bb)-(B)$) -- (bb);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The side lengths $3\\text{ cm}$, $4\\text{ cm}$ and $5\\text{ cm}$ are all different.\nThe square marks an angle of $90^{\\circ}$.\nThe triangle is scalene and right-angled."
+      },
+      {
+        "question_text": "Name the two equal sides of $\\Delta PQR$ using vertex letters, then classify $\\Delta PQR$ according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (Q) at (0,0);\n\\coordinate (R) at (4,0);\n\\coordinate (P) at (2,2.9);\n\\draw[tickmark] (P) -- (Q);\n\\draw[tickmark] (P) -- (R);\n\\draw (Q) -- (R);\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The single ticks sit on the side joining $P$ to $Q$ and the side joining $P$ to $R$.\n$PQ=PR$, and the third side $QR$ is different.\nExactly two sides are equal, so $\\Delta PQR$ is isosceles."
+      },
+      {
+        "question_text": "In $\\Delta XYZ$, $\\angle ZXY=\\angle ZYX=a$. Name the two equal sides using vertex letters, then classify $\\Delta XYZ$ according to its side properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (4,0);\n\\coordinate (Z) at (2,2.4);\n\\draw (X) -- (Y) -- (Z) -- cycle;\n\\pic[draw,\"$a$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=Y--X--Z};\n\\pic[draw,\"$a$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=Z--Y--X};\n\\node[below left] at (X) {$X$};\n\\node[below right] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (4,0);\n\\coordinate (Z) at (2,2.4);\n\\draw[tickmark] (Z) -- (X);\n\\draw[tickmark] (Z) -- (Y);\n\\draw (X) -- (Y);\n\\pic[draw,\"$a$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=Y--X--Z};\n\\pic[draw,\"$a$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=Z--Y--X};\n\\node[below left] at (X) {$X$};\n\\node[below right] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]\nIn a triangle, equal angles sit opposite equal sides.\n$\\angle ZXY$ is opposite $YZ$ and $\\angle ZYX$ is opposite $XZ$.\n$XZ=YZ$, so $\\Delta XYZ$ is isosceles."
+      },
+      {
+        "question_text": "Jai labels this triangle **obtuse isosceles**. Decide whether Jai is correct, and give the correct classification if he is not.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (0.9359,2.5709);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=C--B--A};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.6] {angle=A--C--B};\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (0.9359,2.5709);\n\\draw[tickmark] (B) -- (C);\n\\draw[tickmark] (C) -- (A);\n\\draw (A) -- (B);\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=C--B--A};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.6] {angle=A--C--B};\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]\nTwo angles are $70^{\\circ}$, so the two sides opposite them are equal and the triangle is isosceles.\nThe largest angle is $70^{\\circ}$, and $70^{\\circ}<90^{\\circ}$, so no angle is obtuse.\nJai is wrong: the triangle is acute isosceles."
+      },
+      {
+        "question_text": "Sara labels this triangle **equilateral**. Decide whether Sara is correct, and give the correct classification of its sides if she is not.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.05,0);\n\\coordinate (C) at (2.025,1.7859);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$9\\text{ cm}$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$6\\text{ cm}$};\n\\draw (C) -- (A) node[midway,above left,font=\\small] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "An equilateral triangle has all three sides equal.\nHere two sides are $6\\text{ cm}$, but the third is $9\\text{ cm}$.\nSara is wrong: exactly two sides are equal, so the triangle is isosceles."
+      },
+      {
+        "question_text": "Classify each triangle below according to its angle properties.\n[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.4,0);\n\\coordinate (A) at (1.3464,1.7233);\n\\draw (B) -- (C) -- (A) -- cycle;\n\\pic[draw,\"$52^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.9] {angle=C--B--A};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.8] {angle=A--C--B};\n\\pic[draw,\"$88^{\\circ}$\",angle radius=0.4cm,angle eccentricity=2.4] {angle=B--A--C};\n\\node at (1.7,-0.8) {Triangle $1$};\n\\coordinate (E) at (4.8,0);\n\\coordinate (F) at (8.2,0);\n\\coordinate (G) at (6.0583,1.4996);\n\\draw (E) -- (F) -- (G) -- cycle;\n\\pic[draw,\"$50^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.9] {angle=F--E--G};\n\\pic[draw,\"$35^{\\circ}$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=G--F--E};\n\\pic[draw,\"$95^{\\circ}$\",angle radius=0.4cm,angle eccentricity=2.4] {angle=E--G--F};\n\\node at (6.5,-0.8) {Triangle $2$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Triangle $1$: the largest angle is $88^{\\circ}$, and $88^{\\circ}<90^{\\circ}$, so it is acute-angled.\nTriangle $2$: the largest angle is $95^{\\circ}$, and $95^{\\circ}>90^{\\circ}$, so it is obtuse-angled."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "In $\\Delta DEF$, $DE=EF$ and $\\angle DEF=90^{\\circ}$. Classify $\\Delta DEF$ by its sides and by its angles, and name the two equal angles using vertex letters.",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (E) at (0,0);\n\\coordinate (F) at (2.6,0);\n\\coordinate (D) at (0,2.6);\n\\draw[tickmark] (E) -- (F);\n\\draw[tickmark] (D) -- (E);\n\\draw (F) -- (D);\n\\coordinate (ea) at ($(E)!0.3cm!(F)$);\n\\coordinate (eb) at ($(E)!0.3cm!(D)$);\n\\draw (ea) -- ($(ea)+(eb)-(E)$) -- (eb);\n\\node[above] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\n$DE=EF$, so exactly two sides are equal and $\\Delta DEF$ is isosceles.\n$\\angle DEF=90^{\\circ}$, so $\\Delta DEF$ is right-angled.\nEqual sides sit opposite equal angles: $DE$ is opposite $\\angle DFE$ and $EF$ is opposite $\\angle EDF$.\n$\\Delta DEF$ is isosceles and right-angled, with $\\angle EDF=\\angle DFE$."
+      },
+      {
+        "question_text": "A triangle has angles $45^{\\circ}$, $45^{\\circ}$ and $90^{\\circ}$. Tom says it must be right-angled. Katie says it must be isosceles. Decide whether each student is correct, and explain why.",
+        "solution_text": "One angle is $90^{\\circ}$, so the triangle is right-angled and Tom is correct.\nTwo angles are equal, so the two sides opposite them are equal and the triangle is isosceles, so Katie is correct.\nSide names and angle names describe two separate properties, so both students are correct."
+      },
+      {
+        "question_text": "The table below sorts triangles by their side property and their angle property.\n$\\begin{array}{l|c|c|c} & \\text{Isosceles} & \\text{Equilateral} & \\text{Scalene} \\\\ \\hline \\text{Acute} & & & \\\\ \\hline \\text{Right} & & & \\\\ \\hline \\text{Obtuse} & & & \\end{array}$\nTwo cells of the table can never be filled. Name them and explain why.",
+        "solution_text": "Every angle of an equilateral triangle is $60^{\\circ}$.\n$60^{\\circ}<90^{\\circ}$, so an equilateral triangle can never contain a right angle or an obtuse angle.\nThe two cells that can never be filled are equilateral–right and equilateral–obtuse."
+      },
+      {
+        "question_text": "Anika claims that every isosceles triangle is acute-angled. Give a labelled triangle that shows her claim is false, and state its full classification.",
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (5,0);\n\\coordinate (A) at (2.5,1.4434);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (C);\n\\draw (B) -- (C);\n\\pic[draw,\"$30^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=C--B--A};\n\\pic[draw,\"$30^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=A--C--B};\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.6] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]\nTake a triangle with angles $120^{\\circ}$, $30^{\\circ}$ and $30^{\\circ}$.\nTwo angles are equal, so the two sides opposite them are equal and the triangle is isosceles.\n$120^{\\circ}>90^{\\circ}$, so the triangle is obtuse-angled, not acute-angled.\nThis obtuse isosceles triangle shows Anika's claim is false."
+      }
+    ]
   }
 }

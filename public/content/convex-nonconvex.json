@@ -1,0 +1,92 @@
+{
+  "skillId": "convex-nonconvex",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "A quadrilateral is **convex** when all four of its interior angles are less than $180^{\\circ}$. If one interior angle is reflex — bigger than $180^{\\circ}$ — the quadrilateral is **non-convex** (also called concave) and has a dent in its outline.",
+    "facts": [
+      "**Convex**: every interior angle is less than $180^{\\circ}$.",
+      "**Non-convex**: at least one interior angle is reflex, so a vertex points back into the shape.",
+      "Diagonal test: in a convex quadrilateral both diagonals lie inside the shape and meet inside it.",
+      "In a non-convex quadrilateral one diagonal lies outside the shape, so the two diagonals do not cross inside it.",
+      "A square, a rectangle, a rhombus and a parallelogram are all convex."
+    ],
+    "steps": [
+      "Look around the outline for a vertex that points back into the shape — a dent.",
+      "Check the interior angle at that vertex: is it more than $180^{\\circ}$?",
+      "One reflex interior angle makes it non-convex; if every interior angle is less than $180^{\\circ}$ it is convex."
+    ]
+  },
+  "practice": {
+    "coverageNote": "Single yes/no recognition atom: the only in-skill depth is combining the reflex-angle test with the diagonal test, which supports two mastery cards without repeating the same judgement.",
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0)--(3.6,0.4);\n\\draw (3.6,0.4)--(4.2,2.6);\n\\draw (4.2,2.6)--(0.9,2.9);\n\\draw (0.9,2.9)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nIs this quadrilateral convex or non-convex?",
+        "solution_text": "Every vertex points outwards, so no interior angle is reflex.\nConvex"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,2.6)--(4.2,1.3);\n\\draw (4.2,1.3)--(0,0);\n\\draw (0,0)--(1.5,1.3);\n\\draw (1.5,1.3)--(0,2.6);\n\\end{tikzpicture}\n[/tikz]\nIs this quadrilateral convex or non-convex?",
+        "solution_text": "One vertex points back into the shape, so the interior angle there is bigger than $180^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,2.6)--(4.2,1.3);\n\\draw (4.2,1.3)--(0,0);\n\\draw (0,0)--(1.5,1.3);\n\\draw (1.5,1.3)--(0,2.6);\n\\draw (1.122,0.973) arc[start angle=-139.086,end angle=139.086,radius=0.5];\n\\node at (2.45,1.3) {$>180^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nNon-convex"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0)--(2.2,-0.3);\n\\draw (2.2,-0.3)--(4.4,0.4);\n\\draw (4.4,0.4)--(2.2,2.4);\n\\draw (2.2,2.4)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nIs this quadrilateral convex or non-convex?",
+        "solution_text": "The angle at the lower-right vertex is close to a straight angle, but it is still less than $180^{\\circ}$, and so is every other angle.\nConvex"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw (0,0)--(3,2.2);\n\\draw (3,2.2)--(3.4,1);\n\\draw (3.4,1)--(6.4,1.4);\n\\draw (6.4,1.4)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nIs this quadrilateral convex or non-convex?",
+        "solution_text": "The outline turns inwards at the middle vertex, giving a reflex interior angle there.\nNon-convex"
+      },
+      {
+        "question_text": "The four interior angles of a quadrilateral are $105^{\\circ}$, $80^{\\circ}$, $95^{\\circ}$ and $80^{\\circ}$. Is it convex or non-convex?",
+        "solution_text": "The largest angle is $105^{\\circ}$, which is less than $180^{\\circ}$, so no angle is reflex.\nConvex"
+      },
+      {
+        "question_text": "The four interior angles of a quadrilateral are $40^{\\circ}$, $215^{\\circ}$, $60^{\\circ}$ and $45^{\\circ}$. Is it convex or non-convex?",
+        "solution_text": "$215^{\\circ}$ is bigger than $180^{\\circ}$, so that angle is reflex.\nNon-convex"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0)--(2,3.2);\n\\draw (2,3.2)--(4,0);\n\\draw (4,0)--(2,1.2);\n\\draw (2,1.2)--(0,0);\n\\node[below left] at (0,0) {$A$};\n\\node[above] at (2,3.2) {$B$};\n\\node[below right] at (4,0) {$C$};\n\\node[below] at (2,1.2) {$D$};\n\\end{tikzpicture}\n[/tikz]\nAt which vertex of this quadrilateral is the interior angle reflex?",
+        "solution_text": "The outline turns back on itself at only one vertex, and the interior angle there opens upwards, past a straight angle.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0)--(2,3.2);\n\\draw (2,3.2)--(4,0);\n\\draw (4,0)--(2,1.2);\n\\draw (2,1.2)--(0,0);\n\\node[below left] at (0,0) {$A$};\n\\node[above] at (2,3.2) {$B$};\n\\node[below right] at (4,0) {$C$};\n\\node[below] at (2,1.2) {$D$};\n\\draw (2.429,0.943) arc[start angle=-30.964,end angle=210.964,radius=0.5];\n\\node at (2,2.15) {$>180^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nThe interior angle at $D$ is reflex."
+      },
+      {
+        "question_text": "Is a rectangle convex or non-convex? Explain your answer.",
+        "solution_text": "Every interior angle of a rectangle is $90^{\\circ}$.\n$90^{\\circ}$ is less than $180^{\\circ}$, so no angle is reflex.\nConvex"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0.6)--(3.2,0);\n\\draw (3.2,0)--(4,2.2);\n\\draw (4,2.2)--(1.2,3);\n\\draw (1.2,3)--(0,0.6);\n\\draw[dashed] (0,0.6)--(4,2.2);\n\\draw[dashed] (3.2,0)--(1.2,3);\n\\end{tikzpicture}\n[/tikz]\nBoth diagonals of this quadrilateral have been drawn. Use them to decide whether it is convex or non-convex, and give the reason.",
+        "solution_text": "Each dashed diagonal stays inside the outline, and the two diagonals cross inside the shape.\nConvex, because the diagonals meet inside the quadrilateral."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,2.6)--(4.2,1.3);\n\\draw (4.2,1.3)--(0,0);\n\\draw (0,0)--(1.5,1.3);\n\\draw (1.5,1.3)--(0,2.6);\n\\draw[dashed] (0,2.6)--(0,0);\n\\draw[dashed] (0,1.3)--(4.2,1.3);\n\\end{tikzpicture}\n[/tikz]\nBoth diagonals of this quadrilateral have been drawn. Use them to decide whether it is convex or non-convex, and give the reason.",
+        "solution_text": "One diagonal runs outside the outline, and the two diagonals only meet once one of them is followed outside the shape.\nNon-convex, because one of the diagonals lies outside the quadrilateral."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw (0,0)--(1.4,2.6);\n\\draw (1.4,2.6)--(2.8,1.3);\n\\draw (2.8,1.3)--(5,1.9);\n\\draw (5,1.9)--(0,0);\n\\end{tikzpicture}\n[/tikz]\nIs this quadrilateral convex or non-convex?",
+        "solution_text": "The shape is long and thin, but the outline still turns back on itself at the middle vertex.\nThe interior angle there is bigger than $180^{\\circ}$.\nNon-convex"
+      },
+      {
+        "question_text": "The four interior angles of a quadrilateral are $30^{\\circ}$, $255^{\\circ}$, $40^{\\circ}$ and $35^{\\circ}$. Is it convex or non-convex?",
+        "solution_text": "Three of the angles are small, but $255^{\\circ}$ is bigger than $180^{\\circ}$.\nOne reflex interior angle is enough.\nNon-convex"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,1)--(2.6,3.4);\n\\draw (2.6,3.4)--(2.2,1.6);\n\\draw (2.2,1.6)--(5,0.2);\n\\draw (5,0.2)--(0,1);\n\\node[left] at (0,1) {$E$};\n\\node[above] at (2.6,3.4) {$F$};\n\\node[above right] at (2.2,1.6) {$G$};\n\\node[right] at (5,0.2) {$H$};\n\\end{tikzpicture}\n[/tikz]\nName the vertex of $EFGH$ where the interior angle is reflex, and explain how you can tell.",
+        "solution_text": "At $E$, $F$ and $H$ the outline turns outwards, so those interior angles are less than $180^{\\circ}$.\nAt $G$ the outline turns back into the shape, so the interior angle opens past a straight angle.\nThe interior angle at $G$ is reflex."
+      },
+      {
+        "question_text": "Explain why a square, a rectangle and a parallelogram are all convex.",
+        "solution_text": "Every angle of a square and of a rectangle is $90^{\\circ}$.\nThe angles of a parallelogram come in two equal pairs, and each of them is less than $180^{\\circ}$.\nNone of these shapes has a reflex interior angle, so all three are convex."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Both diagonals of quadrilateral $WXYZ$ lie inside the shape. What does this tell you about the interior angles of $WXYZ$?",
+        "solution_text": "A diagonal only leaves the shape when a vertex points back inwards.\nBoth diagonals staying inside means no vertex points inwards.\nEvery interior angle of $WXYZ$ is less than $180^{\\circ}$, so $WXYZ$ is convex."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\draw (0,3)--(2.4,0);\n\\draw (2.4,0)--(4.8,3);\n\\draw (4.8,3)--(2.4,1.6);\n\\draw (2.4,1.6)--(0,3);\n\\draw[dashed] (2.4,0)--(2.4,1.6);\n\\node[above left] at (0,3) {$A$};\n\\node[below] at (2.4,0) {$B$};\n\\node[above right] at (4.8,3) {$C$};\n\\node[above] at (2.4,1.6) {$D$};\n\\end{tikzpicture}\n[/tikz]\nRavi draws one diagonal of quadrilateral $ABCD$, sees that it lies inside the shape, and says that $ABCD$ is therefore convex. Use the figure to explain why he is wrong.",
+        "solution_text": "The diagonal Ravi drew, $BD$, does lie inside the shape, but one diagonal inside is not the test.\nThe other diagonal, $AC$, runs above $D$ and lies outside the shape.\nThe interior angle at $D$ is reflex, so $ABCD$ is non-convex."
+      }
+    ]
+  }
+}
