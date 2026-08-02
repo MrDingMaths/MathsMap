@@ -1091,7 +1091,9 @@ sphere or a disc, and that the radius/height labels clear the curve; (4) `conver
 for a dashed-vertex error; (5) the **unknown-dimension arrows** in `find-dimension-from-volume`,
 which must show a variable and never the value.
 
-**Not committed** — left to the human, with the 178-block diagram checklist outstanding.
+**Committed as `80e562c`** (batch 13, together with the two promoted gate scripts, the
+`area-composite-figures` prereq fix and the `area-of-triangle` decoy re-cut). The 178-block
+diagram checklist above is outstanding — review and repair in place on top of that commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
