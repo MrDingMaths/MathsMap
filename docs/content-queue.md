@@ -148,7 +148,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | committed | `surd-product-rule`, `index-laws-establish`, `apply-index-laws-numerical` + **diagram list (4: `estimate-roots`, `prime-factorisation`, `square-cube-roots`, `sqrt-via-prime-factorisation`) for manual visual review** | `surd-product-rule` (booklet under-covers — two calculator items on one number pair; theory and all items beyond those generated from the dot point) |
 | 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | committed | `quadratic-two-solutions`, `solve-quadratic-ax2`, `model-word-problems-equations` + **diagram list (2: `equations-from-formulas`, `quadratics-from-formulas`) for manual visual review** | `quadratic-two-solutions`, `solve-quadratic-ax2` (neither booklet teaches the ±/two-solutions reasoning; generated from `dp-s4-equ-3`) |
 | 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | committed | `perimeter-composite-arc-figures`, `find-missing-sides-rectilinear`, `circle-features` + **full diagram list (all 10 skills, 263 `[tikz]`) for manual visual review** | none (all 10 booklet-covered) |
-| 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | pending | — | — |
+| 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | in-review | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | pending | — | — |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | pending | — | — |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | pending | — | — |
@@ -707,6 +707,207 @@ shading).
 
 **Committed as `60f1793`** (batch 11). The 263-block diagram checklist above is outstanding —
 review and repair in place on top of that commit.
+
+**Visual-review repair #1 (2026-08-02, during batch 12).** The human's eyeball pass caught the
+central-angle figures in `perimeter-composite-arc-figures`: quiz q7 (`16` cm base, `6` cm sides,
+`r=10`, `106.3^{\circ}`) and development[3] (`10` mm base, `12` mm sides, `r=13`, `45.2^{\circ}`).
+Both drew the labelled central angle with **only one bounding radius** — the arc mark had no
+visible second arm, so the marked sector was ambiguous — and both let the angle label collide with
+the radius label, because text renders at a fixed point size and these pictures were drawn small
+(`scale` `1.0` / `1.15`). Repaired per [tikz-prompt.md](tikz-prompt.md): **both** radii now drawn
+dashed to the two top corners (which are exactly the polar points `36.87:2`/`143.13:2` and
+`67.38:2.08`/`112.62:2.08` — verified, they land on `(±1.6,1.2)` and `(±0.8,1.92)`), the angle arc
+widened and kept on the bisector, the radius label moved further out along its own arm with
+`fill=white`, both labels dropped to `font=\small`, and the pictures enlarged to `scale` `1.5` /
+`1.6`. **No dimension, angle or answer changed** ($46.55$ cm and $44.26$ mm both re-derived), so no
+re-check was owed. An angle-arm audit was then run over **all 22 degree-labelled figures in
+`t-s4-len` and all 38 in `t-s4-are`** — these two were the only offenders; every other figure draws
+both arms or uses `\pic` (which constructs its own). Gate + full-repo validate clean after the fix.
+
+**Batch 12 (t-s4-are) notes.** Largest fully figure-bearing batch so far (17 of 18 skills carry
+inline `[tikz]`), and the batch with the **biggest stage-3 subset** (4). Generated with Opus,
+**7 section-owning generators**: A `Area 1` §Converting Units of Area = `choose-area-units` +
+`convert-area-units`; B `Area 1` §Squares and Rectangles + §Parallelograms + §Triangles =
+`area-of-rectangle`[S3] + `area-of-parallelogram`[S3] + `area-of-triangle`[S3]; C `Area 1`
+§Mixed Practice + §Composite Figures + §Finding Unknown Sides Given the Area =
+`area-composite-figures`[S3] + `find-unknown-side-from-area`; D `Area 2` §Area of a Circle +
+§Area of a Sector = `halve-diameter-for-radius` + `area-of-circle` + `sector-interior-angle` +
+`area-of-sector`; E `Area 2` §Mixed Practice + §Composite Figures involving Circles + §Finding
+the Radius Given the Area + §Challenge = `area-composite-circles` + `find-unknown-from-circle-area`;
+F `Area 3` §Kites and Rhombuses + §Trapezium = `area-kite-rhombus` + `area-trapezium` +
+`find-unknown-from-trapezium-area`; G `Area 3` §Composite Figures with Special Quadrilaterals +
+§Problems involving Pythagoras' Theorem = `area-composite-quadrilaterals` + `area-using-pythagoras`.
+atomTypes: `choose-area-units` = Cat, `halve-diameter-for-radius` and `sector-interior-angle` = T,
+remainder = R. **One `masteryOmitted`:** `sector-interior-angle` ("Atom is the single subtraction
+$360^{\circ}-$ exterior angle; every harder twist needs equation solving or the sector-area
+routine, both outside this atom") — the correct result, not a shortfall, and nothing was reached
+in from `area-of-sector`. No `coverageNote`. Final counts: foundation 8–12 / development 7–10 /
+mastery 3–4 / quiz 8–10. Whole-batch `validate.mjs` clean at **0 errors, 0 warnings**; full-repo
+clean (the 248 repo warnings are the pre-existing Part-A backfill targets); manifest rebuilt
+(**308 content / 169 quiz**, +14 content — the four stage-3 files already existed — and +18
+quizzes).
+
+**STAGE 3 rule applied to all four stage-3 skills** (`area-of-rectangle`, `area-composite-figures`,
+`area-of-parallelogram`, `area-of-triangle`). Each content file held `skillId`/`atomType`/`theory`
+only and had no quiz. The `theory` objects were copied byte-for-byte and the orchestrator
+**re-verified all four independently against `git show HEAD:`** — identical, `atomType` unchanged,
+`practice` the only added key. Quizzes created fresh.
+
+**Two `data/skills.json` fixes carried in from batch 11, both approved by the owner before
+generation.**
+1. `perimeter-2d-shapes` blurb → *"Find the perimeter of squares, rectangles, triangles and other
+   polygons."* The old blurb ("squares, rectangles and triangles") was stale for the skill's
+   Stage-4 role on `dp-s4-len-1` and was the sole cause of luna's 7 false scope flags in batch 11.
+2. `find-radius-from-circumference` prereqs → `arc-length-perimeter-sector` added. Graph-legal
+   (both stage 4, no cycle, no dependents downstream); makes that skill's booklet-anchored
+   arc-based mastery items honestly reachable and retires the recurring false scope flag.
+
+**Carried-forward ruling: `arc-length-perimeter-sector` KEEPS its inline 360° line.** Now that
+`sector-interior-angle` has content, `arc-length-perimeter-sector`'s `theory.facts[3]` ("Angles at
+a point add to $360^{\circ}$ …") stays as **reinforcement** rather than being deleted. It is a
+one-line in-service statement of a prereq fact — house style — carries no drill, and removing it
+would strand that skill's own exterior-angle dev cards (d1/d2, q3) with unmotivated working.
+`sector-interior-angle` is nonetheless the owning atom for the routine. Do not re-litigate.
+
+**Deterministic gate clean batch-wide on the first run** (512 items / 155 quiz questions / 612
+options): validate 0 warnings, equivalent-options 0 defects and 0 intended key-equal (25% of
+options canonicalised), duplicate-stems 0 across all four classes **including 0 near-dup
+advisories**, option-hygiene 0 leaked keys / 0 vague `why`s. Generators cleared it on their own
+skills first; agent D self-repaired one near-dup mid-run (a `sector-interior-angle` quiz item that
+reworded its own quadrant foundation card with a byte-identical figure, re-cut as a re-oriented
+quadrant asking for the *exterior* angle).
+
+**Form-pinning was the batch's headline instruction and it held.** Area is the equivalent-option
+trap ($1\text{ m}^2=10\,000\text{ cm}^2$, plus exact-vs-rounded on every circle answer). Every
+stem names the answer unit and either the decimal places or "in exact form, in terms of $\pi$";
+the audit needed the intended-key-equal escape hatch **zero** times.
+
+**Blind check — luna, one packet per skill, `figures-first`. All 18 OK, zero retries. 199/199
+items re-solved, coverage complete on every skill (`itemsAnswered == itemsReceived`), ONE answer
+mismatch.**
+- `convert-area-units` q10 — luna chose $2500$ and $2\,500\,000$; key $25\,000$ and
+  $2\,500\,000$. **Adjudicated: checker slip, content correct.** $2.5\text{ m}^2\times100^2 =
+  25\,000\text{ cm}^2$, then $\times10^2 = 2\,500\,000\text{ mm}^2$. Luna picked the item's own
+  modelled "used $1000$ for the first step" distractor, which coincidentally lands on the same
+  *final* value — it checked the second gap and not the first.
+
+**11 flags — 9 adjudicated INVALID, 2 valid. Majority-invalid round → the accepted fixes applied,
+no second full check round spawned** (runbook stopping rule).
+
+INVALID (recorded so they are not re-raised):
+- **`area-of-triangle`, 6 unreachable-distractor flags** (q1, q2, q3, q5, q7, q8 — the
+  $\tfrac12(b+h)$ "average" option). The slip is real, named, and derives *exactly* the option
+  value: substituting $+$ for $\times$ inside $A=\tfrac12 bh$, and each `why` states it
+  ("Added the base and the height and halved the sum"). **But luna surfaced something real
+  underneath the wrong claim, and it is left for the human:** that one decoy appears in **6 of
+  the 9** quiz items, which makes it guessable and wastes distractor space. Re-cutting four of
+  them is the fix if wanted; it was not done here because the round was majority-invalid and
+  each replacement would introduce four fresh option values for no coverage gain.
+- **`area-composite-figures` q5/q6 scope** ("requires triangle area, not a listed prereq").
+  The booklet's own §Area of Composite Figures step 1 reads *"Split the composite figure into
+  squares, rectangles, **and triangles**"*, and the section drills rectangle+triangle composites.
+  NOT-A-DEFECT: booklet-anchored content is in scope. **But luna's underlying observation is a
+  real data gap, left for the human** (same class as batch 11's `find-radius-from-circumference`):
+  `area-composite-figures`'s `prereqs` list only `area-of-rectangle` while the section it is
+  anchored on requires triangle area — consider adding `area-of-triangle` to its `prereqs` in
+  `data/skills.json` (graph-legal: both stage 3, and `area-of-triangle` does not depend on any
+  composite skill, so no cycle).
+- **`area-of-triangle` q7 duplication of q1.** Same structural type, fresh numbers, different
+  units and a different answer ($22.5\text{ km}^2$ vs $42\text{ cm}^2$) — required coverage under
+  the Quiz-independence rule, not duplication.
+
+VALID — both repaired:
+1. `area-of-rectangle` m1 — "how many times **larger**" is genuinely ambiguous (factor $4$ vs
+   increase of $3$), and the card's own solution already said "$4$ times the original". Reworded
+   to "how many times **as large**". **Stem wording only, no option/key change.** The orchestrator
+   then swept the batch for the same phrasing and fixed three more instances luna could not see
+   (`area-of-parallelogram` mastery, `area-of-circle` development, `area-of-circle` quiz) — all
+   stem-only, no answers touched.
+2. `area-of-triangle` q4 — the left side is labelled $8$ cm but the coordinates $C=(3.5,6)$ draw
+   it $6.95$ long: **the figure contradicted its own labels.** Re-derived $C=(5.29,6)$ so
+   $|AC|=8.00$ exactly with the height still $6$ and the foot inside the base; dashed height,
+   right-angle mark and both labels moved with it. Area unchanged at $30\text{ cm}^2$.
+
+**Orchestrator-side figure-scale sweep (new, and it earned its keep).** Luna only ever sees quiz +
+mastery, so a figure defect on a foundation/development card is invisible to every checker. A
+deterministic scan was written that, for each `[tikz]` block, matches every hand-placed
+`N cm/m/mm/km` label to the nearest drawn segment midpoint and flags any label whose implied
+coordinate-to-unit scale disagrees with the figure's median by >12%. Over 54 multi-label figures
+it found **3 more instances of the exact class luna caught once**, all slant-side decoys drawn
+shorter than their label:
+- `area-of-parallelogram` d1 — slant labelled $10$ cm, drawn $8.60$. Re-derived $D=(7.14,7)$,
+  $C=(23.14,7)$ so $|AD|=10.00$; question and solution figures both updated. Area unchanged
+  ($16\times7=112$).
+- `area-of-triangle` d1 — slant labelled $6$ cm, drawn $5.00$. Re-derived $C=(4.47,4)$ so
+  $|AC|=6.00$. Area unchanged ($\tfrac{9\times4}{2}=18$).
+- `area-of-parallelogram` q3 — slant labelled $12$ cm, drawn $8.60$. **The only repair in the
+  batch that changed option values.** A $12$ cm slant against the $7$ cm height forces a rise of
+  $\sqrt{95}\approx9.75$, leaving a $0.25$-unit overlap for the dashed height line — an unreadable
+  figure — so the decoy was relabelled $9$ cm with $D=(7,5.66)$, giving $|AD|=\sqrt{49+32}=9.00$
+  exactly. Two distractors derive from the slant and moved with it, **with derivations**:
+  $120\to90$ (multiplies the two side lengths, $10\times9=90$) and $84\to63$ (pairs the
+  perpendicular height with the slant instead of its base, $7\times9=63$). Key $70=10\times7$ and
+  the triangle-formula slip $35$ unchanged; all four values distinct.
+The sweep re-runs clean at **0 suspects**. It is worth promoting to a standing gate script.
+
+**Targeted re-check of the two edits that changed geometry or option values** (not a new round —
+verification of the edits): `blind-for-check.mjs --items` on `area-of-parallelogram` q3 and
+`area-of-triangle` q4, then a fresh luna call. **Both agree, 0 flags.** The stem-only rewordings
+were not re-checked (no key or option changed — batch-10 precedent).
+
+**Scope lines held.** `halve-diameter-for-radius` computes no area anywhere and
+`sector-interior-angle` no arc and no area — the two difficulty-1 atoms were the ones most at risk
+of being padded out of scope, and neither was. `area-of-circle` is whole circles only;
+`area-of-sector` owns quadrants/semicircles/sectors; the three inverse skills are split linear
+(`find-unknown-side-from-area`, `find-unknown-from-trapezium-area`) vs square-root
+(`find-unknown-from-circle-area`); `area-using-pythagoras` is the only skill that derives a length,
+every other agent states them. Unit selection and conversion stayed entirely in agent A — no
+mixed-unit area drill leaked into the formula skills. No perimeter or arc length anywhere (batch
+11 owns those), no volume, no surface area, no radians, no circle theorems, no trigonometry.
+
+**Booklet errata found (22 across the three booklets, none reproduced).** The two that changed
+authored content: `Area 3` §Area of a Trapezium figure (a) labels its slanting side $4$ cm while
+the other three labels force $5$ cm (the printed answer $15\text{ cm}^2$ matches the labels, not
+the $4$) — authored with the consistent $5$ cm; and `Area 1` §Area of Composite Figures'
+subtraction worked example does all working in metres but prints the answer as $94\text{ cm}^2$.
+The rest are unit typos (`30\,000` cm**m**², `m^2s^`, areas labelled `cm`/`m` instead of `cm²`/`m²`
+in `Area 1` §Finding Unknown Sides Q5 and `Area 2` §Composite Q10), rounding slips (`Area 2`
+§Finding the Radius Q10 gives $r=11.283$ where $\sqrt{400/\pi}=11.284$; `Area 2` §Area of a Sector
+Foundation Q2 says 2 d.p. but prints five answers to 1 d.p.), question/answer mismatches
+(`Area 1` rectangle Q14b asks a perimeter and answers an area, Q10d answers the opposite of what
+is asked, §Finding Unknown Sides Mastery Q10 asks a perimeter under a "find the missing side"
+heading, `Area 1` §Converting Units Q11 says "rectangle" then "this triangle", triangle Q8 compares
+area with perimeter), heading errors (the parallelogram identify box is headed "…of a
+**trapezium**"), duplicated item letters (`Area 1` §Mixed Practice restarts at `g.` twice), and
+several **reused media images across items with different answers** (`Area 1` composite Q5 and
+Foundation h/i; `Area 2` Mixed Practice Q1 reuses `image58` for six different pie charts; `Area 3`
+Pythagoras Q8 b/c/d share `image113`) — those figures are unusable as design references.
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review: 17 of 18
+carry inline `[tikz]`, 435 blocks total** (320 content + 115 quiz): `area-composite-figures`
+(36/9), `area-using-pythagoras` (32/9), `area-composite-quadrilaterals` (30/8),
+`area-composite-circles` (25/8), `find-unknown-side-from-area` (19/10),
+`find-unknown-from-circle-area` (19/9), `area-of-triangle` (18/7), `area-of-sector` (18/7),
+`area-kite-rhombus` (18/6), `area-trapezium` (16/7), `find-unknown-from-trapezium-area` (16/7),
+`halve-diameter-for-radius` (15/6), `area-of-parallelogram` (14/6), `area-of-rectangle` (14/5),
+`sector-interior-angle` (14/5), `area-of-circle` (12/5), `convert-area-units` (4/1);
+**`choose-area-units` is deliberately figure-free** (a drawn region cannot inform "which unit
+suits a paddock" unless it carries dimensions, and that is a different skill's material — every
+figure there would be decorative). Eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s4-are`. Highest-risk first: (1) the **five repaired
+figures** above — three slant decoys re-derived, one quiz decoy relabelled, and `area-of-triangle`
+q4 — all coordinate-level edits that have been verified arithmetically but **not yet by eye**;
+(2) the **arc composites** (`area-composite-circles`) — semicircular caps vs notches, the
+quadrant-removed square, the annulus and sector-annulus pair, where a concave arc drawn convex
+would contradict its answer; (3) the **Pythagoras figures** (`area-using-pythagoras`) — kite and
+rhombus diagonals that must read as genuinely perpendicular, and the $6$–$8$–$10$ / $5$–$12$–$13$ /
+$7$–$24$–$25$ triangles drawn in true ratio; (4) the **rectilinear composites**
+(`area-composite-figures`, 36 blocks — the densest file in the batch) with dashed split lines and
+$A_1$/$A_2$ labels in notch regions; (5) the **reflex sectors** (`sector-interior-angle`,
+`area-of-sector`, `find-unknown-from-circle-area` d5) which use computed start/end arcs rather than
+`\pic` — check the arc sweeps the region the label names.
+
+**Not committed** — awaiting the human's visual review and commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
