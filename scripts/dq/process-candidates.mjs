@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadSkillIndex, processCandidateBundle, retrieveSkillCandidates } from './core.mjs';
+
+function usage() {
+  return `Usage:
+  node scripts/dq/process-candidates.mjs --bundle <file> [--repo <dir>] [--output <file>] [--promote]
+  node scripts/dq/process-candidates.mjs --bundle <file> --suggest [--limit 10]
+
+The default is a read-only dry run. Only --promote writes quiz and provenance files.`;
+}
+
+function parseArgs(argv) {
+  const result = { promote: false, suggest: false, limit: 10 };
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === '--promote') result.promote = true;
+    else if (arg === '--suggest') result.suggest = true;
+    else if (['--bundle', '--repo', '--output', '--provenance', '--limit'].includes(arg)) {
+      if (argv[i + 1] === undefined) throw new Error(`${arg} requires a value`);
+      result[arg.slice(2)] = argv[++i];
+    } else if (arg === '--help' || arg === '-h') result.help = true;
+    else throw new Error(`unknown argument: ${arg}`);
+  }
+  result.limit = Number(result.limit);
+  if (!Number.isInteger(result.limit) || result.limit < 1) throw new Error('--limit must be a positive integer');
+  return result;
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  if (args.help) {
+    console.log(usage());
+    return;
+  }
+  if (!args.bundle) throw new Error(`--bundle is required\n\n${usage()}`);
+  const defaultRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+  const repoRoot = path.resolve(args.repo ?? defaultRoot);
+  const bundle = JSON.parse(await fs.readFile(path.resolve(args.bundle), 'utf8'));
+  const candidates = Array.isArray(bundle)
+    ? bundle
+    : Array.isArray(bundle.candidates)
+      ? bundle.candidates
+      : Array.isArray(bundle.jobs)
+        ? bundle.jobs.flatMap((job) => job.candidates ?? [])
+        : undefined;
+  if (!Array.isArray(candidates)) throw new Error('bundle must be an array or an object with candidates[] or jobs[].candidates[]');
+
+  let report;
+  if (args.suggest) {
+    const index = await loadSkillIndex(repoRoot);
+    report = {
+      mode: 'suggest',
+      candidates: candidates.map((candidate) => ({
+        sourceId: candidate.source?.id,
+        suggestions: retrieveSkillCandidates(candidate, index, { limit: args.limit }).map(({ skill, score, matchedTerms }) => ({
+          skillId: skill.id,
+          title: skill.title,
+          stage: skill.stage,
+          courses: skill.courses,
+          score,
+          matchedTerms,
+        })),
+      })),
+    };
+  } else {
+    report = await processCandidateBundle({
+      candidates,
+      repoRoot,
+      promote: args.promote,
+      provenancePath: args.provenance ? path.resolve(args.provenance) : undefined,
+    });
+  }
+
+  const output = `${JSON.stringify(report, null, 2)}\n`;
+  if (args.output) await fs.writeFile(path.resolve(args.output), output, 'utf8');
+  else process.stdout.write(output);
+}
+
+main().catch((error) => {
+  console.error(`[dq-process] ${error.message}`);
+  process.exitCode = 1;
+});
