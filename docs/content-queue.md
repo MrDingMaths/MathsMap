@@ -1,4 +1,4 @@
-# Content-generation queue
+| committed || committed || committed |# Content-generation queue
 
 Ordered queue of **topics** to mass-generate per-skill teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for, one topic per
@@ -135,7 +135,7 @@ carry inline `[tikz]`; the other 32 are number skills, diagram-free):** `equival
 5 quiz) — **27 `[tikz]` blocks total**; eyeball via
 `http://localhost:5173/#/tikz-check?topic=t-s4-frc`. Number-line placements use position = value×1.5
 (√2≈1.41, √3≈1.73, √5≈2.24, √7≈2.65, π≈3.14, and negatives); the blind checker read the TikZ
-coordinates and agreed every marked position. Not committed — awaiting human review + commit.
+coordinates and agreed every marked position. **Committed as `560fa20`** (batch 9). Diagram checklist above still outstanding — review and repair in place on top of that commit.
 
 **Pilot gate: human review of pilot outcomes before batch 7 starts.**
 
@@ -145,9 +145,9 @@ coordinates and agreed every marked position. Not committed — awaiting human r
 |---|---|---|---|---|---|---|---|
 | 7 | t-s4-int | Computation with integers | 9 (1) | `Computation with Integers.md` | in-review | `compare-order-integers`, `add-subtract-integers`, `order-of-operations-integers` + **diagram list (4: `locate-integers-number-line`, `compare-order-integers`, `add-subtract-positive-integers`, `add-subtract-integers`) for manual visual review** | none (all 9 booklet-covered) |
 | 8 | t-s4-rat | Ratios and rates | 22 (0) | `Ratios and Rates 1_Recognise and simplify ratios.md`<br>`Ratios and Rates 2_Solve problems involving ratios.md`<br>`Ratios and Rates 3_Recognise and simplify rates.md`<br>`Ratios and Rates 4_Solve problems involving rates.md`<br>`Ratios and Rates 5_Interpret and construct distance–time graphs from authentic data.md` | in-review | `divide-quantity-in-ratio`, `construct-distance-time-graphs`, `ratios-vs-rates` + **full diagram list (11 skills, 173 `[tikz]`) for manual visual review** | none (all 22 booklet-covered); `ratios-vs-rates` weakest-anchored (definitional prose only — mastery from the dot point) |
-| 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | pending | — | — |
-| 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | pending | — | — |
-| 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | pending | — | — |
+| 9 | t-s4-ind | Indices | 14 (0) | `Indices.md` | committed | `surd-product-rule`, `index-laws-establish`, `apply-index-laws-numerical` + **diagram list (4: `estimate-roots`, `prime-factorisation`, `square-cube-roots`, `sqrt-via-prime-factorisation`) for manual visual review** | `surd-product-rule` (booklet under-covers — two calculator items on one number pair; theory and all items beyond those generated from the dot point) |
+| 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | committed | `quadratic-two-solutions`, `solve-quadratic-ax2`, `model-word-problems-equations` + **diagram list (2: `equations-from-formulas`, `quadratics-from-formulas`) for manual visual review** | `quadratic-two-solutions`, `solve-quadratic-ax2` (neither booklet teaches the ±/two-solutions reasoning; generated from `dp-s4-equ-3`) |
+| 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | committed | `perimeter-composite-arc-figures`, `find-missing-sides-rectilinear`, `circle-features` + **full diagram list (all 10 skills, 263 `[tikz]`) for manual visual review** | none (all 10 booklet-covered) |
 | 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | pending | — | — |
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | pending | — | — |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | pending | — | — |
@@ -322,6 +322,390 @@ Opus agent that had authored nothing reviewed both **with the arm labels strippe
 - One transferable lesson was encoded into `docs/tikz-prompt.md`: **never add `rotate=90` to a
   `pgfplots` `ylabel style`** — pgfplots already rotates it and the rotations compose, flipping
   the label upside-down. The raw-TikZ data-display templates remain the house idiom.
+
+**Batch 9 (t-s4-ind) notes.** First **low-diagram** batch since the standing question-side
+figure rule came in — and the first to exercise it as a *judgement*, not a quota. Indices are
+number/algebra skills; 10 of the 14 are deliberately **figure-free** and the generators were told
+in terms that a manufactured decorative figure is a defect, not compliance. Generated with Opus,
+**3 section-owning generators by dot point**: A dp-1 `index-notation-terms` +
+`evaluate-index-notation` + `order-operations-indices` + `divisibility-tests` +
+`prime-factorisation` + `sign-of-powers`; B dp-2 `square-cube-roots` + `estimate-roots` +
+`surd-product-rule` + `order-operations-roots` + `sqrt-via-prime-factorisation`; C dp-3
+`index-laws-establish` + `zero-index` + `apply-index-laws-numerical`. One generator per dot point
+was right-sized at 14 skills on a single booklet. atomTypes: `index-notation-terms`,
+`evaluate-index-notation`, `square-cube-roots`, `zero-index` = T; `divisibility-tests` = Cat;
+`surd-product-rule` = F; remainder = R. **No `masteryOmitted`, no `coverageNote`** — every skill
+reached target honestly. Final counts: foundation 7–8 / development 7–8 / mastery 4 / quiz 7–9.
+All 14 `validate --only` clean; whole-batch and full-repo `validate.mjs` clean at **0 errors, 0
+warnings on the batch** (the 248 repo warnings are the pre-existing Part-A backfill targets);
+manifest rebuilt (**274 content / 130 quiz**, +14/+14).
+
+**Scope lines held.** The three flagged risks all came through: (1) `index-laws-establish` derives
+every law by expansion/cancellation, `apply-index-laws-numerical` cites and moves on — checkers
+confirmed both sides independently; (2) `order-operations-indices` and `order-operations-roots`
+were dealt disjoint exemplars and a programmatic scan found **0 near-duplicate stems** between
+them; (3) `surd-product-rule` is held to $\sqrt a\times\sqrt b=\sqrt{ab}$ verification only — no
+$a\sqrt b$ simplification, no rationalising, no unlike-surd addition. `sign-of-powers` owns every
+negative-base item in the batch; `evaluate-index-notation` is positive-bases-only. Stage-5
+material excluded throughout (the booklet is riddled with it): negative, fractional and decimal
+indices — including the `x^{0.5}=√x` derivation at L3428–3451 — algebraic bases/indices, and
+re-basing to a common prime base (`express-common-prime-base`).
+
+**Equivalent-option audit (new step 3) run before every check:** 111 questions / 432 options, 61%
+canonicalised, **0 defects, 0 intended key-equal options**. The indices equivalence trap never
+opened because form-pinning stems ("as a basic numeral", "in index form", "as a single power", "as
+a single square root") are applied consistently; all three checkers verified this by hand as well.
+
+**Blind check — 3 rounds, 358 items re-solved, ZERO answer mismatches.** Round 1: one fresh
+checker over all 14 skills, 167 items. Round 2: fresh checker over the 11 repaired skills, 132
+items. Round 3: fresh checker over the 5 further-repaired skills, 59 items. One apparent
+disagreement was adjudicated as a **checker slip, not a content defect** (`sign-of-powers` m4: the
+round-1 checker named only $-3^{18}$ as negative where the key correctly names $(-3)^{17}$ **and**
+$-3^{18}$). No figure contradicted its answer in any round — checkers decoded the `estimate-roots`
+number line coordinate-by-coordinate (point B at 4.90 against $\sqrt{24}=4.899$) and confirmed
+every factor tree multiplies back.
+
+**The yield was entirely in the cold read, and it was one systematic defect: quiz items cloning
+their own practice cards.** Batch 8 saw 4 such clones; batch 9 had **21**. The generators wrote
+the mastery-tier quiz item by copying the mastery card verbatim in 7 of 14 skills, and additionally
+cloned foundation/development cards. Worst case: `prime-factorisation` q9 ≡ m3 **including a
+byte-identical TikZ figure**. Note the blind bundle only exposes quiz + mastery, so the
+foundation/development clones were invisible to the checkers and were caught by an orchestrator-side
+programmatic stem scan — **that scan should become a standing step**; an early run of it with a
+minimum-stem-length filter hid a second cluster (five of eight quiz items in
+`order-operations-indices`), so run it with no length filter and with figures included.
+Also repaired: `square-cube-roots` q2/q4 both resolving 216→6; the $\sqrt{9+16}$ counterexample
+duplicated across `surd-product-rule` m3 and `order-operations-roots` q8; six distractors no
+identifiable slip produces; `apply-index-laws-numerical` q4 asking the student to *name* a law
+(the `index-laws-establish` side of the split); and `sign-of-powers` m1's algebraic base
+($x^{2}=564$), rephrased without the pronumeral to keep clear of the excluded $\pm$ reasoning.
+
+**Repair budget exhausted on 8 skills — remaining flags left for the human, deliberately not
+looped.** The runbook's 2-round cap proved itself: round 1 replaced a dead `square-cube-roots` q6
+distractor ($4$) with $36$, and round 3 flagged $36$ as equally unreachable. Repairs had begun
+generating fresh instances of the class they fix, which is exactly the "a rewrite reintroduces new
+defects" failure the cap exists to stop. **Outstanding, all construction-quality, none affecting an
+answer:**
+- `evaluate-index-notation` q2 ($10^{5}\to100\,000$) and q5 ($1\,000\,000\to10^{6}$) are one fact
+  run forwards and backwards, each holding the other's key as a distractor. Fix: renumber q5.
+- `order-operations-indices` q1 distractor $33$ — no nameable slip.
+- `sign-of-powers` m1 uses $564$, not a perfect square, inviting a hunt for an integer that does not
+  exist. Fix: $564\to576$ throughout; reasoning unchanged.
+- `square-cube-roots` q5/q6 are adjacent roots-of-powers-of-3 sharing 3 of 4 option values, **each
+  item's key sitting as the other's distractor**; q6 distractor $36$ unreachable from $\sqrt[4]{81}$;
+  q2 distractor $8$ is q4's key.
+- `order-operations-roots` q1 and q3 both answer $10$ and both offer $10$ and $14$; q8's roots are
+  decorative (a power substitutes with no change to the reasoning), so it arguably belongs to
+  `order-operations-indices`; q8 distractor $81$ weak.
+- `divisibility-tests` q6's answer pre-supplies m3's key step ($4$ and $5$ ⇒ $20$).
+- Option counts vary 3 vs 4 within some quizzes (`order-operations-roots` q3, `divisibility-tests`
+  q5/q6).
+
+**Checker flags adjudicated as NOT defects** (recorded so they are not re-raised): (a) a quiz item
+sharing a *structural type* with a mastery card but using different numbers and a different answer
+is required coverage, not duplication — only verbatim clones were repaired; (b)
+`apply-index-laws-numerical` m2's use of $4^{0}$ is in scope — `zero-index` is its **direct prereq**
+and is generated in this same batch; (c) the higher roots in `square-cube-roots` q6/m3
+($\sqrt[4]{81}$, $\sqrt[10]{1024}$) are the booklet's own Cube Roots Q4/Q5 — pure root notation, not
+fractional indices; (d) the re-basing in `index-notation-terms` q8/m2 ($3^{4}\to9^{2}$,
+$2^{6}\to4^{3}$) is booklet Square Roots Q11 (write 64 four ways) — Stage 4, and distinct from the
+stage-5 common-prime re-basing. **(c) and (d) are the two rulings most worth the human confirming.**
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review (only 4 of
+14 carry inline `[tikz]`; the other 10 are number/symbolic skills, deliberately figure-free):**
+`estimate-roots` (26 content number lines + 2 quiz), `prime-factorisation` (13 factor trees + 3
+quiz), `square-cube-roots` (8 + 4), `sqrt-via-prime-factorisation` (8 + 0) — **55 content + 9 quiz
+= 64 `[tikz]` blocks**; eyeball via `http://localhost:5173/#/tikz-check?topic=t-s4-ind`. The
+`estimate-roots` lines follow the batch-7 idiom (blank scaled support line in every foundation +
+development question, bounding interval and marked point added in the solution). Highest-risk
+first: the relabelled `square-cube-roots` q4 cube ($512\text{ cm}^{3}$ ↔ 8 cm edge — verified in
+source by two checkers but not yet by eye), the new `prime-factorisation` q9 three-leaf tree
+authored during repair, and the wide-range number lines with the densest tick labels.
+
+**Booklet erratum.** `Indices.md` L2255–2257 (Evaluate Expressions with Roots, Foundation Q1i)
+prints $\sqrt9\times\sqrt{64}\div\sqrt{36}$ with answer $2$; the correct value is $4$
+($3\times8\div6$). Authored as $4$. Also noted, all in stage-5 material and therefore unused:
+Index Law of Division Q3 has duplicated part labels with a misaligned answer column, and Mixed
+Practice Q3g gives $6^{-5}$ for $6^{-3}\times6^{2}$ (should be $6^{-1}$).
+
+**Taxonomy note.** The booklet's `HCF and LCM using Prime Factorisation` chapter (L3568–3798) was
+deliberately not authored — `hcf-two-numbers` / `lcm-two-numbers` shipped in batch 6 (`t-s4-frc`).
+**Committed as `092ed41`** (batch 10). Diagram checklist above still outstanding — review and repair in place on top of that commit.
+
+**Batch 10 (t-s4-equ) notes.** **First batch on the revised pipeline** — deterministic gate
+before any checker, and the blind check on a *different* model (`gpt-5.6-luna` via `codex exec`).
+Generated with Opus, **5 section-owning generators**: A `expression-vs-equation` +
+`solve-one-step-equation` + `verify-solutions-substitution` (E1 §Algebraic Equations, §Inspection,
+§Equivalent Equations, §Inverse Operations, §One-Step); B `solve-linear-2-step` +
+`solve-equation-negative-coefficient` (E1 §Two-Step, §Negative Coefficients, §Grouping,
+§Expanding Method, §Mixed Practice); C `solve-equation-x-both-sides` +
+`model-word-problems-equations` (E1 §x on Both Sides, §Writing Equations from Scenarios,
+§Problem-Solving, §Further Problem-Solving, + E2 §Challenge Exercise); D `equations-from-formulas`
++ `quadratics-from-formulas` (E2 §Substitution into Formulas, §Solving for an Unknown after
+Substitution); E `quadratic-two-solutions` + `solve-quadratic-ax2` (dot point). atomTypes:
+`expression-vs-equation` and `quadratic-two-solutions` = Cat; remainder = R. **No stage-3 subset**
+— all 11 were fresh generates with no pre-existing content file. **No `masteryOmitted`, no
+`coverageNote`** — every skill reached target honestly. Final counts: foundation 7–8 /
+development 7–8 / mastery 3–4 / quiz 7–8. Full-repo `validate.mjs` clean at **0 errors, 0 warnings
+on the batch** (the 248 repo warnings are the pre-existing Part-A backfill targets); manifest
+rebuilt (**285 content / 141 quiz**, +11/+11).
+
+**Figure policy — deliberate, confirmed with the human before generation.** Only agent D's two
+formula skills are figure-bearing (**18 `[tikz]` blocks total**); the other 9 skills are
+symbolic and **deliberately figure-free**. E1's balance-scale images (image3–image6) were ruled
+decorative for symbolic solving cards and the equivalence idea is carried in prose. A/B/C/E were
+told in their spawn prompts not to open `docs/tikz-prompt.md` at all — the batch-9 finding that
+"just in case" reads of it cost ~150k duplicated tokens.
+
+**Deterministic gate (new step 3) — clean batch-wide on the first run.** 281 items / 86 quiz
+questions / 342 options; validate 0 warnings, equivalent-options 0 defects (39% of options
+canonicalised, 0 intended key-equal), duplicate-stems 0 across all four classes **including 0
+near-dup advisories**, option-hygiene 0 leaked keys / 0 vague `why`s. **The batch-9 clone class
+did not recur** — the generators cleared the gate on their own skills before reporting, and three
+of them self-repaired near-dups mid-run (agent E reworded a `x^2=-49` quiz stem and re-cut
+`4x^2=36`→`9x^2=36`; agent C re-cut a mastery MCQ to `4(x+3)=6(x-1)`). The gate is the reason
+this batch needed one check round instead of three.
+
+**Blind check — luna, one packet per skill, `--resolve-mode figures-first`. All 11 OK, zero
+retries. 125/125 items re-solved, ZERO answer mismatches, `itemsAnswered == itemsReceived` on
+every skill.** This is the first batch where a mismatch would have been meaningful evidence (a
+different model, not a correlated reasoner) — there were none. One formatting-equivalence
+accepted: `equations-from-formulas` q5, luna's `$11\text{ cm}$` vs the key's `$11$ cm`.
+
+**7 flags — 4 adjudicated INVALID, 3 valid. Majority-invalid round → repairs applied, no second
+check round spawned** (runbook stopping rule; batch 9's round 3 is the measured precedent).
+
+INVALID (recorded so they are not re-raised):
+- `solve-linear-2-step` q8 (`3(x+4)+5x=44`) and m2 (`4(x-5)+4x=20`) flagged **scope** as "beyond
+  two-step". Both are the booklet's own §Expanding Method material — the worked example is
+  `3(x+5)+4x=29` (L2741) and m2 is practice item 217d **verbatim** (L2913). All x-terms sit on one
+  side (this is not `solve-equation-x-both-sides`), and after collecting it *is* a two-step
+  equation. NOT-A-DEFECT rule: booklet-anchored content is in scope near a stage boundary.
+- `solve-equation-negative-coefficient` q4 (`$x=-64$`) and q5 (`$x=-7$`) flagged as
+  **unreachable distractors**. Both are produced by the standard move-the-constant-with-the-wrong-
+  sign slip — q4: $-\frac{x}{4}=10+6=16 \Rightarrow x=-64$; q5: $20+8=28=-4x \Rightarrow x=-7$.
+  Luna's suggested alternative for q5 ($x=3$) is already the *other* distractor.
+
+VALID — all three repaired, all **stem-wording only** (no option value, key or answer changed, so
+no misconception→derivation chain was owed):
+1. `quadratics-from-formulas` q3 — `$v^2=u^2+2as$` with `v` a bare symbol, no units and no context,
+   so $v=\pm10$ is defensible while the skill's convention is to justify the positive root *from
+   context*. Stem now reads "gives the final speed $v$ m/s of an object".
+2. `quadratics-from-formulas` m4 — same defect; its solution already said "since a speed cannot be
+   negative" while the stem never said these were speeds. Stem now names $u$, $v$ as speeds in m/s.
+3. `quadratics-from-formulas` m1 — the rectangle's **horizontal** side is the labelled 24 cm, so
+   "find the width" pointed at the given value rather than the unknown. Changed to "find the
+   height" (solution reason updated to match). Answer unchanged at 10 cm.
+
+Plus one wording tightening luna's flag indirectly surfaced: `solve-equation-negative-coefficient`
+q4's `why` said "Added $6$ to both sides" while its stated derivation line is
+$-\frac{x}{4}=16$ — reworded to "Moved the $6$ across as $+6$ instead of subtracting it". Value
+unchanged. Full deterministic gate re-run after every edit, clean.
+
+**Orchestrator-side reword sweep** (the class the byte-level gate cannot see): all 86 quiz stems
+scored against every practice card of the same skill. 17 pairs above 0.55 Jaccard, **all of them
+the required-coverage pattern** (same structural type, fresh numbers, different answer value) —
+the 1.00 scores are bare "Solve $\frac{x}{5}+4=9$"-style stems whose token sets normalise
+identically. Closest genuine pair hand-checked: `equations-from-formulas` d0 vs q5 both use the
+trapezium and $A=72$ cm², but ask for **different unknowns** ($h$ vs $b$), carry different figures
+and different answers (9 vs 11), and all three q5 distractor chains derive correctly. No rewording
+defects.
+
+**Diagram skills flagged for manual human visual review (only 2 of 11 carry inline `[tikz]`; the
+other 9 are symbolic, deliberately figure-free):** `equations-from-formulas` (6 content + 3 quiz),
+`quadratics-from-formulas` (6 content + 3 quiz) — **12 content + 6 quiz = 18 `[tikz]` blocks**;
+eyeball via `http://localhost:5173/#/tikz-check?topic=t-s4-equ`. Highest-risk first, per the
+authoring agent: (1) the **stepped T-shape** (`equations` dev card 3) — hand-built 8-vertex layout,
+no fixed template, seven labels in two notch regions, and the only figure whose proportions were
+re-derived after a number change ($p=8, q=3$) so the drawing would not imply $q>p$; (2) the
+**irregular hexagons** (`equations` dev card 2 and quiz q8) — coordinates solved by hand so the
+alternating edge lengths match the answer ratio, `node[midway,right]` labels on the two right-hand
+slants most likely to collide; (3) the **annulus pair** (`quadratics` dev card 7 and quiz q5) —
+check the `8 cm` radius label does not sit on the inner circumference; (4) the **trapezium
+solution figure** (`equations` dev card 1) — dashed perpendicular height plus a right-angle square
+at the foot.
+
+**Anchor gaps.** `quadratic-two-solutions` and `solve-quadratic-ax2` are **`anchor: none`** —
+verified by grep, not assumed: `Equations 1` mentions $x^2$ only in its expression-vs-equation
+classification tables (L270, L284), and `Equations 2`'s squared items ($V^2=gR$, $S=2\pi r^2$,
+$v^2=u^2+2as$, L574–586) are physical contexts that take the positive root **silently**. Both
+skills were generated from `dp-s4-equ-3` / MA4-EQU-C-01, using the booklet only for the rounding
+convention ("2 decimal places where appropriate") and difficulty register; no booklet numbers,
+formulas or scenarios were reproduced. The generator deliberately converted the booklet's silent
+positive-root drop into **explicit rejection with a stated reason**. House form for a ± answer,
+used consistently across both files: `$x=\pm 6$` — never `$6, -6$`. Both are in the review samples.
+
+**Scope lines held.** No symbolic transposition of formulas anywhere (agent D substitutes first,
+then solves — the Stage-5 change-of-subject line); no simultaneous equations; no $x^2+bx+c=0$
+solving (E1's `x^2+4x+4=0` at L284 is used **only** as a classification exemplar); no factorising,
+quadratic formula or completing the square. Agent boundaries held on inspection: B carries zero
+negative coefficients in `solve-linear-2-step` and zero word problems; C carries no bare two-step
+drill; A used bare equations only, no formulas; D authored no bare $ax^2=c$ drill and cites rather
+than re-derives E's two-solutions reasoning; E authored no formula-substitution card.
+
+**Booklet errata found (5, none reproduced).**
+- `Equations 1` §Expanding Method Foundation Q1 (L2775–2792): prompt says "Compare these two
+  methods of solving $3(x+1)=18$" but both worked methods use $3(x+1)=15$ and give $x=4$.
+- `Equations 1` §Equations with Grouping Q2 (L2596–2605): student named "Jerry" in the stem and
+  "Jericho" in part (a).
+- `Equations 1` §Two-Step Q7b (L1951–1953): after dividing first, writes $x=\frac{15}{5}=3$ where
+  the line should read $x=\frac{17}{5}-\frac{2}{5}$; the final answer $3$ is correct.
+- `Equations 1` §Solving Equations by Inspection (L235): "Verify whether $x=6$ is a solution of
+  $15=3x$" has no answer printed; it is **not** a solution. Authored as a false case.
+- `Equations 1` §Problem-Solving Q22: gives `x + x + (x+4) + (x+4) = 13 cm`, setting the equation
+  equal to the *answer* rather than the perimeter 60; the correct model is `2x + 2(x+4) = 60`,
+  giving `x = 13`. The corrected form was authored.
+
+**Cost, vs batch 9's 49 min / 1.04M.** Wall clock **24m45s** (02:09:46Z → 02:34:31Z) — **half of
+batch 9** — at **~0.75M tokens** (663k across the five generation agents: A 129k, B 124k, C 157k,
+D 159k, E 95k; plus orchestrator; luna's tokens are external to the Claude budget). The saving is
+structural, not luck: one check round instead of three (the gate caught the clone class before any
+model read the items), and four of five agents skipping `tikz-prompt.md` entirely. The 11-skill
+batch is also smaller than batch 9's 14, so the per-skill figure is ~68k vs batch 9's ~74k;
+**the round count is where the win is.** Luna wall-clock: 24s–126s per skill at concurrency 4,
+zero retries, no fallback to a Claude checker needed.
+
+**`--resolve-mode` A/B not run** (owner instruction — the human is judging output quality by hand
+this batch), so `figures-first` is exercised but not yet measured against `full`.
+
+**Committed as `60f1793`** (batch 11), together with the pipeline commit `1bbcf96` (deterministic gate + luna checker). The 263-diagram checklist above is outstanding — review and repair in place on top of that commit.
+
+**Batch 11 (t-s4-len) notes.** First **fully figure-bearing** batch under the revised pipeline
+(every one of the 10 skills carries inline `[tikz]`, so all four generators read
+`docs/tikz-prompt.md` — the opposite of batch 10). Generated with Opus, **4 section-owning
+generators**: A `Length 1` §Units of Length + §Perimeter of Polygons + §Perimeter of L-Shapes =
+`perimeter-2d-shapes`[S3] + `find-missing-sides-rectilinear` + `perimeter-composite-figures`;
+B `Length 1` §Solving Perimeter Problems = `find-side-from-perimeter`; C `Length 2` §Features of
+Circles + §Circumference (incl. the Pi investigation) = `circle-features` + `pi-definition` +
+`circumference-circle`; D `Length 2` §Arc Length + §Finding the Radius given Circumference +
+§Perimeter of a Sector + §Perimeter of Shapes Involving Arc Length = `arc-length-perimeter-sector`
++ `find-radius-from-circumference` + `perimeter-composite-arc-figures`. atomTypes:
+`circle-features` = Cat, `pi-definition` = F, remainder = R. **No `masteryOmitted`, no
+`coverageNote`** — every skill reached target honestly. Final counts: foundation 6–9 /
+development 6–8 / mastery 3–4 / quiz 7–8. Whole-batch `validate.mjs` clean at **0 errors, 0
+warnings**; full-repo clean (the 248 repo warnings are the pre-existing Part-A backfill targets);
+manifest rebuilt (**294 content / 151 quiz**, +9 content — `perimeter-2d-shapes` already existed —
+and +10 quizzes).
+
+**STAGE 3 rule applied to `perimeter-2d-shapes`.** Its content file held `skillId`/`atomType`/
+`theory` only. The `theory` object was copied byte-for-byte (orchestrator re-verified against
+`git show HEAD:` — identical); only `practice` was added and the quiz created fresh.
+
+**Two owner decisions taken before generation.**
+1. **Mixed units: FULL coverage.** The `Length 1` "perimeter involving different units" material is
+   authored as real content in `perimeter-2d-shapes` (T5, 6 cards) and `perimeter-composite-figures`
+   (C6, 3 cards) plus 3 cards in `find-side-from-perimeter`, accepting the overlap with the stage-3
+   `length-perimeter-problems` atom (kept apart by being figure-anchored polygon/composite
+   perimeters, not worded length problems). **Every mixed-unit stem states the required answer
+   unit**, so no `1.08 m` vs `108 cm` equivalence opens — the equivalent-option audit canonicalised
+   72% of options with 0 defects.
+2. **Sector angles: exterior-angle derivation allowed.** `arc-length-perimeter-sector` dev cards 1–2
+   and quiz q3 mark the exterior angle ($100^{\circ}\to260^{\circ}$, $90^{\circ}\to270^{\circ}$,
+   $120^{\circ}\to240^{\circ}$); a clear minority. Because the prereq `sector-interior-angle`
+   (`t-s4-are`, batch 12) has **no content file yet**, the angles-at-a-point-sum-to-$360^{\circ}$
+   fact is stated in one line of that skill's `theory.facts`.
+
+**Deterministic gate clean batch-wide on the first run** (259 items / 80 quiz questions / 318
+options): validate 0 warnings, equivalent-options 0 defects and 0 intended key-equal, duplicate-stems
+0 across all four classes **including 0 near-dup advisories**, option-hygiene 0 leaked keys / 0 vague
+`why`s. Generators cleared it on their own skills first; agent A self-repaired one near-dup mid-run
+(a regular-hexagon quiz stem re-cut as a mixed-unit rhombus), and agent C split its
+`circle-features` quiz `structure` slugs per case because a shared `name-straight-line-feature` slug
+made each item's vocabulary distractor another item's key.
+
+**Blind check — luna, one packet per skill, `figures-first`. All 10 OK, zero retries. 112/112 items
+re-solved, coverage complete on every skill (`itemsAnswered == itemsReceived`), ONE answer
+mismatch.**
+- `perimeter-composite-figures` q8 — luna chose $470$ cm, key $520$ cm. **Adjudicated: checker slip,
+  content correct.** The eight sides are $30+50+50+50+40+90+120+90=520$; the unlabelled notch top is
+  $120-30-40=50$ (and the figure's uniform scale agrees, $0.5$ units against $0.3$ units ↔ $30$ cm).
+  $470$ is exactly the item's own modelled "left the notch width out" distractor.
+
+**15 flags — 12 adjudicated INVALID, 3 valid. Majority-invalid round → the 3 fixes applied, no
+second check round spawned** (runbook stopping rule).
+
+INVALID (recorded so they are not re-raised):
+- **`perimeter-2d-shapes`, 7 scope flags** (pentagon q3, quadrilateral q4, rhombus q7, trapezium q8,
+  m1, regular octagon m2, kite m3 — "outside the skill's stated focus on squares, rectangles and
+  triangles"). Luna judged against the skill card's **stage-3 blurb**. The content is anchored on
+  `dp-s4-len-1`, whose text is *"perimeter of various **quadrilaterals** and simple composite
+  figures"*, and on the booklet's §**Perimeter of Polygons** (which drills pentagons and regular
+  polygons). NOT-A-DEFECT: booklet-anchored content is in scope. **For the human:** the skills.json
+  blurb ("squares, rectangles and triangles") is now stale for this skill's Stage-4 role — a blurb
+  update is the right fix, not a content cut.
+- **`find-radius-from-circumference`, 4 scope flags** (q7, m1, m2, m3 — "requires the arc-length
+  formula, outside this skill and its prerequisites"). These are the booklet's own §Finding the
+  Radius given Circumference mastery items (radius from a given arc length; the frisbee item bends
+  an arc into a new circumference), so they are booklet-anchored and kept. **But luna's underlying
+  observation is a real data gap and is left for the human:** `arc-length-perimeter-sector` is a
+  *sibling* in this batch, not a listed prereq of `find-radius-from-circumference` — consider adding
+  it to that skill's `prereqs` in `data/skills.json` (no cycle: arc-length's prereqs are
+  `circumference-circle`, `sector-interior-angle`, `fraction-decimal-quantity-problems`).
+- **`perimeter-composite-arc-figures` q8 unreachable distractor** ($13.72$ m). Reachable and stated:
+  omitting the $8$ m straight end gives $2x=40-12.566=27.43$, $x=13.72$. The other two also derive
+  ($19.43$ = not halved; $3.43$ = full $\pi d$ for the cap).
+
+VALID — all three repaired, **no option value, key or answer changed**, so no
+misconception→derivation chain was owed:
+1–2. `find-missing-sides-rectilinear` q8 and mastery m2 said "the two **dashed** sides are equal"
+   while the figures draw solid sides carrying tick marks. Reworded to "the two sides marked with
+   dashes are equal" (the booklet's own vocabulary — "Dashes show equal lengths"). The
+   "The dashes show…" solution lines and the `perimeter-2d-shapes` usages were already unambiguous
+   and left alone.
+3. `pi-definition` q2 duplicated q1 — same `compute-c-over-d` task, same $2$ d.p. pin, only the
+   numbers differed. **Deleted** rather than re-cut: q1 and q3 (radius-marked case) still cover the
+   type, every structural type retains ≥1 MCQ, and the quiz lands at 7 items, above the warn floor.
+   A replacement item would have introduced four fresh option values for no coverage gain.
+Full deterministic gate re-run after the edits — clean.
+
+**Scope lines held.** No area anywhere (`area-of-circle`, `sector-interior-angle`,
+`halve-diameter-for-radius` are batch 12); no radians; no circle angle theorems; no cylinders; no
+Pythagoras inside a composite (the $9$–$12$–$15$ / $5$–$12$–$13$ / $6$–$8$–$10$ triples in agent D's
+figures are stated, never derived). Agent boundaries held on inspection:
+`find-missing-sides-rectilinear` answers are always a **side**, `perimeter-composite-figures` always
+a **perimeter**, `find-side-from-perimeter` always starts from a **given perimeter**;
+`pi-definition` carries no circumference-formula drill and `circumference-circle` no solve-for-$r$
+item. Two booklet items were deliberately **cut**: §Perimeter of a Sector Q9 (find $r$ from $P$ and
+$\theta$ — needs $r$ factored out, above Stage 4) and §Circumference Q12 (a mass spun through
+$4230^{\circ}$, i.e. a partial revolution = an arc length, which belongs to
+`arc-length-perimeter-sector`).
+
+**Taxonomy note (not a batch defect).** `Length 1` §**Units of Length** (choose the appropriate
+unit; convert mm↔km) has **no owning skill in this topic** — it is `convert-length-units` (stage 3,
+`t-s3-gm-b`, content already shipped). The chapter was therefore not authored; only unit conversion
+*in service of* a perimeter appears.
+
+**Booklet errata found (8, none reproduced).**
+- `Length 1` §Solving Perimeter Problems worked-example figure (`image86`) marks a right angle on a
+  $16$/$34$/$25$ triangle, which Pythagoras contradicts; the right-angle mark was dropped.
+- `Length 1` §Units of Length Q7 answers "$40$ mm $\div 500 = 0.08$ mm" without showing the
+  $4$ cm $\to 40$ mm step; the answer is right.
+- `Length 2` §Circumference Q7 answer prints "125 66 m" for $12\,566$ m; Q8's answer says "20 cm
+  radius" where the question says $20$ mm; Q4's answer says "a radius of $9$ m is the same as a
+  diameter of $18$ **cm**" (should be m); Q15's working labels the sea-level case "At 5000 feet".
+- `Length 2` §Perimeter of a Sector Q7 solution prints
+  $40=\frac{\pi}{360}\times20\pi+20$ — `\pi` where `\theta` belongs; the final $114.6^{\circ}$ is
+  correct.
+- `Length 2` §Finding the Radius Q9 sums $40077.2974-40071.043$ (should be $40071.0143$); the
+  $\approx2\pi$ answer still holds.
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review: ALL 10
+carry inline `[tikz]`, 263 blocks total** (195 content + 68 quiz): `perimeter-2d-shapes` (22/8),
+`find-missing-sides-rectilinear` (29/8), `perimeter-composite-figures` (27/8),
+`find-side-from-perimeter` (22/8), `circle-features` (14/7), `pi-definition` (7/2),
+`circumference-circle` (12/6), `arc-length-perimeter-sector` (26/8),
+`find-radius-from-circumference` (10/5), `perimeter-composite-arc-figures` (26/8); eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s4-len`. Highest-risk first: (1) the **rectilinear
+L/U/T/staircase figures** with `tickmark`-decorated equal sides (`find-missing-sides-rectilinear`,
+`perimeter-composite-figures`) — check the tick marks read as dashes and that no notch label
+collides; (2) the **arc composites** (`perimeter-composite-arc-figures`) — semicircular caps vs
+notches, the quadrant-removed square, and the four-semicircle figure, where a concave arc drawn
+convex would contradict its answer; (3) the **sector figures** with a marked exterior angle
+(`arc-length-perimeter-sector` d1/d2, q3) — the arc must span the *interior* region, not the marked
+one; (4) `circle-features` multi-label figures (tangent touching without entering, segment vs sector
+shading).
+
+Not committed — awaiting human review + commit.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
