@@ -33,6 +33,15 @@ Tags must be balanced, blocks must be non-empty, and every block must contain ex
 TikZ picture body. Do not add a document preamble or `\usepackage`. The allowlist and visual
 construction rules live in [tikz-prompt.md](tikz-prompt.md).
 
+**A figure renders in `question_text` and `solution_text` ONLY — never inside a quiz
+option's `text` or `why`.** Those two fields go through `Math.svelte`, which is KaTeX-only
+(`QuizQuestion.svelte` renders the stem and solution with `InlineContent`, but each option
+with `MathText`), so a `[tikz]` block placed in an option renders as literal `[tikz]…`
+source. When an MCQ genuinely needs picture-valued options — "which of these is the top
+view?" — draw the candidates as a **labelled A/B/C/D panel inside the stem's figure** and
+make the options the labels (`$A$`, `$B$`, …). Batch 13's `views-of-prisms` is the worked
+example of this shape.
+
 ## Content file
 
 ```text

@@ -450,13 +450,18 @@ The orchestrator drives the batch; generation and checking run in parallel group
 3. **Deterministic gate — run it BEFORE any checker is spawned.** Every defect a script
    can find must be found by a script, and found before a model is paid to read the
    items. Four commands, always the comma-form `--only`, always `--strict`; the gate is
-   seconds, so it also re-runs after **every** repair edit:
+   seconds, so it also re-runs after **every** repair edit. Six commands since batch 13,
+   when the two batch-12 orchestrator-side figure sweeps were promoted to standing
+   scripts (`tests/figure-audits.test.js` pins both against a reconstruction of the
+   original defects):
 
    ```
    node scripts/validate.mjs --only <id1,id2,...>
    node scripts/audit-equivalent-options.mjs --strict --only <id1,id2,...>
    node scripts/audit-duplicate-stems.mjs --strict --only <id1,id2,...>
    node scripts/audit-option-hygiene.mjs --strict --only <id1,id2,...>
+   node scripts/audit-figure-scale.mjs --strict --only <id1,id2,...>
+   node scripts/audit-angle-arms.mjs --strict --only <id1,id2,...>
    ```
 
    Generation agents clear the gate on their own skills before reporting (step 2); the
@@ -469,6 +474,23 @@ The orchestrator drives the batch; generation and checking run in parallel group
      equal stems across the batch's skills, plus an advisory near-duplicate report.
      It deliberately has **no minimum stem length** — an early ad-hoc scan with one hid
      a five-clone cluster in a single quiz (`order-operations-indices`, batch 9).
+   - **`audit-figure-scale.mjs`** — a hand-placed length label attached to a segment
+     that is not drawn to that length relative to the rest of its figure (batch 12's
+     slant-side decoys: `$10$ cm` drawn $8.60$). This is the one gate that reaches
+     **foundation and development** cards, which no checker ever sees — the blind bundle
+     is quiz + mastery only. Labels are bound to segments by inline `node[midway]`
+     syntax where present, else by proximity; a subdivided edge offers each of its
+     sub-spans, so part-labels are matched to their part. Figures authored with
+     tikz-3dplot are compared on **true 3D lengths**, so a foreshortened depth edge is
+     never mistaken for a short one; a solid hand-projected into 2D coordinates is
+     skipped, never flagged. Needs ≥3 matched labels in a figure to have a reliable
+     median, so a 2-label circle figure is out of its reach by design.
+   - **`audit-angle-arms.mjs`** — a labelled angle drawn with fewer than two bounding
+     rays, so the marked region is ambiguous (batch 11's central angles with one
+     radius, caught by the human's eye). `\pic {angle=A--B--C}` constructions build
+     their own arms and are exempt. Only junctions (≥2 segments) and drawn arc centres
+     count as vertices — a bare ray tip does not, which is what keeps a label sitting
+     between two rays from being mis-assigned.
    - **`audit-option-hygiene.mjs`** — an option equal to the **key of a different item
      sharing its `structure` slug** in the same quiz (cross-item leakage; a bare integer
      coinciding with an unrelated item's answer is not a defect and is not flagged), and

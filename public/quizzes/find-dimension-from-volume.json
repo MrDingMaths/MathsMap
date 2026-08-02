@@ -1,0 +1,255 @@
+{
+  "skillId": "find-dimension-from-volume",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.55]\n\\coordinate (b0) at (0,0,0);\n\\coordinate (b1) at (0,6,0);\n\\coordinate (b2) at (0,6,2);\n\\coordinate (b3) at (0,3,4);\n\\coordinate (b4) at (0,0,2);\n\\coordinate (f0) at (6.5,0,0);\n\\coordinate (f1) at (6.5,6,0);\n\\coordinate (f2) at (6.5,6,2);\n\\coordinate (f3) at (6.5,3,4);\n\\coordinate (f4) at (6.5,0,2);\n\\draw[dashed] (b1)--(b0)--(b4);\n\\draw[dashed] (b0)--(f0);\n\\draw (b1)--(b2)--(b3)--(b4);\n\\draw (f0)--(f1)--(f2)--(f3)--(f4)--cycle;\n\\draw (b2)--(f2);\n\\draw (b3)--(f3);\n\\draw (b4)--(f4);\n\\draw (b1)--(f1) node[midway,below right,fill=white,inner sep=1pt] {$h$};\n\\draw[-{Stealth}] (6.5,-2.2,6.4)--(6.5,2.2,2.2);\n\\node[left] at (6.5,-2.4,6.6) {$A = 24\\text{ cm}^{2}$};\n\\node at (3.25,3,-2.6) {$V = 156\\text{ cm}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nThe area of the uniform cross-section is shown. What is the height $h$ of this prism, in cm?",
+      "structure": "prism-find-height-from-area",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6.5$ cm",
+          "correct": true
+        },
+        {
+          "text": "$13$ cm",
+          "why": "Halved the cross-sectional area first, as if the cross-section were a triangle."
+        },
+        {
+          "text": "$132$ cm",
+          "why": "Subtracted the cross-sectional area from the volume instead of dividing by it."
+        },
+        {
+          "text": "$0.15$ cm",
+          "why": "Divided the cross-sectional area by the volume instead of the volume by the area."
+        }
+      ],
+      "solution_text": "$V = Ah$\n$156 = 24h$\n$h = 6.5\\text{ cm}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.5]\n\\coordinate (b0) at (0,0,0);\n\\coordinate (b1) at (0,7,0);\n\\coordinate (b2) at (0,5.5,3.5);\n\\coordinate (b3) at (0,1.5,3.5);\n\\coordinate (f0) at (9,0,0);\n\\coordinate (f1) at (9,7,0);\n\\coordinate (f2) at (9,5.5,3.5);\n\\coordinate (f3) at (9,1.5,3.5);\n\\draw[dashed] (b1)--(b0)--(b3);\n\\draw[dashed] (b0)--(f0);\n\\draw (b1)--(b2)--(b3);\n\\draw (f0)--(f1)--(f2)--(f3)--cycle;\n\\draw (b2)--(f2);\n\\draw (b3)--(f3);\n\\draw (b1)--(f1) node[midway,below right,fill=white,inner sep=1pt] {$9\\text{ m}$};\n\\draw[-{Stealth}] (9,-2.4,6.0)--(9,2.4,2.0);\n\\node[left] at (9,-2.6,6.2) {$A$};\n\\node at (4.5,3.5,-3.0) {$V = 153\\text{ m}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the area $A$ of the uniform cross-section of this prism, in m²?",
+      "structure": "prism-find-cross-section-area",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$17$ m²",
+          "correct": true
+        },
+        {
+          "text": "$8.5$ m²",
+          "why": "Divided by twice the height, as if the cross-section were a triangle."
+        },
+        {
+          "text": "$144$ m²",
+          "why": "Subtracted the height from the volume instead of dividing by it."
+        },
+        {
+          "text": "$1377$ m²",
+          "why": "Multiplied the volume by the height instead of dividing by it."
+        }
+      ],
+      "solution_text": "$V = Ah$\n$153 = 9A$\n$A = 17\\text{ m}^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.6]\n\\coordinate (b0) at (0,0,0);\n\\coordinate (b1) at (0,7,0);\n\\coordinate (b2) at (0,7,5);\n\\coordinate (b3) at (0,0,5);\n\\coordinate (f0) at (4,0,0);\n\\coordinate (f1) at (4,7,0);\n\\coordinate (f2) at (4,7,5);\n\\coordinate (f3) at (4,0,5);\n\\draw[dashed] (b1)--(b0)--(b3);\n\\draw[dashed] (b0)--(f0);\n\\draw (b1)--(b2)--(b3);\n\\draw (f0)--(f1)--(f2)--(f3)--cycle;\n\\draw (b2)--(f2);\n\\draw (b3)--(f3);\n\\draw (f0)--(f1) node[midway,below,fill=white,inner sep=1pt] {$7\\text{ cm}$};\n\\draw (f1)--(f2) node[midway,right,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\draw (b1)--(f1) node[midway,below right,fill=white,inner sep=1pt] {$x$};\n\\node at (2,3.5,-2.6) {$V = 140\\text{ cm}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the value of $x$, in cm?",
+      "structure": "rect-prism-find-side",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$ cm",
+          "correct": true
+        },
+        {
+          "text": "$20$ cm",
+          "why": "Divided by the $7$ cm length only, ignoring the $5$ cm width."
+        },
+        {
+          "text": "$35$ cm",
+          "why": "Gave the area of the shaded face instead of the missing length."
+        },
+        {
+          "text": "$128$ cm",
+          "why": "Subtracted the two known lengths from the volume instead of dividing."
+        }
+      ],
+      "solution_text": "$A = 7 \\times 5$\n$= 35\\text{ cm}^{2}$\n$V = Ah$\n$140 = 35x$\n$x = 4\\text{ cm}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.42]\n\\coordinate (b0) at (0,0,0);\n\\coordinate (b1) at (0,6,0);\n\\coordinate (b2) at (0,0,8);\n\\coordinate (f0) at (10,0,0);\n\\coordinate (f1) at (10,6,0);\n\\coordinate (f2) at (10,0,8);\n\\draw[dashed] (b1)--(b0)--(b2);\n\\draw[dashed] (b0)--(f0);\n\\draw (b1)--(b2);\n\\draw (f0)--(f1)--(f2)--cycle;\n\\draw (b2)--(f2);\n\\draw (f0)--(f1) node[midway,below,fill=white,inner sep=1pt] {$6\\text{ mm}$};\n\\draw (f0)--(f2) node[midway,left,fill=white,inner sep=1pt] {$h$};\n\\draw (b1)--(f1) node[midway,below right,fill=white,inner sep=1pt] {$10\\text{ mm}$};\n\\draw (10,0.9,0)--(10,0.9,0.9)--(10,0,0.9);\n\\node at (5,3,-3.4) {$V = 240\\text{ mm}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the perpendicular height $h$ of the triangular cross-section, in mm?",
+      "structure": "triangular-prism-find-dimension",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$ mm",
+          "correct": true
+        },
+        {
+          "text": "$4$ mm",
+          "why": "Used $A = bh$ for the triangle and forgot to divide by $2$."
+        },
+        {
+          "text": "$40$ mm",
+          "why": "Divided by the base only, ignoring the $10$ mm length of the prism."
+        },
+        {
+          "text": "$24$ mm",
+          "why": "Stopped at the cross-sectional area instead of going on to the height."
+        }
+      ],
+      "solution_text": "$V = Ah$\n$240 = \\left(\\frac{6 \\times h}{2}\\right) \\times 10$\n$240 = 30h$\n$h = 8\\text{ mm}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\draw (-7,0)--(-7,9);\n\\draw (7,0)--(7,9);\n\\draw (0,9) ellipse (7 and 2.1);\n\\draw (-7,0) arc[start angle=180,end angle=360,x radius=7,y radius=2.1];\n\\draw[dashed] (-7,0) arc[start angle=180,end angle=0,x radius=7,y radius=2.1];\n\\fill (0,9) circle (2pt);\n\\draw (0,9)--(7,9) node[midway,above,fill=white,inner sep=1pt] {$7\\text{ m}$};\n\\draw[{Stealth}-{Stealth}] (8.6,0)--(8.6,9) node[midway,right] {$h$};\n\\node at (0,-3.6) {$V = 441\\pi\\text{ m}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the height $h$ of this cylinder, in m?",
+      "structure": "cylinder-find-height",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$9$ m",
+          "correct": true
+        },
+        {
+          "text": "$63$ m",
+          "why": "Divided by the radius instead of by the radius squared."
+        },
+        {
+          "text": "$3$ m",
+          "why": "Took a square root at the end, as if the height were squared in the formula."
+        },
+        {
+          "text": "$2.25$ m",
+          "why": "Doubled the radius to $14$ m and squared that instead."
+        }
+      ],
+      "solution_text": "$V = \\pi r^{2}h$\n$441\\pi = \\pi \\times 7^{2} \\times h$\n$441\\pi = 49\\pi h$\n$h = 9\\text{ m}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A cylindrical fence post has a diameter of $10$ cm and a volume of $1178.10$ cm³. What is its height, in cm, correct to $1$ decimal place?",
+      "structure": "cylinder-find-height",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$15.0$ cm",
+          "correct": true
+        },
+        {
+          "text": "$3.8$ cm",
+          "why": "Substituted the diameter $10$ cm where the radius belongs."
+        },
+        {
+          "text": "$75.0$ cm",
+          "why": "Divided by the radius instead of by the radius squared."
+        },
+        {
+          "text": "$47.1$ cm",
+          "why": "Divided by $r^{2}$ but forgot to divide by $\\pi$ as well."
+        }
+      ],
+      "solution_text": "$r = \\frac{10}{2} = 5$\n$V = \\pi r^{2}h$\n$1178.10 = \\pi \\times 5^{2} \\times h$\n$1178.10 = 25\\pi h$\n$h = \\frac{1178.10}{25\\pi}$\n$= 15.0000\\ldots$\n$\\approx 15.0\\text{ cm}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw (-4,0)--(-4,5);\n\\draw (4,0)--(4,5);\n\\draw (0,5) ellipse (4 and 1.2);\n\\draw (-4,0) arc[start angle=180,end angle=360,x radius=4,y radius=1.2];\n\\draw[dashed] (-4,0) arc[start angle=180,end angle=0,x radius=4,y radius=1.2];\n\\fill (0,5) circle (2pt);\n\\draw (0,5)--(4,5) node[midway,above,fill=white,inner sep=1pt] {$r$};\n\\draw[{Stealth}-{Stealth}] (5.4,0)--(5.4,5) node[midway,right] {$5\\text{ cm}$};\n\\node at (0,-2.4) {$V = 80\\pi\\text{ cm}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the radius $r$ of this cylinder, in cm?",
+      "structure": "cylinder-find-radius",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$ cm",
+          "correct": true
+        },
+        {
+          "text": "$16$ cm",
+          "why": "Stopped at $r^{2} = 16$ and forgot to take the square root."
+        },
+        {
+          "text": "$8$ cm",
+          "why": "Gave the diameter of the circular face instead of the radius."
+        },
+        {
+          "text": "$2$ cm",
+          "why": "Halved the value found, treating it as a diameter."
+        }
+      ],
+      "solution_text": "$V = \\pi r^{2}h$\n$80\\pi = \\pi \\times r^{2} \\times 5$\n$80\\pi = 5\\pi r^{2}$\n$r^{2} = 16$\n$r = 4\\text{ cm}$, taking the positive root since a radius cannot be negative"
+    },
+    {
+      "id": "q8",
+      "question_text": "A cylindrical candle has a height of $8$ cm and a volume of $300$ cm³. What is the radius of the candle, in cm, correct to $2$ decimal places?",
+      "structure": "cylinder-find-radius",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3.45$ cm",
+          "correct": true
+        },
+        {
+          "text": "$11.94$ cm",
+          "why": "Stopped at $r^{2} = 11.94$ and forgot to take the square root."
+        },
+        {
+          "text": "$6.12$ cm",
+          "why": "Divided by the height but forgot to divide by $\\pi$ as well."
+        },
+        {
+          "text": "$6.91$ cm",
+          "why": "Gave the diameter of the circular face instead of the radius."
+        }
+      ],
+      "solution_text": "$V = \\pi r^{2}h$\n$300 = \\pi \\times r^{2} \\times 8$\n$300 = 8\\pi r^{2}$\n$r^{2} = 11.9366\\ldots$\n$r = 3.4549\\ldots$\n$\\approx 3.45\\text{ cm}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.4]\n\\coordinate (b0) at (0,0,0);\n\\coordinate (b1) at (0,8,0);\n\\coordinate (b2) at (0,8,8);\n\\coordinate (b3) at (0,0,8);\n\\coordinate (f0) at (9,0,0);\n\\coordinate (f1) at (9,8,0);\n\\coordinate (f2) at (9,8,8);\n\\coordinate (f3) at (9,0,8);\n\\draw[dashed] (b1)--(b0)--(b3);\n\\draw[dashed] (b0)--(f0);\n\\draw (b1)--(b2)--(b3);\n\\draw (f0)--(f1)--(f2)--(f3)--cycle;\n\\draw (b2)--(f2);\n\\draw (b3)--(f3);\n\\draw (f0)--(f1) node[midway,below,fill=white,inner sep=1pt] {$s$};\n\\draw (f1)--(f2) node[midway,right,fill=white,inner sep=1pt] {$s$};\n\\draw (b1)--(f1) node[midway,below right,fill=white,inner sep=1pt] {$9\\text{ m}$};\n\\node at (4.5,4,-3.8) {$V = 576\\text{ m}^{3}$};\n\\end{tikzpicture}\n[/tikz]\nThe cross-section of this prism is a square of side $s$. What is $s$, in m?",
+      "structure": "square-prism-find-side",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$8$ m",
+          "correct": true
+        },
+        {
+          "text": "$64$ m",
+          "why": "Stopped at $s^{2} = 64$ and forgot to take the square root."
+        },
+        {
+          "text": "$32$ m",
+          "why": "Halved $64$ instead of taking its square root."
+        },
+        {
+          "text": "$24$ m",
+          "why": "Square-rooted the volume before dividing by the length."
+        }
+      ],
+      "solution_text": "$V = Ah$\n$576 = s^{2} \\times 9$\n$s^{2} = 64$\n$s = 8\\text{ m}$, taking the positive root since a side length cannot be negative"
+    },
+    {
+      "id": "q10",
+      "question_text": "A cylinder of radius $6$ cm and height $5$ cm has exactly the same volume as a rectangular prism whose base measures $10$ cm by $6$ cm. What is the height of the prism, in cm, correct to $2$ decimal places?",
+      "structure": "equal-volumes-find-dimension",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$9.42$ cm",
+          "correct": true
+        },
+        {
+          "text": "$56.55$ cm",
+          "why": "Divided by the $10$ cm length only, ignoring the $6$ cm width."
+        },
+        {
+          "text": "$18.85$ cm",
+          "why": "Halved the rectangular base area, as if the base were a triangle."
+        },
+        {
+          "text": "$1.57$ cm",
+          "why": "Forgot to square the radius when finding the cylinder volume."
+        }
+      ],
+      "solution_text": "Cylinder: $V = \\pi \\times 6^{2} \\times 5$\n$= 565.4866\\ldots\\text{ cm}^{3}$\nPrism: $A = 10 \\times 6$\n$= 60\\text{ cm}^{2}$\n$V = Ah$\n$565.4866\\ldots = 60h$\n$h = 9.4247\\ldots$\n$\\approx 9.42\\text{ cm}$"
+    }
+  ]
+}

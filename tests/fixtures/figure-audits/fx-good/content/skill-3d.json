@@ -1,0 +1,18 @@
+{
+  "skillId": "skill-3d",
+  "atomType": "R",
+  "theory": {
+    "intro": "Fixture: a tikz-3dplot rectangular prism whose three labelled edges are drawn to their stated lengths in 3D. The depth edge is FORESHORTENED in the projection, so any audit that compared drawn 2D lengths would flag it; comparing true 3D lengths must not.",
+    "facts": ["Fixture fact."]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.6]\n\\coordinate (O) at (0,0,0);\n\\coordinate (X) at (8,0,0);\n\\coordinate (Y) at (8,4,0);\n\\coordinate (Z) at (0,4,0);\n\\coordinate (O1) at (0,0,3);\n\\coordinate (X1) at (8,0,3);\n\\coordinate (Y1) at (8,4,3);\n\\coordinate (Z1) at (0,4,3);\n\\draw (O)--(X) node[midway,below] {$8\\text{ cm}$};\n\\draw (X)--(Y) node[midway,below right] {$4\\text{ cm}$};\n\\draw (X)--(X1) node[midway,right] {$3\\text{ cm}$};\n\\draw (Y)--(Z);\n\\draw (O1)--(X1)--(Y1)--(Z1)--cycle;\n\\draw (O)--(O1);\n\\draw (Y)--(Y1);\n\\draw[dashed] (Z)--(O);\n\\draw[dashed] (Z)--(Z1);\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this prism.",
+        "solution_text": "$V=8\\times4\\times3$\n$=96\\text{ cm}^{3}$"
+      }
+    ],
+    "development": [],
+    "mastery": []
+  }
+}

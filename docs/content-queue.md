@@ -1,4 +1,4 @@
-| committed || committed || committed |# Content-generation queue
+# Content-generation queue
 
 Ordered queue of **topics** to mass-generate per-skill teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for, one topic per
@@ -149,7 +149,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 10 | t-s4-equ | Equations | 11 (0) | `Equations 1_Solve 2 step equations.md`<br>`Equations 2_Formulas.md` | committed | `quadratic-two-solutions`, `solve-quadratic-ax2`, `model-word-problems-equations` + **diagram list (2: `equations-from-formulas`, `quadratics-from-formulas`) for manual visual review** | `quadratic-two-solutions`, `solve-quadratic-ax2` (neither booklet teaches the ±/two-solutions reasoning; generated from `dp-s4-equ-3`) |
 | 11 | t-s4-len | Length | 10 (1) | `Length 1_Solve problems involving the perimeter of various quadrilaterals and simple composite figures.md`<br>`Length 2_Describe the relationships between the features of circles.md` | committed | `perimeter-composite-arc-figures`, `find-missing-sides-rectilinear`, `circle-features` + **full diagram list (all 10 skills, 263 `[tikz]`) for manual visual review** | none (all 10 booklet-covered) |
 | 12 | t-s4-are | Area | 18 (4) | `Area 1_Units Rectangles Parallelograms Triangles.md`<br>`Area 2_Circles and Sectors.md`<br>`Area 3_Quadrilaterals.md` | committed | `area-composite-circles`, `area-using-pythagoras`, `convert-area-units` + **diagram list (17 of 18 skills, 435 `[tikz]`) for manual visual review** | none (all 18 booklet-covered) |
-| 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | pending | — | — |
+| 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | committed | `views-of-prisms`, `volume-capacity-problems`, `find-dimension-from-volume` + **diagram list (7 of 8 skills, 178 `[tikz]`) for manual visual review** | none (all 8 booklet-covered; `find-dimension-from-volume` anchored on scattered Volume 2/3 items rather than a dedicated section) |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | pending | — | — |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | pending | — | — |
 | 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | pending | — | — |
@@ -910,6 +910,188 @@ $A_1$/$A_2$ labels in notch regions; (5) the **reflex sectors** (`sector-interio
 **Committed as `7169d15`** (batch 12, together with the first batch-11 visual-review repair). The
 435-block diagram checklist above is outstanding — review and repair in place on top of that
 commit.
+
+**Batch 13 (t-s4-vol) notes.** First batch to draw **3D solids**, and the first to use
+`tikz-3dplot` at all — the corpus had **zero** prior `\tdplot` blocks, so this batch is the
+reference for the idiom. Generated with Opus, **5 generators in two waves** (the wave split is
+forced by in-batch prereqs: `volume-of-prism` → `volume-of-cylinder` → {`find-dimension-from-volume`,
+`volume-capacity-problems`}, and read-first item 6 requires each prereq's content file to exist).
+Wave 1: A `Volume 1` §Drawing Prisms + §Cross-Section = `views-of-prisms` + `cross-sections-prisms`;
+B `Volume 2` + `Volume 3` = `volume-of-prism` then `volume-of-cylinder` (one agent in sequence, so
+the cylinder **cites** $V=Ah$ instead of re-deriving it); C `Volume 4` §Converting Units + §Units of
+Capacity = `volume-capacity-units` + `convert-volume-capacity-units`. Wave 2: D
+`find-dimension-from-volume`; E `volume-capacity-problems`. atomTypes: `cross-sections-prisms` and
+`volume-capacity-units` = Cat, remainder = R. **No `masteryOmitted`, no `coverageNote`** — every
+atom, including the two difficulty-1 recognition skills, reached its tiers honestly. Final counts:
+foundation 7–12 / development 6–11 / mastery 3–4 / quiz 8–10. Whole-batch `validate.mjs` clean at
+**0 errors, 0 warnings**; full-repo clean (the 248 repo warnings are the pre-existing Part-A
+backfill targets); manifest rebuilt (**316 content / 177 quiz**, +8/+8).
+
+**Two batch-12 data gaps ruled on before generation.**
+1. **`area-composite-figures` prereqs → `area-of-triangle` added** (`data/skills.json`). 6 of its 21
+   practice cards compute a triangle area (`$=8\times6+\frac{8\times5}{2}$` and five more), and the
+   anchored booklet section's step 1 says "squares, rectangles, **and triangles**". Graph-legal:
+   both stage 3, `area-of-triangle` depends on `area-of-parallelogram`, no cycle. `theory` untouched
+   — it is honestly rectangle-first and the triangle cards use it in service. Retires luna's
+   recurring false scope flag on q5/q6. **Note left for the owner:** that skill's *blurb* ("Split or
+   rearrange an **L-shaped** figure to find its area") is now the same kind of stale-scope text that
+   caused batch 11's seven false flags on `perimeter-2d-shapes`; a blurb widening needs owner
+   approval and was **not** made here.
+2. **`area-of-triangle`'s $\tfrac12(b+h)$ decoy cut from 6 of 9 items to 3.** Each instance was
+   individually correct (reachable, correctly named), so this was a *pattern* defect, not an option
+   defect: at two-thirds saturation a student eliminates "the small halved-sum one" without doing
+   any maths. Three replaced, three kept (q1, q3, q7 — the from-figure/obtuse items whose `why`
+   cites the drawn labels); replacing all six would mint six new values for zero coverage gain.
+   Replacements with derivations: **q2** $9.5\to98\text{ m}^2$ (uses the longer side as both base
+   and height, $\tfrac12\times14\times14$ — the planned $17.5$ was already taken by that item's
+   "halved twice" option); **q5** $12.5\to9\text{ mm}^2$ (halves the base and stops, $18\div2$);
+   **q8** "$A$, $11$ vs $10$" $\to$ "$A$, $96$ vs $48\text{ cm}^2$" (forgets to halve $A$'s product,
+   $16\times6$ against $\tfrac12\times12\times8$). Gate clean after.
+
+**The two batch-12 orchestrator-side sweeps are now standing gate scripts** — the gate is **six**
+commands, and `docs/content-generation.md` step 3 is updated to match.
+- **`scripts/audit-figure-scale.mjs`** — the batch-12 figure-scale sweep. Labels bind to segments by
+  inline `node[midway]` syntax where present (the dominant idiom in `t-s4-len`), else by proximity;
+  a subdivided edge offers each of its sub-spans, so a "14 m"/"6 m" pair on one drawn base matches
+  its parts rather than the whole. **Two design points differ from the batch-12 sketch, both because
+  the sketched version would have been wrong:** (a) 3D figures are compared on **true 3D lengths**
+  taken from the `(x,y,z)` coordinates — projection never enters, so nothing is foreshortened; the
+  planned direction-class bucketing would have missed a mislabelled slant, whose class has one
+  member. A solid hand-projected into 2D coordinates is skipped and counted, never flagged. (b) a
+  figure needs **≥3 matched labels**: with two, the "median" is their mean, so one bad label drags
+  the reference and both ends flag symmetrically — which is what a 2-label circle figure (diameter +
+  radius, or a circumference value that is not a straight edge) produces.
+- **`scripts/audit-angle-arms.mjs`** — the batch-11 defect the human caught by eye, encoded. Only
+  junctions (≥2 incident segments) and **drawn arc centres** count as vertices; a bare ray tip does
+  not, which is what stops a label sitting between two rays from being assigned to the nearer ray's
+  far end. `\pic {angle=A--B--C}` builds its own arms and is exempt.
+- Both are pinned by **`tests/figure-audits.test.js`** (8 tests) against reconstructions of the
+  original defects, so a future refactor cannot silently blind them. Controls: `t-s4-are` (161
+  multi-label figures / 682 labels) and `t-s4-len` (113 / 548) both re-run at **0 suspects**;
+  angle-arms is clean repo-wide (36 node-labelled angles checked, 44 `\pic`-built). Not added to
+  `package.json` — none of the existing three audits have an npm script either.
+- **One pre-existing defect found repo-wide, outside this batch and NOT repaired:**
+  `equations-from-formulas` development[0] **solution** figure labels the trapezium height $9$ cm but
+  draws it $2.00$ coordinate units where the $10$ cm and $6$ cm parallel sides set the scale at
+  $0.5$ units/cm — the height is drawn shorter than the $6$ cm top side. Same class as batch 12's
+  slant decoys. It is committed batch-10 content; the fix is to redraw at $4.5$ units, no answer
+  change.
+
+**Deterministic gate clean batch-wide on the first run** (245 items / 74 quiz questions / 295
+options / 178 `[tikz]` figures): validate 0 warnings, equivalent-options 0 defects and **0 intended
+key-equal** (38% of options canonicalised — and **80%** on `volume-capacity-problems`, the highest
+of any skill in any batch, because every option in an item is written in the key's unit),
+duplicate-stems 0 across all four classes including 0 near-dup advisories, option-hygiene 0 leaked
+keys / 0 vague `why`s, figure-scale 0 suspects over 45 compared multi-label figures, angle-arms 0.
+
+**Form-pinning held, and it mattered more than in batch 12.** Volume and capacity overlap
+($1\text{ cm}^3=1\text{ mL}$, $1\text{ m}^3=1\text{ kL}=1000\text{ L}$), so $2.5$ L, $2500$ mL and
+$2500\text{ cm}^3$ are three spellings of one answer. Every stem names the required unit and, where
+a decimal is possible, the decimal places — or "in exact form, in terms of $\pi$" for cylinders — and
+**every option inside an item is written in the key's unit**, which is the rule that actually closes
+the trap. The escape hatch was needed **zero** times.
+
+**Blind check — luna, one packet per skill, `figures-first`. All 8 OK, zero retries. 101/101 items
+re-solved, coverage complete on every skill, ONE answer mismatch and 5 flags. 4 of 5 flags
+adjudicated INVALID → majority-invalid round, so the accepted fixes were applied and no second full
+round was spawned** (runbook stopping rule).
+
+INVALID (recorded so they are not re-raised):
+- **`find-dimension-from-volume` q8** — luna claimed $r\approx3.46$ against the key $3.45$.
+  **Checker slip:** $r^2=300/(8\pi)=11.936621$, $r=3.454941$, which rounds to $3.45$ at 2 dp.
+- **`volume-capacity-units` q9** — "a soft-drink bottle could be mL or L; a suburb's supply could be
+  kL or ML". The stem asks for the **most appropriate** set and each distractor changes exactly one
+  slot to a defensible-but-worse choice; that is the design of a unit-selection item, not ambiguity.
+- **`volume-capacity-units` m3** — "a catalogue's unit convention is not mathematically determined".
+  The card asks *which and why* and its solution gives the reasoning; a Cat-atom judgement card is
+  not under-determined for having a judgement in it.
+- **`views-of-prisms` m3 scope-adjacent under-determination** — see below; the content is right, only
+  the stem was loose.
+
+VALID / repaired:
+1. **`views-of-prisms` m3** — luna: "a front view and a side view alone do not uniquely determine
+   the solid". True as generic drafting; within this atom's conventions (prism combinations, internal
+   edges drawn as lines, and no internal line in the given side view) the solid *is* pinned. Fixed by
+   naming the convention in the stem: "…of a solid **made from rectangular prisms**". Stem only, no
+   figure, answer or option changed, so no re-check owed.
+2. **The A/B/C/D panel-label collision — found via the answer mismatch, and the batch's most
+   transferable finding.** `views-of-prisms` q1/q3/q6 pose "which shape is the top view?" with four
+   candidate views drawn as a labelled panel in the stem and options `$A$`–`$D$`. But quiz options
+   *already* render with position keys A–D, and `blind-for-check.mjs` shuffles them — so after the
+   shuffle a student sees "A. $C$", "B. $A$", … and luna answered the panel label while the driver
+   read it as a position. Repaired by renumbering the panels **$1$–$4$** and the options to
+   "Shape $1$"–"Shape $4$", which cannot collide with the position keys; solution text and every
+   `why` moved with them. Targeted re-check (`--items q1,q3,q6` + a fresh luna call): **3/3 agree,
+   0 flags** — confirming the mismatch was the collision and nothing else.
+
+**Renderer constraint discovered and written into the schema doc.** A `[tikz]` block renders in
+`question_text` and `solution_text` **only** — never inside a quiz option's `text` or `why`.
+`QuizQuestion.svelte` renders the stem/solution through `InlineContent` but each option through
+`Math.svelte`, which is KaTeX-only, so a figure in an option renders as literal `[tikz]…` source.
+The labelled-panel-in-the-stem pattern above is now the documented workaround
+(`docs/content-schema.md`, "Inline TikZ").
+
+**Scope lines held.** Conversion lives entirely in agent C's two skills; the formula skills use one
+unit per figure; `volume-capacity-problems` is the single skill that legitimately crosses
+volume↔capacity because that crossing *is* its atom. `cross-sections-prisms` computes no area and no
+volume; `views-of-prisms` draws no nets. `find-dimension-from-volume` splits **17 linear / 6
+square-root** practice cards (6/4 in the quiz), mirroring batch 12's three inverse skills. Stage-5
+material excluded throughout: nets, composite solids/prisms, prisms with curved cross-sections,
+pyramids, cones, spheres, surface area.
+
+**Taxonomy gap found (not a batch defect).** The booklet's find-a-missing-dimension items include
+**cube-root** cases (`Volume 2` §Part 1 items 2d/2f, and items 5 and 8 — solve $V=s^3$ for a cube's
+edge). `find-dimension-from-volume` rejected them because cube root is in **neither** of its prereqs
+(`equations-from-formulas` and `quadratics-from-formulas` cover linear and square-root only), so
+under the scope rule they need an untaught skill. They are therefore **unowned by any skill** — same
+class as batch 8's "Combined Rates" gap. Candidate for the atomisation queue.
+
+**Two agents independently verified `tikz-3dplot` before trusting it** (it was unproven here). Agent
+A probe-rendered it, fitted the projection empirically (`\tdplotsetmaincoords{70}{125}` → +x
+lower-left, +y lower-right, +z up; the coordinate-space minimum corner is the occluded one) and
+generated every solid with **per-face normal-vs-camera visibility**, so hidden edges are computed
+rather than guessed. It then caught a content defect by re-deriving each view analytically: **the
+side view of a flat-top hexagonal prism is a rectangle with a line across it, not a plain
+rectangle** — the max-y vertex sits at an interior height, so the crease projects inside the outline.
+That invalidated quiz q2's key and q7's given side view; both were corrected before reporting.
+Agents B and C rendered and repaired their figures similarly (leader arrows moved off the solid,
+`fill=white` on length labels, ellipse aspect made proportional so a small-radius roller stopped
+reading as a sphere; C rebuilt its three cubes after finding the wrong vertex dashed).
+
+**Booklet errata found (18 across the four booklets, none reproduced).** The costliest are
+structural rather than typographical: `Volume 1`'s "Identify prisms" example is **unusable as
+printed** (items a, b, c, f, g, j have no image at all; d, h and l each carry two or three images in
+one cell, so the a–l labelling does not match the figures), its named-prisms table stacks all three
+solids in one column so no name lines up with its figure, its Foundation Q1 reuses one image for
+five sub-questions, and its Foundation Q2 answer key marks differently-cropped regions of one
+composite image "yes" and "no". Answer-key errors: `Volume 4` §Units of Capacity answers "890 ML to
+kL" as $0.89$ kL (that is the answer to *890 mL to L*; correct is $890\,000$ kL); `Volume 4` Q17a
+computes "$A = 20\text{ m}\times20\text{ m}=400\text{ cm}^2$"; `Volume 3` item 4 prints a m³ answer
+as cm³; `Volume 3` items 8a and 13c are the same figure and question printed twice. The rest are
+unit typos (volumes labelled cm²/m² in `Volume 2` Q1b and Q1g, `Volume 3` Check Your Understanding
+Q2–Q5, and the `Volume 4` worked example), an inverted rate label (`1.5 ha × 10000 ha/m²`), a
+"18 friends" stem whose solution multiplies by 19, duplicated item letters, and `Volume 3` Q7 calling
+two cylinders "prisms".
+
+**Automated vision gate retired — diagram skills flagged for manual human visual review: 7 of 8
+carry inline `[tikz]`, 178 blocks total** (128 content + 50 quiz): `views-of-prisms` (35/12),
+`volume-of-prism` (21/7), `find-dimension-from-volume` (19/7), `volume-capacity-problems` (18/6),
+`cross-sections-prisms` (17/11), `volume-of-cylinder` (16/6), `convert-volume-capacity-units` (2/1);
+**`volume-capacity-units` is deliberately figure-free** (choosing a unit is a benchmarking judgement
+— every figure there would be decorative, exactly as batch 12 shipped `choose-area-units`). Eyeball
+via `http://localhost:5173/#/tikz-check?topic=t-s4-vol`. Highest-risk first, and this batch's risks
+are new: (1) **hidden-edge dashing on every 3D solid** — the whole batch rests on one empirically
+fitted projection, so check that the dashed edges are the ones actually occluded and that no solid
+reads inside-out; (2) the **four candidate-view panels** in `views-of-prisms` q1/q3/q6 and the
+hexagonal-prism side views — the crease-inside-the-outline case above is subtle enough that it was
+missed on the first pass and only analytic re-derivation caught it; (3) the **cylinders**, drawn as
+ellipse-ended 2D figures — check the ellipse aspect reads as a circle in perspective rather than a
+sphere or a disc, and that the radius/height labels clear the curve; (4) `convert-volume-capacity-units`'
+**three subdivision cubes** ($10^3$, $100^3$, and the 10 cm cube holding 1 L), rebuilt once already
+for a dashed-vertex error; (5) the **unknown-dimension arrows** in `find-dimension-from-volume`,
+which must show a variable and never the value.
+
+**Not committed** — left to the human, with the 178-block diagram checklist outstanding.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
