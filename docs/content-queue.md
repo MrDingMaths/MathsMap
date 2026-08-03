@@ -152,7 +152,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | committed | `views-of-prisms`, `volume-capacity-problems`, `find-dimension-from-volume` + **diagram list (7 of 8 skills, 178 `[tikz]`) for manual visual review** | none (all 8 booklet-covered; `find-dimension-from-volume` anchored on scattered Volume 2/3 items rather than a dedicated section) |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | in-review | `unknown-sides-angles-figures`, `quadrilateral-hierarchy`, `convex-nonconvex` + **full diagram list (all 9 skills, 185 `[tikz]`) for manual visual review** | none (all 9 booklet-covered) |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | in-review | `skew-and-measures` (`anchor: none`), `draw-conclusions-data` (thin anchor), `summary-stats-frequency-table` + **diagram list (10 of 14 skills, 129 `[tikz]`) for manual visual review** | `skew-and-measures` (booklet never states the mean/median/mode ordering rule — only the mechanism; ordering generated from `dp-s4-dan-3`); `draw-conclusions-data` **partial** (2 of its 6 structural types have a booklet exemplar; the other 4 from `dp-s4-dan-3`) |
-| 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | in-review | `theoretical-probability`, `probability-range`, `complementary-probability` | — |
+| 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | committed | `theoretical-probability`, `probability-range`, `complementary-probability` | — |
 
 **Total: 206 skill-content pairs across 16 topics** (10 of them stage-3 skills → theory
 copied byte-for-byte, practice + quiz added).
@@ -1622,8 +1622,9 @@ Human samples suggested: `theoretical-probability` (dual-role, defines "event"),
 `probability-range` (Stage-4-only Cat atom, steps omitted), `complementary-probability`
 (two repaired quiz items). No `anchor: none` skills in this batch.
 
-**Not committed** — left for the human, per the standing instruction. Batch 14's and 15's diagram
-checklists remain outstanding alongside this one.
+**Committed as `95a8962`** (batch 16, together with the "Written form of a probability" house
+convention). The 23-block diagram checklist above is outstanding — review and repair in place on
+top of that commit. Batch 14's and 15's diagram checklists remain outstanding alongside it.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 
