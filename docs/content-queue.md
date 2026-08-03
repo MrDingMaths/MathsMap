@@ -152,7 +152,7 @@ coordinates and agreed every marked position. **Committed as `caafc5c`** (batch 
 | 13 | t-s4-vol | Volume | 8 (0) | `Volume 1_Describe the different views of prisms and solids that have been formed from prism combinations.md`<br>`Volume 2_Develop and apply the formula to find the volume of a prism to solve problems.md`<br>`Volume 3_Develop the formula for finding the volume of a cylinder and apply the formula to solve problems.md`<br>`Volume 4_Choose appropriate units of measurement for volume and capacity and convert between units.md` | committed | `views-of-prisms`, `volume-capacity-problems`, `find-dimension-from-volume` + **diagram list (7 of 8 skills, 178 `[tikz]`) for manual visual review** | none (all 8 booklet-covered; `find-dimension-from-volume` anchored on scattered Volume 2/3 items rather than a dedicated section) |
 | 14 | t-s4-geo | Properties of geometrical figures | 9 (2) | `Properties of Geometrical Figures 1_Classify triangles according to their side and angle properties.md`<br>`Properties of Geometrical Figures 2_Classify quadrilaterals and describe their properties.md`<br>`Properties of Geometrical Figures 3_Apply the properties of triangles and quadrilaterals.md` | in-review | `unknown-sides-angles-figures`, `quadrilateral-hierarchy`, `convex-nonconvex` + **full diagram list (all 9 skills, 185 `[tikz]`) for manual visual review** | none (all 9 booklet-covered) |
 | 15 | t-s4-dan | Data analysis | 14 (0) | `Data Analysis.md` | in-review | `skew-and-measures` (`anchor: none`), `draw-conclusions-data` (thin anchor), `summary-stats-frequency-table` + **diagram list (10 of 14 skills, 129 `[tikz]`) for manual visual review** | `skew-and-measures` (booklet never states the mean/median/mode ordering rule — only the mechanism; ordering generated from `dp-s4-dan-3`); `draw-conclusions-data` **partial** (2 of its 6 structural types have a booklet exemplar; the other 4 from `dp-s4-dan-3`) |
-| 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | pending | — | — |
+| 16 | t-s4-pro | Probability | 7 (0) | `Probability 1_Determine probabilities for chance experiments.md`<br>`Probability 2_Determine probabilities for complementary events.md` | in-review | `theoretical-probability`, `probability-range`, `complementary-probability` | — |
 
 **Total: 206 skill-content pairs across 16 topics** (10 of them stage-3 skills → theory
 copied byte-for-byte, practice + quiz added).
@@ -1545,6 +1545,85 @@ value displays** — one cross per value, so a cluster must read as a cluster at
 these 129 renders.
 
 **Not committed** — left for the human, per the standing instruction.
+
+**Batch 16 (t-s4-pro) notes.** LAST Stage-4 batch — **Wave 1 (Stage 4) is complete.** 7 skills, all
+new, no stage-3 subset. **5 generators in two waves.** Wave 1: A §Outcomes and Sample Space +
+§Calculating Probability = `sample-space` → `theoretical-probability` (chain, one agent). Wave 2
+(parallel): B P2 §Complementary Events + §Using the Complement = `complement-of-event` →
+`complementary-probability`; C §Expected Frequency = `expected-frequency`; D §Relative Frequency +
+§Law of Large Numbers = `observed-probability`; E §Overview + §Describing Probability =
+`probability-range`. The wave split is forced by Read-first item 6 (every wave-2 skill has
+`theoretical-probability` in its prereq chain). atomTypes: `probability-range`, `complement-of-event`
+= Cat (both omit `theory.steps` per the bold-answer-trap ruling); the other five = R. No
+`masteryOmitted`, no `coverageNote`. Practice 6–8 F / 7–8 D / 3 M per skill; quizzes 8–9 questions
+(62 total, 243 options); 23 `[tikz]` blocks. Manifest rebuilt (**344 content / 207 quiz**, +7/+7).
+`npm test` 103/103 green (one flaky Windows EPERM in `dq-qa-jobs` filesystem-lock test on the first
+run, unrelated to content; clean on rerun).
+
+**Equivalent-options result (the batch's named top risk): clean on the first strict run** — 92/243
+options canonicalised (38%), 0 defects, 0 key-equal pairs. Every probability stem pins its form; a
+new house convention **"Written form of a probability"** (fraction in simplest form by default,
+stem-pinned; decimals/percentages stay in the given form) was recorded in
+`docs/content-generation.md` §House mathematical conventions.
+
+**Scenario split held**: A dice + marble jars (+letter cards); B card packs + weather/daily-life;
+C spinners + coin runs with trial counts; D recorded tallies (dice/coins/drawing pin/bottle top) +
+LLN convergence graphs; E everyday likelihood events + lolly jars + 0–1 number line. 0 cross-skill
+duplicate stems over 182 items.
+
+**Luna blind check: 0 answer mismatches across all 62 blind items, but 5 flags and — unlike batch
+15 — ALL FIVE VALID** (the first majority-valid round since batch 14): four quiz-copies-practice
+duplicates that `audit-duplicate-stems` missed because the stems were reworded while values were
+identical (`sample-space` q9/m2, `expected-frequency` q9/m1, `complementary-probability` q8/m2 and
+q9/m1 — three of the four were the agents' own earlier dedup fixes that landed on their mastery
+cards), plus one genuine ambiguity (`theoretical-probability` m1: Y-as-vowel in PROBABILITY).
+Repairs: fresh values/props for the four quiz items with the same misconception→derivation→value
+chains; a "counting only A, E, I, O and U as vowels" clarifier in m1. Full six-command gate re-run
+clean; targeted luna recheck (`blind-for-check --items`) on the 5 changed items: all re-solved,
+0 flags. One repair round total. **Audit-gap note for the tooling backlog:** QUIZ-COPIES-PRACTICE
+matching is stem-based and blind to same-values-different-wording duplicates — a value-signature
+comparison would have caught all four.
+
+**Ownership/taxonomy findings.** (1) **Law of Large Numbers is absorbed, not unowned**:
+`observed-probability` now carries the formal "relative frequency approaches theoretical probability
+as trials increase" statement, the convergence graphs and observed-as-estimate;
+`expected-vs-observed-trials` (Stage 3) already held the informal version. No dedicated LLN skill
+needed. (2) **"Event" as a defined term** (dp-s6adv11-probdata-2 "Define experiments, sample spaces
+and events"): defined in `theoretical-probability`'s theory (booklet L556 wording); experiments /
+outcomes / sample spaces defined in `sample-space`. Covered, but neither blurb advertises it.
+
+**Blurb-widening candidates for the owner (skills.json untouched, batch-11 staleness class):**
+`sample-space` could mention defining experiments/outcomes/events (Advanced dot point);
+`complementary-probability`'s two-event phrasing understates its n-outcome sum-to-1 coverage;
+`observed-probability` could add "and predict frequencies" (f = rf × trials);
+`probability-range` could mention the 5-term likelihood language. **Data defect for the owner:**
+`expected-frequency`'s blurb in `data/skills.json` has a mojibake character ("trials � probability").
+Also noted: `probabilities-sum-to-one` (Stage 3) has a P(not) = 1 − P(event) fact that slightly
+overlaps Stage-4 `complementary-probability`.
+
+**Booklet errata found (taught correctly, none reproduced):** P1 L594/578 `P(black)` for
+`P(blue)`; P1 image53 scaffold multiplier 4 instead of 20; P1 Q13a missing ×10 in printed working;
+P1 L1402/Q8 corrupted render (stray `$`/HTML around "135"); P2 image2 marks picture/number cards
+complementary (ace-ambiguous — replaced with red/black); P2 unsimplified booklet answers (2/10,
+995/1000) simplified under pinned stems; P2 Q23 answer omits the probability its stem asks for.
+
+**Diagram checklist — 5 of 7 skills, 23 blocks (16 content + 7 quiz), review at
+`http://localhost:5173/#/tikz-check?topic=t-s4-pro` — ranked highest-risk-first:**
+1. `observed-probability` (1+1, both DATA DISPLAYS): rf line graphs converging to 0.5 (coin) and
+   0.4 (bottle top) — check jittered non-constant slope, label anti-collision, no pre-marked answer.
+2. `expected-frequency` (5+2): seven spinners incl. 7-, 8- and 10-sector — check sector count,
+   even radial spacing, arrow tip not on an asked sector.
+3. `sample-space` (4+2): listing spinners (G,G,G,B,B,R idiom) + number-card figures.
+4. `theoretical-probability` (3+1): marble jar, equal 6-sector spinner, Jackson two-spinner
+   comparison (shaded blue sectors are GIVENS — confirm they read as data, not answer).
+5. `probability-range` (3+1): 0–1 scale strips with descriptor words; A/B/C(/D) arrow scales —
+   asked positions must carry numeric anchors only.
+Human samples suggested: `theoretical-probability` (dual-role, defines "event"),
+`probability-range` (Stage-4-only Cat atom, steps omitted), `complementary-probability`
+(two repaired quiz items). No `anchor: none` skills in this batch.
+
+**Not committed** — left for the human, per the standing instruction. Batch 14's and 15's diagram
+checklists remain outstanding alongside this one.
 
 ### Stage-3 skills per batch (STAGE 3 rule — copy `theory` byte-for-byte)
 

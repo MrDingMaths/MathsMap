@@ -436,6 +436,14 @@ contradicting each other.
   "diagonals meet outside the quadrilateral". That is **false** for diagonals as segments —
   in a dart they do not meet at all; only an extension does. Author the true test: **one
   diagonal lies outside the shape**, so the two do not cross inside it.
+- **Written form of a probability** (batch 16). The default answer form is a **fraction in
+  simplest form**, and the stem pins it explicitly ("as a fraction in simplest form") —
+  every probability has four written forms ($\frac{2}{6}=\frac{1}{3}=0.3\dot{3}=33.\dot{3}\%$),
+  so an unpinned stem is an equivalent-options defect waiting to happen. When the given
+  data are decimals or percentages (e.g. $P(\text{rain})=0.2$, "bus on time $75\%$ of the
+  time"), the answer stays in the given form and the stem pins it ("as a decimal", "as a
+  percentage"). Never mix forms within one MCQ's options, and never offer two forms of the
+  same value as separate options.
 
 ## Anchoring & the STAGE 3 rule
 
