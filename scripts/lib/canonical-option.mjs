@@ -21,15 +21,31 @@ export function hasUnstrippableMath(text) {
   return false;
 }
 
+// The \frac{a}{b} step below (and its own downstream consumers, e.g. this
+// repo's compound-fraction convention "(num)/(den)") produce a parenthesised
+// "(a)/(b)" form. When a and b are plain signed numbers, collapse that back
+// to bare "a/b" so the numeric-fraction branch in canonicalise() can parse
+// it. Conservative on purpose: an algebraic compound fraction such as
+// "(2x+3)/(3y-1)" has non-numeric content inside the parens and must still
+// fall through unchanged (and later return null) — never guess at a value
+// for those.
+function collapseNumericParenFraction(text) {
+  return text.replace(
+    /(-?)\((-?\d+(?:\.\d+)?)\)\/\((-?\d+(?:\.\d+)?)\)/g,
+    (_, sign, num, den) => `${sign === '-' && !num.startsWith('-') ? `-${num}` : num}/${den}`,
+  );
+}
+
 // Strip the LaTeX/markup shell, turning \frac{a}{b} into a/b so the value survives.
 export function bareText(text) {
-  return String(text)
-    .replace(/\\d?frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
-    .replace(/\\dfrac|\\tfrac|\\frac/g, '')
-    .replace(/\\text\{([^{}]*)\}/g, '$1')
-    .replace(/\\[a-zA-Z]+/g, ' ')
-    .replace(/[$\\{}]/g, '')
-    .trim();
+  return collapseNumericParenFraction(
+    String(text)
+      .replace(/\\d?frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+      .replace(/\\dfrac|\\tfrac|\\frac/g, '')
+      .replace(/\\text\{([^{}]*)\}/g, '$1')
+      .replace(/\\[a-zA-Z]+/g, ' ')
+      .replace(/[$\\{}]/g, ''),
+  ).trim();
 }
 
 // "3", "3.5", "1/2", "(3)/(4)" → Number. null if not a lone numeric.

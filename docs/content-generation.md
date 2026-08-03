@@ -1,8 +1,9 @@
 # Content-generation session prompt
 
-The session prompt for a **per-topic batch** that mass-generates teaching content
+The session prompt for a **queue batch** (one topic, or several same-family topics merged
+into one queue row from Wave 2 on) that mass-generates teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for every skill in
-one Stage-4 topic, using a multi-agent workflow (one generation agent per booklet section,
+the batch, using a multi-agent workflow (one generation agent per booklet section,
 an independent blind checker on a **different model** — OpenAI `gpt-5.6-luna` via the
 `codex exec` CLI, driven by `scripts/run-luna-check.mjs` — and an orchestrator).
 
@@ -29,10 +30,10 @@ Paste just this: **"Run the next content-generation batch — follow
 docs/content-generation.md."**
 
 The session then:
-1. Reads `docs/content-queue.md` and takes the **next `pending` batch** (one topic per
-   session).
-2. Enumerates the topic's skills from `data/skills.json` (skills whose `dotPointIds`
-   resolve, via `data/dotpoints.json`, to the batch's `topicId`), maps each to its
+1. Reads `docs/content-queue.md` and takes the **next `pending` batch** (one queue row
+   per session; a row may span several same-family topics from Wave 2 on).
+2. Enumerates the batch's skills from `data/skills.json` (skills whose `dotPointIds`
+   resolve, via `data/dotpoints.json`, to any of the batch's topic ids), maps each to its
    booklet section(s), and runs the workflow below.
 3. Pauses at the human-review gate. After samples are approved and
    `node scripts/validate.mjs` + `npm run manifest` are clean, flips the batch status in
@@ -74,11 +75,15 @@ The session then:
    where it exists) — read the `theory` and `solution_text` working of the prereqs for
    **notation and tone continuity**. New content must read as the same voice, the same
    house style, the same step-note vocabulary as the skills it builds on.
-7. **The mapped booklet section(s)** from `docs/content-queue.md` (files under
-   `booklets/Stage 4/`) — the worked examples **and** the practice questions. Worked
-   examples alone do not show the routine's full range.
+7. **The mapped booklet section(s)** from `docs/content-queue.md` — the queue row lists
+   the **explicit file paths** (Wave 1 files live under `booklets/Stage 4/`; Wave 2
+   spans THREE directories — `booklets/Stage 5/` (NEW-origin, supersedes),
+   `booklets/Stage 5 Core/` and `booklets/Stage 5 Path/` — per `booklets/TRIAGE.md`.
+   Use the queue row's paths verbatim; do not glob by topic title, several Stage-5
+   filenames don't match their topic name). Read the worked examples **and** the
+   practice questions. Worked examples alone do not show the routine's full range.
 8. **The booklet's diagram PNGs** — booklet image links resolve to PNGs under
-   `booklets/Stage 4/media/<booklet-stem>/`. For any geometry/measurement/data figure —
+   `<booklet-dir>/media/<booklet-stem>/` (same directory the booklet file lives in). For any geometry/measurement/data figure —
    3D solids, labelled triangles, graphs, plots, distance–time graphs, or wherever alt
    text is thin — **`Read` the PNG directly** as the design reference before authoring a
    inline `[tikz]...[/tikz]` diagram.
@@ -445,7 +450,7 @@ contradicting each other.
   percentage"). Never mix forms within one MCQ's options, and never offer two forms of the
   same value as separate options.
 
-## Anchoring & the STAGE 3 rule
+## Anchoring, the ALREADY-COMPLETE rule & the STAGE 3 rule
 
 **Booklet sections are the primary source** for difficulty calibration, question style,
 and the foundation→development→mastery progression. Mirror the booklet's worked examples
@@ -454,11 +459,22 @@ and practice range.
 - **Where the booklet under-covers a skill:** generate from the syllabus dot point
   (`data/dotpoints.json` via `dotPointIds`) plus the principle docs, and record the skill
   as **`anchor: none`** in `docs/content-queue.md` so it gets closer human review.
-- **STAGE 3 rule.** Several Stage-4-course topics include stage-3 skills that already
-  have a content file (see the queue doc's stage-3 subset counts). For any such skill,
-  **copy the `theory` object BYTE-FOR-BYTE from the existing `public/content/{id}.json`** —
-  do not re-author intro/facts/steps. Only **add the `practice` tiers** (if absent) and
-  **create the quiz file**. This keeps already-shipped theory stable across the batch.
+- **ALREADY-COMPLETE rule (Wave 2 on).** Some lower-stage skills tagged into a
+  higher-stage topic were **fully generated in an earlier wave** — their content file has
+  full practice tiers AND a quiz file exists. **Skip them entirely**: verify both files
+  are present, count the skill as done in the batch report, touch nothing. If a skill the
+  queue lists as already-complete is missing either file, treat it as a normal generate
+  and flag it to the human.
+- **STAGE 3 rule.** A lower-stage skill with a **theory-only** content file (no practice
+  tiers): **copy the `theory` object BYTE-FOR-BYTE from the existing
+  `public/content/{id}.json`** — do not re-author intro/facts/steps. Only **add the
+  `practice` tiers** (if absent) and **create the quiz file**. This keeps already-shipped
+  theory stable across the batch.
+- **Upper-stage scope drift (Wave 2 on).** Stage-5 booklets — especially NEW-origin and
+  Path files — contain Stage-6 material, exactly as the Stage-4 `Indices.md` booklet
+  contained Stage-5 material. The skill's `stage` and its dot point set the ceiling;
+  booklet chapters beyond it are excluded, and the exclusion is recorded in the batch
+  notes.
 
 ---
 
@@ -468,12 +484,16 @@ The orchestrator drives the batch; generation and checking run in parallel group
 
 1. **Map skills → booklet sections.** From `docs/content-queue.md`, list the batch topic's
    skills (resolve via `dotPointIds` → `data/dotpoints.json` → `topicId`) and pair each
-   with its booklet section(s) and media folder. Note the stage-3 subset (STAGE 3 rule)
-   and any skill with no booklet coverage (`anchor: none`). **Where 2+ skills map to the
-   same booklet section, deal the material disjointly:** each spawn prompt states which
-   routines/scenarios of that section belong to *this* skill and which belong to its
-   section-mates — parallel agents fed the same exemplars otherwise converge on the same
-   questions.
+   with its booklet section(s) and media folder. Note the already-complete skips
+   (ALREADY-COMPLETE rule), the theory-only subset (STAGE 3 rule) and any skill with no
+   booklet coverage (`anchor: none`). **Where 2+ skills map to the same booklet section,
+   deal the material disjointly:** each spawn prompt states which routines/scenarios of
+   that section belong to *this* skill and which belong to its section-mates — parallel
+   agents fed the same exemplars otherwise converge on the same questions.
+   **Scenario/display exclusivity (standing rule for any batch of ~8+ skills on shared
+   material):** assign each skill an exclusive context domain and, where displays are
+   involved, an exclusive display type, stated in its spawn prompt — batch 15 ran 14
+   sibling skills on one booklet to 0 cross-skill duplicate stems over 386 items this way.
 2. **Generate — one agent per booklet SECTION (not per skill), sections run in parallel.**
    This is the leaner default: a section-owning agent takes that section's 2–4 skills,
    reads the shared authoring docs (schema, `tikz-prompt.md`, principle docs, the booklet
@@ -515,6 +535,11 @@ The orchestrator drives the batch; generation and checking run in parallel group
      equal stems across the batch's skills, plus an advisory near-duplicate report.
      It deliberately has **no minimum stem length** — an early ad-hoc scan with one hid
      a five-clone cluster in a single quiz (`order-operations-indices`, batch 9).
+     Since Wave 2 it also emits **`QUIZ-COPIES-PRACTICE-VALUES`**: a value-signature
+     bucket (all numeric literals in the raw stem + the canonicalised correct answer,
+     ≥2 literals required) that catches a quiz item **rewording** a practice card while
+     keeping its numbers and answer — the class batch 16's four luna-caught clones
+     belonged to, invisible to stem matching.
    - **`audit-figure-scale.mjs`** — a hand-placed length label attached to a segment
      that is not drawn to that length relative to the rest of its figure (batch 12's
      slant-side decoys: `$10$ cm` drawn $8.60$). This is the one gate that reaches
@@ -627,9 +652,9 @@ The orchestrator drives the batch; generation and checking run in parallel group
    **Re-solve depth** (`--resolve-mode`, default `figures-first`): full written re-solve
    only for items carrying a `[tikz]` figure — the figure-vs-answer check genuinely needs
    the item worked. Symbolic items get a verification pass against the defect list plus a
-   stated answer choice, without full working. `--resolve-mode full` reproduces the old
-   behaviour; batch 10 A/Bs the two modes (compare defect yield and wall-clock) before
-   `figures-first` is adopted outright. If a luna run fails outright after retry, fall
+   stated answer choice, without full working. **`figures-first` is the adopted default**
+   (exercised batches 10–16 with zero answer mismatches; the planned A/B against `full`
+   is retired). `--resolve-mode full` remains available for one-off deep checks. If a luna run fails outright after retry, fall
    back to the old same-model Claude checker for that batch and **record the fallback in
    the queue notes** — never silently skip the check.
 5. **Adjudicate.** The orchestrator runs `run-luna-check.mjs --compare` and reads the
@@ -703,5 +728,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
 - **Question-side support figures are standard** on foundation + development cards of any
   skill a figure genuinely helps — never pre-marking the answer.
 - **TikZ batches list every diagram skill for manual human visual review** before commit.
-- **Byte-for-byte theory** for stage-3 skills that already have a content file.
+- **Byte-for-byte theory** for lower-stage skills with a theory-only content file
+  (STAGE 3 rule); **skip entirely** any skill already fully generated in an earlier wave
+  (ALREADY-COMPLETE rule).
 - **One batch per session**; statuses updated by the orchestrator; do not commit.

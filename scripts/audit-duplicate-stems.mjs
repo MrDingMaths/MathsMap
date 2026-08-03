@@ -11,6 +11,11 @@
 //     different tiers), of the SAME skill share a stem — wasted item slots;
 //   * CROSS-SKILL-DUP — two different skills share a stem — usually a
 //     copy/paste seed that was never re-authored for its own skill.
+//   * QUIZ-COPIES-PRACTICE-VALUES — a quiz item and a practice card of the
+//     SAME skill are worded differently (so stem matching misses them) but
+//     carry the same numeric literals and the same correct answer — a
+//     reworded clone, not a fresh item. Caught blind in batch 16 (quiz items
+//     that rephrased a mastery-card stem while keeping its numbers/answer).
 //
 // A NEAR-DUP advisory (token-set Jaccard >= 0.85, not exact-equal) is also
 // reported, but never counts toward the --strict exit code: it is meant to
@@ -27,6 +32,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { rejectStrayPositionals } from './lib/argv.mjs';
+import { canonicalise } from './lib/canonical-option.mjs';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -91,6 +97,50 @@ function jaccard(a, b) {
   return union === 0 ? 0 : intersection / union;
 }
 
+// --- value signature (for QUIZ-COPIES-PRACTICE-VALUES) --------------------
+// Numeric literals in the RAW stem (decimals included; a plain fraction like
+// "3/5" falls out as its two literals "3" and "5" — same as a \frac{3}{5}
+// numerator/denominator pair). tikz coordinates are NOT excluded: this stays
+// consistent with normaliseStem, which also treats [tikz] content as part of
+// the stem.
+function extractNumbers(raw) {
+  const matches = String(raw).match(/\d+(?:\.\d+)?/g) || [];
+  return matches.map(Number).filter((n) => Number.isFinite(n));
+}
+
+// The correct option's text for a quiz item.
+function quizAnswerText(question) {
+  const opts = Array.isArray(question.options) ? question.options : [];
+  const correct = opts.find((o) => o && o.correct);
+  return correct ? String(correct.text || '') : '';
+}
+
+// A practice card has no discrete answer field (docs/content-schema.md: "no
+// separate answer... field") — the final line of solution_text states it, as
+// the text after the last "=" (or the whole line for a word-answer card,
+// which canonicalise() will then reject as unparseable).
+function practiceAnswerText(card) {
+  const solution = String(card?.solution_text || '');
+  const lines = solution.split('\n').map((l) => l.trim()).filter(Boolean);
+  const last = lines[lines.length - 1] || '';
+  const eqIdx = last.lastIndexOf('=');
+  return (eqIdx === -1 ? last : last.slice(eqIdx + 1)).trim();
+}
+
+// sig = sorted numeric literals from the stem + the canonical answer value.
+// null when there's nothing to go on: fewer than 2 numeric literals is too
+// weak a fingerprint on its own (false-positive prone — e.g. two unrelated
+// items that both happen to mention "6"), and with 0 literals and no
+// canonical answer there's nothing left to key on at all.
+function computeSig(raw, answerRaw) {
+  const numbers = extractNumbers(raw);
+  const answerKey = answerRaw ? canonicalise(answerRaw) : null;
+  if (numbers.length === 0 && !answerKey) return null;
+  if (numbers.length < 2) return null;
+  const sortedNums = numbers.slice().sort((a, b) => a - b).join(',');
+  return `${sortedNums}|${answerKey || ''}`;
+}
+
 function listJsonFiles(dir) {
   try {
     return readdirSync(dir).filter((f) => f.endsWith('.json')).sort();
@@ -124,7 +174,8 @@ for (const skillId of [...skillIds].sort()) {
     if (quiz) {
       for (const q of quiz.questions || []) {
         const raw = String(q.question_text || '');
-        entries.push({ skillId, source: 'quiz', itemId: q.id, raw, norm: normaliseStem(raw) });
+        const sig = computeSig(raw, quizAnswerText(q));
+        entries.push({ skillId, source: 'quiz', itemId: q.id, raw, norm: normaliseStem(raw), sig });
         itemsScanned++;
       }
     }
@@ -146,7 +197,8 @@ for (const skillId of [...skillIds].sort()) {
         cards.forEach((card, i) => {
           const raw = String(card?.question_text || '');
           const itemId = `${tier[0]}${i + 1}`;
-          entries.push({ skillId, source: tier, itemId, raw, norm: normaliseStem(raw) });
+          const sig = computeSig(raw, practiceAnswerText(card));
+          entries.push({ skillId, source: tier, itemId, raw, norm: normaliseStem(raw), sig });
           itemsScanned++;
         });
       }
@@ -176,7 +228,12 @@ function classifyPair(x, y) {
   return 'CROSS-SKILL-DUP';
 }
 
-const defectsByKind = { 'QUIZ-COPIES-PRACTICE': [], 'INTRA-FILE-DUP': [], 'CROSS-SKILL-DUP': [] };
+const defectsByKind = {
+  'QUIZ-COPIES-PRACTICE': [],
+  'INTRA-FILE-DUP': [],
+  'CROSS-SKILL-DUP': [],
+  'QUIZ-COPIES-PRACTICE-VALUES': [],
+};
 
 for (const [norm, group] of buckets) {
   if (group.length < 2) continue;
@@ -184,6 +241,33 @@ for (const [norm, group] of buckets) {
     for (let j = i + 1; j < group.length; j++) {
       const kind = classifyPair(group[i], group[j]);
       defectsByKind[kind].push({ a: group[i], b: group[j], norm });
+    }
+  }
+}
+
+// --- value-signature buckets (QUIZ-COPIES-PRACTICE-VALUES) ----------------
+// Same-skill quiz-vs-practice-card pairs that share a value signature (see
+// computeSig) but a DIFFERENT stem norm — same norm is already caught by the
+// QUIZ-COPIES-PRACTICE class above, so skip those to avoid double-reporting.
+const sigBuckets = new Map();
+for (const e of entries) {
+  if (!e.sig) continue;
+  if (!sigBuckets.has(e.sig)) sigBuckets.set(e.sig, []);
+  sigBuckets.get(e.sig).push(e);
+}
+
+for (const [sig, group] of sigBuckets) {
+  if (group.length < 2) continue;
+  for (let i = 0; i < group.length; i++) {
+    for (let j = i + 1; j < group.length; j++) {
+      const x = group[i];
+      const y = group[j];
+      if (x.skillId !== y.skillId) continue;
+      if (x.norm === y.norm) continue; // already flagged by stem matching
+      const xCard = isCardSource(x.source);
+      const yCard = isCardSource(y.source);
+      if (xCard === yCard) continue; // need exactly one quiz side, one card side
+      defectsByKind['QUIZ-COPIES-PRACTICE-VALUES'].push({ a: x, b: y, sig });
     }
   }
 }
@@ -210,16 +294,16 @@ for (let i = 0; i < entryList.length; i++) {
 }
 
 // --- report ------------------------------------------------------------
-function printPair(kind, a, b, norm) {
+function printPair(kind, a, b) {
   console.log(`✗ ${kind}`);
   console.log(`    ${a.skillId} ${a.itemId} == ${b.skillId} ${b.itemId}`);
   console.log(`    stem: ${displayStem(a.raw)}`);
 }
 
 let totalDefects = 0;
-for (const kind of ['QUIZ-COPIES-PRACTICE', 'INTRA-FILE-DUP', 'CROSS-SKILL-DUP']) {
-  for (const { a, b, norm } of defectsByKind[kind]) {
-    printPair(kind, a, b, norm);
+for (const kind of ['QUIZ-COPIES-PRACTICE', 'INTRA-FILE-DUP', 'CROSS-SKILL-DUP', 'QUIZ-COPIES-PRACTICE-VALUES']) {
+  for (const { a, b } of defectsByKind[kind]) {
+    printPair(kind, a, b);
     totalDefects++;
   }
 }
@@ -239,7 +323,8 @@ console.log(
 console.log(
   `QUIZ-COPIES-PRACTICE: ${defectsByKind['QUIZ-COPIES-PRACTICE'].length}, ` +
     `INTRA-FILE-DUP: ${defectsByKind['INTRA-FILE-DUP'].length}, ` +
-    `CROSS-SKILL-DUP: ${defectsByKind['CROSS-SKILL-DUP'].length}. ` +
+    `CROSS-SKILL-DUP: ${defectsByKind['CROSS-SKILL-DUP'].length}, ` +
+    `QUIZ-COPIES-PRACTICE-VALUES: ${defectsByKind['QUIZ-COPIES-PRACTICE-VALUES'].length}. ` +
     `NEAR-DUP advisory: ${nearDups.length}.`,
 );
 

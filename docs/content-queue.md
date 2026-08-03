@@ -9,8 +9,9 @@ session, via the workflow in [content-generation.md](content-generation.md).
 move to the next `pending` row — do not skip ahead. **Statuses are set by the
 orchestrator; do not commit** (the human commits).
 
-This first wave covers the **16 Stage-4-course topics** (`courses` contains `s4`). Later
-waves (Stage 5, Stage 6) are appended to this same queue once Stage 4 is through.
+Wave 1 covered the **16 Stage-4-course topics** (`courses` contains `s4`) — COMPLETE.
+Wave 2 covers the 41 Stage-5 topics (see the Wave 2 section). Stage 6 follows as Wave 3.
+From Wave 2 on, one queue row may merge several same-family topics into one batch.
 
 **Status vocabulary:** `pending` → `generated` (both files written, `validate --only`
 clean per skill) → `checked` (blind check adjudicated) → `validated` (batch
@@ -23,7 +24,8 @@ with `stage: 3` living on a Stage-4-course dot point; these already have a conte
 so their `theory` is copied **byte-for-byte** and only practice + quiz are added (STAGE 3
 rule). The named stage-3 skills are listed under each affected batch.
 
-**Booklet paths** are relative to `booklets/Stage 4/` and were cross-checked against the
+**Booklet paths** in Wave 1 are relative to `booklets/Stage 4/` (Wave 2 rows carry
+explicit `Stage 5`/`Stage 5 Core`/`Stage 5 Path` prefixes) and were cross-checked against the
 TRIAGE KEEP / ALREADY-ATOMISED list — every file below is a surviving booklet in that
 folder. `anchor: none` skills (booklet under-covers the skill; generated from the syllabus
 dot point) are recorded per batch by the orchestrator as they surface.
@@ -1658,7 +1660,86 @@ flag it to the human.)
 
 ---
 
+## Wave 2 — Stage 5
+
+**Scope:** all 41 Stage-5 topics (18 `s5-core`, 23 `s5-path`) — 297 topic-skill rows /
+296 unique skills (`expand-binomial-products` spans t-s5c-alg-a and t-s5p-alg-b; generate
+once, in W2-2). **289 net-new**: 7 stage-4 skills tagged into Stage-5 topics were fully
+generated in Wave 1 and are **skipped per the ALREADY-COMPLETE rule** (verify both files
+exist, count as done): `expand-brackets` (W2-2); `model-word-problems-equations`,
+`verify-solutions-substitution`, `equations-from-formulas` (W2-5);
+`graph-linear-relationship`, `point-satisfies-line` (W2-7); `linear-real-life` (W2-7).
+No theory-only STAGE-3-rule files in this wave.
+
+**Wave-2 conventions (differences from Wave 1):**
+- **Batches merge same-family topics** (owner decision 2026-08-03) — one queue row may
+  span 2–4 topics, capped ~20 skills. Order = curriculum order (`booklets/QUEUE.md`
+  rows 8–45), with `t-s5c-mag` inserted at its topics.json position (it was never in the
+  atomisation QUEUE) and the two zero-booklet topics last.
+- **Booklets span three directories** — `booklets/Stage 5/` (NEW-origin, supersedes),
+  `booklets/Stage 5 Core/`, `booklets/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
+  below are explicit full filenames; do **not** glob by topic title — five filenames
+  don't match their topic (`Financial Maths B…`, `Data Anaylsis A 3…` [sic, typo kept],
+  `Functions 2_Graph Regions`, `Variation and Rates of Change 1/2` [no A/B letter]).
+- **Stage-6 scope-drift watch** on NEW/Path booklets (analog of Wave 1's stage-5
+  exclusions in `Indices.md`).
+- Pipeline = the batch-10+ revision throughout, plus the value-signature duplicate class
+  (`QUIZ-COPIES-PRACTICE-VALUES`) added to `audit-duplicate-stems.mjs` before W2-1.
+
+| # | Batch | Topic id(s) | Skills | Mapped booklet file(s) | Status | Notes |
+|---|---|---|---|---|---|---|
+| W2-1 | Financial mathematics A+B | t-s5c-fin-a, t-s5c-fin-b | 12 | `Stage 5 Core/Financial Mathematics A 1_Solve problems involving earning money.md`<br>`Stage 5 Core/Financial Mathematics A 2_Solve problems involving simple interest.md`<br>`Stage 5 Core/Financial Mathematics A 3_Solve problems involving spending money.md`<br>`Stage 5/Financial Maths B Compound Interest Depreciation.md` | pending | Stage-5 shakedown batch — report any runbook wording that fails on the three-dir layout |
+| W2-2 | Algebraic techniques A+B+C | t-s5c-alg-a, t-s5p-alg-b, t-s5p-alg-c | 15 | `Stage 5 Core/Algebraic Techniques A 1_Apply the 4 operations to simplify algebraic fractions with numerical denominators.md`<br>`Stage 5 Core/Algebraic Techniques A 2_Apply the distributive law to the expansion of algebraic expressions, and collect like terms where appropriate.md`<br>`Stage 5 Path/Algebraic Techniques B_1 Apply the 4 operations involving algebraic fractions with pronumerals in the denominator.md`<br>`Stage 5 Path/Algebraic Techniques B_2 Factorise algebraic expressions by taking out a common algebraic factor.md`<br>`Stage 5 Path/Algebraic Techniques B_3 Expand binomial products and factorise monic quadratic expressions.md`<br>`Stage 5 Path/Algebraic Techniques C_1 Operate with algebraic fractions involving binomial numerators and numerical denominators.md`<br>`Stage 5/Algebraic Techniques C 2_Further Expansion and Factorisation.md`<br>`Stage 5/Algebraic Techniques C 3_Further Algebraic Fractions.md` | pending | skip `expand-brackets` (ALREADY-COMPLETE); `expand-binomial-products` spans alg-a/alg-b — generate once |
+| W2-3 | Indices A+B | t-s5c-ind-a, t-s5p-ind-b | 9 | `Stage 5/Indices A 1_Index Laws.md`<br>`Stage 5/Indices A 2_Negative Index.md`<br>`Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md` | pending | NEW Indices A files supersede all 3 OLD Core files |
+| W2-4 | Indices C | t-s5p-ind-c | 14 | `Stage 5 Path/Indices C_1 Describe surds.md`<br>`Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md`<br>`Stage 5 Path/Indices C_3 Describe and use fractional indices.md` | pending | |
+| W2-5 | Equations A+B | t-s5c-equ-a, t-s5p-equ-b | 10 | `Stage 5 Core/Equations A 1_Solve linear equations involving up to 3 steps.md`<br>`Stage 5 Core/Equations A 2_Solve linear equations involving one algebraic fraction.md`<br>`Stage 5 Core/Equations A 3_Solve linear equations arising from word problems and substitution into formulas.md`<br>`Stage 5 Path/Equations B_1 Solve monic quadratic equations.md`<br>`Stage 5 Path/Equations B_2 Solve cubic equations.md`<br>`Stage 5 Path/Equations B_3 Solve linear inequalities and graph their solutions on a number line.md` | pending | skip 3 (ALREADY-COMPLETE): `model-word-problems-equations`, `verify-solutions-substitution`, `equations-from-formulas` |
+| W2-6 | Equations C | t-s5p-equ-c | 18 | `Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md`<br>`Stage 5 Path/Equations C_2 Rearrange literal equations.md`<br>`Stage 5/Equations C_3 Quadratic Equations.md`<br>`Stage 5/Equations C 4_Simultaneous Equations.md` | pending | largest batch; NEW `Equations C 4_Simultaneous Equations.md` supersedes OLD Path `Equations C_4…` |
+| W2-7 | Linear relationships A+B | t-s5c-lin-a, t-s5c-lin-b | 16 | `Stage 5/Linear Relationships A 1_Coordinate Geometry.md`<br>`Stage 5/Linear Relationships A 2_Graphing Lines.md`<br>`Stage 5/Linear Relationships B Gradient-Intercept Form.md` | pending | graph-heavy; skip 3 (ALREADY-COMPLETE): `graph-linear-relationship`, `point-satisfies-line`, `linear-real-life` |
+| W2-8 | Linear relationships C | t-s5p-lin-c | 9 | `Stage 5/Linear Relationships C 1_Coordinate Geometry Formulas.md`<br>`Stage 5/Linear Relationships C 2_General and Point Gradient Form.md`<br>`Stage 5/Linear Relationships C 3_Coordinate Geometry Problems.md`<br>`Stage 5 Path/Linear Relationships C_3 Use various forms of the equation of a straight line.md`<br>`Stage 5 Path/Linear Relationships C_5 Identify line and rotational symmetries.md`<br>`Stage 5 Path/Linear Relationships C_6 Describe translations, reflections in an axis, and rotations through multiples of 90 degrees on the Cartesian plane, using coordinates.md` | pending | 6 booklets, 6 dp; NEW `C 2` overlaps OLD `C_3` — map per dot point |
+| W2-9 | Non-linear relationships A+B+C | t-s5c-nli-a, t-s5c-nli-b, t-s5p-nli-c | 17 | `Stage 5 Core/Non-Linear Relationships A 1_Examine the connection between algebraic and graphical representations of quadratics and exponentials.md`<br>`Stage 5 Core/Non-Linear Relationships B 1_Graph and examine quadratic relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 2_Graph and examine exponential relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 3_Distinguish between linear, quadratic and exponential relationships by examining their graphical representations.md`<br>`Stage 5 Path/Non-Linear Relationships C_1 Graph parabolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_2 Graph exponentials and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_3 Graph hyperbolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_4 Graph circles and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_5 Distinguish between different types of graphs by examining their algebraic and graphical representations and solve problems.md`<br>`Stage 5 Path/Non-Linear Relationships C_6 Graph and compare polynomial curves and describe their features and transformations.md` | pending | graph-heavy (pgfplots) |
+| W2-10 | Numbers of any magnitude | t-s5c-mag | 7 | `Stage 5 Core/Numbers of Any Magnitude 1_Identify and describe very small and very large measurements.md`<br>`Stage 5 Core/Numbers of Any Magnitude 2_Find absolute and percentage error.md`<br>`Stage 5 Core/Numbers of Any Magnitude 3_Estimate and round numbers to a specified degree of accuracy.md`<br>`Stage 5 Core/Numbers of Any Magnitude 4_Express numbers in scientific notation.md` | pending | topic absent from `booklets/QUEUE.md` (never atomisation-reviewed) — treat booklet mapping as fresh |
+| W2-11 | Polynomials | t-s5p-pol | 10 | `Stage 5 Path/Polynomials_1 Define and operate with polynomials.md`<br>`Stage 5 Path/Polynomials_2 Divide polynomials.md`<br>`Stage 5 Path/Polynomials_3 Apply the factor and remainder theorems to solve problems.md`<br>`Stage 5 Path/Polynomials_4 Graph polynomials.md` | pending | |
+| W2-12 | Logarithms | t-s5p-log | 9 | `Stage 5 Path/Logarithms_1 Examine logarithms both numerically and graphically.md`<br>`Stage 5 Path/Logarithms_2 Establish and apply the laws of logarithms to solve problems.md` | pending | |
+| W2-13 | Functions and other graphs | t-s5p-fnc | 14 | `Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md`<br>`Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md`<br>`Stage 5/Functions 2_Graph Regions.md` | pending | 3rd dp covered by NEW `Functions 2_Graph Regions.md` |
+| W2-14 | Variation and rates of change A+B | t-s5p-var-a, t-s5p-var-b | 13 | `Stage 5/Variation and Rates of Change 1_Direct and Inverse Proportion.md`<br>`Stage 5/Variation and Rates of Change 2_Graphs of Rates of Change.md`<br>`Stage 5 Path/Variation and Rates of Change B_2 Analyse the relationship between graphs and variable rates of change.md` | pending | NEW filenames lack the A/B letter — mapping above is authoritative |
+| W2-15 | Trigonometry A+B | t-s5c-trg-a, t-s5c-trg-b | 15 | `Stage 5 Core/Trigonometry A 1_Demonstrate and explain the constancy of trigonometric ratios for a given angle in right-angled triangles.md`<br>`Stage 5 Core/Trigonometry A 2_Apply trigonometry to solve right-angled triangle problems.md`<br>`Stage 5 Core/Trigonometry B 1_Solve right-angled triangle problems involving angles of elevation and depression.md`<br>`Stage 5 Core/Trigonometry B 2_Solve right-angled triangle problems involving bearings.md` | pending | triangle-diagram-dense |
+| W2-16 | Trigonometry C | t-s5p-trg-c | 11 | `Stage 5/Trigonometry C 1_3D Trigonometry.md`<br>`Stage 5/Trigonometry C 2_Non-Right-Angled Trigonometry.md` | pending | 3D figures — tikz-3dplot territory |
+| W2-17 | Trigonometry D | t-s5p-trg-d | 13 | `Stage 5/Trigonometry D Circle Trigonometry.md` | pending | 1 booklet, 2 dp, 13 skills — deal sections carefully |
+| W2-18 | Area/SA + Volume A+B | t-s5c-are-a, t-s5p-are-b, t-s5c-vol-a, t-s5p-vol-b | 19 | `Stage 5 Core/Area and Surface Area A 1_Solve problems involving areas and surface areas.md`<br>`Stage 5 Core/Area and Surface Area A 2_Develop and apply the formula for surface areas of cylinders.md`<br>`Stage 5 Core/Area and Surface Area A 3_Solve problems involving surface areas of cylinders and related composite solids.md`<br>`Stage 5 Path/Area and Surface Area B_1 Solve problems involving surface areas.md`<br>`Stage 5 Core/Volume A 1_Solve problems involving composite solids consisting of right prisms and cylinders.md`<br>`Stage 5 Path/Volume B_1 Solve problems involving volumes.md` | pending | diagram-dense; biggest merged batch (4 topics) |
+| W2-19 | Geometrical figures A+B+C | t-s5c-geo-a, t-s5p-geo-b, t-s5p-geo-c | 20 | `Stage 5 Core/Properties of Geometrical Figures A 1_Identify and describe the properties of similar figures.md`<br>`Stage 5 Core/Properties of Geometrical Figures A 2_Solve problems using ratio and scale factors in similar figures.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_1 Identify and explain congruence.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_2 Develop and use the conditions for congruent triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_3 Develop and apply the minimum conditions for triangles to be similar.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_4 Establish and apply properties of similar shapes and solids.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_5 Apply logical reasoning to numerical problems involving plane shapes.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_1 Construct formal proofs involving congruent and similar triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_2 Apply logical reasoning to proofs involving plane shapes.md` | pending | at the merge cap; proof skills — MCQ-ability of proofs to watch |
+| W2-20 | Circle geometry | t-s5p-cir | 9 | `Stage 5 Path/Circle Geometry_1 Prove and apply angle and chord properties of circles.md`<br>`Stage 5 Path/Circle Geometry_2 Prove and apply tangent and secant properties of circles.md` | pending | pure TikZ stress (circles, chords, tangents) |
+| W2-21 | Data analysis A+B | t-s5c-dat-a, t-s5c-dat-b | 17 | `Stage 5/Data Analysis A 1_Standard Deviation.md`<br>`Stage 5/Data Analysis A 2_Quartiles and Box Plots.md`<br>`Stage 5/Data Anaylsis A 3_Grouped Data.md`<br>`Stage 5/Data Analysis B_Bivariate Data.md` | pending | third filename has the "Anaylsis" typo — keep as-is, path above is exact |
+| W2-22 | Probability A+B | t-s5c-pro-a, t-s5p-pro-b | 13 | `Stage 5 Core/Probability A 1_Describe multistage chance experiments involving independent and dependent events.md`<br>`Stage 5 Core/Probability A 2_Solve problems for multistage chance experiments.md`<br>`Stage 5 Path/Probability B_1 Solve problems involving Venn diagrams and 2-way tables.md`<br>`Stage 5 Path/Probability B_2 Use the language, 'if … then', 'given', 'of' and 'knowing that', to examine conditional statements and identify common mistakes in interpreting the language.md`<br>`Stage 5 Path/Probability B_3 Describe mutually and non-mutually exclusive events using specific language and calculate related probabilities.md` | pending | pro-a has 3 dp vs 2 booklets |
+| W2-23 | Networks + Data analysis C | t-s5p-net, t-s5p-dat-c | 7 | **none — no booklet exists for either topic** | pending | **whole-batch `anchor: none`** — generate from dot points; extra human review; deliberately last (owner decision 2026-08-03) |
+
+**Total: 297 topic-skill rows = 289 to author + 7 ALREADY-COMPLETE skips + 1 cross-topic
+duplicate generated once.**
+
+**Wave-1 backlog surfaced by the new value-signature audit (human to rule on, not a
+Wave-2 blocker — the gate only ever runs batch-scoped):** dry-running
+`QUIZ-COPIES-PRACTICE-VALUES` over committed batch 16 found **8 genuine reworded
+foundation/development clones** that both the stem gate and luna (blind to F/D tiers)
+missed: `complementary-probability` q5≡d1, q6≡d4, q7≡d5; `complement-of-event` q6≡d8;
+`observed-probability` q7≡d3; `sample-space` q3≡f3; `theoretical-probability` q3≡f3;
+plus `theoretical-probability` q4≡f4 (genuine but now a known **false negative** — the
+quiz mirrors part b of a multi-part foundation card while the audit's answer heuristic
+reads the last solution line, part c). Sits alongside the earlier 160-hit historical
+QUIZ-COPIES-PRACTICE advisory list.
+
+**Two known false positives on committed batch 16 (recorded so batch orchestrators
+recognise the pattern):** `sample-space` q3≡d1 and `complement-of-event` q6≡f7 — both
+have non-numeric answers (a set / free text) so the signature degrades to numbers-only,
+and shared tikz-template coordinates or a shared card-count scenario collide. If a
+Wave-2 batch hits this pattern (same numbers, genuinely different question), adjudicate
+INVALID and record it in the batch notes.
+
+**Audit limitation on record:** multi-part practice cards — the value signature takes
+the LAST solution line as the card's answer, so a quiz item cloning an earlier sub-part
+can escape (the q4≡f4 case). Tooling backlog: per-part answer extraction.
+
+---
+
 ## Later waves (placeholder)
 
-Stage 5 and Stage 6 topics will be appended here as further waves once Wave 1 (Stage 4) is
-complete, in the same curriculum-then-course order used by `booklets/QUEUE.md`.
+Stage 6 topics will be appended here as a further wave once Wave 2 (Stage 5) is complete,
+in the same curriculum-then-course order used by `booklets/QUEUE.md`.

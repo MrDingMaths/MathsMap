@@ -7,6 +7,7 @@ import { dirname, join } from 'node:path';
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const fxDup = join('tests', 'fixtures', 'audits', 'fx-dup');
 const fxLeak = join('tests', 'fixtures', 'audits', 'fx-leak');
+const fxSigDup = join('tests', 'fixtures', 'audits', 'fx-sigdup');
 
 function run(script, args) {
   const result = spawnSync(process.execPath, [join('scripts', script), ...args], {
@@ -51,6 +52,24 @@ test('audit-duplicate-stems exits 1 under --strict when real defects are present
 test('audit-duplicate-stems exits 0 without --strict even with defects present', () => {
   const { status } = run('audit-duplicate-stems.mjs', ['--dir', fxDup]);
   assert.equal(status, 0);
+});
+
+// Pins the batch-16 miss: a quiz item that REWORDS a mastery card's stem but
+// keeps the same numbers and the same correct answer sails through stem
+// matching (different norm) and must instead be caught by the value-sig class.
+test('audit-duplicate-stems finds QUIZ-COPIES-PRACTICE-VALUES for a reworded stem with identical values', () => {
+  const { stdout, status } = run('audit-duplicate-stems.mjs', ['--dir', fxSigDup, '--strict']);
+  assert.equal(status, 1);
+  assert.match(stdout, /✗ QUIZ-COPIES-PRACTICE-VALUES\n\s+skill-a q1 == skill-a m1/);
+  assert.match(stdout, /QUIZ-COPIES-PRACTICE-VALUES: 1\./);
+});
+
+test('audit-duplicate-stems does not flag QUIZ-COPIES-PRACTICE-VALUES for a reworded stem with different values', () => {
+  const { stdout } = run('audit-duplicate-stems.mjs', ['--dir', fxSigDup]);
+  // q2 (9, 3 / 75%) vs m2 (4, 1 / 80%): same shape, different numbers and
+  // answer on both sides — must not collide with either q1 or m1.
+  assert.doesNotMatch(stdout, /q2 == skill-a m/);
+  assert.doesNotMatch(stdout, /q1 == skill-a m2/);
 });
 
 // --- Task 4: audit-option-hygiene.mjs ---------------------------------------
