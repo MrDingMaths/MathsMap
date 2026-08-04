@@ -389,6 +389,26 @@ async function runCheckMode({ skillIds, checkworkDir, resolveMode, concurrency, 
 // mode allowed to touch a key file.
 // ---------------------------------------------------------------------------------------
 
+// The shuffle-sanity check compares the checker's transcription of the option it chose
+// against the key's text. The checker re-types the option in plain prose, so LaTeX
+// presentation differences are pure noise: W2-1 fired 29 such warnings, every one of them
+// "$1,381.80" against the key's "$\$1\,381\.80$" -- same number, two spellings. Strip
+// presentation before comparing so a real transcription error (a different VALUE at a
+// matching index) still surfaces. Note this can only ever soften a WARN: genuine
+// disagreement is decided earlier, on chosenIndex, and is untouched by this.
+function normaliseOptionText(text) {
+  if (typeof text !== 'string') return '';
+  return text
+    .replace(/\\[,;:!]/g, '')      // LaTeX thin/med/thick spaces: \, \; \: \!
+    .replace(/\\text\s*\{([^}]*)\}/g, '$1')
+    .replace(/\\(?:mathrm|mathit|operatorname)\s*\{([^}]*)\}/g, '$1')
+    .replace(/\\\$/g, '$$')        // escaped dollar -> literal dollar
+    .replace(/\$/g, '')            // strip maths delimiters AND literal dollars alike
+    .replace(/\\%/g, '%')
+    .replace(/[\s,]/g, '')         // whitespace + thousands commas
+    .toLowerCase();
+}
+
 async function compareOneSkill(skillId, checkworkDir) {
   const lunaPath = path.join(checkworkDir, `${skillId}.luna.json`);
   const keyPath = path.join(checkworkDir, `${skillId}.key.json`);
@@ -414,7 +434,7 @@ async function compareOneSkill(skillId, checkworkDir) {
         expectedIndex: keyItem.shuffledIndexOfCorrect,
         expectedText: keyItem.correctText,
       });
-    } else if (item.chosenOptionText !== keyItem.correctText) {
+    } else if (normaliseOptionText(item.chosenOptionText) !== normaliseOptionText(keyItem.correctText)) {
       shuffleWarnings.push({
         itemId: item.id,
         chosenOptionText: item.chosenOptionText,
