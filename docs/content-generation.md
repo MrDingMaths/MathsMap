@@ -82,14 +82,28 @@ The session then:
    Use the queue row's paths verbatim; do not glob by topic title, several Stage-5
    filenames don't match their topic name). Read the worked examples **and** the
    practice questions. Worked examples alone do not show the routine's full range.
-8. **The booklet's diagram PNGs** — booklet image links resolve to PNGs under
-   `<booklet-dir>/media/<booklet-stem>/` (same directory the booklet file lives in). For any geometry/measurement/data figure —
+8. **The booklet's diagram PNGs** — **resolve the booklet's own image link relative to the
+   booklet's directory**; that always works and the layout differs by wave. Wave 1
+   (`booklets/Stage 4/`) puts PNGs at `<booklet-dir>/media/<booklet-stem>/imageN.png`;
+   **Wave 2 (`booklets/Stage 5*/`) nests one level deeper —
+   `<booklet-dir>/media/<booklet-stem>/media/imageN.png`** (confirmed in W2-1 by five
+   independent generation agents, each of which would have hit a non-existent directory
+   had it trusted the Wave-1 path). Booklet stems contain spaces and a `_` that is a
+   *title separator*, not a path convention, so never glob by topic title. **A figure-free
+   section skips this item entirely**, exactly as it skips `tikz-prompt.md` in item 1.
+   For any geometry/measurement/data figure —
    3D solids, labelled triangles, graphs, plots, distance–time graphs, or wherever alt
    text is thin — **`Read` the PNG directly** as the design reference before authoring a
    inline `[tikz]...[/tikz]` diagram.
 9. **The syllabus dot point** (`data/dotpoints.json`, via the skill's `dotPointIds`) —
    the source of record for what the skill must cover, and the fallback when the booklet
-   under-covers it (see Anchoring).
+   under-covers it (see Anchoring). **Where a skill's `dotPointIds` span stages, the
+   BATCH'S TOPIC ID selects the governing dot point and every other id on the record is
+   ignored.** This is the common Wave-2 shape, not an edge case: 11 of W2-1's 12 skills
+   also carried a Stage-6 Standard dot point, and 3 of W2-2's 14 carry a Stage-6 Advanced
+   one. Resolve `dotPointIds` → `data/dotpoints.json` → `topicId`, keep the id whose
+   `topicId` is in the batch, and author to that one alone; the others describe what a
+   *later* course does with the same skill and would silently pull the content above stage.
 
 ---
 
@@ -254,6 +268,26 @@ the case that justifies each card beyond the first of its type. This is what mak
 visible to the orchestrator; a report that gives only counts hides exactly the defect the
 per-type cap exists to prevent.
 
+### When the type count exceeds the quiz ceiling — TYPE COVERAGE WINS
+
+A type-rich skill can enumerate more structural types than the quiz ceiling of 8–10 has room
+for. **Cover every type and let the quiz exceed 10, stating the count and the reason.** The
+ceiling yields; the enumeration does not. A skill with 11 honest types gets an 11-item quiz.
+
+**Never merge two genuine types into one "type with cases" to fit under the ceiling.** That
+is the failure mode this ruling exists to stop: it satisfies the arithmetic while making the
+reported type list an under-count, and that list is the orchestrator's only instrument for
+telling real variety from renumbered padding. Measured in W2-1, where the two agents facing
+this split — `earning-money` kept all 9 types and dropped quiz case-variety; the tax agent
+folded three types into cases to stay under 10. Both were defensible under a silent runbook;
+only the first is correct under this one.
+
+Order of sacrifice when a quiz is over-full: (1) drop **case variety** — extra items beyond
+one per type; (2) then drop **the second mastery item**, keeping at least one; (3) only then
+run long. Running long is safe: the validator's hard cap is **20** questions, so an 11- or
+12-item quiz validates clean and draws no warning. Note the ceiling was calibrated on Stage-4 geometry, which is markedly less
+type-rich than financial mathematics and several other Wave-2 families.
+
 Coverage over volume: one clean item per meaningful case beats many near-duplicates.
 
 ---
@@ -409,6 +443,33 @@ render" placeholder.
 
 ---
 
+## Table rule
+
+Some figure-free sections are **table-bearing**: the load-bearing representation is a table,
+not a picture (tax tables, year-by-year growth/decay tables, rate cards, frequency tables).
+The schema gives the mechanism in one line — a KaTeX `array` inside `$…$` — and this rule
+gives the authoring judgement around it.
+
+- **A table is a KaTeX `array` inside `$…$`, never a `[tikz]` picture and never Markdown
+  pipes.** Markdown other than `**bold**` is not supported and will render literally.
+- **A table the student must read to answer goes in `question_text`**, not only in the
+  solution. Same principle as a question-side support figure: the data must be in front of
+  them while they work.
+- **Restate the table in every stem that needs it.** Do not write "using the tax table from
+  question 3" — practice cards are shuffled flip-cards and quiz items are standalone, so a
+  cross-reference is unanswerable. Restating an identical table across many stems is
+  **correct**, not duplication: `audit-duplicate-stems` normalises the whole stem, so the
+  differing lead-in and ask keep the items distinct. Do not let the audit's silence be the
+  reason — make the ask genuinely different.
+- **One table per batch family unless a card's point is comparing tables.** Copy the
+  booklet's table verbatim so nothing drifts between sibling skills, and keep its printed
+  conventions (bracket boundaries, cent values). Where a skill genuinely needs a *second*
+  table — an unknown-value or compare-two-systems item — make it obviously fictional
+  (another country, a made-up institution) so it cannot be mistaken for the real one.
+- **Keep the columns aligned to the values** (schema rule) and the table small enough to
+  read on a phone: prefer 4–6 rows and 2–3 columns; a long table is usually a sign the
+  question should give an extract.
+
 ## House mathematical conventions
 
 Where a booklet is internally inconsistent on a definition, the ruling below is the house
@@ -450,6 +511,25 @@ contradicting each other.
   percentage"). Never mix forms within one MCQ's options, and never offer two forms of the
   same value as separate options.
 
+- **Written form of a money answer** (batch W2-1, financial mathematics). A literal dollar
+  sign is `\$` (schema rule) — in JSON that is `"\\$"`. **The stem pins the rounding and
+  the written form follows the pin**: "to the nearest cent" → always two decimal places
+  (`\$1\,234.50`, never `\$1234.5`); "to the nearest dollar" → whole dollars (`\$5092`).
+  Pin it explicitly whenever the exact value does not terminate at two places — an
+  unpinned money stem is an equivalent-options defect waiting to happen, exactly as with
+  probability. Never offer the same amount at two roundings as two options.
+  **The rule governs computed answers and option texts, not given quantities** — a
+  stem-given round price stays `\$4000`, not `\$4000.00`, which is what every booklet
+  writes; keep option precision homogeneous *within* one MCQ. Amounts of four digits or
+  more take a **thin space** as the thousands separator (`\$23\,040`), never a comma.
+  (All three refinements were settled independently by three W2-1 agents before being
+  written down here.) **Interest rates are written "$6\%$ p.a."** in prose and
+  converted to a decimal only inside the formula line (`$r=0.06$`); a *rate per period*
+  under non-annual compounding is stated as the divided rate with its period named
+  ("$1.5\%$ per quarter"). **Round only once, at the end** — carrying a rounded
+  intermediate through a compounding chain shifts the cents and makes a correct student's
+  answer disagree with the key.
+
 ## Anchoring, the ALREADY-COMPLETE rule & the STAGE 3 rule
 
 **Booklet sections are the primary source** for difficulty calibration, question style,
@@ -461,10 +541,19 @@ and practice range.
   as **`anchor: none`** in `docs/content-queue.md` so it gets closer human review.
 - **ALREADY-COMPLETE rule (Wave 2 on).** Some lower-stage skills tagged into a
   higher-stage topic were **fully generated in an earlier wave** — their content file has
-  full practice tiers AND a quiz file exists. **Skip them entirely**: verify both files
-  are present, count the skill as done in the batch report, touch nothing. If a skill the
-  queue lists as already-complete is missing either file, treat it as a normal generate
-  and flag it to the human.
+  full practice tiers AND a quiz file exists. **Skip them entirely only if both files
+  exist AND the skill passes the full deterministic gate** (step 3 of the workflow: all
+  six commands, `--strict`, comma-form `--only <thatSkillId>`). Presence is not enough —
+  earlier waves shipped before some gate scripts existed, so a file that exists may still
+  be dirty.
+  - Both files present, gate clean → count the skill as done in the batch report, touch
+    nothing.
+  - Either file missing → treat it as a normal generate and flag it to the human.
+  - **Both files present but the gate is dirty → the skill is a repair item in this
+    batch, not a skip.** Fix it under the remediation contract (`docs/content-queue.md`
+    § Remediation queue: replace quiz items only, never practice cards; re-author against
+    the booklet; preserve every `structure` value and the mastery count), re-run the gate,
+    and record the repair in the batch report.
 - **STAGE 3 rule.** A lower-stage skill with a **theory-only** content file (no practice
   tiers): **copy the `theory` object BYTE-FOR-BYTE from the existing
   `public/content/{id}.json`** — do not re-author intro/facts/steps. Only **add the
@@ -472,9 +561,17 @@ and practice range.
   theory stable across the batch.
 - **Upper-stage scope drift (Wave 2 on).** Stage-5 booklets — especially NEW-origin and
   Path files — contain Stage-6 material, exactly as the Stage-4 `Indices.md` booklet
-  contained Stage-5 material. The skill's `stage` and its dot point set the ceiling;
-  booklet chapters beyond it are excluded, and the exclusion is recorded in the batch
-  notes.
+  contained Stage-5 material. The skill's `stage` and its **governing** dot point (item 9
+  above) set the ceiling; material beyond it is excluded and the exclusion is recorded in
+  the batch notes.
+  - **The exclusion is PER-QUESTION, not per-chapter.** `Indices.md` clumped its
+    out-of-stage material in trailing chapters, so "skip the later chapters" worked. Stage-5
+    booklets **interleave** it: W2-1's `Financial Mathematics A 1` drops HSC-tagged items
+    *inside* otherwise in-stage mastery tiers, and its tax chapters mix Stage-5 and Stage-6
+    Standard questions in one exercise. Scan the exercise, not the table of contents.
+  - **An HSC-tagged question in a Stage-5 booklet is Stage-6 by default** — exclude it
+    unless the routine it exercises is identical to one the in-stage worked examples teach,
+    in which case it may be used as a difficulty reference but not reproduced.
 
 ---
 
@@ -500,7 +597,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
    section + its media PNGs) **once**, then authors each of its skills — dealing the shared
    exemplars disjointly across them (step 1). It writes both files per skill and then
    **clears the full deterministic gate (step 3) on its own skills before reporting** —
-   all four commands, `--strict`, comma-form `--only`. An agent does not report success
+   all six commands, `--strict`, comma-form `--only`. An agent does not report success
    with a dirty gate. This cuts the duplicated
    doc-reading that one-agent-per-skill pays N times, and one author-per-section improves
    disjoint dealing. (Fall back to one agent per skill only when a section's skills are too
@@ -510,7 +607,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
    diagram-anchored content.
 3. **Deterministic gate — run it BEFORE any checker is spawned.** Every defect a script
    can find must be found by a script, and found before a model is paid to read the
-   items. Four commands, always the comma-form `--only`, always `--strict`; the gate is
+   items. Six commands, always the comma-form `--only`, always `--strict`; the gate is
    seconds, so it also re-runs after **every** repair edit. Six commands since batch 13,
    when the two batch-12 orchestrator-side figure sweeps were promoted to standing
    scripts (`tests/figure-audits.test.js` pins both against a reconstruction of the
@@ -528,6 +625,20 @@ The orchestrator drives the batch; generation and checking run in parallel group
    Generation agents clear the gate on their own skills before reporting (step 2); the
    orchestrator re-runs it here over the **whole batch id list** — cross-skill
    duplicates are invisible to a single section's agent.
+
+   **Wave regression check — unscoped, once per wave and after every remediation
+   session.** The gate above is scoped by `--only` and therefore cannot see debt
+   accumulated across earlier batches. Run the duplicate auditor over the whole repo:
+
+   ```
+   node scripts/audit-duplicate-stems.mjs --strict
+   ```
+
+   Record the defect totals **by class** in `docs/content-queue.md`. Any increase over
+   the previously recorded totals is a regression in the batch just generated — repair it
+   before the batch is marked `validated`. The NEAR-DUP line is advisory and never counts.
+   Baseline recorded 2026-08-04: `QUIZ-COPIES-PRACTICE: 160, INTRA-FILE-DUP: 4,
+   CROSS-SKILL-DUP: 2, QUIZ-COPIES-PRACTICE-VALUES: 132` (298 total, 222 advisory).
 
    - **`audit-duplicate-stems.mjs`** — normalised-stem duplication, `[tikz]` blocks
      included so figure-identical clones are caught: quiz stem == practice stem in the
@@ -703,7 +814,10 @@ The orchestrator drives the batch; generation and checking run in parallel group
    - **Repair any diagram the human flags by re-instantiating the correct construction from
      the [canonical prompt](tikz-prompt.md)** — do not hand-nudge coordinates.
    - `scripts/shoot-tikz.mjs` (needs `npm run dev`) remains available as an **optional**
-     local aid to preview renders; it is no longer a required pipeline step.
+     local aid to preview renders; it is no longer a required pipeline step. **Side effect
+     to expect:** `npm run dev` has a `predev` hook that rewrites
+     `public/content-manifest.json`, so using this aid dirties a tracked file mid-batch.
+     Step 8's `npm run manifest` settles it — do not hand-revert the file.
 8. **Rebuild the manifest.** `npm run manifest` (writes `public/content-manifest.json`).
 9. **Human-review samples.** Pick **2–3** skills for the human to eyeball, and **always
    include** every `anchor: none` skill, every checker-triggered regenerated skill, and (for
@@ -729,6 +843,9 @@ The orchestrator drives the batch; generation and checking run in parallel group
   skill a figure genuinely helps — never pre-marking the answer.
 - **TikZ batches list every diagram skill for manual human visual review** before commit.
 - **Byte-for-byte theory** for lower-stage skills with a theory-only content file
-  (STAGE 3 rule); **skip entirely** any skill already fully generated in an earlier wave
-  (ALREADY-COMPLETE rule).
+  (STAGE 3 rule); **skip** any skill already fully generated in an earlier wave **only
+  when its files exist AND its gate is clean** — a dirty skip is a repair item, not a
+  skip (ALREADY-COMPLETE rule).
+- **Unscoped `audit-duplicate-stems.mjs --strict` once per wave** — the batch gate is
+  `--only`-scoped and cannot see accumulated debt.
 - **One batch per session**; statuses updated by the orchestrator; do not commit.

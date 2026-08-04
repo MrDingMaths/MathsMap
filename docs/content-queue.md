@@ -1688,9 +1688,9 @@ No theory-only STAGE-3-rule files in this wave.
 
 | # | Batch | Topic id(s) | Skills | Mapped booklet file(s) | Status | Notes |
 |---|---|---|---|---|---|---|
-| W2-1 | Financial mathematics A+B | t-s5c-fin-a, t-s5c-fin-b | 12 | `Stage 5 Core/Financial Mathematics A 1_Solve problems involving earning money.md`<br>`Stage 5 Core/Financial Mathematics A 2_Solve problems involving simple interest.md`<br>`Stage 5 Core/Financial Mathematics A 3_Solve problems involving spending money.md`<br>`Stage 5/Financial Maths B Compound Interest Depreciation.md` | pending | Stage-5 shakedown batch — report any runbook wording that fails on the three-dir layout |
-| W2-2 | Algebraic techniques A+B+C | t-s5c-alg-a, t-s5p-alg-b, t-s5p-alg-c | 15 | `Stage 5 Core/Algebraic Techniques A 1_Apply the 4 operations to simplify algebraic fractions with numerical denominators.md`<br>`Stage 5 Core/Algebraic Techniques A 2_Apply the distributive law to the expansion of algebraic expressions, and collect like terms where appropriate.md`<br>`Stage 5 Path/Algebraic Techniques B_1 Apply the 4 operations involving algebraic fractions with pronumerals in the denominator.md`<br>`Stage 5 Path/Algebraic Techniques B_2 Factorise algebraic expressions by taking out a common algebraic factor.md`<br>`Stage 5 Path/Algebraic Techniques B_3 Expand binomial products and factorise monic quadratic expressions.md`<br>`Stage 5 Path/Algebraic Techniques C_1 Operate with algebraic fractions involving binomial numerators and numerical denominators.md`<br>`Stage 5/Algebraic Techniques C 2_Further Expansion and Factorisation.md`<br>`Stage 5/Algebraic Techniques C 3_Further Algebraic Fractions.md` | pending | skip `expand-brackets` (ALREADY-COMPLETE); `expand-binomial-products` spans alg-a/alg-b — generate once |
-| W2-3 | Indices A+B | t-s5c-ind-a, t-s5p-ind-b | 9 | `Stage 5/Indices A 1_Index Laws.md`<br>`Stage 5/Indices A 2_Negative Index.md`<br>`Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md` | pending | NEW Indices A files supersede all 3 OLD Core files |
+| W2-1 | Financial mathematics A+B | t-s5c-fin-a, t-s5c-fin-b | 12 | `Stage 5 Core/Financial Mathematics A 1_Solve problems involving earning money.md`<br>`Stage 5 Core/Financial Mathematics A 2_Solve problems involving simple interest.md`<br>`Stage 5 Core/Financial Mathematics A 3_Solve problems involving spending money.md`<br>`Stage 5/Financial Maths B Compound Interest Depreciation.md` | in-review | Stage-5 shakedown. 6 generators, gate clean first run, luna 151/151 agree, **0 flags, 0 repair rounds**. Samples: `progressive-income-tax`, `compare-simple-compound`, `earning-money` + **diagram list (3 skills, 23 `[tikz]`)**. No `anchor: none`. See notes below |
+| W2-2 | Algebraic techniques A+B+C | t-s5c-alg-a, t-s5p-alg-b, t-s5p-alg-c | 15 | `Stage 5 Core/Algebraic Techniques A 1_Apply the 4 operations to simplify algebraic fractions with numerical denominators.md`<br>`Stage 5 Core/Algebraic Techniques A 2_Apply the distributive law to the expansion of algebraic expressions, and collect like terms where appropriate.md`<br>`Stage 5 Path/Algebraic Techniques B_1 Apply the 4 operations involving algebraic fractions with pronumerals in the denominator.md`<br>`Stage 5 Path/Algebraic Techniques B_2 Factorise algebraic expressions by taking out a common algebraic factor.md`<br>`Stage 5 Path/Algebraic Techniques B_3 Expand binomial products and factorise monic quadratic expressions.md`<br>`Stage 5 Path/Algebraic Techniques C_1 Operate with algebraic fractions involving binomial numerators and numerical denominators.md`<br>`Stage 5/Algebraic Techniques C 2_Further Expansion and Factorisation.md`<br>`Stage 5/Algebraic Techniques C 3_Further Algebraic Fractions.md` | in-review | **15 = topic-skill ROWS; there are 14 UNIQUE skills** (`expand-binomial-products` spans alg-a/alg-b and is counted twice — generated once). `expand-brackets` was listed ALREADY-COMPLETE but is a **DIRTY SKIP** — repaired inline, see notes. **3 skills carry a Stage-6 Advanced dp** (`dp-s6adv11-functions-1`): `expand-brackets`, `factorise-special-products`, `simplify-fractions-by-factorising` — governing dp is the batch topic's, per Read-first item 9 |
+| W2-3 | Indices A+B | t-s5c-ind-a, t-s5p-ind-b | 9 | `Stage 5/Indices A 1_Index Laws.md`<br>`Stage 5/Indices A 2_Negative Index.md`<br>`Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md` | in-review | NEW Indices A files supersede all 3 OLD Core files. 6 generators, gate clean batch-wide, luna 127/127 agree, 4 flags all valid → 1 repair round, round 2 clean. **Zero `[tikz]` in the batch — no visual-review checklist.** Samples: `establish-negative-indices`, `power-of-product-quotient`, `negative-integer-indices`. No `anchor: none`. See notes below |
 | W2-4 | Indices C | t-s5p-ind-c | 14 | `Stage 5 Path/Indices C_1 Describe surds.md`<br>`Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md`<br>`Stage 5 Path/Indices C_3 Describe and use fractional indices.md` | pending | |
 | W2-5 | Equations A+B | t-s5c-equ-a, t-s5p-equ-b | 10 | `Stage 5 Core/Equations A 1_Solve linear equations involving up to 3 steps.md`<br>`Stage 5 Core/Equations A 2_Solve linear equations involving one algebraic fraction.md`<br>`Stage 5 Core/Equations A 3_Solve linear equations arising from word problems and substitution into formulas.md`<br>`Stage 5 Path/Equations B_1 Solve monic quadratic equations.md`<br>`Stage 5 Path/Equations B_2 Solve cubic equations.md`<br>`Stage 5 Path/Equations B_3 Solve linear inequalities and graph their solutions on a number line.md` | pending | skip 3 (ALREADY-COMPLETE): `model-word-problems-equations`, `verify-solutions-substitution`, `equations-from-formulas` |
 | W2-6 | Equations C | t-s5p-equ-c | 18 | `Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md`<br>`Stage 5 Path/Equations C_2 Rearrange literal equations.md`<br>`Stage 5/Equations C_3 Quadratic Equations.md`<br>`Stage 5/Equations C 4_Simultaneous Equations.md` | pending | largest batch; NEW `Equations C 4_Simultaneous Equations.md` supersedes OLD Path `Equations C_4…` |
@@ -1714,6 +1714,498 @@ No theory-only STAGE-3-rule files in this wave.
 
 **Total: 297 topic-skill rows = 289 to author + 7 ALREADY-COMPLETE skips + 1 cross-topic
 duplicate generated once.**
+
+**Batch W2-3 (Indices A+B) notes.** 9 net-new skills, no ALREADY-COMPLETE skips, no STAGE-3
+files, **no `anchor: none`** — all three booklets cover their skills densely. Generated with
+Opus, **6 section-owning generators**: A `Indices A 1` §Multiplication/§Division/§Power of a
+Power/§Zero = `index-laws-variables` + `zero-index-algebraic`; B `Indices A 1`
+§Coefficients/§More than One Variable/§Mixed Basic = `simplify-index-products-quotients`;
+C `Indices A 1` §Power of a Product/§Power of a Quotient/§Mixed =
+`power-of-product-quotient`; D `Indices A 2` (whole booklet) = `negative-integer-indices`;
+E `Indices B_1` §Negative Index with Variables/§Negative Indices in the Denominator =
+`establish-negative-indices` + `convert-negative-positive-indices`; F `Indices B_1`
+§Negative Index as the Reciprocal/§Mixed Practice = `index-laws-negative-indices` +
+`reciprocal-index-expressions`. atomTypes: `zero-index-algebraic` and
+`convert-negative-positive-indices` = T; the other seven = R. No `masteryOmitted`, no
+`coverageNote` — every skill reached target honestly. Final counts: foundation 10–12 /
+development 8–12 / mastery 4 / quiz 9–12.
+
+**Figure-free batch — zero `[tikz]` blocks across all 18 files, so step 7's visual-review
+checklist does not apply.** All six generators were told in their spawn prompts that the
+section is figure-free and that a manufactured decorative figure is a defect; none opened
+`docs/tikz-prompt.md` or the booklet media PNGs (the batch-9 ~150k duplicated-read cost
+avoided again, this time across six agents). Descending-powers pattern tables in
+`negative-integer-indices` and `establish-negative-indices` are KaTeX `array`s inside `$…$`
+per the Table rule, never pictures.
+
+**Deterministic gate clean batch-wide on the first orchestrator run** — 318 items / 91 quiz
+questions / 363 options; validate 0 warnings, equivalent-options 0 defects (21%
+canonicalised, 0 intended key-equal), duplicate-stems 0 across all four classes including 0
+near-dup advisories, option-hygiene 0 leaked keys / 0 vague `why`s. **The
+`QUIZ-COPIES-PRACTICE-VALUES` class did all the work at the agent level:** four of six
+generators hit it on their own first gate run and self-repaired before reporting (C: 9
+flags, E: 4, F: 8, plus A's INTRA-FILE-DUP where `7a^{0}` and `(7a)^{0}` normalise
+identically). Index-law stems are **literal-poor** — the value signature is the numeric
+multiset, so $(m^2n^3)^4$ collides with $(3a^2)^4$ regardless of pronumeral or answer. That
+is a true positive by construction but it fires often on this family; agents re-based the
+colliding quiz items onto unused literal sets with recomputed keys and re-derived
+distractors. Two latent equivalent-options defects were also caught by agents pre-report
+(a $t^0$ distractor equal to the key $1$; $\frac{4x^2}{14y^2}$ reducing to another option).
+
+**Blind check — luna, one packet per skill, `--resolve-mode figures-first`. All 9 OK, zero
+retries. 127/127 items re-solved, ZERO answer mismatches, `itemsAnswered == itemsReceived`
+on every skill.** 4 flags, **all 4 adjudicated VALID** (no invalid flags this batch — first
+time), repaired in one round; a fresh luna round 2 over only the 4 changed items returned
+**0 mismatches, 0 flags**:
+1. `index-laws-variables` q5 — "cannot be written as a single power" was ambiguous:
+   $a^{4}\times b^{6}=(a^{2}b^{3})^{2}$ is a single power with a composite base. Stem pinned
+   to "a single power **of one pronumeral**". Options untouched.
+2. `simplify-index-products-quotients` m4 — "true for every value of $m$" includes $m=0$,
+   where $\frac{km^{a}}{4m^{3}}$ is undefined. Now "every **non-zero** value of $m$".
+3. `establish-negative-indices` q10 ≡ m1 — a **reworded clone**: both derived
+   $\frac{a^{m}}{a^{m+n}}$ two ways to the same general conclusion, which the byte-level and
+   value-signature gates both miss (general indices carry no numeric literals). This is the
+   class the checker exists for. q10 replaced with the concrete-index derivation
+   $\frac{x^{4}}{x^{9}}\Rightarrow x^{-5}=\frac{1}{x^{5}}$; structure slug
+   `derive-from-division-law` and the `mastery: true` flag preserved, and each distractor
+   re-derived on the new numbers (misconception → derivation → value: cancel with the
+   numerator index $4$ → $\frac{1}{x^{4}}$; read the negative index as a sign → $-x^{5}$;
+   subtract $9-4$ instead of $4-9$ → $x^{5}=\frac{1}{x^{5}}$).
+4. `establish-negative-indices` m3 — the stem claimed $\frac{1}{a^{-n}}=a^{n}$ is
+   "$a^{-n}=\frac{1}{a^{n}}$ used **twice**", but the working uses it once plus
+   reciprocal-of-a-reciprocal, as its own last line admitted. Stem now says the rule
+   "follows from" it, "so no new rule is needed"; solution line reworded to match. No answer
+   changed.
+
+**Scope lines held (three at once).** (1) `dp-s5c-inda-3` says *numerical* — every
+pronumeral item in `Indices A 2_Negative Index.md` was converted to a numerical instance and
+the algebraic side left entirely to the four Path skills. **One judgement call for the human:**
+`negative-integer-indices` m3 uses the *numerical* fraction base $\left(\frac{3}{4}\right)^{-2}$
+(booklet Q9p/Q16 sit it squarely in that chapter); the algebraic $\left(\frac{a}{b}\right)^{-n}$
+form stays exclusively in `reciprocal-index-expressions`, and the item appears in practice
+only, never in a quiz. (2) The Indices-A skills are dealt disjointly by *shape*: bare-law
+terms (A) / coefficient-and-multi-pronumeral products and quotients (B) / anything with a
+bracket raised to a power (C) — 0 cross-skill duplicates over 318 items. (3) Fractional
+indices, surds, scientific notation and index *equations* excluded throughout (batch W2-4
+owns Indices C). Per-question exclusions applied inside otherwise in-stage exercises, per
+the Wave-2 interleaving rule: `Indices A 1`'s Power-of-a-Power development set hides
+$(2^{5})^{-1}$, $(3^{1/2})^{2}$, $(p^{1/9})^{2/5}$; `Indices B_1` Q5 (L628) is HSC-Advanced-tagged
+and was excluded, while its three NAPLAN-tagged items were used as difficulty references
+with fresh numbers. Denominator-heavy quotients in the Indices-A skills are answered in the
+booklet's $\frac{1}{\text{base}^{n}}$ form, never as $x^{-n}$ — that keeps
+`establish-negative-indices` intact as the atom that *introduces* the negative index.
+
+**Wave regression check (unscoped `audit-duplicate-stems.mjs --strict`), run after this
+batch:** `QUIZ-COPIES-PRACTICE: 60, INTRA-FILE-DUP: 4, CROSS-SKILL-DUP: 1,
+QUIZ-COPIES-PRACTICE-VALUES: 102` (167 total, 222 advisory) over 5741 items / 378 skills.
+**Every class is at or below the 2026-08-04 baseline** (160 / 4 / 2 / 132 = 298) — the drop
+is R1's repairs; W2-3 contributed **zero** new defects. Full-repo `validate.mjs` clean at 0
+errors (the 248 warnings are the pre-existing Part-A backfill targets, unchanged); manifest
+rebuilt (**378 content / 241 quiz**, +9/+9).
+
+**Booklet errata found (none reproduced).**
+- `Indices A 1_Index Laws.md` L424 — the division-law exemplar prints
+  $\frac{x^{2}}{x^{7}}=\frac{1}{x^{7}}$; correct is $\frac{1}{x^{5}}$ (its sibling
+  $\frac{x^{20}}{x^{70}}=\frac{1}{x^{50}}$ is right).
+- Same file L1042 — the zero-index exemplar prints $3+a^{0}=3+1=3$; the stated total should
+  be $4$.
+- Same file, Mixed Practice Q2g/Q2l — `$3m^{3n}$` and `$8x^{3y}$` are Pandoc superscript
+  slips for $3m^{3}n$ and $8x^{3}y$; Q3 also restarts its part labels at `a.`, and Q10
+  mislabels parts (a, b, e, c) and prints $27\times10^{11}$ un-normalised.
+- `Indices A 2_Negative Index.md` §Negative Indices with Coefficients Q3g — $8\times7^{-3}$
+  keyed $\frac{8}{243}$; correct is $\frac{8}{343}$ ($243=3^{5}$). Same chapter's
+  "**Rewrite** using a negative index" panel instructs "Write using a positive index".
+  Chapter 1 Q7/Q9 are internally inconsistent on required form (sometimes $\frac{1}{12}$,
+  sometimes $\frac{1}{9^{2}}$) — content pins the form in every stem instead.
+- `Indices B_1…md` L243–245 item r — $-(-7x^{2}y^{n})^{-4}$ keyed
+  $\frac{-1}{2401x^{4}y^{4n}}$; the $x$ index should be $8$ (item q on the same row has
+  $x^{8}$). Found independently by two agents. Also L259 item k carries a stray trailing
+  `\$` (Pandoc artefact), and Chapter 2 Q2 reuses the label `a.` for its 27th part.
+
+**Note for the human at review.** `establish-negative-indices`'s descending-powers *pattern*
+cards were generated from the dot point's "patterns" bullet rather than the booklet, whose
+own derivation is thin (it argues from the division law and fraction division). Not
+`anchor: none` — the chapter's reasoning prompts and its four student-work critique tasks
+(Kelly / Danice / Maya / Andy) anchor the rest of the skill — but the pattern-table cards are
+the least booklet-tied content in the batch, which is why the skill is a review sample.
+**Not committed** — awaiting the human.
+
+---
+
+## Remediation queue (R-rows)
+
+`node scripts/audit-duplicate-stems.mjs --strict` **unscoped** over the whole repo, run
+2026-08-04, reports **298 non-advisory defects across ~95 skills** (5036 items, 356
+skills, 219 quiz files):
+
+| Class | Count |
+|---|---|
+| `QUIZ-COPIES-PRACTICE` (byte-identical after `normaliseStem`) | 160 |
+| `QUIZ-COPIES-PRACTICE-VALUES` (same value signature, reworded) | 132 |
+| `INTRA-FILE-DUP` | 4 |
+| `CROSS-SKILL-DUP` | 2 |
+| NEAR-DUP (advisory — **ignored by design**, legitimate same-type-different-numbers) | 222 |
+
+**This is a fixed pocket, not a leak.** Everything from batch 10 onward is near-zero — the
+debt stops dead where the duplicate gate starts. It is not visible to the per-batch gate
+because that gate is `--only`-scoped; hence the unscoped wave regression check in
+[content-generation.md](content-generation.md) step 3.
+
+| # | Pocket | Batches | Skills | Defects | Status | Notes |
+|---|---|---|---|---|---|---|
+| R1 | Fractions, decimals & percentages | 6 (`t-s4-frc`) | 31 of 34 | 121 → **0** | in-review | done 2026-08-04 — see notes below |
+| R2 | Algebraic techniques | 1 | ~20 | 62 | pending | committed; W2-2 builds on it. Includes `expand-brackets` (10 defects — worst skill in the repo, and a W2-2 ALREADY-COMPLETE skip, so it is a **dirty skip**: repair it inline in W2-2 per the tightened rule) |
+| R3 | Linear, Pythagoras, data | 3, 5, 4 | ~20 | 57 | pending | committed |
+| R4 | Integers, ratios, probability + tail | 7, 8, 16, 9–15 | ~25 | 59 | pending | tail (batches 9–15, 17 defects) may ride along inside whichever generation batch touches those files |
+
+**Interleaving:** R1 → W2-2 (+ inline `expand-brackets` repair) → R2 → W2-3 → R3 → W2-4… →
+R4. One remediation session per ~3 generation batches. Four sessions clear ~95%.
+
+**Status vocabulary** is the same as the generation queue (see top of this file):
+`pending` → `generated` → `checked` → `validated` → `in-review` → `committed`. The human
+commits.
+
+### Remediation contract (how an R-session runs)
+
+This is **authoring against the booklet**, not find-and-replace. It reuses the normal
+batch pipeline in [content-generation.md](content-generation.md) § Workflow.
+
+1. **Scope + triage** (orchestrator, before spawning anything).
+   `node scripts/audit-duplicate-stems.mjs --only <batch skill ids>`.
+   - `QUIZ-COPIES-PRACTICE` — **no adjudication needed**, byte-identical after
+     normalisation, all genuine.
+   - `QUIZ-COPIES-PRACTICE-VALUES` — **triage, never repair blind.** The batch-16 dry run
+     ran roughly 1-in-5 false positive. The signature is `sortedNumbers|canonicalAnswer`
+     (`scripts/audit-duplicate-stems.mjs:135-142`) over bare `\d+(?:\.\d+)?` matches, so
+     it degrades when (a) the numbers came from a shared `[tikz]` template's coordinates
+     rather than the maths, or (b) the answer is non-numeric and `canonicalise` collapses
+     distinct items. Pre-filter deterministically, then read the surviving stem pairs.
+   - NEAR-DUP advisory — ignore.
+2. **Repair — parallel agents, one per booklet section**, partitioned so shared exemplars
+   are dealt disjointly (same treatment as a generation batch). Each agent:
+   - **Replaces quiz items only — never practice cards.** The practice card is what the
+     student studied; the quiz is what is meant to be new. Fix the assessment side. Edits
+     are confined to `public/quizzes/<skill>.json`.
+   - **Re-authors against the booklet section**, not by perturbing numbers off the
+     practice card — a renumbered clone still leaks the method.
+   - **Preserves full structural-type coverage**: every `structure` value the file had,
+     and the `mastery: true` count `validate.mjs` cross-checks against the content's
+     mastery tier.
+   - **Keeps item `id`s stable** so `blind-for-check.mjs --items` can target them.
+   - **Clears the full six-command gate on its own skill ids before reporting.**
+3. **Gate** — six commands over the whole batch id list, plus the unscoped regression run.
+4. **Targeted blind check — never a full re-send.**
+   `node scripts/blind-for-check.mjs <skillId> --items <changed item ids>` (the `--items`
+   flag is on `blind-for-check.mjs`, not on `run-luna-check.mjs`), then
+   `run-luna-check.mjs --skills` / `--compare`. Unchanged items still surface as
+   `siblingContext`. Max 2 repair rounds per skill; full gate re-run after every edit.
+5. **Close out** — `npm run manifest`, human-review samples, update the R-row status
+   here. Do not commit.
+
+### R1 (Fractions, decimals & percentages) notes — 2026-08-04
+
+**Scope:** 121 defects across **31 of the batch's 34 skills** (94 `QUIZ-COPIES-PRACTICE`,
+26 `QUIZ-COPIES-PRACTICE-VALUES`, 1 `CROSS-SKILL-DUP` — `irrational-numbers` q2 ==
+`rational-numbers` q4, repaired on the `irrational-numbers` side only). Clean:
+`approximation-notation`, `rational-numbers`, `locate-irrationals-number-line`.
+
+**Triage:** all 26 VALUES hits adjudicated **genuine — zero false positives.** The
+signature's known degradation mode is `[tikz]` template coordinates polluting the number
+extraction, and FDP items carry almost no figures, so it did not apply here. Batches with
+figure-heavy skills should still expect the ~1-in-5 FP rate seen in the batch-16 dry run.
+
+**Repair:** 7 opus section agents in parallel on the **same A–G booklet partition batch 6
+originally used**, so shared exemplars stayed dealt disjointly:
+A Comparing Fractions 19 · B Decimals 11 · C Converting FDP 19 · D Operations/fractions 15
+· E Operations/decimals 13 · F Percentage Inc/Dec/Change 21 · G Percentages Problems 23.
+Nine files were fully flagged and so became whole-file rebuilds — **structure lists
+verified identical before and after** on every one. F and G each assigned their five
+skills an exclusive context domain (sport / cooking / utilities / transport / wildlife;
+sport / lab / travel / agriculture / trades) to stop five percentage skills on one booklet
+converging.
+
+**Two pre-existing defects surfaced by the gate and fixed in passing** (both DISTRACTOR-
+PAIR, options equal in value): `find-reciprocal` q1 (`$0.8$` == `$\frac{4}{5}$`) and
+`simplify-fractions` q3 (`$\frac{6}{8}$` == `$\frac{9}{12}$`). Stems, ids, structures and
+keys untouched.
+
+**Gate:** all six commands exit 0 batch-wide. **Regression check (unscoped):
+298 → 177 defects**, i.e. −121 exactly, with no new defect anywhere else in the repo —
+`QUIZ-COPIES-PRACTICE 160→66`, `VALUES 132→106`, `CROSS-SKILL-DUP 2→1`,
+`INTRA-FILE-DUP 4→4` (all 4 sit outside batch 6). NEAR-DUP advisory unchanged at 222.
+
+**Blind check:** targeted — `blind-for-check.mjs --items` on only the 121 changed items
+(+ the 2 option-only fixes), 31 skills, `figures-first`. **0 answer mismatches, coverage
+full on every skill (itemsAnswered == itemsReceived), 0 retries.** 8 flags, **all 8
+adjudicated invalid**, so the majority-invalid stopping rule applied and no second round
+ran:
+- 6 × `unreachable-distractor` — every one has an exact misconception → derivation → value
+  chain the checker cannot see (it never receives `why`): additive-equivalence 5+12=17 /
+  9+8=17 / 8+3=11 (`equivalent-fractions` q1/q2/q6); partial carry leaving the tenths at 9
+  (`round-decimals-carry` q3); 1.40 × 0.95 = 1.33 (`repeated-percentage-change` q3);
+  550 ÷ (2500+1950) = 12.36% (`financial-percentage-problems` q4).
+- 2 × `duplication` (`unitary-method-percentages` q2/q5) — same `structure`, different
+  numbers and answers; NOT-A-DEFECT rule 1, and that structure list is the file's original
+  design, preserved deliberately.
+
+**Manifest rebuilt** (356 content / 219 quiz). **No `public/content/` file was modified** —
+verified with `git status`: 31 quiz files changed, 0 content files. **Not committed.**
+
+**Human-review samples:** `convert-fractions-decimals-percentages`,
+`repeated-percentage-change`, `decimal-divisor-to-whole` (a whole-file rebuild from each of
+three different sections), plus `find-reciprocal` and `simplify-fractions` for the two
+pre-existing option fixes. No TikZ in the repaired set, so no diagram list is required.
+
+**Batch W2-2 (Algebraic techniques A+B+C) notes.** 14 unique skills = **13 fresh generates
++ 1 inline repair**. Generated with Opus, **7 section-owning agents** on the batch's 8
+booklet sections (the two numerical-denominator skills, which sit in different booklets but
+are one routine family, were given a single owner so they could not converge):
+R `expand-brackets` (repair, AT-A2);
+A `simplify-algebraic-fractions-numerical` + `add-subtract-binomial-fractions` (AT-A1 +
+AT-C1); B `simplify-algebraic-fractions-indices` +
+`operate-algebraic-fractions-denominator` (AT-B1); C `factorise-common-algebraic-factor`
+(AT-B2); D `expand-binomial-products` + `factorise-monic-quadratic` +
+`expansion-factorisation-problems` (AT-B3); E `special-products` +
+`expand-simplify-special-products` + `factorise-special-products` (AT-C2);
+F `simplify-fractions-by-factorising` + `simplify-compound-fractions` (AT-C3).
+**atomType `R` for all 13.** Tier counts 7–9 foundation / 7–10 development / 3–4 mastery;
+quizzes 8–11 (several run past 10 on the type-coverage-wins rule). No `masteryOmitted`, no
+`coverageNote`. **Zero TikZ in the whole batch** — algebra is symbolic, and the booklets'
+images are decorative or review-of-prior-knowledge, so no diagram list is required.
+
+**`expand-brackets` was a DIRTY SKIP — the first live test of the tightened
+ALREADY-COMPLETE rule.** Under the old presence-only test the queue had recorded the skip
+as valid on 2026-08-04 ("both files present"). Under the tightened rule the gate is run
+too, and it failed: **10 duplicate-stem defects — all six quiz items cloned a practice
+card** (q1==f1, q2==f2, q3==d1, q4==d3, q5==m1, q6==m2, plus 4 value-signature hits). The
+whole quiz was rebuilt under the remediation contract (quiz side only, ids and `structure`
+stable, Stage-4 single-bracket difficulty held — no drift into binomial products, which is
+a separate skill in this same batch). Had the rule not been tightened first, this would
+have shipped untouched.
+
+**Scope exclusions (per question, not per chapter).** Two HSC-tagged Band 3/4 items in
+AT-B1 (reciprocal of `1/a + 1/b - c/ab`; the two-workers rate problem) used as difficulty
+reference only, not reproduced. Surd factorisations and surd expansions, algebraic-fraction
+expansions, and sum/difference-of-cubes excluded from AT-C2. The Challenge Exercise and
+identity-proof sets excluded from AT-C3. Non-monic factorising kept out of
+`factorise-monic-quadratic` except where the booklet's own mastery reaches it after a
+common factor leaves a monic trinomial. `factorise-special-products` and
+`simplify-fractions-by-factorising` were authored to their Stage-5 dot point; the Stage-6
+Advanced `dp-s6adv11-functions-1` on their records was ignored per Read-first item 9.
+
+**Gate clean batch-wide on the orchestrator's first run.** The only validate warnings are
+two pre-existing below-floor tier counts on the `expand-brackets` **content** file (5
+foundation / 5 development), left alone under the no-content-edits rule. Agents caught and
+self-repaired 9 `QUIZ-COPIES-PRACTICE-VALUES` collisions between their own draft quiz items
+and their own practice cards before reporting — the gate working as designed at the agent
+level. **Regression check (unscoped): 177 → 167**, i.e. −10 exactly (the `expand-brackets`
+repair); **the 13 new skills introduced zero new duplicate defects.**
+
+**Blind check:** 14 skills, `figures-first`, 0 retries, coverage full on every skill.
+**1 answer mismatch + 7 flags; 2 defects accepted, 6 flags rejected.**
+- **Accepted — `special-products` q1 (ambiguity, surfaced as the mismatch).** "Identify $a$
+  and $b$ for $(6x-5y)^2$" did not state the form: reading it as $(a-b)^2$ gives $b=5y$,
+  as $(a+b)^2$ gives $b=-5y$. Stem now pins the form and the term order. Key unchanged.
+- **Accepted — `add-subtract-binomial-fractions` q2 (unreachable distractor).** Its `why`
+  claimed "subtracted 3 from each term", but that yields $6x-9$, not the $6x-3$ shown — the
+  derivation did not land on its own value. Option corrected to $\frac{6x-9}{5}$ with the
+  arithmetic spelled out.
+- **Rejected — `expand-binomial-products` q6/q7/m2 (scope ×3).** Binomial×trinomial and
+  triple products are **booklet-anchored**: AT-B3 lines 333–341 carry
+  $(2x+1)(2x^2-x+4)$, $(x^2-x+1)(x+3)$ and $(x+1)(x+2)(x+3)$ verbatim. NOT-A-DEFECT rule 3.
+- **Rejected — 3 × unreachable-distractor** (`simplify-algebraic-fractions-indices` q7;
+  `add-subtract-binomial-fractions` q5, q10). Each has an exact derivation the checker
+  cannot see, because checkers never receive `why`: $8y+4y=12y \Rightarrow
+  \frac{20x^2y}{12y}=\frac{5x^2}{3}$; $(x+4)\cdot3+(x-2)\cdot4 = 7x+4$; mis-scaling
+  $\frac{x}{6}$ by 6 instead of 2 $\Rightarrow 7x+5$.
+
+6 of 7 flags invalid → the majority-invalid stopping rule applied; the two accepted fixes
+were made, the full gate re-run, and only the two changed items were re-sent
+(`blind-for-check --items`). Re-check: **0 mismatches**, and a residual commutativity
+quibble on q1 (that $a=-5y, b=6x$ also squares correctly) closed by pinning term order —
+no option offered that reading, so it could never have misgraded.
+
+**Manifest rebuilt** (369 content / 232 quiz). **Not committed.**
+
+**Human-review samples:** `expansion-factorisation-problems` (the applied/multi-step atom,
+the one most at risk of collapsing into its two section-mates),
+`simplify-compound-fractions` (hardest routine in the batch), `expand-brackets` (the
+repaired dirty skip), plus `factorise-common-algebraic-factor` — its agent reported **five
+answer-key errors in the booklet itself** (Q2b `−7a−14b → −7(a+2y)`, Q2j `−6x+8 →
+−2(3y−4)`, Q2l `−60x+45 → −15(4x+3)`, Q5n `8x(6−x²+2y)`, Q7i paired with an unrelated
+`5xy(...)`) and authored the correct maths instead; worth a human eye on that call.
+`anchor: none` gaps: none — all 14 skills are booklet-covered.
+
+**Batch W2-1 (Financial mathematics A+B) notes.** First Wave-2 batch and the Stage-5
+shakedown. **12 skills, all fresh generates — 0 ALREADY-COMPLETE skips and 0 STAGE-3-rule
+copies** (verified: no `public/content/{id}.json` and no quiz file existed for any of the
+12 before this batch). Generated with Opus, **6 section-owning generators**:
+A `earning-money` (FMA1 earning chapters L88–2461);
+B `progressive-income-tax` + `taxable-income-tax` + `medicare-levy` + `tax-refund-or-owing`
+(FMA1 tax chapters L2462–end);
+C `simple-interest` (FMA2);
+D `buying-on-terms` (FMA3);
+E `compound-interest-repeated` + `compound-interest-formula` + `compounding-frequency`
+(FMB L52–1125);
+F `depreciation` + `compare-simple-compound` (FMB L1126–end, reading FMA2 for the SI side).
+**atomType `R` for all 12** — every atom is a genuine multi-stage routine. **No
+`masteryOmitted`, no `coverageNote`** — every skill reached target honestly. Final counts:
+foundation 7–12 / development 7–12 / mastery 3–4 / quiz 8–10.
+
+**Deterministic gate clean batch-wide on the FIRST run** — 366 items, 110 quiz questions,
+439 options: validate 0 warnings, equivalent-options 0 defects (83% of options
+canonicalised, 0 intended key-equal), duplicate-stems **0 in all four classes including the
+new `QUIZ-COPIES-PRACTICE-VALUES`**, option-hygiene 0 leaked keys / 0 vague `why`s,
+figure-scale and angle-arms 0 over 23 figures. All six generators cleared the gate on their
+own skills before reporting, so the orchestrator's batch-wide re-run found nothing new.
+
+**Blind check — luna, one packet per skill, `figures-first`. All 12 OK, zero retries.
+151/151 items re-solved, ZERO answer mismatches, ZERO flags, `itemsAnswered ==
+itemsReceived` on every skill. No repair rounds.** Per the runbook's "do not fish for
+flags", the batch was accepted as a clean result.
+
+**New tooling finding — the shuffle-sanity WARN is unusable on money content.** 29 WARNs
+fired across 5 skills. They are **benign**: `compareOneSkill` decides agreement on
+`chosenIndex === shuffledIndexOfCorrect` (an index comparison, fully authoritative) and the
+WARN can only fire in the `else if` branch *after* the index already matched. The cause is
+transcription — luna re-types the option in plain text, stripping `$…$` and rendering `\,`
+as a comma (`"$1,381.80"` vs the key's `"$\$1\,381.80$"`). Two WARNs run the other way
+(`medicare-levy` q7, `buying-on-terms` q3) where luna *added* a spurious `\$` before a
+percentage; both quiz sources were inspected directly and are correct (`$7.4\%$`,
+`$10\%$`). **Every money-heavy Wave-2 batch will produce this noise**; the fix is to
+normalise LaTeX out of both strings before the sanity comparison, or drop the check.
+
+**House convention added:** "Written form of a money answer" in `docs/content-generation.md`
+§House mathematical conventions, written **before** generation so all six agents read one
+authority. Three agents independently converged on the same three refinements, now folded
+in: the rule governs computed answers and option texts (not stem-given round prices,
+which stay `\$4000`); "to the nearest dollar" pins whole dollars; thousands take a thin
+space, never a comma.
+
+**Runbook corrections applied from the shakedown (3, all factual):**
+1. **Read-first item 8 media path was wrong for all of Wave 2** — five of six agents
+   reported it independently. Wave 2 nests one level deeper
+   (`<booklet-dir>/media/<booklet-stem>/media/imageN.png`). Rewritten to say "resolve the
+   booklet's own image link relative to the booklet's directory", with both layouts stated
+   and an explicit figure-free skip (item 8 had no carve-out where item 1 does).
+2. **Step 3 contradicted itself** — "Four commands" / "all four commands" in prose against
+   six listed and named. Both now read six.
+3. Money convention refinements above.
+
+**Runbook issues REPORTED, deliberately NOT changed — these are owner policy calls:**
+- **"≥1 MCQ per structural type" fights the 8–10 quiz ceiling on type-rich Stage-5 skills.**
+  Raised independently by agents A and B. `earning-money` honestly enumerates **9**
+  structural types and `progressive-income-tax` 9–11, so the quiz is all coverage and has
+  zero room for the case variety the same section requires. Agent A covered all 9 types +
+  1 mastery item; agent B **folded three types into cases to fit under 10**. The runbook is
+  silent on which wins, and the pressure is toward *under-reporting* types. The ceiling was
+  tuned on Stage-4 geometry, which is far less type-rich than financial maths. **Needs a
+  ruling before W2-2** — several Wave-2 batches will hit this.
+- **No "Table rule" to match the "TikZ rule".** Four of the twelve skills are figure-free
+  but *table*-bearing (tax tables, growth tables), and the only guidance is one line in
+  `content-schema.md`. Nothing says where a table goes in a stem, whether it must be
+  restated per card (agent B restated an identical 6-row tax table across 28 stems), or how
+  that interacts with `audit-duplicate-stems` — it did not flag, but agent B is right that
+  this is luck, not design.
+- **Data displays vs function graphs.** Agents C and F both report that the "Data displays"
+  rules in `tikz-prompt.md` are written for *categorical* displays and mislead on plotted
+  function graphs: "x-axis label under the categories" has no meaning with numeric ticks,
+  and the "line graphs must have a non-constant slope" rule **directly contradicts** a
+  simple-interest graph, whose constant slope is the point of the skill. The y-label offset
+  `x≈-2.0` is calibrated at scale 0.5–0.6 and detaches at the mandated `scale ≥ 0.85`.
+  Agent C also notes **no copy-ready template exists for a gridded coordinate graph** even
+  though four shipped skills use the identical hand-rolled idiom.
+- **Skills whose `dotPointIds` span stages.** The "Upper-stage scope drift" bullet addresses
+  booklet *chapters*, but the actual Stage-5 pattern is that the **skill record itself**
+  carries both (`["dp-s5c-fina-3","dp-s6st11-managing-2"]` — true for 11 of these 12).
+  Read-first item 9 calls the dot point "the source of record", which points an agent
+  straight at the Stage-6 one. Every spawn prompt carried "ignore the Stage-6 dp" by hand.
+  Needs a sentence: **the batch's topic id selects the governing dot point.**
+- **Stage-6 material interleaves rather than appends.** Unlike Stage-4 `Indices.md` where
+  it sat in trailing chapters, FMA1 drops HSC-tagged items *inside* Stage-5 mastery tiers,
+  so the exclusion is **per-question, not per-chapter**. Agent E suggests "HSC-tagged
+  questions in a Stage-5 booklet are Stage-6 by default unless the routine is identical".
+- **`npm run dev` has a `predev` hook that rewrites `public/content-manifest.json`**, so
+  `shoot-tikz.mjs` (the "optional local aid") dirties a tracked file mid-batch. Agent F hit
+  this; step 8's `npm run manifest` settled it, but the runbook should warn.
+- Minor: `content-schema.md`'s validator warn text still says "target is 6–8" where the
+  runbook says the ceiling is 10–12.
+
+**Stage-6 scope drift excluded (the watch held).** Simple-interest **multi-line** rate
+comparison graphs (FMA2 Q4/Q5 — that is Stage-6 `simple-interest-graphs`; all six of agent
+C's figures carry exactly ONE line); continuous compounding and $e$ (FMB Q19); solving for
+$n$ **with logarithms** anywhere (authored only as booklet-style guess-and-check);
+annuities, reducing-balance loans, credit cards and FV/PV interest-factor tables;
+straight-line (prime-cost) depreciation and any method comparison (Stage-6
+`compare-depreciation-methods`); depreciation at 8% per half-year (FMB Q24 — non-annual
+periods belong to `compounding-frequency`); Medicare levy thresholds/reductions (booklet
+teaches a flat 2%); the tax-table graphing task (FMA1 Q11, a rates-of-change reading); and
+five HSC Standard items embedded in FMA1's tax chapters. FMB's superannuation example
+(L1038) was kept **only** as a plain future-value context, with no contribution stream.
+
+**Scope lines held between siblings.** `simple-interest` authored zero compound interest;
+`compound-interest-*` authored zero depreciation and zero simple-vs-compound; agent E's
+three-skill chain is disjoint by method (explicit repeated `\times(1+r)` factors, capped at
+2–4 periods / the formula at 4–25 years / the matching step as every card's first line);
+`buying-on-terms` excluded the flat-annual-rate-from-a-terms-deal family because
+rearranging $I=Prn$ for $r$ is `simple-interest`'s thing-being-tested; agent B's four tax
+skills never make the student compute gross pay (always given) and the tax table appears in
+`taxable-income-tax` **not at all**, in `medicare-levy` and `tax-refund-or-owing` only in
+mastery. Exclusive scenario domains were assigned per skill (trades/hospitality · four
+separate taxpayer professions · savings-goal · consumer purchases · short-term savings ·
+term deposits · accounts quoting a compounding period · vehicles/machinery · bank offers) —
+**0 cross-skill duplicate stems over 366 items**, the batch-15 method holding at Stage 5.
+
+**Tax table.** One table throughout agent B's four skills — the ATO **"Resident tax rates
+2022–23"** (Nil / 19c / \$5092+32.5c / \$29 467+37c / \$51 667+45c), read from FMA1's
+`image15.png` and cross-verified against nine booklet answer keys. Rendered as a KaTeX
+`array`, restated in every stem needing it. Four deliberately different fictional-country
+tables appear only in the unknown-table-value items.
+
+**Diagram checklist — 3 of 12 skills, 23 blocks (16 content + 7 quiz), review at
+`http://localhost:5173/#/tikz-check?topic=t-s5c-fin-a` and `?topic=t-s5c-fin-b`. The other
+9 skills are word/number/table skills and are deliberately figure-free.** Ranked
+highest-risk-first:
+1. `compare-simple-compound` (4 content + 2 quiz): **two-line shared-axes comparison
+   graphs** — a straight simple line and an exponential compound curve. Highest risk: the
+   crossover cards (`development[2]` crossing just before $n=8$; quiz q5 crossing at year
+   6) must *visually* cross where the key says, and quiz q4 deliberately **swaps the A/B
+   labels** relative to the practice figure. Also check the white-filled crossover label
+   sits clear of both lines.
+2. `simple-interest` (8 content + 4 quiz): six single-line SI graphs, each drawn twice
+   (blank support in the question, dashed read-lines added in the solution). Every reading
+   was deliberately landed **on a gridline**; confirm no question figure pre-marks its
+   answer, and check the rotated y-label "Interest (dollars)" against the wide 3-digit
+   ticks at `scale=0.85`.
+3. `depreciation` (4 content + 1 quiz): three decay curves with y-ticks chosen so the read
+   values sit on gridlines ($8000$s and $7500$s). Agent F rendered all 11 of its figures
+   via `shoot-tikz` (0 compile failures) and eyeballed them; agent C's 12 were not
+   shot-rendered, so they carry the higher unverified risk despite the lower ranking.
+**New TikZ idiom worth recording in `tikz-prompt.md`:** agent F used
+`exp(x*ln(k))` inside `\addplot` for exponential growth/decay — previously unused anywhere
+in `public/`, compiles cleanly under TikZJax, and is safer than `k^x`; gotcha is that raw
+JS floats leak artefacts (`ln(0.8200000000000001)`) unless rounded.
+
+**Booklet errata found (23 across the four booklets, none reproduced).** FMA1: a bonus
+example whose stem says 6% while the working uses `0.03`; a leave-loading example that
+never states its final answer; three Leave Loading mastery questions printed with **no
+answers**; two wrong-name/pronoun mismatches; four question sets answerable only from the
+image; a Medicare-levy working line transposing `88 420`→`88 402`; a tax key silently
+rounding `\$13 958.975` up; a refund question requiring an unstated 26-fortnight
+assumption; a sign convention used but never stated; a PAYG example carrying a rounded
+intermediate. FMA2: mangled `$` delimiters in the syllabus dot point; Q15 giving only one
+of the two answers asked; a 2019 HSC MCQ whose options exist only inside the image; graph
+readings presented as exact. FMA3: `$I=PRN$` vs the house `$I=Prn$`; docx debris placing
+`r = 0.16` above the question; **rounding never pinned on any of nine non-terminating
+answers**; a BNPL part under-determined standalone. FMB: the rowing-machine table **off by
+one** ($n=1$ row holds $V_0$); Q16b answering \$9000 where the exact value is \$8580 (a
+graph read presented as exact); the Depreciation chapter printing $FV=PV(1-r)^n$ in every
+prompt while its own theory box says $S=V_0(1-r)^n$; Q17f internally muddled on rate
+periods; a comma thousands-separator against the booklet's own thin space; question
+numbering jumping 15→19.
+
+**Not committed** (runbook step 10). Working tree carries the 24 new content/quiz files,
+the rebuilt manifest (**356 content / 219 quiz**, +12/+12) and the `docs/` edits.
 
 **Wave-1 backlog surfaced by the new value-signature audit (human to rule on, not a
 Wave-2 blocker — the gate only ever runs batch-scoped):** dry-running
