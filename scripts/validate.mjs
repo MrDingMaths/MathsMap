@@ -296,7 +296,7 @@ function validateContent(filterFn) {
           } else {
             const n = practice[tierName].length;
             if (n < 3) errs.push(`${tag}: practice.${tierName} has ${n} card(s); minimum 3`);
-            else if (n < 6 && !hasCoverageNote) warns.push(`${tag}: practice.${tierName} has ${n} card(s); target is 6–8`);
+            else if (n < 6 && !hasCoverageNote) warns.push(`${tag}: practice.${tierName} has ${n} card(s); below the 6-card warn floor (ceiling is 10–12; add a coverageNote if the atom is genuinely narrow)`);
             practice[tierName].forEach((card, i) =>
               validateCard(card, theory, `${tag} practice.${tierName}[${i}]`, errs)
             );
@@ -376,7 +376,7 @@ function validateQuizzes(filterFn) {
     if (data.questions.length < 3) {
       errs.push(`${tag}: questions has ${data.questions.length} item(s); minimum 3`);
     } else if (data.questions.length < 6 && !hasCoverageNote) {
-      warns.push(`${tag}: questions has ${data.questions.length} item(s); target is 6–8`);
+      warns.push(`${tag}: questions has ${data.questions.length} item(s); below the 6-item warn floor (ceiling is 8–10, and may run past it when the skill has more structural types — add a coverageNote if the atom is genuinely narrow)`);
     }
     if (data.questions.length > MAX_QUIZ_QUESTIONS) {
       errs.push(`${tag}: questions has ${data.questions.length} item(s); maximum ${MAX_QUIZ_QUESTIONS}`);
