@@ -528,7 +528,75 @@ a ray question.
 \end{tikzpicture}
 ```
 
+#### Exponential growth and decay curves
+
+Write an exponential as **`exp(x*ln(k))`**, never `k^x` — the `^` form is unreliable in the
+TikZJax subset, while the `exp`/`ln` form compiles cleanly (verified across 11 figures in
+W2-1). **Round the base to a short literal before writing it**: a raw JS float leaks into the
+source as `ln(0.8200000000000001)`, which is both ugly and a diff hazard.
+
+```tex
+% compound growth  FV = 4000(1.06)^n   and  decay  S = 60000(0.82)^n
+\addplot[thick,red,domain=0:8,samples=60] {4000*exp(x*ln(1.06))};
+\addplot[thick,blue,domain=0:6,samples=60] {60000*exp(x*ln(0.82))};
+```
+
+Choose y-ticks so **every value the learner must read lands on a gridline** (W2-1 used
+$8000$s and $7500$s to put $\$40\,000$, $\$32\,000$ and $\$22\,500$ exactly on the grid).
+Where a straight line and a curve share axes and the question is about a **crossover**, the
+crossing must be visibly in the right place — verify by evaluating both at the year either
+side, not by eye alone.
+
+#### Gridded coordinate graph — raw-TikZ template
+
+Four shipped skills (`interpret-distance-time-graphs`, `construct-distance-time-graphs`,
+`speed-from-distance-time`, `simple-interest`) use this same hand-rolled idiom rather than
+`pgfplots`. Instantiate it rather than re-deriving it; note `gray!30,very thin` (**not**
+`help lines`, which no shipped file uses).
+
+```tex
+\begin{tikzpicture}[scale=0.85]
+  \draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (7,6);
+  \draw[-{Stealth}] (0,0) -- (7.5,0);
+  \draw[-{Stealth}] (0,0) -- (0,6.6);
+  \foreach \x in {1,...,7} \node[below,font=\scriptsize] at (\x,-0.15) {$\x$};
+  \foreach \y/\lab in {1/100,2/200,3/300,4/400,5/500,6/600}
+    \node[left,font=\scriptsize] at (-0.15,\y) {$\lab$};
+  \draw[thick,red] (0,0) -- (6,5.4);                  % plotted relationship
+  \node[rotate=90,font=\scriptsize] at (-1.5,3) {Interest (dollars)};
+  \node[below,font=\scriptsize] at (3.5,-1.0) {Time (years)};
+  \node[font=\small] at (3.5,7.1) {Holiday savings};
+\end{tikzpicture}
+```
+
+**Question figure = the axes, grid and plotted line, with the asked value NOT marked.
+Solution figure = the same, plus dashed guide lines to the read point and its label.**
+
 ### Data displays
+
+**Which family am I in? Read this before applying anything below.** This section governs
+**categorical / statistical displays** — column and bar graphs, dot plots, stem-and-leaf,
+sector graphs, and line graphs over *categories or discrete observations* (months, years,
+trials). It does **not** govern a **plotted function or coordinate graph** — a line or curve
+drawn from an equation over a continuous axis (a simple-interest line, a compound-growth or
+depreciation curve, a distance–time graph, a parabola). Those belong to
+[**Coordinate and function graphs**](#coordinate-and-function-graphs) above, which is the
+authority for their window, ticks, plotting and labelling.
+
+Applying the rules below to a function graph produces contradictions, measured in W2-1:
+the "x-axis label under the category-label row" anchor is meaningless where the axis carries
+numeric ticks rather than categories, and **"line graphs must have a non-constant slope" is
+flatly wrong for a simple-interest graph, whose constant slope IS the skill**. The variety
+rules (scenario rotation, column counts, value patterns) likewise apply to data displays
+only — a function graph's shape is fixed by its equation and is not a style choice.
+
+**What the two families DO share** (apply these to a function graph as well): the
+anti-collision label placement rule, the sizing & fit rule, and the `pgfplots` caveat about
+never double-rotating the y-label. Where the tick-width offsets below are quoted as fixed
+coordinates, read them as **multiples of the widest tick text**, not absolutes — they were
+calibrated on the raw-TikZ templates at `scale` 0.5–0.6, and at the mandated `scale ≥ 0.85`
+a fixed `x = -2.0` leaves the label visibly detached. Set the offset so the rotated label
+clears the widest tick by roughly one character width, then check it by eye.
 
 - Derive the plotted data table before drawing.
 - Check every category/value pair, frequency total, axis scale, and unit against the source.
@@ -611,6 +679,9 @@ Parallel generation converges on one booklet exemplar. Force spread:
 - **Line graphs must have a non-constant slope** — a rise-then-fall, a dip, a plateau, or
   varying step sizes. A perfectly linear 10,20,30,40 is banned unless the skill is
   specifically teaching constant rate. Plot each point at its true coordinate.
+  **This is a data-display rule only.** A plotted **function** graph takes its shape from
+  its equation, so a straight line is correct and required wherever the relationship is
+  linear (simple interest, constant speed) — see the family note at the top of this section.
 - **Vary dot-plot n and shape** (a gap, an outlier, a bimodal cluster), and vary stem-leaf
   data ranges.
 
