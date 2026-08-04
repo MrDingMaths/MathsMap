@@ -1,0 +1,230 @@
+{
+  "skillId": "compare-simple-compound",
+  "questions": [
+    {
+      "id": "q1",
+      "structure": "difference-in-interest-same-rate",
+      "mastery": false,
+      "question_text": "$\\$20\\,000$ is invested for $3$ years at $4\\%$ p.a. How much more interest does an account compounding annually earn than one paying simple interest, to the nearest cent?",
+      "options": [
+        {
+          "text": "$\\$97.28$",
+          "correct": true
+        },
+        {
+          "text": "$\\$2497.28$",
+          "why": "Gave the compound interest earned rather than the difference between the two accounts."
+        },
+        {
+          "text": "$\\$2400.00$",
+          "why": "Gave the simple interest earned rather than the difference between the two accounts."
+        },
+        {
+          "text": "$\\$22\\,497.28$",
+          "why": "Gave the compound account's final balance instead of the extra interest earned."
+        }
+      ],
+      "solution_text": "$I = 20\\,000\\times0.04\\times3$\n$=\\$2400$\n$FV = 20\\,000(1.04)^{3}$\n$=\\$22\\,497.28$\nCompound interest $=22\\,497.28-20\\,000=\\$2497.28$\nDifference $=2497.28-2400$\n$=\\$97.28$"
+    },
+    {
+      "id": "q2",
+      "structure": "difference-after-one-period",
+      "mastery": false,
+      "question_text": "$\\$5000$ is invested for $1$ year, one account at $6\\%$ p.a. simple interest and one at $6\\%$ p.a. compounding annually. How much more does the compound account hold at the end of the year?",
+      "options": [
+        {
+          "text": "$\\$0.00$",
+          "correct": true
+        },
+        {
+          "text": "$\\$300.00$",
+          "why": "Gave the interest earned rather than the difference between the two balances."
+        },
+        {
+          "text": "$\\$18.00$",
+          "why": "Charged a second round of interest on the first year's $\\$300$, which has not been earned yet."
+        },
+        {
+          "text": "$\\$5300.00$",
+          "why": "Gave the compound account's balance instead of the difference between the accounts."
+        }
+      ],
+      "solution_text": "Simple: $5000+5000\\times0.06\\times1=\\$5300$\nCompound: $5000(1.06)^{1}=\\$5300$\nDifference $=5300-5300$\n$=\\$0$"
+    },
+    {
+      "id": "q3",
+      "structure": "which-offer-is-better",
+      "mastery": false,
+      "question_text": "Bank X pays $8\\%$ p.a. simple interest. Bank Y pays $6.8\\%$ p.a. compounding annually. $\\$7000$ is invested for $4$ years. Which bank gives the greater final balance, and by how much, to the nearest cent?",
+      "options": [
+        {
+          "text": "Bank X, by $\\$132.84$",
+          "correct": true
+        },
+        {
+          "text": "Bank Y, by $\\$132.84$",
+          "why": "Assumed compound interest always wins, so named the wrong bank for the correct difference."
+        },
+        {
+          "text": "Bank X, by $\\$336.00$",
+          "why": "Worked out Bank Y with $I=Prn$ as well, treating its compound rate as a simple rate."
+        },
+        {
+          "text": "Bank X, by $\\$416.26$",
+          "why": "Compounded Bank X's $8\\%$ as well, comparing $\\$9523.42$ with $\\$9107.16$."
+        }
+      ],
+      "solution_text": "Bank X: $7000+7000\\times0.08\\times4$\n$=\\$9240$\nBank Y: $7000(1.068)^{4}$\n$=\\$9107.16$\nDifference $=9240-9107.16$\n$=\\$132.84$\nBank X gives the greater balance, by $\\$132.84$."
+    },
+    {
+      "id": "q4",
+      "structure": "identify-graphs",
+      "mastery": false,
+      "question_text": "The graph shows two accounts opened with the same deposit at the same interest rate. One pays simple interest and the other compounds annually.\n\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.8cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=11.4,ymin=0,ymax=6000,xtick={0,2,4,6,8,10},ytick={0,1000,2000,3000,4000,5000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years},ylabel={Balance (\\$)},title={Two accounts at the same rate}]\n\\addplot[thick,blue,dashed,domain=0:10,samples=2]{2500+200*x};\n\\addplot[thick,red,domain=0:10,samples=60]{2500*exp(x*ln(1.08))};\n\\node[blue,right,font=\\small] at (axis cs:10,4500) {$B$};\n\\node[red,right,font=\\small] at (axis cs:10,5397) {$A$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n\nWhich statement is correct?",
+      "options": [
+        {
+          "text": "$A$ pays compound interest, because its balance rises by a larger amount each year.",
+          "correct": true
+        },
+        {
+          "text": "$B$ pays compound interest, because its graph is a straight line.",
+          "why": "A straight line means the same interest is added each year, which is simple interest."
+        },
+        {
+          "text": "$A$ pays compound interest, because it started with a larger deposit.",
+          "why": "Both graphs start at the same balance; the curve comes from the growing yearly interest."
+        },
+        {
+          "text": "$B$ pays compound interest, because it is above $A$ in the early years.",
+          "why": "The two balances are equal after one year, so neither graph is above the other early on."
+        }
+      ],
+      "solution_text": "Graph $B$ is a straight line, so the same amount of interest is added each year: that is simple interest.\nGraph $A$ curves upwards, so each year's interest is larger than the year before: that is compound interest."
+    },
+    {
+      "id": "q5",
+      "structure": "crossover-year",
+      "mastery": false,
+      "question_text": "Offer P pays $9\\%$ p.a. simple interest and Offer Q pays $7.5\\%$ p.a. compounding annually, on a deposit of $\\$3000$.\n\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=7.8cm,height=5.8cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=11.4,ymin=0,ymax=6800,xtick={0,2,4,6,8,10},ytick={0,1000,2000,3000,4000,5000,6000},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years},ylabel={Balance (\\$)},title={Offer P and Offer Q on $\\$3000$}]\n\\addplot[thick,blue,dashed,domain=0:10,samples=2]{3000+270*x};\n\\addplot[thick,red,domain=0:10,samples=60]{3000*exp(x*ln(1.075))};\n\\node[blue,right,font=\\small] at (axis cs:10,5700) {$P$};\n\\node[red,right,font=\\small] at (axis cs:10,6183) {$Q$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n\nIn which year does Offer Q first move ahead of Offer P?",
+      "options": [
+        {
+          "text": "Year $6$",
+          "correct": true
+        },
+        {
+          "text": "Year $5$",
+          "why": "At year $5$ Offer Q holds $\\$4306.89$ against $\\$4350$, so it is still $\\$43.11$ behind."
+        },
+        {
+          "text": "Year $7$",
+          "why": "Went one year past the first year in which Offer Q moves ahead."
+        },
+        {
+          "text": "Year $1$",
+          "why": "Assumed compound interest is ahead immediately, but the balances are equal after one year."
+        }
+      ],
+      "solution_text": "Offer P: $3000+270n$\nOffer Q: $3000(1.075)^{n}$\n$n=5$: $\\$4350$ and $\\$4306.89$, so P is ahead.\n$n=6$: $\\$4620$ and $\\$4629.90$, so Q is ahead.\nOffer Q first moves ahead in year $6$."
+    },
+    {
+      "id": "q6",
+      "structure": "how-the-gap-grows",
+      "mastery": false,
+      "question_text": "$\\$10\\,000$ is invested at $7\\%$ p.a., once as simple interest and once compounding annually. After $2$ years the compound account is $\\$49.00$ ahead. How far ahead is it after $4$ years, to the nearest cent?",
+      "options": [
+        {
+          "text": "$\\$307.96$",
+          "correct": true
+        },
+        {
+          "text": "$\\$98.00$",
+          "why": "Doubled the two-year gap, assuming the gap grows by the same amount each year."
+        },
+        {
+          "text": "$\\$3107.96$",
+          "why": "Gave the compound interest earned over $4$ years instead of the gap between the accounts."
+        },
+        {
+          "text": "$\\$2800.00$",
+          "why": "Gave the simple interest earned over $4$ years instead of the gap between the accounts."
+        }
+      ],
+      "solution_text": "Simple: $10\\,000+10\\,000\\times0.07\\times4=\\$12\\,800$\nCompound: $10\\,000(1.07)^{4}=\\$13\\,107.96$\nDifference $=13\\,107.96-12\\,800$\n$=\\$307.96$"
+    },
+    {
+      "id": "q7",
+      "structure": "identify-table",
+      "mastery": false,
+      "question_text": "The table shows the balance of two accounts, each opened with $\\$6000$ at $9\\%$ p.a. One pays simple interest and the other compounds annually.\n\n$\\begin{array}{c|ccc}\\text{Year}&1&2&3\\\\\\hline \\text{Account P}&\\$6540&\\$7080&\\$7620\\\\\\hline \\text{Account Q}&\\$6540&\\$7128.60&\\$7770.17\\end{array}$\n\nWhich account pays simple interest, and how can you tell?",
+      "options": [
+        {
+          "text": "Account P, because its balance rises by $\\$540$ every year.",
+          "correct": true
+        },
+        {
+          "text": "Account Q, because its balance rises by a larger amount each year.",
+          "why": "A rise that grows each year is interest paid on interest, which is compound interest."
+        },
+        {
+          "text": "Account P, because it has the smaller balance after $3$ years.",
+          "why": "The smaller balance is a result of simple interest, not the test; the test is a constant yearly rise."
+        },
+        {
+          "text": "Account Q, because both accounts hold the same amount after $1$ year.",
+          "why": "Equal balances after one year happen for both interest types, so this identifies neither."
+        }
+      ],
+      "solution_text": "Account P rises by $\\$540$, then $\\$540$, then $\\$540$: a constant amount each year.\nAccount Q rises by $\\$540$, then $\\$588.60$, then $\\$641.57$: a growing amount each year.\nAccount P pays simple interest, because the same interest is added every year."
+    },
+    {
+      "id": "q8",
+      "structure": "equivalent-simple-rate",
+      "mastery": true,
+      "question_text": "$\\$8000$ is invested at $5.5\\%$ p.a. compounding annually for $8$ years. What simple interest rate would earn the same total interest over those $8$ years, correct to $2$ decimal places?",
+      "options": [
+        {
+          "text": "$6.68\\%$ p.a.",
+          "correct": true
+        },
+        {
+          "text": "$5.50\\%$ p.a.",
+          "why": "Assumed the equivalent simple rate is just the compound rate, so no calculation was done."
+        },
+        {
+          "text": "$53.47\\%$ p.a.",
+          "why": "Left $n$ out of $I=Prn$, dividing the interest by the principal alone."
+        },
+        {
+          "text": "$19.18\\%$ p.a.",
+          "why": "Used the future value instead of the interest earned as $I$ in $I=Prn$."
+        }
+      ],
+      "solution_text": "$FV = 8000(1.055)^{8}$\n$=\\$12\\,277.49$\nCompound interest $=12\\,277.49-8000=\\$4277.49$\n$I = Prn$\n$4277.4884\\ldots=8000\\times r\\times8$\n$r=0.066835\\ldots$\nThe equivalent simple interest rate is $6.68\\%$ p.a."
+    },
+    {
+      "id": "q9",
+      "structure": "crossover-year-and-margin",
+      "mastery": true,
+      "question_text": "Offer A pays $10\\%$ p.a. simple interest and Offer B pays $8\\%$ p.a. compounding annually, on a deposit of $\\$8000$. In which year does Offer B first move ahead of Offer A, and by how much is it ahead at that time, to the nearest cent?",
+      "options": [
+        {
+          "text": "Year $7$, by $\\$110.59$",
+          "correct": true
+        },
+        {
+          "text": "Year $6$, by $\\$105.01$",
+          "why": "Took the last year in which Offer B is still behind, and gave the size of that shortfall."
+        },
+        {
+          "text": "Year $7$, by $\\$13\\,710.59$",
+          "why": "Gave Offer B's balance in that year instead of the amount by which it is ahead."
+        },
+        {
+          "text": "Year $8$, by $\\$407.44$",
+          "why": "Went one year past the first year in which Offer B moves ahead."
+        }
+      ],
+      "solution_text": "Offer A: $8000+800n$\nOffer B: $8000(1.08)^{n}$\n$n=6$: $\\$12\\,800$ and $\\$12\\,694.99$, so A is ahead.\n$n=7$: $\\$13\\,600$ and $\\$13\\,710.59$, so B is ahead.\nDifference $=8000(1.08)^{7}-13\\,600$\n$=\\$110.59$\nOffer B is first ahead in year $7$, by $\\$110.59$."
+    }
+  ]
+}
