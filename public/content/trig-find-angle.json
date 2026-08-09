@@ -1,0 +1,111 @@
+{
+  "skillId": "trig-find-angle",
+  "atomType": "R",
+  "theory": {
+    "intro": "Once two sides of a right-angled triangle are known, every angle in it is fixed. The inverse trigonometric functions $\\sin^{-1}$, $\\cos^{-1}$ and $\\tan^{-1}$ turn a known ratio back into the angle that produced it.",
+    "facts": [
+      "The ratios are $\\sin\\theta=\\frac{O}{H}$, $\\cos\\theta=\\frac{A}{H}$ and $\\tan\\theta=\\frac{O}{A}$, where $O$, $A$ and $H$ are named **relative to the marked angle**.",
+      "Choose the ratio that uses **the two sides you are given**. The third side is never needed.",
+      "If $\\sin\\theta=k$ then $\\theta=\\sin^{-1}(k)$, and likewise for $\\cos^{-1}$ and $\\tan^{-1}$. On a calculator these are the **SHIFT** (or **2nd**) functions.",
+      "$\\sin^{-1}$ is **not** $\\frac{1}{\\sin}$ — it is the operation that undoes $\\sin$.",
+      "Both unknown angles of a right-angled triangle are acute, so the inverse function always returns the angle you want.",
+      "$1^{\\circ}=60'$. Convert a decimal answer such as $41.4096^{\\circ}$ with the DMS button, and round up when the next unit is $30$ or more."
+    ],
+    "steps": [
+      "Label the sides relative to the marked angle",
+      "Choose the trigonometric ratio",
+      "Write the trigonometric equation",
+      "Substitute the known values",
+      "Solve using the inverse function",
+      "Round as the question asks"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (3.6,0);\\coordinate (T) at (0,2.7);\\draw (O)--(R);\\draw (O)--(T) node[midway,left] {$6\\text{ cm}$};\\draw (R)--(T) node[midway,above right] {$10\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "The $6$ cm side is opposite $\\theta$ and the $10$ cm side is the hypotenuse.\n$\\sin\\theta=\\frac{6}{10}$\n$\\theta=\\sin^{-1}\\left(\\frac{6}{10}\\right)$\n$=36.8698\\ldots^{\\circ}$\n$\\approx37^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (L) at (-4.32,0);\\coordinate (T) at (0,1.26);\\draw (O)--(L);\\draw (O)--(T) node[midway,right] {$7\\text{ cm}$};\\draw (L)--(T) node[midway,above left] {$25\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=1.45] {angle=O--L--T};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "$\\sin\\theta=\\frac{7}{25}$\n$\\theta=\\sin^{-1}\\left(\\frac{7}{25}\\right)$\n$=16.2602\\ldots^{\\circ}$\n$\\approx16^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,3.15);\\coordinate (B) at (0,0);\\coordinate (R) at (2.778,3.15);\\draw (O)--(R);\\draw (O)--(B) node[midway,left] {$9\\text{ cm}$};\\draw (B)--(R) node[midway,below right] {$12\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(B)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=R--B--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "The $9$ cm side is adjacent to $\\theta$ and the $12$ cm side is the hypotenuse.\n$\\cos\\theta=\\frac{9}{12}$\n$\\theta=\\cos^{-1}\\left(\\frac{9}{12}\\right)$\n$=41.4096\\ldots^{\\circ}$\n$\\approx41^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (3.44674,2.4);\\coordinate (B) at (3.44674,0);\\coordinate (L) at (0,2.4);\\draw (O)--(L);\\draw (O)--(B) node[midway,right] {$4\\text{ cm}$};\\draw (B)--(L) node[midway,below left] {$7\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(B)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=O--B--L};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "$\\cos\\theta=\\frac{4}{7}$\n$\\theta=\\cos^{-1}\\left(\\frac{4}{7}\\right)$\n$=55.1500\\ldots^{\\circ}$\n$\\approx55^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (4.2,0);\\coordinate (T) at (0,1.75);\\draw (O)--(R) node[midway,below] {$12\\text{ cm}$};\\draw (O)--(T) node[midway,left] {$5\\text{ cm}$};\\draw (R)--(T);\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=1.45] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "The $5$ cm side is opposite $\\theta$ and the $12$ cm side is adjacent to it.\n$\\tan\\theta=\\frac{5}{12}$\n$\\theta=\\tan^{-1}\\left(\\frac{5}{12}\\right)$\n$=22.6198\\ldots^{\\circ}$\n$\\approx23^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (L) at (-1.6,0);\\coordinate (T) at (0,3.6);\\draw (O)--(L) node[midway,below] {$4\\text{ cm}$};\\draw (O)--(T) node[midway,right] {$9\\text{ cm}$};\\draw (L)--(T);\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.55cm,angle eccentricity=1.55] {angle=O--L--T};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "$\\tan\\theta=\\frac{9}{4}$\n$\\theta=\\tan^{-1}\\left(\\frac{9}{4}\\right)$\n$=66.0375\\ldots^{\\circ}$\n$\\approx66^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (4.2,0);\\coordinate (T) at (0,2.24);\\draw (O)--(R);\\draw (O)--(T) node[midway,left] {$8\\text{ cm}$};\\draw (R)--(T) node[midway,above right] {$17\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nWrite the expression that gives $\\theta$. Do not evaluate it.",
+        "solution_text": "The $8$ cm side is opposite $\\theta$ and the $17$ cm side is the hypotenuse, so the sine ratio is the one to use.\n$\\sin\\theta=\\frac{8}{17}$\n$\\theta=\\sin^{-1}\\left(\\frac{8}{17}\\right)$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,3.3);\\coordinate (B) at (0,0);\\coordinate (R) at (2.598,3.3);\\draw (O)--(R);\\draw (O)--(B) node[midway,left] {$11\\text{ cm}$};\\draw (B)--(R) node[midway,below right] {$14\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(B)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=R--B--O};\\end{tikzpicture}\n[/tikz]\nWrite the expression that gives $\\theta$, then evaluate it correct to the nearest degree.",
+        "solution_text": "The $11$ cm side is adjacent to $\\theta$ and the $14$ cm side is the hypotenuse.\n$\\cos\\theta=\\frac{11}{14}$\n$\\theta=\\cos^{-1}\\left(\\frac{11}{14}\\right)$\n$=38.2132\\ldots^{\\circ}$\n$\\approx38^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (3.15,0);\\coordinate (T) at (0,3.0);\\draw (O)--(R) node[midway,below] {$21\\text{ cm}$};\\draw (O)--(T) node[midway,left] {$20\\text{ cm}$};\\draw (R)--(T) node[midway,above right] {$29\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.7cm,angle eccentricity=1.5] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nAll three sides are given. Find $\\theta$, correct to the nearest degree.",
+        "solution_text": "Relative to $\\theta$ the $20$ cm side is opposite and the $21$ cm side is adjacent, so use the tangent ratio.\n$\\tan\\theta=\\frac{20}{21}$\n$\\theta=\\tan^{-1}\\left(\\frac{20}{21}\\right)$\n$=43.6028\\ldots^{\\circ}$\n$\\approx44^{\\circ}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (4.2,0);\\coordinate (T) at (0,0.945);\\draw (O)--(R) node[midway,below] {$40\\text{ cm}$};\\draw (O)--(T) node[midway,left] {$9\\text{ cm}$};\\draw (R)--(T) node[midway,above] {$41\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=1.0cm,angle eccentricity=1.35] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest degree.",
+        "solution_text": "Relative to $\\theta$ the $9$ cm side is opposite and the $40$ cm side is adjacent.\n$\\tan\\theta=\\frac{9}{40}$\n$\\theta=\\tan^{-1}\\left(\\frac{9}{40}\\right)$\n$=12.6804\\ldots^{\\circ}$\n$\\approx13^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (3.84,0);\\coordinate (T) at (0,1.6);\\draw (O)--(R) node[midway,below] {$12\\text{ cm}$};\\draw (O)--(T) node[midway,left] {$5\\text{ cm}$};\\draw (R)--(T) node[midway,above right] {$13\\text{ cm}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=O--T--R};\\end{tikzpicture}\n[/tikz]\nThe marked angle is at the top vertex. Find $\\theta$, correct to the nearest degree.",
+        "solution_text": "Relative to $\\theta$ at the top vertex, the $12$ cm side is opposite and the $5$ cm side is adjacent.\n$\\tan\\theta=\\frac{12}{5}$\n$\\theta=\\tan^{-1}\\left(\\frac{12}{5}\\right)$\n$=67.3801\\ldots^{\\circ}$\n$\\approx67^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (3.99,0);\\coordinate (T) at (0,1.512);\\draw (O)--(R) node[midway,below] {$9.5\\text{ m}$};\\draw (O)--(T) node[midway,left] {$3.6\\text{ m}$};\\draw (R)--(T);\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.4] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest minute.",
+        "solution_text": "$\\tan\\theta=\\frac{3.6}{9.5}$\n$\\theta=\\tan^{-1}\\left(\\frac{3.6}{9.5}\\right)$\n$=20.7540\\ldots^{\\circ}$\n$=20^{\\circ}45'14.66''$\n$\\approx20^{\\circ}45'$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (L) at (-4.13652,0);\\coordinate (T) at (0,1.44);\\draw (O)--(L);\\draw (O)--(T) node[midway,right] {$2.4\\text{ m}$};\\draw (L)--(T) node[midway,above left] {$7.3\\text{ m}$};\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.4] {angle=O--L--T};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest minute.",
+        "solution_text": "$\\sin\\theta=\\frac{2.4}{7.3}$\n$\\theta=\\sin^{-1}\\left(\\frac{2.4}{7.3}\\right)$\n$=19.1939\\ldots^{\\circ}$\n$=19^{\\circ}11'38.26''$\n$\\approx19^{\\circ}12'$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,2.88);\\coordinate (B) at (0,0);\\coordinate (R) at (3.28006,2.88);\\draw (O)--(R);\\draw (O)--(B) node[midway,left] {$6.4\\text{ m}$};\\draw (B)--(R) node[midway,below right] {$9.7\\text{ m}$};\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(B)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.5] {angle=R--B--O};\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, correct to the nearest minute.",
+        "solution_text": "$\\cos\\theta=\\frac{6.4}{9.7}$\n$\\theta=\\cos^{-1}\\left(\\frac{6.4}{9.7}\\right)$\n$=48.7158\\ldots^{\\circ}$\n$=48^{\\circ}42'57.06''$\n$\\approx48^{\\circ}43'$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (3.92,0);\\coordinate (T) at (0,1.47);\\draw (O)--(R) node[midway,below] {$5.6\\text{ m}$};\\draw (O)--(T) node[midway,left] {$2.1\\text{ m}$};\\draw[very thick] (R)--(T);\\coordinate (va) at ($(O)!0.3cm!(R)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.4] {angle=T--R--O};\\end{tikzpicture}\n[/tikz]\nA single-slope roof rises $2.1$ m over a horizontal run of $5.6$ m. Find $\\theta$, the pitch of the roof, correct to the nearest minute.",
+        "solution_text": "$\\tan\\theta=\\frac{2.1}{5.6}$\n$\\theta=\\tan^{-1}\\left(\\frac{2.1}{5.6}\\right)$\n$=20.5560\\ldots^{\\circ}$\n$=20^{\\circ}33'21.76''$\n$\\approx20^{\\circ}33'$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (L) at (-3.7307,0);\\coordinate (T) at (0,1.76);\\draw (O)--(L);\\draw (O)--(T) node[midway,right] {$3.2\\text{ m}$};\\draw[very thick] (L)--(T) node[midway,above left] {$7.5\\text{ m}$};\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.4] {angle=O--L--T};\\end{tikzpicture}\n[/tikz]\nThe sloping surface of a playground slide is $7.5$ m long and its top is $3.2$ m above the ground. Find $\\theta$, the angle the slide makes with the ground, correct to the nearest degree.",
+        "solution_text": "$\\sin\\theta=\\frac{3.2}{7.5}$\n$\\theta=\\sin^{-1}\\left(\\frac{3.2}{7.5}\\right)$\n$=25.2562\\ldots^{\\circ}$\n$\\approx25^{\\circ}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (O) at (3.69,0);\\coordinate (T) at (3.69,2.12873);\\draw (L)--(O) node[midway,below] {$24.6\\text{ m}$};\\draw (O)--(T);\\draw[very thick] (L)--(T) node[midway,above left] {$28.4\\text{ m}$};\\coordinate (va) at ($(O)!0.3cm!(L)$);\\coordinate (vb) at ($(O)!0.3cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=0.8cm,angle eccentricity=1.4] {angle=O--L--T};\\end{tikzpicture}\n[/tikz]\nAn escalator carries shoppers $28.4$ m along its incline, covering $24.6$ m of horizontal floor. Find $\\theta$, the angle of the escalator, correct to the nearest minute.",
+        "solution_text": "$\\cos\\theta=\\frac{24.6}{28.4}$\n$\\theta=\\cos^{-1}\\left(\\frac{24.6}{28.4}\\right)$\n$=29.9803\\ldots^{\\circ}$\n$=29^{\\circ}58'49.11''$\n$\\approx29^{\\circ}59'$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (O) at (0,0);\\coordinate (R) at (1.78606,0);\\coordinate (T) at (0,0.9);\\draw (O)--(R);\\draw (O)--(T) node[midway,left] {$1.8\\text{ m}$};\\draw[very thick] (R)--(T) node[midway,above right] {$4.0\\text{ m}$};\\coordinate (va) at ($(O)!0.25cm!(R)$);\\coordinate (vb) at ($(O)!0.25cm!(T)$);\\draw (va)--($(va)+(vb)-(O)$)--(vb);\\node at (0.9,-0.55) {Slide A};\\coordinate (P) at (2.9,0);\\coordinate (Q) at (5.15,0);\\coordinate (S) at (2.9,1.05);\\draw (P)--(Q) node[midway,below] {$4.5\\text{ m}$};\\draw (P)--(S) node[midway,left] {$2.1\\text{ m}$};\\draw[very thick] (Q)--(S);\\coordinate (pa) at ($(P)!0.25cm!(Q)$);\\coordinate (pb) at ($(P)!0.25cm!(S)$);\\draw (pa)--($(pa)+(pb)-(P)$)--(pb);\\node at (4.02,-0.55) {Slide B};\\end{tikzpicture}\n[/tikz]\nSlide A drops $1.8$ m over a sloping surface $4.0$ m long. Slide B drops $2.1$ m over a horizontal run of $4.5$ m. Which slide is steeper, and by how many degrees, correct to the nearest degree?",
+        "solution_text": "$\\sin A=\\frac{1.8}{4.0}$\n$A=\\sin^{-1}\\left(\\frac{1.8}{4.0}\\right)$\n$=26.7436\\ldots^{\\circ}$\n$\\tan B=\\frac{2.1}{4.5}$\n$B=\\tan^{-1}\\left(\\frac{2.1}{4.5}\\right)$\n$=25.0168\\ldots^{\\circ}$\n$A-B=1.7267\\ldots^{\\circ}$\nSlide A is the steeper slide, by $2^{\\circ}$."
+      },
+      {
+        "question_text": "A staircase climbs $2.7$ m in total. It has $12$ steps and each step has a horizontal tread of $260$ mm. Find the angle the staircase makes with the floor, correct to the nearest minute.",
+        "solution_text": "$12\\times260\\text{ mm}=3120\\text{ mm}$\n$=3.12\\text{ m of horizontal run}$\n$\\tan\\theta=\\frac{2.7}{3.12}$\n$\\theta=\\tan^{-1}\\left(\\frac{2.7}{3.12}\\right)$\n$=40.8724\\ldots^{\\circ}$\n$=40^{\\circ}52'20.67''$\n$\\approx40^{\\circ}52'$"
+      },
+      {
+        "question_text": "A garden bed is built so that it falls $1$ cm for every $25$ cm measured horizontally. Find the angle the surface of the bed makes with the horizontal, correct to the nearest minute.",
+        "solution_text": "The fall is opposite the angle and the horizontal measurement is adjacent to it.\n$\\tan\\theta=\\frac{1}{25}$\n$\\theta=\\tan^{-1}\\left(\\frac{1}{25}\\right)$\n$=2.2906\\ldots^{\\circ}$\n$=2^{\\circ}17'26.20''$\n$\\approx2^{\\circ}17'$"
+      }
+    ]
+  }
+}

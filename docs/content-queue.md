@@ -1686,13 +1686,34 @@ No theory-only STAGE-3-rule files in this wave.
 - Pipeline = the batch-10+ revision throughout, plus the value-signature duplicate class
   (`QUIZ-COPIES-PRACTICE-VALUES`) added to `audit-duplicate-stems.mjs` before W2-1.
 
+**Rounds plan (owner-approved 2026-08-05, plan file `continue-content-generation-campaign-immutable-aho.md`):**
+remaining batches run as parallel multi-lane rounds, ~3 generation batches + optional
+remediation row per round, one round per session. Lane orchestrators are Opus subagents;
+main session is sole writer of this file, the manifest, and skills.json. Trigger for the
+next session: **"Run the next content-generation round — follow the rounds plan in
+docs/content-queue.md"**.
+
+| Round | Lanes | Constraints honoured |
+|---|---|---|
+| 1 | W2-4 · W2-5 · W2-15 · R2 | **done 2026-08-05, in-review** — see batch rows + Round-1 notes below |
+| 2 | W2-6 · W2-7 · W2-16 | W2-6 after W2-5; W2-16 after W2-15; W2-7 skip files gate-checked |
+| 3 | W2-8 · W2-9 · W2-17 · R3 | W2-8 after W2-7; R3 not concurrent with W2-7, skips files W2-7 repaired |
+| 4 | W2-10 · W2-11 · W2-19 · R4 | W2-11 graphing after W2-9 |
+| 5 | W2-12 · W2-13 · W2-18 | W2-13 after W2-9 |
+| 6 | W2-14 · W2-20 · W2-21 | W2-20 after W2-19 |
+| 7 | W2-22 · W2-23 | W2-23 last (anchor: none, owner decision) |
+
+Per round the main session re-runs each batch gate, full-repo validate, the **unscoped
+wave regression** (baseline after W2-3: 60/4/1/102), rebuilds the manifest once, updates
+this file, and hands the human review samples + consolidated diagram checklist. Human commits.
+
 | # | Batch | Topic id(s) | Skills | Mapped booklet file(s) | Status | Notes |
 |---|---|---|---|---|---|---|
 | W2-1 | Financial mathematics A+B | t-s5c-fin-a, t-s5c-fin-b | 12 | `Stage 5 Core/Financial Mathematics A 1_Solve problems involving earning money.md`<br>`Stage 5 Core/Financial Mathematics A 2_Solve problems involving simple interest.md`<br>`Stage 5 Core/Financial Mathematics A 3_Solve problems involving spending money.md`<br>`Stage 5/Financial Maths B Compound Interest Depreciation.md` | in-review | Stage-5 shakedown. 6 generators, gate clean first run, luna 151/151 agree, **0 flags, 0 repair rounds**. Samples: `progressive-income-tax`, `compare-simple-compound`, `earning-money` + **diagram list (3 skills, 23 `[tikz]`)**. No `anchor: none`. See notes below |
 | W2-2 | Algebraic techniques A+B+C | t-s5c-alg-a, t-s5p-alg-b, t-s5p-alg-c | 15 | `Stage 5 Core/Algebraic Techniques A 1_Apply the 4 operations to simplify algebraic fractions with numerical denominators.md`<br>`Stage 5 Core/Algebraic Techniques A 2_Apply the distributive law to the expansion of algebraic expressions, and collect like terms where appropriate.md`<br>`Stage 5 Path/Algebraic Techniques B_1 Apply the 4 operations involving algebraic fractions with pronumerals in the denominator.md`<br>`Stage 5 Path/Algebraic Techniques B_2 Factorise algebraic expressions by taking out a common algebraic factor.md`<br>`Stage 5 Path/Algebraic Techniques B_3 Expand binomial products and factorise monic quadratic expressions.md`<br>`Stage 5 Path/Algebraic Techniques C_1 Operate with algebraic fractions involving binomial numerators and numerical denominators.md`<br>`Stage 5/Algebraic Techniques C 2_Further Expansion and Factorisation.md`<br>`Stage 5/Algebraic Techniques C 3_Further Algebraic Fractions.md` | in-review | **15 = topic-skill ROWS; there are 14 UNIQUE skills** (`expand-binomial-products` spans alg-a/alg-b and is counted twice — generated once). `expand-brackets` was listed ALREADY-COMPLETE but is a **DIRTY SKIP** — repaired inline, see notes. **3 skills carry a Stage-6 Advanced dp** (`dp-s6adv11-functions-1`): `expand-brackets`, `factorise-special-products`, `simplify-fractions-by-factorising` — governing dp is the batch topic's, per Read-first item 9 |
 | W2-3 | Indices A+B | t-s5c-ind-a, t-s5p-ind-b | 9 | `Stage 5/Indices A 1_Index Laws.md`<br>`Stage 5/Indices A 2_Negative Index.md`<br>`Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md` | in-review | NEW Indices A files supersede all 3 OLD Core files. 6 generators, gate clean batch-wide, luna 127/127 agree, 4 flags all valid → 1 repair round, round 2 clean. **Zero `[tikz]` in the batch — no visual-review checklist.** Samples: `establish-negative-indices`, `power-of-product-quotient`, `negative-integer-indices`. No `anchor: none`. See notes below |
-| W2-4 | Indices C | t-s5p-ind-c | 14 | `Stage 5 Path/Indices C_1 Describe surds.md`<br>`Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md`<br>`Stage 5 Path/Indices C_3 Describe and use fractional indices.md` | pending | |
-| W2-5 | Equations A+B | t-s5c-equ-a, t-s5p-equ-b | 10 | `Stage 5 Core/Equations A 1_Solve linear equations involving up to 3 steps.md`<br>`Stage 5 Core/Equations A 2_Solve linear equations involving one algebraic fraction.md`<br>`Stage 5 Core/Equations A 3_Solve linear equations arising from word problems and substitution into formulas.md`<br>`Stage 5 Path/Equations B_1 Solve monic quadratic equations.md`<br>`Stage 5 Path/Equations B_2 Solve cubic equations.md`<br>`Stage 5 Path/Equations B_3 Solve linear inequalities and graph their solutions on a number line.md` | pending | skip 3 (ALREADY-COMPLETE): `model-word-problems-equations`, `verify-solutions-substitution`, `equations-from-formulas` |
+| W2-4 | Indices C | t-s5p-ind-c | 14 | `Stage 5 Path/Indices C_1 Describe surds.md`<br>`Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md`<br>`Stage 5 Path/Indices C_3 Describe and use fractional indices.md` | in-review | 14/14 generated (445 items), 3 generators, gate clean incl. VALUES 0 (gate-storm brief worked). Luna 14/14 coverage, 1 mismatch (checker slip), 8 flags → 3 valid (stem pins: "whole-number"→"integer"; two "a,b integers" pins on rationalise-binomial), 5 invalid; targeted re-check 3/3 clean. **Post-round unscoped sweep caught 5 CROSS-SKILL-DUPs vs committed neighbours (irrational/rational-numbers, square-cube-roots, convert-FDP) — repaired W2-4-side only, re-checked clean.** Samples: `real-numbers`, `rationalise-binomial-surd-denominator`, `surd-index-conversion`. **Diagram checklist: real-numbers 24, simplify-surds-operations 7, define-surds 6 (37 blocks; 11 skills figure-free).** Excluded as out-of-scope: Euler's e, root-spiral construction, simultaneous/quadratic-in-disguise exponentials |
+| W2-5 | Equations A+B | t-s5c-equ-a, t-s5p-equ-b | 10 | `Stage 5 Core/Equations A 1_Solve linear equations involving up to 3 steps.md`<br>`Stage 5 Core/Equations A 2_Solve linear equations involving one algebraic fraction.md`<br>`Stage 5 Core/Equations A 3_Solve linear equations arising from word problems and substitution into formulas.md`<br>`Stage 5 Path/Equations B_1 Solve monic quadratic equations.md`<br>`Stage 5 Path/Equations B_2 Solve cubic equations.md`<br>`Stage 5 Path/Equations B_3 Solve linear inequalities and graph their solutions on a number line.md` | in-review | 7 net-new generated (296 items, 51 tikz), 5 generators. Skips three-way: 2 clean (`model-word-problems-equations`, `verify-solutions-substitution`), **`equations-from-formulas` DIRTY — figure-scale defect** (trapezium height at half scale), coordinate-only repair. Gate clean; luna 95/95, 3 flags → 2 invalid, 1 valid scope flag (`solve-monic-quadratic-factors` m2 rational-denominator wrapper → replaced with squared-binomial, same roots), targeted re-check clean. One duplicate section agent (B_1, from the concurrency incident) replaced 2 quiz stems safely — spot-check `solve-monic-quadratic-factors` q3/q4. Samples: `represent-inequalities-number-line`, `solve-monic-quadratic-factors`, `solve-cubic-axcubed`. **Diagram checklist: represent-inequalities-number-line 35, equations-from-formulas 9, solve-linear-inequalities 7 (51 blocks).** |
 | W2-6 | Equations C | t-s5p-equ-c | 18 | `Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md`<br>`Stage 5 Path/Equations C_2 Rearrange literal equations.md`<br>`Stage 5/Equations C_3 Quadratic Equations.md`<br>`Stage 5/Equations C 4_Simultaneous Equations.md` | pending | largest batch; NEW `Equations C 4_Simultaneous Equations.md` supersedes OLD Path `Equations C_4…` |
 | W2-7 | Linear relationships A+B | t-s5c-lin-a, t-s5c-lin-b | 16 | `Stage 5/Linear Relationships A 1_Coordinate Geometry.md`<br>`Stage 5/Linear Relationships A 2_Graphing Lines.md`<br>`Stage 5/Linear Relationships B Gradient-Intercept Form.md` | pending | graph-heavy; skip 3 (ALREADY-COMPLETE): `graph-linear-relationship`, `point-satisfies-line`, `linear-real-life` |
 | W2-8 | Linear relationships C | t-s5p-lin-c | 9 | `Stage 5/Linear Relationships C 1_Coordinate Geometry Formulas.md`<br>`Stage 5/Linear Relationships C 2_General and Point Gradient Form.md`<br>`Stage 5/Linear Relationships C 3_Coordinate Geometry Problems.md`<br>`Stage 5 Path/Linear Relationships C_3 Use various forms of the equation of a straight line.md`<br>`Stage 5 Path/Linear Relationships C_5 Identify line and rotational symmetries.md`<br>`Stage 5 Path/Linear Relationships C_6 Describe translations, reflections in an axis, and rotations through multiples of 90 degrees on the Cartesian plane, using coordinates.md` | pending | 6 booklets, 6 dp; NEW `C 2` overlaps OLD `C_3` — map per dot point |
@@ -1702,7 +1723,7 @@ No theory-only STAGE-3-rule files in this wave.
 | W2-12 | Logarithms | t-s5p-log | 9 | `Stage 5 Path/Logarithms_1 Examine logarithms both numerically and graphically.md`<br>`Stage 5 Path/Logarithms_2 Establish and apply the laws of logarithms to solve problems.md` | pending | |
 | W2-13 | Functions and other graphs | t-s5p-fnc | 14 | `Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md`<br>`Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md`<br>`Stage 5/Functions 2_Graph Regions.md` | pending | 3rd dp covered by NEW `Functions 2_Graph Regions.md` |
 | W2-14 | Variation and rates of change A+B | t-s5p-var-a, t-s5p-var-b | 13 | `Stage 5/Variation and Rates of Change 1_Direct and Inverse Proportion.md`<br>`Stage 5/Variation and Rates of Change 2_Graphs of Rates of Change.md`<br>`Stage 5 Path/Variation and Rates of Change B_2 Analyse the relationship between graphs and variable rates of change.md` | pending | NEW filenames lack the A/B letter — mapping above is authoritative |
-| W2-15 | Trigonometry A+B | t-s5c-trg-a, t-s5c-trg-b | 15 | `Stage 5 Core/Trigonometry A 1_Demonstrate and explain the constancy of trigonometric ratios for a given angle in right-angled triangles.md`<br>`Stage 5 Core/Trigonometry A 2_Apply trigonometry to solve right-angled triangle problems.md`<br>`Stage 5 Core/Trigonometry B 1_Solve right-angled triangle problems involving angles of elevation and depression.md`<br>`Stage 5 Core/Trigonometry B 2_Solve right-angled triangle problems involving bearings.md` | pending | triangle-diagram-dense |
+| W2-15 | Trigonometry A+B | t-s5c-trg-a, t-s5c-trg-b | 15 | `Stage 5 Core/Trigonometry A 1_Demonstrate and explain the constancy of trigonometric ratios for a given angle in right-angled triangles.md`<br>`Stage 5 Core/Trigonometry A 2_Apply trigonometry to solve right-angled triangle problems.md`<br>`Stage 5 Core/Trigonometry B 1_Solve right-angled triangle problems involving angles of elevation and depression.md`<br>`Stage 5 Core/Trigonometry B 2_Solve right-angled triangle problems involving bearings.md` | in-review | 15/15 generated (422 items), 6 generators (A1/A2 split two ways each). Gate clean; figure-scale note: script matched 0 labels in section A1 (unit-less side numbers, outside its `N cm` regex) — generator hand-verified 21 figures ≤2% deviation; **script-reach gap logged for tooling backlog**. Luna 177/177, 2 mismatches + 1 shuffle warning all invalid (checker misread rotated triangles / rounded early — the distractors' own traps), 2 valid ambiguity flags repaired (`find-angle-from-ratio` q8 round-once-at-end key 56°→55° + new option set; `define-trig-ratios` m1 stem pin), targeted re-check clean. Two booklet errors found, not propagated (A2 DMS example 84.78→83.78; B2 Q18 36°36′). Samples: `bearings-problems`, `identify-elevation-depression`, `find-angle-from-ratio` + priority eyeball on `define-trig-ratios` rotated triangles. **Diagram checklist: 13 skills, 338 blocks — bearings-problems 47, bearing-between-two-points 37, identify-elevation-depression 32, label-trig-sides 30, elevation-depression 29, trig-practical-problems 28, trig-find-side 27, trig-find-angle 25, trig-ratio-constancy 24, define-trig-ratios 23, trig-find-side-denominator 21, bearings 12, evaluate-trig-ratio 3.** |
 | W2-16 | Trigonometry C | t-s5p-trg-c | 11 | `Stage 5/Trigonometry C 1_3D Trigonometry.md`<br>`Stage 5/Trigonometry C 2_Non-Right-Angled Trigonometry.md` | pending | 3D figures — tikz-3dplot territory |
 | W2-17 | Trigonometry D | t-s5p-trg-d | 13 | `Stage 5/Trigonometry D Circle Trigonometry.md` | pending | 1 booklet, 2 dp, 13 skills — deal sections carefully |
 | W2-18 | Area/SA + Volume A+B | t-s5c-are-a, t-s5p-are-b, t-s5c-vol-a, t-s5p-vol-b | 19 | `Stage 5 Core/Area and Surface Area A 1_Solve problems involving areas and surface areas.md`<br>`Stage 5 Core/Area and Surface Area A 2_Develop and apply the formula for surface areas of cylinders.md`<br>`Stage 5 Core/Area and Surface Area A 3_Solve problems involving surface areas of cylinders and related composite solids.md`<br>`Stage 5 Path/Area and Surface Area B_1 Solve problems involving surface areas.md`<br>`Stage 5 Core/Volume A 1_Solve problems involving composite solids consisting of right prisms and cylinders.md`<br>`Stage 5 Path/Volume B_1 Solve problems involving volumes.md` | pending | diagram-dense; biggest merged batch (4 topics) |
@@ -1714,6 +1735,53 @@ No theory-only STAGE-3-rule files in this wave.
 
 **Total: 297 topic-skill rows = 289 to author + 7 ALREADY-COMPLETE skips + 1 cross-topic
 duplicate generated once.**
+
+**Round-1 notes (2026-08-05, W2-4 + W2-5 + W2-15 + R2, all in-review, uncommitted).**
+- **Wave regression (unscoped, post-round): 23 / 1 / 1 / 87 = 112** (baseline 60/4/1/102 = 167;
+  every class ≤ baseline). Remaining debt = R3 (57) + R4 (59) pockets minus overlap, plus the
+  one pre-existing `evaluate-index-notation`/`zero-index` CROSS pair. Full-repo validate clean
+  (248 warnings, unchanged); manifest 414/277; tests 105/105.
+- **New gate lesson: the `--only`-scoped batch gate is blind to CROSS-SKILL-DUP against
+  out-of-batch skills.** W2-4's C_1 skills shipped 5 stem collisions with committed
+  neighbours (`irrational-numbers`, `rational-numbers`, `square-cube-roots`, `convert-FDP`)
+  that the batch gate could not see; the per-round unscoped sweep caught them and they were
+  repaired W2-4-side (values + stem rewords, full option rederivation, luna re-checked).
+  Standing rule: generators of skills with close committed neighbours should read the
+  neighbour's quiz/content values; the round-end unscoped sweep is the backstop.
+- **Tooling backlog:** `audit-figure-scale` only parses unit-bearing labels (`8 cm`) — the
+  trig booklet convention is unit-less side numbers, so section A1's green was vacuous
+  (generator hand-verified 21 figures instead). Extend the regex to bare numeric side labels.
+- **Consolidated diagram checklist for human visual review: 19 skills, 426 [tikz] blocks** —
+  W2-15 (13 skills, 338), W2-5 (3 skills, 51), W2-4 (3 skills, 37). Priority eyeballs:
+  `define-trig-ratios` (two luna misreads of rotated triangles), `equations-from-formulas`
+  (re-scaled trapezium), `bearings-problems` (47 blocks, crowded vertices).
+- **skills.json / practice-card observations for owner** (report-only, nothing edited):
+  1. Prereq suggestions: `trig-practical-problems` +`trig-find-side`;
+     `identify-elevation-depression` +`unknown-angles-parallel`; `elevation-depression`
+     lists harder `trig-practical-problems` (difficulty inversion); `surd-domain-conditions`
+     +`square-cube-roots` (explicit); `factorise-index-expressions` + an algebra-factorising
+     prereq (DOTS mastery); `factorise-common-factor` lists `factorise-negative-common-factor`
+     as prereq — teaches negative case first, inverted vs booklet.
+  2. Blurb gaps: `rationalise-binomial-surd-denominator` omits the dominant `a/(n±√c)` form;
+     `define-surds` omits the n≥2 / even-index-positive conditions; `real-numbers` blurb
+     near-restates `locate-irrationals-number-line`.
+  3. R2 pocket practice-card debt (batch-1 vintage, not repaired — practice edits out of
+     remediation scope): `translate-expressions` m1–m3 false-continuation solution lines +
+     q4 unflagged clone of d3; restated-answer trailing lines in `translate-expressions` d5,
+     `algebraic-notation` q6, `factorise-common-factor` d5; `factorise-negative-common-factor`
+     solutions skip the divide-out line vs its own theory.steps; whole pocket sits at 5+5
+     cards under the 6-card warn floor with no coverageNote (pre-dates higher-count rule).
+  4. Two booklet errata (not propagated): Trig A2 DMS worked example cos(51°38′) ⇒ 84.78
+     (should be 83.78); Trig B2 Q18 prints 36°36′ where 67°36′ is implied.
+  5. Borderline calls held: surd-domain M2/q7 enumerate-values items (kept — no interval
+     notation); W2-15 base/height figures instead of booklet's Pythagoras-dependent isosceles
+     (untaught-prereq risk); `surd-index-conversion` M3 single-power translation (kept);
+     `fractional-indices` m4 degenerate a=1 case (luna flag ruled invalid, recorded).
+- **Orchestration lessons (for rounds 2-7):** lane orchestrators must spawn generators with
+  run_in_background:false (background children orphan to the main session when the lane
+  stops); session-wide cap is 20 concurrent subagents — stagger lane spawns so ~6 generators
+  per lane fit; one duplicate-generator incident (W2-5 B_1) was benign but is the failure
+  mode to avoid.
 
 **Batch W2-3 (Indices A+B) notes.** 9 net-new skills, no ALREADY-COMPLETE skips, no STAGE-3
 files, **no `anchor: none`** — all three booklets cover their skills densely. Generated with
@@ -1854,7 +1922,7 @@ because that gate is `--only`-scoped; hence the unscoped wave regression check i
 | # | Pocket | Batches | Skills | Defects | Status | Notes |
 |---|---|---|---|---|---|---|
 | R1 | Fractions, decimals & percentages | 6 (`t-s4-frc`) | 31 of 34 | 121 → **0** | in-review | done 2026-08-04 — see notes below |
-| R2 | Algebraic techniques | 1 | ~20 | 62 | pending | committed; W2-2 builds on it. Includes `expand-brackets` (10 defects — worst skill in the repo, and a W2-2 ALREADY-COMPLETE skip, so it is a **dirty skip**: repair it inline in W2-2 per the tightened rule) |
+| R2 | Algebraic techniques | 1 | 16 | 55 → **0** | in-review | done 2026-08-05 (Round 1). Actual pocket 55 non-advisory (not 62): Q-C-P 37, VALUES 15, INTRA 3. 50 quiz items replaced across 13 skills; `expand-brackets` verified clean (repaired in W2-2), 2 more clean untouched. VALUES triage: 6 reworded clones, 7 thin permutations (treated real), 2 false positives (re-authored anyway). Luna targeted 50/50 agree, 1 flag invalid (R1 lesson verbatim). Practice cards/structure/mastery/ids byte-identical. 9 report-only practice-card observations in Round-1 notes |
 | R3 | Linear, Pythagoras, data | 3, 5, 4 | ~20 | 57 | pending | committed |
 | R4 | Integers, ratios, probability + tail | 7, 8, 16, 9–15 | ~25 | 59 | pending | tail (batches 9–15, 17 defects) may ride along inside whichever generation batch touches those files |
 

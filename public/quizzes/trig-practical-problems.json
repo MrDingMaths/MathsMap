@@ -1,0 +1,107 @@
+{
+  "skillId": "trig-practical-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (L) at (0,0);\\coordinate (R) at (4.2,0);\\coordinate (A) at (2.1,3.94953);\\draw (L)--(R) node[midway,below] {$4.2\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\pic[draw,\"$62^{\\circ}$\",angle radius=0.95cm,angle eccentricity=1.45] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe end of an A-frame tent is $4.2$ m wide and each sloping side makes $62^{\\circ}$ with the ground. Find the height of the tent at its centre, correct to $2$ decimal places.",
+      "structure": "split-isosceles-find-side",
+      "mastery": false,
+      "options": [
+        { "text": "$3.95$ m", "correct": true },
+        { "text": "$7.90$ m", "why": "Used the full width of $4.2$ m instead of halving it to get the base of the right-angled triangle." },
+        { "text": "$1.12$ m", "why": "Divided by $\\tan62^{\\circ}$ instead of multiplying, treating the height as the denominator." },
+        { "text": "$4.47$ m", "why": "Used $\\cos62^{\\circ}$, which gives the sloping side rather than the height." }
+      ],
+      "solution_text": "The height splits the tent into two right-angled triangles, each with a base of $2.1$ m.\n$\\tan62^{\\circ}=\\frac{h}{2.1}$\n$h=2.1\\tan62^{\\circ}$\n$=3.9495\\ldots$\n$\\approx3.95\\text{ m}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\\coordinate (L) at (0,0);\\coordinate (R) at (9.0,0);\\coordinate (D) at (4.5,0);\\coordinate (A) at (4.5,3.4);\\draw (L)--(R) node[midway,below] {$9.0\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\draw[dashed] (A)--(D) node[midway,right] {$3.4\\text{ m}$};\\coordinate (va) at ($(D)!0.5cm!(R)$);\\coordinate (vb) at ($(D)!0.5cm!(A)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$\\theta$\",angle radius=1.5cm,angle eccentricity=1.35] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nA gable end is $9.0$ m wide and its ridge is $3.4$ m above the wall top. Find $\\theta$, the angle each rafter makes with the horizontal, correct to the nearest degree.",
+      "structure": "split-isosceles-find-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$37^{\\circ}$", "correct": true },
+        { "text": "$21^{\\circ}$", "why": "Used the full width of $9.0$ m as the base instead of halving it." },
+        { "text": "$53^{\\circ}$", "why": "Swapped the height and the half-width, using $\\tan^{-1}\\left(\\frac{4.5}{3.4}\\right)$." },
+        { "text": "$49^{\\circ}$", "why": "Used $\\sin^{-1}$, treating the $4.5$ m half-width as the length of the rafter." }
+      ],
+      "solution_text": "Half of the gable is a right-angled triangle with a base of $4.5$ m and a height of $3.4$ m.\n$\\tan\\theta=\\frac{3.4}{4.5}$\n$\\theta=\\tan^{-1}\\left(\\frac{3.4}{4.5}\\right)$\n$=37.0730\\ldots^{\\circ}$\n$\\approx37^{\\circ}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.45]\\coordinate (A) at (0,0);\\coordinate (D) at (3.39148,0);\\coordinate (B) at (9.63511,0);\\coordinate (C) at (3.39148,5.42751);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$6.4\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\coordinate (va) at ($(D)!0.55cm!(B)$);\\coordinate (vb) at ($(D)!0.55cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$58^{\\circ}$\",angle radius=1.5cm,angle eccentricity=1.35] {angle=B--A--C};\\pic[draw,\"$41^{\\circ}$\",angle radius=1.8cm,angle eccentricity=1.3] {angle=C--B--A};\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above] at (C) {$C$};\\end{tikzpicture}\n[/tikz]\nA bridge truss has a vertical post $CD$ from the apex to the deck. Given $AC=6.4$ m, find the length of the chord $BC$, correct to $2$ decimal places.",
+      "structure": "two-triangles-find-side",
+      "mastery": false,
+      "options": [
+        { "text": "$8.27$ m", "correct": true },
+        { "text": "$6.24$ m", "why": "Stopped at $DB$, the length along the deck, instead of the sloping chord $BC$." },
+        { "text": "$5.43$ m", "why": "Gave the height of the post $CD$ rather than going on to the second triangle." },
+        { "text": "$5.17$ m", "why": "Used $\\cos58^{\\circ}$ instead of $\\sin58^{\\circ}$ when finding the post." }
+      ],
+      "solution_text": "First find the post $CD$, the side the two triangles share.\n$\\sin58^{\\circ}=\\frac{CD}{6.4}$\n$CD=6.4\\sin58^{\\circ}$\n$=5.4275\\ldots\\text{ m}$\nNow use $CD$ in the right-hand triangle.\n$\\sin41^{\\circ}=\\frac{5.4275\\ldots}{BC}$\n$BC=\\frac{5.4275\\ldots}{\\sin41^{\\circ}}$\n$=8.2729\\ldots$\n$\\approx8.27\\text{ m}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\\coordinate (A) at (0,0);\\coordinate (D) at (3.33436,0);\\coordinate (B) at (10.83436,0);\\coordinate (C) at (3.33436,3.45283);\\draw (A)--(B);\\draw (A)--(C) node[midway,above left] {$4.8\\text{ m}$};\\draw (C)--(B);\\draw (C)--(D);\\draw (D)--(B) node[midway,below] {$7.5\\text{ m}$};\\coordinate (va) at ($(D)!0.6cm!(B)$);\\coordinate (vb) at ($(D)!0.6cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$46^{\\circ}$\",angle radius=1.7cm,angle eccentricity=1.35] {angle=B--A--C};\\pic[draw,\"$\\theta$\",angle radius=2.0cm,angle eccentricity=1.3] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nA gable end has an off-centre ridge on a vertical post. The left rafter is $4.8$ m long and rises at $46^{\\circ}$, and the foot of the post is $7.5$ m from the right-hand wall. Find $\\theta$, correct to the nearest degree.",
+      "structure": "two-triangles-find-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$25^{\\circ}$", "correct": true },
+        { "text": "$65^{\\circ}$", "why": "Swapped the post and the $7.5$ m run, using $\\tan^{-1}\\left(\\frac{7.5}{3.45}\\right)$." },
+        { "text": "$33^{\\circ}$", "why": "Used the $4.8$ m rafter itself as the height of the post instead of finding the post first." },
+        { "text": "$24^{\\circ}$", "why": "Used $\\cos46^{\\circ}$ instead of $\\sin46^{\\circ}$ when finding the post." }
+      ],
+      "solution_text": "First find the post, the side the two triangles share.\n$\\sin46^{\\circ}=\\frac{h}{4.8}$\n$h=4.8\\sin46^{\\circ}$\n$=3.4528\\ldots\\text{ m}$\nNow use $h$ in the right-hand triangle.\n$\\tan\\theta=\\frac{3.4528\\ldots}{7.5}$\n$\\theta=\\tan^{-1}\\left(\\frac{3.4528\\ldots}{7.5}\\right)$\n$=24.7203\\ldots^{\\circ}$\n$\\approx25^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (D) at (3.71573,0);\\coordinate (B) at (6.14973,0);\\coordinate (C) at (3.71573,2.8);\\draw (A)--(B);\\draw (A)--(C);\\draw (C)--(B);\\draw (C)--(D) node[midway,right] {$2.8\\text{ m}$};\\coordinate (va) at ($(D)!0.3cm!(B)$);\\coordinate (vb) at ($(D)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(D)$)--(vb);\\pic[draw,\"$37^{\\circ}$\",angle radius=0.95cm,angle eccentricity=1.4] {angle=B--A--C};\\pic[draw,\"$49^{\\circ}$\",angle radius=1.1cm,angle eccentricity=1.4] {angle=C--B--A};\\end{tikzpicture}\n[/tikz]\nA truss has a vertical post $2.8$ m high, with chords meeting the deck at $37^{\\circ}$ and $49^{\\circ}$. Find the total span of the truss along the deck, correct to $1$ decimal place.",
+      "structure": "combine-lengths",
+      "mastery": false,
+      "options": [
+        { "text": "$6.1$ m", "correct": true },
+        { "text": "$5.3$ m", "why": "Multiplied by each tangent instead of dividing, so both parts of the deck came out wrong." },
+        { "text": "$3.7$ m", "why": "Found only the left-hand part of the deck and forgot to add the right-hand part." },
+        { "text": "$8.4$ m", "why": "Used sine instead of tangent, which gives the two sloping chords rather than the deck." }
+      ],
+      "solution_text": "The post divides the span into two right-angled triangles.\n$\\tan37^{\\circ}=\\frac{2.8}{p}$\n$p=\\frac{2.8}{\\tan37^{\\circ}}$\n$=3.7157\\ldots\\text{ m}$\n$\\tan49^{\\circ}=\\frac{2.8}{q}$\n$q=\\frac{2.8}{\\tan49^{\\circ}}$\n$=2.4340\\ldots\\text{ m}$\nSpan $=3.7157\\ldots+2.4340\\ldots$\n$=6.1497\\ldots$\n$\\approx6.1\\text{ m}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A triangular sail is right-angled at the tack. Its vertical leading edge is $6.0$ m and the angle between that edge and the sloping leech, measured at the head, is $31^{\\circ}$. Find the total length of edging needed for all three edges, correct to $1$ decimal place.",
+      "structure": "build-from-description",
+      "mastery": false,
+      "options": [
+        { "text": "$16.6$ m", "correct": true },
+        { "text": "$9.6$ m", "why": "Added only the vertical edge and the foot, leaving the sloping leech out of the total." },
+        { "text": "$23.0$ m", "why": "Divided by $\\tan31^{\\circ}$ instead of multiplying when finding the foot." },
+        { "text": "$21.3$ m", "why": "Used $\\sin31^{\\circ}$ instead of $\\cos31^{\\circ}$ when finding the leech." }
+      ],
+      "solution_text": "With the right angle at the tack, the $31^{\\circ}$ angle at the head has the foot opposite it and the $6.0$ m edge adjacent to it.\n$\\tan31^{\\circ}=\\frac{a}{6.0}$\n$a=6.0\\tan31^{\\circ}$\n$=3.6052\\ldots\\text{ m}$\n$\\cos31^{\\circ}=\\frac{6.0}{c}$\n$c=\\frac{6.0}{\\cos31^{\\circ}}$\n$=6.9997\\ldots\\text{ m}$\nEdging $=6.0+3.6052\\ldots+6.9997\\ldots$\n$=16.6050\\ldots$\n$\\approx16.6\\text{ m}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (P) at (0,0);\\coordinate (Q) at (3.19094,0);\\coordinate (S) at (0.84547,1.35304);\\coordinate (U) at (2.34547,1.35304);\\draw (-0.7,0)--(P);\\draw (Q)--(3.89,0);\\draw[dashed] (P)--(Q);\\draw[very thick] (P)--(S) node[midway,above left] {$x\\text{ m}$};\\draw[very thick] (Q)--(U) node[midway,above right] {$x\\text{ m}$};\\draw[dashed] (S)--(U) node[midway,above] {$12\\text{ m}$};\\pic[draw,\"$58^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.5] {angle=Q--P--S};\\pic[draw,\"$58^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.5] {angle=U--Q--P};\\end{tikzpicture}\n[/tikz]\nA lifting bridge has two identical sections, each $x$ m long, hinged at opposite banks. Lowered, they exactly span the river. Raised to $58^{\\circ}$ with the horizontal, their tips are $12$ m apart. Find the width of the river, correct to $1$ decimal place.",
+      "structure": "combine-lengths",
+      "mastery": true,
+      "options": [
+        { "text": "$25.5$ m", "correct": true },
+        { "text": "$12.8$ m", "why": "Found $x$, the length of one section, and stopped instead of doubling it for the river." },
+        { "text": "$22.7$ m", "why": "Divided the $12$ m gap by $\\cos58^{\\circ}$ rather than by $1-\\cos58^{\\circ}$." }
+      ],
+      "solution_text": "Lowered, the sections span the river, so the river is $2x$ m wide.\nRaised, each section covers a horizontal distance of $x\\cos58^{\\circ}$, and what is left over is the gap.\n$2x-2x\\cos58^{\\circ}=12$\n$2x(1-\\cos58^{\\circ})=12$\n$2x=\\frac{12}{1-\\cos58^{\\circ}}$\n$=25.5275\\ldots$\n$\\approx25.5\\text{ m}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\\coordinate (L) at (0,0);\\coordinate (R) at (3.2,0);\\coordinate (D) at (1.6,0);\\coordinate (A) at (1.6,2.88648);\\coordinate (S) at (0.66517,1.2);\\coordinate (U) at (2.53483,1.2);\\draw (L)--(R) node[midway,below] {$3.2\\text{ m}$};\\draw (L)--(A);\\draw (A)--(R);\\draw[very thick] (S)--(U);\\draw[dashed] (D)--(1.6,1.2) node[midway,right] {$1.2\\text{ m}$};\\pic[draw,\"$61^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.5] {angle=R--L--A};\\end{tikzpicture}\n[/tikz]\nThe end of an A-frame tent is $3.2$ m wide and its sloping sides make $61^{\\circ}$ with the ground. A horizontal spreader bar is fixed across the tent $1.2$ m above the ground. Find the length of the spreader bar, correct to $2$ decimal places.",
+      "structure": "cut-at-given-height",
+      "mastery": false,
+      "options": [
+        { "text": "$1.87$ m", "correct": true },
+        { "text": "$2.53$ m", "why": "Subtracted the offset at one end of the bar only, forgetting the matching offset at the other end." },
+        { "text": "$1.33$ m", "why": "Gave the two offsets added together instead of what is left of the $3.2$ m width." }
+      ],
+      "solution_text": "At each end of the bar the ground, the sloping side and the $1.2$ m height form a small right-angled triangle.\n$\\tan61^{\\circ}=\\frac{1.2}{d}$\n$d=\\frac{1.2}{\\tan61^{\\circ}}$\n$=0.6651\\ldots\\text{ m}$\nBar $=3.2-2\\times0.6651\\ldots$\n$=1.8696\\ldots$\n$\\approx1.87\\text{ m}$"
+    }
+  ]
+}
