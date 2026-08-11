@@ -10,16 +10,21 @@ import { buildManifest } from './scripts/build-manifest.mjs';
 // Z_DATA_ERROR (-3). This middleware overrides to application/octet-stream with
 // no Content-Encoding so the gzip bytes arrive intact for pako to handle.
 function tikzjaxRawGzPlugin() {
+  const rawGz = (req, res, next) => {
+    if (req.url && /\/libs\/tikzjax\/.*\.gz(\?.*)?$/.test(req.url)) {
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Encoding', 'identity');
+    }
+    next();
+  };
   return {
     name: 'tikzjax-raw-gz',
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (req.url && /\/libs\/tikzjax\/.*\.gz(\?.*)?$/.test(req.url)) {
-          res.setHeader('Content-Type', 'application/octet-stream');
-          res.setHeader('Content-Encoding', 'identity');
-        }
-        next();
-      });
+      server.middlewares.use(rawGz);
+    },
+    // `vite preview` serves dist/ through a separate server — same override needed.
+    configurePreviewServer(server) {
+      server.middlewares.use(rawGz);
     },
   };
 }

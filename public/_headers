@@ -1,0 +1,32 @@
+# Cloudflare Workers static-asset headers (copied into dist/ by Vite).
+#
+# Cache-Control only for now — no Content-Encoding lines: the TikZJax .gz assets
+# must reach the browser as raw gzip bytes for pako to inflate (see the
+# tikzjaxRawGzPlugin note in vite.config.js). CSP is a deliberate follow-up;
+# if added, ship Report-Only first (TikZ needs script-src 'wasm-unsafe-eval',
+# worker-src 'self' blob:, img-src data: blob:, font-src 'self' data:).
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/libs/tikzjax/tikzjax.js
+  Cache-Control: public, max-age=86400
+
+/libs/tikzjax/run-tex.js
+  Cache-Control: public, max-age=86400
+
+/libs/tikzjax/tex.wasm.gz
+  Cache-Control: public, max-age=86400
+
+/libs/tikzjax/core.dump.gz
+  Cache-Control: public, max-age=86400
+
+/libs/tikzjax/fonts.css
+  Cache-Control: public, max-age=86400
+
+/libs/tikzjax/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/libs/tikzjax/tex_files/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,18 +1,12 @@
 <script>
-  import { renderTikzCode } from '../lib/tikz.js';
+  import { renderTikzCode, cancelTikzJob } from '../lib/tikz.js';
 
-  let { code } = $props();
+  let { code, eager = false } = $props();
   let el = $state(null);
 
   $effect(() => {
-    if (el && code) renderTikzCode(el, code);
-    return () => {
-      const job = el?._tikzJob;
-      if (job) {
-        if (job.timer) clearTimeout(job.timer);
-        if (job._outcomeObs) job._outcomeObs.disconnect();
-      }
-    };
+    if (el && code) renderTikzCode(el, code, { eager });
+    return () => cancelTikzJob(el);
   });
 </script>
 

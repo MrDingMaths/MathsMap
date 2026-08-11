@@ -143,7 +143,9 @@
     });
     obs.observe(el, { childList: true, subtree: true });
     timer = setTimeout(() => settle('fail'), TIMEOUT_MS);
-    renderTikzCode(el, items[cursor].code);
+    // eager: the harness renders sequentially into below-fold cards — viewport-lazy
+    // mode would stall every off-screen card into the timeout.
+    renderTikzCode(el, items[cursor].code, { eager: true });
     return () => { if (obs) obs.disconnect(); if (timer) clearTimeout(timer); };
   });
 

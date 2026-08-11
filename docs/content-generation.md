@@ -53,9 +53,11 @@ The session then:
    fixed-template, and rendered-verification workflow. **Figure-free sections skip it
    entirely:** the orchestrator's spawn prompt states whether the section is
    figure-bearing; an agent whose section carries no `[tikz]` must **not** open
-   `tikz-prompt.md` at all — it is ~65% of the shared doc bundle and reading it "just in
-   case" was the single largest duplicated cost in batch 9 (~150k tokens of re-read docs
-   across three generators).
+   `tikz-prompt.md` at all — it is by far the largest doc in the shared bundle (~73 KB
+   since the 2026-08 unified manual) and reading it "just in case" was the single largest
+   duplicated cost in batch 9 (~150k tokens of re-read docs across three generators).
+   `docs/tikz-prompt.md` is **generated** — the source of truth is the sibling
+   MathsDatabase repo's `prompts/tikz/*.md`; never edit the file in place.
 2. **The three principle docs** —
    [worked-example-principles.md](worked-example-principles.md),
    [guided-practice-principles.md](guided-practice-principles.md),
@@ -416,9 +418,10 @@ render" placeholder.
   label **rotated 90° at the left midpoint** (never the top corner, which collides with the
   title); **x-axis label on its own centred line UNDER the categories at `(xmid, -1.0)` —
   never at the arrow tip on the `y=0` baseline** (there it collides with the last
-  category/tick label). **Fit the plot to its labels:** `scale ≥ 0.85`; y-label at `x≈-2.0`
-  when ticks are wide (`%`/≥3-digit); long category words (≥6 letters) use `font=\tiny`;
-  titles ≤ ~22 chars and never extending left of `x=0`. Across sibling skills **never reuse a scenario**, vary the
+  category/tick label). **Fit the plot to its labels:** the `font=\large` first line is the
+  default and tick/category rows override with `font=\scriptsize`; set the rotated y-label's
+  x-offset so it clears the widest tick by about one character; prefer short/abbreviated
+  category words; titles ≤ ~22 chars and never extending left of `x=0`. Across sibling skills **never reuse a scenario**, vary the
   column count 3–7 and the value pattern, and draw line graphs with a **non-constant slope**
   (no perfectly linear 10,20,30,40). Instantiate the copy-ready templates rather than
   hand-rolling axes.
