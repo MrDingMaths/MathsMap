@@ -1,0 +1,148 @@
+{
+  "skillId": "similar-triangle-tests",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which similarity test proves that these two triangles are similar?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.82]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.9,0);\n\\coordinate (C) at (1.755,2.247);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\pic[draw,\"$52^{\\circ}$\",angle radius=0.5cm,angle eccentricity=2.0] {angle=B--A--C};\n\\pic[draw,\"$63^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.1] {angle=C--B--A};\n\\coordinate (A2) at (4.4,0);\n\\coordinate (B2) at (8.75,0);\n\\coordinate (C2) at (7.033,3.37);\n\\draw (A2) -- (B2) -- (C2) -- cycle;\n\\pic[draw,\"$52^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B2--A2--C2};\n\\pic[draw,\"$63^{\\circ}$\",angle radius=0.5cm,angle eccentricity=2.1] {angle=C2--B2--A2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-test-marked-angles",
+      "mastery": false,
+      "options": [
+        { "text": "Equiangular (AAA)", "correct": true },
+        { "text": "SSS", "why": "SSS compares three pairs of side ratios, and no side lengths are given here." },
+        { "text": "SAS", "why": "SAS needs two pairs of sides in the same ratio, and no side lengths are given here." },
+        { "text": "RHS", "why": "RHS needs a right angle in each triangle, and no right angle is marked." }
+      ],
+      "solution_text": "$52^{\\circ}$ matches $52^{\\circ}$ and $63^{\\circ}$ matches $63^{\\circ}$.\nThere are at least two pairs of equal corresponding angles, so the triangles are similar (equiangular, AAA)."
+    },
+    {
+      "id": "q2",
+      "question_text": "Which similarity test proves that these two triangles are similar?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.7,0);\n\\coordinate (C) at (0.563,0.703);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$6$};\n\\draw (A) -- (C) node[midway,above left,font=\\small] {$2$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$5$};\n\\coordinate (A2) at (4.1,0);\n\\coordinate (B2) at (8.6,0);\n\\coordinate (C2) at (5.038,1.171);\n\\draw (A2) -- (B2) node[midway,below,font=\\small] {$12$};\n\\draw (A2) -- (C2) node[midway,above left,font=\\small] {$4$};\n\\draw (B2) -- (C2) node[midway,above right,font=\\small] {$10$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "sss-ratio-check",
+      "mastery": false,
+      "options": [
+        { "text": "SSS", "correct": true },
+        { "text": "SAS", "why": "SAS uses two side pairs and the included angle, but no angles are marked — all three side pairs are given instead." },
+        { "text": "Equiangular (AAA)", "why": "No angles are marked in either triangle, so the angle test cannot be applied directly." },
+        { "text": "RHS", "why": "Neither triangle has a marked right angle, so the right-angle test does not apply." }
+      ],
+      "solution_text": "$\\frac{4}{2}=2$\n$\\frac{10}{5}=2$\n$\\frac{12}{6}=2$\nThree pairs of corresponding sides are in the same ratio, so the triangles are similar (SSS)."
+    },
+    {
+      "id": "q3",
+      "question_text": "Which similarity test proves that these two triangles are similar?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (1.54,0);\n\\coordinate (B) at (1.325,1.471);\n\\draw (V) -- (A) node[midway,below,font=\\small] {$7$};\n\\draw (V) -- (B) node[midway,above left,font=\\small] {$9$};\n\\draw (A) -- (B);\n\\pic[draw,\"$48^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.2] {angle=A--V--B};\n\\coordinate (V2) at (3.6,0);\n\\coordinate (A2) at (6.372,0);\n\\coordinate (B2) at (5.985,2.649);\n\\draw (V2) -- (A2) node[midway,below,font=\\small] {$21$};\n\\draw (V2) -- (B2) node[midway,above left,font=\\small] {$27$};\n\\draw (A2) -- (B2);\n\\pic[draw,\"$48^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=A2--V2--B2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "sas-ratio-check",
+      "mastery": false,
+      "options": [
+        { "text": "SAS", "correct": true },
+        { "text": "SSS", "why": "Only two pairs of sides are given, and SSS needs all three pairs in the same ratio." },
+        { "text": "Equiangular (AAA)", "why": "Only one pair of angles is marked, and the angle test needs at least two pairs." },
+        { "text": "RHS", "why": "The marked $48^{\\circ}$ angle is not a right angle, so the right-angle test does not apply." }
+      ],
+      "solution_text": "$\\frac{21}{7}=3$\n$\\frac{27}{9}=3$\nTwo pairs of corresponding sides are in the same ratio and the included angles ($48^{\\circ}$) are equal, so the triangles are similar (SAS)."
+    },
+    {
+      "id": "q4",
+      "question_text": "Which similarity test proves that these two right-angled triangles are similar?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (0.7,0);\n\\coordinate (A) at (0,2.4);\n\\draw (C) -- (B) node[midway,below,font=\\small] {$7$};\n\\draw (C) -- (A);\n\\draw (A) -- (B) node[midway,above right,font=\\small] {$25$};\n\\coordinate (ca) at ($(C)!0.24cm!(B)$);\n\\coordinate (cb) at ($(C)!0.24cm!(A)$);\n\\draw (ca) -- ($(ca)+(cb)-(C)$) -- (cb);\n\\coordinate (C2) at (3.4,0);\n\\coordinate (B2) at (4.52,0);\n\\coordinate (A2) at (3.4,3.84);\n\\draw (C2) -- (B2) node[midway,below,font=\\small] {$14$};\n\\draw (C2) -- (A2);\n\\draw (A2) -- (B2) node[midway,above right,font=\\small] {$50$};\n\\coordinate (cc) at ($(C2)!0.24cm!(B2)$);\n\\coordinate (cd) at ($(C2)!0.24cm!(A2)$);\n\\draw (cc) -- ($(cc)+(cd)-(C2)$) -- (cd);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rhs-ratio-check",
+      "mastery": false,
+      "options": [
+        { "text": "RHS", "correct": true },
+        { "text": "SAS", "why": "The right angle is not included between the two given sides — the hypotenuse is opposite it." },
+        { "text": "SSS", "why": "Only two pairs of sides are given, and SSS needs all three pairs in the same ratio." },
+        { "text": "Equiangular (AAA)", "why": "Only the right angles are known equal — one pair of angles is not enough for the angle test." }
+      ],
+      "solution_text": "Both triangles are right-angled.\n$\\frac{50}{25}=2$\n$\\frac{14}{7}=2$\nThe hypotenuses and another pair of corresponding sides are in the same ratio, so the triangles are similar (RHS)."
+    },
+    {
+      "id": "q5",
+      "question_text": "What can be concluded about these two triangles?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (1.8,0);\n\\coordinate (B) at (2.229,2.007);\n\\draw (V) -- (A) node[midway,below,font=\\small] {$6$};\n\\draw (V) -- (B) node[midway,above left,font=\\small] {$10$};\n\\draw (A) -- (B);\n\\pic[draw,\"$42^{\\circ}$\",angle radius=0.5cm,angle eccentricity=2.1] {angle=A--V--B};\n\\coordinate (V2) at (4.4,0);\n\\coordinate (A2) at (7.1,0);\n\\coordinate (B2) at (7.521,2.81);\n\\draw (V2) -- (A2) node[midway,below,font=\\small] {$9$};\n\\draw (V2) -- (B2) node[midway,above left,font=\\small] {$14$};\n\\draw (A2) -- (B2);\n\\pic[draw,\"$42^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=A2--V2--B2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "similar-or-not",
+      "mastery": false,
+      "options": [
+        { "text": "The triangles are not similar", "correct": true },
+        { "text": "The triangles are similar by SAS", "why": "Assumed both side pairs scale by the same factor without checking: $9\\div 6 = 1.5$ but $14\\div 10 = 1.4$." },
+        { "text": "The triangles are similar by SSS", "why": "Only two pairs of sides are given, and their ratios are unequal anyway." },
+        { "text": "The triangles are similar by AAA", "why": "Only one pair of angles is marked, and the angle test needs at least two pairs." }
+      ],
+      "solution_text": "$\\frac{9}{6}=1.5$\n$\\frac{14}{10}=1.4$\nThe included angles are equal, but the two pairs of corresponding sides are not in the same ratio.\nThe SAS similarity test fails, so the triangles are not similar."
+    },
+    {
+      "id": "q6",
+      "question_text": "What can be concluded about these two triangles?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (1.886,2.095);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\pic[draw,\"$48^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B--A--C};\n\\pic[draw,\"$62^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.1] {angle=C--B--A};\n\\coordinate (A2) at (4.6,0);\n\\coordinate (B2) at (7.6,0);\n\\coordinate (C2) at (6.805,2.448);\n\\draw (A2) -- (B2) -- (C2) -- cycle;\n\\pic[draw,\"$48^{\\circ}$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B2--A2--C2};\n\\pic[draw,\"$72^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.2] {angle=C2--B2--A2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "similar-or-not",
+      "mastery": false,
+      "options": [
+        { "text": "The triangles are not similar", "correct": true },
+        { "text": "The triangles are similar by AAA", "why": "The angle sets are $48^{\\circ}, 62^{\\circ}, 70^{\\circ}$ and $48^{\\circ}, 72^{\\circ}, 60^{\\circ}$ — only the $48^{\\circ}$ pair matches, and AAA needs two pairs." },
+        { "text": "The triangles are similar by SAS", "why": "SAS needs two pairs of sides in the same ratio, and no side lengths are given at all." },
+        { "text": "The triangles are similar by SSS", "why": "SSS compares three pairs of side ratios, and no side lengths are given at all." }
+      ],
+      "solution_text": "Left triangle: angles are $48^{\\circ}$, $62^{\\circ}$ and $180^{\\circ}-48^{\\circ}-62^{\\circ}=70^{\\circ}$.\nRight triangle: angles are $48^{\\circ}$, $72^{\\circ}$ and $180^{\\circ}-48^{\\circ}-72^{\\circ}=60^{\\circ}$.\nOnly one pair of corresponding angles ($48^{\\circ}$) is equal, and the equiangular test needs at least two pairs.\nThe triangles are not similar."
+    },
+    {
+      "id": "q7",
+      "question_text": "Using the angle sum of a triangle, what can be concluded about these two triangles?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (2.67,1.87);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\pic[draw,\"$35^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.9] {angle=B--A--C};\n\\pic[draw,\"$80^{\\circ}$\",angle radius=0.4cm,angle eccentricity=2.3] {angle=C--B--A};\n\\coordinate (A2) at (4.5,0);\n\\coordinate (B2) at (8.1,0);\n\\coordinate (C2) at (5.386,1.9);\n\\draw (A2) -- (B2) -- (C2) -- cycle;\n\\pic[draw,\"$65^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.1] {angle=B2--A2--C2};\n\\pic[draw,\"$35^{\\circ}$\",angle radius=0.65cm,angle eccentricity=1.9] {angle=C2--B2--A2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "angle-sum-first",
+      "mastery": false,
+      "options": [
+        { "text": "The triangles are similar (equiangular)", "correct": true },
+        { "text": "The triangles are not similar because the marked angles differ", "why": "Compared only the marked angles without the angle sum — the third angles complete the same set $35^{\\circ}, 65^{\\circ}, 80^{\\circ}$ in both." },
+        { "text": "The triangles are similar by SAS", "why": "SAS needs two pairs of sides in the same ratio, and no side lengths are given." },
+        { "text": "The triangles are similar by SSS", "why": "SSS compares three pairs of side ratios, and no side lengths are given." }
+      ],
+      "solution_text": "Left triangle: third angle $= 180^{\\circ} - 35^{\\circ} - 80^{\\circ} = 65^{\\circ}$.\nRight triangle: third angle $= 180^{\\circ} - 65^{\\circ} - 35^{\\circ} = 80^{\\circ}$.\nBoth triangles have angles $35^{\\circ}$, $65^{\\circ}$ and $80^{\\circ}$.\nThere are at least two pairs of equal corresponding angles, so the triangles are similar (equiangular, AAA)."
+    },
+    {
+      "id": "q8",
+      "question_text": "What can be concluded about these two triangles?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.7,0);\n\\coordinate (C) at (0.8,0.894);\n\\draw (A) -- (B) node[midway,below,font=\\small] {$9$};\n\\draw (A) -- (C) node[midway,above left,font=\\small] {$4$};\n\\draw (B) -- (C) node[midway,above right,font=\\small] {$7$};\n\\coordinate (D) at (3.5,0);\n\\coordinate (E) at (7.56,0);\n\\coordinate (F) at (4.761,1.199);\n\\draw (D) -- (E) node[midway,below,font=\\small] {$14$};\n\\draw (D) -- (F) node[midway,above left,font=\\small] {$6$};\n\\draw (E) -- (F) node[midway,above right,font=\\small] {$10.5$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "similar-or-not",
+      "mastery": true,
+      "options": [
+        { "text": "The triangles are not similar", "correct": true },
+        { "text": "The triangles are similar by SSS", "why": "Checked only the ratios $6\\div 4$ and $10.5\\div 7$ — the longest sides give $14\\div 9 = 1.55\\ldots$, which breaks the pattern." },
+        { "text": "The triangles are similar by SAS", "why": "Two equal ratios alone are not enough for SAS — the included angles are not known to be equal." },
+        { "text": "The triangles are similar by RHS", "why": "Neither triangle has a marked right angle, so the right-angle test does not apply." }
+      ],
+      "solution_text": "Match sides in size order: shortest $\\frac{6}{4}=1.5$, middle $\\frac{10.5}{7}=1.5$, longest $\\frac{14}{9}=1.55\\ldots$\nThe third pair of corresponding sides is not in the same ratio as the other two.\nThe SSS similarity test fails, so the triangles are not similar."
+    },
+    {
+      "id": "q9",
+      "question_text": "These two triangles are similar. Which similarity statement matches the vertices correctly?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.82]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.8,0);\n\\coordinate (R) at (0.847,2.327);\n\\draw (P) -- (Q) -- (R) -- cycle;\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.2] {angle=Q--P--R};\n\\pic[draw,\"$50^{\\circ}$\",angle radius=0.5cm,angle eccentricity=2.0] {angle=R--Q--P};\n\\node[below left,font=\\small] at (P) {$P$};\n\\node[below right,font=\\small] at (Q) {$Q$};\n\\node[above,font=\\small] at (R) {$R$};\n\\coordinate (T) at (4.4,0);\n\\coordinate (U) at (8.04,0);\n\\coordinate (S) at (5.501,3.026);\n\\draw (T) -- (U) -- (S) -- cycle;\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.2] {angle=U--T--S};\n\\pic[draw,\"$50^{\\circ}$\",angle radius=0.52cm,angle eccentricity=2.0] {angle=S--U--T};\n\\node[below left,font=\\small] at (T) {$T$};\n\\node[below right,font=\\small] at (U) {$U$};\n\\node[above,font=\\small] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "similarity-statement",
+      "mastery": false,
+      "options": [
+        { "text": "$\\Delta PQR\\ |||\\ \\Delta TUS$", "correct": true },
+        { "text": "$\\Delta PQR\\ |||\\ \\Delta STU$", "why": "Copied the letters in alphabetical order instead of matching equal angles — $P$ ($70^{\\circ}$) does not correspond to $S$." },
+        { "text": "$\\Delta PQR\\ |||\\ \\Delta UTS$", "why": "Paired $P$ ($70^{\\circ}$) with $U$ ($50^{\\circ}$) — the marked angles are matched in the wrong order." },
+        { "text": "$\\Delta PQR\\ |||\\ \\Delta TSU$", "why": "Paired $Q$ ($50^{\\circ}$) with $S$, the unmarked vertex — $Q$ corresponds to $U$ ($50^{\\circ}$)." }
+      ],
+      "solution_text": "Match equal angles: $\\angle P = \\angle T = 70^{\\circ}$ and $\\angle Q = \\angle U = 50^{\\circ}$, so $R$ matches $S$.\n$\\Delta PQR\\ |||\\ \\Delta TUS$ (equiangular)."
+    },
+    {
+      "id": "q10",
+      "question_text": "These two triangles are similar (SAS). What is the scale factor from the smaller triangle to the larger?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (1.4,0);\n\\coordinate (B) at (0.74,1.586);\n\\draw (V) -- (A) node[midway,below,font=\\small] {$4$};\n\\draw (V) -- (B) node[midway,above left,font=\\small] {$5$};\n\\draw (A) -- (B);\n\\pic[draw,\"$65^{\\circ}$\",angle radius=0.38cm,angle eccentricity=2.3] {angle=A--V--B};\n\\coordinate (V2) at (4.0,0);\n\\coordinate (A2) at (6.52,0);\n\\coordinate (B2) at (5.331,2.855);\n\\draw (V2) -- (A2) node[midway,below,font=\\small] {$10$};\n\\draw (V2) -- (B2) node[midway,above left,font=\\small] {$12.5$};\n\\draw (A2) -- (B2);\n\\pic[draw,\"$65^{\\circ}$\",angle radius=0.5cm,angle eccentricity=2.1] {angle=A2--V2--B2};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "scale-factor",
+      "mastery": false,
+      "options": [
+        { "text": "$2.5$", "correct": true },
+        { "text": "$0.4$", "why": "Divided the original by the image ($4\\div 10$) — the scale factor is image over original." },
+        { "text": "$3.125$", "why": "Divided $12.5$ by $4$, which are not corresponding sides — $12.5$ corresponds to $5$." },
+        { "text": "$2$", "why": "Divided $10$ by $5$, which are not corresponding sides — $10$ corresponds to $4$." }
+      ],
+      "solution_text": "$\\frac{10}{4}=2.5$\n$\\frac{12.5}{5}=2.5$\nThe scale factor from the smaller triangle to the larger is $2.5$."
+    },
+    {
+      "id": "q11",
+      "question_text": "Two of these three triangles are similar. Which pair?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.78]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.5,0);\n\\coordinate (C) at (1.684,1.413);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.9,font=\\small] {angle=B--A--C};\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.4cm,angle eccentricity=2.2,font=\\small] {angle=C--B--A};\n\\node[below,font=\\small] at (1.25,-0.45) {$\\Delta 1$};\n\\coordinate (D) at (3.3,0);\n\\coordinate (E) at (5.8,0);\n\\coordinate (F) at (4.43,1.957);\n\\draw (D) -- (E) -- (F) -- cycle;\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.1,font=\\small] {angle=E--D--F};\n\\pic[draw,\"$55^{\\circ}$\",angle radius=0.45cm,angle eccentricity=2.1,font=\\small] {angle=F--E--D};\n\\node[below,font=\\small] at (4.55,-0.45) {$\\Delta 2$};\n\\coordinate (G) at (6.6,0);\n\\coordinate (H) at (9.5,0);\n\\coordinate (I) at (7.546,1.639);\n\\draw (G) -- (H) -- (I) -- cycle;\n\\pic[draw,\"$60^{\\circ}$\",angle radius=0.42cm,angle eccentricity=2.1,font=\\small] {angle=H--G--I};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.9,font=\\small] {angle=I--H--G};\n\\node[below,font=\\small] at (8.05,-0.45) {$\\Delta 3$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-similar-pair",
+      "mastery": false,
+      "options": [
+        { "text": "$\\Delta 1$ and $\\Delta 3$", "correct": true },
+        { "text": "$\\Delta 1$ and $\\Delta 2$", "why": "Matched the single common $60^{\\circ}$ angle — their other angles ($40^{\\circ}$ vs $55^{\\circ}$) do not match." },
+        { "text": "$\\Delta 2$ and $\\Delta 3$", "why": "Matched the single common $60^{\\circ}$ angle — their other angles ($55^{\\circ}$ vs $40^{\\circ}$) do not match." },
+        { "text": "No two of the triangles are similar", "why": "Missed that $\\Delta 1$ and $\\Delta 3$ both contain $40^{\\circ}$ and $60^{\\circ}$ — two pairs of equal angles make them similar." }
+      ],
+      "solution_text": "$\\Delta 1$ has angles $40^{\\circ}$ and $60^{\\circ}$; $\\Delta 3$ also has angles $60^{\\circ}$ and $40^{\\circ}$.\nTwo pairs of equal corresponding angles: $\\Delta 1\\ |||\\ \\Delta 3$ (equiangular).\n$\\Delta 2$ has angles $60^{\\circ}$, $55^{\\circ}$ and $65^{\\circ}$, which match neither of the others in two pairs."
+    }
+  ]
+}

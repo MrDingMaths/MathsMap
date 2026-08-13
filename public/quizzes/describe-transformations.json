@@ -1,0 +1,106 @@
+{
+  "skillId": "describe-transformations",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What transformation maps shape $A$ to shape $B$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.5,0)--(1.5,0.7)--(0.6,0.7)--(0.6,1.7)--(0,1.7)--cycle;\n\\draw (3.2,0.8)--(4.7,0.8)--(4.7,1.5)--(3.8,1.5)--(3.8,2.5)--(3.2,2.5)--cycle;\n\\node[below] at (0.75,0) {$A$};\n\\node[below] at (3.95,0.8) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-translation",
+      "mastery": false,
+      "options": [
+        { "text": "Translation", "correct": true },
+        { "text": "Reflection", "why": "Treats any change of position as a flip even though the orientation is unchanged." },
+        { "text": "Rotation", "why": "Treats the diagonal shift as a turn even though corresponding edges keep their directions." }
+      ],
+      "solution_text": "The shape has slid right and up while keeping the same orientation.\nTranslation"
+    },
+    {
+      "id": "q2",
+      "question_text": "What transformation maps the shaded arrow to the unshaded arrow?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[fill=gray!25] (-2.5,0.3)--(-1.2,0.3)--(-1.2,-0.3)--(-0.3,0.7)--(-1.2,1.7)--(-1.2,1.1)--(-2.5,1.1)--cycle;\n\\draw[dashed] (0,-0.7)--(0,2.1);\n\\draw (2.5,0.3)--(1.2,0.3)--(1.2,-0.3)--(0.3,0.7)--(1.2,1.7)--(1.2,1.1)--(2.5,1.1)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-reflection",
+      "mastery": false,
+      "options": [
+        { "text": "Reflection", "correct": true },
+        { "text": "Translation", "why": "Sees the sideways move but ignores that the arrow has become a mirror image." },
+        { "text": "Rotation", "why": "Mistakes the reversed direction for a half-turn instead of using the shown mirror line." }
+      ],
+      "solution_text": "The arrows are mirror images at equal distances from the dashed line.\nReflection"
+    },
+    {
+      "id": "q3",
+      "question_text": "What transformation maps arrow $P$ to arrow $Q$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (C) at (0,0);\n\\draw[->] (0.6,0.6)--(2.4,0.6);\n\\draw[->] (-0.6,0.6)--(-0.6,2.4);\n\\fill (C) circle (1.5pt);\n\\node[below] at (C) {$C$};\n\\node[above] at (1.5,0.6) {$P$};\n\\node[right] at (-0.6,1.5) {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-rotation",
+      "mastery": false,
+      "options": [
+        { "text": "Rotation", "correct": true },
+        { "text": "Translation", "why": "Notices the new position but ignores that the arrow has turned around point C." },
+        { "text": "Reflection", "why": "Treats the changed orientation as a flip even though no mirror line relates the arrows." }
+      ],
+      "solution_text": "The arrow has turned about the fixed point $C$.\nRotation"
+    },
+    {
+      "id": "q4",
+      "question_text": "A motif slides $5$ squares left and $3$ squares up without turning. Which description is complete?",
+      "structure": "describe-translation",
+      "mastery": false,
+      "options": [
+        { "text": "$5$ left and $3$ up", "correct": true },
+        { "text": "$3$ left and $5$ up", "why": "Reverses the horizontal and vertical distances in the stated slide." },
+        { "text": "$5$ right and $3$ down", "why": "Uses both opposite directions, describing the inverse translation." },
+        { "text": "$5$ left and $3$ down", "why": "Keeps the horizontal direction but reverses the vertical direction." }
+      ],
+      "solution_text": "The movement is already a slide, so record its horizontal and vertical parts in their stated directions.\nTranslation $5$ squares left and $3$ squares up"
+    },
+    {
+      "id": "q5",
+      "question_text": "An arrow pointing east turns to point north about $O$. What is the smallest rotation?",
+      "structure": "describe-quarter-turn",
+      "mastery": false,
+      "options": [
+        { "text": "$90^{\\circ}$ anticlockwise", "correct": true },
+        { "text": "$90^{\\circ}$ clockwise", "why": "Turns east towards south, using the opposite direction around the centre." },
+        { "text": "$180^{\\circ}$", "why": "Uses a half-turn, which would make the east-pointing arrow point west." },
+        { "text": "$270^{\\circ}$ anticlockwise", "why": "Takes the long anticlockwise turn, which is equivalent to 90 degrees clockwise." }
+      ],
+      "solution_text": "A quarter-turn anticlockwise takes east to north.\nRotation $90^{\\circ}$ anticlockwise about $O$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Which description maps segment $MN$ to segment $M'N'$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (7,4);\n\\draw (0.5,3.4)--(2.5,3.4);\n\\draw (4.5,0.4)--(6.5,0.4);\n\\node[above] at (0.5,3.4) {$M$};\n\\node[above] at (2.5,3.4) {$N$};\n\\node[below] at (4.5,0.4) {$M'$};\n\\node[below] at (6.5,0.4) {$N'$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-translation-distance",
+      "mastery": false,
+      "options": [
+        { "text": "$4$ right and $3$ down", "correct": true },
+        { "text": "$3$ right and $4$ down", "why": "Swaps the counted horizontal and vertical movements between matching endpoints." },
+        { "text": "$4$ left and $3$ up", "why": "Follows the mapping backwards from the image to the original segment." },
+        { "text": "$4$ right and $3$ up", "why": "Counts four squares right but reverses the downward vertical direction." }
+      ],
+      "solution_text": "$M$ moves from $(0.5,3.4)$ to $(4.5,0.4)$: $4$ squares right and $3$ squares down.\nTranslation $4$ squares right and $3$ squares down"
+    },
+    {
+      "id": "q7",
+      "question_text": "The same-size shapes are on opposite sides of a dashed line. Which extra fact proves the transformation is a reflection?",
+      "structure": "distinguish-reflection",
+      "mastery": true,
+      "options": [
+        { "text": "They are mirror images equally far from the line", "correct": true },
+        { "text": "They have equal areas", "why": "Uses a fact shared by translation, reflection and rotation, so it does not identify reflection." },
+        { "text": "They face the same direction", "why": "Describes a translation-like orientation instead of a mirror reversal." },
+        { "text": "They are the same distance from a point", "why": "Uses a rotation clue involving a centre rather than a mirror-line condition." }
+      ],
+      "solution_text": "A reflection flips the shape and places matching points the same perpendicular distance from the mirror line.\nThey are mirror images equally far from the line."
+    },
+    {
+      "id": "q8",
+      "question_text": "A marker points south-east, then points north-west after turning about $K$. What is the smallest rotation?",
+      "structure": "describe-half-turn",
+      "mastery": true,
+      "options": [
+        { "text": "$180^{\\circ}$ about $K$", "correct": true },
+        { "text": "$90^{\\circ}$ clockwise about $K$", "why": "Uses a quarter-turn, which takes south-east to south-west rather than north-west." },
+        { "text": "$90^{\\circ}$ anticlockwise about $K$", "why": "Uses a quarter-turn, which takes south-east to north-east rather than north-west." },
+        { "text": "$360^{\\circ}$ about $K$", "why": "Uses a full turn, which returns the marker to south-east instead of reversing it." }
+      ],
+      "solution_text": "South-east and north-west are opposite directions, so the marker makes a half-turn.\nRotation $180^{\\circ}$ about $K$"
+    }
+  ]
+}

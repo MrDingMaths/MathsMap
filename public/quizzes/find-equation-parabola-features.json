@@ -1,0 +1,109 @@
+{
+  "skillId": "find-equation-parabola-features",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A parabola has $x$-intercepts at $x=2$ and $x=5$ and passes through $(0,20)$. Find its equation.",
+      "structure": "from-intercepts-and-point",
+      "mastery": false,
+      "options": [
+        { "text": "$y=2(x-2)(x-5)$", "correct": true },
+        { "text": "$y=(x-2)(x-5)$", "why": "Assumed $k=1$ without using the given point to solve for the scale factor." },
+        { "text": "$y=2(x+2)(x+5)$", "why": "Did not flip the signs of the intercepts inside the factors." },
+        { "text": "$y=-2(x-2)(x-5)$", "why": "Sign slip when solving $20=k(-2)(-5)$; the product is positive, so $k$ is positive." }
+      ],
+      "solution_text": "Factored form: $y=k(x-2)(x-5)$.\nSubstitute $(0,20)$:\n$20=k(-2)(-5)$\n$20=10k$\n$k=2$\n$y=2(x-2)(x-5)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A parabola has vertex $(3,-2)$ and passes through $(5,6)$. Find its equation.",
+      "structure": "from-vertex-and-point",
+      "mastery": false,
+      "options": [
+        { "text": "$y=2(x-3)^2-2$", "correct": true },
+        { "text": "$y=2(x+3)^2-2$", "why": "Did not flip the sign of the vertex $x$-coordinate inside the bracket." },
+        { "text": "$y=(x-3)^2-2$", "why": "Assumed $k=1$ without using the point $(5,6)$ to solve for $k$." },
+        { "text": "$y=2(x-3)^2+2$", "why": "Used $c=+2$ instead of the vertex $y$-value $-2$." }
+      ],
+      "solution_text": "Vertex $(3,-2)$ gives $y=k(x-3)^2-2$.\nSubstitute $(5,6)$:\n$6=k(2)^2-2$\n$8=4k$\n$k=2$\n$y=2(x-3)^2-2$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A parabola has $x$-intercepts at $x=-8$ and $x=-2$ and a $y$-intercept of $-8$. Find its equation.",
+      "structure": "from-intercepts-and-yintercept",
+      "mastery": false,
+      "options": [
+        { "text": "$y=-\\dfrac{1}{2}(x+8)(x+2)$", "correct": true },
+        { "text": "$y=\\dfrac{1}{2}(x+8)(x+2)$", "why": "Missed the negative when solving $-8=16k$." },
+        { "text": "$y=-\\dfrac{1}{2}(x-8)(x-2)$", "why": "Did not flip the signs of the intercepts inside the factors." },
+        { "text": "$y=-8(x+8)(x+2)$", "why": "Took the $y$-intercept as $k$ without substituting it as the point $(0,-8)$." }
+      ],
+      "solution_text": "Factored form: $y=k(x+8)(x+2)$.\nSubstitute the $y$-intercept $(0,-8)$:\n$-8=k(8)(2)$\n$-8=16k$\n$k=-\\dfrac{1}{2}$\n$y=-\\dfrac{1}{2}(x+8)(x+2)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the equation of the parabola shown, which has vertex $(-1,4)$ and passes through the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4, xmax=3, ymin=-6, ymax=6, samples=100, clip=false, axis line style={-{Stealth}}, xtick={-3,-2,1,2}, ytick={-4,-2,2,4}]\n\\addplot[smooth, thick, blue, <->, domain=-2.58:0.58] {-4*(x+1)*(x+1)+4};\n\\fill (axis cs:-1,4) circle (2.5pt);\n\\fill (axis cs:0,0) circle (2.5pt);\n\\node[above] at (axis cs:-1,4) {$(-1,4)$};\n\\node[below right] at (axis cs:0,0) {$O$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$y=-4(x+1)^2+4$", "correct": true },
+        { "text": "$y=4(x+1)^2+4$", "why": "Missed the negative; a downward parabola needs $k<0$." },
+        { "text": "$y=-4(x-1)^2+4$", "why": "Did not flip the sign of the vertex $x$-coordinate inside the bracket." },
+        { "text": "$y=-(x+1)^2+4$", "why": "Assumed $k=-1$ without using the origin to solve for $k$." }
+      ],
+      "solution_text": "Vertex $(-1,4)$ gives $y=k(x+1)^2+4$.\nSubstitute the origin $(0,0)$:\n$0=k(1)^2+4$\n$-4=k$\n$y=-4(x+1)^2+4$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A parabola has $x$-intercepts at $x=-3$ and $x=5$, so it has the form $y=k(x+3)(x-5)$. Find its equation if the coefficient of $x^2$ is $2$.",
+      "structure": "constrained-k",
+      "mastery": false,
+      "options": [
+        { "text": "$y=2(x+3)(x-5)$", "correct": true },
+        { "text": "$y=(x+3)(x-5)$", "why": "Left $k=1$ instead of setting the coefficient of $x^2$ to $2$." },
+        { "text": "$y=2(x-3)(x+5)$", "why": "Did not flip the signs of the intercepts inside the factors." },
+        { "text": "$y=\\dfrac{1}{2}(x+3)(x-5)$", "why": "Took the reciprocal of the stated coefficient." }
+      ],
+      "solution_text": "The coefficient of $x^2$ is $k$, and it is given as $2$.\n$y=2(x+3)(x-5)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The cross-section of a satellite dish is a parabola with its lowest point at the origin. The rim passes through $(4,8)$, with units in metres. Find its equation in the form $y=kx^2$.",
+      "structure": "application",
+      "mastery": false,
+      "options": [
+        { "text": "$y=\\dfrac{1}{2}x^2$", "correct": true },
+        { "text": "$y=2x^2$", "why": "Divided $4^2$ by $8$ upside down; $k=\\dfrac{8}{16}$, not $\\dfrac{16}{8}$." },
+        { "text": "$y=8x^2$", "why": "Used the $y$-value $8$ as $k$ without dividing by $x^2$." },
+        { "text": "$y=\\dfrac{1}{4}x^2$", "why": "Divided $8$ by $4$ instead of by $4^2=16$." }
+      ],
+      "solution_text": "The vertex is $(0,0)$, so $y=kx^2$.\nSubstitute $(4,8)$:\n$8=k(4)^2$\n$8=16k$\n$k=\\dfrac{1}{2}$\n$y=\\dfrac{1}{2}x^2$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A parabola has vertex $(2,9)$ and passes through $(0,1)$. Find its equation.",
+      "structure": "from-vertex-and-point",
+      "mastery": true,
+      "options": [
+        { "text": "$y=-2(x-2)^2+9$", "correct": true },
+        { "text": "$y=2(x-2)^2+9$", "why": "Missed the negative when solving $1=4k+9$; a maximum vertex needs $k<0$." },
+        { "text": "$y=-2(x+2)^2+9$", "why": "Did not flip the sign of the vertex $x$-coordinate inside the bracket." },
+        { "text": "$y=-(x-2)^2+9$", "why": "Assumed $k=-1$ without using the point $(0,1)$ to solve for $k$." }
+      ],
+      "solution_text": "Vertex $(2,9)$ gives $y=k(x-2)^2+9$.\nSubstitute $(0,1)$:\n$1=k(-2)^2+9$\n$-8=4k$\n$k=-2$\n$y=-2(x-2)^2+9$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The arch of a tunnel is a parabola that spans $60$ m, meeting the ground at $x=0$ and $x=60$, with a maximum height of $15$ m at its centre. Find its equation in the form $h=kx(x-60)$.",
+      "structure": "application",
+      "mastery": true,
+      "options": [
+        { "text": "$h=-\\dfrac{1}{60}x(x-60)$", "correct": true },
+        { "text": "$h=\\dfrac{1}{60}x(x-60)$", "why": "Missed the negative; a maximum-height arch opens downward, so $k<0$." },
+        { "text": "$h=-\\dfrac{1}{30}x(x-60)$", "why": "Used the span $60$ as the vertex $x$-value instead of the centre $30$." },
+        { "text": "$h=-\\dfrac{1}{15}x(x-60)$", "why": "Divided the height by the wrong product when solving for $k$." }
+      ],
+      "solution_text": "Factored form using the ground points: $h=kx(x-60)$.\nThe maximum is at the centre, $x=30$, where $h=15$. Substitute $(30,15)$:\n$15=k(30)(30-60)$\n$15=-900k$\n$k=-\\dfrac{1}{60}$\n$h=-\\dfrac{1}{60}x(x-60)$"
+    }
+  ]
+}

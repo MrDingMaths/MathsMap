@@ -1,0 +1,116 @@
+{
+  "skillId": "identify-congruent-figures",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Are the two triangles congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.8,0);\n\\coordinate (C) at (0,1.2);\n\\coordinate (D) at (3.0,0);\n\\coordinate (E) at (5.7,0);\n\\coordinate (F) at (3.0,1.8);\n\\draw (A) -- (B) node[midway, below] {$6\\text{ cm}$};\n\\draw (B) -- (C);\n\\draw (C) -- (A) node[midway, left] {$4\\text{ cm}$};\n\\draw (D) -- (E) node[midway, below] {$9\\text{ cm}$};\n\\draw (E) -- (F);\n\\draw (F) -- (D) node[midway, left] {$6\\text{ cm}$};\n\\coordinate (ra1) at ($(A)!0.25cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.25cm!(C)$);\n\\draw (ra1) -- ($(ra1)+(ra2)-(A)$) -- (ra2);\n\\coordinate (rd1) at ($(D)!0.25cm!(E)$);\n\\coordinate (rd2) at ($(D)!0.25cm!(F)$);\n\\draw (rd1) -- ($(rd1)+(rd2)-(D)$) -- (rd2);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "congruent-or-not",
+      "mastery": false,
+      "options": [
+        { "text": "No, because the matching sides are not equal in length", "correct": true },
+        { "text": "Yes, because they have the same shape", "why": "Same shape is not enough \u2014 congruent figures must also be the same size, and the matching sides $6$ cm and $9$ cm are not equal." },
+        { "text": "Yes, because their matching angles are equal", "why": "Equal angles alone do not make figures congruent; the matching sides must also be equal, and $6$ cm $\\ne$ $9$ cm." },
+        { "text": "No, because one triangle has been rotated", "why": "A rotation would not stop the triangles being congruent \u2014 rotations preserve size and shape. The real reason is the unequal matching sides." }
+      ],
+      "solution_text": "The matching sides are $6$ cm and $9$ cm, which are not equal.\nThe triangles are not congruent."
+    },
+    {
+      "id": "q2",
+      "question_text": "Name the single transformation that moves quadrilateral $ABCD$ onto quadrilateral $EFGH$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.0,0.2);\n\\coordinate (C) at (2.4,1.4);\n\\coordinate (D) at (0.4,1.2);\n\\coordinate (E) at (3.3,0.5);\n\\coordinate (F) at (5.3,0.7);\n\\coordinate (G) at (5.7,1.9);\n\\coordinate (H) at (3.7,1.7);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\draw (E) -- (F) -- (G) -- (H) -- cycle;\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above left] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-translation",
+      "mastery": false,
+      "options": [
+        { "text": "Translation", "correct": true },
+        { "text": "Reflection", "why": "A reflection makes the image back-to-front; this image is the same way around as the original." },
+        { "text": "Rotation", "why": "A rotation turns the figure to point a different way; this image points exactly the same way as the original." }
+      ],
+      "solution_text": "The image is the same way up and the same way around \u2014 the figure has slid without turning or flipping.\nThe transformation is a translation."
+    },
+    {
+      "id": "q3",
+      "question_text": "$\\triangle ABC$ has been moved onto $\\triangle DEF$ by a single transformation. Which transformation was used?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (2.0,1.3);\n\\coordinate (D) at (4.2,2.6);\n\\coordinate (E) at (4.2,0.2);\n\\coordinate (F) at (5.5,0.6);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\draw (D) -- (E) -- (F) -- cycle;\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-rotation",
+      "mastery": false,
+      "options": [
+        { "text": "Rotation", "correct": true },
+        { "text": "Translation", "why": "A translation only slides the figure; this image has been turned to point in a different direction." },
+        { "text": "Reflection", "why": "A reflection produces a back-to-front image; this image has been turned, not flipped." }
+      ],
+      "solution_text": "The image has been turned a quarter turn to point in a different direction, but it is not back-to-front.\nThe transformation is a rotation."
+    },
+    {
+      "id": "q4",
+      "question_text": "The triangles are congruent. Use the matching marks to name the vertex in $\\triangle RST$ that corresponds to vertex $K$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (J) at (0,0.2);\n\\coordinate (K) at (1.9,1.6);\n\\coordinate (L) at (2.5,0);\n\\coordinate (R) at (6.4,1.5);\n\\coordinate (S) at (4.5,0.1);\n\\coordinate (T) at (3.9,1.7);\n\\draw[tickmark] (J) -- (K);\n\\draw[tickmark2] (K) -- (L);\n\\draw[tickmark3] (J) -- (L);\n\\draw[tickmark] (R) -- (S);\n\\draw[tickmark2] (S) -- (T);\n\\draw[tickmark3] (R) -- (T);\n\\node[below left] at (J) {$J$};\n\\node[above] at (K) {$K$};\n\\node[below right] at (L) {$L$};\n\\node[above right] at (R) {$R$};\n\\node[below] at (S) {$S$};\n\\node[above left] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-vertex",
+      "mastery": false,
+      "options": [
+        { "text": "$S$", "correct": true },
+        { "text": "$R$", "why": "$R$ is where the single-tick side meets the triple-tick side, so it corresponds to $J$, not $K$." },
+        { "text": "$T$", "why": "$T$ is where the double-tick side meets the triple-tick side, so it corresponds to $L$, not $K$." }
+      ],
+      "solution_text": "$K$ is the vertex where the single-tick side meets the double-tick side.\nIn $\\triangle RST$ the single-tick side $RS$ meets the double-tick side $ST$ at $S$.\n$K$ corresponds to $S$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The quadrilaterals are congruent. $PQRS$ has been reflected to give $WXYZ$. Name the side in $WXYZ$ that corresponds to side $QR$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,1.5);\n\\coordinate (Q) at (1.2,1.5);\n\\coordinate (R) at (2.0,0);\n\\coordinate (S) at (0,0);\n\\coordinate (W) at (5.6,1.5);\n\\coordinate (X) at (4.4,1.5);\n\\coordinate (Y) at (3.6,0);\n\\coordinate (Z) at (5.6,0);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\draw (W) -- (X) -- (Y) -- (Z) -- cycle;\n\\node[above] at (P) {$P$};\n\\node[above] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\node[below] at (S) {$S$};\n\\node[above] at (W) {$W$};\n\\node[above] at (X) {$X$};\n\\node[below] at (Y) {$Y$};\n\\node[below] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-side",
+      "mastery": false,
+      "options": [
+        { "text": "$XY$", "correct": true },
+        { "text": "$WX$", "why": "$WX$ is the top side of the image, which corresponds to the top side $PQ$, not to $QR$." },
+        { "text": "$YZ$", "why": "$YZ$ is the bottom side of the image, which corresponds to the bottom side $RS$, not to $QR$." },
+        { "text": "$ZW$", "why": "$ZW$ is the right-hand vertical side, which corresponds to the vertical side $SP$, not to the slanted side $QR$." }
+      ],
+      "solution_text": "The reflection matches $P \\leftrightarrow W$, $Q \\leftrightarrow X$, $R \\leftrightarrow Y$ and $S \\leftrightarrow Z$.\nSide $QR$ corresponds to side $XY$."
+    },
+    {
+      "id": "q6",
+      "question_text": "The triangles are congruent. Use the angle marks to name the angle in $\\triangle UVW$ that corresponds to $\\angle E$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles}\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (2.6,0.4);\n\\coordinate (F) at (1.0,1.8);\n\\coordinate (U) at (6.3,2.0);\n\\coordinate (V) at (3.7,1.6);\n\\coordinate (W) at (5.3,0.2);\n\\draw (D) -- (E) -- (F) -- cycle;\n\\draw (U) -- (V) -- (W) -- cycle;\n\\pic[draw, angle radius=0.45cm] {angle = E--D--F};\n\\pic[draw, angle radius=0.38cm] {angle = F--E--D};\n\\pic[draw, angle radius=0.52cm] {angle = F--E--D};\n\\pic[draw, angle radius=0.45cm] {angle = V--U--W};\n\\pic[draw, angle radius=0.38cm] {angle = W--V--U};\n\\pic[draw, angle radius=0.52cm] {angle = W--V--U};\n\\node[below left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\node[above] at (F) {$F$};\n\\node[above right] at (U) {$U$};\n\\node[above left] at (V) {$V$};\n\\node[below] at (W) {$W$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$\\angle V$", "correct": true },
+        { "text": "$\\angle U$", "why": "$\\angle U$ carries the single arc, so it corresponds to $\\angle D$, not to the double-arc angle $\\angle E$." },
+        { "text": "$\\angle W$", "why": "$\\angle W$ is the unmarked angle, so it corresponds to the unmarked $\\angle F$, not to $\\angle E$." }
+      ],
+      "solution_text": "$\\angle E$ carries the double arc.\nIn $\\triangle UVW$ the double arc is at $V$.\n$\\angle E$ corresponds to $\\angle V$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Two circles are congruent when",
+      "structure": "congruent-circles",
+      "mastery": false,
+      "options": [
+        { "text": "their radii are equal", "correct": true },
+        { "text": "their centres are at the same point", "why": "The centre only fixes the circle's position, not its size \u2014 circles about the same centre can have different radii." },
+        { "text": "the radius of one equals the diameter of the other", "why": "The diameter is twice the radius, so that circle would be twice as wide as the first, not congruent to it." }
+      ],
+      "solution_text": "A circle's size is completely fixed by its radius.\nTwo circles are congruent exactly when their radii are equal."
+    },
+    {
+      "id": "q8",
+      "question_text": "The rectangle and the parallelogram both have sides of $7$ m and $4$ m. Are the two shapes congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (2.1,1.2);\n\\node[below] at (1.05,0) {$7\\text{ m}$};\n\\node[right] at (2.1,0.6) {$4\\text{ m}$};\n\\draw (3.3,0) -- (5.4,0) -- (6.0,1.04) -- (3.9,1.04) -- cycle;\n\\node[below] at (4.35,0) {$7\\text{ m}$};\n\\draw (5.4,0) -- (6.0,1.04) node[midway, below right] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "congruent-or-not",
+      "mastery": true,
+      "options": [
+        { "text": "No, because their matching angles are not equal", "correct": true },
+        { "text": "Yes, because all their matching sides are equal", "why": "Equal sides are not enough \u2014 the matching angles must also be equal, and the parallelogram's angles are not $90^{\\circ}$." },
+        { "text": "Yes, because they have the same perimeter", "why": "Equal perimeters do not make figures congruent \u2014 shapes with the same perimeter can have completely different angles." },
+        { "text": "No, because a rectangle can never be congruent to a parallelogram", "why": "A rectangle is itself a parallelogram, and two identical rectangles are congruent \u2014 the reason here is the unequal angles, not the shape names." }
+      ],
+      "solution_text": "The matching sides are equal, but the rectangle's angles are all $90^{\\circ}$ and the parallelogram's are not.\nNo translation, reflection or rotation can move one exactly onto the other, so the shapes are not congruent."
+    },
+    {
+      "id": "q9",
+      "question_text": "Name the single transformation that moves figure $A$ onto figure $B$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (1.8,0) -- (1.8,0.9) -- (0.5,1.7) -- (0,0.9) -- cycle;\n\\draw (5.6,0) -- (3.8,0) -- (3.8,0.9) -- (5.1,1.7) -- (5.6,0.9) -- cycle;\n\\node[below] at (0.9,-0.15) {$A$};\n\\node[below] at (4.7,-0.15) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "name-reflection",
+      "mastery": false,
+      "options": [
+        { "text": "Reflection", "correct": true },
+        { "text": "Translation", "why": "The image is back-to-front \u2014 the slanted peak has swapped sides \u2014 and a slide can never flip a figure over." },
+        { "text": "Rotation", "why": "No amount of turning can make a figure back-to-front; only a reflection reverses the orientation." }
+      ],
+      "solution_text": "The image is back-to-front: the slanted peak has swapped from the left side to the right side.\nThe transformation is a reflection."
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "skillId": "outlier-effect-line-best-fit",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,7),(2,10),(3,13),(4,15),(5,18),(6,21),(7,23),(8,26)} {\\fill \\p circle (2.2pt);}\n\\fill (1.5,23) circle (2.2pt);\n\\draw[thick,blue] (0.5,11.75)--(9,24.5);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nWhich point is the outlier?",
+      "structure": "identify-outlier",
+      "mastery": false,
+      "options": [
+        { "text": "$(1.5, 23)$", "correct": true },
+        { "text": "$(8, 26)$", "why": "Picked the store with the highest sales, but that point lies close to the line of best fit." },
+        { "text": "$(1, 7)$", "why": "Picked the store with the lowest spend, but that point lies close to the line of best fit." },
+        { "text": "$(5, 18)$", "why": "Picked a point from the middle of the cluster, which sits close to the trend of the other points." }
+      ],
+      "solution_text": "Every other point lies close to the line, but one point sits far above it for its level of spend.\nThe outlier is $(1.5, 23)$."
+    },
+    {
+      "id": "q2",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,7),(2,10),(3,13),(4,15),(5,18),(6,21),(7,23),(8,26)} {\\fill \\p circle (2.2pt);}\n\\fill (1.5,23) circle (2.2pt);\n\\draw[thick,blue] (0.5,11.75)--(9,24.5);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nIf the outlier $(1.5, 23)$ were removed, what would happen to the gradient of the line of best fit?",
+      "structure": "gradient-direction-effect",
+      "mastery": false,
+      "options": [
+        { "text": "It would become steeper", "correct": true },
+        { "text": "It would become less steep", "why": "Has the effect backwards — the outlier is currently flattening the line, not steepening it." },
+        { "text": "It would stay exactly the same", "why": "Ignores that the outlier is pulling the line away from the steeper trend of the other $8$ points." },
+        { "text": "It would change from positive to negative", "why": "Removing one outlier from a clearly positive cluster does not flip the overall direction." }
+      ],
+      "solution_text": "The outlier sits above the trend of the other points, pulling the line's low-spend end up and making it less steep than the main cluster suggests.\nRemoving it lets the line follow the steeper trend of the remaining $8$ stores.\nThe gradient becomes steeper."
+    },
+    {
+      "id": "q3",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,7),(2,10),(3,13),(4,15),(5,18),(6,21),(7,23),(8,26)} {\\fill \\p circle (2.2pt);}\n\\fill (8.5,8) circle (2.2pt);\n\\draw[thick,blue] (0.5,8.75)--(9,21.5);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nIf the outlier $(8.5, 8)$ were removed, what would happen to the gradient of the line of best fit?",
+      "structure": "gradient-direction-effect",
+      "mastery": false,
+      "options": [
+        { "text": "It would become steeper", "correct": true },
+        { "text": "It would become less steep", "why": "Has the effect backwards — the outlier is currently flattening the line, not steepening it." },
+        { "text": "It would become negative", "why": "Removing one outlier from a clearly positive cluster does not flip the overall direction." },
+        { "text": "It cannot be determined without recalculating every point", "why": "The direction of the change can be judged from where the outlier sits relative to the trend." }
+      ],
+      "solution_text": "The outlier sits below the trend of the other points, pulling the line's high-spend end down and making it less steep than the main cluster suggests.\nRemoving it lets the line follow the steeper trend of the remaining $8$ stores.\nThe gradient becomes steeper."
+    },
+    {
+      "id": "q4",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,7),(2,10),(3,13),(4,15),(5,18),(6,21),(7,23),(8,26)} {\\fill \\p circle (2.2pt);}\n\\fill (1.5,23) circle (2.2pt);\n\\draw[thick,blue] (0.5,11.75)--(9,24.5);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nWhich explanation correctly justifies why removing the outlier $(1.5, 23)$ makes the gradient steeper?",
+      "structure": "explain-why",
+      "mastery": false,
+      "options": [
+        { "text": "The outlier sits above the trend of the other points, so it pulls the line's low-spend end up and flattens it; removing it lets the steeper trend of the rest show.", "correct": true },
+        { "text": "The outlier is more than $1.5$ times the interquartile range from the other points, so it must be excluded before fitting a line.", "why": "This IQR-fence test is a formal outlier rule, not the reasoning used for a line of best fit's gradient here." },
+        { "text": "The outlier reduces the correlation coefficient, which automatically makes the line steeper.", "why": "Uses a correlation-coefficient argument, but gradient and correlation strength are different properties." },
+        { "text": "Removing any single point from a scatter plot always makes the line of best fit steeper.", "why": "This isn't true in general — only a point that sits away from the line in the right direction has this effect." }
+      ],
+      "solution_text": "The outlier lies above the trend of the other points, pulling the line's low-spend end up and making it less steep than the main cluster's true trend.\nRemoving it lets the line follow the steeper trend shown by the remaining $8$ stores."
+    },
+    {
+      "id": "q5",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,7),(2,10),(3,13),(4,15),(5,18),(6,21),(7,23),(8,26)} {\\fill \\p circle (2.2pt);}\n\\fill (8.5,8) circle (2.2pt);\n\\draw[thick,blue] (0.5,8.75)--(9,21.5);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nA student says, \"The outlier $(8.5, 8)$ barely affects the line, since the other $8$ points already show a clear trend.\" Which statement below is correct?",
+      "structure": "explain-why",
+      "mastery": false,
+      "options": [
+        { "text": "The student is wrong: because the outlier sits far below the trend near the edge of the spend range, it noticeably flattens the fitted line.", "correct": true },
+        { "text": "The student is correct: with $8$ other points already showing a trend, one outlier cannot change the gradient at all.", "why": "A single point far from the trend, especially near the edge of the data, can still pull the line noticeably." },
+        { "text": "The student is wrong, but only because there should be more than $9$ stores in the dataset.", "why": "The sample size isn't the issue — the outlier's distance from the trend is what matters here." },
+        { "text": "The student is correct, because the direction of the association is unaffected either way.", "why": "The direction staying positive doesn't mean the outlier has no effect — it still changes the steepness." }
+      ],
+      "solution_text": "The outlier sits well below the trend of the other points, near the high-spend edge of the data, which gives it a strong pull on the fitted line's gradient.\nRemoving it noticeably steepens the line, so the student's claim that it \"barely affects\" the gradient is incorrect."
+    },
+    {
+      "id": "q6",
+      "question_text": "The scatter plot shows advertising spend (hundreds of dollars) and monthly sales (thousands of dollars) for $9$ stores, with a line of best fit.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, xscale=0.75, yscale=0.23]\n\\draw[->] (0,0)--(10.5,0);\n\\draw[->] (0,0)--(0,37);\n\\foreach \\x in {0,2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y in {5,10,15,20,25,30} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.3,0) {$0$};\n\\foreach \\p in {(1,6),(2,9),(3,11),(4,14),(5,16),(6,18),(7,20),(8,22)} {\\fill \\p circle (2.2pt);}\n\\fill (7.5,33) circle (2.2pt);\n\\draw[thick,blue] (0.5,3)--(8.5,29);\n\\node[rotate=90,font=\\scriptsize] at (-1.7,18) {Sales (thousands)};\n\\node[below,font=\\scriptsize] at (5,-4.5) {Spend (hundreds)};\n\\node[font=\\small] at (5,35) {Spend vs sales};\n\\end{tikzpicture}\n[/tikz]\nOnce the outlier $(7.5, 33)$ is removed, which statement about the line of best fit is correct?",
+      "structure": "gradient-direction-effect-flatten",
+      "mastery": true,
+      "options": [
+        { "text": "The gradient stays positive, but becomes less steep.", "correct": true },
+        { "text": "The gradient becomes negative, because the outlier was the only point supporting a positive trend.", "why": "The remaining $8$ points already show a clear positive trend on their own, without the outlier." },
+        { "text": "The gradient becomes steeper, because removing any point far from the trend always steepens the line.", "why": "This outlier sat above the trend at the high-spend end, inflating the gradient — removing it makes the line less steep, not more." },
+        { "text": "The gradient stays exactly the same, because only $1$ of $9$ points was removed.", "why": "One point far from the trend can still have a large effect on the fitted line's gradient." }
+      ],
+      "solution_text": "The outlier sits above the trend of the other points at the high-spend end, pulling the line's high-spend end up and making it steeper than the main cluster suggests.\nRemoving it lets the line settle back to the shallower trend of the remaining $8$ stores.\nThe gradient stays positive, but becomes less steep."
+    },
+    {
+      "id": "q7",
+      "question_text": "After an outlier is removed from a set of advertising spend and monthly sales data, the line of best fit has a steep, positive gradient. The removed outlier had low spend but unusually high sales. What can you conclude about the line of best fit BEFORE the outlier was removed?",
+      "structure": "explain-why",
+      "mastery": true,
+      "options": [
+        { "text": "It was less steep than the line after removal, because the outlier pulled its low-spend end upward.", "correct": true },
+        { "text": "It was steeper than the line after removal, because more data points usually mean a steeper line.", "why": "The number of points doesn't determine steepness — where the extra point sits relative to the trend does." },
+        { "text": "It had a negative gradient, because a high-sales, low-spend point suggests spending doesn't help sales.", "why": "One point being unusual doesn't establish the direction of the whole dataset's trend." },
+        { "text": "It was identical to the line after removal, because a line of best fit ignores individual outliers.", "why": "A line of best fit is fitted using every point, including outliers, so an outlier does affect it." }
+      ],
+      "solution_text": "A low-spend, high-sales outlier sits above where the trend of the rest of the data would put it.\nIncluding it pulls the low-spend end of the line upward, flattening the line compared to the trend of the remaining points.\nSo the original line, with the outlier included, must have been less steep than the steep line seen after its removal."
+    }
+  ]
+}

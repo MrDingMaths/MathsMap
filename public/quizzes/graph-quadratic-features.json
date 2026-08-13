@@ -1,0 +1,104 @@
+{
+  "skillId": "graph-quadratic-features",
+  "coverageNote": "Producing a sketch is a practice-only structural type; it cannot be posed as an MCQ, so the quiz mirrors it with a read-features-from-graph item.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For the parabola $y=5x^2-2$, state its concavity and the nature of its turning point.",
+      "structure": "concavity-up",
+      "mastery": false,
+      "options": [
+        { "text": "Concave up, minimum turning point", "correct": true },
+        { "text": "Concave down, maximum turning point", "why": "Read the sign of $k$ backwards; $k=5$ is positive, so it opens upwards, not downwards." },
+        { "text": "Concave up, maximum turning point", "why": "Correctly saw $k>0$ opens up, but an upward parabola has a minimum, not a maximum." }
+      ],
+      "solution_text": "The coefficient of $x^2$ is $5$, which is positive.\nSo the parabola is concave up, with a minimum turning point."
+    },
+    {
+      "id": "q2",
+      "question_text": "For the parabola $y=-4x^2+3$, state its concavity and the nature of its turning point.",
+      "structure": "concavity-down",
+      "mastery": false,
+      "options": [
+        { "text": "Concave down, maximum turning point", "correct": true },
+        { "text": "Concave up, minimum turning point", "why": "Ignored the negative sign of $k=-4$; a negative coefficient opens the parabola downwards." },
+        { "text": "Concave down, minimum turning point", "why": "Correctly saw $k<0$ opens down, but a downward parabola has a maximum, not a minimum." }
+      ],
+      "solution_text": "The coefficient of $x^2$ is $-4$, which is negative.\nSo the parabola is concave down, with a maximum turning point."
+    },
+    {
+      "id": "q3",
+      "question_text": "State the vertex and minimum value of $y=x^2-7$.",
+      "structure": "vertex-value",
+      "mastery": false,
+      "options": [
+        { "text": "Vertex $(0,-7)$, minimum value $-7$", "correct": true },
+        { "text": "Vertex $(0,7)$, minimum value $7$", "why": "Took the constant as $+7$; for $y=kx^2+c$ the vertex is $(0,c)$ and here $c=-7$." },
+        { "text": "Vertex $(-7,0)$, minimum value $0$", "why": "Placed the constant on the $x$-axis; $c$ is the $y$-coordinate of the vertex, giving $(0,-7)$." }
+      ],
+      "solution_text": "Here $k=1$ and $c=-7$.\nThe vertex is $(0,-7)$, so the minimum value is $y=-7$."
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the $x$-intercepts of $y=x^2-25$.",
+      "structure": "x-intercepts",
+      "mastery": false,
+      "options": [
+        { "text": "$(-5,0)$ and $(5,0)$", "correct": true },
+        { "text": "$(-25,0)$ and $(25,0)$", "why": "Read the intercepts straight off the constant instead of solving $x^2=25$ to get $x=\\pm5$." },
+        { "text": "$(0,-25)$", "why": "Gave the $y$-intercept; the $x$-intercepts come from setting $y=0$ and solving for $x$." },
+        { "text": "$(5,0)$ only", "why": "Kept only the positive root; $x^2=25$ has both $x=5$ and $x=-5$." }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-6,xmax=6,ymin=-28,ymax=14,xtick={-6,-4,...,6},ytick={-24,-16,...,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-6:6,samples=100] {x*x-25};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(-5,0) (5,0)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]\n$x^2-25=0$\n$x^2=25$\n$x=\\pm5$\nThe $x$-intercepts are $(-5,0)$ and $(5,0)$."
+    },
+    {
+      "id": "q5",
+      "question_text": "How many $x$-intercepts does the parabola $y=x^2+6$ have?",
+      "structure": "x-intercepts",
+      "mastery": false,
+      "options": [
+        { "text": "None", "correct": true },
+        { "text": "Two", "why": "Assumed every parabola cuts the $x$-axis twice; $x^2=-6$ has no real solution." },
+        { "text": "One", "why": "Treated it like $y=x^2$; the graph sits above the axis and touches it nowhere." }
+      ],
+      "solution_text": "$x^2+6=0$\n$x^2=-6$\nA square can never be negative, so there is no solution.\nThe parabola has no $x$-intercepts."
+    },
+    {
+      "id": "q6",
+      "question_text": "State the $y$-intercept and axis of symmetry of $y=-2x^2+8$.",
+      "structure": "axis-symmetry",
+      "mastery": false,
+      "options": [
+        { "text": "$y$-intercept $(0,8)$, axis of symmetry $x=0$", "correct": true },
+        { "text": "$y$-intercept $(0,-2)$, axis of symmetry $x=0$", "why": "Used the coefficient $k=-2$ as the $y$-intercept; the $y$-intercept is the constant $c=8$." },
+        { "text": "$y$-intercept $(0,8)$, axis of symmetry $y=8$", "why": "Named a horizontal line; the axis of symmetry of a parabola is vertical, here $x=0$." }
+      ],
+      "solution_text": "For $y=kx^2+c$ the $y$-intercept is $(0,c)$ and the axis of symmetry is $x=0$.\nHere $c=8$, so the $y$-intercept is $(0,8)$ and the axis of symmetry is $x=0$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The parabola below is $y=2x^2-8$. Read off the coordinates of its vertex.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=4,ymin=-10,ymax=12,xtick={-4,-3,...,4},ytick={-8,-4,...,12},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.1:3.1,samples=100] {2*x*x-8};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-features-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$(0,-8)$", "correct": true },
+        { "text": "$(-2,0)$ and $(2,0)$", "why": "Read the $x$-intercepts instead of the vertex; the vertex is the lowest point of the curve." },
+        { "text": "$(0,8)$", "why": "Read the height as positive; the turning point sits below the origin at $y=-8$." }
+      ],
+      "solution_text": "The lowest point of the curve is on the $y$-axis.\nThe vertex is $(0,-8)$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A parabola $y=kx^2+c$ has vertex $(0,6)$ and passes through the point $(1,2)$. Find its equation.",
+      "structure": "reverse-features",
+      "mastery": true,
+      "options": [
+        { "text": "$y=-4x^2+6$", "correct": true },
+        { "text": "$y=4x^2+6$", "why": "Solved $2=k+6$ as $k=4$ instead of $k=-4$, missing that the curve must fall from the vertex." },
+        { "text": "$y=-4x^2-6$", "why": "Took the vertex $y$-value as $-6$; the vertex $(0,c)$ gives $c=6$." },
+        { "text": "$y=6x^2+1$", "why": "Used the coordinates as coefficients directly rather than substituting the point into $y=kx^2+c$." }
+      ],
+      "solution_text": "The vertex $(0,c)$ is $(0,6)$, so $c=6$.\n$2=k(1)^2+6$\n$2=k+6$\n$k=-4$\nThe equation is $y=-4x^2+6$."
+    }
+  ]
+}

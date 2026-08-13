@@ -1,0 +1,135 @@
+{
+  "skillId": "eulerian-trails-circuits",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which description is correct for a **cycle** in a network?",
+      "structure": "vocabulary-terms",
+      "mastery": false,
+      "options": [
+        { "text": "A route that finishes where it started and repeats no vertex apart from that one.", "correct": true },
+        { "text": "A route that finishes where it started and repeats no edge, even if a vertex is revisited.", "why": "Describes a circuit; a cycle is stricter and also forbids revisiting a vertex partway round." },
+        { "text": "Any route that uses every edge of the network exactly once.", "why": "Describes an Eulerian trail; a cycle need not use every edge, and an Eulerian trail need not close up." },
+        { "text": "A route that repeats no vertex and finishes at a different vertex from the one it started at.", "why": "Describes an open path; a cycle must return to the vertex it started from." }
+      ],
+      "solution_text": "A path repeats no vertex, and a cycle is a path that closes up.\nSo the only vertex visited twice is the one it starts and finishes at."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0.4);\n\\coordinate (C) at (3.6,2.8);\n\\coordinate (D) at (0.6,3.2);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (A)--(C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]\nHow is the route $B\\to C\\to A\\to D\\to C$ best described?",
+      "structure": "classify-a-route",
+      "mastery": false,
+      "options": [
+        { "text": "A trail, but not a path.", "correct": true },
+        { "text": "A path, because it never uses the same edge twice.", "why": "Applies the no-repeated-edge test to a path; a path must not repeat a vertex, and this route visits $C$ twice." },
+        { "text": "A circuit, because it uses every edge exactly once.", "why": "A circuit must finish where it started, and this route starts at $B$ and finishes at $C$." },
+        { "text": "Neither a walk nor a trail, because it visits $C$ twice.", "why": "Revisiting a vertex is allowed in a trail; only a repeated edge would stop the route being one." }
+      ],
+      "solution_text": "The edges used are $BC$, $CA$, $AD$ and $DC$, and none of them is repeated, so the route is a trail.\nThe vertex $C$ is visited at the start of the second edge and again at the end, so no repeated-vertex condition holds.\nIt is a trail but not a path."
+    },
+    {
+      "id": "q3",
+      "question_text": "The network shows the walkways of a park, with dead ends at $E$ and $F$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (3.0,2.6);\n\\coordinate (D) at (0,2.6);\n\\coordinate (E) at (-1.8,-1.2);\n\\coordinate (F) at (4.8,3.8);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (A)--(E);\n\\draw (C)--(F);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below right] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich vertices have an odd degree?",
+      "structure": "count-odd-vertices",
+      "mastery": false,
+      "options": [
+        { "text": "$A$, $C$, $E$ and $F$", "correct": true },
+        { "text": "$A$ and $C$", "why": "Counts only the junctions of degree $3$ and overlooks that a dead end of degree $1$ is also odd." },
+        { "text": "$E$ and $F$", "why": "Counts only the dead ends and treats the degree-$3$ junctions $A$ and $C$ as even." },
+        { "text": "$B$ and $D$", "why": "Names the two vertices of degree $2$, mistaking even degree for odd." }
+      ],
+      "solution_text": "$\\deg A=3$, $\\deg B=2$, $\\deg C=3$, $\\deg D=2$, $\\deg E=1$, $\\deg F=1$.\nThe odd degrees are the $3$s and the $1$s.\nSo $A$, $C$, $E$ and $F$ are the odd vertices."
+    },
+    {
+      "id": "q4",
+      "question_text": "A street sweeper must sweep every street in this network exactly once and return to where it started.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,0);\n\\coordinate (C) at (2.2,2.2);\n\\coordinate (D) at (0,2.2);\n\\coordinate (E) at (4.4,2.2);\n\\coordinate (F) at (4.4,4.4);\n\\coordinate (G) at (2.2,4.4);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (C)--(E);\n\\draw (E)--(F);\n\\draw (F)--(G);\n\\draw (G)--(C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\fill (G) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\node[above left] at (G) {$G$};\n\\end{tikzpicture}\n[/tikz]\nIs this possible?",
+      "structure": "eulerian-circuit-test",
+      "mastery": false,
+      "options": [
+        { "text": "Yes — the network is connected and every vertex has an even degree.", "correct": true },
+        { "text": "No — the vertex $C$ has degree $4$, and an Eulerian circuit needs every degree to be $2$.", "why": "Invents a maximum degree; the test asks only whether every degree is even, and $4$ is even." },
+        { "text": "No — the network is made of two separate rings of streets.", "why": "Reads the two rings as separate pieces, but they share the junction $C$, so the network is connected." },
+        { "text": "Yes — but only if the sweeper starts at $C$.", "why": "With every degree even an Eulerian circuit can be started at any vertex and will still return there." }
+      ],
+      "solution_text": "The two rings share the junction $C$, so the network is connected.\n$\\deg C=4$ and every other vertex has degree $2$.\nEvery degree is even, so an Eulerian circuit exists and the round is possible."
+    },
+    {
+      "id": "q5",
+      "question_text": "A postal worker must walk along every street in this suburb exactly once.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,-0.6);\n\\coordinate (C) at (4.6,0.8);\n\\coordinate (D) at (4.0,3.0);\n\\coordinate (E) at (1.6,3.6);\n\\coordinate (F) at (-0.8,2.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (C)--(F);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement is correct?",
+      "structure": "eulerian-trail-test",
+      "mastery": false,
+      "options": [
+        { "text": "It is possible, but the round cannot finish where it started.", "correct": true },
+        { "text": "It is possible, and the round can finish where it started.", "why": "Treats two odd vertices as allowing a circuit, but a circuit requires every vertex to have an even degree." },
+        { "text": "It is impossible, because two of the corners have an odd degree.", "why": "Rules out the two-odd case, which is in fact exactly the case in which an Eulerian trail exists." },
+        { "text": "It is possible, and the round may begin at any corner.", "why": "With two odd vertices the trail is forced to begin at one of them, so most corners cannot be the start." }
+      ],
+      "solution_text": "$\\deg C=3$, $\\deg F=3$, and every other corner has degree $2$.\nExactly two corners are odd and the network is connected, so an Eulerian trail exists but no Eulerian circuit does.\nThe round is possible, starting at one of $C$ and $F$ and finishing at the other."
+    },
+    {
+      "id": "q6",
+      "question_text": "A guide wants to walk along every walkway of this garden exactly once.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (3.2,2.6);\n\\coordinate (D) at (0,2.6);\n\\coordinate (E) at (1.6,1.3);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (A)--(E);\n\\draw (B)--(E);\n\\draw (C)--(E);\n\\draw (D)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nIs this possible?",
+      "structure": "neither-exists",
+      "mastery": false,
+      "options": [
+        { "text": "No — four vertices have an odd degree, and at most two are allowed.", "correct": true },
+        { "text": "Yes — the network is connected, so every walkway can be used once.", "why": "Connectivity is necessary but not sufficient; the count of odd-degree vertices is what decides it." },
+        { "text": "No — the network has more walkways than junctions.", "why": "Compares the number of edges with the number of vertices, which plays no part in the test." },
+        { "text": "Yes — but only by starting at one of the four odd vertices.", "why": "A trail has at most two odd ends, so with four odd vertices no choice of starting point works." }
+      ],
+      "solution_text": "$\\deg A=3$, $\\deg B=3$, $\\deg C=3$, $\\deg D=3$, $\\deg E=4$.\nThe four corners are all odd.\nA walk that uses every edge once leaves one edge unpaired only at its two ends, so at most two vertices may be odd.\nThe walk is not possible."
+    },
+    {
+      "id": "q7",
+      "question_text": "A cleaner must walk along every walkway of this park exactly once.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (4.2,2.4);\n\\coordinate (D) at (1.7,4.0);\n\\coordinate (E) at (-0.8,2.4);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (B)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nAt which pair of junctions must the walk start and finish?",
+      "structure": "start-end-of-trail",
+      "mastery": false,
+      "options": [
+        { "text": "$B$ and $E$", "correct": true },
+        { "text": "$A$ and $D$", "why": "Names two junctions of even degree, when the two ends of the trail are forced to be the odd ones." },
+        { "text": "$C$ and $D$", "why": "Picks the junctions that look furthest apart on the page, which has nothing to do with the degrees." },
+        { "text": "Any pair of junctions", "why": "With exactly two odd junctions the walk is forced to begin at one of them and end at the other." }
+      ],
+      "solution_text": "$\\deg A=2$, $\\deg B=3$, $\\deg C=2$, $\\deg D=2$, $\\deg E=3$.\nExactly two junctions are odd, so an Eulerian trail exists and its ends must be those two junctions.\nThe walk runs between $B$ and $E$."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (3.4,2.2);\n\\coordinate (D) at (0,2.2);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (B)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]\nWhich route is an Eulerian trail for this network?",
+      "structure": "identify-valid-eulerian-trail",
+      "mastery": false,
+      "options": [
+        { "text": "$B\\to A\\to D\\to C\\to B\\to D$", "correct": true },
+        { "text": "$A\\to B\\to C\\to D\\to A$", "why": "Uses only four of the five streets, leaving out $BD$, so it is not Eulerian." },
+        { "text": "$A\\to B\\to D\\to C\\to B\\to A$", "why": "Travels along $AB$ at both ends of the route, so it repeats an edge and is a walk rather than a trail." },
+        { "text": "$D\\to A\\to B\\to C\\to D$", "why": "Misses the street $BD$ and returns to its start, which no route through two odd junctions can do." }
+      ],
+      "solution_text": "$\\deg A=2$, $\\deg B=3$, $\\deg C=2$, $\\deg D=3$, so an Eulerian trail must run between $B$ and $D$.\nThe route $B\\to A\\to D\\to C\\to B\\to D$ uses $BA$, $AD$, $DC$, $CB$ and $BD$ — all five streets, none repeated.\nIt starts at $B$ and finishes at $D$, as required."
+    },
+    {
+      "id": "q9",
+      "question_text": "In the Königsberg bridges problem the four land masses have degrees $3$, $3$, $3$ and $5$. Which statement explains why no walk crosses every bridge exactly once?",
+      "structure": "konigsberg",
+      "mastery": true,
+      "options": [
+        { "text": "All four land masses are odd, and such a walk allows at most two odd vertices.", "correct": true },
+        { "text": "There are seven bridges, and an odd number of edges makes such a walk impossible.", "why": "The number of bridges plays no part in the test; networks with seven edges can easily allow such a walk." },
+        { "text": "One land mass has five bridges, which is too many for a single walk to use.", "why": "A high degree at one vertex is no obstacle by itself, as long as at most two vertices are odd." },
+        { "text": "The four land masses are not all joined directly to one another.", "why": "Such a walk never needs every pair joined directly; it only needs the network to be connected." }
+      ],
+      "solution_text": "Passing through a land mass uses one bridge to arrive and one to leave, so its bridges are used in pairs and its degree must be even.\nOnly the start and the finish escape this, so at most two land masses may be odd.\nAll four Königsberg land masses are odd, so no such walk exists."
+    },
+    {
+      "id": "q10",
+      "question_text": "Every junction in this network has an even degree.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (2.4,2.4);\n\\coordinate (D) at (0,2.4);\n\\coordinate (E) at (4.4,0.4);\n\\coordinate (F) at (6.8,0.4);\n\\coordinate (G) at (5.6,2.6);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (E)--(F);\n\\draw (F)--(G);\n\\draw (G)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\fill (G) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node[above] at (G) {$G$};\n\\end{tikzpicture}\n[/tikz]\nCan a sweeper cover every street exactly once in one continuous round?",
+      "structure": "connectivity-required",
+      "mastery": true,
+      "options": [
+        { "text": "No — the network is in two separate pieces, so one round cannot reach both.", "correct": true },
+        { "text": "Yes — every junction has an even degree, which is all that is required.", "why": "The even-degree test only guarantees an Eulerian circuit when the network is connected, which this one is not." },
+        { "text": "No — a network with seven junctions can never have such a round.", "why": "Invents a rule about the number of junctions; plenty of seven-junction networks allow such a round." },
+        { "text": "Yes — provided the sweeper starts in the piece with more streets.", "why": "No starting point helps, because no street joins the two pieces for the sweeper to travel along." }
+      ],
+      "solution_text": "$\\deg A=\\deg B=\\deg C=\\deg D=2$ and $\\deg E=\\deg F=\\deg G=2$, so no junction is odd.\nHowever no street joins $\\{A,B,C,D\\}$ to $\\{E,F,G\\}$, so the network is not connected.\nA round travels along streets only, so once the sweeper is in one piece it can never reach the other, and no such round exists."
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "skillId": "describe-networks",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The network shows the direct roads between some towns.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.0,0);\n\\coordinate (C) at (4.0,0);\n\\coordinate (D) at (4.0,2.2);\n\\coordinate (E) at (2.0,2.2);\n\\coordinate (F) at (0,2.2);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (B)--(E);\n\\draw (A)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[above left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nHow many vertices and how many edges does the network have?",
+      "structure": "count-vertices-edges",
+      "mastery": false,
+      "options": [
+        { "text": "$6$ vertices and $8$ edges", "correct": true },
+        { "text": "$8$ vertices and $6$ edges", "why": "Swaps the two counts — the dots are the vertices and the lines joining them are the edges." },
+        { "text": "$6$ vertices and $6$ edges", "why": "Counts only the outer ring of roads and misses the two edges $BE$ and $AE$ drawn across the middle." },
+        { "text": "$6$ vertices and $9$ edges", "why": "Counts the edge $BE$ twice, once from the $B$ end and once from the $E$ end." }
+      ],
+      "solution_text": "The dots are $A$, $B$, $C$, $D$, $E$, $F$.\nThe lines are $AB$, $BC$, $CD$, $DE$, $EF$, $FA$, $BE$, $AE$.\n**$6$ vertices and $8$ edges.**"
+    },
+    {
+      "id": "q2",
+      "question_text": "The network shows the direct roads between five towns.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,0.6);\n\\coordinate (C) at (4.4,2.0);\n\\coordinate (D) at (2.0,3.0);\n\\coordinate (E) at (0.2,2.4);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (B)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the degree of vertex $B$?",
+      "structure": "degree-of-vertex",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$2$", "why": "Counts only the two edges of the outer ring at $B$ and misses the edge $BD$ drawn across the middle." },
+        { "text": "$4$", "why": "Counts the vertices $A$, $C$, $D$ and $B$ itself instead of the edge-ends meeting at $B$." },
+        { "text": "$6$", "why": "Doubles the count, treating every ordinary edge at $B$ as contributing two ends there like a loop." }
+      ],
+      "solution_text": "The edges meeting at $B$ run to $A$, to $C$ and to $D$.\n**The degree of $B$ is $3$.**"
+    },
+    {
+      "id": "q3",
+      "question_text": "The loop at $C$ is a scenic drive that leaves town $C$ and returns to $C$ without reaching any other town.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (3.4,2.4);\n\\coordinate (D) at (1.3,3.6);\n\\coordinate (E) at (-0.8,2.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (C) .. controls (5.0,1.4) and (5.0,3.4) .. (C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the degree of vertex $C$?",
+      "structure": "degree-with-loop",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$3$", "why": "Counts the loop as one edge-end when both of its ends are attached to $C$." },
+        { "text": "$2$", "why": "Ignores the loop altogether and counts only the roads to $B$ and to $D$." },
+        { "text": "$5$", "why": "Counts the loop's two ends and then adds the loop a third time as an extra edge at $C$." }
+      ],
+      "solution_text": "The roads to $B$ and to $D$ give one edge-end each.\nBoth ends of the loop are attached to $C$, so the loop gives $2$ more.\n$1+1+2$\n$=4$\n**The degree of $C$ is $4$.**"
+    },
+    {
+      "id": "q4",
+      "question_text": "Two different direct roads join $M$ and $N$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (M) at (2.2,1.4);\n\\coordinate (N) at (2.0,3.6);\n\\coordinate (O) at (4.4,1.0);\n\\coordinate (T) at (0,0.6);\n\\coordinate (R) at (4.0,3.4);\n\\draw (M) .. controls (2.53,2.17) and (2.47,2.91) .. (N);\n\\draw (M) .. controls (1.73,2.09) and (1.67,2.83) .. (N);\n\\draw (M)--(O);\n\\draw (M)--(T);\n\\draw (N)--(R);\n\\draw (O)--(R);\n\\fill (M) circle (2.5pt);\n\\fill (N) circle (2.5pt);\n\\fill (O) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\node[below] at (M) {$M$};\n\\node[above] at (N) {$N$};\n\\node[below right] at (O) {$O$};\n\\node[below left] at (T) {$T$};\n\\node[above right] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the degree of vertex $M$?",
+      "structure": "degree-with-multiple-edges",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$3$", "why": "Treats the pair of roads between $M$ and $N$ as a single edge instead of counting each one." },
+        { "text": "$2$", "why": "Counts only the pair of roads to $N$ and forgets the edges from $M$ to $O$ and to $T$." },
+        { "text": "$6$", "why": "Counts every edge in the whole network instead of only the edge-ends meeting at $M$." }
+      ],
+      "solution_text": "Each of the two roads to $N$ has its own edge-end at $M$.\nThe roads to $O$ and to $T$ give one edge-end each.\n$1+1+1+1$\n$=4$\n**The degree of $M$ is $4$.**"
+    },
+    {
+      "id": "q5",
+      "question_text": "The network shows the direct flights between six airports.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,-0.6);\n\\coordinate (C) at (4.2,0.8);\n\\coordinate (D) at (3.6,3.0);\n\\coordinate (E) at (1.4,3.4);\n\\coordinate (F) at (2.4,1.4);\n\\draw (A)--(F);\n\\draw (B)--(F);\n\\draw (D)--(F);\n\\draw (A)--(E);\n\\draw (E)--(D);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[above left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich airports have a direct flight to $F$?",
+      "structure": "describe-connection",
+      "mastery": false,
+      "options": [
+        { "text": "$A$, $B$ and $D$", "correct": true },
+        { "text": "$A$, $B$, $C$ and $D$", "why": "Includes $C$, which can only reach $F$ by first flying through $B$ or $D$, so it has no edge to $F$." },
+        { "text": "$A$ and $B$", "why": "Stops at the two edges below $F$ and misses the edge running from $F$ up to $D$." },
+        { "text": "$A$, $B$, $D$ and $E$", "why": "Includes $E$, which is joined to $A$ and $D$ but has no edge of its own reaching $F$." }
+      ],
+      "solution_text": "Follow each edge that meets $F$ and read the vertex at its other end.\n**$A$, $B$ and $D$.**"
+    },
+    {
+      "id": "q6",
+      "question_text": "The arrows show the only direction in which each one-way road may be driven.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,1.0);\n\\coordinate (C) at (1.0,3.4);\n\\coordinate (D) at (4.6,1.6);\n\\coordinate (E) at (3.2,-0.8);\n\\draw[midarrow] (A)--(B);\n\\draw[midarrow] (C)--(B);\n\\draw[midarrow] (B)--(D);\n\\draw[midarrow] (D)--(E);\n\\draw[midarrow] (E)--(A);\n\\draw[midarrow] (C)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhich one of these trips can be made directly?",
+      "structure": "identify-directed",
+      "mastery": false,
+      "options": [
+        { "text": "$B$ to $D$", "correct": true },
+        { "text": "$B$ to $A$", "why": "Reads the edge joining $A$ and $B$ backwards; its arrow runs from $A$ into $B$ only." },
+        { "text": "$E$ to $D$", "why": "Reverses the edge $D$ to $E$, but a directed edge may only be travelled the way its arrow points." },
+        { "text": "$D$ to $C$", "why": "Reverses the edge $C$ to $D$, treating a one-way road as though it worked in both directions." }
+      ],
+      "solution_text": "The arrow on the edge joining $B$ and $D$ points from $B$ towards $D$.\nEvery other listed trip runs against the arrow on its edge.\n**$B$ to $D$.**"
+    },
+    {
+      "id": "q7",
+      "question_text": "The number on each edge is the train journey time in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,3.0);\n\\coordinate (B) at (2.6,3.8);\n\\coordinate (C) at (4.6,2.0);\n\\coordinate (D) at (3.4,0);\n\\coordinate (E) at (0.8,0.2);\n\\draw (A)--(B) node[midway, above] {$22$};\n\\draw (B)--(C) node[midway, above right] {$47$};\n\\draw (C)--(D) node[midway, right] {$35$};\n\\draw (D)--(E) node[midway, below] {$60$};\n\\draw (E)--(A) node[midway, left] {$28$};\n\\draw (B)--(E) node[midway, right] {$41$};\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nHow long is the direct train journey between $B$ and $E$?",
+      "structure": "read-weighted-edge",
+      "mastery": false,
+      "options": [
+        { "text": "$41$ minutes", "correct": true },
+        { "text": "$28$ minutes", "why": "Reads the weight on $EA$, the other edge meeting $E$, instead of the edge joining $B$ and $E$." },
+        { "text": "$22$ minutes", "why": "Reads the weight on $AB$, the other edge meeting $B$, instead of the edge joining $B$ and $E$." },
+        { "text": "$69$ minutes", "why": "Adds the weights $22$ and $47$ along a route through other stations rather than reading the single direct edge." }
+      ],
+      "solution_text": "The edge joining $B$ and $E$ is drawn across the middle of the network.\nThe weight written on that edge is $41$.\n**$41$ minutes.**"
+    },
+    {
+      "id": "q8",
+      "question_text": "The network shows the direct roads between six towns.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.0,0);\n\\coordinate (C) at (4.0,0.6);\n\\coordinate (D) at (3.6,2.8);\n\\coordinate (E) at (1.6,3.4);\n\\coordinate (F) at (0,2.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (B)--(E);\n\\draw (B)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the sum of the degrees of all six vertices?",
+      "structure": "degree-sum-check",
+      "mastery": false,
+      "options": [
+        { "text": "$16$", "correct": true },
+        { "text": "$8$", "why": "Gives the number of edges rather than the degree sum, which counts each edge once at each of its two ends." },
+        { "text": "$12$", "why": "Counts only the six edges of the outer ring, missing the edges $BE$ and $BD$ drawn across the middle." },
+        { "text": "$32$", "why": "Doubles an already-doubled total, as if each edge added $2$ to the degree of both of the vertices it joins." }
+      ],
+      "solution_text": "$\\deg A=2$, $\\deg B=4$, $\\deg C=2$, $\\deg D=3$, $\\deg E=3$, $\\deg F=2$.\n$2+4+2+3+3+2$\n$=16$\nThe network has $8$ edges, and $2\\times 8=16$.\n**The degree sum is $16$.**"
+    },
+    {
+      "id": "q9",
+      "question_text": "Two students each drew five towns and the six roads between them.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (-0.6,2.4);\n\\coordinate (C) at (1.8,3.4);\n\\coordinate (D) at (3.6,1.8);\n\\coordinate (E) at (2.6,-0.4);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (A)--(C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\coordinate (A2) at (7.0,0);\n\\coordinate (B2) at (6.4,2.4);\n\\coordinate (C2) at (8.8,3.4);\n\\coordinate (D2) at (10.6,1.8);\n\\coordinate (E2) at (9.6,-0.4);\n\\draw (A2)--(B2);\n\\draw (B2)--(C2);\n\\draw (C2)--(D2);\n\\draw (D2)--(E2);\n\\draw (E2)--(A2);\n\\draw (B2)--(D2);\n\\fill (A2) circle (2.5pt);\n\\fill (B2) circle (2.5pt);\n\\fill (C2) circle (2.5pt);\n\\fill (D2) circle (2.5pt);\n\\fill (E2) circle (2.5pt);\n\\node[below left] at (A2) {$A$};\n\\node[left] at (B2) {$B$};\n\\node[above] at (C2) {$C$};\n\\node[right] at (D2) {$D$};\n\\node[below] at (E2) {$E$};\n\\node at (1.5,-1.6) {Drawing 1};\n\\node at (8.5,-1.6) {Drawing 2};\n\\end{tikzpicture}\n[/tikz]\nDo the two drawings show the same network?",
+      "structure": "same-graph-redrawn",
+      "mastery": true,
+      "options": [
+        { "text": "No — $A$ and $C$ are joined in Drawing 1 but not in Drawing 2.", "correct": true },
+        { "text": "Yes — both drawings have five vertices and six edges.", "why": "Compares totals only; two networks can share those totals while joining different pairs of towns." },
+        { "text": "Yes — both drawings have two vertices of degree $3$ and three of degree $2$.", "why": "Compares the list of degrees without checking that the same named towns carry them, and here they do not." },
+        { "text": "No — Drawing 2 has one more edge than Drawing 1.", "why": "Miscounts the edges; both drawings have exactly six, so the difference lies in which pairs are joined." }
+      ],
+      "solution_text": "Drawing 1 joins $AB$, $BC$, $CD$, $DE$, $EA$, $AC$.\nDrawing 2 joins $AB$, $BC$, $CD$, $DE$, $EA$, $BD$.\nThe first five pairs match, but the sixth road is $AC$ in one drawing and $BD$ in the other.\n**No — they are different networks.**"
+    },
+    {
+      "id": "q10",
+      "question_text": "The two roads that cross near the middle of this map are carried over one another by an overpass, so drivers cannot change roads there.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (2.0,3.8);\n\\coordinate (B) at (4.0,2.0);\n\\coordinate (C) at (3.2,-0.4);\n\\coordinate (D) at (0.8,-0.4);\n\\coordinate (E) at (0,2.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (A)--(C);\n\\draw (B)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nHow many vertices and how many edges does the network have?",
+      "structure": "count-vertices-edges",
+      "mastery": true,
+      "options": [
+        { "text": "$5$ vertices and $7$ edges", "correct": true },
+        { "text": "$6$ vertices and $7$ edges", "why": "Counts the overpass crossing as a sixth vertex, although no dot is drawn there and no roads meet." },
+        { "text": "$6$ vertices and $9$ edges", "why": "Counts the crossing as a vertex and then splits each of the two roads through it into two separate edges." },
+        { "text": "$5$ vertices and $5$ edges", "why": "Counts only the ring of roads around the outside and misses the two roads drawn across the middle." }
+      ],
+      "solution_text": "A vertex exists only where a dot is drawn, and the overpass has no dot.\nThe dots are $A$, $B$, $C$, $D$, $E$.\nThe edges are $AB$, $BC$, $CD$, $DE$, $EA$, $AC$, $BE$.\n**$5$ vertices and $7$ edges.**"
+    }
+  ]
+}

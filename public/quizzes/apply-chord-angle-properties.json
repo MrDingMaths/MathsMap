@@ -1,0 +1,173 @@
+{
+  "skillId": "apply-chord-angle-properties",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$AB$ is a diameter, and $C$ is a point on the circle, with $AB = 26$ cm and $AC = 10$ cm. $OM \\perp BC$ at $M$. Find $OM$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (2,0);\n\\coordinate (B) at (-2,0);\n\\coordinate (C) at (1.409,1.420);\n\\coordinate (M) at (-0.296,0.710);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below] {$O$};\n\\draw (A) -- (B) node[pos=0.75, below, fill=white, inner sep=1pt] {$26\\text{ cm}$};\n\\draw (A) -- (C) node[midway, above right, fill=white, inner sep=1pt] {$10\\text{ cm}$};\n\\draw (B) -- (C);\n\\draw (O) -- (M);\n\\node[right] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[left] at (M) {$M$};\n\\coordinate (Ca) at ($(C)!0.3cm!(A)$);\n\\coordinate (Cb) at ($(C)!0.3cm!(B)$);\n\\draw (Ca) -- ($(Ca)+(Cb)-(C)$) -- (Cb);\n\\coordinate (Ma) at ($(M)!0.3cm!(B)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(O)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "semicircle-then-chord-bisection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$ cm",
+          "correct": true
+        },
+        {
+          "text": "$24$ cm",
+          "why": "Finds $BC$ using Pythagoras' theorem in $\\triangle ABC$, but stops there instead of continuing on to find $OM$."
+        },
+        {
+          "text": "$12$ cm",
+          "why": "Finds $BM = BC \\div 2$ correctly (half of the chord) but gives this half-chord length as $OM$ instead of using Pythagoras' theorem with $OB$ to find the actual perpendicular distance."
+        }
+      ],
+      "solution_text": "$\\angle ACB = 90^{\\circ}$ (angle in a semicircle)\n$BC = \\sqrt{AB^2-AC^2} = \\sqrt{26^2-10^2} = \\sqrt{676-100} = \\sqrt{576} = 24$ cm\n$OB = 13$ cm (radius, half of $AB$)\n$BM = BC \\div 2 = 12$ cm (perpendicular from the centre bisects the chord)\n$OM = \\sqrt{OB^2-BM^2} = \\sqrt{13^2-12^2} = \\sqrt{169-144} = \\sqrt{25} = 5$ cm"
+    },
+    {
+      "id": "q2",
+      "question_text": "$AB = CD$ (equal chords) and $\\angle COD = 76^{\\circ}$. $E$ lies on the major arc $AB$. Find $\\angle AEB$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings, angles, quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[right] {$O$};\n\\coordinate (A) at (-1.732,1);\n\\coordinate (B) at (0.551,1.923);\n\\coordinate (C) at (1,-1.732);\n\\coordinate (D) at (-1.439,-1.389);\n\\coordinate (E) at (1.879,0.684);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (C) -- (D);\n\\draw (O) -- (C);\n\\draw (O) -- (D);\n\\draw (E) -- (A);\n\\draw (E) -- (B);\n\\pic[draw, \"76^{\\circ}\", angle radius=0.55cm, angle eccentricity=2] {angle = D--O--C};\n\\pic[draw, \"x\", angle radius=0.4cm, angle eccentricity=2] {angle = B--E--A};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equal-chord-central-circumference-chain",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$38^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$76^{\\circ}$",
+          "why": "Copies the central angle instead of halving it for the circumference angle."
+        },
+        {
+          "text": "$52^{\\circ}$",
+          "why": "Uses the complement ($90^{\\circ}-38^{\\circ}$) instead of the correct half."
+        }
+      ],
+      "solution_text": "$\\angle AOB = \\angle COD = 76^{\\circ}$ (equal chords subtend equal angles at the centre)\n$\\angle AEB = 76^{\\circ} \\div 2 = 38^{\\circ}$ (angle at the centre is twice the angle at the circumference)"
+    },
+    {
+      "id": "q3",
+      "question_text": "$ABCD$ is a cyclic quadrilateral, and $AC$ is a diameter. $\\angle BAC = 28^{\\circ}$. Find $\\angle BCA$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (1.732,1);\n\\coordinate (B) at (-1.798,0.877);\n\\coordinate (C) at (-1.732,-1);\n\\coordinate (D) at (0.209,-1.989);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw (A) -- (C);\n\\draw (O) circle (2);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\pic[draw, \"28^{\\circ}\", angle radius=0.4cm, angle eccentricity=2] {angle = B--A--C};\n\\pic[draw, \"33^{\\circ}\", angle radius=0.4cm, angle eccentricity=2] {angle = C--A--D};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "diameter-double-angle-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$62^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$28^{\\circ}$",
+          "why": "Copies the given angle instead of using the angle sum of the right-angled triangle."
+        },
+        {
+          "text": "$90^{\\circ}$",
+          "why": "Gives $\\angle ABC$, the semicircle angle, instead of the remaining angle $\\angle BCA$."
+        }
+      ],
+      "solution_text": "$\\angle ABC = 90^{\\circ}$ (angle in a semicircle)\n$\\angle BCA = 180^{\\circ}-90^{\\circ}-28^{\\circ} = 62^{\\circ}$ (angle sum of $\\triangle ABC$)"
+    },
+    {
+      "id": "q4",
+      "question_text": "$ABCD$ is a cyclic quadrilateral. $AB = AD$ (equal chords), and $\\angle BAD = 112^{\\circ}$. Find $\\angle BCA$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings, angles, quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (-1.854,0.749);\n\\coordinate (C) at (-0.347,-1.97);\n\\coordinate (D) at (1.854,0.749);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw (C) -- (A);\n\\draw (O) circle (2);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (A) -- (D);\n\\node[above] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\pic[draw, \"112^{\\circ}\", angle radius=0.55cm, angle eccentricity=2] {angle = B--A--D};\n\\pic[draw, \"x\", angle radius=0.4cm, angle eccentricity=2] {angle = A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equal-chord-bisects-via-opposite",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$34^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$68^{\\circ}$",
+          "why": "Finds $\\angle BCD$ but forgets that $CA$ bisects it into two equal parts."
+        },
+        {
+          "text": "$56^{\\circ}$",
+          "why": "Halves $\\angle BAD$ directly instead of first finding $\\angle BCD$ from the opposite-angle property."
+        }
+      ],
+      "solution_text": "$\\angle BCD = 180^{\\circ}-112^{\\circ} = 68^{\\circ}$ (opposite angles of a cyclic quadrilateral are supplementary)\n$AB = AD$, so $CA$ bisects $\\angle BCD$ (equal chords subtend equal angles at the circumference)\n$\\angle BCA = 68^{\\circ} \\div 2 = 34^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$BD$ is a diameter, so $ABCD$ has right angles at $A$ and $C$. $AB = 9$ cm, $AD = 12$ cm and $BC = 12$ cm. Find $DC$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (1.798,0.877);\n\\coordinate (B) at (-0.347,1.97);\n\\coordinate (C) at (-1.798,-0.877);\n\\coordinate (D) at (0.347,-1.97);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw (B) -- (D);\n\\draw (O) circle (2);\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[above right, fill=white, inner sep=1pt] at ($(A)!0.5!(B)$) {$9\\text{ cm}$};\n\\node[below right, fill=white, inner sep=1pt] at ($(A)!0.5!(D)$) {$12\\text{ cm}$};\n\\node[above left, fill=white, inner sep=1pt] at ($(B)!0.5!(C)$) {$12\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "shared-diameter-double-pythagoras",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$9$ cm",
+          "correct": true
+        },
+        {
+          "text": "$12$ cm",
+          "why": "Copies $BC$ instead of using Pythagoras' theorem with the shared diameter $BD$."
+        },
+        {
+          "text": "$18$ cm",
+          "why": "Adds $AB$ and $BC$ instead of applying Pythagoras' theorem in $\\triangle BCD$."
+        }
+      ],
+      "solution_text": "$\\angle BAD = 90^{\\circ}$ (angle in a semicircle), so $BD = \\sqrt{9^2+12^2} = \\sqrt{225} = 15$ cm\n$\\angle BCD = 90^{\\circ}$ (angle in a semicircle at $C$)\n$DC = \\sqrt{BD^2-BC^2} = \\sqrt{15^2-12^2} = \\sqrt{81} = 9$ cm"
+    },
+    {
+      "id": "q6",
+      "question_text": "$ABCD$ is a cyclic quadrilateral with centre $O$, and side $CD$ is extended to $E$. $\\angle AOC = 160^{\\circ}$. Find the exterior angle $\\angle ADE$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-1.532,1.286);\n\\coordinate (B) at (1.532,1.286);\n\\coordinate (C) at (1,-1.732);\n\\coordinate (D) at (-1.414,-1.414);\n\\coordinate (E) at (-2.863,-1.223);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw (O) circle (2);\n\\draw (D) -- (E);\n\\draw (O) -- (A);\n\\draw (O) -- (C);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\pic[draw, \"x\", angle radius=0.4cm, angle eccentricity=2] {angle = A--D--E};\n\\pic[draw, \"160^{\\circ}\", angle radius=0.55cm, angle eccentricity=2] {angle = C--O--A};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "exterior-to-central-chain",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$80^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$160^{\\circ}$",
+          "why": "Copies the central angle instead of halving it to find the circumference angle first."
+        },
+        {
+          "text": "$100^{\\circ}$",
+          "why": "Uses $180^{\\circ}$ minus half the central angle instead of the interior angle itself."
+        }
+      ],
+      "solution_text": "$\\angle ABC = 160^{\\circ} \\div 2 = 80^{\\circ}$ (angle at the centre is twice the angle at the circumference)\n$\\angle ADE = \\angle ABC = 80^{\\circ}$ (exterior angle equals the opposite interior angle)"
+    },
+    {
+      "id": "q7",
+      "question_text": "$AB = CD$ (equal chords). $E$ lies on the major arc $AB$, and $\\angle AEB = 27^{\\circ}$. $F$ lies on the major arc $CD$. Find $\\angle CFD$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings, angles, quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (A) at (-1.576,1.231);\n\\coordinate (B) at (0.07,1.999);\n\\coordinate (C) at (0.749,-1.854);\n\\coordinate (D) at (-1.06,-1.696);\n\\coordinate (E) at (1,-1.732);\n\\coordinate (F) at (-0.518,1.932);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\node[above] at (F) {$F$};\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (C) -- (D);\n\\draw (E) -- (A);\n\\draw (E) -- (B);\n\\draw (F) -- (C);\n\\draw (F) -- (D);\n\\pic[draw, \"27^{\\circ}\", angle radius=0.4cm, angle eccentricity=2] {angle = B--E--A};\n\\pic[draw, \"x\", angle radius=0.4cm, angle eccentricity=2] {angle = D--F--C};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equal-chords-equal-inscribed-transitive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$27^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$54^{\\circ}$",
+          "why": "Doubles the given angle, treating it as a central angle rather than another circumference angle."
+        },
+        {
+          "text": "$63^{\\circ}$",
+          "why": "Uses the complement instead of recognising the two circumference angles must be equal."
+        }
+      ],
+      "solution_text": "$AB = CD$, so $\\angle AOB = \\angle COD$ (equal chords subtend equal angles at the centre)\nBoth $\\angle AEB$ and $\\angle CFD$ equal half of their matching central angle, so $\\angle CFD = \\angle AEB = 27^{\\circ}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$AC$ is a diameter of a circle with centre $O$ and radius $10$ cm. $BD$ is a chord perpendicular to $AC$ at $M$, with $AM = 2$ cm. Find $BD$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-2,0);\n\\coordinate (C) at (2,0);\n\\coordinate (B) at (-1.6,1.2);\n\\coordinate (D) at (-1.6,-1.2);\n\\coordinate (M) at (-1.6,0);\n\\draw (A) -- (C);\n\\draw (O) circle (2);\n\\draw (B) -- (M);\n\\draw (M) -- (D);\n\\node[left] at (A) {$A$};\n\\node[right] at (C) {$C$};\n\\node[above] at (B) {$B$};\n\\node[below] at (D) {$D$};\n\\node[below right] at (M) {$M$};\n\\node[above, fill=white, inner sep=1pt] at ($(A)!0.5!(M)$) {$2\\text{ cm}$};\n\\coordinate (Ma) at ($(M)!0.3cm!(A)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(B)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "diameter-perpendicular-chord-pythagoras",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$12$ cm",
+          "correct": true
+        },
+        {
+          "text": "$16$ cm",
+          "why": "Uses $OM = 8$ correctly but doubles the wrong quantity, or miscalculates $BM$ from $10$ and $8$."
+        },
+        {
+          "text": "$6$ cm",
+          "why": "Finds $BM$ correctly but forgets that $M$ is the midpoint of $BD$, so $BD$ is double this."
+        }
+      ],
+      "solution_text": "$O$ lies on $AC$, so $OM \\perp BD$ too, and $M$ is the midpoint of $BD$ (perpendicular from the centre bisects the chord).\n$OM = 10 - 2 = 8$ cm\n$BM = \\sqrt{OB^2-OM^2} = \\sqrt{10^2-8^2} = \\sqrt{36} = 6$ cm\n$BD = 2 \\times 6 = 12$ cm"
+    }
+  ]
+}

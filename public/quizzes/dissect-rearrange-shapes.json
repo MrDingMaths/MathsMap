@@ -1,0 +1,109 @@
+{
+  "skillId": "dissect-rearrange-shapes",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A rectangle is cut along the dashed diagonal. What pieces are produced?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (C) at (4.5,2.5);\n\\coordinate (D) at (0,2.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-dissected-pieces",
+      "mastery": false,
+      "options": [
+        { "text": "$2$ right-angled triangles", "correct": true },
+        { "text": "$2$ rectangles", "why": "Treats the diagonal cut as if it were parallel to a side of the rectangle." },
+        { "text": "$4$ right-angled triangles", "why": "Counts four pieces as though both diagonals had been drawn instead of one." },
+        { "text": "$1$ triangle and $1$ quadrilateral", "why": "Stops the diagonal before the opposite corner, creating a shape not shown by the cut." }
+      ],
+      "solution_text": "A corner-to-corner diagonal divides the rectangle into two congruent halves.\n$2$ right-angled triangles"
+    },
+    {
+      "id": "q2",
+      "question_text": "A parallelogram is cut along the dashed line. Where should the left triangle be moved to make a rectangle?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.7,0);\n\\coordinate (C) at (6.1,2.6);\n\\coordinate (D) at (1.4,2.6);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (D)--(1.4,0);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "parallelogram-to-rectangle",
+      "mastery": false,
+      "options": [
+        { "text": "To the right edge", "correct": true },
+        { "text": "Above the top edge", "why": "Moves the triangle away from the sloping gap, so the outside boundary is not rectangular." },
+        { "text": "Below the base", "why": "Places the triangle outside the matching-height strip instead of filling the right-hand gap." },
+        { "text": "Back onto its original place", "why": "Makes no rearrangement, leaving the original parallelogram rather than a rectangle." }
+      ],
+      "solution_text": "The left triangle matches the gap beside the sloping right edge.\nTranslate it to the right edge."
+    },
+    {
+      "id": "q3",
+      "question_text": "A $42\\text{ cm}^{2}$ shape is cut into pieces and all pieces are rearranged without gaps or overlaps. What is the new area?",
+      "structure": "area-preserved",
+      "mastery": false,
+      "options": [
+        { "text": "$42\\text{ cm}^{2}$", "correct": true },
+        { "text": "$84\\text{ cm}^{2}$", "why": "Doubles the area because there are several pieces, even though no copy was added." },
+        { "text": "$21\\text{ cm}^{2}$", "why": "Halves the area because the shape was cut, although all pieces are still used." },
+        { "text": "$46\\text{ cm}^{2}$", "why": "Adds an arbitrary amount for the changed outline even though rearranging preserves surface." }
+      ],
+      "solution_text": "Every piece is still used once, so no surface is gained or lost.\n$42\\text{ cm}^{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "All pieces from a $30\\text{ cm}^{2}$ shape are rearranged. Two pieces overlap by $5\\text{ cm}^{2}$, and this is the only overlap. How much area is visibly covered?",
+      "structure": "overlap-reduces-covered-area",
+      "mastery": false,
+      "options": [
+        { "text": "$25\\text{ cm}^{2}$", "correct": true },
+        { "text": "$30\\text{ cm}^{2}$", "why": "Uses the total piece area but ignores that the 5-square-centimetre overlap is covered twice." },
+        { "text": "$35\\text{ cm}^{2}$", "why": "Adds the overlap even though overlapping reduces the visible union of the pieces." },
+        { "text": "$20\\text{ cm}^{2}$", "why": "Subtracts the 5-square-centimetre overlap twice instead of once." }
+      ],
+      "solution_text": "Subtract the part counted twice among the pieces.\n$30-5=25$\nThe visible area is $25\\text{ cm}^{2}$."
+    },
+    {
+      "id": "q5",
+      "question_text": "A $28\\text{ cm}^{2}$ collection of non-overlapping pieces is arranged inside an outline. The only uncovered region is a $6\\text{ cm}^{2}$ gap. What area does the outline enclose?",
+      "structure": "gap-increases-outline-area",
+      "mastery": false,
+      "options": [
+        { "text": "$34\\text{ cm}^{2}$", "correct": true },
+        { "text": "$28\\text{ cm}^{2}$", "why": "Reports only the pieces and omits the uncovered gap inside the outline." },
+        { "text": "$22\\text{ cm}^{2}$", "why": "Subtracts the gap even though it lies inside and adds to the enclosed area." },
+        { "text": "$40\\text{ cm}^{2}$", "why": "Adds the 6-square-centimetre gap twice instead of once." }
+      ],
+      "solution_text": "The outline contains both the pieces and the gap.\n$28+6=34$\nThe outline encloses $34\\text{ cm}^{2}$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Which move can join two congruent triangles to form a parallelogram?",
+      "structure": "join-triangles",
+      "mastery": false,
+      "options": [
+        { "text": "Rotate one triangle $180^{\\circ}$, then translate it", "correct": true },
+        { "text": "Enlarge one triangle, then translate it", "why": "Changes the size of one piece, so the matching sides no longer make the intended parallelogram." },
+        { "text": "Cut both triangles into smaller pieces", "why": "Introduces unnecessary new cuts when the two congruent triangles already have matching sides." },
+        { "text": "Place one triangle directly on top of the other", "why": "Creates complete overlap instead of joining the pieces to form a larger boundary." }
+      ],
+      "solution_text": "A half-turn reverses the copy so a corresponding side can meet the first triangle.\nRotate one triangle $180^{\\circ}$, then translate it."
+    },
+    {
+      "id": "q7",
+      "question_text": "A seven-piece puzzle makes a square. A second design uses only six of the pieces with no overlaps. Which statement is true?",
+      "structure": "missing-piece-area",
+      "mastery": true,
+      "options": [
+        { "text": "The second design has smaller area", "correct": true },
+        { "text": "Both designs have equal area", "why": "Applies area preservation despite one original piece being omitted from the second design." },
+        { "text": "The second design has larger area", "why": "Treats a more spread-out outline as greater area even though one piece is missing." },
+        { "text": "Their areas cannot be compared", "why": "Ignores that removing a positive-area piece must reduce the total area used." }
+      ],
+      "solution_text": "The second design omits one positive-area piece.\nThe second design has smaller area."
+    },
+    {
+      "id": "q8",
+      "question_text": "Ava and Ben each use every piece from the same dissection once, with no gaps or overlaps. Ava makes a rectangle and Ben makes an irregular shape. How do their areas compare?",
+      "structure": "compare-rearrangements",
+      "mastery": true,
+      "options": [
+        { "text": "Their areas are equal", "correct": true },
+        { "text": "Ava's area is larger", "why": "Assumes a regular rectangular outline covers more despite both arrangements using identical pieces." },
+        { "text": "Ben's area is larger", "why": "Assumes a longer irregular boundary creates more area without adding any pieces." },
+        { "text": "The shape with larger perimeter has larger area", "why": "Confuses perimeter with area; rearrangement can change boundary length while preserving total surface." }
+      ],
+      "solution_text": "Both use the same pieces exactly once, so their total covered surface is unchanged.\nTheir areas are equal."
+    }
+  ]
+}

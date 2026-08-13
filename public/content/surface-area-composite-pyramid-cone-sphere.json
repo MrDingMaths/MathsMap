@@ -1,0 +1,89 @@
+{
+  "skillId": "surface-area-composite-pyramid-cone-sphere",
+  "atomType": "R",
+  "theory": {
+    "intro": "A composite solid is built by joining simple solids — a cone or hemisphere on a cylinder, a pyramid on a prism, or hemispheres on the ends of a cylinder. Its surface area is the sum of every **outside** face, with one key adjustment: where two solids meet, the touching faces are hidden inside and are **not** counted. When a cone or hemisphere caps a cylinder of the same radius, the cylinder's top circle and the cap's own base circle both disappear.",
+    "facts": [
+      "Add the area of every **outside** surface; any face hidden where two solids join is not counted.",
+      "A cone contributes its **curved surface** $\\pi rl$; its base circle is hidden where it sits on another solid. Find the slant height first with $l = \\sqrt{r^{2} + h^{2}}$ if only the perpendicular height is given.",
+      "A hemisphere cap contributes its **curved surface** $2\\pi r^{2}$; the flat circle where it meets the solid below is hidden.",
+      "A cylinder contributes its **curved side** $2\\pi rh$, plus any end circle that is actually exposed.",
+      "A **capsule** (a hemisphere on each end of a cylinder) has two hemispheres that together make one whole sphere: $4\\pi r^{2} + 2\\pi rh$, with both flat ends hidden.",
+      "A square **pyramid on a prism** contributes the pyramid's four triangular faces and the prism's walls; the shared square where they meet is hidden on both.",
+      "Keep the working exact and round only on the last line."
+    ],
+    "steps": [
+      "Identify the simple solids and where they join.",
+      "Find each exposed face's area, leaving out every hidden contact face.",
+      "Add the areas, then round or leave in terms of $\\pi$ as asked."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.4,0) -- (-1.4,0.7);\n\\draw (1.4,0) -- (1.4,0.7);\n\\draw (-1.4,0) arc (180:360:1.4 and 0.4);\n\\draw[dashed] (1.4,0) arc (0:180:1.4 and 0.4);\n\\draw (-1.4,0.7) arc (180:360:1.4 and 0.4);\n\\draw[dashed] (1.4,0.7) arc (0:180:1.4 and 0.4);\n\\draw (-1.4,0.7) arc (180:0:1.4);\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(1.4,0) node[midway,below,fill=white,inner sep=1pt] {$4\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (-1.75,0)--(-1.75,0.7) node[midway,left] {$2\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA solid trophy is a hemisphere sitting on top of a closed cylinder. Find its total surface area, correct to $2$ decimal places.",
+        "solution_text": "The surfaces are the curved top hemisphere, the cylinder's curved side, and the bottom circle. The cylinder's top is hidden under the hemisphere.\n$A = 2\\pi r^{2} + 2\\pi rh + \\pi r^{2}$\n$= 2\\pi(4)^{2} + 2\\pi(4)(2) + \\pi(4)^{2}$\n$= 32\\pi + 16\\pi + 16\\pi$\n$= 64\\pi$\n$= 201.0619\\ldots$\n$\\approx 201.06\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,0) -- (-1.2,1.6);\n\\draw (1.2,0) -- (1.2,1.6);\n\\draw (-1.2,0) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,0) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,1.6) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,1.6) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,1.6) -- (0,3.2);\n\\draw (1.2,1.6) -- (0,3.2) node[midway,above right,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(1.2,0) node[midway,below,fill=white,inner sep=1pt] {$3\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (-1.55,0)--(-1.55,1.6) node[midway,left] {$4\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA silo is a cone on top of a closed cylinder. The cone has slant height $5$ cm. Find the total surface area of the silo, correct to $2$ decimal places.",
+        "solution_text": "The surfaces are the bottom circle, the cylinder's curved side, and the cone's curved surface. The cylinder's top and the cone's base are hidden where they meet.\n$A = \\pi r^{2} + 2\\pi rh + \\pi rl$\n$= \\pi(3)^{2} + 2\\pi(3)(4) + \\pi(3)(5)$\n$= 9\\pi + 24\\pi + 15\\pi$\n$= 48\\pi$\n$= 150.7964\\ldots$\n$\\approx 150.80\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,0) -- (0,-1.6);\n\\draw (1.2,0) -- (0,-1.6) node[midway,right,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\draw (-1.2,0) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,0) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,0) arc (180:0:1.2);\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(-1.2,0) node[midway,below,fill=white,inner sep=1pt] {$3\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nAn ice-cream is a hemisphere scoop on top of a cone. The cone has slant height $5$ cm and there is no flat base. Find the total surface area, correct to $2$ decimal places.",
+        "solution_text": "An ice-cream has only two curved surfaces: the hemisphere scoop and the cone's curved surface. There is no base circle.\n$A = 2\\pi r^{2} + \\pi rl$\n$= 2\\pi(3)^{2} + \\pi(3)(5)$\n$= 18\\pi + 15\\pi$\n$= 33\\pi$\n$= 103.6725\\ldots$\n$\\approx 103.67\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.5,0) -- (-1.5,1.25);\n\\draw (1.5,0) -- (1.5,1.25);\n\\draw (-1.5,0) arc (180:360:1.5 and 0.42);\n\\draw[dashed] (1.5,0) arc (0:180:1.5 and 0.42);\n\\draw (-1.5,1.25) arc (180:360:1.5 and 0.42);\n\\draw[dashed] (1.5,1.25) arc (0:180:1.5 and 0.42);\n\\draw (-1.5,1.25) arc (180:0:1.5);\n\\draw[{Stealth}-{Stealth}] (-1.5,0)--(1.5,0) node[midway,below,fill=white,inner sep=1pt] {$12\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (1.85,0)--(1.85,1.25) node[midway,right] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nAn ornament is a hemisphere sitting on top of a closed cylinder. The base has a diameter of $12$ cm. Find the total surface area, correct to $2$ decimal places.",
+        "solution_text": "First halve the diameter: $r = 12 \\div 2 = 6\\text{ cm}$.\nThe surfaces are the curved top hemisphere, the cylinder's curved side, and the bottom circle.\n$A = 2\\pi r^{2} + 2\\pi rh + \\pi r^{2}$\n$= 2\\pi(6)^{2} + 2\\pi(6)(5) + \\pi(6)^{2}$\n$= 72\\pi + 60\\pi + 36\\pi$\n$= 168\\pi$\n$= 527.7875\\ldots$\n$\\approx 527.79\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,0) -- (-1.2,1.4);\n\\draw (1.2,0) -- (1.2,1.4);\n\\draw (-1.2,0) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,0) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,1.4) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,1.4) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,1.4) -- (0,3.0);\n\\draw (1.2,1.4) -- (0,3.0) node[midway,above right,fill=white,inner sep=1pt] {$10\\text{ cm}$};\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(1.2,0) node[midway,below,fill=white,inner sep=1pt] {$6\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (-1.55,0)--(-1.55,1.4) node[midway,left] {$7\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA rocket model is a cone on top of a closed cylinder, with cone slant height $10$ cm. Find its total surface area, correct to $2$ decimal places.",
+        "solution_text": "The surfaces are the bottom circle, the cylinder's curved side, and the cone's curved surface. The cylinder's top and the cone's base are hidden where they meet.\n$A = \\pi r^{2} + 2\\pi rh + \\pi rl$\n$= \\pi(6)^{2} + 2\\pi(6)(7) + \\pi(6)(10)$\n$= 36\\pi + 84\\pi + 60\\pi$\n$= 180\\pi$\n$= 565.4867\\ldots$\n$\\approx 565.49\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.2,0) -- (0,-2.618);\n\\draw (1.2,0) -- (0,-2.618) node[midway,right,fill=white,inner sep=1pt] {$12\\text{ cm}$};\n\\draw (-1.2,0) arc (180:360:1.2 and 0.35);\n\\draw[dashed] (1.2,0) arc (0:180:1.2 and 0.35);\n\\draw (-1.2,0) arc (180:0:1.2);\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(-1.2,0) node[midway,below,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nAn ice-cream is a hemisphere scoop on top of a cone of slant height $12$ cm, with no flat base. Find its total surface area, correct to $2$ decimal places.",
+        "solution_text": "The surfaces are the hemisphere scoop and the cone's curved surface only.\n$A = 2\\pi r^{2} + \\pi rl$\n$= 2\\pi(5)^{2} + \\pi(5)(12)$\n$= 50\\pi + 60\\pi$\n$= 110\\pi$\n$= 345.5751\\ldots$\n$\\approx 345.58\\text{ cm}^{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A vitamin capsule is a cylinder of radius $4$ mm and length $10$ mm with a hemisphere on each end. Find its total surface area, correct to $2$ decimal places.",
+        "solution_text": "The two hemispheres together make one full sphere, and both flat ends of the cylinder are hidden.\n$A = 4\\pi r^{2} + 2\\pi rh$\n$= 4\\pi(4)^{2} + 2\\pi(4)(10)$\n$= 64\\pi + 80\\pi$\n$= 144\\pi$\n$= 452.3893\\ldots$\n$\\approx 452.39\\text{ mm}^{2}$"
+      },
+      {
+        "question_text": "A monument is a square pyramid on top of a rectangular prism. The prism has a square base of side $10$ m and height $6$ m, and the pyramid has slant height $13$ m. The whole outer surface, including the base resting on the ground, is to be clad. Find the total area to be clad.",
+        "solution_text": "The prism contributes its four side walls and its base; its top is hidden under the pyramid. The pyramid contributes its four triangular faces; its base is hidden.\n$A = 4(10)(6) + (10)^{2} + 4\\left(\\frac{1}{2}(10)(13)\\right)$\n$= 240 + 100 + 260$\n$= 600\\text{ m}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.0,0) -- (-1.0,1.2);\n\\draw (1.0,0) -- (1.0,1.2);\n\\draw (-1.0,0) arc (180:360:1.0 and 0.3);\n\\draw[dashed] (1.0,0) arc (0:180:1.0 and 0.3);\n\\draw (-1.0,1.2) arc (180:360:1.0 and 0.3);\n\\draw[dashed] (1.0,1.2) arc (0:180:1.0 and 0.3);\n\\draw (-1.0,1.2) -- (0,3.6);\n\\draw (1.0,1.2) -- (0,3.6);\n\\draw[dashed] (0,1.2) -- (0,3.6) node[midway,right,fill=white,inner sep=1pt] {$12\\text{ cm}$};\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(1.0,0) node[midway,below,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (-1.35,0)--(-1.35,1.2) node[midway,left] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA silo is a cone on top of a closed cylinder. The cone's **perpendicular** height is $12$ cm. Find the total surface area, correct to $2$ decimal places.",
+        "solution_text": "First find the cone's slant height:\n$l = \\sqrt{r^{2} + h^{2}}$\n$= \\sqrt{5^{2} + 12^{2}}$\n$= \\sqrt{169}$\n$= 13\\text{ cm}$\nThe surfaces are the bottom circle, the cylinder's curved side, and the cone's curved surface.\n$A = \\pi(5)^{2} + 2\\pi(5)(6) + \\pi(5)(13)$\n$= 25\\pi + 60\\pi + 65\\pi$\n$= 150\\pi$\n$= 471.2388\\ldots$\n$\\approx 471.24\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.05,0) -- (-1.05,1.5);\n\\draw (1.05,0) -- (1.05,1.5);\n\\draw (-1.05,0) arc (180:360:1.05 and 0.3);\n\\draw[dashed] (1.05,0) arc (0:180:1.05 and 0.3);\n\\draw (-1.05,1.5) arc (180:360:1.05 and 0.3);\n\\draw[dashed] (1.05,1.5) arc (0:180:1.05 and 0.3);\n\\draw (-1.05,1.5) arc (180:0:1.05);\n\\fill (0,0) circle (1.2pt);\n\\draw[-{Stealth}] (0,0)--(1.05,0) node[midway,below,fill=white,inner sep=1pt] {$7\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (-1.4,0)--(-1.4,1.5) node[midway,left] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA solid trophy is a hemisphere on top of a closed cylinder. Find its total surface area in exact form, in terms of $\\pi$.",
+        "solution_text": "The surfaces are the curved top hemisphere, the cylinder's curved side, and the bottom circle. The cylinder's top is hidden under the hemisphere.\n$A = 2\\pi r^{2} + 2\\pi rh + \\pi r^{2}$\n$= 2\\pi(7)^{2} + 2\\pi(7)(10) + \\pi(7)^{2}$\n$= 98\\pi + 140\\pi + 49\\pi$\n$= 287\\pi\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "An ice-cream is a hemisphere scoop on a cone (no flat base). The scoop has radius $6$ cm and the cone has perpendicular height $8$ cm. Find the total surface area, correct to $2$ decimal places.",
+        "solution_text": "First find the cone's slant height:\n$l = \\sqrt{6^{2} + 8^{2}}$\n$= \\sqrt{100}$\n$= 10\\text{ cm}$\nThe surfaces are the hemisphere scoop and the cone's curved surface only.\n$A = 2\\pi(6)^{2} + \\pi(6)(10)$\n$= 72\\pi + 60\\pi$\n$= 132\\pi$\n$= 414.6902\\ldots$\n$\\approx 414.69\\text{ cm}^{2}$"
+      },
+      {
+        "question_text": "A silo is a cone on top of a closed cylinder of radius $4$ cm and height $10$ cm; the cone has slant height $5$ cm. A student found the surface area by adding the whole surface area of a closed cylinder to the whole surface area of the cone. Explain the error, then find the correct surface area, correct to $2$ decimal places.",
+        "solution_text": "Where the cone sits on the cylinder, the cylinder's top circle and the cone's base circle touch and are hidden inside, so the student counted $2\\pi r^{2}$ too much. The real surface is the bottom circle, the cylinder's curved side, and the cone's curved surface.\n$A = \\pi(4)^{2} + 2\\pi(4)(10) + \\pi(4)(5)$\n$= 16\\pi + 80\\pi + 20\\pi$\n$= 116\\pi$\n$= 364.4247\\ldots$\n$\\approx 364.42\\text{ cm}^{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A grain silo is a cylinder with a hemisphere on top. The cylinder has radius $24$ m and height $30$ m. The silo stands on the ground, so only the curved outside — the cylinder's side and the hemisphere — is to be painted. Find the area to be painted, correct to $1$ decimal place.",
+        "solution_text": "The base rests on the ground and is not painted. The painted surface is the cylinder's curved side and the hemisphere's curved top.\n$A = 2\\pi rh + 2\\pi r^{2}$\n$= 2\\pi(24)(30) + 2\\pi(24)^{2}$\n$= 1440\\pi + 1152\\pi$\n$= 2592\\pi$\n$= 8143.0072\\ldots$\n$\\approx 8143.0\\text{ m}^{2}$"
+      },
+      {
+        "question_text": "A capsule is a cylinder of radius $3$ cm with a hemisphere on each end. Its total surface area is $90\\pi$ cm². Find the length of the cylinder.",
+        "solution_text": "The two hemispheres make a full sphere, and both flat ends are hidden.\n$4\\pi r^{2} + 2\\pi rh = 90\\pi$\n$4\\pi(3)^{2} + 2\\pi(3)h = 90\\pi$\n$36\\pi + 6\\pi h = 90\\pi$\n$6\\pi h = 54\\pi$\n$h = 9\\text{ cm}$"
+      },
+      {
+        "question_text": "A solid has a cylinder of diameter $4$ cm and height $3$ cm standing centred on the flat face of a hemisphere of diameter $6$ cm. Find the total surface area of the solid, correct to $1$ decimal place.",
+        "solution_text": "The cylinder has radius $2$ cm and the hemisphere radius $3$ cm.\nSeen from above, the cylinder's top circle and the exposed ring of the hemisphere's flat face together make the full flat circle of radius $3$, area $\\pi(3)^{2}$. Add the cylinder's curved side and the hemisphere's curved underside.\n$A = \\pi(3)^{2} + 2\\pi(2)(3) + 2\\pi(3)^{2}$\n$= 9\\pi + 12\\pi + 18\\pi$\n$= 39\\pi$\n$= 122.5221\\ldots$\n$\\approx 122.5\\text{ cm}^{2}$"
+      }
+    ]
+  }
+}

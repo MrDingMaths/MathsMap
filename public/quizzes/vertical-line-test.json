@@ -1,0 +1,181 @@
+{
+  "skillId": "vertical-line-test",
+  "coverageNote": "Each graph shape and the two decision outcomes are mirrored once with fresh graphs/coordinates distinct from the practice set.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick,<->] (-2,-2.4)--(2,2.4);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — every vertical line meets it at exactly one point.",
+          "correct": true
+        },
+        {
+          "text": "No — a horizontal line meets the graph more than once.",
+          "why": "The horizontal line test checks a different property; a function is decided by vertical lines."
+        },
+        {
+          "text": "No — the line is too steep to be a function.",
+          "why": "Steepness (gradient) has no effect on whether a graph is a function."
+        },
+        {
+          "text": "Yes — because it passes through the origin.",
+          "why": "Passing through the origin is irrelevant to the vertical line test."
+        }
+      ],
+      "solution_text": "Every vertical line meets this straight line at exactly one point.\nYes, it is a function."
+    },
+    {
+      "id": "q2",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick,<->,domain=-1.7:1.7,smooth,samples=60,variable=\\y] plot ({2-\\y*\\y},{\\y});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — a vertical line cuts this sideways parabola at two points.",
+          "correct": true
+        },
+        {
+          "text": "Yes — it passes the vertical line test.",
+          "why": "A vertical line through the opening cuts the curve twice, so it fails."
+        },
+        {
+          "text": "No — because the curve is not a straight line.",
+          "why": "Many curves that are not straight lines (upright parabolas, cubics) are still functions."
+        },
+        {
+          "text": "Yes — every $y$-value comes from exactly one $x$-value.",
+          "why": "That is the horizontal line test; the vertical line test asks about $y$ from each $x$."
+        }
+      ],
+      "solution_text": "A vertical line through the mouth of this left-opening parabola cuts it at two points.\nNo, it is not a function."
+    },
+    {
+      "id": "q3",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick,<->,domain=-1.9:1.9,smooth,samples=60,variable=\\x] plot ({\\x},{0.6*\\x*\\x-1});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — no vertical line meets the parabola more than once.",
+          "correct": true
+        },
+        {
+          "text": "No — the parabola has two branches going up.",
+          "why": "The two arms belong to one curve; a vertical line still meets it once."
+        },
+        {
+          "text": "No — it fails because it has a lowest point.",
+          "why": "Having a turning point does not affect the vertical line test."
+        },
+        {
+          "text": "Yes — but only for positive values of $x$.",
+          "why": "It passes for every $x$, not only positive ones."
+        }
+      ],
+      "solution_text": "Every vertical line meets this upright parabola exactly once.\nYes, it is a function."
+    },
+    {
+      "id": "q4",
+      "question_text": "This circle is not a function. Which pair of points on it shows that it fails the vertical line test?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick] (0,0) circle (2);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "give-two-points",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(0, 2)$ and $(0, -2)$",
+          "correct": true
+        },
+        {
+          "text": "$(2, 0)$ and $(-2, 0)$",
+          "why": "These have different $x$-values, so they are not on a single vertical line."
+        },
+        {
+          "text": "$(0, 2)$ and $(2, 0)$",
+          "why": "These have different $x$-values ($0$ and $2$), so no single vertical line passes through both."
+        },
+        {
+          "text": "$(2, 0)$ and $(0, -2)$",
+          "why": "These have different $x$-values, so they do not lie on one vertical line."
+        }
+      ],
+      "solution_text": "Two points fail the test when they share an $x$-value.\nThe vertical line $x = 0$ meets the circle at $(0, 2)$ and $(0, -2)$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick] (-2.6,1.6)--(-0.5,-1);\n\\draw[thick] (-0.5,1)--(2.6,1.9);\n\\draw[fill=white,thick] (-0.5,-1) circle (2.5pt);\n\\fill (-0.5,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — the open point is not on the graph, so each vertical line meets it once.",
+          "correct": true
+        },
+        {
+          "text": "No — at $x = -0.5$ the graph has two points.",
+          "why": "One of the two points at $x=-0.5$ is open, so it is not on the graph; only one point counts."
+        },
+        {
+          "text": "No — the graph is drawn in two separate pieces.",
+          "why": "A graph in pieces can still be a function; what matters is the vertical line test."
+        },
+        {
+          "text": "Yes — because both pieces are straight lines.",
+          "why": "Being straight is not the reason; a vertical straight piece could still fail."
+        }
+      ],
+      "solution_text": "At $x = -0.5$ the open point $(-0.5, -1)$ is not on the graph, so only the filled point $(-0.5, 1)$ counts.\nEvery vertical line meets the graph once.\nYes, it is a function."
+    },
+    {
+      "id": "q6",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick,<->] (-2,-2.6)--(-2,2.6);\n\\node[below right,font=\\scriptsize] at (-2,0) {$-2$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — a vertical line lies along it, meeting it at infinitely many points.",
+          "correct": true
+        },
+        {
+          "text": "Yes — a straight line is always a function.",
+          "why": "A vertical straight line is the exception: it fails the vertical line test."
+        },
+        {
+          "text": "Yes — it meets the $x$-axis at exactly one point.",
+          "why": "Meeting the $x$-axis once is not the test; a vertical test line still cuts it many times."
+        },
+        {
+          "text": "No — because it never touches the $y$-axis.",
+          "why": "Whether it touches the $y$-axis is irrelevant to the test."
+        }
+      ],
+      "solution_text": "The graph is a vertical line at $x = -2$, so the vertical test line at $x = -2$ lies along it and meets it everywhere.\nNo, it is not a function."
+    },
+    {
+      "id": "q7",
+      "question_text": "Use the vertical line test. Is this graph a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0)--(3,0) node[right] {$x$};\n\\draw[->] (0,-3)--(0,3) node[above] {$y$};\n\\draw[thick] (-2,0) arc (180:360:2);\n\\fill (-2,0) circle (2pt);\n\\fill (2,0) circle (2pt);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — this is only the lower half of a circle, so each vertical line meets it once.",
+          "correct": true
+        },
+        {
+          "text": "No — a circle is never a function.",
+          "why": "This is only half a circle; a vertical line meets the single arc just once."
+        },
+        {
+          "text": "No — it dips below the $x$-axis.",
+          "why": "Being below the $x$-axis does not affect the vertical line test."
+        },
+        {
+          "text": "Yes — but only between $x = -2$ and $x = 0$.",
+          "why": "It passes across the whole arc from $x=-2$ to $x=2$, not just part of it."
+        }
+      ],
+      "solution_text": "Only the bottom arc is drawn, so any vertical line meets it at most once.\nYes, it is a function."
+    }
+  ]
+}

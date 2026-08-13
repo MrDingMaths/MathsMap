@@ -1,0 +1,305 @@
+{
+  "skillId": "prove-properties-triangles-quadrilaterals",
+  "questions": [
+    {
+      "id": "q1",
+      "structure": "para-opposite-sides-triangles",
+      "mastery": false,
+      "question_text": "To prove that the opposite sides of parallelogram $ABCD$ are equal, the diagonal $AC$ is drawn. Which pair of triangles must be proved congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6,2.2);\n\\coordinate (D) at (1.4,2.2);\n\\draw[sa] (A)--(B);\n\\draw[da] (B)--(C);\n\\draw[sa] (D)--(C);\n\\draw[da] (A)--(D);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\triangle ABC$ and $\\triangle CDA$",
+          "correct": true
+        },
+        {
+          "text": "$\\triangle ABD$ and $\\triangle CDB$",
+          "why": "These are the two triangles formed by the diagonal $BD$; the construction draws $AC$, which splits $ABCD$ into $\\triangle ABC$ and $\\triangle ACD$."
+        },
+        {
+          "text": "$\\triangle ABC$ and $\\triangle ABD$",
+          "why": "$\\triangle ABD$ is formed by the undrawn diagonal $BD$, so this pairs a triangle across $AC$ with one across $BD$, which do not correspond."
+        },
+        {
+          "text": "$\\triangle ABC$ and $\\triangle BCD$",
+          "why": "The diagonal $AC$ gives $\\triangle ACD$ as the far half, not $\\triangle BCD$, which is cut off by the other diagonal $BD$."
+        }
+      ],
+      "solution_text": "In $\\triangle ABC$ and $\\triangle CDA$: $\\angle BAC = \\angle DCA$ and $\\angle BCA = \\angle DAC$ (alternate angles), $AC$ common, so $\\triangle ABC \\cong \\triangle CDA$ (AAS)."
+    },
+    {
+      "id": "q2",
+      "structure": "para-diagonals-bisect-reason",
+      "mastery": false,
+      "question_text": "In the proof that the diagonals of parallelogram $ABCD$ bisect each other at $E$, what is the reason that $\\angle BAE = \\angle DCE$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6,2.2);\n\\coordinate (D) at (1.4,2.2);\n\\draw[sa] (A)--(B);\n\\draw[da] (B)--(C);\n\\draw[sa] (D)--(C);\n\\draw[da] (A)--(D);\n\\coordinate (E) at (3,1.1);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (3.15,1.25) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "Alternate angles, $AB \\parallel DC$",
+          "correct": true
+        },
+        {
+          "text": "Corresponding angles, $AB \\parallel DC$",
+          "why": "Corresponding angles sit on the same side of the transversal in matching positions; these two are on opposite sides, so they are alternate."
+        },
+        {
+          "text": "Co-interior angles, $AB \\parallel DC$",
+          "why": "Co-interior angles are supplementary, not equal, so they cannot justify two equal angles."
+        },
+        {
+          "text": "Vertically opposite angles",
+          "why": "Vertically opposite angles share a single vertex; $\\angle BAE$ and $\\angle DCE$ are at the different vertices $A$ and $C$."
+        }
+      ],
+      "solution_text": "$AC$ is a transversal cutting the parallel sides $AB$ and $DC$, so $\\angle BAE = \\angle DCE$ as alternate angles."
+    },
+    {
+      "id": "q3",
+      "structure": "isosceles-base-angles-test",
+      "mastery": false,
+      "question_text": "$\\triangle ABC$ is isosceles with $AB = AC$ and $M$ is the midpoint of $BC$. Which congruence test proves $\\triangle ABM \\cong \\triangle ACM$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (2.2,3.4);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.4,0);\n\\coordinate (M) at (2.2,0);\n\\draw[tk2] (A)--(B);\n\\draw[tk2] (A)--(C);\n\\draw[tk] (B)--(M);\n\\draw[tk] (M)--(C);\n\\draw (A)--(M);\n\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "SSS",
+          "correct": true
+        },
+        {
+          "text": "SAS",
+          "why": "SAS needs the equal angle to sit between two known equal sides; no angle is given equal here, only the three sides."
+        },
+        {
+          "text": "AAS",
+          "why": "AAS needs two pairs of equal angles; only sides are known equal ($AB=AC$, $BM=CM$, $AM$ common)."
+        },
+        {
+          "text": "RHS",
+          "why": "RHS needs a marked right angle and equal hypotenuses, neither of which is given at this stage."
+        }
+      ],
+      "solution_text": "$AB = AC$ (given), $BM = CM$ (midpoint), $AM$ is common, so $\\triangle ABM \\cong \\triangle ACM$ (SSS)."
+    },
+    {
+      "id": "q4",
+      "structure": "rhombus-diagonals-perpendicular-complete",
+      "mastery": false,
+      "question_text": "In rhombus $ABCD$ the diagonals meet at $E$, and $\\triangle ABE \\cong \\triangle ADE$ has been proved. Which statement correctly completes the proof that the diagonals are perpendicular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (5.178,3.236);\n\\coordinate (D) at (1.578,3.236);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\coordinate (E) at (2.589,1.618);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (2.74,1.76) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\angle AEB = \\angle AED$, and they are angles on a straight line, so each is $90^{\\circ}$.",
+          "correct": true
+        },
+        {
+          "text": "$\\angle AEB = 90^{\\circ}$ because a rhombus is a rectangle.",
+          "why": "A rhombus is not a rectangle, and rectangles are defined by right angles at the vertices, not at the diagonal intersection."
+        },
+        {
+          "text": "The diagonals are equal, so they meet at $90^{\\circ}$.",
+          "why": "Equal diagonals do not imply perpendicular diagonals, and a rhombus does not have equal diagonals."
+        },
+        {
+          "text": "$\\angle AEB = \\angle ADE$, so $\\angle AEB = 90^{\\circ}$.",
+          "why": "$\\angle ADE$ is a base angle of the triangle, not the intersection angle, and it is not $90^{\\circ}$."
+        }
+      ],
+      "solution_text": "The congruence gives $\\angle AEB = \\angle AED$; since $\\angle AEB + \\angle AED = 180^{\\circ}$ (straight line $BD$), each is $90^{\\circ}$."
+    },
+    {
+      "id": "q5",
+      "structure": "square-diagonals-equal-test",
+      "mastery": false,
+      "question_text": "To prove the diagonals of square $ABCD$ are equal, $\\triangle ABC$ and $\\triangle DCB$ are compared. Which congruence test is used?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (3.4,3.4);\n\\coordinate (D) at (0,3.4);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\coordinate (sap) at ($(A)!0.3cm!(B)$);\n\\coordinate (saq) at ($(A)!0.3cm!(D)$);\n\\draw (sap)--($(sap)+(saq)-(A)$)--(saq);\n\\coordinate (sbp) at ($(B)!0.3cm!(C)$);\n\\coordinate (sbq) at ($(B)!0.3cm!(A)$);\n\\draw (sbp)--($(sbp)+(sbq)-(B)$)--(sbq);\n\\coordinate (scp) at ($(C)!0.3cm!(D)$);\n\\coordinate (scq) at ($(C)!0.3cm!(B)$);\n\\draw (scp)--($(scp)+(scq)-(C)$)--(scq);\n\\coordinate (sdp) at ($(D)!0.3cm!(A)$);\n\\coordinate (sdq) at ($(D)!0.3cm!(C)$);\n\\draw (sdp)--($(sdp)+(sdq)-(D)$)--(sdq);\n\\coordinate (E) at (1.7,1.7);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (1.82,1.82) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "SAS",
+          "correct": true
+        },
+        {
+          "text": "SSS",
+          "why": "The diagonals $AC$ and $DB$ are what we are trying to prove equal, so they cannot be used as a known equal pair of sides."
+        },
+        {
+          "text": "AAS",
+          "why": "Only one pair of equal angles (the right angles) is known, and the shared side sits between the equal sides, pointing to SAS."
+        },
+        {
+          "text": "RHS",
+          "why": "RHS matches hypotenuses, but here the equal sides $AB=DC$ are legs and the right angle is included between the known sides."
+        }
+      ],
+      "solution_text": "$AB = DC$ (square sides), $\\angle ABC = \\angle DCB = 90^{\\circ}$, $BC$ common, so $\\triangle ABC \\cong \\triangle DCB$ (SAS), giving $AC = DB$."
+    },
+    {
+      "id": "q6",
+      "structure": "kite-congruent-triangles",
+      "mastery": false,
+      "question_text": "To prove that one pair of opposite angles of kite $ABCD$ (with $AB = AD$ and $CB = CD$) is equal, which pair of triangles is proved congruent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,2.7);\n\\coordinate (B) at (2.1,0);\n\\coordinate (C) at (0,-3.1);\n\\coordinate (D) at (-2.1,0);\n\\draw[tk] (A)--(B);\n\\draw[tk] (A)--(D);\n\\draw[tk2] (C)--(B);\n\\draw[tk2] (C)--(D);\n\\draw (A)--(C);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\triangle ABC$ and $\\triangle ADC$",
+          "correct": true
+        },
+        {
+          "text": "$\\triangle ABD$ and $\\triangle CBD$",
+          "why": "These use the cross diagonal $BD$; the axis diagonal $AC$ is the one that pairs the equal sides of the kite."
+        },
+        {
+          "text": "$\\triangle ABC$ and $\\triangle ABD$",
+          "why": "$\\triangle ABD$ is formed by the cross diagonal $BD$, so it does not pair with $\\triangle ABC$ across the drawn axis $AC$."
+        },
+        {
+          "text": "$\\triangle ABD$ and $\\triangle ACD$",
+          "why": "This mixes a triangle from diagonal $BD$ ($\\triangle ABD$) with one from $AC$ ($\\triangle ACD$); the axis $AC$ pairs $\\triangle ABC$ with $\\triangle ADC$."
+        }
+      ],
+      "solution_text": "$AB = AD$, $CB = CD$, $AC$ common, so $\\triangle ABC \\cong \\triangle ADC$ (SSS), giving $\\angle ABC = \\angle ADC$."
+    },
+    {
+      "id": "q7",
+      "structure": "para-diagonals-bisect-conclusion",
+      "mastery": false,
+      "question_text": "In parallelogram $ABCD$ the diagonals meet at $E$ and $\\triangle ABE \\cong \\triangle CDE$ has been proved. Which conclusion follows about the diagonals?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6,2.2);\n\\coordinate (D) at (1.4,2.2);\n\\draw[sa] (A)--(B);\n\\draw[da] (B)--(C);\n\\draw[sa] (D)--(C);\n\\draw[da] (A)--(D);\n\\coordinate (E) at (3,1.1);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (3.15,1.25) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$AE = CE$ and $BE = DE$, so the diagonals bisect each other.",
+          "correct": true
+        },
+        {
+          "text": "$AC = BD$, so the diagonals are equal.",
+          "why": "The congruence matches half-diagonals, and a parallelogram does not in general have equal diagonals."
+        },
+        {
+          "text": "$AE = BE$, so the diagonals bisect each other.",
+          "why": "$AE$ and $BE$ are not matching sides of the congruent triangles, so they need not be equal."
+        },
+        {
+          "text": "The diagonals meet at right angles.",
+          "why": "The congruence gives equal lengths, not a right angle; perpendicular diagonals need a further argument and hold only for a rhombus."
+        }
+      ],
+      "solution_text": "Matching sides give $AE = CE$ and $BE = DE$, so each diagonal is cut into two equal parts, that is the diagonals bisect each other."
+    },
+    {
+      "id": "q8",
+      "structure": "isosceles-median-perpendicular-reason",
+      "mastery": false,
+      "question_text": "$\\triangle ABC$ is isosceles with $AB = AC$ and $M$ the midpoint of $BC$. After proving $\\triangle ABM \\cong \\triangle ACM$, why is $\\angle AMB = 90^{\\circ}$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (2.2,3.4);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.4,0);\n\\coordinate (M) at (2.2,0);\n\\draw[tk2] (A)--(B);\n\\draw[tk2] (A)--(C);\n\\draw[tk] (B)--(M);\n\\draw[tk] (M)--(C);\n\\draw (A)--(M);\n\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\angle AMB = \\angle AMC$, and they add to $180^{\\circ}$ on the straight line $BC$, so each is $90^{\\circ}$.",
+          "correct": true
+        },
+        {
+          "text": "$M$ is the midpoint of $BC$, so $\\angle AMB = 90^{\\circ}$.",
+          "why": "A midpoint alone does not create a right angle; a line to a midpoint need not be perpendicular."
+        },
+        {
+          "text": "The triangle is equilateral, so all angles are $90^{\\circ}$.",
+          "why": "The triangle is isosceles, not necessarily equilateral, and equilateral angles are $60^{\\circ}$, not $90^{\\circ}$."
+        },
+        {
+          "text": "$AM$ is the shortest side, so it meets $BC$ at $90^{\\circ}$.",
+          "why": "Being shortest does not force a right angle, and this is not established by the congruence."
+        }
+      ],
+      "solution_text": "The congruence gives $\\angle AMB = \\angle AMC$; since they are angles on the straight line $BC$ they add to $180^{\\circ}$, so each is $90^{\\circ}$."
+    },
+    {
+      "id": "q9",
+      "structure": "equilateral-equiangular-reason",
+      "mastery": true,
+      "question_text": "To prove the equilateral triangle $ABC$ is equiangular, a student argues: since $AB = AC$, $\\angle B = \\angle C$; since $CA = CB$, $\\angle A = \\angle B$. Which property justifies each step?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (1.7,2.94);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.4,0);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(A);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "The base angles of an isosceles triangle are equal.",
+          "correct": true
+        },
+        {
+          "text": "The angle sum of a triangle is $180^{\\circ}$.",
+          "why": "The angle sum gives a total, not that two particular angles are equal, which is what each step asserts."
+        },
+        {
+          "text": "An exterior angle equals the sum of the two interior opposite angles.",
+          "why": "No exterior angle is used; each step compares two interior angles of the same triangle."
+        },
+        {
+          "text": "A triangle with all sides equal has all angles $90^{\\circ}$.",
+          "why": "Equal sides do not make right angles; the angles of an equilateral triangle are $60^{\\circ}$."
+        }
+      ],
+      "solution_text": "Each pair of equal angles is obtained by applying the isosceles base-angle property to a pair of equal sides; together they give $\\angle A = \\angle B = \\angle C$."
+    },
+    {
+      "id": "q10",
+      "structure": "square-diagonals-bisect-conclusion",
+      "mastery": true,
+      "question_text": "In square $ABCD$ the diagonals meet at $E$. Using $AE = CE$ (diagonals bisect) and $AB = CB$, the triangles $\\triangle ABE$ and $\\triangle CBE$ are proved congruent. Which conclusion is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc}\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (3.4,3.4);\n\\coordinate (D) at (0,3.4);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\coordinate (sap) at ($(A)!0.3cm!(B)$);\n\\coordinate (saq) at ($(A)!0.3cm!(D)$);\n\\draw (sap)--($(sap)+(saq)-(A)$)--(saq);\n\\coordinate (sbp) at ($(B)!0.3cm!(C)$);\n\\coordinate (sbq) at ($(B)!0.3cm!(A)$);\n\\draw (sbp)--($(sbp)+(sbq)-(B)$)--(sbq);\n\\coordinate (scp) at ($(C)!0.3cm!(D)$);\n\\coordinate (scq) at ($(C)!0.3cm!(B)$);\n\\draw (scp)--($(scp)+(scq)-(C)$)--(scq);\n\\coordinate (sdp) at ($(D)!0.3cm!(A)$);\n\\coordinate (sdq) at ($(D)!0.3cm!(C)$);\n\\draw (sdp)--($(sdp)+(sdq)-(D)$)--(sdq);\n\\coordinate (E) at (1.7,1.7);\n\\draw (A)--(C);\n\\draw (B)--(D);\n\\node[above left] at (1.82,1.82) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\angle AEB = \\angle CEB = 90^{\\circ}$, so the diagonals meet at right angles.",
+          "correct": true
+        },
+        {
+          "text": "$\\angle AEB = 60^{\\circ}$, so the triangles are equilateral.",
+          "why": "The intersection angles are found from a straight line ($180^{\\circ}$ shared equally), giving $90^{\\circ}$, not $60^{\\circ}$."
+        },
+        {
+          "text": "$AC$ and $BD$ are unequal, so the diagonals do not bisect.",
+          "why": "A square has equal diagonals, and the given already states the diagonals bisect each other."
+        },
+        {
+          "text": "$\\angle ABE = 90^{\\circ}$, so the diagonals are perpendicular.",
+          "why": "$\\angle ABE$ is an angle of the triangle at vertex $B$, not the angle at the intersection $E$ where perpendicularity is measured."
+        }
+      ],
+      "solution_text": "The congruence gives $\\angle AEB = \\angle CEB$; as angles on the straight line $AC$ they add to $180^{\\circ}$, so each is $90^{\\circ}$ and the diagonals are perpendicular."
+    },
+    {
+      "id": "q11",
+      "structure": "rectangle-opposite-sides-reason",
+      "mastery": false,
+      "question_text": "To prove the opposite sides of rectangle $ABCD$ are equal, the diagonal $AC$ is drawn. Why is $AB \\parallel DC$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (4.8,2.8);\n\\coordinate (D) at (0,2.8);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\coordinate (rap) at ($(A)!0.3cm!(B)$);\n\\coordinate (raq) at ($(A)!0.3cm!(D)$);\n\\draw (rap)--($(rap)+(raq)-(A)$)--(raq);\n\\coordinate (rbp) at ($(B)!0.3cm!(C)$);\n\\coordinate (rbq) at ($(B)!0.3cm!(A)$);\n\\draw (rbp)--($(rbp)+(rbq)-(B)$)--(rbq);\n\\coordinate (rcp) at ($(C)!0.3cm!(D)$);\n\\coordinate (rcq) at ($(C)!0.3cm!(B)$);\n\\draw (rcp)--($(rcp)+(rcq)-(C)$)--(rcq);\n\\coordinate (rdp) at ($(D)!0.3cm!(A)$);\n\\coordinate (rdq) at ($(D)!0.3cm!(C)$);\n\\draw (rdp)--($(rdp)+(rdq)-(D)$)--(rdq);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\angle DAB$ and $\\angle ADC$ are co-interior angles that add to $180^{\\circ}$, so $AB \\parallel DC$.",
+          "correct": true
+        },
+        {
+          "text": "$AB = DC$, so $AB \\parallel DC$.",
+          "why": "Equal length does not make two segments parallel, and $AB = DC$ is what the proof is trying to establish."
+        },
+        {
+          "text": "$AB$ and $DC$ are vertically opposite, so they are parallel.",
+          "why": "Vertically opposite describes angles at one point, not two opposite sides of a rectangle."
+        },
+        {
+          "text": "The diagonals are equal, so $AB \\parallel DC$.",
+          "why": "Equal diagonals do not force a pair of sides to be parallel; the parallelism comes from the supplementary co-interior angles."
+        }
+      ],
+      "solution_text": "$\\angle DAB = \\angle ADC = 90^{\\circ}$, so they add to $180^{\\circ}$; as co-interior angles that are supplementary, $AB \\parallel DC$."
+    },
+    {
+      "id": "q12",
+      "structure": "isosceles-bisector-bisects-base-test",
+      "mastery": false,
+      "question_text": "In isosceles $\\triangle ABC$ ($AB = AC$), the line $AM$ bisects the apex angle $\\angle BAC$. Which congruence test proves $\\triangle ABM \\cong \\triangle ACM$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,decorations.markings}\n\\tikzset{tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (2.2,3.4);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4.4,0);\n\\coordinate (M) at (2.2,0);\n\\draw[tk2] (A)--(B);\n\\draw[tk2] (A)--(C);\n\\draw (B)--(C);\n\\draw (A)--(M);\n\\pic[draw,angle radius=0.7cm]{angle=B--A--M};\n\\pic[draw,angle radius=0.7cm]{angle=M--A--C};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "SAS",
+          "correct": true
+        },
+        {
+          "text": "SSS",
+          "why": "Only one pair of sides ($AB = AC$) plus the common side is known; $BM$ and $CM$ equal is the conclusion, not a given."
+        },
+        {
+          "text": "AAS",
+          "why": "AAS needs two pairs of equal angles, but only the bisected apex angle is known equal, with the equal parts around it being sides."
+        },
+        {
+          "text": "RHS",
+          "why": "No right angle is given at this stage, so the right-angle-hypotenuse-side test does not apply."
+        }
+      ],
+      "solution_text": "$AB = AC$ (given), $\\angle BAM = \\angle CAM$ (bisector), $AM$ common, and the equal angle sits between the two equal sides, so $\\triangle ABM \\cong \\triangle ACM$ (SAS)."
+    }
+  ]
+}

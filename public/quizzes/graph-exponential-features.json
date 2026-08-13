@@ -1,0 +1,104 @@
+{
+  "skillId": "graph-exponential-features",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Is the exponential curve $y=6^x$ growth or decay?",
+      "structure": "nature-growth",
+      "mastery": false,
+      "options": [
+        { "text": "Exponential growth", "correct": true },
+        { "text": "Exponential decay", "why": "A base greater than $1$ makes the curve increase; decay needs a base between $0$ and $1$." },
+        { "text": "Neither; it is a straight line", "why": "An exponential curve is never a straight line, whatever its base." }
+      ],
+      "solution_text": "The base is $6$, which is greater than $1$.\nSo the curve is increasing: exponential growth."
+    },
+    {
+      "id": "q2",
+      "question_text": "Is the exponential curve $y=\\left(\\tfrac{1}{4}\\right)^x$ growth or decay?",
+      "structure": "nature-decay",
+      "mastery": false,
+      "options": [
+        { "text": "Exponential decay", "correct": true },
+        { "text": "Exponential growth", "why": "A base between $0$ and $1$ makes the curve decrease; growth needs a base greater than $1$." },
+        { "text": "It stays constant", "why": "An exponential curve with base $\\tfrac{1}{4}$ changes at every step; only a base of $1$ is constant." }
+      ],
+      "solution_text": "The base is $\\tfrac{1}{4}$, which is between $0$ and $1$.\nSo the curve is decreasing: exponential decay."
+    },
+    {
+      "id": "q3",
+      "question_text": "State the $y$-intercept of $y=5(2)^x$.",
+      "structure": "y-intercept",
+      "mastery": false,
+      "options": [
+        { "text": "$(0,5)$", "correct": true },
+        { "text": "$(0,1)$", "why": "Ignored the coefficient $5$; the coefficient in $y=k(a)^x$ becomes the $y$-intercept." },
+        { "text": "$(0,10)$", "why": "Multiplied the coefficient by the base; at $x=0$ the base term is $2^0=1$, giving $5(1)=5$." },
+        { "text": "$(0,2)$", "why": "Used the base $2$ as the $y$-intercept instead of the coefficient $5$." }
+      ],
+      "solution_text": "At $x=0$, $y=5(2)^0=5(1)=5$.\nThe $y$-intercept is $(0,5)$."
+    },
+    {
+      "id": "q4",
+      "question_text": "State the equation of the horizontal asymptote of $y=4^x+2$.",
+      "structure": "asymptote",
+      "mastery": false,
+      "options": [
+        { "text": "$y=2$", "correct": true },
+        { "text": "$y=0$", "why": "Used the asymptote of $y=4^x$; the $+2$ raises the whole curve so the asymptote is $y=2$." },
+        { "text": "$y=4$", "why": "Used the base as the asymptote; the asymptote is set by the constant term, here $2$." },
+        { "text": "$x=2$", "why": "Named a vertical line; an exponential curve has a horizontal asymptote, $y=2$." }
+      ],
+      "solution_text": "The $+2$ raises the whole curve, so the horizontal asymptote is $y=2$."
+    },
+    {
+      "id": "q5",
+      "question_text": "For $y=4^{-x}$, describe what happens to $y$ as $x\\to\\infty$ and as $x\\to-\\infty$.",
+      "structure": "end-behaviour",
+      "mastery": false,
+      "options": [
+        { "text": "As $x\\to\\infty$, $y\\to0$; as $x\\to-\\infty$, $y\\to\\infty$", "correct": true },
+        { "text": "As $x\\to\\infty$, $y\\to\\infty$; as $x\\to-\\infty$, $y\\to0$", "why": "Described a growth curve; $y=4^{-x}$ decays, so it falls toward $0$ as $x$ increases." },
+        { "text": "As $x\\to\\infty$, $y\\to\\infty$; as $x\\to-\\infty$, $y\\to-\\infty$", "why": "An exponential curve never goes to $-\\infty$ on one side; it approaches the asymptote $y=0$." }
+      ],
+      "solution_text": "$y=4^{-x}=\\left(\\tfrac{1}{4}\\right)^x$ is decay.\nAs $x\\to\\infty$, $y\\to0$; as $x\\to-\\infty$, $y\\to\\infty$."
+    },
+    {
+      "id": "q6",
+      "question_text": "State the $y$-intercept of $y=2^x-5$.",
+      "structure": "y-intercept-translate",
+      "mastery": false,
+      "options": [
+        { "text": "$(0,-4)$", "correct": true },
+        { "text": "$(0,-5)$", "why": "Forgot that $2^0=1$; the $y$-intercept is $1-5=-4$, not just the constant." },
+        { "text": "$(0,1)$", "why": "Used the intercept of $y=2^x$ and ignored the $-5$ shift." }
+      ],
+      "solution_text": "At $x=0$, $y=2^0-5=1-5=-4$.\nThe $y$-intercept is $(0,-4)$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The exponential curve $y=2^x+1$ is shown. State the equation of its horizontal asymptote.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.3,xmax=3,ymin=-1,ymax=10,xtick={-3,-2,...,2},ytick={0,2,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.3:3.1,samples=100] {exp(x*ln(2))+1};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$y=1$", "correct": true },
+        { "text": "$y=0$", "why": "Read the asymptote as the $x$-axis; the curve levels off one unit higher, at $y=1$." },
+        { "text": "$y=2$", "why": "Used the $y$-intercept the curve passes through instead of the level it flattens toward." }
+      ],
+      "solution_text": "As $x$ becomes very negative the curve flattens toward the line one unit above the $x$-axis.\nThe horizontal asymptote is $y=1$."
+    },
+    {
+      "id": "q8",
+      "question_text": "For $y=-3^x+4$, find the $y$-intercept and the horizontal asymptote.",
+      "structure": "reflect-translate",
+      "mastery": true,
+      "options": [
+        { "text": "$y$-intercept $(0,3)$, asymptote $y=4$", "correct": true },
+        { "text": "$y$-intercept $(0,4)$, asymptote $y=4$", "why": "Forgot the $-3^0=-1$ term; the $y$-intercept is $-1+4=3$, not $4$." },
+        { "text": "$y$-intercept $(0,3)$, asymptote $y=0$", "why": "Used the asymptote of $y=3^x$; the $+4$ shift moves the asymptote to $y=4$." },
+        { "text": "$y$-intercept $(0,1)$, asymptote $y=4$", "why": "Ignored the negative sign; at $x=0$ the term is $-3^0=-1$, giving $-1+4=3$." }
+      ],
+      "solution_text": "At $x=0$, $y=-3^0+4=-1+4=3$, so the $y$-intercept is $(0,3)$.\nThe curve levels off at its constant term, so the asymptote is $y=4$."
+    }
+  ]
+}

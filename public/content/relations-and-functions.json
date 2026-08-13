@@ -1,0 +1,86 @@
+{
+  "skillId": "relations-and-functions",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "A **relation** is any association that pairs values of one set (the inputs, $x$) with values of another set (the outputs, $y$). A **function** is a special relation in which **each input is paired with exactly one output**. We can show a relation as a mapping (arrow) diagram or as a set of ordered pairs $(x, y)$.",
+    "facts": [
+      "Every function is a relation, but not every relation is a function.",
+      "A relation is a function when **no input value is paired with two different outputs**.",
+      "In a mapping diagram, a function has **exactly one arrow leaving each input**. Two inputs sending arrows to the same output is still allowed.",
+      "In a set of ordered pairs, a **repeated $x$-value with different $y$-values** means it is not a function."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$2$};\n\\node (L1) at (0,0) {$5$};\n\\node (L2) at (0,-1.3) {$8$};\n\\node (R0) at (3.4,1.3) {$3$};\n\\node (R1) at (3.4,0) {$6$};\n\\node (R2) at (3.4,-1.3) {$9$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R0);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Each input $2$, $5$ and $8$ has exactly one arrow leaving it.\nTwo inputs ($2$ and $5$) sharing the output $3$ is allowed.\nYes, it is a function."
+      },
+      {
+        "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$1$};\n\\node (L1) at (0,0) {$3$};\n\\node (L2) at (0,-1.3) {$4$};\n\\node (R0) at (3.4,1.3) {$2$};\n\\node (R1) at (3.4,0) {$5$};\n\\node (R2) at (3.4,-1.3) {$7$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L0)--(R1);\n\\draw[->] (L1)--(R2);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The input $1$ has two arrows leaving it — one to $2$ and one to $5$.\nAn input paired with two outputs breaks the rule.\nNo, it is not a function.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$1$};\n\\node (L1) at (0,0) {$3$};\n\\node (L2) at (0,-1.3) {$4$};\n\\node (R0) at (3.4,1.3) {$2$};\n\\node (R1) at (3.4,0) {$5$};\n\\node (R2) at (3.4,-1.3) {$7$};\n\\draw[->,red,line width=1.3pt] (L0)--(R0);\n\\draw[->,red,line width=1.3pt] (L0)--(R1);\n\\draw[->] (L1)--(R2);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Does the set of ordered pairs $\\{(1, 4),\\ (2, 4),\\ (5, 7)\\}$ represent a function?",
+        "solution_text": "The inputs are $1$, $2$ and $5$ — all different.\nEach input has exactly one output (two inputs sharing the output $4$ is allowed).\nYes, it is a function."
+      },
+      {
+        "question_text": "Does the set of ordered pairs $\\{(3, 2),\\ (3, 8),\\ (6, 1)\\}$ represent a function?",
+        "solution_text": "The input $3$ appears twice, paired with $2$ and with $8$.\nOne input has two different outputs.\nNo, it is not a function."
+      },
+      {
+        "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$2$};\n\\node (L1) at (0,0) {$4$};\n\\node (L2) at (0,-1.3) {$6$};\n\\node (R0) at (3.4,1.3) {$1$};\n\\node (R1) at (3.4,0) {$3$};\n\\node (R2) at (3.4,-1.3) {$5$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Each input $2$, $4$ and $6$ has exactly one arrow leaving it.\nYes, it is a function."
+      },
+      {
+        "question_text": "The relation $\\{(-2, 5),\\ (4, 1),\\ (-2, 9)\\}$ is not a function. Which input value is the reason?",
+        "solution_text": "A relation fails to be a function when an input is paired with two outputs.\nThe input $-2$ is paired with $5$ and with $9$.\nThe input $-2$ is the reason."
+      },
+      {
+        "question_text": "Complete the definition by choosing the correct words: \"A relation is a function when every ______ is paired with exactly one ______.\"",
+        "solution_text": "The allowable values fed in are the inputs; the values produced are the outputs.\nEvery **input** is paired with exactly one **output**."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.6) {$1$};\n\\node (L1) at (0,0.55) {$2$};\n\\node (L2) at (0,-0.55) {$3$};\n\\node (L3) at (0,-1.6) {$4$};\n\\node (R0) at (3.4,0.9) {$5$};\n\\node (R1) at (3.4,-0.9) {$8$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R0);\n\\draw[->] (L2)--(R0);\n\\draw[->] (L3)--(R0);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Every input $1$, $2$, $3$ and $4$ has exactly one arrow leaving it — all to $5$.\nMany inputs sharing one output is allowed; the rule only forbids one input having two outputs.\nYes, it is a function."
+      },
+      {
+        "question_text": "This mapping diagram is not a function. Which input value is the reason?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$3$};\n\\node (L1) at (0,0) {$6$};\n\\node (L2) at (0,-1.3) {$9$};\n\\node (R0) at (3.4,0.9) {$2$};\n\\node (R1) at (3.4,-0.9) {$4$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L2)--(R0);\n\\draw[->] (L2)--(R1);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Look for an input with more than one arrow leaving it.\nThe input $9$ has two arrows — one to $2$ and one to $4$.\nThe input $9$ is the reason.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$3$};\n\\node (L1) at (0,0) {$6$};\n\\node (L2) at (0,-1.3) {$9$};\n\\node (R0) at (3.4,0.9) {$2$};\n\\node (R1) at (3.4,-0.9) {$4$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->,red,line width=1.3pt] (L2)--(R0);\n\\draw[->,red,line width=1.3pt] (L2)--(R1);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Does the set of ordered pairs $\\{(-3, 4),\\ (0, 4),\\ (3, 4),\\ (5, 4)\\}$ represent a function?",
+        "solution_text": "The inputs are $-3$, $0$, $3$ and $5$ — all different.\nEvery input has exactly one output, even though the output is always $4$.\nYes, it is a function."
+      },
+      {
+        "question_text": "Does the set of ordered pairs $\\{(7, 2),\\ (-1, 3),\\ (7, 8),\\ (2, 3)\\}$ represent a function?",
+        "solution_text": "The input $7$ appears twice, paired with $2$ and with $8$.\nOne input has two different outputs.\nNo, it is not a function."
+      },
+      {
+        "question_text": "This table lists a relation between $x$ and $y$. Does it represent a function?\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 2 \\\\ \\hline y & 5 & 6 & 7 & 9 \\end{array}$",
+        "solution_text": "Read the input values across the top row: $1$, $2$, $3$, $2$.\nThe input $2$ appears twice, paired with $6$ and with $9$.\nNo, it is not a function."
+      },
+      {
+        "question_text": "Two relations are given.\n$P = \\{(1, 2),\\ (1, 3),\\ (4, 5)\\}$\n$Q = \\{(1, 2),\\ (3, 2),\\ (4, 5)\\}$\nExactly one of them is a function. Which one, and why?",
+        "solution_text": "In $P$ the input $1$ is paired with $2$ and with $3$, so $P$ is not a function.\nIn $Q$ the inputs $1$, $3$ and $4$ are all different, each with one output.\n$Q$ is the function."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The relation $\\{(2, 3),\\ (4, 5),\\ (a, 7)\\}$ must be a function. State the values of $a$ that are **not** allowed, and explain.",
+        "solution_text": "The relation fails only if an input is repeated with a different output.\nIf $a = 2$, then $2$ is paired with $3$ and with $7$; if $a = 4$, then $4$ is paired with $5$ and with $7$.\n$a = 2$ and $a = 4$ are not allowed."
+      },
+      {
+        "question_text": "Decide whether this mapping diagram is a function, and justify your answer using the definition of a function.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$0$};\n\\node (L1) at (0,0) {$1$};\n\\node (L2) at (0,-1.3) {$2$};\n\\node (R0) at (3.4,0.9) {$4$};\n\\node (R1) at (3.4,-0.9) {$6$};\n\\draw[->] (L1)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L0)--(R0);\n\\draw[->] (L2)--(R1);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "A function pairs each input with exactly one output.\nThe input $1$ has two arrows leaving it, to $4$ and to $6$, so it is paired with two outputs.\nThat breaks the definition, so it is not a function.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$0$};\n\\node (L1) at (0,0) {$1$};\n\\node (L2) at (0,-1.3) {$2$};\n\\node (R0) at (3.4,0.9) {$4$};\n\\node (R1) at (3.4,-0.9) {$6$};\n\\draw[->,red,line width=1.3pt] (L1)--(R0);\n\\draw[->,red,line width=1.3pt] (L1)--(R1);\n\\draw[->] (L0)--(R0);\n\\draw[->] (L2)--(R1);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Explain why every function is a relation, but not every relation is a function. Support your answer with one example of each (use ordered pairs).",
+        "solution_text": "A relation is any pairing of inputs with outputs, so a function — which pairs each input with exactly one output — is automatically a relation.\nThe reverse can fail: a relation may pair an input with two outputs.\nFunction: $\\{(1, 2),\\ (3, 2)\\}$; relation that is not a function: $\\{(1, 2),\\ (1, 5)\\}$."
+      }
+    ],
+    "coverageNote": "A yes/no categorical skill: variety comes from the two representations (mapping diagrams, ordered-pair sets/tables) and the function/not-function cases; no further structural types exist without drifting into function-notation."
+  }
+}

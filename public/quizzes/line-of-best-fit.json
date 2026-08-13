@@ -1,0 +1,151 @@
+{
+  "skillId": "line-of-best-fit",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The scatter plot below shows the age and resale value of $8$ electric cars, with three candidate lines of best fit, $A$, $B$ and $C$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Age vs resale value};\n\\fill (1,19) circle (2.2pt);\n\\fill (2,17.5) circle (2.2pt);\n\\fill (3,16) circle (2.2pt);\n\\fill (4,14.5) circle (2.2pt);\n\\fill (5,12) circle (2.2pt);\n\\fill (6,11) circle (2.2pt);\n\\fill (7,9) circle (2.2pt);\n\\fill (8,8) circle (2.2pt);\n\\draw[thick] (1,19)--(8,8);\n\\node[right,font=\\footnotesize] at (8,8) {$A$};\n\\draw[thick,dashed] (0,20.57)--(9,6.43);\n\\node[right,font=\\footnotesize] at (9,6.43) {$B$};\n\\draw[thick,dotted] (1,21)--(8,10);\n\\node[right,font=\\footnotesize] at (8,10) {$C$};\n\\end{tikzpicture}\n[/tikz]\nWhich line is the most appropriate line of best fit for this data?",
+      "structure": "draw-lobf-from-scatter",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "Follows the same trend as $A$ but extends past age $1$ and age $8$ to the axes — a line of best fit should stop at the edges of the plotted points, not extrapolate beyond them."
+        },
+        {
+          "text": "$C$",
+          "why": "Sits above nearly every point, so almost all the data lies below it instead of being balanced on both sides."
+        }
+      ],
+      "solution_text": "$A$ passes close to the cloud of points with a similar number above and below it, and it stops at the edges of the data.\n$B$ extends past the data range, and $C$ sits above almost every point.\n$A$ is the most appropriate line of best fit."
+    },
+    {
+      "id": "q2",
+      "question_text": "A line of best fit has been drawn on the scatter plot below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Age vs resale value};\n\\fill (1,19) circle (2.2pt);\n\\fill (3,16) circle (2.2pt);\n\\fill (5,12) circle (2.2pt);\n\\fill (6,11) circle (2.2pt);\n\\fill (8,8) circle (2.2pt);\n\\draw[thick] (1,19)--(3,16);\n\\draw[thick] (3,16)--(5,12);\n\\draw[thick] (5,12)--(6,11);\n\\draw[thick] (6,11)--(8,8);\n\\end{tikzpicture}\n[/tikz]\nIs this an appropriate line of best fit?",
+      "structure": "judge-single-line-appropriateness",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — it is not a single straight line; a line of best fit must be one straight line through the trend.",
+          "correct": true
+        },
+        {
+          "text": "Yes — it passes through every point exactly.",
+          "why": "Mistakes passing through every point for being an appropriate line of best fit; a line of best fit is a single straight trend line, not a join-the-dots path."
+        },
+        {
+          "text": "No — it doesn't extend across the full range of the grid.",
+          "why": "Invokes the wrong criterion; a line of best fit should stop at the data range, not fill the whole grid."
+        },
+        {
+          "text": "Yes — because it has points on both sides of it.",
+          "why": "Checks the balance criterion but ignores that the line is not straight, which is itself a defect."
+        }
+      ],
+      "solution_text": "The line bends at every point instead of running as one straight line.\nNo — it is not a single straight line."
+    },
+    {
+      "id": "q3",
+      "question_text": "A line of best fit has been drawn on the scatter plot below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Age vs resale value};\n\\fill (1,19) circle (2.2pt);\n\\fill (2,17.5) circle (2.2pt);\n\\fill (3,16) circle (2.2pt);\n\\fill (4,14.5) circle (2.2pt);\n\\fill (5,12) circle (2.2pt);\n\\fill (6,11) circle (2.2pt);\n\\fill (7,9) circle (2.2pt);\n\\fill (8,8) circle (2.2pt);\n\\draw[thick] (1,19)--(8,8);\n\\end{tikzpicture}\n[/tikz]\nIs this an appropriate line of best fit?",
+      "structure": "judge-single-line-appropriateness",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — it follows the trend, stays close to most points with a similar number above and below, and does not extend past the data.",
+          "correct": true
+        },
+        {
+          "text": "No — it doesn't pass through every point.",
+          "why": "Wrongly expects a line of best fit to pass exactly through every plotted point."
+        },
+        {
+          "text": "No — a line of best fit must start at the origin.",
+          "why": "Assumes a line of best fit always begins at $(0,0)$, which is not a requirement."
+        },
+        {
+          "text": "No — the line should extend beyond the plotted data to make predictions.",
+          "why": "Reverses the actual rule, which says not to extend the line beyond the data range."
+        }
+      ],
+      "solution_text": "The line is straight, stops at age $1$ and age $8$, and passes close to the points with a mix above and below.\nYes — this is an appropriate line of best fit."
+    },
+    {
+      "id": "q4",
+      "question_text": "The scatter plot below shows the age and resale value of $8$ second-hand cars.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Second-hand car age vs resale value};\n\\fill (1,10) circle (2.2pt);\n\\fill (2,16) circle (2.2pt);\n\\fill (3,8) circle (2.2pt);\n\\fill (4,18) circle (2.2pt);\n\\fill (5,9) circle (2.2pt);\n\\fill (6,15) circle (2.2pt);\n\\fill (7,7) circle (2.2pt);\n\\fill (8,17) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]\nWould a line of best fit be an appropriate way to describe this data?",
+      "structure": "no-trend-recognition",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — the points show no clear linear trend, so no single straight line would represent the data well.",
+          "correct": true
+        },
+        {
+          "text": "Yes — a line of best fit can always be drawn through any scatter plot.",
+          "why": "Assumes a line of best fit is always appropriate, regardless of whether the data shows a trend."
+        },
+        {
+          "text": "Yes, as long as the line passes through the middle of the grid.",
+          "why": "Assumes any line placed centrally is valid, ignoring whether it actually represents the scatter."
+        },
+        {
+          "text": "No — there are too many points to fit a line.",
+          "why": "Blames the number of points rather than the actual shape of the scatter for why a line would not fit."
+        }
+      ],
+      "solution_text": "Old and young second-hand cars both have high and low resale values, with no consistent rise or fall as age increases.\nNo — there is no clear trend, so a line of best fit would not represent this data well."
+    },
+    {
+      "id": "q5",
+      "question_text": "Two lines of best fit have been drawn on the same scatter plot below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Age vs resale value};\n\\fill (1,19) circle (2.2pt);\n\\fill (2,17.5) circle (2.2pt);\n\\fill (3,16) circle (2.2pt);\n\\fill (4,14.5) circle (2.2pt);\n\\fill (5,12) circle (2.2pt);\n\\fill (6,11) circle (2.2pt);\n\\fill (7,9) circle (2.2pt);\n\\fill (8,8) circle (2.2pt);\n\\draw[thick,red] (1,19)--(8,8);\n\\node[red,right,font=\\footnotesize] at (8,8) {Line 1};\n\\draw[thick,blue,dashed] (1,21)--(8,5);\n\\node[blue,right,font=\\footnotesize] at (8,5) {Line 2};\n\\end{tikzpicture}\n[/tikz]\nWhich line is the better line of best fit? Explain your answer.",
+      "structure": "compare-two-lines",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Line 1 — it stays closer to the points overall, with a similar number above and below.",
+          "correct": true
+        },
+        {
+          "text": "Line 2 — it is steeper, so it must be more accurate.",
+          "why": "Assumes a steeper line is automatically a better fit, rather than checking how close it actually stays to the points."
+        },
+        {
+          "text": "Both are equally good, since they are both straight lines through the data.",
+          "why": "Assumes any straight line through the data is equally valid, ignoring how closely each one fits the points."
+        },
+        {
+          "text": "Line 2 — because it passes closer to the highest point.",
+          "why": "Judges the fit using only one extreme point instead of the overall closeness to all the points."
+        }
+      ],
+      "solution_text": "Line 1 passes close to most of the points with a reasonable balance above and below.\nLine 2 overshoots the trend — it sits well above the early points and well below the later ones.\nLine 1 is the better line of best fit."
+    },
+    {
+      "id": "q6",
+      "question_text": "A line of best fit has been drawn on the scatter plot below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (9,20);\n\\draw[-{Stealth}] (0,0) -- (9.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,21.4);\n\\foreach \\x/\\lbl in {0/0,1/1,2/2,3/3,4/4,5/5,6/6,7/7,8/8,9/9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/0,2/2,4/4,6/6,8/8,10/10,12/12,14/14,16/16,18/18,20/20} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.3,10.0) {Resale value (\\$1000s)};\n\\node[below] at (4.5,-1.0) {Age (years)};\n\\node at (4.5,21.1) {Age vs resale value};\n\\fill (1,19) circle (2.2pt);\n\\fill (2,17.5) circle (2.2pt);\n\\fill (3,16) circle (2.2pt);\n\\fill (4,14.5) circle (2.2pt);\n\\fill (5,12) circle (2.2pt);\n\\fill (6,11) circle (2.2pt);\n\\fill (7,9) circle (2.2pt);\n\\fill (8,8) circle (2.2pt);\n\\draw[thick] (1,14)--(8,13);\n\\end{tikzpicture}\n[/tikz]\nIs this an appropriate line of best fit?",
+      "structure": "judge-single-line-appropriateness",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — the line is far too flat; it doesn't reflect the clear downward trend in the data.",
+          "correct": true
+        },
+        {
+          "text": "Yes — it has roughly equal points above and below.",
+          "why": "Checks only the balance criterion while ignoring that the line sits far from the points and does not follow the trend."
+        },
+        {
+          "text": "No — the line needs to curve to fit the data.",
+          "why": "Wrongly assumes a straight line can never fit steadily decreasing data."
+        },
+        {
+          "text": "Yes — because it is a single straight line within the data range.",
+          "why": "Checks only straightness and range while ignoring that the line does not follow the trend closely."
+        }
+      ],
+      "solution_text": "The data falls from about $\\$19\\,000$ to $\\$8\\,000$, but this line barely changes height across the same range.\nNo — the line is far too flat and does not follow the downward trend."
+    }
+  ]
+}

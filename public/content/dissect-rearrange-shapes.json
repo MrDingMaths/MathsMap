@@ -13,5 +13,73 @@
       "Move the pieces to form a simpler shape, such as a rectangle.",
       "The area is unchanged, so find the area of the simpler shape."
     ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A rectangle is cut along its diagonal. How many pieces are made, and what shape is each piece?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (4,2.4);\n\\coordinate (D) at (0,2.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The diagonal divides the rectangle into two pieces.\nEach piece is a right-angled triangle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (4,2.4);\\coordinate (D) at (0,2.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[thick] (A)--(C);\\node at (2.8,0.7) {$1$};\\node at (1.2,1.7) {$2$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A triangular piece is cut from the left of this parallelogram. To which side should it be translated to form a rectangle?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (C) at (5.7,2.4);\n\\coordinate (D) at (1.2,2.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (D)--(1.2,0);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Move the left triangular piece to the gap beside the sloping right edge.\nTranslate it to the right side.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4.5,2.4);\\draw[dashed] (3.3,0)--(4.5,2.4);\\draw[->] (-0.9,1.2)--(-0.1,1.2);\\node[above] at (2.25,2.4) {rectangle};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Two matching right-angled triangles are shown. Which movement can join the second triangle to the first to make a rectangle?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(2.4,0)--(0,1.6)--cycle;\n\\draw (4.6,0)--(2.2,1.6)--(4.6,1.6)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The second triangle already has the complementary orientation. Slide it left until the sloping sides meet.\nTranslate it to the left.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (2.4,0);\\coordinate (C) at (2.4,1.6);\\coordinate (D) at (0,1.6);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[dashed] (A)--(C);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A shape has area $18\\text{ cm}^{2}$. It is cut into two pieces and rearranged with no gaps or overlaps. What is the area of the new shape?",
+        "solution_text": "Cutting and rearranging neither adds nor removes surface.\nThe new area is $18\\text{ cm}^{2}$."
+      },
+      {
+        "question_text": "A square is cut into four pieces. All four pieces are used to make a new shape without overlap. Does the area increase, decrease or stay the same?",
+        "solution_text": "Every original piece is still present once, with no overlap.\nThe area stays the same."
+      },
+      {
+        "question_text": "This L-shape is cut along the dashed line. Which piece should be moved to make a rectangle?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(4,0)--(4,1)--(2,1)--(2,2)--(0,2)--cycle;\n\\draw[dashed] (2,0)--(2,1);\n\\node at (1,0.6) {$A$};\n\\node at (3,0.5) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Piece $B$ is $2$ units by $1$ unit. Rotate it so it is $1$ unit by $2$ units, then place it beside piece $A$.\nMove piece $B$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (3,2);\\draw[dashed] (2,0)--(2,2);\\node at (2.5,1) {$B$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Sofia cuts a parallelogram along the dashed height and moves the left triangle to the right. What simple shape will be formed?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (6.4,2.7);\n\\coordinate (D) at (1.4,2.7);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (D)--(1.4,0);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The cut makes a right-angled triangle. Moving it to the right fills the sloping gap and leaves four right angles.\nA rectangle\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5,2.7);\\draw[dashed] (3.6,0)--(5,2.7);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A triangle is duplicated. Describe how the copy can be moved so the pair forms a parallelogram.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[fill=gray!20] (0,0)--(3.4,0)--(1.1,2.2)--cycle;\n\\draw (5,0)--(8.4,0)--(6.1,2.2)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Rotate the copy through $180^{\\circ}$, then translate it until a matching side joins the first triangle.\nThe outer boundary is a parallelogram.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.4,0);\\coordinate (C) at (4.5,2.2);\\coordinate (D) at (1.1,2.2);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[dashed] (A)--(C);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Noah rearranges all the pieces of a $24\\text{ cm}^{2}$ rectangle, but two pieces overlap by $3\\text{ cm}^{2}$. What area is covered by the new arrangement?",
+        "solution_text": "The overlapped region is counted twice among the pieces but covered only once.\n$24-3=21$\nThe arrangement covers $21\\text{ cm}^{2}$."
+      },
+      {
+        "question_text": "A $35\\text{ cm}^{2}$ shape is cut and rearranged, but a $4\\text{ cm}^{2}$ gap is left inside the outline. What is the area of the pieces, and what is the area inside the outline?",
+        "solution_text": "The pieces still total $35\\text{ cm}^{2}$.\nThe outline includes the uncovered gap: $35+4=39$.\nThe outline encloses $39\\text{ cm}^{2}$."
+      },
+      {
+        "question_text": "A rectangle is divided by both diagonals. How many triangular pieces are produced?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (4.6,2.8);\n\\coordinate (D) at (0,2.8);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed] (A)--(C);\n\\draw[dashed] (B)--(D);\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The two diagonals cross once and divide the rectangle into one triangular region beside each side.\n$4$ triangular pieces\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.6,0);\\coordinate (C) at (4.6,2.8);\\coordinate (D) at (0,2.8);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[thick] (A)--(C);\\draw[thick] (B)--(D);\\node at (2.3,0.55) {$1$};\\node at (3.55,1.4) {$2$};\\node at (2.3,2.25) {$3$};\\node at (1.05,1.4) {$4$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A student wants to rearrange this step-shaped figure into one rectangle using one straight cut. Give a suitable cut and movement.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (5,3);\n\\draw (0,0)--(5,0)--(5,1)--(3,1)--(3,2)--(0,2)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Cut the $2$-by-$1$ block at the lower right from the rest.\nRotate it $90^{\\circ}$ and translate it beside the remaining $3$-by-$2$ rectangle.\nThe pieces form a $4$-by-$2$ rectangle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (4,2);\\draw (0,0) rectangle (4,2);\\draw[dashed] (3,0)--(3,2);\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A $6$ by $4$ rectangle is cut along a diagonal. One triangular half is reflected across the diagonal. Explain why the total area of the two pieces remains $24$ square units even though their visible union is smaller.",
+        "solution_text": "Each triangular piece still has area $12$ square units, so the pieces total $12+12=24$ square units.\nTheir visible union covers only $12$ square units because the reflection places one exactly on top of the other."
+      },
+      {
+        "question_text": "A tangram uses seven pieces to make a square. A new design uses only six of the pieces with no overlaps. Can it have the same area as the square? Explain.",
+        "solution_text": "No. One piece has been omitted, so some surface area has been removed.\nUsing only six pieces gives a smaller total area than the seven-piece square."
+      },
+      {
+        "question_text": "Two students use all the same pieces. Ava makes a compact rectangle. Ben makes a long irregular shape with no gaps or overlaps. Compare their areas and justify your answer.",
+        "solution_text": "Their areas are equal.\nBoth arrangements use every piece exactly once, so changing position and orientation changes the outline but not the total area."
+      }
+    ]
   }
 }

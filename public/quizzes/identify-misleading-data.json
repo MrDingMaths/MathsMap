@@ -1,0 +1,83 @@
+{
+  "skillId": "identify-misleading-data",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Why does this shop graph exaggerate the difference?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/70,2/74,4/78,6/82} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\draw (1.1,0) rectangle (2.5,1); \\draw (3.5,0) rectangle (4.9,5); \\node[below,font=\\scriptsize] at (1.8,0) {Sat}; \\node[below,font=\\scriptsize] at (4.2,0) {Sun}; \\node[rotate=90] at (-1.4,3) {Orders}; \\node[below] at (3,-1.0) {Day}; \\node at (3,7.1) {Weekend orders};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-truncated-axis",
+      "mastery": false,
+      "options": [
+        { "text": "The vertical axis starts at $70$ instead of $0$", "correct": true },
+        { "text": "The bars are different colours", "why": "No colour difference is used, and colour would not change the numerical scale." },
+        { "text": "The days are shown in time order", "why": "Putting Saturday before Sunday is accurate and does not exaggerate the values." },
+        { "text": "The two bars have equal widths", "why": "Equal bar widths are a fair feature, not the source of the exaggeration." }
+      ],
+      "solution_text": "The axis begins at $70$, so the small increase from $72$ to $80$ occupies most of the graph height."
+    },
+    {
+      "id": "q2",
+      "question_text": "What is misleading about this graph's numerical scale?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,5.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/0,1/5,3/10,4/15} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\draw (1.1,0) rectangle (2.5,3); \\draw (3.5,0) rectangle (4.9,4); \\node[below,font=\\scriptsize] at (1.8,0) {Cake}; \\node[below,font=\\scriptsize] at (4.2,0) {Tart}; \\node[rotate=90] at (-1.2,2) {Trays}; \\node[below] at (3,-1.0) {Item}; \\node at (3,5.1) {Bakery trays};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-uneven-scale",
+      "mastery": false,
+      "options": [
+        { "text": "Equal increases of $5$ use unequal vertical gaps", "correct": true },
+        { "text": "The axis begins at $0$", "why": "Starting a bar-graph axis at zero is fair and is not the problem shown." },
+        { "text": "The categories use words rather than numbers", "why": "Text labels correctly identify categories and do not affect the numerical scale." },
+        { "text": "The bars are separated by a gap", "why": "Gaps between category bars are expected and do not make the scale uneven." }
+      ],
+      "solution_text": "The value increases are all $5$, but the vertical gaps are $1$, then $2$, then $1$ units. The scale is uneven."
+    },
+    {
+      "id": "q3",
+      "question_text": "Both items sold $6$ dozen. What makes this display unfair?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(7.5,0); \\foreach \\y in {0,2,4,6} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};} \\draw (0.8,0) rectangle (1.6,6); \\draw (2.8,0) rectangle (6.3,6); \\node[below,font=\\scriptsize] at (1.2,0) {Roll}; \\node[below,font=\\scriptsize] at (4.55,0) {Bagel}; \\node[rotate=90] at (-1.2,3) {Dozens}; \\node[below] at (3.5,-1.0) {Item}; \\node at (3.5,7.1) {Morning sales};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-unequal-bar-widths",
+      "mastery": false,
+      "options": [
+        { "text": "The bagel bar is much wider than the roll bar", "correct": true },
+        { "text": "Both bars reach $6$", "why": "Equal heights correctly represent the equal values and are not misleading." },
+        { "text": "The axis uses intervals of $2$", "why": "A consistent many-to-one scale of two is valid and evenly spaced." },
+        { "text": "The graph includes a title", "why": "A clear title helps identify the data and does not distort the comparison." }
+      ],
+      "solution_text": "Only bar height should represent the value. The unequal widths make the bagel bar's area look much larger despite equal values."
+    },
+    {
+      "id": "q4",
+      "question_text": "The axis is truncated but labelled accurately. What is the actual increase from Friday to Saturday?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/150,2/154,4/158,6/162} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\draw (1.1,0) rectangle (2.5,1); \\draw (3.5,0) rectangle (4.9,5); \\node[below,font=\\scriptsize] at (1.8,0) {Fri}; \\node[below,font=\\scriptsize] at (4.2,0) {Sat}; \\node[rotate=90] at (-1.4,3) {Customers}; \\node[below] at (3,-1.0) {Day}; \\node at (3,7.1) {Daily customers};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-values-on-truncated-axis",
+      "mastery": false,
+      "options": [
+        { "text": "$8$ customers", "correct": true },
+        { "text": "$4$ customers", "why": "Counts four vertical drawing units but ignores that each unit represents two customers." },
+        { "text": "$160$ customers", "why": "Gives Saturday's total instead of subtracting Friday's $152$ customers." },
+        { "text": "$312$ customers", "why": "Adds the two daily totals instead of calculating the increase." }
+      ],
+      "solution_text": "Friday is $152$ and Saturday is $160$.\n$160-152=8$\nThe increase is $8$ customers."
+    },
+    {
+      "id": "q5",
+      "question_text": "A fair replacement is needed for a bar graph whose axis starts at $90$, whose tick gaps are uneven and whose bars have different widths. Which replacement fixes all three problems?",
+      "structure": "choose-fair-graph-repairs",
+      "mastery": true,
+      "options": [
+        { "text": "Start at $0$, use equal value intervals, and make all bars equal width", "correct": true },
+        { "text": "Start at $90$, use equal value intervals, and make all bars equal width", "why": "Fixes spacing and widths but keeps the truncated axis that exaggerates differences." },
+        { "text": "Start at $0$, keep uneven intervals, and make all bars equal width", "why": "Fixes the baseline and widths but leaves unequal value changes at equal-looking gaps." },
+        { "text": "Start at $0$, use equal intervals, and widen the largest-value bar", "why": "Fixes the axis but still lets bar width exaggerate one category." }
+      ],
+      "solution_text": "A fair column graph starts at $0$, uses even scale intervals and gives every bar the same width."
+    },
+    {
+      "id": "q6",
+      "question_text": "An advert says sales ‘nearly tripled’ because a graph's second bar looks almost three times as tall. The printed values are $196$ and $204$, and the axis begins at $192$. Which conclusion is justified?",
+      "structure": "evaluate-exaggerated-media-claim",
+      "mastery": true,
+      "options": [
+        { "text": "The claim is false; sales increased by only $8$", "correct": true },
+        { "text": "The claim is true because $204$ is nearly three times $196$", "why": "Accepts the visual impression even though three times $196$ would be $588$." },
+        { "text": "The claim is true because the second bar is taller", "why": "Treats any increase in bar height as proof of tripling without comparing actual values." },
+        { "text": "The claim is false; sales decreased by $8$", "why": "Subtracts in the wrong direction even though the value rises from $196$ to $204$." }
+      ],
+      "solution_text": "$204-196=8$\nSales increased by only $8$; the truncated axis creates the exaggerated appearance."
+    }
+  ]
+}

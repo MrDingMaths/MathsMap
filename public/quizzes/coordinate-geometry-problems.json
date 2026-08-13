@@ -1,0 +1,120 @@
+{
+  "skillId": "coordinate-geometry-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The triangle $ABC$ has vertices $A(0,0)$, $B(6,0)$ and $C(3,4)$. Using the side lengths, what type of triangle is $\\triangle ABC$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-1,-1) grid (7,5);\n\\draw[<->] (-1.5,0)--(7.5,0) node[right]{$x$};\n\\draw[<->] (0,-1.5)--(0,5.5) node[above]{$y$};\n\\draw[thick,blue] (0,0)--(6,0)--(3,4)--cycle;\n\\fill (0,0) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (0,0) {$A$};\n\\fill (6,0) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (6,0) {$B$};\n\\fill (3,4) circle (2.5pt);\n\\node[above,font=\\footnotesize] at (3,4) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-triangle-sides",
+      "mastery": false,
+      "options": [
+        { "text": "Isosceles", "correct": true },
+        { "text": "Scalene", "why": "Reached three different lengths by subtracting the coordinates the wrong way, missing that $BC=CA=5$." },
+        { "text": "Equilateral", "why": "Assumed all three sides are equal without noticing the base $AB=6$ differs from the two slant sides of $5$." },
+        { "text": "Right-angled", "why": "Tested for a right angle instead of comparing the side lengths the classification asks for." }
+      ],
+      "solution_text": "$AB=\\sqrt{(6-0)^2+(0-0)^2}$\n$=6$\n$BC=\\sqrt{(3-6)^2+(4-0)^2}$\n$=\\sqrt{9+16}$\n$=5$\n$CA=\\sqrt{(0-3)^2+(0-4)^2}$\n$=\\sqrt{9+16}$\n$=5$\n$BC=CA=5$, so $\\triangle ABC$ is isosceles."
+    },
+    {
+      "id": "q2",
+      "question_text": "The triangle $PQR$ has vertices $P(-1,-2)$, $Q(1,2)$ and $R(5,0)$. It is right-angled. Using the gradients of the sides, at which vertex is the right angle?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-2,-3) grid (6,3);\n\\draw[<->] (-2.5,0)--(6.5,0) node[right]{$x$};\n\\draw[<->] (0,-3.5)--(0,3.5) node[above]{$y$};\n\\draw[thick,blue] (-1,-2)--(1,2)--(5,0)--cycle;\n\\fill (-1,-2) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (-1,-2) {$P$};\n\\fill (1,2) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (1,2) {$Q$};\n\\fill (5,0) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (5,0) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "right-angle-gradients",
+      "mastery": false,
+      "options": [
+        { "text": "At $Q$", "correct": true },
+        { "text": "At $P$", "why": "Read the right angle at $P$ without checking that $m_{PQ}\\times m_{PR}$ is not $-1$." },
+        { "text": "At $R$", "why": "Placed the right angle at $R$, but $m_{QR}\\times m_{PR}$ does not equal $-1$." }
+      ],
+      "solution_text": "$m_{PQ}=\\dfrac{2-(-2)}{1-(-1)}$\n$=2$\n$m_{QR}=\\dfrac{0-2}{5-1}$\n$=-\\dfrac{1}{2}$\n$m_{PQ}\\times m_{QR}=2\\times\\left(-\\dfrac{1}{2}\\right)$\n$=-1$\n$PQ\\perp QR$, so the right angle is at $Q$."
+    },
+    {
+      "id": "q3",
+      "question_text": "The triangle $ABC$ has vertices $A(-2,-1)$, $B(1,-2)$ and $C(3,4)$. Using the side lengths and Pythagoras' theorem, what type of triangle is $\\triangle ABC$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-3,-3) grid (4,5);\n\\draw[<->] (-3.5,0)--(4.5,0) node[right]{$x$};\n\\draw[<->] (0,-3.5)--(0,5.5) node[above]{$y$};\n\\draw[thick,blue] (-2,-1)--(1,-2)--(3,4)--cycle;\n\\fill (-2,-1) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-2,-1) {$A$};\n\\fill (1,-2) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (1,-2) {$B$};\n\\fill (3,4) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (3,4) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "right-angle-pythagoras",
+      "mastery": false,
+      "options": [
+        { "text": "Right-angled", "correct": true },
+        { "text": "Isosceles", "why": "Judged two sides equal by forgetting to square both the run and the rise before adding." },
+        { "text": "Equilateral", "why": "Assumed all three sides equal without computing the three different lengths." },
+        { "text": "Acute scalene", "why": "Found three unequal sides but did not test whether $AB^2+BC^2=AC^2$." }
+      ],
+      "solution_text": "$AB^2=(1-(-2))^2+(-2-(-1))^2$\n$=9+1$\n$=10$\n$BC^2=(3-1)^2+(4-(-2))^2$\n$=4+36$\n$=40$\n$AC^2=(3-(-2))^2+(4-(-1))^2$\n$=25+25$\n$=50$\n$AB^2+BC^2=10+40$\n$=50$\n$=AC^2$\nThe side lengths satisfy Pythagoras' theorem, so $\\triangle ABC$ is right-angled."
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the perimeter of the triangle $ABC$ with vertices $A(1,1)$, $B(5,4)$ and $C(1,4)$.\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (0,0) grid (6,5);\n\\draw[<->] (-0.5,0)--(6.5,0) node[right]{$x$};\n\\draw[<->] (0,-0.5)--(0,5.5) node[above]{$y$};\n\\draw[thick,blue] (1,1)--(5,4)--(1,4)--cycle;\n\\fill (1,1) circle (2.5pt);\n\\node[below left,font=\\footnotesize] at (1,1) {$A$};\n\\fill (5,4) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (5,4) {$B$};\n\\fill (1,4) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (1,4) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "perimeter",
+      "mastery": false,
+      "options": [
+        { "text": "$12$ units", "correct": true },
+        { "text": "$7$ units", "why": "Added only the two perpendicular sides $BC=4$ and $CA=3$ and left out $AB$." },
+        { "text": "$14$ units", "why": "Counted the vertical side $CA$ as $6$ grid squares instead of $3$." },
+        { "text": "$60$ units", "why": "Multiplied the three side lengths together instead of adding them." }
+      ],
+      "solution_text": "$AB=\\sqrt{(5-1)^2+(4-1)^2}$\n$=\\sqrt{16+9}$\n$=5$\n$BC=\\sqrt{(1-5)^2+(4-4)^2}$\n$=4$\n$CA=\\sqrt{(1-1)^2+(1-4)^2}$\n$=3$\n$\\text{Perimeter}=5+4+3$\n$=12 \\text{ units}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "For the quadrilateral $EFGH$, the diagonals $EG$ and $FH$ have the same midpoint. What does this show?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-3,-3) grid (4,4);\n\\draw[<->] (-3.5,0)--(4.5,0) node[right]{$x$};\n\\draw[<->] (0,-3.5)--(0,4.5) node[above]{$y$};\n\\draw[thick,blue] (-2,-1)--(2,-2)--(3,2)--(-1,3)--cycle;\n\\fill (-2,-1) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-2,-1) {$E$};\n\\fill (2,-2) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (2,-2) {$F$};\n\\fill (3,2) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (3,2) {$G$};\n\\fill (-1,3) circle (2.5pt);\n\\node[above,font=\\footnotesize] at (-1,3) {$H$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "diagonals-bisect",
+      "mastery": false,
+      "options": [
+        { "text": "$EFGH$ is a parallelogram.", "correct": true },
+        { "text": "$EFGH$ is a rectangle.", "why": "A common midpoint gives only a parallelogram; a rectangle also needs the diagonals to be equal in length." },
+        { "text": "$EFGH$ is a rhombus.", "why": "Bisecting diagonals alone do not force the diagonals to be perpendicular, which a rhombus requires." },
+        { "text": "The diagonals are equal in length.", "why": "Confused a shared midpoint (bisection) with the two diagonals having the same length." }
+      ],
+      "solution_text": "$\\text{midpoint }EG=\\left(\\dfrac{-2+3}{2},\\dfrac{-1+2}{2}\\right)$\n$=\\left(\\dfrac{1}{2},\\dfrac{1}{2}\\right)$\n$\\text{midpoint }FH=\\left(\\dfrac{2+(-1)}{2},\\dfrac{-2+3}{2}\\right)$\n$=\\left(\\dfrac{1}{2},\\dfrac{1}{2}\\right)$\nThe diagonals share a midpoint, so they bisect each other and $EFGH$ is a parallelogram."
+    },
+    {
+      "id": "q6",
+      "question_text": "The quadrilateral $ABCD$ has vertices $A(-1,-3)$, $B(2,1)$, $C(-1,5)$ and $D(-4,1)$, and all four sides have length $5$. What is the most precise name for $ABCD$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-4) grid (3,6);\n\\draw[<->] (-5.5,0)--(3.5,0) node[right]{$x$};\n\\draw[<->] (0,-4.5)--(0,6.5) node[above]{$y$};\n\\draw[thick,blue] (-1,-3)--(2,1)--(-1,5)--(-4,1)--cycle;\n\\fill (-1,-3) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (-1,-3) {$A$};\n\\fill (2,1) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (2,1) {$B$};\n\\fill (-1,5) circle (2.5pt);\n\\node[above,font=\\footnotesize] at (-1,5) {$C$};\n\\fill (-4,1) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-4,1) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-quad-sides",
+      "mastery": false,
+      "options": [
+        { "text": "Rhombus", "correct": true },
+        { "text": "Square", "why": "Read four equal sides as enough for a square, but the angles are not right angles here." },
+        { "text": "Parallelogram", "why": "Stopped at opposite sides equal, a weaker property than all four sides being equal." },
+        { "text": "Rectangle", "why": "Equal sides do not make a rectangle, which instead needs a right angle." }
+      ],
+      "solution_text": "All four sides are equal in length ($5$).\nA quadrilateral with four equal sides is a rhombus.\nThe diagonals $AC$ (length $8$) and $BD$ (length $6$) are unequal, so there is no right angle and it is not a square.\n$ABCD$ is a rhombus."
+    },
+    {
+      "id": "q7",
+      "question_text": "The quadrilateral $ABCD$ has vertices $A(-3,-2)$, $B(1,-3)$, $C(3,1)$ and $D(-1,2)$. Both pairs of opposite sides have equal gradients, and no angle is a right angle. What is the most precise name for $ABCD$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-4,-4) grid (4,3);\n\\draw[<->] (-4.5,0)--(4.5,0) node[right]{$x$};\n\\draw[<->] (0,-4.5)--(0,3.5) node[above]{$y$};\n\\draw[thick,blue] (-3,-2)--(1,-3)--(3,1)--(-1,2)--cycle;\n\\fill (-3,-2) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-3,-2) {$A$};\n\\fill (1,-3) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (1,-3) {$B$};\n\\fill (3,1) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (3,1) {$C$};\n\\fill (-1,2) circle (2.5pt);\n\\node[above,font=\\footnotesize] at (-1,2) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "opposite-sides-parallel",
+      "mastery": false,
+      "options": [
+        { "text": "Parallelogram", "correct": true },
+        { "text": "Rectangle", "why": "Equal opposite gradients give parallel sides, but a rectangle also needs adjacent sides to be perpendicular." },
+        { "text": "Trapezium", "why": "Treated only one pair of sides as parallel, when both pairs are parallel here." },
+        { "text": "Rhombus", "why": "Parallel opposite sides do not force the four sides to be equal in length, which a rhombus requires." }
+      ],
+      "solution_text": "$m_{AB}=\\dfrac{-3-(-2)}{1-(-3)}$\n$=-\\dfrac{1}{4}$\n$m_{DC}=\\dfrac{1-2}{3-(-1)}$\n$=-\\dfrac{1}{4}$\n$m_{BC}=\\dfrac{1-(-3)}{3-1}$\n$=2$\n$m_{AD}=\\dfrac{2-(-2)}{-1-(-3)}$\n$=2$\nBoth pairs of opposite sides are parallel, and no angle is a right angle, so $ABCD$ is a parallelogram."
+    },
+    {
+      "id": "q8",
+      "question_text": "$ABCD$ is a parallelogram with vertices $A(-2,1)$, $B(2,-1)$ and $C(5,3)$, listed in order. Find the coordinates of the fourth vertex $D$.\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-3,-2) grid (6,6);\n\\draw[<->] (-3.5,0)--(6.5,0) node[right]{$x$};\n\\draw[<->] (0,-2.5)--(0,6.5) node[above]{$y$};\n\\draw[thick,blue] (-2,1)--(2,-1)--(5,3);\n\\fill (-2,1) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-2,1) {$A$};\n\\fill (2,-1) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (2,-1) {$B$};\n\\fill (5,3) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (5,3) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "unknown-vertex",
+      "mastery": true,
+      "options": [
+        { "text": "$(1,5)$", "correct": true },
+        { "text": "$(9,1)$", "why": "Used $D=B+C-A$ instead of $D=A+C-B$, starting the diagonal condition from the wrong vertex." },
+        { "text": "$(-5,-3)$", "why": "Used $D=A+B-C$, applying the equal-midpoint condition to the wrong pair of vertices." }
+      ],
+      "solution_text": "For a parallelogram $ABCD$, the diagonals $AC$ and $BD$ share a midpoint.\n$\\text{midpoint }AC=\\left(\\dfrac{-2+5}{2},\\dfrac{1+3}{2}\\right)$\n$=\\left(\\dfrac{3}{2},2\\right)$\nLet $D=(x,y)$.\n$\\left(\\dfrac{2+x}{2},\\dfrac{-1+y}{2}\\right)=\\left(\\dfrac{3}{2},2\\right)$\n$\\dfrac{2+x}{2}=\\dfrac{3}{2}$\n$x=1$\n$\\dfrac{-1+y}{2}=2$\n$y=5$\n$D=(1,5)$"
+    },
+    {
+      "id": "q9",
+      "question_text": "The quadrilateral $ABCD$ has vertices $A(2,1)$, $B(-1,2)$, $C(-2,-1)$ and $D(1,-2)$. Its four sides are all equal in length and its two diagonals are also equal in length. What is the most precise name for $ABCD$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-3,-3) grid (3,3);\n\\draw[<->] (-3.5,0)--(3.5,0) node[right]{$x$};\n\\draw[<->] (0,-3.5)--(0,3.5) node[above]{$y$};\n\\draw[thick,blue] (2,1)--(-1,2)--(-2,-1)--(1,-2)--cycle;\n\\fill (2,1) circle (2.5pt);\n\\node[right,font=\\footnotesize] at (2,1) {$A$};\n\\fill (-1,2) circle (2.5pt);\n\\node[above,font=\\footnotesize] at (-1,2) {$B$};\n\\fill (-2,-1) circle (2.5pt);\n\\node[left,font=\\footnotesize] at (-2,-1) {$C$};\n\\fill (1,-2) circle (2.5pt);\n\\node[below,font=\\footnotesize] at (1,-2) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-quad-two-properties",
+      "mastery": true,
+      "options": [
+        { "text": "Square", "correct": true },
+        { "text": "Rhombus", "why": "Four equal sides give a rhombus, but the equal diagonals also force right angles, making it a square." },
+        { "text": "Rectangle", "why": "Equal diagonals suggest a rectangle, but here the four sides are also equal, which a rectangle need not have." },
+        { "text": "Parallelogram", "why": "Named only the weakest property, when equal sides and equal diagonals give a far more specific shape." }
+      ],
+      "solution_text": "All four sides are equal, so $ABCD$ is at least a rhombus.\n$AC=\\sqrt{(-2-2)^2+(-1-1)^2}$\n$=\\sqrt{20}$\n$BD=\\sqrt{(1-(-1))^2+(-2-2)^2}$\n$=\\sqrt{20}$\nThe diagonals are equal, so the rhombus has right angles.\nA rhombus with equal diagonals is a square, so $ABCD$ is a square."
+    }
+  ]
+}

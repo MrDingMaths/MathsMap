@@ -1,0 +1,124 @@
+{
+  "skillId": "venn-diagrams-two-way-tables",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **Venn diagram** and a **two-way table** are two ways of showing how two attributes are connected. The rectangle $\\xi$ around a Venn diagram holds everyone in the group: the overlap holds those with **both** attributes, and anything outside both circles has **neither**. A two-way table shows those same four groups as four cells, with a row of totals and a column of totals around them.",
+    "facts": [
+      "The rectangle $\\xi$ is the whole group surveyed, so the four regions — $A$ only, both, $B$ only and neither — add to the total.",
+      "The overlap is not the whole of $A$: if $17$ people are in $A$ and $6$ are in both, then $17 - 6 = 11$ are in $A$ only.",
+      "The four inner cells of a two-way table are the same four groups as the four regions of a Venn diagram.",
+      "Each row of a two-way table adds across to its row total and each column adds down to its column total; the two meet at the grand total in the corner.",
+      "A row or column total counts a whole attribute (everyone who studies Japanese), while a cell counts a combination (studies Japanese and plays netball) — never read one for the other.",
+      "A probability from either display is $\\dfrac{\\text{count in the region or cell}}{\\text{total surveyed}}$, written as a fraction in simplest form."
+    ],
+    "steps": [
+      "Fill in the overlap first.",
+      "Subtract the overlap from each attribute total.",
+      "Use the fact that the four regions add to the group total."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$N$};\n\\node at (2.15,2.3) {$11$};\n\\node at (4,2.3) {$6$};\n\\node at (5.85,2.3) {$9$};\n\\node at (7.3,0.5) {$4$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $30$ Year 9 students, where $J$ is 'studies Japanese' and $N$ is 'plays netball'. How many students:\na. study Japanese and play netball?\nb. do neither?\nc. study Japanese but do not play netball?",
+        "solution_text": "a. The overlapping region shows $6$.\nb. The region outside both circles shows $4$.\nc. The Japanese-only region shows $11$."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$M$};\n\\node at (6.1,4.15) {$S$};\n\\node at (2.15,2.3) {$12$};\n\\node at (4,2.3) {$15$};\n\\node at (5.85,2.3) {$8$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]\nIn this Venn diagram $M$ is 'likes Maths' and $S$ is 'likes Science'. How many Year 8 students:\na. were surveyed?\nb. like Maths?\nc. like Maths or Science, or both?",
+        "solution_text": "a. $12 + 15 + 8 + 5$\n$= 40$\nb. $12 + 15$\n$= 27$\nc. $12 + 15 + 8$\n$= 35$"
+      },
+      {
+        "question_text": "A group of Year 10 students was asked whether they study Music and whether they play basketball.\n$\\begin{array}{l|cc|c}&\\text{Music}&\\text{Not Music}&\\text{Total}\\\\\\hline\\text{Basketball}&9&14&23\\\\\\text{Not Basketball}&6&11&17\\\\\\hline\\text{Total}&15&25&40\\end{array}$\nHow many students:\na. study Music and play basketball?\nb. study Music?\nc. were surveyed?",
+        "solution_text": "a. Read the cell where the Music column meets the Basketball row: $9$\nb. Read the Music column total: $15$\nc. Read the grand total in the corner: $40$"
+      },
+      {
+        "question_text": "Year 7 students were asked whether they study French and whether they play hockey.\n$\\begin{array}{l|cc|c}&\\text{French}&\\text{Not French}&\\text{Total}\\\\\\hline\\text{Hockey}&7&10&17\\\\\\text{Not Hockey}&13&18&31\\\\\\hline\\text{Total}&20&28&48\\end{array}$\nHow many students:\na. play hockey but do not study French?\nb. do not play hockey?\nc. do not study French?",
+        "solution_text": "a. Read the cell where the 'Not French' column meets the Hockey row: $10$\nb. Read the 'Not Hockey' row total: $31$\nc. Read the 'Not French' column total: $28$"
+      },
+      {
+        "question_text": "Copy and complete this two-way table for a Year 9 elective survey.\n$\\begin{array}{l|cc|c}&\\text{Geography}&\\text{Not Geography}&\\text{Total}\\\\\\hline\\text{Commerce}&8&13&21\\\\\\text{Not Commerce}&11&?&?\\\\\\hline\\text{Total}&19&25&44\\end{array}$",
+        "solution_text": "The 'Not Geography' column must add down to its total.\n$25 - 13$\n$= 12$\nThe 'Not Commerce' row now adds across.\n$11 + 12$\n$= 23$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$D$};\n\\node at (6.1,4.15) {$V$};\n\\end{tikzpicture}\n[/tikz]\nIn a Year 8 class of $24$ students, $15$ study Drama, $10$ study Visual Arts and $6$ study both. Copy the Venn diagram and write the number of students in each of the four regions, where $D$ is 'studies Drama' and $V$ is 'studies Visual Arts'.",
+        "solution_text": "1. **Fill in the overlap first.**\n$6$ students go in the overlap.\n2. **Subtract the overlap from each attribute total.**\n$15 - 6$\n$= 9$ in Drama only\n$10 - 6$\n$= 4$ in Visual Arts only\n3. **Use the fact that the four regions add to the group total.**\n$24 - (9 + 6 + 4)$\n$= 5$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$D$};\n\\node at (6.1,4.15) {$V$};\n\\node at (2.15,2.3) {$9$};\n\\node at (4,2.3) {$6$};\n\\node at (5.85,2.3) {$4$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$V$};\n\\node at (6.1,4.15) {$T$};\n\\end{tikzpicture}\n[/tikz]\nStudents in a Year 10 PE group were asked which summer sports they play: $18$ play volleyball, $13$ play touch football, $7$ play both and $5$ play neither. Complete the Venn diagram, where $V$ is 'plays volleyball' and $T$ is 'plays touch football', and state how many students are in the group.",
+        "solution_text": "1. **Fill in the overlap first.**\n$7$ students go in the overlap.\n2. **Subtract the overlap from each attribute total.**\n$18 - 7$\n$= 11$ in volleyball only\n$13 - 7$\n$= 6$ in touch football only\n3. **Use the fact that the four regions add to the group total.**\n$11 + 7 + 6 + 5$\n$= 29$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$V$};\n\\node at (6.1,4.15) {$T$};\n\\node at (2.15,2.3) {$11$};\n\\node at (4,2.3) {$7$};\n\\node at (5.85,2.3) {$6$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$P$};\n\\node at (6.1,4.15) {$H$};\n\\node at (2.15,2.3) {$14$};\n\\node at (4,2.3) {$10$};\n\\node at (5.85,2.3) {$8$};\n\\node at (7.3,0.5) {$8$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $40$ Year 7 students, where $P$ is 'likes PE' and $H$ is 'likes History'. One student is chosen at random. Find, as fractions in simplest form:\na. $P(\\text{likes both})$\nb. $P(\\text{likes History})$",
+        "solution_text": "a. $\\frac{10}{40}$\n$= \\frac{1}{4}$\nb. $\\frac{10 + 8}{40}$\n$= \\frac{18}{40}$\n$= \\frac{9}{20}$"
+      },
+      {
+        "question_text": "A Year 8 sport survey recorded whether students play tennis and whether they swim in the school squad.\n$\\begin{array}{l|cc|c}&\\text{Tennis}&\\text{Not Tennis}&\\text{Total}\\\\\\hline\\text{Swims}&9&15&24\\\\\\text{Does not swim}&11&15&26\\\\\\hline\\text{Total}&20&30&50\\end{array}$\nOne of these students is chosen at random. Find, as fractions in simplest form:\na. $P(\\text{plays tennis and swims})$\nb. $P(\\text{swims})$",
+        "solution_text": "a. $\\frac{9}{50}$\nb. $\\frac{24}{50}$\n$= \\frac{12}{25}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$C$};\n\\node at (6.1,4.15) {$H$};\n\\node at (2.15,2.3) {$8$};\n\\node at (4,2.3) {$0$};\n\\node at (5.85,2.3) {$11$};\n\\node at (7.3,0.5) {$41$};\n\\end{tikzpicture}\n[/tikz]\nThe cricket and hockey seasons clash, so no student plays in both school teams. The Venn diagram shows $60$ Year 9 students, where $C$ is 'plays in the cricket team' and $H$ is 'plays in the hockey team'. How many students:\na. play in both teams?\nb. play in at least one of the two teams?\nc. play in neither team?",
+        "solution_text": "a. The overlapping region shows $0$.\nb. $8 + 0 + 11$\n$= 19$\nc. The region outside both circles shows $41$."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$C$};\n\\node at (6.1,4.15) {$S$};\n\\node at (2.15,2.3) {$7$};\n\\node at (4,2.3) {$5$};\n\\node at (5.85,2.3) {$9$};\n\\node at (7.3,0.5) {$4$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $25$ Year 10 students, where $C$ is 'studies Chinese' and $S$ is 'plays soccer'. Copy and complete the two-way table for the same data.\n$\\begin{array}{l|cc|c}&\\text{Chinese}&\\text{Not Chinese}&\\text{Total}\\\\\\hline\\text{Soccer}&?&?&?\\\\\\text{Not Soccer}&?&?&?\\\\\\hline\\text{Total}&?&?&?\\end{array}$",
+        "solution_text": "The overlap becomes the Chinese–Soccer cell, and the region outside both circles becomes the 'Not Chinese, Not Soccer' cell.\n$\\begin{array}{l|cc|c}&\\text{Chinese}&\\text{Not Chinese}&\\text{Total}\\\\\\hline\\text{Soccer}&5&9&14\\\\\\text{Not Soccer}&7&4&11\\\\\\hline\\text{Total}&12&13&25\\end{array}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$N$};\n\\end{tikzpicture}\n[/tikz]\nA Year 9 cohort of $32$ students was surveyed. $21$ study Japanese, $17$ play netball and $3$ do neither. How many students do both? Complete the Venn diagram, where $J$ is 'studies Japanese' and $N$ is 'plays netball'.",
+        "solution_text": "Students inside at least one circle:\n$32 - 3$\n$= 29$\nLet $x$ be the number in the overlap.\n$(21 - x) + x + (17 - x) = 29$\n$38 - x = 29$\n$x = 9$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$N$};\n\\node at (2.15,2.3) {$12$};\n\\node at (4,2.3) {$9$};\n\\node at (5.85,2.3) {$8$};\n\\node at (7.3,0.5) {$3$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$M$};\n\\node at (6.1,4.15) {$D$};\n\\end{tikzpicture}\n[/tikz]\nIn a Year 8 class of $28$ students, $26$ study at least one of Music and Drama. Altogether $19$ study Music and $15$ study Drama. How many study both, and how many study neither?",
+        "solution_text": "Let $x$ be the number in the overlap.\n$(19 - x) + x + (15 - x) = 26$\n$34 - x = 26$\n$x = 8$\nStudents outside both circles:\n$28 - 26$\n$= 2$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$M$};\n\\node at (6.1,4.15) {$D$};\n\\node at (2.15,2.3) {$11$};\n\\node at (4,2.3) {$8$};\n\\node at (5.85,2.3) {$7$};\n\\node at (7.3,0.5) {$2$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A survey of $60$ Year 10 students recorded whether they study Design and Technology and whether they play basketball. Altogether $25$ study Design and Technology, $32$ play basketball, and $14$ do both. Construct a two-way table for this data.",
+        "solution_text": "Basketball and Design and Technology: $14$\nBasketball but not Design and Technology:\n$32 - 14$\n$= 18$\nDesign and Technology but not basketball:\n$25 - 14$\n$= 11$\nNeither:\n$60 - (11 + 14 + 18)$\n$= 17$\n$\\begin{array}{l|cc|c}&\\text{D and T}&\\text{Not D and T}&\\text{Total}\\\\\\hline\\text{Basketball}&14&18&32\\\\\\text{Not Basketball}&11&17&28\\\\\\hline\\text{Total}&25&35&60\\end{array}$"
+      },
+      {
+        "question_text": "A Year 8 cohort of $90$ students was surveyed about two electives. Altogether $36$ study Photography, and $12$ of those also study Coding. Of the students who do not study Photography, $40$ do not study Coding either. Construct a two-way table for this data.",
+        "solution_text": "Photography but not Coding:\n$36 - 12$\n$= 24$\nStudents who do not study Photography:\n$90 - 36$\n$= 54$\nOf those, the ones who do study Coding:\n$54 - 40$\n$= 14$\n$\\begin{array}{l|cc|c}&\\text{Photography}&\\text{Not Photography}&\\text{Total}\\\\\\hline\\text{Coding}&12&14&26\\\\\\text{Not Coding}&24&40&64\\\\\\hline\\text{Total}&36&54&90\\end{array}$"
+      },
+      {
+        "question_text": "This two-way table records whether Year 8 students play badminton and whether they study Food Technology.\n$\\begin{array}{l|cc|c}&\\text{Food Tech}&\\text{Not Food Tech}&\\text{Total}\\\\\\hline\\text{Badminton}&6&13&19\\\\\\text{Not Badminton}&10&16&26\\\\\\hline\\text{Total}&16&29&45\\end{array}$\nCopy and complete the Venn diagram for the same data, where $F$ is 'studies Food Technology' and $B$ is 'plays badminton'.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$F$};\n\\node at (6.1,4.15) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The Food Tech–Badminton cell is the overlap, and the 'Not Food Tech, Not Badminton' cell is the region outside both circles.\nFood Technology only: $10$\nBoth: $6$\nBadminton only: $13$\nNeither: $16$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$F$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$10$};\n\\node at (4,2.3) {$6$};\n\\node at (5.85,2.3) {$13$};\n\\node at (7.3,0.5) {$16$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$C$};\n\\node at (6.1,4.15) {$K$};\n\\node at (2.15,2.3) {$13$};\n\\node at (4,2.3) {$8$};\n\\node at (5.85,2.3) {$17$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $44$ Year 9 students, where $C$ is 'studies Commerce' and $K$ is 'plays cricket'.\na. Construct a two-way table for this data.\nb. One student is chosen at random. Find $P(\\text{plays cricket})$ as a fraction in simplest form.",
+        "solution_text": "a. The overlap becomes the Commerce–Cricket cell.\n$\\begin{array}{l|cc|c}&\\text{Commerce}&\\text{Not Commerce}&\\text{Total}\\\\\\hline\\text{Cricket}&8&17&25\\\\\\text{Not Cricket}&13&6&19\\\\\\hline\\text{Total}&21&23&44\\end{array}$\nb. $\\frac{8 + 17}{44}$\n$= \\frac{25}{44}$"
+      },
+      {
+        "question_text": "Copy and complete this two-way table, which records whether students study Music and whether they sing in the choir.\n$\\begin{array}{l|cc|c}&\\text{Music}&\\text{Not Music}&\\text{Total}\\\\\\hline\\text{Choir}&?&9&22\\\\\\text{Not Choir}&11&?&?\\\\\\hline\\text{Total}&24&?&50\\end{array}$",
+        "solution_text": "The Choir row adds across to $22$.\n$22 - 9$\n$= 13$\nThe grand total gives the 'Not Choir' row total.\n$50 - 22$\n$= 28$\nThat row now adds across.\n$28 - 11$\n$= 17$\nThe 'Not Music' column total follows.\n$9 + 17$\n$= 26$"
+      },
+      {
+        "question_text": "This two-way table records whether Year 7 students study History and whether they play touch football.\n$\\begin{array}{l|cc|c}&\\text{History}&\\text{Not History}&\\text{Total}\\\\\\hline\\text{Touch}&15&21&36\\\\\\text{Not Touch}&17&7&24\\\\\\hline\\text{Total}&32&28&60\\end{array}$\nOne student is chosen at random. Find, as fractions in simplest form:\na. $P(\\text{does not play touch football})$\nb. $P(\\text{studies History and plays touch football})$",
+        "solution_text": "a. $\\frac{24}{60}$\n$= \\frac{2}{5}$\nb. $\\frac{15}{60}$\n$= \\frac{1}{4}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$G$};\n\\node at (6.1,4.15) {$S$};\n\\node at (2.15,2.3) {$9$};\n\\node at (4,2.3) {$7$};\n\\node at (5.85,2.3) {$12$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $34$ Year 8 students, where $G$ is 'studies Geography' and $S$ is 'swims in the school squad'. How many students:\na. do not study Geography?\nb. study Geography or swim in the squad, or both?",
+        "solution_text": "a. $12 + 6$\n$= 18$\nb. $9 + 7 + 12$\n$= 28$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$G$};\n\\node at (6.1,4.15) {$T$};\n\\end{tikzpicture}\n[/tikz]\nA Year 10 group of $36$ students was surveyed. Altogether $22$ study German, $8$ study German and play table tennis, and $5$ do neither. How many students play table tennis? Complete the Venn diagram, where $G$ is 'studies German' and $T$ is 'plays table tennis'.",
+        "solution_text": "1. **Fill in the overlap first.**\n$8$ students go in the overlap.\n2. **Subtract the overlap from each attribute total.**\n$22 - 8$\n$= 14$ study German only\n3. **Use the fact that the four regions add to the group total.**\nThe three regions inside the circles hold\n$36 - 5$\n$= 31$\nTable tennis only:\n$31 - 22$\n$= 9$\nTable tennis altogether:\n$9 + 8$\n$= 17$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$G$};\n\\node at (6.1,4.15) {$T$};\n\\node at (2.15,2.3) {$14$};\n\\node at (4,2.3) {$8$};\n\\node at (5.85,2.3) {$9$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$S$};\n\\node at (6.1,4.15) {$W$};\n\\node at (2.15,2.3) {$?$};\n\\node at (4,2.3) {$18$};\n\\node at (5.85,2.3) {$26$};\n\\node at (7.3,0.5) {$31$};\n\\end{tikzpicture}\n[/tikz]\n$120$ Year 9 students were surveyed, where $S$ is 'studies Spanish' and $W$ is 'plays water polo'. One region of the Venn diagram has not been filled in. One student is chosen at random. Find $P(\\text{does not play water polo})$ as a fraction in simplest form.",
+        "solution_text": "$120 - 18 - 26 - 31$\n$= 45$ study Spanish only\n$\\frac{45 + 31}{120}$\n$= \\frac{76}{120}$\n$= \\frac{19}{30}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$S$};\n\\node at (6.1,4.15) {$W$};\n\\node at (2.15,2.3) {$45$};\n\\node at (4,2.3) {$18$};\n\\node at (5.85,2.3) {$26$};\n\\node at (7.3,0.5) {$31$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$120$ Year 9 students were asked whether they study Italian. Two-thirds of those asked are girls. Altogether $26$ boys study Italian, and twice as many girls as boys do not study Italian. Use a two-way table to work out how many girls study Italian.",
+        "solution_text": "Girls:\n$\\frac{2}{3} \\times 120$\n$= 80$\nBoys:\n$120 - 80$\n$= 40$\nBoys who do not study Italian:\n$40 - 26$\n$= 14$\nGirls who do not study Italian:\n$2 \\times 14$\n$= 28$\nGirls who study Italian:\n$80 - 28$\n$= 52$\n$\\begin{array}{l|cc|c}&\\text{Italian}&\\text{Not Italian}&\\text{Total}\\\\\\hline\\text{Girls}&52&28&80\\\\\\text{Boys}&26&14&40\\\\\\hline\\text{Total}&78&42&120\\end{array}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$H$};\n\\node at (6.1,4.15) {$A$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nIn a Year 8 cohort, $24$ students study Ancient History and $30$ are in the school athletics squad. The Venn diagram shows that $6$ students do neither. The probability that a randomly chosen student in the cohort does both is $\\frac{1}{5}$. How many students are in the cohort?",
+        "solution_text": "Let $n$ be the number in the cohort and $x$ the number in the overlap.\n$x = \\frac{1}{5}n$\nThe four regions add to $n$.\n$(24 - x) + x + (30 - x) + 6 = n$\n$60 - x = n$\n$60 - \\frac{1}{5}n = n$\n$60 = \\frac{6}{5}n$\n$n = 50$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$H$};\n\\node at (6.1,4.15) {$A$};\n\\node at (2.15,2.3) {$14$};\n\\node at (4,2.3) {$10$};\n\\node at (5.85,2.3) {$20$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

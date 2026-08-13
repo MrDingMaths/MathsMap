@@ -1,0 +1,83 @@
+{
+  "skillId": "compare-displays-range-mode",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The dot plot shows fern heights. What is the range?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.8]\n\\draw[->] (-0.5,0)--(8.8,0); \\foreach \\x in {0,...,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};} \\foreach \\x/\\c in {1/1,2/2,4/4,6/2,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.34*\\k}) circle (2.2pt);}} \\node[below] at (4.5,-0.9) {Height (cm)};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "find-range-from-display",
+      "mastery": false,
+      "options": [
+        { "text": "$7$ cm", "correct": true },
+        { "text": "$8$ cm", "why": "Uses the largest value as the range instead of subtracting the smallest value." },
+        { "text": "$4$ cm", "why": "Gives the modal value rather than the difference between maximum and minimum." },
+        { "text": "$9$ cm", "why": "Counts the occupied value positions instead of calculating maximum minus minimum." }
+      ],
+      "solution_text": "$8-1=7$\nThe range is $7$ cm."
+    },
+    {
+      "id": "q2",
+      "question_text": "The dot plot shows petals on flowers. What is the mode?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.8]\n\\draw[->] (-0.5,0)--(8.8,0); \\foreach \\x in {0,...,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};} \\foreach \\x/\\c in {2/1,3/3,4/2,6/5,7/2,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.34*\\k}) circle (2.2pt);}} \\node[below] at (5,-0.9) {Number of petals};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "find-mode-from-display",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$5$", "why": "Counts the dots in the tallest stack but gives the frequency instead of its value." },
+        { "text": "$8$", "why": "Uses the greatest data value instead of the value occurring most often." },
+        { "text": "$3$", "why": "Chooses the second-tallest stack rather than the tallest stack." }
+      ],
+      "solution_text": "The tallest stack is above $6$, so the mode is $6$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Compare the ranges of the two watering trials.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.78]\n\\draw[->] (-0.5,0)--(8.8,0); \\draw[->] (-0.5,2.3)--(8.8,2.3); \\foreach \\x in {0,...,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$}; \\node[below,font=\\scriptsize] at (\\x,2.3) {$\\x$};} \\foreach \\x/\\c in {2/1,3/2,4/3,6/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.32*\\k}) circle (2.2pt);}} \\foreach \\x/\\c in {0/1,2/2,5/3,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{2.3+0.32*\\k}) circle (2.2pt);}} \\node[left] at (-0.55,0.8) {Trial A}; \\node[left] at (-0.55,3.1) {Trial B}; \\node[below] at (4,-0.9) {Daily growth (mm)};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "compare-ranges-between-displays",
+      "mastery": false,
+      "options": [
+        { "text": "Trial B's range is $4$ mm greater", "correct": true },
+        { "text": "Trial A's range is $4$ mm greater", "why": "Reverses the comparison after finding ranges $4$ and $8$." },
+        { "text": "Both ranges are $8$ mm", "why": "Uses Trial B's maximum as the range for both displays." },
+        { "text": "Both ranges are $4$ mm", "why": "Uses Trial A's range for both displays and ignores Trial B's wider endpoints." }
+      ],
+      "solution_text": "Trial A: $6-2=4$ mm\nTrial B: $8-0=8$ mm\n$8-4=4$ mm\nTrial B's range is $4$ mm greater."
+    },
+    {
+      "id": "q4",
+      "question_text": "Which statement correctly compares the modes?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.78]\n\\draw[->] (-0.5,0)--(7.8,0); \\draw[->] (-0.5,2.3)--(7.8,2.3); \\foreach \\x in {0,...,7} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$}; \\node[below,font=\\scriptsize] at (\\x,2.3) {$\\x$};} \\foreach \\x/\\c in {1/1,2/4,4/2,6/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.32*\\k}) circle (2.2pt);}} \\foreach \\x/\\c in {1/1,3/2,5/4,7/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{2.3+0.32*\\k}) circle (2.2pt);}} \\node[left] at (-0.55,0.8) {Batch C}; \\node[left] at (-0.55,3.1) {Batch D}; \\node[below] at (4,-0.9) {Seedling leaves};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "compare-modes-between-displays",
+      "mastery": false,
+      "options": [
+        { "text": "Batch C has mode $2$ and Batch D has mode $5$", "correct": true },
+        { "text": "Batch C has mode $4$ and Batch D has mode $4$", "why": "Uses the frequencies of the tallest stacks instead of the values beneath them." },
+        { "text": "Batch C has mode $6$ and Batch D has mode $7$", "why": "Uses each dataset's largest value instead of its most frequent value." },
+        { "text": "Neither batch has a mode", "why": "Ignores that one value in each display has a uniquely tallest stack." }
+      ],
+      "solution_text": "Batch C's tallest stack is at $2$; Batch D's tallest stack is at $5$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The two displays have the same mode. Which statement about their ranges is also true?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.78]\n\\draw[->] (-0.5,0)--(8.8,0); \\draw[->] (-0.5,2.3)--(8.8,2.3); \\foreach \\x in {0,...,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$}; \\node[below,font=\\scriptsize] at (\\x,2.3) {$\\x$};} \\foreach \\x/\\c in {2/1,3/2,4/4,5/2,6/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.32*\\k}) circle (2.2pt);}} \\foreach \\x/\\c in {1/1,2/2,4/5,7/2,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{2.3+0.32*\\k}) circle (2.2pt);}} \\node[left] at (-0.55,0.8) {Patch E}; \\node[left] at (-0.55,3.1) {Patch F}; \\node[below] at (4.5,-0.9) {Plant height (cm)};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "compare-range-and-mode-together",
+      "mastery": true,
+      "options": [
+        { "text": "Patch F's range is $3$ cm greater", "correct": true },
+        { "text": "Patch E's range is $3$ cm greater", "why": "Reverses the comparison between ranges $4$ cm and $7$ cm." },
+        { "text": "Their ranges are equal because their modes are equal", "why": "Assumes matching modes force matching endpoints, which the displays do not show." },
+        { "text": "Patch F's range is $7$ cm greater", "why": "Uses Patch F's range itself rather than the difference between the two ranges." }
+      ],
+      "solution_text": "Patch E: $6-2=4$ cm\nPatch F: $8-1=7$ cm\n$7-4=3$ cm\nPatch F's range is $3$ cm greater."
+    },
+    {
+      "id": "q6",
+      "question_text": "A dot plot has minimum $2$, maximum $9$ and a unique tallest stack above $6$. Which pair gives its range and mode?",
+      "structure": "infer-range-and-mode-from-features",
+      "mastery": true,
+      "options": [
+        { "text": "Range $7$, mode $6$", "correct": true },
+        { "text": "Range $9$, mode $6$", "why": "Uses the maximum as the range instead of calculating $9-2$." },
+        { "text": "Range $7$, mode $9$", "why": "Uses the maximum value as the mode instead of the tallest stack's value." },
+        { "text": "Range $11$, mode $6$", "why": "Adds the maximum and minimum instead of subtracting them." }
+      ],
+      "solution_text": "$9-2=7$\nThe range is $7$, and the tallest stack identifies the mode as $6$."
+    }
+  ]
+}

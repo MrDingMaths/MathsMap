@@ -1,0 +1,122 @@
+{
+  "skillId": "planar-graphs",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which statement correctly describes a **planar** graph?",
+      "structure": "planar-definition",
+      "mastery": false,
+      "options": [
+        { "text": "A graph that can be drawn with no two edges crossing.", "correct": true },
+        { "text": "A graph in which no two edges cross in the drawing you have been given.", "why": "Makes planarity a property of one picture; a planar graph is often first drawn with crossings in it." },
+        { "text": "A graph drawn with all of its vertices lying on one straight line.", "why": "Confuses being planar with a flat arrangement of the vertices, which has nothing to do with crossings." },
+        { "text": "A graph in which every face is bounded by the same number of edges.", "why": "Invents a condition about the shape of the faces instead of asking whether the edges can avoid crossing." }
+      ],
+      "solution_text": "Planar describes the network, not one picture of it.\nThe test is whether some arrangement of the same vertices and edges has no crossings.\n**A graph that can be drawn with no two edges crossing.**"
+    },
+    {
+      "id": "q2",
+      "question_text": "Some of the tracks on this board cross.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (3.4,2.6);\n\\coordinate (D) at (0,2.6);\n\\coordinate (E) at (1.7,3.8);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (A)--(C);\n\\draw (D)--(E);\n\\draw (E)--(B);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nIs this graph planar?",
+      "structure": "is-drawing-planar",
+      "mastery": false,
+      "options": [
+        { "text": "Yes — the same vertices and tracks can be rearranged so that nothing crosses.", "correct": true },
+        { "text": "No — two tracks cross in the drawing, so the graph is non-planar.", "why": "Judges the picture instead of the network; a graph is non-planar only when every possible drawing has a crossing." },
+        { "text": "No — a crossing can only be removed by deleting one of the tracks.", "why": "Assumes a redraw has to lose an edge, when moving the vertices keeps all of them and clears the crossings." },
+        { "text": "Yes — but only once the vertex $E$ is removed from the network.", "why": "A redraw must keep every vertex; removing $E$ produces a different graph, not a redrawing of this one." }
+      ],
+      "solution_text": "The crossings come from where the vertices have been placed, not from the network itself.\nDrawing the ring $A$–$B$–$C$–$D$ with the track $AC$ inside it leaves $B$ and $D$ on the outside, so the path $D$–$E$–$B$ can be taken right around the outside with no crossing.\n**Yes — the graph is planar.**"
+    },
+    {
+      "id": "q3",
+      "question_text": "The circuit below is to be redrawn so that no tracks cross.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (4.2,1.8);\n\\coordinate (D) at (2.6,3.4);\n\\coordinate (E) at (0,3.4);\n\\coordinate (F) at (-1.4,1.8);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (A)--(D);\n\\draw (B)--(F);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[above left] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about the redrawn circuit must be correct?",
+      "structure": "redraw-without-crossings",
+      "mastery": false,
+      "options": [
+        { "text": "It still has $6$ vertices and $8$ tracks, and no two tracks cross.", "correct": true },
+        { "text": "It has $6$ vertices and $7$ tracks, because removing the crossing removes a track.", "why": "Treats the crossing point as belonging to a track that can be deleted; a redraw moves tracks but never loses one." },
+        { "text": "It has $7$ vertices and $10$ tracks, because the crossing point becomes a new component.", "why": "Turns the crossing into a vertex and splits both tracks through it in two, which invents connections that do not exist." },
+        { "text": "It cannot be redrawn, because a drawing containing a crossing is always non-planar.", "why": "Reads planarity off one drawing; here the track $BF$ can simply be taken around the outside." }
+      ],
+      "solution_text": "A redraw must keep exactly the same vertices and exactly the same tracks — only their positions on the page change.\nTaking the track $BF$ around the outside of the ring leaves the track $AD$ inside, and nothing crosses.\n**It still has $6$ vertices and $8$ tracks, and no two tracks cross.**"
+    },
+    {
+      "id": "q4",
+      "question_text": "Drawing 2 is a student's attempt to redraw the circuit of Drawing 1 without crossings.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\coordinate (A) at (2.0,3.4);\n\\coordinate (B) at (3.8,1.8);\n\\coordinate (C) at (0.2,1.8);\n\\coordinate (D) at (1.0,-0.4);\n\\coordinate (E) at (3.0,-0.4);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (A)--(C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\coordinate (A2) at (8.5,3.4);\n\\coordinate (B2) at (10.3,1.8);\n\\coordinate (C2) at (9.5,-0.4);\n\\coordinate (D2) at (7.5,-0.4);\n\\coordinate (E2) at (6.7,1.8);\n\\draw (A2)--(B2);\n\\draw (B2)--(C2);\n\\draw (C2)--(D2);\n\\draw (D2)--(E2);\n\\draw (E2)--(A2);\n\\draw (B2)--(D2);\n\\fill (A2) circle (2.5pt);\n\\fill (B2) circle (2.5pt);\n\\fill (C2) circle (2.5pt);\n\\fill (D2) circle (2.5pt);\n\\fill (E2) circle (2.5pt);\n\\node[above] at (A2) {$A$};\n\\node[right] at (B2) {$B$};\n\\node[below right] at (C2) {$C$};\n\\node[below left] at (D2) {$D$};\n\\node[left] at (E2) {$E$};\n\\node at (2.0,-1.6) {Drawing 1};\n\\node at (8.5,-1.6) {Drawing 2};\n\\end{tikzpicture}\n[/tikz]\nHas the redraw succeeded?",
+      "structure": "judge-a-redraw",
+      "mastery": true,
+      "options": [
+        { "text": "No — Drawing 2 joins $B$ and $D$ where Drawing 1 joined $A$ and $C$.", "correct": true },
+        { "text": "Yes — Drawing 2 has the same six tracks and no crossings.", "why": "Counts the tracks without checking which pairs they join; one track has been moved onto a different pair of components." },
+        { "text": "No — Drawing 2 has only five tracks, so one has been deleted.", "why": "Sees that $AC$ is gone but misses the new chord $BD$, so counts five tracks in Drawing 2 instead of six." },
+        { "text": "No — two of the tracks in Drawing 2 still cross.", "why": "Misreads Drawing 2, in which the chord $BD$ lies inside the ring and crosses nothing." }
+      ],
+      "solution_text": "Drawing 1 joins $AB$, $BC$, $CD$, $DE$, $EA$, $AC$.\nDrawing 2 joins $AB$, $BC$, $CD$, $DE$, $EA$, $BD$.\nBoth have six tracks and Drawing 2 has no crossings, but the sixth track now joins a different pair of components, so it is a drawing of a different circuit.\n**No — the redraw has not succeeded.**"
+    },
+    {
+      "id": "q5",
+      "question_text": "This circuit is drawn with no tracks crossing.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (H) at (2.0,2.0);\n\\coordinate (A) at (2.0,4.2);\n\\coordinate (B) at (4.1,2.7);\n\\coordinate (C) at (3.3,0.2);\n\\coordinate (D) at (0.7,0.2);\n\\coordinate (E) at (-0.1,2.7);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (H)--(A);\n\\draw (H)--(B);\n\\draw (H)--(C);\n\\draw (H)--(D);\n\\draw (H)--(E);\n\\fill (H) circle (2.5pt);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (H) {$H$};\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nHow many faces does this drawing have?",
+      "structure": "count-faces",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$5$", "why": "Counts the five regions fenced in by tracks and leaves out the unbounded region outside the drawing." },
+        { "text": "$7$", "why": "Counts the five inner regions and the outer region, then adds one more for the hub $H$ as though a vertex were a face." },
+        { "text": "$10$", "why": "Gives the number of tracks instead of the number of regions the tracks cut the page into." }
+      ],
+      "solution_text": "The five spokes from $H$ cut the inside of the ring into five regions.\nThe unbounded region outside the ring is one more face.\n$5+1$\n$=6$\n**The drawing has $6$ faces.**"
+    },
+    {
+      "id": "q6",
+      "question_text": "This drawing has a loop at $A$ and no crossings.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.8,0);\n\\coordinate (C) at (2.8,2.6);\n\\coordinate (D) at (0,2.6);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (B)--(D);\n\\draw (A) .. controls (-1.8,-0.6) and (-0.6,-1.8) .. (A);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\node[below right] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]\nHow many faces does this drawing have?",
+      "structure": "count-faces",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$3$", "why": "Treats the loop as fencing nothing in, counting only the two halves of the square and the outer region." },
+        { "text": "$5$", "why": "Counts the loop as creating two regions, one on each side of it, when it encloses just one." },
+        { "text": "$2$", "why": "Counts only the two regions the diagonal $BD$ makes, forgetting both the loop's region and the outer region." }
+      ],
+      "solution_text": "The diagonal $BD$ cuts the square into two regions.\nThe loop at $A$ fences in one more region, and the unbounded outside region is a face as well.\n$2+1+1$\n$=4$\n**The drawing has $4$ faces.**"
+    },
+    {
+      "id": "q7",
+      "question_text": "Three regions of this crossing-free floor plan have been numbered.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (2.0,3.8);\n\\coordinate (B) at (4.2,2.2);\n\\coordinate (C) at (3.4,-0.4);\n\\coordinate (D) at (0.6,-0.4);\n\\coordinate (E) at (-0.2,2.2);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (A)--(C);\n\\draw (A)--(D);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\node at (3.2,1.6) {$1$};\n\\node at (2.0,0.9) {$2$};\n\\node at (0.8,1.6) {$3$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about the faces of this drawing is correct?",
+      "structure": "outer-face",
+      "mastery": false,
+      "options": [
+        { "text": "There are $4$ faces; the unbounded region outside the plan has not been numbered.", "correct": true },
+        { "text": "There are $3$ faces; every face of the drawing has already been numbered.", "why": "Leaves out the outer region, which is always counted as a face — the commonest slip in face counting." },
+        { "text": "There are $3$ faces; the outer region is not a face because nothing bounds it on the outside.", "why": "Spots the outer region but wrongly rules it out; a face need not be enclosed on all sides to be counted." },
+        { "text": "There are $4$ faces; the strip between regions $1$ and $2$ has not been numbered.", "why": "Invents a region along the doorway $AC$, where regions $1$ and $2$ simply share a boundary." }
+      ],
+      "solution_text": "Regions $1$, $2$ and $3$ are the three regions fenced in by doorways.\nThe region stretching away outside the whole plan is also a face and has no number.\n$3+1$\n$=4$\n**There are $4$ faces; the unbounded outer region has not been numbered.**"
+    },
+    {
+      "id": "q8",
+      "question_text": "A single-storey plan needs five rooms, each with a doorway directly to every one of the other four, with no doorway crossing another.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (R1) at (0,2.8);\n\\coordinate (R2) at (2.2,4.0);\n\\coordinate (R3) at (4.2,2.6);\n\\coordinate (R4) at (3.4,0.2);\n\\coordinate (R5) at (0.8,0);\n\\draw (R1)--(R2);\n\\draw (R1)--(R3);\n\\draw (R1)--(R4);\n\\draw (R1)--(R5);\n\\draw (R2)--(R3);\n\\draw (R2)--(R4);\n\\draw (R2)--(R5);\n\\draw (R3)--(R4);\n\\draw (R3)--(R5);\n\\draw (R4)--(R5);\n\\fill (R1) circle (2.5pt);\n\\fill (R2) circle (2.5pt);\n\\fill (R3) circle (2.5pt);\n\\fill (R4) circle (2.5pt);\n\\fill (R5) circle (2.5pt);\n\\node[left] at (R1) {$R_1$};\n\\node[above] at (R2) {$R_2$};\n\\node[right] at (R3) {$R_3$};\n\\node[below right] at (R4) {$R_4$};\n\\node[below left] at (R5) {$R_5$};\n\\end{tikzpicture}\n[/tikz]\nIs this graph planar?",
+      "structure": "identify-nonplanar",
+      "mastery": false,
+      "options": [
+        { "text": "No — it is $K_5$, one of the two standard non-planar graphs.", "correct": true },
+        { "text": "Yes — the rooms can be moved around until none of the doorways cross.", "why": "Assumes every tangle can be undone by moving vertices, which fails for the two standard non-planar graphs." },
+        { "text": "Yes — the crossings disappear if the doorways are drawn as curves instead of straight lines.", "why": "Curving edges changes the picture but not the network, so a non-planar graph still keeps a crossing." },
+        { "text": "No — but only because $10$ doorways will not fit on a single page.", "why": "Blames the number of edges and the space available rather than the structure of the network." }
+      ],
+      "solution_text": "Each of the five rooms is joined to all four of the others, so the network is $K_5$.\n$K_5$ is non-planar, so every drawing of it has at least one crossing.\n**No — the graph is not planar.**"
+    },
+    {
+      "id": "q9",
+      "question_text": "The circuit below is drawn with no tracks crossing. A new track joining $A$ and $C$ is then added, drawn inside the square without crossing anything.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (3.0,2.6);\n\\coordinate (D) at (0,2.6);\n\\coordinate (E) at (1.5,4.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (D)--(E);\n\\draw (E)--(C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]\nHow many faces does the new drawing have?",
+      "structure": "faces-after-adding-edge",
+      "mastery": true,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$3$", "why": "Assumes a track drawn inside an existing region leaves the number of regions unchanged." },
+        { "text": "$5$", "why": "Counts the new track as creating two extra regions rather than dividing one region into two." },
+        { "text": "$2$", "why": "Counts only the two halves of the square, ignoring the triangle $DEC$ and the outer region." }
+      ],
+      "solution_text": "Before the new track there are two enclosed regions — the square and the triangle $DEC$ — plus the outer region, giving $3$ faces.\nThe track $AC$ is drawn inside the square, so it divides that one region into $ABC$ and $ACD$.\n$3+1$\n$=4$\n**The new drawing has $4$ faces.**"
+    }
+  ]
+}

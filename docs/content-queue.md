@@ -4,6 +4,97 @@ Ordered queue of **topics** to mass-generate per-skill teaching content
 (`public/content/{id}.json`) and quizzes (`public/quizzes/{id}.json`) for, one topic per
 session, via the workflow in [content-generation.md](content-generation.md).
 
+## Stage 3 backfill campaign (GPT-5.6 generation provenance)
+
+**Scope:** 139 incomplete Stage 3 skills: 137 theory-only files, the missing
+`identify-base-perpendicular-height` content file, and `order-decimals-3dp` (practice absent;
+existing q1-q4 retained unless a gate requires repair). The 10 already-complete Stage 3 skills
+are out of scope. Existing theory is preserved byte-for-byte except for the one missing file.
+
+**Campaign-only model provenance:** generation uses OpenAI `gpt-5.6-sol` at high reasoning;
+independent blind checking remains `gpt-5.6-luna`. This is a Stage 3 exception only: it does not
+change the standing Opus generation workflow or any historical provenance below. Baseline target-file
+SHA-256: `8b4fadc6686bbd53433bec05b4c0b6480c7112443f2408eb04a8066f01e8f3e3` on a 438-entry dirty
+worktree; unrelated Wave 2 changes are preserved and remain out of scope.
+
+| Round | Lane | Topics | Skills | Status |
+|---|---|---|---:|---|
+| 1 | S3-1 | t-s3-rn-a, t-s3-rn-b | 15 | in-review |
+| 1 | S3-2 | t-s3-ar-a, t-s3-ar-b | 8 | in-review |
+| 1 | S3-3 | t-s3-mr-a | 17 | in-review |
+| 2 | S3-4 | t-s3-mr-b | 13 | in-review |
+| 2 | S3-5 | t-s3-rqf-a, t-s3-rqf-b | 14 | in-review |
+| 2 | S3-6 | t-s3-gm-a | 9 | in-review |
+| 3 | S3-7 | t-s3-gm-b | 12 | in-review |
+| 3 | S3-8 | t-s3-2ds-a, t-s3-2ds-b | 7 | in-review |
+| 3 | S3-9 | t-s3-3ds-a, t-s3-3ds-b | 12 | in-review |
+| 4 | S3-10 | t-s3-nsm-a, t-s3-nsm-b | 10 | in-review |
+| 4 | S3-11 | t-s3-data-a, t-s3-data-b | 12 | in-review |
+| 4 | S3-12 | t-s3-chan-a, t-s3-chan-b | 10 | in-review |
+
+**Campaign result (2026-08-13).** The 139 skills now contain 841 foundation, 841 development,
+418 mastery-practice, and 880 quiz items (2,980 authored items total). The 138 inherited theory
+blocks match their original raw JSON; `identify-base-perpendicular-height` received the one new
+theory block. `order-decimals-3dp` retained q1-q4 and added q5-q6. The isolated manifest delta is
++1 content and +138 quizzes; the rebuilt repository manifest is 614 content / 614 quizzes because
+unrelated Wave 2 work continued from the recorded dirty baseline.
+
+**Automated QA and blind check.** All six deterministic gates pass on the campaign with zero
+warnings or hard defects: schema, equivalent options, duplicate stems/value signatures, option
+hygiene, figure scale, and angle arms. The duplicate audit has 96 non-blocking diagram-template
+similarity advisories. Luna completed all 139 blind packets with 1,298/1,298 items covered. The
+first comparison produced 11 answer mismatches and 79 flags; every item was adjudicated, including
+checker arithmetic/legend errors and valid distractor paths. Targeted repairs touched 62 items.
+A second blind pass across the 41 affected skills had zero answer mismatches and complete coverage;
+its seven flags led to five final wording refinements (`round-to-estimate` q3/q5/q7,
+`units-for-capacity` m1, `identify-misleading-data` m1) and one rejected false positive
+(`estimate-products` q8). Those five refinements are explicitly retained for human spot-check under
+the two-round stopping rule.
+
+**Repository verification.** Full validation passes with zero errors (247 warnings, all outside
+this campaign). The unscoped duplicate regression reports two unrelated Wave 2 defects in
+`order-operations-roots` and `evaluate-index-notation`/`zero-index`; the campaign contributes none.
+Tests pass 114/114, the manifest rebuild passes, and the Vite production build passes. The worktree
+remains deliberately uncommitted.
+
+**Review samples:** S3-1 `order-decimals-3dp`; S3-2 `multistep-add-subtract-problems`; S3-3
+`multiply-area-model-distributive`; S3-4 `order-of-operations`; S3-5
+`compare-fractions-area-discrete`; S3-6 `recognise-angle-relationships`; S3-7
+`coordinates-translation-reflection`; S3-8 `identify-base-perpendicular-height`; S3-9
+`nets-of-3d-objects`; S3-10 `duration-problems`; S3-11 `identify-misleading-data`; S3-12
+`assign-probabilities-unequal`.
+
+**Required manual TikZ review (content + quiz block counts; 52 skills / 632 blocks):**
+
+- S3-1: `place-decimals-number-line` 29; `percent-meaning` 3;
+  `equivalent-percent-decimal-fraction` 3.
+- S3-3: `multiply-area-model-distributive` 25; `multiply-2-digit-by-2-digit` 11.
+- S3-5: `fraction-whole-comparison` 1; `compare-unit-fractions-half` 1;
+  `order-unit-fractions` 2; `order-fractions-related-denominators` 1;
+  `compare-fractions-area-discrete` 1; `whole-from-fractional-part` 2;
+  `unit-fraction-of-quantity` 2; `non-unit-fraction-of-quantity` 2.
+- S3-6: `plot-points-first-quadrant` 31; `read-coordinates-first-quadrant` 16;
+  `perimeter-2d-shapes` 30; `sides-needed-for-perimeter` 14; `measure-angles-protractor` 11;
+  `estimate-angles-benchmarks` 15; `construct-angles-protractor` 15.
+- S3-7: `plot-points-four-quadrants` 15; `coordinates-translation-reflection` 6;
+  `perimeter-area-same-comparison` 8; `length-perimeter-problems` 12;
+  `recognise-angle-relationships` 21; `perpendicular-lines` 17; `angles-add-to-90` 15;
+  `angles-add-to-180` 15; `angles-add-to-360` 15.
+- S3-8: `symmetry-quadrilaterals` 13; `regular-irregular-polygons` 9;
+  `area-units-hectare-km2` 1; `rectangles-same-area-different-dimensions` 2;
+  `describe-transformations` 19; `dissect-rearrange-shapes` 18;
+  `identify-base-perpendicular-height` 29.
+- S3-9: `compare-prisms-pyramids` 8; `name-prisms-pyramids` 6; `sketch-3d-views` 27;
+  `nets-of-3d-objects` 11; `volume-by-displacement` 6; `construct-3d-models` 6;
+  `volume-layers-structure` 3; `volume-rectangular-prism` 9.
+- S3-11: `construct-column-graph-scale` 28; `draw-timeline` 26;
+  `interpret-line-graphs` 17; `interpret-tables-graphs` 8;
+  `interpret-side-by-side-graphs` 18; `compare-displays-range-mode` 15;
+  `interpret-media-data` 6; `identify-misleading-data` 8.
+- S3-2, S3-4, S3-10, and S3-12 are diagram-free.
+
+Human visual review and commit remain owner actions.
+
 **One batch per session.** Work top to bottom. After a batch's samples are approved,
 `node scripts/validate.mjs` + `npm run manifest` are clean, and the status is set here,
 move to the next `pending` row — do not skip ahead. **Statuses are set by the
@@ -1696,12 +1787,12 @@ docs/content-queue.md"**.
 | Round | Lanes | Constraints honoured |
 |---|---|---|
 | 1 | W2-4 · W2-5 · W2-15 · R2 | **done 2026-08-05, in-review** — see batch rows + Round-1 notes below |
-| 2 | W2-6 · W2-7 · W2-16 | W2-6 after W2-5; W2-16 after W2-15; W2-7 skip files gate-checked |
-| 3 | W2-8 · W2-9 · W2-17 · R3 | W2-8 after W2-7; R3 not concurrent with W2-7, skips files W2-7 repaired |
-| 4 | W2-10 · W2-11 · W2-19 · R4 | W2-11 graphing after W2-9 |
-| 5 | W2-12 · W2-13 · W2-18 | W2-13 after W2-9 |
-| 6 | W2-14 · W2-20 · W2-21 | W2-20 after W2-19 |
-| 7 | W2-22 · W2-23 | W2-23 last (anchor: none, owner decision) |
+| 2 | W2-6 · W2-7 · W2-16 | **done 2026-08-11, in-review** — see Round-2 notes below |
+| 3 | W2-8 · W2-9 · W2-17 · R3 | **done 2026-08-11, in-review** — see Round-3 notes below. Wave regression 110→55 |
+| 4 | W2-10 · W2-11 · W2-19 · R4 | **done 2026-08-12, in-review** — see Round-4 notes below. Wave regression 55→2 (all pre-existing) |
+| 5 | W2-12 · W2-13 · W2-18 | **done 2026-08-12, in-review** — see Round-5 notes below. Wave regression held at 2 (both pre-existing residuals) |
+| 6 | W2-14 · W2-20 · W2-21 | **done 2026-08-13, in-review** — see batch rows below. Wave regression held at 2 (both pre-existing) |
+| 7 | W2-22 · W2-23 | **done 2026-08-13, in-review — LAST ROUND, Wave 2 (Stage 5) now COMPLETE.** See batch rows below. Wave regression held at 2 (both pre-existing, unchanged) |
 
 Per round the main session re-runs each batch gate, full-repo validate, the **unscoped
 wave regression** (baseline after W2-3: 60/4/1/102), rebuilds the manifest once, updates
@@ -1714,24 +1805,24 @@ this file, and hands the human review samples + consolidated diagram checklist. 
 | W2-3 | Indices A+B | t-s5c-ind-a, t-s5p-ind-b | 9 | `Stage 5/Indices A 1_Index Laws.md`<br>`Stage 5/Indices A 2_Negative Index.md`<br>`Stage 5 Path/Indices B_1 Apply index laws to algebraic expressions involving negative-integer indices.md` | in-review | NEW Indices A files supersede all 3 OLD Core files. 6 generators, gate clean batch-wide, luna 127/127 agree, 4 flags all valid → 1 repair round, round 2 clean. **Zero `[tikz]` in the batch — no visual-review checklist.** Samples: `establish-negative-indices`, `power-of-product-quotient`, `negative-integer-indices`. No `anchor: none`. See notes below |
 | W2-4 | Indices C | t-s5p-ind-c | 14 | `Stage 5 Path/Indices C_1 Describe surds.md`<br>`Stage 5 Path/Indices C_2 Apply knowledge of surds to solve problems.md`<br>`Stage 5 Path/Indices C_3 Describe and use fractional indices.md` | in-review | 14/14 generated (445 items), 3 generators, gate clean incl. VALUES 0 (gate-storm brief worked). Luna 14/14 coverage, 1 mismatch (checker slip), 8 flags → 3 valid (stem pins: "whole-number"→"integer"; two "a,b integers" pins on rationalise-binomial), 5 invalid; targeted re-check 3/3 clean. **Post-round unscoped sweep caught 5 CROSS-SKILL-DUPs vs committed neighbours (irrational/rational-numbers, square-cube-roots, convert-FDP) — repaired W2-4-side only, re-checked clean.** Samples: `real-numbers`, `rationalise-binomial-surd-denominator`, `surd-index-conversion`. **Diagram checklist: real-numbers 24, simplify-surds-operations 7, define-surds 6 (37 blocks; 11 skills figure-free).** Excluded as out-of-scope: Euler's e, root-spiral construction, simultaneous/quadratic-in-disguise exponentials |
 | W2-5 | Equations A+B | t-s5c-equ-a, t-s5p-equ-b | 10 | `Stage 5 Core/Equations A 1_Solve linear equations involving up to 3 steps.md`<br>`Stage 5 Core/Equations A 2_Solve linear equations involving one algebraic fraction.md`<br>`Stage 5 Core/Equations A 3_Solve linear equations arising from word problems and substitution into formulas.md`<br>`Stage 5 Path/Equations B_1 Solve monic quadratic equations.md`<br>`Stage 5 Path/Equations B_2 Solve cubic equations.md`<br>`Stage 5 Path/Equations B_3 Solve linear inequalities and graph their solutions on a number line.md` | in-review | 7 net-new generated (296 items, 51 tikz), 5 generators. Skips three-way: 2 clean (`model-word-problems-equations`, `verify-solutions-substitution`), **`equations-from-formulas` DIRTY — figure-scale defect** (trapezium height at half scale), coordinate-only repair. Gate clean; luna 95/95, 3 flags → 2 invalid, 1 valid scope flag (`solve-monic-quadratic-factors` m2 rational-denominator wrapper → replaced with squared-binomial, same roots), targeted re-check clean. One duplicate section agent (B_1, from the concurrency incident) replaced 2 quiz stems safely — spot-check `solve-monic-quadratic-factors` q3/q4. Samples: `represent-inequalities-number-line`, `solve-monic-quadratic-factors`, `solve-cubic-axcubed`. **Diagram checklist: represent-inequalities-number-line 35, equations-from-formulas 9, solve-linear-inequalities 7 (51 blocks).** |
-| W2-6 | Equations C | t-s5p-equ-c | 18 | `Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md`<br>`Stage 5 Path/Equations C_2 Rearrange literal equations.md`<br>`Stage 5/Equations C_3 Quadratic Equations.md`<br>`Stage 5/Equations C 4_Simultaneous Equations.md` | pending | largest batch; NEW `Equations C 4_Simultaneous Equations.md` supersedes OLD Path `Equations C_4…` |
-| W2-7 | Linear relationships A+B | t-s5c-lin-a, t-s5c-lin-b | 16 | `Stage 5/Linear Relationships A 1_Coordinate Geometry.md`<br>`Stage 5/Linear Relationships A 2_Graphing Lines.md`<br>`Stage 5/Linear Relationships B Gradient-Intercept Form.md` | pending | graph-heavy; skip 3 (ALREADY-COMPLETE): `graph-linear-relationship`, `point-satisfies-line`, `linear-real-life` |
-| W2-8 | Linear relationships C | t-s5p-lin-c | 9 | `Stage 5/Linear Relationships C 1_Coordinate Geometry Formulas.md`<br>`Stage 5/Linear Relationships C 2_General and Point Gradient Form.md`<br>`Stage 5/Linear Relationships C 3_Coordinate Geometry Problems.md`<br>`Stage 5 Path/Linear Relationships C_3 Use various forms of the equation of a straight line.md`<br>`Stage 5 Path/Linear Relationships C_5 Identify line and rotational symmetries.md`<br>`Stage 5 Path/Linear Relationships C_6 Describe translations, reflections in an axis, and rotations through multiples of 90 degrees on the Cartesian plane, using coordinates.md` | pending | 6 booklets, 6 dp; NEW `C 2` overlaps OLD `C_3` — map per dot point |
-| W2-9 | Non-linear relationships A+B+C | t-s5c-nli-a, t-s5c-nli-b, t-s5p-nli-c | 17 | `Stage 5 Core/Non-Linear Relationships A 1_Examine the connection between algebraic and graphical representations of quadratics and exponentials.md`<br>`Stage 5 Core/Non-Linear Relationships B 1_Graph and examine quadratic relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 2_Graph and examine exponential relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 3_Distinguish between linear, quadratic and exponential relationships by examining their graphical representations.md`<br>`Stage 5 Path/Non-Linear Relationships C_1 Graph parabolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_2 Graph exponentials and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_3 Graph hyperbolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_4 Graph circles and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_5 Distinguish between different types of graphs by examining their algebraic and graphical representations and solve problems.md`<br>`Stage 5 Path/Non-Linear Relationships C_6 Graph and compare polynomial curves and describe their features and transformations.md` | pending | graph-heavy (pgfplots) |
-| W2-10 | Numbers of any magnitude | t-s5c-mag | 7 | `Stage 5 Core/Numbers of Any Magnitude 1_Identify and describe very small and very large measurements.md`<br>`Stage 5 Core/Numbers of Any Magnitude 2_Find absolute and percentage error.md`<br>`Stage 5 Core/Numbers of Any Magnitude 3_Estimate and round numbers to a specified degree of accuracy.md`<br>`Stage 5 Core/Numbers of Any Magnitude 4_Express numbers in scientific notation.md` | pending | topic absent from `booklets/QUEUE.md` (never atomisation-reviewed) — treat booklet mapping as fresh |
-| W2-11 | Polynomials | t-s5p-pol | 10 | `Stage 5 Path/Polynomials_1 Define and operate with polynomials.md`<br>`Stage 5 Path/Polynomials_2 Divide polynomials.md`<br>`Stage 5 Path/Polynomials_3 Apply the factor and remainder theorems to solve problems.md`<br>`Stage 5 Path/Polynomials_4 Graph polynomials.md` | pending | |
-| W2-12 | Logarithms | t-s5p-log | 9 | `Stage 5 Path/Logarithms_1 Examine logarithms both numerically and graphically.md`<br>`Stage 5 Path/Logarithms_2 Establish and apply the laws of logarithms to solve problems.md` | pending | |
-| W2-13 | Functions and other graphs | t-s5p-fnc | 14 | `Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md`<br>`Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md`<br>`Stage 5/Functions 2_Graph Regions.md` | pending | 3rd dp covered by NEW `Functions 2_Graph Regions.md` |
-| W2-14 | Variation and rates of change A+B | t-s5p-var-a, t-s5p-var-b | 13 | `Stage 5/Variation and Rates of Change 1_Direct and Inverse Proportion.md`<br>`Stage 5/Variation and Rates of Change 2_Graphs of Rates of Change.md`<br>`Stage 5 Path/Variation and Rates of Change B_2 Analyse the relationship between graphs and variable rates of change.md` | pending | NEW filenames lack the A/B letter — mapping above is authoritative |
+| W2-6 | Equations C | t-s5p-equ-c | 18 | `Stage 5 Path/Equations C_1 Solve linear equations involving algebraic fractions and equations of more than 3 steps.md`<br>`Stage 5 Path/Equations C_2 Rearrange literal equations.md`<br>`Stage 5/Equations C_3 Quadratic Equations.md`<br>`Stage 5/Equations C 4_Simultaneous Equations.md` | in-review | largest batch; NEW `Equations C 4_Simultaneous Equations.md` supersedes OLD Path `Equations C_4…`. Round 2 — see notes |
+| W2-7 | Linear relationships A+B | t-s5c-lin-a, t-s5c-lin-b | 16 | `Stage 5/Linear Relationships A 1_Coordinate Geometry.md`<br>`Stage 5/Linear Relationships A 2_Graphing Lines.md`<br>`Stage 5/Linear Relationships B Gradient-Intercept Form.md` | in-review | graph-heavy; 2 clean skips (`graph-linear-relationship`, `point-satisfies-line`); **`linear-real-life` was a DIRTY skip → repaired**. Round 2 — see notes |
+| W2-8 | Linear relationships C | t-s5p-lin-c | 9 | `Stage 5/Linear Relationships C 1_Coordinate Geometry Formulas.md`<br>`Stage 5/Linear Relationships C 2_General and Point Gradient Form.md`<br>`Stage 5/Linear Relationships C 3_Coordinate Geometry Problems.md`<br>`Stage 5 Path/Linear Relationships C_3 Use various forms of the equation of a straight line.md`<br>`Stage 5 Path/Linear Relationships C_5 Identify line and rotational symmetries.md`<br>`Stage 5 Path/Linear Relationships C_6 Describe translations, reflections in an axis, and rotations through multiples of 90 degrees on the Cartesian plane, using coordinates.md` | in-review | 6 booklets, 6 dp; NEW `C 2` overlaps OLD `C_3` — map per dot point. Round 3 — see notes |
+| W2-9 | Non-linear relationships A+B+C | t-s5c-nli-a, t-s5c-nli-b, t-s5p-nli-c | 17 | `Stage 5 Core/Non-Linear Relationships A 1_Examine the connection between algebraic and graphical representations of quadratics and exponentials.md`<br>`Stage 5 Core/Non-Linear Relationships B 1_Graph and examine quadratic relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 2_Graph and examine exponential relationships.md`<br>`Stage 5 Core/Non-Linear Relationships B 3_Distinguish between linear, quadratic and exponential relationships by examining their graphical representations.md`<br>`Stage 5 Path/Non-Linear Relationships C_1 Graph parabolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_2 Graph exponentials and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_3 Graph hyperbolas and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_4 Graph circles and describe their features and transformations.md`<br>`Stage 5 Path/Non-Linear Relationships C_5 Distinguish between different types of graphs by examining their algebraic and graphical representations and solve problems.md`<br>`Stage 5 Path/Non-Linear Relationships C_6 Graph and compare polynomial curves and describe their features and transformations.md` | in-review | graph-heavy (pgfplots). Round 3 — see notes |
+| W2-10 | Numbers of any magnitude | t-s5c-mag | 7 | `Stage 5 Core/Numbers of Any Magnitude 1_Identify and describe very small and very large measurements.md`<br>`Stage 5 Core/Numbers of Any Magnitude 2_Find absolute and percentage error.md`<br>`Stage 5 Core/Numbers of Any Magnitude 3_Estimate and round numbers to a specified degree of accuracy.md`<br>`Stage 5 Core/Numbers of Any Magnitude 4_Express numbers in scientific notation.md` | in-review | 7/7 (pre-generated by an earlier partial session, untracked). ALREADY-COMPLETE gate CLEAN on all 7 first pass; luna 7/7 coverage, **0 flags, 0 mismatches, 0 repairs**. 6 figure-free number skills + `absolute-error` (4 [tikz]). Samples: `scientific-notation`, `percentage-error`, `round-significant-figures`. No `anchor: none`. Round 4 — see notes |
+| W2-11 | Polynomials | t-s5p-pol | 10 | `Stage 5 Path/Polynomials_1 Define and operate with polynomials.md`<br>`Stage 5 Path/Polynomials_2 Divide polynomials.md`<br>`Stage 5 Path/Polynomials_3 Apply the factor and remainder theorems to solve problems.md`<br>`Stage 5 Path/Polynomials_4 Graph polynomials.md` | in-review | 10/10 (pre-generated, untracked). ALREADY-COMPLETE gate CLEAN first pass; luna 10/10 coverage, 0 answer mismatches. 1 repair: `graph-polynomials-factored` q8 distractor `-13`→`-1` (value contradicted its own `why` "added the constants": sum = −1). INVALID flags recorded: `find-equation-polynomial-graph` 9 figure-flags = schematic vertical-compression convention (curve scaled to window, y-intercept **labelled its true value**, roots at true x, leading-coeff hint — Round-3 `graph-power-curves` precedent); `polynomial-roots-multiplicity` q2 (standard cut/bounce/inflect taxonomy). **DEFERRED to human**: `factor-theorem` q8 (max-zeroes of degree 5) + m4 ($x^n-1$ divisible by $x-1$, arbitrary $n$) name degrees beyond the card's "degree ≤4" — conceptual, no degree-5 factoring performed; owner to rule whether to pin in-scope. Samples: `factor-theorem`, `graph-polynomials-factored` (repaired), `find-equation-polynomial-graph` (schematic graphs). 3 diagram skills (71 [tikz]). Round 4 — see notes |
+| W2-12 | Logarithms | t-s5p-log | 9 | `Stage 5 Path/Logarithms_1 Examine logarithms both numerically and graphically.md`<br>`Stage 5 Path/Logarithms_2 Establish and apply the laws of logarithms to solve problems.md` | in-review | 9/9 net-new, 4 generators. Gate clean batch-wide (VALUES 0 — literal-poor log family pre-empted by re-basing quiz literals). Luna full coverage, 0 answer mismatches, 1 valid repair (`laws-of-logarithms` q8 stem form-pin) + 1 invalid (domain-restriction over-reach). Samples: `graph-log-functions`, `laws-of-logarithms`, `logarithmic-scales`. **Diagram checklist: graph-log-functions 23, logarithmic-scales 2 (25 blocks; 7 skills figure-free).** No `anchor: none`. Round 5 — see notes |
+| W2-13 | Functions and other graphs | t-s5p-fnc | 14 | `Stage 5 Path/Functions and Other Graphs_1 Define relations and functions, and use function notation.md`<br>`Stage 5 Path/Functions and Other Graphs_2 Find the domain and range of a function and graph functions.md`<br>`Stage 5/Functions 2_Graph Regions.md` | in-review | 14/14 net-new, ~5 generators. Gate clean batch-wide (0 across all dup classes). Luna full coverage, **339/339 items, 0 answer mismatches**, 1 valid repair (`domain-and-range` q5 figure arrow `<->`→`->` for restricted domain) + 6 invalid (5 booklet-anchored `solve-function-equation` scope + 1 luna arithmetic slip). 3rd dp covered by NEW `Functions 2_Graph Regions.md`. Samples: `domain-and-range`, `graph-region-multiple-inequalities`, `reflect-function-graphs`. **Diagram checklist: 9 skills, 178 blocks — domain-and-range 39, graph-linear-inequalities-region 30, graph-region-multiple-inequalities 25, vertical-line-test 25, relations-and-functions 11, inequality-from-region 22, graph-function-transformations 10, dilate-function-graphs 8, reflect-function-graphs 8; 5 symbolic skills figure-free.** No `anchor: none`. Round 5 — see notes |
+| W2-14 | Variation and rates of change A+B | t-s5p-var-a, t-s5p-var-b | 13 | `Stage 5/Variation and Rates of Change 1_Direct and Inverse Proportion.md`<br>`Stage 5/Variation and Rates of Change 2_Graphs of Rates of Change.md`<br>`Stage 5 Path/Variation and Rates of Change B_2 Analyse the relationship between graphs and variable rates of change.md` | in-review | NEW filenames lack the A/B letter — mapping above is authoritative. 13/13 net-new, 5 section generators (define/represent: `describe-direct-variation`, `describe-inverse-variation`, `variation-from-table`; direct-variation+conversion graphs: `graph-direct-variation`, `conversion-graphs`; inverse-variation graphs+solving: `graph-inverse-variation`, `solve-variation-equation`; constant-rate+speed-time: `constant-rate-graphs`, `speed-time-graph-acceleration`, `distance-from-speed-time-area`; variable/qualitative rate+construction: `variable-rate-distance-time`, `qualitative-rate-of-change`, `construct-rate-of-change-graphs`). Gate clean batch-wide (265 figures scanned). Wave regression held at 2 (pre-existing, untouched). Luna full coverage (151/151), 2 answer mismatches (1 repaired, 1 luna arithmetic slip verified correct — no change), 8 flags → **6 valid repairs / 2 invalid**. Repairs: `variation-from-table` q6 (ambiguous true-both-ways distractor made factually false), `graph-direct-variation` m3 (multiplicative-vs-additive wording), `solve-variation-equation` q2/q7 (stem pinned "in terms of"), `conversion-graphs` m3 (quoted student claim reworded), `speed-time-graph-acceleration` q3 (implausible 216 km/h "taxiing" → take-off roll, numbers unchanged). Invalid: `describe-inverse-variation` q4/q5 (both ruled working-as-designed). `anchor: none`: `constant-rate-graphs` (booklet coverage thin/indirect). No `masteryOmitted`/`coverageNote`. **House-convention flag (unsettled, owner to rule):** booklet mixes "constant of variation"/"constant of proportionality" for $k$ interchangeably — standardised on "constant of variation" this batch. Samples: `constant-rate-graphs` (anchor:none), `variation-from-table` (repaired), `speed-time-graph-acceleration` (repaired). **Diagram checklist: 10 of 13 skills, 265 blocks** — `constant-rate-graphs` 36, `distance-from-speed-time-area` 35, `graph-inverse-variation` 33, `construct-rate-of-change-graphs` 32, `speed-time-graph-acceleration` 27, `graph-direct-variation` 26, `conversion-graphs` 25, `variable-rate-distance-time` 25, `qualitative-rate-of-change` 24, `solve-variation-equation` 2; `describe-direct-variation`/`describe-inverse-variation`/`variation-from-table` figure-free. Final `validate --only` clean. Round 6 — see notes |
 | W2-15 | Trigonometry A+B | t-s5c-trg-a, t-s5c-trg-b | 15 | `Stage 5 Core/Trigonometry A 1_Demonstrate and explain the constancy of trigonometric ratios for a given angle in right-angled triangles.md`<br>`Stage 5 Core/Trigonometry A 2_Apply trigonometry to solve right-angled triangle problems.md`<br>`Stage 5 Core/Trigonometry B 1_Solve right-angled triangle problems involving angles of elevation and depression.md`<br>`Stage 5 Core/Trigonometry B 2_Solve right-angled triangle problems involving bearings.md` | in-review | 15/15 generated (422 items), 6 generators (A1/A2 split two ways each). Gate clean; figure-scale note: script matched 0 labels in section A1 (unit-less side numbers, outside its `N cm` regex) — generator hand-verified 21 figures ≤2% deviation; **script-reach gap logged for tooling backlog**. Luna 177/177, 2 mismatches + 1 shuffle warning all invalid (checker misread rotated triangles / rounded early — the distractors' own traps), 2 valid ambiguity flags repaired (`find-angle-from-ratio` q8 round-once-at-end key 56°→55° + new option set; `define-trig-ratios` m1 stem pin), targeted re-check clean. Two booklet errors found, not propagated (A2 DMS example 84.78→83.78; B2 Q18 36°36′). Samples: `bearings-problems`, `identify-elevation-depression`, `find-angle-from-ratio` + priority eyeball on `define-trig-ratios` rotated triangles. **Diagram checklist: 13 skills, 338 blocks — bearings-problems 47, bearing-between-two-points 37, identify-elevation-depression 32, label-trig-sides 30, elevation-depression 29, trig-practical-problems 28, trig-find-side 27, trig-find-angle 25, trig-ratio-constancy 24, define-trig-ratios 23, trig-find-side-denominator 21, bearings 12, evaluate-trig-ratio 3.** |
-| W2-16 | Trigonometry C | t-s5p-trg-c | 11 | `Stage 5/Trigonometry C 1_3D Trigonometry.md`<br>`Stage 5/Trigonometry C 2_Non-Right-Angled Trigonometry.md` | pending | 3D figures — tikz-3dplot territory |
-| W2-17 | Trigonometry D | t-s5p-trg-d | 13 | `Stage 5/Trigonometry D Circle Trigonometry.md` | pending | 1 booklet, 2 dp, 13 skills — deal sections carefully |
-| W2-18 | Area/SA + Volume A+B | t-s5c-are-a, t-s5p-are-b, t-s5c-vol-a, t-s5p-vol-b | 19 | `Stage 5 Core/Area and Surface Area A 1_Solve problems involving areas and surface areas.md`<br>`Stage 5 Core/Area and Surface Area A 2_Develop and apply the formula for surface areas of cylinders.md`<br>`Stage 5 Core/Area and Surface Area A 3_Solve problems involving surface areas of cylinders and related composite solids.md`<br>`Stage 5 Path/Area and Surface Area B_1 Solve problems involving surface areas.md`<br>`Stage 5 Core/Volume A 1_Solve problems involving composite solids consisting of right prisms and cylinders.md`<br>`Stage 5 Path/Volume B_1 Solve problems involving volumes.md` | pending | diagram-dense; biggest merged batch (4 topics) |
-| W2-19 | Geometrical figures A+B+C | t-s5c-geo-a, t-s5p-geo-b, t-s5p-geo-c | 20 | `Stage 5 Core/Properties of Geometrical Figures A 1_Identify and describe the properties of similar figures.md`<br>`Stage 5 Core/Properties of Geometrical Figures A 2_Solve problems using ratio and scale factors in similar figures.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_1 Identify and explain congruence.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_2 Develop and use the conditions for congruent triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_3 Develop and apply the minimum conditions for triangles to be similar.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_4 Establish and apply properties of similar shapes and solids.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_5 Apply logical reasoning to numerical problems involving plane shapes.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_1 Construct formal proofs involving congruent and similar triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_2 Apply logical reasoning to proofs involving plane shapes.md` | pending | at the merge cap; proof skills — MCQ-ability of proofs to watch |
-| W2-20 | Circle geometry | t-s5p-cir | 9 | `Stage 5 Path/Circle Geometry_1 Prove and apply angle and chord properties of circles.md`<br>`Stage 5 Path/Circle Geometry_2 Prove and apply tangent and secant properties of circles.md` | pending | pure TikZ stress (circles, chords, tangents) |
-| W2-21 | Data analysis A+B | t-s5c-dat-a, t-s5c-dat-b | 17 | `Stage 5/Data Analysis A 1_Standard Deviation.md`<br>`Stage 5/Data Analysis A 2_Quartiles and Box Plots.md`<br>`Stage 5/Data Anaylsis A 3_Grouped Data.md`<br>`Stage 5/Data Analysis B_Bivariate Data.md` | pending | third filename has the "Anaylsis" typo — keep as-is, path above is exact |
-| W2-22 | Probability A+B | t-s5c-pro-a, t-s5p-pro-b | 13 | `Stage 5 Core/Probability A 1_Describe multistage chance experiments involving independent and dependent events.md`<br>`Stage 5 Core/Probability A 2_Solve problems for multistage chance experiments.md`<br>`Stage 5 Path/Probability B_1 Solve problems involving Venn diagrams and 2-way tables.md`<br>`Stage 5 Path/Probability B_2 Use the language, 'if … then', 'given', 'of' and 'knowing that', to examine conditional statements and identify common mistakes in interpreting the language.md`<br>`Stage 5 Path/Probability B_3 Describe mutually and non-mutually exclusive events using specific language and calculate related probabilities.md` | pending | pro-a has 3 dp vs 2 booklets |
-| W2-23 | Networks + Data analysis C | t-s5p-net, t-s5p-dat-c | 7 | **none — no booklet exists for either topic** | pending | **whole-batch `anchor: none`** — generate from dot points; extra human review; deliberately last (owner decision 2026-08-03) |
+| W2-16 | Trigonometry C | t-s5p-trg-c | 11 | `Stage 5/Trigonometry C 1_3D Trigonometry.md`<br>`Stage 5/Trigonometry C 2_Non-Right-Angled Trigonometry.md` | in-review | 3D figures — tikz-3dplot territory. Round 2 — see notes |
+| W2-17 | Trigonometry D | t-s5p-trg-d | 13 | `Stage 5/Trigonometry D Circle Trigonometry.md` | in-review | 1 booklet, 2 dp, 13 skills — deal sections carefully. Round 3 — see notes |
+| W2-18 | Area/SA + Volume A+B | t-s5c-are-a, t-s5p-are-b, t-s5c-vol-a, t-s5p-vol-b | 19 | `Stage 5 Core/Area and Surface Area A 1_Solve problems involving areas and surface areas.md`<br>`Stage 5 Core/Area and Surface Area A 2_Develop and apply the formula for surface areas of cylinders.md`<br>`Stage 5 Core/Area and Surface Area A 3_Solve problems involving surface areas of cylinders and related composite solids.md`<br>`Stage 5 Path/Area and Surface Area B_1 Solve problems involving surface areas.md`<br>`Stage 5 Core/Volume A 1_Solve problems involving composite solids consisting of right prisms and cylinders.md`<br>`Stage 5 Path/Volume B_1 Solve problems involving volumes.md` | in-review | 19/19 net-new, 6 section generators. Gate clean batch-wide (0 across all dup classes; 261 figures scanned by figure-scale). Luna full coverage, **0 answer mismatches after repairs**, **13 valid repairs / 4 invalid**. Valid repairs incl. **2 genuine key arithmetic errors** (`surface-area-partial-cylinder` q3 284.16→284.20, q5 253.50→253.52) and **1 impossible solid rebuilt** (`surface-area-pyramid` q2: base 10×6 + slants 8/9 gave contradictory heights → base 18×10, slants 13/15, h=12, key 564, figure to-scale). Others: unreachable-distractor rederivations (`surface-area-pyramid` q9, `surface-area-cone` q7, `volume-prism-curved-cross-section` q6), not-to-scale figure fix (`surface-area-cone` q2), under-determined stems (`volume-sphere` m2, `volume-prism-curved-cross-section` m1), mis-rounded distractor values (`volume-composite-solids` q1/q2), de-dup (`nets-of-prisms` q7 hex→pentagonal). Samples: `surface-area-composite-pyramid-cone-sphere`, `surface-area-pyramid` (rebuilt q2), `volume-composite-solids`. **All 19 carry [tikz] (261 blocks) — full visual-review checklist.** `coverageNote` on 4 single-formula atoms (surface-area-sphere/-hemisphere, volume-sphere/-hemisphere). Round 5 — see notes |
+| W2-19 | Geometrical figures A+B+C | t-s5c-geo-a, t-s5p-geo-b, t-s5p-geo-c | 20 | `Stage 5 Core/Properties of Geometrical Figures A 1_Identify and describe the properties of similar figures.md`<br>`Stage 5 Core/Properties of Geometrical Figures A 2_Solve problems using ratio and scale factors in similar figures.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_1 Identify and explain congruence.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_2 Develop and use the conditions for congruent triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_3 Develop and apply the minimum conditions for triangles to be similar.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_4 Establish and apply properties of similar shapes and solids.md`<br>`Stage 5 Path/Properties of Geometrical Figures B_5 Apply logical reasoning to numerical problems involving plane shapes.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_1 Construct formal proofs involving congruent and similar triangles.md`<br>`Stage 5 Path/Properties of Geometrical Figures C_2 Apply logical reasoning to proofs involving plane shapes.md` | in-review | 20/20. **8 pre-generated** (geo-a 4 + geo-b congruence/similar-tests 4, untracked, gate-clean) + **12 authored this round** (5 section agents: A2, B4, B5, C1, C2). Luna full coverage on all 20, 0 answer mismatches. Repairs: `congruent-triangle-tests` q7 stem pin (SAS-via-alternate-angles alt path); `prove-congruent-triangles` m3 stem fixed (labels contradicted figure+solution: A,D,C collinear/B apex); `prove-properties-triangles-quadrilaterals` q1/q6 options reworked (order-only twin of key + undefined-point-E distractors → 4 distinct well-defined pairs); `prove-quadrilateral-tests` q5/q6/q9/m1/m2/m3 figures redrawn to-scale (markers contradicted coordinates; converse-pythagoras precedent) + q9 stem pinned "most specific type" + 2 latent F5/D1 figures fixed; `interior-angle-regular-polygon` q2 figure octagon→16-gon. INVALID (NSW convention): `congruent-triangle-tests` q6/q9 (NSW **AAS = 2 angles + 1 side, no separate ASA test**; theory.facts confirms). **DEFERRED to human**: `exterior-angle-regular-polygon` q5/q7/m1/m2 use the interior↔exterior supplementary link not named in the blurb (elementary, ruled in-service — owner to confirm or push to `interior-angle-regular-polygon`); `exterior-angle-sum-polygon` q5/q6 same type different regime (n=8 vs n=29). House conventions honoured (inclusive trapezium, true non-convex diagonals). `exterior-angle-regular-polygon` + `angle-properties-plane-shapes` carry a quiz `coverageNote`. Samples: `prove-quadrilateral-tests` (repaired figs), `prove-congruent-triangles` (repaired m3), `angle-properties-plane-shapes` (multi-step). No `anchor: none`. **All 20 carry [tikz] (347 blocks) — full visual-review checklist.** Round 4 — see notes |
+| W2-20 | Circle geometry | t-s5p-cir | 9 | `Stage 5 Path/Circle Geometry_1 Prove and apply angle and chord properties of circles.md`<br>`Stage 5 Path/Circle Geometry_2 Prove and apply tangent and secant properties of circles.md` | in-review | pure TikZ stress (circles, chords, tangents). 9/9 net-new, 2 section generators (Section A dp-1: `circle-angle-terminology`, `chord-properties`, `circle-angle-properties`, `cyclic-quadrilateral-properties`, `apply-chord-angle-properties`; Section B dp-2: `tangent-secant-properties`, `alternate-segment-theorem`, `intersecting-chords-secants`, `apply-tangent-secant-properties`). Gate clean batch-wide (216 figures scanned, 13 NEAR-DUP advisory only). **Systemic figure defect found pre-luna and repaired**: 77 of 96 `[tikz]` blocks across the 4 Section-A skills referenced the circle centre as `(O)` without ever defining `\coordinate (O)` — a hard TikZ compile error that would have rendered as "⚠ Diagram failed to render"; fixed mechanically (all 77) plus centre-dot/boundary added where missing (39). A mandated re-verification pass on top found 28 total geometry defects. Wave regression held at 2 (pre-existing). **Luna 2 full rounds + 2 targeted re-checks, 100% coverage, final: 0 mismatches, 0 flags.** Round 1 valid repairs: `circle-angle-properties` q1/q4/m3 (drawn angles 10-15° off their stated values, recomputed exact); `apply-chord-angle-properties` 1 mismatch + 1 under-determination + 5 figure-contradicts-answer (q1 rebuilt — new target OM with a full misconception→derivation→value chain; q6-q8/m1/m2 angle/length fixes); `tangent-secant-properties` m1 (circular tick-mark removed) + m2/q9 (mutually-inconsistent length/angle givens decoupled). Round-1 invalid: `alternate-segment-theorem` q5 (checker fell for the item's own modelled misconception, key verified correct by hand, no change). Round 2+: `tangent-secant-properties` q2 (label/coordinate mismatch, valid); `apply-tangent-secant-properties` q8 (why-wording, valid), q9/m3 (missing secant + a geometrically-impossible PA=5cm given — min reachable ≈7.00cm — PA→8cm, fully re-derived); `circle-angle-terminology` q7/q9 duplication flag ruled **invalid** (distinct structural types: construct-the-name vs discriminate-decoys vs vertex-order notation). Final rounds: `intersecting-chords-secants` q8/m1 (nonstandard `|||` "is similar to" → house `\sim`, matching 53 existing uses across `prove-similar-triangles`/`similarity-statements`) and q9/m3 (stale off-circle coordinate + an "at the surface" wording contradicting the stated height, both fixed). No `anchor: none`, no `masteryOmitted`/`coverageNote`. **NSW convention reaffirmed**: AAS = 2 angles + 1 side in any position, no separate ASA test (live in this batch's proofs, no luna override needed). **New house-notation ruling**: similarity uses `\sim`, never `|||`. **Standing generator-brief addition for future tangent/secant batches**: verify any two of {radius, OP, tangent length, half-angle} are mutually consistent before adding a third as an independent given — this batch's recurring failure mode. Samples: `apply-chord-angle-properties` (heaviest repair, q1 rebuilt), `circle-angle-properties` (O-bug + angle fixes), `apply-tangent-secant-properties` (missing secant + impossibility fix). **All 9 skills carry [tikz] (216 blocks) — full visual-review checklist**: `circle-angle-terminology` 24, `chord-properties` 26, `circle-angle-properties` 24, `cyclic-quadrilateral-properties` 23, `apply-chord-angle-properties` 23, `tangent-secant-properties` 24, `alternate-segment-theorem` 24, `intersecting-chords-secants` 24, `apply-tangent-secant-properties` 24. Final `validate --only` clean. Round 6 — see notes |
+| W2-21 | Data analysis A+B | t-s5c-dat-a, t-s5c-dat-b | 17 | `Stage 5/Data Analysis A 1_Standard Deviation.md`<br>`Stage 5/Data Analysis A 2_Quartiles and Box Plots.md`<br>`Stage 5/Data Anaylsis A 3_Grouped Data.md`<br>`Stage 5/Data Analysis B_Bivariate Data.md` | in-review | third filename has the "Anaylsis" typo — keep as-is, path above is exact. 17/17 net-new, no `anchor: none`, 5 section generators (Standard Deviation: `standard-deviation`, `effect-of-changes-on-sd`; Quartiles core: `five-number-summary`, `five-number-summary-from-displays`, `quartiles-from-cumulative-histogram`, `interquartile-range`; Box plots: `box-plots`, `box-plot-percentages`, `compare-box-plots`, `skewness-from-displays`; Bivariate foundational: `bivariate-data`, `independent-dependent-variables`, `scatter-plot`, `line-of-best-fit`; Bivariate interpretation: `describe-association`, `interpolation-extrapolation`, `outlier-effect-line-best-fit`). **The "Anaylsis A 3_Grouped Data" booklet is confirmed NOT used by any of the 17** — its grouped-frequency/mean/median material maps to Stage-6 skills outside this batch; `quartiles-from-cumulative-histogram`'s own blurb pins ungrouped data. Gate clean batch-wide (339 figures scanned, 226 NEAR-DUP advisory only), run twice before/after repair. Wave regression held at 2 (pre-existing, untouched). Luna full coverage (100%), 8 of 17 skills clean round 1; 8 repaired, `compare-box-plots` needed 2 rounds. **12 valid repairs** (each with a misconception→derivation→value chain where a value changed): `standard-deviation` q3/q7 (unreachable distractor + an impossible-max scenario fixed), `five-number-summary` q8/m3 (impossible exact-quartile-match reframed as a threshold question), `interquartile-range` q2 (near-dup → sign/zero-crossing case), `compare-box-plots` q8 (boundary-touch wording), `skewness-from-displays` q6 (a missing box-plot figure added, reverse-engineered from the solution's own stated values) + q7 (why-text clarified), `line-of-best-fit` q1 (why clarified) + q4 (implausible "vintage cars" → "second-hand cars"), `outlier-effect-line-best-fit` q6 (duplicate figure → reversed-direction outlier case) + m1 (under-determination fixed), `describe-association` q4 (**genuine mislabel** — computed $r\approx-0.86$, corrected key "moderate"→"strong") + q2/q6 (boundary/duplicate datasets replaced with verified $r$ values so weak/moderate/strong are now three genuinely distinct cases). **Invalid** (checker error or defensible taught convention, not repaired): `five-number-summary-from-displays` q2/q6 (checker arithmetic slip, keys independently re-verified correct), `skewness-from-displays` q5 + m2 (checker applied an untaught box-half heuristic against the card's own taught whisker-shape rule — m2 exists specifically to correct this misconception), `scatter-plot` q6 vs q3 (legitimate on-gridline vs interpolated-point case variety, not duplication), `line-of-best-fit` m1 ("different resale values" claim independently verified false; by-eye construction ambiguity is inherent to the taught skill). **RULED by owner (2026-08-13):** `compare-box-plots` q5 — key stays "exactly half the time". Matches the median-is-a-50/50-split convention already used elsewhere in the batch; "cannot be determined" (luna's position, hinging on odd-n/tie edge cases a box plot can't reveal) would require reasoning outside this skill's scope. No file change. No `masteryOmitted`/`coverageNote` anywhere. **Unrelated pre-existing bug flagged in passing, not part of this batch**: `inverse-operations-number-sentences` quiz was reported with a JSON parse error. Re-checked 2026-08-13 (`JSON.parse` + `validate.mjs --only`) — does not reproduce, 0 errors. Likely already fixed by the concurrent Stage-3-backfill campaign (the file is untracked, outside this batch's skill set). No action taken. Samples: `standard-deviation`, `five-number-summary`, `interquartile-range`, `compare-box-plots` (**priority — unresolved q5 needs a ruling**), `skewness-from-displays` (verify new q6 figure renders), `line-of-best-fit`, `outlier-effect-line-best-fit`, `describe-association`, plus `box-plot-percentages`/`quartiles-from-cumulative-histogram`/`scatter-plot` as zero-flag sanity-check additions. **Diagram checklist: 11 of 17 skills, 339 blocks** — `box-plot-percentages` 45, `compare-box-plots` 45, `skewness-from-displays` 45, `box-plots` 34, `scatter-plot` 32, `interpolation-extrapolation` 27, `line-of-best-fit` 26, `describe-association` 25, `quartiles-from-cumulative-histogram` 21, `five-number-summary-from-displays` 20, `outlier-effect-line-best-fit` 19; `standard-deviation`/`effect-of-changes-on-sd`/`five-number-summary`/`interquartile-range`/`bivariate-data`/`independent-dependent-variables` figure-free. Final `validate --only` clean. Round 6 — see notes |
+| W2-22 | Probability A+B | t-s5c-pro-a, t-s5p-pro-b | 13 | `Stage 5 Core/Probability A 1_Describe multistage chance experiments involving independent and dependent events.md`<br>`Stage 5 Core/Probability A 2_Solve problems for multistage chance experiments.md`<br>`Stage 5 Path/Probability B_1 Solve problems involving Venn diagrams and 2-way tables.md`<br>`Stage 5 Path/Probability B_2 Use the language, 'if … then', 'given', 'of' and 'knowing that', to examine conditional statements and identify common mistakes in interpreting the language.md`<br>`Stage 5 Path/Probability B_3 Describe mutually and non-mutually exclusive events using specific language and calculate related probabilities.md` | in-review | pro-a has 3 dp vs 2 booklets — `dp-s5c-proa-3` (simulations) has **no booklet section at all**, so `probability-simulations` is `anchor: none` (generated from the dot point + `observed-probability.json` for voice). 13/13 net-new (402 items), 5 section generators. Gate clean batch-wide (189 figures scanned; 2 NEAR-DUP advisories on `conditional-probability` ruled legitimate — condition reversed, different denominators/answers). Luna full coverage (159 items), 0 answer mismatches, 4 flags → 3 valid / 1 invalid, 1 repair round, targeted re-check clean, **no DEFERRED items**. Repairs: `multistage-outcomes` m3 (duplicate of q8 — q8 rebuilt to 6-cards-without-replacement, distractors re-derived), `probability-independent-events` m3 (necessity-vs-sufficiency wording), `independent-dependent-events` q4 (under-determined stem pinned). Invalid: `complementary-multistage` q1 (luna mis-modelled 4-battery scenario as binary — the option's own `why` already covers it). **Real bug caught by an optional render smoke-test** (this batch authors the repo's first Venn diagrams): `\fill[pattern=north east lines]` compiles under TikZJax but renders invisible — 55 fills across `set-notation-events`/`conditional-probability`/`compound-event-probability` were silently blank; fixed to `fill=gray!35` (81 shipped precedents) and re-verified, 0 compile failures over 98 diagrams. **New house convention: shade Venn/region diagrams with `fill=gray!35`, never `pattern=…`.** Also caught and fixed 2 wrong answers in the B_3 booklet's own "Your Turn" key (not reproduced). House rulings: `P(A \mid B)`, working as `n(A∩B)/n(B)`; `A'` as the sole complement form; conditional probability defined for any events (B_2's "only applies if dependent" overridden); no addition rule/inclusion-exclusion/independence test (Stage 6). Samples: `probability-simulations` (mandatory, anchor:none), `set-notation-events` (first Venn shading + only `atomType: T`), `compound-event-probability` (heaviest figures). **Diagram checklist: 10 of 13 skills, 189 blocks** — `compound-event-probability` 34, `set-notation-events` 30, `venn-diagrams-two-way-tables` 29, `conditional-probability` 21, `probability-independent-events` 19, `probability-dependent-events` 18, `multistage-outcomes` 16, `complementary-multistage` 12, `multistage-probability-by-counting` 7, `mutually-exclusive-events` 3; `independent-dependent-events`/`probability-simulations`/`multiplication-principle` figure-free. Round 7 — see notes |
+| W2-23 | Networks + Data analysis C | t-s5p-net, t-s5p-dat-c | 7 | **none — no booklet exists for either topic** | in-review | **whole-batch `anchor: none`** — generated from `data/dotpoints.json` + skill records, no booklet to cross-reference (full dot-point→scope mapping recorded in Round-7 notes below). 7/7 net-new (236 items), 2 section generators (networks / data-analysis-C). Gate clean batch-wide (122 figures scanned), run 3 times across 2 repair rounds; generators self-cleared 6 defects pre-report (a leaked key, 2 `QUIZ-COPIES-PRACTICE-VALUES`, a shared-option-pool leak). **Cross-skill backstop**: re-ran the gate over these 7 plus 9 adjacent stats skills (435 items) — 0 defects, confirming no leak into `census-vs-sample`/`misleading-graphs`/etc. Luna full coverage (91/91 items, 100%), 0 answer mismatches, 8 flags → 3 valid / 5 invalid (majority-invalid rule fired, no 3rd full round), 1 further flag from a targeted re-check (1 valid), **no DEFERRED items**. Repairs: `planar-graphs` q4 (twice — an originally-true-either-way option, then a self-contradictory replacement distractor, both re-derived with full misconception chains), `evaluate-sampling-methods` q6 (stem pinned to stratified aim; distractor rebuilt with a genuine derivation) + m2 (referential ambiguity fixed), `critique-statistical-reports` m1 (ask narrowed to match the solution's own ranking). Invalid: `planar-graphs` q9/q4-round-2 (luna misread deliberate before/after and labelled-graph conventions), `evaluate-sampling-methods` q4/q5/m1 (luna applied university-level allocation theory against the skill's own taught rule that equal-per-subgroup ≠ stratified — same class as the W2-21 `skewness-from-displays` ruling: **luna sees the card, not the `theory` block**). `critique-statistical-reports` deliberately omits `theory.steps` (no genuine multi-stage method — a checklist would be the vacuous-procedure defect). Samples: `planar-graphs` (heaviest figures + repaired item), `evaluate-sampling-methods` (2 repair rounds + the overruled luna flag, worth an owner sanity-check), `critique-statistical-reports` (2 repair rounds, no theory.steps) — **all 7 are `anchor:none` and belong in the human sample set**, these three concentrate the risk. **Diagram checklist: 6 of 7 skills, 122 blocks** — `planar-graphs` 39, `describe-networks` 35, `eulerian-trails-circuits` 29, `eulers-formula` 11, `plan-statistical-inquiry` 4, `critique-statistical-reports` 4; `evaluate-sampling-methods` figure-free (7 KaTeX tables instead). **All 114 network figures built from `tikz-prompt.md`'s general construction rules — no fixed template exists for node/edge graphs — needs unusually careful eyeballing**, priority: the Königsberg multigraph (`eulerian-trails-circuits` D4/M1, 4 Bézier bridges), loops/multi-edges as Béziers, two-panel comparison figures (esp. the just-edited `planar-graphs` q4), $K_5$/$K_{3,3}$ dense drawings, deliberate non-vertex crossings, directed mid-line arrows. Round 7 — see notes |
 
 **Total: 297 topic-skill rows = 289 to author + 7 ALREADY-COMPLETE skips + 1 cross-topic
 duplicate generated once.**
@@ -1783,7 +1874,338 @@ duplicate generated once.**
   per lane fit; one duplicate-generator incident (W2-5 B_1) was benign but is the failure
   mode to avoid.
 
-**Batch W2-3 (Indices A+B) notes.** 9 net-new skills, no ALREADY-COMPLETE skips, no STAGE-3
+**Round-2 notes (2026-08-11, W2-6 + W2-7 + W2-16, all in-review, uncommitted — human commits).**
+Three parallel lanes, Opus lane orchestrators + section-owning Opus generators, luna blind
+check on all 43 ids, one adjudication round. **42 net-new skills authored + `linear-real-life`
+dirty-skip repaired; 2 clean ALREADY-COMPLETE skips left untouched.**
+
+- **Gate:** every lane cleared the full 6-command gate batch-wide; the combined 43-id gate is
+  clean (0 defects in every class; the only validate warnings are the 2 pre-existing
+  `linear-real-life` practice-tier shortfalls, foundation/development 5 cards each — Wave-1
+  content, out of the quiz-only remediation scope).
+- **Luna (43 skills, `--resolve-mode figures-first`, 0 retries, coverage complete on every
+  skill): exactly 1 answer mismatch** (`trigonometry-3d` q9 — luna slip, 59.49°→59° is the
+  correct key), and a flag set that adjudicated to **10 genuine repairs**; the rest were
+  invalid or deferred (below).
+- **10 repairs applied, targeted luna re-check of only the changed items came back 0/0:**
+  1. `cosine-rule` q3 — value error, key `11.23`→**`11.22`** (√125.999=11.2249) + x² distractor `126.02`→`126.00`.
+  2. `cosine-rule` q6 — figure vertices `V,A,B` relabelled `A,B,C` to match the stem (angle ABC, side AC); answer 196 m unchanged.
+  3. `area-rule-triangle` q9 — quadrilateral was geometrically impossible (diagonal AC = 55.9 from △ABC vs 64.8 from △ACD); △ACD sides `48,36`→**`43,29`** so AC agrees; total area `1885`→**`1648`** m² + distractors.
+  4. `area-rule-triangle` m1 (mastery card) — same shared-diagonal inconsistency; △XYZ `4.5,5.4`→**`4.3,5.3`** so XZ agrees; total `27.3`→`26.5` km².
+  5. `trigonometry-3d` q7 — top-down bearing figure drew the rays reversed vs the stem; redrawn to match. AB unchanged.
+  6. `pythagoras-3d` q2 — stem said "shaded" face but no shading; reworded to name the face `BCGF`.
+  7. `interpret-3d-trig-context` q5 — "which **edge** is the sloping **surface**" contradiction; reworded to "which edge … is the sloping edge".
+  8. `quadratic-formula` q8 — unreachable distractor `-1±2√5` (why cited dropping `a`, but a=1) → **`x=-1`** (student computes only −b/2a and stops).
+  9. `simultaneous-equations-graphically` m1 — ambiguous "can these be solved simultaneously?" → "do these two lines have a common solution (a point of intersection)?".
+  10. `linear-real-life` q6 (quiz-only, remediation contract) — candle clone of practice m2 → fresh **battery** scenario `y=80−8x`, x=12 → −16% (model-limitation), different value.
+  (`quadratic-word-problems` m1 was flagged as non-factorable but is already `x²+8x−20`→(x+10)(x−2) on disk — luna misread; no change.)
+- **Wave regression (unscoped `audit-duplicate-stems.mjs --strict`, whole repo): 22 / 1 / 1 / 86 =
+  110** over 7917 items / 456 skills — **at or below the post-R1 baseline 23/1/1/87 = 112 in every
+  class.** Round 2 contributed **zero** new duplicate defects (2 fewer, from the `linear-real-life`
+  repair). Full-repo validate 0 errors (248 pre-existing backfill warnings). **Manifest 456/319**
+  (+42/+42). **Tests 114/114.**
+
+**Consolidated diagram checklist for manual human visual review — 24 of 43 skills carry inline
+`[tikz]`, 652 blocks** (the other 19 are symbolic/figure-free). Highest count first:
+`space-diagonal-3d` 49, `pythagoras-3d` 46, `simultaneous-equations-graphically` 42,
+`interpret-3d-trig-context` 42, `trigonometry-3d` 40, `horizontal-vertical-lines` 38,
+`equation-from-graph` 38, `parallel-lines-equal-gradient` 38, `distance-between-points` 34,
+`identify-intercepts` 34, `gradient-of-interval` 33, `graph-using-gradient-intercept` 33,
+`midpoint-of-interval` 32, `non-right-triangle-problems` 32, `sine-rule` 23, `sine-rule-angles` 19,
+`cosine-rule` 18, `cosine-rule-angles` 17, `area-rule-triangle` 17, `label-triangle-sides-angles` 15,
+`equation-from-gradient-intercept` 5, `linear-real-life` 4, `slope-intercept-interpret` 2,
+`perpendicular-gradient` 1. **Priority eyeballs:** the repaired figures (`cosine-rule` q6,
+`trigonometry-3d` q7, `area-rule-triangle` q9/m1); `trigonometry-3d`'s **15 hand-projected 3D
+solids** (audit-figure-scale skips these by design — hand-verified only, so they carry the most
+figure risk); the tdplot cuboids/cubes in `space-diagonal-3d`/`pythagoras-3d`; and the many
+pgfplots coordinate/line graphs in the W2-7 lane. Eyeball via
+`http://localhost:5173/#/tikz-check?topic=t-s5p-equ-c` (and `…t-s5c-lin-a`, `…t-s5c-lin-b`, `…t-s5p-trg-c`).
+
+**Review samples (per batch):** W2-6 — `simultaneous-equations-graphically` (only diagram skill),
+`split-linear-numerator`, `quadratic-word-problems`. W2-7 — `distance-between-points`,
+`perpendicular-gradient`, `linear-real-life` (repair). W2-16 — `trigonometry-3d` (hand-projected
+3D), `area-rule-triangle` (repaired), `non-right-triangle-problems` (12-item quiz, coverageNote).
+
+**TWO BLURB-vs-CONTENT SCOPE DECISIONS FOR THE OWNER (deferred, not auto-fixed — the content is
+mathematically sound; the question is the skill boundary):**
+1. **`split-linear-numerator`** — blurb reads single-denominator `(px+q)/(x+r) → a+b/(x+r)`, but 6
+   quiz/mastery items (q7, q8, q10, m1, m2, m4) do **two-factor partial fractions**
+   (`12/((x−2)(x+4)) → 2/(x−2) − 2/(x+4)`). The booklet section (p63, "distinct linear factors")
+   anchors the two-factor form, so the content is defensible — **but the blurb under-describes it.**
+   Choose: widen the blurb to include distinct-linear-factor partial fractions, or narrow the items
+   to single-denominator only. (The two horizontal-asymptote items q9/m3 are in-scope applications
+   of the single-denominator split and were left.)
+2. **`pythagoras-3d`** — blurb says "rectangular prisms", but 6 items (q4, q5, q6, q7, q9, m2) use
+   **cones and cylinders** (still 3D right-triangle Pythagoras, and within the broad governing dp
+   `dp-s5p-trg-c-1`). Choose: widen the blurb to "3D solids", or move the cone/cylinder items to a
+   dedicated skill.
+
+**Other owner items (report-only, nothing edited):**
+- **Prereq/data gap:** `identify-slant-perpendicular-height` (a prereq of `interpret-3d-trig-context`)
+  has **no content file** — flag for the atomisation/generation queue.
+- **`linear-real-life` residual debt** (Wave-1 content, out of the quiz-only remediation scope):
+  foundation & development tiers sit at 5 cards each (below the 6-card warn floor, no coverageNote);
+  and practice mastery card **m3 is physically implausible** (a tank that "holds 20 L" starting at
+  20 L then filling to 30 L). Both need a practice-side edit the human can make.
+- **`sine-rule-angles` "obtuse" items kept** (owner ruling 2026-08-11): an item that explicitly states
+  the angle is obtuse is unambiguous, so q2/q4/q6/q8/m1/m3 are legitimate despite the sibling
+  `sine-rule-obtuse` skill (dp-s6st12) and the "ambiguous case excluded" blurb. Luna's 6 scope flags
+  there were ruled invalid.
+- **Booklet errata found (none reproduced):** Equations C_1 binomial-numerator example `7x−15=45`
+  (should be `7x+15`, answer x=30/7 not 60/7); Equations C_2 answer-key sign/typo slips
+  (`y=−y√a`→`x=`, `2p±14`); Equations C_3 Q13 `4p²−0` vs `4p²−9`; Linear A1 midpoint example final line
+  `M=(3,2.5)` (should be `(−0.5,−2)`); Linear "point on line" example concludes `(−2,5)` for a
+  substituted `(−2,−5)`; Gradient-intercept `Q7d (0.56)`→`(0,56)` and `m=3/2. c=2` stray period;
+  Trig "Selecting a Method" table `sinB/B`→`sinB/b`; Cosine-Angles Dev Q8b `7²`→`7`; Trig booklet
+  reports angles in DMS (converted to house decimal-degree form). Trig A2 DMS example and B2 Q18
+  errata from Round 1 still stand.
+
+**Round-3 notes (2026-08-11, W2-8 + W2-9 + W2-17 + R3, all in-review, uncommitted — human commits).**
+Four parallel lanes (three generation batches + the R3 remediation pocket), main session orchestrating,
+Opus section-owning generators, luna blind check on all 39 generated ids, one adjudication round.
+**39 net-new skills authored + 55 R3 quiz clones re-authored.**
+
+- **Cross-batch gate (all 39 generation ids, comma `--only`, `--strict`): CLEAN** — validate 0
+  warnings, equivalent-options 0, duplicate-stems **0/0/0/0** (103 advisory NEAR-DUP), option-hygiene 0,
+  figure-scale 0 (470+ figures), angle-arms 0. R3 pocket (27 ids) audit **0/0/0/0**.
+- **Wave regression (unscoped `--strict`, whole repo): 15 / 1 / 1 / 38 = 55** over 8975 items / 495
+  skills — **down from the post-R2 baseline 110** (R3 cleared its entire in-pocket 55; the three
+  generation batches added **zero** new duplicate debt). Full-repo validate 0 errors (248 pre-existing
+  backfill warnings, unchanged). **Manifest 495/358** (+39/+39). **Tests 114/114.**
+- **Luna (39 generated skills, `figures-first`, full coverage everywhere, 0 retries): 4 answer
+  mismatches + flags, adjudicating to 6 genuine repairs.** Highlights:
+  - **`circle-equation-general` q11 — genuine KEY ERROR** (W2-9): keyed `k>4` but the point-circle at
+    `k=4` (radius 0) is not a circle either → answer is `k≥4`; solution rewritten, boundary stated.
+  - **`identify-graph-from-equation` q6/q7 — figure-contradicts-answer** (W2-9): decoy exponential
+    panels carried a −0.5 vertical shift (asymptote off the x-axis) and a too-wide parabola; both TikZ
+    rebuilt to match their equations. Answers unchanged.
+  - **`complementary-trig-relationships` m2 — under-determination** (W2-17): `sin(3θ−10)=cos(θ+20)` had
+    two acute roots (θ=20° and 60°); recoefficiented to `sin(2θ+5)=cos(θ+25)`, unique acute θ=20°.
+  - **`hyperbola-transformations` q6** wording pin (W2-9); **general-form-answer stems** across
+    `general-gradient-intercept-form`/`point-gradient-form`/`parallel-perpendicular-any-form` pinned with
+    "and no common factor" (W2-8, wording only, no value changed).
+  - Rejected as invalid: several modelled-distractor "mismatches" (luna picked the trap), the
+    compressed-cubic vertical-scaling convention on `graph-power-curves`, and boundary/scope flags on
+    `exact-trig-ratios` (0°/90° are booklet-anchored) and `coordinate-geometry-problems` (½·leg·leg from
+    perpendicular gradients, all prereqs).
+- **R3 remediation:** 55 flagged quiz items (7 QUIZ-COPIES-PRACTICE + 48 VALUES) across 19 of the 27
+  linear/Pythagoras/data skills, re-authored against the Wave-1 booklets. VALUES triage found the
+  expected figure-template false positives (hypotenuse, several linear grid-template items) — re-authored
+  anyway to clear the audit. One valid luna fix (`converse-pythagoras` q1 figure). **No `public/content/`
+  file modified** (verified: 0 tracked content files changed; 20 quiz files changed). `linear-real-life`
+  left as-is (clean from R2).
+
+**Consolidated diagram checklist for manual human visual review — 31 of the 39 generated skills carry
+inline `[tikz]`, plus R3's one repaired figure. Highest count first:**
+- **W2-9 (all 17, 254 blocks):** `nonlinear-real-life-simultaneous` 39, `intersection-line-curve` 33,
+  `graph-quadratic-exponential-tech` 29, `sketch-parabola-from-equation` 27, `hyperbola-transformations`
+  18, `graph-power-curves` 16, `graph-quadratic-features` 15, `exponential-transformations` 15,
+  `graph-exponential-features` 14, `circle-equation-origin` 9, `identify-parabola-exponential` 9,
+  `identify-graph-from-equation` 6, `distinguish-linear-quadratic-exponential` 6, `parabola-transformations`
+  6, `circle-equation-general` 4, `parabola-intercepts-axis-vertex` 4, `find-equation-parabola-features` 4.
+- **W2-17 (8 of 13, 112 blocks):** `related-angles` 22, `gradient-as-tan-inclination` 18,
+  `graph-trig-functions` 17, `exact-trig-ratios` 16, `trig-ratios-quadrant-forms` 16,
+  `unit-circle-definitions` 11, `ambiguous-case-sine-rule` 6, `tan-as-sin-over-cos` 5,
+  `complementary-trig-relationships` 1. (Figure-free: `rewrite-angle-within-revolution`,
+  `trig-obtuse-relationships`, `astc-sign-of-ratio`, `solve-trig-equations`.)
+- **W2-8 (6 of 9):** `midpoint-formula`, `gradient-formula`, `distance-formula`,
+  `coordinate-geometry-problems`, `symmetry-of-graphs`, `transformations-coordinates`. (Figure-free: the
+  three line-form skills.)
+- **R3:** `converse-pythagoras` q1 (repaired figure).
+- **Priority eyeballs:** the repaired figures (`identify-graph-from-equation` q6/q7, `converse-pythagoras`
+  q1); `graph-power-curves` q9/m1 (compressed-cubic convention, true-value labels — luna could not judge);
+  `graph-trig-functions` tan-asymptote renders; the two-branch hyperbolas and reflected/negative-window
+  exponentials; `symmetry-of-graphs` pinwheel/Greek-cross figures. `audit-figure-scale` is blind to
+  unit-less trig side labels (hand-verified ≤0.05%) — those rely on the eyeball.
+
+**Review samples (per batch):** W2-8 — `coordinate-geometry-problems`, `transformations-coordinates`
+(11-item quiz), `symmetry-of-graphs`. W2-9 — `circle-equation-general` (k≥4 fix),
+`identify-graph-from-equation` (rebuilt panel), `nonlinear-real-life-simultaneous` (densest figures).
+W2-17 — `graph-trig-functions` (tan asymptotes), `related-angles`, `complementary-trig-relationships`
+(repaired m2), `ambiguous-case-sine-rule`.
+
+**OWNER ITEMS (report-only, nothing edited in skills.json):**
+- **Missing prereq content file:** `graph-inverse-variation` (prereq of `hyperbola-transformations`) has
+  **no `public/content/` file** — flag for the generation queue. (`distance-formula`, flagged by the W2-9
+  lane, now exists — authored in W2-8 this round.)
+- **Blurb-vs-content scope (defer, not auto-fixed):** `exact-trig-ratios` blurb says "30°, 45° and 60°"
+  but content legitimately includes the booklet's 0°/90° boundary values — widen the blurb.
+  `identify-graph-from-equation` blurb omits power/cubic curves though the skill recognises them minimally
+  — widen the blurb or confirm cubic stays minimal (and whether `graph-power-curves` should be a prereq
+  rather than a sibling).
+- **Booklet errata found (none reproduced):** Trig D Graphs Q9 `sinx=cosx` given "45° and 135°" (correct
+  45°/225°); Exact-values key `tan90°=0` (undefined) and `tan0°=1` (0); Complementary Q4b uses a
+  non-complementary 57°/53° pair; NLR C_5 intersection worked example gives (−2,16) for what is (−6,16);
+  NLR C_6 `y=x³` table prints y=−8 at x=2; Linear C 1 midpoint example final line `(3,2.5)` for
+  `(−0.5,−2)`; plus several copy-paste header/label slips in the Non-Linear C and Linear C booklets.
+  Full lists in the lane reports.
+
+**Round-4 notes (2026-08-12, W2-10 + W2-11 + W2-19 + R4, all in-review, uncommitted — human commits).**
+Continued from a prior partial session that had **pre-generated W2-10 (7), W2-11 (10) and 8 of
+W2-19's 20 skills** (geo-a 4 + geo-b congruence/similar-tests 4) as untracked files but never
+luna-checked them, ran no R4, and left the queue at `pending` and the manifest stale. This session
+treated the 25 pre-generated files under the **ALREADY-COMPLETE rule** (they all cleared the full
+`--strict` 6-command gate on entry → verified as generated, not regenerated), authored the **12
+missing W2-19 skills** (5 section-owning Opus agents: A2, B4, B5, C1, C2), luna-checked all 37, and
+closed out.
+
+- **Deterministic gate (all 37 ids, comma `--only`, `--strict`): CLEAN** — validate 0 warnings,
+  equivalent-options 0, duplicate-stems **0/0/0/0**, option-hygiene 0, figure-scale 0, angle-arms 0.
+- **Wave regression (unscoped `--strict`, whole repo): 0 / 1 / 1 / 0 = 2** over 9961 items / 532
+  skills — **down from the post-R3 baseline 15/1/1/38 = 55; every class ≤ baseline, Round 4 added
+  ZERO duplicate debt.** The 2 residual are pre-existing practice-side and untouched by Round 4 (see
+  R4 row). Full-repo validate 0 errors (248 pre-existing backfill warnings, unchanged). **Manifest
+  532/395** (+37/+37 — the 25 pre-generated files had never been folded into the R3 manifest).
+  **Tests 114/114.**
+- **Luna (37 skills, `figures-first`, full coverage on every skill, 0 retries after a transient
+  network drop was retried): ZERO answer mismatches across all 37.** Two mismatches luna *reported*
+  were luna falling into a modelled distractor (`add-subtract-multiply-polynomials` q3 sign slip →
+  key correct; `angle-properties-plane-shapes` q4 → key 95° correct from 40°+55° alternate angles)
+  and were adjudicated invalid.
+- **9 repairs applied, all re-checked clean:** `graph-polynomials-factored` q8 (distractor value
+  ↔ its `why` mismatch, −13→−1); `congruent-triangle-tests` q7 (stem pin, SAS alt-path);
+  `prove-congruent-triangles` m3 (stem relabelled to match figure+solution — A,D,C collinear/B apex);
+  `prove-properties-triangles-quadrilaterals` q1+q6 (order-only-twin-of-key and undefined-point-E
+  distractors → 4 distinct well-defined pairs); `prove-quadrilateral-tests` q5/q6/q9/m1/m2/m3
+  (figures redrawn to-scale so marks match coordinates; converse-pythagoras precedent) + q9 stem pin
+  ("most specific type") + 2 latent foundation/development figures (F5,D1); `interior-angle-regular-polygon`
+  q2 (figure octagon → regular 16-gon to match the stem).
+- **Key adjudication — NSW congruence taxonomy.** `congruent-triangle-tests` q6/q9 luna-flagged as
+  "ASA not AAS" were ruled **INVALID**: NSW/`theory.facts` defines **AAS = two angles + one side in
+  ANY position; there is no separate ASA test**, so an included-side case is correctly AAS. Recorded
+  as a standing NOT-A-DEFECT for future geometry batches.
+- **INVALID flags recorded (not repaired):** `find-equation-polynomial-graph` 9 figure-flags =
+  schematic vertical-compression convention (curve scaled to the window, **y-intercept labelled its
+  true value**, roots at true x, "leading coefficient 1" in the stem → equation fully determined;
+  Round-3 `graph-power-curves` precedent); `polynomial-roots-multiplicity` q2 (standard
+  cut/bounce/inflect taxonomy, "cuts straight through like a line" pins the simple-root case);
+  several required-coverage "duplication" flags (same type, different numbers/answer).
+- **DEFERRED to human (scope-borderline, mathematically sound):**
+  1. `factor-theorem` q8 (max zeroes of a degree-**5** polynomial) and m4 (prove $x^n-1$ divisible by
+     $x-1$ for **every** positive integer $n$) name degrees beyond the card's stated "degree ≤4" — both
+     conceptual, no degree-5 polynomial is actually factored. Pin in-scope or narrow.
+  2. `exterior-angle-regular-polygon` q5/q7/m1/m2 lean on the interior↔exterior supplementary link,
+     which the blurb (`E=360/n` and its rearrangement) does not name. Ruled in-service (elementary
+     straight-line angle) but the owner may prefer to name it in the blurb or move interior-given items
+     to `interior-angle-regular-polygon`.
+  3. `exterior-angle-sum-polygon` q5/q6 are the same structural type (`irregular-sides-from-exterior`)
+     at very different regimes (n=8 vs n=29); kept as a small-vs-large case, flagged as borderline.
+- **House conventions honoured** in the geometry lane: **inclusive trapezium** (isosceles-trapezium
+  counterexample for insufficient conditions) and **true non-convex diagonals** (no "diagonals meet
+  outside" test).
+- **Booklet errata found (none reproduced):** Geo A_2 similar-figure vs scale-drawing ratio-table
+  conventions differ (`original:image` vs `image:original`) — kept the two skills' domains disjoint;
+  Geo C_1 similarity Q6 cables answer "40 m" (correct 7.5 m), Q8 "∠BAD common" impossible in the stated
+  triangles; Geo C_2 diagonals-bisect proof lists a *property* (AB=CD) as a *given*; Geo B_4 Q18b drives
+  an **area** from a **volume** proportion (dimensionally wrong) — replaced with the correct cube-root→square
+  route; Geo B_5 exterior-angle table has a malformed pentagon expansion. Full lists in the lane reports.
+
+**Consolidated diagram checklist for manual human visual review — 24 of the 37 skills carry inline
+`[tikz]`, 422 blocks** (the other 13 are number/symbolic, figure-free). Highest count first:
+- **W2-19 (all 20, 347 blocks):** `prove-properties-triangles-quadrilaterals` 33, `congruent-triangle-tests`
+  28, `similar-triangle-tests` 28, `angle-properties-plane-shapes` 27, `prove-similar-triangles` 26,
+  `identify-congruent-figures` 25, `prove-congruent-triangles` 25, `similar-figure-practical-problems` 23,
+  `prove-quadrilateral-tests` 22, `find-sides-similar` 18, `similar-figures-properties` 17,
+  `exterior-angle-sum-polygon` 13, `interior-angle-sum-polygon` 12, `similarity-statements` 10,
+  `congruence-statements` 9, `scale-factor` 7, `interior-angle-regular-polygon` 7,
+  `area-volume-similar-figures` 6, `exterior-angle-regular-polygon` 6, `scale-drawings` 5.
+- **W2-11 (3 of 10, 71 blocks):** `graph-polynomials-factored` 28, `find-equation-polynomial-graph` 23,
+  `polynomial-roots-multiplicity` 20. (Figure-free: the 7 algebra/number polynomial skills.)
+- **W2-10 (1 of 7, 4 blocks):** `absolute-error` 4. (6 number skills figure-free.)
+- **Priority eyeballs:** the repaired figures — `prove-quadrilateral-tests` q5/q6/q9/m1/m2/m3 + F5/D1
+  (redrawn to-scale rhombi/squares), `prove-congruent-triangles` m3, `interior-angle-regular-polygon` q2
+  (new 16-gon); `find-equation-polynomial-graph`/`graph-polynomials-factored` compressed-cubic graphs
+  (true-value labels — luna cannot judge the render); the proof figures across C_1/C_2 (arc-mark and
+  right-angle-marker legibility at render size). Eyeball via
+  `http://localhost:5173/#/tikz-check?topic=t-s5c-geo-a` (and `…t-s5p-geo-b`, `…t-s5p-geo-c`,
+  `…t-s5p-pol`, `…t-s5c-mag`).
+
+**Review samples (per batch):** W2-10 — `scientific-notation`, `percentage-error`, `round-significant-figures`.
+W2-11 — `factor-theorem` (degree-scope deferral), `graph-polynomials-factored` (repaired q8),
+`find-equation-polynomial-graph` (schematic graphs). W2-19 — `prove-quadrilateral-tests` (repaired figures),
+`prove-congruent-triangles` (repaired m3), `angle-properties-plane-shapes` (multi-step figure reasoning).
+
+**Round-5 notes (2026-08-12, W2-12 + W2-13 + W2-18, all in-review, uncommitted — human commits).**
+No remediation (R) row — the R1–R4 pockets are exhausted; Rounds 5–7 carry none. All **42 skills
+net-new** (verified absent from disk and `git status` before generation — unlike Round 4's
+pre-generated untracked batch). Three Opus lane orchestrators (one per batch), each spawning
+section-owning generators (opus, foreground, ≤3 concurrent — the run_in_background:false orphan rule
+held; no lane stalled).
+
+- **Deterministic gate — each batch clean batch-wide, comma `--only`, `--strict`:** validate 0
+  warnings, equivalent-options 0, duplicate-stems **0/0/0/0** per batch, option-hygiene 0, figure-scale
+  0 (W2-18 scanned 261 figures, W2-13 178, W2-12 25), angle-arms 0. The literal-poor log family's
+  expected `QUIZ-COPIES-PRACTICE-VALUES` storm was pre-empted (W2-12 generators re-based quiz literals;
+  0 at batch level).
+- **Wave regression (unscoped `--strict`, whole repo): 0 / 1 / 2 = held at 2** — but the raw run first
+  showed **3**: a **new CROSS-SKILL-DUP** surfaced that the `--only` batch gate is blind to —
+  `solve-exponential-equations` q1 (committed neighbour) == `solve-exponential-log-equations` d3 (new
+  W2-12), both "Solve $5^{x}=625$". Repaired **new-batch-side only** (Round-1 backstop rule):
+  `solve-exponential-log-equations` d3 re-based to `Solve $7^{x}=343$` ($x=3$), verified non-colliding
+  against every `solve-exponential-equations` stem; gate re-run clean, regression back to **2**. The 2
+  residual are the documented pre-existing practice-side pair (`order-operations-roots` f8/d1 bracket
+  false-positive; `evaluate-index-notation` d2 / `zero-index` f7 `$0^5$`), untouched this round —
+  **generation added zero duplicate debt.** Full-repo validate 0 errors (248 pre-existing backfill
+  warnings, unchanged). **Manifest 574/437** (+42/+42). **Tests 114/114.**
+- **Luna (`figures-first`, full coverage on every skill, 0 answer mismatches across all 42 after
+  repairs).** 23 flags total → **15 valid (repaired), 8 invalid.**
+- **15 repairs, all re-checked clean.** W2-18 (13): **2 genuine key arithmetic errors**
+  (`surface-area-partial-cylinder` q3 284.16→284.20, q5 253.50→253.52); **1 impossible solid rebuilt**
+  (`surface-area-pyramid` q2 — base 10×6 + slants 8/9 gave contradictory heights → base 18×10, slants
+  13/15, h=12, key 564, distractors + figure redrawn to scale); unreachable-distractor rederivations
+  (`surface-area-pyramid` q9 680→620, `surface-area-cone` q7 770π→399π, `volume-prism-curved-cross-section`
+  q6); not-to-scale figure (`surface-area-cone` q2 apex lowered to true height); mis-rounded distractor
+  values (`volume-composite-solids` q1 294.9→294.8, q2 636.2→637.5); under-determined stems
+  (`volume-sphere` m2, `volume-prism-curved-cross-section` m1/q8); de-dup (`nets-of-prisms` q7
+  hex→pentagonal prism). W2-13 (1): `domain-and-range` q5 figure arrow `<->`→`->` (restricted domain
+  x≥1 must not imply continuation). W2-12 (1): `laws-of-logarithms` q8 stem form-pin ("expand **fully**
+  … bringing any index down").
+- **INVALID flags recorded (not repaired):** W2-13 — `solve-function-equation` q7/q8/m1/m2/m4 scope
+  cluster is **booklet-anchored mastery** (Book 1 Q17/19–22; find-unknown-coefficient items are the same
+  skill, checker reads the blurb narrowly) — see owner-deferred; `graph-region-multiple-inequalities` m2
+  = luna arithmetic error ((W,F)=(2,4) satisfies 4W+3F=20). W2-18 — `surface-area-cylinder` q2/q6 and
+  `composite-area-problems` q8 (all reachable via the modelled misconception / correct rounding);
+  `surface-area-partial-cylinder` q6 luna clerical index slip. W2-12 — `laws-of-logarithms` q8 round-2
+  domain-restriction request (over-reaches Stage-5 register; booklet assumes positive pronumerals,
+  never annotates domains).
+- **Standing NOT-A-DEFECT reused:** schematic compressed-graph convention (curve scaled to window,
+  intercepts/points labelled TRUE values, roots at true x) accepted for log/function graphs — luna
+  cannot judge the render, human eyeball only. Figure markers must never contradict drawn coordinates
+  (redraw to-scale — applied to the W2-18 cone/pyramid figures above).
+- **Booklet errata found & corrected in content (none propagated):** W2-13 — Book 1 Function Notation
+  worked example $f(x+1)=(x+1)^2+5(x+1)$ printed "$x^2+6x+6$" (correct $x^2+7x+6$); Book 2 Natural Domain
+  example for $1/(x-2)$ stated "except $x=0$" (correct $x\ne 2$). Both authored correctly.
+- **DEFERRED to human:**
+  1. W2-13 `solve-function-equation` q7/q8/m1/m2/m4 — ruled in-scope booklet mastery, but the items
+     return an unknown **coefficient** (find $a$/$p$, simultaneous $b,c$) rather than an input $x$; owner
+     to confirm or split off a "find unknown coefficient" skill.
+  2. W2-18 `composite-area-problems` — **anchor:none candidate.** The A1 booklet is a nets/surface-area
+     booklet with no worked plane-composite-area examples; the section agent authored from the dot point
+     + `area-composite-circles` conventions. Reached target on genuine variety but under-anchored —
+     owner to confirm recording `anchor: none`.
+  3. W2-12 `laws-of-logarithms` q8 domain-restriction flag (rejected invalid, noted).
+
+**Consolidated diagram checklist for manual human visual review — 32 of the 42 skills carry inline
+`[tikz]`, 464 blocks** (the other 10 are symbolic, figure-free). Highest count first:
+- **W2-18 (all 19, 261 blocks):** every solid/net skill; quiz-side figures on
+  `identify-slant-perpendicular-height` (8), `surface-area-pyramid` (7), `surface-area-cone` (7). All
+  curved solids use the silhouette rule; prisms use tikz-3dplot true coords.
+- **W2-13 (9 of 14, 178 blocks):** `domain-and-range` 39, `graph-linear-inequalities-region` 30,
+  `graph-region-multiple-inequalities` 25, `vertical-line-test` 25, `inequality-from-region` 22,
+  `relations-and-functions` 11, `graph-function-transformations` 10, `dilate-function-graphs` 8,
+  `reflect-function-graphs` 8. (Figure-free: function-notation, interval-notation,
+  evaluate-function-algebraic-argument, solve-function-equation, natural-domain-from-equation.)
+- **W2-12 (2 of 9, 25 blocks):** `graph-log-functions` 23, `logarithmic-scales` 2. (7 symbolic skills
+  figure-free.)
+- **Priority eyeballs:** the repaired figures — `surface-area-pyramid` q2 (rebuilt 18×10 base),
+  `surface-area-cone` q2 (to-scale apex), `domain-and-range` q5 (single-arrow restricted domain);
+  `surface-area-composite-pyramid-cone-sphere` (hidden-contact-circle subtraction, hardest atom);
+  the region-shading half-planes (`graph-region-multiple-inequalities` tall/narrow windows,
+  intercept-label collisions); `graph-log-functions` compressed-curve labels (true-value, luna-blind).
+  Eyeball via `http://localhost:5173/#/tikz-check?topic=t-s5p-log` (and `…t-s5p-fnc`, `…t-s5c-are-a`,
+  `…t-s5p-are-b`, `…t-s5c-vol-a`, `…t-s5p-vol-b`).
+
+
 files, **no `anchor: none`** — all three booklets cover their skills densely. Generated with
 Opus, **6 section-owning generators**: A `Indices A 1` §Multiplication/§Division/§Power of a
 Power/§Zero = `index-laws-variables` + `zero-index-algebraic`; B `Indices A 1`
@@ -1923,8 +2345,8 @@ because that gate is `--only`-scoped; hence the unscoped wave regression check i
 |---|---|---|---|---|---|---|
 | R1 | Fractions, decimals & percentages | 6 (`t-s4-frc`) | 31 of 34 | 121 → **0** | in-review | done 2026-08-04 — see notes below |
 | R2 | Algebraic techniques | 1 | 16 | 55 → **0** | in-review | done 2026-08-05 (Round 1). Actual pocket 55 non-advisory (not 62): Q-C-P 37, VALUES 15, INTRA 3. 50 quiz items replaced across 13 skills; `expand-brackets` verified clean (repaired in W2-2), 2 more clean untouched. VALUES triage: 6 reworded clones, 7 thin permutations (treated real), 2 false positives (re-authored anyway). Luna targeted 50/50 agree, 1 flag invalid (R1 lesson verbatim). Practice cards/structure/mastery/ids byte-identical. 9 report-only practice-card observations in Round-1 notes |
-| R3 | Linear, Pythagoras, data | 3, 5, 4 | ~20 | 57 | pending | committed |
-| R4 | Integers, ratios, probability + tail | 7, 8, 16, 9–15 | ~25 | 59 | pending | tail (batches 9–15, 17 defects) may ride along inside whichever generation batch touches those files |
+| R3 | Linear, Pythagoras, data | 3, 5, 4 | 19 of 27 | 55 → **0** | in-review | done 2026-08-11 (Round 3). Actual pocket 55 (Q-C-P 7, VALUES 48), not 57 — `linear-real-life` already clean from R2. 55 quiz items re-authored across 19 skills; 3 parallel section agents (Linear/Pythagoras/Data). Luna targeted, 1 valid fix (`converse-pythagoras` q1 figure drew a literal right angle for a not-right answer → redrawn to-scale), 6 flags/1 mismatch adjudicated invalid. 2 pre-existing gate fixes in passing (`represent-data-graphs` q1 LEAKED-KEY). Structures/mastery/ids preserved; **no content file touched**; only `public/quizzes/` changed |
+| R4 | Integers, ratios, probability + tail | 7, 8, 16, 9–15 | ~25 | 59 → **0 quiz** | in-review | done (Round 4). Quiz pocket **already cleared in this untracked tree** by the earlier partial session — repo-wide `QUIZ-COPIES-PRACTICE 0`, `VALUES 0` on entry. Only **2 defects remain repo-wide, both pre-existing practice-side and untouched by Round 4** (confirmed via `git status`): (a) `order-operations-roots` f8/d1 `INTRA` = **false positive** (`$12+4\times\sqrt9$`=24 vs `$(12+4)\times\sqrt9$`=48; normaliser strips brackets — distinct answers); (b) `evaluate-index-notation` d2 == `zero-index` f7 `CROSS` (`$0^5$`) = the documented pre-existing pair (Round-1 notes, deliberately left). Both are practice cards, **outside the quiz-only remediation contract**, and sit AT the post-R3 baseline (INTRA 1, CROSS 1) — no Round-4 regression. Left for the human (a practice-side content edit) |
 
 **Interleaving:** R1 → W2-2 (+ inline `expand-brackets` repair) → R2 → W2-3 → R3 → W2-4… →
 R4. One remediation session per ~3 generation batches. Four sessions clear ~95%.
@@ -2296,6 +2718,65 @@ INVALID and record it in the batch notes.
 **Audit limitation on record:** multi-part practice cards — the value signature takes
 the LAST solution line as the card's answer, so a quiz item cloning an earlier sub-part
 can escape (the q4≡f4 case). Tooling backlog: per-part answer extraction.
+
+---
+
+## Round 7 notes (W2-22, W2-23) — LAST round, Wave 2 (Stage 5) now COMPLETE
+
+Done 2026-08-13, in-review, uncommitted. 2 lane orchestrators (Opus, foreground section
+generators throughout — no orphan incidents this round). Full detail is in the W2-22/W2-23
+batch rows above; this section carries what doesn't fit there.
+
+**Post-round main-session steps, all clean:** manifest rebuilt **634/634** content/quiz
+(+20/+20). Full-repo `validate.mjs`: 0 errors, 247 warnings (identical pre-existing set —
+no new warnings from either batch). `npm test`: 114/114. Unscoped
+`audit-duplicate-stems.mjs --strict` wave regression: **held at 2** — confirmed the same
+two pre-existing defects as every round since R4 (`order-operations-roots` f8≡d1
+bracket-form false positive; `evaluate-index-notation` d2 ≡ `zero-index` f7 on
+`$0^5$`), zero new debt from either batch.
+
+**W2-23 dot-point → scope mapping** (no booklet to cross-reference, recorded in full since
+future Stage-6 networks/data work will collide with these boundaries):
+- `describe-networks` → `dp-s5p-net-1`: vertices/edges, degree (loop=2, multi-edge counted
+  separately), directed/weighted networks at identify-level, "same graph redrawn" (no
+  geometric meaning to a drawing), handshake sum as a described check. Excludes: adjacency
+  matrices, network-from-table, weight optimisation, trees, flow (all Stage 6).
+- `planar-graphs` → `dp-s5p-net-2` (planar half): planarity as a network property (not a
+  picture), redrawing to remove crossings, face counting **including the outer region**,
+  $K_5$/$K_{3,3}$ at ID level. Excludes: $v-e+f=2$ itself (→ `eulers-formula`), Kuratowski
+  proof, colouring, isomorphism (all comparisons use labelled vertices).
+- `eulers-formula` → `dp-s5p-net-2` (formula half): verify/find-missing on $v-e+f=2$ only.
+  Excludes: planarity testing, $e\le3v-6$, polyhedra, disconnected graphs.
+- `eulerian-trails-circuits` → `dp-s5p-net-3`: walk/trail/path/circuit/cycle, odd-degree
+  tests, connectivity precondition, Königsberg (appears only here). Excludes: Hamiltonian
+  paths (no Stage-5 dot point covers them), Fleury's/Hierholzer's construction algorithms,
+  weighted/Chinese-postman, trees, flow.
+- `plan-statistical-inquiry` → `dp-s5p-dat-c-1`: inquiry-cycle stages (question → hypothesis
+  → population/variable type → instrument → ethics → organisation → display choice →
+  reporting). Excludes: any computed statistic (mean/median/IQR/correlation — that's Data
+  Analysis A/B, W2-21); question-wording bias (owned by `design-survey` S3 /
+  `identify-survey-bias` S4); experimental design.
+- `evaluate-sampling-methods` → `dp-s5p-dat-c-2`: simple random/systematic/stratified/
+  self-selected — definitions, execution (systematic $k$, proportional stratum sizes),
+  sample-size effects. Excludes: formal representativeness justification, data-collection
+  faults/confounders/blinding (Stage 6), margin of error/confidence/significance,
+  `census-vs-sample` (S4, assumed not tested).
+- `critique-statistical-reports` → `dp-s5p-dat-c-2`, disjoint from the above: judging a
+  published claim — beyond-the-group, beyond-what-was-measured, correlation-as-causation,
+  missing information, funding/conflict, recruitment, non-response, headline-vs-finding,
+  selected comparison, what a decision-maker should do. Excludes: `misleading-graphs`/
+  `identify-misleading-data` (all four figures here are fairly drawn — the fault is always
+  in the wording, not the graph), `interpret-media-data` (no card is answered by reading a
+  graph value), `bivariate-data`'s definitional correlation/causation distinction.
+
+**Not committed** (runbook step 10, as every round). Working tree carries the 20 new
+content/quiz files plus the rebuilt manifest and these `docs/` edits. Diagram checklists for
+W2-14/W2-20/W2-21/W2-22/W2-23 are all still owed one combined human visual-review pass
+before commit — none of these five batches are committed yet.
+
+**Wave 2 (Stage 5) is now complete: all 23 batches (W2-1 through W2-23) generated,
+gate-clean, luna-checked.** Wave 3 (Stage 6) would be the next campaign to plan — not
+started here; see "Later waves" below.
 
 ---
 

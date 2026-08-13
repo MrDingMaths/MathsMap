@@ -1,0 +1,83 @@
+{
+  "skillId": "perpendicular-lines",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which statement matches the diagram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,0) node[left] {$A$}--(2,0) node[right] {$B$}; \\draw (0,-2) node[below] {$C$}--(0,2) node[above] {$D$}; \\draw (0.32,0)--(0.32,0.32)--(0,0.32);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-perpendicular-symbol",
+      "mastery": false,
+      "options": [
+        {"text": "$AB \\perp CD$", "correct": true},
+        {"text": "$AB \\parallel CD$", "why": "Confuses the right-angle square with a mark for parallel lines."},
+        {"text": "$AC \\perp BD$", "why": "Pairs endpoint labels that do not name either complete drawn line."},
+        {"text": "$AB=CD$", "why": "Interprets the angle mark as an equal-length statement about the lines."}
+      ],
+      "solution_text": "The square shows that $AB$ and $CD$ meet at $90^{\\circ}$.\n$AB \\perp CD$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Are lines $p$ and $q$ perpendicular?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2.2,0)--(2.2,0) node[right] {$p$}; \\draw (255:2.1)--(75:2.1) node[above] {$q$}; \\node at (35:0.95) {$75^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "reject-ninety-mismatch",
+      "mastery": false,
+      "options": [
+        {"text": "Yes, because the lines intersect", "why": "Assumes every pair of intersecting lines is perpendicular."},
+        {"text": "Yes, because $75^{\\circ}$ is acute", "why": "Mistakes any acute crossing angle for the required right angle."},
+        {"text": "No, because the marked angle is not $90^{\\circ}$", "correct": true},
+        {"text": "No, because one line is sloping", "why": "Uses page orientation instead of the angle between the two lines."}
+      ],
+      "solution_text": "Perpendicular lines must meet at $90^{\\circ}$.\nThe marked angle is $75^{\\circ}$, so $p$ and $q$ are not perpendicular."
+    },
+    {
+      "id": "q3",
+      "question_text": "Which pair of sides is perpendicular in rectangle $JKLM$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (0,0) node[below left] {$J$}--(3,0) node[below right] {$K$}--(3,1.8) node[above right] {$L$}--(0,1.8) node[above left] {$M$}--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "select-adjacent-rectangle-sides",
+      "mastery": false,
+      "options": [
+        {"text": "$JK$ and $KL$", "correct": true},
+        {"text": "$JK$ and $LM$", "why": "Chooses opposite parallel sides rather than sides meeting at a right angle."},
+        {"text": "$JM$ and $KL$", "why": "Chooses the other pair of opposite parallel sides instead of adjacent sides."},
+        {"text": "$JL$ and $KM$", "why": "Uses undrawn diagonals rather than the sides that meet at a rectangle corner."}
+      ],
+      "solution_text": "$JK$ and $KL$ meet at the rectangle's right-angle corner $K$.\n$JK \\perp KL$"
+    },
+    {
+      "id": "q4",
+      "question_text": "What does the small square at $O$ tell you?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw (-2,-1) node[left] {$E$}--(2,1) node[right] {$F$}; \\draw (-1,2) node[above] {$G$}--(1,-2) node[below] {$H$}; \\node[below left] at (0,0) {$O$};\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0); \\coordinate (A) at ($(O)!0.3cm!(2,1)$); \\coordinate (B) at ($(O)!0.3cm!(-1,2)$); \\draw (A)--($(A)+(B)-(O)$)--(B);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "interpret-right-angle-mark",
+      "mastery": false,
+      "options": [
+        {"text": "The lines have equal lengths", "why": "Treats an angle square as an equal-length marking."},
+        {"text": "The lines meet at $45^{\\circ}$", "why": "Halves the right angle because two lines are involved."},
+        {"text": "The lines meet at $90^{\\circ}$", "correct": true},
+        {"text": "The lines do not intersect", "why": "Ignores that the marked vertex O is the visible intersection."}
+      ],
+      "solution_text": "A small square marks a right angle.\nThe lines meet at $90^{\\circ}$ and are perpendicular."
+    },
+    {
+      "id": "q5",
+      "question_text": "A horizontal line and a vertical line are extended until they meet. What must be true?",
+      "structure": "infer-perpendicular-from-directions",
+      "mastery": true,
+      "options": [
+        {"text": "They are parallel", "why": "Confuses two different compass directions with lines running in the same direction."},
+        {"text": "They are perpendicular", "correct": true},
+        {"text": "They meet at $180^{\\circ}$", "why": "Uses a straight-angle value instead of the right angle between horizontal and vertical."},
+        {"text": "Their angle cannot be known", "why": "Misses that horizontal and vertical directions always form a right angle."}
+      ],
+      "solution_text": "Horizontal and vertical directions form a $90^{\\circ}$ angle.\nThe lines are perpendicular."
+    },
+    {
+      "id": "q6",
+      "question_text": "Given $r \\perp s$ and $s \\perp t$, which conclusion is correct?",
+      "structure": "two-lines-perpendicular-to-same-line",
+      "mastery": true,
+      "options": [
+        {"text": "$r \\perp t$", "why": "Chains the perpendicular symbols as though perpendicularity were transitive."},
+        {"text": "$r \\parallel t$", "correct": true},
+        {"text": "$r=t$", "why": "Treats line relationships as an equality of the line names."},
+        {"text": "$r$ and $t$ meet at $45^{\\circ}$", "why": "Halves a right angle without any geometric reason."}
+      ],
+      "solution_text": "Both $r$ and $t$ make a $90^{\\circ}$ angle with $s$.\nTherefore $r$ and $t$ run in the same direction, so $r \\parallel t$."
+    }
+  ]
+}

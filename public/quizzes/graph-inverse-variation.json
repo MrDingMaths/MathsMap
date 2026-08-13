@@ -1,0 +1,119 @@
+{
+  "skillId": "graph-inverse-variation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick] (0,0)--(3.5,4.6);\n\\end{tikzpicture}\n[/tikz]\nDoes the graph shown represent direct variation, inverse variation, or neither?",
+      "structure": "classify-direct",
+      "mastery": false,
+      "options": [
+        { "text": "Direct variation", "correct": true },
+        { "text": "Inverse variation", "why": "Mistook a straight line through the origin for a decreasing hyperbolic curve." },
+        { "text": "Neither", "why": "Overlooked that the line passes through the origin, which makes it direct variation." }
+      ],
+      "solution_text": "The graph is a straight line that passes through the origin.\nThis is the shape of direct variation."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick,domain=0.28:4.3,smooth,samples=60,variable=\\t] plot ({\\t},{1.2/\\t});\n\\end{tikzpicture}\n[/tikz]\nDoes the graph shown represent direct variation, inverse variation, or neither?",
+      "structure": "classify-inverse",
+      "mastery": false,
+      "options": [
+        { "text": "Inverse variation", "correct": true },
+        { "text": "Direct variation", "why": "Mistook a decreasing curve for a straight line without checking whether it's straight." },
+        { "text": "Neither", "why": "Assumed a curved decreasing graph must touch an axis somewhere instead of checking the shape." }
+      ],
+      "solution_text": "The graph is a curve that decreases as $x$ increases and never touches either axis.\nThis is the shape of inverse variation."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick] (0,3.6)--(3.0,0);\n\\end{tikzpicture}\n[/tikz]\nDoes the graph shown represent direct variation, inverse variation, or neither?",
+      "structure": "classify-neither",
+      "mastery": false,
+      "options": [
+        { "text": "Neither", "correct": true },
+        { "text": "Direct variation", "why": "Assumed any straight line is direct variation without checking it passes through the origin." },
+        { "text": "Inverse variation", "why": "Assumed any decreasing graph must be inverse variation without checking that it avoids both axes." }
+      ],
+      "solution_text": "The graph is a straight line but does not pass through the origin, so it is not direct variation, and it is not a curve approaching the axes, so it is not inverse variation either."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick,domain=0.45:4.5,smooth,samples=60,variable=\\t] plot ({\\t},{2.0/\\t});\n\\end{tikzpicture}\n[/tikz]\nOn the inverse variation graph shown, what happens to $y$ as $x$ gets closer to $0$?",
+      "structure": "identify-hyperbola-features",
+      "mastery": false,
+      "options": [
+        { "text": "$y$ increases without bound", "correct": true },
+        { "text": "$y$ approaches $0$", "why": "Describes what happens as x becomes very large, not as x approaches 0." },
+        { "text": "$y$ becomes negative", "why": "This curve has a positive constant of variation, so y stays positive throughout." },
+        { "text": "$y$ stays constant", "why": "Mistakes the steep asymptotic rise near the y-axis for an unchanging value." }
+      ],
+      "solution_text": "As $x$ gets closer to $0$, $y=\\dfrac{k}{x}$ gets larger and larger without limit, so the curve rises steeply and never touches the $y$-axis."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick,red] (0,0)--(4,3.6);\n\\node[red] at (3.0,2.9) {$A$};\n\\draw[thick,blue,domain=0.32:4.4,smooth,samples=60,variable=\\t] plot ({\\t},{1.4/\\t});\n\\node[blue] at (0.9,2.1) {$B$};\n\\end{tikzpicture}\n[/tikz]\nGraphs $A$ and $B$ are shown on the same axes. Which graph could represent inverse variation?",
+      "structure": "distinguish-line-vs-hyperbola",
+      "mastery": false,
+      "options": [
+        { "text": "$B$", "correct": true },
+        { "text": "$A$", "why": "Picked the straight line through the origin, which is direct variation, not inverse." },
+        { "text": "Both A and B", "why": "Assumed any decreasing-looking graph qualifies without checking each shape carefully." },
+        { "text": "Neither A nor B", "why": "Overlooked that graph B is a genuine hyperbola that never touches either axis." }
+      ],
+      "solution_text": "Graph $A$ is a straight line through the origin, so it is direct variation.\nGraph $B$ is a curve that never touches either axis, so it could represent inverse variation."
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis x line=bottom, axis y line=left, xlabel={Time $t$ (hours)}, ylabel={Speed $s$ (km/h)}, xmin=0, xmax=11, ymin=0, ymax=105, xtick={2,4,6,8,10}, ytick={20,40,60,80,100}, grid=both, samples=100, domain=1.5:10, restrict y to domain=0:105, unbounded coords=jump]\n\\addplot[thick,blue] {150/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe speed $s$ (km/h) needed to complete a $150$ km trip in time $t$ (hours) is related by the graph shown. Use the graph to find the speed needed to complete the trip in $3$ hours.",
+      "structure": "read-value-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$50$ km/h", "correct": true },
+        { "text": "$45$ km/h", "why": "Read off the wrong gridline, one interval below the intended time value." },
+        { "text": "$100$ km/h", "why": "Read the speed for $t=1.5$ hours instead of the value asked for at $t=3$ hours." },
+        { "text": "$30$ km/h", "why": "Read down to the time axis instead of across to the speed axis." }
+      ],
+      "solution_text": "Going up from $t=3$ to the curve and across to the speed axis lands on $50$.\nThe speed needed is $50$ km/h."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis x line=bottom, axis y line=left, xlabel={Volume $V$ (m$^3$)}, ylabel={Pressure $P$ (kPa)}, xmin=0, xmax=19, ymin=0, ymax=19, xtick={3,6,9,12,15,18}, ytick={3,6,9,12,15,18}, grid=both, samples=100, domain=3:18, restrict y to domain=0:19, unbounded coords=jump]\n\\addplot[thick,blue] {54/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe pressure $P$ (kPa) of a fixed amount of gas and its volume $V$ (m$^3$) are related by the graph shown. Use the graph to find the volume when the pressure is $9$ kPa.",
+      "structure": "read-value-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$6$ m$^3$", "correct": true },
+        { "text": "$9$ m$^3$", "why": "Read off the wrong gridline, one interval away from the intended pressure value." },
+        { "text": "$54$ m$^3$", "why": "Used the constant of variation instead of finding the actual volume from the graph." },
+        { "text": "$3$ m$^3$", "why": "Read the volume for a pressure of $18$ instead of the pressure of $9$ asked for." }
+      ],
+      "solution_text": "Going across from $P=9$ to the curve and down to the volume axis lands on $6$.\nThe volume is $6$ m$^3$."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-0.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-0.6)--(0,4.6) node[above] {$y$};\n\\draw[thick] (0,3.6) arc (90:0:3.6);\n\\end{tikzpicture}\n[/tikz]\nA student says this graph could show inverse variation because it is a decreasing curve. Is the student correct?",
+      "structure": "classify-neither-justify",
+      "mastery": true,
+      "options": [
+        { "text": "No — inverse variation graphs never touch either axis", "correct": true },
+        { "text": "Yes — decreasing curves are always inverse variation", "why": "Ignores that the curve touches both axes, which a true hyperbola never does." },
+        { "text": "No — inverse variation graphs must be straight lines", "why": "Confuses the straight-line description of direct variation with inverse variation's curve." },
+        { "text": "Yes — the curve never passes through the origin", "why": "Irrelevant test; touching either axis, not passing through the origin, is what rules this out." }
+      ],
+      "solution_text": "The curve meets both axes, so it cannot be inverse variation even though it decreases.\nThe student is incorrect."
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis x line=bottom, axis y line=left, xlabel={Resistance $R$ (ohms)}, ylabel={Current $I$ (A)}, xmin=0, xmax=21, ymin=0, ymax=16, xtick={4,8,12,16,20}, ytick={2,4,6,8,10,12,14}, grid=both, samples=100, domain=2:20, restrict y to domain=0:16, unbounded coords=jump]\n\\addplot[thick,blue] {30/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the graph to estimate the current when the resistance is $7$ ohms.",
+      "structure": "read-value-from-graph",
+      "mastery": true,
+      "options": [
+        { "text": "Approximately $4.3$ A", "correct": true },
+        { "text": "$6$ A", "why": "Used the value at $R=5$ ohms instead of reading the curve at $R=7$ ohms." },
+        { "text": "$3.75$ A", "why": "Rounded to the nearest labelled gridline instead of reading the actual curve position." },
+        { "text": "$30$ A", "why": "Gave the constant of variation instead of the current at that resistance." }
+      ],
+      "solution_text": "$R=7$ sits between the gridlines for $R=4$ and $R=8$.\nReading across from the curve at $R=7$ gives a current of approximately $4.3$ A."
+    }
+  ]
+}

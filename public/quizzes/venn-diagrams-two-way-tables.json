@@ -1,0 +1,255 @@
+{
+  "skillId": "venn-diagrams-two-way-tables",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$D$};\n\\node at (6.1,4.15) {$C$};\n\\node at (2.15,2.3) {$14$};\n\\node at (4,2.3) {$5$};\n\\node at (5.85,2.3) {$8$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $32$ Year 7 students, where $D$ is 'studies Design' and $C$ is 'plays cricket'. How many students play cricket but do not study Design?",
+      "structure": "read-venn-region",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$13$",
+          "why": "Counted everyone in the cricket circle, including the $5$ who also study Design."
+        },
+        {
+          "text": "$5$",
+          "why": "Read the overlap, which is the students who do both, not cricket only."
+        },
+        {
+          "text": "$14$",
+          "why": "Read the Design-only region on the left instead of the cricket-only region on the right."
+        }
+      ],
+      "solution_text": "The cricket-only region shows $8$."
+    },
+    {
+      "id": "q2",
+      "question_text": "This two-way table records whether Year 10 students study Economics and whether they play hockey.\n$\\begin{array}{l|cc|c}&\\text{Economics}&\\text{Not Economics}&\\text{Total}\\\\\\hline\\text{Hockey}&11&16&27\\\\\\text{Not Hockey}&9&19&28\\\\\\hline\\text{Total}&20&35&55\\end{array}$\nHow many students study Economics but do not play hockey?",
+      "structure": "read-table-cell",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$9$",
+          "correct": true
+        },
+        {
+          "text": "$20$",
+          "why": "Read the Economics column total, which counts everyone studying Economics."
+        },
+        {
+          "text": "$16$",
+          "why": "Read the 'Not Economics' cell in the Hockey row, swapping both conditions."
+        },
+        {
+          "text": "$28$",
+          "why": "Read the 'Not Hockey' row total instead of the cell inside that row."
+        }
+      ],
+      "solution_text": "Read the cell where the Economics column meets the 'Not Hockey' row: $9$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$B$};\n\\node at (6.1,4.15) {$M$};\n\\node at (2.15,2.3) {$10$};\n\\node at (4,2.3) {$12$};\n\\node at (5.85,2.3) {$7$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nA Year 8 group was surveyed, where $B$ is 'plays basketball' and $M$ is 'studies Music'. How many students were surveyed altogether?",
+      "structure": "venn-sample-total",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$35$",
+          "correct": true
+        },
+        {
+          "text": "$29$",
+          "why": "Added only the three regions inside the circles and left out the $6$ outside them."
+        },
+        {
+          "text": "$47$",
+          "why": "Added the two circle totals $22$ and $19$ plus $6$, counting the overlap twice."
+        },
+        {
+          "text": "$23$",
+          "why": "Added the two single-attribute regions and the outside region but left out the overlap."
+        }
+      ],
+      "solution_text": "$10 + 12 + 7 + 6$\n$= 35$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$T$};\n\\node at (6.1,4.15) {$A$};\n\\end{tikzpicture}\n[/tikz]\nIn a Year 9 group of $40$ students, $23$ study Textiles, $18$ are in the school athletics team and $11$ do both, where $T$ is 'studies Textiles' and $A$ is 'is in the athletics team'. How many students do neither?",
+      "structure": "construct-venn-from-words",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Gave $23 - 11$, the Textiles-only region, instead of the region outside both circles."
+        },
+        {
+          "text": "$29$",
+          "why": "Subtracted only the overlap from $40$, ignoring the two single-attribute regions."
+        },
+        {
+          "text": "$11$",
+          "why": "Gave the overlap, the students who do both, rather than the students who do neither."
+        }
+      ],
+      "solution_text": "Textiles only:\n$23 - 11$\n$= 12$\nAthletics only:\n$18 - 11$\n$= 7$\nOutside both circles:\n$40 - (12 + 11 + 7)$\n$= 10$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$M$};\n\\node at (6.1,4.15) {$S$};\n\\end{tikzpicture}\n[/tikz]\nA Year 10 cohort of $45$ students was surveyed. Altogether $28$ study Music, $24$ play a school sport and $6$ do neither, where $M$ is 'studies Music' and $S$ is 'plays a school sport'. How many students do both?",
+      "structure": "deduce-overlap",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$13$",
+          "correct": true
+        },
+        {
+          "text": "$7$",
+          "why": "Used $28 + 24 - 45$ and forgot that the $6$ who do neither are not inside either circle."
+        },
+        {
+          "text": "$11$",
+          "why": "Gave $39 - 28$, which is the sport-only region rather than the overlap."
+        },
+        {
+          "text": "$4$",
+          "why": "Took the difference of the two attribute totals, $28 - 24$, which is not the overlap."
+        }
+      ],
+      "solution_text": "Students inside at least one circle:\n$45 - 6$\n$= 39$\nLet $x$ be the number in the overlap.\n$(28 - x) + x + (24 - x) = 39$\n$52 - x = 39$\n$x = 13$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Copy and complete this two-way table, which records whether Year 7 students study Art and whether they play soccer.\n$\\begin{array}{l|cc|c}&\\text{Art}&\\text{Not Art}&\\text{Total}\\\\\\hline\\text{Soccer}&12&?&30\\\\\\text{Not Soccer}&9&19&28\\\\\\hline\\text{Total}&21&?&58\\end{array}$\nWhat number belongs in the cell for students who play soccer but do not study Art?",
+      "structure": "complete-two-way-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$18$",
+          "correct": true
+        },
+        {
+          "text": "$37$",
+          "why": "Found the 'Not Art' column total instead of the cell inside the Soccer row."
+        },
+        {
+          "text": "$11$",
+          "why": "Used $30 - 19$, subtracting the cell below it rather than the cell in the same row."
+        },
+        {
+          "text": "$9$",
+          "why": "Read the Art cell from the 'Not Soccer' row instead of completing the Soccer row."
+        }
+      ],
+      "solution_text": "The Soccer row adds across to $30$.\n$30 - 12$\n$= 18$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A survey of $70$ Year 8 students recorded whether they study Chinese and whether they play volleyball. Altogether $26$ study Chinese, $31$ play volleyball and $12$ do both. In a two-way table for this data, what number belongs in the cell for students who neither study Chinese nor play volleyball?",
+      "structure": "construct-table-from-words",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$25$",
+          "correct": true
+        },
+        {
+          "text": "$13$",
+          "why": "Used $70 - 26 - 31$, which subtracts the $12$ who do both a second time."
+        },
+        {
+          "text": "$39$",
+          "why": "Subtracted only the volleyball total from $70$ and ignored the Chinese-only students."
+        },
+        {
+          "text": "$44$",
+          "why": "Subtracted only the Chinese total from $70$ and ignored the volleyball-only students."
+        }
+      ],
+      "solution_text": "Chinese only:\n$26 - 12$\n$= 14$\nVolleyball only:\n$31 - 12$\n$= 19$\nNeither:\n$70 - (14 + 12 + 19)$\n$= 25$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$F$};\n\\node at (6.1,4.15) {$T$};\n\\node at (2.15,2.3) {$9$};\n\\node at (4,2.3) {$6$};\n\\node at (5.85,2.3) {$12$};\n\\node at (7.3,0.5) {$8$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows $35$ Year 9 students, where $F$ is 'studies Food Technology' and $T$ is 'plays tennis'. The same data is put into a two-way table. What number belongs in the cell for students who neither study Food Technology nor play tennis?",
+      "structure": "venn-to-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Used the tennis-only region, which is students who do not study Food Technology but do play tennis."
+        },
+        {
+          "text": "$21$",
+          "why": "Added the two single-attribute regions, the students who do exactly one of the two."
+        },
+        {
+          "text": "$27$",
+          "why": "Gave the students in at least one circle rather than the students outside both."
+        }
+      ],
+      "solution_text": "The region outside both circles becomes the 'Not Food Technology, Not Tennis' cell: $8$"
+    },
+    {
+      "id": "q9",
+      "question_text": "This two-way table records whether Year 10 students study German and whether they play rugby.\n$\\begin{array}{l|cc|c}&\\text{German}&\\text{Not German}&\\text{Total}\\\\\\hline\\text{Rugby}&7&15&22\\\\\\text{Not Rugby}&13&17&30\\\\\\hline\\text{Total}&20&32&52\\end{array}$\nThe same data is shown on a Venn diagram. What number belongs in the region for students who study German but do not play rugby?",
+      "structure": "table-to-venn",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$13$",
+          "correct": true
+        },
+        {
+          "text": "$20$",
+          "why": "Used the German column total, which is the whole circle rather than the German-only part."
+        },
+        {
+          "text": "$15$",
+          "why": "Used the 'Not German' cell of the Rugby row, swapping both conditions."
+        },
+        {
+          "text": "$17$",
+          "why": "Used the 'Not German, Not Rugby' cell, which is the region outside both circles."
+        }
+      ],
+      "solution_text": "The German-only region is the cell where the German column meets the 'Not Rugby' row: $13$"
+    },
+    {
+      "id": "q10",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$I$};\n\\node at (6.1,4.15) {$H$};\n\\node at (2.15,2.3) {$?$};\n\\node at (4,2.3) {$14$};\n\\node at (5.85,2.3) {$22$};\n\\node at (7.3,0.5) {$20$};\n\\end{tikzpicture}\n[/tikz]\nA Year 8 cohort of $80$ students was surveyed, where $I$ is 'studies Italian' and $H$ is 'plays hockey'. One region of the Venn diagram has not been filled in. A student is chosen at random. Find $P(\\text{does not study Italian})$ as a fraction in simplest form.",
+      "structure": "probability-from-representation",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{21}{40}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{19}{40}$",
+          "why": "Found the probability that the student does study Italian instead of the complement."
+        },
+        {
+          "text": "$\\frac{11}{40}$",
+          "why": "Counted only the hockey-only region and left out the $20$ outside both circles."
+        },
+        {
+          "text": "$\\frac{1}{4}$",
+          "why": "Counted only the $20$ outside both circles and left out the hockey-only region."
+        }
+      ],
+      "solution_text": "$80 - 14 - 22 - 20$\n$= 24$ study Italian only\n$\\frac{22 + 20}{80}$\n$= \\frac{42}{80}$\n$= \\frac{21}{40}$"
+    }
+  ]
+}

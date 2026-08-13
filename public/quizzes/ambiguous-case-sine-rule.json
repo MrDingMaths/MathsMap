@@ -1,0 +1,197 @@
+{
+  "skillId": "ambiguous-case-sine-rule",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.55]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (6.128,5.142);\n\\coordinate (C) at (9.22,0);\n\\draw (A)--(B) node[midway,above left] {$8$};\n\\draw (B)--(C) node[midway,above right] {$6$};\n\\draw (A)--(C);\n\\pic[draw,\"$40^{\\circ}$\",angle radius=1cm,angle eccentricity=1.4] {angle=C--A--B};\n\\pic[draw,\"$\\theta$\",angle radius=1cm,angle eccentricity=1.5] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThere are two triangles fitting this data. Find both possible values of $\\theta$, correct to $2$ decimal places.",
+      "structure": "find-both-angles",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$58.99^{\\circ}$ or $121.01^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$58.99^{\\circ}$ only",
+          "why": "Gave only the acute solution and missed the obtuse partner $180^{\\circ}-58.99^{\\circ}$."
+        },
+        {
+          "text": "$121.01^{\\circ}$ only",
+          "why": "Kept only the obtuse partner and dropped the acute value from $\\sin^{-1}$."
+        },
+        {
+          "text": "$31.01^{\\circ}$ or $148.99^{\\circ}$",
+          "why": "Used the complementary angle $90^{\\circ}-58.99^{\\circ}$ instead of the sine value."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin 40^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{8\\sin 40^{\\circ}}{6}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{8\\sin 40^{\\circ}}{6}\\right)$\n$=58.99^{\\circ}$\nThe obtuse partner is $180^{\\circ}-58.99^{\\circ}=121.01^{\\circ}$; both are valid since $121.01^{\\circ}+40^{\\circ}<180^{\\circ}$.\n$\\theta=58.99^{\\circ}$ or $121.01^{\\circ}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.4]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.857,4.596);\n\\coordinate (C) at (13.85,0);\n\\draw (A)--(B) node[midway,above left] {$6$};\n\\draw (B)--(C) node[midway,above right] {$11$};\n\\draw (A)--(C);\n\\pic[draw,\"$50^{\\circ}$\",angle radius=1cm,angle eccentricity=1.4] {angle=C--A--B};\n\\pic[draw,\"$\\theta$\",angle radius=1cm,angle eccentricity=1.5] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nFind the angle $\\theta$, correct to $2$ decimal places.",
+      "structure": "reject-obtuse-solution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$24.70^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$24.70^{\\circ}$ or $155.30^{\\circ}$",
+          "why": "Kept the obtuse partner without checking the angle sum, which exceeds $180^{\\circ}$."
+        },
+        {
+          "text": "$155.30^{\\circ}$",
+          "why": "Chose the obtuse partner alone, but it is rejected by the angle sum."
+        },
+        {
+          "text": "$65.30^{\\circ}$",
+          "why": "Used the complementary angle $90^{\\circ}-24.70^{\\circ}$."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin 50^{\\circ}}{11}$\n$\\sin\\theta=\\dfrac{6\\sin 50^{\\circ}}{11}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin 50^{\\circ}}{11}\\right)$\n$=24.70^{\\circ}$\nThe obtuse partner $155.30^{\\circ}$ gives $155.30^{\\circ}+50^{\\circ}>180^{\\circ}$, so it is rejected.\n$\\theta=24.70^{\\circ}$ only"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.5]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (6,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (-2.92,8.03);\n\\draw (A)--(B) node[midway,below] {$6$};\n\\draw (A)--(C) node[midway,above right] {$12$};\n\\draw (B)--(C);\n\\pic[draw,\"$110^{\\circ}$\",angle radius=0.9cm,angle eccentricity=1.35] {angle=A--B--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.9cm,angle eccentricity=1.6] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\nThe angle marked $110^{\\circ}$ is opposite the side of length $12$. Find the angle $\\theta$, correct to $2$ decimal places.",
+      "structure": "given-obtuse-one-solution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$28.02^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$28.02^{\\circ}$ or $151.98^{\\circ}$",
+          "why": "Included an obtuse partner, but a triangle can have only one obtuse angle."
+        },
+        {
+          "text": "$151.98^{\\circ}$",
+          "why": "Took the obtuse partner, which is impossible alongside the given $110^{\\circ}$."
+        },
+        {
+          "text": "$41.98^{\\circ}$",
+          "why": "Computed $180^{\\circ}-110^{\\circ}-28.02^{\\circ}$, the third angle, instead of $\\theta$."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{6}=\\dfrac{\\sin 110^{\\circ}}{12}$\n$\\sin\\theta=\\dfrac{6\\sin 110^{\\circ}}{12}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{6\\sin 110^{\\circ}}{12}\\right)$\n$=28.02^{\\circ}$\nThe given angle $110^{\\circ}$ is obtuse, so $\\theta$ must be acute — only one solution.\n$\\theta=28.02^{\\circ}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A triangle is said to have sides $10$ and $6$, where the angle opposite the $6$ side is $44^{\\circ}$. Which statement about the angle $\\theta$ opposite the $10$ side is correct?",
+      "structure": "no-solution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No such triangle exists",
+          "correct": true
+        },
+        {
+          "text": "$\\theta=90^{\\circ}$",
+          "why": "Rounded $\\sin\\theta=1.16$ down to $1$ and read off $\\theta=90^{\\circ}$."
+        },
+        {
+          "text": "$\\theta=24.63^{\\circ}$",
+          "why": "Inverted the ratio, using $\\dfrac{6\\sin 44^{\\circ}}{10}$ instead of $\\dfrac{10\\sin 44^{\\circ}}{6}$."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{10}=\\dfrac{\\sin 44^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{10\\sin 44^{\\circ}}{6}$\n$=1.16$\nSince $\\sin\\theta$ cannot exceed $1$, no such triangle exists."
+    },
+    {
+      "id": "q5",
+      "question_text": "In triangle $ABC$, $a=7$ is opposite $\\angle A=40^{\\circ}$ and $b=9$ is opposite $\\angle B$. How many triangles are possible?",
+      "structure": "count-triangles",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Two triangles",
+          "correct": true
+        },
+        {
+          "text": "One triangle",
+          "why": "Assumed the acute answer is the only one, ignoring the valid obtuse partner."
+        },
+        {
+          "text": "No triangle",
+          "why": "Thought $b>a$ forces $\\sin\\theta>1$, but here $b\\sin A<a$."
+        }
+      ],
+      "solution_text": "$b\\sin A=9\\sin 40^{\\circ}=5.79$\nSince $b\\sin A<a<b$ (that is $5.79<7<9$), two triangles are possible."
+    },
+    {
+      "id": "q6",
+      "question_text": "Two triangles have sides $9$ and $6$, where the angle opposite the $6$ side is $38^{\\circ}$. For each triangle, find the third angle (opposite the unknown side), correct to $2$ decimal places.",
+      "structure": "remaining-angle-each-case",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$74.56^{\\circ}$ or $29.44^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$67.44^{\\circ}$ or $112.56^{\\circ}$",
+          "why": "Reported the angle opposite the $9$ side, not the third angle."
+        },
+        {
+          "text": "$74.56^{\\circ}$ only",
+          "why": "Found the third angle for the acute case but ignored the obtuse case."
+        },
+        {
+          "text": "$103.44^{\\circ}$ or $29.44^{\\circ}$",
+          "why": "Subtracted only the given angle once, misusing the $180^{\\circ}$ sum for the acute case."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{9}=\\dfrac{\\sin 38^{\\circ}}{6}$\n$\\sin\\theta=\\dfrac{9\\sin 38^{\\circ}}{6}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{9\\sin 38^{\\circ}}{6}\\right)$\n$=67.44^{\\circ}$\nThe obtuse partner is $180^{\\circ}-67.44^{\\circ}=112.56^{\\circ}$; both are valid.\nAcute case: third angle $=180^{\\circ}-38^{\\circ}-67.44^{\\circ}=74.56^{\\circ}$.\nObtuse case: third angle $=180^{\\circ}-38^{\\circ}-112.56^{\\circ}=29.44^{\\circ}$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Two triangles have sides $10$ and $7$, where the angle opposite the $7$ side is $33^{\\circ}$. Find both possible values of the angle $\\theta$ opposite the $10$ side, correct to $2$ decimal places.",
+      "structure": "find-both-angles",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$51.08^{\\circ}$ or $128.92^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$51.08^{\\circ}$ only",
+          "why": "Gave only the acute solution and missed the obtuse partner."
+        },
+        {
+          "text": "$128.92^{\\circ}$ only",
+          "why": "Kept only the obtuse partner and dropped the acute value."
+        },
+        {
+          "text": "$38.92^{\\circ}$ or $141.08^{\\circ}$",
+          "why": "Used the complementary angle $90^{\\circ}-51.08^{\\circ}$."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin\\theta}{10}=\\dfrac{\\sin 33^{\\circ}}{7}$\n$\\sin\\theta=\\dfrac{10\\sin 33^{\\circ}}{7}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{10\\sin 33^{\\circ}}{7}\\right)$\n$=51.08^{\\circ}$\nThe obtuse partner is $180^{\\circ}-51.08^{\\circ}=128.92^{\\circ}$; both are valid since $128.92^{\\circ}+33^{\\circ}<180^{\\circ}$.\n$\\theta=51.08^{\\circ}$ or $128.92^{\\circ}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "In triangle $ABC$, $a=14$ is opposite $\\angle A=58^{\\circ}$ and $b=9$ is opposite $\\angle B$. Find $\\angle B$ and state how many triangles are possible. Answer to $2$ decimal places.",
+      "structure": "reject-obtuse-solution",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$33.04^{\\circ}$, one triangle",
+          "correct": true
+        },
+        {
+          "text": "$33.04^{\\circ}$ or $146.96^{\\circ}$, two triangles",
+          "why": "Included the obtuse partner, but $a>b$ forces $\\angle B<\\angle A$, so it is invalid."
+        },
+        {
+          "text": "$146.96^{\\circ}$, one triangle",
+          "why": "Chose the obtuse partner, which is impossible since $B$ is opposite the shorter side."
+        },
+        {
+          "text": "$56.96^{\\circ}$, one triangle",
+          "why": "Used the complementary angle $90^{\\circ}-33.04^{\\circ}$."
+        }
+      ],
+      "solution_text": "$\\dfrac{\\sin B}{9}=\\dfrac{\\sin 58^{\\circ}}{14}$\n$\\sin B=\\dfrac{9\\sin 58^{\\circ}}{14}$\n$B=\\sin^{-1}\\left(\\dfrac{9\\sin 58^{\\circ}}{14}\\right)$\n$=33.04^{\\circ}$\nSince $a>b$, angle $B$ is opposite the shorter side and must be acute, so the obtuse partner is rejected.\n$\\angle B=33.04^{\\circ}$, one triangle"
+    }
+  ]
+}

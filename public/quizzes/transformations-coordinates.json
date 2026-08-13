@@ -1,0 +1,281 @@
+{
+  "skillId": "transformations-coordinates",
+  "coverageNote": "Type-rich skill: one item per structural transformation type (translate, reflect x, reflect y, rotate 90 clockwise and anticlockwise, rotate 180, rotate 270, transform a shape, describe a transformation) plus two mastery items (composite, reverse) runs the quiz to 11.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Translate the point $M(-4,3)$ by the vector $\\binom{5}{-2}$. What are the coordinates of the image?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-4,3) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-4,3) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "translate-point",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(1,1)$",
+          "correct": true
+        },
+        {
+          "text": "$(-9,5)$",
+          "why": "Subtracted the vector instead of adding it."
+        },
+        {
+          "text": "$(-6,8)$",
+          "why": "Added the $x$-shift to $y$ and the $y$-shift to $x$."
+        },
+        {
+          "text": "$(1,5)$",
+          "why": "Moved $2$ up instead of $2$ down for the $y$-shift."
+        }
+      ],
+      "solution_text": "A translation adds the vector: $(x,y)\\to(x+5,\\,y-2)$.\n$(-4,3)\\to(-4+5,\\,3-2)$\n$(1,1)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Reflect the point $R(2,5)$ in the $x$-axis. What are the coordinates of $R'$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (2,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,5) {$R$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "reflect-x-axis",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(2,-5)$",
+          "correct": true
+        },
+        {
+          "text": "$(-2,5)$",
+          "why": "Reflected in the $y$-axis, negating $x$ instead of $y$."
+        },
+        {
+          "text": "$(-2,-5)$",
+          "why": "Negated both coordinates as if rotating $180^{\\circ}$."
+        },
+        {
+          "text": "$(5,-2)$",
+          "why": "Swapped the coordinates as well as negating one."
+        }
+      ],
+      "solution_text": "Reflecting in the $x$-axis negates $y$: $(x,y)\\to(x,\\,-y)$.\n$R'(2,-5)$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Reflect the point $S(-2,5)$ in the $y$-axis. What are the coordinates of $S'$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-2,5) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-2,5) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "reflect-y-axis",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(2,5)$",
+          "correct": true
+        },
+        {
+          "text": "$(-2,-5)$",
+          "why": "Reflected in the $x$-axis, negating $y$ instead of $x$."
+        },
+        {
+          "text": "$(2,-5)$",
+          "why": "Negated both coordinates as if rotating $180^{\\circ}$."
+        },
+        {
+          "text": "$(-2,5)$",
+          "why": "Left the point unchanged instead of negating $x$."
+        }
+      ],
+      "solution_text": "Reflecting in the $y$-axis negates $x$: $(x,y)\\to(-x,\\,y)$.\n$S'(2,5)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Rotate the point $T(1,3)$ by $90^{\\circ}$ clockwise about the origin. What are the coordinates of the image?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (1,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,3) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotate-90",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(3,-1)$",
+          "correct": true
+        },
+        {
+          "text": "$(-3,1)$",
+          "why": "Rotated $90^{\\circ}$ anticlockwise, the wrong direction."
+        },
+        {
+          "text": "$(3,1)$",
+          "why": "Swapped the coordinates but forgot to negate one."
+        },
+        {
+          "text": "$(-1,-3)$",
+          "why": "Applied the $180^{\\circ}$ rule instead of $90^{\\circ}$."
+        }
+      ],
+      "solution_text": "A $90^{\\circ}$ clockwise rotation gives $(x,y)\\to(y,\\,-x)$.\n$(1,3)\\to(3,-1)$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Rotate the point $U(2,4)$ by $90^{\\circ}$ anticlockwise about the origin. What are the coordinates of the image?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (2,4) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,4) {$U$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotate-90",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(-4,2)$",
+          "correct": true
+        },
+        {
+          "text": "$(4,-2)$",
+          "why": "Rotated $90^{\\circ}$ clockwise, the wrong direction."
+        },
+        {
+          "text": "$(4,2)$",
+          "why": "Swapped the coordinates without changing any sign."
+        },
+        {
+          "text": "$(-2,-4)$",
+          "why": "Applied the $180^{\\circ}$ rule instead of $90^{\\circ}$."
+        }
+      ],
+      "solution_text": "A $90^{\\circ}$ anticlockwise rotation gives $(x,y)\\to(-y,\\,x)$.\n$(2,4)\\to(-4,2)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Rotate the point $V(-5,2)$ by $180^{\\circ}$ about the origin. What are the coordinates of $V'$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (-5,2) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (-5,2) {$V$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotate-180",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(5,-2)$",
+          "correct": true
+        },
+        {
+          "text": "$(-5,-2)$",
+          "why": "Reflected in the $x$-axis, negating only $y$."
+        },
+        {
+          "text": "$(5,2)$",
+          "why": "Reflected in the $y$-axis, negating only $x$."
+        },
+        {
+          "text": "$(-2,5)$",
+          "why": "Swapped the coordinates as well as negating them."
+        }
+      ],
+      "solution_text": "A $180^{\\circ}$ rotation negates both coordinates: $(x,y)\\to(-x,\\,-y)$.\n$V'(5,-2)$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Rotate the point $W(5,-2)$ by $270^{\\circ}$ clockwise about the origin. What are the coordinates of $W'$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (5,-2) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (5,-2) {$W$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotate-270",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(2,5)$",
+          "correct": true
+        },
+        {
+          "text": "$(-2,-5)$",
+          "why": "Rotated $270^{\\circ}$ the wrong way, i.e. $90^{\\circ}$ clockwise."
+        },
+        {
+          "text": "$(-5,2)$",
+          "why": "Applied the $180^{\\circ}$ rule instead."
+        },
+        {
+          "text": "$(5,2)$",
+          "why": "Negated only the $y$-coordinate instead of applying the rotation."
+        }
+      ],
+      "solution_text": "A $270^{\\circ}$ clockwise rotation is the same as $90^{\\circ}$ anticlockwise: $(x,y)\\to(-y,\\,x)$.\n$(5,-2)\\to(2,5)$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Triangle $ABC$ has vertices $A(1,2)$, $B(3,2)$, $C(1,5)$. It is reflected in the $y$-axis. What are the coordinates of $A'$, $B'$ and $C'$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[thick] (1,2)--(3,2)--(1,5)--cycle;\n\\fill (1,2) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (1,2) {$A$};\n\\fill (3,2) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (3,2) {$B$};\n\\fill (1,5) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (1,5) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "transform-shape",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A'(-1,2)$, $B'(-3,2)$, $C'(-1,5)$",
+          "correct": true
+        },
+        {
+          "text": "$A'(1,-2)$, $B'(3,-2)$, $C'(1,-5)$",
+          "why": "Reflected in the $x$-axis, negating each $y$ instead of $x$."
+        },
+        {
+          "text": "$A'(-1,-2)$, $B'(-3,-2)$, $C'(-1,-5)$",
+          "why": "Rotated $180^{\\circ}$, negating both coordinates."
+        },
+        {
+          "text": "$A'(2,1)$, $B'(2,3)$, $C'(5,1)$",
+          "why": "Swapped each pair of coordinates instead of negating $x$."
+        }
+      ],
+      "solution_text": "Reflecting in the $y$-axis negates each $x$-coordinate: $(x,y)\\to(-x,\\,y)$.\n$A(1,2)\\to A'(-1,2)$\n$B(3,2)\\to B'(-3,2)$\n$C(1,5)\\to C'(-1,5)$"
+    },
+    {
+      "id": "q9",
+      "question_text": "The point $B(4,1)$ is mapped to its image $B'(-1,4)$ by a single transformation about the origin. Which transformation is it?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (4,1) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (4,1) {$B$};\n\\draw[fill=white] (-1,4) circle (2.5pt);\n\\node[above left,font=\\footnotesize] at (-1,4) {$B'$};\n\\draw[dashed,gray] (0,0)--(4,1);\n\\draw[dashed,gray] (0,0)--(-1,4);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "describe-transformation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Rotation $90^{\\circ}$ anticlockwise about the origin",
+          "correct": true
+        },
+        {
+          "text": "Rotation $90^{\\circ}$ clockwise about the origin",
+          "why": "That maps $(4,1)$ to $(1,-4)$, not $(-1,4)$."
+        },
+        {
+          "text": "Reflection in the $y$-axis",
+          "why": "That maps $(4,1)$ to $(-4,1)$, only negating $x$."
+        },
+        {
+          "text": "Rotation $180^{\\circ}$ about the origin",
+          "why": "That maps $(4,1)$ to $(-4,-1)$, negating both."
+        }
+      ],
+      "solution_text": "Compare the coordinates: $(4,1)\\to(-1,4)$, which matches $(x,y)\\to(-y,\\,x)$.\nRotation $90^{\\circ}$ anticlockwise about the origin."
+    },
+    {
+      "id": "q10",
+      "question_text": "The point $(2,3)$ is first reflected in the $x$-axis and then translated by the vector $\\binom{-3}{1}$. What are the coordinates of the final image?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\fill (2,3) circle (2.5pt);\n\\node[above right,font=\\footnotesize] at (2,3) {$A$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "composite",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-1,-2)$",
+          "correct": true
+        },
+        {
+          "text": "$(-1,-4)$",
+          "why": "Translated first and then reflected, reversing the order."
+        },
+        {
+          "text": "$(-5,4)$",
+          "why": "Reflected in the $y$-axis instead of the $x$-axis."
+        },
+        {
+          "text": "$(5,-4)$",
+          "why": "Subtracted the translation vector instead of adding it."
+        }
+      ],
+      "solution_text": "Reflect in the $x$-axis: $(2,3)\\to(2,-3)$.\nTranslate by $\\binom{-3}{1}$: $(2,-3)\\to(2-3,\\,-3+1)$.\n$(-1,-2)$"
+    },
+    {
+      "id": "q11",
+      "question_text": "A point $P$ is rotated $180^{\\circ}$ about the origin, giving the image $P'(3,-5)$. What are the coordinates of the original point $P$?\n[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[step=1,gray!25,very thin] (-5,-5) grid (5,5);\n\\draw[<->,thick] (-5.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,thick] (0,-5.5)--(0,5.5) node[above] {$y$};\n\\foreach \\x in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};\n\\foreach \\y in {-5,-4,-3,-2,-1,1,2,3,4,5} \\node[left,font=\\scriptsize] at (0,\\y) {$\\y$};\n\\draw[fill=white] (3,-5) circle (2.5pt);\n\\node[below right,font=\\footnotesize] at (3,-5) {$P'$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "find-preimage",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-3,5)$",
+          "correct": true
+        },
+        {
+          "text": "$(-3,-5)$",
+          "why": "Negated only the $x$-coordinate."
+        },
+        {
+          "text": "$(3,5)$",
+          "why": "Negated only the $y$-coordinate."
+        },
+        {
+          "text": "$(-5,3)$",
+          "why": "Swapped the coordinates as if reversing a $90^{\\circ}$ rotation."
+        }
+      ],
+      "solution_text": "A $180^{\\circ}$ rotation negates both coordinates, so the original is found by negating both again.\n$(3,-5)\\to(-3,5)$\n$P(-3,5)$"
+    }
+  ]
+}

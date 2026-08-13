@@ -1,0 +1,109 @@
+{
+  "skillId": "composite-area-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "This L-shaped carpet is to be laid in a room. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(8,0)--(8,3)--(3,3)--(3,6)--(0,6)--cycle;\n\\node[below] at (4,0) {$8\\text{ m}$};\n\\node[right] at (8,1.5) {$3\\text{ m}$};\n\\node[above] at (5.5,3) {$5\\text{ m}$};\n\\node[right] at (3,4.5) {$3\\text{ m}$};\n\\node[above] at (1.5,6) {$3\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "composite-lshape-add",
+      "mastery": false,
+      "options": [
+        { "text": "$33\\text{ m}^{2}$", "correct": true },
+        { "text": "$48\\text{ m}^{2}$", "why": "Found the area of the full $8$ by $6$ rectangle without removing the missing corner." },
+        { "text": "$42\\text{ m}^{2}$", "why": "Used $6$ m as the height of the right-hand part instead of $3$ m." },
+        { "text": "$18\\text{ m}^{2}$", "why": "Found only one of the two rectangles the shape splits into." }
+      ],
+      "solution_text": "Split the L into a tall left rectangle and a low right rectangle.\n$A_1 = 3\\times 6$\n$= 18\\text{ m}^{2}$\n$A_2 = 5\\times 3$\n$= 15\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 33\\text{ m}^{2}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The end of a barn is a rectangle $10$ m wide and $4$ m tall, with a triangle of height $3$ m on top. Calculate its area.",
+      "structure": "composite-rect-triangle-add",
+      "mastery": false,
+      "options": [
+        { "text": "$55\\text{ m}^{2}$", "correct": true },
+        { "text": "$70\\text{ m}^{2}$", "why": "Did not halve base $\\times$ height when finding the triangle." },
+        { "text": "$40\\text{ m}^{2}$", "why": "Found only the rectangle and left out the triangle." },
+        { "text": "$45\\text{ m}^{2}$", "why": "Used $3$ m as the rectangle's height instead of $4$ m." }
+      ],
+      "solution_text": "$A_1 = 10\\times 4$\n$= 40\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 10\\times 3$\n$= 15\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 55\\text{ m}^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A doorway is a rectangle $4$ m wide and $5$ m tall with a semicircle of radius $2$ m on top. Calculate its area, correct to $2$ decimal places.",
+      "structure": "composite-rect-semicircle-add",
+      "mastery": false,
+      "options": [
+        { "text": "$26.28\\text{ m}^{2}$", "correct": true },
+        { "text": "$32.57\\text{ m}^{2}$", "why": "Added a full circle instead of a semicircle." },
+        { "text": "$45.13\\text{ m}^{2}$", "why": "Used the diameter $4$ m as the radius in the semicircle." },
+        { "text": "$20.00\\text{ m}^{2}$", "why": "Found only the rectangle and left out the semicircle." }
+      ],
+      "solution_text": "$A_1 = 4\\times 5$\n$= 20\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\pi(2)^{2}$\n$= 6.2831\\ldots\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 26.28\\text{ m}^{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A rectangular lawn is $12$ m by $9$ m. A rectangular shed $5$ m by $4$ m stands on it. Calculate the area of lawn that is left.",
+      "structure": "composite-rect-minus-rect",
+      "mastery": false,
+      "options": [
+        { "text": "$88\\text{ m}^{2}$", "correct": true },
+        { "text": "$128\\text{ m}^{2}$", "why": "Added the shed area instead of subtracting it." },
+        { "text": "$108\\text{ m}^{2}$", "why": "Found the whole lawn and forgot to remove the shed." },
+        { "text": "$63\\text{ m}^{2}$", "why": "Used the lawn width $9$ m as the shed's width instead of $4$ m." }
+      ],
+      "solution_text": "$A_1 = 12\\times 9$\n$= 108\\text{ m}^{2}$\n$A_2 = 5\\times 4$\n$= 20\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 88\\text{ m}^{2}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A trapezium-shaped garden has parallel sides $14$ m and $8$ m, and the distance between them is $6$ m. Calculate its area.",
+      "structure": "composite-trapezium",
+      "mastery": false,
+      "options": [
+        { "text": "$66\\text{ m}^{2}$", "correct": true },
+        { "text": "$132\\text{ m}^{2}$", "why": "Did not halve $(a+b)\\times h$ in the trapezium formula." },
+        { "text": "$56\\text{ m}^{2}$", "why": "Multiplied the two parallel sides and halved, ignoring the height." },
+        { "text": "$42\\text{ m}^{2}$", "why": "Treated the shape as a triangle with base $14$ m and height $6$ m." }
+      ],
+      "solution_text": "$A = \\frac{1}{2}(14+8)\\times 6$\n$= \\frac{1}{2}\\times 22\\times 6$\n$= 66\\text{ m}^{2}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "This paved area is T-shaped. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (2.5,0)--(5.5,0)--(5.5,5)--(8,5)--(8,7)--(0,7)--(0,5)--(2.5,5)--cycle;\n\\draw[dashed] (0,5)--(8,5);\n\\node[above] at (4,7) {$8\\text{ m}$};\n\\node[left] at (0,6) {$2\\text{ m}$};\n\\node[below] at (4,0) {$3\\text{ m}$};\n\\node[right] at (5.5,2.5) {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "composite-tshape-add",
+      "mastery": false,
+      "options": [
+        { "text": "$31\\text{ m}^{2}$", "correct": true },
+        { "text": "$56\\text{ m}^{2}$", "why": "Found the area of the $8$ by $7$ bounding rectangle around the whole shape." },
+        { "text": "$37\\text{ m}^{2}$", "why": "Used $7$ m for the stem's height instead of $5$ m." },
+        { "text": "$16\\text{ m}^{2}$", "why": "Found only the top bar and left out the stem." }
+      ],
+      "solution_text": "Split the T into the top bar and the stem.\n$A_1 = 8\\times 2$\n$= 16\\text{ m}^{2}$\n$A_2 = 3\\times 5$\n$= 15\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 31\\text{ m}^{2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A rectangular metal sign is $20$ cm by $12$ cm. A triangular notch with base $8$ cm and height $6$ cm is cut out of it. Calculate the area of metal that is left.",
+      "structure": "composite-rect-minus-triangle",
+      "mastery": false,
+      "options": [
+        { "text": "$216\\text{ cm}^{2}$", "correct": true },
+        { "text": "$192\\text{ cm}^{2}$", "why": "Did not halve base $\\times$ height for the triangle before subtracting." },
+        { "text": "$264\\text{ cm}^{2}$", "why": "Added the triangle area instead of subtracting it." },
+        { "text": "$240\\text{ cm}^{2}$", "why": "Found the whole rectangle and forgot to remove the notch." }
+      ],
+      "solution_text": "$A_1 = 20\\times 12$\n$= 240\\text{ cm}^{2}$\n$A_2 = \\frac{1}{2}\\times 8\\times 6$\n$= 24\\text{ cm}^{2}$\n$A = A_1 - A_2$\n$= 216\\text{ cm}^{2}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A lawn is shaped like a $10$ m by $6$ m rectangle with a triangle of height $4$ m on one end. Turf is sold in rolls that each cover $9\\text{ m}^{2}$, and rolls cannot be split. How many rolls are needed?",
+      "structure": "composite-area-to-units",
+      "mastery": true,
+      "options": [
+        { "text": "$9$ rolls", "correct": true },
+        { "text": "$8$ rolls", "why": "Rounded the number of rolls down instead of up." },
+        { "text": "$12$ rolls", "why": "Did not halve the triangle, giving an area of $100\\text{ m}^{2}$ before dividing." },
+        { "text": "$10$ rolls", "why": "Divided the area by $8\\text{ m}^{2}$ per roll instead of $9\\text{ m}^{2}$." }
+      ],
+      "solution_text": "$A_1 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 10\\times 4$\n$= 20\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 80\\text{ m}^{2}$\n$80\\div 9 = 8.8\\ldots$\nRolls cannot be split, so $9$ rolls are needed."
+    }
+  ]
+}

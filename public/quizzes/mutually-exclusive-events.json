@@ -1,0 +1,122 @@
+{
+  "skillId": "mutually-exclusive-events",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A standard six-sided die is rolled once. Are 'the number is less than $3$' and 'the number is odd' mutually exclusive?",
+      "structure": "classify-pair",
+      "mastery": false,
+      "options": [
+        { "text": "Not mutually exclusive, because rolling a $1$ satisfies both events.", "correct": true },
+        { "text": "Mutually exclusive, because a number cannot be small and odd at the same time.", "why": "Assumes two differently worded descriptions must pick out different outcomes, without checking whether $1$ is in both." },
+        { "text": "Mutually exclusive, because the two events contain different numbers of outcomes.", "why": "Compares the sizes of the events, when only a shared outcome decides mutual exclusivity." },
+        { "text": "Not mutually exclusive, because the two events together cover every outcome on the die.", "why": "Confuses overlapping with covering the sample space; $4$ and $6$ belong to neither event." }
+      ],
+      "solution_text": "'Less than $3$' is $\\{1, 2\\}$ and 'odd' is $\\{1, 3, 5\\}$.\nThe outcome $1$ belongs to both events, so they can happen at the same time.\nThey are not mutually exclusive."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$2$};\n\\node at (4,2.3) {$1$};\n\\node at (5.85,2.3) {$1$};\n\\node at (7.3,0.5) {$2$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows the $6$ outcomes of rolling a standard six-sided die, where $A$ is 'the number is odd' and $B$ is 'the number is a multiple of $3$'. Are $A$ and $B$ mutually exclusive?",
+      "structure": "classify-from-venn",
+      "mastery": false,
+      "options": [
+        { "text": "Not mutually exclusive, because $1$ outcome lies in the overlap.", "correct": true },
+        { "text": "Mutually exclusive, because the two circles contain different counts.", "why": "Reads the region counts instead of checking whether the overlapping region is empty." },
+        { "text": "Mutually exclusive, because $2$ outcomes lie outside both circles.", "why": "Uses the outside region to decide, when only the overlap decides mutual exclusivity." },
+        { "text": "Not mutually exclusive, because both circles are drawn inside the same rectangle.", "why": "Thinks sharing a universal set makes events overlap, rather than checking the overlapping region itself." }
+      ],
+      "solution_text": "The circles overlap and the overlapping region holds $1$ outcome.\nThat outcome is $3$, which is odd and a multiple of $3$, so $A \\cap B$ is not empty.\nThe events are not mutually exclusive."
+    },
+    {
+      "id": "q3",
+      "question_text": "A card is drawn from a standard deck of $52$ playing cards. Find $P(\\text{a heart and a picture card})$ as a fraction in simplest form.",
+      "structure": "and-language",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{3}{52}$", "correct": true },
+        { "text": "$\\frac{11}{26}$", "why": "Read 'and' as an inclusive 'or' and counted every heart together with every picture card." },
+        { "text": "$\\frac{3}{13}$", "why": "Counted all $12$ picture cards instead of only the picture cards that are also hearts." },
+        { "text": "$\\frac{1}{4}$", "why": "Counted all $13$ hearts instead of only the hearts that are also picture cards." }
+      ],
+      "solution_text": "'And' means both conditions must hold, so count the cards that are a heart **and** a picture card.\nThey are the jack, queen and king of hearts.\n$P(\\text{a heart and a picture card}) = \\frac{3}{52}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A card is drawn from a standard deck of $52$ playing cards. Find $P(\\text{a spade or a king, or both})$ as a fraction in simplest form.",
+      "structure": "inclusive-or",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{4}{13}$", "correct": true },
+        { "text": "$\\frac{17}{52}$", "why": "Added $13$ spades and $4$ kings without noticing that the king of spades has been counted twice." },
+        { "text": "$\\frac{1}{13}$", "why": "Counted only the $4$ kings and ignored the spades named in the first event." },
+        { "text": "$\\frac{1}{52}$", "why": "Counted only the king of spades, which is the overlap rather than the inclusive 'or'." }
+      ],
+      "solution_text": "'Or both' is the inclusive or, so count every spade, every king, and the overlap only once.\nThere are $13$ spades, and the $3$ kings that are not spades are the kings of hearts, diamonds and clubs.\n$P(\\text{a spade or a king, or both}) = \\frac{13 + 3}{52}$\n$= \\frac{16}{52}$\n$= \\frac{4}{13}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A card is drawn from a standard deck of $52$ playing cards. Find $P(\\text{a spade or a king, but not both})$ as a fraction in simplest form.",
+      "structure": "exclusive-or",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{15}{52}$", "correct": true },
+        { "text": "$\\frac{17}{52}$", "why": "Added $13$ spades and $4$ kings, keeping the king of spades and counting it twice." },
+        { "text": "$\\frac{3}{13}$", "why": "Removed the king of spades from the spades but forgot to include the $3$ kings of other suits." },
+        { "text": "$\\frac{1}{13}$", "why": "Counted only the $4$ kings and left the spades out of the compound event." }
+      ],
+      "solution_text": "'But not both' is the exclusive or, so the king of spades is removed from both events.\nThere are $13 - 1 = 12$ spades that are not kings and $4 - 1 = 3$ kings that are not spades.\n$P(\\text{a spade or a king, but not both}) = \\frac{12 + 3}{52}$\n$= \\frac{15}{52}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A standard six-sided die is rolled once. Find $P(\\text{neither odd nor greater than } 4)$ as a fraction in simplest form.",
+      "structure": "neither-nor",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{1}{3}$", "correct": true },
+        { "text": "$\\frac{2}{3}$", "why": "Counted the outcomes belonging to at least one event instead of the outcomes belonging to neither." },
+        { "text": "$\\frac{1}{2}$", "why": "Excluded only the odd numbers and forgot that $6$ is also greater than $4$." },
+        { "text": "$\\frac{1}{6}$", "why": "Marked the single outcome $5$, which lies in both events, rather than the outcomes in neither." }
+      ],
+      "solution_text": "The odd numbers are $\\{1, 3, 5\\}$ and the numbers greater than $4$ are $\\{5, 6\\}$.\n'Neither … nor' excludes every outcome in either event, so $1$, $3$, $5$ and $6$ are all removed.\nThe outcomes left are $\\{2, 4\\}$.\n$P(\\text{neither odd nor greater than } 4) = \\frac{2}{6}$\n$= \\frac{1}{3}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A standard six-sided die is rolled once. Find $P(\\text{a number less than } 3 \\text{ or a } 6)$ as a fraction in simplest form.",
+      "structure": "probability-mutually-exclusive",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{1}{2}$", "correct": true },
+        { "text": "$\\frac{2}{3}$", "why": "Read 'less than $3$' as 'at most $3$' and included the outcome $3$ as well." },
+        { "text": "$\\frac{1}{3}$", "why": "Counted only the numbers less than $3$ and left out the second event." },
+        { "text": "$\\frac{1}{6}$", "why": "Counted only the outcome $6$ and left out the first event." }
+      ],
+      "solution_text": "'Less than $3$' is $\\{1, 2\\}$ and 'a $6$' is $\\{6\\}$.\nThe two events are mutually exclusive, so no outcome is counted twice and the counts simply add.\n$P(\\text{a number less than } 3 \\text{ or a } 6) = \\frac{2 + 1}{6}$\n$= \\frac{3}{6}$\n$= \\frac{1}{2}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A card is drawn from a standard deck of $52$ playing cards. Why does the question 'find $P(\\text{a jack or a queen})$' not need to say whether the 'or' is inclusive or exclusive?",
+      "structure": "why-or-unambiguous",
+      "mastery": false,
+      "options": [
+        { "text": "Because no card is both a jack and a queen, so both readings describe the same $8$ cards.", "correct": true },
+        { "text": "Because the two events contain the same number of cards, so both readings must agree.", "why": "Equal event sizes do not remove an overlap; it is the empty overlap that makes the two readings agree." },
+        { "text": "Because 'or' in mathematics always means inclusive or, so it never has to be stated.", "why": "Treats every 'or' as inclusive, ignoring that exclusive 'or' describes a different compound event." },
+        { "text": "Because the two events do not cover the whole deck, so no card can be counted twice.", "why": "Confuses the events failing to cover the sample space with the events failing to overlap." }
+      ],
+      "solution_text": "A card shows only one rank, so 'a jack' and 'a queen' are mutually exclusive and the overlap is empty.\nThe inclusive reading counts the $4$ jacks and $4$ queens, giving $8$ cards.\nThe exclusive reading removes the overlap, but there is nothing to remove, so it also gives $8$ cards.\nBoth readings describe the same set of cards, so the wording cannot change the answer."
+    },
+    {
+      "id": "q9",
+      "question_text": "A standard six-sided die is rolled once. Event $A$ is 'the number is at most $3$'. Which event $B$ is mutually exclusive with $A$ **without** being the complement of $A$?",
+      "structure": "classify-pair",
+      "mastery": true,
+      "options": [
+        { "text": "The number is $5$.", "correct": true },
+        { "text": "The number is greater than $3$.", "why": "This is the complement of $A$, so it is mutually exclusive with $A$ but also covers every remaining outcome." },
+        { "text": "The number is odd.", "why": "Overlaps $A$ at $1$ and $3$, so the two events can happen at the same time." },
+        { "text": "The number is at least $3$.", "why": "Overlaps $A$ at $3$, because 'at least $3$' includes $3$ itself." }
+      ],
+      "solution_text": "$A = \\{1, 2, 3\\}$, so its complement is $\\{4, 5, 6\\}$.\nA mutually exclusive event must share no outcome with $A$, so it must be a subset of $\\{4, 5, 6\\}$.\nTo avoid being the complement it must not contain all three of those outcomes.\n$B = \\{5\\}$ shares no outcome with $A$ and leaves $4$ and $6$ in neither event, so it is mutually exclusive with $A$ but not complementary to it."
+    }
+  ]
+}

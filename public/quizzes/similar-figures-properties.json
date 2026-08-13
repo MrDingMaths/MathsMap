@@ -1,0 +1,106 @@
+{
+  "skillId": "similar-figures-properties",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Two figures are similar. Which statement must be true?",
+      "structure": "similar-properties",
+      "mastery": false,
+      "options": [
+        { "text": "Their corresponding angles are equal and their corresponding sides are in the same ratio.", "correct": true },
+        { "text": "They are the same shape and the same size.", "why": "Same shape and same size describes congruent figures; similar figures need not be the same size." },
+        { "text": "Their corresponding sides are equal in length.", "why": "Equal corresponding sides is a congruence property; in similar figures the sides are in a common ratio, not necessarily equal." },
+        { "text": "Their corresponding angles are in the same ratio as their sides.", "why": "Angles are copied exactly in similar figures — only the sides are scaled by the common ratio." }
+      ],
+      "solution_text": "Similar figures have the same shape but not necessarily the same size: corresponding angles are equal, and corresponding sides are in the same ratio."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.1,0);\n\\coordinate (C) at (1.3125,1.1575);\n\\draw (A) -- (B) node[midway, below] {$6$};\n\\draw (B) -- (C) node[midway, above right] {$4$};\n\\draw (C) -- (A) node[midway, above left] {$5$};\n\\coordinate (D) at (2.9,0);\n\\coordinate (E) at (6.05,0);\n\\coordinate (F) at (4.8688,1.7363);\n\\draw (D) -- (E) node[midway, below] {$9$};\n\\draw (E) -- (F) node[midway, above right] {$6$};\n\\draw (F) -- (D) node[midway, above left] {$7.5$};\n\\end{tikzpicture}\n[/tikz]\nAll matching angles of the two triangles are equal. Are the triangles similar?",
+      "structure": "verify-similar-triangles",
+      "mastery": false,
+      "options": [
+        { "text": "Similar — every matching-side ratio equals $1.5$.", "correct": true },
+        { "text": "Not similar — the ratios of matching sides are different.", "why": "Pairing non-corresponding sides (such as $\\frac{9}{5}=1.8$ and $\\frac{6}{4}=1.5$) gives unequal ratios; matched correctly, $\\frac{9}{6}=\\frac{7.5}{5}=\\frac{6}{4}=1.5$." },
+        { "text": "Not similar — the sides are not equal in length.", "why": "Equal sides are needed for congruence, not similarity; similar figures only need sides in one common ratio." },
+        { "text": "Not similar — one triangle is larger than the other.", "why": "A size difference never rules out similarity; similar figures are usually different sizes." }
+      ],
+      "solution_text": "$\\frac{9}{6}=1.5$\n$\\frac{7.5}{5}=1.5$\n$\\frac{6}{4}=1.5$\nMatching angles are equal and every matching-side ratio is $1.5$, so the triangles are similar."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (1.75,0) node[midway, below] {$5$ cm};\n\\draw (1.75,0) -- (1.75,0.7);\n\\draw (1.75,0.7) -- (0,0.7);\n\\draw (0,0.7) -- (0,0) node[midway, left] {$2$ cm};\n\\draw (2.5,0) -- (6.35,0) node[midway, below] {$11$ cm};\n\\draw (6.35,0) -- (6.35,2.8) node[midway, right] {$8$ cm};\n\\draw (6.35,2.8) -- (2.5,2.8);\n\\draw (2.5,2.8) -- (2.5,0);\n\\end{tikzpicture}\n[/tikz]\nAre these two rectangles similar?",
+      "structure": "rectangles-similar-test",
+      "mastery": false,
+      "options": [
+        { "text": "Not similar — $\\frac{11}{5}=2.2$ but $\\frac{8}{2}=4$.", "correct": true },
+        { "text": "Similar — both are rectangles, so all their angles match.", "why": "Equal angles alone are not enough; the matching sides must also be in the same ratio, and here they are not." },
+        { "text": "Similar — each side of the larger rectangle is $6$ cm longer.", "why": "Adding the same amount to each side is not the similarity test — the sides must be multiplied by the same number, and $2.2\\neq4$." }
+      ],
+      "solution_text": "$\\frac{11}{5}=2.2$\n$\\frac{8}{2}=4$\nThe matching-side ratios are not equal, so the rectangles are not similar."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0.9);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2.4,0);\n\\coordinate (D) at (2.4,0.9);\n\\coordinate (E) at (1.2,1.8);\n\\draw (A) -- (B) node[midway, left] {$3$};\n\\draw (B) -- (C) node[midway, below] {$8$};\n\\draw (C) -- (D) node[midway, right] {$3$};\n\\draw (D) -- (E) node[midway, above right] {$5$};\n\\draw (E) -- (A) node[midway, above left] {$5$};\n\\coordinate (A2) at (3.2,1.8);\n\\coordinate (B2) at (3.2,0);\n\\coordinate (C2) at (8,0);\n\\coordinate (D2) at (8,1.8);\n\\coordinate (E2) at (5.6,3.6);\n\\draw (A2) -- (B2) node[midway, left] {$6$};\n\\draw (B2) -- (C2) node[midway, below] {$16$};\n\\draw (C2) -- (D2) node[midway, right] {$6$};\n\\draw (D2) -- (E2) node[midway, above right] {$10$};\n\\draw (E2) -- (A2) node[midway, above left] {$10$};\n\\end{tikzpicture}\n[/tikz]\nThe matching angles of the two pentagons are equal. Are the pentagons similar?",
+      "structure": "polygon-similar-test",
+      "mastery": false,
+      "options": [
+        { "text": "Similar — every matching-side ratio equals $2$.", "correct": true },
+        { "text": "Not similar — the sides increase by different amounts ($16-8=8$ but $6-3=3$).", "why": "Comparing by subtraction is the wrong test; similarity compares by division, and $\\frac{16}{8}=\\frac{6}{3}=\\frac{10}{5}=2$." },
+        { "text": "Not similar — a pentagon has five sides, so five different ratios can never all agree.", "why": "The number of sides is irrelevant; here all five ratios equal the same value $2$." }
+      ],
+      "solution_text": "$\\frac{16}{8}=2$\n$\\frac{6}{3}=2$\n$\\frac{10}{5}=2$\nMatching angles are equal and every matching-side ratio is $2$, so the pentagons are similar."
+    },
+    {
+      "id": "q5",
+      "question_text": "All the angles of one parallelogram are equal to the matching angles of another parallelogram. Must the two parallelograms be similar?",
+      "structure": "angles-alone-insufficient",
+      "mastery": false,
+      "options": [
+        { "text": "No — their matching sides may not be in the same ratio.", "correct": true },
+        { "text": "Yes — equal matching angles is what makes two figures similar.", "why": "Equal angles is only half the test for polygons; the matching sides must also be in one common ratio." },
+        { "text": "Yes — all parallelograms have the same shape.", "why": "Parallelograms can be long and thin or nearly square, so they do not all share one shape." },
+        { "text": "No — parallelograms of different sizes are never similar.", "why": "Different sizes never rule out similarity; the sides just need to be in the same ratio." }
+      ],
+      "solution_text": "Equal matching angles is only one of the two properties.\nA $2\\times6$ parallelogram and a $2\\times3$ parallelogram with the same angles have $\\frac{2}{2}=1$ but $\\frac{6}{3}=2$, so they are not similar.\nThe sides must also be in the same ratio, so the answer is no."
+    },
+    {
+      "id": "q6",
+      "question_text": "Which of these groups of figures are always similar to each other?",
+      "structure": "always-similar-classes",
+      "mastery": false,
+      "options": [
+        { "text": "All equilateral triangles", "correct": true },
+        { "text": "All rectangles", "why": "All rectangles have equal angles, but their sides need not be in the same ratio — a long thin rectangle is not similar to a square-ish one." },
+        { "text": "All isosceles triangles", "why": "Isosceles triangles can have different angle sizes, so their matching angles need not be equal." },
+        { "text": "All rhombuses", "why": "Rhombuses have four equal sides but their angles vary — a squashed rhombus is not similar to a square-like one." }
+      ],
+      "solution_text": "Every equilateral triangle has three $60^{\\circ}$ angles, and its three equal sides mean every matching-side ratio between two equilateral triangles is the same one number.\nEqual angles and one common ratio, so all equilateral triangles are similar."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (1.777,2.118);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (A);\n\\node at (0.68,0.32) {$50^{\\circ}$};\n\\node at (2.35,0.375) {$60^{\\circ}$};\n\\coordinate (D) at (4.2,0);\n\\coordinate (E) at (7.3,0);\n\\coordinate (F) at (5.335,1.965);\n\\draw (D) -- (E);\n\\draw (E) -- (F);\n\\draw (F) -- (D);\n\\node at (4.81,0.35) {$60^{\\circ}$};\n\\node at (6.56,0.31) {$45^{\\circ}$};\n\\end{tikzpicture}\n[/tikz]\nTwo angles are marked in each triangle. Can these two triangles be similar?",
+      "structure": "missing-angle-then-decide",
+      "mastery": true,
+      "options": [
+        { "text": "No — the third angles are $70^{\\circ}$ and $75^{\\circ}$, so the angle sets do not match.", "correct": true },
+        { "text": "Yes — both triangles contain an angle of $60^{\\circ}$.", "why": "One equal pair of angles is not enough; every pair of matching angles must be equal, and the sets $50^{\\circ},60^{\\circ},70^{\\circ}$ and $45^{\\circ},60^{\\circ},75^{\\circ}$ differ." },
+        { "text": "Yes — the third angles must be equal because both triangles have an angle sum of $180^{\\circ}$.", "why": "The same total does not force the individual angles to match: $180^{\\circ}-50^{\\circ}-60^{\\circ}=70^{\\circ}$ but $180^{\\circ}-60^{\\circ}-45^{\\circ}=75^{\\circ}$." },
+        { "text": "No — the triangles are different sizes.", "why": "Size never decides similarity; the reason is that the matching angles cannot all be equal." }
+      ],
+      "solution_text": "$180^{\\circ}-50^{\\circ}-60^{\\circ}=70^{\\circ}$, angle sum of a triangle\n$180^{\\circ}-60^{\\circ}-45^{\\circ}=75^{\\circ}$, angle sum of a triangle\nThe angle sets are $50^{\\circ},60^{\\circ},70^{\\circ}$ and $45^{\\circ},60^{\\circ},75^{\\circ}$, which do not match, so the matching angles cannot all be equal and the triangles cannot be similar."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (1.2,0) node[midway, below] {$4$ cm};\n\\draw (1.2,0) -- (1.2,1.8);\n\\draw (1.2,1.8) -- (0,1.8);\n\\draw (0,1.8) -- (0,0) node[midway, left] {$6$ cm};\n\\draw (2,0) -- (5,0) node[midway, below] {$10$ cm};\n\\draw (5,0) -- (5,4.5) node[midway, right] {$15$ cm};\n\\draw (5,4.5) -- (2,4.5);\n\\draw (2,4.5) -- (2,0);\n\\end{tikzpicture}\n[/tikz]\nAre these two rectangles similar?",
+      "structure": "rectangles-similar-test",
+      "mastery": false,
+      "options": [
+        { "text": "Similar — $\\frac{10}{4}$ and $\\frac{15}{6}$ both equal $2.5$.", "correct": true },
+        { "text": "Not similar — the sides grow by different amounts ($10-4=6$ but $15-6=9$).", "why": "Similarity compares sides by division, not subtraction; both ratios equal $2.5$." },
+        { "text": "Not similar — $2.5$ is not a whole number, so the sides are not in a proper ratio.", "why": "A common ratio does not need to be a whole number; any one shared value, such as $2.5$, makes the sides proportional." }
+      ],
+      "solution_text": "$\\frac{10}{4}=2.5$\n$\\frac{15}{6}=2.5$\nAll angles are right angles and both matching-side ratios equal $2.5$, so the rectangles are similar."
+    }
+  ]
+}

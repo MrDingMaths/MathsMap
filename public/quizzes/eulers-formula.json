@@ -1,0 +1,122 @@
+{
+  "skillId": "eulers-formula",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "In Euler's formula $v-e+f=2$, which regions are counted by $f$?",
+      "structure": "outer-face-in-formula",
+      "mastery": false,
+      "options": [
+        { "text": "Every region the edges cut the page into, including the unbounded region outside the drawing.", "correct": true },
+        { "text": "Only the regions completely fenced in by edges.", "why": "Leaves out the outer region, which is the omission that makes Euler's formula appear to give $1$ instead of $2$." },
+        { "text": "Every region fenced in by edges, plus one region for each vertex of the drawing.", "why": "Counts vertices as though they were regions, when $v$ already counts them separately in the formula." },
+        { "text": "Only the regions bounded by exactly three edges.", "why": "Invents a condition on the shape of a region; a face may be bounded by any number of edges." }
+      ],
+      "solution_text": "A face is a region the edges divide the page into.\nThe region stretching away outside the whole drawing is one of those regions, so $f$ counts **every** region, the outer one included."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.4,-0.6);\n\\coordinate (C) at (4.4,0.6);\n\\coordinate (D) at (4.0,2.8);\n\\coordinate (E) at (1.8,3.4);\n\\coordinate (F) at (-0.4,2.0);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(F);\n\\draw (F)--(A);\n\\draw (B)--(E);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhich set of counts is correct for this connected planar drawing?",
+      "structure": "verify-eulers-formula",
+      "mastery": false,
+      "options": [
+        { "text": "$v=6$, $e=7$, $f=3$, so $v-e+f=2$", "correct": true },
+        { "text": "$v=6$, $e=7$, $f=2$, so $v-e+f=1$", "why": "Counts only the two fenced-in regions and leaves out the outer region, so the formula appears to fail." },
+        { "text": "$v=6$, $e=6$, $f=3$, so $v-e+f=3$", "why": "Misses the edge $BE$ when counting edges, although the region it creates is still counted in $f$." },
+        { "text": "$v=7$, $e=7$, $f=3$, so $v-e+f=3$", "why": "Counts an extra vertex where the edge $BE$ meets the ring, although both of its ends are at vertices already counted." }
+      ],
+      "solution_text": "The dots give $v=6$ and the lines give $e=7$.\nThe edge $BE$ splits the inside of the ring into two regions, and the outer region is a third face, so $f=3$.\n$v-e+f$\n$=6-7+3$\n$=2$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A connected planar graph has $8$ vertices and $13$ edges. How many faces does it have?",
+      "structure": "find-f",
+      "mastery": false,
+      "options": [
+        { "text": "$7$", "correct": true },
+        { "text": "$5$", "why": "Computes $e-v$ and forgets to add the $2$ when rearranging $v-e+f=2$." },
+        { "text": "$6$", "why": "Gives the number of fenced-in regions, leaving the outer region out of the face count." },
+        { "text": "$21$", "why": "Adds the vertices and edges instead of rearranging the formula to $f=2-v+e$." }
+      ],
+      "solution_text": "$v-e+f=2$\n$8-13+f=2$\n$f=2-8+13$\n$=7$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A connected planar graph has $11$ vertices and $7$ faces. How many edges does it have?",
+      "structure": "find-e",
+      "mastery": false,
+      "options": [
+        { "text": "$16$", "correct": true },
+        { "text": "$6$", "why": "Subtracts the face count instead of adding it, computing $11-7+2$ rather than $11+7-2$." },
+        { "text": "$20$", "why": "Adds $2$ instead of subtracting it when rearranging $v-e+f=2$ to make $e$ the subject." },
+        { "text": "$18$", "why": "Adds the vertices and faces but forgets to subtract the $2$ from Euler's formula." }
+      ],
+      "solution_text": "$v-e+f=2$\n$11-e+7=2$\n$e=11+7-2$\n$=16$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A connected planar graph has $13$ edges and $6$ faces. How many vertices does it have?",
+      "structure": "find-v",
+      "mastery": false,
+      "options": [
+        { "text": "$9$", "correct": true },
+        { "text": "$7$", "why": "Computes $e-f$ and forgets to add the $2$ when rearranging $v-e+f=2$." },
+        { "text": "$21$", "why": "Adds the face count instead of subtracting it, computing $2+13+6$ rather than $2+13-6$." },
+        { "text": "$19$", "why": "Adds the edges and faces, using $v=e+f$ instead of the rearranged formula." }
+      ],
+      "solution_text": "$v-e+f=2$\n$v-13+6=2$\n$v=2+13-6$\n$=9$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (2.0,3.8);\n\\coordinate (B) at (4.4,1.6);\n\\coordinate (C) at (3.4,-0.6);\n\\coordinate (D) at (0.6,-0.6);\n\\coordinate (E) at (-0.4,2.2);\n\\coordinate (F) at (1.6,2.4);\n\\coordinate (G) at (2.4,0.8);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(E);\n\\draw (E)--(A);\n\\draw (A)--(F);\n\\draw (B)--(F);\n\\draw (E)--(F);\n\\draw (F)--(G);\n\\draw (C)--(G);\n\\draw (D)--(G);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\fill (E) circle (2.5pt);\n\\fill (F) circle (2.5pt);\n\\fill (G) circle (2.5pt);\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\node[above left] at (F) {$F$};\n\\node[right] at (G) {$G$};\n\\end{tikzpicture}\n[/tikz]\nThis connected planar drawing has no crossings. How many faces does it have?",
+      "structure": "find-f-from-diagram",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$5$", "why": "Leaves the unbounded outer region out of the face count." },
+        { "text": "$8$", "why": "Does not count the two inner vertices $F$ and $G$, using $v=5$ in the formula." },
+        { "text": "$2$", "why": "Reports the value of $v-e+f$ rather than the value of $f$ it was meant to produce." }
+      ],
+      "solution_text": "$v=7$ and $e=11$.\n$v-e+f=2$\n$7-11+f=2$\n$f=2-7+11$\n$=6$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Ben says he has drawn a connected planar graph with $6$ vertices, $8$ edges and $3$ faces. Which response is correct?",
+      "structure": "test-a-claim",
+      "mastery": false,
+      "options": [
+        { "text": "No — the counts give $v-e+f=1$, so no such graph exists.", "correct": true },
+        { "text": "Yes — the counts satisfy Euler's formula.", "why": "Adds the outer region to Ben's face count as though he had left it out, and $6-8+4$ does give $2$." },
+        { "text": "No — the counts give $v-e+f=-5$, so no such graph exists.", "why": "Subtracts the face count instead of adding it, computing $6-8-3$ on the way to the verdict." },
+        { "text": "No — a connected planar graph can never have more edges than vertices.", "why": "Invents a rule; plenty of planar graphs have more edges than vertices, and only the formula settles it." }
+      ],
+      "solution_text": "$v-e+f$\n$=6-8+3$\n$=1$\nEuler's formula requires $2$ for every connected planar drawing, so Ben's counts are impossible."
+    },
+    {
+      "id": "q8",
+      "question_text": "A connected planar network of paths in a botanic garden has $8$ junctions and fences in $5$ garden beds. How many paths does the network have?",
+      "structure": "find-e",
+      "mastery": true,
+      "options": [
+        { "text": "$12$", "correct": true },
+        { "text": "$11$", "why": "Uses $f=5$, treating the $5$ beds as the whole face count and forgetting the outer region." },
+        { "text": "$14$", "why": "Adds the junction count to the face count but forgets to subtract the $2$ in Euler's formula." },
+        { "text": "$4$", "why": "Subtracts the face count instead of adding it, computing $8-6+2$ rather than $8+6-2$." }
+      ],
+      "solution_text": "The $5$ beds are the fenced-in regions, and the outer region is a face as well.\n$f=5+1$\n$=6$\n$v-e+f=2$\n$8-e+6=2$\n$e=8+6-2$\n$=12$"
+    },
+    {
+      "id": "q9",
+      "question_text": "This connected planar drawing has a loop at $R$ and two edges joining $P$ and $Q$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.0,0);\n\\coordinate (R) at (1.5,2.6);\n\\draw (P)--(Q);\n\\draw (P) .. controls (1.0,-0.9) and (2.0,-0.9) .. (Q);\n\\draw (Q)--(R);\n\\draw (R)--(P);\n\\draw (R) .. controls (0.3,4.2) and (2.7,4.2) .. (R);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\node[left] at (P) {$P$};\n\\node[right] at (Q) {$Q$};\n\\node[left] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]\nUse Euler's formula to find the number of faces.",
+      "structure": "loops-and-multiple-edges",
+      "mastery": true,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$3$", "why": "Counts the pair of edges joining $P$ and $Q$ as a single edge, using $e=4$ in the formula." },
+        { "text": "$5$", "why": "Counts the loop as two edges because both of its ends are at $R$, using $e=6$ in the formula." },
+        { "text": "$6$", "why": "Uses $f=v+e-2$ instead of $f=2-v+e$, computing $3+5-2$." }
+      ],
+      "solution_text": "The loop is one edge and each of the two edges joining $P$ and $Q$ is counted separately, so $v=3$ and $e=5$.\n$v-e+f=2$\n$3-5+f=2$\n$f=2-3+5$\n$=4$"
+    }
+  ]
+}

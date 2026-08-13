@@ -1,0 +1,205 @@
+{
+  "skillId": "interpret-3d-trig-context",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.65]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (T) at (3,3,7);\n\\coordinate (O) at (3,3,0);\n\\coordinate (M) at (0,3,0);\n\\draw (C)--(D)--(A);\n\\draw[dashed] (A)--(B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(C);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(B);\n\\draw[dashed] (T)--(O);\n\\draw[dashed] (O)--(M);\n\\draw[dashed] (T)--(M);\n\\node[right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above] at (T) {$T$};\n\\node[above right] at (O) {$O$};\n\\node[below right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]\n$O$ is the centre of the base and $M$ is the midpoint of edge $AD$. Which side of right-angled triangle $TOM$ is the hypotenuse?",
+      "structure": "pyramid-slant-height-hyp",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$TM$",
+          "correct": true
+        },
+        {
+          "text": "$TO$",
+          "why": "$TO$ is the perpendicular height, a shorter side, not opposite the right angle."
+        },
+        {
+          "text": "$OM$",
+          "why": "$OM$ is half of a base edge, a shorter side, not the hypotenuse."
+        },
+        {
+          "text": "$TC$",
+          "why": "$TC$ is a slant edge and is not one of the sides of triangle $TOM$."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (O) at (0,0);\n\\coordinate (M) at (3,0);\n\\coordinate (T) at (0,2.2);\n\\draw (O)--(M)--(T)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$O$};\n\\node[below right] at (3,0) {$M$};\n\\node[above left] at (0,2.2) {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe right angle is at $O$, so the hypotenuse is opposite it.\nThe hypotenuse is $TM$."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.65]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (T) at (3,3,7);\n\\coordinate (O) at (3,3,0);\n\\coordinate (M) at (0,3,0);\n\\draw (C)--(D)--(A);\n\\draw[dashed] (A)--(B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(C);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(B);\n\\draw[dashed] (T)--(O);\n\\draw[dashed] (O)--(M);\n\\draw[dashed] (T)--(M);\n\\node[right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above] at (T) {$T$};\n\\node[above right] at (O) {$O$};\n\\node[below right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]\nIn right-angled triangle $TOM$ (with $O$ the base centre and $M$ a base-edge midpoint), at which vertex is the right angle?",
+      "structure": "pyramid-right-angle-vertex",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$O$",
+          "correct": true
+        },
+        {
+          "text": "$M$",
+          "why": "$M$ is where the hypotenuse meets a shorter side, not the right angle."
+        },
+        {
+          "text": "$T$",
+          "why": "$T$ is the apex at the top of the vertical height, not the right angle."
+        },
+        {
+          "text": "There is no right angle",
+          "why": "The vertical height meets the base at $O$, so a right angle does exist."
+        }
+      ],
+      "solution_text": "The vertical height $TO$ meets the base at $O$, so the right angle is at $O$."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.6]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (5,0,0);\n\\coordinate (C) at (0,0,4);\n\\coordinate (D) at (0,7,0);\n\\coordinate (E) at (5,7,0);\n\\coordinate (F) at (0,7,4);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (D)--(E);\n\\draw (A)--(D);\n\\draw (B)--(E);\n\\draw[dashed] (E)--(F)--(D);\n\\draw[dashed] (C)--(F);\n\\coordinate (ra1) at (1.12,0,0);\n\\coordinate (ra2) at (1.12,0,1.12);\n\\coordinate (ra3) at (0,0,1.12);\n\\draw (ra1)--(ra2)--(ra3);\n\\node[below] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above left] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nThe triangular cross-section $ABC$ is right-angled at $A$. Which side is the hypotenuse?",
+      "structure": "prism-cross-section-hyp",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$BC$",
+          "correct": true
+        },
+        {
+          "text": "$AB$",
+          "why": "$AB$ is a perpendicular shorter side that meets the right angle at $A$."
+        },
+        {
+          "text": "$AC$",
+          "why": "$AC$ is the other perpendicular shorter side, not opposite the right angle."
+        },
+        {
+          "text": "$BE$",
+          "why": "$BE$ is a length edge of the prism, not a side of triangle $ABC$."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,2.2);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$A$};\n\\node[below right] at (3,0) {$B$};\n\\node[above left] at (0,2.2) {$C$};\n\\end{tikzpicture}\n[/tikz]\nThe hypotenuse is opposite the right angle at $A$.\nThe hypotenuse is $BC$."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.6]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (5,0,0);\n\\coordinate (C) at (0,0,4);\n\\coordinate (D) at (0,7,0);\n\\coordinate (E) at (5,7,0);\n\\coordinate (F) at (0,7,4);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (D)--(E);\n\\draw (A)--(D);\n\\draw (B)--(E);\n\\draw[dashed] (E)--(F)--(D);\n\\draw[dashed] (C)--(F);\n\\coordinate (ra1) at (1.12,0,0);\n\\coordinate (ra2) at (1.12,0,1.12);\n\\coordinate (ra3) at (0,0,1.12);\n\\draw (ra1)--(ra2)--(ra3);\n\\node[below] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above left] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nAt which vertex is the right angle of the triangular cross-section $ABC$?",
+      "structure": "prism-right-angle-vertex",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "$B$ lies at one end of the hypotenuse, opposite the right angle."
+        },
+        {
+          "text": "$C$",
+          "why": "$C$ lies at the other end of the hypotenuse, opposite the right angle."
+        },
+        {
+          "text": "$E$",
+          "why": "$E$ is a back vertex of the prism, not part of the cross-section $ABC$."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,2.2);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$A$};\n\\node[below right] at (3,0) {$B$};\n\\node[above left] at (0,2.2) {$C$};\n\\end{tikzpicture}\n[/tikz]\nThe perpendicular edges $AB$ and $AC$ meet at $A$, so the right angle is at $A$."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.6]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (7,0,0);\n\\coordinate (C) at (0,0,3);\n\\coordinate (D) at (0,6,0);\n\\coordinate (E) at (7,6,0);\n\\coordinate (F) at (0,6,3);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (D)--(E);\n\\draw (A)--(D);\n\\draw (B)--(E);\n\\draw[dashed] (E)--(F)--(D);\n\\draw[dashed] (C)--(F);\n\\coordinate (ra1) at (0.84,0,0);\n\\coordinate (ra2) at (0.84,0,0.84);\n\\coordinate (ra3) at (0,0,0.84);\n\\draw (ra1)--(ra2)--(ra3);\n\\node[below] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above left] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nOn this ramp the cross-section $ABC$ is right-angled at $A$. Which edge of the cross-section is the sloping edge of the ramp?",
+      "structure": "wedge-slope-hyp",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$BC$",
+          "correct": true
+        },
+        {
+          "text": "$AB$",
+          "why": "$AB$ is the horizontal base, a shorter side of the triangle."
+        },
+        {
+          "text": "$AC$",
+          "why": "$AC$ is the vertical height, a shorter side of the triangle."
+        },
+        {
+          "text": "$BE$",
+          "why": "$BE$ runs along the length of the ramp, not across the sloping face."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,2.2);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$A$};\n\\node[below right] at (3,0) {$B$};\n\\node[above left] at (0,2.2) {$C$};\n\\end{tikzpicture}\n[/tikz]\nThe sloping edge of the cross-section is opposite the right angle at $A$.\nThe sloping edge is $BC$."
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.65]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (T) at (3,3,7);\n\\coordinate (O) at (3,3,0);\n\\coordinate (M) at (0,3,0);\n\\draw (C)--(D)--(A);\n\\draw[dashed] (A)--(B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(C);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(B);\n\\draw[dashed] (T)--(O);\n\\draw[dashed] (O)--(M);\n\\draw[dashed] (T)--(M);\n\\node[right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above] at (T) {$T$};\n\\node[above right] at (O) {$O$};\n\\node[below right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]\n$O$ is the base centre and $M$ a base-edge midpoint. Which pair are the two shorter sides of right-angled triangle $TOM$?",
+      "structure": "pyramid-short-sides",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$TO$ and $OM$",
+          "correct": true
+        },
+        {
+          "text": "$TM$ and $OM$",
+          "why": "$TM$ is the hypotenuse, so it is not one of the two shorter sides."
+        },
+        {
+          "text": "$TO$ and $TM$",
+          "why": "$TM$ is the hypotenuse and cannot be counted as a shorter side."
+        },
+        {
+          "text": "$TA$ and $OM$",
+          "why": "$TA$ is a slant edge and is not a side of triangle $TOM$."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (O) at (0,0);\n\\coordinate (M) at (3,0);\n\\coordinate (T) at (0,2.2);\n\\draw (O)--(M)--(T)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$O$};\n\\node[below right] at (3,0) {$M$};\n\\node[above left] at (0,2.2) {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe two shorter sides meet at the right angle at $O$.\nThey are $TO$ and $OM$."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (5,0,0);\n\\coordinate (C) at (0,0,4);\n\\coordinate (D) at (0,7,0);\n\\coordinate (E) at (5,7,0);\n\\coordinate (F) at (0,7,4);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (D)--(E);\n\\draw (A)--(D);\n\\draw (B)--(E);\n\\draw[dashed] (E)--(F)--(D);\n\\draw[dashed] (C)--(F);\n\\draw (A)--(F);\n\\coordinate (ra1) at (1.12,0,0);\n\\coordinate (ra2) at (1.12,0,1.12);\n\\coordinate (ra3) at (0,0,1.12);\n\\draw (ra1)--(ra2)--(ra3);\n\\node[below] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above left] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]\nThe diagonal $AF$ lies in right-angled triangle $ADF$ (right angle at $D$). Which side is the hypotenuse?",
+      "structure": "prism-diagonal-hyp",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$AF$",
+          "correct": true
+        },
+        {
+          "text": "$AD$",
+          "why": "$AD$ is a length edge meeting the right angle at $D$, a shorter side."
+        },
+        {
+          "text": "$DF$",
+          "why": "$DF$ is a vertical edge meeting the right angle at $D$, a shorter side."
+        },
+        {
+          "text": "$CF$",
+          "why": "$CF$ is not a side of triangle $ADF$."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (D) at (0,0);\n\\coordinate (A) at (3,0);\n\\coordinate (F) at (0,2.2);\n\\draw (D)--(A)--(F)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$D$};\n\\node[below right] at (3,0) {$A$};\n\\node[above left] at (0,2.2) {$F$};\n\\end{tikzpicture}\n[/tikz]\nThe hypotenuse is opposite the right angle at $D$.\nThe hypotenuse is $AF$."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.65]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (T) at (3,3,7);\n\\coordinate (O) at (3,3,0);\n\\coordinate (M) at (0,3,0);\n\\draw (C)--(D)--(A);\n\\draw[dashed] (A)--(B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(C);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(B);\n\\draw[dashed] (A)--(C);\n\\draw[dashed] (T)--(O);\n\\node[right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above] at (T) {$T$};\n\\node[above right] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\n$O$ is the centre of the base. Which right-angled triangle is used to find the angle that the slant edge $TA$ makes with the base?",
+      "structure": "pyramid-slant-edge-triangle",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$TOA$",
+          "correct": true
+        },
+        {
+          "text": "$TOM$",
+          "why": "Triangle $TOM$ uses a base-edge midpoint and gives the slant height, not the slant-edge angle."
+        },
+        {
+          "text": "$TAB$",
+          "why": "Triangle $TAB$ is a sloping side face, not the vertical slice to the centre."
+        },
+        {
+          "text": "$TCD$",
+          "why": "Triangle $TCD$ is a face of the pyramid, not the slice used for the base angle."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3,0);\n\\coordinate (T) at (0,2.2);\n\\draw (O)--(A)--(T)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0,0) {$O$};\n\\node[below right] at (3,0) {$A$};\n\\node[above left] at (0,2.2) {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe angle is measured at $A$ in the vertical slice through $T$, $O$ and $A$.\nThe triangle is $TOA$, right-angled at $O$."
+    }
+  ]
+}

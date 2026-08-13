@@ -1,0 +1,108 @@
+{
+  "skillId": "volume-pyramid-cone",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **pyramid** has a flat base and triangular faces meeting at a point (the apex); a **cone** is the same idea with a circular base. Each holds exactly one third of the prism or cylinder on the same base and height, so $V = \\frac{1}{3}Ah$, where $A$ is the base area and $h$ is the **perpendicular** height from the base up to the apex. For a cone the base is a circle, so $A = \\pi r^{2}$.",
+    "facts": [
+      "**$V = \\frac{1}{3}Ah$**, where $A$ is the base area and $h$ is the perpendicular height from the base to the apex.",
+      "For a **cone** the base is a circle, so $A = \\pi r^{2}$ and $V = \\frac{1}{3}\\pi r^{2}h$.",
+      "For a **rectangular pyramid** the base area is $A = l \\times w$; for a **square pyramid** it is the side squared.",
+      "$h$ is always the **perpendicular** height (apex straight down to the base), never a slant edge.",
+      "If only a slant height $l$ is given for a cone, first find the perpendicular height with Pythagoras, $h = \\sqrt{l^{2} - r^{2}}$, then substitute.",
+      "The base uses the **radius**; halve a given diameter before substituting.",
+      "Give an exact answer as a multiple of $\\pi$, or round as the question asks; keep working exact and round only at the last line."
+    ],
+    "steps": [
+      "Find the perpendicular height",
+      "Find the volume"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0);\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$3\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (2.7,0)--(2.7,4.5) node[midway, right] {$8\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this cone in exact form, in terms of $\\pi$.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 3^{2} \\times 8$\n$= 24\\pi\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0);\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$6\\text{ mm}$};\n\\draw[{Stealth}-{Stealth}] (2.7,0)--(2.7,4.5) node[midway, right] {$10\\text{ mm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this cone in mm³, correct to $2$ decimal places.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 6^{2} \\times 10$\n$= 376.9911\\ldots$\n$\\approx 376.99\\text{ mm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0);\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw[{Stealth}-{Stealth}] (-1.8,0)--(1.8,0) node[midway, fill=white, inner sep=1pt] {$10\\text{ m}$};\n\\draw[{Stealth}-{Stealth}] (2.7,0)--(2.7,4.5) node[midway, right] {$9\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nThe diameter of the base is shown. Find the volume of this cone in exact form, in terms of $\\pi$.",
+        "solution_text": "$r = \\frac{10}{2} = 5$\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 5^{2} \\times 9$\n$= 75\\pi\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.55]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (5,0,0);\n\\coordinate (C) at (5,5,0);\n\\coordinate (D) at (0,5,0);\n\\coordinate (T) at (2.5,2.5,6);\n\\coordinate (M) at (2.5,2.5,0);\n\\draw[dashed] (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw (A)--(B) node[midway, below, fill=white, inner sep=1pt] {$5\\text{ m}$};\n\\draw (B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(C);\n\\draw[dashed] (T)--(D);\n\\draw[dashed] (M)--(T) node[midway, right, fill=white, inner sep=1pt] {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this square-based pyramid in m³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times (5 \\times 5) \\times 6$\n$= 50\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.4]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (9,0,0);\n\\coordinate (C) at (9,9,0);\n\\coordinate (D) at (0,9,0);\n\\coordinate (T) at (4.5,4.5,10);\n\\coordinate (M) at (4.5,4.5,0);\n\\draw[dashed] (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw (A)--(B) node[midway, below, fill=white, inner sep=1pt] {$9\\text{ cm}$};\n\\draw (B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(C);\n\\draw[dashed] (T)--(D);\n\\draw[dashed] (M)--(T) node[midway, right, fill=white, inner sep=1pt] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this square-based pyramid in cm³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times (9 \\times 9) \\times 10$\n$= 270\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.42]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,4,0);\n\\coordinate (D) at (0,4,0);\n\\coordinate (T) at (3,2,10);\n\\coordinate (M) at (3,2,0);\n\\draw[dashed] (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw (A)--(B) node[midway, below, fill=white, inner sep=1pt] {$6\\text{ m}$};\n\\draw (B)--(C) node[midway, below right, fill=white, inner sep=1pt] {$4\\text{ m}$};\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(C);\n\\draw[dashed] (T)--(D);\n\\draw[dashed] (M)--(T) node[midway, right, fill=white, inner sep=1pt] {$10\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this rectangular-based pyramid in m³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times (6 \\times 4) \\times 10$\n$= 80\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "A pyramid has a base area of $18$ cm² and a perpendicular height of $5$ cm. Find its volume in cm³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times 18 \\times 5$\n$= 30\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "A cone has a base area of $24$ cm² and a perpendicular height of $7$ cm. Find its volume in cm³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times 24 \\times 7$\n$= 56\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0);\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$4\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (2.7,0)--(2.7,4.5) node[midway, right] {$9\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this cone in cm³, correct to $2$ decimal places.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 4^{2} \\times 9$\n$= 150.7964\\ldots$\n$\\approx 150.80\\text{ cm}^{3}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.5]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (6,0,0);\n\\coordinate (C) at (6,6,0);\n\\coordinate (D) at (0,6,0);\n\\coordinate (T) at (3,3,4);\n\\coordinate (M) at (3,3,0);\n\\draw[dashed] (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw (A)--(B) node[midway, below, fill=white, inner sep=1pt] {$6\\text{ m}$};\n\\draw (B)--(C);\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(C);\n\\draw[dashed] (T)--(D);\n\\draw[dashed] (M)--(T) node[midway, right, fill=white, inner sep=1pt] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nA tent is a square-based pyramid with the base side and height shown. Find the volume of air inside, in m³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times (6 \\times 6) \\times 4$\n$= 48\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0);\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw[{Stealth}-{Stealth}] (-1.8,0)--(1.8,0) node[midway, fill=white, inner sep=1pt] {$4\\text{ m}$};\n\\draw[{Stealth}-{Stealth}] (2.7,0)--(2.7,4.5) node[midway, right] {$1.5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nA pile of sand is a cone with the diameter and height shown. Find its volume in m³, correct to $2$ decimal places.",
+        "solution_text": "$r = \\frac{4}{2} = 2$\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 2^{2} \\times 1.5$\n$= 6.2831\\ldots$\n$\\approx 6.28\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "An ice-cream cone has a diameter of $4.6$ cm and a height of $9$ cm. Find the volume of the cone in cm³, correct to $2$ decimal places.",
+        "solution_text": "$r = \\frac{4.6}{2} = 2.3$\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 2.3^{2} \\times 9$\n$= 49.8628\\ldots$\n$\\approx 49.86\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[every node/.style={font=\\large}, tdplot_main_coords, scale=0.4]\n\\coordinate (A) at (0,0,0);\n\\coordinate (B) at (8,0,0);\n\\coordinate (C) at (8,5,0);\n\\coordinate (D) at (0,5,0);\n\\coordinate (T) at (4,2.5,9);\n\\coordinate (M) at (4,2.5,0);\n\\draw[dashed] (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw (A)--(B) node[midway, below, fill=white, inner sep=1pt] {$8\\text{ m}$};\n\\draw (B)--(C) node[midway, below right, fill=white, inner sep=1pt] {$5\\text{ m}$};\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(C);\n\\draw[dashed] (T)--(D);\n\\draw[dashed] (M)--(T) node[midway, right, fill=white, inner sep=1pt] {$9\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nA hopper is an inverted rectangular-based pyramid. Using the dimensions shown, find its volume in m³.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times (8 \\times 5) \\times 9$\n$= 120\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0) node[midway, above right] {$10\\text{ cm}$};\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$6\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe base radius and the slant height of this cone are shown. Find its volume in cm³, correct to $2$ decimal places.",
+        "solution_text": "1. **Find the perpendicular height**\n$h = \\sqrt{10^{2} - 6^{2}}$\n$= \\sqrt{64}$\n$= 8$\n2. **Find the volume**\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 6^{2} \\times 8$\n$= 301.5928\\ldots$\n$\\approx 301.59\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0) node[midway, above right] {$41\\text{ mm}$};\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$9\\text{ mm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the volume of this cone in mm³, correct to $2$ decimal places.",
+        "solution_text": "1. **Find the perpendicular height**\n$h = \\sqrt{41^{2} - 9^{2}}$\n$= \\sqrt{1600}$\n$= 40$\n2. **Find the volume**\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 9^{2} \\times 40$\n$= 3392.9200\\ldots$\n$\\approx 3392.92\\text{ mm}^{3}$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1]\n\\draw (-1.8,0) arc[start angle=180, end angle=360, x radius=1.8, y radius=0.5];\n\\draw[dashed] (-1.8,0) arc[start angle=180, end angle=0, x radius=1.8, y radius=0.5];\n\\coordinate (T) at (0,4.5);\n\\draw (T)--(-1.8,0);\n\\draw (T)--(1.8,0) node[midway, above right] {$13\\text{ m}$};\n\\draw[dashed] (0,0)--(0,4.5);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.8,0) node[midway, below] {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]\nFor this cone, Sam used the $13$ m slant height as $h$ in $V = \\frac{1}{3}\\pi r^{2}h$. Explain his mistake, then find the correct volume in m³, correct to $2$ decimal places.",
+        "solution_text": "The $13$ m slant height runs along the sloping surface, not straight down, so the perpendicular height is shorter and must be found first.\n$h = \\sqrt{13^{2} - 5^{2}}$\n$= \\sqrt{144}$\n$= 12$\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times \\pi \\times 5^{2} \\times 12$\n$= 314.1592\\ldots$\n$\\approx 314.16\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "A cone has a base radius of $5$ cm and a volume of $200\\pi$ cm³. Find its perpendicular height in cm.",
+        "solution_text": "$V = \\frac{1}{3}\\pi r^{2}h$\n$200\\pi = \\frac{1}{3} \\times \\pi \\times 5^{2} \\times h$\n$200\\pi = \\frac{25\\pi}{3}h$\n$h = \\frac{200\\pi \\times 3}{25\\pi}$\n$= 24\\text{ cm}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A cone has a radius of $3$ cm and a height of $10$ cm. A square-based pyramid has a base side of $5$ cm and a height of $10$ cm. Find the difference between their volumes, in cm³, correct to $2$ decimal places.",
+        "solution_text": "Cone: $V = \\frac{1}{3} \\times \\pi \\times 3^{2} \\times 10$\n$= 94.2477\\ldots\\text{ cm}^{3}$\nPyramid: $V = \\frac{1}{3} \\times (5 \\times 5) \\times 10$\n$= 83.3333\\ldots\\text{ cm}^{3}$\nDifference $= 94.2477\\ldots - 83.3333\\ldots$\n$\\approx 10.91\\text{ cm}^{3}$"
+      },
+      {
+        "question_text": "A triangular pyramid has a base that is an isosceles triangle with sides $16$ m, $17$ m and $17$ m, and a perpendicular height of $20$ m. Find the volume of the pyramid in m³. (Hint: use Pythagoras to find the height of the base triangle.)",
+        "solution_text": "The base triangle has height $\\sqrt{17^{2} - 8^{2}} = \\sqrt{225} = 15$.\n$A = \\frac{16 \\times 15}{2}$\n$= 120\\text{ m}^{2}$\n$V = \\frac{1}{3}Ah$\n$= \\frac{1}{3} \\times 120 \\times 20$\n$= 800\\text{ m}^{3}$"
+      },
+      {
+        "question_text": "A square-based pyramid has a volume of $588$ m³ and a perpendicular height of $9$ m. Find the side length of its base, in m.",
+        "solution_text": "$V = \\frac{1}{3}Ah$\n$588 = \\frac{1}{3} \\times s^{2} \\times 9$\n$588 = 3s^{2}$\n$s^{2} = 196$\n$s = 14\\text{ m}$"
+      }
+    ]
+  }
+}

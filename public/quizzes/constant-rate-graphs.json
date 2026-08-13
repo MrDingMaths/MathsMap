@@ -1,0 +1,122 @@
+{
+  "skillId": "constant-rate-graphs",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (6,5);\n\\draw[->] (0,0)--(0,5.6);\n\\draw[->] (0,0)--(6.6,0);\n\\foreach \\v/\\p in {10/1,20/2,30/3,40/4,50/5} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4,5,6} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,1.5)--(6,5.1);\n\\foreach \\pt in {(0,1.5),(6,5.1)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.5) {Volume in paddling pool (L)};\n\\node[below,font=\\scriptsize] at (3,-1.0) {Time (minutes)};\n\\node[font=\\scriptsize] at (3,5.3) {Filling a paddling pool};\n\\end{tikzpicture}\n[/tikz]\nA paddling pool already has some water in it when a hose starts filling it at a constant rate, as shown. Find the rate at which the pool is filling, in L/min.",
+      "structure": "compute-rate-increasing",
+      "mastery": false,
+      "options": [
+        { "text": "$6$ L/min", "correct": true },
+        { "text": "$8.5$ L/min", "why": "divided the final reading by the time, without subtracting the $15$ L already in the pool" },
+        { "text": "$2.5$ L/min", "why": "divided the starting volume by the time instead of the change in volume" },
+        { "text": "$7.2$ L/min", "why": "misread the time axis and used $5$ minutes instead of the full $6$-minute interval" }
+      ],
+      "solution_text": "Rate $=\\dfrac{51-15}{6-0}$\n$=\\dfrac{36}{6}$\n$=6\\text{ L/min}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (8,6);\n\\draw[->] (0,0)--(0,6.6);\n\\draw[->] (0,0)--(8.6,0);\n\\foreach \\v/\\p in {20/1,40/2,60/3,80/4,100/5,120/6} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,6)--(8,2);\n\\foreach \\pt in {(0,6),(8,2)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.3,3) {Mass of soap bar (g)};\n\\node[below,font=\\scriptsize] at (4,-1.0) {Day};\n\\node[font=\\scriptsize] at (4,6.3) {A bar of soap wearing down};\n\\end{tikzpicture}\n[/tikz]\nA bar of soap wears down at a constant rate as it's used, as shown. Find the rate at which its mass is decreasing, in g/day.",
+      "structure": "compute-rate-decreasing",
+      "mastery": false,
+      "options": [
+        { "text": "$10$ g/day", "correct": true },
+        { "text": "$15$ g/day", "why": "divided the starting mass by the number of days instead of using the change in mass" },
+        { "text": "$5$ g/day", "why": "divided the final mass by the number of days instead of using the change in mass" },
+        { "text": "$8$ g/day", "why": "used $10$ days instead of reading the actual $8$-day interval shown on the graph" }
+      ],
+      "solution_text": "Change in mass $=120-40$\n$=80\\text{ g}$\nRate $=\\dfrac{80}{8}$\n$=10\\text{ g/day}$, so the soap's mass is decreasing at $10$ g/day."
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (8,6);\n\\draw[->] (0,0)--(0,6.6);\n\\draw[->] (0,0)--(8.6,0);\n\\foreach \\v/\\p in {30/1,60/2,90/3,120/4,150/5,180/6} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,2)--(8,6);\n\\foreach \\pt in {(0,2),(8,6)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.3,3) {Balance (\\$)};\n\\node[below,font=\\scriptsize] at (4,-1.0) {Week};\n\\node[font=\\scriptsize] at (4,6.3) {A bank account};\n\\end{tikzpicture}\n[/tikz]\nA bank account grows at a constant rate, as shown. State the account's starting balance and its weekly growth rate.",
+      "structure": "starting-value-and-rate",
+      "mastery": false,
+      "options": [
+        { "text": "Starts at \\$60, grows at \\$15/week", "correct": true },
+        { "text": "Starts at \\$15, grows at \\$60/week", "why": "swapped the starting balance and the weekly growth rate" },
+        { "text": "Starts at \\$60, grows at \\$22.50/week", "why": "divided the final balance by the number of weeks instead of using the change in balance" },
+        { "text": "Starts at \\$0, grows at \\$15/week", "why": "read the balance at $t=0$ as zero instead of the graph's actual starting value" }
+      ],
+      "solution_text": "Starting balance $=\\$60$ (where the line meets the vertical axis).\nRate $=\\dfrac{180-60}{8}$\n$=15$\n$=\\$15$ per week."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (16,6);\n\\draw[->] (0,0)--(0,6.6);\n\\draw[->] (0,0)--(16.6,0);\n\\foreach \\v/\\p in {10/1,20/2,30/3,40/4,50/5,60/6} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8,10,12,14,16} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(6,1.8)--(16,5.8);\n\\foreach \\pt in {(0,0),(6,1.8),(16,5.8)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,3) {Volume in aquarium (L)};\n\\node[below,font=\\scriptsize] at (8,-1.0) {Time (minutes)};\n\\node[font=\\scriptsize] at (8,6.3) {Filling an aquarium};\n\\end{tikzpicture}\n[/tikz]\nAn aquarium is filled in two stages at two different constant rates, as shown. Find the filling rate during the second stage (from $6$ to $16$ minutes), in L/min.",
+      "structure": "segment-rate-piecewise",
+      "mastery": false,
+      "options": [
+        { "text": "$4$ L/min", "correct": true },
+        { "text": "$3.625$ L/min", "why": "divided the total volume by the total time instead of using only the second stage's interval" },
+        { "text": "$3$ L/min", "why": "used the first stage's rate, wrongly assuming the whole graph has one constant rate" },
+        { "text": "$5.8$ L/min", "why": "used the correct time interval but forgot to subtract the $18$ L already in the tank at $6$ minutes" }
+      ],
+      "solution_text": "During the second stage the volume rises from $18$ L to $58$ L over $10$ minutes.\nRate $=\\dfrac{58-18}{16-6}$\n$=\\dfrac{40}{10}$\n$=4\\text{ L/min}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (10,5);\n\\draw[->] (0,0)--(0,5.6);\n\\draw[->] (0,0)--(10.6,0);\n\\foreach \\v/\\p in {4/1,8/2,12/3,16/4,20/5} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,5)--(10,2.5);\n\\draw[very thick,red] (0,5)--(10,1);\n\\foreach \\pt in {(0,5),(10,2.5),(10,1)} {\\fill[black] \\pt circle (2pt);}\n\\node[font=\\scriptsize,blue,below left] at (2,4.4) {Candle P};\n\\node[font=\\scriptsize,red,above right] at (6,1.7) {Candle Q};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.5) {Height (cm)};\n\\node[below,font=\\scriptsize] at (5,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (5,5.3) {Two candles burning};\n\\end{tikzpicture}\n[/tikz]\nTwo identical candles are lit at the same time and burn down at different constant rates, as shown. Which candle burns faster, and by how much?",
+      "structure": "compare-rates-two-graphs",
+      "mastery": false,
+      "options": [
+        { "text": "Candle Q, by $0.6$ cm/h", "correct": true },
+        { "text": "Candle P, by $0.6$ cm/h", "why": "read the more steeply decreasing line as the slower-burning candle" },
+        { "text": "Candle Q, by $6$ cm/h", "why": "compared the two candles' heights at $10$ hours instead of comparing their rates" },
+        { "text": "Candle Q, by $1.6$ cm/h", "why": "gave candle Q's rate alone instead of the difference between the two rates" }
+      ],
+      "solution_text": "Candle P: rate $=\\dfrac{20-10}{10}=1\\text{ cm/h}$\nCandle Q: rate $=\\dfrac{20-4}{10}=1.6\\text{ cm/h}$\nCandle Q burns faster, by $1.6-1=0.6\\text{ cm/h}$."
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.5]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (12,10);\n\\draw[->] (0,0)--(0,10.6);\n\\draw[->] (0,0)--(12.6,0);\n\\foreach \\v/\\p in {20/1,40/2,60/3,80/4,100/5,120/6,140/7,160/8,180/9,200/10} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8,10,12} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,6)--(5,7.25);\n\\fill[blue] (0,6) circle (2.5pt);\n\\fill[blue] (5,7.25) circle (2.5pt);\n\\node[rotate=90,font=\\scriptsize] at (-1.8,5) {Height of tree (cm)};\n\\node[below,font=\\scriptsize] at (6,-1.0) {Age (years)};\n\\node[font=\\scriptsize] at (6,10.3) {A young tree's height};\n\\end{tikzpicture}\n[/tikz]\nA young tree's height increases at a constant rate, as shown. If it keeps growing at this rate, how tall will it be after $12$ years?",
+      "structure": "extrapolate-constant-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$180$ cm", "correct": true },
+        { "text": "$205$ cm", "why": "added the full $12$ years of growth on top of the height already reached at year $5$, double-counting the first $5$ years" },
+        { "text": "$60$ cm", "why": "multiplied the rate by $12$ but forgot to add the tree's starting height" },
+        { "text": "$145$ cm", "why": "read the height shown at year $5$ as if it were already the height at year $12$" }
+      ],
+      "solution_text": "Rate $=\\dfrac{145-120}{5-0}$\n$=5\\text{ cm/year}$\nHeight after $12$ years $=120+5\\times12$\n$=180\\text{ cm}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (4,4);\n\\draw[->] (0,0)--(0,4.6);\n\\draw[->] (0,0)--(4.6,0);\n\\foreach \\v/\\p in {5/1,10/2,15/3,20/4} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(4,4);\n\\foreach \\pt in {(0,0),(4,4)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2) {Volume in container (L)};\n\\node[below,font=\\scriptsize] at (2,-1.0) {Time (minutes)};\n\\node[font=\\scriptsize] at (2,4.3) {Tap A};\n\\end{tikzpicture}\n[/tikz]\nTap A fills a container at the constant rate shown. Tap B fills an identical container at $300$ mL every $10$ seconds. Find Tap B's rate, in L/min.",
+      "structure": "convert-units-compare-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$1.8$ L/min", "correct": true },
+        { "text": "$30$ L/min", "why": "divided $300$ by $10$ but used the result directly as L/min, without converting mL to L or seconds to minutes" },
+        { "text": "$3$ L/min", "why": "converted seconds to minutes using $100$ instead of $60$" },
+        { "text": "$1800$ L/min", "why": "correctly scaled seconds to minutes but forgot to convert millilitres to litres" }
+      ],
+      "solution_text": "Tap B: $300\\text{ mL per }10\\text{ s}$\n$=1800\\text{ mL/min}$\n$=1.8\\text{ L/min}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.42]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (18,10);\n\\draw[->] (0,0)--(0,10.6);\n\\draw[->] (0,0)--(18.6,0);\n\\foreach \\v/\\p in {10/1,20/2,30/3,40/4,50/5,60/6,70/7,80/8,90/9,100/10} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8,10,12,14,16,18} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,2)--(6,8)--(10,8)--(18,9.2);\n\\foreach \\pt in {(0,2),(6,8),(10,8),(18,9.2)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,5) {Water temperature};\n\\node[below,font=\\scriptsize] at (9,-1.0) {Time (minutes)};\n\\node[font=\\scriptsize] at (9,10.3) {An urn heating water};\n\\end{tikzpicture}\n[/tikz]\nAn urn heats water in three stages: it heats quickly, holds a steady temperature while a thermostat cycles, then rises slowly to finish, as shown. Find the rate of temperature increase during the final stage, from $10$ minutes onward, in °C/min.",
+      "structure": "segment-rate-piecewise",
+      "mastery": true,
+      "options": [
+        { "text": "$1.5$°C/min", "correct": true },
+        { "text": "$4$°C/min", "why": "used the overall change from the very start instead of only the final stage's interval" },
+        { "text": "$1$°C/min", "why": "included the paused stage's duration inside the final stage's time interval" },
+        { "text": "$1.2$°C/min", "why": "used $10$ minutes, the start time of the final stage, instead of its actual $8$-minute duration" }
+      ],
+      "solution_text": "The paused stage (from $6$ to $10$ minutes) has zero rate and cannot be used for the final stage.\nFrom $10$ minutes ($80$°C) to $18$ minutes ($92$°C):\nRate $=\\dfrac{92-80}{18-10}$\n$=\\dfrac{12}{8}$\n$=1.5$°C/min"
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (5,5);\n\\draw[->] (0,0)--(0,5.6);\n\\draw[->] (0,0)--(5.6,0);\n\\foreach \\v/\\p in {5/1,10/2,15/3,20/4,25/5} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4,5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(5,5);\n\\foreach \\pt in {(0,0),(5,5)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.5) {Water used (L)};\n\\node[below,font=\\scriptsize] at (2.5,-1.0) {Time (minutes)};\n\\node[font=\\scriptsize] at (2.5,5.3) {Sprinkler 1};\n\\end{tikzpicture}\n[/tikz]\nThree garden sprinklers use water at different constant rates. Sprinkler 1's graph is shown. Sprinkler 2 uses $180$ L per hour. Sprinkler 3 uses $90$ mL per second. Which sprinkler uses water fastest?",
+      "structure": "rank-three-rates-mixed-units",
+      "mastery": true,
+      "options": [
+        { "text": "Sprinkler 3", "correct": true },
+        { "text": "Sprinkler 1", "why": "converted sprinkler 3's millilitres to litres but forgot to convert seconds to minutes, making it seem far slower than it really is" },
+        { "text": "Sprinkler 2", "why": "divided $180$ by $10$ instead of $60$ when converting L/hour to L/min, overstating sprinkler 2's rate to $18$ L/min" },
+        { "text": "Sprinklers 1 and 3 are equally fastest", "why": "rounded sprinkler 3's rate of $5.4$ L/min down to $5$ L/min, matching sprinkler 1 exactly" }
+      ],
+      "solution_text": "Sprinkler 1: rate $=\\dfrac{25}{5}=5\\text{ L/min}$\nSprinkler 2: $180\\text{ L/h}\\div60=3\\text{ L/min}$\nSprinkler 3: $90\\text{ mL/s}\\times60=5400\\text{ mL/min}=5.4\\text{ L/min}$\nSprinkler 3 uses water fastest, at $5.4$ L/min."
+    }
+  ]
+}

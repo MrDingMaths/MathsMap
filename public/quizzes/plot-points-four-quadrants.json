@@ -1,0 +1,83 @@
+{
+  "skillId": "plot-points-four-quadrants",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What are the coordinates of $A$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.68]\n\\draw[gray!30,very thin](-4,-4)grid(4,4);\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\\draw[<->](0,-4.5)--(0,4.5)node[above]{$y$};\\foreach \\n in {-4,...,-1,1,...,4}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};\\node[left,font=\\scriptsize]at(0,\\n){$\\n$};}\\fill(-3,-2)circle(2.5pt)node[below left]{$A$};\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-labelled-point",
+      "mastery": false,
+      "options": [
+        {"text":"$(-3,-2)$","correct":true},
+        {"text":"$(-2,-3)$","why":"Swapped the horizontal and vertical coordinates."},
+        {"text":"$(3,-2)$","why":"Ignored that the point is left of the $y$-axis."},
+        {"text":"$(-3,2)$","why":"Ignored that the point is below the $x$-axis."}
+      ],
+      "solution_text": "The point is $3$ units left and $2$ units down.\n$A=(-3,-2)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Which labelled point is at $(3,-4)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\\fill(3,-4)circle(2.5pt)node[below right]{$W$};\\fill(-3,4)circle(2.5pt)node[above left]{$X$};\\fill(-4,3)circle(2.5pt)node[above left]{$Y$};\\fill(4,-3)circle(2.5pt)node[below right]{$Z$};\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-plotted-point",
+      "mastery": false,
+      "options": [
+        {"text":"$W$","correct":true},
+        {"text":"$X$","why":"Changed both coordinate signs when locating the point."},
+        {"text":"$Y$","why":"Swapped the coordinates and changed both signs."},
+        {"text":"$Z$","why":"Swapped the horizontal and vertical distances."}
+      ],
+      "solution_text": "Move $3$ units right and $4$ units down.\nThe labelled point is $W$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Point $B$ lies on the $x$-axis as shown. What are its coordinates?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.7]\n\\draw[gray!30,very thin](-4,-3)grid(4,3);\\draw[<->](-4.5,0)--(4.5,0)node[right]{$x$};\\draw[<->](0,-3.5)--(0,3.5)node[above]{$y$};\\foreach \\n in {-4,...,-1,1,...,4}{\\node[below,font=\\scriptsize]at(\\n,0){$\\n$};}\\fill(2,0)circle(2.5pt)node[above]{$B$};\\end{tikzpicture}\n[/tikz]",
+      "structure": "axis-coordinate",
+      "mastery": false,
+      "options": [
+        {"text":"$(2,0)$","correct":true},
+        {"text":"$(0,2)$","why":"Swapped the axis value into the vertical position."},
+        {"text":"$(2,1)$","why":"Used one for the coordinate on the axis instead of zero."},
+        {"text":"$(-2,0)$","why":"Treated a point right of the origin as negative."}
+      ],
+      "solution_text": "The horizontal coordinate is $2$ and a point on the $x$-axis has $y=0$.\n$B=(2,0)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which pair gives the coordinates of $C$ and $D$ in that order?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.65]\n\\draw[gray!30,very thin](-5,-5)grid(5,5);\\draw[<->](-5.5,0)--(5.5,0)node[right]{$x$};\\draw[<->](0,-5.5)--(0,5.5)node[above]{$y$};\\fill(-1,4)circle(2.5pt)node[above left]{$C$};\\fill(4,-2)circle(2.5pt)node[below right]{$D$};\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-multiple-points",
+      "mastery": false,
+      "options": [
+        {"text":"$C=(-1,4),\\ D=(4,-2)$","correct":true},
+        {"text":"$C=(1,4),\\ D=(4,2)$","why":"Dropped both negative signs from the plotted positions."},
+        {"text":"$C=(4,-1),\\ D=(-2,4)$","why":"Swapped the coordinates of each point."},
+        {"text":"$C=(-1,-4),\\ D=(-4,-2)$","why":"Made each vertical or horizontal positive direction negative."}
+      ],
+      "solution_text": "$C$ is $1$ left and $4$ up: $C=(-1,4)$.\n$D$ is $4$ right and $2$ down: $D=(4,-2)$."
+    },
+    {
+      "id": "q5",
+      "question_text": "A rover moves $5$ units left and $3$ units up from the origin. Which ordered pair records its position?",
+      "structure": "coordinate-from-movement",
+      "mastery": false,
+      "options": [
+        {"text":"$(-5,3)$","correct":true},
+        {"text":"$(5,3)$","why":"Treated movement left as a positive horizontal coordinate."},
+        {"text":"$(3,-5)$","why":"Swapped the movements and attached the negative sign to the wrong one."},
+        {"text":"$(-5,-3)$","why":"Treated upward movement as a negative vertical coordinate."}
+      ],
+      "solution_text": "Left gives $x=-5$ and up gives $y=3$.\n$(-5,3)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Point $T$ is on the same vertical grid line as $P(2,-4)$ and the same horizontal grid line as $Q(-3,5)$. What are the coordinates of $T$?",
+      "structure": "reason-coordinate-constraints",
+      "mastery": true,
+      "options": [
+        {"text":"$(2,5)$","correct":true},
+        {"text":"$(-4,-3)$","why":"Used the vertical values as the first coordinates."},
+        {"text":"$(-3,-4)$","why":"Took the unused coordinate from each given point."},
+        {"text":"$(5,2)$","why":"Found the correct values but reversed their coordinate order."}
+      ],
+      "solution_text": "$T$ takes $x=2$ from $P$ and $y=5$ from $Q$.\n$T=(2,5)$"
+    }
+  ]
+}

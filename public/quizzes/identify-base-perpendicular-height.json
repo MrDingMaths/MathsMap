@@ -1,0 +1,109 @@
+{
+  "skillId": "identify-base-perpendicular-height",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The bottom side is the base. Which labelled segment is its perpendicular height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (5.4,0);\\coordinate (C) at (6.8,3);\\coordinate (D) at (1.4,3);\\coordinate (H) at (1.4,0);\n\\draw (A)--(B) node[midway,below] {base};\\draw (B)--(C) node[midway,right] {$r$};\\draw (C)--(D) node[midway,above] {$s$};\\draw (D)--(A) node[midway,left] {$t$};\\draw[dashed] (D)--(H) node[midway,right] {$u$};\n\\coordinate (ra) at ($(H)!0.3cm!(D)$);\\coordinate (rb) at ($(H)!0.3cm!(B)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-parallelogram-height",
+      "mastery": false,
+      "options": [
+        { "text": "$u$", "correct": true },
+        { "text": "$r$", "why": "Chooses the right slant side because it joins the base, but it does not meet it at 90 degrees." },
+        { "text": "$s$", "why": "Chooses the opposite parallel side rather than the perpendicular distance between the parallel sides." },
+        { "text": "$t$", "why": "Chooses the left slant side because it reaches the top, but it is not perpendicular to the base." }
+      ],
+      "solution_text": "Segment $u$ meets the base at the marked right angle.\n$u$ is the perpendicular height."
+    },
+    {
+      "id": "q2",
+      "question_text": "Side $AB$ is the base. Which segment is the matching height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (5,0);\\coordinate (C) at (3.4,3.2);\\coordinate (H) at (3.4,0);\n\\draw (A)--(B) node[midway,below] {$AB$};\\draw (B)--(C) node[midway,right] {$j$};\\draw (C)--(A) node[midway,above left] {$k$};\\draw[dashed] (C)--(H) node[midway,right] {$m$};\n\\coordinate (ra) at ($(H)!0.3cm!(C)$);\\coordinate (rb) at ($(H)!0.3cm!(B)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-triangle-height",
+      "mastery": false,
+      "options": [
+        { "text": "$m$", "correct": true },
+        { "text": "$j$", "why": "Selects a triangle side from the apex to the base, but it is slanted rather than perpendicular." },
+        { "text": "$k$", "why": "Selects the longer slant side from the apex, ignoring the right-angle requirement." },
+        { "text": "$AB$", "why": "Selects the chosen base itself rather than a perpendicular segment from the base to the opposite vertex." }
+      ],
+      "solution_text": "The matching height runs from $C$ to base $AB$ and meets it at $90^{\\circ}$.\n$m$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Which statement defines the perpendicular height for a chosen base?",
+      "structure": "height-definition",
+      "mastery": false,
+      "options": [
+        { "text": "The shortest distance to the opposite vertex or side, measured at $90^{\\circ}$", "correct": true },
+        { "text": "The longest side touching the chosen base", "why": "Uses length and contact with the base but ignores the required right angle." },
+        { "text": "Any segment drawn inside the shape", "why": "Ignores both the connection to the chosen base and the perpendicular condition." },
+        { "text": "The side opposite the chosen base", "why": "Confuses the opposite side with the distance measured perpendicular to it." }
+      ],
+      "solution_text": "A height is defined by its right angle to the chosen base, not by being a side or the longest segment.\nThe shortest distance to the opposite vertex or side, measured at $90^{\\circ}$."
+    },
+    {
+      "id": "q4",
+      "question_text": "In this right-angled triangle, $x$ is the chosen base. Which segment is its height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (R) at (0,0);\\coordinate (A) at (4.5,0);\\coordinate (B) at (0,3);\n\\draw (R)--(A) node[midway,below] {$x$};\\draw (A)--(B) node[midway,above right] {$z$};\\draw (B)--(R) node[midway,left] {$y$};\n\\coordinate (ra) at ($(R)!0.3cm!(A)$);\\coordinate (rb) at ($(R)!0.3cm!(B)$);\\draw (ra)--($(ra)+(rb)-(R)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "right-triangle-side-as-height",
+      "mastery": false,
+      "options": [
+        { "text": "$y$", "correct": true },
+        { "text": "$z$", "why": "Chooses the hypotenuse because it is longest, but it does not meet base x at the right angle." },
+        { "text": "$x$", "why": "Repeats the chosen base rather than selecting the perpendicular side that meets it." },
+        { "text": "No height is shown", "why": "Misses that side y is perpendicular to x at the marked right-angled vertex." }
+      ],
+      "solution_text": "Side $y$ meets base $x$ at the marked right angle.\n$y$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The base is vertical. Which labelled segment is its matching height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (0,3.2);\\coordinate (C) at (4.5,4.2);\\coordinate (D) at (4.5,1);\\coordinate (H) at (0,1);\n\\draw (A)--(B) node[midway,left] {base};\\draw (B)--(C) node[midway,above left] {$a$};\\draw (C)--(D) node[midway,right] {$b$};\\draw (D)--(A) node[midway,below right] {$c$};\\draw[dashed] (H)--(D) node[midway,above] {$d$};\n\\coordinate (ra) at ($(H)!0.3cm!(B)$);\\coordinate (rb) at ($(H)!0.3cm!(D)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "nonhorizontal-base",
+      "mastery": false,
+      "options": [
+        { "text": "$d$", "correct": true },
+        { "text": "$a$", "why": "Assumes height must rise upward on the page, ignoring the vertical base and right-angle condition." },
+        { "text": "$b$", "why": "Chooses the opposite parallel side rather than the perpendicular distance across to it." },
+        { "text": "$c$", "why": "Chooses a slanted side meeting the base endpoint, but it is not perpendicular to the base." }
+      ],
+      "solution_text": "A segment perpendicular to a vertical base is horizontal. The right-angle mark confirms segment $d$.\n$d$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The base $PQ$ is extended. Which segment is the perpendicular height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (P) at (0,0);\\coordinate (Q) at (3.8,0);\\coordinate (R) at (5.2,2.8);\\coordinate (H) at (5.2,0);\n\\draw (P)--(Q) node[midway,below] {$PQ$};\\draw (Q)--(R) node[midway,right] {$f$};\\draw (R)--(P) node[midway,above left] {$g$};\\draw[dashed] (Q)--(H);\\draw[dashed] (R)--(H) node[midway,right] {$h$};\n\\coordinate (ra) at ($(H)!0.3cm!(R)$);\\coordinate (rb) at ($(H)!0.3cm!(Q)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "external-triangle-height",
+      "mastery": false,
+      "options": [
+        { "text": "$h$", "correct": true },
+        { "text": "$f$", "why": "Chooses the nearest triangle side, but it meets base PQ at an oblique angle rather than 90 degrees." },
+        { "text": "$g$", "why": "Chooses the longer triangle side instead of the perpendicular from R to the extended base." },
+        { "text": "No height exists outside a triangle", "why": "Assumes a height must lie inside, ignoring that an obtuse triangle can require the base line to be extended." }
+      ],
+      "solution_text": "Extend the base line until the perpendicular from $R$ reaches it.\n$h$ is the perpendicular height."
+    },
+    {
+      "id": "q7",
+      "question_text": "For the parallelogram shown, which listed pair is a valid base and matching height?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\\coordinate (B) at (5,0);\\coordinate (C) at (6.3,2.9);\\coordinate (D) at (1.3,2.9);\\coordinate (H) at (1.3,0);\n\\draw (A)--(B) node[midway,below] {$w$};\\draw (B)--(C) node[midway,right] {$x$};\\draw (C)--(D) node[midway,above] {$y$};\\draw (D)--(A) node[midway,left] {$z$};\\draw[dashed] (D)--(H) node[midway,right] {$v$};\n\\coordinate (ra) at ($(H)!0.3cm!(D)$);\\coordinate (rb) at ($(H)!0.3cm!(B)$);\\draw (ra)--($(ra)+(rb)-(H)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-base-height-pair",
+      "mastery": true,
+      "options": [
+        { "text": "Base $w$, height $v$", "correct": true },
+        { "text": "Base $w$, height $x$", "why": "Pairs the horizontal base with an adjacent slant side rather than its perpendicular distance." },
+        { "text": "Base $x$, height $z$", "why": "Pairs opposite slant sides, which are parallel to each other rather than perpendicular." },
+        { "text": "Base $y$, height $w$", "why": "Pairs the two horizontal parallel sides, confusing the opposite side with the perpendicular height." }
+      ],
+      "solution_text": "Segment $v$ meets horizontal side $w$ at the right-angle mark.\nBase $w$, height $v$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A triangle is rotated on the page without changing its size. What happens to a chosen base and its matching perpendicular height?",
+      "structure": "rotation-preserves-base-height",
+      "mastery": true,
+      "options": [
+        { "text": "Their directions change, but their lengths and right angle stay the same", "correct": true },
+        { "text": "The height becomes the longest side", "why": "Uses page orientation to relabel a side, ignoring the perpendicular relationship to the chosen base." },
+        { "text": "The base stays horizontal and the height stays vertical", "why": "Treats horizontal and vertical as fixed properties even though the whole triangle has rotated." },
+        { "text": "Both lengths change because the picture looks different", "why": "Confuses a change in orientation with a change in the shape's actual dimensions." }
+      ],
+      "solution_text": "A rotation preserves lengths and angles. The pair turns together, so the $90^{\\circ}$ relationship remains.\nTheir directions change, but their lengths and right angle stay the same."
+    }
+  ]
+}

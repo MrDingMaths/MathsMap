@@ -1,0 +1,131 @@
+{
+  "skillId": "symmetry-of-graphs",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "How many axes (lines) of symmetry does this shape have?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,1.7)--(1.05,0.15)--(0,-1.35)--(-1.05,0.15)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "count-line-axes",
+      "mastery": false,
+      "options": [
+        { "text": "$1$", "correct": true },
+        { "text": "$2$", "why": "Counted both diagonals as axes, but only the vertical diagonal folds the kite onto itself." },
+        { "text": "$0$", "why": "Missed the vertical axis through the top and bottom vertices, which does fold the kite in half." }
+      ],
+      "solution_text": "Only the vertical line through the top and bottom vertices folds the kite so the two equal sides match.\nSo the kite has $1$ axis of symmetry."
+    },
+    {
+      "id": "q2",
+      "question_text": "How many axes (lines) of symmetry does this shape have?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-0.6,-1.6)--(0.6,-1.6)--(0.6,-0.6)--(1.6,-0.6)--(1.6,0.6)--(0.6,0.6)--(0.6,1.6)--(-0.6,1.6)--(-0.6,0.6)--(-1.6,0.6)--(-1.6,-0.6)--(-0.6,-0.6)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "count-line-axes",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$2$", "why": "Counted only the horizontal and vertical axes and missed the two diagonal axes of the cross." },
+        { "text": "$8$", "why": "Doubled the count, treating each fold line as two separate axes from its two ends." }
+      ],
+      "solution_text": "The cross folds onto itself along the horizontal line, the vertical line, and both diagonals.\nSo it has $4$ axes of symmetry."
+    },
+    {
+      "id": "q3",
+      "question_text": "What is the order of rotational symmetry of this shape?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (90:1.6)--(141.43:1.6)--(192.86:1.6)--(244.29:1.6)--(295.71:1.6)--(347.14:1.6)--(38.57:1.6)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotational-order",
+      "mastery": false,
+      "options": [
+        { "text": "$7$", "correct": true },
+        { "text": "$14$", "why": "Doubled the count, treating each side as giving two matching positions in one turn." },
+        { "text": "$0$", "why": "Used order $0$ for the shape, but every shape has rotational symmetry of order at least $1$." }
+      ],
+      "solution_text": "A regular heptagon has $7$ equal sides, so it matches itself after each $360^{\\circ} \\div 7$ turn.\nThat happens $7$ times in a full turn, so the order of rotational symmetry is $7$."
+    },
+    {
+      "id": "q4",
+      "question_text": "What is the order of rotational symmetry of this shape?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-1.5,-1.0)--(1.5,-1.0)--(0.8,1.0)--(-0.8,1.0)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rotational-order",
+      "mastery": false,
+      "options": [
+        { "text": "$1$", "correct": true },
+        { "text": "$2$", "why": "Assumed its one line of symmetry forces a $180^{\\circ}$ match, but the trapezium only returns after a full turn." },
+        { "text": "$0$", "why": "Used order $0$ for no rotational symmetry, but every shape has order at least $1$." }
+      ],
+      "solution_text": "The trapezium only returns to its original position after a full $360^{\\circ}$ turn.\nSo the order of rotational symmetry is $1$ (no rotational symmetry)."
+    },
+    {
+      "id": "q5",
+      "question_text": "Does this graph have line symmetry about the $y$-axis, rotational symmetry about the origin, both, or neither?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0)--(2.2,0);\n\\draw[<->] (0,-2.2)--(0,2.2);\n\\draw[<->,thick,blue,domain=-1.5:1.5,smooth,variable=\\x,samples=60] plot ({\\x},{-0.9*\\x*\\x});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-symmetry-classify",
+      "mastery": false,
+      "options": [
+        { "text": "This parabola has line symmetry about the $y$-axis but no rotational symmetry.", "correct": true },
+        { "text": "This parabola has rotational symmetry about the origin but no line symmetry.", "why": "A $180^{\\circ}$ turn flips the parabola to open upward, so it is not rotationally symmetric." },
+        { "text": "This parabola has both line and rotational symmetry.", "why": "It folds across the $y$-axis, but a $180^{\\circ}$ turn about the origin does not map it onto itself." },
+        { "text": "This parabola has neither line nor rotational symmetry.", "why": "Overlooks that reflecting in the $y$-axis leaves this parabola unchanged." }
+      ],
+      "solution_text": "Reflecting in the $y$-axis leaves the parabola unchanged, so it has line symmetry about the $y$-axis.\nA $180^{\\circ}$ turn about the origin would make it open upward, so it has no rotational symmetry.\nLine symmetry only."
+    },
+    {
+      "id": "q6",
+      "question_text": "Does this graph have line symmetry about the $y$-axis, rotational symmetry about the origin, both, or neither?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0)--(2.2,0);\n\\draw[<->] (0,-2.2)--(0,2.2);\n\\draw[<->,thick,blue] (-1.0,2.0)--(1.0,-2.0);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-symmetry-classify",
+      "mastery": false,
+      "options": [
+        { "text": "This line has rotational symmetry about the origin but no line symmetry.", "correct": true },
+        { "text": "This line has line symmetry about the $y$-axis but no rotational symmetry.", "why": "Reflecting the line in the $y$-axis changes its slope, so the $y$-axis is not an axis of symmetry." },
+        { "text": "This line has both line and rotational symmetry.", "why": "A $180^{\\circ}$ turn maps it onto itself, but reflecting in the $y$-axis does not." },
+        { "text": "This line has neither line nor rotational symmetry.", "why": "Overlooks that a $180^{\\circ}$ turn about the origin maps the line onto itself." }
+      ],
+      "solution_text": "Reflecting the line in the $y$-axis changes its slope, so there is no line symmetry about the $y$-axis.\nA $180^{\\circ}$ turn about the origin maps the line onto itself, so it has rotational symmetry of order $2$.\nRotational symmetry only."
+    },
+    {
+      "id": "q7",
+      "question_text": "Does this graph have line symmetry about the $y$-axis, rotational symmetry about the origin, both, or neither?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0)--(2.2,0);\n\\draw[<->] (0,-2.2)--(0,2.2);\n\\draw[<->,thick,blue] (-1.9,1.1)--(1.9,1.1);\n\\draw[<->,thick,blue] (-1.9,-1.1)--(1.9,-1.1);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-symmetry-classify",
+      "mastery": false,
+      "options": [
+        { "text": "This pair of lines has both line and rotational symmetry.", "correct": true },
+        { "text": "This pair of lines has line symmetry about the $y$-axis but no rotational symmetry.", "why": "A $180^{\\circ}$ turn swaps the two lines onto each other, so rotational symmetry is missed here." },
+        { "text": "This pair of lines has rotational symmetry about the origin but no line symmetry.", "why": "Reflecting in the $y$-axis leaves each line in place, so line symmetry is also present." },
+        { "text": "This pair of lines has neither line nor rotational symmetry.", "why": "Overlooks that both a $y$-axis fold and a $180^{\\circ}$ turn leave the pair unchanged." }
+      ],
+      "solution_text": "Reflecting in the $y$-axis leaves each line in place, so there is line symmetry about the $y$-axis.\nA $180^{\\circ}$ turn about the origin swaps the two lines onto each other, so there is rotational symmetry of order $2$.\nIt has both."
+    },
+    {
+      "id": "q8",
+      "question_text": "Does this graph have line symmetry about the $y$-axis, rotational symmetry about the origin, both, or neither?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0)--(2.2,0);\n\\draw[<->] (0,-2.2)--(0,2.2);\n\\draw[<->,thick,blue,domain=-0.5:2.1,smooth,variable=\\x,samples=60] plot ({\\x},{0.9*(\\x-0.8)*(\\x-0.8)});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "graph-symmetry-classify",
+      "mastery": false,
+      "options": [
+        { "text": "This graph has neither line nor rotational symmetry.", "correct": true },
+        { "text": "This graph has line symmetry about the $y$-axis but no rotational symmetry.", "why": "The vertex sits to the right of the $y$-axis, so a $y$-axis fold does not match the halves." },
+        { "text": "This graph has rotational symmetry about the origin but no line symmetry.", "why": "A $180^{\\circ}$ turn about the origin sends the curve below the axis, so it is not rotationally symmetric." },
+        { "text": "This graph has both line and rotational symmetry.", "why": "Its axis of symmetry is not the $y$-axis, and it has no centre of rotation at the origin." }
+      ],
+      "solution_text": "The vertex is to the right of the $y$-axis, so reflecting in the $y$-axis does not match the halves — no line symmetry about the $y$-axis.\nA $180^{\\circ}$ turn about the origin sends the curve below the $x$-axis, so no rotational symmetry.\nNeither symmetry."
+    },
+    {
+      "id": "q9",
+      "question_text": "Which line is the axis of symmetry of the parabola below?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0)--(2.2,0);\n\\draw[<->] (0,-2.2)--(0,2.2);\n\\draw[<->,thick,blue,domain=-1.5:1.5,smooth,variable=\\x,samples=60] plot ({\\x},{0.9*\\x*\\x});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "axis-of-symmetry-identify",
+      "mastery": false,
+      "options": [
+        { "text": "$x=0$ (the $y$-axis)", "correct": true },
+        { "text": "$y=0$ (the $x$-axis)", "why": "Chose the horizontal axis, but folding across the $x$-axis does not map the parabola onto itself." },
+        { "text": "$y=x$", "why": "Picked a slanting line, but the mirror line of this parabola is vertical, not diagonal." },
+        { "text": "the parabola itself is the axis of symmetry", "why": "Confused the curve with its mirror line; the axis of symmetry is a straight vertical line." }
+      ],
+      "solution_text": "The parabola folds onto itself along the vertical line through its lowest point.\nThat line is the $y$-axis, $x=0$."
+    },
+    {
+      "id": "q10",
+      "question_text": "State the number of lines of symmetry and the order of rotational symmetry of this shape.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.7,0.25)--(1.2,1.15)--cycle;\n\\draw (0,0)--(-1.7,-0.25)--(-1.2,-1.15)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "line-and-rotational-both",
+      "mastery": true,
+      "options": [
+        { "text": "$0$ lines of symmetry, order $2$", "correct": true },
+        { "text": "$2$ lines of symmetry, order $2$", "why": "Assumed order $2$ rotational symmetry forces two lines of symmetry, but this shape has no fold line." },
+        { "text": "$0$ lines of symmetry, order $1$", "why": "Missed that a $180^{\\circ}$ turn maps the shape onto itself, giving order $2$ rather than $1$." },
+        { "text": "$0$ lines of symmetry, order $0$", "why": "Used order $0$, but every shape has rotational symmetry of order at least $1$." }
+      ],
+      "solution_text": "No fold line makes the two blades match, so there are $0$ axes of symmetry.\nA $180^{\\circ}$ turn about the centre maps one blade onto the other, so the order of rotational symmetry is $2$.\n$0$ lines of symmetry and order $2$."
+    }
+  ]
+}

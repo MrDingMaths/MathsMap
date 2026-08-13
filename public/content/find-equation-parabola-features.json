@@ -1,0 +1,100 @@
+{
+  "skillId": "find-equation-parabola-features",
+  "atomType": "R",
+  "theory": {
+    "intro": "This skill runs the process backwards: given features of a parabola, write its equation. The trick is to choose the form that matches the given information, put in the known numbers, then use one more point to solve for the scale factor $k$.",
+    "facts": [
+      "Given the **$x$-intercepts** $\\alpha$ and $\\beta$, use factored form $y=k(x-\\alpha)(x-\\beta)$.",
+      "Given the **vertex** $(b,c)$, use vertex form $y=k(x-b)^2+c$.",
+      "The intercepts or vertex fix the shape but not the scale: substitute **one more point** the parabola passes through, then solve for $k$.",
+      "The $y$-intercept is just the point where $x=0$, so it can serve as the extra point.",
+      "A stated condition can fix $k$ directly: **monic** means $k=1$, and \"the coefficient of $x^2$ is $3$\" means $k=3$."
+    ],
+    "steps": [
+      "Choose factored or vertex form to match the given features.",
+      "Substitute the intercepts or vertex into that form.",
+      "Substitute a further point to form an equation in $k$.",
+      "Solve for $k$ and write the final equation."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A parabola has vertex $(2,-3)$ and is monic. Write its equation.",
+        "solution_text": "Monic means $k=1$.\nUsing vertex form $y=k(x-b)^2+c$ with vertex $(2,-3)$:\n$y=(x-2)^2-3$"
+      },
+      {
+        "question_text": "A monic parabola has $x$-intercepts at $x=-1$ and $x=4$. Write its equation in factored form.",
+        "solution_text": "Monic means $k=1$.\nUsing factored form $y=k(x-\\alpha)(x-\\beta)$ with $\\alpha=-1$ and $\\beta=4$:\n$y=(x+1)(x-4)$"
+      },
+      {
+        "question_text": "A parabola has vertex $(0,5)$ and passes through $(1,8)$. Find its equation.",
+        "solution_text": "Vertex $(0,5)$ gives $y=k(x-0)^2+5=kx^2+5$.\nSubstitute $(1,8)$:\n$8=k(1)^2+5$\n$3=k$\n$y=3x^2+5$"
+      },
+      {
+        "question_text": "A parabola has $x$-intercepts at $x=-2$ and $x=6$ and a $y$-intercept of $-6$. Find its equation.",
+        "solution_text": "Factored form: $y=k(x+2)(x-6)$.\nThe $y$-intercept is the point $(0,-6)$. Substitute it:\n$-6=k(2)(-6)$\n$-6=-12k$\n$k=\\dfrac{1}{2}$\n$y=\\dfrac{1}{2}(x+2)(x-6)$"
+      },
+      {
+        "question_text": "A parabola has vertex $(3,1)$ and passes through $(5,5)$. Find its equation.",
+        "solution_text": "Vertex $(3,1)$ gives $y=k(x-3)^2+1$.\nSubstitute $(5,5)$:\n$5=k(2)^2+1$\n$4=4k$\n$k=1$\n$y=(x-3)^2+1$"
+      },
+      {
+        "question_text": "A parabola has $x$-intercepts at $x=0$ and $x=4$ and passes through $(2,-8)$. Find its equation.",
+        "solution_text": "Factored form: $y=kx(x-4)$.\nSubstitute $(2,-8)$:\n$-8=k(2)(-2)$\n$-8=-4k$\n$k=2$\n$y=2x(x-4)$"
+      },
+      {
+        "question_text": "Find the equation of the parabola shown, which has $x$-intercepts at $x=-3$ and $x=1$ and a $y$-intercept of $-3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5, xmax=3, ymin=-5.5, ymax=6, samples=100, clip=false, axis line style={-{Stealth}}, xtick={-3,-1,1}, ytick={-4,-2,2,4}]\n\\addplot[smooth, thick, blue, <->, domain=-4.16:2.16] {(x+3)*(x-1)};\n\\fill (axis cs:-3,0) circle (2.5pt);\n\\fill (axis cs:1,0) circle (2.5pt);\n\\fill (axis cs:0,-3) circle (2.5pt);\n\\node[above left] at (axis cs:-3,0) {$-3$};\n\\node[above right] at (axis cs:1,0) {$1$};\n\\node[right] at (axis cs:0,-3) {$-3$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Factored form: $y=k(x+3)(x-1)$.\nThe $y$-intercept is the point $(0,-3)$. Substitute it:\n$-3=k(3)(-1)$\n$-3=-3k$\n$k=1$\n$y=(x+3)(x-1)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A parabola has vertex $(-2,1)$ and passes through $(-5,28)$. Find its equation.",
+        "solution_text": "Vertex $(-2,1)$ gives $y=k(x+2)^2+1$.\nSubstitute $(-5,28)$:\n$28=k(-3)^2+1$\n$27=9k$\n$k=3$\n$y=3(x+2)^2+1$"
+      },
+      {
+        "question_text": "A parabola has $x$-intercepts at $x=-4$ and $x=2$ and a $y$-intercept of $-16$. Find its equation.",
+        "solution_text": "Factored form: $y=k(x+4)(x-2)$.\nThe $y$-intercept is the point $(0,-16)$. Substitute it:\n$-16=k(4)(-2)$\n$-16=-8k$\n$k=2$\n$y=2(x+4)(x-2)$"
+      },
+      {
+        "question_text": "A parabola has vertex $(1,-8)$ and passes through $(3,0)$. Find its equation.",
+        "solution_text": "Vertex $(1,-8)$ gives $y=k(x-1)^2-8$.\nSubstitute $(3,0)$:\n$0=k(2)^2-8$\n$8=4k$\n$k=2$\n$y=2(x-1)^2-8$"
+      },
+      {
+        "question_text": "Find the equation of the parabola shown, which has vertex $(2,5)$ and passes through $(0,1)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3, xmax=6, ymin=-4, ymax=7, samples=100, clip=false, axis line style={-{Stealth}}, xtick={-2,2,4}, ytick={-2,2,4,6}]\n\\addplot[smooth, thick, blue, <->, domain=-1:5] {-(x-2)*(x-2)+5};\n\\fill (axis cs:2,5) circle (2.5pt);\n\\fill (axis cs:0,1) circle (2.5pt);\n\\node[above] at (axis cs:2,5) {$(2,5)$};\n\\node[left] at (axis cs:0,1) {$(0,1)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Vertex $(2,5)$ gives $y=k(x-2)^2+5$.\nSubstitute $(0,1)$:\n$1=k(-2)^2+5$\n$-4=4k$\n$k=-1$\n$y=-(x-2)^2+5$"
+      },
+      {
+        "question_text": "The cross-section of a satellite dish is a parabola with its lowest point at the origin. The rim passes through the point $(2,3)$, where units are metres. Find its equation in the form $y=kx^2$.",
+        "solution_text": "The vertex is $(0,0)$, so $y=kx^2$.\nSubstitute the rim point $(2,3)$:\n$3=k(2)^2$\n$3=4k$\n$k=\\dfrac{3}{4}$\n$y=\\dfrac{3}{4}x^2$"
+      },
+      {
+        "question_text": "A parabolic arch has its highest point $8$ m above the ground at its centre. Taking the centre of the base as the origin, the arch meets the ground $6$ m to the right at $(6,0)$. Find its equation in the form $y=kx^2+8$.",
+        "solution_text": "The vertex is $(0,8)$, so $y=kx^2+8$.\nSubstitute the ground point $(6,0)$:\n$0=k(6)^2+8$\n$-8=36k$\n$k=-\\dfrac{2}{9}$\n$y=-\\dfrac{2}{9}x^2+8$"
+      },
+      {
+        "question_text": "A parabola has $x$-intercepts at $x=3$ and $x=7$ and passes through $(5,-4)$. Find its equation.",
+        "solution_text": "Factored form: $y=k(x-3)(x-7)$.\nSubstitute $(5,-4)$:\n$-4=k(2)(-2)$\n$-4=-4k$\n$k=1$\n$y=(x-3)(x-7)$"
+      },
+      {
+        "question_text": "Find the equation of the parabola shown, which has $x$-intercepts at $x=-5$ and $x=-1$ and a $y$-intercept of $-5$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-7, xmax=1, ymin=-6, ymax=6, samples=100, clip=false, axis line style={-{Stealth}}, xtick={-5,-3,-1}, ytick={-4,-2,2,4}]\n\\addplot[smooth, thick, blue, <->, domain=-6.16:0.16] {-(x+5)*(x+1)};\n\\fill (axis cs:-5,0) circle (2.5pt);\n\\fill (axis cs:-1,0) circle (2.5pt);\n\\fill (axis cs:0,-5) circle (2.5pt);\n\\node[below left] at (axis cs:-5,0) {$-5$};\n\\node[below right] at (axis cs:-1,0) {$-1$};\n\\node[right] at (axis cs:0,-5) {$-5$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "Factored form: $y=k(x+5)(x+1)$.\nThe $y$-intercept is the point $(0,-5)$. Substitute it:\n$-5=k(5)(1)$\n$-5=5k$\n$k=-1$\n$y=-(x+5)(x+1)$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A parabola has $x$-intercepts at $x=2$ and $x=8$, so it has the form $y=k(x-2)(x-8)$. Find its equation if its $y$-intercept is $-32$.",
+        "solution_text": "The $y$-intercept is the point $(0,-32)$. Substitute it:\n$-32=k(-2)(-8)$\n$-32=16k$\n$k=-2$\n$y=-2(x-2)(x-8)$"
+      },
+      {
+        "question_text": "A parabola has vertex $(-4,2)$ and passes through the origin. Find its equation.",
+        "solution_text": "Vertex $(-4,2)$ gives $y=k(x+4)^2+2$.\nThe origin is the point $(0,0)$. Substitute it:\n$0=k(4)^2+2$\n$-2=16k$\n$k=-\\dfrac{1}{8}$\n$y=-\\dfrac{1}{8}(x+4)^2+2$"
+      },
+      {
+        "question_text": "The arch of a bridge is a parabola that spans $40$ m, meeting the ground at $x=0$ and $x=40$, with a maximum height of $10$ m at its centre. Find its equation in the form $h=kx(x-40)$.",
+        "solution_text": "Factored form using the ground points: $h=kx(x-40)$.\nThe maximum is at the centre, $x=20$, where $h=10$. Substitute $(20,10)$:\n$10=k(20)(20-40)$\n$10=-400k$\n$k=-\\dfrac{1}{40}$\n$h=-\\dfrac{1}{40}x(x-40)$"
+      }
+    ]
+  }
+}

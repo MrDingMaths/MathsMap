@@ -1,0 +1,152 @@
+{
+  "skillId": "non-right-triangle-problems",
+  "coverageNote": "Method-selection skill: 12 structural types (identify-rule, the four single-rule select-and-apply shapes, the area rule, three two-step chains, and three bearings shapes). Type coverage wins over the 8-10 quiz ceiling, so the quiz runs to 12 items, one per type.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (4.6,0);\n\\coordinate (B) at (2.056,1.725);\n\\draw (V)--(A) node[midway,below] {$12$ cm};\n\\draw (V)--(B) node[midway,above left] {$7$ cm};\n\\draw (A)--(B) node[midway,above right] {$x$};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=A--V--B};\n\\end{tikzpicture}\n[/tikz]\nWhich rule would you use to find the side $x$?",
+      "structure": "identify-rule",
+      "mastery": false,
+      "options": [
+        { "text": "Cosine rule", "correct": true },
+        { "text": "Sine rule", "why": "The sine rule needs a complete opposite pair; here only two sides and the included angle are known, not a side with its opposite angle." },
+        { "text": "Area rule", "why": "The area rule finds an area from two sides and their included angle, not the length of the third side." },
+        { "text": "Pythagoras' theorem", "why": "Pythagoras' theorem needs a right angle, but this triangle has none." }
+      ],
+      "solution_text": "Two sides ($12$ cm and $7$ cm) and the included angle ($40^{\\circ}$) are known and $x$ is the third side, which is the **cosine rule**."
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (4.6,0);\n\\coordinate (B) at (1.688,2.701);\n\\draw (V)--(A) node[midway,below] {$13$ cm};\n\\draw (V)--(B) node[midway,above left] {$9$ cm};\n\\draw (A)--(B) node[midway,above right] {$x$};\n\\pic[draw,\"$58^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=A--V--B};\n\\end{tikzpicture}\n[/tikz]\nFind the length $x$, correct to $1$ decimal place.",
+      "structure": "select-cosine-side",
+      "mastery": false,
+      "options": [
+        { "text": "$11.2$ cm", "correct": true },
+        { "text": "$15.8$ cm", "why": "Used Pythagoras ($\\sqrt{9^{2}+13^{2}}$), ignoring the $-2ab\\cos C$ term of the cosine rule." },
+        { "text": "$19.3$ cm", "why": "Added $2ab\\cos C$ instead of subtracting it." },
+        { "text": "$7.2$ cm", "why": "Used $\\sin 58^{\\circ}$ in place of $\\cos 58^{\\circ}$ in the cosine rule." }
+      ],
+      "solution_text": "Two sides and the included angle, so use the **cosine rule**.\n$x^{2}=9^{2}+13^{2}-2(9)(13)\\cos 58^{\\circ}$\n$x=\\sqrt{250-234\\cos 58^{\\circ}}$\n$=11.2249\\ldots$\n$\\approx 11.2$ cm"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.485,0);\n\\coordinate (R) at (0.961,2.957);\n\\draw (P)--(Q);\n\\draw (Q)--(R) node[midway,above right] {$15$ m};\n\\draw (P)--(R) node[midway,left] {$x$};\n\\pic[draw,\"$72^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=Q--P--R};\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.4] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]\nFind the length $x$, correct to $1$ decimal place.",
+      "structure": "select-sine-side",
+      "mastery": false,
+      "options": [
+        { "text": "$10.1$ m", "correct": true },
+        { "text": "$22.2$ m", "why": "Put the known angle on top: multiplied by $\\sin 72^{\\circ}$ and divided by $\\sin 40^{\\circ}$." },
+        { "text": "$14.6$ m", "why": "Used the third angle $68^{\\circ}$ instead of the $40^{\\circ}$ opposite $x$." }
+      ],
+      "solution_text": "A side ($15$ m) and its opposite angle ($72^{\\circ}$) are a complete pair, so use the **sine rule**.\n$\\dfrac{x}{\\sin 40^{\\circ}}=\\dfrac{15}{\\sin 72^{\\circ}}$\n$x=\\dfrac{15\\sin 40^{\\circ}}{\\sin 72^{\\circ}}$\n$=10.138\\ldots$\n$\\approx 10.1$ m"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (1.429,1.57);\n\\draw (A)--(B) node[midway,below] {$13$};\n\\draw (A)--(C) node[midway,above left] {$6$};\n\\draw (B)--(C) node[midway,above right] {$10$};\n\\pic[draw,\"$\\theta$\",angle radius=0.45cm,angle eccentricity=1.6] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nFind the angle $\\theta$, correct to the nearest degree.",
+      "structure": "select-cosine-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$106^{\\circ}$", "correct": true },
+        { "text": "$74^{\\circ}$", "why": "Dropped the negative sign of $\\cos\\theta$, giving the acute supplement instead of the obtuse angle." },
+        { "text": "$26^{\\circ}$", "why": "Placed the wrong side ($6$) opposite $\\theta$ in the cosine rule instead of the $13$." }
+      ],
+      "solution_text": "All three sides, so use the **cosine rule** for an angle with the side opposite $\\theta$ (the $13$) as $c$.\n$\\cos\\theta=\\dfrac{6^{2}+10^{2}-13^{2}}{2(6)(10)}$\n$\\cos\\theta=\\dfrac{-33}{120}$\n$\\theta=\\cos^{-1}\\left(\\dfrac{-33}{120}\\right)$\n$=105.9\\ldots^{\\circ}$\n$\\approx 106^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (1.363,2.796);\n\\draw (A)--(B);\n\\draw (A)--(C) node[midway,above left] {$8$};\n\\draw (B)--(C) node[midway,above right] {$11$};\n\\pic[draw,\"$64^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=B--A--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.5cm,angle eccentricity=1.5] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]\nFind the acute angle $\\theta$, correct to $1$ decimal place.",
+      "structure": "select-sine-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$40.8^{\\circ}$", "correct": true },
+        { "text": "$139.2^{\\circ}$", "why": "Took the obtuse supplement when the angle is acute." },
+        { "text": "$75.2^{\\circ}$", "why": "Found the third angle rather than the one opposite the $8$ side." }
+      ],
+      "solution_text": "A side ($11$) and its opposite angle ($64^{\\circ}$) are a complete pair, so use the **sine rule** with $\\sin$ on top; $\\theta$ is opposite the $8$.\n$\\dfrac{\\sin\\theta}{8}=\\dfrac{\\sin 64^{\\circ}}{11}$\n$\\sin\\theta=\\dfrac{8\\sin 64^{\\circ}}{11}$\n$\\theta=\\sin^{-1}\\left(\\dfrac{8\\sin 64^{\\circ}}{11}\\right)$\n$=40.8188\\ldots^{\\circ}$\n$\\approx 40.8^{\\circ}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (V) at (0,0);\n\\coordinate (A) at (4.6,0);\n\\coordinate (B) at (1.731,2.215);\n\\draw (V)--(A) node[midway,below] {$18$ cm};\n\\draw (V)--(B) node[midway,above left] {$11$ cm};\n\\draw (A)--(B);\n\\pic[draw,\"$52^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=A--V--B};\n\\end{tikzpicture}\n[/tikz]\nFind the area of the triangle, correct to $1$ decimal place.",
+      "structure": "select-area",
+      "mastery": false,
+      "options": [
+        { "text": "$78.0$ cm$^{2}$", "correct": true },
+        { "text": "$156.0$ cm$^{2}$", "why": "Omitted the factor of $\\tfrac{1}{2}$ in the area rule." },
+        { "text": "$60.9$ cm$^{2}$", "why": "Used $\\cos 52^{\\circ}$ instead of $\\sin 52^{\\circ}$." }
+      ],
+      "solution_text": "Two sides and the included angle, so use the **area rule**.\n$A=\\dfrac{1}{2}ab\\sin C$\n$=\\dfrac{1}{2}(18)(11)\\sin 52^{\\circ}$\n$\\approx 78.0\\text{ cm}^{2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (4.6,0);\n\\coordinate (C) at (1.462,2.869);\n\\draw (B)--(A) node[midway,below] {$20$ cm};\n\\draw (B)--(C) node[midway,above left] {$14$ cm};\n\\draw (A)--(C);\n\\pic[draw,\"$63^{\\circ}$\",angle radius=0.55cm,angle eccentricity=1.4] {angle=A--B--C};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (A) {$A$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nIn triangle $ABC$, $AB=20$ cm, $BC=14$ cm and $\\angle B=63^{\\circ}$. Find $\\angle A$, correct to the nearest degree.",
+      "structure": "chain-cosine-then-sine",
+      "mastery": true,
+      "options": [
+        { "text": "$42^{\\circ}$", "correct": true },
+        { "text": "$75^{\\circ}$", "why": "Found the angle opposite the $20$ side instead of $\\angle A$, which is opposite the $14$ side." },
+        { "text": "$138^{\\circ}$", "why": "Took the obtuse supplement of the correct acute angle." }
+      ],
+      "solution_text": "1. **Select the rule that fits what is given**\nTwo sides and the included angle give $AC$ by the **cosine rule**.\n$AC^{2}=20^{2}+14^{2}-2(20)(14)\\cos 63^{\\circ}$\n$AC=\\sqrt{596-560\\cos 63^{\\circ}}$\n$=18.486\\ldots$ cm\n2. **Apply a second rule to reach the required value**\nThe **sine rule** gives $\\angle A$, opposite $BC=14$.\n$\\dfrac{\\sin A}{14}=\\dfrac{\\sin 63^{\\circ}}{18.486\\ldots}$\n$A=\\sin^{-1}\\left(\\dfrac{14\\sin 63^{\\circ}}{18.486\\ldots}\\right)$\n$\\approx 42^{\\circ}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (1.6,1.836);\n\\draw (A)--(B) node[midway,below] {$17$ cm};\n\\draw (A)--(C) node[midway,above left] {$9$ cm};\n\\draw (B)--(C) node[midway,above right] {$13$ cm};\n\\end{tikzpicture}\n[/tikz]\nFind the area of the triangle, correct to $1$ decimal place.",
+      "structure": "chain-cosine-angle-then-area",
+      "mastery": true,
+      "options": [
+        { "text": "$57.7$ cm$^{2}$", "correct": true },
+        { "text": "$115.4$ cm$^{2}$", "why": "Omitted the $\\tfrac{1}{2}$ factor when applying the area rule." },
+        { "text": "$75.4$ cm$^{2}$", "why": "Multiplied the wrong pair of sides — the found angle sits between the $9$ and $13$ sides, not the $9$ and $17$." }
+      ],
+      "solution_text": "1. **Select the rule that fits what is given**\nThe area rule needs an angle. With three sides, find $\\angle C$ (between the $9$ and $13$ sides, opposite the $17$) by the **cosine rule**.\n$\\cos C=\\dfrac{9^{2}+13^{2}-17^{2}}{2(9)(13)}$\n$C=\\cos^{-1}\\left(\\dfrac{-39}{234}\\right)=99.594\\ldots^{\\circ}$\n2. **Apply a second rule to reach the required value**\n$A=\\dfrac{1}{2}(9)(13)\\sin 99.594\\ldots^{\\circ}$\n$\\approx 57.7\\text{ cm}^{2}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.239,0);\n\\coordinate (C) at (2.957,3.524);\n\\draw (A)--(B) node[midway,below] {$45$ m};\n\\draw (A)--(C);\n\\draw (B)--(C);\n\\pic[draw,\"$50^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.4] {angle=B--A--C};\n\\pic[draw,\"$70^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.4] {angle=C--B--A};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nIn triangle $ABC$, $AB=45$ m, $\\angle A=50^{\\circ}$ and $\\angle B=70^{\\circ}$. Find the area of the triangle, correct to the nearest square metre.",
+      "structure": "chain-sine-then-area",
+      "mastery": true,
+      "options": [
+        { "text": "$842$ m$^{2}$", "correct": true },
+        { "text": "$1683$ m$^{2}$", "why": "Omitted the $\\tfrac{1}{2}$ factor in the area rule." },
+        { "text": "$1033$ m$^{2}$", "why": "Used $70^{\\circ}$ as the included angle instead of the $50^{\\circ}$ between the two known sides at $A$." }
+      ],
+      "solution_text": "1. **Select the rule that fits what is given**\nThe area rule needs two sides and their included angle; only $AB$ is known. $\\angle C=180^{\\circ}-50^{\\circ}-70^{\\circ}=60^{\\circ}$, and $AC$ (opposite $\\angle B$) comes from the **sine rule**.\n$AC=\\dfrac{45\\sin 70^{\\circ}}{\\sin 60^{\\circ}}=48.83\\ldots\\text{ m}$\n2. **Apply a second rule to reach the required value**\nSides $AB=45$ and $AC=48.83\\ldots$ meet at $\\angle A=50^{\\circ}$.\n$A=\\dfrac{1}{2}(45)(48.83\\ldots)\\sin 50^{\\circ}$\n$\\approx 842\\text{ m}^{2}$"
+    },
+    {
+      "id": "q10",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.13,1.491);\n\\coordinate (R) at (4.428,-1.247);\n\\draw[->,dashed] (P)--(0,1.3) node[above] {$N$};\n\\draw[->,dashed] (Q)--($(Q)+(0,1.3)$) node[above] {$N$};\n\\draw (P)--(Q) node[midway,above left] {$80$ km};\n\\draw (Q)--(R) node[midway,above right] {$110$ km};\n\\draw[dashed] (P)--(R);\n\\draw ($(P)+(90:0.8)$) arc(90:35:0.8);\n\\node at ($(P)+(62:1.15)$) {$055^{\\circ}\\text{T}$};\n\\draw ($(Q)+(90:0.85)$) arc(90:-50:0.85);\n\\node at ($(Q)+(20:1.2)$) {$140^{\\circ}\\text{T}$};\n\\node[below left] at (P) {$P$};\n\\node[right] at (R) {$R$};\n\\node[above right] at (Q) {$Q$};\n\\end{tikzpicture}\n[/tikz]\nA ship sails $80$ km from $P$ to $Q$ on a bearing of $055^{\\circ}\\text{T}$, then $110$ km from $Q$ to $R$ on a bearing of $140^{\\circ}\\text{T}$. Find the distance $PR$, correct to the nearest kilometre.",
+      "structure": "bearing-cosine-distance",
+      "mastery": false,
+      "options": [
+        { "text": "$142$ km", "correct": true },
+        { "text": "$130$ km", "why": "Subtracted the bearings ($140^{\\circ}-55^{\\circ}$) instead of using the back bearing to get the $95^{\\circ}$ included angle." },
+        { "text": "$136$ km", "why": "Used Pythagoras, ignoring the included angle altogether." }
+      ],
+      "solution_text": "1. **Select the rule that fits what is given**\nBack bearing of $P$ from $Q$ is $055^{\\circ}+180^{\\circ}=235^{\\circ}$, and $R$ is on $140^{\\circ}$:\n$\\angle PQR=235^{\\circ}-140^{\\circ}=95^{\\circ}$.\n2. **Apply the rule to find the first unknown**\n$PR^{2}=80^{2}+110^{2}-2(80)(110)\\cos 95^{\\circ}$\n$PR=\\sqrt{18500-17600\\cos 95^{\\circ}}$\n$=141.54\\ldots$\n$\\approx 142$ km"
+    },
+    {
+      "id": "q11",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (1.756,2.093);\n\\coordinate (B) at (3.233,-2.264);\n\\draw[->,dashed] (O)--(0,1.5) node[above] {$N$};\n\\draw (O)--(A) node[midway,above left] {$18$ km};\n\\draw (O)--(B) node[midway,below right] {$26$ km};\n\\draw (A)--(B);\n\\draw ($(O)+(90:0.75)$) arc(90:50:0.75);\n\\node at ($(O)+(70:1.0)$) {$040^{\\circ}\\text{T}$};\n\\draw ($(O)+(90:1.2)$) arc(90:-35:1.2);\n\\node at ($(O)+(28:1.55)$) {$125^{\\circ}\\text{T}$};\n\\node[left] at (O) {$O$};\n\\node[above] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\end{tikzpicture}\n[/tikz]\nFrom a base $O$, a beacon $A$ is $18$ km away on a bearing of $040^{\\circ}\\text{T}$ and a buoy $B$ is $26$ km away on a bearing of $125^{\\circ}\\text{T}$. Find the area of triangle $OAB$, correct to $1$ decimal place.",
+      "structure": "bearing-area",
+      "mastery": false,
+      "options": [
+        { "text": "$233.1$ km$^{2}$", "correct": true },
+        { "text": "$466.2$ km$^{2}$", "why": "Omitted the $\\tfrac{1}{2}$ factor in the area rule." },
+        { "text": "$20.4$ km$^{2}$", "why": "Used $\\cos 85^{\\circ}$ instead of $\\sin 85^{\\circ}$ in the area rule." }
+      ],
+      "solution_text": "1. **Select the rule that fits what is given**\nBoth bearings are from $O$, so the included angle is\n$\\angle AOB=125^{\\circ}-40^{\\circ}=85^{\\circ}$.\n2. **Apply the rule to find the first unknown**\n$A=\\dfrac{1}{2}(18)(26)\\sin 85^{\\circ}$\n$\\approx 233.1\\text{ km}^{2}$"
+    },
+    {
+      "id": "q12",
+      "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.477,1.761);\n\\coordinate (C) at (4.596,-0.188);\n\\draw[->,dashed] (A)--(0,1.3) node[above] {$N$};\n\\draw[->,dashed] (B)--($(B)+(0,1.3)$) node[above] {$N$};\n\\draw (A)--(B) node[midway,above left] {$55$ km};\n\\draw (B)--(C) node[midway,above right] {$88$ km};\n\\draw[dashed] (A)--(C);\n\\draw ($(A)+(90:0.8)$) arc(90:50:0.8);\n\\node at ($(A)+(70:1.15)$) {$040^{\\circ}\\text{T}$};\n\\draw ($(B)+(90:0.85)$) arc(90:-32:0.85);\n\\node at ($(B)+(29:1.2)$) {$122^{\\circ}\\text{T}$};\n\\node[below left] at (A) {$A$};\n\\node[right] at (C) {$C$};\n\\node[above right] at (B) {$B$};\n\\end{tikzpicture}\n[/tikz]\nA ship sails $55$ km from $A$ to $B$ on a bearing of $040^{\\circ}\\text{T}$, then $88$ km from $B$ to $C$ on a bearing of $122^{\\circ}\\text{T}$. Given $AC\\approx 110$ km and $\\angle ACB\\approx 29.7^{\\circ}$, find the bearing of $A$ from $C$, correct to the nearest degree.",
+      "structure": "bearing-return-bearing",
+      "mastery": true,
+      "options": [
+        { "text": "$272^{\\circ}\\text{T}$", "correct": true },
+        { "text": "$332^{\\circ}\\text{T}$", "why": "Added $\\angle ACB$ to the bearing of $B$ from $C$ instead of subtracting it." },
+        { "text": "$092^{\\circ}\\text{T}$", "why": "Used the forward bearing $122^{\\circ}$ instead of its back bearing $302^{\\circ}$." }
+      ],
+      "solution_text": "The bearing of $B$ from $C$ is the back bearing of $122^{\\circ}$: $122^{\\circ}+180^{\\circ}=302^{\\circ}$.\n$A$ lies $\\angle ACB\\approx 29.7^{\\circ}$ anticlockwise of $CB$, so the bearing of $A$ from $C$ is\n$302^{\\circ}-29.7^{\\circ}$\n$\\approx 272^{\\circ}\\text{T}$"
+    }
+  ]
+}

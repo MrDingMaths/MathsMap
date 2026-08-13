@@ -1,0 +1,107 @@
+{
+  "skillId": "graph-log-functions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Is the logarithmic curve $y=\\log_{10}x$ increasing or decreasing?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0001:8.9,samples=100] {ln(x)/ln(10)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "log-nature-from-base",
+      "mastery": false,
+      "options": [
+        { "text": "Increasing", "correct": true },
+        { "text": "Decreasing", "why": "Assumed every logarithmic curve falls, ignoring that base $10>1$ rises." },
+        { "text": "Constant", "why": "Treated the logarithmic curve as a horizontal line." }
+      ],
+      "solution_text": "The base is $10$, which is greater than $1$.\nSo the curve is increasing."
+    },
+    {
+      "id": "q2",
+      "question_text": "What is the equation of the vertical asymptote of $y=\\log_{4}x$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0039:8.9,samples=100] {ln(x)/ln(4)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "vertical-asymptote",
+      "mastery": false,
+      "options": [
+        { "text": "$x=0$", "correct": true },
+        { "text": "$y=0$", "why": "Gave the exponential partner's horizontal asymptote $y=0$." },
+        { "text": "$x=1$", "why": "Confused the asymptote with the $x$-intercept at $x=1$." },
+        { "text": "$y=1$", "why": "Confused it with the exponential partner's $y$-intercept height." }
+      ],
+      "solution_text": "The input of a logarithm must be positive, so the curve approaches the $y$-axis but never reaches it.\nThe vertical asymptote is $x=0$."
+    },
+    {
+      "id": "q3",
+      "question_text": "At what point does $y=\\log_{6}x$ cross the $x$-axis?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.00077:8.9,samples=100] {ln(x)/ln(6)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "x-intercept-log",
+      "mastery": false,
+      "options": [
+        { "text": "$(1,0)$", "correct": true },
+        { "text": "$(0,1)$", "why": "Swapped to the exponential partner's $y$-intercept $(0,1)$." },
+        { "text": "$(0,0)$", "why": "Assumed the curve passes through the origin." },
+        { "text": "$(6,1)$", "why": "Used the base as a coordinate instead of $\\log_{6}1=0$." }
+      ],
+      "solution_text": "$\\log_{6}1=0$, so the curve passes through $(1,0)$.\nThe $x$-intercept is $(1,0)$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The curves $y=a^{x}$ and $y=\\log_{a}x$ are reflections of each other. In which line?",
+      "structure": "mirror-line",
+      "mastery": false,
+      "options": [
+        { "text": "$y=x$", "correct": true },
+        { "text": "$y=0$", "why": "Chose the $x$-axis instead of the diagonal line $y=x$." },
+        { "text": "$x=0$", "why": "Chose the $y$-axis instead of the diagonal line $y=x$." },
+        { "text": "$y=-x$", "why": "Chose the opposite diagonal, which reflects to a different curve." }
+      ],
+      "solution_text": "An exponential and its logarithm are inverses.\nThey are reflections of each other in the line $y=x$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The point $(0,1)$ lies on $y=7^{x}$. What is the corresponding point on $y=\\log_{7}x$?",
+      "structure": "reflected-point",
+      "mastery": false,
+      "options": [
+        { "text": "$(1,0)$", "correct": true },
+        { "text": "$(0,1)$", "why": "Left the coordinates unswapped when reflecting in $y=x$." },
+        { "text": "$(0,-1)$", "why": "Negated a coordinate instead of swapping the pair." },
+        { "text": "$(-1,0)$", "why": "Negated the swapped coordinate instead of just swapping." }
+      ],
+      "solution_text": "Reflecting in $y=x$ swaps the coordinates.\n$(0,1)\\to(1,0)$\nThe corresponding point is $(1,0)$."
+    },
+    {
+      "id": "q6",
+      "question_text": "The diagram shows three curves. Which curve is $y=\\log_{3}x$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=8,ymin=-4,ymax=8,xtick={-4,-2,2,4,6,8},ytick={-4,-2,2,4,6,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,red!70!black,dashdotted,<->,domain=0.0123:7.9,samples=100] {ln(x)/ln(3)};\n\\node[red!70!black] at (axis cs:7,2.4) {$A$};\n\\addplot[thick,blue!70!black,<->,domain=-3.5:1.9,samples=100] {exp(x*ln(3))};\n\\node[blue!70!black] at (axis cs:2.3,6.8) {$B$};\n\\addplot[thick,green!50!black,densely dashed,<->,domain=0.0123:7.9,samples=100] {ln(x)/ln(0.3333)};\n\\node[green!50!black] at (axis cs:7,-2.4) {$C$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "which-graph-is-log",
+      "mastery": false,
+      "options": [
+        { "text": "$A$", "correct": true },
+        { "text": "$B$", "why": "Chose the exponential $y=3^{x}$, reading the reflection backwards." },
+        { "text": "$C$", "why": "Chose the decreasing curve $y=\\log_{1/3}x$, the wrong base regime." }
+      ],
+      "solution_text": "Curve $A$ passes through $(1,0)$, rises (base $3>1$), and has a vertical asymptote at the $y$-axis.\nSo $A$ is $y=\\log_{3}x$. ($B$ is $y=3^{x}$; $C$ is the decreasing $y=\\log_{1/3}x$.)"
+    },
+    {
+      "id": "q7",
+      "question_text": "Which function does this graph show?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0625:8.9,samples=100] {ln(x)/ln(0.5)};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-function-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$y=\\log_{0.5}x$", "correct": true },
+        { "text": "$y=\\log_{2}x$", "why": "Ignored that the curve falls, so the base must be under $1$." },
+        { "text": "$y=2^{x}$", "why": "Named an exponential, but this curve has a vertical asymptote, not a horizontal one." },
+        { "text": "$y=\\left(\\tfrac{1}{2}\\right)^{x}$", "why": "Named a decaying exponential, which has a horizontal asymptote instead." }
+      ],
+      "solution_text": "The curve passes through $(1,0)$ with a vertical asymptote at the $y$-axis, so it is a logarithm.\nIt falls, so the base is between $0$ and $1$: $y=\\log_{0.5}x$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A logarithmic curve $y=\\log_{a}x$ passes through $(1,0)$ and $(9,2)$. What is the base $a$?\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=10,ymin=-4,ymax=4,xtick={2,4,6,8},ytick={-4,-2,2,4},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=0.0123:9.5,samples=100] {ln(x)/ln(3)};\n\\addplot[only marks,mark=*,mark size=2pt] coordinates {(1,0) (9,2)};\n\\node[below right,fill=white,inner sep=1pt] at (axis cs:1,0) {$(1,0)$};\n\\node[above left,fill=white,inner sep=1pt] at (axis cs:9,2) {$(9,2)$};\n\\end{axis}\\end{tikzpicture}\n[/tikz]",
+      "structure": "base-from-two-points",
+      "mastery": true,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$9$", "why": "Used the input $9$ as the base instead of solving $a^{2}=9$." },
+        { "text": "$4.5$", "why": "Divided the input $9$ by the $y$-value $2$." },
+        { "text": "$81$", "why": "Computed $9^{2}$ instead of $\\sqrt{9}$." }
+      ],
+      "solution_text": "The curve passes through $(9,2)$, so $\\log_{a}9=2$.\n$a^{2}=9$\n$a=3$"
+    }
+  ]
+}

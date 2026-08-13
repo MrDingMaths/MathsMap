@@ -1,0 +1,122 @@
+{
+  "skillId": "polynomial-roots-multiplicity",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "State the roots of $P(x)=(x+6)^{2}(x-3)$ and their multiplicities.",
+      "structure": "classify-multiplicity",
+      "mastery": false,
+      "options": [
+        { "text": "$x=-6$ (double), $x=3$ (single)", "correct": true },
+        { "text": "$x=6$ (double), $x=-3$ (single)", "why": "Read each root with the opposite sign — the factor $(x+6)$ is zero at $x=-6$." },
+        { "text": "$x=-6$ (single), $x=3$ (double)", "why": "Attached the square to the wrong factor; the power $2$ sits on $(x+6)$, not $(x-3)$." },
+        { "text": "$x=-6$ (double), $x=3$ (double)", "why": "Treated both factors as squared; $(x-3)$ has power $1$, so $x=3$ is a single root." }
+      ],
+      "solution_text": "$x=-6$, double root (the factor is squared)\n$x=3$, single root"
+    },
+    {
+      "id": "q2",
+      "question_text": "Does the graph of $y=(x+2)^{3}(x-7)$ cut, bounce or inflect at $x=-2$?",
+      "structure": "behaviour-at-root",
+      "mastery": false,
+      "options": [
+        { "text": "It inflects along the axis", "correct": true },
+        { "text": "It bounces off the axis", "why": "A bounce needs an even power; the power here is $3$, which crosses with a flattening, not a touch." },
+        { "text": "It cuts straight through like a line", "why": "A straight cut belongs to a single root; the cubed factor flattens the curve as it crosses." },
+        { "text": "It has a vertical asymptote", "why": "Polynomials never have asymptotes; a repeated factor changes the shape at the intercept, not the domain." }
+      ],
+      "solution_text": "The factor $(x+2)$ has power $3$, so $x=-2$ is a triple root.\nThe curve **inflects** along the axis at $x=-2$, like a cubic."
+    },
+    {
+      "id": "q3",
+      "question_text": "Which is the monic polynomial with a double root at $x=5$ and a single root at $x=-1$?",
+      "structure": "monic-from-roots",
+      "mastery": false,
+      "options": [
+        { "text": "$P(x)=(x-5)^{2}(x+1)$", "correct": true },
+        { "text": "$P(x)=(x+5)^{2}(x-1)$", "why": "Kept the sign of each root inside its bracket; a root at $x=5$ needs the factor $(x-5)$." },
+        { "text": "$P(x)=(x-5)(x+1)^{2}$", "why": "Attached the square to the wrong root; the double root is at $x=5$, not $x=-1$." },
+        { "text": "$P(x)=(x-5)(x+1)$", "why": "Ignored the multiplicity — a double root needs its factor squared." }
+      ],
+      "solution_text": "A double root at $x=5$ needs $(x-5)^{2}$; a single root at $x=-1$ needs $(x+1)$.\n$P(x)=(x-5)^{2}(x+1)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A polynomial has degree $6$ and a negative leading coefficient. Which way do the two ends of its graph point?",
+      "structure": "end-behaviour-degree",
+      "mastery": false,
+      "options": [
+        { "text": "Both ends point down", "correct": true },
+        { "text": "Both ends point up", "why": "Ignored the negative leading coefficient, which reflects both arms downward." },
+        { "text": "Left end up, right end down", "why": "Opposite-direction ends belong to an odd degree; degree $6$ is even, so the ends match." },
+        { "text": "Left end down, right end up", "why": "Opposite-direction ends belong to an odd degree with a positive leading term; this degree is even." }
+      ],
+      "solution_text": "The degree $6$ is even, so both ends point the same way.\nThe leading coefficient is negative, so as $x\\to\\pm\\infty$, $y\\to-\\infty$: **both ends point down**."
+    },
+    {
+      "id": "q5",
+      "question_text": "Which sketch shows $y=(x+3)^{2}(x-2)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{scope}[shift={(0,0)},scale=0.6]\n\\draw[->] (-5.6,0)--(3.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-4.72:2.63,smooth,variable=\\x] plot ({\\x},{0.10*(\\x+3)*(\\x+3)*(\\x-2)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (2,-0.15) {$2$};\n\\node at (-5,2.1) {$A$};\n\\end{scope}\n\\begin{scope}[shift={(7.5,0)},scale=0.6]\n\\draw[->] (-4.6,0)--(4.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-3.63:3.72,smooth,variable=\\x] plot ({\\x},{0.10*(\\x+3)*(\\x-2)*(\\x-2)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (2,-0.15) {$2$};\n\\node at (-4,2.1) {$B$};\n\\end{scope}\n\\begin{scope}[shift={(0,-4.2)},scale=0.6]\n\\draw[->] (-5.6,0)--(3.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-4.72:2.63,smooth,variable=\\x] plot ({\\x},{-0.10*(\\x+3)*(\\x+3)*(\\x-2)});\n\\node[below,font=\\scriptsize] at (-3,-0.15) {$-3$};\n\\node[below,font=\\scriptsize] at (2,-0.15) {$2$};\n\\node at (-5,2.1) {$C$};\n\\end{scope}\n\\begin{scope}[shift={(7.5,-4.2)},scale=0.6]\n\\draw[->] (-3.6,0)--(5.6,0);\n\\draw[->] (0,-2.6)--(0,2.6);\n\\draw[thick,blue,<->,domain=-2.63:4.72,smooth,variable=\\x] plot ({\\x},{0.10*(\\x-3)*(\\x-3)*(\\x+2)});\n\\node[below,font=\\scriptsize] at (-2,-0.15) {$-2$};\n\\node[below,font=\\scriptsize] at (3,-0.15) {$3$};\n\\node at (-3,2.1) {$D$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-sketch-multiplicity",
+      "mastery": false,
+      "options": [
+        { "text": "$A$", "correct": true },
+        { "text": "$B$", "why": "The bounce is drawn at $2$ and the cut at $-3$ — the square sits on $(x+3)$, so the bounce belongs at $x=-3$." },
+        { "text": "$C$", "why": "This curve falls to the right, which needs a negative leading term; the leading term here is $x^{3}$." },
+        { "text": "$D$", "why": "Both roots were read with the opposite sign — this curve bounces at $3$ and cuts at $-2$." }
+      ],
+      "solution_text": "Roots: $x=-3$ (double, so the curve bounces) and $x=2$ (single, so the curve cuts).\nLeading term $x^{3}$ rises to the right.\nSketch $A$."
+    },
+    {
+      "id": "q6",
+      "question_text": "How does the graph of $y=P(-x)$ compare with the graph of $y=P(x)$?",
+      "structure": "reflect-compare",
+      "mastery": false,
+      "options": [
+        { "text": "It is reflected in the $y$-axis", "correct": true },
+        { "text": "It is reflected in the $x$-axis", "why": "That is the effect of $y=-P(x)$; replacing the input $x$ by $-x$ flips left-right, not up-down." },
+        { "text": "It is shifted left", "why": "Replacing $x$ by $-x$ reflects the graph; a shift needs a term like $P(x-b)$ inside the function." },
+        { "text": "It is unchanged", "why": "Only graphs symmetric in the $y$-axis are unchanged; in general each intercept $x=a$ moves to $x=-a$." }
+      ],
+      "solution_text": "Each input $x$ is replaced by $-x$, so the graph of $y=P(-x)$ is $y=P(x)$ **reflected in the $y$-axis**."
+    },
+    {
+      "id": "q7",
+      "question_text": "How does the graph of $y=4P(x)$ compare with the graph of $y=P(x)$?",
+      "structure": "scale-compare",
+      "mastery": false,
+      "options": [
+        { "text": "It is stretched vertically (narrower and steeper), with the same $x$-intercepts", "correct": true },
+        { "text": "It is shifted up $4$ units", "why": "That is the effect of $y=P(x)+4$; multiplying by $4$ scales every $y$-value instead of adding to it." },
+        { "text": "Its $x$-intercepts move $4$ times further from the origin", "why": "The $x$-intercepts satisfy $4P(x)=0$, which happens exactly where $P(x)=0$, so they do not move." },
+        { "text": "It is reflected in the $x$-axis", "why": "A reflection needs a negative multiplier; $4$ is positive, so the graph keeps its direction." }
+      ],
+      "solution_text": "Every $y$-value is multiplied by $4$: since $|4|>1$ the graph becomes narrower (steeper).\nThe $x$-intercepts do not move, because $4P(x)=0$ exactly where $P(x)=0$."
+    },
+    {
+      "id": "q8",
+      "question_text": "By factorising $y=x^{3}+8x^{2}+16x$, decide what the graph does at $x=-4$.",
+      "structure": "factorise-first-multiplicity",
+      "mastery": false,
+      "options": [
+        { "text": "It bounces off the axis", "correct": true },
+        { "text": "It cuts straight through the axis", "why": "The factorisation is $x(x+4)^{2}$ — the squared factor makes $x=-4$ a double root, which touches, not crosses." },
+        { "text": "It inflects along the axis", "why": "An inflection needs a cubed factor; $(x+4)$ appears squared, so the curve bounces instead." },
+        { "text": "Nothing — the graph does not meet $x=-4$", "why": "Setting $x(x+4)^{2}=0$ gives $x=-4$ as a root, so the graph does meet the axis there." }
+      ],
+      "solution_text": "$y=x^{3}+8x^{2}+16x$\n$=x(x^{2}+8x+16)$\n$=x(x+4)^{2}$\n$x=-4$ is a double root, so the curve **bounces** off the axis there."
+    },
+    {
+      "id": "q9",
+      "question_text": "A degree-$4$ polynomial has a triple root at $x=4$, a single root at $x=-3$, and a negative leading coefficient. Describe its behaviour as $x\\to-\\infty$.",
+      "structure": "end-behaviour-degree",
+      "mastery": true,
+      "options": [
+        { "text": "$y\\to-\\infty$", "correct": true },
+        { "text": "$y\\to\\infty$", "why": "Treated the degree as odd; the multiplicities $3+1$ give degree $4$, so both ends point the same way — down." },
+        { "text": "$y\\to0$", "why": "Confused polynomial end behaviour with an asymptote; a polynomial's arms never level off." },
+        { "text": "It cannot be determined", "why": "The degree ($3+1=4$, even) and the negative leading coefficient fix both ends of the graph." }
+      ],
+      "solution_text": "Degree $=3+1=4$, which is even, so both ends point the same way.\nThe leading coefficient is negative, so both ends point down.\nAs $x\\to-\\infty$, $y\\to-\\infty$."
+    }
+  ]
+}

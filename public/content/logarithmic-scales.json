@@ -1,0 +1,94 @@
+{
+  "skillId": "logarithmic-scales",
+  "atomType": "Com",
+  "theory": {
+    "intro": "A **logarithmic scale** measures a quantity by its *order of magnitude*: each whole step up the scale means the quantity is **ten times** larger, so a handful of small numbers can describe an enormous range. Real scales built this way include the **Richter scale** for earthquakes, **pH** for acidity, and **decibels** for sound.",
+    "facts": [
+      "**Richter scale:** $M=\\log_{10}A$, where $M$ is the magnitude and $A$ the amplitude of ground movement. Reversing it gives $A=10^{M}$.",
+      "**pH scale:** $pH=-\\log_{10}M$, where $M$ is the hydrogen-ion concentration in mol/L. The **minus sign** means a *higher* concentration gives a *lower* pH; reversing it gives $M=10^{-pH}$.",
+      "**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$, where $S$ is the loudness in decibels and $\\dfrac{I}{I_{0}}$ is how many times the intensity exceeds the hearing threshold; reversing it gives $\\dfrac{I}{I_{0}}=10^{S/10}$.",
+      "Because each step is a **multiply by ten**, a difference of $k$ whole magnitudes means one quantity is $10^{k}$ times the other, **not** $k$ times. A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
+    ],
+    "steps": [
+      "Substitute the known value into the scale's formula.",
+      "Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
+      "To compare two readings, subtract the magnitudes and raise ten to that difference."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "An earthquake has amplitude $A=10^{4}$. Using the Richter formula $M=\\log_{10}A$, find its magnitude $M$.",
+        "solution_text": "$M=\\log_{10}A$\n$=\\log_{10}10^{4}$\n$=4$"
+      },
+      {
+        "question_text": "An earthquake has amplitude $A=1000$. Find its Richter magnitude using $M=\\log_{10}A$.",
+        "solution_text": "$M=\\log_{10}A$\n$=\\log_{10}1000$\n$=\\log_{10}10^{3}$\n$=3$"
+      },
+      {
+        "question_text": "A solution has hydrogen-ion concentration $M=10^{-3}$ mol/L. Using $pH=-\\log_{10}M$, find its pH.",
+        "solution_text": "$pH=-\\log_{10}M$\n$=-\\log_{10}10^{-3}$\n$=-(-3)$\n$=3$"
+      },
+      {
+        "question_text": "A solution has hydrogen-ion concentration $M=10^{-5}$ mol/L. Find its pH using $pH=-\\log_{10}M$.",
+        "solution_text": "$pH=-\\log_{10}M$\n$=-\\log_{10}10^{-5}$\n$=-(-5)$\n$=5$"
+      },
+      {
+        "question_text": "A sound is $10^{6}$ times as intense as the threshold of hearing. Using $S=10\\log_{10}\\dfrac{I}{I_{0}}$ with $\\dfrac{I}{I_{0}}=10^{6}$, find its loudness $S$ in decibels.",
+        "solution_text": "$S=10\\log_{10}\\dfrac{I}{I_{0}}$\n$=10\\log_{10}10^{6}$\n$=10\\times6$\n$=60$ dB"
+      },
+      {
+        "question_text": "On a base-$10$ logarithmic scale, a quantity has magnitude $4$. Each whole step means ten times as much. What is the actual value of the quantity?",
+        "solution_text": "value $=10^{4}$\n$=10\\,000$"
+      },
+      {
+        "question_text": "One earthquake has Richter magnitude $5$ and another has magnitude $3$. On the Richter scale each whole step is ten times the amplitude. How many times greater is the amplitude of the magnitude-$5$ earthquake?",
+        "solution_text": "$A=10^{M}$\n$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{5}}{10^{3}}$\n$=10^{2}$\n$=100$\nSo the amplitude is $100$ times greater."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "An earthquake has Richter magnitude $M=6$. Rearrange $M=\\log_{10}A$ to make $A$ the subject, then find the amplitude $A$.",
+        "solution_text": "$M=\\log_{10}A$\n$A=10^{M}$\n$=10^{6}$\n$=1\\,000\\,000$"
+      },
+      {
+        "question_text": "A solution has $pH=2$. Rearrange $pH=-\\log_{10}M$ to make $M$ the subject, then find the hydrogen-ion concentration $M$.",
+        "solution_text": "$pH=-\\log_{10}M$\n$M=10^{-pH}$\n$=10^{-2}$\n$=0.01$ mol/L"
+      },
+      {
+        "question_text": "How many times more intense is a sound of $80$ dB than a sound of $50$ dB? Use $\\dfrac{I}{I_{0}}=10^{S/10}$.",
+        "solution_text": "For $80$ dB: $\\dfrac{I}{I_{0}}=10^{80/10}=10^{8}$.\nFor $50$ dB: $\\dfrac{I}{I_{0}}=10^{50/10}=10^{5}$.\n$\\dfrac{10^{8}}{10^{5}}=10^{3}$\n$=1000$\nSo it is $1000$ times more intense."
+      },
+      {
+        "question_text": "How many times greater is the amplitude of a magnitude-$7$ earthquake than a magnitude-$4$ earthquake? Use $A=10^{M}$.",
+        "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{7}}{10^{4}}$\n$=10^{3}$\n$=1000$\nSo the amplitude is $1000$ times greater."
+      },
+      {
+        "question_text": "The column graph shows the Richter magnitude of five earthquakes recorded in 2022. How many times greater was the ground amplitude at Chile than at Fiji?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (0,0)--(0,9.4);\n\\draw[->] (0,0)--(13.5,0);\n\\foreach \\y in {1,2,3,4,5,6,7,8} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.8,0) rectangle (2.3,7);\n\\draw (3.1,0) rectangle (4.6,5);\n\\draw (5.4,0) rectangle (6.9,6);\n\\draw (7.7,0) rectangle (9.2,3);\n\\draw (10.0,0) rectangle (11.5,4);\n\\node[below,font=\\scriptsize] at (1.55,0) {Chile};\n\\node[below,font=\\scriptsize] at (3.85,0) {Nepal};\n\\node[below,font=\\scriptsize] at (6.15,0) {Peru};\n\\node[below,font=\\scriptsize] at (8.45,0) {Fiji};\n\\node[below,font=\\scriptsize] at (10.75,0) {Crete};\n\\node[rotate=90] at (-1.4,4.5) {Magnitude};\n\\node[below] at (6.15,-1.0) {Earthquake};\n\\node at (6.15,9.1) {Richter magnitudes};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "From the graph, Chile has magnitude $7$ and Fiji has magnitude $3$.\n$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{7}}{10^{3}}$\n$=10^{4}$\n$=10\\,000$\nSo the amplitude was $10\\,000$ times greater."
+      },
+      {
+        "question_text": "Solution A has $pH=4$ and solution B has $pH=8$. How many times greater is the hydrogen-ion concentration in solution A? Use $M=10^{-pH}$.",
+        "solution_text": "For A: $M=10^{-4}$.\nFor B: $M=10^{-8}$.\n$\\dfrac{10^{-4}}{10^{-8}}=10^{4}$\n$=10\\,000$\nSo solution A is $10\\,000$ times more concentrated."
+      },
+      {
+        "question_text": "On a base-$10$ logarithmic scale, the volume of Lake Victoria has magnitude $8$ and Lake Anne has magnitude $5$. Lake Anne holds $500\\,000$ ML of water. How much water does Lake Victoria hold?",
+        "solution_text": "Each whole step is ten times as much, and the magnitudes differ by $8-5=3$.\nSo Lake Victoria holds $10^{3}=1000$ times as much.\n$500\\,000\\times1000=500\\,000\\,000$ ML"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A magnitude-$8.6$ earthquake struck offshore, while an inland tremor measured $3.2$. How many times greater was the ground amplitude of the larger quake? Give your answer to the nearest whole number.",
+        "solution_text": "$\\dfrac{A_{1}}{A_{2}}=\\dfrac{10^{8.6}}{10^{3.2}}$\n$=10^{8.6-3.2}$\n$=10^{5.4}$\n$\\approx251\\,189$\nSo the amplitude was about $251\\,189$ times greater."
+      },
+      {
+        "question_text": "A jet engine measures $140$ dB and a motorcycle measures $80$ dB. How many times more intense is the sound of the jet engine? Use $\\dfrac{I}{I_{0}}=10^{S/10}$.",
+        "solution_text": "Jet: $\\dfrac{I}{I_{0}}=10^{140/10}=10^{14}$.\nMotorcycle: $\\dfrac{I}{I_{0}}=10^{80/10}=10^{8}$.\n$\\dfrac{10^{14}}{10^{8}}=10^{6}$\n$=1\\,000\\,000$\nSo the jet is $1\\,000\\,000$ times more intense."
+      },
+      {
+        "question_text": "Solution X has $pH=3$ and solution Y has $pH=6$. Remembering the minus sign in $pH=-\\log_{10}M$, how many times greater is the hydrogen-ion concentration in solution X?",
+        "solution_text": "$M=10^{-pH}$\nFor X: $M=10^{-3}$.\nFor Y: $M=10^{-6}$.\n$\\dfrac{10^{-3}}{10^{-6}}=10^{3}$\n$=1000$\nThe lower pH means the higher concentration, so solution X is $1000$ times more concentrated."
+      }
+    ]
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "skillId": "prove-congruent-triangles",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which test proves that $\\Delta ABD \\equiv \\Delta CDB$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tickmark2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (3.6,2);\n\\coordinate (C) at (4.3,0);\n\\coordinate (D) at (0.7,0);\n\\draw[tickmark2] (A) -- (B);\n\\draw[tickmark] (B) -- (C);\n\\draw[tickmark2] (D) -- (C);\n\\draw[tickmark] (A) -- (D);\n\\draw (B) -- (D);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-test-common-side",
+      "mastery": false,
+      "options": [
+        { "text": "SSS", "correct": true },
+        { "text": "SAS", "why": "SAS needs a marked equal angle between two sides, but the diagram marks three pairs of sides." },
+        { "text": "AAS", "why": "AAS needs two pairs of equal angles, and no angles are marked equal here." },
+        { "text": "SSA", "why": "SSA is not one of the four valid congruence tests." }
+      ],
+      "solution_text": "$AB = CD$ (given), $AD = CB$ (given) and $BD$ is common: three pairs of sides.\n$\\therefore \\Delta ABD \\equiv \\Delta CDB$ (SSS)"
+    },
+    {
+      "id": "q2",
+      "question_text": "$AC = EC$ and $BC = DC$. Which test proves that $\\Delta ABC \\equiv \\Delta EDC$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tickmark2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (C) at (0,0);\n\\coordinate (A) at (-2.4,0.7);\n\\coordinate (E) at (2.4,-0.7);\n\\coordinate (B) at (-1.8,-1.3);\n\\coordinate (D) at (1.8,1.3);\n\\draw[tickmark] (A) -- (C);\n\\draw[tickmark] (C) -- (E);\n\\draw[tickmark2] (B) -- (C);\n\\draw[tickmark2] (C) -- (D);\n\\draw (A) -- (B);\n\\draw (E) -- (D);\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-test-vertically-opposite",
+      "mastery": false,
+      "options": [
+        { "text": "SAS", "correct": true },
+        { "text": "SSS", "why": "Only two pairs of sides are marked; the third link is the vertically opposite angle, not a side." },
+        { "text": "AAS", "why": "AAS needs two pairs of equal angles, but only one angle (the vertically opposite pair) is available." },
+        { "text": "SSA", "why": "The equal angle is included between the two equal sides, so this is SAS, not the invalid SSA." }
+      ],
+      "solution_text": "$AC = EC$ (given), $\\angle ACB = \\angle ECD$ (vertically opposite) and $BC = DC$ (given).\nThe equal angle is included between the two pairs of sides.\n$\\therefore \\Delta ABC \\equiv \\Delta EDC$ (SAS)"
+    },
+    {
+      "id": "q3",
+      "question_text": "$O$ is the centre of the circle. Which test proves that $\\Delta AOB \\equiv \\Delta DOC$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-1.732,1.0);\n\\coordinate (D) at (1.732,-1.0);\n\\coordinate (B) at (-0.174,1.992);\n\\coordinate (C) at (0.174,-1.992);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\draw (A) -- (D);\n\\draw (B) -- (C);\n\\draw (A) -- (B);\n\\draw (D) -- (C);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below right] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-test-circle-radii",
+      "mastery": false,
+      "options": [
+        { "text": "SAS", "correct": true },
+        { "text": "SSS", "why": "The chords $AB$ and $DC$ are not marked equal, so only two sides (the radii) are known, not three." },
+        { "text": "AAS", "why": "Only one pair of equal angles (the vertically opposite angles at $O$) is available, not two." },
+        { "text": "RHS", "why": "There is no right angle in the triangles, so the right-angle test cannot apply." }
+      ],
+      "solution_text": "$OA = OD$ (equal radii), $\\angle AOB = \\angle DOC$ (vertically opposite) and $OB = OC$ (equal radii).\n$\\therefore \\Delta AOB \\equiv \\Delta DOC$ (SAS)"
+    },
+    {
+      "id": "q4",
+      "question_text": "A proof that $\\Delta ABC \\equiv \\Delta EDC$ has the line \"$\\angle ACB = \\angle ECD$\". Which reason justifies this line?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (C) at (0,0);\n\\coordinate (A) at (-2.3,0.8);\n\\coordinate (E) at (2.3,-0.8);\n\\coordinate (B) at (-1.9,-1.2);\n\\coordinate (D) at (1.9,1.2);\n\\draw[tickmark] (A) -- (C);\n\\draw[tickmark] (C) -- (E);\n\\draw (B) -- (C) -- (D);\n\\draw (A) -- (B);\n\\draw (E) -- (D);\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above right] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "missing-reason",
+      "mastery": false,
+      "options": [
+        { "text": "vertically opposite", "correct": true },
+        { "text": "alternate angles on parallel lines", "why": "Alternate angles need two lines marked parallel; here the angles sit at a crossing point, so they are vertically opposite." },
+        { "text": "corresponding angles on parallel lines", "why": "Corresponding angles need parallel lines and a transversal, not two lines crossing at a single vertex." },
+        { "text": "given", "why": "The equal angle is not marked on the diagram; it follows from the two lines crossing at $C$." }
+      ],
+      "solution_text": "$AB$ meets $ED$ at $C$, so $\\angle ACB$ and $\\angle ECD$ are formed by the same two lines crossing.\n$\\angle ACB = \\angle ECD$ (vertically opposite)"
+    },
+    {
+      "id": "q5",
+      "question_text": "A proof that $\\Delta ABC \\equiv \\Delta ADC$ by RHS begins with \"$\\angle ABC = \\angle ADC = 90^{\\circ}$ (given)\" and \"$AB = AD$ (given)\". Which statement correctly completes the proof?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\usetikzlibrary{calc}\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (0.714,1.532);\n\\coordinate (C) at (4,0);\n\\coordinate (D) at (0.714,-1.532);\n\\draw[tickmark] (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw[tickmark] (A) -- (D);\n\\draw (A) -- (C);\n\\coordinate (b1) at ($(B)!0.3cm!(A)$);\n\\coordinate (b2) at ($(B)!0.3cm!(C)$);\n\\draw (b1) -- ($(b1)+(b2)-(B)$) -- (b2);\n\\coordinate (e1) at ($(D)!0.3cm!(A)$);\n\\coordinate (e2) at ($(D)!0.3cm!(C)$);\n\\draw (e1) -- ($(e1)+(e2)-(D)$) -- (e2);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "missing-statement",
+      "mastery": false,
+      "options": [
+        { "text": "$AC = AC$ (common hypotenuse)", "correct": true },
+        { "text": "$BC = DC$ (given)", "why": "$BC$ and $DC$ are not marked equal; using them assumes what has not been given." },
+        { "text": "$\\angle BAC = \\angle DAC$ (given)", "why": "These angles are not marked; RHS needs the equal hypotenuses, not a second angle." },
+        { "text": "$AB = AC$ (common)", "why": "$AB$ and $AC$ are different sides of one triangle, not a matching pair between the two triangles." }
+      ],
+      "solution_text": "RHS needs the right angles, a pair of equal sides, and the equal hypotenuses. $AC$ is the hypotenuse of both triangles and is shared.\n$AC = AC$ (common hypotenuse)\n$\\therefore \\Delta ABC \\equiv \\Delta ADC$ (RHS)"
+    },
+    {
+      "id": "q6",
+      "question_text": "It has been proven that $\\Delta ABE \\equiv \\Delta CDE$, with the vertices written in matching order. Which statement must therefore be true?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.95]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tickmark2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (E) at (0,0);\n\\coordinate (A) at (-2.2,0.9);\n\\coordinate (C) at (2.2,-0.9);\n\\coordinate (B) at (-1.7,-1.25);\n\\coordinate (D) at (1.7,1.25);\n\\draw[tickmark] (A) -- (E);\n\\draw[tickmark] (E) -- (C);\n\\draw[tickmark2] (B) -- (E);\n\\draw[tickmark2] (E) -- (D);\n\\draw (A) -- (B);\n\\draw (C) -- (D);\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[above right] at (D) {$D$};\n\\node[below right] at (C) {$C$};\n\\node[above right] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "conclusion-from-congruence",
+      "mastery": false,
+      "options": [
+        { "text": "$AB = CD$", "correct": true },
+        { "text": "$AB = CE$", "why": "$AB$ matches $CD$ under the correspondence $A\\leftrightarrow C$, $B\\leftrightarrow D$; $CE$ is a different side." },
+        { "text": "$\\angle A = \\angle D$", "why": "$\\angle A$ matches $\\angle C$, since $A$ corresponds to $C$, not to $D$." },
+        { "text": "$AE = BE$", "why": "$AE$ and $BE$ are two sides of the same triangle and are not claimed equal by the congruence." }
+      ],
+      "solution_text": "In $\\Delta ABE \\equiv \\Delta CDE$ the correspondence is $A\\leftrightarrow C$, $B\\leftrightarrow D$, $E\\leftrightarrow E$.\nSide $AB$ matches side $CD$, so $AB = CD$."
+    },
+    {
+      "id": "q7",
+      "question_text": "$PQ = PR$ and $PS \\perp QR$. Which test proves that $\\Delta PSQ \\equiv \\Delta PSR$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\usetikzlibrary{calc}\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (P) at (0,3);\n\\coordinate (Q) at (-1.9,0);\n\\coordinate (R) at (1.9,0);\n\\coordinate (S) at (0,0);\n\\draw[tickmark] (P) -- (Q);\n\\draw[tickmark] (P) -- (R);\n\\draw (Q) -- (R);\n\\draw (P) -- (S);\n\\coordinate (s1) at ($(S)!0.3cm!(R)$);\n\\coordinate (s2) at ($(S)!0.3cm!(P)$);\n\\draw (s1) -- ($(s1)+(s2)-(S)$) -- (s2);\n\\node[above] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[below right] at (R) {$R$};\n\\node[below] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "choose-test-rhs",
+      "mastery": false,
+      "options": [
+        { "text": "RHS", "correct": true },
+        { "text": "SAS", "why": "The equal angle is the right angle at $S$, which is not included between the two known equal sides $PQ$ and $PS$." },
+        { "text": "SSS", "why": "$QS$ and $RS$ are not marked equal, so only two sides are known, not three." },
+        { "text": "AAS", "why": "Only one pair of equal angles (the right angles) is given, and AAS needs two." }
+      ],
+      "solution_text": "Both triangles are right-angled at $S$, the hypotenuses $PQ = PR$ are equal, and $PS$ is common.\n$\\therefore \\Delta PSQ \\equiv \\Delta PSR$ (RHS)"
+    },
+    {
+      "id": "q8",
+      "question_text": "$O$ is the centre of the circle and it has been proven that $\\Delta OAD \\equiv \\Delta OBD$ (SSS), where $D$ lies on $AB$. Why does it follow that $OD \\perp AB$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\tikzset{tickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (O) at (0,2.4);\n\\coordinate (A) at (-2,0);\n\\coordinate (B) at (2,0);\n\\coordinate (D) at (0,0);\n\\draw (O) circle (3.124);\n\\fill (O) circle (1.5pt);\n\\draw (A) -- (B);\n\\draw (O) -- (A);\n\\draw (O) -- (B);\n\\draw (O) -- (D);\n\\draw[tickmark] (A) -- (D);\n\\draw[tickmark] (D) -- (B);\n\\node[above] at (O) {$O$};\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "hence-perpendicular",
+      "mastery": true,
+      "options": [
+        { "text": "$\\angle ODA = \\angle ODB$ are matching angles, and they add to $180^{\\circ}$ on the straight line $AB$, so each is $90^{\\circ}$", "correct": true },
+        { "text": "$OA = OB$ because they are equal radii", "why": "Equal radii establish the congruence but say nothing about the angle at $D$ being a right angle." },
+        { "text": "$\\angle ODA = \\angle ODB$ because they are vertically opposite", "why": "The angles at $D$ are adjacent on the line $AB$, not vertically opposite; equality comes from the congruence." },
+        { "text": "$AD = BD$, so $D$ is the midpoint, which makes the angle a right angle", "why": "Being the midpoint does not by itself force a right angle; the equal adjacent angles on the straight line are what give $90^{\\circ}$." }
+      ],
+      "solution_text": "$\\angle ODA = \\angle ODB$ (matching angles of congruent triangles).\n$\\angle ODA + \\angle ODB = 180^{\\circ}$ (angles on a straight line $AB$).\n$\\therefore \\angle ODA = \\angle ODB = 90^{\\circ}$, so $OD \\perp AB$."
+    },
+    {
+      "id": "q9",
+      "question_text": "It has been proven that $\\Delta ABD \\equiv \\Delta CBD$, with $A$, $B$, $C$ on a straight line. Which conclusion correctly shows that $\\Delta ACD$ is isosceles?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=1.0]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (-2,2.4);\n\\coordinate (B) at (0,2.4);\n\\coordinate (C) at (2,2.4);\n\\coordinate (D) at (0,0);\n\\draw (A) -- (C);\n\\draw (B) -- (D);\n\\draw (A) -- (D);\n\\draw (C) -- (D);\n\\coordinate (b1) at ($(B)!0.3cm!(A)$);\n\\coordinate (b2) at ($(B)!0.3cm!(D)$);\n\\draw (b1) -- ($(b1)+(b2)-(B)$) -- (b2);\n\\coordinate (b3) at ($(B)!0.3cm!(C)$);\n\\draw (b3) -- ($(b3)+(b2)-(B)$) -- (b2);\n\\node[above left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "hence-isosceles",
+      "mastery": true,
+      "options": [
+        { "text": "$AD = CD$ (matching sides), so $\\Delta ACD$ has two equal sides", "correct": true },
+        { "text": "$AB = CB$ (matching sides), so $\\Delta ACD$ has two equal sides", "why": "$AB$ and $CB$ are sides of the base line, not sides of $\\Delta ACD$; the equal sides of $\\Delta ACD$ are $AD$ and $CD$." },
+        { "text": "$BD = BD$ is common, so $\\Delta ACD$ is isosceles", "why": "A common side is used to prove the congruence; it is not a side of $\\Delta ACD$ and does not make it isosceles." },
+        { "text": "$\\angle A = \\angle C$, so $AC = AD$", "why": "Equal base angles do give an isosceles triangle, but the equal sides are $AD$ and $CD$, not $AC$ and $AD$." }
+      ],
+      "solution_text": "The correspondence $A\\leftrightarrow C$, $B\\leftrightarrow B$, $D\\leftrightarrow D$ makes $AD$ match $CD$.\n$AD = CD$ (matching sides of congruent triangles).\n$\\therefore \\Delta ACD$ is isosceles (two equal sides)."
+    }
+  ]
+}

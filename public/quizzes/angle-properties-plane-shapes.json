@@ -1,0 +1,181 @@
+{
+  "skillId": "angle-properties-plane-shapes",
+  "coverageNote": "Multi-step reasoning atom; seven diagram-based items cover the diagonal, composite, straight-line, parallel-line and parallelogram structures without near-duplicate padding.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (C) at (-0.618,1.902);\n\\coordinate (B) at (-1.618,1.176);\n\\coordinate (A) at (-2,0);\n\\coordinate (J) at (-1.618,-1.176);\n\\coordinate (I) at (-0.618,-1.902);\n\\coordinate (H) at (0.618,-1.902);\n\\coordinate (G) at (1.618,-1.176);\n\\coordinate (F) at (2,0);\n\\coordinate (E) at (1.618,1.176);\n\\coordinate (D) at (0.618,1.902);\n\\draw (C)--(B)--(A)--(J)--(I)--(H)--(G)--(F)--(E)--(D)--(C);\n\\draw (C)--(A);\n\\node[above left] at (C) {$C$};\n\\node[above left] at (B) {$B$};\n\\node[left] at (A) {$A$};\n\\node[below left] at (J) {$J$};\n\\node[below left] at (I) {$I$};\n\\node[below right] at (H) {$H$};\n\\node[below right] at (G) {$G$};\n\\node[right] at (F) {$F$};\n\\node[above right] at (E) {$E$};\n\\node[above right] at (D) {$D$};\n\\pic[draw,\"$x$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=B--C--A};\n\\end{tikzpicture}\n[/tikz]\n$ABCDEFGHIJ$ is a regular decagon and the diagonal $AC$ is drawn. Find the value of $x$.",
+      "structure": "regular-polygon-diagonal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$18^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$144^{\\circ}$",
+          "why": "Gave the interior angle instead of the base angle of the triangle."
+        },
+        {
+          "text": "$36^{\\circ}$",
+          "why": "Used $180-144$ without halving for the two equal base angles."
+        },
+        {
+          "text": "$72^{\\circ}$",
+          "why": "Halved $144$ instead of halving $180-144$."
+        }
+      ],
+      "solution_text": "$\\angle ABC=144^{\\circ}$ (interior angle of a regular decagon)\n$AB=BC$, so $\\triangle ABC$ is isosceles\n$x=(180^{\\circ}-144^{\\circ})\\div2$\n$=18^{\\circ}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P0) at (1.437,0.581);\n\\coordinate (P1) at (0.606,1.427);\n\\coordinate (P2) at (-0.581,1.437);\n\\coordinate (P3) at (-1.427,0.606);\n\\coordinate (P4) at (-1.437,-0.581);\n\\coordinate (P5) at (-0.606,-1.427);\n\\coordinate (P6) at (0.581,-1.437);\n\\coordinate (P7) at (1.427,-0.606);\n\\coordinate (OA) at (-2.614,0.616);\n\\coordinate (OB) at (-2.624,-0.571);\n\\draw (P0)--(P1)--(P2)--(P3)--(P4)--(P5)--(P6)--(P7)--(P0);\n\\draw (P3)--(OA);\n\\draw (OA)--(OB);\n\\draw (OB)--(P4);\n\\pic[draw,\"$x$\",angle radius=0.6cm,angle eccentricity=1.85] {angle=OB--P4--P5};\n\\end{tikzpicture}\n[/tikz]\nA square is joined to one side of a regular octagon. Find the value of $x$.",
+      "structure": "square-polygon-composite",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$135^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$225^{\\circ}$",
+          "why": "Subtracted only the square's $90^{\\circ}$ from $360^{\\circ}$."
+        },
+        {
+          "text": "$150^{\\circ}$",
+          "why": "Used a hexagon interior angle of $120^{\\circ}$ instead of the octagon's $135^{\\circ}$."
+        },
+        {
+          "text": "$45^{\\circ}$",
+          "why": "Gave the octagon's exterior angle instead of the gap at the point."
+        }
+      ],
+      "solution_text": "$\\angle$ of a regular octagon $=135^{\\circ}$\n$\\angle$ of a square $=90^{\\circ}$\n$x=360^{\\circ}-135^{\\circ}-90^{\\circ}$\n$=135^{\\circ}$ (angles at a point)"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,2.2);\n\\coordinate (B) at (-1.55,-1);\n\\coordinate (C) at (1.55,-1);\n\\coordinate (H) at (2.95,-1);\n\\tikzset{tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tkk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2.5pt,-4pt)--(-2.5pt,4pt);\\draw (2.5pt,-4pt)--(2.5pt,4pt);}}}}}\n\\draw[tk] (A)--(B);\n\\draw[tk] (A)--(C);\n\\draw (B)--(C);\n\\draw (C)--(H);\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below right] at (H) {$H$};\n\\pic[draw,\"$130^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.75] {angle=H--C--A};\n\\pic[draw,\"$x$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]\n$\\triangle ABC$ is isosceles with $AB=AC$, and the base $BC$ is extended to $H$. Find the value of $x$.",
+      "structure": "isosceles-triangle-multistep",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$80^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$50^{\\circ}$",
+          "why": "Gave a base angle $180-130$ instead of the apex angle."
+        },
+        {
+          "text": "$130^{\\circ}$",
+          "why": "Copied the exterior angle as the answer."
+        },
+        {
+          "text": "$25^{\\circ}$",
+          "why": "Halved the apex angle by mistake."
+        }
+      ],
+      "solution_text": "$\\angle ACB=180^{\\circ}-130^{\\circ}=50^{\\circ}$ (angles on the straight line $BCH$)\n$\\angle ABC=50^{\\circ}$ (base angles of an isosceles triangle)\n$x=180^{\\circ}-50^{\\circ}-50^{\\circ}$\n$=80^{\\circ}$ (angle sum of $\\triangle ABC$)"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (Pl) at (-2.6,1.6);\n\\coordinate (Pr) at (2.6,1.6);\n\\coordinate (Cl) at (-2.6,-1.6);\n\\coordinate (Cr) at (2.6,-1.6);\n\\coordinate (P) at (-1,1.6);\n\\coordinate (Q) at (0.6,-1.6);\n\\coordinate (Rp) at (1.4,0);\n\\draw (Pl)--(Pr);\n\\draw (Cl)--(Cr);\n\\draw (P)--(Rp);\n\\draw (Q)--(Rp);\n\\draw[->] (-0.2,1.6)--(0.4,1.6);\n\\draw[->] (-0.2,-1.6)--(0.4,-1.6);\n\\pic[draw,\"$40^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.85] {angle=Rp--P--Pr};\n\\pic[draw,\"$55^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.85] {angle=Cr--Q--Rp};\n\\pic[draw,\"$x$\",angle radius=0.55cm,angle eccentricity=2] {angle=P--Rp--Q};\n\\end{tikzpicture}\n[/tikz]\n$PQR$ is a triangle drawn between the parallel lines, with $P$ on the upper line and $Q$ on the lower line. Find the value of $x$.",
+      "structure": "parallel-lines-triangle",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$95^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$85^{\\circ}$",
+          "why": "Found the supplement, using co-interior instead of alternate angles."
+        },
+        {
+          "text": "$15^{\\circ}$",
+          "why": "Subtracted the two angles instead of adding them."
+        },
+        {
+          "text": "$40^{\\circ}$",
+          "why": "Copied one of the given angles as the answer."
+        }
+      ],
+      "solution_text": "Draw the line through $R$ parallel to both given lines.\n$\\angle$ between $RP$ and this line $=40^{\\circ}$ (alternate angles)\n$\\angle$ between $RQ$ and this line $=55^{\\circ}$ (alternate angles)\n$x=40^{\\circ}+55^{\\circ}$\n$=95^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (-2.2,-1.3);\n\\coordinate (B) at (1.4,-1.3);\n\\coordinate (C) at (2.2,1.3);\n\\coordinate (D) at (-1.4,1.3);\n\\coordinate (E) at (2.6,-1.3);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\draw (B)--(E);\n\\draw[->] (-0.4,-1.3)--(0.2,-1.3);\n\\draw[->] (0.1,1.3)--(0.7,1.3);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\pic[draw,\"$68^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.85] {angle=E--B--C};\n\\pic[draw,\"$x$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=A--D--C};\n\\end{tikzpicture}\n[/tikz]\n$ABCD$ is a parallelogram and $AB$ is produced to $E$. Find the value of $x$.",
+      "structure": "parallelogram-multistep",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$112^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$68^{\\circ}$",
+          "why": "Gave $\\angle ABC$ (opposite would be $\\angle ADC$), confusing which angle is opposite."
+        },
+        {
+          "text": "$74^{\\circ}$",
+          "why": "Halved the reflex angle instead of using the straight line."
+        },
+        {
+          "text": "$106^{\\circ}$",
+          "why": "Used a $74^{\\circ}$ exterior angle by mistake."
+        }
+      ],
+      "solution_text": "$\\angle ABC=180^{\\circ}-68^{\\circ}=112^{\\circ}$ (angles on the straight line $ABE$)\n$x=\\angle ADC=112^{\\circ}$ (opposite angles of a parallelogram are equal)"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0.823,1.986);\n\\coordinate (B) at (-0.823,1.986);\n\\coordinate (C) at (-1.986,0.823);\n\\coordinate (D) at (-1.986,-0.823);\n\\coordinate (E) at (-0.823,-1.986);\n\\coordinate (F) at (0.823,-1.986);\n\\coordinate (G) at (1.986,-0.823);\n\\coordinate (H) at (1.986,0.823);\n\\draw (A)--(B)--(C)--(D)--(E)--(F)--(G)--(H)--(A);\n\\draw (A)--(C);\n\\draw (C)--(E);\n\\draw (E)--(G);\n\\draw (G)--(A);\n\\node[above right] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[above left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node[below right] at (G) {$G$};\n\\node[above right] at (H) {$H$};\n\\pic[draw,\"$x$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=E--C--A};\n\\end{tikzpicture}\n[/tikz]\n$ABCDEFGH$ is a regular octagon and alternate vertices are joined to form quadrilateral $ACEG$. Find the value of $x$, the size of $\\angle ACE$.",
+      "structure": "regular-polygon-diagonal",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$90^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$135^{\\circ}$",
+          "why": "Gave the interior angle $\\angle BCD$ instead of subtracting the two base angles."
+        },
+        {
+          "text": "$112.5^{\\circ}$",
+          "why": "Subtracted only one $22.5^{\\circ}$ base angle from $135^{\\circ}$."
+        },
+        {
+          "text": "$22.5^{\\circ}$",
+          "why": "Gave the base angle $\\angle BCA$ instead of $\\angle ACE$."
+        }
+      ],
+      "solution_text": "$\\angle BCD=135^{\\circ}$ (interior angle of a regular octagon)\n$AB=BC$, so $\\angle BCA=(180^{\\circ}-135^{\\circ})\\div2=22.5^{\\circ}$; likewise $\\angle DCE=22.5^{\\circ}$\n$x=135^{\\circ}-22.5^{\\circ}-22.5^{\\circ}$\n$=90^{\\circ}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0.4,1.7);\n\\coordinate (B) at (-1.6,-0.9);\n\\coordinate (C) at (1.9,-1.1);\n\\coordinate (D) at (-3,-2.72);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(A);\n\\draw (B)--(D);\n\\node[above right] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\pic[draw,\"$118^{\\circ}$\",angle radius=0.62cm,angle eccentricity=1.8] {angle=D--B--C};\n\\pic[draw,\"$47^{\\circ}$\",angle radius=0.7cm,angle eccentricity=1.7] {angle=A--C--B};\n\\pic[draw,\"$x$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=B--A--C};\n\\end{tikzpicture}\n[/tikz]\n$AB$ is extended to $D$. Find the value of $x$.",
+      "structure": "isosceles-triangle-multistep",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$71^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$62^{\\circ}$",
+          "why": "Gave $\\angle ABC$ instead of continuing to find $\\angle BAC$."
+        },
+        {
+          "text": "$118^{\\circ}$",
+          "why": "Copied the exterior angle as the answer."
+        },
+        {
+          "text": "$85^{\\circ}$",
+          "why": "Forgot to subtract $\\angle BCA$: used $180-95$."
+        }
+      ],
+      "solution_text": "$\\angle ABC=180^{\\circ}-118^{\\circ}=62^{\\circ}$ (angles on the straight line $ABD$)\n$x=180^{\\circ}-62^{\\circ}-47^{\\circ}$\n$=71^{\\circ}$ (angle sum of $\\triangle ABC$)"
+    }
+  ]
+}

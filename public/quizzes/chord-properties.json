@@ -1,0 +1,198 @@
+{
+  "skillId": "chord-properties",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$AB = CD$ and $\\angle AOB = 84^{\\circ}$. Find $\\angle COD$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings, angles, quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[left] {$O$};\n\\coordinate (A) at (-1.286,1.532);\n\\coordinate (B) at (1.389,1.439);\n\\coordinate (C) at (1.286,-1.532);\n\\coordinate (D) at (-1.389,-1.439);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (C) -- (D);\n\\draw (O) -- (A);\n\\draw (O) -- (B);\n\\draw (O) -- (C);\n\\draw (O) -- (D);\n\\pic[draw, \"84^{\\circ}\", angle radius=0.55cm, angle eccentricity=2] {angle = B--O--A};\n\\pic[draw, \"x\", angle radius=0.55cm, angle eccentricity=2] {angle = D--O--C};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equal-chords-central-angle",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$84^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$42^{\\circ}$",
+          "why": "Halves the given angle instead of using it directly — equal chords give equal angles."
+        },
+        {
+          "text": "$96^{\\circ}$",
+          "why": "Uses the supplement ($180^{\\circ}-84^{\\circ}$) instead of the equal angle itself."
+        }
+      ],
+      "solution_text": "$AB = CD$, so $\\angle COD = \\angle AOB$ (equal chords subtend equal angles at the centre).\n$\\angle COD = 84^{\\circ}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$AB = CD$, $OE \\perp AB$, $OF \\perp CD$, and $OF = 5.4$ cm. Find $OE$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings, angles, quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[right] {$O$};\n\\coordinate (A) at (-1.696,1.06);\n\\coordinate (B) at (0.877,1.798);\n\\coordinate (C) at (0.939,-1.766);\n\\coordinate (D) at (-1.658,-1.118);\n\\coordinate (E) at (-0.409,1.429);\n\\coordinate (F) at (-0.359,-1.442);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (C) -- (D);\n\\draw (O) -- (E);\n\\draw (O) -- (F);\n\\node[above right, fill=white, inner sep=1pt] at (E) {$x$};\n\\draw (F) -- ($(F)!0.6!(O)$) node[midway, below left, fill=white, inner sep=1pt] {$5.4\\text{ cm}$};\n\\coordinate (Ea) at ($(E)!0.3cm!(A)$);\n\\coordinate (Eb) at ($(E)!0.3cm!(O)$);\n\\draw (Ea) -- ($(Ea)+(Eb)-(E)$) -- (Eb);\n\\coordinate (Fa) at ($(F)!0.3cm!(C)$);\n\\coordinate (Fb) at ($(F)!0.3cm!(O)$);\n\\draw (Fa) -- ($(Fa)+(Fb)-(F)$) -- (Fb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equal-chords-distance",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5.4$ cm",
+          "correct": true
+        },
+        {
+          "text": "$2.7$ cm",
+          "why": "Halves the given distance, but equal chords give equal distances, not half distances."
+        },
+        {
+          "text": "$10.8$ cm",
+          "why": "Doubles the given distance instead of recognising the two distances are simply equal."
+        }
+      ],
+      "solution_text": "$AB = CD$, so $OE = OF$ (equal chords are equidistant from the centre).\n$OE = 5.4$ cm"
+    },
+    {
+      "id": "q3",
+      "question_text": "$OM \\perp AB$ at $M$, and $AB = 14$ cm. Find $AM$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below] {$O$};\n\\coordinate (A) at (-1.813,0.845);\n\\coordinate (B) at (1.813,0.845);\n\\coordinate (M) at (0,0.845);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\draw (A) -- (M);\n\\draw (M) -- (B);\n\\node[below, fill=white, inner sep=1pt] at ($(A)!0.5!(B)$) {$14\\text{ cm}$};\n\\draw (O) -- (M);\n\\coordinate (Ma) at ($(M)!0.3cm!(A)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(O)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "perp-bisects-chord-length",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7$ cm",
+          "correct": true
+        },
+        {
+          "text": "$14$ cm",
+          "why": "Gives the whole chord length instead of the half found by the perpendicular from the centre."
+        },
+        {
+          "text": "$3.5$ cm",
+          "why": "Halves the chord length twice instead of once."
+        }
+      ],
+      "solution_text": "The perpendicular from the centre bisects the chord.\n$AM = 14 \\div 2 = 7$ cm"
+    },
+    {
+      "id": "q4",
+      "question_text": "$OZ \\perp XY$ at $Z$, and $\\angle XOY = 86^{\\circ}$. Find $\\angle XOZ$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below right] {$O$};\n\\coordinate (X) at (-1.999,0.07);\n\\coordinate (Y) at (-0.07,1.999);\n\\coordinate (Z) at (-1.034,1.035);\n\\node[above left] at (X) {$X$};\n\\node[above right] at (Y) {$Y$};\n\\draw (X) -- (Z);\n\\draw (Z) -- (Y);\n\\draw (O) -- (Z);\n\\coordinate (Za) at ($(Z)!0.3cm!(X)$);\n\\coordinate (Zb) at ($(Z)!0.3cm!(O)$);\n\\draw (Za) -- ($(Za)+(Zb)-(Z)$) -- (Zb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "perp-bisects-chord-angle",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$43^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$86^{\\circ}$",
+          "why": "Gives the whole angle $\\angle XOY$ instead of the half that $OZ$ bisects it into."
+        },
+        {
+          "text": "$47^{\\circ}$",
+          "why": "Uses the complement of half the angle instead of half of $86^{\\circ}$ itself."
+        }
+      ],
+      "solution_text": "Since $OX = OY$ (radii) and $OZ$ bisects the chord, $OZ$ also bisects $\\angle XOY$.\n$\\angle XOZ = 86^{\\circ} \\div 2 = 43^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$M$ is the midpoint of chord $AB$. Find $\\angle OMB$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below] {$O$};\n\\coordinate (A) at (-1.854,0.749);\n\\coordinate (B) at (1.902,0.618);\n\\coordinate (M) at (0.024,0.684);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below] at (M) {$M$};\n\\draw (A) -- (B);\n\\draw (O) -- (M);\n\\pic[draw, \"x\", angle radius=0.4cm, angle eccentricity=2] {angle = O--M--B};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "converse-midpoint-right-angle",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$90^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$45^{\\circ}$",
+          "why": "Assumes the two halves of a straight angle without using the perpendicular bisector property."
+        },
+        {
+          "text": "Cannot be determined without more information",
+          "why": "The perpendicular bisector of a chord always passes through the centre, so $OM \\perp AB$ regardless of size."
+        }
+      ],
+      "solution_text": "The perpendicular bisector of a chord passes through the centre, so $OM \\perp AB$.\n$\\angle OMB = 90^{\\circ}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$OM \\perp AB$ at $M$, the radius $OA = 15$ cm and $OM = 9$ cm. Find $AB$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below] {$O$};\n\\coordinate (A) at (-1.6,1.2);\n\\coordinate (B) at (1.6,1.2);\n\\coordinate (M) at (0,1.2);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\draw (A) -- (M);\n\\draw (M) -- (B);\n\\draw (O) -- (A) node[midway, below left, fill=white, inner sep=1pt] {$15\\text{ cm}$};\n\\draw (O) -- (M) node[midway, right, fill=white, inner sep=1pt] {$9\\text{ cm}$};\n\\coordinate (Ma) at ($(M)!0.3cm!(A)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(O)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "pythagoras-radius-chord",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$24$ cm",
+          "correct": true
+        },
+        {
+          "text": "$12$ cm",
+          "why": "Finds $AM$ correctly but forgets to double it to get the whole chord $AB$."
+        },
+        {
+          "text": "$18$ cm",
+          "why": "Doubles $OM$ directly, without using Pythagoras' theorem to find $AM$ first."
+        }
+      ],
+      "solution_text": "In right-angled $\\triangle OAM$: $AM = \\sqrt{15^2 - 9^2} = \\sqrt{144} = 12$ cm\n$AB = 2 \\times 12 = 24$ cm"
+    },
+    {
+      "id": "q7",
+      "question_text": "Circles with centres $P$ and $Q$ intersect at $A$ and $B$. $PA = 17$ cm and $PM = 8$ cm, where $M$ is the point where $PQ$ meets $AB$. Find $AB$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (P) at (-1,0);\n\\coordinate (Q) at (1,0);\n\\coordinate (A) at (-0.247,1.412);\n\\coordinate (B) at (-0.247,-1.412);\n\\coordinate (M) at (-0.247,0);\n\\draw (P) circle (1.6);\n\\draw (Q) circle (1.884);\n\\fill (P) circle (1.2pt) node[below] {$P$};\n\\fill (Q) circle (1.2pt) node[below] {$Q$};\n\\node[above] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\draw (P) -- (Q);\n\\draw (A) -- (B);\n\\draw (P) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$17\\text{ cm}$};\n\\draw (P) -- (M) node[midway, below, fill=white, inner sep=1pt] {$8\\text{ cm}$};\n\\coordinate (Ma) at ($(M)!0.3cm!(Q)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(B)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "intersecting-circles-chord",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$30$ cm",
+          "correct": true
+        },
+        {
+          "text": "$15$ cm",
+          "why": "Finds $AM$ correctly but forgets to double it, since $M$ is the midpoint of $AB$."
+        },
+        {
+          "text": "$9$ cm",
+          "why": "Subtracts $PM$ from $PA$ instead of applying Pythagoras' theorem in $\\triangle PAM$."
+        }
+      ],
+      "solution_text": "$PQ$ bisects the common chord $AB$ at right angles at $M$.\nIn right-angled $\\triangle PAM$: $AM = \\sqrt{17^2 - 8^2} = \\sqrt{225} = 15$ cm\n$AB = 2 \\times 15 = 30$ cm"
+    },
+    {
+      "id": "q8",
+      "question_text": "In a circle of radius $13$ cm, chord $AB = 24$ cm and chord $CD = 10$ cm. Which chord is closer to the centre?\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[right] {$O$};\n\\coordinate (A) at (-1.846,0.769);\n\\coordinate (B) at (1.846,0.769);\n\\coordinate (C) at (-0.769,-1.846);\n\\coordinate (D) at (0.769,-1.846);\n\\coordinate (M) at (0,0.769);\n\\coordinate (N) at (0,-1.846);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\node[below right] at (D) {$D$};\n\\draw (A) -- (B) node[midway, above, fill=white, inner sep=1pt] {$24\\text{ cm}$};\n\\draw (C) -- (D) node[midway, below, fill=white, inner sep=1pt] {$10\\text{ cm}$};\n\\draw (O) -- (A) node[midway, left, fill=white, inner sep=1pt] {$13\\text{ cm}$};\n\\draw (O) -- (M);\n\\draw (O) -- (N);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "compare-chords-distance",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$AB$",
+          "correct": true
+        },
+        {
+          "text": "$CD$",
+          "why": "Reverses the rule — the longer chord is the one closer to the centre, not the shorter one."
+        },
+        {
+          "text": "They are equidistant from the centre",
+          "why": "Different chord lengths in the same circle sit at different distances from the centre."
+        }
+      ],
+      "solution_text": "For $AB$: distance $= \\sqrt{13^2 - 12^2} = \\sqrt{25} = 5$ cm\nFor $CD$: distance $= \\sqrt{13^2 - 5^2} = \\sqrt{144} = 12$ cm\n$5$ cm $< 12$ cm, so $AB$ is closer to the centre."
+    },
+    {
+      "id": "q9",
+      "question_text": "$OA = OB$ (radii) and $\\angle AOM = \\angle BOM$ ($OM$ bisects $\\angle AOB$). Which congruence test proves $\\triangle OAM \\equiv \\triangle OBM$?\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt) node[below] {$O$};\n\\coordinate (A) at (-1.97,0.347);\n\\coordinate (B) at (1.97,0.347);\n\\coordinate (M) at (0,0.347);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below] at (M) {$M$};\n\\draw (A) -- (M);\n\\draw (M) -- (B);\n\\draw (O) -- (M);\n\\pic[draw, \"\\beta\", angle radius=0.45cm, angle eccentricity=2] {angle = M--O--A};\n\\pic[draw, \"\\beta\", angle radius=0.45cm, angle eccentricity=2] {angle = B--O--M};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "proof-congruence-test",
+      "mastery": true,
+      "options": [
+        {
+          "text": "SAS",
+          "correct": true
+        },
+        {
+          "text": "RHS",
+          "why": "RHS needs a right angle, but no right angle is given here — only the equal angles at $O$."
+        },
+        {
+          "text": "AAS",
+          "why": "AAS needs two matching angles, but only one pair ($\\angle AOM = \\angle BOM$) is given here."
+        },
+        {
+          "text": "SSS",
+          "why": "$AM = BM$ is the conclusion being proved, not a length known equal before the proof."
+        }
+      ],
+      "solution_text": "$OA = OB$ (radii), $\\angle AOM = \\angle BOM$ (given, the included angle at $O$), and $OM = OM$ (common).\nThis matches two sides and the included angle: SAS."
+    }
+  ]
+}

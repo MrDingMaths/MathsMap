@@ -1,0 +1,109 @@
+{
+  "skillId": "speed-time-graph-acceleration",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.4]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (5,15);\n\\draw[->] (0,0)--(0,16);\n\\draw[->] (0,0)--(6,0);\n\\foreach \\y in {3,6,9,12,15} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4,5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(5,15);\n\\foreach \\pt in {(0,0),(5,15)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,7.5) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (2.5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (2.5,16.6) {A cyclist accelerating from rest};\n\\end{tikzpicture}\n[/tikz]\nA cyclist accelerates from rest at a constant rate, as shown. Find the acceleration, in m/s².",
+      "structure": "acceleration-from-rest",
+      "mastery": false,
+      "options": [
+        { "text": "$3$ m/s²", "correct": true },
+        { "text": "$2.4$ m/s²", "why": "misread the final speed on the vertical axis, one gridline too low" },
+        { "text": "$0.33$ m/s²", "why": "divided the time by the speed instead of the speed by the time" },
+        { "text": "$5$ m/s²", "why": "misread the time axis, using $3$ s instead of the actual $5$-second interval" }
+      ],
+      "solution_text": "Acceleration $=\\dfrac{15-0}{5-0}$\n$=3$ m/s²"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\n\\draw[gray!30,very thin,xstep=1,ystep=2] (0,0) grid (6,18);\n\\draw[->] (0,0)--(0,19.2);\n\\draw[->] (0,0)--(7,0);\n\\foreach \\y in {2,4,6,8,10,12,14,16,18} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4,5,6} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,18)--(6,0);\n\\foreach \\pt in {(0,18),(6,0)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,9) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (3,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (3,19.8) {A bus braking to a stop};\n\\end{tikzpicture}\n[/tikz]\nA bus decelerates at a constant rate until it comes to a complete stop, as shown. Find the magnitude of its deceleration, in m/s².",
+      "structure": "deceleration-to-rest",
+      "mastery": false,
+      "options": [
+        { "text": "$3$ m/s²", "correct": true },
+        { "text": "$6$ m/s²", "why": "misread the time interval as $3$ s instead of the actual $6$ s" },
+        { "text": "$0.33$ m/s²", "why": "divided the time by the speed instead of the speed by the time" },
+        { "text": "$9$ m/s²", "why": "averaged the start and end speeds instead of finding the rate of change" }
+      ],
+      "solution_text": "Deceleration $=\\dfrac{18-0}{6-0}$\n$=3$ m/s²"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.55]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (10,6);\n\\draw[->] (0,0)--(0,6.6);\n\\draw[->] (0,0)--(11,0);\n\\foreach \\v/\\p in {10/1,20/2,30/3,40/4,50/5,60/6} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {2,4,6,8,10} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (2,2)--(10,6);\n\\fill[blue] (2,2) circle (2.5pt);\n\\fill[blue] (10,6) circle (2.5pt);\n\\node[rotate=90,font=\\scriptsize] at (-1.5,3) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (5,6.6) {An aircraft accelerating for take-off};\n\\end{tikzpicture}\n[/tikz]\nAn aircraft is already rolling down the runway when its speed is first graphed, and it continues accelerating at a constant rate toward take-off, as shown. Find its acceleration, in m/s².",
+      "structure": "acceleration-nonzero-start",
+      "mastery": false,
+      "options": [
+        { "text": "$5$ m/s²", "correct": true },
+        { "text": "$6$ m/s²", "why": "divided the final speed by the final time, without subtracting the starting speed and time first" },
+        { "text": "$4$ m/s²", "why": "divided by $10$ s (the final time) instead of the $8$-second interval shown on the graph" },
+        { "text": "$7.5$ m/s²", "why": "forgot to subtract the starting speed, using the full final speed over the correct time interval" }
+      ],
+      "solution_text": "Acceleration $=\\dfrac{60-20}{10-2}$\n$=\\dfrac{40}{8}$\n$=5$ m/s²"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.35]\n\\draw[gray!30,very thin,xstep=1,ystep=2] (0,0) grid (12,16);\n\\draw[->] (0,0)--(0,17.2);\n\\draw[->] (0,0)--(13,0);\n\\foreach \\y in {2,4,6,8,10,12,14,16} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {4,9,12} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(4,16)--(9,16)--(12,0);\n\\foreach \\pt in {(0,0),(4,16),(9,16),(12,0)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,8) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (6,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (6,17.8) {A motorbike's three-stage ride};\n\\end{tikzpicture}\n[/tikz]\nA motorbike speeds up, then travels at a steady speed, then slows down, as shown. During which time interval is the motorbike's acceleration $0$?",
+      "structure": "zero-acceleration-recognition",
+      "mastery": false,
+      "options": [
+        { "text": "$4$ s to $9$ s", "correct": true },
+        { "text": "$0$ s to $4$ s", "why": "chose the accelerating stage, where the speed is increasing, not staying constant" },
+        { "text": "$9$ s to $12$ s", "why": "chose the decelerating stage, where the speed is decreasing, not staying constant" },
+        { "text": "$0$ s to $12$ s", "why": "assumed the whole journey has one constant acceleration instead of reading each stage separately" }
+      ],
+      "solution_text": "Between $4$ s and $9$ s the graph is horizontal, so the speed is not changing and the acceleration is $0$."
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.33]\n\\draw[gray!30,very thin,xstep=1,ystep=2] (0,0) grid (13,16);\n\\draw[->] (0,0)--(0,17.2);\n\\draw[->] (0,0)--(14,0);\n\\foreach \\y in {2,4,6,8,10,12,14,16} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {4,9,13} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(4,16)--(9,16)--(13,0);\n\\foreach \\pt in {(0,0),(4,16),(9,16),(13,0)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,8) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (6.5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (6.5,17.8) {A motorbike's three-stage ride};\n\\end{tikzpicture}\n[/tikz]\nA motorbike speeds up, cruises, then brakes to a stop, as shown. Find its deceleration during the final stage (from $9$ to $13$ seconds), in m/s².",
+      "structure": "segment-acceleration-piecewise",
+      "mastery": false,
+      "options": [
+        { "text": "$4$ m/s²", "correct": true },
+        { "text": "$1.23$ m/s²", "why": "divided the total speed change by the total time instead of using only the final stage's interval" },
+        { "text": "$1.78$ m/s²", "why": "used $9$ s, the start time of the final stage, instead of its actual $4$-second duration" },
+        { "text": "$3.2$ m/s²", "why": "misread the final stage's duration as $5$ s instead of $4$ s" }
+      ],
+      "solution_text": "Change in speed $=16-0$\n$=16$ m/s\nTime $=13-9=4$ s\nDeceleration $=\\dfrac{16}{4}$\n$=4$ m/s²"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.7]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (5,5);\n\\draw[->] (0,0)--(0,5.6);\n\\draw[->] (0,0)--(6,0);\n\\foreach \\v/\\p in {4/1,8/2,12/3,16/4,20/5} {\\draw (-0.15,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.15,\\p) {$\\v$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {1,2,3,4,5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,5)--(5,0);\n\\draw[very thick,red] (0,5)--(4,0);\n\\foreach \\pt in {(0,5),(5,0),(4,0)} {\\fill[black] \\pt circle (2.5pt);}\n\\node[font=\\scriptsize,blue,below right] at (2.5,2.6) {Car M};\n\\node[font=\\scriptsize,red,above left] at (1.6,2) {Car N};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.5) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (2.5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (2.5,5.6) {Two cars braking to a stop};\n\\end{tikzpicture}\n[/tikz]\nTwo cars, both travelling at the same speed, brake to a stop at different constant rates, as shown. Which car decelerates more sharply, and by how much?",
+      "structure": "compare-acceleration-two-vehicles",
+      "mastery": false,
+      "options": [
+        { "text": "Car N, by $1$ m/s²", "correct": true },
+        { "text": "Car M, by $1$ m/s²", "why": "read the less steep line as the more sharply decelerating one" },
+        { "text": "Car N, by $9$ m/s²", "why": "added the two cars' decelerations instead of finding their difference" },
+        { "text": "Car N, by $5$ m/s²", "why": "gave car N's deceleration alone instead of the difference between the two rates" }
+      ],
+      "solution_text": "Car M: deceleration $=\\dfrac{20}{5}=4$ m/s²\nCar N: deceleration $=\\dfrac{20}{4}=5$ m/s²\nCar N decelerates more sharply, by $5-4=1$ m/s²."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.34]\n\\draw[gray!30,very thin,xstep=1,ystep=1] (0,0) grid (19,9);\n\\draw[->] (0,0)--(0,9.6);\n\\draw[->] (0,0)--(20,0);\n\\foreach \\y in {1,2,3,4,5,6,7,8,9} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {4,10,12,16,19} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(4,8)--(10,8)--(12,0)--(16,0)--(19,9);\n\\foreach \\pt in {(0,0),(4,8),(10,8),(12,0),(16,0),(19,9)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,4.5) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (9.5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (9.5,10.2) {A lift travelling between floors};\n\\end{tikzpicture}\n[/tikz]\nA lift speeds up, cruises, slows to a stop at a floor, waits with its doors open, then departs again, as shown. Find its acceleration as it departs, from $16$ seconds onward, in m/s².",
+      "structure": "segment-acceleration-piecewise",
+      "mastery": true,
+      "options": [
+        { "text": "$3$ m/s²", "correct": true },
+        { "text": "$1.3$ m/s²", "why": "included the waiting stage's duration inside the departure stage's time interval" },
+        { "text": "$0.5$ m/s²", "why": "used the overall time from the very start instead of only the departure stage's own interval" },
+        { "text": "$1.8$ m/s²", "why": "misread the departure stage as starting at $14$ s instead of $16$ s" }
+      ],
+      "solution_text": "While waiting at the floor (from $12$ to $16$ seconds) the speed stays at $0$, so that stage cannot be used for the departure's acceleration.\nFrom $16$ s ($0$ m/s) to $19$ s ($9$ m/s):\nAcceleration $=\\dfrac{9-0}{19-16}$\n$=\\dfrac{9}{3}$\n$=3$ m/s²"
+      },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.32]\n\\draw[gray!30,very thin,xstep=1,ystep=2] (0,0) grid (9,20);\n\\draw[->] (0,0)--(0,21.2);\n\\draw[->] (0,0)--(10,0);\n\\foreach \\y in {4,8,12,16,20} {\\node[left,font=\\scriptsize] at (-0.3,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\foreach \\x in {4,9} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\draw[very thick,blue] (0,0)--(4,20)--(9,0);\n\\foreach \\pt in {(0,0),(4,20),(9,0)} {\\fill[blue] \\pt circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,10) {Speed (m/s)};\n\\node[below,font=\\scriptsize] at (4.5,-1.2) {Time (s)};\n\\node[font=\\scriptsize] at (4.5,21.8) {A delivery van};\n\\end{tikzpicture}\n[/tikz]\nA delivery van accelerates hard, then brakes to a stop, as shown. Find the difference between the magnitudes of its acceleration and its deceleration, in m/s².",
+      "structure": "acceleration-deceleration-difference",
+      "mastery": true,
+      "options": [
+        { "text": "$1$ m/s²", "correct": true },
+        { "text": "$9$ m/s²", "why": "added the acceleration and the deceleration instead of finding their difference" },
+        { "text": "$5$ m/s²", "why": "gave the acceleration alone instead of the difference between the two rates" },
+        { "text": "$2.2$ m/s²", "why": "divided the peak speed by the total time instead of finding each stage's own rate first" }
+      ],
+      "solution_text": "Acceleration $=\\dfrac{20}{4}$\n$=5$ m/s²\nDeceleration $=\\dfrac{20}{9-4}$\n$=\\dfrac{20}{5}$\n$=4$ m/s²\nDifference $=5-4$\n$=1$ m/s²"
+    }
+  ]
+}

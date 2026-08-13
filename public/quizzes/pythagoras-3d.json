@@ -1,0 +1,230 @@
+{
+  "skillId": "pythagoras-3d",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.5]\n\\coordinate (D) at (0,0,0);\n\\coordinate (A) at (6,0,0);\n\\coordinate (B) at (6,7,0);\n\\coordinate (C) at (0,7,0);\n\\coordinate (H) at (0,0,4);\n\\coordinate (E) at (6,0,4);\n\\coordinate (F) at (6,7,4);\n\\coordinate (G) at (0,7,4);\n\\draw[dashed] (A)--(D)--(C);\n\\draw[dashed] (D)--(H);\n\\draw (A)--(B)--(C);\n\\draw (H)--(E)--(F)--(G)--(H);\n\\draw (A)--(E);\n\\draw (B)--(F);\n\\draw (C)--(G);\n\\draw (A)--(F);\n\\draw (A)--(B) node[midway,below left,fill=white,inner sep=1pt]{$7\\text{ cm}$};\n\\draw (B)--(C) node[midway,below,fill=white,inner sep=1pt]{$6\\text{ cm}$};\n\\draw (B)--(F) node[midway,right,fill=white,inner sep=1pt]{$4\\text{ cm}$};\n\\node[left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above right] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]\nFind the exact length of the face diagonal $AF$.",
+      "structure": "face-diagonal-exact",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\sqrt{65}\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$11\\text{ cm}$",
+          "why": "Added the two edge lengths $7+4$ instead of adding their squares."
+        },
+        {
+          "text": "$\\sqrt{33}\\text{ cm}$",
+          "why": "Subtracted the squares $7^{2}-4^{2}$ instead of adding for a hypotenuse."
+        },
+        {
+          "text": "$65\\text{ cm}$",
+          "why": "Left the answer as the sum of squares without taking the square root."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.200,0);\n\\coordinate (R) at (0,1.829);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.600,0) {$7\\text{ cm}$};\n\\node[left] at (0,0.914) {$4\\text{ cm}$};\n\\node[above right] at (1.600,0.914) {$AF$};\n\\end{tikzpicture}\n[/tikz]\n$AF$ is the hypotenuse of right-angled triangle $ABF$.\n$AF=\\sqrt{7^{2}+4^{2}}$\n$=\\sqrt{65}\\text{ cm}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.42]\n\\coordinate (D) at (0,0,0);\n\\coordinate (A) at (5,0,0);\n\\coordinate (B) at (5,7,0);\n\\coordinate (C) at (0,7,0);\n\\coordinate (H) at (0,0,12);\n\\coordinate (E) at (5,0,12);\n\\coordinate (F) at (5,7,12);\n\\coordinate (G) at (0,7,12);\n\\draw[dashed] (A)--(D)--(C);\n\\draw[dashed] (D)--(H);\n\\draw (A)--(B)--(C);\n\\draw (H)--(E)--(F)--(G)--(H);\n\\draw (A)--(E);\n\\draw (B)--(F);\n\\draw (C)--(G);\n\\draw (B)--(G);\n\\draw (B)--(C) node[midway,below,fill=white,inner sep=1pt]{$5\\text{ cm}$};\n\\draw (A)--(B) node[midway,below left,fill=white,inner sep=1pt]{$7\\text{ cm}$};\n\\draw (B)--(F) node[midway,right,fill=white,inner sep=1pt]{$12\\text{ cm}$};\n\\node[left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above right] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]\nFind the exact length of the face diagonal $BG$ across the side face $BCGF$.",
+      "structure": "face-diagonal-exact",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$13\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$17\\text{ cm}$",
+          "why": "Added the two edges $5+12$ instead of adding their squares."
+        },
+        {
+          "text": "$\\sqrt{119}\\text{ cm}$",
+          "why": "Subtracted the squares $12^{2}-5^{2}$ instead of adding them."
+        },
+        {
+          "text": "$\\sqrt{193}\\text{ cm}$",
+          "why": "Used the width $7$ instead of the correct depth $5$ as a shorter side."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1.333,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0.667,0) {$5\\text{ cm}$};\n\\node[left] at (0,1.600) {$12\\text{ cm}$};\n\\node[above right] at (0.667,1.600) {$BG$};\n\\end{tikzpicture}\n[/tikz]\n$BG$ is the hypotenuse of right-angled triangle $BCG$.\n$BG=\\sqrt{5^{2}+12^{2}}$\n$=\\sqrt{169}$\n$=13\\text{ cm}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.42]\n\\coordinate (D) at (0,0,0);\n\\coordinate (A) at (6,0,0);\n\\coordinate (B) at (6,10,0);\n\\coordinate (C) at (0,10,0);\n\\coordinate (H) at (0,0,4);\n\\coordinate (E) at (6,0,4);\n\\coordinate (F) at (6,10,4);\n\\coordinate (G) at (0,10,4);\n\\draw[dashed] (A)--(D)--(C);\n\\draw[dashed] (D)--(H);\n\\draw (A)--(B)--(C);\n\\draw (H)--(E)--(F)--(G)--(H);\n\\draw (A)--(E);\n\\draw (B)--(F);\n\\draw (C)--(G);\n\\draw (E)--(G);\n\\draw (B)--(C) node[midway,below,fill=white,inner sep=1pt]{$6\\text{ cm}$};\n\\draw (A)--(B) node[midway,below left,fill=white,inner sep=1pt]{$10\\text{ cm}$};\n\\draw (B)--(F) node[midway,right,fill=white,inner sep=1pt]{$4\\text{ cm}$};\n\\node[left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above right] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]\nFind the length of the top face diagonal $EG$. Round to $2$ decimal places.",
+      "structure": "face-diagonal-decimal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$11.66\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$16\\text{ cm}$",
+          "why": "Added the two edges $6+10$ instead of adding their squares."
+        },
+        {
+          "text": "$8\\text{ cm}$",
+          "why": "Subtracted the squares $10^{2}-6^{2}$ instead of adding them."
+        },
+        {
+          "text": "$10.77\\text{ cm}$",
+          "why": "Used the height $4$ instead of the depth $6$ as a shorter side."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.200,0);\n\\coordinate (R) at (0,1.920);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.600,0) {$10\\text{ cm}$};\n\\node[left] at (0,0.960) {$6\\text{ cm}$};\n\\node[above right] at (1.600,0.960) {$EG$};\n\\end{tikzpicture}\n[/tikz]\n$EG$ is the hypotenuse whose shorter sides are the length and the width.\n$EG=\\sqrt{10^{2}+6^{2}}$\n$=\\sqrt{136}$\n$\\approx11.66\\text{ cm}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.850]\n\\draw (0,0) ellipse (1.950 and 0.585);\n\\draw (0,2.600)--(1.950,0);\n\\draw (0,2.600)--(-1.950,0);\n\\draw[dashed] (0,2.600)--(0,0);\n\\draw[dashed] (0,0)--(1.950,0);\n\\node[left] at (-0.05,1.300) {$8\\text{ cm}$};\n\\node[below] at (0.975,-0.05) {$6\\text{ cm}$};\n\\node[right] at (1.075,1.300) {$s\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA cone has base radius $6\\text{ cm}$ and perpendicular height $8\\text{ cm}$. Find its slant height $s$. Round to $1$ decimal place.",
+      "structure": "cone-slant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10.0\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$14.0\\text{ cm}$",
+          "why": "Added the radius and height $6+8$ instead of adding their squares."
+        },
+        {
+          "text": "$5.3\\text{ cm}$",
+          "why": "Subtracted the squares $8^{2}-6^{2}$ instead of adding them."
+        },
+        {
+          "text": "$100.0\\text{ cm}$",
+          "why": "Left the answer as the sum of squares without taking the square root."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.400,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.200,0) {$6\\text{ cm}$};\n\\node[left] at (0,1.600) {$8\\text{ cm}$};\n\\node[above right] at (1.200,1.600) {$s$};\n\\end{tikzpicture}\n[/tikz]\nThe slant height is the hypotenuse of a triangle with shorter sides the radius and the height.\n$s=\\sqrt{6^{2}+8^{2}}$\n$=\\sqrt{100}$\n$=10.0\\text{ cm}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.800]\n\\draw (0,0) ellipse (1.950 and 0.585);\n\\draw (0,2.600)--(1.950,0);\n\\draw (0,2.600)--(-1.950,0);\n\\draw[dashed] (0,2.600)--(0,0);\n\\draw[dashed] (0,0)--(1.950,0);\n\\node[left] at (-0.05,1.300) {$h\\text{ cm}$};\n\\node[below] at (0.975,-0.05) {$9\\text{ cm}$};\n\\node[right] at (1.075,1.300) {$15\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA cone has base radius $9\\text{ cm}$ and slant height $15\\text{ cm}$. Find its perpendicular height $h$.",
+      "structure": "cone-reverse",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$12\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{306}\\text{ cm}$",
+          "why": "Added the squares $15^{2}+9^{2}$ instead of subtracting to find a shorter side."
+        },
+        {
+          "text": "$6\\text{ cm}$",
+          "why": "Subtracted the lengths $15-9$ instead of subtracting their squares."
+        },
+        {
+          "text": "$24\\text{ cm}$",
+          "why": "Added the slant height and radius $15+9$ together."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.400,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.200,0) {$9\\text{ cm}$};\n\\node[left] at (0,1.600) {$h$};\n\\node[above right] at (1.200,1.600) {$15\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe slant height is the hypotenuse, so the perpendicular height is a shorter side.\n$h=\\sqrt{15^{2}-9^{2}}$\n$=\\sqrt{144}$\n$=12\\text{ cm}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.800]\n\\draw (0,3.000) ellipse (0.625 and 0.163);\n\\draw (0.625,0) arc (0:-180:0.625 and 0.163);\n\\draw[dashed] (0.625,0) arc (0:180:0.625 and 0.163);\n\\draw (-0.625,0)--(-0.625,3.000);\n\\draw (0.625,0)--(0.625,3.000);\n\\draw[dashed] (-0.625,0)--(0.625,0);\n\\draw (-0.625,0)--(0.625,3.000);\n\\node[below] at (0,-0.08) {$10\\text{ cm}$};\n\\node[right] at (0.675,1.500) {$24\\text{ cm}$};\n\\node[above left] at (0.219,1.650) {Rod};\n\\end{tikzpicture}\n[/tikz]\nA rod reaches from the bottom edge of a cylinder to the opposite point on the top edge. The cylinder has diameter $10\\text{ cm}$ and height $24\\text{ cm}$. Find the length of the rod.",
+      "structure": "cylinder-rod",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$26\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$34\\text{ cm}$",
+          "why": "Added the diameter and height $10+24$ instead of adding their squares."
+        },
+        {
+          "text": "$\\sqrt{601}\\text{ cm}$",
+          "why": "Used the radius $5$ instead of the diameter $10$ as a shorter side."
+        },
+        {
+          "text": "$\\sqrt{476}\\text{ cm}$",
+          "why": "Subtracted the squares $24^{2}-10^{2}$ instead of adding them."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1.333,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0.667,0) {$10\\text{ cm}$};\n\\node[left] at (0,1.600) {$24\\text{ cm}$};\n\\node[above right] at (0.667,1.600) {$\\text{rod}$};\n\\end{tikzpicture}\n[/tikz]\nThe rod is the hypotenuse of a triangle whose shorter sides are the diameter and the height.\n$\\text{rod}=\\sqrt{10^{2}+24^{2}}$\n$=\\sqrt{676}$\n$=26\\text{ cm}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.750]\n\\draw (0,3.000) ellipse (1.125 and 0.292);\n\\draw (1.125,0) arc (0:-180:1.125 and 0.292);\n\\draw[dashed] (1.125,0) arc (0:180:1.125 and 0.292);\n\\draw (-1.125,0)--(-1.125,3.000);\n\\draw (1.125,0)--(1.125,3.000);\n\\draw[dashed] (-1.125,0)--(1.125,0);\n\\draw (-1.125,0)--(1.125,3.000);\n\\node[below] at (0,-0.08) {$d\\text{ cm}$};\n\\node[right] at (1.175,1.500) {$20\\text{ cm}$};\n\\node[above left] at (0.394,1.650) {25 cm};\n\\end{tikzpicture}\n[/tikz]\nA rod of length $25\\text{ cm}$ just fits inside a cylinder of height $20\\text{ cm}$, reaching from the bottom edge to the opposite point on the top edge. Find the diameter $d$.",
+      "structure": "cylinder-reverse",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$15\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{1025}\\text{ cm}$",
+          "why": "Added the squares $25^{2}+20^{2}$ instead of subtracting to find a shorter side."
+        },
+        {
+          "text": "$5\\text{ cm}$",
+          "why": "Subtracted the lengths $25-20$ instead of subtracting their squares."
+        },
+        {
+          "text": "$7.5\\text{ cm}$",
+          "why": "Found the radius by halving instead of giving the diameter."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.400,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.200,0) {$d$};\n\\node[left] at (0,1.600) {$20\\text{ cm}$};\n\\node[above right] at (1.200,1.600) {$25\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nThe rod is the hypotenuse, so the diameter is a shorter side.\n$d=\\sqrt{25^{2}-20^{2}}$\n$=\\sqrt{225}$\n$=15\\text{ cm}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\tdplotsetmaincoords{70}{110}\n\\begin{tikzpicture}[tdplot_main_coords,scale=0.42]\n\\coordinate (D) at (0,0,0);\n\\coordinate (A) at (6,0,0);\n\\coordinate (B) at (6,15,0);\n\\coordinate (C) at (0,15,0);\n\\coordinate (H) at (0,0,8);\n\\coordinate (E) at (6,0,8);\n\\coordinate (F) at (6,15,8);\n\\coordinate (G) at (0,15,8);\n\\draw[dashed] (A)--(D)--(C);\n\\draw[dashed] (D)--(H);\n\\draw (A)--(B)--(C);\n\\draw (H)--(E)--(F)--(G)--(H);\n\\draw (A)--(E);\n\\draw (B)--(F);\n\\draw (C)--(G);\n\\draw (A)--(F) node[midway,fill=white,inner sep=1pt]{$17\\text{ cm}$};\n\\draw (B)--(C) node[midway,below,fill=white,inner sep=1pt]{$6\\text{ cm}$};\n\\draw (B)--(F) node[midway,right,fill=white,inner sep=1pt]{$8\\text{ cm}$};\n\\node[left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[above] at (E) {$E$};\n\\node[left] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above right] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]\nThe face diagonal $AF$ is $17\\text{ cm}$ and the height $BF$ is $8\\text{ cm}$. Find the width $AB$.",
+      "structure": "face-diagonal-reverse",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$15\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{353}\\text{ cm}$",
+          "why": "Added the squares $17^{2}+8^{2}$ instead of subtracting to find a shorter side."
+        },
+        {
+          "text": "$9\\text{ cm}$",
+          "why": "Subtracted the lengths $17-8$ instead of subtracting their squares."
+        },
+        {
+          "text": "$\\sqrt{323}\\text{ cm}$",
+          "why": "Used the depth $6$ instead of the height $8$ as the known shorter side."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.200,0);\n\\coordinate (R) at (0,1.707);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (1.600,0) {$AB$};\n\\node[left] at (0,0.853) {$8\\text{ cm}$};\n\\node[above right] at (1.600,0.853) {$17\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\n$AF$ is the hypotenuse, so $AB$ is a shorter side.\n$AB=\\sqrt{17^{2}-8^{2}}$\n$=\\sqrt{225}$\n$=15\\text{ cm}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.820]\n\\draw (0,0) ellipse (1.444 and 0.433);\n\\draw (0,2.600)--(1.444,0);\n\\draw (0,2.600)--(-1.444,0);\n\\draw[dashed] (0,2.600)--(0,0);\n\\draw[dashed] (0,0)--(1.444,0);\n\\node[left] at (-0.05,1.300) {$9\\text{ cm}$};\n\\node[below] at (0.722,-0.05) {$5\\text{ cm}$};\n\\node[right] at (0.822,1.300) {$s\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA paper drinking cup is a cone with base radius $5\\text{ cm}$ and perpendicular height $9\\text{ cm}$. Find the slant height $s$ of the cup. Round to $2$ decimal places.",
+      "structure": "cone-slant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10.30\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$14.00\\text{ cm}$",
+          "why": "Added the radius and height $5+9$ instead of adding their squares."
+        },
+        {
+          "text": "$7.48\\text{ cm}$",
+          "why": "Subtracted the squares $9^{2}-5^{2}$ instead of adding them."
+        },
+        {
+          "text": "$10.30\\text{ m}$",
+          "why": "Copied the value but used metres instead of the given centimetres."
+        }
+      ],
+      "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=0.900]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1.778,0);\n\\coordinate (R) at (0,3.200);\n\\draw (P)--(Q)--(R)--cycle;\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\node[below] at (0.889,0) {$5\\text{ cm}$};\n\\node[left] at (0,1.600) {$9\\text{ cm}$};\n\\node[above right] at (0.889,1.600) {$s$};\n\\end{tikzpicture}\n[/tikz]\nThe slant height is the hypotenuse, with shorter sides the radius and the height.\n$s=\\sqrt{5^{2}+9^{2}}$\n$=\\sqrt{106}$\n$\\approx10.30\\text{ cm}$"
+    }
+  ]
+}

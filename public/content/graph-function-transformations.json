@@ -1,0 +1,96 @@
+{
+  "skillId": "graph-function-transformations",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **translation** slides a graph without turning or resizing it. Starting from $y=f(x)$, adding a number **outside** $f$ moves the curve vertically and changing the input **inside** $f$ moves it horizontally. The vertical rule reads the way you expect; the horizontal rule looks backwards, and learning to trust it is the whole skill.",
+    "facts": [
+      "$y=f(x)+c$ (with $c>0$) shifts the graph **up** $c$; $y=f(x)-c$ shifts it **down** $c$. Each point maps $(x,y)\\to(x,y\\pm c)$.",
+      "$y=f(x-b)$ (with $b>0$) shifts the graph **right** $b$; $y=f(x+b)$ shifts it **left** $b$. Each point maps $(x,y)\\to(x\\pm b,y)$.",
+      "The horizontal rule looks backwards: subtracting $b$ inside $f$ moves the curve **right**, because the input must be $b$ larger to reach the same output.",
+      "A vertical shift changes only the $y$-coordinates; a horizontal shift changes only the $x$-coordinates.",
+      "Combined, $y=f(x-b)+c$ shifts right $b$ and up $c$, so $(x,y)\\to(x+b,\\,y+c)$. Asymptotes and vertices move by the same translation."
+    ],
+    "steps": [
+      "Read the translation from the equation: $+c$ or $-c$ outside $f$ shifts vertically; $(x-b)$ or $(x+b)$ inside $f$ shifts horizontally.",
+      "Shift every key point — vertex, intercepts, asymptotes — by that same translation.",
+      "Draw the new curve through the shifted key points."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Describe how the graph of $y=x^{2}+3$ is obtained from the graph of $y=x^{2}$.",
+        "solution_text": "The $+3$ is added outside $f$, so it is a vertical shift.\nShift the graph of $y=x^{2}$ up by $3$ units."
+      },
+      {
+        "question_text": "Describe how the graph of $y=(x-2)^{2}$ is obtained from the graph of $y=x^{2}$.",
+        "solution_text": "The $x$ is replaced by $x-2$, so it is a horizontal shift.\nSubtracting inside $f$ moves the curve right.\nShift the graph of $y=x^{2}$ right by $2$ units."
+      },
+      {
+        "question_text": "Describe how the graph of $y=2^{x}+1$ is obtained from the graph of $y=2^{x}$.",
+        "solution_text": "The $+1$ is added outside $f$, so it is a vertical shift.\nShift the graph of $y=2^{x}$ up by $1$ unit."
+      },
+      {
+        "question_text": "Write the equation obtained when the graph of $y=\\sqrt{x}$ is shifted up by $4$ units.",
+        "solution_text": "Shifting up $4$ adds $4$ to the output.\n$y=\\sqrt{x}+4$"
+      },
+      {
+        "question_text": "Write the equation obtained when the graph of $y=\\dfrac{1}{x}$ is shifted left by $3$ units.",
+        "solution_text": "Shifting left $3$ replaces $x$ with $x+3$.\n$y=\\dfrac{1}{x+3}$"
+      },
+      {
+        "question_text": "The point $(2,4)$ lies on $y=f(x)$. Find the image of this point on the graph of $y=f(x)+3$.",
+        "solution_text": "$y=f(x)+3$ adds $3$ to each $y$-value: $(x,y)\\to(x,y+3)$.\n$(2,\\,4+3)$\n$=(2,7)$"
+      },
+      {
+        "question_text": "The graph of $y=f(x)$ is shown. Sketch $y=f(x)-2$, marking the images of the two labelled points.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\node[blue,right] at (1.5,2.6) {$y=f(x)$};\n\\fill (-1,1) circle (2pt) node[above right] {$(-1,1)$};\n\\fill (1,-1) circle (2pt) node[below left] {$(1,-1)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$y=f(x)-2$ shifts every point **down** $2$: $(x,y)\\to(x,y-2)$.\n$(-1,1)\\to(-1,-1)$ and $(1,-1)\\to(1,-3)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-3.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\draw[thick,blue,<->,domain=-2.0:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x-2});\n\\node[gray,right] at (1.55,1.2) {$y=f(x)$};\n\\node[blue,right] at (1.6,-2.6) {$y=f(x)-2$};\n\\fill[gray] (-1,1) circle (1.5pt);\n\\fill[gray] (1,-1) circle (1.5pt);\n\\fill (-1,-1) circle (2pt) node[left] {$(-1,-1)$};\n\\fill (1,-3) circle (2pt) node[right] {$(1,-3)$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Describe how the graph of $y=2^{x-3}$ is obtained from the graph of $y=2^{x}$.",
+        "solution_text": "The exponent $x$ is replaced by $x-3$, so it is a horizontal shift.\nSubtracting inside moves the curve right.\nShift the graph of $y=2^{x}$ right by $3$ units."
+      },
+      {
+        "question_text": "Write the equation obtained when the graph of $y=\\dfrac{1}{x}$ is shifted down by $6$ units.",
+        "solution_text": "Shifting down $6$ subtracts $6$ from the output.\n$y=\\dfrac{1}{x}-6$"
+      },
+      {
+        "question_text": "The point $(1,5)$ lies on $y=f(x)$. Find the image of this point on the graph of $y=f(x+2)$.",
+        "solution_text": "$y=f(x+2)$ shifts the graph **left** $2$: $(x,y)\\to(x-2,y)$.\n$(1-2,\\,5)$\n$=(-1,5)$"
+      },
+      {
+        "question_text": "The graph of $y=f(x)$ (the parabola $y=x^{2}$) is shown. Sketch $y=f(x-2)$, marking the image of the vertex.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.6,0)--(2.6,0) node[right] {$x$};\n\\draw[->] (0,-0.7)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.78:1.78,smooth,samples=51,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[blue,right] at (1.5,3.0) {$y=f(x)$};\n\\fill (0,0) circle (2pt) node[below right] {$(0,0)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$y=f(x-2)$ shifts every point **right** $2$: $(x,y)\\to(x+2,y)$.\nThe vertex $(0,0)\\to(2,0)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.6,0)--(4.6,0) node[right] {$x$};\n\\draw[->] (0,-0.7)--(0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-1.78:1.78,smooth,samples=51,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,<->,domain=0.22:3.78,smooth,samples=51,variable=\\x] plot ({\\x},{(\\x-2)*(\\x-2)});\n\\node[gray,left] at (-1.1,2.4) {$y=f(x)$};\n\\node[blue,right] at (3.0,2.6) {$y=f(x-2)$};\n\\fill[gray] (0,0) circle (1.5pt);\n\\fill (2,0) circle (2pt) node[below] {$(2,0)$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The dashed curve is $y=x^{2}$. Describe the translation that produces the solid curve, and write its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.6,0)--(5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.7)--(0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-1.78:1.78,smooth,samples=51,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,<->,domain=1.22:4.78,smooth,samples=51,variable=\\x] plot ({\\x},{(\\x-3)*(\\x-3)});\n\\node[gray,left] at (-1.1,2.5) {$y=x^{2}$};\n\\fill[gray] (0,0) circle (2pt) node[below left] {$(0,0)$};\n\\fill (3,0) circle (2pt) node[below] {$(3,0)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The vertex moves from $(0,0)$ to $(3,0)$: right $3$, no vertical shift.\nReplace $x$ with $x-3$.\n$y=(x-3)^{2}$"
+      },
+      {
+        "question_text": "Write the equation obtained when the graph of $y=x^{3}$ is shifted left $1$ unit and up $4$ units.",
+        "solution_text": "Left $1$ replaces $x$ with $x+1$; up $4$ adds $4$.\n$y=(x+1)^{3}+4$"
+      },
+      {
+        "question_text": "Describe the translation that takes the graph of $y=\\sqrt{x}$ to the graph of $y=\\sqrt{x-3}+2$.",
+        "solution_text": "Inside $f$, $x$ becomes $x-3$: right $3$.\nOutside $f$, $+2$: up $2$.\nRight $3$ and up $2$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The graph of $y=f(x)$ is shown. Sketch $y=f(x-1)+2$, marking the images of the two labelled points.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(2.7,0) node[right] {$x$};\n\\draw[->] (0,-2.9)--(0,2.9) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\node[blue,right] at (1.5,2.6) {$y=f(x)$};\n\\fill (-1,1) circle (2pt) node[above right] {$(-1,1)$};\n\\fill (1,-1) circle (2pt) node[below left] {$(1,-1)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "$y=f(x-1)+2$ shifts right $1$ and up $2$: $(x,y)\\to(x+1,\\,y+2)$.\n$(-1,1)\\to(0,3)$ and $(1,-1)\\to(2,1)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.7,0)--(4.2,0) node[right] {$x$};\n\\draw[->] (0,-1.1)--(0,3.9) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.3:2.3,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*\\x*\\x*\\x-1.5*\\x});\n\\draw[thick,blue,<->,domain=-1.3:3.1,smooth,samples=61,variable=\\x] plot ({\\x},{0.5*(\\x-1)*(\\x-1)*(\\x-1)-1.5*(\\x-1)+2});\n\\node[gray,below] at (-1.7,-0.3) {$y=f(x)$};\n\\node[blue,right] at (2.2,3.4) {$y=f(x-1)+2$};\n\\fill[gray] (-1,1) circle (1.5pt);\n\\fill[gray] (1,-1) circle (1.5pt);\n\\fill (0,3) circle (2pt) node[above left] {$(0,3)$};\n\\fill (2,1) circle (2pt) node[above right] {$(2,1)$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The hyperbola $y=\\dfrac{1}{x}$ has vertical asymptote $x=0$ and horizontal asymptote $y=0$. It is shifted right $2$ units and down $1$ unit. Write the new equation and state its asymptotes.",
+        "solution_text": "Right $2$ replaces $x$ with $x-2$; down $1$ subtracts $1$.\n$y=\\dfrac{1}{x-2}-1$\nVertical asymptote $x=2$; horizontal asymptote $y=-1$."
+      },
+      {
+        "question_text": "The dashed curve is $y=x^{2}$. Describe the translation that produces the solid curve, and write its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-5.0,0)--(2.6,0) node[right] {$x$};\n\\draw[->] (0,-3.9)--(0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-1.78:1.78,smooth,samples=51,variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick,blue,<->,domain=-4.45:0.45,smooth,samples=51,variable=\\x] plot ({\\x},{(\\x+2)*(\\x+2)-3});\n\\node[gray,right] at (1.0,2.7) {$y=x^{2}$};\n\\fill[gray] (0,0) circle (2pt) node[above right] {$(0,0)$};\n\\fill (-2,-3) circle (2pt) node[below] {$(-2,-3)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "The vertex moves from $(0,0)$ to $(-2,-3)$: left $2$ and down $3$.\nReplace $x$ with $x+2$ and subtract $3$.\n$y=(x+2)^{2}-3$"
+      }
+    ],
+    "coverageNote": "Base functions kept to those the Stage 5 Path booklet uses ($x^{2}$, $2^{x}$, $\\sqrt{x}$, $\\tfrac1x$, $x^{3}$, generic $f$); the coefficient-of-$x$ case is flagged as Year 12 in the booklet and omitted."
+  }
+}

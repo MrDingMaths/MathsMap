@@ -1,0 +1,109 @@
+{
+  "skillId": "remainder-quadratic-divisor",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A polynomial is divided by $x^2-5x+6$. What is the most general form of the remainder?",
+      "structure": "remainder-form",
+      "mastery": false,
+      "options": [
+        { "text": "$ax+b$", "correct": true },
+        { "text": "$ax^2+bx+c$", "why": "The remainder's degree must be less than the divisor's degree of $2$, so a quadratic remainder is impossible." },
+        { "text": "$b$ (a constant only)", "why": "A constant is only the special case $a=0$; the remainder may also have degree $1$." },
+        { "text": "$ax^3+b$", "why": "A degree-$3$ remainder would still be divisible by the quadratic divisor; the degree must be below $2$." }
+      ],
+      "solution_text": "The divisor has degree $2$.\nThe remainder's degree must be less than $2$, so it has degree $1$ or $0$.\nMost general form: $ax+b$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$P(x)$ is divided by $(x-3)(x+1)$ with quotient $Q(x)$ and remainder $x-2$. Which identity is correct?",
+      "structure": "identity",
+      "mastery": false,
+      "options": [
+        { "text": "$P(x)=(x-3)(x+1)Q(x)+x-2$", "correct": true },
+        { "text": "$P(x)=(x-3)(x+1)Q(x)+x+2$", "why": "The remainder is $x-2$; its sign has been changed when copying it into the identity." },
+        { "text": "$P(x)=Q(x)+(x-3)(x+1)(x-2)$", "why": "The quotient must multiply the divisor; here the remainder has been multiplied instead." },
+        { "text": "$P(x)=(x-3)(x+1)(x-2)+Q(x)$", "why": "This swaps the roles of the quotient and the remainder in $P(x)=D(x)Q(x)+R(x)$." }
+      ],
+      "solution_text": "The identity is $P(x)=D(x)Q(x)+R(x)$.\n$P(x)=(x-3)(x+1)Q(x)+x-2$"
+    },
+    {
+      "id": "q3",
+      "question_text": "When $P(x)$ is divided by $(x-2)(x+7)$, the remainder is $5x-4$. What is the remainder when $P(x)$ is divided by $(x-2)$?",
+      "structure": "single-eval-linear",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$-14$", "why": "This evaluates $5x-4$ at $x=-2$; the factor $(x-2)$ is zero at $x=+2$." },
+        { "text": "$-39$", "why": "This evaluates $5x-4$ at $x=-7$, which matches the other factor $(x+7)$." },
+        { "text": "$-4$", "why": "This is the constant term of the remainder, i.e. its value at $x=0$, not at the root $x=2$." }
+      ],
+      "solution_text": "$P(x)=(x-2)(x+7)Q(x)+5x-4$\n$P(2)=(0)(2+7)Q(2)+5(2)-4$\n$=6$\nThe remainder is $6$."
+    },
+    {
+      "id": "q4",
+      "question_text": "When $P(x)$ is divided by $(x^2-25)$, the remainder is $2x+1$. What is the remainder when $P(x)$ is divided by $(x+5)$?",
+      "structure": "single-eval-quadratic",
+      "mastery": false,
+      "options": [
+        { "text": "$-9$", "correct": true },
+        { "text": "$11$", "why": "This evaluates $2x+1$ at $x=5$; the factor $(x+5)$ is zero at $x=-5$." },
+        { "text": "$1$", "why": "This is the remainder's constant term, its value at $x=0$, not at the root $x=-5$." },
+        { "text": "$-11$", "why": "This computes $-2(5)-1$, applying the minus sign to both terms instead of substituting $x=-5$." }
+      ],
+      "solution_text": "$x^2-25=(x-5)(x+5)$\n$P(x)=(x-5)(x+5)Q(x)+2x+1$\n$P(-5)=(-5-5)(0)Q(-5)+2(-5)+1$\n$=-9$\nThe remainder is $-9$."
+    },
+    {
+      "id": "q5",
+      "question_text": "$P(x)$ is divided by $(x-1)(x+4)$, with $P(1)=3$ and $P(-4)=13$. Find the remainder.",
+      "structure": "simultaneous-from-values",
+      "mastery": false,
+      "options": [
+        { "text": "$-2x+5$", "correct": true },
+        { "text": "$2x+5$", "why": "A sign error solving $5a=-10$; the coefficient $a$ is negative here." },
+        { "text": "$2x+1$", "why": "Subtracting the equations the wrong way round gives $a=2$, then $b=3-2=1$." },
+        { "text": "$5x-2$", "why": "This swaps the solved values of $a$ and $b$ when writing the remainder $ax+b$." }
+      ],
+      "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-1)(x+4)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$a+b=3$ and $-4a+b=13$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$5a=-10$\n$a=-2$\n$b=3+2$\n$=5$\nThe remainder is $-2x+5$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Find the remainder when $P(x)=x^3-4x+6$ is divided by $(x^2-4)$.",
+      "structure": "explicit-polynomial",
+      "mastery": true,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$4x-2$", "why": "Evaluating $-4(-2)$ as $-8$ gives $P(-2)=-10$, and the equations then solve to $4x-2$." },
+        { "text": "$12$", "why": "Adding $P(2)$ and $P(-2)$ does not give the remainder; the two values feed simultaneous equations." },
+        { "text": "$0$", "why": "This assumes $(x^2-4)$ divides exactly, but $P(2)=6\\neq 0$, so the remainder is not zero." }
+      ],
+      "solution_text": "1. **Write the identity with the remainder as ax+b**\n$x^2-4=(x-2)(x+2)$\n$P(x)=(x-2)(x+2)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(2)=8-8+6$\n$=6$\n$P(-2)=-8+8+6$\n$=6$\n$2a+b=6$ and $-2a+b=6$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$4a=0$\n$a=0$\n$b=6$\nThe remainder is $6$."
+    },
+    {
+      "id": "q7",
+      "question_text": "$P(x)$ leaves remainder $4$ when divided by $(x-1)$, and remainder $-8$ when divided by $(x+3)$. What is the remainder when $P(x)$ is divided by $(x-1)(x+3)$?",
+      "structure": "two-remainders",
+      "mastery": false,
+      "options": [
+        { "text": "$3x+1$", "correct": true },
+        { "text": "$-6x+10$", "why": "Substituting $x=3$ instead of $x=-3$ for the factor $(x+3)$ sets up $3a+b=-8$." },
+        { "text": "$4x-8$", "why": "This uses the two given remainders directly as the coefficients $a$ and $b$ without solving." },
+        { "text": "$3x-1$", "why": "An arithmetic slip finding $b$: from $a+b=4$ with $a=3$, $b=4-3=+1$." }
+      ],
+      "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-1)(x+3)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(1)=4$ and $P(-3)=-8$\n$a+b=4$ and $-3a+b=-8$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$4a=12$\n$a=3$\n$b=4-3$\n$=1$\nThe remainder is $3x+1$."
+    },
+    {
+      "id": "q8",
+      "question_text": "In this method, why is $P(x)$ evaluated at the roots of the divisor?",
+      "structure": "why-roots",
+      "mastery": false,
+      "options": [
+        { "text": "The $D(x)Q(x)$ term vanishes there, leaving only the remainder", "correct": true },
+        { "text": "The quotient $Q(x)$ equals zero at those points", "why": "It is the divisor $D(x)$, not the quotient, that is zero at its own roots." },
+        { "text": "The remainder is zero at those points", "why": "The remainder generally is not zero at the divisor's roots — that is exactly what is being found." },
+        { "text": "$P(x)$ equals zero at those points", "why": "The divisor's roots need not be zeros of $P(x)$; if they were, the remainder would be zero." }
+      ],
+      "solution_text": "$P(x)=D(x)Q(x)+R(x)$\nAt a root of the divisor, $D(x)=0$, so $D(x)Q(x)=0$.\nThis leaves $P(\\text{root})=R(\\text{root})$, an equation in $a$ and $b$."
+    }
+  ]
+}

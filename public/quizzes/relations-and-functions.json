@@ -1,0 +1,181 @@
+{
+  "skillId": "relations-and-functions",
+  "coverageNote": "Recognition skill; each structural type (mapping decision, ordered-pair decision, identify-the-repeated-input, define) is mirrored once with fresh values.",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$1$};\n\\node (L1) at (0,0) {$4$};\n\\node (L2) at (0,-1.3) {$7$};\n\\node (R0) at (3.4,1.3) {$0$};\n\\node (R1) at (3.4,0) {$3$};\n\\node (R2) at (3.4,-1.3) {$6$};\n\\draw[->] (L0)--(R1);\n\\draw[->] (L1)--(R0);\n\\draw[->] (L2)--(R2);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "mapping-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Yes — each input has exactly one arrow leaving it.",
+          "correct": true
+        },
+        {
+          "text": "No — two inputs are not allowed to point to different outputs.",
+          "why": "Different inputs may have different outputs; that is normal for a function."
+        },
+        {
+          "text": "No — the output $0$ is smaller than its input $4$.",
+          "why": "The sizes of the numbers are irrelevant to whether it is a function."
+        },
+        {
+          "text": "Yes — but only because every output value is used once.",
+          "why": "A function does not require each output to be used once; that is a different (one-to-one) property."
+        }
+      ],
+      "solution_text": "Each input $1$, $4$ and $7$ has exactly one arrow leaving it.\nYes, it is a function."
+    },
+    {
+      "id": "q2",
+      "question_text": "Does this mapping diagram represent a function?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) ellipse (0.8 and 2);\n\\draw (3.4,0) ellipse (0.8 and 2);\n\\node at (0,2.35) {$x$};\n\\node at (3.4,2.35) {$y$};\n\\node (L0) at (0,1.3) {$2$};\n\\node (L1) at (0,0) {$6$};\n\\node (L2) at (0,-1.3) {$9$};\n\\node (R0) at (3.4,1.3) {$1$};\n\\node (R1) at (3.4,0) {$5$};\n\\node (R2) at (3.4,-1.3) {$8$};\n\\draw[->] (L0)--(R0);\n\\draw[->] (L1)--(R1);\n\\draw[->] (L1)--(R2);\n\\draw[->] (L2)--(R0);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "mapping-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — the input $6$ points to both $5$ and $8$.",
+          "correct": true
+        },
+        {
+          "text": "Yes — every input is used, so it is a function.",
+          "why": "Using every input does not make it a function; one input still has two outputs."
+        },
+        {
+          "text": "No — the input $2$ and the input $9$ both point to $1$.",
+          "why": "Two inputs sharing an output is allowed; that is not what breaks it."
+        },
+        {
+          "text": "Yes — it passes because no output is repeated too often.",
+          "why": "Repeated outputs are allowed; the failure is an input with two outputs."
+        }
+      ],
+      "solution_text": "The input $6$ has two arrows leaving it, to $5$ and to $8$.\nNo, it is not a function."
+    },
+    {
+      "id": "q3",
+      "question_text": "Which of these sets of ordered pairs represents a function?",
+      "structure": "select-function-set",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\{(-2, 1),\\ (0, 1),\\ (3, 4)\\}$",
+          "correct": true
+        },
+        {
+          "text": "$\\{(5, 2),\\ (5, 6),\\ (8, 1)\\}$",
+          "why": "The input $5$ is paired with both $2$ and $6$, so it is not a function."
+        },
+        {
+          "text": "$\\{(4, 0),\\ (7, 9),\\ (4, 3)\\}$",
+          "why": "The input $4$ is paired with both $0$ and $3$, so it is not a function."
+        },
+        {
+          "text": "$\\{(1, 2),\\ (6, 5),\\ (1, 2),\\ (6, 8)\\}$",
+          "why": "The input $6$ is paired with both $5$ and $8$, so it is not a function."
+        }
+      ],
+      "solution_text": "Check each set for a repeated input with different outputs.\nOnly $\\{(-2, 1),\\ (0, 1),\\ (3, 4)\\}$ has all inputs different, so it is the function."
+    },
+    {
+      "id": "q4",
+      "question_text": "The relation $\\{(4, 1),\\ (-3, 6),\\ (4, 9),\\ (2, 6)\\}$ is not a function. Which input value is the reason?",
+      "structure": "identify-repeated-input",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$6$",
+          "why": "The output $6$ is repeated, but repeated outputs are allowed; the fault is a repeated input."
+        },
+        {
+          "text": "$-3$",
+          "why": "The input $-3$ appears only once, so it is not the cause."
+        },
+        {
+          "text": "$2$",
+          "why": "The input $2$ appears only once, so it is not the cause."
+        }
+      ],
+      "solution_text": "A relation is not a function when an input has two different outputs.\nThe input $4$ is paired with $1$ and with $9$.\nThe reason is the input $4$."
+    },
+    {
+      "id": "q5",
+      "question_text": "This table shows a relation between $x$ and $y$. Does it represent a function?\n$\\begin{array}{c|cccc} x & -1 & 0 & 4 & 0 \\\\ \\hline y & 3 & 5 & 3 & 8 \\end{array}$",
+      "structure": "table-decision",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No — the input $0$ is paired with both $5$ and $8$.",
+          "correct": true
+        },
+        {
+          "text": "No — the output $3$ appears for two different inputs.",
+          "why": "A shared output for different inputs is allowed; it does not break the function rule."
+        },
+        {
+          "text": "Yes — every $y$-value in the table is different.",
+          "why": "The $y$-values are not all different, and in any case that is not the test — repeated inputs are."
+        },
+        {
+          "text": "Yes — there are four ordered pairs, so it is a function.",
+          "why": "The number of pairs is irrelevant; a repeated input with two outputs still fails."
+        }
+      ],
+      "solution_text": "Read the inputs: $-1$, $0$, $4$, $0$.\nThe input $0$ is paired with $5$ and with $8$.\nNo, it is not a function."
+    },
+    {
+      "id": "q6",
+      "question_text": "Which statement correctly completes the definition? \"A relation is a function when ...\"",
+      "structure": "define",
+      "mastery": false,
+      "options": [
+        {
+          "text": "... each input is paired with exactly one output.",
+          "correct": true
+        },
+        {
+          "text": "... each output is paired with exactly one input.",
+          "why": "This describes a one-to-one relation; a function only restricts inputs, not outputs."
+        },
+        {
+          "text": "... every input and every output value is different.",
+          "why": "Outputs may repeat across inputs; only an input with two outputs is forbidden."
+        },
+        {
+          "text": "... there are the same number of inputs as outputs.",
+          "why": "Equal counts are not required; the rule is about one output per input."
+        }
+      ],
+      "solution_text": "A function pairs each input with exactly one output.\nThe first statement is correct."
+    },
+    {
+      "id": "q7",
+      "question_text": "The relation $\\{(1, 5),\\ (3, k),\\ (1, 5)\\}$ is written with a repeated pair. For which value of $k$ is this relation a function?",
+      "structure": "reason-parameter",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Any value of $k$ works.",
+          "correct": true
+        },
+        {
+          "text": "Only $k = 5$.",
+          "why": "Outputs may differ between different inputs; the input $3$ may map to any value."
+        },
+        {
+          "text": "No value of $k$ works.",
+          "why": "The pair $(1,5)$ is only repeated identically, so input $1$ still has the single output $5$."
+        },
+        {
+          "text": "Only $k \\neq 5$.",
+          "why": "There is no need to avoid $5$; input $3$ is separate from input $1$."
+        }
+      ],
+      "solution_text": "The pair $(1, 5)$ is listed twice identically, so input $1$ still has just one output, $5$.\nThe input $3$ is different, so its output $k$ can be anything.\nAny value of $k$ works."
+    }
+  ]
+}

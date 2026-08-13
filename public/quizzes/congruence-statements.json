@@ -1,0 +1,104 @@
+{
+  "skillId": "congruence-statements",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$\\triangle DEF$ has been reflected in the dashed mirror line to give the second triangle. Which congruence statement is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (2.4,0.2);\n\\coordinate (F) at (0.7,1.5);\n\\coordinate (L) at (6.0,0);\n\\coordinate (K) at (3.6,0.2);\n\\coordinate (M) at (5.3,1.5);\n\\draw (D) -- (E) -- (F) -- cycle;\n\\draw (L) -- (K) -- (M) -- cycle;\n\\draw[dashed] (3.0,-0.5) -- (3.0,2.0);\n\\node[below left] at (D) {$D$};\n\\node[below right] at (E) {$E$};\n\\node[above] at (F) {$F$};\n\\node[below right] at (L) {$L$};\n\\node[below left] at (K) {$K$};\n\\node[above] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "write-statement-triangles",
+      "mastery": false,
+      "options": [
+        { "text": "$\\triangle DEF \\equiv \\triangle LKM$", "correct": true },
+        { "text": "$\\triangle DEF \\equiv \\triangle KLM$", "why": "Lists the image's vertices in alphabetical order instead of matching order \u2014 $K$ is the reflection of $E$, not of $D$." },
+        { "text": "$\\triangle DEF \\equiv \\triangle MLK$", "why": "Pairs $D$ with $M$, but $M$ is the reflection of the apex $F$ \u2014 the statement must start with the image of $D$." },
+        { "text": "$\\triangle DEF \\equiv \\triangle LMK$", "why": "Starts correctly at $L$ but then runs around the image triangle the wrong way \u2014 $M$ is the reflection of $F$, not of $E$." }
+      ],
+      "solution_text": "The reflection matches $D \\leftrightarrow L$, $E \\leftrightarrow K$ and $F \\leftrightarrow M$.\n$\\triangle DEF \\equiv \\triangle LKM$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Quadrilateral $EFGH$ has been translated to give the second quadrilateral. Which congruence statement is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (E) at (0,0);\n\\coordinate (F) at (2.2,0);\n\\coordinate (G) at (1.7,1.4);\n\\coordinate (H) at (0.4,1.4);\n\\coordinate (P) at (3.4,0.4);\n\\coordinate (Q) at (5.6,0.4);\n\\coordinate (R) at (5.1,1.8);\n\\coordinate (S) at (3.8,1.8);\n\\draw (E) -- (F) -- (G) -- (H) -- cycle;\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\node[below] at (E) {$E$};\n\\node[below] at (F) {$F$};\n\\node[above] at (G) {$G$};\n\\node[above] at (H) {$H$};\n\\node[below] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\node[above] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "write-statement-quadrilaterals",
+      "mastery": false,
+      "options": [
+        { "text": "$EFGH \\equiv PQRS$", "correct": true },
+        { "text": "$EFGH \\equiv QRSP$", "why": "Starts the image at the wrong vertex \u2014 $Q$ sits where $F$ went, not $E$, so every pair is shifted by one place." },
+        { "text": "$EFGH \\equiv SRQP$", "why": "Runs the image's vertices in the reverse direction, pairing $E$ with $S$ instead of with $P$." },
+        { "text": "$EFGH \\equiv PQSR$", "why": "Swaps the last two vertices \u2014 the slide sends $G$ to $R$ and $H$ to $S$, not the other way around." }
+      ],
+      "solution_text": "The slide matches $E \\leftrightarrow P$, $F \\leftrightarrow Q$, $G \\leftrightarrow R$ and $H \\leftrightarrow S$.\n$EFGH \\equiv PQRS$"
+    },
+    {
+      "id": "q3",
+      "question_text": "In the statement $\\triangle BDF \\equiv \\triangle HKM$, which vertex corresponds to $D$?",
+      "structure": "read-vertex",
+      "mastery": false,
+      "options": [
+        { "text": "$K$", "correct": true },
+        { "text": "$H$", "why": "$H$ is the first-listed vertex, so it corresponds to $B$ \u2014 $D$ is the second-listed vertex of its triangle." },
+        { "text": "$M$", "why": "$M$ is the third-listed vertex, so it corresponds to $F$, not to the second-listed $D$." }
+      ],
+      "solution_text": "Matching the positions: $B \\leftrightarrow H$, $D \\leftrightarrow K$, $F \\leftrightarrow M$.\n$D$ corresponds to $K$."
+    },
+    {
+      "id": "q4",
+      "question_text": "$\\triangle PRT \\equiv \\triangle CEG$. Which side corresponds to side $PT$?",
+      "structure": "read-side",
+      "mastery": false,
+      "options": [
+        { "text": "$CG$", "correct": true },
+        { "text": "$CE$", "why": "$CE$ joins the first two listed vertices, so it corresponds to $PR$ \u2014 $PT$ joins the first and third." },
+        { "text": "$EG$", "why": "$EG$ joins the second and third listed vertices, so it corresponds to $RT$, not $PT$." }
+      ],
+      "solution_text": "$P \\leftrightarrow C$ and $T \\leftrightarrow G$.\nSide $PT$ corresponds to side $CG$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Quadrilateral $KLMN \\equiv$ quadrilateral $WXYZ$. Which angle corresponds to $\\angle M$?",
+      "structure": "read-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$\\angle Y$", "correct": true },
+        { "text": "$\\angle X$", "why": "$\\angle X$ is at the second-listed vertex, matching $\\angle L$ \u2014 $M$ is the third-listed vertex." },
+        { "text": "$\\angle Z$", "why": "$\\angle Z$ is at the last-listed vertex, matching $\\angle N$, not the third-listed $\\angle M$." }
+      ],
+      "solution_text": "$M$ is the third-listed vertex, matching the third-listed vertex $Y$.\n$\\angle M$ corresponds to $\\angle Y$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Given $\\triangle GHK \\equiv \\triangle PQR$, which statement is also correct?",
+      "structure": "reorder-statement",
+      "mastery": false,
+      "options": [
+        { "text": "$\\triangle HKG \\equiv \\triangle QRP$", "correct": true },
+        { "text": "$\\triangle HKG \\equiv \\triangle PQR$", "why": "Re-orders the left side only, so $H$ is now paired with $P$ \u2014 but $H$ corresponds to $Q$; both sides must move together." },
+        { "text": "$\\triangle KHG \\equiv \\triangle RPQ$", "why": "Pairs $H$ with $P$ in the middle positions, but $H$ corresponds to $Q$ \u2014 the second letters no longer match." },
+        { "text": "$\\triangle GKH \\equiv \\triangle PQR$", "why": "Swaps $K$ and $H$ on one side only, pairing $K$ with $Q$ instead of with $R$." }
+      ],
+      "solution_text": "Starting both sides one vertex later keeps every pair together: $H \\leftrightarrow Q$, $K \\leftrightarrow R$, $G \\leftrightarrow P$.\n$\\triangle HKG \\equiv \\triangle QRP$ names the same correspondence."
+    },
+    {
+      "id": "q7",
+      "question_text": "$\\triangle CDE \\equiv \\triangle WYX$, $\\angle C = 71^{\\circ}$ and $\\angle D = 56^{\\circ}$. Find the size of $\\angle WYX$.",
+      "structure": "find-value",
+      "mastery": true,
+      "options": [
+        { "text": "$56^{\\circ}$", "correct": true },
+        { "text": "$71^{\\circ}$", "why": "$71^{\\circ}$ is $\\angle C$, which corresponds to $\\angle W$ \u2014 but the vertex of $\\angle WYX$ is its middle letter $Y$, which matches $D$." },
+        { "text": "$53^{\\circ}$", "why": "$180^{\\circ} - 71^{\\circ} - 56^{\\circ} = 53^{\\circ}$ is the third angle $\\angle E$, which corresponds to $\\angle X$, not to the angle at $Y$." }
+      ],
+      "solution_text": "The vertex of $\\angle WYX$ is its middle letter, $Y$.\n$D \\leftrightarrow Y$, so $\\angle WYX = \\angle D$.\n$\\angle WYX = 56^{\\circ}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Quadrilateral $DEFG \\equiv$ quadrilateral $RSTU$, with $RS = 6$ cm, $ST = 9$ cm and $TU = 7$ cm. Find the length of $EF$.",
+      "structure": "find-value",
+      "mastery": false,
+      "options": [
+        { "text": "$9$ cm", "correct": true },
+        { "text": "$6$ cm", "why": "$6$ cm is $RS$, which corresponds to $DE$ \u2014 $E$ pairs with $S$ and $F$ with $T$, so $EF$ matches $ST$." },
+        { "text": "$7$ cm", "why": "$7$ cm is $TU$, which corresponds to $FG$, the next side around, not to $EF$." }
+      ],
+      "solution_text": "$E \\leftrightarrow S$ and $F \\leftrightarrow T$, so side $EF$ corresponds to side $ST$.\n$EF = 9$ cm"
+    }
+  ]
+}

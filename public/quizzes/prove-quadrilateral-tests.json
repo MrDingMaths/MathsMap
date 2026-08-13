@@ -1,0 +1,280 @@
+{
+  "skillId": "prove-quadrilateral-tests",
+  "questions": [
+    {
+      "id": "q1",
+      "structure": "identify-opposite-sides-test",
+      "mastery": false,
+      "question_text": "Both pairs of opposite sides of quadrilateral $ABCD$ are marked equal. Which test proves $ABCD$ is a parallelogram?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw[tk] (A)--(B);\n\\draw[tk2] (B)--(C);\n\\draw[tk] (D)--(C);\n\\draw[tk2] (A)--(D);\n\\draw (A)--(C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "Both pairs of opposite sides are equal.",
+          "correct": true
+        },
+        {
+          "text": "The diagonals are equal.",
+          "why": "Equal diagonals is the rectangle test and is not what is marked; the marks show equal sides, not equal diagonals."
+        },
+        {
+          "text": "One pair of opposite sides is equal.",
+          "why": "One pair alone is insufficient (an isosceles trapezium fits); the figure marks both pairs equal."
+        },
+        {
+          "text": "Both pairs of opposite angles are supplementary.",
+          "why": "Supplementary opposite angles is not a parallelogram test; opposite angles of a parallelogram are equal, not supplementary."
+        }
+      ],
+      "solution_text": "Both pairs of opposite sides are marked equal, which is exactly the opposite-sides test for a parallelogram."
+    },
+    {
+      "id": "q2",
+      "structure": "identify-opposite-angles-test",
+      "mastery": false,
+      "question_text": "In quadrilateral $ABCD$, $\\angle A = \\angle C$ and $\\angle B = \\angle D$. Which conclusion is justified?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\pic[draw,angle radius=0.55cm]{angle=B--A--D};\n\\pic[draw,angle radius=0.55cm]{angle=D--C--B};\n\\pic[draw,angle radius=0.5cm]{angle=A--B--C};\n\\pic[draw,angle radius=0.64cm]{angle=A--B--C};\n\\pic[draw,angle radius=0.5cm]{angle=C--D--A};\n\\pic[draw,angle radius=0.64cm]{angle=C--D--A};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$ABCD$ is a parallelogram (both pairs of opposite angles equal).",
+          "correct": true
+        },
+        {
+          "text": "$ABCD$ is a rhombus.",
+          "why": "Equal opposite angles do not force equal sides, so it need not be a rhombus."
+        },
+        {
+          "text": "$ABCD$ is a rectangle.",
+          "why": "A rectangle needs right angles; equal opposite angles can each be non-right."
+        },
+        {
+          "text": "Not enough information to classify $ABCD$.",
+          "why": "Both pairs of opposite angles equal is a complete parallelogram test, so a conclusion can be drawn."
+        }
+      ],
+      "solution_text": "Both pairs of opposite angles equal is a parallelogram test, so $ABCD$ is a parallelogram."
+    },
+    {
+      "id": "q3",
+      "structure": "diagonals-bisect-reason",
+      "mastery": false,
+      "question_text": "In the proof that a quadrilateral whose diagonals bisect each other is a parallelogram, $\\triangle ABE \\cong \\triangle CDE$ is shown by SAS. Which pair of equal angles is the \"A\" in that SAS?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (3.05,1.25);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\node[above left] at (3.2,1.4) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$\\angle AEB = \\angle CED$ (vertically opposite angles)",
+          "correct": true
+        },
+        {
+          "text": "$\\angle BAE = \\angle DCE$ (alternate angles)",
+          "why": "These alternate angles are a result of the congruence, not a given used to prove it, so they cannot be the included angle."
+        },
+        {
+          "text": "$\\angle ABE = \\angle CDE$ (corresponding angles)",
+          "why": "This pair is not known before the congruence and is not the angle between the two given equal sides."
+        },
+        {
+          "text": "$\\angle AEB = \\angle AED$ (angles on a straight line)",
+          "why": "These are supplementary, not equal, and they are not a matching pair between the two triangles."
+        }
+      ],
+      "solution_text": "The equal half-diagonals $AE = CE$ and $BE = DE$ are the two sides, and the included angle is the vertically opposite pair $\\angle AEB = \\angle CED$, giving SAS."
+    },
+    {
+      "id": "q4",
+      "structure": "insufficient-condition",
+      "mastery": false,
+      "question_text": "Which of these conditions is **not** enough on its own to prove that quadrilateral $ABCD$ is a parallelogram?",
+      "options": [
+        {
+          "text": "One pair of opposite sides is equal.",
+          "correct": true
+        },
+        {
+          "text": "Both pairs of opposite sides are equal.",
+          "why": "This is a valid parallelogram test, so it is sufficient, not insufficient."
+        },
+        {
+          "text": "The diagonals bisect each other.",
+          "why": "This is a valid parallelogram test, so it is sufficient."
+        },
+        {
+          "text": "One pair of opposite sides is equal and parallel.",
+          "why": "This is a valid parallelogram test, so it is sufficient."
+        }
+      ],
+      "solution_text": "One pair of opposite sides equal is satisfied by an isosceles trapezium, which is not a parallelogram, so it is insufficient."
+    },
+    {
+      "id": "q5",
+      "structure": "all-sides-rhombus",
+      "mastery": false,
+      "question_text": "A quadrilateral has all four sides equal. The most specific type it must be is:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (4.896,2.714);\n\\coordinate (D) at (1.696,2.714);\n\\draw[tk] (A)--(B);\n\\draw[tk] (B)--(C);\n\\draw[tk] (C)--(D);\n\\draw[tk] (D)--(A);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "a rhombus",
+          "correct": true
+        },
+        {
+          "text": "a parallelogram",
+          "why": "It is a parallelogram, but \"rhombus\" is more specific because all four sides are equal, not just opposite sides."
+        },
+        {
+          "text": "a square",
+          "why": "Equal sides do not force right angles, so it need not be a square."
+        },
+        {
+          "text": "a kite",
+          "why": "A kite has two pairs of adjacent equal sides, not necessarily all four equal, so this is not the most specific."
+        }
+      ],
+      "solution_text": "All four sides equal is the rhombus test; without a right angle it need not be a square, so the most specific answer is rhombus."
+    },
+    {
+      "id": "q6",
+      "structure": "diagonals-perp-bisect-rhombus",
+      "mastery": false,
+      "question_text": "The diagonals of quadrilateral $ABCD$ bisect each other at right angles. $ABCD$ must be a:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (4.5,2.598);\n\\coordinate (D) at (1.5,2.598);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (2.25,1.299);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\coordinate (pep) at ($(E)!0.28cm!(A)$);\n\\coordinate (peq) at ($(E)!0.28cm!(B)$);\n\\draw (pep)--($(pep)+(peq)-(E)$)--(peq);\n\\node[above left] at (2.4,1.44) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "rhombus",
+          "correct": true
+        },
+        {
+          "text": "rectangle",
+          "why": "A rectangle needs equal diagonals; perpendicular bisecting diagonals give equal sides, not equal diagonals."
+        },
+        {
+          "text": "parallelogram only",
+          "why": "Bisecting diagonals alone give a parallelogram, but the right angle upgrades it to a rhombus, which is more specific."
+        },
+        {
+          "text": "square",
+          "why": "A square also needs the diagonals to be equal, which is not given here."
+        }
+      ],
+      "solution_text": "Bisecting diagonals give a parallelogram; the right angle makes adjacent sides equal, so $ABCD$ is a rhombus."
+    },
+    {
+      "id": "q7",
+      "structure": "classify-equal-diagonals-rectangle",
+      "mastery": false,
+      "question_text": "The diagonals of a parallelogram are equal in length. The parallelogram must be a:",
+      "options": [
+        {
+          "text": "rectangle",
+          "correct": true
+        },
+        {
+          "text": "rhombus",
+          "why": "A rhombus comes from perpendicular diagonals or equal sides, not from equal diagonals."
+        },
+        {
+          "text": "square",
+          "why": "A square also needs perpendicular diagonals; equal diagonals alone give only a rectangle."
+        },
+        {
+          "text": "kite",
+          "why": "A kite is not a parallelogram, and this shape is already stated to be a parallelogram."
+        }
+      ],
+      "solution_text": "A parallelogram with equal diagonals satisfies the rectangle test, so it is a rectangle."
+    },
+    {
+      "id": "q8",
+      "structure": "numerical-test",
+      "mastery": false,
+      "question_text": "The diagonals of quadrilateral $ABCD$ bisect each other. If $AE = 2x + 1$ and $CE = x + 7$ (where $E$ is the intersection), what is $x$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (3.05,1.25);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\node[above left] at (3.2,1.4) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "$x = 6$",
+          "correct": true
+        },
+        {
+          "text": "$x = 8$",
+          "why": "This comes from adding $2x + 1$ and $x + 7$ and mishandling the equation instead of setting $AE = CE$."
+        },
+        {
+          "text": "$x = 4$",
+          "why": "This comes from solving $2x + 1 = x - 7$, a sign slip on the constant term."
+        },
+        {
+          "text": "$x = 3$",
+          "why": "This comes from equating $2x + 1$ to $7$ and ignoring the $x$ term in $CE$."
+        }
+      ],
+      "solution_text": "Bisection gives $AE = CE$, so $2x + 1 = x + 7$, hence $x = 6$."
+    },
+    {
+      "id": "q9",
+      "structure": "classify-square-from-diagonals",
+      "mastery": true,
+      "question_text": "The diagonals of a quadrilateral bisect each other, are equal in length, and meet at right angles. The most specific type of quadrilateral this must be is a:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (3,3);\n\\coordinate (D) at (0,3);\n\\coordinate (E) at (1.5,1.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk] (B)--(E);\n\\draw[tk] (E)--(D);\n\\coordinate (cep) at ($(E)!0.28cm!(A)$);\n\\coordinate (ceq) at ($(E)!0.28cm!(B)$);\n\\draw (cep)--($(cep)+(ceq)-(E)$)--(ceq);\n\\node[above left] at (1.35,1.7) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "square",
+          "correct": true
+        },
+        {
+          "text": "rhombus",
+          "why": "Perpendicular bisecting diagonals give a rhombus, but the equal-diagonals condition also forces right angles, upgrading it to a square."
+        },
+        {
+          "text": "rectangle",
+          "why": "Equal bisecting diagonals give a rectangle, but the perpendicular condition also forces equal sides, upgrading it to a square."
+        },
+        {
+          "text": "parallelogram only",
+          "why": "Bisecting diagonals alone give a parallelogram, but the extra equal and perpendicular conditions make it a square."
+        }
+      ],
+      "solution_text": "Bisecting diagonals give a parallelogram; equal diagonals make it a rectangle and perpendicular diagonals make it a rhombus, so it is both, that is a square."
+    },
+    {
+      "id": "q10",
+      "structure": "diagonals-bisect-parallel-complete",
+      "mastery": true,
+      "question_text": "In the proof that a quadrilateral whose diagonals bisect each other is a parallelogram, $\\triangle ABE \\cong \\triangle CDE$ gives $\\angle BAE = \\angle DCE$. Why does this show $AB \\parallel DC$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,decorations.markings,calc,angles,quotes}\n\\tikzset{sa/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\arrow{Stealth}}}}},da/.style={postaction={decorate,decoration={markings,mark=at position 0.4 with {\\arrow{Stealth}},mark=at position 0.56 with {\\arrow{Stealth}}}}},tk/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (0pt,-4pt)--(0pt,4pt);}}}},tk2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw (-2pt,-4pt)--(-2pt,4pt);\\draw (2pt,-4pt)--(2pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.6,0);\n\\coordinate (C) at (6.1,2.5);\n\\coordinate (D) at (1.5,2.5);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw (C)--(D);\n\\draw (D)--(A);\n\\coordinate (E) at (3.05,1.25);\n\\draw[tk] (A)--(E);\n\\draw[tk] (E)--(C);\n\\draw[tk2] (B)--(E);\n\\draw[tk2] (E)--(D);\n\\node[above left] at (3.2,1.4) {$E$};\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "options": [
+        {
+          "text": "They are equal alternate angles on the transversal $AC$, and equal alternate angles mean the lines are parallel.",
+          "correct": true
+        },
+        {
+          "text": "They are equal corresponding angles, so the lines are parallel.",
+          "why": "$\\angle BAE$ and $\\angle DCE$ lie on opposite sides of the transversal, making them alternate angles, not corresponding."
+        },
+        {
+          "text": "They are co-interior angles that add to $180^{\\circ}$.",
+          "why": "Co-interior angles are supplementary, but here the angles are equal, so the alternate-angle reason applies."
+        },
+        {
+          "text": "Equal angles always mean the sides are equal, so the lines are parallel.",
+          "why": "Equal angles do not make sides equal, and equal length would not establish parallel lines anyway."
+        }
+      ],
+      "solution_text": "$AC$ is a transversal, and $\\angle BAE = \\angle DCE$ are equal alternate angles, so $AB \\parallel DC$ (equal alternate angles imply parallel lines)."
+    },
+    {
+      "id": "q11",
+      "structure": "rhombus-side-numerical",
+      "mastery": false,
+      "question_text": "$ABCD$ is a rhombus with $AB = 4x - 3$ and $BC = 2x + 5$. What is $x$?",
+      "options": [
+        {
+          "text": "$x = 4$",
+          "correct": true
+        },
+        {
+          "text": "$x = 1$",
+          "why": "This comes from solving $4x - 3 = 2x - 5$, a sign error on the constant of $BC$."
+        },
+        {
+          "text": "$x = 2$",
+          "why": "This comes from equating $4x - 3$ to $5$ and ignoring the $2x$ term of $BC$."
+        },
+        {
+          "text": "$x = 8$",
+          "why": "From $2x = 8$ the final division by $2$ is skipped, leaving $x = 8$ instead of $x = 4$."
+        }
+      ],
+      "solution_text": "All sides of a rhombus are equal, so $AB = BC$: $4x - 3 = 2x + 5$, giving $2x = 8$ and $x = 4$."
+    }
+  ]
+}

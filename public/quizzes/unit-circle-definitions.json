@@ -1,0 +1,109 @@
+{
+  "skillId": "unit-circle-definitions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2.2]\n\\draw[step=0.2,gray!30,very thin] (-1,-1) grid (1,1);\n\\draw[-{Stealth}] (-1.25,0)--(1.25,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.25)--(0,1.25) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\node[below right,font=\\scriptsize] at (0,0) {$O$};\n\\node[below,font=\\scriptsize] at (1,0) {$1$};\n\\node[below,font=\\scriptsize] at (-1,0) {$-1$};\n\\node[right,font=\\scriptsize] at (0,1) {$1$};\n\\node[right,font=\\scriptsize] at (0,-1) {$-1$};\n\\coordinate (P) at (-0.8,0.6);\n\\draw[thick,blue] (0,0)--(P);\n\\fill[red] (P) circle (1.4pt);\n\\node[above left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe point $P(\\cos\\theta,\\sin\\theta)$ is shown on the unit circle. Use the grid to state $\\cos\\theta$ and $\\sin\\theta$.",
+      "structure": "read-coordinates",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos\\theta=-0.8,\\ \\sin\\theta=0.6$", "correct": true },
+        { "text": "$\\cos\\theta=0.6,\\ \\sin\\theta=-0.8$", "why": "Read $\\cos\\theta$ off the $y$-axis and $\\sin\\theta$ off the $x$-axis; the coordinates were swapped." },
+        { "text": "$\\cos\\theta=0.8,\\ \\sin\\theta=0.6$", "why": "Read the $x$-coordinate as positive, ignoring that $P$ lies left of the $y$-axis." },
+        { "text": "$\\cos\\theta=-0.8,\\ \\sin\\theta=-0.6$", "why": "Made the $y$-coordinate negative, but $P$ lies above the $x$-axis where $y>0$." }
+      ],
+      "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate.\n$\\cos\\theta=-0.8$\n$\\sin\\theta=0.6$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\draw[-{Stealth}] (-1.3,0)--(1.3,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.3)--(0,1.3) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (240:1);\n\\draw[thick,blue] (O)--(P);\n\\draw (0.32,0) arc (0:240:0.32);\n\\node[font=\\scriptsize] at (120:0.6) {$240^{\\circ}$};\n\\fill[red] (P) circle (1.2pt);\n\\node[below left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe radius to $P$ makes an angle of $240^{\\circ}$ with the positive $x$-axis. Which coordinate of $P$ gives $\\sin\\theta$, and what is its sign?",
+      "structure": "coordinate-sign",
+      "mastery": false,
+      "options": [
+        { "text": "$\\sin\\theta$ is the $y$-coordinate, and it is negative.", "correct": true },
+        { "text": "$\\sin\\theta$ is the $y$-coordinate, and it is positive.", "why": "Correct coordinate, but $P$ at $240^{\\circ}$ lies below the $x$-axis, so $y<0$." },
+        { "text": "$\\sin\\theta$ is the $x$-coordinate, and it is negative.", "why": "Confused $\\sin\\theta$ with the $x$-coordinate; $\\sin\\theta$ is the $y$-coordinate." },
+        { "text": "$\\sin\\theta$ is the $x$-coordinate, and it is positive.", "why": "Used the $x$-coordinate and the wrong sign; $\\sin\\theta$ is the $y$-coordinate, which is negative here." }
+      ],
+      "solution_text": "$\\sin\\theta$ is the $y$-coordinate of $P$.\n$P$ at $240^{\\circ}$ lies in the third quadrant, below the $x$-axis, so $\\sin\\theta$ is negative."
+    },
+    {
+      "id": "q3",
+      "question_text": "State the exact values of $\\cos0^{\\circ}$ and $\\sin0^{\\circ}$ using the unit circle.",
+      "structure": "quadrantal-exact",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos0^{\\circ}=1,\\ \\sin0^{\\circ}=0$", "correct": true },
+        { "text": "$\\cos0^{\\circ}=0,\\ \\sin0^{\\circ}=1$", "why": "Swapped the coordinates; at $0^{\\circ}$ the point is $(1,0)$, so $\\cos=1$ and $\\sin=0$." },
+        { "text": "$\\cos0^{\\circ}=0,\\ \\sin0^{\\circ}=0$", "why": "Placed $P$ at the origin; on the unit circle $P$ is at $(1,0)$, a distance $1$ from the centre." },
+        { "text": "$\\cos0^{\\circ}=1,\\ \\sin0^{\\circ}=1$", "why": "Took both coordinates as $1$; the point $(1,1)$ is not on the unit circle." }
+      ],
+      "solution_text": "At $\\theta=0^{\\circ}$, $P$ sits at the right of the unit circle, $P=(1,0)$.\n$\\cos0^{\\circ}=1$\n$\\sin0^{\\circ}=0$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The point $P(0.8,-0.6)$ lies on the unit circle at angle of inclination $\\theta$. What is the value of $\\sin\\theta$?",
+      "structure": "identify-from-point",
+      "mastery": false,
+      "options": [
+        { "text": "$-0.6$", "correct": true },
+        { "text": "$0.6$", "why": "Dropped the negative; $\\sin\\theta$ is the $y$-coordinate and $P$ lies below the $x$-axis." },
+        { "text": "$0.8$", "why": "Read the $x$-coordinate; $\\sin\\theta$ is the $y$-coordinate of $P$." },
+        { "text": "$-0.8$", "why": "Read the $x$-coordinate and made it negative; $\\sin\\theta$ is the $y$-coordinate, $-0.6$." }
+      ],
+      "solution_text": "$\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\sin\\theta=-0.6$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\draw[-{Stealth}] (-1.3,0)--(1.3,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.3)--(0,1.3) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (1);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (160:1);\n\\draw[thick,blue] (O)--(P);\n\\draw (0.32,0) arc (0:160:0.32);\n\\node[font=\\scriptsize] at (80:0.6) {$160^{\\circ}$};\n\\fill[red] (P) circle (1.2pt);\n\\node[above left,font=\\scriptsize] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]\nThe radius to $P$ makes an angle of $160^{\\circ}$ with the positive $x$-axis. Which coordinate of $P$ gives $\\cos\\theta$, and what is its sign?",
+      "structure": "coordinate-sign",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos\\theta$ is the $x$-coordinate, and it is negative.", "correct": true },
+        { "text": "$\\cos\\theta$ is the $x$-coordinate, and it is positive.", "why": "Correct coordinate, but $P$ at $160^{\\circ}$ lies left of the $y$-axis, so $x<0$." },
+        { "text": "$\\cos\\theta$ is the $y$-coordinate, and it is positive.", "why": "Confused $\\cos\\theta$ with the $y$-coordinate; $\\cos\\theta$ is the $x$-coordinate." },
+        { "text": "$\\cos\\theta$ is the $y$-coordinate, and it is negative.", "why": "Used the $y$-coordinate; $\\cos\\theta$ is the $x$-coordinate, which is negative here." }
+      ],
+      "solution_text": "$\\cos\\theta$ is the $x$-coordinate of $P$.\n$P$ at $160^{\\circ}$ lies in the second quadrant, left of the $y$-axis, so $\\cos\\theta$ is negative."
+    },
+    {
+      "id": "q6",
+      "question_text": "State the exact values of $\\cos360^{\\circ}$ and $\\sin360^{\\circ}$ using the unit circle.",
+      "structure": "quadrantal-exact",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos360^{\\circ}=1,\\ \\sin360^{\\circ}=0$", "correct": true },
+        { "text": "$\\cos360^{\\circ}=0,\\ \\sin360^{\\circ}=1$", "why": "Swapped the coordinates; a full turn returns $P$ to $(1,0)$." },
+        { "text": "$\\cos360^{\\circ}=-1,\\ \\sin360^{\\circ}=0$", "why": "Placed $P$ at $(-1,0)$, which is $180^{\\circ}$; a full turn of $360^{\\circ}$ returns to $(1,0)$." },
+        { "text": "$\\cos360^{\\circ}=0,\\ \\sin360^{\\circ}=0$", "why": "Placed $P$ at the origin; $P$ lies on the circle at $(1,0)$." }
+      ],
+      "solution_text": "A full turn of $360^{\\circ}$ brings $P$ back to the right of the unit circle, $P=(1,0)$.\n$\\cos360^{\\circ}=1$\n$\\sin360^{\\circ}=0$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The point $P(-0.28,-0.96)$ lies on the unit circle at angle of inclination $\\theta$. State $\\cos\\theta$ and $\\sin\\theta$.",
+      "structure": "identify-from-point",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos\\theta=-0.28,\\ \\sin\\theta=-0.96$", "correct": true },
+        { "text": "$\\cos\\theta=-0.96,\\ \\sin\\theta=-0.28$", "why": "Swapped the coordinates; $\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate." },
+        { "text": "$\\cos\\theta=0.28,\\ \\sin\\theta=0.96$", "why": "Dropped both negatives; $P$ is in the third quadrant where $x<0$ and $y<0$." },
+        { "text": "$\\cos\\theta=-0.28,\\ \\sin\\theta=0.96$", "why": "Kept the $y$-coordinate positive; $P$ lies below the $x$-axis, so $y<0$." }
+      ],
+      "solution_text": "$\\cos\\theta$ is the $x$-coordinate and $\\sin\\theta$ is the $y$-coordinate of $P$.\n$\\cos\\theta=-0.28$\n$\\sin\\theta=-0.96$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The point $P(\\cos\\theta,\\sin\\theta)$ lies on the unit circle with $\\sin\\theta=0.6$, and $\\theta$ is in the second quadrant. Find $\\cos\\theta$.",
+      "structure": "missing-coordinate",
+      "mastery": true,
+      "options": [
+        { "text": "$\\cos\\theta=-0.8$", "correct": true },
+        { "text": "$\\cos\\theta=0.8$", "why": "Found $x^2=0.64$ but chose the positive root; in the second quadrant $x<0$." },
+        { "text": "$\\cos\\theta=-0.6$", "why": "Set $\\cos\\theta=-\\sin\\theta$ instead of using $x^2+y^2=1$." },
+        { "text": "$\\cos\\theta=0.4$", "why": "Computed $1-0.6=0.4$ instead of $1-0.6^2$, forgetting to square first." }
+      ],
+      "solution_text": "On the unit circle $x^2+y^2=1$, with $x=\\cos\\theta$ and $y=\\sin\\theta$.\n$\\cos^2\\theta=1-\\sin^2\\theta$\n$=1-0.6^2$\n$=0.64$\n$\\cos\\theta=\\pm0.8$\nIn the second quadrant $x<0$, so $\\cos\\theta=-0.8$."
+    }
+  ]
+}

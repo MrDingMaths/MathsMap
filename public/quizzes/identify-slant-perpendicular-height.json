@@ -1,0 +1,230 @@
+{
+  "skillId": "identify-slant-perpendicular-height",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,2.1);\n\\coordinate (Lp) at (-2.8,0);\n\\coordinate (Rp) at (2.8,0);\n\\draw (Lp) arc (180:360:2.8 and 0.896);\n\\draw[dashed] (Rp) arc (0:180:2.8 and 0.896);\n\\draw (Ap) -- (Rp) node[midway,right] {$l$};\n\\draw (Ap) -- (Lp);\n\\draw[dashed] (Ap) -- (O) node[midway,left] {$6\\text{ cm}$};\n\\draw (O) -- (Rp) node[midway,below] {$8\\text{ cm}$};\n\\coordinate (ra) at ($(O)!0.28cm!(Ap)$);\n\\coordinate (rb) at ($(O)!0.28cm!(Rp)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\fill (O) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]\nA cone has base radius $8\\text{ cm}$ and perpendicular height $6\\text{ cm}$. Find the slant height $l$.",
+      "structure": "cone-find-slant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{28}\\text{ cm}$",
+          "why": "Subtracted the squares instead of adding them, as if the slant height were a shorter side."
+        },
+        {
+          "text": "$14\\text{ cm}$",
+          "why": "Added the radius and height without squaring them first."
+        },
+        {
+          "text": "$100\\text{ cm}$",
+          "why": "Stopped at $l^{2}=100$ and forgot to take the square root."
+        }
+      ],
+      "solution_text": "$l=\\sqrt{8^{2}+6^{2}}$\n$=\\sqrt{100}$\n$=10\\text{ cm}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,3.088);\n\\coordinate (Lp) at (-1.647,0);\n\\coordinate (Rp) at (1.647,0);\n\\draw (Lp) arc (180:360:1.647 and 0.527);\n\\draw[dashed] (Rp) arc (0:180:1.647 and 0.527);\n\\draw (Ap) -- (Rp) node[midway,right] {$17\\text{ cm}$};\n\\draw (Ap) -- (Lp);\n\\draw[dashed] (Ap) -- (O) node[midway,left] {$h$};\n\\draw (O) -- (Rp) node[midway,below] {$8\\text{ cm}$};\n\\coordinate (ra) at ($(O)!0.28cm!(Ap)$);\n\\coordinate (rb) at ($(O)!0.28cm!(Rp)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\fill (O) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]\nA cone has base radius $8\\text{ cm}$ and slant height $17\\text{ cm}$. Find the perpendicular height $h$.",
+      "structure": "cone-find-perp-height",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$15\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{353}\\text{ cm}$",
+          "why": "Added the squares instead of subtracting, treating the height as the hypotenuse."
+        },
+        {
+          "text": "$9\\text{ cm}$",
+          "why": "Subtracted the lengths directly ($17-8$) instead of subtracting their squares."
+        },
+        {
+          "text": "$225\\text{ cm}$",
+          "why": "Stopped at $h^{2}=225$ without taking the square root."
+        }
+      ],
+      "solution_text": "$h=\\sqrt{17^{2}-8^{2}}$\n$=\\sqrt{225}$\n$=15\\text{ cm}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A cone has perpendicular height $9\\text{ cm}$ and slant height $15\\text{ cm}$. Find the base radius $r$.",
+      "structure": "cone-find-radius",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{306}\\text{ cm}$",
+          "why": "Added the squares instead of subtracting, treating the radius as the hypotenuse."
+        },
+        {
+          "text": "$6\\text{ cm}$",
+          "why": "Subtracted the lengths directly ($15-9$) instead of subtracting their squares."
+        },
+        {
+          "text": "$144\\text{ cm}$",
+          "why": "Stopped at $r^{2}=144$ and forgot to take the square root."
+        }
+      ],
+      "solution_text": "$r=\\sqrt{15^{2}-9^{2}}$\n$=\\sqrt{144}$\n$=12\\text{ cm}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,0.787);\n\\coordinate (FL) at (-2.55,-0.945);\n\\coordinate (FR) at (1.228,-0.945);\n\\coordinate (BL) at (-1.228,0.945);\n\\coordinate (BR) at (2.55,0.945);\n\\coordinate (M) at (-0.661,-0.945);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (BR) -- (BL) -- (FL);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$h$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.661,-0.945) {$24\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA right square pyramid has base edge $24\\text{ cm}$ and perpendicular height $5\\text{ cm}$. Find the slant height $l$ of a triangular face.",
+      "structure": "pyramid-slant-from-height",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$13\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{601}\\text{ cm}$",
+          "why": "Used the full base edge $24$ instead of half the base edge as the leg."
+        },
+        {
+          "text": "$\\sqrt{551}\\text{ cm}$",
+          "why": "Subtracted, computing $\\sqrt{24^{2}-5^{2}}$ instead of using half the edge and adding."
+        },
+        {
+          "text": "$17\\text{ cm}$",
+          "why": "Added half the base edge and the height directly ($12+5$) without squaring."
+        }
+      ],
+      "solution_text": "Half the base edge is $24\\div2=12\\text{ cm}$.\n$l=\\sqrt{5^{2}+12^{2}}$\n$=\\sqrt{169}$\n$=13\\text{ cm}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (FL) at (-0.952,0);\n\\coordinate (FR) at (0.952,0);\n\\coordinate (BL) at (-0.352,0.8);\n\\coordinate (BR) at (1.552,0.8);\n\\coordinate (Ap) at (0,3.4);\n\\coordinate (Mf) at (0,0);\n\\coordinate (Ct) at (0.3,0.4);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (FL) -- (BL) -- (BR);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw (Ap) -- (Mf) node[midway,right] {$25\\text{ cm}$};\n\\draw[dashed] (Ap) -- (Ct) node[midway,left] {$h$};\n\\node[below] at (0,0) {$14\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA right square pyramid has base edge $14\\text{ cm}$ and slant height $25\\text{ cm}$. Find the perpendicular height $h$.",
+      "structure": "pyramid-height-from-slant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$24\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{429}\\text{ cm}$",
+          "why": "Used the full base edge $14$ instead of half the base edge as the leg."
+        },
+        {
+          "text": "$\\sqrt{674}\\text{ cm}$",
+          "why": "Added the squares instead of subtracting, treating the height as the hypotenuse."
+        },
+        {
+          "text": "$18\\text{ cm}$",
+          "why": "Subtracted half the base edge from the slant directly ($25-7$) without squaring."
+        }
+      ],
+      "solution_text": "Half the base edge is $14\\div2=7\\text{ cm}$.\n$h=\\sqrt{25^{2}-7^{2}}$\n$=\\sqrt{576}$\n$=24\\text{ cm}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,3.25);\n\\coordinate (Lp) at (-1.3,0);\n\\coordinate (Rp) at (1.3,0);\n\\draw (Lp) arc (180:360:1.3 and 0.416);\n\\draw[dashed] (Rp) arc (0:180:1.3 and 0.416);\n\\draw (Ap) -- (Rp) node[midway,right] {$l$};\n\\draw (Ap) -- (Lp);\n\\draw[dashed] (Ap) -- (O) node[midway,left] {$5\\text{ m}$};\n\\draw (O) -- (Rp) node[midway,below] {$2\\text{ m}$};\n\\coordinate (ra) at ($(O)!0.28cm!(Ap)$);\n\\coordinate (rb) at ($(O)!0.28cm!(Rp)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\fill (O) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]\nA cone has base radius $2\\text{ m}$ and perpendicular height $5\\text{ m}$. Find the slant height $l$ in exact surd form.",
+      "structure": "cone-find-slant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\sqrt{29}\\text{ m}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{21}\\text{ m}$",
+          "why": "Subtracted the squares instead of adding them for the hypotenuse."
+        },
+        {
+          "text": "$7\\text{ m}$",
+          "why": "Added the radius and height directly ($2+5$) instead of adding their squares."
+        },
+        {
+          "text": "$29\\text{ m}$",
+          "why": "Stopped at $l^{2}=29$ and forgot to take the square root."
+        }
+      ],
+      "solution_text": "$l=\\sqrt{2^{2}+5^{2}}$\n$=\\sqrt{29}\\text{ m}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,3.231);\n\\coordinate (Lp) at (-1.346,0);\n\\coordinate (Rp) at (1.346,0);\n\\draw (Lp) arc (180:360:1.346 and 0.431);\n\\draw[dashed] (Rp) arc (0:180:1.346 and 0.431);\n\\draw (Ap) -- (Rp) node[midway,right] {$l$};\n\\draw (Ap) -- (Lp);\n\\draw[dashed] (Ap) -- (O) node[midway,left] {$12\\text{ cm}$};\n\\draw[{Stealth}-{Stealth}] (Lp) -- (Rp) node[midway,below] {$10\\text{ cm}$};\n\\coordinate (ra) at ($(O)!0.28cm!(Ap)$);\n\\coordinate (rb) at ($(O)!0.28cm!(Rp)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\fill (O) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]\nA cone has base **diameter** $10\\text{ cm}$ and perpendicular height $12\\text{ cm}$. Find the slant height $l$.",
+      "structure": "cone-find-slant",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$13\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{244}\\text{ cm}$",
+          "why": "Used the diameter $10$ as the radius instead of halving it first."
+        },
+        {
+          "text": "$\\sqrt{119}\\text{ cm}$",
+          "why": "Subtracted the squares instead of adding after halving the diameter."
+        },
+        {
+          "text": "$17\\text{ cm}$",
+          "why": "Added the radius and height directly ($5+12$) without squaring."
+        }
+      ],
+      "solution_text": "Halve the diameter: $r=10\\div2=5\\text{ cm}$.\n$l=\\sqrt{5^{2}+12^{2}}$\n$=\\sqrt{169}$\n$=13\\text{ cm}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (FL) at (-2.04,0);\n\\coordinate (FR) at (2.04,0);\n\\coordinate (BL) at (-1.44,0.8);\n\\coordinate (BR) at (2.64,0.8);\n\\coordinate (Ap) at (0,3.4);\n\\coordinate (Mf) at (0,0);\n\\coordinate (Ct) at (0.3,0.4);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (FL) -- (BL) -- (BR);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw (Ap) -- (Mf) node[midway,right] {$15\\text{ cm}$};\n\\draw[dashed] (Ap) -- (Ct) node[midway,left] {$12\\text{ cm}$};\n\\node[below] at (0,0) {$s$};\n\\end{tikzpicture}\n[/tikz]\nA right square pyramid has slant height $15\\text{ cm}$ and perpendicular height $12\\text{ cm}$. Find the base edge $s$.",
+      "structure": "pyramid-find-base-edge",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$18\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$9\\text{ cm}$",
+          "why": "Found half the base edge ($\\sqrt{15^{2}-12^{2}}=9$) but forgot to double it."
+        },
+        {
+          "text": "$\\sqrt{369}\\text{ cm}$",
+          "why": "Added the squares instead of subtracting to find half the base edge."
+        },
+        {
+          "text": "$6\\text{ cm}$",
+          "why": "Subtracted the lengths directly ($15-12=3$) then doubled, instead of subtracting squares."
+        }
+      ],
+      "solution_text": "Half the base edge is a leg: $\\tfrac{s}{2}=\\sqrt{15^{2}-12^{2}}=\\sqrt{81}=9\\text{ cm}$.\n$s=2\\times9$\n$=18\\text{ cm}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (Ap) at (0,1.511);\n\\coordinate (FL) at (-2.55,-0.945);\n\\coordinate (FR) at (1.228,-0.945);\n\\coordinate (BL) at (-1.228,0.945);\n\\coordinate (BR) at (2.55,0.945);\n\\coordinate (M) at (-0.661,-0.945);\n\\draw (FL) -- (FR) -- (BR);\n\\draw[dashed] (BR) -- (BL) -- (FL);\n\\draw (Ap) -- (FL);\n\\draw (Ap) -- (FR);\n\\draw (Ap) -- (BR);\n\\draw[dashed] (Ap) -- (BL);\n\\draw[dashed] (Ap) -- (O) node[midway,right] {$h$};\n\\draw[dashed] (Ap) -- (M) node[midway,left] {$l$};\n\\node[below] at (-0.661,-0.945) {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nA right square pyramid has base edge $10\\text{ cm}$ and perpendicular height $4\\text{ cm}$. Find the slant height $l$ of a triangular face in exact surd form.",
+      "structure": "pyramid-slant-from-height",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\sqrt{41}\\text{ cm}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sqrt{116}\\text{ cm}$",
+          "why": "Used the full base edge $10$ instead of half the base edge as the leg."
+        },
+        {
+          "text": "$3\\text{ cm}$",
+          "why": "Subtracted, computing $\\sqrt{5^{2}-4^{2}}$ instead of adding the squares."
+        },
+        {
+          "text": "$9\\text{ cm}$",
+          "why": "Added half the base edge and the height directly ($5+4$) without squaring."
+        }
+      ],
+      "solution_text": "Half the base edge is $10\\div2=5\\text{ cm}$.\n$l=\\sqrt{4^{2}+5^{2}}$\n$=\\sqrt{41}\\text{ cm}$"
+    }
+  ]
+}

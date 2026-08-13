@@ -1,0 +1,96 @@
+{
+  "skillId": "multiply-2-digit-by-2-digit",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What is the total of the four part-products in this area model?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,3);\n\\draw (2.5,0)--(2.5,3);\n\\draw (0,1.7)--(4,1.7);\n\\node[above] at (1.25,3) {$20$};\n\\node[above] at (3.25,3) {$7$};\n\\node[left] at (0,2.35) {$10$};\n\\node[left] at (0,0.85) {$6$};\n\\node at (1.25,2.35) {$200$};\n\\node at (3.25,2.35) {$70$};\n\\node at (1.25,0.85) {$120$};\n\\node at (3.25,0.85) {$42$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "sum-four-part-products",
+      "mastery": false,
+      "options": [
+        { "text": "$432$", "correct": true },
+        { "text": "$412$", "why": "Omitted 20 from the combined tens-based part-products." },
+        { "text": "$342$", "why": "Added 70 and 120 as 100, losing 90 from the sum." },
+        { "text": "$404$", "why": "Added the final part-product 42 as 14 by reversing its digits." }
+      ],
+      "solution_text": "$200+70+120+42$\n$=432$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Which four part-products belong in an area model for $54 \\times 32$?",
+      "structure": "identify-four-part-products",
+      "mastery": false,
+      "options": [
+        { "text": "$1500,120,100,8$", "correct": true },
+        { "text": "$150,12,100,8$", "why": "Used 5 instead of 50 in both products from the tens part." },
+        { "text": "$1500,60,200,8$", "why": "Paired the ones and tens parts with the wrong place values." },
+        { "text": "$1500,120,10,8$", "why": "Used 3 instead of 30 when multiplying by the ones part 4." }
+      ],
+      "solution_text": "$50 \\times 30=1500$, $50 \\times 2=100$, $4 \\times 30=120$, $4 \\times 2=8$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Use a multiplication algorithm to calculate $38 \\times 24$.",
+      "structure": "two-digit-algorithm",
+      "mastery": false,
+      "options": [
+        { "text": "$912$", "correct": true },
+        { "text": "$228$", "why": "Used only the ones digit 4 and omitted multiplication by 20." },
+        { "text": "$836$", "why": "Treated the tens digit 2 as 2 rather than 20 in the second partial product." },
+        { "text": "$988$", "why": "Added an extra 76 by counting the tens multiplier twice." }
+      ],
+      "solution_text": "$38 \\times 4=152$.\n$38 \\times 20=760$.\n$152+760$\n$=912$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Calculate $64 \\times 37$ using partial products.",
+      "structure": "two-digit-algorithm-carrying",
+      "mastery": false,
+      "options": [
+        { "text": "$2368$", "correct": true },
+        { "text": "$684$", "why": "Added the products by 3 and 7 without treating 3 as 30." },
+        { "text": "$2176$", "why": "Used 4 times 7 as 8, losing 20 in the ones partial product." },
+        { "text": "$2560$", "why": "Rounded 37 to 40 and did not adjust back to the exact factor." }
+      ],
+      "solution_text": "$64 \\times 7=448$.\n$64 \\times 30=1920$.\n$448+1920$\n$=2368$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Use the multiplication algorithm to calculate $214 \\times 23$.",
+      "structure": "three-digit-by-two-digit",
+      "mastery": false,
+      "options": [
+        { "text": "$4922$", "correct": true },
+        { "text": "$1070$", "why": "Multiplied by 3 and 2 but did not treat 2 as 20." },
+        { "text": "$4708$", "why": "Omitted one group of 214 from the ones partial product." },
+        { "text": "$6420$", "why": "Used only the tens digit 3 as if the factor were 30." }
+      ],
+      "solution_text": "$214 \\times 3=642$.\n$214 \\times 20=4280$.\n$642+4280$\n$=4922$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Why is the second partial product in $507 \\times 18$ equal to $5070$?",
+      "structure": "explain-tens-placeholder",
+      "mastery": true,
+      "options": [
+        { "text": "The digit $1$ represents $10$, so $507 \\times 10=5070$", "correct": true },
+        { "text": "A zero is always added to every second line", "why": "Used a visual rule without connecting the zero to multiplying by tens." },
+        { "text": "The digit $8$ represents $80$, so $507 \\times 80=5070$", "why": "Assigned the tens place to the ones digit and gave an incorrect product." },
+        { "text": "$507$ is rounded to $500$ before the second line", "why": "Replaced exact multiplication with rounding, which cannot give 5070." }
+      ],
+      "solution_text": "The tens digit $1$ represents $10$.\n$507 \\times 10$\n$=5070$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A student uses partial products $310$ and $248$ for $62 \\times 45$. What correction is needed?",
+      "structure": "diagnose-tens-partial-product",
+      "mastery": true,
+      "options": [
+        { "text": "$248$ must be $2480$ because it is $62 \\times 40$", "correct": true },
+        { "text": "$310$ must be $31$ because it is $62 \\times 5$", "why": "Dropped the zero from the correct ones partial product 310." },
+        { "text": "$248$ must be $620$ because it is the second line", "why": "Used ten copies of 62 instead of the required forty copies." },
+        { "text": "Both partial products are already correct", "why": "Ignored that the digit 4 represents 40, not 4, in the tens place." }
+      ],
+      "solution_text": "$62 \\times 5=310$.\n$62 \\times 40=2480$.\n$310+2480$\n$=2790$"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "skillId": "find-equation-polynomial-graph",
+  "atomType": "R",
+  "theory": {
+    "intro": "A polynomial graph hands you its own equation. Each $x$-intercept gives a factor — a cut means the factor appears once, a bounce means it is squared, an inflection along the axis means it is cubed. That fixes the equation up to a constant: $y=k(x-a)(x-b)\\dots$ To pin down $k$, substitute one more marked point (usually the $y$-intercept) and solve.",
+    "facts": [
+      "An $x$-intercept at $x=a$ that **cuts** gives the factor $(x-a)$; a **bounce** gives $(x-a)^{2}$; an **inflection along the axis** gives $(x-a)^{3}$.",
+      "The roots alone determine the equation only up to a constant multiple $k$ — infinitely many curves share the same intercepts.",
+      "Substituting a marked point $(p,q)$ into $y=k(x-a)(x-b)\\dots$ gives one equation in $k$.",
+      "The $y$-intercept is the most convenient point for finding $k$ — unless the curve passes through the origin, in which case another marked point must be used.",
+      "The sign of $k$ must agree with the end behaviour shown: a graph falling to the right needs the leading term, including $k$, to be negative."
+    ],
+    "steps": [
+      "Read each $x$-intercept and its multiplicity from the graph.",
+      "Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.",
+      "Substitute the marked point to find $k$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph below shows a cubic polynomial with leading coefficient $1$. Find its equation in factored form.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.6,0)--(5,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-4.75:4.24,smooth,variable=\\x] plot ({\\x},{0.09*(\\x+4)*(\\x-1)*(\\x-3)});\n\\fill (-4,0) circle (2pt);\n\\node[below left] at (-4,0) {$(-4,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below left] at (1,0) {$(1,0)$};\n\\fill (3,0) circle (2pt);\n\\node[below right] at (3,0) {$(3,0)$};\n\\fill (0,1.08) circle (2pt);\n\\node[above left] at (0,1.08) {$(0,12)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nThe curve cuts at $x=-4$, $x=1$ and $x=3$: three single roots.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+4)(x-1)(x-3)$\nThe leading coefficient is $1$, so $k=1$.\n$y=(x+4)(x-1)(x-3)$"
+      },
+      {
+        "question_text": "The graph below shows a cubic polynomial with leading coefficient $1$. Find its equation in factored form.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(5.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.67:4.77,smooth,variable=\\x] plot ({\\x},{0.14*(\\x+2)*(\\x-3)*(\\x-3)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (3,0) circle (2pt);\n\\node[below right] at (3,0) {$(3,0)$};\n\\fill (0,2.52) circle (2pt);\n\\node[above right] at (0,2.52) {$(0,18)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nThe curve cuts at $x=-2$ (single root) and bounces at $x=3$ (double root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+2)(x-3)^{2}$\nThe leading coefficient is $1$, so $k=1$.\n$y=(x+2)(x-3)^{2}$"
+      },
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.6,0)--(6.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.62:5.62,smooth,variable=\\x] plot ({\\x},{0.10*2*(\\x+1)*(\\x-2)*(\\x-5)});\n\\fill (-1,0) circle (2pt);\n\\node[below left] at (-1,0) {$(-1,0)$};\n\\fill (2,0) circle (2pt);\n\\node[below left] at (2,0) {$(2,0)$};\n\\fill (5,0) circle (2pt);\n\\node[below right] at (5,0) {$(5,0)$};\n\\fill (0,2) circle (2pt);\n\\node[above right] at (0,2) {$(0,20)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nSingle roots at $x=-1$, $x=2$ and $x=5$.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+1)(x-2)(x-5)$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,20)$:\n$20=k(1)(-2)(-5)$\n$20=10k$\n$k=2$\n$y=2(x+1)(x-2)(x-5)$"
+      },
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(5.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.61:4.74,smooth,variable=\\x] plot ({\\x},{-0.07*2*(\\x+3)*(\\x-1)*(\\x-4)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (1,0) circle (2pt);\n\\node[above left] at (1,0) {$(1,0)$};\n\\fill (4,0) circle (2pt);\n\\node[above right] at (4,0) {$(4,0)$};\n\\fill (0,-1.68) circle (2pt);\n\\node[below right] at (0,-1.68) {$(0,-24)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nSingle roots at $x=-3$, $x=1$ and $x=4$.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+3)(x-1)(x-4)$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,-24)$:\n$-24=k(3)(-1)(-4)$\n$-24=12k$\n$k=-2$\n$y=-2(x+3)(x-1)(x-4)$"
+      },
+      {
+        "question_text": "The graph below shows a cubic polynomial $y=P(x)$. Using the multiplicity of each root, write down the **form** of its equation, leaving the constant $k$ unknown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(5.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.5)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.86:4.62,smooth,variable=\\x] plot ({\\x},{0.11*(\\x+2)*(\\x+2)*(\\x-4)});\n\\fill (-2,0) circle (2pt);\n\\node[above left] at (-2,0) {$(-2,0)$};\n\\fill (4,0) circle (2pt);\n\\node[above right] at (4,0) {$(4,0)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nThe curve bounces at $x=-2$ (double root) and cuts at $x=4$ (single root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+2)^{2}(x-4)$"
+      },
+      {
+        "question_text": "A polynomial graph passes through the origin, and the origin is one of its roots. Explain why the $y$-intercept cannot be used to find $k$, and state what should be used instead.",
+        "solution_text": "The $y$-intercept is $(0,0)$, and substituting it gives $0=k\\times0$, which is true for every $k$.\nInstead, substitute any **other** marked point on the curve that is not an $x$-intercept."
+      },
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(5.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.83:4.69,smooth,variable=\\x] plot ({\\x},{-0.12*\\x*(\\x-4)*(\\x+3)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (0,0) circle (2pt);\n\\node[below left] at (0,0) {$(0,0)$};\n\\fill (4,0) circle (2pt);\n\\node[below right] at (4,0) {$(4,0)$};\n\\fill (2,2.4) circle (2pt);\n\\node[above right] at (2,2.4) {$(2,20)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nSingle roots at $x=-3$, $x=0$ and $x=4$.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=kx(x-4)(x+3)$\n3. **Substitute the marked point to find $k$.**\nThe $y$-intercept is a root, so use $(2,20)$:\n$20=k(2)(-2)(5)$\n$20=-20k$\n$k=-1$\n$y=-x(x-4)(x+3)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(6.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.85:6.0,smooth,variable=\\x] plot ({\\x},{0.15*0.5*(\\x-4)*(\\x-4)*(\\x+2)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (4,0) circle (2pt);\n\\node[below right] at (4,0) {$(4,0)$};\n\\fill (0,2.4) circle (2pt);\n\\node[above right] at (0,2.4) {$(0,16)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nCut at $x=-2$ (single root); bounce at $x=4$ (double root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x-4)^{2}(x+2)$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,16)$:\n$16=k(-4)^{2}(2)$\n$16=32k$\n$k=\\dfrac{1}{2}$\n$y=\\dfrac{1}{2}(x-4)^{2}(x+2)$"
+      },
+      {
+        "question_text": "Find the equation of the quartic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.8,0)--(2.8,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-4.04:2.03,smooth,variable=\\x,samples=60] plot ({\\x},{0.055*2*(\\x+3)*(\\x+3)*(\\x-1)*(\\x-1)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below right] at (1,0) {$(1,0)$};\n\\fill (0,0.99) circle (2pt);\n\\node[above right] at (0,0.99) {$(0,18)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nThe curve bounces at $x=-3$ and at $x=1$: two double roots.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+3)^{2}(x-1)^{2}$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,18)$:\n$18=k(3)^{2}(-1)^{2}$\n$18=9k$\n$k=2$\n$y=2(x+3)^{2}(x-1)^{2}$"
+      },
+      {
+        "question_text": "Find the equation of the quartic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.5)--(0,3.5) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-4.55:4.60,smooth,variable=\\x,samples=60] plot ({\\x},{0.042*0.5*(\\x+4)*(\\x-2)*(\\x-2)*(\\x-2)});\n\\fill (-4,0) circle (2pt);\n\\node[below left] at (-4,0) {$(-4,0)$};\n\\fill (2,0) circle (2pt);\n\\node[above right] at (2,0) {$(2,0)$};\n\\fill (0,-0.67) circle (2pt);\n\\node[below right] at (0,-0.67) {$(0,-16)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nCut at $x=-4$ (single root); inflection along the axis at $x=2$ (triple root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+4)(x-2)^{3}$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,-16)$:\n$-16=k(4)(-2)^{3}$\n$-16=-32k$\n$k=\\dfrac{1}{2}$\n$y=\\dfrac{1}{2}(x+4)(x-2)^{3}$"
+      },
+      {
+        "question_text": "Find the equation of the quartic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(6.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.40:5.40,smooth,variable=\\x,samples=60] plot ({\\x},{-0.10*(\\x+1)*(\\x-5)*(\\x-2)*(\\x-2)});\n\\fill (-1,0) circle (2pt);\n\\node[below left] at (-1,0) {$(-1,0)$};\n\\fill (2,0) circle (2pt);\n\\node[below left] at (2,0) {$(2,0)$};\n\\fill (5,0) circle (2pt);\n\\node[below right] at (5,0) {$(5,0)$};\n\\fill (0,2) circle (2pt);\n\\node[above left] at (0,2) {$(0,20)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nCuts at $x=-1$ and $x=5$ (single roots); bounce at $x=2$ (double root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+1)(x-5)(x-2)^{2}$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,20)$:\n$20=k(1)(-5)(-2)^{2}$\n$20=-20k$\n$k=-1$\n$y=-(x+1)(x-5)(x-2)^{2}$"
+      },
+      {
+        "question_text": "A skate ramp is designed so that the height $h$ metres of its surface, measured $t$ metres along the ground, follows the graph below, with equation of the form $h=kt(t-6)^{2}$. Use the marked point to find $k$ and state the equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.5,0)--(8.6,0) node[right] {$t$};\n\\draw[->] (0,-0.5)--(0,3.4) node[above] {$h$};\n\\draw[thick,blue,->,domain=0:8,smooth,variable=\\x] plot ({\\x},{0.18*0.5*\\x*(\\x-6)*(\\x-6)});\n\\fill (0,0) circle (2pt);\n\\node[below left] at (0,0) {$(0,0)$};\n\\fill (6,0) circle (2pt);\n\\node[below] at (6,-0.15) {$(6,0)$};\n\\fill (4,1.44) circle (2pt);\n\\node[above right] at (4,1.44) {$(4,8)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "3. **Substitute the marked point to find $k$.**\nThe origin is a root, so use $(4,8)$:\n$8=k(4)(4-6)^{2}$\n$8=k(4)(4)$\n$8=16k$\n$k=\\dfrac{1}{2}$\n$h=\\dfrac{1}{2}t(t-6)^{2}$"
+      },
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.64:3.84,smooth,variable=\\x] plot ({\\x},{0.12*2*\\x*\\x*(\\x-3)});\n\\fill (0,0) circle (2pt);\n\\node[above left] at (0,0) {$(0,0)$};\n\\fill (3,0) circle (2pt);\n\\node[above right] at (3,0) {$(3,0)$};\n\\fill (1,-0.48) circle (2pt);\n\\node[below left] at (1,-0.48) {$(1,-4)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nBounce at $x=0$ (double root); cut at $x=3$ (single root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=kx^{2}(x-3)$\n3. **Substitute the marked point to find $k$.**\nThe $y$-intercept is a root, so use $(1,-4)$:\n$-4=k(1)^{2}(1-3)$\n$-4=-2k$\n$k=2$\n$y=2x^{2}(x-3)$"
+      },
+      {
+        "question_text": "Find the equation of the quartic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6.2,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.41:3.59,smooth,variable=\\x,samples=60] plot ({\\x},{0.02*2*(\\x+5)*(\\x+2)*(\\x-1)*(\\x-3)});\n\\fill (-5,0) circle (2pt);\n\\node[below left] at (-5,0) {$(-5,0)$};\n\\fill (-2,0) circle (2pt);\n\\node[below right] at (-2,0) {$(-2,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below left] at (1,0) {$(1,0)$};\n\\fill (3,0) circle (2pt);\n\\node[below right] at (3,0) {$(3,0)$};\n\\fill (0,1.2) circle (2pt);\n\\node[above right] at (0,1.2) {$(0,60)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nSingle roots at $x=-5$, $x=-2$, $x=1$ and $x=3$.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+5)(x+2)(x-1)(x-3)$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,60)$:\n$60=k(5)(2)(-1)(-3)$\n$60=30k$\n$k=2$\n$y=2(x+5)(x+2)(x-1)(x-3)$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the equation of the degree-$5$ polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(3,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.78:2.23,smooth,variable=\\x,samples=60] plot ({\\x},{-0.18*0.5*(\\x+2)*(\\x+2)*(\\x-1)*(\\x-1)*(\\x-1)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below right] at (1,0) {$(1,0)$};\n\\fill (0,0.36) circle (2pt);\n\\node[above right] at (0,0.36) {$(0,2)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nBounce at $x=-2$ (double root); inflection along the axis at $x=1$ (triple root).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x+2)^{2}(x-1)^{3}$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,2)$:\n$2=k(2)^{2}(-1)^{3}$\n$2=-4k$\n$k=-\\dfrac{1}{2}$\n$y=-\\dfrac{1}{2}(x+2)^{2}(x-1)^{3}$"
+      },
+      {
+        "question_text": "Find the equation of the quartic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.40:3.40,smooth,variable=\\x,samples=60] plot ({\\x},{-0.20*0.5*\\x*\\x*(\\x-3)*(\\x+3)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (0,0) circle (2pt);\n\\node[below left] at (0,0) {$(0,0)$};\n\\fill (3,0) circle (2pt);\n\\node[below right] at (3,0) {$(3,0)$};\n\\fill (1,0.8) circle (2pt);\n\\node[above right] at (1,0.8) {$(1,4)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nBounce at $x=0$ (double root); cuts at $x=-3$ and $x=3$ (single roots).\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=kx^{2}(x-3)(x+3)$\n3. **Substitute the marked point to find $k$.**\nThe $y$-intercept is a root, so use $(1,4)$:\n$4=k(1)^{2}(1-3)(1+3)$\n$4=-8k$\n$k=-\\dfrac{1}{2}$\n$y=-\\dfrac{1}{2}x^{2}(x-3)(x+3)$"
+      },
+      {
+        "question_text": "Find the equation of the cubic polynomial graphed below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.4,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.58:2.31,smooth,variable=\\x] plot ({\\x},{-0.20*2*(\\x-1)*(\\x-1)*(\\x+2)});\n\\fill (-2,0) circle (2pt);\n\\node[above left] at (-2,0) {$(-2,0)$};\n\\fill (1,0) circle (2pt);\n\\node[above right] at (1,0) {$(1,0)$};\n\\fill (0,-0.8) circle (2pt);\n\\node[below left] at (0,-0.8) {$(0,-4)$};\n\\end{tikzpicture}\n[/tikz]",
+        "solution_text": "1. **Read each $x$-intercept and its multiplicity from the graph.**\nCut at $x=-2$ (single root); bounce at $x=1$ (double root), touching from below.\n2. **Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.**\n$y=k(x-1)^{2}(x+2)$\n3. **Substitute the marked point to find $k$.**\nUsing $(0,-4)$:\n$-4=k(-1)^{2}(2)$\n$-4=2k$\n$k=-2$\n$y=-2(x-1)^{2}(x+2)$"
+      }
+    ]
+  }
+}

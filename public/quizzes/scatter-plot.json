@@ -1,0 +1,155 @@
+{
+  "skillId": "scatter-plot",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The table shows $5$ students' height and arm span. The scatter plot below is missing one of the $5$ points.\n$\\begin{array}{c|ccccc} \\text{Student} & \\text{Omar} & \\text{Pia} & \\text{Qing} & \\text{Rhea} & \\text{Sam} \\\\ \\hline \\text{Height (cm)} & 152.5 & 162.5 & 172.5 & 180 & 190 \\\\ \\text{Arm span (cm)} & 157.5 & 150 & 182.5 & 170 & 185 \\end{array}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (10,10);\n\\draw[-{Stealth}] (0,0) -- (10.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.6);\n\\foreach \\x/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.8,5) {Arm span (cm)};\n\\node[below] at (5,-1.1) {Height (cm)};\n\\node at (5,11.1) {Height vs arm span};\n\\fill (1.5,2.5) circle (2.2pt);\n\\fill (3.5,1) circle (2.2pt);\n\\fill (7,5) circle (2.2pt);\n\\fill (9,8) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]\nWhich height and arm span is the missing point (Qing's) at?",
+      "structure": "plot-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Height $172.5$ cm, arm span $182.5$ cm",
+          "correct": true
+        },
+        {
+          "text": "Height $182.5$ cm, arm span $172.5$ cm",
+          "why": "Swapped the height and arm span values, plotting the point as if arm span were the height."
+        },
+        {
+          "text": "Height $170$ cm, arm span $180$ cm",
+          "why": "Rounded the half-grid values down to the nearest whole gridline instead of reading the exact halfway position."
+        },
+        {
+          "text": "Height $175$ cm, arm span $185$ cm",
+          "why": "Rounded the half-grid values up to the next whole gridline instead of reading the exact halfway position."
+        }
+      ],
+      "solution_text": "Qing's row of the table gives height $172.5$ cm and arm span $182.5$ cm.\nThe missing point belongs at height $172.5$ cm, arm span $182.5$ cm — halfway between the $170/175$ and $180/185$ gridlines."
+    },
+    {
+      "id": "q2",
+      "question_text": "The scatter plot below shows $4$ students' height and arm span. A new student, Farid, has height $170$ cm and arm span $180$ cm. Four candidate positions, $A$ to $D$, are marked.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (10,10);\n\\draw[-{Stealth}] (0,0) -- (10.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.6);\n\\foreach \\x/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.8,5) {Arm span (cm)};\n\\node[below] at (5,-1.1) {Height (cm)};\n\\node at (5,11.1) {Height vs arm span};\n\\fill (2,1) circle (2.2pt);\n\\fill (4,3) circle (2.2pt);\n\\fill (6,8) circle (2.2pt);\n\\fill (8,6) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (5,7) {$A$};\\fill (5,7) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (7,5) {$B$};\\fill (7,5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (5,6) {$C$};\\fill (5,6) circle (2.2pt);\n\\node[above left,font=\\footnotesize] at (4,7) {$D$};\\fill (4,7) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]\nWhich position is where Farid's point should be plotted?",
+      "structure": "add-a-point",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "Swapped the height and arm span values, plotting the point as if arm span were the height."
+        },
+        {
+          "text": "$C$",
+          "why": "Read arm span as $175$ cm instead of $180$ cm — one gridline too low."
+        },
+        {
+          "text": "$D$",
+          "why": "Read height as $165$ cm instead of $170$ cm — one gridline too far left."
+        }
+      ],
+      "solution_text": "Farid's height $170$ cm is $5$ small squares across; his arm span $180$ cm is $7$ small squares up.\nThat position is $A$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Point $M$ on the scatter plot below represents one student's height and arm span.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (10,10);\n\\draw[-{Stealth}] (0,0) -- (10.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.6);\n\\foreach \\x/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.8,5) {Arm span (cm)};\n\\node[below] at (5,-1.1) {Height (cm)};\n\\node at (5,11.1) {Height vs arm span};\n\\fill (2,1) circle (2.2pt);\n\\fill (4,3) circle (2.2pt);\n\\fill (6,8) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (6,8) {$M$};\n\\fill (8,6) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]\n$M$ represents which height and arm span?",
+      "structure": "read-point-as-pair",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Height $175$ cm, arm span $185$ cm",
+          "correct": true
+        },
+        {
+          "text": "Height $185$ cm, arm span $175$ cm",
+          "why": "Swapped the height and arm span values, reading the vertical distance as the height."
+        },
+        {
+          "text": "Height $170$ cm, arm span $180$ cm",
+          "why": "Read the point one gridline too low and one gridline too far left."
+        },
+        {
+          "text": "Height $175$ cm, arm span $190$ cm",
+          "why": "Read the arm span one gridline too high."
+        }
+      ],
+      "solution_text": "$M$ is $6$ small squares across, so height $= 175$ cm.\n$M$ is $8$ small squares up, so arm span $= 185$ cm."
+    },
+    {
+      "id": "q4",
+      "question_text": "A dataset has heights ranging from $150$ cm to $184$ cm. Which axis scale is most sensible for a scatter plot of this data?",
+      "structure": "choose-axis-scale",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Start at $145$ cm and use steps of $5$ cm.",
+          "correct": true
+        },
+        {
+          "text": "Start at $0$ cm and use steps of $50$ cm.",
+          "why": "Starts far from the data, so the whole range of heights is squeezed into less than one grid square."
+        },
+        {
+          "text": "Start at $150$ cm and use steps of $1$ cm.",
+          "why": "Uses a step far finer than the data needs, making the axis impractically long."
+        },
+        {
+          "text": "Start at $0$ cm and use steps of $200$ cm.",
+          "why": "Uses a step so coarse that all the data would land inside a single interval."
+        }
+      ],
+      "solution_text": "The heights range from $150$ cm to $184$ cm, a span of only $34$ cm.\nA scale starting near the data, at $145$ cm, in steps of $5$ cm, spreads this range across the plot without wasting space or over-cramming it."
+    },
+    {
+      "id": "q5",
+      "question_text": "The table shows $5$ students' height and arm span. One of the labelled points on the scatter plot below does not match the table.\n$\\begin{array}{c|ccccc} \\text{Student} & \\text{Omar} & \\text{Pia} & \\text{Qing} & \\text{Rhea} & \\text{Sam} \\\\ \\hline \\text{Height (cm)} & 152.5 & 162.5 & 172.5 & 180 & 190 \\\\ \\text{Arm span (cm)} & 157.5 & 150 & 182.5 & 170 & 185 \\end{array}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (10,10);\n\\draw[-{Stealth}] (0,0) -- (10.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.6);\n\\foreach \\x/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.8,5) {Arm span (cm)};\n\\node[below] at (5,-1.1) {Height (cm)};\n\\node at (5,11.1) {Height vs arm span};\n\\fill (1.5,2.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (1.5,2.5) {$A$};\n\\fill (3.5,1) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (3.5,1) {$B$};\n\\fill (5.5,7.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (5.5,7.5) {$C$};\n\\fill (7,6) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (7,6) {$D$};\n\\fill (9,8) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (9,8) {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhich labelled point does not match the table?",
+      "structure": "spot-the-plotting-error",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$D$",
+          "correct": true
+        },
+        {
+          "text": "$A$",
+          "why": "Mistook Omar's correctly-plotted half-grid point for an error, since it doesn't sit exactly on a whole gridline."
+        },
+        {
+          "text": "$B$",
+          "why": "Mistook Pia's point, which sits on the horizontal axis at arm span $150$, for a plotting error."
+        },
+        {
+          "text": "$E$",
+          "why": "Assumed Sam's point, plotted near the edge of the grid, must be an error."
+        }
+      ],
+      "solution_text": "Rhea's row gives height $180$ cm, arm span $170$ cm — $5$ squares up.\nPoint $D$ is plotted $6$ squares up (arm span $175$ cm), one gridline too high.\n$D$ does not match the table."
+    },
+    {
+      "id": "q6",
+      "question_text": "Point $N$ on the scatter plot below represents one student's height and arm span.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.68]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (10,10);\n\\draw[-{Stealth}] (0,0) -- (10.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.6);\n\\foreach \\x/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\foreach \\y/\\lbl in {0/145,2/155,4/165,6/175,8/185,10/195} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.8,5) {Arm span (cm)};\n\\node[below] at (5,-1.1) {Height (cm)};\n\\node at (5,11.1) {Height vs arm span};\n\\fill (1.5,2.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (1.5,2.5) {$N$};\n\\fill (3.5,1) circle (2.2pt);\n\\fill (5.5,7.5) circle (2.2pt);\n\\fill (7,5) circle (2.2pt);\n\\fill (9,8) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]\n$N$ represents which height and arm span?",
+      "structure": "read-point-as-pair",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Height $152.5$ cm, arm span $157.5$ cm",
+          "correct": true
+        },
+        {
+          "text": "Height $157.5$ cm, arm span $152.5$ cm",
+          "why": "Swapped the height and arm span values."
+        },
+        {
+          "text": "Height $150$ cm, arm span $155$ cm",
+          "why": "Rounded the half-grid position down to the nearest whole gridline instead of reading it exactly."
+        },
+        {
+          "text": "Height $155$ cm, arm span $160$ cm",
+          "why": "Rounded the half-grid position up to the nearest whole gridline instead of reading it exactly."
+        }
+      ],
+      "solution_text": "$N$ sits halfway between the $150$ and $155$ gridlines across, so height $= 152.5$ cm.\n$N$ sits halfway between the $155$ and $160$ gridlines up, so arm span $= 157.5$ cm."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "skillId": "effect-of-changes-on-sd",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A department's $6$ staff have a mean weekly wage of $\\$540$ and population standard deviation $\\$61$. Every staff member receives a $\\$45$ pay rise. What are the new mean and standard deviation?",
+      "structure": "add-constant-positive",
+      "mastery": false,
+      "options": [
+        { "text": "$\\overline{x} = \\$585, \\ \\sigma_x = \\$61$", "correct": true },
+        { "text": "$\\overline{x} = \\$585, \\ \\sigma_x = \\$106$", "why": "Added the pay rise to the standard deviation as well as the mean." },
+        { "text": "$\\overline{x} = \\$540, \\ \\sigma_x = \\$61$", "why": "Forgot to apply the pay rise to the mean." },
+        { "text": "$\\overline{x} = \\$585, \\ \\sigma_x = \\$16$", "why": "Subtracted the pay rise from the standard deviation instead of leaving it unchanged." }
+      ],
+      "solution_text": "$\\overline{x} = 540 + 45 = \\$585$\nEvery wage shifts by the same amount, so the spread — and therefore $\\sigma_x = \\$61$ — is unchanged."
+    },
+    {
+      "id": "q2",
+      "question_text": "A gym class has a mean of $30$ push-ups and population standard deviation $4$ push-ups. Every member's count is then reduced by $6$ push-ups after a stricter counting rule. What are the new mean and standard deviation?",
+      "structure": "add-constant-negative",
+      "mastery": false,
+      "options": [
+        { "text": "$\\overline{x} = 24, \\ \\sigma_x = 4$", "correct": true },
+        { "text": "$\\overline{x} = 24, \\ \\sigma_x = -2$", "why": "Subtracted the $6$ from the standard deviation, which cannot be negative." },
+        { "text": "$\\overline{x} = 30, \\ \\sigma_x = 4$", "why": "Forgot to apply the reduction to the mean." },
+        { "text": "$\\overline{x} = 24, \\ \\sigma_x = 10$", "why": "Added the reduction to the standard deviation instead of leaving it unchanged." }
+      ],
+      "solution_text": "$\\overline{x} = 30 - 6 = 24$\nEvery count shifts down by the same amount, so the spread — and therefore $\\sigma_x = 4$ — is unchanged."
+    },
+    {
+      "id": "q3",
+      "question_text": "Six employees have wages with mean $\\$720$ and population standard deviation $\\$55$. A new employee joins earning exactly $\\$720$. What happens to the standard deviation?",
+      "structure": "add-new-value-at-mean",
+      "mastery": false,
+      "options": [
+        { "text": "It decreases, because the new wage is exactly at the mean and pulls the average distance down.", "correct": true },
+        { "text": "It increases, because adding any new value increases the spread of the data.", "why": "Assumed any new value must increase the spread, ignoring where it sits relative to the mean." },
+        { "text": "It stays exactly the same, because adding one value to six barely changes anything.", "why": "Ignored that a value equal to the mean genuinely reduces the average distance from it." },
+        { "text": "It cannot be determined without recalculating from the full dataset.", "why": "Overlooked that a value at the mean reliably decreases the standard deviation." }
+      ],
+      "solution_text": "The new wage, $\\$720$, has a distance of $\\$0$ from the mean, which is less than the existing average distance of $\\$55$.\nIncluding it pulls the average distance from the mean down, so $\\sigma_x$ decreases."
+    },
+    {
+      "id": "q4",
+      "question_text": "Five gym members have a mean of $18$ push-ups and population standard deviation $2.5$ push-ups. A new member joins and manages $50$ push-ups. What happens to the standard deviation?",
+      "structure": "add-new-value-far-from-mean",
+      "mastery": false,
+      "options": [
+        { "text": "It increases, because the new value is far above the mean and pulls the average distance up.", "correct": true },
+        { "text": "It decreases, because a very high score balances out the lower scores in the group.", "why": "Confused balancing the mean with reducing the spread." },
+        { "text": "It stays the same, because standard deviation only changes when every value changes.", "why": "Overlooked that a single extreme new value changes the spread." },
+        { "text": "It increases only if the new member's score is added twice.", "why": "Introduced an irrelevant condition not implied by adding one new value." }
+      ],
+      "solution_text": "The new value, $50$, is $32$ push-ups from the mean of $18$ — far more than the existing average distance of $2.5$ push-ups.\nIncluding it pulls the average distance from the mean up, so $\\sigma_x$ increases."
+    },
+    {
+      "id": "q5",
+      "question_text": "A café currently pays $5$ casual staff different hourly rates, with population standard deviation $\\$3.20$. The owner proposes paying every staff member exactly the same rate, equal to the current mean rate. What will the new standard deviation be?",
+      "structure": "uniform-value-sd-zero",
+      "mastery": false,
+      "options": [
+        { "text": "It becomes $0$, because there is no spread when every value is identical.", "correct": true },
+        { "text": "It stays $\\$3.20$, because the spread between the staff has not changed.", "why": "Failed to recognise that making every value identical removes all spread." },
+        { "text": "It cannot be exactly $0$, because a standard deviation is never zero.", "why": "Assumed a standard deviation can never be exactly zero, even for identical values." },
+        { "text": "It becomes equal to the mean rate, because standard deviation equals the mean for uniform data.", "why": "Confused the standard deviation with the mean for a uniform dataset." }
+      ],
+      "solution_text": "$\\sigma_x = 0$\nWhen every staff member is paid the same rate, there is no spread at all between the wages."
+    },
+    {
+      "id": "q6",
+      "question_text": "A coach is deciding between two plans: Plan A adds $10$ push-ups to every squad member's target; Plan B adds just $1$ push-up to every member's target. How does the change in standard deviation compare between the two plans?",
+      "structure": "magnitude-invariance",
+      "mastery": false,
+      "options": [
+        { "text": "The standard deviation is unchanged in both plans — the size of the constant added doesn't matter.", "correct": true },
+        { "text": "Plan A changes the standard deviation more, because $10$ is a bigger shift than $1$.", "why": "Assumed a larger constant shift produces a larger change in spread." },
+        { "text": "Plan B changes the standard deviation more, because smaller shifts are harder to detect and increase uncertainty.", "why": "Invented a link between shift size and measurement uncertainty that doesn't affect spread." },
+        { "text": "Both plans decrease the standard deviation, since adding push-up targets makes the group more equal.", "why": "Assumed raising every value uniformly makes the data more equal, which it does not." }
+      ],
+      "solution_text": "Adding a constant to every value shifts the mean but never changes $\\sigma_x$, regardless of the size of the constant.\nSo Plan A and Plan B both leave the standard deviation exactly the same."
+    },
+    {
+      "id": "q7",
+      "question_text": "A fitness class's push-up results have mean $26$ and $\\sigma_x = 4.1$. Which of the following changes would leave $\\sigma_x$ unchanged?\n(i) Every member does $5$ more push-ups.\n(ii) A new member joins doing $26$ push-ups.\n(iii) A new member joins doing $60$ push-ups.",
+      "structure": "classify-multiple-changes",
+      "mastery": false,
+      "options": [
+        { "text": "Only (i), because a uniform shift doesn't change the spread, while the new members in (ii) and (iii) do.", "correct": true },
+        { "text": "(i) and (ii), because a value at the mean doesn't add any spread.", "why": "Assumed a value exactly at the mean has zero effect, when it actually decreases the standard deviation." },
+        { "text": "All three, because none of these changes affects the individual push-up counts already in the dataset.", "why": "Overlooked that adding a new value changes the dataset even without altering the existing counts." },
+        { "text": "None of them, because standard deviation always changes whenever anything about the dataset changes.", "why": "Assumed every change to a dataset must alter the standard deviation." }
+      ],
+      "solution_text": "(i) A uniform shift leaves the spread — and $\\sigma_x$ — unchanged.\n(ii) A value at the mean pulls the average distance down, so $\\sigma_x$ decreases.\n(iii) A value far above the mean pulls the average distance up, so $\\sigma_x$ increases.\nOnly (i) leaves $\\sigma_x$ unchanged."
+    },
+    {
+      "id": "q8",
+      "question_text": "A team of $5$ employees has a mean wage of $\\$800$ and population standard deviation $\\$60$. Two new employees join: one earning $\\$650$ and one earning $\\$950$ — the same distance below and above the mean. What happens to the mean and standard deviation of the whole team?",
+      "structure": "mean-unchanged-sd-changes",
+      "mastery": true,
+      "options": [
+        { "text": "The mean stays $\\$800$, but the standard deviation increases, since both new wages are much further from the mean than the original spread.", "correct": true },
+        { "text": "Both the mean and the standard deviation stay the same, since the two new wages balance out symmetrically.", "why": "Assumed symmetric balancing also cancels out the effect on spread, not just on the mean." },
+        { "text": "The mean stays $\\$800$, and the standard deviation decreases, since the new wages average out to the mean.", "why": "Confused averaging out to the mean with reducing the spread around it." },
+        { "text": "The mean increases, since adding two higher-value wages raises the average.", "why": "Ignored that $\\$650$ is symmetric to $\\$950$ about the mean, so the mean does not move." }
+      ],
+      "solution_text": "The two new wages, $\\$650$ and $\\$950$, are the same distance ($\\$150$) below and above the mean of $\\$800$, so the mean stays $\\$800$.\nBoth new wages sit much further from the mean than the original spread of $\\$60$, so they increase the average distance from the mean — the standard deviation increases even though the mean does not move."
+    }
+  ]
+}
