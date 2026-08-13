@@ -65,3 +65,13 @@ test('the dual-role Stage-3 skills keep both their Stage-4 dot point and the s4 
     assert.ok((skill.courses || []).includes('s4'), `${id} is missing course s4`);
   }
 });
+
+test('sector angle belongs to Length while supporting arc length and sector area', () => {
+  const sectorAngle = skills.find((skill) => skill.id === 'sector-interior-angle');
+  const arcLength = skills.find((skill) => skill.id === 'arc-length-perimeter-sector');
+  const sectorArea = skills.find((skill) => skill.id === 'area-of-sector');
+
+  assert.deepEqual(sectorAngle?.dotPointIds, ['dp-s4-len-2']);
+  assert.ok(arcLength?.prereqs.includes(sectorAngle.id));
+  assert.ok(sectorArea?.prereqs.includes(sectorAngle.id));
+});
