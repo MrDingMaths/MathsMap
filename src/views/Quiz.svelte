@@ -1,5 +1,5 @@
 <script>
-  import { skills, courses, courseById, topicById, skillsForTopic } from '../lib/data.js';
+  import { skills, courses, skillById, courseById, topicById, skillsForTopic } from '../lib/data.js';
   import { href } from '../lib/router.svelte.js';
   import { loadManifest, quizPool } from '../lib/manifest.js';
   import { loadSkillQuiz } from '../lib/quiz.js';
@@ -10,15 +10,18 @@
   import QuizQuestion from '../components/QuizQuestion.svelte';
   import QuizResults from '../components/QuizResults.svelte';
 
-  // Routes: #/quiz (global picker), #/quiz?course=<id>, #/quiz?topic=<id>[&course=<id>].
-  let { topicId = null, courseId = null } = $props();
+  // Routes: #/quiz (global picker), #/quiz?course=<id>,
+  // #/quiz?topic=<id>[&course=<id>], #/quiz?skill=<id>[&course=<id>].
+  let { skillId = null, topicId = null, courseId = null } = $props();
 
+  let skill = $derived(skillId ? skillById.get(skillId) : null);
   let topic = $derived(topicId ? topicById.get(topicId) : null);
   let course = $derived(courseId ? courseById.get(courseId) : null);
 
   // The scope's skill ids, in stable order, deduped. `null` means "no scope
   // chosen yet" — the global course picker screen.
   let scopeSkillIds = $derived.by(() => {
+    if (skillId) return skill ? [skill.id] : [];
     if (topicId) {
       const seen = new Set();
       const out = [];
@@ -36,7 +39,7 @@
   });
 
   let scopeLabel = $derived(
-    topic ? topic.title : course ? course.title : null
+    skill ? skill.title : topic ? topic.title : course ? course.title : null
   );
 
   // --- Manifest (needed to know which scope skills are quizzable) ---
@@ -78,7 +81,7 @@
     answeredCount = 0;
   }
   // Re-derive scope key so switching topic/course (without remount) resets state.
-  let scopeKey = $derived(`${topicId ?? ''}|${courseId ?? ''}`);
+  let scopeKey = $derived(`${skillId ?? ''}|${topicId ?? ''}|${courseId ?? ''}`);
   let lastScopeKey = null;
   $effect(() => {
     if (scopeKey !== lastScopeKey) {

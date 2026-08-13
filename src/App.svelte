@@ -95,7 +95,7 @@
         {:else if route.name === 'skill'}
           <SkillDetail id={route.params[0]} courseId={route.query.course ?? null} />
         {:else if route.name === 'quiz'}
-          <Quiz topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
+          <Quiz skillId={route.query.skill ?? null} topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
           <TikzCheck
             topicId={route.query.topic ?? null}

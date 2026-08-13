@@ -40,8 +40,13 @@
 
 <section class="practice-tier" aria-labelledby="tier-{tier.key}">
   <div class="carousel-header">
-    <div class="tier-heading"><span class="tier-number" aria-hidden="true">{tierNumber}</span><div><span class="tier-kicker">Practice level</span><h3 id="tier-{tier.key}">{tier.label}</h3></div></div>
+    <div class="tier-heading"><span class="tier-number" aria-hidden="true">{tierNumber}</span><h3 id="tier-{tier.key}">{tier.label}</h3></div>
     <span class="position">Question {idx + 1} of {items.length}</span>
+  </div>
+  <div class="carousel-nav">
+    <button onclick={() => scroll(-1)} disabled={idx === 0}><span aria-hidden="true">&larr;</span> Previous</button>
+    <span>Tap the card to show the worked solution</span>
+    <button onclick={() => scroll(1)} disabled={idx === items.length - 1}>Next <span aria-hidden="true">&rarr;</span></button>
   </div>
   <div class="progress-track" role="progressbar" aria-label={`${tier.label} question progress`} aria-valuemin="1" aria-valuemax={items.length} aria-valuenow={idx + 1}><span style="width:{progress}%"></span></div>
   <div class="carousel-viewport" role="group" aria-label={`${tier.label} practice cards`} ontouchstart={onTouchStart} ontouchend={onTouchEnd}>
@@ -51,11 +56,6 @@
       {/each}
     </div>
   </div>
-  <div class="carousel-nav">
-    <button onclick={() => scroll(-1)} disabled={idx === 0}><span aria-hidden="true">&larr;</span> Previous</button>
-    <span>Tap the card to show the worked solution</span>
-    <button onclick={() => scroll(1)} disabled={idx === items.length - 1}>Next <span aria-hidden="true">&rarr;</span></button>
-  </div>
 </section>
 
 <style>
@@ -63,14 +63,13 @@
   .carousel-header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 0.55rem; }
   .tier-heading { display: flex; align-items: center; gap: 0.65rem; }
   .tier-number { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 9px; background: var(--surface-soft); color: var(--text); font-weight: 750; }
-  .tier-kicker { display: block; color: var(--muted); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
   h3 { margin: 0; font-size: 0.95rem; }
   .position { color: var(--muted); font-size: 0.76rem; font-weight: 650; }
-  .progress-track { height: 4px; margin-bottom: 0.75rem; overflow: hidden; border-radius: 999px; background: var(--track); }
+  .progress-track { height: 4px; margin: 0.55rem 0 0.75rem; overflow: hidden; border-radius: 999px; background: var(--track); }
   .progress-track span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width var(--motion-base) var(--ease-out); }
   .carousel-viewport { overflow: hidden; padding: 0.15rem 0 0.3rem; }
   .carousel-track { display: flex; gap: 1.5rem; transition: transform var(--motion-slow) var(--ease-out); will-change: transform; touch-action: pan-y; }
-  .carousel-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; margin-top: 0.55rem; }
+  .carousel-nav { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; }
   .carousel-nav button { min-height: 38px; padding: 0.45rem 0.75rem; border: 1px solid var(--border-strong); border-radius: 9px; background: var(--panel); color: var(--text); font: 650 0.78rem var(--font-body); cursor: pointer; }
   .carousel-nav button:hover:not(:disabled) { border-color: var(--border-strong); background: var(--panel-2); color: var(--accent); }
   .carousel-nav button:disabled { opacity: 0.35; cursor: default; }

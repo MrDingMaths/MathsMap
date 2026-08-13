@@ -5,7 +5,6 @@
   import { getMastery, subscribe } from '../lib/store.js';
   import { loadSkillContent, setContentCache } from '../lib/content.js';
   import { adminState, saveContent } from '../lib/admin.svelte.js';
-  import MasteryControl from '../components/MasteryControl.svelte';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -84,6 +83,7 @@
       <h1><MathText text={skill.title} /></h1>
       {#if skill.blurb}<p class="blurb"><MathText text={skill.blurb} /></p>{/if}
       <div class="title-actions">
+        <a class="primary-action" href={href(`/quiz?skill=${skill.id}${courseId ? `&course=${courseId}` : ''}`)}>Take quiz <span aria-hidden="true">&rarr;</span></a>
         {#if hasPractice}<button class="primary-action" onclick={startPractice}>Start practice <span aria-hidden="true">&darr;</span></button>{/if}
         {#if siblings.prev}<a href={href(`/skill/${siblings.prev.id}${courseQuery}`)}><span aria-hidden="true">&larr;</span> Previous skill</a>{/if}
         {#if siblings.next}<a href={href(`/skill/${siblings.next.id}${courseQuery}`)}>Next skill <span aria-hidden="true">&rarr;</span></a>{/if}
@@ -95,7 +95,7 @@
         {#if content}
           {#if content.theory || adminState.isAdmin}
             <details class="theory-disclosure" bind:open={theoryOpen}>
-              <summary><span><span class="section-kicker">Learn</span><strong>Theory and method</strong></span><span class="summary-action">{theoryOpen ? 'Collapse' : 'Review'}</span></summary>
+              <summary><strong>Theory and method</strong><span class="summary-action">{theoryOpen ? 'Collapse' : 'Review'}</span></summary>
               <div class="theory-body">
                 {#if adminState.isAdmin}<TheoryEditor theory={content.theory ?? {}} onSave={saveTheory} />{:else}<TheoryView theory={content.theory} />{/if}
               </div>
@@ -104,7 +104,7 @@
 
           {#if content.practice || adminState.isAdmin}
             <section class="practice-section" bind:this={practiceEl}>
-              <div class="section-title"><span class="section-kicker">Try it</span><h2>Practice</h2><p>Work through each level at your own pace.</p></div>
+              <div class="section-title"><h2>Practice</h2></div>
               {#if adminState.isAdmin}
                 <PracticeEditor practice={content.practice ?? {}} onSave={savePractice} />
               {:else}
@@ -128,7 +128,6 @@
       </main>
 
       <aside class="skill-side" aria-label="Learning details">
-        <MasteryControl skillId={skill.id} />
         <div class="learning-context">
           <div class="context-tags">{#each skill.courses as id}<span class="tag">{courseById.get(id)?.title ?? id}</span>{/each}</div>
           <section class="side-section">
@@ -168,12 +167,11 @@
   .theory-disclosure { scroll-margin-top: 150px; border-block: 1px solid var(--border); }
   .theory-disclosure summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; cursor: pointer; list-style: none; }
   .theory-disclosure summary::-webkit-details-marker { display: none; }
-  .theory-disclosure summary strong { display: block; margin-top: 0.12rem; font-family: var(--font-display); font-size: 1.15rem; }
+  .theory-disclosure summary strong { display: block; font-family: var(--font-display); font-size: 1.15rem; }
   .summary-action { color: var(--accent); font-size: 0.72rem; font-weight: 700; }
   .theory-body { padding-bottom: 1rem; }
   .practice-section { margin-top: 2.2rem; scroll-margin-top: 150px; }
-  .section-title h2 { margin: 0.12rem 0 0; font-size: 1.35rem; }
-  .section-title p { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.82rem; }
+  .section-title h2 { margin: 0; font-size: 1.35rem; }
   .practice-placeholder { margin-top: 0.8rem; padding: 1.5rem; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-soft); text-align: center; }
   .tier-list { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
   .tier-list span { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.8rem; }
