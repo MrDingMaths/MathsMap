@@ -167,6 +167,7 @@ export function layoutSwimlanes(cy, { gap = 80, bandGap = 90, pad = 48, minSep =
 
   const intraEdgesByBand = new Map();
   cy.edges().forEach((e) => {
+    if (!e.hasClass('layout-edge')) return;
     if (e.hasClass('cross-course')) return;
     const sourceBand = e.source().data('band') ?? 0;
     const targetBand = e.target().data('band') ?? 0;

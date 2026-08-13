@@ -7,6 +7,7 @@ import { getMastery } from './store.js';
 import { masteryColour, masteryLabel, nodeSize, degreeMap } from './graph.js';
 import { ringSvg, trackColour } from './ring.js';
 import { plainMath } from './mathText.js';
+import { buildTopicBackbone } from './graphReduction.js';
 
 const MASTERY_KEYS = ['none', 'learning', 'proficient', 'mastered'];
 
@@ -40,8 +41,10 @@ function masteryStats(skillIds) {
   };
 }
 
-// `courseIds` may be a string or an array of course ids.
-export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
+// `courseIds` may be a string or an array of course ids. The returned graph keeps
+// the complete semantic relation set for readiness/inspection, while marking a
+// much smaller reachability-preserving backbone for the default map view.
+export function buildTopicGraph({ courseIds = null, isDark = false, crossOnly = false } = {}) {
   const wanted = courseIds == null ? null : new Set([].concat(courseIds));
 
   let pool = skills;
@@ -102,7 +105,7 @@ export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
 
   // Aggregate edges: topic A -> topic B when some skill in B requires a skill in A
   // (A != B). Cross-course when the contributing skill relationship spans courses.
-  const edgeMap = new Map(); // `${a}->${b}` -> cross flag
+  const edgeMap = new Map(); // `${a}->${b}` -> { cross, weight }
   for (const [topicB, skillIds] of topicSkills) {
     const stageB = topicById.get(topicB)?.stage;
     for (const sid of skillIds) {
@@ -123,17 +126,26 @@ export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
           (s.courses || []).includes(c)
         );
         const key = `${topicA}->${topicB}`;
-        // Keep cross=true if any contributing relationship crosses courses.
-        edgeMap.set(key, (edgeMap.get(key) || false) || cross);
+        const relation = edgeMap.get(key) || { cross: false, weight: 0 };
+        relation.cross ||= cross;
+        relation.weight += 1;
+        edgeMap.set(key, relation);
       }
     }
   }
 
-  const edges = [];
+  const relations = [];
   const prereqsOf = new Map(); // topic -> [prerequisite topics]
-  for (const [key, cross] of edgeMap) {
+  for (const [key, relation] of edgeMap) {
     const [source, target] = key.split('->');
-    edges.push({ data: { id: key, source, target }, classes: cross ? 'cross-course' : '' });
+    relations.push({
+      id: key,
+      source,
+      target,
+      cross: relation.cross,
+      weight: relation.weight,
+      kind: 'semantic'
+    });
     if (!prereqsOf.has(target)) prereqsOf.set(target, []);
     prereqsOf.get(target).push(source);
   }
@@ -150,9 +162,60 @@ export function buildTopicElements({ courseIds = null, isDark = false } = {}) {
     if (ready) n.classes = 'ready';
   }
 
-  // Size each topic by its connection count.
-  const deg = degreeMap(edges);
-  for (const n of nodes) n.data.size = nodeSize(deg.get(n.data.id) || 0);
+  const visibleRelations = crossOnly ? relations.filter((relation) => relation.cross) : relations;
+  const visibleNodeIds = crossOnly
+    ? new Set(visibleRelations.flatMap((relation) => [relation.source, relation.target]))
+    : new Set(nodes.map((node) => node.data.id));
+  const visibleNodes = nodes.filter((node) => visibleNodeIds.has(node.data.id));
+  const reduction = buildTopicBackbone([...visibleNodeIds], visibleRelations);
+  const backboneIds = new Set(reduction.backbone.map((relation) => relation.id));
 
-  return [...nodes, ...edges];
+  const semanticEdges = visibleRelations.map((relation) => ({
+    data: {
+      id: relation.id,
+      source: relation.source,
+      target: relation.target,
+      weight: relation.weight,
+      kind: 'semantic'
+    },
+    classes: [
+      'semantic-edge',
+      backboneIds.has(relation.id) ? 'backbone layout-edge' : '',
+      relation.cross ? 'cross-course' : ''
+    ].filter(Boolean).join(' ')
+  }));
+  const interdependentEdges = reduction.interdependent.map((relation) => ({
+    data: {
+      id: relation.id,
+      source: relation.source,
+      target: relation.target,
+      weight: relation.weight,
+      kind: 'interdependent'
+    },
+    classes: [
+      'interdependent',
+      'backbone',
+      'layout-edge',
+      relation.cross ? 'cross-course' : ''
+    ].filter(Boolean).join(' ')
+  }));
+
+  // Size each topic by its complete semantic connection count, even when most
+  // links are hidden in the overview.
+  const deg = degreeMap(semanticEdges);
+  for (const n of visibleNodes) n.data.size = nodeSize(deg.get(n.data.id) || 0);
+
+  return {
+    elements: [...visibleNodes, ...semanticEdges, ...interdependentEdges],
+    relations: visibleRelations,
+    backbone: reduction.backbone,
+    interdependent: reduction.interdependent,
+    components: reduction.components,
+    componentByNode: reduction.componentByNode,
+    adjacency: reduction.adjacency
+  };
+}
+
+export function buildTopicElements(options = {}) {
+  return buildTopicGraph(options).elements;
 }

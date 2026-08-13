@@ -128,9 +128,9 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
         (s.courses || []).includes(c)
       );
       const isBoundaryEdge = boundaryIds.has(s.id) || boundaryIds.has(p);
-      const classes = [cross ? 'cross-course' : '', isBoundaryEdge ? 'boundary-edge' : '']
+      const classes = ['semantic-edge', 'layout-edge', cross ? 'cross-course' : '', isBoundaryEdge ? 'boundary-edge' : '']
         .filter(Boolean).join(' ');
-      edges.push({ data: { id: `${p}->${s.id}`, source: p, target: s.id }, classes });
+      edges.push({ data: { id: `${p}->${s.id}`, source: p, target: s.id, kind: 'semantic' }, classes });
     }
   }
 
@@ -293,8 +293,11 @@ export function getCyStyle(isDark = true) {
   const nodeBorder = isDark ? '#64748b' : '#aab6c5';
   const highlight = isDark ? '#38bdf8' : '#0284c7';
   const nodeFill = isDark ? '#0f172a' : '#ffffff'; // solid node centre (matches backdrop)
-  const litColor = isDark ? '#f8fafc' : '#000000'; // bold near-black/near-white for the focused chain
+  const litColor = isDark ? '#f8fafc' : '#0f172a';
   const crossColor = isDark ? '#f59e0b' : '#b45309';
+  const incoming = isDark ? '#fbbf24' : '#b45309';
+  const outgoing = isDark ? '#2dd4bf' : '#0f766e';
+  const interdependent = isDark ? '#c084fc' : '#7e22ce';
   const ready = isDark ? '#22d3ee' : '#0e7490'; // theme-safe "ready now" halo
   return [
     {
@@ -329,10 +332,11 @@ export function getCyStyle(isDark = true) {
       style: {
         width: 2,
         'line-color': edgeColor,
-        'line-opacity': 0.55,
+        'line-opacity': 0,
         'target-arrow-color': edgeColor,
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.9,
+        opacity: 0,
         'overlay-opacity': 0,
         'curve-style': 'taxi',
         'taxi-direction': 'vertical',
@@ -345,17 +349,20 @@ export function getCyStyle(isDark = true) {
     // still reads from a distance. Placed before the cross-course rules so those
     // (equal class-specificity, later in the sheet) keep their width/colour; the
     // dedicated cross-course.far rule below re-softens their opacity.
-    { selector: 'edge.far', style: { width: 2.75, 'line-opacity': 0.7, 'arrow-scale': 1 } },
+    { selector: 'edge.edge-visible', style: { opacity: 1, 'line-opacity': 0.36, 'arrow-scale': 0.95 } },
+    { selector: 'edge.backbone.edge-visible', style: { width: 2.15, 'line-opacity': 0.42 } },
+    { selector: 'edge.edge-visible.far', style: { width: 2.6, 'line-opacity': 0.56, 'arrow-scale': 1 } },
     // Focus state: the chain of the hovered/clicked node comes to full strength —
     // bold near-black (light) / near-white (dark), thicker, fully opaque.
     {
-      selector: 'edge.lit',
+      selector: 'edge.path-lit',
       style: {
-        width: 3,
+        opacity: 1,
+        width: 3.2,
         'line-color': litColor,
         'target-arrow-color': litColor,
         'line-opacity': 1,
-        'arrow-scale': 1
+        'arrow-scale': 1.15
       }
     },
     // Cross-topic links span between courses/strands. Same orthogonal routing
@@ -363,7 +370,7 @@ export function getCyStyle(isDark = true) {
     // gutters/corridors, like every other edge) but dashed amber and faint until
     // a node is focused, so they still read as a different kind of link.
     {
-      selector: 'edge.cross-course',
+      selector: 'edge.cross-course.edge-visible',
       style: {
         width: 2,
         'line-color': crossColor,
@@ -379,8 +386,44 @@ export function getCyStyle(isDark = true) {
     },
     // Zoomed-out variant, softer than plain edge.far so the dashed amber layer
     // doesn't overwhelm the in-course structure. Before .lit so lit still wins.
-    { selector: 'edge.cross-course.far', style: { 'line-opacity': 0.55 } },
-    { selector: 'edge.cross-course.lit', style: { 'line-opacity': 1, width: 3 } },
+    { selector: 'edge.cross-course.edge-visible.far', style: { 'line-opacity': 0.5 } },
+    {
+      selector: 'edge.interdependent.edge-visible',
+      style: {
+        opacity: 1,
+        width: 2.5,
+        'line-color': interdependent,
+        'target-arrow-color': interdependent,
+        'source-arrow-color': interdependent,
+        'target-arrow-shape': 'triangle',
+        'source-arrow-shape': 'triangle',
+        'line-style': 'dashed',
+        'line-opacity': 0.82,
+        'arrow-scale': 1.05
+      }
+    },
+    {
+      selector: 'edge.incoming-lit',
+      style: {
+        opacity: 1,
+        width: 3.5,
+        'line-color': incoming,
+        'target-arrow-color': incoming,
+        'line-opacity': 1,
+        'arrow-scale': 1.25
+      }
+    },
+    {
+      selector: 'edge.outgoing-lit',
+      style: {
+        opacity: 1,
+        width: 3.5,
+        'line-color': outgoing,
+        'target-arrow-color': outgoing,
+        'line-opacity': 1,
+        'arrow-scale': 1.25
+      }
+    },
     // Long edges routed through inter-column corridors by routeEdges(): explicit
     // orthogonal polylines whose waypoints live in per-edge segment-weights/
     // -distances styles. Placed after the taxi rules (base edge and
@@ -399,12 +442,30 @@ export function getCyStyle(isDark = true) {
       }
     },
     { selector: 'node.boundary', style: { opacity: 0.4, 'font-size': 11 } },
-    { selector: 'edge.boundary-edge', style: { opacity: 0.35, width: 1.5 } },
+    { selector: 'edge.boundary-edge.edge-visible', style: { opacity: 0.45, width: 1.5 } },
+    // Focus styling must win over contextual boundary/cross-course treatments.
+    // Direction is carried by colour and arrowheads; the underlying relationship
+    // type remains visible through its dashed pattern.
+    {
+      selector: 'edge.cross-course.path-lit',
+      style: { width: 3.2, 'line-opacity': 1, 'arrow-scale': 1.15 }
+    },
+    {
+      selector: 'edge.boundary-edge.path-lit',
+      style: { opacity: 1, width: 3.2, 'line-opacity': 1 }
+    },
+    {
+      selector: 'edge.boundary-edge.incoming-lit',
+      style: { opacity: 1, width: 3.5, 'line-opacity': 1, 'arrow-scale': 1.25 }
+    },
+    {
+      selector: 'edge.boundary-edge.outgoing-lit',
+      style: { opacity: 1, width: 3.5, 'line-opacity': 1, 'arrow-scale': 1.25 }
+    },
     { selector: 'node.focus-chain', style: { opacity: 1 } },
-    { selector: 'edge.focus-chain', style: { opacity: 1 } },
     // Nodes outside the focused chain dim back so the lit chain stands out.
-    { selector: 'node.dim', style: { opacity: 0.16 } },
-    { selector: 'edge.dim', style: { 'line-opacity': 0.05 } },
+    { selector: 'node.dim', style: { opacity: 0.28 } },
+    { selector: 'edge.dim.edge-visible', style: { opacity: 1, 'line-opacity': 0.1 } },
     { selector: '.faded', style: { opacity: 0.1 } },
     {
       selector: 'node.focus-root',
