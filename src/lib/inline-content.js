@@ -1,7 +1,15 @@
 const OPEN = '[tikz]';
 const CLOSE = '[/tikz]';
-export const PRACTICE_CARD_KEYS = new Set(['question_text', 'solution_text']);
+export const PRACTICE_CARD_KEYS = new Set(['question_text', 'structure', 'solution_text']);
 export const QUIZ_QUESTION_KEYS = new Set(['id', 'question_text', 'structure', 'mastery', 'options', 'solution_text']);
+
+const STRUCTURE_SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+// A `structure` value is a kebab-case archetype slug, shared vocabulary
+// between a skill's practice cards and its quiz questions.
+export function isStructureSlug(value) {
+  return typeof value === 'string' && STRUCTURE_SLUG_RE.test(value);
+}
 
 export function unknownKeys(value, allowed) {
   return value && typeof value === 'object' && !Array.isArray(value)

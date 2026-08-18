@@ -19,66 +19,81 @@
     "foundation": [
       {
         "question_text": "How many straws and joiners are needed for a skeletal model of this triangular prism?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (1.3,2);\n\\coordinate (D) at (1.1,0.7);\n\\coordinate (E) at (3.7,0.7);\n\\coordinate (F) at (2.4,2.7);\n\\draw (A)--(B)--(C)--cycle;\n\\draw (B)--(E)--(F)--(C);\n\\draw (C)--(F);\n\\draw[dashed] (A)--(D)--(E);\n\\draw[dashed] (D)--(F);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "count-prism-edges",
         "solution_text": "A triangular prism has $9$ edges and $6$ vertices, so it needs $9$ straws and $6$ joiners."
       },
       {
         "question_text": "How many straws and joiners are needed for a skeletal model of this square pyramid?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (4,0.8); \\coordinate (D) at (1,0.8); \\coordinate (P) at (2,3.2);\n\\draw (A)--(B)--(C); \\draw[dashed] (C)--(D)--(A);\n\\draw (P)--(A) (P)--(B) (P)--(C); \\draw[dashed] (P)--(D);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "count-pyramid-vertices",
         "solution_text": "A square pyramid has $8$ edges and $5$ vertices, so it needs $8$ straws and $5$ joiners."
       },
       {
         "question_text": "List the face pieces needed to build a solid triangular-prism model.",
+        "structure": "select-prism-faces",
         "solution_text": "Use two triangular faces and three rectangular faces."
       },
       {
         "question_text": "List the face pieces needed to build a square-pyramid model.",
+        "structure": "select-pyramid-faces",
         "solution_text": "Use one square base and four triangular side faces."
       },
       {
         "question_text": "Name the model and count its faces.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3.2,0); \\coordinate (C) at (3.2,1.8); \\coordinate (D) at (0,1.8);\n\\coordinate (E) at (1,0.7); \\coordinate (F) at (4.2,0.7); \\coordinate (G) at (4.2,2.5); \\coordinate (H) at (1,2.5);\n\\draw (A)--(B)--(C)--(D)--cycle; \\draw (B)--(F)--(G)--(C); \\draw (D)--(H)--(G);\n\\draw[dashed] (A)--(E)--(F); \\draw[dashed] (E)--(H);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-model-and-count-feature",
         "solution_text": "It is a rectangular prism with $6$ faces."
       },
       {
         "question_text": "Name the model and count its vertices.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0.5); \\coordinate (B) at (1.2,0); \\coordinate (C) at (2.7,0.5); \\coordinate (D) at (2.3,1.6); \\coordinate (E) at (0.4,1.6);\n\\coordinate (P) at (1.4,3.2);\n\\draw (A)--(B)--(C)--(D)--(E)--cycle; \\draw (P)--(A) (P)--(B) (P)--(C) (P)--(D) (P)--(E);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-model-and-count-feature",
         "solution_text": "It is a pentagonal pyramid with $5$ base vertices plus one apex, so it has $6$ vertices."
       }
     ],
     "development": [
       {
         "question_text": "A skeletal pentagonal prism is planned. How many base edges, joining edges and vertices are needed?",
+        "structure": "count-prism-edges",
         "solution_text": "The two bases use $10$ edges, with $5$ joining edges, for $15$ edges. It has $10$ vertices."
       },
       {
         "question_text": "A skeletal hexagonal pyramid is planned. How many base edges, sloping edges and vertices are needed?",
+        "structure": "count-pyramid-vertices",
         "solution_text": "It has $6$ base edges and $6$ sloping edges, for $12$ edges, and $7$ vertices including the apex."
       },
       {
         "question_text": "A model has two triangular ends but only two rectangular joining faces. Diagnose what is missing.",
+        "structure": "diagnose-incomplete-frame",
         "solution_text": "A triangular prism needs three rectangular side faces, so one rectangle is missing."
       },
       {
         "question_text": "A square-pyramid frame uses $5$ joiners and only $7$ straws. Explain why it cannot be complete.",
+        "structure": "diagnose-incomplete-frame",
         "solution_text": "The $4$ base edges and $4$ edges to the apex require $8$ straws, so one edge is missing."
       },
       {
         "question_text": "Describe a build order for this model.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0.7); \\coordinate (B) at (0.8,0); \\coordinate (C) at (2,0.4); \\coordinate (D) at (2,1.7); \\coordinate (E) at (0.8,2.2);\n\\coordinate (F) at (1.2,1.2); \\coordinate (G) at (2,0.7); \\coordinate (H) at (3.2,1.1); \\coordinate (I) at (3.2,2.4); \\coordinate (J) at (2,2.9);\n\\draw (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw (C)--(H)--(I)--(J)--(E); \\draw (D)--(I);\n\\draw[dashed] (A)--(F)--(G)--(H); \\draw[dashed] (B)--(G); \\draw[dashed] (F)--(J);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "describe-build-order",
         "solution_text": "Build two matching pentagonal frames, then join corresponding vertices with five equal edges."
       },
       {
         "question_text": "Describe a build order for this model.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (4,0.8); \\coordinate (D) at (1,0.8); \\coordinate (P) at (2,3.2);\n\\draw (A)--(B)--(C); \\draw[dashed] (C)--(D)--(A);\n\\draw (P)--(A) (P)--(B) (P)--(C); \\draw[dashed] (P)--(D);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "describe-build-order",
         "solution_text": "Build the square base, add one edge from each base vertex, then join those four edges at the apex."
       }
     ],
     "mastery": [
       {
         "question_text": "A prism frame uses $18$ straws. Determine the base shape and number of joiners.",
+        "structure": "infer-prism-model",
         "solution_text": "An $n$-gonal prism has $3n$ edges. $18\\div3=6$, so it is hexagonal and has $2n=12$ joiners."
       },
       {
         "question_text": "A pyramid frame uses $14$ straws. Determine the base shape and number of joiners.",
+        "structure": "infer-pyramid-model",
         "solution_text": "An $n$-gonal pyramid has $2n$ edges. $14\\div2=7$, so it is heptagonal and has $n+1=8$ joiners."
       },
       {
         "question_text": "The front view of a model is triangular and its top view is a square with lines to the centre. Decide what to build.",
+        "structure": "identify-shape-from-views",
         "solution_text": "These views match a square pyramid: use a square base and four triangular faces meeting at an apex."
       }
     ]

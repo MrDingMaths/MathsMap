@@ -21,70 +21,86 @@
     "foundation": [
       {
         "question_text": "A die is rolled $10$ times and these numbers come up:\n$1, \\; 4, \\; 1, \\; 3, \\; 3, \\; 1, \\; 4, \\; 3, \\; 2, \\; 3$\nFind, as fractions in simplest form, the relative frequency of rolling:\na. a $3$\nb. an even number",
+        "structure": "rf-from-list",
         "solution_text": "There are $10$ trials.\na. The number $3$ came up $4$ times.\n$\\text{Relative frequency} = \\frac{4}{10}$\n$= \\frac{2}{5}$\nb. The even results are $4, 4, 2$, so an even number came up $3$ times.\n$\\text{Relative frequency} = \\frac{3}{10}$"
       },
       {
         "question_text": "A coin is tossed $13$ times and these results come up:\n$H, H, H, T, T, H, T, H, H, H, T, H, H$\nFind the relative frequency of getting:\na. heads\nb. tails",
+        "structure": "rf-coin-list",
         "solution_text": "There are $13$ trials.\na. Heads came up $9$ times.\n$\\text{Relative frequency} = \\frac{9}{13}$\nb. Tails came up $4$ times.\n$\\text{Relative frequency} = \\frac{4}{13}$"
       },
       {
         "question_text": "A die is rolled $20$ times and the results are recorded in the table.\n$\\begin{array}{|c|c|c|c|c|c|c|}\\hline \\text{Outcome} & 1 & 2 & 3 & 4 & 5 & 6 \\\\\\hline \\text{Frequency} & 4 & 3 & 2 & 5 & 2 & 4 \\\\\\hline \\end{array}$\nFind, as fractions in simplest form, the relative frequency of rolling:\na. a $6$\nb. a number greater than $4$",
+        "structure": "rf-from-table",
         "solution_text": "There are $20$ trials.\na. The number $6$ came up $4$ times.\n$\\text{Relative frequency} = \\frac{4}{20}$\n$= \\frac{1}{5}$\nb. The results greater than $4$ are the $5$s and $6$s: $2 + 4 = 6$ times.\n$\\text{Relative frequency} = \\frac{6}{20}$\n$= \\frac{3}{10}$"
       },
       {
         "question_text": "When a coin is tossed $100$ times, the results are $53$ heads and $47$ tails.\na. Find the relative frequency of getting a tail, as a decimal.\nb. Find the relative frequency of getting a head, as a percentage.",
+        "structure": "rf-decimal-large-trials",
         "solution_text": "There are $100$ trials.\na. $\\text{Relative frequency of tails} = \\frac{47}{100}$\n$= 0.47$\nb. $\\text{Relative frequency of heads} = \\frac{53}{100}$\n$= 53\\%$"
       },
       {
         "question_text": "A drawing pin is tossed $80$ times and lands point-up $30$ times. Find the observed probability that the pin lands point-up, as a fraction in simplest form.",
+        "structure": "pin-estimate",
         "solution_text": "$\\text{Observed probability} = \\frac{30}{80}$\n$= \\frac{3}{8}$"
       },
       {
         "question_text": "A bottle top is flipped $60$ times and lands top-up $24$ times. Find the observed probability that the bottle top lands top-up, as a percentage.",
+        "structure": "pin-estimate",
         "solution_text": "$\\text{Observed probability} = \\frac{24}{60}$\n$= \\frac{2}{5}$\n$= 40\\%$"
       }
     ],
     "development": [
       {
         "question_text": "A die is rolled $10$ times and the number $3$ comes up $4$ times. If the same experiment were repeated with $500$ trials, what would you expect the frequency of $3$ to be?",
+        "structure": "scale-to-trials",
         "solution_text": "$\\text{Relative frequency of } 3 = \\frac{4}{10}$\n$= \\frac{2}{5}$\n$\\text{Expected frequency} = \\frac{2}{5} \\times 500$\n$= 200$"
       },
       {
         "question_text": "Jeremy rolled a biased die $150$ times and recorded the results in the table.\n$\\begin{array}{|c|c|c|c|c|c|c|}\\hline \\text{Outcome} & 1 & 2 & 3 & 4 & 5 & 6 \\\\\\hline \\text{Frequency} & 20 & 25 & 48 & 20 & 19 & 18 \\\\\\hline \\end{array}$\nHow many times would he expect to roll a $3$ if he rolled the die $1500$ times?",
+        "structure": "scale-to-trials",
         "solution_text": "$\\text{Relative frequency of } 3 = \\frac{48}{150}$\n$\\text{Expected frequency} = \\frac{48}{150} \\times 1500$\n$= 480$"
       },
       {
         "question_text": "Experiment A: a coin is tossed $10$ times.\nExperiment B: a coin is tossed $200$ times.\nThe relative frequency of heads is calculated for each experiment. Which experiment would you expect to give a relative frequency closer to the theoretical probability of heads? Explain.",
+        "structure": "lln-concept",
         "solution_text": "By the Law of Large Numbers, as the number of trials increases, the relative frequency approaches the theoretical probability.\nExperiment B has far more trials, so its relative frequency of heads is expected to be closer to $\\frac{1}{2}$."
       },
       {
         "question_text": "A coin is tossed repeatedly, and the relative frequency of heads is recorded after $10$, $20$, $50$, $100$, $200$ and $500$ tosses.\n[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(8.3,0);\n\\foreach \\y/\\lbl in {0/0,1/0.2,2/0.4,3/0.6,4/0.8,5/1} {\\draw (-0.12,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\foreach \\x/\\lbl in {1/10,2.3/20,3.6/50,4.9/100,6.2/200,7.5/500} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\lbl$};}\n\\draw[thick] (1,3.5)--(2.3,2.0)--(3.6,2.8)--(4.9,2.3)--(6.2,2.6)--(7.5,2.5);\n\\foreach \\p in {(1,3.5),(2.3,2.0),(3.6,2.8),(4.9,2.3),(6.2,2.6),(7.5,2.5)} {\\fill \\p circle (2.2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.6,2.5) {Relative frequency};\n\\node[below,font=\\scriptsize] at (4.25,-1.0) {Number of tosses};\n\\node[font=\\small] at (4.25,6.1) {Coin-toss experiment};\n\\end{tikzpicture}\n[/tikz]\na. What value does the relative frequency of heads approach as the number of tosses increases?\nb. What law does this experiment illustrate?",
+        "structure": "lln-graph",
         "solution_text": "a. The graph jumps around at first, then settles closer and closer to $0.5$.\nThe relative frequency approaches $0.5$, the theoretical probability of heads.\nb. This illustrates the Law of Large Numbers: as the number of trials increases, the relative frequency approaches the theoretical probability."
       },
       {
         "question_text": "A drawing pin is tossed $400$ times and lands point-up $260$ times.\na. Find the best estimate of the probability that the pin lands point-up, as a decimal.\nb. Explain why an observed probability, rather than a theoretical probability, must be used for this pin.",
+        "structure": "pin-estimate",
         "solution_text": "a. $\\text{Observed probability} = \\frac{260}{400}$\n$= 0.65$\nb. The pin is not symmetric, so 'point-up' and 'point-down' are not equally likely outcomes.\nThere is no theoretical value to calculate, so the observed probability from many trials is the best estimate."
       },
       {
         "question_text": "Zara flips a bottle top $10$ times and it lands top-up $3$ times. She estimates that the probability of landing top-up is $\\frac{3}{10}$. How can Zara improve her estimate?",
+        "structure": "lln-concept",
         "solution_text": "Zara should flip the bottle top many more times and recalculate the relative frequency.\nBy the Law of Large Numbers, the more trials she records, the closer the relative frequency gets to the true probability, so a larger number of trials gives a better estimate."
       },
       {
         "question_text": "A die is rolled a number of times and the results are recorded in the table.\n$\\begin{array}{|c|c|c|c|c|c|c|}\\hline \\text{Outcome} & 1 & 2 & 3 & 4 & 5 & 6 \\\\\\hline \\text{Frequency} & 8 & 6 & 7 & 9 & 6 & 4 \\\\\\hline \\end{array}$\na. How many times was the die rolled?\nb. Find the relative frequency of rolling a $1$, as a fraction in simplest form.",
+        "structure": "rf-from-table",
         "solution_text": "a. $8 + 6 + 7 + 9 + 6 + 4$\n$= 40$\nThe die was rolled $40$ times.\nb. $\\text{Relative frequency of } 1 = \\frac{8}{40}$\n$= \\frac{1}{5}$"
       }
     ],
     "mastery": [
       {
         "question_text": "A die was rolled $72$ times. The results are shown in the table.\n$\\begin{array}{|c|c|c|c|c|c|c|}\\hline \\text{Outcome} & 1 & 2 & 3 & 4 & 5 & 6 \\\\\\hline \\text{Frequency} & 14 & 9 & A & 8 & 12 & 19 \\\\\\hline \\end{array}$\na. Find the value of $A$.\nb. Find the relative frequency of rolling a $4$, as a fraction in simplest form.\nc. If the die was unbiased, which number was obtained the expected number of times?",
+        "structure": "table-missing-value",
         "solution_text": "a. $A = 72 - (14 + 9 + 8 + 12 + 19)$\n$= 72 - 62$\n$= 10$\nb. $\\text{Relative frequency of } 4 = \\frac{8}{72}$\n$= \\frac{1}{9}$\nc. An unbiased die gives each number an expected frequency of $72 \\times \\frac{1}{6} = 12$ times.\nThe number $5$ came up $12$ times, so $5$ was obtained the expected number of times."
       },
       {
         "question_text": "A die is biased so that the number $6$ appears more often than each of the other numbers, and the numbers $1$ to $5$ are equally likely to occur. The die is rolled $1200$ times and the number $6$ appears $450$ times.\na. Find the observed probability of rolling a $6$, as a fraction in simplest form.\nb. Hence estimate the probability of rolling a $2$.",
+        "structure": "biased-die-symmetry-inference",
         "solution_text": "a. $\\text{Observed probability of } 6 = \\frac{450}{1200}$\n$= \\frac{3}{8}$\nb. The other five numbers share the remaining probability equally.\n$P(2) = \\left(1 - \\frac{3}{8}\\right) \\div 5$\n$= \\frac{5}{8} \\div 5$\n$= \\frac{1}{8}$"
       },
       {
         "question_text": "A computer simulates rolling a die and records the relative frequency of rolling a $5$ after different numbers of rolls.\n$\\begin{array}{|c|c|c|c|c|}\\hline \\text{Number of rolls} & 6 & 100 & 1000 & 50000 \\\\\\hline \\text{Relative frequency of } 5 & 50\\% & 18\\% & 16.9\\% & 16.7\\% \\\\\\hline \\end{array}$\na. Describe what happens to the relative frequency as the number of rolls increases.\nb. What value is the relative frequency approaching? Answer as a fraction.",
+        "structure": "lln-graph",
         "solution_text": "a. With few rolls the relative frequency is far from the theoretical probability, but as the number of rolls increases it settles down and gets closer to one fixed value.\nb. The relative frequency approaches the theoretical probability of rolling a $5$.\n$P(5) = \\frac{1}{6}$\nThis is about $16.7\\%$, matching the simulation."
       }
     ]

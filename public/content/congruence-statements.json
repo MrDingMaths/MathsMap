@@ -2,12 +2,12 @@
   "skillId": "congruence-statements",
   "atomType": "T",
   "theory": {
-    "intro": "The symbol $\\equiv$ means 'is congruent to'. A congruence statement names both figures with their vertices in matching order, so the statement itself tells you every pair of corresponding sides and angles \u2014 even without a diagram.",
+    "intro": "The symbol $\\equiv$ means 'is congruent to'. A congruence statement names both figures with their vertices in matching order, so the statement itself tells you every pair of corresponding sides and angles — even without a diagram.",
     "facts": [
       "In $\\triangle ABC \\equiv \\triangle XYZ$ the vertices match by position: $A \\leftrightarrow X$, $B \\leftrightarrow Y$ and $C \\leftrightarrow Z$.",
       "Corresponding sides are read off by position: $AB = XY$, $BC = YZ$ and $AC = XZ$.",
       "Corresponding angles are read off by position: $\\angle A = \\angle X$, $\\angle B = \\angle Y$ and $\\angle C = \\angle Z$.",
-      "The letters may start at any vertex and run in either direction, but both sides of the statement must move together \u2014 $\\triangle BCA \\equiv \\triangle YZX$ names exactly the same correspondence as $\\triangle ABC \\equiv \\triangle XYZ$."
+      "The letters may start at any vertex and run in either direction, but both sides of the statement must move together — $\\triangle BCA \\equiv \\triangle YZX$ names exactly the same correspondence as $\\triangle ABC \\equiv \\triangle XYZ$."
     ],
     "steps": [
       "Identify the corresponding vertices, using the transformation or the matching marks.",
@@ -18,70 +18,86 @@
     "foundation": [
       {
         "question_text": "$\\triangle PQR$ has been translated to give the second triangle. Write a congruence statement for the two triangles.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.3,0.3);\n\\coordinate (R) at (0.8,1.6);\n\\coordinate (T) at (3.3,0.5);\n\\coordinate (U) at (5.6,0.8);\n\\coordinate (V) at (4.1,2.1);\n\\draw (P) -- (Q) -- (R) -- cycle;\n\\draw (T) -- (U) -- (V) -- cycle;\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\node[below left] at (T) {$T$};\n\\node[below right] at (U) {$U$};\n\\node[above] at (V) {$V$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-triangles",
         "solution_text": "After the slide the vertices match position for position: $P \\leftrightarrow T$, $Q \\leftrightarrow U$, $R \\leftrightarrow V$.\n$\\triangle PQR \\equiv \\triangle TUV$"
       },
       {
         "question_text": "$\\triangle ABC$ has been reflected in the dashed mirror line to give the second triangle. Write a congruence statement beginning $\\triangle ABC \\equiv \\ldots$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0.3,0);\n\\coordinate (B) at (2.3,0);\n\\coordinate (C) at (1.9,1.6);\n\\coordinate (D) at (3.6,0);\n\\coordinate (E) at (5.6,0);\n\\coordinate (F) at (4.0,1.6);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\draw (D) -- (E) -- (F) -- cycle;\n\\draw[dashed] (2.95,-0.5) -- (2.95,2.1);\n\\node[below] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[below] at (E) {$E$};\n\\node[above] at (F) {$F$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-triangles",
         "solution_text": "The reflection matches $A \\leftrightarrow E$, $B \\leftrightarrow D$ and $C \\leftrightarrow F$.\n$\\triangle ABC \\equiv \\triangle EDF$"
       },
       {
         "question_text": "In the statement $\\triangle GHK \\equiv \\triangle NPQ$, name the vertex that corresponds to $H$.",
+        "structure": "read-vertex",
         "solution_text": "Matching the positions: $G \\leftrightarrow N$, $H \\leftrightarrow P$, $K \\leftrightarrow Q$.\n$H$ corresponds to $P$."
       },
       {
         "question_text": "$\\triangle ABC \\equiv \\triangle LMN$. Name the side in $\\triangle LMN$ that corresponds to side $AC$.",
+        "structure": "read-side",
         "solution_text": "$A \\leftrightarrow L$ and $C \\leftrightarrow N$.\nSide $AC$ corresponds to side $LN$."
       },
       {
         "question_text": "Quadrilateral $PQRS \\equiv$ quadrilateral $WXYZ$. Name the angle in $WXYZ$ that corresponds to $\\angle R$.",
+        "structure": "read-angle",
         "solution_text": "$R$ is the third-listed vertex, matching the third-listed vertex $Y$.\n$\\angle R$ corresponds to $\\angle Y$."
       },
       {
         "question_text": "Quadrilateral $ABCD$ has been reflected to give the second quadrilateral. Write a congruence statement beginning $ABCD \\equiv \\ldots$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.4);\n\\coordinate (B) at (1.5,1.4);\n\\coordinate (C) at (2.0,0);\n\\coordinate (D) at (0,0);\n\\coordinate (Z) at (5.5,1.4);\n\\coordinate (Y) at (4.0,1.4);\n\\coordinate (X) at (3.5,0);\n\\coordinate (W) at (5.5,0);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\draw (Z) -- (Y) -- (X) -- (W) -- cycle;\n\\node[above] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\node[above] at (Z) {$Z$};\n\\node[above] at (Y) {$Y$};\n\\node[below] at (X) {$X$};\n\\node[below] at (W) {$W$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-quadrilaterals",
         "solution_text": "The reflection matches $A \\leftrightarrow Z$, $B \\leftrightarrow Y$, $C \\leftrightarrow X$ and $D \\leftrightarrow W$.\n$ABCD \\equiv ZYXW$"
       },
       {
         "question_text": "The triangles are congruent. Use the matching marks to complete the statement $\\triangle GHK \\equiv \\triangle \\ldots$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (G) at (0,0);\n\\coordinate (H) at (2.1,1.5);\n\\coordinate (K) at (2.6,0.2);\n\\coordinate (M) at (6.7,0);\n\\coordinate (N) at (5.2,2.1);\n\\coordinate (P) at (6.5,2.6);\n\\draw[tickmark] (G) -- (H);\n\\draw[tickmark2] (H) -- (K);\n\\draw[tickmark3] (G) -- (K);\n\\draw[tickmark] (M) -- (N);\n\\draw[tickmark2] (N) -- (P);\n\\draw[tickmark3] (M) -- (P);\n\\node[below left] at (G) {$G$};\n\\node[above left] at (H) {$H$};\n\\node[below right] at (K) {$K$};\n\\node[below] at (M) {$M$};\n\\node[above left] at (N) {$N$};\n\\node[above right] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-triangles",
         "solution_text": "The marks match $G \\leftrightarrow M$ (single meets triple), $H \\leftrightarrow N$ (single meets double) and $K \\leftrightarrow P$ (double meets triple).\n$\\triangle GHK \\equiv \\triangle MNP$"
       }
     ],
     "development": [
       {
         "question_text": "$JKLM \\equiv STUV$ and $\\angle K = 114^{\\circ}$. Find the size of $\\angle T$.",
+        "structure": "find-value",
         "solution_text": "$K$ is the second-listed vertex, matching the second-listed vertex $T$, so $\\angle T = \\angle K$.\n$\\angle T = 114^{\\circ}$"
       },
       {
         "question_text": "$\\triangle FGH \\equiv \\triangle MLN$ and $ML = 7$ cm. Find the length of $FG$.",
+        "structure": "find-value",
         "solution_text": "$M \\leftrightarrow F$ and $L \\leftrightarrow G$, so side $ML$ corresponds to side $FG$.\n$FG = 7$ cm"
       },
       {
         "question_text": "The triangles are congruent. Explain why the statement $\\triangle PQR \\equiv \\triangle XYZ$ is incorrect, and write a correct congruence statement.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.2,0);\n\\coordinate (R) at (0.4,1.5);\n\\coordinate (X) at (3.6,0);\n\\coordinate (Y) at (5.8,0);\n\\coordinate (Z) at (5.4,1.5);\n\\draw (P) -- (Q) -- (R) -- cycle;\n\\draw (X) -- (Y) -- (Z) -- cycle;\n\\node[below] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\node[below] at (X) {$X$};\n\\node[below] at (Y) {$Y$};\n\\node[above] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-triangles",
         "solution_text": "The figures are reflections, so the vertices in $\\triangle PQR \\equiv \\triangle XYZ$ are not in matching order: $P$ corresponds to $Y$, not $X$.\nMatching the vertices: $P \\leftrightarrow Y$, $Q \\leftrightarrow X$, $R \\leftrightarrow Z$.\n$\\triangle PQR \\equiv \\triangle YXZ$"
       },
       {
         "question_text": "Given $\\triangle ABC \\equiv \\triangle XYZ$, Mia writes $\\triangle BCA \\equiv \\triangle YZX$. Is Mia's statement also correct?",
+        "structure": "reorder-statement",
         "solution_text": "Mia starts at a different vertex but keeps both sides moving together: $B \\leftrightarrow Y$, $C \\leftrightarrow Z$, $A \\leftrightarrow X$.\nEvery pair matches the original statement, so Mia's statement is also correct."
       },
       {
         "question_text": "Pentagon $ABCDE \\equiv$ pentagon $VWXYZ$. Name the side in $VWXYZ$ that corresponds to side $CD$.",
+        "structure": "read-side",
         "solution_text": "$C$ is the third-listed vertex, matching $X$, and $D$ is the fourth-listed vertex, matching $Y$.\nSide $CD$ corresponds to side $XY$."
       },
       {
         "question_text": "Quadrilateral $JKLM$ has been rotated to give the second quadrilateral. Write a congruence statement beginning $JKLM \\equiv \\ldots$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (J) at (0,0);\n\\coordinate (K) at (2.0,0);\n\\coordinate (L) at (2.4,1.3);\n\\coordinate (M) at (0.5,1.6);\n\\coordinate (S) at (5.9,1.7);\n\\coordinate (T) at (3.9,1.7);\n\\coordinate (U) at (3.5,0.4);\n\\coordinate (V) at (5.4,0.1);\n\\draw (J) -- (K) -- (L) -- (M) -- cycle;\n\\draw (S) -- (T) -- (U) -- (V) -- cycle;\n\\node[below left] at (J) {$J$};\n\\node[below right] at (K) {$K$};\n\\node[above right] at (L) {$L$};\n\\node[above left] at (M) {$M$};\n\\node[above right] at (S) {$S$};\n\\node[above left] at (T) {$T$};\n\\node[below left] at (U) {$U$};\n\\node[below right] at (V) {$V$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-quadrilaterals",
         "solution_text": "The half turn matches $J \\leftrightarrow S$, $K \\leftrightarrow T$, $L \\leftrightarrow U$ and $M \\leftrightarrow V$.\n$JKLM \\equiv STUV$"
       }
     ],
     "mastery": [
       {
         "question_text": "$\\triangle DEF \\equiv \\triangle TRS$ and $\\angle D = 73^{\\circ}$. Find the size of $\\angle RTS$.",
+        "structure": "find-value",
         "solution_text": "The vertex of $\\angle RTS$ is its middle letter, $T$.\n$D \\leftrightarrow T$, so $\\angle RTS = \\angle D$.\n$\\angle RTS = 73^{\\circ}$"
       },
       {
         "question_text": "Quadrilateral $PQRS \\equiv$ quadrilateral $ZWXY$, and $WZ = 8$ cm. Find the length of $PQ$.",
+        "structure": "find-value",
         "solution_text": "$Z \\leftrightarrow P$ and $W \\leftrightarrow Q$, so side $WZ$ corresponds to side $QP$, which is side $PQ$.\n$PQ = 8$ cm"
       },
       {
         "question_text": "The quadrilaterals are congruent. Use the matching marks to write a congruence statement beginning $ABCD \\equiv \\ldots$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n  tickmark3/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-3pt,-4pt) -- (-3pt,4pt);\n                               \\draw[black] (0pt,-4pt) -- (0pt,4pt);\n                               \\draw[black] (3pt,-4pt) -- (3pt,4pt);}}}},\n}\n\\coordinate (A) at (0.2,1.9);\n\\coordinate (B) at (2.3,2.2);\n\\coordinate (C) at (2.7,0.3);\n\\coordinate (D) at (1.1,0);\n\\coordinate (R) at (6.8,1.9);\n\\coordinate (Q) at (4.7,2.2);\n\\coordinate (T) at (4.3,0.3);\n\\coordinate (S) at (5.9,0);\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark2] (B) -- (C);\n\\draw[tickmark3] (C) -- (D);\n\\draw (D) -- (A);\n\\draw[tickmark] (R) -- (Q);\n\\draw[tickmark2] (Q) -- (T);\n\\draw[tickmark3] (T) -- (S);\n\\draw (S) -- (R);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above right] at (R) {$R$};\n\\node[above left] at (Q) {$Q$};\n\\node[below left] at (T) {$T$};\n\\node[below right] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-statement-quadrilaterals",
         "solution_text": "The single-tick side $AB$ matches $RQ$, the double-tick side $BC$ matches $QT$, and the triple-tick side $CD$ matches $TS$.\nSo $A \\leftrightarrow R$, $B \\leftrightarrow Q$, $C \\leftrightarrow T$ and $D \\leftrightarrow S$.\n$ABCD \\equiv RQTS$"
       }
     ]

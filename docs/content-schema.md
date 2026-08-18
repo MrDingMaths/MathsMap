@@ -73,12 +73,21 @@ its own top-level `coverageNote` to suppress the quiz below-target warn.
 ```json
 {
   "question_text": "Round $3.47$ to one decimal place.",
+  "structure": "round-to-tenths",
   "solution_text": "$3.\\underline{4}7$\n$=3.5$"
 }
 ```
 
-These are the only allowed card keys. Both strings are required and non-empty. There is no
-separate answer, solution array, or diagram field.
+These are the only allowed card keys. `question_text` and `solution_text` are required and
+non-empty. There is no separate answer, solution array, or diagram field.
+
+`structure` is a kebab-case archetype slug — the **structural type** from the variety model
+below — drawn from the **same per-skill vocabulary as the quiz file's `structure`**. A card's
+slug names the procedure/shape it drills; cards that differ only by *case* (sign, regime,
+boundary, representation) share one slug. It is currently optional (validator warns when
+absent, pending a full backfill of existing content) but every newly authored card must carry
+it, and the validator warns when a skill's practice `structure` set and its quiz `structure`
+set don't cover each other (see the quiz-mirrors-practice rule below).
 
 Worked solutions follow the booklet house style:
 

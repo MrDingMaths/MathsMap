@@ -21,78 +21,96 @@
     "foundation": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1,0);\n\\coordinate (C) at (0,3);\n\\draw (A)--(B) node[midway,below] {$f$};\n\\draw (B)--(C) node[midway,above right] {$h$};\n\\draw (C)--(A) node[midway,left] {$g$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]\nFor the marked angle $\\theta$, is side $h$ the hypotenuse, the opposite side or the adjacent side?",
+        "structure": "classify-marked-side",
         "solution_text": "Side $h$ lies opposite the right angle.\nIt is the hypotenuse."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (-4,0);\n\\coordinate (R) at (0,3);\n\\draw (P)--(Q) node[midway,below] {$m$};\n\\draw (Q)--(R) node[midway,above left] {$t$};\n\\draw (R)--(P) node[midway,right] {$n$};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=P--Q--R};\n\\end{tikzpicture}\n[/tikz]\nFor the marked angle $\\theta$, is side $n$ the hypotenuse, the opposite side or the adjacent side?",
+        "structure": "classify-marked-side",
         "solution_text": "Side $n$ does not touch $\\theta$; it lies across the triangle from it.\nIt is the opposite side."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (0,3.2);\n\\draw (A)--(B) node[midway,below] {$u$};\n\\draw (B)--(C) node[midway,above right] {$w$};\n\\draw (C)--(A) node[midway,left] {$v$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nFor the marked angle $\\theta$, is side $v$ the hypotenuse, the opposite side or the adjacent side?",
+        "structure": "classify-marked-side",
         "solution_text": "Side $v$ touches $\\theta$ and is not the hypotenuse ($w$ is).\nIt is the adjacent side."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (0,-3.8);\n\\coordinate (Z) at (3,0);\n\\draw (X)--(Y) node[midway,left] {$c$};\n\\draw (Y)--(Z) node[midway,below right] {$e$};\n\\draw (Z)--(X) node[midway,above] {$d$};\n\\coordinate (ra1) at ($(X)!0.32cm!(Y)$);\n\\coordinate (ra2) at ($(X)!0.32cm!(Z)$);\n\\draw (ra1)--($(ra1)+(ra2)-(X)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=Z--Y--X};\n\\end{tikzpicture}\n[/tikz]\nName the side opposite $\\theta$.",
+        "structure": "identify-opposite",
         "solution_text": "The hypotenuse is $e$, opposite the right angle at $X$.\nThe side across the triangle from $\\theta$ is $d$."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (G) at (0,0);\n\\coordinate (H) at (3.2,0);\n\\coordinate (I) at (0,4.1);\n\\draw (G)--(H) node[midway,below] {$j$};\n\\draw (H)--(I) node[midway,above right] {$n$};\n\\draw (I)--(G) node[midway,left] {$k$};\n\\coordinate (ra1) at ($(G)!0.32cm!(H)$);\n\\coordinate (ra2) at ($(G)!0.32cm!(I)$);\n\\draw (ra1)--($(ra1)+(ra2)-(G)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=G--I--H};\n\\end{tikzpicture}\n[/tikz]\nName the side adjacent to $\\theta$.",
+        "structure": "identify-adjacent",
         "solution_text": "The hypotenuse is $n$, so it cannot be the adjacent side.\nThe other side touching $\\theta$ is $k$."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (X) at (0,0);\n\\coordinate (Z) at (4,0);\n\\coordinate (Y) at (0,3.1);\n\\draw (X)--(Z);\n\\draw (Z)--(Y);\n\\draw (Y)--(X);\n\\coordinate (ra1) at ($(X)!0.32cm!(Z)$);\n\\coordinate (ra2) at ($(X)!0.32cm!(Y)$);\n\\draw (ra1)--($(ra1)+(ra2)-(X)$)--(ra2);\n\\node[below left] at (X) {$X$};\n\\node[above left] at (Y) {$Y$};\n\\node[right] at (Z) {$Z$};\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=Y--Z--X};\n\\end{tikzpicture}\n[/tikz]\nIn $\\triangle XYZ$ the right angle is at $X$. Name the side opposite $\\theta$.",
+        "structure": "identify-opposite",
         "solution_text": "The hypotenuse is $YZ$, opposite the right angle at $X$.\nThe side across the triangle from $\\theta$ is $XY$."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (Q) at (0,0);\n\\coordinate (P) at (-4,0);\n\\coordinate (R) at (0,2.9);\n\\draw (Q)--(P);\n\\draw (P)--(R);\n\\draw (R)--(Q);\n\\coordinate (ra1) at ($(Q)!0.32cm!(P)$);\n\\coordinate (ra2) at ($(Q)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(Q)$)--(ra2);\n\\node[left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=Q--P--R};\n\\end{tikzpicture}\n[/tikz]\nIn $\\triangle PQR$ the right angle is at $Q$. Name the side adjacent to $\\theta$.",
+        "structure": "identify-adjacent",
         "solution_text": "The hypotenuse is $PR$, so it cannot be the adjacent side.\nThe other side touching $\\theta$ is $PQ$."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1,0);\n\\coordinate (C) at (0,2.8);\n\\draw (A)--(B) node[midway,below] {$a$};\n\\draw (B)--(C) node[midway,above right] {$c$};\n\\draw (C)--(A) node[midway,left] {$b$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]\nState the hypotenuse, the opposite side and the adjacent side for $\\theta$.",
+        "structure": "label-all-three",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1,0);\n\\coordinate (C) at (0,2.8);\n\\draw (A)--(B) node[midway,below] {$a$ (A)};\n\\draw (B)--(C) node[midway,above right] {$c$ (H)};\n\\draw (C)--(A) node[midway,left] {$b$ (O)};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]\nHypotenuse: $c$\nOpposite: $b$\nAdjacent: $a$"
       }
     ],
     "development": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (-3.759,-1.368);\n\\coordinate (C) at (1.026,-2.819);\n\\draw (A)--(B) node[midway,above] {$p$};\n\\draw (B)--(C) node[midway,below] {$r$};\n\\draw (C)--(A) node[midway,right] {$q$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nThe right angle is at the top vertex. State the hypotenuse, the opposite side and the adjacent side for $\\theta$.",
+        "structure": "label-all-three",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (-3.759,-1.368);\n\\coordinate (C) at (1.026,-2.819);\n\\draw (A)--(B) node[midway,above] {$p$ (O)};\n\\draw (B)--(C) node[midway,below] {$r$ (H)};\n\\draw (C)--(A) node[midway,right] {$q$ (A)};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nHypotenuse: $r$\nOpposite: $p$\nAdjacent: $q$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (S) at (0,0);\n\\coordinate (T) at (3.316,2.237);\n\\coordinate (U) at (-1.678,2.487);\n\\draw (S)--(T);\n\\draw (T)--(U);\n\\draw (U)--(S);\n\\coordinate (ra1) at ($(S)!0.32cm!(T)$);\n\\coordinate (ra2) at ($(S)!0.32cm!(U)$);\n\\draw (ra1)--($(ra1)+(ra2)-(S)$)--(ra2);\n\\node[below] at (S) {$S$};\n\\node[right] at (T) {$T$};\n\\node[left] at (U) {$U$};\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=U--T--S};\n\\end{tikzpicture}\n[/tikz]\nIn $\\triangle STU$ the right angle is at $S$. State the hypotenuse, the opposite side and the adjacent side for $\\theta$.",
+        "structure": "label-all-three",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (S) at (0,0);\n\\coordinate (T) at (3.316,2.237);\n\\coordinate (U) at (-1.678,2.487);\n\\draw (S)--(T) node[midway,below right] {A};\n\\draw (T)--(U) node[midway,above] {H};\n\\draw (U)--(S) node[midway,below left] {O};\n\\coordinate (ra1) at ($(S)!0.32cm!(T)$);\n\\coordinate (ra2) at ($(S)!0.32cm!(U)$);\n\\draw (ra1)--($(ra1)+(ra2)-(S)$)--(ra2);\n\\node[below] at (S) {$S$};\n\\node[right] at (T) {$T$};\n\\node[left] at (U) {$U$};\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=U--T--S};\n\\end{tikzpicture}\n[/tikz]\nHypotenuse: $TU$\nOpposite: $SU$\nAdjacent: $ST$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1,0);\n\\coordinate (C) at (0,3.1);\n\\draw (A)--(B) node[midway,below] {$g$};\n\\draw (B)--(C) node[midway,above right] {$k$};\n\\draw (C)--(A) node[midway,left] {$h$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nName the side opposite $\\theta$, then name the side opposite $\\alpha$.",
+        "structure": "identify-opposite",
         "solution_text": "Opposite $\\theta$: $h$\nOpposite $\\alpha$: $g$\nMoving the reference angle swaps the two shorter sides over."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (D) at (0,0);\n\\coordinate (E) at (-3.9,0);\n\\coordinate (F) at (0,3.2);\n\\draw (D)--(E) node[midway,below] {$s$};\n\\draw (E)--(F) node[midway,above left] {$v$};\n\\draw (F)--(D) node[midway,right] {$t$};\n\\coordinate (ra1) at ($(D)!0.32cm!(E)$);\n\\coordinate (ra2) at ($(D)!0.32cm!(F)$);\n\\draw (ra1)--($(ra1)+(ra2)-(D)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=D--E--F};\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=E--F--D};\n\\end{tikzpicture}\n[/tikz]\nName the side adjacent to $\\theta$, then name the side adjacent to $\\alpha$.",
+        "structure": "identify-adjacent",
         "solution_text": "The hypotenuse is $v$, so it is never the adjacent side.\nAdjacent to $\\theta$: $s$\nAdjacent to $\\alpha$: $t$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (-3.195,2.237);\n\\coordinate (C) at (-1.778,-2.539);\n\\draw (A)--(B) node[midway,above right] {$m$};\n\\draw (B)--(C) node[midway,left] {$w$};\n\\draw (C)--(A) node[midway,below right] {$n$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\end{tikzpicture}\n[/tikz]\nThe triangle has been rotated. For the marked angle $\\theta$, is side $n$ the hypotenuse, the opposite side or the adjacent side?",
+        "structure": "classify-marked-side",
         "solution_text": "The hypotenuse is $w$, opposite the right angle.\nSide $n$ does not touch $\\theta$, so it is the opposite side."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (K) at (0,0);\n\\coordinate (L) at (-3.464,-2);\n\\coordinate (M) at (1.45,-2.511);\n\\draw (K)--(L) node[midway,above left] {$b$};\n\\draw (L)--(M) node[midway,below] {$d$};\n\\draw (M)--(K) node[midway,above right] {$c$};\n\\coordinate (ra1) at ($(K)!0.32cm!(L)$);\n\\coordinate (ra2) at ($(K)!0.32cm!(M)$);\n\\draw (ra1)--($(ra1)+(ra2)-(K)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=M--L--K};\n\\end{tikzpicture}\n[/tikz]\nIn $\\triangle KLM$ the right angle is at the top vertex $K$. Name the side opposite $\\theta$.",
+        "structure": "identify-opposite",
         "solution_text": "The hypotenuse is $d$, opposite the right angle at $K$.\nThe side across the triangle from $\\theta$ is $c$."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (W) at (0,0);\n\\coordinate (Y) at (3.355,-1.784);\n\\coordinate (Z) at (1.408,2.649);\n\\draw (W)--(Y) node[midway,below left] {$e$};\n\\draw (Y)--(Z) node[midway,above right] {$g$};\n\\draw (Z)--(W) node[midway,above left] {$f$};\n\\coordinate (ra1) at ($(W)!0.32cm!(Y)$);\n\\coordinate (ra2) at ($(W)!0.32cm!(Z)$);\n\\draw (ra1)--($(ra1)+(ra2)-(W)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=Z--Y--W};\n\\end{tikzpicture}\n[/tikz]\nThe triangle is drawn on a slant. Name the side adjacent to $\\theta$.",
+        "structure": "identify-adjacent",
         "solution_text": "The hypotenuse is $g$, so it cannot be the adjacent side.\nThe other side touching $\\theta$ is $e$."
       }
     ],
     "mastery": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.1,0);\n\\coordinate (C) at (0,2.9);\n\\draw (A)--(B) node[midway,below] {$x$};\n\\draw (B)--(C) node[midway,above right] {$z$};\n\\draw (C)--(A) node[midway,left] {$y$};\n\\coordinate (ra1) at ($(A)!0.32cm!(B)$);\n\\coordinate (ra2) at ($(A)!0.32cm!(C)$);\n\\draw (ra1)--($(ra1)+(ra2)-(A)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=C--B--A};\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=A--C--B};\n\\end{tikzpicture}\n[/tikz]\nOne side is opposite $\\theta$ and adjacent to $\\alpha$. Name it, and name the side that plays the reverse pair of roles.",
+        "structure": "reference-angle-switch",
         "solution_text": "Opposite $\\theta$ and adjacent to $\\alpha$: $y$\nOpposite $\\alpha$ and adjacent to $\\theta$: $x$\nThe hypotenuse $z$ takes neither role, for either angle."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (L) at (0,0);\n\\coordinate (K) at (-3.665,-1.334);\n\\coordinate (M) at (1.026,-2.819);\n\\draw (L)--(K);\n\\draw (K)--(M);\n\\draw (M)--(L);\n\\coordinate (ra1) at ($(L)!0.32cm!(K)$);\n\\coordinate (ra2) at ($(L)!0.32cm!(M)$);\n\\draw (ra1)--($(ra1)+(ra2)-(L)$)--(ra2);\n\\node[left] at (K) {$K$};\n\\node[above right] at (L) {$L$};\n\\node[below right] at (M) {$M$};\n\\pic[draw,\"$\\alpha$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=L--M--K};\n\\end{tikzpicture}\n[/tikz]\nIn $\\triangle KLM$ the right angle is at $L$. State the hypotenuse, the opposite side and the adjacent side for $\\alpha$.",
+        "structure": "label-all-three",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (L) at (0,0);\n\\coordinate (K) at (-3.665,-1.334);\n\\coordinate (M) at (1.026,-2.819);\n\\draw (L)--(K) node[midway,above] {O};\n\\draw (K)--(M) node[midway,below] {H};\n\\draw (M)--(L) node[midway,right] {A};\n\\coordinate (ra1) at ($(L)!0.32cm!(K)$);\n\\coordinate (ra2) at ($(L)!0.32cm!(M)$);\n\\draw (ra1)--($(ra1)+(ra2)-(L)$)--(ra2);\n\\node[left] at (K) {$K$};\n\\node[above right] at (L) {$L$};\n\\node[below right] at (M) {$M$};\n\\pic[draw,\"$\\alpha$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=L--M--K};\n\\end{tikzpicture}\n[/tikz]\nHypotenuse: $KM$\nOpposite: $KL$\nAdjacent: $LM$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (Q) at (0,0);\n\\coordinate (P) at (-3.913,-0.832);\n\\coordinate (R) at (-0.665,3.13);\n\\draw (Q)--(P);\n\\draw (P)--(R);\n\\draw (R)--(Q);\n\\coordinate (ra1) at ($(Q)!0.32cm!(P)$);\n\\coordinate (ra2) at ($(Q)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(Q)$)--(ra2);\n\\node[below left] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=Q--P--R};\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=P--R--Q};\n\\end{tikzpicture}\n[/tikz]\nName the hypotenuse for $\\theta$, then name the hypotenuse for $\\alpha$, and say what this shows.",
+        "structure": "hypotenuse-invariance",
         "solution_text": "Hypotenuse for $\\theta$: $PR$\nHypotenuse for $\\alpha$: $PR$\nThe hypotenuse is fixed by the right angle at $Q$, not by the reference angle, so it is the same side for both."
       }
     ]

@@ -3,12 +3,14 @@
 
   let { card = null, onSave, onCancel } = $props();
   let questionText = $state('');
+  let structure = $state('');
   let solutionText = $state('');
   let saving = $state(false);
   let error = $state('');
 
   $effect(() => {
     questionText = card?.question_text ?? '';
+    structure = card?.structure ?? '';
     solutionText = card?.solution_text ?? '';
   });
 
@@ -16,7 +18,12 @@
     saving = true;
     error = '';
     try {
-      await onSave({ question_text: questionText, solution_text: solutionText });
+      const trimmedStructure = structure.trim();
+      await onSave({
+        question_text: questionText,
+        ...(trimmedStructure ? { structure: trimmedStructure } : {}),
+        solution_text: solutionText
+      });
     } catch (e) {
       error = String(e.message ?? e);
       saving = false;
@@ -38,6 +45,7 @@
     <div class="ed-grid">
       <div class="ed-fields">
         <label class="fld"><span>Question text</span><textarea bind:value={questionText} rows="10" placeholder="Use $…$ for maths and [tikz]…[/tikz] for diagrams."></textarea></label>
+        <label class="fld"><span>Structure (archetype slug)</span><input class="structure-input" bind:value={structure} placeholder="e.g. round-to-tenths" /></label>
         <label class="fld"><span>Solution text</span><textarea bind:value={solutionText} rows="12" placeholder="One working line per line; end steps with **Procedure label**."></textarea></label>
       </div>
       <div class="ed-preview">
@@ -61,7 +69,7 @@
   .ed-fields,.fld { display:flex; flex-direction:column; }
   .ed-fields { gap:.8rem; }.fld { gap:.3rem; }
   .fld>span,.pv-label { font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
-  textarea { width:100%; box-sizing:border-box; resize:vertical; font-family:ui-monospace,monospace; font-size:.82rem; padding:.55rem .65rem; border:1px solid var(--border); border-radius:8px; background:var(--panel-2); color:var(--text); }
+  textarea,.structure-input { width:100%; box-sizing:border-box; resize:vertical; font-family:ui-monospace,monospace; font-size:.82rem; padding:.55rem .65rem; border:1px solid var(--border); border-radius:8px; background:var(--panel-2); color:var(--text); }
   .pv-label { margin:.6rem 0 .4rem; }.pv-label:first-child{margin-top:0}
   .pv-card { border:1px solid var(--border); border-radius:14px; background:var(--panel-2); padding:1rem 1.2rem; }
   .save-btn,.ghost { border-radius:8px; padding:.35rem .9rem; font-size:.85rem; cursor:pointer; }

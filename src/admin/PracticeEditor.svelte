@@ -18,7 +18,7 @@
 
   let editingCard = $derived(
     editing
-      ? (practice[editing.tier]?.[editing.index] ?? { question_text: '', solution_text: '' })
+      ? (practice[editing.tier]?.[editing.index] ?? { question_text: '', structure: '', solution_text: '' })
       : null
   );
 
@@ -55,6 +55,7 @@
           {#each practice[tier.key] as item, i}
             <li class="pe-item">
               <span class="pe-num">{i + 1}.</span>
+              {#if item.structure}<span class="pe-structure">{item.structure}</span>{/if}
               <span class="pe-q"><InlineContent text={item.question_text} /></span>
               <span class="pe-actions">
                 <button class="mini" onclick={() => (editing = { tier: tier.key, index: i })} aria-label="Edit question">✎</button>
@@ -93,6 +94,7 @@
     background: var(--panel); padding: 0.5rem 0.7rem;
   }
   .pe-num { color: var(--muted); font-size: 0.85rem; flex: none; }
+  .pe-structure { flex: none; font-size: 0.7rem; font-family: monospace; color: var(--accent); background: var(--panel-2, transparent); border: 1px solid var(--border); border-radius: 4px; padding: 0.05rem 0.35rem; }
   .pe-q { flex: 1; font-size: 0.95rem; overflow: hidden; }
   .pe-actions { display: flex; gap: 0.3rem; flex: none; }
 

@@ -7,7 +7,7 @@ import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import katex from 'katex';
-import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys } from '../src/lib/inline-content.js';
+import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys, isStructureSlug } from '../src/lib/inline-content.js';
 import { rejectStrayPositionals } from './lib/argv.mjs';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -15,6 +15,9 @@ const dataDir = join(rootDir, 'data');
 const contentDir = join(rootDir, 'public', 'content');
 const quizzesDir = join(rootDir, 'public', 'quizzes');
 const MAX_QUIZ_QUESTIONS = 20;
+// Backfill complete (see docs/content-generation.md): every practice card in
+// public/content carries a structure slug, so a missing one is now an error.
+const PRACTICE_STRUCTURE_REQUIRED = true;
 const load = (f) => JSON.parse(readFileSync(join(dataDir, f), 'utf8'));
 
 const courses = load('courses.json');
@@ -183,8 +186,9 @@ function validateProcedure(solutionText, theory, where, problems) {
   for (const error of validateProcedureLabels(solutionText, steps)) problems.push(`${where}: ${error}`);
 }
 
-// Practice cards are exactly { question_text, solution_text }.
-function validateCard(card, theory, where, problems) {
+// Practice cards are { question_text, structure?, solution_text }. `structure`
+// is the same per-skill archetype slug vocabulary as the quiz file.
+function validateCard(card, theory, where, problems, warnings) {
   if (!card || typeof card !== 'object' || Array.isArray(card)) {
     problems.push(`${where}: card must be an object`);
     return;
@@ -193,12 +197,20 @@ function validateCard(card, theory, where, problems) {
   validateInlineText(card.question_text, `${where}.question_text`, problems);
   validateInlineText(card.solution_text, `${where}.solution_text`, problems);
   if (typeof card.solution_text === 'string') validateProcedure(card.solution_text, theory, `${where}.solution_text`, problems);
+  if (card.structure === undefined) {
+    const msg = `${where}: structure is missing (archetype slug, shared vocabulary with the quiz file)`;
+    if (PRACTICE_STRUCTURE_REQUIRED) problems.push(msg);
+    else warnings.push(msg);
+  } else if (!isStructureSlug(card.structure)) {
+    problems.push(`${where}: structure "${card.structure}" must be a kebab-case slug`);
+  }
 }
 
 function validateContent(filterFn) {
   const errs = [];
   const warns = [];
   const masteryTierSkills = new Set(); // skills whose practice carries a mastery tier
+  const practiceStructures = new Map(); // skillId -> { structures: Set<string>, hasCoverageNote }
   let files = [];
   try {
     files = readdirSync(contentDir).filter((f) => f.endsWith('.json'));
@@ -290,6 +302,10 @@ function validateContent(filterFn) {
           errs.push(`${tag}: practice.coverageNote must be a non-empty string when present`);
         }
         const hasCoverageNote = typeof practice.coverageNote === 'string' && practice.coverageNote.trim() !== '';
+        const structureSet = new Set();
+        const collectStructure = (card) => {
+          if (card && typeof card.structure === 'string' && isStructureSlug(card.structure)) structureSet.add(card.structure);
+        };
         for (const tierName of ['foundation', 'development']) {
           if (!Array.isArray(practice[tierName])) {
             errs.push(`${tag}: practice.${tierName} is required and must be an array when practice is present`);
@@ -297,9 +313,10 @@ function validateContent(filterFn) {
             const n = practice[tierName].length;
             if (n < 3) errs.push(`${tag}: practice.${tierName} has ${n} card(s); minimum 3`);
             else if (n < 6 && !hasCoverageNote) warns.push(`${tag}: practice.${tierName} has ${n} card(s); below the 6-card warn floor (ceiling is 10–12; add a coverageNote if the atom is genuinely narrow)`);
-            practice[tierName].forEach((card, i) =>
-              validateCard(card, theory, `${tag} practice.${tierName}[${i}]`, errs)
-            );
+            practice[tierName].forEach((card, i) => {
+              validateCard(card, theory, `${tag} practice.${tierName}[${i}]`, errs, warns);
+              collectStructure(card);
+            });
           }
         }
         if (practice.mastery !== undefined) {
@@ -312,7 +329,10 @@ function validateContent(filterFn) {
             } else if (practice.mastery.length < 3 && !hasCoverageNote) {
               warns.push(`${tag}: practice.mastery has ${practice.mastery.length} card(s); target is 3–4`);
             }
-            practice.mastery.forEach((card, i) => validateCard(card, theory, `${tag} practice.mastery[${i}]`, errs));
+            practice.mastery.forEach((card, i) => {
+              validateCard(card, theory, `${tag} practice.mastery[${i}]`, errs, warns);
+              collectStructure(card);
+            });
           }
           if (practice.masteryOmitted !== undefined) {
             errs.push(`${tag}: practice.masteryOmitted present but practice.mastery is also present (mutually exclusive)`);
@@ -320,16 +340,18 @@ function validateContent(filterFn) {
         } else if (typeof practice.masteryOmitted !== 'string' || practice.masteryOmitted.trim() === '') {
           errs.push(`${tag}: practice.masteryOmitted (non-empty string) is required when practice.mastery is absent`);
         }
+        practiceStructures.set(skillId, { structures: structureSet, hasCoverageNote });
       }
     }
   }
-  return { checked, errors: errs, warnings: warns, masteryTierSkills };
+  return { checked, errors: errs, warnings: warns, masteryTierSkills, practiceStructures };
 }
 
 function validateQuizzes(filterFn) {
   const errs = [];
   const warns = [];
   const masteryTagged = new Map(); // skillId → count of mastery:true questions
+  const quizStructures = new Map(); // skillId -> { structures: Set<string>, hasCoverageNote }
   let files = [];
   try {
     files = readdirSync(quizzesDir).filter((f) => f.endsWith('.json'));
@@ -373,6 +395,7 @@ function validateQuizzes(filterFn) {
     // A narrow atom suppresses its below-target quiz warn with a top-level
     // coverageNote (mirrors the practice.coverageNote content-side escape hatch).
     const hasCoverageNote = typeof data.coverageNote === 'string' && data.coverageNote.trim() !== '';
+    const quizStructureSet = new Set();
     if (data.questions.length < 3) {
       errs.push(`${tag}: questions has ${data.questions.length} item(s); minimum 3`);
     } else if (data.questions.length < 6 && !hasCoverageNote) {
@@ -400,6 +423,10 @@ function validateQuizzes(filterFn) {
       validateInlineText(q.question_text, `${qtag}.question_text`, errs);
       if (typeof q.structure !== 'string' || !q.structure.trim()) {
         errs.push(`${qtag}: structure is required and must be a non-empty string`);
+      } else if (!isStructureSlug(q.structure)) {
+        errs.push(`${qtag}: structure "${q.structure}" must be a kebab-case slug`);
+      } else {
+        quizStructureSet.add(q.structure);
       }
       if (typeof q.mastery !== 'boolean') {
         errs.push(`${qtag}: mastery is required and must be a boolean`);
@@ -439,8 +466,37 @@ function validateQuizzes(filterFn) {
       validateInlineText(q.solution_text, `${qtag}.solution_text`, errs);
       if (typeof q.solution_text === 'string') validateProcedure(q.solution_text, theory, `${qtag}.solution_text`, errs);
     });
+    quizStructures.set(skillId, { structures: quizStructureSet, hasCoverageNote });
   }
-  return { checked, errors: errs, warnings: warns, masteryTagged };
+  return { checked, errors: errs, warnings: warns, masteryTagged, quizStructures };
+}
+
+// Cross-file check: practice.structure and quiz.structure are drawn from the
+// same per-skill vocabulary (docs/content-generation.md, "quiz mirrors each
+// practice structural TYPE"). Warns — not errors — when a structure present on
+// one side has no counterpart on the other; a coverageNote on either side
+// (the same narrow-atom escape hatch used for below-target card/question
+// counts) suppresses both directions for that skill.
+function checkStructureParity(contentResult, quizResult) {
+  const warns = [];
+  const skillIds = new Set([...contentResult.practiceStructures.keys(), ...quizResult.quizStructures.keys()]);
+  for (const skillId of skillIds) {
+    const practice = contentResult.practiceStructures.get(skillId);
+    const quiz = quizResult.quizStructures.get(skillId);
+    if (!practice || !quiz) continue; // no quiz file, or no practice tiers — parity doesn't apply
+    if (practice.hasCoverageNote || quiz.hasCoverageNote) continue;
+    for (const structure of practice.structures) {
+      if (!quiz.structures.has(structure)) {
+        warns.push(`parity ${skillId}: practice structure "${structure}" has no quiz question of that structure`);
+      }
+    }
+    for (const structure of quiz.structures) {
+      if (!practice.structures.has(structure)) {
+        warns.push(`parity ${skillId}: quiz structure "${structure}" has no practice card of that structure`);
+      }
+    }
+  }
+  return warns;
 }
 
 // Cross-file check: a content file carrying a mastery practice tier must have a
@@ -479,6 +535,7 @@ const filterFn = parseOnlyArg(argv);
 const contentResult = validateContent(filterFn);
 const quizResult = validateQuizzes(filterFn);
 const crossErrors = crossCheckMastery(contentResult, quizResult);
+const parityWarnings = checkStructureParity(contentResult, quizResult);
 
 // Report
 console.log(`Loaded: ${courses.length} courses, ${topics.length} topics, ${dotpoints.length} dot points, ${skills.length} skills.`);
@@ -490,8 +547,13 @@ for (const w of contentResult.warnings) console.log(`  ⚠ ${w}`);
 console.log(`\nQuizzes: checked ${quizResult.checked} file(s) in public/quizzes/${filterFn ? ' (filtered)' : ''}.`);
 for (const w of quizResult.warnings) console.log(`  ⚠ ${w}`);
 
+if (parityWarnings.length) {
+  console.log(`\nStructure parity (practice ↔ quiz):`);
+  for (const w of parityWarnings) console.log(`  ⚠ ${w}`);
+}
+
 const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...crossErrors];
-const totalWarnings = warnings.length + contentResult.warnings.length + quizResult.warnings.length;
+const totalWarnings = warnings.length + contentResult.warnings.length + quizResult.warnings.length + parityWarnings.length;
 if (allErrors.length) {
   console.error(`\n✗ ${allErrors.length} error(s):`);
   for (const e of allErrors) console.error(`  ✗ ${e}`);

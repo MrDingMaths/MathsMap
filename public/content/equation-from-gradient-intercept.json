@@ -15,78 +15,96 @@
     "foundation": [
       {
         "question_text": "Find the equation of the line with gradient $3$ and $y$-intercept $(0, 4)$.",
+        "structure": "pos-grad-pos-int",
         "solution_text": "$m = 3$ and $c = 4$.\n$y = 3x + 4$"
       },
       {
         "question_text": "Find the equation of the line with gradient $3$ and $y$-intercept $(0, -4)$.",
+        "structure": "pos-grad-neg-int",
         "solution_text": "$m = 3$ and $c = -4$.\n$y = 3x - 4$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-2$ and $y$-intercept $(0, 3)$.",
+        "structure": "neg-grad-pos-int",
         "solution_text": "$m = -2$ and $c = 3$.\n$y = -2x + 3$"
       },
       {
         "question_text": "A line has $y$-intercept $(0, -1)$ and gradient $5$. Write its equation.",
+        "structure": "intercept-first",
         "solution_text": "$m = 5$ and $c = -1$.\n$y = 5x - 1$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-5$ and $y$-intercept $(0, 0)$.",
+        "structure": "zero-intercept",
         "solution_text": "$m = -5$ and $c = 0$, so the constant drops out.\n$y = -5x$"
       },
       {
         "question_text": "Find the equation of the line with gradient $1$ and $y$-intercept $(0, -4)$.",
+        "structure": "unit-grad",
         "solution_text": "$m = 1$ and $c = -4$. A gradient of $1$ is written without a number.\n$y = x - 4$"
       },
       {
         "question_text": "Find the equation of the line with gradient $7$ and $y$-intercept $(0, 2)$.",
+        "structure": "pos-grad-pos-int",
         "solution_text": "$m = 7$ and $c = 2$.\n$y = 7x + 2$"
       },
       {
         "question_text": "A line has $y$-intercept $(0, -9)$ and gradient $4$. Write its equation.",
+        "structure": "intercept-first",
         "solution_text": "$m = 4$ and $c = -9$.\n$y = 4x - 9$"
       }
     ],
     "development": [
       {
         "question_text": "A line has $y$-intercept $(0, 2)$ and gradient $\\frac{2}{3}$. Write its equation.",
+        "structure": "fraction-grad",
         "solution_text": "$m = \\frac{2}{3}$ and $c = 2$.\n$y = \\frac{2}{3}x + 2$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-\\frac{5}{6}$ and $y$-intercept $(0, -9)$.",
+        "structure": "fraction-grad",
         "solution_text": "$m = -\\frac{5}{6}$ and $c = -9$.\n$y = -\\frac{5}{6}x - 9$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-\\frac{1}{2}$ and $y$-intercept $(0, 0)$.",
+        "structure": "neg-fraction-zero-int",
         "solution_text": "$m = -\\frac{1}{2}$ and $c = 0$, so the constant drops out.\n$y = -\\frac{1}{2}x$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-0.65$ and $y$-intercept $(0, -1.2)$.",
+        "structure": "decimal-values",
         "solution_text": "$m = -0.65$ and $c = -1.2$.\n$y = -0.65x - 1.2$"
       },
       {
         "question_text": "Find the equation of the line with gradient $\\frac{5}{6}$ and $y$-intercept $\\left(0, \\frac{7}{12}\\right)$.",
+        "structure": "fraction-grad",
         "solution_text": "$m = \\frac{5}{6}$ and $c = \\frac{7}{12}$.\n$y = \\frac{5}{6}x + \\frac{7}{12}$"
       },
       {
         "question_text": "Find the equation of the line with gradient $-1$ and $y$-intercept $(0, 11)$.",
+        "structure": "unit-grad",
         "solution_text": "$m = -1$ and $c = 11$. A gradient of $-1$ is written as $-x$.\n$y = -x + 11$"
       },
       {
         "question_text": "The $y$-intercept and the gradient step of a line are shown. Write the equation of the line.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,2,4},ytick={-4,-2,2,4,6},minor x tick num=1,minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,2) (1,4)};\\draw[dashed,gray] (axis cs:0,2)--(axis cs:1,2)--(axis cs:1,4);\\node[below,font=\\small] at (axis cs:0.5,2){$1$};\\node[right,font=\\small] at (axis cs:1,3){$2$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
+        "structure": "from-support-figure",
         "solution_text": "The $y$-intercept is $(0, 2)$, so $c = 2$.\nThe step is right $1$ and up $2$, so the gradient is $\\frac{2}{1} = 2$.\n$y = 2x + 2$\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,2,4},ytick={-4,-2,2,4,6},minor x tick num=1,minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-4:2,samples=2]{2*x+2};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,2) (1,4)};\\draw[dashed,gray] (axis cs:0,2)--(axis cs:1,2)--(axis cs:1,4);\\node[below,font=\\small] at (axis cs:0.5,2){$1$};\\node[right,font=\\small] at (axis cs:1,3){$2$};\\node at (axis cs:-2.6,-2.4){$y=2x+2$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       }
     ],
     "mastery": [
       {
         "question_text": "The $y$-intercept and the gradient step of a line are shown. Write the equation of the line.\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,2,4},ytick={-4,-2,2,4,6},minor x tick num=1,minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,-1) (4,2)};\\draw[dashed,gray] (axis cs:0,-1)--(axis cs:4,-1)--(axis cs:4,2);\\node[below,font=\\small] at (axis cs:2,-1){$4$};\\node[right,font=\\small] at (axis cs:4,0.5){$3$};\\end{axis}\\end{tikzpicture}\n[/tikz]",
+        "structure": "from-support-figure",
         "solution_text": "The $y$-intercept is $(0, -1)$, so $c = -1$.\nThe step is right $4$ and up $3$, so the gradient is $\\frac{3}{4}$.\n$y = \\frac{3}{4}x - 1$\n[tikz]\n\\begin{tikzpicture}\\begin{axis}[width=6cm,height=6cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5,xmax=5,ymin=-6,ymax=6,xtick={-4,-2,2,4},ytick={-4,-2,2,4,6},minor x tick num=1,minor y tick num=1,grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\\addplot[thick,<->,domain=-5:5,samples=2]{0.75*x-1};\\addplot[only marks,mark=*,mark size=1.8pt] coordinates {(0,-1) (4,2)};\\draw[dashed,gray] (axis cs:0,-1)--(axis cs:4,-1)--(axis cs:4,2);\\node[below,font=\\small] at (axis cs:2,-1){$4$};\\node[right,font=\\small] at (axis cs:4,0.5){$3$};\\node at (axis cs:-3,-3.6){$y=\\frac{3}{4}x-1$};\\end{axis}\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "A line crosses the $y$-axis at $(0, -6)$ and has a gradient of one half. Write its equation.",
+        "structure": "fraction-grad",
         "solution_text": "The $y$-intercept value is $c = -6$ and the gradient is $m = \\frac{1}{2}$.\n$y = \\frac{1}{2}x - 6$"
       },
       {
         "question_text": "Write the equation of the line with gradient $-\\frac{7}{2}$ and $y$-intercept $(0, 0)$.",
+        "structure": "neg-fraction-zero-int",
         "solution_text": "$m = -\\frac{7}{2}$ and $c = 0$, so the constant drops out.\n$y = -\\frac{7}{2}x$"
       }
     ]

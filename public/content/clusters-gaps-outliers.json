@@ -22,74 +22,91 @@
     "foundation": [
       {
         "question_text": "The heights, in metres, of six trees in a park are $4.2$, $3.8$, $4.5$, $12.6$, $4.0$ and $3.9$. Which height is the outlier?",
+        "structure": "identify-outlier-list",
         "solution_text": "$3.8, 3.9, 4.0, 4.2, 4.5, 12.6$\nThe outlier is $12.6$ m, because it is much higher than every other height."
       },
       {
         "question_text": "The daily maximum temperature, in $^{\\circ}$C, was recorded for seven days: $29$, $31$, $30$, $12$, $28$, $32$, $30$. Which temperature is the outlier?",
+        "structure": "identify-outlier-list",
         "solution_text": "$12, 28, 29, 30, 30, 31, 32$\nThe outlier is $12^{\\circ}$C, because it is much lower than every other temperature."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.4,0);\n\\foreach \\x in {0,0.9,1.8,2.7,3.6,4.5,5.4,6.3,7.2,8.1,9,9.9,10.8} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\foreach \\x/\\lbl in {0/4,1.8/6,3.6/8,5.4/10,7.2/12,9/14,10.8/16} {\\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\foreach \\x in {0.9,1.8,2.7,3.6,9.9} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.4,-1.0) {Height (m)};\n\\node[font=\\small] at (5.4,1.6) {Heights of five trees};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the height of one tree in a park. Which height is the outlier?",
+        "structure": "identify-outlier-display",
         "solution_text": "$5, 6, 7, 8, 15$\nThe outlier is $15$ m, because it is much higher than the other four heights."
       },
       {
         "question_text": "The daily maximum temperature, in $^{\\circ}$C, was recorded for eight days: $18$, $19$, $20$, $20$, $21$, $25$, $29$, $33$. Describe the cluster in this dataset.",
+        "structure": "identify-cluster",
         "solution_text": "$18, 19, 20, 20, 21, 25, 29, 33$\nFive of the eight temperatures lie between $18^{\\circ}$C and $21^{\\circ}$C, so there is a cluster from $18^{\\circ}$C to $21^{\\circ}$C."
       },
       {
         "question_text": "The prices of six houses in a street, in thousands of dollars, are $540$, $560$, $580$, $600$, $750$ and $770$. Between which two prices is there a gap?",
+        "structure": "identify-gap",
         "solution_text": "$540, 560, 580, 600, 750, 770$\nThere is a gap between $600$ and $750$, because no house is priced in that interval."
       },
       {
         "question_text": "The heights, in metres, of six trees in a park are $6.1$, $5.4$, $7.0$, $6.6$, $5.9$ and $7.3$. Does this dataset contain an outlier? Explain your answer.",
+        "structure": "no-outlier",
         "solution_text": "$5.4, 5.9, 6.1, 6.6, 7.0, 7.3$\nNo. Every height lies between $5.4$ m and $7.3$ m, and each height is at most $0.5$ m from the next one, so no height sits far from the rest."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,7.8);\n\\draw[->] (0,0)--(8.0,0);\n\\foreach \\y in {0,0.4,0.8,1.2,1.6,2.0,2.4,2.8,3.2,3.6,4.0,4.4,4.8,5.2,5.6,6.0,6.4} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,0.8/4,1.6/8,2.4/12,3.2/16,4.0/20,4.8/24,5.6/28,6.4/32} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\foreach \\x/\\lbl in {1/Mon,2.2/Tue,3.4/Wed,4.6/Thu,5.8/Fri,7.0/Sat} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\draw[thick] (1,5.6)--(2.2,6.0)--(3.4,6.4)--(4.6,3.2)--(5.8,6.0)--(7.0,5.6);\n\\foreach \\p in {(1,5.6),(2.2,6.0),(3.4,6.4),(4.6,3.2),(5.8,6.0),(7.0,5.6)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.1,3.2) {Temperature ($^{\\circ}$C)};\n\\node[below,font=\\scriptsize] at (4.0,-1.0) {Day};\n\\node[font=\\small] at (4.0,7.5) {Daily maximum temp};\n\\end{tikzpicture}\n[/tikz]\nThe line graph shows the daily maximum temperature over six days. Which temperature is the outlier?",
+        "structure": "identify-outlier-display",
         "solution_text": "$16, 28, 28, 30, 30, 32$\nThe outlier is $16^{\\circ}$C, recorded on Thursday, because it is much lower than the other five temperatures."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.8,0);\n\\foreach \\x in {0,0.7,1.4,2.1,2.8,3.5,4.2,4.9,5.6,6.3,7.0,7.7,8.4,9.1,9.8,10.5,11.2} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\foreach \\x/\\lbl in {0/250,1.4/270,2.8/290,4.2/310,5.6/330,7.0/350,8.4/370,9.8/390,11.2/410} {\\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\foreach \\x in {0.7,1.4,2.1,2.8,9.1,9.8,10.5} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.6,-1.0) {Price in thousands of dollars};\n\\node[font=\\small] at (5.6,1.6) {Prices of seven units};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the price of one unit in a block. Between which two prices is there a gap?",
+        "structure": "identify-gap",
         "solution_text": "$260, 270, 280, 290, 380, 390, 400$\nThere is a gap between $290$ and $380$, because no unit is priced in that interval."
       }
     ],
     "development": [
       {
         "question_text": "The heights, in metres, of six trees in a park are $1.2$, $7.8$, $8.1$, $8.4$, $8.6$ and $9.0$. Which height is the outlier?",
+        "structure": "identify-outlier-list",
         "solution_text": "$1.2, 7.8, 8.1, 8.4, 8.6, 9.0$\nThe outlier is $1.2$ m, because it is much lower than every other height.\nThe largest height, $9.0$ m, is only $0.4$ m above the next one, so it is not an outlier."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.8,0);\n\\foreach \\x in {0,0.7,1.4,2.1,2.8,3.5,4.2,4.9,5.6,6.3,7.0,7.7,8.4,9.1,9.8,10.5,11.2} {\\draw (\\x,-0.12)--(\\x,0.12);}\n\\foreach \\x/\\lbl in {0/500,1.4/550,2.8/600,4.2/650,5.6/700,7.0/750,8.4/800,9.8/850,11.2/900} {\\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\lbl$};}\n\\foreach \\x in {0.56,1.4,2.24,2.8,9.8,10.64} {\\node[font=\\small] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.6,-1.0) {Price in thousands of dollars};\n\\node[font=\\small] at (5.6,1.6) {Prices of six houses};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the price of one house in a street. Describe the clusters and state where the gap is.",
+        "structure": "describe-features",
         "solution_text": "$520, 550, 580, 600, 850, 880$\nThere is a cluster of four prices from $520$ to $600$, and a second cluster of two prices from $850$ to $880$.\nThere is a gap between $600$ and $850$, because no house is priced in that interval."
       },
       {
         "question_text": "The daily maximum temperature, in $^{\\circ}$C, was recorded for ten days: $23$, $24$, $22$, $25$, $24$, $38$, $23$, $26$, $25$, $24$. State the outlier and the gap in this dataset.",
+        "structure": "describe-features",
         "solution_text": "$22, 23, 23, 24, 24, 24, 25, 25, 26, 38$\nThe outlier is $38^{\\circ}$C, because it is much higher than every other temperature.\nThere is a gap between $26^{\\circ}$C and $38^{\\circ}$C, because no temperature was recorded in that interval."
       },
       {
         "question_text": "The prices of six houses in a street, in thousands of dollars, are $420$, $480$, $540$, $600$, $660$ and $720$. Ben says that $720$ must be an outlier because the prices are spread over $300$ thousand dollars. Is Ben correct? Explain your answer.",
+        "structure": "no-outlier",
         "solution_text": "$420, 480, 540, 600, 660, 720$\nNo. Each price is exactly $60$ more than the one before, so no price sits far from the rest.\nA wide spread on its own does not create an outlier — an outlier must be much higher or much lower than the other values."
       },
       {
         "question_text": "The heights, in metres, of seven trees in a park are $2.1$, $2.4$, $2.6$, $2.8$, $6.9$, $7.2$ and $7.4$. Between which two heights is there a gap?",
+        "structure": "identify-gap",
         "solution_text": "$2.1, 2.4, 2.6, 2.8, 6.9, 7.2, 7.4$\nThere is a gap between $2.8$ m and $6.9$ m, because no tree has a height in that interval."
       },
       {
         "question_text": "Units in two blocks are for sale. The prices, in thousands of dollars, are:\nBlock A: $305$, $320$, $340$, $355$, $370$, $390$\nBlock B: $312$, $318$, $325$, $331$, $340$, $690$\nWhich block's prices contain an outlier? Explain your answer.",
+        "structure": "which-dataset-has-outlier",
         "solution_text": "Block A: $305, 320, 340, 355, 370, 390$\nBlock B: $312, 318, 325, 331, 340, 690$\nIn Block A each price is at most $20$ above the one before, so no price sits far from the rest.\nBlock B contains the outlier $690$, which is $350$ above the next highest price."
       }
     ],
     "mastery": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[->] (0,0)--(0,8.6);\n\\draw[->] (0,0)--(8.3,0);\n\\foreach \\y in {0,0.36,0.72,1.08,1.44,1.8,2.16,2.52,2.88,3.24,3.6,3.96,4.32,4.68,5.04,5.4,5.76,6.12,6.48,6.84,7.2} {\\draw (-0.12,\\y)--(0,\\y);}\n\\foreach \\y/\\lbl in {0/0,0.72/4,1.44/8,2.16/12,2.88/16,3.6/20,4.32/24,5.04/28,5.76/32,6.48/36,7.2/40} {\\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lbl$};}\n\\foreach \\x/\\lbl in {1/D1,1.9/D2,2.8/D3,3.7/D4,4.6/D5,5.5/D6,6.4/D7,7.3/D8} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lbl};}\n\\draw[thick] (1,4.32)--(1.9,4.68)--(2.8,3.96)--(3.7,4.68)--(4.6,4.32)--(5.5,7.2)--(6.4,3.96)--(7.3,4.68);\n\\foreach \\p in {(1,4.32),(1.9,4.68),(2.8,3.96),(3.7,4.68),(4.6,4.32),(5.5,7.2),(6.4,3.96),(7.3,4.68)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.1,3.6) {Temperature ($^{\\circ}$C)};\n\\node[below,font=\\scriptsize] at (4.15,-1.0) {Day};\n\\node[font=\\small] at (4.15,8.3) {Daily maximum temp};\n\\end{tikzpicture}\n[/tikz]\nThe line graph shows the daily maximum temperature over eight days. Describe the cluster, the gap and the outlier.",
+        "structure": "describe-features",
         "solution_text": "$22, 22, 24, 24, 26, 26, 26, 40$\nSeven of the eight temperatures lie between $22^{\\circ}$C and $26^{\\circ}$C, so there is a cluster from $22^{\\circ}$C to $26^{\\circ}$C.\nThere is a gap between $26^{\\circ}$C and $40^{\\circ}$C, because no temperature was recorded in that interval.\nThe outlier is $40^{\\circ}$C, recorded on day $6$, because it is much higher than the rest."
       },
       {
         "question_text": "The prices of six houses in a street, in thousands of dollars, are $610$, $640$, $670$, $700$, $730$ and $760$. Ali says the house priced at $760$ must be the outlier because it is the most expensive. Explain why Ali is not correct.",
+        "structure": "no-outlier",
         "solution_text": "$610, 640, 670, 700, 730, 760$\nThe prices go up in equal steps of $30$, so $760$ is only $30$ above the next highest price.\nAn outlier is a value much higher or much lower than all the others, not simply the largest value, so this dataset has no outlier."
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.85]\n\\draw[<->] (-0.6,0)--(11.5,0);\n\\foreach \\x in {0,0.42,0.84,1.26,1.68,2.1,2.52,2.94,3.36,3.78,4.2,4.62,5.04,5.46,5.88,6.3,6.72,7.14,7.56,7.98,8.4,8.82,9.24,9.66,10.08,10.5,10.92} {\\draw (\\x,-0.1)--(\\x,0.1);}\n\\foreach \\x/\\lbl in {0/0,0.84/2,1.68/4,2.52/6,3.36/8,4.2/10,5.04/12,5.88/14,6.72/16,7.56/18,8.4/20,9.24/22,10.08/24,10.92/26} {\\node[below,font=\\scriptsize] at (\\x,-0.13) {$\\lbl$};}\n\\foreach \\x in {1.26,1.68,2.1,2.52,4.62,5.04,5.46,10.5} {\\node[font=\\scriptsize] at (\\x,0.5) {$\\times$};}\n\\node[below,font=\\scriptsize] at (5.46,-1.0) {Height (m)};\n\\node[font=\\small] at (5.46,1.6) {Heights of eight trees};\n\\end{tikzpicture}\n[/tikz]\nEach cross on the number line shows the height of one tree in a park. Describe the two clusters, the gaps and the outlier.",
+        "structure": "describe-features",
         "solution_text": "$3, 4, 5, 6, 11, 12, 13, 25$\nThere is a cluster of four heights from $3$ m to $6$ m, and a second cluster of three heights from $11$ m to $13$ m.\nThere are gaps between $6$ m and $11$ m and between $13$ m and $25$ m, because no tree has a height in either interval.\nThe outlier is $25$ m, because it stands alone far above both clusters."
       }
     ]

@@ -22,94 +22,116 @@
     "foundation": [
       {
         "question_text": "State the roots of $P(x)=(x-2)^{2}(x+5)$ and classify each as a single, double or triple root.",
+        "structure": "classify-multiplicity",
         "solution_text": "$x=2$, double root (the factor is squared)\n$x=-5$, single root"
       },
       {
         "question_text": "State the roots of $P(x)=(x+1)^{3}(x-6)$ and classify each as a single, double or triple root.",
+        "structure": "classify-multiplicity",
         "solution_text": "$x=-1$, triple root (the factor is cubed)\n$x=6$, single root"
       },
       {
         "question_text": "Does the graph of $y=(x-5)^{2}(x+3)$ cut, bounce or inflect at $x=5$?",
+        "structure": "behaviour-at-root",
         "solution_text": "The factor $(x-5)$ has power $2$, so $x=5$ is a double root.\nThe curve **bounces** off the axis at $x=5$."
       },
       {
         "question_text": "Write down, in factored form, the monic polynomial that has a double root at $x=4$ and a single root at $x=-1$.",
+        "structure": "monic-from-roots",
         "solution_text": "A double root at $x=4$ needs $(x-4)^{2}$; a single root at $x=-1$ needs $(x+1)$.\n$P(x)=(x-4)^{2}(x+1)$"
       },
       {
         "question_text": "For the polynomial graphed below, is the degree odd or even, and is the leading term positive or negative?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.8,0)--(3.8,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.89:2.88,smooth,variable=\\x,samples=60] plot ({\\x},{0.16*(\\x*\\x-4)*(\\x*\\x-4)});\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "classify-from-graph-ends",
         "solution_text": "Both ends of the graph point in the **same** direction, so the degree is **even**.\nBoth ends point **up**, so the leading term is **positive**."
       },
       {
         "question_text": "Describe the behaviour of $y=-(x+1)^{2}(x-4)$ as $x\\to\\infty$, and state whether its ends point in the same or different directions.",
+        "structure": "end-behaviour-degree",
         "solution_text": "Leading term: $-(x)^{2}(x)=-x^{3}$\nThe leading term is negative, so as $x\\to\\infty$, $y\\to-\\infty$.\nThe degree $3$ is odd, so the ends point in **different** directions."
       },
       {
         "question_text": "Describe how the graph of $y=-P(x)$ compares with the graph of $y=P(x)$.",
+        "structure": "scale-compare",
         "solution_text": "Every $y$-value changes sign, so $y=-P(x)$ is $y=P(x)$ **reflected in the $x$-axis**.\nThe $x$-intercepts stay in the same places."
       },
       {
         "question_text": "Describe how the graph of $y=P(-x)$ compares with the graph of $y=P(x)$.",
+        "structure": "reflect-compare",
         "solution_text": "Each input $x$ is replaced by $-x$, so the graph is **reflected in the $y$-axis**.\nAn $x$-intercept at $x=a$ moves to $x=-a$."
       },
       {
         "question_text": "Describe how the graph of $y=P(x)+3$ compares with the graph of $y=P(x)$.",
+        "structure": "translate-compare",
         "solution_text": "Every $y$-value increases by $3$, so the graph is **shifted up $3$ units**.\nThe shape is unchanged, but the $x$-intercepts move."
       },
       {
         "question_text": "Describe how the graph of $y=2P(x)$ compares with the graph of $y=P(x)$.",
+        "structure": "scale-compare",
         "solution_text": "Every $y$-value is doubled, so the graph is **stretched vertically** — since $|2|>1$ it becomes narrower (steeper).\nThe $x$-intercepts do not move, because $2P(x)=0$ exactly where $P(x)=0$."
       }
     ],
     "development": [
       {
         "question_text": "Sketch $y=(x-1)^{2}(x+3)$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.4,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{3}$, so as $x\\to\\infty$, $y\\to\\infty$.\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=(-1)^{2}(3)=3$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=1,\\ -3$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=1$ (double root); cut at $x=-3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.4,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.49:2.36,smooth,variable=\\x] plot ({\\x},{0.30*(\\x-1)*(\\x-1)*(\\x+3)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below right] at (1,0) {$(1,0)$};\n\\fill (0,0.9) circle (2pt);\n\\node[above right] at (0,0.9) {$(0,3)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=-(x+2)^{2}(x-3)$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $-x^{3}$, so as $x\\to\\infty$, $y\\to-\\infty$.\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=-(2)^{2}(-3)=12$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=-2,\\ 3$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=-2$ (double root); cut at $x=3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.72:3.63,smooth,variable=\\x] plot ({\\x},{-0.15*(\\x+2)*(\\x+2)*(\\x-3)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (3,0) circle (2pt);\n\\node[below right] at (3,0) {$(3,0)$};\n\\fill (0,1.8) circle (2pt);\n\\node[above right] at (0,1.8) {$(0,12)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=x^{2}(x-5)$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.6,0)--(6.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{3}$, so as $x\\to\\infty$, $y\\to\\infty$.\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=0^{2}(0-5)=0$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=0,\\ 5$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=0$ (double root, touching from below since the curve is negative on both sides); cut at $x=5$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.6,0)--(6.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.84:5.70,smooth,variable=\\x] plot ({\\x},{0.13*\\x*\\x*(\\x-5)});\n\\fill (0,0) circle (2pt);\n\\node[above left] at (0,0) {$(0,0)$};\n\\fill (5,0) circle (2pt);\n\\node[above right] at (5,0) {$(5,0)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=(x+1)^{3}(x-3)$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{4}$, so as $x\\to\\infty$, $y\\to\\infty$ (even degree — both ends up).\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=(1)^{3}(-3)=-3$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=-1,\\ 3$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nInflect at $x=-1$ (triple root); cut at $x=3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.74:3.36,smooth,variable=\\x,samples=60] plot ({\\x},{0.10*(\\x+1)*(\\x+1)*(\\x+1)*(\\x-3)});\n\\fill (-1,0) circle (2pt);\n\\node[above left] at (-1,0) {$(-1,0)$};\n\\fill (3,0) circle (2pt);\n\\node[above right] at (3,0) {$(3,0)$};\n\\fill (0,-0.3) circle (2pt);\n\\node[below left] at (0,-0.3) {$(0,-3)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=(2x-1)^{2}(x+3)$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(2.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $(2x)^{2}(x)=4x^{3}$, so as $x\\to\\infty$, $y\\to\\infty$.\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=(-1)^{2}(3)=3$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=\\dfrac{1}{2},\\ -3$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=\\dfrac{1}{2}$ (double root); cut at $x=-3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(2.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.40:1.62,smooth,variable=\\x] plot ({\\x},{0.13*(2*\\x-1)*(2*\\x-1)*(\\x+3)});\n\\fill (-3,0) circle (2pt);\n\\node[below left] at (-3,0) {$(-3,0)$};\n\\fill (0.5,0) circle (2pt);\n\\node[below right] at (0.5,0) {$(\\tfrac{1}{2},0)$};\n\\fill (0,0.39) circle (2pt);\n\\node[above left] at (0,0.39) {$(0,3)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=(x+4)^{2}(x-2)^{2}$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{4}$, so as $x\\to\\infty$, $y\\to\\infty$ (even degree — both ends up).\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=(4)^{2}(-2)^{2}=64$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=-4,\\ 2$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=-4$ and at $x=2$ (both double roots) — the curve never goes below the axis.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.36:3.35,smooth,variable=\\x,samples=60] plot ({\\x},{0.03*(\\x+4)*(\\x+4)*(\\x-2)*(\\x-2)});\n\\fill (-4,0) circle (2pt);\n\\node[below left] at (-4,0) {$(-4,0)$};\n\\fill (2,0) circle (2pt);\n\\node[below right] at (2,0) {$(2,0)$};\n\\fill (0,1.92) circle (2pt);\n\\node[above right] at (0,1.92) {$(0,64)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=x(x-3)^{2}(x+2)^{2}$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{5}$, so as $x\\to\\infty$, $y\\to\\infty$ (odd degree — ends point in different directions).\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=0(0-3)^{2}(0+2)^{2}=0$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=0,\\ 3,\\ -2$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nCut at $x=0$; bounce at $x=3$ and at $x=-2$ (double roots).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.6,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.80:3.70,smooth,variable=\\x,samples=60] plot ({\\x},{0.05*\\x*(\\x-3)*(\\x-3)*(\\x+2)*(\\x+2)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (0,0) circle (2pt);\n\\node[below right] at (0,0) {$(0,0)$};\n\\fill (3,0) circle (2pt);\n\\node[above left] at (3,0) {$(3,0)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "For $P(x)=(x-1)^{2}(x+3)$, state the $x$-intercepts of $y=P(-x)$ and the multiplicity of each.",
+        "structure": "reflect-compare",
         "solution_text": "Reflecting in the $y$-axis sends each intercept $x=a$ to $x=-a$ and keeps its multiplicity.\n$x=-1$ (double root)\n$x=-3$ becomes $x=3$ (single root)"
       },
       {
         "question_text": "For $P(x)=(x+4)(x-2)^{2}$, state the $x$-intercepts and the $y$-intercept of $y=-P(x)$ and of $y=3P(x)$.",
+        "structure": "scale-compare",
         "solution_text": "$P(0)=(4)(-2)^{2}=16$\nFor $y=-P(x)$: the $x$-intercepts stay at $x=-4,\\ 2$; the $y$-intercept is $-16$.\nFor $y=3P(x)$: the $x$-intercepts stay at $x=-4,\\ 2$; the $y$-intercept is $3\\times16=48$."
       }
     ],
     "mastery": [
       {
         "question_text": "Sketch $y=-(x+4)^{2}(x-1)^{3}$, showing the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.6,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "1. **Determine the end behaviour from the leading term.**\nLeading term is $-(x)^{2}(x)^{3}=-x^{5}$, so as $x\\to\\infty$, $y\\to-\\infty$ (odd degree — ends point in different directions).\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=-(4)^{2}(-1)^{3}=16$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=-4,\\ 1$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=-4$ (double root); inflect at $x=1$ (triple root).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.6,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-4.79:2.42,smooth,variable=\\x,samples=60] plot ({\\x},{-0.025*(\\x+4)*(\\x+4)*(\\x-1)*(\\x-1)*(\\x-1)});\n\\fill (-4,0) circle (2pt);\n\\node[below left] at (-4,0) {$(-4,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below right] at (1,0) {$(1,0)$};\n\\fill (0,0.4) circle (2pt);\n\\node[above right] at (0,0.4) {$(0,16)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "Sketch $y=x^{4}-8x^{3}+16x^{2}$ by factorising first. Show the intercepts and the behaviour at each root.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2,0)--(5.8,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sketch-with-intercepts-and-behaviour",
         "solution_text": "$y=x^{4}-8x^{3}+16x^{2}$\n$=x^{2}(x^{2}-8x+16)$\n$=x^{2}(x-4)^{2}$\n1. **Determine the end behaviour from the leading term.**\nLeading term is $x^{4}$, so as $x\\to\\infty$, $y\\to\\infty$ (even degree — both ends up).\n2. **Find the $y$-intercept by letting $x=0$.**\n$y=0$\n3. **Find the $x$-intercepts by letting $y=0$.**\n$x=0,\\ 4$\n4. **State the behaviour at each $x$-intercept and draw the curve.**\nBounce at $x=0$ and at $x=4$ (both double roots) — the curve never goes below the axis.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2,0)--(5.8,0) node[right] {$x$};\n\\draw[<->] (0,-1)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.08:5.07,smooth,variable=\\x,samples=60] plot ({\\x},{0.10*\\x*\\x*(\\x-4)*(\\x-4)});\n\\fill (0,0) circle (2pt);\n\\node[below left] at (0,0) {$(0,0)$};\n\\fill (4,0) circle (2pt);\n\\node[below right] at (4,0) {$(4,0)$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
         "question_text": "For $P(x)=(x-2)^{2}(x+1)$, find the $y$-intercept of $y=P(x)+5$ and of $y=2P(x)$, and explain what happens to the bounce at $x=2$ in the graph of $y=P(x)+5$.",
+        "structure": "translate-compare",
         "solution_text": "$P(0)=(-2)^{2}(1)=4$\n$y$-intercept of $y=P(x)+5$: $4+5=9$\n$y$-intercept of $y=2P(x)$: $2\\times4=8$\nShifting up $5$ units lifts the point where the curve touched the axis to $(2,5)$, so the curve no longer touches the $x$-axis there — the bounce point is no longer an $x$-intercept."
       }
     ]

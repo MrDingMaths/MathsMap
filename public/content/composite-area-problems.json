@@ -20,78 +20,96 @@
     "foundation": [
       {
         "question_text": "This block of land is L-shaped. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(10,0)--(10,3)--(4,3)--(4,6)--(0,6)--cycle;\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[right] at (10,1.5) {$3\\text{ m}$};\n\\node[above] at (7,3) {$6\\text{ m}$};\n\\node[right] at (4,4.5) {$3\\text{ m}$};\n\\node[above] at (2,6) {$4\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-lshape-add",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(10,0)--(10,3)--(4,3)--(4,6)--(0,6)--cycle;\n\\draw[dashed] (4,0)--(4,3);\n\\node at (2,3) {$A_1$};\n\\node at (7,1.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]\n$A_1 = 4\\times 6$\n$= 24\\text{ m}^{2}$\n$A_2 = 6\\times 3$\n$= 18\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 42\\text{ m}^{2}$"
       },
       {
         "question_text": "The end wall of a shed is a rectangle with a triangle on top. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(8,0)--(8,5)--(4,8)--(0,5)--cycle;\n\\draw[dashed] (0,5)--(8,5);\n\\node[below] at (4,0) {$8\\text{ m}$};\n\\node[right] at (8,2.5) {$5\\text{ m}$};\n\\draw[<->] (4.4,5)--(4.4,8) node[midway,right] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-triangle-add",
         "solution_text": "$A_1 = 8\\times 5$\n$= 40\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 8\\times 3$\n$= 12\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 52\\text{ m}^{2}$"
       },
       {
         "question_text": "A window is a rectangle with a semicircle joined to the top. Calculate its area, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[thick] (0,0)--(6,0)--(6,4)--(0,4)--cycle;\n\\draw[thick] (6,4) arc[start angle=0,end angle=180,radius=3];\n\\node[below] at (3,0) {$6\\text{ m}$};\n\\node[left] at (0,2) {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-semicircle-add",
         "solution_text": "The semicircle sits on the $6$ m top, so its diameter is $6$ m and its radius is $3$ m.\n$A_1 = 6\\times 4$\n$= 24\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\pi(3)^{2}$\n$= 14.1371\\ldots\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 38.14\\text{ m}^{2}$"
       },
       {
         "question_text": "A rectangular pool is built into a rectangular yard. Calculate the area of the yard that is left over (the shaded region), by subtracting the pool.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (10,8);\n\\fill[white] (2,2) rectangle (8,5);\n\\draw[thick] (0,0) rectangle (10,8);\n\\draw[thick] (2,2) rectangle (8,5);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,4) {$8\\text{ m}$};\n\\node[below] at (5,2) {$6\\text{ m}$};\n\\node[right] at (8,3.5) {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-minus-rect",
         "solution_text": "$A_1 = 10\\times 8$\n$= 80\\text{ m}^{2}$\n$A_2 = 6\\times 3$\n$= 18\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 62\\text{ m}^{2}$"
       },
       {
         "question_text": "This garden bed is a trapezium. Calculate its area by splitting it into a rectangle and a triangle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(10,0)--(6,4)--(0,4)--cycle;\n\\draw[dashed] (6,0)--(6,4);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[above] at (3,4) {$6\\text{ m}$};\n\\node[left] at (0,2) {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-trapezium",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(10,0)--(6,4)--(0,4)--cycle;\n\\draw[dashed] (6,0)--(6,4);\n\\node at (3,2) {$A_1$};\n\\node at (7,1.3) {$A_2$};\n\\end{tikzpicture}\n[/tikz]\n$A_1 = 6\\times 4$\n$= 24\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 4\\times 4$\n$= 8\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 32\\text{ m}^{2}$"
       },
       {
         "question_text": "A triangular flower bed is dug into a rectangular lawn. Calculate the area of grass that is left (the shaded region), by subtracting the flower bed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\fill[blue!15] (0,0) rectangle (12,8);\n\\fill[white] (3,1)--(9,1)--(6,5)--cycle;\n\\draw[thick] (0,0)--(12,0) node[midway,below] {$12\\text{ m}$};\n\\draw[thick] (12,0)--(12,8)--(0,8);\n\\draw[thick] (0,8)--(0,0) node[midway,left] {$8\\text{ m}$};\n\\draw[thick] (3,1)--(9,1) node[midway,below] {$6\\text{ m}$};\n\\draw[thick] (9,1)--(6,5)--(3,1);\n\\draw[dashed] (6,1)--(6,5) node[midway,right] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-minus-triangle",
         "solution_text": "The triangle has base $6$ m and perpendicular height $4$ m.\n$A_1 = 12\\times 8$\n$= 96\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 6\\times 4$\n$= 12\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 84\\text{ m}^{2}$"
       },
       {
         "question_text": "This concrete slab is T-shaped. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (3,0)--(6,0)--(6,4)--(9,4)--(9,7)--(0,7)--(0,4)--(3,4)--cycle;\n\\draw[dashed] (0,4)--(9,4);\n\\node[above] at (4.5,7) {$9\\text{ m}$};\n\\node[left] at (0,5.5) {$3\\text{ m}$};\n\\node[below] at (4.5,0) {$3\\text{ m}$};\n\\node[right] at (6,2) {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-tshape-add",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (3,0)--(6,0)--(6,4)--(9,4)--(9,7)--(0,7)--(0,4)--(3,4)--cycle;\n\\draw[dashed] (0,4)--(9,4);\n\\node at (4.5,5.5) {$A_1$};\n\\node at (4.5,2) {$A_2$};\n\\end{tikzpicture}\n[/tikz]\n$A_1 = 9\\times 3$\n$= 27\\text{ m}^{2}$\n$A_2 = 3\\times 4$\n$= 12\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 39\\text{ m}^{2}$"
       },
       {
         "question_text": "This timber decking is L-shaped. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(9,0)--(9,3)--(4,3)--(4,5)--(0,5)--cycle;\n\\node[below] at (4.5,0) {$9\\text{ m}$};\n\\node[right] at (9,1.5) {$3\\text{ m}$};\n\\node[above] at (2,5) {$4\\text{ m}$};\n\\node[left] at (0,2.5) {$5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-lshape-add",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(9,0)--(9,3)--(4,3)--(4,5)--(0,5)--cycle;\n\\draw[dashed] (4,0)--(4,3);\n\\node at (2,2.5) {$A_1$};\n\\node at (6.5,1.5) {$A_2$};\n\\end{tikzpicture}\n[/tikz]\n$A_1 = 4\\times 5$\n$= 20\\text{ m}^{2}$\n$A_2 = 5\\times 3$\n$= 15\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 35\\text{ m}^{2}$"
       }
     ],
     "development": [
       {
         "question_text": "This floor plan is U-shaped. Two lengths are not marked. Calculate the floor area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[thick] (0,0)--(10,0)--(10,6)--(7,6)--(7,2)--(3,2)--(3,6)--(0,6)--cycle;\n\\draw[dashed] (0,2)--(10,2);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\node[right] at (10,3) {$6\\text{ m}$};\n\\node[above] at (1.5,6) {$3\\text{ m}$};\n\\node[above] at (8.5,6) {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-ushape-add",
         "solution_text": "Split the plan into a base rectangle and the two side towers.\nThe base rectangle is $10$ m by $2$ m.\nEach tower is $3$ m wide and $6-2=4$ m tall.\n$A_1 = 10\\times 2$\n$= 20\\text{ m}^{2}$\n$A_2 = 3\\times 4$\n$= 12\\text{ m}^{2}$\n$A_3 = 3\\times 4$\n$= 12\\text{ m}^{2}$\n$A = A_1 + A_2 + A_3$\n$= 44\\text{ m}^{2}$"
       },
       {
         "question_text": "A path of constant width $2$ m is built around the outside of a rectangular pool. Calculate the area of the path (the shaded region).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\fill[blue!15] (0,0) rectangle (14,10);\n\\fill[white] (2,2) rectangle (12,8);\n\\draw[thick] (0,0) rectangle (14,10);\n\\draw[thick] (2,2) rectangle (12,8);\n\\node[below] at (7,0) {$14\\text{ m}$};\n\\node[left] at (0,5) {$10\\text{ m}$};\n\\draw[<->] (0,9)--(2,9) node[midway,above] {$2\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-minus-rect",
         "solution_text": "The pool sits $2$ m in from each side, so it is $14-2-2=10$ m by $10-2-2=6$ m.\n$A_1 = 14\\times 10$\n$= 140\\text{ m}^{2}$\n$A_2 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 80\\text{ m}^{2}$"
       },
       {
         "question_text": "A swimming pool is shaped like a rectangle with a triangle on one end. Calculate the surface area of the water.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[thick] (0,0)--(8,0)--(11,2.5)--(8,5)--(0,5)--cycle;\n\\draw[dashed] (8,0)--(8,5);\n\\node[below] at (4,0) {$8\\text{ m}$};\n\\node[left] at (0,2.5) {$5\\text{ m}$};\n\\draw[<->] (8,-0.6)--(11,-0.6) node[midway,below] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-triangle-add",
         "solution_text": "The triangle has base $5$ m (the shared edge) and perpendicular height $3$ m.\n$A_1 = 8\\times 5$\n$= 40\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 5\\times 3$\n$= 7.5\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 47.5\\text{ m}^{2}$"
       },
       {
         "question_text": "A sports field is a trapezium with parallel sides $30$ m and $20$ m and a width of $12$ m. Turf costs $\\$8$ per square metre. Calculate the total cost of turfing the field.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.16]\n\\draw[thick] (0,0)--(30,0)--(25,12)--(5,12)--cycle;\n\\draw[dashed] (5,0)--(5,12);\n\\draw[dashed] (25,0)--(25,12);\n\\node[below] at (15,0) {$30\\text{ m}$};\n\\node[above] at (15,12) {$20\\text{ m}$};\n\\node[left] at (5,6) {$12\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-area-to-cost",
         "solution_text": "$A = \\frac{1}{2}(30+20)\\times 12$\n$= \\frac{1}{2}\\times 50\\times 12$\n$= 300\\text{ m}^{2}$\n$300\\times 8 = 2400$\nThe turf costs $\\$2400$."
       },
       {
         "question_text": "A semicircle is cut from one long side of this rectangular metal tabletop. Calculate the remaining area, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (10,6);\n\\fill[white] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\draw[thick] (0,0) rectangle (10,6);\n\\draw[thick] (2,6) arc[start angle=180,end angle=360,radius=3];\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-minus-semicircle",
         "solution_text": "The semicircle has diameter $6$ m, so its radius is $3$ m.\n$A_1 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\pi(3)^{2}$\n$= 14.1371\\ldots\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 45.86\\text{ m}^{2}$"
       },
       {
         "question_text": "A rectangular wall has a door and a window that will not be painted. Calculate the area of wall to be painted.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\fill[blue!15] (0,0) rectangle (6,3);\n\\fill[white] (1,0) rectangle (2,2);\n\\fill[white] (3.5,1) rectangle (5,2);\n\\draw[thick] (0,0) rectangle (6,3);\n\\draw[thick] (1,0) rectangle (2,2);\n\\draw[thick] (3.5,1) rectangle (5,2);\n\\node[below] at (3,0) {$6\\text{ m}$};\n\\node[left] at (0,1.5) {$3\\text{ m}$};\n\\node[below,font=\\small] at (1.5,0) {$1\\text{ m}$};\n\\node[right,font=\\small] at (2,1) {$2\\text{ m}$};\n\\node[above,font=\\small] at (4.25,2) {$1.5\\text{ m}$};\n\\node[right,font=\\small] at (5,1.5) {$1\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-minus-rect",
         "solution_text": "$A_1 = 6\\times 3$\n$= 18\\text{ m}^{2}$\n$A_2 = 1\\times 2$\n$= 2\\text{ m}^{2}$\n$A_3 = 1.5\\times 1$\n$= 1.5\\text{ m}^{2}$\n$A = A_1 - A_2 - A_3$\n$= 14.5\\text{ m}^{2}$"
       },
       {
         "question_text": "This tabletop is a rectangle with a triangle on each end. Calculate its area.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw[thick] (0,0)--(10,0)--(13,3)--(10,6)--(0,6)--(-3,3)--cycle;\n\\draw[dashed] (0,0)--(0,6);\n\\draw[dashed] (10,0)--(10,6);\n\\node[below] at (5,0) {$10\\text{ m}$};\n\\node[left] at (0,3) {$6\\text{ m}$};\n\\draw[<->] (10,-0.7)--(13,-0.7) node[midway,below] {$3\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-rect-triangle-add",
         "solution_text": "Each triangle has base $6$ m (the shared edge) and perpendicular height $3$ m.\n$A_1 = 10\\times 6$\n$= 60\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 6\\times 3$\n$= 9\\text{ m}^{2}$\n$A = A_1 + 2\\times A_2$\n$= 78\\text{ m}^{2}$"
       }
     ],
     "mastery": [
       {
         "question_text": "This garden bed is to be covered with mulch. Each bag of mulch covers $7\\text{ m}^{2}$, and bags cannot be split. How many bags are needed?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.45]\n\\draw[thick] (0,0)--(12,0)--(12,6)--(6,10)--(0,6)--cycle;\n\\draw[dashed] (0,6)--(12,6);\n\\node[below] at (6,0) {$12\\text{ m}$};\n\\node[right] at (12,3) {$6\\text{ m}$};\n\\draw[<->] (6.4,6)--(6.4,10) node[midway,right] {$4\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-area-to-units",
         "solution_text": "$A_1 = 12\\times 6$\n$= 72\\text{ m}^{2}$\n$A_2 = \\frac{1}{2}\\times 12\\times 4$\n$= 24\\text{ m}^{2}$\n$A = A_1 + A_2$\n$= 96\\text{ m}^{2}$\n$96\\div 7 = 13.7\\ldots$\nBags cannot be split, so $14$ bags are needed."
       },
       {
         "question_text": "A rectangular sheet of metal $12$ cm by $8$ cm has a smaller rectangle, $4$ cm by $x$ cm, cut out of it. The area of metal that is left is $80\\text{ cm}^{2}$. Find the value of $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\fill[blue!15] (0,0) rectangle (12,8);\n\\fill[white] (7,2) rectangle (11,6);\n\\draw[thick] (0,0) rectangle (12,8);\n\\draw[thick] (7,2) rectangle (11,6);\n\\node[below] at (6,0) {$12\\text{ cm}$};\n\\node[left] at (0,4) {$8\\text{ cm}$};\n\\node[below] at (9,2) {$4\\text{ cm}$};\n\\node[right] at (11,4) {$x$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-solve-for-dimension",
         "solution_text": "$A_1 = 12\\times 8$\n$= 96\\text{ cm}^{2}$\n$A_2 = 4x$\n$A = A_1 - A_2$\n$80 = 96 - 4x$\n$4x = 16$\n$x = 4\\text{ cm}$"
       },
       {
         "question_text": "A rectangular pool $15$ m long and $9$ m wide is surrounded by a paved path of constant width $1.5$ m. Paving costs $\\$40$ per square metre. Calculate the total cost of paving the path.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.32]\n\\fill[blue!15] (0,0) rectangle (18,12);\n\\fill[white] (1.5,1.5) rectangle (16.5,10.5);\n\\draw[thick] (0,0) rectangle (18,12);\n\\draw[thick] (1.5,1.5) rectangle (16.5,10.5);\n\\node at (9,6) {$15\\text{ m}\\times 9\\text{ m}$};\n\\draw[<->] (0,11)--(1.5,11) node[midway,above,font=\\small] {$1.5\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "composite-area-to-cost",
         "solution_text": "The path adds $1.5$ m on every side, so the outer rectangle is $15+1.5+1.5=18$ m by $9+1.5+1.5=12$ m.\n$A_1 = 18\\times 12$\n$= 216\\text{ m}^{2}$\n$A_2 = 15\\times 9$\n$= 135\\text{ m}^{2}$\n$A = A_1 - A_2$\n$= 81\\text{ m}^{2}$\n$81\\times 40 = 3240$\nThe paving costs $\\$3240$."
       }
     ]

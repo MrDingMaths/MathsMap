@@ -7,6 +7,7 @@ import {
   groupTextBlocks,
   validateProcedureLabels,
   unknownKeys,
+  isStructureSlug,
   PRACTICE_CARD_KEYS,
   QUIZ_QUESTION_KEYS
 } from '../src/lib/inline-content.js';
@@ -71,6 +72,19 @@ test('rejects unknown and out-of-order procedure labels but allows none', () => 
 });
 
 test('schema key sets reject every legacy question field', () => {
-  assert.deepEqual(unknownKeys({ question_text: 'q', solution_text: 's', q: 'old', a: 'old', solution: [], tikz: '', tikzSolution: '' }, PRACTICE_CARD_KEYS), ['q', 'a', 'solution', 'tikz', 'tikzSolution']);
+  assert.deepEqual(unknownKeys({ question_text: 'q', structure: 'x', solution_text: 's', q: 'old', a: 'old', solution: [], tikz: '', tikzSolution: '' }, PRACTICE_CARD_KEYS), ['q', 'a', 'solution', 'tikz', 'tikzSolution']);
   assert.deepEqual(unknownKeys({ id: 'q1', question_text: 'q', solution_text: 's', structure: 'x', mastery: false, options: [], q: 'old', solution: [] }, QUIZ_QUESTION_KEYS), ['q', 'solution']);
+});
+
+test('isStructureSlug accepts kebab-case only', () => {
+  assert.equal(isStructureSlug('round-to-tenths'), true);
+  assert.equal(isStructureSlug('a'), true);
+  assert.equal(isStructureSlug('a1-b2'), true);
+  assert.equal(isStructureSlug(''), false);
+  assert.equal(isStructureSlug('Round-To-Tenths'), false);
+  assert.equal(isStructureSlug('round_to_tenths'), false);
+  assert.equal(isStructureSlug('round--tenths'), false);
+  assert.equal(isStructureSlug('-round'), false);
+  assert.equal(isStructureSlug('round-'), false);
+  assert.equal(isStructureSlug(undefined), false);
 });

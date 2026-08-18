@@ -16,25 +16,85 @@
   },
   "practice": {
     "foundation": [
-      { "question_text": "The ferry timetable is $\\begin{array}{c|cc} &\\text{F1}&\\text{F2}\\\\\\hline\\text{Harbour}&0810&0940\\\\\\text{Island}&0845&1015\\end{array}$. When does F2 leave Harbour?", "solution_text": "Read the Harbour row and F2 column.\nF2 leaves Harbour at $0940$." },
-      { "question_text": "The clinic timetable is $\\begin{array}{c|ccc}\\text{Doctor}&\\text{Lee}&\\text{Khan}&\\text{Roy}\\\\\\hline\\text{Morning}&0900&0930&1000\\\\\\text{Afternoon}&1330&1400&1430\\end{array}$. When is Dr Khan's afternoon session?", "solution_text": "Read the Afternoon row and Khan column.\nDr Khan's session is at $1400$." },
-      { "question_text": "A bus timetable shows $\\begin{array}{c|cc} &\\text{Route 3}&\\text{Route 8}\\\\\\hline\\text{Park}&0715&0740\\\\\\text{Library}&0735&0805\\end{array}$. Which route reaches the Library first?", "solution_text": "$0735<0805$\nRoute 3 reaches the Library first." },
-      { "question_text": "A cinema timetable is $\\begin{array}{c|cc}\\text{Film}&\\text{Matinee}&\\text{Evening}\\\\\\hline A&1420&1830\\\\B&1505&1915\\end{array}$. What time is Film A's evening session in 12-hour notation?", "solution_text": "$18-12=6$\n$1830=6{:}30\\text{ pm}$" },
-      { "question_text": "A train table lists $\\begin{array}{c|cc} &\\text{T1}&\\text{T2}\\\\\\hline\\text{Central}&1050&1120\\\\\\text{Beach}&1135&1205\\end{array}$. How long does T1 take from Central to Beach?", "solution_text": "$1050\\to1100=10\\text{ min}$\n$1100\\to1135=35\\text{ min}$\n$10+35=45\\text{ min}$" },
-      { "question_text": "A pool timetable is $\\begin{array}{c|cc}\\text{Class}&\\text{Mon}&\\text{Wed}\\\\\\hline\\text{Beginners}&1615&1645\\\\\\text{Squad}&1730&1800\\end{array}$. When is the Wednesday Beginners class?", "solution_text": "Read the Beginners row and Wednesday column.\nThe class is at $1645$." }
+      {
+        "question_text": "The ferry timetable is $\\begin{array}{c|cc} &\\text{F1}&\\text{F2}\\\\\\hline\\text{Harbour}&0810&0940\\\\\\text{Island}&0845&1015\\end{array}$. When does F2 leave Harbour?",
+        "structure": "read-row-column-intersection",
+        "solution_text": "Read the Harbour row and F2 column.\nF2 leaves Harbour at $0940$."
+      },
+      {
+        "question_text": "The clinic timetable is $\\begin{array}{c|ccc}\\text{Doctor}&\\text{Lee}&\\text{Khan}&\\text{Roy}\\\\\\hline\\text{Morning}&0900&0930&1000\\\\\\text{Afternoon}&1330&1400&1430\\end{array}$. When is Dr Khan's afternoon session?",
+        "structure": "read-row-column-intersection",
+        "solution_text": "Read the Afternoon row and Khan column.\nDr Khan's session is at $1400$."
+      },
+      {
+        "question_text": "A bus timetable shows $\\begin{array}{c|cc} &\\text{Route 3}&\\text{Route 8}\\\\\\hline\\text{Park}&0715&0740\\\\\\text{Library}&0735&0805\\end{array}$. Which route reaches the Library first?",
+        "structure": "select-service-by-arrival",
+        "solution_text": "$0735<0805$\nRoute 3 reaches the Library first."
+      },
+      {
+        "question_text": "A cinema timetable is $\\begin{array}{c|cc}\\text{Film}&\\text{Matinee}&\\text{Evening}\\\\\\hline A&1420&1830\\\\B&1505&1915\\end{array}$. What time is Film A's evening session in 12-hour notation?",
+        "structure": "convert-time-read-from-table",
+        "solution_text": "$18-12=6$\n$1830=6{:}30\\text{ pm}$"
+      },
+      {
+        "question_text": "A train table lists $\\begin{array}{c|cc} &\\text{T1}&\\text{T2}\\\\\\hline\\text{Central}&1050&1120\\\\\\text{Beach}&1135&1205\\end{array}$. How long does T1 take from Central to Beach?",
+        "structure": "find-timetable-journey-duration",
+        "solution_text": "$1050\\to1100=10\\text{ min}$\n$1100\\to1135=35\\text{ min}$\n$10+35=45\\text{ min}$"
+      },
+      {
+        "question_text": "A pool timetable is $\\begin{array}{c|cc}\\text{Class}&\\text{Mon}&\\text{Wed}\\\\\\hline\\text{Beginners}&1615&1645\\\\\\text{Squad}&1730&1800\\end{array}$. When is the Wednesday Beginners class?",
+        "structure": "read-row-column-intersection",
+        "solution_text": "Read the Beginners row and Wednesday column.\nThe class is at $1645$."
+      }
     ],
     "development": [
-      { "question_text": "Use $\\begin{array}{c|ccc} &\\text{S1}&\\text{S2}&\\text{S3}\\\\\\hline\\text{Hill}&0825&0910&0955\\\\\\text{Town}&0850&0935&1020\\\\\\text{Lake}&0920&1005&1050\\end{array}$. Which service reaches Lake before $10{:}30$ am but leaves Hill after $9$ am?", "solution_text": "S2 leaves Hill at $0910$ and reaches Lake at $1005$.\nS3 reaches Lake after $10{:}30$ am.\nThe service is **S2**." },
-      { "question_text": "A shuttle table is $\\begin{array}{c|cc} &\\text{A}&\\text{B}\\\\\\hline\\text{Airport}&1340&1525\\\\\\text{Hotel}&1420&1600\\end{array}$. Which shuttle has the shorter journey?", "solution_text": "$1340\\to1420=40\\text{ min}$\n$1525\\to1600=35\\text{ min}$\nShuttle B is shorter by $5$ minutes." },
-      { "question_text": "Use $\\begin{array}{c|ccc}\\text{Museum tour}&\\text{Red}&\\text{Blue}&\\text{Gold}\\\\\\hline\\text{Start}&10{:}15\\text{ am}&1245&2{:}20\\text{ pm}\\\\\\text{Finish}&11{:}05\\text{ am}&1335&3{:}10\\text{ pm}\\end{array}$. Which tour starts at $1440$ in 24-hour time?", "solution_text": "$1440=2{:}40\\text{ pm}$\nNone of the listed tours starts at $2{:}40$ pm." },
-      { "question_text": "A library van follows $\\begin{array}{c|cc} &\\text{Tuesday}&\\text{Friday}\\\\\\hline\\text{North}&0905&1015\\\\\\text{East}&0940&1050\\\\\\text{South}&1025&1135\\end{array}$. On Friday, how long passes from North to South?", "solution_text": "$1015\\to1100=45\\text{ min}$\n$1100\\to1135=35\\text{ min}$\n$45+35=80\\text{ min}$\n$=1\\text{ h }20\\text{ min}$" },
-      { "question_text": "A sports timetable is $\\begin{array}{c|ccc}\\text{Event}&\\text{Start}&\\text{Finish}&\\text{Court}\\\\\\hline\\text{Tennis}&0835&0950&2\\\\\\text{Netball}&1010&1125&1\\end{array}$. A spectator arrives at $10{:}00$ am. Which event can they still watch?", "solution_text": "Tennis finishes at $0950$, before arrival.\nNetball begins at $1010$, after arrival.\nThe spectator can watch **Netball**." },
-      { "question_text": "A route table shows $\\begin{array}{c|cc} &\\text{Local}&\\text{Express}\\\\\\hline\\text{West}&1710&1735\\\\\\text{City}&1815&1820\\end{array}$. How much later does the Express leave West, and how much shorter is its journey?", "solution_text": "The Express leaves $25$ minutes later.\nLocal duration: $1710\\to1815=65\\text{ min}$.\nExpress duration: $1735\\to1820=45\\text{ min}$.\nThe Express journey is $20$ minutes shorter." }
+      {
+        "question_text": "Use $\\begin{array}{c|ccc} &\\text{S1}&\\text{S2}&\\text{S3}\\\\\\hline\\text{Hill}&0825&0910&0955\\\\\\text{Town}&0850&0935&1020\\\\\\text{Lake}&0920&1005&1050\\end{array}$. Which service reaches Lake before $10{:}30$ am but leaves Hill after $9$ am?",
+        "structure": "select-service-by-arrival",
+        "solution_text": "S2 leaves Hill at $0910$ and reaches Lake at $1005$.\nS3 reaches Lake after $10{:}30$ am.\nThe service is **S2**."
+      },
+      {
+        "question_text": "A shuttle table is $\\begin{array}{c|cc} &\\text{A}&\\text{B}\\\\\\hline\\text{Airport}&1340&1525\\\\\\text{Hotel}&1420&1600\\end{array}$. Which shuttle has the shorter journey?",
+        "structure": "compare-timetable-durations",
+        "solution_text": "$1340\\to1420=40\\text{ min}$\n$1525\\to1600=35\\text{ min}$\nShuttle B is shorter by $5$ minutes."
+      },
+      {
+        "question_text": "Use $\\begin{array}{c|ccc}\\text{Museum tour}&\\text{Red}&\\text{Blue}&\\text{Gold}\\\\\\hline\\text{Start}&10{:}15\\text{ am}&1245&2{:}20\\text{ pm}\\\\\\text{Finish}&11{:}05\\text{ am}&1335&3{:}10\\text{ pm}\\end{array}$. Which tour starts at $1440$ in 24-hour time?",
+        "structure": "convert-time-read-from-table",
+        "solution_text": "$1440=2{:}40\\text{ pm}$\nNone of the listed tours starts at $2{:}40$ pm."
+      },
+      {
+        "question_text": "A library van follows $\\begin{array}{c|cc} &\\text{Tuesday}&\\text{Friday}\\\\\\hline\\text{North}&0905&1015\\\\\\text{East}&0940&1050\\\\\\text{South}&1025&1135\\end{array}$. On Friday, how long passes from North to South?",
+        "structure": "find-timetable-journey-duration",
+        "solution_text": "$1015\\to1100=45\\text{ min}$\n$1100\\to1135=35\\text{ min}$\n$45+35=80\\text{ min}$\n$=1\\text{ h }20\\text{ min}$"
+      },
+      {
+        "question_text": "A sports timetable is $\\begin{array}{c|ccc}\\text{Event}&\\text{Start}&\\text{Finish}&\\text{Court}\\\\\\hline\\text{Tennis}&0835&0950&2\\\\\\text{Netball}&1010&1125&1\\end{array}$. A spectator arrives at $10{:}00$ am. Which event can they still watch?",
+        "structure": "select-service-by-arrival",
+        "solution_text": "Tennis finishes at $0950$, before arrival.\nNetball begins at $1010$, after arrival.\nThe spectator can watch **Netball**."
+      },
+      {
+        "question_text": "A route table shows $\\begin{array}{c|cc} &\\text{Local}&\\text{Express}\\\\\\hline\\text{West}&1710&1735\\\\\\text{City}&1815&1820\\end{array}$. How much later does the Express leave West, and how much shorter is its journey?",
+        "structure": "compare-timetable-durations",
+        "solution_text": "The Express leaves $25$ minutes later.\nLocal duration: $1710\\to1815=65\\text{ min}$.\nExpress duration: $1735\\to1820=45\\text{ min}$.\nThe Express journey is $20$ minutes shorter."
+      }
     ],
     "mastery": [
-      { "question_text": "Use $\\begin{array}{c|ccc} &\\text{R1}&\\text{R2}&\\text{R3}\\\\\\hline\\text{Depot}&2215&2305&2350\\\\\\text{Terminal}&2255&2345&0030\\end{array}$. Which service arrives on the next day, and how long is its trip?", "solution_text": "R3 crosses midnight.\n$2350\\to2400=10\\text{ min}$\n$0000\\to0030=30\\text{ min}$\n$10+30=40\\text{ min}$" },
-      { "question_text": "A timetable gives $\\begin{array}{c|ccc} &\\text{P1}&\\text{P2}&\\text{P3}\\\\\\hline\\text{Start}&1145&1210&1250\\\\\\text{Finish}&1235&1300&1345\\end{array}$. Sam must arrive by $1{:}10$ pm and cannot leave before noon. Which services work?", "solution_text": "P1 leaves before noon, so it does not work.\nP2 leaves at $1210$ and arrives at $1300$, so it works.\nP3 arrives at $1345$, too late.\nOnly **P2** works." },
-      { "question_text": "A ferry timetable is $\\begin{array}{c|ccc} &\\text{F1}&\\text{F2}&\\text{F3}\\\\\\hline\\text{Leave}&0640&0725&0810\\\\\\text{Arrive}&0740&0810&0850\\end{array}$. Which trip is fastest, and how much faster is it than the slowest trip?", "solution_text": "F1 takes $60$ minutes.\nF2 takes $45$ minutes.\nF3 takes $40$ minutes.\nF3 is fastest and is $20$ minutes faster than F1." }
+      {
+        "question_text": "Use $\\begin{array}{c|ccc} &\\text{R1}&\\text{R2}&\\text{R3}\\\\\\hline\\text{Depot}&2215&2305&2350\\\\\\text{Terminal}&2255&2345&0030\\end{array}$. Which service arrives on the next day, and how long is its trip?",
+        "structure": "identify-midnight-crossing-trips",
+        "solution_text": "R3 crosses midnight.\n$2350\\to2400=10\\text{ min}$\n$0000\\to0030=30\\text{ min}$\n$10+30=40\\text{ min}$"
+      },
+      {
+        "question_text": "A timetable gives $\\begin{array}{c|ccc} &\\text{P1}&\\text{P2}&\\text{P3}\\\\\\hline\\text{Start}&1145&1210&1250\\\\\\text{Finish}&1235&1300&1345\\end{array}$. Sam must arrive by $1{:}10$ pm and cannot leave before noon. Which services work?",
+        "structure": "select-service-by-arrival",
+        "solution_text": "P1 leaves before noon, so it does not work.\nP2 leaves at $1210$ and arrives at $1300$, so it works.\nP3 arrives at $1345$, too late.\nOnly **P2** works."
+      },
+      {
+        "question_text": "A ferry timetable is $\\begin{array}{c|ccc} &\\text{F1}&\\text{F2}&\\text{F3}\\\\\\hline\\text{Leave}&0640&0725&0810\\\\\\text{Arrive}&0740&0810&0850\\end{array}$. Which trip is fastest, and how much faster is it than the slowest trip?",
+        "structure": "compare-timetable-durations",
+        "solution_text": "F1 takes $60$ minutes.\nF2 takes $45$ minutes.\nF3 takes $40$ minutes.\nF3 is fastest and is $20$ minutes faster than F1."
+      }
     ]
   }
 }

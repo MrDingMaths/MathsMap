@@ -22,94 +22,116 @@
     "foundation": [
       {
         "question_text": "A red four-sided die and a blue four-sided die are rolled. The array records every outcome as (red, blue).\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & (2,2) & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & (3,3) & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & (4,4) \\end{array}$\nFind the probability that the red die shows $2$ and the blue die shows $3$, as a fraction in simplest form.",
+        "structure": "p-from-array-single-cell",
         "solution_text": "The array has $16$ cells, so there are $16$ equally likely outcomes.\nOnly one cell holds $(2,3)$.\n$P((2,3)) = \\frac{1}{16}$"
       },
       {
         "question_text": "A red four-sided die and a blue four-sided die are rolled and the two numbers are added. The array shows every possible sum.\n$\\begin{array}{c|cccc} + & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 2 & 3 & 4 & 5 \\\\ 2 & 3 & 4 & 5 & 6 \\\\ 3 & 4 & 5 & 6 & 7 \\\\ 4 & 5 & 6 & 7 & 8 \\end{array}$\nFind the probability that the sum is $5$, as a fraction in simplest form.",
+        "structure": "p-from-array-sum",
         "solution_text": "There are $16$ equally likely outcomes.\nThe sum $5$ appears in $4$ cells.\n$P(\\text{sum} = 5) = \\frac{4}{16}$\n$= \\frac{1}{4}$"
       },
       {
         "question_text": "A red four-sided die and a blue four-sided die are rolled and the two numbers are added, giving the sums in the array below.\n$\\begin{array}{c|cccc} + & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 2 & 3 & 4 & 5 \\\\ 2 & 3 & 4 & 5 & 6 \\\\ 3 & 4 & 5 & 6 & 7 \\\\ 4 & 5 & 6 & 7 & 8 \\end{array}$\nFind the probability that the sum is $6$ or more, as a fraction in simplest form.",
+        "structure": "p-from-array-inequality",
         "solution_text": "There are $16$ equally likely outcomes.\nThe sum is $6$ in $3$ cells, $7$ in $2$ cells and $8$ in $1$ cell.\nFavourable outcomes $= 3 + 2 + 1$\n$= 6$\n$P(\\text{sum} \\ge 6) = \\frac{6}{16}$\n$= \\frac{3}{8}$"
       },
       {
         "question_text": "Three cards numbered $1$, $2$ and $3$ are in a bag. A card is drawn and its number recorded, the card is returned, and a second card is drawn. The array records every outcome in order.\n$\\begin{array}{c|ccc} & 1 & 2 & 3 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) \\\\ 2 & (2,1) & (2,2) & (2,3) \\\\ 3 & (3,1) & (3,2) & (3,3) \\end{array}$\nFind the probability that the two cards show the same number, as a fraction in simplest form.",
+        "structure": "p-doubles-or-same",
         "solution_text": "There are $9$ equally likely outcomes.\nThe outcomes with the same number twice are $(1,1)$, $(2,2)$ and $(3,3)$.\n$P(\\text{same number}) = \\frac{3}{9}$\n$= \\frac{1}{3}$"
       },
       {
         "question_text": "Three cards numbered $1$, $2$ and $3$ are in a bag. A card is drawn and its number recorded, the card is returned, and a second card is drawn.\n$\\begin{array}{c|ccc} & 1 & 2 & 3 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) \\\\ 2 & (2,1) & (2,2) & (2,3) \\\\ 3 & (3,1) & (3,2) & (3,3) \\end{array}$\nFind the probability of drawing a $1$ and a $3$, in any order, as a fraction in simplest form.",
+        "structure": "p-in-any-order",
         "solution_text": "There are $9$ equally likely outcomes.\nA $1$ and a $3$ can be drawn in either order, giving $(1,3)$ and $(3,1)$.\n$P(\\text{a }1\\text{ and a }3) = \\frac{2}{9}$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (2.2,1.5);\n\\coordinate (F2) at (2.2,-1.5);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.6);\n\\coordinate (E3) at (4.8,-0.6);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$R$};\n\\draw (O)--(F2) node[midway,below,font=\\small] {$B$};\n\\draw (F1)--(E1) node[midway,above,font=\\small] {$R$};\n\\draw (F1)--(E2) node[midway,below,font=\\small] {$B$};\n\\draw (F2)--(E3) node[midway,above,font=\\small] {$R$};\n\\draw (F2)--(E4) node[midway,below,font=\\small] {$B$};\n\\node[right,font=\\small] at (E1) {$RR$};\n\\node[right,font=\\small] at (E2) {$RB$};\n\\node[right,font=\\small] at (E3) {$BR$};\n\\node[right,font=\\small] at (E4) {$BB$};\n\\node[font=\\small] at (2.2,3.2) {Draw $1$};\n\\node[font=\\small] at (4.8,3.2) {Draw $2$};\n\\node[font=\\small] at (6.1,3.2) {Outcome};\n\\end{tikzpicture}\n[/tikz]\nA box holds $2$ red counters and $2$ blue counters, so red and blue are equally likely on each draw. A counter is drawn and its colour recorded, the counter is returned, and a second counter is drawn. Find the probability that both counters are blue, as a fraction in simplest form.",
+        "structure": "p-from-array-single-cell",
         "solution_text": "The tree has $4$ equally likely complete paths.\nOnly the path $BB$ has both counters blue.\n$P(BB) = \\frac{1}{4}$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (2.2,1.8);\n\\coordinate (F2) at (2.2,0);\n\\coordinate (F3) at (2.2,-1.8);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,1.2);\n\\coordinate (E3) at (4.8,0.6);\n\\coordinate (E4) at (4.8,-0.6);\n\\coordinate (E5) at (4.8,-1.2);\n\\coordinate (E6) at (4.8,-2.4);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$R_{1}$};\n\\draw (O)--(F2) node[midway,fill=white,inner sep=1pt,font=\\small] {$R_{2}$};\n\\draw (O)--(F3) node[midway,below,font=\\small] {$B$};\n\\draw (F1)--(E1) node[midway,above,font=\\small] {$R_{2}$};\n\\draw (F1)--(E2) node[midway,below,font=\\small] {$B$};\n\\draw (F2)--(E3) node[midway,above,font=\\small] {$R_{1}$};\n\\draw (F2)--(E4) node[midway,below,font=\\small] {$B$};\n\\draw (F3)--(E5) node[midway,above,font=\\small] {$R_{1}$};\n\\draw (F3)--(E6) node[midway,below,font=\\small] {$R_{2}$};\n\\node[right,font=\\small] at (E1) {$R_{1}R_{2}$};\n\\node[right,font=\\small] at (E2) {$R_{1}B$};\n\\node[right,font=\\small] at (E3) {$R_{2}R_{1}$};\n\\node[right,font=\\small] at (E4) {$R_{2}B$};\n\\node[right,font=\\small] at (E5) {$BR_{1}$};\n\\node[right,font=\\small] at (E6) {$BR_{2}$};\n\\node[font=\\small] at (2.2,3.2) {Draw $1$};\n\\node[font=\\small] at (4.8,3.2) {Draw $2$};\n\\node[font=\\small] at (6.4,3.2) {Outcome};\n\\end{tikzpicture}\n[/tikz]\nA box holds three counters: two red ones labelled $R_{1}$ and $R_{2}$, and one blue one labelled $B$. One counter is drawn and kept, then a second counter is drawn. Because each counter is equally likely to be picked at each draw, the six paths of the tree are equally likely. Find the probability that both counters are red, as a fraction in simplest form.",
+        "structure": "p-without-replacement-counting",
         "solution_text": "There are $6$ equally likely outcomes.\nThe outcomes with two red counters are $R_{1}R_{2}$ and $R_{2}R_{1}$.\n$P(\\text{both red}) = \\frac{2}{6}$\n$= \\frac{1}{3}$"
       },
       {
         "question_text": "Three cards numbered $1$, $2$ and $3$ lie face down on a table. One card is turned over and its number written down, the card is turned back, then a card is turned over again. Every result is listed in order in the array.\n$\\begin{array}{c|ccc} & 1 & 2 & 3 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) \\\\ 2 & (2,1) & (2,2) & (2,3) \\\\ 3 & (3,1) & (3,2) & (3,3) \\end{array}$\nFind the probability that at least one of the two numbers written down is a $2$, as a fraction in simplest form.",
+        "structure": "p-at-least-one",
         "solution_text": "There are $9$ equally likely outcomes.\nThe $2$ row holds $3$ cells and the $2$ column holds $3$ cells, but $(2,2)$ lies in both.\nFavourable outcomes $= 3 + 3 - 1$\n$= 5$\n$P(\\text{at least one }2) = \\frac{5}{9}$"
       },
       {
         "question_text": "A red four-sided die and a blue four-sided die are rolled. The array shows the difference between the two numbers, with the smaller always subtracted from the larger.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 0 & 1 & 2 & 3 \\\\ 2 & 1 & 0 & 1 & 2 \\\\ 3 & 2 & 1 & 0 & 1 \\\\ 4 & 3 & 2 & 1 & 0 \\end{array}$\nFind the probability that the difference is $1$, as a fraction in simplest form.",
+        "structure": "p-difference",
         "solution_text": "There are $16$ equally likely outcomes.\nThe difference $1$ appears in $6$ cells.\n$P(\\text{difference} = 1) = \\frac{6}{16}$\n$= \\frac{3}{8}$"
       }
     ],
     "development": [
       {
         "question_text": "Two ordinary six-sided dice are rolled and the two numbers are added. The array shows every possible sum.\n$\\begin{array}{c|cccccc} + & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\\ 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\\ 3 & 4 & 5 & 6 & 7 & 8 & 9 \\\\ 4 & 5 & 6 & 7 & 8 & 9 & 10 \\\\ 5 & 6 & 7 & 8 & 9 & 10 & 11 \\\\ 6 & 7 & 8 & 9 & 10 & 11 & 12 \\end{array}$\nFind the probability that the sum is $8$, as a fraction in simplest form.",
+        "structure": "p-from-array-sum",
         "solution_text": "The array has $6 \\times 6 = 36$ cells, so there are $36$ equally likely outcomes.\nThe sum $8$ appears in $5$ cells.\n$P(\\text{sum} = 8) = \\frac{5}{36}$"
       },
       {
         "question_text": "In a board game a player throws two ordinary six-sided dice and moves forward by their total. Each cell of the array records one possible total.\n$\\begin{array}{c|cccccc} + & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\\ 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\\ 3 & 4 & 5 & 6 & 7 & 8 & 9 \\\\ 4 & 5 & 6 & 7 & 8 & 9 & 10 \\\\ 5 & 6 & 7 & 8 & 9 & 10 & 11 \\\\ 6 & 7 & 8 & 9 & 10 & 11 & 12 \\end{array}$\nFind the probability that the player moves forward $10$ or more places, as a fraction in simplest form.",
+        "structure": "p-from-array-inequality",
         "solution_text": "There are $36$ equally likely outcomes.\nThe sum is $10$ in $3$ cells, $11$ in $2$ cells and $12$ in $1$ cell.\nFavourable outcomes $= 3 + 2 + 1$\n$= 6$\n$P(\\text{sum} \\ge 10) = \\frac{6}{36}$\n$= \\frac{1}{6}$"
       },
       {
         "question_text": "A red four-sided die and a blue four-sided die are rolled, and every outcome is recorded as (red, blue).\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & (2,2) & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & (3,3) & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & (4,4) \\end{array}$\nFind the probability of rolling a $1$ and a $4$, in any order, as a fraction in simplest form.",
+        "structure": "p-in-any-order",
         "solution_text": "There are $16$ equally likely outcomes.\nEither die can show the $1$, so the favourable cells are $(1,4)$ and $(4,1)$.\n$P(\\text{a }1\\text{ and a }4) = \\frac{2}{16}$\n$= \\frac{1}{8}$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (2.2,1.5);\n\\coordinate (F2) at (2.2,-1.5);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.6);\n\\coordinate (E3) at (4.8,-0.6);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$G$};\n\\draw (O)--(F2) node[midway,below,font=\\small] {$Y$};\n\\draw (F1)--(E1) node[midway,above,font=\\small] {$G$};\n\\draw (F1)--(E2) node[midway,below,font=\\small] {$Y$};\n\\draw (F2)--(E3) node[midway,above,font=\\small] {$G$};\n\\draw (F2)--(E4) node[midway,below,font=\\small] {$Y$};\n\\node[right,font=\\small] at (E1) {$GG$};\n\\node[right,font=\\small] at (E2) {$GY$};\n\\node[right,font=\\small] at (E3) {$YG$};\n\\node[right,font=\\small] at (E4) {$YY$};\n\\node[font=\\small] at (2.2,3.2) {Draw $1$};\n\\node[font=\\small] at (4.8,3.2) {Draw $2$};\n\\node[font=\\small] at (6.1,3.2) {Outcome};\n\\end{tikzpicture}\n[/tikz]\nA box holds $2$ green counters and $2$ yellow counters, so green and yellow are equally likely on each draw. A counter is drawn and its colour recorded, the counter is returned, and a second counter is drawn. Find the probability that at least one counter is green, as a fraction in simplest form.",
+        "structure": "p-at-least-one",
         "solution_text": "The tree has $4$ equally likely complete paths.\nThe paths containing at least one $G$ are $GG$, $GY$ and $YG$.\n$P(\\text{at least one green}) = \\frac{3}{4}$"
       },
       {
         "question_text": "Two four-sided dice, one red and one blue, are thrown together. Each cell of the array holds the number on the red die followed by the number on the blue die.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & (1,1) & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & (2,2) & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & (3,3) & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & (4,4) \\end{array}$\nA double is an outcome with two of the same number. Find $P(\\text{double})$, as a fraction in simplest form.",
+        "structure": "p-doubles-or-same",
         "solution_text": "There are $16$ equally likely outcomes.\nThe cells whose row and column headings match are $(1,1)$, $(2,2)$, $(3,3)$ and $(4,4)$.\n$P(\\text{double}) = \\frac{4}{16}$\n$= \\frac{1}{4}$"
       },
       {
         "question_text": "Four cards numbered $1$, $2$, $3$ and $4$ are in a bag. One card is drawn, then a second card is drawn without replacing the first. The crossed cells cannot occur, so the array records $12$ equally likely outcomes.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & \\times & (1,2) & (1,3) & (1,4) \\\\ 2 & (2,1) & \\times & (2,3) & (2,4) \\\\ 3 & (3,1) & (3,2) & \\times & (3,4) \\\\ 4 & (4,1) & (4,2) & (4,3) & \\times \\end{array}$\nFind the probability that the first card is a $3$ and the second card is a $1$, as a fraction in simplest form.",
+        "structure": "p-without-replacement-counting",
         "solution_text": "The array has $16$ cells and $4$ are crossed out, leaving $12$ equally likely outcomes.\nOnly one cell holds $(3,1)$.\n$P((3,1)) = \\frac{1}{12}$"
       },
       {
         "question_text": "A box holds four counters: two red ones labelled $R_{1}$ and $R_{2}$, and two blue ones labelled $B_{1}$ and $B_{2}$. One counter is drawn and kept, then a second counter is drawn. The crossed cells cannot occur, so the array records $12$ equally likely outcomes.\n$\\begin{array}{c|cccc} & R_{1} & R_{2} & B_{1} & B_{2} \\\\ \\hline R_{1} & \\times & R_{1}R_{2} & R_{1}B_{1} & R_{1}B_{2} \\\\ R_{2} & R_{2}R_{1} & \\times & R_{2}B_{1} & R_{2}B_{2} \\\\ B_{1} & B_{1}R_{1} & B_{1}R_{2} & \\times & B_{1}B_{2} \\\\ B_{2} & B_{2}R_{1} & B_{2}R_{2} & B_{2}B_{1} & \\times \\end{array}$\nFind the probability that both counters are the same colour, as a fraction in simplest form.",
+        "structure": "p-without-replacement-counting",
         "solution_text": "There are $12$ equally likely outcomes.\nThe outcomes with two counters of one colour are $R_{1}R_{2}$, $R_{2}R_{1}$, $B_{1}B_{2}$ and $B_{2}B_{1}$.\n$P(\\text{same colour}) = \\frac{4}{12}$\n$= \\frac{1}{3}$"
       },
       {
         "question_text": "Two four-sided dice, one red and one blue, are thrown together. Each cell of the array records how far apart the two numbers are.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 0 & 1 & 2 & 3 \\\\ 2 & 1 & 0 & 1 & 2 \\\\ 3 & 2 & 1 & 0 & 1 \\\\ 4 & 3 & 2 & 1 & 0 \\end{array}$\nFind the probability that the two numbers are less than $2$ apart, as a fraction in simplest form.",
+        "structure": "p-from-array-inequality",
         "solution_text": "There are $16$ equally likely outcomes.\nA difference less than $2$ means a difference of $0$ or $1$, which appears in $4$ cells and $6$ cells.\nFavourable outcomes $= 4 + 6$\n$= 10$\n$P(\\text{difference} < 2) = \\frac{10}{16}$\n$= \\frac{5}{8}$"
       },
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (1.8,1.4);\n\\coordinate (F2) at (1.8,-1.4);\n\\coordinate (S1) at (3.6,2.1);\n\\coordinate (S2) at (3.6,0.7);\n\\coordinate (S3) at (3.6,-0.7);\n\\coordinate (S4) at (3.6,-2.1);\n\\coordinate (E1) at (5.4,2.45);\n\\coordinate (E2) at (5.4,1.75);\n\\coordinate (E3) at (5.4,1.05);\n\\coordinate (E4) at (5.4,0.35);\n\\coordinate (E5) at (5.4,-0.35);\n\\coordinate (E6) at (5.4,-1.05);\n\\coordinate (E7) at (5.4,-1.75);\n\\coordinate (E8) at (5.4,-2.45);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$R$};\n\\draw (O)--(F2) node[midway,below,font=\\small] {$B$};\n\\draw (F1)--(S1) node[midway,above,font=\\small] {$R$};\n\\draw (F1)--(S2) node[midway,below,font=\\small] {$B$};\n\\draw (F2)--(S3) node[midway,above,font=\\small] {$R$};\n\\draw (F2)--(S4) node[midway,below,font=\\small] {$B$};\n\\draw (S1)--(E1) node[midway,above,font=\\small] {$R$};\n\\draw (S1)--(E2) node[midway,below,font=\\small] {$B$};\n\\draw (S2)--(E3) node[midway,above,font=\\small] {$R$};\n\\draw (S2)--(E4) node[midway,below,font=\\small] {$B$};\n\\draw (S3)--(E5) node[midway,above,font=\\small] {$R$};\n\\draw (S3)--(E6) node[midway,below,font=\\small] {$B$};\n\\draw (S4)--(E7) node[midway,above,font=\\small] {$R$};\n\\draw (S4)--(E8) node[midway,below,font=\\small] {$B$};\n\\node[right,font=\\small] at (E1) {$RRR$};\n\\node[right,font=\\small] at (E2) {$RRB$};\n\\node[right,font=\\small] at (E3) {$RBR$};\n\\node[right,font=\\small] at (E4) {$RBB$};\n\\node[right,font=\\small] at (E5) {$BRR$};\n\\node[right,font=\\small] at (E6) {$BRB$};\n\\node[right,font=\\small] at (E7) {$BBR$};\n\\node[right,font=\\small] at (E8) {$BBB$};\n\\node[font=\\small] at (1.8,3.0) {Draw $1$};\n\\node[font=\\small] at (3.6,3.0) {Draw $2$};\n\\node[font=\\small] at (5.4,3.0) {Draw $3$};\n\\node[font=\\small] at (6.7,3.0) {Outcome};\n\\end{tikzpicture}\n[/tikz]\nA box holds $2$ red counters and $2$ blue counters, so red and blue are equally likely on each draw. A counter is drawn, its colour recorded and the counter returned; this is done three times. Find the probability that all three counters are the same colour, as a fraction in simplest form.",
+        "structure": "p-from-tree",
         "solution_text": "The tree has $8$ equally likely complete paths.\nThe paths with one colour throughout are $RRR$ and $BBB$.\n$P(\\text{all the same colour}) = \\frac{2}{8}$\n$= \\frac{1}{4}$"
       },
       {
         "question_text": "Three cards numbered $1$, $2$ and $3$ are in a bag. A card is drawn and its number recorded, the card is returned, a second card is drawn, and the two numbers are added. The array shows every possible sum.\n$\\begin{array}{c|ccc} + & 1 & 2 & 3 \\\\ \\hline 1 & 2 & 3 & 4 \\\\ 2 & 3 & 4 & 5 \\\\ 3 & 4 & 5 & 6 \\end{array}$\nSam says, 'The possible sums are $2$, $3$, $4$, $5$ and $6$, so $P(\\text{sum} = 4) = \\frac{1}{5}$.' Explain why Sam is wrong, then find the correct probability as a fraction in simplest form.",
+        "structure": "p-from-array-sum",
         "solution_text": "The five sums do not each come from the same number of cells, so they are not equally likely; the $9$ cells of the array are the equally likely outcomes.\nThe sum $4$ appears in $3$ cells.\n$P(\\text{sum} = 4) = \\frac{3}{9}$\n$= \\frac{1}{3}$"
       }
     ],
     "mastery": [
       {
         "question_text": "A pair of ordinary six-sided dice is thrown. Each cell of the array records the total of the two dice.\n$\\begin{array}{c|cccccc} + & 1 & 2 & 3 & 4 & 5 & 6 \\\\ \\hline 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\\ 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\\ 3 & 4 & 5 & 6 & 7 & 8 & 9 \\\\ 4 & 5 & 6 & 7 & 8 & 9 & 10 \\\\ 5 & 6 & 7 & 8 & 9 & 10 & 11 \\\\ 6 & 7 & 8 & 9 & 10 & 11 & 12 \\end{array}$\nFind the probability that the total is a multiple of $4$, as a fraction in simplest form.",
+        "structure": "p-from-array-inequality",
         "solution_text": "There are $36$ equally likely outcomes.\nThe sums that are multiples of $4$ are $4$, $8$ and $12$, appearing in $3$, $5$ and $1$ cells.\nFavourable outcomes $= 3 + 5 + 1$\n$= 9$\n$P(\\text{multiple of }4) = \\frac{9}{36}$\n$= \\frac{1}{4}$"
       },
       {
         "question_text": "Four cards numbered $1$, $2$, $3$ and $4$ are in a bag. One card is drawn and becomes the tens digit of a two-digit number, then a second card is drawn without replacing the first and becomes the units digit. The array lists the $12$ equally likely numbers that can be formed.\n$\\begin{array}{c|cccc} & 1 & 2 & 3 & 4 \\\\ \\hline 1 & \\times & 12 & 13 & 14 \\\\ 2 & 21 & \\times & 23 & 24 \\\\ 3 & 31 & 32 & \\times & 34 \\\\ 4 & 41 & 42 & 43 & \\times \\end{array}$\nFind the probability that the number formed is a multiple of $3$, as a fraction in simplest form.",
+        "structure": "p-without-replacement-counting",
         "solution_text": "There are $12$ equally likely outcomes.\nTesting each number, the multiples of $3$ are $12$, $21$, $24$ and $42$.\n$P(\\text{multiple of }3) = \\frac{4}{12}$\n$= \\frac{1}{3}$"
       },
       {
         "question_text": "A box holds four counters: two red ones labelled $R_{1}$ and $R_{2}$, one blue one labelled $B$ and one yellow one labelled $Y$. One counter is drawn and kept, then a second counter is drawn. The array lists the $12$ equally likely outcomes.\n$\\begin{array}{c|cccc} & R_{1} & R_{2} & B & Y \\\\ \\hline R_{1} & \\times & R_{1}R_{2} & R_{1}B & R_{1}Y \\\\ R_{2} & R_{2}R_{1} & \\times & R_{2}B & R_{2}Y \\\\ B & BR_{1} & BR_{2} & \\times & BY \\\\ Y & YR_{1} & YR_{2} & YB & \\times \\end{array}$\nFind, as fractions in simplest form:\na. the probability of drawing a red counter and the blue counter, in any order\nb. the probability that both counters are the same colour",
+        "structure": "p-without-replacement-counting",
         "solution_text": "There are $12$ equally likely outcomes.\na. Either red counter can pair with the blue one, and the blue one can come first or second: $R_{1}B$, $R_{2}B$, $BR_{1}$ and $BR_{2}$.\n$P(\\text{a red and the blue}) = \\frac{4}{12}$\n$= \\frac{1}{3}$\nb. Only the two red counters share a colour, giving $R_{1}R_{2}$ and $R_{2}R_{1}$.\n$P(\\text{same colour}) = \\frac{2}{12}$\n$= \\frac{1}{6}$"
       }
     ]

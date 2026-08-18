@@ -21,70 +21,86 @@
     "foundation": [
       {
         "question_text": "A polynomial $P(x)$ is divided by $(x-2)(x+1)$, with quotient $Q(x)$ and remainder $R(x)$. Explain why $R(x)$ can be written in the form $ax+b$.",
+        "structure": "remainder-form",
         "solution_text": "The divisor $(x-2)(x+1)$ has degree $2$.\nThe degree of the remainder must be less than the degree of the divisor, so $R(x)$ has degree $1$ or $0$.\nBoth are covered by $R(x)=ax+b$, with $a=0$ giving the constant case."
       },
       {
         "question_text": "When $P(x)$ is divided by $(x-4)(x+2)$, the quotient is $Q(x)$ and the remainder is $3x-1$. Write this information in the form $P(x)=D(x)Q(x)+R(x)$.",
+        "structure": "identity",
         "solution_text": "$P(x)=(x-4)(x+2)Q(x)+3x-1$"
       },
       {
         "question_text": "When $P(x)$ is divided by $(x-1)(x+5)$, the remainder is $2x+9$. Find the remainder when $P(x)$ is divided by $(x+5)$.",
+        "structure": "single-eval-linear",
         "solution_text": "$P(x)=(x-1)(x+5)Q(x)+2x+9$\n$P(-5)=(-5-1)(0)Q(-5)+2(-5)+9$\n$=-1$\nThe remainder is $-1$."
       },
       {
         "question_text": "When $P(x)$ is divided by $(x^2-16)$, the remainder is $3x+2$. Find the remainder when $P(x)$ is divided by $(x-4)$.",
+        "structure": "single-eval-quadratic",
         "solution_text": "$x^2-16=(x-4)(x+4)$\n$P(x)=(x-4)(x+4)Q(x)+3x+2$\n$P(4)=(0)(4+4)Q(4)+3(4)+2$\n$=14$\nThe remainder is $14$."
       },
       {
         "question_text": "$P(x)$ is divided by $(x-2)(x+3)$ with remainder $ax+b$. Given $P(2)=7$ and $P(-3)=-3$, write down the two equations connecting $a$ and $b$.",
+        "structure": "simultaneous-from-values",
         "solution_text": "$P(x)=(x-2)(x+3)Q(x)+ax+b$\n$P(2)=2a+b$ and $P(-3)=-3a+b$\n$\\therefore 2a+b=7$ and $-3a+b=-3$"
       },
       {
         "question_text": "Given $P(x)=(x-1)(x-6)Q(x)+4x+3$, write down the values of $P(1)$ and $P(6)$.",
+        "structure": "evaluate-at-root-from-identity",
         "solution_text": "$P(1)=(0)(1-6)Q(1)+4(1)+3$\n$=7$\n$P(6)=(6-1)(0)Q(6)+4(6)+3$\n$=27$"
       }
     ],
     "development": [
       {
         "question_text": "The polynomial $P(x)$ is divided by $(x-1)(x+2)$. Find the remainder, given $P(1)=5$ and $P(-2)=-4$.",
+        "structure": "simultaneous-from-values",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-1)(x+2)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(1)=a+b=5$\n$P(-2)=-2a+b=-4$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$3a=9$\n$a=3$\n$b=5-3$\n$=2$\nThe remainder is $3x+2$."
       },
       {
         "question_text": "Find the remainder when $P(x)=x^3+2x^2-3x+4$ is divided by $(x-1)(x+3)$.",
+        "structure": "explicit-polynomial",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-1)(x+3)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(1)=1+2-3+4$\n$=4$\n$P(-3)=-27+18+9+4$\n$=4$\n$a+b=4$ and $-3a+b=4$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$4a=0$\n$a=0$\n$b=4$\nThe remainder is $4$."
       },
       {
         "question_text": "Find the remainder when $P(x)=x^4-3x^3+2x-1$ is divided by $(x^2-1)$.",
+        "structure": "explicit-polynomial",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$x^2-1=(x-1)(x+1)$\n$P(x)=(x-1)(x+1)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(1)=1-3+2-1$\n$=-1$\n$P(-1)=1+3-2-1$\n$=1$\n$a+b=-1$ and $-a+b=1$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$2a=-2$\n$a=-1$\n$b=-1+1$\n$=0$\nThe remainder is $-x$."
       },
       {
         "question_text": "Find the remainder when $P(x)=2x^3-x^2+3x-5$ is divided by $(x-2)(x+1)$.",
+        "structure": "explicit-polynomial",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-2)(x+1)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(2)=16-4+6-5$\n$=13$\n$P(-1)=-2-1-3-5$\n$=-11$\n$2a+b=13$ and $-a+b=-11$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$3a=24$\n$a=8$\n$b=-11+8$\n$=-3$\nThe remainder is $8x-3$."
       },
       {
         "question_text": "When a polynomial is divided by $(2x-1)(x+2)$, the remainder is $3x-1$. What is the remainder when the polynomial is divided by $(2x-1)$?",
+        "structure": "single-eval-linear",
         "solution_text": "$P(x)=(2x-1)(x+2)Q(x)+3x-1$\n$2x-1=0$ when $x=\\frac{1}{2}$\n$P\\left(\\frac{1}{2}\\right)=(0)\\left(\\frac{1}{2}+2\\right)Q\\left(\\frac{1}{2}\\right)+3\\left(\\frac{1}{2}\\right)-1$\n$=\\frac{1}{2}$\nThe remainder is $\\frac{1}{2}$."
       },
       {
         "question_text": "Find the remainder when $P(x)=x^3+x^2-5x+2$ is divided by $(x^2-4)$.",
+        "structure": "explicit-polynomial",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$x^2-4=(x-2)(x+2)$\n$P(x)=(x-2)(x+2)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(2)=8+4-10+2$\n$=4$\n$P(-2)=-8+4+10+2$\n$=8$\n$2a+b=4$ and $-2a+b=8$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$4a=-4$\n$a=-1$\n$b=4+2$\n$=6$\nThe remainder is $-x+6$."
       },
       {
         "question_text": "A polynomial gives a remainder of $3$ when divided by $(x+2)$, and a remainder of $15$ when divided by $(x-4)$. Find the remainder when the same polynomial is divided by $(x+2)(x-4)$.",
+        "structure": "two-remainders",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x+2)(x-4)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(-2)=3$ and $P(4)=15$\n$-2a+b=3$ and $4a+b=15$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$6a=12$\n$a=2$\n$b=3+4$\n$=7$\nThe remainder is $2x+7$."
       }
     ],
     "mastery": [
       {
         "question_text": "When $x^5+x^3+ax+b$ is divided by $(x^2-1)$, the remainder is $4x-3$. Find $a$ and $b$.",
+        "structure": "solve-coefficients-from-remainder",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$x^2-1=(x-1)(x+1)$\n$P(x)=(x-1)(x+1)Q(x)+4x-3$\n2. **Substitute each root of the divisor**\n$P(1)=1+1+a+b=4(1)-3$\n$a+b=-1$\n$P(-1)=-1-1-a+b=4(-1)-3$\n$-a+b=-5$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$2a=4$\n$a=2$\n$b=-1-2$\n$=-3$\n$\\therefore a=2,\\ b=-3$"
       },
       {
         "question_text": "When a polynomial $P(x)$ is divided by $(x^2-3)$, the remainder is $2x+5$. Find the remainder when $P(x)+P(-x)$ is divided by $(x^2-3)$.",
+        "structure": "transform-then-remainder",
         "solution_text": "$P(x)=(x^2-3)Q(x)+2x+5$\n$P(-x)=\\left((-x)^2-3\\right)Q(-x)+2(-x)+5$\n$=(x^2-3)Q(-x)-2x+5$\n$P(x)+P(-x)=(x^2-3)Q(x)+2x+5+(x^2-3)Q(-x)-2x+5$\n$=(x^2-3)\\left(Q(x)+Q(-x)\\right)+10$\nThe remainder is $10$."
       },
       {
         "question_text": "Find the remainder when $P(x)=x^4-4x^3+2x^2+5$ is divided by $(x-1)(x-3)$.",
+        "structure": "explicit-polynomial",
         "solution_text": "1. **Write the identity with the remainder as ax+b**\n$P(x)=(x-1)(x-3)Q(x)+ax+b$\n2. **Substitute each root of the divisor**\n$P(1)=1-4+2+5$\n$=4$\n$P(3)=81-108+18+5$\n$=-4$\n$a+b=4$ and $3a+b=-4$\n3. **Solve the simultaneous equations**\nSubtract the equations:\n$2a=-8$\n$a=-4$\n$b=4+4$\n$=8$\nThe remainder is $-4x+8$."
       }
     ]

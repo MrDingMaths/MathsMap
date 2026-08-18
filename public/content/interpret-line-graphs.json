@@ -18,66 +18,81 @@
     "foundation": [
       {
         "question_text": "How many millimetres of rain fell on Wednesday?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/Mon,2.4/Tue,3.8/Wed,5.2/Thu,6.6/Fri} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,4)--(3.8,3)--(5.2,5)--(6.6,2); \\foreach \\p in {(1,2),(2.4,4),(3.8,3),(5.2,5),(6.6,2)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Rainfall (mm)}; \\node[below] at (3.8,-1.0) {Day}; \\node at (3.8,6.1) {Weekday rainfall};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-point-from-line-graph",
         "solution_text": "Wednesday's point is on the $15$ gridline.\n$15\\text{ mm}$"
       },
       {
         "question_text": "At what time was the pond temperature highest?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25,6/30} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/8am,2.4/10am,3.8/12pm,5.2/2pm,6.6/4pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,3)--(2.4,4)--(3.8,5)--(5.2,6)--(6.6,4); \\foreach \\p in {(1,3),(2.4,4),(3.8,5),(5.2,6),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Temperature}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Pond temperature};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-minimum-line-graph",
         "solution_text": "The highest plotted point occurs at $2$ pm."
       },
       {
         "question_text": "Between which consecutive observations did the seedling height decrease?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/2,2/4,3/6,4/8,5/10,6/12} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/W1,2.4/W2,3.8/W3,5.2/W4,6.6/W5} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,3)--(3.8,5)--(5.2,4)--(6.6,6); \\foreach \\p in {(1,2),(2.4,3),(3.8,5),(5.2,4),(6.6,6)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Height (cm)}; \\node[below] at (3.8,-1.0) {Week}; \\node at (3.8,7.1) {Seedling height};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-interval-trend",
         "solution_text": "The line slopes down from Week $3$ to Week $4$."
       },
       {
         "question_text": "During which interval did the water level stay unchanged?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/9am,2.4/10am,3.8/11am,5.2/12pm,6.6/1pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,4)--(3.8,4)--(5.2,5)--(6.6,3); \\foreach \\p in {(1,2),(2.4,4),(3.8,4),(5.2,5),(6.6,3)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Level (cm)}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,6.1) {Tank water level};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-constant-line-segment",
         "solution_text": "The line is horizontal from $10$ am to $11$ am, so the level stayed unchanged then."
       },
       {
         "question_text": "How much greater was the pulse count at $2$ minutes than at $8$ minutes?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/0,2.4/2,3.8/4,5.2/6,6.6/8} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,3)--(2.4,6)--(3.8,5)--(5.2,4)--(6.6,2); \\foreach \\p in {(1,3),(2.4,6),(3.8,5),(5.2,4),(6.6,2)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Beats in 15 s}; \\node[below] at (3.8,-1.0) {Minutes}; \\node at (3.8,7.1) {Pulse after exercise};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-change-between-line-points",
         "solution_text": "$60-20$\n$=40\\text{ beats in }15\\text{ s}$"
       },
       {
         "question_text": "What value does one vertical grid interval represent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {0/0,2/50,4/100,6/150} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\foreach \\x/\\lab in {1/Jan,2.4/Feb,3.8/Mar,5.2/Apr,6.6/May} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,3)--(3.8,5)--(5.2,4)--(6.6,6); \\foreach \\p in {(1,2),(2.4,3),(3.8,5),(5.2,4),(6.6,6)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.5,3) {Bird sightings}; \\node[below] at (3.8,-1.0) {Month}; \\node at (3.8,7.1) {Coastal birds};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-minor-interval-scale",
         "solution_text": "$50\\div2$\n$=25\\text{ sightings per interval}$"
       }
     ],
     "development": [
       {
         "question_text": "Find the total decrease in air temperature from noon to $6$ pm.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25,6/30} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/10am,2.4/12pm,3.8/2pm,5.2/4pm,6.6/6pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,4)--(2.4,6)--(3.8,5)--(5.2,3)--(6.6,2); \\foreach \\p in {(1,4),(2.4,6),(3.8,5),(5.2,3),(6.6,2)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Temperature}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Afternoon weather};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-change-between-line-points",
         "solution_text": "$30-10$\n$=20^{\\circ}\\text{C}$"
       },
       {
         "question_text": "At which two observations was the river flow the same?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/20,2/40,3/60,4/80,5/100,6/120} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/Mon,2.4/Tue,3.8/Wed,5.2/Thu,6.6/Fri} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,4)--(3.8,6)--(5.2,3)--(6.6,4); \\foreach \\p in {(1,2),(2.4,4),(3.8,6),(5.2,3),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.5,3) {Flow (L/s)}; \\node[below] at (3.8,-1.0) {Day}; \\node at (3.8,7.1) {River flow};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-constant-line-segment",
         "solution_text": "Tuesday and Friday are both on the $80\\text{ L/s}$ gridline."
       },
       {
         "question_text": "During which interval was the increase in leaf count greatest?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/5,2/10,3/15,4/20,5/25,6/30} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/W1,2.4/W2,3.8/W3,5.2/W4,6.6/W5} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,1)--(2.4,2)--(3.8,5)--(5.2,4)--(6.6,6); \\foreach \\p in {(1,1),(2.4,2),(3.8,5),(5.2,4),(6.6,6)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Leaves}; \\node[below] at (3.8,-1.0) {Week}; \\node at (3.8,7.1) {Leaves on plant};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-largest-consecutive-change",
         "solution_text": "Week $2$ to Week $3$ rises from $10$ to $25$.\n$25-10=15$ leaves, the greatest increase."
       },
       {
         "question_text": "How many hours had an ultraviolet index of at least $6$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y in {1,2,3,4,5,6} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/9am,2.4/10am,3.8/11am,5.2/12pm,6.6/1pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,3)--(2.4,5)--(3.8,6)--(5.2,6)--(6.6,4); \\foreach \\p in {(1,3),(2.4,5),(3.8,6),(5.2,6),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.0,3) {UV index}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Hourly UV index};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "count-interval-above-threshold",
         "solution_text": "The index is at least $6$ at $11$ am and noon.\nThere are $2$ such observations."
       },
       {
         "question_text": "Find the range of the recorded wind speeds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/4,2/8,3/12,4/16,5/20,6/24} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/8am,2.4/9am,3.8/10am,5.2/11am,6.6/12pm} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,2)--(2.4,5)--(3.8,3)--(5.2,6)--(6.6,4); \\foreach \\p in {(1,2),(2.4,5),(3.8,3),(5.2,6),(6.6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Speed (km/h)}; \\node[below] at (3.8,-1.0) {Time}; \\node at (3.8,7.1) {Morning wind};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-range-line-graph",
         "solution_text": "$24-8$\n$=16\\text{ km/h}$"
       },
       {
         "question_text": "Describe the changes in bee visits from Tuesday to Friday.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(8.5,0); \\foreach \\y/\\lab in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};} \\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\lab in {1/Mon,2.4/Tue,3.8/Wed,5.2/Thu,6.6/Fri} {\\node[below,font=\\scriptsize] at (\\x,0) {\\lab};}\n\\draw[thick] (1,3)--(2.4,5)--(3.8,4)--(5.2,4)--(6.6,6); \\foreach \\p in {(1,3),(2.4,5),(3.8,4),(5.2,4),(6.6,6)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3) {Bee visits}; \\node[below] at (3.8,-1.0) {Day}; \\node at (3.8,7.1) {Garden bee visits};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-interval-trend",
         "solution_text": "Visits decreased from $50$ to $40$, stayed at $40$, then increased to $60$."
       }
     ],
     "mastery": [
       {
         "question_text": "A lake-depth graph records $18$, $30$, $24$, $36$ and $21$ cm over five days. Without averaging, identify the largest consecutive change and whether it was a rise or fall.",
+        "structure": "identify-largest-consecutive-change",
         "solution_text": "The consecutive changes are $+12$, $-6$, $+12$ and $-15$ cm.\nThe largest change is a fall of $15$ cm from Day $4$ to Day $5$."
       },
       {
         "question_text": "A non-constant line graph has values $40$, $55$, $55$, $35$, $50$ at equal time intervals. Describe every interval as increasing, decreasing or unchanged.",
+        "structure": "identify-interval-trend",
         "solution_text": "$40\\to55$: increasing\n$55\\to55$: unchanged\n$55\\to35$: decreasing\n$35\\to50$: increasing"
       },
       {
         "question_text": "A tide graph uses vertical labels $0,20,40,60$ with one minor interval halfway between each pair. A point lies on the minor interval between $40$ and $60$. What tide height does it represent, and why?",
+        "structure": "read-minor-interval-scale",
         "solution_text": "The $20$-unit gap is split into $2$ equal intervals.\n$20\\div2=10$\n$40+10=50$\nThe point represents $50$ cm."
       }
     ]
