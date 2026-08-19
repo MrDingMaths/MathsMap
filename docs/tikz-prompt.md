@@ -27,6 +27,9 @@ Two kinds of request arrive; the authority differs:
 8. **Never use scientific notation on graph axes** — always write tick labels as plain decimals or integers (e.g. `0.001`, not `1e-3` or `$10^{-3}$`). If the axis range would produce scientific notation by default in pgfplots, suppress it explicitly with `scaled ticks=false, ticklabel style={/pgf/number format/fixed}`.
 9. **Never join the two apexes of a curved surface.** On a cylinder, half-cylinder, cone, or any swept curved solid, the topmost point of the front cross-section and the topmost point of the back cross-section are **not** connected by an edge. A line between them is an arbitrary ruling lying on the surface; it renders as a crease down the middle of a smooth roof. The only straight line to draw along a curved surface is its **silhouette** — the ruling where the view direction grazes the surface (see the 3D solids playbook, "Curved surfaces: silhouette, not apex").
 10. **Never hand-compute angle arcs, right-angle squares, or label coordinates by guessing numbers.** Angle markers must use `\pic{angle = A--V--B}`; right-angle squares must be derived from the two edge endpoints with `calc`; segment labels must use `node[midway, ...]` on the `\draw` that creates the segment. Never place an angle mark, right-angle square, or label with a bare `\node at (x,y)` of guessed coordinates or a freehand `\draw ... arc (a:b:r)` — these never line up with the real edges. (Two exceptions: the non-radial bearing-arc recipe in the Bearings playbook, whose `arc (90:90-β:r)` is computed from the bearing β, not guessed — radial surveys use endpoint bearing labels instead; and a **pre-verified canonical template** from the Angles or Data displays playbooks, instantiated verbatim with label substitution only — its `\node at (x,y)` positions are calibrated constants, not guesses. Never hand-nudge one item inside a canonical template; re-instantiate the correct template and replace labels only.)
+11. **Never shrink a crowded figure with `scale`.** `scale` resizes geometry but **not** node text, so `scale=0.85` leaves every label at full size against 85%-size geometry — labels grow *relative to* the figure and collide. Shrinking scale makes crowding worse, never better. `scale` is an **enlarge-only** lever for figures that are small relative to their labels. (The one legitimate `scale` below 1 is a figure deliberately drawn on a large coordinate grid whose labels are *themselves* stepped down to `\scriptsize`/`\footnotesize` — as the Data displays templates do. Scale and text size are chosen together or not at all; never inherit `\large` throughout and then shrink.)
+12. **Never start an `arc` from a point that contradicts its start angle.** `\draw (S) arc (a:b:r)` treats `S` as the point *already at angle `a`* on a circle of radius `r`, and derives the centre from it. Writing `(0.9,0) arc (-18:22:0.9)` around a vertex at the origin puts the centre at `(0.04,0.28)` and the arc lands nowhere near the sector. Always write the start point in polar form about the centre you mean — `($(V)+(-18:0.9)$) arc (-18:22:0.9)` — so the two can never disagree.
+13. **Never let `\pic{angle = P--V--Q}` sweep the wrong way.** The mark is drawn **anticlockwise from arm `VP` to arm `VQ`**. If that sweep exceeds 180°, you have marked the reflex/exterior angle. Check the winding before you write it, and swap the two outer operands if the sweep is the long way round. Marking a 110° angle as `C--B--A` when the anticlockwise sweep is 250° is the single most common angle defect.
 
 ---
 
@@ -45,6 +48,12 @@ Output is **exactly one** TikZ picture, of this shape:
 - Target a **~6 cm × 6 cm bounding box**. Go Larger only when the diagram genuinely needs it (e.g. a wide curve plot, a long bearing diagram).
 - The first line is always `\begin{tikzpicture}[every node/.style={font=\large}]` so all labels render at a readable size.
 - **If the finished geometry looks small relative to its `\large` labels** — i.e. the labels crowd or dominate the figure (common for bearings and mark-heavy geometry) — add a `scale=` factor of `1.5`–`2` to the options line: `\begin{tikzpicture}[every node/.style={font=\large}, scale=1.8]`. `scale` enlarges **all** geometry (lines, arcs, angle marks, the bounding box) uniformly while the node text stays fixed, so the labels occupy proportionally less space and the figure reads clearly. This is the right lever — not stretching individual coordinates. **Only** add `scale` when a diagram is small and label-crowded; a diagram that already fills ~6 cm needs no `scale`.
+- **`scale` is an enlarge lever; it cannot fix crowding** (NEVER-DO #11). The reason is the same fact read backwards: because node text does *not* scale, `scale=0.85` leaves every label at full size against 85%-size geometry, so labels crowd *more*, not less. A figure that is too large must be redesigned in its own coordinates — never squeezed with `scale`. The rendered page already caps every diagram's width, so a slightly larger picture costs nothing. If you do draw on a large coordinate grid and scale it down, you must step the label fonts down with it (`font=\scriptsize` on ticks and category rows), exactly as the Data displays templates do — scale and text size are chosen together.
+- **"NOT TO SCALE" is anchored to the picture, never to a guessed coordinate.** When the source figure carries the notice, reproduce it as the last line of the picture:
+  ```
+  \node[anchor=north west, font=\small] at (current bounding box.south west) {NOT TO SCALE};
+  ```
+  This sits it just under the figure at every size. A hand-picked `\node[right] at (2.8,0.8)` lands on the diagram as soon as anything moves, and it inherits `\large`, which makes an incidental notice compete with the mathematics.
 - The `\usetikzlibrary{...}` line, if present, lists **only** libraries actually used in the picture. Omit it entirely if no libraries are needed.
 - When the finished block will be embedded in JSON, author and verify the TikZ first, then JSON-escape it mechanically (double every backslash). Never author directly in escaped form.
 
@@ -151,7 +160,7 @@ The constructions below are **canonical templates**: their coordinates and label
 #### A1. Parallel lines and a transversal
 
 ```
-\begin{tikzpicture}[every node/.style={font=\large}, scale=0.9]
+\begin{tikzpicture}[every node/.style={font=\large}]
 \draw (-2.6,1.2)--(2.6,1.2);
 \draw (-2.6,-1.2)--(2.6,-1.2);
 \draw (-1.8,-2.4)--(1.8,2.4);
@@ -270,7 +279,7 @@ For `n` sectors, accumulate the known angle sizes around `360°`, draw one bound
 Both rays must leave `P` towards the same horizontal side. Opposite-side rays change the relationship from a sum to a difference.
 
 ```
-\begin{tikzpicture}[every node/.style={font=\large}, scale=0.95]
+\begin{tikzpicture}[every node/.style={font=\large}]
 \draw (-2.5,1.5)--(2.5,1.5);
 \draw (-2.5,-1.5)--(2.5,-1.5);
 \draw[dashed] (-2.5,0)--(2.5,0);
@@ -438,6 +447,59 @@ These are canonical templates in the NEVER-DO #10 sense: instantiate, substitute
 - Derive the object count for every shown stage before drawing. Check that each count satisfies the intended equation, including fixed starting objects and shared-boundary adjustments.
 - Keep stage spacing, object size, orientation, and label placement consistent so the changing feature is visually isolated. Do not use ellipses to hide an unverified stage.
 - The figure may establish the pattern, but it must not display the general equation or reveal the requested rule on the question side.
+### Tables and spreadsheets
+
+Financial-maths questions routinely show a **spreadsheet or printed table** — a loan repayment schedule, a tax table, a ready reckoner, a payslip, a two-way frequency table. These are figures, not prose, and they are drawn here.
+
+**First, decide whether it belongs in the figure at all.** A plain table of values that the *question text* needs (a table of `x` and `y` for a graph, a small frequency table the student fills in) is rendered as a KaTeX `array` in the text, never inside the picture. Draw a table in TikZ only when the figure is reproducing a **document the student is reading** — a spreadsheet with lettered columns and numbered rows, a printed rate table, a bank statement.
+
+#### The one rule that prevents every table defect
+
+**A cell's border and a cell's text are the same `\node`.** Never draw the ruling with `grid` or `rectangle` and then place the text with separate `\node at (x,y)` coordinates. Those are two independent pieces of arithmetic, and they drift: the text ends up between columns, the row-number strip stops lining up with the rows it numbers, and the last row lands outside the frame entirely.
+
+```
+\begin{tikzpicture}[every node/.style={font=\small},
+  cell/.style={draw, minimum height=0.8cm, inner xsep=6pt, anchor=west},
+  hdr/.style={cell, fill=gray!25, font=\small\bfseries}]
+\def\colA{2.2cm} \def\colB{3.0cm} \def\colC{2.6cm} \def\colD{3.0cm}
+\node[hdr, minimum width=\colA] (h1) at (0,0) {Month};
+\node[hdr, minimum width=\colB, right=0pt of h1] (h2) {Principal (\textit{P})};
+\node[hdr, minimum width=\colC, right=0pt of h2] (h3) {Interest (\textit{I})};
+\node[hdr, minimum width=\colD, right=0pt of h3] (h4) {\textit{P} + \textit{I} $-$ \textit{R}};
+\node[cell, minimum width=\colA, below=0pt of h1.south west, anchor=north west] (a1) {1};
+\node[cell, minimum width=\colB, right=0pt of a1] (a2) {\$280 000.00};
+\node[cell, minimum width=\colC, right=0pt of a2] (a3) {\$1680.00};
+\node[cell, minimum width=\colD, right=0pt of a3] (a4) {\$279 580.00};
+\node[cell, minimum width=\colA, below=0pt of a1.south west, anchor=north west] (b1) {2};
+\node[cell, minimum width=\colB, right=0pt of b1] (b2) {\$279 580.00};
+\node[cell, minimum width=\colC, right=0pt of b2] (b3) {\$1677.48};
+\node[cell, minimum width=\colD, right=0pt of b3] (b4) {\$279 157.48};
+\end{tikzpicture}
+```
+
+Requires `positioning`, which is already in the renderer's preamble. Do **not** use `matrix of nodes` — the `matrix` library is not bundled and the picture will fail to compile.
+
+#### Sizing
+
+- **Derive each column width from its widest cell**, then declare it once as a `\def` and reuse it on every node in that column. A currency column holding `\$280 000.00` needs about `3.0cm` at `\small`; a `Month` column needs `2.2cm`. Never pick column widths first and hope the text fits.
+- **`\small` is the floor.** Never `\scriptsize` or `\tiny` in a table. If the content will not fit at `\small`, the table is too wide — shorten the headings (`P + I` rather than `Principal plus Interest`), drop a column the question does not use, or show fewer rows.
+- **Keep the whole table under about 12 cm wide.** The page scales a wide diagram down to fit the text column, and that shrink applies to the text too — a 16 cm table at `\small` arrives on screen smaller than `\scriptsize`.
+- Show only the rows the question needs. A repayment schedule demonstrating a pattern needs three or four rows, not twelve.
+
+#### Spreadsheet chrome
+
+When the figure is specifically a **spreadsheet**, the lettered column headers and numbered row headers are part of what the student reads — a question that says "the value in cell `C4`" is unanswerable without them.
+
+- Build the header strip and the row-number strip out of the **same `cell` nodes** as the data, one per column and one per row. They then line up by construction.
+- The letter row sits above the first data row; the number column sits left of the first data column; the corner cell is blank.
+- Every row number must name a row that exists. If the schedule shows four months, there are four numbered rows — not ten numbered rows with four filled in.
+- A free-floating explanatory note ("this table assumes the same number of days in each month") goes **outside** the table, below it, as its own `\node`, never floated over the cells.
+
+#### Verify before output
+
+- Every value in the table is derived, not invented; recompute each row from the previous one.
+- Every cell that the question or solution refers to by name (`B3`, "the fourth month") exists and holds the value the solution uses.
+- No node sits outside the table's outer boundary.
 ### Curve sketching from an equation
 
 **Always plot the actual equation.** Do not hand-draw a parabola-shaped freehand curve — use `\draw plot` (or `\addplot` with pgfplots) on the real function.
@@ -455,6 +517,10 @@ These are canonical templates in the NEVER-DO #10 sense: instantiate, substitute
    Then choose `xmin`/`xmax`/`ymin`/`ymax` to show **every key feature** with ~10% margin on each side.
 
 **Set `domain` so the curve ends on the window edge — that is where the arrows go.** Arrowheads sit at the *ends of the plotted path*, and pgfplots' default `clip=true` cuts anything past the axis box. If the path runs far outside the window (e.g. no `domain`, so it samples the full `xmin:xmax` and shoots off-screen), its arrowheads are clipped away and you see a curve with **no arrows**. So: choose `domain` so each branch reaches the window boundary (where the curve crosses `ymin`/`ymax`), and add **`clip=false`** to the axis so the arrow tip renders instead of being shaved. Do **not** rely on auto-domain for arrowed curves.
+
+**Hand-drawn axes do not clip — solve the domain against the window yourself.** The `clip` discussion above is a `pgfplots` property. A raw-TikZ sketch (`\draw[...] plot (...)` inside `\draw`n axis rules) draws the whole path no matter how far it leaves the drawn axes, so a curve can plunge far below the y-axis you drew and simply hang in space. Before writing `domain=a:b`, **evaluate the function at both ends and at its turning points** and confirm every value lies inside the axis range you drew. Example: `y = 7 - 10e^{-x}` on `domain=-0.5:4` reaches `y = -9.5`, but the y-axis was drawn only to `-4`. Either restrict the domain (here `-0.09:4` keeps it inside), extend the axis, or wrap the plot in `\clip (xmin,ymin) rectangle (xmax,ymax);`.
+
+**Never fake a curve with `plot coordinates` and `smooth`.** Hand-listing points and letting `smooth` interpolate produces visible wobble wherever the spacing changes — the interpolant overshoots between widely spaced points and kinks at closely spaced ones. If the question does not name an equation (a generic `y = f(x)` for transformation work), choose a **smooth analytic proxy** with the required features — a hyperbola for an asymptote pair, a scaled cubic for a two-turning-point shape — and plot that. Reserve `plot coordinates` for genuinely discrete data, and then without `smooth`.
 
 **For discontinuous or multi-branch functions** (rationals, piecewise, `tan(x)`), use **one `\addplot` per continuous branch** — each branch gets its own `domain` ending where it meets the box near the asymptote, so all four open ends carry arrows. Show vertical asymptotes as dashed lines.
 
@@ -830,6 +896,21 @@ Every marker and label here is derived from the named coordinates — there is n
 - **Colour:** monochrome by default. Use colour (`red`, `blue`) only when the source diagram itself uses colour to distinguish elements.
 - **Label spacing numerics:** put angle labels inside their sectors, preferably on the bisector. Keep labels at least `0.35` coordinate units apart (more for multi-character values), and keep them clear of all lines and marks — `fill=white, inner sep=1pt` is only for a label that legitimately belongs over a line (a distance, or an auxiliary-line result). Let every line extend at least `0.6` units beyond an intersection or extreme label. Enlarge a cramped figure uniformly with the `scale=` lever; never stretch one coordinate or detach a label.
 - **Parallel-property marks** are arrowed overlays on the exact line path — see the Angles playbook for the collinearity rules and families.
+- **Label anchors point OUTWARD.** A dimension or side label must be anchored away from the body of the figure. On a prism, a depth label on the top-right edge takes `below right`, not `above right` — the latter drops it onto the top face. Test it: step ~0.35 units from the label's coordinate in the anchor's direction; if you land inside a drawn face, you have the anchor backwards.
+- **Curve identity labels ride the path they name.** Write `\draw[...] plot (...) node[pos=0.8, above right] {$y=2\cos x$};` — never a free `\node at (0.3,1.9)`. Two hand-placed curve labels at the same height in a narrow picture will overlap, and they cannot follow the curve if the window changes.
+
+---
+
+## Axes — the anti-collision anchors (MANDATORY, every diagram with axes)
+
+These apply to **any** figure carrying axes — a categorical display, a gridded read-off graph, or a plotted function. The recurring defect is an axis title landing on the tick labels.
+
+- **Never attach an axis title to the axis `\draw` with `midway`.** `\draw[-{Stealth}] (0,0) -- (6.4,0) node[below=6pt, midway] {Time (hours)};` places the title at the axis *midpoint*, which is exactly the lane the tick numbers occupy — the title lands on top of the middle tick. An axis title is always a **standalone `\node`**.
+- **x-axis title** — its own line, centred under the tick row: `\node[below] at (<xmid>, -1.0) {Time (hours)};`
+- **y-axis title** — rotated, to the left of the tick column, at the axis midpoint: `\node[rotate=90] at (<xoff>, <ymid>) {Distance from depot (km)};` Set `<xoff>` so it clears the widest tick label by about one character (−1.4 for 1–2-digit ticks; more for 3-digit numbers or percentages).
+- **Never combine `rotate=` with a directional offset key** (`above=6pt`, `left=4pt`, …) on the same node. The offset is applied in the **rotated** frame, so `above=6pt` on a `rotate=90` node moves it sideways — straight into the tick numbers. Rotate the node and give it an explicit coordinate.
+- **Title** (if the figure has one) — centred over the plot at `y = <ymax> + 1.1`, with the y-axis arrow extended to `<ymax> + 1.4`. A horizontal title and a vertical y-label physically cannot collide.
+- **`pgfplots` caveat.** Inside `\begin{axis}`, use bare `xlabel={…}` / `ylabel={…}` — pgfplots already rotates the y label, and adding `rotate=90` turns it upside-down.
 
 ---
 
@@ -965,6 +1046,21 @@ For every labelled point $(a, b)$ on a plotted curve $y = f(x)$, verify $f(a) = 
 - Flag: `[GEOM ERROR — Category labels {a} and {b} touch]`
 - Flag: `[GEOM ERROR — Pattern stage {n} draws {k} objects; equation gives {m}]`
 
+
+### SV-tables: Table integrity
+
+For every table or spreadsheet figure:
+
+- **Cell/text unity.** Every cell's border and its text come from one `\node`. Any `grid` or `rectangle` ruling combined with separately positioned `\node at (x,y)` cell text is an automatic error.
+  - Flag: `[GEOM ERROR — Table ruling drawn independently of its cell text]`
+- **Containment.** No node lies outside the table's outer boundary.
+  - Flag: `[GEOM ERROR — Cell {X} at {coords} falls outside the table frame]`
+- **Header alignment.** Each lettered column header sits over the column it names; each row number sits beside the row it numbers; the count of numbered rows equals the count of data rows.
+  - Flag: `[GEOM ERROR — Row-number strip has {n} entries but the table has {m} data rows]`
+- **Arithmetic.** Recompute every derived cell from its inputs and confirm it matches the value shown, and that any cell the question names by reference exists.
+  - Flag: `[GEOM ERROR — Cell {ref} shows {value} but recomputes to {correct}]`
+- **Legibility.** No `\scriptsize` or `\tiny` anywhere in the table; total width under about 12 cm.
+  - Flag: `[GEOM ERROR — Table uses {size} or exceeds the width budget]`
 ### SV-v: Label Positioning
 
 **Construction check first.** Any angle mark drawn with a raw `\draw ... arc`, or any right-angle square or label placed with guessed `\node at (x,y)` coordinates, is an automatic `[GEOM ERROR]`. Re-express it using `\pic{angle = A--V--B}` (angle marks), the `calc` right-angle snippet (right angles), or `node[midway, ...]` on the segment's `\draw` (segment labels) before continuing. **Exception for non-radial bearing diagrams:** bearing arcs use the computed `arc (90:90-β:r)` recipe from the Bearings playbook (since bearings may be reflex, where `\pic` fails) — that arc is computed from β and is allowed, but a bearing label still goes at the computed bisector `($(O)+({90-β/2}:r')$)`, never a guessed coordinate. Radial surveys instead use HSC-style endpoint labels and have no true-bearing arcs.
@@ -1036,5 +1132,6 @@ Before writing the output, verify every item:
 - [ ] **For directed network diagrams:** arrowheads are mid-line (via `decorations.markings` at position 0.5), not at edge endpoints. `->` is not used on network edges.
 - [ ] **For angle figures:** divider count = labelled parts − 1; ray/segment/line arrowheads match the notation; parallel marks collinear and on the correct lines (never the transversal); no right-angle square under split-angle labels; reflex arcs sweep the reflex sector; A1 instantiations follow the position/relationship map; canonical templates instantiated verbatim (labels substituted only).
 - [ ] **For data displays:** data re-derived from the drawing matches the source (dots recounted); axis starts at zero (unless broken-scale is the skill); title/y-label/x-label at their fixed anchors; category labels fit without touching; scenario, column count, and value pattern follow the variety rules; growing-pattern stages individually countable and equation-consistent.
+- [ ] Every table cell is a single `\node` carrying both its border and its text; no `grid`/`rectangle` ruling is positioned independently of cell text; nothing sits outside the table frame; no `\scriptsize`/`\tiny`.
 
 Output the TikZ code now.

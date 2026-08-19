@@ -236,7 +236,8 @@ A new card is justified only when it changes the learner's reasoning or the answ
 character:
 
 1. **Structural type** — the procedure/shape of the question. Each distinct type becomes a
-   quiz `structure` slug (kebab-case) and a practice backbone card. **Enumerate these first.**
+   `structure` slug (kebab-case), tagged on the quiz question **and** on every practice card
+   of that type, from one shared per-skill vocabulary. **Enumerate these first.**
    For *round a decimal to a given place*: round-to-tenths, round-to-hundredths,
    carry-boundary, nearest-value recognition — four structural types.
 2. **Meaningful case within a type** — a parameter change that flips the problem's
@@ -268,7 +269,10 @@ automatically get the other with no new thought?* If yes → padding, cut it.
 **Every generation agent reports its structural-type enumeration** — the list of types, and
 the case that justifies each card beyond the first of its type. This is what makes padding
 visible to the orchestrator; a report that gives only counts hides exactly the defect the
-per-type cap exists to prevent.
+per-type cap exists to prevent. The enumeration also lands **in the file**: every practice
+card and quiz question carries the `structure` slug for its type (see
+[content-schema.md](content-schema.md)), so the validator's practice↔quiz parity check is the
+durable version of this report, not just the agent's transcript.
 
 ### When the type count exceeds the quiz ceiling — TYPE COVERAGE WINS
 
@@ -299,9 +303,11 @@ Coverage over volume: one clean item per meaningful case beats many near-duplica
 **A quiz item must never restate a practice stem from the same skill — any tier,
 byte-for-byte or lightly reworded.** The practice cards are the flip-cards the student has
 just studied; a quiz item that repeats one tests recall of the card, not the skill. The
-quiz mirrors each practice **structural TYPE** with **fresh numbers and a fresh scenario**,
-and — wherever the maths allows — lands on a **different answer value** than the practice
-card of the same type.
+quiz mirrors each practice **structural TYPE** (same `structure` slug) with **fresh numbers and
+a fresh scenario**, and — wherever the maths allows — lands on a **different answer value**
+than the practice card of the same type. The validator warns when a skill's practice
+`structure` set and its quiz `structure` set don't cover each other, so a type present on one
+side and missing on the other is caught, not just intended.
 
 ```
 PRACTICE mastery card                           QUIZ mastery item
@@ -532,6 +538,23 @@ contradicting each other.
   ("$1.5\%$ per quarter"). **Round only once, at the end** — carrying a rounded
   intermediate through a compounding chain shifts the cents and makes a correct student's
   answer disagree with the key.
+- **No redundant coordinate labels on a graphed intercept/point** (owner feedback,
+  linear-relationships diagrams). When a marked point's coordinate value is **already a
+  labelled tick on both axes** (present in `xtick`/`ytick`), do not also drop a
+  `\node{$(a,b)$}` on it restating the same number — the labelled axes already say it. Keep
+  the `\addplot[only marks,mark=*]` dot as the visual anchor. Only add the coordinate label
+  when at least one coordinate is **not** an axis tick value (e.g. a non-integer intercept
+  like $1.5$, or a point the student must read off a gridline the axis doesn't number) —
+  there the label is the only way to state the exact value.
+- **Don't show the graph when the skill is "read it from the equation"** (owner feedback,
+  `compare-linear-equations`, `slope-intercept-interpret`). A steepness-comparison or
+  parallel-check question that plots both lines and asks "which is steeper" / "which are
+  parallel" lets the student answer by eye, defeating the skill it sits in — these skills
+  exist specifically to compare gradients read off the equations. State the equations in
+  the stem and drop the `[tikz]` figure entirely; a graph-based version of the same question
+  belongs in a graph-reading skill instead (e.g. `parallel-lines-equal-gradient`'s own
+  `are-lines-parallel-graph` structure, which is explicitly about reading a graph — keep
+  that one).
 
 ## Anchoring, the ALREADY-COMPLETE rule & the STAGE 3 rule
 

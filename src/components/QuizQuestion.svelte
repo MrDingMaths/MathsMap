@@ -39,9 +39,15 @@
   let correctDisplayIndex = $derived(shuffled.findIndex((o) => o.item.correct === true));
 
   let selectedDisplayIndex = $state(null);
-  let locked = $derived(selectedDisplayIndex !== null);
-  let chosen = $derived(locked ? shuffled[selectedDisplayIndex] : null);
+  let skipped = $state(false);
+  let locked = $derived(selectedDisplayIndex !== null || skipped);
+  let chosen = $derived(selectedDisplayIndex !== null ? shuffled[selectedDisplayIndex] : null);
   let isCorrect = $derived(chosen ? chosen.item.correct === true : false);
+  // Guards against onAnswer firing twice for one question (e.g. a fast
+  // double-click, or Enter's native synthetic click racing our own submit) —
+  // without it, the second call lands after the parent has already advanced
+  // `session.current` to the NEXT question and silently answers that one too.
+  let submitted = false;
 
   const KEYS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -50,9 +56,15 @@
     selectedDisplayIndex = i;
   }
 
+  function skip() {
+    if (locked) return;
+    skipped = true;
+  }
+
   function next() {
-    if (!locked) return;
-    onAnswer(chosen.originalIndex);
+    if (!locked || submitted) return;
+    submitted = true;
+    onAnswer(chosen ? chosen.originalIndex : -1);
   }
 
   function onKeydown(e) {
@@ -87,10 +99,14 @@
     {/each}
   </div>
 
+  {#if !locked}
+    <button class="qq-skip" onclick={skip}>I don't know</button>
+  {/if}
+
   {#if locked}
-    <div class="qq-feedback {isCorrect ? 'is-correct' : 'is-wrong'}">
-      <span class="fb-title">{isCorrect ? 'Correct' : 'Not quite'}</span>
-      {#if !isCorrect && chosen.item.why}
+    <div class="qq-feedback {skipped ? 'is-skipped' : isCorrect ? 'is-correct' : 'is-wrong'}">
+      <span class="fb-title">{skipped ? 'Skipped' : isCorrect ? 'Correct' : 'Not quite'}</span>
+      {#if !isCorrect && chosen && chosen.item.why}
         <p class="fb-why"><MathText text={chosen.item.why} /></p>
       {/if}
     </div>
@@ -161,10 +177,27 @@
   }
   .qq-feedback.is-correct { background: color-mix(in srgb, var(--m-mastered) 10%, var(--panel)); border-color: var(--m-mastered); }
   .qq-feedback.is-wrong { background: color-mix(in srgb, #ef4444 10%, var(--panel)); border-color: #ef4444; }
+  .qq-feedback.is-skipped { background: var(--panel-2); border-color: var(--border); }
   .fb-title { font-weight: 600; }
   .qq-feedback.is-correct .fb-title { color: var(--m-mastered); }
   .qq-feedback.is-wrong .fb-title { color: #ef4444; }
+  .qq-feedback.is-skipped .fb-title { color: var(--muted); }
   .fb-why { margin: 0.4rem 0 0; color: var(--text); font-size: 0.92rem; }
+
+  .qq-skip {
+    align-self: flex-start;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
+  }
+  .qq-skip:hover { border-color: var(--border-strong); background: var(--panel-2); color: var(--accent); }
+  .qq-skip:active { transform: scale(0.96); }
 
   .qq-solution {
     padding: 0.85rem 1rem;
