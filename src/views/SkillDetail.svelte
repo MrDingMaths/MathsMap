@@ -4,7 +4,8 @@
   import { lockedSkills } from '../lib/recommender.js';
   import { getMastery, subscribe } from '../lib/store.js';
   import { loadSkillContent, setContentCache } from '../lib/content.js';
-  import { adminState, saveContent } from '../lib/admin.svelte.js';
+  import { loadSkillQuiz, setQuizCache } from '../lib/quiz.js';
+  import { adminState, saveContent, saveQuiz } from '../lib/admin.svelte.js';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -13,6 +14,7 @@
   import PracticeCarousel from '../components/PracticeCarousel.svelte';
   import TheoryEditor from '../admin/TheoryEditor.svelte';
   import PracticeEditor from '../admin/PracticeEditor.svelte';
+  import QuizEditor from '../admin/QuizEditor.svelte';
 
   let { id, courseId = null } = $props();
   let skill = $derived(skillById.get(id));
@@ -46,6 +48,19 @@
     return () => { active = false; };
   });
   let hasPractice = $derived(Boolean(content?.practice && TIERS.some((tier) => content.practice[tier.key]?.length)));
+
+  let quiz = $state(null);
+  $effect(() => {
+    let active = true;
+    quiz = null;
+    if (skill && adminState.isAdmin) loadSkillQuiz(skill.id).then((loaded) => { if (active) quiz = loaded; });
+    return () => { active = false; };
+  });
+  async function saveQuizContent(updated) {
+    await saveQuiz(skill.id, updated);
+    quiz = updated;
+    setQuizCache(skill.id, updated);
+  }
 
   let theoryOpen = $state(true);
   let practiceEl = $state(null);
@@ -119,6 +134,13 @@
           </section>
         {/if}
 
+        {#if adminState.isAdmin}
+          <section class="quiz-section">
+            <div class="section-title"><h2>Quiz questions</h2></div>
+            <QuizEditor skillId={skill.id} {quiz} onSave={saveQuizContent} />
+          </section>
+        {/if}
+
         {#if siblings.prev || siblings.next}
           <nav class="skill-nav" aria-label="Sibling skills">
             {#if siblings.prev}<a class="snav" href={href(`/skill/${siblings.prev.id}${courseQuery}`)}><span class="nav-direction">&larr; Previous</span><span><MathText text={siblings.prev.title} /></span></a>{:else}<span></span>{/if}
@@ -170,7 +192,7 @@
   .theory-disclosure summary strong { display: block; font-family: var(--font-display); font-size: 1.15rem; }
   .summary-action { color: var(--accent); font-size: 0.72rem; font-weight: 700; }
   .theory-body { padding-bottom: 1rem; }
-  .practice-section { margin-top: 2.2rem; scroll-margin-top: 150px; }
+  .practice-section, .quiz-section { margin-top: 2.2rem; scroll-margin-top: 150px; }
   .section-title h2 { margin: 0; font-size: 1.35rem; }
   .practice-placeholder { margin-top: 0.8rem; padding: 1.5rem; border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-soft); text-align: center; }
   .tier-list { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }

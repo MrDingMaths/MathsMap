@@ -10,17 +10,25 @@ export const adminState = {
   }
 };
 
-// Save edited content back to disk via the dev-server endpoint. Returns true on
+// Save edited JSON back to disk via the dev-server endpoint. Returns true on
 // success. The caller is responsible for updating in-memory state/cache.
-export async function saveContent(skillId, content) {
-  const res = await fetch(`/_admin/content/${skillId}`, {
+async function writeAdmin(kind, skillId, body) {
+  const res = await fetch(`/_admin/${kind}/${skillId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(content)
+    body: JSON.stringify(body)
   });
   if (!res.ok) {
     const detail = await res.json().catch(() => ({}));
     throw new Error(detail.error || `save failed (${res.status})`);
   }
   return true;
+}
+
+export function saveContent(skillId, content) {
+  return writeAdmin('content', skillId, content);
+}
+
+export function saveQuiz(skillId, quiz) {
+  return writeAdmin('quizzes', skillId, quiz);
 }

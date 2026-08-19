@@ -85,7 +85,7 @@
 <svelte:window onkeydown={onKeydown} />
 
 <div class="quiz-question">
-  <div class="qq-stem"><InlineContent text={question.question_text} /></div>
+  <div class="qq-stem"><InlineContent text={question.question_text} class="qq-diagram" /></div>
 
   <div class="qq-options">
     {#each shuffled as opt, i}
@@ -111,7 +111,7 @@
       {/if}
     </div>
 
-    <div class="qq-solution"><InlineContent text={question.solution_text} /></div>
+    <div class="qq-solution"><InlineContent text={question.solution_text} class="qq-diagram" /></div>
 
     <button class="qq-next" onclick={next}>Next →</button>
   {/if}
@@ -122,9 +122,13 @@
   @keyframes question-enter { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
   @keyframes answer-correct { 0% { transform: scale(0.985); box-shadow: 0 0 0 0 color-mix(in srgb, var(--m-mastered) 42%, transparent); } 55% { transform: scale(1.012); } 100% { transform: scale(1); box-shadow: 0 0 0 10px transparent; } }
   @keyframes answer-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 55% { transform: translateX(4px); } 78% { transform: translateX(-2px); } }
-  .qq-diagram { display: flex; justify-content: center; overflow-x: auto; }
-  .qq-diagram :global(svg) { max-width: 100%; height: auto; }
-  .qq-stem { font-size: 1.15rem; }
+  /* Diagrams and running text read small at the default InlineContent scale —
+     bump both for the quiz's one-question-per-screen layout. */
+  :global(.qq-diagram .inline-tikz) { margin: 1.1rem 0; }
+  :global(.qq-diagram .inline-tikz svg) { width: 100%; max-width: 480px; height: auto; }
+  :global(.qq-diagram .text-line) { font-size: 1.05rem; }
+  .qq-stem { font-size: 1.35rem; }
+  .qq-solution { font-size: 1.05rem; }
 
   .qq-options { display: flex; flex-direction: column; gap: 0.6rem; }
   .qq-opt {
@@ -139,7 +143,7 @@
     background: var(--panel);
     color: var(--text);
     font-family: inherit;
-    font-size: 0.98rem;
+    font-size: 1.08rem;
     cursor: pointer;
     transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap), opacity var(--motion-fast), box-shadow var(--motion-fast);
   }
@@ -182,7 +186,7 @@
   .qq-feedback.is-correct .fb-title { color: var(--m-mastered); }
   .qq-feedback.is-wrong .fb-title { color: #ef4444; }
   .qq-feedback.is-skipped .fb-title { color: var(--muted); }
-  .fb-why { margin: 0.4rem 0 0; color: var(--text); font-size: 0.92rem; }
+  .fb-why { margin: 0.4rem 0 0; color: var(--text); font-size: 1rem; }
 
   .qq-skip {
     align-self: flex-start;
