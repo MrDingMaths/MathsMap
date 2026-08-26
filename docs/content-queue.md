@@ -2809,8 +2809,8 @@ Hazards (state on every affected batch row / config):
 
 | # | Batch | Topics | Skills | QUEUE rows | Diagram load | Status |
 |---|---|---|---:|---|---|---|
-| W3-1 | Std: Formulas + Linear + Managing money | t-s6st11-formulas, -linear, -managing | 12 | 46, 47, 49 | low | pending — **shakedown batch** |
-| W3-2 | Std: Measurement + Time & location + Networks | t-s6st11-measurement, -time, -networks | 14 | 50, 51, 52 | high | pending |
+| W3-1 | Std: Formulas + Linear + Managing money | t-s6st11-formulas, -linear, -managing | 12 | 46, 47, 49 | low | **committed 2026-08-26** — shakedown batch; gate clean, Sonnet blind check 12/12, 15 flash repairs, diagram lane 12/12 agrees |
+| W3-2 | Std: Measurement + Time & location + Networks | t-s6st11-measurement, -time, -networks | 14 | 50, 51, 52 | high | **in-review 2026-08-26** — gate clean; Sonnet blind check 14/14, 161 items, 0 answer mismatches, 5 valid flags repaired + re-checked; diagram lane 69 blocks: 65 agree, 4 flags (crossing-diagonal label/arrow collisions) redrawn + verified; report `.agywork/W3-2/diagram/report.md`. Tokens: Gemini 7.9M in / 1.09M out (28 calls), Sonnet 1.94M in / 187k out. Human: 4-PNG seeded sample + `shortest-path` mastery[2] (prose edge list, no figure) + `utc-problems` m2 wording ("local solar time" + "ignore DST"). Booklet gotcha: `irregular-land-area`/`trapezoidal-rule` live in *Applications of Measurement 2_Perimeter, area, volume* (not 1_Practicalities); `shortest-path` needs booklet Networks 2. |
 | W3-3 | Std: Data analysis | t-s6st11-data (incl. `grouped-data` once) | 6 | 53 | high | pending |
 | W3-4 | Adv: Working with functions A | t-s6adv11-functions dp 1–7 | 12 | 64 | medium | pending |
 | W3-5 | Adv: Working with functions B | t-s6adv11-functions dp 8–13 | 12 | 64 | high | pending |

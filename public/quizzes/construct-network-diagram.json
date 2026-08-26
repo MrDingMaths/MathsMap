@@ -1,0 +1,205 @@
+{
+  "skillId": "construct-network-diagram",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which adjacency matrix correctly represents this undirected network?\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.2);\n\\coordinate (B) at (2.8,2.2);\n\\coordinate (C) at (2.8,0);\n\\coordinate (D) at (0,0);\n\\draw (A) -- (B) node[midway, above] {$6$};\n\\draw (A) -- (C) node[pos=0.25, fill=white, inner sep=1pt] {$8$};\n\\draw (B) -- (C) node[midway, right] {$5$};\n\\draw (B) -- (D) node[pos=0.75, fill=white, inner sep=1pt] {$7$};\n\\draw (C) -- (D) node[midway, below] {$4$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "graph-to-table-undirected",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & - \\\\ B & 6 & - & 5 & 7 \\\\ C & 8 & 5 & - & 4 \\\\ D & - & 7 & 4 & - \\end{array}$",
+          "correct": true
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & - & 8 \\\\ B & 6 & - & 7 & 5 \\\\ C & - & 7 & - & 4 \\\\ D & 8 & 5 & 4 & - \\end{array}$",
+          "why": "Swapped the positions of vertex labels $C$ and $D$ in the matrix."
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & - \\\\ B & - & - & 5 & 7 \\\\ C & - & - & - & 4 \\\\ D & - & - & - & - \\end{array}$",
+          "why": "Omitted symmetric entries below the diagonal in an undirected network."
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & 7 \\\\ B & 6 & - & 5 & - \\\\ C & 8 & 5 & - & 4 \\\\ D & 7 & - & 4 & - \\end{array}$",
+          "why": "Recorded edge of weight $7$ between $A$ and $D$ instead of $B$ and $D$."
+        }
+      ],
+      "solution_text": "List the edge weights for each vertex:\nRow $A$: $AB=6, AC=8$\nRow $B$: $BA=6, BC=5, BD=7$\nRow $C$: $CA=8, CB=5, CD=4$\nRow $D$: $DB=7, DC=4$\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & - \\\\ B & 6 & - & 5 & 7 \\\\ C & 8 & 5 & - & 4 \\\\ D & - & 7 & 4 & - \\end{array}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The directed network diagram shows connections between four nodes $A, B, C, D$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.6 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (A) at (0,2.2);\n\\coordinate (B) at (2.8,2.2);\n\\coordinate (C) at (2.8,0);\n\\coordinate (D) at (0,0);\n\\draw[midarrow] (A) -- (B) node[midway, above] {$3$};\n\\draw[midarrow] (A) -- (D) node[midway, left] {$5$};\n\\draw[midarrow] (B) -- (C) node[midway, right] {$4$};\n\\draw[midarrow] (C) -- (A) node[pos=0.25, fill=white, inner sep=1pt] {$2$};\n\\draw[midarrow] (C) -- (D) node[midway, below] {$6$};\n\\draw[midarrow] (D) -- (B) node[pos=0.75, fill=white, inner sep=1pt] {$1$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}[/tikz]\nWhat is the entry in **row $C$, column $A$** of the adjacency matrix?",
+      "structure": "graph-to-table-directed",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$2$",
+          "correct": true
+        },
+        {
+          "text": "$-$",
+          "why": "Looked for an edge from $A$ to $C$ instead of the directed edge from $C$ to $A$."
+        },
+        {
+          "text": "$3$",
+          "why": "Read the weight of edge $A\\to B$ instead of row $C$, column $A$."
+        },
+        {
+          "text": "$6$",
+          "why": "Read the weight of edge $C\\to D$ instead of $C\\to A$."
+        }
+      ],
+      "solution_text": "Row $C$, column $A$ represents the directed edge from $C$ to $A$.\nFrom the diagram, there is a directed arrow $C\\to A$ with weight $2$.\nEntry $= 2$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The table shows the distances in kilometres between four towns.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 12 & - & 15 \\\\ B & 12 & - & 8 & 11 \\\\ C & - & 8 & - & 9 \\\\ D & 15 & 11 & 9 & - \\end{array}$\nHow many edges are in the network diagram and what is the degree of vertex $B$?",
+      "structure": "table-to-graph-undirected",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$ edges, $\\deg(B) = 3$",
+          "correct": true
+        },
+        {
+          "text": "$10$ edges, $\\deg(B) = 3$",
+          "why": "Counted every symmetric non-dash entry twice rather than counting unique edges."
+        },
+        {
+          "text": "$5$ edges, $\\deg(B) = 4$",
+          "why": "Included the dash on the leading diagonal in the vertex degree count."
+        },
+        {
+          "text": "$4$ edges, $\\deg(B) = 2$",
+          "why": "Miscounted non-dash entries in row $B$."
+        }
+      ],
+      "solution_text": "Count unique pairs above the diagonal: $AB=12, AD=15, BC=8, BD=11, CD=9$.\nNumber of edges $= 5$\nDegree of $B$ is the number of connections in row $B$: $3$.\n$5$ edges, $\\deg(B) = 3$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A directed network is given by the table:\n$\\begin{array}{c|cccc} \\text{From/To} & P & Q & R & S \\\\ \\hline P & - & 5 & - & - \\\\ Q & - & - & 4 & 7 \\\\ R & 3 & - & - & 2 \\\\ S & - & - & - & - \\end{array}$\nWhich vertex has the highest **out-degree** (most outgoing edges)?",
+      "structure": "table-to-graph-directed",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Vertices $Q$ and $R$ tie with an out-degree of $2$",
+          "correct": true
+        },
+        {
+          "text": "Vertex $S$ with an out-degree of $2$",
+          "why": "Confused out-degree with in-degree (incoming edges to $S$)."
+        },
+        {
+          "text": "Vertex $P$ with an out-degree of $3$",
+          "why": "Counted the column entries for $P$ instead of row entries."
+        },
+        {
+          "text": "Vertex $Q$ alone with an out-degree of $11$",
+          "why": "Summed edge weights instead of counting the number of outgoing edges."
+        }
+      ],
+      "solution_text": "Out-degree equals the count of non-dash entries in each row:\nRow $P$: $1$\nRow $Q$: $2$ ($Q\\to R, Q\\to S$)\nRow $R$: $2$ ($R\\to P, R\\to S$)\nRow $S$: $0$\nVertices $Q$ and $R$ tie with out-degree $2$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Four office rooms $A, B, C, D$ are connected by corridors. Corridors connect $A\\text{–}B$, $A\\text{–}C$, $B\\text{–}C$, $B\\text{–}D$, and $C\\text{–}D$. Corridors can be walked in either direction. Which table is the correct adjacency matrix?",
+      "structure": "map-or-context-to-network",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & - \\\\ B & 1 & - & 1 & 1 \\\\ C & 1 & 1 & - & 1 \\\\ D & - & 1 & 1 & - \\end{array}$",
+          "correct": true
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & 1 & 1 & 1 & - \\\\ B & 1 & 1 & 1 & 1 \\\\ C & 1 & 1 & 1 & 1 \\\\ D & - & 1 & 1 & 1 \\end{array}$",
+          "why": "Placed $1$s on the diagonal representing non-existent loops."
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & 1 \\\\ B & 1 & - & 1 & - \\\\ C & 1 & 1 & - & 1 \\\\ D & 1 & - & 1 & - \\end{array}$",
+          "why": "Added a corridor between $A$ and $D$ instead of between $B$ and $D$."
+        },
+        {
+          "text": "$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & - \\\\ B & - & - & 1 & 1 \\\\ C & - & - & - & 1 \\\\ D & - & - & - & - \\end{array}$",
+          "why": "Omitted reciprocal entries, treating two-way corridors as one-way."
+        }
+      ],
+      "solution_text": "Corridors are two-way connections ($1$):\n$A$ connects to $B, C$.\n$B$ connects to $A, C, D$.\n$C$ connects to $A, B, D$.\n$D$ connects to $B, C$.\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & - \\\\ B & 1 & - & 1 & 1 \\\\ C & 1 & 1 & - & 1 \\\\ D & - & 1 & 1 & - \\end{array}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Why does a directed network typically produce an **asymmetric** adjacency matrix?",
+      "structure": "matrix-properties-and-symmetry",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A directed edge from $X$ to $Y$ creates an entry in row $X$, column $Y$, but not necessarily in row $Y$, column $X$",
+          "correct": true
+        },
+        {
+          "text": "Directed networks always contain loops from a vertex to itself",
+          "why": "Directed graphs do not necessarily contain loops."
+        },
+        {
+          "text": "The sum of edge weights in a directed graph must always be odd",
+          "why": "There is no requirement that edge weight sums must be odd."
+        },
+        {
+          "text": "Vertices in directed graphs cannot have both incoming and outgoing edges",
+          "why": "Vertices in directed graphs routinely have both incoming and outgoing edges."
+        }
+      ],
+      "solution_text": "In a directed graph, an edge from $X$ to $Y$ only allows travel in that direction.\nThus, row $X$, column $Y$ has a weight, but row $Y$, column $X$ remains a dash unless an opposite edge exists.\nA directed edge $X\\to Y$ creates an entry at $(X,Y)$ but not $(Y,X)$."
+    },
+    {
+      "id": "q7",
+      "question_text": "An undirected network connects four towns $A, B, C, D$ with the distance matrix:\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 14 & x & 18 \\\\ B & 14 & - & 9 & y \\\\ C & x & 9 & - & 11 \\\\ D & 18 & y & 11 & - \\end{array}$\nThe network diagram shows edge $AC = 16\\text{ km}$ and edge $BD = 13\\text{ km}$. What is the value of $x + y$?",
+      "structure": "table-to-graph-undirected",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$29$",
+          "correct": true
+        },
+        {
+          "text": "$27$",
+          "why": "Used $14 + 13 = 27$ by misidentifying edge $AB$ instead of $AC$."
+        },
+        {
+          "text": "$34$",
+          "why": "Used $18 + 16 = 34$ by misidentifying edge $AD$ instead of $BD$."
+        },
+        {
+          "text": "$20$",
+          "why": "Subtracted $9$ from $29$ instead of summing $x$ and $y$."
+        }
+      ],
+      "solution_text": "$x = \\text{weight}(AC) = 16$\n$y = \\text{weight}(BD) = 13$\n$x + y = 16 + 13$\n$= 29$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A directed network connecting five stations $V_1, V_2, V_3, V_4, V_5$ has the adjacency matrix:\n$\\begin{array}{c|ccccc} \\text{From/To} & V_1 & V_2 & V_3 & V_4 & V_5 \\\\ \\hline V_1 & - & 8 & 12 & - & - \\\\ V_2 & - & - & - & 15 & - \\\\ V_3 & 7 & - & - & 11 & 14 \\\\ V_4 & - & - & 9 & - & 6 \\\\ V_5 & - & - & - & - & - \\end{array}$\nWhat is the total **outgoing weight** from station $V_3$?",
+      "structure": "table-to-graph-directed",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$32$",
+          "correct": true
+        },
+        {
+          "text": "$21$",
+          "why": "Summed incoming weights into $V_3$ from column $V_3$ ($12 + 9 = 21$)."
+        },
+        {
+          "text": "$25$",
+          "why": "Omitted the directed edge $V_3\\to V_1$ of weight $7$."
+        },
+        {
+          "text": "$53$",
+          "why": "Summed both row $V_3$ and column $V_3$ entries ($32 + 21 = 53$)."
+        }
+      ],
+      "solution_text": "Outgoing edges from $V_3$ are the entries in row $V_3$:\n$V_3\\to V_1 = 7$\n$V_3\\to V_4 = 11$\n$V_3\\to V_5 = 14$\n$\\text{Total outgoing weight} = 7 + 11 + 14$\n$= 32$"
+    }
+  ]
+}

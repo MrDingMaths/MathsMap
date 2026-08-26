@@ -1,0 +1,205 @@
+{
+  "skillId": "minimal-connector",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Water is to be piped from a main storage tank to five farm outlets.\nThe network diagram shows the possible pipeline routes with lengths given in kilometres.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (T) at (0,2);\n\\coordinate (A) at (2,3.5);\n\\coordinate (B) at (4.5,3.5);\n\\coordinate (C) at (6,2);\n\\coordinate (D) at (4.5,0.5);\n\\coordinate (E) at (2,0.5);\n\\draw (T) -- (A) node[midway, above left] {$9$};\n\\draw (A) -- (B) node[midway, above] {$7$};\n\\draw (B) -- (C) node[midway, above right] {$10$};\n\\draw (C) -- (D) node[midway, below right] {$8$};\n\\draw (D) -- (E) node[midway, below] {$9$};\n\\draw (E) -- (T) node[midway, below left] {$11$};\n\\draw (A) -- (E) node[midway, fill=white, inner sep=1pt] {$6$};\n\\draw (B) -- (D) node[midway, fill=white, inner sep=1pt] {$12$};\n\\fill (T) circle (2.5pt) node[left] {$T$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the minimum total length of pipe required to connect all five outlets to the tank?",
+      "structure": "minimal-connector-distance",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$39\\text{ km}$",
+          "correct": true
+        },
+        {
+          "text": "$72\\text{ km}$",
+          "why": "Calculated the sum of all pipeline edges in the network."
+        },
+        {
+          "text": "$44\\text{ km}$",
+          "why": "Included edge $ET=11$ instead of $TA=9$ and $AE=6$."
+        },
+        {
+          "text": "$33\\text{ km}$",
+          "why": "Omitted the connection to outlet $C$."
+        }
+      ],
+      "solution_text": "1. **Construct the minimum spanning tree for the network**\nMST edges: $AE = 6$, $AB = 7$, $CD = 8$, $TA = 9$, $DE = 9$.\n2. **Calculate the total weight by summing the selected edges**\n$\\text{Total length} = 6 + 7 + 8 + 9 + 9$\n$= 39\\text{ km}$\n3. **Interpret the result with units and calculate any total cost**\nThe minimum length of pipe required is $39\\text{ km}$."
+    },
+    {
+      "id": "q2",
+      "question_text": "An internet service provider connects five regional towns with high-speed fibre.\nThe minimum spanning tree of the town network has a total length of $64\\text{ km}$.\nIf the fibre optic cable costs $\\$8500$ per kilometre to install, what is the total cost to connect all five towns?",
+      "structure": "minimal-connector-cost",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$544\\,000$",
+          "correct": true
+        },
+        {
+          "text": "$\\$54\\,400$",
+          "why": "Made a place-value error by a factor of 10 in multiplication."
+        },
+        {
+          "text": "$\\$680\\,000$",
+          "why": "Multiplied by 5 towns instead of the 4 MST edges."
+        },
+        {
+          "text": "$\\$512\\,000$",
+          "why": "Calculated $64 \\times 8000$ instead of $64 \\times 8500$."
+        }
+      ],
+      "solution_text": "$\\text{Total Cost} = 64 \\times 8500$\n$= \\$544\\,000$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The distance table shows the road distances, in kilometres, between four towns $A, B, C, D$.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 14 & 9 & 16 \\\\ B & 14 & - & 11 & 8 \\\\ C & 9 & 11 & - & 12 \\\\ D & 16 & 8 & 12 & - \\end{array}$\nWhat is the minimum length of road required to connect all four towns?",
+      "structure": "connector-from-distance-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$28\\text{ km}$",
+          "correct": true
+        },
+        {
+          "text": "$31\\text{ km}$",
+          "why": "Selected edge $AB=14$ instead of $CB=11$."
+        },
+        {
+          "text": "$26\\text{ km}$",
+          "why": "Selected non-adjacent minimal edges that form a disconnected graph."
+        },
+        {
+          "text": "$37\\text{ km}$",
+          "why": "Summed four edges instead of three spanning tree edges."
+        }
+      ],
+      "solution_text": "Start at $A$: add $AC = 9$.\nFrom $\\{A, C\\}$: add $CB = 11$.\nFrom $\\{A, B, C\\}$: add $BD = 8$.\n$\\text{Total length} = 9 + 11 + 8$\n$= 28\\text{ km}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A park authority is paving walking tracks between five park attractions.\nThe minimum spanning tree of the track network has a total length of $160\\text{ metres}$.\nIf paving costs $\\$150$ per metre, what is the total cost of paving the tracks?",
+      "structure": "minimal-connector-cost",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$24\\,000$",
+          "correct": true
+        },
+        {
+          "text": "$\\$240\\,000$",
+          "why": "Added an extra zero in the multiplication."
+        },
+        {
+          "text": "$\\$2\\,400$",
+          "why": "Divided by 10 instead of multiplying correctly."
+        },
+        {
+          "text": "$\\$18\\,000$",
+          "why": "Multiplied $120 \\times 150$ instead of $160 \\times 150$."
+        }
+      ],
+      "solution_text": "$\\text{Total Cost} = 160 \\times 150$\n$= \\$24\\,000$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Which of the following statements is true regarding the relationship between a minimum spanning tree and the shortest path between two specific locations $A$ and $B$ in a network?",
+      "structure": "mst-vs-shortest-path",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The shortest path between $A$ and $B$ is not necessarily contained in the minimum spanning tree.",
+          "correct": true
+        },
+        {
+          "text": "The minimum spanning tree always contains the shortest path between every pair of vertices.",
+          "why": "Incorrectly assumed the global minimal connector optimizes every local pair."
+        },
+        {
+          "text": "A minimum spanning tree can only connect adjacent vertices in the network diagram.",
+          "why": "Confused graph adjacency with path connectivity in a tree."
+        },
+        {
+          "text": "The shortest path between $A$ and $B$ and the minimum spanning tree always have identical edge sets.",
+          "why": "Equated a single path with a complete spanning tree."
+        }
+      ],
+      "solution_text": "A minimum spanning tree minimises the overall sum of edge weights for the entire network, which may route between two specific vertices via lighter intermediate edges rather than a heavy direct edge.\nThe shortest path between two specific vertices is not necessarily contained in the minimum spanning tree."
+    },
+    {
+      "id": "q6",
+      "question_text": "The diagram shows the transmission distances, in kilometres, between six electrical substations $S_1, S_2, S_3, S_4, S_5, S_6$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (S1) at (0,2);\n\\coordinate (S2) at (2,3.2);\n\\coordinate (S3) at (4,3.2);\n\\coordinate (S4) at (6,2);\n\\coordinate (S5) at (4,0.5);\n\\coordinate (S6) at (2,0.5);\n\\draw (S1) -- (S2) node[midway, above left] {$12$};\n\\draw (S2) -- (S3) node[midway, above] {$10$};\n\\draw (S3) -- (S4) node[midway, above right] {$15$};\n\\draw (S4) -- (S5) node[midway, below right] {$8$};\n\\draw (S5) -- (S6) node[midway, below] {$16$};\n\\draw (S6) -- (S1) node[midway, below left] {$11$};\n\\draw (S2) -- (S6) node[midway, fill=white, inner sep=1pt] {$7$};\n\\draw (S3) -- (S5) node[midway, fill=white, inner sep=1pt] {$12$};\n\\fill (S1) circle (2.5pt) node[left] {$S_1$};\n\\fill (S2) circle (2.5pt) node[above] {$S_2$};\n\\fill (S3) circle (2.5pt) node[above] {$S_3$};\n\\fill (S4) circle (2.5pt) node[right] {$S_4$};\n\\fill (S5) circle (2.5pt) node[below] {$S_5$};\n\\fill (S6) circle (2.5pt) node[below] {$S_6$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the minimum total length of high-voltage transmission line required to link all six substations?",
+      "structure": "minimal-connector-distance",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$48\\text{ km}$",
+          "correct": true
+        },
+        {
+          "text": "$56\\text{ km}$",
+          "why": "Included edge $S_5 S_6=16$ instead of $S_2 S_6=7$ and $S_6 S_1=11$."
+        },
+        {
+          "text": "$91\\text{ km}$",
+          "why": "Summed all edge weights in the network diagram."
+        },
+        {
+          "text": "$40\\text{ km}$",
+          "why": "Omitted the edge connecting substation $S_4$."
+        }
+      ],
+      "solution_text": "MST edges selected by Prim's algorithm:\n$S_2 S_6 = 7, S_4 S_5 = 8, S_2 S_3 = 10, S_6 S_1 = 11, S_3 S_5 = 12$.\n$\\text{Total length} = 7 + 8 + 10 + 11 + 12$\n$= 48\\text{ km}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A snowfall has closed all roads between six alpine villages. Road lengths in kilometres are shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2,3.5);\n\\coordinate (C) at (4.5,3.5);\n\\coordinate (D) at (6,2);\n\\coordinate (E) at (4.5,0.5);\n\\coordinate (F) at (2,0.5);\n\\draw (A) -- (B) node[midway, above left] {$9$};\n\\draw (B) -- (C) node[midway, above] {$6$};\n\\draw (C) -- (D) node[midway, above right] {$8$};\n\\draw (D) -- (E) node[midway, below right] {$4$};\n\\draw (E) -- (F) node[midway, below] {$7$};\n\\draw (F) -- (A) node[midway, below left] {$7$};\n\\draw (B) -- (F) node[midway, fill=white, inner sep=1pt] {$5$};\n\\draw (C) -- (E) node[midway, fill=white, inner sep=1pt] {$3$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\end{tikzpicture}\n[/tikz]\nRoad $CE$ ($3\\text{ km}$) has already been cleared. What is the minimum additional length of road that must be cleared to ensure every village is accessible by car from every other village?",
+      "structure": "network-upgrade-or-constraint",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$22\\text{ km}$",
+          "correct": true
+        },
+        {
+          "text": "$25\\text{ km}$",
+          "why": "Included the already-cleared road $CE=3$ in the additional road total."
+        },
+        {
+          "text": "$34\\text{ km}$",
+          "why": "Selected all outer boundary edges instead of the minimum spanning tree."
+        },
+        {
+          "text": "$18\\text{ km}$",
+          "why": "Omitted the connection to village $A$."
+        }
+      ],
+      "solution_text": "The tree already contains edge $CE = 3$.\nThe minimum additional edges required are:\n$ED = 4, BC = 6, BF = 5, FA = 7$.\n$\\text{Additional length} = 4 + 6 + 5 + 7$\n$= 22\\text{ km}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A regional transport authority is constructing railway tracks to connect six towns.\nThe minimum spanning tree of the network has a total length of $65\\text{ km}$.\nIf track construction costs $\\$40\\,000$ per kilometre, what is the minimum total cost to link all six towns by rail?",
+      "structure": "minimal-connector-cost",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$2\\,600\\,000$",
+          "correct": true
+        },
+        {
+          "text": "$\\$260\\,000$",
+          "why": "Divided by 10 or made a place-value error in multiplication."
+        },
+        {
+          "text": "$\\$3\\,120\\,000$",
+          "why": "Multiplied by 6 towns ($6 \\times 13 \\times 40\\,000$) instead of the 5 spanning tree edges."
+        },
+        {
+          "text": "$\\$2\\,400\\,000$",
+          "why": "Used $60\\text{ km}$ instead of $65\\text{ km}$ in the calculation."
+        }
+      ],
+      "solution_text": "$\\text{Total Cost} = 65 \\times 40\\,000$\n$= \\$2\\,600\\,000$"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "skillId": "trapezoidal-rule",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Use one application of the trapezoidal rule to estimate the area of a parkland reserve with parallel offset measurements of $15\\text{ m}$ and $25\\text{ m}$ separated by a width of $8\\text{ m}$.",
+      "structure": "single-application",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$160\\text{ m}^2$",
+          "correct": true
+        },
+        {
+          "text": "$320\\text{ m}^2$",
+          "why": "Did not divide by 2 when applying the formula ($8 \\times (15 + 25)$)."
+        },
+        {
+          "text": "$100\\text{ m}^2$",
+          "why": "Multiplied the width by the second offset only ($8 \\times 25 / 2$) instead of adding both offsets."
+        },
+        {
+          "text": "$80\\text{ m}^2$",
+          "why": "Divided by 4 instead of 2 in the trapezoidal formula."
+        }
+      ],
+      "solution_text": "$A \\approx \\frac{h}{2}(d_f + d_l)$\n$= \\frac{8}{2}(15 + 25)$\n$= 4 \\times 40$\n$= 160\\text{ m}^2$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Estimate the area of this parcel of land using one application of the trapezoidal rule.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.4,0);\n\\coordinate (C) at (4.4,5.6);\n\\coordinate (D) at (0,3.2);\n\\draw[thick] (A) -- (B) node[midway, below] {$22\\text{ m}$};\n\\draw[thick, dashed] (A) -- (D) node[midway, left] {$16\\text{ m}$};\n\\draw[thick, dashed] (B) -- (C) node[midway, right] {$28\\text{ m}$};\n\\draw[thick] plot [smooth] coordinates {(D) (1.5,4.2) (3.0,5.0) (C)};\n\\draw (A) rectangle ++(0.3,0.3);\n\\draw (B) rectangle ++(-0.3,0.3);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "single-application",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$484\\text{ m}^2$",
+          "correct": true
+        },
+        {
+          "text": "$968\\text{ m}^2$",
+          "why": "Multiplied $22 \\times (16 + 28)$ without halving for the trapezoidal rule."
+        },
+        {
+          "text": "$308\\text{ m}^2$",
+          "why": "Used only the larger offset ($28\\text{ m}$) multiplied by half the width."
+        },
+        {
+          "text": "$440\\text{ m}^2$",
+          "why": "Averaged the baseline and the offsets incorrectly."
+        }
+      ],
+      "solution_text": "$A \\approx \\frac{h}{2}(d_f + d_l)$\n$= \\frac{22}{2}(16 + 28)$\n$= 11 \\times 44$\n$= 484\\text{ m}^2$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Estimate the area of a river frontage using two applications of the trapezoidal rule with strip width $h = 12\\text{ m}$ and three offsets $d_f = 15\\text{ m}$, $d_m = 24\\text{ m}$, and $d_l = 21\\text{ m}$.",
+      "structure": "two-applications",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$504\\text{ m}^2$",
+          "correct": true
+        },
+        {
+          "text": "$360\\text{ m}^2$",
+          "why": "Used a single application across the full $24\\text{ m}$ width with only first and last offsets ($12 \\times (15 + 21)$)."
+        },
+        {
+          "text": "$1008\\text{ m}^2$",
+          "why": "Forgot to divide by 2 in each trapezoidal strip calculation."
+        },
+        {
+          "text": "$432\\text{ m}^2$",
+          "why": "Omitted the middle offset from the second strip."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{12}{2}(15 + 24) = 6 \\times 39 = 234\\text{ m}^2$\n$A_2 \\approx \\frac{12}{2}(24 + 21) = 6 \\times 45 = 270\\text{ m}^2$\n$A \\approx 234 + 270$\n$= 504\\text{ m}^2$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Calculate the estimated area of this block of land using two applications of the trapezoidal rule.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (M) at (1.6,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (D) at (0,3.0);\n\\coordinate (E) at (1.6,4.2);\n\\coordinate (C) at (3.2,3.6);\n\\draw[thick] (A) -- (B);\n\\draw[thick, dashed] (A) -- (D) node[midway, left] {$30\\text{ m}$};\n\\draw[thick, dashed] (M) -- (E) node[midway, left] {$42\\text{ m}$};\n\\draw[thick, dashed] (B) -- (C) node[midway, right] {$36\\text{ m}$};\n\\draw[thick] plot [smooth] coordinates {(D) (0.8,3.8) (E) (2.4,4.1) (C)};\n\\node[below] at (0.8,0) {$16\\text{ m}$};\n\\node[below] at (2.4,0) {$16\\text{ m}$};\n\\draw (A) rectangle ++(0.25,0.25);\n\\draw (M) rectangle ++(0.25,0.25);\n\\draw (B) rectangle ++(-0.25,0.25);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "two-applications",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1200\\text{ m}^2$",
+          "correct": true
+        },
+        {
+          "text": "$1056\\text{ m}^2$",
+          "why": "Used a single application across the full $32\\text{ m}$ width ($16 \\times (30 + 36)$)."
+        },
+        {
+          "text": "$2400\\text{ m}^2$",
+          "why": "Multiplied strip width by sum of offsets without halving."
+        },
+        {
+          "text": "$864\\text{ m}^2$",
+          "why": "Used the middle offset only once across the entire baseline."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{16}{2}(30 + 42) = 8 \\times 72 = 576\\text{ m}^2$\n$A_2 \\approx \\frac{16}{2}(42 + 36) = 8 \\times 78 = 624\\text{ m}^2$\n$A \\approx 576 + 624$\n$= 1200\\text{ m}^2$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A paddock with a curved boundary is measured with three equal strips of width $h = 8\\text{ m}$. The four perpendicular offsets are $12\\text{ m}$, $18\\text{ m}$, $20\\text{ m}$, and $14\\text{ m}$. What is the estimated area using three applications of the trapezoidal rule?",
+      "structure": "three-or-more-applications",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$408\\text{ m}^2$",
+          "correct": true
+        },
+        {
+          "text": "$312\\text{ m}^2$",
+          "why": "Applied the trapezoidal rule once across the full width using only the first and last offsets ($12 \\times (12 + 14)$)."
+        },
+        {
+          "text": "$816\\text{ m}^2$",
+          "why": "Did not divide by 2 for each trapezium area."
+        },
+        {
+          "text": "$512\\text{ m}^2$",
+          "why": "Included each offset only once rather than using interior offsets twice for adjacent strips."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{8}{2}(12 + 18) = 4 \\times 30 = 120\\text{ m}^2$\n$A_2 \\approx \\frac{8}{2}(18 + 20) = 4 \\times 38 = 152\\text{ m}^2$\n$A_3 \\approx \\frac{8}{2}(20 + 14) = 4 \\times 34 = 136\\text{ m}^2$\n$A \\approx 120 + 152 + 136$\n$= 408\\text{ m}^2$"
+    },
+    {
+      "id": "q6",
+      "question_text": "When a boundary curves outward (away from the baseline), why does a single application of the trapezoidal rule produce an underestimate of the true area?",
+      "structure": "estimate-direction-accuracy",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The straight line connecting the offset ends lies beneath the curved boundary, leaving out area.",
+          "correct": true
+        },
+        {
+          "text": "The straight line connecting the offset ends lies above the curved boundary, adding extra area.",
+          "why": "Confused the outward-curving case with an inward-curving boundary."
+        },
+        {
+          "text": "The formula uses the average of the offsets rather than the maximum offset height.",
+          "why": "Misidentified the mathematical reason for the underestimate."
+        },
+        {
+          "text": "The perpendicular height is measured incorrectly along the baseline.",
+          "why": "Suggested a measurement error rather than a geometric approximation error."
+        }
+      ],
+      "solution_text": "Because the boundary bulges outward, the straight top edge of the approximating trapezium runs inside (beneath) the curve.\nThe area between the straight chord and the curve is omitted, resulting in an **underestimate**."
+    },
+    {
+      "id": "q7",
+      "question_text": "A water reservoir surface is estimated using two applications of the trapezoidal rule with $h = 20\\text{ m}$ and offsets $25\\text{ m}$, $35\\text{ m}$, and $30\\text{ m}$. If the water has a uniform depth of $4\\text{ m}$, what is the estimated volume in cubic metres?",
+      "structure": "volume-capacity-application",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5000\\text{ m}^3$",
+          "correct": true
+        },
+        {
+          "text": "$1250\\text{ m}^3$",
+          "why": "Calculated the surface area correctly ($1250\\text{ m}^2$) but forgot to multiply by the depth."
+        },
+        {
+          "text": "$10\\,000\\text{ m}^3$",
+          "why": "Forgot to divide by 2 when calculating the surface trapeziums."
+        },
+        {
+          "text": "$4400\\text{ m}^3$",
+          "why": "Used only the first and last offsets when estimating surface area."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{20}{2}(25 + 35) = 10 \\times 60 = 600\\text{ m}^2$\n$A_2 \\approx \\frac{20}{2}(35 + 30) = 10 \\times 65 = 650\\text{ m}^2$\n$A_{\\text{surface}} \\approx 600 + 650 = 1250\\text{ m}^2$\n$V = 1250 \\times 4$\n$= 5000\\text{ m}^3$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A single application of the trapezoidal rule with strip width $h = 18\\text{ m}$ gives an estimated area of $576\\text{ m}^2$. If the first offset is $25\\text{ m}$, what is the length of the last offset $d_l$?",
+      "structure": "reverse-trapezoidal-offset",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$39\\text{ m}$",
+          "correct": true
+        },
+        {
+          "text": "$64\\text{ m}$",
+          "why": "Found the sum of the two offsets ($64\\text{ m}$) but did not subtract the first offset ($25\\text{ m}$)."
+        },
+        {
+          "text": "$32\\text{ m}$",
+          "why": "Divided $576$ by $18$ directly without multiplying by 2 first."
+        },
+        {
+          "text": "$48\\text{ m}$",
+          "why": "Subtracted $25$ from half the area rather than using the formula."
+        }
+      ],
+      "solution_text": "$A \\approx \\frac{h}{2}(d_f + d_l)$\n$576 = \\frac{18}{2}(25 + d_l)$\n$576 = 9(25 + d_l)$\n$64 = 25 + d_l$\n$d_l = 39\\text{ m}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A municipal swimming lagoon has its surface area estimated using two applications of the trapezoidal rule with $h = 5\\text{ m}$ and offsets $6\\text{ m}$, $9\\text{ m}$, and $7\\text{ m}$. With a uniform depth of $1.5\\text{ m}$, what is the capacity in litres ($1\\text{ m}^3 = 1000\\text{ L}$)?",
+      "structure": "volume-capacity-application",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$116\\,250\\text{ L}$",
+          "correct": true
+        },
+        {
+          "text": "$77.5\\text{ L}$",
+          "why": "Found the surface area in $\\text{m}^2$ and stated it directly in litres without depth or conversion."
+        },
+        {
+          "text": "$116.25\\text{ L}$",
+          "why": "Calculated the volume in $\\text{m}^3$ ($116.25\\text{ m}^3$) but forgot to multiply by $1000$ for litres."
+        },
+        {
+          "text": "$232\\,500\\text{ L}$",
+          "why": "Did not divide by 2 when computing the trapezoidal strip areas."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{5}{2}(6 + 9) = 2.5 \\times 15 = 37.5\\text{ m}^2$\n$A_2 \\approx \\frac{5}{2}(9 + 7) = 2.5 \\times 16 = 40.0\\text{ m}^2$\n$A_{\\text{surface}} \\approx 37.5 + 40.0 = 77.5\\text{ m}^2$\n$V = 77.5 \\times 1.5 = 116.25\\text{ m}^3$\n$\\text{Capacity} = 116.25 \\times 1000$\n$= 116\\,250\\text{ L}$"
+    },
+    {
+      "id": "q10",
+      "question_text": "Two applications of the trapezoidal rule with strip width $h = 12\\text{ m}$ give an estimated area of $624\\text{ m}^2$. The first offset is $18\\text{ m}$ and the middle offset is $26\\text{ m}$. What is the length of the last offset $d_l$?",
+      "structure": "reverse-trapezoidal-offset",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$34\\text{ m}$",
+          "correct": true
+        },
+        {
+          "text": "$60\\text{ m}$",
+          "why": "Found $d_m + d_l = 60$ but forgot to subtract the middle offset ($26\\text{ m}$)."
+        },
+        {
+          "text": "$22\\text{ m}$",
+          "why": "Subtracted both offsets from half the area incorrectly."
+        },
+        {
+          "text": "$28\\text{ m}$",
+          "why": "Treated the total width as $12\\text{ m}$ instead of two separate strips of $12\\text{ m}$."
+        }
+      ],
+      "solution_text": "$A_1 \\approx \\frac{12}{2}(18 + 26) = 6 \\times 44 = 264\\text{ m}^2$\n$A_2 = 624 - 264 = 360\\text{ m}^2$\n$\\frac{12}{2}(26 + d_l) = 360$\n$6(26 + d_l) = 360$\n$26 + d_l = 60$\n$d_l = 34\\text{ m}$"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "skillId": "utc-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "When it is $10{:}00\\text{ am}$ in London ($\\text{UTC}+0$), what is the local time in Tokyo ($\\text{UTC}+9$)?",
+      "structure": "direct-utc-time-conversion",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7{:}00\\text{ pm}$",
+          "correct": true
+        },
+        {
+          "text": "$1{:}00\\text{ am}$",
+          "why": "Subtracted $9\\text{ hours}$ instead of adding for Tokyo."
+        },
+        {
+          "text": "$9{:}00\\text{ pm}$",
+          "why": "Added 9 to 12 instead of the given 10 am."
+        },
+        {
+          "text": "$7{:}00\\text{ am}$",
+          "why": "Failed to convert 19:00 to 7:00 pm, labelling it as morning."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Difference} = 9 - 0 = 9\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Time in Tokyo} = 10{:}00 + 9\\text{ hours} = 19{:}00 = 7{:}00\\text{ pm}$."
+    },
+    {
+      "id": "q2",
+      "question_text": "When it is $11{:}00\\text{ am}$ on Wednesday in Sydney ($\\text{UTC}+10$), what is the local day and time in Vancouver ($\\text{UTC}-8$)?",
+      "structure": "utc-conversion-across-midnight",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5{:}00\\text{ pm}$ on Tuesday",
+          "correct": true
+        },
+        {
+          "text": "$5{:}00\\text{ pm}$ on Wednesday",
+          "why": "Forgot to subtract a day when rolling back across midnight."
+        },
+        {
+          "text": "$5{:}00\\text{ am}$ on Thursday",
+          "why": "Added $18\\text{ hours}$ instead of subtracting for a western location."
+        },
+        {
+          "text": "$3{:}00\\text{ pm}$ on Tuesday",
+          "why": "Subtracted $20\\text{ hours}$ instead of $18\\text{ hours}$."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Difference} = -8 - 10 = -18\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Time in Vancouver} = 11{:}00 - 18\\text{ hours} = -7{:}00$\n4. **Adjust for midnight rollover (subtract 24 hours for next day, add 24 hours for previous day)**\n$-7{:}00 + 24{:}00 = 17{:}00\\text{ on Tuesday} = 5{:}00\\text{ pm on Tuesday}$."
+    },
+    {
+      "id": "q3",
+      "question_text": "A flight leaves Auckland ($\\text{UTC}+12$) at $3{:}00\\text{ pm}$ on Friday, flying to Los Angeles ($\\text{UTC}-8$). The flight takes $12\\text{ hours}$. What is the local day and time in Los Angeles when the plane arrives?",
+      "structure": "flight-arrival-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7{:}00\\text{ am}$ on Friday",
+          "correct": true
+        },
+        {
+          "text": "$7{:}00\\text{ pm}$ on Saturday",
+          "why": "Added $20\\text{ hours}$ time difference instead of subtracting for Los Angeles."
+        },
+        {
+          "text": "$7{:}00\\text{ am}$ on Saturday",
+          "why": "Failed to roll back date to Thursday before adding flight time."
+        },
+        {
+          "text": "$11{:}00\\text{ pm}$ on Thursday",
+          "why": "Subtracted the flight time instead of adding it."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Difference} = -8 - 12 = -20\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in LA} = 15{:}00\\text{ Friday} - 20\\text{ hours} = -5{:}00 = 19{:}00\\text{ on Thursday}$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Arrival in LA} = 19{:}00\\text{ (Thursday)} + 12\\text{ hours} = 31{:}00$\n4. **Adjust for midnight rollover (subtract 24 hours for next day, add 24 hours for previous day)**\n$31{:}00 - 24{:}00 = 07{:}00\\text{ on Friday} = 7{:}00\\text{ am on Friday}$."
+    },
+    {
+      "id": "q4",
+      "question_text": "A non-stop flight departs London ($\\text{UTC}+0$) at $10{:}30\\text{ pm}$ on Sunday for Singapore ($\\text{UTC}+8$). The flight duration is $13\\text{ hours}$. What is the local day and time in Singapore upon arrival?",
+      "structure": "flight-arrival-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7{:}30\\text{ pm}$ on Monday",
+          "correct": true
+        },
+        {
+          "text": "$11{:}30\\text{ am}$ on Monday",
+          "why": "Forgot to add the $8\\text{ hours}$ time difference for Singapore."
+        },
+        {
+          "text": "$7{:}30\\text{ am}$ on Monday",
+          "why": "Subtracted $8\\text{ hours}$ instead of adding for an eastern destination."
+        },
+        {
+          "text": "$3{:}30\\text{ am}$ on Tuesday",
+          "why": "Added 8 hours twice during the calculation."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\nSingapore is $8\\text{ hours}$ ahead of London.\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in Singapore} = 22{:}30\\text{ Sunday} + 8\\text{ hours} = 30{:}30 = 06{:}30\\text{ on Monday}$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Arrival in Singapore} = 06{:}30\\text{ (Monday)} + 13\\text{ hours} = 19{:}30 = 7{:}30\\text{ pm on Monday}$."
+    },
+    {
+      "id": "q5",
+      "question_text": "A passenger flies from Mumbai ($\\text{UTC}+5.5$) to Sydney ($\\text{UTC}+10$). Sydney is $4.5\\text{ hours}$ ahead of Mumbai. The flight departs Mumbai at $1{:}30\\text{ pm}$ on Saturday, stops for a $2\\text{-hour}$ layover in Singapore, and arrives in Sydney at $8{:}30\\text{ am}$ on Sunday. What was the total flying time?",
+      "structure": "flight-duration-or-stopover",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12\\text{ h } 30\\text{ min}$",
+          "correct": true
+        },
+        {
+          "text": "$14\\text{ h } 30\\text{ min}$",
+          "why": "Included the 2-hour layover in the flying time."
+        },
+        {
+          "text": "$17\\text{ h } 00\\text{ min}$",
+          "why": "Subtracted the time difference from Mumbai time instead of adding it."
+        },
+        {
+          "text": "$10\\text{ h } 30\\text{ min}$",
+          "why": "Subtracted 4 hours instead of 2 for the layover."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\nSydney is $4.5\\text{ hours}$ ahead of Mumbai.\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in Sydney time} = 13{:}30 + 4\\text{ h } 30\\text{ min} = 18{:}00\\text{ on Saturday}$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Total elapsed time} = 18{:}00\\text{ Saturday to } 08{:}30\\text{ Sunday} = 14\\text{ h } 30\\text{ min}$\n$\\text{Total flying time} = 14\\text{ h } 30\\text{ min} - 2\\text{ hours (layover)} = 12\\text{ h } 30\\text{ min}$."
+    },
+    {
+      "id": "q6",
+      "question_text": "A transport aircraft departs Point $A(15^{\\circ}\\text{N}, 30^{\\circ}\\text{W})$ at $7{:}00\\text{ am}$ on Tuesday, flying to Point $B(20^{\\circ}\\text{N}, 60^{\\circ}\\text{E})$. The flight duration is $7\\text{ hours}$. Using $15^{\\circ} = 1\\text{ hour}$, what is the local time in Point $B$ when the aircraft arrives?",
+      "structure": "longitude-to-utc-travel-problem",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8{:}00\\text{ pm}$ on Tuesday",
+          "correct": true
+        },
+        {
+          "text": "$8{:}00\\text{ am}$ on Tuesday",
+          "why": "Subtracted the $6\\text{-hour}$ time difference instead of adding for an eastern destination."
+        },
+        {
+          "text": "$2{:}00\\text{ pm}$ on Tuesday",
+          "why": "Added flight time but forgot to apply the longitude time difference."
+        },
+        {
+          "text": "$10{:}00\\text{ pm}$ on Tuesday",
+          "why": "Calculated time difference using latitude instead of longitude."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Longitude difference} = 60^{\\circ} + 30^{\\circ} = 90^{\\circ}$\n$\\text{Time difference} = \\dfrac{90^{\\circ}}{15^{\\circ}} = 6\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in Point } B = 07{:}00 + 6\\text{ hours} = 13{:}00$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Arrival time} = 13{:}00 + 7\\text{ hours} = 20{:}00 = 8{:}00\\text{ pm on Tuesday}$."
+    },
+    {
+      "id": "q7",
+      "question_text": "A passenger departs Adelaide ($\\text{ACST } \\text{UTC}+9.5$) at $10{:}00\\text{ am}$ on Thursday, stops for $3\\text{ hours}$ in Singapore, and arrives in Mumbai ($\\text{UTC}+5.5$) at $8{:}30\\text{ pm}$ on Thursday. What was the total flying time?",
+      "structure": "flight-duration-or-stopover",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$11{:}30\\text{ min}$ ($11.5\\text{ hours}$)",
+          "correct": true
+        },
+        {
+          "text": "$14{:}30\\text{ min}$ ($14.5\\text{ hours}$)",
+          "why": "Included the 3-hour layover in the flying time."
+        },
+        {
+          "text": "$7{:}30\\text{ min}$ ($7.5\\text{ hours}$)",
+          "why": "Subtracted the time difference twice."
+        },
+        {
+          "text": "$10{:}00\\text{ min}$ ($10\\text{ hours}$)",
+          "why": "Calculated elapsed time without converting to Mumbai local departure time."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\nMumbai is $9.5 - 5.5 = 4\\text{ hours}$ behind Adelaide.\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in Mumbai time} = 10{:}00\\text{ am} - 4\\text{ hours} = 06{:}00\\text{ am}$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Total elapsed time} = 06{:}00\\text{ to } 20{:}30 = 14\\text{ h } 30\\text{ min}$\n$\\text{Total flying time} = 14\\text{ h } 30\\text{ min} - 3\\text{ hours (layover)} = 11\\text{ h } 30\\text{ min}$."
+    },
+    {
+      "id": "q8",
+      "question_text": "An international flight departs Point $A(25^{\\circ}\\text{S}, 150^{\\circ}\\text{E})$ at $10{:}00\\text{ pm}$ on Friday for Point $B(38^{\\circ}\\text{N}, 120^{\\circ}\\text{W})$. The flight takes $14\\text{ hours}$. Using $15^{\\circ} = 1\\text{ hour}$, what is the local day and time in Point $B$ upon arrival?",
+      "structure": "longitude-to-utc-travel-problem",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$6{:}00\\text{ pm}$ on Friday",
+          "correct": true
+        },
+        {
+          "text": "$6{:}00\\text{ pm}$ on Saturday",
+          "why": "Forgot to subtract a day when adjusting by the 18-hour time difference."
+        },
+        {
+          "text": "$12{:}00\\text{ pm}$ (noon) on Saturday",
+          "why": "Added 18 hours instead of subtracting for a western destination."
+        },
+        {
+          "text": "$4{:}00\\text{ am}$ on Friday",
+          "why": "Found the departure time in Point B but forgot to add the 14-hour flight duration."
+        }
+      ],
+      "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Longitude difference} = 150^{\\circ} - (-120^{\\circ}) = 270^{\\circ}$\n$\\text{Time difference} = \\dfrac{270^{\\circ}}{15^{\\circ}} = 18\\text{ hours}$\nPoint $B$ ($120^{\\circ}\\text{W}$) is $18\\text{ hours}$ behind Point $A$ ($150^{\\circ}\\text{E}$).\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$10{:}00\\text{ pm Friday} = 22{:}00$\n$\\text{Departure in Point } B = 22{:}00\\text{ Friday} - 18\\text{ hours} = 04{:}00\\text{ on Friday}$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Arrival in Point } B = 04{:}00\\text{ (Friday)} + 14\\text{ hours} = 18{:}00 = 6{:}00\\text{ pm on Friday}$."
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "skillId": "identify-trees-spanning-trees",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A tree has $9$ vertices. How many edges does it contain?",
+      "structure": "tree-edge-vertex-count",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$9$",
+          "why": "Equated the number of edges to the number of vertices."
+        },
+        {
+          "text": "$10$",
+          "why": "Added 1 to the number of vertices instead of subtracting 1."
+        },
+        {
+          "text": "$7$",
+          "why": "Subtracted 2 from the number of vertices instead of 1."
+        }
+      ],
+      "solution_text": "A tree with $n$ vertices has $n - 1$ edges.\n$\\text{Edges} = 9 - 1$\n$= 8$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A tree network contains $14$ edges. How many vertices are in the network?",
+      "structure": "tree-edge-vertex-count",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$15$",
+          "correct": true
+        },
+        {
+          "text": "$13$",
+          "why": "Subtracted 1 from the edge count instead of adding 1."
+        },
+        {
+          "text": "$14$",
+          "why": "Assumed the vertex count equals the edge count."
+        },
+        {
+          "text": "$28$",
+          "why": "Multiplied the edge count by 2 using the degree formula."
+        }
+      ],
+      "solution_text": "For any tree, $n = e + 1$.\n$\\text{Vertices} = 14 + 1$\n$= 15$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Consider the graph below with $5$ vertices and $4$ edges.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1.5,3.2);\n\\coordinate (C) at (3,2);\n\\coordinate (D) at (4.5,3.2);\n\\coordinate (E) at (4.5,0.8);\n\\draw (A) -- (B) -- (C) -- (A);\n\\draw (D) -- (E);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[above] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhy is this graph NOT a tree?",
+      "structure": "identify-tree-properties",
+      "mastery": false,
+      "options": [
+        {
+          "text": "It is disconnected and contains a cycle.",
+          "correct": true
+        },
+        {
+          "text": "It does not have $n-1$ edges.",
+          "why": "Failed to notice that the graph has 5 vertices and 4 edges ($n-1$)."
+        },
+        {
+          "text": "It has odd vertex degrees.",
+          "why": "Confused Eulerian trail conditions with tree requirements."
+        },
+        {
+          "text": "It contains multiple edges between two vertices.",
+          "why": "Mistook the 3-cycle for a multiple edge."
+        }
+      ],
+      "solution_text": "Although the graph has $5$ vertices and $4$ edges, it is disconnected into two components and contains cycle $A-B-C-A$.\nThe graph is not a tree because it is disconnected and contains a cycle."
+    },
+    {
+      "id": "q4",
+      "question_text": "A connected network has $7$ vertices and $11$ edges. How many edges must be removed to create a spanning tree?",
+      "structure": "edges-to-remove-for-spanning-tree",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$",
+          "correct": true
+        },
+        {
+          "text": "$4$",
+          "why": "Subtracted $n$ from edges ($11 - 7 = 4$) instead of $n - 1$."
+        },
+        {
+          "text": "$6$",
+          "why": "Calculated the number of edges in the spanning tree ($7 - 1 = 6$) instead of edges removed."
+        },
+        {
+          "text": "$7$",
+          "why": "Selected the vertex count instead of the number of removed edges."
+        }
+      ],
+      "solution_text": "A spanning tree on $7$ vertices requires $7 - 1 = 6$ edges.\n$\\text{Edges removed} = 11 - 6$\n$= 5$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A connected graph has vertices $A, B, C, D, E$. Which of the following edge sets forms a valid spanning tree?",
+      "structure": "identify-valid-spanning-tree",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\{AB, BC, CD, DE\\}$",
+          "correct": true
+        },
+        {
+          "text": "$\\{AB, BC, CA, DE\\}$",
+          "why": "Contains cycle $A-B-C-A$ and leaves vertex $D$ disconnected from $A, B, C$."
+        },
+        {
+          "text": "$\\{AB, BC, CD\\}$",
+          "why": "Has only 3 edges for 5 vertices, leaving vertex $E$ disconnected."
+        },
+        {
+          "text": "$\\{AB, BC, CD, DE, EA\\}$",
+          "why": "Contains 5 edges forming a 5-cycle, which is not a tree."
+        }
+      ],
+      "solution_text": "A spanning tree on $5$ vertices requires exactly $4$ edges connecting all $5$ vertices with no cycles.\n$\\{AB, BC, CD, DE\\}$ connects $A-B-C-D-E$ in a single path with $4$ edges.\n$\\{AB, BC, CD, DE\\}$ is a valid spanning tree."
+    },
+    {
+      "id": "q6",
+      "question_text": "An engineer needs to connect $8$ control sensors with cabling so that all sensors are interconnected. What is the minimum number of cables required?",
+      "structure": "network-design-minimum-edges",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7$",
+          "correct": true
+        },
+        {
+          "text": "$8$",
+          "why": "Assumed a loop or cycle is required to connect all sensors."
+        },
+        {
+          "text": "$6$",
+          "why": "Subtracted 2 instead of 1 from the number of sensors."
+        },
+        {
+          "text": "$14$",
+          "why": "Doubled the required edge count using the sum of degrees."
+        }
+      ],
+      "solution_text": "The minimum number of connections to link $n$ items is a tree with $n - 1$ edges.\n$\\text{Minimum cables} = 8 - 1$\n$= 7$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The network diagram has $5$ vertices $A, B, C, D, E$ with $6$ edges.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1.8,3.2);\n\\coordinate (C) at (3.6,2);\n\\coordinate (D) at (3.6,0);\n\\coordinate (E) at (0,0);\n\\draw (A) -- (B) -- (C) -- (D) -- (E) -- (A);\n\\draw (A) -- (C);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below right] {$D$};\n\\fill (E) circle (2.5pt) node[below left] {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhich pair of edges can be removed to leave a valid spanning tree?",
+      "structure": "construct-spanning-tree",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\{AC, CD\\}$",
+          "correct": true
+        },
+        {
+          "text": "$\\{AB, BC\\}$",
+          "why": "Removing both $AB$ and $BC$ isolates vertex $B$ from the rest of the network."
+        },
+        {
+          "text": "$\\{DE, EA\\}$",
+          "why": "Removing both $DE$ and $EA$ isolates vertex $E$ from the rest of the network."
+        },
+        {
+          "text": "$\\{CD, DE\\}$",
+          "why": "Removing both $CD$ and $DE$ isolates vertex $D$ from the rest of the network."
+        }
+      ],
+      "solution_text": "Removing $AC$ breaks cycle $A-B-C-A$.\nRemoving $CD$ breaks cycle $A-C-D-E-A$.\nThe remaining edges $\\{AB, BC, DE, EA\\}$ connect all $5$ vertices with $4$ edges.\n$\\{AC, CD\\}$ produces a valid spanning tree."
+    },
+    {
+      "id": "q8",
+      "question_text": "The sum of the degrees of all vertices in a tree is $36$. How many vertices does the tree have?",
+      "structure": "tree-edge-vertex-count",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$19$",
+          "correct": true
+        },
+        {
+          "text": "$18$",
+          "why": "Found the number of edges ($36 / 2 = 18$) instead of the number of vertices."
+        },
+        {
+          "text": "$17$",
+          "why": "Subtracted 1 from the edge count instead of adding 1."
+        },
+        {
+          "text": "$37$",
+          "why": "Added 1 directly to the degree sum instead of finding the edge count first."
+        }
+      ],
+      "solution_text": "By the Handshaking Lemma, $\\sum \\deg = 2e$.\n$2e = 36$\n$e = 18$\nFor any tree, $n = e + 1$.\n$n = 18 + 1$\n$= 19$"
+    }
+  ]
+}

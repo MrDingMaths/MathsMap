@@ -141,7 +141,13 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
   const base = { task: taskFile, model, elapsedMs, usage: envelope?.usage ?? null, at: new Date().toISOString() };
 
   if (!fs.existsSync(resultPath)) {
-    const reason = agyError ? `agy invocation failed and no result file: ${agyError.message}`
+    // Surface agy's own stderr: an instant (~10 s) failure with no result file is usually an
+    // auth/quota/rate-limit message on stderr, and the execFile message alone is just the argv.
+    const stderrTail = agyError?.stderr ? ` | stderr: ${String(agyError.stderr).trim().slice(-600)}` : '';
+    // The JSON envelope's `error` is the useful part ("Individual quota reached ... Resets in 1m38s"
+    // seen on W3-2) — print it instead of the argv echo when it is present.
+    const envelopeError = envelope?.error ? `agy error: ${envelope.error}` : null;
+    const reason = agyError ? `agy invocation failed and no result file: ${envelopeError || agyError.message}${stderrTail}`
       : envelope ? `agy reported status ${envelope.status} and no result file was written`
       : 'agy produced no parseable output and no result file';
     appendLedger(tasksDir, { ...base, ok: false, reason });

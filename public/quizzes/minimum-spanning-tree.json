@@ -1,0 +1,205 @@
+{
+  "skillId": "minimum-spanning-tree",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The diagram shows a weighted network with $5$ vertices.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2,3.2);\n\\coordinate (C) at (4,2);\n\\coordinate (D) at (3,0.3);\n\\coordinate (E) at (1,0.3);\n\\draw (A) -- (B) node[midway, above left] {$5$};\n\\draw (B) -- (C) node[midway, above right] {$4$};\n\\draw (C) -- (D) node[midway, right] {$6$};\n\\draw (D) -- (E) node[midway, below] {$3$};\n\\draw (E) -- (A) node[midway, left] {$7$};\n\\draw (B) -- (E) node[midway, fill=white, inner sep=1pt] {$2$};\n\\draw (B) -- (D) node[midway, fill=white, inner sep=1pt] {$7$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below right] {$D$};\n\\fill (E) circle (2.5pt) node[below left] {$E$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the total weight of the minimum spanning tree?",
+      "structure": "prim-algorithm-execution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$14$",
+          "correct": true
+        },
+        {
+          "text": "$34$",
+          "why": "Summed all edges of the graph instead of the minimum spanning tree."
+        },
+        {
+          "text": "$18$",
+          "why": "Included direct edge $CD=6$ instead of using the path through $E$ ($ED=3$)."
+        },
+        {
+          "text": "$11$",
+          "why": "Stopped after adding 3 edges instead of the required 4 edges."
+        }
+      ],
+      "solution_text": "Select $4$ edges using Prim's algorithm:\n$BE = 2$\n$ED = 3$\n$BC = 4$\n$AB = 5$\n$\\text{Total weight} = 2 + 3 + 4 + 5$\n$= 14$"
+    },
+    {
+      "id": "q2",
+      "question_text": "During Prim's algorithm, the vertices currently in the tree are $\\{A, B\\}$.\nThe candidate edges to unvisited vertices are $AC=6, AD=4, BC=5, BD=7$.\nWhich edge is selected next?",
+      "structure": "mst-edge-selection-justification",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$AD$",
+          "correct": true
+        },
+        {
+          "text": "$BC$",
+          "why": "Chose the lowest-weight edge connected to the last added vertex $B$ only (greedy path error)."
+        },
+        {
+          "text": "$AC$",
+          "why": "Selected the first alphabetical edge instead of the lowest weight."
+        },
+        {
+          "text": "$BD$",
+          "why": "Selected the highest-weight available edge instead of the lowest weight."
+        }
+      ],
+      "solution_text": "Prim's algorithm chooses the lowest-weight edge connected to any vertex in the current tree $\\{A, B\\}$.\n$AD = 4$ is the lowest weight among $\\{AC=6, AD=4, BC=5, BD=7\\}$.\nEdge $AD$ is selected next."
+    },
+    {
+      "id": "q3",
+      "question_text": "The network diagram below has $6$ vertices $A, B, C, D, E, F$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2,3.2);\n\\coordinate (C) at (4,3.2);\n\\coordinate (D) at (6,2);\n\\coordinate (E) at (4,0.5);\n\\coordinate (F) at (2,0.5);\n\\draw (A) -- (B) node[midway, above left] {$6$};\n\\draw (B) -- (C) node[midway, above] {$5$};\n\\draw (C) -- (D) node[midway, above right] {$7$};\n\\draw (D) -- (E) node[midway, below right] {$4$};\n\\draw (E) -- (F) node[midway, below] {$8$};\n\\draw (F) -- (A) node[midway, below left] {$5$};\n\\draw (B) -- (F) node[midway, fill=white, inner sep=1pt] {$3$};\n\\draw (C) -- (E) node[midway, fill=white, inner sep=1pt] {$6$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the total weight of the minimum spanning tree?",
+      "structure": "mst-total-weight",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$23$",
+          "correct": true
+        },
+        {
+          "text": "$27$",
+          "why": "Included heavy edge $EF=8$ instead of the lighter tree connection $CE=6$."
+        },
+        {
+          "text": "$44$",
+          "why": "Summed all edge weights in the entire network."
+        },
+        {
+          "text": "$19$",
+          "why": "Omitted the edge needed to connect vertex $D$."
+        }
+      ],
+      "solution_text": "MST edges selected by Prim's algorithm:\n$BF = 3, AF = 5, BC = 5, CE = 6, ED = 4$.\n$\\text{Total weight} = 3 + 5 + 5 + 6 + 4$\n$= 23$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A minimum spanning tree of a $6$-vertex network contains edges of weights $5, 7, 8, 11$, and $k$.\nIf the total weight of the minimum spanning tree is $38$, what is the value of $k$?",
+      "structure": "find-unknown-edge-weight",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7$",
+          "correct": true
+        },
+        {
+          "text": "$6$",
+          "why": "Subtracted $31$ from $38$ incorrectly as $6$ due to an arithmetic error."
+        },
+        {
+          "text": "$8$",
+          "why": "Subtracted $30$ from $38$ instead of $31$."
+        },
+        {
+          "text": "$5$",
+          "why": "Used the number of edges in the spanning tree ($6 - 1 = 5$) instead of solving for the unknown edge weight."
+        }
+      ],
+      "solution_text": "$5 + 7 + 8 + 11 + k = 38$\n$31 + k = 38$\n$k = 38 - 31$\n$= 7$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The distance table shows the travelling times between four locations $A, B, C, D$.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 7 & 4 & 9 \\\\ B & 7 & - & 6 & 5 \\\\ C & 4 & 6 & - & 8 \\\\ D & 9 & 5 & 8 & - \\end{array}$\nWhat is the total weight of the minimum spanning tree?",
+      "structure": "mst-from-distance-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$15$",
+          "correct": true
+        },
+        {
+          "text": "$16$",
+          "why": "Selected edge $AB=7$ instead of $CB=6$."
+        },
+        {
+          "text": "$18$",
+          "why": "Included edge $CD=8$ instead of $BD=5$."
+        },
+        {
+          "text": "$39$",
+          "why": "Summed all entries above the leading diagonal in the table."
+        }
+      ],
+      "solution_text": "Start at $A$: choose $AC = 4$.\nFrom $\\{A, C\\}$: choose $CB = 6$.\nFrom $\\{A, B, C\\}$: choose $BD = 5$.\n$\\text{Total weight} = 4 + 6 + 5$\n$= 15$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Four candidate spanning trees for a $5$-vertex weighted network have the following edge weight sets:\n$T_1: \\{3, 5, 6, 8\\}$\n$T_2: \\{4, 4, 5, 8\\}$\n$T_3: \\{2, 6, 7, 7\\}$\n$T_4: \\{3, 4, 6, 7\\}$\nWhich spanning tree has the lowest total weight?",
+      "structure": "compare-candidate-spanning-trees",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$T_4$",
+          "correct": true
+        },
+        {
+          "text": "$T_2$",
+          "why": "Calculated sum as 21, but $T_4$ has a lower sum of 20."
+        },
+        {
+          "text": "$T_1$",
+          "why": "Calculated sum as 22, which is larger than $T_4$."
+        },
+        {
+          "text": "$T_3$",
+          "why": "Calculated sum as 22, which is larger than $T_4$."
+        }
+      ],
+      "solution_text": "Sum the weights for each candidate tree:\n$\\text{Weight}(T_1) = 3 + 5 + 6 + 8 = 22$\n$\\text{Weight}(T_2) = 4 + 4 + 5 + 8 = 21$\n$\\text{Weight}(T_3) = 2 + 6 + 7 + 7 = 22$\n$\\text{Weight}(T_4) = 3 + 4 + 6 + 7 = 20$\n$T_4$ has the lowest total weight ($20$)."
+    },
+    {
+      "id": "q7",
+      "question_text": "A connected network with $8$ vertices has an edge of unknown weight $x$ included in its minimum spanning tree.\nThe other edges in the minimum spanning tree have weights $4, 5, 7, 8, 11$, and $13$. If the total weight of the minimum spanning tree is $57$, what is the value of $x$?",
+      "structure": "find-unknown-edge-weight",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$9$",
+          "correct": true
+        },
+        {
+          "text": "$8$",
+          "why": "Calculated sum of known edges as $49$ instead of $48$ before subtracting from $57$."
+        },
+        {
+          "text": "$10$",
+          "why": "Calculated sum of known edges as $47$ instead of $48$ before subtracting from $57$."
+        },
+        {
+          "text": "$11$",
+          "why": "Assumed $x$ must equal one of the other edge weights in the tree."
+        }
+      ],
+      "solution_text": "A tree with $8$ vertices has $8 - 1 = 7$ edges.\n$4 + 5 + 7 + 8 + 11 + 13 + x = 57$\n$48 + x = 57$\n$x = 57 - 48$\n$= 9$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The network diagram shows $7$ vertices $A, B, C, D, E, F, G$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (2,3.5);\n\\coordinate (C) at (4.5,3.5);\n\\coordinate (D) at (6,2);\n\\coordinate (E) at (4.5,0.5);\n\\coordinate (F) at (2,0.5);\n\\coordinate (G) at (3,2);\n\\draw (A) -- (B) node[midway, above left] {$7$};\n\\draw (B) -- (C) node[midway, above] {$6$};\n\\draw (C) -- (D) node[midway, above right] {$8$};\n\\draw (D) -- (E) node[midway, below right] {$5$};\n\\draw (E) -- (F) node[midway, below] {$7$};\n\\draw (F) -- (A) node[midway, below left] {$6$};\n\\draw (A) -- (G) node[midway, fill=white, inner sep=1pt] {$4$};\n\\draw (G) -- (C) node[midway, fill=white, inner sep=1pt] {$5$};\n\\draw (G) -- (E) node[midway, fill=white, inner sep=1pt] {$3$};\n\\draw (B) -- (G) node[midway, fill=white, inner sep=1pt] {$6$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\fill (G) circle (2.5pt) node[above right] {$G$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the total weight of the minimum spanning tree?",
+      "structure": "mst-total-weight",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$29$",
+          "correct": true
+        },
+        {
+          "text": "$34$",
+          "why": "Included edge $CD=8$ instead of $ED=5$."
+        },
+        {
+          "text": "$57$",
+          "why": "Calculated the sum of all edges in the network diagram."
+        },
+        {
+          "text": "$24$",
+          "why": "Missed one vertex when selecting tree edges."
+        }
+      ],
+      "solution_text": "MST edges selected by Prim's algorithm:\n$GE = 3, AG = 4, GC = 5, ED = 5, AF = 6, CB = 6$.\n$\\text{Total weight} = 3 + 4 + 5 + 5 + 6 + 6$\n$= 29$"
+    }
+  ]
+}

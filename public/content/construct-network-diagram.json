@@ -1,0 +1,128 @@
+{
+  "skillId": "construct-network-diagram",
+  "atomType": "R",
+  "theory": {
+    "intro": "A network (or graph) can be represented visually as a diagram of vertices and edges, or numerically as an **adjacency matrix** (distance or connection table). In an adjacency matrix, rows represent the starting vertex (**From**) and columns represent the destination vertex (**To**). A dash ($-$) or blank cell indicates no direct connection. Undirected networks produce **symmetric** tables along the main diagonal, whereas directed networks produce **asymmetric** tables unless edges travel equally in both directions.",
+    "facts": [
+      "An **adjacency matrix** records direct connections between vertices: rows are 'From' vertices and columns are 'To' vertices.",
+      "In an **undirected network**, edges travel both ways with equal weight, so the table is **symmetric** across the leading diagonal.",
+      "In a **directed network**, an edge from $A$ to $B$ appears in row $A$, column $B$; it does not create an entry in row $B$, column $A$ unless a separate edge goes from $B$ to $A$.",
+      "A dash ($-$) or blank entry indicates no direct edge exists between the two vertices.",
+      "The leading diagonal represents edges from a vertex to itself (**loops**); in simple networks with no loops, the diagonal contains dashes.",
+      "The layout and geometric positioning of vertices on the page carry no mathematical meaning — only the connections and weights matter."
+    ],
+    "steps": [
+      "Set up rows and columns for each vertex",
+      "Record the weight and direction of each direct edge in the table",
+      "Verify symmetry for undirected graphs or arrow directions for directed graphs"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The weighted network shows connections between four towns $A$, $B$, $C$, and $D$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.5);\n\\coordinate (B) at (3.2,2.5);\n\\coordinate (C) at (3.2,0);\n\\coordinate (D) at (0,0);\n\\draw (A) -- (B) node[midway, above] {$5$};\n\\draw (B) -- (C) node[midway, right] {$8$};\n\\draw (C) -- (D) node[midway, below] {$4$};\n\\draw (D) -- (A) node[midway, left] {$6$};\n\\draw (A) -- (C) node[midway, fill=white, inner sep=1pt] {$9$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}\n[/tikz]\nConstruct the adjacency matrix for this network.",
+        "structure": "graph-to-table-undirected",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nList vertices $A, B, C, D$ as row and column headers.\n2. **Record the weight and direction of each direct edge in the table**\nEach edge connects two vertices symmetrically:\n$AB=5$, $AC=9$, $AD=6$, $BC=8$, $CD=4$.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 5 & 9 & 6 \\\\ B & 5 & - & 8 & - \\\\ C & 9 & 8 & - & 4 \\\\ D & 6 & - & 4 & - \\end{array}$"
+      },
+      {
+        "question_text": "An undirected network connects five locations $L, M, P, Q, R$ with edge weights $LM=2$, $MP=4$, $PQ=3$, $PR=1$, and $QR=2$.\nState the entries in row $P$ of the adjacency table.",
+        "structure": "graph-to-table-undirected",
+        "solution_text": "Row $P$ records direct connections from $P$ to each vertex:\n$P$ to $L$: no direct edge ($-$)\n$P$ to $M$: $4$\n$P$ to $P$: loop ($-$)\n$P$ to $Q$: $3$\n$P$ to $R$: $1$\nRow $P$: $[-, 4, -, 3, 1]$"
+      },
+      {
+        "question_text": "The directed network shows one-way connections between four servers $A$, $B$, $C$, and $D$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.6 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (A) at (0,2.4);\n\\coordinate (B) at (3,2.4);\n\\coordinate (C) at (3,0);\n\\coordinate (D) at (0,0);\n\\draw[midarrow] (A) -- (B) node[midway, above] {$4$};\n\\draw[midarrow] (A) -- (C) node[pos=0.25, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (A) -- (D) node[midway, left] {$3$};\n\\draw[midarrow] (B) -- (C) node[midway, right] {$6$};\n\\draw[midarrow] (B) -- (D) node[pos=0.75, fill=white, inner sep=1pt] {$4$};\n\\draw[midarrow] (C) -- (D) node[midway, below] {$7$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}[/tikz]\nRepresent this directed network as a table.",
+        "structure": "graph-to-table-directed",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nRows are 'From' vertices; columns are 'To' vertices.\n2. **Record the weight and direction of each direct edge in the table**\nRow $A$: to $B$ ($4$), to $C$ ($8$), to $D$ ($3$).\nRow $B$: to $C$ ($6$), to $D$ ($4$).\nRow $C$: to $D$ ($7$).\nRow $D$: no outgoing edges.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 4 & 8 & 3 \\\\ B & - & - & 6 & 4 \\\\ C & - & - & - & 7 \\\\ D & - & - & - & - \\end{array}$"
+      },
+      {
+        "question_text": "The table shows the distances, in kilometres, between four towns $W, X, Y, Z$.\n$\\begin{array}{c|cccc} \\text{From/To} & W & X & Y & Z \\\\ \\hline W & - & 6 & 8 & 5 \\\\ X & 6 & - & 3 & - \\\\ Y & 8 & 3 & - & 7 \\\\ Z & 5 & - & 7 & - \\end{array}$\nState the total number of edges in the network diagram and the degree of vertex $Y$.",
+        "structure": "table-to-graph-undirected",
+        "solution_text": "Count the unique entries above the leading diagonal:\n$WX=6$, $WY=8$, $WZ=5$, $XY=3$, $YZ=7$.\nNumber of edges $= 5$\nDegree of vertex $Y$ is the number of non-dash entries in row $Y$:\n$\\deg(Y) = 3$\nEdges: $5$, $\\deg(Y) = 3$"
+      },
+      {
+        "question_text": "The table represents a directed network connecting four nodes $A, B, C, D$.\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 2 & 3 & 1 \\\\ B & - & - & - & 3 \\\\ C & - & 2 & - & - \\\\ D & - & - & - & - \\end{array}$\nState the out-degree of vertex $A$ and the total number of directed edges in the network.",
+        "structure": "table-to-graph-directed",
+        "solution_text": "The out-degree is the number of outgoing edges from $A$ (non-dash entries in row $A$):\n$\\text{out-degree}(A) = 3$\nTotal edges $= 3\\text{ (from }A) + 1\\text{ (from }B) + 1\\text{ (from }C) + 0\\text{ (from }D)$\n$= 5$\nOut-degree of $A$: $3$; Total directed edges: $5$"
+      },
+      {
+        "question_text": "A floor plan has four rooms: Hallway ($H$), Kitchen ($K$), Living room ($L$), and Bedroom ($B$). Direct doorways connect $H$ to $K$, $H$ to $L$, $H$ to $B$, and $K$ to $L$.\nConstruct an adjacency matrix using $1$ for a door and $-$ for no direct doorway.",
+        "structure": "map-or-context-to-network",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nList rooms $H, K, L, B$ as headers.\n2. **Record the weight and direction of each direct edge in the table**\nDoorways are two-way connections ($1$):\n$HK=1, HL=1, HB=1, KL=1$.\n$\\begin{array}{c|cccc} \\text{From/To} & H & K & L & B \\\\ \\hline H & - & 1 & 1 & 1 \\\\ K & 1 & - & 1 & - \\\\ L & 1 & 1 & - & - \\\\ B & 1 & - & - & - \\end{array}$"
+      },
+      {
+        "question_text": "Explain why the adjacency matrix of an undirected network without loops is always symmetrical along the main diagonal.",
+        "structure": "matrix-properties-and-symmetry",
+        "solution_text": "In an undirected network, every edge between vertex $X$ and vertex $Y$ can be traversed in both directions with equal weight.\nTherefore, the entry in row $X$, column $Y$ is always identical to the entry in row $Y$, column $X$.\nAn edge between $X$ and $Y$ allows two-way travel, making $\\text{cell}(X,Y) = \\text{cell}(Y,X)$."
+      },
+      {
+        "question_text": "An undirected network of four vertices $A, B, C, D$ has edge weights $AB=7$, $BC=5$, $CD=9$, and $BD=6$.\nCalculate the sum of all numerical entries in row $B$ of its adjacency matrix.",
+        "structure": "graph-to-table-undirected",
+        "solution_text": "Row $B$ contains connections from $B$ to all other vertices:\n$BA = 7$\n$BC = 5$\n$BD = 6$\n$\\text{Sum} = 7 + 5 + 6$\n$= 18$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A directed network has five vertices $P, Q, R, S, T$ and directed edges $P\\to Q\\,(12)$, $P\\to R\\,(15)$, $Q\\to S\\,(8)$, $R\\to S\\,(10)$, $R\\to T\\,(14)$, $S\\to T\\,(9)$, and $T\\to P\\,(11)$.\nConstruct the $5\\times 5$ adjacency matrix.",
+        "structure": "graph-to-table-directed",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nRows are 'From' vertices $P, Q, R, S, T$.\n2. **Record the weight and direction of each direct edge in the table**\n$\\begin{array}{c|ccccc} \\text{From/To} & P & Q & R & S & T \\\\ \\hline P & - & 12 & 15 & - & - \\\\ Q & - & - & - & 8 & - \\\\ R & - & - & - & 10 & 14 \\\\ S & - & - & - & - & 9 \\\\ T & 11 & - & - & - & - \\end{array}$"
+      },
+      {
+        "question_text": "The table represents a directed distribution network between five regional hubs $A, B, C, D, E$.\n$\\begin{array}{c|ccccc} \\text{From/To} & A & B & C & D & E \\\\ \\hline A & - & 14 & - & 9 & - \\\\ B & - & - & 18 & - & - \\\\ C & 11 & - & - & 15 & 22 \\\\ D & - & 16 & - & - & 12 \\\\ E & - & - & - & - & - \\end{array}$\nIdentify the hub with the greatest out-degree and calculate the total weight of its outgoing edges.",
+        "structure": "table-to-graph-directed",
+        "solution_text": "Count outgoing edges (non-dash entries per row):\nRow $A$: $2$ edges (weights $14 + 9 = 23$)\nRow $B$: $1$ edge (weight $18$)\nRow $C$: $3$ edges (weights $11 + 15 + 22 = 48$)\nRow $D$: $2$ edges (weights $16 + 12 = 28$)\nRow $E$: $0$ edges\nHub $C$ has the greatest out-degree ($3$) with total outgoing weight $48$."
+      },
+      {
+        "question_text": "The table gives the distances in kilometres between five depot locations $A, B, C, D, E$.\n$\\begin{array}{c|ccccc} \\text{From/To} & A & B & C & D & E \\\\ \\hline A & - & 5 & 9 & 6 & - \\\\ B & 5 & - & 8 & - & 7 \\\\ C & 9 & 8 & - & 4 & 11 \\\\ D & 6 & - & 4 & - & - \\\\ E & - & 7 & 11 & - & - \\end{array}$\nDetermine the degree of each vertex and calculate the sum of the degrees across the entire network.",
+        "structure": "table-to-graph-undirected",
+        "solution_text": "Count non-dash entries in each row:\n$\\deg(A) = 3$\n$\\deg(B) = 3$\n$\\deg(C) = 4$\n$\\deg(D) = 2$\n$\\deg(E) = 2$\n$\\text{Sum of degrees} = 3 + 3 + 4 + 2 + 2$\n$= 14$"
+      },
+      {
+        "question_text": "A ferry network links four island ports $A, B, C, D$. Ferries run between $A$ and $B$ (cost $\\$15$), $A$ and $C$ (cost $\\$22$), $B$ and $C$ (cost $\\$18$), $B$ and $D$ (cost $\\$25$), and $C$ and $D$ (cost $\\$12$). All ferries operate in both directions at the same fare.\nConstruct the complete cost adjacency matrix for this ferry network.",
+        "structure": "map-or-context-to-network",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nList ports $A, B, C, D$ as row and column headers.\n2. **Record the weight and direction of each direct edge in the table**\nAll routes are two-way, so the matrix is symmetric:\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 15 & 22 & - \\\\ B & 15 & - & 18 & 25 \\\\ C & 22 & 18 & - & 12 \\\\ D & - & 25 & 12 & - \\end{array}$"
+      },
+      {
+        "question_text": "The table records the number of online reactions three friends send to each other over a week.\n$\\begin{array}{c|ccc} \\text{From/To} & \\text{Keira} & \\text{Charlotte} & \\text{Willa} \\\\ \\hline \\text{Keira} & - & 32 & 12 \\\\ \\text{Charlotte} & 6 & - & 9 \\\\ \\text{Willa} & 41 & 53 & - \\end{array}$\nExplain why the table is not symmetrical along the leading diagonal, and explain what the entry in row Willa, column Keira represents.",
+        "structure": "map-or-context-to-network",
+        "solution_text": "1. The network is directed because reactions sent from person $X$ to person $Y$ do not equal reactions sent from $Y$ to $X$.\n2. Row Willa, column Keira shows $41$, meaning Willa sent $41$ reactions to Keira during the week.\nThe table is asymmetric because interaction is directed; Willa sent $41$ reactions to Keira."
+      },
+      {
+        "question_text": "A traffic engineer records vehicle flow between four intersections $A, B, C, D$:\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 120 & - & - \\\\ B & - & - & 95 & 80 \\\\ C & 110 & - & - & 70 \\\\ D & - & 80 & 70 & - \\end{array}$\nIdentify which pairs of intersections have two-way traffic and which have one-way traffic.",
+        "structure": "matrix-properties-and-symmetry",
+        "solution_text": "Check pairs $(X,Y)$ and $(Y,X)$:\n- Between $B$ and $D$: $B\\to D = 80$ and $D\\to B = 80$ (two-way)\n- Between $C$ and $D$: $C\\to D = 70$ and $D\\to C = 70$ (two-way)\n- Between $A$ and $B$: $A\\to B = 120$ but $B\\to A = -$ (one-way)\n- Between $B$ and $C$: $B\\to C = 95$ but $C\\to B = -$ (one-way)\n- Between $C$ and $A$: $C\\to A = 110$ but $A\\to C = -$ (one-way)\nTwo-way: $(B,D)$ and $(C,D)$; One-way: $A\\to B$, $B\\to C$, $C\\to A$."
+      },
+      {
+        "question_text": "A marine food web models energy transfer between four trophic levels: Phytoplankton ($P$), Krill ($K$), Fish ($F$), and Penguin ($E$). Directed percentages are $P\\to K\\,(20\\%)$, $P\\to F\\,(5\\%)$, $K\\to F\\,(15\\%)$, and $F\\to E\\,(10\\%)$.\nConstruct the directed adjacency matrix for this food web.",
+        "structure": "graph-to-table-directed",
+        "solution_text": "1. **Set up rows and columns for each vertex**\nRows are energy sources ('From'); columns are consumers ('To').\n2. **Record the weight and direction of each direct edge in the table**\n$\\begin{array}{c|cccc} \\text{From/To} & P & K & F & E \\\\ \\hline P & - & 20 & 5 & - \\\\ K & - & - & 15 & - \\\\ F & - & - & - & 10 \\\\ E & - & - & - & - \\end{array}$"
+      },
+      {
+        "question_text": "The diagram and incomplete distance table represent four connected towns.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.2);\n\\coordinate (B) at (3,2.2);\n\\coordinate (C) at (3,0);\n\\coordinate (D) at (0,0);\n\\draw (A) -- (B) node[midway, above] {$11$};\n\\draw (B) -- (C) node[midway, right] {$14$};\n\\draw (C) -- (D) node[midway, below] {$8$};\n\\draw (D) -- (A) node[midway, left] {$19$};\n\\draw (A) -- (C) node[midway, fill=white, inner sep=1pt] {$16$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}\n[/tikz]\n$\\begin{array}{c|cccc} \\text{From/To} & A & B & C & D \\\\ \\hline A & - & 11 & 16 & x \\\\ B & 11 & - & y & - \\\\ C & 16 & y & - & 8 \\\\ D & x & - & 8 & - \\end{array}$\nDetermine the values of $x$ and $y$.",
+        "structure": "table-to-graph-undirected",
+        "solution_text": "From the network diagram:\nEdge $AD$ has weight $19$, so $x = 19$.\nEdge $BC$ has weight $14$, so $y = 14$.\n$x = 19, y = 14$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A one-way street network connecting five city intersections $A, B, C, D, E$ has the adjacency matrix:\n$\\begin{array}{c|ccccc} \\text{From/To} & A & B & C & D & E \\\\ \\hline A & - & 1 & 1 & - & - \\\\ B & - & - & - & 1 & - \\\\ C & - & 1 & - & - & 1 \\\\ D & - & - & - & - & 1 \\\\ E & - & - & - & - & - \\end{array}$\nCalculate the out-degree and in-degree for each vertex, and identify any source vertex (in-degree $0$) or sink vertex (out-degree $0$).",
+        "structure": "matrix-properties-and-symmetry",
+        "solution_text": "Out-degree is row sum; In-degree is column sum:\nVertex $A$: $\\text{out}=2, \\text{in}=0$\nVertex $B$: $\\text{out}=1, \\text{in}=2$\nVertex $C$: $\\text{out}=2, \\text{in}=1$\nVertex $D$: $\\text{out}=1, \\text{in}=1$\nVertex $E$: $\\text{out}=0, \\text{in}=2$\nSource vertex: $A$ (in-degree $0$); Sink vertex: $E$ (out-degree $0$)."
+      },
+      {
+        "question_text": "An airline operates direct routes between five Australian cities: Sydney ($S$), Melbourne ($M$), Brisbane ($B$), Adelaide ($A$), Perth ($P$). Daily flight frequencies are $S\\leftrightarrow M\\,(24)$, $S\\leftrightarrow B\\,(20)$, $S\\leftrightarrow A\\,(10)$, $S\\leftrightarrow P\\,(6)$, $M\\leftrightarrow B\\,(12)$, $M\\leftrightarrow A\\,(14)$, $M\\leftrightarrow P\\,(8)$, and $A\\leftrightarrow P\\,(4)$. Flights operate symmetrically.\nConstruct the $5\\times 5$ adjacency matrix and determine the city that has the highest total daily flight volume.",
+        "structure": "map-or-context-to-network",
+        "solution_text": "1. **Set up rows and columns for each vertex**\n$\\begin{array}{c|ccccc} \\text{From/To} & S & M & B & A & P \\\\ \\hline S & - & 24 & 20 & 10 & 6 \\\\ M & 24 & - & 12 & 14 & 8 \\\\ B & 20 & 12 & - & - & - \\\\ A & 10 & 14 & - & - & 4 \\\\ P & 6 & 8 & - & 4 & - \\end{array}$\n2. Sum rows to find daily flights departing each city:\n$S = 24 + 20 + 10 + 6 = 60$\n$M = 24 + 12 + 14 + 8 = 58$\n$B = 20 + 12 = 32$\n$A = 10 + 14 + 4 = 28$\n$P = 6 + 8 + 4 = 18$\nSydney has the highest daily flight volume ($60$ flights)."
+      },
+      {
+        "question_text": "A manufacturing workflow has five tasks $A, B, C, D, E$. The table specifies prerequisite times in hours:\n$\\begin{array}{c|ccccc} \\text{From/To} & A & B & C & D & E \\\\ \\hline A & - & 3 & 5 & - & - \\\\ B & - & - & 2 & 6 & - \\\\ C & - & - & - & 4 & 7 \\\\ D & - & - & - & - & 3 \\\\ E & - & - & - & - & - \\end{array}$\nConstruct the network diagram and state the number of distinct directed paths that lead from task $A$ to task $E$.",
+        "structure": "table-to-graph-directed",
+        "solution_text": "Trace all valid directed paths from $A$ to $E$:\n1. $A\\to C\\to E$\n2. $A\\to C\\to D\\to E$\n3. $A\\to B\\to C\\to E$\n4. $A\\to B\\to C\\to D\\to E$\n5. $A\\to B\\to D\\to E$\nThere are $5$ distinct directed paths from $A$ to $E$."
+      },
+      {
+        "question_text": "A regional water pipeline network connects six pump stations $A, B, C, D, E, F$. Direct pipeline lengths in kilometres are $AB=14, AC=18, BC=11, BD=16, CD=13, CE=21, DE=15, DF=19, EF=12$.\nConstruct the $6\\times 6$ adjacency matrix and calculate the sum of all pipeline lengths in the network.",
+        "structure": "graph-to-table-undirected",
+        "solution_text": "1. **Set up rows and columns for each vertex**\n$\\begin{array}{c|cccccc} \\text{From/To} & A & B & C & D & E & F \\\\ \\hline A & - & 14 & 18 & - & - & - \\\\ B & 14 & - & 11 & 16 & - & - \\\\ C & 18 & 11 & - & 13 & 21 & - \\\\ D & - & 16 & 13 & - & 15 & 19 \\\\ E & - & - & 21 & 15 & - & 12 \\\\ F & - & - & - & 19 & 12 & - \\end{array}$\n2. Total pipeline length is the sum of unique edge weights:\n$\\text{Total} = 14 + 18 + 11 + 16 + 13 + 21 + 15 + 19 + 12$\n$= 139\\text{ km}$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "skillId": "shortest-path",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What is the shortest path from $A$ to $E$ and its total weight?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.2);\n\\coordinate (B) at (2,2.2);\n\\coordinate (C) at (2,0.2);\n\\coordinate (D) at (4,0.2);\n\\coordinate (E) at (5.5,1.5);\n\\draw (A) -- (B) node[midway, above left] {$3$};\n\\draw (B) -- (E) node[midway, above right] {$5$};\n\\draw (A) -- (C) node[midway, below left] {$2$};\n\\draw (C) -- (D) node[midway, below] {$3$};\n\\draw (D) -- (E) node[midway, below right] {$3$};\n\\draw (B) -- (C) node[midway, fill=white, inner sep=1pt] {$4$};\n\\draw (A) -- (D) node[midway, fill=white, inner sep=1pt] {$4$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (E) circle (2.5pt) node[right] {$E$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "shortest-path-by-inspection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A\\text{–}D\\text{–}E$ with total weight $7$",
+          "correct": true
+        },
+        {
+          "text": "$A\\text{–}B\\text{–}E$ with total weight $8$",
+          "why": "Chose path $A\\text{–}B\\text{–}E$ which is longer ($3 + 5 = 8$) than $A\\text{–}D\\text{–}E$ ($7$)."
+        },
+        {
+          "text": "$A\\text{–}C\\text{–}D\\text{–}E$ with total weight $8$",
+          "why": "Calculated $2 + 3 + 3 = 8$, which is longer than the optimal path $A\\text{–}D\\text{–}E$."
+        },
+        {
+          "text": "$A\\text{–}D\\text{–}E$ with total weight $9$",
+          "why": "Miscalculated $4 + 3 = 9$ instead of $7$."
+        }
+      ],
+      "solution_text": "Evaluate candidate paths from $A$ to $E$:\n- $A\\text{–}B\\text{–}E$: $3 + 5 = 8$\n- $A\\text{–}C\\text{–}D\\text{–}E$: $2 + 3 + 3 = 8$\n- $A\\text{–}D\\text{–}E$: $4 + 3 = 7$\nShortest path: $A\\text{–}D\\text{–}E$, weight: $7$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The travel times in minutes for four routes between Home ($H$) and School ($S$) are:\nRoute 1 ($H\\text{–}A\\text{–}S$): $15\\text{ min}$\nRoute 2 ($H\\text{–}B\\text{–}S$): $18\\text{ min}$\nRoute 3 ($H\\text{–}A\\text{–}B\\text{–}S$): $13\\text{ min}$\nRoute 4 ($H\\text{–}C\\text{–}S$): $16\\text{ min}$\nWhat is the shortest travel time from Home to School?",
+      "structure": "shortest-path-by-inspection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$13\\text{ minutes}$",
+          "correct": true
+        },
+        {
+          "text": "$15\\text{ minutes}$",
+          "why": "Assumed the path with fewer edges ($H\\text{–}A\\text{–}S$) is always faster."
+        },
+        {
+          "text": "$16\\text{ minutes}$",
+          "why": "Selected Route 4 without checking the lower time on Route 3."
+        },
+        {
+          "text": "$18\\text{ minutes}$",
+          "why": "Selected the longest travel time instead of the shortest."
+        }
+      ],
+      "solution_text": "Comparing all route times: $13 < 15 < 16 < 18$.\nShortest time: $13\\text{ minutes}$ (via $H\\text{–}A\\text{–}B\\text{–}S$)."
+    },
+    {
+      "id": "q3",
+      "question_text": "Using Dijkstra's algorithm on a network from $S$ to $F$, the final vertex labels are:\n$S(0), A(4), B(6), C(10), D(9), F(13)$.\nThe edge connecting $D$ and $F$ has weight $4$, and the edge connecting $C$ and $F$ has weight $5$.\nWhat is the shortest path to $F$ and its length?",
+      "structure": "dijkstras-algorithm-table-or-labels",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Path through $D$ with length $13$",
+          "correct": true
+        },
+        {
+          "text": "Path through $C$ with length $15$",
+          "why": "Added $10 + 5 = 15$ which is longer than the optimal label at $F$ ($13$)."
+        },
+        {
+          "text": "Path through $D$ with length $9$",
+          "why": "Gave the label of vertex $D$ rather than destination vertex $F$."
+        },
+        {
+          "text": "Path through $C$ with length $13$",
+          "why": "Incorrectly claimed the path passed through $C$ since $10 + 5 \\ne 13$."
+        }
+      ],
+      "solution_text": "Destination label at $F$ is $13$.\nCheck predecessor edges:\n$\\text{From } D: 9 + 4 = 13$ (matches label)\n$\\text{From } C: 10 + 5 = 15 \\ne 13$\nShortest path goes through $D$ with length $13$."
+    },
+    {
+      "id": "q4",
+      "question_text": "In Dijkstra's algorithm starting at vertex $S$, vertex $C$ has a direct edge $SC = 10$, but its recorded label is $8$. Which statement best explains why?",
+      "structure": "dijkstras-vertex-label-reasoning",
+      "mastery": false,
+      "options": [
+        {
+          "text": "An indirect path from $S$ to $C$ via another vertex has a total weight of $8$, which is shorter than the direct edge",
+          "correct": true
+        },
+        {
+          "text": "The algorithm subtracted $2$ because vertex $C$ is two edges away from the start",
+          "why": "Dijkstra's algorithm never subtracts distance for edge counts."
+        },
+        {
+          "text": "The weight of the direct edge was discounted because $C$ has an even degree",
+          "why": "Vertex degrees do not discount or alter edge weights in Dijkstra's algorithm."
+        },
+        {
+          "text": "The direct edge $SC$ was excluded because it forms a cycle in the graph",
+          "why": "Dijkstra's algorithm operates on general graphs and does not drop edges due to cycles."
+        }
+      ],
+      "solution_text": "Dijkstra's algorithm records the minimum cumulative weight from $S$.\nIf an alternative path through another vertex reaches $C$ in $8$, it replaces the direct edge value of $10$.\nAn indirect route reached $C$ with a lower cumulative weight of $8$."
+    },
+    {
+      "id": "q5",
+      "question_text": "What is the shortest valid directed path from $A$ to $D$ and its weight?\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.65 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (A) at (0,1.2);\n\\coordinate (B) at (2.2,2.2);\n\\coordinate (C) at (2.2,0.2);\n\\coordinate (D) at (4.4,1.2);\n\\draw[midarrow] (A) -- (B) node[pos=0.3, fill=white, inner sep=1pt] {$4$};\n\\draw[midarrow] (A) -- (C) node[pos=0.3, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (B) -- (C) node[pos=0.3, fill=white, inner sep=1pt] {$2$};\n\\draw[midarrow] (B) -- (D) node[pos=0.3, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (D) node[pos=0.3, fill=white, inner sep=1pt] {$3$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "directed-shortest-path",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A\\to B\\to C\\to D$ with weight $9$",
+          "correct": true
+        },
+        {
+          "text": "$A\\to C\\to D$ with weight $10$",
+          "why": "Chose path $A\\to C\\to D$ ($7 + 3 = 10$) which is longer than $A\\to B\\to C\\to D$ ($9$)."
+        },
+        {
+          "text": "$A\\to B\\to D$ with weight $13$",
+          "why": "Chose the direct branch $A\\to B\\to D$ ($4 + 9 = 13$) which is longer."
+        },
+        {
+          "text": "$A\\to B\\to C\\to D$ with weight $11$",
+          "why": "Miscalculated $4 + 2 + 3 = 11$ instead of $9$."
+        }
+      ],
+      "solution_text": "Evaluate valid directed paths:\n- $A\\to B\\to D$: $4 + 9 = 13$\n- $A\\to C\\to D$: $7 + 3 = 10$\n- $A\\to B\\to C\\to D$: $4 + 2 + 3 = 9$\nShortest directed path: $A\\to B\\to C\\to D$, weight: $9$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The distance matrix for five towns $A, B, C, D, E$ is given below:\n$\\begin{array}{c|ccccc} \\text{From/To} & A & B & C & D & E \\\\ \\hline A & - & 8 & 14 & - & - \\\\ B & 8 & - & 5 & 12 & - \\\\ C & 14 & 5 & - & 6 & 11 \\\\ D & - & 12 & 6 & - & 4 \\\\ E & - & - & 11 & 4 & - \\end{array}$\nWhat is the length of the shortest path between Town $A$ and Town $E$?",
+      "structure": "shortest-path-from-distance-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$23\\text{ km}$",
+          "correct": true
+        },
+        {
+          "text": "$24\\text{ km}$",
+          "why": "Calculated path $A\\text{–}B\\text{–}D\\text{–}E$ ($8 + 12 + 4 = 24$) which is longer."
+        },
+        {
+          "text": "$25\\text{ km}$",
+          "why": "Calculated path $A\\text{–}C\\text{–}E$ ($14 + 11 = 25$) which is longer."
+        },
+        {
+          "text": "$29\\text{ km}$",
+          "why": "Calculated path $A\\text{–}C\\text{–}D\\text{–}E$ ($14 + 6 + 4 = 24$, miscalculated as $29$)."
+        }
+      ],
+      "solution_text": "Evaluate routes from $A$ to $E$:\n- $A\\text{–}C\\text{–}E$: $14 + 11 = 25$\n- $A\\text{–}C\\text{–}D\\text{–}E$: $14 + 6 + 4 = 24$\n- $A\\text{–}B\\text{–}D\\text{–}E$: $8 + 12 + 4 = 24$\n- $A\\text{–}B\\text{–}C\\text{–}D\\text{–}E$: $8 + 5 + 6 + 4 = 23$\nShortest path: $A\\text{–}B\\text{–}C\\text{–}D\\text{–}E$, distance: $23\\text{ km}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Which statement correctly describes the relationship between the **shortest path** between two vertices and the **minimum spanning tree (MST)** of a connected weighted network?",
+      "structure": "shortest-path-vs-mst-or-practical",
+      "mastery": true,
+      "options": [
+        {
+          "text": "The shortest path between two vertices does not necessarily lie inside the minimum spanning tree",
+          "correct": true
+        },
+        {
+          "text": "The shortest path between any two vertices is always identical to the path between them in the MST",
+          "why": "An MST minimises overall network wire/pipe length, not individual point-to-point path lengths."
+        },
+        {
+          "text": "An MST can only be constructed after all shortest paths have been computed with Dijkstra's algorithm",
+          "why": "MST algorithms (such as Kruskal's or Prim's) do not require shortest path calculations."
+        },
+        {
+          "text": "The shortest path is always the path that uses the smallest number of edges",
+          "why": "Shortest paths minimise total weight, which often uses more lower-weighted edges than a single heavy edge."
+        }
+      ],
+      "solution_text": "An MST minimises the total sum of all edge weights required to connect every vertex.\nA shortest path minimises the weight between two specific endpoints and may use a heavy direct edge that is excluded from the MST.\nThe shortest path between two vertices does not necessarily lie inside the MST."
+    },
+    {
+      "id": "q8",
+      "question_text": "What is the length of the shortest path from $A$ to $H$ on this network?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (2.2,2.8);\n\\coordinate (C) at (2.2,0.2);\n\\coordinate (D) at (4.4,2.8);\n\\coordinate (E) at (4.4,0.2);\n\\coordinate (F) at (6.6,2.8);\n\\coordinate (G) at (6.6,0.2);\n\\coordinate (H) at (8.8,1.5);\n\\draw (A) -- (B) node[midway, above left] {$3$};\n\\draw (A) -- (C) node[midway, below left] {$5$};\n\\draw (B) -- (D) node[midway, above] {$4$};\n\\draw (B) -- (E) node[pos=0.3, fill=white, inner sep=1pt] {$6$};\n\\draw (C) -- (D) node[pos=0.7, fill=white, inner sep=1pt] {$6$};\n\\draw (C) -- (E) node[midway, below] {$2$};\n\\draw (D) -- (F) node[midway, above] {$5$};\n\\draw (E) -- (F) node[midway, fill=white, inner sep=1pt] {$3$};\n\\draw (E) -- (G) node[midway, below] {$4$};\n\\draw (F) -- (H) node[midway, above right] {$4$};\n\\draw (G) -- (H) node[midway, below right] {$4$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[above] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[above] {$F$};\n\\fill (G) circle (2.5pt) node[below] {$G$};\n\\fill (H) circle (2.5pt) node[right] {$H$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "dijkstras-algorithm-table-or-labels",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$14$",
+          "correct": true
+        },
+        {
+          "text": "$16$",
+          "why": "Followed a greedy strategy choosing the smallest initial edge $AB=3$ ($A\\text{–}B\\text{–}D\\text{–}F\\text{–}H = 3 + 4 + 5 + 4 = 16$)."
+        },
+        {
+          "text": "$15$",
+          "why": "Calculated path $A\\text{–}C\\text{–}E\\text{–}G\\text{–}H$ ($5 + 2 + 4 + 4 = 15$) which is longer than $A\\text{–}C\\text{–}E\\text{–}F\\text{–}H$ ($14$)."
+        },
+        {
+          "text": "$13$",
+          "why": "Miscounted edge $AC$ as $4$ ($4 + 2 + 3 + 4 = 13$) or made an addition error on the optimal path."
+        }
+      ],
+      "solution_text": "Apply Dijkstra's algorithm from $A(0)$:\n- $\\text{Label}(A) = 0$\n- $\\text{Label}(B) = 3, \\text{Label}(C) = 5$\n- From $B(3)$: $\\text{Label}(D) = 3 + 4 = 7, \\text{Label}(E) = 3 + 6 = 9$\n- From $C(5)$: $\\text{Label}(E) = \\min(9, 5 + 2) = 7, \\text{Label}(D) = \\min(7, 5 + 6) = 7$\n- From $E(7)$: $\\text{Label}(F) = 7 + 3 = 10, \\text{Label}(G) = 7 + 4 = 11$\n- From $D(7)$: to $F \\implies 7 + 5 = 12$ (keeps $10$)\n- From $F(10)$: to $H \\implies 10 + 4 = 14$\n- From $G(11)$: to $H \\implies 11 + 4 = 15$ (keeps $14$)\nShortest path length: $14$ (via $A\\text{–}C\\text{–}E\\text{–}F\\text{–}H$)."
+    }
+  ]
+}
