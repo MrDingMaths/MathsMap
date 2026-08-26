@@ -1,0 +1,104 @@
+{
+  "skillId": "household-bills",
+  "atomType": "R",
+  "theory": {
+    "intro": "Household bills detail the costs of domestic utilities and services, including electricity, gas, water, sewerage, and telecommunications. Utility billing typically combines **usage charges** (the quantity of energy or water consumed multiplied by the unit rate) and **fixed supply or service charges** (a daily connection fee charged regardless of consumption).",
+    "facts": [
+      "Usage is determined from meter readings: $\\text{Usage} = \\text{Current Reading} - \\text{Previous Reading}$.",
+      "Electricity is billed in kilowatt-hours ($\\text{kWh}$) at single or stepped/time-of-use rates (peak, shoulder, off-peak), with rates often quoted in cents per $\\text{kWh}$ (convert to dollars by dividing by $100$).",
+      "Gas is billed in megajoules ($\\text{MJ}$) and water is billed in kilolitres ($\\text{kL}$, where $1\\text{ kL} = 1000\\text{ L}$).",
+      "Fixed supply or service charges are calculated as $\\text{Daily Rate} \\times \\text{Number of Days}$.",
+      "In Australia, a $10\\%$ Goods and Services Tax (GST) applies to electricity, gas, and telecommunications bills, whereas residential water usage and sewerage service charges are generally GST-free.",
+      "Percentage change between successive bills is calculated as $\\text{Percentage Change} = \\dfrac{\\text{Current Bill} - \\text{Previous Bill}}{\\text{Previous Bill}} \\times 100\\%$."
+    ],
+    "steps": [
+      "Determine the usage amount from meter readings or billing records",
+      "Calculate the usage charge by multiplying usage by the unit rate",
+      "Calculate the fixed supply or service charge for the billing period",
+      "Add charges, apply discounts or rebates, and include GST if required"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The electricity meter readings for a residential property are shown below.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small},\n  cell/.style={draw, minimum height=0.65cm, inner xsep=5pt, anchor=west},\n  hdr/.style={cell, fill=gray!25, font=\\small\\bfseries}]\n\\def\\colA{3.2cm} \\def\\colB{2.2cm} \\def\\colC{2.6cm}\n\\node[hdr, minimum width=\\colA] (h1) at (0,0) {Meter Reading};\n\\node[hdr, minimum width=\\colB, right=0pt of h1] (h2) {Value};\n\\node[hdr, minimum width=\\colC, right=0pt of h2] (h3) {Units};\n\\node[cell, minimum width=\\colA, below=0pt of h1.south west, anchor=north west] (a1) {Current Reading};\n\\node[cell, minimum width=\\colB, right=0pt of a1] (a2) {52 480};\n\\node[cell, minimum width=\\colC, right=0pt of a2] (a3) {kWh};\n\\node[cell, minimum width=\\colA, below=0pt of a1.south west, anchor=north west] (b1) {Previous Reading};\n\\node[cell, minimum width=\\colB, right=0pt of b1] (b2) {50 860};\n\\node[cell, minimum width=\\colC, right=0pt of b2] (b3) {kWh};\n\\end{tikzpicture}\n[/tikz]\n\nCalculate the total electricity consumed in $\\text{kWh}$.",
+        "structure": "compute-usage-from-readings",
+        "solution_text": "$\\text{Usage} = 52\\,480 - 50\\,860$\n$= 1620\\text{ kWh}$"
+      },
+      {
+        "question_text": "A household consumed $1450\\text{ kWh}$ of electricity during a $90$-day billing period. The usage rate is $28.4\\text{ cents per kWh}$ and the daily supply charge is \\$1.10 per day (both excluding GST). Calculate the total electricity bill, including $10\\%$ GST.",
+        "structure": "calculate-electricity-bill",
+        "solution_text": "1. **Determine the usage amount from meter readings or billing records**\n$\\text{Usage} = 1450\\text{ kWh}$\n2. **Calculate the usage charge by multiplying usage by the unit rate**\n$\\text{Usage charge} = 1450 \\times \\$0.284$\n$= \\$411.80$\n3. **Calculate the fixed supply or service charge for the billing period**\n$\\text{Supply charge} = 90 \\times \\$1.10$\n$= \\$99.00$\n4. **Add charges, apply discounts or rebates, and include GST if required**\n$\\text{Subtotal} = \\$411.80 + \\$99.00$\n$= \\$510.80$\n$\\text{Total with GST} = \\$510.80 \\times 1.10$\n$= \\$561.88$"
+      },
+      {
+        "question_text": "An extract from a quarterly water bill is shown below.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small},\n  cell/.style={draw, minimum height=0.65cm, inner xsep=5pt, anchor=west},\n  hdr/.style={cell, fill=gray!25, font=\\small\\bfseries}]\n\\def\\colA{4.4cm} \\def\\colB{2.6cm}\n\\node[hdr, minimum width=\\colA] (h1) at (0,0) {Charge Description};\n\\node[hdr, minimum width=\\colB, right=0pt of h1] (h2) {Amount (\\$)};\n\\node[cell, minimum width=\\colA, below=0pt of h1.south west, anchor=north west] (a1) {Water Usage (54 kL @ \\$2.40/kL)};\n\\node[cell, minimum width=\\colB, right=0pt of a1] (a2) {\\$129.60};\n\\node[cell, minimum width=\\colA, below=0pt of a1.south west, anchor=north west] (b1) {Water Service Charge};\n\\node[cell, minimum width=\\colB, right=0pt of b1] (b2) {\\$45.00};\n\\node[cell, minimum width=\\colA, below=0pt of b1.south west, anchor=north west] (c1) {Sewerage Service Charge};\n\\node[cell, minimum width=\\colB, right=0pt of c1] (c2) {\\$160.00};\n\\end{tikzpicture}\n[/tikz]\n\nWater and sewerage charges are GST-free. Calculate the total current charges for this water account.",
+        "structure": "calculate-water-bill",
+        "solution_text": "$\\text{Total charges} = \\$129.60 + \\$45.00 + \\$160.00$\n$= \\$334.60$"
+      },
+      {
+        "question_text": "A gas bill shows consumption of $8200\\text{ MJ}$ over a $60$-day period. The gas usage rate is $3.2\\text{ cents per MJ}$ and the supply charge is \\$0.85 per day (both excluding GST). Calculate the total gas bill including $10\\%$ GST.",
+        "structure": "calculate-gas-bill",
+        "solution_text": "$\\text{Usage charge} = 8200 \\times \\$0.032 = \\$262.40$\n$\\text{Supply charge} = 60 \\times \\$0.85 = \\$51.00$\n$\\text{Subtotal} = \\$262.40 + \\$51.00 = \\$313.40$\n$\\text{Total with GST} = \\$313.40 \\times 1.10$\n$= \\$344.74$"
+      },
+      {
+        "question_text": "A household's quarterly electricity bill was \\$320.00 in autumn and increased to \\$368.00 in winter. Calculate the percentage increase in the bill.",
+        "structure": "bill-percentage-change",
+        "solution_text": "$\\text{Dollar increase} = \\$368.00 - \\$320.00 = \\$48.00$\n$\\text{Percentage increase} = \\dfrac{48.00}{320.00} \\times 100\\%$\n$= 15\\%$"
+      },
+      {
+        "question_text": "An electricity bill states a total consumption of $1638\\text{ kWh}$ for a $91$-day billing quarter. Calculate the average daily electricity consumption in $\\text{kWh per day}$.",
+        "structure": "daily-average-consumption",
+        "solution_text": "$\\text{Daily consumption} = \\dfrac{1638}{91}$\n$= 18\\text{ kWh/day}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A gas meter records volume in cubic metres ($\\text{m}^3$). The current reading is $3845\\text{ m}^3$ and the previous reading was $3620\\text{ m}^3$. If $1\\text{ m}^3$ produces $38.6\\text{ MJ}$ of energy, calculate the total energy consumed in megajoules ($\\text{MJ}$).",
+        "structure": "compute-usage-from-readings",
+        "solution_text": "$\\text{Volume consumed} = 3845 - 3620 = 225\\text{ m}^3$\n$\\text{Energy consumed} = 225 \\times 38.6$\n$= 8685\\text{ MJ}$"
+      },
+      {
+        "question_text": "An electricity account charges time-of-use rates as shown below.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small},\n  cell/.style={draw, minimum height=0.65cm, inner xsep=5pt, anchor=west},\n  hdr/.style={cell, fill=gray!25, font=\\small\\bfseries}]\n\\def\\colA{3.4cm} \\def\\colB{1.8cm} \\def\\colC{2.4cm}\n\\node[hdr, minimum width=\\colA] (h1) at (0,0) {Tariff Component};\n\\node[hdr, minimum width=\\colB, right=0pt of h1] (h2) {Usage};\n\\node[hdr, minimum width=\\colC, right=0pt of h2] (h3) {Rate (ex GST)};\n\\node[cell, minimum width=\\colA, below=0pt of h1.south west, anchor=north west] (a1) {Peak Electricity};\n\\node[cell, minimum width=\\colB, right=0pt of a1] (a2) {850 kWh};\n\\node[cell, minimum width=\\colC, right=0pt of a2] (a3) {34.5 c/kWh};\n\\node[cell, minimum width=\\colA, below=0pt of a1.south west, anchor=north west] (b1) {Off-Peak Electricity};\n\\node[cell, minimum width=\\colB, right=0pt of b1] (b2) {1200 kWh};\n\\node[cell, minimum width=\\colC, right=0pt of b2] (b3) {16.0 c/kWh};\n\\node[cell, minimum width=\\colA, below=0pt of b1.south west, anchor=north west] (c1) {Daily Supply Charge};\n\\node[cell, minimum width=\\colB, right=0pt of c1] (c2) {92 days};\n\\node[cell, minimum width=\\colC, right=0pt of c2] (c3) {\\$1.05/day};\n\\end{tikzpicture}\n[/tikz]\n\nCalculate the total electricity account including $10\\%$ GST, rounded to the nearest cent.",
+        "structure": "calculate-electricity-bill",
+        "solution_text": "$\\text{Peak usage charge} = 850 \\times \\$0.345 = \\$293.25$\n$\\text{Off-peak usage charge} = 1200 \\times \\$0.160 = \\$192.00$\n$\\text{Supply charge} = 92 \\times \\$1.05 = \\$96.60$\n$\\text{Subtotal} = \\$293.25 + \\$192.00 + \\$96.60 = \\$581.85$\n$\\text{Total with GST} = \\$581.85 \\times 1.10$\n$= \\$640.04$"
+      },
+      {
+        "question_text": "A residential water authority uses a tiered pricing system: Tier 1 charges \\$2.10 per kL for the first $40\\text{ kL}$, and Tier 2 charges \\$3.50 per kL for any usage above $40\\text{ kL}$. A household uses $65\\text{ kL}$ of water in a quarter, with fixed water and sewerage service charges totaling \\$185.00 (GST-free). Calculate the total water bill.",
+        "structure": "calculate-water-bill",
+        "solution_text": "$\\text{Tier 1 charge} = 40 \\times \\$2.10 = \\$84.00$\n$\\text{Tier 2 usage} = 65 - 40 = 25\\text{ kL}$\n$\\text{Tier 2 charge} = 25 \\times \\$3.50 = \\$87.50$\n$\\text{Total usage charge} = \\$84.00 + \\$87.50 = \\$171.50$\n$\\text{Total bill} = \\$171.50 + \\$185.00$\n$= \\$356.50$"
+      },
+      {
+        "question_text": "A gas provider bills customers using a step tariff as shown below.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\small},\n  cell/.style={draw, minimum height=0.65cm, inner xsep=5pt, anchor=west},\n  hdr/.style={cell, fill=gray!25, font=\\small\\bfseries}]\n\\def\\colA{3.4cm} \\def\\colB{2.2cm} \\def\\colC{2.4cm}\n\\node[hdr, minimum width=\\colA] (h1) at (0,0) {Step Tariff};\n\\node[hdr, minimum width=\\colB, right=0pt of h1] (h2) {Threshold};\n\\node[hdr, minimum width=\\colC, right=0pt of h2] (h3) {Rate (ex GST)};\n\\node[cell, minimum width=\\colA, below=0pt of h1.south west, anchor=north west] (a1) {Step 1};\n\\node[cell, minimum width=\\colB, right=0pt of a1] (a2) {First 3000 MJ};\n\\node[cell, minimum width=\\colC, right=0pt of a2] (a3) {3.8 c/MJ};\n\\node[cell, minimum width=\\colA, below=0pt of a1.south west, anchor=north west] (b1) {Step 2};\n\\node[cell, minimum width=\\colB, right=0pt of b1] (b2) {Over 3000 MJ};\n\\node[cell, minimum width=\\colC, right=0pt of b2] (b3) {2.9 c/MJ};\n\\node[cell, minimum width=\\colA, below=0pt of b1.south west, anchor=north west] (c1) {Supply Charge};\n\\node[cell, minimum width=\\colB, right=0pt of c1] (c2) {62 days};\n\\node[cell, minimum width=\\colC, right=0pt of c2] (c3) {\\$0.95/day};\n\\end{tikzpicture}\n[/tikz]\n\nA customer consumes $5500\\text{ MJ}$ over $62$ days. Calculate the total gas invoice including $10\\%$ GST.",
+        "structure": "calculate-gas-bill",
+        "solution_text": "$\\text{Step 1 charge} = 3000 \\times \\$0.038 = \\$114.00$\n$\\text{Step 2 usage} = 5500 - 3000 = 2500\\text{ MJ}$\n$\\text{Step 2 charge} = 2500 \\times \\$0.029 = \\$72.50$\n$\\text{Supply charge} = 62 \\times \\$0.95 = \\$58.90$\n$\\text{Subtotal} = \\$114.00 + \\$72.50 + \\$58.90 = \\$245.40$\n$\\text{Total with GST} = \\$245.40 \\times 1.10$\n$= \\$269.94$"
+      },
+      {
+        "question_text": "A household had a quarterly water bill of \\$425.00. After fixing plumbing leaks and installing water-saving fittings, the next quarterly water bill was \\$357.00. Calculate the percentage decrease in the water bill.",
+        "structure": "bill-percentage-change",
+        "solution_text": "$\\text{Dollar decrease} = \\$425.00 - \\$357.00 = \\$68.00$\n$\\text{Percentage decrease} = \\dfrac{68.00}{425.00} \\times 100\\%$\n$= 16\\%$"
+      },
+      {
+        "question_text": "A family of $4$ people consumed $72\\text{ kL}$ of water over a $90$-day billing period. Calculate the average daily water consumption per person in litres per day ($1\\text{ kL} = 1000\\text{ L}$).",
+        "structure": "daily-average-consumption",
+        "solution_text": "$\\text{Total litres} = 72 \\times 1000 = 72\\,000\\text{ L}$\n$\\text{Household daily usage} = \\dfrac{72\\,000}{90} = 800\\text{ L/day}$\n$\\text{Daily usage per person} = \\dfrac{800}{4}$\n$= 200\\text{ L/person/day}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "An electricity bill for a $90$-day period totals \\$462.00 including $10\\%$ GST. The daily supply charge is \\$1.20 per day (excluding GST) and energy usage is billed at a single flat rate of $30\\text{ cents per kWh}$ (excluding GST). Calculate the total number of kilowatt-hours ($\\text{kWh}$) consumed during the billing period.",
+        "structure": "calculate-electricity-bill",
+        "solution_text": "$\\text{Subtotal (ex GST)} = \\dfrac{\\$462.00}{1.10} = \\$420.00$\n$\\text{Supply charge} = 90 \\times \\$1.20 = \\$108.00$\n$\\text{Usage charge} = \\$420.00 - \\$108.00 = \\$312.00$\n$\\text{Usage in kWh} = \\dfrac{\\$312.00}{\\$0.30}$\n$= 1040\\text{ kWh}$"
+      },
+      {
+        "question_text": "A household currently uses $84\\text{ kL}$ of water per $90$-day quarter on a two-tier tariff: Tier 1 (first $50\\text{ kL}$) @ \\$2.20 per kL, and Tier 2 (usage above $50\\text{ kL}$) @ \\$3.60 per kL. Fixed service charges are \\$195.00. How much money would the household save on their quarterly bill if they reduce their water usage down to the Tier 1 ceiling of $50\\text{ kL}$?",
+        "structure": "calculate-water-bill",
+        "solution_text": "$\\text{Current Tier 2 usage} = 84 - 50 = 34\\text{ kL}$\n$\\text{Quarterly savings} = 34 \\times \\$3.60$\n$= \\$122.40$"
+      },
+      {
+        "question_text": "An electricity customer previously paid \\$400.00 in usage charges and \\$100.00 in fixed supply charges for a quarterly bill (pre-GST total \\$500.00). Over the next quarter, the energy usage rate increased by $12\\%$ while the customer reduced their electricity consumption by $10\\%$. Fixed supply charges remained unchanged. Calculate the percentage change in the new pre-GST bill total.",
+        "structure": "bill-percentage-change",
+        "solution_text": "$\\text{New usage charge} = \\$400.00 \\times 1.12 \\times 0.90 = \\$403.20$\n$\\text{New pre-GST total} = \\$403.20 + \\$100.00 = \\$503.20$\n$\\text{Dollar change} = \\$503.20 - \\$500.00 = \\$3.20$\n$\\text{Percentage change} = \\dfrac{3.20}{500.00} \\times 100\\%$\n$= 0.64\\%\\text{ increase}$"
+      }
+    ]
+  }
+}

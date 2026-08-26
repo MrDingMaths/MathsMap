@@ -33,7 +33,7 @@ const schemaPath = path.join(rootDir, 'scripts', 'luna-check-schema.json');
 const MODEL = 'gpt-5.6-luna';
 const EFFORT = 'high';
 const DEFAULT_CALL_TIMEOUT_MS = 15 * 60 * 1000;
-const RESOLVE_MODES = ['full', 'figures-first'];
+export const RESOLVE_MODES = ['full', 'figures-first'];
 const TIMEOUT_MARKER = 'codex call exceeded the configured timeout';
 
 // ---------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ const TIMEOUT_MARKER = 'codex call exceeded the configured timeout';
 // fully self-contained: luna runs read-only in an empty temp dir with zero repo access.
 // ---------------------------------------------------------------------------------------
 
-const CHECKER_BRIEF = [
+export const CHECKER_BRIEF = [
   'You are an independent blind checker for one maths skill\'s quiz + mastery practice items.',
   'Hunt for these defect classes and flag every instance you find:',
   '  - ambiguity: the stem/options admit more than one defensible reading or correct answer.',
@@ -60,11 +60,12 @@ const CHECKER_BRIEF = [
   '  - a small integer coinciding with an unrelated item\'s answer is not leakage.',
   '  - content anchored to the source booklet is in scope even near a stage boundary.',
   '  - anything listed in the skill\'s prereqs below is taught and assumable -- do not flag it as untaught.',
+  '  - anything in the bundle\'s `taught` block (the skill\'s own theory: intro, facts, steps) is taught and AUTHORITATIVE. Solve the items using those rules, formulas and reference values; never mark an item wrong or under-determined for relying on a rule or a rate stated there.',
   '',
   'Answer every item you receive; report counts in coverage (itemsReceived vs itemsAnswered).',
 ].join('\n');
 
-function resolveModeInstructions(resolveMode) {
+export function resolveModeInstructions(resolveMode) {
   if (resolveMode === 'full') {
     return [
       'RESOLVE MODE: full.',
@@ -100,7 +101,7 @@ async function fileExists(file) {
 // expanded to [{id, title, blurb}].
 // ---------------------------------------------------------------------------------------
 
-async function loadSkillCard(skillId) {
+export async function loadSkillCard(skillId) {
   const skills = await readJsonFile(skillsPath);
   const list = Array.isArray(skills) ? skills : skills.skills;
   const byId = new Map(list.map((s) => [s.id, s]));
@@ -192,7 +193,29 @@ function diagnosticStderr(stderr) {
   return roleMarker ? text.slice(0, roleMarker.index) : text;
 }
 
-function firstDiagnosticChars(stderr, limit = 500) {
+// A few CLI failures are reported AFTER the conversation starts, so the banner-only rule
+// above throws away the one line that explains the run: a usage-limit refusal, an expired
+// or missing credential, or a server-side outage. Each of these kills a whole batch with a
+// bare "codex exited 1", which reads like a code bug and is not one. These patterns anchor
+// on the CLI's own line-leading "ERROR:" prefix, so echoed question text (the reason the
+// rest of stderr is distrusted) cannot trip them.
+const FATAL_CLI_PATTERNS = Object.freeze([
+  /^ERROR:.*usage limit.*$/im,
+  /^ERROR:.*(?:unauthorized|not authenticated|invalid api key|authentication failed).*$/im,
+  /^ERROR:.*(?:service unavailable|internal server error|overloaded).*$/im,
+]);
+
+export function fatalCliError(stderr) {
+  for (const pattern of FATAL_CLI_PATTERNS) {
+    const hit = pattern.exec(String(stderr || ''));
+    if (hit) return hit[0].trim();
+  }
+  return null;
+}
+
+export function firstDiagnosticChars(stderr, limit = 500) {
+  const fatal = fatalCliError(stderr);
+  if (fatal) return fatal.slice(0, limit);
   const diag = diagnosticStderr(stderr).trim();
   return diag ? diag.slice(0, limit) : '(no CLI diagnostics; see the packet log)';
 }
@@ -201,7 +224,7 @@ function firstDiagnosticChars(stderr, limit = 500) {
 // One codex exec call.
 // ---------------------------------------------------------------------------------------
 
-function parseModelOutput(text) {
+export function parseModelOutput(text) {
   const trimmed = String(text || '').trim();
   try {
     return JSON.parse(trimmed);
@@ -268,7 +291,7 @@ async function runCodexOnce({ prompt, timeoutMs }) {
 // Minimal top-level shape validation against the schema's required fields -- not a full
 // JSON Schema validator, just enough to catch a malformed/truncated reply and trigger a
 // retry rather than writing garbage into {id}.luna.json.
-function validateReplyShape(reply) {
+export function validateReplyShape(reply) {
   const problems = [];
   if (!reply || typeof reply !== 'object') problems.push('reply is not an object');
   if (!Array.isArray(reply?.quiz)) problems.push('quiz is not an array');
@@ -283,7 +306,7 @@ function validateReplyShape(reply) {
 // Prompt.
 // ---------------------------------------------------------------------------------------
 
-function buildPrompt({ skillId, skillCard, blindBundle, resolveMode }) {
+export function buildPrompt({ skillId, skillCard, blindBundle, resolveMode }) {
   return [
     'CHECKER BRIEF',
     CHECKER_BRIEF,
@@ -293,7 +316,8 @@ function buildPrompt({ skillId, skillCard, blindBundle, resolveMode }) {
     'SKILL CARD',
     JSON.stringify(skillCard, null, 2),
     '',
-    `QUIZ + MASTERY PRACTICE BUNDLE FOR ${skillId} (blind -- no correct-answer flags or solution text appear anywhere below)`,
+    `QUIZ + MASTERY PRACTICE BUNDLE FOR ${skillId} (blind -- no correct-answer flags or solution text appear anywhere below).`,
+    'Its `taught` block is the skill\'s own theory exactly as the student sees it; treat its rules and reference values as authoritative when solving.',
     JSON.stringify(blindBundle, null, 2),
     '',
     'Reply ONLY with a single JSON object matching the required output schema. No prose, no markdown fencing, no commentary outside that JSON object.',
@@ -304,7 +328,7 @@ function buildPrompt({ skillId, skillCard, blindBundle, resolveMode }) {
 // Pool (ported from MathsDatabase/tools/qgen/placement-codex.mjs pool()).
 // ---------------------------------------------------------------------------------------
 
-async function pool(items, limit, worker) {
+export async function pool(items, limit, worker) {
   const results = new Array(items.length);
   let next = 0;
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
@@ -560,7 +584,14 @@ async function main() {
   });
 }
 
-main().catch((err) => {
-  console.error('[run-luna-check] failed:', err);
-  process.exit(1);
-});
+// Only run as a CLI. Tests import this module for its pure helpers (diagnostic
+// classification), and an unconditional main() would exit the test process on argv misuse.
+const invokedDirectly = process.argv[1]
+  && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error('[run-luna-check] failed:', err);
+    process.exit(1);
+  });
+}

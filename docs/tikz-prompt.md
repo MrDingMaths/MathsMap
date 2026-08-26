@@ -366,7 +366,7 @@ Applying the rules below to a function graph produces contradictions: the "x-axi
 The one recurring defect is the **y-axis label colliding with the title** (both crammed at the top-left corner). It is eliminated by fixed anchors — never place a title and an axis label at the same corner:
 
 - **Title** — its own line, **centred over the plot**, at `y = <ymax> + 1.1` (well clear of the top tick). Extend the y-axis arrow to `<ymax> + 1.4` so the title has headroom.
-- **y-axis label** — **rotated 90°**, placed to the **left of the axis at its vertical midpoint**, never in the top corner: `\node[rotate=90] at (<xoff>, <ymid>) {Number of …};`. A vertical label beside the axis physically cannot reach a horizontal title. Set `<xoff>` so the rotated label clears the widest tick text by roughly one character width (the templates below use −1.4 for 1–2-digit ticks at their stated scales; wider ticks — percentages, ≥3-digit numbers — need proportionally more).
+- **y-axis label** — **rotated 90°**, placed to the **left of the axis at its vertical midpoint**, never in the top corner: `\node[rotate=90] at (<xoff>, <ymid>) {Number of …};`. A vertical label beside the axis physically cannot reach a horizontal title. **`<xoff>` must clear the tick text in physical centimetres, not a copied coordinate value** — see the Axes anti-collision anchors in Core styling for the full rule (the templates below use −1.4 at their own `scale`/font; a different `scale`, tick font, or custom `x=`/`y=` unit needs a different number, worked out fresh, not reused).
 - **x-axis label** — on its **own line, centred UNDER the category-label row**, at `(<xmid>, -1.0)`. **Never place it at the arrow tip on the `y = 0` baseline** — there it crowds the last category/tick label. The category labels sit at `y = 0` `[below]`; a label line at `y = -1.0` clears them.
 - **`pgfplots` caveat.** The rotation instruction above is for the **raw-TikZ** templates below. If you instead build an axis with `pgfplots`, do **not** add `rotate=90` to `ylabel style` — pgfplots already rotates the y label, and a second rotation turns it upside-down. Use a bare `ylabel={…}`. **Prefer the raw-TikZ templates** for data displays so the corpus stays one idiom.
 
@@ -617,6 +617,29 @@ For read-off-the-grid skills (distance–time, simple interest), a hand-rolled g
 
 **Question figure = the axes, grid and plotted line, with the asked value NOT marked. Solution figure = the same, plus dashed guide lines to the read point and its label.**
 
+#### Shading the area under or between curves
+
+**In a `\fill`/`\filldraw` path, always join a `plot[...]` segment to the coordinate before it with an explicit `--`.** Writing `(2,4) plot[domain=2:5] (...)` (no `--`) instead of `(2,4) -- plot[domain=2:5] (...)` compiles with no error, but TikZJax silently starts a **new subpath** at the plot's first point, orphaning the segment that came before it. Since `\fill` auto-closes every subpath with a straight line back to its own start, the visible shaded region ends up bounded by a straight **chord** between the plot's start and end instead of the intended curve/axis boundary — usually a thin sliver or crescent, not the true area. This is invisible in the source and easy to miss without rendering: the curve itself still draws correctly (arrows, labels, everything looks right at a glance), only the *fill* is wrong. Applies equally whether the plot uses `smooth`, `samples=`, `variable=`, or `coordinates{...}` — the missing `--` is what breaks it, not the plot type.
+
+```
+% WRONG — missing -- before plot[...]: shading collapses to a chord-bounded sliver
+\fill[gray!20] (2,0) -- (2,4) plot[smooth,domain=2:5,variable=\x] ({\x},{4/(\x-1)}) -- (5,0) -- cycle;
+
+% RIGHT — explicit -- joins the plot segment to the preceding coordinate
+\fill[gray!20] (2,0) -- (2,4) -- plot[smooth,domain=2:5,variable=\x] ({\x},{4/(\x-1)}) -- (5,0) -- cycle;
+```
+
+Same rule when a `\fill` path alternates between two plotted curves (region between two functions) — every `coordinate plot[...]` join needs its `--`, not just the first one:
+
+```
+\fill[gray!20, domain=-2:2, variable=\x]
+  (-2,0) -- plot ({\x}, {0.7*(4 - \x*\x)})
+  -- (2,0) -- plot[domain=2:-2, variable=\x] ({\x}, {0.35*(\x*\x - 4)})
+  -- cycle;
+```
+
+After writing any shaded-region `\fill`, render it and check the shaded area visually touches the boundary you intended (the axis, the other curve, the bounding line) along its **full** width — not just at the corners.
+
 ### Bearing diagrams
 
 - **Radial-survey override (HSC convention): do not draw true bearings as angle arcs.** In a compass radial or plane-table survey, put each recorded bearing beside the survey-point label at the end of its ray, for example `\node[above right] at (A) {$A\;(050^\circ)$};`. Keep every bearing three-figure, preserve minutes when supplied, retain the north arrow at the central station, and use ordinary angle arcs only for separately measured or derived angles between survey lines. This override applies to radial surveys only.
@@ -815,6 +838,18 @@ A cone is the one case where a genuine apex exists — but it is the apex of the
 \end{tikzpicture}
 ```
 
+**Labelling this box: put the height on the front-*left* edge (`D--A`), never the front-right edge (`B--C`).** The front-right edge sits right where the hidden dashed cross-edges (`E--F`, `E--H`) pass through — on a shallow/thin prism (front-face height comparable to or less than the depth offset's vertical rise, `2·sin(angle)·r`) a `node[midway, right]` label there lands in that clutter and reads as ambiguous, or on very flat boxes collides outright with the depth label. The front-left edge is always clear:
+
+```
+\draw (A) -- (B) node[midway, below] {$25\text{ cm}$};   % length — bottom edge, fine
+\draw (B) -- (C);                                         % right edge — leave unlabelled
+\draw (C) -- (D);
+\draw (D) -- (A) node[midway, left] {$10\text{ cm}$};     % height — front-LEFT edge
+\draw (B) -- (F) node[midway, below right] {$16\text{ cm}$}; % depth — fine, already clear of the hidden lines
+```
+
+For a solid where the box's vertical edges aren't A–D-style (composites, roofs on a box, etc.), apply the same rule: label the wall-height dimension on whichever vertical edge sits **furthest from the hidden/dashed cluster**, not the one nearest it.
+
 ### Carryover types
 
 - **Number lines:** `\draw[->]` for the line; short ticks for marked integers; `\node` for the label `0`, `1`, … below; open/closed circles for inequalities.
@@ -907,10 +942,12 @@ These apply to **any** figure carrying axes — a categorical display, a gridded
 
 - **Never attach an axis title to the axis `\draw` with `midway`.** `\draw[-{Stealth}] (0,0) -- (6.4,0) node[below=6pt, midway] {Time (hours)};` places the title at the axis *midpoint*, which is exactly the lane the tick numbers occupy — the title lands on top of the middle tick. An axis title is always a **standalone `\node`**.
 - **x-axis title** — its own line, centred under the tick row: `\node[below] at (<xmid>, -1.0) {Time (hours)};`
-- **y-axis title** — rotated, to the left of the tick column, at the axis midpoint: `\node[rotate=90] at (<xoff>, <ymid>) {Distance from depot (km)};` Set `<xoff>` so it clears the widest tick label by about one character (−1.4 for 1–2-digit ticks; more for 3-digit numbers or percentages).
-- **Never combine `rotate=` with a directional offset key** (`above=6pt`, `left=4pt`, …) on the same node. The offset is applied in the **rotated** frame, so `above=6pt` on a `rotate=90` node moves it sideways — straight into the tick numbers. Rotate the node and give it an explicit coordinate.
+- **y-axis title** — rotated, to the left of the tick column, at the axis midpoint: `\node[rotate=90] at (<xoff>, <ymid>) {Distance from depot (km)};`
+- **`<xoff>` is a physical-clearance problem, not a fixed number to copy.** It must clear the tick column by roughly the tick text's own rendered width plus a small margin for the rotated title's line thickness — and that clearance is real centimetres on the page, not raw coordinate units. At the **default 1 cm/unit** picture (no `x=`/`y=` remap, `scale=1`), −1.4 clears a 1–2-digit `\scriptsize` tick column, and 3-digit or percentage ticks need proportionally more (roughly another −0.3 to −0.4 per extra digit). **Any `x=`, `y=`, or `scale=` other than the default breaks that number** — it rescales coordinate units against physical space, so the same −1.4 reaches a different physical distance in a different picture. A picture at `scale=0.9` with `\large` (not `\scriptsize`) tick digits needs a *larger-magnitude* offset than −1.4 despite looking like "the same kind of chart", because the tick text renders bigger while scale shrinks how far each coordinate unit reaches. A custom unit system (`x=1.4cm, y=0.02cm`, or a pixel-scale picture like `x=0.0015cm`) has no relationship to −1.4 at all — derive the offset from that picture's own unit-to-cm ratio, or skip the arithmetic and place the title at a coordinate you can see sits well clear of the tick column's narrow `x`-band.
+- **When unsure, go bigger.** Extra empty space next to a y-title costs nothing visually; a gap that's a little too small silently collides with the ticks. Round the offset away from the axis, never toward it.
+- **Never combine `rotate=` with a directional offset key** (`above=6pt`, `left=4pt`, …) on the same node. The offset is applied in the **rotated** frame, so `\node[rotate=90, above=35pt] at (0,<ymid>) {...}` does not move the title up — it moves it sideways, straight into the tick numbers. Rotate the node and give it an explicit coordinate; never layer a directional key on top of `rotate=`.
 - **Title** (if the figure has one) — centred over the plot at `y = <ymax> + 1.1`, with the y-axis arrow extended to `<ymax> + 1.4`. A horizontal title and a vertical y-label physically cannot collide.
-- **`pgfplots` caveat.** Inside `\begin{axis}`, use bare `xlabel={…}` / `ylabel={…}` — pgfplots already rotates the y label, and adding `rotate=90` turns it upside-down.
+- **`pgfplots` caveat.** Inside `\begin{axis}`, use bare `xlabel={…}` / `ylabel={…}` — pgfplots already rotates the y label, and adding `rotate=90` turns it upside-down. Its default label offset does **not** scale with the tick text's rendered width, so a wide or comma-grouped `ytick` (`80,000`, `36,000`) collides with `ylabel=` at the same default that clears a 1–2-digit tick — add **`ylabel near ticks`** as an axis option whenever `ymin`/`ymax`/an explicit `ytick` reaches 4+ digits; it anchors the label to the tick column's actual rendered extent instead of a guessed offset. **Add it as the LAST axis option, after the geometry keys** (`xmin`/`xmax`/`width`/`height`/`ytick`/etc.) — placing it first has hung the TikZJax renderer on some diagrams (a real engine-ordering quirk, not a syntax error).
 
 ---
 
@@ -1020,6 +1057,10 @@ For every labelled point $(a, b)$ on a plotted curve $y = f(x)$, verify $f(a) = 
 - y-intercept: $f(0) =$ labelled value.
 - Flag: `[GEOM ERROR — {feature} at {coords} does not satisfy {equation}]`
 
+**Shaded-region fill path continuity:**
+For every `\fill`/`\filldraw` path that contains a `plot[...]` (or `plot (...)`) segment, verify it is joined to the coordinate immediately before it with an explicit `--`, not written as a bare `(coord) plot[...]`.
+- Flag: `[GEOM ERROR — \fill path coordinate not joined to plot[...] with --; TikZJax starts a new subpath there and shades the wrong region]`
+
 **Angle-figure completeness (angles playbook):**
 - A straight/right angle divided into `n` labelled parts must have `n-1` interior dividing rays; `n` angles around a point need `n` bounding rays. Count labels vs rays.
 - Ray/line/segment endpoint semantics: a ray has one endpoint and one arrowhead in its continuation direction (first named point = visible endpoint); a segment has no arrowheads; only explicit line notation is double-headed.
@@ -1080,6 +1121,10 @@ For every `\node` label, verify:
 **(d) Distance labels on bearing diagrams sit midway along their leg** (with `fill=white` to break the line).
 - Flag: `[GEOM ERROR — Distance label "{d}" not at midpoint of leg {PQ}]`
 
+**(e) A rotated y-axis title clears the tick-number column, and no rotated node carries a directional offset key.** Re-derive `<xoff>`'s physical clearance from this picture's own `x=`/`y=`/`scale=` factors (see the Axes anti-collision anchors) — do not reuse a coordinate value from a different-scale example. If any `\node` combines `rotate=` with `above=`/`below=`/`left=`/`right=`, that offset applies in the rotated frame and moves the node sideways, not clear of the axis.
+- Flag: `[GEOM ERROR — y-axis title at {xoff} sits inside or against the tick-number column]`
+- Flag: `[GEOM ERROR — node combines rotate= with a directional offset key (above=/below=/left=/right=)]`
+
 ### SV-vi: Scale and Canvas Audit
 
 **Canvas containment.** If `xmin`/`xmax`/`ymin`/`ymax` are set (axis environments, clip paths, declared bounding box), every named coordinate must satisfy $x_{\min} \le x \le x_{\max}$ and $y_{\min} \le y \le y_{\max}$.
@@ -1123,7 +1168,9 @@ Before writing the output, verify every item:
 - [ ] Every equal-length tick mark uses the `tickmark`/`tickmark2`/`tickmark3` style on the segment's own `\draw` (never guessed crossbar coordinates); different equal-length families use different tick counts.
 - [ ] Every length, angle, and label that appears in the source diagram is reproduced; nothing has been invented.
 - [ ] Diagram fits within ~6 cm × 6 cm unless a Larger window is genuinely needed.
+- [ ] Any axis title clears the tick-number column/row — checked against this picture's own `x=`/`y=`/`scale=` factors, not assumed from a different example; no `rotate=` node also carries a directional offset key.
 - [ ] **For curve sketches:** the actual equation is plotted with `\draw plot` (or `\addplot`). The domain matches the source window if visible, otherwise shows all key features (roots, turning points, asymptotes, intercepts) with margin. Multi-branch functions use one `\draw plot` per branch. Every plotted curve's open ends carry arrowheads (`<->`, or single-ended where a branch genuinely terminates).
+- [ ] **For shaded regions:** every `\fill`/`\filldraw` path joins a `plot[...]` segment to its preceding coordinate with an explicit `--` (never `coordinate plot[...]` directly) — otherwise TikZJax silently starts a new subpath and the shaded area is bounded by a straight chord instead of the curve.
 - [ ] **For radial surveys:** north arrow at the central station; legs placed via `({90-β}:{d*\s})`; every recorded bearing shown as a three-figure endpoint label such as `$A\;(050^\circ)$`; no true-bearing arcs; separately measured or derived station angles retain ordinary angle markers; distances midway with white fill.
 - [ ] **For other bearing diagrams:** north arrow only where a bearing is measured; legs placed via `({90-β}:{d*\s})`; each bearing arc drawn with the computed `arc (90:{90-β}:r)` (NOT `\pic`, which can't do reflex bearings); bearing labels at the computed bisector; shared-vertex arcs at different radii; distances midway with white fill; scale `\s` chosen so the longest leg is ~3–4 cm.
 - [ ] **For circle geometry:** centre marked and labelled; equal radii/chords have matching tick marks; right angles use small squares.

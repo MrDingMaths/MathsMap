@@ -9,6 +9,7 @@ import { dirname, join } from 'node:path';
 import katex from 'katex';
 import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys, isStructureSlug } from '../src/lib/inline-content.js';
 import { rejectStrayPositionals } from './lib/argv.mjs';
+import { lintMathString, lintControlChars, lintSelfReferencingNodes } from './lib/lint-math.mjs';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(rootDir, 'data');
@@ -95,69 +96,13 @@ for (const d of dotpoints) if (!usedDotpoints.has(d.id)) warnings.push(`dotpoint
 // Content & quiz validation (docs/content-schema.md is the source of truth)
 // ---------------------------------------------------------------------------
 
-// Is the character at `idx` a literal `$` (i.e. not preceded by an odd run of
-// backslashes, which would make it an escaped `\$`)?
-function isEscaped(str, idx) {
-  let count = 0;
-  let i = idx - 1;
-  while (i >= 0 && str[i] === '\\') {
-    count++;
-    i--;
-  }
-  return count % 2 === 1;
-}
-
-// Lints a single human-visible text field: balanced unescaped `$…$` math
-// delimiters (each segment must KaTeX-render), and balanced `**bold**` pairs.
-// Pushes formatted error strings onto `problems`.
-// Raw control characters in a string value are the fingerprint of a
-// single-escaped LaTeX macro silently corrupted by JSON.parse
-// (`\times` → TAB+`imes`, `\frac` → FF+`rac`, `\text` → TAB+`ext`) — KaTeX
-// then renders the residue as innocent italic letters, so only this check
-// catches it. Newline is allowed (legitimate in multi-line tikz code).
-const CONTROL_CHAR_NAMES = { '\t': 'TAB (\\t — corrupted \\times/\\text/\\tfrac?)', '\f': 'FORMFEED (\\f — corrupted \\frac?)', '\b': 'BACKSPACE (\\b — corrupted \\begin/\\bar?)', '\r': 'CR (\\r — corrupted \\right/\\rule?)' };
-function lintControlChars(str, where, problems) {
-  const m = str.match(/[\x00-\x09\x0B-\x1F]/);
-  if (m) {
-    const name = CONTROL_CHAR_NAMES[m[0]] || `control char 0x${m[0].charCodeAt(0).toString(16).padStart(2, '0')}`;
-    problems.push(`${where}: raw ${name} in string — a LaTeX backslash was probably not doubled in the JSON`);
-  }
-}
-
-function lintMathString(str, where, problems) {
-  if (typeof str !== 'string') {
-    problems.push(`${where}: expected a string, got ${typeof str}`);
-    return;
-  }
-  lintControlChars(str, where, problems);
-  const dollarIdx = [];
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === '$' && !isEscaped(str, i)) dollarIdx.push(i);
-  }
-  if (dollarIdx.length % 2 !== 0) {
-    problems.push(`${where}: unbalanced $ delimiters — "${str}"`);
-  } else {
-    for (let k = 0; k < dollarIdx.length; k += 2) {
-      const seg = str.slice(dollarIdx[k] + 1, dollarIdx[k + 1]);
-      try {
-        katex.renderToString(seg, { throwOnError: true });
-      } catch (e) {
-        problems.push(`${where}: KaTeX error in "$${seg}$" — ${e.message}`);
-      }
-    }
-  }
-  const starMatches = str.match(/\*\*/g) || [];
-  if (starMatches.length % 2 !== 0) {
-    problems.push(`${where}: unbalanced ** pairs — "${str}"`);
-  }
-}
-
 function validateTikz(value, where, problems) {
   if (typeof value !== 'string') {
     problems.push(`${where}: must be a string`);
     return;
   }
   lintControlChars(value, where, problems);
+  lintSelfReferencingNodes(value, where, problems);
   if (!value.includes('\\begin{tikzpicture}')) {
     problems.push(`${where}: must contain \\begin{tikzpicture}`);
   }

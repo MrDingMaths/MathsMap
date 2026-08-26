@@ -855,6 +855,47 @@ The orchestrator drives the batch; generation and checking run in parallel group
 
 ---
 
+## Wave 3 — agy provenance
+
+From Wave 3 (Stage 6 Y11) the generator is **Gemini via the `agy` CLI**, not Claude:
+
+- Generation, repairs, diagram redraws, and both diagram-audit tiers run on Gemini through
+  `scripts/agy/` drivers (`build-gen-tasks` → `run-gen` → `collect-gen`;
+  `build-repair-tasks` → `apply-repairs`). **The model is `gemini-3.7-flash-high` for every
+  lane — owner decision 2026-08-26, no pro tier.** The planned flash-vs-pro A/B is cancelled.
+  Tier-2 diagram audit gets its extra rigour from a source-inclusive packet and a re-derive
+  rubric, not from a bigger model; the safety net for flash is luna plus the diagram lane.
+- The blind checker stays `gpt-5.6-luna` via `run-luna-check.mjs` (different model family
+  from the generator, so independence holds).
+- Claude is the ORCHESTRATOR ONLY: runs scripts, adjudicates luna + diagram flags, edits
+  docs/queue. Claude never authors content and never spawns a subagent just to run a command.
+- Step 7's manual every-block figure review is replaced by the **diagram audit lane**
+  (`scripts/diagram-audit/`): render (`shoot-tikz`, dev server required) → sibling
+  layout lint → agy vision Tier-1 triage (packets of 8–10 items with PNGs) → Tier-2
+  re-derive on flags (tikz source included, pro model) → agy redraw (≤2 rounds) →
+  `report.mjs` human checklist = confirmed/repaired blocks + compile failures + suspicious
+  not_applicables + a seeded 10% sample. Humans review flags + sample, not every block.
+
+### agy quirks (encoded in `scripts/agy/lib/agy-run.mjs` — do not relearn these)
+
+- Binary `%LOCALAPPDATA%gyingy.exe` (override `AGY_PATH`); flags `-p <pointer>
+  --model <id> --output-format json --disable-slash-commands --dangerously-skip-permissions
+  --print-timeout 6m`; run via `node scripts/agy/...` (a raw agy call is blocked by the
+  session permission classifier).
+- Argv cap ~32,767 chars → the prompt is a ~300-char pointer; the real task is
+  `task-NNN.md` on disk, read by the model from its cwd.
+- Writes must land in cwd: an `--add-dir` write hits disk but agy misreports
+  `status:"ERROR"` — the driver trusts the RESULT FILE's existence + shape, never the
+  status field, and never stdout alone.
+- Result files may arrive BOM-prefixed and/or code-fenced; the parser strips both.
+- Every task has a `task-NNN.ids.json`; the result must cover exactly those ids or the
+  task FAILED (never a partial).
+- Consecutive no-file errors = Google OAuth expiry → the pool halts with a re-auth
+  message; resume = rerun (valid result files are skipped).
+- Per-call overhead is large (~211k input tokens measured) → pack work: whole section per
+  generation call, 8–10 rows per audit packet, 6 blocks per redraw task, concurrency 3.
+- Token ledger: `ledger.jsonl` appended per call in each tasks dir.
+
 ## Hard constraints (recap)
 
 - **Schema-exact.** [content-schema.md](content-schema.md) is the contract; validate clean.

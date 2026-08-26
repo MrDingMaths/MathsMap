@@ -213,8 +213,16 @@ async function processSkill(skillId, outDir, itemIds = null) {
     }
   }
 
+  // What the skill TEACHES (theory.intro/facts/steps) travels with the bundle. It carries no
+  // answers — the blind is on the items, not on the syllabus — and withholding it manufactures
+  // false mismatches: in W3-1 the checker marked vehicle-stamp-duty q6 and vehicle-purchase-costs
+  // q2 wrong because it could not know the taught rule ("market value or purchase price,
+  // whichever is higher") or the taught tax-rate table, both of which the student does see.
+  // It also lets the checker judge out-of-scope and under-determination against what was
+  // actually taught rather than against its own assumptions.
   const blindBundle = {
     skillId,
+    ...(contentData?.theory ? { taught: contentData.theory } : {}),
     quiz: blindQuestions,
     masteryPractice: blindItems,
     ...(itemIds

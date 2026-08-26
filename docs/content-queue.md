@@ -2780,7 +2780,53 @@ started here; see "Later waves" below.
 
 ---
 
-## Later waves (placeholder)
+## Wave 3 — Stage 6 Year 11 (agy-driven)
 
-Stage 6 topics will be appended here as a further wave once Wave 2 (Stage 5) is complete,
-in the same curriculum-then-course order used by `booklets/QUEUE.md`.
+Plan: `C:/Users/james/.claude/plans/wave3-stage6-y11-agy-plan.md`. Generator = Gemini
+`gemini-3.7-flash-high` via the `agy` CLI (`scripts/agy/`) — flash for every lane, no pro
+tier (owner decision 2026-08-26); luna unchanged as blind checker, diagram-audit lane
+(`scripts/diagram-audit/`) replaces manual every-block review with flags + a seeded 10%
+sample. Claude orchestrates only. 184 net-new skills (std11 32, adv11 95, ext1-11 58);
+`grouped-data` is shared std/adv — generate ONCE in W3-3 and confirm the Advanced dot point
+is covered. Verbatim booklet paths live on the referenced `booklets/QUEUE.md` rows and are
+copied into each batch's machine-readable `batch.json` at build time
+(`scripts/agy/build-gen-tasks.mjs --config`).
+
+Hazards (state on every affected batch row / config):
+
+- `dp-s6x1y11-trig-2` has **no booklet** → `sum-difference-identities`,
+  `double-angle-identities` (and any dependent solve-equations skill) are `anchor: none` —
+  generated from the dot point alone, extra human review.
+- Working with Functions has TWO booklets numbered `1_` plus a diagnostic
+  `11 Algebraic Techniques Test.md` — map explicitly, never glob.
+- Introduction to Differentiation has files 1, 3, 4, 5 only (no `2_`).
+- No Standard-only prereqs in service of an Advanced skill.
+- Y11 batch topic id governs when a skill also carries Y12 dot points
+  (`loan-repayment-table`, `break-even-analysis`, `area-rule-reverse`).
+- Curve-bearing generators always get the `caret-exponent` (`exp(k*ln(b))`, never `^` in a
+  plotted expression) and `plot-out-of-axis` (domain restricted to the axis window) guidance.
+- Venn shading `fill=gray!35`, never `pattern=`.
+
+| # | Batch | Topics | Skills | QUEUE rows | Diagram load | Status |
+|---|---|---|---:|---|---|---|
+| W3-1 | Std: Formulas + Linear + Managing money | t-s6st11-formulas, -linear, -managing | 12 | 46, 47, 49 | low | pending — **shakedown batch** |
+| W3-2 | Std: Measurement + Time & location + Networks | t-s6st11-measurement, -time, -networks | 14 | 50, 51, 52 | high | pending |
+| W3-3 | Std: Data analysis | t-s6st11-data (incl. `grouped-data` once) | 6 | 53 | high | pending |
+| W3-4 | Adv: Working with functions A | t-s6adv11-functions dp 1–7 | 12 | 64 | medium | pending |
+| W3-5 | Adv: Working with functions B | t-s6adv11-functions dp 8–13 | 12 | 64 | high | pending |
+| W3-6 | Adv: Trig & measure of angles | t-s6adv11-trig (+ `area-rule-reverse`) | 12 | 65 | medium | pending |
+| W3-7 | Adv: Trig identities & equations | t-s6adv11-trigid | 12 | 66 | low | pending |
+| W3-8 | Adv: Intro to differentiation A | t-s6adv11-diff dp 1–5 | 13 | 67 | high | pending |
+| W3-9 | Adv: Intro to differentiation B | t-s6adv11-diff dp 6–9 | 12 | 67 | high | pending |
+| W3-10 | Adv: Exp/log + Graph transformations | t-s6adv11-explog, -transform | 11 | 68, 69 | high | pending — caret-exponent hot zone |
+| W3-11 | Adv: Probability and data | t-s6adv11-probdata (minus `grouped-data`) | 10 | 70 | high | pending |
+| W3-12 | Ext1: Further functions A | t-s6x1y11-functions dp 1–2 | 13 | 78 | high | pending |
+| W3-13 | Ext1: Further functions B + Polynomials | t-s6x1y11-functions dp 3–4, -polynomials | 16 | 78, 79 | medium | pending |
+| W3-14 | Ext1: Further trig + Binomial theorem | t-s6x1y11-trig, -binomial | 15 | 80, 82 | low–medium | pending — 2–3 `anchor: none` |
+| W3-15 | Ext1: Permutations & combinations | t-s6x1y11-combinatorics | 14 | 81 | none | pending — figure-free |
+
+Per-batch pipeline: build-gen-tasks → run-gen (agy) → collect-gen → six-command gate →
+(diagram lane first when diagram-heavy) → luna check/compare → repairs via
+build-repair-tasks/apply-repairs → diagram lane (render → lint → packets → Tier-1 flash →
+Tier-2 pro → redraw → re-audit ≤2 rounds) → report + human checklist → human commits.
+Human review scope per batch: flags + `anchor: none` skills + seeded 10% sample only.

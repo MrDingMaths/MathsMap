@@ -150,3 +150,24 @@ test('compare mode: a clean reply reports no mismatches/shortfall and exits 0', 
   assert.equal(status, 0);
   assert.match(stdout, /ANSWER MISMATCHES\n\s+none/);
 });
+
+// A usage-limit / credential failure is printed AFTER the echoed prompt, so the
+// banner-only diagnostic rule used to discard it and report a bare "codex exited 1".
+test('fatal CLI errors are surfaced even when printed after the conversation starts', async () => {
+  const { firstDiagnosticChars, fatalCliError } = await import('../scripts/run-luna-check.mjs');
+
+  const usageLimit = [
+    'OpenAI Codex v0.145.0', '--------', 'model: gpt-5.6-luna', '--------',
+    'user', 'A car costs $500. ERROR: internal server error is not a real thing here.',
+    "ERROR: You've hit your usage limit. Upgrade to Pro or try again at 10:45 PM.",
+  ].join('\n');
+  assert.match(firstDiagnosticChars(usageLimit), /usage limit/);
+
+  const authFailure = ['OpenAI Codex v0.145.0', 'user', 'question text', 'ERROR: Unauthorized - invalid API key'].join('\n');
+  assert.match(firstDiagnosticChars(authFailure), /Unauthorized/);
+
+  // Question text alone must never be classified as a CLI failure.
+  const innocent = ['OpenAI Codex v0.145.0', 'user', 'A shop had a 500 error rate on unauthorized returns.'].join('\n');
+  assert.equal(fatalCliError(innocent), null);
+  assert.match(firstDiagnosticChars(innocent), /OpenAI Codex/);
+});
