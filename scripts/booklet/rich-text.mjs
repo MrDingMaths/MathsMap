@@ -19,8 +19,8 @@ export function renderCloze(text, mode) {
   return String(text).replace(CLOZE_RE, (_whole, answer) => {
     const width = Math.max(4, Math.min(28, answer.length + 2));
     return mode === 'filled'
-      ? `CLOZE_FILLED:${answer}`
-      : `CLOZE_BLANK:${width}`;
+      ? `\u0001CLOZE_FILLED:${answer}\u0001`
+      : `\u0001CLOZE_BLANK:${width}\u0001`;
   });
 }
 
@@ -28,8 +28,8 @@ export function renderCloze(text, mode) {
 // it this way keeps the maths renderer unaware of them.
 function realiseCloze(html) {
   return html
-    .replace(/CLOZE_BLANK:(\d+)/g, (_w, w) => `<span class="cloze" style="--ch:${w}"></span>`)
-    .replace(/CLOZE_FILLED:([^]*)/g, (_w, answer) => `<span class="cloze cloze-filled">${renderMath(answer)}</span>`);
+    .replace(/\u0001CLOZE_BLANK:(\d+)\u0001/g, (_w, w) => `<span class="cloze" style="--ch:${w}"></span>`)
+    .replace(/\u0001CLOZE_FILLED:([^\u0001]*)\u0001/g, (_w, answer) => `<span class="cloze cloze-filled">${renderMath(answer)}</span>`);
 }
 
 /**

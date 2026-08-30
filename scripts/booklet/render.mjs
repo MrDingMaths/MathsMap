@@ -107,7 +107,6 @@ async function main() {
   const outDir = outDirArg ? resolve(ROOT, outDirArg) : dirname(resolve(ROOT, singleOut || join('out', `${recipe.slug}.pdf`)));
   mkdirSync(outDir, { recursive: true });
 
-  const server = await startServer({ mounts: bookletMounts({ bankSlug, rootDir: ROOT }) });
   let browser;
   try {
     browser = await chromium.launch({ headless: !argv.includes('--headed') });
@@ -133,8 +132,9 @@ async function main() {
         writeHtml: htmlArg ? resolve(ROOT, htmlArg) : null,
       });
 
-      // The document is served from memory; only its assets come off disk.
-      server.errors.length = 0;
+      // The document is served from memory; only its assets come off disk. One server per
+      // job: the document differs per variant, and a 404 it records is this variant's
+      // missing asset rather than a previous one's.
       const inline = new Map([
         ['/booklet.html', { body: html, type: 'text/html; charset=utf-8' }],
       ]);
@@ -148,6 +148,7 @@ async function main() {
       });
 
       const serverWithDoc = await startServer({ inline, mounts: bookletMounts({ bankSlug, rootDir: ROOT }) });
+      try {
       await page.goto(`${serverWithDoc.base}/booklet.html`, { waitUntil: 'load' });
 
       const timeoutMs = Number(arg(argv, '--timeout-ms', String(Math.max(180_000, stats.tikzPending * 2000))));
@@ -172,9 +173,6 @@ async function main() {
         printBackground: true,
         preferCSSPageSize: true,
       });
-      await page.close();
-      await serverWithDoc.close();
-
       const summary = {
         out: outPath.replace(`${ROOT}\\`, '').replace(`${ROOT}/`, '').split('\\').join('/'),
         variant: job.variant,
@@ -191,23 +189,29 @@ async function main() {
         },
         overflow,
         missingAssets: [...new Set(serverWithDoc.errors)],
+        incomplete: wait.timedOut ? (wait.reason || 'incomplete') : null,
         ms: Date.now() - started,
       };
       summaries.push(summary);
 
-      const bad = failed.length + overflow.length + (cards !== model.expectedCards ? 1 : 0) + summary.missingAssets.length;
+      const bad = failed.length + overflow.length + (cards !== model.expectedCards ? 1 : 0)
+        + summary.missingAssets.length + (summary.incomplete ? 1 : 0);
       defects += bad;
       console.error(
         `${summary.out}: ${pages} page(s), ${cards}/${model.expectedCards} card(s), `
         + `${stats.blocks} block(s), figures ${stats.tikzCached} cached + ${summary.tikz.compiled} compiled`
         + `${failed.length ? `, ${failed.length} FAILED` : ''}${overflow.length ? `, ${overflow.length} overflowing page(s)` : ''}`
         + `${summary.missingAssets.length ? `, ${summary.missingAssets.length} missing asset(s)` : ''}`
+        + `${summary.incomplete ? `, ${String(summary.incomplete).toUpperCase()}` : ''}`
         + ` (${(summary.ms / 1000).toFixed(1)}s)`,
       );
+      } finally {
+        await page.close().catch(() => {});
+        await serverWithDoc.close();
+      }
     }
   } finally {
     await browser.close();
-    await server.close();
   }
 
   console.log(JSON.stringify({ summaries, cache: cache.stats() }, null, 2));

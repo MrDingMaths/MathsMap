@@ -336,3 +336,32 @@ test('a worked example always shows its working, whatever the variant', () => {
   assert.match(doc, /class="working"/);
   assert.match(doc, /7\.1/);
 });
+
+test('a cell showing two diagrams prints both, in source order', () => {
+  const model = resolveBooklet(recipe({ sections: [{ title: 'S', items: [{ cards: ['trig/sec-f1'] }] }] }), 'standard', { loaders });
+  model.sections[0].items[0].card = {
+    ...CARDS['sec-f1'],
+    figure: { png: 'figures/image2.png', widthCm: 7 },
+    figures: [{ png: 'figures/image3.png', widthCm: 7.2 }],
+  };
+  const { html: doc } = buildHtml(model, { cache: noCache(), bankSlug: 'fx', css: '' });
+  const order = [...doc.matchAll(/\/bank\/fx\/(image\d+\.png)/g)].map((m) => m[1]);
+  assert.deepEqual(order, ['image2.png', 'image3.png']);
+});
+
+test('extra diagrams on a lettered part are printed too', () => {
+  const model = resolveBooklet(recipe({ sections: [{ title: 'S', items: [{ cards: ['trig/sec-d3'] }] }] }), 'standard', { loaders });
+  model.sections[0].items[0].card = {
+    ...CARDS['sec-d3'],
+    parts: [{
+      label: 'a',
+      question_text: 'Find it.',
+      answer: '$1$',
+      figure: { png: 'figures/image8.png', widthCm: 4 },
+      figures: [{ png: 'figures/image9.png', widthCm: 4 }],
+    }],
+  };
+  const { html: doc } = buildHtml(model, { cache: noCache(), bankSlug: 'fx', css: '' });
+  assert.match(doc, /image8\.png/);
+  assert.match(doc, /image9\.png/);
+});

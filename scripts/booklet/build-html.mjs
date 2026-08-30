@@ -88,11 +88,12 @@ function figuresHtml(item, bankSlug, fallbackCm) {
 
 // --- questions -----------------------------------------------------------------
 
+// The short-answer column prints the booklet's own printed answer and nothing else. An item
+// with only a worked solution contributes no short answer: dumping the whole solution here
+// would defeat the point of the column.
 function answerHtml(item, ctx) {
-  if (!ctx.output.shortAnswers) return '';
-  const answer = item.answer || (item.solution_text ? null : null);
-  if (!answer) return '';
-  return `<div class="ans">${richTextInline(answer, { cloze: 'none' })}</div>`;
+  if (!ctx.output.shortAnswers || !item.answer) return '';
+  return `<div class="ans">${richTextInline(item.answer, { cloze: 'none' })}</div>`;
 }
 
 function solutionHtml(item, ctx) {
