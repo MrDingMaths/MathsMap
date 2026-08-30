@@ -32,11 +32,23 @@ export const AGY_BIN = process.env.AGY_PATH
 export const ARGV_CEILING = 28000;
 
 export class OAuthExpiredError extends Error {
-  constructor(failures) {
-    super(`agy: ${failures} consecutive calls errored with no result file — Google OAuth has `
-      + 'likely expired. Re-authenticate agy, then rerun this command; tasks with a valid '
-      + 'result file are skipped automatically.');
-    this.name = 'OAuthExpiredError';
+  // A run-halting failure. The two causes look identical from here — consecutive calls that
+  // write no result file — but the remedies are opposite, so the agy `error` text is used to
+  // tell them apart. Reporting a quota wall as "re-authenticate" sends the operator to fix
+  // something that is not broken and hides the only fact that matters: when it resets.
+  constructor(failures, lastError = '') {
+    const quota = /quota|rate limit|resource[_ ]exhausted/i.test(String(lastError));
+    const resets = String(lastError).match(/Resets? in ([\dhms ]+)/i);
+    super(quota
+      ? `agy: ${failures} consecutive calls failed on quota — "${String(lastError).trim()}". `
+        + `Wait${resets ? ` ${resets[1].trim()}` : ''}, then rerun this command; tasks with a `
+        + 'valid result file are skipped automatically.'
+      : `agy: ${failures} consecutive calls errored with no result file — Google OAuth has `
+        + 'likely expired. Re-authenticate agy, then rerun this command; tasks with a valid '
+        + 'result file are skipped automatically.');
+    this.name = quota ? 'AgyQuotaError' : 'OAuthExpiredError';
+    this.quota = quota;
+    this.lastError = lastError;
   }
 }
 
@@ -184,7 +196,7 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
 // after `oauthHaltAfter` consecutive no-file failures.
 export async function runTasks(tasksDir, {
   model = 'gemini-3.7-flash-high',
-  concurrency = 3,
+  concurrency = 5,
   resultSuffix = '.result.json',
   timeoutMs = 25 * 60 * 1000,
   printTimeout = '20m',
@@ -212,7 +224,7 @@ export async function runTasks(tasksDir, {
       const outcome = await runOne(tasksDir, file, { model, resultSuffix, timeoutMs, printTimeout, pointerPrompt });
       results.push(outcome);
       if (outcome.ok) consecutiveNoFile = 0;
-      else if (outcome.noFile && ++consecutiveNoFile >= oauthHaltAfter) halted = new OAuthExpiredError(consecutiveNoFile);
+      else if (outcome.noFile && ++consecutiveNoFile >= oauthHaltAfter) halted = new OAuthExpiredError(consecutiveNoFile, outcome.reason);
       console.log(`${file}: ${outcome.ok ? 'ok' : `FAIL — ${outcome.reason}`} (${Math.round((outcome.elapsedMs || 0) / 1000)}s)`);
     }
   }
