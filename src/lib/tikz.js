@@ -28,6 +28,8 @@
 // EVERY started-but-unfinished job (not just the culprit) — terminating the worker kills
 // peers mid-compile and poisons TikZJax's internal serial queue, so every survivor must be
 // resubmitted to the fresh engine. Non-culprit peers are re-injected without penalty.
+import { prepareTikz, TIKZ_PREAMBLE_LINES, tikzKey } from './tikz-prepare.js';
+
 if (typeof window.__installTikzWorkerTracker !== 'function') {
   window.__installTikzWorkerTracker = () => {
     const workers = window.__tikzWorkers instanceof Set ? window.__tikzWorkers : (window.__tikzWorkers = new Set());
@@ -66,9 +68,6 @@ const TIKZ_LOADER_MAX_MS = 45000;
 const TIKZ_COLD_STALL_MS = 120000;
 // Absolute per-job backstop, measured from injection.
 const TIKZ_HARD_CAP_MS = 300000;    // 5 min
-// CM design sizes bundled in public/libs/tikzjax/fonts/. \fontsize{N}{M} requests
-// outside this set can fail in the worker → silent stall → infinite spinner.
-const TIKZ_CM_DESIGN_SIZES = [5, 6, 7, 8, 9, 10, 12, 17];
 const TIKZ_ENGINE_SRC = '/libs/tikzjax/tikzjax.js';
 const TIKZ_FONTS_HREF = '/libs/tikzjax/fonts.css';
 // Start compiling this far before a wrapper scrolls into view.
@@ -93,23 +92,6 @@ const _snapshot = (wrapper) => {
   };
 };
 
-const _djb2 = (s) => {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
-  return (h >>> 0).toString(36);
-};
-const _fnv1a = (s) => {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
-  }
-  return h.toString(36);
-};
-// ~64-bit composite key + length guard — a 32-bit hash alone risks serving the wrong
-// cached SVG on collision once the cache spans thousands of diagrams.
-const _tikzKey = (payload) =>
-  _djb2(payload) + '-' + _fnv1a(payload) + '-' + payload.length.toString(36);
 
 // ---------------------------------------------------------------------------
 // Persistent SVG cache (IndexedDB). Any failure degrades silently to the
@@ -276,14 +258,7 @@ const _buildTikzScript = (job) => {
   s.dataset.disableCache = '1';
   s.textContent = job.code;
   if (job.pkgJson) s.dataset.texPackages = job.pkgJson;
-  const preambleLines = [
-    // Modern LaTeX (2020+) auto-loads textcomp and routes \$ through TC fonts,
-    // but TikZJax only bundles CM fonts. Bind \textdollar to OT1 char 36 directly.
-    '\\DeclareTextCommand{\\textdollar}{OT1}{\\char36 }',
-    '\\usetikzlibrary{arrows,arrows.meta,patterns,calc,angles,quotes}',
-    '\\usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing}',
-    '\\usetikzlibrary{positioning,intersections,shadings}',
-  ];
+  const preambleLines = [...TIKZ_PREAMBLE_LINES];
   if (job.extraPreamble && job.extraPreamble.length) {
     preambleLines.push(...job.extraPreamble);
   }
@@ -653,56 +628,10 @@ export function renderTikzCode(outerEl, code, { eager = false } = {}) {
   _stat('validPlaceholders');
   if (!tikzStats.firstPlaceholderAt) tikzStats.firstPlaceholderAt = performance.now();
 
-  // Extract \usepackage lines from body — tikzjax wraps code in \begin{document}...\end{document}
-  // so any \usepackage commands in the code body would cause "Can be used only in preamble".
-  // Packages that change font encoding (fontenc, inputenc, babel) are dropped entirely because
-  // tikzjax only bundles CM fonts and will fail with EC/T1 fonts at unusual sizes.
-  const TIKZJAX_UNSUPPORTED_PKG = /^(fontenc|inputenc|babel|lmodern|fontawesome|luatex85)$/;
-  const extraPreamble = [];
-  let cleanCode = code.replace(/^[ \t]*\\usepackage(\[.*?\])?\{([^}]+)\}[ \t]*\n?/gm, (match, _opts, pkgName) => {
-    if (!TIKZJAX_UNSUPPORTED_PKG.test(pkgName.trim())) extraPreamble.push(match.trim());
-    return '';
-  }).replace(/^\n+/, '');
-
-  // Snap \fontsize{N}{M} to bundled CM design sizes. TikZJax only ships CM at
-  // {5,6,7,8,9,10,12,17}; off-list sizes can fail in the worker → loader stall.
-  // Apply per line, skipping any text after an unescaped `%` (LaTeX comment).
-  const _snapSize = (n) => {
-    const v = parseFloat(n);
-    if (!isFinite(v)) return n;
-    let best = TIKZ_CM_DESIGN_SIZES[0];
-    let bestDist = Math.abs(v - best);
-    for (const s of TIKZ_CM_DESIGN_SIZES) {
-      const d = Math.abs(v - s);
-      if (d < bestDist || (d === bestDist && s < best)) { best = s; bestDist = d; }
-    }
-    return String(best);
-  };
-  const _commentSplit = (line) => {
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] === '%' && (i === 0 || line[i - 1] !== '\\')) {
-        return [line.slice(0, i), line.slice(i)];
-      }
-    }
-    return [line, ''];
-  };
-  const _fontSizeRe = /\\fontsize\{(\d+(?:\.\d+)?)\}\{(\d+(?:\.\d+)?)\}/g;
-  cleanCode = cleanCode.split('\n').map(line => {
-    const [body, comment] = _commentSplit(line);
-    return body.replace(_fontSizeRe, (match, n, m) => {
-      const nn = _snapSize(n);
-      const mm = _snapSize(m);
-      return (nn === n && mm === m) ? match : `\\fontsize{${nn}}{${mm}}`;
-    }) + comment;
-  }).join('\n');
-
-  const pkgs = {};
-  if (/\\begin\{axis\}|\\addplot|\\pgfplots/.test(cleanCode)) pkgs.pgfplots = '';
-  if (/\\tdplotsetmaincoords|\\tdplotsetrotatedcoords|\\begin\{tdplot|\\tdplot/.test(cleanCode)) pkgs['tikz-3dplot'] = '';
-  if (/\\tfrac|\\dfrac|\\frac\{|\\text\{|\\operatorname|\\mathbb|\\bm\{|\\underset\{|\\overset\{/.test(cleanCode)) pkgs.amsmath = '';
-  if (/\\mathbb|\\varnothing|\\therefore|\\square|\\blacksquare|\\triangle\b|\\angle\b/.test(cleanCode)) pkgs.amssymb = '';
-  const pkgJson = Object.keys(pkgs).length ? JSON.stringify(pkgs) : null;
-  const key = _tikzKey(cleanCode + '|' + (pkgJson || '') + '|' + extraPreamble.join(';'));
+  // Source normalisation, package detection and the cache key all live in
+  // src/lib/tikz-prepare.js, shared with the Node-side booklet renderer so a figure is
+  // prepared identically on screen and on paper.
+  const { cleanCode, pkgJson, extraPreamble, key } = prepareTikz(code);
 
   // Insert a script-less .tikz-loading wrapper and defer everything else (IDB lookup,
   // engine load, script injection) until the wrapper nears the viewport.

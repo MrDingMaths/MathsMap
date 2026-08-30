@@ -111,13 +111,25 @@ export function buildCropIndex(sections, docxPath) {
   };
 }
 
-function figureFor(images, cropIndex) {
-  if (!images || !images.length) return null;
-  const first = images[0];
-  const found = cropIndex.byRef.get(first);
-  const figure = { png: `figures/${first.png}`, widthCm: first.widthCm ?? found?.widthCm ?? null };
+function figureOf(ref, cropIndex) {
+  const found = cropIndex.byRef.get(ref);
+  const figure = { png: `figures/${ref.png}`, widthCm: ref.widthCm ?? found?.widthCm ?? null };
   if (found && found.crop) figure.crop = found.crop;
   return figure;
+}
+
+function figureFor(images, cropIndex) {
+  if (!images || !images.length) return null;
+  return figureOf(images[0], cropIndex);
+}
+
+// The schema carries ONE `figure` per card, part or cell, but a booklet cell sometimes shows
+// two pictures (a before/after pair, a plan and elevation). Dropping the extras silently
+// would lose content, so every figure a cell holds is listed in `_source.figures` for the
+// transcription agent to place — usually by splitting the cell or naming the second picture
+// in the stem.
+function figuresFor(images, cropIndex) {
+  return (images || []).map((ref) => figureOf(ref, cropIndex));
 }
 
 // --- skeleton emitters -------------------------------------------------------
@@ -142,6 +154,7 @@ function skeletonCard(node, { sourceFile, sectionTitle, cropIndex }) {
       stemRaw: node.stemRaw,
       answerRaw: node.answerRaw,
       answerParts: node.answerParts,
+      figures: figuresFor(node.images, cropIndex),
     },
   };
   if (node.source) card.source = node.source;
@@ -156,7 +169,7 @@ function skeletonCard(node, { sourceFile, sectionTitle, cropIndex }) {
         label: part.label || 'abcdefghijkl'[i],
         question_text: null,
         answer: null,
-        _source: { stemRaw: part.stemRaw, answerRaw: part.answerRaw },
+        _source: { stemRaw: part.stemRaw, answerRaw: part.answerRaw, figures: figuresFor(part.images, cropIndex) },
       };
       if (partFigure) out.figure = partFigure;
       return out;
@@ -181,7 +194,7 @@ function skeletonBlock(node, { sourceFile, sectionTitle, cropIndex }) {
     type: node.type,
     title: node.title || null,
     origin: { file: sourceFile, section: sectionTitle, lines: node.lines },
-    _source: { prose: node.prose, images: node.images.map((i) => i.png) },
+    _source: { prose: node.prose, figures: figuresFor(node.images, cropIndex) },
   };
   if (node.type === 'proof') base.tier = 'mastery';
 
@@ -191,7 +204,7 @@ function skeletonBlock(node, { sourceFile, sectionTitle, cropIndex }) {
       label: cell.label || 'abcdefghijkl'[i],
       question_text: null,
       answer: null,
-      _source: { stemRaw: cell.stemRaw, answerRaw: cell.answerRaw },
+      _source: { stemRaw: cell.stemRaw, answerRaw: cell.answerRaw, figures: figuresFor(cell.images, cropIndex) },
     };
     if (figure) out.figure = figure;
     return out;
@@ -325,17 +338,21 @@ function main() {
       }
     }
 
+    // Count the figures actually PLACED on a card, part or cell — not the `_source.figures`
+    // catalogue, which repeats them plus any extras still to be placed.
     const countFigures = (value) => {
       if (!value || typeof value !== 'object') return;
       if (Array.isArray(value)) {
         for (const v of value) countFigures(v);
         return;
       }
-      if (value.png) {
+      if (value.figure && value.figure.png) {
         totalFigures++;
-        if (value.crop) croppedFigures++;
+        if (value.figure.crop) croppedFigures++;
       }
-      for (const v of Object.values(value)) countFigures(v);
+      for (const [key, v] of Object.entries(value)) {
+        if (key !== '_source' && key !== 'figure') countFigures(v);
+      }
     };
     countFigures(cards);
     countFigures(blocks);

@@ -551,7 +551,7 @@ export function validateRecipe(recipePath, ctx, { bankRoot }) {
     ctx.errors.push(`${rel}: ${e.message}`);
     return;
   }
-  for (const key of unknownKeys(recipe, new Set(['slug', 'meta', 'banks', 'defaults', 'variants', 'sections']))) {
+  for (const key of unknownKeys(recipe, new Set(['slug', 'comment', 'meta', 'banks', 'defaults', 'variants', 'sections']))) {
     ctx.errors.push(`${rel}: unknown key "${key}"`);
   }
   if (typeof recipe.slug !== 'string' || !recipe.slug) ctx.errors.push(`${rel}: "slug" is required`);
