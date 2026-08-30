@@ -42,7 +42,8 @@ function listJson(dir) {
 // --- shared field checks -----------------------------------------------------
 
 function checkText(value, where, ctx, { required = true } = {}) {
-  if (value === undefined || value === null) {
+  // An optional field the transcription left blank is absent, whether it wrote null or "".
+  if (value === undefined || value === null || value === '') {
     if (required) ctx.errors.push(`${where}: is required`);
     return;
   }
@@ -74,7 +75,7 @@ function checkFigure(figure, where, ctx, { bankDir, textWithTikz }) {
       ctx.errors.push(`${where}.figure.crop: must be { l, t, r, b } numbers`);
     } else {
       for (const s of sides) {
-        if (!(c[s] >= 0 && c[s] < 1)) ctx.errors.push(`${where}.figure.crop.${s}: must be in [0, 1), got ${c[s]}`);
+        if (!(c[s] > -1 && c[s] < 1)) ctx.errors.push(`${where}.figure.crop.${s}: must be in (-1, 1), got ${c[s]}`);
       }
       if (c.l + c.r >= 1) ctx.errors.push(`${where}.figure.crop: l + r must be < 1 (${c.l} + ${c.r})`);
       if (c.t + c.b >= 1) ctx.errors.push(`${where}.figure.crop: t + b must be < 1 (${c.t} + ${c.b})`);
@@ -119,17 +120,19 @@ function checkInt(value, where, ctx, { min, max, label }) {
 
 // A part (lettered sub-question) and a drill cell share one shape; only the allowed
 // key set and whether `label` is mandatory differ.
-function checkSubItem(item, where, ctx, { bankDir, keys, requireLabel, index, requireQuestion = true }) {
+function checkSubItem(item, where, ctx, { bankDir, keys, requireLabel, index, requireQuestion = false }) {
   if (typeof item !== 'object' || item === null || Array.isArray(item)) {
     ctx.errors.push(`${where}: must be an object`);
     return;
   }
   for (const key of unknownKeys(item, keys)) ctx.errors.push(`${where}: unknown key "${key}"`);
   if (requireLabel) {
-    const expected = LABELS[index];
-    if (item.label !== expected) {
-      ctx.errors.push(`${where}.label: expected "${expected}" (labels run a, b, c… in order), got ${JSON.stringify(item.label)}`);
+    if (typeof item.label !== 'string' || !LABELS.includes(item.label)) {
+      ctx.errors.push(`${where}.label: must be a single letter a-z, got ${JSON.stringify(item.label)}`);
+    } else if (ctx.lastLabel && LABELS.indexOf(item.label) <= LABELS.indexOf(ctx.lastLabel)) {
+      ctx.errors.push(`${where}.label: "${item.label}" does not come after "${ctx.lastLabel}" — part letters ascend`);
     }
+    ctx.lastLabel = item.label;
   } else if (item.label !== undefined && (typeof item.label !== 'string' || !item.label.trim())) {
     ctx.errors.push(`${where}.label: must be a non-empty string when present`);
   }
@@ -205,9 +208,11 @@ function checkCard(card, where, ctx, { bankDir, sectionSlug, skillIds, seenIds, 
       if (card.answer != null) {
         ctx.errors.push(`${where}.answer: a card with parts carries answers on the parts, not at the top level`);
       }
+      ctx.lastLabel = null;
       card.parts.forEach((part, i) => {
         checkSubItem(part, `${where}.parts[${i}]`, ctx, { bankDir, keys: BOOKLET_PART_KEYS, requireLabel: true, index: i });
       });
+      ctx.lastLabel = null;
     }
   } else if (card.answer == null && card.solution_text == null) {
     ctx.errors.push(`${where}: needs an "answer" (the printed short answer) or a "solution_text"`);

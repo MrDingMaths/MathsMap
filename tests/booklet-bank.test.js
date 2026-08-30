@@ -78,10 +78,13 @@ test('a missing figure PNG, an out-of-range crop and a non-positive width are al
   assert.match(stderr, /\.figure\.widthCm: must be a positive number/);
 });
 
-test('a card with parts must not carry a top-level answer, and part labels must run a, b, c', () => {
+test('a card with parts must not carry a top-level answer, and part labels must ascend', () => {
   const { stderr } = bad();
   assert.match(stderr, /\.answer: a card with parts carries answers on the parts/);
-  assert.match(stderr, /\.parts\[1\]\.label: expected "b" .*got "c"/);
+  // The booklet's own lettering is authoritative — a question whose parts run c, d, e, f
+  // because a and b sat in an earlier grid is correct — so what is checked is that the
+  // letters ascend and do not repeat.
+  assert.match(stderr, /\.parts\[1\]\.label: "a" does not come after "a"/);
 });
 
 test('a card with neither answer nor solution_text is an error', () => {

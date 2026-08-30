@@ -57,11 +57,17 @@ function pngFigure(figure, fallbackCm) {
   if (!crop || (!crop.l && !crop.t && !crop.r && !crop.b)) {
     return `<figure class="fig"><img src="${attr(src)}" style="width:${widthCm}cm" alt=""></figure>`;
   }
-  const kx = 1 - (crop.l + crop.r);
-  const ky = 1 - (crop.t + crop.b);
+  // A negative inset means Word showed area beyond the image edge; CSS cannot, and the
+  // values that occur in practice are rounding noise (-0.00004), so clamp to zero.
+  const l = Math.max(0, crop.l);
+  const t = Math.max(0, crop.t);
+  const r = Math.max(0, crop.r);
+  const b = Math.max(0, crop.b);
+  const kx = 1 - (l + r);
+  const ky = 1 - (t + b);
   const scale = 100 / kx;
-  const left = -(crop.l / kx) * 100;
-  const top = -(crop.t / ky) * 100;
+  const left = -(l / kx) * 100;
+  const top = -(t / ky) * 100;
   // The clip box's aspect ratio is unknown until the image loads, so height comes from
   // padding-bottom once the natural size is known; a data attribute lets the page fix it up.
   return [
@@ -407,7 +413,12 @@ window.__booklet = {
       page: i + 1, over: c.scrollHeight - c.clientHeight,
     })).filter((x) => x.over > 2);
   },
-  cardCount() { return document.querySelectorAll('article.q[data-card]').length; },
+  // Counted AFTER pagination, where Paged.js has cloned any question that split across a
+  // page break — so count distinct card ids, not elements, or a long question inflates the
+  // total and a correct booklet looks wrong.
+  cardCount() {
+    return new Set([...document.querySelectorAll('article.q[data-card]')].map((el) => el.dataset.card)).size;
+  },
 };`.trim();
 }
 

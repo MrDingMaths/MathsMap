@@ -320,7 +320,6 @@ p { orphans: 2; widows: 2; }
 /* ---------- boxes ---------- */
 
 .box {
-  border: 0.6pt solid #000;
   margin: 0 0 4mm;
   break-inside: avoid;
 }
@@ -329,6 +328,7 @@ p { orphans: 2; widows: 2; }
 .box-open, .box-review, .box-identify, .box-guided, .box-proof { break-inside: auto; }
 
 .box-title {
+  border: 0.6pt solid #000;
   background: #e7e6e6;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -338,7 +338,13 @@ p { orphans: 2; widows: 2; }
   break-after: avoid;
 }
 
-.box-body { padding: 2.5mm 3mm; }
+/* The border lives on the title and the body rather than on `.box`, so a box that splits
+ * across a page cannot leave an empty bordered strip behind at the foot of the page. */
+.box-body {
+  padding: 2.5mm 3mm;
+  border: 0.6pt solid #000;
+  border-top: 0;
+}
 
 .box-example .working { margin-top: 1.5mm; }
 

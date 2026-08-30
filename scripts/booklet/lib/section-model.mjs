@@ -132,6 +132,10 @@ function boxNode(lines, start, end) {
   // wall: "- **Identify** whether you can use sine rule   |".
   const titleRest = m ? m[2].replace(/\s*\|\s*$/, '').trim() : '';
   const type = label ? boxTypeFor(label) : 'teach';
+  // A drill box's label is the first word of its printed title — "Identify whether you can
+  // use cosine rule" — so dropping it leaves a heading that starts mid-sentence. A teaching
+  // box has no such prefix: its label is the whole title.
+  const title = type === 'teach' || !titleRest ? (label || titleRest) : `${label} ${titleRest}`;
   // Row 0 is the box's title bar; the body is everything after it.
   const bodyRows = table.rows.slice(table.headerRows > 0 ? table.headerRows : 1);
   const groups = [];
@@ -169,7 +173,7 @@ function boxNode(lines, start, end) {
     kind: 'box',
     type,
     label,
-    title: titleRest || label,
+    title,
     lines: [start + 1, end],
     prose,
     groups,
