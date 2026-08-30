@@ -6,10 +6,10 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import katex from 'katex';
-import { splitInlineContent, validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys, isStructureSlug } from '../src/lib/inline-content.js';
+import { validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys, isStructureSlug } from '../src/lib/inline-content.js';
 import { rejectStrayPositionals } from './lib/argv.mjs';
-import { lintMathString, lintControlChars, lintSelfReferencingNodes } from './lib/lint-math.mjs';
+import { lintMathString, validateInlineText, validateTikz } from './lib/lint-math.mjs';
+import { voiceBreaches } from './lib/theory-voice.mjs';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(rootDir, 'data');
@@ -96,36 +96,6 @@ for (const d of dotpoints) if (!usedDotpoints.has(d.id)) warnings.push(`dotpoint
 // Content & quiz validation (docs/content-schema.md is the source of truth)
 // ---------------------------------------------------------------------------
 
-function validateTikz(value, where, problems) {
-  if (typeof value !== 'string') {
-    problems.push(`${where}: must be a string`);
-    return;
-  }
-  lintControlChars(value, where, problems);
-  lintSelfReferencingNodes(value, where, problems);
-  if (!value.includes('\\begin{tikzpicture}')) {
-    problems.push(`${where}: must contain \\begin{tikzpicture}`);
-  }
-  if (value.includes('\\usepackage')) {
-    problems.push(`${where}: must not contain \\usepackage`);
-  }
-}
-
-function validateInlineText(value, where, problems) {
-  if (typeof value !== 'string' || !value.trim()) {
-    problems.push(`${where}: is required and must be a non-empty string`);
-    return;
-  }
-  lintControlChars(value, where, problems);
-  const parsed = splitInlineContent(value);
-  for (const error of parsed.errors) problems.push(`${where}: ${error}`);
-  let diagramIndex = 0;
-  for (const part of parsed.parts) {
-    if (part.type === 'tikz') validateTikz(part.value, `${where} [tikz ${++diagramIndex}]`, problems);
-    else lintMathString(part.value, where, problems);
-  }
-}
-
 function validateProcedure(solutionText, theory, where, problems) {
   const steps = Array.isArray(theory?.steps) ? theory.steps : [];
   for (const error of validateProcedureLabels(solutionText, steps)) problems.push(`${where}: ${error}`);
@@ -205,29 +175,26 @@ function validateContent(filterFn) {
       for (const key of Object.keys(theory)) {
         if (!allowedTheory.has(key)) errs.push(`${tag}: unknown theory key "${key}"`);
       }
-      if (typeof theory.intro !== 'string' || !theory.intro) {
-        errs.push(`${tag}: theory.intro is required and must be a non-empty string`);
-      } else {
-        lintMathString(theory.intro, `${tag} theory.intro`, errs);
-      }
+      // Theory fields carry the shared rich-text format, inline [tikz] figures
+      // included, so they get the same treatment as a card's text fields:
+      // balanced-tag check, validateTikz per block, prose linted as prose.
+      validateInlineText(theory.intro, `${tag} theory.intro`, errs);
       if (!Array.isArray(theory.facts)) {
         errs.push(`${tag}: theory.facts is required and must be an array`);
       } else {
-        theory.facts.forEach((f, i) => {
-          if (typeof f !== 'string') errs.push(`${tag}: theory.facts[${i}] must be a string`);
-          else lintMathString(f, `${tag} theory.facts[${i}]`, errs);
-        });
+        theory.facts.forEach((f, i) => validateInlineText(f, `${tag} theory.facts[${i}]`, errs));
       }
       if (theory.steps !== undefined) {
         if (!Array.isArray(theory.steps)) {
           errs.push(`${tag}: theory.steps must be an array`);
         } else {
-          theory.steps.forEach((s, i) => {
-            if (typeof s !== 'string') errs.push(`${tag}: theory.steps[${i}] must be a string`);
-            else lintMathString(s, `${tag} theory.steps[${i}]`, errs);
-          });
+          theory.steps.forEach((s, i) => validateInlineText(s, `${tag} theory.steps[${i}]`, errs));
         }
       }
+      // Theory voice: a definition a student can hold in working memory. WARN, not error —
+      // most of the corpus predates the budget and is being rewritten batch by batch
+      // (scripts/agy/build-theory-tasks.mjs), where the same numbers hard-fail.
+      for (const breach of voiceBreaches(theory)) warns.push(`${tag} theory: ${breach}`);
     }
 
     // practice (optional)

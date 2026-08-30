@@ -3,6 +3,26 @@ const CLOSE = '[/tikz]';
 export const PRACTICE_CARD_KEYS = new Set(['question_text', 'structure', 'solution_text']);
 export const QUIZ_QUESTION_KEYS = new Set(['id', 'question_text', 'structure', 'mastery', 'options', 'solution_text']);
 
+// The booklet bank (docs/booklet-bank-schema.md) is a SECOND bank, separate from the
+// single-skill atoms above: its cards are booklet/exam-style and may mix skills, so they
+// carry `skills[]`, printed short `answer`s, lettered `parts`, PNG `figure` fallbacks and
+// layout hints the atoms have no use for. Same rich-text format, different record shape.
+export const BOOKLET_CARD_KEYS = new Set([
+  'id', 'tier', 'skills', 'primarySkill', 'structure', 'question_text', 'answer', 'solution_text',
+  'scaffold', 'figure', 'columns', 'space', 'marks', 'calculator', 'tags', 'source', 'origin', 'parts',
+]);
+export const BOOKLET_PART_KEYS = new Set([
+  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'marks', 'space',
+]);
+export const BOOKLET_CELL_KEYS = new Set([
+  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'space',
+]);
+export const BOOKLET_FIGURE_KEYS = new Set(['png', 'crop', 'widthCm']);
+export const BOOKLET_TIERS = new Set(['foundation', 'development', 'mastery']);
+export const BLOCK_TYPES = new Set([
+  'syllabus', 'teach', 'review', 'identify', 'keyIdeas', 'write', 'example', 'guided', 'proof', 'markdown',
+]);
+
 const STRUCTURE_SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 // A `structure` value is a kebab-case archetype slug, shared vocabulary
@@ -139,6 +159,21 @@ export function extractTikzBlocks(value) {
     blocks: parsed.parts.filter((part) => part.type === 'tikz').map((part) => part.value),
     errors: parsed.errors
   };
+}
+
+// Replace the Nth (0-indexed) [tikz]…[/tikz] block's code, leaving all other
+// text and blocks untouched. Used by the admin diagram editor to write an
+// edited block back into its parent question/solution text.
+export function replaceTikzBlock(value, index, newCode) {
+  const parsed = splitInlineContent(value);
+  let seen = -1;
+  return parsed.parts
+    .map((part) => {
+      if (part.type !== 'tikz') return part.value;
+      seen += 1;
+      return seen === index ? `${OPEN}${newCode}${CLOSE}` : `${OPEN}${part.value}${CLOSE}`;
+    })
+    .join('');
 }
 
 export function stripTikzBlocks(value) {
