@@ -87,8 +87,11 @@ test('a card with parts must not carry a top-level answer, and part labels must 
   assert.match(stderr, /\.parts\[1\]\.label: "a" does not come after "a"/);
 });
 
-test('a card with neither answer nor solution_text is an error', () => {
-  assert.match(bad().stderr, /sine-rule-sides-d6\): needs an "answer" .* or a "solution_text"/);
+test('a card with no printed answer is accepted — the booklet is the source of truth', () => {
+  // Requiring an answer made the transcription invent them: a drill cell such as
+  // "Round to the nearest minute: 34° 40' 12''" prints none, because the student writes it.
+  const { stderr } = bad();
+  assert.ok(!/needs an "answer"/.test(stderr), stderr);
 });
 
 test('origin.lines past the end of the source file is an error', () => {

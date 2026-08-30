@@ -187,7 +187,7 @@ function questionNode(lines, start, end, { number, stemText, tier }) {
   const tableSpans = findTableSpans(slice);
   const parts = [];
   const images = [];
-  let prose = [stemText];
+  let prose = [];
 
   for (const [a, b] of tableSpans) {
     const table = parseGridTable(slice.slice(a, b));
@@ -217,13 +217,17 @@ function questionNode(lines, start, end, { number, stemText, tier }) {
       if (hsc[1]) source.year = Number(hsc[1]);
       continue;
     }
-    images.push(...extractImageRefs(line));
-    const bare = stripImageRefs(line);
-    if (!bare.trim()) continue;
-    if (/^[a-l]\\?\)/.test(bare.trim())) looseAnswers.push(bare.trim());
-    else looseLines.push(bare);
+    if (/^[a-l]\\?\)/.test(line.trim())) looseAnswers.push(line.trim());
+    else looseLines.push(line);
   }
-  prose = prose.concat(looseLines).filter((p) => p && p.trim());
+
+  // Image references are extracted from the JOINED prose, never line by line: a reference
+  // routinely straddles a line break (the `![` on the numbered line, the closing `)` on the
+  // next), and an image sitting on the question's own numbered line would otherwise be left
+  // as raw markdown inside the stem.
+  const proseRaw = [stemText, ...looseLines].join('\n');
+  images.push(...extractImageRefs(proseRaw));
+  prose = stripImageRefs(proseRaw).split('\n').filter((p) => p && p.trim());
 
   const answerParts = looseAnswers.length ? splitAnswerParts(looseAnswers.join(' ')) : [];
   let answerRaw = null;
@@ -357,6 +361,9 @@ export function sectionise(lines) {
         let j = i + 1;
         while (j < end) {
           if (spanStart.has(j)) {
+            // A titled box after a question belongs to the section, not to the question:
+            // absorbing it turns a Proof box into two more lettered parts and loses it.
+            if (BOX_LABEL_RE.test(lines[j + 1] || '')) break;
             j = spanStart.get(j);
             continue;
           }

@@ -319,7 +319,7 @@ test('the pilot booklet parses into its ten sections with nothing unclassified',
     b: s.nodes.filter((n) => n.kind === 'box').length,
   }));
   assert.equal(counts.reduce((n, c) => n + c.q, 0), 91, 'every numbered question is found');
-  assert.equal(counts.reduce((n, c) => n + c.b, 0), 48, 'every box is found');
+  assert.equal(counts.reduce((n, c) => n + c.b, 0), 49, 'every box is found');
   assert.equal(counts[0].slug, 'syllabus-content');
 });
 
@@ -385,4 +385,47 @@ test('two boxes flush against each other are not merged into one', () => {
 test('splitBoxes leaves a single box alone', () => {
   const md = [border([0, 29]), row([0, 29], ['- **Review**']), border([0, 29], '='), row([0, 29], ['x']), border([0, 29])];
   assert.deepEqual(splitBoxes(md, 0, md.length), [[0, md.length]]);
+});
+
+test('a figure on the question\'s own numbered line is extracted, not left in the stem', () => {
+  // The reference straddles the line break: `![` on the numbered line, the closing `)` on
+  // the next. Read line by line it matches neither, and the raw markdown ends up inside the
+  // question text with the diagram lost.
+  const { sections } = sectionise([
+    '# Sine Rule for Angles',
+    '',
+    'Development',
+    '',
+    '7.  ![A triangle AI-generated content may be',
+    '    incorrect.](media/b/media/image54.png){width="1.53in"',
+    '    height="0.84in"}Ryan is solving this problem.',
+    '',
+    '    a.  Explain why he is incorrect.',
+  ]);
+  const q = sections[0].nodes.find((n) => n.kind === 'question');
+  assert.equal(q.images.length, 1);
+  assert.equal(q.images[0].png, 'image54.png');
+  assert.ok(!q.stemRaw.includes('!['), `stem still holds raw markup: ${q.stemRaw}`);
+  assert.match(q.stemRaw, /Ryan is solving this problem/);
+});
+
+test('a titled box after a question is its own block, not extra parts of the question', () => {
+  // The Proof of the SAS area formula sits directly after question 11; absorbed into it, the
+  // whole proof disappears from the booklet's teaching content.
+  const { sections } = sectionise([
+    '# Area of a Triangle',
+    '',
+    'Mastery',
+    '',
+    '11.  Find the area.',
+    '',
+    border([0, 39]),
+    row([0, 39], ['- **Proof** of the SAS area formula']),
+    border([0, 39], '='),
+    row([0, 39], ['Start with $A = \tfrac12 bh$.']),
+    border([0, 39]),
+  ]);
+  const kinds = sections[0].nodes.filter((n) => n.kind !== 'tier').map((n) => `${n.kind}:${n.type || ''}`);
+  assert.deepEqual(kinds, ['question:', 'box:proof']);
+  assert.equal(sections[0].nodes.find((n) => n.kind === 'question').parts.length, 0);
 });

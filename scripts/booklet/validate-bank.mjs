@@ -142,9 +142,6 @@ function checkSubItem(item, where, ctx, { bankDir, keys, requireLabel, index, re
       checkText(item[field], `${where}.${field}`, ctx);
     }
   }
-  if (item.answer == null && item.solution_text == null) {
-    ctx.errors.push(`${where}: needs an "answer" (the printed short answer) or a "solution_text"`);
-  }
   checkFigure(item.figure, where, ctx, { bankDir, textWithTikz: hasTikz(item.question_text) && item.figure });
   checkExtraFigures(item, where, ctx, { bankDir });
   checkInt(item.space, `${where}.space`, ctx, { min: 1, max: 20, label: 'space' });
@@ -214,8 +211,6 @@ function checkCard(card, where, ctx, { bankDir, sectionSlug, skillIds, seenIds, 
       });
       ctx.lastLabel = null;
     }
-  } else if (card.answer == null && card.solution_text == null) {
-    ctx.errors.push(`${where}: needs an "answer" (the printed short answer) or a "solution_text"`);
   }
 
   checkFigure(card.figure, where, ctx, { bankDir, textWithTikz: hasTikz(card.question_text) && card.figure });

@@ -132,6 +132,15 @@ function figuresFor(images, cropIndex) {
   return (images || []).map((ref) => figureOf(ref, cropIndex));
 }
 
+/** Put the first figure on `figure` and any others on `figures`. */
+function attachFigures(target, images, cropIndex) {
+  const figure = figureFor(images, cropIndex);
+  if (!figure) return;
+  target.figure = figure;
+  const extra = extraFigures(images, cropIndex);
+  if (extra) target.figures = extra;
+}
+
 // The additional figures beyond the first, or undefined when there is at most one.
 function extraFigures(images, cropIndex) {
   if (!images || images.length < 2) return undefined;
@@ -165,10 +174,14 @@ function skeletonCard(node, { sourceFile, sectionTitle, cropIndex }) {
   };
   if (node.source) card.source = node.source;
 
-  const figure = figureFor(node.images, cropIndex);
-  if (figure && !node.parts.length) {
+  // A question's own images are those not already claimed by one of its parts — the
+  // diagram that belongs to the stem. It is kept whether or not the question has parts:
+  // dropping it when parts exist lost the stem diagram of every multi-part question.
+  const ownImages = node.images.filter((image) => !(node.parts || []).some((part) => part.images.includes(image)));
+  const figure = figureFor(ownImages, cropIndex);
+  if (figure) {
     card.figure = figure;
-    const extra = extraFigures(node.images, cropIndex);
+    const extra = extraFigures(ownImages, cropIndex);
     if (extra) card.figures = extra;
   }
 
@@ -249,7 +262,7 @@ function skeletonBlock(node, { sourceFile, sectionTitle, cropIndex }) {
     case 'example':
       base.question_text = null;
       base.solution_text = null;
-      if (figureFor(node.images, cropIndex)) base.figure = figureFor(node.images, cropIndex);
+      attachFigures(base, node.images, cropIndex);
       break;
     case 'syllabus':
       base.outcome = node.outcome || null;
@@ -258,13 +271,12 @@ function skeletonBlock(node, { sourceFile, sectionTitle, cropIndex }) {
       break;
     case 'proof':
       base.steps = [];
-      if (figureFor(node.images, cropIndex)) base.figure = figureFor(node.images, cropIndex);
+      attachFigures(base, node.images, cropIndex);
       break;
     default: {
       base.type = 'teach';
       base.body = null;
-      const figure = figureFor(node.images, cropIndex);
-      if (figure) base.figure = figure;
+      attachFigures(base, node.images, cropIndex);
       break;
     }
   }
