@@ -8,6 +8,7 @@ const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const fxDup = join('tests', 'fixtures', 'audits', 'fx-dup');
 const fxLeak = join('tests', 'fixtures', 'audits', 'fx-leak');
 const fxSigDup = join('tests', 'fixtures', 'audits', 'fx-sigdup');
+const fxSigWeak = join('tests', 'fixtures', 'audits', 'fx-sigweak');
 
 function run(script, args) {
   const result = spawnSync(process.execPath, [join('scripts', script), ...args], {
@@ -64,6 +65,20 @@ test('audit-duplicate-stems finds QUIZ-COPIES-PRACTICE-VALUES for a reworded ste
   assert.match(stdout, /QUIZ-COPIES-PRACTICE-VALUES: 1\./);
 });
 
+// Pins the W3-11 miss on the other side: when canonicalise() cannot parse either
+// answer — solution SETS like `x = \frac{5\pi}{6}, \frac{11\pi}{6}` — the signature
+// degenerates to the stem literals alone, and on a topic with a tiny literal
+// vocabulary (0, 2, 3 and a domain in every stem) it collides wholesale. All 30 of
+// W3-11's flags were pairs with different equations AND different solution sets, so
+// an evidence-free hit is now an advisory, never a gate-blocking defect.
+test('audit-duplicate-stems demotes an answer-less value-signature hit to VALUES-WEAK', () => {
+  const { stdout, status } = run('audit-duplicate-stems.mjs', ['--dir', fxSigWeak, '--strict']);
+  assert.equal(status, 0);
+  assert.match(stdout, /QUIZ-COPIES-PRACTICE-VALUES: 0\./);
+  assert.match(stdout, /VALUES-WEAK advisory: 1\./);
+  assert.match(stdout, /QUIZ-COPIES-PRACTICE-VALUES-WEAK, not counted toward --strict/);
+});
+
 test('audit-duplicate-stems does not flag QUIZ-COPIES-PRACTICE-VALUES for a reworded stem with different values', () => {
   const { stdout } = run('audit-duplicate-stems.mjs', ['--dir', fxSigDup]);
   // q2 (9, 3 / 75%) vs m2 (4, 1 / 80%): same shape, different numbers and
@@ -106,4 +121,36 @@ test('all four scripts reject stray positionals after --only with exit 2', () =>
     assert.equal(status, 2, `${script} should exit 2 on stray positionals`);
     assert.match(stderr, /comma form/, `${script} should hint at the comma form`);
   }
+});
+
+// --- audit-figure-quota.mjs -------------------------------------------------
+//
+// The quota is keyed off the real data/skills.json (a skill "promises a figure" via its own
+// title/blurb), so the fixtures are named after a genuinely visual skill id and only the
+// content root is overridden.
+
+const fxFigQuota = join('tests', 'fixtures', 'audits', 'fx-figquota');
+const fxFigQuotaOk = join('tests', 'fixtures', 'audits', 'fx-figquota-ok');
+
+test('audit-figure-quota flags a visual skill whose content carries no [tikz] block', () => {
+  const { stdout, status } = run('audit-figure-quota.mjs', ['--dir', fxFigQuota, '--only', 'graph-parametric']);
+  assert.equal(status, 0);
+  assert.match(stdout, /✗ FIGURE-QUOTA \| graph-parametric \| 0 \[tikz\] block/);
+});
+
+test('audit-figure-quota passes the same skill once it carries one figure', () => {
+  const { stdout, status } = run('audit-figure-quota.mjs', ['--dir', fxFigQuotaOk, '--only', 'graph-parametric', '--strict']);
+  assert.equal(status, 0);
+  assert.match(stdout, /✓ figure quota: 1 visual skill\(s\)/);
+});
+
+test('audit-figure-quota exits 1 under --strict when a visual skill has no figure', () => {
+  const { status } = run('audit-figure-quota.mjs', ['--dir', fxFigQuota, '--only', 'graph-parametric', '--strict']);
+  assert.equal(status, 1);
+});
+
+test('audit-figure-quota rejects stray positionals after --only with exit 2', () => {
+  const { status, stderr } = run('audit-figure-quota.mjs', ['--only', 'a', 'b']);
+  assert.equal(status, 2);
+  assert.match(stderr, /comma form/);
 });

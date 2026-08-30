@@ -77,6 +77,15 @@ function figureHtml(figure, bankSlug, fallbackCm) {
   return pngFigure({ ...figure, bank: bankSlug, png: figure.png.replace(/^figures\//, '') }, fallbackCm);
 }
 
+// A cell showing two diagrams prints both, in source order.
+function figuresHtml(item, bankSlug, fallbackCm) {
+  if (!item) return '';
+  return [figureHtml(item.figure, bankSlug, fallbackCm)]
+    .concat((item.figures || []).map((f) => figureHtml(f, bankSlug, fallbackCm)))
+    .filter(Boolean)
+    .join('');
+}
+
 // --- questions -----------------------------------------------------------------
 
 function answerHtml(item, ctx) {
@@ -103,7 +112,7 @@ function subItemHtml(item, ctx, { bankSlug, tag = 'div', cls = 'cell' }) {
   const parts = [
     item.label ? `<span class="label">${escapeHtml(item.label)}.</span>` : '',
     item.question_text ? richText(item.question_text, { tikz: ctx.tikz, cloze: 'blank' }) : '',
-    figureHtml(item.figure, bankSlug, DEFAULT_FIGURE_CM.cell),
+    figuresHtml(item, bankSlug, DEFAULT_FIGURE_CM.cell),
     item.scaffold ? `<div class="scaffold">${richText(item.scaffold, { tikz: ctx.tikz, cloze: ctx.output.solutions ? 'filled' : 'blank' })}</div>` : '',
     item.marks ? `<span class="marks">(${item.marks})</span>` : '',
     spaceHtml(item, ctx, { scaffolded }),
@@ -134,7 +143,7 @@ function questionHtml(entry, ctx, { bankSlug }) {
       ? `<div class="provenance">${escapeHtml([card.source.year, 'HSC', card.source.course, card.source.band ? `Band ${card.source.band}` : ''].filter(Boolean).join(' '))}</div>`
       : '',
     richText(card.question_text, { tikz: ctx.tikz, cloze: 'blank' }),
-    figureHtml(card.figure, bankSlug, DEFAULT_FIGURE_CM.card),
+    figuresHtml(card, bankSlug, DEFAULT_FIGURE_CM.card),
     card.scaffold ? `<div class="scaffold">${richText(card.scaffold, { tikz: ctx.tikz, cloze: ctx.output.solutions ? 'filled' : 'blank' })}</div>` : '',
     card.marks ? `<span class="marks">(${card.marks})</span>` : '',
   ].filter(Boolean).join('\n');

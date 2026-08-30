@@ -141,3 +141,72 @@ test('blocks must all be present, keep their type, and carry no _source', () => 
 
   assert.match(checkBlocks(skeletonBlocks, [good[0]], 'sec').join('\n'), /block "sine-rule-sides-teach-1" is missing/);
 });
+
+// --- extra figures and block cells ---------------------------------------------
+
+test('the extra diagrams an item shows may not be dropped', () => {
+  const skeleton = [{
+    id: 'sec-f1',
+    tier: 'foundation',
+    origin: { file: 'b.md', section: 'S', tier: 'foundation', q: 1, lines: [1, 2] },
+    figure: { png: 'figures/image2.png', widthCm: 7 },
+    figures: [{ png: 'figures/image3.png', widthCm: 7.2 }],
+  }];
+  const base = {
+    id: 'sec-f1',
+    tier: 'foundation',
+    skills: ['sine-rule'],
+    primarySkill: 'sine-rule',
+    question_text: 'Find it.',
+    answer: '$1$',
+    origin: { file: 'b.md', section: 'S', tier: 'foundation', q: 1, lines: [1, 2] },
+    figure: { png: 'figures/image2.png', widthCm: 7 },
+  };
+
+  assert.match(checkCards(skeleton, [base], 'sec').join('\n'), /"figures" changed/);
+  assert.deepEqual(
+    checkCards(skeleton, [{ ...base, figures: [{ png: 'figures/image3.png', widthCm: 7.2 }] }], 'sec'),
+    [],
+  );
+});
+
+test('a drill cell missing from a block is caught, cells being questions too', () => {
+  const skeleton = [{
+    id: 'sec-identify-1',
+    type: 'identify',
+    origin: { file: 'b.md', section: 'S', lines: [1, 9] },
+    cells: [{ label: 'a' }, { label: 'b', figure: { png: 'figures/image2.png', widthCm: 7 } }],
+  }];
+  const dropped = [{
+    id: 'sec-identify-1',
+    type: 'identify',
+    origin: { file: 'b.md', section: 'S', lines: [1, 9] },
+    cells: [{ label: 'b', question_text: 'Can you?', answer: 'yes', figure: { png: 'figures/image2.png', widthCm: 7 } }],
+  }];
+  assert.match(checkBlocks(skeleton, dropped, 'sec').join('\n'), /has 1 cell\(s\), the skeleton has 2/);
+
+  const kept = [{
+    ...dropped[0],
+    cells: [
+      { label: 'a', question_text: 'Can you?', answer: 'no' },
+      { label: 'b', question_text: 'Can you?', answer: 'yes', figure: { png: 'figures/image2.png', widthCm: 7 } },
+    ],
+  }];
+  assert.deepEqual(checkBlocks(skeleton, kept, 'sec'), []);
+});
+
+test('a review box\'s nested group cells are compared too', () => {
+  const skeleton = [{
+    id: 'sec-review-1',
+    type: 'review',
+    origin: { file: 'b.md', section: 'S', lines: [1, 9] },
+    groups: [{ cells: [{ label: 'a' }, { label: 'b' }] }],
+  }];
+  const dropped = [{
+    id: 'sec-review-1',
+    type: 'review',
+    origin: { file: 'b.md', section: 'S', lines: [1, 9] },
+    groups: [{ prompt: 'Solve.', cells: [{ label: 'a', question_text: '$x$', answer: '1' }] }],
+  }];
+  assert.match(checkBlocks(skeleton, dropped, 'sec').join('\n'), /has 1 cell\(s\), the skeleton has 2/);
+});

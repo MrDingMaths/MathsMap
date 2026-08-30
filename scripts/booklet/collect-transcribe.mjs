@@ -45,6 +45,15 @@ function sameFigure(expected, actual) {
   return true;
 }
 
+// The extra diagrams a cell shows are as much a fact of the source as the first one, so
+// they may not be dropped either — that was how a second diagram used to go missing.
+function sameFigureList(expected, actual) {
+  const want = expected || [];
+  const got = actual || [];
+  if (want.length !== got.length) return false;
+  return want.every((figure, i) => sameFigure(figure, got[i]));
+}
+
 /**
  * Compare the model's cards against the skeleton's.
  * @returns {string[]} problems; empty means the transcription is structurally faithful
@@ -82,6 +91,9 @@ export function checkCards(skeletonCards, actualCards, where) {
     if (!sameFigure(skel.figure, card.figure)) {
       problems.push(`${where} ${id}: "figure" changed — png, crop and widthCm come from the docx and are fixed`);
     }
+    if (!sameFigureList(skel.figures, card.figures)) {
+      problems.push(`${where} ${id}: "figures" changed — the extra diagrams this item shows are fixed`);
+    }
 
     const skelParts = skel.parts || [];
     const cardParts = card.parts || [];
@@ -99,6 +111,9 @@ export function checkCards(skeletonCards, actualCards, where) {
         if (!sameFigure(skelPart.figure, part.figure)) {
           problems.push(`${where} ${id}.parts[${i}]: "figure" changed — png, crop and widthCm are fixed`);
         }
+        if (!sameFigureList(skelPart.figures, part.figures)) {
+          problems.push(`${where} ${id}.parts[${i}]: "figures" changed — the extra diagrams are fixed`);
+        }
       });
     }
   }
@@ -107,6 +122,14 @@ export function checkCards(skeletonCards, actualCards, where) {
     if (!seen.has(id)) problems.push(`${where}: card "${id}" is missing from the transcription`);
   }
   return problems;
+}
+
+/** Every drill cell a block holds, in reading order — `cells` directly, or inside `groups`. */
+function blockCells(block) {
+  if (!block || typeof block !== 'object') return [];
+  const out = [...(block.cells || [])];
+  for (const group of block.groups || []) out.push(...(group.cells || []));
+  return out;
 }
 
 export function checkBlocks(skeletonBlocks, actualBlocks, where) {
@@ -135,6 +158,28 @@ export function checkBlocks(skeletonBlocks, actualBlocks, where) {
     }
     const stray = JSON.stringify(block).includes('"_source"');
     if (stray) problems.push(`${where} ${id}: "_source" must be removed from the output`);
+
+    // A block's drill cells are questions too. Comparing only the block list let a whole
+    // cell disappear from a Review or Identify box unnoticed — the transcription simply
+    // did not emit it — which is exactly the class of loss the skeleton exists to prevent.
+    const skelCells = blockCells(skel);
+    const gotCells = blockCells(block);
+    if (skelCells.length !== gotCells.length) {
+      problems.push(`${where} ${id}: has ${gotCells.length} cell(s), the skeleton has ${skelCells.length} — drill cells may not be added or dropped`);
+    } else {
+      skelCells.forEach((skelCell, i) => {
+        const cell = gotCells[i] || {};
+        if (skelCell.label && cell.label !== skelCell.label) {
+          problems.push(`${where} ${id}: cell ${i} label changed from "${skelCell.label}" to "${cell.label}"`);
+        }
+        if (!sameFigure(skelCell.figure, cell.figure)) {
+          problems.push(`${where} ${id}: cell "${skelCell.label || i}" figure changed — png, crop and widthCm are fixed`);
+        }
+        if (!sameFigureList(skelCell.figures, cell.figures)) {
+          problems.push(`${where} ${id}: cell "${skelCell.label || i}" extra figures changed`);
+        }
+      });
+    }
   }
   for (const id of expected.keys()) {
     if (!seen.has(id)) problems.push(`${where}: block "${id}" is missing from the transcription`);

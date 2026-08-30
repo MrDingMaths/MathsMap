@@ -86,9 +86,10 @@ You are transcribing an existing, published booklet. **Fidelity beats improvemen
 5. **Remove every \`_source\` key from your output.** It is scaffolding: the raw text the
    parser extracted, plus \`figures\`, the full list of pictures that cell holds. Use it,
    then drop it.
-6. **A cell with more than one figure**: the schema allows one \`figure\` per card, part or
-   cell. If \`_source.figures\` lists two and both matter, mention the second in the
-   \`question_text\` wording and note it in \`uncertain\`; never drop it silently.
+6. **Figures are already placed.** \`figure\` is the first diagram an item shows and
+   \`figures\` any others; both are filled in for you from the source document. Leave them
+   exactly as they are. If a diagram looks attached to the wrong item, say so in
+   \`uncertain\` rather than moving it.
 
 ## Text format
 

@@ -152,7 +152,8 @@ async function main() {
 
       const timeoutMs = Number(arg(argv, '--timeout-ms', String(Math.max(180_000, stats.tikzPending * 2000))));
       const wait = await waitForTikz(page, stats.tikzPending, { timeoutMs });
-      if (stats.tikzPending) process.stderr.write('\r');
+      // Clear the in-place progress line, or the summary that follows is appended to it.
+      if (stats.tikzPending) process.stderr.write(`\r${' '.repeat(48)}\r`);
 
       // Harvest before failing anything: a diagram that compiled this run should never be
       // compiled again in the next variant.

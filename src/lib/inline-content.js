@@ -9,13 +9,13 @@ export const QUIZ_QUESTION_KEYS = new Set(['id', 'question_text', 'structure', '
 // layout hints the atoms have no use for. Same rich-text format, different record shape.
 export const BOOKLET_CARD_KEYS = new Set([
   'id', 'tier', 'skills', 'primarySkill', 'structure', 'question_text', 'answer', 'solution_text',
-  'scaffold', 'figure', 'columns', 'space', 'marks', 'calculator', 'tags', 'source', 'origin', 'parts',
+  'scaffold', 'figure', 'figures', 'columns', 'space', 'marks', 'calculator', 'tags', 'source', 'origin', 'parts',
 ]);
 export const BOOKLET_PART_KEYS = new Set([
-  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'marks', 'space',
+  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'figures', 'marks', 'space',
 ]);
 export const BOOKLET_CELL_KEYS = new Set([
-  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'space',
+  'label', 'question_text', 'answer', 'solution_text', 'scaffold', 'figure', 'figures', 'space',
 ]);
 export const BOOKLET_FIGURE_KEYS = new Set(['png', 'crop', 'widthCm']);
 export const BOOKLET_TIERS = new Set(['foundation', 'development', 'mastery']);

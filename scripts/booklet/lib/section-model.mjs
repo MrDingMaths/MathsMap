@@ -90,7 +90,10 @@ function cellToItem(cell) {
     stemRaw: body,
     answerRaw: answerRaw ? normaliseInline(answerRaw) : null,
     images,
-    empty: !body && !answerRaw && images.length === 0,
+    // A LABELLED cell is never empty, even with nothing in it: `a.` followed by white space
+    // is a question whose answer the student writes there, and dropping it loses a question.
+    // Only an unlabelled cell with no content is layout padding.
+    empty: !label && !body && !answerRaw && images.length === 0,
   };
 }
 

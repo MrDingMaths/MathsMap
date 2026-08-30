@@ -235,7 +235,11 @@ export function parseModelOutput(text) {
   }
 }
 
-async function runCodexOnce({ prompt, timeoutMs }) {
+// Exported so other checker lanes (the booklet transcription fidelity check) drive codex
+// through exactly this path — the Windows launcher resolution, the kill-tree timeout and
+// the schema-constrained output are all things not worth reimplementing per lane.
+// `schema` and `validate` default to this file's own reply contract.
+export async function runCodexOnce({ prompt, timeoutMs, schema = schemaPath, validate = validateReplyShape }) {
   const cwd = await fs.mkdtemp(path.join(os.tmpdir(), 'mm-luna-cwd-'));
   const outputFile = path.join(os.tmpdir(), `mm-luna-out-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}.json`);
   const { command, prefixArgs } = codexCommand();
@@ -245,7 +249,7 @@ async function runCodexOnce({ prompt, timeoutMs }) {
     '-C', cwd,
     '--model', MODEL,
     '--config', `model_reasoning_effort="${EFFORT}"`,
-    '--output-schema', schemaPath,
+    '--output-schema', schema,
     '--output-last-message', outputFile,
     '-',
   ];
@@ -280,7 +284,7 @@ async function runCodexOnce({ prompt, timeoutMs }) {
     if (!(await fileExists(outputFile))) throw new Error('codex exited 0 but produced no --output-last-message file');
     const raw = await fs.readFile(outputFile, 'utf8');
     const reply = parseModelOutput(raw);
-    validateReplyShape(reply);
+    validate(reply);
     return reply;
   } finally {
     await fs.rm(cwd, { recursive: true, force: true }).catch(() => {});

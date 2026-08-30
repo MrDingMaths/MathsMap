@@ -94,6 +94,22 @@ function checkFigure(figure, where, ctx, { bankDir, textWithTikz }) {
   }
 }
 
+// `figures` holds the ADDITIONAL diagrams a cell shows beyond `figure` — a before/after
+// pair, a plan and an elevation. Without a primary `figure` the list is meaningless.
+function checkExtraFigures(item, where, ctx, { bankDir }) {
+  if (item.figures === undefined || item.figures === null) return;
+  if (!Array.isArray(item.figures) || !item.figures.length) {
+    ctx.errors.push(`${where}.figures: must be a non-empty array of additional figures`);
+    return;
+  }
+  if (!item.figure) {
+    ctx.errors.push(`${where}.figures: has extra figures but no primary "figure"`);
+  }
+  item.figures.forEach((figure, i) => {
+    checkFigure(figure, `${where}.figures[${i}]`, ctx, { bankDir, textWithTikz: false });
+  });
+}
+
 function checkInt(value, where, ctx, { min, max, label }) {
   if (value === undefined || value === null) return;
   if (!Number.isInteger(value) || value < min || value > max) {
@@ -127,6 +143,7 @@ function checkSubItem(item, where, ctx, { bankDir, keys, requireLabel, index, re
     ctx.errors.push(`${where}: needs an "answer" (the printed short answer) or a "solution_text"`);
   }
   checkFigure(item.figure, where, ctx, { bankDir, textWithTikz: hasTikz(item.question_text) && item.figure });
+  checkExtraFigures(item, where, ctx, { bankDir });
   checkInt(item.space, `${where}.space`, ctx, { min: 1, max: 20, label: 'space' });
   if (keys.has('marks')) checkInt(item.marks, `${where}.marks`, ctx, { min: 1, max: 20, label: 'marks' });
 }
@@ -197,6 +214,7 @@ function checkCard(card, where, ctx, { bankDir, sectionSlug, skillIds, seenIds, 
   }
 
   checkFigure(card.figure, where, ctx, { bankDir, textWithTikz: hasTikz(card.question_text) && card.figure });
+  checkExtraFigures(card, where, ctx, { bankDir });
   checkInt(card.columns, `${where}.columns`, ctx, { min: 1, max: 4, label: 'columns' });
   checkInt(card.space, `${where}.space`, ctx, { min: 1, max: 20, label: 'space' });
   checkInt(card.marks, `${where}.marks`, ctx, { min: 1, max: 20, label: 'marks' });

@@ -35,6 +35,19 @@ test('audit-figure-scale compares TRUE 3D lengths, so a foreshortened depth edge
   assert.match(stdout, /✓ No figure-scale suspects/);
 });
 
+// The house 3D convention (shipped `trigonometry-3d`, and W3-11's `solve-3d-trig` after
+// `\pic{angle=...}` proved to render as a full circle under `tdplot_main_coords`)
+// hand-projects the solid into plain 2D coordinates and never mentions tdplot, so the
+// string test alone missed it and the deliberately foreshortened depth edge was flagged
+// against the in-plane median. A repeated OBLIQUE offset across 3+ coordinate pairs is
+// the projection's signature; a plane parallelogram only ever repeats one twice.
+test('audit-figure-scale skips a hand-projected solid that never mentions tdplot', () => {
+  const { stdout, status } = run('audit-figure-scale.mjs', ['--dir', fxGood, '--only', 'skill-oblique', '--strict']);
+  assert.equal(status, 0);
+  assert.match(stdout, /✓ No figure-scale suspects/);
+  assert.match(stdout, /skipped 1 hand-projected 3D figure/);
+});
+
 test('audit-figure-scale matches part-labels to sub-spans of a subdivided edge', () => {
   const { stdout, status } = run('audit-figure-scale.mjs', ['--dir', fxGood, '--only', 'skill-parts', '--strict']);
   assert.equal(status, 0);

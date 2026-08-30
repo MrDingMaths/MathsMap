@@ -123,13 +123,19 @@ function figureFor(images, cropIndex) {
   return figureOf(images[0], cropIndex);
 }
 
-// The schema carries ONE `figure` per card, part or cell, but a booklet cell sometimes shows
-// two pictures (a before/after pair, a plan and elevation). Dropping the extras silently
-// would lose content, so every figure a cell holds is listed in `_source.figures` for the
-// transcription agent to place — usually by splitting the cell or naming the second picture
-// in the stem.
+// A booklet cell sometimes shows two pictures (a before/after pair, a plan and an
+// elevation). `figure` is the first; the rest go to `figures`. Which pictures a cell holds
+// is a fact the parser already knows exactly, so it is settled here rather than left to the
+// transcription agent's judgement — asking a model to notice a second diagram is how the
+// second diagram goes missing.
 function figuresFor(images, cropIndex) {
   return (images || []).map((ref) => figureOf(ref, cropIndex));
+}
+
+// The additional figures beyond the first, or undefined when there is at most one.
+function extraFigures(images, cropIndex) {
+  if (!images || images.length < 2) return undefined;
+  return images.slice(1).map((ref) => figureOf(ref, cropIndex));
 }
 
 // --- skeleton emitters -------------------------------------------------------
@@ -160,7 +166,11 @@ function skeletonCard(node, { sourceFile, sectionTitle, cropIndex }) {
   if (node.source) card.source = node.source;
 
   const figure = figureFor(node.images, cropIndex);
-  if (figure && !node.parts.length) card.figure = figure;
+  if (figure && !node.parts.length) {
+    card.figure = figure;
+    const extra = extraFigures(node.images, cropIndex);
+    if (extra) card.figures = extra;
+  }
 
   if (node.parts.length) {
     card.parts = node.parts.map((part, i) => {
@@ -171,7 +181,11 @@ function skeletonCard(node, { sourceFile, sectionTitle, cropIndex }) {
         answer: null,
         _source: { stemRaw: part.stemRaw, answerRaw: part.answerRaw, figures: figuresFor(part.images, cropIndex) },
       };
-      if (partFigure) out.figure = partFigure;
+      if (partFigure) {
+        out.figure = partFigure;
+        const extra = extraFigures(part.images, cropIndex);
+        if (extra) out.figures = extra;
+      }
       return out;
     });
     delete card.answer;
@@ -206,7 +220,11 @@ function skeletonBlock(node, { sourceFile, sectionTitle, cropIndex }) {
       answer: null,
       _source: { stemRaw: cell.stemRaw, answerRaw: cell.answerRaw, figures: figuresFor(cell.images, cropIndex) },
     };
-    if (figure) out.figure = figure;
+    if (figure) {
+      out.figure = figure;
+      const extra = extraFigures(cell.images, cropIndex);
+      if (extra) out.figures = extra;
+    }
     return out;
   };
 

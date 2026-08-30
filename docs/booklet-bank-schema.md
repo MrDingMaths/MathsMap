@@ -103,6 +103,7 @@ must be self-contained in git.
 | `solution_text` | ✖ | full worked solution, house style (equals-aligned, final line is the answer). Left `null` by transcription; filled later by a solve lane. |
 | `scaffold` | ✖ | working template printed under the stem in student variants — the booklet's `............` fills. Blanks: `{{blank}}` in prose, `\rule{1.2cm}{0.4pt}` inside `$…$`. |
 | `figure` | ✖ | `{ png, crop?, widthCm? }`, see below. |
+| `figures` | ✖ | The ADDITIONAL diagrams this item shows, beyond `figure`, in source order. A booklet cell sometimes carries a pair (a before/after, a plan and an elevation); without this they would be lost. Requires `figure`. |
 | `columns` | ✖ | 1–4, cells per row for `parts`. Auto-derived when absent. |
 | `space` | ✖ | integer working lines of answer space (1–20). Derived by the renderer when absent. |
 | `marks` | ✖ | positive integer; rendered as `(2)`. |
@@ -131,7 +132,7 @@ are present, so replacing a PNG with a transcribed TikZ figure later is a one-fi
 ### `parts`
 
 Lettered sub-cells of one numbered question — never separate cards. Keys:
-`label`, `question_text`, `answer`, `solution_text`, `scaffold`, `figure`, `marks`, `space`.
+`label`, `question_text`, `answer`, `solution_text`, `scaffold`, `figure`, `figures`, `marks`, `space`.
 `label` must run `a`, `b`, `c`, … in order with no gaps.
 
 ---
@@ -147,7 +148,7 @@ Envelope: `{ id, type, title?, tier?, columns?, origin }`, `id` = `<section>-<ty
 `tier` is optional and lets a variant drop a block (proof boxes carry `tier: "mastery"`).
 
 A **Cell** — used by every drill-style block — has the same shape as a part:
-`{ label, question_text?, answer?, solution_text?, scaffold?, figure?, space? }`.
+`{ label, question_text?, answer?, solution_text?, scaffold?, figure?, figures?, space? }`.
 
 | `type` | payload | source in the Word booklet |
 |---|---|---|
