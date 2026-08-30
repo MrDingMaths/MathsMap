@@ -10,7 +10,7 @@ import {
   fixUnitSuperscripts, stripAltText,
 } from '../scripts/booklet/lib/normalise-md.mjs';
 import { extractImageRefs, stripImageRefs } from '../scripts/booklet/lib/image-refs.mjs';
-import { sectionise, slugify, boxTypeFor, looksLikeAnswer } from '../scripts/booklet/lib/section-model.mjs';
+import { sectionise, slugify, boxTypeFor, looksLikeAnswer, splitBoxes } from '../scripts/booklet/lib/section-model.mjs';
 import { readZip, parseRels, extractDrawings, alignRefsToDrawings } from '../scripts/booklet/lib/docx.mjs';
 import { collectRefs, buildCropIndex, parseCover } from '../scripts/booklet/parse-booklet.mjs';
 
@@ -319,7 +319,7 @@ test('the pilot booklet parses into its ten sections with nothing unclassified',
     b: s.nodes.filter((n) => n.kind === 'box').length,
   }));
   assert.equal(counts.reduce((n, c) => n + c.q, 0), 91, 'every numbered question is found');
-  assert.equal(counts.reduce((n, c) => n + c.b, 0), 47, 'every box is found');
+  assert.equal(counts.reduce((n, c) => n + c.b, 0), 48, 'every box is found');
   assert.equal(counts[0].slug, 'syllabus-content');
 });
 
@@ -354,4 +354,35 @@ test('the docx opens with the dependency-free zip reader', { skip: !existsSync(P
   assert.ok(zip.has('word/document.xml'));
   assert.ok(zip.has('word/_rels/document.xml.rels'));
   assert.ok(zip.get('word/document.xml').toString('utf8').startsWith('<?xml'));
+});
+
+test('two boxes flush against each other are not merged into one', () => {
+  // Word emits each box as its own table, but when they sit flush the export has no blank
+  // line between them — by pandoc's rules a single table. Merging them buries the second
+  // box's teaching content inside the first box's cells.
+  const md = [
+    '# Sine Rule for Angles',
+    '',
+    border([0, 49]),
+    row([0, 49], ['- **Guided Practice**']),
+    border([0, 49], '='),
+    row([0, 49], ['a.']),
+    row([0, 49], ["36 deg 13'"]),
+    border([0, 49]),
+    row([0, 49], ['- **Sine Rule (Finding an Obtuse Angle)**']),
+    border([0, 49], '='),
+    row([0, 49], ['Subtract the result from 180.']),
+    border([0, 49]),
+  ];
+  const { sections } = sectionise(md);
+  const boxes = sections[0].nodes.filter((n) => n.kind === 'box');
+  assert.equal(boxes.length, 2);
+  assert.deepEqual(boxes.map((b) => b.type), ['guided', 'teach']);
+  assert.equal(boxes[1].title, 'Sine Rule (Finding an Obtuse Angle)');
+  assert.match(boxes[1].prose.join(' '), /Subtract the result from 180/);
+});
+
+test('splitBoxes leaves a single box alone', () => {
+  const md = [border([0, 29]), row([0, 29], ['- **Review**']), border([0, 29], '='), row([0, 29], ['x']), border([0, 29])];
+  assert.deepEqual(splitBoxes(md, 0, md.length), [[0, md.length]]);
 });

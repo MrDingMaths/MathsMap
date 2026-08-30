@@ -6,7 +6,7 @@
 // means, only where it starts and stops and which cells and images belong to it. Anything it
 // cannot classify becomes a `para` node and is reported — never dropped, never guessed —
 // so the transcription agent places it and the fidelity check can see it happened.
-import { findTableSpans, parseGridTable, cellProse } from './grid-table.mjs';
+import { findTableSpans, parseGridTable, cellProse, isBorderLine } from './grid-table.mjs';
 import { extractImageRefs, stripImageRefs } from './image-refs.mjs';
 import { normaliseInline } from './normalise-md.mjs';
 
@@ -95,6 +95,32 @@ function cellToItem(cell) {
     // Only an unlabelled cell with no content is layout padding.
     empty: !label && !body && !answerRaw && images.length === 0,
   };
+}
+
+/**
+ * Split one table span into the boxes it actually contains.
+ *
+ * Word emits each box as its own table, but when two boxes sit flush against each other the
+ * export has no blank line between them, and by pandoc's own rules that is a single table
+ * with more rows. Semantically it is two boxes — a Guided Practice followed by a teaching
+ * box — and merging them buries the second one's content inside the first. The booklet's own
+ * marker for "a box starts here" is a `- **Label**` row, so a span is cut at every such row
+ * after the first.
+ */
+export function splitBoxes(lines, start, end) {
+  const cuts = [start];
+  for (let i = start + 2; i < end; i++) {
+    if (!BOX_LABEL_RE.test(lines[i])) continue;
+    // A box title always sits directly under a border line: that border is where the
+    // previous box ended and this one begins.
+    if (isBorderLine(lines[i - 1])) cuts.push(i - 1);
+  }
+  cuts.push(end);
+  const spans = [];
+  for (let k = 0; k + 1 < cuts.length; k++) {
+    if (cuts[k + 1] > cuts[k]) spans.push([cuts[k], cuts[k + 1]]);
+  }
+  return spans.length ? spans : [[start, end]];
 }
 
 function boxNode(lines, start, end) {
@@ -306,7 +332,7 @@ export function sectionise(lines) {
 
       if (spanStart.has(i)) {
         const tableEnd = spanStart.get(i);
-        nodes.push(boxNode(lines, i, tableEnd));
+        for (const [from, to] of splitBoxes(lines, i, tableEnd)) nodes.push(boxNode(lines, from, to));
         i = tableEnd;
         continue;
       }
