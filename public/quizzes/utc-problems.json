@@ -38,15 +38,15 @@
         },
         {
           "text": "$5{:}00\\text{ pm}$ on Wednesday",
-          "why": "Forgot to subtract a day when rolling back across midnight."
+          "why": "Subtracted the $18\\text{ hours}$ correctly but did not roll the day back across midnight."
         },
         {
           "text": "$5{:}00\\text{ am}$ on Thursday",
-          "why": "Added $18\\text{ hours}$ instead of subtracting for a western location."
+          "why": "Added $18\\text{ hours}$ instead of subtracting for a location behind UTC, rolling the day forward."
         },
         {
-          "text": "$3{:}00\\text{ pm}$ on Tuesday",
-          "why": "Subtracted $20\\text{ hours}$ instead of $18\\text{ hours}$."
+          "text": "$5{:}00\\text{ am}$ on Wednesday",
+          "why": "Added $18\\text{ hours}$ instead of subtracting, and also left the day unchanged."
         }
       ],
       "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Difference} = -8 - 10 = -18\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Time in Vancouver} = 11{:}00 - 18\\text{ hours} = -7{:}00$\n4. **Adjust for midnight rollover (subtract 24 hours for next day, add 24 hours for previous day)**\n$-7{:}00 + 24{:}00 = 17{:}00\\text{ on Tuesday} = 5{:}00\\text{ pm on Tuesday}$."
@@ -138,15 +138,15 @@
         },
         {
           "text": "$8{:}00\\text{ am}$ on Tuesday",
-          "why": "Subtracted the $6\\text{-hour}$ time difference instead of adding for an eastern destination."
+          "why": "Subtracted the $6\\text{-hour}$ time difference instead of adding it for a destination further east."
         },
         {
-          "text": "$2{:}00\\text{ pm}$ on Tuesday",
-          "why": "Added flight time but forgot to apply the longitude time difference."
+          "text": "$1{:}00\\text{ pm}$ on Tuesday",
+          "why": "Applied the $6\\text{-hour}$ time difference but forgot to add the $7\\text{-hour}$ flight duration."
         },
         {
-          "text": "$10{:}00\\text{ pm}$ on Tuesday",
-          "why": "Calculated time difference using latitude instead of longitude."
+          "text": "$1{:}00\\text{ am}$ on Tuesday",
+          "why": "Subtracted the $6\\text{-hour}$ difference instead of adding it and also omitted the $7\\text{-hour}$ flight duration."
         }
       ],
       "solution_text": "1. **Calculate the time difference: $\\text{Destination UTC offset} - \\text{Origin UTC offset}$**\n$\\text{Longitude difference} = 60^{\\circ} + 30^{\\circ} = 90^{\\circ}$\n$\\text{Time difference} = \\dfrac{90^{\\circ}}{15^{\\circ}} = 6\\text{ hours}$\n2. **Convert the starting time to 24-hour format and adjust by the time difference to find the corresponding destination time**\n$\\text{Departure in Point } B = 07{:}00 + 6\\text{ hours} = 13{:}00$\n3. **Add the journey duration (and any stopover time) to calculate the arrival time**\n$\\text{Arrival time} = 13{:}00 + 7\\text{ hours} = 20{:}00 = 8{:}00\\text{ pm on Tuesday}$."

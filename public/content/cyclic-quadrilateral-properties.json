@@ -2,20 +2,20 @@
   "skillId": "cyclic-quadrilateral-properties",
   "atomType": "R",
   "theory": {
-    "intro": "A **cyclic quadrilateral** is a four-sided shape whose vertices all lie on a circle. Because each side is a chord, the angle properties of circles give every cyclic quadrilateral two fixed relationships between its angles.",
-    "facts": [
-      "A cyclic quadrilateral has all four vertices on the circle.",
-      "Opposite angles of a cyclic quadrilateral are supplementary — they sum to $180^{\\circ}$.",
-      "An exterior angle of a cyclic quadrilateral equals the interior angle **opposite** the vertex it is drawn at — not the interior angle next to it.",
-      "These properties apply only to a cyclic quadrilateral. A general (non-cyclic) quadrilateral has no such fixed relationship between its opposite angles."
-    ],
-    "steps": [
-      "Identify which two angles are opposite each other, or identify the exterior angle and the interior angle opposite that vertex.",
-      "Decide which property applies: opposite angles supplementary, or exterior angle equals the opposite interior angle.",
-      "Write the equation from the property.",
-      "Solve for the unknown."
-    ]
-  },
+        "intro": "A **cyclic quadrilateral** is a four-sided shape whose vertices all lie on one circle. Each side is a chord, so the circle's angle properties fix two relationships between its angles.",
+        "facts": [
+          "A cyclic quadrilateral has all four vertices on the circle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\coordinate (P) at (70:2);\n\\coordinate (Q) at (160:2);\n\\coordinate (R) at (235:2);\n\\coordinate (S) at (325:2);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\fill (P) circle (1.5pt);\n\\fill (Q) circle (1.5pt);\n\\fill (R) circle (1.5pt);\n\\fill (S) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "Opposite angles of a cyclic quadrilateral are supplementary — they add to $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\coordinate (A) at (160:2);\n\\coordinate (B) at (70:2);\n\\coordinate (C) at (345:2);\n\\coordinate (D) at (240:2);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\pic[draw, \"$a$\", angle radius=0.45cm, angle eccentricity=2] {angle = D--A--B};\n\\pic[draw, \"$b$\", angle radius=0.45cm, angle eccentricity=2] {angle = A--B--C};\n\\pic[draw, \"$c$\", angle radius=0.45cm, angle eccentricity=2] {angle = B--C--D};\n\\pic[draw, \"$d$\", angle radius=0.45cm, angle eccentricity=2] {angle = C--D--A};\n\\end{tikzpicture}\n[/tikz]",
+          "An exterior angle of a cyclic quadrilateral equals the interior angle **opposite** its vertex, not the interior angle beside it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\coordinate (A) at (150:2);\n\\coordinate (B) at (70:2);\n\\coordinate (C) at (330:2);\n\\coordinate (D) at (230:2);\n\\coordinate (E) at ($(A)!-0.35!(D)$);\n\\draw (A) -- (B) -- (C) -- (D);\n\\draw (D) -- (E);\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[above left] at (E) {$E$};\n\\pic[draw, \"$x$\", angle radius=0.45cm, angle eccentricity=2] {angle = B--A--E};\n\\pic[draw, \"$x$\", angle radius=0.45cm, angle eccentricity=2] {angle = B--C--D};\n\\end{tikzpicture}\n[/tikz]",
+          "Move one vertex off the circle and the quadrilateral is not cyclic, so neither property holds.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\coordinate (P) at (70:2);\n\\coordinate (Q) at (160:2);\n\\coordinate (R) at (235:2.7);\n\\coordinate (S) at (325:2);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\fill (P) circle (1.5pt);\n\\fill (Q) circle (1.5pt);\n\\fill (R) circle (1.5pt);\n\\fill (S) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Identify which two angles are opposite each other, or identify the exterior angle and the interior angle opposite that vertex.",
+          "Decide which property applies: opposite angles supplementary, or exterior angle equals the opposite interior angle.",
+          "Write the equation from the property.",
+          "Solve for the unknown."
+        ]
+      },
   "practice": {
     "foundation": [
       {

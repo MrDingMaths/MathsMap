@@ -1,0 +1,205 @@
+{
+  "skillId": "network-flow-terminology",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A directed network is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (Y) at (0,0.4);\n\\coordinate (W) at (0.6,3.0);\n\\coordinate (X) at (3.2,4.0);\n\\coordinate (V) at (3.4,1.4);\n\\coordinate (Z) at (6.2,2.4);\n\\draw[midarrow] (Y) -- (W) node[midway, left, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (Y) -- (V) node[midway, below, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (W) -- (X) node[midway, above, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (X) -- (Z) node[midway, above right, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (V) -- (X) node[midway, right, fill=white, inner sep=1pt] {$4$};\n\\draw[midarrow] (V) -- (Z) node[midway, below right, fill=white, inner sep=1pt] {$9$};\n\\fill (Y) circle (2.5pt) node[below] {$Y$};\n\\fill (W) circle (2.5pt) node[left] {$W$};\n\\fill (X) circle (2.5pt) node[above] {$X$};\n\\fill (V) circle (2.5pt) node[below] {$V$};\n\\fill (Z) circle (2.5pt) node[right] {$Z$};\n\\end{tikzpicture}\n[/tikz]\nWhich vertex is the source and which vertex is the sink?",
+      "structure": "identify-source-and-sink",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$Y$ is the source and $Z$ is the sink",
+          "correct": true
+        },
+        {
+          "text": "$Y$ is the source and $X$ is the sink",
+          "why": "Chose $X$ because two edges enter it, ignoring that edge $XZ$ still leaves $X$, so $X$ cannot be the sink."
+        },
+        {
+          "text": "$W$ is the source and $Z$ is the sink",
+          "why": "Picked the highest vertex on the left by position instead of checking indegree; edge $YW$ is directed into $W$."
+        },
+        {
+          "text": "$W$ is the source and $X$ is the sink",
+          "why": "Made both slips: took the top-left vertex $W$ as the source by position, and took $X$ as the sink because two edges enter it."
+        }
+      ],
+      "solution_text": "No edge is directed into $Y$.\nNo edge is directed out of $Z$.\n$Y$ is the source and $Z$ is the sink."
+    },
+    {
+      "id": "q2",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,2.0);\n\\coordinate (A) at (2.4,4.0);\n\\coordinate (B) at (2.6,2.0);\n\\coordinate (C) at (2.4,0);\n\\coordinate (T) at (6.2,2.0);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (S) -- (B) node[midway, above, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (S) -- (C) node[midway, below left, fill=white, inner sep=1pt] {$19$};\n\\draw[midarrow] (A) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (B) -- (T) node[midway, above, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (C) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$11$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the outflow of the source?",
+      "structure": "outflow-of-source",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$40$",
+          "correct": true
+        },
+        {
+          "text": "$32$",
+          "why": "Added the capacities of the edges entering the sink ($15+6+11$) instead of those leaving the source."
+        },
+        {
+          "text": "$19$",
+          "why": "Named the single largest capacity leaving the source rather than adding all three."
+        },
+        {
+          "text": "$72$",
+          "why": "Added every capacity in the network instead of only the edges directed away from $S$."
+        }
+      ],
+      "solution_text": "The edges directed away from $S$ are $SA$, $SB$ and $SC$.\n$13+8+19$\n$=40$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.4,3.6);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (5.0,3.6);\n\\coordinate (T) at (7.4,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$14$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$21$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$17$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the inflow of the sink?",
+      "structure": "inflow-of-sink",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$29$",
+          "correct": true
+        },
+        {
+          "text": "$35$",
+          "why": "Added the capacities leaving the source ($14+21$) instead of those entering the sink."
+        },
+        {
+          "text": "$28$",
+          "why": "Found the inflow at vertex $B$ ($21+7$) rather than the inflow at the sink $T$."
+        },
+        {
+          "text": "$12$",
+          "why": "Named only the largest single capacity entering the sink instead of adding both edges into $T$."
+        }
+      ],
+      "solution_text": "The edges directed into $T$ are $CT$ and $BT$.\n$12+17$\n$=29$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,2.0);\n\\coordinate (A) at (2.4,4.0);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (4.8,2.0);\n\\coordinate (T) at (7.2,2.0);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$18$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$23$};\n\\draw[midarrow] (A) -- (C) node[midway, left, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (B) -- (C) node[midway, below right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (A) -- (T) node[midway, above, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (T) node[midway, below, fill=white, inner sep=1pt] {$20$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat are the inflow and the outflow at vertex $C$?",
+      "structure": "inflow-outflow-at-vertex",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Inflow $24$, outflow $20$",
+          "correct": true
+        },
+        {
+          "text": "Inflow $20$, outflow $24$",
+          "why": "Swapped the two, counting the edge pointing away from $C$ as inflow and the edges pointing into $C$ as outflow."
+        },
+        {
+          "text": "Inflow $44$, outflow $0$",
+          "why": "Treated every edge touching $C$ as an inflow, adding $11+13+20$ and leaving nothing as outflow."
+        },
+        {
+          "text": "Inflow $11$, outflow $20$",
+          "why": "Counted only one of the two edges directed into $C$, missing $BC$."
+        }
+      ],
+      "solution_text": "The edges directed into $C$ are $AC$ and $BC$.\n$11+13$\n$=24$\nThe only edge directed away from $C$ is $CT$, of capacity $20$.\nThe inflow at $C$ is $24$ and the outflow at $C$ is $20$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The network below shows a conveyor system, with capacities in crates per hour.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.6,3.4);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.6,3.4);\n\\coordinate (T) at (8.0,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$34$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$27$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$22$};\n\\draw[midarrow] (A) -- (B) node[midway, right, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$25$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$30$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nThe edge from $B$ to $T$ is labelled $30$. What does this number tell you?",
+      "structure": "meaning-of-capacity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "At most $30$ crates per hour can travel from $B$ to $T$",
+          "correct": true
+        },
+        {
+          "text": "Exactly $30$ crates per hour travel from $B$ to $T$",
+          "why": "Read the capacity as the amount actually flowing; the capacity is only the maximum the edge could carry."
+        },
+        {
+          "text": "At most $30$ crates per hour can travel between $B$ and $T$ in either direction",
+          "why": "Ignored the arrowhead; a directed edge's capacity applies in the direction of the arrow only, and nothing may travel from $T$ to $B$."
+        },
+        {
+          "text": "The whole network can carry at most $30$ crates per hour",
+          "why": "Confused one edge's capacity with the flow capacity of the entire network, which depends on every path, not on a single edge."
+        }
+      ],
+      "solution_text": "The number on an edge is its capacity, the greatest amount that edge can carry each hour.\nAt most $30$ crates per hour can travel from $B$ to $T$, and none may travel from $T$ to $B$."
+    },
+    {
+      "id": "q6",
+      "question_text": "A dashed line is drawn on the flow network below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.4,3.6);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (4.8,3.6);\n\\coordinate (D) at (4.8,0);\n\\coordinate (T) at (7.2,1.8);\n\\draw[dashed] (6.0,-1.0) -- (6.0,4.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (A) -- (D) node[midway, above right, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (B) -- (D) node[midway, below, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (D) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$18$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement explains why this dashed line is a cut?",
+      "structure": "meaning-of-cut",
+      "mastery": false,
+      "options": [
+        {
+          "text": "It separates the source from the sink, so every path from $S$ to $T$ crosses it",
+          "correct": true
+        },
+        {
+          "text": "It passes through the edges with the smallest capacities in the network",
+          "why": "Confuses a cut with the minimum cut; any line that separates source from sink is a cut, whatever capacities it crosses."
+        },
+        {
+          "text": "It divides the network into two parts containing the same number of vertices",
+          "why": "A cut is defined by separating the source from the sink, not by splitting the vertices into equal groups."
+        },
+        {
+          "text": "It does not pass through any vertex of the network",
+          "why": "Avoiding the vertices is not what makes a line a cut; a line can miss every vertex and still leave a path from $S$ to $T$ open."
+        }
+      ],
+      "solution_text": "The dashed line leaves $S$, $A$, $B$, $C$ and $D$ on one side and $T$ alone on the other.\nEvery path from $S$ to $T$ finishes with $CT$ or $DT$, and the line crosses both.\nIt is a cut because it completely separates the source from the sink."
+    },
+    {
+      "id": "q7",
+      "question_text": "The flow network below has source $S$ and sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,2.0);\n\\coordinate (A) at (2.6,4.0);\n\\coordinate (B) at (2.8,2.0);\n\\coordinate (C) at (2.6,0);\n\\coordinate (T) at (6.6,2.0);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$17$};\n\\draw[midarrow] (S) -- (B) node[midway, above, fill=white, inner sep=1pt] {$14$};\n\\draw[midarrow] (S) -- (C) node[midway, below left, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (A) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (B) -- (T) node[midway, above, fill=white, inner sep=1pt] {$10$};\n\\draw[midarrow] (C) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$15$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nUsing only the outflow of the source and the inflow of the sink, what is the largest value the flow capacity of this network could possibly have?",
+      "structure": "bound-flow-by-inflow-outflow",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$41$",
+          "correct": true
+        },
+        {
+          "text": "$43$",
+          "why": "Used the source outflow $17+14+12$, which is the looser of the two limits; the sink can only receive $41$."
+        },
+        {
+          "text": "$84$",
+          "why": "Added the source outflow and the sink inflow instead of taking the smaller of the two limits."
+        },
+        {
+          "text": "$17$",
+          "why": "Took the single largest capacity leaving the source rather than a total outflow or inflow."
+        }
+      ],
+      "solution_text": "Outflow of $S$:\n$17+14+12$\n$=43$\nInflow of $T$:\n$16+10+15$\n$=41$\nNothing can arrive at $T$ faster than its inflow, and $41<43$.\nThe flow capacity cannot be more than $41$."
+    },
+    {
+      "id": "q8",
+      "question_text": "The directed network below is a flow network, drawn with the source on the right.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (G) at (7.0,2.0);\n\\coordinate (H) at (4.6,3.8);\n\\coordinate (J) at (4.6,0.2);\n\\coordinate (K) at (2.0,2.0);\n\\coordinate (L) at (0,2.0);\n\\draw[midarrow] (G) -- (H) node[midway, above right, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (G) -- (J) node[midway, below right, fill=white, inner sep=1pt] {$29$};\n\\draw[midarrow] (H) -- (K) node[midway, above left, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (J) -- (K) node[midway, below right, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (K) -- (L) node[midway, above, fill=white, inner sep=1pt] {$26$};\n\\draw[midarrow] (J) -- (L) node[midway, below left, fill=white, inner sep=1pt] {$7$};\n\\fill (G) circle (2.5pt) node[right] {$G$};\n\\fill (H) circle (2.5pt) node[above] {$H$};\n\\fill (J) circle (2.5pt) node[below] {$J$};\n\\fill (K) circle (2.5pt) node[above] {$K$};\n\\fill (L) circle (2.5pt) node[left] {$L$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the outflow of the source?",
+      "structure": "outflow-of-source",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$45$",
+          "correct": true
+        },
+        {
+          "text": "$33$",
+          "why": "Added the capacities entering the sink $L$ ($26+7$) instead of those leaving the source $G$."
+        },
+        {
+          "text": "$29$",
+          "why": "Named the single largest capacity leaving the source instead of adding both edges out of $G$."
+        },
+        {
+          "text": "$26$",
+          "why": "Found the outflow at vertex $K$ instead of at the source, taking the leftmost vertex's edge as the answer."
+        }
+      ],
+      "solution_text": "No edge is directed into $G$, so $G$ is the source.\nThe edges directed away from $G$ are $GH$ and $GJ$.\n$16+29$\n$=45$"
+    }
+  ]
+}

@@ -2,23 +2,23 @@
   "skillId": "probability-independent-events",
   "atomType": "R",
   "theory": {
-    "intro": "Two stages of an experiment are **independent** when the result of the first stage does not change the probabilities in the second — a second set of traffic lights, tomorrow's weather, the next free throw. A **probability tree** records this: each stage is a set of branches, every branch carries the probability of that single-stage outcome, and the probability of a whole path is found by **multiplying** along its branches. Written without a tree, the same rule is the **multiplication rule**, $P(A \\text{ and } B) = P(A) \\times P(B)$.",
-    "facts": [
-      "A **probability tree** is a tree diagram with a probability written on every branch.",
-      "The branches leaving any one point must have probabilities adding to $1$, so a missing branch is $1$ minus the ones shown.",
-      "Multiply along the branches of a path to find the probability of that whole path: $P(GG) = P(G) \\times P(G)$.",
-      "Multiplication rule for independent events: $P(A \\text{ and } B) = P(A) \\times P(B)$, with no tree needed.",
-      "When several different paths satisfy the event, add their probabilities: exactly one green $= P(GR) + P(RG)$.",
-      "Adding branch probabilities instead of multiplying can give an answer greater than $1$, which is impossible for a probability.",
-      "Give the answer in the form the data are given in: fractions stay fractions in simplest form, decimals stay decimals, percentages stay percentages."
-    ],
-    "steps": [
-      "Draw a tree with one set of branches for each stage.",
-      "Label every branch with its single-stage probability.",
-      "Multiply along the branches of each path.",
-      "Add the paths that satisfy the event."
-    ]
-  },
+        "intro": "Two stages are **independent** when the first result does not change the probabilities in the second. A **probability tree** writes a probability on every branch, and the probability of a whole path is found by multiplying along it.",
+        "facts": [
+          "A **probability tree** is a tree diagram with a probability written on every branch.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.95]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.2,1.4);\n\\coordinate (N2) at (2.2,-1.4);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.7);\n\\coordinate (E3) at (4.8,-0.7);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O) -- (N1) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (O) -- (N2) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\draw (N1) -- (E1) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (N1) -- (E2) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\draw (N2) -- (E3) node[midway, above, fill=white, font=\\small] {$p$};\n\\draw (N2) -- (E4) node[midway, below, fill=white, font=\\small] {$1-p$};\n\\node[fill=white, inner sep=2pt] at (N1) {$G$};\n\\node[fill=white, inner sep=2pt] at (N2) {$R$};\n\\node[right, font=\\small] at (E1) {$G$};\n\\node[right, font=\\small] at (E2) {$R$};\n\\node[right, font=\\small] at (E3) {$G$};\n\\node[right, font=\\small] at (E4) {$R$};\n\\node[font=\\small] at (6.2,2.4) {$GG$};\n\\node[font=\\small] at (6.2,0.7) {$GR$};\n\\node[font=\\small] at (6.2,-0.7) {$RG$};\n\\node[font=\\small] at (6.2,-2.4) {$RR$};\n\\node[font=\\small] at (2.2,3.4) {Stage $1$};\n\\node[font=\\small] at (4.8,3.4) {Stage $2$};\n\\node[font=\\small] at (6.2,3.4) {Path};\n\\end{tikzpicture}\n[/tikz]",
+          "The branches leaving any one point have probabilities adding to $1$, so a missing branch is $1$ minus the ones shown.",
+          "Multiply along the branches of a path to find the probability of that whole path: $P(GG) = P(G) \\times P(G)$.",
+          "Multiplication rule for independent events: $P(A \\text{ and } B) = P(A) \\times P(B)$, with no tree needed.",
+          "When several paths satisfy the event, add their probabilities: exactly one green $= P(GR) + P(RG)$.",
+          "Adding branch probabilities instead of multiplying can give an answer greater than $1$, which is impossible.",
+          "Give the answer in the form of the data: fractions in simplest form, decimals as decimals, percentages as percentages."
+        ],
+        "steps": [
+          "Draw a tree with one set of branches for each stage.",
+          "Label every branch with its single-stage probability.",
+          "Multiply along the branches of each path.",
+          "Add the paths that satisfy the event."
+        ]
+      },
   "practice": {
     "foundation": [
       {

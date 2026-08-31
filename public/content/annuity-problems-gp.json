@@ -1,0 +1,111 @@
+{
+  "skillId": "annuity-problems-gp",
+  "atomType": "R",
+  "theory": {
+    "intro": "Annuity problems use the future value formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ in reverse to calculate required periodic contributions, the time needed to reach a financial target, or to compare different investment options.",
+    "facts": [
+      "To find the regular payment $a$ needed for a target future value, solve $a = \\dfrac{FV \\times r}{(1+r)^{n}-1}$.",
+      "To find the number of periods $n$, rearrange for $(1+r)^{n}$ and take logarithms of both sides.",
+      "Increasing the interest rate or lengthening the duration increases future value exponentially due to compounding.",
+      "Doubling the term more than doubles the final balance because accumulated interest compounds over longer time."
+    ],
+    "steps": [
+      "State the future value formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and substitute the known values.",
+      "Rearrange algebraically for the unknown quantity ($a$ or $n$).",
+      "Evaluate and round to the required precision or the next whole period."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Jack wishes to save $\\$15\\,000$ in $4\\text{ years}$ by making equal annual deposits at the end of each year into an account paying $5\\%$ p.a. compounded annually. Calculate the required annual deposit $a$, correct to the nearest cent.",
+        "structure": "solve-for-payment",
+        "solution_text": "1. **State the future value formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and substitute the known values.**\n$15000 = a\\left[\\dfrac{1.05^{4}-1}{0.05}\\right]$\n2. **Rearrange algebraically for the unknown quantity ($a$ or $n$).**\n$15000 = a \\times 4.310125$\n$a = \\dfrac{15000}{4.310125}$\n3. **Evaluate and round to the required precision or the next whole period.**\n$= \\$3480.18$"
+      },
+      {
+        "question_text": "A business needs $\\$50\\,000$ in $5\\text{ years}$ to upgrade company vehicles. The funds will be accumulated with quarterly deposits at the end of each quarter into an account paying $6\\%$ p.a. compounded quarterly. Find the required quarterly payment.",
+        "structure": "solve-for-payment",
+        "solution_text": "$r = \\dfrac{0.06}{4} = 0.015$, $n = 5 \\times 4 = 20$\n$50000 = a\\left[\\dfrac{1.015^{20}-1}{0.015}\\right]$\n$50000 = a \\times 23.123667$\n$a = \\dfrac{50000}{23.123667}$\n$= \\$2162.29$"
+      },
+      {
+        "question_text": "Hannah deposits $\\$400$ at the end of each month into an annuity earning $7.2\\%$ p.a. compounded monthly. How many whole months will it take for the balance to first exceed $\\$20\\,000$?",
+        "structure": "solve-for-periods",
+        "solution_text": "1. **State the future value formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and substitute the known values.**\n$r = \\dfrac{0.072}{12} = 0.006$\n$20000 = 400\\left[\\dfrac{1.006^{n}-1}{0.006}\\right]$\n2. **Rearrange algebraically for the unknown quantity ($a$ or $n$).**\n$120 = 400(1.006^{n}-1)$\n$0.3 = 1.006^{n}-1$\n$1.006^{n} = 1.3$\n$n = \\dfrac{\\ln(1.3)}{\\ln(1.006)}$\n3. **Evaluate and round to the required precision or the next whole period.**\n$n \\approx 43.84$\n$= 44\\text{ months}$"
+      },
+      {
+        "question_text": "Oliver invests $\\$2000$ at the end of each year at $8\\%$ p.a. compounded annually. Find the number of years $n$ needed for the total investment to exceed $\\$40\\,000$.",
+        "structure": "solve-for-periods",
+        "solution_text": "$40000 = 2000\\left[\\dfrac{1.08^{n}-1}{0.08}\\right]$\n$3200 = 2000(1.08^{n}-1)$\n$1.6 = 1.08^{n}-1$\n$1.08^{n} = 2.6$\n$n = \\dfrac{\\ln(2.6)}{\\ln(1.08)}$\n$n \\approx 12.42$\n$= 13\\text{ years}$"
+      },
+      {
+        "question_text": "Plan A involves saving $\\$1200$ per year for $10\\text{ years}$ at $6\\%$ p.a. Plan B involves saving $\\$600$ per year for $20\\text{ years}$ at $6\\%$ p.a. Both plans deposit $\\$12\\,000$ in total. Calculate which plan yields the higher future value and find the difference.",
+        "structure": "compare-annuity-scenarios",
+        "solution_text": "$FV_{A} = \\dfrac{1200(1.06^{10}-1)}{0.06} = \\$15\\,816.95$\n$FV_{B} = \\dfrac{600(1.06^{20}-1)}{0.06} = \\$22\\,071.35$\nPlan B is higher.\n$\\text{Difference} = 22071.35 - 15816.95$\n$= \\$6254.40$"
+      },
+      {
+        "question_text": "An investor deposits $\\$500$ at the end of each month into an annuity. Calculate the future value after $8\\text{ years}$ at: (a) $4.8\\%$ p.a. compounded monthly, and (b) $7.2\\%$ p.a. compounded monthly. Find how much more interest is earned at the higher rate.",
+        "structure": "compare-annuity-scenarios",
+        "solution_text": "$n = 8 \\times 12 = 96$\nRate A: $r = 0.004$, $FV_{A} = \\dfrac{500(1.004^{96}-1)}{0.004} = \\$58\\,304.70$\nRate B: $r = 0.006$, $FV_{B} = \\dfrac{500(1.006^{96}-1)}{0.006} = \\$64\\,595.66$\n$\\text{Difference} = 64595.66 - 58304.70$\n$= \\$6290.96$"
+      },
+      {
+        "question_text": "A family wants to accumulate $\\$30\\,000$ in $6\\text{ years}$ for home renovations by making equal monthly payments into an account earning $5.4\\%$ p.a. compounded monthly. Calculate the required monthly payment.",
+        "structure": "solve-for-payment",
+        "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 6 \\times 12 = 72$\n$30000 = a\\left[\\dfrac{1.0045^{72}-1}{0.0045}\\right]$\n$30000 = a \\times 84.810574$\n$a = \\dfrac{30000}{84.810574}$\n$= \\$353.73$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A manufacturing firm requires $\\$250\\,000$ in $8\\text{ years}$ to replace factory machinery. A sinking fund pays $6.8\\%$ p.a. compounded half-yearly. Calculate the half-yearly contribution required at the end of each period.",
+        "structure": "solve-for-payment",
+        "solution_text": "$r = \\dfrac{0.068}{2} = 0.034$, $n = 8 \\times 2 = 16$\n$250000 = a\\left[\\dfrac{1.034^{16}-1}{0.034}\\right]$\n$250000 = a \\times 20.884102$\n$a = \\dfrac{250000}{20.884102}$\n$= \\$11\\,970.83$"
+      },
+      {
+        "question_text": "A saver deposits $\\$750$ at the end of each quarter into an annuity paying $6\\%$ p.a. compounded quarterly. Determine the number of complete quarters required for the balance to reach at least $\\$35\\,000$.",
+        "structure": "solve-for-periods",
+        "solution_text": "$r = \\dfrac{0.06}{4} = 0.015$\n$35000 = 750\\left[\\dfrac{1.015^{n}-1}{0.015}\\right]$\n$525 = 750(1.015^{n}-1)$\n$0.7 = 1.015^{n}-1$\n$1.015^{n} = 1.7$\n$n = \\dfrac{\\ln(1.7)}{\\ln(1.015)}$\n$n \\approx 35.63$\n$= 36\\text{ quarters}$"
+      },
+      {
+        "question_text": "Maya wants to save $\\$80\\,000$ for a home deposit in $7\\text{ years}$. She compares investing $\\$750$ per month at $6\\%$ p.a. compounded monthly versus $\\$850$ per month at $4.8\\%$ p.a. compounded monthly. Determine which option achieves a higher balance and calculate the difference.",
+        "structure": "compare-annuity-scenarios",
+        "solution_text": "$n = 7 \\times 12 = 84$\nOption 1: $r = 0.005$, $FV_{1} = \\dfrac{750(1.005^{84}-1)}{0.005} = \\$78\\,054.49$\nOption 2: $r = 0.004$, $FV_{2} = \\dfrac{850(1.004^{84}-1)}{0.004} = \\$84\\,663.07$\nOption 2 is higher.\n$\\text{Difference} = 84663.07 - 78054.49$\n$= \\$6608.58$"
+      },
+      {
+        "question_text": "An individual aims to build a retirement nest egg of $\\$500\\,000$ over $25\\text{ years}$ with monthly contributions earning $7.5\\%$ p.a. compounded monthly. Calculate the required monthly contribution $a$.",
+        "structure": "solve-for-payment",
+        "solution_text": "$r = \\dfrac{0.075}{12} = 0.00625$, $n = 25 \\times 12 = 300$\n$50000 = a\\left[\\dfrac{1.00625^{300}-1}{0.00625}\\right]$\n$500000 = a \\times 880.609653$\n$a = \\dfrac{500000}{880.609653}$\n$= \\$567.79$"
+      },
+      {
+        "question_text": "A student deposits $\\$100$ at the end of each month into an investment earning $9.6\\%$ p.a. compounded monthly. How many months are required to accumulate $\\$5000$?",
+        "structure": "solve-for-periods",
+        "solution_text": "$r = \\dfrac{0.096}{12} = 0.008$\n$5000 = 100\\left[\\dfrac{1.008^{n}-1}{0.008}\\right]$\n$40 = 100(1.008^{n}-1)$\n$0.4 = 1.008^{n}-1$\n$1.008^{n} = 1.4$\n$n = \\dfrac{\\ln(1.4)}{\\ln(1.008)}$\n$n \\approx 42.27$\n$= 43\\text{ months}$"
+      },
+      {
+        "question_text": "Lucas has a choice of saving $\\$4000$ at the end of each year for $15\\text{ years}$ or $\\$2000$ at the end of each year for $30\\text{ years}$, both earning $7\\%$ p.a. compounded annually. Find the difference in total interest earned between the two options.",
+        "structure": "compare-annuity-scenarios",
+        "solution_text": "Option 1 ($15\\text{ yrs}$):\n$FV_{1} = \\dfrac{4000(1.07^{15}-1)}{0.07} = \\$100\\,516.97$\n$\\text{Interest}_{1} = 100516.97 - (15 \\times 4000) = \\$40\\,516.97$\nOption 2 ($30\\text{ yrs}$):\n$FV_{2} = \\dfrac{2000(1.07^{30}-1)}{0.07} = \\$188\\,921.64$\n$\\text{Interest}_{2} = 188921.64 - (30 \\times 2000) = \\$128\\,921.64$\n$\\text{Difference} = 128921.64 - 40516.97$\n$= \\$88\\,404.67$"
+      },
+      {
+        "question_text": "To accumulate $\\$120\\,000$ in $12\\text{ years}$ at $6.6\\%$ p.a. compounded monthly, calculate the required monthly contribution to the nearest cent.",
+        "structure": "solve-for-payment",
+        "solution_text": "$r = \\dfrac{0.066}{12} = 0.0055$, $n = 12 \\times 12 = 144$\n$120000 = a\\left[\\dfrac{1.0055^{144}-1}{0.0055}\\right]$\n$120000 = a \\times 220.103767$\n$a = \\dfrac{120000}{220.103767}$\n$= \\$545.20$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "An investor needs $\\$1\\,000\\,000$ upon retiring in $30\\text{ years}$. She can invest in Fund A at $6\\%$ p.a. compounded monthly or Fund B at $7.5\\%$ p.a. compounded monthly. Calculate the monthly contribution required for each fund and find how much less she needs to deposit each month with Fund B.",
+        "structure": "solve-for-payment",
+        "solution_text": "$n = 30 \\times 12 = 360$\nFund A: $r = 0.005$, $a_{A} = \\dfrac{1000000 \\times 0.005}{1.005^{360}-1} = \\dfrac{5000}{5.022575} = \\$995.51$\nFund B: $r = 0.00625$, $a_{B} = \\dfrac{1000000 \\times 0.00625}{1.00625^{360}-1} = \\dfrac{6250}{8.421869} = \\$742.12$\n$\\text{Monthly difference} = 995.51 - 742.12$\n$= \\$253.39$"
+      },
+      {
+        "question_text": "A superannuation account has monthly contributions of $\\$500$ earning $6\\%$ p.a. compounded monthly. Find: (a) the time $n_{1}$ in whole months to reach $\\$100\\,000$, and (b) the additional time $n_{2}-n_{1}$ in whole months to grow from $\\$100\\,000$ to $\\$200\\,000$.",
+        "structure": "solve-for-periods",
+        "solution_text": "$r = 0.005$\nFor $\\$100\\,000$:\n$100000 = 500\\left[\\dfrac{1.005^{n}-1}{0.005}\\right]$\n$1.005^{n_{1}} = 2.0 \\implies n_{1} = \\dfrac{\\ln(2.0)}{\\ln(1.005)} \\approx 138.98 \\implies 139\\text{ months}$\nFor $\\$200\\,000$:\n$200000 = 500\\left[\\dfrac{1.005^{n}-1}{0.005}\\right]$\n$1.005^{n_{2}} = 3.0 \\implies n_{2} = \\dfrac{\\ln(3.0)}{\\ln(1.005)} \\approx 220.27 \\implies 221\\text{ months}$\n$\\text{Additional time} = 221 - 139$\n$= 82\\text{ months}$"
+      },
+      {
+        "question_text": "Emma starts saving $\\$300$ per month at age $25$ for $15\\text{ years}$ (until age $40$) and then leaves the accumulated balance to compound untouched without further deposits until age $65$ ($25\\text{ years}$ of compounding). Liam starts saving $\\$300$ per month at age $40$ and continues until age $65$ ($25\\text{ years}$ of continuous deposits). If both earn $6\\%$ p.a. compounded monthly, determine who has the larger balance at age $65$ and find the difference.",
+        "structure": "compare-annuity-scenarios",
+        "solution_text": "$r = 0.005$\nEmma at age 40 ($n=180$):\n$FV_{40} = \\dfrac{300(1.005^{180}-1)}{0.005} = \\$87\\,245.58$\nEmma at age 65 (compounds for $300$ months):\n$FV_{\\text{Emma}} = 87245.58 \\times 1.005^{300} = \\$389\\,605.76$\nLiam at age 65 ($n=300$):\n$FV_{\\text{Liam}} = \\dfrac{300(1.005^{300}-1)}{0.005} = \\$207\\,898.83$\nEmma has the larger balance.\n$\\text{Difference} = 389605.76 - 207898.83$\n$= \\$181\\,706.93$"
+      }
+    ]
+  }
+}

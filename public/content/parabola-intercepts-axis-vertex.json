@@ -2,21 +2,22 @@
   "skillId": "parabola-intercepts-axis-vertex",
   "atomType": "R",
   "theory": {
-    "intro": "Every parabola $y=ax^2+bx+c$ has four features that locate it: the $y$-intercept, the $x$-intercepts, the axis of symmetry and the vertex. This skill finds all four by calculation from the equation, without drawing the graph.",
-    "facts": [
-      "The **$y$-intercept** is found by substituting $x=0$; for $y=ax^2+bx+c$ it is $y=c$.",
-      "The **$x$-intercepts** are found by substituting $y=0$ and solving. Factorise (or use the null factor law on a factored form): if $(x-\\alpha)(x-\\beta)=0$ then $x=\\alpha$ or $x=\\beta$.",
-      "The **axis of symmetry** is the vertical line $x=-\\dfrac{b}{2a}$; it can also be found as the midpoint of the two $x$-intercepts.",
-      "The **vertex** lies on the axis of symmetry: find its $x$-coordinate from the axis, then substitute back into the equation to get the $y$-coordinate.",
-      "A parabola may have two, one or no $x$-intercepts, but it always has exactly one $y$-intercept and one vertex."
-    ],
-    "steps": [
-      "Find the $y$-intercept by letting $x=0$.",
-      "Find the $x$-intercepts by letting $y=0$ and solving.",
-      "Find the axis of symmetry $x=-\\dfrac{b}{2a}$.",
-      "Find the vertex by substituting the axis value into the equation."
-    ]
-  },
+        "intro": "Every parabola $y=ax^2+bx+c$ has four locating features: the $y$-intercept, the $x$-intercepts, the axis of symmetry and the vertex. This skill finds all four from the equation, without drawing the graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=6.8, ymin=-6.3, ymax=4.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, blue, <->, domain=-3:5] {0.5*(x+2)*(x-4)};\n\\addplot[dashed, domain=-6:4] ({1},{x});\n\\addplot[only marks, mark=*, blue] coordinates {(-2,0) (4,0) (0,-4) (1,-4.5)};\n\\node[below left] at (axis cs:-2,0) {$\\alpha$};\n\\node[below right] at (axis cs:4,0) {$\\beta$};\n\\node[anchor=east, fill=white, inner sep=1pt] at (axis cs:-0.15,-4) {$c$};\n\\node at (axis cs:1.85,-5.4) {$V$};\n\\node[anchor=west] at (axis cs:1.2,4.3) {axis of symmetry};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The **$y$-intercept** is found by substituting $x=0$, so for $y=ax^2+bx+c$ it is $y=c$.",
+          "The **$x$-intercepts** are found by substituting $y=0$ and solving, factorising first if needed.",
+          "By the null factor law, if $(x-\\alpha)(x-\\beta)=0$ then $x=\\alpha$ or $x=\\beta$.",
+          "The **axis of symmetry** is the vertical line $x=-\\dfrac{b}{2a}$, or the midpoint of the two $x$-intercepts.",
+          "The **vertex** lies on the axis of symmetry, so substitute its $x$-value back into the equation to get the $y$-value.",
+          "A parabola has two, one or no $x$-intercepts, but always exactly one $y$-intercept and one vertex.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.8,0) -- (10.6,0) node[right] {$x$};\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=0.05:3.15] plot ({\\x},{1.2*(\\x-1.6)*(\\x-1.6)-1.2});\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=4.0:6.4] plot ({\\x},{1.2*(\\x-5.2)*(\\x-5.2)});\n\\draw[thick,blue,<->,smooth,variable=\\x,domain=8.0:10.0] plot ({\\x},{1.2*(\\x-9.0)*(\\x-9.0)+1.2});\n\\fill (0.6,0) circle (2.5pt);\n\\fill (2.6,0) circle (2.5pt);\n\\fill (5.2,0) circle (2.5pt);\n\\node[below] at (1.6,-1.9) {two $x$-intercepts};\n\\node[below] at (5.2,-0.7) {one $x$-intercept};\n\\node[below] at (9.0,-0.7) {no $x$-intercepts};\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Find the $y$-intercept by letting $x=0$.",
+          "Find the $x$-intercepts by letting $y=0$ and solving.",
+          "Find the axis of symmetry $x=-\\dfrac{b}{2a}$.",
+          "Find the vertex by substituting the axis value into the equation."
+        ]
+      },
   "practice": {
     "foundation": [
       {

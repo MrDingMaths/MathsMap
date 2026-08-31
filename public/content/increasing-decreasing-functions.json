@@ -1,0 +1,114 @@
+{
+  "skillId": "increasing-decreasing-functions",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **derivative** $f'(c)$ is the gradient of the tangent to $y = f(x)$ at $x = c$. The sign of that gradient tells you whether the curve is going down, is level, or is going up at that point.",
+        "facts": [
+          "$f(x)$ is **decreasing** at $x = a$ when $f'(a) < 0$, so the tangent there slopes downwards.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,2.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5.8, smooth, variable=\\x] plot (\\x, {0.4*(\\x-3)*(\\x-3) - 1.5}) node[above left] {$y = f(x)$};\n\\draw (0.4,0.72) -- (2.6,-1.92);\n\\filldraw (1.5,-0.6) circle (2pt);\n\\draw (1.5,-0.12) -- (1.5,0.12);\n\\node[above right] at (1.5,0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "$f(x)$ is **stationary** at $x = a$ when $f'(a) = 0$, so the tangent there is horizontal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,2.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5.8, smooth, variable=\\x] plot (\\x, {0.4*(\\x-3)*(\\x-3) - 1.5}) node[above left] {$y = f(x)$};\n\\draw (1.9,-1.5) -- (4.1,-1.5);\n\\filldraw (3,-1.5) circle (2pt);\n\\draw (3,-0.12) -- (3,0.12);\n\\node[above] at (3,0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "$f(x)$ is **increasing** at $x = a$ when $f'(a) > 0$, so the tangent there slopes upwards.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,2.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:5.8, smooth, variable=\\x] plot (\\x, {0.4*(\\x-3)*(\\x-3) - 1.5}) node[above left] {$y = f(x)$};\n\\draw (3.4,-1.92) -- (5.6,0.72);\n\\filldraw (4.5,-0.6) circle (2pt);\n\\draw (4.5,-0.12) -- (4.5,0.12);\n\\node[above left] at (4.5,0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "To find where $f(x)$ is increasing, differentiate and solve the inequality $f'(x) > 0$.",
+          "To find where $f(x)$ is decreasing, differentiate and solve the inequality $f'(x) < 0$.",
+          "To solve a quadratic inequality in $f'(x)$, find the roots of $f'(x) = 0$ and check the sign of the parabola in each region.",
+          "If $f'(x) > 0$ for all $x$ — for example a positive quadratic with $\\Delta < 0$ — then $f(x)$ increases everywhere."
+        ],
+        "steps": [
+          "Differentiate $f(x)$ to find $f'(x)$",
+          "Substitute the given point into $f'(x)$ or set up the required inequality $f'(x) > 0$ or $f'(x) < 0$",
+          "Evaluate the sign or solve the inequality for $x$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Determine whether $f(x) = x^2 - 4x + 7$ is increasing, decreasing, or stationary at $x = 3$.",
+        "structure": "evaluate-behaviour-at-point",
+        "solution_text": "$f'(x) = 2x - 4$\n$f'(3) = 2(3) - 4 = 2$\nSince $f'(3) > 0$, the function is increasing at $x = 3$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = 2x^3 - 9x^2 + 12x - 5$ is increasing, decreasing, or stationary at $x = 1$.",
+        "structure": "evaluate-behaviour-at-point",
+        "solution_text": "$f'(x) = 6x^2 - 18x + 12$\n$f'(1) = 6(1)^2 - 18(1) + 12 = 0$\nSince $f'(1) = 0$, the function is stationary at $x = 1$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = 10 + 6x - x^2$ is increasing, decreasing, or stationary at $x = 5$.",
+        "structure": "evaluate-behaviour-at-point",
+        "solution_text": "$f'(x) = 6 - 2x$\n$f'(5) = 6 - 2(5) = -4$\nSince $f'(5) < 0$, the function is decreasing at $x = 5$."
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = x^2 - 8x + 3$ is increasing.",
+        "structure": "find-increasing-interval-linear",
+        "solution_text": "$y' = 2x - 8$\nFor the function to be increasing, $y' > 0$:\n$2x - 8 > 0$\n$2x > 8$\n$x > 4$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = 5 + 12x - 3x^2$ is decreasing.",
+        "structure": "find-decreasing-interval-linear",
+        "solution_text": "$y' = 12 - 6x$\nFor the function to be decreasing, $y' < 0$:\n$12 - 6x < 0$\n$-6x < -12$\n$x > 2$"
+      },
+      {
+        "question_text": "Find the intervals of $x$ for which $y = \\dfrac{1}{3}x^3 - 4x$ is increasing.",
+        "structure": "find-increasing-interval-quadratic",
+        "solution_text": "$y' = x^2 - 4$\nFor the function to be increasing, $y' > 0$:\n$x^2 - 4 > 0$\n$(x - 2)(x + 2) > 0$\n$x < -2 \\text{ or } x > 2$"
+      },
+      {
+        "question_text": "Find the interval of $x$ for which $y = 2x^3 - 6x^2 + 1$ is decreasing.",
+        "structure": "find-decreasing-interval-quadratic",
+        "solution_text": "$y' = 6x^2 - 12x$\nFor the function to be decreasing, $y' < 0$:\n$6x(x - 2) < 0$\n$0 < x < 2$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Determine whether $f(x) = (2x - 3)(x + 4)$ is increasing, decreasing, or stationary at $x = -2$.",
+        "structure": "evaluate-behaviour-at-point",
+        "solution_text": "$f(x) = 2x^2 + 5x - 12$\n$f'(x) = 4x + 5$\n$f'(-2) = 4(-2) + 5 = -3$\nSince $f'(-2) < 0$, the function is decreasing at $x = -2$."
+      },
+      {
+        "question_text": "Find the interval where $y = 3 - (x - 2)^2$ is increasing.",
+        "structure": "find-increasing-interval-linear",
+        "solution_text": "$y = 3 - (x^2 - 4x + 4) = -x^2 + 4x - 1$\n$y' = -2x + 4$\nFor the function to be increasing, $y' > 0$:\n$-2x + 4 > 0$\n$-2x > -4$\n$x < 2$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = 4x^2 - 10x + 7$ is decreasing.",
+        "structure": "find-decreasing-interval-linear",
+        "solution_text": "$y' = 8x - 10$\nFor the function to be decreasing, $y' < 0$:\n$8x - 10 < 0$\n$8x < 10$\n$x < \\dfrac{5}{4}$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = 2x^3 - 9x^2 + 12x - 4$ is increasing.",
+        "structure": "find-increasing-interval-quadratic",
+        "solution_text": "$y' = 6x^2 - 18x + 12$\nFor the function to be increasing, $y' > 0$:\n$6(x^2 - 3x + 2) > 0$\n$6(x - 1)(x - 2) > 0$\n$x < 1 \\text{ or } x > 2$"
+      },
+      {
+        "question_text": "Find the intervals of $x$ for which $y = 12x + 3x^2 - 2x^3$ is decreasing.",
+        "structure": "find-decreasing-interval-quadratic",
+        "solution_text": "$y' = 12 + 6x - 6x^2$\nFor the function to be decreasing, $y' < 0$:\n$-6(x^2 - x - 2) < 0$\n$x^2 - x - 2 > 0$\n$(x - 2)(x + 1) > 0$\n$x < -1 \\text{ or } x > 2$"
+      },
+      {
+        "question_text": "Show that $f(x) = x^3 + 3x^2 + 7x - 2$ is increasing for all real values of $x$.",
+        "structure": "prove-monotonic-all-real",
+        "solution_text": "$f'(x) = 3x^2 + 6x + 7$\n$= 3(x^2 + 2x + 1) + 4$\n$= 3(x + 1)^2 + 4$\nSince $(x + 1)^2 \\geq 0$ for all real $x$, $3(x + 1)^2 + 4 \\geq 4 > 0$.\nSince $f'(x) > 0$ for all real $x$, $f(x)$ is increasing for all $x$."
+      },
+      {
+        "question_text": "Show that $f(x) = -\\dfrac{5}{x}$ is increasing for all $x$ in its domain $x \\neq 0$.",
+        "structure": "prove-monotonic-all-real",
+        "solution_text": "$f(x) = -5x^{-1}$\n$f'(x) = 5x^{-2} = \\dfrac{5}{x^2}$\nSince $x^2 > 0$ for all $x \\neq 0$, $f'(x) = \\dfrac{5}{x^2} > 0$ for all $x \\neq 0$.\nTherefore $f(x)$ is increasing for all $x$ in its domain."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find all values of $k$ for which $f(x) = x^3 + 3x^2 + kx + 5$ is an increasing function for all real $x$.",
+        "structure": "prove-monotonic-all-real",
+        "solution_text": "$f'(x) = 3x^2 + 6x + k$\nFor $f(x)$ to be increasing for all $x$, we require $f'(x) > 0$ for all $x$.\nSince the leading coefficient $3 > 0$, the quadratic $3x^2 + 6x + k > 0$ for all $x$ if its discriminant $\\Delta < 0$:\n$\\Delta = 6^2 - 4(3)(k) < 0$\n$36 - 12k < 0$\n$12k > 36$\n$k > 3$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $f(x) = \\dfrac{x^4}{4} - \\dfrac{2x^3}{3} - 4x^2 + 5$ is decreasing.",
+        "structure": "find-decreasing-interval-quadratic",
+        "solution_text": "$f'(x) = x^3 - 2x^2 - 8x$\n$= x(x^2 - 2x - 8)$\n$= x(x - 4)(x + 2)$\nSetting $f'(x) = 0$ gives roots $x = -2, 0, 4$.\nTesting signs of $f'(x)$ across the intervals:\nFor $x < -2$, $f'(x) < 0$\nFor $-2 < x < 0$, $f'(x) > 0$\nFor $0 < x < 4$, $f'(x) < 0$\nFor $x > 4$, $f'(x) > 0$\nTherefore $f(x)$ is decreasing for $x < -2$ and $0 < x < 4$."
+      },
+      {
+        "question_text": "Find the values of $x$ for which $f(x) = \\dfrac{x^4}{4} + \\dfrac{x^3}{3} - 3x^2 + 1$ is increasing.",
+        "structure": "find-increasing-interval-quadratic",
+        "solution_text": "$f'(x) = x^3 + x^2 - 6x$\n$= x(x^2 + x - 6)$\n$= x(x + 3)(x - 2)$\nSetting $f'(x) = 0$ gives roots $x = -3, 0, 2$.\nTesting signs of $f'(x)$ across the intervals:\nFor $x < -3$, $f'(x) < 0$\nFor $-3 < x < 0$, $f'(x) > 0$\nFor $0 < x < 2$, $f'(x) < 0$\nFor $x > 2$, $f'(x) > 0$\nTherefore $f(x)$ is increasing for $-3 < x < 0$ and $x > 2$."
+      }
+    ]
+  }
+}

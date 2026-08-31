@@ -1,0 +1,109 @@
+{
+  "skillId": "mean-variance-continuous",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{32}$ on $[0,8]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1, xmax=9.4, ymin=-0.04, ymax=0.35, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8}, ytick={0.1,0.2}]\n\\addplot[thick, domain=0:8] {x/32};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $E(X)$.",
+      "structure": "mean-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{16}{3}$", "correct": true },
+        { "text": "$1$", "why": "Integrated $f(x)$ without the extra factor of $x$, which always gives the total probability $1$." },
+        { "text": "$4$", "why": "Took the midpoint of the support, which is only the mean when the density is uniform." },
+        { "text": "$16$", "why": "Divided by $32$ instead of $96$ after integrating $\\frac{x^{2}}{32}$." }
+      ],
+      "solution_text": "$E(X)=\\int_{0}^{8}x\\cdot\\frac{x}{32}\\,dx$\n$=\\left[\\frac{x^{3}}{96}\\right]_{0}^{8}$\n$=\\frac{512}{96}$\n$=\\frac{16}{3}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3x^{2}}{8}$ on $[0,2]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=3.2, ymin=-0.22, ymax=1.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.5,1,1.5}]\n\\addplot[thick, domain=0:2] {3*x*x/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the expected value of $X$.",
+      "structure": "mean-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{3}{2}$", "correct": true },
+        { "text": "$\\frac{12}{5}$", "why": "Integrated $x^{2}f(x)$, which gives $E(X^{2})$ rather than the mean." },
+        { "text": "$1$", "why": "Integrated $f(x)$ alone, which is the total probability, not the expected value." },
+        { "text": "$6$", "why": "Wrote the primitive of $\\frac{3x^{3}}{8}$ as $\\frac{3x^{4}}{8}$, forgetting to divide by $4$." }
+      ],
+      "solution_text": "$E(X)=\\int_{0}^{2}x\\cdot\\frac{3x^{2}}{8}\\,dx$\n$=\\left[\\frac{3x^{4}}{32}\\right]_{0}^{2}$\n$=\\frac{48}{32}$\n$=\\frac{3}{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{2}$ on $[0,2]$, and $E(X)=\\frac{4}{3}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=3.2, ymin=-0.14, ymax=1.3, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:2] {x/2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $\\text{Var}(X)$.",
+      "structure": "variance-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{2}{9}$", "correct": true },
+        { "text": "$2$", "why": "Stopped at $E(X^{2})$ and never subtracted $\\mu^{2}$." },
+        { "text": "$\\frac{2}{3}$", "why": "Subtracted $\\mu$ instead of $\\mu^{2}$ from $E(X^{2})$." },
+        { "text": "$\\frac{34}{9}$", "why": "Added $\\mu^{2}$ to $E(X^{2})$ instead of subtracting it." }
+      ],
+      "solution_text": "$E(X^{2})=\\int_{0}^{2}x^{2}\\cdot\\frac{x}{2}\\,dx$\n$=\\left[\\frac{x^{4}}{8}\\right]_{0}^{2}$\n$=2$\n$\\text{Var}(X)=2-\\left(\\frac{4}{3}\\right)^{2}$\n$=2-\\frac{16}{9}$\n$=\\frac{2}{9}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{5x^{4}}{32}$ on $[0,2]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=3.2, ymin=-0.36, ymax=3.1, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={1,2}]\n\\addplot[thick, domain=0:2] {5*x*x*x*x/32};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+      "structure": "mean-and-variance",
+      "mastery": false,
+      "options": [
+        { "text": "$\\mu=\\frac{5}{3}$, $\\text{Var}(X)=\\frac{5}{63}$", "correct": true },
+        { "text": "$\\mu=\\frac{5}{3}$, $\\text{Var}(X)=\\frac{20}{7}$", "why": "Stopped at $E(X^{2})$ and never subtracted $\\mu^{2}$." },
+        { "text": "$\\mu=\\frac{20}{7}$, $\\text{Var}(X)=\\frac{5}{63}$", "why": "Reported $E(X^{2})$ as the mean, although the variance was worked out correctly." },
+        { "text": "$\\mu=\\frac{20}{7}$, $\\text{Var}(X)=\\frac{20}{7}$", "why": "Used $E(X^{2})$ as both the mean and the variance, subtracting nothing." }
+      ],
+      "solution_text": "$\\mu=\\int_{0}^{2}\\frac{5x^{5}}{32}\\,dx$\n$=\\left[\\frac{5x^{6}}{192}\\right]_{0}^{2}$\n$=\\frac{320}{192}$\n$=\\frac{5}{3}$\n$E(X^{2})=\\int_{0}^{2}\\frac{5x^{6}}{32}\\,dx$\n$=\\left[\\frac{5x^{7}}{224}\\right]_{0}^{2}$\n$=\\frac{640}{224}$\n$=\\frac{20}{7}$\n$\\text{Var}(X)=\\frac{20}{7}-\\left(\\frac{5}{3}\\right)^{2}$\n$=\\frac{180-175}{63}$\n$=\\frac{5}{63}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x^{2}}{72}$ on $[0,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.8, xmax=7.2, ymin=-0.09, ymax=0.7, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.2,0.4}]\n\\addplot[thick, domain=0:6] {x*x/72};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the exact standard deviation of $X$.",
+      "structure": "standard-deviation-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{3\\sqrt{15}}{10}$", "correct": true },
+        { "text": "$\\frac{27}{20}$", "why": "Stopped at the variance without taking its square root." },
+        { "text": "$\\frac{6\\sqrt{15}}{5}$", "why": "Took the square root of $E(X^{2})$, forgetting to subtract $\\mu^{2}$ first." },
+        { "text": "$\\frac{9}{2}$", "why": "Reported the mean instead of the standard deviation." }
+      ],
+      "solution_text": "$\\mu=\\int_{0}^{6}\\frac{x^{3}}{72}\\,dx$\n$=\\left[\\frac{x^{4}}{288}\\right]_{0}^{6}$\n$=\\frac{1296}{288}$\n$=\\frac{9}{2}$\n$E(X^{2})=\\int_{0}^{6}\\frac{x^{4}}{72}\\,dx$\n$=\\left[\\frac{x^{5}}{360}\\right]_{0}^{6}$\n$=\\frac{7776}{360}$\n$=\\frac{108}{5}$\n$\\text{Var}(X)=\\frac{108}{5}-\\left(\\frac{9}{2}\\right)^{2}$\n$=\\frac{432-405}{20}$\n$=\\frac{27}{20}$\n$\\sigma=\\sqrt{\\frac{27}{20}}$\n$=\\frac{3\\sqrt{15}}{10}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=kx^{2}$ on $[0,4]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=5.2, ymin=-0.09, ymax=0.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick=\\empty]\n\\addplot[thick, domain=0:4] {3*x*x/64};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $k$ and $E(X)$.",
+      "structure": "mean-with-unknown-constant",
+      "mastery": false,
+      "options": [
+        { "text": "$k=\\frac{3}{64}$, $E(X)=3$", "correct": true },
+        { "text": "$k=\\frac{1}{64}$, $E(X)=1$", "why": "Solved $\\frac{64k}{3}=1$ as $64k=1$, dropping the $3$, and carried that $k$ into the mean." },
+        { "text": "$k=\\frac{3}{64}$, $E(X)=1$", "why": "Found $k$ correctly but then integrated $f(x)$ instead of $xf(x)$." },
+        { "text": "$k=\\frac{1}{64}$, $E(X)=3$", "why": "Dropped the $3$ when solving for $k$, although the mean was worked out from the correct density." }
+      ],
+      "solution_text": "$\\int_{0}^{4}kx^{2}\\,dx=1$\n$k\\left[\\frac{x^{3}}{3}\\right]_{0}^{4}=1$\n$\\frac{64k}{3}=1$\n$k=\\frac{3}{64}$\n$E(X)=\\int_{0}^{4}\\frac{3x^{3}}{64}\\,dx$\n$=\\left[\\frac{3x^{4}}{256}\\right]_{0}^{4}$\n$=\\frac{768}{256}$\n$=3$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The mass, in kilograms, of fruit picked from a tree each day is modelled by $X$ with probability density function $f(x)=\\frac{x-2}{2}$ on $[2,4]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=5.2, ymin=-0.14, ymax=1.3, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:4] {(x-2)/2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean mass picked per day.",
+      "structure": "mean-variance-context",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{10}{3}$ kg", "correct": true },
+        { "text": "$3$ kg", "why": "Took the midpoint of $[2,4]$, which is only the mean for a uniform density." },
+        { "text": "$\\frac{34}{3}$ kg", "why": "Integrated $x^{2}f(x)$, which gives $E(X^{2})$ rather than the mean." },
+        { "text": "$4$ kg", "why": "Read off the upper endpoint of the support, where the density is greatest." }
+      ],
+      "solution_text": "$E(X)=\\int_{2}^{4}x\\cdot\\frac{x-2}{2}\\,dx$\n$=\\frac{1}{2}\\int_{2}^{4}(x^{2}-2x)\\,dx$\n$=\\frac{1}{2}\\left[\\frac{x^{3}}{3}-x^{2}\\right]_{2}^{4}$\n$=\\frac{1}{2}\\left(\\frac{16}{3}+\\frac{4}{3}\\right)$\n$=\\frac{1}{2}\\times\\frac{20}{3}$\n$=\\frac{10}{3}$\nThe mean mass is $\\frac{10}{3}$ kg.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=5.2, ymin=-0.14, ymax=1.3, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:4] {(x-2)/2};\n\\draw[dashed] (axis cs:3.3333,0) -- (axis cs:3.3333,0.6667);\n\\node[above left] at (axis cs:3.3333,0.7) {$\\mu=\\frac{10}{3}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q8",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3x^{2}}{343}$ on $[0,7]$, mean $\\frac{21}{4}$ and variance $\\frac{147}{80}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.9, xmax=8.4, ymin=-0.08, ymax=0.6, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5,6,7}, ytick={0.2,0.4}]\n\\addplot[thick, domain=0:7] {3*x*x/343};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the probability that $X$ lies within one standard deviation of the mean, correct to two decimal places.",
+      "structure": "sd-interval-probability",
+      "mastery": true,
+      "options": [
+        { "text": "$0.67$", "correct": true },
+        { "text": "$0.33$", "why": "Found the probability of falling outside one standard deviation instead of inside it." },
+        { "text": "$0.50$", "why": "Assumed the mean splits the density into halves, which is only true for a symmetric density." },
+        { "text": "$0.95$", "why": "Quoted the normal-distribution figure for two standard deviations instead of integrating this density." }
+      ],
+      "solution_text": "$\\sigma=\\sqrt{\\frac{147}{80}}$\n$\\approx 1.3556$\n$\\mu-\\sigma\\approx 3.8944$\n$\\mu+\\sigma\\approx 6.6056$\n$P(3.8944\\le X\\le 6.6056)=\\left[\\frac{x^{3}}{343}\\right]_{3.8944}^{6.6056}$\n$=\\frac{288.22-59.07}{343}$\n$=\\frac{229.15}{343}$\n$\\approx 0.67$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.9, xmax=8.4, ymin=-0.08, ymax=0.6, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5,6,7}, ytick={0.2,0.4}]\n\\addplot[draw=none, fill=gray!35, domain=3.8944:6.6056] {3*x*x/343} \\closedcycle;\n\\addplot[thick, domain=0:7] {3*x*x/343};\n\\draw[dashed] (axis cs:5.25,0) -- (axis cs:5.25,0.2411);\n\\node[above left] at (axis cs:5.25,0.47) {$\\mu=\\frac{21}{4}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    }
+  ]
+}

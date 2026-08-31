@@ -1,0 +1,255 @@
+{
+  "skillId": "multistage-arrays-trees",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Two fair four-sided dice are rolled and their product is recorded in the array.\n$\\begin{array}{c|cccc} \\times & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 1 & 2 & 3 & 4 \\\\ 2 & 2 & 4 & 6 & 8 \\\\ 3 & 3 & 6 & 9 & 12 \\\\ 4 & 4 & 8 & 12 & 16 \\end{array}$\nFind the probability that the product is strictly greater than $6$, as a fraction in simplest form.",
+      "structure": "array-two-dice-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{3}{8}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{7}{16}$",
+          "why": "Included products equal to 6 instead of strictly greater than 6."
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Miscounted the number of favourable cells in the array."
+        },
+        {
+          "text": "$\\frac{5}{16}$",
+          "why": "Missed the product $3 \\times 3 = 9$ on the diagonal."
+        }
+      ],
+      "solution_text": "The array contains $16$ equally likely cells.\nThe cells strictly greater than $6$ are $(2,4)=8$, $(3,3)=9$, $(3,4)=12$, $(4,2)=8$, $(4,3)=12$, $(4,4)=16$.\n$\\text{Number of favourable cells} = 6$\n$P(\\text{product} > 6) = \\frac{6}{16}$\n$= \\frac{3}{8}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Two standard six-sided dice are rolled and their difference (larger score minus smaller score) is recorded. Find the probability that the difference is exactly $3$, as a fraction in simplest form.",
+      "structure": "array-two-dice-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{6}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{12}$",
+          "why": "Counted ordered pairs in one direction only without considering both dice."
+        },
+        {
+          "text": "$\\frac{1}{9}$",
+          "why": "Missed the pair $(3,6)$ and its reverse $(6,3)$."
+        },
+        {
+          "text": "$\\frac{1}{4}$",
+          "why": "Confused the difference of 3 with a sum of 3."
+        }
+      ],
+      "solution_text": "Total outcomes $= 6 \\times 6 = 36$.\nThe pairs with a difference of $3$ are $(1,4), (2,5), (3,6), (4,1), (5,2), (6,3)$.\n$\\text{Number of favourable pairs} = 6$\n$P(\\text{difference} = 3) = \\frac{6}{36}$\n$= \\frac{1}{6}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A fair spinner has $4$ equal sections numbered $1, 2, 3, 4$. It is spun twice independently. Find the probability that both spins land on prime numbers, as a fraction in simplest form.",
+      "structure": "tree-independent-two-stage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{4}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{9}{16}$",
+          "why": "Treated 1 as a prime number when finding the single-spin probability."
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Added the branch probabilities instead of multiplying along the path."
+        },
+        {
+          "text": "$\\frac{1}{8}$",
+          "why": "Used $\\frac{1}{4}$ for the probability of rolling a prime on a single spin."
+        }
+      ],
+      "solution_text": "The prime numbers in $\\{1, 2, 3, 4\\}$ are $\\{2, 3\\}$.\n$P(\\text{prime on one spin}) = \\frac{2}{4} = \\frac{1}{2}$\n$P(\\text{both prime}) = \\frac{1}{2} \\times \\frac{1}{2}$\n$= \\frac{1}{4}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Liam has a $0.7$ probability of passing his history test and a $0.8$ probability of passing his geography test. The two test results are independent. Find the probability that he passes geography but fails history, as a decimal.",
+      "structure": "tree-independent-two-stage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.24$",
+          "correct": true
+        },
+        {
+          "text": "$0.56$",
+          "why": "Calculated the probability of passing both tests instead of failing history and passing geography."
+        },
+        {
+          "text": "$0.14$",
+          "why": "Multiplied the probability of passing history by the probability of failing geography."
+        },
+        {
+          "text": "$0.06$",
+          "why": "Calculated the probability of failing both tests."
+        }
+      ],
+      "solution_text": "$P(\\text{fails history}) = 1 - 0.7 = 0.3$\n$P(\\text{fails history and passes geography}) = 0.3 \\times 0.8$\n$= 0.24$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A bag contains $5$ red counters and $3$ blue counters. Two counters are chosen at random **without replacement**. Find the probability that both counters are the same colour, as a fraction in simplest form.",
+      "structure": "tree-dependent-without-replacement",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{13}{28}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{17}{32}$",
+          "why": "Calculated the probability with replacement instead of without replacement."
+        },
+        {
+          "text": "$\\frac{15}{28}$",
+          "why": "Calculated the probability of drawing different colours instead of the same colour."
+        },
+        {
+          "text": "$\\frac{5}{14}$",
+          "why": "Calculated the probability of drawing two red counters only."
+        }
+      ],
+      "solution_text": "$P(RR) = \\frac{5}{8} \\times \\frac{4}{7} = \\frac{20}{56}$\n$P(BB) = \\frac{3}{8} \\times \\frac{2}{7} = \\frac{6}{56}$\n$P(\\text{same colour}) = \\frac{20}{56} + \\frac{6}{56}$\n$= \\frac{26}{56}$\n$= \\frac{13}{28}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A fruit bowl contains $4$ apples and $5$ oranges. Jack selects $2$ pieces of fruit at random **without replacement**. Find the probability that he selects exactly one apple, as a fraction in simplest form.",
+      "structure": "tree-dependent-without-replacement",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{5}{9}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{5}{18}$",
+          "why": "Counted only one order ($AO$) instead of both orders ($AO$ and $OA$)."
+        },
+        {
+          "text": "$\\frac{40}{81}$",
+          "why": "Assumed selection with replacement rather than without replacement."
+        },
+        {
+          "text": "$\\frac{1}{6}$",
+          "why": "Calculated the probability of selecting two apples."
+        }
+      ],
+      "solution_text": "Total fruit $= 4 + 5 = 9$.\n$P(AO) = \\frac{4}{9} \\times \\frac{5}{8} = \\frac{20}{72}$\n$P(OA) = \\frac{5}{9} \\times \\frac{4}{8} = \\frac{20}{72}$\n$P(\\text{exactly one apple}) = \\frac{20}{72} + \\frac{20}{72}$\n$= \\frac{40}{72}$\n$= \\frac{5}{9}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A fair six-sided die is rolled $3$ times. Find the probability of rolling at least one $6$, as a fraction in simplest form.",
+      "structure": "at-least-one-complement-tree",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{91}{216}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{125}{216}$",
+          "why": "Found the probability of rolling no sixes instead of at least one six."
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Added $\\frac{1}{6} + \\frac{1}{6} + \\frac{1}{6}$ which incorrectly treats the events as disjoint."
+        },
+        {
+          "text": "$\\frac{1}{216}$",
+          "why": "Calculated the probability of rolling three sixes ($6, 6, 6$)."
+        }
+      ],
+      "solution_text": "$P(\\text{no } 6\\text{ on a single roll}) = \\frac{5}{6}$\n$P(\\text{no } 6\\text{ in } 3\\text{ rolls}) = \\left(\\frac{5}{6}\\right)^{3} = \\frac{125}{216}$\n$P(\\text{at least one } 6) = 1 - \\frac{125}{216}$\n$= \\frac{91}{216}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A safety system consists of $3$ independent alarms. Each alarm has a $0.9$ probability of sounding when smoke is detected. Find the probability that at least one alarm sounds when smoke is detected, as a decimal.",
+      "structure": "at-least-one-complement-tree",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.999$",
+          "correct": true
+        },
+        {
+          "text": "$0.729$",
+          "why": "Calculated the probability that all three alarms sound ($0.9^3$)."
+        },
+        {
+          "text": "$0.001$",
+          "why": "Found the probability that no alarms sound instead of at least one."
+        },
+        {
+          "text": "$0.970$",
+          "why": "Subtracted $0.1 \\times 3 = 0.3$ from $1$ instead of raising $0.1$ to the third power."
+        }
+      ],
+      "solution_text": "$P(\\text{an alarm fails to sound}) = 1 - 0.9 = 0.1$\n$P(\\text{all } 3\\text{ fail}) = 0.1^{3} = 0.001$\n$P(\\text{at least one sounds}) = 1 - 0.001$\n$= 0.999$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A coin is biased so that $P(\\text{Heads}) = \\frac{2}{3}$. The coin is tossed $3$ times independently. Find the probability of getting exactly $2$ Heads, as a fraction in simplest form.",
+      "structure": "three-stage-tree-independent",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{4}{9}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{4}{27}$",
+          "why": "Calculated the probability of one specific order ($HHT$) without multiplying by 3."
+        },
+        {
+          "text": "$\\frac{8}{27}$",
+          "why": "Calculated the probability of getting all three Heads ($HHH$)."
+        },
+        {
+          "text": "$\\frac{2}{3}$",
+          "why": "Assumed the probability of 2 Heads out of 3 is equal to the single-toss probability."
+        }
+      ],
+      "solution_text": "The paths with exactly $2$ Heads are $HHT, HTH, THH$.\n$P(HHT) = \\frac{2}{3} \\times \\frac{2}{3} \\times \\frac{1}{3} = \\frac{4}{27}$\n$P(HTH) = \\frac{2}{3} \\times \\frac{1}{3} \\times \\frac{2}{3} = \\frac{4}{27}$\n$P(THH) = \\frac{1}{3} \\times \\frac{2}{3} \\times \\frac{2}{3} = \\frac{4}{27}$\n$P(\\text{exactly }2\\text{ Heads}) = \\frac{4}{27} + \\frac{4}{27} + \\frac{4}{27}$\n$= \\frac{12}{27}$\n$= \\frac{4}{9}$"
+    },
+    {
+      "id": "q10",
+      "question_text": "A box contains $2$ defective components and $4$ good components. A technician tests components one by one at random **without replacement** until $2$ components have been tested. Find the probability that at least one defective component is found, as a fraction in simplest form.",
+      "structure": "tree-dependent-without-replacement",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{3}{5}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{2}{5}$",
+          "why": "Calculated the probability that neither component is defective."
+        },
+        {
+          "text": "$\\frac{1}{15}$",
+          "why": "Calculated the probability that both tested components are defective."
+        },
+        {
+          "text": "$\\frac{8}{15}$",
+          "why": "Calculated the probability of finding exactly one defective component instead of at least one."
+        }
+      ],
+      "solution_text": "Total components $= 2 + 4 = 6$.\n$P(\\text{both good}) = \\frac{4}{6} \\times \\frac{3}{5} = \\frac{12}{30} = \\frac{2}{5}$\n$P(\\text{at least one defective}) = 1 - P(\\text{both good})$\n$= 1 - \\frac{2}{5}$\n$= \\frac{3}{5}$"
+    }
+  ]
+}

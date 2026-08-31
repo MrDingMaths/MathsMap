@@ -1,0 +1,101 @@
+{
+  "batch": "W4-1",
+  "model": "gemini-3.7-flash-high",
+  "note": "Advanced Y12 sequences and series (11) + Advanced Y12 financial mathematics (8) + Standard Y12 annuities (4) = 23. No in-wave prereqs: every prerequisite (Y11 indices, logarithms, exponential transformations, Standard compound interest) is already shipped. The Standard annuities section is deliberately in the SAME batch as the Advanced annuity section so the batch-scoped duplicate audit can see both — they teach the same financial situation from a table of interest factors and from a geometric series respectively, and are the wave's highest cross-skill duplication risk. Figure-free batch: no [tikz] anywhere, so the diagram lane is skipped.",
+  "sections": [
+    {
+      "name": "sequence-notation",
+      "skillIds": ["sequence-notation", "partial-sum-notation", "sigma-notation"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Sequences and Series 1_Sequences and Series.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`sequence-notation` = the notation itself — $a_{n}$ or $T_{n}$ for the $n$th term, listing terms from a rule, finding a rule from a list, and finite vs infinite. `partial-sum-notation` = $S_{n}$ as the sum of the FIRST $n$ terms, the distinction between a sequence and a series, and recovering a term from partial sums via $a_{n}=S_{n}-S_{n-1}$. `sigma-notation` = reading, writing and evaluating $\\sum_{r=1}^{n}$, including changing the index's start. No AP or GP formula appears in this section — those are the next two sections' skills, and using $a+(n-1)d$ here is out of scope.",
+        "TERM NUMBER vs TERM VALUE is the whole difficulty of the first skill: $a_{5}$ is the fifth term's VALUE, and 'the 5th term' is not '5'. Every stem must make clear which is wanted, and 'gave the index instead of the term' is the compulsory named distractor.",
+        "$a_{n}=S_{n}-S_{n-1}$ IS ONLY VALID FOR $n\\ge 2$ — the first term is $a_{1}=S_{1}$. Any item using it must either start at $n\\ge2$ or handle $n=1$ separately, and the solution must say why.",
+        "SIGMA LIMITS ARE INCLUSIVE: $\\sum_{r=1}^{n}$ has $n$ terms but $\\sum_{r=3}^{8}$ has SIX, not five. Build at least one item whose lower limit is not 1, and make 'counted $8-3=5$ terms' a named distractor.",
+        "A sequence whose rule is given RECURSIVELY ($a_{1}=3$, $a_{n+1}=2a_{n}-1$) belongs here as a listing exercise, but do not ask for a closed form — that is not a Year 12 Advanced skill in this topic.",
+        "This section is figure-free: emit no [tikz] blocks. Sequences are listed as maths inside `$…$`, never drawn on a number line."
+      ]
+    },
+    {
+      "name": "arithmetic-sequences",
+      "skillIds": ["arithmetic-sequence-nth-term", "arithmetic-series-sum", "solve-arithmetic-series-n", "arithmetic-growth-decay"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Sequences and Series 2_Arithmetic Sequences and Series.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `arithmetic-sequence-nth-term` = testing whether a sequence is arithmetic, finding $a$ and $d$, evaluating $a_{n}=a+(n-1)d$, and the REVERSE (given two terms, find $a$ and $d$; given a term's value, find its index). `arithmetic-series-sum` = evaluating $S_{n}=\\frac{n}{2}(a+a_{n})$ and $S_{n}=\\frac{n}{2}[2a+(n-1)d]$, choosing whichever the given data suits. `solve-arithmetic-series-n` = forming a QUADRATIC in $n$ from $S_{n}$ and solving it. `arithmetic-growth-decay` = applied linear-growth contexts (salary increments, stacked rows, repayments of a fixed amount, depreciation by a fixed dollar amount).",
+        "$(n-1)$, NOT $n$, is the topic's compulsory named distractor everywhere: $a_{10}=a+9d$. Every skill in this section needs at least one item where using $a+nd$ gives one of the offered options.",
+        "A NEGATIVE COMMON DIFFERENCE MUST APPEAR in each of the four skills, and at least one applied item must decrease. A sequence with only positive $d$ hides the sign error that this topic actually produces.",
+        "`solve-arithmetic-series-n` ALWAYS REJECTS A ROOT: $n$ must be a positive integer, so the quadratic's other root (negative, zero, or fractional) must be shown and rejected IN THE WORKING with the reason stated. An item whose quadratic has two admissible integer roots is a defect unless the stem asks for both and explains why both are valid.",
+        "`arithmetic-growth-decay` items must state whether the first year/term IS the initial amount or the amount AFTER one increase — that off-by-one decides the answer. Pin it in every stem in words, not by convention.",
+        "This section shares its formulas with the geometric section: never let an arithmetic item's numbers or answer coincide with a geometric one. Keep $a$, $d$ and $n$ distinct across all four skills, and give each skill its own family of contexts.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "geometric-sequences",
+      "skillIds": ["geometric-sequence-nth-term", "geometric-series-sum", "limiting-sum-gp", "geometric-growth-decay"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Sequences and Series 3_Geometric Sequences and Series.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `geometric-sequence-nth-term` = testing for a GP, finding $a$ and $r$ (including from two non-consecutive terms, which gives $r^{k}$ and so a $\\pm$ case), and $a_{n}=ar^{n-1}$. `geometric-series-sum` = $S_{n}=\\frac{a(1-r^{n})}{1-r}$ and its equivalent $\\frac{a(r^{n}-1)}{r-1}$. `limiting-sum-gp` = $S_{\\infty}=\\frac{a}{1-r}$, the CONDITION $|r|<1$, deciding whether a limiting sum exists, and the recurring-decimal-as-a-GP application. `geometric-growth-decay` = applied compounding contexts (population, bacteria, radioactive decay, declining-balance depreciation, a bouncing ball's total distance).",
+        "$r^{n-1}$ vs $r^{n}$ is the compulsory named distractor for the nth-term skill; using $a r^{n}$ must land on an offered option at least once.",
+        "$r$ MUST BE NEGATIVE somewhere in every skill of this section (an alternating GP), and $|r|>1$ vs $|r|<1$ must both appear. When two terms are separated by an EVEN number of places, $r^{k}=$ a positive number admits BOTH $r=+\\sqrt[k]{\\cdot}$ and $r=-\\sqrt[k]{\\cdot}$ — either give the extra information that decides the sign, or ask for both. An item that silently takes the positive root is a wrong-key defect.",
+        "`limiting-sum-gp`: the existence condition is $|r|<1$, strictly — $r=1$ and $r=-1$ have NO limiting sum. Include an item where no limiting sum exists and the correct response says so; never let $\\frac{a}{1-r}$ be evaluated for $|r|\\ge1$ anywhere in the section.",
+        "TOTAL DISTANCE FOR A BOUNCING BALL counts the drop once and every subsequent rise AND fall — the answer is $h+\\frac{2hr}{1-r}$, not $\\frac{h}{1-r}$. If that context is used, use it in exactly one item and show the split; 'summed a single GP' is the named distractor.",
+        "The `geometric-growth-decay` items must NOT duplicate the reducing-balance-loan or annuity sections of this same batch: no item here may involve a regular periodic PAYMENT into or out of an account. Growth or decay of a single quantity only.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "reducing-balance-loans",
+      "skillIds": ["reducing-balance-loan-gp", "reducing-balance-loan-calculations", "loan-repayment-geometric-series", "loan-term-logarithms"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Financial Mathematics.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "Use ONLY the '# Reducing Balance Loans' part of the booklet for this section (the annuity parts belong to the two annuity sections of this same batch). One routine per skill: `reducing-balance-loan-gp` = RECOGNISING the structure — building $A_{1}, A_{2}, A_{3}$ term by term and seeing the geometric series emerge, with no closed formula used to answer. `reducing-balance-loan-calculations` = evaluating $A_{n}=PV(1+r)^{n}-M\\left[\\frac{(1+r)^{n}-1}{r}\\right]$ for a balance, total paid ($nM$) and total interest ($nM-PV$). `loan-repayment-geometric-series` = setting $A_{n}=0$ and solving for $M$ (or for the amount that can be borrowed). `loan-term-logarithms` = setting $A_{n}=0$ and solving for $n$ with logarithms.",
+        "$r$ IS THE RATE PER REPAYMENT PERIOD, NOT PER ANNUM. Every stem states the annual rate and the repayment frequency, and every solution's first line converts: monthly repayments at $6\\%$ p.a. means $r=0.005$ and $n=12\\times$ years. 'Used the annual rate with the monthly $n$' is the compulsory named distractor in all four skills.",
+        "`loan-term-logarithms`: a non-integer $n$ means the borrower makes $\\lceil n\\rceil$ repayments with a SMALLER final one — never round $n$ down, and never report a fractional number of repayments as the answer. State the interpretation in the working. Also check the loan is actually repayable: if $M\\le PV\\times r$ the balance never falls and the logarithm's argument is non-positive; include one item that tests exactly that judgement.",
+        "MONEY IS ROUNDED TO THE CENT AND ONLY AT THE END. Carry full precision through $(1+r)^{n}$ — rounding $(1.005)^{240}$ to two decimals shifts the answer by dollars. Pin the required rounding in every stem ('to the nearest cent', 'to the nearest dollar') so no two options can both be defensible.",
+        "The whole section is figure-free, but a loan's amortisation TABLE is legitimate and belongs to `reducing-balance-loan-gp` only — as a KaTeX `array` inside `$…$`, never a [tikz] drawing and never more than 4 rows.",
+        "STANDARD OWNS THE TABLE-DRIVEN LOAN. The shipped Standard skills `loan-repayment-table` and `reducing-balance-loan` already teach reading a loan repayment table and building one row by row. This Advanced section may not reuse that stem space: every item here works from the geometric series or the closed formula, never from a supplied amortisation table the student must merely read."
+      ]
+    },
+    {
+      "name": "annuities-geometric-series",
+      "skillIds": ["annuity-future-value-gp", "annuity-problems-gp", "annuity-due-start-of-period", "annuity-lump-sum-and-withdrawals"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Financial Mathematics.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "Use the '# Annuities as a Geometric Series' and '# Other Annuity Problems' parts of the booklet. DO NOT use the '# Annuity Future Value Tables' part — that material belongs to the Standard `annuities-tables` section of this same batch, and an item here that reads a factor off a table is out of scope and a cross-skill duplicate.",
+        "One routine per skill. `annuity-future-value-gp` = DERIVING $FV=a\\left[\\frac{(1+r)^{n}-1}{r}\\right]$ by writing each payment's compounded value and summing the GP, and evaluating it. `annuity-problems-gp` = using that formula in reverse or comparatively — solving for the payment $a$, for $n$, or examining the effect of changing the rate, the payment or the duration. `annuity-due-start-of-period` = the extra $(1+r)$ factor when payments are made at the START of each period. `annuity-lump-sum-and-withdrawals` = an initial principal compounding as $PV(1+r)^{n}$ PLUS (contributions) or MINUS (withdrawals) the annuity series.",
+        "ORDINARY ANNUITY vs ANNUITY DUE is the section's whole trap: the last payment of an ordinary annuity earns NO interest, so the exponents run $n-1$ down to $0$. Every stem must say explicitly whether payments are made at the end or the start of each period, and 'treated an annuity due as ordinary (omitted the extra $(1+r)$)' is the compulsory named distractor for `annuity-due-start-of-period`.",
+        "IN `annuity-lump-sum-and-withdrawals` THE SIGN DECIDES THE ANSWER: regular withdrawals SUBTRACT the series from the compounded lump sum. Include at least one withdrawal item and at least one contribution item, and make 'added when it should subtract' a named distractor. Where withdrawals could exhaust the account, either keep them affordable or make exhausting it the point of the item and say so.",
+        "$r$ is the rate per PAYMENT period and $n$ counts PAYMENTS, exactly as in the loan section; every solution converts from the stated annual rate on its first line.",
+        "These four skills all produce dollar amounts of similar size. Give each skill its own scenario family (superannuation, a school fee fund, a sinking fund for equipment, a retirement drawdown) and its own rate/term/payment triples, and check no two items across this section and the Standard annuities section share a value signature.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "annuities-tables",
+      "skillIds": ["understand-annuity", "annuity-interest-factors", "annuity-contribution", "annuity-problems"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Annuities.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "THIS IS THE STANDARD COURSE, NOT ADVANCED. Anchor every item on `booklets/Stage 6 Standard/Annuities.md`. No geometric series, no $\\frac{(1+r)^{n}-1}{r}$ formula, no logarithms and no derivation may appear anywhere in these four skills — the Standard syllabus does the same finance with a period-by-period TABLE and a TABLE OF INTEREST FACTORS. The Advanced annuity skills in this same batch own the algebraic treatment; using it here is both out of stage and a cross-skill duplicate.",
+        "One routine per skill. `understand-annuity` = building the period-by-period table (opening balance, interest, payment, closing balance) for 3–5 periods and reading a value off it. `annuity-interest-factors` = reading a future-value or present-value interest factor from a supplied table at a given rate and number of periods and multiplying by the contribution. `annuity-contribution` = the REVERSE — dividing a target future value (or a given present value) by the factor to get the required regular payment. `annuity-problems` = applied superannuation, savings and loan-repayment problems that choose the right table and the right direction.",
+        "THE TABLE MUST APPEAR IN THE ITEM. Any item that requires reading an interest factor prints the relevant rows and columns of the table in the stem, as a KaTeX `array` inside `$…$` — never a [tikz] drawing, never a Markdown table, and never 'from the table' with no table shown. Keep it to at most 4 rates by 5 periods so it stays readable.",
+        "THE FACTOR'S ROW AND COLUMN ARE THE TRAP: a table is indexed by the rate PER PERIOD and the NUMBER OF PERIODS, so $6\\%$ p.a. compounded quarterly for 3 years is $1.5\\%$ and $12$ periods, not $6\\%$ and $3$. 'Read the row for the annual rate' and 'read the column for the number of years' are the compulsory named distractors, and at least half the items must compound more often than annually.",
+        "FUTURE VALUE vs PRESENT VALUE factors are different tables and give answers differing by an order of magnitude; every stem must say which is wanted in words ('how much will be in the account', 'how much must be invested now'). Never place a future value and a present value for the same scenario in one option list.",
+        "Interest in the period-by-period table is calculated on the OPENING balance, and the payment is added at the END of the period unless the stem says otherwise. State the convention in the theory and follow it in every row; an off-by-one-period table is a wrong-key defect the gate cannot see.",
+        "This section is figure-free: emit no [tikz] blocks. Every table is a KaTeX `array`."
+      ]
+    }
+  ]
+}

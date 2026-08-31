@@ -46,7 +46,13 @@ for (const { file, config } of configs) {
       for (const s of section.tikzSections || []) {
         assert.ok(TIKZ_SECTIONS.has(s), `${section.name}: unknown tikz section ${s}`);
       }
-      assert.ok((section.hazards || []).length >= 3, `${section.name}: needs topic hazards`);
+      // Topic hazards steer QUESTION authoring, so they are required of a generation config.
+      // A theory-lane config (`lane: "theory"`) authors no items: build-theory-tasks.mjs never
+      // reads `section.hazards` — it injects the drawing-only standing hazards itself — so
+      // demanding three per section there would be cargo-culted ceremony.
+      if (config.lane !== 'theory') {
+        assert.ok((section.hazards || []).length >= 3, `${section.name}: needs topic hazards`);
+      }
     }
   });
 }

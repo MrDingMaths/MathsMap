@@ -271,8 +271,8 @@ both, noted as partial overlap rather than full supersession.
 | Working with Functions 8_Circles and semicircles.md | KEEP | Same |
 | Working with Functions 9_Properties of functions, relations and graphs.md | KEEP | Same |
 | 11 Algebraic Techniques Test.md | KEEP | Headerless diagnostic quiz (7 "END OF QUIZ" blocks: indices, expanding, factorising, algebraic fractions, surds, linear/quadratic equations) — maps to the still-KEEP "Working with Functions 1" booklets (Algebraic techniques + Solving equations), not to any NEW booklet; see ambiguous-call note |
-| Financial Mathematics 1_Reducing balance loans.md | KEEP | NEW Stage 6 Advanced has no financial mathematics booklets |
-| Financial Mathematics 2_Annuities.md | KEEP | Same |
+| Financial Mathematics 1_Reducing balance loans.md | SUPERSEDED | → `Stage 6 Advanced/Financial Mathematics.md` (NEW 260827, covers both books) |
+| Financial Mathematics 2_Annuities.md | SUPERSEDED | Same |
 
 **Ambiguous calls:**
 - **Introduction to Differentiation 4** — its content survives, but split

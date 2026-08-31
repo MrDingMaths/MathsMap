@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-limiting-value-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A temperature is modelled by $T=26+54e^{-0.18t}$. What is the limiting temperature as $t\\to\\infty$?",
+      "structure": "limiting-value-from-equation",
+      "mastery": false,
+      "options": [
+        { "text": "$26^{\\circ}$", "correct": true },
+        { "text": "$80^{\\circ}$", "why": "Gives the initial temperature $T(0)=26+54$, which is where the model starts rather than where it ends." },
+        { "text": "$54^{\\circ}$", "why": "Reads the coefficient $A$ as the limiting value; $A$ is the initial difference from the limit." },
+        { "text": "$0^{\\circ}$", "why": "Lets the whole expression tend to zero, forgetting that only the term $54e^{-0.18t}$ dies away." }
+      ],
+      "solution_text": "As $t\\to\\infty$, $e^{-0.18t}\\to 0$.\n$T\\to 26+54\\times 0$\n$=26^{\\circ}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A quantity is modelled by $Q=150+20e^{0.05t}$. Which statement is true as $t\\to\\infty$?",
+      "structure": "no-limiting-value",
+      "mastery": false,
+      "options": [
+        { "text": "$Q$ increases without bound, so there is no limiting value.", "correct": true },
+        { "text": "$Q$ approaches the limiting value $150$.", "why": "Reads $P$ as a limit without checking the sign of $k$; $e^{0.05t}$ grows rather than dying away." },
+        { "text": "$Q$ approaches the limiting value $170$.", "why": "Substitutes $t=0$ and calls the starting value the limit." },
+        { "text": "$Q$ approaches the limiting value $20$.", "why": "Treats the coefficient $A$ as the limit, which is never what $A$ represents." }
+      ],
+      "solution_text": "Here $k=0.05>0$, so $e^{0.05t}\\to\\infty$ as $t\\to\\infty$.\nThen $20e^{0.05t}$ grows without bound, so $Q$ increases without bound and has no limiting value."
+    },
+    {
+      "id": "q3",
+      "question_text": "A quantity is modelled by $Q=40+90e^{-0.15t}$. At what time is $Q=70$, correct to two decimal places?",
+      "structure": "time-to-reach-value",
+      "mastery": false,
+      "options": [
+        { "text": "$7.32$", "correct": true },
+        { "text": "$3.73$", "why": "Uses the ratio $\\frac{70}{40}$ of the values instead of first subtracting the limiting value $40$." },
+        { "text": "$10.03$", "why": "Forms the difference as $90-70$ instead of $70-40$, subtracting from the coefficient rather than the limit." },
+        { "text": "$0.16$", "why": "Multiplies the logarithm by $0.15$ instead of dividing by it." }
+      ],
+      "solution_text": "$70=40+90e^{-0.15t}$\n$30=90e^{-0.15t}$\n$e^{-0.15t}=\\dfrac{1}{3}$\n$-0.15t=\\ln\\dfrac{1}{3}$\n$t=\\dfrac{-1.098612}{-0.15}$\n$=7.32$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A population is modelled by $N=700-480e^{-0.2t}$. What is $N$ when $t=5$, correct to one decimal place?",
+      "structure": "value-at-given-time",
+      "mastery": false,
+      "options": [
+        { "text": "$523.4$", "correct": true },
+        { "text": "$876.6$", "why": "Adds the exponential term instead of subtracting it, ignoring the minus sign in the model." },
+        { "text": "$220$", "why": "Evaluates $700-480$ and forgets to multiply by $e^{-1}$." },
+        { "text": "$176.6$", "why": "Reports only the term $480e^{-1}$ without subtracting it from $700$." }
+      ],
+      "solution_text": "$N=700-480e^{-0.2\\times 5}$\n$=700-480e^{-1}$\n$=700-480\\times 0.367879$\n$=700-176.582$\n$=523.4$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A pool heater warms water according to $T=30-16e^{-0.05t}$, where $t$ is in minutes. How long until the water is within $0.5^{\\circ}$C of $30^{\\circ}$C, correct to two decimal places?",
+      "structure": "within-tolerance-time",
+      "mastery": false,
+      "options": [
+        { "text": "$69.31$ minutes", "correct": true },
+        { "text": "$55.45$ minutes", "why": "Solves $16e^{-0.05t}=1$, using a tolerance of $1^{\\circ}$C instead of $0.5^{\\circ}$C." },
+        { "text": "$0.17$ minutes", "why": "Multiplies the logarithm by $0.05$ instead of dividing by it." },
+        { "text": "It never happens, because $T$ never reaches $30^{\\circ}$C.", "why": "Confuses reaching the limit exactly, which never happens, with coming within a stated tolerance of it, which does." }
+      ],
+      "solution_text": "The water is within $0.5^{\\circ}$C of $30^{\\circ}$C when $T=29.5$.\n$29.5=30-16e^{-0.05t}$\n$-0.5=-16e^{-0.05t}$\n$e^{-0.05t}=\\dfrac{1}{32}$\n$-0.05t=-\\ln 32$\n$t=\\dfrac{-3.465736}{-0.05}$\n$=69.31$ minutes"
+    },
+    {
+      "id": "q6",
+      "question_text": "A casserole at $5^{\\circ}$C is placed in an oven held at $165^{\\circ}$C, and reaches $45^{\\circ}$C after $12$ minutes. Using $T=165+Ae^{kt}$, what is $k$ in exact form?",
+      "structure": "full-model-problem",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{12}\\ln\\dfrac{3}{4}$", "correct": true },
+        { "text": "$\\dfrac{1}{12}\\ln\\dfrac{4}{3}$", "why": "Inverts the ratio when taking logarithms, giving a positive $k$ for a dish that is closing on the oven temperature." },
+        { "text": "$\\dfrac{1}{12}\\ln\\dfrac{3}{11}$", "why": "Uses the temperatures $\\frac{45}{165}$ instead of the differences from the oven temperature." },
+        { "text": "$\\dfrac{1}{12}\\ln\\dfrac{11}{3}$", "why": "Both errors together: the raw temperatures are used and the ratio is inverted." }
+      ],
+      "solution_text": "$5=165+A$\n$A=-160$\n$45=165-160e^{12k}$\n$-120=-160e^{12k}$\n$e^{12k}=\\dfrac{3}{4}$\n$12k=\\ln\\dfrac{3}{4}$\n$k=\\dfrac{1}{12}\\ln\\dfrac{3}{4}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A model $Q=P+Ae^{kt}$ with $k<0$ predicts that $Q$ never actually equals $P$. Which reason is correct?",
+      "structure": "limiting-value-from-equation",
+      "mastery": false,
+      "options": [
+        { "text": "$Ae^{kt}$ is never zero for a finite $t$, so $Q-P$ is never zero.", "correct": true },
+        { "text": "Because $k<0$, so $Q$ keeps decreasing past $P$.", "why": "A negative $k$ shrinks the gap towards zero; it does not carry $Q$ through the value $P$." },
+        { "text": "Because $A$ is negative in every cooling model.", "why": "The sign of $A$ depends on whether $Q$ starts above or below $P$, and it does not decide whether $P$ is reached." },
+        { "text": "Because the gradient of the curve is never zero.", "why": "States a true fact about the graph but not the reason: the value $P$ is missed because the exponential term is never zero." }
+      ],
+      "solution_text": "$Q-P=Ae^{kt}$\nAn exponential $e^{kt}$ is positive for every value of $t$, so $Ae^{kt}$ is never zero when $A\\ne 0$.\nSo $Q-P$ is never zero, and $Q$ approaches $P$ without ever equalling it."
+    },
+    {
+      "id": "q8",
+      "question_text": "Salt dissolves in a tank so that the mass approaches a limit of $60$ kg. There are $12$ kg initially and $30$ kg after $5$ hours. How long until there is $50$ kg of salt, correct to one decimal place?",
+      "structure": "full-model-problem",
+      "mastery": true,
+      "options": [
+        { "text": "$16.7$ hours", "correct": true },
+        { "text": "$10.6$ hours", "why": "Assumes the mass keeps rising at the average rate of the first five hours instead of at a rate proportional to the remaining gap." },
+        { "text": "$33.4$ hours", "why": "Uses $k=\\frac{1}{10}\\ln\\frac{5}{8}$, dividing by $10$ rather than by the $5$ hours given, which doubles the time." },
+        { "text": "$2.5$ hours", "why": "Subtracts the initial value instead of the limiting value, solving $50-12=48e^{kt}$." }
+      ],
+      "solution_text": "$S=60+Ae^{kt}$\n$12=60+A$\n$A=-48$\n$30=60-48e^{5k}$\n$-30=-48e^{5k}$\n$e^{5k}=0.625$\n$k=\\dfrac{1}{5}\\ln 0.625$\n$=-0.094001$\n$50=60-48e^{kt}$\n$-10=-48e^{kt}$\n$e^{kt}=\\dfrac{5}{24}$\n$t=\\dfrac{-1.568616}{-0.094001}$\n$=16.7$ hours"
+    }
+  ]
+}

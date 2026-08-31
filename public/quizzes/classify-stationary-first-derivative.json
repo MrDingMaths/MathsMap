@@ -1,0 +1,120 @@
+{
+  "skillId": "classify-stationary-first-derivative",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A curve $y = f(x)$ has its only stationary point at $x = 2$.\n$\\begin{array}{c|ccc} x & 1 & 2 & 3 \\\\ \\hline f'(x) & -6 & 0 & 5 \\end{array}$\nWhat is the nature of the stationary point?",
+      "structure": "classify-from-sign-table",
+      "mastery": false,
+      "options": [
+        { "text": "A local minimum", "correct": true },
+        { "text": "A local maximum", "why": "Read the slope table from right to left, so the negative-to-positive change looked like positive-to-negative." },
+        { "text": "A horizontal point of inflection", "why": "Used $f'(2) = 0$ on its own and did not compare the signs of $f'$ either side." },
+        { "text": "A non-horizontal point of inflection", "why": "Confused a point where $f' = 0$ with a point where only the concavity changes." }
+      ],
+      "solution_text": "$f'(1) = -6 < 0$ and $f'(3) = 5 > 0$\nThe sign of $f'$ changes from negative to positive, so $x = 2$ is a local minimum."
+    },
+    {
+      "id": "q2",
+      "question_text": "The derivative of $y = f(x)$ is $f'(x) = (3 - x)(x + 2)$. What is the nature of the stationary point at $x = 3$?",
+      "structure": "classify-from-derivative-factored",
+      "mastery": false,
+      "options": [
+        { "text": "A local maximum", "correct": true },
+        { "text": "A local minimum", "why": "Assumed the larger root of a factorised derivative is always the minimum, as it is for an upward cubic." },
+        { "text": "A horizontal point of inflection", "why": "Assumed a derivative with two distinct roots gives no sign change at either of them." }
+      ],
+      "solution_text": "$f'(2) = (1)(4) = 4 > 0$\n$f'(4) = (-1)(6) = -6 < 0$\nThe sign of $f'$ changes from positive to negative, so $x = 3$ is a local maximum."
+    },
+    {
+      "id": "q3",
+      "question_text": "The derivative of $y = f(x)$ is $f'(x) = -2(x - 5)^{2}$. What is the nature of the stationary point at $x = 5$?",
+      "structure": "classify-from-derivative-factored",
+      "mastery": false,
+      "options": [
+        { "text": "A horizontal point of inflection", "correct": true },
+        { "text": "A local maximum", "why": "Saw the negative coefficient $-2$ and assumed a maximum without testing both sides." },
+        { "text": "A local minimum", "why": "Read the squared factor as making $f'$ positive on both sides, and ignored the factor $-2$." }
+      ],
+      "solution_text": "$f'(4) = -2(-1)^{2} = -2 < 0$\n$f'(6) = -2(1)^{2} = -2 < 0$\nThe sign of $f'$ is negative on both sides, so there is no sign change.\n$x = 5$ is a horizontal point of inflection."
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the coordinates of the stationary point of $f(x) = xe^{4x}$ and state its nature.",
+      "structure": "classify-stationary-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "$\\left(-\\dfrac{1}{4}, -\\dfrac{1}{4e}\\right)$, a local minimum", "correct": true },
+        { "text": "$\\left(-\\dfrac{1}{4}, -\\dfrac{1}{4e}\\right)$, a local maximum", "why": "Correct point, but read the negative-to-positive change in $f'$ as a maximum." },
+        { "text": "$\\left(\\dfrac{1}{4}, \\dfrac{e}{4}\\right)$, a local minimum", "why": "Solved $1 + 4x = 0$ as $x = \\tfrac{1}{4}$, dropping the negative sign." },
+        { "text": "$\\left(\\dfrac{1}{4}, \\dfrac{e}{4}\\right)$, a local maximum", "why": "Both dropped the negative sign when solving $1 + 4x = 0$ and reversed the reading of the slope table." }
+      ],
+      "solution_text": "$f'(x) = e^{4x} + 4xe^{4x}$\n$= e^{4x}(1 + 4x)$\nSince $e^{4x} > 0$, set $1 + 4x = 0$.\n$x = -\\dfrac{1}{4}$\n$f\\left(-\\tfrac{1}{4}\\right) = -\\tfrac{1}{4}e^{-1} = -\\dfrac{1}{4e}$\n$f'(-1) = e^{-4}(-3) < 0$\n$f'(0) = 1 > 0$\nThe sign changes from negative to positive, so $\\left(-\\dfrac{1}{4}, -\\dfrac{1}{4e}\\right)$ is a local minimum."
+    },
+    {
+      "id": "q5",
+      "question_text": "Find the coordinates of the stationary point of $f(x) = 4\\ln x - x$ for $x > 0$, and state its nature.",
+      "structure": "classify-stationary-logarithmic",
+      "mastery": false,
+      "options": [
+        { "text": "$(4,\\ 4\\ln 4 - 4)$, a local maximum", "correct": true },
+        { "text": "$(4,\\ 4\\ln 4 - 4)$, a local minimum", "why": "Correct point, but read the positive-to-negative change in $f'$ as a minimum." },
+        { "text": "$\\left(\\dfrac{1}{4},\\ 4\\ln\\dfrac{1}{4} - \\dfrac{1}{4}\\right)$, a local maximum", "why": "Solved $\\dfrac{4}{x} = 1$ by inverting the fraction to give $x = \\tfrac{1}{4}$." },
+        { "text": "$\\left(\\dfrac{1}{4},\\ 4\\ln\\dfrac{1}{4} - \\dfrac{1}{4}\\right)$, a local minimum", "why": "Inverted $\\dfrac{4}{x} = 1$ to get $x = \\tfrac{1}{4}$ and also reversed the slope-table reading." }
+      ],
+      "solution_text": "$f'(x) = \\dfrac{4}{x} - 1$\nSet $f'(x) = 0$:\n$\\dfrac{4}{x} = 1$\n$x = 4$\n$f(4) = 4\\ln 4 - 4$\n$f'(2) = 2 - 1 = 1 > 0$\n$f'(8) = \\tfrac{1}{2} - 1 = -\\tfrac{1}{2} < 0$\nThe sign changes from positive to negative, so $(4,\\ 4\\ln 4 - 4)$ is a local maximum."
+    },
+    {
+      "id": "q6",
+      "question_text": "The curve $f(x) = \\cos x + \\sqrt{3}\\,\\sin x$ has derivative $f'(x) = -\\sin x + \\sqrt{3}\\cos x$. At which value of $x$ in $0 \\le x \\le 2\\pi$ does $f$ have a local minimum?",
+      "structure": "classify-stationary-trigonometric",
+      "mastery": false,
+      "options": [
+        { "text": "$x = \\dfrac{4\\pi}{3}$", "correct": true },
+        { "text": "$x = \\dfrac{\\pi}{3}$", "why": "Took the first solution of $\\tan x = \\sqrt{3}$ without testing the sign of $f'$ on each side." },
+        { "text": "$x = \\dfrac{2\\pi}{3}$", "why": "Solved $\\tan x = \\sqrt{3}$ in the second quadrant, using $\\pi - \\tfrac{\\pi}{3}$, where the tangent ratio is negative." },
+        { "text": "$x = \\dfrac{5\\pi}{3}$", "why": "Used $2\\pi - \\tfrac{\\pi}{3}$, the fourth-quadrant reflection, instead of the third-quadrant solution." }
+      ],
+      "solution_text": "Set $f'(x) = 0$:\n$\\sqrt{3}\\cos x = \\sin x$\n$\\tan x = \\sqrt{3}$\n$x = \\dfrac{\\pi}{3}$ or $x = \\dfrac{4\\pi}{3}$\n$f'(\\pi) = 0 + \\sqrt{3}(-1) = -\\sqrt{3} < 0$\n$f'\\left(\\tfrac{3\\pi}{2}\\right) = -(-1) + 0 = 1 > 0$\nThe sign changes from negative to positive at $x = \\dfrac{4\\pi}{3}$, so that is the local minimum."
+    },
+    {
+      "id": "q7",
+      "question_text": "The diagram shows the graph of $y = f'(x)$, the derivative of a function $y = f(x)$. Which statement about $y = f(x)$ is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-4.4, xmax=6.4, ymin=-6.8, ymax=10.8, samples=100, clip=false,\n             xtick={-4,-3,-2,-1,1,2,3,4,5,6}, ytick={-6,-4,-2,2,4,6,8,10}]\n\\addplot[smooth, thick, <->, domain=-2.87:4.87] {-x*x + 2*x + 8};\n\\node[font=\\small] at (axis cs:4.4,6) {$y=f'(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-from-derivative-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$f$ has a local minimum at $x = -2$ and a local maximum at $x = 4$.", "correct": true },
+        { "text": "$f$ has a local maximum at $x = -2$ and a local minimum at $x = 4$.", "why": "Read the diagram as the graph of $y = f(x)$ rather than of $y = f'(x)$, so the two natures came out swapped." },
+        { "text": "$f$ has a local maximum at $x = 1$, where the graph shown reaches its highest point.", "why": "Classified the maximum of $f'$ itself instead of finding where $f'$ changes sign." },
+        { "text": "$f$ has horizontal points of inflection at $x = -2$ and $x = 4$.", "why": "Noted that $f' = 0$ at both points but did not check that $f'$ changes sign there." }
+      ],
+      "solution_text": "The graph of $y = f'(x)$ crosses the $x$-axis at $x = -2$ and $x = 4$, so $f$ is stationary there.\nFor $x < -2$ the graph lies below the axis, so $f'(x) < 0$.\nFor $-2 < x < 4$ it lies above the axis, so $f'(x) > 0$.\nFor $x > 4$ it lies below the axis again, so $f'(x) < 0$.\nAt $x = -2$ the sign changes from negative to positive, a local minimum.\nAt $x = 4$ the sign changes from positive to negative, a local maximum."
+    },
+    {
+      "id": "q8",
+      "question_text": "A curve has derivative $f'(x) = m(x + 1)(x - 5)$, where $m$ is a non-zero constant. The stationary point at $x = 5$ is a local maximum. Which statement is correct?",
+      "structure": "classify-from-derivative-factored",
+      "mastery": true,
+      "options": [
+        { "text": "$m < 0$, and $x = -1$ is a local minimum.", "correct": true },
+        { "text": "$m < 0$, and $x = -1$ is a local maximum.", "why": "Correct sign for $m$, but assumed both stationary points of the same curve share one nature." },
+        { "text": "$m > 0$, and $x = -1$ is a local maximum.", "why": "Assumed $m > 0$ without testing, then classified the left stationary point of an upward cubic as its maximum." },
+        { "text": "$m > 0$, and $x = -1$ is a local minimum.", "why": "Assumed $m > 0$ without testing, which reverses the nature of both stationary points." }
+      ],
+      "solution_text": "$f'(4) = m(5)(-1) = -5m$\n$f'(6) = m(7)(1) = 7m$\nFor a local maximum at $x = 5$, $f'$ must change from positive to negative, so $-5m > 0$ and $7m < 0$.\nBoth require $m < 0$.\nWith $m < 0$:\n$f'(-2) = m(-1)(-7) = 7m < 0$\n$f'(0) = m(1)(-5) = -5m > 0$\nThe sign changes from negative to positive, so $x = -1$ is a local minimum."
+    },
+    {
+      "id": "q9",
+      "question_text": "The curve $f(x) = x\\sqrt{16 - x^{2}}$ has derivative $f'(x) = \\dfrac{16 - 2x^{2}}{\\sqrt{16 - x^{2}}}$ for $-4 < x < 4$. What is the $x$-coordinate of the local minimum?",
+      "structure": "classify-stationary-surd",
+      "mastery": false,
+      "options": [
+        { "text": "$x = -2\\sqrt{2}$", "correct": true },
+        { "text": "$x = 2\\sqrt{2}$", "why": "Found both stationary points but assumed the positive one must be the minimum." },
+        { "text": "$x = -4$", "why": "Took the endpoint of the domain instead of solving $16 - 2x^{2} = 0$." },
+        { "text": "$x = -4\\sqrt{2}$", "why": "Solved $16 - 2x^{2} = 0$ by multiplying by $2$ to get $x^{2} = 32$ instead of dividing to get $x^{2} = 8$." }
+      ],
+      "solution_text": "Set $16 - 2x^{2} = 0$:\n$x^{2} = 8$\n$x = \\pm 2\\sqrt{2}$\nThe denominator $\\sqrt{16 - x^{2}}$ is positive throughout $-4 < x < 4$, so the sign of $f'$ is the sign of $16 - 2x^{2}$.\n$f'(-3) = \\dfrac{16 - 18}{\\sqrt{7}} < 0$\n$f'(-2) = \\dfrac{16 - 8}{\\sqrt{12}} > 0$\nThe sign changes from negative to positive at $x = -2\\sqrt{2}$, so that is the local minimum."
+    }
+  ]
+}

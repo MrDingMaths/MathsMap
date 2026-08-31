@@ -1,0 +1,110 @@
+{
+  "skillId": "quadratic-intercepts-vertex",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **parabola** meets the axes at its **intercepts** and turns at its **vertex**. The vertical line through the vertex is the **axis of symmetry**. All four features can be read straight off the graph.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.6,0) -- (5.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,3.6) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0.05:4.95,samples=100,variable=\\x,<->] plot ({\\x},{0.55*(\\x-1)*(\\x-4)});\n\\draw[dashed] (2.5,-1.7) -- (2.5,3.1);\n\\fill (1,0) circle (2pt);\n\\fill (4,0) circle (2pt);\n\\fill (0,2.2) circle (2pt);\n\\fill (2.5,-1.2375) circle (2pt);\n\\node[below] at (1,-0.15) {$x$-intercept};\n\\node[below] at (4,-0.15) {$x$-intercept};\n\\node[left] at (-0.15,2.2) {$y$-intercept};\n\\node[right] at (2.7,-1.2375) {vertex};\n\\node[right] at (2.6,2.8) {axis of symmetry};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The **$x$-intercepts** are the points where the curve crosses the horizontal axis, written as points such as $(3,0)$.",
+      "The **$y$-intercept** is the one point where the curve crosses the vertical axis.",
+      "The **axis of symmetry** is a vertical line, so it is written as an equation such as $x=3$.",
+      "The **vertex** is a point on the curve, written as a pair such as $(3,-4)$, and it lies on the axis of symmetry.",
+      "When there are two $x$-intercepts, the axis of symmetry passes exactly midway between them.",
+      "A concave-up parabola has a minimum and a concave-down parabola has a maximum.",
+      "The maximum or minimum **value** is the $y$-coordinate of the vertex, not the whole point.",
+      "A parabola can have two, one or no $x$-intercepts, but it always has exactly one $y$-intercept."
+    ],
+    "steps": [
+      "Read the $x$-intercepts and the $y$-intercept where the curve crosses each axis.",
+      "Find the axis of symmetry midway between the $x$-intercepts and write it as an equation.",
+      "Read the vertex as a point and state whether it is a maximum or a minimum."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Write down the $x$-intercepts of the parabola shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.4,xmax=5.4,ymin=-5.4,ymax=6.8,xtick={-3,-2,...,5},ytick={-4,-3,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-2.08:4.08,samples=100] {x*x-2*x-3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-x-intercepts",
+        "solution_text": "The curve crosses the horizontal axis at $x=-1$ and $x=3$.\nThe $x$-intercepts are $(-1,0)$ and $(3,0)$."
+      },
+      {
+        "question_text": "Write down the axis of symmetry of the parabola shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-6.4,xmax=3.4,ymin=-5.4,ymax=6.8,xtick={-6,-5,...,3},ytick={-4,-3,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-5.08:1.08,samples=100] {x*x+4*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "axis-of-symmetry",
+        "solution_text": "The $x$-intercepts are $(-4,0)$ and $(0,0)$.\nThe midpoint of $-4$ and $0$ is $\\frac{-4+0}{2}=-2$.\nThe axis of symmetry is $x=-2$."
+      },
+      {
+        "question_text": "Write down the vertex of the parabola shown and state whether it is a maximum or a minimum.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4.4,xmax=4.4,ymin=-6.4,ymax=5.8,xtick={-4,-3,...,4},ytick={-6,-5,...,5},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.08:3.08,samples=100] {-x*x+4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-vertex",
+        "solution_text": "The curve turns at the point $(0,4)$.\nThe parabola is concave down, so this turning point is a maximum.\nThe vertex is $(0,4)$, a maximum."
+      },
+      {
+        "question_text": "Write down the axis of symmetry of the parabola shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.4,xmax=7.4,ymin=-5.4,ymax=6.8,xtick={-1,0,...,7},ytick={-4,-3,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.08:6.08,samples=100] {x*x-6*x+5};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "axis-of-symmetry",
+        "solution_text": "The $x$-intercepts are $(1,0)$ and $(5,0)$.\nThe midpoint of $1$ and $5$ is $\\frac{1+5}{2}=3$.\nThe axis of symmetry is $x=3$."
+      },
+      {
+        "question_text": "Write down the vertex of the parabola shown and state whether it is a maximum or a minimum.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5.4,xmax=3.4,ymin=-6.4,ymax=5.8,xtick={-5,-4,...,3},ytick={-6,-5,...,5},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-4.08:2.08,samples=100] {-x*x-2*x+3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-vertex",
+        "solution_text": "The curve turns at the point $(-1,4)$.\nThe parabola is concave down, so this turning point is a maximum.\nThe vertex is $(-1,4)$, a maximum."
+      },
+      {
+        "question_text": "Write down the $y$-intercept of the parabola shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2.4,xmax=6.4,ymin=-3.4,ymax=6.8,xtick={-2,-1,...,6},ytick={-3,-2,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.55:4.55,samples=100] {x*x-4*x+3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-y-intercept",
+        "solution_text": "The curve crosses the vertical axis at $y=3$.\nThe $y$-intercept is $(0,3)$."
+      },
+      {
+        "question_text": "What is the minimum value of $y$ on the parabola shown?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5.4,xmax=5.4,ymin=-4.4,ymax=6.8,xtick={-5,-4,...,5},ytick={-4,-3,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.87:3.87,samples=100] {0.5*x*x-2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "max-min-value",
+        "solution_text": "The parabola is concave up, so its lowest point is the vertex $(0,-2)$.\nThe minimum value is the $y$-coordinate of that point.\nThe minimum value is $y=-2$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For the parabola shown, state the $x$-intercepts, the $y$-intercept, the axis of symmetry and the vertex.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-7.4,xmax=2.4,ymin=-5.4,ymax=8.8,xtick={-7,-6,...,2},ytick={-4,-3,...,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-6.46:0.46,samples=100] {x*x+6*x+5};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "all-features",
+        "solution_text": "1. **Read the $x$-intercepts and the $y$-intercept where the curve crosses each axis.**\nThe $x$-intercepts are $(-5,0)$ and $(-1,0)$, and the $y$-intercept is $(0,5)$.\n2. **Find the axis of symmetry midway between the $x$-intercepts and write it as an equation.**\n$\\frac{-5+(-1)}{2}=-3$, so the axis of symmetry is $x=-3$.\n3. **Read the vertex as a point and state whether it is a maximum or a minimum.**\nThe vertex is $(-3,-4)$, a minimum."
+      },
+      {
+        "question_text": "For the parabola shown, state the vertex, the axis of symmetry and the maximum value of $y$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.4,xmax=5.4,ymin=-6.4,ymax=10.8,xtick={-1,0,...,5},ytick={-6,-4,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.6:4.6,samples=100] {-2*x*x+8*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "max-min-value",
+        "solution_text": "The $x$-intercepts are $(0,0)$ and $(4,0)$, so the axis of symmetry is $x=2$.\nThe curve turns at $(2,8)$, and the parabola is concave down.\nThe vertex is $(2,8)$, and the maximum value is $y=8$."
+      },
+      {
+        "question_text": "How many $x$-intercepts does the parabola shown have? Write down each one, and state the vertex.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.4,xmax=5.4,ymin=-2.4,ymax=8.8,xtick={-1,0,...,5},ytick={-2,-1,...,8},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.83:4.83,samples=100] {x*x-4*x+4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-x-intercepts",
+        "solution_text": "The curve touches the horizontal axis at $x=2$ and does not cross it anywhere else.\nThere is one $x$-intercept, $(2,0)$.\nThe curve turns at that same point, so the vertex is $(2,0)$, a minimum."
+      },
+      {
+        "question_text": "How many $x$-intercepts does the parabola shown have? Explain how the graph tells you.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.4,xmax=5.4,ymin=-1.4,ymax=10.8,xtick={-3,-2,...,5},ytick={0,1,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-1.55:3.55,samples=100] {x*x-2*x+4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-x-intercepts",
+        "solution_text": "The lowest point of the curve is the vertex $(1,3)$.\nThe parabola is concave up, so every point on it is at or above $y=3$.\nThe curve never reaches the horizontal axis, so there are no $x$-intercepts."
+      },
+      {
+        "question_text": "For the parabola shown, state the $x$-intercepts, the $y$-intercept, the axis of symmetry, the vertex and the minimum value of $y$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.4,xmax=7.4,ymin=-2.4,ymax=10.8,xtick={-1,0,...,7},ytick={-2,-1,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.24:6.24,samples=100] {x*x-6*x+8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "all-features",
+        "solution_text": "1. **Read the $x$-intercepts and the $y$-intercept where the curve crosses each axis.**\nThe $x$-intercepts are $(2,0)$ and $(4,0)$, and the $y$-intercept is $(0,8)$.\n2. **Find the axis of symmetry midway between the $x$-intercepts and write it as an equation.**\n$\\frac{2+4}{2}=3$, so the axis of symmetry is $x=3$.\n3. **Read the vertex as a point and state whether it is a maximum or a minimum.**\nThe vertex is $(3,-1)$, a minimum, so the minimum value is $y=-1$."
+      },
+      {
+        "question_text": "For the parabola shown, state the vertex, the nature of the turning point and the maximum value of $y$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.4,xmax=5.4,ymin=-8.4,ymax=10.8,xtick={-3,-2,...,5},ytick={-8,-6,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-1.78:3.78,samples=100] {-2*x*x+4*x+6};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "max-min-value",
+        "solution_text": "The $x$-intercepts are $(-1,0)$ and $(3,0)$, so the axis of symmetry is $x=1$.\nThe curve turns at $(1,8)$ and opens downwards.\nThe vertex is $(1,8)$, a maximum, so the maximum value is $y=8$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The graph shows part of a parabola. Its vertex and its left $x$-intercept are both visible, but the right $x$-intercept lies outside the window. Find the right $x$-intercept.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4.6,xmax=4.6,ymin=-5.4,ymax=6.4,xtick={-4,-3,...,4},ytick={-5,-4,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-4.5:4.5,samples=100] {0.25*(x*x-2*x-15)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-x-intercepts",
+        "solution_text": "The vertex is $(1,-4)$, so the axis of symmetry is $x=1$.\nThe visible $x$-intercept is $(-3,0)$, which is $4$ units to the left of the axis of symmetry.\nBy symmetry the other $x$-intercept is $4$ units to the right of $x=1$.\n$1+4=5$\nThe right $x$-intercept is $(5,0)$."
+      },
+      {
+        "question_text": "A student looks at the parabola below and writes \"the vertex is $x=-1$\". Explain what is wrong with the student's answer, and give both the vertex and the axis of symmetry correctly.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-5.4,xmax=3.4,ymin=-5.4,ymax=6.8,xtick={-5,-4,...,3},ytick={-4,-3,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-4.08:2.08,samples=100] {x*x+2*x-3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-vertex",
+        "solution_text": "The vertex is a point on the curve, so it must be given as a pair of coordinates, not as an equation.\nAn equation such as $x=-1$ describes the vertical line through the vertex, which is the axis of symmetry.\nThe vertex is $(-1,-4)$ and the axis of symmetry is $x=-1$."
+      },
+      {
+        "question_text": "For the parabola shown, state the $x$-intercepts, the $y$-intercept, the axis of symmetry, the vertex and the maximum value of $y$. Then show that the axis of symmetry is midway between the $x$-intercepts.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4.4,xmax=8.4,ymin=-8.4,ymax=10.8,xtick={-4,-3,...,8},ytick={-8,-6,...,10},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=-3.57:7.57,samples=100] {-0.5*x*x+2*x+6};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "all-features",
+        "solution_text": "1. **Read the $x$-intercepts and the $y$-intercept where the curve crosses each axis.**\nThe $x$-intercepts are $(-2,0)$ and $(6,0)$, and the $y$-intercept is $(0,6)$.\n2. **Find the axis of symmetry midway between the $x$-intercepts and write it as an equation.**\n$\\frac{-2+6}{2}=2$, so the axis of symmetry is $x=2$.\n3. **Read the vertex as a point and state whether it is a maximum or a minimum.**\nThe vertex is $(2,8)$, a maximum, so the maximum value is $y=8$.\nThe axis of symmetry is $4$ units from $-2$ and $4$ units from $6$, so it sits midway between the two $x$-intercepts."
+      }
+    ]
+  }
+}

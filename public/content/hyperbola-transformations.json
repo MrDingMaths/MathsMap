@@ -2,22 +2,23 @@
   "skillId": "hyperbola-transformations",
   "atomType": "T",
   "theory": {
-    "intro": "A reciprocal relationship $y=\\dfrac{k}{x}$ has a graph called a **hyperbola**: two smooth branches that approach but never touch two asymptotes. Changing $k$, adding $c$, or replacing $x$ with $(x-b)$ transforms this basic curve in predictable ways. To sketch one, find its two asymptotes, decide which regions the branches sit in from the sign of $k$, and plot a point on each branch.",
-    "facts": [
-      "$y=\\dfrac{k}{x}$ has a vertical asymptote $x=0$ and a horizontal asymptote $y=0$ (the two axes), and never touches either.",
-      "When $k>0$ the branches lie in quadrants $1$ and $3$; when $k<0$ they lie in quadrants $2$ and $4$.",
-      "The larger $|k|$ is, the further the branches sit from the axes.",
-      "$y=\\dfrac{k}{x}+c$ shifts the curve **up** ($c>0$) or **down** ($c<0$); the horizontal asymptote moves to $y=c$.",
-      "$y=\\dfrac{k}{x-b}$ shifts the curve **right** ($b>0$) or **left** ($b<0$); the vertical asymptote moves to $x=b$.",
-      "$y=\\dfrac{k}{x}$ has no intercepts, but a shifted hyperbola usually does — find them by letting $x=0$ (for the $y$-intercept) and $y=0$ (for the $x$-intercept)."
-    ],
-    "steps": [
-      "Find the vertical and horizontal asymptotes.",
-      "Use the sign of $k$ to decide which regions the branches lie in.",
-      "Plot a point on each branch.",
-      "Sketch the two branches approaching the asymptotes."
-    ]
-  },
+        "intro": "A reciprocal relationship $y=\\dfrac{k}{x}$ graphs as a **hyperbola**: two smooth branches that get closer and closer to two asymptotes without touching them. Changing $k$, adding $c$ or replacing $x$ with $(x-b)$ transforms this basic curve.",
+        "facts": [
+          "$y=\\dfrac{k}{x}$ has a vertical asymptote $x=0$ and a horizontal asymptote $y=0$ — the two axes.",
+          "When $k>0$ the branches lie in quadrants $1$ and $3$; when $k<0$ they lie in quadrants $2$ and $4$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.8, xmax=5.8, ymin=-5.8, ymax=5.8, samples=200, clip=false, restrict y to domain=-7:7, unbounded coords=jump, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, blue, <->, domain=0.45:4.4] {2/x};\n\\addplot[thick, blue, <->, domain=-4.4:-0.45] {2/x};\n\\addplot[thick, red, dashed, <->, domain=0.45:4.4] {-2/x};\n\\addplot[thick, red, dashed, <->, domain=-4.4:-0.45] {-2/x};\n\\node[blue] at (axis cs:2.9,2.6) {$k>0$};\n\\node[red] at (axis cs:-2.9,2.6) {$k<0$};\n\\node at (axis cs:5.2,5.2) {$1$};\n\\node at (axis cs:-5.2,5.2) {$2$};\n\\node at (axis cs:-5.2,-5.2) {$3$};\n\\node at (axis cs:5.2,-5.2) {$4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "The larger $|k|$ is, the further the branches sit from the axes.",
+          "$y=\\dfrac{k}{x}+c$ shifts the curve **up** ($c>0$) or **down** ($c<0$), moving the horizontal asymptote to $y=c$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-6.2, xmax=6.2, ymin=-6.2, ymax=7.0, samples=200, clip=false, restrict y to domain=-8:9, unbounded coords=jump, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=0.75:5.2] {2/x};\n\\addplot[thick, dashed, <->, domain=-5.2:-0.75] {2/x};\n\\addplot[thick, blue, <->, domain=0.5:5.2] {2/x+2};\n\\addplot[thick, blue, <->, domain=-5.2:-0.31] {2/x+2};\n\\addplot[dashed, red, domain=-6.2:6.2] {2};\n\\node[anchor=north east, red] at (axis cs:6.1,1.85) {$y=c$};\n\\node[blue] at (axis cs:-3.8,5.0) {$y=\\dfrac{k}{x}+c$};\n\\node at (axis cs:-3.8,-4.2) {$y=\\dfrac{k}{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$y=\\dfrac{k}{x-b}$ shifts the curve **right** ($b>0$) or **left** ($b<0$), moving the vertical asymptote to $x=b$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-6.8, xmax=9.0, ymin=-6.4, ymax=6.4, samples=200, clip=false, restrict y to domain=-8:8, unbounded coords=jump, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[thick, dashed, <->, domain=0.6:5.4] {2/x};\n\\addplot[thick, dashed, <->, domain=-4.6:-0.75] {2/x};\n\\addplot[thick, blue, <->, domain=2.5:7.4] {2/(x-2)};\n\\addplot[thick, blue, <->, domain=-5.8:1.55] {2/(x-2)};\n\\addplot[dashed, red, domain=-6.0:5.6] ({2},{x});\n\\node[anchor=north west, red] at (axis cs:2.15,-5.4) {$x=b$};\n\\node[blue] at (axis cs:-3.8,4.4) {$y=\\dfrac{k}{x-b}$};\n\\node at (axis cs:-3.8,-4.4) {$y=\\dfrac{k}{x}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$y=\\dfrac{k}{x}$ has no intercepts, but a shifted hyperbola usually does.",
+          "Find them by letting $x=0$ for the $y$-intercept and $y=0$ for the $x$-intercept."
+        ],
+        "steps": [
+          "Find the vertical and horizontal asymptotes.",
+          "Use the sign of $k$ to decide which regions the branches lie in.",
+          "Plot a point on each branch.",
+          "Sketch the two branches approaching the asymptotes."
+        ]
+      },
   "practice": {
     "foundation": [
       {

@@ -1,0 +1,103 @@
+{
+  "skillId": "loan-term-logarithms",
+  "atomType": "R",
+  "theory": {
+    "intro": "To find how long a loan takes to repay, set $A_{n}=0$, isolate $(1+r)^{n}$, and solve for $n$ using logarithms. A non-integer result means the loan requires $\\lceil n\\rceil$ repayments with a smaller final repayment.",
+    "facts": [
+      "Setting $A_{n}=0$ and isolating the growth term gives $(1+r)^{n}=\\dfrac{M}{M-PV\\,r}$.",
+      "Taking logarithms yields $n=\\dfrac{\\log\\left(\\frac{M}{M-PV\\,r}\\right)}{\\log(1+r)}$.",
+      "If $M\\le PV\\times r$, repayments do not cover interest and the loan is **never repaid**.",
+      "Always round $n$ up to the next integer $\\lceil n\\rceil$, as a partial period requires an additional repayment.",
+      "The smaller final repayment equals $A_{N-1}(1+r)$, where $N=\\lceil n\\rceil$ and $A_{N-1}$ is the balance before the last payment."
+    ],
+    "steps": [
+      "Calculate periodic rate $r$ and verify that $M > PV\\times r$.",
+      "Set $A_{n}=0$ and rearrange to $(1+r)^{n}=\\dfrac{M}{M-PV\\,r}$.",
+      "Take logarithms of both sides to calculate $n=\\dfrac{\\log\\left(\\frac{M}{M-PV\\,r}\\right)}{\\log(1+r)}$.",
+      "Round up to the integer $\\lceil n\\rceil$ repayments and compute any partial final repayment."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A loan of $\\$25\\,000$ charges $6\\%$ p.a. compounded monthly ($r=0.005$). Repayments are $\\$600$ per month. Determine the number of monthly repayments needed to pay off the loan.",
+        "structure": "solve-loan-term-logarithms",
+        "solution_text": "$0=25\\,000(1.005)^{n}-600\\left[\\dfrac{(1.005)^{n}-1}{0.005}\\right]$\n$(1.005)^{n}=\\dfrac{600}{600-25\\,000(0.005)}=\\dfrac{600}{475}=1.263158$\n$n=\\dfrac{\\log 1.263158}{\\log 1.005}$\n$=46.84$\n$\\text{Repayments}=47$"
+      },
+      {
+        "question_text": "A company borrows $\\$500\\,000$ at $5.25\\%$ p.a. compounded monthly ($r=0.004375$) with monthly repayments of $\\$10\\,000$. Find the number of repayments needed in whole months.",
+        "structure": "solve-loan-term-logarithms",
+        "solution_text": "$0=500\\,000(1.004375)^{n}-10\\,000\\left[\\dfrac{(1.004375)^{n}-1}{0.004375}\\right]$\n$(1.004375)^{n}=\\dfrac{10\\,000}{10\\,000-500\\,000(0.004375)}=1.28$\n$n=\\dfrac{\\log 1.28}{\\log 1.004375}$\n$=56.55$\n$\\text{Repayments}=57\\text{ months}$"
+      },
+      {
+        "question_text": "A debt of $\\$8000$ incurs interest at $12\\%$ p.a. compounded monthly ($r=0.01$). If repayments are set to $\\$70$ per month, explain why the loan will never be repaid.",
+        "structure": "determine-loan-repayability",
+        "solution_text": "$\\text{Monthly interest}=8000\\times0.01=\\$80$\nSince the repayment $\\$70$ is less than the monthly interest charge $\\$80$, the balance increases by $\\$10$ each month.\nAlgebraically, $\\dfrac{70}{70-8000(0.01)}=-7\\le0$, so the logarithm is undefined and the loan is never repaid."
+      },
+      {
+        "question_text": "An individual borrows $\\$20\\,000$ at $7.2\\%$ p.a. compounded monthly ($r=0.006$) with repayments of $\\$750$ per month. Find the number of whole repayments required to pay off the loan.",
+        "structure": "solve-loan-term-logarithms",
+        "solution_text": "$(1.006)^{n}=\\dfrac{750}{750-20\\,000(0.006)}=\\dfrac{750}{630}=1.190476$\n$n=\\dfrac{\\log 1.190476}{\\log 1.006}$\n$=29.18$\n$\\text{Repayments}=30$"
+      },
+      {
+        "question_text": "A loan of $\\$50\\,000$ is taken at $9\\%$ p.a. compounded monthly ($r=0.0075$). What is the exact minimum monthly payment required for the loan to ever reduce?",
+        "structure": "determine-loan-repayability",
+        "solution_text": "$\\text{Monthly interest}=50\\,000\\times0.0075=\\$375$\nFor the loan balance to decrease, the monthly repayment must strictly exceed $\\$375$."
+      },
+      {
+        "question_text": "A loan of $\\$12\\,000$ at $8\\%$ p.a. compounded quarterly ($r=0.02$) is repaid with $\\$1000$ per quarter. How many quarters are needed to repay the loan?",
+        "structure": "solve-loan-term-logarithms",
+        "solution_text": "$(1.02)^{n}=\\dfrac{1000}{1000-12\\,000(0.02)}=\\dfrac{1000}{760}=1.315789$\n$n=\\dfrac{\\log 1.315789}{\\log 1.02}$\n$=13.86$\n$\\text{Quarters}=14$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A couple has a $\\$250\\,000$ mortgage at $7.2\\%$ p.a. compounded monthly ($r=0.006$) scheduled for $20$ years ($240$ months). They increase repayments to $\\$2000$ per month. Show that $(1.006)^{n}=4$ and find how many months early the loan is paid off.",
+        "structure": "calculate-time-saved-extra-repayments",
+        "solution_text": "$0=250\\,000(1.006)^{n}-2000\\left[\\dfrac{(1.006)^{n}-1}{0.006}\\right]$\n$(1.006)^{n}=\\dfrac{2000}{2000-250\\,000(0.006)}=\\dfrac{2000}{500}=4$\n$n=\\dfrac{\\log 4}{\\log 1.006}=231.74\\implies232\\text{ months}$\n$\\text{Months early}=240-232=8\\text{ months}$"
+      },
+      {
+        "question_text": "For a $\\$25\\,000$ loan at $6\\%$ p.a. compounded monthly ($r=0.005$) with $\\$600$ monthly payments ($n=46.84$ months), calculate the smaller final repayment made on month $47$.",
+        "structure": "calculate-final-adjusted-repayment",
+        "solution_text": "$A_{46}=25\\,000(1.005)^{46}-600\\left[\\dfrac{(1.005)^{46}-1}{0.005}\\right]=\\$497.81$\n$\\text{Final payment}=A_{46}(1.005)$\n$=497.81(1.005)$\n$=\\$500.30$"
+      },
+      {
+        "question_text": "A car loan of $\\$30\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has standard repayments of $\\$580$ per month ($60$ months). If the borrower pays $\\$700$ per month instead, by how many months is the loan shortened?",
+        "structure": "calculate-time-saved-extra-repayments",
+        "solution_text": "$(1.005)^{n}=\\dfrac{700}{700-30\\,000(0.005)}=\\dfrac{700}{550}=1.272727$\n$n=\\dfrac{\\log 1.272727}{\\log 1.005}=48.34\\implies49\\text{ months}$\n$\\text{Months saved}=60-49=11\\text{ months}$"
+      },
+      {
+        "question_text": "For a company loan of $\\$500\\,000$ at $5.25\\%$ p.a. compounded monthly ($r=0.004375$) with $\\$10\\,000$ monthly payments ($n=56.55$ months), find the exact final payment on month $57$.",
+        "structure": "calculate-final-adjusted-repayment",
+        "solution_text": "$A_{56}=500\\,000(1.004375)^{56}-10\\,000\\left[\\dfrac{(1.004375)^{56}-1}{0.004375}\\right]=\\$5448.20$\n$\\text{Final payment}=5448.20(1.004375)$\n$=\\$5472.04$"
+      },
+      {
+        "question_text": "A loan of $\\$100\\,000$ at $8.4\\%$ p.a. compounded monthly ($r=0.007$) has repayments of $\\$700$ per month. Determine whether the loan balance will increase, decrease, or remain constant over time.",
+        "structure": "determine-loan-repayability",
+        "solution_text": "$\\text{Monthly interest}=100\\,000\\times0.007=\\$700$\nSince the repayment exactly matches the monthly interest charge ($M=PV\\times r$), zero principal is repaid and the balance remains constant at $\\$100\\,000$."
+      },
+      {
+        "question_text": "A loan of $\\$15\\,000$ is taken at $12\\%$ p.a. compounded monthly ($r=0.01$) with repayments of $\\$300$ per month. Find the term of the loan in whole months.",
+        "structure": "solve-loan-term-logarithms",
+        "solution_text": "$(1.01)^{n}=\\dfrac{300}{300-15\\,000(0.01)}=\\dfrac{300}{150}=2$\n$n=\\dfrac{\\log 2}{\\log 1.01}$\n$=69.66$\n$\\text{Repayments}=70\\text{ months}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A mortgage of $\\$400\\,000$ at $4.8\\%$ p.a. compounded monthly ($r=0.004$) is repaid with $\\$2100$ per month ($360$ months, $30$ years). If payments increase by $\\$300$ to $\\$2400$ per month, calculate how many years earlier the loan is paid off.",
+        "structure": "calculate-time-saved-extra-repayments",
+        "solution_text": "$(1.004)^{n}=\\dfrac{2400}{2400-400\\,000(0.004)}=\\dfrac{2400}{800}=3$\n$n=\\dfrac{\\log 3}{\\log 1.004}=275.21\\implies276\\text{ months}$\n$\\text{New term}=23\\text{ years}$\n$\\text{Time saved}=30-23=7\\text{ years}$"
+      },
+      {
+        "question_text": "For a loan model $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$, show algebraically that if repayment $M=k\\times PV\\times r$, the condition for $A_{n}=0$ to have a real positive solution is $k>1$.",
+        "structure": "determine-loan-repayability",
+        "solution_text": "$0=PV(1+r)^{n}-k PV r\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$(1+r)^{n}=k(1+r)^{n}-k\\implies(k-1)(1+r)^{n}=k$\n$(1+r)^{n}=\\dfrac{k}{k-1}$\nSince $1+r>1$, $(1+r)^{n}>1$ requires $\\dfrac{k}{k-1}>1$.\nFor $k>1$, $k-1>0$ and $k>k-1$, which holds for all $k>1$.\nFor $k\\le1$, $\\dfrac{k}{k-1}\\le0$ (or undefined), so no real solution exists."
+      },
+      {
+        "question_text": "A personal loan of $\\$10\\,000$ at $12\\%$ p.a. compounded monthly ($r=0.01$) is repaid with $\\$450$ per month. Find the total number of repayments $N$ and the exact final payment $M_{\\text{final}}$ on month $N$.",
+        "structure": "calculate-final-adjusted-repayment",
+        "solution_text": "$(1.01)^{n}=\\dfrac{450}{450-100}=\\dfrac{9}{7}$\n$n=\\dfrac{\\log(9/7)}{\\log 1.01}=25.26\\implies N=26$\n$A_{25}=10\\,000(1.01)^{25}-450\\left[\\dfrac{(1.01)^{25}-1}{0.01}\\right]=\\$114.88$\n$M_{\\text{final}}=114.88(1.01)=\\$116.03$"
+      }
+    ]
+  }
+}

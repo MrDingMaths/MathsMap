@@ -2,19 +2,19 @@
   "skillId": "variable-rate-distance-time",
   "atomType": "T",
   "theory": {
-    "intro": "A distance–time graph can also curve, not just run in straight segments. A straight segment still means a constant speed, but a curved segment means the speed itself is changing during that part of the journey. Reading a curved graph means checking whether the curve is rising or falling (moving away from or back towards the start) and whether it is getting steeper or flatter (speeding up or slowing down).",
-    "facts": [
-      "A **straight** segment means a constant speed; a **curved** segment means the speed is changing throughout that part of the journey.",
-      "A curve that gets **steeper** shows the object **speeding up**; a curve that gets **flatter** (less steep) shows the object **slowing down**.",
-      "Whether the curve rises or falls still shows the direction: rising means moving **away** from the start, falling means moving **back towards** it — exactly as for straight segments.",
-      "A horizontal part, straight or as the flat top of a curve, still means the object is **stopped**."
-    ],
-    "steps": [
-      "Check whether the segment rises, falls, or is flat.",
-      "Check whether the segment is straight or curved.",
-      "If it is curved, check whether it is getting steeper or flatter to describe speeding up or slowing down."
-    ]
-  },
+        "intro": "A distance–time graph can curve as well as run straight. A straight part means a constant speed; a curved part means the speed is changing.",
+        "facts": [
+          "A **straight** segment means a constant speed; a **curved** segment means the speed changes throughout that part.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\begin{scope}\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue] (0,0.3)--(3.2,2.9);\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Straight: constant speed};\n\\end{scope}\n\\begin{scope}[xshift=6.4cm]\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{0.3+0.254*\\x*\\x});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Curved: speed changing};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+          "A curve getting **steeper** shows the object **speeding up**; a curve getting **flatter** shows it **slowing down**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\begin{scope}\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{0.28*\\x*\\x});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Getting steeper: speeding up};\n\\end{scope}\n\\begin{scope}[xshift=6.4cm]\n\\draw[->] (0,0)--(0,3.3);\n\\draw[->] (0,0)--(3.5,0);\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot ({\\x},{-0.28*(\\x-3.2)*(\\x-3.2)+2.87});\n\\node[rotate=90,font=\\small] at (-0.5,1.6) {Distance};\n\\node[font=\\small] at (1.7,-0.55) {Time};\n\\node[font=\\small] at (1.7,-1.25) {Getting flatter: slowing down};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+          "A rising graph means moving **away** from the start; a falling graph means moving **back towards** it.",
+          "A horizontal part, straight or the flat top of a curve, still means the object is **stopped**."
+        ],
+        "steps": [
+          "Check whether the segment rises, falls, or is flat.",
+          "Check whether the segment is straight or curved.",
+          "If it is curved, check whether it is getting steeper or flatter to describe speeding up or slowing down."
+        ]
+      },
   "practice": {
     "foundation": [
       {

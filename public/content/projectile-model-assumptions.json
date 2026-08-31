@@ -1,0 +1,109 @@
+{
+  "skillId": "projectile-model-assumptions",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "A **projectile** is an object moving freely through the air with gravity as the only force acting on it. We model it as a single point and ignore air resistance. Up and to the right are positive.",
+    "facts": [
+      "The projectile is modelled as a single point, so its size, shape and spin are ignored.",
+      "Air resistance is taken as negligible, so gravity is the only force acting during the flight.",
+      "Gravity is constant near the Earth's surface, so the acceleration is $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$ with $g$ positive.",
+      "There is no horizontal force, so $\\ddot{x}=0$ and the horizontal velocity stays the same for the whole flight.",
+      "A launch with speed $V$ at angle $\\alpha$ above the horizontal gives $\\underset{\\sim}{v}(0)=V\\cos\\alpha\\,\\underset{\\sim}{i}+V\\sin\\alpha\\,\\underset{\\sim}{j}$.",
+      "Unless a launch height is stated, the launch point is the origin, so $\\underset{\\sim}{r}(0)=\\underset{\\sim}{0}$.",
+      "An object with its own engine, or one slowed noticeably by the air, is not a projectile.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (H) at (1.4,0);\n\\coordinate (P) at (1.15,1.38);\n\\draw[-{Stealth}] (-0.4,0) -- (5.0,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,2.2) node[left] {$y$};\n\\draw[thick, domain=0:4, samples=100, variable=\\x] plot ({\\x}, {1.2*\\x - 0.3*\\x*\\x});\n\\draw[-{Stealth}] (O) -- (P) node[midway, above left] {$\\underset{\\sim}{v}(0)$};\n\\pic[draw, \"$\\alpha$\", angle radius=0.7cm, angle eccentricity=1.8] {angle = H--O--P};\n\\draw[-{Stealth}] (3,0.9) -- (3,0.35) node[midway, right] {$-g\\underset{\\sim}{j}$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "Check the only force is gravity",
+      "Resolve the initial velocity into horizontal and vertical components",
+      "Write the acceleration and initial velocity in vector form"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A basketball is thrown towards the hoop. Explain whether its flight is modelled as a projectile.",
+        "structure": "classify-projectile",
+        "solution_text": "After it leaves the hand the only force acting is gravity.\nThe basketball is a projectile."
+      },
+      {
+        "question_text": "A rocket climbs upwards with its engine burning. Explain whether it is modelled as a projectile.",
+        "structure": "classify-projectile",
+        "solution_text": "The engine provides a thrust force as well as gravity.\nThe rocket is not a projectile."
+      },
+      {
+        "question_text": "State the assumption the simple projectile model makes about air resistance, and what follows from it.",
+        "structure": "state-assumption",
+        "solution_text": "Air resistance is assumed to be negligible, so gravity is the only force acting on the projectile."
+      },
+      {
+        "question_text": "A ball is thrown at $25^{\\circ}$ above the horizontal. Take $g=10\\text{ m/s}^{2}$, with up as positive. Write down $\\ddot{x}$ and $\\ddot{y}$.",
+        "structure": "component-acceleration",
+        "solution_text": "$\\ddot{x}=0$\n$\\ddot{y}=-10$"
+      },
+      {
+        "question_text": "Take $g=9.8\\text{ m/s}^{2}$, with up as positive. Write the acceleration of a projectile in vector form.",
+        "structure": "acceleration-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{\\ddot{r}}=0\\underset{\\sim}{i}-9.8\\underset{\\sim}{j}$\n$=-9.8\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A stone is thrown with speed $30\\text{ m/s}$ at $60^{\\circ}$ above the horizontal. Write $\\underset{\\sim}{v}(0)$ in exact form.",
+        "structure": "initial-velocity-in-vector-form",
+        "solution_text": "2. **Resolve the initial velocity into horizontal and vertical components**\n$\\underset{\\sim}{v}(0)=30\\cos 60^{\\circ}\\,\\underset{\\sim}{i}+30\\sin 60^{\\circ}\\,\\underset{\\sim}{j}$\n$=15\\underset{\\sim}{i}+15\\sqrt{3}\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A ball is thrown from a balcony $4\\text{ m}$ above the ground. Taking the ground as $y=0$, write $\\underset{\\sim}{r}(0)$.",
+        "structure": "initial-position-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{r}(0)=0\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$=4\\underset{\\sim}{j}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A skydiver falls with an open parachute. Explain whether the fall is modelled as a projectile, and name the assumption that fails.",
+        "structure": "classify-projectile",
+        "solution_text": "The parachute makes the air resistance large, so it cannot be treated as negligible.\nThe skydiver is not a projectile."
+      },
+      {
+        "question_text": "A student says a thrown discus cannot be a projectile because it spins as it flies. Is the student correct?",
+        "structure": "state-assumption",
+        "solution_text": "The model treats the discus as a single point, so its spin is ignored.\nThe student is not correct; the discus is still modelled as a projectile."
+      },
+      {
+        "question_text": "A ball is thrown from a window with speed $20\\text{ m/s}$ at $30^{\\circ}$ **below** the horizontal. Write $\\underset{\\sim}{v}(0)$ in exact form.",
+        "structure": "initial-velocity-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{v}(0)=20\\cos 30^{\\circ}\\,\\underset{\\sim}{i}-20\\sin 30^{\\circ}\\,\\underset{\\sim}{j}$\n$=10\\sqrt{3}\\underset{\\sim}{i}-10\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has velocity $\\underset{\\sim}{v}(t)=12\\underset{\\sim}{i}+(18-9.8t)\\underset{\\sim}{j}$ metres per second. Show that this is consistent with the projectile model.",
+        "structure": "acceleration-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{\\ddot{r}}=\\dfrac{d}{dt}\\left(12\\underset{\\sim}{i}+(18-9.8t)\\underset{\\sim}{j}\\right)$\n$=0\\underset{\\sim}{i}-9.8\\underset{\\sim}{j}$\nThe acceleration is constant, has no horizontal part and points downwards, so it is $-g\\underset{\\sim}{j}$ with $g=9.8$."
+      },
+      {
+        "question_text": "A ball is projected at $40^{\\circ}$ above the horizontal with speed $18\\text{ m/s}$. Take $g=10\\text{ m/s}^{2}$. Write down $\\ddot{x}$ and explain what it tells you about $\\dot{x}$.",
+        "structure": "component-acceleration",
+        "solution_text": "$\\ddot{x}=0$\nThe horizontal velocity never changes, so $\\dot{x}=18\\cos 40^{\\circ}$ for the whole flight."
+      },
+      {
+        "question_text": "A shell is fired from the top of a cliff $45\\text{ m}$ high with speed $200\\text{ m/s}$ at $25^{\\circ}$ above the horizontal. Taking the origin at the base of the cliff, write $\\underset{\\sim}{r}(0)$ and $\\underset{\\sim}{v}(0)$.",
+        "structure": "initial-position-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{r}(0)=45\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(0)=200\\cos 25^{\\circ}\\,\\underset{\\sim}{i}+200\\sin 25^{\\circ}\\,\\underset{\\sim}{j}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A projectile is launched from the origin with initial velocity $\\underset{\\sim}{v}(0)=7\\underset{\\sim}{i}+24\\underset{\\sim}{j}$ metres per second. Find its launch speed, and its angle of projection to 1 d.p.",
+        "structure": "initial-velocity-in-vector-form",
+        "solution_text": "$V=\\sqrt{7^{2}+24^{2}}$\n$=\\sqrt{625}$\n$=25$\n$\\tan\\alpha=\\dfrac{24}{7}$\n$\\alpha=\\tan^{-1}\\left(\\dfrac{24}{7}\\right)$\n$\\approx 73.7^{\\circ}$\nThe launch speed is $25\\text{ m/s}$ at $73.7^{\\circ}$ above the horizontal."
+      },
+      {
+        "question_text": "A model rocket's engine burns for the first $2$ seconds of the flight and then stops. Explain over which part of the flight the projectile model may be used, and state the assumptions being made there.",
+        "structure": "state-assumption",
+        "solution_text": "While the engine burns there is a thrust force as well as gravity, so the model does not apply.\nOnce the engine stops the only force is gravity, so the rocket is a projectile from $t=2$ onwards.\nWe also assume the air resistance is negligible and the rocket is a single point."
+      },
+      {
+        "question_text": "Take $g=9.8\\text{ m/s}^{2}$. A particle has position $\\underset{\\sim}{r}(t)=8t\\underset{\\sim}{i}+(15t-4.9t^{2}+3)\\underset{\\sim}{j}$ metres, with $y$ measured from the ground. Find $\\underset{\\sim}{\\ddot{r}}$, and state the launch height and the launch speed.",
+        "structure": "acceleration-in-vector-form",
+        "solution_text": "$\\underset{\\sim}{\\dot{r}}=8\\underset{\\sim}{i}+(15-9.8t)\\underset{\\sim}{j}$\n$\\underset{\\sim}{\\ddot{r}}=-9.8\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(0)=3\\underset{\\sim}{j}$, so the launch height is $3\\text{ m}$.\n$V=\\sqrt{8^{2}+15^{2}}$\n$=\\sqrt{289}$\n$=17$\nThe launch speed is $17\\text{ m/s}$."
+      }
+    ]
+  }
+}

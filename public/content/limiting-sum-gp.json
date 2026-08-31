@@ -1,0 +1,111 @@
+{
+  "skillId": "limiting-sum-gp",
+  "atomType": "R",
+  "theory": {
+    "intro": "An infinite geometric series has a **limiting sum** $S_{\\infty}$ if and only if the common ratio satisfies strictly $|r| < 1$. The series converges to the finite value $S_{\\infty} = \\frac{a}{1-r}$.",
+    "facts": [
+      "When $|r| < 1$, $r^{n} \\to 0$ as $n \\to \\infty$, so the partial sum $S_{n} = \\frac{a(1-r^{n})}{1-r}$ approaches $S_{\\infty} = \\frac{a}{1-r}$.",
+      "If $|r| \\ge 1$, the terms do not approach zero and no limiting sum exists.",
+      "An alternating geometric series with $-1 < r < 0$ converges to a positive or negative limiting sum depending on $a$.",
+      "Recurring decimals can be written as infinite geometric series with $|r| < 1$ and converted to exact fractions."
+    ],
+    "steps": [
+      "Identify the first term $a$ and common ratio $r = \\frac{a_{2}}{a_{1}}$.",
+      "Check whether $|r| < 1$; if $|r| \\ge 1$, state that no limiting sum exists.",
+      "Substitute $a$ and $r$ into $S_{\\infty} = \\frac{a}{1-r}$ and simplify."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the limiting sum of the geometric series $12 + 6 + 3 + 1.5 + \\ldots$.",
+        "structure": "evaluate-limiting-sum",
+        "solution_text": "$a = 12$\n$r = \\frac{6}{12} = \\frac{1}{2}$\nSince $|r| < 1$, the limiting sum exists:\n$S_{\\infty} = \\frac{12}{1 - \\frac{1}{2}}$\n$= \\frac{12}{\\frac{1}{2}}$\n$= 24$"
+      },
+      {
+        "question_text": "Find the limiting sum of the alternating geometric series $18 - 6 + 2 - \\frac{2}{3} + \\ldots$.",
+        "structure": "evaluate-limiting-sum",
+        "solution_text": "$a = 18$\n$r = \\frac{-6}{18} = -\\frac{1}{3}$\nSince $|r| < 1$, the limiting sum exists:\n$S_{\\infty} = \\frac{18}{1 - \\left(-\\frac{1}{3}\\right)}$\n$= \\frac{18}{\\frac{4}{3}}$\n$= \\frac{54}{4}$\n$= \\frac{27}{2}$"
+      },
+      {
+        "question_text": "Determine whether the series $4 + 6 + 9 + 13.5 + \\ldots$ has a limiting sum. If so, find its value.",
+        "structure": "check-convergence-condition",
+        "solution_text": "$r = \\frac{6}{4} = 1.5$\nSince $|r| = 1.5 \\ge 1$, the terms do not approach zero and no limiting sum exists."
+      },
+      {
+        "question_text": "Determine whether the series $10 - 10 + 10 - 10 + \\ldots$ has a limiting sum.",
+        "structure": "check-convergence-condition",
+        "solution_text": "$r = \\frac{-10}{10} = -1$\nSince $|r| = |-1| = 1 \\ge 1$, the condition $|r| < 1$ is not met and no limiting sum exists."
+      },
+      {
+        "question_text": "A geometric series has first term $a = 15$ and limiting sum $S_{\\infty} = 25$. Find the common ratio $r$.",
+        "structure": "find-parameters-from-limiting-sum",
+        "solution_text": "$S_{\\infty} = \\frac{a}{1 - r}$\n$25 = \\frac{15}{1 - r}$\n$1 - r = \\frac{15}{25}$\n$1 - r = \\frac{3}{5}$\n$r = 1 - \\frac{3}{5}$\n$r = \\frac{2}{5}$"
+      },
+      {
+        "question_text": "A geometric series has common ratio $r = -\\frac{1}{4}$ and limiting sum $S_{\\infty} = 32$. Find the first term $a$.",
+        "structure": "find-parameters-from-limiting-sum",
+        "solution_text": "$S_{\\infty} = \\frac{a}{1 - r}$\n$32 = \\frac{a}{1 - \\left(-\\frac{1}{4}\\right)}$\n$32 = \\frac{a}{\\frac{5}{4}}$\n$a = 32 \\times \\frac{5}{4}$\n$a = 40$"
+      },
+      {
+        "question_text": "Express the recurring decimal $0.\\dot{7} = 0.777\\ldots$ as an infinite geometric series and find its fractional value.",
+        "structure": "recurring-decimal-to-fraction",
+        "solution_text": "$0.777\\ldots = \\frac{7}{10} + \\frac{7}{100} + \\frac{7}{1000} + \\ldots$\n$a = \\frac{7}{10}, r = \\frac{1}{10}$\n$S_{\\infty} = \\frac{\\frac{7}{10}}{1 - \\frac{1}{10}}$\n$= \\frac{\\frac{7}{10}}{\\frac{9}{10}}$\n$= \\frac{7}{9}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Express $0.\\dot{4}\\dot{8} = 0.484848\\ldots$ as a fraction in simplest form using an infinite geometric series.",
+        "structure": "recurring-decimal-to-fraction",
+        "solution_text": "$0.484848\\ldots = \\frac{48}{100} + \\frac{48}{10000} + \\ldots$\n$a = \\frac{48}{100}, r = \\frac{1}{100}$\n$S_{\\infty} = \\frac{\\frac{48}{100}}{1 - \\frac{1}{100}}$\n$= \\frac{\\frac{48}{100}}{\\frac{99}{100}}$\n$= \\frac{48}{99}$\n$= \\frac{16}{33}$"
+      },
+      {
+        "question_text": "Find the limiting sum of $\\sum_{n=1}^{\\infty} 24\\left(-\\frac{2}{3}\\right)^{n-1}$.",
+        "structure": "evaluate-limiting-sum",
+        "solution_text": "$a = 24, r = -\\frac{2}{3}$\nSince $|r| = \\frac{2}{3} < 1$, the series converges:\n$S_{\\infty} = \\frac{24}{1 - \\left(-\\frac{2}{3}\\right)}$\n$= \\frac{24}{\\frac{5}{3}}$\n$= \\frac{72}{5}$"
+      },
+      {
+        "question_text": "Find the limiting sum of $8 + 4\\sqrt{2} + 4 + 2\\sqrt{2} + \\dots$, expressing the answer in simplest surd form with a rational denominator.",
+        "structure": "evaluate-limiting-sum",
+        "solution_text": "$a = 8$\n$r = \\frac{4\\sqrt{2}}{8} = \\frac{\\sqrt{2}}{2}$\nSince $|r| = \\frac{\\sqrt{2}}{2} < 1$:\n$S_{\\infty} = \\frac{8}{1 - \\frac{\\sqrt{2}}{2}}$\n$= \\frac{16}{2 - \\sqrt{2}}$\n$= \\frac{16(2 + \\sqrt{2})}{(2 - \\sqrt{2})(2 + \\sqrt{2})}$\n$= \\frac{16(2 + \\sqrt{2})}{4 - 2}$\n$= 8(2 + \\sqrt{2})$\n$= 16 + 8\\sqrt{2}$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which the series $4 + 4(2x-1) + 4(2x-1)^{2} + \\ldots$ has a limiting sum, and find the limiting sum in terms of $x$.",
+        "structure": "algebraic-limiting-sum",
+        "solution_text": "$a = 4, r = 2x - 1$\nFor limiting sum: $|2x - 1| < 1$\n$-1 < 2x - 1 < 1$\n$0 < 2x < 2$\n$0 < x < 1$\n$S_{\\infty} = \\frac{4}{1 - (2x - 1)}$\n$= \\frac{4}{2 - 2x}$\n$= \\frac{2}{1 - x}$"
+      },
+      {
+        "question_text": "For what range of $x$ does the series $1 + \\frac{x}{3} + \\frac{x^{2}}{9} + \\ldots$ converge, and what is its limiting sum when $x = -1$?",
+        "structure": "algebraic-limiting-sum",
+        "solution_text": "$a = 1, r = \\frac{x}{3}$\nFor convergence: $\\left|\\frac{x}{3}\\right| < 1 \\implies -3 < x < 3$\nWhen $x = -1, r = -\\frac{1}{3}$:\n$S_{\\infty} = \\frac{1}{1 - \\left(-\\frac{1}{3}\\right)}$\n$= \\frac{1}{\\frac{4}{3}}$\n$= \\frac{3}{4}$"
+      },
+      {
+        "question_text": "The second term of a geometric sequence is $3$ and its limiting sum is $12$. Find the first term $a$ and common ratio $r$.",
+        "structure": "find-parameters-from-limiting-sum",
+        "solution_text": "$a r = 3 \\implies a = \\frac{3}{r}$\n$S_{\\infty} = \\frac{a}{1 - r} = 12$\n$\\frac{3/r}{1 - r} = 12$\n$3 = 12r(1 - r)$\n$12r^{2} - 12r + 3 = 0$\n$4r^{2} - 4r + 1 = 0$\n$(2r - 1)^{2} = 0$\n$r = \\frac{1}{2}$\n$a = \\frac{3}{1/2} = 6$"
+      },
+      {
+        "question_text": "A patient takes an initial dose of $50\\text{ mg}$ of medication. Each subsequent day, $60\\%$ of the previous day's dose is administered ($30\\text{ mg}, 18\\text{ mg}, \\ldots$). Find the total amount of medication eventually administered if this continues indefinitely.",
+        "structure": "applied-limiting-sum",
+        "solution_text": "$a = 50, r = 0.6$\nSince $|r| < 1$, the total amount is the limiting sum:\n$S_{\\infty} = \\frac{50}{1 - 0.6}$\n$= \\frac{50}{0.4}$\n$= 125\\text{ mg}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A rubber ball is dropped from a height of $10\\text{ m}$. After each bounce, it rebounds to $70\\%$ of its previous height. Find the total vertical distance the ball travels until it comes to rest.",
+        "structure": "applied-limiting-sum",
+        "solution_text": "Initial downward drop $= 10\\text{ m}$\nEach subsequent bounce goes up and down, giving a first bounce distance of $2 \\times 10(0.7) = 14\\text{ m}$.\nThe bounce distances form a GP with $a = 14$ and $r = 0.7$:\n$S_{\\text{bounces}} = \\frac{14}{1 - 0.7} = \\frac{14}{0.3} = \\frac{140}{3}\\text{ m}$\nTotal distance $= 10 + \\frac{140}{3}$\n$= \\frac{30 + 140}{3}$\n$= \\frac{170}{3}\\text{ m}$"
+      },
+      {
+        "question_text": "The series $1 + \\frac{1}{x^{2}+2} + \\frac{1}{(x^{2}+2)^{2}} + \\dots$ has common ratio $r = \\frac{1}{x^{2}+2}$. Explain why the series converges for all real $x$, and find the limiting sum in terms of $x$.",
+        "structure": "algebraic-limiting-sum",
+        "solution_text": "Since $x^{2} \\ge 0$ for all real $x$, $x^{2} + 2 \\ge 2 > 1$.\nThus $0 < \\frac{1}{x^{2}+2} \\le \\frac{1}{2} < 1$, so $|r| < 1$ for all real $x$.\n$S_{\\infty} = \\frac{1}{1 - \\frac{1}{x^{2}+2}}$\n$= \\frac{1}{\\frac{x^{2}+2-1}{x^{2}+2}}$\n$= \\frac{x^{2}+2}{x^{2}+1}$"
+      },
+      {
+        "question_text": "Convert the recurring decimal $1.2\\dot{3}\\dot{6} = 1.2363636\\ldots$ to a fraction in lowest terms by separating the non-repeating part and writing the repeating part as a geometric series.",
+        "structure": "recurring-decimal-to-fraction",
+        "solution_text": "$1.2363636\\ldots = 1.2 + 0.0363636\\ldots$\n$= \\frac{6}{5} + \\left(\\frac{36}{1000} + \\frac{36}{100000} + \\dots\\right)$\nFor the GP: $a = \\frac{36}{1000} = \\frac{9}{250}, r = \\frac{1}{100}$\n$S_{\\infty} = \\frac{\\frac{9}{250}}{1 - \\frac{1}{100}} = \\frac{\\frac{9}{250}}{\\frac{99}{100}} = \\frac{9}{250} \\times \\frac{100}{99} = \\frac{2}{55}$\nTotal $= \\frac{6}{5} + \\frac{2}{55} = \\frac{66 + 2}{55} = \\frac{68}{55}$"
+      }
+    ]
+  }
+}

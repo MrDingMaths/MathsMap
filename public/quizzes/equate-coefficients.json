@@ -85,10 +85,22 @@
       "structure": "three-unknown-identity",
       "mastery": false,
       "options": [
-        { "text": "$a = 3, b = 2, c = -6$", "correct": true },
-        { "text": "$a = 3, b = 14, c = 10$", "why": "Took $b$ and $c$ directly from the coefficients without accounting for the $(x + 2)$ expansions." },
-        { "text": "$a = 3, b = 2, c = -2$", "why": "Forgot the $2b$ term when forming the constant equation." },
-        { "text": "$a = 3, b = -2, c = -6$", "why": "Slipped a sign when solving $4a + b = 14$ for $b$." }
+        {
+          "text": "$a = 3, b = 2, c = -6$",
+          "correct": true
+        },
+        {
+          "text": "$a = 3, b = -2, c = 2$",
+          "why": "Rearranged $4a + b = 14$ the wrong way as $b = 4a - 14 = -2$, then used that $b$ correctly in $4a + 2b + c = 10$ to get $c = 10 - 12 + 4 = 2$."
+        },
+        {
+          "text": "$a = 3, b = 2, c = -2$",
+          "why": "Dropped the $2b$ term from the constant equation, using $4a + c = 10$ to get $c = 10 - 12 = -2$."
+        },
+        {
+          "text": "$a = 3, b = -2, c = -2$",
+          "why": "Rearranged $4a + b = 14$ backwards to get $b = -2$ and also dropped the $2b$ term from the constant equation, giving $c = 10 - 12 = -2$."
+        }
       ],
       "solution_text": "$a(x + 2)^2 + b(x + 2) + c \\equiv 3x^2 + 14x + 10$\n$ax^2 + (4a + b)x + (4a + 2b + c) \\equiv 3x^2 + 14x + 10$\n$a = 3$\n$4a + b = 14$, so $b = 2$\n$4a + 2b + c = 10$, so $12 + 4 + c = 10$ and $c = -6$"
     },
@@ -111,10 +123,22 @@
       "structure": "quadratic-form-match",
       "mastery": true,
       "options": [
-        { "text": "$p = 6, q = 3, r = -8$", "correct": true },
-        { "text": "$p = 6, q = 3, r = -5$", "why": "Took $r$ from the constant $-5$ without subtracting $q$." },
-        { "text": "$p = 3, q = 6, r = -8$", "why": "Swapped $p$ and $q$ when reading the coefficients." },
-        { "text": "$p = 6, q = 3, r = -11$", "why": "Subtracted $p$ instead of $q$ when finding $r$." }
+        {
+          "text": "$p = 6, q = 3, r = -8$",
+          "correct": true
+        },
+        {
+          "text": "$p = 3, q = 3, r = -8$",
+          "why": "Read the middle coefficient of $q(x + 1)^2$ as $q$ rather than $2q$, so took $p = q = 3$."
+        },
+        {
+          "text": "$p = 6, q = 3, r = -2$",
+          "why": "Solved $q + r = -5$ by adding $q$ instead of subtracting it, giving $r = -5 + 3 = -2$."
+        },
+        {
+          "text": "$p = 3, q = 3, r = -2$",
+          "why": "Read the middle coefficient as $q$ instead of $2q$ and also added $q$ instead of subtracting it in $q + r = -5$, giving $r = -2$."
+        }
       ],
       "solution_text": "$3x^2 + px - 5 \\equiv q(x + 1)^2 + r$\n$3x^2 + px - 5 \\equiv qx^2 + 2qx + (q + r)$\n$q = 3$\n$p = 2q = 6$\n$q + r = -5$, so $3 + r = -5$ and $r = -8$"
     },

@@ -1,0 +1,131 @@
+{
+  "skillId": "differentiate-exponential-composite",
+  "atomType": "R",
+  "theory": {
+    "intro": "For $y = e^{f(x)}$ the chain rule gives $\\dfrac{dy}{dx} = f'(x)e^{f(x)}$. The index is copied down unchanged and multiplied by its own derivative. When $e^{f(x)}$ is multiplied or divided by another function, the product or quotient rule is used as well.",
+    "facts": [
+      "$\\dfrac{d}{dx}\\left(e^{f(x)}\\right) = f'(x)e^{f(x)}$, where $f(x)$ is whatever sits in the index.",
+      "The index never changes: $\\dfrac{d}{dx}\\left(e^{x^{2}}\\right) = 2xe^{x^{2}}$, not $2xe^{2x}$.",
+      "Chain rule: let $u = f(x)$, so $\\dfrac{dy}{du} = e^{u}$ and $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\times \\dfrac{du}{dx}$.",
+      "Product rule: $\\dfrac{d}{dx}(uv) = u'v + uv'$, used when $e^{f(x)}$ multiplies another function.",
+      "Quotient rule: $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right) = \\dfrac{u'v - uv'}{v^{2}}$, used when $e^{f(x)}$ sits in a fraction.",
+      "For a bracket power such as $\\left(e^{2x}-3\\right)^{4}$, the chain rule is applied to the bracket, and $e^{2x}$ is differentiated inside it.",
+      "Factor the common $e^{f(x)}$ out of an answer, and remember $e^{f(x)}$ is never zero.",
+      "Rewrite $\\sqrt{x}$ or $\\dfrac{1}{x}$ in the index as a power of $x$ before differentiating the index."
+    ],
+    "steps": [
+      "Name the index $f(x)$ and differentiate it to get $f'(x)$.",
+      "Write the derivative of $e^{f(x)}$ as $f'(x)e^{f(x)}$, leaving the index unchanged.",
+      "Apply the product or quotient rule if the exponential is multiplied or divided by another function.",
+      "Factor out the common exponential and simplify."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{x^{3}}$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{x^{3}}$\nThe index is $f(x) = x^{3}$, so $f'(x) = 3x^{2}$.\n$\\dfrac{dy}{dx} = 3x^{2}e^{x^{3}}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{5x^{2}}$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{5x^{2}}$\nThe index is $f(x) = 5x^{2}$, so $f'(x) = 10x$.\n$\\dfrac{dy}{dx} = 10xe^{5x^{2}}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{4x^{2}-7x}$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{4x^{2}-7x}$\nThe index is $f(x) = 4x^{2}-7x$, so $f'(x) = 8x - 7$.\n$\\dfrac{dy}{dx} = (8x-7)e^{4x^{2}-7x}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{2-x^{2}}$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{2-x^{2}}$\nThe index is $f(x) = 2 - x^{2}$, so $f'(x) = -2x$.\n$\\dfrac{dy}{dx} = -2xe^{2-x^{2}}$"
+      },
+      {
+        "question_text": "For $y = e^{6x^{2}+1}$, state the inner function $u = f(x)$ and $\\dfrac{du}{dx}$, then write down $\\dfrac{dy}{dx}$.",
+        "structure": "identify-inner-function",
+        "solution_text": "$u = 6x^{2} + 1$\n$\\dfrac{du}{dx} = 12x$\n$\\dfrac{dy}{dx} = \\dfrac{du}{dx} \\times e^{u}$\n$= 12xe^{6x^{2}+1}$"
+      },
+      {
+        "question_text": "Use the product rule to differentiate $y = xe^{3x}$. Give your answer in factored form.",
+        "structure": "product-rule-with-exponential",
+        "solution_text": "$y = xe^{3x}$\nProduct rule with $u = x$ and $v = e^{3x}$:\n$y' = u'v + uv'$\n$= 1\\left(e^{3x}\\right) + x\\left(3e^{3x}\\right)$\n$= e^{3x} + 3xe^{3x}$\n$= e^{3x}(1 + 3x)$"
+      },
+      {
+        "question_text": "Use the product rule to differentiate $y = x^{2}e^{4x}$. Give your answer in factored form.",
+        "structure": "product-rule-with-exponential",
+        "solution_text": "$y = x^{2}e^{4x}$\nProduct rule with $u = x^{2}$ and $v = e^{4x}$:\n$y' = u'v + uv'$\n$= 2x\\left(e^{4x}\\right) + x^{2}\\left(4e^{4x}\\right)$\n$= 2xe^{4x} + 4x^{2}e^{4x}$\n$= 2xe^{4x}(1 + 2x)$"
+      },
+      {
+        "question_text": "Use the quotient rule to differentiate $y = \\dfrac{e^{2x}}{x}$. Give your answer in simplest form.",
+        "structure": "quotient-rule-with-exponential",
+        "solution_text": "$y = \\dfrac{e^{2x}}{x}$\nQuotient rule with $u = e^{2x}$ and $v = x$:\n$y' = \\dfrac{u'v - uv'}{v^{2}}$\n$= \\dfrac{2e^{2x}(x) - e^{2x}(1)}{x^{2}}$\n$= \\dfrac{e^{2x}(2x - 1)}{x^{2}}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = \\left(e^{x}+4\\right)^{3}$. Give your answer in simplest form.",
+        "structure": "power-of-exponential",
+        "solution_text": "$y = \\left(e^{x}+4\\right)^{3}$\n$\\dfrac{dy}{dx} = 3\\left(e^{x}+4\\right)^{2} \\times e^{x}$\n$= 3e^{x}\\left(e^{x}+4\\right)^{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{\\sqrt{x}}$, for $x > 0$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{\\sqrt{x}}$\nThe index is $f(x) = x^{\\frac{1}{2}}$, so $f'(x) = \\dfrac{1}{2}x^{-\\frac{1}{2}} = \\dfrac{1}{2\\sqrt{x}}$.\n$\\dfrac{dy}{dx} = \\dfrac{e^{\\sqrt{x}}}{2\\sqrt{x}}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = e^{\\frac{3}{x}}$, for $x \\ne 0$. Give your answer in simplest form.",
+        "structure": "chain-rule-e-fx",
+        "solution_text": "$y = e^{\\frac{3}{x}}$\nThe index is $f(x) = 3x^{-1}$, so $f'(x) = -3x^{-2} = -\\dfrac{3}{x^{2}}$.\n$\\dfrac{dy}{dx} = -\\dfrac{3e^{\\frac{3}{x}}}{x^{2}}$"
+      },
+      {
+        "question_text": "Use the product rule to differentiate $y = (3x+2)e^{-2x}$. Give your answer in factored form.",
+        "structure": "product-rule-with-exponential",
+        "solution_text": "$y = (3x+2)e^{-2x}$\nProduct rule with $u = 3x+2$ and $v = e^{-2x}$:\n$y' = u'v + uv'$\n$= 3\\left(e^{-2x}\\right) + (3x+2)\\left(-2e^{-2x}\\right)$\n$= e^{-2x}(3 - 6x - 4)$\n$= -(6x+1)e^{-2x}$"
+      },
+      {
+        "question_text": "Use the quotient rule to differentiate $y = \\dfrac{e^{3x}}{2x+1}$. Give your answer in simplest form.",
+        "structure": "quotient-rule-with-exponential",
+        "solution_text": "$y = \\dfrac{e^{3x}}{2x+1}$\nQuotient rule with $u = e^{3x}$ and $v = 2x+1$:\n$y' = \\dfrac{u'v - uv'}{v^{2}}$\n$= \\dfrac{3e^{3x}(2x+1) - e^{3x}(2)}{(2x+1)^{2}}$\n$= \\dfrac{e^{3x}(6x + 3 - 2)}{(2x+1)^{2}}$\n$= \\dfrac{e^{3x}(6x+1)}{(2x+1)^{2}}$"
+      },
+      {
+        "question_text": "Use the chain rule to differentiate $y = \\left(2e^{5x}+1\\right)^{3}$. Give your answer in simplest form.",
+        "structure": "power-of-exponential",
+        "solution_text": "$y = \\left(2e^{5x}+1\\right)^{3}$\n$\\dfrac{dy}{dx} = 3\\left(2e^{5x}+1\\right)^{2} \\times 10e^{5x}$\n$= 30e^{5x}\\left(2e^{5x}+1\\right)^{2}$"
+      },
+      {
+        "question_text": "For $y = e^{x^{2}-4x}$, find $\\dfrac{dy}{dx}$ and then evaluate it at $x = 1$, giving your answer in exact form and correct to two decimal places.",
+        "structure": "evaluate-composite-derivative",
+        "solution_text": "$y = e^{x^{2}-4x}$\n$\\dfrac{dy}{dx} = (2x-4)e^{x^{2}-4x}$\nAt $x = 1$:\n$\\dfrac{dy}{dx} = (2 - 4)e^{1-4}$\n$= -2e^{-3}$\n$= -\\dfrac{2}{e^{3}}$\n$= -0.10$ (2 d.p.)"
+      },
+      {
+        "question_text": "For $f(x) = e^{2x^{2}+3}$, find $f'(-1)$ in exact form and correct to two decimal places.",
+        "structure": "evaluate-composite-derivative",
+        "solution_text": "$f(x) = e^{2x^{2}+3}$\n$f'(x) = 4xe^{2x^{2}+3}$\n$f'(-1) = 4(-1)e^{2+3}$\n$= -4e^{5}$\n$= -593.65$ (2 d.p.)"
+      },
+      {
+        "question_text": "Find the $x$-coordinate of the stationary point of $y = xe^{-2x}$.",
+        "structure": "solve-derivative-equals-zero",
+        "solution_text": "$y = xe^{-2x}$\nProduct rule with $u = x$ and $v = e^{-2x}$:\n$y' = 1\\left(e^{-2x}\\right) + x\\left(-2e^{-2x}\\right)$\n$= e^{-2x}(1 - 2x)$\nStationary when $y' = 0$, and $e^{-2x}$ is never zero.\n$1 - 2x = 0$\n$x = \\dfrac{1}{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Differentiate $y = (x+1)^{2}e^{3x}$, giving your answer fully factored.",
+        "structure": "product-rule-with-exponential",
+        "solution_text": "$y = (x+1)^{2}e^{3x}$\nProduct rule with $u = (x+1)^{2}$ and $v = e^{3x}$:\n$y' = u'v + uv'$\n$= 2(x+1)\\left(e^{3x}\\right) + (x+1)^{2}\\left(3e^{3x}\\right)$\n$= (x+1)e^{3x}\\left(2 + 3(x+1)\\right)$\n$= (x+1)(3x+5)e^{3x}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\dfrac{e^{x^{2}}}{x}$, for $x \\ne 0$. Give your answer in simplest form.",
+        "structure": "quotient-rule-with-exponential",
+        "solution_text": "$y = \\dfrac{e^{x^{2}}}{x}$\nQuotient rule with $u = e^{x^{2}}$ and $v = x$, using the chain rule on $u$:\n$u' = 2xe^{x^{2}}$\n$y' = \\dfrac{u'v - uv'}{v^{2}}$\n$= \\dfrac{2xe^{x^{2}}(x) - e^{x^{2}}(1)}{x^{2}}$\n$= \\dfrac{e^{x^{2}}\\left(2x^{2}-1\\right)}{x^{2}}$"
+      },
+      {
+        "question_text": "Find the $x$-coordinates of both stationary points of $y = x^{2}e^{-x}$.",
+        "structure": "solve-derivative-equals-zero",
+        "solution_text": "$y = x^{2}e^{-x}$\nProduct rule with $u = x^{2}$ and $v = e^{-x}$:\n$y' = 2x\\left(e^{-x}\\right) + x^{2}\\left(-e^{-x}\\right)$\n$= xe^{-x}(2 - x)$\nStationary when $y' = 0$, and $e^{-x}$ is never zero.\n$x(2-x) = 0$\n$x = 0$ or $x = 2$"
+      }
+    ]
+  }
+}

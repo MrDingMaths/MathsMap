@@ -1,0 +1,109 @@
+{
+  "skillId": "bernoulli-applications",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A parcel is delivered on time with probability $0.91$. One parcel is chosen at random and $X=1$ if it is delivered on time. Which model and mean are correct?",
+      "structure": "model-context-as-bernoulli",
+      "mastery": false,
+      "options": [
+        { "text": "$X \\sim \\text{Bernoulli}(0.91)$ and $E(X)=0.91$", "correct": true },
+        { "text": "$X \\sim \\text{Bernoulli}(0.09)$ and $E(X)=0.09$", "why": "Used the late rate as $p$, although the question defines an on-time delivery as the success." },
+        { "text": "$X \\sim \\text{Bernoulli}(0.91)$ and $E(X)=0.0819$", "why": "Gave the variance $p(1-p)$ in place of the mean $p$." },
+        { "text": "$X \\sim \\text{Bernoulli}(0.09)$ and $E(X)=0.0819$", "why": "Used the late rate as $p$ and also reported the variance instead of the mean." }
+      ],
+      "solution_text": "Success: the parcel is delivered on time.\n$p=0.91$\n$X \\sim \\text{Bernoulli}(0.91)$\n$E(X)=0.91$"
+    },
+    {
+      "id": "q2",
+      "question_text": "In a town $46\\%$ of adults hold a library card. One adult is chosen at random and $X=1$ if that adult holds a card. Find $\\text{Var}(X)$.",
+      "structure": "mean-variance-in-context",
+      "mastery": false,
+      "options": [
+        { "text": "$0.2484$", "correct": true },
+        { "text": "$0.46$", "why": "Gave the mean $p$ instead of the variance $p(1-p)$." },
+        { "text": "$0.54$", "why": "Gave the probability of failure $1-p$ instead of the variance." },
+        { "text": "$0.2116$", "why": "Computed $p^2$ instead of $p(1-p)$." }
+      ],
+      "solution_text": "$p=0.46$\n$\\text{Var}(X)=0.46(0.54)$\n$=0.2484$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A dart player hits the bullseye with probability $0.2$ on each independent throw. Find the probability that she misses the first throw and hits the second.",
+      "structure": "sequence-of-trials",
+      "mastery": false,
+      "options": [
+        { "text": "$0.16$", "correct": true },
+        { "text": "$0.04$", "why": "Multiplied $0.2 \\times 0.2$, treating both throws as hits." },
+        { "text": "$0.64$", "why": "Multiplied $0.8 \\times 0.8$, treating both throws as misses." },
+        { "text": "$0.2$", "why": "Gave only the probability of hitting the second throw, ignoring the first throw." }
+      ],
+      "solution_text": "$P(\\text{miss})=1-0.2$\n$=0.8$\n$P(\\text{miss, then hit})=0.8 \\times 0.2$\n$=0.16$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A Bernoulli variable has $X=1$ when a randomly chosen commuter cycles to work, and $E(X)=0.18$. What does this value mean?",
+      "structure": "interpret-expected-value",
+      "mastery": false,
+      "options": [
+        { "text": "In the long run, $18\\%$ of randomly chosen commuters cycle to work.", "correct": true },
+        { "text": "$0.18$ commuters cycle to work each day.", "why": "Reads the mean as a count of people rather than a proportion for one trial." },
+        { "text": "A randomly chosen commuter cycles $0.18$ of the way to work.", "why": "Treats the mean as a distance rather than a long-run proportion of successes." },
+        { "text": "The most likely value of $X$ is $0.18$.", "why": "The mean is not a value $X$ can take, since $X$ is only ever $0$ or $1$." }
+      ],
+      "solution_text": "$E(X)=p$\n$=0.18$\nFor a Bernoulli variable the mean is the probability of success, which is the long-run proportion of commuters who cycle to work."
+    },
+    {
+      "id": "q5",
+      "question_text": "A student writes $X \\sim \\text{Bernoulli}(0.3)$ for '$X$ is the number of sixes in $20$ rolls of a die'. Which statement identifies the error?",
+      "structure": "model-context-as-bernoulli",
+      "mastery": false,
+      "options": [
+        { "text": "$X$ counts successes over $20$ trials, so it is not a single-trial Bernoulli variable.", "correct": true },
+        { "text": "The probability should be $\\frac{1}{6}$, but the model is otherwise correct.", "why": "Corrects the probability but leaves the fatal error that $X$ counts results over many rolls." },
+        { "text": "A die has six faces, so no Bernoulli model can describe rolling a die.", "why": "Recording only whether a roll shows a six does give exactly two outcomes, so a Bernoulli model is possible." },
+        { "text": "The rolls are not independent, so no model applies.", "why": "Separate rolls of a die are independent; independence is not what is wrong here." }
+      ],
+      "solution_text": "A Bernoulli random variable describes exactly one trial and takes only the values $0$ and $1$.\nCounting sixes over $20$ rolls gives a variable that can take the values $0$ to $20$, so the model is wrong.\nA correct Bernoulli model uses one roll, with $X=1$ if that roll shows a six."
+    },
+    {
+      "id": "q6",
+      "question_text": "A smoke alarm passes its monthly test with probability $0.97$, independently each month. Find the probability that it passes in each of the first two months and fails in the third, correct to four decimal places.",
+      "structure": "sequence-of-trials",
+      "mastery": false,
+      "options": [
+        { "text": "$0.0282$", "correct": true },
+        { "text": "$0.0291$", "why": "Used only two months, multiplying $0.97 \\times 0.03$ and ignoring the second pass." },
+        { "text": "$0.9127$", "why": "Found the probability of three passes, $0.97^3$, instead of two passes and a failure." },
+        { "text": "$0.000027$", "why": "Multiplied three failure probabilities, $0.03^3$, instead of two passes and one failure." }
+      ],
+      "solution_text": "$P(\\text{fail})=1-0.97$\n$=0.03$\n$P(\\text{pass, pass, fail})=0.97 \\times 0.97 \\times 0.03$\n$=0.9409 \\times 0.03$\n$=0.0282$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A Bernoulli variable records whether a randomly chosen tyre is under-inflated. Its variance is $0.2275$ and fewer than half of all tyres are under-inflated. Find $p$.",
+      "structure": "mean-variance-in-context",
+      "mastery": true,
+      "options": [
+        { "text": "$0.35$", "correct": true },
+        { "text": "$0.65$", "why": "Chose the root above $0.5$, against the condition that fewer than half are under-inflated." },
+        { "text": "$0.477$", "why": "Took the square root of the variance, which gives the standard deviation, not $p$." },
+        { "text": "$0.11375$", "why": "Halved the variance instead of solving $p(1-p)=0.2275$." }
+      ],
+      "solution_text": "$p(1-p)=0.2275$\n$p^2-p+0.2275=0$\n$p=\\frac{1 \\pm \\sqrt{1-0.91}}{2}$\n$=\\frac{1 \\pm 0.3}{2}$\n$p=0.65$ or $p=0.35$\nFewer than half are under-inflated, so $p=0.35$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A vaccine works for a randomly chosen person with probability $p$, independently. For one person the Bernoulli variable has $\\text{Var}(X)=0.0564$, and the vaccine works for most people, so $p>0.5$. Find the probability that the vaccine works for two consecutive people.",
+      "structure": "sequence-of-trials",
+      "mastery": true,
+      "options": [
+        { "text": "$0.8836$", "correct": true },
+        { "text": "$0.0036$", "why": "Used the root below $0.5$, $p=0.06$, and squared it." },
+        { "text": "$0.1128$", "why": "Doubled the variance instead of squaring $p$." },
+        { "text": "$0.94$", "why": "Stopped at $p$ without finding the probability for two people." }
+      ],
+      "solution_text": "$p(1-p)=0.0564$\n$p^2-p+0.0564=0$\n$p=\\frac{1 \\pm \\sqrt{1-0.2256}}{2}$\n$=\\frac{1 \\pm 0.88}{2}$\n$p=0.94$ or $p=0.06$\nSince $p>0.5$, $p=0.94$\n$P(\\text{works twice})=0.94 \\times 0.94$\n$=0.8836$"
+    }
+  ]
+}

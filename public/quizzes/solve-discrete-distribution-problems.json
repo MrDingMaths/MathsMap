@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-discrete-distribution-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A game pays $\\$15$ with probability $0.06$, $\\$5$ with probability $0.3$, and nothing otherwise. Find the expected prize.",
+      "structure": "expected-winnings",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$2.40$", "correct": true },
+        { "text": "$\\$4.80$", "why": "Paired each prize with the other prize's probability, using $15(0.3)+5(0.06)$." },
+        { "text": "$\\$6.67$", "why": "Averaged the three possible prizes $\\$15$, $\\$5$ and $\\$0$ without weighting them." },
+        { "text": "$\\$20$", "why": "Added the two prizes and ignored the probabilities entirely." }
+      ],
+      "solution_text": "$E(\\text{prize})=15(0.06)+5(0.3)+0(0.64)$\n$=0.9+1.5$\n$=\\$2.40$"
+    },
+    {
+      "id": "q2",
+      "question_text": "It costs $\\$5$ to play a game that pays $\\$30$ with probability $0.12$ and nothing otherwise. Which statement is correct?",
+      "structure": "fair-game-judgement",
+      "mastery": false,
+      "options": [
+        { "text": "The game favours the operator: the expected net gain is $-\\$1.40$ per play.", "correct": true },
+        { "text": "The game favours the player: the expected net gain is $\\$3.60$ per play.", "why": "Found the expected prize but never subtracted the $\\$5$ cost of playing." },
+        { "text": "The game favours the operator: the expected net gain is $-\\$2.00$ per play.", "why": "Subtracted the $\\$5$ from the prize before weighting and again at the end, charging the cost twice." },
+        { "text": "The game is fair, because $\\$30 \\times 0.12$ is close to the $\\$5$ cost.", "why": "Treated 'close to' as equal; a fair game needs an expected net gain of exactly $\\$0$." }
+      ],
+      "solution_text": "$E(\\text{prize})=30(0.12)+0(0.88)$\n$=3.6$\n$E(\\text{net gain})=3.6-5$\n$=-\\$1.40$\nThe expected net gain is negative, so the game favours the operator."
+    },
+    {
+      "id": "q3",
+      "question_text": "A game pays $\\$25$ with probability $0.04$, $\\$10$ with probability $0.15$, and nothing otherwise. What entry fee would make the game fair?",
+      "structure": "fair-stake",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$2.50$", "correct": true },
+        { "text": "$\\$17.50$", "why": "Averaged the two prizes instead of weighting them by their probabilities." },
+        { "text": "$\\$35$", "why": "Added the two prizes and ignored the probabilities." },
+        { "text": "$\\$1$", "why": "Used only the $\\$25$ prize's contribution and left out the $\\$10$ prize." }
+      ],
+      "solution_text": "$E(\\text{prize})=25(0.04)+10(0.15)+0(0.81)$\n$=1+1.5$\n$=2.5$\nA fair entry fee equals the expected prize, so the fee is $\\$2.50$."
+    },
+    {
+      "id": "q4",
+      "question_text": "A lucky dip barrel holds $10$ tokens: $5$ green paying $\\$1$, $3$ yellow paying $\\$4$ and $2$ red paying $\\$10$. One token is drawn. Find the expected payout.",
+      "structure": "build-payout-distribution",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$3.70$", "correct": true },
+        { "text": "$\\$4.30$", "why": "Swapped the yellow and red probabilities, using $1(0.5)+4(0.2)+10(0.3)$." },
+        { "text": "$\\$5$", "why": "Averaged the three payouts and ignored how many tokens of each colour there are." },
+        { "text": "$\\$15$", "why": "Added the three payouts without weighting them." }
+      ],
+      "solution_text": "$\\begin{array}{c|ccc} x & 1 & 4 & 10 \\\\ \\hline P(X=x) & 0.5 & 0.3 & 0.2 \\end{array}$\n$E(X)=1(0.5)+4(0.3)+10(0.2)$\n$=0.5+1.2+2$\n$=\\$3.70$"
+    },
+    {
+      "id": "q5",
+      "question_text": "An insurer charges a $\\$60$ premium and keeps it whatever happens. With probability $0.05$ it must pay a claim of $\\$400$. Find the insurer's expected profit per policy.",
+      "structure": "expected-and-variance-application",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$40$", "correct": true },
+        { "text": "$\\$37$", "why": "Used $-\\$400$ as the claim outcome instead of $\\$60-\\$400=-\\$340$, dropping the premium." },
+        { "text": "$\\$60$", "why": "Ignored the expected claim and gave the premium alone." },
+        { "text": "$\\$20$", "why": "Gave the expected claim $\\$400 \\times 0.05$ rather than the expected profit." }
+      ],
+      "solution_text": "If a claim is made the profit is $60-400=-340$.\n$E(X)=60(0.95)-340(0.05)$\n$=57-17$\n$=\\$40$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A club game has an expected net gain to the player of $-\\$0.85$ per play. How much should the club expect to gain from $600$ plays?",
+      "structure": "long-run-total",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$510$", "correct": true },
+        { "text": "$\\$5100$", "why": "Misplaced the decimal point, multiplying by $6000$ rather than $600$." },
+        { "text": "$\\$0.85$", "why": "Gave the per-play figure instead of the total over $600$ plays." },
+        { "text": "$\\$599.15$", "why": "Subtracted $\\$0.85$ from $600$ instead of multiplying." }
+      ],
+      "solution_text": "The club gains $\\$0.85$ per play on average.\nExpected gain $=600(0.85)$\n$=\\$510$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Game $P$ pays $\\$9$ with probability $0.25$ and loses the player $\\$3$ otherwise. Game $Q$ pays $\\$4$ with probability $0.6$ and loses the player $\\$5$ otherwise. Which game should a player choose?",
+      "structure": "compare-options",
+      "mastery": false,
+      "options": [
+        { "text": "$Q$, because $E(Q)=\\$0.40$ while $E(P)=\\$0$, so only $Q$ has a positive expected net gain.", "correct": true },
+        { "text": "$P$, because its $\\$9$ prize is the largest amount on offer.", "why": "Compared the largest prize instead of the expected net gain." },
+        { "text": "$P$, because a fair game is safer than one that can lose the player $\\$5$.", "why": "Compared the worst possible outcome rather than the expected net gain." },
+        { "text": "Either, because both games give the player a real chance of winning.", "why": "Judged the games by the chance of a win rather than by the expected net gain." }
+      ],
+      "solution_text": "$E(P)=9(0.25)-3(0.75)$\n$=2.25-2.25$\n$=\\$0$\n$E(Q)=4(0.6)-5(0.4)$\n$=2.4-2$\n$=\\$0.40$\nGame $Q$ has the greater expected net gain, so a player should choose $Q$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A game costs $\\$3$ to play and pays $\\$12$ with probability $0.2$, otherwise nothing. Find the standard deviation of the net gain.",
+      "structure": "expected-and-variance-application",
+      "mastery": true,
+      "options": [
+        { "text": "$\\$4.80$", "correct": true },
+        { "text": "$\\$23.04$", "why": "Stopped at the variance and did not take the square root." },
+        { "text": "$\\$4.84$", "why": "Took $\\sqrt{E(X^{2})}$ without subtracting $\\mu^{2}$ first." },
+        { "text": "$\\$0.60$", "why": "Gave the size of the expected net gain instead of the standard deviation." }
+      ],
+      "solution_text": "The net gains are $12-3=9$ and $0-3=-3$.\n$\\begin{array}{c|cc} x & -3 & 9 \\\\ \\hline P(X=x) & 0.8 & 0.2 \\end{array}$\n$E(X)=-3(0.8)+9(0.2)$\n$=-2.4+1.8$\n$=-0.6$\n$E(X^{2})=9(0.8)+81(0.2)$\n$=7.2+16.2$\n$=23.4$\n$\\mathrm{Var}(X)=23.4-(-0.6)^{2}$\n$=23.4-0.36$\n$=23.04$\n$\\sigma=\\sqrt{23.04}$\n$=\\$4.80$"
+    }
+  ]
+}

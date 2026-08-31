@@ -1,0 +1,111 @@
+{
+  "skillId": "permutations-not-distinct",
+  "atomType": "R",
+  "theory": {
+        "intro": "When some of the $n$ objects are identical, $n!$ overcounts, because swapping two identical objects gives the same arrangement. Divide by the factorial of each group of identical objects: $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$.",
+        "facts": [
+          "With $n_1$ identical objects of one type, $n_2$ of another, and so on up to $n_1 + n_2 + \\cdots + n_k = n$, the distinct arrangements number $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$.",
+          "For a word such as $\\text{PARALLEL}$, count the total letters $n$ and how many times each repeated letter appears.",
+          "With a restriction such as fixed ends or a group kept together, apply the restriction first, then divide by the remaining factorials.",
+          "To form shorter words from letters that include duplicates, split into separate cases according to which letter is left out."
+        ],
+        "steps": [
+          "Count the total number of objects $n$",
+          "Identify each group of identical objects and determine their frequencies $n_1, n_2, \\dots, n_k$",
+          "Apply the formula $\\dfrac{n!}{n_1! \\, n_2! \\, \\cdots \\, n_k!}$ and simplify"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the number of distinct arrangements of all the letters in the word $\\text{RADAR}$.",
+        "structure": "distinct-letter-arrangements",
+        "solution_text": "Total letters $n = 5$ with repeats: $\\text{R}: 2$, $\\text{A}: 2$, $\\text{D}: 1$.\n$= \\dfrac{5!}{2!2!}$\n$= \\dfrac{120}{4}$\n$= 30$"
+      },
+      {
+        "question_text": "Find the number of distinct arrangements of all the letters in the word $\\text{COFFEE}$.",
+        "structure": "distinct-letter-arrangements",
+        "solution_text": "Total letters $n = 6$ with repeats: $\\text{F}: 2$, $\\text{E}: 2$, $\\text{C}: 1$, $\\text{O}: 1$.\n$= \\dfrac{6!}{2!2!}$\n$= \\dfrac{720}{4}$\n$= 180$"
+      },
+      {
+        "question_text": "$6$ coins are tossed in a line, showing $4$ heads and $2$ tails. How many different visual sequences of heads and tails are possible?",
+        "structure": "distinct-object-arrangements",
+        "solution_text": "Arranging $6$ coins with $4$ identical heads and $2$ identical tails:\n$= \\dfrac{6!}{4!2!}$\n$= \\dfrac{720}{24 \\times 2}$\n$= 15$"
+      },
+      {
+        "question_text": "$7$ coloured counters ($4$ red, $2$ blue, $1$ yellow) of identical shape are arranged in a row. How many distinct colour patterns can be formed?",
+        "structure": "distinct-object-arrangements",
+        "solution_text": "Arranging $7$ counters with identical colours:\n$= \\dfrac{7!}{4!2!1!}$\n$= \\dfrac{5040}{24 \\times 2}$\n$= 105$"
+      },
+      {
+        "question_text": "In how many ways can the letters of $\\text{DIVIDED}$ be arranged if the word must start with the letter $\\text{E}$?",
+        "structure": "not-distinct-with-fixed-positions",
+        "solution_text": "Fix $\\text{E}$ in the first position ($1$ way).\nThe remaining $6$ letters are $\\text{D}: 3$, $\\text{I}: 2$, $\\text{V}: 1$.\n$= \\dfrac{6!}{3!2!}$\n$= \\dfrac{720}{6 \\times 2}$\n$= 60$"
+      },
+      {
+        "question_text": "How many arrangements of the letters of $\\text{TATTOO}$ have all three $\\text{T}$s together?",
+        "structure": "not-distinct-grouping",
+        "solution_text": "Treat $(\\text{TTT})$ as a single unit.\nThe units to arrange are $(\\text{TTT})$, $\\text{A}$, $\\text{O}$, $\\text{O}$ ($4$ units with $2$ identical $\\text{O}$s).\n$= \\dfrac{4!}{2!}$\n$= \\dfrac{24}{2}$\n$= 12$"
+      },
+      {
+        "question_text": "How many $4$-letter words can be formed from the $5$ letters of $\\text{APPLE}$?",
+        "structure": "not-distinct-subset-cases",
+        "solution_text": "The letters of $\\text{APPLE}$ are $\\text{A}, \\text{P}, \\text{P}, \\text{L}, \\text{E}$.\nCase 1: Leave out $\\text{A} \\implies \\text{P}, \\text{P}, \\text{L}, \\text{E} \\implies \\dfrac{4!}{2!} = 12$\nCase 2: Leave out $\\text{L} \\implies \\text{A}, \\text{P}, \\text{P}, \\text{E} \\implies \\dfrac{4!}{2!} = 12$\nCase 3: Leave out $\\text{E} \\implies \\text{A}, \\text{P}, \\text{P}, \\text{L} \\implies \\dfrac{4!}{2!} = 12$\nCase 4: Leave out one $\\text{P} \\implies \\text{A}, \\text{P}, \\text{L}, \\text{E} \\implies 4! = 24$\nTotal $= 12 + 12 + 12 + 24 = 60$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the number of distinct permutations of all the letters in the word $\\text{STATISTICS}$.",
+        "structure": "distinct-letter-arrangements",
+        "solution_text": "Total letters $n = 10$ with repeats: $\\text{S}: 3$, $\\text{T}: 3$, $\\text{I}: 2$, $\\text{A}: 1$, $\\text{C}: 1$.\n$= \\dfrac{10!}{3!3!2!}$\n$= \\dfrac{3628800}{6 \\times 6 \\times 2}$\n$= 50400$"
+      },
+      {
+        "question_text": "Find the number of distinct permutations of all the letters in the word $\\text{BOOKKEEPER}$.",
+        "structure": "distinct-letter-arrangements",
+        "solution_text": "Total letters $n = 10$ with repeats: $\\text{B}: 1$, $\\text{O}: 2$, $\\text{K}: 2$, $\\text{E}: 3$, $\\text{P}: 1$, $\\text{R}: 1$.\n$= \\dfrac{10!}{2!2!3!}$\n$= \\dfrac{3628800}{2 \\times 2 \\times 6}$\n$= 151200$"
+      },
+      {
+        "question_text": "$9$ identical-shaped beads ($5$ green, $3$ white, $1$ black) are threaded onto a straight wire. How many colour sequences can be formed?",
+        "structure": "distinct-object-arrangements",
+        "solution_text": "Arranging $9$ beads with identical colours along a wire:\n$= \\dfrac{9!}{5!3!1!}$\n$= \\dfrac{362880}{120 \\times 6}$\n$= 504$"
+      },
+      {
+        "question_text": "How many arrangements of the letters of $\\text{SUCCESS}$ start and end with the letter $\\text{S}$?",
+        "structure": "not-distinct-with-fixed-positions",
+        "solution_text": "The letters are $\\text{S}: 3$, $\\text{C}: 2$, $\\text{U}: 1$, $\\text{E}: 1$ ($7$ total).\nFix $\\text{S}$ at the start and $\\text{S}$ at the end ($1$ way).\nRemaining $5$ letters: $\\text{S}: 1$, $\\text{C}: 2$, $\\text{U}: 1$, $\\text{E}: 1$.\n$= \\dfrac{5!}{2!}$\n$= \\dfrac{120}{2}$\n$= 60$"
+      },
+      {
+        "question_text": "How many arrangements of the letters in $\\text{PARALLEL}$ have all three $\\text{L}$s together and both $\\text{A}$s together?",
+        "structure": "not-distinct-grouping",
+        "solution_text": "Treat $(\\text{LLL})$ and $(\\text{AA})$ as two separate units.\nUnits to arrange: $(\\text{LLL})$, $(\\text{AA})$, $\\text{P}$, $\\text{R}$, $\\text{E}$ ($5$ distinct units).\n$= 5!$\n$= 120$"
+      },
+      {
+        "question_text": "How many arrangements of the letters of $\\text{ASSESSMENT}$ have all four $\\text{S}$s together?",
+        "structure": "not-distinct-grouping",
+        "solution_text": "Treat $(\\text{SSSS})$ as $1$ unit.\nUnits to arrange: $(\\text{SSSS})$, $\\text{A}$, $\\text{E}$, $\\text{E}$, $\\text{M}$, $\\text{N}$, $\\text{T}$ ($7$ units with $2$ identical $\\text{E}$s).\n$= \\dfrac{7!}{2!}$\n$= \\dfrac{5040}{2}$\n$= 2520$"
+      },
+      {
+        "question_text": "How many $4$-letter arrangements can be formed using the letters of $\\text{CHEESE}$?",
+        "structure": "not-distinct-subset-cases",
+        "solution_text": "The letters of $\\text{CHEESE}$ are $\\text{E}: 3$, $\\text{C}: 1$, $\\text{H}: 1$, $\\text{S}: 1$.\nCase 1 ($3$ $\\text{E}$s, $1$ other): $3$ choices for other $\\times \\dfrac{4!}{3!} = 3 \\times 4 = 12$\nCase 2 ($2$ $\\text{E}$s, $2$ others): $^{3}C_{2} = 3$ choices for others $\\times \\dfrac{4!}{2!} = 3 \\times 12 = 36$\nCase 3 ($1$ $\\text{E}$, $3$ others): letters $\\{\\text{E}, \\text{C}, \\text{H}, \\text{S}\\} \\implies 4! = 24$\nTotal $= 12 + 36 + 24 = 72$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "How many $8$-digit numbers can be formed using the digits $\\{2, 2, 2, 3, 3, 5, 7, 0\\}$ without a leading zero?",
+        "structure": "not-distinct-with-fixed-positions",
+        "solution_text": "Total permutations of the $8$ digits $= \\dfrac{8!}{3!2!} = \\dfrac{40320}{12} = 3360$.\nPermutations with leading zero $= \\dfrac{7!}{3!2!} = \\dfrac{5040}{12} = 420$.\nValid $8$-digit numbers $= 3360 - 420 = 2940$."
+      },
+      {
+        "question_text": "How many $5$-letter words can be formed from the $6$ letters of $\\text{BANANA}$?",
+        "structure": "not-distinct-subset-cases",
+        "solution_text": "The letters of $\\text{BANANA}$ are $\\text{A}: 3$, $\\text{N}: 2$, $\\text{B}: 1$.\nCase 1 (omit $\\text{B}$): letters $\\text{A}, \\text{A}, \\text{A}, \\text{N}, \\text{N} \\implies \\dfrac{5!}{3!2!} = 10$\nCase 2 (omit one $\\text{A}$): letters $\\text{B}, \\text{A}, \\text{A}, \\text{N}, \\text{N} \\implies \\dfrac{5!}{2!2!} = 30$\nCase 3 (omit one $\\text{N}$): letters $\\text{B}, \\text{A}, \\text{A}, \\text{A}, \\text{N} \\implies \\dfrac{5!}{3!} = 20$\nTotal $= 10 + 30 + 20 = 60$."
+      },
+      {
+        "question_text": "Find the number of permutations of the letters of $\\text{ARRANGE}$ in which the two $\\text{R}$s are separated by at least one other letter.",
+        "structure": "not-distinct-grouping",
+        "solution_text": "Letters in $\\text{ARRANGE}$: $\\text{A}: 2$, $\\text{R}: 2$, $\\text{N}: 1$, $\\text{G}: 1$, $\\text{E}: 1$ ($7$ total).\nTotal unrestricted arrangements $= \\dfrac{7!}{2!2!} = \\dfrac{5040}{4} = 1260$.\nArrangements with $\\text{RR}$ together: treat $(\\text{RR})$ as $1$ unit $\\implies \\dfrac{6!}{2!} = 360$.\nSeparated arrangements $= 1260 - 360 = 900$."
+      }
+    ]
+  }
+}

@@ -17,9 +17,11 @@ as MathsBase.
 - Write a literal dollar as `\$`.
 - Every LaTeX backslash must be JSON-escaped: `\\frac`, `\\times`, `\\begin`, and so on.
 
+This same format applies to the three `theory` fields (`intro`, `facts[]`, `steps[]`).
+
 ### Inline TikZ
 
-Place a diagram exactly where it belongs in either text field:
+Place a diagram exactly where it belongs in any rich-text field:
 
 ```text
 [tikz]
@@ -33,8 +35,9 @@ Tags must be balanced, blocks must be non-empty, and every block must contain ex
 TikZ picture body. Do not add a document preamble or `\usepackage`. The allowlist and visual
 construction rules live in [tikz-prompt.md](tikz-prompt.md).
 
-**A figure renders in `question_text` and `solution_text` ONLY — never inside a quiz
-option's `text` or `why`.** Those two fields go through `Math.svelte`, which is KaTeX-only
+A figure renders in `question_text`, `solution_text` and the `theory` fields — all of
+which go through `InlineContent.svelte`. **It never renders inside a quiz option's `text`
+or `why`.** Those two fields go through `Math.svelte`, which is KaTeX-only
 (`QuizQuestion.svelte` renders the stem and solution with `InlineContent`, but each option
 with `MathText`), so a `[tikz]` block placed in an option renders as literal `[tikz]…`
 source. When an MCQ genuinely needs picture-valued options — "which of these is the top
@@ -50,7 +53,18 @@ example of this shape.
 
 - `skillId`: filename stem and an id from `data/skills.json`.
 - `atomType`: `R`, `T`, `Cat`, `Com`, or `F`.
-- `theory`: `{ intro: string, facts: string[], steps?: string[] }`.
+- `theory`: `{ intro: string, facts: string[], steps?: string[] }`. All three carry the
+  shared rich-text format above, inline `[tikz]` figures included.
+  - **Word budget** (validator warns; `scripts/check-theory.mjs` hard-fails a rewrite that
+    breaches it): `intro` ≤ **45 words** and ≤ **3 sentences**; each fact is ONE sentence of
+    ≤ **25 words** carrying ONE idea. A `$...$` span counts as one word. Plain English, with
+    technical vocabulary only where it is the thing being taught — bolded on first use and
+    defined in the same sentence.
+  - **A theory figure is a generic labelled reference, not a worked instance**, and there is
+    at most one per skill (see the theory rules in
+    [content-generation.md](content-generation.md)). Never place one in `steps`.
+  - `steps` entries are cited verbatim by worked-solution step headers, so they are frozen
+    once solutions exist — a rewrite that rewords a step breaks every solution naming it.
 - `practice`: optional `{ foundation, development, mastery? | masteryOmitted, coverageNote? }`.
 
 Foundation and development may run to **10–12** cards; mastery targets **3–4** when present.

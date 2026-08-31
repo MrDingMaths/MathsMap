@@ -1,0 +1,139 @@
+{
+  "skillId": "empirical-rule",
+  "atomType": "R",
+  "theory": {
+    "intro": "For a normally distributed variable, the **empirical rule** gives the percentage of data lying within a whole number of standard deviations of the mean. About $68\\%$ falls within $1$ standard deviation, $95\\%$ within $2$, and $99.7\\%$ within $3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.4cm, y=1cm]\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\scriptsize] {$\\mu-3\\sigma$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\scriptsize] {$\\mu-2\\sigma$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\scriptsize] {$\\mu-\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\scriptsize] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\scriptsize] {$\\mu+\\sigma$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\scriptsize] {$\\mu+2\\sigma$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\scriptsize] {$\\mu+3\\sigma$};\n\\draw[<->] (-1,1.75) -- (1,1.75);\n\\node[font=\\small] at (0,2.05) {$68\\%$};\n\\draw[<->] (-2,2.75) -- (2,2.75);\n\\node[font=\\small] at (0,3.05) {$95\\%$};\n\\draw[<->] (-3,3.55) -- (3,3.55);\n\\node[font=\\small] at (0,3.85) {$99.7\\%$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "About $68\\%$ of scores lie between $\\mu-\\sigma$ and $\\mu+\\sigma$.",
+      "About $95\\%$ of scores lie between $\\mu-2\\sigma$ and $\\mu+2\\sigma$.",
+      "About $99.7\\%$ of scores lie between $\\mu-3\\sigma$ and $\\mu+3\\sigma$.",
+      "The curve is symmetrical about the mean, so exactly $50\\%$ of scores lie above $\\mu$ and $50\\%$ below.",
+      "Half of each central band sits on each side of the mean, so $34\\%$ lies between $\\mu$ and $\\mu+\\sigma$.",
+      "Each tail is half of what is left over, so beyond $\\mu+2\\sigma$ there is $(100\\%-95\\%)\\div 2 = 2.5\\%$.",
+      "A band between two boundaries is a difference, so between $\\mu+\\sigma$ and $\\mu+2\\sigma$ there is $47.5\\%-34\\% = 13.5\\%$."
+    ],
+    "steps": [
+      "Write each boundary as a number of standard deviations from the mean",
+      "Split the curve into the empirical-rule regions",
+      "Add the percentages inside the required region"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie within $2$ standard deviations of the mean?",
+        "structure": "band-within-k-sd",
+        "solution_text": "$P(\\mu-2\\sigma < X < \\mu+2\\sigma)$\n$= 95\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:2, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$\\mu+2\\sigma$};\n\\node at (0,1.1) {$95\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie within $3$ standard deviations of the mean?",
+        "structure": "band-within-k-sd",
+        "solution_text": "$P(\\mu-3\\sigma < X < \\mu+3\\sigma)$\n$= 99.7\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:3, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$\\mu-3\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$\\mu+3\\sigma$};\n\\node at (0,1.1) {$99.7\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between the mean and $1$ standard deviation above the mean?",
+        "structure": "half-band",
+        "solution_text": "$68\\% \\div 2$\n$= 34\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (0.5,0.9) {$34\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between the mean and $2$ standard deviations below the mean?",
+        "structure": "half-band",
+        "solution_text": "$95\\% \\div 2$\n$= 47.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:0, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (0,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\node at (-1,0.9) {$47.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores are more than $1$ standard deviation above the mean?",
+        "structure": "tail-beyond-k-sd",
+        "solution_text": "$(100\\% - 68\\%) \\div 2$\n$= 32\\% \\div 2$\n$= 16\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (2.3,1.3) {$16\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores are more than $3$ standard deviations below the mean?",
+        "structure": "tail-beyond-k-sd",
+        "solution_text": "$(100\\% - 99.7\\%) \\div 2$\n$= 0.3\\% \\div 2$\n$= 0.15\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-3, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$\\mu-3\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\node at (-2.6,1.1) {$0.15\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between $1$ and $2$ standard deviations above the mean?",
+        "structure": "between-bands",
+        "solution_text": "$47.5\\% - 34\\%$\n$= 13.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$\\mu+2\\sigma$};\n\\node at (1.5,1.9) {$13.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between $2$ and $3$ standard deviations below the mean?",
+        "structure": "between-bands",
+        "solution_text": "$49.85\\% - 47.5\\%$\n$= 2.35\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:-2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$\\mu-3\\sigma$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\node at (-2.5,1.3) {$2.35\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores are less than $1$ standard deviation above the mean?",
+        "structure": "one-sided-cumulative",
+        "solution_text": "$50\\% + 34\\%$\n$= 84\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:1, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (-0.6,1.1) {$84\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between $2$ standard deviations below the mean and $1$ standard deviation above the mean?",
+        "structure": "asymmetric-interval",
+        "solution_text": "$47.5\\% + 34\\%$\n$= 81.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (-0.6,1.1) {$81.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie between $2$ standard deviations below the mean and $3$ standard deviations above the mean?",
+        "structure": "asymmetric-interval",
+        "solution_text": "$47.5\\% + 49.85\\%$\n$= 97.35\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:3, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$\\mu+3\\sigma$};\n\\node at (0.4,1.1) {$97.35\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores are less than $3$ standard deviations above the mean?",
+        "structure": "one-sided-cumulative",
+        "solution_text": "$50\\% + 49.85\\%$\n$= 99.85\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:3, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$\\mu+3\\sigma$};\n\\node at (0,1.1) {$99.85\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The times taken by workers to commute to a factory are normally distributed with a mean of $40$ minutes and a standard deviation of $5$ minutes. What percentage of commutes take between $30$ and $50$ minutes?",
+        "structure": "context-interval",
+        "solution_text": "$30$ and $50$ are each $2$ standard deviations from $40$.\n$P(30 < X < 50)$\n$= 95\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:2, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$30$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$40$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$50$};\n\\node at (0,1.1) {$95\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The heights of a species of seedling are normally distributed with a mean of $172$ mm and a standard deviation of $6$ mm. What percentage of seedlings are between $160$ mm and $178$ mm tall?",
+        "structure": "context-interval",
+        "solution_text": "$160$ is $2$ standard deviations below $172$ and $178$ is $1$ standard deviation above.\n$P(160 < X < 178)$\n$= 47.5\\% + 34\\%$\n$= 81.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$160$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$172$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$178$};\n\\node at (-0.6,1.1) {$81.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The annual rainfall at a weather station is normally distributed with a mean of $780$ mm and a standard deviation of $40$ mm. What percentage of years have a rainfall above $860$ mm?",
+        "structure": "context-interval",
+        "solution_text": "$860$ is $2$ standard deviations above $780$.\n$P(X > 860)$\n$= (100\\% - 95\\%) \\div 2$\n$= 2.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$780$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$860$};\n\\node at (2.9,1.1) {$2.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The volume of juice in a carton is normally distributed with a mean of $620$ mL and a standard deviation of $15$ mL. What percentage of cartons contain less than $605$ mL?",
+        "structure": "context-interval",
+        "solution_text": "$605$ is $1$ standard deviation below $620$.\n$P(X < 605)$\n$= (100\\% - 68\\%) \\div 2$\n$= 16\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$605$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$620$};\n\\node at (-2.3,1.3) {$16\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed with a mean of $60$ and a standard deviation of $4$. Between which two values do $95\\%$ of the scores lie?",
+        "structure": "reverse-interval",
+        "solution_text": "$95\\%$ lies within $2$ standard deviations of the mean.\n$60 - 2(4)$ and $60 + 2(4)$\n$= 52$ and $68$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:2, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$52$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$60$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$68$};\n\\node at (0,1.1) {$95\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed with a mean of $480$ and a standard deviation of $25$. Between which two values do $68\\%$ of the scores lie?",
+        "structure": "reverse-interval",
+        "solution_text": "$68\\%$ lies within $1$ standard deviation of the mean.\n$480 - 25$ and $480 + 25$\n$= 455$ and $505$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-1,0) -- plot[domain=-1:1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$455$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$480$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$505$};\n\\node at (0,1.1) {$68\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A dataset is normally distributed with a mean of $84$. Exactly $2.5\\%$ of the scores are above $96$. Find the standard deviation.",
+        "structure": "reverse-interval",
+        "solution_text": "$2.5\\%$ of scores lie above $\\mu + 2\\sigma$, so $96 = 84 + 2\\sigma$.\n$2\\sigma$\n$= 96 - 84$\n$= 12$\n$\\sigma = 6$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$84$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$96$};\n\\node at (2.9,1.1) {$2.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed with a mean of $78$. Exactly $16\\%$ of the scores are below $71$. Find the standard deviation.",
+        "structure": "reverse-interval",
+        "solution_text": "$16\\%$ of scores lie below $\\mu - \\sigma$, so $71 = 78 - \\sigma$.\n$\\sigma$\n$= 78 - 71$\n$= 7$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$71$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$78$};\n\\node at (-2.3,1.3) {$16\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A dataset is normally distributed. What percentage of scores lie either below $\\mu - \\sigma$ or above $\\mu + 2\\sigma$?",
+        "structure": "tail-beyond-k-sd",
+        "solution_text": "$16\\% + 2.5\\%$\n$= 18.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$\\mu+2\\sigma$};\n\\node at (-2.4,1.3) {$16\\%$};\n\\node at (2.9,1.1) {$2.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The time a machine takes to complete one cycle is normally distributed with a mean of $25$ seconds and a standard deviation of $3$ seconds. One cycle takes $34$ seconds. Use the empirical rule to decide whether this is unusual.",
+        "structure": "judgement",
+        "solution_text": "$34 = 25 + 3(3)$, so the time is $3$ standard deviations above the mean.\n$P(X > 34)$\n$= (100\\% - 99.7\\%) \\div 2$\n$= 0.15\\%$\nOnly about $0.15\\%$ of cycles take this long, so a cycle of $34$ seconds is unusual.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (3,0) -- plot[domain=3:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$25$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$34$};\n\\node at (3.4,1.1) {$0.15\\%$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

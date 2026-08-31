@@ -1,0 +1,113 @@
+{
+  "skillId": "average-rate-of-change",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **average rate of change** of $y = f(x)$ over $[a, b]$ is how much $y$ changes per unit of $x$ on average. It is the gradient of the **secant**, the straight line through $(a, f(a))$ and $(b, f(b))$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (5.9,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.4) node[above] {$y$};\n\\draw[thick,blue,domain=0.3:5.0,smooth,variable=\\x] plot (\\x, {0.18*\\x*\\x + 0.4}) node[above left] {$y=f(x)$};\n\\draw[dashed,gray] (1.2,0.6592) -- (4.3,0.6592) node[midway,below,font=\\small] {$\\Delta x$};\n\\draw[dashed,gray] (4.3,0.6592) -- (4.3,3.7282) node[midway,right,font=\\small] {$\\Delta y$};\n\\draw[thick,red] (0.8,0.2632) -- (4.8,4.2232) node[right,font=\\small] {secant};\n\\fill (1.2,0.6592) circle (2.5pt);\n\\fill (4.3,3.7282) circle (2.5pt);\n\\node[above left,font=\\small] at (1.2,0.6592) {$(a,f(a))$};\n\\node[above left,font=\\small] at (4.3,3.7282) {$(b,f(b))$};\n\\draw (1.2,0) -- (1.2,-0.12) node[below] {$a$};\n\\draw (4.3,0) -- (4.3,-0.12) node[below] {$b$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "$\\text{Average rate of change} = \\dfrac{f(b) - f(a)}{b - a} = \\dfrac{\\Delta y}{\\Delta x}$.",
+          "A **secant** is a straight line joining two points $(a, f(a))$ and $(b, f(b))$ on a curve.",
+          "The average rate of change over $[a, b]$ equals the gradient of the secant across that interval.",
+          "For a linear function $y = mx + c$, the average rate of change over every interval is $m$.",
+          "For a curve, the average rate of change is different over different intervals.",
+          "A rate carries compound units: units of $y$ per unit of $x$, such as $\\text{m/s}$ or $^{\\circ}\\text{C/min}$."
+        ],
+        "steps": [
+          "Identify the interval $[a, b]$ and find the corresponding function values $f(a)$ and $f(b)$.",
+          "Substitute the values into the formula $\\text{Average rate} = \\dfrac{f(b) - f(a)}{b - a}$.",
+          "Calculate the gradient of the secant line and attach the correct rate units."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Calculate the average rate of change of $f(x) = x^2 + 1$ over the interval $[1, 4]$.",
+        "structure": "calculate-secant-gradient-algebraic",
+        "solution_text": "$f(1) = 1^2 + 1 = 2$\n$f(4) = 4^2 + 1 = 17$\n$\\text{Average rate} = \\dfrac{f(4) - f(1)}{4 - 1}$\n$= \\dfrac{17 - 2}{3}$\n$= \\dfrac{15}{3}$\n$= 5$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ shows a secant line joining $(1, 2)$ and $(5, 14)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/3,2/6,3/9,4/12,5/15} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(0.5,0.4) (1,0.67) (2,1.33) (3,2.33) (4,3.5) (5,4.67) (5.5,5.3)} node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0.5,0.17) -- (5.5,5.17);\n\\fill (1,0.67) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (1,0.67) {$(1,2)$};\n\\fill (5,4.67) circle (2.5pt);\n\\node[below right,font=\\scriptsize,fill=white,inner sep=1pt] at (5,4.67) {$(5,14)$};\n\\end{tikzpicture}\n[/tikz]\nFind the gradient of the secant line.",
+        "structure": "read-secant-gradient-graph",
+        "solution_text": "$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$\n$= \\dfrac{14 - 2}{5 - 1}$\n$= \\dfrac{12}{4}$\n$= 3$"
+      },
+      {
+        "question_text": "A water tank drains such that the volume of water $V(t)$ in litres after $t$ minutes is given by $V(t) = 120 - 4t$. Calculate the average rate of change of volume over the interval $[2, 7]$.",
+        "structure": "interpret-average-rate-context",
+        "solution_text": "$V(2) = 120 - 4(2) = 112\\text{ L}$\n$V(7) = 120 - 4(7) = 92\\text{ L}$\n$\\text{Average rate} = \\dfrac{V(7) - V(2)}{7 - 2}$\n$= \\dfrac{92 - 112}{5}$\n$= \\dfrac{-20}{5}$\n$= -4\\text{ L/min}$"
+      },
+      {
+        "question_text": "Find the average rate of change of $f(x) = 4x - 3$ over the interval $[2, 8]$.",
+        "structure": "calculate-secant-gradient-algebraic",
+        "solution_text": "$f(2) = 4(2) - 3 = 5$\n$f(8) = 4(8) - 3 = 29$\n$\\text{Average rate} = \\dfrac{29 - 5}{8 - 2}$\n$= \\dfrac{24}{6}$\n$= 4$"
+      },
+      {
+        "question_text": "The graph shows the temperature $T$ ($^{\\circ}\\text{C}$) of a warming liquid over time $t$ (minutes).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$T$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/10,2/20,3/30,4/40,5/50} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(0,1) (1,1.8) (2,2.5) (3,3.1) (4,3.6) (5,4.0)} node[above left] {$T(t)$};\n\\draw[thick,dashed,red] (0,1) -- (4,3.6);\n\\fill (0,1) circle (2.5pt);\n\\node[right,font=\\scriptsize,fill=white,inner sep=1pt] at (0,1) {$(0,10)$};\n\\fill (4,3.6) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (4,3.6) {$(4,36)$};\n\\node[rotate=90] at (-1.3,2.75) {Temperature ($^{\\circ}\\text{C}$)};\n\\node[below] at (3.2,-0.9) {Time (min)};\n\\end{tikzpicture}\n[/tikz]\nCalculate the average rate of temperature increase over the first $4$ minutes.",
+        "structure": "read-secant-gradient-graph",
+        "solution_text": "$\\text{Average rate} = \\dfrac{36 - 10}{4 - 0}$\n$= \\dfrac{26}{4}$\n$= 6.5^{\\circ}\\text{C/min}$"
+      },
+      {
+        "question_text": "The height $H$ of a sunflower in centimetres is measured as $H(3) = 15\\text{ cm}$ at $3$ weeks and $H(7) = 39\\text{ cm}$ at $7$ weeks. Calculate the average growth rate of the sunflower between week $3$ and week $7$.",
+        "structure": "interpret-average-rate-context",
+        "solution_text": "$\\text{Average rate} = \\dfrac{H(7) - H(3)}{7 - 3}$\n$= \\dfrac{39 - 15}{4}$\n$= \\dfrac{24}{4}$\n$= 6\\text{ cm/week}$"
+      },
+      {
+        "question_text": "For the function $f(x) = x^2$, calculate the average rate of change over the interval $[1, 2]$ and over the interval $[2, 3]$. State which interval has the greater rate.",
+        "structure": "compare-secants-different-intervals",
+        "solution_text": "$\\text{Over }[1, 2]: \\dfrac{f(2) - f(1)}{2 - 1} = \\dfrac{4 - 1}{1} = 3$\n$\\text{Over }[2, 3]: \\dfrac{f(3) - f(2)}{3 - 2} = \\dfrac{9 - 4}{1} = 5$\n$\\text{The interval }[2, 3]\\text{ has the greater average rate of change } (5 > 3).$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Calculate the average rate of change of $f(x) = 2x^2 - 3x + 4$ over the interval $[1, 5]$.",
+        "structure": "calculate-secant-gradient-algebraic",
+        "solution_text": "$f(1) = 2(1)^2 - 3(1) + 4 = 3$\n$f(5) = 2(5)^2 - 3(5) + 4 = 50 - 15 + 4 = 39$\n$\\text{Average rate} = \\dfrac{f(5) - f(1)}{5 - 1}$\n$= \\dfrac{39 - 3}{4}$\n$= \\dfrac{36}{4}$\n$= 9$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ passes through $A(-2, 8)$ and $B(4, -4)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3.5,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {-2/-4,1/2,2/4,3/6,4/8} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(-3,5.2) (-2,4) (0,2) (2,0) (4,-2) (5,-3)} node[above right] {$y=f(x)$};\n\\draw[thick,dashed,red] (-2.5,4.5) -- (4.5,-2.5);\n\\fill (-2,4) circle (2.5pt);\n\\node[above right,font=\\scriptsize,fill=white,inner sep=1pt] at (-2,4) {$A(-2,8)$};\n\\fill (4,-2) circle (2.5pt);\n\\node[below left,font=\\scriptsize,fill=white,inner sep=1pt] at (4,-2) {$B(4,-4)$};\n\\end{tikzpicture}\n[/tikz]\nFind the average rate of change of $f(x)$ over the interval $[-2, 4]$.",
+        "structure": "read-secant-gradient-graph",
+        "solution_text": "$m = \\dfrac{y_2 - y_1}{x_2 - x_1}$\n$= \\dfrac{-4 - 8}{4 - (-2)}$\n$= \\dfrac{-12}{6}$\n$= -2$"
+      },
+      {
+        "question_text": "A weather balloon rises so that its altitude $A(t)$ in metres at time $t$ seconds is $A(t) = 3t^2 + 10t$. Calculate the average vertical velocity between $t = 2\\text{ s}$ and $t = 6\\text{ s}$.",
+        "structure": "interpret-average-rate-context",
+        "solution_text": "$A(2) = 3(2)^2 + 10(2) = 12 + 20 = 32\\text{ m}$\n$A(6) = 3(6)^2 + 10(6) = 108 + 60 = 168\\text{ m}$\n$\\text{Average velocity} = \\dfrac{A(6) - A(2)}{6 - 2}$\n$= \\dfrac{168 - 32}{4}$\n$= \\dfrac{136}{4}$\n$= 34\\text{ m/s}$"
+      },
+      {
+        "question_text": "Find the average rate of change of $f(x) = \\dfrac{18}{x}$ over the interval $[2, 6]$.",
+        "structure": "calculate-secant-gradient-algebraic",
+        "solution_text": "$f(2) = \\dfrac{18}{2} = 9$\n$f(6) = \\dfrac{18}{6} = 3$\n$\\text{Average rate} = \\dfrac{f(6) - f(2)}{6 - 2}$\n$= \\dfrac{3 - 9}{4}$\n$= \\dfrac{-6}{4}$\n$= -1.5$"
+      },
+      {
+        "question_text": "The table shows the population $P$ of a bacteria culture over several hours $t$:\n$\\begin{array}{c|cccc} t\\text{ (hours)} & 0 & 2 & 4 & 6 \\\\ \\hline P & 100 & 160 & 280 & 520 \\end{array}$\nCompare the average rate of population growth between $[0, 2]$ and between $[4, 6]$.",
+        "structure": "compare-secants-different-intervals",
+        "solution_text": "$\\text{Rate over }[0, 2] = \\dfrac{160 - 100}{2 - 0} = \\dfrac{60}{2} = 30\\text{ bacteria/h}$\n$\\text{Rate over }[4, 6] = \\dfrac{520 - 280}{6 - 4} = \\dfrac{240}{2} = 120\\text{ bacteria/h}$\n$\\text{The average growth rate increases from } 30\\text{ bacteria/h to } 120\\text{ bacteria/h as the culture grows.}$"
+      },
+      {
+        "question_text": "The trajectory of a projectile is graphed with points $P(1, 25)$ and $Q(4, 40)$, where $h$ is height in metres and $t$ is time in seconds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$h$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/10,2/20,3/30,4/40,5/50} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(0,0) (1,2.5) (2,4.0) (3,4.5) (4,4.0) (5,2.5) (6,0)} node[above left] {$h(t)$};\n\\draw[thick,dashed,red] (0,2.0) -- (5,4.5);\n\\fill (1,2.5) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (1,2.5) {$P(1,25)$};\n\\fill (4,4.0) circle (2.5pt);\n\\node[above right,font=\\scriptsize,fill=white,inner sep=1pt] at (4,4.0) {$Q(4,40)$};\n\\node[rotate=90] at (-1.3,2.75) {Height (m)};\n\\node[below] at (3.2,-0.9) {Time (s)};\n\\end{tikzpicture}\n[/tikz]\nFind the average rate of change in height between $t = 1\\text{ s}$ and $t = 4\\text{ s}$.",
+        "structure": "read-secant-gradient-graph",
+        "solution_text": "$\\text{Average rate} = \\dfrac{40 - 25}{4 - 1}$\n$= \\dfrac{15}{3}$\n$= 5\\text{ m/s}$"
+      },
+      {
+        "question_text": "An electric car battery discharges during a trip. The remaining energy $E(t)$ in kilowatt-hours after $t$ hours is $E(t) = 80 - 12t - t^2$. Calculate the average rate of energy consumption over the interval $[1, 3]$.",
+        "structure": "interpret-average-rate-context",
+        "solution_text": "$E(1) = 80 - 12(1) - 1^2 = 67\\text{ kWh}$\n$E(3) = 80 - 12(3) - 3^2 = 80 - 36 - 9 = 35\\text{ kWh}$\n$\\text{Average rate} = \\dfrac{E(3) - E(1)}{3 - 1}$\n$= \\dfrac{35 - 67}{2}$\n$= \\dfrac{-32}{2}$\n$= -16\\text{ kWh/h}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For $f(x) = x^2 + 4x$, show that the average rate of change over the interval $[c, c+h]$ simplifies to $2c + h + 4$.",
+        "structure": "calculate-secant-gradient-algebraic",
+        "solution_text": "$f(c+h) = (c+h)^2 + 4(c+h) = c^2 + 2ch + h^2 + 4c + 4h$\n$f(c) = c^2 + 4c$\n$\\text{Average rate} = \\dfrac{f(c+h) - f(c)}{h}$\n$= \\dfrac{(c^2 + 2ch + h^2 + 4c + 4h) - (c^2 + 4c)}{h}$\n$= \\dfrac{2ch + h^2 + 4h}{h}$\n$= 2c + h + 4$"
+      },
+      {
+        "question_text": "A spherical balloon is being inflated such that its volume in cubic centimetres is $V(r) = \\dfrac{4}{3}\\pi r^3$. Determine the exact average rate of change of volume with respect to the radius as $r$ increases from $3\\text{ cm}$ to $6\\text{ cm}$.",
+        "structure": "interpret-average-rate-context",
+        "solution_text": "$V(3) = \\dfrac{4}{3}\\pi(3^3) = 36\\pi$\n$V(6) = \\dfrac{4}{3}\\pi(6^3) = 288\\pi$\n$\\text{Average rate} = \\dfrac{V(6) - V(3)}{6 - 3}$\n$= \\dfrac{288\\pi - 36\\pi}{3}$\n$= \\dfrac{252\\pi}{3}$\n$= 84\\pi\\text{ cm}^3/\\text{cm}$"
+      },
+      {
+        "question_text": "For $f(x) = x^3$, calculate the average rate of change over the intervals $[1, 2]$, $[1, 1.5]$, and $[1, 1.1]$, and describe how the gradient of the secant line changes as the interval length decreases.",
+        "structure": "compare-secants-different-intervals",
+        "solution_text": "$\\text{Over }[1, 2]: \\dfrac{2^3 - 1^3}{2 - 1} = \\dfrac{7}{1} = 7$\n$\\text{Over }[1, 1.5]: \\dfrac{1.5^3 - 1^3}{1.5 - 1} = \\dfrac{3.375 - 1}{0.5} = 4.75$\n$\\text{Over }[1, 1.1]: \\dfrac{1.1^3 - 1^3}{1.1 - 1} = \\dfrac{1.331 - 1}{0.1} = 3.31$\n$\\text{As the interval shrinks towards } x = 1\\text{, the average rate of change decreases from } 7\\text{ to } 3.31\\text{, showing that the secant line becomes less steep.}$"
+      }
+    ]
+  }
+}

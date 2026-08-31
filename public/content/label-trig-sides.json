@@ -2,21 +2,22 @@
   "skillId": "label-trig-sides",
   "atomType": "T",
   "theory": {
-    "intro": "The three sides of a right-angled triangle get their names from one chosen acute angle. Two of those names swap over the moment you look at the triangle from the other acute angle, so every naming question starts by finding the marked angle.",
-    "facts": [
-      "The **hypotenuse** is the side opposite the right angle. It is the longest side, and it is the same side whichever acute angle you work from.",
-      "The **opposite** side is the side across the triangle from the marked angle — it does not touch that angle.",
-      "The **adjacent** side is the side that touches the marked angle and is **not** the hypotenuse.",
-      "The hypotenuse touches the marked angle too, so touching the angle is not enough to make a side the adjacent side.",
-      "Move the marked angle to the other acute angle and the opposite and adjacent sides swap; the hypotenuse does not move.",
-      "A side may be named by a single pronumeral ($p$) or by its two end vertices ($PQ$, which is the same side as $QP$)."
-    ],
-    "steps": [
-      "Find the hypotenuse, opposite the right angle",
-      "Find the opposite side, across from the marked angle",
-      "Name the remaining side the adjacent side"
-    ]
-  },
+        "intro": "The three sides of a right-angled triangle are named from one chosen acute angle. Two of those names swap if you work from the other acute angle, so always start by finding the marked angle.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {Adjacent};\n\\draw (Q)--(R) node[midway,above right] {Hypotenuse};\n\\draw (R)--(P) node[midway,left] {Opposite};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\theta$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=R--Q--P};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The **hypotenuse** is the longest side, the one opposite the right angle.",
+          "The hypotenuse is the same side whichever acute angle you work from.",
+          "The **opposite** side is the side across the triangle from the marked angle; it does not touch that angle.",
+          "The **adjacent** side is the side that touches the marked angle and is **not** the hypotenuse.",
+          "The hypotenuse touches the marked angle too, so touching the angle is not enough to make a side the adjacent side.",
+          "Mark the other acute angle instead and the opposite and adjacent sides swap, while the hypotenuse stays the same side.\n[tikz]\n\\begin{tikzpicture}[scale=1]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (4.2,0);\n\\coordinate (R) at (0,3.2);\n\\draw (P)--(Q) node[midway,below] {Opposite};\n\\draw (Q)--(R) node[midway,above right] {Hypotenuse};\n\\draw (R)--(P) node[midway,left] {Adjacent};\n\\coordinate (ra1) at ($(P)!0.32cm!(Q)$);\n\\coordinate (ra2) at ($(P)!0.32cm!(R)$);\n\\draw (ra1)--($(ra1)+(ra2)-(P)$)--(ra2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.62cm,angle eccentricity=1.75] {angle=P--R--Q};\n\\end{tikzpicture}\n[/tikz]",
+          "A side may be named by a single pronumeral ($p$) or by its two end vertices ($PQ$, the same side as $QP$)."
+        ],
+        "steps": [
+          "Find the hypotenuse, opposite the right angle",
+          "Find the opposite side, across from the marked angle",
+          "Name the remaining side the adjacent side"
+        ]
+      },
   "practice": {
     "foundation": [
       {

@@ -1,0 +1,108 @@
+{
+  "skillId": "cumulative-distribution-function",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{3x^{2}}{26}$ on $[1,3]$, and $0$ elsewhere. Find its cumulative distribution function $F(x)$.",
+      "structure": "find-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{x^{3} - 1}{26}$", "correct": true },
+        { "text": "$\\dfrac{x^{3}}{26}$", "why": "Never substitutes the lower limit $t = 1$, so $F(1)$ does not come out as $0$." },
+        { "text": "$\\dfrac{x^{3} - 1}{78}$", "why": "Divides by $3$ as well as integrating, using $\\frac{t^{3}}{3}$ and keeping the $3$ in the numerator." },
+        { "text": "$\\dfrac{x^{3}}{78}$", "why": "Both slips together: the extra division by $3$ and the missing lower limit." }
+      ],
+      "solution_text": "$F(x) = \\int_{1}^{x}\\dfrac{3t^{2}}{26}\\,dt$\n$= \\left[\\dfrac{t^{3}}{26}\\right]_{1}^{x}$\n$= \\dfrac{x^{3} - 1}{26}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{2e^{2x}}{e^{6} - 1}$ on $[0,3]$, and $0$ elsewhere. Find its cumulative distribution function $F(x)$.",
+      "structure": "find-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{e^{2x} - 1}{e^{6} - 1}$", "correct": true },
+        { "text": "$\\dfrac{e^{2x}}{e^{6} - 1}$", "why": "Never substitutes the lower limit $t = 0$, so the $-1$ from $e^{0}$ is missing." },
+        { "text": "$\\dfrac{2\\left(e^{2x} - 1\\right)}{e^{6} - 1}$", "why": "Keeps the factor $2$ instead of cancelling it against the $\\frac{1}{2}$ from integrating $e^{2t}$." },
+        { "text": "$\\dfrac{2e^{2x}}{e^{6} - 1}$", "why": "Both slips together: the leftover factor $2$ and the missing lower limit." }
+      ],
+      "solution_text": "$F(x) = \\int_{0}^{x}\\dfrac{2e^{2t}}{e^{6} - 1}\\,dt$\n$= \\dfrac{2}{e^{6} - 1}\\left[\\dfrac{e^{2t}}{2}\\right]_{0}^{x}$\n$= \\dfrac{e^{2x} - 1}{e^{6} - 1}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{4} - 1}{624}$ on $[1,5]$. Find $P(2 \\le X \\le 3)$.",
+      "structure": "probability-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{65}{624}$", "correct": true },
+        { "text": "$\\dfrac{95}{624}$", "why": "Adds $F(3)$ and $F(2)$ instead of subtracting them." },
+        { "text": "$\\dfrac{559}{624}$", "why": "Gives the complement, $1 - \\left(F(3) - F(2)\\right)$, which is the probability outside the interval." },
+        { "text": "$\\dfrac{529}{624}$", "why": "Both slips together: the two values are added and then the complement is taken." }
+      ],
+      "solution_text": "$P(2 \\le X \\le 3) = F(3) - F(2)$\n$= \\dfrac{80}{624} - \\dfrac{15}{624}$\n$= \\dfrac{65}{624}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{3} + 8}{16}$ on $[-2,2]$. Find its probability density function $f(x)$.",
+      "structure": "pdf-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{3x^{2}}{16}$", "correct": true },
+        { "text": "$\\dfrac{3x^{2} + 8}{16}$", "why": "Differentiates the $x^{3}$ term but carries the constant $8$ through unchanged." },
+        { "text": "$\\dfrac{x^{2}}{16}$", "why": "Drops the factor $3$ that comes from differentiating $x^{3}$." },
+        { "text": "$\\dfrac{x^{4} + 32x}{64}$", "why": "Integrates $F$ instead of differentiating it." }
+      ],
+      "solution_text": "$f(x) = F'(x)$\n$= \\dfrac{3x^{2}}{16}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Which function could be the cumulative distribution function of a continuous random variable defined on $[0,4]$?",
+      "structure": "cdf-properties",
+      "mastery": false,
+      "options": [
+        { "text": "$F(x) = \\dfrac{x^{2}}{16}$", "correct": true },
+        { "text": "$F(x) = \\dfrac{x}{2}$", "why": "Gives $F(4) = 2$, so the total probability would exceed $1$." },
+        { "text": "$F(x) = \\dfrac{x^{3}}{16}$", "why": "Gives $F(4) = 4$, so the total probability would exceed $1$." },
+        { "text": "$F(x) = 1 - \\dfrac{x^{2}}{16}$", "why": "Decreases from $1$ down to $0$, so it runs backwards for a running total of probability." }
+      ],
+      "solution_text": "$F(0) = 0$ and $F(4) = \\dfrac{16}{16} = 1$.\n$F$ increases across $[0,4]$, so it never decreases.\n$F(x) = \\dfrac{x^{2}}{16}$ is the only one that meets all three requirements."
+    },
+    {
+      "id": "q6",
+      "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{2} - 9}{40}$ on $[3,7]$. Find $P(X > 5)$.",
+      "structure": "probability-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{3}{5}$", "correct": true },
+        { "text": "$\\dfrac{2}{5}$", "why": "Gives $F(5) = P(X \\le 5)$, the probability on the wrong side of $5$." },
+        { "text": "$\\dfrac{3}{8}$", "why": "Drops the $-9$ from $F$, using $\\frac{25}{40}$ as the value of $F(5)$." },
+        { "text": "$\\dfrac{5}{8}$", "why": "Both slips together: the $-9$ is dropped and the wrong side of $5$ is taken." }
+      ],
+      "solution_text": "$P(X > 5) = 1 - F(5)$\n$= 1 - \\dfrac{16}{40}$\n$= \\dfrac{24}{40}$\n$= \\dfrac{3}{5}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A continuous random variable has $f(x) = 0.2$ for $0 \\le x < 2$ and $f(x) = 0.3$ for $2 \\le x \\le 4$, and $0$ elsewhere. Find $F(x)$ for $2 \\le x \\le 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.0cm, y=6cm]\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.08) -- (0,0.45) node[above] {$f(x)$};\n\\draw[thick] (-0.5,0) -- (0,0);\n\\draw[thick] (0,0.2) -- (2,0.2);\n\\draw[thick] (2,0.3) -- (4,0.3);\n\\draw[dashed] (0,0.2) -- (0,0);\n\\draw[dashed] (2,0.2) -- (2,0.3);\n\\draw[dashed] (4,0.3) -- (4,0);\n\\draw[thick] (4,0) -- (5.2,0);\n\\node[left] at (0,0.2) {$0.2$};\n\\node[left] at (0,0.3) {$0.3$};\n\\node[below] at (2,0) {$2$};\n\\node[below] at (4,0) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "piecewise-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$0.3x - 0.2$", "correct": true },
+        { "text": "$0.3x$", "why": "Ignores the probability already accumulated below $x = 2$ and starts the second piece from $0$." },
+        { "text": "$0.3x - 0.6$", "why": "Subtracts $0.3 \\times 2$ instead of adding the area of $0.4$ collected on the first piece." },
+        { "text": "$0.2x + 0.3$", "why": "Uses the first piece's height with the second piece's constant, swapping the two roles." }
+      ],
+      "solution_text": "Area on the first piece is $2 \\times 0.2 = 0.4$, so $F(2) = 0.4$.\nFor $2 \\le x \\le 4$:\n$F(x) = 0.4 + \\int_{2}^{x}0.3\\,dt$\n$= 0.4 + 0.3(x - 2)$\n$= 0.3x - 0.2$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A continuous random variable defined on $[0,20]$ has cumulative distribution function $F$, with $F(6) = 0.28$ and $F(14) = 0.73$. Find the probability that $X$ lies outside the interval from $6$ to $14$.",
+      "structure": "cdf-properties",
+      "mastery": true,
+      "options": [
+        { "text": "$0.55$", "correct": true },
+        { "text": "$0.45$", "why": "Gives $F(14) - F(6)$, the probability inside the interval rather than outside it." },
+        { "text": "$1.01$", "why": "Adds the two cumulative values, which double-counts the probability below $6$." }
+      ],
+      "solution_text": "$P(X < 6) = F(6) = 0.28$\n$P(X > 14) = 1 - F(14) = 0.27$\n$P(X < 6) + P(X > 14) = 0.28 + 0.27$\n$= 0.55$"
+    }
+  ]
+}

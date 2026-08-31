@@ -4,6 +4,7 @@
   import { skillById } from '../lib/data.js';
   import { nextSkills } from '../lib/recommender.js';
   import { href } from '../lib/router.svelte.js';
+  import { getQuizHistory } from '../lib/quiz-history.js';
   import SkillCard from '../components/SkillCard.svelte';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import Math from '../components/Math.svelte';
@@ -24,6 +25,7 @@
     tick;
     return nextSkills({ limit: 6 });
   });
+  let quizHistory = $derived(getQuizHistory());
 </script>
 
 <div class="container learning-view">
@@ -57,6 +59,20 @@
     <section>
       <div class="section-heading"><div><span class="eyebrow">Ready now</span><h2>Recommended next</h2></div></div>
       <div class="grid">{#each recommended as skill}<SkillCard {skill} />{/each}</div>
+    </section>
+  {/if}
+
+  {#if quizHistory.length}
+    <section>
+      <div class="section-heading"><div><span class="eyebrow">Diagnostics</span><h2>Recent quiz results</h2></div><a href={href('/quiz-history')}>See all &rarr;</a></div>
+      <div class="learning-list">
+        {#each quizHistory.slice(0, 3) as item (item.id)}
+          <a href={href(`/quiz-history/${item.id}`)}>
+            <span class="skill-title">{item.scopeLabel ?? 'Diagnostic quiz'}</span>
+            <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        {/each}
+      </div>
     </section>
   {/if}
 

@@ -1,0 +1,205 @@
+{
+  "skillId": "graph-piecewise",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which endpoint description correctly describes the boundary at $x = 0$ for $f(x) = \\begin{cases} 2x + 3, & x < 0 \\\\ 3 - x, & x \\ge 0 \\end{cases}$?",
+      "structure": "sketch-linear-linear",
+      "mastery": false,
+      "options": [
+        {
+          "text": "An open circle at $(0,3)$ from the left branch is covered by a filled dot at $(0,3)$ from the right branch, creating a continuous join.",
+          "correct": true
+        },
+        {
+          "text": "A jump discontinuity occurs because one branch has an open circle and the other has a filled dot.",
+          "why": "Failed to recognise that both subfunctions evaluate to the same value $y = 3$ at $x = 0$."
+        },
+        {
+          "text": "Both branches must have open circles at $(0,3)$ because the boundary separates two different equations.",
+          "why": "Ignored the inclusive inequality $x \\ge 0$ which requires a filled dot."
+        },
+        {
+          "text": "The graph has two separate filled dots at $(0,3)$ and $(0,0)$.",
+          "why": "Invented an extraneous endpoint at $(0,0)$ and violated the single-value rule of functions."
+        }
+      ],
+      "solution_text": "At $x = 0$:\nLeft branch $2x + 3 \\to 3$ with open circle at $(0,3)$.\nRight branch $3 - x \\to 3$ with filled dot at $(0,3)$.\nThe filled dot covers the open circle, creating a solid continuous join."
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph of $y = f(x)$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,3) -- (0,0);\n\\fill (0,0) circle (2.5pt);\n\\draw[thick, ->, domain=0:2, smooth, variable=\\x] plot ({\\x}, {\\x*\\x + 1});\n\\draw[fill=white] (0,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nWhich piecewise rule matches the given graph?",
+      "structure": "sketch-linear-quadratic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$f(x) = \\begin{cases} -x, & x \\le 0 \\\\ x^{2} + 1, & x > 0 \\end{cases}$",
+          "correct": true
+        },
+        {
+          "text": "$f(x) = \\begin{cases} x, & x \\le 0 \\\\ x^{2} + 1, & x > 0 \\end{cases}$",
+          "why": "Used a line of slope $+1$ instead of slope $-1$ for $x \\le 0$."
+        },
+        {
+          "text": "$f(x) = \\begin{cases} -x, & x < 0 \\\\ x^{2} + 1, & x \\ge 0 \\end{cases}$",
+          "why": "Reversed the open and closed endpoint inequalities at $x = 0$."
+        },
+        {
+          "text": "$f(x) = \\begin{cases} -x, & x \\le 0 \\\\ 1 - x^{2}, & x > 0 \\end{cases}$",
+          "why": "Used a concave-down parabola $1 - x^{2}$ instead of the concave-up parabola $x^{2} + 1$."
+        }
+      ],
+      "solution_text": "For $x \\le 0$, the graph is the line $y = -x$ ending at $(0,0)$ with a filled dot.\nFor $x > 0$, the graph is the parabola $y = x^{2} + 1$ starting at $(0,1)$ with an open circle.\nRule: $f(x) = \\begin{cases} -x, & x \\le 0 \\\\ x^{2} + 1, & x > 0 \\end{cases}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find the range of the function $f(x) = \\begin{cases} -3x^{2}, & x < 0 \\\\ 4x, & x \\ge 0 \\end{cases}$.",
+      "structure": "determine-domain-range",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(-\\infty, \\infty)$",
+          "correct": true
+        },
+        {
+          "text": "$[0, \\infty)$",
+          "why": "Only accounted for the right branch $4x \\ge 0$, ignoring the negative outputs from $-3x^{2}$."
+        },
+        {
+          "text": "$(-\\infty, 0]$",
+          "why": "Only accounted for the left branch $-3x^{2} < 0$, ignoring the positive outputs from $4x$."
+        },
+        {
+          "text": "$(-\\infty, 0) \\cup (0, \\infty)$",
+          "why": "Excluded $y = 0$, but $f(0) = 4(0) = 0$ is included in the range."
+        }
+      ],
+      "solution_text": "For $x < 0$, $y = -3x^{2} < 0$, giving outputs $(-\\infty, 0)$.\nFor $x \\ge 0$, $y = 4x \\ge 0$, giving outputs $[0, \\infty)$.\nThe union of these outputs is $(-\\infty, 0) \\cup [0, \\infty) = (-\\infty, \\infty)$."
+    },
+    {
+      "id": "q4",
+      "question_text": "Which description correctly matches the graph of the piecewise function $f(x) = \\begin{cases} 3x - 4, & x \\le 2 \\\\ 7 - x^{2}, & x > 2 \\end{cases}$?",
+      "structure": "sketch-linear-quadratic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A line with positive slope ending with a filled dot at $(2,2)$, and a downward-opening parabola starting with an open circle at $(2,3)$.",
+          "correct": true
+        },
+        {
+          "text": "A line with positive slope ending with an open circle at $(2,2)$, and a downward-opening parabola starting with a filled dot at $(2,3)$.",
+          "why": "Attached the filled dot to the strict inequality $x > 2$ and the open circle to $x \\le 2$, reversing the endpoint convention."
+        },
+        {
+          "text": "A line with positive slope ending with a filled dot at $(2,2)$, and an upward-opening parabola starting with an open circle at $(2,3)$.",
+          "why": "Read $7 - x^{2}$ as having a positive leading coefficient, so treated the parabola as upward-opening instead of downward-opening."
+        },
+        {
+          "text": "A line with positive slope ending with an open circle at $(2,2)$, and an upward-opening parabola starting with a filled dot at $(2,3)$.",
+          "why": "Read $7 - x^{2}$ as upward-opening and also reversed the endpoint convention, filling the dot for $x > 2$ instead of for $x \\le 2$."
+        }
+      ],
+      "solution_text": "For $x \\le 2$, $y = 3x - 4$ is a line with positive slope $3$ that terminates at $(2, 3(2) - 4) = (2,2)$ with a filled dot because the inequality is $\\le$.\nFor $x > 2$, $y = 7 - x^{2}$ is a downward-opening parabola that starts at $(2, 7 - 2^{2}) = (2,3)$ with an open circle because the inequality is $>$.\nTherefore, the graph consists of a line with positive slope ending with a filled dot at $(2,2)$, and a downward-opening parabola starting with an open circle at $(2,3)$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The graph of $y = f(x)$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-3,-2,-1,1,2,3} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,-2) -- (-1,-2);\n\\draw[thick] (-1,-2) -- (1,2);\n\\draw[thick, ->] (1,2) -- (3,2);\n\\fill (-1,-2) circle (2.5pt);\n\\fill (1,2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nWhat is the range of $f(x)$?",
+      "structure": "sketch-three-branch",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$[-2, 2]$",
+          "correct": true
+        },
+        {
+          "text": "$(-2, 2)$",
+          "why": "Used open brackets instead of closed brackets, excluding the reachable values $\\pm 2$."
+        },
+        {
+          "text": "$(-\\infty, \\infty)$",
+          "why": "Assumed the horizontal rays extend vertically to infinity."
+        },
+        {
+          "text": "$\\{-2, 2\\}$",
+          "why": "Only listed the constant horizontal values, ignoring the connected line segment."
+        }
+      ],
+      "solution_text": "The lowest $y$-value on the graph is $-2$ and the highest is $2$.\nEvery value between $-2$ and $2$ is attained on the segment $[-1, 1]$.\n$\\text{Range} = [-2, 2]$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A piecewise function is defined on $[-3, 5]$ by $f(x) = \\begin{cases} x + 2, & -3 \\le x < 1 \\\\ 4 - x, & 1 \\le x \\le 5 \\end{cases}$. What is the range of $f(x)$?",
+      "structure": "determine-domain-range",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$[-1, 3]$",
+          "correct": true
+        },
+        {
+          "text": "$[-1, 3)$",
+          "why": "Excluded $y = 3$ because $x = 1$ is outside the first branch, missing that the second branch gives $f(1) = 4 - 1 = 3$."
+        },
+        {
+          "text": "$[-3, 3]$",
+          "why": "Copied the smallest domain value $-3$ as the smallest $y$-value instead of evaluating $f(-3) = -3 + 2 = -1$."
+        },
+        {
+          "text": "$[-3, 3)$",
+          "why": "Copied the domain's left endpoint $-3$ as the minimum $y$-value and also excluded $y = 3$, overlooking that $f(1) = 3$."
+        }
+      ],
+      "solution_text": "For $-3 \\le x < 1$, $y = x + 2$ ranges from $-3 + 2 = -1$ up to $1 + 2 = 3$ (open): $[-1, 3)$.\nFor $1 \\le x \\le 5$, $y = 4 - x$ ranges from $4 - 5 = -1$ up to $4 - 1 = 3$ (closed): $[-1, 3]$.\nThe combined range is $[-1, 3]$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Which statement correctly classifies the symmetry of $f(x) = \\begin{cases} -x, & x < 0 \\\\ x^{2}, & x \\ge 0 \\end{cases}$?",
+      "structure": "test-even-odd-parity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Neither even nor odd",
+          "correct": true
+        },
+        {
+          "text": "Even, because both branches produce non-negative outputs",
+          "why": "Non-negativity does not imply reflection symmetry $f(-x) = f(x)$."
+        },
+        {
+          "text": "Odd, because the left branch is a line and the right branch is a curve",
+          "why": "An odd function requires $f(-x) = -f(x)$, which fails here."
+        },
+        {
+          "text": "Even, because $f(0) = 0$",
+          "why": "Passing through the origin does not determine whether a function is even."
+        }
+      ],
+      "solution_text": "For $x = 2$, $f(2) = 2^{2} = 4$.\nFor $x = -2$, $f(-2) = -(-2) = 2$.\nSince $f(-2) \\neq f(2)$ ($2 \\neq 4$) and $f(-2) \\neq -f(2)$ ($2 \\neq -4$), the function is neither even nor odd."
+    },
+    {
+      "id": "q8",
+      "question_text": "Given $f(x) = \\begin{cases} 3 - x^{2}, & x \\le 1 \\\\ 2x + k, & x > 1 \\end{cases}$, find the value of $k$ that makes the two branches join at a single continuous endpoint at $x = 1$.",
+      "structure": "sketch-linear-quadratic",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$0$",
+          "correct": true
+        },
+        {
+          "text": "$2$",
+          "why": "Equated $2(1) + k = 4$ instead of equating to $3 - 1^{2} = 2$."
+        },
+        {
+          "text": "$-1$",
+          "why": "Subtracted $2$ from $1$ instead of solving $2 + k = 2$."
+        },
+        {
+          "text": "$4$",
+          "why": "Added $2 + 2$ instead of solving $2 + k = 2$ for $k$."
+        }
+      ],
+      "solution_text": "For the branches to meet at $x = 1$, their boundary values must be equal:\n$3 - (1)^{2} = 2(1) + k$\n$3 - 1 = 2 + k$\n$2 = 2 + k$\n$k = 0$"
+    }
+  ]
+}

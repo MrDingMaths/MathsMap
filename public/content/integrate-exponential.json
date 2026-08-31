@@ -1,0 +1,153 @@
+{
+  "skillId": "integrate-exponential",
+  "atomType": "R",
+  "theory": {
+    "intro": "Integrating an exponential undoes differentiating it. Since differentiating $e^{ax+b}$ multiplies by $a$, integrating it divides by $a$: $\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$. The index itself never changes.",
+    "facts": [
+      "$\\int e^{x}\\,dx = e^{x} + C$, because $e^{x}$ is its own derivative.",
+      "$\\int e^{ax+b}\\,dx = \\dfrac{1}{a}e^{ax+b} + C$ for constants $a \\ne 0$ and $b$.",
+      "Differentiating multiplies by $a$, so integrating divides by $a$; losing that $\\dfrac{1}{a}$ is the most common error.",
+      "A constant factor passes straight through: $\\int ke^{ax+b}\\,dx = \\dfrac{k}{a}e^{ax+b} + C$.",
+      "When $a$ is negative the divisor is negative, so $\\int e^{-x}\\,dx = -e^{-x} + C$.",
+      "The index is never raised by one, because the power rule does not apply to $e^{x}$.",
+      "Rewrite $\\dfrac{1}{e^{ax+b}}$ as $e^{-ax-b}$ before integrating.",
+      "There is no product rule for integration, so expand a product such as $e^{x}\\left(e^{x}+1\\right)$ first.",
+      "For a definite integral write $\\left[F(x)\\right]_{p}^{q}$ and compute $F(q) - F(p)$ in that order.",
+      "Check any primitive by differentiating it: the result must be the original integrand."
+    ],
+    "steps": [
+      "Rewrite the integrand so every term is a single power of $e$, expanding brackets or splitting fractions first.",
+      "Write down $e$ to the same index, unchanged.",
+      "Divide by $a$, the coefficient of $x$ in the index, keeping any constant factor.",
+      "Add $+C$ for an indefinite integral, or evaluate $\\left[F(x)\\right]_{p}^{q}$ for a definite one."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\int 4e^{x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-to-the-x",
+        "solution_text": "$\\int 4e^{x}\\,dx$\n$= 4e^{x} + C$"
+      },
+      {
+        "question_text": "Find $\\int e^{6x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int e^{6x}\\,dx$\n$= \\dfrac{1}{6}e^{6x} + C$"
+      },
+      {
+        "question_text": "Find $\\int 10e^{5x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int 10e^{5x}\\,dx$\n$= \\dfrac{10}{5}e^{5x} + C$\n$= 2e^{5x} + C$"
+      },
+      {
+        "question_text": "Find $\\int e^{8x-3}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int e^{8x-3}\\,dx$\n$= \\dfrac{1}{8}e^{8x-3} + C$"
+      },
+      {
+        "question_text": "Find $\\int 6e^{2x+7}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int 6e^{2x+7}\\,dx$\n$= \\dfrac{6}{2}e^{2x+7} + C$\n$= 3e^{2x+7} + C$"
+      },
+      {
+        "question_text": "Find $\\int e^{-4x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int e^{-4x}\\,dx$\n$= \\dfrac{1}{-4}e^{-4x} + C$\n$= -\\dfrac{1}{4}e^{-4x} + C$"
+      },
+      {
+        "question_text": "Find $\\int 9e^{1-3x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int 9e^{1-3x}\\,dx$\n$= \\dfrac{9}{-3}e^{1-3x} + C$\n$= -3e^{1-3x} + C$"
+      },
+      {
+        "question_text": "Find $\\int e^{\\frac{x}{4}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int e^{\\frac{x}{4}}\\,dx$\n$= \\dfrac{1}{\\frac{1}{4}}e^{\\frac{x}{4}} + C$\n$= 4e^{\\frac{x}{4}} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\left(2e^{3x} + e^{-x}\\right)dx$ in simplest form, with $+C$.",
+        "structure": "integrate-e-linear-index",
+        "solution_text": "$\\int \\left(2e^{3x} + e^{-x}\\right)dx$\n$= \\dfrac{2}{3}e^{3x} + \\dfrac{1}{-1}e^{-x} + C$\n$= \\dfrac{2}{3}e^{3x} - e^{-x} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{5}{e^{2x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "rewrite-as-power-of-e",
+        "solution_text": "$\\int \\dfrac{5}{e^{2x}}\\,dx$\n$= \\int 5e^{-2x}\\,dx$\n$= \\dfrac{5}{-2}e^{-2x} + C$\n$= -\\dfrac{5}{2}e^{-2x} + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int \\dfrac{12}{e^{4x-1}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "rewrite-as-power-of-e",
+        "solution_text": "$\\int \\dfrac{12}{e^{4x-1}}\\,dx$\n$= \\int 12e^{1-4x}\\,dx$\n$= \\dfrac{12}{-4}e^{1-4x} + C$\n$= -3e^{1-4x} + C$"
+      },
+      {
+        "question_text": "Find $\\int e^{2x}\\left(e^{2x} - 3\\right)dx$ in simplest form, with $+C$.",
+        "structure": "expand-before-integrating",
+        "solution_text": "$\\int e^{2x}\\left(e^{2x} - 3\\right)dx$\n$= \\int \\left(e^{4x} - 3e^{2x}\\right)dx$\n$= \\dfrac{1}{4}e^{4x} - \\dfrac{3}{2}e^{2x} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\left(e^{x} + 2\\right)^{2}dx$ in simplest form, with $+C$.",
+        "structure": "expand-before-integrating",
+        "solution_text": "$\\int \\left(e^{x} + 2\\right)^{2}dx$\n$= \\int \\left(e^{2x} + 4e^{x} + 4\\right)dx$\n$= \\dfrac{1}{2}e^{2x} + 4e^{x} + 4x + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{e^{3x} - e^{x}}{e^{2x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "expand-before-integrating",
+        "solution_text": "$\\int \\dfrac{e^{3x} - e^{x}}{e^{2x}}\\,dx$\n$= \\int \\left(e^{x} - e^{-x}\\right)dx$\n$= e^{x} + e^{-x} + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2} e^{3x}\\,dx$, giving the exact value.",
+        "structure": "definite-exponential-integral",
+        "solution_text": "$\\int_{0}^{2} e^{3x}\\,dx$\n$= \\left[\\dfrac{1}{3}e^{3x}\\right]_{0}^{2}$\n$= \\dfrac{1}{3}e^{6} - \\dfrac{1}{3}e^{0}$\n$= \\dfrac{1}{3}\\left(e^{6} - 1\\right)$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{-1}^{1} 8e^{4x}\\,dx$, giving the exact value.",
+        "structure": "definite-exponential-integral",
+        "solution_text": "$\\int_{-1}^{1} 8e^{4x}\\,dx$\n$= \\left[2e^{4x}\\right]_{-1}^{1}$\n$= 2e^{4} - 2e^{-4}$\n$= 2\\left(e^{4} - e^{-4}\\right)$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{2} e^{7-3x}\\,dx$, giving the exact value.",
+        "structure": "definite-exponential-integral",
+        "solution_text": "$\\int_{1}^{2} e^{7-3x}\\,dx$\n$= \\left[-\\dfrac{1}{3}e^{7-3x}\\right]_{1}^{2}$\n$= -\\dfrac{1}{3}e^{1} - \\left(-\\dfrac{1}{3}e^{4}\\right)$\n$= \\dfrac{1}{3}\\left(e^{4} - e\\right)$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{-2}^{0} 6e^{2x+1}\\,dx$, giving the exact value.",
+        "structure": "definite-exponential-integral",
+        "solution_text": "$\\int_{-2}^{0} 6e^{2x+1}\\,dx$\n$= \\left[3e^{2x+1}\\right]_{-2}^{0}$\n$= 3e^{1} - 3e^{-3}$\n$= 3\\left(e - e^{-3}\\right)$"
+      },
+      {
+        "question_text": "A function $f(x)$ has $f'(x) = e^{4x}$ and $f(0) = 1$. Find $f(x)$.",
+        "structure": "find-function-from-derivative",
+        "solution_text": "$f(x) = \\int e^{4x}\\,dx$\n$= \\dfrac{1}{4}e^{4x} + C$\nSubstituting $f(0) = 1$:\n$\\dfrac{1}{4}e^{0} + C = 1$\n$\\dfrac{1}{4} + C = 1$\n$C = \\dfrac{3}{4}$\n$f(x) = \\dfrac{1}{4}e^{4x} + \\dfrac{3}{4}$"
+      },
+      {
+        "question_text": "The gradient of a curve is $\\dfrac{dy}{dx} = e^{3-x}$ and the curve passes through $(3, 5)$. Find the equation of the curve.",
+        "structure": "find-function-from-derivative",
+        "solution_text": "$y = \\int e^{3-x}\\,dx$\n$= -e^{3-x} + C$\nSubstituting $(3, 5)$:\n$-e^{0} + C = 5$\n$-1 + C = 5$\n$C = 6$\n$y = 6 - e^{3-x}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find $\\int \\sqrt[3]{e^{2x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "rewrite-as-power-of-e",
+        "solution_text": "$\\int \\sqrt[3]{e^{2x}}\\,dx$\n$= \\int e^{\\frac{2x}{3}}\\,dx$\n$= \\dfrac{1}{\\frac{2}{3}}e^{\\frac{2x}{3}} + C$\n$= \\dfrac{3}{2}e^{\\frac{2x}{3}} + C$"
+      },
+      {
+        "question_text": "A curve $y = f(x)$ has $f''(x) = 4e^{2x}$ and a stationary point at $(0, 3)$. Find $f(x)$.",
+        "structure": "find-function-from-derivative",
+        "solution_text": "$f'(x) = \\int 4e^{2x}\\,dx$\n$= 2e^{2x} + C_{1}$\nA stationary point at $x = 0$ gives $f'(0) = 0$:\n$2e^{0} + C_{1} = 0$\n$C_{1} = -2$\n$f'(x) = 2e^{2x} - 2$\n$f(x) = \\int \\left(2e^{2x} - 2\\right)dx$\n$= e^{2x} - 2x + C_{2}$\nSubstituting $f(0) = 3$:\n$e^{0} + C_{2} = 3$\n$C_{2} = 2$\n$f(x) = e^{2x} - 2x + 2$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{1} \\left(e^{2x} - 1\\right)\\left(e^{2x} + 1\\right)dx$, giving the exact value.",
+        "structure": "definite-exponential-integral",
+        "solution_text": "$\\int_{0}^{1} \\left(e^{2x} - 1\\right)\\left(e^{2x} + 1\\right)dx$\n$= \\int_{0}^{1} \\left(e^{4x} - 1\\right)dx$\n$= \\left[\\dfrac{1}{4}e^{4x} - x\\right]_{0}^{1}$\n$= \\left(\\dfrac{1}{4}e^{4} - 1\\right) - \\dfrac{1}{4}$\n$= \\dfrac{e^{4} - 5}{4}$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{\\left(e^{2x} + 3\\right)^{2}}{e^{2x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "expand-before-integrating",
+        "solution_text": "$\\int \\dfrac{\\left(e^{2x} + 3\\right)^{2}}{e^{2x}}\\,dx$\n$= \\int \\dfrac{e^{4x} + 6e^{2x} + 9}{e^{2x}}\\,dx$\n$= \\int \\left(e^{2x} + 6 + 9e^{-2x}\\right)dx$\n$= \\dfrac{1}{2}e^{2x} + 6x - \\dfrac{9}{2}e^{-2x} + C$"
+      }
+    ]
+  }
+}

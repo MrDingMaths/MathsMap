@@ -1,0 +1,109 @@
+{
+  "skillId": "binomial-expected-frequency",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A crate holds $18$ avocados, each bruised independently with probability $0.05$. A total of $250$ crates are checked and the number of crates containing exactly $2$ bruised avocados is recorded. Which number is $N$, the number of times the whole experiment is repeated?",
+      "structure": "identify-n-p-bign-r",
+      "mastery": false,
+      "options": [
+        { "text": "$250$", "correct": true },
+        { "text": "$18$", "why": "This is $n$, the number of trials inside one experiment, not the number of repeats." },
+        { "text": "$0.05$", "why": "This is $p$, the probability of success for a single avocado." },
+        { "text": "$2$", "why": "This is $r$, the number of successes the count is about." }
+      ],
+      "solution_text": "One experiment is one crate of $18$ avocados.\n$n = 18$, $p = 0.05$, $r = 2$\nThe whole experiment is repeated $250$ times.\n$N = 250$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A tray holds $45$ seedlings. Each seedling survives transplanting independently with probability $0.6$. Find the expected number of seedlings in a tray that survive.",
+      "structure": "expected-successes-np",
+      "mastery": false,
+      "options": [
+        { "text": "$27$", "correct": true },
+        { "text": "$18$", "why": "Used the failure probability $0.4$ instead of the success probability $0.6$." },
+        { "text": "$10.8$", "why": "Found the variance $np(1-p)$ instead of the mean $np$." },
+        { "text": "$75$", "why": "Divided $45$ by $0.6$ instead of multiplying." }
+      ],
+      "solution_text": "$E(X) = np$\n$= 45 \\times 0.6$\n$= 27$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A grower ships $210$ cartons, each containing $7$ pineapples. Each pineapple is under-ripe independently with probability $0.2$. Find the expected number of cartons containing exactly $2$ under-ripe pineapples, to the nearest carton.",
+      "structure": "expected-frequency-exact-r",
+      "mastery": false,
+      "options": [
+        { "text": "$58$", "correct": true },
+        { "text": "$77$", "why": "Used $r=1$ instead of $r=2$ in the binomial probability." },
+        { "text": "$179$", "why": "Used $P(X \\le 2)$ instead of $P(X = 2)$." },
+        { "text": "$152$", "why": "Used the complement $1 - P(X = 2)$ instead of $P(X = 2)$." }
+      ],
+      "solution_text": "$n = 7$, $p = 0.2$, $N = 210$, $r = 2$\n$P(X = 2) = {}^{7}C_{2}(0.2)^{2}(0.8)^{5}$\n$= 0.275251\\ldots$\n$210 \\times 0.275251\\ldots = 57.80\\ldots$\n$\\approx 58$ cartons"
+    },
+    {
+      "id": "q4",
+      "question_text": "A hatchery incubates eggs in batches of $10$. Each egg fails to hatch independently with probability $0.35$. In $160$ batches, find the expected number of batches in which exactly $5$ eggs fail to hatch, to the nearest batch.",
+      "structure": "expected-frequency-exact-r",
+      "mastery": false,
+      "options": [
+        { "text": "$25$", "correct": true },
+        { "text": "$38$", "why": "Used $r=4$ instead of $r=5$ in the binomial probability." },
+        { "text": "$145$", "why": "Used $P(X \\le 5)$ instead of $P(X = 5)$." },
+        { "text": "$135$", "why": "Used the complement $1 - P(X = 5)$ instead of $P(X = 5)$." }
+      ],
+      "solution_text": "$n = 10$, $p = 0.35$, $N = 160$, $r = 5$\n$P(X = 5) = {}^{10}C_{5}(0.35)^{5}(0.65)^{5}$\n$= 0.153570\\ldots$\n$160 \\times 0.153570\\ldots = 24.57\\ldots$\n$\\approx 25$ batches"
+    },
+    {
+      "id": "q5",
+      "question_text": "A florist sells $120$ bunches of $4$ roses. Each rose has a broken stem independently with probability $0.25$. Find the expected number of bunches containing at least one broken stem, to the nearest bunch.",
+      "structure": "expected-frequency-cumulative",
+      "mastery": false,
+      "options": [
+        { "text": "$82$", "correct": true },
+        { "text": "$38$", "why": "Stopped at $P(X = 0)$ and never subtracted it from $1$." },
+        { "text": "$51$", "why": "Used $P(X = 1)$ instead of $P(X \\ge 1)$." },
+        { "text": "$31$", "why": "Used $P(X \\ge 2)$, taking 'at least one' to start from $2$." }
+      ],
+      "solution_text": "$n = 4$, $p = 0.25$, $N = 120$\n$P(X = 0) = (0.75)^{4}$\n$= 0.316406\\ldots$\n$P(X \\ge 1) = 1 - 0.316406\\ldots$\n$= 0.683593\\ldots$\n$120 \\times 0.683593\\ldots = 82.03\\ldots$\n$\\approx 82$ bunches"
+    },
+    {
+      "id": "q6",
+      "question_text": "A cannery fills $180$ trays, each holding $8$ peaches. Each peach is undersized independently with probability $0.3$. Find the expected number of trays containing at most $2$ undersized peaches, to the nearest tray.",
+      "structure": "expected-frequency-cumulative",
+      "mastery": false,
+      "options": [
+        { "text": "$99$", "correct": true },
+        { "text": "$46$", "why": "Used $P(X < 2)$, leaving out the value $X = 2$ that 'at most $2$' includes." },
+        { "text": "$134$", "why": "Used $P(X \\ge 2)$, the complement of $P(X \\le 1)$, instead of $P(X \\le 2)$." },
+        { "text": "$53$", "why": "Used only $P(X = 2)$ instead of summing $P(X = 0)$, $P(X = 1)$ and $P(X = 2)$." }
+      ],
+      "solution_text": "$n = 8$, $p = 0.3$, $N = 180$\n$P(X = 0) = (0.7)^{8}$\n$= 0.057648\\ldots$\n$P(X = 1) = {}^{8}C_{1}(0.3)(0.7)^{7}$\n$= 0.197650\\ldots$\n$P(X = 2) = {}^{8}C_{2}(0.3)^{2}(0.7)^{6}$\n$= 0.296475\\ldots$\n$P(X \\le 2) = 0.057648\\ldots + 0.197650\\ldots + 0.296475\\ldots$\n$= 0.551774\\ldots$\n$180 \\times 0.551774\\ldots = 99.31\\ldots$\n$\\approx 99$ trays"
+    },
+    {
+      "id": "q7",
+      "question_text": "Pears are packed in boxes of $4$, and each pear is blemished independently with probability $0.25$. How many boxes must be packed for the expected number of boxes containing no blemished pears to be $76$?",
+      "structure": "reverse-expected-frequency",
+      "mastery": true,
+      "options": [
+        { "text": "$240$", "correct": true },
+        { "text": "$24$", "why": "Multiplied $76$ by the probability instead of dividing by it." },
+        { "text": "$111$", "why": "Divided by $P(X \\ge 1)$ rather than by $P(X = 0)$." },
+        { "text": "$304$", "why": "Divided by $p = 0.25$ instead of by $P(X = 0) = (0.75)^{4}$." }
+      ],
+      "solution_text": "$P(X = 0) = (0.75)^{4}$\n$= 0.316406\\ldots$\n$N \\times 0.316406\\ldots = 76$\n$N = \\frac{76}{0.316406\\ldots}$\n$= 240.19\\ldots$\n$\\approx 240$ boxes"
+    },
+    {
+      "id": "q8",
+      "question_text": "A field is planted with $250$ seedlings. Each seedling survives the summer independently with probability $0.88$. Find the expected number of seedlings that survive.",
+      "structure": "expected-successes-np",
+      "mastery": false,
+      "options": [
+        { "text": "$220$", "correct": true },
+        { "text": "$30$", "why": "Found the expected number that do not survive, using $1-p$." },
+        { "text": "$284$", "why": "Divided $250$ by $0.88$ instead of multiplying." },
+        { "text": "$26.4$", "why": "Found the variance $np(1-p)$ instead of the mean $np$." }
+      ],
+      "solution_text": "$E(X) = np$\n$= 250 \\times 0.88$\n$= 220$"
+    }
+  ]
+}

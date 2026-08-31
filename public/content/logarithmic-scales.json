@@ -2,19 +2,20 @@
   "skillId": "logarithmic-scales",
   "atomType": "Com",
   "theory": {
-    "intro": "A **logarithmic scale** measures a quantity by its *order of magnitude*: each whole step up the scale means the quantity is **ten times** larger, so a handful of small numbers can describe an enormous range. Real scales built this way include the **Richter scale** for earthquakes, **pH** for acidity, and **decibels** for sound.",
-    "facts": [
-      "**Richter scale:** $M=\\log_{10}A$, where $M$ is the magnitude and $A$ the amplitude of ground movement. Reversing it gives $A=10^{M}$.",
-      "**pH scale:** $pH=-\\log_{10}M$, where $M$ is the hydrogen-ion concentration in mol/L. The **minus sign** means a *higher* concentration gives a *lower* pH; reversing it gives $M=10^{-pH}$.",
-      "**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$, where $S$ is the loudness in decibels and $\\dfrac{I}{I_{0}}$ is how many times the intensity exceeds the hearing threshold; reversing it gives $\\dfrac{I}{I_{0}}=10^{S/10}$.",
-      "Because each step is a **multiply by ten**, a difference of $k$ whole magnitudes means one quantity is $10^{k}$ times the other, **not** $k$ times. A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
-    ],
-    "steps": [
-      "Substitute the known value into the scale's formula.",
-      "Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
-      "To compare two readings, subtract the magnitudes and raise ten to that difference."
-    ]
-  },
+        "intro": "A **logarithmic scale** measures a quantity by its order of magnitude: each whole step up the scale means ten times as much, so small numbers describe an enormous range. Real scales built this way are the **Richter scale**, **pH** and **decibels**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.9,0) -- (6.6,0);\n\\foreach \\x in {0,1.9,3.8,5.7} \\draw (\\x,-0.18) -- (\\x,0.18);\n\\node[above] at (0,0.2) {$m$};\n\\node[above] at (1.9,0.2) {$m+1$};\n\\node[above] at (3.8,0.2) {$m+2$};\n\\node[above] at (5.7,0.2) {$m+3$};\n\\node[below] at (0,-0.22) {$A$};\n\\node[below] at (1.9,-0.22) {$10A$};\n\\node[below] at (3.8,-0.22) {$100A$};\n\\node[below] at (5.7,-0.22) {$1000A$};\n\\draw[-{Stealth}] (0.2,-1.25) -- (1.7,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (2.1,-1.25) -- (3.6,-1.25) node[midway, below] {$\\times 10$};\n\\draw[-{Stealth}] (4.0,-1.25) -- (5.5,-1.25) node[midway, below] {$\\times 10$};\n\\node[left] at (-1.0,0.45) {magnitude};\n\\node[left] at (-1.0,-0.55) {value};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "**Richter scale:** $M=\\log_{10}A$ gives magnitude $M$ from ground amplitude $A$; reversed, $A=10^{M}$.",
+          "**pH scale:** $pH=-\\log_{10}M$ uses hydrogen-ion concentration $M$ in mol/L; the minus sign makes a higher concentration a lower pH, and reversed, $M=10^{-pH}$.",
+          "**Decibel scale:** $S=10\\log_{10}\\dfrac{I}{I_{0}}$ gives loudness $S$ from $\\dfrac{I}{I_{0}}$, how many times the hearing threshold is exceeded; reversed, $\\dfrac{I}{I_{0}}=10^{S/10}$.",
+          "A difference of $k$ whole magnitudes means one quantity is $10^{k}$ times the other, **not** $k$ times.",
+          "A magnitude-$6$ earthquake has $10^{3}=1000$ times the amplitude of a magnitude-$3$ one."
+        ],
+        "steps": [
+          "Substitute the known value into the scale's formula.",
+          "Evaluate the logarithm, or its inverse $10^{(\\dots)}$, to find the unknown.",
+          "To compare two readings, subtract the magnitudes and raise ten to that difference."
+        ]
+      },
   "practice": {
     "foundation": [
       {

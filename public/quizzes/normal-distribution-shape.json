@@ -1,0 +1,205 @@
+{
+  "skillId": "normal-distribution-shape",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.5);\n\\draw[->] (0,0) -- (8.4,0);\n\\foreach \\y/\\lab in {0.88/4,1.76/8,2.64/12,3.52/16} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.22);\n\\draw (1.5,0) rectangle (2.5,0.88);\n\\draw (2.5,0) rectangle (3.5,2.2);\n\\draw (3.5,0) rectangle (4.5,3.52);\n\\draw (4.5,0) rectangle (5.5,2.42);\n\\draw (5.5,0) rectangle (6.5,1.1);\n\\draw (6.5,0) rectangle (7.5,0.22);\n\\foreach \\x/\\lab in {1/5,2/6,3/7,4/8,5/9,6/10,7/11} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\lab$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.2) {Frequency};\n\\node[below,font=\\scriptsize] at (4,-0.9) {Pieces of fruit per week};\n\\node[font=\\small] at (4,4.8) {Fruit eaten per week};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about this histogram is correct?",
+      "structure": "identify-normal-histogram",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The data could be normally distributed, because it is roughly symmetrical with a single central peak.",
+          "correct": true
+        },
+        {
+          "text": "The data cannot be normally distributed, because the two sides are not exactly equal.",
+          "why": "Treats 'normally distributed' as requiring perfect symmetry, when real data only needs to be approximately symmetrical."
+        },
+        {
+          "text": "The data cannot be normally distributed, because it is positively skewed.",
+          "why": "Names a skew that is not there; the columns fall away on both sides rather than trailing off to the right."
+        },
+        {
+          "text": "The data cannot be normally distributed, because the frequencies are not all equal.",
+          "why": "Confuses a normal distribution with a uniform (flat) one; a bell curve must not have equal frequencies."
+        }
+      ],
+      "solution_text": "The tallest column is at $8$, near the middle of the display.\nThe frequencies fall away on both sides, $10$, $4$, $1$ to the left and $11$, $5$, $1$ to the right.\nThe display is approximately symmetrical with a single central peak, so the data could be normally distributed."
+    },
+    {
+      "id": "q2",
+      "question_text": "The table shows the number of emails received by an office on each of $49$ days.\n$\\begin{array}{c|ccccccc} \\text{Emails} & 50 & 51 & 52 & 53 & 54 & 55 & 56 \\\\ \\hline \\text{Frequency} & 2 & 7 & 19 & 11 & 6 & 3 & 1 \\end{array}$\nWhich statement about this data is correct?",
+      "structure": "identify-normal-frequency-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "It is not normal, because the peak is left of centre with a long tail stretching to the right.",
+          "correct": true
+        },
+        {
+          "text": "It is normal, because the frequencies rise to a peak and then fall away.",
+          "why": "Checks only for a peak and ignores symmetry; a positively skewed display also rises then falls."
+        },
+        {
+          "text": "It is not normal, because it has two peaks.",
+          "why": "Misreads the table as bimodal; there is a single largest frequency of $19$."
+        },
+        {
+          "text": "It is normal, because there are seven different values and the frequencies add to an odd number.",
+          "why": "Uses the number of classes and the total frequency, neither of which has anything to do with shape."
+        }
+      ],
+      "solution_text": "The largest frequency is $19$ at the value $52$, which is the third of seven columns.\nOn the left the frequencies fall from $19$ to $7$ then $2$, but on the right they fall from $11$ to $6$, $3$, $1$, so the right-hand tail is longer.\nThe display is positively skewed rather than symmetrical, so it is not normally distributed."
+    },
+    {
+      "id": "q3",
+      "question_text": "The table shows the times, to the nearest hour, that $32$ people spent on a task.\n$\\begin{array}{c|ccccc} \\text{Hours} & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{Frequency} & 12 & 4 & 2 & 3 & 11 \\end{array}$\nWhich statement best explains why this data is not normally distributed?",
+      "structure": "describe-non-normal-shape",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The display has two peaks, one at each end, with a dip in the middle instead of a single central peak.",
+          "correct": true
+        },
+        {
+          "text": "The display is symmetrical, and a normal distribution must be asymmetrical.",
+          "why": "Reverses the definition; a normal distribution is symmetrical, and symmetry alone is not what rules this display out."
+        },
+        {
+          "text": "The mean of the data is not zero, and a normal distribution must have a mean of zero.",
+          "why": "Confuses a normal distribution with the standardised z-scores, whose mean is $0$."
+        },
+        {
+          "text": "The frequencies do not add to $100$, so they cannot form a normal distribution.",
+          "why": "Confuses frequencies with percentages; the total frequency has no bearing on the shape."
+        }
+      ],
+      "solution_text": "The two tallest columns are at $1$ hour and at $5$ hours, and the smallest frequency is in the middle at $3$ hours.\nThe display is bimodal, with a dip where a bell curve has its peak.\nSo the data is not normally distributed."
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.3,0) -- (12.2,0) node[below right,font=\\scriptsize] {Score};\n\\draw[thick,domain=0.4:3.6,smooth,variable=\\x] plot ({\\x},{3*exp(-(\\x-2)*(\\x-2)/0.4)});\n\\draw[thick,blue,dashed,domain=3:7.4,smooth,variable=\\x] plot ({\\x},{2*exp(-(\\x-5.2)*(\\x-5.2)/0.9)});\n\\draw[thick,red,dotted,domain=5.6:11.6,smooth,variable=\\x] plot ({\\x},{1.5*exp(-(\\x-8.6)*(\\x-8.6)/1.6)});\n\\node[font=\\scriptsize] at (2,3.35) {$X$};\n\\node[font=\\scriptsize,blue] at (5.2,2.35) {$Y$};\n\\node[font=\\scriptsize,red] at (8.6,1.85) {$Z$};\n\\end{tikzpicture}\n[/tikz]\nThree normal curves are drawn on the same axis with the same scale. Which has the largest standard deviation?",
+      "structure": "compare-normal-curves",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$Z$",
+          "correct": true
+        },
+        {
+          "text": "$X$",
+          "why": "Reads the tallest curve as the most spread out; a tall narrow curve has the smallest standard deviation."
+        },
+        {
+          "text": "$Y$",
+          "why": "Chooses the middle curve, treating standard deviation as a middling or average property rather than reading the width."
+        },
+        {
+          "text": "All three have the same standard deviation.",
+          "why": "Assumes curves on one axis must share a spread; the curves clearly differ in width."
+        }
+      ],
+      "solution_text": "The standard deviation measures spread, so the more spread out a normal curve is, the wider and flatter it looks.\nCurve $Z$ is the widest and lowest of the three, and curve $X$ is the narrowest and tallest.\nCurve $Z$ has the largest standard deviation."
+    },
+    {
+      "id": "q5",
+      "question_text": "One of these variables is measured for a very large group. Which is most likely to be approximately normally distributed?",
+      "structure": "judge-normal-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The masses of $2000$ newborn babies born in one year",
+          "correct": true
+        },
+        {
+          "text": "The number of car accidents each driver had last year",
+          "why": "Almost every driver records $0$, giving one huge column at the left and a long right tail — strongly positively skewed."
+        },
+        {
+          "text": "The winning numbers drawn in $2000$ lottery draws",
+          "why": "Every number is equally likely, so the display is flat (uniform) with no central peak."
+        },
+        {
+          "text": "The number of days in each month of the last $150$ years",
+          "why": "Only the values $28$ to $31$ occur, and $31$ is by far the most common, so the display is a few unequal columns, not a bell."
+        }
+      ],
+      "solution_text": "Birth masses cluster around a middle value, with fewer babies as you move away from it in either direction, and roughly as many above the middle as below.\nThat is a symmetrical, single-peaked, bell-shaped display.\nThe masses of the newborn babies are most likely to be approximately normally distributed."
+    },
+    {
+      "id": "q6",
+      "question_text": "The table shows the scores of $60$ students on a test.\n$\\begin{array}{c|ccccc} \\text{Score} & 10 & 11 & 12 & 13 & 14 \\\\ \\hline \\text{Frequency} & 5 & 12 & 26 & 12 & 5 \\end{array}$\nWhich statement about this data is correct?",
+      "structure": "mean-median-mode-check",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The mean, median and mode are all $12$, and the display is symmetrical with a single central peak, so the data could be normally distributed.",
+          "correct": true
+        },
+        {
+          "text": "The mean is $12$ but the mode is $26$, so the averages are not equal and the data is not normal.",
+          "why": "Quotes the largest frequency as the mode instead of the score that has that frequency."
+        },
+        {
+          "text": "The mean, median and mode are all $12$, so the data must be normally distributed whatever its shape.",
+          "why": "Treats equal averages as sufficient; a skewed or spiked display can also have equal averages, so the shape must be checked too."
+        },
+        {
+          "text": "The median is $30$, since $60$ scores means the middle is at $30$, so the averages are not equal.",
+          "why": "Reports the position of the middle value rather than the score sitting in that position."
+        }
+      ],
+      "solution_text": "$\\text{Mean} = \\dfrac{10(5)+11(12)+12(26)+13(12)+14(5)}{60}$\n$= \\dfrac{720}{60}$\n$= 12$\nThe running totals are $5$, $17$, $43$, so the $30$th and $31$st scores are both $12$ and the median is $12$.\nThe largest frequency is $26$, so the mode is $12$.\nThe frequencies $5$, $12$, $26$, $12$, $5$ are symmetrical about a single central peak, so the data could be normally distributed."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.4);\n\\draw[->] (0,0) -- (7.4,0);\n\\foreach \\y/\\lab in {0.85/5,1.7/10,2.55/15,3.4/20} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.17);\n\\draw (1.5,0) rectangle (2.5,0.34);\n\\draw (2.5,0) rectangle (3.5,0.85);\n\\draw (3.5,0) rectangle (4.5,1.87);\n\\draw (4.5,0) rectangle (5.5,3.4);\n\\draw (5.5,0) rectangle (6.5,2.38);\n\\foreach \\x/\\lab in {1/5,2/6,3/7,4/8,5/9,6/10} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\lab$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.2) {Frequency};\n\\node[below,font=\\scriptsize] at (3.5,-0.9) {Score out of 10};\n\\node[font=\\small] at (3.5,4.7) {Spelling test scores};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about this histogram is correct?",
+      "structure": "identify-normal-histogram",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The data is not normally distributed, because the peak is near the right-hand end with a long tail stretching to the left.",
+          "correct": true
+        },
+        {
+          "text": "The data is normally distributed, because most of the scores are close together.",
+          "why": "Uses closeness of the scores instead of shape; a skewed display can also be tightly bunched."
+        },
+        {
+          "text": "The data is not normally distributed, because there is no column at a score of $4$ or below.",
+          "why": "Treats missing low scores as the fault; a bell curve is also limited to the values that actually occur."
+        },
+        {
+          "text": "The data is normally distributed, because there is exactly one tallest column.",
+          "why": "Checks only for a single peak and skips the symmetry test, which is what this display fails."
+        }
+      ],
+      "solution_text": "The tallest column is at a score of $9$, which is the fifth of six columns.\nOn the left the frequencies fall away through $11$, $5$, $2$, $1$, but on the right there is only the single column of $14$.\nThe tail stretches to the left, so the display is negatively skewed rather than symmetrical, and the data is not normally distributed."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.3,0) -- (9.4,0) node[below right,font=\\scriptsize] {Score};\n\\draw[thick,domain=0.5:4.3,smooth,variable=\\x] plot ({\\x},{2.5*exp(-(\\x-2.4)*(\\x-2.4)/0.6)});\n\\draw[thick,blue,dashed,domain=4.7:8.5,smooth,variable=\\x] plot ({\\x},{2.5*exp(-(\\x-6.6)*(\\x-6.6)/0.6)});\n\\node[font=\\scriptsize] at (2.4,2.85) {$G$};\n\\node[font=\\scriptsize,blue] at (6.6,2.85) {$H$};\n\\end{tikzpicture}\n[/tikz]\nTwo normal curves are drawn on the same axis with the same scale. Which statement is correct?",
+      "structure": "compare-normal-curves",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$H$ has the larger mean, and the two curves have the same standard deviation.",
+          "correct": true
+        },
+        {
+          "text": "$G$ has the larger mean, and the two curves have the same standard deviation.",
+          "why": "Reads the horizontal axis backwards; the mean sits under the peak, and $H$'s peak is further right."
+        },
+        {
+          "text": "$H$ has the larger mean and also the larger standard deviation.",
+          "why": "Assumes a curve further to the right must also be more spread out; the two curves are the same width."
+        },
+        {
+          "text": "The two curves have the same mean but different standard deviations.",
+          "why": "Swaps the two features: it is the means that differ here and the widths that match."
+        }
+      ],
+      "solution_text": "A normal curve is symmetrical about its mean, so each mean sits under its own peak.\nThe peak of $H$ is further to the right than the peak of $G$, so $H$ has the larger mean.\nThe two curves are the same height and the same width, so they have the same standard deviation."
+    }
+  ]
+}

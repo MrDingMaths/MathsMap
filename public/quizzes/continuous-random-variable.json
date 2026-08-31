@@ -1,0 +1,109 @@
+{
+  "skillId": "continuous-random-variable",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which one of these random variables is continuous?",
+      "structure": "classify-variable",
+      "mastery": false,
+      "options": [
+        { "text": "The volume of petrol, in litres, pumped into a car", "correct": true },
+        { "text": "The number of goals scored in a football match", "why": "Goals are counted, so the values go up in separate whole-number steps." },
+        { "text": "The number of eggs in a carton", "why": "Eggs are counted, so only whole-number values are possible." },
+        { "text": "The shoe size chosen from the sizes a shop stocks", "why": "The sizes stocked form a listed set of separate values, so the variable is discrete." }
+      ],
+      "solution_text": "Petrol volume is measured, so it can take any value in an interval.\nThe other three are counts or a listed set of sizes.\nThe volume of petrol is the continuous variable."
+    },
+    {
+      "id": "q2",
+      "question_text": "The temperature at noon is recorded to the nearest whole degree Celsius. Which statement about the temperature is correct?",
+      "structure": "classify-variable",
+      "mastery": false,
+      "options": [
+        { "text": "It is continuous, because temperature can take any value in an interval even though the record is rounded", "correct": true },
+        { "text": "It is discrete, because the recorded values are whole numbers", "why": "Treats the rounding of the record as if it were the values the quantity itself can take." },
+        { "text": "It is discrete, because only finitely many temperatures occur during the year", "why": "Counts the recorded outcomes rather than asking whether the quantity is measured." },
+        { "text": "It is continuous, because more than $30$ different values are possible", "why": "Confuses having many possible values with filling a whole interval." }
+      ],
+      "solution_text": "Temperature is measured, so the true value can be anywhere in an interval.\nRounding changes how the value is written, not the quantity itself.\nThe variable is continuous."
+    },
+    {
+      "id": "q3",
+      "question_text": "$T$ is the continuous time, in seconds, that a randomly chosen car waits at a set of lights. Find $P(T = 15)$.",
+      "structure": "zero-at-a-point",
+      "mastery": false,
+      "options": [
+        { "text": "$0$", "correct": true },
+        { "text": "$\\dfrac{1}{15}$", "why": "Treats the $15$ possible whole seconds as equally likely outcomes of a discrete variable." },
+        { "text": "$1$", "why": "Reads the total probability of the whole distribution as the probability of one value." },
+        { "text": "It cannot be found without the density $f(t)$", "why": "Assumes a single value has a positive probability that the density would reveal." }
+      ],
+      "solution_text": "$T$ is continuous, so the region above a single value has zero width.\n$P(T = 15) = 0$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A continuous random variable $X$ has $P(X < 14) = 0.62$. Find $P(X \\le 14)$.",
+      "structure": "endpoint-equivalence",
+      "mastery": false,
+      "options": [
+        { "text": "$0.62$", "correct": true },
+        { "text": "$0.38$", "why": "Treats $X \\le 14$ as the complement of $X < 14$ and subtracts from $1$." },
+        { "text": "$0.31$", "why": "Halves the probability, as though the endpoint splits it between the two inequalities." },
+        { "text": "It cannot be found without $P(X = 14)$", "why": "Assumes the single value $14$ carries a positive probability that must be added on." }
+      ],
+      "solution_text": "$P(X \\le 14) = P(X < 14) + P(X = 14)$\n$= 0.62 + 0$\n$= 0.62$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A continuous random variable $X$ has $P(X < 6) = 0.24$ and $P(X < 13) = 0.79$. Find $P(6 \\le X \\le 13)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.29cm, y=1cm]\n\\fill[gray!35, domain=6:13, variable=\\x] (6,0) -- plot ({\\x},{2.2*exp(-0.5*((\\x-10)/3.5)*((\\x-10)/3.5))}) -- (13,0) -- cycle;\n\\draw[->] (-1,0) -- (21.5,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,2.9) node[above] {$f(x)$};\n\\draw[thick, domain=0:20, smooth, samples=100, variable=\\x] plot ({\\x},{2.2*exp(-0.5*((\\x-10)/3.5)*((\\x-10)/3.5))});\n\\draw (6,0) -- (6,1.145);\n\\draw (13,0) -- (13,1.524);\n\\node[below] at (6,0) {$6$};\n\\node[below] at (13,0) {$13$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "complement-probability",
+      "mastery": false,
+      "options": [
+        { "text": "$0.55$", "correct": true },
+        { "text": "$1.03$", "why": "Adds the two cumulative probabilities instead of subtracting them." },
+        { "text": "$0.21$", "why": "Computes $1 - 0.79$, which is the probability above $13$ rather than the interval." },
+        { "text": "$0.76$", "why": "Computes $1 - 0.24$, which is the probability above $6$ rather than the interval." }
+      ],
+      "solution_text": "$P(6 \\le X \\le 13) = P(X < 13) - P(X < 6)$\n$= 0.79 - 0.24$\n$= 0.55$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A continuous random variable $X$ has $P(X \\le 5) = 0.31$ and $P(X \\ge 9) = 0.26$. Find $P(5 < X < 9)$.",
+      "structure": "complement-probability",
+      "mastery": false,
+      "options": [
+        { "text": "$0.43$", "correct": true },
+        { "text": "$0.05$", "why": "Subtracts the two given probabilities instead of removing both tails from $1$." },
+        { "text": "$0.69$", "why": "Removes only the lower tail, forgetting the probability above $9$." },
+        { "text": "$0.74$", "why": "Removes only the upper tail, forgetting the probability below $5$." }
+      ],
+      "solution_text": "$P(5 < X < 9) = 1 - P(X \\le 5) - P(X \\ge 9)$\n$= 1 - 0.31 - 0.26$\n$= 0.43$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A continuous random variable $X$ has $P(2 \\le X \\le 7) = 0.58$. Which statement is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm, y=1cm]\n\\fill[gray!35, domain=2:7, variable=\\x] (2,0) -- plot ({\\x},{2.2*exp(-0.5*((\\x-4.5)/2)*((\\x-4.5)/2))}) -- (7,0) -- cycle;\n\\draw[->] (-0.6,0) -- (10.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,2.9) node[above] {$f(x)$};\n\\draw[thick, domain=0:9.5, smooth, samples=100, variable=\\x] plot ({\\x},{2.2*exp(-0.5*((\\x-4.5)/2)*((\\x-4.5)/2))});\n\\draw (2,0) -- (2,1.007);\n\\draw (7,0) -- (7,1.007);\n\\node[below] at (2,0) {$2$};\n\\node[below] at (7,0) {$7$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "endpoint-equivalence",
+      "mastery": false,
+      "options": [
+        { "text": "$P(2 < X < 7) = 0.58$", "correct": true },
+        { "text": "$P(2 < X < 7)$ is less than $0.58$, because the two endpoints are removed", "why": "Assumes each endpoint carries a positive slice of probability." },
+        { "text": "$P(2 < X < 7) = 0.42$, since $P(X = 2)$ and $P(X = 7)$ must be taken from $1$", "why": "Takes the complement instead of recognising that the endpoints contribute nothing." },
+        { "text": "$P(2 < X < 7)$ cannot be found without the density $f(x)$", "why": "Assumes the endpoint probabilities must be computed from the density rather than being $0$." }
+      ],
+      "solution_text": "$P(X = 2) = P(X = 7) = 0$ because $X$ is continuous.\n$P(2 < X < 7) = P(2 \\le X \\le 7)$\n$= 0.58$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$H$ is the continuous height, in centimetres, of a randomly chosen adult. Why is $P(H = 172) = 0$?",
+      "structure": "justify-zero",
+      "mastery": true,
+      "options": [
+        { "text": "A single value has no width, so the area under the density curve above it is $0$", "correct": true },
+        { "text": "Because no adult is ever exactly $172$ cm tall", "why": "Claims the outcome is impossible, when it is possible but of zero probability." },
+        { "text": "Because the density curve has height $f(172)=0$ at that value", "why": "Reads the height of the density curve as the probability of the value itself; the density at $172$ is not $0$, yet the probability of that single height still is." },
+        { "text": "Because heights are always rounded to the nearest centimetre", "why": "Blames the rounding of the record rather than the zero width of a single point." }
+      ],
+      "solution_text": "Probability for a continuous variable is area under the density curve.\nThe value $172$ is a single point, so the strip above it has zero width and zero area.\n$P(H = 172) = 0$"
+    }
+  ]
+}

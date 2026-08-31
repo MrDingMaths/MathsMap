@@ -1,0 +1,109 @@
+{
+  "skillId": "arc-length-radians",
+  "atomType": "R",
+  "theory": {
+        "intro": "An **arc** is part of the circumference of a circle. Its length $l$ is the radius $r$ multiplied by the central angle $\\theta$, measured in radians. Convert any angle given in degrees before using the formula.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,0);\n\\coordinate (Q) at (-1.5,2.598);\n\\draw (O) circle (3);\n\\draw[thick] (O) -- (P) node[midway, below] {$r$};\n\\draw[thick] (O) -- (Q) node[midway, above left] {$r$};\n\\draw[thick, blue] (P) arc (0:120:3) node[midway, above right] {$l$};\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=1.6] {angle=P--O--Q};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "**$l = r\\theta$**, where $r$ is the radius and $\\theta$ is the central angle **in radians**.",
+          "If the angle is in degrees, convert it first using $\\theta = \\alpha^{\\circ} \\times \\dfrac{\\pi}{180^{\\circ}}$.",
+          "Rearranging gives the radius $r = \\dfrac{l}{\\theta}$ and the angle $\\theta = \\dfrac{l}{r}$.",
+          "The arc length $l$ is measured in the same units as the radius $r$.",
+          "For a full turn $\\theta = 2\\pi$, so the formula gives the circumference $l = 2\\pi r$.",
+          "A **minor arc** has $\\theta < \\pi$, and a **major arc** has $\\theta > \\pi$."
+        ],
+        "steps": [
+          "Ensure the central angle $\\theta$ is in radians, converting from degrees if required.",
+          "Write the arc length formula $l = r\\theta$.",
+          "Substitute the known values (or rearrange to solve for $r$ or $\\theta$).",
+          "Evaluate the expression and state the result in exact form with $\\pi$ or rounded as specified."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A circle has a radius of $6\\text{ cm}$. Find the exact length of an arc that subtends a central angle of $\\dfrac{\\pi}{3}\\text{ radians}$.",
+        "structure": "direct-arc-length-radians",
+        "solution_text": "$l = r\\theta$\n$= 6 \\times \\dfrac{\\pi}{3}$\n$= 2\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "Find the length of an arc in a circle of radius $15\\text{ cm}$ that subtends a central angle of $1.4\\text{ radians}$.",
+        "structure": "direct-arc-length-radians",
+        "solution_text": "$l = r\\theta$\n$= 15 \\times 1.4$\n$= 21\\text{ cm}$"
+      },
+      {
+        "question_text": "A circle has a radius of $12\\text{ cm}$. Find the exact length of an arc that subtends an angle of $60^{\\circ}$ at the centre.",
+        "structure": "direct-arc-length-degrees",
+        "solution_text": "$\\theta = 60^{\\circ} \\times \\dfrac{\\pi}{180^{\\circ}} = \\dfrac{\\pi}{3}$\n$l = r\\theta$\n$= 12 \\times \\dfrac{\\pi}{3}$\n$= 4\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "An arc of length $10\\pi\\text{ cm}$ subtends a central angle of $\\dfrac{5\\pi}{6}\\text{ radians}$. Find the radius of the circle.",
+        "structure": "rearrange-find-radius",
+        "solution_text": "$l = r\\theta$\n$10\\pi = r \\times \\dfrac{5\\pi}{6}$\n$r = 10\\pi \\times \\dfrac{6}{5\\pi}$\n$= 12\\text{ cm}$"
+      },
+      {
+        "question_text": "In a circle of radius $8\\text{ cm}$, an arc has length $12\\text{ cm}$. Find the central angle $\\theta$ in radians.",
+        "structure": "rearrange-find-angle",
+        "solution_text": "$l = r\\theta$\n$12 = 8\\theta$\n$\\theta = \\dfrac{12}{8}$\n$= 1.5\\text{ radians}$"
+      },
+      {
+        "question_text": "A circle has a radius of $5\\text{ cm}$. A minor arc subtends an angle of $\\dfrac{\\pi}{4}\\text{ radians}$ at the centre. Find the exact length of the major arc.",
+        "structure": "major-minor-arc-length",
+        "solution_text": "$\\theta_{\\text{major}} = 2\\pi - \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{4}$\n$l = r\\theta$\n$= 5 \\times \\dfrac{7\\pi}{4}$\n$= \\dfrac{35\\pi}{4}\\text{ cm}$"
+      },
+      {
+        "question_text": "A pendulum of length $45\\text{ cm}$ swings through an angle of $0.4\\text{ radians}$. Find the distance travelled by the tip of the pendulum bob.",
+        "structure": "arc-length-context",
+        "solution_text": "$l = r\\theta$\n$= 45 \\times 0.4$\n$= 18\\text{ cm}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3,0);\n\\coordinate (B) at (-1.5,2.598);\n\\draw[thick] (O) -- (A) node[midway, below] {$9\\text{ cm}$};\n\\draw[thick] (O) -- (B) node[midway, above left] {$9\\text{ cm}$};\n\\draw[thick, blue] (A) arc (0:120:3);\n\\pic[draw, \"$\\frac{2\\pi}{3}$\", angle radius=0.8cm, angle eccentricity=1.5] {angle=A--O--B};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nFind the exact length of the highlighted arc $AB$ shown in the diagram.",
+        "structure": "direct-arc-length-radians",
+        "solution_text": "$l = r\\theta$\n$= 9 \\times \\dfrac{2\\pi}{3}$\n$= 6\\pi\\text{ cm}$"
+      },
+      {
+        "question_text": "A circle has a radius of $14\\text{ m}$. Find the length of an arc subtending an angle of $135^{\\circ}$ at the centre, correct to two decimal places.",
+        "structure": "direct-arc-length-degrees",
+        "solution_text": "$\\theta = 135^{\\circ} \\times \\dfrac{\\pi}{180^{\\circ}} = \\dfrac{3\\pi}{4}$\n$l = r\\theta$\n$= 14 \\times \\dfrac{3\\pi}{4}$\n$= \\dfrac{21\\pi}{2}$\n$= 32.9867\\ldots$\n$\\approx 32.99\\text{ m}$"
+      },
+      {
+        "question_text": "An arc of length $7.5\\text{ cm}$ subtends a central angle of $1.25\\text{ radians}$. Find the radius of the circle.",
+        "structure": "rearrange-find-radius",
+        "solution_text": "$l = r\\theta$\n$7.5 = r \\times 1.25$\n$r = \\dfrac{7.5}{1.25}$\n$= 6\\text{ cm}$"
+      },
+      {
+        "question_text": "An arc of length $\\dfrac{10\\pi}{3}\\text{ cm}$ in a circle of radius $5\\text{ cm}$ subtends a central angle $\\theta$. Find the exact value of $\\theta$ in radians, and state its equivalent size in degrees.",
+        "structure": "rearrange-find-angle",
+        "solution_text": "$l = r\\theta$\n$\\dfrac{10\\pi}{3} = 5\\theta$\n$\\theta = \\dfrac{10\\pi}{15} = \\dfrac{2\\pi}{3}\\text{ radians}$\n$\\theta = \\dfrac{2\\pi}{3} \\times \\dfrac{180^{\\circ}}{\\pi} = 120^{\\circ}$"
+      },
+      {
+        "question_text": "A minor arc subtends an angle of $50^{\\circ}$ at the centre of a circle of radius $10\\text{ cm}$. Calculate the exact length of the corresponding major arc.",
+        "structure": "major-minor-arc-length",
+        "solution_text": "$\\theta_{\\text{major}} = 360^{\\circ} - 50^{\\circ} = 310^{\\circ}$\n$\\theta = 310^{\\circ} \\times \\dfrac{\\pi}{180^{\\circ}} = \\dfrac{31\\pi}{18}$\n$l = r\\theta$\n$= 10 \\times \\dfrac{31\\pi}{18}$\n$= \\dfrac{155\\pi}{9}\\text{ cm}$"
+      },
+      {
+        "question_text": "A bicycle wheel of radius $35\\text{ cm}$ rotates through an angle of $16\\pi\\text{ radians}$. Calculate the exact distance travelled by the bicycle in metres.",
+        "structure": "arc-length-context",
+        "solution_text": "$l = r\\theta$\n$= 35 \\times 16\\pi$\n$= 560\\pi\\text{ cm}$\n$= 5.6\\pi\\text{ m}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A satellite orbits Earth at an orbital radius of $7000\\text{ km}$. It travels along its circular path at a speed of $7.5\\text{ km/s}$ for $20\\text{ minutes}$. Find the central angle subtended in radians, correct to three decimal places.",
+        "structure": "arc-length-context",
+        "solution_text": "$l = 7.5 \\times (20 \\times 60) = 9000\\text{ km}$\n$\\theta = \\dfrac{l}{r}$\n$= \\dfrac{9000}{7000}$\n$= \\dfrac{9}{7}$\n$= 1.2857\\ldots$\n$\\approx 1.286\\text{ radians}$"
+      },
+      {
+        "question_text": "In a circle of radius $r$, an arc of length $l = \\dfrac{8\\pi}{3}\\text{ cm}$ subtends an angle $\\theta$ where $0 < \\theta \\leq \\dfrac{4\\pi}{5}$. Find the minimum possible value of the radius $r$.",
+        "structure": "rearrange-find-radius",
+        "solution_text": "$\\theta = \\dfrac{l}{r} = \\dfrac{8\\pi}{3r}$\n$\\dfrac{8\\pi}{3r} \\leq \\dfrac{4\\pi}{5}$\n$40\\pi \\leq 12\\pi r$\n$r \\geq \\dfrac{40\\pi}{12\\pi}$\n$r \\geq \\dfrac{10}{3}\\text{ cm}$"
+      },
+      {
+        "question_text": "Two points $P$ and $Q$ on a circle of radius $6\\text{ cm}$ divide the circumference in the ratio $3:5$. Find the exact length of the major arc $PQ$.",
+        "structure": "major-minor-arc-length",
+        "solution_text": "The major arc subtends $\\dfrac{5}{3+5} = \\dfrac{5}{8}$ of a full turn:\n$\\theta_{\\text{major}} = \\dfrac{5}{8} \\times 2\\pi = \\dfrac{5\\pi}{4}$\n$l = r\\theta$\n$= 6 \\times \\dfrac{5\\pi}{4}$\n$= \\dfrac{15\\pi}{2}\\text{ cm}$"
+      }
+    ]
+  }
+}

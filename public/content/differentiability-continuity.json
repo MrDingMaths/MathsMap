@@ -1,0 +1,125 @@
+{
+  "skillId": "differentiability-continuity",
+  "atomType": "R",
+  "theory": {
+    "intro": "A function is **differentiable** at $x = a$ when it has a non-vertical tangent there, so the graph is smooth with no corner or break. Differentiable always means continuous, but continuous does not always mean differentiable.",
+    "facts": [
+      "$f(x)$ is differentiable at $x = a$ when $\\lim_{h \\to 0}\\dfrac{f(a+h)-f(a)}{h}$ exists, so the tangent at $x = a$ exists and is not vertical.",
+      "If $f(x)$ is differentiable at $x = a$, then $f(x)$ is continuous at $x = a$.",
+      "The reverse is false: a function can be continuous at $x = a$ and still not be differentiable at $x = a$.",
+      "Differentiability fails at a corner, at a cusp, where the tangent is vertical, and wherever the function is discontinuous.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{scope}[shift={(0,0)}]\n\\draw[->] (-1.4,0) -- (1.5,0);\n\\draw[->] (0,-0.4) -- (0,1.7);\n\\draw[thick, domain=-1.15:0, variable=\\x] plot ({\\x},{-\\x});\n\\draw[thick, domain=0:1.15, variable=\\x] plot ({\\x},{\\x});\n\\fill (0,0) circle (2pt);\n\\node[below, font=\\small] at (0,-0.75) {corner};\n\\end{scope}\n\\begin{scope}[shift={(3.6,0)}]\n\\draw[->] (-1.4,0) -- (1.5,0);\n\\draw[->] (0,-0.4) -- (0,1.7);\n\\draw[thick, smooth, samples=60, domain=-1.15:0, variable=\\x] plot ({\\x},{1.05*sqrt(abs(\\x))});\n\\draw[thick, smooth, samples=60, domain=0:1.15, variable=\\x] plot ({\\x},{1.05*sqrt(abs(\\x))});\n\\fill (0,0) circle (2pt);\n\\node[below, font=\\small] at (0,-0.75) {cusp};\n\\end{scope}\n\\begin{scope}[shift={(0,-3.1)}]\n\\draw[->] (-1.4,0) -- (1.5,0);\n\\draw[->] (0,-0.4) -- (0,1.7);\n\\draw[thick, smooth, samples=60, domain=0:1.3, variable=\\x] plot ({\\x},{1.3*sqrt(\\x)});\n\\fill (0,0) circle (2pt);\n\\node[below, font=\\small] at (0,-0.75) {vertical tangent};\n\\end{scope}\n\\begin{scope}[shift={(3.6,-3.1)}]\n\\draw[->] (-1.4,0) -- (1.5,0);\n\\draw[->] (0,-0.4) -- (0,1.7);\n\\draw[thick] (-1.15,0.3) -- (0,1.15);\n\\fill (0,1.15) circle (2pt);\n\\draw[thick] (0,0.35) -- (1.15,0.75);\n\\draw[fill=white] (0,0.35) circle (2pt);\n\\node[below, font=\\small] at (0,-0.75) {break};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+      "A **corner** is a sharp change of direction, where the gradient on the left differs from the gradient on the right.",
+      "An absolute value function such as $y = |x - a|$ has a corner at $x = a$, so it is not differentiable there.",
+      "A **cusp** or a vertical tangent makes $f'(a)$ undefined even though the curve has no break.",
+      "For a piecewise function, test the two branch values at the join first, then the two branch gradients."
+    ],
+    "steps": [
+      "Check continuity at the join by comparing the two branch values",
+      "Differentiate each branch and compare the two gradients at the join",
+      "Conclude differentiable only if both the values and the gradients agree"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph of the continuous function $y = f(x)$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.5, xmax=5.5, ymin=-1, ymax=4.8, clip=false]\n\\addplot[thick, <-, samples=2, domain=-1.2:2] {3-x};\n\\addplot[thick, ->, samples=2, domain=2:4.4] {x-1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the value of $x$ at which $f(x)$ is not differentiable, and give a reason.",
+        "structure": "identify-non-differentiable-from-graph",
+        "solution_text": "The graph makes a sharp change of direction at $x = 2$.\nThe gradient is $-1$ just to the left and $1$ just to the right, so no single tangent exists there.\n$f(x)$ is not differentiable at $x = 2$, because there is a corner."
+      },
+      {
+        "question_text": "The graph of $f(x) = \\sqrt{x}$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.5, xmax=5.8, ymin=-1.5, ymax=3, samples=101, clip=false]\n\\addplot[smooth, thick, ->, domain=0:5.4] {sqrt(x)};\n\\addplot[only marks, mark=*] coordinates {(0,0)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nExplain why $f(x)$ is not differentiable at $x = 0$.",
+        "structure": "identify-non-differentiable-from-graph",
+        "solution_text": "$f(x) = x^{\\frac{1}{2}}$\n$f'(x) = \\dfrac{1}{2}x^{-\\frac{1}{2}}$\n$= \\dfrac{1}{2\\sqrt{x}}$\nAt $x = 0$ this is undefined, so the tangent at $x = 0$ is vertical.\n$f(x)$ is not differentiable at $x = 0$."
+      },
+      {
+        "question_text": "Explain why $f(x) = |x - 5|$ is not differentiable at $x = 5$.",
+        "structure": "non-differentiable-from-equation",
+        "solution_text": "$f(x) = \\begin{cases} -(x - 5), & x < 5 \\\\ x - 5, & x \\ge 5 \\end{cases}$\nFor $x < 5$, $f'(x) = -1$\nFor $x > 5$, $f'(x) = 1$\nThe two one-sided gradients are different, so there is a corner at $x = 5$.\n$f(x)$ is not differentiable at $x = 5$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} x^{2}, & x \\le 1 \\\\ 2x - 1, & x > 1 \\end{cases}$ is differentiable at $x = 1$.",
+        "structure": "test-differentiability-piecewise",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = x^{2}$ and $h(x) = 2x - 1$\n$g(1) = 1^{2} = 1$\n$h(1) = 2(1) - 1 = 1$\nSince $g(1) = h(1)$, $f(x)$ is continuous at $x = 1$.\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = 2x$, so $g'(1) = 2$\n$h'(x) = 2$, so $h'(1) = 2$\n3. **Conclude differentiable only if both the values and the gradients agree**\nBoth the values and the gradients agree, so $f(x)$ is differentiable at $x = 1$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} 4 - x, & x < 1 \\\\ x^{2} + 2, & x \\ge 1 \\end{cases}$ is differentiable at $x = 1$.",
+        "structure": "test-differentiability-piecewise",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = 4 - x$ and $h(x) = x^{2} + 2$\n$g(1) = 4 - 1 = 3$\n$h(1) = 1^{2} + 2 = 3$\nSince $g(1) = h(1)$, $f(x)$ is continuous at $x = 1$.\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = -1$, so $g'(1) = -1$\n$h'(x) = 2x$, so $h'(1) = 2$\n3. **Conclude differentiable only if both the values and the gradients agree**\nThe gradients $-1$ and $2$ are different, so $f(x)$ is continuous but not differentiable at $x = 1$."
+      },
+      {
+        "question_text": "Give an example of a function that is continuous at $x = 0$ but not differentiable at $x = 0$, and say why it fails.",
+        "structure": "explain-implication-direction",
+        "solution_text": "Take $f(x) = |x|$.\nThe graph can be drawn through $(0, 0)$ without lifting the pen, so $f(x)$ is continuous at $x = 0$.\nThe gradient is $-1$ for $x < 0$ and $1$ for $x > 0$.\n$f(x) = |x|$ is continuous but not differentiable at $x = 0$, because of the corner."
+      },
+      {
+        "question_text": "A function $f(x)$ is differentiable at $x = -3$. State what this tells you about the continuity of $f(x)$ at $x = -3$.",
+        "structure": "explain-implication-direction",
+        "solution_text": "Differentiability at a point requires a tangent at that point, which cannot exist across a break.\n$f(x)$ must also be continuous at $x = -3$."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.8, xmax=3, ymin=-1, ymax=5.5, clip=false]\n\\addplot[thick, <-, samples=2, domain=-4:-1] {x+4};\n\\addplot[only marks, mark=*, mark options={fill=white}] coordinates {(-1,3)};\n\\addplot[smooth, thick, ->, samples=61, domain=-1:2.1] {x*x};\n\\addplot[only marks, mark=*] coordinates {(-1,1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the value of $x$ at which $f(x)$ is not differentiable, and state whether $f(x)$ is also discontinuous there.",
+        "structure": "identify-non-differentiable-from-graph",
+        "solution_text": "The graph steps from $y = 3$ down to $y = 1$ at $x = -1$.\nA graph cannot have a tangent where it breaks.\n$f(x)$ is not differentiable at $x = -1$, and it is discontinuous there as well."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Determine whether $f(x) = \\sqrt[3]{x^{2}}$ is differentiable at $x = 0$.",
+        "structure": "non-differentiable-from-equation",
+        "solution_text": "$f(x) = x^{\\frac{2}{3}}$\n$f'(x) = \\dfrac{2}{3}x^{-\\frac{1}{3}}$\n$= \\dfrac{2}{3\\sqrt[3]{x}}$\n$f(0) = 0$, so the curve passes through the origin with no break.\nAt $x = 0$ the derivative is undefined, so the curve has a cusp.\n$f(x)$ is continuous but not differentiable at $x = 0$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\sqrt{x - 3}$ is differentiable at $x = 3$.",
+        "structure": "non-differentiable-from-equation",
+        "solution_text": "$f(x) = (x - 3)^{\\frac{1}{2}}$\n$f'(x) = \\dfrac{1}{2}(x - 3)^{-\\frac{1}{2}}$\n$= \\dfrac{1}{2\\sqrt{x - 3}}$\nAt $x = 3$ the denominator is $0$, so $f'(3)$ is undefined and the tangent is vertical.\n$f(x)$ is not differentiable at $x = 3$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} x^{3}, & x \\le 1 \\\\ 3x - 2, & x > 1 \\end{cases}$ is differentiable at $x = 1$.",
+        "structure": "test-differentiability-piecewise",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = x^{3}$ and $h(x) = 3x - 2$\n$g(1) = 1^{3} = 1$\n$h(1) = 3(1) - 2 = 1$\nSince $g(1) = h(1)$, $f(x)$ is continuous at $x = 1$.\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = 3x^{2}$, so $g'(1) = 3$\n$h'(x) = 3$, so $h'(1) = 3$\n3. **Conclude differentiable only if both the values and the gradients agree**\nBoth agree, so $f(x)$ is differentiable at $x = 1$."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} 2x + 1, & x < 3 \\\\ x^{2} - 5, & x \\ge 3 \\end{cases}$ is differentiable at $x = 3$.",
+        "structure": "test-differentiability-piecewise",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = 2x + 1$ and $h(x) = x^{2} - 5$\n$g(3) = 2(3) + 1 = 7$\n$h(3) = 3^{2} - 5 = 4$\nSince $g(3) \\neq h(3)$, $f(x)$ is discontinuous at $x = 3$.\n2. **Conclude differentiable only if both the values and the gradients agree**\nA function cannot be differentiable where it is not continuous, so $f(x)$ is not differentiable at $x = 3$."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.5, xmax=2.5, ymin=-1, ymax=5.5, clip=false]\n\\addplot[smooth, thick, <-, samples=61, domain=-2.2:-1] {x*x};\n\\addplot[thick, ->, samples=2, domain=-1:1] {2*x+3};\n\\addplot[only marks, mark=*] coordinates {(-1,1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState whether $f(x)$ is continuous at $x = -1$, and whether it is differentiable at $x = -1$.",
+        "structure": "identify-non-differentiable-from-graph",
+        "solution_text": "The two pieces of the graph meet at the same point, with no break, so $f(x)$ is continuous at $x = -1$.\nThe curve arrives with a negative gradient and leaves with a positive gradient, so the direction changes sharply.\n$f(x)$ is continuous at $x = -1$ but not differentiable there."
+      },
+      {
+        "question_text": "Determine the value of $x$ at which $f(x) = 5|x + 2| - 3$ is not differentiable, and state the two one-sided gradients there.",
+        "structure": "non-differentiable-from-equation",
+        "solution_text": "$f(x) = \\begin{cases} -5(x + 2) - 3, & x < -2 \\\\ 5(x + 2) - 3, & x \\ge -2 \\end{cases}$\nFor $x < -2$, $f'(x) = -5$\nFor $x > -2$, $f'(x) = 5$\nThe one-sided gradients $-5$ and $5$ are different, so there is a corner.\n$f(x)$ is not differentiable at $x = -2$."
+      },
+      {
+        "question_text": "A function $f(x)$ is continuous at $x = 4$, but $f'(4)$ does not exist. Describe two different ways this can happen.",
+        "structure": "explain-implication-direction",
+        "solution_text": "Continuity only guarantees that the graph has no break at $x = 4$; it says nothing about the tangent.\nThe graph could have a corner at $x = 4$, where the gradient on the left differs from the gradient on the right.\nThe graph could instead have a vertical tangent or cusp at $x = 4$, where $f'(4)$ is undefined."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5, xmax=5, ymin=-1, ymax=5.5, clip=false]\n\\addplot[thick, <-, samples=2, domain=-4.2:-2] {-x-1};\n\\addplot[thick, samples=2, domain=-2:1] {x+3};\n\\addplot[thick, ->, samples=2, domain=1:4.2] {2};\n\\addplot[only marks, mark=*] coordinates {(-2,1)};\n\\addplot[only marks, mark=*, mark options={fill=white}] coordinates {(1,4)};\n\\addplot[only marks, mark=*] coordinates {(1,2)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState every value of $x$ at which $f(x)$ is continuous but not differentiable.",
+        "structure": "identify-non-differentiable-from-graph",
+        "solution_text": "At $x = -2$ the graph has no break, but the direction changes sharply from a gradient of $-1$ to a gradient of $1$.\nAt $x = 1$ the graph steps from $y = 4$ to $y = 2$, so $f(x)$ is not continuous there.\n$f(x)$ is continuous but not differentiable only at $x = -2$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the values of $a$ and $b$ for which $f(x) = \\begin{cases} ax + b, & x < 1 \\\\ x^{2} + 3x, & x \\ge 1 \\end{cases}$ is differentiable at $x = 1$.",
+        "structure": "find-parameter-for-differentiability",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = ax + b$ and $h(x) = x^{2} + 3x$\n$g(1) = a + b$\n$h(1) = 1^{2} + 3(1) = 4$\n$a + b = 4$\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = a$ and $h'(x) = 2x + 3$\n$a = 2(1) + 3$\n$= 5$\n3. **Conclude differentiable only if both the values and the gradients agree**\nSubstituting $a = 5$ into $a + b = 4$:\n$5 + b = 4$\n$b = -1$\n$a = 5$ and $b = -1$"
+      },
+      {
+        "question_text": "Find the value of $k$ for which $f(x) = \\begin{cases} x^{2} + 1, & x \\le 2 \\\\ kx - 1, & x > 2 \\end{cases}$ is continuous at $x = 2$, then determine whether $f(x)$ is differentiable at $x = 2$.",
+        "structure": "find-parameter-for-differentiability",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = x^{2} + 1$ and $h(x) = kx - 1$\n$g(2) = 2^{2} + 1 = 5$\n$h(2) = 2k - 1$\n$2k - 1 = 5$\n$2k = 6$\n$k = 3$\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = 2x$, so $g'(2) = 4$\n$h'(x) = 3$, so $h'(2) = 3$\n3. **Conclude differentiable only if both the values and the gradients agree**\nWith $k = 3$ the function is continuous at $x = 2$, but the gradients $4$ and $3$ differ, so it is not differentiable there."
+      },
+      {
+        "question_text": "Find the values of $a$ and $b$ for which $f(x) = \\begin{cases} ax^{2} + 3, & x \\le 1 \\\\ bx + 5, & x > 1 \\end{cases}$ is differentiable at $x = 1$.",
+        "structure": "find-parameter-for-differentiability",
+        "solution_text": "1. **Check continuity at the join by comparing the two branch values**\nLet $g(x) = ax^{2} + 3$ and $h(x) = bx + 5$\n$g(1) = a + 3$ and $h(1) = b + 5$\n$a + 3 = b + 5$\n$a = b + 2$\n2. **Differentiate each branch and compare the two gradients at the join**\n$g'(x) = 2ax$, so $g'(1) = 2a$\n$h'(x) = b$, so $h'(1) = b$\n$2a = b$\n3. **Conclude differentiable only if both the values and the gradients agree**\nSubstituting $b = 2a$ into $a = b + 2$:\n$a = 2a + 2$\n$-a = 2$\n$a = -2$\n$b = 2(-2) = -4$\n$a = -2$ and $b = -4$"
+      }
+    ]
+  }
+}

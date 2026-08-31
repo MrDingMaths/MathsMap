@@ -1,0 +1,108 @@
+{
+  "skillId": "multiplicity-graph-behaviour",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "How does the graph of $y=(x-4)^{2}(x+1)$ behave at the point $(4,0)$?",
+      "structure": "behaviour-from-factored-form",
+      "mastery": false,
+      "options": [
+        { "text": "It touches the $x$-axis and turns back without crossing.", "correct": true },
+        { "text": "It cuts straight through the $x$-axis at an angle.", "why": "This is the behaviour at a zero of multiplicity $1$; here the multiplicity is $2$." },
+        { "text": "It flattens along the $x$-axis and crosses it.", "why": "Flattening while crossing needs an odd multiplicity of at least $3$." },
+        { "text": "It approaches the $x$-axis without ever reaching it.", "why": "A polynomial has no asymptotes, and $P(4)=0$ so the curve does meet the axis." }
+      ],
+      "solution_text": "$x=4$ comes from the factor $(x-4)^{2}$, so its multiplicity is $2$.\nAn even multiplicity means the curve is tangent to the $x$-axis and turns back.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2, xmax=6.3, ymin=-20.5, ymax=25.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.62:5.9] {(x-4)*(x-4)*(x+1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q2",
+      "question_text": "At which $x$-intercept does the graph of $y=(x+1)^{2}(x-2)^{3}$ flatten along the $x$-axis as it crosses?",
+      "structure": "behaviour-from-factored-form",
+      "mastery": false,
+      "options": [
+        { "text": "$x=2$", "correct": true },
+        { "text": "$x=-1$", "why": "That zero has multiplicity $2$, so the curve touches the axis there rather than crossing." },
+        { "text": "$x=-2$", "why": "Sign error: the factor $(x-2)^{3}$ gives the zero $x=2$, not $x=-2$." },
+        { "text": "$x=1$", "why": "Sign error: the factor $(x+1)^{2}$ gives the zero $x=-1$, and that zero touches anyway." }
+      ],
+      "solution_text": "$x=-1$ has multiplicity $2$, which is even, so the curve touches there.\n$x=2$ has multiplicity $3$, which is odd and at least $3$, so the curve flattens along the axis and crosses at $x=2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.2, xmax=3.7, ymin=-40.5, ymax=40.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.84:3.29] {(x+1)*(x+1)*(x-2)*(x-2)*(x-2)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q3",
+      "question_text": "The graph of a cubic polynomial is shown. Its only $x$-intercepts are at $x=-3$ and $x=1$. What is the multiplicity of the zero at $x=-3$?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5, xmax=2.1, ymin=-14.5, ymax=14.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-4.57:1.65] {(x+3)*(x+3)*(x-1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-multiplicity-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$2$", "correct": true },
+        { "text": "$1$", "why": "A multiplicity of $1$ would cut straight through, but the curve turns back at $x=-3$." },
+        { "text": "$3$", "why": "A multiplicity of $3$ would flatten and cross; it would also use up the whole degree, leaving no zero at $x=1$." },
+        { "text": "$0$", "why": "A multiplicity of $0$ would mean $x=-3$ is not a zero, yet the curve meets the axis there." }
+      ],
+      "solution_text": "The curve touches the axis at $x=-3$ and turns back, so that multiplicity is even.\nThe curve cuts straight through at $x=1$, so that multiplicity is $1$.\nThe multiplicities add to the degree $3$, so the multiplicity at $x=-3$ is $2$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The graph of a quartic polynomial is shown, with $x$-intercepts at $x=-2$ and $x=1$ only. What are the multiplicities of these two zeroes?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.7, xmax=2.8, ymin=-12.5, ymax=12.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-2.32:2.4] {(x-1)*(x-1)*(x-1)*(x+2)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "identify-multiplicity-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$x=-2$ has multiplicity $1$ and $x=1$ has multiplicity $3$", "correct": true },
+        { "text": "$x=-2$ has multiplicity $1$ and $x=1$ has multiplicity $2$", "why": "A multiplicity of $2$ at $x=1$ would touch and turn back, and the multiplicities would add to $3$, not $4$." },
+        { "text": "$x=-2$ has multiplicity $2$ and $x=1$ has multiplicity $2$", "why": "The curve cuts straight through at $x=-2$, so that multiplicity is odd, not even." },
+        { "text": "$x=-2$ has multiplicity $3$ and $x=1$ has multiplicity $1$", "why": "The flattening is at $x=1$, not at $x=-2$; the two multiplicities have been swapped." }
+      ],
+      "solution_text": "At $x=-2$ the curve cuts straight through, so that multiplicity is $1$.\nAt $x=1$ the curve flattens along the axis and crosses, so that multiplicity is odd and at least $3$.\n$1+3=4$, which matches the degree."
+    },
+    {
+      "id": "q5",
+      "question_text": "The graph of a cubic polynomial is shown. It touches the $x$-axis at $x=2$, cuts it at $x=-1$, and passes through $(0,-8)$. What is its equation?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.1, xmax=3.9, ymin=-20.5, ymax=20.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.71:3.49] {-2*(x-2)*(x-2)*(x+1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equation-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y=2(x-2)^{2}(x+1)$",
+          "why": "Solved $4k=8$ instead of $4k=-8$, dropping the sign of the $y$-intercept; this curve passes through $(0,8)$ and rises as $x\\to\\infty$, not falls."
+        },
+        {
+          "text": "$y=-2(x-2)^{2}(x+1)$",
+          "correct": true
+        },
+        {
+          "text": "$y=2(x-2)(x+1)^{2}$",
+          "why": "Made both slips at once: put the squared factor on the zero the curve cuts, and took $k=2$ from $4k=8$; this graph touches at $x=-1$ and rises as $x\\to\\infty$."
+        },
+        {
+          "text": "$y=-2(x-2)(x+1)^{2}$",
+          "why": "Attached the squared factor to the zero the curve cuts rather than the one it touches, carrying $k=-2$ across; this graph touches at $x=-1$, and at $x=0$ it gives $4$, not $-8$."
+        }
+      ],
+      "solution_text": "The curve touches at $x=2$, so $(x-2)^{2}$ is a factor, and it cuts at $x=-1$, so $(x+1)$ is a factor.\n$y=k(x-2)^{2}(x+1)$\n$-8=k(0-2)^{2}(0+1)$\n$-8=4k$\n$k=-2$\n$y=-2(x-2)^{2}(x+1)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph shown touches the $x$-axis at $x=-1$ and at $x=2$, and has no other $x$-intercepts. What is the least possible degree of the polynomial?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.2, xmax=3.2, ymin=-1.5, ymax=8.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.77:2.77] {(x+1)*(x+1)*(x-2)*(x-2)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "least-degree-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$2$", "why": "Counted one factor per intercept and ignored that each touching zero is repeated." },
+        { "text": "$3$", "why": "Gave only one of the two zeroes an even multiplicity; both must be even to touch." },
+        { "text": "$5$", "why": "An odd degree makes the two ends of the curve go in opposite directions, so the curve would have to cross the axis." }
+      ],
+      "solution_text": "Touching at $x=-1$ needs an even multiplicity, so the least is $2$.\nTouching at $x=2$ needs an even multiplicity, so the least is $2$.\n$2+2=4$, so the least possible degree is $4$."
+    },
+    {
+      "id": "q7",
+      "question_text": "A quartic polynomial flattens along the $x$-axis as it crosses at $x=-3$, cuts the $x$-axis at $x=1$, and passes through $(0,54)$. Its graph is shown. What is its equation?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.2, xmax=1.9, ymin=-70.5, ymax=70.5, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-4.8:1.4] {-2*(x+3)*(x+3)*(x+3)*(x-1)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "equation-from-graph",
+      "mastery": true,
+      "options": [
+        { "text": "$y=-2(x+3)^{3}(x-1)$", "correct": true },
+        { "text": "$y=2(x+3)^{3}(x-1)$", "why": "Sign error in $k$: $y=k(27)(-1)=-27k=54$ gives $k=-2$." },
+        { "text": "$y=-2(x-3)^{3}(x+1)$", "why": "The signs inside the brackets are reversed, giving intercepts at $3$ and $-1$." },
+        { "text": "$y=-2(x+3)^{2}(x-1)^{2}$", "why": "Two double zeroes would touch the axis twice; the curve crosses at both intercepts shown." }
+      ],
+      "solution_text": "Flattening while crossing at $x=-3$ needs an odd multiplicity of at least $3$, and cutting at $x=1$ needs multiplicity $1$.\n$3+1=4$, which matches the degree, so there are no other zeroes.\n$y=k(x+3)^{3}(x-1)$\n$54=k(3)^{3}(-1)$\n$54=-27k$\n$k=-2$\n$y=-2(x+3)^{3}(x-1)$"
+    }
+  ]
+}

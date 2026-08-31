@@ -1,0 +1,110 @@
+{
+  "skillId": "transform-trig-functions",
+  "atomType": "R",
+  "theory": {
+    "intro": "Every sine or cosine wave can be written as $y = k\\sin\\left(a(x-b)\\right)+c$. The four constants set the **amplitude** $|k|$, the **period** $\\dfrac{2\\pi}{a}$, the **phase** (a horizontal translation of $b$) and the **mean position** $y=c$.",
+    "facts": [
+      "The **amplitude** is $|k|$, the distance from the mean position up to a maximum.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (7.9,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-1.5) -- (0,3.5) node[above] {$y$};\n\\draw[dashed] (0,1.6) -- (7.4,1.6);\n\\node[above] at (6.9,1.6) {$y=c$};\n\\draw[smooth, thick, blue, domain=0:6.2832, samples=100, variable=\\x] plot ({\\x},{1.6+1.2*sin(deg(\\x))});\n\\draw[<->] (1.5708,1.6) -- (1.5708,2.8) node[midway, right] {$|k|$};\n\\draw[<->] (0,-0.8) -- (6.2832,-0.8) node[midway, below] {period};\n\\end{tikzpicture}\n[/tikz]",
+      "The **mean position** is the line $y=c$, halfway between the maximum and the minimum.",
+      "The period of $y=k\\sin(ax)$ and $y=k\\cos(ax)$ is $\\dfrac{2\\pi}{a}$, and the period of $y=k\\tan(ax)$ is $\\dfrac{\\pi}{a}$.",
+      "Read the phase only after $a$ has been factorised out, so $y=\\sin\\left(2x-\\dfrac{\\pi}{2}\\right)$ is $y=\\sin\\left(2\\left(x-\\dfrac{\\pi}{4}\\right)\\right)$, a shift of $\\dfrac{\\pi}{4}$ right.",
+      "The range of $y=k\\sin\\left(a(x-b)\\right)+c$ is $[\\,c-|k|,\\ c+|k|\\,]$, because $\\sin$ runs from $-1$ to $1$.",
+      "A negative $k$ reflects the curve in the $x$-axis, but the amplitude is still $|k|$.",
+      "$y=\\tan x$ has no amplitude and no mean position, because it has no maximum and no minimum."
+    ],
+    "steps": [
+      "Write the function in the form $y = k\\sin\\left(a(x-b)\\right)+c$",
+      "State the amplitude, period, phase and mean position",
+      "Apply the dilations, then the translations",
+      "Sketch the mean position, then one cycle, then repeat it across the domain"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph of $y = 4\\sin(3x)$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-5, ymax=5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-4, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {4*sin(deg(3*x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the amplitude, the period and the range of this function.",
+        "structure": "features-from-equation",
+        "solution_text": "$y = 4\\sin(3x)$ has $k=4$ and $a=3$.\nAmplitude $=|4|$\n$=4$\nPeriod $=\\dfrac{2\\pi}{3}$\nThe mean position is $y=0$, so the range is $[-4, 4]$."
+      },
+      {
+        "question_text": "The graph of $y = \\cos(2x)+3$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=4.8,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={2, 3, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {cos(deg(2*x))+3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the amplitude, the mean position and the range of this function.",
+        "structure": "features-from-equation",
+        "solution_text": "$y = \\cos(2x)+3$ has $k=1$ and $c=3$.\nAmplitude $=1$\nMean position: $y=3$\nRange $=[3-1,\\ 3+1]$\n$=[2, 4]$"
+      },
+      {
+        "question_text": "The graph of $y = \\tan(2x)$ is shown for $0 \\le x \\le \\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.2, xmax=3.5, ymin=-4.5, ymax=4.5,\n  xtick={0.7854, 1.5708, 2.3562, 3.1416},\n  xticklabels={$\\frac{\\pi}{4}$, $\\frac{\\pi}{2}$, $\\frac{3\\pi}{4}$, $\\pi$},\n  ytick={-4, -2, 2, 4},\n  samples=100, clip=false,\n  restrict y to domain=-4.5:4.5, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:0.6629] {tan(deg(2*x))};\n\\addplot[smooth, thick, blue, domain=0.9079:2.2337] {tan(deg(2*x))};\n\\addplot[smooth, thick, blue, domain=2.4787:3.1416] {tan(deg(2*x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the period of this function and the equations of its vertical asymptotes in $0 \\le x \\le \\pi$.",
+        "structure": "tan-transformations",
+        "solution_text": "For $y=\\tan(ax)$ the period is $\\dfrac{\\pi}{a}$, and here $a=2$.\nPeriod $=\\dfrac{\\pi}{2}$\nAsymptotes occur where $2x = \\dfrac{\\pi}{2}+n\\pi$.\n$x = \\dfrac{\\pi}{4}+\\dfrac{n\\pi}{2}$\nIn $0 \\le x \\le \\pi$: $x = \\dfrac{\\pi}{4}$ and $x = \\dfrac{3\\pi}{4}$"
+      },
+      {
+        "question_text": "The graph of $y = -2\\sin x + 1$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-2, ymax=4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-1, 1, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {-2*sin(deg(x))+1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the amplitude, the mean position and the range, and describe what the negative sign does to the graph.",
+        "structure": "features-from-equation",
+        "solution_text": "$y = -2\\sin x + 1$ has $k=-2$ and $c=1$.\nAmplitude $=|-2|$\n$=2$\nMean position: $y=1$\nRange $=[1-2,\\ 1+2]$\n$=[-1, 3]$\nThe negative sign reflects the curve in the $x$-axis, so the graph falls from the mean position first instead of rising."
+      },
+      {
+        "question_text": "The graph of $y = \\sin\\left(2x-\\dfrac{\\pi}{2}\\right)$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-1.6, ymax=1.6,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {sin(deg(2*x-pi/2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nRewrite the rule in the form $y = k\\sin\\left(a(x-b)\\right)+c$, then state the period and the horizontal translation.",
+        "structure": "rewrite-factored-form",
+        "solution_text": "1. **Write the function in the form $y = k\\sin\\left(a(x-b)\\right)+c$**\n$y = \\sin\\left(2x-\\dfrac{\\pi}{2}\\right)$\n$= \\sin\\left(2\\left(x-\\dfrac{\\pi}{4}\\right)\\right)$\n2. **State the amplitude, period, phase and mean position**\nPeriod $=\\dfrac{2\\pi}{2}$\n$=\\pi$\nHorizontal translation: $\\dfrac{\\pi}{4}$ to the right"
+      },
+      {
+        "question_text": "The graph below has the form $y = k\\cos(ax)$ with $k>0$ and $a>0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-4.2, ymax=4.2,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {3*cos(deg(2*x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nDetermine the values of $k$ and $a$, and write down the equation of the curve.",
+        "structure": "equation-from-graph",
+        "solution_text": "The curve runs between $y=-3$ and $y=3$, so the amplitude is $3$.\n$k=3$\nOne complete cycle runs from $x=0$ to $x=\\pi$, so the period is $\\pi$.\n$\\dfrac{2\\pi}{a} = \\pi$\n$a = 2$\n$y = 3\\cos(2x)$"
+      },
+      {
+        "question_text": "The graph of $y = 5\\cos x - 2$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-8, ymax=4.5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-7, -2, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {5*cos(deg(x))-2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the range of this function, and give the values of $x$ in $0 \\le x \\le 2\\pi$ at which the maximum occurs.",
+        "structure": "domain-range-transformed",
+        "solution_text": "The amplitude is $5$ and the mean position is $y=-2$.\nRange $=[-2-5,\\ -2+5]$\n$=[-7, 3]$\nThe maximum happens when $\\cos x = 1$.\n$x = 0$ and $x = 2\\pi$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph of $y = 3\\sin\\left(\\dfrac{x}{2}\\right)$ is shown for $0 \\le x \\le 4\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.6, xmax=13.6, ymin=-4.2, ymax=4.2,\n  xtick={3.1416, 6.2832, 9.4248, 12.5664},\n  xticklabels={$\\pi$, $2\\pi$, $3\\pi$, $4\\pi$},\n  ytick={-3, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:12.5664] {3*sin(deg(x/2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the amplitude, the period and the range, and say how many complete cycles are shown.",
+        "structure": "features-from-equation",
+        "solution_text": "$y = 3\\sin\\left(\\dfrac{x}{2}\\right)$ has $k=3$ and $a=\\dfrac{1}{2}$.\nAmplitude $=3$\nPeriod $=\\dfrac{2\\pi}{\\frac{1}{2}}$\n$=4\\pi$\nRange $=[-3, 3]$\nThe domain $0 \\le x \\le 4\\pi$ is exactly one period, so one complete cycle is shown."
+      },
+      {
+        "question_text": "The graph of $y = 2\\cos\\left(3x+\\dfrac{\\pi}{2}\\right)-1$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-3.8, ymax=1.8,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3, -1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {2*cos(deg(3*x+pi/2))-1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nRewrite the rule in the form $y = k\\cos\\left(a(x-b)\\right)+c$ and state the amplitude, period, horizontal translation and mean position.",
+        "structure": "rewrite-factored-form",
+        "solution_text": "1. **Write the function in the form $y = k\\sin\\left(a(x-b)\\right)+c$**\n$y = 2\\cos\\left(3x+\\dfrac{\\pi}{2}\\right)-1$\n$= 2\\cos\\left(3\\left(x+\\dfrac{\\pi}{6}\\right)\\right)-1$\n2. **State the amplitude, period, phase and mean position**\nAmplitude $=2$\nPeriod $=\\dfrac{2\\pi}{3}$\nHorizontal translation: $\\dfrac{\\pi}{6}$ to the left\nMean position: $y=-1$"
+      },
+      {
+        "question_text": "The graph below has the form $y = k\\sin x + c$ with $k>0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=6.2,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={1, 3, 5},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {2*sin(deg(x))+3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUse the maximum and minimum values to determine $k$ and $c$, and write down the equation of the curve.",
+        "structure": "equation-from-graph",
+        "solution_text": "The maximum is $5$ and the minimum is $1$.\n$k = \\dfrac{5-1}{2}$\n$= 2$\n$c = \\dfrac{5+1}{2}$\n$= 3$\nOne cycle runs from $x=0$ to $x=2\\pi$, so no horizontal dilation is needed.\n$y = 2\\sin x + 3$"
+      },
+      {
+        "question_text": "The graph of $y = -2\\sin\\left(3\\left(x-\\dfrac{\\pi}{6}\\right)\\right)$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-3, ymax=3,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-2, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {-2*sin(deg(3*(x-pi/6)))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nDescribe, in order, the transformations that take $y = \\sin x$ to this graph, and state the amplitude and period.",
+        "structure": "sketch-transformed-curve",
+        "solution_text": "The rule is already in the form $y = k\\sin\\left(a(x-b)\\right)$ with $k=-2$, $a=3$ and $b=\\dfrac{\\pi}{6}$.\nDilate horizontally by a factor of $\\dfrac{1}{3}$.\nTranslate $\\dfrac{\\pi}{6}$ to the right.\nDilate vertically by a factor of $2$ and reflect in the $x$-axis.\nAmplitude $=2$\nPeriod $=\\dfrac{2\\pi}{3}$"
+      },
+      {
+        "question_text": "The graph of $y = \\tan\\left(x-\\dfrac{\\pi}{4}\\right)+2$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-3.5, ymax=7.5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3, 2, 7},\n  samples=100, clip=false,\n  restrict y to domain=-3.5:7.5, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:2.1588] {tan(deg(x-pi/4))+2};\n\\addplot[smooth, thick, blue, domain=2.5536:5.3004] {tan(deg(x-pi/4))+2};\n\\addplot[smooth, thick, blue, domain=5.6952:6.2832] {tan(deg(x-pi/4))+2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the period and the equations of the vertical asymptotes in $0 \\le x \\le 2\\pi$, and explain why this function has no amplitude.",
+        "structure": "tan-transformations",
+        "solution_text": "The horizontal dilation factor is $1$, so the period is unchanged.\nPeriod $=\\pi$\nAsymptotes occur where $x-\\dfrac{\\pi}{4} = \\dfrac{\\pi}{2}+n\\pi$.\n$x = \\dfrac{3\\pi}{4}+n\\pi$\nIn $0 \\le x \\le 2\\pi$: $x = \\dfrac{3\\pi}{4}$ and $x = \\dfrac{7\\pi}{4}$\nA tangent curve has no maximum and no minimum, so it has no mean position and therefore no amplitude."
+      },
+      {
+        "question_text": "The graph of $f(x) = 4-3\\cos(2x)$ is shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=8.4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={1, 4, 7},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {4-3*cos(deg(2*x))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the range of $f(x)$ and the values of $x$ in $0 \\le x \\le 2\\pi$ at which the maximum occurs.",
+        "structure": "domain-range-transformed",
+        "solution_text": "$f(x) = -3\\cos(2x)+4$, so the amplitude is $3$ and the mean position is $y=4$.\nRange $=[4-3,\\ 4+3]$\n$=[1, 7]$\nThe maximum happens when $\\cos(2x) = -1$.\n$2x = \\pi$ or $2x = 3\\pi$\n$x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{3\\pi}{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The graph below has the form $y = k\\cos\\left(a(x-b)\\right)+c$ with $k>0$, $a>0$ and $0 < b < \\dfrac{\\pi}{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=8.4,\n  xtick={0.5236, 2.0944, 3.6652, 5.2360, 6.2832},\n  xticklabels={$\\frac{\\pi}{6}$, $\\frac{2\\pi}{3}$, $\\frac{7\\pi}{6}$, $\\frac{5\\pi}{3}$, $2\\pi$},\n  ytick={1, 4, 7},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {3*cos(deg(2*(x-pi/6)))+4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nDetermine $k$, $a$, $b$ and $c$, and write down the equation of the curve.",
+        "structure": "equation-from-graph",
+        "solution_text": "The maximum is $7$ and the minimum is $1$.\n$k = \\dfrac{7-1}{2}$\n$= 3$\n$c = \\dfrac{7+1}{2}$\n$= 4$\nSuccessive maxima are at $x=\\dfrac{\\pi}{6}$ and $x=\\dfrac{7\\pi}{6}$, so the period is $\\pi$.\n$\\dfrac{2\\pi}{a} = \\pi$\n$a = 2$\nA cosine curve has its maximum at $x=b$, and the first maximum is at $x=\\dfrac{\\pi}{6}$.\n$b = \\dfrac{\\pi}{6}$\n$y = 3\\cos\\left(2\\left(x-\\dfrac{\\pi}{6}\\right)\\right)+4$"
+      },
+      {
+        "question_text": "A curve is defined by $2y = 6\\sin\\left(4x+\\dfrac{\\pi}{2}\\right)+10$, and is shown for $0 \\le x \\le \\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.2, xmax=3.5, ymin=-0.6, ymax=9.4,\n  xtick={0.7854, 1.5708, 2.3562, 3.1416},\n  xticklabels={$\\frac{\\pi}{4}$, $\\frac{\\pi}{2}$, $\\frac{3\\pi}{4}$, $\\pi$},\n  ytick={2, 5, 8},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:3.1416] {3*sin(deg(4*x+pi/2))+5};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nWrite the rule in the form $y = k\\sin\\left(a(x-b)\\right)+c$, then state the amplitude, period, horizontal translation, mean position and range.",
+        "structure": "rewrite-factored-form",
+        "solution_text": "1. **Write the function in the form $y = k\\sin\\left(a(x-b)\\right)+c$**\n$2y = 6\\sin\\left(4x+\\dfrac{\\pi}{2}\\right)+10$\n$y = 3\\sin\\left(4x+\\dfrac{\\pi}{2}\\right)+5$\n$= 3\\sin\\left(4\\left(x+\\dfrac{\\pi}{8}\\right)\\right)+5$\n2. **State the amplitude, period, phase and mean position**\nAmplitude $=3$\nPeriod $=\\dfrac{2\\pi}{4}$\n$=\\dfrac{\\pi}{2}$\nHorizontal translation: $\\dfrac{\\pi}{8}$ to the left\nMean position: $y=5$\nRange $=[5-3,\\ 5+3]$\n$=[2, 8]$"
+      },
+      {
+        "question_text": "The function $f(x) = 2\\sin(2x)$ is defined only on $\\dfrac{\\pi}{8} \\le x \\le \\dfrac{\\pi}{3}$, as shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.08, xmax=1.3, ymin=-0.4, ymax=2.6,\n  xtick={0.3927, 0.7854, 1.0472},\n  xticklabels={$\\frac{\\pi}{8}$, $\\frac{\\pi}{4}$, $\\frac{\\pi}{3}$},\n  ytick={1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0.3927:1.0472] {2*sin(deg(2*x))};\n\\addplot[only marks, mark=*, blue] coordinates {(0.3927,1.41421) (1.0472,1.73205)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nDetermine the range of $f(x)$ on this domain, giving exact values.",
+        "structure": "domain-range-transformed",
+        "solution_text": "The greatest possible value occurs when $\\sin(2x)=1$.\n$2x = \\dfrac{\\pi}{2}$\n$x = \\dfrac{\\pi}{4}$\nThis lies inside the domain, so the maximum value is $2$.\nThe minimum must then be at one of the endpoints.\n$f\\left(\\dfrac{\\pi}{8}\\right) = 2\\sin\\dfrac{\\pi}{4}$\n$= \\sqrt{2}$\n$f\\left(\\dfrac{\\pi}{3}\\right) = 2\\sin\\dfrac{2\\pi}{3}$\n$= \\sqrt{3}$\nSince $\\sqrt{2} < \\sqrt{3}$, the smallest value is $\\sqrt{2}$.\nRange $=\\left[\\sqrt{2},\\ 2\\right]$"
+      }
+    ]
+  }
+}

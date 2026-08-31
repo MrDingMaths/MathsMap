@@ -1,0 +1,126 @@
+{
+  "skillId": "separation-of-variables",
+  "atomType": "R",
+  "theory": {
+    "intro": "A first order equation is **separable** when $\\dfrac{dy}{dx}$ can be written as $f(x)g(y)$. Move every $y$ to one side with $dy$ and every $x$ to the other with $dx$, then integrate both sides.",
+    "facts": [
+      "$\\dfrac{dy}{dx}=x+y$ is not separable, because the right side is a sum rather than a product.",
+      "Separating gives $\\dfrac{1}{g(y)}\\,dy=f(x)\\,dx$, which assumes $g(y)\\ne 0$.",
+      "One constant of integration is enough, since two constants can always be combined into one.",
+      "Introduce the constant at the integration step, before rearranging — never add it after exponentiating.",
+      "Any value of $y$ with $g(y)=0$ is a **constant solution**, and it is lost when you divide by $g(y)$.",
+      "Removing the absolute value signs replaces $\\pm e^{C}$ by a single arbitrary constant $A$.",
+      "Rename the constant whenever you operate on it, for example when $C$ becomes $3C$ or $e^{C}$.",
+      "An initial condition turns the general solution into one particular solution."
+    ],
+    "steps": [
+      "Separate the variables so that each side involves only one variable",
+      "Integrate both sides, adding one constant of integration",
+      "Substitute the initial condition to evaluate the constant",
+      "Rearrange to make $y$ the subject"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Which of $\\dfrac{dy}{dx}=\\cos x-y^{4}$ and $\\dfrac{dy}{dx}=\\dfrac{\\cos x}{y^{4}}$ is separable? Justify your answer.",
+        "structure": "identify-separable",
+        "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{\\cos x}{y^{4}}=\\cos x\\times y^{-4}$\nThis is a product of a function of $x$ alone and a function of $y$ alone, so it is separable.\n$\\dfrac{dy}{dx}=\\cos x-y^{4}$ is a difference, not a product, so it cannot be separated."
+      },
+      {
+        "question_text": "Separate the variables in $\\dfrac{dy}{dx}=3x^{2}(y+2)$.",
+        "structure": "separate-only",
+        "solution_text": "$\\dfrac{dy}{dx}=3x^{2}(y+2)$\n$dy=3x^{2}(y+2)\\,dx$\n$\\dfrac{1}{y+2}\\,dy=3x^{2}\\,dx$"
+      },
+      {
+        "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\dfrac{4x}{y}$, giving $y^{2}$ in terms of $x$.",
+        "structure": "general-solution",
+        "solution_text": "$y\\,dy=4x\\,dx$\n$\\displaystyle\\int y\\,dy=\\int 4x\\,dx$\n$\\dfrac{y^{2}}{2}=2x^{2}+C$\n$y^{2}=4x^{2}+D$"
+      },
+      {
+        "question_text": "Find the general solution of $\\dfrac{dy}{dx}=6x^{2}e^{-y}$, making $y$ the subject.",
+        "structure": "general-solution",
+        "solution_text": "$e^{y}\\,dy=6x^{2}\\,dx$\n$\\displaystyle\\int e^{y}\\,dy=\\int 6x^{2}\\,dx$\n$e^{y}=2x^{3}+C$\n$y=\\ln\\left(2x^{3}+C\\right)$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{2x}{y}$ given $y(0)=3$.",
+        "structure": "particular-solution",
+        "solution_text": "$y\\,dy=2x\\,dx$\n$\\dfrac{y^{2}}{2}=x^{2}+C$\n$y^{2}=2x^{2}+D$\nSubstituting $x=0$, $y=3$ gives $9=D$.\n$y^{2}=2x^{2}+9$\nSince $y(0)=3>0$, take the positive branch.\n$y=\\sqrt{2x^{2}+9}$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=xy$ given $y(0)=4$.",
+        "structure": "particular-solution",
+        "solution_text": "$\\dfrac{1}{y}\\,dy=x\\,dx$\n$\\ln|y|=\\dfrac{x^{2}}{2}+C$\n$y=Ae^{\\frac{x^{2}}{2}}$\nSubstituting $x=0$, $y=4$ gives $A=4$.\n$y=4e^{\\frac{x^{2}}{2}}$"
+      },
+      {
+        "question_text": "Find the constant solution of $\\dfrac{dy}{dx}=x^{3}(y-6)$, and verify it by substitution.",
+        "structure": "constant-solution",
+        "solution_text": "$x^{3}(y-6)=0$ for all $x$ when $y=6$.\nIf $y=6$ then $\\dfrac{dy}{dx}=0$.\nThe right side becomes $x^{3}(6-6)=0$, which matches.\nThe constant solution is $y=6$."
+      },
+      {
+        "question_text": "Find all constant solutions of $\\dfrac{dy}{dx}=x(y-2)(y+5)$.",
+        "structure": "constant-solution",
+        "solution_text": "$(y-2)(y+5)=0$\n$y=2$ or $y=-5$\nEach makes $\\dfrac{dy}{dx}=0$ for every $x$, so both are constant solutions."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\dfrac{y}{x^{3}}$, making $y$ the subject.",
+        "structure": "general-solution",
+        "solution_text": "$\\dfrac{1}{y}\\,dy=x^{-3}\\,dx$\n$\\ln|y|=-\\dfrac{1}{2x^{2}}+C$\n$|y|=e^{C}e^{-\\frac{1}{2x^{2}}}$\n$y=Ae^{-\\frac{1}{2x^{2}}}$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=2x\\left(1+y^{2}\\right)$ given $y(0)=1$.",
+        "structure": "particular-solution",
+        "solution_text": "$\\dfrac{1}{1+y^{2}}\\,dy=2x\\,dx$\n$\\tan^{-1}y=x^{2}+C$\nSubstituting $x=0$, $y=1$ gives $\\dfrac{\\pi}{4}=C$.\n$\\tan^{-1}y=x^{2}+\\dfrac{\\pi}{4}$\n$y=\\tan\\left(x^{2}+\\dfrac{\\pi}{4}\\right)$"
+      },
+      {
+        "question_text": "The solution curve of $\\dfrac{dy}{dx}=-\\dfrac{4x}{9y}$ passes through $(0,2)$. Find its equation as a relation, without fractions.",
+        "structure": "implicit-relation",
+        "solution_text": "$9y\\,dy=-4x\\,dx$\n$\\dfrac{9y^{2}}{2}=-2x^{2}+C$\n$9y^{2}=-4x^{2}+D$\n$4x^{2}+9y^{2}=D$\nSubstituting $x=0$, $y=2$ gives $36=D$.\n$4x^{2}+9y^{2}=36$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=y\\cos x$ given $y(0)=2$.",
+        "structure": "particular-solution",
+        "solution_text": "$\\dfrac{1}{y}\\,dy=\\cos x\\,dx$\n$\\ln|y|=\\sin x+C$\n$y=Ae^{\\sin x}$\nSubstituting $x=0$, $y=2$ gives $A=2$, since $\\sin 0=0$.\n$y=2e^{\\sin x}$"
+      },
+      {
+        "question_text": "A student solves $\\dfrac{dy}{dx}=\\dfrac{y}{x}$ with $y(1)=4$ and writes: $\\ln|y|=\\ln|x|$, so $y=x$; then, since $y(1)=4$, the answer is $y=x+3$. Identify the error and give the correct solution.",
+        "structure": "order-of-steps",
+        "solution_text": "The constant of integration was left out when both sides were integrated, so it was added on at the very end instead of appearing where it belongs.\n$\\dfrac{1}{y}\\,dy=\\dfrac{1}{x}\\,dx$\n$\\ln|y|=\\ln|x|+C$\n$y=Ax$\nSubstituting $x=1$, $y=4$ gives $A=4$.\n$y=4x$"
+      },
+      {
+        "question_text": "Consider $\\dfrac{dy}{dx}=\\dfrac{3y+12}{x}$ for $x>0$. Find the constant solution, then find the other solutions, and show how the two can be combined.",
+        "structure": "constant-solution",
+        "solution_text": "$3y+12=0$ gives the constant solution $y=-4$.\n$\\dfrac{1}{3y+12}\\,dy=\\dfrac{1}{x}\\,dx$\n$\\dfrac{1}{3}\\ln|3y+12|=\\ln x+C$\n$\\ln|3y+12|=3\\ln x+D$\n$3y+12=Ax^{3}$\n$y=Bx^{3}-4$\nTaking $B=0$ gives $y=-4$, so the constant solution is included in $y=Bx^{3}-4$."
+      },
+      {
+        "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\dfrac{6x^{2}}{y^{2}}$, making $y$ the subject.",
+        "structure": "general-solution",
+        "solution_text": "$y^{2}\\,dy=6x^{2}\\,dx$\n$\\dfrac{y^{3}}{3}=2x^{3}+C$\n$y^{3}=6x^{3}+D$\n$y=\\sqrt[3]{6x^{3}+D}$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{2y}{x+1}$ for $x>-1$, given $y(0)=5$.",
+        "structure": "particular-solution",
+        "solution_text": "$\\dfrac{1}{y}\\,dy=\\dfrac{2}{x+1}\\,dx$\n$\\ln|y|=2\\ln(x+1)+C$\n$y=A(x+1)^{2}$\nSubstituting $x=0$, $y=5$ gives $A=5$.\n$y=5(x+1)^{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{x\\left(y^{2}+1\\right)}{y\\left(x^{2}+1\\right)}$ given $y(1)=2$, leaving your answer as a relation.",
+        "structure": "implicit-relation",
+        "solution_text": "$\\dfrac{y}{y^{2}+1}\\,dy=\\dfrac{x}{x^{2}+1}\\,dx$\n$\\dfrac{1}{2}\\ln\\left(y^{2}+1\\right)=\\dfrac{1}{2}\\ln\\left(x^{2}+1\\right)+C$\n$\\ln\\left(y^{2}+1\\right)=\\ln\\left(x^{2}+1\\right)+D$\n$y^{2}+1=A\\left(x^{2}+1\\right)$\nSubstituting $x=1$, $y=2$ gives $5=2A$, so $A=\\dfrac{5}{2}$.\n$2y^{2}+2=5x^{2}+5$\n$2y^{2}=5x^{2}+3$"
+      },
+      {
+        "question_text": "A curve passes through $(0,1)$, and at every point its gradient equals the product of its $x$-coordinate and the square of its $y$-coordinate. Find the equation of the curve, and state the largest interval containing $x=0$ on which it is defined.",
+        "structure": "particular-solution",
+        "solution_text": "$\\dfrac{dy}{dx}=xy^{2}$\n$y^{-2}\\,dy=x\\,dx$\n$-\\dfrac{1}{y}=\\dfrac{x^{2}}{2}+C$\nSubstituting $x=0$, $y=1$ gives $-1=C$.\n$-\\dfrac{1}{y}=\\dfrac{x^{2}}{2}-1$\n$\\dfrac{1}{y}=\\dfrac{2-x^{2}}{2}$\n$y=\\dfrac{2}{2-x^{2}}$\nThe denominator is zero when $x=\\pm\\sqrt{2}$, so the curve is defined for $-\\sqrt{2}<x<\\sqrt{2}$."
+      },
+      {
+        "question_text": "Solve $\\dfrac{dy}{dx}=x\\sqrt{y}$ given $y(0)=9$. Explain why $y=0$ also satisfies the differential equation but is not a solution of this initial value problem.",
+        "structure": "particular-solution",
+        "solution_text": "$y^{-\\frac{1}{2}}\\,dy=x\\,dx$\n$2\\sqrt{y}=\\dfrac{x^{2}}{2}+C$\nSubstituting $x=0$, $y=9$ gives $6=C$.\n$2\\sqrt{y}=\\dfrac{x^{2}}{2}+6$\n$\\sqrt{y}=\\dfrac{x^{2}}{4}+3$\n$y=\\left(\\dfrac{x^{2}}{4}+3\\right)^{2}$\nIf $y=0$ then $\\dfrac{dy}{dx}=0$ and $x\\sqrt{0}=0$, so $y=0$ satisfies the differential equation.\nIt is the constant solution lost when dividing by $\\sqrt{y}$, and it fails the condition $y(0)=9$."
+      }
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "batch": "W3-11",
+  "model": "gemini-3.7-flash-high",
+  "note": "Ext1 Y11 polynomials remainder (8) + binomial theorem (8) + further trigonometry (7) = 23. Depends on W3-9 (combinations) for the binomial sections and W3-7 (Pythagorean identities, trig equations) for the trig sections; both must be collected first.",
+  "sections": [
+    {
+      "name": "poly-language",
+      "skillIds": ["poly-degree-sum", "polynomial-end-behaviour", "zeroes-roots-multiplicity", "polynomial-division-statement"],
+      "bookletPaths": [
+        "booklets/Stage 6 Extension 1/Polynomials 1_Language and graphs of polynomials.md",
+        "booklets/Stage 6 Extension 1/Polynomials 2_Remainder and factor theorems.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "MOST OF THIS TOPIC ALREADY EXISTS (`define-polynomials`, `polynomial-notation-evaluate`, `add-subtract-multiply-polynomials`, `divide-polynomials`, `remainder-theorem`, `factor-theorem`, `graph-polynomials-factored`, `polynomial-roots-multiplicity`, `remainder-quadratic-divisor`, `find-equation-polynomial-graph`). Do NOT re-teach any of them.",
+        "`poly-degree-sum` = the degree of a sum, difference and product ($\\deg(PQ)=\\deg P+\\deg Q$; the degree of a sum can DROP when leading terms cancel — that case must appear). `polynomial-end-behaviour` = behaviour as $x\\to\\pm\\infty$ from the leading term's degree and sign (the four cases). `zeroes-roots-multiplicity` = the language: a zero of $P(x)$, a root of $P(x)=0$, an $x$-intercept of the graph, and what an even vs odd multiplicity does to the curve at that point. `polynomial-division-statement` = writing $P(x)=A(x)Q(x)+R(x)$ with $\\deg R<\\deg A$ and using it.",
+        "EVEN MULTIPLICITY TOUCHES, ODD CROSSES (and multiplicity 3 flattens as it crosses). Swapping those is the compulsory named distractor for the multiplicity skill.",
+        "The degree-of-a-sum drop is the discriminating case: $\\deg(P+Q)$ is at MOST $\\max(\\deg P,\\deg Q)$, not equal to it. Build one item where the leading terms cancel.",
+        "`polynomial-division-statement` items must state the divisor's degree constraint on the remainder: dividing by a quadratic leaves a remainder of degree at most 1, so the answer is a LINEAR expression, not a constant.",
+        "Figures: polynomial sketches must show the correct behaviour at each intercept (touch vs cross), keep the plotted domain inside the axis window, and must not label the multiplicity when identifying it is the task."
+      ]
+    },
+    {
+      "name": "poly-roots",
+      "skillIds": ["sum-product-roots-quadratic", "sum-product-roots-cubic", "sum-product-roots-quartic", "apply-sum-product-roots"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Polynomials 3_Sums and products of zeroes of polynomials.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One degree per skill: quadratic ($\\alpha+\\beta=-b/a$, $\\alpha\\beta=c/a$), cubic (adds $\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma=c/a$ and $\\alpha\\beta\\gamma=-d/a$), quartic (all four symmetric sums), then `apply-sum-product-roots` for problems that USE them — finding an unknown coefficient, forming a new equation whose roots are transformed, or evaluating $\\alpha^{2}+\\beta^{2}$.",
+        "THE ALTERNATING SIGN is the topic's whole difficulty: the sums alternate $-b/a$, $+c/a$, $-d/a$, $+e/a$. Every skill needs at least one item where the sign decides the answer, and 'used $+b/a$' must be a named distractor.",
+        "$a\\neq 1$ MUST APPEAR: at least half the items should have a leading coefficient other than 1, since dividing by $a$ is exactly what students omit.",
+        "$\\alpha^{2}+\\beta^{2}=(\\alpha+\\beta)^{2}-2\\alpha\\beta$ and similar identities belong to `apply-sum-product-roots`; deriving them there is the skill, so do not hand the identity over in the stem.",
+        "These four skills produce numerically similar answers (small integers and simple fractions) — vary the coefficients between skills and check no two items share a value signature.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "binomial-pascal",
+      "skillIds": ["pascals-triangle", "binomial-coefficient-equivalence", "binomial-theorem-expand"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/The Binomial Theorem.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`pascals-triangle` = building the triangle by the addition rule, reading a row off it, and the row/entry INDEXING convention (row $n$ starts at $n=0$ and entry $r$ starts at $r=0$). `binomial-coefficient-equivalence` = that the entries ARE $\\binom{n}{r}$, with $\\binom{n}{r}=\\binom{n}{n-r}$ and Pascal's rule stated as an identity. `binomial-theorem-expand` = the full expansion of $(a+b)^{n}$ for small $n$, including $(a-b)^{n}$ and $(2x+3)^{n}$ style with coefficients and powers.",
+        "OFF-BY-ONE INDEXING is the entire hazard of this section: the 5th ROW is $n=4$ and the 3rd ENTRY is $r=2$. State the convention in the theory and use it identically in every stem; an item whose answer changes under the other convention is broken.",
+        "SIGNS AND COEFFICIENT POWERS: expanding $(2x-3)^{4}$ means each term carries $\\binom{4}{r}(2x)^{4-r}(-3)^{r}$ — the numeric coefficients must be raised to the power too, and the signs must alternate. Recompute every term; 'forgot to raise the 2' and 'kept all signs positive' are the compulsory named distractors.",
+        "PASCAL'S TRIANGLE IS DRAWN AS A `[tikz]` FIGURE (owner ruling, 2026-08-30, superseding this config's original 'KaTeX array, never a [tikz] drawing' hazard — the W3-11 session drew it on the owner's instruction and the two figures shipped in `pascals-triangle` foundation[0] and `binomial-theorem-expand` foundation[0]). Draw the entries as `\\node`s on a centred triangular lattice with the addition arrows shown where the addition rule is being taught; do not draw ruled table lines. ORDINARY TABLES elsewhere remain a KaTeX `array` inside `$...$`. Where an item requires reading a row, the row must actually appear in the item.",
+        "`combinations-nCr` and `combinations-identities` are prerequisites generated in W3-9 — assume them, do not re-teach counting.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "binomial-terms",
+      "skillIds": ["binomial-specific-term", "binomial-coefficient-in-product"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/The Binomial Theorem.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`binomial-specific-term` = the general term $T_{r+1}=\\binom{n}{r}a^{n-r}b^{r}$ used to find a NAMED term (the 5th term) or the term in a stated power of $x$, including the constant term (the power of $x$ is zero) and the case where no such term exists. `binomial-coefficient-in-product` = the coefficient of a power of $x$ in a product such as $(1+2x)(3-x)^{6}$, where two terms of the expansion contribute and must be ADDED.",
+        "$T_{r+1}$ vs $T_{r}$: the term index is one more than $r$. Say which convention is used and use it everywhere; 'used $r=5$ for the 5th term' is the compulsory named distractor.",
+        "'COEFFICIENT OF $x^{3}$' MEANS THE NUMBER, INCLUDING ITS SIGN, and not the whole term. Pin that in the stem, and never place $-160x^{3}$ and $-160$ in the same option list.",
+        "In `binomial-coefficient-in-product`, the solution must show BOTH contributing products and their sum — an item that has only one contributor belongs to the other skill.",
+        "SOLVING FOR $n$ or for an unknown constant (given that the coefficient of $x^{2}$ is 90, find $n$) usually yields a quadratic with one inadmissible root ($n$ must be a positive integer, $r\\le n$). Include one such item and show the rejection.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "binomial-identities",
+      "skillIds": ["simplify-binomial-coefficient-expressions", "prove-binomial-identities", "prove-binomial-identities-equate-coefficients"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/The Binomial Theorem.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`simplify-binomial-coefficient-expressions` = algebraic manipulation of $\\binom{n}{r}$ using the factorial definition and Pascal's rule. `prove-binomial-identities` = proving identities such as $\\sum_{r=0}^{n}\\binom{n}{r}=2^{n}$ and $\\sum(-1)^{r}\\binom{n}{r}=0$ by SUBSTITUTING values into the binomial expansion. `prove-binomial-identities-equate-coefficients` = proving an identity (e.g. Vandermonde-style $\\sum\\binom{m}{r}\\binom{n}{k-r}=\\binom{m+n}{k}$) by expanding a product two ways and equating the coefficient of a chosen power.",
+        "THE SUBSTITUTION MUST BE STATED: 'put $a=b=1$ in $(a+b)^{n}$' or 'put $x=-1$'. An MCQ here should ask WHICH substitution proves the identity, or which line of a given proof is wrong — not for a numeric answer.",
+        "The equate-coefficients skill must name both expansions and the power being compared; a proof that only expands one side proves nothing, and 'compared the wrong power' is a good named distractor.",
+        "Do not blur the two proof skills: substitution proofs never need a product of two expansions, and equating coefficients never works by substituting a value.",
+        "Factorial simplification answers must be pinned to one form (fully cancelled, or in terms of $\\binom{n}{r}$) so two equivalent options cannot appear.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "x1-trig-3d-and-compound",
+      "skillIds": ["solve-3d-trig", "sum-difference-identities", "double-angle-identities"],
+      "bookletPaths": [
+        "booklets/Stage 6 Extension 1/Further Trigonometry 1_Trigonometry in three dimensions.md",
+        "booklets/Stage 6 Extension 1/Further Trigonometry 3_Further trigonometric equations.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["solids-3d", "angles"],
+      "hazards": [
+        "`pythagoras-3d`, `space-diagonal-3d`, `trigonometry-3d` and `interpret-3d-trig-context` ALREADY EXIST. `solve-3d-trig` here is the multi-step problem: identify the right triangle inside the solid, solve it, and carry the result into a SECOND triangle (angle of elevation from a corner, angle between a diagonal and a face). Every item must need at least two triangles — a single-triangle 3D question belongs to the existing skills.",
+        "ANCHOR GAP: `dp-s6x1y11-trig-2` has NO booklet — there is no 'Further Trigonometry 2_' file, so the sum/difference and double-angle identities are near-`anchor: none`. Booklet 3 uses them but does not derive them. State the identities as given results in the theory ($\\sin(A\\pm B)=\\sin A\\cos B\\pm\\cos A\\sin B$, $\\cos(A\\pm B)=\\cos A\\cos B\\mp\\sin A\\sin B$, $\\tan(A\\pm B)=\\frac{\\tan A\\pm\\tan B}{1\\mp\\tan A\\tan B}$, and the three forms of $\\cos 2A$), keep every item routine and syllabus-central, and expect extra human review on these two skills.",
+        "`sum-difference-identities` = $\\sin(A\\pm B)$, $\\cos(A\\pm B)$, $\\tan(A\\pm B)$: stating them, using them to expand, and using them to get exact values of angles such as $75^{\\circ}=45^{\\circ}+30^{\\circ}$. `double-angle-identities` = $\\sin 2A$, $\\cos 2A$ (all three forms) and $\\tan 2A$, including running them backwards to recognise $2\\sin A\\cos A$.",
+        "SIGN PATTERN: $\\cos(A+B)=\\cos A\\cos B-\\sin A\\sin B$ — the sign FLIPS for cosine and does not for sine. That flip is the compulsory named distractor for the sum/difference skill.",
+        "$\\cos 2A$ HAS THREE FORMS ($1-2\\sin^{2}A$, $2\\cos^{2}A-1$, $\\cos^{2}A-\\sin^{2}A$) and any of them may be the 'right' answer, so every item must pin the required form in the stem or ask which form is most useful for a stated purpose. Two equivalent forms in one option list is a defect.",
+        "Given $\\sin A$ and a quadrant, computing $\\sin 2A$ needs $\\cos A$ WITH THE RIGHT SIGN — state the quadrant in every such stem and show the sign decision in the working.",
+        "3D figures: draw with tikz-3dplot conventions, use dashed lines for hidden edges, mark the right angle in the base plane, mark angles with `\\pic {angle=A--V--B}` (never a hand-drawn arc), and label vertices rather than printing lengths on edges that the student must find."
+      ]
+    },
+    {
+      "name": "x1-trig-equations",
+      "skillIds": ["solve-trig-equations-identities", "auxiliary-angle-form", "solve-auxiliary-angle-equations", "solve-homogeneous-trig-equations"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Trigonometry 3_Further trigonometric equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`solve-trig-equations-identities` = equations needing a double-angle or sum/difference identity first (e.g. $\\sin 2x=\\sin x$), then solved over a stated domain. `auxiliary-angle-form` = REWRITING $a\\cos x+b\\sin x$ as $R\\cos(x-\\alpha)$ (or the sine form) — finding $R=\\sqrt{a^{2}+b^{2}}$ and $\\alpha$. `solve-auxiliary-angle-equations` = using that form to solve, and to state maxima/minima. `solve-homogeneous-trig-equations` = equations where every term has the same total degree in $\\sin$ and $\\cos$, solved by DIVIDING by $\\cos^{n}x$ to get an equation in $\\tan x$.",
+        "DIVIDING BY $\\cos x$ LOSES SOLUTIONS where $\\cos x=0$: the homogeneous method must check those angles separately, and the solution must say so. 'Divided through and never checked $\\cos x=0$' is the compulsory named distractor.",
+        "$\\sin 2x=\\sin x$ MUST NOT BE SOLVED BY CANCELLING $\\sin x$ — factorise instead, or solutions are lost. Make that an item.",
+        "EVERY EQUATION STATES ITS DOMAIN and every solution lists ALL solutions in it; a doubled argument doubles the number of solutions, so transform the domain BEFORE solving. Where the option must be a single value, restrict the domain so exactly one solution survives and say so.",
+        "AUXILIARY ANGLE CONVENTIONS: $R$ is positive, $\\alpha$ is acute (or in a stated interval), and both the cosine and sine forms are legitimate — pin the form in the stem. Give $\\alpha$ to a stated accuracy or as an exact angle where one exists; do not mix $\\alpha=53^{\\circ}8'$ and $53.13^{\\circ}$ in one option list.",
+        "Figures where used: the trig curve over the stated domain with the horizontal line drawn so the number of intersections is visible, intersections NOT coordinate-labelled, curve labels off the curve, plotted domain clipped to the axis window."
+      ]
+    }
+  ]
+}

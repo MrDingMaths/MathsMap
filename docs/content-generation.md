@@ -194,6 +194,59 @@ answer. A vacuous procedure ("Check each representation", "Confirm the same line
 — drop the steps and, if the `intro`/`facts` are equally hollow, rewrite them from the booklet
 and syllabus dot point.
 
+### Networks step-diagram setout
+
+The Stage 6 Standard networks booklets teach Prim's algorithm and Dijkstra's algorithm as a
+**sequence of network diagrams**, not as prose. *Networks, Paths and Trees 2* prints
+`Step 1: Choose A`, `Step 2: Connect AB`, `Step 3: Connect AD`, … — the same graph redrawn each
+time with the tree so far drawn thick — and for Dijkstra it says outright: *"Redraw the graph with
+empty circles at each vertex … write the lowest total weight inside the circle."*
+
+So a solution that executes an algorithm **shows the states**, it does not describe them.
+`From $A(4)$: to $C \implies 4 + 6 = 10$` is a defect: it is the narrator's account of a diagram
+the student never sees.
+
+- **Where the diagrams go.** Under the `N. **Step name**` header for the stage they belong to,
+  then the aligned `=` total, then the answer line.
+- **How many.** One per edge added (Prim, spanning-tree construction) or per frontier expansion
+  (Dijkstra), capped at **6**. A network with more than 7 vertices shows 4 milestones: the start
+  state, two mid-states, and the finished tree or fully-labelled network.
+- **Do not hand-draw them.** Every figure in a sequence must reuse the question figure's
+  `\coordinate` block byte for byte, and ~250 near-identical pictures is not model work. Author a
+  bare `[[STEP]]` line where each diagram belongs and describe its state as data next to the
+  replacement:
+
+  ```json
+  "steps": [
+    { "bold": [] },
+    { "bold": ["A-B"] },
+    { "bold": ["A-B", "A-C"] }
+  ]
+  ```
+
+  `bold` is the cumulative set of selected edges at that step; Dijkstra uses
+  `{ "labels": { "S": 0, "A": 4 } }` instead, and an unreached vertex is simply absent (it renders
+  as the booklet's empty circle). `scripts/networks-steps.mjs` replaces each marker with a real
+  `[tikz]` block, drawn to the Networks and graphs playbook in
+  [tikz-prompt.md](tikz-prompt.md). An item whose question gives the network as an edge list or a
+  distance table supplies a `baseFigure` once; the sequence is rendered from that.
+
+Skills whose answer *is* a picture — a graph built from a distance table, a chosen route on a given
+network — draw one figure, in `solution_text`, with the route at `line width=1.6pt`. A solution
+figure must always **add** something to the question figure; never redraw it unchanged.
+
+Skills that only compare or count (shortest path by inspection, `n-1` edge counts, route
+arithmetic) take **no diagram**. The booklet lists the candidate paths and sums them, so the
+solution does too — one working line per path, never a Markdown bullet list:
+
+```
+$A\text{–}B\text{–}E = 2+3$
+$=5$
+$A\text{–}D\text{–}E = 3+4$
+$=7$
+Shortest path: $A\text{–}B\text{–}E$, length $5$.
+```
+
 ### Solution migration (already done — the house-style flip)
 
 The Stage-4 practice content was flipped from the old per-line-label style in two passes; a
@@ -380,6 +433,12 @@ principles"):
   the correct one. Never let the correct answer stand out by being longer or more precise.
 - **No meta options** ("all/none of the above"). **Sort by plausibility, not magnitude**,
   so the answer isn't given away by position or size.
+- **No convergence cue.** Do not fan the distractors around the key so that each differs
+  from it in exactly one feature — that makes the key the unique intersection of the most
+  common coefficient, constant, unit, sign and direction, and a student reads it off by
+  counting. Build a **balanced grid** instead: two independent error axes, all four
+  combinations, so every feature value ties. `audit-intersecting-features.mjs` enforces
+  this as `INTERSECT`.
 
 ---
 
@@ -419,6 +478,33 @@ render" placeholder.
     describing where things sit, draw it and cut the prose to a short instruction.
   - Mastery tiers follow the same judgement but are not required to carry a scaffold —
     part of mastery can be building the representation yourself.
+- **Theory is written in booklet English, to a word budget.** Detailed explanation overwhelms
+  working memory early in a topic; the booklet defines the idea in a sentence. `theory.intro`
+  is **≤ 45 words and ≤ 3 sentences**, and **each fact is one sentence of ≤ 25 words carrying
+  one idea** (a `$...$` span counts as one word). Use the everyday word unless the technical
+  word is the content itself — technical vocabulary that IS the content stays, **bolded on
+  first use** and defined in the sentence it appears in. Say what a thing is before what
+  follows from it; cut hedges, restatement, and sentences that only introduce the next one.
+  `scripts/validate.mjs` warns on every breach (`scripts/lib/theory-voice.mjs` holds the
+  numbers); the theory-pass lane hard-fails on them.
+- **Theory carries a figure when the theory is SPATIAL.** The booklets put the teaching
+  diagram beside the fact it teaches; `theory.intro`, `theory.facts[]` and `theory.steps[]`
+  all render inline `[tikz]`, so do the same. Draw **exactly one** generic, labelled
+  reference figure into `theory` when its central object is a shape, a display or a
+  positional convention the prose can only gesture at — a box plot, a spanning tree, a
+  transversal cutting parallel lines, opposite-vs-adjacent, the direction a bearing is
+  measured from, the interval on a number line — or when `theory.steps` performs a
+  procedure ON a diagram and one labelled reference lets each step name a part of it.
+  - **A theory figure is a reference, not a worked example.** It carries labels, not the
+    numbers of a problem. If it carries a problem's values it is a practice card.
+  - **Skip** for numeric, algebraic or procedural theory (substituting a formula,
+    converting a rate, index laws) — a picture of a formula is decoration; skip when the
+    figure would pre-mark, pre-shade or otherwise make easier anything a practice or quiz
+    item asks for; and **never draw one merely to satisfy the figure quota**
+    (`scripts/audit-figure-quota.mjs` counts theory figures, so this is a live temptation).
+  - Tables stay a KaTeX `array` inside `$...$`, never `[tikz]`.
+  - Place the block at the **end** of the string it belongs to. `InlineContent` block-splits
+    a string at each figure, so a mid-sentence figure fractures the sentence.
 - **Data displays: obey the anti-collision placement rule and the variety rule** in
   [tikz-prompt.md](tikz-prompt.md) ("Data displays"). Title centred at `ymax+1.1`; y-axis
   label **rotated 90° at the left midpoint** (never the top corner, which collides with the
@@ -569,7 +655,8 @@ and practice range.
   higher-stage topic were **fully generated in an earlier wave** — their content file has
   full practice tiers AND a quiz file exists. **Skip them entirely only if both files
   exist AND the skill passes the full deterministic gate** (step 3 of the workflow: all
-  six commands, `--strict`, comma-form `--only <thatSkillId>`). Presence is not enough —
+  all seven commands via `scripts/agy/gate.mjs`, comma-form `--only <thatSkillId>`).
+  Presence is not enough —
   earlier waves shipped before some gate scripts existed, so a file that exists may still
   be dirty.
   - Both files present, gate clean → count the skill as done in the batch report, touch
@@ -623,7 +710,7 @@ The orchestrator drives the batch; generation and checking run in parallel group
    section + its media PNGs) **once**, then authors each of its skills — dealing the shared
    exemplars disjointly across them (step 1). It writes both files per skill and then
    **clears the full deterministic gate (step 3) on its own skills before reporting** —
-   all six commands, `--strict`, comma-form `--only`. An agent does not report success
+   all seven commands, comma-form `--only`. An agent does not report success
    with a dirty gate. This cuts the duplicated
    doc-reading that one-agent-per-skill pays N times, and one author-per-section improves
    disjoint dealing. (Fall back to one agent per skill only when a section's skills are too
@@ -631,22 +718,41 @@ The orchestrator drives the batch; generation and checking run in parallel group
    geometry/measurement/data skills (PNG reading + TikZ authoring) must not run on a
    downgraded model — image misreading rates on smaller tiers are unacceptable for
    diagram-anchored content.
-3. **Deterministic gate — run it BEFORE any checker is spawned.** Every defect a script
+3. **Deterministic gate — run it BEFORE any checker reads an item.** Every defect a script
    can find must be found by a script, and found before a model is paid to read the
-   items. Six commands, always the comma-form `--only`, always `--strict`; the gate is
-   seconds, so it also re-runs after **every** repair edit. Six commands since batch 13,
+   items. Seven commands, always the comma-form `--only`, always `--strict` (except
+   `validate.mjs`, which rejects the flag); the gate is seconds, so it also re-runs after
+   **every** repair edit. It grew to six at batch 13,
    when the two batch-12 orchestrator-side figure sweeps were promoted to standing
    scripts (`tests/figure-audits.test.js` pins both against a reconstruction of the
    original defects):
 
    ```
+   node scripts/agy/gate.mjs --only <id1,id2,...>        # all seven, ONE summary
+   ```
+
+   That wrapper runs the eight commands below and prints one compact pass/fail line each
+   with the defect lines beneath — the gate takes seconds either way, but reading eight
+   scrolling outputs was costing an orchestrator turn per round, and orchestrator turns
+   (not Gemini's) are the batch's wall-clock. `--json` emits `{command, ok, defects[]}` so
+   a `defects.json` can be assembled without re-reading anything. The individual commands
+   still work and are what the wrapper runs:
+
+   ```
    node scripts/validate.mjs --only <id1,id2,...>
+   node scripts/audit-arithmetic.mjs --strict --only <id1,id2,...>
    node scripts/audit-equivalent-options.mjs --strict --only <id1,id2,...>
    node scripts/audit-duplicate-stems.mjs --strict --only <id1,id2,...>
    node scripts/audit-option-hygiene.mjs --strict --only <id1,id2,...>
+   node scripts/audit-intersecting-features.mjs --strict --only <id1,id2,...>
    node scripts/audit-figure-scale.mjs --strict --only <id1,id2,...>
+   node scripts/audit-figure-quota.mjs --strict --only <id1,id2,...>
    node scripts/audit-angle-arms.mjs --strict --only <id1,id2,...>
+   node scripts/audit-tangent-lines.mjs --strict --only <id1,id2,...>
    ```
+
+   Note `validate.mjs` takes **no** `--strict` (it exits 2 on an unrecognised argument);
+   the other nine do. The wrapper encodes that asymmetry so it cannot burn another batch.
 
    Generation agents clear the gate on their own skills before reporting (step 2); the
    orchestrator re-runs it here over the **whole batch id list** — cross-skill
@@ -666,6 +772,17 @@ The orchestrator drives the batch; generation and checking run in parallel group
    Baseline recorded 2026-08-04: `QUIZ-COPIES-PRACTICE: 160, INTRA-FILE-DUP: 4,
    CROSS-SKILL-DUP: 2, QUIZ-COPIES-PRACTICE-VALUES: 132` (298 total, 222 advisory).
 
+   - **`audit-arithmetic.mjs`** — an equation the content ASSERTS whose sides do not
+     evaluate to the same number (`27 + 145 + 98 = 280`, `44 - (-4) = 52`, both W3-3, both
+     keying an answer off the bad sum). Flash's arithmetic-in-prose is its weakest spot and
+     these were invisible to every other gate — they cost a model round trip each until
+     this became a script. Deliberately conservative: it only judges an equation when
+     EVERY side parses as a closed literal-only expression over `+ - * / ( )`, so one
+     variable, one unsupported macro (`\frac`, `\sqrt`, `\sin`, `\pi`, `\approx`), one
+     comparison or one clock-time colon skips the whole line rather than guessing. MCQ
+     option `text` is exempt (a "which equation is true?" item's wrong options are
+     deliberately false); stems, working, `why` and theory are all checked. Rounding within
+     0.5% is accepted.
    - **`audit-duplicate-stems.mjs`** — normalised-stem duplication, `[tikz]` blocks
      included so figure-identical clones are caught: quiz stem == practice stem in the
      same skill (any tier — batch 9's 21-clone class), two equal stems in one file,
@@ -676,7 +793,15 @@ The orchestrator drives the batch; generation and checking run in parallel group
      bucket (all numeric literals in the raw stem + the canonicalised correct answer,
      ≥2 literals required) that catches a quiz item **rewording** a practice card while
      keeping its numbers and answer — the class batch 16's four luna-caught clones
-     belonged to, invisible to stem matching.
+     belonged to, invisible to stem matching. **Since W3-11 the answer half is
+     load-bearing:** when `canonicalise()` cannot parse either answer the signature
+     collapses to the stem literals alone, so the hit is demoted to the
+     `QUIZ-COPIES-PRACTICE-VALUES-WEAK` **advisory** instead of counting as a defect.
+     W3-11 measured why — its trigonometry sections put `0`, `2`, `3` and a domain in
+     nearly every stem while the answers are solution sets like
+     `x = \frac{\pi}{6}, \frac{\pi}{2}` that the canonicaliser rejects, so **all 30** of
+     the batch's flags were pairs with different equations AND different solution sets.
+     Read the advisory; do not spend a repair round on it without checking the pair by hand.
    - **`audit-figure-scale.mjs`** — a hand-placed length label attached to a segment
      that is not drawn to that length relative to the rest of its figure (batch 12's
      slant-side decoys: `$10$ cm` drawn $8.60$). This is the one gate that reaches
@@ -686,8 +811,38 @@ The orchestrator drives the batch; generation and checking run in parallel group
      sub-spans, so part-labels are matched to their part. Figures authored with
      tikz-3dplot are compared on **true 3D lengths**, so a foreshortened depth edge is
      never mistaken for a short one; a solid hand-projected into 2D coordinates is
-     skipped, never flagged. Needs ≥3 matched labels in a figure to have a reliable
+     skipped, never flagged. **Since W3-11 the hand-projection test is geometric, not
+     textual:** it used to key on the literal string `tdplot`, but the house 3D
+     convention (shipped `trigonometry-3d`, and W3-11's `solve-3d-trig`) hand-projects
+     with **no tdplot at all**, so those cuboids' foreshortened depth edges were compared
+     against the in-plane median and flagged. A 2D block that repeats one **oblique**
+     offset vector across 3+ coordinate pairs is an oblique projection and is now skipped
+     too; a plane parallelogram only ever repeats one twice, so flat figures still count. Needs ≥3 matched labels in a figure to have a reliable
      median, so a 2-label circle figure is out of its reach by design.
+   - **`audit-figure-quota.mjs`** — a skill whose own **title or blurb promises a picture**
+     (graph, sketch, plot, curve, number line, reflection, asymptote, diagram) that ships
+     with **zero** `[tikz]` blocks in its authored content. This closes the one hole a
+     hazard cannot: "figures must be drawn" is satisfied *vacuously* when the model picks
+     an all-algebraic item mix, because then no stem ever needs a picture and every stated
+     rule is obeyed. W3-8 drew 58 blocks across its three "read this graph" skills and
+     nothing at all for its four algebraic ones under an identical config; W3-9 shipped 11
+     curve-bearing skills with no figures; W3-10 shipped a reflection skill and an
+     inequality-by-graph skill with none. Three batches is a pattern, so it is now
+     structural — the figure analogue of `validate.mjs`'s practice↔quiz parity check, not a
+     judgement about any one item. Content only: quiz figures are a bonus, never the
+     requirement. Genuine exceptions go in `scripts/lib/figure-quota-exempt.json` as
+     `{ id: reason }`; a reason is required.
+   - **`audit-tangent-lines.mjs`** — a line the prose calls a **tangent** that does not
+     share the curve's gradient where it meets it (the human-caught class in
+     `estimate-instantaneous-rate-graph`: hand-picked `plot[smooth] coordinates` curves
+     with a hard-coded tangent at roughly half the curve's slope — the answer keys were
+     right, only the picture lied). Scoped to cards whose own text says "tangent", since
+     a straight line meeting a curve is otherwise ordinary. The curve is reconstructed
+     (Catmull-Rom for a coordinate list, direct evaluation for a `domain=` function plot);
+     a line touching once must match the gradient there, and a line crossing twice is a
+     legitimate secant unless one crossing is the figure's own \fill-marked point of
+     tangency. The repair is to plot the curve as a **function** and derive the tangent
+     from it, never to nudge endpoints by eye.
    - **`audit-angle-arms.mjs`** — a labelled angle drawn with fewer than two bounding
      rays, so the marked region is ambiguous (batch 11's central angles with one
      radius, caught by the human's eye). `\pic {angle=A--B--C}` constructions build
@@ -699,6 +854,28 @@ The orchestrator drives the batch; generation and checking run in parallel group
      coinciding with an unrelated item's answer is not a defect and is not flagged), and
      any distractor `why` under 15 chars or matching a generic-phrase list. It attempts
      no reachability judgement — that needs a model and stays with the checker.
+   - **`audit-intersecting-features.mjs`** — the **convergence cue** (`INTERSECT`): the
+     option set is parallel, two or more token slots vary, and the key holds the strictly
+     most common value in **every** varying slot while no distractor does. The item is
+     then answerable by counting features, with no mathematics at all:
+
+     ```
+     *S56°W | S56°E | N56°W | S34°W      S wins 3:1, 56 wins 3:1, W wins 3:1
+     ```
+
+     The cause is the natural habit of fanning one distractor per misconception around
+     the key, each differing in exactly one slot. The repair is a **balanced grid** —
+     two independent error axes, all four combinations — so every feature value ties:
+
+     ```
+     *(6x+15)/12 | (6x+5)/12 | (2x+15)/12 | (2x+5)/12      every value ties 2:2
+     ```
+
+     A tie is deliberately not a defect. Where a fourth combination is not a reachable
+     misconception, give **two distractors sharing the same non-key value** in the slot
+     that would otherwise be a 3:1 giveaway. A second, coarser pass over option sets that
+     do not align token-for-token (worded or mixed-form options) reports `INTERSECT-WEAK`
+     as an advisory that does not count toward `--strict`.
 
    ### Equivalent-option audit
 
@@ -720,8 +897,21 @@ The orchestrator drives the batch; generation and checking run in parallel group
    a floor, not a ceiling — it does not replace the checker.
 
 4. **Blind check — luna (`gpt-5.6-luna` via `codex exec`), one packet per skill.**
-   Proceed **only after every generation agent has reported completion AND the
-   deterministic gate is clean** — never infer readiness from file presence or mtime.
+   Proceed **only after every generation agent has reported completion and the gate has
+   RUN** — never infer readiness from file presence or mtime.
+
+   **Run the blind check and the diagram render BEFORE the first repair round** (changed
+   2026-08-29). Through W3-6 the order was gate → repair → check → repair, which paid for
+   two full build→agy→apply→re-gate cycles per batch (W3-6's landed two days apart) and two
+   orchestrator adjudication passes. The three lanes find *disjoint* defect classes and
+   none of them needs the others' repairs to run: mechanical gate defects do not stop a
+   checker from re-solving an item, and a duplicate stem does not stop a figure rendering.
+   So: run the gate, then start the blind check and the diagram render immediately, then
+   merge **all three defect lists into ONE `defects.json`** and repair once. A gate defect
+   and a checker flag on the same item become one repair, not two.
+
+   The exception is a file that will not parse or a figure that will not compile — fix
+   those first, since neither lane can read them.
    For each generated skill run
    `node scripts/blind-for-check.mjs <skillId>` — it emits, under `.checkwork/` (gitignored),
    a `{id}.blind.json` (quiz + mastery practice with correct flags / `why` / `solution_text`
@@ -799,6 +989,10 @@ The orchestrator drives the batch; generation and checking run in parallel group
    **formatting equivalence** (e.g. `3.5` vs `3.50`, `1/2` vs `0.5`, reordered but equal)
    — accept — or a **genuine mismatch**. For each flag, rule valid or invalid against the
    NOT-A-DEFECT list.
+   **One merged repair round.** Build `defects.json` from the gate, the adjudicated
+   checker flags and the diagram verdicts TOGETHER, and run `build-repair-tasks` once.
+   A second round is for defects the repairs themselves introduced (that is what
+   `recheck-repairs.mjs` is for), not for a lane that was simply run later.
    **Repair is targeted, not wholesale:** the orchestrator (or a small fix agent)
    hand-edits the specific defective question(s), re-runs the **full deterministic gate**
    (step 3 — seconds, every edit), then re-checks **only what changed**:
@@ -853,6 +1047,37 @@ The orchestrator drives the batch; generation and checking run in parallel group
    gaps, and the list of diagram skills flagged for manual visual review in
    `docs/content-queue.md`. Do **not** commit — leave that to the human.
 
+### Theory pass (retrofit)
+
+Content authored before the theory rules shipped `theory` blocks that are long,
+jargon-heavy and figure-free — 888 word-budget warnings across the 818 files. Both defects
+live in the same block, so one lane fixes both, run per already-generated batch:
+
+```
+node scripts/agy/build-theory-tasks.mjs --plan --config .agywork/<B>/batch.json \
+     --out .agywork/<B>/theory.json             # read the offer list first
+node scripts/agy/build-theory-tasks.mjs --in .agywork/<B>/theory.json \
+     --config .agywork/<B>/batch.json --out .agywork/<B>/theory
+node scripts/agy/run-gen.mjs --tasks-dir .agywork/<B>/theory
+node scripts/check-theory.mjs --tasks-dir .agywork/<B>/theory [--quarantine]
+node scripts/agy/apply-repairs.mjs --tasks-dir .agywork/<B>/theory
+node scripts/agy/gate.mjs --only <ids>
+```
+
+Every skill with authored content is offered for the **prose rewrite**; the plan's
+`signals` only record why a **figure** might belong, and whether the theory is genuinely
+spatial is the model's call — no figure is the common answer. `--figures-only` narrows the
+offer to skills with a visual signal.
+
+`theory.steps` is **frozen**: worked-solution step headers are validated against those exact
+strings, so a reworded step breaks every solution citing it. The model returns the whole
+`theory` object and `check-theory.mjs` is what makes that safe — it rejects a result that
+breaches the word budget, multiplies facts, rewords a step, invents maths the original theory
+never had, carries more than one figure, drops a figure that was already there, puts one in
+`steps` or mid-string, or disagrees with its own stated `placement`. Then run the
+diagram-audit lane as usual: `scripts/lib/tikz-blocks.mjs` and the `#/tikz-check` harness both
+walk `theory`, so the new figures render, lint, audit and redraw like any other.
+
 ---
 
 ## Wave 3 — agy provenance
@@ -865,8 +1090,20 @@ From Wave 3 (Stage 6 Y11) the generator is **Gemini via the `agy` CLI**, not Cla
   lane — owner decision 2026-08-26, no pro tier.** The planned flash-vs-pro A/B is cancelled.
   Tier-2 diagram audit gets its extra rigour from a source-inclusive packet and a re-derive
   rubric, not from a bigger model; the safety net for flash is luna plus the diagram lane.
-- The blind checker stays `gpt-5.6-luna` via `run-luna-check.mjs` (different model family
-  from the generator, so independence holds).
+- The blind checker is a **different model family from the generator**, so independence holds.
+  Two interchangeable drivers write the same `.checkwork/{id}.luna.json`, so `--compare` is
+  identical either way:
+  - `node scripts/run-sonnet-check.mjs --skills <ids> [--concurrency 5]` — **Claude Sonnet 5**
+    via the `claude` CLI (owner default from W3-1; spends Claude subscription credit). The CLI
+    has no `--output-schema`, so the response schema is INLINED in the prompt — do not remove it.
+  - `node scripts/run-luna-check.mjs --skills <ids>` — `gpt-5.6-luna` via `codex exec`
+    (fallback when the Claude quota is tight; subject to its own usage limit).
+  Either way, adjudicate with `node scripts/run-luna-check.mjs --compare <ids>`. The blind
+  bundle carries a `taught` block (the skill's theory) and the checker brief treats it as
+  authoritative — a “mismatch” that contradicts taught content is a CHECKER-side error, so rule
+  on every flag before repairing. After repairs, re-check only the touched items with
+  `node scripts/recheck-repairs.mjs --tasks-dir <repair-dir> --checker sonnet|luna`; a flag on a
+  repaired item means the repair introduced a new defect (2-round cap, then human).
 - Claude is the ORCHESTRATOR ONLY: runs scripts, adjudicates luna + diagram flags, edits
   docs/queue. Claude never authors content and never spawns a subagent just to run a command.
 - Step 7's manual every-block figure review is replaced by the **diagram audit lane**
@@ -875,6 +1112,40 @@ From Wave 3 (Stage 6 Y11) the generator is **Gemini via the `agy` CLI**, not Cla
   re-derive on flags (tikz source included, pro model) → agy redraw (≤2 rounds) →
   `report.mjs` human checklist = confirmed/repaired blocks + compile failures + suspicious
   not_applicables + a seeded 10% sample. Humans review flags + sample, not every block.
+
+### Wall-clock discipline (measured on W3-6, applied from W3-7)
+
+W3-6's ledgers say the machine is not the bottleneck: generation 9 min, repair round 8 min,
+diagram Tier-1 + redraw 7 min, Sonnet blind check ~5 min — about 35–45 minutes of agy and
+Sonnet time in a batch that spanned two days. The rest was orchestrator turns. Everything
+below exists to cut those, not to make Gemini faster.
+
+- **Hazards are pre-authored, not written per batch.** `scripts/agy/batches/W3-*.json` hold
+  every remaining batch's sections, booklet paths, `tikzSections` and topic hazards. A batch
+  starts with `build-gen-tasks --config scripts/agy/batches/<batch>.json`, not with a
+  hazard-writing turn. Copy the config into `.agywork/<batch>/batch.json` if a run-time
+  amendment is needed, and fold anything learned back into the tracked file.
+- **Standing hazards are injected, not retyped.** `scripts/agy/lib/hazards.mjs` carries the
+  ten measured defect classes (closed option sets, bare TeX, prose arithmetic, mastery
+  scope creep, structure vocabulary, figures actually being drawn, label collisions, angle
+  arcs, ties/boundaries, value-signature independence). `build-gen-tasks` and
+  `build-repair-tasks` add them to every task. Per-batch hazards are for the mathematics of
+  that topic only — do not restate a standing class in a config.
+- **Pipeline the batches.** As soon as batch N is collected, build and launch batch N+1's
+  generation in the background, then adjudicate batch N while Gemini works. The file sets
+  are disjoint and only `npm run manifest` touches shared state (it runs at the end). This
+  is the single largest saving available: it removes ~40 minutes of dead machine wait per
+  batch. Respect the ORDER constraints recorded on the queue rows (W3-8 → W3-9 → W3-10 /
+  W3-11) — a batch whose prereq content does not exist yet loses its voice samples.
+- **`--concurrency 5`** is the default for `run-gen` and `run-sonnet-check` (was 3). Four
+  gen tasks at 3 left a straggler wave; a 7-task repair round took three. Drop back to 3 if
+  the agy quota starts refusing calls — completed tasks are skipped on re-run, so a halt
+  costs nothing but time.
+- **Start the batch's own dev server first:** `npm run dev:batch`
+  (`scripts/agy/dev-server.mjs --start`) rebuilds the manifest and pins vite to port 5199
+  with `--strictPort`, recording it in `.agywork/dev-server.json`; `render.mjs` reads that
+  file, so the base URL is never guessed. W3-5 shot another checkout's content and W3-6 lost
+  time to a dead auto-incremented port. `--stop` kills only the server it started.
 
 ### agy quirks (encoded in `scripts/agy/lib/agy-run.mjs` — do not relearn these)
 
@@ -893,7 +1164,8 @@ From Wave 3 (Stage 6 Y11) the generator is **Gemini via the `agy` CLI**, not Cla
 - Consecutive no-file errors = Google OAuth expiry → the pool halts with a re-auth
   message; resume = rerun (valid result files are skipped).
 - Per-call overhead is large (~211k input tokens measured) → pack work: whole section per
-  generation call, 8–10 rows per audit packet, 6 blocks per redraw task, concurrency 3.
+  generation call, 8–10 rows per audit packet, 6 blocks per redraw task, concurrency 5
+  (raised from 3 for W3-7; fall back to 3 if the daily quota starts refusing calls).
 - Token ledger: `ledger.jsonl` appended per call in each tasks dir.
 
 ## Hard constraints (recap)

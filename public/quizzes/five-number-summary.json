@@ -7,10 +7,22 @@
       "structure": "fns-regime-clean",
       "mastery": false,
       "options": [
-        { "text": "$\\text{Min}=133, Q_1=140, Q_2=152, Q_3=165, \\text{Max}=172$", "correct": true },
-        { "text": "$\\text{Min}=133, Q_1=143.5, Q_2=152, Q_3=162, \\text{Max}=172$", "why": "Included the median value in both halves instead of excluding it before finding $Q_1$ and $Q_3$." },
-        { "text": "$\\text{Min}=133, Q_1=165, Q_2=152, Q_3=140, \\text{Max}=172$", "why": "Swapped the lower and upper quartile values." },
-        { "text": "$\\text{Min}=133, Q_1=140, Q_2=149.5, Q_3=165, \\text{Max}=172$", "why": "Treated the median as the average of the two middle values even though there is an odd number of scores." }
+        {
+          "text": "$\\text{Min}=133, Q_1=140, Q_2=152, Q_3=165, \\text{Max}=172$",
+          "correct": true
+        },
+        {
+          "text": "$\\text{Min}=133, Q_1=140, Q_2=152.5, Q_3=165, \\text{Max}=172$",
+          "why": "Used the midrange $\\frac{133+172}{2}=152.5$ as the median instead of the middle score."
+        },
+        {
+          "text": "$\\text{Min}=133, Q_1=143.5, Q_2=152, Q_3=162, \\text{Max}=172$",
+          "why": "Included the median score in both halves, giving $Q_1=\\frac{140+147}{2}=143.5$ and $Q_3=\\frac{159+165}{2}=162$."
+        },
+        {
+          "text": "$\\text{Min}=133, Q_1=143.5, Q_2=152.5, Q_3=162, \\text{Max}=172$",
+          "why": "Averaged the smallest and largest times for the median and also kept the median score inside both halves when finding the quartiles."
+        }
       ],
       "solution_text": "$133, 140, 147, 152, 159, 165, 172$\n$Q_2 = 152$\n$133, 140, 147$\n$Q_1 = 140$\n$159, 165, 172$\n$Q_3 = 165$\n$\\text{Min} = 133$\n$\\text{Max} = 172$"
     },
@@ -33,10 +45,22 @@
       "structure": "fns-regime-median-avg-quartiles-clean",
       "mastery": false,
       "options": [
-        { "text": "$\\text{Min}=110, Q_1=125, Q_2=142.5, Q_3=160, \\text{Max}=174$", "correct": true },
-        { "text": "$\\text{Min}=110, Q_1=125, Q_2=139, Q_3=160, \\text{Max}=174$", "why": "Took one of the two middle values as the median instead of averaging them." },
-        { "text": "$\\text{Min}=110, Q_1=160, Q_2=142.5, Q_3=125, \\text{Max}=174$", "why": "Swapped the lower and upper quartile values." },
-        { "text": "$\\text{Min}=110, Q_1=121.5, Q_2=142.5, Q_3=163.5, \\text{Max}=174$", "why": "Left the two middle values out of both halves instead of splitting the data evenly." }
+        {
+          "text": "$\\text{Min}=110, Q_1=125, Q_2=142.5, Q_3=160, \\text{Max}=174$",
+          "correct": true
+        },
+        {
+          "text": "$\\text{Min}=110, Q_1=125, Q_2=142, Q_3=160, \\text{Max}=174$",
+          "why": "Used the midrange $\\frac{110+174}{2}=142$ as the median instead of averaging the two middle scores."
+        },
+        {
+          "text": "$\\text{Min}=110, Q_1=121.5, Q_2=142.5, Q_3=163.5, \\text{Max}=174$",
+          "why": "Left the two middle scores out of both halves, giving $Q_1=\\frac{118+125}{2}=121.5$ and $Q_3=\\frac{160+167}{2}=163.5$."
+        },
+        {
+          "text": "$\\text{Min}=110, Q_1=121.5, Q_2=142, Q_3=163.5, \\text{Max}=174$",
+          "why": "Averaged the smallest and largest times for the median and also discarded the two middle scores before splitting the data into halves."
+        }
       ],
       "solution_text": "$110, 118, 125, 132, 139, 146, 153, 160, 167, 174$\n$Q_2 = \\frac{139+146}{2}$\n$= 142.5$\n$110, 118, 125, 132, 139$\n$Q_1 = 125$\n$146, 153, 160, 167, 174$\n$Q_3 = 160$\n$\\text{Min} = 110$\n$\\text{Max} = 174$"
     },

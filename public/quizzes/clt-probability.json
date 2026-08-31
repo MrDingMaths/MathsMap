@@ -1,0 +1,109 @@
+{
+  "skillId": "clt-probability",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A population has mean $320$ and standard deviation $42$. A random sample of $49$ values is taken. Using the empirical rule, find the probability that the **sample mean** exceeds $332$.",
+      "structure": "probability-above",
+      "mastery": false,
+      "options": [
+        { "text": "$0.025$", "correct": true },
+        { "text": "$0.975$", "why": "Found the area below $z=2$ instead of the area above it." },
+        { "text": "$0.05$", "why": "Used $1-0.95$ without halving it, so both tails were counted instead of one." },
+        { "text": "$0.475$", "why": "Gave the area from the mean out to $z=2$ rather than the tail beyond it." }
+      ],
+      "solution_text": "$\\mu=320$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{42}{\\sqrt{49}}$\n$=6$\n$z=\\dfrac{332-320}{6}$\n$=2$\n$P(\\bar{X}>332)=P(Z>2)$\n$=(1-0.95)\\div 2$\n$=0.025$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A population has mean $48$ and standard deviation $27$. A random sample of $81$ values is taken. Find the probability that the **sample mean** is less than $42.6$, using this table.\n$\\begin{array}{c|c} z & P(Z<z) \\\\ \\hline 0.20 & 0.5793 \\\\ 1.00 & 0.8413 \\\\ 1.80 & 0.9641 \\\\ 2.50 & 0.9938 \\end{array}$",
+      "structure": "probability-below",
+      "mastery": false,
+      "options": [
+        { "text": "$0.0359$", "correct": true },
+        { "text": "$0.4207$", "why": "Divided by $\\sigma=27$, standardising $42.6$ as a single observation instead of as a sample mean." },
+        { "text": "$0.9641$", "why": "Read the table entry for $z=1.8$ and ignored the minus sign, giving the area on the wrong side." },
+        { "text": "$0.5793$", "why": "Divided by $\\sigma$ and then ignored the minus sign, so both the divisor and the side are wrong." }
+      ],
+      "solution_text": "$\\mu=48$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{27}{\\sqrt{81}}$\n$=3$\n$z=\\dfrac{42.6-48}{3}$\n$=-1.8$\n$P(\\bar{X}<42.6)=P(Z<-1.8)$\n$=1-P(Z<1.8)$\n$=1-0.9641$\n$=0.0359$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A population has mean $90$ and standard deviation $32$. A random sample of $64$ values is taken. Using the empirical rule, find the probability that the **sample mean** lies between $86$ and $98$.",
+      "structure": "probability-between",
+      "mastery": false,
+      "options": [
+        { "text": "$0.815$", "correct": true },
+        { "text": "$0.95$", "why": "Treated both boundaries as $2$ standard errors from the mean." },
+        { "text": "$0.68$", "why": "Treated both boundaries as $1$ standard error from the mean." },
+        { "text": "$0.185$", "why": "Found the area outside the interval rather than inside it." }
+      ],
+      "solution_text": "$\\mu=90$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{32}{\\sqrt{64}}$\n$=4$\n$z=\\dfrac{86-90}{4}$\n$=-1$\n$z=\\dfrac{98-90}{4}$\n$=2$\n$P(86<\\bar{X}<98)=P(-1<Z<2)$\n$=0.34+0.475$\n$=0.815$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A population has mean $210$ and standard deviation $45$. A random sample of $225$ values gives a sample mean of $214.5$. What is the $z$-score of this sample mean?",
+      "structure": "standardise-sample-mean",
+      "mastery": false,
+      "options": [
+        { "text": "$1.5$", "correct": true },
+        { "text": "$0.1$", "why": "Divided by $\\sigma=45$, which standardises a single observation, not a sample mean." },
+        { "text": "$22.5$", "why": "Divided by $\\dfrac{\\sigma}{n}=0.2$ instead of $\\dfrac{\\sigma}{\\sqrt{n}}=3$." },
+        { "text": "$0.3$", "why": "Divided by $\\sqrt{n}=15$ alone, leaving $\\sigma$ out of the divisor." }
+      ],
+      "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{45}{\\sqrt{225}}$\n$=3$\n$z=\\dfrac{214.5-210}{3}$\n$=1.5$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A population has mean $500$ and standard deviation $25$. Consider the probability that a single observation exceeds $505$, and the probability that the mean of a random sample of $100$ observations exceeds $505$. Which statement is correct?",
+      "structure": "mean-versus-single-observation",
+      "mastery": false,
+      "options": [
+        { "text": "$P(X>505)$ is larger, because its $z$-score is $0.2$ while the sample mean's $z$-score is $2$.", "correct": true },
+        { "text": "$P(\\bar{X}>505)$ is larger, because a sample mean is based on more information.", "why": "Assumed more data raises the probability; in fact the larger $z$-score leaves a smaller tail." },
+        { "text": "They are equal, because both use the mean $500$ and the value $505$.", "why": "Used $\\sigma$ for both, ignoring that a sample mean is divided by $\\dfrac{\\sigma}{\\sqrt{n}}$." },
+        { "text": "$P(\\bar{X}>505)$ is larger, because its $z$-score of $2$ is bigger than $0.2$.", "why": "Read a larger $z$-score as a larger right-tail area; the tail area shrinks as $z$ grows." }
+      ],
+      "solution_text": "For a single observation the divisor is $\\sigma=25$.\n$z=\\dfrac{505-500}{25}$\n$=0.2$\nFor the sample mean the divisor is $\\dfrac{25}{\\sqrt{100}}=2.5$.\n$z=\\dfrac{505-500}{2.5}$\n$=2$\nThe smaller $z$-score leaves the larger right tail, so $P(X>505)$ is larger."
+    },
+    {
+      "id": "q6",
+      "question_text": "A population has mean $126$ and standard deviation $52$. Random samples of size $169$ are taken. Using the empirical rule, find the value of $c$ for which $P(\\bar{X}>c)=0.16$.",
+      "structure": "reverse-find-boundary",
+      "mastery": false,
+      "options": [
+        { "text": "$130$", "correct": true },
+        { "text": "$122$", "why": "Subtracted the standard error, which gives the value with $0.84$ above it, not $0.16$." },
+        { "text": "$178$", "why": "Added $\\sigma=52$ instead of the standard error $\\dfrac{\\sigma}{\\sqrt{n}}=4$." },
+        { "text": "$74$", "why": "Subtracted $\\sigma=52$, using both the wrong spread and the wrong direction." }
+      ],
+      "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{52}{\\sqrt{169}}$\n$=4$\n$P(Z>z)=0.16$ gives $z=1$, since $(1-0.68)\\div 2=0.16$.\n$c=126+1\\times 4$\n$=130$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A population has standard deviation $45$. How large must a random sample be for the standard deviation of $\\bar{X}$ to equal $1.5$?",
+      "structure": "find-sample-size",
+      "mastery": false,
+      "options": [
+        { "text": "$900$", "correct": true },
+        { "text": "$30$", "why": "Stopped at $\\sqrt{n}=30$ without squaring to find $n$." },
+        { "text": "$67.5$", "why": "Multiplied $45$ by $1.5$ instead of solving $\\dfrac{45}{\\sqrt{n}}=1.5$." },
+        { "text": "$1350$", "why": "Squared $\\sigma$ but divided by $1.5$ rather than by $1.5^2$." }
+      ],
+      "solution_text": "$\\dfrac{45}{\\sqrt{n}}=1.5$\n$\\sqrt{n}=\\dfrac{45}{1.5}$\n$=30$\n$n=30^2$\n$=900$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Delivery distances for a courier are strongly right-skewed, with mean $145$ km and standard deviation $84$ km. Random samples of $196$ deliveries are taken. Using the empirical rule, find the width of the interval, symmetrical about $145$, that contains the middle $68\\%$ of the sample means.",
+      "structure": "reverse-find-boundary",
+      "mastery": true,
+      "options": [
+        { "text": "$12$ km", "correct": true },
+        { "text": "$6$ km", "why": "Gave one standard error, which is the half-width of the interval rather than its full width." },
+        { "text": "$24$ km", "why": "Used $\\pm 2$ standard errors, which encloses $95\\%$ of sample means, not $68\\%$." },
+        { "text": "$168$ km", "why": "Used $\\pm\\sigma=\\pm 84$ instead of $\\pm$ one standard error, standardising as if for a single delivery." }
+      ],
+      "solution_text": "$n=196\\ge 30$ and the sample is random, so $\\bar{X}$ is approximately normal.\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{84}{\\sqrt{196}}$\n$=6$\nThe middle $68\\%$ runs from $z=-1$ to $z=1$.\n$145-6=139$\n$145+6=151$\n$151-139=12$ km"
+    }
+  ]
+}

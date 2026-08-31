@@ -1,0 +1,110 @@
+{
+  "skillId": "solve-de-dydx-gy",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{4}{y^3}$, giving $x$ in terms of $y$.",
+      "structure": "reciprocal-then-integrate",
+      "mastery": false,
+      "options": [
+        { "text": "$x=\\dfrac{y^4}{16}+C$", "correct": true },
+        { "text": "$x=\\dfrac{y^4}{4}+C$", "why": "Integrated $y^3$ correctly but dropped the factor $\\dfrac{1}{4}$ that comes from taking the reciprocal." },
+        { "text": "$x=-\\dfrac{2}{y^2}+C$", "why": "Integrated $g(y)$ itself instead of its reciprocal, which is the whole point of turning the derivative upside down." },
+        { "text": "$x=-\\dfrac{1}{8y^2}+C$", "why": "Integrated $g(y)$ rather than its reciprocal, and also divided by $4$ instead of multiplying." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{4}{y^3}$\n$\\dfrac{dx}{dy}=\\dfrac{y^3}{4}$\n$x=\\displaystyle\\int\\dfrac{y^3}{4}\\,dy$\n$=\\dfrac{y^4}{16}+C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=6y$.",
+      "structure": "ky-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "$y=Ae^{6x}$", "correct": true },
+        { "text": "$y=Ae^{\\frac{x}{6}}$", "why": "Divided by $6$ in the index instead of multiplying, keeping the $\\dfrac{1}{6}$ from the integration." },
+        { "text": "$y=A+e^{6x}$", "why": "Added the arbitrary constant instead of letting it become a multiplying factor when the logarithm is undone." },
+        { "text": "$y=A+e^{\\frac{x}{6}}$", "why": "Made both slips: the $\\dfrac{1}{6}$ left in the index and the constant added rather than multiplied." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=\\dfrac{1}{6y}$\n$x=\\dfrac{1}{6}\\ln|y|+C$\n$6x-6C=\\ln|y|$\n$|y|=e^{-6C}e^{6x}$\n$y=Ae^{6x}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Solve $\\dfrac{dy}{dx}=5y^2$ for $y\\ne0$, giving $y$ as a function of $x$.",
+      "structure": "general-solution-for-y",
+      "mastery": false,
+      "options": [
+        { "text": "$y=\\dfrac{1}{5(C-x)}$", "correct": true },
+        { "text": "$y=\\dfrac{1}{5(x-C)}$", "why": "Lost the minus sign when rearranging $x=-\\dfrac{1}{5y}+C$ for $y$." },
+        { "text": "$y=\\dfrac{5}{C-x}$", "why": "Multiplied by $5$ instead of dividing by it when taking the reciprocal of $5y^2$." },
+        { "text": "$y=\\dfrac{5}{x-C}$", "why": "Made both slips: the wrong side of the subtraction and $5$ multiplying rather than dividing." },
+        { "text": "$y=-\\dfrac{1}{5x}$", "why": "Omitted the constant of integration, so this is one curve rather than the general solution." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=5y^2$\n$\\dfrac{dx}{dy}=\\dfrac{1}{5y^2}$\n$x=\\displaystyle\\int\\dfrac{1}{5}y^{-2}\\,dy$\n$=-\\dfrac{1}{5y}+C$\n$\\dfrac{1}{5y}=C-x$\n$5y=\\dfrac{1}{C-x}$\n$y=\\dfrac{1}{5(C-x)}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Solve $\\dfrac{dy}{dx}=-4y$ given that $y(0)=3$.",
+      "structure": "ivp-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "$y=3e^{-4x}$", "correct": true },
+        { "text": "$y=3e^{4x}$", "why": "Lost the minus sign from $-4y$, which would make the solution grow rather than decay." },
+        { "text": "$y=e^{-4x+3}$", "why": "Left the constant of integration inside the index instead of letting it become the multiplying factor." },
+        { "text": "$y=e^{4x+3}$", "why": "Made both slips: the missing minus sign and the constant left inside the index." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=-\\dfrac{1}{4y}$\n$x=-\\dfrac{1}{4}\\ln|y|+C$\n$y=Ae^{-4x}$\n$3=Ae^{0}$\n$A=3$\n$y=3e^{-4x}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Solve $\\dfrac{dy}{dx}=2y^2$ given that $y(0)=-1$.",
+      "structure": "ivp-rational",
+      "mastery": false,
+      "options": [
+        { "text": "$y=-\\dfrac{1}{2x+1}$", "correct": true },
+        { "text": "$y=\\dfrac{1}{2x+1}$", "why": "Dropped the minus sign carried by the initial value $y(0)=-1$." },
+        { "text": "$y=-\\dfrac{1}{2x-1}$", "why": "Made a sign slip when substituting the initial condition, giving $C=-\\dfrac{1}{2}$ instead of $C=\\dfrac{1}{2}$." },
+        { "text": "$y=\\dfrac{1}{2x-1}$", "why": "Made both slips: the sign of the initial value and the sign of the constant of integration." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=\\dfrac{1}{2y^2}$\n$x=\\displaystyle\\int\\dfrac{1}{2}y^{-2}\\,dy$\n$=-\\dfrac{1}{2y}+C$\n$0=-\\dfrac{1}{2(-1)}+C$\n$0=\\dfrac{1}{2}+C$\n$C=-\\dfrac{1}{2}$\n$-\\dfrac{1}{2y}=x+\\dfrac{1}{2}$\n$-\\dfrac{1}{2y}=\\dfrac{2x+1}{2}$\n$2y=-\\dfrac{2}{2x+1}$\n$y=-\\dfrac{1}{2x+1}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=5(y-2)$.",
+      "structure": "ky-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "$y=2+Ae^{5x}$", "correct": true },
+        { "text": "$y=-2+Ae^{5x}$", "why": "Moved the $2$ across with the wrong sign when making $y$ the subject of $y-2=Ae^{5x}$." },
+        { "text": "$y=2+Ae^{-5x}$", "why": "Took the reciprocal as $-\\dfrac{1}{5(y-2)}$, putting a minus sign into the index." },
+        { "text": "$y=-2+Ae^{-5x}$", "why": "Made both slips: the sign of the constant term and the sign in the index." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=\\dfrac{1}{5(y-2)}$\n$x=\\dfrac{1}{5}\\ln|y-2|+C$\n$5x-5C=\\ln|y-2|$\n$|y-2|=e^{-5C}e^{5x}$\n$y-2=Ae^{5x}$\n$y=2+Ae^{5x}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Solve $\\dfrac{dy}{dx}=\\dfrac{1}{2}y$ given that $y(4)=6$.",
+      "structure": "ivp-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "$y=6e^{\\frac{x-4}{2}}$", "correct": true },
+        { "text": "$y=6e^{\\frac{x+4}{2}}$", "why": "Shifted the index the wrong way; this gives $y=6e^{4}$ at $x=4$, not $6$." },
+        { "text": "$y=6e^{2(x-4)}$", "why": "Multiplied the index by $2$ instead of halving it, using $k=2$ rather than $k=\\dfrac{1}{2}$." },
+        { "text": "$y=6e^{2(x+4)}$", "why": "Made both slips: the index multiplied by $2$ and the shift the wrong way round." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=\\dfrac{2}{y}$\n$x=2\\ln|y|+C$\n$y=Ae^{\\frac{x}{2}}$\n$6=Ae^{2}$\n$A=6e^{-2}$\n$y=6e^{-2}e^{\\frac{x}{2}}$\n$y=6e^{\\frac{x-4}{2}}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A curve satisfies $\\dfrac{dy}{dx}=\\dfrac{1}{2y+10}$ and passes through $(4,-2)$. Find $y$ as a function of $x$.",
+      "structure": "choose-branch",
+      "mastery": true,
+      "options": [
+        { "text": "$y=-5+\\sqrt{x+5}$", "correct": true },
+        { "text": "$y=-5-\\sqrt{x+5}$", "why": "Chose the negative branch, which gives $y=-8$ at $x=4$ instead of the required $-2$." },
+        { "text": "$y=-5+\\sqrt{x-5}$", "why": "Made a sign slip completing the square, writing $\\sqrt{x+C-25}$ instead of $\\sqrt{x-C+25}$." },
+        { "text": "$y=-5-\\sqrt{x-5}$", "why": "Made both slips: the sign inside the surd and the wrong branch of the square root." }
+      ],
+      "solution_text": "$\\dfrac{dx}{dy}=2y+10$\n$x=\\displaystyle\\int(2y+10)\\,dy$\n$=y^2+10y+C$\n$4=4-20+C$\n$C=20$\n$x=y^2+10y+20$\n$y^2+10y+(20-x)=0$\n$y=\\dfrac{-10\\pm\\sqrt{100-4(20-x)}}{2}$\n$y=-5\\pm\\sqrt{5+x}$\nAt $x=4$ the branches give $-5+3=-2$ and $-5-3=-8$, so the positive branch passes through $(4,-2)$.\n$y=-5+\\sqrt{x+5}$"
+    }
+  ]
+}

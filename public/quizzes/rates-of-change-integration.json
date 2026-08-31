@@ -1,0 +1,109 @@
+{
+  "skillId": "rates-of-change-integration",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Water flows into a container at $\\dfrac{dV}{dt}=8t+3$ litres per second, and the container holds $7$ litres when $t=0$. Find $V$ as a function of $t$.",
+      "structure": "quantity-function-from-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$V=4t^{2}+3t+7$", "correct": true },
+        { "text": "$V=8t^{2}+3t+7$", "why": "Integrated $8t$ as $8t^{2}$, forgetting to divide by the new index $2$." },
+        { "text": "$V=4t^{2}+3t$", "why": "Integrated correctly but left out the initial volume, taking $C=0$." },
+        { "text": "$V=8t^{2}+3t$", "why": "Integrated $8t$ as $8t^{2}$ and also left out the initial volume." }
+      ],
+      "solution_text": "$V=\\int (8t+3)\\,dt$\n$=4t^{2}+3t+C$\n$\\text{At }t=0,\\ V=7:$\n$C=7$\n$V=4t^{2}+3t+7$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A stockpile changes at $\\dfrac{dW}{dt}=4t+1$ kilograms per day. Find the total change in $W$ between $t=2$ and $t=5$ days.",
+      "structure": "total-change-definite-integral",
+      "mastery": false,
+      "options": [
+        { "text": "$45\\text{ kg}$", "correct": true },
+        { "text": "$55\\text{ kg}$", "why": "Substituted only the upper limit $t=5$ and never subtracted the value at $t=2$." },
+        { "text": "$87\\text{ kg}$", "why": "Integrated $4t$ as $4t^{2}$ instead of $2t^{2}$, then subtracted correctly." },
+        { "text": "$105\\text{ kg}$", "why": "Integrated $4t$ as $4t^{2}$ and also used the upper limit only." }
+      ],
+      "solution_text": "$\\displaystyle\\int_{2}^{5}(4t+1)\\,dt$\n$=\\left[2t^{2}+t\\right]_{2}^{5}$\n$=\\left(50+5\\right)-\\left(8+2\\right)$\n$=55-10$\n$=45\\text{ kg}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A tank holds $25$ litres at $t=0$, and water flows in at $\\dfrac{dV}{dt}=6t-4$ litres per minute. How much water is in the tank after $5$ minutes?",
+      "structure": "final-amount-with-initial-value",
+      "mastery": false,
+      "options": [
+        { "text": "$80\\text{ L}$", "correct": true },
+        { "text": "$55\\text{ L}$", "why": "Omitted the initial value: this is the change in volume, not the amount in the tank." },
+        { "text": "$130\\text{ L}$", "why": "Integrated $6t$ as $6t^{2}$ instead of $3t^{2}$, and also omitted the initial $25$ litres." },
+        { "text": "$155\\text{ L}$", "why": "Integrated $6t$ as $6t^{2}$ instead of $3t^{2}$ before adding the initial $25$ litres." }
+      ],
+      "solution_text": "$\\displaystyle\\int_{0}^{5}(6t-4)\\,dt$\n$=\\left[3t^{2}-4t\\right]_{0}^{5}$\n$=75-20$\n$=55\\text{ L}$\n$V=25+55$\n$=80\\text{ L}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A tank holds $36$ litres at $t=0$, and water flows in at $\\dfrac{dV}{dt}=2t$ litres per minute. Find the time at which the tank holds $100$ litres.",
+      "structure": "time-when-quantity-reaches",
+      "mastery": false,
+      "options": [
+        { "text": "$8\\text{ min}$", "correct": true },
+        { "text": "$10\\text{ min}$", "why": "Omitted the initial $36$ litres and solved $t^{2}=100$ instead of $t^{2}+36=100$." },
+        { "text": "$50\\text{ min}$", "why": "Set the rate equal to the amount, solving $2t=100$ instead of building $V(t)$ first." },
+        { "text": "$6\\text{ min}$", "why": "Took the square root of the initial value $36$ rather than solving for $t$." }
+      ],
+      "solution_text": "$V=\\int 2t\\,dt$\n$=t^{2}+C$\n$\\text{At }t=0,\\ V=36:$\n$C=36$\n$V=t^{2}+36$\n$t^{2}+36=100$\n$t^{2}=64$\n$t=8\\text{ min}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A quantity of fuel changes at $\\dfrac{dV}{dt}=2t-14$ litres per hour. Find the total change in the volume of fuel between $t=0$ and $t=4$ hours.",
+      "structure": "total-change-definite-integral",
+      "mastery": false,
+      "options": [
+        { "text": "A decrease of $40$ litres", "correct": true },
+        { "text": "An increase of $40$ litres", "why": "Found the right size but ignored the negative value of the integral." },
+        { "text": "A decrease of $24$ litres", "why": "Integrated $2t$ as $2t^{2}$ instead of $t^{2}$." },
+        { "text": "An increase of $24$ litres", "why": "Integrated $2t$ as $2t^{2}$ and also ignored the negative value of the integral." }
+      ],
+      "solution_text": "$\\displaystyle\\int_{0}^{4}(2t-14)\\,dt$\n$=\\left[t^{2}-14t\\right]_{0}^{4}$\n$=16-56$\n$=-40\\text{ L}$\nThe integral is negative, so the volume decreases by $40$ litres."
+    },
+    {
+      "id": "q6",
+      "question_text": "For a quantity $Q$ litres, $\\dfrac{d^{2}Q}{dt^{2}}=4-6t$ litres per minute per minute. When $t=0$, $\\dfrac{dQ}{dt}=10$ litres per minute and $Q=3$ litres. Find $Q$ when $t=2$ minutes.",
+      "structure": "second-derivative-given",
+      "mastery": true,
+      "options": [
+        { "text": "$23\\text{ L}$", "correct": true },
+        { "text": "$20\\text{ L}$", "why": "Omitted the initial amount $Q=3$ at the second integration." },
+        { "text": "$13\\text{ L}$", "why": "Omitted the initial rate of $10$, so the $10t$ term never appeared in $Q$." },
+        { "text": "$10\\text{ L}$", "why": "Omitted both initial conditions, taking each constant of integration as zero." }
+      ],
+      "solution_text": "$\\dfrac{dQ}{dt}=\\int (4-6t)\\,dt$\n$=4t-3t^{2}+C$\n$\\text{At }t=0,\\ \\dfrac{dQ}{dt}=10:$\n$C=10$\n$\\dfrac{dQ}{dt}=4t-3t^{2}+10$\n$Q=\\int (4t-3t^{2}+10)\\,dt$\n$=2t^{2}-t^{3}+10t+D$\n$\\text{At }t=0,\\ Q=3:$\n$D=3$\n$Q=2t^{2}-t^{3}+10t+3$\n$Q(2)=8-8+20+3$\n$=23\\text{ L}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A gas expands at $\\dfrac{dV}{dt}=12e^{0.5t}$ cubic centimetres per second, and $V=4\\text{ cm}^{3}$ when $t=0$. Find $V$ as a function of $t$.",
+      "structure": "quantity-function-from-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$V=24e^{0.5t}-20$", "correct": true },
+        { "text": "$V=24e^{0.5t}+4$", "why": "Wrote the initial value straight in as $C$ instead of solving $24e^{0}+C=4$." },
+        { "text": "$V=6e^{0.5t}-2$", "why": "Multiplied by $0.5$ instead of dividing by it when integrating $e^{0.5t}$." },
+        { "text": "$V=6e^{0.5t}+4$", "why": "Multiplied by $0.5$ instead of dividing, and wrote the initial value straight in as $C$." }
+      ],
+      "solution_text": "$V=\\int 12e^{0.5t}\\,dt$\n$=24e^{0.5t}+C$\n$\\text{At }t=0,\\ V=4:$\n$4=24+C$\n$C=-20$\n$V=24e^{0.5t}-20$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A tank holds $60$ litres at $t=0$, and water flows in at $\\dfrac{dV}{dt}=15e^{-0.3t}$ litres per minute. Find the volume in the tank after $5$ minutes, correct to $1$ decimal place.",
+      "structure": "final-amount-with-initial-value",
+      "mastery": true,
+      "options": [
+        { "text": "$98.8\\text{ L}$", "correct": true },
+        { "text": "$38.8\\text{ L}$", "why": "Omitted the initial value: this is the change in volume, not the amount in the tank." },
+        { "text": "$21.2\\text{ L}$", "why": "Evaluated the integral as $F(0)-F(5)$, making the inflow subtract from the initial $60$ litres." },
+        { "text": "$-38.8\\text{ L}$", "why": "Reversed the limits and also omitted the initial value." }
+      ],
+      "solution_text": "$\\displaystyle\\int_{0}^{5}15e^{-0.3t}\\,dt$\n$=\\left[-50e^{-0.3t}\\right]_{0}^{5}$\n$=-50e^{-1.5}+50$\n$=50\\left(1-0.223130\\ldots\\right)$\n$=38.8435\\ldots\\text{ L}$\n$V=60+38.8435\\ldots$\n$=98.8\\text{ L}$"
+    }
+  ]
+}

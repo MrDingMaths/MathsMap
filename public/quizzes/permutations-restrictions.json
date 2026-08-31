@@ -1,0 +1,205 @@
+{
+  "skillId": "permutations-restrictions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "In how many ways can $5$ people be seated in a row if $2$ particular people must sit next to each other?",
+      "structure": "block-method-grouping",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$48$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "Forgot the 2! internal arrangement of the two people inside their block."
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated unrestricted 5!, ignoring the restriction that they sit together."
+        },
+        {
+          "text": "$12$",
+          "why": "Calculated 3! times 2! instead of arranging 4 units as 4! times 2!."
+        }
+      ],
+      "solution_text": "Treat pair as $1$ unit $\\implies 4$ units.\n$= 4! \\times 2!$\n$= 24 \\times 2$\n$= 48$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$6$ students line up for lunch. If Chloe must be at the very front of the line, in how many ways can the $6$ students be arranged?",
+      "structure": "fixed-positions-ends",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$120$",
+          "correct": true
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated 6!, failing to fix Chloe in the first position."
+        },
+        {
+          "text": "$24$",
+          "why": "Calculated 4!, leaving out two students from the arrangement."
+        },
+        {
+          "text": "$60$",
+          "why": "Divided 120 by 2 unnecessarily."
+        }
+      ],
+      "solution_text": "Fix Chloe in position $1$ ($1$ choice).\nArrange the remaining $5$ students:\n$= 5!$\n$= 120$"
+    },
+    {
+      "id": "q3",
+      "question_text": "In how many ways can $3$ boys and $3$ girls be seated in a row of $6$ chairs if they must alternate genders?",
+      "structure": "alternating-items",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$72$",
+          "correct": true
+        },
+        {
+          "text": "$36$",
+          "why": "Counted only one starting gender, omitting the second alternating case."
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated 6!, ignoring the alternating gender constraint."
+        },
+        {
+          "text": "$18$",
+          "why": "Multiplied 3 by 3 by 2 instead of evaluating factorials 3! times 3! times 2."
+        }
+      ],
+      "solution_text": "Case 1 (Boy first) $= 3! \\times 3! = 36$\nCase 2 (Girl first) $= 3! \\times 3! = 36$\nTotal $= 36 + 36 = 72$."
+    },
+    {
+      "id": "q4",
+      "question_text": "How many $3$-digit even numbers can be formed using the digits $\\{1, 3, 5, 6, 8\\}$ without repetition?",
+      "structure": "digit-restrictions-even-odd-magnitude",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$24$",
+          "correct": true
+        },
+        {
+          "text": "$60$",
+          "why": "Calculated unrestricted 5P3, ignoring the requirement that the number is even."
+        },
+        {
+          "text": "$12$",
+          "why": "Counted only 1 even ending digit instead of both 6 and 8."
+        },
+        {
+          "text": "$48$",
+          "why": "Multiplied by 4 choices for the last digit instead of 2."
+        }
+      ],
+      "solution_text": "Last digit must be $6$ or $8$ ($2$ choices).\nFirst two digits chosen from remaining $4$: $^{4}P_{2} = 12$.\n$= 2 \\times 12$\n$= 24$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$3$ History books and $2$ Geography books are arranged on a shelf. How many arrangements keep books of the same subject together?",
+      "structure": "multiple-blocks-grouping",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$24$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Forgot the 2! arrangement of the two subject blocks on the shelf."
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated 5!, ignoring the requirement to keep subjects together."
+        },
+        {
+          "text": "$6$",
+          "why": "Calculated 3! only, omitting the Geography books and subject units."
+        }
+      ],
+      "solution_text": "Arrange $2$ subject units: $2! = 2$.\nInternal: History $3! = 6$, Geography $2! = 2$.\n$= 2 \\times 6 \\times 2$\n$= 24$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$4$ boys and $2$ girls sit in a row. In how many ways can they sit such that the $2$ girls do NOT sit next to each other?",
+      "structure": "gaps-method-separated",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$480$",
+          "correct": true
+        },
+        {
+          "text": "$240$",
+          "why": "Calculated the number of arrangements where the girls DO sit together."
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated unrestricted total arrangements 6! without separating girls."
+        },
+        {
+          "text": "$360$",
+          "why": "Divided 720 by 2 assuming half of all arrangements separate the girls."
+        }
+      ],
+      "solution_text": "Total arrangements $= 6! = 720$.\nGirls together $= 5! \\times 2! = 240$.\nGirls separated $= 720 - 240 = 480$."
+    },
+    {
+      "id": "q7",
+      "question_text": "How many $4$-digit numbers greater than $6000$ can be formed from the digits $\\{2, 4, 6, 7, 9\\}$ without repeating digits?",
+      "structure": "digit-restrictions-even-odd-magnitude",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$72$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated unrestricted 5! = 120 without restricting the first digit."
+        },
+        {
+          "text": "$36$",
+          "why": "Calculated arrangements for only 1 starting digit instead of all 3 valid digits."
+        },
+        {
+          "text": "$48$",
+          "why": "Used only 2 starting digits instead of all 3 valid digits (6, 7, 9)."
+        }
+      ],
+      "solution_text": "First digit must be $6, 7$, or $9$ ($3$ choices).\nRemaining $3$ digits: $^{4}P_{3} = 24$.\n$= 3 \\times 24$\n$= 72$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$4$ couples ($8$ people) sit in a row of $8$ seats. In how many ways can they sit if each couple must sit together?",
+      "structure": "multiple-blocks-grouping",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$384$",
+          "correct": true
+        },
+        {
+          "text": "$48$",
+          "why": "Multiplied 4! by 2 instead of 2 to the power 4 for internal couple arrangements."
+        },
+        {
+          "text": "$40320$",
+          "why": "Calculated 8!, ignoring all couple groupings."
+        },
+        {
+          "text": "$192$",
+          "why": "Multiplied by 2 cubed = 8 instead of 2 to the power 4 = 16 for four couples."
+        }
+      ],
+      "solution_text": "Arrange $4$ couple units: $4! = 24$.\nInternal couple swaps: $2^4 = 16$.\n$= 24 \\times 16$\n$= 384$"
+    }
+  ]
+}

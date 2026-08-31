@@ -1,0 +1,109 @@
+{
+  "skillId": "interpret-reciprocal-model",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph shows the time $t$ hours needed to travel $240$ km at an average speed of $s$ km/h. How long does the trip take at $60$ km/h?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-4,xmax=94,ymin=-1,ymax=14.5,xtick={0,10,...,90},ytick={0,1,...,13},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$s$},ylabel={$t$}]\n\\addplot[thick,blue!70!black,<->,domain=18.5:92,samples=140] {240/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-value-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$4$ hours", "correct": true },
+        { "text": "$6$ hours", "why": "Read the curve at $s=40$ instead of $s=60$." },
+        { "text": "$3$ hours", "why": "Read the curve at $s=80$ instead of $s=60$." },
+        { "text": "$180$ hours", "why": "Subtracted $60$ from $240$ instead of dividing." }
+      ],
+      "solution_text": "Read up from $s=60$ to the curve, then across to the vertical axis.\nThe curve is at $t=4$.\nThe trip takes $4$ hours at $60$ km/h."
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph shows an inverse variation relationship $y=\\frac{k}{x}$. What is the value of $k$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.7,xmax=13.6,ymin=-2,ymax=29,xtick={0,1,...,13},ytick={0,4,...,28},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=1.78:13.4,samples=140] {48/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "find-k-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$48$", "correct": true },
+        { "text": "$19$", "why": "Added the coordinates of the point $(3,16)$ instead of multiplying them." },
+        { "text": "$16$", "why": "Used only the $y$-coordinate of a point rather than the product $xy$." },
+        { "text": "$\\frac{16}{3}$", "why": "Divided the coordinates instead of multiplying them." }
+      ],
+      "solution_text": "The curve passes through $(3,16)$.\n$k=3\\times16$\n$=48$\nChecking with another point, $(4,12)$ gives $4\\times12=48$."
+    },
+    {
+      "id": "q3",
+      "question_text": "The cost per person $C$ dollars of hiring a hall is modelled by $C=\\frac{900}{n}$, where $n$ is the number of people sharing the cost. What does the $900$ represent?",
+      "structure": "interpret-k-in-context",
+      "mastery": false,
+      "options": [
+        { "text": "The total cost of hiring the hall", "correct": true },
+        { "text": "The cost paid by each person", "why": "The cost per person is $C$, which changes with $n$; $900$ is fixed." },
+        { "text": "The number of people the hall can hold", "why": "Reads a dollar amount as a number of people." },
+        { "text": "The cost when $900$ people share the hire", "why": "With $900$ people sharing, the cost per person is $\\$1$, not $\\$900$." }
+      ],
+      "solution_text": "Rearranging gives $Cn=900$.\nThe cost per person multiplied by the number of people is the whole bill.\nThe $900$ is the total cost of hiring the hall, $\\$900$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The time $t$ hours to pick a crop with $n$ pickers is modelled by $t=\\frac{150}{n}$. How many pickers are needed to finish in $25$ hours?",
+      "structure": "solve-from-model",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$3750$", "why": "Multiplied $150$ by $25$ instead of dividing." },
+        { "text": "$125$", "why": "Subtracted $25$ from $150$ instead of dividing." },
+        { "text": "$\\frac{1}{6}$", "why": "Divided $25$ by $150$, inverting the relationship." }
+      ],
+      "solution_text": "$25=\\frac{150}{n}$\n$25n=150$\n$n=\\frac{150}{25}$\n$=6$\nSix pickers are needed."
+    },
+    {
+      "id": "q5",
+      "question_text": "The average speed $s$ km/h needed to cover $500$ km in $t$ hours is modelled by $s=\\frac{500}{t}$. Why does the graph never meet the horizontal axis?",
+      "structure": "state-limitation",
+      "mastery": true,
+      "options": [
+        { "text": "$s=0$ would mean covering $500$ km at no speed, which no value of $t$ allows", "correct": true },
+        { "text": "The graph stops once $t$ reaches $500$", "why": "The curve continues for every $t$ greater than zero; it simply gets lower and lower." },
+        { "text": "Because $t$ cannot be negative", "why": "True in the context, but that is about the left of the graph, not about the curve meeting the horizontal axis." },
+        { "text": "Because $500$ divided by a large enough number eventually gives exactly $0$", "why": "Dividing $500$ by a larger and larger number gives smaller and smaller values, never exactly zero." }
+      ],
+      "solution_text": "A point on the horizontal axis has $s=0$.\nThat would need $0=\\frac{500}{t}$, and no value of $t$ makes that true.\nThe curve gets closer and closer to the axis but never reaches it."
+    },
+    {
+      "id": "q6",
+      "question_text": "The cost per person $C$ dollars of a party is modelled by $C=\\frac{600}{n}$, where $n$ is the number of guests. Why can the model not be used for $n=7.5$?",
+      "structure": "state-limitation",
+      "mastery": false,
+      "options": [
+        { "text": "The number of guests must be a whole number", "correct": true },
+        { "text": "$600$ is not divisible by $7.5$", "why": "It is: $\\frac{600}{7.5}=80$. The problem is with what $n$ counts, not with the arithmetic." },
+        { "text": "The curve is not drawn that far along", "why": "How far a curve is drawn is a choice of window; it is not a limitation of the model." },
+        { "text": "The cost per person cannot be more than $\\$80$", "why": "Fewer guests give a larger cost per person, so costs above $\\$80$ are perfectly possible." }
+      ],
+      "solution_text": "The variable $n$ counts guests, and there cannot be half a guest.\nThe curve is drawn as a smooth line, but only the points with whole number values of $n$ describe a real party.\nThe model cannot be used for $n=7.5$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The graph shows an inverse variation relationship. What is the value of $x$ when $y=9$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.8,xmax=14.6,ymin=-2,ymax=23,xtick={0,1,...,14},ytick={0,3,...,21},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$}]\n\\addplot[thick,blue!70!black,<->,domain=3.43:14.4,samples=140] {72/x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-value-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$8$", "correct": true },
+        { "text": "$9$", "why": "Repeats the given value instead of reading across to the curve and down to the other axis." },
+        { "text": "$6$", "why": "Read across from $y=12$ rather than from $y=9$." },
+        { "text": "$12$", "why": "Read across from $y=6$ rather than from $y=9$." }
+      ],
+      "solution_text": "Read across from $y=9$ to the curve, then down to the horizontal axis.\nThe curve is at $x=8$.\nChecking, $8\\times9=72$, which matches the other points on the curve."
+    },
+    {
+      "id": "q8",
+      "question_text": "The time $t$ hours to paint a house varies inversely with the number of painters $n$. Six painters take $10$ hours. What is the constant $k$ in $t=\\frac{k}{n}$, and what does it mean?",
+      "structure": "interpret-k-in-context",
+      "mastery": true,
+      "options": [
+        { "text": "$k=60$, the number of painter-hours the whole job takes", "correct": true },
+        { "text": "$k=10$, the number of hours each painter works", "why": "Uses the given time as the constant; the constant must be the product $6\\times10$, not one of the two values." },
+        { "text": "$k=16$, the total of the painters and the hours", "why": "Adds the two values instead of multiplying them." },
+        { "text": "$k=\\frac{5}{3}$, the hours per painter", "why": "Divides $10$ by $6$; the constant of an inverse variation is the product, not the quotient." }
+      ],
+      "solution_text": "$k=6\\times10$\n$=60$\nSix painters each working $10$ hours is $60$ hours of painting in total.\nThe constant $60$ is the number of painter-hours the whole job takes."
+    }
+  ]
+}

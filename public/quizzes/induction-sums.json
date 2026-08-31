@@ -1,0 +1,134 @@
+{
+  "skillId": "induction-sums",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For the sum $3 + 8 + 13 + \\dots + (5n - 2)$, which expression is the term added when $n$ increases from $k$ to $k + 1$?",
+      "structure": "identify-next-term",
+      "mastery": false,
+      "options": [
+        { "text": "$5k + 3$", "correct": true },
+        { "text": "$5k - 2$", "why": "This is the general term at $n = k$, the last term already in the assumed sum, not the new one." },
+        { "text": "$5k + 8$", "why": "Substituted $n = k + 2$ into $5n - 2$, jumping one term too far along the sequence." },
+        { "text": "$5(k + 1)$", "why": "Substituted $k + 1$ into $5n$ but dropped the $-2$ from the general term." }
+      ],
+      "solution_text": "$5(k + 1) - 2$\n$= 5k + 5 - 2$\n$= 5k + 3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "For the claim $2 + 6 + 10 + \\dots + (4n - 2) = 2n^{2}$ for all integers $n \\ge 1$, which statement must the inductive step prove?",
+      "structure": "k-plus-one-target",
+      "mastery": false,
+      "options": [
+        { "text": "$2 + 6 + \\dots + (4k - 2) + (4k + 2) = 2(k + 1)^{2}$", "correct": true },
+        { "text": "$2 + 6 + \\dots + (4k - 2) + (4k + 2) = 2k^{2} + 2$", "why": "Added $2$ to the closed form instead of substituting $k + 1$ into it." },
+        { "text": "$2 + 6 + \\dots + (4k - 2) + (4k - 2) = 2(k + 1)^{2}$", "why": "Repeated the $k$th term instead of forming the $(k + 1)$th term $4(k + 1) - 2$." },
+        { "text": "$2 + 6 + \\dots + (4k - 2) = 2(k + 1)^{2}$", "why": "Substituted $k + 1$ on the right without adding the new term on the left." }
+      ],
+      "solution_text": "The added term is $4(k + 1) - 2 = 4k + 2$, and the target is $2n^{2}$ with $n = k + 1$.\n$2 + 6 + \\dots + (4k - 2) + (4k + 2) = 2(k + 1)^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Assume $1 + 5 + 9 + \\dots + (4k - 3) = k(2k - 1)$. Which line correctly carries the sum to $n = k + 1$?",
+      "structure": "transform-step",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$k(2k - 1) + (4k + 1) = (k + 1)(2k + 1)$",
+          "correct": true
+        },
+        {
+          "text": "$k(2k - 1) + (4k + 1) = (k + 1)(2k - 1)$",
+          "why": "Added the correct next term on the left, but substituted $k + 1$ into only the first factor of the closed form on the right."
+        },
+        {
+          "text": "$k(2k - 1) + (4k - 3) = (k + 1)(2k + 1)$",
+          "why": "Repeated the $n = k$ term $4k - 3$ on the left instead of adding the $n = k + 1$ term $4k + 1$."
+        },
+        {
+          "text": "$k(2k - 1) + (4k - 3) = (k + 1)(2k - 1)$",
+          "why": "Repeated the $n = k$ term on the left and substituted $k + 1$ into only the first factor on the right, combining both errors."
+        }
+      ],
+      "solution_text": "The added term is $4(k + 1) - 3 = 4k + 1$.\n$k(2k - 1) + (4k + 1)$\n$= 2k^{2} - k + 4k + 1$\n$= 2k^{2} + 3k + 1$\n$= (k + 1)(2k + 1)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The claim $6 + 12 + 18 + \\dots + 6n = 3n(n + 1)$ is made for all integers $n \\ge 1$. Which line correctly tests the base case?",
+      "structure": "verify-base-case",
+      "mastery": false,
+      "options": [
+        { "text": "$LHS = 6$ and $RHS = 3(1)(2) = 6$, so the statement is true for $n = 1$", "correct": true },
+        { "text": "$LHS = 6$ and $RHS = 3(1) = 3$, so the statement is false for $n = 1$", "why": "Evaluated $3n$ only and ignored the factor $(n + 1)$ in the closed form." },
+        { "text": "$LHS = 6 + 12 = 18$ and $RHS = 3(2)(3) = 18$, so the statement is true for $n = 2$", "why": "Tested $n = 2$; the claim begins at $n = 1$, so $n = 1$ is the case the base must check." },
+        { "text": "$LHS = 6k$ and $RHS = 3k(k + 1)$, so the statement is true", "why": "This is the inductive hypothesis written with $k$; a base case substitutes an actual number." }
+      ],
+      "solution_text": "The claim starts at $n = 1$.\n$LHS = 6$\n$RHS = 3(1)(1 + 1) = 6$\n$LHS = RHS$, so the statement is true for $n = 1$."
+    },
+    {
+      "id": "q5",
+      "question_text": "For the sum $\\dfrac{1}{1 \\times 3} + \\dfrac{1}{3 \\times 5} + \\dots + \\dfrac{1}{(2n - 1)(2n + 1)}$, which term is added when $n$ increases from $k$ to $k + 1$?",
+      "structure": "identify-next-term",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{(2k + 1)(2k + 3)}$", "correct": true },
+        { "text": "$\\dfrac{1}{(2k - 1)(2k + 1)}$", "why": "This is the general term at $n = k$, the last term already counted in the assumption." },
+        { "text": "$\\dfrac{1}{(2k + 1)(2k + 2)}$", "why": "Substituted $k + 1$ into $2n - 1$ correctly but wrote $2n + 1$ as $2k + 2$." },
+        { "text": "$\\dfrac{1}{(2k + 3)(2k + 5)}$", "why": "Substituted $n = k + 2$, jumping one term too far along the sequence." }
+      ],
+      "solution_text": "$\\dfrac{1}{\\left(2(k + 1) - 1\\right)\\left(2(k + 1) + 1\\right)}$\n$= \\dfrac{1}{(2k + 1)(2k + 3)}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The claim $1 + 3 + 3^{2} + \\dots + 3^{n} = \\dfrac{3^{n + 1} - 1}{2}$ is made for all integers $n \\ge 0$. Which statement must the inductive step prove?",
+      "structure": "k-plus-one-target",
+      "mastery": false,
+      "options": [
+        { "text": "$1 + 3 + \\dots + 3^{k} + 3^{k + 1} = \\dfrac{3^{k + 2} - 1}{2}$", "correct": true },
+        { "text": "$1 + 3 + \\dots + 3^{k} + 3^{k + 1} = \\dfrac{3^{k + 1} - 1}{2}$", "why": "The index on the right was not moved up; this right side belongs to the assumption at $n = k$." },
+        { "text": "$1 + 3 + \\dots + 3^{k} + 3^{k + 2} = \\dfrac{3^{k + 2} - 1}{2}$", "why": "The added term should be $3^{k + 1}$, obtained by putting $n = k + 1$ into $3^{n}$." },
+        { "text": "$1 + 3 + \\dots + 3^{k} = \\dfrac{3^{k + 2} - 1}{2}$", "why": "The right side moved to $n = k + 1$ but the new term was never added on the left." }
+      ],
+      "solution_text": "Replace $n$ by $k + 1$ throughout, and add the term $3^{k + 1}$ on the left.\n$1 + 3 + \\dots + 3^{k} + 3^{k + 1} = \\dfrac{3^{(k + 1) + 1} - 1}{2}$\n$= \\dfrac{3^{k + 2} - 1}{2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Assume $1 + 2 + 4 + \\dots + 2^{k - 1} = 2^{k} - 1$. Which line correctly completes the inductive step?",
+      "structure": "transform-step",
+      "mastery": false,
+      "options": [
+        { "text": "$2^{k} - 1 + 2^{k} = 2^{k + 1} - 1$", "correct": true },
+        { "text": "$2^{k} - 1 + 2^{k + 1} = 3 \\times 2^{k} - 1$", "why": "Added the term for $n = k + 2$; the new term is $2^{(k + 1) - 1} = 2^{k}$." },
+        { "text": "$2^{k} - 1 + 2^{k} = 2^{2k} - 1$", "why": "Multiplied the two powers of 2 instead of adding two equal terms to get $2 \\times 2^{k}$." },
+        { "text": "$2^{k} - 1 + 2^{k} = 2^{k + 1} - 2$", "why": "Doubled the constant $-1$ as well as the power when combining the two terms." }
+      ],
+      "solution_text": "The added term is $2^{(k + 1) - 1} = 2^{k}$.\n$2^{k} - 1 + 2^{k}$\n$= 2 \\times 2^{k} - 1$\n$= 2^{k + 1} - 1$"
+    },
+    {
+      "id": "q8",
+      "question_text": "In proving $1^{3} + 2^{3} + \\dots + n^{3} = \\dfrac{n^{2}(n + 1)^{2}}{4}$ by induction, the inductive step reaches $\\dfrac{k^{2}(k + 1)^{2}}{4} + (k + 1)^{3}$. Which single expression is the correct next line?",
+      "structure": "transform-step",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{(k + 1)^{2}\\left(k^{2} + 4k + 4\\right)}{4}$", "correct": true },
+        { "text": "$\\dfrac{(k + 1)^{3}\\left(k^{2} + 4\\right)}{4}$", "why": "Took $(k + 1)^{3}$ as the common factor, but only $(k + 1)^{2}$ divides both terms." },
+        { "text": "$\\dfrac{(k + 1)^{2}\\left(k^{2} + 4k\\right)}{4}$", "why": "Wrote $4(k + 1)$ as $4k$ when the second term was put over the denominator $4$." },
+        { "text": "$\\dfrac{(k + 1)^{2}\\left(k^{2} + 2k + 1\\right)}{4}$", "why": "Added $(k + 1)^{2}$ rather than $(k + 1)^{3}$ inside the bracket after factoring." }
+      ],
+      "solution_text": "$\\dfrac{k^{2}(k + 1)^{2}}{4} + (k + 1)^{3}$\n$= \\dfrac{(k + 1)^{2}\\left(k^{2} + 4(k + 1)\\right)}{4}$\n$= \\dfrac{(k + 1)^{2}\\left(k^{2} + 4k + 4\\right)}{4}$\n$= \\dfrac{(k + 1)^{2}(k + 2)^{2}}{4}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A student proves $5 + 10 + 15 + \\dots + 5n = \\dfrac{5n(n + 1)}{2}$ as follows: they verify $n = 1$, write the assumption $5 + 10 + \\dots + 5k = \\dfrac{5k(k + 1)}{2}$, then show $\\dfrac{5k(k + 1)}{2} + 5(k + 1) = \\dfrac{5(k + 1)(k + 2)}{2}$, and stop. What must still be written for the proof to be complete?",
+      "structure": "full-sum-proof",
+      "mastery": false,
+      "options": [
+        { "text": "A concluding statement: since the result holds at $n = 1$ and each case forces the next, it holds for all integers $n \\ge 1$", "correct": true },
+        { "text": "A check that the formula also works at $n = 2$ and $n = 3$", "why": "The completed step already covers every later case, so extra numerical checks add nothing." },
+        { "text": "A proof that $\\dfrac{5k(k + 1)}{2} + 5(k + 1) = \\dfrac{5(k + 1)(k + 2)}{2}$ holds for every real number $k$", "why": "The identity is ordinary algebra and is already shown; induction concerns integer values of $n$." },
+        { "text": "A restatement of the $n = k + 1$ case as a further assumption", "why": "The $n = k + 1$ case must be proved, never assumed; assuming it is exactly the circular error." }
+      ],
+      "solution_text": "The base case and the inductive step are both done, so only the fourth stage is missing.\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+    }
+  ]
+}

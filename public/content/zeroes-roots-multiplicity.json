@@ -1,0 +1,114 @@
+{
+  "skillId": "zeroes-roots-multiplicity",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **zero** of $P(x)$ is a number $\\alpha$ with $P(\\alpha) = 0$; the same value is a **root** of the equation $P(x) = 0$ and an $x$-intercept of $y = P(x)$. Its **multiplicity** is the power of $(x - \\alpha)$. Multiplicity decides how the curve meets the $x$-axis.",
+        "facts": [
+          "If $P(\\alpha) = 0$ then $\\alpha$ is a **zero** of $P(x)$, $x = \\alpha$ is a **root** of $P(x) = 0$, and $(\\alpha, 0)$ is an **$x$-intercept**.",
+          "If $P(x) = (x - \\alpha)^{m}Q(x)$ with $Q(\\alpha) \\ne 0$, then $\\alpha$ is a zero of **multiplicity $m$**.",
+          "At a zero of **multiplicity 1**, the curve **cuts** straight through the $x$-axis.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0) -- (3.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.8) -- (0,2.8) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.2:3.2,smooth,variable=\\x,samples=60] plot ({\\x},{0.9*(\\x-1)+0.05*(\\x-1)*(\\x-1)*(\\x-1)});\n\\filldraw (1,0) circle (2pt) node[below right] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
+          "At a zero of **even multiplicity** ($m = 2, 4, \\ldots$), the curve **touches** the $x$-axis and turns back without crossing.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0) -- (3.8,0) node[right] {$x$};\n\\draw[<->] (0,-0.9) -- (0,3.1) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.2:3.2,smooth,variable=\\x,samples=60] plot ({\\x},{0.55*(\\x-1)*(\\x-1)});\n\\filldraw (1,0) circle (2pt) node[below] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
+          "At a zero of **odd multiplicity $\\ge 3$** ($m = 3, 5, \\ldots$), the curve **flattens** along the $x$-axis as it crosses.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.2,0) -- (3.8,0) node[right] {$x$};\n\\draw[<->] (0,-2.7) -- (0,2.7) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.2:3.2,smooth,variable=\\x,samples=60] plot ({\\x},{0.22*(\\x-1)*(\\x-1)*(\\x-1)});\n\\filldraw (1,0) circle (2pt) node[below] {$\\alpha$};\n\\end{tikzpicture}\n[/tikz]",
+          "The multiplicities of all the linear factors add up to the degree of the polynomial."
+        ],
+        "steps": [
+          "Factorise $P(x)$ completely into linear factors of the form $(x - \\alpha)^{m}$.",
+          "Identify each zero $\\alpha$ by setting each factor to zero.",
+          "State the multiplicity $m$ from the exponent of $(x - \\alpha)$.",
+          "Determine the geometric behaviour at $(\\alpha, 0)$: single cuts, even multiplicity touches, odd multiplicity $\\ge 3$ inflects."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For the polynomial $P(x) = x^{2} - 9$, state the zeroes of $P(x)$, the roots of $P(x) = 0$, and the coordinates of the $x$-intercepts of $y = P(x)$.",
+        "structure": "distinguish-zero-root-intercept",
+        "solution_text": "$P(x) = (x - 3)(x + 3)$\nZeroes of $P(x)$: $3$ and $-3$\nRoots of $P(x) = 0$: $x = 3$ and $x = -3$\n$x$-intercepts: $(3, 0)$ and $(-3, 0)$"
+      },
+      {
+        "question_text": "State the zeroes of $P(x) = (x - 4)^{2}(x + 1)(x - 7)^{3}$ and give the multiplicity of each zero.",
+        "structure": "identify-multiplicity-from-formula",
+        "solution_text": "$x = 4$ is a zero of multiplicity $2$ (double zero).\n$x = -1$ is a zero of multiplicity $1$ (single zero).\n$x = 7$ is a zero of multiplicity $3$ (triple zero)."
+      },
+      {
+        "question_text": "Find the roots of $(2x - 3)(x + 5)^{2} = 0$ and state whether each is a single or multiple root.",
+        "structure": "identify-multiplicity-from-formula",
+        "solution_text": "$2x - 3 = 0 \\implies x = \\frac{3}{2}$ (single root, multiplicity $1$)\n$x + 5 = 0 \\implies x = -5$ (multiple root, multiplicity $2$)"
+      },
+      {
+        "question_text": "For the curve $y = (x - 2)(x + 3)^{2}$, state whether the curve cuts, touches, or inflects at $x = 2$ and at $x = -3$.",
+        "structure": "graph-behaviour-from-multiplicity",
+        "solution_text": "At $x = 2$, the factor $(x - 2)$ has power $1$ (single zero), so the curve **cuts** the $x$-axis.\nAt $x = -3$, the factor $(x + 3)$ has power $2$ (even multiplicity), so the curve **touches** (bounces off) the $x$-axis."
+      },
+      {
+        "question_text": "Describe the behaviour of the curve $y = -(x + 4)^{3}(x - 1)$ at each of its $x$-intercepts.",
+        "structure": "graph-behaviour-from-multiplicity",
+        "solution_text": "At $x = -4$, multiplicity is $3$ (odd $\\ge 3$), so the curve **inflects** (flattens and crosses).\nAt $x = 1$, multiplicity is $1$ (single zero), so the curve **cuts** (crosses straight through)."
+      },
+      {
+        "question_text": "For the polynomial graphed below, identify the zeroes and state whether each has odd or even multiplicity:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4,0) -- (4,0) node[right] {$x$};\n\\draw[<->] (0,-3) -- (0,3) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.6:3.5,smooth,variable=\\x,samples=60] plot ({\\x},{0.15*(\\x+2)*(\\x-3)*(\\x-3)});\n\\filldraw (-2,0) circle (2pt) node[below left] {$-2$};\n\\filldraw (3,0) circle (2pt) node[below] {$3$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "multiplicity-from-graph",
+        "solution_text": "At $x = -2$, the curve crosses the axis, so $x = -2$ has **odd multiplicity** (multiplicity $1$).\nAt $x = 3$, the curve touches and turns around without crossing, so $x = 3$ has **even multiplicity** (multiplicity $2$)."
+      },
+      {
+        "question_text": "Write down a monic polynomial $P(x)$ of degree $4$ that has a double zero at $x = 3$, a single zero at $x = -2$, and a single zero at $x = 0$.",
+        "structure": "construct-polynomial-from-multiplicities",
+        "solution_text": "A zero at $x = 0$ gives factor $x$.\nA single zero at $x = -2$ gives factor $(x + 2)$.\nA double zero at $x = 3$ gives factor $(x - 3)^{2}$.\n$P(x) = x(x + 2)(x - 3)^{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Factorise $P(x) = x^{3} - 4x^{2} + 4x$ and find the zeroes and their multiplicities.",
+        "structure": "identify-multiplicity-from-formula",
+        "solution_text": "$P(x) = x(x^{2} - 4x + 4)$\n$= x(x - 2)^{2}$\n$x = 0$ is a zero of multiplicity $1$.\n$x = 2$ is a zero of multiplicity $2$."
+      },
+      {
+        "question_text": "For $P(x) = (x - 1)^{2}(x + 2)(x - 5)^{3}$, at which $x$-intercept does the curve $y = P(x)$ have a horizontal point of inflection?",
+        "structure": "graph-behaviour-from-multiplicity",
+        "solution_text": "A horizontal point of inflection occurs at an $x$-intercept where the zero has an odd multiplicity of $3$ or greater.\nThe factor $(x - 5)$ has exponent $3$.\nAt $x = 5$"
+      },
+      {
+        "question_text": "Identify the zero that has multiplicity $3$ on the graph below and explain how the visual feature confirms it:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4,0) -- (3,0) node[right] {$x$};\n\\draw[<->] (0,-3) -- (0,3) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.2:1.35,smooth,variable=\\x,samples=60] plot ({\\x},{0.2*(\\x+2)*(\\x+2)*(\\x+2)*(1-\\x)});\n\\filldraw (-2,0) circle (2pt) node[below] {$-2$};\n\\filldraw (1,0) circle (2pt) node[below] {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "multiplicity-from-graph",
+        "solution_text": "At $x = -2$, the curve flattens to a horizontal tangent as it crosses the $x$-axis (inflection).\nThis horizontal inflection confirms that $x = -2$ has multiplicity $3$.\n$x = -2$"
+      },
+      {
+        "question_text": "Find a polynomial $P(x)$ of degree $3$ with leading coefficient $-2$ that has a double zero at $x = 1$ and a single zero at $x = -4$.",
+        "structure": "construct-polynomial-from-multiplicities",
+        "solution_text": "Double zero at $x = 1 \\implies (x - 1)^{2}$\nSingle zero at $x = -4 \\implies (x + 4)$\nLeading coefficient is $-2$.\n$P(x) = -2(x - 1)^{2}(x + 4)$"
+      },
+      {
+        "question_text": "Explain the difference in meaning between the statements \"$4$ is a zero of $P(x)$\" and \"$x = 4$ is a root of $P(x) = 0$\".",
+        "structure": "distinguish-zero-root-intercept",
+        "solution_text": "A **zero** is an input value $c$ for the polynomial function that yields an output of $0$ ($P(c) = 0$).\nA **root** is a solution value for the algebraic equation $P(x) = 0$.\nA zero belongs to a polynomial expression, while a root belongs to an equation."
+      },
+      {
+        "question_text": "Given $P(x) = (x^{2} - 1)(x - 1)(x + 3)^{2}$, determine the multiplicity of the zero at $x = 1$.",
+        "structure": "identify-multiplicity-from-formula",
+        "solution_text": "$P(x) = (x - 1)(x + 1)(x - 1)(x + 3)^{2}$\n$= (x - 1)^{2}(x + 1)(x + 3)^{2}$\nThe factor $(x - 1)$ appears to the power $2$.\nThe multiplicity of the zero at $x = 1$ is $2$."
+      },
+      {
+        "question_text": "State whether the curve $y = (2x - 5)^{2}(3 - x)^{4}$ crosses or touches the $x$-axis at $x = 2.5$ and at $x = 3$.",
+        "structure": "graph-behaviour-from-multiplicity",
+        "solution_text": "At $x = 2.5$, the factor $(2x - 5)$ has even power $2$, so the curve **touches** without crossing.\nAt $x = 3$, the factor $(3 - x)$ has even power $4$, so the curve **touches** without crossing.\nThe curve touches the $x$-axis at both points."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A monic polynomial $P(x)$ of degree $5$ has a triple zero at $x = -1$, touches the $x$-axis at $x = 2$, and has $y$-intercept $(0, 4)$. Find $P(x)$ and evaluate $P(1)$.",
+        "structure": "construct-polynomial-from-multiplicities",
+        "solution_text": "Triple zero at $x = -1 \\implies (x + 1)^{3}$\nTouches at $x = 2 \\implies (x - 2)^{2}$\nMonic polynomial of degree $5$: $P(x) = (x + 1)^{3}(x - 2)^{2}$\nCheck $y$-intercept: $P(0) = (1)^{3}(-2)^{2} = 4$.\n$P(1) = (1 + 1)^{3}(1 - 2)^{2} = (8)(1) = 8$."
+      },
+      {
+        "question_text": "$P(x) = x^{4} - 2x^{3} - 3x^{2} + 4x + 4$. Given that $x = 2$ and $x = -1$ are zeroes of $P(x)$, express $P(x)$ in fully factored form and state the multiplicity of each zero.",
+        "structure": "identify-multiplicity-from-formula",
+        "solution_text": "Dividing $P(x)$ by $(x - 2)(x + 1) = x^{2} - x - 2$ gives quotient $x^{2} - x - 2$.\n$P(x) = (x^{2} - x - 2)(x^{2} - x - 2) = (x - 2)^{2}(x + 1)^{2}$\n$x = 2$ has multiplicity $2$ (double zero).\n$x = -1$ has multiplicity $2$ (double zero)."
+      },
+      {
+        "question_text": "The monic quartic polynomial shown below touches the $x$-axis at $x = -2$ and $x = 3$. Find its equation and evaluate its $y$-intercept.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4,0) -- (5,0) node[right] {$x$};\n\\draw[<->] (0,-1) -- (0,4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.7:3.7,smooth,variable=\\x,samples=60] plot ({\\x},{0.1*(\\x+2)*(\\x+2)*(\\x-3)*(\\x-3)});\n\\filldraw (-2,0) circle (2pt) node[below] {$-2$};\n\\filldraw (3,0) circle (2pt) node[below] {$3$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "multiplicity-from-graph",
+        "solution_text": "Because the monic quartic touches at $x = -2$ and $x = 3$, both are double roots.\n$P(x) = (x + 2)^{2}(x - 3)^{2}$\n$y$-intercept: $P(0) = (2)^{2}(-3)^{2} = 4 \\times 9 = 36$.\n$P(x) = (x + 2)^{2}(x - 3)^{2},\\ y\\text{-intercept } = 36$"
+      }
+    ]
+  }
+}

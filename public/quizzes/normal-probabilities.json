@@ -1,0 +1,205 @@
+{
+  "skillId": "normal-probabilities",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The heights of a large group of adults are normally distributed with a mean of $170$ cm and a standard deviation of $8$ cm. Find the probability that a randomly chosen adult has a height between $162$ cm and $178$ cm.",
+      "structure": "band-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.68$",
+          "correct": true
+        },
+        {
+          "text": "$0.34$",
+          "why": "Halved the band, giving only the part between $170$ cm and $178$ cm."
+        },
+        {
+          "text": "$0.84$",
+          "why": "Added $0.5$ to $0.34$, which gives the probability of a height below $178$ cm instead."
+        },
+        {
+          "text": "$0.32$",
+          "why": "Gave the two tails outside the band rather than the band itself."
+        }
+      ],
+      "solution_text": "$162$ and $178$ are each $1$ standard deviation from $170$.\n$P(162 < X < 178)$\n$= 0.68$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-1,0) -- plot[domain=-1:1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$162$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$170$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$178$};\n\\node at (0,1.1) {$0.68$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q2",
+      "question_text": "The masses of chickens on a farm are normally distributed with a mean of $1.8$ kg and a standard deviation of $0.15$ kg. Find the probability that a randomly chosen chicken has a mass greater than $1.95$ kg.",
+      "structure": "tail-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.16$",
+          "correct": true
+        },
+        {
+          "text": "$0.32$",
+          "why": "Left the whole leftover $1 - 0.68 = 0.32$ in one tail instead of halving it between the two tails."
+        },
+        {
+          "text": "$0.84$",
+          "why": "Gave the probability that a chicken is lighter than $1.95$ kg."
+        },
+        {
+          "text": "$0.34$",
+          "why": "Gave the area from the mean up to $1.95$ kg rather than the area beyond it."
+        }
+      ],
+      "solution_text": "$1.95$ kg is $1$ standard deviation above $1.8$ kg.\n$P(X > 1.95)$\n$= (1 - 0.68) \\div 2$\n$= 0.16$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1.8$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$1.95$};\n\\node at (2.3,1.3) {$0.16$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q3",
+      "question_text": "The times taken by a bus to complete a route are normally distributed with a mean of $46$ minutes and a standard deviation of $3$ minutes. Find the probability that a randomly chosen trip takes less than $55$ minutes.",
+      "structure": "cumulative-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.9985$",
+          "correct": true
+        },
+        {
+          "text": "$0.997$",
+          "why": "Gave the band within three standard deviations, leaving out the trips shorter than $37$ minutes."
+        },
+        {
+          "text": "$0.4985$",
+          "why": "Gave only the area from the mean up to $55$ minutes, omitting the $0.5$ below the mean."
+        },
+        {
+          "text": "$0.0015$",
+          "why": "Gave the probability that a trip takes more than $55$ minutes."
+        }
+      ],
+      "solution_text": "$55$ minutes is $3$ standard deviations above $46$ minutes.\n$P(X < 55)$\n$= 0.5 + 0.4985$\n$= 0.9985$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:3, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$46$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$55$};\n\\node at (0,1.1) {$0.9985$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "The lengths of nails are normally distributed with a mean of $50$ mm and a standard deviation of $1$ mm. Find the probability that a randomly chosen nail has a length either between $48$ mm and $49$ mm or between $51$ mm and $52$ mm.",
+      "structure": "between-bands-probability",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$0.27$",
+          "correct": true
+        },
+        {
+          "text": "$0.95$",
+          "why": "Gave the whole region from $48$ mm to $52$ mm instead of only the two outer bands."
+        },
+        {
+          "text": "$0.047$",
+          "why": "Used the two bands between $2\\sigma$ and $3\\sigma$ instead of the bands between $\\sigma$ and $2\\sigma$."
+        },
+        {
+          "text": "$0.475$",
+          "why": "Gave the whole region from the mean out to $2\\sigma$ instead of only the two bands between $\\sigma$ and $2\\sigma$."
+        }
+      ],
+      "solution_text": "$48$ and $52$ are $2$ standard deviations from $50$, and $49$ and $51$ are $1$ standard deviation from $50$.\n$P(48 < X < 49) + P(51 < X < 52)$\n$= 0.135 + 0.135$\n$= 0.27$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:-1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\fill[gray!35] (1,0) -- plot[domain=1:2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$48$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$49$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$51$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$52$};\n\\node at (-1.5,1.9) {$0.135$};\n\\node at (1.5,1.9) {$0.135$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q5",
+      "question_text": "The marks in an examination are normally distributed with a mean of $55$ and a standard deviation of $10$. Find the probability that a randomly chosen mark lies between $25$ and $65$.",
+      "structure": "asymmetric-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.8385$",
+          "correct": true
+        },
+        {
+          "text": "$0.84$",
+          "why": "Used $0.5$ for the region below the mean instead of the $0.4985$ that reaches only down to $25$."
+        },
+        {
+          "text": "$0.6585$",
+          "why": "Used the $0.16$ tail above $65$ instead of the $0.34$ between $55$ and $65$."
+        },
+        {
+          "text": "$0.3415$",
+          "why": "Added the $0.0015$ tail below $25$ to $0.34$ instead of the $0.4985$ between $25$ and $55$."
+        }
+      ],
+      "solution_text": "$25$ is $3$ standard deviations below $55$ and $65$ is $1$ standard deviation above.\n$P(25 < X < 65)$\n$= 0.4985 + 0.34$\n$= 0.8385$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:1, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$25$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$55$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$65$};\n\\node at (-0.7,1.1) {$0.8385$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "A crop of $900$ tomato plants has yields that are normally distributed with a mean of $40$ tomatoes and a standard deviation of $6$ tomatoes. How many plants are expected to yield more than $46$ tomatoes?",
+      "structure": "expected-count",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$144$ plants",
+          "correct": true
+        },
+        {
+          "text": "$306$ plants",
+          "why": "Used $0.34$, the area from the mean up to $46$, instead of the $0.16$ beyond it."
+        },
+        {
+          "text": "$756$ plants",
+          "why": "Used $0.84$, which is the probability of yielding fewer than $46$ tomatoes."
+        },
+        {
+          "text": "$612$ plants",
+          "why": "Used the whole $0.68$ band within one standard deviation instead of the upper tail."
+        }
+      ],
+      "solution_text": "$46$ is $1$ standard deviation above $40$.\n$P(X > 46) = (1 - 0.68) \\div 2 = 0.16$\n$f = np$\n$= 900 \\times 0.16$\n$= 144$ plants\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$40$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$46$};\n\\node at (2.3,1.3) {$0.16$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "In a town, the weekly water use of $2400$ households is normally distributed with a mean of $1500$ L and a standard deviation of $200$ L. How many households are expected to use between $1100$ L and $1500$ L?",
+      "structure": "expected-count",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$1140$ households",
+          "correct": true
+        },
+        {
+          "text": "$2280$ households",
+          "why": "Used $0.95$, the whole band from $1100$ L to $1900$ L, instead of the half below the mean."
+        },
+        {
+          "text": "$1632$ households",
+          "why": "Used $0.68$, the band within one standard deviation, instead of the $0.475$ region."
+        },
+        {
+          "text": "$1200$ households",
+          "why": "Used $0.5$, counting every household below the mean rather than only those above $1100$ L."
+        }
+      ],
+      "solution_text": "$1100$ L is $2$ standard deviations below $1500$ L.\n$P(1100 < X < 1500) = 0.95 \\div 2 = 0.475$\n$f = np$\n$= 2400 \\times 0.475$\n$= 1140$ households\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:0, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (0,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$1100$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1500$};\n\\node at (-1,0.9) {$0.475$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q8",
+      "question_text": "The times taken by workers to assemble a part are normally distributed with a mean of $72$ seconds and a standard deviation of $6$ seconds. One worker takes $90$ seconds. Which statement best describes this time?",
+      "structure": "judgement",
+      "mastery": false,
+      "options": [
+        {
+          "text": "It is $3$ standard deviations above the mean, and only about $0.15\\%$ of times are this long, so it is unusual.",
+          "correct": true
+        },
+        {
+          "text": "It is $3$ standard deviations above the mean, and about $0.3\\%$ of times are this long, so it is unusual.",
+          "why": "Left the whole leftover $100\\% - 99.7\\% = 0.3\\%$ in the upper tail instead of halving it between the two tails."
+        },
+        {
+          "text": "It is $3$ standard deviations above the mean, and about $49.85\\%$ of times are this long, so it is not unusual.",
+          "why": "Used the region from the mean up to $90$ seconds instead of the region beyond $90$ seconds."
+        },
+        {
+          "text": "It is $2$ standard deviations above the mean, and about $2.5\\%$ of times are this long, so it is unusual.",
+          "why": "Counted $90 - 72 = 18$ seconds as $2$ standard deviations instead of $3$."
+        }
+      ],
+      "solution_text": "$90 = 72 + 3(6)$, so the time is $3$ standard deviations above the mean.\n$P(X > 90)$\n$= (1 - 0.997) \\div 2$\n$= 0.0015$\nOnly about $0.15\\%$ of assembly times are this long, so $90$ seconds is unusual.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (3,0) -- plot[domain=3:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$72$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$90$};\n\\node at (3.4,1.1) {$0.0015$};\n\\end{tikzpicture}\n[/tikz]"
+    }
+  ]
+}

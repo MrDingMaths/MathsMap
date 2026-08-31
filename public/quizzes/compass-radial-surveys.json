@@ -1,0 +1,109 @@
+{
+  "skillId": "compass-radial-surveys",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0500}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at ($(O)+({90-22}:{35*\\s})$);\n\\coordinate (B) at ($(O)+({90-108}:{44*\\s})$);\n\\coordinate (C) at ($(O)+({90-196}:{39*\\s})$);\n\\coordinate (D) at ($(O)+({90-301}:{50*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(A) node[midway,fill=white,inner sep=1pt] {$35$};\n\\draw (O)--(B) node[midway,fill=white,inner sep=1pt] {$44$};\n\\draw (O)--(C) node[midway,fill=white,inner sep=1pt] {$39$};\n\\draw (O)--(D) node[midway,fill=white,inner sep=1pt] {$50$};\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\fill (O) circle (1.2pt);\n\\node[above] at (A) {$A\\;(022^{\\circ})$};\n\\node[right] at (B) {$B\\;(108^{\\circ})$};\n\\node[below] at (C) {$C\\;(196^{\\circ})$};\n\\node[above left] at (D) {$D\\;(301^{\\circ})$};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA block of land $ABCD$ has been surveyed from $O$. All distances are in metres. What is the total area of the land, to the nearest square metre?",
+      "structure": "all-angles-then-total-area",
+      "mastery": true,
+      "options": [
+        { "text": "$3432\\text{ m}^{2}$", "correct": true },
+        { "text": "$6863\\text{ m}^{2}$", "why": "Left the $\\tfrac{1}{2}$ out of the area rule, doubling every triangle." },
+        { "text": "$2567\\text{ m}^{2}$", "why": "Left out triangle $DOA$, the one whose angle at the centre crosses north." },
+        { "text": "$3317\\text{ m}^{2}$", "why": "Took $\\angle DOA$ as $360^{\\circ}-301^{\\circ}=59^{\\circ}$, stopping at north instead of continuing to $A$." }
+      ],
+      "solution_text": "$\\angle AOB=108^{\\circ}-22^{\\circ}=86^{\\circ}$\n$\\angle BOC=196^{\\circ}-108^{\\circ}=88^{\\circ}$\n$\\angle COD=301^{\\circ}-196^{\\circ}=105^{\\circ}$\n$\\angle DOA=(360^{\\circ}-301^{\\circ})+22^{\\circ}=81^{\\circ}$\nThe angles close: $86^{\\circ}+88^{\\circ}+105^{\\circ}+81^{\\circ}=360^{\\circ}$.\n$A_{AOB}=\\tfrac{1}{2}(35)(44)\\sin 86^{\\circ}=768.1243\\ldots$\n$A_{BOC}=\\tfrac{1}{2}(44)(39)\\sin 88^{\\circ}=857.4773\\ldots$\n$A_{COD}=\\tfrac{1}{2}(39)(50)\\sin 105^{\\circ}=941.7776\\ldots$\n$A_{DOA}=\\tfrac{1}{2}(50)(35)\\sin 81^{\\circ}=864.2273\\ldots$\n$A=768.1243\\ldots+857.4773\\ldots+941.7776\\ldots+864.2273\\ldots$\n$=3431.6066\\ldots$\n$\\approx 3432\\text{ m}^{2}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0472}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at ($(O)+({90-327}:{46*\\s})$);\n\\coordinate (C) at ($(O)+({90-58}:{53*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(B) node[midway,fill=white,inner sep=1pt] {$46$};\n\\draw (O)--(C) node[midway,fill=white,inner sep=1pt] {$53$};\n\\draw (B)--(C);\n\\fill (O) circle (1.2pt);\n\\node[above left] at (B) {$B\\;(327^{\\circ})$};\n\\node[above right] at (C) {$C\\;(058^{\\circ})$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA section $OBC$ of a golf course has been surveyed from $O$. All distances are in metres. What is the area of the section, correct to $1$ decimal place?",
+      "structure": "central-angle-then-area",
+      "mastery": false,
+      "options": [
+        { "text": "$1218.8\\text{ m}^{2}$", "correct": true },
+        { "text": "$663.9\\text{ m}^{2}$", "why": "Used only the $33^{\\circ}$ from $B$ round to north and left out the $58^{\\circ}$ from north to $C$." },
+        { "text": "$2437.6\\text{ m}^{2}$", "why": "Left the $\\tfrac{1}{2}$ out of the area rule." },
+        { "text": "$1033.8\\text{ m}^{2}$", "why": "Used $C$'s bearing of $058^{\\circ}$ as the angle at the centre." }
+      ],
+      "solution_text": "The radials $OB$ and $OC$ lie either side of north, so add the two parts.\n$\\angle BOC=(360^{\\circ}-327^{\\circ})+58^{\\circ}$\n$=91^{\\circ}$\n$A=\\tfrac{1}{2}(46)(53)\\sin 91^{\\circ}$\n$=1218.8143\\ldots$\n$\\approx 1218.8\\text{ m}^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0347}\n\\coordinate (O) at (0,0);\n\\coordinate (C) at ($(O)+({90-110}:{72*\\s})$);\n\\coordinate (D) at ($(O)+({90-176}:{65*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(C) node[midway,fill=white,inner sep=1pt] {$72$};\n\\draw (O)--(D) node[midway,fill=white,inner sep=1pt] {$65$};\n\\draw (C)--(D);\n\\fill (O) circle (1.2pt);\n\\node[right] at (C) {$C\\;(110^{\\circ})$};\n\\node[below] at (D) {$D\\;(176^{\\circ})$};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nTwo corners of a quarry have been surveyed from $O$. All distances are in metres. What is the length of the boundary $CD$, correct to $1$ decimal place?",
+      "structure": "central-angle-then-boundary",
+      "mastery": false,
+      "options": [
+        { "text": "$74.8\\text{ m}$", "correct": true },
+        { "text": "$115.0\\text{ m}$", "why": "Added the $2ab\\cos C$ term instead of subtracting it." },
+        { "text": "$29.3\\text{ m}$", "why": "Used $\\sin 66^{\\circ}$ in place of $\\cos 66^{\\circ}$ in the cosine rule." },
+        { "text": "$137.0\\text{ m}$", "why": "Added the two radial distances instead of applying the cosine rule." }
+      ],
+      "solution_text": "$\\angle COD=176^{\\circ}-110^{\\circ}$\n$=66^{\\circ}$\n$CD=\\sqrt{72^{2}+65^{2}-2(72)(65)\\cos 66^{\\circ}}$\n$=\\sqrt{5601.9498\\ldots}$\n$=74.8461\\ldots$\n$\\approx 74.8\\text{ m}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0758}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at ($(O)+({90-35}:{29*\\s})$);\n\\coordinate (Q) at ($(O)+({90-150}:{33*\\s})$);\n\\coordinate (R) at ($(O)+({90-268}:{25*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(P) node[midway,fill=white,inner sep=1pt] {$29$};\n\\draw (O)--(Q) node[midway,fill=white,inner sep=1pt] {$33$};\n\\draw (O)--(R) node[midway,fill=white,inner sep=1pt] {$25$};\n\\draw (P)--(Q)--(R)--cycle;\n\\fill (O) circle (1.2pt);\n\\node[above right] at (P) {$P\\;(035^{\\circ})$};\n\\node[below right] at (Q) {$Q\\;(150^{\\circ})$};\n\\node[left] at (R) {$R\\;(268^{\\circ})$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA community garden $PQR$ has been surveyed from $O$. All distances are in metres. What is the total area of the garden, to the nearest square metre?",
+      "structure": "all-angles-then-total-area",
+      "mastery": false,
+      "options": [
+        { "text": "$1087\\text{ m}^{2}$", "correct": true },
+        { "text": "$2175\\text{ m}^{2}$", "why": "Left the $\\tfrac{1}{2}$ out of the area rule, doubling every triangle." },
+        { "text": "$798\\text{ m}^{2}$", "why": "Left out triangle $ROP$, the one whose angle at the centre crosses north." },
+        { "text": "$1160\\text{ m}^{2}$", "why": "Took $\\angle ROP$ as $360^{\\circ}-268^{\\circ}=92^{\\circ}$, stopping at north instead of continuing to $P$." }
+      ],
+      "solution_text": "$\\angle POQ=150^{\\circ}-35^{\\circ}=115^{\\circ}$\n$\\angle QOR=268^{\\circ}-150^{\\circ}=118^{\\circ}$\n$\\angle ROP=(360^{\\circ}-268^{\\circ})+35^{\\circ}=127^{\\circ}$\nThe angles close: $115^{\\circ}+118^{\\circ}+127^{\\circ}=360^{\\circ}$.\n$A_{POQ}=\\tfrac{1}{2}(29)(33)\\sin 115^{\\circ}=433.6682\\ldots$\n$A_{QOR}=\\tfrac{1}{2}(33)(25)\\sin 118^{\\circ}=364.2158\\ldots$\n$A_{ROP}=\\tfrac{1}{2}(25)(29)\\sin 127^{\\circ}=289.5053\\ldots$\n$A=433.6682\\ldots+364.2158\\ldots+289.5053\\ldots$\n$=1087.3895\\ldots$\n$\\approx 1087\\text{ m}^{2}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0521}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at ($(O)+({90-60}:{41*\\s})$);\n\\coordinate (M) at ($(O)+({90-175}:{36*\\s})$);\n\\coordinate (N) at ($(O)+({90-292}:{48*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(L) node[midway,fill=white,inner sep=1pt] {$41$};\n\\draw (O)--(M) node[midway,fill=white,inner sep=1pt] {$36$};\n\\draw (O)--(N) node[midway,fill=white,inner sep=1pt] {$48$};\n\\draw (L)--(M)--(N)--cycle;\n\\fill (O) circle (1.2pt);\n\\node[above right] at (L) {$L\\;(060^{\\circ})$};\n\\node[below] at (M) {$M\\;(175^{\\circ})$};\n\\node[left] at (N) {$N\\;(292^{\\circ})$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA fenced paddock $LMN$ has been surveyed from $O$. All distances are in metres. What is the perimeter of the paddock, to the nearest metre?",
+      "structure": "all-angles-then-perimeter",
+      "mastery": true,
+      "options": [
+        { "text": "$217\\text{ m}$", "correct": true },
+        { "text": "$125\\text{ m}$", "why": "Added the three radial distances instead of the three boundary lengths." },
+        { "text": "$342\\text{ m}$", "why": "Included the three radials as well as the boundaries, but the radials are survey lines, not edges." },
+        { "text": "$187\\text{ m}$", "why": "Took $\\angle NOL$ as $360^{\\circ}-292^{\\circ}=68^{\\circ}$, stopping at north instead of continuing to $L$." }
+      ],
+      "solution_text": "$\\angle LOM=175^{\\circ}-60^{\\circ}=115^{\\circ}$\n$\\angle MON=292^{\\circ}-175^{\\circ}=117^{\\circ}$\n$\\angle NOL=(360^{\\circ}-292^{\\circ})+60^{\\circ}=128^{\\circ}$\nThe angles close: $115^{\\circ}+117^{\\circ}+128^{\\circ}=360^{\\circ}$.\n$LM=\\sqrt{41^{2}+36^{2}-2(41)(36)\\cos 115^{\\circ}}=64.9966\\ldots$\n$MN=\\sqrt{36^{2}+48^{2}-2(36)(48)\\cos 117^{\\circ}}=71.8957\\ldots$\n$NL=\\sqrt{48^{2}+41^{2}-2(48)(41)\\cos 128^{\\circ}}=80.0515\\ldots$\n$P=64.9966\\ldots+71.8957\\ldots+80.0515\\ldots$\n$=216.9438\\ldots$\n$\\approx 217\\text{ m}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0806}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at ($(O)+({90-74}:{26*\\s})$);\n\\coordinate (Y) at ($(O)+({90-123}:{31*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(X) node[midway,fill=white,inner sep=1pt] {$26$};\n\\draw (O)--(Y) node[midway,fill=white,inner sep=1pt] {$31$};\n\\draw (X)--(Y);\n\\fill (O) circle (1.2pt);\n\\node[right] at (X) {$X\\;(074^{\\circ})$};\n\\node[below right] at (Y) {$Y$};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA radial survey has been taken from $O$. All distances are in metres. Triangle $XOY$ has an area of $305\\text{ m}^{2}$ and $\\angle XOY$ is acute. What is the bearing of $Y$ from $O$, to the nearest degree?",
+      "structure": "reverse-angle-to-bearing",
+      "mastery": true,
+      "options": [
+        { "text": "$123^{\\circ}\\text{T}$", "correct": true },
+        { "text": "$049^{\\circ}\\text{T}$", "why": "Gave the size of $\\angle XOY$ rather than the bearing of $Y$ from $O$." },
+        { "text": "$025^{\\circ}\\text{T}$", "why": "Subtracted the angle from $X$'s bearing, but $Y$ lies clockwise from $X$." },
+        { "text": "$205^{\\circ}\\text{T}$", "why": "Used the obtuse solution $130.8^{\\circ}$ although the question states $\\angle XOY$ is acute." }
+      ],
+      "solution_text": "$305=\\tfrac{1}{2}(26)(31)\\sin\\angle XOY$\n$\\sin\\angle XOY=\\dfrac{305}{403}$\n$=0.75682\\ldots$\n$\\angle XOY=49.1849\\ldots^{\\circ}$\n$Y$ lies clockwise from $X$, so add the angle to the bearing of $X$.\n$\\text{Bearing of }Y=74^{\\circ}+49.1849\\ldots^{\\circ}$\n$\\approx 123^{\\circ}\\text{T}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0431}\n\\coordinate (O) at (0,0);\n\\coordinate (S) at ($(O)+({90-84}:{58*\\s})$);\n\\coordinate (T) at ($(O)+({90-163}:{49*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(S) node[midway,fill=white,inner sep=1pt] {$58$};\n\\draw (O)--(T) node[midway,fill=white,inner sep=1pt] {$49$};\n\\draw (S)--(T);\n\\fill (O) circle (1.2pt);\n\\node[right] at (S) {$S\\;(084^{\\circ})$};\n\\node[below] at (T) {$T\\;(163^{\\circ})$};\n\\node[left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nA section $OST$ of a caravan park has been surveyed from $O$. All distances are in metres. What is the area of the section, correct to $1$ decimal place?",
+      "structure": "central-angle-then-area",
+      "mastery": false,
+      "options": [
+        { "text": "$1394.9\\text{ m}^{2}$", "correct": true },
+        { "text": "$2789.8\\text{ m}^{2}$", "why": "Left the $\\tfrac{1}{2}$ out of the area rule." },
+        { "text": "$271.1\\text{ m}^{2}$", "why": "Used $\\cos 79^{\\circ}$ instead of $\\sin 79^{\\circ}$ in the area rule." },
+        { "text": "$415.5\\text{ m}^{2}$", "why": "Used $T$'s bearing of $163^{\\circ}$ as the angle at the centre." }
+      ],
+      "solution_text": "$\\angle SOT=163^{\\circ}-84^{\\circ}$\n$=79^{\\circ}$\n$A=\\tfrac{1}{2}(58)(49)\\sin 79^{\\circ}$\n$=1394.8922\\ldots$\n$\\approx 1394.9\\text{ m}^{2}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{arrows.meta,calc}\n\\def\\s{0.0568}\n\\coordinate (O) at (0,0);\n\\coordinate (V) at ($(O)+({90-292}:{37*\\s})$);\n\\coordinate (W) at ($(O)+({90-41}:{44*\\s})$);\n\\draw[dashed,-{Stealth}] (O)--(0,2.9) node[above] {$N$};\n\\draw (O)--(V) node[midway,fill=white,inner sep=1pt] {$37$};\n\\draw (O)--(W) node[midway,fill=white,inner sep=1pt] {$44$};\n\\draw (V)--(W);\n\\fill (O) circle (1.2pt);\n\\node[left] at (V) {$V\\;(292^{\\circ})$};\n\\node[above right] at (W) {$W\\;(041^{\\circ})$};\n\\node[below] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]\nTwo corners of a picnic area have been surveyed from $O$. All distances are in metres. What is the length of the boundary $VW$, correct to $1$ decimal place?",
+      "structure": "central-angle-then-boundary",
+      "mastery": false,
+      "options": [
+        { "text": "$66.1\\text{ m}$", "correct": true },
+        { "text": "$45.7\\text{ m}$", "why": "Used only the $68^{\\circ}$ from $V$ round to north and left out the $41^{\\circ}$ from north to $W$." },
+        { "text": "$47.4\\text{ m}$", "why": "Treated $\\cos 109^{\\circ}$ as positive, so the cosine term was subtracted instead of added." },
+        { "text": "$81.0\\text{ m}$", "why": "Added the two radial distances instead of applying the cosine rule." }
+      ],
+      "solution_text": "The radials $OV$ and $OW$ lie either side of north, so add the two parts.\n$\\angle VOW=(360^{\\circ}-292^{\\circ})+41^{\\circ}$\n$=109^{\\circ}$\n$VW=\\sqrt{37^{2}+44^{2}-2(37)(44)\\cos 109^{\\circ}}$\n$=\\sqrt{4365.0454\\ldots}$\n$=66.0685\\ldots$\n$\\approx 66.1\\text{ m}$"
+    }
+  ]
+}

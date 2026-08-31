@@ -1,0 +1,109 @@
+{
+  "skillId": "continuous-uniform-distribution",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$X$ is uniformly distributed on $[7,15]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$7$};\n\\node[below] at (5,0) {$15$};\n\\end{tikzpicture}\n[/tikz]\nWhat is $f(x)$ on $[7,15]$?",
+      "structure": "pdf-from-interval",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{1}{8}$", "correct": true },
+        { "text": "$\\frac{1}{22}$", "why": "Added the two endpoints instead of subtracting them, using $\\frac{1}{a+b}$." },
+        { "text": "$8$", "why": "Gave the width of the support rather than the density, which is its reciprocal." },
+        { "text": "$\\frac{1}{15}$", "why": "Used the upper endpoint alone as the width, ignoring that the support starts at $7$." }
+      ],
+      "solution_text": "$b-a=15-7$\n$=8$\n$f(x)=\\frac{1}{8}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$X$ is uniformly distributed on $[0,20]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (5,0) {$20$};\n\\node[left] at (0,2) {$\\frac{1}{20}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(6\\le X\\le 11)$.",
+      "structure": "uniform-probability-interval",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{1}{4}$", "correct": true },
+        { "text": "$\\frac{11}{20}$", "why": "Used the upper limit $11$ as the width instead of $11-6$." },
+        { "text": "$\\frac{17}{20}$", "why": "Added the two limits instead of subtracting them." },
+        { "text": "$\\frac{1}{20}$", "why": "Quoted the density height as the probability without multiplying by the width." }
+      ],
+      "solution_text": "$P(6\\le X\\le 11)=\\frac{11-6}{20-0}$\n$=\\frac{5}{20}$\n$=\\frac{1}{4}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (2.2,0) rectangle (3.2,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (2.2,0) {$6$};\n\\node[below] at (3.2,0) {$11$};\n\\node[below] at (5,0) {$20$};\n\\node[left] at (0,2) {$\\frac{1}{20}$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q3",
+      "question_text": "$X$ is uniformly distributed on $[3,13]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$3$};\n\\node[below] at (5,0) {$13$};\n\\node[left] at (0,2) {$\\frac{1}{10}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(X>9)$.",
+      "structure": "uniform-tail-probability",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{2}{5}$", "correct": true },
+        { "text": "$\\frac{3}{5}$", "why": "Measured the interval from $3$ to $9$, which is $P(X<9)$, not the upper tail." },
+        { "text": "$\\frac{4}{13}$", "why": "Divided by the upper endpoint $13$ instead of by the width $13-3$." },
+        { "text": "$\\frac{6}{13}$", "why": "Both errors together: took the lower piece and divided by the upper endpoint." }
+      ],
+      "solution_text": "$P(X>9)=\\frac{13-9}{13-3}$\n$=\\frac{4}{10}$\n$=\\frac{2}{5}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (3.4,0) rectangle (5,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$3$};\n\\node[below] at (3.4,0) {$9$};\n\\node[below] at (5,0) {$13$};\n\\node[left] at (0,2) {$\\frac{1}{10}$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "$X$ is uniformly distributed on $[1,9]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (5,0) {$9$};\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+      "structure": "uniform-mean-variance",
+      "mastery": false,
+      "options": [
+        { "text": "$\\mu=5$, $\\sigma^{2}=\\frac{16}{3}$", "correct": true },
+        { "text": "$\\mu=5$, $\\sigma^{2}=\\frac{2}{3}$", "why": "Used $\\frac{b-a}{12}$ and forgot to square the width." },
+        { "text": "$\\mu=4$, $\\sigma^{2}=\\frac{16}{3}$", "why": "Halved the difference of the endpoints instead of their sum when finding the mean." },
+        { "text": "$\\mu=4$, $\\sigma^{2}=\\frac{2}{3}$", "why": "Halved the difference for the mean and left the width unsquared in the variance." }
+      ],
+      "solution_text": "$\\mu=\\frac{1+9}{2}$\n$=5$\n$\\sigma^{2}=\\frac{(9-1)^{2}}{12}$\n$=\\frac{64}{12}$\n$=\\frac{16}{3}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (3,0) -- (3,2);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (5,0) {$9$};\n\\node[above right] at (3,2) {$\\mu=5$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q5",
+      "question_text": "A uniform density has $f(x)=\\frac{1}{5}$ and its support ends at $x=9$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$a$};\n\\node[below] at (5,0) {$9$};\n\\node[left] at (0,2) {$\\frac{1}{5}$};\n\\end{tikzpicture}\n[/tikz]\nWhat is $a$?",
+      "structure": "interval-from-density",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$14$", "why": "Added the width to the upper endpoint instead of subtracting it." },
+        { "text": "$5$", "why": "Read the width $5$ as the missing endpoint itself." },
+        { "text": "$1.8$", "why": "Divided the upper endpoint by $5$ rather than subtracting the width from it." }
+      ],
+      "solution_text": "$\\frac{1}{9-a}=\\frac{1}{5}$\n$9-a=5$\n$a=4$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$X$ is uniformly distributed on $[0,24]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (5,0) {$24$};\n\\node[left] at (0,2) {$\\frac{1}{24}$};\n\\end{tikzpicture}\n[/tikz]\nFind $c$ so that $P(X\\le c)=0.75$.",
+      "structure": "reverse-probability-bound",
+      "mastery": false,
+      "options": [
+        { "text": "$18$", "correct": true },
+        { "text": "$6$", "why": "Measured $0.75$ of the support down from the top, giving the value with $75\\%$ above it." },
+        { "text": "$32$", "why": "Divided the width by $0.75$ instead of multiplying by it." },
+        { "text": "$0.75$", "why": "Reported the probability itself rather than the value of $X$ that produces it." }
+      ],
+      "solution_text": "$\\frac{c-0}{24-0}=0.75$\n$c=0.75\\times 24$\n$=18$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (4,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (4,0) {$18$};\n\\node[below] at (5,0) {$24$};\n\\node[left] at (0,2) {$\\frac{1}{24}$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "A tram passes a stop at a time uniformly distributed over the $15$ minutes after a passenger arrives. Let $X$ be the wait, in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (5,0) {$15$};\n\\node[left] at (0,2) {$\\frac{1}{15}$};\n\\end{tikzpicture}\n[/tikz]\nFind the probability that the passenger waits between $5$ and $12$ minutes.",
+      "structure": "uniform-context",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{7}{15}$", "correct": true },
+        { "text": "$\\frac{7}{10}$", "why": "Found the interval width $12-5=7$ correctly, but took the width of the support to be $15-5=10$, subtracting the lower limit of the interval from the end of the support." },
+        { "text": "$\\frac{12}{15}$", "why": "Divided by the correct support width $15$, but used the upper time $12$ as the interval width instead of $12-5$." },
+        { "text": "$\\frac{12}{10}$", "why": "Made both slips together: used $12$ as the interval width and $15-5=10$ as the support width, giving an impossible probability above $1$." }
+      ],
+      "solution_text": "$P(5\\le X\\le 12)=\\frac{12-5}{15-0}$\n$=\\frac{7}{15}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (2.33,0) rectangle (4.2,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (2.33,0) {$5$};\n\\node[below] at (4.2,0) {$12$};\n\\node[below] at (5,0) {$15$};\n\\node[left] at (0,2) {$\\frac{1}{15}$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q8",
+      "question_text": "$X$ is uniformly distributed on $[2,b]$ and has variance $27$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$2$};\n\\node[below] at (5,0) {$b$};\n\\end{tikzpicture}\n[/tikz]\nFind $b$.",
+      "structure": "reverse-mean-variance",
+      "mastery": true,
+      "options": [
+        { "text": "$20$", "correct": true },
+        { "text": "$-16$", "why": "Kept the root $b-2=-18$, which places $b$ below $a=2$ and must be rejected." },
+        { "text": "$2+3\\sqrt{3}$", "why": "Set $(b-2)^{2}=27$, forgetting to multiply the variance by $12$ first." },
+        { "text": "$326$", "why": "Solved $b-2=324$ without taking the square root." }
+      ],
+      "solution_text": "$\\frac{(b-2)^{2}}{12}=27$\n$(b-2)^{2}=324$\n$b-2=18$ or $b-2=-18$\n$b=20$ or $b=-16$\n$b=-16$ is rejected because $b$ must be greater than $a=2$.\n$b=20$"
+    }
+  ]
+}

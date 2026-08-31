@@ -1,0 +1,148 @@
+{
+  "skillId": "integrate-inverse-trig-forms",
+  "atomType": "R",
+  "theory": {
+    "intro": "Reading the inverse trig derivatives backwards gives two standard integrals. The shape $\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ integrates to $\\arcsin\\dfrac{x}{a}$, and $\\dfrac{1}{a^{2}+x^{2}}$ integrates to $\\dfrac{1}{a}\\arctan\\dfrac{x}{a}$. Only the second carries a factor $\\dfrac{1}{a}$.",
+    "facts": [
+      "$\\displaystyle\\int\\dfrac{dx}{\\sqrt{a^{2}-x^{2}}}=\\arcsin\\dfrac{x}{a}+C$, with no extra factor in front.",
+      "$\\displaystyle\\int\\dfrac{dx}{a^{2}+x^{2}}=\\dfrac{1}{a}\\arctan\\dfrac{x}{a}+C$, where the $\\dfrac{1}{a}$ is essential.",
+      "$\\displaystyle\\int\\dfrac{-dx}{\\sqrt{a^{2}-x^{2}}}=\\arccos\\dfrac{x}{a}+C$: the same shape with the sign reversed.",
+      "Read $a$ as the square root of the constant, so $9+x^{2}$ has $a=3$.",
+      "$\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ exists only for $|x|<a$, so the limits of a definite integral must lie strictly inside that interval.",
+      "Take any constant factor outside the integral before matching the shape.",
+      "When $x$ carries a coefficient, factor it out first, as in $\\sqrt{16-9x^{2}}=3\\sqrt{\\dfrac{16}{9}-x^{2}}$.",
+      "Reversing the chain rule gives $\\displaystyle\\int\\dfrac{f'(x)}{1+[f(x)]^{2}}\\,dx=\\arctan f(x)+C$.",
+      "Every indefinite integral needs $+C$, and a definite integral does not.",
+      "Check any primitive by differentiating it back."
+    ],
+    "steps": [
+      "Match the integrand to $\\dfrac{1}{\\sqrt{a^{2}-x^{2}}}$ or $\\dfrac{1}{a^{2}+x^{2}}$, and read off $a$.",
+      "Take any constant factor outside the integral.",
+      "Write the primitive: $\\arcsin\\dfrac{x}{a}+C$, or $\\dfrac{1}{a}\\arctan\\dfrac{x}{a}+C$.",
+      "For a definite integral, substitute the upper limit and subtract the value at the lower limit."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{\\sqrt{25-x^{2}}}$.",
+        "structure": "integrate-standard-arcsin",
+        "solution_text": "Here $a^{2}=25$, so $a=5$.\n$\\displaystyle\\int\\dfrac{dx}{\\sqrt{25-x^{2}}}=\\arcsin\\dfrac{x}{5}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{16+x^{2}}$.",
+        "structure": "integrate-standard-arctan",
+        "solution_text": "Here $a^{2}=16$, so $a=4$.\n$\\displaystyle\\int\\dfrac{dx}{16+x^{2}}=\\dfrac{1}{4}\\arctan\\dfrac{x}{4}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{6}{\\sqrt{49-x^{2}}}\\,dx$.",
+        "structure": "integrate-standard-arcsin",
+        "solution_text": "$\\displaystyle\\int\\dfrac{6}{\\sqrt{49-x^{2}}}\\,dx=6\\int\\dfrac{dx}{\\sqrt{49-x^{2}}}$\n$=6\\arcsin\\dfrac{x}{7}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{10}{4+x^{2}}\\,dx$.",
+        "structure": "integrate-standard-arctan",
+        "solution_text": "$\\displaystyle\\int\\dfrac{10}{4+x^{2}}\\,dx=10\\int\\dfrac{dx}{4+x^{2}}$\n$=10\\times\\dfrac{1}{2}\\arctan\\dfrac{x}{2}+C$\n$=5\\arctan\\dfrac{x}{2}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{3+x^{2}}$.",
+        "structure": "integrate-standard-arctan",
+        "solution_text": "Here $a^{2}=3$, so $a=\\sqrt{3}$.\n$\\displaystyle\\int\\dfrac{dx}{3+x^{2}}=\\dfrac{1}{\\sqrt{3}}\\arctan\\dfrac{x}{\\sqrt{3}}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{\\sqrt{7-x^{2}}}$.",
+        "structure": "integrate-standard-arcsin",
+        "solution_text": "Here $a^{2}=7$, so $a=\\sqrt{7}$.\n$\\displaystyle\\int\\dfrac{dx}{\\sqrt{7-x^{2}}}=\\arcsin\\dfrac{x}{\\sqrt{7}}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{-1}{\\sqrt{9-x^{2}}}\\,dx$, giving the answer as an inverse cosine.",
+        "structure": "integrate-to-arccos",
+        "solution_text": "Here $a=3$, and the integrand is the derivative of $\\arccos\\dfrac{x}{3}$.\n$\\displaystyle\\int\\dfrac{-1}{\\sqrt{9-x^{2}}}\\,dx=\\arccos\\dfrac{x}{3}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{1+x^{2}}$.",
+        "structure": "integrate-standard-arctan",
+        "solution_text": "Here $a=1$, so the factor $\\dfrac{1}{a}$ is $1$.\n$\\displaystyle\\int\\dfrac{dx}{1+x^{2}}=\\arctan x+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{12}{36+x^{2}}\\,dx$.",
+        "structure": "integrate-standard-arctan",
+        "solution_text": "$\\displaystyle\\int\\dfrac{12}{36+x^{2}}\\,dx=12\\int\\dfrac{dx}{36+x^{2}}$\n$=12\\times\\dfrac{1}{6}\\arctan\\dfrac{x}{6}+C$\n$=2\\arctan\\dfrac{x}{6}+C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{\\sqrt{1-9x^{2}}}$.",
+        "structure": "integrate-with-coefficient-of-x",
+        "solution_text": "$\\sqrt{1-9x^{2}}=3\\sqrt{\\dfrac{1}{9}-x^{2}}$, so $a=\\dfrac{1}{3}$.\n$\\displaystyle\\int\\dfrac{dx}{\\sqrt{1-9x^{2}}}=\\dfrac{1}{3}\\int\\dfrac{dx}{\\sqrt{\\frac{1}{9}-x^{2}}}$\n$=\\dfrac{1}{3}\\arcsin 3x+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{1+25x^{2}}$.",
+        "structure": "integrate-with-coefficient-of-x",
+        "solution_text": "$1+25x^{2}=25\\left(\\dfrac{1}{25}+x^{2}\\right)$, so $a=\\dfrac{1}{5}$.\n$\\displaystyle\\int\\dfrac{dx}{1+25x^{2}}=\\dfrac{1}{25}\\int\\dfrac{dx}{\\frac{1}{25}+x^{2}}$\n$=\\dfrac{1}{25}\\times 5\\arctan 5x+C$\n$=\\dfrac{1}{5}\\arctan 5x+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{\\sqrt{16-9x^{2}}}$.",
+        "structure": "integrate-with-coefficient-of-x",
+        "solution_text": "$\\sqrt{16-9x^{2}}=3\\sqrt{\\dfrac{16}{9}-x^{2}}$, so $a=\\dfrac{4}{3}$.\n$\\displaystyle\\int\\dfrac{dx}{\\sqrt{16-9x^{2}}}=\\dfrac{1}{3}\\int\\dfrac{dx}{\\sqrt{\\frac{16}{9}-x^{2}}}$\n$=\\dfrac{1}{3}\\arcsin\\dfrac{3x}{4}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{dx}{9+4x^{2}}$.",
+        "structure": "integrate-with-coefficient-of-x",
+        "solution_text": "$9+4x^{2}=4\\left(\\dfrac{9}{4}+x^{2}\\right)$, so $a=\\dfrac{3}{2}$.\n$\\displaystyle\\int\\dfrac{dx}{9+4x^{2}}=\\dfrac{1}{4}\\int\\dfrac{dx}{\\frac{9}{4}+x^{2}}$\n$=\\dfrac{1}{4}\\times\\dfrac{2}{3}\\arctan\\dfrac{2x}{3}+C$\n$=\\dfrac{1}{6}\\arctan\\dfrac{2x}{3}+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{-5}{\\sqrt{1-4x^{2}}}\\,dx$, giving the answer as an inverse cosine.",
+        "structure": "integrate-to-arccos",
+        "solution_text": "$\\sqrt{1-4x^{2}}=2\\sqrt{\\dfrac{1}{4}-x^{2}}$, so $a=\\dfrac{1}{2}$.\n$\\displaystyle\\int\\dfrac{-5}{\\sqrt{1-4x^{2}}}\\,dx=\\dfrac{5}{2}\\int\\dfrac{-dx}{\\sqrt{\\frac{1}{4}-x^{2}}}$\n$=\\dfrac{5}{2}\\arccos 2x+C$"
+      },
+      {
+        "question_text": "Find the exact value of $\\displaystyle\\int_{0}^{3}\\dfrac{dx}{9+x^{2}}$.",
+        "structure": "definite-integral-inverse-trig",
+        "solution_text": "$\\displaystyle\\int_{0}^{3}\\dfrac{dx}{9+x^{2}}=\\left[\\dfrac{1}{3}\\arctan\\dfrac{x}{3}\\right]_{0}^{3}$\n$=\\dfrac{1}{3}\\arctan 1-\\dfrac{1}{3}\\arctan 0$\n$=\\dfrac{1}{3}\\times\\dfrac{\\pi}{4}$\n$=\\dfrac{\\pi}{12}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\displaystyle\\int_{0}^{\\frac{5}{2}}\\dfrac{dx}{\\sqrt{25-x^{2}}}$.",
+        "structure": "definite-integral-inverse-trig",
+        "solution_text": "$\\displaystyle\\int_{0}^{\\frac{5}{2}}\\dfrac{dx}{\\sqrt{25-x^{2}}}=\\left[\\arcsin\\dfrac{x}{5}\\right]_{0}^{\\frac{5}{2}}$\n$=\\arcsin\\dfrac{1}{2}-\\arcsin 0$\n$=\\dfrac{\\pi}{6}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\displaystyle\\int_{-1}^{1}\\dfrac{dx}{\\sqrt{4-x^{2}}}$.",
+        "structure": "definite-integral-inverse-trig",
+        "solution_text": "$\\displaystyle\\int_{-1}^{1}\\dfrac{dx}{\\sqrt{4-x^{2}}}=\\left[\\arcsin\\dfrac{x}{2}\\right]_{-1}^{1}$\n$=\\arcsin\\dfrac{1}{2}-\\arcsin\\left(-\\dfrac{1}{2}\\right)$\n$=\\dfrac{\\pi}{6}+\\dfrac{\\pi}{6}$\n$=\\dfrac{\\pi}{3}$"
+      },
+      {
+        "question_text": "A curve has $\\dfrac{dy}{dx}=\\dfrac{1}{\\sqrt{4-x^{2}}}$ and passes through $(0,\\pi)$. Find its equation.",
+        "structure": "find-curve-from-derivative",
+        "solution_text": "$y=\\displaystyle\\int\\dfrac{dx}{\\sqrt{4-x^{2}}}=\\arcsin\\dfrac{x}{2}+C$\nSubstituting $(0,\\pi)$: $\\pi=\\arcsin 0+C$\n$C=\\pi$\n$y=\\arcsin\\dfrac{x}{2}+\\pi$"
+      },
+      {
+        "question_text": "A curve has $\\dfrac{dy}{dx}=\\dfrac{3}{9+x^{2}}$ and $y=\\pi$ when $x=3$. Find its equation.",
+        "structure": "find-curve-from-derivative",
+        "solution_text": "$y=3\\displaystyle\\int\\dfrac{dx}{9+x^{2}}=3\\times\\dfrac{1}{3}\\arctan\\dfrac{x}{3}+C=\\arctan\\dfrac{x}{3}+C$\nSubstituting $x=3$, $y=\\pi$: $\\pi=\\arctan 1+C$\n$\\pi=\\dfrac{\\pi}{4}+C$\n$C=\\dfrac{3\\pi}{4}$\n$y=\\arctan\\dfrac{x}{3}+\\dfrac{3\\pi}{4}$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{x}{1+x^{4}}\\,dx$.",
+        "structure": "reverse-chain-inverse-trig",
+        "solution_text": "$1+x^{4}=1+\\left(x^{2}\\right)^{2}$, so take $f(x)=x^{2}$ and $f'(x)=2x$.\n$\\displaystyle\\int\\dfrac{x}{1+x^{4}}\\,dx=\\dfrac{1}{2}\\int\\dfrac{2x}{1+\\left(x^{2}\\right)^{2}}\\,dx$\n$=\\dfrac{1}{2}\\arctan\\left(x^{2}\\right)+C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{e^{2x}}{1+e^{4x}}\\,dx$.",
+        "structure": "reverse-chain-inverse-trig",
+        "solution_text": "$1+e^{4x}=1+\\left(e^{2x}\\right)^{2}$, so take $f(x)=e^{2x}$ and $f'(x)=2e^{2x}$.\n$\\displaystyle\\int\\dfrac{e^{2x}}{1+e^{4x}}\\,dx=\\dfrac{1}{2}\\int\\dfrac{2e^{2x}}{1+\\left(e^{2x}\\right)^{2}}\\,dx$\n$=\\dfrac{1}{2}\\arctan\\left(e^{2x}\\right)+C$"
+      },
+      {
+        "question_text": "Find $\\displaystyle\\int\\dfrac{x^{2}}{4+x^{6}}\\,dx$.",
+        "structure": "reverse-chain-inverse-trig",
+        "solution_text": "$4+x^{6}=4+\\left(x^{3}\\right)^{2}$, so take $f(x)=x^{3}$ and $f'(x)=3x^{2}$.\n$\\displaystyle\\int\\dfrac{x^{2}}{4+x^{6}}\\,dx=\\dfrac{1}{3}\\int\\dfrac{3x^{2}}{4+\\left(x^{3}\\right)^{2}}\\,dx$\n$=\\dfrac{1}{3}\\times\\dfrac{1}{2}\\arctan\\dfrac{x^{3}}{2}+C$\n$=\\dfrac{1}{6}\\arctan\\dfrac{x^{3}}{2}+C$"
+      },
+      {
+        "question_text": "Find the exact area of the shaded region bounded by $y=\\dfrac{6}{4+x^{2}}$, the $x$-axis, and the lines $x=-2$ and $x=2\\sqrt{3}$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.5, xmax=5.5, ymin=0, ymax=2, samples=120, width=11cm, height=7cm, xtick={-2,3.4641}, xticklabels={$-2$,$2\\sqrt{3}$}, ytick={1.5}, yticklabels={$1.5$}, every tick label/.style={font=\\small}]\n\\addplot[draw=none, fill=gray!35, domain=-2:3.4641] {6/(4+x*x)} \\closedcycle;\n\\addplot[thick, domain=-4.5:5.5] {6/(4+x*x)};\n\\node[anchor=west] at (axis cs:2.2,1.6) {$y=\\frac{6}{4+x^{2}}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "definite-integral-inverse-trig",
+        "solution_text": "The curve is above the $x$-axis throughout, so the area is the integral.\n$\\text{Area}=\\displaystyle\\int_{-2}^{2\\sqrt{3}}\\dfrac{6}{4+x^{2}}\\,dx$\n$=\\left[6\\times\\dfrac{1}{2}\\arctan\\dfrac{x}{2}\\right]_{-2}^{2\\sqrt{3}}$\n$=3\\arctan\\sqrt{3}-3\\arctan(-1)$\n$=3\\times\\dfrac{\\pi}{3}+3\\times\\dfrac{\\pi}{4}$\n$=\\pi+\\dfrac{3\\pi}{4}$\n$=\\dfrac{7\\pi}{4}$ square units"
+      }
+    ]
+  }
+}

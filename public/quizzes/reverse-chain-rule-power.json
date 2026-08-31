@@ -1,0 +1,109 @@
+{
+  "skillId": "reverse-chain-rule-power",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\int 3x^{2}\\left(x^{3} + 4\\right)^{6}dx$.",
+      "structure": "reverse-chain-basic",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{7} + C$", "correct": true },
+        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{21} + C$", "why": "Divided by $3$ as well as by the new power, although the factor $3x^{2}$ was already the full inner derivative." },
+        { "text": "$\\dfrac{3x^{2}\\left(x^{3} + 4\\right)^{7}}{7} + C$", "why": "Kept the factor $3x^{2}$ in the answer instead of using it up as the inner derivative." },
+        { "text": "$\\dfrac{\\left(x^{3} + 4\\right)^{7}}{6} + C$", "why": "Divided by the original power $6$ instead of the new power $7$." }
+      ],
+      "solution_text": "$f(x) = x^{3} + 4$, so $f'(x) = 3x^{2}$.\n$\\int 3x^{2}\\left(x^{3} + 4\\right)^{6}dx$\n$= \\dfrac{\\left(x^{3} + 4\\right)^{7}}{7} + C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find $\\int (3x - 2)^{5}\\,dx$.",
+      "structure": "linear-inner",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{(3x - 2)^{6}}{18} + C$", "correct": true },
+        { "text": "$\\dfrac{(3x - 2)^{6}}{6} + C$", "why": "Divided by the new power only, forgetting to divide by the coefficient $3$ of $x$." },
+        { "text": "$\\dfrac{(3x - 2)^{6}}{15} + C$", "why": "Multiplied the coefficient $3$ by the old power $5$ instead of the new power $6$." },
+        { "text": "$15(3x - 2)^{4} + C$", "why": "Differentiated the integrand with the chain rule instead of integrating it." }
+      ],
+      "solution_text": "$\\int (3x - 2)^{5}\\,dx$\n$= \\dfrac{(3x - 2)^{6}}{3 \\times 6} + C$\n$= \\dfrac{(3x - 2)^{6}}{18} + C$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find $\\int 5x\\left(x^{2} - 3\\right)^{4}dx$.",
+      "structure": "adjust-constant-factor",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{2} + C$", "correct": true },
+        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{5} + C$", "why": "Ignored the factor $5x$ entirely instead of treating it as $\\dfrac{5}{2}$ of the inner derivative $2x$." },
+        { "text": "$\\dfrac{\\left(x^{2} - 3\\right)^{5}}{10} + C$", "why": "Divided by $2$ after dividing by the new power $5$, instead of multiplying by $\\dfrac{5}{2}$." },
+        { "text": "$\\dfrac{5x^{2}\\left(x^{2} - 3\\right)^{5}}{10} + C$", "why": "Integrated the factor $5x$ separately as $\\dfrac{5x^{2}}{2}$, as if a product rule existed for integration." }
+      ],
+      "solution_text": "$f(x) = x^{2} - 3$, so $f'(x) = 2x$.\n$\\int 5x\\left(x^{2} - 3\\right)^{4}dx$\n$= \\dfrac{5}{2}\\int 2x\\left(x^{2} - 3\\right)^{4}dx$\n$= \\dfrac{5}{2} \\times \\dfrac{\\left(x^{2} - 3\\right)^{5}}{5} + C$\n$= \\dfrac{\\left(x^{2} - 3\\right)^{5}}{2} + C$"
+    },
+    {
+      "id": "q4",
+      "question_text": "For which of these integrals does the reverse chain rule $\\int f'(x)\\left[f(x)\\right]^{n}dx$ apply?",
+      "structure": "applies-or-not",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int 8x\\left(x^{2} + 7\\right)^{3}dx$", "correct": true },
+        { "text": "$\\int \\left(x^{2} + 7\\right)^{3}dx$", "why": "There is no factor of $x$ at all, so the inner derivative $2x$ is missing." },
+        { "text": "$\\int x^{2}\\left(x^{2} + 7\\right)^{3}dx$", "why": "The factor $x^{2}$ is not a constant multiple of the inner derivative $2x$." },
+        { "text": "$\\int 8x\\left(x^{3} + 7\\right)^{3}dx$", "why": "Here the inner derivative is $3x^{2}$, and $8x$ is not a constant multiple of it." }
+      ],
+      "solution_text": "The derivative of the inner function must appear as a factor, up to a constant multiple.\nFor $f(x) = x^{2} + 7$, $f'(x) = 2x$ and $8x = 4(2x)$.\nSo the rule applies to $\\int 8x\\left(x^{2} + 7\\right)^{3}dx$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Find $\\int \\dfrac{2x}{\\sqrt{x^{2} + 9}}\\,dx$.",
+      "structure": "composite-root-or-reciprocal",
+      "mastery": false,
+      "options": [
+        { "text": "$2\\sqrt{x^{2} + 9} + C$", "correct": true },
+        { "text": "$\\sqrt{x^{2} + 9} + C$", "why": "Raised the index from $-\\dfrac{1}{2}$ to $\\dfrac{1}{2}$ but did not divide by the new index $\\dfrac{1}{2}$." },
+        { "text": "$\\dfrac{2\\left(x^{2} + 9\\right)^{\\frac{3}{2}}}{3} + C$", "why": "Read the square root as a factor of $\\sqrt{x^{2}+9}$ rather than the index $-\\dfrac{1}{2}$, integrating the wrong function." },
+        { "text": "$-\\dfrac{2}{3\\sqrt{\\left(x^{2} + 9\\right)^{3}}} + C$", "why": "Subtracted one from the index $-\\dfrac{1}{2}$ instead of adding one." }
+      ],
+      "solution_text": "$\\int 2x\\left(x^{2} + 9\\right)^{-\\frac{1}{2}}dx$\n$= \\dfrac{\\left(x^{2} + 9\\right)^{\\frac{1}{2}}}{\\frac{1}{2}} + C$\n$= 2\\sqrt{x^{2} + 9} + C$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Evaluate $\\int_{0}^{1} 3x^{2}\\left(x^{3} + 1\\right)^{2}dx$.",
+      "structure": "definite-reverse-chain",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{7}{3}$", "correct": true },
+        { "text": "$-\\dfrac{7}{3}$", "why": "Computed $F(a) - F(b)$ instead of $F(b) - F(a)$." },
+        { "text": "$\\dfrac{8}{3}$", "why": "Substituted the upper limit only and did not subtract the value at $x = 0$." },
+        { "text": "$3$", "why": "Added the two substituted values instead of subtracting them." }
+      ],
+      "solution_text": "$\\int_{0}^{1} 3x^{2}\\left(x^{3} + 1\\right)^{2}dx$\n$= \\left[\\dfrac{\\left(x^{3} + 1\\right)^{3}}{3}\\right]_{0}^{1}$\n$= \\dfrac{2^{3}}{3} - \\dfrac{1^{3}}{3}$\n$= \\dfrac{8 - 1}{3}$\n$= \\dfrac{7}{3}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "In $\\int\\left(4x^{3} - 10x\\right)\\left(x^{4} - 5x^{2}\\right)^{6}dx$, which choice correctly names $f(x)$ and $f'(x)$ for the reverse chain rule?",
+      "structure": "identify-inner-function",
+      "mastery": false,
+      "options": [
+        { "text": "$f(x) = x^{4} - 5x^{2}$ and $f'(x) = 4x^{3} - 10x$", "correct": true },
+        { "text": "$f(x) = 4x^{3} - 10x$ and $f'(x) = 12x^{2} - 10$", "why": "Took the outside factor as the inner function; the inner function is the expression inside the bracket." },
+        { "text": "$f(x) = x^{4} - 5x^{2}$ and $f'(x) = 4x^{3} - 5x$", "why": "Differentiated $-5x^{2}$ as $-5x$ instead of $-10x$." },
+        { "text": "$f(x) = \\left(x^{4} - 5x^{2}\\right)^{6}$ and $f'(x) = 6\\left(x^{4} - 5x^{2}\\right)^{5}$", "why": "Took the whole power as the inner function and dropped the inner derivative factor." }
+      ],
+      "solution_text": "The inner function is the expression inside the bracket.\n$f(x) = x^{4} - 5x^{2}$\n$f'(x) = 4x^{3} - 10x$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Find $\\int \\dfrac{6}{(1 - 4x)^{3}}\\,dx$.",
+      "structure": "linear-inner",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{3}{4(1 - 4x)^{2}} + C$", "correct": true },
+        { "text": "$-\\dfrac{3}{4(1 - 4x)^{2}} + C$", "why": "Used only one of the two negative signs from the new index $-2$ and the coefficient $-4$." },
+        { "text": "$-\\dfrac{3}{(1 - 4x)^{2}} + C$", "why": "Divided by the new index $-2$ but not by the coefficient $-4$ of $x$." },
+        { "text": "$\\dfrac{3}{8(1 - 4x)^{4}} + C$", "why": "Subtracted one from the index $-3$ instead of adding one." }
+      ],
+      "solution_text": "$\\int 6(1 - 4x)^{-3}dx$\n$= \\dfrac{6(1 - 4x)^{-2}}{(-4) \\times (-2)} + C$\n$= \\dfrac{6(1 - 4x)^{-2}}{8} + C$\n$= \\dfrac{3}{4(1 - 4x)^{2}} + C$"
+    }
+  ]
+}

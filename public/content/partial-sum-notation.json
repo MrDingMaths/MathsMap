@@ -1,0 +1,106 @@
+{
+  "skillId": "partial-sum-notation",
+  "atomType": "T",
+  "theory": {
+    "intro": "A **series** is the sum of the terms of a sequence, written $a_{1} + a_{2} + a_{3} + \\dots$. The **$n$th partial sum**, denoted $S_{n}$, is the sum of the first $n$ terms: $S_{n} = a_{1} + a_{2} + \\dots + a_{n}$.",
+    "facts": [
+      "A sequence is an ordered list of terms, whereas a series is the addition of those terms.",
+      "The first partial sum equals the first term: $S_{1} = a_{1}$.",
+      "For any integer $n \\ge 2$, the $n$th term is recovered using $a_{n} = S_{n} - S_{n-1}$.",
+      "The difference $S_{b} - S_{a}$ gives the sum of terms from $a_{a+1}$ to $a_{b}$ for $b > a$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Explain the distinction between the sequence $3, 7, 11, 15, \\dots$ and the series $3 + 7 + 11 + 15 + \\dots$.",
+        "structure": "distinguish-sequence-series",
+        "solution_text": "The sequence $3, 7, 11, 15, \\dots$ is an ordered list of numbers.\nThe series $3 + 7 + 11 + 15 + \\dots$ is the sum of those terms."
+      },
+      {
+        "question_text": "For the sequence $4, 9, 14, 19, 24, 29, \\dots$, find the partial sum $S_{4}$.",
+        "structure": "evaluate-partial-sum-list",
+        "solution_text": "$S_{4} = 4 + 9 + 14 + 19$\n$= 46$"
+      },
+      {
+        "question_text": "For the sequence $20, 16, 12, 8, 4, 0, -4, \\dots$, find the partial sum $S_{5}$.",
+        "structure": "evaluate-partial-sum-list",
+        "solution_text": "$S_{5} = 20 + 16 + 12 + 8 + 4$\n$= 60$"
+      },
+      {
+        "question_text": "A sequence has $n$th term $a_{n} = 2n + 3$. Find the third partial sum $S_{3}$.",
+        "structure": "evaluate-partial-sum-rule",
+        "solution_text": "$a_{1} = 2(1) + 3 = 5$\n$a_{2} = 2(2) + 3 = 7$\n$a_{3} = 2(3) + 3 = 9$\n$S_{3} = 5 + 7 + 9$\n$= 21$"
+      },
+      {
+        "question_text": "The partial sums of a sequence satisfy $S_{3} = 28$ and $S_{4} = 43$. Find the fourth term $a_{4}$.",
+        "structure": "recover-term-from-partial-sums",
+        "solution_text": "$a_{4} = S_{4} - S_{3}$\n$= 43 - 28$\n$= 15$"
+      },
+      {
+        "question_text": "A sequence has partial sum formula $S_{n} = 3n^{2} + 2n$. Find the first term $a_{1}$.",
+        "structure": "recover-term-from-partial-sums",
+        "solution_text": "$a_{1} = S_{1}$\n$= 3(1)^{2} + 2(1)$\n$= 3 + 2$\n$= 5$"
+      },
+      {
+        "question_text": "A sequence has partial sums $S_{2} = 14$ and $S_{6} = 86$. Find the value of $a_{3} + a_{4} + a_{5} + a_{6}$.",
+        "structure": "evaluate-partial-sum-difference",
+        "solution_text": "$a_{3} + a_{4} + a_{5} + a_{6} = S_{6} - S_{2}$\n$= 86 - 14$\n$= 72$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For the alternating sequence $1, -3, 9, -27, 81, -243, \\dots$, calculate $S_{5}$.",
+        "structure": "evaluate-partial-sum-list",
+        "solution_text": "$S_{5} = 1 + (-3) + 9 + (-27) + 81$\n$= 1 - 3 + 9 - 27 + 81$\n$= 61$"
+      },
+      {
+        "question_text": "A sequence is defined by $a_{n} = n^{2} - 2$. Calculate the fourth partial sum $S_{4}$.",
+        "structure": "evaluate-partial-sum-rule",
+        "solution_text": "$a_{1} = 1^{2} - 2 = -1$\n$a_{2} = 2^{2} - 2 = 2$\n$a_{3} = 3^{2} - 2 = 7$\n$a_{4} = 4^{2} - 2 = 14$\n$S_{4} = -1 + 2 + 7 + 14$\n$= 22$"
+      },
+      {
+        "question_text": "A sequence is defined by $a_{n} = 2^{n}$. Calculate the fifth partial sum $S_{5}$.",
+        "structure": "evaluate-partial-sum-rule",
+        "solution_text": "$a_{1} = 2^{1} = 2$\n$a_{2} = 2^{2} = 4$\n$a_{3} = 2^{3} = 8$\n$a_{4} = 2^{4} = 16$\n$a_{5} = 2^{5} = 32$\n$S_{5} = 2 + 4 + 8 + 16 + 32$\n$= 62$"
+      },
+      {
+        "question_text": "The sum of the first $n$ terms of a sequence is $S_{n} = 5n^{2} - 3n$. Find the 6th term $a_{6}$.",
+        "structure": "recover-term-from-partial-sums",
+        "solution_text": "$S_{6} = 5(6)^{2} - 3(6) = 180 - 18 = 162$\n$S_{5} = 5(5)^{2} - 3(5) = 125 - 15 = 110$\n$a_{6} = S_{6} - S_{5}$\n$= 162 - 110$\n$= 52$"
+      },
+      {
+        "question_text": "The partial sums of a sequence are given by $S_{n} = 4n^{2} + n$. Evaluate $S_{5} - S_{2}$, and identify which terms this difference represents.",
+        "structure": "evaluate-partial-sum-difference",
+        "solution_text": "$S_{5} = 4(5)^{2} + 5 = 105$\n$S_{2} = 4(2)^{2} + 2 = 18$\n$S_{5} - S_{2} = 105 - 18 = 87$\nThis represents $a_{3} + a_{4} + a_{5} = 87$."
+      },
+      {
+        "question_text": "The sum of the first $n$ terms of a sequence is given by $S_{n} = 2n^{2} + 5n$. Find an expression for the $n$th term $a_{n}$ for $n \\ge 2$.",
+        "structure": "find-term-formula-from-sum-formula",
+        "solution_text": "$a_{n} = S_{n} - S_{n-1}$\n$= [2n^{2} + 5n] - [2(n-1)^{2} + 5(n-1)]$\n$= 2n^{2} + 5n - [2(n^{2} - 2n + 1) + 5n - 5]$\n$= 2n^{2} + 5n - [2n^{2} - 4n + 2 + 5n - 5]$\n$= 2n^{2} + 5n - [2n^{2} + n - 3]$\n$= 4n + 3$"
+      },
+      {
+        "question_text": "A student claims that $S_{4}$ represents the 4th term of a sequence. Correct the student's statement using sequence and series notation.",
+        "structure": "distinguish-sequence-series",
+        "solution_text": "$S_{4}$ represents the 4th partial sum, which is the sum of the first four terms: $S_{4} = a_{1} + a_{2} + a_{3} + a_{4}$.\nThe 4th term itself is represented by $a_{4}$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The sum of the first $n$ terms of a sequence is $S_{n} = n^{3}$. Find an expression for the $n$th term $a_{n}$ for $n \\ge 2$, and verify whether it holds for $n = 1$.",
+        "structure": "find-term-formula-from-sum-formula",
+        "solution_text": "For $n \\ge 2$:\n$a_{n} = S_{n} - S_{n-1}$\n$= n^{3} - (n-1)^{3}$\n$= n^{3} - (n^{3} - 3n^{2} + 3n - 1)$\n$= 3n^{2} - 3n + 1$\nFor $n = 1$, $a_{1} = S_{1} = 1^{3} = 1$.\nSince $3(1)^{2} - 3(1) + 1 = 1$, the formula $a_{n} = 3n^{2} - 3n + 1$ holds for all $n \\ge 1$."
+      },
+      {
+        "question_text": "The partial sums of a sequence satisfy $S_{n} = 3 \\cdot 2^{n} - 3$ for all $n \\ge 1$. Find the value of the 5th term $a_{5}$.",
+        "structure": "recover-term-from-partial-sums",
+        "solution_text": "$S_{5} = 3 \\cdot 2^{5} - 3 = 96 - 3 = 93$\n$S_{4} = 3 \\cdot 2^{4} - 3 = 48 - 3 = 45$\n$a_{5} = S_{5} - S_{4}$\n$= 93 - 45$\n$= 48$"
+      },
+      {
+        "question_text": "A sequence has partial sum formula $S_{n} = n(2n + 1)$. Evaluate the sum of terms from the 4th term to the 8th term inclusive, $a_{4} + a_{5} + a_{6} + a_{7} + a_{8}$.",
+        "structure": "evaluate-partial-sum-difference",
+        "solution_text": "$a_{4} + a_{5} + a_{6} + a_{7} + a_{8} = S_{8} - S_{3}$\n$S_{8} = 8(2(8) + 1) = 8(17) = 136$\n$S_{3} = 3(2(3) + 1) = 3(7) = 21$\n$S_{8} - S_{3} = 136 - 21$\n$= 115$"
+      }
+    ]
+  }
+}

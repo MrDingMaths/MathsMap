@@ -9,6 +9,7 @@ const fxDup = join('tests', 'fixtures', 'audits', 'fx-dup');
 const fxLeak = join('tests', 'fixtures', 'audits', 'fx-leak');
 const fxSigDup = join('tests', 'fixtures', 'audits', 'fx-sigdup');
 const fxSigWeak = join('tests', 'fixtures', 'audits', 'fx-sigweak');
+const fxIntersect = join('tests', 'fixtures', 'audits', 'fx-intersect');
 
 function run(script, args) {
   const result = spawnSync(process.execPath, [join('scripts', script), ...args], {
@@ -108,14 +109,45 @@ test('audit-option-hygiene exits 1 under --strict when defects are present', () 
   assert.equal(status, 1);
 });
 
-// --- Task 1: stray positionals rejected across all four scripts ------------
+// --- audit-intersecting-features.mjs ----------------------------------------
 
-test('all four scripts reject stray positionals after --only with exit 2', () => {
+test('audit-intersecting-features finds INTERSECT when the key is the strict mode of every slot', () => {
+  const { stdout, status } = run('audit-intersecting-features.mjs', ['--dir', fxIntersect]);
+  assert.equal(status, 0);
+  assert.match(stdout, /✗ INTERSECT\n\s+skill-intersect q1: key is the strict mode of all 3 varying slot\(s\)/);
+  // The printed grid is what a repair task reads, so it must carry the starred key.
+  assert.match(stdout, /slot 11: \*W \| E \| W \| W/);
+});
+
+test('audit-intersecting-features leaves a balanced 2x2 distractor grid alone', () => {
+  const { stdout } = run('audit-intersecting-features.mjs', ['--dir', fxIntersect]);
+  // q2's every feature value ties 2:2 — that is the repair shape, not a defect.
+  assert.doesNotMatch(stdout, /skill-intersect q2/);
+  // q3 varies in one slot only: nothing to intersect.
+  assert.doesNotMatch(stdout, /skill-intersect q3/);
+});
+
+test('audit-intersecting-features reports INTERSECT-WEAK as an advisory that --strict ignores', () => {
+  const { stdout } = run('audit-intersecting-features.mjs', ['--dir', fxIntersect]);
+  assert.match(stdout, /Advisory \(INTERSECT-WEAK, not counted toward --strict\)/);
+  assert.match(stdout, /~ skill-intersect q4: key is the strict mode of all 3 feature\(s\)/);
+  assert.match(stdout, /INTERSECT: 1\. INTERSECT-WEAK advisory: 1\./);
+});
+
+test('audit-intersecting-features exits 1 under --strict when defects are present', () => {
+  const { status } = run('audit-intersecting-features.mjs', ['--dir', fxIntersect, '--strict']);
+  assert.equal(status, 1);
+});
+
+// --- Task 1: stray positionals rejected across all five scripts ------------
+
+test('all five scripts reject stray positionals after --only with exit 2', () => {
   for (const script of [
     'validate.mjs',
     'audit-equivalent-options.mjs',
     'audit-duplicate-stems.mjs',
     'audit-option-hygiene.mjs',
+    'audit-intersecting-features.mjs',
   ]) {
     const { status, stderr } = run(script, ['--only', 'a', 'b']);
     assert.equal(status, 2, `${script} should exit 2 on stray positionals`);

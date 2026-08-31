@@ -1,0 +1,131 @@
+{
+  "skillId": "velocity-acceleration-vectors",
+  "atomType": "R",
+  "theory": {
+    "intro": "A moving particle's position vector $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ has an $x$ part and a $y$ part. Differentiate each part separately with respect to $t$ to get **velocity** $\\underset{\\sim}{v}(t)$, then again to get **acceleration** $\\underset{\\sim}{a}(t)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-3.4,0) -- (3.9,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.6) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3:3, smooth, variable=\\x] plot ({\\x}, {0.25*\\x*\\x});\n\\node[right] at (-3.3,3.0) {path of the particle};\n\\coordinate (P) at (2,1);\n\\fill (P) circle (2pt);\n\\node[below right] at (P) {$P$};\n\\draw[-{Stealth}, thick] (P) -- (3.2,2.2) node[right] {$\\underset{\\sim}{v}$};\n\\draw[-{Stealth}, thick] (P) -- (2,2.3) node[above] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "Velocity is the derivative of position: $\\underset{\\sim}{v}(t)=\\dot{x}(t)\\underset{\\sim}{i}+\\dot{y}(t)\\underset{\\sim}{j}$.",
+      "Acceleration is the derivative of velocity: $\\underset{\\sim}{a}(t)=\\ddot{x}(t)\\underset{\\sim}{i}+\\ddot{y}(t)\\underset{\\sim}{j}$.",
+      "Differentiate the $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ components separately, because $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ are constant.",
+      "**Speed** is the size of the velocity, $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative.",
+      "Speed is not $\\dot{x}+\\dot{y}$: square the components, add, then take the square root.",
+      "The velocity vector points along the tangent to the particle's path at that instant.",
+      "Velocity and acceleration need not point the same way; in circular motion they are perpendicular.",
+      "To find velocity or acceleration at $t=a$, differentiate first and substitute afterwards."
+    ],
+    "steps": [
+      "Write the components $x(t)$ and $y(t)$ of the position vector",
+      "Differentiate each component to get $\\underset{\\sim}{v}(t)$",
+      "Differentiate each component of $\\underset{\\sim}{v}(t)$ to get $\\underset{\\sim}{a}(t)$",
+      "Substitute the required value of $t$, and take a magnitude if speed is asked for"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(3t^{2}-2t)\\underset{\\sim}{i}+(t^{3}+5)\\underset{\\sim}{j}$. Find $\\underset{\\sim}{v}(t)$.",
+        "structure": "velocity-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\dfrac{d}{dt}(3t^{2}-2t)\\underset{\\sim}{i}+\\dfrac{d}{dt}(t^{3}+5)\\underset{\\sim}{j}$\n$=(6t-2)\\underset{\\sim}{i}+3t^{2}\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=4t\\underset{\\sim}{i}+(16t-5t^{2})\\underset{\\sim}{j}$. Find $\\underset{\\sim}{v}(t)$.",
+        "structure": "velocity-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\dfrac{d}{dt}(4t)\\underset{\\sim}{i}+\\dfrac{d}{dt}(16t-5t^{2})\\underset{\\sim}{j}$\n$=4\\underset{\\sim}{i}+(16-10t)\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-4t)\\underset{\\sim}{i}+(2t^{2}+t)\\underset{\\sim}{j}$. Find $\\underset{\\sim}{a}(t)$.",
+        "structure": "acceleration-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-4)\\underset{\\sim}{i}+(4t+1)\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=6t\\underset{\\sim}{i}+4\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=2t^{4}\\underset{\\sim}{i}+(t^{3}-6t)\\underset{\\sim}{j}$. Find $\\underset{\\sim}{a}(t)$.",
+        "structure": "acceleration-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=8t^{3}\\underset{\\sim}{i}+(3t^{2}-6)\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=24t^{2}\\underset{\\sim}{i}+6t\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+3t)\\underset{\\sim}{i}+(t^{3}-t)\\underset{\\sim}{j}$. Find its velocity when $t=2$.",
+        "structure": "velocity-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t+3)\\underset{\\sim}{i}+(3t^{2}-1)\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(2)$\n$=(2(2)+3)\\underset{\\sim}{i}+(3(2)^{2}-1)\\underset{\\sim}{j}$\n$=7\\underset{\\sim}{i}+11\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\dfrac{t^{3}}{3}\\underset{\\sim}{i}+(4t-t^{2})\\underset{\\sim}{j}$. Find its velocity when $t=3$.",
+        "structure": "velocity-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=t^{2}\\underset{\\sim}{i}+(4-2t)\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(3)$\n$=(3)^{2}\\underset{\\sim}{i}+(4-2(3))\\underset{\\sim}{j}$\n$=9\\underset{\\sim}{i}-2\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+8t\\underset{\\sim}{j}$. Find its speed when $t=3$.",
+        "structure": "speed-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2t\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(3)$\n$=6\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}(3)|$\n$=\\sqrt{6^{2}+8^{2}}$\n$=\\sqrt{100}$\n$=10$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=5t^{2}\\underset{\\sim}{i}+12t\\underset{\\sim}{j}$. Find its speed when $t=\\dfrac{1}{2}$.",
+        "structure": "speed-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=10t\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}\\left(\\tfrac{1}{2}\\right)$\n$=5\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$\\left|\\underset{\\sim}{v}\\left(\\tfrac{1}{2}\\right)\\right|$\n$=\\sqrt{5^{2}+12^{2}}$\n$=\\sqrt{169}$\n$=13$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=3\\cos 2t\\,\\underset{\\sim}{i}+3\\sin 2t\\,\\underset{\\sim}{j}$. Find $\\underset{\\sim}{v}(t)$.",
+        "structure": "velocity-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\dfrac{d}{dt}(3\\cos 2t)\\underset{\\sim}{i}+\\dfrac{d}{dt}(3\\sin 2t)\\underset{\\sim}{j}$\n$=-6\\sin 2t\\,\\underset{\\sim}{i}+6\\cos 2t\\,\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=e^{2t}\\underset{\\sim}{i}+\\ln(t+1)\\underset{\\sim}{j}$ for $t\\ge 0$. Find $\\underset{\\sim}{a}(t)$.",
+        "structure": "acceleration-vector-from-position",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2e^{2t}\\underset{\\sim}{i}+\\dfrac{1}{t+1}\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=4e^{2t}\\underset{\\sim}{i}-\\dfrac{1}{(t+1)^{2}}\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=te^{-t}\\underset{\\sim}{i}+(t^{2}+1)\\underset{\\sim}{j}$. Find its velocity when $t=0$.",
+        "structure": "velocity-at-given-time",
+        "solution_text": "$\\dot{x}$\n$=e^{-t}-te^{-t}$\n$\\dot{y}$\n$=2t$\n$\\underset{\\sim}{v}(0)$\n$=(e^{0}-0)\\underset{\\sim}{i}+0\\underset{\\sim}{j}$\n$=\\underset{\\sim}{i}$"
+      },
+      {
+        "question_text": "A particle moves on the path shown, with position vector $\\underset{\\sim}{r}(t)=4\\cos 3t\\,\\underset{\\sim}{i}+4\\sin 3t\\,\\underset{\\sim}{j}$. Show that its speed is constant, and state that speed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm, y=0.6cm]\n\\draw[-{Stealth}] (-5.6,0) -- (5.6,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-5.6) -- (0,5.6) node[above] {$y$};\n\\draw[thick] (0,0) circle (4);\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[above left] at (0,4) {$4$};\n\\node[below left] at (0,-4) {$-4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "speed-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=-12\\sin 3t\\,\\underset{\\sim}{i}+12\\cos 3t\\,\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}(t)|$\n$=\\sqrt{144\\sin^{2}3t+144\\cos^{2}3t}$\n$=\\sqrt{144(\\sin^{2}3t+\\cos^{2}3t)}$\n$=\\sqrt{144}$\n$=12$\nThe speed does not depend on $t$, so it is constant at $12$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=2\\cos t\\,\\underset{\\sim}{i}+2\\sin t\\,\\underset{\\sim}{j}$. Show that $\\underset{\\sim}{a}(t)=-\\underset{\\sim}{r}(t)$ and that $\\underset{\\sim}{a}$ is perpendicular to $\\underset{\\sim}{v}$.",
+        "structure": "interpret-velocity-acceleration",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=-2\\sin t\\,\\underset{\\sim}{i}+2\\cos t\\,\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=-2\\cos t\\,\\underset{\\sim}{i}-2\\sin t\\,\\underset{\\sim}{j}$\n$=-\\left(2\\cos t\\,\\underset{\\sim}{i}+2\\sin t\\,\\underset{\\sim}{j}\\right)$\n$=-\\underset{\\sim}{r}(t)$\n$\\underset{\\sim}{v}\\cdot\\underset{\\sim}{a}$\n$=(-2\\sin t)(-2\\cos t)+(2\\cos t)(-2\\sin t)$\n$=4\\sin t\\cos t-4\\sin t\\cos t$\n$=0$\nThe dot product is zero, so $\\underset{\\sim}{a}$ is perpendicular to $\\underset{\\sim}{v}$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-6t^{2})\\underset{\\sim}{i}+\\dfrac{t^{4}}{4}\\underset{\\sim}{j}$ for $t\\ge 0$. Find $\\underset{\\sim}{a}(t)$, and find the time at which the $\\underset{\\sim}{i}$ component of the acceleration is zero.",
+        "structure": "interpret-velocity-acceleration",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-12t)\\underset{\\sim}{i}+t^{3}\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}(t)$\n$=(6t-12)\\underset{\\sim}{i}+3t^{2}\\underset{\\sim}{j}$\n$6t-12=0$\n$t=2$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=2\\sin \\pi t\\,\\underset{\\sim}{i}+(3-t^{2})\\underset{\\sim}{j}$. Find its velocity when $t=\\dfrac{1}{2}$.",
+        "structure": "velocity-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2\\pi\\cos \\pi t\\,\\underset{\\sim}{i}-2t\\,\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}\\left(\\tfrac{1}{2}\\right)$\n$=2\\pi\\cos\\dfrac{\\pi}{2}\\,\\underset{\\sim}{i}-2\\left(\\tfrac{1}{2}\\right)\\underset{\\sim}{j}$\n$=0\\underset{\\sim}{i}-\\underset{\\sim}{j}$\n$=-\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=24t\\,\\underset{\\sim}{i}+(26t-4t^{2})\\underset{\\sim}{j}$. Find its speed when $t=2$.",
+        "structure": "speed-at-given-time",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=24\\underset{\\sim}{i}+(26-8t)\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(2)$\n$=24\\underset{\\sim}{i}+10\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}(2)|$\n$=\\sqrt{24^{2}+10^{2}}$\n$=\\sqrt{676}$\n$=26$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\dfrac{t}{t+1}\\underset{\\sim}{i}+\\sqrt{4t+1}\\,\\underset{\\sim}{j}$ for $t\\ge 0$. Find $\\underset{\\sim}{v}(t)$.",
+        "structure": "velocity-vector-from-position",
+        "solution_text": "$\\dot{x}$\n$=\\dfrac{(1)(t+1)-t(1)}{(t+1)^{2}}$\n$=\\dfrac{1}{(t+1)^{2}}$\n$\\dot{y}$\n$=\\dfrac{4}{2\\sqrt{4t+1}}$\n$=\\dfrac{2}{\\sqrt{4t+1}}$\n$\\underset{\\sim}{v}(t)$\n$=\\dfrac{1}{(t+1)^{2}}\\underset{\\sim}{i}+\\dfrac{2}{\\sqrt{4t+1}}\\underset{\\sim}{j}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+at)\\underset{\\sim}{i}+bt^{3}\\underset{\\sim}{j}$, where $a$ and $b$ are constants. Given that $\\underset{\\sim}{v}(1)=5\\underset{\\sim}{i}+6\\underset{\\sim}{j}$, find $a$ and $b$.",
+        "structure": "velocity-condition-problem",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t+a)\\underset{\\sim}{i}+3bt^{2}\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}(1)$\n$=(2+a)\\underset{\\sim}{i}+3b\\underset{\\sim}{j}$\n$2+a=5$\n$a=3$\n$3b=6$\n$b=2$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-4t)\\underset{\\sim}{i}+3t\\,\\underset{\\sim}{j}$ for $t\\ge 0$. Find the minimum speed of the particle and the time at which it occurs.",
+        "structure": "velocity-condition-problem",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t-4)\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=(2t-4)^{2}+9$\nThe square root is increasing, so the speed is least when $(2t-4)^{2}$ is least.\n$(2t-4)^{2}=0$\n$t=2$\n$|\\underset{\\sim}{v}(2)|$\n$=\\sqrt{0+9}$\n$=3$\nThe minimum speed is $3$, at $t=2$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=e^{t}\\cos t\\,\\underset{\\sim}{i}+e^{t}\\sin t\\,\\underset{\\sim}{j}$. Show that $\\underset{\\sim}{a}(t)=2\\left(\\underset{\\sim}{v}(t)-\\underset{\\sim}{r}(t)\\right)$.",
+        "structure": "interpret-velocity-acceleration",
+        "solution_text": "$\\dot{x}$\n$=e^{t}\\cos t-e^{t}\\sin t$\n$\\dot{y}$\n$=e^{t}\\sin t+e^{t}\\cos t$\n$\\ddot{x}$\n$=(e^{t}\\cos t-e^{t}\\sin t)+(-e^{t}\\sin t-e^{t}\\cos t)$\n$=-2e^{t}\\sin t$\n$\\ddot{y}$\n$=(e^{t}\\sin t+e^{t}\\cos t)+(e^{t}\\cos t-e^{t}\\sin t)$\n$=2e^{t}\\cos t$\n$\\underset{\\sim}{v}(t)-\\underset{\\sim}{r}(t)$\n$=(e^{t}\\cos t-e^{t}\\sin t-e^{t}\\cos t)\\underset{\\sim}{i}+(e^{t}\\sin t+e^{t}\\cos t-e^{t}\\sin t)\\underset{\\sim}{j}$\n$=-e^{t}\\sin t\\,\\underset{\\sim}{i}+e^{t}\\cos t\\,\\underset{\\sim}{j}$\n$2\\left(\\underset{\\sim}{v}(t)-\\underset{\\sim}{r}(t)\\right)$\n$=-2e^{t}\\sin t\\,\\underset{\\sim}{i}+2e^{t}\\cos t\\,\\underset{\\sim}{j}$\n$=\\underset{\\sim}{a}(t)$"
+      }
+    ]
+  }
+}

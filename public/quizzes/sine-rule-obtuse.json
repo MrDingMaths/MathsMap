@@ -1,0 +1,205 @@
+{
+  "skillId": "sine-rule-obtuse",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.258,0);\n\\coordinate (C) at (4.238,2.253);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$10\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left] {$16\\text{ cm}$};\n\\pic[draw,\"$28^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.4cm,angle eccentricity=1.8] {angle=C--B--A};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, given that it is obtuse. Answer to the nearest degree.",
+      "structure": "angle-obtuse-given",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$131^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$49^{\\circ}$",
+          "why": "Gave the calculator's acute value from $\\sin^{-1}$ instead of subtracting it from $180^{\\circ}$."
+        },
+        {
+          "text": "$103^{\\circ}$",
+          "why": "Found the third angle of the acute triangle instead of the obtuse angle asked for."
+        },
+        {
+          "text": "$21^{\\circ}$",
+          "why": "Found the third angle $180^{\\circ}-28^{\\circ}-131^{\\circ}$ instead of $\\theta$ itself."
+        }
+      ],
+      "solution_text": "$\\theta$ is opposite the $16$ cm side and $28^{\\circ}$ is opposite the $10$ cm side.\n$\\dfrac{\\sin\\theta}{16}=\\dfrac{\\sin 28^{\\circ}}{10}$\n$\\sin\\theta=\\dfrac{16\\sin 28^{\\circ}}{10}$\n$=0.75115\\ldots$\nThe inverse sine gives the acute angle $48.6904\\ldots^{\\circ}$, and $\\theta$ is obtuse.\n$\\theta=180^{\\circ}-48.6904\\ldots^{\\circ}$\n$\\approx 131^{\\circ}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.237,0);\n\\coordinate (C) at (3.979,2.684);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$8\\text{ m}$};\n\\draw (A)--(C) node[midway,above left] {$12\\text{ m}$};\n\\pic[draw,\"$34^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\n$\\angle ABC$ is obtuse. Find $\\angle ACB$, to the nearest degree.",
+      "structure": "obtuse-then-third-angle",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$23^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$123^{\\circ}$",
+          "why": "Stopped at $\\angle ABC$ instead of going on to the third angle $\\angle ACB$."
+        },
+        {
+          "text": "$57^{\\circ}$",
+          "why": "Gave the calculator's acute value for $\\angle ABC$ rather than the third angle."
+        },
+        {
+          "text": "$89^{\\circ}$",
+          "why": "Used the acute value $57.01^{\\circ}$ for $\\angle ABC$ in the angle sum instead of the obtuse value."
+        }
+      ],
+      "solution_text": "$\\angle ABC$ is opposite the $12$ m side and $34^{\\circ}$ is opposite the $8$ m side.\n$\\dfrac{\\sin\\angle ABC}{12}=\\dfrac{\\sin 34^{\\circ}}{8}$\n$\\sin\\angle ABC=\\dfrac{12\\sin 34^{\\circ}}{8}$\n$=0.83878\\ldots$\nThe inverse sine gives the acute angle $57.0124\\ldots^{\\circ}$, and $\\angle ABC$ is obtuse.\n$\\angle ABC=180^{\\circ}-57.0124\\ldots^{\\circ}$\n$=122.9875\\ldots^{\\circ}$\nThe three angles add to $180^{\\circ}$.\n$\\angle ACB=180^{\\circ}-34^{\\circ}-122.9875\\ldots^{\\circ}$\n$\\approx 23^{\\circ}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{angles,quotes,decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt)--(0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (C) at (3.620,2.090);\n\\coordinate (P) at (1.358,0);\n\\coordinate (Q) at (5.882,0);\n\\draw (A)--(Q);\n\\draw (A)--(C) node[midway,above left] {$19\\text{ cm}$};\n\\draw[tickmark] (C)--(P) node[midway,left,fill=white,inner sep=1pt] {$14\\text{ cm}$};\n\\draw[tickmark] (C)--(Q) node[midway,above right] {$14\\text{ cm}$};\n\\pic[draw,\"$30^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=Q--A--C};\n\\node[below left] at (A) {$A$};\n\\node[below] at (P) {$P$};\n\\node[below] at (Q) {$Q$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nA $30^{\\circ}$ angle, a $19$ cm side and a $14$ cm side give the two triangles shown. What are **both** possible sizes of the angle opposite the $19$ cm side, to the nearest degree?",
+      "structure": "ambiguous-both-solutions",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$43^{\\circ}$ and $137^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$43^{\\circ}$ only",
+          "why": "Gave only the calculator's acute value and missed the second triangle."
+        },
+        {
+          "text": "$137^{\\circ}$ only",
+          "why": "Gave only the obtuse solution and missed the triangle with the acute angle."
+        },
+        {
+          "text": "$43^{\\circ}$ and $47^{\\circ}$",
+          "why": "Subtracted the acute value from $90^{\\circ}$ instead of from $180^{\\circ}$."
+        }
+      ],
+      "solution_text": "The angle opposite the $19$ cm side is $\\angle AQC$ in one triangle and $\\angle APC$ in the other.\n$\\dfrac{\\sin\\theta}{19}=\\dfrac{\\sin 30^{\\circ}}{14}$\n$\\sin\\theta=\\dfrac{19\\sin 30^{\\circ}}{14}$\n$=0.67857\\ldots$\nThe inverse sine gives the acute angle $42.7321\\ldots^{\\circ}$, which is $\\angle AQC$.\n$\\angle AQC\\approx 43^{\\circ}$\nThe obtuse partner has the same sine, and it is $\\angle APC$.\n$\\angle APC=180^{\\circ}-42.7321\\ldots^{\\circ}$\n$\\approx 137^{\\circ}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.474,0);\n\\coordinate (C) at (4.045,1.973);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$5.4\\text{ m}$};\n\\draw (A)--(C) node[midway,above left] {$7.5\\text{ m}$};\n\\pic[draw,\"$26^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\pic[draw,\"$\\theta$\",angle radius=0.4cm,angle eccentricity=1.8] {angle=C--B--A};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nFind $\\theta$, given that it is obtuse. Answer to the nearest degree.",
+      "structure": "angle-obtuse-given",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$142^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$38^{\\circ}$",
+          "why": "Gave the calculator's acute value from $\\sin^{-1}$ instead of subtracting it from $180^{\\circ}$."
+        },
+        {
+          "text": "$116^{\\circ}$",
+          "why": "Found the third angle of the acute triangle instead of the obtuse angle asked for."
+        },
+        {
+          "text": "$12^{\\circ}$",
+          "why": "Found the third angle $180^{\\circ}-26^{\\circ}-142^{\\circ}$ instead of $\\theta$ itself."
+        }
+      ],
+      "solution_text": "$\\theta$ is opposite the $7.5$ m side and $26^{\\circ}$ is opposite the $5.4$ m side.\n$\\dfrac{\\sin\\theta}{7.5}=\\dfrac{\\sin 26^{\\circ}}{5.4}$\n$\\sin\\theta=\\dfrac{7.5\\sin 26^{\\circ}}{5.4}$\n$=0.60884\\ldots$\nThe inverse sine gives the acute angle $37.5063\\ldots^{\\circ}$, and $\\theta$ is obtuse.\n$\\theta=180^{\\circ}-37.5063\\ldots^{\\circ}$\n$\\approx 142^{\\circ}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.088,0);\n\\coordinate (C) at (3.932,3.184);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$16\\text{ km}$};\n\\draw (A)--(C) node[midway,above left] {$22\\text{ km}$};\n\\pic[draw,\"$39^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nThree buoys sit at $A$, $B$ and $C$. Buoy $C$ is $16$ km from $B$ and $22$ km from $A$, and the angle at $A$ is $39^{\\circ}$. The angle at $B$ is obtuse. Find the size of the angle at $B$, to the nearest degree.",
+      "structure": "obtuse-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$120^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$60^{\\circ}$",
+          "why": "Gave the calculator's acute value from $\\sin^{-1}$ instead of subtracting it from $180^{\\circ}$."
+        },
+        {
+          "text": "$81^{\\circ}$",
+          "why": "Found the angle at $C$ in the acute triangle instead of the obtuse angle at $B$."
+        },
+        {
+          "text": "$21^{\\circ}$",
+          "why": "Found the remaining angle $180^{\\circ}-39^{\\circ}-120^{\\circ}$ instead of the angle at $B$."
+        }
+      ],
+      "solution_text": "The angle at $B$ is opposite the $22$ km side and $39^{\\circ}$ is opposite the $16$ km side.\n$\\dfrac{\\sin B}{22}=\\dfrac{\\sin 39^{\\circ}}{16}$\n$\\sin B=\\dfrac{22\\sin 39^{\\circ}}{16}$\n$=0.86531\\ldots$\nThe inverse sine gives the acute angle $59.9187\\ldots^{\\circ}$, and the angle at $B$ is obtuse.\n$B=180^{\\circ}-59.9187\\ldots^{\\circ}$\n$\\approx 120^{\\circ}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (2.158,0);\n\\coordinate (R) at (-1.199,2.967);\n\\draw (P)--(Q);\n\\draw (Q)--(R) node[midway,above right] {$28\\text{ cm}$};\n\\draw (P)--(R) node[midway,left] {$20\\text{ cm}$};\n\\pic[draw,\"$112^{\\circ}$\",angle radius=0.6cm,angle eccentricity=1.9] {angle=Q--P--R};\n\\node[below] at (P) {$P$};\n\\node[below right] at (Q) {$Q$};\n\\node[above] at (R) {$R$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about $\\angle PQR$ is correct?",
+      "structure": "justify-which-solution",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\angle PQR=41^{\\circ}$, because the $112^{\\circ}$ angle at $P$ means no second obtuse angle is possible.",
+          "correct": true
+        },
+        {
+          "text": "$\\angle PQR=139^{\\circ}$, because it is opposite the longer of the two given sides.",
+          "why": "Takes the obtuse solution, but $20$ cm is the shorter side and the triangle already has a $112^{\\circ}$ angle."
+        },
+        {
+          "text": "$\\angle PQR$ is either $41^{\\circ}$ or $139^{\\circ}$, because both triangles can be drawn.",
+          "why": "Treats the case as ambiguous, but the given $112^{\\circ}$ angle rules out any second obtuse angle."
+        },
+        {
+          "text": "$\\angle PQR=27^{\\circ}$, because the angles of the triangle add to $180^{\\circ}$.",
+          "why": "Gives the remaining angle $180^{\\circ}-112^{\\circ}-41^{\\circ}$ at $R$ rather than the angle at $Q$."
+        }
+      ],
+      "solution_text": "$\\angle PQR$ is opposite the $20$ cm side and $112^{\\circ}$ is opposite the $28$ cm side.\n$\\dfrac{\\sin\\angle PQR}{20}=\\dfrac{\\sin 112^{\\circ}}{28}$\n$\\sin\\angle PQR=\\dfrac{20\\sin 112^{\\circ}}{28}$\n$=0.66227\\ldots$\nThe inverse sine gives the acute angle $41.4734\\ldots^{\\circ}$.\n$\\angle PQR\\approx 41^{\\circ}$\nThe obtuse solution $138.5265\\ldots^{\\circ}$ is impossible, because $\\angle QPR=112^{\\circ}$ is already obtuse and a triangle cannot contain two obtuse angles."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.708,0);\n\\coordinate (C) at (3.785,3.529);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$8.2\\text{ cm}$};\n\\draw (A)--(C) node[midway,above left] {$11.5\\text{ cm}$};\n\\pic[draw,\"$43^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\n$\\angle ABC$ is obtuse. Find $\\angle ACB$, to the nearest degree.",
+      "structure": "obtuse-then-third-angle",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$30^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$107^{\\circ}$",
+          "why": "Stopped at $\\angle ABC$ instead of going on to the third angle $\\angle ACB$."
+        },
+        {
+          "text": "$73^{\\circ}$",
+          "why": "Gave the calculator's acute value for $\\angle ABC$ rather than the third angle."
+        },
+        {
+          "text": "$64^{\\circ}$",
+          "why": "Used the acute value $73.03^{\\circ}$ for $\\angle ABC$ in the angle sum instead of the obtuse value."
+        }
+      ],
+      "solution_text": "$\\angle ABC$ is opposite the $11.5$ cm side and $43^{\\circ}$ is opposite the $8.2$ cm side.\n$\\dfrac{\\sin\\angle ABC}{11.5}=\\dfrac{\\sin 43^{\\circ}}{8.2}$\n$\\sin\\angle ABC=\\dfrac{11.5\\sin 43^{\\circ}}{8.2}$\n$=0.95646\\ldots$\nThe inverse sine gives the acute angle $73.0306\\ldots^{\\circ}$, and $\\angle ABC$ is obtuse.\n$\\angle ABC=180^{\\circ}-73.0306\\ldots^{\\circ}$\n$=106.9693\\ldots^{\\circ}$\nThe three angles add to $180^{\\circ}$.\n$\\angle ACB=180^{\\circ}-43^{\\circ}-106.9693\\ldots^{\\circ}$\n$\\approx 30^{\\circ}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.15]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.619,0);\n\\coordinate (C) at (4.478,2.798);\n\\draw (A)--(B);\n\\draw (B)--(C) node[midway,right] {$25\\text{ m}$};\n\\draw (A)--(C) node[midway,above left] {$33\\text{ m}$};\n\\pic[draw,\"$32^{\\circ}$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=B--A--C};\n\\node[below left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]\nA triangular paddock has corners $A$, $B$ and $C$. Corner $C$ is $25$ m from $B$ and $33$ m from $A$, and the corner at $A$ measures $32^{\\circ}$. The corner at $B$ is obtuse. Find the size of the corner at $B$, to the nearest degree.",
+      "structure": "obtuse-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$136^{\\circ}$",
+          "correct": true
+        },
+        {
+          "text": "$44^{\\circ}$",
+          "why": "Gave the calculator's acute value from $\\sin^{-1}$ instead of subtracting it from $180^{\\circ}$."
+        },
+        {
+          "text": "$104^{\\circ}$",
+          "why": "Found the corner at $C$ in the acute triangle instead of the obtuse corner at $B$."
+        },
+        {
+          "text": "$12^{\\circ}$",
+          "why": "Found the remaining corner $180^{\\circ}-32^{\\circ}-136^{\\circ}$ instead of the corner at $B$."
+        }
+      ],
+      "solution_text": "The corner at $B$ is opposite the $33$ m side and $32^{\\circ}$ is opposite the $25$ m side.\n$\\dfrac{\\sin B}{33}=\\dfrac{\\sin 32^{\\circ}}{25}$\n$\\sin B=\\dfrac{33\\sin 32^{\\circ}}{25}$\n$=0.69949\\ldots$\nThe inverse sine gives the acute angle $44.3863\\ldots^{\\circ}$, and the corner at $B$ is obtuse.\n$B=180^{\\circ}-44.3863\\ldots^{\\circ}$\n$\\approx 136^{\\circ}$"
+    }
+  ]
+}

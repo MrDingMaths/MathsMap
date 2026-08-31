@@ -1,0 +1,102 @@
+{
+  "batch": "W4-7",
+  "model": "gemini-3.7-flash-high",
+  "note": "The continuous half of Advanced Y12 random variables (8) + what Advanced adds to the normal distribution (3) + the Bernoulli and binomial half of Extension 1 Y12 binomial distributions (9) = 20. ORDER: needs W4-6 (discrete distributions, expectation and variance) and W4-5 (integration of the functions a pdf uses). The seven SHARED normal-distribution skills (`normal-distribution-shape`, `calculate-z-score`, `z-score-to-raw-score`, `compare-z-scores`, `empirical-rule`, `normal-probabilities`, `z-table-probability`) carry both a Standard and an Advanced dot point and are generated in W4-3 — they must NOT be re-queued here.",
+  "sections": [
+    {
+      "name": "continuous-random-variables",
+      "skillIds": ["continuous-random-variable", "probability-density-function", "cumulative-distribution-function", "pdf-unknown-constant"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Random Variables 2_Continuous random variables.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `continuous-random-variable` = what makes a variable continuous, why $P(X=a)=0$, and why $P(X<a)=P(X\\le a)$. `probability-density-function` = the two conditions ($f(x)\\ge0$ everywhere, total area $1$), and computing $P(a<X<b)=\\int_{a}^{b}f(x)dx$. `cumulative-distribution-function` = $F(x)=\\int_{-\\infty}^{x}f(t)dt$, its properties (non-decreasing, from $0$ to $1$), recovering $f$ by differentiating $F$, and using $F$ to get interval probabilities. `pdf-unknown-constant` = finding $k$ from $\\int f=1$.",
+        "A DENSITY IS NOT A PROBABILITY: $f(2)=0.4$ does NOT mean $P(X=2)=0.4$, and $f(x)$ MAY EXCEED 1. Both misreadings are compulsory named distractors, and at least one pdf in the section must take values above $1$ so the point is unavoidable.",
+        "$P(X=a)=0$ FOR A CONTINUOUS VARIABLE, so strict and non-strict inequalities give the same probability. Include an item that turns on exactly that, and never offer two options that differ only by a strict/non-strict boundary.",
+        "THE PDF IS ZERO OUTSIDE ITS STATED SUPPORT. Every $f$ must be written piecewise with its domain, and every integral's limits must be intersected with that support — integrating $\\frac{3}{8}x^{2}$ from $0$ to $5$ when the support is $[0,2]$ is the section's dominant wrong-key defect. Check every limit against the support before keying.",
+        "VERIFY $\\int f=1$ FOR EVERY DENSITY YOU WRITE, in every skill, including after solving for $k$. A pdf whose total area is not exactly $1$ makes every derived answer wrong while remaining internally consistent.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE of the density with the relevant interval shaded. Plot as a function with `domain=` set to the support and clipped to the axis window; never `^` inside a plotted expression (write `exp(-x)`, not `e^(-x)`), and draw a piecewise density as separate restricted plots with the zero pieces drawn along the axis. Do not label the shaded area's value on a question figure.",
+        "$F(x)$ AND $f(x)$ MUST NEVER APPEAR IN THE SAME OPTION LIST without the stem saying which is wanted — they are different functions and both are 'the answer' to a careless stem."
+      ]
+    },
+    {
+      "name": "continuous-measures",
+      "skillIds": ["continuous-uniform-distribution", "mean-variance-continuous", "median-quartiles-continuous", "mode-continuous-distribution"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Random Variables 2_Continuous random variables.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `continuous-uniform-distribution` = $f(x)=\\frac{1}{b-a}$ on $[a,b]$, its probabilities as rectangle areas, and its mean $\\frac{a+b}{2}$ and variance $\\frac{(b-a)^{2}}{12}$. `mean-variance-continuous` = $\\mu=\\int xf(x)dx$ and $\\sigma^{2}=\\int x^{2}f(x)dx-\\mu^{2}$. `median-quartiles-continuous` = solving $F(m)=0.5$ (and $0.25$, $0.75$). `mode-continuous-distribution` = the $x$ that MAXIMISES $f$, found by calculus or by inspection, including a mode at an endpoint of the support.",
+        "THE MEDIAN SOLVES $F(m)=0.5$, NOT $f(m)=0.5$ AND NOT $\\frac{a+b}{2}$ IN GENERAL. All three confusions must appear as named distractors, and at least half the `median-quartiles-continuous` items must have a SKEWED density so the median differs from the mean and from the midpoint of the support.",
+        "THE MODE IS A MAXIMUM OF THE DENSITY, so it needs $f'=0$ AND a check that it is a maximum, or an endpoint comparison. A density that is monotonic on its support has its mode at an ENDPOINT — include one such item, since 'solved $f'=0$ and got a value outside the support' is the compulsory named distractor.",
+        "$\\sigma^{2}=E(X^{2})-\\mu^{2}$, AND THE $\\mu^{2}$ IS SUBTRACTED ONCE. Forgetting it is the compulsory named distractor for `mean-variance-continuous`; check every variance is POSITIVE before keying — a negative variance means the arithmetic is wrong, and it is the cheapest self-check in this section.",
+        "REJECT ROOTS OUTSIDE THE SUPPORT: solving $F(m)=0.5$ usually gives a quadratic or cubic with one admissible root. Show the rejection and its reason in the working.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE of the density with the measure marked in the SOLUTION figure only (the median line, the mode's peak) — never on the question figure. Plot as restricted function plots clipped to the axis window; never `^` inside a plotted expression.",
+        "The shipped Standard skills `median-from-data`, `quartiles` and `mode` own data-based measures. Every item here must work from a DENSITY, never from a list of values."
+      ]
+    },
+    {
+      "name": "normal-distribution-advanced",
+      "skillIds": ["normal-distribution-features", "standard-normal-distribution", "normal-mean-sd-from-probability"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Random Variables 3_The Normal Distribution.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "SEVEN NORMAL-DISTRIBUTION SKILLS ARE GENERATED IN W4-3 AT THE STANDARD LEVEL — `normal-distribution-shape`, `calculate-z-score`, `z-score-to-raw-score`, `compare-z-scores`, `empirical-rule`, `normal-probabilities` and `z-table-probability`. This section covers ONLY what Advanced adds on top, and must not re-teach any of them.",
+        "One routine per skill. `normal-distribution-features` = the curve as a probability DENSITY — total area $1$, symmetry about $\\mu$, the points of inflection at $\\mu\\pm\\sigma$, and the effect of changing $\\mu$ (translation) or $\\sigma$ (width and height) on the curve's shape. `standard-normal-distribution` = why $Z=\\frac{X-\\mu}{\\sigma}$ has $\\mu=0$ and $\\sigma=1$, and that ANY normal variable maps to the same standard curve. `normal-mean-sd-from-probability` = the REVERSE problem — given $P(X<c)$ and one of $\\mu$ or $\\sigma$, find the other by inverting to a $z$ value first.",
+        "THE POINTS OF INFLECTION SIT AT $\\mu\\pm\\sigma$, not at $\\mu\\pm2\\sigma$ and not at the mean. That fact is the distinguishing content of `normal-distribution-features`; make the wrong positions named distractors.",
+        "A LARGER $\\sigma$ MAKES THE CURVE WIDER AND LOWER — the total area stays $1$, so the peak must fall. 'Drew a wider curve at the same height' is a compulsory named distractor, and any comparison figure must show both curves with visibly different peak heights.",
+        "IN `normal-mean-sd-from-probability` THE $z$ VALUE IS FOUND FIRST AND ITS SIGN IS DECIDED BY WHICH SIDE OF THE MEAN $c$ LIES: $P(X<c)=0.2$ means $z$ is NEGATIVE. Getting that sign wrong is the compulsory named distractor, and at least half the items must have a probability below $0.5$. Solve $c=\\mu+z\\sigma$ for the unknown and substitute back to check the probability comes out right before keying.",
+        "EVERY ITEM CARRIES A `[tikz]` BELL CURVE. Plot it as a function using `exp(-x*x/2)`-style expressions — NEVER `^` inside a plotted TikZ expression — clipped to the axis window at about $\\pm4$, with the axis ticked at the $z$ or $x$ values the item names. Where two curves are compared, draw both on one set of axes with the equations labelled OFF the curves.",
+        "Any table this section needs is a KaTeX `array` inside `$…$`, never [tikz]."
+      ]
+    },
+    {
+      "name": "bernoulli",
+      "skillIds": ["bernoulli-random-variable", "bernoulli-mean-variance", "bernoulli-applications"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Binomial Distributions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `bernoulli-random-variable` = a single trial with exactly two outcomes, $P(X=1)=p$ and $P(X=0)=1-p$, and identifying whether a described situation IS Bernoulli. `bernoulli-mean-variance` = $E(X)=p$ and $\\mathrm{Var}(X)=p(1-p)$, including deriving them from the discrete definitions. `bernoulli-applications` = using a Bernoulli model in context, including a sequence of independent Bernoulli trials treated one at a time.",
+        "A BERNOULLI VARIABLE HAS EXACTLY ONE TRIAL. The moment an item counts successes over $n$ trials it is binomial and belongs to the next section — keep that line strict, since it is the only thing separating these three skills from their neighbours.",
+        "$\\mathrm{Var}(X)=p(1-p)$ IS MAXIMISED AT $p=0.5$ and is never negative. Include one item asking for the $p$ that maximises the variance, and check every computed variance lies in $[0,0.25]$ before keying.",
+        "'SUCCESS' IS WHATEVER THE STEM DEFINES, and it need not be the good outcome. Include at least one item where success is a defect or a failure, and make 'used $1-p$ as $p$' a named distractor.",
+        "A SITUATION WITHOUT INDEPENDENCE OR WITH MORE THAN TWO OUTCOMES IS NOT BERNOULLI. `bernoulli-random-variable` must include an item whose correct answer is that the model does not apply, with the reason named.",
+        "This section is figure-free: emit no [tikz] blocks. A two-row probability table is a KaTeX `array` inside `$…$`."
+      ]
+    },
+    {
+      "name": "binomial-distribution",
+      "skillIds": ["binomial-random-variable", "binomial-probability-formula", "binomial-mean-variance"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Binomial Distributions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["data-displays"],
+      "hazards": [
+        "One routine per skill. `binomial-random-variable` = the four conditions (fixed $n$, two outcomes, constant $p$, independent trials), the notation $X\\sim\\mathrm{Bin}(n,p)$, and judging whether a situation qualifies. `binomial-probability-formula` = $P(X=r)=\\binom{n}{r}p^{r}(1-p)^{n-r}$ for a single value of $r$. `binomial-mean-variance` = $E(X)=np$, $\\mathrm{Var}(X)=np(1-p)$, $\\sigma=\\sqrt{np(1-p)}$, and reverse problems (find $n$ or $p$ from the mean and variance).",
+        "THE EXPONENTS MUST SUM TO $n$: $p^{r}(1-p)^{n-r}$. Swapping them, or using $p^{n-r}$, is the compulsory named distractor for `binomial-probability-formula`, and at least one item must have $r$ close to but not equal to $\\frac{n}{2}$ so the swap changes the value.",
+        "SAMPLING WITHOUT REPLACEMENT FROM A SMALL POPULATION IS NOT BINOMIAL — $p$ changes between trials. `binomial-random-variable` must include such an item with 'not binomial, because the trials are not independent' as the correct response.",
+        "$\\mathrm{Var}=np(1-p)$, NOT $np^{2}$ AND NOT $\\sqrt{np}$. The reverse problem (given $\\mu=12$ and $\\sigma^{2}=4.8$, find $n$ and $p$) is solved by dividing: $\\frac{\\sigma^{2}}{\\mu}=1-p$. Include it, and check the resulting $n$ is a positive INTEGER and $p\\in(0,1)$ — if not, the item is broken.",
+        "RECOMPUTE EVERY BINOMIAL PROBABILITY digit by digit and confirm it lies in $[0,1]$ and that the probabilities you offer as options are not accidentally equal. Pin the rounding in every stem ('to 4 decimal places') so two options cannot both be defensible.",
+        "A probability HISTOGRAM for $\\mathrm{Bin}(n,p)$ is a legitimate `[tikz]` display for `binomial-random-variable` — a bar chart following the data-displays anti-collision rules, with the bar heights actually equal to the computed probabilities. Verify each bar's height against the formula; a histogram whose bars contradict the distribution is the figure-vs-answer defect class.",
+        "`combinations-nCr` shipped in W3-9 and is assumed — do not re-teach counting. But $\\binom{n}{r}$ must be evaluated correctly in every solution; recompute each one."
+      ]
+    },
+    {
+      "name": "binomial-applications",
+      "skillIds": ["binomial-expected-frequency", "binomial-cumulative-probability", "solve-binomial-problems"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Binomial Distributions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `binomial-expected-frequency` = the expected NUMBER of trials/groups producing a given outcome, $N\\times P(X=r)$ or $np$ — a count, not a probability. `binomial-cumulative-probability` = $P(X\\le r)$, $P(X\\ge r)$ and $P(a\\le X\\le b)$ by summing terms, including the complement shortcut. `solve-binomial-problems` = multi-step applied problems that choose the model, compute and interpret.",
+        "'AT LEAST ONE' IS $1-P(X=0)$ — the complement is the whole technique and must be the compulsory named structural type of `binomial-cumulative-probability`. 'At least $r$' is $1-P(X\\le r-1)$: the OFF-BY-ONE on that boundary is the compulsory named distractor, and every cumulative stem must be unambiguous about whether the endpoint is included.",
+        "SUM EVERY CUMULATIVE PROBABILITY TERM BY TERM AND RE-ADD IT. This is the batch's hot spot for arithmetic in prose; write each $\\binom{n}{r}p^{r}(1-p)^{n-r}$ term on its own line, then the sum, and confirm the total lies in $[0,1]$.",
+        "AN EXPECTED FREQUENCY IS A COUNT and rounds to a whole number of items only when the stem asks for a practical count; the unrounded expected value may legitimately be non-integer. Pin which is wanted in every stem, and never place a probability and a count in one option list.",
+        "$P(X\\le r)$ AND $P(X<r)$ DIFFER FOR A DISCRETE VARIABLE — unlike the continuous case. Say which in every stem; this is exactly the boundary the continuous sections of this batch treat the other way, so the contrast must be explicit.",
+        "This section is figure-free: emit no [tikz] blocks.",
+        "Give each of the three skills its own context family (quality control, multiple-choice guessing, medical screening, sport, manufacturing) and check no two items across all six binomial/Bernoulli skills share a value signature — $n$, $p$ and $r$ collide easily across sibling skills."
+      ]
+    }
+  ]
+}

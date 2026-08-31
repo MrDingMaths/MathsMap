@@ -2,21 +2,21 @@
   "skillId": "quartiles-from-cumulative-histogram",
   "atomType": "R",
   "theory": {
-    "intro": "A cumulative frequency histogram shows the running total of scores up to and including each value. Quartiles can be read directly from it, without listing every data value.",
-    "facts": [
-      "Each column's height is the **cumulative frequency** up to and including that score, so the height of the **last** column gives the total number of scores, $n$.",
-      "$Q_1$ sits at position $0.25n$, $Q_2$ (the median) at position $0.5n$, and $Q_3$ at position $0.75n$.",
-      "To find a quartile, read up the cumulative-frequency axis to its target position, then read across to the first column whose height reaches (or passes) that position — that column's score is the quartile.",
-      "The minimum is the score of the first column shown; the maximum is the score of the last column, where the cumulative frequency reaches $n$."
-    ],
-    "steps": [
-      "Read the total frequency, $n$, from the height of the last column",
-      "Find the $Q_1$ position, $0.25n$",
-      "Find the $Q_2$ position (the median), $0.5n$",
-      "Find the $Q_3$ position, $0.75n$",
-      "Read the score at each position from the histogram, and state the minimum and maximum"
-    ]
-  },
+        "intro": "A cumulative frequency histogram shows the running total of scores up to and including each value. Quartiles can be read straight from it, without listing every data value.",
+        "facts": [
+          "Each column's height is the **cumulative frequency** up to and including that score, so the last column's height is the total, $n$.",
+          "$Q_1$ sits at position $0.25n$, $Q_2$ (the median) at $0.5n$, and $Q_3$ at $0.75n$.",
+          "Read across from a quartile's position to the first column tall enough to reach it; that column's score is the quartile.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (0,6.9);\n\\draw[-{Stealth}] (0,0) -- (7.7,0);\n\\draw (0,0) rectangle (1,0.60);\n\\draw (1,0) rectangle (2,1.56);\n\\draw (2,0) rectangle (3,2.52);\n\\draw (3,0) rectangle (4,3.48);\n\\draw (4,0) rectangle (5,4.32);\n\\draw (5,0) rectangle (6,5.28);\n\\draw (6,0) rectangle (7,6.00);\n\\draw[gray,dashed] (0,1.5) -- (1.5,1.5) -- (1.5,0);\n\\draw[gray,dashed] (0,3.0) -- (3.5,3.0) -- (3.5,0);\n\\draw[gray,dashed] (0,4.5) -- (5.5,4.5) -- (5.5,0);\n\\foreach \\y/\\t in {1.5/{$0.25n$}, 3.0/{$0.5n$}, 4.5/{$0.75n$}, 6.0/{$n$}} {\\draw (-0.15,\\y) -- (0.15,\\y); \\node[left] at (-0.25,\\y) {\\t};}\n\\node[rotate=90] at (-2.6,3.0) {Cumulative frequency};\n\\node[below] at (1.5,-0.15) {$Q_1$};\n\\node[below] at (3.5,-0.15) {$Q_2$};\n\\node[below] at (5.5,-0.15) {$Q_3$};\n\\node[below] at (3.5,-1.05) {Score};\n\\end{tikzpicture}\n[/tikz]",
+          "The minimum is the score of the first column; the maximum is the score of the last column, where the cumulative frequency reaches $n$."
+        ],
+        "steps": [
+          "Read the total frequency, $n$, from the height of the last column",
+          "Find the $Q_1$ position, $0.25n$",
+          "Find the $Q_2$ position (the median), $0.5n$",
+          "Find the $Q_3$ position, $0.75n$",
+          "Read the score at each position from the histogram, and state the minimum and maximum"
+        ]
+      },
   "practice": {
     "foundation": [
       {

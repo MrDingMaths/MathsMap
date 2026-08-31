@@ -1,0 +1,119 @@
+{
+  "batch": "W4-8",
+  "model": "gemini-3.7-flash-high",
+  "note": "The sampling half of Extension 1 Y12 binomial distributions (6) + inverse trigonometric functions (10) + proof by mathematical induction (4) = 20. ORDER: the sampling sections need W4-7 (binomial mean and variance) and W4-3 (normal probabilities and z-scores); the inverse-trig and induction sections have no in-wave prereq — the Y11 trigonometry and series content shipped in W3-6, W3-7 and W3-11.",
+  "sections": [
+    {
+      "name": "sampling-distributions",
+      "skillIds": ["population-sample-concepts", "sampling-distribution-mean", "clt-mean-variance"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Binomial Distributions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["data-displays"],
+      "hazards": [
+        "One routine per skill. `population-sample-concepts` = population versus sample, parameter versus statistic, and the notation ($\\mu$ and $\\sigma$ for the population, $\\bar{x}$ and $s$ for the sample). `sampling-distribution-mean` = the CONCEPT that $\\bar{X}$ is itself a random variable — build the distribution of $\\bar{X}$ for all samples of a small size from a small population and see it cluster more tightly than the parent. `clt-mean-variance` = $E(\\bar{X})=\\mu$ and $\\mathrm{sd}(\\bar{X})=\\frac{\\sigma}{\\sqrt{n}}$, applied numerically.",
+        "$\\frac{\\sigma}{\\sqrt{n}}$, NOT $\\frac{\\sigma}{n}$ AND NOT $\\frac{\\sigma^{2}}{n}$ (that is the VARIANCE of $\\bar{X}$). All three appear together in this topic, so every stem must say whether the standard deviation or the variance of the sample mean is wanted, and both wrong forms are compulsory named distractors.",
+        "THE MEAN OF THE SAMPLE MEAN IS UNCHANGED: $E(\\bar{X})=\\mu$ regardless of $n$. 'Divided the mean by $\\sqrt{n}$ too' is a compulsory named distractor.",
+        "QUADRUPLING $n$ HALVES THE STANDARD ERROR — the relationship is not linear. Include one item asking how the sample size must change to halve the spread, and make 'doubled $n$' the named distractor.",
+        "A PARAMETER DESCRIBES THE POPULATION AND A STATISTIC DESCRIBES THE SAMPLE. `population-sample-concepts` must include an item that classifies a described number as one or the other, and must not compute anything the other two skills own.",
+        "In `sampling-distribution-mean` any enumerated sampling distribution must be COMPLETE and its probabilities must sum to exactly $1$ — check that before keying, and state whether sampling is with or without replacement, since the two give different distributions.",
+        "Displays here are `[tikz]` bar charts of a sampling distribution, following the data-displays anti-collision rules; a table of samples is a KaTeX `array` inside `$…$`, never [tikz]. Keep the parent population to 3–5 values so the enumeration fits."
+      ]
+    },
+    {
+      "name": "central-limit-theorem",
+      "skillIds": ["central-limit-theorem", "clt-probability", "sample-proportion"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Binomial Distributions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `central-limit-theorem` = the STATEMENT — for large $n$ the distribution of $\\bar{X}$ is approximately normal WHATEVER the parent distribution — and judging when it applies. `clt-probability` = computing $P(\\bar{X}<c)$ by standardising with $z=\\frac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$. `sample-proportion` = $\\hat{p}$ with mean $p$ and standard deviation $\\sqrt{\\frac{p(1-p)}{n}}$, and normal-approximation probabilities for it.",
+        "THE CLT IS ABOUT THE SAMPLE MEAN, NOT ABOUT THE DATA. A large sample does not make the individual values normal. 'Claimed the population becomes normal' is the compulsory named distractor for `central-limit-theorem`, and at least one item must have a clearly non-normal parent (uniform, skewed, binary).",
+        "THE DENOMINATOR IS $\\frac{\\sigma}{\\sqrt{n}}$, NOT $\\sigma$. Standardising an individual value instead of a mean is the compulsory named distractor for `clt-probability`, and every stem must say explicitly whether it asks about ONE observation or about a SAMPLE MEAN — those are different questions with different answers, and a stem ambiguous between them has two defensible answers.",
+        "$\\sqrt{\\frac{p(1-p)}{n}}$ USES THE PROPORTION, NOT THE COUNT. Confusing $\\hat{p}$ with $X$ (and so using $np(1-p)$) is the compulsory named distractor for `sample-proportion`. Every $\\hat{p}$ answer lies in $[0,1]$ — check that before keying.",
+        "RECOMPUTE EVERY $z$ VALUE AND EVERY PROBABILITY digit by digit; $\\sqrt{n}$ in a denominator is where this topic's arithmetic fails. Pin the rounding in every stem and check the probability lies in $[0,1]$ and on the correct side of $0.5$ relative to the mean.",
+        "ANY NORMAL TABLE THE ITEM NEEDS MUST BE PRINTED in the stem as a KaTeX `array` — the shipped Standard skill `z-table-probability` (generated in W4-3) owns reading the table itself, so items here must be about the SAMPLING context, not about table lookup.",
+        "FIGURES: bell curves comparing the parent distribution with the sampling distribution of $\\bar{X}$ (narrower, same centre), and shaded normal curves for probability items. Plot with `exp(-x*x/2)`-style expressions — never `^` inside a plotted TikZ expression — clipped to the axis window, with both curves' peak heights correctly different."
+      ]
+    },
+    {
+      "name": "inverse-trig-definitions",
+      "skillIds": ["restrict-trig-for-inverse", "define-inverse-trig", "evaluate-inverse-trig"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Inverse Trigonometric Functions 1_Definitions of inverse trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `restrict-trig-for-inverse` = WHY a restriction is needed (the horizontal line test) and WHICH interval is chosen for each of $\\sin$, $\\cos$ and $\\tan$. `define-inverse-trig` = the three inverses with their DOMAINS and RANGES stated. `evaluate-inverse-trig` = exact values such as $\\arcsin\\left(-\\frac{1}{2}\\right)$ and $\\arccos\\left(-\\frac{\\sqrt{3}}{2}\\right)$.",
+        "THE RANGES ARE THE ENTIRE TOPIC AND THEY ARE NOT THE SAME: $\\arcsin$ and $\\arctan$ return values in $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$ (open for $\\arctan$), while $\\arccos$ returns values in $[0,\\pi]$. State all three in the theory and check EVERY keyed value against the correct range before shipping it. $\\arccos\\left(-\\frac{\\sqrt{3}}{2}\\right)=\\frac{5\\pi}{6}$, NOT $-\\frac{\\pi}{6}$ — and $\\arcsin\\left(-\\frac{1}{2}\\right)=-\\frac{\\pi}{6}$, NOT $\\frac{11\\pi}{6}$.",
+        "A NEGATIVE ARGUMENT GOES TO A NEGATIVE ANGLE FOR $\\arcsin$ AND $\\arctan$ BUT TO AN OBTUSE ANGLE FOR $\\arccos$. That asymmetry is the compulsory named distractor pair, and at least half of `evaluate-inverse-trig`'s items must have a negative argument.",
+        "AN ANGLE OUTSIDE THE RANGE IS THE MOST DANGEROUS DISTRACTOR IN THIS WAVE because it is a genuine solution of the corresponding equation — it is wrong only because of the range convention. Never let two options both lie inside the correct range for the same argument, and always name the misconception as 'gave a co-terminal or supplementary angle outside the principal range'.",
+        "THE DOMAIN OF $\\arcsin$ AND $\\arccos$ IS $[-1,1]$. Include one item whose argument is outside it and whose correct answer is 'undefined'; never key a value for $\\arcsin 2$.",
+        "RADIANS THROUGHOUT. No degree symbol appears in this section, and every exact value is a fraction of $\\pi$. Never mix degrees and radians within an item or an option list.",
+        "FIGURES: `restrict-trig-for-inverse` carries the sine (or cosine) curve with the chosen interval highlighted and a horizontal line showing the failure of the test outside it. Plot as function plots clipped to the axis window; never `^` inside a plotted expression, and label the restricted piece off the curve."
+      ]
+    },
+    {
+      "name": "inverse-trig-graphs",
+      "skillIds": ["graph-inverse-trig", "inverse-trig-parity", "transform-inverse-trig"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Inverse Trigonometric Functions 2_Graphs of trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `graph-inverse-trig` = the three graphs, each as the reflection of the restricted trig graph in $y=x$, with their domains, ranges and asymptotes. `inverse-trig-parity` = $\\arcsin(-x)=-\\arcsin x$ and $\\arctan(-x)=-\\arctan x$ (ODD), but $\\arccos(-x)=\\pi-\\arccos x$ (NEITHER odd nor even). `transform-inverse-trig` = dilations, translations and reflections applied to those graphs, and the resulting domain and range.",
+        "$\\arccos$ IS NEITHER ODD NOR EVEN — that is the single fact `inverse-trig-parity` exists to teach, and 'treated $\\arccos$ as odd' is its compulsory named distractor. Parity is a CLOSED OPTION SET ({odd, even, neither}), so deal one item per answer value and then vary the item's SHAPE — ask for the value of $\\arccos(-x)$ in terms of $\\arccos x$, ask which graph shows the symmetry, ask for a reasoned justification — never generate two same-structure parity items.",
+        "$y=\\arctan x$ HAS HORIZONTAL ASYMPTOTES AT $y=\\pm\\frac{\\pi}{2}$ AND NEVER REACHES THEM; $y=\\arcsin x$ and $y=\\arccos x$ have ENDPOINTS at $x=\\pm1$ and no asymptotes. Drawing an asymptote on $\\arcsin$, or drawing $\\arctan$ touching its asymptote, is a figure-contradicts-answer defect.",
+        "A TRANSFORMATION CHANGES THE DOMAIN AND THE RANGE, and the domain restriction moves with it: $y=\\arcsin(2x)$ has domain $\\left[-\\frac{1}{2},\\frac{1}{2}\\right]$. Every `transform-inverse-trig` item must state or ask for the transformed domain AND range, and 'kept the original domain' is the compulsory named distractor.",
+        "EVERY ITEM IN ALL THREE SKILLS CARRIES A `[tikz]` FIGURE — these titles promise graphs and `audit-figure-quota` requires them. Plot each inverse as a genuine function: `rad(atan(x))` for $\\arctan$, and for $\\arcsin$/$\\arccos$ plot the restricted trig function with `x` and `y` swapped (a parametric plot of $(\\sin t,t)$ for $t$ from $-\\pi/2$ to $\\pi/2$) rather than a hand-drawn coordinate list. Never `^` inside a plotted expression. Restrict every domain to the axis window, draw asymptotes as dashed lines, and mark the endpoints of $\\arcsin$/$\\arccos$ with filled dots.",
+        "Never coordinate-label a point whose value the tick labels already give, and keep each curve's equation label off the curve.",
+        "RADIANS THROUGHOUT; the $y$-axis is ticked in fractions of $\\pi$."
+      ]
+    },
+    {
+      "name": "inverse-trig-properties",
+      "skillIds": ["inverse-trig-properties", "inverse-trig-composite-graphs"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Inverse Trigonometric Functions 2_Graphs of trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`inverse-trig-properties` = proving and using the identities $\\arccos x+\\arcsin x=\\frac{\\pi}{2}$, $\\arccos(-x)=\\pi-\\arccos x$, $\\arcsin(-x)=-\\arcsin x$ and $\\arctan x+\\arctan\\frac{1}{x}=\\frac{\\pi}{2}$ for $x>0$. `inverse-trig-composite-graphs` = the composites: $\\sin(\\arcsin x)=x$ ONLY on $[-1,1]$, while $\\arcsin(\\sin x)=x$ ONLY on $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$ and elsewhere is the sawtooth reduction into that range.",
+        "THE TWO COMPOSITES ARE NOT THE SAME FUNCTION and the ORDER decides the answer. $\\arcsin\\left(\\sin\\frac{5\\pi}{6}\\right)=\\frac{\\pi}{6}$, not $\\frac{5\\pi}{6}$. That reduction is the whole content of the second skill; 'assumed the composite is the identity everywhere' is its compulsory named distractor, and at least half its items must use an angle OUTSIDE the principal range.",
+        "$\\arctan x+\\arctan\\frac{1}{x}$ IS $\\frac{\\pi}{2}$ ONLY FOR $x>0$ — it is $-\\frac{\\pi}{2}$ for $x<0$. State the restriction wherever the identity appears; an item that applies it to a negative $x$ without the caveat is a wrong-key defect.",
+        "A PROOF ITEM MUST ASK FOR THE REASONING, NOT A NUMBER: which substitution, which line of a given argument is wrong, or which statement completes the proof. Do not turn a proof into an arithmetic MCQ.",
+        "DOMAIN RESTRICTIONS ARE PART OF EVERY ANSWER in this section. Never place a value and 'undefined' in an option list without the domain being determinable from the stem.",
+        "FIGURES: `inverse-trig-composite-graphs` must draw both composites — $y=\\sin(\\arcsin x)$ as the segment $y=x$ on $[-1,1]$ only, and $y=\\arcsin(\\sin x)$ as the zig-zag over several periods. Build the zig-zag from explicit straight-line segments computed from the reduction, not from a smooth plot, and clip both to the axis window. Never `^` inside a plotted expression.",
+        "RADIANS THROUGHOUT."
+      ]
+    },
+    {
+      "name": "inverse-trig-exact-values",
+      "skillIds": ["evaluate-trig-of-inverse-trig", "inverse-trig-double-compound-angle"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Inverse Trigonometric Functions 1_Definitions of inverse trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["angles", "polygons"],
+      "hazards": [
+        "`evaluate-trig-of-inverse-trig` = a DIFFERENT trig function applied to an inverse trig value — $\\sin(\\arccos x)$, $\\tan\\left(\\arcsin\\frac{3}{5}\\right)$ — solved by drawing the right-angled triangle and using the inverse's RANGE to fix the sign. `inverse-trig-double-compound-angle` = the same triangles fed into a double- or compound-angle identity, e.g. $\\cos(2\\arcsin x)$ or $\\sin(\\arctan a+\\arccos b)$.",
+        "THE RANGE FIXES THE SIGN AND THIS IS THE ONLY THING THAT MAKES THESE ITEMS HARD. $\\arccos$ of a negative argument is OBTUSE, so its sine is positive but its tangent is negative; $\\arcsin$ of a negative argument is in the fourth quadrant, so its cosine is positive. Every solution must state the quadrant explicitly before assigning signs, and 'took both legs positive' is the compulsory named distractor. At least half the items in both skills must have a negative argument.",
+        "THE SAME EXPRESSION HAS A GENERAL FORM AND A NUMERIC FORM: $\\sin(\\arccos x)=\\sqrt{1-x^{2}}$ (positive on the whole domain because $\\arccos$ lands in $[0,\\pi]$). Include both shapes, but never place $\\sqrt{1-x^{2}}$ and $-\\sqrt{1-x^{2}}$ in one option list without the stem pinning the domain — that is the wave's classic two-defensible-answers trap.",
+        "$\\cos 2A$ HAS THREE FORMS; pin the required one in every `inverse-trig-double-compound-angle` stem, or ask for a fully simplified numeric value so only one option can be right. Two algebraically equal options is a defect.",
+        "RECOMPUTE THE THIRD SIDE BY PYTHAGORAS EVERY TIME and check the resulting value is consistent: $\\sin$ and $\\cos$ of a real angle lie in $[-1,1]$. A keyed value outside that range is arithmetically impossible.",
+        "FIGURES: the reference right-angled triangle with the two known sides labelled and the angle marked with `\\pic {angle=A--V--B}` (never a hand-drawn arc). Draw it so the labelled side lengths are in the correct proportion — `audit-figure-scale` checks this — and do NOT label the third side on a question figure, since finding it is the work. These are plain 2D triangles: no tikz-3dplot anywhere.",
+        "RADIANS THROUGHOUT."
+      ]
+    },
+    {
+      "name": "mathematical-induction",
+      "skillIds": ["induction-structure", "induction-sums", "induction-divisibility", "induction-false-proofs"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Proof by Mathematical Induction.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "THE ITEM TYPE, NOT THE ARITHMETIC, IS THE WHOLE DIFFICULTY OF THIS TOPIC. A proof cannot be a numeric MCQ, and 'prove this by induction' cannot be a flip-card whose back is four lines of algebra with no thinking in the front. Build every item as ONE of these shapes, and say which in the stem: (a) which statement is the correct inductive HYPOTHESIS, or the correct statement to PROVE, for $n=k+1$; (b) which line of a displayed proof is the first that is wrong, and why; (c) what the base case must verify, and at which $n$ it starts; (d) which algebraic step correctly transforms $S_{k}+t_{k+1}$ into the $k+1$ form; (e) the full written proof, as a mastery practice card whose `solution_text` IS the proof laid out in the booklet's three stages. Only shape (e) may be a long-form card, and it must be genuinely staged.",
+        "One routine per skill. `induction-structure` = the three parts (base case, inductive hypothesis, inductive step) and what each is FOR — including that assuming the result for $n=k$ is not circular. `induction-sums` = proving a closed formula for a series. `induction-divisibility` = proving $f(n)$ is divisible by $d$, by writing $f(k+1)$ in terms of $f(k)$. `induction-false-proofs` = finding the error in a flawed or incomplete argument.",
+        "THE BASE CASE IS NOT ALWAYS $n=1$. Include statements starting at $n=0$, $n=2$ and $n=3$, and make 'tested $n=1$ when the claim starts at $n=3$' a named distractor in `induction-structure` and `induction-false-proofs`.",
+        "THE MOST COMMON REAL ERROR IS OMITTING THE INDUCTIVE STEP'S USE OF THE HYPOTHESIS — a 'proof' that verifies several cases, or that proves the $k+1$ statement directly without ever invoking the assumption, is not an induction. `induction-false-proofs` must include one of each: a missing base case, a missing use of the hypothesis, and a step that assumes what is to be proved.",
+        "THE DIVISIBILITY STEP IS ALGEBRAIC, NOT NUMERIC: write $f(k+1)=a\\,f(k)+(\\text{a multiple of }d)$ and say why both terms are divisible. A solution that merely checks $n=1,2,3$ is the error the skill exists to name. Verify the identity you write by expanding it — a wrong factorisation here is internally consistent and no script sees it.",
+        "EVERY DISPLAYED PROOF LINE IS MATHS AND MUST SIT INSIDE `$…$`, including the 'Assume true for $n=k$' and 'Prove true for $n=k+1$' lines — write the prose in plain text and the statement in maths, never a bare `\\text{...}` line. This section has no figures: emit no [tikz] blocks.",
+        "`sigma-notation`, `arithmetic-series-sum` and `geometric-series-sum` are generated in W4-1 of this wave and are assumed; do not re-teach series formulas. But a sum formula quoted in a stem must be CORRECT — check it at $n=1$, $n=2$ and $n=3$ numerically before using it, since a false formula makes the whole proof unprovable."
+      ]
+    }
+  ]
+}

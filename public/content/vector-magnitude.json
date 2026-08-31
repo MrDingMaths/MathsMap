@@ -1,0 +1,123 @@
+{
+  "skillId": "vector-magnitude",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **magnitude** of a vector is its length, written $|\\underset{\\sim}{a}|$. Pythagoras' theorem on the components gives $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$. A length is never negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,3);\n\\coordinate (Q) at (4,0);\n\\draw[dashed] (O)--(Q) node[midway,below]{$x$};\n\\draw[dashed] (Q)--(P) node[midway,right]{$y$};\n\\draw[-{Stealth},thick] (O)--(P) node[midway,above left]{$|\\underset{\\sim}{a}|$};\n\\coordinate (r1) at ($(Q)!0.35cm!(O)$);\n\\coordinate (r2) at ($(Q)!0.35cm!(P)$);\n\\draw (r1)--($(r1)+(r2)-(Q)$)--(r2);\n\\node[above right] at (P) {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "For $\\underset{\\sim}{a}=x\\underset{\\sim}{i}+y\\underset{\\sim}{j}$, the magnitude is $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$.",
+      "In three dimensions the third component joins the sum: $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}+z^{2}}$.",
+      "Squaring removes every sign, so $\\begin{pmatrix}3\\\\-4\\end{pmatrix}$ and $\\begin{pmatrix}-3\\\\4\\end{pmatrix}$ both have magnitude $5$.",
+      "Leave a non-whole answer as an exact surd in simplest form, such as $2\\sqrt{10}$, unless a decimal is asked for.",
+      "Scaling a vector by $k$ scales its magnitude by $|k|$, so $|-5\\underset{\\sim}{a}|=5|\\underset{\\sim}{a}|$.",
+      "Combine the vectors first, then take the magnitude, because $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|$ is usually not $|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$."
+    ],
+    "steps": [
+      "Write the vector in component form and read off $x$ and $y$ (and $z$ in three dimensions).",
+      "Square each component and add the squares.",
+      "Take the square root last, giving an exact surd or a rounded decimal as required."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the magnitude of the vector $\\underset{\\sim}{a}$ shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\usetikzlibrary{arrows.meta}\n\\draw[step=1,gray!25,very thin] (-1,-1) grid (9,9);\n\\draw[->] (-1.4,0)--(9.4,0) node[right]{$x$};\n\\draw[->] (0,-1.4)--(0,9.4) node[above]{$y$};\n\\foreach \\i in {2,4,6,8} \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};\n\\foreach \\i in {2,4,6,8} \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};\n\\draw[-{Stealth},thick,blue] (0,0)--(6,8) node[above left]{$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "magnitude-from-components",
+        "solution_text": "$\\underset{\\sim}{a}=\\begin{pmatrix}6\\\\8\\end{pmatrix}$\n$|\\underset{\\sim}{a}|=\\sqrt{6^{2}+8^{2}}$\n$=\\sqrt{36+64}$\n$=\\sqrt{100}$\n$=10$"
+      },
+      {
+        "question_text": "Find the magnitude of $\\underset{\\sim}{a}=\\begin{pmatrix}-5\\\\12\\end{pmatrix}$.",
+        "structure": "magnitude-from-components",
+        "solution_text": "$|\\underset{\\sim}{a}|=\\sqrt{(-5)^{2}+12^{2}}$\n$=\\sqrt{25+144}$\n$=\\sqrt{169}$\n$=13$"
+      },
+      {
+        "question_text": "Find the exact magnitude of $\\underset{\\sim}{a}=2\\underset{\\sim}{i}-6\\underset{\\sim}{j}$.",
+        "structure": "magnitude-from-components",
+        "solution_text": "$|\\underset{\\sim}{a}|=\\sqrt{2^{2}+(-6)^{2}}$\n$=\\sqrt{4+36}$\n$=\\sqrt{40}$\n$=2\\sqrt{10}$"
+      },
+      {
+        "question_text": "Find the exact magnitude of $\\underset{\\sim}{b}=-3\\underset{\\sim}{i}-3\\underset{\\sim}{j}$.",
+        "structure": "magnitude-from-components",
+        "solution_text": "$|\\underset{\\sim}{b}|=\\sqrt{(-3)^{2}+(-3)^{2}}$\n$=\\sqrt{9+9}$\n$=\\sqrt{18}$\n$=3\\sqrt{2}$"
+      },
+      {
+        "question_text": "Find the magnitude of $\\underset{\\sim}{a}=\\begin{pmatrix}2\\\\3\\\\6\\end{pmatrix}$.",
+        "structure": "magnitude-3d",
+        "solution_text": "$|\\underset{\\sim}{a}|=\\sqrt{2^{2}+3^{2}+6^{2}}$\n$=\\sqrt{4+9+36}$\n$=\\sqrt{49}$\n$=7$"
+      },
+      {
+        "question_text": "Find the magnitude of $\\underset{\\sim}{c}=\\underset{\\sim}{i}-4\\underset{\\sim}{j}+8\\underset{\\sim}{k}$.",
+        "structure": "magnitude-3d",
+        "solution_text": "$|\\underset{\\sim}{c}|=\\sqrt{1^{2}+(-4)^{2}+8^{2}}$\n$=\\sqrt{1+16+64}$\n$=\\sqrt{81}$\n$=9$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a}=3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$, find $|3\\underset{\\sim}{a}|$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$3\\underset{\\sim}{a}=9\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$|3\\underset{\\sim}{a}|=\\sqrt{9^{2}+12^{2}}$\n$=\\sqrt{81+144}$\n$=\\sqrt{225}$\n$=15$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{b}=8\\underset{\\sim}{i}-15\\underset{\\sim}{j}$, find $|-2\\underset{\\sim}{b}|$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$-2\\underset{\\sim}{b}=-16\\underset{\\sim}{i}+30\\underset{\\sim}{j}$\n$|-2\\underset{\\sim}{b}|=\\sqrt{(-16)^{2}+30^{2}}$\n$=\\sqrt{256+900}$\n$=\\sqrt{1156}$\n$=34$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the magnitude of $\\underset{\\sim}{a}=\\begin{pmatrix}\\sqrt{5}\\\\2\\end{pmatrix}$.",
+        "structure": "magnitude-from-components",
+        "solution_text": "$|\\underset{\\sim}{a}|=\\sqrt{(\\sqrt{5})^{2}+2^{2}}$\n$=\\sqrt{5+4}$\n$=\\sqrt{9}$\n$=3$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a}=\\begin{pmatrix}4\\\\1\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}-1\\\\5\\end{pmatrix}$, find the exact value of $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|$.",
+        "structure": "magnitude-of-sum-or-difference",
+        "solution_text": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\begin{pmatrix}4+(-1)\\\\1+5\\end{pmatrix}$\n$=\\begin{pmatrix}3\\\\6\\end{pmatrix}$\n$|\\underset{\\sim}{a}+\\underset{\\sim}{b}|=\\sqrt{3^{2}+6^{2}}$\n$=\\sqrt{9+36}$\n$=\\sqrt{45}$\n$=3\\sqrt{5}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\usetikzlibrary{arrows.meta}\n\\draw[->] (-1.4,0)--(5.4,0) node[right]{$x$};\n\\draw[->] (0,-0.8)--(0,7.2) node[above]{$y$};\n\\foreach \\i in {1,2,3,4,5} {\\draw (\\i,0.12)--(\\i,-0.12); \\node[below,font=\\scriptsize] at (\\i,0){$\\i$};}\n\\foreach \\i in {1,2,3,4,5,6} {\\draw (0.12,\\i)--(-0.12,\\i); \\node[left,font=\\scriptsize] at (0,\\i){$\\i$};}\n\\draw[-{Stealth}] (0,0)--(4,1) node[midway,below right]{$\\underset{\\sim}{a}$};\n\\draw[-{Stealth}] (4,1)--(3,6) node[midway,right]{$\\underset{\\sim}{b}$};\n\\draw[-{Stealth},thick,blue] (0,0)--(3,6) node[midway,above left]{$\\underset{\\sim}{a}+\\underset{\\sim}{b}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{p}=5\\underset{\\sim}{i}-2\\underset{\\sim}{j}$ and $\\underset{\\sim}{q}=-3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$, find $|\\underset{\\sim}{p}-\\underset{\\sim}{q}|$.",
+        "structure": "magnitude-of-sum-or-difference",
+        "solution_text": "$\\underset{\\sim}{p}-\\underset{\\sim}{q}=(5-(-3))\\underset{\\sim}{i}+(-2-4)\\underset{\\sim}{j}$\n$=8\\underset{\\sim}{i}-6\\underset{\\sim}{j}$\n$|\\underset{\\sim}{p}-\\underset{\\sim}{q}|=\\sqrt{8^{2}+(-6)^{2}}$\n$=\\sqrt{64+36}$\n$=\\sqrt{100}$\n$=10$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a}=\\begin{pmatrix}2\\\\-1\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}3\\\\4\\end{pmatrix}$, find the exact value of $|2\\underset{\\sim}{a}+\\underset{\\sim}{b}|$.",
+        "structure": "magnitude-of-sum-or-difference",
+        "solution_text": "$2\\underset{\\sim}{a}=\\begin{pmatrix}4\\\\-2\\end{pmatrix}$\n$2\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\begin{pmatrix}4+3\\\\-2+4\\end{pmatrix}$\n$=\\begin{pmatrix}7\\\\2\\end{pmatrix}$\n$|2\\underset{\\sim}{a}+\\underset{\\sim}{b}|=\\sqrt{7^{2}+2^{2}}$\n$=\\sqrt{49+4}$\n$=\\sqrt{53}$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{c}=\\begin{pmatrix}-12\\\\16\\end{pmatrix}$, find $\\left|\\frac{1}{4}\\underset{\\sim}{c}\\right|$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$\\frac{1}{4}\\underset{\\sim}{c}=\\begin{pmatrix}-3\\\\4\\end{pmatrix}$\n$\\left|\\frac{1}{4}\\underset{\\sim}{c}\\right|=\\sqrt{(-3)^{2}+4^{2}}$\n$=\\sqrt{9+16}$\n$=\\sqrt{25}$\n$=5$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{v}=t\\underset{\\sim}{i}+8\\underset{\\sim}{j}$ has magnitude $17$, where $t>0$. Find the value of $t$.",
+        "structure": "find-unknown-component-from-magnitude",
+        "solution_text": "$|\\underset{\\sim}{v}|=\\sqrt{t^{2}+8^{2}}=17$\n$t^{2}+64=289$\n$t^{2}=225$\n$t=15$ (since $t>0$)"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{w}=\\begin{pmatrix}-5\\\\m\\end{pmatrix}$ has magnitude $\\sqrt{41}$. Find both possible values of $m$.",
+        "structure": "find-unknown-component-from-magnitude",
+        "solution_text": "$|\\underset{\\sim}{w}|=\\sqrt{(-5)^{2}+m^{2}}=\\sqrt{41}$\n$25+m^{2}=41$\n$m^{2}=16$\n$m=4$ or $m=-4$"
+      },
+      {
+        "question_text": "Find the magnitude of $\\underset{\\sim}{d}=\\begin{pmatrix}4\\\\-4\\\\2\\end{pmatrix}$.",
+        "structure": "magnitude-3d",
+        "solution_text": "$|\\underset{\\sim}{d}|=\\sqrt{4^{2}+(-4)^{2}+2^{2}}$\n$=\\sqrt{16+16+4}$\n$=\\sqrt{36}$\n$=6$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A drone's displacement from its landing pad is $\\underset{\\sim}{d}=60\\underset{\\sim}{i}-11\\underset{\\sim}{j}$, measured in metres. How far is the drone from the landing pad?",
+        "structure": "magnitude-in-context",
+        "solution_text": "$|\\underset{\\sim}{d}|=\\sqrt{60^{2}+(-11)^{2}}$\n$=\\sqrt{3600+121}$\n$=\\sqrt{3721}$\n$=61$\nThe drone is $61$ m from the landing pad."
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{a}=\\begin{pmatrix}n\\\\n+7\\end{pmatrix}$ has magnitude $13$. Find both possible values of $n$.",
+        "structure": "find-unknown-component-from-magnitude",
+        "solution_text": "$n^{2}+(n+7)^{2}=13^{2}$\n$n^{2}+n^{2}+14n+49=169$\n$2n^{2}+14n-120=0$\n$n^{2}+7n-60=0$\n$(n+12)(n-5)=0$\n$n=-12$ or $n=5$"
+      },
+      {
+        "question_text": "Let $\\underset{\\sim}{a}=\\begin{pmatrix}9\\\\-2\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}-1\\\\6\\end{pmatrix}$. Show that $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|<|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$.",
+        "structure": "magnitude-of-sum-or-difference",
+        "solution_text": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\begin{pmatrix}8\\\\4\\end{pmatrix}$\n$|\\underset{\\sim}{a}+\\underset{\\sim}{b}|=\\sqrt{8^{2}+4^{2}}=\\sqrt{80}=4\\sqrt{5}\\approx 8.944$\n$|\\underset{\\sim}{a}|=\\sqrt{9^{2}+(-2)^{2}}=\\sqrt{85}\\approx 9.220$\n$|\\underset{\\sim}{b}|=\\sqrt{(-1)^{2}+6^{2}}=\\sqrt{37}\\approx 6.083$\n$|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|\\approx 15.303$\nSince $8.944<15.303$, $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|<|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$."
+      }
+    ]
+  }
+}

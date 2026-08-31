@@ -2,22 +2,22 @@
   "skillId": "identify-trees-spanning-trees",
   "atomType": "R",
   "theory": {
-    "intro": "A **tree** is a connected network (graph) that contains no cycles, no loops, and no multiple edges. This means there is **exactly one simple path** connecting any two vertices in the network. A fundamental property of every tree with $n$ vertices is that it contains exactly $n - 1$ edges. A **spanning tree** of a connected graph is a subgraph that includes every vertex of the original graph and forms a tree, using the minimum possible number of edges ($n - 1$). Any connected graph can have multiple different spanning trees, which are formed by systematically removing edges from cycles until no closed loops remain while keeping all vertices connected.",
-    "facts": [
-      "A **tree** is a connected graph with no loops, no multiple edges, and no cycles.",
-      "In a tree, there is **exactly one path** between any two vertices.",
-      "A tree with $n$ vertices always has **exactly $n - 1$ edges**.",
-      "A graph with $n$ vertices and $n - 1$ edges is **not necessarily a tree** — it must also be connected (a disconnected graph with $n-1$ edges contains cycles and isolated components).",
-      "A **spanning tree** connects all $n$ vertices of a graph using exactly $n - 1$ edges.",
-      "To form a spanning tree from a connected graph with $V$ vertices and $E$ edges, exactly $E - (V - 1)$ edges must be removed.",
-      "A graph can have many different valid spanning trees depending on which cycle edges are removed."
-    ],
-    "steps": [
-      "Count the total number of vertices $n$ and calculate the required edges $n - 1$",
-      "Identify and remove loops, multiple edges, and cycle edges without disconnecting any vertices",
-      "Verify that all $n$ vertices remain connected with exactly $n - 1$ edges and no cycles"
-    ]
-  },
+        "intro": "A **tree** is a connected network with no loops, multiple edges, or cycles. A **spanning tree** connects all $n$ vertices of a graph using $n - 1$ edges.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (1.8,3.0);\n\\coordinate (C) at (4.2,3.0);\n\\coordinate (D) at (6.0,1.5);\n\\coordinate (E) at (4.2,0);\n\\coordinate (F) at (1.8,0);\n\\draw[line width=1.6pt] (A) -- (B);\n\\draw[line width=1.6pt] (B) -- (C);\n\\draw[line width=1.6pt] (C) -- (D);\n\\draw[line width=1.6pt] (D) -- (E);\n\\draw (E) -- (F);\n\\draw[line width=1.6pt] (F) -- (A);\n\\draw (B) -- (F);\n\\draw (C) -- (E);\n\\draw (B) -- (E);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "A **tree** is a connected graph with no loops, multiple edges, or cycles.",
+          "In a tree, there is **exactly one path** between any two vertices.",
+          "A tree with $n$ vertices always has **exactly $n - 1$ edges**.",
+          "A graph with $n$ vertices and $n - 1$ edges is only a tree if it is connected.",
+          "A **spanning tree** is a subgraph that connects all $n$ vertices using $n - 1$ edges.",
+          "To form a spanning tree from $V$ vertices and $E$ edges, remove $E - (V - 1)$ edges.",
+          "A connected graph can have multiple different spanning trees."
+        ],
+        "steps": [
+          "Count the total number of vertices $n$ and calculate the required edges $n - 1$",
+          "Identify and remove loops, multiple edges, and cycle edges without disconnecting any vertices",
+          "Verify that all $n$ vertices remain connected with exactly $n - 1$ edges and no cycles"
+        ]
+      },
   "practice": {
     "foundation": [
       {

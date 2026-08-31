@@ -1,0 +1,172 @@
+{
+  "skillId": "integrate-reciprocal",
+  "atomType": "R",
+  "theory": {
+    "intro": "The power rule fails at $n=-1$, so $\\dfrac{1}{x}$ has its own primitive: $\\int\\dfrac{1}{x}\\,dx = \\ln|x| + C$. For a linear denominator, $\\int\\dfrac{1}{ax+b}\\,dx = \\dfrac{1}{a}\\ln|ax+b| + C$. The modulus lets the rule work for negative $x$ too.",
+    "facts": [
+      "$\\int\\dfrac{1}{x}\\,dx = \\ln|x| + C$ for $x \\ne 0$, because $\\dfrac{d}{dx}\\ln|x| = \\dfrac{1}{x}$.",
+      "The **modulus** is needed because $\\ln x$ exists only for $x>0$, while $\\dfrac{1}{x}$ has area under it for negative $x$ too.",
+      "A constant factor comes straight out: $\\int\\dfrac{k}{x}\\,dx = k\\ln|x| + C$.",
+      "For a linear denominator, divide by the coefficient of $x$: $\\int\\dfrac{1}{ax+b}\\,dx = \\dfrac{1}{a}\\ln|ax+b| + C$.",
+      "Forgetting the $\\dfrac{1}{a}$ is the usual slip, so differentiate your answer to check it.",
+      "A negative coefficient of $x$ gives a negative factor, as in $\\int\\dfrac{1}{3-x}\\,dx = -\\ln|3-x| + C$.",
+      "$\\int\\dfrac{1}{5x}\\,dx$ may be written $\\dfrac{1}{5}\\ln|x| + C$ or $\\dfrac{1}{5}\\ln|5x| + C$, since the two differ by a constant.",
+      "A definite integral is undefined when the limits enclose $x=0$ for $\\dfrac{1}{x}$, or $x=-\\dfrac{b}{a}$ for $\\dfrac{1}{ax+b}$.",
+      "Split a fraction such as $\\dfrac{x+3}{x}$ into $1 + \\dfrac{3}{x}$ first, because there is no quotient rule for integration."
+    ],
+    "steps": [
+      "Write the integrand as a constant over $x$, or as a constant over a linear expression $ax+b$.",
+      "Take the constant numerator outside the integral sign.",
+      "Write $\\ln$ of the modulus of the denominator, divided by the coefficient of $x$.",
+      "Add $+C$, or substitute the limits as $\\left[F(x)\\right]_{a}^{b}$ for a definite integral."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\int \\dfrac{9}{x}\\,dx$.",
+        "structure": "reciprocal-k-over-x",
+        "solution_text": "$\\int \\dfrac{9}{x}\\,dx$\n$= 9\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{1}{4x}\\,dx$.",
+        "structure": "reciprocal-k-over-x",
+        "solution_text": "$\\int \\dfrac{1}{4x}\\,dx$\n$= \\dfrac{1}{4}\\int \\dfrac{1}{x}\\,dx$\n$= \\dfrac{1}{4}\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{6}{7x}\\,dx$.",
+        "structure": "reciprocal-k-over-x",
+        "solution_text": "$\\int \\dfrac{6}{7x}\\,dx$\n$= \\dfrac{6}{7}\\int \\dfrac{1}{x}\\,dx$\n$= \\dfrac{6}{7}\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{1}{2x+9}\\,dx$.",
+        "structure": "reciprocal-linear-denominator",
+        "solution_text": "$\\int \\dfrac{1}{2x+9}\\,dx$\n$= \\dfrac{1}{2}\\ln|2x+9| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{8}{4x-3}\\,dx$.",
+        "structure": "reciprocal-linear-denominator",
+        "solution_text": "$\\int \\dfrac{8}{4x-3}\\,dx$\n$= \\dfrac{8}{4}\\ln|4x-3| + C$\n$= 2\\ln|4x-3| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{dx}{5-x}$.",
+        "structure": "reciprocal-linear-denominator",
+        "solution_text": "$\\int \\dfrac{1}{5-x}\\,dx$\n$= \\dfrac{1}{-1}\\ln|5-x| + C$\n$= -\\ln|5-x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{6}{2-3x}\\,dx$.",
+        "structure": "reciprocal-linear-denominator",
+        "solution_text": "$\\int \\dfrac{6}{2-3x}\\,dx$\n$= \\dfrac{6}{-3}\\ln|2-3x| + C$\n$= -2\\ln|2-3x| + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{7} \\dfrac{1}{x}\\,dx$, giving an exact answer.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{1}^{7} \\dfrac{1}{x}\\,dx$\n$= \\left[\\ln|x|\\right]_{1}^{7}$\n$= \\ln 7 - \\ln 1$\n$= \\ln 7$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{-6}^{-2} \\dfrac{1}{x}\\,dx$ as a single logarithm.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{-6}^{-2} \\dfrac{1}{x}\\,dx$\n$= \\left[\\ln|x|\\right]_{-6}^{-2}$\n$= \\ln 2 - \\ln 6$\n$= \\ln\\dfrac{1}{3}$\n$= -\\ln 3$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{e^{3}} \\dfrac{1}{x}\\,dx$.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{1}^{e^{3}} \\dfrac{1}{x}\\,dx$\n$= \\left[\\ln|x|\\right]_{1}^{e^{3}}$\n$= \\ln e^{3} - \\ln 1$\n$= 3 - 0$\n$= 3$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{4} \\dfrac{1}{x+1}\\,dx$, giving an exact answer.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{0}^{4} \\dfrac{1}{x+1}\\,dx$\n$= \\left[\\ln|x+1|\\right]_{0}^{4}$\n$= \\ln 5 - \\ln 1$\n$= \\ln 5$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{2}^{5} \\dfrac{3}{2x-1}\\,dx$ as a single logarithm.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{2}^{5} \\dfrac{3}{2x-1}\\,dx$\n$= \\left[\\dfrac{3}{2}\\ln|2x-1|\\right]_{2}^{5}$\n$= \\dfrac{3}{2}\\left(\\ln 9 - \\ln 3\\right)$\n$= \\dfrac{3}{2}\\ln 3$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int \\dfrac{x+4}{x}\\,dx$.",
+        "structure": "split-fraction-then-integrate",
+        "solution_text": "$\\int \\dfrac{x+4}{x}\\,dx$\n$= \\int \\left(1 + \\dfrac{4}{x}\\right)dx$\n$= x + 4\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{2x-7}{3x}\\,dx$.",
+        "structure": "split-fraction-then-integrate",
+        "solution_text": "$\\int \\dfrac{2x-7}{3x}\\,dx$\n$= \\int \\left(\\dfrac{2}{3} - \\dfrac{7}{3x}\\right)dx$\n$= \\dfrac{2}{3}x - \\dfrac{7}{3}\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{5x^{2}+x-3}{x}\\,dx$.",
+        "structure": "split-fraction-then-integrate",
+        "solution_text": "$\\int \\dfrac{5x^{2}+x-3}{x}\\,dx$\n$= \\int \\left(5x + 1 - \\dfrac{3}{x}\\right)dx$\n$= \\dfrac{5}{2}x^{2} + x - 3\\ln|x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{x^{3}-2x+6}{x^{2}}\\,dx$.",
+        "structure": "split-fraction-then-integrate",
+        "solution_text": "$\\int \\dfrac{x^{3}-2x+6}{x^{2}}\\,dx$\n$= \\int \\left(x - \\dfrac{2}{x} + 6x^{-2}\\right)dx$\n$= \\dfrac{x^{2}}{2} - 2\\ln|x| - \\dfrac{6}{x} + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{-9}^{-4} \\dfrac{dx}{x+1}$, correct to 4 significant figures.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{-9}^{-4} \\dfrac{1}{x+1}\\,dx$\n$= \\left[\\ln|x+1|\\right]_{-9}^{-4}$\n$= \\ln 3 - \\ln 8$\n$= -0.9808$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2} \\dfrac{5}{3x+4}\\,dx$, correct to 4 significant figures.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{0}^{2} \\dfrac{5}{3x+4}\\,dx$\n$= \\left[\\dfrac{5}{3}\\ln|3x+4|\\right]_{0}^{2}$\n$= \\dfrac{5}{3}\\left(\\ln 10 - \\ln 4\\right)$\n$= 1.527$"
+      },
+      {
+        "question_text": "Explain why $\\int_{-2}^{3} \\dfrac{1}{x}\\,dx$ cannot be evaluated.",
+        "structure": "undefined-limits",
+        "solution_text": "$\\dfrac{1}{x}$ is undefined at $x = 0$.\n$x = 0$ lies between the limits $-2$ and $3$.\nThe integral is undefined, so it has no value."
+      },
+      {
+        "question_text": "Given that $f'(x) = 2 + \\dfrac{6}{x}$ and $f(1) = 5$, find $f(x)$ and hence $f(e)$.",
+        "structure": "primitive-from-condition",
+        "solution_text": "$f'(x) = 2 + \\dfrac{6}{x}$\n$f(x) = 2x + 6\\ln|x| + C$\nUsing $f(1) = 5$: $2 + 0 + C = 5$, so $C = 3$.\n$f(x) = 2x + 6\\ln|x| + 3$\n$f(e) = 2e + 6 + 3$\n$= 2e + 9$"
+      },
+      {
+        "question_text": "Given that $f'(x) = 4 + \\dfrac{3}{2x+1}$ and $f(0) = 1$, find $f(x)$ and hence $f(4)$.",
+        "structure": "primitive-from-condition",
+        "solution_text": "$f'(x) = 4 + \\dfrac{3}{2x+1}$\n$f(x) = 4x + \\dfrac{3}{2}\\ln|2x+1| + C$\nUsing $f(0) = 1$: $0 + \\dfrac{3}{2}\\ln 1 + C = 1$, so $C = 1$.\n$f(x) = 4x + \\dfrac{3}{2}\\ln|2x+1| + 1$\n$f(4) = 16 + \\dfrac{3}{2}\\ln 9 + 1$\n$= 17 + 3\\ln 3$"
+      },
+      {
+        "question_text": "Find the exact value of $a$, where $a > 1$, if $\\int_{1}^{a} \\dfrac{1}{x}\\,dx = 4$.",
+        "structure": "solve-for-limit",
+        "solution_text": "$\\int_{1}^{a} \\dfrac{1}{x}\\,dx = 4$\n$\\left[\\ln|x|\\right]_{1}^{a} = 4$\n$\\ln a - 0 = 4$\n$a = e^{4}$"
+      },
+      {
+        "question_text": "Find the exact value of $a$, where $a > 2$, if $\\int_{2}^{a} \\dfrac{3}{x}\\,dx = 6$.",
+        "structure": "solve-for-limit",
+        "solution_text": "$\\int_{2}^{a} \\dfrac{3}{x}\\,dx = 6$\n$3\\left(\\ln a - \\ln 2\\right) = 6$\n$\\ln a - \\ln 2 = 2$\n$\\ln a = 2 + \\ln 2$\n$a = 2e^{2}$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{k}{3x-k}\\,dx$, where $k$ is a non-zero constant.",
+        "structure": "reciprocal-linear-denominator",
+        "solution_text": "$\\int \\dfrac{k}{3x-k}\\,dx$\n$= \\dfrac{k}{3}\\ln|3x-k| + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The derivative of $g(x)$ is $\\dfrac{4x^{3}+3x-5}{x^{2}}$ and $g(1) = 2$. Find $g(x)$.",
+        "structure": "split-fraction-then-integrate",
+        "solution_text": "$g'(x) = \\dfrac{4x^{3}+3x-5}{x^{2}}$\n$= 4x + \\dfrac{3}{x} - 5x^{-2}$\n$g(x) = 2x^{2} + 3\\ln|x| + \\dfrac{5}{x} + C$\nUsing $g(1) = 2$: $2 + 0 + 5 + C = 2$, so $C = -5$.\n$g(x) = 2x^{2} + 3\\ln|x| + \\dfrac{5}{x} - 5$"
+      },
+      {
+        "question_text": "Find the exact value of $a$, where $a < 0$, if $\\int_{a}^{-2} \\dfrac{1}{x}\\,dx = 3$.",
+        "structure": "solve-for-limit",
+        "solution_text": "$\\int_{a}^{-2} \\dfrac{1}{x}\\,dx = 3$\n$\\left[\\ln|x|\\right]_{a}^{-2} = 3$\n$\\ln 2 - \\ln|a| = 3$\n$\\ln|a| = \\ln 2 - 3$\n$|a| = 2e^{-3}$\n$a = -2e^{-3}$"
+      },
+      {
+        "question_text": "For which positive values of $b$ is $\\int_{-3}^{b} \\dfrac{1}{2x-5}\\,dx$ defined?",
+        "structure": "undefined-limits",
+        "solution_text": "$2x-5 = 0$ when $x = \\dfrac{5}{2}$.\nThe integral exists only when $x = \\dfrac{5}{2}$ is outside the interval from $-3$ to $b$.\n$0 < b < \\dfrac{5}{2}$"
+      },
+      {
+        "question_text": "The region bounded by $y = \\dfrac{1}{2x+1}$, the $x$-axis, $x = 1$ and $x = k$, where $k > 1$, has area $\\ln 2$. Find $k$.",
+        "structure": "definite-reciprocal",
+        "solution_text": "$\\int_{1}^{k} \\dfrac{1}{2x+1}\\,dx = \\ln 2$\n$\\left[\\dfrac{1}{2}\\ln|2x+1|\\right]_{1}^{k} = \\ln 2$\n$\\dfrac{1}{2}\\left(\\ln(2k+1) - \\ln 3\\right) = \\ln 2$\n$\\ln\\dfrac{2k+1}{3} = \\ln 4$\n$2k+1 = 12$\n$k = \\dfrac{11}{2}$"
+      }
+    ]
+  }
+}

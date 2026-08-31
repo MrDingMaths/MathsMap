@@ -54,6 +54,21 @@ export function fieldAccessor(doc, where) {
     if (!item) throw new Error(`no practice item at ${where}`);
     return { get: () => item[field], set: v => { item[field] = v; } };
   }
+  // Theory figures: theory.intro, theory.facts[2], theory.steps[1]. Checked
+  // before the quiz shape, which would otherwise read "theory.intro" as a
+  // question id + field and fail to resolve it.
+  const theoryMatch = where.match(/^theory\.(intro|facts|steps)(?:\[(\d+)\])?$/);
+  if (theoryMatch) {
+    const [, key, idx] = theoryMatch;
+    const theory = doc.theory;
+    if (!theory) throw new Error(`no theory object at ${where}`);
+    if (idx === undefined) return { get: () => theory[key], set: v => { theory[key] = v; } };
+    const arr = theory[key];
+    const i = Number(idx);
+    if (!Array.isArray(arr) || typeof arr[i] !== 'string') throw new Error(`no theory entry at ${where}`);
+    return { get: () => arr[i], set: v => { arr[i] = v; } };
+  }
+
   const quizMatch = where.match(/^(.+?)\.(\w+)$/);
   if (quizMatch) {
     const [, qid, field] = quizMatch;

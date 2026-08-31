@@ -2,16 +2,17 @@
   "skillId": "graph-trig-functions",
   "atomType": "T",
   "theory": {
-    "intro": "Plotting $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ against the angle $\\theta$ (in degrees) shows that the trigonometric functions are **periodic** — they repeat over and over. Sine and cosine trace smooth waves between $-1$ and $1$; tangent climbs to vertical asymptotes and repeats every $180^{\\circ}$.",
-    "facts": [
-      "$y=\\sin\\theta$ and $y=\\cos\\theta$ oscillate between $-1$ and $1$ (maximum $1$, minimum $-1$) and have period $360^{\\circ}$.",
-      "$y=\\sin\\theta$ passes through $(0,0)$, peaks at $90^{\\circ}$, returns to $0$ at $180^{\\circ}$, troughs at $270^{\\circ}$, and returns to $0$ at $360^{\\circ}$.",
-      "$y=\\cos\\theta$ starts at $(0,1)$, is $0$ at $90^{\\circ}$ and $270^{\\circ}$, troughs at $180^{\\circ}$; it is $y=\\sin\\theta$ shifted $90^{\\circ}$.",
-      "$y=\\tan\\theta$ has period $180^{\\circ}$, has no maximum or minimum, and has vertical asymptotes where $\\cos\\theta=0$ (at $90^{\\circ}$ and $270^{\\circ}$).",
-      "Symmetry: $\\sin\\theta$ is **odd**, so $\\sin(-\\theta)=-\\sin\\theta$; $\\cos\\theta$ is **even**, so $\\cos(-\\theta)=\\cos\\theta$.",
-      "$\\sin\\theta>0$ for $0^{\\circ}<\\theta<180^{\\circ}$ and $\\sin\\theta<0$ for $180^{\\circ}<\\theta<360^{\\circ}$; $\\cos\\theta>0$ for $0^{\\circ}<\\theta<90^{\\circ}$ and $270^{\\circ}<\\theta<360^{\\circ}$."
-    ]
-  },
+        "intro": "Plotting $\\sin\\theta$, $\\cos\\theta$ and $\\tan\\theta$ against $\\theta$ shows they are **periodic** — the graphs repeat. Sine and cosine are smooth waves between $-1$ and $1$; tangent has vertical asymptotes and repeats every $180^{\\circ}$.",
+        "facts": [
+          "$y=\\sin\\theta$ and $y=\\cos\\theta$ oscillate between $-1$ and $1$ and have period $360^{\\circ}$.",
+          "$y=\\sin\\theta$ starts at $(0,0)$, peaks at $90^{\\circ}$, is $0$ at $180^{\\circ}$, troughs at $270^{\\circ}$, and returns to $0$ at $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$\\theta$}, ylabel={$y$},\n  xmin=-25, xmax=405, xtick={90,180,270,360},\n  axis on top, xticklabel style={fill=white, inner sep=1.5pt},\n  xmajorgrids, ymajorgrids, grid style={gray!25},\n  samples=200, clip=true,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm,\n  ymin=-1.45, ymax=1.45, ytick={-1,-0.5,0.5,1}]\n\\addplot[smooth, thick, blue, domain=0:360] {sin(x)};\n\\node at (axis cs:290,1.1) {$y=\\sin\\theta$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$y=\\cos\\theta$ starts at $(0,1)$, is $0$ at $90^{\\circ}$ and $270^{\\circ}$, troughs at $180^{\\circ}$, and is $y=\\sin\\theta$ shifted $90^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$\\theta$}, ylabel={$y$},\n  xmin=-25, xmax=405, xtick={90,180,270,360},\n  axis on top, xticklabel style={fill=white, inner sep=1.5pt},\n  xmajorgrids, ymajorgrids, grid style={gray!25},\n  samples=200, clip=true,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm,\n  ymin=-1.45, ymax=1.45, ytick={-1,-0.5,0.5,1}]\n\\addplot[smooth, thick, blue, domain=0:360] {cos(x)};\n\\node at (axis cs:180,1.1) {$y=\\cos\\theta$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$y=\\tan\\theta$ has period $180^{\\circ}$, no maximum or minimum, and vertical asymptotes where $\\cos\\theta=0$, at $90^{\\circ}$ and $270^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$\\theta$}, ylabel={$y$},\n  xmin=-25, xmax=405, xtick={90,180,270,360},\n  axis on top, xticklabel style={fill=white, inner sep=1.5pt},\n  xmajorgrids, ymajorgrids, grid style={gray!25},\n  samples=200, clip=true,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm,\n  ymin=-3.6, ymax=3.6, ytick={-2,2}, restrict y to domain=-4:4]\n\\addplot[smooth, thick, blue, domain=0:89.4] {tan(x)};\n\\addplot[smooth, thick, blue, domain=90.6:269.4] {tan(x)};\n\\addplot[smooth, thick, blue, domain=270.6:360] {tan(x)};\n\\draw[dashed] (axis cs:90,-3.6) -- (axis cs:90,3.6);\n\\draw[dashed] (axis cs:270,-3.6) -- (axis cs:270,3.6);\n\\node at (axis cs:170,2.8) {$y=\\tan\\theta$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$\\sin\\theta$ is **odd**, so $\\sin(-\\theta)=-\\sin\\theta$; $\\cos\\theta$ is **even**, so $\\cos(-\\theta)=\\cos\\theta$.",
+          "$\\sin\\theta>0$ for $0^{\\circ}<\\theta<180^{\\circ}$ and $\\sin\\theta<0$ for $180^{\\circ}<\\theta<360^{\\circ}$.",
+          "$\\cos\\theta>0$ for $0^{\\circ}<\\theta<90^{\\circ}$ and for $270^{\\circ}<\\theta<360^{\\circ}$."
+        ]
+      },
   "practice": {
     "foundation": [
       {

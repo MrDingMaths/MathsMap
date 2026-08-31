@@ -1,0 +1,109 @@
+{
+  "skillId": "bernoulli-mean-variance",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$X \\sim \\text{Bernoulli}(0.15)$. Find $\\text{Var}(X)$.",
+      "structure": "mean-and-variance-from-p",
+      "mastery": false,
+      "options": [
+        { "text": "$0.1275$", "correct": true },
+        { "text": "$0.15$", "why": "Gave the mean $p$ instead of the variance $p(1-p)$." },
+        { "text": "$0.85$", "why": "Gave the probability of failure $1-p$ instead of the variance." },
+        { "text": "$0.0225$", "why": "Computed $p^2$ instead of $p(1-p)$." }
+      ],
+      "solution_text": "$\\text{Var}(X)=p(1-p)$\n$=0.15(0.85)$\n$=0.1275$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$X \\sim \\text{Bernoulli}(0.34)$. Find $\\sigma(X)$, correct to three decimal places.",
+      "structure": "standard-deviation-bernoulli",
+      "mastery": false,
+      "options": [
+        { "text": "$0.474$", "correct": true },
+        { "text": "$0.2244$", "why": "Stopped at the variance instead of taking its square root." },
+        { "text": "$0.583$", "why": "Took the square root of $p$ rather than of the variance." },
+        { "text": "$0.812$", "why": "Took the square root of $1-p$ rather than of the variance." }
+      ],
+      "solution_text": "$\\text{Var}(X)=0.34(0.66)$\n$=0.2244$\n$\\sigma(X)=\\sqrt{0.2244}$\n$=0.474$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A Bernoulli distribution is given below.\n$\\begin{array}{c|cc} x & 0 & 1 \\\\ \\hline P(X=x) & 0.28 & 0.72 \\end{array}$\nFind $\\text{Var}(X)$.",
+      "structure": "variance-from-table",
+      "mastery": false,
+      "options": [
+        { "text": "$0.2016$", "correct": true },
+        { "text": "$0.72$", "why": "Gave the mean $E(X)$ instead of the variance." },
+        { "text": "$0.28$", "why": "Gave the probability against $x=0$ instead of computing $p(1-p)$." },
+        { "text": "$0.5184$", "why": "Computed $p^2$, forgetting to subtract it from $E(X^2)=p$." }
+      ],
+      "solution_text": "$E(X)=0.72$\n$\\text{Var}(X)=0.72(0.28)$\n$=0.2016$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A Bernoulli random variable has $\\text{Var}(X)=0.09$ and $p<0.5$. Find $p$.",
+      "structure": "reverse-find-p",
+      "mastery": false,
+      "options": [
+        { "text": "$0.1$", "correct": true },
+        { "text": "$0.9$", "why": "Chose the root above $0.5$, ignoring the condition $p<0.5$." },
+        { "text": "$0.3$", "why": "Took the square root of the variance, which gives the standard deviation, not $p$." },
+        { "text": "$0.045$", "why": "Halved the variance instead of solving $p(1-p)=0.09$." }
+      ],
+      "solution_text": "$p(1-p)=0.09$\n$p^2-p+0.09=0$\n$p=\\frac{1 \\pm \\sqrt{1-0.36}}{2}$\n$=\\frac{1 \\pm 0.8}{2}$\n$p=0.9$ or $p=0.1$\nSince $p<0.5$, $p=0.1$"
+    },
+    {
+      "id": "q5",
+      "question_text": "For $X \\sim \\text{Bernoulli}(p)$, which statement gives the value of $p$ that makes the variance greatest, together with that greatest variance?",
+      "structure": "maximise-variance",
+      "mastery": false,
+      "options": [
+        { "text": "$p=0.5$ and $\\text{Var}(X)=0.25$", "correct": true },
+        { "text": "$p=0.5$ and $\\text{Var}(X)=0.5$", "why": "Used $p$ itself as the variance instead of evaluating $p(1-p)$." },
+        { "text": "$p=1$ and $\\text{Var}(X)=1$", "why": "Assumed the variance grows with $p$; at $p=1$ the result is certain and the variance is $0$." },
+        { "text": "$p=0$ and $\\text{Var}(X)=0$", "why": "Named a value of $p$ giving the smallest possible variance rather than the greatest." }
+      ],
+      "solution_text": "$\\text{Var}(X)=p-p^2$\n$=0.25-(p-0.5)^2$\nThis is greatest when $(p-0.5)^2=0$.\n$p=0.5$\n$\\text{Var}(X)=0.25$"
+    },
+    {
+      "id": "q6",
+      "question_text": "In a batch, $22\\%$ of chips are faulty. One chip is chosen at random and $X=1$ if the chip is faulty. Find $E(X)$ and $\\text{Var}(X)$.",
+      "structure": "mean-and-variance-from-p",
+      "mastery": false,
+      "options": [
+        { "text": "$E(X)=0.22$ and $\\text{Var}(X)=0.1716$", "correct": true },
+        { "text": "$E(X)=0.78$ and $\\text{Var}(X)=0.1716$", "why": "Treated a working chip as the success, so used $1-p$ as the mean." },
+        { "text": "$E(X)=0.22$ and $\\text{Var}(X)=0.0484$", "why": "Computed $p^2$ instead of $p(1-p)$ for the variance." },
+        { "text": "$E(X)=0.78$ and $\\text{Var}(X)=0.0484$", "why": "Used $1-p$ as the mean and also computed the variance as $p^2$." }
+      ],
+      "solution_text": "$p=0.22$\n$E(X)=0.22$\n$\\text{Var}(X)=0.22(0.78)$\n$=0.1716$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A Bernoulli random variable satisfies $\\text{Var}(X)=0.35E(X)$, where $p \\ne 0$. Find $p$.",
+      "structure": "reverse-find-p",
+      "mastery": true,
+      "options": [
+        { "text": "$0.65$", "correct": true },
+        { "text": "$0.35$", "why": "Read the constant $0.35$ as $p$ rather than as $1-p$." },
+        { "text": "$0.2275$", "why": "Multiplied $0.35$ by $0.65$, giving a variance rather than the value of $p$." },
+        { "text": "$0.5$", "why": "Assumed the condition forces the maximum-variance case $p=0.5$." }
+      ],
+      "solution_text": "$p(1-p)=0.35p$\n$1-p=0.35$\n$p=0.65$"
+    },
+    {
+      "id": "q8",
+      "question_text": "For a Bernoulli random variable, $E(X)+\\text{Var}(X)=0.84$. Find $p$.",
+      "structure": "reverse-find-p",
+      "mastery": true,
+      "options": [
+        { "text": "$0.6$", "correct": true },
+        { "text": "$1.4$", "why": "Kept the root greater than $1$, which cannot be a probability." },
+        { "text": "$0.42$", "why": "Halved $0.84$ instead of solving the quadratic." },
+        { "text": "$0.24$", "why": "Gave the variance rather than the value of $p$." }
+      ],
+      "solution_text": "$p+p(1-p)=0.84$\n$2p-p^2=0.84$\n$p^2-2p+0.84=0$\n$p=\\frac{2 \\pm \\sqrt{4-3.36}}{2}$\n$=\\frac{2 \\pm 0.8}{2}$\n$p=1.4$ or $p=0.6$\nA probability cannot exceed $1$, so $p=0.6$"
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "skillId": "maximum-flow-minimum-cut",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Four valid cuts on a network have capacities $54, 48, 62, 51$. What is the maximum flow of the network?",
+      "structure": "find-minimum-cut-value",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$48$",
+          "correct": true
+        },
+        {
+          "text": "$54$",
+          "why": "Selected the first cut capacity instead of the minimum cut capacity."
+        },
+        {
+          "text": "$62$",
+          "why": "Selected the maximum cut capacity instead of the minimum cut capacity."
+        },
+        {
+          "text": "$51$",
+          "why": "Selected the median cut capacity instead of the minimum cut capacity."
+        }
+      ],
+      "solution_text": "$\\text{Maximum flow} = \\min(54, 48, 62, 51)$\n$= 48$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A network has a maximum flow of $65\\text{ L/min}$. A proposed cut $C$ has capacity $78\\text{ L/min}$. Is cut $C$ a minimum cut?",
+      "structure": "verify-cut-is-minimal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No, because its capacity ($78$) is greater than the maximum flow ($65$).",
+          "correct": true
+        },
+        {
+          "text": "Yes, because $78$ is the largest capacity in the network.",
+          "why": "Mistakenly believed the minimum cut corresponds to the largest capacity value."
+        },
+        {
+          "text": "Yes, because any valid cut equals the maximum flow.",
+          "why": "Confused the minimum cut with general valid cuts of larger capacity."
+        },
+        {
+          "text": "Yes, because $C$ is the only cut named, so it must be the minimum one.",
+          "why": "Treated the single cut given in the question as automatically minimal, instead of testing its capacity against the maximum flow of $65$."
+        }
+      ],
+      "solution_text": "By the maximum-flow minimum-cut theorem, the minimum cut capacity must equal $65$. Since $78 > 65$, it is not minimal."
+    },
+    {
+      "id": "q3",
+      "question_text": "According to the maximum-flow minimum-cut theorem, what does the capacity of the minimum cut represent?",
+      "structure": "apply-max-flow-min-cut-theorem",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The maximum possible flow from source to sink.",
+          "correct": true
+        },
+        {
+          "text": "The average flow along all source-to-sink paths.",
+          "why": "Confused the bottleneck capacity with an average of path flows."
+        },
+        {
+          "text": "The sum of all edge capacities in the network.",
+          "why": "Confused the minimum cut capacity with the total network weight."
+        },
+        {
+          "text": "The minimum capacity of a single individual edge.",
+          "why": "Confused the minimum cut with the smallest individual edge weight."
+        }
+      ],
+      "solution_text": "The capacity of the minimum cut equals the maximum possible flow through the network."
+    },
+    {
+      "id": "q4",
+      "question_text": "A network has three candidate cuts: Cut 1 ($\\{SA, SB\\}$, capacity $85$), Cut 2 ($\\{AC, BC, BD\\}$, capacity $74$), and Cut 3 ($\\{CT, DT\\}$, capacity $80$). Which set of edges forms the minimum cut?",
+      "structure": "identify-minimum-cut-edges",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\{AC, BC, BD\\}$ with capacity $74$",
+          "correct": true
+        },
+        {
+          "text": "$\\{SA, SB\\}$ with capacity $85$",
+          "why": "Selected the source cut instead of identifying the minimum capacity cut ($74$)."
+        },
+        {
+          "text": "$\\{CT, DT\\}$ with capacity $80$",
+          "why": "Selected the sink cut instead of identifying the minimum capacity cut ($74$)."
+        },
+        {
+          "text": "$\\{SA, CT\\}$ with capacity $92$",
+          "why": "Combined non-cut edges rather than choosing the minimal valid cut."
+        }
+      ],
+      "solution_text": "Cut 2 has the smallest capacity ($74$), so edges $\\{AC, BC, BD\\}$ form the minimum cut."
+    },
+    {
+      "id": "q5",
+      "question_text": "The minimum cut of a network consists of three edges with capacities $24, x, 31$. If the maximum flow is $80$, what is the value of $x$?",
+      "structure": "find-unknown-edge-from-min-cut",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$25$",
+          "correct": true
+        },
+        {
+          "text": "$35$",
+          "why": "Arithmetic error: computed $80 - (24 + 31)$ incorrectly as $35$."
+        },
+        {
+          "text": "$15$",
+          "why": "Subtracted $31 - 24 = 7$ and subtracted from $80$ incorrectly."
+        },
+        {
+          "text": "$80$",
+          "why": "Equated $x$ directly to the maximum flow without subtracting the other edges."
+        }
+      ],
+      "solution_text": "$24 + x + 31 = 80$\n$55 + x = 80$\n$x = 80 - 55$\n$= 25$"
+    },
+    {
+      "id": "q6",
+      "question_text": "In a network, the edges leaving source $S$ have a total capacity of $90$, the edges entering sink $T$ have a total capacity of $82$, and an internal cut has a capacity of $76$. What is the maximum flow?",
+      "structure": "find-minimum-cut-value",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$76$",
+          "correct": true
+        },
+        {
+          "text": "$82$",
+          "why": "Assumed the sink inflow is always the minimum cut without checking internal cuts."
+        },
+        {
+          "text": "$90$",
+          "why": "Assumed the source outflow is always the maximum flow."
+        },
+        {
+          "text": "$172$",
+          "why": "Added source and sink capacities ($90 + 82$) instead of finding the minimum cut."
+        }
+      ],
+      "solution_text": "$\\text{Maximum flow} = \\min(90, 82, 76)$\n$= 76$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Which statement best describes the edges crossing the minimum cut from source to sink when maximum flow is achieved?",
+      "structure": "verify-cut-is-minimal",
+      "mastery": true,
+      "options": [
+        {
+          "text": "They are fully saturated with flow.",
+          "correct": true
+        },
+        {
+          "text": "They always have unused excess capacity.",
+          "why": "Mistakenly assumed bottleneck edges have spare capacity."
+        },
+        {
+          "text": "They carry zero flow because they are cut.",
+          "why": "Confused an imaginary mathematical cut with physical destruction of edges."
+        },
+        {
+          "text": "They only carry flow if all edges have equal capacities.",
+          "why": "Invented an unwarranted condition of equal edge capacities."
+        }
+      ],
+      "solution_text": "At maximum flow, all edges crossing the minimum cut from source to sink are fully saturated."
+    },
+    {
+      "id": "q8",
+      "question_text": "In a gas pipeline network, the minimum cut has a capacity of $450\\text{ m}^3/\\text{h}$. What is the maximum volume of gas that can be transported in $3\\text{ hours}$?",
+      "structure": "apply-max-flow-min-cut-theorem",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$1350\\text{ m}^3$",
+          "correct": true
+        },
+        {
+          "text": "$450\\text{ m}^3$",
+          "why": "Gave the hourly rate instead of multiplying by $3\\text{ hours}$."
+        },
+        {
+          "text": "$900\\text{ m}^3$",
+          "why": "Multiplied by $2\\text{ hours}$ instead of $3\\text{ hours}$."
+        },
+        {
+          "text": "$150\\text{ m}^3$",
+          "why": "Divided by $3$ instead of multiplying rate by time."
+        }
+      ],
+      "solution_text": "$\\text{Max rate} = 450\\text{ m}^3/\\text{h}$\n$\\text{Total volume} = 450 \\times 3$\n$= 1350\\text{ m}^3$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A network has four candidate cuts: $C_1 = 120, C_2 = 105, C_3 = 112, C_4 = 130$. What is the maximum flow?",
+      "structure": "find-minimum-cut-value",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$105$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Selected the first cut rather than the minimum cut."
+        },
+        {
+          "text": "$112$",
+          "why": "Selected the second-smallest cut rather than the absolute minimum."
+        },
+        {
+          "text": "$130$",
+          "why": "Selected the maximum cut capacity instead of the minimum cut capacity."
+        }
+      ],
+      "solution_text": "$\\text{Maximum flow} = \\min(120, 105, 112, 130)$\n$= 105$"
+    }
+  ]
+}

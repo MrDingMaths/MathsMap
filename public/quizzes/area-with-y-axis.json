@@ -1,0 +1,122 @@
+{
+  "skillId": "area-with-y-axis",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find the area of the shaded region bounded by $x=y^{2}+2$, the $y$-axis and the lines $y=0$ and $y=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.9cm]\n\\fill[gray!35, domain=0:2, variable=\\y] (0,0) -- plot ({\\y*\\y+2},{\\y}) -- (0,2) -- cycle;\n\\draw[->] (-1.7,0) -- (9.4,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.5:2.5, smooth, samples=100, variable=\\y] plot ({\\y*\\y+2},{\\y});\n\\draw[dashed] (0,2) -- (6,2);\n\\node[left] at (0,2) {$2$};\n\\node[below] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "y-axis-area-given-x-of-y",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{20}{3}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$12\\ \\text{units}^{2}$", "why": "Used $y^{3}$ as the primitive of $y^{2}$ instead of $\\dfrac{y^{3}}{3}$." },
+        { "text": "$\\dfrac{8}{3}\\ \\text{units}^{2}$", "why": "Integrated only the $y^{2}$ term and dropped the constant $2$." },
+        { "text": "$4\\ \\text{units}^{2}$", "why": "Integrated only the constant $2$ and dropped the $y^{2}$ term." }
+      ],
+      "solution_text": "$\\int_{0}^{2}\\left(y^{2}+2\\right)dy$\n$= \\left[\\dfrac{y^{3}}{3}+2y\\right]_{0}^{2}$\n$= \\left(\\dfrac{8}{3}+4\\right)-0$\n$= \\dfrac{20}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the area of the shaded region bounded by $x=-2y$, the $y$-axis and the lines $y=0$ and $y=3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.55cm, y=0.75cm]\n\\fill[gray!35, domain=0:3, variable=\\y] (0,0) -- plot ({-2*\\y},{\\y}) -- (0,3) -- cycle;\n\\draw[->] (-9.4,0) -- (9.4,0) node[right] {$x$};\n\\draw[->] (0,-4.6) -- (0,4.6) node[above] {$y$};\n\\draw[thick, <->, domain=-4:4, smooth, samples=100, variable=\\y] plot ({-2*\\y},{\\y});\n\\draw[dashed] (0,3) -- (-6,3);\n\\node[right] at (0,3) {$3$};\n\\node[below] at (-6,0) {$-6$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "y-axis-area-given-x-of-y",
+      "mastery": false,
+      "options": [
+        { "text": "$9\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$-9\\ \\text{units}^{2}$", "why": "Reported the signed integral rather than the positive area, even though the region lies left of the $y$-axis." },
+        { "text": "$18\\ \\text{units}^{2}$", "why": "Used $-2y^{2}$ as the primitive of $-2y$ instead of $-y^{2}$." },
+        { "text": "$-18\\ \\text{units}^{2}$", "why": "Used $-2y^{2}$ as the primitive and also reported the signed integral rather than the area." }
+      ],
+      "solution_text": "The curve lies to the left of the $y$-axis, so the integral is negative.\n$-\\int_{0}^{3}\\left(-2y\\right)dy$\n$= -\\left[-y^{2}\\right]_{0}^{3}$\n$= -\\left(-9\\right)$\n$= 9\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find the area of the shaded region bounded by $y=4x$, the $y$-axis and the lines $y=2$ and $y=8$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.5cm, y=0.42cm]\n\\fill[gray!35, domain=0.5:2, variable=\\x] (0,2) -- plot ({\\x},{4*\\x}) -- (0,8) -- cycle;\n\\draw[->] (-1.8,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-4.4) -- (0,11.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1:2.5, smooth, samples=100, variable=\\x] plot ({\\x},{4*\\x});\n\\draw[dashed] (0,8) -- (2,8);\n\\node[left] at (0,2) {$2$};\n\\node[left] at (0,8) {$8$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rearrange-then-integrate-y",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{15}{2}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$120\\ \\text{units}^{2}$", "why": "Rearranged $y=4x$ to $x=4y$ instead of $x=\\dfrac{y}{4}$." },
+        { "text": "$15\\ \\text{units}^{2}$", "why": "Integrated $\\dfrac{y}{4}$ to $\\dfrac{y^{2}}{4}$, forgetting to halve as well as divide by $4$." },
+        { "text": "$8\\ \\text{units}^{2}$", "why": "Substituted the upper limit $y=8$ but never subtracted the value at $y=2$." }
+      ],
+      "solution_text": "$y=4x$\n$x=\\dfrac{y}{4}$\n$\\int_{2}^{8}\\dfrac{y}{4}\\,dy$\n$= \\left[\\dfrac{y^{2}}{8}\\right]_{2}^{8}$\n$= 8-\\dfrac{1}{2}$\n$= \\dfrac{15}{2}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the area of the shaded region bounded by $y=x^{2}$ for $x\\ge 0$, the $y$-axis and the lines $x=0$ and $x=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.6cm, y=0.8cm]\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x}) -- (0,4) -- cycle;\n\\draw[->] (-1.2,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,6.4) node[above] {$y$};\n\\draw[thick, ->, domain=0:2.4, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[dashed] (0,4) -- (2,4);\n\\draw[dashed] (2,0) -- (2,4);\n\\node[below] at (2,0) {$2$};\n\\node[left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "convert-x-limits-to-y",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{16}{3}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$\\dfrac{8}{3}\\ \\text{units}^{2}$", "why": "Kept the $x$ limits and integrated $x^{2}$ with respect to $x$, finding the area against the $x$-axis instead." },
+        { "text": "$8\\ \\text{units}^{2}$", "why": "Used $y^{\\frac{3}{2}}$ as the primitive of $\\sqrt{y}$, omitting the factor $\\dfrac{2}{3}$." },
+        { "text": "$4\\ \\text{units}^{2}$", "why": "Rearranged $y=x^{2}$ to $x=\\dfrac{y}{2}$ instead of $x=\\sqrt{y}$." }
+      ],
+      "solution_text": "$x=\\sqrt{y}$ for $x\\ge 0$\nWhen $x=0$, $y=0$; when $x=2$, $y=4$.\n$\\int_{0}^{4} y^{\\frac{1}{2}}\\,dy$\n$= \\left[\\dfrac{2}{3}y^{\\frac{3}{2}}\\right]_{0}^{4}$\n$= \\dfrac{2}{3}\\left(8\\right)$\n$= \\dfrac{16}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Find the area of the shaded region bounded by $x=y-2$, the $y$-axis and the lines $y=0$ and $y=6$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.7cm, y=0.6cm]\n\\fill[gray!35, domain=0:2, variable=\\y] (0,0) -- plot ({\\y-2},{\\y}) -- (0,2) -- cycle;\n\\fill[gray!35, domain=2:6, variable=\\y] (0,2) -- plot ({\\y-2},{\\y}) -- (0,6) -- cycle;\n\\draw[->] (-4.1,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,8.2) node[above] {$y$};\n\\draw[thick, <->, domain=-1.5:7, smooth, samples=100, variable=\\y] plot ({\\y-2},{\\y});\n\\draw[dashed] (0,6) -- (4,6);\n\\node[right] at (0,2) {$2$};\n\\node[left] at (0,6) {$6$};\n\\node[below] at (-2,0) {$-2$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "y-axis-sign-change-split",
+      "mastery": false,
+      "options": [
+        { "text": "$10\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$6\\ \\text{units}^{2}$", "why": "Evaluated one integral straight across $y=2$, so the piece on the left cancelled part of the piece on the right." },
+        { "text": "$8\\ \\text{units}^{2}$", "why": "Counted only the piece to the right of the $y$-axis." },
+        { "text": "$2\\ \\text{units}^{2}$", "why": "Counted only the piece to the left of the $y$-axis." }
+      ],
+      "solution_text": "$y-2=0$, so $y=2$.\nLet $G(y)=\\dfrac{y^{2}}{2}-2y$, so $G(0)=0$, $G(2)=-2$ and $G(6)=6$.\n$\\int_{0}^{2} g(y)\\,dy = -2$\n$\\int_{2}^{6} g(y)\\,dy = 6+2 = 8$\n$\\text{Area} = 2+8$\n$= 10\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Find the area of the shaded region bounded by $x=y^{2}+1$, the $y$-axis and the lines $y=-1$ and $y=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.9cm]\n\\fill[gray!35, domain=-1:2, variable=\\y] (0,-1) -- plot ({\\y*\\y+1},{\\y}) -- (0,2) -- cycle;\n\\draw[->] (-1.7,0) -- (9.4,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.5:2.5, smooth, samples=100, variable=\\y] plot ({\\y*\\y+1},{\\y});\n\\draw[dashed] (0,2) -- (5,2);\n\\draw[dashed] (0,-1) -- (2,-1);\n\\node[left] at (0,2) {$2$};\n\\node[left] at (0,-1) {$-1$};\n\\node[below] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "y-axis-area-given-x-of-y",
+      "mastery": false,
+      "options": [
+        { "text": "$6\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$\\dfrac{14}{3}\\ \\text{units}^{2}$", "why": "Substituted the upper limit $y=2$ but never subtracted the value at $y=-1$." },
+        { "text": "$\\dfrac{10}{3}\\ \\text{units}^{2}$", "why": "Added the value at the lower limit instead of subtracting it, so the sign of $-\\dfrac{4}{3}$ was not reversed." },
+        { "text": "$12\\ \\text{units}^{2}$", "why": "Doubled $\\int_{0}^{2}$ by symmetry, wrongly treating $-1\\le y\\le 2$ as a symmetric interval." }
+      ],
+      "solution_text": "$\\int_{-1}^{2}\\left(y^{2}+1\\right)dy$\n$= \\left[\\dfrac{y^{3}}{3}+y\\right]_{-1}^{2}$\n$= \\left(\\dfrac{8}{3}+2\\right)-\\left(-\\dfrac{1}{3}-1\\right)$\n$= \\dfrac{14}{3}+\\dfrac{4}{3}$\n$= 6\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find the area of the shaded region bounded by $y=\\sqrt{x+4}$, the $y$-axis and the lines $y=2$ and $y=3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.75cm, y=1.05cm]\n\\fill[gray!35, domain=2:3, variable=\\y] (0,2) -- plot ({\\y*\\y-4},{\\y}) -- (0,3) -- cycle;\n\\draw[->] (-5.6,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick, ->, domain=0:3.2, smooth, samples=100, variable=\\y] plot ({\\y*\\y-4},{\\y});\n\\draw[dashed] (0,3) -- (5,3);\n\\node[left] at (0,2) {$2$};\n\\node[left] at (0,3) {$3$};\n\\node[below] at (-4,0) {$-4$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "rearrange-then-integrate-y",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{7}{3}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$\\dfrac{31}{3}\\ \\text{units}^{2}$", "why": "Rearranged to $x=y^{2}+4$ instead of $x=y^{2}-4$, adding $4$ rather than subtracting it." },
+        { "text": "$3\\ \\text{units}^{2}$", "why": "Substituted the upper limit $y=3$ but never subtracted the value at $y=2$." },
+        { "text": "$\\dfrac{38}{3}\\ \\text{units}^{2}$", "why": "Converted the limits to the $x$ values $0$ and $5$ and integrated $\\sqrt{x+4}$ with respect to $x$." }
+      ],
+      "solution_text": "$y=\\sqrt{x+4}$\n$y^{2}=x+4$\n$x=y^{2}-4$\n$\\int_{2}^{3}\\left(y^{2}-4\\right)dy$\n$= \\left[\\dfrac{y^{3}}{3}-4y\\right]_{2}^{3}$\n$= \\left(9-12\\right)-\\left(\\dfrac{8}{3}-8\\right)$\n$= -3+\\dfrac{16}{3}$\n$= \\dfrac{7}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Find the area of the shaded region bounded by $y=x^{3}-1$, the $y$-axis and the lines $x=0$ and $x=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.15cm, y=0.25cm]\n\\fill[gray!35, domain=0:2, variable=\\x] (0,-1) -- plot ({\\x},{\\x*\\x*\\x-1}) -- (0,7) -- cycle;\n\\draw[->] (-3.1,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-11.6) -- (0,10.6) node[above] {$y$};\n\\draw[thick, <->, domain=-2.1:2.1, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x*\\x-1});\n\\draw[dashed] (0,7) -- (2,7);\n\\draw[dashed] (2,0) -- (2,7);\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,7) {$7$};\n\\node[left] at (0,-1) {$-1$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "convert-x-limits-to-y",
+      "mastery": true,
+      "options": [
+        { "text": "$12\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$2\\ \\text{units}^{2}$", "why": "Kept the $x$ limits and integrated $x^{3}-1$ with respect to $x$, finding the area against the $x$-axis instead." },
+        { "text": "$16\\ \\text{units}^{2}$", "why": "Used $\\left(y+1\\right)^{\\frac{4}{3}}$ as the primitive, omitting the factor $\\dfrac{3}{4}$." },
+        { "text": "$\\dfrac{45}{4}\\ \\text{units}^{2}$", "why": "Converted the upper limit to $y=7$ but left the lower limit as $0$ instead of $y=-1$." }
+      ],
+      "solution_text": "$y=x^{3}-1$\n$x=\\left(y+1\\right)^{\\frac{1}{3}}$\nWhen $x=0$, $y=-1$; when $x=2$, $y=7$.\n$\\int_{-1}^{7}\\left(y+1\\right)^{\\frac{1}{3}}dy$\n$= \\left[\\dfrac{3}{4}\\left(y+1\\right)^{\\frac{4}{3}}\\right]_{-1}^{7}$\n$= \\dfrac{3}{4}\\left(16-0\\right)$\n$= 12\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Find the area of the shaded region bounded by $x=y^{2}-9$, the $y$-axis and the lines $y=0$ and $y=4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.36cm, y=0.62cm]\n\\fill[gray!35, domain=0:3, variable=\\y] (0,0) -- plot ({\\y*\\y-9},{\\y}) -- (0,3) -- cycle;\n\\fill[gray!35, domain=3:4, variable=\\y] (0,3) -- plot ({\\y*\\y-9},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-11.4,0) -- (13.4,0) node[right] {$x$};\n\\draw[->] (0,-5.4) -- (0,6.4) node[above] {$y$};\n\\draw[thick, <->, domain=-4.5:4.5, smooth, samples=100, variable=\\y] plot ({\\y*\\y-9},{\\y});\n\\draw[dashed] (0,4) -- (7,4);\n\\node[right] at (0,3) {$3$};\n\\node[left] at (0,4) {$4$};\n\\node[below] at (-9,0) {$-9$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "y-axis-sign-change-split",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{64}{3}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$\\dfrac{44}{3}\\ \\text{units}^{2}$", "why": "Evaluated one integral straight across $y=3$ and took its magnitude." },
+        { "text": "$18\\ \\text{units}^{2}$", "why": "Counted only the piece to the left of the $y$-axis." },
+        { "text": "$\\dfrac{10}{3}\\ \\text{units}^{2}$", "why": "Counted only the piece to the right of the $y$-axis." }
+      ],
+      "solution_text": "$y^{2}-9=0$, so $y=3$ inside $0\\le y\\le 4$.\nLet $G(y)=\\dfrac{y^{3}}{3}-9y$, so $G(0)=0$, $G(3)=-18$ and $G(4)=-\\dfrac{44}{3}$.\n$\\int_{0}^{3} g(y)\\,dy = -18$\n$\\int_{3}^{4} g(y)\\,dy = -\\dfrac{44}{3}+18 = \\dfrac{10}{3}$\n$\\text{Area} = 18+\\dfrac{10}{3}$\n$= \\dfrac{64}{3}\\ \\text{units}^{2}$"
+    }
+  ]
+}

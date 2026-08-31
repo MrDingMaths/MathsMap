@@ -1,0 +1,104 @@
+{
+  "skillId": "vectors-in-geometric-figures",
+  "atomType": "R",
+  "theory": {
+    "intro": "A figure lets you travel from one point to another along vectors you already know. Add the steps tip to tail, and reverse a vector whenever you travel against its arrow.",
+    "facts": [
+      "**Triangle law**: $\\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}$, so a journey through $B$ collapses to the direct step.",
+      "**Negative vector law**: $\\overrightarrow{AB}=-\\overrightarrow{BA}$, so travelling backwards along an arrow changes its sign.",
+      "**Parallelogram law of subtraction**: $\\overrightarrow{AB}-\\overrightarrow{AD}=\\overrightarrow{DB}$, the journey from $D$ back to $A$ and on to $B$.",
+      "If $M$ is the midpoint of $AB$ then $\\overrightarrow{AM}=\\frac{1}{2}\\overrightarrow{AB}$.",
+      "If $P$ lies on $AB$ with $AP:PB=m:n$ then $\\overrightarrow{AP}=\\frac{m}{m+n}\\overrightarrow{AB}$.",
+      "Opposite sides of a parallelogram give equal vectors, so $\\overrightarrow{AD}=\\overrightarrow{BC}$ in parallelogram $ABCD$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (4.2,2.1);\n\\coordinate (D) at (1.2,2.1);\n\\draw[->,thick] (A) -- (B);\n\\draw[->,thick] (D) -- (C);\n\\draw[->,thick] (A) -- (D);\n\\draw[->,thick] (B) -- (C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "A result is proved by writing both sides in terms of the same given vectors and showing they agree."
+    ],
+    "steps": [
+      "Choose a route through the figure from the start point to the end point",
+      "Write each step in terms of the given vectors",
+      "Add the steps and simplify"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "$ABCD$ is a parallelogram with $\\overrightarrow{AB}=\\underset{\\sim}{u}$ and $\\overrightarrow{AD}=\\underset{\\sim}{v}$. Write $\\overrightarrow{AC}$ in terms of $\\underset{\\sim}{u}$ and $\\underset{\\sim}{v}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (4.4,2.2);\n\\coordinate (D) at (1.2,2.2);\n\\draw[->,thick] (A) -- (B) node[midway,below] {$\\underset{\\sim}{u}$};\n\\draw[->,thick] (A) -- (D) node[midway,left] {$\\underset{\\sim}{v}$};\n\\draw (B) -- (C);\n\\draw (D) -- (C);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[above left] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-diagonal-parallelogram",
+        "solution_text": "$\\overrightarrow{BC}=\\overrightarrow{AD}=\\underset{\\sim}{v}$\n$\\overrightarrow{AC}$\n$=\\overrightarrow{AB}+\\overrightarrow{BC}$\n$=\\underset{\\sim}{u}+\\underset{\\sim}{v}$"
+      },
+      {
+        "question_text": "In the diagram $\\overrightarrow{OA}=\\underset{\\sim}{a}$, $\\overrightarrow{OB}=\\underset{\\sim}{b}$ and $M$ is the midpoint of $AB$. Write $\\overrightarrow{AM}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.4,0.2);\n\\coordinate (B) at (1.0,2.8);\n\\coordinate (M) at ($(A)!0.5!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,left] {$\\underset{\\sim}{b}$};\n\\draw (A) -- (B);\n\\fill (M) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-via-midpoint",
+        "solution_text": "$\\overrightarrow{AB}$\n$=\\overrightarrow{AO}+\\overrightarrow{OB}$\n$=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{AM}=\\frac{1}{2}\\overrightarrow{AB}$\n$=\\frac{1}{2}\\left(\\underset{\\sim}{b}-\\underset{\\sim}{a}\\right)$"
+      },
+      {
+        "question_text": "In the quadrilateral $WXYZ$, $\\overrightarrow{WX}=\\underset{\\sim}{p}$, $\\overrightarrow{XY}=\\underset{\\sim}{q}$ and $\\overrightarrow{ZY}=\\underset{\\sim}{r}$. Write $\\overrightarrow{WZ}$ in terms of $\\underset{\\sim}{p}$, $\\underset{\\sim}{q}$ and $\\underset{\\sim}{r}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (W) at (0,0);\n\\coordinate (X) at (3.0,-0.6);\n\\coordinate (Y) at (4.4,1.8);\n\\coordinate (Z) at (1.2,2.6);\n\\draw[->,thick] (W) -- (X) node[midway,below] {$\\underset{\\sim}{p}$};\n\\draw[->,thick] (X) -- (Y) node[midway,right] {$\\underset{\\sim}{q}$};\n\\draw[->,thick] (Z) -- (Y) node[midway,above right] {$\\underset{\\sim}{r}$};\n\\draw (W) -- (Z);\n\\node[left] at (W) {$W$};\n\\node[below] at (X) {$X$};\n\\node[right] at (Y) {$Y$};\n\\node[above left] at (Z) {$Z$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "chain-triangle-law",
+        "solution_text": "$\\overrightarrow{YZ}=-\\overrightarrow{ZY}=-\\underset{\\sim}{r}$\n$\\overrightarrow{WZ}$\n$=\\overrightarrow{WX}+\\overrightarrow{XY}+\\overrightarrow{YZ}$\n$=\\underset{\\sim}{p}+\\underset{\\sim}{q}-\\underset{\\sim}{r}$"
+      },
+      {
+        "question_text": "$EFGH$ is a parallelogram with $\\overrightarrow{EF}=\\underset{\\sim}{m}$ and $\\overrightarrow{FG}=\\underset{\\sim}{n}$. Write $\\overrightarrow{HF}$ in terms of $\\underset{\\sim}{m}$ and $\\underset{\\sim}{n}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (E) at (0,0);\n\\coordinate (F) at (3.2,0);\n\\coordinate (G) at (4.4,2.2);\n\\coordinate (H) at (1.2,2.2);\n\\draw[->,thick] (E) -- (F) node[midway,below] {$\\underset{\\sim}{m}$};\n\\draw[->,thick] (F) -- (G) node[midway,right] {$\\underset{\\sim}{n}$};\n\\draw (G) -- (H);\n\\draw (H) -- (E);\n\\node[below left] at (E) {$E$};\n\\node[below right] at (F) {$F$};\n\\node[above right] at (G) {$G$};\n\\node[above left] at (H) {$H$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-diagonal-parallelogram",
+        "solution_text": "$\\overrightarrow{EH}=\\overrightarrow{FG}=\\underset{\\sim}{n}$\n$\\overrightarrow{HF}$\n$=\\overrightarrow{HE}+\\overrightarrow{EF}$\n$=-\\underset{\\sim}{n}+\\underset{\\sim}{m}$\n$=\\underset{\\sim}{m}-\\underset{\\sim}{n}$"
+      },
+      {
+        "question_text": "In the diagram $\\overrightarrow{OA}=\\underset{\\sim}{a}$ and $\\overrightarrow{OB}=\\underset{\\sim}{b}$. The point $P$ lies on $AB$ with $AP:PB=1:2$. Write $\\overrightarrow{AP}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.6,0.2);\n\\coordinate (B) at (0.9,2.9);\n\\coordinate (P) at ($(A)!0.3333!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,left] {$\\underset{\\sim}{b}$};\n\\draw (A) -- (B);\n\\fill (P) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (P) {$P$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-ratio-point",
+        "solution_text": "$\\overrightarrow{AB}$\n$=\\overrightarrow{AO}+\\overrightarrow{OB}$\n$=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{AP}=\\frac{1}{3}\\overrightarrow{AB}$\n$=\\frac{1}{3}\\left(\\underset{\\sim}{b}-\\underset{\\sim}{a}\\right)$"
+      },
+      {
+        "question_text": "$A$, $B$, $C$ and $D$ are the points shown. Prove that $\\overrightarrow{AB}-\\overrightarrow{CB}+\\overrightarrow{CD}=\\overrightarrow{AD}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\coordinate (A) at (0,0.4);\n\\coordinate (B) at (2.6,2.4);\n\\coordinate (C) at (4.4,0.8);\n\\coordinate (D) at (5.6,2.6);\n\\draw[->,thick] (A) -- (B);\n\\draw[->,thick] (C) -- (B);\n\\draw[->,thick] (C) -- (D);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "prove-vector-identity",
+        "solution_text": "$\\overrightarrow{AB}-\\overrightarrow{CB}+\\overrightarrow{CD}$\n$=\\overrightarrow{AB}+\\overrightarrow{BC}+\\overrightarrow{CD}$\n$=\\overrightarrow{AC}+\\overrightarrow{CD}$\n$=\\overrightarrow{AD}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "In the diagram $\\overrightarrow{OA}=\\underset{\\sim}{a}$, $\\overrightarrow{OB}=\\underset{\\sim}{b}$ and $M$ is the midpoint of $AB$. Write $\\overrightarrow{OM}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (1.0,2.9);\n\\coordinate (B) at (3.5,0.5);\n\\coordinate (M) at ($(A)!0.5!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,below] {$\\underset{\\sim}{b}$};\n\\draw (A) -- (B);\n\\fill (M) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[above] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-via-midpoint",
+        "solution_text": "$\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{OM}$\n$=\\overrightarrow{OA}+\\frac{1}{2}\\overrightarrow{AB}$\n$=\\underset{\\sim}{a}+\\frac{1}{2}\\left(\\underset{\\sim}{b}-\\underset{\\sim}{a}\\right)$\n$=\\frac{1}{2}\\underset{\\sim}{a}+\\frac{1}{2}\\underset{\\sim}{b}$"
+      },
+      {
+        "question_text": "In the diagram $\\overrightarrow{OA}=\\underset{\\sim}{x}$ and $\\overrightarrow{OB}=\\underset{\\sim}{y}$. The point $N$ lies on $AB$ with $AN:NB=1:3$. Write $\\overrightarrow{ON}$ in terms of $\\underset{\\sim}{x}$ and $\\underset{\\sim}{y}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.4,0.4);\n\\coordinate (B) at (0.8,2.8);\n\\coordinate (N) at ($(A)!0.25!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,below] {$\\underset{\\sim}{x}$};\n\\draw[->,thick] (O) -- (B) node[midway,left] {$\\underset{\\sim}{y}$};\n\\draw (A) -- (B);\n\\fill (N) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above right] at (N) {$N$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-ratio-point",
+        "solution_text": "$\\overrightarrow{AB}=\\underset{\\sim}{y}-\\underset{\\sim}{x}$\n$\\overrightarrow{ON}$\n$=\\overrightarrow{OA}+\\frac{1}{4}\\overrightarrow{AB}$\n$=\\underset{\\sim}{x}+\\frac{1}{4}\\left(\\underset{\\sim}{y}-\\underset{\\sim}{x}\\right)$\n$=\\frac{3}{4}\\underset{\\sim}{x}+\\frac{1}{4}\\underset{\\sim}{y}$"
+      },
+      {
+        "question_text": "$ABC$ is a triangle with $\\overrightarrow{AB}=3\\underset{\\sim}{a}+\\underset{\\sim}{b}$ and $\\overrightarrow{BC}=\\underset{\\sim}{a}-4\\underset{\\sim}{b}$. Write $\\overrightarrow{CA}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0.6);\n\\coordinate (C) at (1.4,2.8);\n\\draw[->,thick] (A) -- (B) node[midway,below] {$3\\underset{\\sim}{a}+\\underset{\\sim}{b}$};\n\\draw[->,thick] (B) -- (C) node[midway,above right] {$\\underset{\\sim}{a}-4\\underset{\\sim}{b}$};\n\\draw (A) -- (C);\n\\node[below left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "chain-triangle-law",
+        "solution_text": "$\\overrightarrow{AC}$\n$=\\overrightarrow{AB}+\\overrightarrow{BC}$\n$=\\left(3\\underset{\\sim}{a}+\\underset{\\sim}{b}\\right)+\\left(\\underset{\\sim}{a}-4\\underset{\\sim}{b}\\right)$\n$=4\\underset{\\sim}{a}-3\\underset{\\sim}{b}$\n$\\overrightarrow{CA}=-\\overrightarrow{AC}$\n$=-4\\underset{\\sim}{a}+3\\underset{\\sim}{b}$"
+      },
+      {
+        "question_text": "$P$, $R$ and $T$ are the points shown. Prove that $\\overrightarrow{PT}-\\overrightarrow{PR}-\\overrightarrow{TR}=2\\overrightarrow{RT}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\coordinate (P) at (0,0);\n\\coordinate (R) at (3.6,0.6);\n\\coordinate (T) at (1.6,2.8);\n\\draw[->,thick] (P) -- (T);\n\\draw[->,thick] (P) -- (R);\n\\draw[->,thick] (T) -- (R);\n\\node[below left] at (P) {$P$};\n\\node[right] at (R) {$R$};\n\\node[above] at (T) {$T$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "prove-vector-identity",
+        "solution_text": "$\\overrightarrow{PT}-\\overrightarrow{PR}=\\overrightarrow{RT}$\n$\\overrightarrow{PT}-\\overrightarrow{PR}-\\overrightarrow{TR}$\n$=\\overrightarrow{RT}-\\overrightarrow{TR}$\n$=\\overrightarrow{RT}+\\overrightarrow{RT}$\n$=2\\overrightarrow{RT}$"
+      },
+      {
+        "question_text": "In triangle $OAB$, $\\overrightarrow{OA}=2\\underset{\\sim}{a}$ and $\\overrightarrow{OB}=2\\underset{\\sim}{b}$. $M$ is the midpoint of $OA$ and $N$ is the midpoint of $OB$. Show that $MN$ is parallel to $AB$ and half its length.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.6,0.4);\n\\coordinate (B) at (1.0,3.0);\n\\coordinate (M) at ($(O)!0.5!(A)$);\n\\coordinate (N) at ($(O)!0.5!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,below] {$2\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,left] {$2\\underset{\\sim}{b}$};\n\\draw (A) -- (B);\n\\draw[dashed] (M) -- (N);\n\\fill (M) circle (2pt);\n\\fill (N) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above] at (M) {$M$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}[/tikz]",
+        "structure": "prove-midpoint-parallel",
+        "solution_text": "$\\overrightarrow{OM}=\\underset{\\sim}{a}$ and $\\overrightarrow{ON}=\\underset{\\sim}{b}$\n$\\overrightarrow{MN}$\n$=\\overrightarrow{ON}-\\overrightarrow{OM}$\n$=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{AB}$\n$=\\overrightarrow{OB}-\\overrightarrow{OA}$\n$=2\\underset{\\sim}{b}-2\\underset{\\sim}{a}$\n$=2\\left(\\underset{\\sim}{b}-\\underset{\\sim}{a}\\right)$\nSo $\\overrightarrow{AB}=2\\overrightarrow{MN}$, which means $MN$ is parallel to $AB$ and half its length."
+      },
+      {
+        "question_text": "In triangle $ABC$, $\\overrightarrow{AB}=\\underset{\\sim}{a}$ and $\\overrightarrow{AC}=2\\underset{\\sim}{b}$. The point $N$ lies on $BC$ with $BN:NC=3:1$. Write $\\overrightarrow{AN}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0.4);\n\\coordinate (C) at (1.2,3.0);\n\\coordinate (N) at ($(B)!0.75!(C)$);\n\\draw[->,thick] (A) -- (B) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (A) -- (C) node[midway,left] {$2\\underset{\\sim}{b}$};\n\\draw (B) -- (C);\n\\fill (N) circle (2pt);\n\\node[below left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-ratio-point",
+        "solution_text": "$\\overrightarrow{BC}$\n$=\\overrightarrow{AC}-\\overrightarrow{AB}$\n$=2\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{BN}=\\frac{3}{4}\\overrightarrow{BC}$\n$=\\frac{3}{2}\\underset{\\sim}{b}-\\frac{3}{4}\\underset{\\sim}{a}$\n$\\overrightarrow{AN}$\n$=\\overrightarrow{AB}+\\overrightarrow{BN}$\n$=\\underset{\\sim}{a}-\\frac{3}{4}\\underset{\\sim}{a}+\\frac{3}{2}\\underset{\\sim}{b}$\n$=\\frac{1}{4}\\underset{\\sim}{a}+\\frac{3}{2}\\underset{\\sim}{b}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$ABCD$ is a quadrilateral and $M$ is the midpoint of $BC$. Given $\\overrightarrow{CD}=\\underset{\\sim}{u}$, $\\overrightarrow{BA}=\\underset{\\sim}{v}$ and $\\overrightarrow{AD}=\\underset{\\sim}{w}$, write $\\overrightarrow{MA}$ in terms of $\\underset{\\sim}{u}$, $\\underset{\\sim}{v}$ and $\\underset{\\sim}{w}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0.4,0.6);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (4.6,2.4);\n\\coordinate (D) at (1.6,3.2);\n\\coordinate (M) at ($(B)!0.5!(C)$);\n\\draw[->,thick] (B) -- (A) node[midway,below] {$\\underset{\\sim}{v}$};\n\\draw[->,thick] (C) -- (D) node[midway,above] {$\\underset{\\sim}{u}$};\n\\draw[->,thick] (A) -- (D) node[midway,left] {$\\underset{\\sim}{w}$};\n\\draw (B) -- (C);\n\\fill (M) circle (2pt);\n\\node[left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[right] at (M) {$M$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "express-via-midpoint",
+        "solution_text": "$\\overrightarrow{AC}$\n$=\\overrightarrow{AD}+\\overrightarrow{DC}$\n$=\\underset{\\sim}{w}-\\underset{\\sim}{u}$\n$\\overrightarrow{BC}$\n$=\\overrightarrow{BA}+\\overrightarrow{AC}$\n$=\\underset{\\sim}{v}+\\underset{\\sim}{w}-\\underset{\\sim}{u}$\n$\\overrightarrow{BM}=\\frac{1}{2}\\left(\\underset{\\sim}{v}+\\underset{\\sim}{w}-\\underset{\\sim}{u}\\right)$\n$\\overrightarrow{MA}$\n$=\\overrightarrow{MB}+\\overrightarrow{BA}$\n$=-\\frac{1}{2}\\left(\\underset{\\sim}{v}+\\underset{\\sim}{w}-\\underset{\\sim}{u}\\right)+\\underset{\\sim}{v}$\n$=\\frac{1}{2}\\left(\\underset{\\sim}{u}+\\underset{\\sim}{v}-\\underset{\\sim}{w}\\right)$"
+      },
+      {
+        "question_text": "In triangle $OAB$, $\\overrightarrow{OA}=\\underset{\\sim}{a}$ and $\\overrightarrow{OB}=\\underset{\\sim}{b}$. $M$ is the midpoint of $OA$ and $N$ is the midpoint of $AB$. Show that $MN$ is parallel to $OB$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.6,0.6);\n\\coordinate (B) at (1.2,3.0);\n\\coordinate (M) at ($(O)!0.5!(A)$);\n\\coordinate (N) at ($(A)!0.5!(B)$);\n\\draw[->,thick] (O) -- (A) node[midway,below] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O) -- (B) node[midway,left] {$\\underset{\\sim}{b}$};\n\\draw (A) -- (B);\n\\draw[dashed] (M) -- (N);\n\\fill (M) circle (2pt);\n\\fill (N) circle (2pt);\n\\node[below left] at (O) {$O$};\n\\node[right] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[above] at (M) {$M$};\n\\node[right] at (N) {$N$};\n\\end{tikzpicture}[/tikz]",
+        "structure": "prove-midpoint-parallel",
+        "solution_text": "$\\overrightarrow{MA}=\\frac{1}{2}\\underset{\\sim}{a}$\n$\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$\\overrightarrow{AN}=\\frac{1}{2}\\left(\\underset{\\sim}{b}-\\underset{\\sim}{a}\\right)$\n$\\overrightarrow{MN}$\n$=\\overrightarrow{MA}+\\overrightarrow{AN}$\n$=\\frac{1}{2}\\underset{\\sim}{a}+\\frac{1}{2}\\underset{\\sim}{b}-\\frac{1}{2}\\underset{\\sim}{a}$\n$=\\frac{1}{2}\\underset{\\sim}{b}$\nSo $\\overrightarrow{MN}=\\frac{1}{2}\\overrightarrow{OB}$, a scalar multiple of $\\overrightarrow{OB}$, which means $MN$ is parallel to $OB$."
+      },
+      {
+        "question_text": "$A$, $B$, $C$, $D$ and $E$ are the points shown. Prove that $\\overrightarrow{AB}-\\overrightarrow{CB}-\\overrightarrow{DC}-\\overrightarrow{ED}=\\overrightarrow{AE}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\coordinate (A) at (0,0.4);\n\\coordinate (B) at (1.8,2.4);\n\\coordinate (C) at (3.4,0.6);\n\\coordinate (D) at (5.0,2.6);\n\\coordinate (E) at (6.0,0.6);\n\\draw[->,thick] (A) -- (B);\n\\draw[->,thick] (C) -- (B);\n\\draw[->,thick] (D) -- (C);\n\\draw[->,thick] (E) -- (D);\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\node[above] at (D) {$D$};\n\\node[right] at (E) {$E$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "prove-vector-identity",
+        "solution_text": "$\\overrightarrow{AB}-\\overrightarrow{CB}-\\overrightarrow{DC}-\\overrightarrow{ED}$\n$=\\overrightarrow{AB}+\\overrightarrow{BC}+\\overrightarrow{CD}+\\overrightarrow{DE}$\n$=\\overrightarrow{AC}+\\overrightarrow{CD}+\\overrightarrow{DE}$\n$=\\overrightarrow{AD}+\\overrightarrow{DE}$\n$=\\overrightarrow{AE}$"
+      }
+    ]
+  }
+}

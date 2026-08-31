@@ -2,20 +2,21 @@
   "skillId": "graph-function-transformations",
   "atomType": "R",
   "theory": {
-    "intro": "A **translation** slides a graph without turning or resizing it. Starting from $y=f(x)$, adding a number **outside** $f$ moves the curve vertically and changing the input **inside** $f$ moves it horizontally. The vertical rule reads the way you expect; the horizontal rule looks backwards, and learning to trust it is the whole skill.",
-    "facts": [
-      "$y=f(x)+c$ (with $c>0$) shifts the graph **up** $c$; $y=f(x)-c$ shifts it **down** $c$. Each point maps $(x,y)\\to(x,y\\pm c)$.",
-      "$y=f(x-b)$ (with $b>0$) shifts the graph **right** $b$; $y=f(x+b)$ shifts it **left** $b$. Each point maps $(x,y)\\to(x\\pm b,y)$.",
-      "The horizontal rule looks backwards: subtracting $b$ inside $f$ moves the curve **right**, because the input must be $b$ larger to reach the same output.",
-      "A vertical shift changes only the $y$-coordinates; a horizontal shift changes only the $x$-coordinates.",
-      "Combined, $y=f(x-b)+c$ shifts right $b$ and up $c$, so $(x,y)\\to(x+b,\\,y+c)$. Asymptotes and vertices move by the same translation."
-    ],
-    "steps": [
-      "Read the translation from the equation: $+c$ or $-c$ outside $f$ shifts vertically; $(x-b)$ or $(x+b)$ inside $f$ shifts horizontally.",
-      "Shift every key point — vertex, intercepts, asymptotes — by that same translation.",
-      "Draw the new curve through the shifted key points."
-    ]
-  },
+        "intro": "A **translation** slides a graph without turning or resizing it. Adding $c$ outside $f$ moves the curve up or down; changing the input inside $f$ moves it left or right. The horizontal rule looks backwards, and trusting it is the whole skill.",
+        "facts": [
+          "$y=f(x)+c$ with $c>0$ shifts the graph **up** $c$ units and $y=f(x)-c$ shifts it **down**, mapping $(x,y)\\to(x,y\\pm c)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,4.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.7:2.7,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-2.95:2.95,smooth,samples=61,variable=\\x] plot ({\\x},{3.2-0.5*\\x*\\x});\n\\draw[->] (-0.6,1.82) -- (-0.6,3.02) node[midway,left] {$c$};\n\\node[blue,right] at (-3.5,3.75) {$y=f(x)+c$};\n\\node[gray,right] at (-3.5,2.85) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "$y=f(x-b)$ with $b>0$ shifts the graph **right** $b$ units and $y=f(x+b)$ shifts it **left**, mapping $(x,y)\\to(x\\pm b,y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,<->,domain=-2.7:2.7,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*\\x*\\x});\n\\draw[thick,blue,<->,domain=-1.3:4.1,smooth,samples=61,variable=\\x] plot ({\\x},{2-0.5*(\\x-1.4)*(\\x-1.4)});\n\\draw[dotted] (0,2) -- (0,2.6);\n\\draw[dotted] (1.4,2) -- (1.4,2.6);\n\\draw[->] (0,2.45) -- (1.4,2.45) node[midway,above] {$b$};\n\\node[gray,right] at (-3.5,2.7) {$y=f(x)$};\n\\node[blue,right] at (2.9,2.7) {$y=f(x-b)$};\n\\end{tikzpicture}\n[/tikz]",
+          "Subtracting $b$ inside $f$ moves the curve right, because the input must be $b$ larger to reach the same output.",
+          "A vertical shift changes only the $y$-coordinates; a horizontal shift changes only the $x$-coordinates.",
+          "Combined, $y=f(x-b)+c$ shifts right $b$ and up $c$, so $(x,y)\\to(x+b,\\,y+c)$.",
+          "Asymptotes and vertices move by the same translation as every other point on the curve."
+        ],
+        "steps": [
+          "Read the translation from the equation: $+c$ or $-c$ outside $f$ shifts vertically; $(x-b)$ or $(x+b)$ inside $f$ shifts horizontally.",
+          "Shift every key point — vertex, intercepts, asymptotes — by that same translation.",
+          "Draw the new curve through the shifted key points."
+        ]
+      },
   "practice": {
     "foundation": [
       {

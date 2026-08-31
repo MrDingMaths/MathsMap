@@ -1,0 +1,230 @@
+{
+  "skillId": "gradient-secant-limit",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For $f(x)=x^2$, what is the gradient of the secant line passing through $P(4, 16)$ and $Q(4.2, 17.64)$, where $h=0.2$?",
+      "structure": "secant-gradient-calculation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8.2$",
+          "correct": true
+        },
+        {
+          "text": "$8.0$",
+          "why": "Calculated the exact tangent gradient instead of the secant line gradient for $h=0.2$."
+        },
+        {
+          "text": "$1.64$",
+          "why": "Computed the change in $y$ ($\\Delta y = 1.64$) without dividing by $h=0.2$."
+        },
+        {
+          "text": "$4.1$",
+          "why": "Divided the change in $y$ by $0.4$ instead of the horizontal step $h=0.2$."
+        }
+      ],
+      "solution_text": "$m_{\\text{secant}}=\\dfrac{f(4.2)-f(4)}{0.2}$\n$=\\dfrac{17.64-16}{0.2}$\n$=\\dfrac{1.64}{0.2}$\n$=8.2$"
+    },
+    {
+      "id": "q2",
+      "question_text": "For $f(x)=x^2$, find the gradient of the secant line joining $P(-2, 4)$ and $Q(-1.9, 3.61)$, where $h=0.1$.",
+      "structure": "secant-gradient-calculation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-3.9$",
+          "correct": true
+        },
+        {
+          "text": "$-4.0$",
+          "why": "Stated the exact limit value instead of evaluating the secant line gradient at $h=0.1$."
+        },
+        {
+          "text": "$-4.1$",
+          "why": "Subtracted $h$ from the gradient instead of adding $h$ to $-4$."
+        },
+        {
+          "text": "$3.9$",
+          "why": "Omitted the negative sign on the change in $y$."
+        }
+      ],
+      "solution_text": "$m_{\\text{secant}}=\\dfrac{f(-1.9)-f(-2)}{0.1}$\n$=\\dfrac{3.61-4}{0.1}$\n$=\\dfrac{-0.39}{0.1}$\n$=-3.9$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The table below shows secant gradients $\\dfrac{f(3+h)-f(3)}{h}$ for $f(x)=x^3$.\n\n$\\begin{array}{|c|c|c|c|c|}\\hline h & -0.001 & 0.001 & 0.01 & 0.1 \\\\\\hline m_{\\text{secant}} & 26.991 & 27.009 & 27.09 & 27.91 \\\\\\hline\\end{array}$\n\nWhat is the estimated gradient of the tangent to $f(x)=x^3$ at $x=3$?",
+      "structure": "secant-limit-table-approximation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$27$",
+          "correct": true
+        },
+        {
+          "text": "$27.009$",
+          "why": "Selected the secant gradient for $h=0.001$ rather than the limiting value as $h\\to 0$."
+        },
+        {
+          "text": "$9$",
+          "why": "Evaluated $3^2=9$ instead of multiplying by the power rule factor $3$."
+        },
+        {
+          "text": "$27.91$",
+          "why": "Selected the first value in the table at $h=0.1$ instead of taking the limit as $h\\to 0$."
+        }
+      ],
+      "solution_text": "As $h\\to 0$, $m_{\\text{secant}}\\to 27$.\n$=27$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The table below shows difference quotients for $f(x)=x^4$ at $x=-1$.\n\n$\\begin{array}{|c|c|c|c|}\\hline h & -0.001 & 0.001 & 0.01 \\\\\\hline m_{\\text{secant}} & -4.006 & -3.994 & -3.9404 \\\\\\hline\\end{array}$\n\nWhat is the estimated value of $f'(-1)$?",
+      "structure": "secant-limit-table-approximation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-4$",
+          "correct": true
+        },
+        {
+          "text": "$-3.9404$",
+          "why": "Read off the secant gradient at the largest step size $h=0.01$ instead of finding the limit as $h\\to 0$."
+        },
+        {
+          "text": "$-3.994$",
+          "why": "Read off the value at $h=0.001$ without inferring the integer limit."
+        },
+        {
+          "text": "$-1$",
+          "why": "Confused the $x$-coordinate with the gradient limit."
+        }
+      ],
+      "solution_text": "As $h\\to 0$, $m_{\\text{secant}}\\to -4$.\n$=-4$"
+    },
+    {
+      "id": "q5",
+      "question_text": "On a smooth curve $y=f(x)$, what happens geometrically to the secant line through $P(c, f(c))$ and $Q(c+h, f(c+h))$ as $h\\to 0$?",
+      "structure": "secant-geometric-interpretation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The secant line rotates to become the tangent line at $P$.",
+          "correct": true
+        },
+        {
+          "text": "The secant line becomes a horizontal line through $P$.",
+          "why": "Assumed the gradient approaches zero regardless of the curve's slope."
+        },
+        {
+          "text": "The secant line becomes perpendicular to the curve at $P$.",
+          "why": "Confused the tangent line with the normal line."
+        },
+        {
+          "text": "The secant line disappears because $h=0$ cannot exist.",
+          "why": "Confused an algebraic division by zero with the geometric limit of a rotating line."
+        }
+      ],
+      "solution_text": "As $h\\to 0$, $Q$ approaches $P$ along the curve.\nThe secant line rotates to become the tangent line at $P$."
+    },
+    {
+      "id": "q6",
+      "question_text": "For any function $f(x)$, what does the expression $\\dfrac{f(5+h)-f(5)}{h}$ represent when $h \\neq 0$?",
+      "structure": "secant-geometric-interpretation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The gradient of the secant line passing through $(5, f(5))$ and $(5+h, f(5+h))$.",
+          "correct": true
+        },
+        {
+          "text": "The exact gradient of the tangent line at $x=5$.",
+          "why": "The expression gives the exact tangent gradient only in the limit as $h\\to 0$, not for non-zero $h$."
+        },
+        {
+          "text": "The instantaneous rate of change of $f(x)$ at $x=5+h$.",
+          "why": "The difference quotient gives an average rate of change between two points, not the instantaneous rate at $5+h$."
+        },
+        {
+          "text": "The vertical distance between the two points on the curve.",
+          "why": "The expression is the ratio of vertical change to horizontal change, not vertical distance alone."
+        }
+      ],
+      "solution_text": "The difference quotient $\\dfrac{f(5+h)-f(5)}{h}$ represents the gradient of the secant line between $(5, f(5))$ and $(5+h, f(5+h))$."
+    },
+    {
+      "id": "q7",
+      "question_text": "For $f(x)=x^2$ at $x=6$, the difference quotient simplifies to $\\dfrac{(6+h)^2-36}{h}=12+h$. Evaluate this for $h=0.02$ and state the estimated tangent gradient.",
+      "structure": "estimate-tangent-gradient-difference-quotient",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Secant gradient is $12.02$, approaching tangent gradient $12$.",
+          "correct": true
+        },
+        {
+          "text": "Secant gradient is $12.02$, approaching tangent gradient $6$.",
+          "why": "Evaluated $12+0.02=12.02$ correctly but then reported the $x$-coordinate $6$ as the limiting tangent gradient instead of the value $12+h$ approaches."
+        },
+        {
+          "text": "Secant gradient is $12.2$, approaching tangent gradient $12$.",
+          "why": "Place-value slip when adding the decimal: wrote $12+0.02$ as $12.2$ instead of $12.02$, aligning the $2$ in the tenths column rather than the hundredths column."
+        },
+        {
+          "text": "Secant gradient is $12.2$, approaching tangent gradient $6$.",
+          "why": "Made both slips: added $12+0.02$ as $12.2$ by lining the $2$ up in the tenths column, and then quoted the $x$-coordinate $6$ as the limiting gradient."
+        }
+      ],
+      "solution_text": "$12+h=12+0.02=12.02$\nAs $h\\to 0$, $12+h\\to 12$.\n$=12$"
+    },
+    {
+      "id": "q8",
+      "question_text": "For $f(x)=3x^2$ at $x=1$, the difference quotient simplifies to $6+3h$. What is the secant gradient for $h=0.05$ and the estimated instantaneous gradient as $h\\to 0$?",
+      "structure": "estimate-tangent-gradient-difference-quotient",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Secant gradient is $6.15$; estimated instantaneous gradient is $6$.",
+          "correct": true
+        },
+        {
+          "text": "Secant gradient is $6.15$; estimated instantaneous gradient is $3$.",
+          "why": "Computed $6+3(0.05)=6.15$ correctly but then quoted the leading coefficient $3$ of $3x^2$ as the limiting gradient instead of the constant term $6$ that $6+3h$ approaches."
+        },
+        {
+          "text": "Secant gradient is $6.5$; estimated instantaneous gradient is $6$.",
+          "why": "Multiplied $3\\times 0.05$ as $0.5$ instead of $0.15$, losing a decimal place in the product, giving $6+0.5=6.5$."
+        },
+        {
+          "text": "Secant gradient is $6.5$; estimated instantaneous gradient is $3$.",
+          "why": "Made both slips: took $3\\times 0.05$ to be $0.5$ rather than $0.15$, and reported the leading coefficient $3$ as the limiting gradient."
+        }
+      ],
+      "solution_text": "$6+3(0.05)=6+0.15=6.15$\nAs $h\\to 0$, $6+3h\\to 6$.\n$=6$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A sequence of difference quotients for $f(x)=x^3$ at $x=c$ (where $c>0$) approaches $48$ as $h\\to 0$. Given that the limiting gradient is $3c^2=48$, what is $c$?",
+      "structure": "secant-limit-table-approximation",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$16$",
+          "why": "Found $c^2=16$ but forgot to take the square root to solve for $c$."
+        },
+        {
+          "text": "$2$",
+          "why": "Calculated $48/(3\\times 8)=2$ incorrectly instead of solving $3c^2=48$."
+        },
+        {
+          "text": "$8$",
+          "why": "Divided $48$ by $6$ instead of solving $3c^2=48$."
+        }
+      ],
+      "solution_text": "$3c^2=48$\n$c^2=16$\n$c=4$\n$=4$"
+    }
+  ]
+}

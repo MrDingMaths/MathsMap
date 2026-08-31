@@ -1,0 +1,101 @@
+{
+  "batch": "W4-2",
+  "model": "gemini-3.7-flash-high",
+  "note": "Standard Y12 critical path analysis (6) + network flow (6) + the remaining investments and loans skills (10) = 22. ORDER: no in-wave prereq — the Y11 networks skills (`describe-networks`, `construct-network-diagram`) and the Standard interest skills (`simple-interest`, `compound-interest-formula`, `compounding-frequency`, `depreciation`, `loan-repayment-table`) all shipped in earlier waves. Heavy diagram batch: every critical-path and flow skill carries a directed network figure, so the diagram lane runs in full.",
+  "sections": [
+    {
+      "name": "critical-path-network",
+      "skillIds": ["precedence-network", "forward-backward-scanning", "float-times"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Critical Path Analysis.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "One routine per skill. `precedence-network` = turning a precedence (activity/duration/immediate-predecessor) TABLE into an activity-on-edge network, including where a DUMMY activity is needed and why. `forward-backward-scanning` = the forward pass for earliest start times (take the LARGEST incoming) and the backward pass for latest start times (take the SMALLEST outgoing). `float-times` = float $=$ latest start $-$ earliest start, and using it to label an activity critical or non-critical. Do NOT name the critical path in these three skills — that is the next section's skill.",
+        "FORWARD TAKES THE MAXIMUM, BACKWARD TAKES THE MINIMUM. Swapping them is the compulsory named distractor for `forward-backward-scanning`, and every network must have at least one node where two activities converge so the choice actually bites.",
+        "A DUMMY ACTIVITY HAS ZERO DURATION and exists only to keep two activities' predecessor sets distinct, or to stop two activities sharing the same start and end nodes. Include at least one item whose table genuinely requires a dummy and one that does not, and never draw a dummy as a solid edge — it is dashed.",
+        "EVERY ITEM CARRIES THE NETWORK AS A `[tikz]` FIGURE, drawn with the directed-edge convention from the carryover playbook (mid-line arrowheads via `decorations.markings`, never `->`). Question-side figures show the network with activity labels and durations but WITHOUT the earliest/latest times being asked for; the solution figure adds them. Keep networks to 6–8 activities so the picture stays readable.",
+        "THE NETWORK MUST MATCH THE TABLE, EDGE FOR EDGE. Reconstruct the precedence table from your own drawing before keying the item: an activity whose drawn predecessors differ from the table's is a defect no script can see, and it silently changes the answer of every downstream skill.",
+        "The shipped Y11 skills `construct-network-diagram`, `shortest-path`, `minimum-spanning-tree` and `minimal-connector` own undirected weighted graphs and their algorithms. This section may not reuse their stem space: every network here is DIRECTED and activity-based, and no item may ask for a shortest path or a spanning tree."
+      ]
+    },
+    {
+      "name": "critical-path-analysis",
+      "skillIds": ["critical-path", "gantt-chart", "crashing-project"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Critical Path Analysis.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "One routine per skill. `critical-path` = identifying the path of zero-float activities and stating the minimum completion time. `gantt-chart` = drawing the horizontal bar chart from the network, with each activity's bar starting at its earliest start time, float shown, and the critical activities marked. `crashing-project` = reducing critical activities' durations, finding how much reduction is USEFUL before a different path becomes critical, and choosing the cheapest set of reductions.",
+        "THE MINIMUM COMPLETION TIME IS THE LENGTH OF THE LONGEST PATH, not the shortest and not the sum of all durations. 'Took the shortest path' and 'summed every activity' are the compulsory named distractors for `critical-path`.",
+        "CRASHING STOPS WHEN A SECOND PATH BECOMES CRITICAL — reducing a critical activity by 5 days does not always shorten the project by 5 days. Every `crashing-project` item must have a runner-up path close enough that the naive answer is wrong, and 'assumed the whole reduction carries through' must be an offered option. Where several activities can be crashed, the stem must give a per-unit cost so the cheapest choice is unique.",
+        "A GANTT BAR STARTS AT THE EARLIEST START TIME AND ITS LENGTH IS THE DURATION; float is drawn as a separate marker after the bar, never as extra bar length. Any item asking to read a float off a chart must have the chart drawn unambiguously to a stated time axis.",
+        "EVERY ITEM CARRIES ITS FIGURE: the network (directed, mid-line arrowheads) for `critical-path` and `crashing-project`, and the Gantt chart itself for `gantt-chart` — drawn as a `[tikz]` bar chart with a labelled time axis, never as a KaTeX table. Never pre-mark the critical path in a question figure.",
+        "`critical-path` and `float-times` from the previous section must not share networks: give each of the six skills in these two sections its own project scenario (building fit-out, film production, event setup, software release, road works, kitchen refit) and its own duration set."
+      ]
+    },
+    {
+      "name": "flow-networks",
+      "skillIds": ["network-flow-terminology", "construct-flow-network", "max-flow-saturated-edges"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Network Flow.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "One routine per skill. `network-flow-terminology` = source, sink, inflow, outflow, capacity and cut as DEFINITIONS applied to a given picture (which vertex is the source, what is the total capacity leaving it). `construct-flow-network` = turning a table of connections and capacities into a directed weighted digraph. `max-flow-saturated-edges` = listing source-to-sink paths, pushing each path's minimum remaining capacity, subtracting, and summing the path flows.",
+        "FLOW ALONG A PATH IS LIMITED BY THE SMALLEST CAPACITY ON IT, and the maximum flow is the SUM of the path flows, not the sum of the source's outgoing capacities. 'Added the source's capacities' and 'took the largest edge on the path' are the compulsory named distractors for `max-flow-saturated-edges`.",
+        "CAPACITY IS NOT SYMMETRIC: every edge is directed and its capacity applies in one direction only. Draw with mid-line arrowheads (carryover playbook, `decorations.markings`, never `->`), and never let an item's answer depend on flow travelling backwards along an edge.",
+        "EVERY ITEM CARRIES THE NETWORK AS A `[tikz]` FIGURE with capacities labelled on the edges. The question figure shows capacities only; a solution figure may add the flow pushed on each edge. Never pre-mark the saturated edges in a question figure. Keep to 5–7 vertices.",
+        "RE-SOLVE EVERY MAXIMUM FLOW BY A SECOND METHOD before keying it — sum the path flows AND check the answer against the smallest cut you can find. A network whose keyed maximum flow exceeds some cut's capacity is arithmetically impossible, and no gate script sees it.",
+        "`network-flow-terminology` is a vocabulary skill: its items must ask what a term MEANS on a given picture, not compute a maximum flow. If an item needs the flow value, it belongs to `max-flow-saturated-edges`."
+      ]
+    },
+    {
+      "name": "cuts-and-maximum-flow",
+      "skillIds": ["cut-capacity", "maximum-flow-minimum-cut", "flow-capacity-analysis"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Network Flow.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "One routine per skill. `cut-capacity` = deciding whether a drawn line is a VALID cut (it must separate source from sink completely) and, if so, adding the capacities of the edges crossing it FROM the source side TO the sink side. `maximum-flow-minimum-cut` = finding the minimum cut and stating the theorem's consequence, including judging whether a nominated cut is minimal. `flow-capacity-analysis` = whether a network meets a stated demand, and which single edge to upgrade (or which reduction hurts), reasoned through the minimum cut.",
+        "AN EDGE CROSSING THE CUT BACKWARDS (sink side to source side) CONTRIBUTES ZERO to the cut's capacity. Counting it is the compulsory named distractor for `cut-capacity`, and at least half the items must have such an edge present.",
+        "A LINE THAT LEAVES ANY SOURCE-TO-SINK PATH UNCUT IS NOT A CUT AT ALL. Include at least one item whose correct response is 'not a valid cut' with the surviving path named. Do not give such an item a numerical capacity as its key.",
+        "UPGRADING AN EDGE THAT IS NOT ON THE MINIMUM CUT CHANGES NOTHING. `flow-capacity-analysis` items must exploit exactly that: the plausible-looking upgrade (the smallest capacity in the network, or the busiest-looking vertex) must be the wrong one, with the misconception named.",
+        "EVERY ITEM CARRIES THE NETWORK AS A `[tikz]` FIGURE with directed mid-line arrowheads and labelled capacities. Where a cut is given, draw it as a dashed line crossing the edges it cuts; where the student must find one, do not draw any cut. Never pre-mark the minimum cut in a question figure.",
+        "VERIFY EVERY KEY BOTH WAYS: the minimum cut's capacity must equal the maximum flow computed by saturating paths. If they disagree, the item is broken — do not ship the discrepancy as a 'harder' item."
+      ]
+    },
+    {
+      "name": "shares-and-interest-applications",
+      "skillIds": ["simple-interest-graphs", "compound-interest-applications", "interpret-share-value", "shares-dividends", "shares-brokerage"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Investments and Loans 1_Investment.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `simple-interest-graphs` = comparing STRAIGHT-LINE graphs of simple interest for different rates and principals — reading a value, matching a graph to a rate, and recognising that the gradient is $Pr$. `compound-interest-applications` = applying the compound formula to inflation, appreciation and real-value contexts. `interpret-share-value` = reading a share-price-over-time graph (rise, fall, percentage change, best time to buy or sell). `shares-dividends` = dividend paid $=$ dividend per share $\\times$ number of shares, and dividend yield $=\\dfrac{\\text{dividend per share}}{\\text{share price}}\\times100\\%$. `shares-brokerage` = brokerage as a percentage of the transaction and the total cost or net proceeds of a trade.",
+        "`simple-interest-graphs` AND `interpret-share-value` MUST CARRY `[tikz]` GRAPHS in every foundation and development card — both skills' titles promise a picture and `audit-figure-quota` will fail them otherwise. Simple-interest graphs are straight lines through the origin (interest, not balance) or through $(0,P)$ (balance) — say which the axis is; a share-price graph is an irregular line, never a straight one, and never a perfectly linear rise.",
+        "DIVIDEND YIELD IS PER SHARE, NOT ON THE TOTAL INVESTMENT, and it uses the CURRENT price, not the purchase price, unless the stem says otherwise. State which price in every stem; 'used the purchase price' and 'divided by the total dividend' are the compulsory named distractors.",
+        "BROKERAGE IS ADDED WHEN BUYING AND SUBTRACTED WHEN SELLING. Include both directions, and make 'subtracted when buying' a named distractor. Where a stem gives both a brokerage percentage and a minimum fee, state which applies and why.",
+        "The shipped Standard skills `simple-interest`, `compound-interest-formula`, `compounding-frequency`, `compare-simple-compound` and `depreciation` own the plain calculation stem space. Nothing here may be a bare 'find the interest on \\$P at r% for n years' — every item must add the graph, the share context or the inflation/appreciation interpretation that makes it this skill.",
+        "MONEY ROUNDS TO THE CENT, PERCENTAGES TO THE STATED PLACE, AND ONLY AT THE END. Pin the rounding in every stem so two options cannot both be defensible."
+      ]
+    },
+    {
+      "name": "depreciation-and-loans",
+      "skillIds": ["straight-line-depreciation", "compare-depreciation-methods", "reducing-balance-loan", "loan-repayment-effects", "credit-cards"],
+      "bookletPaths": [
+        "booklets/Stage 6 Standard/Investments and Loans 2_Depreciation.md",
+        "booklets/Stage 6 Standard/Investments and Loans 3_Loans.md",
+        "booklets/Stage 6 Standard/Investments and Loans 4_Credit cards.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `straight-line-depreciation` = $S=V_{0}-Dn$ — the value after $n$ periods, the yearly depreciation amount, and the useful life until a stated salvage value. `compare-depreciation-methods` = straight-line versus declining-balance on the same asset, numerically AND on a graph. `reducing-balance-loan` = the period-by-period loan TABLE (opening balance, interest, repayment, closing balance) and reading a graph of the balance owing. `loan-repayment-effects` = how a higher repayment, a more frequent repayment or a lump sum changes the interest paid and the term. `credit-cards` = reading a statement, the interest-free period, and compound interest charged on an unpaid balance.",
+        "STRAIGHT-LINE SUBTRACTS THE SAME DOLLAR AMOUNT EACH PERIOD; DECLINING BALANCE SUBTRACTS THE SAME PERCENTAGE. Straight-line reaches zero, declining balance never does. `compare-depreciation-methods` must state that difference and carry a `[tikz]` graph with BOTH curves on one set of axes — a straight line and a decaying curve, plotted over the same domain and clipped to the axis window. Its blurb promises a graph, so `audit-figure-quota` requires one.",
+        "`reducing-balance-loan` MUST CARRY A FIGURE TOO (its blurb names a graph of the balance owing): a decreasing, CONCAVE-DOWN curve, not a straight line — the balance falls slowly at first because early repayments are mostly interest. Any item asking the student to read the term or the balance off it must have the axes scaled and ticked so the reading is unambiguous.",
+        "INTEREST IN A LOAN TABLE IS CHARGED ON THE OPENING BALANCE, AND THE REPAYMENT IS SUBTRACTED AFTER IT. Off-by-one on that order silently changes every subsequent row; state the convention in the theory and follow it. The shipped `loan-repayment-table` skill owns reading a supplied table, so items here must BUILD the rows or reason about the graph.",
+        "CREDIT CARDS: the interest-free period applies only when the previous balance was paid in full, interest usually accrues DAILY from the purchase date on a card carrying a balance, and the minimum payment is not the balance. Every stem must state the compounding basis and the number of days explicitly rather than leaving it to convention — a card item whose day count is ambiguous has two defensible answers.",
+        "THE ADVANCED COURSE'S LOAN SKILLS ARE IN W4-1 OF THIS SAME WAVE and use the geometric-series formula. Nothing in this section may use $\\frac{(1+r)^{n}-1}{r}$, a geometric series or logarithms: Standard does this work with tables, repeated multiplication and graphs."
+      ]
+    }
+  ]
+}

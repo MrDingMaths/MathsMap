@@ -1,0 +1,110 @@
+{
+  "skillId": "set-notation-fundamentals",
+  "atomType": "Cat",
+  "theory": {
+        "intro": "A **set** is a collection of objects called **elements**, written inside braces $\\{ \\dots \\}$. Set notation says which elements belong to a set, counts them, and builds new sets from old ones.",
+        "facts": [
+          "$x \\in A$ means $x$ is an element of $A$, and $x \\notin A$ means $x$ is not an element of $A$.",
+          "The **cardinality** $n(A)$ or $|A|$ is the number of elements in a finite set $A$.",
+          "The **empty set** $\\varnothing$ has no elements, so $|\\varnothing| = 0$.",
+          "$A \\subseteq B$ means $A$ is a **subset** of $B$: every element of $A$ is in $B$; also $\\varnothing \\subseteq A$ and $A \\subseteq A$.",
+          "The **intersection** $A \\cap B$ is the set of elements in **both** $A$ and $B$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\begin{scope}\n\\clip (2.9,2.4) circle (1.9);\n\\fill[blue!15] (5.1,2.4) circle (1.9);\n\\end{scope}\n\\draw (2.9,2.4) circle (1.9);\n\\draw (5.1,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (1.9,3.7) {$A$};\n\\node at (6.1,3.7) {$B$};\n\\node[below] at (4,-0.15) {$A \\cap B$};\n\\end{tikzpicture}\n[/tikz]",
+          "The **union** $A \\cup B$ is the set of elements in **either** $A$ or $B$, with each element listed once.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\fill[blue!15] (2.9,2.4) circle (1.9);\n\\fill[blue!15] (5.1,2.4) circle (1.9);\n\\draw (2.9,2.4) circle (1.9);\n\\draw (5.1,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (1.9,3.7) {$A$};\n\\node at (6.1,3.7) {$B$};\n\\node[below] at (4,-0.15) {$A \\cup B$};\n\\end{tikzpicture}\n[/tikz]",
+          "Two sets are **disjoint** (or **mutually exclusive**) when they share no elements, so $A \\cap B = \\varnothing$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.8);\n\\draw (2.2,2.4) circle (1.6);\n\\draw (5.8,2.4) circle (1.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (2.2,3.5) {$A$};\n\\node at (5.8,3.5) {$B$};\n\\node[below] at (4,-0.15) {$A \\cap B = \\varnothing$};\n\\end{tikzpicture}\n[/tikz]",
+          "Inside a universal set $\\xi$, the **complement** $A'$ (also $\\overline{A}$ or $A^c$) is the set of elements not in $A$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[blue!15, even odd rule] (0,0) rectangle (8,4.8) (4,2.4) circle (1.9);\n\\draw (0,0) rectangle (8,4.8);\n\\draw (4,2.4) circle (1.9);\n\\node[anchor=north west, font=\\small] at (0.15,4.7) {$\\xi$};\n\\node at (4,2.4) {$A$};\n\\node[below] at (4,-0.15) {$A'$};\n\\end{tikzpicture}\n[/tikz]"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "List the elements of the set $A = \\{\\text{factors of } 18\\}$.",
+        "structure": "list-set-elements",
+        "solution_text": "$A = \\{1, 2, 3, 6, 9, 18\\}$"
+      },
+      {
+        "question_text": "State the value of $n(S)$ for the set $S = \\{4, 7, 12, 19, 23, 31\\}$.",
+        "structure": "evaluate-membership-cardinality",
+        "solution_text": "$n(S) = 6$"
+      },
+      {
+        "question_text": "State whether the statement $\\{3, 5\\} \\subseteq \\{1, 3, 5, 7, 9\\}$ is true or false, giving a reason.",
+        "structure": "evaluate-subset-relation",
+        "solution_text": "Every element of $\\{3, 5\\}$ is also an element of $\\{1, 3, 5, 7, 9\\}$.\n$\\text{True}$"
+      },
+      {
+        "question_text": "Given $A = \\{2, 5, 8\\}$ and $B = \\{3, 5, 9\\}$, find $A \\cup B$.",
+        "structure": "find-set-union",
+        "solution_text": "$A \\cup B = \\{2, 3, 5, 8, 9\\}$"
+      },
+      {
+        "question_text": "Given $A = \\{1, 4, 6, 8, 9\\}$ and $B = \\{2, 4, 6, 10\\}$, find $A \\cap B$.",
+        "structure": "find-set-intersection",
+        "solution_text": "$A \\cap B = \\{4, 6\\}$"
+      },
+      {
+        "question_text": "Given the universal set $\\xi = \\{1, 2, 3, 4, 5, 6, 7, 8\\}$ and $A = \\{2, 3, 5, 7\\}$, list the elements of $A'$.",
+        "structure": "find-set-complement",
+        "solution_text": "$A' = \\{1, 4, 6, 8\\}$"
+      },
+      {
+        "question_text": "State whether the sets $A = \\{1, 3, 5\\}$ and $B = \\{2, 4, 6\\}$ are disjoint (mutually exclusive), and state $A \\cap B$.",
+        "structure": "classify-disjoint-sets",
+        "solution_text": "$A \\cap B = \\varnothing$\nThe sets share no elements, so they are disjoint."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "List the elements of the set $X = \\{\\text{prime numbers between } 10 \\text{ and } 25\\}$.",
+        "structure": "list-set-elements",
+        "solution_text": "$X = \\{11, 13, 17, 19, 23\\}$"
+      },
+      {
+        "question_text": "Let the universal set be $\\xi = \\{1, 2, 3, \\dots, 20\\}$ and let $E = \\{\\text{multiples of } 4\\}$. Find $|E|$.",
+        "structure": "evaluate-membership-cardinality",
+        "solution_text": "$E = \\{4, 8, 12, 16, 20\\}$\n$|E| = 5$"
+      },
+      {
+        "question_text": "Let $P = \\{2, 4, 6, 8\\}$ and $Q = \\{2, 6\\}$. State which relation is correct: $P \\subseteq Q$ or $Q \\subseteq P$, and explain why.",
+        "structure": "evaluate-subset-relation",
+        "solution_text": "Every element of $Q$ belongs to $P$, but $4, 8 \\in P$ do not belong to $Q$.\n$Q \\subseteq P$"
+      },
+      {
+        "question_text": "Within the universal set $\\xi = \\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}$, let $A = \\{1, 3, 5, 7, 9\\}$ and $B = \\{3, 6, 9\\}$. List the elements of $A \\cup B$.",
+        "structure": "find-set-union",
+        "solution_text": "$A \\cup B = \\{1, 3, 5, 6, 7, 9\\}$"
+      },
+      {
+        "question_text": "Let $C = \\{2, 4, 6, 8, 10, 12, 14, 16\\}$ and $D = \\{3, 6, 9, 12, 15\\}$. Find $C \\cap D$.",
+        "structure": "find-set-intersection",
+        "solution_text": "$C \\cap D = \\{6, 12\\}$"
+      },
+      {
+        "question_text": "Let the universal set be $\\xi = \\{a, b, c, d, e, f, g\\}$ and let $K = \\{b, d, f\\}$. List the elements of the complement $K^c$ and state $n(K^c)$.",
+        "structure": "find-set-complement",
+        "solution_text": "$K^c = \\{a, c, e, g\\}$\n$n(K^c) = 4$"
+      },
+      {
+        "question_text": "Let $\\xi = \\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}$, $A = \\{1, 2, 3, 4, 5\\}$, and $B = \\{3, 4, 5, 6, 7\\}$. List the elements of $A \\cap B'$.",
+        "structure": "evaluate-compound-set-expression",
+        "solution_text": "$B' = \\{1, 2, 8, 9, 10\\}$\n$A \\cap B' = \\{1, 2\\}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Let $\\xi = \\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\\}$, with subsets $A = \\{2, 4, 6, 8, 10, 12\\}$, $B = \\{3, 6, 9, 12\\}$, and $C = \\{4, 8, 12\\}$. Find $(A \\cap B) \\cap C'$.",
+        "structure": "evaluate-compound-set-expression",
+        "solution_text": "$A \\cap B = \\{6, 12\\}$\n$C' = \\{1, 2, 3, 5, 6, 7, 9, 10, 11\\}$\n$(A \\cap B) \\cap C' = \\{6\\}$"
+      },
+      {
+        "question_text": "Let $S = \\{a, b, c\\}$. List all subsets of $S$ that contain the element $a$, and state how many there are.",
+        "structure": "evaluate-subset-relation",
+        "solution_text": "The subsets containing $a$ are $\\{a\\}$, $\\{a, b\\}$, $\\{a, c\\}$, and $\\{a, b, c\\}$.\nThere are $4$ subsets."
+      },
+      {
+        "question_text": "Let $A, B, C$ be non-empty sets. If $A \\subseteq B$ and $B \\cap C = \\varnothing$, explain whether $A$ and $C$ must be disjoint.",
+        "structure": "classify-disjoint-sets",
+        "solution_text": "Every element in $A$ is also in $B$. Since no element in $B$ is in $C$, no element in $A$ can be in $C$.\n$A \\cap C = \\varnothing$, so $A$ and $C$ must be disjoint."
+      }
+    ]
+  }
+}

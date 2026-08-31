@@ -13,15 +13,15 @@
         },
         {
           "text": "$(1.3\\text{ h},\\,90\\text{ km})$",
-          "why": "Wrote $1$ hour $30$ minutes as $1.3$ hours instead of $1.5$ hours."
+          "why": "Wrote $1$ hour $30$ minutes as $1.3$ hours instead of dividing $30$ by $60$ to get $1.5$ hours."
         },
         {
           "text": "$(1.5\\text{ h},\\,60\\text{ km})$",
-          "why": "Counted the vertical grid lines in $20$s instead of reading the labelled scale of $30$ km."
+          "why": "Counted the horizontal gridlines up from the origin but stopped one line short, reading the height as $60$ km instead of $90$ km."
         },
         {
-          "text": "$(90\\text{ h},\\,1.5\\text{ km})$",
-          "why": "Put the distance on the horizontal axis and the time on the vertical axis."
+          "text": "$(1.3\\text{ h},\\,60\\text{ km})$",
+          "why": "Made both slips: wrote $1$ hour $30$ minutes as $1.3$ hours and stopped one gridline short, reading $60$ km."
         }
       ],
       "solution_text": "Start: $(0,\\,0)$\nEnd: $(1.5\\text{ h},\\,90\\text{ km})$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.8,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {30/1,60/2,90/3,120/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.6,-0.2)--(1.6,0); \\node[below,font=\\scriptsize] at (1.6,0) {$1$};\n\\draw (3.2,-0.2)--(3.2,0); \\node[below,font=\\scriptsize] at (3.2,0) {$2$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$3$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(2.4,3);\n\\foreach \\pt in {(0,0),(2.4,3)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Steady drive};\n\\end{tikzpicture}\n[/tikz]\n"
@@ -112,16 +112,16 @@
           "correct": true
         },
         {
-          "text": "$(4\\text{ h},\\,120\\text{ km})$",
-          "why": "Plotted the new stage's $120$ km instead of adding it to the $100$ km already travelled."
-        },
-        {
-          "text": "$(4\\text{ h},\\,180\\text{ km})$",
-          "why": "Used $80$ km for the new stage, as though it lasted only $1$ hour."
-        },
-        {
           "text": "$(3.5\\text{ h},\\,220\\text{ km})$",
-          "why": "Added $1$ hour rather than $1$ hour $30$ minutes to the $2.5$ hours already elapsed."
+          "why": "Started the final stage at the $2$ hour mark, ignoring the half-hour rest shown by the flat section, giving $2+1.5=3.5$ hours."
+        },
+        {
+          "text": "$(4\\text{ h},\\,120\\text{ km})$",
+          "why": "Plotted the new stage's $120$ km on its own instead of adding it to the $100$ km already travelled."
+        },
+        {
+          "text": "$(3.5\\text{ h},\\,120\\text{ km})$",
+          "why": "Made both slips: ignored the half-hour rest, and plotted only the new stage's $120$ km rather than the running total."
         }
       ],
       "solution_text": "$d=st$\n$=80\\times1.5$\n$=120\\text{ km}$\nEnd point: $(2.5+1.5,\\,100+120)=(4\\text{ h},\\,220\\text{ km})$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,5);\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {50/1,100/2,150/3,200/4,250/5} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(2.4,2)--(3,2);\n\\foreach \\pt in {(0,0),(2.4,2),(3,2)} {\\fill[blue] \\pt circle (2pt);}\n\\draw[very thick,red] (3,2)--(4.8,4.4);\n\\foreach \\pt in {(3,2),(4.8,4.4)} {\\fill[red] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2.5) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,6.1) {Drive to the coast};\n\\end{tikzpicture}\n[/tikz]\n"
@@ -137,16 +137,16 @@
           "correct": true
         },
         {
-          "text": "$(2\\text{ h }20\\text{ min},\\,90\\text{ km})$",
-          "why": "Plotted only the second stage's $90$ km instead of the running total of $60+90$."
-        },
-        {
           "text": "$(1\\text{ h }55\\text{ min},\\,150\\text{ km})$",
-          "why": "Left the $25$ minute stop out of the elapsed time."
+          "why": "Left the $25$ minute stop out of the elapsed time, adding only $40+75=115$ minutes."
         },
         {
-          "text": "$(2\\text{ h }20\\text{ min},\\,138\\text{ km})$",
-          "why": "Used $72$ km/h for both driving stages, giving $48+90$ km."
+          "text": "$(2\\text{ h }20\\text{ min},\\,90\\text{ km})$",
+          "why": "Plotted only the second driving stage's $90$ km instead of the running total $60+90$."
+        },
+        {
+          "text": "$(1\\text{ h }55\\text{ min},\\,90\\text{ km})$",
+          "why": "Made both slips: omitted the $25$ minute stop from the elapsed time and plotted only the second stage's $90$ km."
         }
       ],
       "solution_text": "$d_{1}=90\\times\\frac{40}{60}$\n$=60\\text{ km}$\n$d_{2}=72\\times1.25$\n$=90\\text{ km}$\nElapsed time: $40+25+75=140\\text{ min}=2\\text{ h }20\\text{ min}$\nTotal distance: $60+90=150\\text{ km}$\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\draw[gray!30,very thin,xstep=0.6,ystep=1] (0,0) grid (4.8,4);\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(5.4,0);\n\\foreach \\v/\\p in {40/1,80/2,120/3,160/4} {\\draw (-0.2,\\p)--(0,\\p); \\node[left,font=\\scriptsize] at (-0.2,\\p) {$\\v$};}\n\\draw (1.2,-0.2)--(1.2,0); \\node[below,font=\\scriptsize] at (1.2,0) {$1$};\n\\draw (2.4,-0.2)--(2.4,0); \\node[below,font=\\scriptsize] at (2.4,0) {$2$};\n\\draw (3.6,-0.2)--(3.6,0); \\node[below,font=\\scriptsize] at (3.6,0) {$3$};\n\\draw (4.8,-0.2)--(4.8,0); \\node[below,font=\\scriptsize] at (4.8,0) {$4$};\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0)--(0.8,1.5)--(1.3,1.5)--(2.8,3.75);\n\\foreach \\pt in {(0,0),(0.8,1.5),(1.3,1.5),(2.8,3.75)} {\\fill[blue] \\pt circle (2pt);}\n\\node[rotate=90,font=\\scriptsize] at (-1.8,2) {Distance from home (km)};\n\\node[below,font=\\scriptsize] at (2.4,-1.0) {Time (hours)};\n\\node[font=\\scriptsize] at (2.4,5.1) {Morning drive};\n\\end{tikzpicture}\n[/tikz]\n"

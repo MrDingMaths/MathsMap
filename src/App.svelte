@@ -8,6 +8,7 @@
   import MyLearning from './views/MyLearning.svelte';
   import Map from './views/Map.svelte';
   import Quiz from './views/Quiz.svelte';
+  import QuizHistory from './views/QuizHistory.svelte';
   import TikzCheck from './views/TikzCheck.svelte';
   import GlobalSearch from './components/GlobalSearch.svelte';
 
@@ -96,6 +97,8 @@
           <SkillDetail id={route.params[0]} courseId={route.query.course ?? null} />
         {:else if route.name === 'quiz'}
           <Quiz skillId={route.query.skill ?? null} topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
+        {:else if route.name === 'quiz-history'}
+          <QuizHistory id={route.params[0] ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
           <TikzCheck
             topicId={route.query.topic ?? null}

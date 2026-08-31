@@ -1,0 +1,201 @@
+{
+  "skillId": "points-3d-coordinates",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What are the coordinates of the point $P$ shown below?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(-2.9,-2.9) node[below left,font=\\scriptsize]{$x$};\n\\draw[->] (0,0)--(6.3,0) node[right,font=\\scriptsize]{$y$};\n\\draw[->] (0,0)--(0,4.6) node[above,font=\\scriptsize]{$z$};\n\\node[above left,font=\\scriptsize] at (0,0) {$O$};\n\\foreach \\a in {1,2,3,4,5} { \\draw (-0.5*\\a-0.1,-0.5*\\a+0.1)--(-0.5*\\a+0.1,-0.5*\\a-0.1); \\node[left,font=\\scriptsize] at (-0.5*\\a-0.16,-0.5*\\a) {$\\a$}; }\n\\foreach \\b in {1,2,3,4,5,6} { \\draw (\\b,-0.1)--(\\b,0.1); \\node[below,font=\\scriptsize] at (\\b,-0.12) {$\\b$}; }\n\\foreach \\c in {1,2,3,4} { \\draw (-0.1,\\c)--(0.1,\\c); \\node[left,font=\\scriptsize] at (-0.12,\\c) {$\\c$}; }\n\\draw[dashed,gray] (-0.5,-0.5)--(4.5,-0.5)--(4.5,3.5);\n\\fill (4.5,3.5) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (4.5,3.5) {$P$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-point-from-diagram",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(1,5,4)$",
+          "correct": true
+        },
+        {
+          "text": "$(5,4,1)$",
+          "why": "Read the moves in the order $y$, then $z$, then $x$, placing the depth coordinate last."
+        },
+        {
+          "text": "$(4,1,5)$",
+          "why": "Read the moves in the order $z$, then $x$, then $y$, starting from the vertical height."
+        },
+        {
+          "text": "$(5,1,4)$",
+          "why": "Swapped the $x$- and $y$-coordinates, reading the sideways move along the $y$-axis first."
+        }
+      ],
+      "solution_text": "The dashed path goes $1$ along the $x$-axis, then $5$ parallel to the $y$-axis, then $4$ up.\n$P(1,5,4)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Starting at the origin, which set of moves reaches the point $(1,4,3)$?",
+      "structure": "plot-point-3d",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1$ unit along the $x$-axis, then $4$ units parallel to the $y$-axis, then $3$ units up",
+          "correct": true
+        },
+        {
+          "text": "$4$ units along the $x$-axis, then $1$ unit parallel to the $y$-axis, then $3$ units up",
+          "why": "Read the first two coordinates in the wrong order."
+        },
+        {
+          "text": "$1$ unit along the $x$-axis, then $3$ units parallel to the $y$-axis, then $4$ units up",
+          "why": "Swapped the $y$- and $z$-coordinates, moving the height into the sideways step."
+        },
+        {
+          "text": "$3$ units along the $x$-axis, then $4$ units parallel to the $y$-axis, then $1$ unit up",
+          "why": "Read the triple backwards, starting from the $z$-coordinate."
+        }
+      ],
+      "solution_text": "The coordinates are always in the order $(x,y,z)$.\nMove $1$ unit along the $x$-axis, then $4$ units parallel to the $y$-axis, then $3$ units up."
+    },
+    {
+      "id": "q3",
+      "question_text": "What is the equation of the $yz$-plane?",
+      "structure": "coordinate-plane-equation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x=0$",
+          "correct": true
+        },
+        {
+          "text": "$y=0$",
+          "why": "Named the plane after an axis lying in it, rather than the axis perpendicular to it."
+        },
+        {
+          "text": "$z=0$",
+          "why": "Gave the equation of the flat $xy$-plane instead."
+        }
+      ],
+      "solution_text": "The $yz$-plane contains the $y$-axis and the $z$-axis, so every point on it has no movement in the $x$ direction.\n$x=0$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A point lies on the $z$-axis, $7$ units below the origin. What are its coordinates?",
+      "structure": "point-on-axis",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(0,0,-7)$",
+          "correct": true
+        },
+        {
+          "text": "$(0,-7,0)$",
+          "why": "Put the value in the $y$ slot, which belongs to the $y$-axis rather than the $z$-axis."
+        },
+        {
+          "text": "$(0,0,7)$",
+          "why": "Placed the value in the right slot but ignored that below the origin means a negative $z$."
+        },
+        {
+          "text": "$(0,7,0)$",
+          "why": "Used the wrong slot and also ignored that below the origin means a negative value."
+        }
+      ],
+      "solution_text": "A point on the $z$-axis has $x=0$ and $y=0$.\nBelow the origin means $z$ is negative.\n$(0,0,-7)$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Which of these points lies in the same octant as $(-5,-2,6)$?",
+      "structure": "identify-octant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(-1,-3,4)$",
+          "correct": true
+        },
+        {
+          "text": "$(5,2,-6)$",
+          "why": "Reversed every sign, which gives the octant directly opposite through the origin."
+        },
+        {
+          "text": "$(-5,2,6)$",
+          "why": "Matched the first and third signs but ignored that the $y$-coordinate must also be negative."
+        },
+        {
+          "text": "$(6,-2,-5)$",
+          "why": "Kept the same three numbers but in a different order, which changes which coordinate carries each sign."
+        }
+      ],
+      "solution_text": "$(-5,-2,6)$ has signs $-$, $-$, $+$.\n$(-1,-3,4)$ has signs $-$, $-$, $+$.\nThe signs match in all three coordinates, so $(-1,-3,4)$ lies in the same octant."
+    },
+    {
+      "id": "q6",
+      "question_text": "How far is the point $A(8,-4,3)$ from the $xz$-plane?",
+      "structure": "distance-to-plane",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$ units",
+          "correct": true
+        },
+        {
+          "text": "$8$ units",
+          "why": "Used the $x$-coordinate, which gives the distance to the $yz$-plane instead."
+        },
+        {
+          "text": "$3$ units",
+          "why": "Used the $z$-coordinate, which gives the distance to the $xy$-plane instead."
+        },
+        {
+          "text": "$-4$ units",
+          "why": "Chose the right coordinate but did not take its size, so the answer came out negative."
+        }
+      ],
+      "solution_text": "The $xz$-plane is $y=0$, so the distance is the size of the $y$-coordinate.\n$|-4|$\n$=4$ units"
+    },
+    {
+      "id": "q7",
+      "question_text": "The point $B(3,\\,2k+8,\\,-1)$ lies on the $xz$-plane. What is the value of $k$?",
+      "structure": "unknown-coordinate-on-plane",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$k=-4$",
+          "correct": true
+        },
+        {
+          "text": "$k=4$",
+          "why": "Solved $2k=8$ instead of $2k=-8$, losing the sign when moving $8$ across."
+        },
+        {
+          "text": "$k=-8$",
+          "why": "Ignored the coefficient $2$ and solved $k+8=0$."
+        },
+        {
+          "text": "$k=0$",
+          "why": "Set $k$ itself to zero rather than setting the $y$-coordinate to zero."
+        }
+      ],
+      "solution_text": "The $xz$-plane has equation $y=0$.\n$2k+8=0$\n$2k=-8$\n$k=-4$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A point $P$ lies on the negative side of the $yz$-plane, on the positive side of the $xz$-plane, and below the $xy$-plane. Which of the following could be the coordinates of $P$?",
+      "structure": "identify-octant",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$(-5, 8, -2)$",
+          "correct": true
+        },
+        {
+          "text": "$(5, -8, -2)$",
+          "why": "Associated the $yz$-plane with $y$ and the $xz$-plane with $x$, swapping the signs of the first two coordinates."
+        },
+        {
+          "text": "$(-5, 8, 2)$",
+          "why": "Identified the signs of $x$ and $y$ correctly but treated being below the $xy$-plane as a positive $z$-coordinate."
+        },
+        {
+          "text": "$(5, -8, 2)$",
+          "why": "Swapped the $x$ and $y$ plane conditions and also treated being below the $xy$-plane as positive $z$."
+        }
+      ],
+      "solution_text": "The $yz$-plane is $x=0$, so lying on the negative side means $x < 0$.\nThe $xz$-plane is $y=0$, so lying on the positive side means $y > 0$.\nThe $xy$-plane is $z=0$, so lying below the plane means $z < 0$.\nThe signs must be $(-, +, -)$, which matches $(-5, 8, -2)$."
+    }
+  ]
+}

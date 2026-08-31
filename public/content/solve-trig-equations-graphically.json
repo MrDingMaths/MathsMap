@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-trig-equations-graphically",
+  "atomType": "R",
+  "theory": {
+    "intro": "A solution of $f(x)=g(x)$ is an $x$-value where the two graphs cross. Sketching each side shows how many solutions a domain holds, even for equations no algebraic method can solve.",
+    "facts": [
+      "Each point of intersection of $y=f(x)$ and $y=g(x)$ gives exactly one solution of $f(x)=g(x)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (8.0,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2) -- (0,2.4) node[above] {$y$};\n\\draw[smooth, thick, blue, domain=0:7.0, samples=100, variable=\\x] plot ({\\x},{1.5*sin(deg(\\x))});\n\\node[blue, anchor=south west] at (0.2,1.7) {$y=f(x)$};\n\\draw[thick, red] (0,0.75) -- (7.4,0.75);\n\\node[red, anchor=south] at (4.6,0.85) {$y=g(x)$};\n\\draw[dashed] (0.5236,0.75) -- (0.5236,0);\n\\draw[dashed] (2.618,0.75) -- (2.618,0);\n\\draw[dashed] (6.8068,0.75) -- (6.8068,0);\n\\fill (0.5236,0.75) circle (2pt);\n\\fill (2.618,0.75) circle (2pt);\n\\fill (6.8068,0.75) circle (2pt);\n\\node[below] at (0.5236,0) {$x_1$};\n\\node[below] at (2.618,0) {$x_2$};\n\\node[below] at (6.8068,0) {$x_3$};\n\\end{tikzpicture}\n[/tikz]",
+      "A horizontal line $y=m$ misses the curve completely when $m$ lies outside the range of the wave.",
+      "A line that just touches the curve at a maximum or a minimum gives one solution there, not two.",
+      "Because the wave repeats, adding the period to any solution gives another solution.",
+      "Two solutions either side of a maximum at $x=M$ are symmetric about it, so a solution $x=p$ is paired with $x=2M-p$.",
+      "A line $y=mx+c$ can only meet $y=k\\sin x + d$ where the height of the line lies between the minimum and the maximum of the wave."
+    ],
+    "steps": [
+      "Sketch each side of the equation on the same axes",
+      "Count the points of intersection inside the domain",
+      "Read or calculate the $x$-coordinate of one intersection",
+      "Use symmetry and the period to reach the remaining solutions"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph of $y = 2\\sin x$ and the line $y = 1$ are shown for $0 \\le x \\le 4\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.6, xmax=13.6, ymin=-2.6, ymax=2.6,\n  xtick={3.1416, 6.2832, 9.4248, 12.5664},\n  xticklabels={$\\pi$, $2\\pi$, $3\\pi$, $4\\pi$},\n  ytick={-2, 1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:12.5664] {2*sin(deg(x))};\n\\addplot[thick, red, domain=0:12.5664] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $2\\sin x = 1$ have for $0 \\le x \\le 4\\pi$? List them.",
+        "structure": "count-intersections-horizontal-line",
+        "solution_text": "The domain $0 \\le x \\le 4\\pi$ contains two complete cycles, and the line cuts each cycle twice.\nThere are $4$ points of intersection, so there are $4$ solutions.\n$\\sin x = \\dfrac{1}{2}$\nIn the first cycle: $x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$\nAdding the period $2\\pi$ to each gives the second cycle.\n$x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6},\\ \\dfrac{13\\pi}{6},\\ \\dfrac{17\\pi}{6}$"
+      },
+      {
+        "question_text": "The graph of $y = 3\\cos(2x)$ and the line $y = -3$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-4, ymax=4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {3*cos(deg(2*x))};\n\\addplot[thick, red, domain=0:6.2832] {-3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $3\\cos(2x) = -3$ have for $0 \\le x \\le 2\\pi$, and why is the answer not four?",
+        "structure": "count-intersections-horizontal-line",
+        "solution_text": "The line sits at the minimum value of the curve, so it touches the curve rather than crossing it.\nEach cycle therefore contributes one point of intersection, not two.\nThe domain holds two cycles, so there are $2$ points of intersection.\n$\\cos(2x) = -1$\n$2x = \\pi,\\ 3\\pi$\n$x = \\dfrac{\\pi}{2},\\ \\dfrac{3\\pi}{2}$"
+      },
+      {
+        "question_text": "The graph of $y = \\sin(3x)$ and the line $y = \\dfrac{1}{2}$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-1.6, ymax=1.6,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {sin(deg(3*x))};\n\\addplot[thick, red, domain=0:6.2832] {0.5};\n\\node[red, anchor=west] at (axis cs:6.45,0.5) {$y=\\frac{1}{2}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $\\sin(3x) = \\dfrac{1}{2}$ have for $0 \\le x \\le 2\\pi$? Explain how the period gives the count.",
+        "structure": "count-intersections-horizontal-line",
+        "solution_text": "Period $=\\dfrac{2\\pi}{3}$\nThe domain $0 \\le x \\le 2\\pi$ is three complete cycles.\n$\\dfrac{2\\pi}{\\frac{2\\pi}{3}} = 3$\nThe line $y=\\dfrac{1}{2}$ lies between $-1$ and $1$, so it cuts each cycle twice.\nThere are $6$ points of intersection, so the equation has $6$ solutions."
+      },
+      {
+        "question_text": "The graph of $y = 4\\sin x$ and the line $y = 3$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-5, ymax=5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-4, 3, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {4*sin(deg(x))};\n\\addplot[thick, red, domain=0:6.2832] {3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nOne solution of $4\\sin x = 3$ is $x \\approx 0.848$. Use the symmetry of the curve to find the other solution in $0 \\le x \\le 2\\pi$, correct to three decimal places.",
+        "structure": "symmetry-from-one-solution",
+        "solution_text": "The maximum of $y = 4\\sin x$ in this domain is at $x = \\dfrac{\\pi}{2}$.\nThe two intersections are symmetric about that maximum.\n$x = 2\\left(\\dfrac{\\pi}{2}\\right) - 0.848$\n$= \\pi - 0.848$\n$= 2.294$"
+      },
+      {
+        "question_text": "The graph of $y = 2\\cos\\left(\\dfrac{\\pi x}{6}\\right)$ and the line $y = 1$ are shown for $0 \\le x \\le 24$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1, xmax=26, ymin=-2.6, ymax=2.6,\n  xtick={6, 12, 18, 24},\n  ytick={-2, 1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:24] {2*cos(deg(pi*x/6))};\n\\addplot[thick, red, domain=0:24] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe curve has period $12$, and $x=2$ is one solution of $2\\cos\\left(\\dfrac{\\pi x}{6}\\right)=1$. Find all solutions in $0 \\le x \\le 24$.",
+        "structure": "period-extend-solutions",
+        "solution_text": "The minimum of the first cycle is at $x=6$, and the pair of intersections either side of it is symmetric about it.\n$x = 2(6) - 2$\n$= 10$\nAdding the period $12$ to each of $x=2$ and $x=10$ gives the second cycle.\n$2+12 = 14$\n$10+12 = 22$\n$x = 2,\\ 10,\\ 14,\\ 22$"
+      },
+      {
+        "question_text": "The curve $y = \\sin(2x)$ and the line $y = \\dfrac{x}{2}-\\dfrac{1}{4}$ are shown for $-\\pi \\le x \\le \\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-3.6, xmax=3.6, ymin=-2.2, ymax=2.2,\n  xtick={-3.1416, -1.5708, 1.5708, 3.1416},\n  xticklabels={$-\\pi$, $-\\frac{\\pi}{2}$, $\\frac{\\pi}{2}$, $\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-3.1416:3.1416] {sin(deg(2*x))};\n\\addplot[thick, red, domain=-3.1416:3.1416] {x/2-0.25};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $\\sin(2x) = \\dfrac{x}{2}-\\dfrac{1}{4}$ have in $-\\pi \\le x \\le \\pi$, and how many of them are positive?",
+        "structure": "count-intersections-with-line",
+        "solution_text": "Each crossing of the curve and the line is one solution.\nThe graphs cross three times inside $-\\pi \\le x \\le \\pi$, so there are $3$ solutions.\nTwo of the crossings lie to the left of the $y$-axis and one lies to the right.\nOnly $1$ solution is positive."
+      },
+      {
+        "question_text": "The curve $y = 3\\sin x$ and the line $y = 2-x$ are shown for $-2\\pi \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-7, xmax=7, ymin=-4.8, ymax=4.8,\n  xtick={-6.2832, -3.1416, 3.1416, 6.2832},\n  xticklabels={$-2\\pi$, $-\\pi$, $\\pi$, $2\\pi$},\n  ytick={-3, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-6.2832:6.2832] {3*sin(deg(x))};\n\\addplot[thick, red, domain=-2.6:6.6] {2-x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nShow that every solution of $3\\sin x = 2-x$ must satisfy $-1 \\le x \\le 5$.",
+        "structure": "bound-solutions-by-range",
+        "solution_text": "Since $-1 \\le \\sin x \\le 1$:\n$-3 \\le 3\\sin x \\le 3$\nAt a solution, $2-x$ equals $3\\sin x$, so it must lie in the same interval.\n$-3 \\le 2-x \\le 3$\n$-5 \\le -x \\le 1$\n$-1 \\le x \\le 5$\nOutside this interval the line lies above or below every point of the curve, so no solution is possible."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The curve $y = 2\\cos x$ and the line $y = 1-\\dfrac{x}{2}$ are shown for $-2\\pi \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-7, xmax=7, ymin=-3.4, ymax=4.6,\n  xtick={-6.2832, -3.1416, 3.1416, 6.2832},\n  xticklabels={$-2\\pi$, $-\\pi$, $\\pi$, $2\\pi$},\n  ytick={-2, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-6.2832:6.2832] {2*cos(deg(x))};\n\\addplot[thick, red, domain=-6.2832:6.2832] {1-x/2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $2\\cos x = 1-\\dfrac{x}{2}$ have, and explain why no solution can lie outside $-2 \\le x \\le 6$.",
+        "structure": "count-intersections-with-line",
+        "solution_text": "The graphs cross three times, so the equation has $3$ solutions.\nSince $-1 \\le \\cos x \\le 1$:\n$-2 \\le 2\\cos x \\le 2$\n$-2 \\le 1-\\dfrac{x}{2} \\le 2$\n$-3 \\le -\\dfrac{x}{2} \\le 1$\n$-2 \\le x \\le 6$\nBeyond these values the line is higher than the curve's maximum or lower than its minimum, so the graphs cannot meet."
+      },
+      {
+        "question_text": "The graph of $f(x) = 5\\cos\\left(\\dfrac{\\pi x}{6}\\right)+3$ and the line $y = 6$ are shown for $0 \\le x \\le 24$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1, xmax=26, ymin=-3.4, ymax=9.4,\n  xtick={6, 12, 18, 24},\n  ytick={-2, 3, 6, 8},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:24] {5*cos(deg(pi*x/6))+3};\n\\addplot[thick, red, domain=0:24] {6};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe function has period $12$ and a minimum at $x=6$. Given that $x = 1.77$ is a solution of $f(x)=6$, find the other solutions in $0 \\le x \\le 24$, correct to two decimal places.",
+        "structure": "symmetry-from-one-solution",
+        "solution_text": "The first two intersections are symmetric about the minimum at $x=6$.\n$x = 2(6) - 1.77$\n$= 10.23$\nAdding the period $12$ to each of these gives the second cycle.\n$1.77 + 12 = 13.77$\n$10.23 + 12 = 22.23$\nThe other solutions are $x = 10.23,\\ 13.77,\\ 22.23$."
+      },
+      {
+        "question_text": "The graph of $y = 2\\sin(4x)$ and the line $y = 1$ are shown for $0 \\le x \\le \\dfrac{\\pi}{4}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.05, xmax=0.95, ymin=-2.6, ymax=2.6,\n  xtick={0.2618, 0.5236, 0.7854},\n  xticklabels={$\\frac{\\pi}{12}$, $\\frac{\\pi}{6}$, $\\frac{\\pi}{4}$},\n  ytick={-2, 1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:0.7854] {2*sin(deg(4*x))};\n\\addplot[thick, red, domain=0:0.7854] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFor what values of $x$ in $0 \\le x \\le \\dfrac{\\pi}{4}$ does the line $y=1$ meet the curve?",
+        "structure": "count-intersections-horizontal-line",
+        "solution_text": "$2\\sin(4x) = 1$\n$\\sin(4x) = \\dfrac{1}{2}$\nLet $u = 4x$, so $0 \\le u \\le \\pi$.\n$u = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$\n$x = \\dfrac{u}{4}$\n$x = \\dfrac{\\pi}{24},\\ \\dfrac{5\\pi}{24}$"
+      },
+      {
+        "question_text": "The graph of $y = 4\\sin\\left(\\dfrac{\\pi x}{4}\\right)$ and the line $y = 2\\sqrt{2}$ are shown for $0 \\le x \\le 16$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.8, xmax=18.5, ymin=-5, ymax=5,\n  xtick={4, 8, 12, 16},\n  ytick={-4, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:16] {4*sin(deg(pi*x/4))};\n\\addplot[thick, red, domain=0:16] {2.82843};\n\\node[red, anchor=west] at (axis cs:16.3,2.82843) {$y=2\\sqrt{2}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe curve has period $8$, and $x=1$ is one solution of $4\\sin\\left(\\dfrac{\\pi x}{4}\\right) = 2\\sqrt{2}$. Find all solutions in $0 \\le x \\le 16$.",
+        "structure": "period-extend-solutions",
+        "solution_text": "The first maximum is at $x=2$, and the first two intersections are symmetric about it.\n$x = 2(2) - 1$\n$= 3$\nAdding the period $8$ to each of $x=1$ and $x=3$ gives the second cycle.\n$x = 1,\\ 3,\\ 9,\\ 11$"
+      },
+      {
+        "question_text": "The curve $y = \\cos x$ and the graph of $y = \\left|\\dfrac{x-\\pi}{4}\\right|$ are shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-2.6, xmax=8.8, ymin=-1.6, ymax=1.8,\n  xtick={3.1416, 6.2832},\n  xticklabels={$\\pi$, $2\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-2:8] {cos(deg(x))};\n\\addplot[thick, red, domain=-2:3.1416] {(3.1416-x)/4};\n\\addplot[thick, red, domain=3.1416:8] {(x-3.1416)/4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $\\cos x = \\left|\\dfrac{x-\\pi}{4}\\right|$ have over all real values of $x$? Justify your answer from the graphs.",
+        "structure": "count-intersections-with-line",
+        "solution_text": "The two arms of $y = \\left|\\dfrac{x-\\pi}{4}\\right|$ rise from $0$ at $x=\\pi$, and reach $1$ when $x = \\pi-4$ and $x = \\pi+4$.\nBeyond those two values the V-shape is above $1$, which is higher than any point of $y=\\cos x$.\nSo every solution lies in $\\pi-4 \\le x \\le \\pi+4$, and this is the region drawn.\nThe graphs cross four times inside it, twice on each arm.\nThere are $4$ solutions."
+      },
+      {
+        "question_text": "The graph of $y = 3\\tan\\left(\\dfrac{x}{2}\\right)$ and the line $y = 3$ are shown for $0 \\le x \\le 4\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.6, xmax=13.6, ymin=-9.5, ymax=9.5,\n  xtick={3.1416, 6.2832, 9.4248, 12.5664},\n  xticklabels={$\\pi$, $2\\pi$, $3\\pi$, $4\\pi$},\n  ytick={-6, 3, 6},\n  samples=100, clip=false,\n  restrict y to domain=-9.5:9.5, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:2.4980] {3*tan(deg(x/2))};\n\\addplot[smooth, thick, blue, domain=3.7852:8.7812] {3*tan(deg(x/2))};\n\\addplot[smooth, thick, blue, domain=10.0684:12.5664] {3*tan(deg(x/2))};\n\\addplot[thick, red, domain=0:12.5664] {3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $3\\tan\\left(\\dfrac{x}{2}\\right) = 3$ have for $0 \\le x \\le 4\\pi$? List them.",
+        "structure": "count-intersections-horizontal-line",
+        "solution_text": "The curve has period $\\dfrac{\\pi}{\\frac{1}{2}} = 2\\pi$, so the domain holds two cycles and the line cuts each once.\nThere are $2$ points of intersection.\n$\\tan\\left(\\dfrac{x}{2}\\right) = 1$\nLet $u = \\dfrac{x}{2}$, so $0 \\le u \\le 2\\pi$.\n$u = \\dfrac{\\pi}{4},\\ \\dfrac{5\\pi}{4}$\n$x = 2u$\n$x = \\dfrac{\\pi}{2},\\ \\dfrac{5\\pi}{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The curve $y = 1+\\sin\\left(\\dfrac{\\pi x}{2}\\right)$ is shown for $0 \\le x \\le 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.4, xmax=4.8, ymin=-0.5, ymax=2.6,\n  xtick={1, 2, 3, 4},\n  ytick={1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:4] {1+sin(deg(pi*x/2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe equation $\\sin\\left(\\dfrac{\\pi x}{2}\\right) = mx-1$ can be rewritten as $1+\\sin\\left(\\dfrac{\\pi x}{2}\\right) = mx$, so its solutions are where the line $y=mx$ meets the curve above. Find the values of $m$ for which the equation has exactly one solution in $0 \\le x \\le 4$.",
+        "structure": "count-intersections-with-line",
+        "solution_text": "Every line $y=mx$ passes through the origin, which is below the curve since the curve starts at $(0,1)$.\nIf $m<0$ the line is negative for $x>0$, while the curve is never negative, so there is no intersection.\nIf $m=0$ the line is the $x$-axis, which touches the curve only at its minimum $(3,0)$, giving exactly one solution.\nFor $m>0$ the line always crosses the curve once between $x=0$ and $x=3$, because the curve drops from $1$ to $0$ while the line rises.\nA second crossing after $x=3$ happens only while the line is still below the curve at $x=4$.\nThe line through $(0,0)$ and $(4,1)$ has gradient $\\dfrac{1}{4}$.\n$m = 0.25$\nFor $0 < m \\le 0.25$ the line meets the curve twice, and for $m > 0.25$ it meets it only once.\n$m = 0$ or $m > 0.25$"
+      },
+      {
+        "question_text": "The graph of $f(x) = 8\\cos\\left(\\dfrac{\\pi x}{9}\\right)+5$ and the line $y = 10$ are shown for $0 \\le x \\le 36$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1.5, xmax=39, ymin=-4.5, ymax=14.5,\n  xtick={9, 18, 27, 36},\n  ytick={-3, 5, 10, 13},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:36] {8*cos(deg(pi*x/9))+5};\n\\addplot[thick, red, domain=0:36] {10};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe function has period $18$, with maxima at $x=0$, $x=18$ and $x=36$. Given that $x \\approx 2.57$ is a solution of $f(x)=10$, find all the solutions in $0 \\le x \\le 36$, correct to two decimal places.",
+        "structure": "symmetry-from-one-solution",
+        "solution_text": "The first minimum is at $x=9$, and the first pair of intersections is symmetric about it.\n$x = 2(9) - 2.57$\n$= 15.43$\nAdding the period $18$ to each of these gives the second cycle.\n$2.57 + 18 = 20.57$\n$15.43 + 18 = 33.43$\nAll four values lie inside $0 \\le x \\le 36$.\n$x = 2.57,\\ 15.43,\\ 20.57,\\ 33.43$"
+      },
+      {
+        "question_text": "The curve $y = 4\\cos(2x)$ and the line $y = x-1$ are shown for $-3 \\le x \\le 5$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-4, xmax=6, ymin=-5.5, ymax=5.5,\n  xtick={-3, -1, 1, 3, 5},\n  ytick={-4, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-3:5] {4*cos(deg(2*x))};\n\\addplot[thick, red, domain=-3:5] {x-1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nShow that every solution of $4\\cos(2x) = x-1$ satisfies $-3 \\le x \\le 5$, and hence state how many solutions the equation has.",
+        "structure": "bound-solutions-by-range",
+        "solution_text": "Since $-1 \\le \\cos(2x) \\le 1$:\n$-4 \\le 4\\cos(2x) \\le 4$\nAt a solution, $x-1$ takes the same value as $4\\cos(2x)$.\n$-4 \\le x-1 \\le 4$\n$-3 \\le x \\le 5$\nSo the whole picture is drawn: outside this interval the line is beyond the reach of the curve.\nThe curve has period $\\pi$, so the interval of length $8$ holds about two and a half cycles, and the graphs cross five times.\nThere are $5$ solutions."
+      }
+    ]
+  }
+}

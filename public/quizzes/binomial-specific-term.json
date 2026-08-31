@@ -1,0 +1,230 @@
+{
+  "skillId": "binomial-specific-term",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What is the $5\\text{th}$ term in the expansion of $(x - 2)^{7}$?",
+      "structure": "find-named-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$560x^{3}$",
+          "correct": true
+        },
+        {
+          "text": "$-560x^{3}$",
+          "why": "Applied a negative sign to $(-2)^4$, forgetting that an even power of a negative is positive."
+        },
+        {
+          "text": "$-672x^{2}$",
+          "why": "Used $r=5$ for the 5th term instead of $r=4$, giving $\\binom{7}{5}x^{2}(-2)^{5}$."
+        },
+        {
+          "text": "$280x^{4}$",
+          "why": "Used $r=3$ instead of $r=4$, finding the 4th term rather than the 5th term."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{7}{r}x^{7-r}(-2)^{r}$\n$T_{5} = \\binom{7}{4}x^{3}(-2)^{4}$\n$= 35 \\times 16x^{3}$\n$= 560x^{3}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the coefficient of $x^{3}$ in the expansion of $(2x - 3)^{5}$.",
+      "structure": "find-term-in-power",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$720$",
+          "correct": true
+        },
+        {
+          "text": "$-720$",
+          "why": "Squared $-3$ as $-9$ instead of $+9$ when evaluating the numerical factor."
+        },
+        {
+          "text": "$-1080$",
+          "why": "Used $r=3$ (the power of $x$) instead of $r=2$, evaluating $\\binom{5}{3}2^{2}(-3)^{3}$."
+        },
+        {
+          "text": "$80$",
+          "why": "Omitted the constant factor $(-3)^{2}$ from the product evaluation."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{5}{r}(2x)^{5-r}(-3)^{r}$\n$= \\binom{5}{r}2^{5-r}(-3)^{r}x^{5-r}$\n$\\text{For } x^{3}\\text{, let } 5 - r = 3\\text{, giving } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{5}{2}2^{3}(-3)^{2}$\n$= 10 \\times 8 \\times 9$\n$= 720$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find the term independent of $x$ in the expansion of $\\left(3x^{2} + \\dfrac{1}{x}\\right)^{6}$.",
+      "structure": "find-constant-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$135$",
+          "correct": true
+        },
+        {
+          "text": "$405$",
+          "why": "Used $r=2$ instead of $r=4$, evaluating $\\binom{6}{2}3^{4} = 15 \\times 81$."
+        },
+        {
+          "text": "$15$",
+          "why": "Omitted the base coefficient $3^{2}$, calculating only the combination $\\binom{6}{4}$."
+        },
+        {
+          "text": "$540$",
+          "why": "Multiplied $6 \\times 3^{4} = 486$ incorrectly by confusing term indices."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{6}{r}(3x^{2})^{6-r}\\left(\\dfrac{1}{x}\\right)^{r}$\n$= \\binom{6}{r}3^{6-r}x^{12-3r}$\n$\\text{For } x^{0}\\text{, let } 12 - 3r = 0\\text{, giving } r = 4\\text{:}$\n$\\text{Constant term} = \\binom{6}{4}3^{2}$\n$= 15 \\times 9$\n$= 135$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the term containing $x^{2}y^{3}$ in the expansion of $(3x - 2y)^{5}$.",
+      "structure": "find-two-variable-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-720x^{2}y^{3}$",
+          "correct": true
+        },
+        {
+          "text": "$720x^{2}y^{3}$",
+          "why": "Omitted the negative sign resulting from the odd power $(-2)^{3}=-8$."
+        },
+        {
+          "text": "$-1080x^{3}y^{2}$",
+          "why": "Swapped the powers of $x$ and $y$, evaluating the term in $x^{3}y^{2}$."
+        },
+        {
+          "text": "$-240x^{2}y^{3}$",
+          "why": "Used $3^{1}$ instead of $3^{2}$ when raising the first term to power $5-3$."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{5}{r}(3x)^{5-r}(-2y)^{r}$\n$= \\binom{5}{r}3^{5-r}(-2)^{r}x^{5-r}y^{r}$\n$\\text{For } x^{2}y^{3}\\text{, let } r = 3\\text{:}$\n$T_{4} = \\binom{5}{3}3^{2}(-2)^{3}x^{2}y^{3}$\n$= 10 \\times 9 \\times (-8)x^{2}y^{3}$\n$= -720x^{2}y^{3}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Find the $4\\text{th}$ term in the expansion of $(2x^{2} + 1)^{8}$.",
+      "structure": "find-named-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1792x^{10}$",
+          "correct": true
+        },
+        {
+          "text": "$1120x^{8}$",
+          "why": "Used $r = 4$ for the 4th term instead of $r = 3$, so this is really the 5th term: $\\binom{8}{4}2^{4}x^{8} = 70 \\times 16x^{8}$."
+        },
+        {
+          "text": "$112x^{10}$",
+          "why": "Left the $2$ in $(2x^{2})^{5}$ as a single factor instead of raising it to the power $5$, giving $56 \\times 2 = 112$ rather than $56 \\times 32$."
+        },
+        {
+          "text": "$140x^{8}$",
+          "why": "Made both slips at once: took $r = 4$ instead of $r = 3$, and kept the $2$ unraised, giving $70 \\times 2 = 140$."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{8}{r}(2x^{2})^{8-r}(1)^{r}$\n$= \\binom{8}{r}2^{8-r}x^{16-2r}$\n$\\text{For the } 4\\text{th term, let } r = 3\\text{:}$\n$T_{4} = \\binom{8}{3}2^{5}x^{10}$\n$= 56 \\times 32x^{10}$\n$= 1792x^{10}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Which of the following binomial expansions has a non-zero constant term when expanded?",
+      "structure": "find-constant-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\left(x^{3} - \\dfrac{2}{x^{2}}\\right)^{10}$",
+          "correct": true
+        },
+        {
+          "text": "$\\left(x^{2} + \\dfrac{1}{x^{3}}\\right)^{8}$",
+          "why": "Setting the index equation $16-5r=0$ gives $r=3.2$, which is not an integer."
+        },
+        {
+          "text": "$\\left(x^{4} + \\dfrac{1}{x}\\right)^{7}$",
+          "why": "Setting the index equation $28-5r=0$ gives $r=5.6$, which is not an integer."
+        },
+        {
+          "text": "$\\left(x^{2} - \\dfrac{3}{x}\\right)^{7}$",
+          "why": "Setting the index equation $14-3r=0$ gives $r=4.\\dot{6}$, which is not an integer."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{10}{r}(x^{3})^{10-r}\\left(-\\dfrac{2}{x^{2}}\\right)^{r}$\n$= \\binom{10}{r}(-2)^{r}x^{30-5r}$\n$\\text{For } x^{0}\\text{, let } 30 - 5r = 0\\text{, giving } r = 6\\text{ (an integer).}$\n$\\text{Constant term} = \\binom{10}{6}(-2)^{6} = 13440 \\neq 0$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find the coefficient of $x^{2}$ in the expansion of $\\left(x^{3} - \\dfrac{2}{x}\\right)^{6}$.",
+      "structure": "find-term-in-power",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$240$",
+          "correct": true
+        },
+        {
+          "text": "$-240$",
+          "why": "Treated $(-2)^4$ as negative instead of positive $16$."
+        },
+        {
+          "text": "$60$",
+          "why": "Used $r=2$ instead of $r=4$, calculating $\\binom{6}{2}(-2)^{2} = 15 \\times 4$."
+        },
+        {
+          "text": "$15$",
+          "why": "Omitted the base multiplier $(-2)^{4}$, recording only the combination $\\binom{6}{4}$."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{6}{r}(x^{3})^{6-r}\\left(-\\dfrac{2}{x}\\right)^{r}$\n$= \\binom{6}{r}(-2)^{r}x^{18-4r}$\n$\\text{For } x^{2}\\text{, let } 18 - 4r = 2\\text{, giving } r = 4\\text{:}$\n$\\text{Coefficient} = \\binom{6}{4}(-2)^{4}$\n$= 15 \\times 16$\n$= 240$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Find the coefficient of $x^{4}y^{6}$ in the expansion of $(x^{2} - 3y^{3})^{4}$.",
+      "structure": "find-two-variable-term",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$54$",
+          "correct": true
+        },
+        {
+          "text": "$-54$",
+          "why": "Squared $-3$ as $-9$ instead of $+9$ when evaluating the numerical power."
+        },
+        {
+          "text": "$18$",
+          "why": "Omitted the combination coefficient $\\binom{4}{2}=6$, multiplying $2 \\times 9$."
+        },
+        {
+          "text": "$-108$",
+          "why": "Used $r=3$ instead of $r=2$, evaluating $\\binom{4}{3}(-3)^{3} = -108$."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{4}{r}(x^{2})^{4-r}(-3y^{3})^{r}$\n$= \\binom{4}{r}(-3)^{r}x^{8-2r}y^{3r}$\n$\\text{For } x^{4}y^{6}\\text{, let } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{4}{2}(-3)^{2}$\n$= 6 \\times 9$\n$= 54$"
+    },
+    {
+      "id": "q9",
+      "question_text": "In the expansion of $(1 + kx)^{8}$, where $k$ is a positive constant, the coefficient of $x^{2}$ is $252$. What is the value of $k$?",
+      "structure": "solve-for-index-or-parameter",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$3$",
+          "correct": true
+        },
+        {
+          "text": "$9$",
+          "why": "Found $k^{2}=9$ but forgot to take the square root to find $k$."
+        },
+        {
+          "text": "$\\pm 3$",
+          "why": "Included the negative solution $-3$ despite the stem specifying $k > 0$."
+        },
+        {
+          "text": "$6$",
+          "why": "Divided $252$ by $\\binom{8}{1}=8$ or made an arithmetic error solving $k^{2}=36$."
+        }
+      ],
+      "solution_text": "$T_{r+1} = \\binom{8}{r}(1)^{8-r}(kx)^{r} = \\binom{8}{r}k^{r}x^{r}$\n$\\text{For } x^{2}\\text{, let } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{8}{2}k^{2}$\n$28k^{2} = 252$\n$k^{2} = 9$\n$k = 3$"
+    }
+  ]
+}

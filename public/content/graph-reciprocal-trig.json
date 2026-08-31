@@ -1,0 +1,114 @@
+{
+  "skillId": "graph-reciprocal-trig",
+  "atomType": "T",
+  "theory": {
+        "intro": "$y = \\operatorname{cosec} x$, $y = \\sec x$ and $y = \\cot x$ are the reciprocals of $\\sin x$, $\\cos x$ and $\\tan x$. Each has a vertical asymptote wherever its guide function is zero, and meets the guide graph wherever that function is $\\pm 1$.",
+        "facts": [
+          "$y = \\operatorname{cosec} x = \\dfrac{1}{\\sin x}$ has period $2\\pi$ ($360^\\circ$), asymptotes at $x = k\\pi$ ($k \\in \\mathbb{Z}$) excluded from its domain, range $(-\\infty, -1] \\cup [1, \\infty)$, and is **odd**: $\\operatorname{cosec}(-x) = -\\operatorname{cosec} x$.",
+          "$y = \\operatorname{cosec} x$ has local minima at $\\left(\\dfrac{\\pi}{2} + 2k\\pi, 1\\right)$, local maxima at $\\left(\\dfrac{3\\pi}{2} + 2k\\pi, -1\\right)$, and no intercepts.",
+          "$y = \\sec x = \\dfrac{1}{\\cos x}$ has period $2\\pi$ ($360^\\circ$), asymptotes at $x = \\dfrac{\\pi}{2} + k\\pi$ ($k \\in \\mathbb{Z}$) excluded from its domain, range $(-\\infty, -1] \\cup [1, \\infty)$, and is **even**: $\\sec(-x) = \\sec x$.",
+          "$y = \\sec x$ has $y$-intercept $(0, 1)$, local minima at $(2k\\pi, 1)$, local maxima at $((2k+1)\\pi, -1)$, and no $x$-intercepts.",
+          "$y = \\cot x = \\dfrac{1}{\\tan x} = \\dfrac{\\cos x}{\\sin x}$ has period $\\pi$ ($180^\\circ$), asymptotes at $x = k\\pi$ ($k \\in \\mathbb{Z}$) excluded from its domain, range $(-\\infty, \\infty)$, and is **odd**: $\\cot(-x) = -\\cot x$.",
+          "$y = \\cot x$ has $x$-intercepts where $\\cos x = 0$, at $x = \\dfrac{\\pi}{2} + k\\pi$, and decreases on every branch $(k\\pi, (k+1)\\pi)$."
+        ],
+        "steps": [
+          "Identify the primary guide function ($\\sin x$ for $\\operatorname{cosec} x$, $\\cos x$ for $\\sec x$, $\\tan x$ for $\\cot x$)",
+          "Draw vertical dashed asymptotes where the primary function is zero (or where the denominator is zero)",
+          "Plot invariant turning points at $y = \\pm 1$ matching the peaks and troughs of the guide curve (or plot $x$-intercepts for $\\cot x$ where $\\cos x = 0$)",
+          "Sketch smooth U-shaped branches for $\\operatorname{cosec} x$ and $\\sec x$ opening away from the axis, or downward-sloping asymptotic branches for $\\cot x$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A reciprocal trigonometric graph is shown below on the domain $[0, 2\\pi]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.8, ymin=-4, ymax=4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3,-2,-1,1,2,3},\n  samples=150, clip=false,\n  restrict y to domain=-4:4, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0.26:2.88] {1/sin(deg(x))};\n\\addplot[smooth, thick, blue, domain=3.40:6.02] {1/sin(deg(x))};\n\\addplot[dashed, red, domain=0:6.2832] {sin(deg(x))};\n\\addplot[dashed, gray, domain=-4:4] ({0},{x});\n\\addplot[dashed, gray, domain=-4:4] ({3.1416},{x});\n\\addplot[dashed, gray, domain=-4:4] ({6.2832},{x});\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nIdentify the function shown by the solid blue curve: $y = \\operatorname{cosec} x$, $y = \\sec x$, or $y = \\cot x$.",
+        "structure": "identify-reciprocal-trig-graph",
+        "solution_text": "The solid curve has vertical asymptotes at $x = 0$, $x = \\pi$, and $x = 2\\pi$, which correspond to the zeros of $y = \\sin x$.\nThe curve touches the peak of $\\sin x$ at $\\left(\\dfrac{\\pi}{2}, 1\\right)$ and the trough at $\\left(\\dfrac{3\\pi}{2}, -1\\right)$.\nThis is the graph of $y = \\operatorname{cosec} x$."
+      },
+      {
+        "question_text": "A reciprocal trigonometric graph is shown below on the domain $[0, 2\\pi]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.8, ymin=-4, ymax=4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-3,-2,-1,1,2,3},\n  samples=150, clip=false,\n  restrict y to domain=-4:4, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:1.31] {1/cos(deg(x))};\n\\addplot[smooth, thick, blue, domain=1.83:4.45] {1/cos(deg(x))};\n\\addplot[smooth, thick, blue, domain=4.97:6.2832] {1/cos(deg(x))};\n\\addplot[dashed, red, domain=0:6.2832] {cos(deg(x))};\n\\addplot[dashed, gray, domain=-4:4] ({1.5708},{x});\n\\addplot[dashed, gray, domain=-4:4] ({4.7124},{x});\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nIdentify the function shown by the solid blue curve: $y = \\operatorname{cosec} x$, $y = \\sec x$, or $y = \\cot x$.",
+        "structure": "identify-reciprocal-trig-graph",
+        "solution_text": "The solid curve has $y$-intercept $(0, 1)$ and vertical asymptotes at $x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{3\\pi}{2}$, where $\\cos x = 0$.\nIt touches the peaks and troughs of $y = \\cos x$ at $y = \\pm 1$.\nThis is the graph of $y = \\sec x$."
+      },
+      {
+        "question_text": "State the equations of all vertical asymptotes of $y = \\operatorname{cosec} x$ on the interval $[0, 2\\pi]$ and state the domain of the function over this interval.",
+        "structure": "reciprocal-trig-asymptotes-and-domain",
+        "solution_text": "Vertical asymptotes occur where $\\sin x = 0$:\n$x = 0$, $x = \\pi$, and $x = 2\\pi$\nDomain on $[0, 2\\pi]$: $(0, \\pi) \\cup (\\pi, 2\\pi)$ (all $x \\in [0, 2\\pi]$ except $x = 0, \\pi, 2\\pi$)."
+      },
+      {
+        "question_text": "State the equations of all vertical asymptotes of $y = \\sec x$ on the interval $[0, 2\\pi]$ and state its domain on this interval.",
+        "structure": "reciprocal-trig-asymptotes-and-domain",
+        "solution_text": "Vertical asymptotes occur where $\\cos x = 0$:\n$x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{3\\pi}{2}$\nDomain on $[0, 2\\pi]$: $\\left[0, \\dfrac{\\pi}{2}\\right) \\cup \\left(\\dfrac{\\pi}{2}, \\dfrac{3\\pi}{2}\\right) \\cup \\left(\\dfrac{3\\pi}{2}, 2\\pi\\right]$."
+      },
+      {
+        "question_text": "State the range of the function $y = \\sec x$ across its natural domain.",
+        "structure": "reciprocal-trig-range-and-extrema",
+        "solution_text": "Since $-1 \\le \\cos x \\le 1$ with $\\cos x \\neq 0$, taking reciprocals gives:\n$\\sec x \\ge 1$ when $\\cos x > 0$\n$\\sec x \\le -1$ when $\\cos x < 0$\nRange: $(-\\infty, -1] \\cup [1, \\infty)$ (or $|y| \\ge 1$)."
+      },
+      {
+        "question_text": "State the period and parity (even or odd) of $y = \\sec x$, explaining why from the definition $\\sec x = \\dfrac{1}{\\cos x}$.",
+        "structure": "reciprocal-trig-period-and-parity",
+        "solution_text": "Since $\\cos(x + 2\\pi) = \\cos x$, $\\sec(x + 2\\pi) = \\dfrac{1}{\\cos(x + 2\\pi)} = \\dfrac{1}{\\cos x} = \\sec x$, so the period is $2\\pi$.\nSince $\\cos(-x) = \\cos x$, $\\sec(-x) = \\dfrac{1}{\\cos(-x)} = \\dfrac{1}{\\cos x} = \\sec x$, so the function is **even**.\nPeriod $2\\pi$; even function (symmetric in the $y$-axis)."
+      },
+      {
+        "question_text": "For $y = \\cot x$ on the domain $(0, \\pi)$, state the equation of its vertical asymptotes, its $x$-intercept, and whether the function is increasing or decreasing on this interval.",
+        "structure": "sketch-reciprocal-trig-from-primary",
+        "solution_text": "Vertical asymptotes occur where $\\sin x = 0$: $x = 0$ and $x = \\pi$.\nThe $x$-intercept occurs where $\\cos x = 0$: $x = \\dfrac{\\pi}{2}$, so $\\left(\\dfrac{\\pi}{2}, 0\\right)$.\nAs $x$ increases from $0$ to $\\pi$, $\\cot x$ decreases continuously from $+\\infty$ to $-\\infty$.\nVertical asymptotes $x = 0$ and $x = \\pi$; $x$-intercept $\\left(\\dfrac{\\pi}{2}, 0\\right)$; strictly decreasing."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For the function $y = \\operatorname{cosec} x$ on the domain $[0, 2\\pi]$, find the coordinates of all local extrema (turning points) and state whether each is a local maximum or a local minimum.",
+        "structure": "reciprocal-trig-range-and-extrema",
+        "solution_text": "At $x = \\dfrac{\\pi}{2}$, $\\sin\\dfrac{\\pi}{2} = 1$, so $\\operatorname{cosec}\\dfrac{\\pi}{2} = 1$.\nThis is a **local minimum** at $\\left(\\dfrac{\\pi}{2}, 1\\right)$.\nAt $x = \\dfrac{3\\pi}{2}$, $\\sin\\dfrac{3\\pi}{2} = -1$, so $\\operatorname{cosec}\\dfrac{3\\pi}{2} = -1$.\nThis is a **local maximum** at $\\left(\\dfrac{3\\pi}{2}, -1\\right)$."
+      },
+      {
+        "question_text": "A graph of $y = \\sec x$ is drawn on the domain $[-\\pi, \\pi]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-3.5, xmax=3.5, ymin=-4, ymax=4,\n  xtick={-3.1416, -1.5708, 1.5708, 3.1416},\n  xticklabels={$-\\pi$, $-\\frac{\\pi}{2}$, $\\frac{\\pi}{2}$, $\\pi$},\n  ytick={-3,-2,-1,1,2,3},\n  samples=150, clip=false,\n  restrict y to domain=-4:4, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=10cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-3.1416:-1.83] {1/cos(deg(x))};\n\\addplot[smooth, thick, blue, domain=-1.31:1.31] {1/cos(deg(x))};\n\\addplot[smooth, thick, blue, domain=1.83:3.1416] {1/cos(deg(x))};\n\\addplot[dashed, gray, domain=-4:4] ({-1.5708},{x});\n\\addplot[dashed, gray, domain=-4:4] ({1.5708},{x});\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nUsing the graph, state the coordinates of the $y$-intercept and all local extrema on $[-\\pi, \\pi]$.",
+        "structure": "reciprocal-trig-range-and-extrema",
+        "solution_text": "$y$-intercept: $(0, 1)$, which is also a local minimum.\nLocal maxima occur at the boundaries where $\\cos x = -1$: $(-\\pi, -1)$ and $(\\pi, -1)$.\nLocal minimum at $(0, 1)$; local maxima at $(-\\pi, -1)$ and $(\\pi, -1)$."
+      },
+      {
+        "question_text": "Explain why $y = \\cot x$ has vertical asymptotes at $x = 0, \\pm\\pi, \\pm 2\\pi$ whereas $y = \\tan x$ has vertical asymptotes at $x = \\pm\\dfrac{\\pi}{2}, \\pm\\dfrac{3\\pi}{2}$.",
+        "structure": "reciprocal-trig-asymptotes-and-domain",
+        "solution_text": "$\\tan x = \\dfrac{\\sin x}{\\cos x}$ is undefined where its denominator $\\cos x = 0$, which occurs at odd multiples of $\\dfrac{\\pi}{2}$ ($x = \\pm\\dfrac{\\pi}{2}, \\pm\\dfrac{3\\pi}{2}, \\dots$).\n$\\cot x = \\dfrac{\\cos x}{\\sin x}$ is undefined where its denominator $\\sin x = 0$, which occurs at all integer multiples of $\\pi$ ($x = 0, \\pm\\pi, \\pm 2\\pi, \\dots$)."
+      },
+      {
+        "question_text": "State the period and parity of $y = \\operatorname{cosec} x$ and $y = \\cot x$, and state which symmetry each exhibits in the coordinate plane.",
+        "structure": "reciprocal-trig-period-and-parity",
+        "solution_text": "For $y = \\operatorname{cosec} x$:\nPeriod $= 2\\pi$; $\\operatorname{cosec}(-x) = -\\operatorname{cosec} x$ (odd function), giving $180^\\circ$ rotational symmetry about the origin.\nFor $y = \\cot x$:\nPeriod $= \\pi$; $\\cot(-x) = -\\cot x$ (odd function), giving $180^\\circ$ rotational symmetry about the origin."
+      },
+      {
+        "question_text": "Find all solutions to the equation $\\operatorname{cosec} x = 2$ in the interval $[0, 2\\pi]$ using its relationship with $y = \\sin x$.",
+        "structure": "solve-equations-from-reciprocal-trig-graph",
+        "solution_text": "$\\operatorname{cosec} x = 2 \\implies \\sin x = \\dfrac{1}{2}$\nIn $[0, 2\\pi]$, sine is positive in Quadrants $1$ and $2$.\n$x = \\dfrac{\\pi}{6}$ or $x = \\pi - \\dfrac{\\pi}{6} = \\dfrac{5\\pi}{6}$\n$x = \\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}$"
+      },
+      {
+        "question_text": "Find all solutions to $\\sec^2 x = 4$ in the interval $[0, 2\\pi]$.",
+        "structure": "solve-equations-from-reciprocal-trig-graph",
+        "solution_text": "$\\sec^2 x = 4 \\implies \\sec x = \\pm 2 \\implies \\cos x = \\pm\\dfrac{1}{2}$\nFor $\\cos x = \\dfrac{1}{2}$: $x = \\dfrac{\\pi}{3}, \\dfrac{5\\pi}{3}$\nFor $\\cos x = -\\dfrac{1}{2}$: $x = \\dfrac{2\\pi}{3}, \\dfrac{4\\pi}{3}$\n$x = \\dfrac{\\pi}{3}, \\dfrac{2\\pi}{3}, \\dfrac{4\\pi}{3}, \\dfrac{5\\pi}{3}$"
+      },
+      {
+        "question_text": "Sketch the graph of $y = \\cot x$ on the domain $[0, 2\\pi]$ by identifying its vertical asymptotes, $x$-intercepts, and the points where $\\cot x = \\pm 1$.",
+        "structure": "sketch-reciprocal-trig-from-primary",
+        "solution_text": "Vertical asymptotes where $\\sin x = 0$: $x = 0, \\pi, 2\\pi$.\n$x$-intercepts where $\\cos x = 0$: $\\left(\\dfrac{\\pi}{2}, 0\\right)$ and $\\left(\\dfrac{3\\pi}{2}, 0\\right)$.\nInvariant points with $\\tan x$ at $\\pm 1$:\n$\\cot x = 1$ at $x = \\dfrac{\\pi}{4}$ and $x = \\dfrac{5\\pi}{4}$\n$\\cot x = -1$ at $x = \\dfrac{3\\pi}{4}$ and $x = \\dfrac{7\\pi}{4}$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find all points of intersection of the curves $y = \\sec x$ and $y = \\operatorname{cosec} x$ in the domain $[0, 2\\pi]$.",
+        "structure": "solve-equations-from-reciprocal-trig-graph",
+        "solution_text": "Setting $\\sec x = \\operatorname{cosec} x$:\n$\\dfrac{1}{\\cos x} = \\dfrac{1}{\\sin x} \\implies \\sin x = \\cos x$\nDividing by $\\cos x$ (where $\\cos x \\neq 0$):\n$\\tan x = 1$\nIn $[0, 2\\pi]$:\n$x = \\dfrac{\\pi}{4} \\implies y = \\sec\\dfrac{\\pi}{4} = \\sqrt{2}$\n$x = \\dfrac{5\\pi}{4} \\implies y = \\sec\\dfrac{5\\pi}{4} = -\\sqrt{2}$\nIntersection points: $\\left(\\dfrac{\\pi}{4}, \\sqrt{2}\\right)$ and $\\left(\\dfrac{5\\pi}{4}, -\\sqrt{2}\\right)$."
+      },
+      {
+        "question_text": "Describe the transformation that maps the graph of $y = \\operatorname{cosec} x$ onto the graph of $y = \\sec x$, and verify using trigonometric identities.",
+        "structure": "sketch-reciprocal-trig-from-primary",
+        "solution_text": "Using the complementary angle identity: $\\cos x = \\sin\\left(\\dfrac{\\pi}{2} - x\\right) = \\sin\\left(x + \\dfrac{\\pi}{2}\\right)$ for even cosine.\nTherefore $\\sec x = \\dfrac{1}{\\cos x} = \\dfrac{1}{\\sin\\left(x + \\frac{\\pi}{2}\\right)} = \\operatorname{cosec}\\left(x + \\dfrac{\\pi}{2}\\right)$.\nThis represents a horizontal translation of the graph of $y = \\operatorname{cosec} x$ to the left by $\\dfrac{\\pi}{2}$ units (or right by $\\dfrac{3\\pi}{2}$ units)."
+      },
+      {
+        "question_text": "Determine the number of real solutions to the equation $\\sec x = 2 - x^2$ in the interval $[-\\pi, \\pi]$ using graphical reasoning.",
+        "structure": "solve-equations-from-reciprocal-trig-graph",
+        "solution_text": "The graph of $y = \\sec x$ has range $(-\\infty, -1] \\cup [1, \\infty)$ with local minimum at $(0, 1)$.\nThe parabola $y = 2 - x^2$ is concave down with vertex at $(0, 2)$ and zeros at $x = \\pm\\sqrt{2} \\approx \\pm 1.414$.\nAt $x = 0$, $2 - 0^2 = 2 > \\sec(0) = 1$.\nAs $x \\to \\pm\\dfrac{\\pi}{2}^- \\approx \\pm 1.571^-$, $\\sec x \\to +\\infty$, while $2 - x^2 = 2 - 2.467 < 0$.\nBy continuity on $\\left(-\\dfrac{\\pi}{2}, \\dfrac{\\pi}{2}\\right)$, the parabola intersects the positive branch of $\\sec x$ at two points symmetric about the $y$-axis.\nOn $\\left[-\\pi, -\\dfrac{\\pi}{2}\\right)$ and $\\left(\\dfrac{\\pi}{2}, \\pi\\right]$, $\\sec x \\le -1$ while $2 - x^2 \\ge 2 - \\pi^2 \\approx -7.87$, producing no further intersections since $2 - x^2 < 0$ throughout.\nTotal number of solutions $= 2$."
+      }
+    ]
+  }
+}

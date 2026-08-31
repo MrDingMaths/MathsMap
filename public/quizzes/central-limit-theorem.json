@@ -1,0 +1,109 @@
+{
+  "skillId": "central-limit-theorem",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Repair times at a garage are strongly right-skewed, with mean $55$ minutes and standard deviation $30$ minutes. A random sample of $48$ repair times is taken. Which statement is correct?",
+      "structure": "judge-applies",
+      "mastery": false,
+      "options": [
+        { "text": "$\\bar{X}$ is approximately normal, because the sample is random and $n\\ge 30$.", "correct": true },
+        { "text": "$\\bar{X}$ is right-skewed, because the population is right-skewed.", "why": "Assumed the sampling distribution copies the shape of the population instead of becoming normal." },
+        { "text": "The $48$ individual repair times are approximately normal, because $n\\ge 30$.", "why": "Claimed the population becomes normal in a large sample; the theorem is about the sample mean, not the data." },
+        { "text": "Nothing can be concluded, because the population is not normal.", "why": "Treated a non-normal population as blocking the theorem, but the theorem holds whatever the population's shape." }
+      ],
+      "solution_text": "The sample is random.\n$n=48$, and $48\\ge 30$.\nThe shape of the population does not matter.\n$\\bar{X}$ is approximately normal."
+    },
+    {
+      "id": "q2",
+      "question_text": "A population of house prices is strongly right-skewed. A random sample of $10$ prices is taken. Which statement is correct?",
+      "structure": "judge-applies",
+      "mastery": false,
+      "options": [
+        { "text": "No conclusion of approximate normality can be drawn, because $n=10$ is below $30$.", "correct": true },
+        { "text": "$\\bar{X}$ is approximately normal, because the theorem holds for every sample size.", "why": "Dropped the large-sample condition; the theorem needs $n\\ge 30$ unless the population is already normal." },
+        { "text": "$\\bar{X}$ is approximately normal, because averaging $10$ values always removes skew.", "why": "Assumed any amount of averaging produces normality, which is not what the theorem states." },
+        { "text": "The $10$ prices are approximately normal, because they were chosen at random.", "why": "Claimed the population becomes normal once sampled randomly; randomness does not change the population's shape." }
+      ],
+      "solution_text": "The sample is random, but $n=10$, and $10<30$.\nThe population is not normal, so there is no small-sample result either.\nThe central limit theorem cannot be used here."
+    },
+    {
+      "id": "q3",
+      "question_text": "A population has mean $\\mu=64$ and standard deviation $\\sigma=24$. Random samples of size $144$ are taken. Which is the approximate distribution of $\\bar{X}$?",
+      "structure": "state-conclusion",
+      "mastery": false,
+      "options": [
+        { "text": "$N(64,4)$", "correct": true },
+        { "text": "$N(64,576)$", "why": "Used the population variance $\\sigma^2=576$ without dividing by $n$." },
+        { "text": "$N(64,2)$", "why": "Gave the standard deviation $\\dfrac{\\sigma}{\\sqrt{n}}=2$ where the second entry must be the variance." },
+        { "text": "$N(64,24)$", "why": "Used the population standard deviation $\\sigma=24$ instead of the variance of $\\bar{X}$." }
+      ],
+      "solution_text": "$n=144$, and $144\\ge 30$, so the central limit theorem applies.\n$E(\\bar{X})=64$\n$\\text{Var}(\\bar{X})=\\dfrac{24^2}{144}$\n$=\\dfrac{576}{144}$\n$=4$\n$\\bar{X}$ is approximately $N(64,4)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A random digit generator produces the digits $0$ to $9$, each equally likely, so the population is uniform. One hundred digits are generated and their mean is calculated. Which statement is correct?",
+      "structure": "mean-not-population",
+      "mastery": false,
+      "options": [
+        { "text": "The mean of the $100$ digits is approximately normal, but the $100$ digits themselves are not.", "correct": true },
+        { "text": "The $100$ digits are approximately normal, because $n\\ge 30$.", "why": "Claimed the population becomes normal in a large sample; the digits stay uniform however many are generated." },
+        { "text": "Both the $100$ digits and their mean are approximately normal.", "why": "Applied the theorem to the data as well as to the mean, when it describes only the mean." },
+        { "text": "Neither is approximately normal, because the population is uniform.", "why": "Treated a uniform population as blocking the theorem, but the theorem holds whatever the population's shape." }
+      ],
+      "solution_text": "A large random sample of digits still shows all ten digits about equally often, so it stays uniform.\nThe central limit theorem describes the sample mean.\n$n=100\\ge 30$, so the mean of the $100$ digits is approximately normal while the digits are not."
+    },
+    {
+      "id": "q5",
+      "question_text": "Random samples are taken from a population, and the sample size is increased from $40$ to $360$. The standard deviation of $\\bar{X}$ is multiplied by which factor?",
+      "structure": "effect-of-sample-size",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{3}$", "correct": true },
+        { "text": "$\\dfrac{1}{9}$", "why": "Divided by the sample-size ratio $9$ itself instead of by its square root." },
+        { "text": "$3$", "why": "Got the size of the change right but the direction wrong; a larger sample makes $\\bar{X}$ less spread out." },
+        { "text": "$9$", "why": "Multiplied by the sample-size ratio, ignoring both the square root and the fact that the spread shrinks." }
+      ],
+      "solution_text": "The standard deviation of $\\bar{X}$ is $\\dfrac{\\sigma}{\\sqrt{n}}$.\nFor $n=40$ it is $\\dfrac{\\sigma}{\\sqrt{40}}$.\nFor $n=360$ it is $\\dfrac{\\sigma}{\\sqrt{360}}$.\n$\\dfrac{\\sqrt{40}}{\\sqrt{360}}=\\sqrt{\\dfrac{40}{360}}$\n$=\\sqrt{\\dfrac{1}{9}}$\n$=\\dfrac{1}{3}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "For random samples of size $256$ taken from a certain population, the central limit theorem gives $\\bar{X}$ as approximately $N(310,4)$. What is the standard deviation of the population?",
+      "structure": "state-conclusion",
+      "mastery": false,
+      "options": [
+        { "text": "$32$", "correct": true },
+        { "text": "$2$", "why": "Gave the standard deviation of $\\bar{X}$ itself, without multiplying by $\\sqrt{n}$ to recover $\\sigma$." },
+        { "text": "$1024$", "why": "Gave the population variance $\\sigma^2$ instead of the standard deviation $\\sigma$." },
+        { "text": "$0.125$", "why": "Divided by $\\sqrt{n}=16$ instead of multiplying by it, reversing the direction of the calculation." }
+      ],
+      "solution_text": "$\\text{Var}(\\bar{X})=\\dfrac{\\sigma^2}{n}$\n$4=\\dfrac{\\sigma^2}{256}$\n$\\sigma^2=1024$\n$\\sigma=\\sqrt{1024}$\n$=32$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How must the sample size be changed so that the standard deviation of $\\bar{X}$ becomes one fifth of its present value?",
+      "structure": "effect-of-sample-size",
+      "mastery": false,
+      "options": [
+        { "text": "Multiply the sample size by $25$", "correct": true },
+        { "text": "Multiply the sample size by $5$", "why": "Used the factor itself rather than its square, forgetting that $n$ sits under a square root." },
+        { "text": "Divide the sample size by $5$", "why": "Reduced the sample size, which makes the standard deviation larger, not smaller." },
+        { "text": "Divide the sample size by $25$", "why": "Squared the factor correctly but reduced the sample size, so the spread increases instead." }
+      ],
+      "solution_text": "The standard deviation of $\\bar{X}$ is $\\dfrac{\\sigma}{\\sqrt{n}}$.\nDividing it by $5$ needs $\\sqrt{n}$ multiplied by $5$.\n$(5\\sqrt{n})^2=25n$\nThe sample size must be multiplied by $25$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A machine fills bags of flour. The weights are strongly right-skewed with mean $505$ g and standard deviation $18$ g. For which one of the following does the central limit theorem justify using a normal model?",
+      "structure": "judge-applies",
+      "mastery": true,
+      "options": [
+        { "text": "The mean weight of a random sample of $36$ bags", "correct": true },
+        { "text": "The weight of one randomly chosen bag", "why": "Applied the theorem to a single observation; one weight comes straight from the right-skewed population." },
+        { "text": "The mean weight of a random sample of $4$ bags", "why": "Used a sample mean, but $n=4$ is far below the $n\\ge 30$ needed for a non-normal population." },
+        { "text": "The weights of all bags produced in one day", "why": "Claimed the population becomes normal once enough bags are made; the population keeps its skew." }
+      ],
+      "solution_text": "The theorem describes a sample mean, so a single bag and the whole day's production are both ruled out.\nOf the two sample means, $n=4$ is too small for a right-skewed population.\n$n=36$, and $36\\ge 30$, with a random sample.\nA normal model is justified for the mean weight of a random sample of $36$ bags."
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "skillId": "reciprocal-asymptotic-behaviour",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For the function $f(x) = \\dfrac{8}{x}$, which statement correctly describes its behaviour as $x \\to \\infty$ and as $x \\to 0^+$?",
+      "structure": "describe-end-behaviour",
+      "mastery": false,
+      "options": [
+        {
+          "text": "As $x \\to \\infty$, $y \\to 0$ from above; as $x \\to 0^+$, $y \\to \\infty$.",
+          "correct": true
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to 0$ from below; as $x \\to 0^+$, $y \\to -\\infty$.",
+          "why": "Assumed $k < 0$, reversing the sign of $y$ for positive $x$ values."
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to \\infty$; as $x \\to 0^+$, $y \\to 0$.",
+          "why": "Swapped the horizontal asymptote limit as $x \\to \\infty$ with the vertical asymptote limit as $x \\to 0^+$."
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to 0$ from above; as $x \\to 0^+$, $y \\to 8$.",
+          "why": "Substituted $x = 1$ into the numerator instead of evaluating the limit as $x \\to 0^+$."
+        }
+      ],
+      "solution_text": "For $f(x) = \\dfrac{8}{x}$ with $k = 8 > 0$:\nAs $x \\to \\infty$, $x > 0$ becomes arbitrarily large, so $y = \\dfrac{8}{x} > 0$ approaches $0$ from above.\nAs $x \\to 0^+$, $x > 0$ is small and positive, so $y = \\dfrac{8}{x} \\to \\infty$."
+    },
+    {
+      "id": "q2",
+      "question_text": "Which statement correctly describes the end behaviour of $f(x) = \\dfrac{5}{x}$ as $x \\to \\infty$ and as $x \\to -\\infty$?",
+      "structure": "describe-end-behaviour",
+      "mastery": false,
+      "options": [
+        {
+          "text": "As $x \\to \\infty$, $y \\to 0$ from above; as $x \\to -\\infty$, $y \\to 0$ from below.",
+          "correct": true
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to 0$ from below; as $x \\to -\\infty$, $y \\to 0$ from above.",
+          "why": "Reversed the signs of $y$ in the first and third quadrants."
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to \\infty$; as $x \\to -\\infty$, $y \\to -\\infty$.",
+          "why": "Confused the end behaviour with a linear or cubic polynomial function."
+        },
+        {
+          "text": "As $x \\to \\infty$, $y \\to 5$; as $x \\to -\\infty$, $y \\to -5$.",
+          "why": "Assumed the horizontal limit approaches the numerator $k$ rather than zero."
+        }
+      ],
+      "solution_text": "Since $k = 5 > 0$:\nWhen $x$ is large and positive, $y = \\dfrac{5}{x} > 0$ and approaches $0$, so $y \\to 0$ from above.\nWhen $x$ is large and negative, $y = \\dfrac{5}{x} < 0$ and approaches $0$, so $y \\to 0$ from below."
+    },
+    {
+      "id": "q3",
+      "question_text": "For the function $f(x) = -\\dfrac{2}{x}$, what is the behaviour of $y$ as $x$ approaches $0$ from the positive side ($x \\to 0^+$)?",
+      "structure": "describe-vertical-asymptote-behaviour",
+      "mastery": false,
+      "options": [
+        {
+          "text": "As $x \\to 0^+$, $y \\to -\\infty$",
+          "correct": true
+        },
+        {
+          "text": "As $x \\to 0^+$, $y \\to \\infty$",
+          "why": "Ignored the negative sign in the numerator $-2$, assuming $y \\to \\infty$ as for $k > 0$."
+        },
+        {
+          "text": "As $x \\to 0^+$, $y \\to 0$",
+          "why": "Confused the vertical asymptote behaviour at $x = 0$ with the end behaviour as $x \\to \\infty$."
+        },
+        {
+          "text": "As $x \\to 0^+$, $y \\to -2$",
+          "why": "Substituted $x = 1$ into the numerator instead of taking the limit as $x \\to 0^+$."
+        }
+      ],
+      "solution_text": "As $x \\to 0^+$, $x$ is small and positive, so $\\dfrac{2}{x} \\to \\infty$.\nWith the negative sign, $y = -\\dfrac{2}{x} \\to -\\infty$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The diagram shows two hyperbolas, $C_1$ and $C_2$, on the Cartesian plane.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-7, xmax=7, ymin=-7, ymax=7, samples=200, clip=false, restrict y to domain=-7.5:7.5, unbounded coords=jump, axis line style={-{Stealth}}, xtick={-6,-4,-2,2,4,6}, ytick={-6,-4,-2,2,4,6}]\n\\addplot[dashed, gray, thick] coordinates {(0,-6.5) (0,6.5)};\n\\addplot[dashed, gray, thick] coordinates {(-6.5,0) (6.5,0)};\n\\node[gray] at (axis cs:-4.5,6.0) {$x=0$};\n\\node[gray] at (axis cs:4.2,-1.6) {$y=0$};\n\\addplot[thick, blue, <->, domain=1.15:6.5] {7/x};\n\\addplot[thick, blue, <->, domain=-6.5:-1.15] {7/x};\n\\addplot[thick, red, <->, domain=0.35:6.5] {2/x};\n\\addplot[thick, red, <->, domain=-6.5:-0.35] {2/x};\n\\node[above right, blue] at (axis cs:3.5,2) {$C_1$};\n\\node[below left, red] at (axis cs:2,1) {$C_2$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nWhich statement correctly compares curve $C_1$ to curve $C_2$?",
+      "structure": "compare-dilation-distance",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$C_1$ lies further from both coordinate axes than $C_2$ for all $x \\neq 0$.",
+          "correct": true
+        },
+        {
+          "text": "$C_1$ lies closer to both coordinate axes than $C_2$ for all $x \\neq 0$.",
+          "why": "Assumed the outer curve $C_1$ is compressed closer to the axes rather than expanded outward."
+        },
+        {
+          "text": "$C_1$ and $C_2$ have different vertical and horizontal asymptotes.",
+          "why": "Believed that different dilation constants change the asymptotes from $x = 0$ and $y = 0$."
+        },
+        {
+          "text": "$C_1$ and $C_2$ intersect each other at very large values of $x$.",
+          "why": "Believed that the two hyperbolas eventually intersect as they both approach the horizontal asymptote."
+        }
+      ],
+      "solution_text": "Both curves $C_1$ and $C_2$ are hyperbolas lying in Quadrants $1$ and $3$ with asymptotes $x = 0$ and $y = 0$.\nCurve $C_1$ is dilated outward compared to $C_2$, so $C_1$ lies further from both coordinate axes for all $x \\neq 0$."
+    },
+    {
+      "id": "q5",
+      "question_text": "A hyperbola $y = \\dfrac{k}{x}$ passes through the point $(3, -5)$. What are its quadrants and end behaviour as $x \\to \\infty$?",
+      "structure": "match-equation-from-behaviour",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Quadrants $2$ and $4$; as $x \\to \\infty$, $y \\to 0$ from below.",
+          "correct": true
+        },
+        {
+          "text": "Quadrants $1$ and $3$; as $x \\to \\infty$, $y \\to 0$ from above.",
+          "why": "Assumed $k > 0$ without calculating $k = 3 \\times (-5) = -15$."
+        },
+        {
+          "text": "Quadrants $2$ and $4$; as $x \\to \\infty$, $y \\to -5$.",
+          "why": "Treated the $y$-coordinate of the given point as the horizontal asymptote."
+        },
+        {
+          "text": "Quadrants $1$ and $4$; as $x \\to \\infty$, $y \\to 0$ from above.",
+          "why": "Named adjacent quadrants $1$ and $4$ instead of opposite quadrants $2$ and $4$."
+        }
+      ],
+      "solution_text": "$k = x \\times y = 3 \\times (-5) = -15$.\nSince $k < 0$, the branches lie in Quadrants $2$ and $4$.\nAs $x \\to \\infty$, $y = -\\dfrac{15}{x} < 0$, so $y \\to 0$ from below."
+    },
+    {
+      "id": "q6",
+      "question_text": "In which quadrants does the graph of $f(x) = -\\dfrac{9}{x}$ lie, and what are its asymptotes?",
+      "structure": "state-quadrants-and-asymptotes",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Quadrants $2$ and $4$; asymptotes $x = 0$ and $y = 0$",
+          "correct": true
+        },
+        {
+          "text": "Quadrants $1$ and $3$; asymptotes $x = 0$ and $y = 0$",
+          "why": "Assumed every hyperbola lies in quadrants $1$ and $3$, ignoring the sign of $k$."
+        },
+        {
+          "text": "Quadrants $2$ and $4$; asymptotes $x = -9$ and $y = 0$",
+          "why": "Took the numerator $-9$ as the vertical asymptote instead of reading it from $x = 0$."
+        },
+        {
+          "text": "Quadrants $1$ and $3$; asymptotes $x = -9$ and $y = 0$",
+          "why": "Ignored the sign of $k$ when placing the branches and also read $-9$ as the vertical asymptote."
+        }
+      ],
+      "solution_text": "For $f(x) = -\\dfrac{9}{x}$, $k = -9 < 0$.\nThe branches occupy Quadrants $2$ and $4$, and the asymptotes are $x = 0$ and $y = 0$."
+    },
+    {
+      "id": "q7",
+      "question_text": "For $f(x) = -\\dfrac{10}{x}$, which statement correctly describes its behaviour as $x \\to -\\infty$ and as $x \\to 0^-$?",
+      "structure": "describe-end-behaviour",
+      "mastery": false,
+      "options": [
+        {
+          "text": "As $x \\to -\\infty$, $y \\to 0$ from above; as $x \\to 0^-$, $y \\to \\infty$.",
+          "correct": true
+        },
+        {
+          "text": "As $x \\to -\\infty$, $y \\to 0$ from below; as $x \\to 0^-$, $y \\to -\\infty$.",
+          "why": "Reversed the signs of $y$, which are positive for all $x < 0$ when $k = -10$."
+        },
+        {
+          "text": "As $x \\to -\\infty$, $y \\to -\\infty$; as $x \\to 0^-$, $y \\to 0$.",
+          "why": "Swapped the horizontal limit with the vertical asymptote limit."
+        },
+        {
+          "text": "As $x \\to -\\infty$, $y \\to 0$ from above; as $x \\to 0^-$, $y \\to -\\infty$.",
+          "why": "Incorrectly claimed $y \\to -\\infty$ as $x \\to 0^-$ despite $-10/x > 0$ for $x < 0$."
+        }
+      ],
+      "solution_text": "When $x < 0$, $y = -\\dfrac{10}{x} > 0$ (positive).\nAs $x \\to -\\infty$, $y \\to 0$ from above ($y > 0$).\nAs $x \\to 0^-$, $y \\to \\infty$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A function $f(x) = \\dfrac{k}{x}$ has the property that as $x \\to 0^+$, $y \\to -\\infty$, and passes through $(5, -1)$. What is the equation of $f(x)$ and its behaviour as $x \\to -\\infty$?",
+      "structure": "match-equation-from-behaviour",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$f(x) = -\\dfrac{5}{x}$; as $x \\to -\\infty$, $y \\to 0$ from above.",
+          "correct": true
+        },
+        {
+          "text": "$f(x) = \\dfrac{5}{x}$; as $x \\to -\\infty$, $y \\to 0$ from below.",
+          "why": "Calculated $k = 5$ instead of $k = 5 \\times (-1) = -5$."
+        },
+        {
+          "text": "$f(x) = -\\dfrac{5}{x}$; as $x \\to -\\infty$, $y \\to -\\infty$.",
+          "why": "Gave an infinite limit for end behaviour instead of the horizontal asymptote $y \\to 0$."
+        },
+        {
+          "text": "$f(x) = -\\dfrac{1}{5x}$; as $x \\to -\\infty$, $y \\to 0$ from above.",
+          "why": "Divided the coordinates as $y/x = -1/5$ instead of multiplying $k = xy = -5$."
+        }
+      ],
+      "solution_text": "$k = xy = 5 \\times (-1) = -5$, so $f(x) = -\\dfrac{5}{x}$.\nSince $k = -5 < 0$, for $x < 0$ we have $y > 0$, so as $x \\to -\\infty$, $y \\to 0$ from above."
+    },
+    {
+      "id": "q9",
+      "question_text": "Consider the curves $C_1: y = \\dfrac{3}{x}$ and $C_2: y = -\\dfrac{8}{x}$. Which statement is true regarding their distances from the origin and their asymptotes?",
+      "structure": "compare-dilation-distance",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Both curves have the same asymptotes $x = 0$ and $y = 0$, and $C_2$ is further from the origin at corresponding $|x|$ values than $C_1$.",
+          "correct": true
+        },
+        {
+          "text": "$C_2$ has different asymptotes than $C_1$ because its constant is negative.",
+          "why": "Believed a negative constant shifts or rotates the asymptote lines."
+        },
+        {
+          "text": "$C_1$ is further from the origin because $3$ is positive while $-8$ is negative.",
+          "why": "Compared signed values $3 > -8$ rather than the absolute magnitudes $|-8| > 3$."
+        },
+        {
+          "text": "Both curves have identical distance from the origin at all points.",
+          "why": "Ignored the difference in dilation factors between $k = 3$ and $k = -8$."
+        }
+      ],
+      "solution_text": "All reciprocal functions $y = \\dfrac{k}{x}$ share asymptotes $x = 0$ and $y = 0$.\nThe distance from the axes depends on $|k|$; since $|-8| = 8 > 3$, $C_2$ is further from the origin than $C_1$."
+    }
+  ]
+}

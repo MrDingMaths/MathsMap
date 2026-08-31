@@ -1,0 +1,113 @@
+{
+  "skillId": "perpendicular-component-projection",
+  "atomType": "R",
+  "theory": {
+    "intro": "Any vector $\\underset{\\sim}{a}$ splits into two pieces: the part pointing along $\\underset{\\sim}{b}$ and the part at right angles to it. The first piece is $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, and the second is whatever is left over.",
+    "facts": [
+      "The two pieces form a right-angled triangle with $\\underset{\\sim}{a}$ as its hypotenuse.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (A) at (3.2,2.8);\n\\coordinate (P) at (3.2,0);\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, below right] {$\\underset{\\sim}{b}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, above left] {$\\underset{\\sim}{a}$};\n\\draw[thick, -{Stealth[length=3mm]}] (O) -- (P) node[pos=0.5, below] {$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\draw[thick, dashed, -{Stealth[length=3mm]}] (P) -- (A) node[pos=0.5, right] {$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\coordinate (p1) at ($(P)!0.3cm!(A)$);\n\\coordinate (p2) at ($(P)!0.3cm!(O)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\end{tikzpicture}\n[/tikz]",
+      "The component of $\\underset{\\sim}{a}$ **parallel** to $\\underset{\\sim}{b}$ is $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\left(\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^{2}}\\right)\\underset{\\sim}{b}$.",
+      "The component of $\\underset{\\sim}{a}$ **perpendicular** to $\\underset{\\sim}{b}$ is $\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, also called the **vector rejection**.",
+      "Check 1: the two components must add back to give $\\underset{\\sim}{a}$.",
+      "Check 2: the perpendicular component dotted with $\\underset{\\sim}{b}$ must give $0$.",
+      "If $\\theta$ is the angle between $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$, the perpendicular component has length $|\\underset{\\sim}{a}|\\sin\\theta$."
+    ],
+    "steps": [
+      "Find the projection of the vector onto the given direction",
+      "Subtract the projection from the original vector",
+      "Check the components add back and their dot product is zero"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 5 \\\\ 1 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-2d",
+        "solution_text": "1. **Find the projection of the vector onto the given direction**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (5)(1)+(1)(2) = 7$\n$|\\underset{\\sim}{b}|^{2} = 1^2+2^2 = 5$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{7}{5}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} \\frac{7}{5} \\\\ \\frac{14}{5} \\end{pmatrix}$\n2. **Subtract the projection from the original vector**\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} 5 \\\\ 1 \\end{pmatrix}-\\begin{pmatrix} \\frac{7}{5} \\\\ \\frac{14}{5} \\end{pmatrix}$\n$= \\begin{pmatrix} \\frac{18}{5} \\\\ -\\frac{9}{5} \\end{pmatrix}$\n3. **Check the components add back and their dot product is zero**\n$\\begin{pmatrix} \\frac{18}{5} \\\\ -\\frac{9}{5} \\end{pmatrix}\\cdot\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\dfrac{18}{5}-\\dfrac{18}{5} = 0$"
+      },
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 3 \\\\ 7 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-2d",
+        "solution_text": "1. **Find the projection of the vector onto the given direction**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (3)(4)+(7)(3) = 33$\n$|\\underset{\\sim}{b}|^{2} = 16+9 = 25$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{33}{25}\\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix} = \\begin{pmatrix} \\frac{132}{25} \\\\ \\frac{99}{25} \\end{pmatrix}$\n2. **Subtract the projection from the original vector**\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} \\frac{75}{25} \\\\ \\frac{175}{25} \\end{pmatrix}-\\begin{pmatrix} \\frac{132}{25} \\\\ \\frac{99}{25} \\end{pmatrix}$\n$= \\begin{pmatrix} -\\frac{57}{25} \\\\ \\frac{76}{25} \\end{pmatrix}$\n3. **Check the components add back and their dot product is zero**\n$\\begin{pmatrix} -\\frac{57}{25} \\\\ \\frac{76}{25} \\end{pmatrix}\\cdot\\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix} = \\dfrac{-228+228}{25} = 0$"
+      },
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 6 \\\\ -2 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-2d",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (6)(1)+(-2)(1) = 4$\n$|\\underset{\\sim}{b}|^{2} = 1+1 = 2$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{4}{2}\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ 2 \\end{pmatrix}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} 6 \\\\ -2 \\end{pmatrix}-\\begin{pmatrix} 2 \\\\ 2 \\end{pmatrix}$\n$= \\begin{pmatrix} 4 \\\\ -4 \\end{pmatrix}$\nCheck: $\\begin{pmatrix} 4 \\\\ -4 \\end{pmatrix}\\cdot\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix} = 0$ and $\\begin{pmatrix} 2 \\\\ 2 \\end{pmatrix}+\\begin{pmatrix} 4 \\\\ -4 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ -2 \\end{pmatrix}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=0.85cm]\n\\usetikzlibrary{arrows.meta, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (6,-2);\n\\coordinate (B) at (1,1);\n\\coordinate (P) at (2,2);\n\\draw[dashed, gray] (O) -- (3,3);\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, below right] {$\\underset{\\sim}{a}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, below right] {$\\underset{\\sim}{b}$};\n\\draw[thick, -{Stealth[length=3mm]}] (O) -- (P) node[pos=1, above left] {$(2,2)$};\n\\draw[thick, dashed, -{Stealth[length=3mm]}] (P) -- (A) node[pos=0.5, above right] {$(4,-4)$};\n\\coordinate (p1) at ($(P)!0.3cm!(A)$);\n\\coordinate (p2) at ($(P)!0.3cm!(O)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Resolve $\\underset{\\sim}{a} = \\begin{pmatrix} 4 \\\\ 7 \\end{pmatrix}$ into components parallel and perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$.",
+        "structure": "resolve-into-both-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (4)(1)+(7)(0) = 4$\n$|\\underset{\\sim}{b}|^{2} = 1$\nParallel component $= \\dfrac{4}{1}\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 0 \\end{pmatrix}$\nPerpendicular component $= \\begin{pmatrix} 4 \\\\ 7 \\end{pmatrix}-\\begin{pmatrix} 4 \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 7 \\end{pmatrix}$"
+      },
+      {
+        "question_text": "Resolve $\\underset{\\sim}{a} = \\begin{pmatrix} -3 \\\\ 5 \\end{pmatrix}$ into components parallel and perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$.",
+        "structure": "resolve-into-both-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (-3)(2)+(5)(1) = -1$\n$|\\underset{\\sim}{b}|^{2} = 4+1 = 5$\nParallel component $= -\\dfrac{1}{5}\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} -\\frac{2}{5} \\\\ -\\frac{1}{5} \\end{pmatrix}$\nPerpendicular component $= \\begin{pmatrix} -3 \\\\ 5 \\end{pmatrix}-\\begin{pmatrix} -\\frac{2}{5} \\\\ -\\frac{1}{5} \\end{pmatrix} = \\begin{pmatrix} -\\frac{13}{5} \\\\ \\frac{26}{5} \\end{pmatrix}$\nCheck: $\\begin{pmatrix} -\\frac{13}{5} \\\\ \\frac{26}{5} \\end{pmatrix}\\cdot\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} = \\dfrac{-26+26}{5} = 0$"
+      },
+      {
+        "question_text": "Resolve $\\underset{\\sim}{a} = \\begin{pmatrix} 8 \\\\ 1 \\end{pmatrix}$ into components parallel and perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix}$, then show that both checks are satisfied.",
+        "structure": "verify-decomposition",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (8)(2)+(1)(-3) = 13$\n$|\\underset{\\sim}{b}|^{2} = 4+9 = 13$\nParallel component $= \\dfrac{13}{13}\\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix}$\nPerpendicular component $= \\begin{pmatrix} 8 \\\\ 1 \\end{pmatrix}-\\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ 4 \\end{pmatrix}$\nCheck 1: $\\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix}+\\begin{pmatrix} 6 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} 8 \\\\ 1 \\end{pmatrix} = \\underset{\\sim}{a}$\nCheck 2: $\\begin{pmatrix} 6 \\\\ 4 \\end{pmatrix}\\cdot\\begin{pmatrix} 2 \\\\ -3 \\end{pmatrix} = 12-12 = 0$"
+      },
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\underset{\\sim}{i}+6\\underset{\\sim}{j}$ perpendicular to $\\underset{\\sim}{b} = 3\\underset{\\sim}{i}-\\underset{\\sim}{j}$.",
+        "structure": "perpendicular-component-2d",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (1)(3)+(6)(-1) = -3$\n$|\\underset{\\sim}{b}|^{2} = 9+1 = 10$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = -\\dfrac{3}{10}(3\\underset{\\sim}{i}-\\underset{\\sim}{j}) = -\\dfrac{9}{10}\\underset{\\sim}{i}+\\dfrac{3}{10}\\underset{\\sim}{j}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{19}{10}\\underset{\\sim}{i}+\\dfrac{57}{10}\\underset{\\sim}{j}$\nCheck: $\\dfrac{19}{10}(3)+\\dfrac{57}{10}(-1) = 0$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the magnitude of the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 9 \\\\ 2 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-magnitude",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (9)(3)+(2)(4) = 35$\n$|\\underset{\\sim}{b}|^{2} = 9+16 = 25$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{35}{25}\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} \\frac{21}{5} \\\\ \\frac{28}{5} \\end{pmatrix}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} \\frac{24}{5} \\\\ -\\frac{18}{5} \\end{pmatrix}$\nMagnitude $= \\sqrt{\\left(\\dfrac{24}{5}\\right)^2+\\left(-\\dfrac{18}{5}\\right)^2}$\n$= \\sqrt{\\dfrac{576+324}{25}}$\n$= \\sqrt{36}$\n$= 6$"
+      },
+      {
+        "question_text": "Find the exact magnitude of the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$, with a rational denominator.",
+        "structure": "perpendicular-component-magnitude",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (2)(1)+(6)(2) = 14$\n$|\\underset{\\sim}{b}|^{2} = 1+4 = 5$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{14}{5}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} \\frac{14}{5} \\\\ \\frac{28}{5} \\end{pmatrix}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} -\\frac{4}{5} \\\\ \\frac{2}{5} \\end{pmatrix}$\nMagnitude $= \\sqrt{\\dfrac{16+4}{25}}$\n$= \\dfrac{\\sqrt{20}}{5}$\n$= \\dfrac{2\\sqrt{5}}{5}$"
+      },
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 3 \\\\ 1 \\\\ 2 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-3d",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (3)(1)+(1)(2)+(2)(2) = 9$\n$|\\underset{\\sim}{b}|^{2} = 1+4+4 = 9$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{9}{9}\\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} 2 \\\\ -1 \\\\ 0 \\end{pmatrix}$\nCheck: $(2)(1)+(-1)(2)+(0)(2) = 0$"
+      },
+      {
+        "question_text": "Find the component of $\\underset{\\sim}{a} = \\begin{pmatrix} 4 \\\\ -2 \\\\ 1 \\end{pmatrix}$ perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ 1 \\\\ -2 \\end{pmatrix}$.",
+        "structure": "perpendicular-component-3d",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (4)(2)+(-2)(1)+(1)(-2) = 4$\n$|\\underset{\\sim}{b}|^{2} = 4+1+4 = 9$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{4}{9}\\begin{pmatrix} 2 \\\\ 1 \\\\ -2 \\end{pmatrix} = \\begin{pmatrix} \\frac{8}{9} \\\\ \\frac{4}{9} \\\\ -\\frac{8}{9} \\end{pmatrix}$\n$\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\begin{pmatrix} \\frac{28}{9} \\\\ -\\frac{22}{9} \\\\ \\frac{17}{9} \\end{pmatrix}$\nCheck: $\\dfrac{56-22-34}{9} = 0$"
+      },
+      {
+        "question_text": "The points $A(1,1)$ and $B(5,9)$ are given. Find the component of $\\overrightarrow{AB}$ perpendicular to $\\underset{\\sim}{d} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$.",
+        "structure": "perpendicular-from-points",
+        "solution_text": "$\\overrightarrow{AB} = \\begin{pmatrix} 4 \\\\ 8 \\end{pmatrix}$\n$\\overrightarrow{AB}\\cdot\\underset{\\sim}{d} = (4)(2)+(8)(1) = 16$\n$|\\underset{\\sim}{d}|^{2} = 4+1 = 5$\n$\\text{proj}_{\\underset{\\sim}{d}}\\overrightarrow{AB} = \\dfrac{16}{5}\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} \\frac{32}{5} \\\\ \\frac{16}{5} \\end{pmatrix}$\n$\\overrightarrow{AB}-\\text{proj}_{\\underset{\\sim}{d}}\\overrightarrow{AB} = \\begin{pmatrix} -\\frac{12}{5} \\\\ \\frac{24}{5} \\end{pmatrix}$\nCheck: $\\dfrac{-24+24}{5} = 0$"
+      },
+      {
+        "question_text": "Resolve $\\underset{\\sim}{a} = \\begin{pmatrix} 10 \\\\ -5 \\end{pmatrix}$ into components parallel and perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$, and explain your answer.",
+        "structure": "resolve-into-both-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (10)(2)+(-5)(4) = 0$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{0}{20}\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix}$\nPerpendicular component $= \\begin{pmatrix} 10 \\\\ -5 \\end{pmatrix}-\\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} 10 \\\\ -5 \\end{pmatrix}$\nThe parallel component is the zero vector, because $\\underset{\\sim}{a}$ is already perpendicular to $\\underset{\\sim}{b}$."
+      },
+      {
+        "question_text": "Resolve $\\underset{\\sim}{a} = \\begin{pmatrix} -4 \\\\ 8 \\end{pmatrix}$ into components parallel and perpendicular to $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix}$, then verify both checks.",
+        "structure": "verify-decomposition",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (-4)(1)+(8)(-2) = -20$\n$|\\underset{\\sim}{b}|^{2} = 1+4 = 5$\nParallel component $= -\\dfrac{20}{5}\\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} = \\begin{pmatrix} -4 \\\\ 8 \\end{pmatrix}$\nPerpendicular component $= \\begin{pmatrix} -4 \\\\ 8 \\end{pmatrix}-\\begin{pmatrix} -4 \\\\ 8 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix}$\nCheck 1: $\\begin{pmatrix} -4 \\\\ 8 \\end{pmatrix}+\\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix} = \\underset{\\sim}{a}$\nCheck 2: $\\begin{pmatrix} 0 \\\\ 0 \\end{pmatrix}\\cdot\\begin{pmatrix} 1 \\\\ -2 \\end{pmatrix} = 0$\nHere $\\underset{\\sim}{a}$ is parallel to $\\underset{\\sim}{b}$, so nothing is left over."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The angle between $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ is $150^{\\circ}$ and $|\\underset{\\sim}{a}| = 14$. Find the magnitude of the component of $\\underset{\\sim}{a}$ perpendicular to $\\underset{\\sim}{b}$.",
+        "structure": "perpendicular-component-magnitude",
+        "solution_text": "$|\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}| = |\\underset{\\sim}{a}|\\sin\\theta$\n$= 14\\sin 150^{\\circ}$\n$= 14\\times\\dfrac{1}{2}$\n$= 7$"
+      },
+      {
+        "question_text": "$\\underset{\\sim}{a} = \\begin{pmatrix} 11 \\\\ 3 \\end{pmatrix}$ is written as $\\underset{\\sim}{p}+\\underset{\\sim}{q}$, where $\\underset{\\sim}{p}$ is parallel to $\\underset{\\sim}{b} = \\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix}$ and $\\underset{\\sim}{q}$ is perpendicular to $\\underset{\\sim}{b}$. Find $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$, and verify both checks.",
+        "structure": "resolve-into-both-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (11)(3)+(3)(-1) = 30$\n$|\\underset{\\sim}{b}|^{2} = 9+1 = 10$\n$\\underset{\\sim}{p} = \\dfrac{30}{10}\\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix} = \\begin{pmatrix} 9 \\\\ -3 \\end{pmatrix}$\n$\\underset{\\sim}{q} = \\begin{pmatrix} 11 \\\\ 3 \\end{pmatrix}-\\begin{pmatrix} 9 \\\\ -3 \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix}$\nCheck 1: $\\begin{pmatrix} 9 \\\\ -3 \\end{pmatrix}+\\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix} = \\begin{pmatrix} 11 \\\\ 3 \\end{pmatrix}$\nCheck 2: $\\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix}\\cdot\\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix} = 6-6 = 0$"
+      },
+      {
+        "question_text": "Find the component of $\\overrightarrow{AB}$ perpendicular to $\\overrightarrow{CD}$, given $A(2,-1)$, $B(-4,7)$, $C(0,0)$ and $D(3,4)$.",
+        "structure": "perpendicular-from-points",
+        "solution_text": "$\\overrightarrow{AB} = \\begin{pmatrix} -6 \\\\ 8 \\end{pmatrix}$, $\\overrightarrow{CD} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$\n$\\overrightarrow{AB}\\cdot\\overrightarrow{CD} = (-6)(3)+(8)(4) = 14$\n$|\\overrightarrow{CD}|^{2} = 9+16 = 25$\n$\\text{proj}_{\\overrightarrow{CD}}\\overrightarrow{AB} = \\dfrac{14}{25}\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} \\frac{42}{25} \\\\ \\frac{56}{25} \\end{pmatrix}$\n$\\overrightarrow{AB}-\\text{proj}_{\\overrightarrow{CD}}\\overrightarrow{AB} = \\begin{pmatrix} -\\frac{192}{25} \\\\ \\frac{144}{25} \\end{pmatrix}$\nCheck: $\\dfrac{-576+576}{25} = 0$"
+      }
+    ]
+  }
+}

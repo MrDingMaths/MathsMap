@@ -1,0 +1,105 @@
+{
+  "skillId": "normal-distribution-shape",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "A dataset is **normally distributed** when its display is symmetrical about the centre and rises to a single central peak, giving a **bell curve**. Most values sit near the middle and the frequencies fall away evenly on both sides.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.4,0) -- (3.7,0) node[below right,font=\\scriptsize] {Data value};\n\\draw[thick,domain=-2.9:2.9,smooth,variable=\\x] plot ({\\x},{3*exp(-\\x*\\x/2)}) node[pos=0.5,above,font=\\scriptsize] {bell curve};\n\\draw[dashed] (0,0) -- (0,3);\n\\node[below,font=\\scriptsize] at (0,-0.1) {mean $=$ median $=$ mode};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "A normal distribution is **symmetrical**: the left and right halves are mirror images about the centre.",
+      "The mean, median and mode of a normal distribution are all approximately equal and sit at the centre.",
+      "Most of the data sits near the centre, and the frequencies decrease steadily towards both **tails**.",
+      "A **skewed** display has one longer tail, so it is not normal even though it has a single peak.",
+      "A display with two peaks is **bimodal**, and a flat display has no peak; neither shape is normal.",
+      "Real data is rarely a perfect bell, so 'approximately normal' is enough when the shape is close.",
+      "On two normal curves drawn on the same scale, the curve whose peak is further right has the larger mean.",
+      "A wider, flatter curve has the larger standard deviation; a taller, narrower curve has the smaller one."
+    ],
+    "steps": [
+      "Check the display is roughly symmetrical",
+      "Check there is a single central peak with the frequencies falling away on both sides",
+      "Check the mean, median and mode are approximately equal"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.6);\n\\draw[->] (0,0) -- (8.4,0);\n\\foreach \\y/\\lab in {0.9/3,1.8/6,2.7/9,3.6/12} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.6);\n\\draw (1.5,0) rectangle (2.5,1.5);\n\\draw (2.5,0) rectangle (3.5,2.7);\n\\draw (3.5,0) rectangle (4.5,3.6);\n\\draw (4.5,0) rectangle (5.5,2.7);\n\\draw (5.5,0) rectangle (6.5,1.5);\n\\draw (6.5,0) rectangle (7.5,0.6);\n\\foreach \\x in {1,...,7} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.3) {Frequency};\n\\node[below,font=\\scriptsize] at (4,-0.9) {Number of correct answers};\n\\node[font=\\small] at (4,4.9) {Quiz results};\n\\end{tikzpicture}\n[/tikz]\nCould the data in this histogram be normally distributed? Give reasons.",
+        "structure": "identify-normal-histogram",
+        "solution_text": "The tallest column is the middle one, and the columns to its left and right have matching heights $9$, $5$, $2$.\nThe display is symmetrical about the centre and has a single central peak, so it is bell-shaped.\nYes, this data could be normally distributed."
+      },
+      {
+        "question_text": "The frequency table shows the number of pages read per day by $80$ students.\n$\\begin{array}{c|ccccccc} \\text{Pages} & 12 & 13 & 14 & 15 & 16 & 17 & 18 \\\\ \\hline \\text{Frequency} & 3 & 9 & 17 & 24 & 16 & 8 & 3 \\end{array}$\nCould this data be normally distributed? Give reasons.",
+        "structure": "identify-normal-frequency-table",
+        "solution_text": "The largest frequency is at $15$, and the frequencies fall away on both sides: $17$, $9$, $3$ to the left and $16$, $8$, $3$ to the right.\nThe two sides are close to mirror images, so the display is approximately symmetrical with a single central peak.\nYes, this data is approximately normally distributed."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.4);\n\\draw[->] (0,0) -- (7.4,0);\n\\foreach \\y/\\lab in {0.8/5,1.6/10,2.4/15,3.2/20} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,3.52);\n\\draw (1.5,0) rectangle (2.5,2.56);\n\\draw (2.5,0) rectangle (3.5,1.6);\n\\draw (3.5,0) rectangle (4.5,0.96);\n\\draw (4.5,0) rectangle (5.5,0.48);\n\\draw (5.5,0) rectangle (6.5,0.16);\n\\foreach \\x/\\lab in {1/0,2/1,3/2,4/3,5/4,6/5} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\lab$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.2) {Frequency};\n\\node[below,font=\\scriptsize] at (3.5,-0.9) {Days absent};\n\\node[font=\\small] at (3.5,4.7) {Absences in a term};\n\\end{tikzpicture}\n[/tikz]\nExplain why this data is not normally distributed.",
+        "structure": "describe-non-normal-shape",
+        "solution_text": "The tallest column is at the far left and the columns get steadily shorter to the right.\nThere is a long tail on the right and no tail on the left, so the display is not symmetrical.\nThe data is positively skewed rather than bell-shaped, so it is not normally distributed."
+      },
+      {
+        "question_text": "The frequency table shows the number of vehicles passing a checkpoint in each of $47$ one-minute intervals.\n$\\begin{array}{c|ccccc} \\text{Vehicles} & 1 & 2 & 3 & 4 & 5 \\\\ \\hline \\text{Frequency} & 9 & 10 & 9 & 10 & 9 \\end{array}$\nCould this data be normally distributed? Give reasons.",
+        "structure": "identify-normal-frequency-table",
+        "solution_text": "The frequencies are all between $9$ and $10$, so the display is flat.\nIt is symmetrical, but there is no central peak and no tails, so it is not bell-shaped.\nNo, this data is not normally distributed."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.3,0) -- (9.4,0) node[below right,font=\\scriptsize] {Score};\n\\draw[thick,domain=0.2:4.2,smooth,variable=\\x] plot ({\\x},{3*exp(-(\\x-2.2)*(\\x-2.2)/0.5)});\n\\draw[thick,blue,dashed,domain=4.4:8.4,smooth,variable=\\x] plot ({\\x},{3*exp(-(\\x-6.4)*(\\x-6.4)/0.5)});\n\\node[font=\\scriptsize] at (2.2,3.35) {$P$};\n\\node[font=\\scriptsize,blue] at (6.4,3.35) {$Q$};\n\\end{tikzpicture}\n[/tikz]\nTwo normal curves are drawn on the same axis. Which curve has the higher mean? Give a reason.",
+        "structure": "compare-normal-curves",
+        "solution_text": "A normal curve is symmetrical about its mean, so the mean is at the peak.\nThe peak of $Q$ is further to the right than the peak of $P$.\nCurve $Q$ has the higher mean."
+      },
+      {
+        "question_text": "A researcher records two sets of data:\n$\\text{Set A}$: the heights of $500$ adult women\n$\\text{Set B}$: the number of children in each of $500$ families\nWhich set is more likely to be normally distributed? Justify your answer.",
+        "structure": "judge-normal-context",
+        "solution_text": "Adult heights cluster around a middle value, with fewer women at each extreme and roughly the same number above and below the middle.\nFamily sizes bunch at the small values $0$, $1$ and $2$ with a tail stretching to the right, so that display is positively skewed.\nSet A is more likely to be normally distributed."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.5);\n\\draw[->] (0,0) -- (8.4,0);\n\\foreach \\y/\\lab in {0.7/5,1.4/10,2.1/15,2.8/20,3.5/25} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.7);\n\\draw (1.5,0) rectangle (2.5,1.68);\n\\draw (2.5,0) rectangle (3.5,2.8);\n\\draw (3.5,0) rectangle (4.5,3.64);\n\\draw (4.5,0) rectangle (5.5,2.94);\n\\draw (5.5,0) rectangle (6.5,1.54);\n\\draw (6.5,0) rectangle (7.5,0.56);\n\\foreach \\x/\\lab in {1/150,2/155,3/160,4/165,5/170,6/175,7/180} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\lab$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.2) {Frequency};\n\\node[below,font=\\scriptsize] at (4,-0.9) {Height (cm)};\n\\node[font=\\small] at (4,4.8) {Heights of Year 10 students};\n\\end{tikzpicture}\n[/tikz]\nCould these heights be normally distributed? Give reasons.",
+        "structure": "identify-normal-histogram",
+        "solution_text": "The tallest column is at $165$, with the frequencies falling away to $20$, $12$, $5$ on the left and $21$, $11$, $4$ on the right.\nThe two sides are not identical, but they are close to mirror images, so the display is approximately symmetrical with a single central peak.\nYes, these heights are approximately normally distributed."
+      },
+      {
+        "question_text": "The table shows the number of eggs laid per week by each of $145$ hens.\n$\\begin{array}{c|ccccccc} \\text{Eggs} & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\\\ \\hline \\text{Frequency} & 6 & 15 & 30 & 43 & 30 & 15 & 6 \\end{array}$\nCalculate the mean, median and mode, then justify whether this data is approximately normally distributed.",
+        "structure": "mean-median-mode-check",
+        "solution_text": "$\\text{Mean} = \\dfrac{4(6)+5(15)+6(30)+7(43)+8(30)+9(15)+10(6)}{145}$\n$= \\dfrac{1015}{145}$\n$= 7$\nThe $73$rd value is the middle one of $145$, and the running totals are $6$, $21$, $51$, $94$, so the median is $7$.\nThe largest frequency is $43$, so the mode is $7$.\nThe mean, median and mode are all $7$, and the frequencies are symmetrical about $7$ with a single central peak, so the data is approximately normally distributed."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (0,4.6);\n\\draw[->] (0,0) -- (8.4,0);\n\\foreach \\y/\\lab in {1/4,2/8,3/12,4/16} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lab$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,1.25);\n\\draw (1.5,0) rectangle (2.5,3.25);\n\\draw (2.5,0) rectangle (3.5,1.75);\n\\draw (3.5,0) rectangle (4.5,0.75);\n\\draw (4.5,0) rectangle (5.5,2);\n\\draw (5.5,0) rectangle (6.5,3.5);\n\\draw (6.5,0) rectangle (7.5,1.5);\n\\foreach \\x in {1,...,7} \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};\n\\node[rotate=90,font=\\scriptsize] at (-1.3,2.3) {Frequency};\n\\node[below,font=\\scriptsize] at (4,-0.9) {Visits per week};\n\\node[font=\\small] at (4,4.9) {Gym visits};\n\\end{tikzpicture}\n[/tikz]\nExplain why this data is not normally distributed.",
+        "structure": "describe-non-normal-shape",
+        "solution_text": "There are two tall columns, at $2$ and at $6$, with a dip between them at $4$.\nThe display is bimodal, so it does not have the single central peak a bell curve has.\nThe data is not normally distributed."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.3,0) -- (8.6,0) node[below right,font=\\scriptsize] {Score};\n\\draw[thick,domain=2.6:5.8,smooth,variable=\\x] plot ({\\x},{3*exp(-(\\x-4.2)*(\\x-4.2)/0.4)});\n\\draw[thick,blue,dashed,domain=0.8:7.6,smooth,variable=\\x] plot ({\\x},{1.35*exp(-(\\x-4.2)*(\\x-4.2)/2)});\n\\node[font=\\scriptsize] at (4.2,3.35) {$R$};\n\\node[font=\\scriptsize,blue] at (4.2,1.7) {$S$};\n\\end{tikzpicture}\n[/tikz]\nTwo normal curves are drawn on the same axis. Which curve has the larger standard deviation, and how do their means compare?",
+        "structure": "compare-normal-curves",
+        "solution_text": "Curve $S$ is wider and flatter, so its data is more spread out.\nCurve $S$ has the larger standard deviation.\nBoth peaks are at the same place on the horizontal axis, so the two curves have the same mean."
+      },
+      {
+        "question_text": "A teacher records the ages, in whole years, of the $24$ students in her Year $12$ class. Explain why this data is unlikely to be normally distributed.",
+        "structure": "judge-normal-context",
+        "solution_text": "Nearly every Year $12$ student is $17$, with only a few aged $16$ or $18$.\nThe display is one tall column with almost nothing either side, so there are no tails falling away steadily.\nThe shape is not a bell curve, so the ages are unlikely to be normally distributed."
+      },
+      {
+        "question_text": "The table shows the marks out of $36$ scored by $70$ students on a short test.\n$\\begin{array}{c|ccccccc} \\text{Mark} & 30 & 31 & 32 & 33 & 34 & 35 & 36 \\\\ \\hline \\text{Frequency} & 1 & 2 & 4 & 8 & 17 & 25 & 13 \\end{array}$\nCould this data be normally distributed? Give reasons.",
+        "structure": "identify-normal-frequency-table",
+        "solution_text": "The largest frequency is at $35$, which is near the right-hand end rather than the centre.\nThe frequencies stretch a long way down to the left ($17$, $8$, $4$, $2$, $1$) but only drop to $13$ on the right, so the tail is on the left.\nThe display is negatively skewed, not symmetrical, so it is not normally distributed."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The table shows the number of days per week that each of $49$ adults exercised.\n$\\begin{array}{c|ccccccc} \\text{Days} & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\\ \\hline \\text{Frequency} & 2 & 3 & 4 & 30 & 6 & 2 & 2 \\end{array}$\nRiley says, \"The mean, median and mode are all $4$, so this data must be normally distributed.\" Show that Riley's three averages are correct, and explain why his conclusion is wrong.",
+        "structure": "mean-median-mode-check",
+        "solution_text": "$\\text{Mean} = \\dfrac{1(2)+2(3)+3(4)+4(30)+5(6)+6(2)+7(2)}{49}$\n$= \\dfrac{196}{49}$\n$= 4$\nThe $25$th value is the middle one of $49$, and the running totals are $2$, $5$, $9$, $39$, so the median is $4$.\nThe largest frequency is $30$, so the mode is $4$.\nEqual averages are not enough: the frequencies either side of $4$ are $2$, $3$, $4$ on the left and $6$, $2$, $2$ on the right, so the display is not symmetrical.\nThe display is also a single sharp spike rather than a bell that falls away gradually, so the data is not normally distributed."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.3,0) -- (10.8,0) node[below right,font=\\scriptsize] {Score};\n\\draw[thick,domain=0.4:3.6,smooth,variable=\\x] plot ({\\x},{3*exp(-(\\x-2)*(\\x-2)/0.4)});\n\\draw[thick,blue,dashed,domain=1.6:8.4,smooth,variable=\\x] plot ({\\x},{1.35*exp(-(\\x-5)*(\\x-5)/2)});\n\\draw[thick,red,dotted,domain=5.8:10.2,smooth,variable=\\x] plot ({\\x},{2*exp(-(\\x-8)*(\\x-8)/0.9)});\n\\node[font=\\scriptsize] at (2,3.35) {$A$};\n\\node[font=\\scriptsize,blue] at (5,1.7) {$B$};\n\\node[font=\\scriptsize,red] at (8,2.35) {$C$};\n\\end{tikzpicture}\n[/tikz]\nThree normal curves are drawn on the same axis with the same scale. State which curve has the largest standard deviation and which has the largest mean, justifying each answer.",
+        "structure": "compare-normal-curves",
+        "solution_text": "Curve $B$ is the widest and flattest of the three, so its values are the most spread out.\nCurve $B$ has the largest standard deviation.\nA normal curve is symmetrical about its mean, so the mean sits under the peak.\nThe peak of $C$ is furthest to the right, so curve $C$ has the largest mean."
+      },
+      {
+        "question_text": "A large dataset has a mean of $34$, a median of $40$ and a mode of $44$. Without drawing the data, explain why it cannot be approximately normally distributed.",
+        "structure": "describe-non-normal-shape",
+        "solution_text": "For a normal distribution the mean, median and mode are all approximately equal.\nHere they are $34$, $40$ and $44$, which differ by $6$ and by $10$, so they are nowhere near equal.\nThe mean is well below the mode, which happens when a long tail on the left drags the mean down, so the data is skewed rather than symmetrical.\nThe data cannot be approximately normally distributed."
+      }
+    ]
+  }
+}

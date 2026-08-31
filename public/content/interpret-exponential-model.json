@@ -1,0 +1,108 @@
+{
+  "skillId": "interpret-exponential-model",
+  "atomType": "R",
+  "theory": {
+    "intro": "Reading an exponential model means saying what its numbers mean in the real situation. The value of $k$ is the amount at the start, the base gives the percentage change each period, and the model only makes sense over a limited range.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (5.6,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.5) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0:5.2,samples=100,variable=\\x,->] plot ({\\x},{3.6*exp(-\\x*0.5)});\n\\fill (0,3.6) circle (2pt);\n\\node[right] at (0.3,4.0) {$(0,k)$ initial value};\n\\node[below] at (3.2,-0.15) {asymptote $y=0$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The intercept on the vertical axis is the value of $k$, which is the amount at the start of the model.",
+      "A base of $1.07$ means an increase of $7\\%$ each period, and a base of $0.93$ means a decrease of $7\\%$.",
+      "A decay model has the horizontal **asymptote** $y=0$, a line the curve gets closer and closer to but never reaches.",
+      "Negative values of time are meaningless in most contexts, so the model is only valid from $x=0$ onwards.",
+      "Real growth cannot continue forever, so the model becomes unreliable far beyond the data it was built from.",
+      "The context can add its own limits, such as a count that must be a whole number."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The population of an island is modelled by $P=8000(1.03)^{t}$, where $t$ is the time in years. What does the intercept of the curve with the vertical axis represent?",
+        "structure": "interpret-intercept",
+        "solution_text": "At $t=0$, $P=8000(1.03)^{0}=8000$.\nThe vertical intercept is the population at the start of the model, which is $8000$ people."
+      },
+      {
+        "question_text": "The graph shows the value $A$ dollars of a savings account after $n$ years. Write down the vertical intercept and state what it means in this context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.4,xmax=5.6,ymin=-200,ymax=3400,xtick={0,1,2,3,4,5},ytick={0,400,...,3200},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$n$},ylabel={$A$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:5,samples=100] {2000*exp(x*ln(1.1))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-intercept",
+        "solution_text": "The curve meets the vertical axis at $A=2000$.\nThe intercept is the amount invested at the start, which is $\\$2000$."
+      },
+      {
+        "question_text": "The number of followers of an account is modelled by $F=1200(1.06)^{t}$, where $t$ is the time in years. What is the percentage change in followers each year?",
+        "structure": "interpret-base-as-rate",
+        "solution_text": "The base is $1.06$.\n$1.06=1+0.06$\nThe number of followers increases by $6\\%$ each year."
+      },
+      {
+        "question_text": "The amount of a medicine in a patient is modelled by $D=40(0.85)^{h}$, where $D$ is in milligrams and $h$ is the time in hours. What is the percentage change in the amount each hour?",
+        "structure": "interpret-base-as-rate",
+        "solution_text": "The base is $0.85$.\n$0.85=1-0.15$\nThe amount decreases by $15\\%$ each hour."
+      },
+      {
+        "question_text": "The number of koalas in a reserve is modelled by $K=900(0.94)^{t}$, where $t$ is the time in years. Does this model show growth or decay? How can you tell from the equation?",
+        "structure": "growth-or-decay-in-context",
+        "solution_text": "The base is $0.94$, which is between $0$ and $1$.\nEach year the number of koalas is multiplied by a number less than $1$, so it gets smaller.\nThe model shows decay: the koala population is falling."
+      },
+      {
+        "question_text": "Membership of a new gym is modelled by $M=350(1.08)^{t}$, where $t$ is the number of years since the gym opened. Explain why the model should only be used for $t\\ge0$.",
+        "structure": "state-limitation",
+        "solution_text": "A negative value of $t$ would be a time before the gym opened.\nThe gym had no members before it opened, so the model has no meaning there.\nThe model is only valid for $t\\ge0$."
+      },
+      {
+        "question_text": "The amount of a pollutant in a lake is modelled by $P=500(0.7)^{d}$, where $P$ is in kilograms and $d$ is the number of days. The graph of this model has the horizontal asymptote $P=0$. What does that asymptote mean in this context?",
+        "structure": "asymptote-in-context",
+        "solution_text": "As $d$ increases, $P$ gets closer and closer to $0$ but never equals $0$.\nThe model says the amount of pollutant keeps getting smaller, but it never predicts that the lake is completely clear."
+      },
+      {
+        "question_text": "The graph shows the number of shops $S$ in a chain, $t$ years after it started. Use the graph to find the number of shops after $3$ years, and state what the graph shows about the growth.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.3,xmax=3.7,ymin=-20,ymax=235,xtick={0,1,2,3},ytick={0,25,...,225},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$},ylabel={$S$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:3.15,samples=100] {25*exp(x*ln(2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-from-model-graph",
+        "solution_text": "Reading up from $t=3$, the curve is at $S=200$.\nThere are $200$ shops after $3$ years.\nThe curve starts at $25$ and rises to $50$, $100$ and $200$, so the number of shops doubles each year."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph shows the value $V$ dollars of a laptop $n$ years after it was bought. State what the vertical intercept represents, and explain how the graph shows that the laptop is losing value.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=6.6,ymin=-120,ymax=1800,xtick={0,1,...,6},ytick={0,200,...,1600},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$n$},ylabel={$V$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:6.3,samples=100] {1600*exp(x*ln(0.75))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-intercept",
+        "solution_text": "The curve meets the vertical axis at $V=1600$.\nThe intercept is the price paid for the laptop, which is $\\$1600$.\nThe curve falls from left to right, so the value is decreasing each year: this is exponential decay."
+      },
+      {
+        "question_text": "The population of a town is modelled by $P=7500(1.045)^{t}$, where $t$ is the time in years. A student says the population grows by $1.045\\%$ each year. Explain the student's mistake and give the correct rate.",
+        "structure": "interpret-base-as-rate",
+        "solution_text": "The student has read the whole base as a percentage.\nThe base is $1+0.045$, and it is the $0.045$ that gives the rate.\n$0.045=4.5\\%$\nThe population grows by $4.5\\%$ each year."
+      },
+      {
+        "question_text": "The area of a rainforest is modelled by $A=12\\,000(0.97)^{t}$, where $A$ is in square kilometres and $t$ is the number of years from now. Explain why this model should not be used to predict the area in $200$ years.",
+        "structure": "state-limitation",
+        "solution_text": "The model assumes the area keeps falling by exactly $3\\%$ every year.\nOver $200$ years, clearing rates, replanting and protection laws are all likely to change, so that assumption will not hold.\nAn exponential model is only reliable close to the data it was built from, so it should not be used that far ahead."
+      },
+      {
+        "question_text": "The amount of chlorine in a pool is modelled by $C=8(0.9)^{d}$, where $C$ is in milligrams per litre and $d$ is the number of days. A student says the chlorine will be completely gone on day $10$. Show that the model does not say this.",
+        "structure": "asymptote-in-context",
+        "solution_text": "$C=8(0.9)^{10}$\n$=8\\times0.3486784401$\n$=2.789427521$\n$=2.79$ mg/L\nThere is still chlorine left on day $10$.\nThe curve has the asymptote $C=0$, so the amount gets closer and closer to zero without ever reaching it."
+      },
+      {
+        "question_text": "The graph shows a company's yearly profit $P$, in thousands of dollars, $t$ years after it started. Use the graph to find the profit after $3$ years and the percentage increase each year.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.3,xmax=3.7,ymin=-200,ymax=2650,xtick={0,1,2,3},ytick={0,300,...,2400},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$},ylabel={$P$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:3.1,samples=100] {300*exp(x*ln(2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-from-model-graph",
+        "solution_text": "Reading up from $t=3$, the curve is at $P=2400$.\nThe profit after $3$ years is $\\$2\\,400\\,000$.\nThe curve goes $300$, $600$, $1200$, $2400$, so each year's profit is double the year before.\nDoubling is an increase of $100\\%$ each year."
+      },
+      {
+        "question_text": "The number of members of a chess club is modelled by $N=60(1.15)^{t}$, where $t$ is the time in years. Explain why this model cannot be correct for very large values of $t$.",
+        "structure": "state-limitation",
+        "solution_text": "The model multiplies the membership by $1.15$ every year, so it grows without limit.\nAt $t=60$ it predicts more than $250\\,000$ members, which is far more than a chess club could hold.\nReal growth is limited by space, cost and the size of the local population, so the model only works for small values of $t$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Two items were each bought for $\\$2400$. Their values over $n$ years are shown. State what the intercept means for both items, and say which curve models an item that is gaining value.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=6.8,ymin=-300,ymax=5000,xtick={0,1,...,6},ytick={0,600,...,4800},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$n$},ylabel={Value (\\$)},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:6.3,samples=100] {2400*exp(x*ln(1.1))} node[pos=0.75,above left] {$A$};\n\\addplot[thick,red,dashed,->,domain=0:6.5,samples=100] {2400*exp(x*ln(0.9))} node[pos=0.75,below left] {$B$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-intercept",
+        "solution_text": "Both curves meet the vertical axis at $2400$.\nFor each item the intercept is the price paid at the start, $\\$2400$.\nCurve $A$ rises from left to right, so item $A$ is gaining value.\nCurve $B$ falls towards the asymptote $y=0$, so item $B$ is losing value."
+      },
+      {
+        "question_text": "The mass of a puppy at age $x$ days is modelled by $M=A(1.2)^{x}$, where $M$ is in kilograms and $A$ is a constant. The graph is shown. Find the value of $A$ and the daily percentage growth rate of the puppy's mass.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=8.6,ymin=-1.5,ymax=20,xtick={0,1,...,8},ytick={0,2,...,18},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$M$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:8,samples=100] {4*exp(x*ln(1.2))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-from-model-graph",
+        "solution_text": "The curve meets the vertical axis at $M=4$.\nAt $x=0$, $M=A(1.2)^{0}=A$, so $A=4$.\nThe base is $1.2=1+0.2$, so the mass grows by $20\\%$ each day."
+      },
+      {
+        "question_text": "The value of a painting is modelled by $V=5000(1.06)^{t}$, where $t$ is the number of years since it was bought. Give two limitations of this model and explain each one.",
+        "structure": "state-limitation",
+        "solution_text": "Time cannot be negative, because the painting was not owned before it was bought, so the model is only valid for $t\\ge0$.\nThe model also assumes the value rises by exactly $6\\%$ every year forever.\nArt prices depend on fashion and on the market, so a fixed $6\\%$ rise will not continue indefinitely and long-term predictions are unreliable."
+      }
+    ]
+  }
+}

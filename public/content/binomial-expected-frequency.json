@@ -1,0 +1,138 @@
+{
+  "skillId": "binomial-expected-frequency",
+  "atomType": "R",
+  "theory": {
+    "intro": "An **expected frequency** is a count: how many times an outcome is expected to happen. Multiply the number of repeats by the probability of that outcome. If a binomial experiment $X \\sim \\text{Bin}(n,p)$ is repeated $N$ times, the expected frequency of $r$ successes is $N \\times P(X=r)$.",
+    "facts": [
+      "$n$ is the number of trials inside one experiment; $N$ is the number of times the whole experiment is repeated.",
+      "The expected number of successes in one binomial experiment is $E(X) = np$.",
+      "The expected frequency of exactly $r$ successes over $N$ repeats is $N \\times P(X=r)$.",
+      "For an event covering several values of $r$, such as at least $2$, multiply $N$ by the probability of that whole set.",
+      "An expected frequency may be a decimal, and is rounded only when the question asks for a practical whole-number count.",
+      "A 'success' is whatever the question counts, so a faulty item or a failed seed can be the success."
+    ],
+    "steps": [
+      "Identify $n$, $p$, $N$ and $r$.",
+      "Find the probability of the required outcome.",
+      "Multiply by the number of repeats."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A packet holds $10$ sunflower seeds. Each seed germinates independently with probability $0.85$. A total of $150$ packets are opened, and the number of packets containing exactly $8$ germinating seeds is recorded. Write down $n$, $p$, $N$ and $r$.",
+        "structure": "identify-n-p-bign-r",
+        "solution_text": "One experiment is one packet of $10$ seeds.\n$n = 10$\n$p = 0.85$\n$N = 150$\n$r = 8$"
+      },
+      {
+        "question_text": "A tray holds $24$ tulip bulbs. Each bulb flowers independently with probability $0.9$. A grower plants $60$ trays and records the number of trays in which exactly $20$ bulbs flower. Write down $n$, $p$, $N$ and $r$.",
+        "structure": "identify-n-p-bign-r",
+        "solution_text": "One experiment is one tray of $24$ bulbs.\n$n = 24$\n$p = 0.9$\n$N = 60$\n$r = 20$"
+      },
+      {
+        "question_text": "A packet contains $20$ lettuce seeds. Each seed germinates independently with probability $0.75$. Find the expected number of seeds in one packet that germinate.",
+        "structure": "expected-successes-np",
+        "solution_text": "$E(X) = np$\n$= 20 \\times 0.75$\n$= 15$"
+      },
+      {
+        "question_text": "An orchard worker makes $40$ apple grafts. Each graft takes independently with probability $0.65$. Find the expected number of grafts that take.",
+        "structure": "expected-successes-np",
+        "solution_text": "$E(X) = np$\n$= 40 \\times 0.65$\n$= 26$"
+      },
+      {
+        "question_text": "A punnet holds $12$ strawberries. Each strawberry is over-ripe independently with probability $0.2$. Find the expected number of over-ripe strawberries in a punnet.",
+        "structure": "expected-successes-np",
+        "solution_text": "$E(X) = np$\n$= 12 \\times 0.2$\n$= 2.4$"
+      },
+      {
+        "question_text": "A laboratory germinates seeds in dishes of $8$. Each seed fails to germinate independently with probability $0.25$. A total of $160$ dishes are tested. Find the expected number of dishes in which exactly $2$ seeds fail, to the nearest dish.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 8$, $p = 0.25$, $N = 160$, $r = 2$\n$P(X = 2) = {}^{8}C_{2}(0.25)^{2}(0.75)^{6}$\n$= 0.311462\\ldots$\n$N \\times P(X = 2) = 160 \\times 0.311462\\ldots$\n$= 49.83\\ldots$\n$\\approx 50$ dishes"
+      },
+      {
+        "question_text": "Each of $200$ market gardeners plants a row of $10$ tomato seedlings. Each seedling is lost to frost independently with probability $0.2$. Find the expected number of rows that lose exactly $3$ seedlings, to the nearest row.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 10$, $p = 0.2$, $N = 200$, $r = 3$\n$P(X = 3) = {}^{10}C_{3}(0.2)^{3}(0.8)^{7}$\n$= 0.201326\\ldots$\n$N \\times P(X = 3) = 200 \\times 0.201326\\ldots$\n$= 40.26\\ldots$\n$\\approx 40$ rows"
+      },
+      {
+        "question_text": "A nursery sells trays of $12$ basil pots. Each pot is under-watered independently with probability $0.15$. In $150$ trays, find the expected number of trays containing exactly $1$ under-watered pot, to the nearest tray.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 12$, $p = 0.15$, $N = 150$, $r = 1$\n$P(X = 1) = {}^{12}C_{1}(0.15)^{1}(0.85)^{11}$\n$= 0.301218\\ldots$\n$N \\times P(X = 1) = 150 \\times 0.301218\\ldots$\n$= 45.18\\ldots$\n$\\approx 45$ trays"
+      },
+      {
+        "question_text": "Each bean pod holds $6$ beans, and each bean is discoloured independently with probability $0.4$. In $180$ pods, find the expected number of pods containing exactly $4$ discoloured beans, to the nearest pod.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 6$, $p = 0.4$, $N = 180$, $r = 4$\n$P(X = 4) = {}^{6}C_{4}(0.4)^{4}(0.6)^{2}$\n$= 0.13824$\n$N \\times P(X = 4) = 180 \\times 0.13824$\n$= 24.88\\ldots$\n$\\approx 25$ pods"
+      },
+      {
+        "question_text": "A vineyard plants $120$ bundles of $9$ cuttings. Each cutting fails to root independently with probability $0.3$. Find the expected number of bundles in which exactly $3$ cuttings fail to root, to the nearest bundle.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 9$, $p = 0.3$, $N = 120$, $r = 3$\n$P(X = 3) = {}^{9}C_{3}(0.3)^{3}(0.7)^{6}$\n$= 0.266827\\ldots$\n$N \\times P(X = 3) = 120 \\times 0.266827\\ldots$\n$= 32.01\\ldots$\n$\\approx 32$ bundles"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A grower sows $250$ pots, each holding $5$ chilli seeds. Each seed germinates independently with probability $0.6$. Find the expected number of pots in which exactly $4$ seeds germinate, to the nearest pot.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "1. **Identify $n$, $p$, $N$ and $r$**\n$n = 5$, $p = 0.6$, $N = 250$, $r = 4$\n2. **Find the probability of the required outcome**\n$P(X = 4) = {}^{5}C_{4}(0.6)^{4}(0.4)^{1}$\n$= 0.2592$\n3. **Multiply by the number of repeats**\n$250 \\times 0.2592 = 64.8$\n$\\approx 65$ pots"
+      },
+      {
+        "question_text": "Each of $140$ mango crates holds $7$ fruit. Each fruit is bruised independently with probability $0.35$. Find the expected number of crates containing exactly $2$ bruised fruit, to the nearest crate.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 7$, $p = 0.35$, $N = 140$, $r = 2$\n$P(X = 2) = {}^{7}C_{2}(0.35)^{2}(0.65)^{5}$\n$= 0.298484\\ldots$\n$140 \\times 0.298484\\ldots = 41.78\\ldots$\n$\\approx 42$ crates"
+      },
+      {
+        "question_text": "A seed company packs $300$ boxes of $20$ garlic bulbs. Each bulb is mouldy independently with probability $0.05$. Find the expected number of boxes containing at least $2$ mouldy bulbs, to the nearest box.",
+        "structure": "expected-frequency-cumulative",
+        "solution_text": "$n = 20$, $p = 0.05$, $N = 300$\n$P(X = 0) = (0.95)^{20}$\n$= 0.358485\\ldots$\n$P(X = 1) = {}^{20}C_{1}(0.05)(0.95)^{19}$\n$= 0.377353\\ldots$\n$P(X \\ge 2) = 1 - 0.358485\\ldots - 0.377353\\ldots$\n$= 0.264160\\ldots$\n$300 \\times 0.264160\\ldots = 79.24\\ldots$\n$\\approx 79$ boxes"
+      },
+      {
+        "question_text": "In $220$ punnets of $15$ blueberries, each berry is unripe independently with probability $0.1$. Find the expected number of punnets containing at most $1$ unripe berry, to the nearest punnet.",
+        "structure": "expected-frequency-cumulative",
+        "solution_text": "$n = 15$, $p = 0.1$, $N = 220$\n$P(X = 0) = (0.9)^{15}$\n$= 0.205891\\ldots$\n$P(X = 1) = {}^{15}C_{1}(0.1)(0.9)^{14}$\n$= 0.343151\\ldots$\n$P(X \\le 1) = 0.205891\\ldots + 0.343151\\ldots$\n$= 0.549043\\ldots$\n$220 \\times 0.549043\\ldots = 120.78\\ldots$\n$\\approx 121$ punnets"
+      },
+      {
+        "question_text": "A researcher records $175$ plots, each containing $14$ seedlings. Each seedling is eaten by snails independently with probability $0.2$. Find the expected number of plots in which exactly $4$ seedlings are eaten, correct to one decimal place.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 14$, $p = 0.2$, $N = 175$, $r = 4$\n$P(X = 4) = {}^{14}C_{4}(0.2)^{4}(0.8)^{10}$\n$= 0.171970\\ldots$\n$175 \\times 0.171970\\ldots = 30.09\\ldots$\n$= 30.1$"
+      },
+      {
+        "question_text": "A packing shed fills $90$ boxes, each holding $30$ eggs. Each egg is cracked independently with probability $0.05$. Find the expected total number of cracked eggs across all $90$ boxes.",
+        "structure": "expected-successes-np",
+        "solution_text": "$E(X) = np$\n$= 30 \\times 0.05$\n$= 1.5$ cracked eggs per box\n$90 \\times 1.5 = 135$"
+      },
+      {
+        "question_text": "A total of $130$ compost bags each contain $11$ seed potatoes. Each potato sprouts independently with probability $0.45$. Find the expected number of bags in which exactly $5$ potatoes sprout, to the nearest bag.",
+        "structure": "expected-frequency-exact-r",
+        "solution_text": "$n = 11$, $p = 0.45$, $N = 130$, $r = 5$\n$P(X = 5) = {}^{11}C_{5}(0.45)^{5}(0.55)^{6}$\n$= 0.235983\\ldots$\n$130 \\times 0.235983\\ldots = 30.67\\ldots$\n$\\approx 31$ bags"
+      },
+      {
+        "question_text": "A garden centre sells $240$ bundles of $6$ herb cuttings. Each cutting wilts independently with probability $0.15$. Find the expected number of bundles containing at least one wilted cutting, to the nearest bundle.",
+        "structure": "expected-frequency-cumulative",
+        "solution_text": "$n = 6$, $p = 0.15$, $N = 240$\n$P(X = 0) = (0.85)^{6}$\n$= 0.377149\\ldots$\n$P(X \\ge 1) = 1 - 0.377149\\ldots$\n$= 0.622850\\ldots$\n$240 \\times 0.622850\\ldots = 149.48\\ldots$\n$\\approx 149$ bundles"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Vine cuttings are planted in rows of $4$, and each cutting roots independently with probability $0.8$. How many rows must be planted for the expected number of rows in which all four cuttings root to be $32$?",
+        "structure": "reverse-expected-frequency",
+        "solution_text": "$P(X = 4) = (0.8)^{4}$\n$= 0.4096$\n$N \\times 0.4096 = 32$\n$N = \\frac{32}{0.4096}$\n$= 78.125$\n$\\approx 78$ rows"
+      },
+      {
+        "question_text": "Seed trays hold $6$ seeds, and each seed fails to germinate independently with probability $0.1$. How many trays are needed for the expected number of trays containing at least one failure to be $90$?",
+        "structure": "reverse-expected-frequency",
+        "solution_text": "$P(X = 0) = (0.9)^{6}$\n$= 0.531441$\n$P(X \\ge 1) = 1 - 0.531441$\n$= 0.468559$\n$N \\times 0.468559 = 90$\n$N = \\frac{90}{0.468559}$\n$= 192.07\\ldots$\n$\\approx 192$ trays"
+      },
+      {
+        "question_text": "A grower plants $400$ pots, each containing $12$ seeds. Each seed germinates independently with probability $0.9$. Find the expected number of pots in which at most $10$ seeds germinate, to the nearest pot.",
+        "structure": "expected-frequency-cumulative",
+        "solution_text": "$P(X = 12) = (0.9)^{12}$\n$= 0.282429\\ldots$\n$P(X = 11) = {}^{12}C_{11}(0.9)^{11}(0.1)$\n$= 0.376572\\ldots$\n$P(X \\le 10) = 1 - 0.282429\\ldots - 0.376572\\ldots$\n$= 0.340997\\ldots$\n$400 \\times 0.340997\\ldots = 136.39\\ldots$\n$\\approx 136$ pots"
+      },
+      {
+        "question_text": "In a crate of fruit, each piece is over-ripe independently with probability $0.12$. The expected number of over-ripe pieces in a crate is $7.2$. Find the number of pieces in a crate.",
+        "structure": "expected-successes-np",
+        "solution_text": "$np = 7.2$\n$0.12n = 7.2$\n$n = \\frac{7.2}{0.12}$\n$= 60$"
+      }
+    ]
+  }
+}

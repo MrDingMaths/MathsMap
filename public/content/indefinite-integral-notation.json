@@ -1,0 +1,122 @@
+{
+  "skillId": "indefinite-integral-notation",
+  "atomType": "R",
+  "theory": {
+    "intro": "An **indefinite integral** $\\int f(x)\\,dx$ means every primitive of $f$. Because primitives differ only by a constant, the answer is written $F(x) + C$, where $F'(x) = f(x)$. The $dx$ names the variable you are integrating with respect to.",
+    "facts": [
+      "The symbol $\\int$ is an elongated $S$, standing for the sum that defines an integral.",
+      "In $\\int f(x)\\,dx$ the function $f(x)$ is called the **integrand**.",
+      "The $dx$ gives the variable of integration, so $\\int f(t)\\,dt$ integrates with respect to $t$.",
+      "The **constant of integration** $C$ is needed because every function $F(x) + C$ has the same derivative $f(x)$.",
+      "An indefinite integral is a family of functions, while a definite integral $\\int_{a}^{b} f(x)\\,dx$ is a single number.",
+      "The sum rule gives $\\int\\left(f(x) + g(x)\\right)dx = \\int f(x)\\,dx + \\int g(x)\\,dx$.",
+      "The multiple rule gives $\\int k\\,f(x)\\,dx = k\\int f(x)\\,dx$ for any constant $k$.",
+      "One constant $C$ at the end covers the whole answer, however many terms it has.",
+      "Check any indefinite integral by differentiating the answer back to the integrand."
+    ],
+    "steps": [
+      "Split the integrand into separate terms using the sum rule.",
+      "Take any constant factor outside the integral using the multiple rule.",
+      "Find a primitive of each term.",
+      "Add a single constant of integration $C$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For the integral $\\int\\left(5x^{3} - 2\\right)dx$, name the integrand and state the variable of integration.",
+        "structure": "read-integral-notation",
+        "solution_text": "The integrand is $5x^{3} - 2$.\nThe $dx$ shows that the variable of integration is $x$."
+      },
+      {
+        "question_text": "Find $\\int 3t^{2}\\,dt$.",
+        "structure": "dx-variable-role",
+        "solution_text": "$\\int 3t^{2}\\,dt$\n$= \\dfrac{3t^{3}}{3} + C$\n$= t^{3} + C$"
+      },
+      {
+        "question_text": "A student writes $\\int 4x\\,dx = 2x^{2}$. Correct their answer.",
+        "structure": "write-with-constant",
+        "solution_text": "An indefinite integral must include a constant of integration.\n$\\int 4x\\,dx$\n$= 2x^{2} + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(x^{2} + 6x\\right)dx$.",
+        "structure": "sum-rule-integral",
+        "solution_text": "$\\int\\left(x^{2} + 6x\\right)dx$\n$= \\int x^{2}\\,dx + \\int 6x\\,dx$\n$= \\dfrac{x^{3}}{3} + 3x^{2} + C$"
+      },
+      {
+        "question_text": "Find $\\int 10x^{4}\\,dx$.",
+        "structure": "constant-multiple-rule",
+        "solution_text": "$\\int 10x^{4}\\,dx$\n$= 10\\int x^{4}\\,dx$\n$= 10 \\times \\dfrac{x^{5}}{5} + C$\n$= 2x^{5} + C$"
+      },
+      {
+        "question_text": "Show that $\\int\\left(6x^{2} - 4x\\right)dx = 2x^{3} - 2x^{2} + C$ by differentiating the right-hand side.",
+        "structure": "check-by-differentiating",
+        "solution_text": "$\\dfrac{d}{dx}\\left(2x^{3} - 2x^{2} + C\\right)$\n$= 6x^{2} - 4x$, which is the integrand."
+      },
+      {
+        "question_text": "Explain why $\\int_{1}^{4} f(x)\\,dx$ and $\\int f(x)\\,dx$ have different kinds of answer.",
+        "structure": "definite-vs-indefinite",
+        "solution_text": "$\\int_{1}^{4} f(x)\\,dx$ has limits, so substituting them gives a single number.\n$\\int f(x)\\,dx$ has no limits, so it is the family of functions $F(x) + C$."
+      },
+      {
+        "question_text": "Find $\\int\\left(8 - 3x^{2}\\right)dx$.",
+        "structure": "write-with-constant",
+        "solution_text": "$\\int\\left(8 - 3x^{2}\\right)dx$\n$= 8x - \\dfrac{3x^{3}}{3} + C$\n$= 8x - x^{3} + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int\\left(x^{3} - 5x + 7\\right)dx$.",
+        "structure": "sum-rule-integral",
+        "solution_text": "$\\int\\left(x^{3} - 5x + 7\\right)dx$\n$= \\dfrac{x^{4}}{4} - \\dfrac{5x^{2}}{2} + 7x + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{2}{5}x^{4}\\,dx$.",
+        "structure": "constant-multiple-rule",
+        "solution_text": "$\\int \\dfrac{2}{5}x^{4}\\,dx$\n$= \\dfrac{2}{5}\\int x^{4}\\,dx$\n$= \\dfrac{2}{5} \\times \\dfrac{x^{5}}{5} + C$\n$= \\dfrac{2x^{5}}{25} + C$"
+      },
+      {
+        "question_text": "A student writes $\\int\\left(9x^{2} + 2x\\right)dx = 3x^{3} + x^{2} + C_{1} + C_{2}$. Explain what is wrong and write the correct answer.",
+        "structure": "check-by-differentiating",
+        "solution_text": "Differentiating $3x^{3} + x^{2}$ gives $9x^{2} + 2x$, so the primitive itself is right.\nOnly one constant of integration is needed, however many terms the answer has.\n$\\int\\left(9x^{2} + 2x\\right)dx = 3x^{3} + x^{2} + C$"
+      },
+      {
+        "question_text": "Find $\\int a x^{2}\\,dx$, where $a$ is a constant.",
+        "structure": "dx-variable-role",
+        "solution_text": "$\\int a x^{2}\\,dx$\n$= a\\int x^{2}\\,dx$\n$= \\dfrac{ax^{3}}{3} + C$"
+      },
+      {
+        "question_text": "Write in integral notation, and then find, the family of functions whose derivative is $7x^{6} - 1$.",
+        "structure": "read-integral-notation",
+        "solution_text": "$\\int\\left(7x^{6} - 1\\right)dx$\n$= x^{7} - x + C$"
+      },
+      {
+        "question_text": "Find $\\int_{0}^{2} 6x^{2}\\,dx$ and $\\int 6x^{2}\\,dx$, and state which answer is a number.",
+        "structure": "definite-vs-indefinite",
+        "solution_text": "$\\int_{0}^{2} 6x^{2}\\,dx$\n$= \\left[2x^{3}\\right]_{0}^{2}$\n$= 16 - 0$\n$= 16$\n$\\int 6x^{2}\\,dx = 2x^{3} + C$\nThe definite integral gives the number $16$; the indefinite integral gives a family of functions."
+      },
+      {
+        "question_text": "Find $\\int x(x - 6)\\,dx$.",
+        "structure": "sum-rule-integral",
+        "solution_text": "$\\int x(x - 6)\\,dx$\n$= \\int\\left(x^{2} - 6x\\right)dx$\n$= \\dfrac{x^{3}}{3} - 3x^{2} + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find $\\int \\dfrac{4x^{5} + x^{3}}{x^{2}}\\,dx$.",
+        "structure": "sum-rule-integral",
+        "solution_text": "$\\int \\dfrac{4x^{5} + x^{3}}{x^{2}}\\,dx$\n$= \\int\\left(4x^{3} + x\\right)dx$\n$= x^{4} + \\dfrac{x^{2}}{2} + C$"
+      },
+      {
+        "question_text": "A curve has gradient function $\\dfrac{dy}{dx} = 12x^{2} - 4$ and passes through $(1, 3)$. Find $y$ in terms of $x$.",
+        "structure": "write-with-constant",
+        "solution_text": "$y = \\int\\left(12x^{2} - 4\\right)dx$\n$= 4x^{3} - 4x + C$\n$3 = 4(1)^{3} - 4(1) + C$\n$C = 3$\n$y = 4x^{3} - 4x + 3$"
+      },
+      {
+        "question_text": "Explain why $\\int 3x^{2}\\,dx = x^{3} + 5$ is not a correct answer, even though differentiating the right-hand side gives $3x^{2}$.",
+        "structure": "check-by-differentiating",
+        "solution_text": "Differentiating $x^{3} + 5$ does give $3x^{2}$, so $x^{3} + 5$ is one primitive of $3x^{2}$.\nAn indefinite integral must describe every primitive, not just one of them.\n$\\int 3x^{2}\\,dx = x^{3} + C$"
+      }
+    ]
+  }
+}

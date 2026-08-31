@@ -1,0 +1,205 @@
+{
+  "skillId": "instantaneous-rate-tangent",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph shows a curve $y = f(x)$ with two lines $L_1$ and $L_2$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (6.0,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(1,0.8) (2,1.8) (3,3.2) (4,4.8)} node[pos=0.5, above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (1,0.8) -- (4,4.8) node[below right] {$L_1$};\n\\draw[thick,teal] (1.4,0.8) -- (4.2,5.0) node[above] {$L_2$};\n\\fill (3,3.2) circle (2.5pt) node[below right] {$P(3,f(3))$};\n\\end{tikzpicture}[/tikz]\nWhich line's gradient represents the instantaneous rate of change of $f(x)$ at $x = 3$?",
+      "structure": "distinguish-secant-tangent",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$L_2$, because it is the tangent line touching the curve at $x = 3$.",
+          "correct": true
+        },
+        {
+          "text": "$L_1$, because it connects two points on the curve.",
+          "why": "Identifies the secant chord rather than the tangent line."
+        },
+        {
+          "text": "Both lines have the same gradient and represent instantaneous rate.",
+          "why": "Secant and tangent lines have distinct gradients for non-linear curves."
+        },
+        {
+          "text": "Neither line, as instantaneous rates cannot be represented by straight lines.",
+          "why": "A tangent line geometrically defines the instantaneous rate."
+        }
+      ],
+      "solution_text": "$\\text{The instantaneous rate of change at } x = 3\\text{ is represented by the gradient of the tangent line, line } L_2.$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph of $y = f(x)$ has marked points $P, Q, R$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.0) node[above] {$y$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(0.5,1.0) (2,4.0) (3.5,4.0) (5,1.0)} node[above right] {$y=f(x)$};\n\\fill (1.0,2.2) circle (2.5pt) node[left] {$P$};\n\\fill (2.75,4.2) circle (2.5pt) node[above] {$Q$};\n\\fill (4.5,2.2) circle (2.5pt) node[right] {$R$};\n\\end{tikzpicture}\n[/tikz]\nAt which point is the derivative $f'(x) < 0$?",
+      "structure": "interpret-sign-of-tangent-gradient",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Point $R$",
+          "correct": true
+        },
+        {
+          "text": "Point $P$",
+          "why": "At point P the curve is rising, so the derivative is positive ($f'(x) > 0$)."
+        },
+        {
+          "text": "Point $Q$",
+          "why": "At the peak point Q the tangent is horizontal, so $f'(x) = 0$."
+        },
+        {
+          "text": "Points $P$ and $R$",
+          "why": "P and R have opposite derivative signs (positive at P, negative at R)."
+        }
+      ],
+      "solution_text": "$\\text{At point } R\\text{, the curve slopes downward to the right, meaning the tangent gradient is negative } (f'(x) < 0).$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The table shows the gradient of secant lines between $x = 3$ and $x = 3+h$ for $f(x) = x^2$:\n$\\begin{array}{c|ccc} h & 0.1 & 0.01 & 0.001 \\\\ \\hline m_{\\text{secant}} & 6.1 & 6.01 & 6.001 \\end{array}$\nWhat is the estimated instantaneous rate of change $f'(3)$?",
+      "structure": "secant-approaching-tangent-limit",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6$",
+          "correct": true
+        },
+        {
+          "text": "$6.1$",
+          "why": "Takes the value for $h=0.1$ rather than finding the limiting value as $h \\to 0$."
+        },
+        {
+          "text": "$9$",
+          "why": "Evaluates $f(3) = 3^2 = 9$ rather than the gradient of the tangent."
+        },
+        {
+          "text": "$0$",
+          "why": "Confuses the parameter $h \\to 0$ with the value of the gradient."
+        }
+      ],
+      "solution_text": "$\\text{As } h \\to 0\\text{, the secant gradient values } 6.1, 6.01, 6.001\\text{ approach } 6.$\n$\\text{Instantaneous rate } f'(3) = 6$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A roadside speed camera records a car travelling at $88\\text{ km/h}$ as it passes the sensor. Which rate of change does this reading represent?",
+      "structure": "interpret-tangent-in-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Instantaneous speed, because it measures the speed at that exact point in time.",
+          "correct": true
+        },
+        {
+          "text": "Average speed, because speed always involves an interval of distance and time.",
+          "why": "Point sensors measure instantaneous speed at a single moment."
+        },
+        {
+          "text": "Average acceleration, because the car's speed is changing.",
+          "why": "The reading is a speed measurement (km/h), not an acceleration."
+        },
+        {
+          "text": "Total distance, because it measures the length of the road.",
+          "why": "The measurement is a rate of change with units km/h, not a distance."
+        }
+      ],
+      "solution_text": "$\\text{The speed camera measures the speed at a single specific instant, which is the instantaneous speed.}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Which statement correctly defines the relationship between the derivative $f'(a)$ and the graph of $y = f(x)$?",
+      "structure": "distinguish-secant-tangent",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$f'(a)$ is the gradient of the tangent line to the curve at $x = a$.",
+          "correct": true
+        },
+        {
+          "text": "$f'(a)$ is the $y$-value of the curve at $x = a$.",
+          "why": "Confuses the derivative $f'(a)$ with the function value $f(a)$."
+        },
+        {
+          "text": "$f'(a)$ is the gradient of the secant line between $x = 0$ and $x = a$.",
+          "why": "Confuses the instantaneous tangent gradient with a secant from the origin."
+        },
+        {
+          "text": "$f'(a)$ is the area under the curve between $x = 0$ and $x = a$.",
+          "why": "Confuses differentiation with integration."
+        }
+      ],
+      "solution_text": "$\\text{By definition, the derivative } f'(a)\\text{ is the gradient of the tangent line to } y = f(x)\\text{ at } x = a.$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The vertex of the parabola $y = -(x - 4)^2 + 9$ is located at $(4, 9)$. What is the value of the derivative $f'(4)$?",
+      "structure": "interpret-sign-of-tangent-gradient",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0$",
+          "correct": true
+        },
+        {
+          "text": "$9$",
+          "why": "States the maximum $y$-value instead of the tangent gradient at the vertex."
+        },
+        {
+          "text": "$4$",
+          "why": "States the $x$-coordinate of the vertex instead of the gradient."
+        },
+        {
+          "text": "$-1$",
+          "why": "States the leading coefficient of the quadratic instead of the tangent slope."
+        }
+      ],
+      "solution_text": "$\\text{At the vertex of a smooth parabola, the tangent line is horizontal.}$\n$\\text{A horizontal line has gradient } 0\\text{, so } f'(4) = 0.$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How can the approximation of the instantaneous rate of change at $x = 2$ using the average rate over $[2, 2+h]$ be improved?",
+      "structure": "secant-approaching-tangent-limit",
+      "mastery": false,
+      "options": [
+        {
+          "text": "By making the interval width $h$ smaller and closer to $0$.",
+          "correct": true
+        },
+        {
+          "text": "By making the interval width $h$ larger.",
+          "why": "Larger intervals deviate further from the local tangent slope."
+        },
+        {
+          "text": "By averaging the function values $f(2)$ and $f(2+h)$.",
+          "why": "Averaging function values gives midpoint height, not slope."
+        },
+        {
+          "text": "By changing the base point from $x = 2$ to $x = 0$.",
+          "why": "Changing the base point evaluates the rate at a different location."
+        }
+      ],
+      "solution_text": "$\\text{The secant line rotates closer to the tangent line as the interval width } h\\text{ approaches } 0.$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph of a temperature function $T(t)$ has a tangent at $t = 5$ with gradient $-3.5^{\\circ}\\text{C/min}$. What does this value indicate about the temperature at $t = 5\\text{ minutes}$?",
+      "structure": "interpret-tangent-in-context",
+      "mastery": true,
+      "options": [
+        {
+          "text": "The temperature is decreasing at an instantaneous rate of $3.5^{\\circ}\\text{C}$ per minute.",
+          "correct": true
+        },
+        {
+          "text": "The temperature decreased by a total of $3.5^{\\circ}\\text{C}$ in the first $5\\text{ minutes}$.",
+          "why": "Confuses total temperature change with the instantaneous rate."
+        },
+        {
+          "text": "The temperature is increasing by $3.5^{\\circ}\\text{C}$ every minute.",
+          "why": "Ignores the negative sign, which indicates cooling/decreasing temperature."
+        },
+        {
+          "text": "The temperature at $t = 5$ is $-3.5^{\\circ}\\text{C}$.",
+          "why": "Confuses the rate of change $T'(5)$ with the temperature $T(5)$."
+        }
+      ],
+      "solution_text": "$\\text{A derivative value of } T'(5) = -3.5^{\\circ}\\text{C/min}\\text{ means the temperature is decreasing at an instantaneous rate of } 3.5^{\\circ}\\text{C/min}\\text{ at } t = 5\\text{ minutes}.$"
+    }
+  ]
+}

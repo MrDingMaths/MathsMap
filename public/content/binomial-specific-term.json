@@ -1,0 +1,113 @@
+{
+  "skillId": "binomial-specific-term",
+  "atomType": "R",
+  "theory": {
+        "intro": "The expansion of $(a+b)^{n}$ has a **general term** $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$. Writing down that one term gives any required term, coefficient or constant term. The whole expression never has to be expanded.",
+        "facts": [
+          "The **general term**, the $(r+1)\\text{-th}$ term of $(a+b)^{n}$, is $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$, where $r = 0, 1, 2, \\dots, n$.",
+          "The index $r$ is one less than the term's position, so the $5\\text{th}$ term has $r=4$ and the $k\\text{-th}$ term has $r=k-1$.",
+          "The **coefficient** of a term is the number multiplying the variables, sign included; the coefficient of $x^{3}$ in $-160x^{3}$ is $-160$.",
+          "The **term independent of $x$**, also called the constant term, is the term whose overall power of $x$ is zero.",
+          "If $r$ comes out as a non-integer, or outside $0 \\le r \\le n$, then no term with that power exists."
+        ],
+        "steps": [
+          "Write down the general term $T_{r+1} = \\binom{n}{r}a^{n-r}b^{r}$",
+          "Simplify the powers and separate the numerical coefficients from the variable $x$",
+          "Set the power of $x$ equal to the desired power (or set $r = k-1$ for the $k\\text{-th}$ term) and solve for $r$",
+          "Substitute $r$ back into $T_{r+1}$ to evaluate the required term or coefficient"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the $3\\text{rd}$ term in the expansion of $(x + 3)^{5}$.",
+        "structure": "find-named-term",
+        "solution_text": "$T_{r+1} = \\binom{5}{r}x^{5-r}(3)^{r}$\n$T_{3} = \\binom{5}{2}x^{3}(3)^{2}$\n$= 10 \\times x^{3} \\times 9$\n$= 90x^{3}$"
+      },
+      {
+        "question_text": "Find the $4\\text{th}$ term in the expansion of $(2x - 1)^{6}$.",
+        "structure": "find-named-term",
+        "solution_text": "$T_{r+1} = \\binom{6}{r}(2x)^{6-r}(-1)^{r}$\n$T_{4} = \\binom{6}{3}(2x)^{3}(-1)^{3}$\n$= 20 \\times 8x^{3} \\times (-1)$\n$= -160x^{3}$"
+      },
+      {
+        "question_text": "Find the term containing $x^{3}$ in the expansion of $(1 + 2x)^{7}$.",
+        "structure": "find-term-in-power",
+        "solution_text": "$T_{r+1} = \\binom{7}{r}(1)^{7-r}(2x)^{r}$\n$= \\binom{7}{r}2^{r}x^{r}$\n$\\text{For } x^{3}\\text{, let } r = 3\\text{:}$\n$T_{4} = \\binom{7}{3}2^{3}x^{3}$\n$= 35 \\times 8x^{3}$\n$= 280x^{3}$"
+      },
+      {
+        "question_text": "Find the coefficient of $x^{4}$ in the expansion of $(3 - x)^{8}$.",
+        "structure": "find-term-in-power",
+        "solution_text": "$T_{r+1} = \\binom{8}{r}(3)^{8-r}(-x)^{r}$\n$= \\binom{8}{r}3^{8-r}(-1)^{r}x^{r}$\n$\\text{For } x^{4}\\text{, let } r = 4\\text{:}$\n$\\text{Coefficient} = \\binom{8}{4}3^{4}(-1)^{4}$\n$= 70 \\times 81 \\times 1$\n$= 5670$"
+      },
+      {
+        "question_text": "Find the constant term in the expansion of $\\left(x + \\dfrac{2}{x}\\right)^{4}$.",
+        "structure": "find-constant-term",
+        "solution_text": "$T_{r+1} = \\binom{4}{r}x^{4-r}\\left(\\dfrac{2}{x}\\right)^{r}$\n$= \\binom{4}{r}2^{r}x^{4-2r}$\n$\\text{For } x^{0}\\text{, let } 4 - 2r = 0\\text{, giving } r = 2\\text{:}$\n$\\text{Constant term} = \\binom{4}{2}2^{2}$\n$= 6 \\times 4$\n$= 24$"
+      },
+      {
+        "question_text": "Find the term containing $x^{3}y^{2}$ in the expansion of $(x + y)^{5}$.",
+        "structure": "find-two-variable-term",
+        "solution_text": "$T_{r+1} = \\binom{5}{r}x^{5-r}y^{r}$\n$\\text{For } x^{3}y^{2}\\text{, let } r = 2\\text{:}$\n$T_{3} = \\binom{5}{2}x^{3}y^{2}$\n$= 10x^{3}y^{2}$"
+      },
+      {
+        "question_text": "Find the coefficient of $a^{4}b^{2}$ in the expansion of $(2a - b)^{6}$.",
+        "structure": "find-two-variable-term",
+        "solution_text": "$T_{r+1} = \\binom{6}{r}(2a)^{6-r}(-b)^{r}$\n$= \\binom{6}{r}2^{6-r}(-1)^{r}a^{6-r}b^{r}$\n$\\text{For } a^{4}b^{2}\\text{, let } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{6}{2}2^{4}(-1)^{2}$\n$= 15 \\times 16 \\times 1$\n$= 240$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the $5\\text{th}$ term in the expansion of $(3x - 2y)^{7}$.",
+        "structure": "find-named-term",
+        "solution_text": "$T_{r+1} = \\binom{7}{r}(3x)^{7-r}(-2y)^{r}$\n$= \\binom{7}{r}3^{7-r}(-2)^{r}x^{7-r}y^{r}$\n$\\text{For the } 5\\text{th term, let } r = 4\\text{:}$\n$T_{5} = \\binom{7}{4}3^{3}(-2)^{4}x^{3}y^{4}$\n$= 35 \\times 27 \\times 16x^{3}y^{4}$\n$= 15120x^{3}y^{4}$"
+      },
+      {
+        "question_text": "Find the term containing $x^{2}$ in the expansion of $\\left(2x^{2} - \\dfrac{1}{x}\\right)^{7}$.",
+        "structure": "find-term-in-power",
+        "solution_text": "$T_{r+1} = \\binom{7}{r}(2x^{2})^{7-r}\\left(-\\dfrac{1}{x}\\right)^{r}$\n$= \\binom{7}{r}2^{7-r}(-1)^{r}x^{14-3r}$\n$\\text{For } x^{2}\\text{, let } 14 - 3r = 2\\text{, giving } r = 4\\text{:}$\n$T_{5} = \\binom{7}{4}2^{3}(-1)^{4}x^{2}$\n$= 35 \\times 8 \\times 1x^{2}$\n$= 280x^{2}$"
+      },
+      {
+        "question_text": "Find the coefficient of $x^{-2}$ in the expansion of $\\left(x^{2} - \\dfrac{3}{x}\\right)^{5}$.",
+        "structure": "find-term-in-power",
+        "solution_text": "$T_{r+1} = \\binom{5}{r}(x^{2})^{5-r}\\left(-\\dfrac{3}{x}\\right)^{r}$\n$= \\binom{5}{r}(-3)^{r}x^{10-3r}$\n$\\text{For } x^{-2}\\text{, let } 10 - 3r = -2\\text{, giving } r = 4\\text{:}$\n$\\text{Coefficient} = \\binom{5}{4}(-3)^{4}$\n$= 5 \\times 81$\n$= 405$"
+      },
+      {
+        "question_text": "Find the term independent of $x$ in the expansion of $\\left(x^{2} + \\dfrac{3}{x}\\right)^{6}$.",
+        "structure": "find-constant-term",
+        "solution_text": "$T_{r+1} = \\binom{6}{r}(x^{2})^{6-r}\\left(\\dfrac{3}{x}\\right)^{r}$\n$= \\binom{6}{r}3^{r}x^{12-3r}$\n$\\text{For } x^{0}\\text{, let } 12 - 3r = 0\\text{, giving } r = 4\\text{:}$\n$\\text{Constant term} = \\binom{6}{4}3^{4}$\n$= 15 \\times 81$\n$= 1215$"
+      },
+      {
+        "question_text": "Determine whether the expansion of $\\left(x^{3} - \\dfrac{2}{x^{2}}\\right)^{7}$ contains a non-zero constant term.",
+        "structure": "find-constant-term",
+        "solution_text": "$T_{r+1} = \\binom{7}{r}(x^{3})^{7-r}\\left(-\\dfrac{2}{x^{2}}\\right)^{r}$\n$= \\binom{7}{r}(-2)^{r}x^{21-5r}$\n$\\text{For } x^{0}\\text{, let } 21 - 5r = 0\\text{:}$\n$5r = 21$\n$r = 4.2$\n$\\text{Since } r \\text{ must be an integer, no constant term exists.}$"
+      },
+      {
+        "question_text": "Find the term containing $x^{5}y^{4}$ in the expansion of $\\left(2x + \\dfrac{y}{2}\\right)^{9}$.",
+        "structure": "find-two-variable-term",
+        "solution_text": "$T_{r+1} = \\binom{9}{r}(2x)^{9-r}\\left(\\dfrac{y}{2}\\right)^{r}$\n$= \\binom{9}{r}2^{9-2r}x^{9-r}y^{r}$\n$\\text{For } x^{5}y^{4}\\text{, let } r = 4\\text{:}$\n$T_{5} = \\binom{9}{4}2^{1}x^{5}y^{4}$\n$= 126 \\times 2x^{5}y^{4}$\n$= 252x^{5}y^{4}$"
+      },
+      {
+        "question_text": "In the expansion of $(1 + ax)^{6}$, where $a > 0$, the coefficient of $x^{2}$ is $135$. Find the value of $a$.",
+        "structure": "solve-for-index-or-parameter",
+        "solution_text": "$T_{r+1} = \\binom{6}{r}(1)^{6-r}(ax)^{r} = \\binom{6}{r}a^{r}x^{r}$\n$\\text{For } x^{2}\\text{, let } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{6}{2}a^{2}$\n$15a^{2} = 135$\n$a^{2} = 9$\n$a = 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "In the expansion of $\\left(2x^{3} + \\dfrac{3}{x^{2}}\\right)^{5}$, find the coefficient of $x^{5}$.",
+        "structure": "find-term-in-power",
+        "solution_text": "$T_{r+1} = \\binom{5}{r}(2x^{3})^{5-r}\\left(\\dfrac{3}{x^{2}}\\right)^{r}$\n$= \\binom{5}{r}2^{5-r}3^{r}x^{15-5r}$\n$\\text{For } x^{5}\\text{, let } 15 - 5r = 5\\text{, giving } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{5}{2}2^{3}3^{2}$\n$= 10 \\times 8 \\times 9$\n$= 720$"
+      },
+      {
+        "question_text": "In the expansion of $(1 + 3x)^{n}$, where $n$ is a positive integer, the coefficient of $x^{2}$ is $90$. Find the value of $n$.",
+        "structure": "solve-for-index-or-parameter",
+        "solution_text": "$T_{r+1} = \\binom{n}{r}(1)^{n-r}(3x)^{r} = \\binom{n}{r}3^{r}x^{r}$\n$\\text{For } x^{2}\\text{, let } r = 2\\text{:}$\n$\\text{Coefficient} = \\binom{n}{2}3^{2}$\n$\\dfrac{n(n-1)}{2} \\times 9 = 90$\n$n(n-1) = 20$\n$n^{2} - n - 20 = 0$\n$(n-5)(n+4) = 0$\n$\\text{Since } n \\text{ must be a positive integer, } n = 5.$"
+      },
+      {
+        "question_text": "In the expansion of $(2 + x)^{n}$, the coefficients of $x^{4}$ and $x^{5}$ are in the ratio $5 : 2$. Find the value of the positive integer $n$.",
+        "structure": "solve-for-index-or-parameter",
+        "solution_text": "$\\text{Coefficient of } x^{4} = \\binom{n}{4}2^{n-4}$\n$\\text{Coefficient of } x^{5} = \\binom{n}{5}2^{n-5}$\n$\\dfrac{\\binom{n}{4}2^{n-4}}{\\binom{n}{5}2^{n-5}} = \\dfrac{5}{2}$\n$\\dfrac{5}{n-4} \\times 2 = \\dfrac{5}{2}$\n$\\dfrac{10}{n-4} = \\dfrac{5}{2}$\n$5(n-4) = 20$\n$n - 4 = 4$\n$n = 8$"
+      }
+    ]
+  }
+}

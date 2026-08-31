@@ -1,0 +1,109 @@
+{
+  "skillId": "binomial-cumulative-probability",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A quiz has $9$ multiple-choice questions, each with five options and exactly one correct answer. A student guesses every answer. Find the probability that she gets at least one question correct, correct to four decimal places.",
+      "structure": "at-least-one-complement",
+      "mastery": false,
+      "options": [
+        { "text": "$0.8658$", "correct": true },
+        { "text": "$0.1342$", "why": "Stopped at $P(X=0)$ without subtracting it from $1$." },
+        { "text": "$0.3020$", "why": "Found $P(X=1)$, the probability of exactly one correct, instead of at least one." },
+        { "text": "$0.5638$", "why": "Used $1-P(X \\le 1)$, treating 'at least one' as 'at least two'." }
+      ],
+      "solution_text": "$X \\sim \\text{Bin}(9,0.2)$\n$P(X = 0) = (0.8)^{9}$\n$= 0.134217\\ldots$\n$P(X \\ge 1) = 1 - 0.134217\\ldots$\n$= 0.8658$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$X \\sim \\text{Bin}(7,0.15)$. Find $P(X \\le 2)$, correct to four decimal places.",
+      "structure": "at-most-r-direct",
+      "mastery": false,
+      "options": [
+        { "text": "$0.9262$", "correct": true },
+        { "text": "$0.2097$", "why": "Used only the single term $P(X=2)$ instead of summing from $r=0$." },
+        { "text": "$0.0738$", "why": "Subtracted the correct sum from $1$, giving $P(X \\ge 3)$ instead of $P(X \\le 2)$." },
+        { "text": "$0.9879$", "why": "Included the extra term $P(X=3)$, so the sum ran to $r=3$." }
+      ],
+      "solution_text": "$P(X = 0) = (0.85)^{7}$\n$= 0.320577\\ldots$\n$P(X = 1) = {}^{7}C_{1}(0.15)(0.85)^{6}$\n$= 0.396007\\ldots$\n$P(X = 2) = {}^{7}C_{2}(0.15)^{2}(0.85)^{5}$\n$= 0.209650\\ldots$\n$P(X \\le 2) = 0.320577\\ldots + 0.396007\\ldots + 0.209650\\ldots$\n$= 0.9262$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$X \\sim \\text{Bin}(10,0.3)$. Find $P(X \\ge 3)$, correct to four decimal places.",
+      "structure": "at-least-r-complement",
+      "mastery": false,
+      "options": [
+        { "text": "$0.6172$", "correct": true },
+        { "text": "$0.3504$", "why": "Subtracted $P(X \\le 3)$ instead of $P(X \\le 2)$, the off-by-one on the boundary." },
+        { "text": "$0.3828$", "why": "Found $P(X \\le 2)$ and forgot to subtract it from $1$." },
+        { "text": "$0.2668$", "why": "Used the single term $P(X=3)$ instead of the whole range from $3$ upwards." }
+      ],
+      "solution_text": "'At least $3$' is $1 - P(X \\le 2)$.\n$P(X = 0) = (0.7)^{10}$\n$= 0.028247\\ldots$\n$P(X = 1) = {}^{10}C_{1}(0.3)(0.7)^{9}$\n$= 0.121060\\ldots$\n$P(X = 2) = {}^{10}C_{2}(0.3)^{2}(0.7)^{8}$\n$= 0.233474\\ldots$\n$P(X \\le 2) = 0.382783\\ldots$\n$P(X \\ge 3) = 1 - 0.382783\\ldots$\n$= 0.6172$"
+    },
+    {
+      "id": "q4",
+      "question_text": "$X \\sim \\text{Bin}(6,0.35)$. Find $P(X > 2)$, correct to four decimal places.",
+      "structure": "more-than-r",
+      "mastery": false,
+      "options": [
+        { "text": "$0.3529$", "correct": true },
+        { "text": "$0.6809$", "why": "Used $1-P(X \\le 1)$, treating 'more than $2$' as 'at least $2$' and so including $X=2$." },
+        { "text": "$0.6471$", "why": "Found $P(X \\le 2)$ and forgot to subtract it from $1$." },
+        { "text": "$0.2355$", "why": "Used the single term $P(X=3)$ instead of every value above $2$." }
+      ],
+      "solution_text": "'More than $2$' means $r \\in \\{3,4,5,6\\}$, so use the complement $\\{0,1,2\\}$.\n$P(X = 0) = (0.65)^{6}$\n$= 0.075418\\ldots$\n$P(X = 1) = {}^{6}C_{1}(0.35)(0.65)^{5}$\n$= 0.243660\\ldots$\n$P(X = 2) = {}^{6}C_{2}(0.35)^{2}(0.65)^{4}$\n$= 0.328005\\ldots$\n$P(X \\le 2) = 0.647085\\ldots$\n$P(X > 2) = 1 - 0.647085\\ldots$\n$= 0.3529$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$X \\sim \\text{Bin}(8,0.4)$. Find $P(X < 3)$, correct to four decimal places.",
+      "structure": "strict-vs-inclusive",
+      "mastery": false,
+      "options": [
+        { "text": "$0.3154$", "correct": true },
+        { "text": "$0.5941$", "why": "Found $P(X \\le 3)$, including $X=3$, which the strict inequality excludes." },
+        { "text": "$0.2090$", "why": "Used only $P(X=2)$ instead of summing every value below $3$." },
+        { "text": "$0.6846$", "why": "Subtracted the correct sum from $1$, giving $P(X \\ge 3)$." }
+      ],
+      "solution_text": "$X$ is discrete, so $P(X < 3) = P(X \\le 2)$.\n$P(X = 0) = (0.6)^{8}$\n$= 0.016796\\ldots$\n$P(X = 1) = {}^{8}C_{1}(0.4)(0.6)^{7}$\n$= 0.089579\\ldots$\n$P(X = 2) = {}^{8}C_{2}(0.4)^{2}(0.6)^{6}$\n$= 0.209018\\ldots$\n$P(X < 3) = 0.016796\\ldots + 0.089579\\ldots + 0.209018\\ldots$\n$= 0.3154$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$X \\sim \\text{Bin}(10,0.4)$. Find $P(4 \\le X \\le 6)$, correct to four decimal places.",
+      "structure": "between-inclusive",
+      "mastery": true,
+      "options": [
+        { "text": "$0.5630$", "correct": true },
+        { "text": "$0.7779$", "why": "Started the sum at $r=3$, adding a term below the lower endpoint." },
+        { "text": "$0.4515$", "why": "Left out $P(X=6)$, treating the upper endpoint as excluded." },
+        { "text": "$0.3121$", "why": "Left out $P(X=4)$, treating the lower endpoint as excluded." }
+      ],
+      "solution_text": "Both endpoints are included, so add the terms for $r = 4, 5, 6$.\n$P(X = 4) = {}^{10}C_{4}(0.4)^{4}(0.6)^{6}$\n$= 0.250822\\ldots$\n$P(X = 5) = {}^{10}C_{5}(0.4)^{5}(0.6)^{5}$\n$= 0.200658\\ldots$\n$P(X = 6) = {}^{10}C_{6}(0.4)^{6}(0.6)^{4}$\n$= 0.111476\\ldots$\n$P(4 \\le X \\le 6) = 0.250822\\ldots + 0.200658\\ldots + 0.111476\\ldots$\n$= 0.5630$"
+    },
+    {
+      "id": "q7",
+      "question_text": "$X \\sim \\text{Bin}(15,0.2)$. Find $P(X \\ge 4)$, correct to four decimal places.",
+      "structure": "at-least-r-complement",
+      "mastery": true,
+      "options": [
+        { "text": "$0.3518$", "correct": true },
+        { "text": "$0.1642$", "why": "Subtracted $P(X \\le 4)$ instead of $P(X \\le 3)$, the off-by-one on the boundary." },
+        { "text": "$0.6482$", "why": "Found $P(X \\le 3)$ and forgot to subtract it from $1$." },
+        { "text": "$0.1876$", "why": "Used the single term $P(X=4)$ instead of the whole range from $4$ upwards." }
+      ],
+      "solution_text": "'At least $4$' is $1 - P(X \\le 3)$.\n$P(X = 0) = (0.8)^{15}$\n$= 0.035184\\ldots$\n$P(X = 1) = {}^{15}C_{1}(0.2)(0.8)^{14}$\n$= 0.131941\\ldots$\n$P(X = 2) = {}^{15}C_{2}(0.2)^{2}(0.8)^{13}$\n$= 0.230897\\ldots$\n$P(X = 3) = {}^{15}C_{3}(0.2)^{3}(0.8)^{12}$\n$= 0.250139\\ldots$\n$P(X \\le 3) = 0.648162\\ldots$\n$P(X \\ge 4) = 1 - 0.648162\\ldots$\n$= 0.3518$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$X \\sim \\text{Bin}(5,0.45)$. Find $P(X \\le 2)$, correct to four decimal places.",
+      "structure": "at-most-r-direct",
+      "mastery": false,
+      "options": [
+        { "text": "$0.5931$", "correct": true },
+        { "text": "$0.2562$", "why": "Stopped the sum at $r=1$, leaving out $P(X=2)$ that 'at most $2$' includes." },
+        { "text": "$0.3369$", "why": "Used only the single term $P(X=2)$ instead of summing from $r=0$." },
+        { "text": "$0.4069$", "why": "Subtracted the correct sum from $1$, giving $P(X \\ge 3)$ instead of $P(X \\le 2)$." }
+      ],
+      "solution_text": "$P(X = 0) = (0.55)^{5}$\n$= 0.050328\\ldots$\n$P(X = 1) = {}^{5}C_{1}(0.45)(0.55)^{4}$\n$= 0.205888\\ldots$\n$P(X = 2) = {}^{5}C_{2}(0.45)^{2}(0.55)^{3}$\n$= 0.336909\\ldots$\n$P(X \\le 2) = 0.050328\\ldots + 0.205888\\ldots + 0.336909\\ldots$\n$= 0.5931$"
+    }
+  ]
+}

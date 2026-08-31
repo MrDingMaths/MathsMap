@@ -1,0 +1,148 @@
+{
+  "skillId": "inverse-trig-composite-graphs",
+  "atomType": "R",
+  "theory": {
+    "intro": "The order of a composite decides its answer. $\\sin(\\arcsin x)$ equals $x$, but only where $\\arcsin x$ exists, so only on $[-1,1]$. $\\arcsin(\\sin x)$ is defined for every $x$, yet equals $x$ only on $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$.",
+    "facts": [
+      "$\\sin(\\arcsin x)=x$ and $\\cos(\\arccos x)=x$ for $-1\\le x\\le 1$; outside that interval both composites are undefined.",
+      "$\\tan(\\arctan x)=x$ for every real $x$, because $\\arctan$ accepts every real number.",
+      "$\\arcsin(\\sin x)=x$ only for $-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$, which is the range of $\\arcsin$.",
+      "$\\arccos(\\cos x)=x$ only for $0\\le x\\le\\pi$, and $\\arctan(\\tan x)=x$ only for $-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$.",
+      "For an angle outside that range, replace it by the angle inside the range that has the same trigonometric ratio.",
+      "The graph of $y=\\arcsin(\\sin x)$ is a zig-zag of straight segments repeating every $2\\pi$ between $-\\frac{\\pi}{2}$ and $\\frac{\\pi}{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=1.3cm]\n\\draw[->] (-4.7,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,1.8) node[above] {$y$};\n\\foreach \\x/\\lab in {-4/{$-2\\pi$}, -2/{$-\\pi$}, 2/{$\\pi$}, 4/{$2\\pi$}} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {\\lab};\n\\draw (0.07,1) -- (-0.07,1) node[left, font=\\small] {$\\frac{\\pi}{2}$};\n\\draw (0.07,-1) -- (-0.07,-1) node[left, font=\\small] {$-\\frac{\\pi}{2}$};\n\\draw[thick, <->] (-4,0) -- (-3,1) -- (-1,-1) -- (1,1) node[above right, font=\\small] {$y=\\arcsin(\\sin x)$} -- (3,-1) -- (4,0);\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "Decide which function is on the outside, because the outer function fixes the set of possible answers.",
+      "For an inverse function on the inside, check that its argument lies in $[-1,1]$; otherwise the composite is undefined.",
+      "For a trigonometric function on the inside, evaluate the ratio, then find the angle with that ratio inside the inverse function's range."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the value of $\\sin(\\arcsin 0.4)$.",
+        "structure": "evaluate-outer-inverse",
+        "solution_text": "$\\sin(\\arcsin 0.4)$\n$=0.4$\nThis is valid because $0.4$ lies in $[-1,1]$."
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arccos\\left(-\\frac{7}{8}\\right)\\right)$.",
+        "structure": "evaluate-outer-inverse",
+        "solution_text": "$\\cos\\left(\\arccos\\left(-\\frac{7}{8}\\right)\\right)$\n$=-\\frac{7}{8}$\nThis is valid because $-\\frac{7}{8}$ lies in $[-1,1]$."
+      },
+      {
+        "question_text": "Find the value of $\\sin\\left(\\arcsin\\frac{9}{4}\\right)$.",
+        "structure": "evaluate-outer-inverse",
+        "solution_text": "$\\frac{9}{4}=2.25$, which is greater than $1$.\nSince $\\arcsin$ is only defined for $-1\\le x\\le 1$, $\\arcsin\\frac{9}{4}$ does not exist.\nThe expression is undefined."
+      },
+      {
+        "question_text": "Find the value of $\\tan(\\arctan(-120))$.",
+        "structure": "evaluate-outer-inverse",
+        "solution_text": "$\\tan(\\arctan(-120))$\n$=-120$\n$\\arctan$ is defined for every real number, so no domain restriction applies."
+      },
+      {
+        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{\\pi}{8}\\right)$.",
+        "structure": "evaluate-inverse-outer-in-range",
+        "solution_text": "$\\frac{\\pi}{8}$ lies in $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$.\n$\\arcsin\\left(\\sin\\frac{\\pi}{8}\\right)$\n$=\\frac{\\pi}{8}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arctan\\left(\\tan\\left(-\\frac{\\pi}{5}\\right)\\right)$.",
+        "structure": "evaluate-inverse-outer-in-range",
+        "solution_text": "$-\\frac{\\pi}{5}$ lies in $\\left(-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right)$.\n$\\arctan\\left(\\tan\\left(-\\frac{\\pi}{5}\\right)\\right)$\n$=-\\frac{\\pi}{5}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arccos\\left(\\cos\\frac{2\\pi}{5}\\right)$.",
+        "structure": "evaluate-inverse-outer-in-range",
+        "solution_text": "$\\frac{2\\pi}{5}$ lies in $[0,\\pi]$.\n$\\arccos\\left(\\cos\\frac{2\\pi}{5}\\right)$\n$=\\frac{2\\pi}{5}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{3\\pi}{4}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\frac{3\\pi}{4}$ is outside $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$, so the composite is not $\\frac{3\\pi}{4}$.\n$\\sin\\frac{3\\pi}{4}=\\sin\\frac{\\pi}{4}$\n$\\arcsin\\left(\\sin\\frac{3\\pi}{4}\\right)$\n$=\\arcsin\\left(\\sin\\frac{\\pi}{4}\\right)$\n$=\\frac{\\pi}{4}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arccos\\left(\\cos\\left(-\\frac{\\pi}{3}\\right)\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$-\\frac{\\pi}{3}$ is outside $[0,\\pi]$, so the composite is not $-\\frac{\\pi}{3}$.\n$\\cos\\left(-\\frac{\\pi}{3}\\right)=\\cos\\frac{\\pi}{3}$\n$\\arccos\\left(\\cos\\left(-\\frac{\\pi}{3}\\right)\\right)$\n$=\\arccos\\left(\\cos\\frac{\\pi}{3}\\right)$\n$=\\frac{\\pi}{3}$"
+      },
+      {
+        "question_text": "State the values of $x$ for which $\\cos(\\arccos x)=x$.",
+        "structure": "state-domain-condition",
+        "solution_text": "$\\arccos x$ exists only when $-1\\le x\\le 1$.\nWherever it exists, cosine undoes it, so $\\cos(\\arccos x)=x$ for $-1\\le x\\le 1$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{7\\pi}{6}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\sin\\frac{7\\pi}{6}=-\\frac{1}{2}$\n$\\arcsin\\left(\\sin\\frac{7\\pi}{6}\\right)$\n$=\\arcsin\\left(-\\frac{1}{2}\\right)$\n$=-\\frac{\\pi}{6}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arccos\\left(\\cos\\frac{7\\pi}{4}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\cos\\frac{7\\pi}{4}=\\frac{\\sqrt{2}}{2}$\n$\\arccos\\left(\\cos\\frac{7\\pi}{4}\\right)$\n$=\\arccos\\frac{\\sqrt{2}}{2}$\n$=\\frac{\\pi}{4}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arctan\\left(\\tan\\frac{4\\pi}{3}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\tan\\frac{4\\pi}{3}=\\sqrt{3}$\n$\\arctan\\left(\\tan\\frac{4\\pi}{3}\\right)$\n$=\\arctan\\sqrt{3}$\n$=\\frac{\\pi}{3}$"
+      },
+      {
+        "question_text": "Find the value of $\\arcsin\\left(2\\sin\\frac{\\pi}{4}\\right)$.",
+        "structure": "evaluate-with-inner-coefficient",
+        "solution_text": "The coefficient $2$ blocks the identity, so evaluate the inside first.\n$2\\sin\\frac{\\pi}{4}=2\\times\\frac{\\sqrt{2}}{2}=\\sqrt{2}$\n$\\sqrt{2}\\approx 1.41$, which is greater than $1$.\nThe expression is undefined."
+      },
+      {
+        "question_text": "Find the exact value of $\\arccos\\left(2\\cos\\frac{2\\pi}{3}\\right)$.",
+        "structure": "evaluate-with-inner-coefficient",
+        "solution_text": "$2\\cos\\frac{2\\pi}{3}=2\\times\\left(-\\frac{1}{2}\\right)=-1$\n$\\arccos\\left(2\\cos\\frac{2\\pi}{3}\\right)$\n$=\\arccos(-1)$\n$=\\pi$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arctan\\left(\\sqrt{3}\\tan\\frac{5\\pi}{6}\\right)$.",
+        "structure": "evaluate-with-inner-coefficient",
+        "solution_text": "$\\tan\\frac{5\\pi}{6}=-\\frac{1}{\\sqrt{3}}$\n$\\sqrt{3}\\tan\\frac{5\\pi}{6}=\\sqrt{3}\\times\\left(-\\frac{1}{\\sqrt{3}}\\right)=-1$\n$\\arctan\\left(\\sqrt{3}\\tan\\frac{5\\pi}{6}\\right)$\n$=\\arctan(-1)$\n$=-\\frac{\\pi}{4}$"
+      },
+      {
+        "question_text": "Sketch the graph of $y=\\sin(\\arcsin x)$, and state its domain and range.",
+        "structure": "graph-composite",
+        "solution_text": "$\\arcsin x$ exists only for $-1\\le x\\le 1$, and sine then undoes it, so $y=x$ on that interval and the function is undefined elsewhere.\nThe graph is the line segment $y=x$ from $(-1,-1)$ to $(1,1)$, with both endpoints included.\nDomain: $-1\\le x\\le 1$. Range: $-1\\le y\\le 1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.7]\n\\draw[->] (-1.7,0) -- (1.8,0) node[right] {$x$};\n\\draw[->] (0,-1.7) -- (0,1.8) node[above] {$y$};\n\\draw (1,0.06) -- (1,-0.06) node[below, font=\\small] {$1$};\n\\draw (-1,0.06) -- (-1,-0.06) node[below, font=\\small] {$-1$};\n\\draw (0.06,1) -- (-0.06,1) node[left, font=\\small] {$1$};\n\\draw (0.06,-1) -- (-0.06,-1) node[left, font=\\small] {$-1$};\n\\draw[thick] (-1,-1) -- (1,1) node[pos=0.85, below right, font=\\small] {$y=\\sin(\\arcsin x)$};\n\\fill (-1,-1) circle (1.2pt);\n\\fill (1,1) circle (1.2pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Explain why $\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)\\neq\\frac{5\\pi}{3}$, and state the correct value.",
+        "structure": "justify-composite-difference",
+        "solution_text": "Every output of $\\arccos$ lies in $[0,\\pi]$, and $\\frac{5\\pi}{3}$ is larger than $\\pi$.\nSo the composite cannot equal $\\frac{5\\pi}{3}$.\n$\\cos\\frac{5\\pi}{3}=\\frac{1}{2}$\n$\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)=\\arccos\\frac{1}{2}=\\frac{\\pi}{3}$"
+      },
+      {
+        "question_text": "State the values of $x$ for which $\\arctan(\\tan x)=x$.",
+        "structure": "state-domain-condition",
+        "solution_text": "The range of $\\arctan$ is $\\left(-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right)$, so the composite can only return values from that interval.\nTherefore $\\arctan(\\tan x)=x$ for $-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$."
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arccos\\frac{\\pi}{6}\\right)$.",
+        "structure": "evaluate-outer-inverse",
+        "solution_text": "$\\frac{\\pi}{6}\\approx 0.52$, which lies in $[-1,1]$, so $\\arccos\\frac{\\pi}{6}$ exists.\n$\\cos\\left(\\arccos\\frac{\\pi}{6}\\right)$\n$=\\frac{\\pi}{6}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Sketch the graph of $y=\\arccos(\\cos x)$ for $-2\\pi\\le x\\le 2\\pi$.",
+        "structure": "graph-composite",
+        "solution_text": "For $0\\le x\\le\\pi$ the composite is $y=x$.\nFor $\\pi\\le x\\le 2\\pi$ the angle with the same cosine inside $[0,\\pi]$ is $2\\pi-x$, so $y=2\\pi-x$.\nCosine is even, so the graph is symmetric about the $y$-axis, giving $y=-x$ on $[-\\pi,0]$ and $y=x+2\\pi$ on $[-2\\pi,-\\pi]$.\nThe graph is a triangular wave with peaks of height $\\pi$ at $x=\\pm\\pi$ and zeros at $x=0$ and $x=\\pm 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=0.9cm]\n\\draw[->] (-4.7,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,3.1) node[above] {$y$};\n\\foreach \\x/\\lab in {-4/{$-2\\pi$}, -2/{$-\\pi$}, 2/{$\\pi$}, 4/{$2\\pi$}} \\draw (\\x,0.08) -- (\\x,-0.08) node[below, font=\\small] {\\lab};\n\\draw (0.08,1) -- (-0.08,1) node[left, font=\\small] {$\\frac{\\pi}{2}$};\n\\draw (0.08,2) -- (-0.08,2) node[left, font=\\small] {$\\pi$};\n\\draw[thick, <->] (-4,0) -- (-2,2) -- (0,0) -- (2,2) node[above right, font=\\small] {$y=\\arccos(\\cos x)$} -- (4,0);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Given that $\\cos\\frac{23\\pi}{12}=\\frac{\\sqrt{6}+\\sqrt{2}}{4}$, find the exact value of $\\arccos\\left(\\frac{\\sqrt{6}+\\sqrt{2}}{4}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\arccos\\left(\\frac{\\sqrt{6}+\\sqrt{2}}{4}\\right)$\n$=\\arccos\\left(\\cos\\frac{23\\pi}{12}\\right)$\n$=\\arccos\\left(\\cos\\frac{\\pi}{12}\\right)$\n$=\\frac{\\pi}{12}$\nThe second line uses $\\cos\\frac{23\\pi}{12}=\\cos\\left(2\\pi-\\frac{\\pi}{12}\\right)=\\cos\\frac{\\pi}{12}$, and $\\frac{\\pi}{12}$ lies in $[0,\\pi]$."
+      },
+      {
+        "question_text": "Express $\\arccos(\\cos x)$ in terms of $x$ for $-\\pi\\le x\\le 0$.",
+        "structure": "express-reduction-general",
+        "solution_text": "The answer must lie in $[0,\\pi]$, and a negative $x$ does not.\n$\\cos(-x)=\\cos x$\nFor $-\\pi\\le x\\le 0$, the angle $-x$ runs from $\\pi$ down to $0$, so it is inside the range of $\\arccos$.\n$\\arccos(\\cos x)=-x$"
+      },
+      {
+        "question_text": "Find the exact value of $\\arcsin\\left(\\sin\\frac{5\\pi}{3}\\right)+\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)+\\arctan\\left(\\tan\\frac{5\\pi}{3}\\right)$.",
+        "structure": "evaluate-inverse-outer-reduce",
+        "solution_text": "$\\sin\\frac{5\\pi}{3}=-\\frac{\\sqrt{3}}{2}$, so $\\arcsin\\left(\\sin\\frac{5\\pi}{3}\\right)=-\\frac{\\pi}{3}$\n$\\cos\\frac{5\\pi}{3}=\\frac{1}{2}$, so $\\arccos\\left(\\cos\\frac{5\\pi}{3}\\right)=\\frac{\\pi}{3}$\n$\\tan\\frac{5\\pi}{3}=-\\sqrt{3}$, so $\\arctan\\left(\\tan\\frac{5\\pi}{3}\\right)=-\\frac{\\pi}{3}$\n$-\\frac{\\pi}{3}+\\frac{\\pi}{3}-\\frac{\\pi}{3}$\n$=-\\frac{\\pi}{3}$"
+      }
+    ]
+  }
+}

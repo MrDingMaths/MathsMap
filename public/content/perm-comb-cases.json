@@ -1,0 +1,113 @@
+{
+  "skillId": "perm-comb-cases",
+  "atomType": "R",
+  "theory": {
+    "intro": "Many counting problems involve conditions where a single formula cannot account for all possibilities. In these situations, we break the problem into mutually exclusive **cases** (scenarios that cannot occur at the same time). We calculate the number of arrangements or selections for each case separately using permutations or combinations, and then add the counts together using the **addition principle**.",
+    "facts": [
+      "**Addition principle for cases**: If a situation is partitioned into mutually exclusive cases $C_1, C_2, \\dots, C_k$, the total number of outcomes is $N = N(C_1) + N(C_2) + \\dots + N(C_k)$.",
+      "**At least / At most restrictions**: Conditions like 'at least $2$' or 'at most $1$' naturally split into discrete cases corresponding to each exact valid count (e.g. exactly $2$, exactly $3$, etc.).",
+      "**Select then arrange**: When a problem requires choosing a subset of items and then ordering some or all of them, multiply the combination count by the internal arrangement count: $\\binom{n}{r} \\times r! = \\ ^{n}P_{r}$.",
+      "**Conflicting digit constraints**: When forming numbers with both magnitude conditions (restricting the leading digit) and parity/divisibility conditions (restricting the units digit), split cases based on the shared or restricted digits.",
+      "**Dividing into equal unlabeled groups**: When dividing $n$ items into $k$ groups of equal size where the groups have no distinguishing labels, divide the product of combinations by $k!$ to avoid overcounting group order."
+    ],
+    "steps": [
+      "Identify the constraint that creates distinct scenarios and define mutually exclusive cases",
+      "Calculate the number of selections or arrangements for each case",
+      "Apply any internal arrangements or multi-stage selections within each case",
+      "Add the counts from all cases to find the total number of outcomes"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A committee of $4$ people is to be chosen from $5$ men and $6$ women. In how many ways can the committee be formed if it must contain at least $3$ women?",
+        "structure": "committee-case-split",
+        "solution_text": "Case 1 ($3$ women, $1$ man): $\\binom{6}{3} \\times \\binom{5}{1} = 20 \\times 5 = 100$\nCase 2 ($4$ women, $0$ men): $\\binom{6}{4} \\times \\binom{5}{0} = 15 \\times 1 = 15$\nTotal:\n$= 100 + 15$\n$= 115$"
+      },
+      {
+        "question_text": "From a club of $8$ members, $4$ are selected to form an executive team, and $2$ of those $4$ are appointed as President and Vice-President. In how many ways can this be done?",
+        "structure": "select-then-arrange",
+        "solution_text": "Choose $4$ members: $\\binom{8}{4} = 70$\nAppoint President and Vice-President: $^{4}P_{2} = 12$\nTotal:\n$= 70 \\times 12$\n$= 840$"
+      },
+      {
+        "question_text": "How many $3$-digit numbers greater than $400$ can be formed from the digits $\\{2, 3, 4, 5, 6\\}$ without repetition?",
+        "structure": "digit-conditions-cases",
+        "solution_text": "First digit must be $4, 5$, or $6$ ($3$ choices).\nRemaining $2$ digits from $4$ available: $^{4}P_{2} = 12$\nTotal:\n$= 3 \\times 12$\n$= 36$"
+      },
+      {
+        "question_text": "In how many ways can $6$ students be divided into two teams of $3$ students each for a debate?",
+        "structure": "partition-into-groups",
+        "solution_text": "Choose $3$ students for the first team: $\\binom{6}{3} = 20$\nDivide by $2!$ because the $2$ teams are equal and unlabeled:\n$= \\frac{20}{2}$\n$= 10$"
+      },
+      {
+        "question_text": "In how many ways can $2$ numbers be selected from $\\{1, 2, 3, 4, 5, 6, 7, 8, 9\\}$ so that their sum is even?",
+        "structure": "subset-sum-parity-cases",
+        "solution_text": "Set has $5$ odd $\\{1, 3, 5, 7, 9\\}$ and $4$ even $\\{2, 4, 6, 8\\}$.\nCase 1 (Both odd): $\\binom{5}{2} = 10$\nCase 2 (Both even): $\\binom{4}{2} = 6$\nTotal:\n$= 10 + 6$\n$= 16$"
+      },
+      {
+        "question_text": "A delegation of $3$ students is selected from $4$ Year 11 students and $5$ Year 12 students. In how many ways can the delegation have at least $1$ Year 11 student?",
+        "structure": "committee-case-split",
+        "solution_text": "Total unrestricted selections: $\\binom{9}{3} = 84$\nSelections with no Year 11: $\\binom{5}{3} = 10$\nAt least $1$ Year 11:\n$= 84 - 10$\n$= 74$"
+      },
+      {
+        "question_text": "A panel of $5$ speakers is chosen from $7$ candidates and arranged in a speaking order. In how many ways can this panel and speaking order be chosen?",
+        "structure": "select-then-arrange",
+        "solution_text": "Choose $5$ speakers: $\\binom{7}{5} = 21$\nArrange the $5$ speakers: $5! = 120$\nTotal:\n$= 21 \\times 120$\n$= 2520$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A committee of $5$ is chosen from $6$ doctors and $4$ nurses. In how many ways can the committee be formed if it must contain a majority of doctors?",
+        "structure": "committee-case-split",
+        "solution_text": "Majority of doctors means $3, 4$, or $5$ doctors.\nCase 1 ($3$ doctors, $2$ nurses): $\\binom{6}{3} \\times \\binom{4}{2} = 20 \\times 6 = 120$\nCase 2 ($4$ doctors, $1$ nurse): $\\binom{6}{4} \\times \\binom{4}{1} = 15 \\times 4 = 60$\nCase 3 ($5$ doctors, $0$ nurses): $\\binom{6}{5} \\times \\binom{4}{0} = 6 \\times 1 = 6$\nTotal:\n$= 120 + 60 + 6$\n$= 186$"
+      },
+      {
+        "question_text": "How many $4$-digit odd numbers greater than $3000$ can be formed from the digits $\\{1, 2, 3, 4, 5\\}$ without repeating any digit?",
+        "structure": "digit-conditions-cases",
+        "solution_text": "First digit $\\in \\{3, 4, 5\\}$, last digit $\\in \\{1, 3, 5\\}$.\nCase 1 (First digit is $4$): $1 \\times 3 \\times \\ ^{3}P_{2} = 1 \\times 3 \\times 6 = 18$\nCase 2 (First digit is $3$ or $5$): $2 \\times 2 \\times \\ ^{3}P_{2} = 2 \\times 2 \\times 6 = 24$\nTotal:\n$= 18 + 24$\n$= 42$"
+      },
+      {
+        "question_text": "Out of $9$ athletes, $5$ are selected to form a relay team. $2$ specific athletes, if selected, must run the first and last legs respectively. How many such relay teams and running orders can be formed if both specific athletes are selected?",
+        "structure": "select-then-arrange",
+        "solution_text": "Choose remaining $3$ athletes from $7$: $\\binom{7}{3} = 35$\nFix the $2$ specific athletes in legs 1 and 4 ($1$ choice).\nArrange the $3$ other athletes in the middle legs: $3! = 6$\nTotal:\n$= 35 \\times 1 \\times 6$\n$= 210$"
+      },
+      {
+        "question_text": "In how many ways can $8$ tourists be divided into two groups of $3$ and one group of $2$ for guided tours?",
+        "structure": "partition-into-groups",
+        "solution_text": "Choose $3$ for first group: $\\binom{8}{3} = 56$\nChoose $3$ for second group: $\\binom{5}{3} = 10$\nRemaining $2$ for third group: $\\binom{2}{2} = 1$\nDivide by $2!$ for the two equal unlabeled groups of $3$:\n$= \\frac{56 \\times 10 \\times 1}{2}$\n$= 280$"
+      },
+      {
+        "question_text": "How many $4$-letter codes can be formed from the letters of the word $\\text{BANANA}$?",
+        "structure": "selection-from-repeated-elements",
+        "solution_text": "Letters: $3\\text{ A}, 2\\text{ N}, 1\\text{ B}$.\nCase 1 ($3\\text{ A}, 1$ other): $2 \\times \\frac{4!}{3!} = 2 \\times 4 = 8$\nCase 2 ($2\\text{ A}, 2\\text{ N}$): $1 \\times \\frac{4!}{2!2!} = 1 \\times 6 = 6$\nCase 3 ($2\\text{ A}, 1\\text{ N}, 1\\text{ B}$): $1 \\times \\frac{4!}{2!} = 1 \\times 12 = 12$\nCase 4 ($2\\text{ N}, 1\\text{ A}, 1\\text{ B}$): $1 \\times \\frac{4!}{2!} = 1 \\times 12 = 12$\nTotal:\n$= 8 + 6 + 12 + 12$\n$= 38$"
+      },
+      {
+        "question_text": "In how many ways can $3$ numbers be chosen from $\\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}$ such that their sum is odd?",
+        "structure": "subset-sum-parity-cases",
+        "solution_text": "The set contains $5$ odd and $5$ even numbers.\nCase 1 ($3$ odd): $\\binom{5}{3} = 10$\nCase 2 ($1$ odd, $2$ even): $\\binom{5}{1} \\times \\binom{5}{2} = 5 \\times 10 = 50$\nTotal:\n$= 10 + 50$\n$= 60$"
+      },
+      {
+        "question_text": "How many $4$-digit even numbers can be formed using the digits $\\{0, 1, 2, 3, 4, 5, 6\\}$ without repetition?",
+        "structure": "digit-conditions-cases",
+        "solution_text": "Case 1 (Ends in $0$): $1 \\times 6 \\times \\ ^{5}P_{2} = 1 \\times 6 \\times 20 = 120$\nCase 2 (Ends in $2, 4$, or $6$): $3 \\times 5 \\times \\ ^{5}P_{2} = 3 \\times 5 \\times 20 = 300$\nTotal:\n$= 120 + 300$\n$= 420$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "How many $4$-letter arrangements can be formed from the letters of the word $\\text{SUCCESS}$?",
+        "structure": "selection-from-repeated-elements",
+        "solution_text": "Letters: $3\\text{ S}, 2\\text{ C}, 1\\text{ U}, 1\\text{ E}$.\nCase 1 ($3\\text{ S}, 1$ other): $3 \\times \\frac{4!}{3!} = 12$\nCase 2 ($2\\text{ S}, 2\\text{ C}$): $1 \\times \\frac{4!}{2!2!} = 6$\nCase 3 ($2\\text{ S}$, $2$ singletons from $\\{\\text{C, U, E}\\}$): $\\binom{3}{2} \\times \\frac{4!}{2!} = 36$\nCase 4 ($2\\text{ C}$, $2$ singletons from $\\{\\text{S, U, E}\\}$): $\\binom{3}{2} \\times \\frac{4!}{2!} = 36$\nCase 5 ($4$ distinct letters): $4! = 24$\nTotal:\n$= 12 + 6 + 36 + 36 + 24$\n$= 114$"
+      },
+      {
+        "question_text": "In how many ways can $9$ students be partitioned into three groups of $3$ to work on identical class projects?",
+        "structure": "partition-into-groups",
+        "solution_text": "Choose $3$ for first group: $\\binom{9}{3} = 84$\nChoose $3$ for second group: $\\binom{6}{3} = 20$\nRemaining $3$ for third group: $\\binom{3}{3} = 1$\nDivide by $3!$ for $3$ equal unlabeled groups:\n$= \\frac{84 \\times 20 \\times 1}{6}$\n$= 280$"
+      },
+      {
+        "question_text": "A committee of $6$ is chosen from $5$ mathematicians and $7$ physicists. In how many ways can the committee be chosen if it must include at least $2$ mathematicians and at least $2$ physicists?",
+        "structure": "committee-case-split",
+        "solution_text": "Case 1 ($2$ math, $4$ phys): $\\binom{5}{2} \\times \\binom{7}{4} = 10 \\times 35 = 350$\nCase 2 ($3$ math, $3$ phys): $\\binom{5}{3} \\times \\binom{7}{3} = 10 \\times 35 = 350$\nCase 3 ($4$ math, $2$ phys): $\\binom{5}{4} \\times \\binom{7}{2} = 5 \\times 21 = 105$\nTotal:\n$= 350 + 350 + 105$\n$= 805$"
+      }
+    ]
+  }
+}

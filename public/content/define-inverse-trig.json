@@ -1,0 +1,100 @@
+{
+  "skillId": "define-inverse-trig",
+  "atomType": "F",
+  "theory": {
+    "intro": "Restricting each trig function to a one-to-one piece gives three new functions. **$\\arcsin x$** (also written $\\sin^{-1}x$), **$\\arccos x$** and **$\\arctan x$** each return the one angle in that restricted piece whose sine, cosine or tangent is $x$.",
+    "facts": [
+      "$y=\\arcsin x$ has domain $-1\\le x\\le 1$ and range $-\\frac{\\pi}{2}\\le y\\le\\frac{\\pi}{2}$.",
+      "$y=\\arccos x$ has domain $-1\\le x\\le 1$ and range $0\\le y\\le\\pi$.",
+      "$y=\\arctan x$ has domain all real $x$ and range $-\\frac{\\pi}{2}<y<\\frac{\\pi}{2}$.",
+      "The domain of an inverse is the range of the restricted function, and the range of the inverse is the restricted domain.",
+      "$\\sin^{-1}x$ names the inverse function; it never means the reciprocal $\\frac{1}{\\sin x}$.",
+      "$y=\\arcsin x$ and $y=\\arctan x$ are increasing and odd, while $y=\\arccos x$ is decreasing and is neither odd nor even.",
+      "$y=\\arctan x$ has horizontal asymptotes $y=\\frac{\\pi}{2}$ and $y=-\\frac{\\pi}{2}$; the other two inverses have no asymptotes.",
+      "Each inverse graph is the reflection of its restricted function in the line $y=x$.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-2.4, xmax=2.4, ymin=-2.4, ymax=2.4, samples=100, clip=false, width=10cm, height=10cm, xtick={-1.5708,-1,1,1.5708}, xticklabels={$-\\frac{\\pi}{2}$,$-1$,$1$,$\\frac{\\pi}{2}$}, ytick={-1.5708,-1,1,1.5708}, yticklabels={$-\\frac{\\pi}{2}$,$-1$,$1$,$\\frac{\\pi}{2}$}, every tick label/.style={font=\\scriptsize}]\n\\addplot[dashed, domain=-2.3:2.3] {x} node[pos=0.96, below right] {$y=x$};\n\\addplot[thick, domain=-1.5708:1.5708] {sin(deg(x))} node[pos=0.9, below right] {$y=\\sin x$};\n\\addplot[thick, red, domain=-1.5708:1.5708] ({sin(deg(x))},{x}) node[pos=0.9, above left] {$y=\\arcsin x$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "State the domain and range of $y=\\arcsin x$.",
+        "structure": "state-domain-and-range",
+        "solution_text": "Domain: $-1\\le x\\le 1$\nRange: $-\\frac{\\pi}{2}\\le y\\le\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "State the domain and range of $y=\\cos^{-1}x$.",
+        "structure": "state-domain-and-range",
+        "solution_text": "Domain: $-1\\le x\\le 1$\nRange: $0\\le y\\le\\pi$"
+      },
+      {
+        "question_text": "State the domain and range of $y=\\tan^{-1}x$.",
+        "structure": "state-domain-and-range",
+        "solution_text": "Domain: all real $x$\nRange: $-\\frac{\\pi}{2}<y<\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "Is $\\cos^{-1}x$ the same as $\\frac{1}{\\cos x}$? Explain.",
+        "structure": "notation-not-reciprocal",
+        "solution_text": "No. The index $-1$ in $\\cos^{-1}x$ is part of the name of the inverse function, not a power.\n$\\cos^{-1}x$ returns an angle, while $\\frac{1}{\\cos x}$ returns a ratio; the reciprocal is written $\\sec x$."
+      },
+      {
+        "question_text": "State the equations of the two horizontal asymptotes of $y=\\arctan x$.",
+        "structure": "graph-properties-of-inverse",
+        "solution_text": "The range of $y=\\arctan x$ is $-\\frac{\\pi}{2}<y<\\frac{\\pi}{2}$, and the curve approaches both endpoints without reaching them.\n$y=\\frac{\\pi}{2}$ and $y=-\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "The point $\\left(\\frac{\\pi}{6},\\frac{1}{2}\\right)$ lies on $y=\\sin x$ for $-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$. State the corresponding point on $y=\\arcsin x$.",
+        "structure": "reflection-in-y-equals-x",
+        "solution_text": "Reflecting in $y=x$ swaps the coordinates.\n$\\left(\\frac{1}{2},\\frac{\\pi}{6}\\right)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "State the coordinates of the two endpoints of the graph of $y=\\arccos x$, and say whether the graph is increasing or decreasing.",
+        "structure": "graph-properties-of-inverse",
+        "solution_text": "The domain is $-1\\le x\\le 1$, so the endpoints are at $x=-1$ and $x=1$.\n$\\arccos(-1)=\\pi$ and $\\arccos 1=0$\nEndpoints: $(-1,\\pi)$ and $(1,0)$\nThe graph falls from $\\pi$ to $0$, so it is decreasing."
+      },
+      {
+        "question_text": "Show that $y=\\arcsin x$ is an odd function.",
+        "structure": "graph-properties-of-inverse",
+        "solution_text": "Let $\\arcsin x=\\theta$, so $\\sin\\theta=x$ with $-\\frac{\\pi}{2}\\le\\theta\\le\\frac{\\pi}{2}$.\n$\\sin(-\\theta)=-\\sin\\theta=-x$\nAlso $-\\frac{\\pi}{2}\\le-\\theta\\le\\frac{\\pi}{2}$, so $-\\theta$ is inside the range of $\\arcsin$.\n$\\arcsin(-x)=-\\theta=-\\arcsin x$, which is the condition for an odd function."
+      },
+      {
+        "question_text": "Of the three inverse trigonometric functions, which one has domain all real numbers? Explain why.",
+        "structure": "state-domain-and-range",
+        "solution_text": "$y=\\arctan x$.\nThe domain of an inverse is the range of the restricted function it undoes.\nRestricted tangent takes every real value on $-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$, while restricted sine and cosine only take values in $[-1,1]$."
+      },
+      {
+        "question_text": "By swapping $x$ and $y$, find the inverse of $y=1+\\cos x$ for $0\\le x\\le\\pi$, and state its domain.",
+        "structure": "write-inverse-using-arc",
+        "solution_text": "$y=1+\\cos x$\n$x=1+\\cos y$\n$\\cos y=x-1$\n$y=\\arccos(x-1)$\nThe domain is where $-1\\le x-1\\le 1$, that is $0\\le x\\le 2$."
+      },
+      {
+        "question_text": "By swapping $x$ and $y$, find the inverse of $y=1-2\\sin\\left(\\frac{x}{3}\\right)$ for $-\\frac{3\\pi}{2}\\le x\\le\\frac{3\\pi}{2}$.",
+        "structure": "write-inverse-using-arc",
+        "solution_text": "$y=1-2\\sin\\left(\\frac{x}{3}\\right)$\n$x=1-2\\sin\\left(\\frac{y}{3}\\right)$\n$x-1=-2\\sin\\left(\\frac{y}{3}\\right)$\n$\\sin\\left(\\frac{y}{3}\\right)=\\frac{1-x}{2}$\n$\\frac{y}{3}=\\arcsin\\left(\\frac{1-x}{2}\\right)$\n$y=3\\arcsin\\left(\\frac{1-x}{2}\\right)$"
+      },
+      {
+        "question_text": "The point $\\left(\\frac{2\\pi}{3},-\\frac{1}{2}\\right)$ lies on $y=\\cos x$ for $0\\le x\\le\\pi$. State the corresponding point on $y=\\arccos x$, and explain why the two graphs meet the line $y=x$ at the same place if they meet it at all.",
+        "structure": "reflection-in-y-equals-x",
+        "solution_text": "Reflecting in $y=x$ swaps the coordinates, giving $\\left(-\\frac{1}{2},\\frac{2\\pi}{3}\\right)$.\nA point on $y=x$ has equal coordinates, so swapping them leaves it exactly where it was.\nAny point of $y=\\cos x$ that lies on $y=x$ therefore reflects onto itself and lies on $y=\\arccos x$ too."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "State the domain and range of $y=\\arcsin(2x)$.",
+        "structure": "state-domain-and-range",
+        "solution_text": "The input of $\\arcsin$ must satisfy $-1\\le 2x\\le 1$.\n$-\\frac{1}{2}\\le x\\le\\frac{1}{2}$\nAs $2x$ runs over all of $[-1,1]$, the output runs over the whole range of $\\arcsin$.\nDomain: $-\\frac{1}{2}\\le x\\le\\frac{1}{2}$\nRange: $-\\frac{\\pi}{2}\\le y\\le\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "State the domain and range of $y=2\\arccos x-\\pi$.",
+        "structure": "state-domain-and-range",
+        "solution_text": "The input of $\\arccos$ is $x$ itself, so the domain is $-1\\le x\\le 1$.\n$0\\le\\arccos x\\le\\pi$\n$0\\le 2\\arccos x\\le 2\\pi$\n$-\\pi\\le 2\\arccos x-\\pi\\le\\pi$\nDomain: $-1\\le x\\le 1$\nRange: $-\\pi\\le y\\le\\pi$"
+      },
+      {
+        "question_text": "For $f(x)=\\arctan(x-2)$, state the domain, the range and the equations of any asymptotes.",
+        "structure": "graph-properties-of-inverse",
+        "solution_text": "$x-2$ takes every real value as $x$ does, and $\\arctan$ accepts every real input.\nDomain: all real $x$\nA horizontal translation does not change the output values.\nRange: $-\\frac{\\pi}{2}<y<\\frac{\\pi}{2}$\nAsymptotes: $y=\\frac{\\pi}{2}$ and $y=-\\frac{\\pi}{2}$"
+      }
+    ]
+  }
+}

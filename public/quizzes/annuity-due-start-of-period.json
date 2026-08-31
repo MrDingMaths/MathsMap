@@ -1,0 +1,205 @@
+{
+  "skillId": "annuity-due-start-of-period",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "An investor deposits $\\$800$ at the beginning of each year for $6\\text{ years}$ into an account earning $6\\%$ p.a. compounded annually. Which geometric series represents the future value $FV$?",
+      "structure": "derive-annuity-due-gp",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$800(1.06) + 800(1.06)^{2} + 800(1.06)^{3} + \\dots + 800(1.06)^{6}$",
+          "correct": true
+        },
+        {
+          "text": "$800 + 800(1.06) + 800(1.06)^{2} + \\dots + 800(1.06)^{5}$",
+          "why": "Treated the annuity as ordinary with end-of-period payments, omitting the extra compounding factor."
+        },
+        {
+          "text": "$800(1.06) + 800(1.06)^{2} + \\dots + 800(1.06)^{5}$",
+          "why": "Included only 5 terms instead of the required 6 terms for a 6-year annuity due."
+        },
+        {
+          "text": "$800(1.06)^{6}$",
+          "why": "Calculated compound interest on a single deposit rather than an annuity series."
+        }
+      ],
+      "solution_text": "For start-of-year deposits, the first deposit compounds for $6$ years and the final deposit compounds for $1$ year.\n$FV = 800(1.06) + 800(1.06)^{2} + \\dots + 800(1.06)^{6}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A parent deposits $\\$1500$ at the beginning of each year for $10\\text{ years}$ into a savings fund earning $7\\%$ p.a. compounded annually. Calculate the future value of the annuity.",
+      "structure": "future-value-annuity-due",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$22\\,175.75$",
+          "correct": true
+        },
+        {
+          "text": "$\\$20\\,725.00$",
+          "why": "Treated the annuity as ordinary with end-of-year payments, omitting the extra factor of $1.07$."
+        },
+        {
+          "text": "$\\$15\\,000.00$",
+          "why": "Calculated the sum of payments without applying any compound interest."
+        },
+        {
+          "text": "$\\$23\\,728.05$",
+          "why": "Added an extra payment term ($n = 11$) to the geometric series calculation."
+        }
+      ],
+      "solution_text": "$FV = \\dfrac{1500(1.07)(1.07^{10}-1)}{0.07}$\n$= \\$22\\,175.75$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Maya invests $\\$200$ at the beginning of each month for $5\\text{ years}$ into an account earning $6\\%$ p.a. compounded monthly. Find the balance after $5\\text{ years}$.",
+      "structure": "future-value-annuity-due",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$14\\,023.78$",
+          "correct": true
+        },
+        {
+          "text": "$\\$13\\,954.01$",
+          "why": "Calculated future value for an ordinary annuity with end-of-month payments."
+        },
+        {
+          "text": "$\\$12\\,000.00$",
+          "why": "Multiplied payment by 60 months without calculating compound interest."
+        },
+        {
+          "text": "$\\$14\\,790.20$",
+          "why": "Used annual interest rate of $6\\%$ instead of the monthly rate of $0.5\\%$."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$, $n = 60$\n$FV = \\dfrac{200(1.005)(1.005^{60}-1)}{0.005}$\n$= \\$14\\,023.78$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A sports club deposits $\\$900$ at the beginning of each quarter for $4\\text{ years}$ into a reserve account earning $8\\%$ p.a. compounded quarterly. Find the future value of the account.",
+      "structure": "future-value-annuity-due",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$17\\,110.86$",
+          "correct": true
+        },
+        {
+          "text": "$\\$16\\,775.36$",
+          "why": "Omitted the extra quarterly factor of $1.02$, treating it as an ordinary annuity."
+        },
+        {
+          "text": "$\\$14\\,400.00$",
+          "why": "Calculated simple principal total ($16 \\times 900$) without interest."
+        },
+        {
+          "text": "$\\$3783.64$",
+          "why": "Used $n = 4$ years instead of $n = 16$ quarterly compounding periods."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.08}{4} = 0.02$, $n = 16$\n$FV = \\dfrac{900(1.02)(1.02^{16}-1)}{0.02}$\n$= \\$17\\,110.86$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A person wants to save $\\$25\\,000$ in $4\\text{ years}$ with equal start-of-year deposits earning $6.5\\%$ p.a. compounded annually. Calculate the required annual deposit $a$.",
+      "structure": "solve-payment-annuity-due",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$5326.36$",
+          "correct": true
+        },
+        {
+          "text": "$\\$5672.57$",
+          "why": "Calculated payment using ordinary annuity formula (end-of-year deposits)."
+        },
+        {
+          "text": "$\\$6250.00$",
+          "why": "Divided $\\$25\\,000$ by 4 years without accounting for interest."
+        },
+        {
+          "text": "$\\$4122.88$",
+          "why": "Used $n = 5$ periods instead of $n = 4$ in the annuity-due formula."
+        }
+      ],
+      "solution_text": "$25000 = a(1.065)\\left[\\dfrac{1.065^{4}-1}{0.065}\\right]$\n$25000 = a \\times 4.693641$\n$a = \\dfrac{25000}{4.693641}$\n$= \\$5326.36$"
+    },
+    {
+      "id": "q6",
+      "question_text": "An investor deposits $\\$1000$ each year for $15\\text{ years}$ at $8\\%$ p.a. compounded annually. By how much does the future value of an annuity due exceed that of an ordinary annuity?",
+      "structure": "compare-due-vs-ordinary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$2172.17$",
+          "correct": true
+        },
+        {
+          "text": "$\\$1000.00$",
+          "why": "Assumed the difference is simply one extra uncompounded payment."
+        },
+        {
+          "text": "$\\$1200.00$",
+          "why": "Multiplied one annual deposit by the annual interest rate."
+        },
+        {
+          "text": "$\\$3150.40$",
+          "why": "Calculated compound interest on one payment for 15 years."
+        }
+      ],
+      "solution_text": "$FV_{\\text{ordinary}} = \\dfrac{1000(1.08^{15}-1)}{0.08} = \\$27\\,152.11$\n$FV_{\\text{due}} = 27152.11 \\times 1.08 = \\$29\\,324.28$\n$\\text{Difference} = 29324.28 - 27152.11$\n$= \\$2172.17$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A saver deposits $\\$400$ at the start of each month into an annuity earning $7.2\\%$ p.a. compounded monthly. How much extra interest is earned over an $8\\text{-year}$ term compared to making the deposits at the end of each month?",
+      "structure": "compare-due-vs-ordinary",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$309.84$",
+          "correct": true
+        },
+        {
+          "text": "$\\$400.00$",
+          "why": "Assumed the difference is equal to exactly one monthly payment."
+        },
+        {
+          "text": "$\\$230.40$",
+          "why": "Calculated simple annual interest on a single monthly payment."
+        },
+        {
+          "text": "$\\$480.00$",
+          "why": "Multiplied monthly payment by 12 months."
+        }
+      ],
+      "solution_text": "$r = 0.006$, $n = 96$\n$FV_{\\text{ordinary}} = \\dfrac{400(1.006^{96}-1)}{0.006} = \\$51\\,639.46$\n$FV_{\\text{due}} = 51639.46 \\times 1.006 = \\$51\\,949.30$\n$\\text{Difference} = 51949.30 - 51639.46$\n$= \\$309.84$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A company starts a $20\\text{-year}$ endowment fund with annual contributions of $\\$12\\,000$ made at the beginning of each year earning $7.5\\%$ p.a. compounded annually. Which expression gives the exact ratio of the future value of the first payment to that of the 20th payment?",
+      "structure": "derive-annuity-due-gp",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$1.075^{19}$",
+          "correct": true
+        },
+        {
+          "text": "$1.075^{20}$",
+          "why": "Counted 20 compounding periods between the first and last start-of-year deposits."
+        },
+        {
+          "text": "$1.075^{18}$",
+          "why": "Subtracted two periods instead of comparing deposit 1 ($20$ periods) to deposit 20 ($1$ period)."
+        },
+        {
+          "text": "$20 \\times 1.075$",
+          "why": "Multiplied the growth factor by the number of years instead of using powers."
+        }
+      ],
+      "solution_text": "First payment compounds for $20$ years: $12000(1.075)^{20}$\n20th payment compounds for $1$ year: $12000(1.075)^{1}$\n$\\text{Ratio} = \\dfrac{12000(1.075)^{20}}{12000(1.075)^{1}} = 1.075^{19}$"
+    }
+  ]
+}

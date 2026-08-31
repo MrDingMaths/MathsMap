@@ -1,0 +1,125 @@
+{
+  "batch": "W4-11",
+  "model": "gemini-3.7-flash-high",
+  "note": "Extension 1 Y12 vectors, second half: motion in vector form (8) + projectile motion (5); plus the differential-equations third of further applications of calculus (8) = 21. ORDER: needs W4-10 (all vector notation, components, magnitude and direction), W4-4/W4-5 (differentiation and integration of the functions used) and W4-9 (Ext 1 further integration, for separation of variables). Hold the vector notation established in W4-10 exactly: `\\underset{\\sim}{a}`, `\\overrightarrow{AB}`, `\\begin{pmatrix}3\\\\4\\end{pmatrix}`, `\\hat{\\underset{\\sim}{a}}` — no bold, no `\\vec`.",
+  "sections": [
+    {
+      "name": "vector-motion",
+      "skillIds": ["position-vector-function", "cartesian-path-from-vector", "displacement-vector"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 3_Motion in vector form in two dimensions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "carryover"],
+      "hazards": [
+        "Hold the W4-10 notation. Write a position vector function as $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ and use $t$ for time throughout.",
+        "One routine per skill. `position-vector-function` = reading $\\underset{\\sim}{r}(t)$, evaluating a position at a time, and describing the motion qualitatively. `cartesian-path-from-vector` = ELIMINATING $t$ between $x(t)$ and $y(t)$ to get $y$ in terms of $x$, and identifying the resulting curve. `displacement-vector` = $\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})$, its magnitude (the distance between the two positions) and its direction.",
+        "THE CARTESIAN PATH INHERITS A RESTRICTED DOMAIN FROM $t$. If $x=t^{2}$ then $x\\ge0$, and if $x=2\\cos t$ then $-2\\le x\\le2$ — the path is an ARC or a HALF of the curve, not the whole thing. Stating the restriction is part of every `cartesian-path-from-vector` answer, and 'gave the full curve' is the compulsory named distractor. At least half the items must have a genuinely restricted path.",
+        "ELIMINATE $t$, DO NOT SUBSTITUTE A VALUE. A path is a relation between $x$ and $y$ with no $t$ in it; an answer still containing $t$ is a defect. Verify the eliminated equation by substituting two different $t$ values into both $\\underset{\\sim}{r}(t)$ and the Cartesian equation and checking they agree.",
+        "DISPLACEMENT IS A VECTOR AND DISTANCE IS ITS MAGNITUDE, and neither is the distance TRAVELLED along a curved path. Every stem must say which is wanted; never place a vector, a magnitude and a path length in one option list. 'Gave the magnitude when the vector was asked for' is the compulsory named distractor for `displacement-vector`.",
+        "FIGURES: the path plotted as a genuine parametric or function plot clipped to the axis window, with the positions at the named times marked as dots and the displacement drawn as an arrow between them with a real arrowhead. Never `^` inside a plotted TikZ expression. Do not coordinate-label a position the item asks the student to find.",
+        "The Advanced skill `motion-displacement-velocity-acceleration` (W4-6) owns motion in a STRAIGHT LINE. Every item here is two-dimensional and uses vector notation."
+      ]
+    },
+    {
+      "name": "constant-and-relative-velocity",
+      "skillIds": ["constant-velocity-motion", "relative-velocity"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 3_Motion in vector form in two dimensions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover", "bearings"],
+      "hazards": [
+        "Hold the W4-10 notation.",
+        "`constant-velocity-motion` = $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$ — finding a position at a time, finding $\\underset{\\sim}{v}$ from two positions, and deciding whether and when two objects COLLIDE (same position at the SAME time) as opposed to their paths merely crossing. `relative-velocity` = $\\underset{\\sim}{v}_{AB}=\\underset{\\sim}{v}_{A}-\\underset{\\sim}{v}_{B}$, its magnitude and bearing, and the closest-approach or interception questions built on it.",
+        "PATHS CROSSING IS NOT A COLLISION — the objects must be at the same point at the SAME $t$. An item that solves for the intersection of two lines and calls it a collision is wrong; include at least one pair whose paths cross but which never collide, and make that the compulsory named distractor.",
+        "$\\underset{\\sim}{v}_{AB}=\\underset{\\sim}{v}_{A}-\\underset{\\sim}{v}_{B}$ IS THE VELOCITY OF $A$ RELATIVE TO $B$, and reversing the subtraction gives the exact opposite vector. Every stem must name the reference object explicitly ('the velocity of the ship relative to the current'), and the reversal is the compulsory named distractor for `relative-velocity`.",
+        "A BEARING IS MEASURED CLOCKWISE FROM NORTH and its quadrant must be reasoned, not taken from $\\tan^{-1}$. State whether the answer is a bearing or an inclination in every stem, never place both in one option list, and check every keyed bearing lies in $[0^{\\circ},360^{\\circ})$.",
+        "SPEED IS A SCALAR AND VELOCITY IS A VECTOR: 'how fast' wants $|\\underset{\\sim}{v}|$, 'the velocity' wants the vector. Pin it in every stem.",
+        "FIGURES: a vector triangle with all three vectors carrying real arrowheads and the RESULTANT unambiguous (drawn from the first tail to the last head, in a distinguishable style, labelled), with north drawn as a vertical arrow whenever a bearing appears. Angles are marked with `\\pic {angle=A--V--B}`, never hand-drawn arcs. Draw each vector to a length proportional to its magnitude.",
+        "VERIFY EVERY COLLISION OR INTERCEPTION by substituting the solved $t$ back into BOTH position functions and confirming the two positions are identical, and check $t\\ge0$. A keyed collision at a negative time is a false premise."
+      ]
+    },
+    {
+      "name": "calculus-of-vector-motion",
+      "skillIds": ["velocity-acceleration-vectors", "position-from-acceleration-integration", "non-constant-velocity-motion"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 3_Motion in vector form in two dimensions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "Hold the W4-10 notation. Write $\\underset{\\sim}{\\dot{r}}$ or $\\underset{\\sim}{v}(t)$ for velocity and $\\underset{\\sim}{\\ddot{r}}$ or $\\underset{\\sim}{a}(t)$ for acceleration, and pick one and hold it within any single item.",
+        "One routine per skill. `velocity-acceleration-vectors` = differentiating $\\underset{\\sim}{r}(t)$ COMPONENTWISE to get $\\underset{\\sim}{v}(t)$ and $\\underset{\\sim}{a}(t)$, and evaluating them and their magnitudes at a time. `position-from-acceleration-integration` = integrating componentwise back from $\\underset{\\sim}{a}(t)$, with a VECTOR constant of integration fixed by the initial velocity and initial position. `non-constant-velocity-motion` = applied problems with a varying velocity — when is the object momentarily at rest, when is it moving parallel to an axis, what is its maximum speed.",
+        "DIFFERENTIATE AND INTEGRATE EACH COMPONENT SEPARATELY, and the constant of integration is a VECTOR $\\underset{\\sim}{c}$, not a scalar. Omitting one component's constant is the compulsory named distractor for `position-from-acceleration-integration`, and every item must supply BOTH an initial velocity and an initial position so two constants are genuinely needed.",
+        "SPEED IS $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, NOT $\\dot{x}+\\dot{y}$, and it is never negative. Check every keyed speed by recomputing the root; a negative or component-summed speed is a wrong key.",
+        "AT REST MEANS BOTH COMPONENTS OF $\\underset{\\sim}{v}$ ARE ZERO AT THE SAME $t$ — a common instant, not two different ones. Include one item where only one component vanishes and the object is therefore NOT at rest (it is moving parallel to an axis), and make that distinction the skill's discriminating case.",
+        "$\\underset{\\sim}{v}$ AND $\\underset{\\sim}{a}$ NEED NOT POINT THE SAME WAY — circular motion has them perpendicular. Do not write a solution that infers one's direction from the other's.",
+        "FIGURES: the path plotted as a parametric or function plot clipped to the axis window, with $\\underset{\\sim}{v}$ (tangent) and $\\underset{\\sim}{a}$ drawn at a named instant as arrows from the point, each with a real arrowhead and its own label. The velocity arrow MUST be tangent to the drawn path at that point — compute it from the plotted parametrisation, never by eye. Never `^` inside a plotted expression.",
+        "CHECK EVERY $t$ SOLUTION IS NON-NEGATIVE and inside any stated interval, and substitute it back into the original functions before keying."
+      ]
+    },
+    {
+      "name": "projectile-setup",
+      "skillIds": ["projectile-model-assumptions", "projectile-equations-of-motion", "projectile-cartesian-path"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 4_Projectile Motion.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "carryover"],
+      "hazards": [
+        "Hold the W4-10 notation. FIX THE SIGN CONVENTION FOR THE WHOLE TOPIC AND STATE IT IN THE THEORY: up is positive, so $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$ with $g$ POSITIVE (use $g=9.8\\,\\text{m/s}^{2}$ unless a stem states otherwise, and say which). Every one of these five skills must use that same convention — mixing $-g$ and $+g$ between items is the topic's most damaging inconsistency.",
+        "One routine per skill. `projectile-model-assumptions` = the assumptions (no air resistance, constant gravity, the projectile is a particle, flat ground unless stated) and writing the motion in vector form. `projectile-equations-of-motion` = DERIVING $\\underset{\\sim}{v}(t)$ and $\\underset{\\sim}{r}(t)$ by integrating $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$ twice with the initial conditions $\\underset{\\sim}{v}(0)=V\\cos\\alpha\\,\\underset{\\sim}{i}+V\\sin\\alpha\\,\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}(0)=\\underset{\\sim}{0}$ (or a stated launch height). `projectile-cartesian-path` = eliminating $t$ to get the parabola $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}\\cos^{2}\\alpha}$.",
+        "THE HORIZONTAL VELOCITY IS CONSTANT AND THE VERTICAL IS NOT. $\\ddot{x}=0$ so $\\dot{x}=V\\cos\\alpha$ throughout; only the $\\underset{\\sim}{j}$ component changes. Applying gravity to the horizontal component is the compulsory named distractor across all five projectile skills.",
+        "THE DERIVATION MUST SHOW THE CONSTANTS BEING FOUND. `projectile-equations-of-motion` is a derivation skill: an item that quotes the result is not this skill. Build items as 'which line of this derivation is wrong', 'what is the constant of integration for the vertical velocity', or a mastery card carrying the full staged derivation.",
+        "THE LAUNCH HEIGHT CHANGES THE ANSWER. State whether the projectile starts at the origin or at a height $h$ in EVERY stem, and where $h\\ne0$ carry it through the integration — 'assumed launch from ground level' is a compulsory named distractor.",
+        "THE PATH IS A PARABOLA OPENING DOWNWARDS, and it is only valid while the projectile is above the ground. Restrict the Cartesian path's domain to $0\\le x\\le$ range and say so.",
+        "FIGURES: the parabolic path drawn as a genuine function plot of the Cartesian equation, clipped to the axis window, with the launch point marked, the launch angle marked with `\\pic {angle=A--V--B}` between the initial velocity arrow and the horizontal, and the initial velocity drawn as an arrow with a real arrowhead. NEVER `^` inside a plotted expression — write $x^{2}$ as `x*x`. Evaluate the plotted expression at the range and at the maximum height to confirm the drawn curve actually lands where the item says it does. Do not label the maximum height or the range on a question figure.",
+        "Angles in degrees here (launch angles are conventionally degrees); state the unit and never mix degrees and radians in one item."
+      ]
+    },
+    {
+      "name": "projectile-problems",
+      "skillIds": ["projectile-features", "projectile-unknowns"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 4_Projectile Motion.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "Hold the sign convention from the previous section — up positive, $\\underset{\\sim}{\\ddot{r}}=-g\\underset{\\sim}{j}$, $g=9.8$ unless stated — and the W4-10 notation.",
+        "`projectile-features` = finding the maximum height (where $\\dot{y}=0$), the time of flight (where $y$ returns to its landing level), the range and the speed and direction at a given time or on landing. `projectile-unknowns` = the reverse problems — find the launch angle or speed needed to achieve a stated range, height or target.",
+        "MAXIMUM HEIGHT IS WHERE THE VERTICAL VELOCITY IS ZERO, NOT WHERE THE SPEED IS ZERO — the speed at the apex is $V\\cos\\alpha$, which is not zero. 'Set the speed to zero' is the compulsory named distractor for `projectile-features`.",
+        "THE TIME OF FLIGHT IS SYMMETRIC ONLY WHEN THE LANDING LEVEL EQUALS THE LAUNCH LEVEL. Off a cliff or from a height, the fall takes longer than the rise. Include at least one such item and make 'doubled the time to the apex' a named distractor there.",
+        "SOLVING FOR THE LAUNCH ANGLE TYPICALLY GIVES TWO VALID ANGLES (the complementary pair for a given range, since $\\sin2\\alpha=\\sin(180^{\\circ}-2\\alpha)$). This is the wave's classic two-defensible-answers trap: either ask for BOTH angles, or restrict the stem ('the smaller angle', 'the flatter trajectory'), and never offer $30^{\\circ}$ and $60^{\\circ}$ as key and distractor for the same range. Every `projectile-unknowns` item must be checked for a second admissible solution before it is keyed.",
+        "THE SPEED ON LANDING EQUALS THE LAUNCH SPEED ONLY WHEN THE LEVELS MATCH. Check every landing speed by recomputing $\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$ at the landing time rather than asserting symmetry.",
+        "RE-SOLVE EVERY KEY AND SANITY-CHECK IT PHYSICALLY: a range of $4$ km from a $20\\,\\text{m/s}$ launch, or a flight time of $90$ seconds, is a false premise even when the algebra is internally consistent. Confirm the numbers are plausible for the described scenario.",
+        "Pin the rounding in every stem ('to the nearest metre', 'to 1 decimal place'), and state the units of every answer. Never place a time, a height and a range with the same numeral in one option list.",
+        "FIGURES: the trajectory plotted as a genuine function of the Cartesian path, clipped to the axis window, with the ground line drawn and any target or obstacle marked to scale. Never `^` inside a plotted expression, and never mark the maximum height or range being asked for."
+      ]
+    },
+    {
+      "name": "differential-equations-basics",
+      "skillIds": ["define-differential-equation", "slope-fields", "solve-de-dydx-fx", "solve-de-dydx-gy"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 4_Differential equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `define-differential-equation` = what a differential equation IS, its order, and VERIFYING that a proposed function is a solution by differentiating and substituting. `slope-fields` = reading a direction field — sketching the solution curve through a given point, and matching a field to its equation. `solve-de-dydx-fx` = $\\frac{dy}{dx}=f(x)$ by direct integration, with $+C$ or an initial condition. `solve-de-dydx-gy` = $\\frac{dy}{dx}=g(y)$ by writing $\\frac{dx}{dy}=\\frac{1}{g(y)}$ and integrating, then rearranging for $y$.",
+        "A GENERAL SOLUTION CARRIES $+C$ AND A PARTICULAR SOLUTION DOES NOT. Every stem must say whether an initial condition is given and which is wanted; never place a general and a particular solution in one option list. Omitting $C$ is a named distractor exactly once per skill.",
+        "$\\frac{dy}{dx}=g(y)$ IS NOT SOLVED BY INTEGRATING $g(y)$ WITH RESPECT TO $x$. The inversion to $\\frac{dx}{dy}$ is the whole technique, and 'integrated $g(y)$ with respect to $x$' is the compulsory named distractor for `solve-de-dydx-gy`.",
+        "VERIFY EVERY SOLUTION BY SUBSTITUTING IT BACK into the differential equation, and check it satisfies the initial condition. That two-line check is compulsory on every key in this section — a wrong sign in a rearrangement is otherwise invisible.",
+        "A SLOPE FIELD IS A GRID OF SHORT SEGMENTS WHOSE GRADIENTS COME FROM THE EQUATION. Compute the gradient at each grid point from the equation and draw the segment at exactly that slope — a field drawn by eye contradicts its own equation, and this is the section's dominant figure defect. Keep the grid to about $5\\times5$ so the segments stay legible, draw them all the same short length, and where a solution curve is drawn through a point it must be TANGENT to the field's segments along its whole length.",
+        "EVERY ITEM IN `slope-fields` CARRIES A `[tikz]` FIGURE and so does every item where a solution family is shown. Plot solution curves as functions with `domain=` clipped to the axis window; NEVER `^` inside a plotted expression — write `exp(x)`, `exp(x*ln(2))`, `pow(x,3)`. Do not draw the solution curve on a question figure that asks the student to sketch it.",
+        "A SOLUTION MAY HAVE A RESTRICTED DOMAIN (a logarithm's argument must be positive, a denominator must not vanish). State it where it matters, and never key an evaluation at a point outside it."
+      ]
+    },
+    {
+      "name": "differential-equation-applications",
+      "skillIds": ["solve-de-growth-decay", "separation-of-variables", "logistic-equation", "model-de-practical"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 4_Differential equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `solve-de-growth-decay` = $\\frac{dN}{dt}=kN$ giving $N=N_{0}e^{kt}$, with $k$ found from data, and half-life or doubling-time problems. `separation-of-variables` = the general method for $\\frac{dy}{dx}=f(x)g(y)$ — separate, integrate both sides, apply the condition, rearrange. `logistic-equation` = $\\frac{dP}{dt}=kP\\left(1-\\frac{P}{M}\\right)$, its carrying capacity $M$, its S-shaped curve and the inflection at $P=\\frac{M}{2}$. `model-de-practical` = building the differential equation from a described situation and interpreting the solution.",
+        "SEPARATE FIRST, INTEGRATE SECOND, APPLY THE CONDITION THIRD, REARRANGE LAST — and the constant of integration must be introduced BEFORE the rearrangement, not after. 'Applied the initial condition after exponentiating a rearranged form' loses the constant's correct role and is the compulsory named distractor for `separation-of-variables`.",
+        "$k<0$ IS DECAY AND $k>0$ IS GROWTH. Check the sign of every computed $k$ against the described situation before keying, and include both directions in `solve-de-growth-decay`. A half-life problem always has $k<0$.",
+        "THE LOGISTIC CURVE APPROACHES $M$ AND NEVER REACHES IT, its growth is FASTEST at $P=\\frac{M}{2}$, and it is not exponential. All three facts must be stated and exercised; 'said the population reaches the carrying capacity at a finite time' and 'treated it as exponential throughout' are the compulsory named distractors.",
+        "VERIFY EVERY SOLUTION BY SUBSTITUTION into the original differential equation AND against every stated condition — including the initial value and any later data point used to find $k$. Recompute every logarithm and exponential digit by digit; this section's arithmetic is where prose evaluation fails.",
+        "MODEL LIMITATIONS ARE PART OF THE TOPIC: at least one item per skill must ask what the model predicts outside its sensible domain, or which feature of the real situation it ignores.",
+        "FIGURES: exponential growth/decay curves with their asymptote drawn dashed and not touched, and the logistic S-curve with the carrying capacity drawn as a horizontal asymptote and the inflection at $\\frac{M}{2}$ actually located where the plotted curve's concavity changes. Plot everything as functions clipped to the axis window; NEVER `^` inside a plotted expression — write $e^{kt}$ as `exp(k*x)` and the logistic as an explicit expression in `exp`. Verify by evaluating the plotted expression at every $t$ the stem names.",
+        "The Advanced skills `exponential-rate-proportional` and `model-exponential-growth-decay-calculus` (W4-6) own $\\frac{dQ}{dt}=kQ$ at the Advanced level, and W4-9's `rate-proportional-difference` owns $\\frac{dQ}{dt}=k(Q-P)$. Take the space they cannot: an explicit separation of variables, the logistic equation, and models the Advanced course does not reach."
+      ]
+    }
+  ]
+}

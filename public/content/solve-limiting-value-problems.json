@@ -1,0 +1,116 @@
+{
+  "skillId": "solve-limiting-value-problems",
+  "atomType": "R",
+  "theory": {
+    "intro": "In $Q=P+Ae^{kt}$ with $k<0$, the term $Ae^{kt}$ shrinks to zero, so $Q\\to P$ as $t\\to\\infty$. This **limiting value** $P$ is approached but never reached. With $k>0$ there is no limiting value.",
+    "facts": [
+      "For $k<0$ the limiting value is $P$, because $e^{kt}\\to 0$ as $t\\to\\infty$.",
+      "For $k>0$ the term $Ae^{kt}$ grows without bound, so $Q$ has no limiting value.",
+      "$Q$ gets as close to $P$ as we like but never equals it, so ask when $Q$ is within a stated tolerance.",
+      "Solve $Q=c$ for $t$ by making $e^{kt}$ the subject and then taking natural logarithms.",
+      "A target between $Q(0)$ and $P$ is reached in a finite time, but a target at or beyond $P$ never is.",
+      "The rate is $\\dfrac{dQ}{dt}=k(Q-P)$, so the change slows down as $Q$ approaches $P$.",
+      "Keep $k$ in exact form, such as $\\dfrac{1}{5}\\ln\\dfrac{3}{4}$, until the final calculation.",
+      "Check that a solved time is positive and sensible in the context of the question."
+    ],
+    "steps": [
+      "Write $Q=P+Ae^{kt}$, with $P$ the limiting value and $A=Q(0)-P$.",
+      "Use a second pair of values to find $k$ in exact form.",
+      "Substitute and solve for the required time or value using logarithms.",
+      "Check the answer against the limiting value and the context."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A quantity is modelled by $Q=45+30e^{-0.4t}$. State its limiting value as $t\\to\\infty$.",
+        "structure": "limiting-value-from-equation",
+        "solution_text": "As $t\\to\\infty$, $e^{-0.4t}\\to 0$.\n$Q\\to 45+30\\times 0$\n$=45$"
+      },
+      {
+        "question_text": "A temperature is modelled by $T=8-22e^{-0.15t}$. State the limiting temperature, and say whether it is approached from above or from below.",
+        "structure": "limiting-value-from-equation",
+        "solution_text": "As $t\\to\\infty$, $22e^{-0.15t}\\to 0$, so $T\\to 8$.\nSince $-22e^{-0.15t}$ is negative for all $t$, the temperature stays below $8^{\\circ}$ and rises towards it from below."
+      },
+      {
+        "question_text": "A population is modelled by $N=300+50e^{0.08t}$. Describe what happens to $N$ as $t\\to\\infty$.",
+        "structure": "no-limiting-value",
+        "solution_text": "Here $k=0.08>0$, so $e^{0.08t}$ grows without bound as $t\\to\\infty$.\nThen $50e^{0.08t}$ grows without bound as well, so $N$ increases without bound and has no limiting value."
+      },
+      {
+        "question_text": "A liquid cools according to $T=21+64e^{-0.25t}$, where $t$ is in minutes. Find its temperature after $6$ minutes, correct to one decimal place.",
+        "structure": "value-at-given-time",
+        "solution_text": "$T=21+64e^{-0.25\\times 6}$\n$=21+64e^{-1.5}$\n$=21+64\\times 0.223130$\n$=21+14.280$\n$=35.3^{\\circ}$C"
+      },
+      {
+        "question_text": "A quantity is modelled by $Q=12+88e^{-0.2t}$. Find the time at which $Q=34$, correct to two decimal places.",
+        "structure": "time-to-reach-value",
+        "solution_text": "$34=12+88e^{-0.2t}$\n$22=88e^{-0.2t}$\n$e^{-0.2t}=0.25$\n$-0.2t=\\ln 0.25$\n$t=\\dfrac{\\ln 0.25}{-0.2}$\n$=6.93$"
+      },
+      {
+        "question_text": "A population is modelled by $N=900-700e^{-0.1t}$, where $t$ is in days. Find when $N=760$, correct to two decimal places.",
+        "structure": "time-to-reach-value",
+        "solution_text": "$760=900-700e^{-0.1t}$\n$-140=-700e^{-0.1t}$\n$e^{-0.1t}=0.2$\n$-0.1t=\\ln 0.2$\n$t=\\dfrac{\\ln 0.2}{-0.1}$\n$=16.09$ days"
+      },
+      {
+        "question_text": "A temperature is modelled by $T=19+40e^{-0.3t}$. Explain why $T$ is never exactly $19^{\\circ}$.",
+        "structure": "limiting-value-from-equation",
+        "solution_text": "$T=19$ would need $40e^{-0.3t}=0$.\nThe exponential $e^{-0.3t}$ is positive for every value of $t$, so $40e^{-0.3t}$ is never zero.\nSo $T$ is always above $19^{\\circ}$, getting closer to it as $t$ increases without ever reaching it."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A cup of coffee at $88^{\\circ}$C cools in a room at $21^{\\circ}$C. After $7$ minutes it is $62^{\\circ}$C. Find $k$ in exact form, then find the temperature after $15$ minutes, correct to one decimal place.",
+        "structure": "full-model-problem",
+        "solution_text": "$T=21+Ae^{kt}$\n$88=21+A$\n$A=67$\n$62=21+67e^{7k}$\n$41=67e^{7k}$\n$e^{7k}=\\dfrac{41}{67}$\n$k=\\dfrac{1}{7}\\ln\\dfrac{41}{67}$\n$=-0.070160$\n$T(15)=21+67e^{15k}$\n$=21+67\\times 0.349127$\n$=21+23.391$\n$=44.4^{\\circ}$C"
+      },
+      {
+        "question_text": "A lake holds at most $5000$ fish. A survey finds $800$ fish at the start and $2000$ fish after $3$ weeks, and the population follows $N=5000+Ae^{kt}$. Find when the population reaches $4000$, correct to one decimal place.",
+        "structure": "time-to-reach-value",
+        "solution_text": "$800=5000+A$\n$A=-4200$\n$2000=5000-4200e^{3k}$\n$-3000=-4200e^{3k}$\n$e^{3k}=\\dfrac{5}{7}$\n$k=\\dfrac{1}{3}\\ln\\dfrac{5}{7}$\n$=-0.112157$\n$4000=5000-4200e^{kt}$\n$-1000=-4200e^{kt}$\n$e^{kt}=\\dfrac{5}{21}$\n$t=\\dfrac{1}{k}\\ln\\dfrac{5}{21}$\n$=\\dfrac{-1.435085}{-0.112157}$\n$=12.8$ weeks"
+      },
+      {
+        "question_text": "Water at $96^{\\circ}$C is left in a room at $22^{\\circ}$C, and cools to $60^{\\circ}$C after $9$ minutes. Find how long it takes to come within $1^{\\circ}$C of room temperature, correct to one decimal place.",
+        "structure": "within-tolerance-time",
+        "solution_text": "$T=22+Ae^{kt}$\n$96=22+A$\n$A=74$\n$60=22+74e^{9k}$\n$38=74e^{9k}$\n$e^{9k}=\\dfrac{19}{37}$\n$k=\\dfrac{1}{9}\\ln\\dfrac{19}{37}$\n$=-0.074053$\nThe water is within $1^{\\circ}$C of the room when $T=23$.\n$23=22+74e^{kt}$\n$1=74e^{kt}$\n$e^{kt}=\\dfrac{1}{74}$\n$t=\\dfrac{-\\ln 74}{-0.074053}$\n$=\\dfrac{-4.304065}{-0.074053}$\n$=58.1$ minutes"
+      },
+      {
+        "question_text": "A population satisfies $\\dfrac{dP}{dt}=k(P-1500)$, with $P=1900$ initially and $P=3100$ after $5$ years. Find when the population reaches $10000$, correct to one decimal place, and explain why $1500$ is not a limiting value here.",
+        "structure": "no-limiting-value",
+        "solution_text": "$P=1500+Ae^{kt}$\n$1900=1500+A$\n$A=400$\n$3100=1500+400e^{5k}$\n$1600=400e^{5k}$\n$e^{5k}=4$\n$k=\\dfrac{1}{5}\\ln 4$\n$=0.277259$\n$10000=1500+400e^{kt}$\n$8500=400e^{kt}$\n$e^{kt}=21.25$\n$t=\\dfrac{\\ln 21.25}{0.277259}$\n$=\\dfrac{3.056357}{0.277259}$\n$=11.0$ years\nSince $k>0$, the term $400e^{kt}$ grows without bound, so the population moves away from $1500$ rather than towards it."
+      },
+      {
+        "question_text": "Meat at $-8^{\\circ}$C is taken from a freezer into air at $22^{\\circ}$C, and reaches $4^{\\circ}$C after $20$ minutes. Find its temperature after $50$ minutes, correct to one decimal place.",
+        "structure": "value-at-given-time",
+        "solution_text": "$T=22+Ae^{kt}$\n$-8=22+A$\n$A=-30$\n$4=22-30e^{20k}$\n$-18=-30e^{20k}$\n$e^{20k}=0.6$\n$k=\\dfrac{1}{20}\\ln 0.6$\n$=-0.025541$\n$T(50)=22-30e^{50k}$\n$=22-30\\times 0.278855$\n$=22-8.366$\n$=13.6^{\\circ}$C"
+      },
+      {
+        "question_text": "A quantity follows $Q=P+Ae^{-0.3t}$, starts at $140$, and approaches $60$ as $t\\to\\infty$. Find $A$, then find $Q$ when $t=5$, correct to one decimal place.",
+        "structure": "limiting-value-from-equation",
+        "solution_text": "The limiting value gives $P=60$.\n$A=Q(0)-P$\n$=140-60$\n$=80$\n$Q(5)=60+80e^{-1.5}$\n$=60+80\\times 0.223130$\n$=60+17.850$\n$=77.9$"
+      },
+      {
+        "question_text": "A phone battery charges towards $100\\%$. It starts at $8\\%$ and reaches $60\\%$ after $25$ minutes. Find how long until the charge is within $2\\%$ of full, correct to one decimal place.",
+        "structure": "within-tolerance-time",
+        "solution_text": "$B=100+Ae^{kt}$\n$8=100+A$\n$A=-92$\n$60=100-92e^{25k}$\n$-40=-92e^{25k}$\n$e^{25k}=\\dfrac{10}{23}$\n$k=\\dfrac{1}{25}\\ln\\dfrac{10}{23}$\n$=-0.033316$\nThe charge is within $2\\%$ of full when $B=98$.\n$98=100-92e^{kt}$\n$-2=-92e^{kt}$\n$e^{kt}=\\dfrac{1}{46}$\n$t=\\dfrac{-\\ln 46}{-0.033316}$\n$=\\dfrac{-3.828641}{-0.033316}$\n$=114.9$ minutes"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A bird population plateaus at $9000$ in the long run. There are $1200$ birds initially, and the population doubles in the first $8$ years. Find $k$ in exact form, then find when the population first exceeds half of its limiting value, correct to one decimal place.",
+        "structure": "full-model-problem",
+        "solution_text": "$P=9000+Ae^{kt}$\n$1200=9000+A$\n$A=-7800$\n$2400=9000-7800e^{8k}$\n$-6600=-7800e^{8k}$\n$e^{8k}=\\dfrac{11}{13}$\n$k=\\dfrac{1}{8}\\ln\\dfrac{11}{13}$\n$=-0.020882$\nHalf of the limiting value is $4500$.\n$4500=9000-7800e^{kt}$\n$-4500=-7800e^{kt}$\n$e^{kt}=\\dfrac{15}{26}$\n$t=\\dfrac{-0.550046}{-0.020882}$\n$=26.3$ years"
+      },
+      {
+        "question_text": "A drink at $4^{\\circ}$C is left in a room at $26^{\\circ}$C, and reaches $10^{\\circ}$C after $12$ minutes. Explain why the drink never reaches $26^{\\circ}$C, and find how long until it is within $0.5^{\\circ}$C of room temperature, correct to one decimal place.",
+        "structure": "within-tolerance-time",
+        "solution_text": "$T=26+Ae^{kt}$\n$4=26+A$\n$A=-22$\n$10=26-22e^{12k}$\n$-16=-22e^{12k}$\n$e^{12k}=\\dfrac{8}{11}$\n$k=\\dfrac{1}{12}\\ln\\dfrac{8}{11}$\n$=-0.026538$\nSince $22e^{kt}$ is positive for every $t$, $T$ stays below $26^{\\circ}$C, so the drink never reaches room temperature.\nIt is within $0.5^{\\circ}$C of the room when $T=25.5$.\n$25.5=26-22e^{kt}$\n$-0.5=-22e^{kt}$\n$e^{kt}=\\dfrac{1}{44}$\n$t=\\dfrac{-3.784190}{-0.026538}$\n$=142.6$ minutes"
+      },
+      {
+        "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=k(Q-400)$, with $Q=250$ when $t=0$ and $Q=100$ when $t=6$. Decide whether $Q$ has a limiting value, and find when the model predicts $Q=0$, correct to one decimal place. Sketch the model.",
+        "structure": "no-limiting-value",
+        "solution_text": "$Q=400+Ae^{kt}$\n$250=400+A$\n$A=-150$\n$100=400-150e^{6k}$\n$-300=-150e^{6k}$\n$e^{6k}=2$\n$k=\\dfrac{1}{6}\\ln 2$\n$=0.115525$\nSince $k>0$, the term $150e^{kt}$ grows without bound, so $Q$ falls away from $400$ and has no limiting value.\n$0=400-150e^{kt}$\n$e^{kt}=\\dfrac{8}{3}$\n$t=\\dfrac{0.980829}{0.115525}$\n$=8.5$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$Q$},\n            xmin=-0.6, xmax=9.8, ymin=-80, ymax=470, samples=100, clip=false,\n            ytick={250,400}, xtick={2,4,6}]\n\\addplot[dashed, domain=0:9.8] (x, 400);\n\\addplot[smooth, thick, ->, domain=0:9] {400 - 150*exp(0.115525*x)};\n\\node[below right] at (axis cs:5,400) {$Q=400$};\n\\node[below] at (axis cs:8.5,-6) {$t\\approx 8.5$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

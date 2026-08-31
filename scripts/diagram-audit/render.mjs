@@ -21,8 +21,11 @@ const ids = arg('--ids', '');
 const outDir = path.resolve(arg('--out', ''));
 // Vite takes the next free port when 5173 is occupied (a second checkout, a stale server),
 // and rendering against the wrong instance silently shoots someone else's content — so the
-// base URL is passed through rather than assumed.
-const base = arg('--base', 'http://localhost:5173');
+// base URL is never assumed: an explicit --base wins, otherwise the batch's own pinned
+// server (scripts/agy/dev-server.mjs --start) is used, and only failing both do we fall
+// back to the default port.
+const { readBase } = await import('../agy/dev-server.mjs');
+const base = arg('--base', readBase() || 'http://localhost:5173');
 if (!ids || !arg('--out', '')) {
   console.error('usage: node scripts/diagram-audit/render.mjs --ids a,b,c --out <dir> [--base http://localhost:5173]  (dev server must be running)');
   process.exit(2);

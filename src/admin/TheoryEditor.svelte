@@ -1,5 +1,5 @@
 <script>
-  import MathText from '../components/Math.svelte';
+  import InlineContent from '../components/InlineContent.svelte';
 
   let { theory = null, onSave } = $props();
 
@@ -88,16 +88,16 @@
     <div class="ed-preview">
       <div class="pv-label">Preview</div>
       <div class="theory">
-        {#if intro}<p class="theory-intro"><MathText text={intro} /></p>{/if}
+        {#if intro}<div class="theory-intro"><InlineContent text={intro} /></div>{/if}
         {#if facts.length}
           <ul class="theory-facts">
-            {#each facts as f}<li><MathText text={f} /></li>{/each}
+            {#each facts as f}<li><InlineContent text={f} /></li>{/each}
           </ul>
         {/if}
         {#if steps.length}
           <div class="theory-sub">Procedure</div>
           <ol class="theory-steps">
-            {#each steps as s}<li><MathText text={s} /></li>{/each}
+            {#each steps as s}<li><InlineContent text={s} /></li>{/each}
           </ol>
         {/if}
       </div>

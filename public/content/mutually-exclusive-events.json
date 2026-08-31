@@ -2,19 +2,21 @@
   "skillId": "mutually-exclusive-events",
   "atomType": "Cat",
   "theory": {
-    "intro": "Two events are **mutually exclusive** when they cannot both happen at the same time — one card cannot be a heart and a spade. Two events are **non-mutually exclusive** when they can happen together — one card can be red and a queen. On a Venn diagram, mutually exclusive events are drawn as two separate circles with nothing in between them, while non-mutually exclusive events overlap. Compound events join two events with the words *and*, *or*, *not* and *neither … nor*, and 'or' has two different meanings that must be told apart.",
-    "facts": [
-      "Two events are **mutually exclusive** if they cannot happen at the same time, so no outcome belongs to both and $A \\cap B = \\varnothing$; their circles do not overlap.",
-      "Two events are **non-mutually exclusive** if at least one outcome belongs to both, so their circles overlap.",
-      "An event and its complement are always mutually exclusive: a card is either a heart or not a heart, never both.",
-      "'**$A$ and $B$**' means both events happen — the overlap $A \\cap B$.",
-      "'**Inclusive or**' ('$A$ or $B$, or both') means at least one happens — everything in $A$ together with everything in $B$, with the overlap counted once.",
-      "'**Exclusive or**' ('$A$ or $B$, but not both') means exactly one happens — everything in $A$ or $B$ except the overlap.",
-      "'**Not $A$**' means every outcome outside $A$; '**neither $A$ nor $B$**' means every outcome outside both events.",
-      "When two events are mutually exclusive there is no overlap, so inclusive and exclusive 'or' describe exactly the same outcomes and the two counts simply add — nothing is counted twice.",
-      "A standard deck has $52$ cards: $26$ red and $26$ black, $13$ in each suit, $12$ picture cards (jack, queen, king) and $40$ number cards."
-    ]
-  },
+        "intro": "Two events are **mutually exclusive** when they cannot both happen: one card cannot be a heart and a spade. They are **non-mutually exclusive** when they can happen together, like a red queen. The word 'or' has two meanings that must be told apart.",
+        "facts": [
+          "Two events are **mutually exclusive** if no outcome belongs to both, so $A \\cap B = \\varnothing$ and their circles do not overlap.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (2.1,2.3) circle (1.7);\n\\draw (5.9,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.0,4.15) {$A$};\n\\node at (7.0,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {mutually exclusive: no overlap};\n\\end{tikzpicture}\n[/tikz]",
+          "Two events are **non-mutually exclusive** if at least one outcome belongs to both, so their circles overlap.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {non-mutually exclusive: circles overlap};\n\\end{tikzpicture}\n[/tikz]",
+          "An event and its complement are always mutually exclusive: a card is either a heart or not a heart, never both.",
+          "'**$A$ and $B$**' means both events happen — the overlap $A \\cap B$.",
+          "'**Inclusive or**' ('$A$ or $B$, or both') means at least one happens, counting the overlap once.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (3,2.3) circle (1.7);\n\\fill[gray!35] (5,2.3) circle (1.7);\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {inclusive or: overlap shaded};\n\\end{tikzpicture}\n[/tikz]",
+          "'**Exclusive or**' ('$A$ or $B$, but not both') means exactly one happens, so the overlap is removed.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (3,2.3) circle (1.7);\n\\fill[gray!35] (5,2.3) circle (1.7);\n\\begin{scope}\n\\clip (3,2.3) circle (1.7);\n\\fill[white] (5,2.3) circle (1.7);\n\\end{scope}\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {exclusive or: overlap not shaded};\n\\end{tikzpicture}\n[/tikz]",
+          "'**Not $A$**' means every outcome outside $A$.",
+          "'**Neither $A$ nor $B$**' means every outcome outside both events.",
+          "Mutually exclusive events have no overlap, so inclusive and exclusive 'or' describe the same outcomes and the two counts simply add.",
+          "A standard deck has $52$ cards: $26$ red and $26$ black, with $13$ cards in each of the four suits.",
+          "The deck holds $12$ picture cards (jack, queen, king) and $40$ number cards."
+        ]
+      },
   "practice": {
     "foundation": [
       {

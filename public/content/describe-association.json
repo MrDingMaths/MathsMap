@@ -2,19 +2,26 @@
   "skillId": "describe-association",
   "atomType": "Cat",
   "theory": {
-    "intro": "A scatter plot can be described using three separate features. Form asks whether the points loosely follow a straight line (a correlation) or a curve. Strength asks how closely the points cluster around a line of best fit. Direction asks whether the values move together or opposite each other as one variable increases.",
-    "facts": [
-      "An association is any relationship between two numerical variables. A linear association — where the points loosely follow a straight line — is called a correlation.",
-      "Direction is positive when both variables increase together (an upward trend) and negative when one increases as the other decreases (a downward trend). Points scattered with no trend at all show zero correlation.",
-      "Strength describes how close the points sit to a line of best fit: strong (little scatter), moderate (some scatter), or weak (points widely spread from the line).",
-      "Form describes the overall shape of the pattern: linear (a straight-line pattern) or non-linear (a curved pattern). 'Correlation' specifically means a linear association — a clear curved pattern is a non-linear association, not a correlation."
-    ],
-    "steps": [
-      "Look at the trend to decide the direction: positive, negative, or zero",
-      "Judge how closely the points sit to a line of best fit to decide the strength: strong, moderate or weak",
-      "Check whether the points follow a straight line or a curve to decide the form: linear or non-linear"
-    ]
-  },
+        "intro": "A scatter plot is described by three features. **Form** asks whether the points follow a straight line or a curve. **Strength** asks how closely they cluster around a line of best fit, and **direction** asks whether they rise or fall.",
+        "facts": [
+          "An **association** is any relationship between two numerical variables.",
+          "A linear association — points loosely following a straight line — is called a **correlation**.",
+          "**Direction** is positive when both variables increase together, so the trend rises.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,0.8),(1.0,1.3),(1.5,1.2),(1.9,1.9),(2.3,1.7),(2.8,2.4),(3.2,2.6),(3.6,2.9),(4.0,3.3)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "Direction is negative when one variable increases as the other decreases, so the trend falls.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,3.3),(1.0,2.9),(1.5,2.6),(1.9,2.4),(2.3,1.7),(2.8,1.9),(3.2,1.2),(3.6,1.3),(4.0,0.8)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "Points scattered with no trend at all show zero correlation.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,2.6),(1.0,0.9),(1.3,3.1),(1.8,1.6),(2.1,2.9),(2.5,0.7),(2.9,2.1),(3.3,3.3),(3.6,1.1),(4.0,2.4)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "**Strength** describes how closely the points sit to a line of best fit.",
+          "A strong correlation has the points close to the line, with little scatter.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,0.7),(1.0,1.0),(1.4,1.2),(1.8,1.6),(2.2,1.8),(2.6,2.2),(3.0,2.4),(3.4,2.8),(3.8,3.0),(4.2,3.4)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "A moderate correlation lies between strong and weak, with some scatter around the line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,1.0),(1.0,0.7),(1.4,1.6),(1.8,1.3),(2.2,2.2),(2.6,1.9),(3.0,2.8),(3.4,2.4),(3.8,3.3),(4.2,3.0)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "A weak correlation has the points widely spread from the line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.6,1.6),(1.0,0.5),(1.2,2.6),(1.5,1.9),(1.8,0.9),(2.2,2.7),(2.5,1.4),(2.9,2.0),(3.2,3.2),(3.6,1.9),(3.9,2.2),(4.2,3.4)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "**Form** is linear when the points follow a straight-line pattern.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.5,0.6),(0.9,1.1),(1.3,1.2),(1.7,1.7),(2.1,1.9),(2.5,2.3),(2.9,2.4),(3.3,2.9),(3.7,3.1),(4.1,3.5)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]",
+          "Form is non-linear when the points follow a curve; that is an association, but not a correlation.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (0,0) -- (4.6,0);\n\\draw[-{Stealth}] (0,0) -- (0,4.0);\n\\node at (5.0,0) {$x$};\n\\node at (0,4.4) {$y$};\n\\foreach \\p in {(0.5,0.4),(0.9,0.5),(1.3,0.6),(1.7,0.9),(2.1,1.2),(2.5,1.5),(2.9,2.0),(3.3,2.5),(3.7,3.0),(4.1,3.6)} {\\fill \\p circle (2.4pt);}\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Look at the trend to decide the direction: positive, negative, or zero",
+          "Judge how closely the points sit to a line of best fit to decide the strength: strong, moderate or weak",
+          "Check whether the points follow a straight line or a curve to decide the form: linear or non-linear"
+        ]
+      },
   "practice": {
     "foundation": [
       {

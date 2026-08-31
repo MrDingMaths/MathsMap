@@ -2,23 +2,25 @@
   "skillId": "conditional-probability",
   "atomType": "R",
   "theory": {
-    "intro": "A **conditional probability** is the probability of one event happening **given that** another event has already happened. Knowing that event $B$ has happened rules out every outcome outside $B$, so the sample space is **reduced** to $B$ alone. The probability is written $P(A \\mid B)$, read '$A$ given $B$', and is found by counting the favourable outcomes **inside the reduced sample space**.",
-    "facts": [
-      "$P(A \\mid B)$ is read 'the probability of $A$ given $B$' — the probability that $A$ happens knowing that $B$ has happened.",
-      "The phrases '**given that**', '**if** … **then**', '**of**' and '**knowing that**' all signal a condition, and the event named by the condition goes **after** the bar.",
-      "The condition **reduces the sample space**: only the outcomes in $B$ are still possible, so $n(B)$ replaces the total as the denominator.",
-      "Counting elements, $P(A \\mid B) = \\dfrac{n(A \\cap B)}{n(B)}$; working from probabilities, $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$.",
-      "The numerator is $n(A \\cap B)$, not $n(A)$ — an outcome must be in $A$ **and** still lie inside the reduced sample space.",
-      "$P(A \\mid B)$ and $P(B \\mid A)$ are **different**: they have different denominators, so swapping the event and the condition usually changes the answer. This is the most common mistake with conditional language.",
-      "When $A$ and $B$ are **dependent**, knowing $B$ changes how likely $A$ is. When they are **independent** it does not, so $P(A \\mid B) = P(A)$.",
-      "Give a probability as a fraction in simplest form, unless the data are decimals or percentages, in which case keep that form."
-    ],
-    "steps": [
-      "Reduce the sample space to the condition.",
-      "Count the favourable outcomes inside it.",
-      "Write the fraction and simplify."
-    ]
-  },
+        "intro": "A **conditional probability** is the probability of one event given that another has already happened, written $P(A \\mid B)$ and read '$A$ given $B$'. Knowing $B$ happened rules out everything outside $B$, so the sample space shrinks to $B$.",
+        "facts": [
+          "The phrases '**given that**', '**if** … **then**', '**of**' and '**knowing that**' all signal a condition.",
+          "The event named by the condition goes **after** the bar.",
+          "The condition **reduces the sample space**, so $n(B)$ replaces the total as the denominator.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (5,2.3) circle (1.7);\n\\begin{scope}\n\\clip (3,2.3) circle (1.7);\n\\fill[gray!45] (5,2.3) circle (1.7);\n\\end{scope}\n\\draw (0,0) rectangle (8,4.6);\n\\draw (3,2.3) circle (1.7);\n\\draw[thick] (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {given $B$: sample space is $B$};\n\\end{tikzpicture}\n[/tikz]",
+          "Counting elements, $P(A \\mid B) = \\dfrac{n(A \\cap B)}{n(B)}$; working from probabilities, $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$.",
+          "The numerator is $n(A \\cap B)$, not $n(A)$, because an outcome must be in $A$ and inside the reduced sample space.",
+          "$P(A \\mid B)$ and $P(B \\mid A)$ are **different** because they have different denominators, so swapping the event and the condition changes the answer.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (3,2.3) circle (1.7);\n\\begin{scope}\n\\clip (5,2.3) circle (1.7);\n\\fill[gray!45] (3,2.3) circle (1.7);\n\\end{scope}\n\\draw (0,0) rectangle (8,4.6);\n\\draw[thick] (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\node at (1.9,4.15) {$A$};\n\\node at (6.1,4.15) {$B$};\n\\node[font=\\small] at (4,-0.55) {given $A$: sample space is $A$};\n\\end{tikzpicture}\n[/tikz]",
+          "This swap is the most common mistake with conditional language.",
+          "When $A$ and $B$ are **dependent**, knowing $B$ changes how likely $A$ is.",
+          "When they are **independent** it does not, so $P(A \\mid B) = P(A)$.",
+          "Give a probability as a fraction in simplest form, unless the data are decimals or percentages."
+        ],
+        "steps": [
+          "Reduce the sample space to the condition.",
+          "Count the favourable outcomes inside it.",
+          "Write the fraction and simplify."
+        ]
+      },
   "practice": {
     "foundation": [
       {

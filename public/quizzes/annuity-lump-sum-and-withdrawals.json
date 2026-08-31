@@ -1,0 +1,205 @@
+{
+  "skillId": "annuity-lump-sum-and-withdrawals",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "An account begins with $\\$8000$ and receives regular deposits of $\\$500$ at the end of each year for $6\\text{ years}$ at $5\\%$ p.a. compounded annually. Find the future value of the account.",
+      "structure": "lump-sum-with-contributions",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$14\\,121.21$",
+          "correct": true
+        },
+        {
+          "text": "$\\$10\\,720.77$",
+          "why": "Calculated compound interest on the lump sum alone without adding the annuity series."
+        },
+        {
+          "text": "$\\$11\\,000.00$",
+          "why": "Added principal contributions ($8000 + 3000$) without calculating compound interest."
+        },
+        {
+          "text": "$\\$7320.33$",
+          "why": "Subtracted the annuity series from the lump sum instead of adding it."
+        }
+      ],
+      "solution_text": "$\\text{Lump sum} = 8000(1.05^{6}) = \\$10\\,720.77$\n$\\text{Annuity} = \\dfrac{500(1.05^{6}-1)}{0.05} = \\$3400.44$\n$FV = 10720.77 + 3400.44$\n$= \\$14\\,121.21$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A retirement account starts with $\\$80\\,000$ earning $6\\%$ p.a. compounded monthly. At the end of each month, $\\$900$ is withdrawn. Calculate the balance remaining in the account after $5\\text{ years}$.",
+      "structure": "lump-sum-with-withdrawals",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$45\\,114.56$",
+          "correct": true
+        },
+        {
+          "text": "$\\$170\\,655.44$",
+          "why": "Added the annuity series to the compounded principal instead of subtracting withdrawals."
+        },
+        {
+          "text": "$\\$26\\,000.00$",
+          "why": "Subtracted simple total withdrawals ($80000 - 54000$) without compound interest."
+        },
+        {
+          "text": "$\\$52\\,310.20$",
+          "why": "Calculated withdrawals using annual periods instead of monthly compounding."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$, $n = 60$\n$\\text{Principal} = 80000(1.005^{60}) = \\$107\\,884.00$\n$\\text{Withdrawals} = \\dfrac{900(1.005^{60}-1)}{0.005} = \\$62\\,769.44$\n$A_{60} = 107884.00 - 62769.44$\n$= \\$45\\,114.56$"
+    },
+    {
+      "id": "q3",
+      "question_text": "An investor deposits $\\$15\\,000$ initially and adds $\\$300$ at the end of each month for $3\\text{ years}$ into an account earning $7.2\\%$ p.a. compounded monthly. Find the final balance.",
+      "structure": "lump-sum-with-contributions",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$30\\,619.60$",
+          "correct": true
+        },
+        {
+          "text": "$\\$18\\,604.52$",
+          "why": "Compounded the initial $\\$15\\,000$ but omitted the monthly annuity contributions."
+        },
+        {
+          "text": "$\\$25\\,800.00$",
+          "why": "Summed the uncompounded cash deposits ($15000 + 36 \\times 300$)."
+        },
+        {
+          "text": "$\\$6589.44$",
+          "why": "Subtracted the annuity contributions from the compounded lump sum."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.072}{12} = 0.006$, $n = 36$\n$\\text{Principal} = 15000(1.006^{36}) = \\$18\\,604.52$\n$\\text{Annuity} = \\dfrac{300(1.006^{36}-1)}{0.006} = \\$12\\,015.08$\n$FV = 18604.52 + 12015.08$\n$= \\$30\\,619.60$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A person wants to invest a single lump sum $PV$ into an account earning $4.8\\%$ p.a. compounded monthly in order to withdraw $\\$1500$ at the end of each month for $8\\text{ years}$ ($n=96$), leaving a balance of $\\$0$. Find the required lump sum $PV$.",
+      "structure": "solve-initial-lump-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$119\\,380.00$",
+          "correct": true
+        },
+        {
+          "text": "$\\$144\\,000.00$",
+          "why": "Multiplied $\\$1500$ by 96 months without accounting for interest earned during drawdown."
+        },
+        {
+          "text": "$\\$175\\,133.00$",
+          "why": "Calculated the future value of payments instead of discounting back to present value."
+        },
+        {
+          "text": "$\\$98\\,158.08$",
+          "why": "Discounted the simple sum of withdrawals ($\\$144\\,000$) instead of the compound annuity series."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 96$\n$0 = PV(1.004^{96}) - \\dfrac{1500(1.004^{96}-1)}{0.004}$\n$PV(1.004^{96}) = 175133.00$\n$PV = \\dfrac{175133.00}{1.004^{96}}$\n$= \\$119\\,380.00$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A fund begins with $\\$40\\,000$ and earns $6\\%$ p.a. compounded monthly. If $\\$1000$ is withdrawn at the end of each month, how many complete withdrawals of $\\$1000$ can be made in full?",
+      "structure": "solve-drawdown-duration",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$44\\text{ withdrawals}$",
+          "correct": true
+        },
+        {
+          "text": "$45\\text{ withdrawals}$",
+          "why": "Rounded up to 45, but the 45th withdrawal cannot be made in full because the remaining balance is only about $\\$737$."
+        },
+        {
+          "text": "$40\\text{ withdrawals}$",
+          "why": "Divided $\\$40\\,000$ by $\\$1000$ without accounting for interest earned during the drawdown period."
+        },
+        {
+          "text": "$52\\text{ withdrawals}$",
+          "why": "Subtracted $1$ on the wrong side when rearranging the logarithmic equation."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$\n$0 = 40000(1.005^{n}) - \\dfrac{1000(1.005^{n}-1)}{0.005} = 40000(1.005^{n}) - 200000(1.005^{n}-1)$\n$160000(1.005^{n}) = 200000$\n$1.005^{n} = \\dfrac{200000}{160000} = 1.25$\n$n = \\dfrac{\\ln(1.25)}{\\ln(1.005)} \\approx 44.74$\n$\\text{After 44 full withdrawals, the balance is } \\$736.98 > 0, \\text{ so 44 complete withdrawals can be made.}$\n$= 44\\text{ withdrawals}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A company sets up an equipment maintenance fund with an initial $\\$60\\,000$ earning $5.4\\%$ p.a. compounded monthly. At the end of each month, $\\$1200$ is withdrawn for servicing. Calculate the balance of the fund after $4\\text{ years}$.",
+      "structure": "lump-sum-with-withdrawals",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$10\\,296.43$",
+          "correct": true
+        },
+        {
+          "text": "$\\$138\\,563.71$",
+          "why": "Added the withdrawal series to the compounded principal instead of subtracting it."
+        },
+        {
+          "text": "$\\$2400.00$",
+          "why": "Subtracted uncompounded withdrawals ($60000 - 48 \\times 1200$) without interest."
+        },
+        {
+          "text": "$\\$74\\,430.07$",
+          "why": "Compounded the initial deposit but omitted the monthly withdrawals."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 48$\n$\\text{Principal} = 60000(1.0045^{48}) = \\$74\\,430.07$\n$\\text{Withdrawals} = \\dfrac{1200(1.0045^{48}-1)}{0.0045} = \\$64\\,133.64$\n$A_{48} = 74430.07 - 64133.64$\n$= \\$10\\,296.43$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A retiree has $\\$250\\,000$ in a fund earning $6\\%$ p.a. compounded monthly. What is the maximum monthly withdrawal $M$ she can make at the end of each month so that the fund lasts exactly $15\\text{ years}$ ($n=180$)?",
+      "structure": "solve-initial-lump-sum",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$2109.64$",
+          "correct": true
+        },
+        {
+          "text": "$\\$1388.89$",
+          "why": "Divided $\\$250\\,000$ by 180 months without accounting for compound interest earned."
+        },
+        {
+          "text": "$\\$2250.00$",
+          "why": "Calculated simple interest plus principal divided by the number of periods."
+        },
+        {
+          "text": "$\\$1985.30$",
+          "why": "Treated withdrawals as start-of-month payments rather than end-of-month payments."
+        }
+      ],
+      "solution_text": "$r = 0.005$, $n = 180$\n$0 = 250000(1.005^{180}) - \\dfrac{M(1.005^{180}-1)}{0.005}$\n$250000 \\times 2.454094 = M \\times 290.818712$\n$613523.40 = M \\times 290.818712$\n$M = \\dfrac{613523.40}{290.818712}$\n$= \\$2109.64$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A scholarship fund starts with $\\$120\\,000$ earning $4.8\\%$ p.a. compounded monthly. If $\\$1400$ is withdrawn at the end of each month, which equation correctly models the number of months $n$ until the fund is exhausted?",
+      "structure": "solve-drawdown-duration",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$1.004^{n} = \\dfrac{35}{23}$",
+          "correct": true
+        },
+        {
+          "text": "$1.004^{n} = \\dfrac{23}{35}$",
+          "why": "Inverted the fraction when rearranging the drawdown equation."
+        },
+        {
+          "text": "$1.004^{n} = \\dfrac{1400}{120000}$",
+          "why": "Divided monthly withdrawal directly by the initial balance without compounding."
+        },
+        {
+          "text": "$1.048^{n} = 1.5$",
+          "why": "Used the annual interest rate of $4.8\\%$ instead of the monthly rate of $0.4\\%$."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$\n$0 = 120000(1.004^{n}) - \\dfrac{1400(1.004^{n}-1)}{0.004}$\n$0 = 120000(1.004^{n}) - 350000(1.004^{n}-1)$\n$230000(1.004^{n}) = 350000$\n$1.004^{n} = \\dfrac{350000}{230000} = \\dfrac{35}{23}$"
+    }
+  ]
+}

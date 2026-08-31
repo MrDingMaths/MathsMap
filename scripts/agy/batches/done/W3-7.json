@@ -1,0 +1,111 @@
+{
+  "batch": "W3-7",
+  "model": "gemini-3.7-flash-high",
+  "note": "Adv Y11 trigonometric identities & equations (12) + Adv Y11 probability and data (10). The two topics are independent — no prereq crosses between them, so every section can generate in one wave. Standing hazards are injected by build-gen-tasks; only topic-specific hazards belong here.",
+  "sections": [
+    {
+      "name": "trig-reciprocal-ratios",
+      "skillIds": ["reciprocal-trig-definitions", "exact-reciprocal-ratios", "reciprocal-identities", "quotient-identities"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Trigonometric Identities and Equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["angles", "circle"],
+      "hazards": [
+        "DEAL THE FOUR SKILLS DISJOINTLY. `reciprocal-trig-definitions` = what cosec, sec and cot MEAN ($\\csc\\theta=1/\\sin\\theta$, $\\sec\\theta=1/\\cos\\theta$, $\\cot\\theta=1/\\tan\\theta=\\cos\\theta/\\sin\\theta$), reading them off a right triangle, and where each is undefined. `exact-reciprocal-ratios` = evaluating them at the exact angles 0°, 30°, 45°, 60°, 90° (and their quadrant images). `reciprocal-identities` = using the reciprocal relationships to rewrite an expression or a given value. `quotient-identities` = $\\tan\\theta=\\sin\\theta/\\cos\\theta$ and $\\cot\\theta=\\cos\\theta/\\sin\\theta$ specifically. An item that could sit in two of these belongs to the earlier one.",
+        "UNDEFINED VALUES ARE THE POINT, NOT AN EDGE CASE: $\\csc 0^{\\circ}$, $\\sec 90^{\\circ}$ and $\\cot 0^{\\circ}$ are undefined (never 0, never $\\infty$). Each skill needs at least one item where the answer is 'undefined', and every option list offering a number for such an angle must also offer 'undefined' as the key.",
+        "EXACT VALUES ARE A CLOSED SET. The exact reciprocal ratios come from a handful of values ($1$, $2$, $2/\\sqrt{3}$, $\\sqrt{2}$, $\\sqrt{3}$, $1/\\sqrt{3}$ and their negatives), so two items asking 'evaluate sec 60°'-style questions with different angles will collide on both key and distractors. Vary the SHAPE: evaluate a sum such as $\\sec 60^{\\circ}+\\cot 45^{\\circ}$, give the ratio and ask for the angle, or ask which of four stated values is impossible.",
+        "RATIONALISE surds in answers ($2/\\sqrt{3}$ is written $2\\sqrt{3}/3$) and say so in the stem when both forms could be offered — otherwise the item has two defensible options.",
+        "Right-triangle figures label the sides, not the ratio being asked for; the hypotenuse must be drawn longest and the marked angle needs two bounding rays."
+      ]
+    },
+    {
+      "name": "trig-pythagorean-identities",
+      "skillIds": ["complementary-trig-identities", "pythagorean-identities", "evaluate-trig-given-ratio"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Trigonometric Identities and Equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["angles", "circle"],
+      "hazards": [
+        "SCOPE SPLIT: `complementary-trig-relationships` ALREADY EXISTS (Stage 5, $\\sin\\theta=\\cos(90^{\\circ}-\\theta)$ for acute angles). `complementary-trig-identities` here extends the SAME relationships to the reciprocal ratios ($\\sec\\theta=\\csc(90^{\\circ}-\\theta)$, $\\cot\\theta=\\tan(90^{\\circ}-\\theta)$) and to using them to simplify. Do not re-teach the Stage 5 acute case.",
+        "`pythagorean-identities` covers all three: $\\sin^{2}\\theta+\\cos^{2}\\theta=1$, $\\tan^{2}\\theta+1=\\sec^{2}\\theta$, $1+\\cot^{2}\\theta=\\csc^{2}\\theta$, INCLUDING deriving the second and third by dividing the first through by $\\cos^{2}\\theta$ and $\\sin^{2}\\theta$. Cover the derivation, not just the substitution.",
+        "SIGN AMBIGUITY IS THE HAZARD OF `evaluate-trig-given-ratio`. From $\\sin\\theta=3/5$ alone, $\\cos\\theta=\\pm 4/5$. EVERY such stem must pin the quadrant or an interval ('where $\\theta$ is obtuse', '$180^{\\circ}<\\theta<270^{\\circ}$'), and the solution must show the sign being decided, not assume the positive root. An item without that constraint has two correct answers.",
+        "Write $\\sin^{2}\\theta$, never $(\\sin\\theta)^{2}$ or $\\sin\\theta^{2}$; keep the argument in degrees in this section.",
+        "A distractor built from 'used $\\sqrt{1-\\sin^2\\theta}$ but kept the positive sign in the third quadrant' is the most valuable one on these items — state that misconception in its `why` rather than offering an arbitrary fraction."
+      ]
+    },
+    {
+      "name": "trig-equations",
+      "skillIds": ["solve-trig-equations-restricted", "solve-trig-quadratic-form", "solve-trig-equations-compound-angle"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Trigonometric Identities and Equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "circle"],
+      "hazards": [
+        "EVERY EQUATION MUST STATE ITS DOMAIN, and every solution must list ALL solutions in that domain. 'Solve $\\sin\\theta = 1/2$ for $0^{\\circ}\\le\\theta\\le 360^{\\circ}$' has two answers (30° and 150°); an item whose key is one of them is broken. Where an MCQ needs a single option, either make the option a SET ($\\{30^{\\circ},150^{\\circ}\\}$) or restrict the domain so exactly one solution survives — and then say so in the stem.",
+        "DEAL THE THREE SKILLS DISJOINTLY. `solve-trig-equations-restricted` = one trig function, linear in that function, over a stated domain (including $\\tan\\theta=k$ with its 180° period). `solve-trig-quadratic-form` = equations quadratic in one ratio ($2\\sin^{2}\\theta-\\sin\\theta-1=0$), including those needing a Pythagorean identity first to reduce to one ratio. `solve-trig-equations-compound-angle` = the argument is $n\\theta$ or $\\theta\\pm\\alpha$, where the DOMAIN MUST BE TRANSFORMED FIRST ($0^{\\circ}\\le\\theta\\le 360^{\\circ}$ becomes $0^{\\circ}\\le 2\\theta\\le 720^{\\circ}$, giving four solutions, not two).",
+        "The compound-angle skill's single most common student error is solving for the argument and forgetting to divide back, or transforming the domain after solving instead of before. Build distractors from exactly those two slips and name them in `why`.",
+        "REJECTED ROOTS: a quadratic in $\\sin\\theta$ can produce a root outside $[-1,1]$ — include at least one item where a root must be discarded, and show the rejection in the working.",
+        "A supporting figure here is the graph of the trig function over the stated domain with the horizontal line $y=k$ drawn, so the number of intersections is visible; do NOT mark the intersection points' coordinates (that gives the answer away) and keep the curve's equation label off the curve."
+      ]
+    },
+    {
+      "name": "trig-simplify-prove",
+      "skillIds": ["simplify-trig-expressions", "prove-trig-identities"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Trigonometric Identities and Equations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`simplify-trig-expressions` = start from an expression, end with a simpler expression. `prove-trig-identities` = start from ONE side of a stated identity and transform it into the other, or reduce both sides to a common form. Never write a 'prove' item whose answer is a value, and never write a 'simplify' item that is really an identity proof.",
+        "PROOF ITEMS IN MCQ FORM must ask something a proof actually decides: which first step is valid, which identity justifies a named line, where a stated proof first goes wrong, or which expression the left side becomes after one stated step. Do not ask 'is this true?' with Yes/No options.",
+        "A proof must never divide by a factor that can be zero (dividing by $\\cos\\theta$ loses $\\theta = 90^{\\circ}$) and must never 'work on both sides' by cross-multiplying the identity being proved — state that convention in the theory and make at least one distractor the illegitimate step.",
+        "Simplification answers must be pinned: '$\\sin\\theta\\cos\\theta$' and '$\\tfrac{1}{2}\\sin 2\\theta$' are equal, but double-angle identities are NOT taught until Extension 1 — stay inside the reciprocal, quotient and Pythagorean identities and say in the stem which form is wanted when two are reachable.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "prob-sets",
+      "skillIds": ["set-notation-fundamentals", "inclusion-exclusion-rule", "probability-complement-addition"],
+      "bookletPaths": [
+        "booklets/Stage 6 Advanced/Probability and Data 1_Sets and set notation.md",
+        "booklets/Stage 6 Advanced/Probability and Data 2_Probability.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["circle"],
+      "hazards": [
+        "SCOPE SPLIT AGAINST EXISTING SKILLS: `venn-diagrams-two-way-tables` and `set-notation-events` already exist. `set-notation-fundamentals` here is the SET language itself — element/subset ($\\in$, $\\subset$), universal set, empty set, cardinality $n(A)$, union/intersection/complement as SETS (listing elements), not as probabilities. `inclusion-exclusion-rule` is $n(A\\cup B)=n(A)+n(B)-n(A\\cap B)$ applied to counts. `probability-complement-addition` is $P(A')=1-P(A)$ and $P(A\\cup B)=P(A)+P(B)-P(A\\cap B)$ applied to probabilities, including mutually exclusive events as the special case.",
+        "DO NOT MIX COUNTS AND PROBABILITIES IN ONE ITEM without saying which is wanted: an answer of '18' and an answer of '18/40' are different questions, and an item that permits both readings has two defensible options.",
+        "MUTUALLY EXCLUSIVE vs INDEPENDENT is the classic conflation. At least one item must turn on the distinction, and 'mutually exclusive events are independent' is a distractor worth naming explicitly in a `why`.",
+        "Venn figures: two or three circles inside a labelled rectangle for the universal set, each region carrying its count or probability, shading with `fill=gray!35` and never `pattern=`. Do not shade the region the question asks the student to identify. Region labels sit inside their region, clear of the circle boundaries.",
+        "Numbers in a Venn must be consistent: the region counts have to sum to $n(\\xi)$, and the stem's totals must match the figure. Recompute the whole partition before writing the item."
+      ]
+    },
+    {
+      "name": "prob-multistage",
+      "skillIds": ["multistage-arrays-trees", "independence-test", "conditional-probability-tree"],
+      "bookletPaths": [
+        "booklets/Stage 6 Advanced/Probability and Data 2_Probability.md",
+        "booklets/Stage 6 Advanced/Probability and Data 3_Conditional Probability.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["tables", "circle"],
+      "hazards": [
+        "`multistage-arrays-trees` = building and reading the display (an array/table for two dice-like stages, a tree for staged experiments) and multiplying along branches. `independence-test` = deciding independence by testing $P(A\\cap B)=P(A)P(B)$ or $P(A|B)=P(A)$ against given data. `conditional-probability-tree` = tree diagrams whose second-stage branches DEPEND on the first (without replacement, or a two-population screening context), and reading a conditional probability back off the tree.",
+        "WITH vs WITHOUT REPLACEMENT must be stated in every stem, and the second-stage denominators in the solution must actually change when it is without replacement. This is the single most common generated error in this topic.",
+        "Branch probabilities out of each node must sum to exactly 1, and the products of all complete paths must sum to exactly 1. Verify both sums numerically before writing the item; a tree that does not close is unusable even when the asked-for path is right.",
+        "An `independence-test` item must be decidable: give enough of $P(A)$, $P(B)$, $P(A\\cap B)$ that the test can be applied, and choose numbers where the verdict is unambiguous — never a case that is independent only after rounding.",
+        "TREES ARE FIGURES ([tikz]); two-way tables and arrays are KaTeX arrays, never hand-drawn. In a tree, put each probability ON its branch (using `node[midway]`-style placement clear of the branch line) and the outcome label at the branch tip; branches must not cross and labels must not collide where two branches meet."
+      ]
+    },
+    {
+      "name": "prob-distributions",
+      "skillIds": ["discrete-continuous-random-variables", "frequency-distribution-table", "frequency-cumulative-graphs", "estimate-probability-relative-frequency"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Probability and Data 4_Data.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["data-displays", "tables"],
+      "hazards": [
+        "`grouped-data` ALREADY EXISTS (generated in W3-3, shared Standard/Advanced) and covers the relative-frequency column plus relative-frequency probability. Do NOT re-teach it. `frequency-distribution-table` here is constructing/completing the table itself (tally, frequency, cumulative frequency, relative frequency columns) for UNGROUPED and grouped data; `frequency-cumulative-graphs` is the frequency polygon, cumulative frequency histogram and ogive and reading percentiles/medians off them; `estimate-probability-relative-frequency` is using observed relative frequency as an estimate of probability, including how the estimate behaves as the sample grows.",
+        "`discrete-continuous-random-variables` is a CLASSIFICATION skill: the answer set is essentially {discrete, continuous}, a closed option set. Do not write six items whose options are those two words — vary by asking for the justification, for which of four variables is the odd one out, for the possible value set of a stated variable, or for what changes when a continuous quantity is measured to the nearest unit.",
+        "PERCENTILE/MEDIAN BOUNDARY: never place a cumulative frequency exactly at $n/2$ or at a stated percentile, or the '$(n+1)/2$' and '50% of $\\Sigma f$' conventions disagree and the item is ambiguous.",
+        "An ogive is drawn against the UPPER class boundary of each class and starts at the lower boundary of the first class with cumulative frequency 0; a frequency polygon is drawn against class CENTRES. Mixing the two is a real defect, and 'plotted against the class centre' is a distractor worth naming.",
+        "Tables are KaTeX arrays inside `$...$`, never [tikz]. Graphs ARE [tikz]: label both axes with quantity and unit, keep the plotted domain inside the axis window, and do not print a coordinate label on a point whose value is already given by a tick label."
+      ]
+    }
+  ]
+}

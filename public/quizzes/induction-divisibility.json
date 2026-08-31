@@ -1,0 +1,122 @@
+{
+  "skillId": "induction-divisibility",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For the claim that $11^{n} - 1$ is divisible by $10$ for all integers $n \\ge 1$, which line is the correct inductive hypothesis?",
+      "structure": "write-divisibility-hypothesis",
+      "mastery": false,
+      "options": [
+        { "text": "$11^{k} - 1 = 10p$, where $p$ is an integer", "correct": true },
+        { "text": "$11^{k} - 1 = 10k$, where $k$ is an integer", "why": "Uses the index $k$ as the multiplier; the multiplier is a new integer with no connection to $k$." },
+        { "text": "$11^{k + 1} - 1 = 10p$, where $p$ is an integer", "why": "Assumes the $n = k + 1$ case, which is exactly what the inductive step has to prove." },
+        { "text": "$11^{n} - 1 = 10p$ for every integer $n \\ge 1$, where $p$ is an integer", "why": "Assumes the whole result at once, which makes the argument circular." }
+      ],
+      "solution_text": "Divisible by $10$ means equal to $10$ times an integer, and the hypothesis is the claim at $n = k$.\n$11^{k} - 1 = 10p$, where $p$ is an integer."
+    },
+    {
+      "id": "q2",
+      "question_text": "The claim is that $7^{2n} - 1$ is divisible by $48$ for all integers $n \\ge 1$. Which line correctly tests the base case?",
+      "structure": "verify-base-case",
+      "mastery": false,
+      "options": [
+        { "text": "$7^{2} - 1 = 48 = 48 \\times 1$, so the statement is true for $n = 1$", "correct": true },
+        { "text": "$7^{2 \\times 1} - 1 = 14 - 1 = 13$, so the statement is false for $n = 1$", "why": "Evaluated $7 \\times 2$ instead of $7^{2}$ when substituting $n = 1$ into the index." },
+        { "text": "$7^{2k} - 1 = 48p$, so the statement is true for $n = 1$", "why": "Writes the inductive hypothesis instead of substituting the base value; a base case uses a number, not $k$." },
+        { "text": "$7^{2} - 1 = 48$ and $7^{4} - 1 = 2400$, so the statement is true for all $n \\ge 1$", "why": "Checks two values and claims the general result; no finite list of cases proves a statement about every integer." }
+      ],
+      "solution_text": "The claim starts at $n = 1$.\n$LHS = 7^{2} - 1$\n$= 49 - 1$\n$= 48$\n$48 = 48 \\times 1$, so the statement is true for $n = 1$."
+    },
+    {
+      "id": "q3",
+      "question_text": "A proof assumes $5^{2k} - 1 = 24p$, where $p$ is an integer. Which rearrangement is correct?",
+      "structure": "rearrange-hypothesis",
+      "mastery": false,
+      "options": [
+        { "text": "$5^{2k} = 24p + 1$", "correct": true },
+        { "text": "$5^{2k} = 24p - 1$", "why": "Moved the $-1$ across the equals sign without changing its sign." },
+        { "text": "$5^{2k} = \\dfrac{24p + 1}{2}$", "why": "Divided by the $2$ in the index, treating $5^{2k}$ as $2 \\times 5^{k}$." },
+        { "text": "$5^{k} = 24p + 1$", "why": "Dropped the $2$ from the index, which changes which power is being assumed." }
+      ],
+      "solution_text": "$5^{2k} - 1 = 24p$\n$5^{2k} = 24p + 1$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A proof assumes $9^{k} - 1 = 8p$, where $p$ is an integer. Which line correctly begins the inductive step for $9^{k + 1} - 1$?",
+      "structure": "divisibility-step",
+      "mastery": false,
+      "options": [
+        { "text": "$9^{k + 1} - 1 = 9(8p + 1) - 1$", "correct": true },
+        { "text": "$9^{k + 1} - 1 = 9(8p) - 1$", "why": "Substituted $8p$ for $9^{k}$; the assumption gives $9^{k} = 8p + 1$, not $9^{k} = 8p$." },
+        { "text": "$9^{k + 1} - 1 = 8p + 9 - 1$", "why": "Multiplied only the added constant by $9$, leaving the assumed multiple untouched." },
+        { "text": "$9^{k + 1} - 1 = 9^{k} \\times 9^{k} - 1$", "why": "Treated $9^{k + 1}$ as $9^{k} \\times 9^{k}$ instead of $9 \\times 9^{k}$." }
+      ],
+      "solution_text": "From the assumption, $9^{k} = 8p + 1$.\n$9^{k + 1} - 1$\n$= 9 \\times 9^{k} - 1$\n$= 9(8p + 1) - 1$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The inductive step for the claim that $10^{n} + 2$ is divisible by $3$ reaches the expression $30p - 18$, where $p$ is an integer. Which line correctly completes the step?",
+      "structure": "divisibility-step",
+      "mastery": false,
+      "options": [
+        { "text": "$30p - 18 = 3(10p - 6)$, and $10p - 6$ is an integer, so the expression is divisible by $3$", "correct": true },
+        { "text": "$30p - 18 = 3(10p - 18)$, and $10p - 18$ is an integer, so the expression is divisible by $3$", "why": "Divided only the first term by $3$, leaving the constant $18$ unchanged inside the bracket." },
+        { "text": "$30p - 18 = 3(10p - 6)$, so the expression is divisible by $30$", "why": "Read the coefficient $30$ as the divisor; the divisor is the factor $3$ taken outside the bracket." },
+        { "text": "$30p - 18$ is divisible by $3$ because $p$ is an integer", "why": "Being an integer multiplier is not enough on its own; the factor $3$ must be exhibited explicitly." }
+      ],
+      "solution_text": "$30p - 18$\n$= 3(10p - 6)$\nSince $p$ is an integer, $10p - 6$ is an integer, so the expression is divisible by $3$."
+    },
+    {
+      "id": "q6",
+      "question_text": "The claim is that $15^{n} + 6^{2n + 1}$ is divisible by $7$ for all integers $n \\ge 0$. Which option gives the base case and the inductive hypothesis correctly?",
+      "structure": "write-divisibility-hypothesis",
+      "mastery": false,
+      "options": [
+        { "text": "Base case $n = 0$: $15^{0} + 6^{1} = 7$. Hypothesis: $15^{k} + 6^{2k + 1} = 7p$ for an integer $p$", "correct": true },
+        { "text": "Base case $n = 1$: $15 + 6^{3} = 231 = 7 \\times 33$. Hypothesis: $15^{k} + 6^{2k + 1} = 7p$ for an integer $p$", "why": "Tests $n = 1$ when the claim starts at $n = 0$, leaving the first case of the claim unchecked." },
+        { "text": "Base case $n = 0$: $15^{0} + 6^{1} = 7$. Hypothesis: $15^{k} + 6^{2k} = 7p$ for an integer $p$", "why": "Dropped the $+1$ from the index $2n + 1$ when writing the statement at $n = k$." },
+        { "text": "Base case $n = 0$: $15^{0} + 6^{0} = 2$. Hypothesis: $15^{k} + 6^{2k + 1} = 7p$ for an integer $p$", "why": "Substituted $n = 0$ as though the second term were $6^{n}$ rather than $6^{2n + 1}$." }
+      ],
+      "solution_text": "The claim starts at $n = 0$.\n$LHS = 15^{0} + 6^{2(0) + 1} = 1 + 6 = 7$\n$7 = 7 \\times 1$, so the statement is true for $n = 0$.\nThe hypothesis is the claim at $n = k$: $15^{k} + 6^{2k + 1} = 7p$, where $p$ is an integer."
+    },
+    {
+      "id": "q7",
+      "question_text": "A student writes: \"$n^{3} - n$ is divisible by $6$, because it equals $0$, $6$, $24$ and $60$ at $n = 1, 2, 3$ and $4$. Hence it is divisible by $6$ for all integers $n \\ge 1$.\" What is wrong with this argument?",
+      "structure": "why-cases-are-not-proof",
+      "mastery": false,
+      "options": [
+        { "text": "Four values say nothing about the rest; the argument needs a step showing that divisibility at $n = k$ forces divisibility at $n = k + 1$", "correct": true },
+        { "text": "Nothing is wrong, because four consecutive cases establish the pattern", "why": "No finite number of cases can settle a statement about every integer, however convincing the pattern looks." },
+        { "text": "The values are wrong: $n^{3} - n$ is not divisible by $6$ at $n = 1$", "why": "At $n = 1$ the value is $0$, and $0 = 6 \\times 0$, so that case does hold." },
+        { "text": "The argument fails only because it did not also check $n = 0$", "why": "The claim starts at $n = 1$; what is missing is the inductive step, not one more numerical case." }
+      ],
+      "solution_text": "The four values are correct, but they are four cases out of infinitely many.\nAn induction proof needs a base case, here $n = 1$, and an inductive step showing that if $k^{3} - k = 6p$ then $(k + 1)^{3} - (k + 1)$ is also a multiple of $6$."
+    },
+    {
+      "id": "q8",
+      "question_text": "In proving that $8^{2n + 1} + 6^{2n - 1}$ is divisible by $7$, the hypothesis is $8^{2k + 1} + 6^{2k - 1} = 7P$, so $8^{2k + 1} = 7P - 6^{2k - 1}$. Which line correctly rewrites $8^{2k + 3} + 6^{2k + 1}$ using the assumption?",
+      "structure": "divisibility-step",
+      "mastery": true,
+      "options": [
+        { "text": "$64\\left(7P - 6^{2k - 1}\\right) + 36 \\times 6^{2k - 1}$", "correct": true },
+        { "text": "$8\\left(7P - 6^{2k - 1}\\right) + 36 \\times 6^{2k - 1}$", "why": "Took $8^{2k + 3}$ as $8 \\times 8^{2k + 1}$; the index rises by $2$, so the factor is $8^{2} = 64$." },
+        { "text": "$64\\left(7P - 6^{2k - 1}\\right) + 6 \\times 6^{2k - 1}$", "why": "Took $6^{2k + 1}$ as $6 \\times 6^{2k - 1}$; the index rises by $2$, so the factor is $6^{2} = 36$." },
+        { "text": "$8\\left(7P - 6^{2k - 1}\\right) + 6 \\times 6^{2k - 1}$", "why": "Raised both indices by $1$ instead of $2$, so both multiplying factors are one power too small." }
+      ],
+      "solution_text": "$8^{2k + 3} = 8^{2} \\times 8^{2k + 1} = 64 \\times 8^{2k + 1}$ and $6^{2k + 1} = 6^{2} \\times 6^{2k - 1} = 36 \\times 6^{2k - 1}$.\n$8^{2k + 3} + 6^{2k + 1}$\n$= 64 \\times 8^{2k + 1} + 36 \\times 6^{2k - 1}$\n$= 64\\left(7P - 6^{2k - 1}\\right) + 36 \\times 6^{2k - 1}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "An induction proof that $6^{n} - 1$ is divisible by $5$ for all integers $n \\ge 1$ has verified $n = 1$, assumed $6^{k} - 1 = 5p$, and shown that $6^{k + 1} - 1 = 5(6p + 1)$. Which statement correctly finishes the proof?",
+      "structure": "full-divisibility-proof",
+      "mastery": false,
+      "options": [
+        { "text": "Since the statement is true for $n = 1$ and its truth at $n = k$ forces its truth at $n = k + 1$, by mathematical induction it is true for all integers $n \\ge 1$", "correct": true },
+        { "text": "Since $6p + 1$ is an integer, the statement is true for all real numbers $n \\ge 1$", "why": "Induction steps from one integer to the next, so it establishes nothing about non-integer values of $n$." },
+        { "text": "Since the statement is true for $n = k$, by mathematical induction it is true for all integers $n \\ge 1$", "why": "Quotes the assumption as the verified case; it is the base case at $n = 1$ that anchors the proof." },
+        { "text": "The proof is already complete, because a concluding statement is not part of an induction proof", "why": "The conclusion is what links the base case and the step into a result holding for every $n$." }
+      ],
+      "solution_text": "The base case and the inductive step are both done, so the fourth stage remains.\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+    }
+  ]
+}

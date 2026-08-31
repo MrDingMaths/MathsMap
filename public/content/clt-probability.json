@@ -1,0 +1,125 @@
+{
+  "skillId": "clt-probability",
+  "atomType": "R",
+  "theory": {
+    "intro": "To find a probability for a sample mean, standardise with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$. The divisor is the standard deviation of $\\bar{X}$, not of one observation, so a sample mean sits much closer to $\\mu$ than a single value does.",
+    "facts": [
+      "By the central limit theorem $\\bar{X}$ is approximately $N\\left(\\mu,\\dfrac{\\sigma^2}{n}\\right)$ when the sample is random and $n\\ge 30$.",
+      "The standard deviation of $\\bar{X}$ is $\\dfrac{\\sigma}{\\sqrt{n}}$, which is smaller than $\\sigma$ for every $n>1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$\\bar{x}$};\n\\draw[dashed] (0,0) -- (0,2.4);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\frac{\\sigma}{\\sqrt{n}}$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\frac{\\sigma}{\\sqrt{n}}$};\n\\end{tikzpicture}\n[/tikz]",
+      "Standardise a **sample mean** with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$.",
+      "Standardise a **single observation** with $z=\\dfrac{x-\\mu}{\\sigma}$, using $\\sigma$ and no $\\sqrt{n}$.",
+      "Read the stem carefully: one observation and a sample mean give different $z$ values from the same number.",
+      "$P(\\bar{X}>\\mu)=0.5$, because the sampling distribution is symmetrical about $\\mu$.",
+      "Because $\\dfrac{\\sigma}{\\sqrt{n}}$ is small, a sample mean only a little away from $\\mu$ can be very unlikely.",
+      "Shade the required region on the curve of $\\bar{X}$ first, because the probability is the area of the shaded part."
+    ],
+    "steps": [
+      "Write the mean and the standard deviation $\\dfrac{\\sigma}{\\sqrt{n}}$ of $\\bar{X}$",
+      "Standardise each boundary value with $z=\\dfrac{\\bar{x}-\\mu}{\\sigma/\\sqrt{n}}$",
+      "Shade the region on the curve and find its area"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A population has mean $500$ g and standard deviation $60$ g. A random sample of $36$ items is taken. Find the probability that the **sample mean** exceeds $520$ g, using the empirical rule.",
+        "structure": "probability-above",
+        "solution_text": "$\\mu=500$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{60}{\\sqrt{36}}$\n$=10$\n$z=\\dfrac{520-500}{10}$\n$=2$\n$P(\\bar{X}>520)=P(Z>2)$\n$=(1-0.95)\\div 2$\n$=0.025$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$\\bar{x}$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$500$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$520$};\n\\node[right, font=\\small] at (2.7,1.0) {$0.025$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A population has mean $72$ and standard deviation $15$. A random sample of $225$ values is taken. Find the probability that the **sample mean** is less than $71$, using the empirical rule.",
+        "structure": "probability-below",
+        "solution_text": "$\\mu=72$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{15}{\\sqrt{225}}$\n$=1$\n$z=\\dfrac{71-72}{1}$\n$=-1$\n$P(\\bar{X}<71)=P(Z<-1)$\n$=(1-0.68)\\div 2$\n$=0.16$"
+      },
+      {
+        "question_text": "A population has mean $250$ and standard deviation $24$. A random sample of $64$ values is taken. Find the probability that the **sample mean** is less than $256$, using the empirical rule.",
+        "structure": "probability-below",
+        "solution_text": "$\\mu=250$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{24}{\\sqrt{64}}$\n$=3$\n$z=\\dfrac{256-250}{3}$\n$=2$\n$P(\\bar{X}<256)=P(Z<2)$\n$=0.5+0.475$\n$=0.975$"
+      },
+      {
+        "question_text": "A population has mean $40$ and standard deviation $9$. A random sample of $81$ values is taken. Find the probability that the **sample mean** exceeds $39$, using the empirical rule.",
+        "structure": "probability-above",
+        "solution_text": "$\\mu=40$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{9}{\\sqrt{81}}$\n$=1$\n$z=\\dfrac{39-40}{1}$\n$=-1$\n$P(\\bar{X}>39)=P(Z>-1)$\n$=0.34+0.5$\n$=0.84$"
+      },
+      {
+        "question_text": "A population has mean $180$ and standard deviation $28$. A random sample of $49$ values is taken. Find the probability that the **sample mean** lies between $172$ and $188$, using the empirical rule.",
+        "structure": "probability-between",
+        "solution_text": "$\\mu=180$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{28}{\\sqrt{49}}$\n$=4$\n$z=\\dfrac{172-180}{4}$\n$=-2$\n$z=\\dfrac{188-180}{4}$\n$=2$\n$P(172<\\bar{X}<188)=P(-2<Z<2)$\n$=0.95$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:2, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$\\bar{x}$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$180$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$172$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$188$};\n\\node[font=\\small] at (0,1.2) {$0.95$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A population has mean $64$ and standard deviation $35$. A random sample of $49$ values is taken. Find the probability that the **sample mean** lies between $59$ and $74$, using the empirical rule.",
+        "structure": "probability-between",
+        "solution_text": "$\\mu=64$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{35}{\\sqrt{49}}$\n$=5$\n$z=\\dfrac{59-64}{5}$\n$=-1$\n$z=\\dfrac{74-64}{5}$\n$=2$\n$P(59<\\bar{X}<74)=P(-1<Z<2)$\n$=0.34+0.475$\n$=0.815$"
+      },
+      {
+        "question_text": "A population has mean $120$ and standard deviation $18$. A random sample of $81$ values gives a sample mean of $123$. Find the $z$-score of this sample mean.",
+        "structure": "standardise-sample-mean",
+        "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{18}{\\sqrt{81}}$\n$=2$\n$z=\\dfrac{123-120}{2}$\n$=1.5$"
+      },
+      {
+        "question_text": "A population has mean $60$ and standard deviation $12$. Find the $z$-score of the value $66$ when it is a single observation, and the $z$-score of $66$ when it is the mean of a random sample of $36$ values.",
+        "structure": "mean-versus-single-observation",
+        "solution_text": "For a single observation the divisor is $\\sigma$.\n$z=\\dfrac{66-60}{12}$\n$=0.5$\nFor a sample mean the divisor is $\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{12}{\\sqrt{36}}=2$.\n$z=\\dfrac{66-60}{2}$\n$=3$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A population has mean $95$ and standard deviation $20$. A random sample of $100$ values is taken. Find the probability that the **sample mean** exceeds $98$, using this table.\n$\\begin{array}{c|c} z & P(Z<z) \\\\ \\hline 0.60 & 0.7257 \\\\ 1.10 & 0.8643 \\\\ 1.50 & 0.9332 \\\\ 2.40 & 0.9918 \\end{array}$",
+        "structure": "probability-above",
+        "solution_text": "$\\mu=95$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{20}{\\sqrt{100}}$\n$=2$\n$z=\\dfrac{98-95}{2}$\n$=1.5$\n$P(\\bar{X}>98)=P(Z>1.5)$\n$=1-0.9332$\n$=0.0668$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.5,0) -- plot[domain=1.5:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$\\bar{x}$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$95$};\n\\draw (1.5,0) -- (1.5,-0.12) node[below, font=\\small] {$98$};\n\\node[right, font=\\small] at (2.4,1.1) {$0.0668$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A population has mean $155$ and standard deviation $45$. A random sample of $225$ values is taken. Find the probability that the **sample mean** is less than $152.6$, using this table.\n$\\begin{array}{c|c} z & P(Z<z) \\\\ \\hline 0.50 & 0.6915 \\\\ 0.80 & 0.7881 \\\\ 1.20 & 0.8849 \\\\ 2.10 & 0.9821 \\end{array}$",
+        "structure": "probability-below",
+        "solution_text": "$\\mu=155$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{45}{\\sqrt{225}}$\n$=3$\n$z=\\dfrac{152.6-155}{3}$\n$=-0.8$\n$P(\\bar{X}<152.6)=P(Z<-0.8)$\n$=1-P(Z<0.8)$\n$=1-0.7881$\n$=0.2119$"
+      },
+      {
+        "question_text": "A population has mean $500$ and standard deviation $40$. A random sample of $100$ values is taken. Find the probability that the **sample mean** lies between $496$ and $504$, using the empirical rule.",
+        "structure": "probability-between",
+        "solution_text": "$\\mu=500$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{40}{\\sqrt{100}}$\n$=4$\n$z=\\dfrac{496-500}{4}$\n$=-1$\n$z=\\dfrac{504-500}{4}$\n$=1$\n$P(496<\\bar{X}<504)=P(-1<Z<1)$\n$=0.68$"
+      },
+      {
+        "question_text": "A population has mean $25$ and standard deviation $6$. A random sample of $144$ values gives a sample mean of $26.2$. Find the $z$-score of this sample mean.",
+        "structure": "standardise-sample-mean",
+        "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{6}{\\sqrt{144}}$\n$=0.5$\n$z=\\dfrac{26.2-25}{0.5}$\n$=2.4$"
+      },
+      {
+        "question_text": "A population has mean $800$ and standard deviation $50$. State which is smaller, the probability that a single observation exceeds $810$ or the probability that the mean of a random sample of $100$ observations exceeds $810$. Support your answer with the two $z$-scores.",
+        "structure": "mean-versus-single-observation",
+        "solution_text": "For a single observation the divisor is $\\sigma=50$.\n$z=\\dfrac{810-800}{50}$\n$=0.2$\nFor the sample mean the divisor is $\\dfrac{50}{\\sqrt{100}}=5$.\n$z=\\dfrac{810-800}{5}$\n$=2$\nA larger $z$ leaves a smaller right tail, so the probability for the sample mean is smaller."
+      },
+      {
+        "question_text": "A population has mean $340$ and standard deviation $48$. A random sample of $64$ values is taken. Using the empirical rule, find the value of $c$ for which $P(\\bar{X}<c)=0.975$.",
+        "structure": "reverse-find-boundary",
+        "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{48}{\\sqrt{64}}$\n$=6$\n$P(Z<z)=0.975$ gives $z=2$, since $0.5+0.475=0.975$.\n$c=340+2\\times 6$\n$=352$"
+      },
+      {
+        "question_text": "A population has mean $1200$ and standard deviation $90$. A random sample of $225$ values is taken. Find the probability that the **sample mean** exceeds $1218$, using the empirical rule.",
+        "structure": "probability-above",
+        "solution_text": "$\\mu=1200$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{90}{\\sqrt{225}}$\n$=6$\n$z=\\dfrac{1218-1200}{6}$\n$=3$\n$P(\\bar{X}>1218)=P(Z>3)$\n$=(1-0.997)\\div 2$\n$=0.0015$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (3,0) -- plot[domain=3:3.9, samples=30, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.9,0) -- cycle;\n\\draw[thick] plot[domain=-3.9:3.9, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.3,0) -- (4.5,0) node[right] {$\\bar{x}$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1200$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$1218$};\n\\node[right, font=\\small] at (3.2,0.9) {$0.0015$};\n\\draw (3.2,0.78) -- (3.1,0.12);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A population has mean $15.5$ and standard deviation $4.2$. A random sample of $49$ values is taken. Find the probability that the **sample mean** is less than $14.3$, using the empirical rule.",
+        "structure": "probability-below",
+        "solution_text": "$\\mu=15.5$\n$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{4.2}{\\sqrt{49}}$\n$=0.6$\n$z=\\dfrac{14.3-15.5}{0.6}$\n$=-2$\n$P(\\bar{X}<14.3)=P(Z<-2)$\n$=(1-0.95)\\div 2$\n$=0.025$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A population has mean $70$ and standard deviation $16$. Find the sample size $n$ for which the standard deviation of $\\bar{X}$ is $2$, and then use the empirical rule to find $P(\\bar{X}>74)$ for that sample size.",
+        "structure": "find-sample-size",
+        "solution_text": "$\\dfrac{16}{\\sqrt{n}}=2$\n$\\sqrt{n}=8$\n$n=64$\n$z=\\dfrac{74-70}{2}$\n$=2$\n$P(\\bar{X}>74)=P(Z>2)$\n$=(1-0.95)\\div 2$\n$=0.025$"
+      },
+      {
+        "question_text": "A population has mean $250$ and standard deviation $36$. Random samples of size $81$ are taken. Find the interval, symmetrical about the mean, inside which $95\\%$ of the sample means lie.",
+        "structure": "reverse-find-boundary",
+        "solution_text": "$\\dfrac{\\sigma}{\\sqrt{n}}=\\dfrac{36}{\\sqrt{81}}$\n$=4$\nThe central $95\\%$ runs from $z=-2$ to $z=2$.\n$250-2\\times 4=242$\n$250+2\\times 4=258$\n$95\\%$ of sample means lie between $242$ and $258$."
+      },
+      {
+        "question_text": "The volume of juice poured by a machine has mean $6.4$ mL per second and standard deviation $1.2$ mL per second. Find the probability that a single reading exceeds $6.8$, and the probability that the mean of a random sample of $36$ readings exceeds $6.8$. Round each $z$-score to two decimal places and use this table.\n$\\begin{array}{c|c} z & P(Z<z) \\\\ \\hline 0.33 & 0.6293 \\\\ 0.67 & 0.7486 \\\\ 1.00 & 0.8413 \\\\ 2.00 & 0.9772 \\end{array}$",
+        "structure": "mean-versus-single-observation",
+        "solution_text": "For a single reading the divisor is $\\sigma=1.2$.\n$z=\\dfrac{6.8-6.4}{1.2}$\n$=0.33$\n$P(X>6.8)=1-0.6293$\n$=0.3707$\nFor the sample mean the divisor is $\\dfrac{1.2}{\\sqrt{36}}=0.2$.\n$z=\\dfrac{6.8-6.4}{0.2}$\n$=2$\n$P(\\bar{X}>6.8)=1-0.9772$\n$=0.0228$"
+      }
+    ]
+  }
+}

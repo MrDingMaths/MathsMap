@@ -16,6 +16,9 @@
 //     carry the same numeric literals and the same correct answer — a
 //     reworded clone, not a fresh item. Caught blind in batch 16 (quiz items
 //     that rephrased a mastery-card stem while keeping its numbers/answer).
+//     A hit whose answers could NOT be canonicalised carries no answer evidence
+//     at all — the signature is then the stem literals alone — and is demoted to
+//     the QUIZ-COPIES-PRACTICE-VALUES-WEAK advisory rather than counted as a defect.
 //
 // A NEAR-DUP advisory (token-set Jaccard >= 0.85, not exact-equal) is also
 // reported, but never counts toward the --strict exit code: it is meant to
@@ -132,13 +135,25 @@ function practiceAnswerText(card) {
 // weak a fingerprint on its own (false-positive prone — e.g. two unrelated
 // items that both happen to mention "6"), and with 0 literals and no
 // canonical answer there's nothing left to key on at all.
+// Returns { sig, weak }. `weak` means canonicalise() could not parse the answer, so the
+// signature is the STEM LITERALS ALONE — which the note above already calls too weak a
+// fingerprint on its own. That is not a rare corner: measured over the whole 818-skill
+// corpus, EVERY value-signature hit is weak, so the answer half has never actually
+// discriminated anything. On a topic with a small literal vocabulary the collapse is
+// catastrophic — W3-11's trigonometry sections put `0`, `2`, `3` and a domain in nearly
+// every stem while their answers are solution SETS like
+// `x = \frac{\pi}{6}, \frac{\pi}{2}, \frac{7\pi}{6}` that canonicalise() cannot parse, and
+// all 30 of the batch's flags were pairs with different equations AND different solution
+// sets. Weak hits are still worth a human glance (same numbers, opposite side of the
+// quiz/practice line), so they are reported as an ADVISORY and not counted toward
+// --strict; a hit whose canonical ANSWERS also match stays a hard defect.
 function computeSig(raw, answerRaw) {
   const numbers = extractNumbers(raw);
   const answerKey = answerRaw ? canonicalise(answerRaw) : null;
   if (numbers.length === 0 && !answerKey) return null;
   if (numbers.length < 2) return null;
   const sortedNums = numbers.slice().sort((a, b) => a - b).join(',');
-  return `${sortedNums}|${answerKey || ''}`;
+  return { sig: `${sortedNums}|${answerKey || ''}`, weak: !answerKey };
 }
 
 function listJsonFiles(dir) {
@@ -174,8 +189,8 @@ for (const skillId of [...skillIds].sort()) {
     if (quiz) {
       for (const q of quiz.questions || []) {
         const raw = String(q.question_text || '');
-        const sig = computeSig(raw, quizAnswerText(q));
-        entries.push({ skillId, source: 'quiz', itemId: q.id, raw, norm: normaliseStem(raw), sig });
+        const sigInfo = computeSig(raw, quizAnswerText(q));
+        entries.push({ skillId, source: 'quiz', itemId: q.id, raw, norm: normaliseStem(raw), sig: sigInfo?.sig ?? null, sigWeak: sigInfo?.weak ?? false });
         itemsScanned++;
       }
     }
@@ -197,8 +212,8 @@ for (const skillId of [...skillIds].sort()) {
         cards.forEach((card, i) => {
           const raw = String(card?.question_text || '');
           const itemId = `${tier[0]}${i + 1}`;
-          const sig = computeSig(raw, practiceAnswerText(card));
-          entries.push({ skillId, source: tier, itemId, raw, norm: normaliseStem(raw), sig });
+          const sigInfo = computeSig(raw, practiceAnswerText(card));
+          entries.push({ skillId, source: tier, itemId, raw, norm: normaliseStem(raw), sig: sigInfo?.sig ?? null, sigWeak: sigInfo?.weak ?? false });
           itemsScanned++;
         });
       }
@@ -249,6 +264,7 @@ for (const [norm, group] of buckets) {
 // Same-skill quiz-vs-practice-card pairs that share a value signature (see
 // computeSig) but a DIFFERENT stem norm — same norm is already caught by the
 // QUIZ-COPIES-PRACTICE class above, so skip those to avoid double-reporting.
+const weakValueHits = [];
 const sigBuckets = new Map();
 for (const e of entries) {
   if (!e.sig) continue;
@@ -267,7 +283,8 @@ for (const [sig, group] of sigBuckets) {
       const xCard = isCardSource(x.source);
       const yCard = isCardSource(y.source);
       if (xCard === yCard) continue; // need exactly one quiz side, one card side
-      defectsByKind['QUIZ-COPIES-PRACTICE-VALUES'].push({ a: x, b: y, sig });
+      if (x.sigWeak || y.sigWeak) weakValueHits.push({ a: x, b: y, sig });
+      else defectsByKind['QUIZ-COPIES-PRACTICE-VALUES'].push({ a: x, b: y, sig });
     }
   }
 }
@@ -308,6 +325,17 @@ for (const kind of ['QUIZ-COPIES-PRACTICE', 'INTRA-FILE-DUP', 'CROSS-SKILL-DUP',
   }
 }
 
+if (weakValueHits.length) {
+  console.log('\nAdvisory (QUIZ-COPIES-PRACTICE-VALUES-WEAK, not counted toward --strict):');
+  console.log('  Same stem literals on opposite sides of the quiz/practice line, but the');
+  console.log('  answers could not be canonicalised, so there is NO answer evidence — check');
+  console.log('  by hand whether the two items really pose the same question.');
+  for (const { a, b } of weakValueHits) {
+    console.log(`  ~ ${a.skillId} ${a.itemId} ~= ${b.skillId} ${b.itemId}`);
+    console.log(`    stem: ${displayStem(a.raw)}`);
+  }
+}
+
 if (nearDups.length) {
   console.log('\nAdvisory (NEAR-DUP, not counted toward --strict):');
   for (const { a, b, sim } of nearDups) {
@@ -325,6 +353,7 @@ console.log(
     `INTRA-FILE-DUP: ${defectsByKind['INTRA-FILE-DUP'].length}, ` +
     `CROSS-SKILL-DUP: ${defectsByKind['CROSS-SKILL-DUP'].length}, ` +
     `QUIZ-COPIES-PRACTICE-VALUES: ${defectsByKind['QUIZ-COPIES-PRACTICE-VALUES'].length}. ` +
+    `VALUES-WEAK advisory: ${weakValueHits.length}. ` +
     `NEAR-DUP advisory: ${nearDups.length}.`,
 );
 

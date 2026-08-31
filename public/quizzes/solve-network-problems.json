@@ -24,11 +24,11 @@
           "why": "Omitted the edge $CD$ ($9\\text{ km}$) from the path sum ($14 + 18 = 32\\text{ km}$)."
         }
       ],
-      "solution_text": "$\\text{Total length} = w(AC) + w(CD) + w(DE)$\n$= 14 + 9 + 18$\n$= 41\\text{ km}$"
+      "solution_text": "1. **Trace the sequence of vertices along valid edges**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.4);\n\\coordinate (B) at (2.2,2.6);\n\\coordinate (C) at (2.2,0.2);\n\\coordinate (D) at (4.4,1.4);\n\\coordinate (E) at (6.4,1.4);\n\\draw (A) -- (B) node[midway, above left] {$11$};\n\\draw[line width=1.6pt] (A) -- (C) node[midway, below left] {$14$};\n\\draw (B) -- (C) node[midway, fill=white, inner sep=1pt] {$8$};\n\\draw (B) -- (D) node[midway, above right] {$16$};\n\\draw[line width=1.6pt] (C) -- (D) node[midway, below right] {$9$};\n\\draw[line width=1.6pt] (D) -- (E) node[midway, above] {$18$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[above] {$D$};\n\\fill (E) circle (2.5pt) node[right] {$E$};\n\\end{tikzpicture}\n[/tikz]\n2. **Sum the weights of the traversed edges**\n$\\text{Total length} = 14 + 9 + 18$\n$= 41\\text{ km}$"
     },
     {
       "id": "q2",
-      "question_text": "Two bicycle paths connect Home to School:\nPath 1 ($A\\text{–}B\\text{–}D$): $8\\text{ min} + 11\\text{ min} = 19\\text{ min}$\nPath 2 ($A\\text{–}C\\text{–}D$): $6\\text{ min} + 10\\text{ min} = 16\\text{ min}$\nHow much time is saved by taking Path 2 rather than Path 1?",
+      "question_text": "Two bicycle paths connect Home to School:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.4);\n\\coordinate (B) at (2.5,2.6);\n\\coordinate (C) at (2.5,0.2);\n\\coordinate (D) at (5,1.4);\n\\draw (A) -- (B) node[midway, above left] {$8$};\n\\draw (B) -- (D) node[midway, above right] {$11$};\n\\draw (A) -- (C) node[midway, below left] {$6$};\n\\draw (C) -- (D) node[midway, below right] {$10$};\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\end{tikzpicture}\n[/tikz]\nHow much time is saved by taking Path 2 ($A\\text{–}C\\text{–}D$) rather than Path 1 ($A\\text{–}B\\text{–}D$)?",
       "structure": "compare-route-weights",
       "mastery": false,
       "options": [
@@ -53,7 +53,7 @@
     },
     {
       "id": "q3",
-      "question_text": "A network path $P\\text{–}Q\\text{–}R\\text{–}S$ has a total length of $38\\text{ km}$. If $PQ = 11\\text{ km}$, $QR = x\\text{ km}$, and $RS = 14\\text{ km}$, what is the value of $x$?",
+      "question_text": "A network path $P\\text{–}Q\\text{–}R\\text{–}S$ has a total length of $38\\text{ km}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,1.2);\n\\coordinate (Q) at (2.2,2.4);\n\\coordinate (R) at (4.4,0.6);\n\\coordinate (S) at (6.6,1.8);\n\\draw (P) -- (Q) node[midway, above left] {$11$};\n\\draw (Q) -- (R) node[midway, above right] {$x$};\n\\draw (R) -- (S) node[midway, above left] {$14$};\n\\fill (P) circle (2.5pt) node[left] {$P$};\n\\fill (Q) circle (2.5pt) node[above] {$Q$};\n\\fill (R) circle (2.5pt) node[below] {$R$};\n\\fill (S) circle (2.5pt) node[right] {$S$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the value of $x$?",
       "structure": "find-route-with-target-weight",
       "mastery": false,
       "options": [
@@ -78,7 +78,7 @@
     },
     {
       "id": "q4",
-      "question_text": "A flight diagram shows daily flights departing Melbourne: $24$ to Sydney, $16$ to Brisbane, $12$ to Adelaide, and $8$ to Perth. If each flight carries an average of $180$ passengers, what is the maximum total passenger departure capacity per day from Melbourne?",
+      "question_text": "A flight diagram shows daily flights departing Melbourne ($M$) to Sydney ($S$), Brisbane ($B$), Adelaide ($A$), and Perth ($P$).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.6 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (M) at (3.5,2.0);\n\\coordinate (P) at (1.0,3.2);\n\\coordinate (A) at (1.5,0.5);\n\\coordinate (B) at (5.5,3.5);\n\\coordinate (S) at (6.0,1.2);\n\\draw[midarrow] (M) -- (P) node[pos=0.4, fill=white, inner sep=1pt] {$8$};\n\\draw[midarrow] (M) -- (A) node[pos=0.4, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (M) -- (B) node[pos=0.4, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (M) -- (S) node[pos=0.4, fill=white, inner sep=1pt] {$24$};\n\\fill (M) circle (2.5pt) node[below] {$M$};\n\\fill (P) circle (2.5pt) node[above left] {$P$};\n\\fill (A) circle (2.5pt) node[below left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (S) circle (2.5pt) node[below right] {$S$};\n\\end{tikzpicture}\n[/tikz]\nIf each flight carries an average of $180$ passengers, what is the maximum total passenger departure capacity per day from Melbourne?",
       "structure": "vertex-capacity-and-departures",
       "mastery": false,
       "options": [
@@ -103,7 +103,7 @@
     },
     {
       "id": "q5",
-      "question_text": "On a one-way circular train loop, travel times between successive stations are:\nCentral to Museum: $3\\text{ min}$\nMuseum to St James: $2\\text{ min}$\nSt James to Circular Quay: $3\\text{ min}$\nCircular Quay to Wynyard: $2\\text{ min}$\nWhat is the travel time from Central to Wynyard?",
+      "question_text": "On a one-way circular train loop, travel times between successive stations are:\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.6 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (C) at (0.5,0.8);\n\\coordinate (M) at (3.0,0.8);\n\\coordinate (SJ) at (5.0,2.0);\n\\coordinate (CQ) at (3.0,3.2);\n\\coordinate (W) at (0.5,3.2);\n\\draw[midarrow] (C) -- (M) node[pos=0.3, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (M) -- (SJ) node[pos=0.3, fill=white, inner sep=1pt] {$2$};\n\\draw[midarrow] (SJ) -- (CQ) node[pos=0.3, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (CQ) -- (W) node[pos=0.3, fill=white, inner sep=1pt] {$2$};\n\\fill (C) circle (2.5pt) node[below left] {Central};\n\\fill (M) circle (2.5pt) node[below right] {Museum};\n\\fill (SJ) circle (2.5pt) node[right] {St James};\n\\fill (CQ) circle (2.5pt) node[above right] {Circular Quay};\n\\fill (W) circle (2.5pt) node[above left] {Wynyard};\n\\end{tikzpicture}\n[/tikz]\nWhat is the travel time from Central to Wynyard?",
       "structure": "walk-total-weight",
       "mastery": false,
       "options": [
@@ -149,7 +149,7 @@
           "why": "Mistook the edge transmission rating for an equipment count inside a single substation."
         }
       ],
-      "solution_text": "In network diagrams representing electrical grids:\n1. Vertices represent nodes/substations.\n2. Edges represent physical transmission lines connecting nodes.\n3. Edge weights in MW represent power transmission capacity or transmission loss along that line.\nA weight of $18\\text{ MW}$ on edge $XY$ represents the power capacity or loss along that line."
+      "solution_text": "In electrical grid networks, vertices represent substations and edges represent transmission lines.\nEdge weights in megawatts ($\\text{MW}$) quantify the electrical power transmission capacity or power loss along the connecting line.\nA weight of $18\\text{ MW}$ on edge $XY$ represents the power transmission capacity or energy loss along the power line between substations $X$ and $Y$."
     },
     {
       "id": "q7",
@@ -174,7 +174,7 @@
           "why": "Substituted edge $DA$ ($16\\text{ km}$) for the return leg back to Depot $A$ instead of edge $CA$ ($18\\text{ km}$)."
         }
       ],
-      "solution_text": "$\\text{Tour distance} = w(AB) + w(BD) + w(DC) + w(CA)$\n$= 9 + 11 + 8 + 18$\n$= 46\\text{ km}$"
+      "solution_text": "1. **Trace the sequence of vertices along valid edges**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2.6);\n\\coordinate (B) at (3.8,2.6);\n\\coordinate (C) at (3.8,0);\n\\coordinate (D) at (0,0);\n\\draw[line width=1.6pt] (A) -- (B) node[midway, fill=white, inner sep=1pt] {$9$};\n\\draw (B) -- (C) node[midway, fill=white, inner sep=1pt] {$14$};\n\\draw[line width=1.6pt] (C) -- (D) node[midway, fill=white, inner sep=1pt] {$8$};\n\\draw (D) -- (A) node[midway, fill=white, inner sep=1pt] {$16$};\n\\draw[line width=1.6pt] (A) -- (C) node[pos=0.25, fill=white, inner sep=1pt] {$18$};\n\\draw[line width=1.6pt] (B) -- (D) node[pos=0.25, fill=white, inner sep=1pt] {$11$};\n\\fill (A) circle (2.5pt) node[above left] {$A$};\n\\fill (B) circle (2.5pt) node[above right] {$B$};\n\\fill (C) circle (2.5pt) node[below right] {$C$};\n\\fill (D) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}\n[/tikz]\n2. **Sum the weights of the traversed edges**\n$\\text{Tour distance} = 9 + 11 + 8 + 18$\n$= 46\\text{ km}$"
     },
     {
       "id": "q8",
@@ -199,7 +199,7 @@
           "why": "Subtracted $3$ from Path 3 due to an addition error ($14 + 9 + 12 = 35$)."
         }
       ],
-      "solution_text": "Path 3: $14 + 9 + 12 = 35$\nPath 2: $28$\nPath 1: $23$\n$\\text{Longest path weight} = 35$"
+      "solution_text": "$S\\to A\\to T = 23$\n$S\\to B\\to T = 28$\n$S\\to A\\to B\\to T = 14 + 9 + 12$\n$= 35$\nLongest valid path: $S\\to A\\to B\\to T$, weight: $35$"
     }
   ]
 }

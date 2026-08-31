@@ -1,0 +1,129 @@
+{
+  "skillId": "restrict-domain-for-inverse",
+  "atomType": "R",
+  "theory": {
+        "intro": "A function has an inverse function only when it is **one-to-one**, that is, when it passes the horizontal line test. If it is not, restrict its domain to a piece on which the function is always increasing or always decreasing.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.0,0) -- (4.0,0) node[right] {$x$};\n\\draw[->] (0,-1.0) -- (0,4.6) node[above] {$y$};\n\\draw[dashed] (0.6,-0.6) -- (0.6,4.4);\n\\draw[thick, <->, domain=-1.8:3.0, samples=80, smooth, variable=\\x] plot ({\\x}, {0.55*(\\x - 0.6)*(\\x - 0.6) + 0.8});\n\\fill (0.6,0.8) circle (2.5pt);\n\\node at (1.6,0.5) {$(h,k)$};\n\\node at (-2.0,1.6) {$x \\le h$};\n\\node at (2.9,1.6) {$x \\ge h$};\n\\node at (1.6,4.2) {$x = h$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "A function is **invertible**, meaning its inverse is a function, exactly when it is one-to-one.",
+          "For the parabola $y = a(x - h)^2 + k$, the axis of symmetry $x = h$ splits the curve into the halves $x \\ge h$ and $x \\le h$.",
+          "Restricting a quadratic to $x \\ge h$ or to $x \\le h$ makes it strictly increasing or strictly decreasing, so its inverse is a function.",
+          "The restricted domain of $f(x)$ becomes the range of $f^{-1}(x)$, and its range becomes the domain of $f^{-1}(x)$.",
+          "Solving $x = a(y - h)^2 + k$ for $y$, take $+ \\sqrt{\\dots}$ for the branch $x \\ge h$ and $- \\sqrt{\\dots}$ for the branch $x \\le h$.",
+          "A restriction is not unique: naming a point the domain must contain picks out one maximal interval."
+        ],
+        "steps": [
+          "Find the vertex or stationary point where the function changes direction.",
+          "Choose a maximal monotonic interval ($x \\ge h$ or $x \\le h$) satisfying the given conditions.",
+          "Determine the range of the function on this restricted domain.",
+          "Swap $x$ and $y$, solve for $y$, and select the sign of the square root that matches the restricted domain."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The quadratic function $f(x) = (x - 4)^2 + 1$ is many-to-one. State two maximal domain restrictions so that the inverse is a function.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (-1,0) -- (8.5,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,7.5) node[above] {$y$};\n\\draw[thick, <->, domain=1.55:6.45, samples=80, smooth, variable=\\x] plot ({\\x}, {(\\x - 4)*(\\x - 4) + 1});\n\\draw[dashed] (0.5,5) -- (7.5,5);\n\\fill (4,1) circle (2.5pt) node[below] {$(4,1)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "quadratic-vertex-restriction",
+        "solution_text": "$\\text{Vertex is at } x = 4$\n$\\text{Two maximal restrictions: } x \\ge 4 \\text{ and } x \\le 4$"
+      },
+      {
+        "question_text": "Find the turning point of $f(x) = x^2 + 6x - 2$ and state the domain over which $f(x)$ is one-to-one and increasing.",
+        "structure": "quadratic-vertex-restriction",
+        "solution_text": "$x = -\\dfrac{b}{2a} = -\\dfrac{6}{2} = -3$\n$f(-3) = (-3)^2 + 6(-3) - 2 = -11$\n$\\text{Turning point} = (-3, -11)$\n$\\text{Increasing domain} = [-3, \\infty)$"
+      },
+      {
+        "question_text": "For $f(x) = (x - 2)^2 - 5$, find the largest domain containing $x = 5$ such that the inverse function $f^{-1}(x)$ exists.",
+        "structure": "specify-domain-containing-point",
+        "solution_text": "$\\text{Vertex is at } x = 2$\n$5 \\ge 2 \\implies \\text{Domain is } x \\ge 2$"
+      },
+      {
+        "question_text": "Find the largest domain containing $x = -2$ for which $f(x) = 9 - x^2$ is one-to-one.",
+        "structure": "specify-domain-containing-point",
+        "solution_text": "$\\text{Vertex is at } x = 0$\n$-2 \\le 0 \\implies \\text{Domain is } x \\le 0$"
+      },
+      {
+        "question_text": "The function $f(x) = x^2 - 4$ is restricted to $x \\ge 0$. Find the formula for the inverse function $f^{-1}(x)$.",
+        "structure": "derive-restricted-inverse-rule",
+        "solution_text": "$y = x^2 - 4, \\quad x \\ge 0$\n$x = y^2 - 4, \\quad y \\ge 0$\n$y^2 = x + 4$\n$y = \\sqrt{x + 4} \\quad (\\text{since } y \\ge 0)$\n$f^{-1}(x) = \\sqrt{x + 4}$"
+      },
+      {
+        "question_text": "The function $f(x) = (x + 3)^2$ is restricted to $x \\le -3$. Find the inverse function $f^{-1}(x)$.",
+        "structure": "derive-restricted-inverse-rule",
+        "solution_text": "$y = (x + 3)^2, \\quad x \\le -3$\n$x = (y + 3)^2, \\quad y \\le -3$\n$y + 3 = -\\sqrt{x} \\quad (\\text{since } y \\le -3)$\n$f^{-1}(x) = -\\sqrt{x} - 3$"
+      },
+      {
+        "question_text": "The function $f(x) = x^2 - 6x + 5$ is restricted to $x \\ge 3$. Find the range of $f(x)$ and state the domain and range of $f^{-1}(x)$.",
+        "structure": "restricted-domain-range-state",
+        "solution_text": "$f(x) = (x - 3)^2 - 4$\n$\\text{Range of } f(x): y \\ge -4$\n$\\text{Domain of } f^{-1}(x): x \\ge -4$\n$\\text{Range of } f^{-1}(x): y \\ge 3$"
+      },
+      {
+        "question_text": "The absolute value function $f(x) = |x - 3|$ is not one-to-one on $(-\\infty, \\infty)$. State two maximal intervals on which $f(x)$ is one-to-one.",
+        "structure": "non-quadratic-monotonic-restriction",
+        "solution_text": "$\\text{Vertex at } x = 3$\n$\\text{Two maximal intervals: } [3, \\infty) \\text{ and } (-\\infty, 3]$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Express $f(x) = 2x^2 - 8x + 3$ in vertex form and state the domain over which $f(x)$ is one-to-one and decreasing.",
+        "structure": "quadratic-vertex-restriction",
+        "solution_text": "$f(x) = 2(x^2 - 4x) + 3$\n$= 2(x - 2)^2 - 8 + 3$\n$= 2(x - 2)^2 - 5$\n$\\text{Decreasing domain: } x \\le 2$"
+      },
+      {
+        "question_text": "Find the maximal domain containing $x = -4$ such that $f(x) = 3 - (x + 1)^2$ has an inverse function.",
+        "structure": "specify-domain-containing-point",
+        "solution_text": "$\\text{Axis of symmetry is } x = -1$\n$-4 \\le -1 \\implies \\text{Domain is } x \\le -1$"
+      },
+      {
+        "question_text": "Consider $f(x) = x^2 - 4x + 7$ for $x \\ge 2$. Find $f^{-1}(x)$ and state its domain.",
+        "structure": "derive-restricted-inverse-rule",
+        "solution_text": "$y = (x - 2)^2 + 3, \\quad x \\ge 2$\n$x = (y - 2)^2 + 3, \\quad y \\ge 2$\n$(y - 2)^2 = x - 3$\n$y - 2 = \\sqrt{x - 3} \\quad (\\text{since } y \\ge 2)$\n$f^{-1}(x) = 2 + \\sqrt{x - 3}, \\quad x \\ge 3$"
+      },
+      {
+        "question_text": "Consider $f(x) = 5 - (x - 1)^2$ restricted to $x \\le 1$. Find the rule for $f^{-1}(x)$ and state its domain.",
+        "structure": "derive-restricted-inverse-rule",
+        "solution_text": "$y = 5 - (x - 1)^2, \\quad x \\le 1$\n$x = 5 - (y - 1)^2, \\quad y \\le 1$\n$(y - 1)^2 = 5 - x$\n$y - 1 = -\\sqrt{5 - x} \\quad (\\text{since } y \\le 1)$\n$f^{-1}(x) = 1 - \\sqrt{5 - x}, \\quad x \\le 5$"
+      },
+      {
+        "question_text": "The semi-circle $f(x) = \\sqrt{9 - x^2}$ is defined on $[-3, 3]$. Restrict $f(x)$ to the interval $[0, 3]$. State the domain and range of $f^{-1}(x)$ and write its equation.",
+        "structure": "restricted-domain-range-state",
+        "solution_text": "$\\text{On } [0, 3], \\text{ range of } f(x) \\text{ is } [0, 3]$\n$\\text{Domain of } f^{-1}(x) = [0, 3]$\n$\\text{Range of } f^{-1}(x) = [0, 3]$\n$x = \\sqrt{9 - y^2} \\implies f^{-1}(x) = \\sqrt{9 - x^2}$"
+      },
+      {
+        "question_text": "The rational function $f(x) = \\dfrac{1}{(x - 2)^2}$ is restricted to $x > 2$. Determine the range of $f(x)$ and find the inverse function $f^{-1}(x)$ with its domain.",
+        "structure": "restricted-domain-range-state",
+        "solution_text": "$\\text{For } x > 2, \\text{ range is } y > 0$\n$x = \\dfrac{1}{(y - 2)^2}, \\quad y > 2$\n$(y - 2)^2 = \\dfrac{1}{x}$\n$y - 2 = \\dfrac{1}{\\sqrt{x}} \\quad (\\text{since } y > 2)$\n$f^{-1}(x) = \\dfrac{1}{\\sqrt{x}} + 2, \\quad x > 0$"
+      },
+      {
+        "question_text": "The cubic polynomial $f(x) = x^3 - 3x$ has stationary points at $x = -1$ and $x = 1$. Find the maximal domain containing $x = 0$ on which $f(x)$ is one-to-one.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (-2.7,0) -- (2.7,0) node[right] {$x$};\n\\draw[->] (0,-3.8) -- (0,3.8) node[above] {$y$};\n\\draw[thick, <->, domain=-2.15:2.15, samples=80, smooth, variable=\\x] plot ({\\x}, {\\x*\\x*\\x - 3*\\x});\n\\fill (-1,2) circle (2.5pt) node[above left] {$(-1,2)$};\n\\fill (1,-2) circle (2.5pt) node[below right] {$(1,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "non-quadratic-monotonic-restriction",
+        "solution_text": "$f'(x) = 3x^2 - 3 = 3(x - 1)(x + 1)$\n$\\text{Stationary points at } x = -1 \\text{ and } x = 1$\n$\\text{The interval containing } 0 \\text{ between turning points is } [-1, 1]$"
+      },
+      {
+        "question_text": "The cosine function $f(x) = \\cos x$ is restricted to $[0, \\pi]$. Explain why this restriction allows an inverse function $\\arccos x$ to be defined.",
+        "structure": "non-quadratic-monotonic-restriction",
+        "solution_text": "$\\text{On } [0, \\pi], \\cos x \\text{ is strictly decreasing from } 1 \\text{ to } -1$\n$\\text{Each output in } [-1, 1] \\text{ corresponds to a unique input in } [0, \\pi]$\n$\\text{The restricted function is one-to-one, so } \\arccos x \\text{ is well-defined}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The cubic function $f(x) = 2x^3 - 9x^2 + 12x + 1$ has stationary points at $x = 1$ and $x = 2$. State all three maximal domains on which $f(x)$ has an inverse, and identify which domain contains $x = 3$.",
+        "structure": "specify-domain-containing-point",
+        "solution_text": "$f'(x) = 6x^2 - 18x + 12 = 6(x - 1)(x - 2)$\n$\\text{Maximal domains: } (-\\infty, 1], [1, 2], [2, \\infty)$\n$3 \\in [2, \\infty)$"
+      },
+      {
+        "question_text": "Consider $f(x) = \\dfrac{x}{x^2 + 4}$ for $x \\ge 2$. Find the range of $f(x)$ and derive the formula for $f^{-1}(x)$.",
+        "structure": "derive-restricted-inverse-rule",
+        "solution_text": "$\\text{At } x = 2, y = \\dfrac{2}{8} = \\dfrac{1}{4}; \\text{ as } x \\to \\infty, y \\to 0 \\implies \\text{Range } \\left(0, \\dfrac{1}{4}\\right]$\n$x = \\dfrac{y}{y^2 + 4} \\implies xy^2 - y + 4x = 0$\n$y = \\dfrac{1 \\pm \\sqrt{1 - 16x^2}}{2x}$\n$\\text{Since } y \\ge 2, \\text{ choose the positive root: } f^{-1}(x) = \\dfrac{1 + \\sqrt{1 - 16x^2}}{2x}$"
+      },
+      {
+        "question_text": "Explain why $f(x) = \\dfrac{e^x - e^{-x}}{2}$ is invertible on all real numbers without restriction, whereas $g(x) = \\dfrac{e^x + e^{-x}}{2}$ requires a restriction such as $x \\ge 0$.",
+        "structure": "restricted-domain-range-state",
+        "solution_text": "$f'(x) = \\dfrac{e^x + e^{-x}}{2} > 0 \\text{ for all } x \\implies f(x) \\text{ is strictly increasing (one-to-one)}$\n$g(-x) = g(x) \\implies g(x) \\text{ is an even function (many-to-one)}$\n$\\text{Restricting } g(x) \\text{ to } x \\ge 0 \\text{ makes it strictly increasing}$"
+      },
+      {
+        "question_text": "For what values of the constant $k$ is the quadratic function $f(x) = x^2 - 2kx$ one-to-one on the domain $x \\ge 0$?",
+        "structure": "quadratic-vertex-restriction",
+        "solution_text": "$\\text{Axis of symmetry is at } x = k$\n$\\text{For } f(x) \\text{ to be strictly increasing on } [0, \\infty), \\text{ the vertex must lie at } k \\le 0$\n$k \\le 0$"
+      }
+    ]
+  }
+}

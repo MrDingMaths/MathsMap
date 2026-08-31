@@ -1,0 +1,121 @@
+{
+  "skillId": "equation-line-of-best-fit",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The scatter plot shows the daily hours of sunshine and the energy a solar panel generated, with a line of best fit drawn.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (12,10);\n\\draw[-{Stealth}] (0,0) -- (12.8,0);\n\\draw[-{Stealth}] (0,0) -- (0,11.4);\n\\foreach \\x in {0,1,2,3,4,5,6,7,8,9,10,11,12} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y/\\lbl in {0/0,1/4,2/8,3/12,4/16,5/20,6/24,7/28,8/32,9/36,10/40} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-1.5,5) {Energy generated (kWh)};\n\\node[below] at (6,-1.0) {Sunshine (hours)};\n\\node at (6,11.1) {Sunshine and output};\n\\fill (1.5,1.93) circle (2.2pt);\n\\fill (2,3.20) circle (2.2pt);\n\\fill (3,3.05) circle (2.2pt);\n\\fill (4,4.70) circle (2.2pt);\n\\fill (5,4.55) circle (2.2pt);\n\\fill (6,6.20) circle (2.2pt);\n\\fill (7,6.05) circle (2.2pt);\n\\fill (8,7.70) circle (2.2pt);\n\\fill (10,8.30) circle (2.2pt);\n\\fill (11,9.95) circle (2.2pt);\n\\draw[thick] (0,1.25) -- (11,9.5);\n\\end{tikzpicture}\n[/tikz]\nWhat is the gradient of the line of best fit?",
+      "structure": "gradient-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$0.33$", "why": "Divided the run by the rise instead of the rise by the run." },
+        { "text": "$24$", "why": "Used the rise of $24$ on its own without dividing by the run of $8$." },
+        { "text": "$5$", "why": "Quoted the $y$-intercept of the line instead of its gradient." }
+      ],
+      "solution_text": "The line passes exactly through $(1, 8)$ and $(9, 32)$.\n$b = \\frac{32 - 8}{9 - 1}$\n$= \\frac{24}{8}$\n$= 3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The scatter plot shows the number of rainy days in a month and the number of umbrellas a shop sold, with a line of best fit drawn.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.62]\n\\draw[gray!25,very thin,xstep=1,ystep=1] (0,0) grid (13,12);\n\\draw[-{Stealth}] (0,0) -- (13.8,0);\n\\draw[-{Stealth}] (0,0) -- (0,13.4);\n\\foreach \\x in {0,1,2,3,4,5,6,7,8,9,10,11,12,13} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\x$};}\n\\foreach \\y/\\lbl in {0/0,1/10,2/20,3/30,4/40,5/50,6/60,7/70,8/80,9/90,10/100,11/110,12/120} {\\node[left,font=\\scriptsize] at (0,\\y) {$\\lbl$};}\n\\node[rotate=90] at (-2.2,6) {Umbrellas sold};\n\\node[below] at (6.5,-1.0) {Rainy days in the month};\n\\node at (6.5,13.1) {Umbrella sales};\n\\fill (1,4.1) circle (2.2pt);\n\\fill (2,3.7) circle (2.2pt);\n\\fill (3,5.3) circle (2.2pt);\n\\fill (4,4.9) circle (2.2pt);\n\\fill (5,6.5) circle (2.2pt);\n\\fill (6,6.1) circle (2.2pt);\n\\fill (7,7.7) circle (2.2pt);\n\\fill (8,7.3) circle (2.2pt);\n\\fill (9,8.9) circle (2.2pt);\n\\fill (11,9.1) circle (2.2pt);\n\\draw[thick] (0,3) -- (13,10.8);\n\\end{tikzpicture}\n[/tikz]\nWhat is the equation of the line of best fit, where $u$ is the number of umbrellas sold and $r$ is the number of rainy days?",
+      "structure": "equation-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$u = 30 + 6r$",
+          "correct": true
+        },
+        {
+          "text": "$u = 30 + 0.6r$",
+          "why": "Counted the rise in grid squares ($6$ squares up over $10$ across) instead of reading the axis labels, where each vertical square is $10$ umbrellas."
+        },
+        {
+          "text": "$u = 3 + 6r$",
+          "why": "Counted the vertical intercept as $3$ grid squares instead of reading its label of $30$ umbrellas."
+        },
+        {
+          "text": "$u = 3 + 0.6r$",
+          "why": "Read both the intercept and the gradient in grid squares, never converting either using the vertical scale of $10$ umbrellas per square."
+        }
+      ],
+      "solution_text": "The line passes exactly through $(0, 30)$ and $(10, 90)$.\n$b = \\frac{90 - 30}{10 - 0}$\n$= \\frac{60}{10}$\n$= 6$\nThe line crosses the vertical axis at $30$, so $a = 30$.\n$u = 30 + 6r$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A council fits the line of best fit $L = 58.3 + 2.15n$, where $L$ is the number of litres of water used per person per day and $n$ is the number of hot days in the week. Which statement interprets the gradient correctly?",
+      "structure": "interpret-gradient",
+      "mastery": false,
+      "options": [
+        { "text": "For each extra hot day in the week, water use per person is predicted to rise by $2.15$ litres per day.", "correct": true },
+        { "text": "The gradient is $2.15$.", "why": "States the number without saying what it means in the context or giving its units." },
+        { "text": "For each extra litre of water used, the number of hot days is predicted to rise by $2.15$.", "why": "Interprets the rate the wrong way round, treating $L$ as the independent variable." },
+        { "text": "For each extra hot day in the week, water use per person is predicted to rise by $58.3$ litres per day.", "why": "Uses the $y$-intercept as the rate of change instead of the gradient." }
+      ],
+      "solution_text": "The gradient is $2.15$, the change in $L$ for a one-unit increase in $n$.\nWater use per person rises by $2.15$ litres per day for each extra hot day in the week."
+    },
+    {
+      "id": "q4",
+      "question_text": "A study of second-hand tractors gives the line of best fit $P = 96\\,400 - 6800h$, where $P$ is the price in dollars and $h$ is the number of thousands of hours the tractor has been used. Which statement interprets the gradient correctly?",
+      "structure": "interpret-gradient",
+      "mastery": false,
+      "options": [
+        { "text": "The predicted price falls by $\\$6800$ for each extra thousand hours of use.", "correct": true },
+        { "text": "The predicted price rises by $\\$6800$ for each extra thousand hours of use.", "why": "Ignores the negative sign of the gradient, so the direction of change is reversed." },
+        { "text": "The predicted price falls by $\\$96\\,400$ for each extra thousand hours of use.", "why": "Uses the $y$-intercept as the rate of change instead of the gradient." },
+        { "text": "A tractor used for $6800$ hours is worth nothing.", "why": "Treats the gradient as a number of hours rather than a change in price per thousand hours." }
+      ],
+      "solution_text": "The gradient is $-6800$, the change in $P$ for a one-unit increase in $h$.\nThe predicted price falls by $\\$6800$ for each extra thousand hours of use."
+    },
+    {
+      "id": "q5",
+      "question_text": "A gym's monthly bill follows the line of best fit $B = 39 + 7.5v$, where $B$ is the bill in dollars and $v$ is the number of visits in the month. Which statement interprets the $y$-intercept correctly?",
+      "structure": "interpret-intercept",
+      "mastery": false,
+      "options": [
+        { "text": "A member who makes no visits is still billed $\\$39$, which is meaningful as a fixed monthly membership fee.", "correct": true },
+        { "text": "Each visit adds $\\$39$ to the bill.", "why": "Reads the $y$-intercept as the rate of change, which is the gradient." },
+        { "text": "A member who makes no visits is billed $\\$7.50$.", "why": "Substitutes $v = 0$ but reports the gradient rather than the constant term." },
+        { "text": "A member who makes no visits is billed $\\$46.50$.", "why": "Adds the gradient to the intercept instead of substituting $v = 0$." }
+      ],
+      "solution_text": "The $y$-intercept is $39$, the value of $B$ when $v = 0$.\nA member who makes no visits is billed $\\$39$.\nZero visits is possible and the fee is a real fixed charge, so the intercept is meaningful here."
+    },
+    {
+      "id": "q6",
+      "question_text": "For a group of adults, the line of best fit is $S = 14.6 + 0.58h$, where $S$ is shoe size and $h$ is hand length in centimetres. Which statement interprets the $y$-intercept correctly?",
+      "structure": "interpret-intercept",
+      "mastery": false,
+      "options": [
+        { "text": "A person with a hand length of $0$ cm would have shoe size $14.6$, which is not meaningful because nobody has a hand length of $0$ cm.", "correct": true },
+        { "text": "A person with a hand length of $0$ cm would have shoe size $14.6$, which is meaningful because $14.6$ is a possible shoe size.", "why": "Judges the intercept by whether the $y$ value looks plausible rather than by whether $x = 0$ can occur." },
+        { "text": "Shoe size rises by $14.6$ for each extra centimetre of hand length.", "why": "Reads the $y$-intercept as the rate of change, which is the gradient." },
+        { "text": "A person with shoe size $0$ would have a hand length of $14.6$ cm.", "why": "Sets the dependent variable to zero instead of the independent variable." }
+      ],
+      "solution_text": "The $y$-intercept is $14.6$, the value of $S$ when $h = 0$.\nA person with a hand length of $0$ cm would be predicted to have shoe size $14.6$.\nA hand length of $0$ cm is impossible and no such person was in the data, so the intercept has no meaning here."
+    },
+    {
+      "id": "q7",
+      "question_text": "A line of best fit is written as $y = 5.9x + 48$. Which pair of values is correct?",
+      "structure": "identify-coefficients-from-equation",
+      "mastery": false,
+      "options": [
+        { "text": "Gradient $5.9$, $y$-intercept $48$", "correct": true },
+        { "text": "Gradient $48$, $y$-intercept $5.9$", "why": "Reads the two numbers in the order written rather than by their role in the equation." },
+        { "text": "Gradient $5.9$, $y$-intercept $-48$", "why": "Changes the sign of the constant term when rewriting the equation as $y = a + bx$." },
+        { "text": "Gradient $53.9$, $y$-intercept $0$", "why": "Adds the two coefficients together instead of keeping them separate." }
+      ],
+      "solution_text": "$y = 5.9x + 48$\n$= 48 + 5.9x$\nThe constant term is the $y$-intercept, so $a = 48$.\nThe number multiplying $x$ is the gradient, so $b = 5.9$."
+    },
+    {
+      "id": "q8",
+      "question_text": "For a bivariate dataset the line of best fit has gradient $-0.35$ and crosses the vertical axis at $73$. Which equation is correct?",
+      "structure": "identify-coefficients-from-equation",
+      "mastery": true,
+      "options": [
+        { "text": "$y = 73 - 0.35x$", "correct": true },
+        { "text": "$y = -0.35 + 73x$", "why": "Uses the gradient as the constant term and the intercept as the coefficient of $x$." },
+        { "text": "$y = 73 + 0.35x$", "why": "Drops the negative sign of the gradient." },
+        { "text": "$y = -73 - 0.35x$", "why": "Makes the intercept negative because the gradient is negative." }
+      ],
+      "solution_text": "The $y$-intercept is the constant term, so $a = 73$.\nThe gradient is the coefficient of $x$, so $b = -0.35$.\n$y = 73 - 0.35x$"
+    }
+  ]
+}

@@ -2,21 +2,22 @@
   "skillId": "surface-area-partial-cylinder",
   "atomType": "R",
   "theory": {
-    "intro": "A partial cylinder is a cylinder with something removed: a missing lid, both ends open, or only a half or quarter of the cylinder kept. The closed-cylinder formula $A = 2\\pi r^{2} + 2\\pi rh$ still guides you, but you must count only the faces that are actually present, and add any new flat face that the cut exposes. So the method is always the same: decide which circular ends remain, how much of the curved surface remains, and whether the cut creates a new flat rectangle.",
-    "facts": [
-      "Each **full circular end** is $\\pi r^{2}$; the whole **curved surface** of a full cylinder is $2\\pi rh$.",
-      "An **open end** removes one $\\pi r^{2}$: an open-top cylinder is $\\pi r^{2} + 2\\pi rh$, and a pipe open at both ends is just the curved surface $2\\pi rh$.",
-      "A **half-cylinder** keeps two semicircular ends ($2 \\times \\tfrac{1}{2}\\pi r^{2} = \\pi r^{2}$) and half the curved surface ($\\pi rh$), and the flat cut exposes a rectangle of size $2r \\times h$.",
-      "A **quarter-cylinder** keeps two quarter ends ($\\tfrac{1}{2}\\pi r^{2}$) and a quarter of the curved surface ($\\tfrac{1}{2}\\pi rh$), and the cut exposes **two** flat rectangles ($2rh$).",
-      "Always ask: which ends are present, how much curved surface remains, and does the cut expose a **new flat face**?",
-      "Keep the working exact and round only on the last line; a rounded decimal is written with $\\approx$."
-    ],
-    "steps": [
-      "Identify which surfaces the solid actually has.",
-      "Write the area of each surface that is present.",
-      "Add the surface areas, then round or leave in terms of $\\pi$ as asked."
-    ]
-  },
+        "intro": "A partial cylinder is a cylinder with something removed: a missing lid, open ends, or only half or a quarter kept. The closed-cylinder formula $A = 2\\pi r^{2} + 2\\pi rh$ still guides you, but count only the faces present and add any flat face the cut exposes.",
+        "facts": [
+          "Each **full circular end** is $\\pi r^{2}$; the whole **curved surface** of a full cylinder is $2\\pi rh$.",
+          "An **open end** removes one $\\pi r^{2}$, so an open-top cylinder is $\\pi r^{2} + 2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw (-3,0)--(-3,8);\n\\draw (3,0)--(3,8) node[midway,right] {$h$};\n\\draw (0,8) ellipse (3 and 0.9);\n\\draw (0,8) ellipse (2.5 and 0.75);\n\\draw (-3,0) arc[start angle=180,end angle=360,x radius=3,y radius=0.9];\n\\draw[dashed] (-3,0) arc[start angle=180,end angle=0,x radius=3,y radius=0.9];\n\\fill (0,8) circle (2pt);\n\\draw (0,8)--(3,8) node[midway,above,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **pipe** open at both ends keeps no circular ends, leaving just the curved surface $2\\pi rh$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.35]\n\\draw (0,-4)--(20,-4);\n\\draw (0,4)--(20,4) node[midway,above] {$h$};\n\\draw (20,0) ellipse (1.4 and 4);\n\\draw (20,0) ellipse (1.05 and 3.2);\n\\draw (0,4) arc[start angle=90,end angle=270,x radius=1.4,y radius=4];\n\\draw[dashed] (0,4) arc[start angle=90,end angle=-90,x radius=1.4,y radius=4];\n\\fill (20,0) circle (2pt);\n\\draw (20,0)--(20,4) node[midway,right,fill=white,inner sep=1pt] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **half-cylinder** keeps two semicircular ends ($2 \\times \\tfrac{1}{2}\\pi r^{2} = \\pi r^{2}$) and half the curved surface ($\\pi rh$), and the flat cut exposes a rectangle of size $2r \\times h$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.4]\n\\usetikzlibrary{arrows.meta}\n\\coordinate (A) at (-6,0);\n\\coordinate (B) at (6,0);\n\\coordinate (S) at (3,-5.1962);\n\\coordinate (A2) at (-1.2369,2.75);\n\\coordinate (B2) at (10.7631,2.75);\n\\coordinate (S2) at (7.7631,-2.4462);\n\\draw (A) arc[start angle=180,end angle=360,radius=6];\n\\draw (A)--(B);\n\\draw[{Stealth}-{Stealth}] (0,0)--(0,-6) node[midway,right,fill=white,inner sep=1pt] {$r$};\n\\draw (A2)--(B2);\n\\draw[dashed] (A2) arc[start angle=180,end angle=300,radius=6];\n\\draw[dashed] (B2) arc[start angle=360,end angle=300,radius=6];\n\\draw (A)--(A2) node[midway,above left] {$h$};\n\\draw (B)--(B2);\n\\draw (S)--(S2);\n\\end{tikzpicture}\n[/tikz]",
+          "A **quarter-cylinder** keeps two quarter ends ($\\tfrac{1}{2}\\pi r^{2}$) and a quarter of the curved surface ($\\tfrac{1}{2}\\pi rh$), and the cut exposes **two** flat rectangles ($2rh$).\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (6,0);\n\\coordinate (Q) at (0,6);\n\\coordinate (O2) at (4.7631,2.75);\n\\coordinate (P2) at (10.7631,2.75);\n\\coordinate (Q2) at (4.7631,8.75);\n\\draw (O)--(P) node[midway,below] {$r$};\n\\draw (O)--(Q);\n\\draw (P) arc[start angle=0,end angle=90,radius=6];\n\\draw (P)--(P2) node[midway,below right] {$h$};\n\\draw (Q)--(Q2);\n\\draw (P2) arc[start angle=0,end angle=90,radius=6];\n\\draw[dashed] (O)--(O2);\n\\draw[dashed] (O2)--(P2);\n\\draw[dashed] (O2)--(Q2);\n\\end{tikzpicture}\n[/tikz]",
+          "Always ask: which ends are present, how much curved surface remains, and does the cut expose a **new flat face**?",
+          "Keep the working exact and round only on the last line; a rounded decimal is written with $\\approx$."
+        ],
+        "steps": [
+          "Identify which surfaces the solid actually has.",
+          "Write the area of each surface that is present.",
+          "Add the surface areas, then round or leave in terms of $\\pi$ as asked."
+        ]
+      },
   "practice": {
     "foundation": [
       {

@@ -2,22 +2,24 @@
   "skillId": "clusters-gaps-outliers",
   "atomType": "Cat",
   "theory": {
-    "intro": "Once a dataset is ordered, three features often stand out at a glance. A **cluster** is a group of values bunched closely together, a **gap** is an interval containing no data at all, and an **outlier** is a single value that sits much higher or much lower than the rest. You identify all three **informally**, by looking at how the values are spaced — no calculation is needed.",
-    "facts": [
-      "A **cluster** is a group of data values grouped closely around each other. A dataset can contain more than one cluster.",
-      "A **gap** is an interval that contains no data values. Describe it by naming the two values it lies between.",
-      "An **outlier** is a data value **much higher or much lower** than all the others, so it stands alone.",
-      "The largest value is **not** automatically an outlier. It is an outlier only when it sits far from the next value.",
-      "A wide spread does not create an outlier: values spaced evenly across a large interval have no value far from the rest.",
-      "Ordering the data first makes every cluster, gap and outlier easy to see."
-    ],
-    "steps": [
-      "Order the data values from smallest to largest",
-      "Identify any value far from all the others (an outlier)",
-      "Identify any interval with no data values (a gap)",
-      "Identify any group of values bunched closely together (a cluster)"
-    ]
-  },
+        "intro": "Once a dataset is ordered, three features stand out at a glance: **clusters**, **gaps** and **outliers**. You identify all three **informally**, by looking at how the values are spaced, with no calculation needed.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\draw[<->] (1.6,0)--(9.6,0);\n\\foreach \\x in {2,3,4,5,6,7,8,9} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\c in {3/3,4/5,5/4,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.5pt);}}\n\\node[font=\\small] at (4,2.5) {Cluster};\n\\node[font=\\small] at (8,1.4) {Outlier};\n\\draw[->] (8,1.15)--(8,0.65);\n\\draw[<->] (6,-0.75)--(7,-0.75);\n\\node[font=\\small] at (6.5,-1.15) {Gap};\n\\node[below,font=\\scriptsize] at (5.5,-1.75) {Data value};\n\\node[font=\\small] at (5.5,3.1) {Cluster, gap and outlier};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "A **cluster** is a group of data values grouped closely around each other.",
+          "A dataset can contain more than one cluster.",
+          "A **gap** is an interval that contains no data values.",
+          "Describe a gap by naming the two values it lies between.",
+          "An **outlier** is a data value **much higher or much lower** than all the others, so it stands alone.",
+          "The largest value is **not** automatically an outlier — it is one only when it sits far from the next value.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.9]\n\\draw[<->] (1.6,0)--(8.6,0);\n\\foreach \\x in {2,3,4,5,6,7,8} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x/\\c in {3/2,4/3,5/3,6/2,7/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.5pt);}}\n\\node[font=\\small] at (7,1.5) {Largest};\n\\draw[->] (7,1.25)--(7,0.65);\n\\node[font=\\small] at (5,2.6) {Largest value, but no outlier};\n\\node[below,font=\\scriptsize] at (5,-0.9) {Data value};\n\\end{tikzpicture}\n[/tikz]",
+          "A wide spread does not create an outlier: values spaced evenly across a large interval have no value far from the rest.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[<->] (-0.6,0)--(12.6,0);\n\\foreach \\x in {0,2,4,6,8,10,12} {\\draw (\\x,-0.12)--(\\x,0.12); \\node[below,font=\\scriptsize] at (\\x,-0.15) {$\\x$};}\n\\foreach \\x in {0,2,4,6,8,10,12} {\\fill (\\x,0.4) circle (2.5pt);}\n\\node[font=\\small] at (6,1.6) {Evenly spread, so no outlier};\n\\node[below,font=\\scriptsize] at (6,-0.9) {Data value};\n\\end{tikzpicture}\n[/tikz]",
+          "Ordering the data first makes every cluster, gap and outlier easy to see."
+        ],
+        "steps": [
+          "Order the data values from smallest to largest",
+          "Identify any value far from all the others (an outlier)",
+          "Identify any interval with no data values (a gap)",
+          "Identify any group of values bunched closely together (a cluster)"
+        ]
+      },
   "practice": {
     "foundation": [
       {

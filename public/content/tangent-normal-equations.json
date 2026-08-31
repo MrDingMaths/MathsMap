@@ -1,0 +1,116 @@
+{
+  "skillId": "tangent-normal-equations",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **tangent** to $y=f(x)$ at $P(x_1, y_1)$ is the straight line that touches the curve there, with gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. Find either equation from $y - y_1 = m(x - x_1)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\draw[->] (-3.8,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.0) -- (0,2.6) node[above] {$y$};\n\\coordinate (P) at (1,-1);\n\\coordinate (Tm) at (-0.2,-2.2);\n\\coordinate (Tp) at (3.0,1.0);\n\\coordinate (Nu) at (-1.0,1.0);\n\\coordinate (Nd) at (2.6,-2.6);\n\\draw[thick, <->, domain=-2.2:2.6, smooth, samples=60, variable=\\x] plot ({\\x}, {0.5*\\x*\\x - 1.5}) node[pos=0.03, left] {$y=f(x)$};\n\\draw[thick] (Tm) -- (Tp) node[pos=0, below left] {tangent};\n\\draw[thick] (Nu) -- (Nd) node[pos=1, below left] {normal};\n\\coordinate (a) at ($(P)!0.3cm!(Tm)$);\n\\coordinate (b) at ($(P)!0.3cm!(Nd)$);\n\\draw (a) -- ($(a)+(b)-(P)$) -- (b);\n\\fill (P) circle (2pt);\n\\node[right=6pt] at (P) {$P(x_1,y_1)$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The gradient of the tangent to $y=f(x)$ at $x=x_1$ is $m = f'(x_1)$.",
+          "The point of contact is $(x_1, y_1)$, where $y_1 = f(x_1)$.",
+          "The tangent has equation $y - y_1 = f'(x_1)(x - x_1)$.",
+          "The normal is perpendicular to the tangent at the point of contact, so its gradient is $m_{\\perp} = -\\dfrac{1}{f'(x_1)}$ when $f'(x_1) \\neq 0$.",
+          "The normal has equation $y - y_1 = -\\dfrac{1}{f'(x_1)}(x - x_1)$ when $f'(x_1) \\neq 0$.",
+          "If the tangent is horizontal ($m=0$), the tangent is $y = y_1$ and the normal is the vertical line $x = x_1$.",
+          "General form is $ax + by + c = 0$, where $a$, $b$ and $c$ are integers and $a > 0$."
+        ],
+        "steps": [
+          "Find the point of contact $y_1 = f(x_1)$",
+          "Differentiate $f(x)$ to find the gradient function $f'(x)$",
+          "Evaluate the gradient at $x = x_1$",
+          "Find the normal gradient using $m_{\\perp} = -\\dfrac{1}{m}$ if required",
+          "Substitute into $y - y_1 = m(x - x_1)$ and rearrange to the required form"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the equation of the tangent to $y = x^2 - 4x + 1$ at the point $(3, -2)$. Give your answer in gradient–intercept form.",
+        "structure": "tangent-equation-gradient-intercept",
+        "solution_text": "$y = x^2 - 4x + 1$\n$f'(x) = 2x - 4$\n$m = f'(3) = 2(3) - 4 = 2$\n$y - (-2) = 2(x - 3)$\n$y + 2 = 2x - 6$\n$y = 2x - 8$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = 2x^2 + 3x - 5$ at $x = 1$. Give your answer in gradient–intercept form.",
+        "structure": "tangent-equation-gradient-intercept",
+        "solution_text": "$y_1 = 2(1)^2 + 3(1) - 5 = 0$\n$f'(x) = 4x + 3$\n$m = f'(1) = 4(1) + 3 = 7$\n$y - 0 = 7(x - 1)$\n$y = 7x - 7$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = x^3 - 2x + 4$ at $x = -1$. Give your answer in general form $ax + by + c = 0$.",
+        "structure": "tangent-equation-general-form",
+        "solution_text": "$y_1 = (-1)^3 - 2(-1) + 4 = 5$\n$f'(x) = 3x^2 - 2$\n$m = f'(-1) = 3(-1)^2 - 2 = 1$\n$y - 5 = 1(x - (-1))$\n$y - 5 = x + 1$\n$x - y + 6 = 0$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = x^2 + 2x - 3$ at the point $(1, 0)$. Give your answer in gradient–intercept form.",
+        "structure": "normal-equation-gradient-intercept",
+        "solution_text": "$f'(x) = 2x + 2$\n$m = f'(1) = 2(1) + 2 = 4$\n$m_{\\perp} = -\\dfrac{1}{4}$\n$y - 0 = -\\dfrac{1}{4}(x - 1)$\n$y = -\\dfrac{1}{4}x + \\dfrac{1}{4}$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = 3x^2 - 5x + 2$ at the point $(2, 4)$. Give your answer in general form $ax + by + c = 0$.",
+        "structure": "normal-equation-general-form",
+        "solution_text": "$f'(x) = 6x - 5$\n$m = f'(2) = 6(2) - 5 = 7$\n$m_{\\perp} = -\\dfrac{1}{7}$\n$y - 4 = -\\dfrac{1}{7}(x - 2)$\n$7(y - 4) = -(x - 2)$\n$7y - 28 = -x + 2$\n$x + 7y - 30 = 0$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = x^2 - 6x + 5$ at $x = 3$.",
+        "structure": "tangent-normal-horizontal-vertical",
+        "solution_text": "$y_1 = (3)^2 - 6(3) + 5 = -4$\n$f'(x) = 2x - 6$\n$m = f'(3) = 2(3) - 6 = 0$\n$y - (-4) = 0(x - 3)$\n$y = -4$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = 4 - x^2$ at its turning point $(0, 4)$.",
+        "structure": "tangent-normal-horizontal-vertical",
+        "solution_text": "$f'(x) = -2x$\n$m = f'(0) = 0$\nThe tangent is horizontal with equation $y = 4$.\nThe normal is perpendicular to the tangent, so it is the vertical line $x = 0$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the equation of the tangent to $y = 4 - x - 2x^2$ at $x = -2$. Give your answer in gradient–intercept form.",
+        "structure": "tangent-equation-gradient-intercept",
+        "solution_text": "$y_1 = 4 - (-2) - 2(-2)^2 = -2$\n$f'(x) = -1 - 4x$\n$m = f'(-2) = -1 - 4(-2) = 7$\n$y - (-2) = 7(x - (-2))$\n$y + 2 = 7x + 14$\n$y = 7x + 12$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = x^3 - 5x^2 + 2$ at $x = 2$. Give your answer in general form $ax + by + c = 0$.",
+        "structure": "tangent-equation-general-form",
+        "solution_text": "$y_1 = (2)^3 - 5(2)^2 + 2 = -10$\n$f'(x) = 3x^2 - 10x$\n$m = f'(2) = 3(2)^2 - 10(2) = -8$\n$y - (-10) = -8(x - 2)$\n$y + 10 = -8x + 16$\n$8x + y - 6 = 0$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = \\dfrac{1}{3}x^3 - x^2 - 3x + 1$ at $x = 0$. Give your answer in gradient–intercept form.",
+        "structure": "normal-equation-gradient-intercept",
+        "solution_text": "$y_1 = \\dfrac{1}{3}(0)^3 - (0)^2 - 3(0) + 1 = 1$\n$f'(x) = x^2 - 2x - 3$\n$m = f'(0) = -3$\n$m_{\\perp} = -\\dfrac{1}{-3} = \\dfrac{1}{3}$\n$y - 1 = \\dfrac{1}{3}(x - 0)$\n$y = \\dfrac{1}{3}x + 1$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = 2x^3 - 4x + 1$ at $x = 1$. Give your answer in general form $ax + by + c = 0$.",
+        "structure": "normal-equation-general-form",
+        "solution_text": "$y_1 = 2(1)^3 - 4(1) + 1 = -1$\n$f'(x) = 6x^2 - 4$\n$m = f'(1) = 6(1)^2 - 4 = 2$\n$m_{\\perp} = -\\dfrac{1}{2}$\n$y - (-1) = -\\dfrac{1}{2}(x - 1)$\n$2(y + 1) = -(x - 1)$\n$2y + 2 = -x + 1$\n$x + 2y + 1 = 0$"
+      },
+      {
+        "question_text": "Find the area of the right-angled triangle bounded by the coordinate axes and the tangent to $y = x^2 + 1$ at $(2, 5)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-2.5,0) -- (3.8,0) node[right] {$x$};\n\\draw[->] (0,-4.5) -- (0,7.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3} { \\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-4,-2,2,4,6} { \\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$O$};\n\\fill[gray!20] (0,0) -- (0.75,0) -- (0,-3) -- cycle;\n\\draw[thick, <->, domain=-2.0:2.35, smooth, samples=60, variable=\\x] plot ({\\x}, {\\x*\\x + 1});\n\\node[left] at (-1.3,2.69) {$y = x^2 + 1$};\n\\draw[thick] (-0.3,-4.2) -- (2.45,6.8);\n\\fill (2,5) circle (2.5pt);\n\\node[right=2pt] at (2,5) {$(2,5)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "tangent-normal-geometric-properties",
+        "solution_text": "$f'(x) = 2x$\n$m = f'(2) = 2(2) = 4$\n$y - 5 = 4(x - 2)$\n$y = 4x - 3$\nFor the $x$-intercept, set $y = 0 \\implies 4x - 3 = 0 \\implies x = \\dfrac{3}{4}$.\nFor the $y$-intercept, set $x = 0 \\implies y = -3$.\n$\\text{Area} = \\dfrac{1}{2} \\times \\dfrac{3}{4} \\times 3 = \\dfrac{9}{8}$"
+      },
+      {
+        "question_text": "Find the coordinates of the point where the tangents to the parabola $y = x^2 - 4x$ at its $x$-intercepts intersect.",
+        "structure": "tangent-normal-geometric-properties",
+        "solution_text": "$x(x - 4) = 0 \\implies x\\text{-intercepts are } (0, 0) \\text{ and } (4, 0)$\n$f'(x) = 2x - 4$\nAt $(0, 0)$: $m = f'(0) = -4 \\implies y = -4x$\nAt $(4, 0)$: $m = f'(4) = 4 \\implies y = 4(x - 4) = 4x - 16$\nIntersection: $-4x = 4x - 16 \\implies 8x = 16 \\implies x = 2$\n$y = -4(2) = -8$\nPoint of intersection is $(2, -8)$."
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = x^3 - 3x^2 + 4$ at $x = 0$.",
+        "structure": "tangent-normal-horizontal-vertical",
+        "solution_text": "$y_1 = (0)^3 - 3(0)^2 + 4 = 4$\n$f'(x) = 3x^2 - 6x$\n$m = f'(0) = 0$\nThe tangent is horizontal: $y = 4$.\nThe normal is the vertical line through $(0, 4)$ with equation $x = 0$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The tangent to $y = 9 - x^2$ at the point $P(1, 8)$ intersects the $x$-axis at $A$ and the $y$-axis at $B$. Find the area of $\\triangle OAB$, where $O$ is the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[->] (-4.2,0) -- (6.8,0) node[right] {$x$};\n\\draw[->] (0,-2.6) -- (0,12.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4,6} { \\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\draw (5,0.15) -- (5,-0.15);\n\\node[above right=2pt] at (5,0) {$A$};\n\\foreach \\y in {-2,2,4,6,8} { \\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\draw (0.15,10) -- (-0.15,10);\n\\node[above left=3pt] at (0,10) {$B$};\n\\node[below left, font=\\scriptsize] at (0,0) {$O$};\n\\fill[gray!20] (0,0) -- (5,0) -- (0,10) -- cycle;\n\\draw[thick, <->, domain=-3.3:3.3, smooth, samples=60, variable=\\x] plot ({\\x}, {9 - \\x*\\x});\n\\node[left] at (-2.2,4.16) {$y = 9 - x^2$};\n\\draw[thick] (-0.6,11.2) -- (5.6,-1.2);\n\\fill (1,8) circle (2.5pt);\n\\node[above right=2pt] at (1,8) {$P$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "tangent-normal-geometric-properties",
+        "solution_text": "$f'(x) = -2x$\n$m = f'(1) = -2(1) = -2$\n$y - 8 = -2(x - 1)$\n$y = -2x + 10$\nAt $A$ ($y = 0$): $-2x + 10 = 0 \\implies x = 5 \\implies A(5, 0)$\nAt $B$ ($x = 0$): $y = 10 \\implies B(0, 10)$\n$\\text{Area of } \\triangle OAB = \\dfrac{1}{2} \\times 5 \\times 10 = 25$"
+      },
+      {
+        "question_text": "The parabola $y = x^2 + bx + c$ has a tangent with equation $4x - y - 1 = 0$ at the point $(3, 11)$. Find the values of $b$ and $c$.",
+        "structure": "tangent-equation-general-form",
+        "solution_text": "$4x - y - 1 = 0 \\implies y = 4x - 1 \\text{ with gradient } m = 4$\n$f'(x) = 2x + b$\n$f'(3) = 2(3) + b = 4 \\implies 6 + b = 4 \\implies b = -2$\nSince $(3, 11)$ lies on the curve:\n$11 = (3)^2 + (-2)(3) + c$\n$11 = 9 - 6 + c$\n$11 = 3 + c \\implies c = 8$\n$b = -2, c = 8$"
+      },
+      {
+        "question_text": "The line $x + 3y - 20 = 0$ is the normal to the parabola $y = ax^2 + 2x + 1$ at the point where $x = 2$. Find the value of $a$.",
+        "structure": "normal-equation-general-form",
+        "solution_text": "$x + 3y - 20 = 0 \\implies 3y = -x + 20 \\implies y = -\\dfrac{1}{3}x + \\dfrac{20}{3}$\n$\\text{Normal gradient } m_{\\perp} = -\\dfrac{1}{3} \\implies \\text{tangent gradient } m = 3$\n$f'(x) = 2ax + 2$\n$f'(2) = 2a(2) + 2 = 4a + 2$\n$4a + 2 = 3$\n$4a = 1$\n$a = \\dfrac{1}{4}$\n$\\text{Check point of contact: when } a = \\dfrac{1}{4} \\text{ and } x = 2, y = \\dfrac{1}{4}(2)^2 + 2(2) + 1 = 6$\n$\\text{Substitute } (2, 6) \\text{ into the normal: } 2 + 3(6) - 20 = 0$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "skillId": "identify-outliers-iqr",
+  "atomType": "R",
+  "theory": {
+        "intro": "An **outlier** is an extreme data value that is unusually small or large. The formal **$1.5 \\times \\text{IQR}$ rule** identifies outliers objectively using fences.",
+        "facts": [
+          "The **interquartile range (IQR)** is the difference between the third and first quartiles: $\\text{IQR} = Q_3 - Q_1$.",
+          "The **lower fence** is calculated by $\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$.",
+          "The **upper fence** is calculated by $\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$.",
+          "A data value $x$ is an **outlier** if $x < Q_1 - 1.5 \\times \\text{IQR}$ or $x > Q_3 + 1.5 \\times \\text{IQR}$.",
+          "Data values equal to a fence value are **not** outliers, as an outlier must lie strictly beyond a fence.",
+          "On a modified **box plot**, outliers are plotted as individual points beyond whiskers that extend to the most extreme data values inside the fences.",
+          "Outliers strongly distort the **mean** and the **range**, but have little or no effect on the **median** and the **IQR**."
+        ],
+        "steps": [
+          "Find the first quartile ($Q_1$), third quartile ($Q_3$), and calculate $\\text{IQR} = Q_3 - Q_1$.",
+          "Calculate the lower fence: $\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$.",
+          "Calculate the upper fence: $\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$.",
+          "Compare data values to both fences to identify any outliers."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A dataset has $Q_1 = 12$ and $Q_3 = 20$. Calculate the interquartile range (IQR) and both the lower and upper fences for identifying outliers.",
+        "structure": "calculate-fences",
+        "solution_text": "$\\text{IQR} = Q_3 - Q_1$\n$= 20 - 12$\n$= 8$\n$\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$\n$= 12 - 1.5 \\times 8$\n$= 12 - 12$\n$= 0$\n$\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$\n$= 20 + 1.5 \\times 8$\n$= 20 + 12$\n$= 32$"
+      },
+      {
+        "question_text": "For a dataset with $Q_1 = 45$ and $Q_3 = 57$, find the lower and upper fences for outliers.",
+        "structure": "calculate-fences",
+        "solution_text": "$\\text{IQR} = 57 - 45$\n$= 12$\n$\\text{Lower fence} = 45 - 1.5 \\times 12$\n$= 45 - 18$\n$= 27$\n$\\text{Upper fence} = 57 + 1.5 \\times 12$\n$= 57 + 18$\n$= 75$"
+      },
+      {
+        "question_text": "A dataset has the five-number summary: $\\text{Min} = 5, Q_1 = 14, Q_2 = 19, Q_3 = 26, \\text{Max} = 48$. Test whether the minimum or maximum values are outliers.",
+        "structure": "identify-outliers-five-number",
+        "solution_text": "$\\text{IQR} = 26 - 14$\n$= 12$\n$\\text{Lower fence} = 14 - 1.5 \\times 12$\n$= 14 - 18$\n$= -4$\n$\\text{Upper fence} = 26 + 1.5 \\times 12$\n$= 26 + 18$\n$= 44$\nSince $48 > 44$, $48$ is an outlier.\nSince $5 \\ge -4$, $5$ is not an outlier."
+      },
+      {
+        "question_text": "A dataset has five-number summary: $8, 22, 30, 38, 52$. Determine whether there are any outliers in this dataset.",
+        "structure": "identify-outliers-five-number",
+        "solution_text": "$\\text{IQR} = 38 - 22$\n$= 16$\n$\\text{Lower fence} = 22 - 1.5 \\times 16$\n$= 22 - 24$\n$= -2$\n$\\text{Upper fence} = 38 + 1.5 \\times 16$\n$= 38 + 24$\n$= 62$\nSince $\\text{Min} = 8 \\ge -2$ and $\\text{Max} = 52 \\le 62$, there are no outliers."
+      },
+      {
+        "question_text": "Consider the dataset: $2, 18, 19, 21, 22, 24, 25, 27, 28, 30$. Given that $Q_1 = 19$ and $Q_3 = 27$, test whether $2$ is an outlier.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$\\text{IQR} = 27 - 19$\n$= 8$\n$\\text{Lower fence} = 19 - 1.5 \\times 8$\n$= 19 - 12$\n$= 7$\n$\\text{Upper fence} = 27 + 1.5 \\times 8$\n$= 27 + 12$\n$= 39$\nSince $2 < 7$, $2$ is an outlier (at the low end)."
+      },
+      {
+        "question_text": "The fences for a dataset are calculated as $\\text{Lower fence} = 25$ and $\\text{Upper fence} = 70$. A recorded data value is exactly $70$. Is $70$ an outlier? Justify your answer.",
+        "structure": "outlier-boundary-and-context",
+        "solution_text": "No, $70$ is not an outlier.\nA data value must be strictly greater than the upper fence ($x > 70$) to be classified as an outlier."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (1.5,0)--(10.5,0);\n\\foreach \\x in {20,30,40,50,60,70,80,90,100} {\\draw (\\x/10,0)--(\\x/10,-0.15); \\node[below,font=\\scriptsize] at (\\x/10,-0.15) {$\\x$};}\n\\draw[thick] (3,0.8) rectangle (5,1.8);\n\\draw[thick] (4,0.8)--(4,1.8);\n\\draw[thick] (3,1.3)--(2.5,1.3);\n\\draw[thick] (2.5,1.0)--(2.5,1.6);\n\\draw[thick] (5,1.3)--(7.5,1.3);\n\\draw[thick] (7.5,1.0)--(7.5,1.6);\n\\fill (9.0,1.3) circle (2.5pt);\n\\node[below] at (6,-0.9) {Scores};\n\\end{tikzpicture}\n[/tikz]\nThe modified box plot has $Q_1 = 30, Q_3 = 50$, a right whisker ending at $75$, and a single isolated point plotted at $90$. Explain why the point at $90$ is plotted separately from the whisker.",
+        "structure": "box-plot-with-outliers",
+        "solution_text": "$\\text{IQR} = 50 - 30 = 20$\n$\\text{Upper fence} = 50 + 1.5 \\times 20$\n$= 50 + 30$\n$= 80$\nBecause $90 > 80$, the value $90$ is an outlier and must be plotted as an isolated point beyond the whisker."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The commute times (in minutes) of $11$ workers are:\n$12, 15, 16, 18, 19, 21, 23, 24, 25, 28, 55$\nCalculate $Q_1, Q_3,$ and $\\text{IQR}$, find both fences, and determine whether $55$ is an outlier.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$\\text{Median } (Q_2) = 21$\n$Q_1 = 16$\n$Q_3 = 25$\n$\\text{IQR} = 25 - 16$\n$= 9$\n$\\text{Lower fence} = 16 - 1.5 \\times 9$\n$= 16 - 13.5$\n$= 2.5$\n$\\text{Upper fence} = 25 + 1.5 \\times 9$\n$= 25 + 13.5$\n$= 38.5$\nSince $55 > 38.5$, $55\\text{ min}$ is an outlier."
+      },
+      {
+        "question_text": "A team's scores in $10$ games are:\n$3, 24, 25, 26, 28, 29, 31, 32, 34, 35$\nCalculate the lower and upper fences, and identify any outliers in the dataset.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$Q_1 = 25$\n$Q_3 = 32$\n$\\text{IQR} = 32 - 25$\n$= 7$\n$\\text{Lower fence} = 25 - 1.5 \\times 7$\n$= 25 - 10.5$\n$= 14.5$\n$\\text{Upper fence} = 32 + 1.5 \\times 7$\n$= 32 + 10.5$\n$= 42.5$\nSince $3 < 14.5$, $3$ is an outlier at the low end.\nSince all other values lie between $14.5$ and $42.5$, $3$ is the only outlier."
+      },
+      {
+        "question_text": "A company reports employee annual salaries with $Q_1 = \\$48\\,000$ and $Q_3 = \\$72\\,000$. The lowest salary is $\\$10\\,000$ and the highest is $\\$115\\,000$. Determine whether either or both of these extreme salaries are outliers.",
+        "structure": "identify-outliers-five-number",
+        "solution_text": "$\\text{IQR} = 72000 - 48000$\n$= 24000$\n$\\text{Lower fence} = 48000 - 1.5 \\times 24000$\n$= 48000 - 36000$\n$= \\$12\\,000$\n$\\text{Upper fence} = 72000 + 1.5 \\times 24000$\n$= 72000 + 36000$\n$= \\$108\\,000$\nSince $\\$10\\,000 < \\$12\\,000$, the lowest salary is an outlier.\nSince $\\$115\\,000 > \\$108\\,000$, the highest salary is also an outlier.\nBoth extreme salaries are outliers."
+      },
+      {
+        "question_text": "The heights (in cm) of $12$ plants are:\n$42, 44, 45, 46, 48, 49, 50, 52, 53, 55, 58, 62$\nCalculate the lower and upper fences, and show that there are no outliers in this dataset.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$Q_1 = \\frac{45 + 46}{2} = 45.5$\n$Q_3 = \\frac{53 + 55}{2} = 54$\n$\\text{IQR} = 54 - 45.5$\n$= 8.5$\n$\\text{Lower fence} = 45.5 - 1.5 \\times 8.5$\n$= 45.5 - 12.75$\n$= 32.75\\text{ cm}$\n$\\text{Upper fence} = 54 + 1.5 \\times 8.5$\n$= 54 + 12.75$\n$= 66.75\\text{ cm}$\nSince $\\text{Min} = 42 \\ge 32.75$ and $\\text{Max} = 62 \\le 66.75$, all plant heights lie within the fences and there are no outliers."
+      },
+      {
+        "question_text": "A dataset has $Q_1 = 15, Q_3 = 35$, lowest score $10$, largest non-outlier score $60$, and an outlier at $75$. State where the upper whisker on a modified box plot must end, and explain why it does not extend to the fence of $65$.",
+        "structure": "box-plot-with-outliers",
+        "solution_text": "$\\text{Upper fence} = 35 + 1.5 \\times 20 = 65$\nThe upper whisker must end at $60$.\nWhiskers on a modified box plot extend to the most extreme actual data values inside the fences ($60$), never to the theoretical fence boundary itself."
+      },
+      {
+        "question_text": "A dataset has quartiles $Q_1 = 20$ and $Q_3 = 36$. Find the smallest and largest possible integer values that could be included in this dataset without creating an outlier.",
+        "structure": "outlier-boundary-and-context",
+        "solution_text": "$\\text{IQR} = 36 - 20 = 16$\n$\\text{Lower fence} = 20 - 1.5 \\times 16 = -4$\n$\\text{Upper fence} = 36 + 1.5 \\times 16 = 60$\n$\\text{Smallest non-outlier integer} = -4$\n$\\text{Largest non-outlier integer} = 60$"
+      },
+      {
+        "question_text": "A set of $15$ test scores is ordered as follows:\n$41, 52, 55, 58, 62, 64, 66, 68, 70, 72, 75, 78, 80, 84, 98$\nFind $Q_1, Q_3,$ and $\\text{IQR}$, and determine whether the lowest score $41$ or highest score $98$ are outliers.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$Q_1 = 58$\n$Q_3 = 78$\n$\\text{IQR} = 78 - 58 = 20$\n$\\text{Lower fence} = 58 - 1.5 \\times 20 = 28$\n$\\text{Upper fence} = 78 + 1.5 \\times 20 = 108$\nSince $41 \\ge 28$ and $98 \\le 108$, neither score is an outlier."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A dataset has a lower quartile of $Q_1 = 16$ and an upper quartile of $Q_3 = 28$. What is the maximum possible range of this dataset if it contains no outliers?",
+        "structure": "outlier-boundary-and-context",
+        "solution_text": "$\\text{IQR} = 28 - 16$\n$= 12$\n$\\text{Lower fence} = 16 - 1.5 \\times 12$\n$= 16 - 18$\n$= -2$\n$\\text{Upper fence} = 28 + 1.5 \\times 12$\n$= 28 + 18$\n$= 46$\n$\\text{Maximum possible range} = \\text{Upper fence} - \\text{Lower fence}$\n$= 46 - (-2)$\n$= 48$"
+      },
+      {
+        "question_text": "Seven weekly sales figures are recorded: $\\$320, \\$480, \\$510, \\$590, \\$640, \\$670, \\$980$. Show that $\\$980$ is an outlier. If each weekly sales figure is increased by $\\$50$, will the new top figure of $\\$1030$ still be an outlier? Justify your answer.",
+        "structure": "identify-outliers-dataset",
+        "solution_text": "$Q_1 = 480, Q_3 = 670, \\text{IQR} = 670 - 480 = 190$\n$\\text{Upper fence} = 670 + 1.5 \\times 190$\n$= 670 + 285$\n$= \\$955$\nSince $\\$980 > \\$955$, $\\$980$ is an outlier.\nWhen adding $\\$50$ to all scores, $Q_3$ increases to $\\$720$ and the IQR remains $190$.\n$\\text{New upper fence} = 720 + 285 = \\$1005$\nSince $\\$1030 > \\$1005$, the new value $\\$1030$ remains an outlier."
+      },
+      {
+        "question_text": "A dataset has $Q_1 = 40$ and $Q_3 = 60$, with a score recorded at $x = 95$. If $Q_3$ were to increase to $65$ while $Q_1$ remained $40$, determine whether $x = 95$ would still be classified as an outlier.",
+        "structure": "box-plot-with-outliers",
+        "solution_text": "$\\text{Original: } \\text{IQR} = 20, \\text{ Upper fence} = 60 + 1.5(20) = 90\\text{ (so } 95\\text{ is an outlier)}$\n$\\text{New: } \\text{IQR} = 65 - 40$\n$= 25$\n$\\text{New upper fence} = 65 + 1.5 \\times 25$\n$= 65 + 37.5$\n$= 102.5$\nSince $95 \\le 102.5$, $x = 95$ is no longer an outlier."
+      }
+    ]
+  }
+}

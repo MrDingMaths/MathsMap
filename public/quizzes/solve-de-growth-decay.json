@@ -1,0 +1,120 @@
+{
+  "skillId": "solve-de-growth-decay",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Solve $\\dfrac{dy}{dt}=0.3y$ given $y(0)=40$.",
+      "structure": "solve-kn-general",
+      "mastery": false,
+      "options": [
+        { "text": "$y=40e^{0.3t}$", "correct": true },
+        { "text": "$y=40e^{-0.3t}$", "why": "Changed the sign of $k$, which turns the growth model into a decay model." },
+        { "text": "$y=0.3e^{40t}$", "why": "Swapped the roles of the two numbers, using $k$ as the initial value and the initial value as $k$." },
+        { "text": "$y=0.3e^{-40t}$", "why": "Swapped the two numbers and also changed the sign of the exponent." }
+      ],
+      "solution_text": "$\\dfrac{1}{y}\\,dy=0.3\\,dt$\n$\\ln|y|=0.3t+C$\n$y=Ae^{0.3t}$\nSubstituting $y(0)=40$ gives $A=40$.\n$y=40e^{0.3t}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A quantity obeys $\\dfrac{dQ}{dt}=kQ$, with $Q(0)=250$ and $Q(5)=1000$. Find the exact value of $k$.",
+      "structure": "find-k-from-data",
+      "mastery": false,
+      "options": [
+        { "text": "$k=\\dfrac{\\ln 4}{5}$", "correct": true },
+        { "text": "$k=\\dfrac{\\ln\\frac{1}{4}}{5}$", "why": "Formed the ratio the wrong way round, dividing the initial value by the later value." },
+        { "text": "$k=5\\ln 4$", "why": "Multiplied by the time instead of dividing by it when solving $5k=\\ln 4$." },
+        { "text": "$k=5\\ln\\dfrac{1}{4}$", "why": "Inverted the ratio and also multiplied by the time instead of dividing." }
+      ],
+      "solution_text": "$Q=250e^{kt}$\n$1000=250e^{5k}$\n$e^{5k}=4$\n$5k=\\ln 4$\n$k=\\dfrac{\\ln 4}{5}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A radioactive substance satisfies $\\dfrac{dA}{dt}=-0.04A$, with $t$ in years. Find its half-life, correct to the nearest year.",
+      "structure": "half-life",
+      "mastery": false,
+      "options": [
+        { "text": "$17$ years", "correct": true },
+        { "text": "$25$ years", "why": "Used $\\dfrac{1}{0.04}$ and left out the factor $\\ln 2$." },
+        { "text": "$8$ years", "why": "Used $\\log_{10}2$ instead of $\\ln 2$ when solving the exponential equation." },
+        { "text": "$35$ years", "why": "Used $\\ln 4$, which gives the time to fall to a quarter rather than to a half." }
+      ],
+      "solution_text": "$e^{-0.04t}=\\dfrac{1}{2}$\n$-0.04t=-\\ln 2$\n$t=\\dfrac{0.693147}{0.04}$\n$=17.33$\nThe half-life is $17$ years."
+    },
+    {
+      "id": "q4",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.12P$, with $t$ in years. How long does the population take to triple, correct to one decimal place?",
+      "structure": "doubling-time",
+      "mastery": false,
+      "options": [
+        { "text": "$9.2$ years", "correct": true },
+        { "text": "$5.8$ years", "why": "Used $\\ln 2$, which gives the doubling time rather than the tripling time." },
+        { "text": "$25.0$ years", "why": "Divided $3$ by $0.12$ without taking the logarithm first." },
+        { "text": "$4.0$ years", "why": "Used $\\log_{10}3$ instead of $\\ln 3$." }
+      ],
+      "solution_text": "$e^{0.12t}=3$\n$0.12t=\\ln 3$\n$t=\\dfrac{1.098612}{0.12}$\n$=9.2$ years"
+    },
+    {
+      "id": "q5",
+      "question_text": "A sample of $800$ g decays to $700$ g in $4$ years, and satisfies $\\dfrac{dm}{dt}=km$. Find the mass after $10$ years, correct to the nearest gram.",
+      "structure": "find-k-then-predict",
+      "mastery": false,
+      "options": [
+        { "text": "$573$ g", "correct": true },
+        { "text": "$550$ g", "why": "Treated the loss as a constant $25$ g per year instead of a constant proportion." },
+        { "text": "$613$ g", "why": "Treated $10$ years as two complete $4$-year periods, using $800\\left(\\frac{7}{8}\\right)^{2}$." },
+        { "text": "$536$ g", "why": "Treated $10$ years as three complete $4$-year periods, using $800\\left(\\frac{7}{8}\\right)^{3}$." }
+      ],
+      "solution_text": "$m=800e^{kt}$\n$700=800e^{4k}$\n$e^{4k}=\\dfrac{7}{8}$\n$m(10)=800\\left(\\dfrac{7}{8}\\right)^{\\frac{10}{4}}$\n$=800\\times 0.716179$\n$=573$ g"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph shows a quantity $N$ modelled by $N=Ae^{kt}$, with $t$ in hours. Which equation matches the graph?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$N$}, xmin=-0.5, xmax=4.4, ymin=-8, ymax=90, xtick={1,2,3,4}, ytick={5,40}, samples=100, clip=false]\n\\addplot[thick, ->, domain=0:4] {5*exp(0.693147*x)};\n\\addplot[dashed] coordinates {(0,40) (3,40) (3,0)};\n\\addplot[only marks, mark=*] coordinates {(0,5) (3,40)};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-graph-find-model",
+      "mastery": false,
+      "options": [
+        { "text": "$N=5e^{t\\ln 2}$", "correct": true },
+        { "text": "$N=5e^{-t\\ln 2}$", "why": "Used a negative exponent, which gives a falling curve rather than the rising curve shown." },
+        { "text": "$N=40e^{t\\ln 2}$", "why": "Read the marked point as the initial value instead of reading the $N$-intercept." },
+        { "text": "$N=40e^{-t\\ln 2}$", "why": "Read the marked point as the initial value and also used a negative exponent." }
+      ],
+      "solution_text": "The curve meets the $N$-axis at $5$, so $A=5$.\n$40=5e^{3k}$\n$e^{3k}=8$\n$3k=\\ln 8=3\\ln 2$\n$k=\\ln 2$\n$N=5e^{t\\ln 2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A rabbit population is modelled by $P=1200e^{0.35t}$, with $t$ in years, fitted from counts taken during the first two years. Which statement best describes the limitation of this model?",
+      "structure": "model-limitation",
+      "mastery": false,
+      "options": [
+        { "text": "It has no upper bound, so it eventually predicts more rabbits than the habitat could possibly feed.", "correct": true },
+        { "text": "It predicts that the population falls towards zero in the long term, which cannot happen here.", "why": "Reads $k=0.35>0$ as decay; a positive $k$ gives growth, not decline." },
+        { "text": "Its rate of increase is constant, so it cannot describe a population whose growth speeds up.", "why": "Confuses exponential growth with linear growth; $\\dfrac{dP}{dt}=0.35P$ increases as $P$ increases." },
+        { "text": "It only gives a population for whole-number values of $t$, so it cannot be used between counts.", "why": "Treats a continuous model as a discrete one; $P=1200e^{0.35t}$ is defined for every real $t$." }
+      ],
+      "solution_text": "$\\dfrac{dP}{dt}=0.35P$, so the rate of increase grows without limit as $P$ grows.\nThe model takes no account of the food and space the habitat can supply.\nIt is reliable only near the two years of data from which it was fitted."
+    },
+    {
+      "id": "q8",
+      "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=kQ$, with $t$ in years. It takes $9$ years for $Q$ to fall to one third of its value. Find how long it takes to fall to $5\\%$ of its original value, correct to the nearest year.",
+      "structure": "find-time",
+      "mastery": true,
+      "options": [
+        { "text": "$25$ years", "correct": true },
+        { "text": "$27$ years", "why": "Rounded $5\\%$ to $\\left(\\frac{1}{3}\\right)^{3}\\approx 3.7\\%$ and counted three complete $9$-year stages." },
+        { "text": "$13$ years", "why": "Treated the decay as linear, losing two thirds of the original amount every $9$ years." }
+      ],
+      "solution_text": "$\\dfrac{1}{3}=e^{9k}$\n$k=\\dfrac{1}{9}\\ln\\dfrac{1}{3}$\n$0.05=e^{kt}$\n$t=\\dfrac{\\ln 0.05}{k}$\n$=\\dfrac{9\\ln 0.05}{\\ln\\frac{1}{3}}$\n$=\\dfrac{9\\times(-2.995732)}{-1.098612}$\n$=24.54$\nIt takes $25$ years."
+    },
+    {
+      "id": "q9",
+      "question_text": "A population is modelled by $P=3000e^{0.06t}$, with $t$ in years. Find the population after $25$ years, correct to the nearest ten.",
+      "structure": "predict-value",
+      "mastery": false,
+      "options": [
+        { "text": "$13\\,450$", "correct": true },
+        { "text": "$7500$", "why": "Grew the population by $6\\%$ of the initial value each year, treating the growth as linear." },
+        { "text": "$12\\,880$", "why": "Used $3000(1.06)^{25}$, the annual compounding form, instead of $3000e^{0.06\\times 25}$." }
+      ],
+      "solution_text": "$P(25)=3000e^{0.06\\times 25}$\n$=3000e^{1.5}$\n$=3000\\times 4.481689$\n$=13\\,445.07$\n$P(25)\\approx 13\\,450$"
+    }
+  ]
+}

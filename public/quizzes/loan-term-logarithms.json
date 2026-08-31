@@ -1,0 +1,205 @@
+{
+  "skillId": "loan-term-logarithms",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A loan of $\\$18\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) is repaid with $\\$350$ per month. How many whole monthly repayments are required to pay off the loan?",
+      "structure": "solve-loan-term-logarithms",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$60$ repayments",
+          "correct": true
+        },
+        {
+          "text": "$59$ repayments",
+          "why": "Rounded down to 59, leaving an unpaid balance."
+        },
+        {
+          "text": "$59.6$ repayments",
+          "why": "Reported a fractional number of repayments instead of a whole number."
+        },
+        {
+          "text": "$52$ repayments",
+          "why": "Used the annual rate with the monthly $n$."
+        }
+      ],
+      "solution_text": "$0=18\\,000(1.005)^{n}-350\\left[\\dfrac{(1.005)^{n}-1}{0.005}\\right]$\n$(1.005)^{n}=\\dfrac{350}{350-18\\,000(0.005)}=\\dfrac{350}{260}=1.346154$\n$n=\\dfrac{\\log 1.346154}{\\log 1.005}=59.59$\n$\\text{Repayments}=60$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A borrower owes $\\$30\\,000$ on a line of credit charging $12\\%$ p.a. compounded monthly ($r=0.01$). If repayments are set to $\\$280$ per month, what will happen to the loan?",
+      "structure": "determine-loan-repayability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The loan will never be repaid because the monthly repayment is less than the monthly interest charge of $\\$300$.",
+          "correct": true
+        },
+        {
+          "text": "The loan will be repaid in $108$ months.",
+          "why": "Calculated term ignoring that interest exceeds repayments."
+        },
+        {
+          "text": "The loan balance will remain constant at $\\$30\\,000$.",
+          "why": "Assumed the repayment matches the interest exactly."
+        },
+        {
+          "text": "The loan will be repaid in $120$ months with a larger final payment.",
+          "why": "Assumed any regular payment eventually pays off the principal."
+        }
+      ],
+      "solution_text": "$\\text{Monthly interest}=30\\,000\\times0.01=\\$300$\nSince the $\\$280$ repayment is less than the $\\$300$ interest, the debt grows each month and the loan is never repaid."
+    },
+    {
+      "id": "q3",
+      "question_text": "A loan of $\\$60\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has standard repayments of $\\$600$ per month ($139$ months). If repayments are increased to $\\$800$ per month, how many months earlier is the loan paid off?",
+      "structure": "calculate-time-saved-extra-repayments",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$44$ months",
+          "correct": true
+        },
+        {
+          "text": "$95$ months",
+          "why": "Reported the new loan term instead of the time saved."
+        },
+        {
+          "text": "$200$ months",
+          "why": "Subtracted the dollar repayment difference."
+        },
+        {
+          "text": "$32$ months",
+          "why": "Used the unrounded fractional difference without rounding up."
+        }
+      ],
+      "solution_text": "$(1.005)^{n}=\\dfrac{800}{800-60\\,000(0.005)}=\\dfrac{800}{500}=1.6$\n$n=\\dfrac{\\log 1.6}{\\log 1.005}=94.24\\implies95\\text{ months}$\n$\\text{Months saved}=139-95=44\\text{ months}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A debt of $\\$10\\,000$ at $9\\%$ p.a. compounded monthly ($r=0.0075$) is repaid at $\\$250$ per month. What is the value of $(1.0075)^{n}$ when $A_{n}=0$?",
+      "structure": "solve-loan-term-logarithms",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{10}{7}$",
+          "correct": true
+        },
+        {
+          "text": "$0.025$",
+          "why": "Divided repayment by principal instead of solving the geometric series equation."
+        },
+        {
+          "text": "$1.09$",
+          "why": "Used the annual rate with the monthly $n$."
+        },
+        {
+          "text": "$\\dfrac{7}{10}$",
+          "why": "Inverted the fraction in the logarithmic argument."
+        }
+      ],
+      "solution_text": "$0=10\\,000(1.0075)^{n}-250\\left[\\dfrac{(1.0075)^{n}-1}{0.0075}\\right]$\n$(1.0075)^{n}=\\dfrac{250}{250-10\\,000(0.0075)}=\\dfrac{250}{175}=\\dfrac{10}{7}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "When a loan requires $47.3$ theoretical monthly repayments of $\\$500$, how should the final payment on month $48$ be handled?",
+      "structure": "calculate-final-adjusted-repayment",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The borrower makes 47 full repayments of $\\$500$ and a 48th smaller payment covering the remaining compounded balance.",
+          "correct": true
+        },
+        {
+          "text": "The borrower pays $0.3 \\times \\$500 = \\$150$ on month 48.",
+          "why": "Multiplied the fractional part directly by the payment amount without compounding the remaining balance."
+        },
+        {
+          "text": "The borrower makes 47 full payments and the remaining balance is forgiven.",
+          "why": "Mistakenly assumes remaining debt is cancelled after integer periods."
+        },
+        {
+          "text": "The borrower must make 48 full payments of $\\$500$.",
+          "why": "Overpays the loan by making a full final repayment."
+        }
+      ],
+      "solution_text": "A fractional result of $47.3$ periods means $47$ regular payments are made.\nThe remaining unpaid balance compounds for one more month and is cleared by a 48th smaller payment."
+    },
+    {
+      "id": "q6",
+      "question_text": "For a loan of $\\$PV$ at periodic rate $r$ with repayment $M$, what condition ensures the logarithm in $n=\\dfrac{\\log\\left(\\frac{M}{M-PV\\,r}\\right)}{\\log(1+r)}$ is defined with $n>0$?",
+      "structure": "determine-loan-repayability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$M > PV \\times r$",
+          "correct": true
+        },
+        {
+          "text": "$M \\ge \\dfrac{PV}{n}$",
+          "why": "Confused periodic interest with simple linear principal division."
+        },
+        {
+          "text": "$M < PV \\times r$",
+          "why": "Reversed the inequality, which results in a negative argument in the logarithm."
+        },
+        {
+          "text": "$M = PV(1+r)$",
+          "why": "Demanded full principal repayment in a single period."
+        }
+      ],
+      "solution_text": "For $\\dfrac{M}{M-PV\\,r}>1$, the denominator must be positive and strictly less than the numerator.\nThis requires $M-PV\\,r>0\\implies M>PV\\times r$, meaning the payment exceeds periodic interest."
+    },
+    {
+      "id": "q7",
+      "question_text": "An investor borrows $\\$120\\,000$ at $4.8\\%$ p.a. compounded monthly ($r=0.004$). If they repay $\\$1000$ per month, find the exact number of whole monthly repayments needed to clear the debt.",
+      "structure": "solve-loan-term-logarithms",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$164$ repayments",
+          "correct": true
+        },
+        {
+          "text": "$163$ repayments",
+          "why": "Rounded down to 163, leaving the final partial debt unpaid."
+        },
+        {
+          "text": "$120$ repayments",
+          "why": "Assumed $\\$1000$ per month pays off $\\$120\\,000$ in 120 months without interest."
+        },
+        {
+          "text": "$185$ repayments",
+          "why": "Used the annual rate with the monthly $n$."
+        }
+      ],
+      "solution_text": "$(1.004)^{n}=\\dfrac{1000}{1000-120\\,000(0.004)}=\\dfrac{1000}{520}=\\dfrac{25}{13}approx1.923077$\n$n=\\dfrac{\\log(25/13)}{\\log 1.004}=163.78$\n$\\text{Repayments}=164$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A loan of $\\$10\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) is repaid with $\\$400$ per month ($n=26.77$ months). What is the exact final payment on month $27$?",
+      "structure": "calculate-final-adjusted-repayment",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$309.37$",
+          "correct": true
+        },
+        {
+          "text": "$\\$308.00$",
+          "why": "Calculated $0.77 \\times \\$400$ without compounding the remaining balance."
+        },
+        {
+          "text": "$\\$307.83$",
+          "why": "Omitted interest accrued in the 27th month on the remaining balance."
+        },
+        {
+          "text": "$\\$400.00$",
+          "why": "Charged a full standard repayment on the final month."
+        }
+      ],
+      "solution_text": "$A_{26}=10\\,000(1.005)^{26}-400\\left[\\dfrac{(1.005)^{26}-1}{0.005}\\right]=\\$307.83$\n$\\text{Final payment}=307.83(1.005)$\n$=\\$309.37$"
+    }
+  ]
+}

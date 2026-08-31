@@ -1,0 +1,105 @@
+{
+  "skillId": "model-periodic-phenomena",
+  "atomType": "R",
+  "theory": {
+    "intro": "A periodic model such as $y=k\\cos(at)+c$ lets you predict a value at a given time, or find every time a stated level is reached. Because the model repeats forever, a \"when\" question is only answered inside a stated interval of time.",
+    "facts": [
+      "Substitute the time into the model to predict the value at that time.",
+      "The maximum value is $c+|k|$ and the minimum value is $c-|k|$.",
+      "The period $\\dfrac{2\\pi}{a}$ is the time from one maximum to the next.",
+      "To find when a level $L$ is reached, set the model equal to $L$ and solve for $t$.",
+      "Because the curve repeats, the equation has many solutions, so keep only the ones inside the stated domain.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.3,0) -- (8.6,0) node[right] {$t$};\n\\draw[-{Stealth}] (0,0) -- (0,4.6) node[above] {$y$};\n\\draw[thick,blue!70!black,domain=0:8,samples=120,variable=\\x] plot ({\\x},{2.4+1.4*sin(45*\\x)});\n\\draw[dashed] (0,3.2) -- (8,3.2);\n\\node[left,font=\\small] at (0,3.2) {$L$};\n\\fill (0.77,3.2) circle (2pt);\n\\fill (3.23,3.2) circle (2pt);\n\\end{tikzpicture}\n[/tikz]",
+      "For $\\sin\\theta=p$ the angles in $0\\le\\theta\\le2\\pi$ are $\\theta$ and $\\pi-\\theta$; for $\\cos\\theta=p$ they are $\\theta$ and $2\\pi-\\theta$.",
+      "The time spent above a level is the length of the interval between two crossings of that level.",
+      "The model is only reliable over the span of time the measurements came from."
+    ],
+    "steps": [
+      "Substitute the given value into the model and make the trigonometric term the subject.",
+      "Solve for the angle, listing every angle the domain allows.",
+      "Convert each angle back to a time and keep the times inside the stated domain."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The depth of water in a bay is modelled by $h(t)=4\\cos\\left(\\dfrac{\\pi t}{6}\\right)+9$, where $h$ is in metres and $t$ is the number of hours after midnight. Find the depth at $2$ am.",
+        "structure": "evaluate-model-at-time",
+        "solution_text": "$h(2)=4\\cos\\left(\\dfrac{2\\pi}{6}\\right)+9$\n$=4\\cos\\left(\\dfrac{\\pi}{3}\\right)+9$\n$=4\\times\\dfrac{1}{2}+9$\n$=2+9$\n$=11$\nThe depth at $2$ am is $11$ m."
+      },
+      {
+        "question_text": "The temperature in a greenhouse is modelled by $T=7\\sin\\left(\\dfrac{\\pi t}{12}\\right)+18$, where $T$ is in degrees Celsius. Find the maximum and minimum temperatures the model predicts.",
+        "structure": "max-min-from-model",
+        "solution_text": "The largest value of $\\sin$ is $1$ and the smallest is $-1$.\nMaximum $=7\\times1+18$\n$=25$\nMinimum $=7\\times(-1)+18$\n$=11$\nThe model predicts a maximum of $25^{\\circ}$C and a minimum of $11^{\\circ}$C."
+      },
+      {
+        "question_text": "The number of insects caught in a trap each night is modelled by $n(t)=250\\cos\\left(\\dfrac{\\pi t}{4}\\right)+900$, where $t$ is the number of weeks since the trap was set. Find the period of the model and say what it means here.",
+        "structure": "period-from-model",
+        "solution_text": "$T=\\dfrac{2\\pi}{a}$\n$=\\dfrac{2\\pi}{\\frac{\\pi}{4}}$\n$=8$\nThe pattern of insect numbers repeats every $8$ weeks."
+      },
+      {
+        "question_text": "The tip of a wind-turbine blade has height $h(t)=-15\\cos\\left(\\dfrac{\\pi t}{30}\\right)+18$ metres, where $t$ is the number of seconds after the tip passes its lowest point. Find the height after $10$ seconds.",
+        "structure": "evaluate-model-at-time",
+        "solution_text": "$h(10)=-15\\cos\\left(\\dfrac{10\\pi}{30}\\right)+18$\n$=-15\\cos\\left(\\dfrac{\\pi}{3}\\right)+18$\n$=-15\\times\\dfrac{1}{2}+18$\n$=-7.5+18$\n$=10.5$\nThe blade tip is $10.5$ m above the ground after $10$ seconds."
+      },
+      {
+        "question_text": "The volume of water in a header tank is modelled by $V=-6\\cos\\left(\\dfrac{\\pi t}{5}\\right)+14$, where $V$ is in kilolitres. Find the maximum and minimum volumes the model predicts.",
+        "structure": "max-min-from-model",
+        "solution_text": "The largest value of $-6\\cos$ occurs when $\\cos=-1$, and the smallest when $\\cos=1$.\nMaximum $=-6\\times(-1)+14$\n$=20$\nMinimum $=-6\\times1+14$\n$=8$\nThe model predicts a maximum of $20$ kL and a minimum of $8$ kL."
+      },
+      {
+        "question_text": "The graph shows the depth of water at a boat ramp over $24$ hours, with the mean position drawn as a dashed line. Use the graph to state the maximum depth and the time of the first low tide after midnight.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=11cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.8,xmax=26,ymin=0,ymax=11.5,xtick={0,2,...,24},ytick={0,1,...,11},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (hours after midnight)},ylabel={Depth (m)},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:24,samples=200] {3*cos(30*x)+7};\n\\addplot[dashed,domain=0:24,samples=2] {7};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-graph-of-model",
+        "solution_text": "The highest points of the curve are at a depth of $10$ m.\nThe curve first reaches its lowest point at $t=6$.\nThe maximum depth is $10$ m and the first low tide is at $6$ am."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The depth of water at a pier is modelled by $d=2\\cos\\left(\\dfrac{\\pi t}{6}\\right)+7$, where $d$ is in metres and $t$ is the number of hours after midnight. Find all times during the first $12$ hours when the depth is exactly $8$ m.",
+        "structure": "solve-when-value-reached",
+        "solution_text": "1. **Substitute the given value into the model and make the trigonometric term the subject**\n$2\\cos\\left(\\dfrac{\\pi t}{6}\\right)+7=8$\n$2\\cos\\left(\\dfrac{\\pi t}{6}\\right)=1$\n$\\cos\\left(\\dfrac{\\pi t}{6}\\right)=\\dfrac{1}{2}$\n2. **Solve for the angle, listing every angle the domain allows**\nFor $0\\le t\\le12$ the angle $\\dfrac{\\pi t}{6}$ runs from $0$ to $2\\pi$.\n$\\dfrac{\\pi t}{6}=\\dfrac{\\pi}{3}$ or $\\dfrac{5\\pi}{3}$\n3. **Convert each angle back to a time and keep the times inside the stated domain**\n$t=2$ or $t=10$\nThe depth is $8$ m at $2$ am and again at $10$ am."
+      },
+      {
+        "question_text": "The temperature in a shed is modelled by $T=8\\sin\\left(\\dfrac{\\pi t}{12}\\right)+17$, where $T$ is in degrees Celsius and $t$ is the number of hours after $6$ am. Find all times in the $24$ hours after $6$ am when the temperature is $13^{\\circ}$C.",
+        "structure": "solve-when-value-reached",
+        "solution_text": "1. **Substitute the given value into the model and make the trigonometric term the subject**\n$8\\sin\\left(\\dfrac{\\pi t}{12}\\right)+17=13$\n$8\\sin\\left(\\dfrac{\\pi t}{12}\\right)=-4$\n$\\sin\\left(\\dfrac{\\pi t}{12}\\right)=-\\dfrac{1}{2}$\n2. **Solve for the angle, listing every angle the domain allows**\nFor $0\\le t\\le24$ the angle $\\dfrac{\\pi t}{12}$ runs from $0$ to $2\\pi$.\n$\\dfrac{\\pi t}{12}=\\dfrac{7\\pi}{6}$ or $\\dfrac{11\\pi}{6}$\n3. **Convert each angle back to a time and keep the times inside the stated domain**\n$t=14$ or $t=22$\nThe temperature is $13^{\\circ}$C at $8$ pm and again at $4$ am."
+      },
+      {
+        "question_text": "The depth of water in a shipping channel is modelled by $h=5\\cos\\left(\\dfrac{\\pi t}{6}\\right)+12$, where $h$ is in metres and $t$ is the number of hours after midnight. For how many of the first $12$ hours is the depth at least $9.5$ m?",
+        "structure": "interval-above-level",
+        "solution_text": "1. **Substitute the given value into the model and make the trigonometric term the subject**\n$5\\cos\\left(\\dfrac{\\pi t}{6}\\right)+12=9.5$\n$5\\cos\\left(\\dfrac{\\pi t}{6}\\right)=-2.5$\n$\\cos\\left(\\dfrac{\\pi t}{6}\\right)=-\\dfrac{1}{2}$\n2. **Solve for the angle, listing every angle the domain allows**\nFor $0\\le t\\le12$ the angle $\\dfrac{\\pi t}{6}$ runs from $0$ to $2\\pi$.\n$\\dfrac{\\pi t}{6}=\\dfrac{2\\pi}{3}$ or $\\dfrac{4\\pi}{3}$\n3. **Convert each angle back to a time and keep the times inside the stated domain**\n$t=4$ or $t=8$\nThe depth starts at its maximum, so it is at least $9.5$ m for $0\\le t\\le4$ and again for $8\\le t\\le12$.\n$4+4=8$\nThe depth is at least $9.5$ m for $8$ hours."
+      },
+      {
+        "question_text": "The number of rock wallabies counted in a gorge is modelled by $P=180\\cos\\left(\\dfrac{\\pi t}{6}\\right)+520$, where $t$ is the number of months after January. Find the number the model predicts for April.",
+        "structure": "evaluate-model-at-time",
+        "solution_text": "April is $3$ months after January, so $t=3$.\n$P=180\\cos\\left(\\dfrac{3\\pi}{6}\\right)+520$\n$=180\\cos\\left(\\dfrac{\\pi}{2}\\right)+520$\n$=180\\times0+520$\n$=520$\nThe model predicts $520$ wallabies in April."
+      },
+      {
+        "question_text": "The depth of water at a marina is modelled by $y=1.4\\sin\\left(\\dfrac{4\\pi t}{25}\\right)+2.1$, where $y$ is in metres and $t$ is in hours. How long is it between successive high tides?",
+        "structure": "period-from-model",
+        "solution_text": "$T=\\dfrac{2\\pi}{a}$\n$=\\dfrac{2\\pi}{\\frac{4\\pi}{25}}$\n$=2\\pi\\times\\dfrac{25}{4\\pi}$\n$=12.5$\nSuccessive high tides are $12.5$ hours apart."
+      },
+      {
+        "question_text": "The graph shows the air temperature in a valley over $24$ hours, with the mean position of $21^{\\circ}$C drawn as a dashed line. Use the graph to find how many of the $24$ hours have a temperature above the mean position.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=11cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.8,xmax=26,ymin=0,ymax=30,xtick={0,2,...,24},ytick={0,3,...,27},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (hours after midnight)},ylabel={Temperature ($^{\\circ}$C)},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:24,samples=200] {6*sin(15*x)+21};\n\\addplot[dashed,domain=0:24,samples=2] {21};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-graph-of-model",
+        "solution_text": "The curve crosses the dashed mean line at $t=0$, $t=12$ and $t=24$.\nBetween $t=0$ and $t=12$ the curve is above the dashed line, and after $t=12$ it is below.\n$12-0=12$\nThe temperature is above the mean position for $12$ hours."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The height of a cabin on a Ferris wheel is $h(t)=-18\\cos\\left(\\dfrac{\\pi t}{24}\\right)+21$, where $h$ is in metres and $t$ is the number of seconds after the cabin leaves its lowest point. A photographer can take a picture only while the cabin is more than $30$ m above the ground. During one full revolution, $0\\le t\\le48$, for how many seconds can she take pictures?",
+        "structure": "interval-above-level",
+        "solution_text": "1. **Substitute the given value into the model and make the trigonometric term the subject**\n$-18\\cos\\left(\\dfrac{\\pi t}{24}\\right)+21=30$\n$-18\\cos\\left(\\dfrac{\\pi t}{24}\\right)=9$\n$\\cos\\left(\\dfrac{\\pi t}{24}\\right)=-\\dfrac{1}{2}$\n2. **Solve for the angle, listing every angle the domain allows**\nFor $0\\le t\\le48$ the angle $\\dfrac{\\pi t}{24}$ runs from $0$ to $2\\pi$.\n$\\dfrac{\\pi t}{24}=\\dfrac{2\\pi}{3}$ or $\\dfrac{4\\pi}{3}$\n3. **Convert each angle back to a time and keep the times inside the stated domain**\n$t=16$ or $t=32$\nThe cabin starts at its lowest point, so it is above $30$ m only between these two times.\n$32-16=16$\nShe can take pictures for $16$ seconds."
+      },
+      {
+        "question_text": "The number of hours of daylight at a town is modelled by $L(t)=12+2\\cos\\left(\\dfrac{2\\pi t}{366}\\right)$, where $t$ is the number of days after $21$ December and $0\\le t\\le366$. Find every value of $t$ for which the length of daylight is $11$ hours.",
+        "structure": "solve-when-value-reached",
+        "solution_text": "1. **Substitute the given value into the model and make the trigonometric term the subject**\n$12+2\\cos\\left(\\dfrac{2\\pi t}{366}\\right)=11$\n$2\\cos\\left(\\dfrac{2\\pi t}{366}\\right)=-1$\n$\\cos\\left(\\dfrac{2\\pi t}{366}\\right)=-\\dfrac{1}{2}$\n2. **Solve for the angle, listing every angle the domain allows**\nFor $0\\le t\\le366$ the angle $\\dfrac{2\\pi t}{366}$ runs from $0$ to $2\\pi$.\n$\\dfrac{2\\pi t}{366}=\\dfrac{2\\pi}{3}$ or $\\dfrac{4\\pi}{3}$\n3. **Convert each angle back to a time and keep the times inside the stated domain**\n$t=\\dfrac{366}{3}$ or $t=\\dfrac{2\\times366}{3}$\n$t=122$ or $t=244$"
+      },
+      {
+        "question_text": "The daylight model $L(t)=12+2\\cos\\left(\\dfrac{2\\pi t}{366}\\right)$ was fitted using one year of measurements. Give two reasons why it will not predict the length of daylight accurately ten years from now.",
+        "structure": "model-limitation",
+        "solution_text": "The period was taken as exactly $366$ days, but a year is close to $365.25$ days, so after ten years the model is several days out of step with the seasons.\nThe amplitude of $2$ hours was measured at one place in one year, and it is treated as fixed forever, so the model cannot show any year-to-year variation.\nThe model also ignores cloud, terrain and the definition of sunrise used, all of which change the daylight actually experienced."
+      }
+    ]
+  }
+}

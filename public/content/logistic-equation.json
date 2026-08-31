@@ -1,0 +1,128 @@
+{
+  "skillId": "logistic-equation",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **logistic equation** $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$ models growth limited by a **carrying capacity** $C$. Growth stops when $P=C$, because the bracket is then zero.",
+    "facts": [
+      "The constant solutions are $P=0$ and $P=C$, found by setting the right side equal to zero.",
+      "$\\dfrac{dP}{dt}=k_{1}P(C-P)$ is the same model written differently, with $k_{1}=\\dfrac{k}{C}$.",
+      "Solving with the partial fractions $\\dfrac{C}{P(C-P)}=\\dfrac{1}{P}+\\dfrac{1}{C-P}$ leads to $\\dfrac{P}{C-P}=Ae^{kt}$.",
+      "Rearranged, the solution is $P=\\dfrac{C}{1+Ae^{-kt}}$, where $A=\\dfrac{C-P_{0}}{P_{0}}$.",
+      "As $t\\to\\infty$, $e^{-kt}\\to 0$, so $P$ approaches $C$ but never reaches it at any finite time.",
+      "$\\dfrac{dP}{dt}$ is a concave down quadratic in $P$ with roots $0$ and $C$, so growth is fastest at $P=\\dfrac{C}{2}$.",
+      "The point where $P=\\dfrac{C}{2}$ is the point of inflection of the S-shaped solution curve.",
+      "Logistic growth is not exponential; it only resembles exponential growth while $P$ is small compared with $C$.",
+      "If $P_{0}>C$ then $\\dfrac{dP}{dt}<0$, and $P$ falls towards $C$ from above."
+    ],
+    "steps": [
+      "Invert the equation to get $\\dfrac{dt}{dP}$ and match it to the given partial fractions",
+      "Integrate both sides, adding one constant of integration",
+      "Exponentiate and write the constant as a single $A$ in $\\dfrac{P}{C-P}=Ae^{kt}$",
+      "Substitute the initial condition to find $A$",
+      "Rearrange to the form $P=\\dfrac{C}{1+Ae^{-kt}}$"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.2P\\left(1-\\dfrac{P}{450}\\right)$. Write down the carrying capacity and the value of $k$.",
+        "structure": "identify-capacity",
+        "solution_text": "Comparing with $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$:\n$k=0.2$\n$C=450$"
+      },
+      {
+        "question_text": "A population satisfies $\\dfrac{dN}{dt}=0.004N(600-N)$. Write this in the form $kN\\left(1-\\dfrac{N}{C}\\right)$ and state the carrying capacity.",
+        "structure": "identify-capacity",
+        "solution_text": "$\\dfrac{dN}{dt}=0.004N(600-N)$\n$=0.004\\times 600\\times N\\left(1-\\dfrac{N}{600}\\right)$\n$=2.4N\\left(1-\\dfrac{N}{600}\\right)$\nThe carrying capacity is $600$."
+      },
+      {
+        "question_text": "State the constant solutions of $\\dfrac{dP}{dt}=\\dfrac{1}{7}P\\left(1-\\dfrac{P}{350}\\right)$, and interpret each one.",
+        "structure": "constant-solutions",
+        "solution_text": "$\\dfrac{1}{7}P\\left(1-\\dfrac{P}{350}\\right)=0$\n$P=0$ or $P=350$\n$P=0$ is an extinct population, which stays extinct.\n$P=350$ is the carrying capacity, at which the population stays constant."
+      },
+      {
+        "question_text": "A population is modelled by $P=\\dfrac{1200}{1+5e^{-0.25t}}$, with $t$ in years. Find $P(0)$, and find $P(12)$ correct to the nearest whole number.",
+        "structure": "evaluate-population",
+        "solution_text": "$P(0)=\\dfrac{1200}{1+5}$\n$=200$\n$P(12)=\\dfrac{1200}{1+5e^{-3}}$\n$=\\dfrac{1200}{1+0.248935}$\n$=\\dfrac{1200}{1.248935}$\n$=961$"
+      },
+      {
+        "question_text": "A population is modelled by $P=\\dfrac{2500}{1+24e^{-0.4t}}$. Describe what happens to $P$ as $t$ increases without bound, and justify your answer.",
+        "structure": "long-term-behaviour",
+        "solution_text": "As $t\\to\\infty$, $e^{-0.4t}\\to 0$.\n$P\\to\\dfrac{2500}{1+0}$\n$=2500$\nThe population rises towards the carrying capacity $2500$, but $24e^{-0.4t}>0$ for every $t$, so $P$ never actually reaches $2500$."
+      },
+      {
+        "question_text": "For $\\dfrac{dP}{dt}=0.3P\\left(1-\\dfrac{P}{800}\\right)$, find the population at which $P$ is growing fastest, and find that maximum rate.",
+        "structure": "fastest-growth",
+        "solution_text": "$\\dfrac{dP}{dt}$ is a concave down quadratic in $P$ with roots $P=0$ and $P=800$.\nIts maximum is halfway between the roots.\n$P=400$\n$\\dfrac{dP}{dt}=0.3\\times 400\\times\\left(1-\\dfrac{400}{800}\\right)$\n$=0.3\\times 400\\times 0.5$\n$=60$ per unit of time"
+      },
+      {
+        "question_text": "The graph shows a population modelled by $P=\\dfrac{C}{1+Ae^{-kt}}$, with $t$ in years. Write down the carrying capacity and the initial population from the graph, then find $A$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$P$}, xmin=-1, xmax=15, ymin=-60, ymax=700, xtick={5,10}, ytick={100,600}, samples=120, clip=false, ylabel near ticks]\n\\addplot[thick, ->, domain=0:14] {600/(1+5*exp(-0.5*x))};\n\\addplot[dashed, domain=0:15] (x, 600);\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-logistic-graph",
+        "solution_text": "The dashed line is the horizontal asymptote, so $C=600$.\nThe curve meets the $P$-axis at $100$, so $P_{0}=100$.\n$A=\\dfrac{C-P_{0}}{P_{0}}$\n$=\\dfrac{600-100}{100}$\n$=5$"
+      },
+      {
+        "question_text": "Explain why $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$ behaves almost like exponential growth while $P$ is very small compared with $C$.",
+        "structure": "logistic-vs-exponential",
+        "solution_text": "When $P$ is very small compared with $C$, the fraction $\\dfrac{P}{C}$ is close to $0$.\n$1-\\dfrac{P}{C}\\approx 1$\n$\\dfrac{dP}{dt}\\approx kP$\nThis is the exponential growth equation, so the early part of the logistic curve looks exponential."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $\\dfrac{dP}{dt}=\\dfrac{1}{6}P\\left(1-\\dfrac{P}{480}\\right)$ with $P(0)=60$, using $\\dfrac{480}{P(480-P)}=\\dfrac{1}{P}+\\dfrac{1}{480-P}$. Give your answer in the form $P=\\dfrac{C}{1+Ae^{-kt}}$.",
+        "structure": "solve-logistic-ivp",
+        "solution_text": "1. **Invert the equation to get $\\dfrac{dt}{dP}$ and match it to the given partial fractions**\n$\\dfrac{dt}{dP}=\\dfrac{6}{P\\left(1-\\frac{P}{480}\\right)}$\n$=\\dfrac{6\\times 480}{P(480-P)}$\n$=6\\left(\\dfrac{1}{P}+\\dfrac{1}{480-P}\\right)$\n2. **Integrate both sides, adding one constant of integration**\n$t=6\\left(\\ln|P|-\\ln|480-P|\\right)+D$\n3. **Exponentiate and write the constant as a single $A$ in $\\dfrac{P}{C-P}=Ae^{kt}$**\n$\\ln\\left|\\dfrac{P}{480-P}\\right|=\\dfrac{t-D}{6}$\n$\\dfrac{P}{480-P}=Ae^{\\frac{t}{6}}$\n4. **Substitute the initial condition to find $A$**\n$\\dfrac{60}{420}=A$, so $A=\\dfrac{1}{7}$.\n5. **Rearrange to the form $P=\\dfrac{C}{1+Ae^{-kt}}$**\n$7P=(480-P)e^{\\frac{t}{6}}$\n$P\\left(7+e^{\\frac{t}{6}}\\right)=480e^{\\frac{t}{6}}$\n$P=\\dfrac{480e^{\\frac{t}{6}}}{7+e^{\\frac{t}{6}}}$\n$P=\\dfrac{480}{1+7e^{-\\frac{t}{6}}}$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{dN}{dt}=0.002N(400-N)$ with $N(0)=80$, using $\\dfrac{400}{N(400-N)}=\\dfrac{1}{N}+\\dfrac{1}{400-N}$. Give your answer in the form $N=\\dfrac{C}{1+Ae^{-kt}}$.",
+        "structure": "solve-logistic-ivp",
+        "solution_text": "$\\dfrac{dN}{dt}=0.8N\\left(1-\\dfrac{N}{400}\\right)$\n$\\dfrac{dt}{dN}=\\dfrac{1}{0.002N(400-N)}$\n$=\\dfrac{1}{0.8}\\left(\\dfrac{1}{N}+\\dfrac{1}{400-N}\\right)$\n$0.8t=\\ln\\left|\\dfrac{N}{400-N}\\right|+D$\n$\\dfrac{N}{400-N}=Ae^{0.8t}$\n$\\dfrac{80}{320}=A$, so $A=\\dfrac{1}{4}$.\n$4N=(400-N)e^{0.8t}$\n$N\\left(4+e^{0.8t}\\right)=400e^{0.8t}$\n$N=\\dfrac{400}{1+4e^{-0.8t}}$"
+      },
+      {
+        "question_text": "A population satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{1500}\\right)$ with $P(0)=300$ and $P(4)=750$, where $t$ is in years. Find $k$ exactly, and hence find $P(8)$.",
+        "structure": "find-k-from-second-point",
+        "solution_text": "$A=\\dfrac{1500-300}{300}$\n$=4$\n$P=\\dfrac{1500}{1+4e^{-kt}}$\n$750=\\dfrac{1500}{1+4e^{-4k}}$\n$1+4e^{-4k}=2$\n$e^{-4k}=\\dfrac{1}{4}$\n$k=\\dfrac{\\ln 4}{4}=\\dfrac{\\ln 2}{2}$\n$e^{-8k}=\\left(\\dfrac{1}{4}\\right)^{2}=\\dfrac{1}{16}$\n$P(8)=\\dfrac{1500}{1+\\frac{4}{16}}$\n$=\\dfrac{1500}{1.25}$\n$=1200$"
+      },
+      {
+        "question_text": "A colony follows $P=\\dfrac{5000}{1+9e^{-0.2t}}$, with $t$ in weeks. Find the population after $15$ weeks correct to the nearest whole number, and state what percentage of the carrying capacity this is, correct to the nearest percent.",
+        "structure": "evaluate-population",
+        "solution_text": "$P(15)=\\dfrac{5000}{1+9e^{-3}}$\n$=\\dfrac{5000}{1+0.448084}$\n$=\\dfrac{5000}{1.448084}$\n$=3453$\n$\\dfrac{3453}{5000}=0.6906$\nThis is $69\\%$ of the carrying capacity."
+      },
+      {
+        "question_text": "A population is modelled by $P=\\dfrac{1600}{1+15e^{-0.5t}}$, with $t$ in years. Find the exact time at which the population is growing fastest.",
+        "structure": "fastest-growth",
+        "solution_text": "Growth is fastest at half the carrying capacity.\n$P=800$\n$800=\\dfrac{1600}{1+15e^{-0.5t}}$\n$1+15e^{-0.5t}=2$\n$e^{-0.5t}=\\dfrac{1}{15}$\n$-0.5t=-\\ln 15$\n$t=2\\ln 15$ years"
+      },
+      {
+        "question_text": "A herd satisfies $\\dfrac{dH}{dt}=\\dfrac{1}{5}H\\left(1-\\dfrac{H}{900}\\right)$ with $H(0)=1200$. Without solving the equation, describe what happens to $H$ and justify your answer.",
+        "structure": "long-term-behaviour",
+        "solution_text": "$1-\\dfrac{1200}{900}=1-\\dfrac{4}{3}$\n$=-\\dfrac{1}{3}$\n$\\dfrac{dH}{dt}=\\dfrac{1}{5}\\times 1200\\times\\left(-\\dfrac{1}{3}\\right)$\n$=-80$\nThe rate is negative, so the herd decreases.\nIt keeps decreasing while $H>900$ and stops changing only at $H=900$, so the herd falls towards the carrying capacity from above."
+      },
+      {
+        "question_text": "A population with carrying capacity $4000$ is modelled logistically, starting at $200$. A student says the population will eventually exceed $4000$ because it is always increasing. Explain why the student is wrong.",
+        "structure": "logistic-vs-exponential",
+        "solution_text": "Increasing does not mean unbounded, because the rate of increase itself shrinks.\nAs $P$ approaches $4000$, the bracket $1-\\dfrac{P}{4000}$ approaches $0$, so $\\dfrac{dP}{dt}$ approaches $0$.\n$P=4000$ is a constant solution, and a solution curve cannot cross it.\nThe population rises towards $4000$ without ever reaching or passing it."
+      },
+      {
+        "question_text": "The area $S$ cm$^{2}$ covered by a mould satisfies $\\dfrac{dS}{dt}=\\dfrac{1}{25}S(50-S)$ with $S(0)=5$ and $t$ in days. Using $\\dfrac{1}{S(50-S)}=\\dfrac{1}{50}\\left(\\dfrac{1}{S}+\\dfrac{1}{50-S}\\right)$, find $S$ as a function of $t$.",
+        "structure": "solve-logistic-ivp",
+        "solution_text": "$\\dfrac{dt}{dS}=\\dfrac{25}{S(50-S)}$\n$=\\dfrac{25}{50}\\left(\\dfrac{1}{S}+\\dfrac{1}{50-S}\\right)$\n$=\\dfrac{1}{2}\\left(\\dfrac{1}{S}+\\dfrac{1}{50-S}\\right)$\n$t=\\dfrac{1}{2}\\ln\\left|\\dfrac{S}{50-S}\\right|+D$\n$\\dfrac{S}{50-S}=Ae^{2t}$\n$\\dfrac{5}{45}=A$, so $A=\\dfrac{1}{9}$.\n$9S=(50-S)e^{2t}$\n$S\\left(9+e^{2t}\\right)=50e^{2t}$\n$S=\\dfrac{50}{1+9e^{-2t}}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A lake's fish population satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{8000}\\right)$ with $P(0)=500$ and $P(6)=2000$, where $t$ is in years. Find when the population reaches half the carrying capacity, correct to one decimal place.",
+        "structure": "find-k-from-second-point",
+        "solution_text": "$A=\\dfrac{8000-500}{500}$\n$=15$\n$P=\\dfrac{8000}{1+15e^{-kt}}$\n$2000=\\dfrac{8000}{1+15e^{-6k}}$\n$1+15e^{-6k}=4$\n$e^{-6k}=\\dfrac{1}{5}$\n$k=\\dfrac{\\ln 5}{6}$\nHalf the carrying capacity is $4000$.\n$1+15e^{-kt}=2$\n$e^{-kt}=\\dfrac{1}{15}$\n$kt=\\ln 15$\n$t=\\dfrac{6\\ln 15}{\\ln 5}$\n$=\\dfrac{6\\times 2.708050}{1.609438}$\n$=10.1$ years"
+      },
+      {
+        "question_text": "A rumour spreads so that the proportion $P$ of a town who have heard it satisfies $\\dfrac{dP}{dt}=2P(1-P)$, with $t$ in days and $P(0)=0.1$. Using $\\dfrac{1}{P(1-P)}=\\dfrac{1}{P}+\\dfrac{1}{1-P}$, find $P$ as a function of $t$, and find the exact time at which $90\\%$ of the town have heard it.",
+        "structure": "solve-logistic-ivp",
+        "solution_text": "$\\dfrac{dt}{dP}=\\dfrac{1}{2}\\left(\\dfrac{1}{P}+\\dfrac{1}{1-P}\\right)$\n$2t=\\ln\\left|\\dfrac{P}{1-P}\\right|+D$\n$\\dfrac{P}{1-P}=Ae^{2t}$\n$\\dfrac{0.1}{0.9}=A$, so $A=\\dfrac{1}{9}$.\n$9P=(1-P)e^{2t}$\n$P\\left(9+e^{2t}\\right)=e^{2t}$\n$P=\\dfrac{1}{1+9e^{-2t}}$\nSetting $P=0.9$:\n$1+9e^{-2t}=\\dfrac{10}{9}$\n$9e^{-2t}=\\dfrac{1}{9}$\n$e^{-2t}=\\dfrac{1}{81}$\n$t=\\dfrac{\\ln 81}{2}=2\\ln 3$ days"
+      },
+      {
+        "question_text": "A bacterial colony satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{C}\\right)$. Its growth is fastest when $P=1200$, and that fastest rate is $90$ bacteria per hour. Find $C$ and $k$.",
+        "structure": "fastest-growth",
+        "solution_text": "Growth is fastest at half the carrying capacity.\n$\\dfrac{C}{2}=1200$\n$C=2400$\n$90=k\\times 1200\\times\\left(1-\\dfrac{1200}{2400}\\right)$\n$90=k\\times 1200\\times 0.5$\n$90=600k$\n$k=0.15$"
+      }
+    ]
+  }
+}

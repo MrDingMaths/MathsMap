@@ -1,0 +1,109 @@
+{
+  "skillId": "induction-false-proofs",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The lines below are an attempted proof of $2 + 5 + 8 + \\dots + (3n - 1) = \\dfrac{n(3n + 1)}{2}$ for all integers $n \\ge 1$.\nLine 1: $LHS = 2$ and $RHS = \\dfrac{1(3 + 1)}{2} = 2$, so the statement is true for $n = 1$.\nLine 2: Assume $2 + 5 + \\dots + (3k - 1) = \\dfrac{k(3k + 1)}{2}$.\nLine 3: $2 + 5 + \\dots + (3k - 1) + (3k - 1) = \\dfrac{k(3k + 1)}{2} + (3k - 1)$\nLine 4: $= \\dfrac{3k^{2} + 7k - 2}{2}$\nWhich is the first line that is wrong?",
+      "structure": "find-first-wrong-line",
+      "mastery": false,
+      "options": [
+        { "text": "Line 3", "correct": true },
+        { "text": "Line 1", "why": "The base case is sound: both sides really do equal $2$ at $n = 1$." },
+        { "text": "Line 2", "why": "The hypothesis is correctly written for $n = k$; treating any assumption as an error mistakes induction for circular reasoning." },
+        { "text": "Line 4", "why": "Line 4 follows correctly from line 3; the fault is the wrong term added in the earlier line." }
+      ],
+      "solution_text": "The term added must be the general term at $n = k + 1$, that is $3(k + 1) - 1 = 3k + 2$.\nLine 3 adds $3k - 1$, which is the $n = k$ term repeated, so line 3 is the first line that is wrong."
+    },
+    {
+      "id": "q2",
+      "question_text": "A student's entire proof of $4 + 8 + 12 + \\dots + 4n = 2n(n + 1)$ reads: \"Assume $4 + 8 + \\dots + 4k = 2k(k + 1)$. Then $2k(k + 1) + 4(k + 1) = 2(k + 1)(k + 2)$, which is the $n = k + 1$ form. Hence the formula holds for all integers $n \\ge 1$.\" What is wrong?",
+      "structure": "name-the-missing-part",
+      "mastery": false,
+      "options": [
+        { "text": "No base case has been verified, so nothing anchors the chain of implications", "correct": true },
+        { "text": "The hypothesis should have been assumed for every integer $k$, not for one $k$", "why": "Assuming it for every $k$ is the circularity a valid induction avoids; assuming it for one $k$ is correct." },
+        { "text": "The algebra is wrong: $2k(k + 1) + 4(k + 1)$ does not factorise as $2(k + 1)(k + 2)$", "why": "It does factorise that way, since $(k + 1)$ is common to both terms; the fault lies elsewhere." },
+        { "text": "Nothing is wrong, because a correct inductive step proves the formula on its own", "why": "A step only passes truth along; with no verified starting case it establishes nothing." }
+      ],
+      "solution_text": "The step is correct, but it proves only that truth at $n = k$ would force truth at $n = k + 1$.\nNo value of $n$ has been checked, so the chain has nothing to start from.\nThe proof needs the base case $n = 1$: $LHS = 4$ and $RHS = 2(1)(2) = 4$."
+    },
+    {
+      "id": "q3",
+      "question_text": "A student writes: \"Claim: $n^{2} + 3n$ is even for all integers $n \\ge 1$. True for $n = 1$ since $4$ is even. Assume true for $n = k$. Now $(k + 1)^{2} + 3(k + 1) = k^{2} + 5k + 4 = k(k + 5) + 4$, and one of $k$ and $k + 5$ is even, so the expression is even.\" Why is this not a proof by mathematical induction?",
+      "structure": "diagnose-unused-hypothesis",
+      "mastery": false,
+      "options": [
+        { "text": "The inductive step never uses the assumption, so the argument is a direct proof of the $n = k + 1$ case rather than an induction", "correct": true },
+        { "text": "The base case is wrong, because $1^{2} + 3(1) = 4$ is not even", "why": "$4 = 2 \\times 2$ is even, so the base case is correct." },
+        { "text": "The expansion is wrong: $(k + 1)^{2} + 3(k + 1)$ does not equal $k^{2} + 5k + 4$", "why": "The expansion is correct, since $k^{2} + 2k + 1 + 3k + 3 = k^{2} + 5k + 4$." },
+        { "text": "Induction cannot be used for statements about even numbers", "why": "Even means divisible by $2$, and induction proves divisibility results routinely." }
+      ],
+      "solution_text": "Every line about $n = k + 1$ stands on its own; the assumed fact about $k^{2} + 3k$ is never called on.\nAn induction proof must rewrite $(k + 1)^{2} + 3(k + 1)$ so that $k^{2} + 3k$ appears and the assumption can be substituted, for example as $\\left(k^{2} + 3k\\right) + (2k + 4)$."
+    },
+    {
+      "id": "q4",
+      "question_text": "At the $n = k + 1$ stage of a proof of $5 + 8 + 11 + \\dots + (3n + 2) = \\dfrac{n(3n + 7)}{2}$, a student writes: \"Start from $\\dfrac{k(3k + 7)}{2} + (3k + 5) = \\dfrac{(k + 1)(3k + 10)}{2}$, multiply both sides by $2$, expand and subtract, obtaining $0 = 0$, which is true. Hence the $n = k + 1$ case is true.\" What is the error in this step?",
+      "structure": "diagnose-assumed-conclusion",
+      "mastery": false,
+      "options": [
+        { "text": "The step begins by assuming the $n = k + 1$ equation, the very thing to be proved, so reaching a true statement from it establishes nothing", "correct": true },
+        { "text": "Multiplying both sides by $2$ is not a valid operation on an equation", "why": "Multiplying both sides by a non-zero number is valid; the fault is what the working starts from." },
+        { "text": "The inductive hypothesis should have been assumed for every integer $k$", "why": "It is assumed for one $k$, which is exactly correct practice." },
+        { "text": "The term added should have been $3k + 2$ rather than $3k + 5$", "why": "The $(k + 1)$th term is $3(k + 1) + 2 = 3k + 5$, so the term used is right." }
+      ],
+      "solution_text": "A valid step starts from the left side alone.\n$\\dfrac{k(3k + 7)}{2} + (3k + 5)$\n$= \\dfrac{3k^{2} + 7k + 6k + 10}{2}$\n$= \\dfrac{3k^{2} + 13k + 10}{2}$\n$= \\dfrac{(k + 1)(3k + 10)}{2}$\nDeriving the right side is a proof; assuming the equation and reducing it to $0 = 0$ is not."
+    },
+    {
+      "id": "q5",
+      "question_text": "Which of these statements cannot be proved by mathematical induction as it stands?",
+      "structure": "why-induction-does-not-apply",
+      "mastery": false,
+      "options": [
+        { "text": "$\\cos^{2} x + \\sin^{2} x = 1$ for all real numbers $x$", "correct": true },
+        { "text": "$7^{n} - 1$ is divisible by $6$ for all integers $n \\ge 1$", "why": "A divisibility claim indexed by the integers is exactly what induction handles." },
+        { "text": "$1 + 2 + \\dots + n = \\dfrac{n(n + 1)}{2}$ for all integers $n \\ge 1$", "why": "A sum formula indexed by the integers is the standard target of an induction proof." },
+        { "text": "$4^{n} + 2$ is a multiple of $3$ for all integers $n \\ge 0$", "why": "Starting at $n = 0$ is allowed; only the base value changes, not the method." }
+      ],
+      "solution_text": "Induction verifies a starting integer and then steps from $n = k$ to $n = k + 1$.\nThe variable $x$ ranges over the real numbers, where there is no next value to step to, so induction cannot reach them.\nThe other three claims are indexed by integers and are provable by induction."
+    },
+    {
+      "id": "q6",
+      "question_text": "The proposition \"$n^{2} - n + 11$ is prime for every integer $n \\ge 1$\" is false. Which value of $n$ is the smallest counterexample?",
+      "structure": "disprove-by-counterexample",
+      "mastery": false,
+      "options": [
+        { "text": "$n = 11$, giving $121 = 11^{2}$", "correct": true },
+        { "text": "$n = 1$, giving $11$", "why": "$11$ is prime, so the proposition holds at $n = 1$." },
+        { "text": "$n = 10$, giving $101$", "why": "$101$ is prime, so $n = 10$ is not a counterexample." },
+        { "text": "$n = 12$, giving $143 = 11 \\times 13$", "why": "$143$ is composite, but the proposition has already failed at the smaller value $n = 11$." }
+      ],
+      "solution_text": "$n = 10$: $100 - 10 + 11 = 101$, which is prime.\n$n = 11$: $121 - 11 + 11 = 121 = 11 \\times 11$, which is not prime.\nThe smallest counterexample is $n = 11$, and one counterexample is enough to disprove the proposition."
+    },
+    {
+      "id": "q7",
+      "question_text": "A claim is stated for all integers $n \\ge 3$. A student's proof verifies the claim at $n = 1$ and then gives a valid inductive step for every integer $k \\ge 3$. What is wrong with the proof?",
+      "structure": "name-the-missing-part",
+      "mastery": false,
+      "options": [
+        { "text": "The base case was tested at $n = 1$, which is outside the claim; the proof must verify $n = 3$", "correct": true },
+        { "text": "Nothing is wrong, because verifying a smaller value is stronger than verifying $n = 3$", "why": "The step is only available from $k = 3$ onwards, so a true case at $n = 1$ never reaches $n = 3$." },
+        { "text": "The inductive step should have been proved for every integer $k \\ge 1$", "why": "The claim concerns $n \\ge 3$ only, so a step valid from $k = 3$ is all that is required." },
+        { "text": "The conclusion should be stated for all integers $n \\ge 1$", "why": "Nothing has been established below $n = 3$, so widening the conclusion makes the proof worse, not better." }
+      ],
+      "solution_text": "The base case must sit at the smallest value the claim mentions, here $n = 3$.\nAs written, the verified case at $n = 1$ is disconnected from the step, which only carries truth upwards from $k = 3$.\nSo no case in the range $n \\ge 3$ has been established."
+    },
+    {
+      "id": "q8",
+      "question_text": "The lines below are an attempted proof of $2 + 4 + 6 + \\dots + 2n = n^{2} + n + 1$ for all integers $n \\ge 1$.\nLine 1: $LHS = 2$ and $RHS = 1^{2} + 1 + 1 = 3$, so the statement is true for $n = 1$.\nLine 2: Assume $2 + 4 + \\dots + 2k = k^{2} + k + 1$.\nLine 3: $2 + 4 + \\dots + 2k + (2k + 2) = k^{2} + k + 1 + 2k + 2$\nLine 4: $= (k + 1)^{2} + (k + 1) + 1$\nWhich option identifies the first wrong line and gives the correct reason?",
+      "structure": "find-first-wrong-line",
+      "mastery": true,
+      "options": [
+        { "text": "Line 1: the two sides are $2$ and $3$, so the base case is false and the whole proof collapses despite a valid step", "correct": true },
+        { "text": "Line 3: the term added should be $2(k + 1) - 1$, not $2k + 2$", "why": "The general term is $2n$, so the $(k + 1)$th term is $2(k + 1) = 2k + 2$, exactly what was added." },
+        { "text": "Line 4: $k^{2} + k + 1 + 2k + 2$ does not equal $(k + 1)^{2} + (k + 1) + 1$", "why": "Both expressions equal $k^{2} + 3k + 3$, so line 4 is correct." },
+        { "text": "No line is wrong, so the formula is proved for all integers $n \\ge 1$", "why": "Line 1 claims the base case holds when the two sides differ, so the proof fails at its first line." }
+      ],
+      "solution_text": "$LHS = 2$ and $RHS = 1^{2} + 1 + 1 = 3$, so the two sides are not equal and line 1 is false.\nLines 2 to 4 are correct, so the inductive step is valid: truth at $n = k$ would force truth at $n = k + 1$.\nWith a false base case there is nothing true to start the chain, and the formula is in fact false for every $n \\ge 1$."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "skillId": "projectile-cartesian-path",
+  "atomType": "R",
+  "theory": {
+    "intro": "The equations $x=Vt\\cos\\alpha$ and $y=Vt\\sin\\alpha-\\dfrac{1}{2}gt^{2}$ describe the path through the parameter $t$. Making $t$ the subject of the first and substituting it into the second links $x$ and $y$ directly.",
+    "facts": [
+      "Eliminating $t$ gives the **Cartesian equation** $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}\\cos^{2}\\alpha}$, which contains no $t$.",
+      "Since $\\sec^{2}\\alpha=1+\\tan^{2}\\alpha$, the same path is also written $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\left(1+\\tan^{2}\\alpha\\right)$.",
+      "The coefficient of $x^{2}$ is negative, so the path is a parabola opening downwards.",
+      "The path only describes the flight, so its domain is $0\\le x\\le R$, where $R$ is the range.",
+      "Setting $y=0$ and taking the non-zero root gives the range $R$.",
+      "The gradient $\\dfrac{dy}{dx}$ gives the direction of motion at a point, through $\\tan\\phi=\\dfrac{dy}{dx}$.",
+      "At $x=0$ the gradient equals $\\tan\\alpha$, so it gives the angle of projection."
+    ],
+    "steps": [
+      "Make $t$ the subject of the horizontal equation",
+      "Substitute into the vertical equation",
+      "Simplify to a quadratic in $x$",
+      "State the domain of the path"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A projectile launched from the origin has $x=20t$ and $y=25t-5t^{2}$, where $x$ and $y$ are in metres. Find the Cartesian equation of its path and state its domain.",
+        "structure": "eliminate-t",
+        "solution_text": "1. **Make $t$ the subject of the horizontal equation**\n$t=\\dfrac{x}{20}$\n2. **Substitute into the vertical equation**\n$y=25\\left(\\dfrac{x}{20}\\right)-5\\left(\\dfrac{x}{20}\\right)^{2}$\n3. **Simplify to a quadratic in $x$**\n$=\\dfrac{5x}{4}-\\dfrac{5x^{2}}{400}$\n$=\\dfrac{5x}{4}-\\dfrac{x^{2}}{80}$\n4. **State the domain of the path**\n$y=0$ gives $x=0$ or $x=100$, so the path is $0\\le x\\le 100$."
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{3}{2}x-\\dfrac{1}{80}x^{2}$, where $x$ and $y$ are in metres. Find the range.",
+        "structure": "range-from-cartesian",
+        "solution_text": "$\\dfrac{3}{2}x-\\dfrac{1}{80}x^{2}=0$\n$x\\left(\\dfrac{3}{2}-\\dfrac{x}{80}\\right)=0$\n$x=0$ or $x=120$\nThe range is $120\\text{ m}$."
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{1}{2}x-\\dfrac{1}{160}x^{2}$, where $x$ and $y$ are in metres. Find the greatest height.",
+        "structure": "greatest-height-from-cartesian",
+        "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{1}{2}-\\dfrac{x}{80}$\n$\\dfrac{1}{2}-\\dfrac{x}{80}=0$\n$x=40$\n$y(40)=\\dfrac{1}{2}(40)-\\dfrac{1}{160}(40)^{2}$\n$=20-10$\n$=10$\nThe greatest height is $10\\text{ m}$."
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{5}{3}x-\\dfrac{5}{216}x^{2}$. Find the angle of projection, to 1 d.p.",
+        "structure": "direction-of-motion",
+        "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{5}{3}-\\dfrac{5x}{108}$\nAt $x=0$, $\\dfrac{dy}{dx}=\\dfrac{5}{3}$\n$\\tan\\alpha=\\dfrac{5}{3}$\n$\\alpha=\\tan^{-1}\\left(\\dfrac{5}{3}\\right)$\n$\\approx 59.0^{\\circ}$"
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{4}{3}x-\\dfrac{1}{72}x^{2}$, where $x$ and $y$ are in metres. The point $P$ on the path is shown below. Find the direction of motion at $P$, where $x=60$, to 1 d.p.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$ (m)}, ylabel={$y$ (m)}, xmin=-10, xmax=112, ymin=-5, ymax=40, width=10cm, height=7cm, samples=100, clip=false, xtick={0,20,40,60,80,100}, ytick={0,10,20,30}]\n\\addplot[thick, domain=0:96] {4*x/3 - x*x/72};\n\\addplot[only marks, mark=*] coordinates {(60,30)};\n\\node[above right] at (axis cs:60,30) {$P$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "direction-of-motion",
+        "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{4}{3}-\\dfrac{x}{36}$\nAt $x=60$, $\\dfrac{dy}{dx}=\\dfrac{4}{3}-\\dfrac{60}{36}$\n$=-\\dfrac{1}{3}$\n$\\phi=\\tan^{-1}\\left(\\dfrac{1}{3}\\right)$\n$\\approx 18.4^{\\circ}$ below the horizontal\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$ (m)}, ylabel={$y$ (m)}, xmin=-10, xmax=112, ymin=-5, ymax=40, width=10cm, height=7cm, samples=100, clip=false, xtick={0,20,40,60,80,100}, ytick={0,10,20,30}]\n\\addplot[thick, domain=0:96] {4*x/3 - x*x/72};\n\\addplot[dashed, domain=45:80] {30 - (x-60)/3} node[pos=1, right] {tangent at $P$};\n\\addplot[only marks, mark=*] coordinates {(60,30)};\n\\node[above right] at (axis cs:60,30) {$P$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{4}{3}x-\\dfrac{5}{324}x^{2}$, where $x$ and $y$ are in metres. Find its height after it has travelled $12\\text{ m}$ horizontally, to 1 d.p.",
+        "structure": "height-and-distance-on-path",
+        "solution_text": "$y(12)=\\dfrac{4}{3}(12)-\\dfrac{5}{324}(12)^{2}$\n$=16-\\dfrac{720}{324}$\n$=16-\\dfrac{20}{9}$\n$=\\dfrac{124}{9}$\n$\\approx 13.8$\nThe height is $13.8\\text{ m}$."
+      },
+      {
+        "question_text": "A projectile launched from the origin has $x=48t$ and $y=20t-5t^{2}$, where $x$ and $y$ are in metres. Its path is shown below. Find the Cartesian equation of the path.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$ (m)}, ylabel={$y$ (m)}, xmin=-15, xmax=218, ymin=-4, ymax=26, width=10cm, height=6cm, samples=100, clip=false, xtick={0,50,100,150,200}, ytick={0,10,20}]\n\\addplot[thick, domain=0:192] {5*x/12 - 5*x*x/2304};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "eliminate-t",
+        "solution_text": "$t=\\dfrac{x}{48}$\n$y=20\\left(\\dfrac{x}{48}\\right)-5\\left(\\dfrac{x}{48}\\right)^{2}$\n$=\\dfrac{5x}{12}-\\dfrac{5x^{2}}{2304}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A projectile is launched from the origin with speed $V$ at angle $\\alpha$ above the horizontal, so that $x=Vt\\cos\\alpha$ and $y=Vt\\sin\\alpha-\\dfrac{1}{2}gt^{2}$. Show that $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\alpha$.",
+        "structure": "eliminate-t-general",
+        "solution_text": "1. **Make $t$ the subject of the horizontal equation**\n$t=\\dfrac{x}{V\\cos\\alpha}$\n2. **Substitute into the vertical equation**\n$y=V\\sin\\alpha\\left(\\dfrac{x}{V\\cos\\alpha}\\right)-\\dfrac{1}{2}g\\left(\\dfrac{x}{V\\cos\\alpha}\\right)^{2}$\n3. **Simplify to a quadratic in $x$**\n$=\\dfrac{x\\sin\\alpha}{\\cos\\alpha}-\\dfrac{gx^{2}}{2V^{2}\\cos^{2}\\alpha}$\n$=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\alpha$"
+      },
+      {
+        "question_text": "An object is rolled horizontally off the top of a $20\\text{ m}$ tower with initial velocity $5\\underset{\\sim}{i}$ metres per second. Take $g=10\\text{ m/s}^{2}$ and the point of projection as the origin. Find the Cartesian equation of the path, and how far from the base of the tower the object lands.",
+        "structure": "launch-height-path",
+        "solution_text": "$\\dot{x}=5$ and $\\dot{y}=-10t$\n$x=5t$ and $y=-5t^{2}$\n$t=\\dfrac{x}{5}$\n$y=-5\\left(\\dfrac{x}{5}\\right)^{2}$\n$=-\\dfrac{x^{2}}{5}$\nThe ground is at $y=-20$.\n$-20=-\\dfrac{x^{2}}{5}$\n$x^{2}=100$\n$x=10$\nThe object lands $10\\text{ m}$ from the base of the tower."
+      },
+      {
+        "question_text": "A projectile launched from the origin at speed $V$ and angle $\\theta$ follows $y=x\\tan\\theta-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta$. Show that the range is $\\dfrac{V^{2}\\sin 2\\theta}{g}$, and hence find the two possible values of $\\theta$, to 1 d.p., when $V=30\\text{ m/s}$, $g=10\\text{ m/s}^{2}$ and the range is $75\\text{ m}$.",
+        "structure": "range-from-cartesian",
+        "solution_text": "At $y=0$ with $x\\ne 0$:\n$x\\tan\\theta=\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta$\n$x=\\dfrac{2V^{2}\\tan\\theta}{g\\sec^{2}\\theta}$\n$=\\dfrac{2V^{2}\\sin\\theta\\cos\\theta}{g}$\n$=\\dfrac{V^{2}\\sin 2\\theta}{g}$\n$\\dfrac{900\\sin 2\\theta}{10}=75$\n$\\sin 2\\theta=\\dfrac{5}{6}$\nFor $0^{\\circ}<2\\theta<180^{\\circ}$:\n$2\\theta\\approx 56.4^{\\circ}$ or $123.6^{\\circ}$\n$\\theta\\approx 28.2^{\\circ}$ or $61.8^{\\circ}$"
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=\\dfrac{4}{3}x-\\dfrac{5}{324}x^{2}$, where $x$ and $y$ are in metres. Find the two horizontal distances at which its height is $19\\text{ m}$, to 1 d.p.",
+        "structure": "height-and-distance-on-path",
+        "solution_text": "$\\dfrac{4}{3}x-\\dfrac{5}{324}x^{2}=19$\nMultiplying by $324$:\n$432x-5x^{2}=6156$\n$5x^{2}-432x+6156=0$\n$x=\\dfrac{432\\pm\\sqrt{186624-123120}}{10}$\n$=\\dfrac{432\\pm 252}{10}$\n$x=18$ or $x=68.4$\nThe height is $19\\text{ m}$ at $18\\text{ m}$ on the way up and at $68.4\\text{ m}$ on the way down."
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=2x-\\dfrac{1}{50}x^{2}$, where $x$ and $y$ are in metres. Find the range, the greatest height, and the domain of the path.",
+        "structure": "greatest-height-from-cartesian",
+        "solution_text": "$2x-\\dfrac{1}{50}x^{2}=0$\n$x\\left(2-\\dfrac{x}{50}\\right)=0$\n$x=0$ or $x=100$\n$\\dfrac{dy}{dx}=2-\\dfrac{x}{25}$\n$2-\\dfrac{x}{25}=0$\n$x=50$\n$y(50)=2(50)-\\dfrac{1}{50}(50)^{2}$\n$=100-50$\n$=50$\nThe range is $100\\text{ m}$, the greatest height is $50\\text{ m}$, and the path is $0\\le x\\le 100$."
+      },
+      {
+        "question_text": "A ball is tossed from a point $O$ that is $6\\text{ m}$ above the ground, at $24\\text{ m/s}$ at $30^{\\circ}$ above the horizontal. Take $g=10\\text{ m/s}^{2}$ and $O$ as the origin. Show that the path is $y=\\dfrac{1}{\\sqrt{3}}x-\\dfrac{5}{432}x^{2}$, and find the horizontal distance travelled when the ball strikes the ground, to 1 d.p.",
+        "structure": "launch-height-path",
+        "solution_text": "$\\dot{x}=24\\cos 30^{\\circ}=12\\sqrt{3}$ and $\\dot{y}=-10t+12$\n$x=12\\sqrt{3}t$ and $y=-5t^{2}+12t$\n$t=\\dfrac{x}{12\\sqrt{3}}$\n$y=12\\left(\\dfrac{x}{12\\sqrt{3}}\\right)-5\\left(\\dfrac{x}{12\\sqrt{3}}\\right)^{2}$\n$=\\dfrac{1}{\\sqrt{3}}x-\\dfrac{5}{432}x^{2}$\nThe ground is at $y=-6$, so with $x=D$:\n$\\dfrac{1}{\\sqrt{3}}D-\\dfrac{5}{432}D^{2}=-6$\n$5D^{2}-144\\sqrt{3}D-2592=0$\n$D=\\dfrac{144\\sqrt{3}+\\sqrt{62208+51840}}{10}$\n$\\approx 58.7$\nThe ball lands $58.7\\text{ m}$ horizontally from $O$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A projectile launched from the origin follows $y=x\\tan\\theta-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta$. It is launched at $V=20\\text{ m/s}$ with $g=10\\text{ m/s}^{2}$ and passes through the point $(20,10)$. Show that $\\tan^{2}\\theta-4\\tan\\theta+3=0$, and hence find the two possible angles of projection, to 1 d.p.",
+        "structure": "range-from-cartesian",
+        "solution_text": "$\\dfrac{gx^{2}}{2V^{2}}=\\dfrac{10(400)}{800}=5$\n$10=20\\tan\\theta-5\\sec^{2}\\theta$\n$10=20\\tan\\theta-5\\left(1+\\tan^{2}\\theta\\right)$\n$5\\tan^{2}\\theta-20\\tan\\theta+15=0$\n$\\tan^{2}\\theta-4\\tan\\theta+3=0$\n$(\\tan\\theta-1)(\\tan\\theta-3)=0$\n$\\tan\\theta=1$ or $\\tan\\theta=3$\n$\\theta=45.0^{\\circ}$ or $\\theta\\approx 71.6^{\\circ}$"
+      },
+      {
+        "question_text": "A projectile launched from the origin follows $y=x\\tan\\theta-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\theta$. Show that its greatest height is $\\dfrac{V^{2}\\sin^{2}\\theta}{2g}$, and hence find $\\theta$ when $V=20\\text{ m/s}$, $g=10\\text{ m/s}^{2}$ and the greatest height is $15\\text{ m}$.",
+        "structure": "greatest-height-from-cartesian",
+        "solution_text": "$\\dfrac{dy}{dx}=\\tan\\theta-\\dfrac{gx\\sec^{2}\\theta}{V^{2}}$\nSetting $\\dfrac{dy}{dx}=0$:\n$x=\\dfrac{V^{2}\\tan\\theta}{g\\sec^{2}\\theta}=\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}$\n$y=\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}\\tan\\theta-\\dfrac{g\\sec^{2}\\theta}{2V^{2}}\\left(\\dfrac{V^{2}\\sin\\theta\\cos\\theta}{g}\\right)^{2}$\n$=\\dfrac{V^{2}\\sin^{2}\\theta}{g}-\\dfrac{V^{2}\\sin^{2}\\theta}{2g}$\n$=\\dfrac{V^{2}\\sin^{2}\\theta}{2g}$\n$\\dfrac{400\\sin^{2}\\theta}{20}=15$\n$\\sin^{2}\\theta=\\dfrac{3}{4}$\n$\\sin\\theta=\\dfrac{\\sqrt{3}}{2}$\n$\\theta=60^{\\circ}$"
+      },
+      {
+        "question_text": "A shell is fired from a gun at the origin with speed $V=200\\text{ m/s}$ and elevation $\\alpha$, taking $g=10\\text{ m/s}^{2}$ and the path $y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\sec^{2}\\alpha$. Show that $gx^{2}\\tan^{2}\\alpha-2xV^{2}\\tan\\alpha+\\left(2yV^{2}+gx^{2}\\right)=0$, and hence find the two elevations that hit a target $3\\text{ km}$ away horizontally and $0.5\\text{ km}$ above the gun, to the nearest degree.",
+        "structure": "eliminate-t-general",
+        "solution_text": "$y=x\\tan\\alpha-\\dfrac{gx^{2}}{2V^{2}}\\left(1+\\tan^{2}\\alpha\\right)$\nMultiplying by $2V^{2}$ and collecting terms:\n$gx^{2}\\tan^{2}\\alpha-2xV^{2}\\tan\\alpha+\\left(2yV^{2}+gx^{2}\\right)=0$\nWith $x=3000$, $y=500$, $V=200$ and $g=10$:\n$9\\times 10^{7}\\tan^{2}\\alpha-2.4\\times 10^{8}\\tan\\alpha+1.3\\times 10^{8}=0$\n$9\\tan^{2}\\alpha-24\\tan\\alpha+13=0$\n$\\tan\\alpha=\\dfrac{24\\pm\\sqrt{576-468}}{18}$\n$=\\dfrac{4\\pm\\sqrt{3}}{3}$\n$\\alpha\\approx 62^{\\circ}$ or $\\alpha\\approx 37^{\\circ}$"
+      }
+    ]
+  }
+}

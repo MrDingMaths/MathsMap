@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-quadratic-inequalities",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **quadratic inequality** is solved by finding the critical values where the quadratic equals zero and identifying where the parabola lies above or below the $x$-axis.",
+        "facts": [
+          "Rearrange the inequality so one side is zero: $ax^{2}+bx+c>0$, $\\ge0$, $<0$, or $\\le0$.",
+          "The **critical values** are the roots of the quadratic equation $ax^{2}+bx+c=0$.",
+          "For a **concave-up** parabola ($a>0$), values are positive ($y>0$) outside the roots and negative ($y<0$) between the roots.",
+          "For a **concave-down** parabola ($a<0$), values are positive ($y>0$) between the roots and negative ($y<0$) outside the roots.",
+          "**Strict inequalities** ($>, <$) use open intervals, while **non-strict inequalities** ($\\ge, \\le$) include the endpoints using closed intervals."
+        ],
+        "steps": [
+          "Rearrange all terms to one side so the inequality compares to $0$.",
+          "Factorise to find the critical values (the zeroes).",
+          "Determine the concavity (opens upward for $a>0$, downward for $a<0$).",
+          "Identify the region where the parabola satisfies the inequality.",
+          "State the solution as an inequality and in interval notation."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Solve $(x-1)(x-5)<0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.65]\n\\draw[->] (-1.5,0) -- (7.0,0) node[right] {$x$};\n\\draw[->] (0,-5.2) -- (0,6.5) node[above] {$y$};\n\\foreach \\x in {-1,1,2,3,4,5,6} {\\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-4,-2,2,4,6} {\\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <->, domain=-0.1:6.1, samples=60, smooth, variable=\\x] plot ({\\x}, {(\\x-1)*(\\x-5)});\n\\fill (1,0) circle (2.5pt);\n\\fill (5,0) circle (2.5pt);\n\\node[above] at (3, 1.5) {$y = (x-1)(x-5)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "factored-monic-between",
+        "solution_text": "$(x-1)(x-5)<0$\nCritical values: $x=1$ and $x=5$.\nConcavity: the coefficient of $x^{2}$ is positive, so the parabola opens upward.\nThe parabola lies below the $x$-axis between the critical values.\n$1<x<5$, or $(1,5)$"
+      },
+      {
+        "question_text": "Solve $(x+3)(x-2)>0$.",
+        "structure": "factored-monic-outside",
+        "solution_text": "$(x+3)(x-2)>0$\nCritical values: $x=-3$ and $x=2$.\nConcavity: the coefficient of $x^{2}$ is positive, so the parabola opens upward.\nThe parabola lies above the $x$-axis outside the critical values.\n$x<-3\\text{ or }x>2$, or $(-\\infty,-3)\\cup(2,\\infty)$"
+      },
+      {
+        "question_text": "Solve $x^{2}-2x-8\\le0$.",
+        "structure": "standard-monic-between",
+        "solution_text": "$x^{2}-2x-8\\le0$\n$(x-4)(x+2)\\le0$\nCritical values: $x=-2$ and $x=4$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies on or below the $x$-axis between and including the critical values.\n$-2\\le x\\le 4$, or $[-2,4]$"
+      },
+      {
+        "question_text": "Solve $x^{2}+3x-10\\ge0$.",
+        "structure": "standard-monic-outside",
+        "solution_text": "$x^{2}+3x-10\\ge0$\n$(x+5)(x-2)\\ge0$\nCritical values: $x=-5$ and $x=2$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies on or above the $x$-axis outside and including the critical values.\n$x\\le-5\\text{ or }x\\ge2$, or $(-\\infty,-5]\\cup[2,\\infty)$"
+      },
+      {
+        "question_text": "Solve $(x+4)(x+1)\\le0$.",
+        "structure": "factored-monic-between",
+        "solution_text": "$(x+4)(x+1)\\le0$\nCritical values: $x=-4$ and $x=-1$.\nConcavity: the coefficient of $x^{2}$ is positive, so the parabola opens upward.\nThe parabola lies on or below the $x$-axis between and including the critical values.\n$-4\\le x\\le -1$, or $[-4,-1]$"
+      },
+      {
+        "question_text": "Solve $x^{2}-9>0$.",
+        "structure": "standard-monic-outside",
+        "solution_text": "$x^{2}-9>0$\n$(x-3)(x+3)>0$\nCritical values: $x=-3$ and $x=3$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies above the $x$-axis outside the critical values.\n$x<-3\\text{ or }x>3$, or $(-\\infty,-3)\\cup(3,\\infty)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $x^{2}<5x-6$.",
+        "structure": "rearrange-quadratic-inequality",
+        "solution_text": "$x^{2}<5x-6$\n$x^{2}-5x+6<0$\n$(x-2)(x-3)<0$\nCritical values: $x=2$ and $x=3$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies below the $x$-axis between the critical values.\n$2<x<3$, or $(2,3)$"
+      },
+      {
+        "question_text": "Solve $x^{2}\\ge 4x+12$.",
+        "structure": "rearrange-quadratic-inequality",
+        "solution_text": "$x^{2}\\ge 4x+12$\n$x^{2}-4x-12\\ge0$\n$(x-6)(x+2)\\ge0$\nCritical values: $x=-2$ and $x=6$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies on or above the $x$-axis outside and including the critical values.\n$x\\le-2\\text{ or }x\\ge6$, or $(-\\infty,-2]\\cup[6,\\infty)$"
+      },
+      {
+        "question_text": "Solve $-x^{2}+x+12>0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.5]\n\\draw[->] (-4.5,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,-4.8) -- (0,14.5) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4,5} {\\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-4,-2,2,4,6,8,10,12,14} {\\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <->, domain=-3.5:4.5, samples=60, smooth, variable=\\x] plot ({\\x}, {(4-\\x)*(\\x+3)});\n\\fill (-3,0) circle (2.5pt);\n\\fill (4,0) circle (2.5pt);\n\\node[above right] at (2.0, 11.5) {$y = -x^{2}+x+12$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "negative-leading-coefficient",
+        "solution_text": "$-x^{2}+x+12>0$\n$-(x^{2}-x-12)>0$\n$-(x-4)(x+3)>0$\nCritical values: $x=-3$ and $x=4$.\nConcavity: $a=-1<0$, so the parabola opens downward.\nThe parabola lies above the $x$-axis between the critical values.\n$-3<x<4$, or $(-3,4)$"
+      },
+      {
+        "question_text": "Solve $(3-x)(x+2)\\ge0$.",
+        "structure": "negative-leading-coefficient",
+        "solution_text": "$(3-x)(x+2)\\ge0$\n$-(x-3)(x+2)\\ge0$\nCritical values: $x=-2$ and $x=3$.\nConcavity: expanding gives $-x^{2}+x+6$, so $a=-1<0$ and the parabola opens downward.\nThe parabola lies on or above the $x$-axis between and including the critical values.\n$-2\\le x\\le 3$, or $[-2,3]$"
+      },
+      {
+        "question_text": "Solve $2x^{2}-7x+3\\le0$.",
+        "structure": "non-monic-quadratic-inequality",
+        "solution_text": "$2x^{2}-7x+3\\le0$\n$(2x-1)(x-3)\\le0$\nCritical values: $x=\\frac{1}{2}$ and $x=3$.\nConcavity: $a=2>0$, so the parabola opens upward.\nThe parabola lies on or below the $x$-axis between and including the critical values.\n$\\frac{1}{2}\\le x\\le 3$, or $[\\frac{1}{2},3]$"
+      },
+      {
+        "question_text": "Solve $3x^{2}+5x-2>0$.",
+        "structure": "non-monic-quadratic-inequality",
+        "solution_text": "$3x^{2}+5x-2>0$\n$(3x-1)(x+2)>0$\nCritical values: $x=-2$ and $x=\\frac{1}{3}$.\nConcavity: $a=3>0$, so the parabola opens upward.\nThe parabola lies above the $x$-axis outside the critical values.\n$x<-2\\text{ or }x>\\frac{1}{3}$, or $(-\\infty,-2)\\cup(\\frac{1}{3},\\infty)$"
+      },
+      {
+        "question_text": "Solve $x(x+6)\\le 7$.",
+        "structure": "rearrange-quadratic-inequality",
+        "solution_text": "$x(x+6)\\le 7$\n$x^{2}+6x-7\\le0$\n$(x+7)(x-1)\\le0$\nCritical values: $x=-7$ and $x=1$.\nConcavity: $a=1>0$, so the parabola opens upward.\nThe parabola lies on or below the $x$-axis between and including the critical values.\n$-7\\le x\\le 1$, or $[-7,1]$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $5+4x-x^{2}\\le0$.",
+        "structure": "negative-leading-coefficient",
+        "solution_text": "$5+4x-x^{2}\\le0$\n$-x^{2}+4x+5\\le0$\n$-(x-5)(x+1)\\le0$\nCritical values: $x=-1$ and $x=5$.\nConcavity: $a=-1<0$, so the parabola opens downward.\nThe parabola lies on or below the $x$-axis outside and including the critical values.\n$x\\le-1\\text{ or }x\\ge5$, or $(-\\infty,-1]\\cup[5,\\infty)$"
+      },
+      {
+        "question_text": "Solve $6x^{2}-x-2\\ge0$.",
+        "structure": "non-monic-quadratic-inequality",
+        "solution_text": "$6x^{2}-x-2\\ge0$\n$(2x+1)(3x-2)\\ge0$\nCritical values: $x=-\\frac{1}{2}$ and $x=\\frac{2}{3}$.\nConcavity: $a=6>0$, so the parabola opens upward.\nThe parabola lies on or above the $x$-axis outside and including the critical values.\n$x\\le-\\frac{1}{2}\\text{ or }x\\ge\\frac{2}{3}$, or $(-\\infty,-\\frac{1}{2}]\\cup[\\frac{2}{3},\\infty)$"
+      },
+      {
+        "question_text": "Solve $2x(x-1)>3-x$.",
+        "structure": "rearrange-quadratic-inequality",
+        "solution_text": "$2x(x-1)>3-x$\n$2x^{2}-2x>3-x$\n$2x^{2}-x-3>0$\n$(2x-3)(x+1)>0$\nCritical values: $x=-1$ and $x=\\frac{3}{2}$.\nConcavity: $a=2>0$, so the parabola opens upward.\nThe parabola lies above the $x$-axis outside the critical values.\n$x<-1\\text{ or }x>\\frac{3}{2}$, or $(-\\infty,-1)\\cup(\\frac{3}{2},\\infty)$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "skillId": "poly-degree-sum",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **degree** of a polynomial is the highest power of $x$ with a non-zero coefficient. Multiplying polynomials adds their degrees. Adding or subtracting them cannot raise the degree, and can lower it if the leading terms cancel.",
+        "facts": [
+          "For non-zero polynomials $P(x)$ and $Q(x)$, $\\deg(P(x) \\times Q(x)) = \\deg(P(x)) + \\deg(Q(x))$.",
+          "For a positive integer $k$, $\\deg\\left((P(x))^{k}\\right) = k \\times \\deg(P(x))$.",
+          "For a sum or difference, $\\deg(P(x) \\pm Q(x)) \\le \\max(\\deg(P(x)), \\deg(Q(x)))$.",
+          "If the two degrees are different, $\\deg(P(x) \\pm Q(x)) = \\max(\\deg(P(x)), \\deg(Q(x)))$.",
+          "If the two degrees are equal, the leading terms may cancel and the degree of the result drops below $\\deg(P(x))$.",
+          "The zero polynomial $P(x) = 0$ has no degree."
+        ],
+        "steps": [
+          "Identify the degree of each polynomial.",
+          "For a product, add the degrees: $\\deg(P \\times Q) = \\deg(P) + \\deg(Q)$.",
+          "For a sum or difference, check whether the highest-degree terms cancel.",
+          "State the degree of the resulting polynomial."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "$P(x) = 4x^{3} - 2x + 1$ and $Q(x) = 5x^{2} + 7$. Find the degree of the product $P(x)Q(x)$.",
+        "structure": "degree-of-product",
+        "solution_text": "$\\deg(P(x)) = 3$\n$\\deg(Q(x)) = 2$\n$\\deg(P(x)Q(x)) = 3 + 2$\n$= 5$"
+      },
+      {
+        "question_text": "If $P(x)$ has degree $4$ and $Q(x)$ has degree $3$, find the degree of $P(x)Q(x)$.",
+        "structure": "degree-of-product",
+        "solution_text": "$\\deg(P(x)Q(x)) = \\deg(P(x)) + \\deg(Q(x))$\n$= 4 + 3$\n$= 7$"
+      },
+      {
+        "question_text": "Given $P(x) = 2x^{3} - 5x + 4$, find the degree of $(P(x))^{2}$.",
+        "structure": "degree-of-power",
+        "solution_text": "$\\deg(P(x)) = 3$\n$\\deg\\left((P(x))^{2}\\right) = 2 \\times 3$\n$= 6$"
+      },
+      {
+        "question_text": "$P(x) = 3x^{4} - x^{2} + 2$ and $Q(x) = 7x^{2} + 5x - 6$. Find the degree of $P(x) + Q(x)$.",
+        "structure": "degree-of-sum-difference-distinct",
+        "solution_text": "$\\deg(P(x)) = 4$\n$\\deg(Q(x)) = 2$\nSince the degrees are distinct, the sum takes the higher degree.\n$\\deg(P(x) + Q(x)) = \\max(4, 2)$\n$= 4$"
+      },
+      {
+        "question_text": "$P(x) = 6x^{5} + 4x - 1$ and $Q(x) = 2x^{3} - 9$. Find the degree of $P(x) - Q(x)$.",
+        "structure": "degree-of-sum-difference-distinct",
+        "solution_text": "$\\deg(P(x)) = 5$\n$\\deg(Q(x)) = 3$\n$\\deg(P(x) - Q(x)) = \\max(5, 3)$\n$= 5$"
+      },
+      {
+        "question_text": "$P(x) = 4x^{3} + 5x^{2} - 2$ and $Q(x) = -4x^{3} + 7x + 1$. Find the degree of $P(x) + Q(x)$.",
+        "structure": "degree-drop-cancellation",
+        "solution_text": "$P(x) + Q(x)$\n$= (4x^{3} + 5x^{2} - 2) + (-4x^{3} + 7x + 1)$\n$= 5x^{2} + 7x - 1$\nThe $x^{3}$ terms cancel, so the degree drops to $2$."
+      },
+      {
+        "question_text": "If $\\deg(P(x)Q(x)) = 8$ and $\\deg(P(x)) = 3$, find $\\deg(Q(x))$.",
+        "structure": "unknown-degree-from-relation",
+        "solution_text": "$\\deg(P(x)Q(x)) = \\deg(P(x)) + \\deg(Q(x))$\n$8 = 3 + \\deg(Q(x))$\n$\\deg(Q(x)) = 5$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "$P(x) = (2x^{2} + 1)(x^{3} - 4)$ and $Q(x) = 3x^{4} - 5x + 2$. Find the degree of $P(x)Q(x)$.",
+        "structure": "degree-of-product",
+        "solution_text": "$\\deg(P(x)) = 2 + 3 = 5$\n$\\deg(Q(x)) = 4$\n$\\deg(P(x)Q(x)) = 5 + 4$\n$= 9$"
+      },
+      {
+        "question_text": "If $P(x)$ has degree $3$ and $Q(x)$ has degree $2$, find the degree of $(P(x))^{3} \\times (Q(x))^{4}$.",
+        "structure": "degree-of-power",
+        "solution_text": "$\\deg\\left((P(x))^{3}\\right) = 3 \\times 3 = 9$\n$\\deg\\left((Q(x))^{4}\\right) = 4 \\times 2 = 8$\n$\\deg\\left((P(x))^{3} \\times (Q(x))^{4}\\right) = 9 + 8$\n$= 17$"
+      },
+      {
+        "question_text": "$P(x) = 3x^{4} - 2x^{3} + 5$ and $Q(x) = 3x^{4} - 2x^{3} + 7x^{2} - 1$. Find the degree of $P(x) - Q(x)$.",
+        "structure": "degree-drop-cancellation",
+        "solution_text": "$P(x) - Q(x)$\n$= (3x^{4} - 2x^{3} + 5) - (3x^{4} - 2x^{3} + 7x^{2} - 1)$\n$= 3x^{4} - 2x^{3} + 5 - 3x^{4} + 2x^{3} - 7x^{2} + 1$\n$= -7x^{2} + 6$\nThe $x^{4}$ and $x^{3}$ terms cancel, so the degree is $2$."
+      },
+      {
+        "question_text": "For what value of $k$ does $(kx^{3} + 4x^{2} - 1) + (6x^{3} - x + 5)$ have degree less than $3$?",
+        "structure": "degree-drop-cancellation",
+        "solution_text": "The $x^{3}$ coefficient in the sum is $k + 6$.\nFor the degree to be less than $3$, the leading term must vanish.\n$k + 6 = 0$\n$k = -6$"
+      },
+      {
+        "question_text": "If $\\deg(P(x)) = 6$ and $\\deg(Q(x)) = 6$, what is the maximum possible degree of $P(x) + Q(x)$?",
+        "structure": "degree-of-sum-difference-distinct",
+        "solution_text": "The degree of a sum cannot exceed the maximum of the individual degrees.\n$\\deg(P(x) + Q(x)) \\le \\max(6, 6) = 6$\nMaximum possible degree is $6$."
+      },
+      {
+        "question_text": "Given $\\deg\\left((P(x))^{2} \\times Q(x)\\right) = 11$ and $\\deg(P(x) \\times Q(x)) = 7$, find $\\deg(P(x))$ and $\\deg(Q(x))$.",
+        "structure": "unknown-degree-from-relation",
+        "solution_text": "Let $p = \\deg(P(x))$ and $q = \\deg(Q(x))$.\n$2p + q = 11$\n$p + q = 7$\nSubtracting gives $p = 4$, so $q = 3$.\n$\\deg(P(x)) = 4,\\ \\deg(Q(x)) = 3$"
+      },
+      {
+        "question_text": "Let $P(x) = (x^{2} + 3)^{4}$ and $Q(x) = (x^{3} - 1)^{2}$. Find the degree of $P(x) + Q(x)$.",
+        "structure": "degree-of-power",
+        "solution_text": "$\\deg(P(x)) = 2 \\times 4 = 8$\n$\\deg(Q(x)) = 3 \\times 2 = 6$\nSince the degrees $8$ and $6$ are unequal, no leading cancellation can occur.\n$\\deg(P(x) + Q(x)) = \\max(8, 6)$\n$= 8$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$P(x) = (2x + 1)^{3}$ and $Q(x) = 8x^{3} - 12x^{2} + 5x$. Find the degree of $P(x) - Q(x)$.",
+        "structure": "degree-drop-cancellation",
+        "solution_text": "$P(x) = 8x^{3} + 12x^{2} + 6x + 1$\n$P(x) - Q(x) = (8x^{3} + 12x^{2} + 6x + 1) - (8x^{3} - 12x^{2} + 5x)$\n$= 24x^{2} + x + 1$\nThe degree is $2$."
+      },
+      {
+        "question_text": "Polynomials $A(x)$ and $B(x)$ satisfy $\\deg\\left((A(x))^{3}(B(x))^{2}\\right) = 23$ and $\\deg\\left(A(x)(B(x))^{3}\\right) = 17$. Find $\\deg\\left(A(x) - (B(x))^{2}\\right)$.",
+        "structure": "unknown-degree-from-relation",
+        "solution_text": "Let $a = \\deg(A(x))$ and $b = \\deg(B(x))$.\n$3a + 2b = 23$\n$a + 3b = 17$\nMultiplying the second equation by $3$ gives $3a + 9b = 51$.\nSubtracting the first equation gives $7b = 28 \\implies b = 4$.\nThen $a = 17 - 3(4) = 5$.\n$\\deg(A(x)) = 5$ and $\\deg\\left((B(x))^{2}\\right) = 2 \\times 4 = 8$.\n$\\deg\\left(A(x) - (B(x))^{2}\\right) = \\max(5, 8)$\n$= 8$"
+      },
+      {
+        "question_text": "If $P(x)$ has degree $n$, find the degree of $P(x^{3}) \\times (P(x))^{2}$ in terms of $n$.",
+        "structure": "degree-of-power",
+        "solution_text": "$\\deg(P(x^{3})) = 3n$\n$\\deg\\left((P(x))^{2}\\right) = 2n$\n$\\deg\\left(P(x^{3}) \\times (P(x))^{2}\\right) = 3n + 2n$\n$= 5n$"
+      }
+    ]
+  }
+}

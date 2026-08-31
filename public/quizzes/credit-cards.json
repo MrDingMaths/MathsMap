@@ -1,0 +1,121 @@
+{
+  "skillId": "credit-cards",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A credit card charges $14.6\\%$ p.a. compounded daily. A purchase is made on $9$ July and the statement is issued on $31$ July, with interest charged from and including the purchase date to and including the statement date. What is the daily interest rate, and for how many days is interest charged?",
+      "structure": "daily-interest-rate",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.0004$ per day for $23$ days",
+          "correct": true
+        },
+        {
+          "text": "$0.0004$ per day for $22$ days",
+          "why": "Computed $31 - 9 = 22$ and forgot that the purchase date itself is included, losing one day."
+        },
+        {
+          "text": "$0.0122$ per day for $23$ days",
+          "why": "Divided the annual rate by $12$ months instead of $365$ days: $0.146 \\div 12 = 0.0122$, which is a monthly rate, not a daily one."
+        },
+        {
+          "text": "$0.0122$ per day for $22$ days",
+          "why": "Made both slips at once: divided $0.146$ by $12$ rather than $365$, and used $31 - 9 = 22$ without including the purchase date."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.146}{365}$\n$= 0.0004$ per day\n\nNumber of days $= 31 - 9 + 1$\n$= 23$ days"
+    },
+    {
+      "id": "q2",
+      "question_text": "A purchase of $\\$380$ is made on a credit card with no interest-free period charging $21.9\\%$ p.a. compounded daily. Interest is charged for $16$ days. What is the amount owing, to the nearest cent?",
+      "structure": "interest-on-purchase",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$383.66$", "correct": true },
+        { "text": "$\\$3.66$", "why": "Gave the interest charged rather than the total amount owing." },
+        { "text": "$\\$507.52$", "why": "Treated the $16$ days as $16$ monthly periods at $\\dfrac{0.219}{12}$ each." },
+        { "text": "$\\$380$", "why": "Assumed an interest-free period applies, but this card has none." }
+      ],
+      "solution_text": "$r = \\dfrac{0.219}{365} = 0.0006$, $n = 16$\n\n$FV = PV(1+r)^{n}$\n$= 380(1.0006)^{16}$\n$= \\$383.66$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A credit card charges $18.25\\%$ p.a. compounded daily with no interest-free period, from and including the purchase date to and including the statement date of $30$ September. A purchase of $\\$600$ is made on $11$ September and one of $\\$200$ on $21$ September. What is the closing balance, to the nearest cent?",
+      "structure": "closing-balance",
+      "mastery": true,
+      "options": [
+        { "text": "$\\$807.03$", "correct": true },
+        { "text": "$\\$800$", "why": "Added the two purchases and charged no interest at all." },
+        { "text": "$\\$7.03$", "why": "Gave the interest charged instead of the closing balance." },
+        { "text": "$\\$808.04$", "why": "Charged $20$ days of interest on both purchases instead of $10$ days on the second." }
+      ],
+      "solution_text": "$r = \\dfrac{0.1825}{365} = 0.0005$\n\n$\\$600$ purchase: $n = 30 - 11 + 1 = 20$ days\n$FV = 600(1.0005)^{20} = \\$606.03$\n\n$\\$200$ purchase: $n = 30 - 21 + 1 = 10$ days\n$FV = 200(1.0005)^{10} = \\$201.00$\n\nClosing balance $= 606.03 + 201.00$\n$= \\$807.03$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A credit card charges $25.55\\%$ p.a. compounded daily. A single purchase of $\\$1800$ is made and interest is charged for $18$ days. How much interest is charged, to the nearest cent?",
+      "structure": "interest-charged",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$22.82$", "correct": true },
+        { "text": "$\\$1822.82$", "why": "Gave the total amount owing rather than the interest part of it." },
+        { "text": "$\\$22.68$", "why": "Used simple interest for $18$ days instead of daily compounding." },
+        { "text": "$\\$459.90$", "why": "Charged a full year's interest, $1800 \\times 0.2555$, instead of $18$ days." }
+      ],
+      "solution_text": "$r = \\dfrac{0.2555}{365} = 0.0007$, $n = 18$\n\n$FV = 1800(1.0007)^{18}$\n$= \\$1822.82$\n\nInterest $= 1822.82 - 1800$\n$= \\$22.82$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A credit card statement shows a closing balance of $\\$1740.80$. The minimum payment is $3\\%$ of the closing balance. What is the minimum payment, to the nearest cent?",
+      "structure": "minimum-payment",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$52.22$", "correct": true },
+        { "text": "$\\$1740.80$", "why": "Gave the whole closing balance instead of the small percentage required." },
+        { "text": "$\\$17.41$", "why": "Took $1\\%$ of the closing balance instead of $3\\%$." },
+        { "text": "$\\$58.03$", "why": "Divided the closing balance by $30$ instead of multiplying by $0.03$." }
+      ],
+      "solution_text": "Minimum payment $= 0.03 \\times 1740.80$\n$= \\$52.22$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Tom's credit card has a $55$-day interest-free period that applies only when the previous statement was paid in full. Last month Tom paid only the minimum payment. He then buys a $\\$900$ laptop $30$ days before his next statement. Which statement is correct?",
+      "structure": "interest-free-period",
+      "mastery": false,
+      "options": [
+        { "text": "Interest is charged on the $\\$900$ from the purchase date, because the interest-free period does not apply this month.", "correct": true },
+        { "text": "No interest is charged, because $30$ days is inside the $55$-day interest-free period.", "why": "The interest-free period is not available at all when the previous statement was not paid in full." },
+        { "text": "No interest is charged, because Tom made a minimum payment last month.", "why": "A minimum payment is not payment in full, which is what the interest-free period requires." },
+        { "text": "Interest is charged only on the days after the first $55$ days from the purchase.", "why": "When no interest-free period applies, interest runs from the purchase date, not from day $56$." }
+      ],
+      "solution_text": "The interest-free period applies only when the previous statement was paid in full.\nTom paid only the minimum, so it does not apply this month.\nInterest is therefore charged on the $\\$900$ from and including the purchase date."
+    },
+    {
+      "id": "q7",
+      "question_text": "Nadia owes $\\$1450$ on a credit card charging $18.25\\%$ p.a. compounded daily. Interest is charged for $25$ days, after which she repays $\\$600$. How much does she owe immediately after the repayment, to the nearest cent?",
+      "structure": "balance-after-repayment",
+      "mastery": true,
+      "options": [
+        { "text": "$\\$868.23$", "correct": true },
+        { "text": "$\\$850$", "why": "Subtracted the repayment but charged no interest for the $25$ days." },
+        { "text": "$\\$1468.23$", "why": "Gave the balance before the repayment was subtracted." },
+        { "text": "$\\$18.23$", "why": "Gave the interest charged over the $25$ days rather than the amount still owing." }
+      ],
+      "solution_text": "$r = \\dfrac{0.1825}{365} = 0.0005$, $n = 25$\n\n$FV = 1450(1.0005)^{25}$\n$= \\$1468.23$\n\nAmount owing $= 1468.23 - 600$\n$= \\$868.23$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Why is a credit card described as a reducing balance loan?",
+      "structure": "explain-credit-card",
+      "mastery": false,
+      "options": [
+        { "text": "Interest is charged on the amount currently owing, which falls each time a repayment is made.", "correct": true },
+        { "text": "Interest is charged on the original amount spent, so the total is fixed from the start.", "why": "That describes a flat-rate loan; a reducing balance loan charges interest on the current balance." },
+        { "text": "The interest rate itself is reduced a little each month that the card is used.", "why": "It is the balance that reduces, not the interest rate, which stays the same." },
+        { "text": "The minimum payment reduces each month, so the debt is guaranteed to be cleared.", "why": "A falling minimum payment does not clear the debt; interest still accrues on what is left." }
+      ],
+      "solution_text": "Interest on a credit card is worked out on the amount currently owing, not on the amount first spent.\nEach repayment lowers that balance, so the next interest charge is smaller.\nThat is exactly how a reducing balance loan behaves."
+    }
+  ]
+}

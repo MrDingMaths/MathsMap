@@ -1,0 +1,104 @@
+{
+  "skillId": "induction-structure",
+  "atomType": "F",
+  "theory": {
+    "intro": "**Mathematical induction** proves a statement is true for every integer $n$ from a starting value onwards. You check the statement once at the start, then show that whenever it holds at $n = k$ it must also hold at $n = k + 1$.",
+    "facts": [
+      "The **base case** verifies the statement at the smallest value of $n$ the claim mentions, which is not always $n = 1$.",
+      "The **inductive hypothesis** is the assumption that the statement is true for one unnamed integer $n = k$, written out in full.",
+      "The **inductive step** proves the statement for $n = k + 1$, and it must actually use the hypothesis somewhere.",
+      "Assuming the statement at $n = k$ is not circular, because the step only proves the conditional: if $n = k$ holds, then $n = k + 1$ holds.",
+      "The conclusion says that since the base case holds and each case forces the next, the statement holds for every $n$ from there on.",
+      "Checking many separate values of $n$ is not induction, because no list of examples can cover every integer."
+    ],
+    "steps": [
+      "Test the base case",
+      "Assume true for $n = k$",
+      "Prove true for $n = k + 1$",
+      "State the conclusion"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For the claim $2 + 4 + 6 + \\dots + 2n = n(n + 1)$ for all integers $n \\ge 1$, state what the base case must verify, and verify it.",
+        "structure": "state-base-case",
+        "solution_text": "1. **Test the base case**\nThe smallest value in the claim is $n = 1$, so the base case checks that both sides agree there.\n$LHS = 2$\n$RHS = 1(1 + 1) = 2$\n$LHS = RHS$, so the statement is true for $n = 1$."
+      },
+      {
+        "question_text": "The claim $5 + 10 + 20 + \\dots + 5(2^{n}) = 5(2^{n + 1} - 1)$ is made for all integers $n \\ge 0$. At which value of $n$ does the base case start, and what must it verify?",
+        "structure": "state-base-case",
+        "solution_text": "1. **Test the base case**\nThe claim starts at $n = 0$, so the base case is $n = 0$, not $n = 1$.\n$LHS = 5 \\times 2^{0} = 5$\n$RHS = 5(2^{0 + 1} - 1) = 5(2 - 1) = 5$\n$LHS = RHS$, so the statement is true for $n = 0$."
+      },
+      {
+        "question_text": "Write the inductive hypothesis for the claim $1 + 2 + 3 + \\dots + n = \\dfrac{n}{2}(n + 1)$ for all integers $n \\ge 1$.",
+        "structure": "write-inductive-hypothesis",
+        "solution_text": "2. **Assume true for $n = k$**\n$1 + 2 + 3 + \\dots + k = \\dfrac{k}{2}(k + 1)$ for some integer $k \\ge 1$."
+      },
+      {
+        "question_text": "Write the inductive hypothesis for the claim that $6^{n} - 1$ is divisible by $5$ for all integers $n \\ge 1$.",
+        "structure": "write-inductive-hypothesis",
+        "solution_text": "2. **Assume true for $n = k$**\nDivisible by $5$ means equal to $5$ times an integer.\n$6^{k} - 1 = 5p$, where $p$ is an integer."
+      },
+      {
+        "question_text": "For the claim $3 + 7 + 11 + \\dots + (4n - 1) = n(2n + 1)$ for all integers $n \\ge 1$, write the statement that the inductive step must prove.",
+        "structure": "write-k-plus-one-statement",
+        "solution_text": "3. **Prove true for $n = k + 1$**\nThe new term is the general term at $n = k + 1$, that is $4(k + 1) - 1 = 4k + 3$.\n$3 + 7 + 11 + \\dots + (4k - 1) + (4k + 3) = (k + 1)\\left(2(k + 1) + 1\\right)$\n$= (k + 1)(2k + 3)$"
+      },
+      {
+        "question_text": "In a proof that $n^{3} + 2n$ is divisible by $3$ for all integers $n \\ge 0$, a student writes the line $k^{3} + 2k = 3p$, where $p$ is an integer. Which stage of the proof is this line, and what is it for?",
+        "structure": "name-the-stage",
+        "solution_text": "The line contains the letter $k$, not a number, so it is not the base case.\nIt is the inductive hypothesis: the statement assumed true for one integer $k \\ge 0$.\nIt is there to be used later, when $(k + 1)^{3} + 2(k + 1)$ is rewritten."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A proof by induction contains these four lines, in order.\nA: $2^{k + 1} - 1 = 2(2^{k} - 1) + 1$\nB: $LHS = 1$ and $RHS = 2^{1} - 1 = 1$\nC: Since the statement holds at $n = 1$ and each case forces the next, it holds for all integers $n \\ge 1$.\nD: $1 + 2 + 4 + \\dots + 2^{k - 1} = 2^{k} - 1$\nName the stage each line belongs to.",
+        "structure": "name-the-stage",
+        "solution_text": "B is the base case: numbers are substituted, not letters.\nD is the inductive hypothesis: the statement written for $n = k$.\nA is part of the inductive step: it works towards the $n = k + 1$ form.\nC is the conclusion."
+      },
+      {
+        "question_text": "Explain why assuming the statement is true for $n = k$ does not make a proof by induction circular.",
+        "structure": "why-not-circular",
+        "solution_text": "The step never claims that $n = k$ is true. It proves only the conditional statement: if the result holds at $n = k$, then it holds at $n = k + 1$.\nThe base case supplies one value of $n$ where the result really does hold, and the conditional then carries that truth up through every later integer."
+      },
+      {
+        "question_text": "The claim $9 + 27 + 81 + \\dots + 3^{n} = \\dfrac{9\\left(3^{n - 1} - 1\\right)}{2}$ is made for all integers $n \\ge 2$. State the base case and verify it.",
+        "structure": "state-base-case",
+        "solution_text": "1. **Test the base case**\nThe claim starts at $n = 2$, so the base case is $n = 2$.\n$LHS = 3^{2} = 9$\n$RHS = \\dfrac{9\\left(3^{2 - 1} - 1\\right)}{2} = \\dfrac{9(3 - 1)}{2} = 9$\n$LHS = RHS$, so the statement is true for $n = 2$."
+      },
+      {
+        "question_text": "For the claim that $4^{n} + 2$ is divisible by $6$ for all integers $n \\ge 1$, write the inductive hypothesis and the statement the inductive step must prove.",
+        "structure": "write-k-plus-one-statement",
+        "solution_text": "2. **Assume true for $n = k$**\n$4^{k} + 2 = 6p$, where $p$ is an integer.\n3. **Prove true for $n = k + 1$**\n$4^{k + 1} + 2 = 6q$, where $q$ is an integer."
+      },
+      {
+        "question_text": "For the claim $1 \\times 3 + 2 \\times 4 + 3 \\times 5 + \\dots + n(n + 2) = \\dfrac{1}{6}n(n + 1)(2n + 7)$ for all integers $n \\ge 1$, write the inductive hypothesis and the term added when $n$ moves from $k$ to $k + 1$.",
+        "structure": "write-inductive-hypothesis",
+        "solution_text": "2. **Assume true for $n = k$**\n$1 \\times 3 + 2 \\times 4 + \\dots + k(k + 2) = \\dfrac{1}{6}k(k + 1)(2k + 7)$ for some integer $k \\ge 1$.\nThe added term is the general term at $n = k + 1$.\n$(k + 1)\\left((k + 1) + 2\\right)$\n$= (k + 1)(k + 3)$"
+      },
+      {
+        "question_text": "A proof that $8^{n} - 1$ is divisible by $7$ for all integers $n \\ge 1$ has verified the base case and completed the inductive step. Write the concluding statement.",
+        "structure": "write-conclusion",
+        "solution_text": "4. **State the conclusion**\nSince the statement is true for $n = 1$, and its truth at $n = k$ forces its truth at $n = k + 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For the claim that $5^{n} + 2 \\times 11^{n}$ is divisible by $3$ for all integers $n \\ge 0$, set out the first three stages of an induction proof: the base case with its verification, the inductive hypothesis, and the statement the step must prove.",
+        "structure": "write-k-plus-one-statement",
+        "solution_text": "1. **Test the base case**\n$LHS = 5^{0} + 2 \\times 11^{0} = 1 + 2 = 3$\n$3 = 3 \\times 1$, so the statement is true for $n = 0$.\n2. **Assume true for $n = k$**\n$5^{k} + 2 \\times 11^{k} = 3p$, where $p$ is an integer.\n3. **Prove true for $n = k + 1$**\n$5^{k + 1} + 2 \\times 11^{k + 1} = 3q$, where $q$ is an integer."
+      },
+      {
+        "question_text": "Five lines from an attempted induction proof are listed out of order.\nA: $= (k + 1)(k + 2)$\nB: $1 \\times 2 + 2 \\times 3 + \\dots + k(k + 1) + (k + 1)(k + 2) = \\dfrac{(k + 1)(k + 2)(k + 3)}{3}$\nC: $LHS = 2$ and $RHS = \\dfrac{1 \\times 2 \\times 3}{3} = 2$\nD: $1 \\times 2 + 2 \\times 3 + \\dots + k(k + 1) = \\dfrac{k(k + 1)(k + 2)}{3}$\nE: By mathematical induction the result holds for all integers $n \\ge 1$.\nName the stage of each line, and say which line is not a stage of the proof at all.",
+        "structure": "name-the-stage",
+        "solution_text": "C is the base case, verified at $n = 1$.\nD is the inductive hypothesis.\nB is the statement the inductive step must prove, the $n = k + 1$ form.\nE is the conclusion.\nA is not a stage: it is one line of algebra inside the step, not a stage of the proof."
+      },
+      {
+        "question_text": "For a statement $P(n)$ it has been shown that $P(k)$ implies $P(k + 1)$ for every integer $k \\ge 1$, but $P(1)$ is false. Using $4 + 8 + 12 + \\dots + 4n = 2n^{2} + 2n + 3$ as your example, explain what can and cannot be concluded.",
+        "structure": "why-not-circular",
+        "solution_text": "The implication alone says only that truth would spread upwards from any value where the statement held.\nFor the example, the step is valid: assuming $4 + 8 + \\dots + 4k = 2k^{2} + 2k + 3$ gives\n$4 + 8 + \\dots + 4k + 4(k + 1) = 2k^{2} + 2k + 3 + 4k + 4$\n$= 2k^{2} + 6k + 7$\n$= 2(k + 1)^{2} + 2(k + 1) + 3$\nBut at $n = 1$ the left side is $4$ and the right side is $7$, so $P(1)$ is false.\nNothing at all can be concluded: with no true case to start from, the chain of implications never begins, and in fact the claim is false for every $n \\ge 1$."
+      }
+    ]
+  }
+}

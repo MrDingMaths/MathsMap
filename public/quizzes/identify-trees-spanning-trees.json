@@ -74,7 +74,7 @@
           "why": "Mistook the 3-cycle for a multiple edge."
         }
       ],
-      "solution_text": "Although the graph has $5$ vertices and $4$ edges, it is disconnected into two components and contains cycle $A-B-C-A$.\nThe graph is not a tree because it is disconnected and contains a cycle."
+      "solution_text": "$n = 5$\n$\\text{Required edges} = 5 - 1$\n$= 4$\n$e = 4$\nAlthough $e = n - 1$, the graph has two disconnected components $\\{A, B, C\\}$ and $\\{D, E\\}$ and contains cycle $A\\text{–}B\\text{–}C\\text{–}A$.\nThe graph is not a tree because it is disconnected and contains a cycle."
     },
     {
       "id": "q4",
@@ -99,7 +99,7 @@
           "why": "Selected the vertex count instead of the number of removed edges."
         }
       ],
-      "solution_text": "A spanning tree on $7$ vertices requires $7 - 1 = 6$ edges.\n$\\text{Edges removed} = 11 - 6$\n$= 5$"
+      "solution_text": "1. **Count the total number of vertices $n$ and calculate the required edges $n - 1$**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (1.8,3.0);\n\\coordinate (C) at (4.2,3.0);\n\\coordinate (D) at (6.0,1.5);\n\\coordinate (E) at (4.2,0);\n\\coordinate (F) at (1.8,0);\n\\coordinate (G) at (3.0,1.5);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (E);\n\\draw (E) -- (F);\n\\draw (F) -- (A);\n\\draw (A) -- (G);\n\\draw (B) -- (G);\n\\draw (C) -- (G);\n\\draw (D) -- (G);\n\\draw (E) -- (G);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\fill (G) circle (2.5pt) node[below right] {$G$};\n\\end{tikzpicture}\n[/tikz]\n$n = 7$\n$\\text{Required edges} = 7 - 1$\n$= 6$\n$\\text{Total edges} = 11$\n2. **Identify and remove loops, multiple edges, and cycle edges without disconnecting any vertices**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (1.8,3.0);\n\\coordinate (C) at (4.2,3.0);\n\\coordinate (D) at (6.0,1.5);\n\\coordinate (E) at (4.2,0);\n\\coordinate (F) at (1.8,0);\n\\coordinate (G) at (3.0,1.5);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (E);\n\\draw (E) -- (F);\n\\draw[line width=1.6pt] (F) -- (A);\n\\draw[line width=1.6pt] (A) -- (G);\n\\draw[line width=1.6pt] (B) -- (G);\n\\draw[line width=1.6pt] (C) -- (G);\n\\draw[line width=1.6pt] (D) -- (G);\n\\draw[line width=1.6pt] (E) -- (G);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[right] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (F) circle (2.5pt) node[below] {$F$};\n\\fill (G) circle (2.5pt) node[below right] {$G$};\n\\end{tikzpicture}\n[/tikz]\n$\\text{Edges to remove} = 11 - 6$\n$= 5$"
     },
     {
       "id": "q5",
@@ -124,7 +124,7 @@
           "why": "Contains 5 edges forming a 5-cycle, which is not a tree."
         }
       ],
-      "solution_text": "A spanning tree on $5$ vertices requires exactly $4$ edges connecting all $5$ vertices with no cycles.\n$\\{AB, BC, CD, DE\\}$ connects $A-B-C-D-E$ in a single path with $4$ edges.\n$\\{AB, BC, CD, DE\\}$ is a valid spanning tree."
+      "solution_text": "$n = 5$\n$\\text{Required edges} = n - 1$\n$= 5 - 1$\n$= 4$\nThe edge set $\\{AB, BC, CD, DE\\}$ contains $4$ edges forming a single path $A\\text{–}B\\text{–}C\\text{–}D\\text{–}E$, connecting all $5$ vertices with no cycles.\n$\\{AB, BC, CD, DE\\}$ is a valid spanning tree."
     },
     {
       "id": "q6",
@@ -174,7 +174,7 @@
           "why": "Removing both $CD$ and $DE$ isolates vertex $D$ from the rest of the network."
         }
       ],
-      "solution_text": "Removing $AC$ breaks cycle $A-B-C-A$.\nRemoving $CD$ breaks cycle $A-C-D-E-A$.\nThe remaining edges $\\{AB, BC, DE, EA\\}$ connect all $5$ vertices with $4$ edges.\n$\\{AC, CD\\}$ produces a valid spanning tree."
+      "solution_text": "1. **Count the total number of vertices $n$ and calculate the required edges $n - 1$**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1.8,3.2);\n\\coordinate (C) at (3.6,2);\n\\coordinate (D) at (3.6,0);\n\\coordinate (E) at (0,0);\n\\draw (A) -- (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (E);\n\\draw (E) -- (A);\n\\draw (A) -- (C);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below right] {$D$};\n\\fill (E) circle (2.5pt) node[below left] {$E$};\n\\end{tikzpicture}\n[/tikz]\n$n = 5$\n$\\text{Required edges} = 5 - 1$\n$= 4$\n$\\text{Total edges} = 6$\n$\\text{Edges to remove} = 6 - 4$\n$= 2$\n2. **Identify and remove loops, multiple edges, and cycle edges without disconnecting any vertices**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1.8,3.2);\n\\coordinate (C) at (3.6,2);\n\\coordinate (D) at (3.6,0);\n\\coordinate (E) at (0,0);\n\\draw[line width=1.6pt] (A) -- (B);\n\\draw[line width=1.6pt] (B) -- (C);\n\\draw (C) -- (D);\n\\draw[line width=1.6pt] (D) -- (E);\n\\draw[line width=1.6pt] (E) -- (A);\n\\draw (A) -- (C);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below right] {$D$};\n\\fill (E) circle (2.5pt) node[below left] {$E$};\n\\end{tikzpicture}\n[/tikz]\nRemove $AC$ from cycle $A\\text{–}B\\text{–}C\\text{–}A$ and $CD$ from cycle $A\\text{–}C\\text{–}D\\text{–}E\\text{–}A$.\n3. **Verify that all $n$ vertices remain connected with exactly $n - 1$ edges and no cycles**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,2);\n\\coordinate (B) at (1.8,3.2);\n\\coordinate (C) at (3.6,2);\n\\coordinate (D) at (3.6,0);\n\\coordinate (E) at (0,0);\n\\draw[line width=1.6pt] (A) -- (B);\n\\draw[line width=1.6pt] (B) -- (C);\n\\draw (C) -- (D);\n\\draw[line width=1.6pt] (D) -- (E);\n\\draw[line width=1.6pt] (E) -- (A);\n\\draw (A) -- (C);\n\\fill (A) circle (2.5pt) node[left] {$A$};\n\\fill (B) circle (2.5pt) node[above] {$B$};\n\\fill (C) circle (2.5pt) node[right] {$C$};\n\\fill (D) circle (2.5pt) node[below right] {$D$};\n\\fill (E) circle (2.5pt) node[below left] {$E$};\n\\end{tikzpicture}\n[/tikz]\n$\\text{Remaining edges} = \\{AB, BC, DE, EA\\}$\nThe $4$ edges connect all $5$ vertices with no cycles.\n$\\{AC, CD\\}$ produces a valid spanning tree."
     },
     {
       "id": "q8",

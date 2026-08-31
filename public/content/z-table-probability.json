@@ -1,0 +1,134 @@
+{
+  "skillId": "z-table-probability",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **standard normal table** lists $P(Z<c)$, the area under the curve to the **left** of a positive $z$-score $c$. Every other region is built from those values using the complement, a subtraction, or the symmetry of the curve.",
+    "facts": [
+      "The table gives $P(Z<c)$, the area to the left of $c$, and only for positive values of $c$.",
+      "$P(Z>c) = 1 - P(Z<c)$, because the two areas together make up the whole area of $1$.",
+      "$P(a<Z<b) = P(Z<b) - P(Z<a)$, so a middle strip is a difference of two left-hand areas.",
+      "By symmetry $P(Z<-c) = P(Z>c)$ and $P(Z>-c) = P(Z<c)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1.2, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.2,0) -- cycle;\n\\fill[gray!35] (1.2,0) -- plot[domain=1.2:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.2,0) -- (-1.2,-0.12) node[below, font=\\small] {$-c$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.2,0) -- (1.2,-0.12) node[below, font=\\small] {$c$};\n\\node[font=\\small] at (-2.6,1.3) {$P(Z<-c)$};\n\\node[font=\\small] at (2.6,1.3) {$P(Z>c)$};\n\\end{tikzpicture}\n[/tikz]",
+      "For a score $x$, first find $z = \\dfrac{x-\\mu}{\\sigma}$, then use the table.",
+      "An **expected frequency** is $f = np$: the number of items $n$ times the probability $p$, rounded to a whole number."
+    ],
+    "steps": [
+      "Convert the score to a $z$-score using $z = \\dfrac{x-\\mu}{\\sigma}$",
+      "Shade the required region under the curve",
+      "Read $P(Z<c)$ from the table and adjust it to the region wanted",
+      "Multiply the probability by $n$ for an expected frequency"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.52 & 1.09 & 2.31 \\\\ \\hline P(Z<z) & 0.6985 & 0.8621 & 0.9896 \\\\ \\hline\\end{array}$\nFind $P(z < 0.52)$.",
+        "structure": "table-less-than",
+        "solution_text": "$P(z < 0.52)$\n$= 0.6985$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:0.52, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (0.52,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.52,0) -- (0.52,-0.5) node[below, font=\\small] {$0.52$};\n\\node at (-0.9,1.1) {$0.6985$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.41 & 1.76 & 2.60 \\\\ \\hline P(Z<z) & 0.6591 & 0.9608 & 0.9953 \\\\ \\hline\\end{array}$\nFind $P(z < 1.76)$.",
+        "structure": "table-less-than",
+        "solution_text": "$P(z < 1.76)$\n$= 0.9608$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:1.76, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.76,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.76,0) -- (1.76,-0.5) node[below, font=\\small] {$1.76$};\n\\node at (-0.5,1.1) {$0.9608$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.35 & 1.45 & 2.18 \\\\ \\hline P(Z<z) & 0.6368 & 0.9265 & 0.9854 \\\\ \\hline\\end{array}$\nFind $P(z > 1.45)$.",
+        "structure": "table-more-than",
+        "solution_text": "$P(z > 1.45)$\n$= 1 - P(z < 1.45)$\n$= 1 - 0.9265$\n$= 0.0735$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.45,0) -- plot[domain=1.45:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.45,0) -- (1.45,-0.5) node[below, font=\\small] {$1.45$};\n\\node at (2.6,1.3) {$0.0735$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.66 & 1.92 & 2.08 \\\\ \\hline P(Z<z) & 0.7454 & 0.9726 & 0.9812 \\\\ \\hline\\end{array}$\nFind $P(z > 2.08)$.",
+        "structure": "table-more-than",
+        "solution_text": "$P(z > 2.08)$\n$= 1 - P(z < 2.08)$\n$= 1 - 0.9812$\n$= 0.0188$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (2.08,0) -- plot[domain=2.08:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (2.08,0) -- (2.08,-0.5) node[below, font=\\small] {$2.08$};\n\\node at (3.0,1.1) {$0.0188$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.63 & 1.58 \\\\ \\hline P(Z<z) & 0.7357 & 0.9429 \\\\ \\hline\\end{array}$\nFind $P(0.63 < z < 1.58)$.",
+        "structure": "table-between",
+        "solution_text": "$P(0.63 < z < 1.58)$\n$= P(z < 1.58) - P(z < 0.63)$\n$= 0.9429 - 0.7357$\n$= 0.2072$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0.63,0) -- plot[domain=0.63:1.58, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.58,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.63,0) -- (0.63,-0.5) node[below, font=\\small] {$0.63$};\n\\draw (1.58,0) -- (1.58,-0.9) node[below, font=\\small] {$1.58$};\n\\node at (1.1,2.2) {$0.2072$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 1.14 & 2.27 \\\\ \\hline P(Z<z) & 0.8729 & 0.9884 \\\\ \\hline\\end{array}$\nFind $P(1.14 < z < 2.27)$.",
+        "structure": "table-between",
+        "solution_text": "$P(1.14 < z < 2.27)$\n$= P(z < 2.27) - P(z < 1.14)$\n$= 0.9884 - 0.8729$\n$= 0.1155$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.14,0) -- plot[domain=1.14:2.27, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2.27,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.14,0) -- (1.14,-0.5) node[below, font=\\small] {$1.14$};\n\\draw (2.27,0) -- (2.27,-0.9) node[below, font=\\small] {$2.27$};\n\\node at (1.7,1.7) {$0.1155$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.74 & 1.51 & 2.44 \\\\ \\hline P(Z<z) & 0.7704 & 0.9345 & 0.9927 \\\\ \\hline\\end{array}$\nFind $P(z < -0.74)$.",
+        "structure": "table-negative",
+        "solution_text": "$P(z < -0.74)$\n$= P(z > 0.74)$\n$= 1 - P(z < 0.74)$\n$= 1 - 0.7704$\n$= 0.2296$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-0.74, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-0.74,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.74,0) -- (-0.74,-0.5) node[below, font=\\small] {$-0.74$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.2,1.3) {$0.2296$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.29 & 1.62 & 2.50 \\\\ \\hline P(Z<z) & 0.6141 & 0.9474 & 0.9938 \\\\ \\hline\\end{array}$\nFind $P(z > -1.62)$.",
+        "structure": "table-negative",
+        "solution_text": "$P(z > -1.62)$\n$= P(z < 1.62)$\n$= 0.9474$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-1.62,0) -- plot[domain=-1.62:3.7, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.62,0) -- (-1.62,-0.5) node[below, font=\\small] {$-1.62$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (0.6,1.1) {$0.9474$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.88 & 2.05 \\\\ \\hline P(Z<z) & 0.8106 & 0.9798 \\\\ \\hline\\end{array}$\nFind $P(-2.05 < z < -0.88)$.",
+        "structure": "table-negative",
+        "solution_text": "$P(-2.05 < z < -0.88)$\n$= P(0.88 < z < 2.05)$\n$= P(z < 2.05) - P(z < 0.88)$\n$= 0.9798 - 0.8106$\n$= 0.1692$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2.05,0) -- plot[domain=-2.05:-0.88, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-0.88,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-2.05,0) -- (-2.05,-0.9) node[below, font=\\small] {$-2.05$};\n\\draw (-0.88,0) -- (-0.88,-0.5) node[below, font=\\small] {$-0.88$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-1.5,2.0) {$0.1692$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The masses of watermelons are normally distributed with a mean of $4.5$ kg and a standard deviation of $0.8$ kg. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.75 & 1.50 & 2.25 \\\\ \\hline P(Z<z) & 0.7734 & 0.9332 & 0.9878 \\\\ \\hline\\end{array}$\nFind the probability that a randomly chosen watermelon has a mass less than $5.7$ kg.",
+        "structure": "context-z-then-table",
+        "solution_text": "$z = \\dfrac{5.7 - 4.5}{0.8}$\n$= 1.5$\n$P(z < 1.5)$\n$= 0.9332$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:1.5, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.5,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.5,0) -- (1.5,-0.5) node[below, font=\\small] {$1.5$};\n\\node at (-0.5,1.1) {$0.9332$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The number of daily visitors to a museum is normally distributed with a mean of $480$ and a standard deviation of $75$. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.60 & 1.20 & 1.80 \\\\ \\hline P(Z<z) & 0.7257 & 0.8849 & 0.9641 \\\\ \\hline\\end{array}$\nFind the probability that on a randomly chosen day there are more than $570$ visitors.",
+        "structure": "context-z-then-table",
+        "solution_text": "$z = \\dfrac{570 - 480}{75}$\n$= 1.2$\n$P(z > 1.2)$\n$= 1 - P(z < 1.2)$\n$= 1 - 0.8849$\n$= 0.1151$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.2,0) -- plot[domain=1.2:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.2,0) -- (1.2,-0.5) node[below, font=\\small] {$1.2$};\n\\node at (2.5,1.3) {$0.1151$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The daily takings of a café are normally distributed with a mean of $\\$1450$ and a standard deviation of $\\$180$. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.50 & 1.00 & 1.50 \\\\ \\hline P(Z<z) & 0.6915 & 0.8413 & 0.9332 \\\\ \\hline\\end{array}$\nFind the probability that a day's takings are less than $\\$1270$.",
+        "structure": "context-z-then-table",
+        "solution_text": "$z = \\dfrac{1270 - 1450}{180}$\n$= -1$\n$P(z < -1)$\n$= 1 - P(z < 1)$\n$= 1 - 0.8413$\n$= 0.1587$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1,0) -- (-1,-0.5) node[below, font=\\small] {$-1$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.4,1.3) {$0.1587$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The lengths of a species of fish are normally distributed with a mean of $28.0$ cm and a standard deviation of $2.5$ cm. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.60 & 1.60 \\\\ \\hline P(Z<z) & 0.7257 & 0.9452 \\\\ \\hline\\end{array}$\nFind the probability that a randomly chosen fish is between $26.5$ cm and $32.0$ cm long.",
+        "structure": "context-z-then-table",
+        "solution_text": "$z = \\dfrac{26.5 - 28.0}{2.5} = -0.6$ and $z = \\dfrac{32.0 - 28.0}{2.5} = 1.6$\n$P(-0.6 < z < 1.6)$\n$= P(z < 1.6) - P(z < -0.6)$\n$= 0.9452 - (1 - 0.7257)$\n$= 0.9452 - 0.2743$\n$= 0.6709$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-0.6,0) -- plot[domain=-0.6:1.6, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.6,0) -- (-0.6,-0.5) node[below, font=\\small] {$-0.6$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.6,0) -- (1.6,-0.5) node[below, font=\\small] {$1.6$};\n\\node at (0.4,1.1) {$0.6709$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A batch of $500$ light globes has lifetimes that are normally distributed with a mean of $1100$ hours and a standard deviation of $90$ hours. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.80 & 1.60 & 2.40 \\\\ \\hline P(Z<z) & 0.7881 & 0.9452 & 0.9918 \\\\ \\hline\\end{array}$\nHow many globes are expected to last more than $1244$ hours?",
+        "structure": "expected-frequency",
+        "solution_text": "$z = \\dfrac{1244 - 1100}{90}$\n$= 1.6$\n$P(z > 1.6) = 1 - 0.9452 = 0.0548$\n$f = np$\n$= 500 \\times 0.0548$\n$= 27.4$\n$\\approx 27$ globes\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.6,0) -- plot[domain=1.6:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.6,0) -- (1.6,-0.5) node[below, font=\\small] {$1.6$};\n\\node at (2.7,1.3) {$0.0548$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The birth masses of $1000$ newborn babies are normally distributed with a mean of $3400$ g and a standard deviation of $500$ g. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.35 & 0.70 & 1.05 \\\\ \\hline P(Z<z) & 0.6368 & 0.7580 & 0.8531 \\\\ \\hline\\end{array}$\nHow many babies are expected to have a birth mass below $3050$ g?",
+        "structure": "expected-frequency",
+        "solution_text": "$z = \\dfrac{3050 - 3400}{500}$\n$= -0.7$\n$P(z < -0.7) = 1 - 0.7580 = 0.2420$\n$f = np$\n$= 1000 \\times 0.2420$\n$= 242$ babies\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-0.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-0.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.7,0) -- (-0.7,-0.5) node[below, font=\\small] {$-0.7$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.2,1.3) {$0.2420$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A plantation has $800$ saplings whose heights are normally distributed with a mean of $64$ cm and a standard deviation of $12$ cm. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.50 & 1.50 \\\\ \\hline P(Z<z) & 0.6915 & 0.9332 \\\\ \\hline\\end{array}$\nHow many saplings are expected to be between $70$ cm and $82$ cm tall?",
+        "structure": "expected-frequency",
+        "solution_text": "$z = \\dfrac{70 - 64}{12} = 0.5$ and $z = \\dfrac{82 - 64}{12} = 1.5$\n$P(0.5 < z < 1.5) = 0.9332 - 0.6915 = 0.2417$\n$f = np$\n$= 800 \\times 0.2417$\n$= 193.36$\n$\\approx 193$ saplings\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0.5,0) -- plot[domain=0.5:1.5, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.5,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.5,0) -- (0.5,-0.5) node[below, font=\\small] {$0.5$};\n\\draw (1.5,0) -- (1.5,-0.9) node[below, font=\\small] {$1.5$};\n\\node at (1.0,2.3) {$0.2417$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.84 & 1.37 \\\\ \\hline P(Z<z) & 0.7995 & 0.9147 \\\\ \\hline\\end{array}$\nFind $P(-0.84 < z < 1.37)$.",
+        "structure": "table-negative",
+        "solution_text": "$P(-0.84 < z < 1.37)$\n$= P(z < 1.37) - P(z < -0.84)$\n$= 0.9147 - (1 - 0.7995)$\n$= 0.9147 - 0.2005$\n$= 0.7142$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-0.84,0) -- plot[domain=-0.84:1.37, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.37,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.84,0) -- (-0.84,-0.5) node[below, font=\\small] {$-0.84$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.37,0) -- (1.37,-0.5) node[below, font=\\small] {$1.37$};\n\\node at (0.3,1.1) {$0.7142$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A machine fills bottles with volumes that are normally distributed with a mean of $375$ mL and a standard deviation of $6$ mL. A bottle is rejected if it holds less than $366$ mL or more than $387$ mL. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 1.50 & 2.00 \\\\ \\hline P(Z<z) & 0.9332 & 0.9772 \\\\ \\hline\\end{array}$\nIn a production run of $4000$ bottles, how many are expected to be rejected?",
+        "structure": "expected-frequency",
+        "solution_text": "$z = \\dfrac{366 - 375}{6} = -1.5$ and $z = \\dfrac{387 - 375}{6} = 2$\n$P(z < -1.5) = 1 - 0.9332 = 0.0668$\n$P(z > 2) = 1 - 0.9772 = 0.0228$\n$P(\\text{rejected}) = 0.0668 + 0.0228 = 0.0896$\n$f = np$\n$= 4000 \\times 0.0896$\n$= 358.4$\n$\\approx 358$ bottles\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1.5, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.5,0) -- cycle;\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.5,0) -- (-1.5,-0.5) node[below, font=\\small] {$-1.5$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (2,0) -- (2,-0.5) node[below, font=\\small] {$2$};\n\\node at (-2.7,1.3) {$0.0668$};\n\\node at (2.9,1.1) {$0.0228$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The marks in an examination are normally distributed with a mean of $62$ and a standard deviation of $14$. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|c|}\\hline z & 1.26 & 1.27 & 1.28 & 1.29 \\\\ \\hline P(Z<z) & 0.8962 & 0.8980 & 0.8997 & 0.9015 \\\\ \\hline\\end{array}$\nUsing the table, find the approximate minimum mark a candidate needs in order to be in the top $10\\%$.",
+        "structure": "table-reverse-lookup",
+        "solution_text": "The top $10\\%$ lies above the $z$-score with $P(z < c) = 0.90$.\nThe closest table value to $0.9000$ is $0.8997$, so $c = 1.28$.\n$x = \\mu + z\\sigma$\n$= 62 + 1.28 \\times 14$\n$= 62 + 17.92$\n$= 79.92$\n$\\approx 79.9$ marks\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.28,0) -- plot[domain=1.28:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.28,0) -- (1.28,-0.5) node[below, font=\\small] {$1.28$};\n\\node at (2.6,1.3) {$0.10$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The commuting distances of $2400$ workers are normally distributed with a mean of $18.0$ km and a standard deviation of $6.5$ km. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.80 & 1.00 \\\\ \\hline P(Z<z) & 0.7881 & 0.8413 \\\\ \\hline\\end{array}$\nHow many workers are expected to travel between $12.8$ km and $24.5$ km?",
+        "structure": "expected-frequency",
+        "solution_text": "$z = \\dfrac{12.8 - 18.0}{6.5} = -0.8$ and $z = \\dfrac{24.5 - 18.0}{6.5} = 1.0$\n$P(-0.8 < z < 1.0) = 0.8413 - (1 - 0.7881) = 0.8413 - 0.2119 = 0.6294$\n$f = np$\n$= 2400 \\times 0.6294$\n$= 1510.56$\n$\\approx 1511$ workers\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-0.8,0) -- plot[domain=-0.8:1, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.8,0) -- (-0.8,-0.5) node[below, font=\\small] {$-0.8$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1,0) -- (1,-0.5) node[below, font=\\small] {$1.0$};\n\\node at (0.1,1.1) {$0.6294$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|}\\hline z & 0.29 & 1.55 \\\\ \\hline P(Z<z) & 0.6141 & 0.9394 \\\\ \\hline\\end{array}$\nFind $P(-1.55 < z < -0.29)$.",
+        "structure": "table-negative",
+        "solution_text": "$P(-1.55 < z < -0.29)$\n$= P(0.29 < z < 1.55)$\n$= P(z < 1.55) - P(z < 0.29)$\n$= 0.9394 - 0.6141$\n$= 0.3253$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-1.55,0) -- plot[domain=-1.55:-0.29, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-0.29,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.55,0) -- (-1.55,-0.9) node[below, font=\\small] {$-1.55$};\n\\draw (-0.29,0) -- (-0.29,-0.5) node[below, font=\\small] {$-0.29$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-1.5,2.9) {$0.3253$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

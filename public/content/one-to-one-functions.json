@@ -1,0 +1,114 @@
+{
+  "skillId": "one-to-one-functions",
+  "atomType": "Cat",
+  "theory": {
+        "intro": "A function is **one-to-one** if every $y$-value comes from exactly one $x$-value. On a graph this is the **horizontal line test**: no horizontal line cuts the curve more than once. Only one-to-one functions have an inverse function.",
+        "facts": [
+          "A relation is a **function** if it passes the **vertical line test**: no vertical line cuts the graph more than once.",
+          "A function is **one-to-one** when it passes the **horizontal line test**: every horizontal line $y = c$ cuts the curve at most once.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-3.6) -- (0,3.6) node[above] {$y$};\n\\draw[dashed] (-2.6,1.5) -- (2.6,1.5);\n\\node[above right] at (-2.6,1.5) {$y = c$};\n\\draw[thick, <->, domain=-2.2:2.2, samples=80, smooth, variable=\\x] plot ({\\x}, {0.3*\\x*\\x*\\x});\n\\fill (1.71,1.5) circle (2pt);\n\\node at (-1.9,2.7) {$y = f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "A curve that turns around fails the test: $y = c$ cuts it at two points $(x_1, c)$ and $(x_2, c)$, so it is **many-to-one**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,3.9) node[above] {$y$};\n\\draw[dashed] (-2.6,1.5) -- (2.6,1.5);\n\\node[above right] at (-2.6,1.5) {$y = c$};\n\\draw[thick, <->, domain=-2.4:2.4, samples=80, smooth, variable=\\x] plot ({\\x}, {3*exp(-\\x*\\x/2)});\n\\fill (-1.18,1.5) circle (2pt);\n\\fill (1.18,1.5) circle (2pt);\n\\node at (2.0,2.6) {$y = f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "A function has an **inverse function** $f^{-1}(x)$ if and only if it is one-to-one.",
+          "Relations are classified as **one-to-one**, **many-to-one** (fails the horizontal test), **one-to-many** (fails the vertical test), or **many-to-many** (fails both).",
+          "**Even functions** satisfy $f(-x) = f(x)$, so a horizontal line meets them twice and they are never one-to-one.",
+          "A function that is **strictly increasing** or **strictly decreasing** across its whole domain is one-to-one."
+        ],
+        "steps": [
+          "Apply the vertical line test to confirm the relation is a function.",
+          "Apply the horizontal line test by considering horizontal lines $y=c$ across the range.",
+          "Conclude: if no horizontal line intersects the curve more than once, the function is one-to-one and has an inverse function."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph of $y = x^3 - 3x$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};\n\\draw[thick, <->, domain=-2.14:2.14, smooth, variable=\\x] plot ({\\x}, {\\x*\\x*\\x - 3*\\x});\n\\end{tikzpicture}\n[/tikz]\nState whether this graph represents a one-to-one function, and justify using a geometric test.",
+        "structure": "apply-horizontal-line-test-graph",
+        "solution_text": "Apply the horizontal line test:\nA horizontal line such as $y = 0$ intersects the curve at three distinct points ($x = -\\sqrt{3}, 0, \\sqrt{3}$).\nBecause a horizontal line intersects the graph more than once, the function is not one-to-one (it is many-to-one)."
+      },
+      {
+        "question_text": "The graph of $y = 2^x$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,5) node[above] {$y$};\n\\draw[thick, <->, domain=-2.8:2.2, smooth, variable=\\x] plot ({\\x}, {exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]\nDetermine whether $y = 2^x$ is a one-to-one function.",
+        "structure": "apply-horizontal-line-test-graph",
+        "solution_text": "Apply the horizontal line test:\nEvery horizontal line $y = c$ (for $c > 0$) intersects the curve at exactly one point, and for $c \\le 0$ intersects at zero points.\nSince no horizontal line intersects the graph more than once, $y = 2^x$ is a one-to-one function."
+      },
+      {
+        "question_text": "Classify the relation represented by the parabola $y = (x - 2)^2 + 1$ as one-to-one, many-to-one, one-to-many, or many-to-many.",
+        "structure": "classify-relation-mapping-type",
+        "solution_text": "Vertical line test: each vertical line intersects the parabola at most once, so it is a function.\nHorizontal line test: a horizontal line above the vertex (such as $y = 5$) intersects the parabola at two points ($x = 0$ and $x = 4$).\nTherefore, the relation is many-to-one."
+      },
+      {
+        "question_text": "Classify the relation $x^2 + y^2 = 9$ as one-to-one, many-to-one, one-to-many, or many-to-many.",
+        "structure": "classify-relation-mapping-type",
+        "solution_text": "Vertical line test: vertical lines such as $x = 0$ intersect the circle at two points ($(0, 3)$ and $(0, -3)$), so it fails the vertical line test.\nHorizontal line test: horizontal lines such as $y = 0$ intersect the circle at two points ($(3, 0)$ and $(-3, 0)$), so it fails the horizontal line test.\nTherefore, the relation is many-to-many."
+      },
+      {
+        "question_text": "Explain why a function must pass the horizontal line test in order for its inverse relation to be a function.",
+        "structure": "horizontal-line-test-condition",
+        "solution_text": "Reflecting a graph in the line $y = x$ swaps horizontal and vertical directions.\nA horizontal line on the original graph becomes a vertical line on the inverse graph.\nIf a horizontal line intersects the original graph more than once, a vertical line will intersect the inverse graph more than once, failing the vertical line test.\nTherefore, the original function must pass the horizontal line test so that its inverse satisfies the vertical line test."
+      },
+      {
+        "question_text": "Given $f(x) = x^2 - 4$, find two distinct values of $x$ that produce the same output, proving that $f(x)$ is not one-to-one.",
+        "structure": "counterexample-not-one-to-one",
+        "solution_text": "Choose $x = 3$ and $x = -3$:\n$f(3) = 3^2 - 4 = 5$\n$f(-3) = (-3)^2 - 4 = 5$\nSince $f(3) = f(-3) = 5$ while $3 \\neq -3$, two distinct inputs yield the same output.\nTherefore, $f(x)$ is not one-to-one."
+      },
+      {
+        "question_text": "Show that any non-constant even function $f(x)$ whose domain contains $x = a$ and $x = -a$ (with $a \\neq 0$) cannot be one-to-one.",
+        "structure": "algebraic-parity-and-injectivity",
+        "solution_text": "By definition of an even function, $f(-a) = f(a)$ for all $a$ in the domain.\nSince $a \\neq -a$ (for $a \\neq 0$), there exist two distinct inputs that map to the identical output $f(a)$.\nTherefore, $f(x)$ fails the definition of a one-to-one function and cannot possess an inverse function."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph of $y = \\dfrac{1}{x-1}$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3,0) -- (4,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};\n\\draw[dashed] (1,-3.5) -- (1,3.5) node[above] {$x=1$};\n\\draw[thick, <->, domain=-3:0.7, smooth, variable=\\x] plot ({\\x}, {1/(\\x-1)});\n\\draw[thick, <->, domain=1.3:3.8, smooth, variable=\\x] plot ({\\x}, {1/(\\x-1)});\n\\end{tikzpicture}\n[/tikz]\nUse the horizontal line test to determine whether the inverse of $f(x) = \\dfrac{1}{x-1}$ is a function.",
+        "structure": "apply-horizontal-line-test-graph",
+        "solution_text": "Consider horizontal lines $y = c$:\nFor any non-zero real number $c$, the horizontal line $y = c$ intersects the curve at exactly one point ($x = 1 + \\frac{1}{c}$).\nFor $y = 0$, the line is a horizontal asymptote and intersects zero times.\nSince no horizontal line intersects the curve at more than one point, $f(x)$ passes the horizontal line test.\nTherefore, the inverse relation is a function."
+      },
+      {
+        "question_text": "Classify the relation $x = y^2 - 4$ as one-to-one, many-to-one, one-to-many, or many-to-many.",
+        "structure": "classify-relation-mapping-type",
+        "solution_text": "The relation is a horizontal parabola opening to the right with vertex at $(-4, 0)$.\nVertical line test: vertical lines such as $x = 0$ intersect at two points ($(0, 2)$ and $(0, -2)$), so it fails the vertical line test.\nHorizontal line test: each horizontal line $y = c$ intersects at exactly one point ($x = c^2 - 4$), so it passes the horizontal line test.\nTherefore, the relation is one-to-many."
+      },
+      {
+        "question_text": "Determine algebraically whether $f(x) = 5 - 3x$ is one-to-one by setting $f(a) = f(b)$.",
+        "structure": "algebraic-parity-and-injectivity",
+        "solution_text": "Assume $f(a) = f(b)$:\n$5 - 3a = 5 - 3b$\n$-3a = -3b$\n$a = b$\nSince $f(a) = f(b)$ implies $a = b$, distinct inputs always produce distinct outputs.\nTherefore, $f(x)$ is one-to-one."
+      },
+      {
+        "question_text": "Show algebraically that $f(x) = \\dfrac{2^x + 2^{-x}}{2}$ is not one-to-one by evaluating $f(-x)$.",
+        "structure": "algebraic-parity-and-injectivity",
+        "solution_text": "$f(-x) = \\dfrac{2^{-x} + 2^{-(-x)}}{2}$\n$= \\dfrac{2^{-x} + 2^x}{2}$\n$= \\dfrac{2^x + 2^{-x}}{2}$\n$= f(x)$\nBecause $f(-x) = f(x)$ for all $x$, $f(x)$ is an even function (for example $f(1) = f(-1) = 1.25$).\nTherefore, $f(x)$ is not one-to-one."
+      },
+      {
+        "question_text": "Show that the function $g(x) = x^3 - 4x$ is not one-to-one by finding two non-zero values of $x$ where $g(x) = 0$.",
+        "structure": "counterexample-not-one-to-one",
+        "solution_text": "Set $g(x) = 0$:\n$x(x^2 - 4) = 0$\n$x(x - 2)(x + 2) = 0$\n$x = 0, 2, -2$\nEvaluating at $x = 2$ and $x = -2$ gives $g(2) = 0$ and $g(-2) = 0$.\nSince $2 \\neq -2$ but $g(2) = g(-2)$, the function is not one-to-one."
+      },
+      {
+        "question_text": "A relation $R$ has a one-to-many mapping. Describe the mapping type of the inverse relation $R^{-1}$, and state whether $R^{-1}$ is a function.",
+        "structure": "horizontal-line-test-condition",
+        "solution_text": "The inverse relation $R^{-1}$ reverses the role of inputs and outputs ($x \\leftrightarrow y$).\nFor a one-to-many relation, one input corresponds to multiple outputs, while each output comes from only one input (it passes the horizontal line test).\nReversing this produces a relation where multiple inputs correspond to one output, and each input produces exactly one output.\nTherefore, $R^{-1}$ is a many-to-one relation, and it is a function."
+      },
+      {
+        "question_text": "Consider the set of ordered pairs $S = \\{(-2, 4), (-1, 1), (0, 0), (1, 1), (2, 4)\\}$. Classify $S$ as one-to-one, many-to-one, one-to-many, or many-to-many.",
+        "structure": "classify-relation-mapping-type",
+        "solution_text": "Check inputs: each $x$-value ($-2, -1, 0, 1, 2$) appears exactly once, so each input has a single output (it is a function).\nCheck outputs: the output $4$ comes from two inputs ($x = -2$ and $x = 2$), and the output $1$ comes from two inputs ($x = -1$ and $x = 1$).\nSince multiple inputs share the same output, the relation is many-to-one."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove algebraically that the rational function $f(x) = \\dfrac{3x - 1}{x + 2}$ (for $x \\neq -2$) is one-to-one.",
+        "structure": "algebraic-parity-and-injectivity",
+        "solution_text": "Set $f(a) = f(b)$:\n$\\dfrac{3a - 1}{a + 2} = \\dfrac{3b - 1}{b + 2}$\n$(3a - 1)(b + 2) = (3b - 1)(a + 2)$\n$3ab + 6a - b - 2 = 3ab + 6b - a - 2$\n$6a - b = 6b - a$\n$7a = 7b$\n$a = b$\nSince $f(a) = f(b)$ strictly implies $a = b$, $f(x)$ is one-to-one."
+      },
+      {
+        "question_text": "A student asserts: \\\"Every odd function must be one-to-one because odd functions cannot be symmetric across the $y$-axis.\\\" Disprove this claim by providing a counterexample and demonstrating that it fails the horizontal line test.",
+        "structure": "counterexample-not-one-to-one",
+        "solution_text": "Consider the odd function $f(x) = x^3 - x$.\nCheck odd symmetry:\n$f(-x) = (-x)^3 - (-x) = -x^3 + x = -(x^3 - x) = -f(x)$\nSo $f(x)$ is an odd function.\nNow find where $f(x) = 0$:\n$x(x - 1)(x + 1) = 0 \\implies x = -1, 0, 1$\nWe have $f(-1) = f(0) = f(1) = 0$.\nSince three distinct inputs produce the same output $0$, the horizontal line $y = 0$ intersects the graph three times.\nTherefore, $f(x)$ is not one-to-one, disproving the claim."
+      },
+      {
+        "question_text": "The function $f(x) = x^2 - 4x + 3$ is defined on the restricted domain $[k, \\infty)$. Determine the minimum value of $k$ such that $f(x)$ is a one-to-one function.",
+        "structure": "apply-horizontal-line-test-graph",
+        "solution_text": "Find the vertex (turning point) of the parabola:\n$x_{\\text{vertex}} = -\\dfrac{-4}{2(1)} = 2$\nFor $x < 2$, the parabola is decreasing; for $x > 2$, it is increasing.\nFor $f(x)$ to pass the horizontal line test, the domain must not contain points on both sides of the turning point.\nThe largest domain of the form $[k, \\infty)$ on which $f$ is strictly monotonic (increasing) starts at the vertex $x = 2$.\nTherefore, the minimum value is $k = 2$."
+      }
+    ]
+  }
+}

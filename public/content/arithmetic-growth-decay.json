@@ -1,0 +1,116 @@
+{
+  "skillId": "arithmetic-growth-decay",
+  "atomType": "R",
+  "theory": {
+    "intro": "Quantities that increase or decrease by a constant amount each time period form an arithmetic sequence. The initial quantity and periodic change correspond to $a$ and $d$.",
+    "facts": [
+      "Linear growth has a positive common difference $d > 0$, while linear decay has a negative common difference $d < 0$.",
+      "If the starting value is at time $t = 0$, the amount after $n$ periods is $A_n = A_0 + n d$.",
+      "If the first period's value is $a_1$, the value after $n$ periods is $a_n = a_1 + (n - 1)d$.",
+      "The total accumulated amount over $n$ periods is the partial sum $S_n = \\dfrac{n}{2}(a_1 + a_n)$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A plumber's starting annual salary in Year 1 is \\$45000, and she receives a fixed raise of \\$2500 in each subsequent year. What is her salary in Year 8?",
+        "structure": "model-periodic-term-growth",
+        "solution_text": "$a = 45000, d = 2500, n = 8$\n$a_8 = a + (8 - 1)d$\n$= 45000 + 7(2500)$\n$= 45000 + 17500$\n$= \\$62500$"
+      },
+      {
+        "question_text": "A piece of machinery initially valued at \\$18000 depreciates by a constant amount of \\$1400 each year. If its value at the end of Year 1 is \\$16600, what is its value at the end of Year 6?",
+        "structure": "model-periodic-term-decay",
+        "solution_text": "$a_1 = 16600, d = -1400, n = 6$\n$a_6 = 16600 + (6 - 1)(-1400)$\n$= 16600 + 5(-1400)$\n$= 16600 - 7000$\n$= \\$9600$"
+      },
+      {
+        "question_text": "A cyclist rides $15\\text{ km}$ on Day 1 and increases her daily distance by $3\\text{ km}$ each subsequent day. Find her total distance ridden over the first $12$ days.",
+        "structure": "model-accumulated-total",
+        "solution_text": "$a = 15, d = 3, n = 12$\n$S_{12} = \\dfrac{12}{2}[2(15) + (12 - 1)(3)]$\n$= 6[30 + 11(3)]$\n$= 6[30 + 33]$\n$= 6(63)$\n$= 378\\text{ km}$"
+      },
+      {
+        "question_text": "An auditorium has $24$ seats in the first row, and each subsequent row has $2$ more seats than the row before it. How many seats are in the $15$th row?",
+        "structure": "model-stacked-physical-arrangement",
+        "solution_text": "$a = 24, d = 2, n = 15$\n$a_{15} = 24 + (15 - 1)(2)$\n$= 24 + 14(2)$\n$= 24 + 28$\n$= 52\\text{ seats}$"
+      },
+      {
+        "question_text": "A water tank starts with $800\\text{ litres}$ on Day 1 and leaks $35\\text{ litres}$ each day. After how many days will the water remaining first drop below $300\\text{ litres}$?",
+        "structure": "model-target-period-index",
+        "solution_text": "$a = 800, d = -35$\n$a_n = 800 + (n - 1)(-35) = 835 - 35n$\n$835 - 35n < 300$\n$535 < 35n$\n$n > 15.285...$\n$\\text{Least integer is } n = 16\\text{ days.}$"
+      },
+      {
+        "question_text": "A runner saves \\$10 in Week 1, and increases her weekly savings by \\$5 each week. What are her total accumulated savings over $20$ weeks?",
+        "structure": "model-accumulated-total",
+        "solution_text": "$a = 10, d = 5, n = 20$\n$S_{20} = \\dfrac{20}{2}[2(10) + 19(5)]$\n$= 10[20 + 95]$\n$= 10(115)$\n$= \\$1150$"
+      },
+      {
+        "question_text": "Display cans are stacked in layers with $40$ cans in the bottom layer (Layer 1), $37$ in the second, and $3$ fewer in each layer above. How many total cans are in a stack of $10$ layers?",
+        "structure": "model-stacked-physical-arrangement",
+        "solution_text": "$a = 40, d = -3, n = 10$\n$S_{10} = \\dfrac{10}{2}[2(40) + 9(-3)]$\n$= 5[80 - 27]$\n$= 5(53)$\n$= 265\\text{ cans}$"
+      },
+      {
+        "question_text": "A newly planted tree is $120\\text{ cm}$ tall at the end of Month 1, and grows at a steady rate of $4.5\\text{ cm}$ each month. What is its height at the end of Month 10?",
+        "structure": "model-periodic-term-growth",
+        "solution_text": "$a_1 = 120, d = 4.5, n = 10$\n$a_{10} = 120 + (10 - 1)(4.5)$\n$= 120 + 9(4.5)$\n$= 120 + 40.5$\n$= 160.5\\text{ cm}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "An employee starts on an annual salary of \\$52000 in Year 1 and receives a raise of \\$3200 each year. What are his total career earnings over his first $15$ years?",
+        "structure": "model-accumulated-total",
+        "solution_text": "$a = 52000, d = 3200, n = 15$\n$S_{15} = \\dfrac{15}{2}[2(52000) + 14(3200)]$\n$= \\dfrac{15}{2}[104000 + 44800]$\n$= \\dfrac{15}{2}(148800)$\n$= 15 \\times 74400$\n$= \\$1116000$"
+      },
+      {
+        "question_text": "A gym member begins by lifting $40\\text{ kg}$ in Week 1 and adds $2.5\\text{ kg}$ to her lift each week. In which week will she first lift at least $75\\text{ kg}$?",
+        "structure": "model-target-period-index",
+        "solution_text": "$a = 40, d = 2.5$\n$a_n = 40 + (n - 1)(2.5) \\ge 75$\n$2.5(n - 1) \\ge 35$\n$n - 1 \\ge 14$\n$n \\ge 15$\n$\\text{Week } 15$"
+      },
+      {
+        "question_text": "Logs of timber are stacked with $12$ logs on the top row (Row 1), $13$ on the next, and $1$ more on each subsequent row down. If a total of $330$ logs are stacked, how many rows are there?",
+        "structure": "model-accumulated-target-n",
+        "solution_text": "$a = 12, d = 1, S_n = 330$\n$330 = \\dfrac{n}{2}[2(12) + (n - 1)(1)]$\n$660 = n(24 + n - 1)$\n$660 = n(n + 23)$\n$n^2 + 23n - 660 = 0$\n$(n - 15)(n + 44) = 0$\n$n = 15 \\text{ or } n = -44$\n$\\text{Reject } n = -44 \\text{ since the number of rows must be positive.}$\n$n = 15\\text{ rows}$"
+      },
+      {
+        "question_text": "A vehicle's value is \\$32000 at the end of Year 1 and depreciates by \\$2800 each year. In which year will its value first fall below \\$10000?",
+        "structure": "model-periodic-term-decay",
+        "solution_text": "$a_1 = 32000, d = -2800$\n$a_n = 32000 + (n - 1)(-2800) < 10000$\n$-2800(n - 1) < -22000$\n$n - 1 > 7.857...$\n$n > 8.857...$\n$\\text{Year } 9$"
+      },
+      {
+        "question_text": "A cinema has $18$ seats in Row 1, and each row has $3$ more seats than the preceding row. If the cinema has $20$ rows in total, what is the total seating capacity?",
+        "structure": "model-stacked-physical-arrangement",
+        "solution_text": "$a = 18, d = 3, n = 20$\n$S_{20} = \\dfrac{20}{2}[2(18) + 19(3)]$\n$= 10[36 + 57]$\n$= 10(93)$\n$= 930\\text{ seats}$"
+      },
+      {
+        "question_text": "A debtor agrees to repay a loan by paying \\$50 in Month 1, \\$70 in Month 2, and \\$20 more each month. How many months will it take to repay a total of \\$1170?",
+        "structure": "model-accumulated-target-n",
+        "solution_text": "$a = 50, d = 20, S_n = 1170$\n$1170 = \\dfrac{n}{2}[2(50) + (n - 1)(20)]$\n$1170 = 10n^2 + 40n$\n$10n^2 + 40n - 1170 = 0$\n$n^2 + 4n - 117 = 0$\n$(n - 9)(n + 13) = 0$\n$n = 9 \\text{ or } n = -13$\n$\\text{Reject } n = -13 \\text{ as the number of months must be positive.}$\n$n = 9\\text{ months}$"
+      },
+      {
+        "question_text": "A charity foundation raises \\$14000 in its first year (Year 1) and increases its annual fundraising by \\$1800 each year. How much will it raise in Year 12?",
+        "structure": "model-periodic-term-growth",
+        "solution_text": "$a = 14000, d = 1800, n = 12$\n$a_{12} = 14000 + (12 - 1)(1800)$\n$= 14000 + 11(1800)$\n$= 14000 + 19800$\n$= \\$33800$"
+      },
+      {
+        "question_text": "A contractor is penalised for late completion of a project: \\$400 for the first day late, \\$550 for the second day, and \\$150 more for each subsequent day. What is the total penalty after $10$ days late?",
+        "structure": "model-accumulated-total",
+        "solution_text": "$a = 400, d = 150, n = 10$\n$S_{10} = \\dfrac{10}{2}[2(400) + 9(150)]$\n$= 5[800 + 1350]$\n$= 5(2150)$\n$= \\$10750$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A heavy stone falls $4.9\\text{ metres}$ in the first second, $14.7\\text{ metres}$ in the second second, and increases by $9.8\\text{ metres}$ each subsequent second. If it falls a total distance of $176.4\\text{ metres}$, how many seconds does the fall take?",
+        "structure": "model-accumulated-target-n",
+        "solution_text": "$a = 4.9, d = 9.8, S_n = 176.4$\n$176.4 = \\dfrac{n}{2}[2(4.9) + (n - 1)(9.8)]$\n$176.4 = 4.9n^2$\n$n^2 = 36$\n$n = 6 \\text{ or } n = -6$\n$\\text{Reject } n = -6 \\text{ as time must be positive.}$\n$n = 6\\text{ seconds}$"
+      },
+      {
+        "question_text": "A triangular display has $1$ item in the top row (Row 1), $3$ in Row 2, $6$ in Row 3, such that Row $k$ contains $\\frac{k(k+1)}{2}$ items. If Row $n$ contains $55$ items, find $n$ and the number of items in Row $n-1$.",
+        "structure": "model-stacked-physical-arrangement",
+        "solution_text": "$\\dfrac{n(n+1)}{2} = 55$\n$n(n + 1) = 110$\n$n^2 + n - 110 = 0$\n$(n - 10)(n + 11) = 0$\n$n = 10 \\text{ (since } n > 0\\text{)}$\n$\\text{Row 10; Row 9 contains } \\dfrac{9(10)}{2} = 45\\text{ items.}$"
+      },
+      {
+        "question_text": "Two companies offer different 5-year contracts. Company A pays \\$60000 in Year 1 with an annual raise of \\$4000. Company B pays \\$55000 in Year 1 with an annual raise of \\$7000. Which company pays more in total over the 5-year contract, and by how much?",
+        "structure": "model-accumulated-total",
+        "solution_text": "$S_{A, 5} = \\dfrac{5}{2}[2(60000) + 4(4000)] = 2.5(136000) = \\$340000$\n$S_{B, 5} = \\dfrac{5}{2}[2(55000) + 4(7000)] = 2.5(138000) = \\$345000$\n$\\text{Difference} = 345000 - 340000 = \\$5000$\n$\\text{Company B pays more by } \\$5000.$"
+      }
+    ]
+  }
+}

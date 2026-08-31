@@ -1,0 +1,255 @@
+{
+  "skillId": "combinations-nCr",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Evaluate $^{7}C_{2}$.",
+      "structure": "evaluate-ncr",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$21$",
+          "correct": true
+        },
+        {
+          "text": "$42$",
+          "why": "Multiplied 7 by 6 without dividing by 2!, evaluating permutations 7P2 instead of combinations."
+        },
+        {
+          "text": "$14$",
+          "why": "Multiplied 7 by 2 instead of evaluating the combination formula."
+        },
+        {
+          "text": "$49$",
+          "why": "Calculated 7 squared instead of choosing 2 items without replacement."
+        }
+      ],
+      "solution_text": "$^{7}C_{2} = \\dfrac{7 \\times 6}{2 \\times 1}$\n$= 21$"
+    },
+    {
+      "id": "q2",
+      "question_text": "What is the value of $^{9}C_{3}$?",
+      "structure": "evaluate-ncr",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$84$",
+          "correct": true
+        },
+        {
+          "text": "$504$",
+          "why": "Evaluated permutations 9P3 without dividing by 3!."
+        },
+        {
+          "text": "$252$",
+          "why": "Divided by 2 instead of 3! = 6."
+        },
+        {
+          "text": "$27$",
+          "why": "Multiplied 9 by 3 instead of evaluating the combination."
+        }
+      ],
+      "solution_text": "$^{9}C_{3} = \\dfrac{9 \\times 8 \\times 7}{3 \\times 2 \\times 1}$\n$= 84$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A committee of $3$ people is to be chosen from a group of $10$ candidates. How many different committees can be formed?",
+      "structure": "ncr-team-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$120$",
+          "correct": true
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated permutations 10P3, incorrectly assuming committee roles are distinct."
+        },
+        {
+          "text": "$30$",
+          "why": "Multiplied 10 by 3 rather than applying the combination formula."
+        },
+        {
+          "text": "$360$",
+          "why": "Divided 10P3 by 2 instead of 3!."
+        }
+      ],
+      "solution_text": "Number of committees:\n$= {^{10}C_{3}}$\n$= \\dfrac{10 \\times 9 \\times 8}{3 \\times 2 \\times 1}$\n$= 120$"
+    },
+    {
+      "id": "q4",
+      "question_text": "In a classroom of $11$ students, $2$ students are selected to represent the class. How many different pairs can be chosen?",
+      "structure": "ncr-team-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$55$",
+          "correct": true
+        },
+        {
+          "text": "$110$",
+          "why": "Calculated permutations 11P2, treating the two representative spots as ordered."
+        },
+        {
+          "text": "$22$",
+          "why": "Multiplied 11 by 2 instead of computing the combination 11C2."
+        },
+        {
+          "text": "$121$",
+          "why": "Calculated 11 squared, incorrectly allowing the same student to be selected twice."
+        }
+      ],
+      "solution_text": "Number of pairs:\n$= {^{11}C_{2}}$\n$= \\dfrac{11 \\times 10}{2 \\times 1}$\n$= 55$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A sports committee consisting of $3$ runners and $2$ swimmers is to be formed from $6$ runners and $5$ swimmers. How many different committees are possible?",
+      "structure": "ncr-multi-group-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$200$",
+          "correct": true
+        },
+        {
+          "text": "$30$",
+          "why": "Added the combinations 20 + 10 instead of multiplying them."
+        },
+        {
+          "text": "$1200$",
+          "why": "Computed permutations 6P3 times 5P2 without dividing by factorials."
+        },
+        {
+          "text": "$462$",
+          "why": "Calculated 11C5, choosing 5 members from the total 11 without category constraints."
+        }
+      ],
+      "solution_text": "Number of committees:\n$= {^{6}C_{3}} \\times {^{5}C_{2}}$\n$= 20 \\times 10$\n$= 200$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A researcher selects $4$ red samples from a batch of $8$ red samples, and $2$ blue samples from a batch of $6$ blue samples. In how many ways can this selection be made?",
+      "structure": "ncr-multi-group-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1050$",
+          "correct": true
+        },
+        {
+          "text": "$85$",
+          "why": "Added the combinations 70 + 15 instead of applying the multiplication principle."
+        },
+        {
+          "text": "$3003$",
+          "why": "Calculated 14C6 from the combined 14 samples without category restrictions."
+        },
+        {
+          "text": "$25200$",
+          "why": "Calculated 8P4 times 6P2, treating the sample selections as ordered."
+        }
+      ],
+      "solution_text": "Number of ways:\n$= {^{8}C_{4}} \\times {^{6}C_{2}}$\n$= 70 \\times 15$\n$= 1050$"
+    },
+    {
+      "id": "q7",
+      "question_text": "$7$ points are marked on the circumference of a circle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2.2);\n\\fill (90:2.2) circle (2pt) node[above] {$P_1$};\n\\fill (38.57:2.2) circle (2pt) node[above right] {$P_2$};\n\\fill (-12.86:2.2) circle (2pt) node[right] {$P_3$};\n\\fill (-64.29:2.2) circle (2pt) node[below right] {$P_4$};\n\\fill (-115.71:2.2) circle (2pt) node[below left] {$P_5$};\n\\fill (-167.14:2.2) circle (2pt) node[left] {$P_6$};\n\\fill (141.43:2.2) circle (2pt) node[above left] {$P_7$};\n\\end{tikzpicture}\n[/tikz]\nHow many triangles can be formed using these points as vertices?",
+      "structure": "ncr-geometric-points",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$35$",
+          "correct": true
+        },
+        {
+          "text": "$210$",
+          "why": "Calculated permutations 7P3, assuming the vertex order matters."
+        },
+        {
+          "text": "$21$",
+          "why": "Calculated 7C2, counting straight lines instead of triangles."
+        },
+        {
+          "text": "$42$",
+          "why": "Multiplied 7 by 6 instead of dividing by 3!."
+        }
+      ],
+      "solution_text": "Number of triangles:\n$= {^{7}C_{3}}$\n$= \\dfrac{7 \\times 6 \\times 5}{3 \\times 2 \\times 1}$\n$= 35$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A fair coin is tossed $9$ times. How many sequences of tosses contain exactly $2$ heads?",
+      "structure": "ncr-coin-binary-outcomes",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$36$",
+          "correct": true
+        },
+        {
+          "text": "$72$",
+          "why": "Calculated permutations 9P2 without dividing by 2!."
+        },
+        {
+          "text": "$18$",
+          "why": "Multiplied 9 by 2 instead of evaluating the combination 9C2."
+        },
+        {
+          "text": "$512$",
+          "why": "Calculated total outcomes 2^9 instead of selecting 2 heads."
+        }
+      ],
+      "solution_text": "Number of sequences:\n$= {^{9}C_{2}}$\n$= \\dfrac{9 \\times 8}{2 \\times 1}$\n$= 36$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Find the positive integer $n$ such that $^{n}C_{2} = 28$.",
+      "structure": "solve-for-unknown-in-ncr",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$7$",
+          "why": "Selected the second factor in 8 times 7 rather than the value of n."
+        },
+        {
+          "text": "$14$",
+          "why": "Divided 28 by 2 instead of solving the quadratic n(n - 1) = 56."
+        },
+        {
+          "text": "$9$",
+          "why": "Calculated 9C2 = 36, overshooting the target value."
+        }
+      ],
+      "solution_text": "$^{n}C_{2} = 28$\n$\\dfrac{n(n-1)}{2} = 28$\n$n(n-1) = 56$\n$n^2 - n - 56 = 0$\n$(n-8)(n+7) = 0$\nSince $n > 0$, $n = 8$."
+    },
+    {
+      "id": "q10",
+      "question_text": "If $^{n}C_{3} = 20$, what is the value of $n$?",
+      "structure": "solve-for-unknown-in-ncr",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$6$",
+          "correct": true
+        },
+        {
+          "text": "$5$",
+          "why": "Divided by $3$ instead of $3! = 6$, solving $n(n-1)(n-2) = 60$ to obtain $n = 5$."
+        },
+        {
+          "text": "$4$",
+          "why": "Selected the smallest factor in $6 \\times 5 \\times 4 = 120$ instead of $n = 6$."
+        },
+        {
+          "text": "$3$",
+          "why": "Confused the lower index $r = 3$ with the unknown total $n$."
+        }
+      ],
+      "solution_text": "$^{n}C_{3} = 20$\n$\\dfrac{n(n-1)(n-2)}{6} = 20$\n$n(n-1)(n-2) = 120$\nSince $6 \\times 5 \\times 4 = 120$, $n = 6$."
+    }
+  ]
+}

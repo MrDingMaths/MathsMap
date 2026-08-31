@@ -1,0 +1,117 @@
+{
+  "skillId": "analyse-cubic-stationary",
+  "atomType": "R",
+  "theory": {
+        "intro": "A cubic $f(x) = ax^3 + bx^2 + cx + d$ has a quadratic derivative, so it has at most two stationary points. Solving $f'(x) = 0$ locates them, and the sign of $f'(x)$ on each side classifies them.",
+        "facts": [
+          "A cubic $f(x) = ax^3 + bx^2 + cx + d$ with $a \\neq 0$ has derivative $f'(x) = 3ax^2 + 2bx + c$.",
+          "The number of stationary points depends on the discriminant of $f'(x)$, $\\Delta = 4b^2 - 12ac$.",
+          "If $\\Delta > 0$ there are two stationary points: a local maximum and a local minimum.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, <->, domain=-2.1:2.1, smooth, variable=\\x] plot (\\x, {0.45*(\\x*\\x*\\x - 3*\\x)});\n\\filldraw (-1,0.9) circle (2pt);\n\\filldraw (1,-0.9) circle (2pt);\n\\draw (-1,-0.12) -- (-1,0.12);\n\\draw (1,-0.12) -- (1,0.12);\n\\node[below left] at (-1,-0.12) {$x_1$};\n\\node[above right] at (1,0.12) {$x_2$};\n\\end{tikzpicture}\n[/tikz]",
+          "If $\\Delta = 0$ there is one stationary point, a **horizontal point of inflection**, and no turning points.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-1.7,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, <->, domain=-0.6:2.6, smooth, variable=\\x] plot (\\x, {0.4*(\\x-1)*(\\x-1)*(\\x-1) + 0.5});\n\\filldraw (1,0.5) circle (2pt);\n\\draw (1,-0.12) -- (1,0.12);\n\\node[below right] at (1,-0.12) {$x_1$};\n\\end{tikzpicture}\n[/tikz]",
+          "If $\\Delta < 0$ there are no stationary points, so the cubic is increasing everywhere or decreasing everywhere.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,2.2) node[above] {$y$};\n\\draw[thick, <->, domain=-1.6:1.6, smooth, variable=\\x] plot (\\x, {0.2*(\\x*\\x*\\x + 3*\\x)});\n\\end{tikzpicture}\n[/tikz]",
+          "For a positive cubic ($a > 0$) with turning points $x_1 < x_2$, the curve rises, falls between them, then rises again.",
+          "For a negative cubic ($a < 0$) the pattern reverses: the curve falls, rises between $x_1$ and $x_2$, then falls again.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, <->, domain=-2.1:2.1, smooth, variable=\\x] plot (\\x, {0.45*(3*\\x - \\x*\\x*\\x)});\n\\filldraw (-1,-0.9) circle (2pt);\n\\filldraw (1,0.9) circle (2pt);\n\\draw (-1,-0.12) -- (-1,0.12);\n\\draw (1,-0.12) -- (1,0.12);\n\\node[above left] at (-1,0.12) {$x_1$};\n\\node[below right] at (1,-0.12) {$x_2$};\n\\end{tikzpicture}\n[/tikz]",
+          "A table of signs of $f'(x)$ before, between and after the stationary points justifies each classification.",
+          "Substitute the stationary $x$-values into the original cubic $f(x)$, never into $f'(x)$, to find the $y$-coordinates."
+        ],
+        "steps": [
+          "Differentiate $f(x)$ to obtain $f'(x) = 3ax^2 + 2bx + c$",
+          "Solve $f'(x) = 0$ to find the stationary $x$-coordinates",
+          "Substitute the $x$-values into $f(x)$ to find the $y$-coordinates",
+          "Construct a table of signs for $f'(x)$ to classify each stationary point and state intervals of increase and decrease"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the stationary points of $f(x) = x^3 - 3x^2 - 9x + 5$, classify them, and state the intervals where the function is increasing and decreasing.",
+        "structure": "analyse-cubic-two-turning-points-monic",
+        "solution_text": "$f'(x) = 3x^2 - 6x - 9$\nSet $f'(x) = 0$:\n$3(x^2 - 2x - 3) = 0$\n$3(x - 3)(x + 1) = 0$\n$x = -1 \\text{ or } x = 3$\nAt $x = -1$: $f(-1) = (-1)^3 - 3(-1)^2 - 9(-1) + 5 = 10$\nAt $x = 3$: $f(3) = (3)^3 - 3(3)^2 - 9(3) + 5 = -22$\nFor $x < -1$: $f'(x) > 0$; for $-1 < x < 3$: $f'(x) < 0$; for $x > 3$: $f'(x) > 0$.\nLocal maximum at $(-1, 10)$, local minimum at $(3, -22)$.\nIncreasing for $x < -1$ and $x > 3$; decreasing for $-1 < x < 3$."
+      },
+      {
+        "question_text": "Find the stationary points of $f(x) = x^3 - 12x + 2$, classify their nature, and determine where the curve is increasing.",
+        "structure": "analyse-cubic-two-turning-points-monic",
+        "solution_text": "$f'(x) = 3x^2 - 12$\nSet $f'(x) = 0$:\n$3(x - 2)(x + 2) = 0$\n$x = -2 \\text{ or } x = 2$\nAt $x = -2$: $f(-2) = (-2)^3 - 12(-2) + 2 = 18$\nAt $x = 2$: $f(2) = (2)^3 - 12(2) + 2 = -14$\nLocal maximum at $(-2, 18)$, local minimum at $(2, -14)$.\nIncreasing for $x < -2$ and $x > 2$."
+      },
+      {
+        "question_text": "Find the stationary points of $f(x) = x^3 + 3x^2 - 24x + 10$ and determine the interval where $f(x)$ is decreasing.",
+        "structure": "analyse-cubic-two-turning-points-monic",
+        "solution_text": "$f'(x) = 3x^2 + 6x - 24$\nSet $f'(x) = 0$:\n$3(x^2 + 2x - 8) = 0$\n$3(x + 4)(x - 2) = 0$\n$x = -4 \\text{ or } x = 2$\nAt $x = -4$: $f(-4) = (-4)^3 + 3(-4)^2 - 24(-4) + 10 = 90$\nAt $x = 2$: $f(2) = (2)^3 + 3(2)^2 - 24(2) + 10 = -18$\nLocal maximum at $(-4, 90)$, local minimum at $(2, -18)$.\nDecreasing for $-4 < x < 2$."
+      },
+      {
+        "question_text": "Find the stationary points of $f(x) = 12x - x^3$, classify their nature, and state where $f(x)$ is increasing.",
+        "structure": "analyse-cubic-two-turning-points-nonmonic",
+        "solution_text": "$f'(x) = 12 - 3x^2$\nSet $f'(x) = 0$:\n$3(4 - x^2) = 0$\n$3(2 - x)(2 + x) = 0$\n$x = -2 \\text{ or } x = 2$\nAt $x = -2$: $f(-2) = 12(-2) - (-2)^3 = -16$\nAt $x = 2$: $f(2) = 12(2) - (2)^3 = 16$\nFor $x < -2$: $f'(x) < 0$; for $-2 < x < 2$: $f'(x) > 0$; for $x > 2$: $f'(x) < 0$.\nLocal minimum at $(-2, -16)$, local maximum at $(2, 16)$.\nIncreasing for $-2 < x < 2$."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = (x - 1)^3 + 4$.",
+        "structure": "analyse-cubic-inflection",
+        "solution_text": "$f'(x) = 3(x - 1)^2$\nSet $f'(x) = 0 \\implies x = 1$\n$f(1) = (1 - 1)^3 + 4 = 4$\nTesting $f'(x)$ around $x = 1$:\nFor $x < 1$: $f'(x) = 3(x - 1)^2 > 0$\nFor $x > 1$: $f'(x) = 3(x - 1)^2 > 0$\nSince the gradient is positive on both sides of $x = 1$, $(1, 4)$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "Show that $f(x) = x^3 + 3x - 5$ has no stationary points and is strictly increasing for all real $x$.",
+        "structure": "analyse-cubic-strictly-monotonic",
+        "solution_text": "$f'(x) = 3x^2 + 3$\n$= 3(x^2 + 1)$\nSince $x^2 \\geq 0$ for all real $x$, $3(x^2 + 1) \\geq 3 > 0$.\nSince $f'(x) > 0$ for all real $x$, $f'(x) = 0$ has no real solutions.\nTherefore $f(x)$ has no stationary points and is strictly increasing for all $x$."
+      },
+      {
+        "question_text": "The cubic $f(x) = x^3 + bx^2 + cx$ has stationary points at $x = 1$ and $x = 3$. Find the values of $b$ and $c$.",
+        "structure": "determine-cubic-parameters",
+        "solution_text": "$f'(x) = 3x^2 + 2bx + c$\nSince $x = 1$ and $x = 3$ are stationary points, they are roots of $3x^2 + 2bx + c = 0$:\n$3(x - 1)(x - 3) = 3(x^2 - 4x + 3) = 3x^2 - 12x + 9$\nEquating coefficients:\n$2b = -12 \\implies b = -6$\n$c = 9$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the stationary points of $f(x) = \\dfrac{1}{3}x^3 - 2x^2 + 3x + 1$, determine their nature, and find where $f(x)$ increases.",
+        "structure": "analyse-cubic-two-turning-points-monic",
+        "solution_text": "$f'(x) = x^2 - 4x + 3$\nSet $f'(x) = 0$:\n$(x - 1)(x - 3) = 0$\n$x = 1 \\text{ or } x = 3$\nAt $x = 1$: $f(1) = \\dfrac{1}{3}(1)^3 - 2(1)^2 + 3(1) + 1 = \\dfrac{7}{3}$\nAt $x = 3$: $f(3) = \\dfrac{1}{3}(27) - 2(9) + 3(3) + 1 = 1$\nFor $x < 1$: $f'(x) > 0$; for $1 < x < 3$: $f'(x) < 0$; for $x > 3$: $f'(x) > 0$.\nLocal maximum at $\\left(1, \\dfrac{7}{3}\\right)$, local minimum at $(3, 1)$.\nIncreasing for $x < 1$ and $x > 3$."
+      },
+      {
+        "question_text": "Find the stationary points of $f(x) = 2x^3 - 9x^2 + 12x - 3$, classify them, and state the interval where $f(x)$ decreases.",
+        "structure": "analyse-cubic-two-turning-points-nonmonic",
+        "solution_text": "$f'(x) = 6x^2 - 18x + 12$\nSet $f'(x) = 0$:\n$6(x^2 - 3x + 2) = 0$\n$6(x - 1)(x - 2) = 0$\n$x = 1 \\text{ or } x = 2$\nAt $x = 1$: $f(1) = 2(1)^3 - 9(1)^2 + 12(1) - 3 = 2$\nAt $x = 2$: $f(2) = 2(8) - 9(4) + 12(2) - 3 = 1$\nLocal maximum at $(1, 2)$, local minimum at $(2, 1)$.\nDecreasing for $1 < x < 2$."
+      },
+      {
+        "question_text": "Find the stationary points of $f(x) = -2x^3 + 3x^2 + 36x + 5$, classify them, and state the interval where $f(x)$ is increasing.",
+        "structure": "analyse-cubic-two-turning-points-nonmonic",
+        "solution_text": "$f'(x) = -6x^2 + 6x + 36$\nSet $f'(x) = 0$:\n$-6(x^2 - x - 6) = 0$\n$-6(x - 3)(x + 2) = 0$\n$x = -2 \\text{ or } x = 3$\nAt $x = -2$: $f(-2) = -2(-8) + 3(4) + 36(-2) + 5 = -39$\nAt $x = 3$: $f(3) = -2(27) + 3(9) + 36(3) + 5 = 86$\nFor $x < -2$: $f'(x) < 0$; for $-2 < x < 3$: $f'(x) > 0$; for $x > 3$: $f'(x) < 0$.\nLocal minimum at $(-2, -39)$, local maximum at $(3, 86)$.\nIncreasing for $-2 < x < 3$."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = 2(x + 1)^3 - 7$.",
+        "structure": "analyse-cubic-inflection",
+        "solution_text": "$f'(x) = 6(x + 1)^2$\nSet $f'(x) = 0 \\implies x = -1$\n$f(-1) = 2(-1 + 1)^3 - 7 = -7$\nTesting gradient around $x = -1$:\nFor $x < -1$: $f'(x) = 6(x + 1)^2 > 0$\nFor $x > -1$: $f'(x) = 6(x + 1)^2 > 0$\nSince the gradient is positive on both sides of $x = -1$, $(-1, -7)$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "Show that $f(x) = \\dfrac{x^3}{3} + x^2 + 5x + 7$ is strictly increasing for all real $x$ and has no stationary points.",
+        "structure": "analyse-cubic-strictly-monotonic",
+        "solution_text": "$f'(x) = x^2 + 2x + 5$\n$= (x + 1)^2 + 4$\nSince $(x + 1)^2 \\geq 0$ for all real $x$, $f'(x) \\geq 4 > 0$.\nSince $f'(x) > 0$ for all real $x$, $f'(x) = 0$ has no real solutions.\nTherefore $f(x)$ has no stationary points and is strictly increasing for all $x$."
+      },
+      {
+        "question_text": "The cubic $f(x) = x^3 + ax^2 + bx + c$ has a local maximum at $(-1, 15)$ and a local minimum at $(3, -17)$. Find the values of $a, b, c$.",
+        "structure": "determine-cubic-parameters",
+        "solution_text": "$f'(x) = 3x^2 + 2ax + b$\nStationary points at $x = -1$ and $x = 3$ are roots of $3x^2 + 2ax + b = 0$:\n$3(x + 1)(x - 3) = 3(x^2 - 2x - 3) = 3x^2 - 6x - 9$\n$2a = -6 \\implies a = -3$\n$b = -9$\nUsing the point $(-1, 15)$ on $f(x) = x^3 - 3x^2 - 9x + c$:\n$15 = (-1)^3 - 3(-1)^2 - 9(-1) + c$\n$15 = -1 - 3 + 9 + c$\n$15 = 5 + c \\implies c = 10$\n$a = -3, b = -9, c = 10$"
+      },
+      {
+        "question_text": "Find the stationary points and $y$-intercept of $f(x) = x^3 - 6x^2 + 9x$, classify them, and describe the key features of the sketch of $y = f(x)$.",
+        "structure": "sketch-cubic-from-analysis",
+        "solution_text": "$f'(x) = 3x^2 - 12x + 9 = 3(x - 1)(x - 3)$\nSet $f'(x) = 0 \\implies x = 1 \\text{ or } x = 3$\n$f(1) = (1)^3 - 6(1)^2 + 9(1) = 4 \\implies (1, 4) \\text{ is a local maximum}$\n$f(3) = (3)^3 - 6(3)^2 + 9(3) = 0 \\implies (3, 0) \\text{ is a local minimum}$\n$y$-intercept: $f(0) = 0 \\implies (0, 0)$\nThe sketch passes through $(0, 0)$, rises to local maximum $(1, 4)$, falls to touch the $x$-axis at local minimum $(3, 0)$, and rises for $x > 3$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For what values of $k$ does the cubic $f(x) = 2x^3 - 3kx^2 + 24x - 10$ have two distinct stationary points?",
+        "structure": "determine-cubic-parameters",
+        "solution_text": "$f'(x) = 6x^2 - 6kx + 24$\nFor two distinct stationary points, $f'(x) = 0$ must have two distinct real roots:\n$6(x^2 - kx + 4) = 0$\n$\\Delta = (-k)^2 - 4(1)(4) > 0$\n$k^2 - 16 > 0$\n$k < -4 \\text{ or } k > 4$"
+      },
+      {
+        "question_text": "The cubic $f(x) = ax^3 + bx^2$ has a stationary point at $(2, -8)$. Given that $a \\neq 0$, find the values of $a$ and $b$, and find the coordinates and nature of the second stationary point.",
+        "structure": "determine-cubic-parameters",
+        "solution_text": "$f'(x) = 3ax^2 + 2bx$\nStationary at $x = 2 \\implies 3a(4) + 2b(2) = 0 \\implies 12a + 4b = 0 \\implies b = -3a$\n$f(2) = a(8) + b(4) = 8a + 4(-3a) = -4a = -8 \\implies a = 2$\n$b = -3(2) = -6$\n$f(x) = 2x^3 - 6x^2$\n$f'(x) = 6x^2 - 12x = 6x(x - 2) = 0 \\implies x = 0 \\text{ or } x = 2$\nAt $x = 0$: $f(0) = 0 \\implies (0, 0)$\nSince $f'(x) > 0$ for $x < 0$ and $f'(x) < 0$ for $0 < x < 2$, $(0, 0)$ is a local maximum."
+      },
+      {
+        "question_text": "A cubic $f(x) = 2x^3 + 3x^2 - 12x + 5$ has local maximum at $(-2, 25)$ and local minimum at $(1, -2)$. Find its $y$-intercept and describe the complete behaviour of the curve for all real $x$.",
+        "structure": "sketch-cubic-from-analysis",
+        "solution_text": "$f'(x) = 6x^2 + 6x - 12 = 6(x + 2)(x - 1)$\nStationary points: local maximum at $(-2, 25)$ and local minimum at $(1, -2)$.\n$y$-intercept: $f(0) = 5 \\implies (0, 5)$.\nThe function is increasing for $x < -2$ and $x > 1$, and decreasing for $-2 < x < 1$."
+      }
+    ]
+  }
+}

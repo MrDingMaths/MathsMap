@@ -2,20 +2,20 @@
   "skillId": "similar-triangle-tests",
   "atomType": "Cat",
   "theory": {
-    "intro": "Two triangles are similar when one is an enlargement of the other — the same shape, with every side scaled by the same factor. Four minimum tests decide similarity, and the reasoning is written out in full every time.",
-    "facts": [
-      "**Equiangular (AAA)**: at least two pairs of equal corresponding angles — the third pair must then be equal by the angle sum.",
-      "**SSS**: three pairs of corresponding sides in the same ratio.",
-      "**SAS**: two pairs of corresponding sides in the same ratio and the included angle equal.",
-      "**RHS**: both triangles right-angled, with the hypotenuses and another pair of corresponding sides in the same ratio.",
-      "The scale factor is $\\frac{\\text{image}}{\\text{original}}$ — divide a side of the second triangle by its corresponding side in the first."
-    ],
-    "steps": [
-      "Pair up corresponding parts: shortest side with shortest side, largest angle with largest angle.",
-      "For the side tests, divide each side of one triangle by its corresponding side in the other and compare the ratios.",
-      "Match the pattern to a test — equiangular (AAA), SSS, SAS or RHS — or conclude the triangles are not similar."
-    ]
-  },
+        "intro": "Two triangles are **similar** when one is an enlargement of the other: same shape, every side scaled by the same factor. Four tests decide similarity, and you must write the full reasoning every time.",
+        "facts": [
+          "**Equiangular (AAA)**: at least two pairs of equal corresponding angles, which makes the third pair equal by the angle sum.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.6,0);\n\\coordinate (C) at (0.827,1.773);\n\\draw (A) -- (B) -- (C) -- cycle;\n\\pic[draw,\"$\\alpha$\",angle radius=0.38cm,angle eccentricity=1.7] {angle=B--A--C};\n\\pic[draw,\"$\\beta$\",angle radius=0.45cm,angle eccentricity=1.7] {angle=C--B--A};\n\\coordinate (A2) at (4.2,0);\n\\coordinate (B2) at (8.36,0);\n\\coordinate (C2) at (5.523,2.837);\n\\draw (A2) -- (B2) -- (C2) -- cycle;\n\\pic[draw,\"$\\alpha$\",angle radius=0.55cm,angle eccentricity=2.0] {angle=B2--A2--C2};\n\\pic[draw,\"$\\beta$\",angle radius=0.65cm,angle eccentricity=2.0] {angle=C2--B2--A2};\n\\end{tikzpicture}\n[/tikz]",
+          "**SSS**: three pairs of corresponding sides in the same ratio.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.8,0);\n\\coordinate (C) at (0.829,1.369);\n\\draw (A) -- (B) node[midway,below] {$c$};\n\\draw (A) -- (C) node[midway,above left] {$a$};\n\\draw (B) -- (C) node[midway,above right] {$b$};\n\\coordinate (A2) at (4.4,0);\n\\coordinate (B2) at (8.88,0);\n\\coordinate (C2) at (5.726,2.190);\n\\draw (A2) -- (B2) node[midway,below] {$kc$};\n\\draw (A2) -- (C2) node[midway,above left] {$ka$};\n\\draw (B2) -- (C2) node[midway,above right] {$kb$};\n\\end{tikzpicture}\n[/tikz]",
+          "**SAS**: two pairs of corresponding sides in the same ratio, and the included angle between them equal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (V) at (0,0);\n\\coordinate (P) at (1.6,0);\n\\coordinate (Q) at (1.377,1.966);\n\\draw (V) -- (P) node[midway,below] {$a$};\n\\draw (V) -- (Q) node[midway,above left] {$b$};\n\\draw (P) -- (Q);\n\\pic[draw,\"$\\theta$\",angle radius=0.45cm,angle eccentricity=2.0] {angle=P--V--Q};\n\\coordinate (V2) at (4.2,0);\n\\coordinate (P2) at (6.6,0);\n\\coordinate (Q2) at (6.265,2.949);\n\\draw (V2) -- (P2) node[midway,below] {$ka$};\n\\draw (V2) -- (Q2) node[midway,above left] {$kb$};\n\\draw (P2) -- (Q2);\n\\pic[draw,\"$\\theta$\",angle radius=0.6cm,angle eccentricity=2.0] {angle=P2--V2--Q2};\n\\end{tikzpicture}\n[/tikz]",
+          "**RHS**: both triangles right-angled, with the hypotenuses and another pair of corresponding sides in the same ratio.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.85]\n\\coordinate (A) at (0,1.7);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2.4,1.7);\n\\draw (A) -- (B) node[midway,left] {$a$};\n\\draw (A) -- (C);\n\\draw (B) -- (C) node[midway,below right] {$c$};\n\\coordinate (r1) at ($(A)!0.28cm!(B)$);\n\\coordinate (r2) at ($(A)!0.28cm!(C)$);\n\\draw (r1) -- ($(r1)+(r2)-(A)$) -- (r2);\n\\coordinate (A2) at (4.4,2.55);\n\\coordinate (B2) at (4.4,0);\n\\coordinate (C2) at (8.0,2.55);\n\\draw (A2) -- (B2) node[midway,left] {$ka$};\n\\draw (A2) -- (C2);\n\\draw (B2) -- (C2) node[midway,below right] {$kc$};\n\\coordinate (s1) at ($(A2)!0.28cm!(B2)$);\n\\coordinate (s2) at ($(A2)!0.28cm!(C2)$);\n\\draw (s1) -- ($(s1)+(s2)-(A2)$) -- (s2);\n\\end{tikzpicture}\n[/tikz]",
+          "The scale factor is $\\frac{\\text{image}}{\\text{original}}$ — divide a side of the second triangle by its matching side in the first."
+        ],
+        "steps": [
+          "Pair up corresponding parts: shortest side with shortest side, largest angle with largest angle.",
+          "For the side tests, divide each side of one triangle by its corresponding side in the other and compare the ratios.",
+          "Match the pattern to a test — equiangular (AAA), SSS, SAS or RHS — or conclude the triangles are not similar."
+        ]
+      },
   "practice": {
     "foundation": [
       {

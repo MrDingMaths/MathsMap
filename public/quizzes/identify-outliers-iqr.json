@@ -1,0 +1,205 @@
+{
+  "skillId": "identify-outliers-iqr",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A dataset has $Q_1 = 18$ and $Q_3 = 30$. What is the upper fence for identifying outliers?",
+      "structure": "calculate-fences",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$48$",
+          "correct": true
+        },
+        {
+          "text": "$42$",
+          "why": "Added 1 x IQR (12) instead of 1.5 x IQR (18) to Q3."
+        },
+        {
+          "text": "$36$",
+          "why": "Added 1.5 x IQR to Q1 instead of Q3 (18 + 18)."
+        },
+        {
+          "text": "$66$",
+          "why": "Multiplied Q3 directly by 1.5 instead of adding 1.5 x IQR."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = Q_3 - Q_1 = 30 - 18 = 12$\n$\\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR}$\n$= 30 + 1.5 \\times 12$\n$= 30 + 18$\n$= 48$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A dataset has $Q_1 = 24$ and $Q_3 = 36$. What is the lower fence for identifying outliers?",
+      "structure": "calculate-fences",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Subtracted 1 x IQR (12) from Q1 instead of 1.5 x IQR (18)."
+        },
+        {
+          "text": "$18$",
+          "why": "Subtracted 1.5 x IQR from Q3 instead of Q1 (36 - 18)."
+        },
+        {
+          "text": "$-6$",
+          "why": "Calculated 12 - 18 instead of 24 - 18."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = Q_3 - Q_1 = 36 - 24 = 12$\n$\\text{Lower fence} = Q_1 - 1.5 \\times \\text{IQR}$\n$= 24 - 1.5 \\times 12$\n$= 24 - 18$\n$= 6$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The five-number summary for a dataset is $\\text{Min} = 4, Q_1 = 15, Q_2 = 22, Q_3 = 31, \\text{Max} = 58$. Using the formal $1.5 \\times \\text{IQR}$ rule, which of the following is true?",
+      "structure": "identify-outliers-five-number",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$58$ is an outlier because it is greater than the upper fence of $55$.",
+          "correct": true
+        },
+        {
+          "text": "$4$ is an outlier because it is less than the lower fence of $5$.",
+          "why": "Calculated the lower fence incorrectly; the lower fence is 15 - 24 = -9, so 4 is not an outlier."
+        },
+        {
+          "text": "Both $4$ and $58$ are outliers.",
+          "why": "Assumed both extreme values are outliers without evaluating the lower fence correctly."
+        },
+        {
+          "text": "There are no outliers in this dataset.",
+          "why": "Failed to compare the maximum of 58 against the upper fence of 55."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = 31 - 15 = 16$\n$\\text{Lower fence} = 15 - 1.5 \\times 16 = -9$\n$\\text{Upper fence} = 31 + 1.5 \\times 16 = 55$\nSince $58 > 55$, $58$ is an outlier.\nSince $4 \\ge -9$, $4$ is not an outlier."
+    },
+    {
+      "id": "q4",
+      "question_text": "A set of $10$ scores is: $2, 20, 21, 23, 25, 26, 28, 30, 32, 35$. Given $Q_1 = 21$ and $Q_3 = 30$, determine which value, if any, is an outlier.",
+      "structure": "identify-outliers-dataset",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$2$ is an outlier.",
+          "correct": true
+        },
+        {
+          "text": "$35$ is an outlier.",
+          "why": "Tested 35 against Q3 + IQR (39) incorrectly; the upper fence is 43.5."
+        },
+        {
+          "text": "Both $2$ and $35$ are outliers.",
+          "why": "Assumed both the minimum and maximum must be outliers."
+        },
+        {
+          "text": "There are no outliers.",
+          "why": "Did not calculate the lower fence (7.5) to test the minimum score of 2."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = 30 - 21 = 9$\n$\\text{Lower fence} = 21 - 1.5 \\times 9 = 7.5$\n$\\text{Upper fence} = 30 + 1.5 \\times 9 = 43.5$\nSince $2 < 7.5$, $2$ is an outlier."
+    },
+    {
+      "id": "q5",
+      "question_text": "A dataset of runner times has $Q_1 = 44\\text{ s}, Q_3 = 56\\text{ s}$, with minimum $30\\text{ s}$ and maximum $70\\text{ s}$. Are there any outliers?",
+      "structure": "identify-outliers-dataset",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No, all data values lie within the fences of $26\\text{ s}$ and $74\\text{ s}$.",
+          "correct": true
+        },
+        {
+          "text": "Yes, $70\\text{ s}$ is an outlier.",
+          "why": "Subtracted 1.5 x IQR from 56 instead of adding to find the upper fence."
+        },
+        {
+          "text": "Yes, $30\\text{ s}$ is an outlier.",
+          "why": "Calculated the lower fence as 32 s by using 1 x IQR instead of 1.5 x IQR."
+        },
+        {
+          "text": "Yes, both $30\\text{ s}$ and $70\\text{ s}$ are outliers.",
+          "why": "Assumed the minimum and maximum must always be outliers without checking fences."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = 56 - 44 = 12$\n$\\text{Lower fence} = 44 - 1.5 \\times 12 = 26\\text{ s}$\n$\\text{Upper fence} = 56 + 1.5 \\times 12 = 74\\text{ s}$\nSince $\\text{Min} = 30 \\ge 26$ and $\\text{Max} = 70 \\le 74$, there are no outliers."
+    },
+    {
+      "id": "q6",
+      "question_text": "In a modified box plot, how are outliers displayed, and where do the whiskers end?",
+      "structure": "box-plot-with-outliers",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Outliers are plotted as individual points beyond the whiskers, and whiskers end at the most extreme non-outlier data values.",
+          "correct": true
+        },
+        {
+          "text": "Whiskers extend to the lower and upper fences, and outliers are plotted at the fences.",
+          "why": "Whiskers extend to actual data values, not to theoretical fence boundaries."
+        },
+        {
+          "text": "Outliers are omitted entirely from the display, and whiskers extend to the minimum and maximum.",
+          "why": "Outliers must be displayed as individual points rather than omitted."
+        },
+        {
+          "text": "Whiskers always extend to the minimum and maximum values regardless of whether outliers exist.",
+          "why": "In a modified box plot, whiskers stop at the last non-outlier data value."
+        }
+      ],
+      "solution_text": "A modified box plot plots any data value outside the fences ($Q_1 - 1.5\\times\\text{IQR}$ and $Q_3 + 1.5\\times\\text{IQR}$) as an isolated point.\nThe whiskers extend to the most extreme data values inside the fences."
+    },
+    {
+      "id": "q7",
+      "question_text": "A dataset has a lower quartile of $Q_1 = 14$ and an upper quartile of $Q_3 = 26$. What is the maximum possible range of this dataset if it contains no outliers?",
+      "structure": "outlier-boundary-and-context",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$48$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Reported the IQR ($26 - 14 = 12$) rather than the maximum possible range."
+        },
+        {
+          "text": "$44$",
+          "why": "Quoted the upper fence ($44$) instead of calculating the difference between the upper and lower fences."
+        },
+        {
+          "text": "$30$",
+          "why": "Calculated the difference between the upper fence and $Q_1$ ($44 - 14 = 30$) rather than subtracting the lower fence."
+        }
+      ],
+      "solution_text": "$\\text{IQR} = 26 - 14 = 12$\n$\\text{Lower fence} = 14 - 1.5 \\times 12 = -4$\n$\\text{Upper fence} = 26 + 1.5 \\times 12 = 44$\n$\\text{Max possible range} = \\text{Upper fence} - \\text{Lower fence}$\n$= 44 - (-4)$\n$= 48$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A dataset of test scores has $Q_1 = 50, Q_3 = 70$, and contains an outlier at $x = 105$. If every score in the dataset is increased by $10$ marks, will the new score of $115$ still be an outlier?",
+      "structure": "identify-outliers-dataset",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Yes, because adding $10$ shifts both $Q_3$ and the upper fence by $10$ (new fence is $110$), so $115 > 110$ remains an outlier.",
+          "correct": true
+        },
+        {
+          "text": "No, because $115$ exceeds the new fence of $110$ by only $5$, and an outlier must lie more than $1.5 \\times \\text{IQR} = 30$ beyond it.",
+          "why": "A score is an outlier as soon as it exceeds the upper fence ($Q_3 + 1.5 \\times \\text{IQR}$); it does not need to exceed the fence by an additional $1.5 \\times \\text{IQR}$."
+        },
+        {
+          "text": "No, because adding 10 increases the IQR and widens the fences.",
+          "why": "Adding a constant to all values does not change the IQR (spread remains identical)."
+        },
+        {
+          "text": "Yes, because the upper fence remains fixed at 100 while the score increases to 115.",
+          "why": "Adding 10 to every score shifts Q3 and the upper fence up by 10 as well."
+        }
+      ],
+      "solution_text": "$\\text{Original: } \\text{IQR} = 70 - 50 = 20, \\text{ Upper fence} = 70 + 1.5(20) = 100$\n$\\text{New: } Q_1 = 60, Q_3 = 80, \\text{IQR} = 80 - 60 = 20$\n$\\text{New upper fence} = 80 + 1.5 \\times 20 = 110$\nSince $115 > 110$, $115$ remains an outlier."
+    }
+  ]
+}

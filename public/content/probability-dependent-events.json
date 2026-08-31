@@ -2,24 +2,24 @@
   "skillId": "probability-dependent-events",
   "atomType": "R",
   "theory": {
-    "intro": "When items are taken **without replacement**, the stages are **dependent**: the first item is not put back, so at the second draw there is one fewer item to choose from and the branch probabilities change. The tree is built exactly as for independent stages, but the second-stage fractions have to be rewritten — every denominator drops by one, and the colour actually drawn also loses one from its numerator. After that, multiply along a path and add the paths that satisfy the event, just as before.",
-    "facts": [
-      "**Dependent events** occur when there is **no replacement**: the first result changes the probabilities at the second stage.",
-      "At the second draw the total has fallen by $1$, so every second-stage denominator is one less than the first-stage denominator.",
-      "Only the colour actually drawn loses one from its numerator; the other colours keep their counts.",
-      "From $3$ red and $5$ blue, drawing red first leaves $\\frac{2}{7}$ red and $\\frac{5}{7}$ blue on the second-stage branches.",
-      "The branches leaving any one point still add to $1$: $\\frac{2}{7} + \\frac{5}{7} = 1$.",
-      "Multiply along a path and add the paths that satisfy the event, exactly as for independent stages.",
-      "Unless the question asks for another form, give the probability as a fraction in simplest form."
-    ],
-    "steps": [
-      "Draw a tree with one set of branches for each draw.",
-      "Label the first-stage branches from the original totals.",
-      "Label the second-stage branches after removing the item already drawn.",
-      "Multiply along the branches of each path.",
-      "Add the paths that satisfy the event."
-    ]
-  },
+        "intro": "Without **replacement** the stages are **dependent**: the first item is not put back, so the second draw has one fewer item to choose from. Build the tree as before, but rewrite the second-stage fractions.",
+        "facts": [
+          "**Dependent events** occur when there is **no replacement**: the first result changes the probabilities at the second stage.",
+          "At the second draw the total has fallen by $1$, so every second-stage denominator is one less than the first-stage denominator.",
+          "Only the colour actually drawn loses one from its numerator; the other colours keep their counts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (N1) at (2.4,1.7);\n\\coordinate (N2) at (2.4,-1.7);\n\\coordinate (E1) at (5.4,3.0);\n\\coordinate (E2) at (5.4,0.7);\n\\coordinate (E3) at (5.4,-0.7);\n\\coordinate (E4) at (5.4,-3.0);\n\\draw (O) -- (N1) node[midway, above, fill=white, font=\\small] {$\\frac{r}{n}$};\n\\draw (O) -- (N2) node[midway, below, fill=white, font=\\small] {$\\frac{n-r}{n}$};\n\\draw (N1) -- (E1) node[midway, above, fill=white, font=\\small] {$\\frac{r-1}{n-1}$};\n\\draw (N1) -- (E2) node[midway, below, fill=white, font=\\small] {$\\frac{n-r}{n-1}$};\n\\draw (N2) -- (E3) node[midway, above, fill=white, font=\\small] {$\\frac{r}{n-1}$};\n\\draw (N2) -- (E4) node[midway, below, fill=white, font=\\small] {$\\frac{n-r-1}{n-1}$};\n\\node[fill=white, inner sep=2pt] at (N1) {$R$};\n\\node[fill=white, inner sep=2pt] at (N2) {$B$};\n\\node[right, font=\\small] at (E1) {$R$};\n\\node[right, font=\\small] at (E2) {$B$};\n\\node[right, font=\\small] at (E3) {$R$};\n\\node[right, font=\\small] at (E4) {$B$};\n\\node[font=\\small] at (2.4,4.2) {Draw $1$};\n\\node[font=\\small] at (5.4,4.2) {Draw $2$};\n\\end{tikzpicture}\n[/tikz]",
+          "From $3$ red and $5$ blue, drawing red first leaves $\\frac{2}{7}$ red and $\\frac{5}{7}$ blue on the second-stage branches.",
+          "The branches leaving any one point still add to $1$: $\\frac{2}{7} + \\frac{5}{7} = 1$.",
+          "Multiply along a path and add the paths that satisfy the event, exactly as for independent stages.",
+          "Unless the question asks for another form, give the probability as a fraction in simplest form."
+        ],
+        "steps": [
+          "Draw a tree with one set of branches for each draw.",
+          "Label the first-stage branches from the original totals.",
+          "Label the second-stage branches after removing the item already drawn.",
+          "Multiply along the branches of each path.",
+          "Add the paths that satisfy the event."
+        ]
+      },
   "practice": {
     "foundation": [
       {

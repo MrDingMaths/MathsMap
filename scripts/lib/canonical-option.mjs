@@ -14,9 +14,21 @@ export function gcd(a, b) {
 // Macros whose value cannot survive the strip below: dropping `\sqrt` would turn
 // √3 into 3 and report a bogus collision. Powers are excluded too, except the
 // degree marker `^{\circ}`, which is a unit rather than an exponent.
+//
+// Named FUNCTIONS are the same hazard one level up, and W4-4 (calculus) is the
+// first batch to put them in option text at scale. `\ln 2` strips to `2` and
+// collides with a literal `2`; `-6\sin x` and `-6\cos x` both strip to `-6 x`,
+// where the leftover variable then passes `isPureUnit` and the two opposite
+// derivatives are reported as equal. Three such bogus defects were raised on
+// W4-4's first gate. A function's value is not recoverable from its argument,
+// so refuse to canonicalise the option at all.
+const FUNCTION_MACROS =
+  /\\(ln|log|lg|exp|sin|cos|tan|sec|csc|cosec|cot|arcsin|arccos|arctan|sinh|cosh|tanh|operatorname)\b/;
+
 export function hasUnstrippableMath(text) {
   const s = String(text);
   if (/\\(sqrt|pi|times|div|cdot|pm|approx|dot|overline)\b/.test(s)) return true;
+  if (FUNCTION_MACROS.test(s)) return true;
   if (/\^(?!\{?\\circ)/.test(s)) return true;
   return false;
 }

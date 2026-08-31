@@ -2,19 +2,20 @@
   "skillId": "compare-box-plots",
   "atomType": "Com",
   "theory": {
-    "intro": "**Parallel box plots** — two box plots drawn on the same scaled axis — let you compare two datasets at a glance. Compare their **medians** to see which typically scores higher, and compare their **ranges** and **box widths** to see which is more spread out or more consistent.",
-    "facts": [
-      "Both box plots must share the **same scale**, so the two datasets can be compared directly.",
-      "A **higher median** generally means better typical performance.",
-      "A **wider box or longer whiskers** means the data is more spread out; a **narrower box** means the middle of the data is more tightly clustered, so it is more consistent.",
-      "The **median** splits a dataset exactly in half, so it marks the value that roughly half the results lie above and half lie below."
-    ],
-    "steps": [
-      "Read the median, minimum and maximum from each box plot.",
-      "Compare the medians to see which dataset is generally higher or lower.",
-      "Compare the range (maximum $-$ minimum) and the width of each box to judge spread and consistency."
-    ]
-  },
+        "intro": "**Parallel box plots** are two box plots drawn on the same scaled axis, so two datasets can be compared at a glance.",
+        "facts": [
+          "Both box plots must share the **same scale**, so the two datasets can be compared directly.",
+          "A **higher median** means generally better performance; below, $A$ and $B$ have equal spread but $B$'s median is higher.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.4,0) -- (10.4,0);\n\\foreach \\x in {0,...,10} {\\draw (\\x,-0.12) -- (\\x,0.12);}\n\\draw[thick] (1.0,1.4) -- (2.5,1.4);\n\\draw[thick] (5.0,1.4) -- (6.5,1.4);\n\\draw[thick] (1.0,1.15) -- (1.0,1.65);\n\\draw[thick] (6.5,1.15) -- (6.5,1.65);\n\\draw[thick,fill=orange!20] (2.5,1.0) rectangle (5.0,1.8);\n\\draw[thick] (3.5,1.0) -- (3.5,1.8);\n\\node[left] at (-0.5,1.4) {$A$};\n\\draw[thick] (3.0,2.9) -- (4.5,2.9);\n\\draw[thick] (7.0,2.9) -- (8.5,2.9);\n\\draw[thick] (3.0,2.65) -- (3.0,3.15);\n\\draw[thick] (8.5,2.65) -- (8.5,3.15);\n\\draw[thick,fill=teal!20] (4.5,2.5) rectangle (7.0,3.3);\n\\draw[thick] (5.5,2.5) -- (5.5,3.3);\n\\node[left] at (-0.5,2.9) {$B$};\n\\draw[gray,dashed] (3.5,0.15) -- (3.5,1.0);\n\\draw[gray,dashed] (5.5,0.15) -- (5.5,2.5);\n\\node at (5.0,4.0) {same spread, higher median for $B$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **wider box or longer whiskers** means more spread; below, $A$ and $B$ share a median but $B$ is more spread out.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-0.4,0) -- (10.4,0);\n\\foreach \\x in {0,...,10} {\\draw (\\x,-0.12) -- (\\x,0.12);}\n\\draw[thick] (2.5,1.4) -- (3.5,1.4);\n\\draw[thick] (5.5,1.4) -- (6.5,1.4);\n\\draw[thick] (2.5,1.15) -- (2.5,1.65);\n\\draw[thick] (6.5,1.15) -- (6.5,1.65);\n\\draw[thick,fill=orange!20] (3.5,1.0) rectangle (5.5,1.8);\n\\draw[thick] (4.5,1.0) -- (4.5,1.8);\n\\node[left] at (-0.5,1.4) {$A$};\n\\draw[thick] (0.5,2.9) -- (3.0,2.9);\n\\draw[thick] (6.5,2.9) -- (9.0,2.9);\n\\draw[thick] (0.5,2.65) -- (0.5,3.15);\n\\draw[thick] (9.0,2.65) -- (9.0,3.15);\n\\draw[thick,fill=teal!20] (3.0,2.5) rectangle (6.5,3.3);\n\\draw[thick] (4.5,2.5) -- (4.5,3.3);\n\\node[left] at (-0.5,2.9) {$B$};\n\\draw[gray,dashed] (4.5,0.15) -- (4.5,1.0);\n\\draw[gray,dashed] (4.5,1.8) -- (4.5,2.5);\n\\node at (5.0,4.0) {same median, wider spread for $B$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **narrower box** means the middle of the data is tightly clustered, so that dataset is more consistent.",
+          "The **median** splits a dataset in half, so about half the results lie above it and half below."
+        ],
+        "steps": [
+          "Read the median, minimum and maximum from each box plot.",
+          "Compare the medians to see which dataset is generally higher or lower.",
+          "Compare the range (maximum $-$ minimum) and the width of each box to judge spread and consistency."
+        ]
+      },
   "practice": {
     "foundation": [
       {

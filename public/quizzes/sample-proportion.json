@@ -1,0 +1,109 @@
+{
+  "skillId": "sample-proportion",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "In a random sample of $600$ shoppers, $174$ used a loyalty card. What is the sample proportion $\\hat{p}$ of shoppers who used a loyalty card?",
+      "structure": "compute-phat",
+      "mastery": false,
+      "options": [
+        { "text": "$0.29$", "correct": true },
+        { "text": "$0.71$", "why": "Used the $426$ shoppers who did not use a card, giving the proportion of failures instead of successes." },
+        { "text": "$174$", "why": "Gave the count $X$ rather than dividing it by $n$ to get a proportion." },
+        { "text": "$3.45$", "why": "Divided $n$ by $X$ instead of $X$ by $n$; a proportion can never exceed $1$." }
+      ],
+      "solution_text": "$\\hat{p}=\\dfrac{X}{n}$\n$=\\dfrac{174}{600}$\n$=0.29$"
+    },
+    {
+      "id": "q2",
+      "question_text": "In a large population, $28\\%$ of trees are eucalypts. A random sample of $750$ trees is taken and $\\hat{p}$ is the proportion of eucalypts in the sample. What is $E(\\hat{p})$?",
+      "structure": "mean-of-phat",
+      "mastery": false,
+      "options": [
+        { "text": "$0.28$", "correct": true },
+        { "text": "$210$", "why": "Gave $E(X)=np$, the expected number of eucalypts, instead of the expected proportion." },
+        { "text": "$0.72$", "why": "Gave $1-p$, the proportion of trees that are not eucalypts." },
+        { "text": "$0.000373$", "why": "Divided $p$ by $n$; the division by $n$ belongs in the variance, not in the mean." }
+      ],
+      "solution_text": "$E(\\hat{p})=p$\n$=0.28$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$X\\sim\\mathrm{Bin}(600,0.6)$ and $\\hat{p}=\\dfrac{X}{600}$. What is $\\text{Var}(\\hat{p})$?",
+      "structure": "variance-of-phat",
+      "mastery": false,
+      "options": [
+        { "text": "$0.0004$", "correct": true },
+        { "text": "$144$", "why": "Used $np(1-p)$, which is the variance of the count $X$, not of the proportion $\\hat{p}$." },
+        { "text": "$0.24$", "why": "Computed $p(1-p)$ but forgot to divide by $n$." },
+        { "text": "$0.02$", "why": "Gave the standard deviation $\\sqrt{0.0004}$ instead of the variance." }
+      ],
+      "solution_text": "$\\text{Var}(\\hat{p})=\\dfrac{p(1-p)}{n}$\n$=\\dfrac{0.6\\times 0.4}{600}$\n$=\\dfrac{0.24}{600}$\n$=0.0004$"
+    },
+    {
+      "id": "q4",
+      "question_text": "$X\\sim\\mathrm{Bin}(1875,0.25)$ and $\\hat{p}=\\dfrac{X}{1875}$. What is $\\sigma(\\hat{p})$?",
+      "structure": "sd-of-phat",
+      "mastery": false,
+      "options": [
+        { "text": "$0.01$", "correct": true },
+        { "text": "$0.0001$", "why": "Gave $\\text{Var}(\\hat{p})$ without taking the square root." },
+        { "text": "$18.75$", "why": "Computed $\\sqrt{np(1-p)}$, the standard deviation of the count $X$, not of $\\hat{p}$." },
+        { "text": "$0.4330$", "why": "Took $\\sqrt{p(1-p)}$ and left out the division by $n$." }
+      ],
+      "solution_text": "$\\text{Var}(\\hat{p})=\\dfrac{0.25\\times 0.75}{1875}$\n$=\\dfrac{0.1875}{1875}$\n$=0.0001$\n$\\sigma(\\hat{p})=\\sqrt{0.0001}$\n$=0.01$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$X\\sim\\mathrm{Bin}(2000,0.35)$ and $\\hat{p}=\\dfrac{X}{2000}$. Which pair gives $E(\\hat{p})$ and $\\sigma(\\hat{p})$, the standard deviation correct to four decimal places?",
+      "structure": "phat-versus-count",
+      "mastery": false,
+      "options": [
+        { "text": "$E(\\hat{p})=0.35$ and $\\sigma(\\hat{p})=0.0107$", "correct": true },
+        { "text": "$E(\\hat{p})=700$ and $\\sigma(\\hat{p})=21.3307$", "why": "Gave the mean and standard deviation of the count $X$ rather than of the proportion." },
+        { "text": "$E(\\hat{p})=0.35$ and $\\sigma(\\hat{p})=21.3307$", "why": "Took the mean of $\\hat{p}$ correctly but used $\\sqrt{np(1-p)}$, the spread of the count." },
+        { "text": "$E(\\hat{p})=700$ and $\\sigma(\\hat{p})=0.0107$", "why": "Took the spread of $\\hat{p}$ correctly but used $E(X)=np$ as the mean." }
+      ],
+      "solution_text": "$E(\\hat{p})=p$\n$=0.35$\n$\\text{Var}(\\hat{p})=\\dfrac{0.35\\times 0.65}{2000}$\n$=\\dfrac{0.2275}{2000}$\n$=0.00011375$\n$\\sigma(\\hat{p})=\\sqrt{0.00011375}$\n$=0.0106653\\ldots$\n$=0.0107$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The proportion $p$ stays the same, but the sample size is increased from $250$ to $4000$. The standard deviation of $\\hat{p}$ is multiplied by which factor?",
+      "structure": "compare-sample-sizes",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{4}$", "correct": true },
+        { "text": "$\\dfrac{1}{16}$", "why": "Divided by the sample-size ratio $16$ itself instead of by its square root." },
+        { "text": "$4$", "why": "Got the size of the change right but the direction wrong; a larger sample reduces the spread." },
+        { "text": "$16$", "why": "Multiplied by the sample-size ratio, missing both the square root and the fact that the spread shrinks." }
+      ],
+      "solution_text": "$\\sigma(\\hat{p})=\\sqrt{\\dfrac{p(1-p)}{n}}$, so $\\sigma(\\hat{p})$ is proportional to $\\dfrac{1}{\\sqrt{n}}$.\n$\\dfrac{4000}{250}=16$\n$\\dfrac{1}{\\sqrt{16}}=\\dfrac{1}{4}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "In a population, $60\\%$ of members renew their subscription. What sample size $n$ gives $\\sigma(\\hat{p})=0.01$ exactly?",
+      "structure": "find-n-from-sd",
+      "mastery": false,
+      "options": [
+        { "text": "$2400$", "correct": true },
+        { "text": "$24$", "why": "Divided $0.24$ by $0.01$ instead of by $0.01^2$, forgetting to square the standard deviation." },
+        { "text": "$3600$", "why": "Solved $\\dfrac{p}{\\sqrt{n}}=0.01$, using $p$ where $\\sqrt{p(1-p)}$ belongs." },
+        { "text": "$240000$", "why": "Wrote $0.01^2$ as $0.000001$ instead of $0.0001$." }
+      ],
+      "solution_text": "$\\sqrt{\\dfrac{0.6\\times 0.4}{n}}=0.01$\n$\\dfrac{0.24}{n}=0.0001$\n$n=\\dfrac{0.24}{0.0001}$\n$=2400$"
+    },
+    {
+      "id": "q8",
+      "question_text": "For a random sample of size $n$ from a binomial population, $E(\\hat{p})=0.2$ and $\\sigma(\\hat{p})=0.02$. What is the standard deviation of the number of successes $X$?",
+      "structure": "find-n-from-sd",
+      "mastery": true,
+      "options": [
+        { "text": "$8$", "correct": true },
+        { "text": "$64$", "why": "Stopped at $\\text{Var}(X)=np(1-p)=64$ without taking the square root." },
+        { "text": "$0.4$", "why": "Gave $\\sqrt{p(1-p)}$, the standard deviation of a single trial, instead of that of the count over $n$ trials." },
+        { "text": "$20$", "why": "Gave $\\sqrt{n}=20$, an intermediate value from finding $n$, rather than the standard deviation of $X$." }
+      ],
+      "solution_text": "$E(\\hat{p})=p$, so $p=0.2$.\n$\\dfrac{0.2\\times 0.8}{n}=0.02^2$\n$\\dfrac{0.16}{n}=0.0004$\n$n=400$\n$\\text{Var}(X)=400\\times 0.2\\times 0.8$\n$=64$\n$\\sigma(X)=\\sqrt{64}$\n$=8$"
+    }
+  ]
+}

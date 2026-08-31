@@ -1,0 +1,116 @@
+{
+  "skillId": "gradient-secant-limit",
+  "atomType": "T",
+  "theory": {
+        "intro": "The gradient of a curve at a point $P(c, f(c))$ is the gradient of the tangent there. To estimate it, pick a nearby point $Q(c+h, f(c+h))$ and find the gradient of the secant $PQ$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,5.3) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:4.2, smooth, variable=\\x] plot ({\\x},{0.25*\\x*\\x+0.5}) node[pos=0.97, above left] {$y=f(x)$};\n\\coordinate (P) at (1.6,1.14);\n\\coordinate (Q) at (3.6,3.74);\n\\coordinate (R) at (3.6,1.14);\n\\draw[dashed] (1.6,0) -- (P);\n\\draw[dashed] (0,1.14) -- (P);\n\\draw[dashed] (3.6,0) -- (R);\n\\draw[dashed] (0,3.74) -- (Q);\n\\coordinate (S1) at (0.9,0.23);\n\\coordinate (S2) at (4.3,4.65);\n\\draw (S1) -- (S2) node[right, font=\\normalsize] {secant};\n\\draw (P) -- (R) node[midway, below] {$h$};\n\\draw (R) -- (Q) node[midway, right, font=\\normalsize] {$f(c+h)-f(c)$};\n\\fill (P) circle (2pt) node[above left] {$P$};\n\\fill (Q) circle (2pt) node[above left] {$Q$};\n\\node[below] at (1.6,-0.05) {$c$};\n\\node[below] at (3.6,-0.05) {$c+h$};\n\\node[left] at (0,1.14) {$f(c)$};\n\\node[left] at (0,3.74) {$f(c+h)$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The gradient of the secant through $P(c, f(c))$ and $Q(c+h, f(c+h))$ is the difference quotient $m_{\\text{secant}}=\\dfrac{f(c+h)-f(c)}{h}$.",
+          "As $h\\to 0$, $Q$ slides along the curve towards $P$ and the secant turns into the tangent at $P$.",
+          "Working out the secant gradient for smaller and smaller $|h|$, such as $0.1$, $0.01$, $0.001$, estimates the tangent gradient at $x=c$.",
+          "The gap $h$ may be positive ($Q$ right of $P$) or negative ($Q$ left of $P$), and both give the same limit."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For $f(x)=x^2$, find the gradient of the secant line passing through $P(2, 4)$ and $Q(2.5, 6.25)$, where $h=0.5$.",
+        "structure": "secant-gradient-calculation",
+        "solution_text": "$m_{\\text{secant}}=\\dfrac{f(2.5)-f(2)}{0.5}$\n$=\\dfrac{6.25-4}{0.5}$\n$=\\dfrac{2.25}{0.5}$\n$=4.5$"
+      },
+      {
+        "question_text": "For $f(x)=x^2$, calculate the gradient of the secant line passing through $P(3, 9)$ and $Q(3.1, 9.61)$, corresponding to $h=0.1$.",
+        "structure": "secant-gradient-calculation",
+        "solution_text": "$m_{\\text{secant}}=\\dfrac{f(3.1)-f(3)}{0.1}$\n$=\\dfrac{9.61-9}{0.1}$\n$=\\dfrac{0.61}{0.1}$\n$=6.1$"
+      },
+      {
+        "question_text": "The table below shows secant gradients $\\dfrac{f(1+h)-f(1)}{h}$ for $f(x)=x^2$ as $h\\to 0$.\n\n$\\begin{array}{|c|c|c|c|}\\hline h & 0.1 & 0.01 & 0.001 \\\\\\hline m_{\\text{secant}} & 2.1 & 2.01 & 2.001 \\\\\\hline\\end{array}$\n\nEstimate the gradient of the tangent to $f(x)=x^2$ at $x=1$.",
+        "structure": "secant-limit-table-approximation",
+        "solution_text": "As $h\\to 0$, $m_{\\text{secant}}\\to 2$.\n$=2$"
+      },
+      {
+        "question_text": "The table below gives values of $\\dfrac{f(4+h)-f(4)}{h}$ for $f(x)=x^2$.\n\n$\\begin{array}{|c|c|c|c|c|}\\hline h & -0.1 & -0.01 & 0.01 & 0.1 \\\\\\hline m_{\\text{secant}} & 7.9 & 7.99 & 8.01 & 8.1 \\\\\\hline\\end{array}$\n\nEstimate the instantaneous rate of change of $f(x)$ at $x=4$.",
+        "structure": "secant-limit-table-approximation",
+        "solution_text": "As $h\\to 0$ from both sides, $m_{\\text{secant}}\\to 8$.\n$=8$"
+      },
+      {
+        "question_text": "On the curve $y=x^2$, points $P(2, 4)$ and $Q(2+h, (2+h)^2)$ define a secant line. Describe what happens to the secant line $PQ$ as $h$ approaches $0$.",
+        "structure": "secant-geometric-interpretation",
+        "solution_text": "As $h\\to 0$, point $Q$ moves along the curve towards point $P$.\nThe secant line rotates to become the tangent line to the curve at $P(2, 4)$."
+      },
+      {
+        "question_text": "On the graph of $y=f(x)$, state the geometric meaning of the expression $\\dfrac{f(3+0.4)-f(3)}{0.4}$.",
+        "structure": "secant-geometric-interpretation",
+        "solution_text": "The expression represents the gradient of the secant line passing through $(3, f(3))$ and $(3.4, f(3.4))$."
+      },
+      {
+        "question_text": "For $f(x)=x^3$, approximate the tangent gradient at $x=1$ by evaluating the difference quotient $\\dfrac{f(1+h)-f(1)}{h}$ with $h=0.1$.",
+        "structure": "estimate-tangent-gradient-difference-quotient",
+        "solution_text": "$\\dfrac{f(1.1)-f(1)}{0.1}$\n$=\\dfrac{(1.1)^3-1^3}{0.1}$\n$=\\dfrac{1.331-1}{0.1}$\n$=\\dfrac{0.331}{0.1}$\n$=3.31$"
+      },
+      {
+        "question_text": "For $f(x)=x^2+2$, approximate the gradient at $x=2$ using the difference quotient with $h=0.01$.",
+        "structure": "estimate-tangent-gradient-difference-quotient",
+        "solution_text": "$\\dfrac{f(2.01)-f(2)}{0.01}$\n$=\\dfrac{[(2.01)^2+2]-(2^2+2)}{0.01}$\n$=\\dfrac{6.0401-6}{0.01}$\n$=\\dfrac{0.0401}{0.01}$\n$=4.01$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For $f(x)=x^2$, find the gradient of the secant line through $P(-3, 9)$ and $Q(-3.1, 9.61)$, where $h=-0.1$.",
+        "structure": "secant-gradient-calculation",
+        "solution_text": "$m_{\\text{secant}}=\\dfrac{f(-3.1)-f(-3)}{-0.1}$\n$=\\dfrac{9.61-9}{-0.1}$\n$=\\dfrac{0.61}{-0.1}$\n$=-6.1$"
+      },
+      {
+        "question_text": "For $f(x)=x^3$, find the gradient of the secant through $P(2, 8)$ and $Q(2.05, 8.615125)$, where $h=0.05$.",
+        "structure": "secant-gradient-calculation",
+        "solution_text": "$m_{\\text{secant}}=\\dfrac{f(2.05)-f(2)}{0.05}$\n$=\\dfrac{8.615125-8}{0.05}$\n$=\\dfrac{0.615125}{0.05}$\n$=12.3025$"
+      },
+      {
+        "question_text": "The table below lists values of $\\dfrac{f(2+h)-f(2)}{h}$ for $f(x)=x^3$.\n\n$\\begin{array}{|c|c|c|c|c|}\\hline h & -0.001 & 0.001 & 0.01 & 0.1 \\\\\\hline m_{\\text{secant}} & 11.994 & 12.006 & 12.06 & 12.61 \\\\\\hline\\end{array}$\n\nEstimate the value of the derivative $f'(2)$.",
+        "structure": "secant-limit-table-approximation",
+        "solution_text": "As $h\\to 0$, $m_{\\text{secant}}\\to 12$.\n$=12$"
+      },
+      {
+        "question_text": "The table below lists values of $\\dfrac{f(1+h)-f(1)}{h}$ for $f(x)=x^4$.\n\n$\\begin{array}{|c|c|c|c|c|}\\hline h & -0.001 & 0.001 & 0.01 & 0.1 \\\\\\hline m_{\\text{secant}} & 3.994 & 4.006 & 4.0604 & 4.641 \\\\\\hline\\end{array}$\n\nEstimate the instantaneous gradient of $y=x^4$ at $x=1$.",
+        "structure": "secant-limit-table-approximation",
+        "solution_text": "As $h\\to 0$, $m_{\\text{secant}}\\to 4$.\n$=4$"
+      },
+      {
+        "question_text": "For the concave-up parabola $y=x^2$, explain why secant gradients for $h>0$ at $x=1$ are slightly greater than the true tangent gradient of $2$.",
+        "structure": "secant-geometric-interpretation",
+        "solution_text": "Because the curve bends upwards (concave up), the curve between $x=1$ and $x=1+h$ steepens.\nThe secant line connecting $(1, 1)$ to $(1+h, (1+h)^2)$ therefore has a steeper gradient than the tangent at $(1, 1)$."
+      },
+      {
+        "question_text": "Explain why substituting $h=0$ directly into $\\dfrac{f(c+h)-f(c)}{h}$ fails to compute the tangent gradient.",
+        "structure": "secant-geometric-interpretation",
+        "solution_text": "Substituting $h=0$ gives $\\dfrac{f(c)-f(c)}{0}=\\dfrac{0}{0}$, which is undefined.\nThe gradient must be found as a limit as $h\\to 0$ rather than by direct substitution of $0$."
+      },
+      {
+        "question_text": "For $f(x)=x^2$ at $x=5$, expand the difference quotient $\\dfrac{(5+h)^2-5^2}{h}$ algebraically and evaluate it for $h=0.01$ to estimate the gradient.",
+        "structure": "estimate-tangent-gradient-difference-quotient",
+        "solution_text": "$\\dfrac{(5+h)^2-5^2}{h}$\n$=\\dfrac{25+10h+h^2-25}{h}$\n$=\\dfrac{10h+h^2}{h}$\n$=10+h$\nFor $h=0.01$:\n$=10.01$\nAs $h\\to 0$, the gradient approaches $10$."
+      },
+      {
+        "question_text": "For $f(x)=2x^2$ at $x=3$, simplify the difference quotient $\\dfrac{2(3+h)^2-2(3^2)}{h}$ and evaluate it at $h=0.05$.",
+        "structure": "estimate-tangent-gradient-difference-quotient",
+        "solution_text": "$\\dfrac{2(9+6h+h^2)-18}{h}$\n$=\\dfrac{18+12h+2h^2-18}{h}$\n$=\\dfrac{12h+2h^2}{h}$\n$=12+2h$\nFor $h=0.05$:\n$=12+2(0.05)$\n$=12.1$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A table of difference quotients $\\dfrac{f(2+h)-f(2)}{h}$ for $f(x)=x^n$ shows values approaching $32$ as $h\\to 0$. Given that the limiting gradient is $n(2)^{n-1}=32$, determine the integer power $n$.",
+        "structure": "secant-limit-table-approximation",
+        "solution_text": "$n(2)^{n-1}=32$\nTesting $n=4$:\n$4(2)^{4-1}=4(2^3)=4(8)=32$\n$=4$"
+      },
+      {
+        "question_text": "For $f(x)=x^2$ at $x=3$, compare the one-sided difference quotient with $h=0.1$ to the symmetric difference quotient $\\dfrac{f(3+0.1)-f(3-0.1)}{2(0.1)}$.",
+        "structure": "secant-geometric-interpretation",
+        "solution_text": "One-sided quotient:\n$\\dfrac{f(3.1)-f(3)}{0.1}=\\dfrac{9.61-9}{0.1}=6.1$\nSymmetric quotient:\n$\\dfrac{f(3.1)-f(2.9)}{0.2}$\n$=\\dfrac{9.61-8.41}{0.2}$\n$=\\dfrac{1.20}{0.2}$\n$=6$"
+      },
+      {
+        "question_text": "For $f(x)=x^3-x$, evaluate the difference quotient at $x=2$ with $h=0.01$ to approximate the tangent gradient.",
+        "structure": "estimate-tangent-gradient-difference-quotient",
+        "solution_text": "$\\dfrac{f(2.01)-f(2)}{0.01}$\n$f(2)=2^3-2=6$\n$f(2.01)=(2.01)^3-2.01=8.120601-2.01=6.110601$\n$\\dfrac{6.110601-6}{0.01}$\n$=\\dfrac{0.110601}{0.01}$\n$=11.0601$"
+      }
+    ]
+  }
+}

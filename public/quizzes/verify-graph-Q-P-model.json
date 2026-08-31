@@ -1,0 +1,109 @@
+{
+  "skillId": "verify-graph-Q-P-model",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For $Q=32+9e^{kt}$, differentiating gives $\\dfrac{dQ}{dt}=9ke^{kt}$. Written in terms of $Q$, what does this equal?",
+      "structure": "verify-by-differentiation",
+      "mastery": false,
+      "options": [
+        { "text": "$k(Q-32)$", "correct": true },
+        { "text": "$k(32-Q)$", "why": "Subtracts in the wrong order, giving $-9ke^{kt}$ rather than $9ke^{kt}$." },
+        { "text": "$kQ$", "why": "Applies the simple growth model, forgetting that $Q$ includes the constant $32$." },
+        { "text": "$k(Q+32)$", "why": "Adds the constant instead of subtracting it when making $9e^{kt}$ the subject." }
+      ],
+      "solution_text": "$Q=32+9e^{kt}$\n$Q-32=9e^{kt}$\n$\\dfrac{dQ}{dt}=9ke^{kt}$\n$=k(Q-32)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A quantity is modelled by $Q=240+Ae^{kt}$, and $Q=95$ when $t=0$. What is the value of $A$?",
+      "structure": "find-a-from-initial",
+      "mastery": false,
+      "options": [
+        { "text": "$-145$", "correct": true },
+        { "text": "$95$", "why": "Takes $A$ to be the initial value of $Q$, but $A$ is the initial difference $Q(0)-P$." },
+        { "text": "$145$", "why": "Finds the size of the gap but drops the sign; here $Q$ starts below $240$." },
+        { "text": "$335$", "why": "Adds $95$ and $240$ instead of substituting $t=0$ and solving $95=240+A$." }
+      ],
+      "solution_text": "$95=240+Ae^{0}$\n$95=240+A$\n$A=-145$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A temperature is modelled by $T=12+48e^{kt}$, and $T=30$ when $t=6$. What is $k$ in exact form?",
+      "structure": "find-k-from-condition",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{6}\\ln\\dfrac{3}{8}$", "correct": true },
+        { "text": "$\\dfrac{1}{6}\\ln\\dfrac{8}{3}$", "why": "Inverts the ratio when taking logarithms, giving a positive $k$ for a falling temperature." },
+        { "text": "$\\dfrac{1}{6}\\ln\\dfrac{5}{2}$", "why": "Uses the temperatures themselves as the ratio $\\frac{30}{12}$ instead of the difference from $12$." },
+        { "text": "$\\dfrac{1}{6}\\ln\\dfrac{5}{8}$", "why": "Divides $30$ rather than $30-12$ by $48$, forgetting to subtract the fixed value first." }
+      ],
+      "solution_text": "$30=12+48e^{6k}$\n$18=48e^{6k}$\n$e^{6k}=\\dfrac{3}{8}$\n$6k=\\ln\\dfrac{3}{8}$\n$k=\\dfrac{1}{6}\\ln\\dfrac{3}{8}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which piece of working actually verifies that $Q=P+Ae^{kt}$ satisfies $\\dfrac{dQ}{dt}=k(Q-P)$?",
+      "structure": "spot-the-flawed-verification",
+      "mastery": false,
+      "options": [
+        { "text": "Differentiate to get $\\dfrac{dQ}{dt}=kAe^{kt}$, then replace $Ae^{kt}$ by $Q-P$.", "correct": true },
+        { "text": "Substitute $t=0$ and check that $Q(0)=P+A$.", "why": "Checks one value of the function and never uses the derivative, so nothing about the rate has been tested." },
+        { "text": "Show that $Q\\to P$ as $t\\to\\infty$ when $k<0$.", "why": "Describes the long-run behaviour of the graph, which does not test the differential equation." },
+        { "text": "Rearrange to $e^{kt}=\\dfrac{Q-P}{A}$ and take logarithms of both sides.", "why": "Rearranges the same equation into another form without ever differentiating." }
+      ],
+      "solution_text": "$Q=P+Ae^{kt}$\n$\\dfrac{dQ}{dt}=kAe^{kt}$\nAlso $Q-P=Ae^{kt}$, so $k(Q-P)=kAe^{kt}$.\nBoth sides equal $kAe^{kt}$, which is the verification."
+    },
+    {
+      "id": "q5",
+      "question_text": "The graph below shows a quantity modelled by $Q=P+Ae^{kt}$, with the line $Q=50$ dashed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$Q$},\n            xmin=-0.6, xmax=10.6, ymin=-7, ymax=62, samples=100, clip=false,\n            ytick={15,50}, xtick={2,4,6,8,10}]\n\\addplot[dashed, domain=0:10.6] (x, 50);\n\\addplot[smooth, thick, ->, domain=0:10] {50 - 35*exp(-0.4*x)};\n\\node[above right] at (axis cs:0.6,50) {$Q=50$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nWhat are the signs of $A$ and $k$?",
+      "structure": "match-graph-to-signs",
+      "mastery": false,
+      "options": [
+        { "text": "$A<0$ and $k<0$", "correct": true },
+        { "text": "$A>0$ and $k<0$", "why": "Reads $A$ from the rising curve rather than from its position; the curve lies below $Q=50$, so $A=Q(0)-50<0$." },
+        { "text": "$A<0$ and $k>0$", "why": "Reads $k$ from the rising curve; $k>0$ would bend the curve away from the line, not towards it." },
+        { "text": "$A>0$ and $k>0$", "why": "Matches both signs to the increasing graph, ignoring that the curve sits below the line and approaches it." }
+      ],
+      "solution_text": "The curve starts at $Q=15$, below the line $Q=50$, so $A=15-50=-35$ and $A<0$.\nThe curve approaches $Q=50$ as $t$ increases, so $Ae^{kt}\\to 0$ and $k<0$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Which description matches the graph of $Q=65-40e^{-0.25t}$ for $t\\ge 0$?",
+      "structure": "sketch-qp-curve",
+      "mastery": false,
+      "options": [
+        { "text": "It starts at $Q=25$ and increases towards the asymptote $Q=65$.", "correct": true },
+        { "text": "It starts at $Q=65$ and decreases towards the asymptote $Q=25$.", "why": "Swaps the fixed value with the starting value, reading $65$ as $Q(0)$." },
+        { "text": "It starts at $Q=25$ and increases without bound.", "why": "Ignores that $e^{-0.25t}\\to 0$, which caps the curve at $Q=65$." },
+        { "text": "It starts at $Q=40$ and increases towards the asymptote $Q=65$.", "why": "Reads $A=-40$ as the starting value instead of computing $Q(0)=65-40$." }
+      ],
+      "solution_text": "$Q(0)=65-40e^{0}$\n$=25$\nAs $t\\to\\infty$, $40e^{-0.25t}\\to 0$, so $Q\\to 65$ from below and $Q=65$ is a horizontal asymptote."
+    },
+    {
+      "id": "q7",
+      "question_text": "Which of these functions does NOT satisfy $\\dfrac{dQ}{dt}=k(Q-20)$ for any constant $k$?",
+      "structure": "verify-by-differentiation",
+      "mastery": false,
+      "options": [
+        { "text": "$Q=20+5t$", "correct": true },
+        { "text": "$Q=20+7e^{kt}$", "why": "This is the standard solution with $A=7$: differentiating gives $7ke^{kt}=k(Q-20)$." },
+        { "text": "$Q=20-3e^{kt}$", "why": "This is the standard solution with $A=-3$; a negative $A$ is still allowed." },
+        { "text": "$Q=20$", "why": "This is the case $A=0$, where both sides of the equation are zero for every $t$." }
+      ],
+      "solution_text": "For $Q=20+5t$:\n$\\dfrac{dQ}{dt}=5$\n$k(Q-20)=k(5t)$\n$=5kt$\nA constant cannot equal $5kt$ for all $t$ unless $k=0$, which would make the rate zero instead of $5$.\nSo $Q=20+5t$ does not satisfy the equation."
+    },
+    {
+      "id": "q8",
+      "question_text": "A quantity is modelled by $Q=30+Ae^{kt}$, with $Q=90$ when $t=0$ and $Q=66$ when $t=4$. What is the value of $Q$ when $t=8$?",
+      "structure": "find-k-from-condition",
+      "mastery": true,
+      "options": [
+        { "text": "$51.6$", "correct": true },
+        { "text": "$42$", "why": "Assumes $Q$ falls by a constant $24$ every $4$ units of time instead of by a constant factor." },
+        { "text": "$62.4$", "why": "Uses $A=90$ instead of $A=Q(0)-30=60$, so the whole starting value is multiplied by the factor." },
+        { "text": "$39.6$", "why": "Multiplies $Q=66$ by the factor $0.6$ without first subtracting the fixed value $30$." }
+      ],
+      "solution_text": "$90=30+A$\n$A=60$\n$66=30+60e^{4k}$\n$36=60e^{4k}$\n$e^{4k}=0.6$\n$e^{8k}=\\left(e^{4k}\\right)^{2}$\n$=0.36$\n$Q(8)=30+60\\times 0.36$\n$=30+21.6$\n$=51.6$"
+    }
+  ]
+}

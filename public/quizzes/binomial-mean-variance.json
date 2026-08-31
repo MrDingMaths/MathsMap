@@ -1,0 +1,109 @@
+{
+  "skillId": "binomial-mean-variance",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$X\\sim\\mathrm{Bin}(20,0.35)$. What are $E(X)$ and $\\mathrm{Var}(X)$?",
+      "structure": "mean-and-variance-direct",
+      "mastery": false,
+      "options": [
+        { "text": "$E(X)=7$, $\\mathrm{Var}(X)=4.55$", "correct": true },
+        { "text": "$E(X)=7$, $\\mathrm{Var}(X)=2.45$", "why": "Used $np^{2}$ for the variance instead of $np(1-p)$." },
+        { "text": "$E(X)=13$, $\\mathrm{Var}(X)=4.55$", "why": "Used the failure probability $0.65$ in place of $p$ when finding the mean." },
+        { "text": "$E(X)=13$, $\\mathrm{Var}(X)=2.45$", "why": "Used the failure probability for the mean and $np^{2}$ for the variance." }
+      ],
+      "solution_text": "$E(X)=20\\times0.35$\n$=7$\n$\\mathrm{Var}(X)=20\\times0.35\\times0.65$\n$=4.55$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$X\\sim\\mathrm{Bin}(48,0.25)$. What is $\\sigma(X)$, correct to two decimal places?",
+      "structure": "standard-deviation",
+      "mastery": false,
+      "options": [
+        { "text": "$3.00$", "correct": true },
+        { "text": "$9.00$", "why": "Gave the variance $np(1-p)$ instead of taking its square root." },
+        { "text": "$3.46$", "why": "Took the square root of the mean $np=12$ instead of the square root of the variance." },
+        { "text": "$20.78$", "why": "Multiplied the single-trial standard deviation $\\sqrt{p(1-p)}$ by $n$; standard deviation is not scaled by $n$." }
+      ],
+      "solution_text": "$\\mathrm{Var}(X)=48\\times0.25\\times0.75$\n$=9$\n$\\sigma(X)=\\sqrt{9}$\n$=3.00$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$X\\sim\\mathrm{Bin}(n,p)$ has $E(X)=30$ and $\\mathrm{Var}(X)=12$. What are $n$ and $p$?",
+      "structure": "find-n-and-p",
+      "mastery": false,
+      "options": [
+        { "text": "$n=50$, $p=0.6$", "correct": true },
+        { "text": "$n=50$, $p=0.4$", "why": "Divided the variance by the mean to get $0.4$ and reported it as $p$, but that quotient is $1-p$." },
+        { "text": "$n=75$, $p=0.4$", "why": "Reported $1-p$ as $p$ and then divided the mean by it to find $n$." },
+        { "text": "$n=75$, $p=0.6$", "why": "Found $p$ correctly but divided the mean by $1-p$ rather than by $p$ to find $n$." }
+      ],
+      "solution_text": "$1-p=\\dfrac{\\mathrm{Var}(X)}{E(X)}=\\dfrac{12}{30}$\n$=0.4$\n$p=0.6$\n$n=\\dfrac{30}{0.6}$\n$=50$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A machine produces components that are defective with probability $0.08$, independently. A batch of $300$ components is inspected and $X$ is the number of defectives. What are the mean and the variance of $X$?",
+      "structure": "context-mean-variance",
+      "mastery": false,
+      "options": [
+        { "text": "mean $24$, variance $22.08$", "correct": true },
+        { "text": "mean $24$, variance $1.92$", "why": "Used $np^{2}$ for the variance instead of $np(1-p)$." },
+        { "text": "mean $276$, variance $22.08$", "why": "Used the probability that a component is not defective as $p$ when finding the mean." },
+        { "text": "mean $276$, variance $1.92$", "why": "Used the non-defective probability for the mean and $np^{2}$ for the variance." }
+      ],
+      "solution_text": "Success: a component is defective.\n$X\\sim\\mathrm{Bin}(300,0.08)$\n$E(X)=300\\times0.08$\n$=24$\n$\\mathrm{Var}(X)=300\\times0.08\\times0.92$\n$=22.08$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A fair coin is tossed $100$ times and $X$ is the number of heads. What is $\\sigma(X)$?",
+      "structure": "standard-deviation",
+      "mastery": false,
+      "options": [
+        { "text": "$5$", "correct": true },
+        { "text": "$25$", "why": "Gave the variance $np(1-p)$ instead of taking its square root." },
+        { "text": "$50$", "why": "Multiplied the single-trial standard deviation $0.5$ by $n=100$; standard deviation is not multiplied by $n$." },
+        { "text": "$7.07$", "why": "Took the square root of the mean $np=50$ instead of the square root of the variance." }
+      ],
+      "solution_text": "Success: the coin shows a head.\n$X\\sim\\mathrm{Bin}(100,0.5)$\n$\\mathrm{Var}(X)=100\\times0.5\\times0.5$\n$=25$\n$\\sigma(X)=\\sqrt{25}$\n$=5$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Two binomial variables both have mean $16$: $X\\sim\\mathrm{Bin}(20,0.8)$ and $Y\\sim\\mathrm{Bin}(32,0.5)$. Which has the larger variance, and by how much?",
+      "structure": "compare-or-justify",
+      "mastery": true,
+      "options": [
+        { "text": "$Y$, by $4.8$", "correct": true },
+        { "text": "$X$, by $4.8$", "why": "Found the difference correctly but named the wrong variable as the more spread out." },
+        { "text": "$Y$, by $11.2$", "why": "Added the two variances instead of subtracting them." },
+        { "text": "$X$, by $11.2$", "why": "Added the variances instead of subtracting, and named the wrong variable as larger." }
+      ],
+      "solution_text": "$\\mathrm{Var}(X)=20\\times0.8\\times0.2$\n$=3.2$\n$\\mathrm{Var}(Y)=32\\times0.5\\times0.5$\n$=8$\n$8-3.2=4.8$\n$Y$ has the larger variance, by $4.8$."
+    },
+    {
+      "id": "q7",
+      "question_text": "$X\\sim\\mathrm{Bin}(n,p)$ has $E(X)=45$ and $\\sigma(X)=6$. What are $n$ and $p$?",
+      "structure": "find-n-and-p",
+      "mastery": true,
+      "options": [
+        { "text": "$n=225$, $p=0.2$", "correct": true },
+        { "text": "$n=225$, $p=0.8$", "why": "Divided the mean by $0.2$ correctly but then reported the quotient $\\dfrac{\\mathrm{Var}(X)}{E(X)}=0.8$ as $p$." },
+        { "text": "$n=56.25$, $p=0.8$", "why": "Reported $1-p$ as $p$ and divided the mean by it to find $n$." },
+        { "text": "$n=56.25$, $p=0.2$", "why": "Found $p$ correctly but divided the mean by $1-p$ rather than by $p$." }
+      ],
+      "solution_text": "$\\mathrm{Var}(X)=6^{2}$\n$=36$\n$1-p=\\dfrac{36}{45}$\n$=0.8$\n$p=0.2$\n$n=\\dfrac{45}{0.2}$\n$=225$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$X\\sim\\mathrm{Bin}\\left(54,\\dfrac{1}{3}\\right)$. What are $E(X)$ and $\\sigma(X)$, with $\\sigma(X)$ correct to two decimal places?",
+      "structure": "mean-and-variance-direct",
+      "mastery": true,
+      "options": [
+        { "text": "$E(X)=18$, $\\sigma(X)=3.46$", "correct": true },
+        { "text": "$E(X)=18$, $\\sigma(X)=12.00$", "why": "Gave the variance instead of taking its square root." },
+        { "text": "$E(X)=36$, $\\sigma(X)=3.46$", "why": "Used the failure probability $\\dfrac{2}{3}$ in place of $p$ when finding the mean." },
+        { "text": "$E(X)=36$, $\\sigma(X)=12.00$", "why": "Used the failure probability for the mean and gave the variance in place of the standard deviation." }
+      ],
+      "solution_text": "$E(X)=54\\times\\dfrac{1}{3}$\n$=18$\n$\\mathrm{Var}(X)=54\\times\\dfrac{1}{3}\\times\\dfrac{2}{3}$\n$=12$\n$\\sigma(X)=\\sqrt{12}$\n$=3.4641\\ldots$\n$=3.46$"
+    }
+  ]
+}

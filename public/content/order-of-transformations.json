@@ -1,0 +1,129 @@
+{
+  "skillId": "order-of-transformations",
+  "atomType": "R",
+  "theory": {
+    "intro": "The order in which transformations are applied is critical because transformations along the same axis generally do not commute. Dilating then translating horizontally produces a different curve from translating then dilating horizontally. In contrast, transformations on different axes (horizontal vs vertical) are independent and commute.",
+    "facts": [
+      "Horizontal dilation by $k$ then horizontal translation right by $b$ maps $x \\mapsto \\dfrac{x}{k} \\mapsto \\dfrac{x-b}{k}$, giving $y = f\\left(\\dfrac{x-b}{k}\\right) = f\\left(\\dfrac{x}{k} - \\dfrac{b}{k}\\right)$.",
+      "Horizontal translation right by $b$ then horizontal dilation by $k$ maps $x \\mapsto x - b \\mapsto \\dfrac{x}{k} - b$, giving $y = f\\left(\\dfrac{x}{k} - b\\right)$.",
+      "Vertical dilation by $k$ then vertical translation up by $c$ gives $y = k f(x) + c$.",
+      "Vertical translation up by $c$ then vertical dilation by $k$ gives $y = k(f(x) + c) = k f(x) + kc$.",
+      "Reflections and dilations on the same axis commute with each other.",
+      "Any horizontal transformation commutes with any vertical transformation.",
+      "To produce $f(ax + b)$: dilating by $\\dfrac{1}{a}$ first requires translating by $\\dfrac{b}{a}$ units; translating by $b$ first requires dilating by $\\dfrac{1}{a}$ second."
+    ],
+    "steps": [
+      "Identify whether the transformations act on the same axis or on different axes.",
+      "Apply each transformation in order by substituting $x$ or $y$ step-by-step.",
+      "Compare resulting expressions to determine if order changes the final rule or features."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "State whether a horizontal translation and a vertical translation commute.",
+        "structure": "classify-commuting-transformations",
+        "solution_text": "$\\text{Horizontal: } x \\mapsto x - a$\n$\\text{Vertical: } y \\mapsto y + b$\n$\\text{They act on independent variables, so they commute.}$"
+      },
+      {
+        "question_text": "State whether a horizontal dilation by a factor of $3$ and a horizontal translation of $4$ units to the right commute.",
+        "structure": "classify-commuting-transformations",
+        "solution_text": "$\\text{Dilation then translation: } x \\mapsto \\dfrac{x}{3} \\mapsto \\dfrac{x-4}{3}$\n$\\text{Translation then dilation: } x \\mapsto x - 4 \\mapsto \\dfrac{x}{3} - 4$\n$\\text{Since } \\dfrac{x-4}{3} \\neq \\dfrac{x}{3} - 4, \\text{ they do not commute.}$"
+      },
+      {
+        "question_text": "Consider $y = x^2$. Sequence A: translate right $3$ units, then vertically dilate by factor $2$. Sequence B: vertically dilate by factor $2$, then translate right $3$ units. Compare the resulting equations.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{Sequence A: } y = (x - 3)^2 \\implies y = 2(x - 3)^2$\n$\\text{Sequence B: } y = 2x^2 \\implies y = 2(x - 3)^2$\n$\\text{Both give } y = 2(x - 3)^2 \\text{ because operations act on different axes.}$"
+      },
+      {
+        "question_text": "Consider $y = x^2$. Sequence A: translate $2$ units up, then vertically dilate by factor $3$. Sequence B: vertically dilate by factor $3$, then translate $2$ units up. Find the resulting equations.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{Sequence A: } y = x^2 + 2 \\implies y = 3(x^2 + 2) = 3x^2 + 6$\n$\\text{Sequence B: } y = 3x^2 \\implies y = 3x^2 + 2$\n$\\text{Sequence A: } y = 3x^2 + 6, \\quad \\text{Sequence B: } y = 3x^2 + 2$"
+      },
+      {
+        "question_text": "Consider $y = \\sqrt{x}$. Sequence A: translate $4$ units right, then dilate horizontally by factor $\\dfrac{1}{2}$. Sequence B: dilate horizontally by factor $\\dfrac{1}{2}$, then translate $4$ units right. Find both equations.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{Sequence A: } y = \\sqrt{x - 4} \\implies y = \\sqrt{2x - 4}$\n$\\text{Sequence B: } y = \\sqrt{2x} \\implies y = \\sqrt{2(x - 4)} = \\sqrt{2x - 8}$\n$\\text{Sequence A: } y = \\sqrt{2x - 4}, \\quad \\text{Sequence B: } y = \\sqrt{2x - 8}$"
+      },
+      {
+        "question_text": "To transform $y = f(x)$ into $y = f(2x + 6)$, a student translates the graph horizontally first, then dilates horizontally by a factor of $\\dfrac{1}{2}$. How many units and in which direction must the student translate first?",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$f(x) \\to f(x + 6) \\to f(2x + 6)$\n$\\text{Translate } 6 \\text{ units to the left}$"
+      },
+      {
+        "question_text": "To transform $y = f(x)$ into $y = f(2x + 6)$, a student dilates horizontally by a factor of $\\dfrac{1}{2}$ first, then translates horizontally. How many units and in which direction must the student translate?",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$f(x) \\to f(2x) \\to f(2(x + 3)) = f(2x + 6)$\n$\\text{Translate } 3 \\text{ units to the left}$"
+      },
+      {
+        "question_text": "The graph of $y = 2^x$ has $y$-intercept $(0,1)$. Find the $y$-intercept if it is: (i) translated up $3$ units then vertically dilated by factor $2$; (ii) vertically dilated by factor $2$ then translated up $3$ units.",
+        "structure": "explain-geometric-effect-of-order",
+        "solution_text": "$\\text{(i) } y = 2(2^x + 3) \\implies y(0) = 2(1 + 3) = 8 \\implies (0, 8)$\n$\\text{(ii) } y = 2(2^x) + 3 \\implies y(0) = 2(1) + 3 = 5 \\implies (0, 5)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Explain why reflection in the $y$-axis and horizontal translation right by $2$ units do not commute, by finding both resulting rules for $y = f(x)$.",
+        "structure": "classify-commuting-transformations",
+        "solution_text": "$\\text{Reflect then translate: } f(x) \\to f(-x) \\to f(-(x - 2)) = f(2 - x)$\n$\\text{Translate then reflect: } f(x) \\to f(x - 2) \\to f(-x - 2)$\n$\\text{Since } f(2 - x) \\neq f(-x - 2), \\text{ they do not commute.}$"
+      },
+      {
+        "question_text": "The curve $y = \\dfrac{1}{x}$ undergoes: (A) horizontal translation left $3$ units then horizontal dilation by factor $2$; (B) horizontal dilation by factor $2$ then horizontal translation left $3$ units. Find the equations of both resulting curves.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{Sequence A: } y = \\dfrac{1}{x + 3} \\implies y = \\dfrac{1}{\\frac{x}{2} + 3} = \\dfrac{2}{x + 6}$\n$\\text{Sequence B: } y = \\dfrac{1}{\\frac{x}{2}} = \\dfrac{2}{x} \\implies y = \\dfrac{2}{x + 3}$"
+      },
+      {
+        "question_text": "The curve $y = x^3$ undergoes: (A) reflection across the $x$-axis then translation down $5$ units; (B) translation down $5$ units then reflection across the $x$-axis. Find both equations.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{Sequence A: } y = -x^3 \\implies y = -x^3 - 5$\n$\\text{Sequence B: } y = x^3 - 5 \\implies y = -(x^3 - 5) = -x^3 + 5$"
+      },
+      {
+        "question_text": "To obtain $y = f(3x - 12)$ from $y = f(x)$: (a) If translating right first, how many units? (b) If dilating horizontally by factor $\\dfrac{1}{3}$ first, how many units right?",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$\\text{(a) Translate first: } f(x) \\to f(x - 12) \\to f(3x - 12) \\implies 12 \\text{ units right}$\n$\\text{(b) Dilate first: } f(x) \\to f(3x) \\to f(3(x - 4)) = f(3x - 12) \\implies 4 \\text{ units right}$"
+      },
+      {
+        "question_text": "To obtain $y = f(5 - x)$ from $y = f(x)$: (a) If reflecting in the $y$-axis first, what horizontal translation is needed? (b) If translating first, what horizontal translation is needed before reflecting?",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$\\text{(a) Reflect first: } f(x) \\to f(-x) \\to f(-(x - 5)) = f(5 - x) \\implies \\text{translate right } 5$\n$\\text{(b) Translate first: } f(x) \\to f(x + 5) \\to f(-x + 5) = f(5 - x) \\implies \\text{translate left } 5$"
+      },
+      {
+        "question_text": "Describe two different valid sequences of vertical dilation and vertical translation that transform $y = x^2$ into $y = 4x^2 + 12$.",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$\\text{Sequence 1: Dilate vertically by factor } 4 \\text{ then translate up } 12 \\text{ units}$\n$\\text{Sequence 2: Translate up } 3 \\text{ units then vertically dilate by factor } 4$"
+      },
+      {
+        "question_text": "The vertex of $y = x^2$ is at $(0,0)$. Find the vertex after: (a) translating $4$ units right then dilating horizontally by factor $\\dfrac{1}{2}$; (b) dilating horizontally by factor $\\dfrac{1}{2}$ then translating $4$ units right.",
+        "structure": "explain-geometric-effect-of-order",
+        "solution_text": "$\\text{(a) } (0, 0) \\to (4, 0) \\to (2, 0)$\n$\\text{(b) } (0, 0) \\to (0, 0) \\to (4, 0)$"
+      },
+      {
+        "question_text": "The vertical asymptote of $y = \\dfrac{1}{x}$ is $x = 0$. Determine the position of the asymptote after: (a) translating $6$ units right then horizontally dilating by factor $3$; (b) horizontally dilating by factor $3$ then translating $6$ units right.",
+        "structure": "explain-geometric-effect-of-order",
+        "solution_text": "$\\text{(a) } x = 0 \\to x = 6 \\to x = 6 \\times 3 = 18$\n$\\text{(b) } x = 0 \\to x = 0 \\to x = 0 + 6 = 6$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A curve $y = f(x)$ is transformed to $y = f(6 - 2x)$. Describe three valid sequences to achieve this starting with: (1) a translation; (2) a horizontal dilation; (3) a reflection in the $y$-axis.",
+        "structure": "determine-order-for-target-rule",
+        "solution_text": "$\\text{(1) Translate left } 6 \\implies f(x+6) \\to \\text{dilate by } \\dfrac{1}{2} \\implies f(2x+6) \\to \\text{reflect in } y\\text{-axis} \\implies f(-2x+6)$\n$\\text{(2) Dilate by } \\dfrac{1}{2} \\implies f(2x) \\to \\text{reflect in } y\\text{-axis} \\implies f(-2x) \\to \\text{translate right } 3 \\implies f(-2(x-3))$\n$\\text{(3) Reflect in } y\\text{-axis} \\implies f(-x) \\to \\text{translate right } 6 \\implies f(-(x-6)) = f(6-x) \\to \\text{dilate by } \\dfrac{1}{2} \\implies f(6-2x)$"
+      },
+      {
+        "question_text": "Let $T_1$ be a horizontal dilation by factor $3$, $T_2$ be a horizontal translation right by $2$, and $T_3$ be a reflection in the $y$-axis. Find the resulting equation when applied to $y = f(x)$ in order: (a) $T_1 \\to T_2 \\to T_3$; (b) $T_3 \\to T_1 \\to T_2$.",
+        "structure": "distinguish-order-resulting-rule",
+        "solution_text": "$\\text{(a) } f(x) \\to f\\left(\\dfrac{x}{3}\\right) \\to f\\left(\\dfrac{x-2}{3}\\right) \\to f\\left(\\dfrac{-x-2}{3}\\right) = f\\left(-\\dfrac{x+2}{3}\\right)$\n$\\text{(b) } f(x) \\to f(-x) \\to f\\left(-\\dfrac{x}{3}\\right) \\to f\\left(-\\dfrac{x-2}{3}\\right) = f\\left(\\dfrac{2-x}{3}\\right)$"
+      },
+      {
+        "question_text": "A linear function $y = 2x + 4$ has $x$-intercept $(-2, 0)$ and $y$-intercept $(0, 4)$. Determine the new intercepts when the line is: (a) translated $3$ units up then vertically dilated by factor $2$; (b) vertically dilated by factor $2$ then translated $3$ units up.",
+        "structure": "explain-geometric-effect-of-order",
+        "solution_text": "$\\text{(a) } y = 2(2x + 4 + 3) = 4x + 14 \\implies y\\text{-int } (0, 14), \\quad x\\text{-int } \\left(-\\dfrac{7}{2}, 0\\right)$\n$\\text{(b) } y = 2(2x + 4) + 3 = 4x + 11 \\implies y\\text{-int } (0, 11), \\quad x\\text{-int } \\left(-\\dfrac{11}{4}, 0\\right)$"
+      },
+      {
+        "question_text": "Show algebraically why horizontal dilation by factor $k > 0$ and reflection across the $y$-axis always commute, whereas horizontal dilation by factor $k \\neq 1$ and horizontal translation right by $b \\neq 0$ never commute.",
+        "structure": "classify-commuting-transformations",
+        "solution_text": "$\\text{Dilation then reflection: } f(x) \\to f\\left(\\dfrac{x}{k}\\right) \\to f\\left(-\\dfrac{x}{k}\\right)$\n$\\text{Reflection then dilation: } f(x) \\to f(-x) \\to f\\left(-\\dfrac{x}{k}\\right) \\implies \\text{they commute}$\n$\\text{Dilation then translation: } f(x) \\to f\\left(\\dfrac{x}{k}\\right) \\to f\\left(\\dfrac{x-b}{k}\\right) = f\\left(\\dfrac{x}{k} - \\dfrac{b}{k}\\right)$\n$\\text{Translation then dilation: } f(x) \\to f(x-b) \\to f\\left(\\dfrac{x}{k} - b\\right)$\n$\\text{Since } -\\dfrac{b}{k} \\neq -b \\text{ for } k \\neq 1 \\text{ and } b \\neq 0, \\text{ they never commute.}$"
+      }
+    ]
+  }
+}

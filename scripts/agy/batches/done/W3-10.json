@@ -1,0 +1,93 @@
+{
+  "batch": "W3-10",
+  "model": "gemini-3.7-flash-high",
+  "note": "Ext1 Y11 Further work with functions, all 21 skills. Depends on W3-7 (reciprocal trig definitions) and W3-9 (graph transformations) being collected first — three skills here list them as prereqs.",
+  "sections": [
+    {
+      "name": "graphical-relationships-a",
+      "skillIds": ["reciprocal-function-graph", "graph-reciprocal-trig", "graph-absolute-value-of-function"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 1_Graphical relationships.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "These are all 'graph of a DERIVED function' skills. `reciprocal-function-graph` = sketching $y=1/f(x)$ from $y=f(x)$: zeros of $f$ become vertical asymptotes, $f=\\pm 1$ are fixed points, maxima become minima, and the sign is preserved. `graph-reciprocal-trig` = the same idea applied to $\\csc$, $\\sec$ and $\\cot$ from $\\sin$, $\\cos$ and $\\tan$. `graph-absolute-value-of-function` = $y=|f(x)|$ (reflect the negative part upward) as distinct from $y=f(|x|)$ (reflect the right half leftward) — both belong here and the difference is the point.",
+        "$y=|f(x)|$ vs $y=f(|x|)$ MUST BOTH APPEAR and must be distinguished in at least one item; swapping them is the compulsory named distractor.",
+        "The reciprocal graph's asymptotes and fixed points must be stated in the working: where $f(x)=0$ there is a vertical asymptote, where $f(x)=\\pm1$ the graphs meet, and where $f\\to\\pm\\infty$ the reciprocal $\\to 0$. A sketch item whose solution does not name these is incomplete.",
+        "$\\csc$, $\\sec$ and $\\cot$ graphs are periodic with asymptotes at the zeros of the corresponding ratio: state the domain of the sketch explicitly ($0\\le x\\le 2\\pi$ or $-360^{\\circ}\\le x\\le 360^{\\circ}$) and keep degrees and radians consistent within an item.",
+        "Figures: draw asymptotes dashed and label them with their equations in CLEAR SPACE (never across the curve), clip every plotted branch to the axis window (a reciprocal branch shooting past the frame is a lint error), and do not mark the coordinates of points whose values are already on the ticks."
+      ]
+    },
+    {
+      "name": "graphical-relationships-b",
+      "skillIds": ["graph-sum-difference-functions", "domain-range-sum-difference"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 1_Graphical relationships.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`graph-sum-difference-functions` = sketching $y=f(x)+g(x)$ (and $f-g$) by ADDING ORDINATES: pick key x-values, add the two y-values, and note where one function is zero (the sum meets the other curve) and where they are equal and opposite (the sum has a zero). `domain-range-sum-difference` = the domain of $f\\pm g$ is the INTERSECTION of the domains, and the range must be argued from the graph, not assumed to be the sum of the ranges.",
+        "THE RANGE OF A SUM IS NOT THE SUM OF THE RANGES. Make that an item and a named distractor; a maximum of $f$ and a maximum of $g$ generally occur at different $x$.",
+        "Domain intersection must include the excluded points: $\\sqrt{x}+\\frac{1}{x-2}$ has domain $x\\ge 0$, $x\\neq 2$. An item whose answer omits the exclusion is wrong, and 'took the union' is the standard slip.",
+        "State domains and ranges in ONE notation (interval notation, as taught in `domain-range-interval-notation`) across every item, or two option wordings become equally correct.",
+        "Figures: draw $f$ and $g$ dashed and the sum solid, all three labelled clear of the curves; mark the ordinate additions at two or three sample x-values rather than pre-drawing the answer's key points."
+      ]
+    },
+    {
+      "name": "inverse-functions-a",
+      "skillIds": ["one-to-one-functions", "reflection-line-y-equals-x", "find-inverse-function", "domain-range-inverse"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 2_Inverse functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`one-to-one-functions` = the horizontal line test and why only a one-to-one function has an inverse FUNCTION. `reflection-line-y-equals-x` = the reflection itself: $(a,b)\\mapsto(b,a)$, and what that does to intercepts and asymptotes. `find-inverse-function` = the algebra: swap $x$ and $y$, solve for $y$, write $f^{-1}(x)$. `domain-range-inverse` = domain of $f^{-1}$ = range of $f$ and vice versa.",
+        "$f^{-1}(x)$ IS NOT $\\frac{1}{f(x)}$. That conflation must appear as a named distractor at least once — it is the topic's defining error, and the reciprocal-function skills in this same batch make it live.",
+        "Where solving for $y$ needs a square root, the inverse requires a sign decision driven by the ORIGINAL domain (e.g. $f(x)=x^{2}$, $x\\ge 0$ gives $f^{-1}(x)=\\sqrt{x}$). Every such stem must state the original domain, and the solution must justify the sign.",
+        "An inverse's domain/range must be stated in the same interval notation as the original, and an item asking for the domain of $f^{-1}$ must not be answerable by two conventions (open vs closed at an endpoint) — pick values where the endpoint is unambiguous.",
+        "Figures: the curve, its reflection, and $y=x$ drawn as a dashed line at true 45° (the axes must be equally scaled or the reflection looks wrong); label each curve in clear space and do not pre-mark corresponding point pairs when finding them is the task."
+      ]
+    },
+    {
+      "name": "inverse-functions-b",
+      "skillIds": ["graph-inverse-function", "restrict-domain-for-inverse", "verify-inverse-composition", "solve-inverse-function-problems"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 2_Inverse functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`graph-inverse-function` = sketching $y=f^{-1}(x)$ from $y=f(x)$ by reflection, including what happens to asymptotes and intercepts. `restrict-domain-for-inverse` = choosing a maximal domain on which a many-to-one function becomes one-to-one (and noting that more than one valid restriction exists). `verify-inverse-composition` = showing $f(f^{-1}(x))=x$ and $f^{-1}(f(x))=x$ on the appropriate domains. `solve-inverse-function-problems` = applied/contextual use, including solving $f(x)=f^{-1}(x)$ on the line $y=x$.",
+        "A RESTRICTION IS NOT UNIQUE: $x\\ge 0$ and $x\\le 0$ both make $y=x^{2}$ one-to-one. An item asking for 'the' restriction must add a qualifier ('containing $x=3$', 'the largest domain with $x\\ge k$'), or list a set of valid restrictions as the answer.",
+        "$f(x)=f^{-1}(x)$ solutions LIE ON $y=x$ only when the function is increasing — do not state the shortcut as a universal rule; if an item uses it, the function must be increasing and the solution must say why the shortcut applies.",
+        "Composition identities hold only on the restricted domains: state the domain in the verification, and make 'checked one composition only' or 'ignored the domain' a named distractor.",
+        "Figures: reflect accurately with equal axis scaling and a dashed $y=x$; transform the asymptotes too (a vertical asymptote of $f$ becomes a horizontal asymptote of $f^{-1}$) and label each in clear space."
+      ]
+    },
+    {
+      "name": "parametric",
+      "skillIds": ["express-parametric-form", "parametric-to-cartesian", "graph-parametric"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 3_Parametric form of a function or relation.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`parametric-equations-concept` = what a parameter IS (a third variable generating $x$ and $y$), reading a point off a given $t$, and why the same curve has many parametrisations. `express-parametric-form` = writing a given Cartesian curve parametrically (including the standard $x=at^{2}$, $y=2at$ parabola form if the booklet uses it). `parametric-to-cartesian` = ELIMINATING the parameter. `graph-parametric` = plotting from a table of $t$ values, including the direction of travel and the restricted portion a restricted $t$-domain produces.",
+        "ELIMINATING THE PARAMETER CAN CHANGE THE CURVE. $x=t^{2}$, $y=t$ eliminates to $x=y^{2}$, but $x=t^{2}$ with $t\\ge 0$ traces only the upper half; $x=\\sin t$, $y=\\cos t$ gives the WHOLE unit circle only if $t$ ranges over a full period. Every conversion item must state the $t$-domain, and the answer must carry the resulting restriction on $x$ or $y$ where one exists. Dropping the restriction is the compulsory named distractor.",
+        "For trigonometric parametrisations the elimination uses $\\sin^{2}t+\\cos^{2}t=1$ — that identity is taught in W3-7 and may be assumed; do not re-teach it.",
+        "A parametrisation is not unique, so an `express-parametric-form` item must either pin the form asked for ('in the form $x=at^{2}$, $y=2at$') or ask which of the given options generates the curve.",
+        "Figures: plot the curve with an ARROW showing the direction of increasing $t$ and mark two or three labelled $t$ values; keep the plotted range inside the axis window and put the parameter labels clear of the curve."
+      ]
+    },
+    {
+      "name": "inequalities",
+      "skillIds": ["solve-cubic-inequalities", "solve-rational-inequalities", "solve-absolute-value-inequalities", "solve-inequality-abs-both-sides"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Work with Functions 4_Inequalities.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`solve-cubic-inequalities` = factor, find the critical values, and read the sign from a sign table or sketch (including a repeated root, where the sign does NOT change). `solve-rational-inequalities` = inequalities with a variable denominator. `solve-absolute-value-inequalities` = $|ax+b|<k$ and $>k$ as a double inequality or a union. `solve-inequality-abs-both-sides` = $|f(x)|<|g(x)|$ style, solved by squaring both sides or by case analysis.",
+        "NEVER MULTIPLY AN INEQUALITY BY A VARIABLE DENOMINATOR: its sign is unknown, so the inequality may flip. The taught methods are multiplying by the SQUARE of the denominator, or case analysis, or a sign table — state which and use it consistently. 'Multiplied by $(x-2)$ and kept the direction' is the compulsory named distractor for the rational skill.",
+        "EXCLUDED VALUES: the root of the denominator is never in the solution set, even when the inequality is $\\ge$. Every rational answer must show the exclusion, and an option that includes it must be a distractor, not the key.",
+        "$|x|<k$ gives $-k<x<k$ (one interval); $|x|>k$ gives $x<-k$ OR $x>k$ (a union). Items must cover both, and 'wrote the union as a double inequality' ($k<x<-k$, which is empty) is a named distractor.",
+        "SOLUTION FORM must be pinned: interval notation, set notation and a number line are three ways to say one thing. State the required form in the stem, and never place two equivalent forms in one option list.",
+        "Strict vs non-strict endpoints must match the inequality sign in every option, and a repeated root must appear at least once so that 'the sign changes at every root' is tested.",
+        "Figures: where a number line is used, mark open circles for strict endpoints and closed for non-strict, label every critical value, and do not shade the answer region on a QUESTION figure."
+      ]
+    }
+  ]
+}

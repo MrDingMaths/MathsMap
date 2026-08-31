@@ -1,0 +1,103 @@
+{
+  "skillId": "reducing-balance-loan-calculations",
+  "atomType": "R",
+  "theory": {
+    "intro": "Summing the geometric series of repayments yields a closed formula for the **balance owing** $A_{n}$ after $n$ repayments. This formula allows direct calculation of the outstanding debt, total amount paid, and total interest charged.",
+    "facts": [
+      "The balance owing is $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$, where $r$ is the periodic interest rate.",
+      "The total amount paid to the lender after $n$ repayments is $\\text{Total Paid}=n\\times M$.",
+      "When a loan is completely paid off, the total interest charged is $\\text{Total Interest}=nM-PV$.",
+      "For an ongoing loan, total interest charged up to period $n$ is $nM-(PV-A_{n})$.",
+      "Principal reduces slowly in early years because the majority of each repayment covers accrued interest."
+    ],
+    "steps": [
+      "Calculate the periodic interest rate $r$ and number of periods $n$.",
+      "Substitute $PV$, $r$, $M$, and $n$ into $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ to find the balance.",
+      "Multiply $n\\times M$ to calculate total payments made.",
+      "Subtract the principal reduction $PV-A_{n}$ from total payments to find interest charged."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A loan of $\\$15\\,000$ charges interest at $9.6\\%$ p.a. compounded monthly ($r=0.008$) with monthly repayments of $\\$450$. Find the balance owing after $18$ repayments, to the nearest cent.",
+        "structure": "calculate-balance-owing",
+        "solution_text": "$r=0.008, n=18$\n$A_{18}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$=15\\,000(1.008)^{18}-450\\left[\\dfrac{(1.008)^{18}-1}{0.008}\\right]$\n$=17\\,313.93-8677.23$\n$=\\$8636.70$"
+      },
+      {
+        "question_text": "A borrower makes monthly repayments of $\\$520$ for $5$ years on a reducing balance loan. Calculate the total amount paid, to the nearest dollar.",
+        "structure": "calculate-total-paid",
+        "solution_text": "$n=5\\times12=60$\n$\\text{Total Paid}=n\\times M$\n$=60\\times520$\n$=\\$31\\,200$"
+      },
+      {
+        "question_text": "A loan of $\\$24\\,000$ is fully repaid with $48$ monthly payments of $\\$610$. Calculate the total interest charged over the life of the loan.",
+        "structure": "calculate-total-interest",
+        "solution_text": "$\\text{Total Paid}=48\\times610=\\$29\\,280$\n$\\text{Total Interest}=\\text{Total Paid}-PV$\n$=29\\,280-24\\,000$\n$=\\$5280$"
+      },
+      {
+        "question_text": "A $\\$20\\,000$ loan incurs interest at $6\\%$ p.a. compounded monthly ($r=0.005$). Monthly repayments are $\\$500$. Find the balance owing after $12$ months, to the nearest cent.",
+        "structure": "calculate-balance-owing",
+        "solution_text": "$r=0.005, n=12$\n$A_{12}=20\\,000(1.005)^{12}-500\\left[\\dfrac{(1.005)^{12}-1}{0.005}\\right]$\n$=21\\,233.56-6167.78$\n$=\\$15\\,065.78$"
+      },
+      {
+        "question_text": "For a $\\$20\\,000$ loan with monthly repayments of $\\$500$ and balance $A_{12}=\\$15\\,065.78$ after $12$ months, calculate the total principal paid off and the total interest charged during these first $12$ months.",
+        "structure": "calculate-principal-reduction",
+        "solution_text": "$\\text{Principal reduced}=20\\,000-15\\,065.78=\\$4934.22$\n$\\text{Total payments}=12\\times500=\\$6000$\n$\\text{Interest charged}=6000-4934.22=\\$1065.78$"
+      },
+      {
+        "question_text": "Given $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-\\dots-M$, show how summing the repayment geometric series gives $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+        "structure": "derive-closed-balance-formula",
+        "solution_text": "$A_{n}=PV(1+r)^{n}-[M+M(1+r)+\\dots+M(1+r)^{n-1}]$\nThe bracketed terms form a GP with $a=M$, ratio $R=1+r$, and $n$ terms.\n$S_{n}=\\dfrac{M((1+r)^{n}-1)}{(1+r)-1}=\\dfrac{M((1+r)^{n}-1)}{r}$\n$A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A mortgage of $\\$300\\,000$ at $4.8\\%$ p.a. compounded monthly ($r=0.004$) is repaid with monthly instalments of $\\$1800$. Find the balance owing after $10$ years ($120$ months), to the nearest cent.",
+        "structure": "calculate-balance-owing",
+        "solution_text": "$r=0.004, n=120$\n$A_{120}=300\\,000(1.004)^{120}-1800\\left[\\dfrac{(1.004)^{120}-1}{0.004}\\right]$\n$=484\\,348.92-276\\,523.38$\n$=\\$207\\,825.54$"
+      },
+      {
+        "question_text": "For the $\\$300\\,000$ mortgage above, what percentage of the initial principal has been paid off after $10$ years (balance $\\$207\\,825.54$)? Round your answer to one decimal place.",
+        "structure": "calculate-principal-reduction",
+        "solution_text": "$\\text{Principal paid off}=300\\,000-207\\,825.54=\\$92\\,174.46$\n$\\text{Percentage}=\\dfrac{92\\,174.46}{300\\,000}\\times100\\%$\n$=30.7\\%$"
+      },
+      {
+        "question_text": "A car loan of $\\$36\\,000$ at $7.2\\%$ p.a. compounded monthly ($r=0.006$) is repaid with monthly payments of $\\$750$ over $5$ years ($60$ months), leaving a final balance of $\\$0$. Calculate the total interest paid over the $5$ years.",
+        "structure": "calculate-total-interest",
+        "solution_text": "$\\text{Total paid}=60\\times750=\\$45\\,000$\n$\\text{Total interest}=45\\,000-36\\,000$\n$=\\$9000$"
+      },
+      {
+        "question_text": "A loan of $\\$50\\,000$ charges interest at $8\\%$ p.a. compounded quarterly ($r=0.02$) with quarterly payments of $\\$2200$. Find the balance owing after $3$ years ($12$ quarters), to the nearest dollar.",
+        "structure": "calculate-balance-owing",
+        "solution_text": "$r=0.02, n=12$\n$A_{12}=50\\,000(1.02)^{12}-2200\\left[\\dfrac{(1.02)^{12}-1}{0.02}\\right]$\n$=63\\,412.09-29\\,506.60$\n$=\\$33\\,905$"
+      },
+      {
+        "question_text": "For the $\\$50\\,000$ quarterly loan above with balance $\\$33\\,905.49$ after $12$ quarters of $\\$2200$ payments, calculate the total interest charged during these first $3$ years.",
+        "structure": "calculate-total-interest",
+        "solution_text": "$\\text{Total paid}=12\\times2200=\\$26\\,400$\n$\\text{Principal reduced}=50\\,000-33\\,905.49=\\$16\\,094.51$\n$\\text{Interest charged}=26\\,400-16\\,094.51$\n$=\\$10\\,305.49$"
+      },
+      {
+        "question_text": "Show that the balance after $3$ periods $A_{3}=PV(1+r)^{3}-M[(1+r)^{2}+(1+r)+1]$ simplifies to $PV(1+r)^{3}-M\\left[\\dfrac{(1+r)^{3}-1}{r}\\right]$.",
+        "structure": "derive-closed-balance-formula",
+        "solution_text": "$1+(1+r)+(1+r)^{2}$ is a GP with $a=1, R=1+r, n=3$\n$S_{3}=\\dfrac{1((1+r)^{3}-1)}{(1+r)-1}=\\dfrac{(1+r)^{3}-1}{r}$\n$A_{3}=PV(1+r)^{3}-M\\left[\\dfrac{(1+r)^{3}-1}{r}\\right]$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A mortgage of $\\$400\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has monthly repayments of $\\$2500$. After $24$ months, the interest rate increases to $7.2\\%$ p.a. compounded monthly ($r=0.006$). Find the balance owing at the end of month $25$, to the nearest cent.",
+        "structure": "calculate-balance-owing",
+        "solution_text": "$A_{24}=400\\,000(1.005)^{24}-2500\\left[\\dfrac{(1.005)^{24}-1}{0.005}\\right]=\\$387\\,284.02$\n$A_{25}=A_{24}(1.006)-2500$\n$=387\\,284.02(1.006)-2500$\n$=389\\,607.72-2500$\n$=\\$387\\,107.72$"
+      },
+      {
+        "question_text": "Compare the total interest paid on a $\\$100\\,000$ loan at $6\\%$ p.a. compounded monthly ($r=0.005$) when repaid with $\\$1000$ per month for $139$ months versus $\\$1500$ per month for $82$ months (both leaving $\\$0$ balance). How much interest is saved with the higher repayment?",
+        "structure": "calculate-total-interest",
+        "solution_text": "$\\text{Case 1 Total Paid}=139\\times1000=\\$139\\,000$\n$\\text{Case 1 Interest}=139\\,000-100\\,000=\\$39\\,000$\n$\\text{Case 2 Total Paid}=82\\times1500=\\$123\\,000$\n$\\text{Case 2 Interest}=123\\,000-100\\,000=\\$23\\,000$\n$\\text{Interest Saved}=39\\,000-23\\,000=\\$16\\,000$"
+      },
+      {
+        "question_text": "A loan of $\\$PV$ is repaid with monthly instalments $\\$M$ at monthly rate $r$. In month 1, interest is $I_{1}=PV\\times r$ and principal reduced is $P_{1}=M-PV\\times r$. Show that in month 2, the principal reduction is $P_{2}=P_{1}(1+r)$.",
+        "structure": "calculate-principal-reduction",
+        "solution_text": "$A_{1}=PV(1+r)-M=PV-(M-PV\\times r)=PV-P_{1}$\n$I_{2}=A_{1}\\times r=(PV-P_{1})r=PV\\times r-P_{1}r$\n$P_{2}=M-I_{2}=M-(PV\\times r-P_{1}r)$\n$=(M-PV\\times r)+P_{1}r$\n$=P_{1}+P_{1}r$\n$=P_{1}(1+r)$"
+      }
+    ]
+  }
+}

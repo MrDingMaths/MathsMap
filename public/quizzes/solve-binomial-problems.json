@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-binomial-problems",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A squash player wins each rally independently with probability $0.6$. A game lasts $7$ rallies. Find the probability that she wins exactly $5$ of them, correct to four decimal places.",
+      "structure": "model-and-compute",
+      "mastery": false,
+      "options": [
+        { "text": "$0.2613$", "correct": true },
+        { "text": "$0.2903$", "why": "Used $r=4$ instead of $r=5$ successes." },
+        { "text": "$0.0774$", "why": "Swapped $p$ and $1-p$, using $0.4$ as the probability of winning a rally." },
+        { "text": "$0.0124$", "why": "Left out the factor ${}^{7}C_{5}$, so only one arrangement was counted." }
+      ],
+      "solution_text": "Success: the rally is won.\n$X \\sim \\text{Bin}(7,0.6)$\n$P(X = 5) = {}^{7}C_{5}(0.6)^{5}(0.4)^{2}$\n$= 0.261273\\ldots$\n$= 0.2613$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A high jumper clears the opening height on each of her attempts independently with probability $0.15$ when the bar is raised to a record height. She makes $10$ such attempts over a season. Find the probability that she clears it exactly twice, correct to four decimal places.",
+      "structure": "model-and-compute",
+      "mastery": false,
+      "options": [
+        { "text": "$0.2759$", "correct": true },
+        { "text": "$0.1298$", "why": "Used $r=3$ instead of $r=2$ successes." },
+        { "text": "$0.3474$", "why": "Used $r=1$ instead of $r=2$ successes." },
+        { "text": "$0.8202$", "why": "Found $P(X \\le 2)$ rather than the single term $P(X=2)$." }
+      ],
+      "solution_text": "Success: the record height is cleared.\n$X \\sim \\text{Bin}(10,0.15)$\n$P(X = 2) = {}^{10}C_{2}(0.15)^{2}(0.85)^{8}$\n$= 0.275897\\ldots$\n$= 0.2759$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A cricketer takes a catch cleanly on each of $50$ chances independently with probability $0.72$. Let $X$ be the number of clean catches. Find $\\text{Var}(X)$.",
+      "structure": "mean-variance-interpret",
+      "mastery": false,
+      "options": [
+        { "text": "$10.08$", "correct": true },
+        { "text": "$36$", "why": "Gave the mean $np$ instead of the variance $np(1-p)$." },
+        { "text": "$3.1749$", "why": "Gave the standard deviation $\\sqrt{np(1-p)}$ instead of the variance." },
+        { "text": "$14$", "why": "Found $n(1-p)$, leaving the factor $p$ out of the variance." }
+      ],
+      "solution_text": "$X \\sim \\text{Bin}(50,0.72)$\n$\\text{Var}(X) = np(1-p)$\n$= 50 \\times 0.72 \\times 0.28$\n$= 10.08$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A volleyball server lands each serve independently with probability $0.45$. She serves $20$ times in a match. Find the standard deviation of the number of serves she lands, correct to two decimal places.",
+      "structure": "mean-variance-interpret",
+      "mastery": false,
+      "options": [
+        { "text": "$2.22$", "correct": true },
+        { "text": "$4.95$", "why": "Gave the variance $np(1-p)$ without taking the square root." },
+        { "text": "$9$", "why": "Gave the mean $np$ instead of the standard deviation." },
+        { "text": "$9.95$", "why": "Used $n\\sqrt{p(1-p)}$, multiplying the Bernoulli standard deviation by $n$ instead of by $\\sqrt{n}$." }
+      ],
+      "solution_text": "$X \\sim \\text{Bin}(20,0.45)$\n$\\text{Var}(X) = 20 \\times 0.45 \\times 0.55$\n$= 4.95$\n$\\sigma(X) = \\sqrt{4.95}$\n$= 2.22$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The number of races a sprinter wins in a season is $X \\sim \\text{Bin}(n,p)$, with $E(X) = 14$ and $\\text{Var}(X) = 8.4$. Find $n$.",
+      "structure": "unknown-parameters",
+      "mastery": true,
+      "options": [
+        { "text": "$35$", "correct": true },
+        { "text": "$23$", "why": "Took $\\frac{\\text{Var}(X)}{E(X)}$ to be $p$ rather than $1-p$, giving $p=0.6$." },
+        { "text": "$21$", "why": "Divided the variance by $p$ instead of dividing the mean by $p$." },
+        { "text": "$14$", "why": "Read the mean $E(X)$ itself as the number of trials." }
+      ],
+      "solution_text": "$\\frac{\\text{Var}(X)}{E(X)} = 1-p$\n$1-p = \\frac{8.4}{14}$\n$= 0.6$\n$p = 0.4$\n$n = \\frac{14}{0.4}$\n$= 35$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A footballer scores from each set piece independently with probability $0.25$. Find the smallest number of set pieces she must take for the probability of scoring from at least one to exceed $0.95$.",
+      "structure": "reverse-find-n",
+      "mastery": true,
+      "options": [
+        { "text": "$11$", "correct": true },
+        { "text": "$10$", "why": "Rounded $10.41$ down instead of up, giving a probability still below $0.95$." },
+        { "text": "$17$", "why": "Solved for a probability above $0.99$ rather than above $0.95$." },
+        { "text": "$3$", "why": "Solved $(0.25)^{n} < 0.05$, using $p$ in place of $1-p$ in the complement." }
+      ],
+      "solution_text": "Success: the set piece is scored.\n$1 - (0.75)^{n} > 0.95$\n$(0.75)^{n} < 0.05$\n$n\\log 0.75 < \\log 0.05$\n$n > \\frac{\\log 0.05}{\\log 0.75}$\n$n > 10.41\\ldots$\nShe must take $11$ set pieces."
+    },
+    {
+      "id": "q7",
+      "question_text": "A water polo team plays $24$ matches and wins each independently with probability $0.25$. Find the expected number of matches the team wins.",
+      "structure": "expected-vs-observed",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$18$", "why": "Used $1-p$, giving the expected number of matches lost." },
+        { "text": "$4.5$", "why": "Found the variance $np(1-p)$ instead of the mean $np$." },
+        { "text": "$96$", "why": "Divided $24$ by $0.25$ instead of multiplying." }
+      ],
+      "solution_text": "$X \\sim \\text{Bin}(24,0.25)$\n$E(X) = np$\n$= 24 \\times 0.25$\n$= 6$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Player P takes $8$ shots and scores each independently with probability $0.3$. Player Q takes $6$ shots and scores each independently with probability $0.4$. Which player is more likely to score exactly $2$ shots?",
+      "structure": "compare-scenarios",
+      "mastery": false,
+      "options": [
+        { "text": "Player Q, because $P(Y=2) = 0.3110$ exceeds $P(X=2) = 0.2965$.", "correct": true },
+        { "text": "Player P, because $8$ shots give more chances of scoring exactly $2$ than $6$ shots do.", "why": "Compared the number of trials instead of evaluating both probabilities." },
+        { "text": "Player P, because a lower probability of scoring makes a small number of successes more likely.", "why": "Assumed a smaller $p$ always makes exactly $2$ successes more likely, without evaluating the terms." },
+        { "text": "Neither, because both players need exactly $2$ successes.", "why": "Treated the required number of successes as fixing the probability, ignoring $n$ and $p$." }
+      ],
+      "solution_text": "For player P, $X \\sim \\text{Bin}(8,0.3)$.\n$P(X = 2) = {}^{8}C_{2}(0.3)^{2}(0.7)^{6}$\n$= 0.296475$\nFor player Q, $Y \\sim \\text{Bin}(6,0.4)$.\n$P(Y = 2) = {}^{6}C_{2}(0.4)^{2}(0.6)^{4}$\n$= 0.31104$\nSince $0.31104 > 0.296475$, player Q is more likely to score exactly $2$ shots."
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "skillId": "float-times",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The forward and backward scans below are complete. Durations are in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,2$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,7$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,6$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,4$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,3$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,5$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$2$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$5$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$7$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$7$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$11$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$11$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$14$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$14$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$19$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$19$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the float time of activity $C$?",
+      "structure": "float-from-boxes",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3$",
+          "correct": true
+        },
+        {
+          "text": "$5$",
+          "why": "Subtracted the duration from the LST but forgot to subtract the EST at the vertex where $C$ starts."
+        },
+        {
+          "text": "$9$",
+          "why": "Subtracted the EST from the LST but forgot to subtract the duration of $C$."
+        },
+        {
+          "text": "$0$",
+          "why": "Used the two boxes at the same vertex ($11-11$) instead of the LST where $C$ ends and the EST where $C$ starts."
+        }
+      ],
+      "solution_text": "$C$ starts at the vertex with EST $2$ and ends at the vertex with LST $11$.\n$11-6-2$\n$=3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The forward and backward scans below are complete, but the duration of activity $C$ is shown as $x$. Durations are in hours.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,7$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,5$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,x$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,13$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,4$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,2$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$7$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$12$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$5$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$18$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$18$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$22$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$22$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$24$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$24$};\n\\end{tikzpicture}\n[/tikz]\nThe float time of activity $C$ is $5$ hours. What is the value of $x$?",
+      "structure": "float-from-boxes",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6$",
+          "correct": true
+        },
+        {
+          "text": "$11$",
+          "why": "Worked out $18-7=11$ and stopped, ignoring the given float of $5$ hours."
+        },
+        {
+          "text": "$16$",
+          "why": "Added the float instead of subtracting it, giving $11+5=16$."
+        },
+        {
+          "text": "$12$",
+          "why": "Used the LST written in the right half of the box where $C$ begins as the duration of $C$."
+        }
+      ],
+      "solution_text": "$C$ starts at the vertex with EST $7$ and ends at the vertex with LST $18$.\n$18-x-7=5$\n$11-x=5$\n$x=6$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The forward and backward scans below are complete. Durations are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,5$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,8$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,7$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,2$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,4$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,6$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$5$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$8$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$10$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$12$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$12$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$16$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$16$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$22$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$22$};\n\\end{tikzpicture}\n[/tikz]\nWhich one of activities $B$, $C$ and $D$ is critical?",
+      "structure": "classify-critical",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$C$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "Applied LST $-$ EST at the vertex where $B$ starts ($0-0=0$); $B$'s float is $10-8-0=2$."
+        },
+        {
+          "text": "$D$",
+          "why": "Applied LST $-$ EST at the vertex where $D$ ends ($12-12=0$) without subtracting $D$'s duration and its own EST; $D$'s float is $12-2-8=2$."
+        }
+      ],
+      "solution_text": "$B$: $10-8-0=2$\n$C$: $12-7-5=0$\n$D$: $12-2-8=2$\nOnly $C$ has zero float, so $C$ is the critical activity."
+    },
+    {
+      "id": "q4",
+      "question_text": "The forward and backward scans below are complete. Durations are in hours.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.7);\n\\coordinate (V2) at (2.4,-1.7);\n\\coordinate (V3) at (5,1.7);\n\\coordinate (V4) at (5,-1.7);\n\\coordinate (V5) at (7.4,0);\n\\coordinate (VF) at (9.6,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,6$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,2$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,8$};\n\\draw[midarrow] (V2) -- (V4) node[pos=0.5, below=4pt] {$D,\\,3$};\n\\draw[midarrow] (V3) -- (V5) node[pos=0.5, above=4pt] {$E,\\,5$};\n\\draw[midarrow] (V4) -- (V5) node[pos=0.5, below=4pt] {$F,\\,4$};\n\\draw[midarrow] (V5) -- (VF) node[pos=0.5, above=4pt] {$G,\\,7$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$6$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$6$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$2$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$12$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$14$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$14$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$15$};\n\\draw[fill=white] ($(V5)+(-0.5,-0.3)$) rectangle ($(V5)+(0.5,0.3)$);\n\\draw ($(V5)+(0,-0.3)$) -- ($(V5)+(0,0.3)$);\n\\node[font=\\small] at ($(V5)+(-0.25,0)$) {$19$};\n\\node[font=\\small] at ($(V5)+(0.25,0)$) {$19$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$26$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$26$};\n\\end{tikzpicture}\n[/tikz]\nHow many of the seven activities have a float time of zero?",
+      "structure": "identify-zero-float",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$3$",
+          "why": "Left out activity $G$, whose float is also $0$."
+        },
+        {
+          "text": "$5$",
+          "why": "Counted activity $F$ as critical; its float is $19-4-5=10$."
+        },
+        {
+          "text": "$7$",
+          "why": "Assumed every activity in a network has zero float."
+        }
+      ],
+      "solution_text": "$A$: $6-6-0=0$\n$B$: $12-2-0=10$\n$C$: $14-8-6=0$\n$D$: $15-3-2=10$\n$E$: $19-5-14=0$\n$F$: $19-4-5=10$\n$G$: $26-7-19=0$\nFour activities ($A$, $C$, $E$ and $G$) have zero float."
+    },
+    {
+      "id": "q5",
+      "question_text": "The forward and backward scans below are complete. Durations are in days.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.2,1.8);\n\\coordinate (V2) at (2.2,-1.8);\n\\coordinate (V3) at (4.6,1.8);\n\\coordinate (V4) at (4.6,-1.8);\n\\coordinate (V5) at (7,0);\n\\coordinate (VF) at (9.2,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,3$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,9$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,2$};\n\\draw[midarrow] (V2) -- (V4) node[pos=0.5, below=4pt] {$D,\\,4$};\n\\draw[midarrow] (V3) -- (V5) node[pos=0.55, above=4pt] {$E,\\,5$};\n\\draw[midarrow] (V4) -- (V5) node[pos=0.5, below=4pt] {$F,\\,8$};\n\\draw[midarrow] (V1) -- (V5) node[pos=0.3, below=4pt] {$H,\\,1$};\n\\draw[midarrow] (V5) -- (VF) node[pos=0.5, above=4pt] {$G,\\,6$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$3$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$14$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$9$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$9$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$16$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$13$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$13$};\n\\draw[fill=white] ($(V5)+(-0.5,-0.3)$) rectangle ($(V5)+(0.5,0.3)$);\n\\draw ($(V5)+(0,-0.3)$) -- ($(V5)+(0,0.3)$);\n\\node[font=\\small] at ($(V5)+(-0.25,0)$) {$21$};\n\\node[font=\\small] at ($(V5)+(0.25,0)$) {$21$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$27$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$27$};\n\\end{tikzpicture}[/tikz]\nWhich activity has the largest float time?",
+      "structure": "float-all-activities",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$H$",
+          "correct": true
+        },
+        {
+          "text": "$A$",
+          "why": "Chose the first activity on the slack branch; $A$'s float is $14-3-0=11$, less than $H$'s $17$."
+        },
+        {
+          "text": "$C$",
+          "why": "Chose another activity on the same slack branch; $C$'s float is $16-2-3=11$."
+        },
+        {
+          "text": "$G$",
+          "why": "$G$ is the last activity and lies on a path with no slack at all; its float is $27-6-21=0$."
+        }
+      ],
+      "solution_text": "$A$: $14-3-0=11$\n$B$: $9-9-0=0$\n$C$: $16-2-3=11$\n$D$: $13-4-9=0$\n$E$: $21-5-5=11$\n$F$: $21-8-13=0$\n$G$: $27-6-21=0$\n$H$: $21-1-3=17$\nThe largest float time belongs to $H$."
+    },
+    {
+      "id": "q6",
+      "question_text": "The forward and backward scans below are complete. Durations are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,5$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,13$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,6$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,2$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,4$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,7$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$9$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$13$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$13$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$15$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$15$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$19$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$19$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$26$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$26$};\n\\end{tikzpicture}\n[/tikz]\nActivity $A$ is delayed by $6$ days. By how many days is the project's completion delayed?",
+      "structure": "float-interpretation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$2$ days",
+          "correct": true
+        },
+        {
+          "text": "$6$ days",
+          "why": "Assumed the whole delay passes straight through, ignoring the $4$ days of float on $A$."
+        },
+        {
+          "text": "$0$ days",
+          "why": "Assumed a non-critical activity can absorb any delay, however large."
+        },
+        {
+          "text": "$4$ days",
+          "why": "Gave the float time of $A$ instead of the amount by which the delay exceeds it."
+        }
+      ],
+      "solution_text": "Float time of $A$:\n$9-5-0$\n$=4$\nThe delay of $6$ days uses up all $4$ days of float, and the extra pushes the project back.\n$6-4$\n$=2$ days"
+    },
+    {
+      "id": "q7",
+      "question_text": "The forward and backward scans below are complete. Durations are in hours, and the dashed edge is a dummy activity.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.7);\n\\coordinate (V2) at (2.4,-1.7);\n\\coordinate (V3) at (5,1.7);\n\\coordinate (V4) at (5,-1.7);\n\\coordinate (V5) at (7.4,0);\n\\coordinate (VF) at (9.6,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,8$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,5$};\n\\draw[midarrow, dashed] (V1) -- (V2) node[pos=0.3, left=3pt] {$0$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,3$};\n\\draw[midarrow] (V2) -- (V4) node[pos=0.5, below=4pt] {$D,\\,6$};\n\\draw[midarrow] (V3) -- (V5) node[pos=0.5, above=4pt] {$E,\\,9$};\n\\draw[midarrow] (V4) -- (V5) node[pos=0.5, below=4pt] {$F,\\,2$};\n\\draw[midarrow] (V5) -- (VF) node[pos=0.5, above=4pt] {$G,\\,4$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$8$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$8$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$8$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$12$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$11$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$11$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$14$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$18$};\n\\draw[fill=white] ($(V5)+(-0.5,-0.3)$) rectangle ($(V5)+(0.5,0.3)$);\n\\draw ($(V5)+(0,-0.3)$) -- ($(V5)+(0,0.3)$);\n\\node[font=\\small] at ($(V5)+(-0.25,0)$) {$20$};\n\\node[font=\\small] at ($(V5)+(0.25,0)$) {$20$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$24$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$24$};\n\\end{tikzpicture}\n[/tikz]\nWhich one of activities $B$, $C$, $D$ and $F$ is critical?",
+      "structure": "classify-critical",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$C$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "The dummy lets $B$ finish late without holding anything up; $B$'s float is $12-5-0=7$."
+        },
+        {
+          "text": "$D$",
+          "why": "Read the LST as $14$ from the left box rather than $18$ from the right box; $D$'s float is $18-6-8=4$."
+        },
+        {
+          "text": "$F$",
+          "why": "Assumed the activity arriving at the last junction on the lower branch must be critical; $F$'s float is $20-2-14=4$."
+        }
+      ],
+      "solution_text": "$B$: $12-5-0=7$\n$C$: $11-3-8=0$\n$D$: $18-6-8=4$\n$F$: $20-2-14=4$\nOnly $C$ has zero float, so $C$ is the critical activity."
+    }
+  ]
+}

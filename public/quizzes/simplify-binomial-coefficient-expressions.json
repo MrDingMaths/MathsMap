@@ -1,0 +1,205 @@
+{
+  "skillId": "simplify-binomial-coefficient-expressions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Express $^{15}C_{8} + {^{15}C_{9}}$ as a single binomial coefficient.",
+      "structure": "pascal-identity-combine",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{16}C_{9}$",
+          "correct": true
+        },
+        {
+          "text": "$^{16}C_{8}$",
+          "why": "Subtracted 1 from the lower index instead of keeping the larger index."
+        },
+        {
+          "text": "$^{30}C_{17}$",
+          "why": "Added both the upper and lower indices together."
+        },
+        {
+          "text": "$^{15}C_{17}$",
+          "why": "Added the lower indices while leaving the upper index unchanged."
+        }
+      ],
+      "solution_text": "By Pascal's identity $^{n}C_{r-1} + {^{n}C_{r}} = {^{n+1}C_{r}}$:\n$^{15}C_{8} + {^{15}C_{9}} = {^{16}C_{9}}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "What is the simplified value of the ratio $\\dfrac{^{10}C_{6}}{^{10}C_{5}}$?",
+      "structure": "consecutive-term-ratio",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{5}{6}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{6}{5}$",
+          "why": "Inverted the ratio formula, writing $\\dfrac{r}{n-r+1}$ instead of $\\dfrac{n-r+1}{r}$."
+        },
+        {
+          "text": "$\\dfrac{1}{2}$",
+          "why": "Divided the lower indices directly as $\\dfrac{5}{10}$."
+        },
+        {
+          "text": "$\\dfrac{4}{6}$",
+          "why": "Used $n-r$ in the numerator instead of $n-r+1$."
+        }
+      ],
+      "solution_text": "$\\dfrac{^{10}C_{6}}{^{10}C_{5}} = \\dfrac{10 - 6 + 1}{6}$\n$= \\dfrac{5}{6}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "If $\\dfrac{^{n}C_{5}}{^{n}C_{4}} = 2$, what is the value of $n$?",
+      "structure": "ratio-solve-index",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$14$",
+          "correct": true
+        },
+        {
+          "text": "$13$",
+          "why": "Omitted the $+1$ in the numerator, solving $n - 5 = 10$ instead of $n - 4 = 10$."
+        },
+        {
+          "text": "$15$",
+          "why": "Added $1$ to the final result instead of solving the linear equation."
+        },
+        {
+          "text": "$10$",
+          "why": "Multiplied the lower index 5 by 2 directly."
+        }
+      ],
+      "solution_text": "$\\dfrac{^{n}C_{5}}{^{n}C_{4}} = \\dfrac{n - 5 + 1}{5} = 2$\n$\\dfrac{n-4}{5} = 2$\n$n - 4 = 10$\n$n = 14$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which single binomial coefficient is equal to $^{18}C_{7} - {^{17}C_{7}}$?",
+      "structure": "difference-pascal-identity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{17}C_{6}$",
+          "correct": true
+        },
+        {
+          "text": "$^{17}C_{8}$",
+          "why": "Reduced the upper index to 17 correctly but raised the lower index to 8 instead of lowering it to 6."
+        },
+        {
+          "text": "$^{18}C_{6}$",
+          "why": "Lowered the lower index to 6 correctly but left the upper index at 18 instead of reducing it to 17."
+        },
+        {
+          "text": "$^{18}C_{8}$",
+          "why": "Misremembered Pascal's identity as $^{18}C_{7} + {^{17}C_{7}} = {^{18}C_{8}}$, so kept the upper index at 18 and raised the lower index to 8."
+        }
+      ],
+      "solution_text": "From Pascal's identity $^{17}C_{6} + {^{17}C_{7}} = {^{18}C_{7}}$:\n$^{18}C_{7} - {^{17}C_{7}} = {^{17}C_{6}}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Simplify $^{2}C_{2} + {^{3}C_{2}} + {^{4}C_{2}} + {^{5}C_{2}} + {^{6}C_{2}}$ into a single binomial coefficient.",
+      "structure": "telescoping-pascal-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{7}C_{3}$",
+          "correct": true
+        },
+        {
+          "text": "$^{7}C_{2}$",
+          "why": "Advanced the upper index to 7 but left the lower index at 2, forgetting the hockey-stick sum raises the lower index by one."
+        },
+        {
+          "text": "$^{6}C_{3}$",
+          "why": "Raised the lower index to 3 but stopped the upper index at the last term's 6 instead of advancing it to 7."
+        },
+        {
+          "text": "$^{6}C_{2}$",
+          "why": "Copied the final term $^{6}C_{2}$ of the sum straight out as the answer without collapsing the earlier terms."
+        }
+      ],
+      "solution_text": "$^{2}C_{2} + {^{3}C_{2}} + {^{4}C_{2}} + {^{5}C_{2}} + {^{6}C_{2}}$\n$= {^{3}C_{3}} + {^{3}C_{2}} + {^{4}C_{2}} + {^{5}C_{2}} + {^{6}C_{2}}$\n$= {^{4}C_{3}} + {^{4}C_{2}} + {^{5}C_{2}} + {^{6}C_{2}}$\n$= {^{5}C_{3}} + {^{5}C_{2}} + {^{6}C_{2}}$\n$= {^{6}C_{3}} + {^{6}C_{2}}$\n$= {^{7}C_{3}}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Express $^{2020}C_{40} + {^{2020}C_{41}} + {^{2021}C_{1979}}$ as a single binomial coefficient $^{n}C_{r}$ with $r \\le \\dfrac{n}{2}$.",
+      "structure": "pascal-identity-combine",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{2022}C_{42}$",
+          "correct": true
+        },
+        {
+          "text": "$^{2022}C_{41}$",
+          "why": "Incremented the upper index to 2022 when combining the two row-2021 terms but kept the lower index at 41 instead of raising it to 42."
+        },
+        {
+          "text": "$^{2021}C_{42}$",
+          "why": "Reached the lower index 42 but forgot to increment the upper index when adding $^{2021}C_{41}$ to $^{2021}C_{42}$."
+        },
+        {
+          "text": "$^{2021}C_{41}$",
+          "why": "Combined only $^{2020}C_{40} + {^{2020}C_{41}}$ and stopped there, ignoring the third term $^{2021}C_{1979}$ entirely."
+        }
+      ],
+      "solution_text": "$^{2021}C_{1979} = {^{2021}C_{2021-1979}} = {^{2021}C_{42}}$\n$^{2020}C_{40} + {^{2020}C_{41}} = {^{2021}C_{41}}$\n${^{2021}C_{41}} + {^{2021}C_{42}} = {^{2022}C_{42}}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Simplify the ratio $\\dfrac{^{n+2}C_{r+1}}{^{n+1}C_{r}}$ to simplest algebraic form.",
+      "structure": "consecutive-term-ratio",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\dfrac{n+2}{r+1}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{n+1}{r+1}$",
+          "why": "Used $n+1$ in the numerator instead of $n+2$."
+        },
+        {
+          "text": "$\\dfrac{n+2}{r}$",
+          "why": "Used $r$ in the denominator instead of $r+1$."
+        },
+        {
+          "text": "$\\dfrac{n-r+1}{r+1}$",
+          "why": "Applied the consecutive ratio formula for fixed upper index instead of shifted index."
+        }
+      ],
+      "solution_text": "$\\dfrac{^{n+2}C_{r+1}}{^{n+1}C_{r}} = \\dfrac{\\dfrac{(n+2)!}{(r+1)!(n+1-r)!}}{\\dfrac{(n+1)!}{r!(n+1-r)!}}$\n$= \\dfrac{(n+2)! r!}{(n+1)! (r+1)!}$\n$= \\dfrac{n+2}{r+1}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The ratio of three consecutive terms in a row of Pascal's triangle is $^{n}C_{r-1} : {^{n}C_{r}} : {^{n}C_{r+1}} = 1 : 2 : 3$. What is the value of $n$?",
+      "structure": "ratio-solve-index",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$14$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Miscalculated $r=4$ instead of $r=5$ when solving the simultaneous equations."
+        },
+        {
+          "text": "$16$",
+          "why": "Added 2 to $n$ instead of solving $n - 2r + 1 = 0$."
+        },
+        {
+          "text": "$10$",
+          "why": "Equated $\\dfrac{n-r+1}{r} = 2$ and assumed $r=3$ without checking the second ratio."
+        }
+      ],
+      "solution_text": "From $\\dfrac{^{n}C_{r}}{^{n}C_{r-1}} = 2$:\n$\\dfrac{n-r+1}{r} = 2 \\implies n - r + 1 = 2r \\implies n + 1 = 3r$\nFrom $\\dfrac{^{n}C_{r+1}}{^{n}C_{r}} = \\dfrac{3}{2}$:\n$\\dfrac{n-r}{r+1} = \\dfrac{3}{2} \\implies 2n - 2r = 3r + 3 \\implies 2n - 3 = 5r$\nMultiply the first equation by 2:\n$2n + 2 = 6r$\nSubtract $(2n-3=5r)$ from $(2n+2=6r)$:\n$5 = r$\nSubstitute $r = 5$ into $n + 1 = 3(5) = 15$:\n$n = 14$"
+    }
+  ]
+}

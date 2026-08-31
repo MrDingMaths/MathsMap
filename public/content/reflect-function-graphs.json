@@ -2,20 +2,21 @@
   "skillId": "reflect-function-graphs",
   "atomType": "R",
   "theory": {
-    "intro": "A **reflection** flips a graph across an axis to produce its mirror image. Three reflections come from $y=f(x)$: putting a minus **outside** $f$ flips it across the $x$-axis, putting a minus **inside** $f$ flips it across the $y$-axis, and doing both flips across both axes (the same as a $180^{\\circ}$ rotation about the origin). Each is captured by a simple coordinate rule.",
-    "facts": [
-      "$y=-f(x)$ reflects the graph across the **$x$-axis**: $(x,y)\\to(x,-y)$. The $x$-coordinates stay; the $y$-coordinates change sign.",
-      "$y=f(-x)$ reflects the graph across the **$y$-axis**: $(x,y)\\to(-x,y)$. The $y$-coordinates stay; the $x$-coordinates change sign.",
-      "$y=-f(-x)$ reflects across **both axes**, the same as a $180^{\\circ}$ rotation about the origin: $(x,y)\\to(-x,-y)$.",
-      "To build the new equation: for $-f(x)$ negate the whole rule; for $f(-x)$ replace every $x$ with $-x$; for $-f(-x)$ do both.",
-      "An **even** function ($f(-x)=f(x)$, e.g. $f(x)=2x^{2}$) is unchanged by a $y$-axis reflection; an **odd** function ($f(-x)=-f(x)$, e.g. $f(x)=x^{3}$) has its $y$-axis reflection identical to its $x$-axis reflection."
-    ],
-    "steps": [
-      "Identify the reflection: minus outside $f$ is across the $x$-axis, minus inside $f$ is across the $y$-axis, both is across both axes.",
-      "Apply the coordinate rule to each key point — $(x,y)\\to(x,-y)$, $(-x,y)$ or $(-x,-y)$.",
-      "Draw the new curve through the reflected key points."
-    ]
-  },
+        "intro": "A **reflection** flips a graph across an axis to give its mirror image. A minus **outside** $f$ flips it across the $x$-axis, a minus **inside** $f$ flips it across the $y$-axis, and both minuses flip it across both.",
+        "facts": [
+          "$y=-f(x)$ reflects the graph across the **$x$-axis**, so $(x,y)\\to(x,-y)$ and only the $y$-coordinates change sign.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.9,0) -- (3.9,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({\\x},{1.4*sqrt(\\x)});\n\\draw[thick,blue,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({\\x},{-1.4*sqrt(\\x)});\n\\node[gray,right] at (0.6,2.9) {$y=f(x)$};\n\\node[blue,right] at (0.6,-2.9) {$y=-f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "$y=f(-x)$ reflects the graph across the **$y$-axis**, so $(x,y)\\to(-x,y)$ and only the $x$-coordinates change sign.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.9,0) -- (3.9,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({\\x},{1.4*sqrt(\\x)});\n\\draw[thick,blue,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({-\\x},{1.4*sqrt(\\x)});\n\\node[gray,right] at (0.6,2.9) {$y=f(x)$};\n\\node[blue,left] at (-0.6,2.9) {$y=f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "$y=-f(-x)$ reflects across **both axes**, the same as a $180^{\\circ}$ rotation about the origin: $(x,y)\\to(-x,-y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.9,0) -- (3.9,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick,gray,dashed,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({\\x},{1.4*sqrt(\\x)});\n\\draw[thick,blue,->,domain=0:3.2,smooth,samples=41,variable=\\x] plot ({-\\x},{-1.4*sqrt(\\x)});\n\\node[gray,right] at (0.6,2.9) {$y=f(x)$};\n\\node[blue,left] at (-0.6,-2.9) {$y=-f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "To build the new rule, negate the whole rule for $-f(x)$, replace every $x$ with $-x$ for $f(-x)$, or do both for $-f(-x)$.",
+          "An **even** function such as $f(x)=2x^{2}$ has $f(-x)=f(x)$, so a $y$-axis reflection leaves its graph unchanged.",
+          "An **odd** function such as $f(x)=x^{3}$ has $f(-x)=-f(x)$, so its $y$-axis reflection is identical to its $x$-axis reflection."
+        ],
+        "steps": [
+          "Identify the reflection: minus outside $f$ is across the $x$-axis, minus inside $f$ is across the $y$-axis, both is across both axes.",
+          "Apply the coordinate rule to each key point — $(x,y)\\to(x,-y)$, $(-x,y)$ or $(-x,-y)$.",
+          "Draw the new curve through the reflected key points."
+        ]
+      },
   "practice": {
     "foundation": [
       {

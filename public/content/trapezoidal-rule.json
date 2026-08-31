@@ -2,20 +2,20 @@
   "skillId": "trapezoidal-rule",
   "atomType": "R",
   "theory": {
-    "intro": "The **trapezoidal rule** estimates the area of a shape with an irregular or curved boundary by approximating the region as one or more **trapeziums**.",
-    "facts": [
-      "**One application** approximates the area using two parallel offsets $d_f$ (first offset) and $d_l$ (last offset) separated by width $h$: $A \\approx \\dfrac{h}{2}(d_f + d_l)$.",
-      "**Two applications** divide the baseline into two equal strips of width $h$ using three offsets ($d_f$, $d_m$, $d_l$): $A \\approx \\dfrac{h}{2}(d_f + d_m) + \\dfrac{h}{2}(d_m + d_l)$.",
-      "When the boundary curves **outward**, the straight edge of the trapezium lies inside the curve, so the rule **underestimates** the actual area. When the boundary curves **inward**, it **overestimates** the area.",
-      "Using **more applications** (smaller strip widths $h$) gives a more accurate estimate of the true area.",
-      "To estimate the **volume** or **capacity** of a lake or water body with uniform depth: $\\text{Volume} \\approx \\text{surface area} \\times \\text{depth}$, and $1\\text{ m}^3 = 1000\\text{ L} = 1\\text{ kL}$."
-    ],
-    "steps": [
-      "Identify the strip width $h$ and the lengths of the parallel offsets.",
-      "Calculate the area of each trapezium using $\\dfrac{h}{2}(a+b)$.",
-      "Sum the trapezium areas to estimate the total area."
-    ]
-  },
+        "intro": "The **trapezoidal rule** estimates the area of a shape with a curved boundary by approximating the region as one or more **trapeziums**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.5,0);\n\\coordinate (C) at (3.5,3.2);\n\\coordinate (D) at (0,2.0);\n\\draw[thick] (A) -- (B) node[midway, below] {$h$};\n\\draw[thick, dashed] (A) -- (D) node[midway, left] {$d_f$};\n\\draw[thick, dashed] (B) -- (C) node[midway, right] {$d_l$};\n\\draw[thick] plot [smooth] coordinates {(D) (1.2,2.8) (2.4,3.3) (C)};\n\\draw (A) rectangle ++(0.3,0.3);\n\\draw (B) rectangle ++(-0.3,0.3);\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "**One application** uses two parallel offsets $d_f$ and $d_l$ separated by strip width $h$: $A \\approx \\dfrac{h}{2}(d_f + d_l)$.",
+          "**Two applications** divide the shape into two strips of width $h$ using three offsets ($d_f$, $d_m$, $d_l$): $A \\approx \\dfrac{h}{2}(d_f + d_m) + \\dfrac{h}{2}(d_m + d_l)$.",
+          "The rule **underestimates** area when the boundary curves outward, and **overestimates** area when the boundary curves inward.",
+          "Using **more applications** with smaller strip widths $h$ gives a closer approximation to the true area.",
+          "For uniform depth: $\\text{Volume} \\approx \\text{surface area} \\times \\text{depth}$, where $1\\text{ m}^3 = 1000\\text{ L} = 1\\text{ kL}$."
+        ],
+        "steps": [
+          "Identify the strip width $h$ and the lengths of the parallel offsets.",
+          "Calculate the area of each trapezium using $\\dfrac{h}{2}(a+b)$.",
+          "Sum the trapezium areas to estimate the total area."
+        ]
+      },
   "practice": {
     "foundation": [
       {

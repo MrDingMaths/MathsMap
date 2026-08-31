@@ -2,21 +2,23 @@
   "skillId": "trigonometry-3d",
   "atomType": "R",
   "theory": {
-    "intro": "A three-dimensional problem is solved by finding the right-angled triangles hidden inside the solid or the scene, solving the one that has enough information, and carrying that result into the next. The angle a space diagonal, a slant edge or a sloping plane makes with a base is always an angle inside one of these right-angled triangles.",
-    "facts": [
-      "To find the angle a **space diagonal** makes with the base, first find the **base diagonal** with Pythagoras and keep it exact; the angle sits in the right-angled triangle whose legs are that base diagonal and the vertical height.",
-      "For a **square pyramid**: the angle a **side face** makes with the base uses the **apothem** (half the base side) as the horizontal leg; the angle a **slant edge** makes with the base uses **half the base diagonal**. The vertical leg is the perpendicular height in both.",
-      "Two lines pointing **due south** and **due east** from the same point are perpendicular, so the two ground distances and the line joining the observers form a right-angled triangle solved with Pythagoras.",
-      "A **bearings** problem needs a **top-down view**: draw the directions from north, and the angle between them is found by adding or subtracting bearings.",
-      "$\\tan\\theta=\\dfrac{\\text{opposite}}{\\text{adjacent}}$, and an angle is recovered with $\\tan^{-1}$, $\\sin^{-1}$ or $\\cos^{-1}$ of the ratio of the two sides you know.",
-      "Keep every surd and calculator value **unrounded** through the working and round only on the last line — rounding a diagonal early shifts the final angle."
-    ],
-    "steps": [
-      "Break the solid or scene into right-angled triangles",
-      "Find any shared length, keeping surds exact",
-      "Use trigonometry to find the angle or distance"
-    ]
-  },
+        "intro": "A 3D problem is solved by finding the right-angled triangles hidden inside the solid or the scene. Solve the triangle that has enough information, then carry that result into the next one. Every angle made with a base sits inside one of these triangles.",
+        "facts": [
+          "To find the angle a **space diagonal** makes with the base, work in the triangle formed by the **base diagonal** and the vertical height.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (B2) at (6.752,1.3);\n\\coordinate (A2) at (2.252,1.3);\n\\coordinate (At) at (0,3.5);\n\\coordinate (Bt) at (4.5,3.5);\n\\coordinate (B2t) at (6.752,4.8);\n\\coordinate (A2t) at (2.252,4.8);\n\\fill[blue!12] (A)--(B2)--(B2t)--cycle;\n\\draw (A)--(B);\n\\draw (B)--(B2);\n\\draw (A)--(At);\n\\draw (B)--(Bt);\n\\draw (B2)--(B2t) node[midway,right] {$h$};\n\\draw (At)--(Bt)--(B2t)--(A2t)--cycle;\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (A2)--(B2);\n\\draw[dashed] (A2)--(A2t);\n\\draw[blue,dashed] (A)--(B2);\n\\draw[red,thick] (A)--(B2t);\n\\coordinate (sa) at ($(B2)!0.3cm!(A)$);\n\\coordinate (sb) at ($(B2)!0.3cm!(B2t)$);\n\\draw (sa)--($(sa)+(sb)-(B2)$)--(sb);\n\\pic[draw,\"$\\theta$\",angle radius=1.4cm,angle eccentricity=1.45] {angle=B2--A--B2t};\n\\end{tikzpicture}\n[/tikz]",
+          "Find that base diagonal with Pythagoras first and keep it exact.",
+          "For a **square pyramid**, the angle a **side face** makes with the base uses the **apothem**, half a base side, as the horizontal leg.\n\n[tikz]\n\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings,\n  mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\\coordinate (A) at (0,0);\n\\coordinate (B) at (5.2,0);\n\\coordinate (C) at (2.602,1.5);\n\\coordinate (D) at (-2.598,1.5);\n\\coordinate (O) at (1.301,0.75);\n\\coordinate (T) at (1.301,4.35);\n\\coordinate (M) at (2.6,0);\n\\fill[blue!12] (T)--(O)--(M)--cycle;\n\\draw[tickmark] (A)--(M);\n\\draw[tickmark] (M)--(B);\n\\draw (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw[dashed] (C)--(B);\n\\draw (T)--(A);\n\\draw (T)--(B);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(C);\n\\draw[blue,dashed] (O)--(T);\n\\draw[blue,dashed] (O)--(M);\n\\draw[blue,thick] (M)--(T);\n\\coordinate (ra) at ($(O)!0.3cm!(M)$);\n\\coordinate (rb) at ($(O)!0.3cm!(T)$);\n\\draw (ra)--($(ra)+(rb)-(O)$)--(rb);\n\\pic[draw,\"$\\theta$\",angle radius=0.75cm,angle eccentricity=1.5] {angle=T--M--O};\n\\end{tikzpicture}\n[/tikz]",
+          "The angle a **slant edge** makes with the base instead uses half the base diagonal, with the perpendicular height as the vertical leg.\n\n[tikz]\n\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,angles,quotes}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings,\n  mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\\coordinate (A) at (0,0);\n\\coordinate (B) at (5.2,0);\n\\coordinate (C) at (2.602,1.5);\n\\coordinate (D) at (-2.598,1.5);\n\\coordinate (O) at (1.301,0.75);\n\\coordinate (T) at (1.301,4.35);\n\\fill[blue!12] (A)--(O)--(T)--cycle;\n\\draw (A)--(B);\n\\draw (A)--(D);\n\\draw[dashed] (D)--(C);\n\\draw[dashed] (C)--(B);\n\\draw (T)--(B);\n\\draw (T)--(D);\n\\draw[dashed] (T)--(C);\n\\draw[blue,thick] (T)--(A);\n\\draw[blue,dashed] (O)--(T);\n\\draw[blue,tickmark] (A)--(O);\n\\draw[blue,dashed,tickmark] (O)--(C);\n\\coordinate (ra) at ($(O)!0.3cm!(A)$);\n\\coordinate (rb) at ($(O)!0.3cm!(T)$);\n\\draw (ra)--($(ra)+(rb)-(O)$)--(rb);\n\\pic[draw,\"$\\theta$\",angle radius=1.0cm,angle eccentricity=1.55] {angle=C--A--T};\n\\end{tikzpicture}\n[/tikz]",
+          "Because **due south** and **due east** are perpendicular, the two ground distances and the line joining the endpoints form a right-angled triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,arrows.meta}\n\\coordinate (V) at (0,0);\n\\coordinate (S) at (0,-3.4);\n\\coordinate (E) at (3.6,0);\n\\draw[-{Stealth[length=3mm]}] (V)--(0,1.5) node[above] {$N$};\n\\draw (V)--(S) node[midway,left] {due south};\n\\draw (V)--(E) node[midway,above] {due east};\n\\draw[dashed] (S)--(E);\n\\coordinate (ra) at ($(V)!0.35cm!(S)$);\n\\coordinate (rb) at ($(V)!0.35cm!(E)$);\n\\draw (ra)--($(ra)+(rb)-(V)$)--(rb);\n\\fill (V) circle (2pt);\n\\node[above left] at (V) {tower};\n\\end{tikzpicture}\n[/tikz]",
+          "A **bearings** problem needs a top-down view: draw each direction from north, then add or subtract bearings to get the angle between them.",
+          "$\\tan\\theta=\\dfrac{\\text{opposite}}{\\text{adjacent}}$, and $\\tan^{-1}$, $\\sin^{-1}$ or $\\cos^{-1}$ of a ratio recovers the angle.",
+          "Keep every surd and calculator value **unrounded** until the last line, because rounding a diagonal early shifts the final angle."
+        ],
+        "steps": [
+          "Break the solid or scene into right-angled triangles",
+          "Find any shared length, keeping surds exact",
+          "Use trigonometry to find the angle or distance"
+        ]
+      },
   "practice": {
     "foundation": [
       {

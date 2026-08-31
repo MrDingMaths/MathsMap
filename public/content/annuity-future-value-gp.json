@@ -1,0 +1,112 @@
+{
+  "skillId": "annuity-future-value-gp",
+  "atomType": "R",
+  "theory": {
+    "intro": "An **annuity** is a sequence of equal regular payments made into an account earning compound interest. The **future value** ($FV$) is the sum of all payments and the compound interest each payment earns.",
+    "facts": [
+      "In an **ordinary annuity**, payments are made at the **end** of each period, so the final payment earns no interest.",
+      "The first payment grows for $n-1$ periods to $a(1+r)^{n-1}$, and the $n\\text{th}$ payment is simply $a$.",
+      "Summing the payments gives a geometric series with first term $a$, common ratio $1+r$, and $n$ terms.",
+      "The future value formula is $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$, where $r$ is the interest rate per period.",
+      "Total interest earned equals future value minus total contributions: $\\text{Interest} = FV - na$."
+    ],
+    "steps": [
+      "Identify the payment $a$, the interest rate per period $r$, and the number of periods $n$.",
+      "Write the compounded value of each payment to form a geometric series.",
+      "Apply the geometric series sum formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and evaluate."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A regular contribution of $\\$1$ is deposited at the end of each year for $12\\text{ years}$ into an account earning $6\\%$ p.a. compounded annually. Write the future value as the sum of a geometric series and evaluate to the nearest cent.",
+        "structure": "derive-annuity-gp",
+        "solution_text": "1. **Identify the payment $a$, the interest rate per period $r$, and the number of periods $n$.**\n$a = 1$, $r = 0.06$, $n = 12$\n2. **Write the compounded value of each payment to form a geometric series.**\n$FV = 1 + 1.06 + 1.06^{2} + \\dots + 1.06^{11}$\n3. **Apply the geometric series sum formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and evaluate.**\n$= \\dfrac{1(1.06^{12} - 1)}{0.06}$\n$= \\$16.87$"
+      },
+      {
+        "question_text": "Deposits of $\\$500$ are made at the end of each year for $8\\text{ years}$ into a fund paying $5\\%$ p.a. compounded annually. Model the future value as a geometric series and calculate the total amount after $8\\text{ years}$.",
+        "structure": "derive-annuity-gp",
+        "solution_text": "1. **Identify the payment $a$, the interest rate per period $r$, and the number of periods $n$.**\n$a = 500$, $r = 0.05$, $n = 8$\n2. **Write the compounded value of each payment to form a geometric series.**\n$FV = 500 + 500(1.05) + 500(1.05)^{2} + \\dots + 500(1.05)^{7}$\n3. **Apply the geometric series sum formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and evaluate.**\n$= \\dfrac{500(1.05^{8} - 1)}{0.05}$\n$= \\$4774.55$"
+      },
+      {
+        "question_text": "An investor deposits $\\$1200$ at the end of each year into a superannuation fund earning $7\\%$ p.a. compounded annually. Calculate the value of the investment after $15\\text{ years}$.",
+        "structure": "future-value-annual",
+        "solution_text": "$a = 1200$, $r = 0.07$, $n = 15$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{1200(1.07^{15}-1)}{0.07}$\n$= \\$30\\,155.09$"
+      },
+      {
+        "question_text": "A school deposits $\\$3500$ at the end of each year into an equipment replacement fund paying $4.5\\%$ p.a. compounded annually. Find the balance of the fund after $10\\text{ years}$.",
+        "structure": "future-value-annual",
+        "solution_text": "$a = 3500$, $r = 0.045$, $n = 10$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{3500(1.045^{10}-1)}{0.045}$\n$= \\$43\\,007.82$"
+      },
+      {
+        "question_text": "A savings plan requires monthly deposits of $\\$200$ made at the end of each month for $5\\text{ years}$. The account pays $6\\%$ p.a. compounded monthly. Calculate the future value of the annuity.",
+        "structure": "future-value-periodic",
+        "solution_text": "$a = 200$, $r = \\dfrac{0.06}{12} = 0.005$, $n = 5 \\times 12 = 60$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{200(1.005^{60}-1)}{0.005}$\n$= \\$13\\,954.01$"
+      },
+      {
+        "question_text": "Liam contributes $\\$800$ at the end of each quarter into an investment account earning $8\\%$ p.a. compounded quarterly. Find the value of the account after $6\\text{ years}$.",
+        "structure": "future-value-periodic",
+        "solution_text": "$a = 800$, $r = \\dfrac{0.08}{4} = 0.02$, $n = 6 \\times 4 = 24$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{800(1.02^{24}-1)}{0.02}$\n$= \\$24\\,337.54$"
+      },
+      {
+        "question_text": "Ella invests $\\$1000$ at the end of each year for $12\\text{ years}$ at $6\\%$ p.a. compounded annually. Calculate the total interest earned on this annuity.",
+        "structure": "calculate-interest-earned",
+        "solution_text": "$FV = \\dfrac{1000(1.06^{12}-1)}{0.06} = \\$16\\,869.94$\n$\\text{Total contributions} = 12 \\times 1000 = \\$12\\,000$\n$\\text{Interest} = FV - na$\n$= 16869.94 - 12000$\n$= \\$4869.94$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Show that for $n$ end-of-year deposits of $\\$a$ earning interest at rate $r$ per annum, the future value is $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+        "structure": "derive-annuity-gp",
+        "solution_text": "1. **Write the compounded value of each payment to form a geometric series.**\nPayment 1 grows for $n-1$ years: $a(1+r)^{n-1}$\nPayment 2 grows for $n-2$ years: $a(1+r)^{n-2}$\nPayment $n$ is made at the end of year $n$: $a$\n$FV = a + a(1+r) + a(1+r)^{2} + \\dots + a(1+r)^{n-1}$\n2. **Apply the geometric series sum formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and evaluate.**\nFirst term is $a$, common ratio is $1+r$, number of terms is $n$\n$FV = \\dfrac{a((1+r)^{n}-1)}{(1+r)-1}$\n$= a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$"
+      },
+      {
+        "question_text": "A parent deposits $\\$2500$ at the end of each year for $18\\text{ years}$ into a university education fund paying $5.5\\%$ p.a. compounded annually. Find the final balance of the fund.",
+        "structure": "future-value-annual",
+        "solution_text": "$a = 2500$, $r = 0.055$, $n = 18$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{2500(1.055^{18}-1)}{0.055}$\n$= \\$73\\,704.09$"
+      },
+      {
+        "question_text": "Chloe deposits $\\$450$ at the end of every $6\\text{ months}$ for $10\\text{ years}$ into an annuity earning $6.4\\%$ p.a. compounded half-yearly. Calculate the future value at the end of the $10\\text{ years}$.",
+        "structure": "future-value-periodic",
+        "solution_text": "$a = 450$, $r = \\dfrac{0.064}{2} = 0.032$, $n = 10 \\times 2 = 20$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{450(1.032^{20}-1)}{0.032}$\n$= \\$12\\,340.54$"
+      },
+      {
+        "question_text": "Noah invests $\\$300$ at the end of each month for $7\\text{ years}$ at $4.8\\%$ p.a. compounded monthly. Calculate the total interest earned over the $7\\text{ years}$.",
+        "structure": "calculate-interest-earned",
+        "solution_text": "$a = 300$, $r = \\dfrac{0.048}{12} = 0.004$, $n = 7 \\times 12 = 84$\n$FV = \\dfrac{300(1.004^{84}-1)}{0.004} = \\$29\\,881.08$\n$\\text{Total contributions} = 84 \\times 300 = \\$25\\,200$\n$\\text{Interest} = 29881.08 - 25200$\n$= \\$4681.08$"
+      },
+      {
+        "question_text": "A company sets aside $\\$1500$ at the end of each quarter into a sinking fund earning $7.2\\%$ p.a. compounded quarterly for $8\\text{ years}$. Find the balance of the sinking fund at maturity.",
+        "structure": "future-value-periodic",
+        "solution_text": "$a = 1500$, $r = \\dfrac{0.072}{4} = 0.018$, $n = 8 \\times 4 = 32$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{1500(1.018^{32}-1)}{0.018}$\n$= \\$64\\,070.76$"
+      },
+      {
+        "question_text": "An employee deposits $\\$600$ at the end of each month into an annuity earning $9\\%$ p.a. compounded monthly. How much interest is earned over a $4\\text{-year}$ term?",
+        "structure": "calculate-interest-earned",
+        "solution_text": "$a = 600$, $r = \\dfrac{0.09}{12} = 0.0075$, $n = 4 \\times 12 = 48$\n$FV = \\dfrac{600(1.0075^{48}-1)}{0.0075} = \\$34\\,512.44$\n$\\text{Total contributions} = 48 \\times 600 = \\$28\\,800$\n$\\text{Interest} = 34512.44 - 28800$\n$= \\$5712.44$"
+      },
+      {
+        "question_text": "A personal savings account earns $3.6\\%$ p.a. compounded monthly. If $\\$150$ is deposited at the end of each month for $3\\text{ years}$, calculate the future value of the account.",
+        "structure": "future-value-periodic",
+        "solution_text": "$a = 150$, $r = \\dfrac{0.036}{12} = 0.003$, $n = 3 \\times 12 = 36$\n$FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$\n$= \\dfrac{150(1.003^{36}-1)}{0.003}$\n$= \\$5694.70$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A professional deposits $\\$850$ at the end of each month into a wealth fund earning $6\\%$ p.a. compounded monthly. Compare the interest earned in the first $5\\text{ years}$ ($n=60$) with the interest earned in the second $5\\text{ years}$ ($n=120$). Calculate the difference in interest earned between the two periods.",
+        "structure": "calculate-interest-earned",
+        "solution_text": "Balance after 5 years ($n=60$):\n$FV_{60} = \\dfrac{850(1.005^{60}-1)}{0.005} = \\$59\\,304.54$\n$\\text{Interest}_{0-5} = 59304.54 - (60 \\times 850) = \\$8304.54$\nBalance after 10 years ($n=120$):\n$FV_{120} = \\dfrac{850(1.005^{120}-1)}{0.005} = \\$139\\,297.80$\n$\\text{Interest}_{5-10} = (139297.80 - 59304.54) - (60 \\times 850) = \\$28\\,993.26$\n$\\text{Difference} = 28993.26 - 8304.54$\n$= \\$20\\,688.72$"
+      },
+      {
+        "question_text": "An investor deposits $\\$1800$ at the end of each $6\\text{ months}$ for $15\\text{ years}$ into an account earning $5.6\\%$ p.a. compounded half-yearly. Calculate the total future value and determine the percentage of the final balance that consists of interest earned, rounded to 1 decimal place.",
+        "structure": "calculate-interest-earned",
+        "solution_text": "$a = 1800$, $r = \\dfrac{0.056}{2} = 0.028$, $n = 15 \\times 2 = 30$\n$FV = \\dfrac{1800(1.028^{30}-1)}{0.028} = \\$83\\,043.64$\n$\\text{Total contributions} = 30 \\times 1800 = \\$54\\,000$\n$\\text{Interest earned} = 83043.64 - 54000 = \\$29\\,043.64$\n$\\text{Percentage} = \\dfrac{29043.64}{83043.64} \\times 100\\%$\n$= 35.0\\%$"
+      },
+      {
+        "question_text": "For an annuity with annual contributions of $\\$4000$ at $8\\%$ p.a. compounded annually for $20\\text{ years}$, write the sum of terms in expanded geometric series form and calculate how much more the first deposit of $\\$4000$ is worth at maturity compared to the final deposit.",
+        "structure": "derive-annuity-gp",
+        "solution_text": "1. **Write the compounded value of each payment to form a geometric series.**\nFirst deposit value: $4000(1.08)^{19}$\nFinal deposit value: $4000$\n2. **Apply the geometric series sum formula $FV = a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ and evaluate.**\nValue of first deposit $= 4000 \\times 1.08^{19} = \\$17\\,262.86$\nValue of final deposit $= \\$4000.00$\n$\\text{Difference} = 17262.86 - 4000.00$\n$= \\$13\\,262.86$"
+      }
+    ]
+  }
+}

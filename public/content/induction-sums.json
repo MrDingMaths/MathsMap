@@ -1,0 +1,103 @@
+{
+  "skillId": "induction-sums",
+  "atomType": "R",
+  "theory": {
+    "intro": "To prove a sum formula by induction, check it at the first value of $n$, assume it at $n = k$, then add the next term and show the $n = k + 1$ form results. Everything turns on one line: replacing the first $k$ terms by the assumed formula.",
+    "facts": [
+      "The term added when $n$ moves from $k$ to $k + 1$ is found by substituting $n = k + 1$ into the general term.",
+      "In the inductive step, write the left side as the first $k$ terms plus the new term, then replace them using the assumption.",
+      "The target right side is the closed formula with every $n$ replaced by $k + 1$, then simplified.",
+      "Taking $(k + 1)$ out as a common factor early is usually faster than expanding everything.",
+      "A formula that fails at the base value cannot be proved, however convincing the inductive step looks."
+    ],
+    "steps": [
+      "Test the base case",
+      "Assume true for $n = k$",
+      "Prove true for $n = k + 1$",
+      "State the conclusion"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For the sum $2 + 7 + 12 + \\dots + (5n - 3)$, write the term added when $n$ increases from $k$ to $k + 1$.",
+        "structure": "identify-next-term",
+        "solution_text": "$5(k + 1) - 3$\n$= 5k + 5 - 3$\n$= 5k + 2$"
+      },
+      {
+        "question_text": "For the claim $4 + 7 + 10 + \\dots + (3n + 1) = \\dfrac{n(3n + 5)}{2}$ for all integers $n \\ge 1$, write the statement to prove for $n = k + 1$, with the right side expanded in $k$.",
+        "structure": "k-plus-one-target",
+        "solution_text": "3. **Prove true for $n = k + 1$**\nThe added term is $3(k + 1) + 1 = 3k + 4$.\n$4 + 7 + 10 + \\dots + (3k + 1) + (3k + 4) = \\dfrac{(k + 1)\\left(3(k + 1) + 5\\right)}{2}$\n$= \\dfrac{(k + 1)(3k + 8)}{2}$"
+      },
+      {
+        "question_text": "Test the base case for the claim $3 + 12 + 27 + \\dots + 3n^{2} = \\dfrac{n(n + 1)(2n + 1)}{2}$ for all integers $n \\ge 1$.",
+        "structure": "verify-base-case",
+        "solution_text": "1. **Test the base case**\n$LHS = 3(1)^{2} = 3$\n$RHS = \\dfrac{1(1 + 1)\\left(2(1) + 1\\right)}{2} = \\dfrac{6}{2} = 3$\n$LHS = RHS$, so the statement is true for $n = 1$."
+      },
+      {
+        "question_text": "Assume $7 + 11 + 15 + \\dots + (4k + 3) = k(2k + 5)$. Add the next term and simplify to the $n = k + 1$ form.",
+        "structure": "transform-step",
+        "solution_text": "The added term is $4(k + 1) + 3 = 4k + 7$.\n$7 + 11 + 15 + \\dots + (4k + 3) + (4k + 7)$\n$= k(2k + 5) + (4k + 7)$\n$= 2k^{2} + 5k + 4k + 7$\n$= 2k^{2} + 9k + 7$\n$= (k + 1)(2k + 7)$\n$= (k + 1)\\left(2(k + 1) + 5\\right)$"
+      },
+      {
+        "question_text": "Prove by mathematical induction that $1 + 3 + 9 + \\dots + 3^{n - 1} = \\dfrac{3^{n} - 1}{2}$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = 3^{0} = 1$\n$RHS = \\dfrac{3^{1} - 1}{2} = 1$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$1 + 3 + 9 + \\dots + 3^{k - 1} = \\dfrac{3^{k} - 1}{2}$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$1 + 3 + 9 + \\dots + 3^{k - 1} + 3^{k} = \\dfrac{3^{k + 1} - 1}{2}$\n$LHS = \\dfrac{3^{k} - 1}{2} + 3^{k}$\n$= \\dfrac{3^{k} - 1 + 2 \\times 3^{k}}{2}$\n$= \\dfrac{3 \\times 3^{k} - 1}{2}$\n$= \\dfrac{3^{k + 1} - 1}{2}$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      },
+      {
+        "question_text": "For the sum $1 \\times 4 + 2 \\times 5 + 3 \\times 6 + \\dots + n(n + 3)$, write the term added when $n$ increases from $k$ to $k + 1$.",
+        "structure": "identify-next-term",
+        "solution_text": "$(k + 1)\\left((k + 1) + 3\\right)$\n$= (k + 1)(k + 4)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Prove by mathematical induction that $5 + 9 + 13 + \\dots + (4n + 1) = n(2n + 3)$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = 5$\n$RHS = 1\\left(2(1) + 3\\right) = 5$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$5 + 9 + 13 + \\dots + (4k + 1) = k(2k + 3)$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$5 + 9 + \\dots + (4k + 1) + (4k + 5) = (k + 1)(2k + 5)$\n$LHS = k(2k + 3) + (4k + 5)$\n$= 2k^{2} + 3k + 4k + 5$\n$= 2k^{2} + 7k + 5$\n$= (k + 1)(2k + 5)$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      },
+      {
+        "question_text": "Prove by mathematical induction that $\\dfrac{1}{1 \\times 2} + \\dfrac{1}{2 \\times 3} + \\dots + \\dfrac{1}{n(n + 1)} = \\dfrac{n}{n + 1}$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = \\dfrac{1}{1 \\times 2} = \\dfrac{1}{2}$\n$RHS = \\dfrac{1}{1 + 1} = \\dfrac{1}{2}$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$\\dfrac{1}{1 \\times 2} + \\dots + \\dfrac{1}{k(k + 1)} = \\dfrac{k}{k + 1}$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$\\dfrac{1}{1 \\times 2} + \\dots + \\dfrac{1}{k(k + 1)} + \\dfrac{1}{(k + 1)(k + 2)} = \\dfrac{k + 1}{k + 2}$\n$LHS = \\dfrac{k}{k + 1} + \\dfrac{1}{(k + 1)(k + 2)}$\n$= \\dfrac{k(k + 2)}{(k + 1)(k + 2)} + \\dfrac{1}{(k + 1)(k + 2)}$\n$= \\dfrac{k^{2} + 2k + 1}{(k + 1)(k + 2)}$\n$= \\dfrac{(k + 1)^{2}}{(k + 1)(k + 2)}$\n$= \\dfrac{k + 1}{k + 2}$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      },
+      {
+        "question_text": "Assume $1^{2} + 2^{2} + \\dots + k^{2} = \\dfrac{k(k + 1)(2k + 1)}{6}$. Add $(k + 1)^{2}$ and show the result is $\\dfrac{(k + 1)(k + 2)(2k + 3)}{6}$.",
+        "structure": "transform-step",
+        "solution_text": "$\\dfrac{k(k + 1)(2k + 1)}{6} + (k + 1)^{2}$\n$= (k + 1)\\left(\\dfrac{k(2k + 1)}{6} + (k + 1)\\right)$\n$= \\dfrac{(k + 1)\\left(k(2k + 1) + 6(k + 1)\\right)}{6}$\n$= \\dfrac{(k + 1)\\left(2k^{2} + k + 6k + 6\\right)}{6}$\n$= \\dfrac{(k + 1)\\left(2k^{2} + 7k + 6\\right)}{6}$\n$= \\dfrac{(k + 1)(k + 2)(2k + 3)}{6}$"
+      },
+      {
+        "question_text": "The claim $1 + 2 + 2^{2} + \\dots + 2^{n} = 2^{n + 1} - 1$ is made for all integers $n \\ge 0$. State and verify the base case, then write the statement to prove for $n = k + 1$.",
+        "structure": "k-plus-one-target",
+        "solution_text": "1. **Test the base case**\n$LHS = 2^{0} = 1$\n$RHS = 2^{0 + 1} - 1 = 1$\n$LHS = RHS$, so the statement is true for $n = 0$.\n3. **Prove true for $n = k + 1$**\n$1 + 2 + 2^{2} + \\dots + 2^{k} + 2^{k + 1} = 2^{k + 2} - 1$"
+      },
+      {
+        "question_text": "Prove by mathematical induction that $4 + 16 + 64 + \\dots + 4^{n} = \\dfrac{4\\left(4^{n} - 1\\right)}{3}$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = 4$\n$RHS = \\dfrac{4\\left(4^{1} - 1\\right)}{3} = \\dfrac{12}{3} = 4$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$4 + 16 + 64 + \\dots + 4^{k} = \\dfrac{4\\left(4^{k} - 1\\right)}{3}$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$4 + 16 + \\dots + 4^{k} + 4^{k + 1} = \\dfrac{4\\left(4^{k + 1} - 1\\right)}{3}$\n$LHS = \\dfrac{4\\left(4^{k} - 1\\right)}{3} + 4^{k + 1}$\n$= \\dfrac{4^{k + 1} - 4 + 3 \\times 4^{k + 1}}{3}$\n$= \\dfrac{4 \\times 4^{k + 1} - 4}{3}$\n$= \\dfrac{4\\left(4^{k + 1} - 1\\right)}{3}$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      },
+      {
+        "question_text": "For the claim $2 + 8 + 18 + \\dots + 2n^{2} = \\dfrac{n(n + 1)(2n + 1)}{3}$ for all integers $n \\ge 1$, verify the base case and write the target right side for $n = k + 1$.",
+        "structure": "verify-base-case",
+        "solution_text": "1. **Test the base case**\n$LHS = 2(1)^{2} = 2$\n$RHS = \\dfrac{1(2)(3)}{3} = 2$\n$LHS = RHS$, so the statement is true for $n = 1$.\n3. **Prove true for $n = k + 1$**\n$\\dfrac{(k + 1)\\left((k + 1) + 1\\right)\\left(2(k + 1) + 1\\right)}{3}$\n$= \\dfrac{(k + 1)(k + 2)(2k + 3)}{3}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove by mathematical induction that $1(1!) + 2(2!) + 3(3!) + \\dots + n(n!) = (n + 1)! - 1$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = 1 \\times 1! = 1$\n$RHS = (1 + 1)! - 1 = 2 - 1 = 1$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$1(1!) + 2(2!) + \\dots + k(k!) = (k + 1)! - 1$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$1(1!) + \\dots + k(k!) + (k + 1)(k + 1)! = (k + 2)! - 1$\n$LHS = (k + 1)! - 1 + (k + 1)(k + 1)!$\n$= (k + 1)!\\left(1 + k + 1\\right) - 1$\n$= (k + 1)!(k + 2) - 1$\n$= (k + 2)! - 1$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      },
+      {
+        "question_text": "Prove by mathematical induction that $9 + 27 + 81 + \\dots + 3^{n} = \\dfrac{9\\left(3^{n - 1} - 1\\right)}{2}$ for all integers $n \\ge 2$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\nThe claim starts at $n = 2$.\n$LHS = 3^{2} = 9$\n$RHS = \\dfrac{9\\left(3^{2 - 1} - 1\\right)}{2} = \\dfrac{9(2)}{2} = 9$\n$LHS = RHS$, so the statement is true for $n = 2$.\n2. **Assume true for $n = k$**\n$9 + 27 + 81 + \\dots + 3^{k} = \\dfrac{9\\left(3^{k - 1} - 1\\right)}{2}$ for some integer $k \\ge 2$.\n3. **Prove true for $n = k + 1$**\n$9 + 27 + \\dots + 3^{k} + 3^{k + 1} = \\dfrac{9\\left(3^{k} - 1\\right)}{2}$\n$LHS = \\dfrac{9\\left(3^{k - 1} - 1\\right)}{2} + 3^{k + 1}$\n$= \\dfrac{9 \\times 3^{k - 1} - 9 + 2 \\times 3^{k + 1}}{2}$\n$= \\dfrac{3 \\times 3^{k} - 9 + 6 \\times 3^{k}}{2}$\n$= \\dfrac{9 \\times 3^{k} - 9}{2}$\n$= \\dfrac{9\\left(3^{k} - 1\\right)}{2}$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 2$, by mathematical induction it is true for all integers $n \\ge 2$."
+      },
+      {
+        "question_text": "Prove by mathematical induction that $(1 \\times 2) + (2 \\times 2^{2}) + (3 \\times 2^{3}) + \\dots + (n \\times 2^{n}) = 2 + (n - 1)2^{n + 1}$ for all integers $n \\ge 1$.",
+        "structure": "full-sum-proof",
+        "solution_text": "1. **Test the base case**\n$LHS = 1 \\times 2 = 2$\n$RHS = 2 + (1 - 1)2^{2} = 2$\n$LHS = RHS$, so the statement is true for $n = 1$.\n2. **Assume true for $n = k$**\n$(1 \\times 2) + \\dots + \\left(k \\times 2^{k}\\right) = 2 + (k - 1)2^{k + 1}$ for some integer $k \\ge 1$.\n3. **Prove true for $n = k + 1$**\n$(1 \\times 2) + \\dots + \\left(k \\times 2^{k}\\right) + (k + 1)2^{k + 1} = 2 + k \\times 2^{k + 2}$\n$LHS = 2 + (k - 1)2^{k + 1} + (k + 1)2^{k + 1}$\n$= 2 + 2^{k + 1}(k - 1 + k + 1)$\n$= 2 + 2^{k + 1}(2k)$\n$= 2 + k \\times 2^{k + 2}$\n$= RHS$\n4. **State the conclusion**\nSince the statement is true for $n = 1$, by mathematical induction it is true for all integers $n \\ge 1$."
+      }
+    ]
+  }
+}

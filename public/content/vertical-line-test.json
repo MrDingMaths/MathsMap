@@ -2,15 +2,16 @@
   "skillId": "vertical-line-test",
   "atomType": "Cat",
   "theory": {
-    "intro": "The **vertical line test** decides whether a graph is a function. Imagine sweeping a vertical line across the graph: if **every** vertical line meets the graph at **most once**, the graph is a function — because each $x$-value then has only one $y$-value. If **any** vertical line meets it **more than once**, it is not a function.",
-    "facts": [
-      "A vertical line marks a single $x$-value; where it crosses the graph gives the $y$-value(s) at that $x$.",
-      "Pass (function): no vertical line ever cuts the graph twice.",
-      "Fail (not a function): at least one vertical line cuts the graph two or more times.",
-      "A closed circle $\\bullet$ means the point is on the graph; an open circle $\\circ$ means it is not, so an open point does not count as a crossing.",
-      "Circles, sideways (left/right-opening) parabolas and vertical lines fail the test; straight (non-vertical) lines, upright parabolas, semicircles, cubics and exponentials pass."
-    ]
-  },
+        "intro": "The **vertical line test** decides whether a graph is a function. Sweep a vertical line across it: if every position meets it at most once, it is a function. If any position meets it more than once, it is not.",
+        "facts": [
+          "A vertical line marks one $x$-value, so meeting the graph twice means that $x$ has two different $y$-values.",
+          "Pass: the graph is a function when no vertical line cuts it more than once.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[blue,dashed,line width=1pt] (1.2,-3.2)--(1.2,3.2);\n\\draw[thick,<->,domain=-3:3,smooth,samples=80,variable=\\x] plot ({\\x},{0.25*\\x*\\x*\\x-1.6*\\x});\n\\fill[black] (1.2,-1.488) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "Fail: the same curve turned on its side is not a function, because the same vertical line now cuts it three times.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3.4,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[blue,dashed,line width=1pt] (1.2,-3.2)--(1.2,3.2);\n\\draw[thick,<->,domain=-3:3,smooth,samples=80,variable=\\x] plot ({0.25*\\x*\\x*\\x-1.6*\\x},{\\x});\n\\fill[black] (1.2,2.844) circle (2.5pt);\n\\fill[black] (1.2,-0.844) circle (2.5pt);\n\\fill[black] (1.2,-2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "A closed circle $\\bullet$ means the point is on the graph; an open circle $\\circ$ means it is not.",
+          "An open point does not count as a crossing.",
+          "Circles, sideways (left- or right-opening) parabolas and vertical lines fail; non-vertical straight lines, upright parabolas, semicircles, cubics and exponentials pass."
+        ]
+      },
   "practice": {
     "foundation": [
       {

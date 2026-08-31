@@ -1,0 +1,122 @@
+{
+  "skillId": "model-optimisation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Two positive numbers have a sum of $18$. One of them is $x$. Which expression gives their product $P$ as a function of $x$?",
+      "structure": "model-from-linear-constraint",
+      "mastery": false,
+      "options": [
+        { "text": "$P = 18x - x^{2}$", "correct": true },
+        { "text": "$P = x^{2} - 18x$", "why": "Rearranged the constraint as $y = x - 18$ instead of $y = 18 - x$." },
+        { "text": "$P = 18 - x^{2}$", "why": "Subtracted $x^{2}$ from the sum instead of multiplying $x$ by $18 - x$." },
+        { "text": "$P = 18x + x^{2}$", "why": "Used $y = 18 + x$, adding $x$ to the sum instead of subtracting it." }
+      ],
+      "solution_text": "Let the numbers be $x$ and $y$.\n$x + y = 18$\n$y = 18 - x$\n$P = xy$\n$= x(18 - x)$\n$= 18x - x^{2}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A rectangular picture frame is made from $52$ cm of moulding. The frame is $x$ cm long. Which expression gives the enclosed area $A$ cm$^{2}$ as a function of $x$?",
+      "structure": "model-from-perimeter",
+      "mastery": false,
+      "options": [
+        { "text": "$A = 26x - x^{2}$", "correct": true },
+        { "text": "$A = 52x - x^{2}$", "why": "Used $y = 52 - x$, treating the whole perimeter as one length plus one width." },
+        { "text": "$A = 26x - 2x^{2}$", "why": "Halved only the $y$ term of $2x + 2y = 52$, giving $y = 26 - 2x$." },
+        { "text": "$A = 52x - 2x^{2}$", "why": "Used $y = 52 - 2x$, subtracting both widths from the whole perimeter." }
+      ],
+      "solution_text": "$2x + 2y = 52$\n$x + y = 26$\n$y = 26 - x$\n$A = xy$\n$= x(26 - x)$\n$= 26x - x^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A rectangular label must have an area of $84$ cm$^{2}$. Its width is $x$ cm. Which expression gives the perimeter $P$ cm as a function of $x$?",
+      "structure": "model-from-fixed-area",
+      "mastery": false,
+      "options": [
+        { "text": "$P = 2x + \\dfrac{168}{x}$", "correct": true },
+        { "text": "$P = 2x + \\dfrac{84}{x}$", "why": "Doubled the width but not the length when adding up the four sides." },
+        { "text": "$P = x + \\dfrac{168}{x}$", "why": "Doubled the length but not the width when adding up the four sides." },
+        { "text": "$P = x + \\dfrac{84}{x}$", "why": "Added one width and one length only, giving half the perimeter." }
+      ],
+      "solution_text": "$xy = 84$\n$y = \\dfrac{84}{x}$\n$P = 2x + 2y$\n$= 2x + 2\\left(\\dfrac{84}{x}\\right)$\n$= 2x + \\dfrac{168}{x}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "An open box is made from a $16$ cm by $10$ cm sheet of card by cutting a square of side $x$ cm from each corner and folding up the sides.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (5.6,0) node[midway, below] {$16$ cm} -- (5.6,3.5) node[midway, right] {$10$ cm} -- (0,3.5) -- cycle;\n\\draw (0.7,0) -- (0.7,0.7) -- (0,0.7);\n\\draw (4.9,0) -- (4.9,0.7) -- (5.6,0.7);\n\\draw (0,2.8) -- (0.7,2.8) -- (0.7,3.5);\n\\draw (5.6,2.8) -- (4.9,2.8) -- (4.9,3.5);\n\\draw (0,2.8) -- (0,3.5) node[midway, left] {$x$ cm};\n\\draw[dashed] (0.7,0.7) -- (4.9,0.7) -- (4.9,2.8) -- (0.7,2.8) -- cycle;\n\\end{tikzpicture}\n[/tikz]\nWhich expression gives the volume $V$ cm$^{3}$ as a function of $x$?",
+      "structure": "model-cut-corner-box",
+      "mastery": false,
+      "options": [
+        { "text": "$V = x(16 - 2x)(10 - 2x)$", "correct": true },
+        { "text": "$V = x(16 - x)(10 - x)$", "why": "Subtracted only one square from each side length instead of two." },
+        { "text": "$V = 2x(16 - 2x)(10 - 2x)$", "why": "Used the full width $2x$ of the cut as the height instead of $x$." },
+        { "text": "$V = 2x(16 - x)(10 - x)$", "why": "Used $2x$ as the height and subtracted only one square from each side length." }
+      ],
+      "solution_text": "Cutting $x$ from both ends of each side leaves a base of $(16 - 2x)$ cm by $(10 - 2x)$ cm.\nThe folded-up height is $x$ cm.\n$V = x(16 - 2x)(10 - 2x)$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A closed cylindrical tin has a volume of $800$ cm$^{3}$, base radius $r$ cm and height $h$ cm. Which expression gives the total surface area $S$ cm$^{2}$ as a function of $r$?",
+      "structure": "model-from-volume-constraint",
+      "mastery": false,
+      "options": [
+        { "text": "$S = 2\\pi r^{2} + \\dfrac{1600}{r}$", "correct": true },
+        { "text": "$S = \\pi r^{2} + \\dfrac{1600}{r}$", "why": "Counted only one circular end instead of both." },
+        { "text": "$S = 2\\pi r^{2} + \\dfrac{800}{r}$", "why": "Wrote the curved surface as $\\pi r h$ instead of $2\\pi r h$." },
+        { "text": "$S = \\pi r^{2} + \\dfrac{800}{r}$", "why": "Counted one end only and used $\\pi r h$ for the curved surface." }
+      ],
+      "solution_text": "$\\pi r^{2}h = 800$\n$h = \\dfrac{800}{\\pi r^{2}}$\n$S = 2\\pi r^{2} + 2\\pi r h$\n$= 2\\pi r^{2} + 2\\pi r \\times \\dfrac{800}{\\pi r^{2}}$\n$= 2\\pi r^{2} + \\dfrac{1600}{r}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A rectangle has one side of length $x$ cm along the base of a right-angled triangle of base $20$ cm and height $15$ cm, with its opposite corner on the hypotenuse.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5.5,0);\n\\coordinate (C) at (0,4.125);\n\\draw (A) -- (B) node[midway, below] {$20$ cm};\n\\draw (B) -- (C);\n\\draw (C) -- (A) node[midway, left] {$15$ cm};\n\\coordinate (a) at ($(A)!0.3cm!(B)$);\n\\coordinate (b) at ($(A)!0.3cm!(C)$);\n\\draw (a) -- ($(a)+(b)-(A)$) -- (b);\n\\draw (0,2.475) -- (2.2,2.475) node[midway, above] {$x$ cm};\n\\draw (2.2,2.475) -- (2.2,0);\n\\end{tikzpicture}\n[/tikz]\nWhich expression gives the area $A$ cm$^{2}$ of the rectangle as a function of $x$?",
+      "structure": "model-from-similar-triangles",
+      "mastery": true,
+      "options": [
+        { "text": "$A = 15x - \\dfrac{3x^{2}}{4}$", "correct": true },
+        { "text": "$A = 15x - \\dfrac{4x^{2}}{3}$", "why": "Inverted the similar-triangle ratio, using $\\dfrac{20}{15}$ in place of $\\dfrac{15}{20}$." },
+        { "text": "$A = \\dfrac{15x}{2} - \\dfrac{3x^{2}}{8}$", "why": "Applied the triangle area formula $\\tfrac{1}{2}bh$ to a rectangle." },
+        { "text": "$A = \\dfrac{15x}{2} - \\dfrac{2x^{2}}{3}$", "why": "Inverted the ratio and also halved, treating the rectangle as a triangle." }
+      ],
+      "solution_text": "Let the height of the rectangle be $y$ cm.\nThe triangle above the rectangle is similar to the whole triangle.\n$\\dfrac{y}{15} = \\dfrac{20 - x}{20}$\n$y = 15 - \\dfrac{3x}{4}$\n$A = xy$\n$= x\\left(15 - \\dfrac{3x}{4}\\right)$\n$= 15x - \\dfrac{3x^{2}}{4}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "For a cylinder, the sum of the base radius $r$ cm and the height $h$ cm is $21$ cm. What is the domain of $r$ in this model?",
+      "structure": "state-domain",
+      "mastery": false,
+      "options": [
+        { "text": "$0 < r < 21$", "correct": true },
+        { "text": "$0 < r < 10.5$", "why": "Halved the total, as if the constraint were a perimeter with two of each length." },
+        { "text": "$r > 0$", "why": "Imposed positivity only, ignoring that $h = 21 - r$ must also be positive." },
+        { "text": "$0 < r < 42$", "why": "Doubled the total instead of using it directly as the cap." }
+      ],
+      "solution_text": "$r + h = 21$, so $h = 21 - r$.\nA radius must be positive, so $r > 0$.\nA height must be positive, so $21 - r > 0$.\n$r < 21$\nThe domain is $0 < r < 21$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A rectangle is inscribed in a semicircle of radius $10$ cm with one side along the diameter. The rectangle has width $2x$ cm. Which expression gives its area $A$ cm$^{2}$ as a function of $x$?",
+      "structure": "model-from-pythagoras",
+      "mastery": true,
+      "options": [
+        { "text": "$A = 2x\\sqrt{100 - x^{2}}$", "correct": true },
+        { "text": "$A = x\\sqrt{100 - x^{2}}$", "why": "Used $x$ as the full width of the rectangle instead of $2x$." },
+        { "text": "$A = 2x\\sqrt{100 - 4x^{2}}$", "why": "Substituted the full width $2x$ into Pythagoras' theorem instead of the half-width $x$." },
+        { "text": "$A = x\\sqrt{100 - 4x^{2}}$", "why": "Used $x$ as the width but $2x$ inside Pythagoras' theorem, mixing the two." }
+      ],
+      "solution_text": "The top corner is $x$ cm horizontally from the centre, on a circle of radius $10$ cm.\nLet the height be $y$ cm.\n$x^{2} + y^{2} = 100$\n$y = \\sqrt{100 - x^{2}}$\n$A = 2x \\times y$\n$= 2x\\sqrt{100 - x^{2}}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A closed box has a square base of side $x$ cm and a total surface area of $150$ cm$^{2}$, so its height is $h = \\dfrac{150 - 2x^{2}}{4x}$. What is the domain of $x$?",
+      "structure": "state-domain",
+      "mastery": true,
+      "options": [
+        { "text": "$0 < x < 5\\sqrt{3}$", "correct": true },
+        { "text": "$0 < x < 75$", "why": "Solved $2x^{2} < 150$ as $x < 75$, dividing by $2$ without taking a square root." },
+        { "text": "$0 < x < \\sqrt{150}$", "why": "Ignored the factor $2$, solving $x^{2} < 150$ instead of $2x^{2} < 150$." },
+        { "text": "$x > 0$", "why": "Used only the positive-length condition and never required $h > 0$." }
+      ],
+      "solution_text": "A side length must be positive, so $x > 0$.\nThe height must also be positive, so $150 - 2x^{2} > 0$.\n$2x^{2} < 150$\n$x^{2} < 75$\n$x < \\sqrt{75}$\n$x < 5\\sqrt{3}$\nThe domain is $0 < x < 5\\sqrt{3}$."
+    }
+  ]
+}

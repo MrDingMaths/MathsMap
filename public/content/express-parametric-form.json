@@ -1,0 +1,112 @@
+{
+  "skillId": "express-parametric-form",
+  "atomType": "T",
+  "theory": {
+        "intro": "To write a curve in **parametric form**, introduce a parameter $t$ (or $\\theta$) that gives $x$ and $y$ separately. For lines and parabolas, substitute the given $x$ into the Cartesian equation. Circles use $\\cos^2\\theta + \\sin^2\\theta = 1$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (C) at (1.3,0.9);\n\\coordinate (P) at (3.138,2.443);\n\\coordinate (F) at (3.138,0.9);\n\\draw[<->] (-2.0,0) -- (4.3,0) node[right] {$x$};\n\\draw[<->] (0,-2.4) -- (0,3.9) node[above] {$y$};\n\\draw[thick] (C) circle (2.4);\n\\draw[dashed] (C) -- (F);\n\\draw[dashed] (F) -- (P);\n\\draw (C) -- (P) node[midway, above left] {$r$};\n\\coordinate (f1) at ($(F)!0.3cm!(C)$);\n\\coordinate (f2) at ($(F)!0.3cm!(P)$);\n\\draw (f1) -- ($(f1)+(f2)-(F)$) -- (f2);\n\\pic[draw, \"$\\theta$\", angle radius=0.75cm, angle eccentricity=1.9] {angle = F--C--P};\n\\fill (C) circle (2pt) node[left] {$(a,b)$};\n\\fill (P) circle (2pt) node[above right] {$P(x,y)$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "When $x(t)$ is given, substitute it into the Cartesian equation and make $y$ the subject in terms of $t$.",
+          "For a straight line $Ax + By + C = 0$ with $x = mt + k$, substituting gives a linear equation $y = nt + d$.",
+          "For the circle $x^2 + y^2 = r^2$, the parametric equations are $x = r\\cos\\theta,\\; y = r\\sin\\theta$ for $0 \\le \\theta < 2\\pi$.",
+          "For the circle $(x - a)^2 + (y - b)^2 = r^2$, the parametric equations are $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$.",
+          "In general form $x^2 + y^2 + 2gx + 2fy + c = 0$, complete the square to find the centre $(a, b)$ and radius $r$ first."
+        ],
+        "steps": [
+          "Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.",
+          "Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).",
+          "State the pair of parametric equations $x(t)$ and $y(t)$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Express the linear equation $2x - y + 4 = 0$ in parametric form using $x = 3t$.",
+        "structure": "parameterise-linear",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$2(3t) - y + 4 = 0$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$6t - y + 4 = 0$\n$y = 6t + 4$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3t,\\; y = 6t + 4$"
+      },
+      {
+        "question_text": "Express the line $4x + 3y - 12 = 0$ in parametric form using $x = 3t$.",
+        "structure": "parameterise-linear",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$4(3t) + 3y - 12 = 0$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$12t + 3y - 12 = 0$\n$3y = 12 - 12t$\n$y = 4 - 4t$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3t,\\; y = 4 - 4t$"
+      },
+      {
+        "question_text": "Express the parabola $y = x^2 + 3$ in parametric form using $x = 2t$.",
+        "structure": "parameterise-parabola",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$y = (2t)^2 + 3$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$y = 4t^2 + 3$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 2t,\\; y = 4t^2 + 3$"
+      },
+      {
+        "question_text": "Express the quadratic curve $y = 2x^2 - 4x + 1$ in parametric form using $x = t + 1$.",
+        "structure": "parameterise-parabola",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$y = 2(t + 1)^2 - 4(t + 1) + 1$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$y = 2(t^2 + 2t + 1) - 4t - 4 + 1$\n$= 2t^2 + 4t + 2 - 4t - 3$\n$= 2t^2 - 1$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = t + 1,\\; y = 2t^2 - 1$"
+      },
+      {
+        "question_text": "Express the circle $x^2 + y^2 = 49$ in parametric form using the parameter $\\theta$.",
+        "structure": "parameterise-circle-origin",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nCentre is $(0, 0)$ and radius is $r = \\sqrt{49} = 7$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 7\\cos\\theta$\n$y = 7\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 7\\cos\\theta,\\; y = 7\\sin\\theta$"
+      },
+      {
+        "question_text": "Express the circle $x^2 + y^2 = 18$ in parametric form using the parameter $\\theta$, giving exact values.",
+        "structure": "parameterise-circle-origin",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nCentre is $(0, 0)$ and radius is $r = \\sqrt{18} = 3\\sqrt{2}$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 3\\sqrt{2}\\cos\\theta$\n$y = 3\\sqrt{2}\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3\\sqrt{2}\\cos\\theta,\\; y = 3\\sqrt{2}\\sin\\theta$"
+      },
+      {
+        "question_text": "Express the circle $(x - 4)^2 + (y + 3)^2 = 25$ in parametric form using parameter $\\theta$.",
+        "structure": "parameterise-circle-translated",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nCentre is $(a, b) = (4, -3)$ and radius is $r = \\sqrt{25} = 5$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 4 + 5\\cos\\theta$\n$y = -3 + 5\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 4 + 5\\cos\\theta,\\; y = -3 + 5\\sin\\theta$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Express the line $5x - 2y + 8 = 0$ in parametric form using $x = 2t - 2$.",
+        "structure": "parameterise-linear",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$5(2t - 2) - 2y + 8 = 0$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$10t - 10 - 2y + 8 = 0$\n$2y = 10t - 2$\n$y = 5t - 1$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 2t - 2,\\; y = 5t - 1$"
+      },
+      {
+        "question_text": "Express the equation $3x + 4y - 7 = 0$ in parametric form using $x = 1 - 4t$.",
+        "structure": "parameterise-linear",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$3(1 - 4t) + 4y - 7 = 0$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$3 - 12t + 4y - 7 = 0$\n$4y = 12t + 4$\n$y = 3t + 1$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 1 - 4t,\\; y = 3t + 1$"
+      },
+      {
+        "question_text": "Express the parabola $x^2 = 8(y + 2)$ in parametric form using $x = 4t$.",
+        "structure": "parameterise-parabola",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$(4t)^2 = 8(y + 2)$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$16t^2 = 8(y + 2)$\n$y + 2 = 2t^2$\n$y = 2t^2 - 2$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 4t,\\; y = 2t^2 - 2$"
+      },
+      {
+        "question_text": "Express the parabola $y = -x^2 + 6x - 5$ in parametric form using $x = 3 - t$.",
+        "structure": "parameterise-parabola",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$y = -(3 - t)^2 + 6(3 - t) - 5$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$y = -(9 - 6t + t^2) + 18 - 6t - 5$\n$= -9 + 6t - t^2 + 13 - 6t$\n$= 4 - t^2$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3 - t,\\; y = 4 - t^2$"
+      },
+      {
+        "question_text": "Express the upper semicircle $x^2 + y^2 = 25$ for $y \\ge 0$ in parametric form with parameter $\\theta$, including the parameter domain.",
+        "structure": "parameterise-circle-origin",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nRadius is $r = \\sqrt{25} = 5$ with centre $(0, 0)$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 5\\cos\\theta$\n$y = 5\\sin\\theta$\nSince $y \\ge 0$, $\\sin\\theta \\ge 0$, which restricts $\\theta$ to $0 \\le \\theta \\le \\pi$.\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 5\\cos\\theta,\\; y = 5\\sin\\theta\\text{ for } 0 \\le \\theta \\le \\pi$"
+      },
+      {
+        "question_text": "Express the circle $(x + 2)^2 + (y - 5)^2 = 16$ in parametric form using parameter $\\theta$.",
+        "structure": "parameterise-circle-translated",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nCentre is $(a, b) = (-2, 5)$ and radius is $r = \\sqrt{16} = 4$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = -2 + 4\\cos\\theta$\n$y = 5 + 4\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = -2 + 4\\cos\\theta,\\; y = 5 + 4\\sin\\theta$"
+      },
+      {
+        "question_text": "Express the circle $x^2 + y^2 - 6x + 8y = 0$ in parametric form using parameter $\\theta$.",
+        "structure": "parameterise-circle-general-form",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$(x^2 - 6x + 9) + (y^2 + 8y + 16) = 9 + 16$\n$(x - 3)^2 + (y + 4)^2 = 25$\nCentre is $(3, -4)$ and radius is $r = 5$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 3 + 5\\cos\\theta$\n$y = -4 + 5\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3 + 5\\cos\\theta,\\; y = -4 + 5\\sin\\theta$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Express the horizontal parabola $(y - 1)^2 = 12(x + 2)$ in parametric form using $y = 6t + 1$.",
+        "structure": "parameterise-parabola",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$(6t + 1 - 1)^2 = 12(x + 2)$\n$(6t)^2 = 12(x + 2)$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$36t^2 = 12(x + 2)$\n$x + 2 = 3t^2$\n$x = 3t^2 - 2$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3t^2 - 2,\\; y = 6t + 1$"
+      },
+      {
+        "question_text": "Express the circle with centre $(3, -1)$ that passes through $(7, 2)$ in parametric form with parameter $\\theta$.",
+        "structure": "parameterise-circle-translated",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\n$r = \\sqrt{(7 - 3)^2 + (2 - (-1))^2}$\n$= \\sqrt{4^2 + 3^2}$\n$= \\sqrt{16 + 9}$\n$= 5$\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 3 + 5\\cos\\theta$\n$y = -1 + 5\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3 + 5\\cos\\theta,\\; y = -1 + 5\\sin\\theta$"
+      },
+      {
+        "question_text": "Express the circle $2x^2 + 2y^2 - 12x + 16y + 18 = 0$ in parametric form with parameter $\\theta$.",
+        "structure": "parameterise-circle-general-form",
+        "solution_text": "1. **Substitute the expression for $x$ into the Cartesian equation, or complete the square to determine the centre $(a,b)$ and radius $r$ of a circle.**\nDivide through by $2$:\n$x^2 + y^2 - 6x + 8y + 9 = 0$\n$(x^2 - 6x + 9) + (y^2 + 8y + 16) = -9 + 9 + 16$\n$(x - 3)^2 + (y + 4)^2 = 16$\nCentre is $(3, -4)$ and radius is $r = 4$.\n2. **Rearrange and simplify to express $y$ in terms of the parameter (or apply $x = a + r\\cos\\theta,\\; y = b + r\\sin\\theta$).**\n$x = 3 + 4\\cos\\theta$\n$y = -4 + 4\\sin\\theta$\n3. **State the pair of parametric equations $x(t)$ and $y(t)$.**\n$x = 3 + 4\\cos\\theta,\\; y = -4 + 4\\sin\\theta$"
+      }
+    ]
+  }
+}

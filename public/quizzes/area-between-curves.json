@@ -1,0 +1,176 @@
+{
+  "skillId": "area-between-curves",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find the area of the shaded region between $y=3x$ and $y=x^{2}$ from $x=1$ to $x=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.5cm, y=0.55cm]\n\\fill[gray!35] (1,1) -- plot[domain=1:2, samples=2, variable=\\x] ({\\x},{3*\\x}) -- plot[domain=2:1, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- cycle;\n\\draw[->] (-0.7,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,9.4) node[above] {$y$};\n\\draw[thick, <->, domain=-0.5:2.8, samples=2, variable=\\x] plot ({\\x},{3*\\x}) node[pos=0.98, right] {$y=3x$};\n\\draw[thick, <->, domain=-0.5:2.9, samples=60, variable=\\x] plot ({\\x},{\\x*\\x}) node[pos=0.98, below right] {$y=x^{2}$};\n\\node[below] at (1,-0.2) {$1$};\n\\node[below] at (2,-0.2) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "area-two-curves-given-limits",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{13}{6}\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$-\\dfrac{13}{6}\\ \\text{units}^{2}$",
+          "why": "Integrated lower minus upper, $x^{2}-3x$, which reverses the sign."
+        },
+        {
+          "text": "$\\dfrac{10}{3}\\ \\text{units}^{2}$",
+          "why": "Substituted only the upper limit $x=2$ and never subtracted the value at $x=1$."
+        },
+        {
+          "text": "$\\dfrac{7}{6}\\ \\text{units}^{2}$",
+          "why": "Substituted only the lower limit $x=1$ instead of the difference of the two limits."
+        }
+      ],
+      "solution_text": "$\\int_{1}^{2}\\left(3x-x^{2}\\right)dx$\n$= \\left[\\dfrac{3x^{2}}{2}-\\dfrac{x^{3}}{3}\\right]_{1}^{2}$\n$= \\left(6-\\dfrac{8}{3}\\right)-\\left(\\dfrac{3}{2}-\\dfrac{1}{3}\\right)$\n$= \\dfrac{10}{3}-\\dfrac{7}{6}$\n$= \\dfrac{13}{6}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the area of the shaded region enclosed by $y=2x+3$ and $y=x^{2}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=0.45cm]\n\\fill[gray!35] (-1,1) -- plot[domain=-1:3, samples=2, variable=\\x] ({\\x},{2*\\x+3}) -- plot[domain=3:-1, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- cycle;\n\\draw[->] (-2.8,0) -- (3.8,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,11.6) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:3.4, samples=2, variable=\\x] plot ({\\x},{2*\\x+3}) node[pos=0.98, below right] {$y=2x+3$};\n\\draw[thick, <->, domain=-2.3:3.2, samples=60, variable=\\x] plot ({\\x},{\\x*\\x}) node[pos=0.98, right] {$y=x^{2}$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "area-enclosed-between-curves",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{32}{3}\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{22}{3}\\ \\text{units}^{2}$",
+          "why": "Sign slip when substituting the negative limit: subtracted $\\frac{5}{3}$ instead of subtracting $-\\frac{5}{3}$."
+        },
+        {
+          "text": "$9\\ \\text{units}^{2}$",
+          "why": "Used $x=0$ as the lower limit instead of the negative intersection $x=-1$."
+        },
+        {
+          "text": "$-\\dfrac{32}{3}\\ \\text{units}^{2}$",
+          "why": "Integrated $x^{2}-(2x+3)$, taking lower minus upper."
+        }
+      ],
+      "solution_text": "1. **Find where the curves meet by solving $f(x)=g(x)$**\n$x^{2}=2x+3$\n$x^{2}-2x-3=0$\n$(x-3)(x+1)=0$\n$x=-1,\\ 3$\n2. **Decide which curve is upper on each interval by testing a point**\nAt $x=0$: $3>0$, so the line is upper.\n3. **Integrate upper minus lower over each interval**\n$\\int_{-1}^{3}\\left[(2x+3)-x^{2}\\right]dx$\n$= \\left[x^{2}+3x-\\dfrac{x^{3}}{3}\\right]_{-1}^{3}$\n$= \\left(9+9-9\\right)-\\left(1-3+\\dfrac{1}{3}\\right)$\n$= 9+\\dfrac{5}{3}$\n$= \\dfrac{32}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find the total area of the two shaded regions between $y=4x$ and $y=x^{2}$ from $x=0$ to $x=5$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.75cm, y=0.2cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:4, samples=2, variable=\\x] ({\\x},{4*\\x}) -- plot[domain=4:0, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- cycle;\n\\fill[gray!35] (4,16) -- plot[domain=4:5, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- plot[domain=5:4, samples=2, variable=\\x] ({\\x},{4*\\x}) -- cycle;\n\\draw[->] (-1.2,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,28) node[above] {$y$};\n\\draw[thick, <->, domain=-0.6:6, samples=2, variable=\\x] plot ({\\x},{4*\\x});\n\\draw[thick, <->, domain=-1:5.1, samples=60, variable=\\x] plot ({\\x},{\\x*\\x});\n\\node at (2.4,23) {$y=x^{2}$};\n\\node at (6.6,19) {$y=4x$};\n\\node[below] at (5,-1.2) {$5$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "area-split-at-crossing",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$13\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{25}{3}\\ \\text{units}^{2}$",
+          "why": "Integrated $4x-x^{2}$ straight across the crossing at $x=4$, so the last piece was subtracted instead of added."
+        },
+        {
+          "text": "$\\dfrac{32}{3}\\ \\text{units}^{2}$",
+          "why": "Found only the first piece, from $x=0$ to $x=4$, and stopped there."
+        },
+        {
+          "text": "$\\dfrac{7}{3}\\ \\text{units}^{2}$",
+          "why": "Found only the second piece, from $x=4$ to $x=5$."
+        }
+      ],
+      "solution_text": "1. **Find where the curves meet by solving $f(x)=g(x)$**\n$4x=x^{2}$\n$x(4-x)=0$\n$x=0,\\ 4$\n2. **Decide which curve is upper on each interval by testing a point**\nAt $x=1$: $4>1$, so $y=4x$ is upper on $0<x<4$.\nAt $x=\\dfrac{9}{2}$: $\\dfrac{81}{4}>18$, so $y=x^{2}$ is upper on $4<x<5$.\n3. **Integrate upper minus lower over each interval**\n$\\int_{0}^{4}\\left(4x-x^{2}\\right)dx = \\left[2x^{2}-\\dfrac{x^{3}}{3}\\right]_{0}^{4} = 32-\\dfrac{64}{3} = \\dfrac{32}{3}$\n$\\int_{4}^{5}\\left(x^{2}-4x\\right)dx = \\left[\\dfrac{x^{3}}{3}-2x^{2}\\right]_{4}^{5} = -\\dfrac{25}{3}-\\left(-\\dfrac{32}{3}\\right) = \\dfrac{7}{3}$\n4. **Add the areas of the pieces**\n$\\dfrac{32}{3}+\\dfrac{7}{3}$\n$= 13\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find the area of the shaded region bounded by $y=x^{2}$, $y=(x-4)^{2}$ and the $x$-axis.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:2, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- (2,0) -- cycle;\n\\fill[gray!35] (2,0) -- plot[domain=2:4, samples=60, variable=\\x] ({\\x},{(\\x-4)*(\\x-4)}) -- cycle;\n\\draw[->] (-0.8,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,5.8) node[above] {$y$};\n\\draw[thick, <->, domain=-0.5:2.3, samples=60, variable=\\x] plot ({\\x},{\\x*\\x});\n\\draw[thick, <->, domain=1.7:4.8, samples=60, variable=\\x] plot ({\\x},{(\\x-4)*(\\x-4)});\n\\node at (0.92,3.6) {$y=x^{2}$};\n\\node at (4.1,3.0) {$y=(x-4)^{2}$};\n\\node[below] at (4,-0.15) {$4$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "area-region-bounded-by-two-curves-and-axis",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{16}{3}\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{8}{3}\\ \\text{units}^{2}$",
+          "why": "Found only one of the two pieces and forgot to add the other."
+        },
+        {
+          "text": "$\\dfrac{64}{3}\\ \\text{units}^{2}$",
+          "why": "Ignored the second curve and integrated $x^{2}$ all the way from $x=0$ to $x=4$."
+        },
+        {
+          "text": "$\\dfrac{112}{3}\\ \\text{units}^{2}$",
+          "why": "Used the wrong curve on each piece, integrating $(x-4)^{2}$ on the left and $x^{2}$ on the right."
+        }
+      ],
+      "solution_text": "1. **Find where the curves meet by solving $f(x)=g(x)$**\n$x^{2}=(x-4)^{2}$\n$0=-8x+16$\n$x=2$\n2. **Decide which curve is upper on each interval by testing a point**\nThe region lies under $y=x^{2}$ from $x=0$ to $x=2$, then under $y=(x-4)^{2}$ to $x=4$.\n3. **Integrate upper minus lower over each interval**\n$\\int_{0}^{2}x^{2}dx = \\left[\\dfrac{x^{3}}{3}\\right]_{0}^{2} = \\dfrac{8}{3}$\n$\\int_{2}^{4}(x-4)^{2}dx = \\left[\\dfrac{(x-4)^{3}}{3}\\right]_{2}^{4} = 0-\\left(-\\dfrac{8}{3}\\right) = \\dfrac{8}{3}$\n4. **Add the areas of the pieces**\n$\\dfrac{8}{3}+\\dfrac{8}{3}$\n$= \\dfrac{16}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Find the area of the shaded region between $y=2-x^{2}$ and $y=-2$ from $x=0$ to $x=1$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=0.9cm]\n\\fill[gray!35] (0,-2) -- plot[domain=0:1, samples=60, variable=\\x] ({\\x},{2-\\x*\\x}) -- plot[domain=1:0, samples=2, variable=\\x] ({\\x},{-2}) -- cycle;\n\\draw[->] (-2.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,3.2) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, samples=60, variable=\\x] plot ({\\x},{2-\\x*\\x});\n\\draw[thick, <->, domain=-2.4:2.4, samples=2, variable=\\x] plot ({\\x},{-2});\n\\node at (-1.6,2.4) {$y=2-x^{2}$};\n\\node at (-1.2,-2.55) {$y=-2$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "area-two-curves-given-limits",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{11}{3}\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{5}{3}\\ \\text{units}^{2}$",
+          "why": "Used the $x$-axis as the lower boundary instead of the line $y=-2$."
+        },
+        {
+          "text": "$\\dfrac{1}{3}\\ \\text{units}^{2}$",
+          "why": "Subtracted $+2$ rather than $-2$, integrating $\\left(2-x^{2}\\right)-2$."
+        },
+        {
+          "text": "$-\\dfrac{11}{3}\\ \\text{units}^{2}$",
+          "why": "Integrated lower minus upper, $-2-\\left(2-x^{2}\\right)$."
+        }
+      ],
+      "solution_text": "$\\int_{0}^{1}\\left[\\left(2-x^{2}\\right)-(-2)\\right]dx$\n$= \\int_{0}^{1}\\left(4-x^{2}\\right)dx$\n$= \\left[4x-\\dfrac{x^{3}}{3}\\right]_{0}^{1}$\n$= 4-\\dfrac{1}{3}$\n$= \\dfrac{11}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The horizontal line $y=k$, where $k>0$, cuts the parabola $y=x^{2}$ so that the enclosed shaded region has area $\\dfrac{500}{3}\\ \\text{units}^{2}$. Find $k$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.38cm]\n\\fill[gray!35] (-2.83,8) -- plot[domain=-2.83:2.83, samples=2, variable=\\x] ({\\x},{8}) -- plot[domain=2.83:-2.83, samples=60, variable=\\x] ({\\x},{\\x*\\x}) -- cycle;\n\\draw[->] (-4.4,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,13.6) node[above] {$y$};\n\\draw[thick, <->, domain=-4:4, samples=2, variable=\\x] plot ({\\x},{8});\n\\draw[thick, <->, domain=-3.5:3.5, samples=60, variable=\\x] plot ({\\x},{\\x*\\x});\n\\node at (1.4,9.1) {$y=k$};\n\\node at (-1.7,11.6) {$y=x^{2}$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "area-enclosed-between-curves",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$k=25$",
+          "correct": true
+        },
+        {
+          "text": "$k=125$",
+          "why": "Stopped at $k^{\\frac{3}{2}}=125$ and reported that value as $k$."
+        },
+        {
+          "text": "$k=5$",
+          "why": "Took the cube root of $125$ instead of raising it to the power $\\frac{2}{3}$."
+        }
+      ],
+      "solution_text": "1. **Find where the curves meet by solving $f(x)=g(x)$**\n$x^{2}=k$\n$x=-\\sqrt{k},\\ \\sqrt{k}$\n2. **Integrate upper minus lower over each interval**\n$\\int_{-\\sqrt{k}}^{\\sqrt{k}}\\left(k-x^{2}\\right)dx$\n$= \\left[kx-\\dfrac{x^{3}}{3}\\right]_{-\\sqrt{k}}^{\\sqrt{k}}$\n$= 2\\left(k^{\\frac{3}{2}}-\\dfrac{k^{\\frac{3}{2}}}{3}\\right)$\n$= \\dfrac{4}{3}k^{\\frac{3}{2}}$\nSetting this equal to the given area:\n$\\dfrac{4}{3}k^{\\frac{3}{2}}=\\dfrac{500}{3}$\n$k^{\\frac{3}{2}}=125$\n$k=125^{\\frac{2}{3}}=25$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find the exact area of the shaded region between $y=e^{x}$ and $y=1$ from $x=0$ to $x=2$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=0.55cm]\n\\fill[gray!35] (0,1) -- plot[domain=0:2, samples=60, variable=\\x] ({\\x},{exp(\\x)}) -- plot[domain=2:0, samples=2, variable=\\x] ({\\x},{1}) -- cycle;\n\\draw[->] (-1.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,8.8) node[above] {$y$};\n\\draw[thick, <->, domain=-1.5:2.1, samples=80, variable=\\x] plot ({\\x},{exp(\\x)});\n\\draw[thick, <->, domain=-1.6:2.6, samples=2, variable=\\x] plot ({\\x},{1});\n\\node at (1.0,7.0) {$y=e^{x}$};\n\\node at (-1.0,1.75) {$y=1$};\n\\node[below] at (2,-0.25) {$2$};\n\\end{tikzpicture}[/tikz]",
+      "structure": "area-two-curves-given-limits",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\left(e^{2}-3\\right)\\ \\text{units}^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\left(e^{2}-1\\right)\\ \\text{units}^{2}$",
+          "why": "Integrated $e^{x}$ alone, ignoring the lower boundary $y=1$."
+        },
+        {
+          "text": "$\\left(e^{2}-2\\right)\\ \\text{units}^{2}$",
+          "why": "Subtracted $1$ for the rectangle instead of $\\int_{0}^{2}1\\,dx=2$."
+        },
+        {
+          "text": "$\\left(e^{2}+1\\right)\\ \\text{units}^{2}$",
+          "why": "Added the rectangle of area $2$ instead of subtracting it."
+        }
+      ],
+      "solution_text": "$\\int_{0}^{2}\\left(e^{x}-1\\right)dx$\n$= \\left[e^{x}-x\\right]_{0}^{2}$\n$= \\left(e^{2}-2\\right)-\\left(1-0\\right)$\n$= \\left(e^{2}-3\\right)\\ \\text{units}^{2}$"
+    }
+  ]
+}

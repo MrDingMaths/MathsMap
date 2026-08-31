@@ -1,0 +1,109 @@
+{
+  "skillId": "graph-first-second-derivative",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph of $y = f(x)$ is shown at the top, with a maximum turning point at $x = -2$ and a minimum turning point at $x = 0$. Four candidate graphs of $y = f'(x)$ are drawn below it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{scope}[xshift=3.5cm, yshift=6cm]\n\\draw[->] (-4.1,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {$\\x$};\n\\draw[thick, <->, domain=-3.45:1.15, smooth, variable=\\x] plot ({\\x}, {0.3*(\\x*\\x*\\x + 3*\\x*\\x)}) node[above left] {$y = f(x)$};\n\\filldraw (-2,1.2) circle (2pt);\n\\filldraw (0,0) circle (2pt);\n\\end{scope}\n\\draw[->] (-4.1,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {$\\x$};\n\\draw[thick, <->, domain=-3.5:1.5, smooth, variable=\\x] plot ({\\x}, {0.3*(\\x*\\x + 2*\\x)});\n\\node at (-1,-2.7) {$A$};\n\\begin{scope}[xshift=7cm]\n\\draw[->] (-4.1,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {$\\x$};\n\\draw[thick, <->, domain=-3.5:1.5, smooth, variable=\\x] plot ({\\x}, {-0.3*(\\x*\\x + 2*\\x)});\n\\node at (-1,-2.7) {$B$};\n\\end{scope}\n\\begin{scope}[yshift=-5cm]\n\\draw[->] (-4.1,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {$\\x$};\n\\draw[thick, <->, domain=-3.5:1.15, smooth, variable=\\x] plot ({\\x}, {0.3*(\\x*\\x + 3*\\x)});\n\\node at (-1,-2.7) {$C$};\n\\end{scope}\n\\begin{scope}[xshift=7cm, yshift=-5cm]\n\\draw[->] (-4.1,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1} \\draw (\\x,0.07) -- (\\x,-0.07) node[below, font=\\small] {$\\x$};\n\\draw[thick, <->, domain=-3.5:1.5, smooth, variable=\\x] plot ({\\x}, {0.12*\\x*\\x*(\\x + 3)});\n\\node at (-1,-2.7) {$D$};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]\n\nWhich graph is $y = f'(x)$?",
+      "structure": "sketch-f-prime-and-f-double-prime",
+      "mastery": false,
+      "options": [
+        { "text": "$A$", "correct": true },
+        { "text": "$B$", "why": "Reads the maximum of $f$ at $x = -2$ as a maximum of $f'$; a maximum of $f$ is a zero of $f'$, not a peak of $f'$." },
+        { "text": "$C$", "why": "Places the zeros of $f'$ at the $x$-intercepts of $f$, at $x = -3$ and $x = 0$, instead of at the stationary points of $f$." },
+        { "text": "$D$", "why": "Keeps the degree of $f$; differentiating drops the degree by one, so the derivative of a cubic is a parabola, not another cubic." }
+      ],
+      "solution_text": "$f$ has stationary points at $x = -2$ and $x = 0$, so $y = f'(x)$ crosses the $x$-axis at $x = -2$ and $x = 0$.\n$f$ is increasing for $x < -2$, so $f'$ is above the axis there; $f$ is decreasing between $-2$ and $0$, so $f'$ is below the axis there; $f$ is increasing again for $x > 0$, so $f'$ is above the axis there.\nThat sign pattern makes $f'$ a parabola opening upwards through $x = -2$ and $x = 0$.\nThe answer is $A$."
+    },
+    {
+      "id": "q2",
+      "question_text": "The diagram shows the graph of $y = f'(x)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.6, xmax=2.6, ymin=-5.4, ymax=5.4, xtick={-4,-3,-2,-1,1,2}, ytick={-4,-2,2,4}, samples=100, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-4:2] {-x*x - 2*x + 3} node[pos=0.97, right] {$y = f'(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nWhich statement about $y = f(x)$ is correct?",
+      "structure": "read-feature-of-f-from-derivative-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$f$ has a minimum at $x = -3$ and a maximum at $x = 1$", "correct": true },
+        { "text": "$f$ has a maximum at $x = -3$ and a minimum at $x = 1$", "why": "Sign change read backwards; $f'$ goes from negative to positive at $x = -3$, which is a minimum of $f$." },
+        { "text": "$f$ has a maximum at $x = -1$", "why": "Reads the maximum of the drawn curve as a maximum of $f$; the vertex of $f'$ marks a point of inflection of $f$, not a turning point." },
+        { "text": "$f$ is increasing for $x < -3$ and for $x > 1$", "why": "Reads the sign of $f'$ backwards; $f$ increases where $f'$ is above the $x$-axis, which is between $-3$ and $1$." }
+      ],
+      "solution_text": "$f'(x) = 0$ where the drawn curve meets the $x$-axis, at $x = -3$ and $x = 1$.\nThe curve is below the axis for $x < -3$ and above it just after, so $f$ changes from decreasing to increasing and has a minimum at $x = -3$.\nThe curve is above the axis before $x = 1$ and below it after, so $f$ changes from increasing to decreasing and has a maximum at $x = 1$."
+    },
+    {
+      "id": "q3",
+      "question_text": "The diagram shows the graph of $y = f(x)$ with four points marked.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.7, xmax=3.7, ymin=-6.6, ymax=4.6, xtick={-1,1,2,3}, ytick={-6,-4,-2,2,4}, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.18:3.35] {x*x*x - 3*x*x};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:-0.8,-2.432) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:0.6,-0.864) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:1.5,-3.375) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:2.8,-1.568) {};\n\\node[left] at (axis cs:-0.9,-2.432) {$P$};\n\\node[above right] at (axis cs:0.65,-0.8) {$Q$};\n\\node[below] at (axis cs:1.5,-3.55) {$R$};\n\\node[right] at (axis cs:2.9,-1.568) {$S$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nAt which point is $f'(x) < 0$ and $f''(x) > 0$?",
+      "structure": "identify-sign-of-derivatives-at-point",
+      "mastery": false,
+      "options": [
+        { "text": "$R$", "correct": true },
+        { "text": "$P$", "why": "At $P$ the curve is rising and bending downwards, so $f'(x) > 0$ and $f''(x) < 0$; both signs are the wrong way round." },
+        { "text": "$Q$", "why": "The curve is falling at $Q$, but it is still concave down there, so $f''(x) < 0$." },
+        { "text": "$S$", "why": "The curve is concave up at $S$, but it has passed the minimum and is rising again, so $f'(x) > 0$." }
+      ],
+      "solution_text": "$f'(x) < 0$ where the curve is falling, which is between the maximum and the minimum.\n$f''(x) > 0$ where the curve is concave up, which is to the right of the point of inflection.\nOnly $R$ lies in both of those regions.\nThe answer is $R$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The graph of $y = f(x)$ shown below is a quartic with three stationary points.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.6, xmax=3.6, ymin=-21, ymax=14, xtick={-3,-2,-1,1,2,3}, ytick={-20,-15,-10,-5,5,10}, samples=150, clip=false, width=9cm, height=9cm]\n\\addplot[smooth, thick, <->, domain=-3.03:3.03] {x*x*x*x - 8*x*x};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:-2,-16) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:0,0) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:2,-16) {};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nWhat is the degree of $f''$, and how many $x$-intercepts does the graph of $y = f''(x)$ have?",
+      "structure": "sketch-second-derivative-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "Degree $2$, with $2$ intercepts", "correct": true },
+        { "text": "Degree $3$, with $3$ intercepts", "why": "Described $f'$ rather than $f''$; differentiating a quartic once gives a cubic through the three stationary points." },
+        { "text": "Degree $3$, with $2$ intercepts", "why": "Dropped the degree only once, although $f''$ is reached by differentiating twice." },
+        { "text": "Degree $2$, with $3$ intercepts", "why": "Counted one $x$-intercept of $f''$ for each stationary point of $f$; intercepts of $f''$ correspond to points of inflection instead." }
+      ],
+      "solution_text": "Each differentiation drops the degree by one, so a quartic $f$ gives a cubic $f'$ and a quadratic $f''$.\nThe $x$-intercepts of $y = f''(x)$ are the points of inflection of $f$, which lie between the maximum at $x = 0$ and each of the two minima.\nThere are two such points, so $y = f''(x)$ is a parabola with two $x$-intercepts."
+    },
+    {
+      "id": "q5",
+      "question_text": "On the interval $a \\le x \\le b$ a curve satisfies $f'(x) > 0$ and $f''(x) < 0$. Which describes the curve on that interval?",
+      "structure": "match-conditions-to-graph",
+      "mastery": false,
+      "options": [
+        { "text": "Increasing at a decreasing rate", "correct": true },
+        { "text": "Increasing at an increasing rate", "why": "Took $f''(x) < 0$ as concave up; a negative second derivative means the gradient is falling, so the rate of increase slows." },
+        { "text": "Decreasing at a decreasing rate", "why": "Took $f'(x) > 0$ as a falling curve; a positive first derivative means the curve is rising." },
+        { "text": "Decreasing at an increasing rate", "why": "Read both signs backwards, treating $f'(x) > 0$ as falling and $f''(x) < 0$ as a steepening fall." }
+      ],
+      "solution_text": "$f'(x) > 0$ means the curve is rising throughout the interval.\n$f''(x) < 0$ means $f'$ is itself decreasing, so each rise is smaller than the one before.\nThe curve rises, but less and less steeply: it is increasing at a decreasing rate.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=7.4, ymin=-0.8, ymax=6.4, xtick={1,6}, xticklabels={$a$,$b$}, ytick={1,2,3,4,5,6}, samples=120, clip=false, width=9cm, height=7cm]\n\\addplot[smooth, thick, domain=1:6] {5 - 4*exp(-0.5*x)};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:1,2.574) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:6,4.801) {};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "The diagram shows the graph of $y = f(x)$, which has a maximum turning point at $x = 1$ and a minimum turning point at $x = 4$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.2, xmax=6.4, ymin=-31, ymax=17, xtick={-1,1,2,3,4,5,6}, ytick={-30,-20,-10,10}, samples=150, clip=false, width=10cm, height=9cm]\n\\addplot[smooth, thick, <->, domain=-0.63:5.68] {2*x*x*x - 15*x*x + 24*x - 6};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:1,5) {};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:4,-22) {};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nWhich set of statements is correct?",
+      "structure": "compare-derivative-values",
+      "mastery": false,
+      "options": [
+        { "text": "$f'(1) = 0$, $f''(1) < 0$, $f(0) < 0$", "correct": true },
+        { "text": "$f'(1) = 0$, $f''(1) > 0$, $f(0) < 0$", "why": "Took the curve as concave up at $x = 1$; it is a maximum, where the curve bends downwards, so $f''(1) < 0$." },
+        { "text": "$f'(1) = 0$, $f''(1) < 0$, $f(0) > 0$", "why": "Read the $y$-intercept as positive; the curve meets the $y$-axis below the origin, so $f(0) < 0$." },
+        { "text": "$f'(1) = 0$, $f''(1) > 0$, $f(0) > 0$", "why": "Made both errors: concavity at a maximum taken as positive, and the $y$-intercept read on the wrong side of the axis." }
+      ],
+      "solution_text": "$x = 1$ is a turning point, so the tangent is horizontal there and $f'(1) = 0$.\nAt a maximum the curve is concave down, so $f''(1) < 0$.\nThe curve crosses the $y$-axis below the origin, so $f(0) < 0$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The diagram shows the graph of $y = f''(x)$, which touches the $x$-axis at $x = 1$ and is positive for every other value of $x$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.9, xmax=3.9, ymin=-1.4, ymax=6.6, xtick={-1,1,2,3}, ytick={2,4,6}, samples=100, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=-1.45:3.45] {(x-1)*(x-1)} node[pos=0.97, left] {$y = f''(x)$};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:1,0) {};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nWhat does this tell you about $y = f(x)$ at $x = 1$?",
+      "structure": "read-feature-of-f-from-derivative-graph",
+      "mastery": true,
+      "options": [
+        { "text": "$f$ is concave up on both sides of $x = 1$, so there is no point of inflection there", "correct": true },
+        { "text": "$f$ has a point of inflection at $x = 1$ because $f''(1) = 0$", "why": "A zero of $f''$ is only an inflection when $f''$ changes sign; here the curve touches the axis and stays positive." },
+        { "text": "$f$ has a minimum turning point at $x = 1$ because $f''(1) = 0$", "why": "Confused the two derivatives; a turning point needs $f'(1) = 0$, and nothing here says the tangent is horizontal." },
+        { "text": "$f$ has a horizontal point of inflection at $x = 1$", "why": "Assumes both $f'(1) = 0$ and a change of concavity, but the graph shown gives no information about $f'$ and shows no sign change." }
+      ],
+      "solution_text": "$f''(x) > 0$ for every $x$ except $x = 1$, where $f''(1) = 0$.\nA point of inflection requires $f''$ to change sign, and this graph stays on or above the $x$-axis throughout.\nSo the concavity never changes: $f$ is concave up on both sides of $x = 1$ and has no point of inflection there."
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph of $y = f(x)$ below has a horizontal point of inflection at $x = 2$ and no other stationary points, and is increasing everywhere else.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.6, ymin=-7, ymax=9, xtick={1,2,3,4}, ytick={-6,-4,-2,2,4,6,8}, samples=120, clip=false, width=9cm, height=8cm]\n\\addplot[smooth, thick, <->, domain=0.15:3.9] {(x-2)*(x-2)*(x-2) + 1};\n\\node[circle, fill, inner sep=1.5pt] at (axis cs:2,1) {};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nWhich statement about $y = f'(x)$ and $y = f''(x)$ is correct?",
+      "structure": "sketch-f-prime-and-f-double-prime",
+      "mastery": true,
+      "options": [
+        { "text": "$y = f'(x)$ touches the $x$-axis at $x = 2$; $y = f''(x)$ crosses the $x$-axis at $x = 2$", "correct": true },
+        { "text": "$y = f'(x)$ crosses the $x$-axis at $x = 2$; $y = f''(x)$ touches the $x$-axis at $x = 2$", "why": "Swapped the two graphs; $f'$ cannot cross, because $f$ is increasing on both sides of $x = 2$." },
+        { "text": "$y = f'(x)$ touches the $x$-axis at $x = 2$; $y = f''(x)$ touches the $x$-axis at $x = 2$", "why": "Denies the change of concavity; the curve is concave down before $x = 2$ and concave up after, so $f''$ must change sign." },
+        { "text": "$y = f'(x)$ crosses the $x$-axis at $x = 2$; $y = f''(x)$ crosses the $x$-axis at $x = 2$", "why": "Treats the horizontal point of inflection as an ordinary turning point, which would make $f'$ change sign at $x = 2$." }
+      ],
+      "solution_text": "$f$ is increasing on both sides of $x = 2$, so $f'(x) > 0$ there, while $f'(2) = 0$ because the tangent is horizontal.\nA graph that reaches zero without changing sign touches the $x$-axis, so $y = f'(x)$ touches the axis at $x = 2$.\nThe curve is concave down before $x = 2$ and concave up after it, so $f''$ changes from negative to positive.\nA graph that changes sign crosses the axis, so $y = f''(x)$ crosses the $x$-axis at $x = 2$."
+    }
+  ]
+}

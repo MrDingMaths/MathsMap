@@ -72,12 +72,24 @@
       "structure": "identify-directed",
       "mastery": false,
       "options": [
-        { "text": "$B$ to $D$", "correct": true },
-        { "text": "$B$ to $A$", "why": "Reads the edge joining $A$ and $B$ backwards; its arrow runs from $A$ into $B$ only." },
-        { "text": "$E$ to $D$", "why": "Reverses the edge $D$ to $E$, but a directed edge may only be travelled the way its arrow points." },
-        { "text": "$D$ to $C$", "why": "Reverses the edge $C$ to $D$, treating a one-way road as though it worked in both directions." }
+        {
+          "text": "$B$ to $D$",
+          "correct": true
+        },
+        {
+          "text": "$B$ to $C$",
+          "why": "Reads the edge joining $B$ and $C$ backwards; its arrow runs from $C$ into $B$ only."
+        },
+        {
+          "text": "$A$ to $D$",
+          "why": "Chains the two edges $A$ to $B$ and $B$ to $D$ and calls the result a direct trip, but no single road joins $A$ and $D$."
+        },
+        {
+          "text": "$A$ to $C$",
+          "why": "Chains $A$ to $B$ with the edge joining $B$ and $C$, ignoring both that this is two roads and that the arrow points from $C$ to $B$."
+        }
       ],
-      "solution_text": "The arrow on the edge joining $B$ and $D$ points from $B$ towards $D$.\nEvery other listed trip runs against the arrow on its edge.\n**$B$ to $D$.**"
+      "solution_text": "The arrow on the edge joining $B$ and $D$ points from $B$ towards $D$.\nNone of the other listed trips can be driven directly: each is either a pair of roads joined end to end, or a single road taken against its arrow.\n**$B$ to $D$.**"
     },
     {
       "id": "q7",

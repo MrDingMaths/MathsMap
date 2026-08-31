@@ -1,0 +1,108 @@
+{
+  "skillId": "concavity-second-derivative",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Is the curve $f(x) = x^{3} + 4x^{2} - 5x + 7$ concave up or concave down at $x = -2$?",
+      "structure": "concavity-at-a-point",
+      "mastery": false,
+      "options": [
+        { "text": "Concave down", "correct": true },
+        { "text": "Concave up", "why": "Substituted $x = 2$ rather than $x = -2$ into $f''(x) = 6x + 8$." },
+        { "text": "Neither, because the curve is decreasing at $x = -2$", "why": "Used the sign of $f'(-2) = -9$, which gives decreasing, and treated that as the concavity." }
+      ],
+      "solution_text": "$f'(x) = 3x^{2} + 8x - 5$\n$f''(x) = 6x + 8$\n$f''(-2) = -12 + 8 = -4$\nSince $f''(-2) < 0$, the curve is concave down at $x = -2$."
+    },
+    {
+      "id": "q2",
+      "question_text": "Which statement correctly explains why $y = 4x^{2} - 9x + 2$ is concave up for every value of $x$?",
+      "structure": "concavity-all-x",
+      "mastery": false,
+      "options": [
+        { "text": "$y'' = 8$, which is positive for all $x$.", "correct": true },
+        { "text": "$y' = 8x - 9$, which is positive for all $x$.", "why": "Tested the first derivative instead of the second, and $8x - 9$ is not positive for all $x$ in any case." },
+        { "text": "$y'' = 8x$, which is positive for all $x$.", "why": "Differentiated only once and labelled the result $y''$." },
+        { "text": "The coefficient of $x$ is negative, so the parabola opens upwards.", "why": "Read the coefficient $b = -9$; it is the sign of $a$, not $b$, that decides which way a parabola opens." }
+      ],
+      "solution_text": "$y' = 8x - 9$\n$y'' = 8$\nThe second derivative is the constant $8$, which is positive for every value of $x$.\nSo the curve is concave up for all $x$."
+    },
+    {
+      "id": "q3",
+      "question_text": "For what values of $x$ is $y = 2x^{3} - 3x^{2} + 11x - 4$ concave down?",
+      "structure": "concavity-interval-cubic",
+      "mastery": false,
+      "options": [
+        { "text": "$x < \\dfrac{1}{2}$", "correct": true },
+        { "text": "$x > \\dfrac{1}{2}$", "why": "Solved $12x - 6 > 0$, which is the condition for concave up." },
+        { "text": "$x < 2$", "why": "Solved $12x < 6$ as $x < \\tfrac{12}{6}$, dividing the wrong way round." },
+        { "text": "$x > 2$", "why": "Both used the concave-up inequality and divided $12$ by $6$ instead of $6$ by $12$." }
+      ],
+      "solution_text": "$y' = 6x^{2} - 6x + 11$\n$y'' = 12x - 6$\nFor concave down, $y'' < 0$:\n$12x - 6 < 0$\n$12x < 6$\n$x < \\dfrac{1}{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "For what values of $x$ is $y = x^{4} - 24x^{2} + 5$ concave up?",
+      "structure": "concavity-interval-quartic",
+      "mastery": false,
+      "options": [
+        { "text": "$x < -2$ or $x > 2$", "correct": true },
+        { "text": "$-2 < x < 2$", "why": "Solved $12x^{2} - 48 < 0$, which is the condition for concave down." },
+        { "text": "$x > 2$ only", "why": "Took only the positive square root of $x^{2} > 4$ and left out the branch $x < -2$." },
+        { "text": "$x < -2\\sqrt{3}$ or $x > 2\\sqrt{3}$", "why": "Solved $x^{2} > 12$, using the coefficient of $x^{2}$ in $y''$ instead of dividing the constant by it." }
+      ],
+      "solution_text": "$y' = 4x^{3} - 48x$\n$y'' = 12x^{2} - 48$\nFor concave up, $y'' > 0$:\n$12x^{2} - 48 > 0$\n$x^{2} > 4$\n$x < -2$ or $x > 2$"
+    },
+    {
+      "id": "q5",
+      "question_text": "For what values of $x$ is $y = xe^{2x}$ concave up?",
+      "structure": "concavity-exponential-log",
+      "mastery": false,
+      "options": [
+        { "text": "$x > -1$", "correct": true },
+        { "text": "$x < -1$", "why": "Solved $4x + 4 < 0$, which is the condition for concave down." },
+        { "text": "$x > -\\dfrac{1}{2}$", "why": "Used $y' = e^{2x}(1 + 2x) > 0$, which gives where the curve is increasing, not where it is concave up." },
+        { "text": "All real $x$", "why": "Assumed that because $e^{2x} > 0$ the whole second derivative is positive, ignoring the factor $4x + 4$." }
+      ],
+      "solution_text": "$y' = e^{2x} + 2xe^{2x}$\n$= e^{2x}(1 + 2x)$\n$y'' = 2e^{2x}(1 + 2x) + 2e^{2x}$\n$= e^{2x}(4x + 4)$\nSince $e^{2x} > 0$, the sign is the sign of $4x + 4$.\n$4x + 4 > 0$\n$x > -1$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The diagram shows the curve $y = g(x)$. Over which values of $x$ is the curve concave up?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-5.0, xmax=3.3, ymin=-6.4, ymax=8.1, samples=100, clip=false,\n             xtick={-4,-3,-2,-1,1,2,3}, ytick={-6,-4,-2,2,4,6}]\n\\addplot[smooth, thick, <->, domain=-4.19:2.2] {0.3*(x*x*x + 3*x*x)};\n\\node[font=\\small] at (axis cs:1.7,1.9) {$y=g(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "concavity-from-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$x > -1$", "correct": true },
+        { "text": "$x < -1$", "why": "Read the part of the curve that bends like $\\cap$ as the concave-up part." },
+        { "text": "$x > 0$", "why": "Used the $x$-intercept of the curve instead of the point where the bending reverses." },
+        { "text": "$x > -2$", "why": "Took the local maximum at $x = -2$ as the place where the concavity changes." }
+      ],
+      "solution_text": "Read the bending of the curve from left to right.\nTo the left the curve bends downwards like $\\cap$, and to the right it bends upwards like $\\cup$.\nThe bending reverses at $x = -1$.\nThe curve is concave up for $x > -1$."
+    },
+    {
+      "id": "q7",
+      "question_text": "At the point where $x = 6$, a curve $y = f(x)$ has $f'(6) > 0$ and $f''(6) < 0$. Which statement describes the curve there?",
+      "structure": "concavity-and-increasing-contrast",
+      "mastery": false,
+      "options": [
+        { "text": "Increasing, and increasing at a decreasing rate.", "correct": true },
+        { "text": "Increasing, and increasing at an increasing rate.", "why": "Read $f'' < 0$ as concave up, confusing the sign of the second derivative with the direction of the curve." },
+        { "text": "Decreasing, and concave down.", "why": "Used the sign of $f''$ to decide whether the curve rises or falls." },
+        { "text": "Decreasing, and decreasing at a decreasing rate.", "why": "Swapped the roles of $f'$ and $f''$ entirely." }
+      ],
+      "solution_text": "$f'(6) > 0$ means the gradient is positive, so the curve is increasing at $x = 6$.\n$f''(6) < 0$ means the gradient is decreasing, so the curve is concave down at $x = 6$.\nA positive gradient that is getting smaller means the curve rises less and less steeply.\nSo the curve is increasing at a decreasing rate."
+    },
+    {
+      "id": "q8",
+      "question_text": "For what values of $k$ is $y = x^{3} + kx^{2} + 7x - 2$ concave down at the point where $x = 2$?",
+      "structure": "concavity-parameter",
+      "mastery": true,
+      "options": [
+        { "text": "$k < -6$", "correct": true },
+        { "text": "$k > -6$", "why": "Solved $12 + 2k > 0$, which is the condition for concave up." },
+        { "text": "$k < -12$", "why": "Solved $2k < -12$ as $k < -12$, forgetting to divide by $2$." },
+        { "text": "$k > -12$", "why": "Both used the concave-up inequality and forgot to divide by $2$." }
+      ],
+      "solution_text": "$y' = 3x^{2} + 2kx + 7$\n$y'' = 6x + 2k$\nFor concave down at $x = 2$:\n$6(2) + 2k < 0$\n$2k < -12$\n$k < -6$"
+    }
+  ]
+}

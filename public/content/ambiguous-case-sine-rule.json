@@ -2,22 +2,22 @@
   "skillId": "ambiguous-case-sine-rule",
   "atomType": "R",
   "theory": {
-    "intro": "When you know two sides and a non-included angle (an SSA triangle), the sine rule can give **two** possible triangles. Because $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$, the calculator's acute answer $\\theta$ and its obtuse partner $180^{\\circ}-\\theta$ can **both** fit. Always find both, then check each: the obtuse angle is valid only if it still leaves room in the triangle's $180^{\\circ}$ angle sum.",
-    "facts": [
-      "The sine rule $\\dfrac{\\sin\\theta}{a}=\\dfrac{\\sin A}{b}$ gives $\\sin\\theta$; since $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$ there may be an acute **and** an obtuse solution.",
-      "Find the acute angle $\\theta=\\sin^{-1}(\\ldots)$, then its obtuse partner $\\theta'=180^{\\circ}-\\theta$.",
-      "The obtuse solution $\\theta'$ is valid only if $\\theta'+(\\text{given angle})<180^{\\circ}$; otherwise the angle sum would exceed $180^{\\circ}$ and it is rejected.",
-      "If the given angle is already obtuse, there is only **one** solution — a triangle can have at most one obtuse angle.",
-      "If the sine rule gives $\\sin\\theta>1$, no triangle exists.",
-      "You can predict the number of triangles: with given angle $A$ and sides $a$, $b$, two triangles occur when $b\\sin A<a<b$."
-    ],
-    "steps": [
-      "Use the sine rule to find the acute angle theta",
-      "Find the obtuse partner 180 degrees minus theta",
-      "Add each possible angle to the given angle and reject any whose sum reaches 180 degrees",
-      "State all valid values of the angle"
-    ]
-  },
+        "intro": "When you know two sides and a non-included angle (an **SSA** triangle), the sine rule can give **two** triangles. Because $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$, both the acute answer $\\theta$ and its obtuse partner $180^{\\circ}-\\theta$ may fit. Find both, then test each against the $180^{\\circ}$ angle sum.",
+        "facts": [
+          "The sine rule $\\dfrac{\\sin\\theta}{a}=\\dfrac{\\sin A}{b}$ gives $\\sin\\theta$, which may have an acute **and** an obtuse solution.",
+          "Find the acute angle $\\theta=\\sin^{-1}(\\ldots)$, then its obtuse partner $\\theta'=180^{\\circ}-\\theta$.",
+          "The obtuse solution $\\theta'$ is valid only if $\\theta'+(\\text{given angle})<180^{\\circ}$; otherwise reject it.",
+          "If the given angle is already obtuse there is only **one** solution, since a triangle can have at most one obtuse angle.",
+          "If the sine rule gives $\\sin\\theta>1$ — the swung side $a$ is shorter than $b\\sin A$ — no triangle exists.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (F) at (3.77,0);\n\\coordinate (E) at ($(B)+(305:2)$);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(E) node[midway,left] {$a$};\n\\draw[dashed] ($(B)+(230:2)$) arc (230:310:2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]",
+          "Two triangles occur when $b\\sin A<a<b$, because the swung side $a$ then reaches the base in two places.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc,arrows.meta}\n\\coordinate (A) at (0,0);\n\\coordinate (X) at (6.8,0);\n\\coordinate (B) at (3.77,2.64);\n\\coordinate (C) at (1.96,0);\n\\coordinate (D) at (5.58,0);\n\\coordinate (F) at (3.77,0);\n\\draw[-{Stealth}] (A)--(X);\n\\draw (A)--(B) node[midway,above left] {$b$};\n\\draw (B)--(C) node[midway,above left] {$a$};\n\\draw (B)--(D) node[midway,above right] {$a$};\n\\draw[dashed] ($(B)+(228:3.2)$) arc (228:312:3.2);\n\\draw[dashed] (B)--(F) node[midway,fill=white,inner sep=1pt] {$b\\sin A$};\n\\coordinate (r1) at ($(F)!0.3cm!(B)$);\n\\coordinate (r2) at ($(F)!0.3cm!(X)$);\n\\draw (r1)--($(r1)+(r2)-(F)$)--(r2);\n\\fill (C) circle (2pt);\n\\fill (D) circle (2pt);\n\\pic[draw,\"$A$\",angle radius=0.8cm,angle eccentricity=1.9] {angle=X--A--B};\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Use the sine rule to find the acute angle theta",
+          "Find the obtuse partner 180 degrees minus theta",
+          "Add each possible angle to the given angle and reject any whose sum reaches 180 degrees",
+          "State all valid values of the angle"
+        ]
+      },
   "practice": {
     "foundation": [
       {

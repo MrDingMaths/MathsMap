@@ -1,0 +1,124 @@
+{
+  "skillId": "related-rates-chain",
+  "atomType": "R",
+  "theory": {
+    "intro": "Two quantities that change together have **related rates**: each has its own rate of change with respect to time $t$. The chain rule links the two rates, so knowing one gives the other.",
+    "facts": [
+      "A related rates question involves three variables: time $t$ and two quantities that depend on each other.",
+      "The chain rule connects the rates as $\\dfrac{dy}{dt} = \\dfrac{dy}{dx} \\times \\dfrac{dx}{dt}$.",
+      "Differentiate the formula first, then substitute the instantaneous value; substituting first leaves a constant, whose derivative is $0$.",
+      "Reverse the link with $\\dfrac{dx}{dt} = \\dfrac{dx}{dy} \\times \\dfrac{dy}{dt}$, where $\\dfrac{dx}{dy} = 1 \\div \\dfrac{dy}{dx}$.",
+      "A decreasing quantity has a negative rate, so record the sign of every given rate.",
+      "Every rate carries a unit, such as cm²/s or units/s, and the unit is part of the answer."
+    ],
+    "steps": [
+      "Identify the three variables, the rate given and the rate wanted",
+      "Set up the chain rule",
+      "Differentiate and substitute the given rate",
+      "Evaluate at the given value"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The volume $V$ of a solid depends on its radius $r$, and $r$ changes with time $t$. You are given $\\dfrac{dr}{dt}$ and want $\\dfrac{dV}{dt}$. Write the chain rule that connects them.",
+        "structure": "chain-rule-setup",
+        "solution_text": "$\\dfrac{dV}{dt} = \\dfrac{dV}{dr} \\times \\dfrac{dr}{dt}$\nThe two $dr$ parts cancel, leaving $\\dfrac{dV}{dt}$."
+      },
+      {
+        "question_text": "The area $A$ of a shape depends on its side length $s$, and $s$ changes with time $t$. You are given $\\dfrac{dA}{dt}$ and want $\\dfrac{ds}{dt}$. Write the chain rule that connects them.",
+        "structure": "chain-rule-setup",
+        "solution_text": "$\\dfrac{ds}{dt} = \\dfrac{ds}{dA} \\times \\dfrac{dA}{dt}$\n$\\dfrac{ds}{dA} = 1 \\div \\dfrac{dA}{ds}$"
+      },
+      {
+        "question_text": "Given $y = 3x^{2} + x$ and $\\dfrac{dx}{dt} = 4$ units/s, find $\\dfrac{dy}{dt}$ when $x = 2$.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$\\dfrac{dy}{dx} = 6x + 1$\n$\\dfrac{dy}{dt} = \\dfrac{dy}{dx} \\times \\dfrac{dx}{dt}$\n$= (6x + 1) \\times 4$\nWhen $x = 2$:\n$\\dfrac{dy}{dt} = (12 + 1) \\times 4$\n$= 52$ units/s"
+      },
+      {
+        "question_text": "Given $y = x^{3}$ and $x$ is decreasing at $2$ units/s, find $\\dfrac{dy}{dt}$ when $x = 3$.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$x$ is decreasing, so $\\dfrac{dx}{dt} = -2$ units/s.\n$\\dfrac{dy}{dx} = 3x^{2}$\n$\\dfrac{dy}{dt} = 3x^{2} \\times (-2)$\nWhen $x = 3$:\n$\\dfrac{dy}{dt} = 3(9) \\times (-2)$\n$= -54$ units/s"
+      },
+      {
+        "question_text": "Given $A = \\pi r^{2}$, with $r$ in cm and $\\dfrac{dr}{dt} = 5$ cm/s, find $\\dfrac{dA}{dt}$ when $r = 4$ cm. Leave your answer in terms of $\\pi$.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$\\dfrac{dA}{dr} = 2\\pi r$\n$\\dfrac{dA}{dt} = 2\\pi r \\times 5$\n$= 10\\pi r$\nWhen $r = 4$:\n$\\dfrac{dA}{dt} = 10\\pi (4)$\n$= 40\\pi$ cm²/s"
+      },
+      {
+        "question_text": "Given $y = x^{2} - 5x$ and $\\dfrac{dx}{dt} = 3$ units/s, find $\\dfrac{dy}{dt}$ in terms of $x$.",
+        "structure": "rate-in-terms-of-variable",
+        "solution_text": "$\\dfrac{dy}{dx} = 2x - 5$\n$\\dfrac{dy}{dt} = (2x - 5) \\times 3$\n$= 6x - 15$ units/s"
+      },
+      {
+        "question_text": "Given $y = x^{4}$ and $\\dfrac{dy}{dt} = 8$ units/s, find $\\dfrac{dx}{dt}$ when $x = 1$.",
+        "structure": "evaluate-reverse-rate",
+        "solution_text": "$\\dfrac{dy}{dx} = 4x^{3}$\n$\\dfrac{dy}{dt} = 4x^{3} \\times \\dfrac{dx}{dt}$\nWhen $x = 1$:\n$8 = 4(1) \\times \\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt} = 2$ units/s"
+      },
+      {
+        "question_text": "Given $y = 2x^{3} + x$ and $\\dfrac{dy}{dt} = -14$ units/s, find $\\dfrac{dx}{dt}$ when $x = 2$.",
+        "structure": "evaluate-reverse-rate",
+        "solution_text": "$\\dfrac{dy}{dx} = 6x^{2} + 1$\n$\\dfrac{dy}{dt} = (6x^{2} + 1) \\times \\dfrac{dx}{dt}$\nWhen $x = 2$:\n$-14 = (24 + 1) \\times \\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt} = -\\dfrac{14}{25}$ units/s"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Given $x = 2t^{2} + t$ and $\\dfrac{dt}{du} = 4$, find $\\dfrac{dx}{du}$ when $t = 5$.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$\\dfrac{dx}{dt} = 4t + 1$\n$\\dfrac{dx}{du} = \\dfrac{dx}{dt} \\times \\dfrac{dt}{du}$\n$= (4t + 1) \\times 4$\nWhen $t = 5$:\n$\\dfrac{dx}{du} = (20 + 1) \\times 4$\n$= 84$"
+      },
+      {
+        "question_text": "Given $S = 3\\pi r^{2}$, with $r$ in cm and $\\dfrac{dr}{dt} = 1.5$ cm/s, find $\\dfrac{dS}{dt}$ when $r = 2.4$ cm, correct to the nearest unit.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$\\dfrac{dS}{dr} = 6\\pi r$\n$\\dfrac{dS}{dt} = 6\\pi r \\times 1.5$\n$= 9\\pi r$\nWhen $r = 2.4$:\n$\\dfrac{dS}{dt} = 9\\pi (2.4)$\n$= 21.6\\pi$\n$= 67.858\\ldots$\n$\\approx 68$ cm²/s"
+      },
+      {
+        "question_text": "Given $y = \\dfrac{1}{x}$ and $\\dfrac{dx}{dt} = 6$ units/s, find $\\dfrac{dy}{dt}$ in terms of $x$.",
+        "structure": "rate-in-terms-of-variable",
+        "solution_text": "$y = x^{-1}$\n$\\dfrac{dy}{dx} = -x^{-2}$\n$\\dfrac{dy}{dt} = -\\dfrac{1}{x^{2}} \\times 6$\n$= -\\dfrac{6}{x^{2}}$ units/s"
+      },
+      {
+        "question_text": "Given $A = 16x - 2x^{2}$ and $\\dfrac{dA}{dt} = 12$ units/s, find $\\dfrac{dx}{dt}$ when $x = 3$.",
+        "structure": "evaluate-reverse-rate",
+        "solution_text": "$\\dfrac{dA}{dx} = 16 - 4x$\n$\\dfrac{dA}{dt} = (16 - 4x) \\times \\dfrac{dx}{dt}$\nWhen $x = 3$:\n$12 = (16 - 12) \\times \\dfrac{dx}{dt}$\n$12 = 4 \\times \\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt} = 3$ units/s"
+      },
+      {
+        "question_text": "Given $y = (2x + 1)^{3}$ and $\\dfrac{dx}{dt} = 5$ units/s, find $\\dfrac{dy}{dt}$ when $x = 1$.",
+        "structure": "evaluate-forward-rate",
+        "solution_text": "$\\dfrac{dy}{dx} = 3(2x + 1)^{2} \\times 2$\n$= 6(2x + 1)^{2}$\n$\\dfrac{dy}{dt} = 6(2x + 1)^{2} \\times 5$\nWhen $x = 1$:\n$\\dfrac{dy}{dt} = 6(3)^{2} \\times 5$\n$= 270$ units/s"
+      },
+      {
+        "question_text": "Given $y = \\sqrt{x}$ and $\\dfrac{dy}{dt} = 3$ units/s, find $\\dfrac{dx}{dt}$ when $x = 9$.",
+        "structure": "evaluate-reverse-rate",
+        "solution_text": "$\\dfrac{dy}{dx} = \\dfrac{1}{2\\sqrt{x}}$\n$\\dfrac{dy}{dt} = \\dfrac{1}{2\\sqrt{x}} \\times \\dfrac{dx}{dt}$\nWhen $x = 9$:\n$3 = \\dfrac{1}{6} \\times \\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt} = 18$ units/s"
+      },
+      {
+        "question_text": "Given $y = x^{2}$, $\\dfrac{dx}{dt} = 3$ units/s and $\\dfrac{dy}{dt} = 24$ units/s at a certain instant, find the value of $x$ at that instant.",
+        "structure": "find-unknown-from-rates",
+        "solution_text": "$\\dfrac{dy}{dx} = 2x$\n$\\dfrac{dy}{dt} = 2x \\times 3$\n$24 = 6x$\n$x = 4$"
+      },
+      {
+        "question_text": "The volume $V$ of a solid depends on its edge length $s$, and the edge is shrinking at $2$ mm/s. Write the given rate with its sign, and write the chain rule for $\\dfrac{dV}{dt}$.",
+        "structure": "chain-rule-setup",
+        "solution_text": "The edge is shrinking, so the rate is negative.\n$\\dfrac{ds}{dt} = -2$ mm/s\n$\\dfrac{dV}{dt} = \\dfrac{dV}{ds} \\times \\dfrac{ds}{dt}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Given $y = x^{3} - 6x$ and $\\dfrac{dx}{dt} = 2$ units/s, find the exact values of $x$ at which $y$ is momentarily neither increasing nor decreasing.",
+        "structure": "find-unknown-from-rates",
+        "solution_text": "$\\dfrac{dy}{dx} = 3x^{2} - 6$\n$\\dfrac{dy}{dt} = (3x^{2} - 6) \\times 2$\n$= 6x^{2} - 12$\n$y$ is momentarily unchanging when $\\dfrac{dy}{dt} = 0$.\n$6x^{2} - 12 = 0$\n$x^{2} = 2$\n$x = \\pm\\sqrt{2}$"
+      },
+      {
+        "question_text": "Given $y = ax^{2}$, where $a$ is a constant. At an instant when $x = 3$, $\\dfrac{dx}{dt} = 4$ units/s and $\\dfrac{dy}{dt} = 96$ units/s. Find $a$.",
+        "structure": "find-unknown-from-rates",
+        "solution_text": "$\\dfrac{dy}{dx} = 2ax$\n$\\dfrac{dy}{dt} = 2ax \\times \\dfrac{dx}{dt}$\nWhen $x = 3$:\n$96 = 2a(3) \\times 4$\n$96 = 24a$\n$a = 4$"
+      },
+      {
+        "question_text": "A quantity $P$ depends on $q$ with $\\dfrac{dP}{dq} = \\dfrac{4}{q}$, and $q$ depends on time with $\\dfrac{dq}{dt} = -3q$ units/s. Find $\\dfrac{dP}{dt}$.",
+        "structure": "rate-in-terms-of-variable",
+        "solution_text": "$\\dfrac{dP}{dt} = \\dfrac{dP}{dq} \\times \\dfrac{dq}{dt}$\n$= \\dfrac{4}{q} \\times (-3q)$\n$= -12$ units/s"
+      }
+    ]
+  }
+}

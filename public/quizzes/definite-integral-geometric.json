@@ -1,0 +1,109 @@
+{
+  "skillId": "definite-integral-geometric",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-2,0) rectangle (3,4);\n\\draw (-2,0) rectangle (3,4);\n\\draw[->] (-3.8,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,5.8) node[above] {$y$};\n\\draw[thick,<->] (-3.6,4) -- (4.6,4);\n\\node[above] at (4,4.05) {$y=4$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {1,2,3,4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nUse an area formula to evaluate $\\int_{-2}^{3}4\\,dx$.",
+      "structure": "rectangle-region",
+      "mastery": false,
+      "options": [
+        { "text": "$20$", "correct": true },
+        { "text": "$12$", "why": "Multiplied the height $4$ by the upper limit $3$ instead of by the width $3-(-2)=5$." },
+        { "text": "$5$", "why": "Gave the width of the interval and forgot to multiply it by the height $4$." },
+        { "text": "$4$", "why": "Found the width as $3-2=1$ by ignoring the negative sign on the lower limit." }
+      ],
+      "solution_text": "The region is a rectangle above the $x$-axis.\nIts width is $3-(-2)=5$ and its height is $4$.\n$\\int_{-2}^{3}4\\,dx=bh$\n$=5\\times 4$\n$=20$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.5cm]\n\\fill[gray!35] (1,0) -- (1,4) -- (5,8) -- (5,0) -- cycle;\n\\draw[->] (-1.6,0) -- (7,0) node[right] {$x$};\n\\draw[->] (0,-1.8) -- (0,11) node[above] {$y$};\n\\draw[thick,<->] (-0.5,2.5) -- (6,9);\n\\node at (2,9) {$y=x+3$};\n\\foreach \\x in {1,2,3,4,5,6} \\draw (\\x,0.3) -- (\\x,-0.3) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6,8} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nUse an area formula to evaluate $\\int_{1}^{5}(x+3)\\,dx$.",
+      "structure": "triangle-or-trapezium-region",
+      "mastery": false,
+      "options": [
+        { "text": "$24$", "correct": true },
+        { "text": "$48$", "why": "Used $(a+b)h$ for the trapezium and left out the factor of $\\frac{1}{2}$." },
+        { "text": "$30$", "why": "Used the upper limit $5$ as the distance between the parallel sides instead of $b-a=4$." },
+        { "text": "$16$", "why": "Treated the region as a triangle of base $4$ and height $8$, ignoring that its left edge has height $4$." }
+      ],
+      "solution_text": "The region is a trapezium above the $x$-axis.\nThe parallel sides are $f(1)=4$ and $f(5)=8$, a distance $5-1=4$ apart.\n$\\int_{1}^{5}(x+3)\\,dx=\\frac{h}{2}(a+b)$\n$=\\frac{4}{2}(4+8)$\n$=2(12)$\n$=24$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (2,0) arc (0:180:2) -- cycle;\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,3.8) node[above] {$y$};\n\\draw[thick] (2,0) arc (0:180:2);\n\\node at (2,2.6) {$y=\\sqrt{4-x^{2}}$};\n\\foreach \\x in {-2,-1,1,2,3} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {1,2} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe graph of $y=\\sqrt{4-x^{2}}$ is the upper half of a circle centred at the origin. Evaluate $\\int_{-2}^{2}\\sqrt{4-x^{2}}\\,dx$.",
+      "structure": "semicircle-region",
+      "mastery": false,
+      "options": [
+        { "text": "$2\\pi$", "correct": true },
+        { "text": "$4\\pi$", "why": "Used the area of the whole circle; the region is only the upper half." },
+        { "text": "$\\pi$", "why": "Used a quarter of the circle; the region runs from $-2$ to $2$, which is a half." },
+        { "text": "$8$", "why": "Used the rectangle $4\\times 2$ that encloses the region instead of the semicircle itself." }
+      ],
+      "solution_text": "The circle $x^{2}+y^{2}=4$ has radius $r=2$.\nThe region is the upper half of that circle.\n$\\int_{-2}^{2}\\sqrt{4-x^{2}}\\,dx=\\frac{1}{2}\\pi r^{2}$\n$=\\frac{1}{2}\\pi(2)^{2}$\n$=2\\pi$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1,0) -- (-1,-4) -- (1,0) -- cycle;\n\\fill[gray!35] (1,0) -- (2,2) -- (2,0) -- cycle;\n\\draw[->] (-2.8,0) -- (4.2,0) node[right] {$x$};\n\\draw[->] (0,-5.8) -- (0,5.4) node[above] {$y$};\n\\draw[thick,<->] (-1.4,-4.8) -- (3,4);\n\\node at (2.6,3.6) {$y=2x-2$};\n\\foreach \\x in {-2,-1,1,2,3} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-4,-2,2,4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe line $y=2x-2$ crosses the $x$-axis at $x=1$. Find the **value of the definite integral** $\\int_{-1}^{2}(2x-2)\\,dx$.",
+      "structure": "sign-change-region",
+      "mastery": false,
+      "options": [
+        { "text": "$-3$", "correct": true },
+        { "text": "$5$", "why": "Added both pieces as positive, which gives the total area enclosed, not the value of the integral." },
+        { "text": "$3$", "why": "Made the piece above the axis negative and the piece below it positive, reversing both signs." },
+        { "text": "$-5$", "why": "Counted both pieces as negative; only the part below the $x$-axis is negative." }
+      ],
+      "solution_text": "Below the axis, from $x=-1$ to $x=1$: a triangle of base $2$ and height $4$.\nArea $=\\frac{1}{2}(2)(4)=4$, counted as $-4$.\nAbove the axis, from $x=1$ to $x=2$: a triangle of base $1$ and height $2$.\nArea $=\\frac{1}{2}(1)(2)=1$, counted as $+1$.\n$\\int_{-1}^{2}(2x-2)\\,dx=-4+1$\n$=-3$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.4cm]\n\\fill[gray!35] (0,0) -- (0,-6) -- (2,0) -- cycle;\n\\fill[gray!35] (2,0) -- (4,6) -- (4,0) -- cycle;\n\\draw[->] (-1.6,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-8.6) -- (0,9.4) node[above] {$y$};\n\\draw[thick,<->] (-0.4,-7.2) -- (4.6,7.8);\n\\node at (1.2,6) {$y=3x-6$};\n\\foreach \\x in {1,2,3,4} \\draw (\\x,0.3) -- (\\x,-0.3) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-6,-3,3,6} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nFind the **total area enclosed** between $y=3x-6$, the $x$-axis, $x=0$ and $x=4$.",
+      "structure": "sign-change-region",
+      "mastery": false,
+      "options": [
+        { "text": "$12$ square units", "correct": true },
+        { "text": "$0$ square units", "why": "Gave the value of the integral, in which the two equal areas cancel, rather than the total area." },
+        { "text": "$6$ square units", "why": "Found only one of the two triangles; the region has a piece on each side of $x=2$." },
+        { "text": "$24$ square units", "why": "Used base $\\times$ height for each triangle and left out the factor of $\\frac{1}{2}$." }
+      ],
+      "solution_text": "The line crosses the $x$-axis at $x=2$.\nFrom $x=0$ to $x=2$ the region is below the axis: a triangle of base $2$ and height $6$, of area $\\frac{1}{2}(2)(6)=6$.\nFrom $x=2$ to $x=4$ the region is above the axis: a triangle of base $2$ and height $6$, of area $\\frac{1}{2}(2)(6)=6$.\nTotal area counts both pieces as positive.\nTotal area $=6+6$\n$=12$ square units"
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.4cm]\n\\fill[gray!35] (0,0) -- (5,10) -- (5,0) -- cycle;\n\\draw[->] (-1.8,0) -- (6.8,0) node[right] {$x$};\n\\draw[->] (0,-2.6) -- (0,13.4) node[above] {$y$};\n\\draw[thick,<->] (-0.6,-1.2) -- (5.8,11.6);\n\\node at (1.6,9) {$y=2x$};\n\\foreach \\x in {1,2,3,4,5} \\draw (\\x,0.3) -- (\\x,-0.3) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6,8,10} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region lies between $y=2x$ and the $x$-axis from $x=0$ to $x=5$. Use it to evaluate $\\int_{5}^{0}2x\\,dx$.",
+      "structure": "reversed-limits",
+      "mastery": false,
+      "options": [
+        { "text": "$-25$", "correct": true },
+        { "text": "$25$", "why": "Ignored the order of the limits; writing the upper limit below the lower one reverses the sign." },
+        { "text": "$-50$", "why": "Used $bh$ for the triangle instead of $\\frac{1}{2}bh$." },
+        { "text": "$-12.5$", "why": "Used the height $5$ instead of $f(5)=10$ for the vertical side of the triangle." }
+      ],
+      "solution_text": "The shaded region is a triangle of base $5$ and height $f(5)=10$.\n$\\int_{0}^{5}2x\\,dx=\\frac{1}{2}(5)(10)$\n$=25$\nThe limits in the question are the other way round, so the sign reverses.\n$\\int_{5}^{0}2x\\,dx=-25$"
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- (0,2) -- (2,6) -- (5,0) -- cycle;\n\\draw[->] (-1.4,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,7.6) node[above] {$y$};\n\\draw[thick] (0,2) -- (2,6) -- (5,0);\n\\node at (3.8,5) {$y=f(x)$};\n\\foreach \\x in {1,2,3,4,5} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe graph of $y=f(x)$ runs in straight lines from $(0,2)$ to $(2,6)$ and then to $(5,0)$. Evaluate $\\int_{0}^{5}f(x)\\,dx$.",
+      "structure": "triangle-or-trapezium-region",
+      "mastery": false,
+      "options": [
+        { "text": "$17$", "correct": true },
+        { "text": "$13$", "why": "Treated the first piece as a rectangle of height $2$ instead of a trapezium rising from $2$ to $6$." },
+        { "text": "$15$", "why": "Treated the whole region as a single triangle of base $5$ and height $6$, ignoring the height of $2$ at $x=0$." },
+        { "text": "$26$", "why": "Used base $\\times$ height for the second piece and left out the factor of $\\frac{1}{2}$." }
+      ],
+      "solution_text": "Split the region at $x=2$.\nFrom $x=0$ to $x=2$: a trapezium with parallel sides $2$ and $6$, a distance $2$ apart.\nArea $=\\frac{2}{2}(2+6)=8$\nFrom $x=2$ to $x=5$: a triangle of base $3$ and height $6$.\nArea $=\\frac{1}{2}(3)(6)=9$\n$\\int_{0}^{5}f(x)\\,dx=8+9$\n$=17$"
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.7cm, y=0.7cm]\n\\fill[gray!35] (0,0) -- (6,0) arc (0:90:6) -- cycle;\n\\draw[->] (-1.6,0) -- (8,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,8.4) node[above] {$y$};\n\\draw[thick] (6,0) arc (0:90:6);\n\\node at (3.4,7.2) {$y=\\sqrt{36-x^{2}}$};\n\\foreach \\x in {2,4,6} \\draw (\\x,0.16) -- (\\x,-0.16) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6} \\draw (0.16,\\y) -- (-0.16,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe graph of $y=\\sqrt{36-x^{2}}$ is part of a circle centred at the origin. Evaluate $\\int_{0}^{6}\\sqrt{36-x^{2}}\\,dx$.",
+      "structure": "semicircle-region",
+      "mastery": true,
+      "options": [
+        { "text": "$9\\pi$", "correct": true },
+        { "text": "$18\\pi$", "why": "Used half the circle; the region runs from $x=0$ to $x=6$, which is a quarter of it." },
+        { "text": "$36\\pi$", "why": "Used the area of the whole circle instead of the quarter that is shaded." },
+        { "text": "$36$", "why": "Used the square $6\\times 6$ that encloses the region instead of the quarter circle." }
+      ],
+      "solution_text": "The circle $x^{2}+y^{2}=36$ has radius $r=6$.\nThe region runs from $x=0$ to $x=6$ above the axis, which is one quarter of the circle.\n$\\int_{0}^{6}\\sqrt{36-x^{2}}\\,dx=\\frac{1}{4}\\pi r^{2}$\n$=\\frac{1}{4}\\pi(6)^{2}$\n$=9\\pi$"
+    }
+  ]
+}

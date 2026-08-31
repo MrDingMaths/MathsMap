@@ -1,6 +1,6 @@
 // Wave 3: run a directory of generation/repair/audit task files through agy.
 //
-//   node scripts/agy/run-gen.mjs --tasks-dir .agywork/W3-1/gen [--model gemini-3.7-flash-high] [--concurrency 3]
+//   node scripts/agy/run-gen.mjs --tasks-dir .agywork/W3-1/gen [--model gemini-3.7-flash-high] [--concurrency 5]
 //
 // Wave 3 runs gemini-3.7-flash-high (the default) on every lane — owner decision
 // 2026-08-26, no pro tier.
@@ -19,7 +19,7 @@ function arg(flag, fallback) {
 
 const tasksDir = arg('--tasks-dir', '');
 const model = arg('--model', 'gemini-3.7-flash-high');
-const concurrency = Number(arg('--concurrency', '3'));
+const concurrency = Number(arg('--concurrency', '5'));
 
 if (!tasksDir) {
   console.error('usage: node scripts/agy/run-gen.mjs --tasks-dir <dir> [--model id] [--concurrency N]');

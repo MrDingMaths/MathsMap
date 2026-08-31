@@ -1,0 +1,121 @@
+{
+  "skillId": "factorise-polynomial-using-calculus",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Factorise $P(x)=x^{3}-x^{2}-16x-20$ completely.",
+      "structure": "factorise-cubic-with-double-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$(x+2)^{2}(x-5)$", "correct": true },
+        { "text": "$(x-2)^{2}(x+5)$", "why": "Both signs reversed: the zeroes are $-2$ and $5$, not $2$ and $-5$." },
+        { "text": "$(x+2)^{2}(x+5)$", "why": "Sign error in the remaining zero; the zeroes must add to $1$, and $-2-2+5=1$." },
+        { "text": "$(x-2)^{2}(x-5)$", "why": "Sign error in the repeated zero; $P(2)=-48\\ne0$." }
+      ],
+      "solution_text": "$P(-2)=-8-4+32-20$\n$=0$\n$P'(x)=3x^{2}-2x-16$\n$P'(-2)=12+4-16$\n$=0$\n$P''(x)=6x-2$\n$P''(-2)=-14$\nSo $x=-2$ is a zero of multiplicity $2$.\n$-2-2+\\alpha=1$\n$\\alpha=5$\n$P(x)=(x+2)^{2}(x-5)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Factorise $P(x)=2x^{3}-11x^{2}+12x+9$ completely.",
+      "structure": "factorise-non-monic",
+      "mastery": false,
+      "options": [
+        { "text": "$(x-3)^{2}(2x+1)$", "correct": true },
+        { "text": "$(x-3)^{2}(2x-1)$", "why": "The third zero is $-\\dfrac{1}{2}$, so the factor is $(2x+1)$; $(2x-1)$ gives a constant term of $-9$." },
+        { "text": "$(x+3)^{2}(2x+1)$", "why": "Sign error in the repeated zero; $P(-3)=-180\\ne0$." },
+        { "text": "$(x+3)^{2}(2x-1)$", "why": "Both signs reversed, so neither the sum nor the product of the zeroes is correct." }
+      ],
+      "solution_text": "$P(3)=54-99+36+9$\n$=0$\n$P'(x)=6x^{2}-22x+12$\n$P'(3)=54-66+12$\n$=0$\n$P''(x)=12x-22$\n$P''(3)=14$\nSo $x=3$ is a zero of multiplicity $2$.\n$3+3+\\alpha=\\dfrac{11}{2}$\n$\\alpha=-\\dfrac{1}{2}$\n$P(x)=2(x-3)^{2}\\left(x+\\dfrac{1}{2}\\right)$\n$=(x-3)^{2}(2x+1)$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Factorise $P(x)=x^{4}+2x^{3}-12x^{2}-40x-32$ completely.",
+      "structure": "factorise-with-triple-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$(x+2)^{3}(x-4)$", "correct": true },
+        { "text": "$(x+2)^{2}(x-4)^{2}$", "why": "Assumed both zeroes are double instead of testing $P''(-2)$, which is also zero." },
+        { "text": "$(x+2)^{3}(x+4)$", "why": "Sign error in the simple zero; the zeroes must add to $-2$, and $-6+4=-2$." },
+        { "text": "$(x-2)^{3}(x+4)$", "why": "Both signs reversed; $P(2)=-128\\ne0$, so $x=2$ is not a zero." }
+      ],
+      "solution_text": "$P(-2)=16-16-48+80-32$\n$=0$\n$P'(x)=4x^{3}+6x^{2}-24x-40$\n$P'(-2)=-32+24+48-40$\n$=0$\n$P''(x)=12x^{2}+12x-24$\n$P''(-2)=48-24-24$\n$=0$\n$P'''(x)=24x+12$\n$P'''(-2)=-36$\nSo $x=-2$ is a zero of multiplicity $3$.\n$-2-2-2+\\alpha=-2$\n$\\alpha=4$\n$P(x)=(x+2)^{3}(x-4)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Factorise $P(x)=x^{4}+6x^{3}+9x^{2}-4x-12$ completely, given that it has a repeated zero at $x=-2$.",
+      "structure": "factorise-quartic-with-repeated-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$(x+2)^{2}(x+3)(x-1)$", "correct": true },
+        { "text": "$(x+2)^{2}(x-3)(x+1)$", "why": "The two simple zeroes have had their signs swapped; they must add to $-2$, not $2$." },
+        { "text": "$(x-2)^{2}(x+3)(x-1)$", "why": "Sign error in the repeated zero; $P(2)=80\\ne0$." },
+        { "text": "$(x-2)^{2}(x-3)(x+1)$", "why": "Every zero has the wrong sign, so the zeroes add to $6$ instead of $-6$." }
+      ],
+      "solution_text": "$P'(x)=4x^{3}+18x^{2}+18x-4$\n$P'(-2)=-32+72-36-4$\n$=0$\n$P''(x)=12x^{2}+36x+18$\n$P''(-2)=48-72+18$\n$=-6$\nSo $x=-2$ is a zero of multiplicity exactly $2$.\n$-2-2+\\alpha+\\beta=-6$\n$\\alpha+\\beta=-2$\n$(-2)(-2)\\alpha\\beta=-12$\n$\\alpha\\beta=-3$\n$t^{2}+2t-3=0$\n$(t+3)(t-1)=0$\n$t=-3$ or $t=1$\n$P(x)=(x+2)^{2}(x+3)(x-1)$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Solve $x^{4}-8x^{3}+20x^{2}-20x+7=0$, given that it has a repeated root.",
+      "structure": "solve-equation-via-repeated-root",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x=1$ (double), $x=3+\\sqrt{2}$, $x=3-\\sqrt{2}$",
+          "correct": true
+        },
+        {
+          "text": "$x=1$ (double), $x=3+\\sqrt{7}$, $x=3-\\sqrt{7}$",
+          "why": "Took the product of the two remaining roots, $7$, as the number under the surd instead of solving $t^{2}-6t+7=0$, whose roots are $\\dfrac{6\\pm\\sqrt{8}}{2}=3\\pm\\sqrt{2}$."
+        },
+        {
+          "text": "$x=-1$ (double), $x=3+\\sqrt{2}$, $x=3-\\sqrt{2}$",
+          "why": "Sign error in the repeated root: $P(-1)=1+8+20+20+7=56\\ne0$, so $x=-1$ is not a root at all."
+        },
+        {
+          "text": "$x=-1$ (double), $x=3+\\sqrt{7}$, $x=3-\\sqrt{7}$",
+          "why": "Both slips together: the sign error in the repeated root, and the product $7$ used as the number under the surd."
+        }
+      ],
+      "solution_text": "$P(1)=1-8+20-20+7$\n$=0$\n$P'(x)=4x^{3}-24x^{2}+40x-20$\n$P'(1)=4-24+40-20$\n$=0$\n$P''(x)=12x^{2}-48x+40$\n$P''(1)=4$\nSo $x=1$ is a root of multiplicity $2$.\n$1+1+\\alpha+\\beta=8$\n$\\alpha+\\beta=6$\n$(1)(1)\\alpha\\beta=7$\n$\\alpha\\beta=7$\n$t^{2}-6t+7=0$\n$t=\\dfrac{6\\pm\\sqrt{8}}{2}$\n$=3\\pm\\sqrt{2}$\nThe solutions are $x=1$ (twice), $x=3+\\sqrt{2}$ and $x=3-\\sqrt{2}$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Find the cubic polynomial with a double zero at $x=-1$, a simple zero at $x=4$ and $P(0)=8$.",
+      "structure": "construct-polynomial-from-roots",
+      "mastery": false,
+      "options": [
+        { "text": "$P(x)=-2(x+1)^{2}(x-4)$", "correct": true },
+        { "text": "$P(x)=2(x+1)^{2}(x-4)$", "why": "Sign error in $k$: $P(0)=k(1)(-4)=-4k$, so $k=-2$." },
+        { "text": "$P(x)=-2(x-1)^{2}(x+4)$", "why": "The signs inside the factors are reversed, giving zeroes at $1$ and $-4$." },
+        { "text": "$P(x)=2(x-1)^{2}(x+4)$", "why": "Both the sign of $k$ and the signs inside the factors are wrong." }
+      ],
+      "solution_text": "$P(x)=k(x+1)^{2}(x-4)$\n$P(0)=k(1)^{2}(-4)$\n$8=-4k$\n$k=-2$\n$P(x)=-2(x+1)^{2}(x-4)$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The polynomial $P(x)=x^{3}+7x^{2}+8x-16$ has a double zero at $x=-4$. Find the remaining zero.",
+      "structure": "factorise-cubic-with-double-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$x=1$", "correct": true },
+        { "text": "$x=-1$", "why": "Sign error in the sum of the zeroes: $-4-4+\\alpha=-7$ gives $\\alpha=1$." },
+        { "text": "$x=-16$", "why": "Read the constant term as the remaining zero instead of using the sum or product." },
+        { "text": "$x=16$", "why": "Used the product of the zeroes as $16$ without dividing by $(-4)(-4)$." }
+      ],
+      "solution_text": "$-4-4+\\alpha=-7$\n$\\alpha=1$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The polynomial $P(x)=4x^{4}-4x^{3}-23x^{2}+12x+36$ has two repeated zeroes. Factorise it completely.",
+      "structure": "factorise-quartic-with-repeated-zero",
+      "mastery": true,
+      "options": [
+        { "text": "$(2x+3)^{2}(x-2)^{2}$", "correct": true },
+        { "text": "$(2x-3)^{2}(x+2)^{2}$", "why": "Both zeroes have the wrong sign; the zeroes are $-\\dfrac{3}{2}$ and $2$." },
+        { "text": "$(2x+3)^{2}(x+2)^{2}$", "why": "Sign error in the second zero; the zeroes must add to $1$, and $-\\dfrac{3}{2}-\\dfrac{3}{2}+2+2=1$." },
+        { "text": "$(2x+3)^{3}(x-2)$", "why": "Treated $-\\dfrac{3}{2}$ as a triple zero without testing $P''$ at $x=2$, which is also zero." }
+      ],
+      "solution_text": "$P(2)=64-32-92+24+36$\n$=0$\n$P'(x)=16x^{3}-12x^{2}-46x+12$\n$P'(2)=128-48-92+12$\n$=0$\nSo $x=2$ is a zero of multiplicity at least $2$.\n$P\\left(-\\dfrac{3}{2}\\right)=\\dfrac{81}{4}+\\dfrac{27}{2}-\\dfrac{207}{4}-18+36$\n$=0$\n$P'\\left(-\\dfrac{3}{2}\\right)=-54-27+69+12$\n$=0$\nSo $x=-\\dfrac{3}{2}$ is also a zero of multiplicity at least $2$, and $2+2=4$ is the degree.\n$P(x)=4\\left(x+\\dfrac{3}{2}\\right)^{2}(x-2)^{2}$\n$=(2x+3)^{2}(x-2)^{2}$"
+    }
+  ]
+}

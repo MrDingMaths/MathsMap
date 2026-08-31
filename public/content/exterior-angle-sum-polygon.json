@@ -2,20 +2,20 @@
   "skillId": "exterior-angle-sum-polygon",
   "atomType": "R",
   "theory": {
-    "intro": "When one side of a convex polygon is extended, it forms an exterior angle with the next side. Walking once around any convex polygon turns you through one full revolution, so the exterior angles always add to $360^{\\circ}$, no matter how many sides there are.",
-    "facts": [
-      "The exterior angles of any convex polygon add to $360^{\\circ}$.",
-      "An interior angle and its exterior angle are supplementary: they add to $180^{\\circ}$.",
-      "To find a missing exterior angle, subtract the known exterior angles from $360^{\\circ}$.",
-      "This holds for every convex polygon regardless of the number of sides — a triangle, a quadrilateral, a pentagon, and so on.",
-      "If a polygon has one odd exterior angle and the rest equal, form an equation such as $A+B(n-1)=360$ to find the number of sides $n$."
-    ],
-    "steps": [
-      "Add the known exterior angles.",
-      "Set the total equal to $360^{\\circ}$.",
-      "Solve for the unknown."
-    ]
-  },
+        "intro": "Extend one side of a convex polygon and it makes an **exterior angle** with the next side. Walking once around the polygon turns you through one full turn, so the exterior angles always add to $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (P1) at (2.2,-0.2);\n\\coordinate (P2) at (2.6,1.9);\n\\coordinate (P3) at (0.6,3.0);\n\\coordinate (P4) at (-1.4,1.7);\n\\coordinate (P5) at (-0.9,-0.5);\n\\draw (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- cycle;\n\\coordinate (E1) at ($(P5)!1.35!(P1)$);\n\\coordinate (E2) at ($(P1)!1.5!(P2)$);\n\\coordinate (E3) at ($(P2)!1.5!(P3)$);\n\\coordinate (E4) at ($(P3)!1.5!(P4)$);\n\\coordinate (E5) at ($(P4)!1.5!(P5)$);\n\\draw[dashed] (P1) -- (E1);\n\\draw[dashed] (P2) -- (E2);\n\\draw[dashed] (P3) -- (E3);\n\\draw[dashed] (P4) -- (E4);\n\\draw[dashed] (P5) -- (E5);\n\\pic[draw, \"$a$\", angle radius=0.55cm, angle eccentricity=2] {angle = E1--P1--P2};\n\\pic[draw, \"$b$\", angle radius=0.55cm, angle eccentricity=2] {angle = E2--P2--P3};\n\\pic[draw, \"$c$\", angle radius=0.55cm, angle eccentricity=2] {angle = E3--P3--P4};\n\\pic[draw, \"$d$\", angle radius=0.55cm, angle eccentricity=2] {angle = E4--P4--P5};\n\\pic[draw, \"$e$\", angle radius=0.55cm, angle eccentricity=2] {angle = E5--P5--P1};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The exterior angles of any convex polygon add to $360^{\\circ}$.",
+          "An interior angle and its exterior angle lie on a straight line, so they add to $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (A) at (-2.6,0);\n\\coordinate (V) at (0,0);\n\\coordinate (E) at (2.0,0);\n\\coordinate (B) at (-1.3,1.9);\n\\draw (A) -- (V);\n\\draw (V) -- (B);\n\\draw[dashed] (V) -- (E);\n\\pic[draw, \"$i$\", angle radius=0.6cm, angle eccentricity=2] {angle = B--V--A};\n\\pic[draw, \"$e$\", angle radius=0.95cm, angle eccentricity=1.65] {angle = E--V--B};\n\\end{tikzpicture}\n[/tikz]",
+          "To find a missing exterior angle, subtract the known exterior angles from $360^{\\circ}$.",
+          "This holds for every convex polygon, whatever the number of sides.",
+          "If one exterior angle differs and the rest are equal, form an equation such as $A+B(n-1)=360$ to find the number of sides $n$."
+        ],
+        "steps": [
+          "Add the known exterior angles.",
+          "Set the total equal to $360^{\\circ}$.",
+          "Solve for the unknown."
+        ]
+      },
   "practice": {
     "foundation": [
       {

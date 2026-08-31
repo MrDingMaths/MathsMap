@@ -1,0 +1,128 @@
+{
+  "batch": "W4-3",
+  "model": "gemini-3.7-flash-high",
+  "note": "The rest of Standard Y12: the normal distribution (7) + the remaining bivariate/regression skills (4) + the remaining algebraic-relationship models (5) + the remaining ratio and rate applications (5) + the two remaining trigonometry skills (2) = 23. ORDER: no in-wave prereq. IMPORTANT — the seven normal-distribution skills are SHARED with the Advanced topic `t-s6adv12-randomvar`: they are generated ONCE, here, on the Standard booklets, and W4-7 (Advanced random variables) must NOT re-queue them. W4-7 covers only what Advanced adds on top (`normal-distribution-features`, `standard-normal-distribution`, `normal-mean-sd-from-probability`).",
+  "sections": [
+    {
+      "name": "normal-z-scores",
+      "skillIds": ["normal-distribution-shape", "calculate-z-score", "z-score-to-raw-score", "compare-z-scores"],
+      "bookletPaths": [
+        "booklets/Stage 6 Standard/The Normal Distribution 1_Normally distributed datasets.md",
+        "booklets/Stage 6 Standard/The Normal Distribution 2_Calculating z-scores.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "THESE FOUR SKILLS SERVE BOTH THE STANDARD AND THE ADVANCED COURSE (they carry dot points in `t-s6st12-normal` and `t-s6adv12-randomvar`). Author them at the STANDARD level from the Standard booklets — no probability density function, no integration, no continuous-random-variable language. The Advanced extras are separate skills generated in W4-7.",
+        "One routine per skill. `normal-distribution-shape` = recognising a bell-shaped, symmetric distribution with mean $\\approx$ median $\\approx$ mode, and distinguishing it from skewed or bimodal data. `calculate-z-score` = $z=\\frac{x-\\mu}{\\sigma}$ forwards. `z-score-to-raw-score` = $x=\\mu+z\\sigma$ backwards, INCLUDING rearranging to find $\\mu$ or $\\sigma$ from a known $x$ and $z$. `compare-z-scores` = comparing two scores from DIFFERENT datasets and justifying which is relatively better.",
+        "THE SIGN OF $z$ CARRIES THE MEANING: a negative $z$ is below the mean. Every skill needs items on both sides of the mean, and 'computed $\\mu-x$ instead of $x-\\mu$' is the compulsory named distractor.",
+        "IN `compare-z-scores` A LOWER RAW SCORE CAN BE THE BETTER ONE — that is the entire point of the skill, so at least half the items must have the higher raw score lose. The stem must also say which direction is 'better' when the context is ambiguous (a race time, a golf score), or the item has two defensible answers.",
+        "`normal-distribution-shape` CARRIES `[tikz]` FIGURES: a labelled bell curve with the mean marked, and comparison figures for skewed or bimodal shapes. Draw curves as plotted functions clipped to the axis window — never as freehand `plot[smooth] coordinates` — and never write $e^{-x^{2}}$ with `^` inside a plotted TikZ expression; use `exp(-x*x)`.",
+        "Do not shade an area or state a probability anywhere in this section — that is the next section's skill. A $z$-score is a position, not a probability.",
+        "$\\sigma$ IS A POPULATION STANDARD DEVIATION HERE. The shipped skill `standard-deviation` owns computing it from data; state $\\mu$ and $\\sigma$ in the stem rather than making the student derive them, except in at most one mastery card."
+      ]
+    },
+    {
+      "name": "normal-probabilities",
+      "skillIds": ["empirical-rule", "normal-probabilities", "z-table-probability"],
+      "bookletPaths": [
+        "booklets/Stage 6 Standard/The Normal Distribution 1_Normally distributed datasets.md",
+        "booklets/Stage 6 Standard/The Normal Distribution 3_Probability using z-scores.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "tables"],
+      "hazards": [
+        "One routine per skill. `empirical-rule` = the 68–95–99.7 percentages at exactly $\\pm1$, $\\pm2$, $\\pm3$ standard deviations, and the halves and tails derived from them. `normal-probabilities` = probabilities and expected counts for intervals that are whole numbers of standard deviations, with the region SHADED on a curve. `z-table-probability` = reading a supplied standard normal table of $P(Z<c)$ — directly, via $P(Z>c)=1-P(Z<c)$, via $P(a<Z<b)=P(Z<b)-P(Z<a)$, and via symmetry for negative $c$ — then $f=np$ for an expected frequency.",
+        "THE EMPIRICAL RULE ONLY APPLIES AT WHOLE STANDARD DEVIATIONS. An `empirical-rule` or `normal-probabilities` item asking for $P(X<107)$ when $\\sigma=5$ and $\\mu=100$ is unanswerable from the rule; those non-integer $z$ values belong to `z-table-probability` and its table. Keep the two skills' stem spaces strictly apart on exactly this line.",
+        "HALVING IS THE TRAP: $95\\%$ lies within two standard deviations, so the upper tail is $2.5\\%$, not $5\\%$, and the region from the mean to $+2\\sigma$ is $47.5\\%$. 'Forgot to halve the leftover' is the compulsory named distractor everywhere in this section, and every solution must show the tail arithmetic rather than quoting the final percentage.",
+        "THE TABLE MUST APPEAR IN THE ITEM whenever it is needed — as a KaTeX `array` inside `$…$`, never a [tikz] drawing and never 'from the table' with no table shown. Print only the rows the item uses. Table values are $P(Z<c)$ for positive $c$ only, so a negative $z$ must be handled by symmetry in the working.",
+        "EVERY PROBABILITY ITEM CARRIES A SHADED BELL CURVE. On a question card shade nothing (or shade only the region the stem names as given); the solution figure shades the region whose area IS the answer. Draw the curve as a plotted function with `exp(-x*x)`-style expressions — never `^` inside a plotted TikZ expression — clipped to the axis window, with the $z$ or $x$ axis ticked at the boundaries the item uses.",
+        "AN EXPECTED FREQUENCY IS A COUNT AND IS ROUNDED TO A WHOLE NUMBER OF PEOPLE/ITEMS at the end, while a probability is a decimal or a percentage. Pin which is wanted in every stem, and never place `0.0228` and `2.28\\%` and `23 students` in one option list.",
+        "The shipped Y11 Advanced skills `probability-scale`, `theoretical-probability` and the Standard `expected-frequency` own general probability arithmetic. Every item here must be about a NORMALLY DISTRIBUTED variable."
+      ]
+    },
+    {
+      "name": "regression",
+      "skillIds": ["equation-line-of-best-fit", "predict-from-regression-equation", "correlation-coefficient", "least-squares-regression"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Bivariate Data Analysis 2_Scatterplots and lines of best fit.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["data-displays", "curve"],
+      "hazards": [
+        "One routine per skill. `equation-line-of-best-fit` = finding $y=a+bx$ from a DRAWN line (two points on it, gradient and intercept) and INTERPRETING $a$ and $b$ in context with units. `predict-from-regression-equation` = substituting to predict, including deciding whether the given value is $x$ or $y$ and rearranging when it is $y$. `correlation-coefficient` = the meaning and interpretation of Pearson's $r$ — sign, strength, and that it measures LINEAR association only. `least-squares-regression` = obtaining the least-squares line's equation from summary statistics or a stated calculator output and using it.",
+        "THE GRADIENT IS A RATE WITH UNITS: 'for each extra hour studied the mark rises by $4.2$ marks'. An interpretation that says 'the gradient is $4.2$' has not interpreted anything. Likewise the intercept's interpretation must say whether $x=0$ is meaningful in the context, and at least one item must have an intercept that is NOT meaningful.",
+        "CORRELATION IS NOT CAUSATION and $r$ MEASURES LINEAR ASSOCIATION ONLY — a perfect parabola can have $r$ near zero. Both misreadings must appear as named distractors, and at least one `correlation-coefficient` item must offer a causal claim as a wrong option with the reason stated.",
+        "$r$ AND THE GRADIENT SHARE A SIGN BUT ARE NOT THE SAME NUMBER, and $r$ never leaves $[-1,1]$. Never place a gradient value and an $r$ value in the same option list, and make 'quoted the gradient as $r$' a named distractor.",
+        "PREDICTING OUTSIDE THE DATA RANGE IS EXTRAPOLATION AND IS UNRELIABLE — the shipped skill `interpolation-extrapolation` owns that judgement, so items here may state it in a solution but must not make it the question. `predict-from-regression-equation` items are about substituting and rearranging correctly.",
+        "EVERY SCATTERPLOT IS A `[tikz]` FIGURE following the data-displays anti-collision rules: title centred above, y-axis label rotated at the left midpoint, x-axis label on its own centred line under the ticks. Plot 8–12 points that are genuinely scattered about the line — never collinear — and where a line of best fit is drawn, draw it as a straight `\\draw` across the plotted range, not through every point.",
+        "The shipped skills `scatter-plot`, `line-of-best-fit`, `describe-association` and `outlier-effect-line-best-fit` own drawing and describing. Do not re-teach them; every item here must reach the EQUATION or the coefficient."
+      ]
+    },
+    {
+      "name": "non-linear-models",
+      "skillIds": ["exponential-growth-decay-model", "interpret-exponential-model", "quadratic-intercepts-vertex", "interpret-quadratic-model", "interpret-reciprocal-model"],
+      "bookletPaths": [
+        "booklets/Stage 6 Standard/Algebraic Relationships 2_Exponential relationships.md",
+        "booklets/Stage 6 Standard/Algebraic Relationships 3_Quadratic relationships.md",
+        "booklets/Stage 6 Standard/Algebraic Relationships 4_Reciprocal relationships.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `exponential-growth-decay-model` = building and using $y=ka^{x}$ (growth, $a>1$) and $y=ka^{-x}$ (decay), finding $k$ and $a$ from given points. `interpret-exponential-model` = what $k$ means (the initial value), what the horizontal asymptote means in context, and the model's LIMITATIONS. `quadratic-intercepts-vertex` = reading intercepts, the axis of symmetry and the vertex off a DRAWN parabola. `interpret-quadratic-model` = what the vertex and intercepts mean in an applied context (maximum profit, when a ball lands) and where the model stops being valid. `interpret-reciprocal-model` = reading $y=k/x$ off a graph, finding and interpreting $k$, and the asymptotes as limitations.",
+        "THIS IS STANDARD, NOT ADVANCED: no calculus, no completing the square, no logarithms. Solve $ka^{x}=c$ by trial from a table or by reading the graph, never by taking a log — the Advanced course owns that. `quadratic-intercepts-vertex` reads the vertex OFF THE GRAPH; it does not derive $x=-\\frac{b}{2a}$.",
+        "EVERY SKILL IN THIS SECTION CARRIES `[tikz]` GRAPHS on its foundation and development cards — all five titles or blurbs promise a graph or a model to read, and `audit-figure-quota` will fail a skill that ships none. NEVER USE `^` INSIDE A PLOTTED TikZ EXPRESSION: write an exponential as `exp(x*ln(2))`, not `2^x`. Restrict every plot's `domain=` to the axis window and compute where the curve leaves it rather than guessing; a reciprocal curve must be plotted as TWO separate branches that stop short of the asymptote.",
+        "A DECAY MODEL'S ASYMPTOTE IS $y=0$ AND IS NEVER REACHED — 'the population reaches zero in year 8' is a false premise, not a hard item. Every interpretation skill needs one item whose correct answer is a stated LIMITATION of the model (negative time is meaningless, the curve continues past the last data point, the asymptote is never crossed).",
+        "AXIS OF SYMMETRY vs VERTEX vs $x$-INTERCEPT: the axis of symmetry is an EQUATION ($x=3$), the vertex is a POINT ($(3,-4)$), and the intercepts are where the curve meets an axis. Never place $x=3$ and $(3,-4)$ in one option list without the stem pinning which form is wanted, and make 'gave the axis of symmetry when asked for the vertex' a named distractor.",
+        "The shipped skills `graph-quadratic-features`, `graph-exponential-features`, `graph-inverse-variation`, `describe-inverse-variation`, `variation-from-table` and `solve-variation-equation` own the plain graphing and the variation equation. Every item here must go past that into reading a specific feature or interpreting a CONTEXT.",
+        "Give each of the five skills its own context family (bacteria/investment for exponential, projectile/profit for quadratic, travel-time/pressure for reciprocal) and never reuse a scenario across them."
+      ]
+    },
+    {
+      "name": "ratio-and-scale-applications",
+      "skillIds": ["capture-recapture", "area-from-scale", "rainfall-volume"],
+      "bookletPaths": [
+        "booklets/Stage 6 Standard/Ratios and Rates 1_Ratios.md",
+        "booklets/Stage 6 Standard/Applications of Measurement 2_Perimeter, area, volume.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["polygons"],
+      "hazards": [
+        "One routine per skill. `capture-recapture` = $\\dfrac{\\text{marked recaptured}}{\\text{total recaptured}}=\\dfrac{\\text{marked in total}}{N}$ solved for the population $N$, plus the assumptions the method relies on. `area-from-scale` = perimeter and area from a site plan, survey or map at a stated scale, using the Trapezoidal rule for an irregular boundary. `rainfall-volume` = $V=Ah$ with the rainfall depth converted from millimetres.",
+        "THE UNIT CONVERSION IS THE ANSWER IN `rainfall-volume`: $25$ mm of rain on a $150\\,\\text{m}^{2}$ roof is $0.025$ m of depth, giving $3.75\\,\\text{m}^{3}$ $=3750$ L. Every item must convert millimetres to metres BEFORE multiplying, must state the unit wanted (m³ or litres), and 'multiplied by 25 without converting' is the compulsory named distractor. Never place $3.75$ and $3750$ in one option list without the stem pinning the unit.",
+        "AREA SCALES AS THE SQUARE OF THE LENGTH SCALE: at $1:200$, one square centimetre on the plan is $200^{2}=40\\,000$ square centimetres, not $200$. 'Scaled the area by the linear factor' is the compulsory named distractor for `area-from-scale`, and at least half its items must ask for an area rather than a length.",
+        "THE TRAPEZOIDAL RULE HERE IS THE STANDARD-COURSE FORM $A\\approx\\frac{h}{2}(d_{f}+d_{l})$ APPLIED STRIP BY STRIP, with $h$ the strip WIDTH — not the Advanced integral rule. The shipped skills `trapezoidal-rule` and `irregular-land-area` own the bare rule; items here must add the SCALE, so the offsets are read off a plan and converted first.",
+        "`capture-recapture` ITEMS MUST STATE THE ASSUMPTIONS somewhere in the skill (no births/deaths/migration between captures, marked animals mix uniformly, marks are not lost) and at least one item must ask which assumption a described scenario breaks. Population answers round to a whole number of animals.",
+        "SITE PLANS AND SURVEYS ARE `[tikz]` FIGURES — a labelled polygon or a traverse survey with offsets marked — drawn so the LABELLED LENGTHS MATCH THE DRAWN LENGTHS in proportion (`audit-figure-scale` checks this), with the scale stated in the stem, not inferred from the picture."
+      ]
+    },
+    {
+      "name": "rate-applications",
+      "skillIds": ["fuel-consumption", "energy-kilowatt-hours"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Ratios and Rates 2_Rates.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `fuel-consumption` = km/L and L/100 km — converting between them, and using either to find fuel used, distance travelled or fuel cost. `energy-kilowatt-hours` = watts to kilowatts, $\\text{kWh}=\\text{kW}\\times\\text{hours}$, and the running cost at a stated tariff.",
+        "km/L AND L/100 km RUN IN OPPOSITE DIRECTIONS: a HIGHER km/L is more efficient but a LOWER L/100 km is. The conversion is $\\text{L/100 km}=\\frac{100}{\\text{km/L}}$, not a proportion. Both directions must appear in the skill, 'treated the two rates as directly proportional' is the compulsory named distractor, and any 'which car is more efficient' item must state which measure is being compared.",
+        "WATTS TO KILOWATTS IS A DIVISION BY 1000 AND MINUTES TO HOURS IS A DIVISION BY 60 — a 1500 W heater for 40 minutes is $1.5\\times\\frac{40}{60}=1$ kWh. Every item must state the tariff in cents or dollars per kWh and pin the unit of the answer; 'left the power in watts' and 'used 40 as hours' are the compulsory named distractors.",
+        "The shipped skills `rate-problems`, `convert-rate-units`, `simplify-rates` and `best-buys` own generic rate arithmetic and unit conversion. Every item here must be specifically about fuel or about electrical energy, and must not reduce to a bare unit conversion.",
+        "This section is figure-free: emit no [tikz] blocks. Any comparison of two vehicles or two appliances is presented as a short KaTeX `array` table or in prose, never as a chart."
+      ]
+    },
+    {
+      "name": "trigonometry-extensions",
+      "skillIds": ["sine-rule-obtuse", "compass-radial-surveys"],
+      "bookletPaths": ["booklets/Stage 6 Standard/Trigonometry.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["bearings", "polygons", "angles"],
+      "hazards": [
+        "One routine per skill. `sine-rule-obtuse` = the AMBIGUOUS CASE — using $\\sin\\theta=\\sin(180^{\\circ}-\\theta)$ to find the obtuse solution, and deciding from the given information (the side opposite is longer, or the stem states the angle is obtuse) which solution applies. `compass-radial-surveys` = a survey taken from a central point with bearings and distances to each corner: finding the angle AT THE CENTRE between two radials, then the area of each triangle by $\\frac{1}{2}ab\\sin C$ and each boundary length by the cosine rule.",
+        "THE CALCULATOR ONLY EVER RETURNS THE ACUTE ANGLE from $\\sin^{-1}$. Every `sine-rule-obtuse` item must show the subtraction from $180^{\\circ}$ explicitly, and 'gave the calculator's acute value' is the compulsory named distractor. At least one item must be genuinely ambiguous with BOTH triangles valid, and its stem must ask for both — an item that silently wants one of two valid answers is a two-correct-answer defect.",
+        "THE CENTRAL ANGLE OF A RADIAL SURVEY IS A DIFFERENCE OF BEARINGS, and when the survey crosses due north the difference wraps: from $310^{\\circ}$ to $040^{\\circ}$ the angle is $90^{\\circ}$, not $270^{\\circ}$. Include at least one wrapping pair and make 'subtracted the bearings directly' a named distractor.",
+        "THE ANGLES AT THE CENTRE MUST SUM TO $360^{\\circ}$ — check that before keying any radial-survey item, and show the check in at least one solution. A survey whose angles do not close is a false premise no script can see.",
+        "EVERY ITEM IN BOTH SKILLS CARRIES A `[tikz]` FIGURE: a labelled triangle for the sine rule (with the drawn side lengths in proportion to their labels — `audit-figure-scale` checks this) and, for a radial survey, the centre with north drawn as a vertical arrow and each radial labelled with its bearing and distance. Mark every angle with `\\pic {angle=A--V--B}`, never a hand-drawn arc, and never pre-mark the angle or length being asked for.",
+        "The shipped skills `sine-rule`, `sine-rule-angles`, `cosine-rule`, `cosine-rule-angles`, `area-rule-triangle`, `area-rule-reverse`, `bearings`, `bearing-between-two-points`, `bearings-problems` and `non-right-triangle-problems` own the plain rules and plain bearings. Nothing here may be a single application of one rule to an acute triangle: `sine-rule-obtuse` is always about the obtuse/ambiguous case, and `compass-radial-surveys` always combines a central angle with an area or a boundary length."
+      ]
+    }
+  ]
+}

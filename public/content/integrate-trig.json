@@ -1,0 +1,153 @@
+{
+  "skillId": "integrate-trig",
+  "atomType": "R",
+  "theory": {
+    "intro": "Integration reverses differentiation, so each derivative fact gives an integral fact. Because $\\dfrac{d}{dx}(\\cos x) = -\\sin x$, the minus sign moves across: $\\int\\sin x\\,dx = -\\cos x + C$. These formulas hold only when $x$ is measured in **radians**.",
+    "facts": [
+      "$\\int\\sin x\\,dx = -\\cos x + C$, so a minus sign appears when you integrate sine.",
+      "$\\int\\cos x\\,dx = \\sin x + C$, with no minus sign.",
+      "$\\int\\sec^{2}x\\,dx = \\tan x + C$, because $\\dfrac{d}{dx}(\\tan x) = \\sec^{2}x$.",
+      "Check any primitive by differentiating it: the derivative must be the original integrand.",
+      "A constant factor passes straight through, so $\\int k\\cos x\\,dx = k\\sin x + C$.",
+      "Integrate a sum term by term, using the power rule on any non-trigonometric terms.",
+      "Every formula here needs $x$ in **radians**, the angle measure for which $\\dfrac{d}{dx}(\\sin x) = \\cos x$ is true.",
+      "For a definite integral write $\\left[F(x)\\right]_{a}^{b}$ and compute $F(b) - F(a)$ in that order.",
+      "$\\int_{0}^{2\\pi}\\sin x\\,dx = 0$, because the areas above and below the axis cancel.",
+      "A definite integral of $\\sec^{2}x$ is valid only when the interval avoids the asymptotes at $x = \\pm\\dfrac{\\pi}{2}$."
+    ],
+    "steps": [
+      "Split the integrand into separate terms and take any constant factor outside.",
+      "Replace each trigonometric term by its primitive, using $\\int\\sin x\\,dx = -\\cos x$, $\\int\\cos x\\,dx = \\sin x$ and $\\int\\sec^{2}x\\,dx = \\tan x$.",
+      "Add $+C$ for an indefinite integral, or write $\\left[F(x)\\right]_{a}^{b}$ for a definite one.",
+      "Substitute the limits in radians and subtract, or use a given point to find $C$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\int\\cos x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int\\cos x\\,dx$\n$= \\sin x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sin x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int\\sin x\\,dx$\n$= -\\cos x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sec^{2}x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int\\sec^{2}x\\,dx$\n$= \\tan x + C$"
+      },
+      {
+        "question_text": "Find $\\int 5\\sin x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int 5\\sin x\\,dx$\n$= 5\\int\\sin x\\,dx$\n$= -5\\cos x + C$"
+      },
+      {
+        "question_text": "Find $\\int 7\\sec^{2}x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int 7\\sec^{2}x\\,dx$\n$= 7\\int\\sec^{2}x\\,dx$\n$= 7\\tan x + C$"
+      },
+      {
+        "question_text": "Find $\\int -2\\cos x\\,dx$.",
+        "structure": "integrate-basic-trig",
+        "solution_text": "$\\int -2\\cos x\\,dx$\n$= -2\\int\\cos x\\,dx$\n$= -2\\sin x + C$"
+      },
+      {
+        "question_text": "Find $\\int(\\sin x + \\cos x)\\,dx$.",
+        "structure": "integrate-trig-sum",
+        "solution_text": "$\\int(\\sin x + \\cos x)\\,dx$\n$= -\\cos x + \\sin x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(4\\sec^{2}x - \\sin x\\right)dx$.",
+        "structure": "integrate-trig-sum",
+        "solution_text": "$\\int\\left(4\\sec^{2}x - \\sin x\\right)dx$\n$= 4\\tan x - (-\\cos x) + C$\n$= 4\\tan x + \\cos x + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{3}}\\cos x\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{3}}\\cos x\\,dx$\n$= \\left[\\sin x\\right]_{0}^{\\frac{\\pi}{3}}$\n$= \\sin\\dfrac{\\pi}{3} - \\sin 0$\n$= \\dfrac{\\sqrt{3}}{2} - 0$\n$= \\dfrac{\\sqrt{3}}{2}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\pi}\\sin x\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{0}^{\\pi}\\sin x\\,dx$\n$= \\left[-\\cos x\\right]_{0}^{\\pi}$\n$= -\\cos\\pi - (-\\cos 0)$\n$= 1 + 1$\n$= 2$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int\\left(6\\cos x - 5\\sec^{2}x\\right)dx$.",
+        "structure": "integrate-trig-sum",
+        "solution_text": "$\\int\\left(6\\cos x - 5\\sec^{2}x\\right)dx$\n$= 6\\sin x - 5\\tan x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(3x^{2} + \\sin x\\right)dx$.",
+        "structure": "integrate-trig-with-power",
+        "solution_text": "$\\int\\left(3x^{2} + \\sin x\\right)dx$\n$= \\dfrac{3x^{3}}{3} - \\cos x + C$\n$= x^{3} - \\cos x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(\\dfrac{2}{x^{2}} - \\cos x\\right)dx$.",
+        "structure": "integrate-trig-with-power",
+        "solution_text": "$\\int\\left(\\dfrac{2}{x^{2}} - \\cos x\\right)dx$\n$= \\int\\left(2x^{-2} - \\cos x\\right)dx$\n$= \\dfrac{2x^{-1}}{-1} - \\sin x + C$\n$= -\\dfrac{2}{x} - \\sin x + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{\\frac{\\pi}{4}}^{\\frac{\\pi}{2}}\\sin x\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{\\frac{\\pi}{4}}^{\\frac{\\pi}{2}}\\sin x\\,dx$\n$= \\left[-\\cos x\\right]_{\\frac{\\pi}{4}}^{\\frac{\\pi}{2}}$\n$= -\\cos\\dfrac{\\pi}{2} + \\cos\\dfrac{\\pi}{4}$\n$= 0 + \\dfrac{1}{\\sqrt{2}}$\n$= \\dfrac{1}{\\sqrt{2}}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{4}}\\sec^{2}x\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{4}}\\sec^{2}x\\,dx$\n$= \\left[\\tan x\\right]_{0}^{\\frac{\\pi}{4}}$\n$= \\tan\\dfrac{\\pi}{4} - \\tan 0$\n$= 1 - 0$\n$= 1$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{3}}\\left(\\cos x + \\sec^{2}x\\right)dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{3}}\\left(\\cos x + \\sec^{2}x\\right)dx$\n$= \\left[\\sin x + \\tan x\\right]_{0}^{\\frac{\\pi}{3}}$\n$= \\left(\\sin\\dfrac{\\pi}{3} + \\tan\\dfrac{\\pi}{3}\\right) - (0 + 0)$\n$= \\dfrac{\\sqrt{3}}{2} + \\sqrt{3}$\n$= \\dfrac{3\\sqrt{3}}{2}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{-\\frac{\\pi}{2}}^{\\frac{\\pi}{2}}\\cos x\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{-\\frac{\\pi}{2}}^{\\frac{\\pi}{2}}\\cos x\\,dx$\n$= \\left[\\sin x\\right]_{-\\frac{\\pi}{2}}^{\\frac{\\pi}{2}}$\n$= \\sin\\dfrac{\\pi}{2} - \\sin\\left(-\\dfrac{\\pi}{2}\\right)$\n$= 1 - (-1)$\n$= 2$"
+      },
+      {
+        "question_text": "A curve has gradient function $\\dfrac{dy}{dx} = \\cos x$ and passes through $\\left(\\dfrac{\\pi}{2},\\, 3\\right)$. Find the equation of the curve.",
+        "structure": "primitive-through-point",
+        "solution_text": "$y = \\int\\cos x\\,dx$\n$= \\sin x + C$\nSubstitute $x = \\dfrac{\\pi}{2}$ and $y = 3$.\n$3 = \\sin\\dfrac{\\pi}{2} + C$\n$3 = 1 + C$\n$C = 2$\n$y = \\sin x + 2$"
+      },
+      {
+        "question_text": "A curve has gradient function $\\dfrac{dy}{dx} = \\sin x - 2$ and passes through $(0,\\, 5)$. Find $y$ as a function of $x$.",
+        "structure": "primitive-through-point",
+        "solution_text": "$y = \\int(\\sin x - 2)\\,dx$\n$= -\\cos x - 2x + C$\nSubstitute $x = 0$ and $y = 5$.\n$5 = -\\cos 0 - 0 + C$\n$5 = -1 + C$\n$C = 6$\n$y = -\\cos x - 2x + 6$"
+      },
+      {
+        "question_text": "Find $\\int\\left(\\sec^{2}x - \\sin x + 4\\right)dx$.",
+        "structure": "integrate-trig-sum",
+        "solution_text": "$\\int\\left(\\sec^{2}x - \\sin x + 4\\right)dx$\n$= \\tan x - (-\\cos x) + 4x + C$\n$= \\tan x + \\cos x + 4x + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A function satisfies $f''(x) = -\\sin x$, $f'(0) = 2$ and $f(0) = 1$. Find $f(x)$.",
+        "structure": "second-primitive-conditions",
+        "solution_text": "$f'(x) = \\int -\\sin x\\,dx$\n$= \\cos x + C_{1}$\nSubstitute $x = 0$ and $f'(0) = 2$.\n$2 = \\cos 0 + C_{1}$\n$2 = 1 + C_{1}$\n$C_{1} = 1$\n$f(x) = \\int(\\cos x + 1)\\,dx$\n$= \\sin x + x + C_{2}$\nSubstitute $x = 0$ and $f(0) = 1$.\n$1 = 0 + 0 + C_{2}$\n$C_{2} = 1$\n$f(x) = \\sin x + x + 1$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\pi}(3\\sin x - \\cos x)\\,dx$.",
+        "structure": "evaluate-definite-trig",
+        "solution_text": "$\\int_{0}^{\\pi}(3\\sin x - \\cos x)\\,dx$\n$= \\left[-3\\cos x - \\sin x\\right]_{0}^{\\pi}$\n$= (-3\\cos\\pi - \\sin\\pi) - (-3\\cos 0 - \\sin 0)$\n$= (3 - 0) - (-3 - 0)$\n$= 6$"
+      },
+      {
+        "question_text": "Given that $1 + \\tan^{2}x = \\sec^{2}x$, find $\\int\\tan^{2}x\\,dx$.",
+        "structure": "rewrite-then-integrate",
+        "solution_text": "$\\tan^{2}x = \\sec^{2}x - 1$\n$\\int\\tan^{2}x\\,dx$\n$= \\int\\left(\\sec^{2}x - 1\\right)dx$\n$= \\tan x - x + C$"
+      },
+      {
+        "question_text": "A function has $f'(x) = 2\\cos x$ and $f\\left(\\dfrac{\\pi}{6}\\right) = 4$. Find $f\\left(\\dfrac{\\pi}{2}\\right)$.",
+        "structure": "primitive-through-point",
+        "solution_text": "$f(x) = \\int 2\\cos x\\,dx$\n$= 2\\sin x + C$\nSubstitute $x = \\dfrac{\\pi}{6}$ and $f\\left(\\dfrac{\\pi}{6}\\right) = 4$.\n$4 = 2\\sin\\dfrac{\\pi}{6} + C$\n$4 = 1 + C$\n$C = 3$\n$f(x) = 2\\sin x + 3$\n$f\\left(\\dfrac{\\pi}{2}\\right) = 2\\sin\\dfrac{\\pi}{2} + 3$\n$= 5$"
+      }
+    ]
+  }
+}

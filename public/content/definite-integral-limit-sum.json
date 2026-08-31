@@ -1,0 +1,99 @@
+{
+  "skillId": "definite-integral-limit-sum",
+  "atomType": "T",
+  "theory": {
+    "intro": "Split $a\\le x\\le b$ into strips of width $\\Delta x$ and build a rectangle on each, of height $f(x)$. Adding their areas gives the **Riemann sum** $\\sum f(x)\\Delta x$, an estimate of the area. The **definite integral** $\\int_{a}^{b}f(x)\\,dx$ is the limit of that sum as $\\Delta x\\to 0$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (2,1.909);\n\\fill[gray!35] (2,0) rectangle (3,2.338);\n\\fill[gray!35] (3,0) rectangle (4,2.700);\n\\fill[gray!35] (4,0) rectangle (5,3.019);\n\\draw (1,0) rectangle (2,1.909);\n\\draw (2,0) rectangle (3,2.338);\n\\draw (3,0) rectangle (4,2.700);\n\\draw (4,0) rectangle (5,3.019);\n\\draw[->] (-0.4,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick,->,domain=0:6,smooth,variable=\\x] plot ({\\x},{1.35*sqrt(\\x)});\n\\node at (4.2,4) {$y=f(x)$};\n\\node[below] at (1,-0.12) {$a$};\n\\node[below] at (5,-0.12) {$b$};\n\\draw[<->] (3,-0.85) -- (4,-0.85) node[midway,below] {$\\Delta x$};\n\\draw[<->] (5.55,0) -- (5.55,3.019) node[midway,right] {$f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "Each strip has width $\\Delta x=\\frac{b-a}{n}$, where $n$ is the number of strips.",
+      "The area of one rectangle is height $\\times$ width, written $f(x)\\Delta x$.",
+      "Splitting $a\\le x\\le b$ into $n$ strips creates $n+1$ boundary points $x_{0},x_{1},\\dots,x_{n}$.",
+      "$\\int_{a}^{b}f(x)\\,dx=\\lim_{\\Delta x\\to 0}\\sum_{a}^{b}f(x)\\Delta x$, so thinner strips give a better estimate.",
+      "In $\\int_{a}^{b}f(x)\\,dx$, $a$ is the lower limit, $b$ is the upper limit and $f(x)$ is the integrand.",
+      "The integral is negative wherever $f(x)\\le 0$, because those rectangle heights are negative.",
+      "When $f(x)$ is a rate of change, $\\sum_{a}^{b}f(x)\\Delta x$ estimates the total change over $a\\le x\\le b$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.6cm]\n\\fill[gray!35] (0,0) -- (0,1) -- (3,7) -- (3,0) -- cycle;\n\\draw[->] (-1.2,0) -- (4.2,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,9) node[above] {$y$};\n\\draw[thick,<->] (-1,-1) -- (3.8,8.6);\n\\node at (1.2,6) {$y=2x+1$};\n\\foreach \\x in {1,2,3} \\draw (\\x,0.25) -- (\\x,-0.25) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6,8} \\draw (0.08,\\y) -- (-0.08,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region lies between the line and the $x$-axis. Write the definite integral that gives its area.",
+        "structure": "read-integral-parts",
+        "solution_text": "The region runs from $x=0$ to $x=3$, so these are the limits.\nThe height of the region at each $x$ is $2x+1$.\nArea $=\\int_{0}^{3}(2x+1)\\,dx$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) -- (1,1.25) -- plot[smooth,domain=1:4,variable=\\x] ({\\x},{0.25*\\x*\\x+1}) -- (4,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,6.4) node[above] {$y$};\n\\draw[thick,->,domain=0:4.5,smooth,variable=\\x] plot ({\\x},{0.25*\\x*\\x+1});\n\\node at (2.3,4.6) {$y=f(x)$};\n\\foreach \\x in {1.5,2,2.5,3,3.5} \\draw[dashed] (\\x,0) -- (\\x,{0.25*\\x*\\x+1});\n\\draw (1,0.15) -- (1,-0.15) node[below] {$1$};\n\\draw (4,0.15) -- (4,-0.15) node[below] {$4$};\n\\end{tikzpicture}\n[/tikz]\nThe interval $1\\le x\\le 4$ has been divided into $6$ equal strips, shown by the dashed lines. Find $\\Delta x$, and state how many boundary points the $6$ strips have.",
+        "structure": "strip-width",
+        "solution_text": "$\\Delta x=\\frac{b-a}{n}$\n$=\\frac{4-1}{6}$\n$=0.5$\n$6$ strips have $6+1=7$ boundary points."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- plot[smooth,domain=0:2,variable=\\x] ({\\x},{\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,5.2) node[above] {$y$};\n\\draw[thick,->,domain=0:2.25,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node at (0.8,3.6) {$y=x^{2}$};\n\\foreach \\x in {1,2} \\draw (\\x,0.12) -- (\\x,-0.12) node[below] {$\\x$};\n\\foreach \\y in {1,2,3,4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is estimated by rectangles of width $\\Delta x$. Write $\\lim_{\\Delta x\\to 0}\\sum_{0}^{2}x^{2}\\,\\Delta x$ as a definite integral.",
+        "structure": "sum-to-integral",
+        "solution_text": "$\\lim_{\\Delta x\\to 0}\\sum_{0}^{2}x^{2}\\,\\Delta x$\n$=\\int_{0}^{2}x^{2}\\,dx$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- (0,-4) -- (3,-1) -- (3,0) -- cycle;\n\\draw[->] (-1.2,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-5.2) -- (0,1.6) node[above] {$y$};\n\\draw[thick,<->] (-0.8,-4.8) -- (4.4,0.4);\n\\node at (3.2,-2.4) {$y=x-4$};\n\\foreach \\x in {1,2,3,4} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-1,-2,-3,-4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region lies entirely below the $x$-axis. Is $\\int_{0}^{3}(x-4)\\,dx$ positive, negative or zero? Give a reason.",
+        "structure": "sign-of-integral",
+        "solution_text": "For $0\\le x\\le 3$ we have $x<4$, so $x-4<0$ throughout.\nEvery rectangle height $f(x)$ is negative, so every term $f(x)\\Delta x$ is negative.\nThe integral is negative."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.4cm]\n\\fill[gray!35] (0,0) -- (0,3) -- (4,11) -- (4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.6,0) node[right] {$t$ (s)};\n\\draw[->] (0,-1.5) -- (0,14) node[above] {$v$ (m/s)};\n\\draw[thick,->] (0,3) -- (5.2,13.4);\n\\node at (1.6,10.5) {$v=2t+3$};\n\\foreach \\x in {1,2,3,4} \\draw (\\x,0.4) -- (\\x,-0.4) node[below] {$\\x$};\n\\foreach \\y in {3,6,9,12} \\draw (0.1,\\y) -- (-0.1,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe graph shows the speed $v$ metres per second of a trolley over $0\\le t\\le 4$ seconds. State what $\\sum_{0}^{4}v\\,\\Delta t$ estimates, and give its units.",
+        "structure": "rate-of-change-meaning",
+        "solution_text": "One rectangle has area $v\\,\\Delta t$, a speed multiplied by a time, which is a distance in metres.\nAdding all the rectangles gives $\\sum_{0}^{4}v\\,\\Delta t$.\nSo the sum estimates the total distance travelled in the first $4$ seconds, in metres."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1,0) -- (-1,3) -- plot[smooth,domain=-1:2,variable=\\x] ({\\x},{4-\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.2,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-1.8) -- (0,5.4) node[above] {$y$};\n\\draw[thick,<->,domain=-2.35:2.35,smooth,variable=\\x] plot ({\\x},{4-\\x*\\x});\n\\node at (2.0,3.4) {$y=4-x^{2}$};\n\\foreach \\x in {-2,-1,1,2} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {1,2,3,4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is the area measured by $\\int_{-1}^{2}(4-x^{2})\\,dx$. State the lower limit, the upper limit and the integrand.",
+        "structure": "read-integral-parts",
+        "solution_text": "Lower limit: $-1$\nUpper limit: $2$\nIntegrand: $4-x^{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-2,0) -- (-2,2) -- plot[smooth,domain=-2:4,variable=\\x] ({\\x},{0.25*\\x*\\x+1}) -- (4,0) -- cycle;\n\\draw[->] (-3.2,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-0.7) -- (0,6.4) node[above] {$y$};\n\\draw[thick,<->,domain=-3:4.6,smooth,variable=\\x] plot ({\\x},{0.25*\\x*\\x+1});\n\\node at (-1.6,4.6) {$y=f(x)$};\n\\foreach \\x in {-1.25,-0.5,0.25,1,1.75,2.5,3.25} \\draw[dashed] (\\x,0) -- (\\x,{0.25*\\x*\\x+1});\n\\draw (-2,0.15) -- (-2,-0.15) node[below,fill=white,inner sep=1pt] {$-2$};\n\\draw (4,0.15) -- (4,-0.15) node[below,fill=white,inner sep=1pt] {$4$};\n\\end{tikzpicture}\n[/tikz]\nThe area measured by $\\int_{-2}^{4}f(x)\\,dx$ is estimated using $8$ strips of equal width, shown by the dashed lines. Find $\\Delta x$, and find the $x$-coordinate of the third boundary point, counting $x=-2$ as the first.",
+        "structure": "strip-width",
+        "solution_text": "$\\Delta x=\\frac{b-a}{n}$\n$=\\frac{4-(-2)}{8}$\n$=\\frac{6}{8}$\n$=0.75$\nThe boundary points start at $x_{0}=-2$ and increase by $0.75$, so the third one is $x_{2}$.\n$x_{2}=-2+2(0.75)$\n$=-0.5$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.55cm]\n\\fill[gray!35] (1,0) -- (1,1) -- plot[smooth,domain=1:9,variable=\\x] ({\\x},{sqrt(\\x)}) -- (9,0) -- cycle;\n\\draw[->] (-0.8,0) -- (10.8,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.2) node[above] {$y$};\n\\draw[thick,->,domain=0:10.2,smooth,variable=\\x] plot ({\\x},{sqrt(\\x)});\n\\node at (6.6,3.3) {$y=\\sqrt{x}$};\n\\foreach \\x in {1,3,5,7,9} \\draw (\\x,0.12) -- (\\x,-0.12) node[below] {$\\x$};\n\\foreach \\y in {1,2,3} \\draw (0.2,\\y) -- (-0.2,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is bounded by $y=\\sqrt{x}$, the $x$-axis, $x=1$ and $x=9$. Write its area first as a limit of a sum, then as a definite integral.",
+        "structure": "sum-to-integral",
+        "solution_text": "Each rectangle has height $\\sqrt{x}$ and width $\\Delta x$.\nArea $=\\lim_{\\Delta x\\to 0}\\sum_{1}^{9}\\sqrt{x}\\,\\Delta x$\n$=\\int_{1}^{9}\\sqrt{x}\\,dx$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1,-3) -- plot[smooth,domain=-1:2,variable=\\x] ({\\x},{\\x*\\x-4}) -- (2,0) -- (-1,0) -- cycle;\n\\fill[gray!35] (2,0) -- plot[smooth,domain=2:3,variable=\\x] ({\\x},{\\x*\\x-4}) -- (3,0) -- cycle;\n\\draw[->] (-3.4,0) -- (3.8,0) node[right] {$x$};\n\\draw[->] (0,-5.2) -- (0,6.6) node[above] {$y$};\n\\draw[thick,<->,domain=-2.9:3.2,smooth,variable=\\x] plot ({\\x},{\\x*\\x-4});\n\\node at (2.3,4.6) {$y=x^{2}-4$};\n\\foreach \\x in {-2,-1,1,2,3} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-4,-2,2,4} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is the region between $y=x^{2}-4$ and the $x$-axis for $-1\\le x\\le 3$. Explain why $\\int_{-1}^{3}(x^{2}-4)\\,dx$ is negative, even though part of the region lies above the $x$-axis.",
+        "structure": "sign-of-integral",
+        "solution_text": "For $-1\\le x<2$ the curve is below the $x$-axis, so those rectangle heights are negative.\nFor $2<x\\le 3$ the curve is above the axis, so those heights are positive.\nThe part below the axis is $3$ units wide and up to $4$ units deep, while the part above is only $1$ unit wide and at most $5$ units high, so the negative contribution is the larger.\nThe integral is therefore negative."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.4cm]\n\\fill[gray!35] (0,0) -- (0,10) -- (6,4) -- (6,0) -- cycle;\n\\draw[->] (-0.7,0) -- (7.8,0) node[right] {$t$ (min)};\n\\draw[->] (0,-1.6) -- (0,13.6) node[above] {$R$ (L/min)};\n\\draw[thick,->] (0,10) -- (7.4,2.6);\n\\node at (3.4,9.5) {$R=10-t$};\n\\foreach \\x in {1,2,3,4,5,6} \\draw (\\x,0.4) -- (\\x,-0.4) node[below] {$\\x$};\n\\foreach \\y in {2,4,6,8,10,12} \\draw (0.12,\\y) -- (-0.12,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nWater flows into a tank at a rate $R$ litres per minute, as graphed. Explain what $\\int_{0}^{6}R\\,dt$ represents, and state its units.",
+        "structure": "rate-of-change-meaning",
+        "solution_text": "One rectangle has area $R\\,\\Delta t$, a rate in litres per minute multiplied by a time in minutes, which is a volume in litres.\nThe integral is the limit of the sum of these rectangles as $\\Delta t\\to 0$.\nSo $\\int_{0}^{6}R\\,dt$ is the total volume of water that flows in during the first $6$ minutes, in litres."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm]\n\\fill[gray!35] (2,0) -- (2,4) -- plot[smooth,domain=2:8,variable=\\x] ({\\x},{8/\\x}) -- (8,0) -- cycle;\n\\draw[->] (-0.8,0) -- (10.2,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,6.6) node[above] {$y$};\n\\draw[thick,<->,domain=1.4:9.6,smooth,variable=\\x] plot ({\\x},{8/\\x});\n\\node at (6.2,3.4) {$y=\\frac{8}{x}$};\n\\foreach \\x in {2,4,6,8} \\draw (\\x,0.12) -- (\\x,-0.12) node[below] {$\\x$};\n\\foreach \\y in {1,2,3,4,5} \\draw (0.2,\\y) -- (-0.2,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nWrite the definite integral represented by the shaded area, then state the value of $b-a$ for that integral.",
+        "structure": "read-integral-parts",
+        "solution_text": "The region runs from $x=2$ to $x=8$ under $y=\\frac{8}{x}$.\nArea $=\\int_{2}^{8}\\frac{8}{x}\\,dx$\n$b-a=8-2$\n$=6$"
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.2cm]\n\\fill[gray!35] (2,0) -- (2,4) -- plot[smooth,domain=2:5,variable=\\x] ({\\x},{\\x*\\x}) -- (5,0) -- cycle;\n\\draw[->] (-0.6,0) -- (6.2,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,31) node[above] {$y$};\n\\draw[thick,->,domain=0:5.5,smooth,variable=\\x] plot ({\\x},{\\x*\\x});\n\\node at (1.8,22) {$y=x^{2}$};\n\\foreach \\x in {1,2,3,4,5} \\draw (\\x,0.8) -- (\\x,-0.8) node[below] {$\\x$};\n\\foreach \\y in {5,10,15,20,25} \\draw (0.12,\\y) -- (-0.12,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is divided into $n$ equal strips of width $\\Delta x$. Write $\\Delta x$ in terms of $n$, and state what $\\sum_{2}^{5}x^{2}\\,\\Delta x$ approaches as $n\\to\\infty$.",
+        "structure": "sum-to-integral",
+        "solution_text": "$\\Delta x=\\frac{b-a}{n}$\n$=\\frac{5-2}{n}$\n$=\\frac{3}{n}$\nAs $n\\to\\infty$ the strips get thinner, so $\\Delta x\\to 0$.\n$\\lim_{\\Delta x\\to 0}\\sum_{2}^{5}x^{2}\\,\\Delta x$\n$=\\int_{2}^{5}x^{2}\\,dx$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) -- (0,3) -- (3,0) -- cycle;\n\\fill[gray!35] (3,0) -- (5,-2) -- (5,0) -- cycle;\n\\draw[->] (-1.4,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,4.6) node[above] {$y$};\n\\draw[thick,<->] (-1,4) -- (6,-3);\n\\node at (4,2) {$y=3-x$};\n\\foreach \\x in {1,2,3,4,5} \\draw (\\x,0.12) -- (\\x,-0.12) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-2,2} \\draw (0.12,\\y) -- (-0.12,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nWithout evaluating it, decide whether $\\int_{0}^{5}(3-x)\\,dx$ is positive, negative or zero, and justify your decision from the graph.",
+        "structure": "sign-of-integral",
+        "solution_text": "The line crosses the $x$-axis at $x=3$.\nFor $0\\le x<3$ the curve is above the axis, giving positive rectangle heights over a width of $3$, with heights up to $3$.\nFor $3<x\\le 5$ the curve is below the axis, giving negative heights over a width of only $2$, with depths only up to $2$.\nThe positive part is both wider and taller, so the sum of the signed rectangle areas is positive."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.5cm]\n\\fill[gray!35] (-3,0) -- (-3,1.5) -- plot[smooth,domain=-3:7,variable=\\x] ({\\x},{0.06*(\\x+3)*(7-\\x)+1.5}) -- (7,0) -- cycle;\n\\fill[gray!70] (1,0) -- (1,2.94) -- plot[smooth,domain=1:1.4,variable=\\x] ({\\x},{0.06*(\\x+3)*(7-\\x)+1.5}) -- (1.4,0) -- cycle;\n\\draw[->] (-4.6,0) -- (8.8,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick,<->,domain=-4:8,smooth,variable=\\x] plot ({\\x},{0.06*(\\x+3)*(7-\\x)+1.5});\n\\node at (4.6,3.6) {$y=f(x)$};\n\\draw (-3,0.12) -- (-3,-0.12) node[below] {$-3$};\n\\draw (7,0.12) -- (7,-0.12) node[below] {$7$};\n\\draw[<->] (1,-0.6) -- (1.4,-0.6);\n\\node[below] at (1.2,-0.65) {$\\Delta x=0.4$};\n\\end{tikzpicture}\n[/tikz]\nA Riemann sum for $\\int_{-3}^{7}f(x)\\,dx$ uses strips of width $\\Delta x=0.4$, one of which is shaded darker. How many strips are there, and how many boundary points?",
+        "structure": "strip-width",
+        "solution_text": "$n=\\frac{b-a}{\\Delta x}$\n$=\\frac{7-(-3)}{0.4}$\n$=\\frac{10}{0.4}$\n$=25$\nThere are $25$ strips, and $25+1=26$ boundary points."
+      },
+      {
+        "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.5cm, y=0.3cm]\n\\fill[gray!35] (0,0) -- (0,12) -- (6,0) -- cycle;\n\\fill[gray!35] (6,0) -- (10,-8) -- (10,0) -- cycle;\n\\draw[->] (-1.6,0) -- (12,0) node[right] {$t$ (s)};\n\\draw[->] (0,-11) -- (0,15.5) node[above] {$v$ (m/s)};\n\\draw[thick,<->] (-1,14) -- (11,-10);\n\\node at (8,7) {$v=12-2t$};\n\\foreach \\x in {2,4,6,8,10} \\draw (\\x,0.5) -- (\\x,-0.5) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-8,-4,4,8,12} \\draw (0.2,\\y) -- (-0.2,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nA car's velocity $v$ metres per second over $0\\le t\\le 10$ seconds is graphed, with $v$ negative after $t=6$ because the car reverses. Explain what $\\int_{0}^{10}v\\,dt$ measures, and why it is smaller than the total distance the car travels.",
+        "structure": "rate-of-change-meaning",
+        "solution_text": "Each rectangle has area $v\\,\\Delta t$, a velocity multiplied by a time, which is a change in position in metres.\nSo $\\int_{0}^{10}v\\,dt$ measures the change in displacement over the $10$ seconds.\nFor $6<t\\le 10$ the velocity is negative, so those rectangles have negative areas and are subtracted.\nTotal distance counts the reversing part as extra distance travelled, so the integral is smaller than the total distance."
+      }
+    ]
+  }
+}

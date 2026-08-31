@@ -1,0 +1,205 @@
+{
+  "skillId": "average-speed-distance-time",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The distance–time graph shows a car travelling at constant speed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$d$};\n\\foreach \\x in {1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/50,2/100,3/150,4/200,5/250} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0) -- (2.5,3.6);\n\\fill (2.5,3.6) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (2.5,3.6) {$(2.5,180)$};\n\\node[rotate=90] at (-1.3,2.75) {Distance (km)};\n\\node[below] at (2.7,-0.9) {Time (h)};\n\\end{tikzpicture}\n[/tikz]\nWhat is the average speed of the car?",
+      "structure": "calculate-average-speed-single-stage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$72\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$180\\text{ km/h}$",
+          "why": "States the total distance instead of dividing distance by time."
+        },
+        {
+          "text": "$45\\text{ km/h}$",
+          "why": "Divides $180$ by $4$ instead of the actual elapsed time of $2.5\\text{ hours}$."
+        },
+        {
+          "text": "$90\\text{ km/h}$",
+          "why": "Divides $180$ by $2$ instead of $2.5\\text{ hours}$."
+        }
+      ],
+      "solution_text": "$\\text{Average speed} = \\dfrac{\\text{Total distance}}{\\text{Total time}}$\n$= \\dfrac{180}{2.5}$\n$= 72\\text{ km/h}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph shows a journey where a driver travels $90\\text{ km}$ in $1.5\\text{ hours}$, stops for $0.5\\text{ hours}$, and travels another $60\\text{ km}$ in $1\\text{ hour}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (4.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$d$};\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/30,2/60,3/90,4/120,5/150} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[very thick,blue] (0,0) -- (1.5,3.0) -- (2.0,3.0) -- (3.0,5.0);\n\\fill (0,0) circle (2.5pt);\n\\fill (1.5,3.0) circle (2.5pt);\n\\fill (2.0,3.0) circle (2.5pt);\n\\fill (3.0,5.0) circle (2.5pt);\n\\node[rotate=90] at (-1.3,2.75) {Distance (km)};\n\\node[below] at (2.2,-0.9) {Time (h)};\n\\end{tikzpicture}\n[/tikz]\nWhat is the overall average speed for the entire $3\\text{-hour}$ trip?",
+      "structure": "calculate-average-speed-multistage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$50\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$62.5\\text{ km/h}$",
+          "why": "Excludes the 0.5 hour rest stop from the total time (calculating $\\frac{150}{2.4} = 62.5\\text{ km/h}$)."
+        },
+        {
+          "text": "$37.5\\text{ km/h}$",
+          "why": "Divides total distance $150$ by $4\\text{ hours}$ rather than the actual $3\\text{ hours}$."
+        },
+        {
+          "text": "$40\\text{ km/h}$",
+          "why": "Divides the remaining $60\\text{ km}$ by $1.5\\text{ hours}$ instead of using total values."
+        }
+      ],
+      "solution_text": "$\\text{Total distance} = 90 + 60 = 150\\text{ km}$\n$\\text{Total time} = 1.5 + 0.5 + 1.0 = 3.0\\text{ h}$\n$\\text{Average speed} = \\dfrac{150}{3.0}$\n$= 50\\text{ km/h}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A motorist drives $120\\text{ km}$ at $60\\text{ km/h}$ on the outbound trip, and returns along the same $120\\text{ km}$ route at $40\\text{ km/h}$. What is the motorist's average speed for the entire round trip?",
+      "structure": "compare-leg-speeds-to-average",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$48\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$50\\text{ km/h}$",
+          "why": "Averages the two speeds directly ($\\frac{60+40}{2} = 50\\text{ km/h}$) instead of dividing total distance by total time."
+        },
+        {
+          "text": "$52\\text{ km/h}$",
+          "why": "Calculates an incorrect weighted arithmetic mean of the two speeds."
+        },
+        {
+          "text": "$24\\text{ km/h}$",
+          "why": "Calculates one-way distance divided by total time ($\\frac{120}{5} = 24\\text{ km/h}$)."
+        }
+      ],
+      "solution_text": "$\\text{Time outbound} = \\dfrac{120}{60} = 2\\text{ h}$\n$\\text{Time return} = \\dfrac{120}{40} = 3\\text{ h}$\n$\\text{Total time} = 2 + 3 = 5\\text{ h}$\n$\\text{Total distance} = 120 + 120 = 240\\text{ km}$\n$\\text{Average speed} = \\dfrac{240}{5}$\n$= 48\\text{ km/h}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A hiker walks $8\\text{ km}$ to a viewpoint in $2\\text{ hours}$, rests for $1\\text{ hour}$, and walks $8\\text{ km}$ back in $1\\text{ hour}$. What is their average speed for the entire $4\\text{-hour}$ outing?",
+      "structure": "interpret-distance-time-features",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$0\\text{ km/h}$",
+          "why": "Confuses average speed with average velocity, using net displacement ($0\\text{ km}$) instead of total distance."
+        },
+        {
+          "text": "$5.33\\text{ km/h}$",
+          "why": "Omits the 1 hour rest time from the total time (calculating $\\frac{16}{3} \\approx 5.33\\text{ km/h}$)."
+        },
+        {
+          "text": "$2\\text{ km/h}$",
+          "why": "Divides one-way distance $8\\text{ km}$ by total time $4\\text{ hours}$."
+        }
+      ],
+      "solution_text": "$\\text{Total distance} = 8 + 8 = 16\\text{ km}$\n$\\text{Total time} = 2 + 1 + 1 = 4\\text{ h}$\n$\\text{Average speed} = \\dfrac{16}{4}$\n$= 4\\text{ km/h}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A cyclist starts from rest and travels a distance $d(t) = t^2 + 2t$ metres in $t$ seconds. What is their average speed over the first $4\\text{ seconds}$?",
+      "structure": "calculate-average-speed-single-stage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6\\text{ m/s}$",
+          "correct": true
+        },
+        {
+          "text": "$24\\text{ m/s}$",
+          "why": "States the total distance $d(4) = 24\\text{ m}$ without dividing by the elapsed time of $4\\text{ s}$."
+        },
+        {
+          "text": "$10\\text{ m/s}$",
+          "why": "Computes the instantaneous speed at $t=4$ ($2t+2 = 10$) instead of the average speed over $[0, 4]$."
+        },
+        {
+          "text": "$4\\text{ m/s}$",
+          "why": "Divides total distance by $6$ instead of dividing by the $4\\text{-second}$ time interval."
+        }
+      ],
+      "solution_text": "$d(0) = 0\\text{ m}$\n$d(4) = 4^2 + 2(4) = 16 + 8 = 24\\text{ m}$\n$\\text{Average speed} = \\dfrac{24 - 0}{4 - 0}$\n$= \\dfrac{24}{4}$\n$= 6\\text{ m/s}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A courier drives $42\\text{ km}$ in $30\\text{ minutes}$, spends $15\\text{ minutes}$ dropping off a parcel, and then drives $28\\text{ km}$ in $15\\text{ minutes}$. What is their average speed in $\\text{km/h}$ for the whole trip?",
+      "structure": "calculate-average-speed-multistage",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$70\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$93.33\\text{ km/h}$",
+          "why": "Ignores the $15\\text{-minute}$ delivery stop (calculating $70\\text{ km} \\div 0.75\\text{ h} \\approx 93.33\\text{ km/h}$)."
+        },
+        {
+          "text": "$84\\text{ km/h}$",
+          "why": "Takes only the initial leg speed of $42\\text{ km} \\div 0.5\\text{ h} = 84\\text{ km/h}$."
+        },
+        {
+          "text": "$35\\text{ km/h}$",
+          "why": "Divides first leg distance $35\\text{ km}$ by total time $1\\text{ hour}$."
+        }
+      ],
+      "solution_text": "$\\text{Total distance} = 42 + 28 = 70\\text{ km}$\n$\\text{Total time} = 30 + 15 + 15 = 60\\text{ min} = 1\\text{ h}$\n$\\text{Average speed} = \\dfrac{70}{1}$\n$= 70\\text{ km/h}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A swimmer swims $100\\text{ m}$ at a speed of $2\\text{ m/s}$ and then swims $100\\text{ m}$ back at $1\\text{ m/s}$. What is their average speed for the total $200\\text{ m}$ swim?",
+      "structure": "compare-leg-speeds-to-average",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1.33\\text{ m/s}$",
+          "correct": true
+        },
+        {
+          "text": "$1.5\\text{ m/s}$",
+          "why": "Takes the simple arithmetic mean of the two speeds ($\\frac{2+1}{2} = 1.5\\text{ m/s}$) ignoring time spent."
+        },
+        {
+          "text": "$1.0\\text{ m/s}$",
+          "why": "Takes the minimum of the two speeds rather than calculating total distance over total time."
+        },
+        {
+          "text": "$3.0\\text{ m/s}$",
+          "why": "Adds the two speeds together ($2 + 1 = 3\\text{ m/s}$) instead of finding average rate."
+        }
+      ],
+      "solution_text": "$t_1 = \\dfrac{100}{2} = 50\\text{ s}$\n$t_2 = \\dfrac{100}{1} = 100\\text{ s}$\n$t_{\\text{total}} = 50 + 100 = 150\\text{ s}$\n$\\text{Average speed} = \\dfrac{200}{150}$\n$= 1.33\\text{ m/s}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A boat travels $30\\text{ km}$ upstream in $2\\text{ hours}$ and returns $30\\text{ km}$ downstream in $1\\text{ hour}$. What is the boat's average speed for the $60\\text{-km}$ round trip?",
+      "structure": "calculate-average-speed-multistage",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$20\\text{ km/h}$",
+          "correct": true
+        },
+        {
+          "text": "$22.5\\text{ km/h}$",
+          "why": "Calculates the simple average of the upstream speed ($15$) and downstream speed ($30$): $\\frac{15+30}{2} = 22.5\\text{ km/h}$."
+        },
+        {
+          "text": "$15\\text{ km/h}$",
+          "why": "Takes only the slower upstream speed instead of total distance over total time."
+        },
+        {
+          "text": "$30\\text{ km/h}$",
+          "why": "Takes only the faster downstream speed instead of the overall journey rate."
+        }
+      ],
+      "solution_text": "$\\text{Total distance} = 30 + 30 = 60\\text{ km}$\n$\\text{Total time} = 2 + 1 = 3\\text{ h}$\n$\\text{Average speed} = \\dfrac{60}{3}$\n$= 20\\text{ km/h}$"
+    }
+  ]
+}

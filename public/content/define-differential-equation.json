@@ -1,0 +1,126 @@
+{
+  "skillId": "define-differential-equation",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **differential equation** is an equation containing a derivative. Its **order** is the order of the highest derivative in it. A solution is a function, not a number, and you test one by differentiating it and substituting into the equation.",
+    "facts": [
+      "$x^2+3x=7$ is not a differential equation, because it contains no derivative.",
+      "$y'+3x=7$ has order $1$, since $y'$ is the highest derivative it contains.",
+      "$x^2y'''-xy'=0$ has order $3$, because $y'''$ is the highest derivative present.",
+      "The order counts derivatives only, so $y'+y^5=1$ is still first order.",
+      "The solutions of a differential equation are functions, not numbers.",
+      "One differential equation usually has infinitely many solutions.",
+      "A **general solution** contains an arbitrary constant $C$ and describes a whole family of curves.",
+      "A **particular solution** has a definite constant, so it names one curve.",
+      "A function is a solution only when substituting it makes the two sides equal for every $x$."
+    ],
+    "steps": [
+      "Differentiate the given function",
+      "Substitute into both sides of the differential equation",
+      "Check whether LHS equals RHS"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "State whether $3x^2-5x=2$ is a differential equation.",
+        "structure": "is-it-a-de",
+        "solution_text": "$3x^2-5x=2$ contains no derivative.\nIt is not a differential equation."
+      },
+      {
+        "question_text": "State whether $y'+xy=e^x$ is a differential equation, and if so give its order.",
+        "structure": "is-it-a-de",
+        "solution_text": "$y'+xy=e^x$ contains the derivative $y'$.\nIt is a differential equation, and $y'$ is the highest derivative in it.\nIt is first order."
+      },
+      {
+        "question_text": "State whether $x^2y^3-xy=0$ is a differential equation.",
+        "structure": "is-it-a-de",
+        "solution_text": "$x^2y^3-xy=0$ contains powers of $y$ but no derivative.\nIt is not a differential equation."
+      },
+      {
+        "question_text": "State the order of $y''+7y'-2y=0$.",
+        "structure": "order-of-de",
+        "solution_text": "The derivatives present are $y''$ and $y'$.\nThe highest is $y''$.\nThe order is $2$."
+      },
+      {
+        "question_text": "State the order of $\\dfrac{d^4y}{dx^4}=x^3$.",
+        "structure": "order-of-de",
+        "solution_text": "The only derivative present is $\\dfrac{d^4y}{dx^4}$.\nThe order is $4$."
+      },
+      {
+        "question_text": "State the order of $(y')^3+y''=\\sin x$.",
+        "structure": "order-of-de",
+        "solution_text": "The derivatives present are $y'$ and $y''$.\nThe power $3$ on $y'$ does not change the order.\nThe highest derivative is $y''$, so the order is $2$."
+      },
+      {
+        "question_text": "State the order of $xy'+y^5=\\cos x$.",
+        "structure": "order-of-de",
+        "solution_text": "The only derivative present is $y'$.\nThe power $5$ is on $y$, not on a derivative.\nThe order is $1$."
+      },
+      {
+        "question_text": "Verify that $y=5e^{2x}$ is a solution of $y'=2y$.",
+        "structure": "verify-particular-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=5e^{2x}$\n$y'=10e^{2x}$\n2. **Substitute into both sides of the differential equation**\nLHS $=y'$\n$=10e^{2x}$\nRHS $=2y$\n$=2(5e^{2x})$\n$=10e^{2x}$\n3. **Check whether LHS equals RHS**\nLHS $=$ RHS, so $y=5e^{2x}$ is a solution."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Show that $y=x^3+4$ is a solution of $xy'-3y=-12$.",
+        "structure": "verify-particular-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=x^3+4$\n$y'=3x^2$\n2. **Substitute into both sides of the differential equation**\nLHS $=xy'-3y$\n$=x(3x^2)-3(x^3+4)$\n$=3x^3-3x^3-12$\n$=-12$\n3. **Check whether LHS equals RHS**\nRHS $=-12$, so LHS $=$ RHS and $y=x^3+4$ is a solution."
+      },
+      {
+        "question_text": "Show that $y=\\sqrt{x^2+9}$ is a solution of $yy'=x$.",
+        "structure": "verify-particular-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=(x^2+9)^{\\frac{1}{2}}$\n$y'=\\dfrac{x}{\\sqrt{x^2+9}}$\n2. **Substitute into both sides of the differential equation**\nLHS $=yy'$\n$=\\sqrt{x^2+9}\\times\\dfrac{x}{\\sqrt{x^2+9}}$\n$=x$\n3. **Check whether LHS equals RHS**\nRHS $=x$, so LHS $=$ RHS and $y=\\sqrt{x^2+9}$ is a solution."
+      },
+      {
+        "question_text": "Show that $y=\\tan x$ is a solution of $y'=1+y^2$.",
+        "structure": "verify-particular-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=\\tan x$\n$y'=\\sec^2 x$\n2. **Substitute into both sides of the differential equation**\nLHS $=y'$\n$=\\sec^2 x$\nRHS $=1+y^2$\n$=1+\\tan^2 x$\n$=\\sec^2 x$\n3. **Check whether LHS equals RHS**\nLHS $=$ RHS, so $y=\\tan x$ is a solution."
+      },
+      {
+        "question_text": "Show that $y=3e^{4x}$ is not a solution of $y'=-4y$.",
+        "structure": "verify-not-a-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=3e^{4x}$\n$y'=12e^{4x}$\n2. **Substitute into both sides of the differential equation**\nLHS $=y'$\n$=12e^{4x}$\nRHS $=-4y$\n$=-4(3e^{4x})$\n$=-12e^{4x}$\n3. **Check whether LHS equals RHS**\n$12e^{4x}\\ne-12e^{4x}$, so $y=3e^{4x}$ is not a solution."
+      },
+      {
+        "question_text": "Show that $y=x^2$ is not a solution of $xy'-3y=0$.",
+        "structure": "verify-not-a-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=x^2$\n$y'=2x$\n2. **Substitute into both sides of the differential equation**\nLHS $=xy'-3y$\n$=x(2x)-3(x^2)$\n$=2x^2-3x^2$\n$=-x^2$\n3. **Check whether LHS equals RHS**\nRHS $=0$, and $-x^2\\ne0$ except at $x=0$, so $y=x^2$ is not a solution."
+      },
+      {
+        "question_text": "Verify that $y=Ce^{-2x}$ is a solution of $y'+2y=0$ for every constant $C$.",
+        "structure": "verify-general-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=Ce^{-2x}$\n$y'=-2Ce^{-2x}$\n2. **Substitute into both sides of the differential equation**\nLHS $=y'+2y$\n$=-2Ce^{-2x}+2(Ce^{-2x})$\n$=0$\n3. **Check whether LHS equals RHS**\nRHS $=0$, and $C$ has cancelled, so $y=Ce^{-2x}$ is a solution for every constant $C$."
+      },
+      {
+        "question_text": "Verify that $y=\\dfrac{C}{x}-3$ is the general solution of $\\dfrac{dy}{dx}=\\dfrac{-3-y}{x}$ for $x\\ne0$.",
+        "structure": "verify-general-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=Cx^{-1}-3$\n$\\dfrac{dy}{dx}=-\\dfrac{C}{x^2}$\n2. **Substitute into both sides of the differential equation**\nRHS $=\\dfrac{-3-y}{x}$\n$=\\dfrac{-3-\\left(\\dfrac{C}{x}-3\\right)}{x}$\n$=\\dfrac{-\\dfrac{C}{x}}{x}$\n$=-\\dfrac{C}{x^2}$\n3. **Check whether LHS equals RHS**\nLHS $=-\\dfrac{C}{x^2}$, so LHS $=$ RHS for every constant $C$."
+      },
+      {
+        "question_text": "Verify that $y=\\sin(x+C)$ satisfies $(y')^2+y^2=1$ for every constant $C$.",
+        "structure": "verify-general-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=\\sin(x+C)$\n$y'=\\cos(x+C)$\n2. **Substitute into both sides of the differential equation**\nLHS $=(y')^2+y^2$\n$=\\cos^2(x+C)+\\sin^2(x+C)$\n$=1$\n3. **Check whether LHS equals RHS**\nRHS $=1$, so $y=\\sin(x+C)$ is a solution for every constant $C$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Show that $y=Ae^{-x}+Be^{2x}$ is a solution of $y''-y'-2y=0$ for all constants $A$ and $B$.",
+        "structure": "verify-general-solution",
+        "solution_text": "1. **Differentiate the given function**\n$y=Ae^{-x}+Be^{2x}$\n$y'=-Ae^{-x}+2Be^{2x}$\n$y''=Ae^{-x}+4Be^{2x}$\n2. **Substitute into both sides of the differential equation**\nLHS $=y''-y'-2y$\n$=\\left(Ae^{-x}+4Be^{2x}\\right)-\\left(-Ae^{-x}+2Be^{2x}\\right)-2\\left(Ae^{-x}+Be^{2x}\\right)$\n$=A(1+1-2)e^{-x}+B(4-2-2)e^{2x}$\n$=0$\n3. **Check whether LHS equals RHS**\nRHS $=0$, and both brackets vanish for every $A$ and $B$, so it is a solution."
+      },
+      {
+        "question_text": "Find all values of $k$ for which $y=e^{kx}$ is a solution of $y''+3y'-10y=0$.",
+        "structure": "find-constant-from-de",
+        "solution_text": "1. **Differentiate the given function**\n$y=e^{kx}$\n$y'=ke^{kx}$\n$y''=k^2e^{kx}$\n2. **Substitute into both sides of the differential equation**\nLHS $=k^2e^{kx}+3ke^{kx}-10e^{kx}$\n$=\\left(k^2+3k-10\\right)e^{kx}$\n3. **Check whether LHS equals RHS**\nRHS $=0$, and $e^{kx}\\ne0$, so\n$k^2+3k-10=0$\n$(k+5)(k-2)=0$\n$k=-5$ or $k=2$"
+      },
+      {
+        "question_text": "Show that $y=2e^{3x}-1$ solves the initial value problem $y'=3y+3$ with $y(0)=1$.",
+        "structure": "verify-ivp",
+        "solution_text": "1. **Differentiate the given function**\n$y=2e^{3x}-1$\n$y'=6e^{3x}$\n2. **Substitute into both sides of the differential equation**\nLHS $=y'$\n$=6e^{3x}$\nRHS $=3y+3$\n$=3\\left(2e^{3x}-1\\right)+3$\n$=6e^{3x}-3+3$\n$=6e^{3x}$\n3. **Check whether LHS equals RHS**\nLHS $=$ RHS, and $y(0)=2e^{0}-1=1$, so the initial condition holds too."
+      }
+    ]
+  }
+}

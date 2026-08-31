@@ -1,0 +1,122 @@
+{
+  "skillId": "solve-related-rates",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "An oil slick spreads in a circle whose radius increases at $0.5$ m/min. At what rate is the area of the slick increasing when the radius is $20$ m?",
+      "structure": "circle-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$20\\pi$ m²/min", "correct": true },
+        { "text": "$40\\pi$ m²/min", "why": "Stopped at $\\dfrac{dA}{dr} = 2\\pi r$ and never multiplied by the given rate $0.5$ m/min." },
+        { "text": "$200\\pi$ m²/min", "why": "Substituted $r = 20$ into $A = \\pi r^{2}$ first and multiplied that area by $0.5$, instead of differentiating first." },
+        { "text": "$10\\pi$ m²/min", "why": "Differentiated $\\pi r^{2}$ as $\\pi r$, losing the factor of $2$." }
+      ],
+      "solution_text": "$\\dfrac{dr}{dt} = 0.5$ m/min and $\\dfrac{dA}{dt}$ is wanted.\n$A = \\pi r^{2}$\n$\\dfrac{dA}{dr} = 2\\pi r$\n$\\dfrac{dA}{dt} = 2\\pi r \\times 0.5$\n$= \\pi r$\nWhen $r = 20$:\n$\\dfrac{dA}{dt} = 20\\pi$ m²/min"
+    },
+    {
+      "id": "q2",
+      "question_text": "A spherical hailstone melts so that its radius decreases at $0.4$ mm/min. At what rate is its volume changing when the radius is $5$ mm?",
+      "structure": "sphere-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$-40\\pi$ mm³/min", "correct": true },
+        { "text": "$40\\pi$ mm³/min", "why": "Used $\\dfrac{dr}{dt} = 0.4$ instead of $-0.4$, ignoring that the hailstone is shrinking." },
+        { "text": "$-100\\pi$ mm³/min", "why": "Stopped at $\\dfrac{dV}{dr} = 4\\pi r^{2}$ and never multiplied by the given rate." },
+        { "text": "$100\\pi$ mm³/min", "why": "Never multiplied by the given rate and also treated the shrinking radius as a positive rate." }
+      ],
+      "solution_text": "The radius is decreasing, so $\\dfrac{dr}{dt} = -0.4$ mm/min.\n$V = \\dfrac{4}{3}\\pi r^{3}$\n$\\dfrac{dV}{dr} = 4\\pi r^{2}$\n$\\dfrac{dV}{dt} = 4\\pi r^{2} \\times (-0.4)$\n$= -1.6\\pi r^{2}$\nWhen $r = 5$:\n$\\dfrac{dV}{dt} = -1.6\\pi (25)$\n$= -40\\pi$ mm³/min"
+    },
+    {
+      "id": "q3",
+      "question_text": "A cube-shaped block of stone is eroded so that each edge shortens at $0.03$ cm/s, and the block stays a cube. At what rate is its total surface area changing when each edge is $20$ cm?",
+      "structure": "cube-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$-7.2$ cm²/s", "correct": true },
+        { "text": "$7.2$ cm²/s", "why": "Used $\\dfrac{dx}{dt} = 0.03$ instead of $-0.03$, ignoring that the edges are shortening." },
+        { "text": "$-3.6$ cm²/s", "why": "Differentiated $S = 6x^{2}$ as $6x$ instead of $12x$." },
+        { "text": "$3.6$ cm²/s", "why": "Differentiated $6x^{2}$ as $6x$ and also dropped the negative sign of the given rate." }
+      ],
+      "solution_text": "The edges are shortening, so $\\dfrac{dx}{dt} = -0.03$ cm/s.\n$S = 6x^{2}$\n$\\dfrac{dS}{dx} = 12x$\n$\\dfrac{dS}{dt} = 12x \\times (-0.03)$\n$= -0.36x$\nWhen $x = 20$:\n$\\dfrac{dS}{dt} = -0.36(20)$\n$= -7.2$ cm²/s"
+    },
+    {
+      "id": "q4",
+      "question_text": "A cylindrical metal roller is $40$ cm long. Its radius is ground down at $0.05$ cm/min while the length stays fixed. At what rate is its volume changing when the radius is $12$ cm?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,1.2) -- (4.5,1.2);\n\\draw (0,-1.2) -- (4.5,-1.2);\n\\draw (4.5,0) ellipse (0.5 and 1.2);\n\\draw (0,1.2) arc (90:270:0.5 and 1.2);\n\\draw[dashed] (0,1.2) arc (90:-90:0.5 and 1.2);\n\\draw[-{Stealth}] (4.5,0) -- (4.5,1.2) node[midway, right] {$r$};\n\\draw[{Stealth}-{Stealth}] (0,-1.8) -- (4.5,-1.8) node[midway, below] {$40$ cm};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "cylinder-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$-48\\pi$ cm³/min", "correct": true },
+        { "text": "$48\\pi$ cm³/min", "why": "Used $\\dfrac{dr}{dt} = 0.05$ instead of $-0.05$, ignoring that the radius is being ground away." },
+        { "text": "$-960\\pi$ cm³/min", "why": "Stopped at $\\dfrac{dV}{dr} = 80\\pi r$ and never multiplied by the given rate." },
+        { "text": "$960\\pi$ cm³/min", "why": "Never multiplied by the given rate and also dropped its negative sign." }
+      ],
+      "solution_text": "The radius is decreasing, so $\\dfrac{dr}{dt} = -0.05$ cm/min.\n$V = \\pi r^{2}h$ with $h = 40$\n$V = 40\\pi r^{2}$\n$\\dfrac{dV}{dr} = 80\\pi r$\n$\\dfrac{dV}{dt} = 80\\pi r \\times (-0.05)$\n$= -4\\pi r$\nWhen $r = 12$:\n$\\dfrac{dV}{dt} = -4\\pi (12)$\n$= -48\\pi$ cm³/min"
+    },
+    {
+      "id": "q5",
+      "question_text": "A conical filter stands on its vertex. It is $15$ cm deep with a top radius of $5$ cm. Liquid drains from the vertex at $3$ cm³/s. At what rate is the depth of liquid changing when the depth is $6$ cm?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\coordinate (V) at (0,0);\n\\coordinate (L) at (-1.2,3.6);\n\\coordinate (R) at (1.2,3.6);\n\\coordinate (T) at (0,3.6);\n\\coordinate (WC) at (0,1.44);\n\\coordinate (WL) at (-0.48,1.44);\n\\draw (L) -- (V);\n\\draw (V) -- (R);\n\\draw (L) arc (180:360:1.2 and 0.32);\n\\draw[dashed] (L) arc (180:0:1.2 and 0.32);\n\\draw (WL) arc (180:360:0.48 and 0.13);\n\\draw[dashed] (WL) arc (180:0:0.48 and 0.13);\n\\draw[dashed] (V) -- (WC) node[midway, left] {$h$};\n\\draw[dashed] (WC) -- (T);\n\\draw[-{Stealth}] (T) -- (R) node[midway, above] {$5$ cm};\n\\draw[{Stealth}-{Stealth}] (1.9,0) -- (1.9,3.6) node[midway, right] {$15$ cm};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "cone-constrained-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$-\\dfrac{3}{4\\pi}$ cm/s", "correct": true },
+        { "text": "$\\dfrac{3}{4\\pi}$ cm/s", "why": "Used $\\dfrac{dV}{dt} = 3$ instead of $-3$, ignoring that the filter is draining." },
+        { "text": "$-\\dfrac{9}{25\\pi}$ cm/s", "why": "Kept the radius fixed at $5$ cm instead of using $r = \\dfrac{h}{3}$ to write $V$ in terms of $h$." },
+        { "text": "$\\dfrac{9}{25\\pi}$ cm/s", "why": "Kept the radius fixed at $5$ cm and also dropped the negative sign of the draining rate." }
+      ],
+      "solution_text": "The filter is draining, so $\\dfrac{dV}{dt} = -3$ cm³/s.\nSimilar triangles give $\\dfrac{r}{h} = \\dfrac{5}{15}$, so $r = \\dfrac{h}{3}$.\n$V = \\dfrac{1}{3}\\pi r^{2}h$\n$= \\dfrac{1}{3}\\pi \\left(\\dfrac{h}{3}\\right)^{2}h$\n$= \\dfrac{\\pi h^{3}}{27}$\n$\\dfrac{dV}{dh} = \\dfrac{\\pi h^{2}}{9}$\nWhen $h = 6$:\n$\\dfrac{dV}{dh} = \\dfrac{36\\pi}{9} = 4\\pi$\n$-3 = 4\\pi \\times \\dfrac{dh}{dt}$\n$\\dfrac{dh}{dt} = -\\dfrac{3}{4\\pi}$ cm/s"
+    },
+    {
+      "id": "q6",
+      "question_text": "A hot-air balloon rises vertically at $3$ m/s from a launch point $60$ m from an observer on level ground. At what rate is the balloon's distance from the observer increasing when the balloon is $80$ m high?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (G) at (3,0);\n\\coordinate (Ba) at (3,4);\n\\draw (-0.5,0) -- (3.8,0);\n\\draw (A) -- (G) node[midway, below] {$60$ m};\n\\draw (G) -- (Ba) node[midway, right] {$y$};\n\\draw (A) -- (Ba) node[midway, above left] {$s$};\n\\coordinate (p) at ($(G)!0.35cm!(A)$);\n\\coordinate (q) at ($(G)!0.35cm!(Ba)$);\n\\draw (p) -- ($(p)+(q)-(G)$) -- (q);\n\\fill (A) circle (2pt);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "pythagoras-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$2.4$ m/s", "correct": true },
+        { "text": "$3.75$ m/s", "why": "Used $\\dfrac{ds}{dy} = \\dfrac{s}{y} = \\dfrac{100}{80}$, turning the derivative upside down." },
+        { "text": "$1.8$ m/s", "why": "Used the horizontal distance over the hypotenuse, $\\dfrac{60}{100}$, instead of $\\dfrac{y}{s}$." },
+        { "text": "$3$ m/s", "why": "Assumed the distance from the observer grows at the same rate as the balloon rises." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dt} = 3$ m/s and $\\dfrac{ds}{dt}$ is wanted.\nBy Pythagoras, $s = \\sqrt{y^{2} + 3600}$.\n$\\dfrac{ds}{dy} = \\dfrac{2y}{2\\sqrt{y^{2} + 3600}}$\n$= \\dfrac{y}{\\sqrt{y^{2} + 3600}}$\nWhen $y = 80$:\n$\\sqrt{6400 + 3600} = 100$\n$\\dfrac{ds}{dy} = \\dfrac{80}{100} = 0.8$\n$\\dfrac{ds}{dt} = 0.8 \\times 3$\n$= 2.4$ m/s"
+    },
+    {
+      "id": "q7",
+      "question_text": "A lamp is mounted on top of a $5$ m post. A person $2$ m tall walks away from the post at $1.2$ m/s. At what rate is the length of the person's shadow increasing?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (B) at (0,0);\n\\coordinate (L) at (0,2.5);\n\\coordinate (P) at (3,0);\n\\coordinate (H) at (3,1);\n\\coordinate (S) at (5,0);\n\\draw (-0.5,0) -- (5.6,0);\n\\draw (B) -- (L) node[midway, left] {$5$ m};\n\\draw (P) -- (H) node[midway, left] {$2$ m};\n\\draw (L) -- (S);\n\\draw[{Stealth}-{Stealth}] (0,-0.7) -- (3,-0.7) node[midway, below] {$x$};\n\\draw[{Stealth}-{Stealth}] (3,-1.4) -- (5,-1.4) node[midway, below] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "similar-triangles-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$0.8$ m/s", "correct": true },
+        { "text": "$0.48$ m/s", "why": "Used $\\dfrac{ds}{dx} = \\dfrac{2}{5}$, the height ratio itself, instead of solving the similar-triangle equation for $s$." },
+        { "text": "$1.8$ m/s", "why": "Used $\\dfrac{ds}{dx} = \\dfrac{3}{2}$, inverting the fraction obtained from the similar triangles." },
+        { "text": "$1.2$ m/s", "why": "Assumed the shadow lengthens at the same rate as the person walks." }
+      ],
+      "solution_text": "Let $x$ be the distance from the post and $s$ the shadow length, so $\\dfrac{dx}{dt} = 1.2$ m/s.\nSimilar triangles give $\\dfrac{s}{s + x} = \\dfrac{2}{5}$.\n$5s = 2s + 2x$\n$3s = 2x$\n$s = \\dfrac{2x}{3}$\n$\\dfrac{ds}{dx} = \\dfrac{2}{3}$\n$\\dfrac{ds}{dt} = \\dfrac{2}{3} \\times 1.2$\n$= 0.8$ m/s"
+    },
+    {
+      "id": "q8",
+      "question_text": "A spherical gas storage tank is emptied at $20\\pi$ cm³/s. At what rate is the radius of the gas sphere changing at the instant when its volume is $972\\pi$ cm³?",
+      "structure": "find-value-then-rate",
+      "mastery": true,
+      "options": [
+        { "text": "$-\\dfrac{5}{81}$ cm/s", "correct": true },
+        { "text": "$\\dfrac{5}{81}$ cm/s", "why": "Used $\\dfrac{dV}{dt} = 20\\pi$ instead of $-20\\pi$, ignoring that the tank is emptying." },
+        { "text": "$-\\dfrac{5}{729}$ cm/s", "why": "Divided by $4\\pi r^{3}$ instead of by $\\dfrac{dV}{dr} = 4\\pi r^{2}$." },
+        { "text": "$\\dfrac{5}{729}$ cm/s", "why": "Divided by $4\\pi r^{3}$ and also dropped the negative sign of the emptying rate." }
+      ],
+      "solution_text": "The tank is emptying, so $\\dfrac{dV}{dt} = -20\\pi$ cm³/s.\nFirst find the radius at that instant.\n$\\dfrac{4}{3}\\pi r^{3} = 972\\pi$\n$r^{3} = 729$\n$r = 9$ cm\n$\\dfrac{dV}{dr} = 4\\pi r^{2}$\n$\\dfrac{dV}{dt} = 4\\pi r^{2} \\times \\dfrac{dr}{dt}$\nWhen $r = 9$:\n$-20\\pi = 324\\pi \\times \\dfrac{dr}{dt}$\n$\\dfrac{dr}{dt} = -\\dfrac{20}{324}$\n$= -\\dfrac{5}{81}$ cm/s"
+    },
+    {
+      "id": "q9",
+      "question_text": "A spherical bubble of gas in molten glass grows so that its surface area increases at a constant $12$ cm²/s. At what rate is its volume increasing when the radius is $7$ cm?",
+      "structure": "sphere-rate",
+      "mastery": true,
+      "options": [
+        { "text": "$42$ cm³/s", "correct": true },
+        { "text": "$84$ cm³/s", "why": "Used $\\dfrac{dV}{dt} = r \\times \\dfrac{dS}{dt}$ instead of $\\dfrac{r}{2} \\times \\dfrac{dS}{dt}$." },
+        { "text": "$\\dfrac{3}{14\\pi}$ cm/s", "why": "Stopped after finding $\\dfrac{dr}{dt}$ and never went on to the volume." },
+        { "text": "$12$ cm³/s", "why": "Assumed the volume grows at the same numerical rate as the surface area." }
+      ],
+      "solution_text": "$\\dfrac{dS}{dt} = 12$ cm²/s and $\\dfrac{dV}{dt}$ is wanted.\nFirst find $\\dfrac{dr}{dt}$.\n$S = 4\\pi r^{2}$\n$\\dfrac{dS}{dr} = 8\\pi r$\nWhen $r = 7$:\n$12 = 8\\pi (7) \\times \\dfrac{dr}{dt}$\n$\\dfrac{dr}{dt} = \\dfrac{12}{56\\pi} = \\dfrac{3}{14\\pi}$ cm/s\nNow use the volume.\n$V = \\dfrac{4}{3}\\pi r^{3}$\n$\\dfrac{dV}{dr} = 4\\pi r^{2}$\n$\\dfrac{dV}{dt} = 4\\pi (49) \\times \\dfrac{3}{14\\pi}$\n$= \\dfrac{588}{14}$\n$= 42$ cm³/s"
+    }
+  ]
+}

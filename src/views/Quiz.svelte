@@ -6,6 +6,7 @@
   import { allProgress, upgradeMastery } from '../lib/store.js';
   import { createSession, nextStep, answerQuestion, extendCap, getResults } from '../lib/quiz-engine.js';
   import { shouldCelebrateQuiz } from '../lib/quiz-ui.js';
+  import { saveQuizResult } from '../lib/quiz-history.js';
   import MathText from '../components/Math.svelte';
   import QuizQuestion from '../components/QuizQuestion.svelte';
   import QuizResults from '../components/QuizResults.svelte';
@@ -70,6 +71,7 @@
   let sessionResults = $state(null);
   let celebrateResults = $state(false);
   let startError = $state('');
+  let answerLog = $state([]); // per-question review detail, in answer order
 
   function resetForScopeChange() {
     phase = 'intro';
@@ -79,6 +81,7 @@
     celebrateResults = false;
     startError = '';
     answeredCount = 0;
+    answerLog = [];
   }
   // Re-derive scope key so switching topic/course (without remount) resets state.
   let scopeKey = $derived(`${skillId ?? ''}|${topicId ?? ''}|${courseId ?? ''}`);
@@ -138,8 +141,19 @@
   }
 
   function handleAnswer(originalIndex) {
+    const { skillId, question } = currentStep;
     const result = answerQuestion(session, originalIndex);
     for (const w of result.writes) upgradeMastery(w.id, w.level, 'quiz');
+    answerLog.push({
+      skillId,
+      questionId: question.id,
+      questionText: question.question_text,
+      solutionText: question.solution_text,
+      options: question.options,
+      chosenIndex: originalIndex,
+      correctIndex: result.correctIndex,
+      correct: result.correct
+    });
     advance();
   }
 
@@ -151,6 +165,13 @@
   function finish() {
     celebrateResults = shouldCelebrateQuiz(session?.log);
     sessionResults = getResults(session);
+    saveQuizResult({
+      scopeLabel,
+      courseId,
+      scopeSkillIds,
+      results: sessionResults,
+      answerLog: answerLog.slice()
+    });
     phase = 'results';
   }
 </script>
@@ -161,6 +182,7 @@
     <h1>Diagnostic quiz</h1>
     <p class="lede">Pick a course to check what you already know. The quiz adapts as you go:
       pass a later skill and earlier skills can be counted as demonstrated; if you need practice, dependent skills wait for another time.</p>
+    <a class="history-link" href={href('/quiz-history')}>See your recent quiz results &rarr;</a>
     <div class="picker-grid">
       {#each orderedCourses as c}
         {@const n = quizzableCountFor(c.id)}
@@ -220,7 +242,8 @@
   {:else if phase === 'results'}
     <!-- ===== RESULTS ===== -->
     <h1>Your results</h1>
-    <QuizResults results={sessionResults} {courseId} {scopeLabel} {scopeSkillIds} celebrate={celebrateResults} />
+    <QuizResults results={sessionResults} {answerLog} {courseId} {scopeLabel} {scopeSkillIds} celebrate={celebrateResults} />
+    <a class="history-link" href={href('/quiz-history')}>See all your recent quiz results &rarr;</a>
   {/if}
 </div>
 
@@ -230,6 +253,7 @@
   .lede { color: var(--muted); font-size: 0.95rem; max-width: 60ch; }
   .error { color: #ef4444; font-size: 0.9rem; }
 
+  .history-link { display: inline-block; margin-top: 0.6rem; color: var(--accent); font-size: 0.85rem; font-weight: 600; }
   .picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; margin-top: 1.4rem; }
   .picker-card {
     display: flex;

@@ -1,0 +1,121 @@
+{
+  "skillId": "normal-mean-sd-from-probability",
+  "atomType": "R",
+  "theory": {
+    "intro": "Sometimes the probability is given and the mean or the standard deviation is missing. Turn the probability into a $z$ value first, then substitute into $z=\\frac{x-\\mu}{\\sigma}$ and solve for the unknown.",
+    "facts": [
+      "The table gives $P(Z\\le z)$ for positive $z$, so find the probability in the body and read $z$ off the edges.",
+      "If $P(X<c)$ is less than $0.5$ then $c$ lies below the mean, so $z$ is negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:-1.4, samples=50, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (-1.4,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1.4,0) -- (-1.4,-0.12) node[below, font=\\small] {$c$};\n\\node[font=\\small] at (-2.5,1.1) {$P(X<c)$};\n\\end{tikzpicture}\n[/tikz]",
+      "If $P(X<c)$ is greater than $0.5$ then $c$ lies above the mean, so $z$ is positive.",
+      "For a negative $z$ use symmetry: $P(Z<-z)=1-P(Z<z)$, so look up $1$ minus the given probability.",
+      "Change a 'greater than' probability to a 'less than' one first, using $P(X>c)=1-P(X<c)$.",
+      "Rearranging $z=\\frac{x-\\mu}{\\sigma}$ gives $\\mu=x-z\\sigma$ when the standard deviation is known.",
+      "Rearranging instead gives $\\sigma=\\frac{x-\\mu}{z}$ when the mean is known, and $\\sigma$ is always positive.",
+      "Check the answer by asking whether the score really does sit on the side of the mean the probability requires."
+    ],
+    "steps": [
+      "Decide the sign of $z$ from the side of the mean the score lies on",
+      "Find the size of $z$ from the table",
+      "Substitute into $z=\\frac{x-\\mu}{\\sigma}$",
+      "Solve for the unknown"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "$P(Z<z)=0.9772$. Use the standard normal table to find $z$.\n$\\begin{array}{c|cccc} z & 0.00 & 0.01 & 0.02 & 0.03 \\\\ \\hline 1.5 & 0.9332 & 0.9345 & 0.9357 & 0.9370 \\\\ 2.0 & 0.9772 & 0.9778 & 0.9783 & 0.9788 \\\\ 2.5 & 0.9938 & 0.9940 & 0.9941 & 0.9943 \\end{array}$",
+        "structure": "z-from-probability",
+        "solution_text": "The probability is greater than $0.5$, so $z$ is positive.\n$0.9772$ sits in the row $2.0$ and the column $0.00$.\n$z$\n$=2$"
+      },
+      {
+        "question_text": "$P(Z<z)=0.0228$. Use the standard normal table to find $z$.\n$\\begin{array}{c|cccc} z & 0.00 & 0.01 & 0.02 & 0.03 \\\\ \\hline 1.5 & 0.9332 & 0.9345 & 0.9357 & 0.9370 \\\\ 2.0 & 0.9772 & 0.9778 & 0.9783 & 0.9788 \\\\ 2.5 & 0.9938 & 0.9940 & 0.9941 & 0.9943 \\end{array}$",
+        "structure": "z-from-probability",
+        "solution_text": "The probability is less than $0.5$, so $z$ is negative.\n$1-0.0228$\n$=0.9772$\n$0.9772$ sits in the row $2.0$ and the column $0.00$.\n$z$\n$=-2$"
+      },
+      {
+        "question_text": "$P(Z>z)=0.0668$. Use the standard normal table to find $z$.\n$\\begin{array}{c|cccc} z & 0.00 & 0.01 & 0.02 & 0.03 \\\\ \\hline 1.5 & 0.9332 & 0.9345 & 0.9357 & 0.9370 \\\\ 2.0 & 0.9772 & 0.9778 & 0.9783 & 0.9788 \\\\ 2.5 & 0.9938 & 0.9940 & 0.9941 & 0.9943 \\end{array}$",
+        "structure": "z-from-probability",
+        "solution_text": "$P(Z<z)$\n$=1-0.0668$\n$=0.9332$\nThe probability is greater than $0.5$, so $z$ is positive.\n$0.9332$ sits in the row $1.5$ and the column $0.00$.\n$z$\n$=1.5$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $4$. Given that $P(X<38)=0.9772$, find the mean $\\mu$. Use $P(Z<2)=0.9772$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:1.4, samples=70, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (1.4,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1.4,0) -- (1.4,-0.12) node[below, font=\\small] {$38$};\n\\node[font=\\small] at (2.6,1.1) {$0.9772$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-mean-from-probability",
+        "solution_text": "The probability is greater than $0.5$, so $38$ lies above the mean and $z$ is positive.\n$z=2$\n$2=\\frac{38-\\mu}{4}$\n$8=38-\\mu$\n$\\mu=30$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $10$. Given that $P(X<62)=0.0668$, find the mean $\\mu$. Use $P(Z<1.5)=0.9332$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:-1.4, samples=50, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (-1.4,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1.4,0) -- (-1.4,-0.12) node[below, font=\\small] {$62$};\n\\node[font=\\small] at (-2.6,1.1) {$0.0668$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-mean-from-probability",
+        "solution_text": "The probability is less than $0.5$, so $62$ lies below the mean and $z$ is negative.\n$1-0.0668$\n$=0.9332$\n$z=-1.5$\n$-1.5=\\frac{62-\\mu}{10}$\n$-15=62-\\mu$\n$\\mu=77$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with mean $30$. Given that $P(X<38)=0.8413$, find the standard deviation $\\sigma$. Use $P(Z<1)=0.8413$.",
+        "structure": "find-sd-from-probability",
+        "solution_text": "The probability is greater than $0.5$, so $38$ lies above the mean and $z$ is positive.\n$z=1$\n$1=\\frac{38-30}{\\sigma}$\n$\\sigma=8$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with mean $50$. Given that $P(X<38)=0.1587$, find the standard deviation $\\sigma$. Use $P(Z<1)=0.8413$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:-1.4, samples=50, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (-1.4,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$50$};\n\\draw (-1.4,0) -- (-1.4,-0.12) node[below, font=\\small] {$38$};\n\\node[font=\\small] at (-2.6,1.1) {$0.1587$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-sd-from-probability",
+        "solution_text": "The probability is less than $0.5$, so $38$ lies below the mean and $z$ is negative.\n$1-0.1587$\n$=0.8413$\n$z=-1$\n$-1=\\frac{38-50}{\\sigma}$\n$-\\sigma=-12$\n$\\sigma=12$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $5$. Given that $P(X>90)=0.9332$, find the mean $\\mu$. Use $P(Z<1.5)=0.9332$.",
+        "structure": "find-mean-from-probability",
+        "solution_text": "$P(X<90)$\n$=1-0.9332$\n$=0.0668$\nThis is less than $0.5$, so $90$ lies below the mean and $z$ is negative.\n$z=-1.5$\n$-1.5=\\frac{90-\\mu}{5}$\n$-7.5=90-\\mu$\n$\\mu=97.5$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "$X$ is normally distributed with mean $200$. Given that $P(X<230)=0.9938$, find the standard deviation $\\sigma$. Use $P(Z<2.5)=0.9938$.",
+        "structure": "find-sd-from-probability",
+        "solution_text": "The probability is greater than $0.5$, so $230$ lies above the mean and $z$ is positive.\n$z=2.5$\n$2.5=\\frac{230-200}{\\sigma}$\n$2.5\\sigma=30$\n$\\sigma=12$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $8$. Given that $P(X>140)=0.9938$, find the mean $\\mu$. Use $P(Z<2.5)=0.9938$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-1.4,0) -- plot[domain=-1.4:3.6, samples=70, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (3.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1.4,0) -- (-1.4,-0.12) node[below, font=\\small] {$140$};\n\\node[font=\\small] at (1.8,1.5) {$0.9938$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-mean-from-probability",
+        "solution_text": "$P(X<140)$\n$=1-0.9938$\n$=0.0062$\nThis is less than $0.5$, so $140$ lies below the mean and $z$ is negative.\n$z=-2.5$\n$-2.5=\\frac{140-\\mu}{8}$\n$-20=140-\\mu$\n$\\mu=160$"
+      },
+      {
+        "question_text": "A machine fills sports drinks with a standard deviation of $4$ mL. What mean volume must be set so that only $0.13\\%$ of bottles contain less than $250$ mL? Use $P(Z<3)=0.9987$.",
+        "structure": "context-design",
+        "solution_text": "$P(X<250)$\n$=0.0013$\nThis is less than $0.5$, so $250$ mL lies below the mean and $z$ is negative.\n$1-0.0013$\n$=0.9987$\n$z=-3$\n$-3=\\frac{250-\\mu}{4}$\n$-12=250-\\mu$\n$\\mu=262$ mL"
+      },
+      {
+        "question_text": "Marks in a test are normally distributed with a standard deviation of $12$. The top $2.28\\%$ of students scored above $88$. Find the mean mark. Use $P(Z<2)=0.9772$.",
+        "structure": "context-design",
+        "solution_text": "$P(X>88)$\n$=0.0228$\n$P(X<88)$\n$=1-0.0228$\n$=0.9772$\nThis is greater than $0.5$, so $88$ lies above the mean and $z$ is positive.\n$z=2$\n$2=\\frac{88-\\mu}{12}$\n$24=88-\\mu$\n$\\mu=64$"
+      },
+      {
+        "question_text": "Phone battery lives are normally distributed with a mean of $18$ hours. $6.68\\%$ of phones last fewer than $14.4$ hours. Find the standard deviation. Use $P(Z<1.5)=0.9332$.",
+        "structure": "find-sd-from-probability",
+        "solution_text": "$P(X<14.4)$\n$=0.0668$\nThis is less than $0.5$, so $14.4$ hours lies below the mean and $z$ is negative.\n$1-0.0668$\n$=0.9332$\n$z=-1.5$\n$-1.5=\\frac{14.4-18}{\\sigma}$\n$-1.5\\sigma=-3.6$\n$\\sigma=2.4$ hours"
+      },
+      {
+        "question_text": "$P(Z>z)=0.9082$. Use the standard normal table to find $z$.\n$\\begin{array}{c|cccc} z & 0.00 & 0.01 & 0.02 & 0.03 \\\\ \\hline 1.1 & 0.8643 & 0.8665 & 0.8686 & 0.8708 \\\\ 1.2 & 0.8849 & 0.8869 & 0.8888 & 0.8907 \\\\ 1.3 & 0.9032 & 0.9049 & 0.9066 & 0.9082 \\end{array}$",
+        "structure": "z-from-probability",
+        "solution_text": "$P(Z<z)$\n$=1-0.9082$\n$=0.0918$\nThis is less than $0.5$, so $z$ is negative.\n$1-0.0918$\n$=0.9082$\n$0.9082$ sits in the row $1.3$ and the column $0.03$.\n$z$\n$=-1.33$"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $20$. Given that $P(X<250)=0.8907$, find the mean $\\mu$.\n$\\begin{array}{c|cccc} z & 0.00 & 0.01 & 0.02 & 0.03 \\\\ \\hline 1.1 & 0.8643 & 0.8665 & 0.8686 & 0.8708 \\\\ 1.2 & 0.8849 & 0.8869 & 0.8888 & 0.8907 \\\\ 1.3 & 0.9032 & 0.9049 & 0.9066 & 0.9082 \\end{array}$",
+        "structure": "find-mean-from-probability",
+        "solution_text": "The probability is greater than $0.5$, so $250$ lies above the mean and $z$ is positive.\n$0.8907$ sits in the row $1.2$ and the column $0.03$.\n$z=1.23$\n$1.23=\\frac{250-\\mu}{20}$\n$24.6=250-\\mu$\n$\\mu=225.4$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$X$ is normally distributed, $P(X<70)=0.9332$ and $P(X<58)=0.6915$. Find $\\mu$ and $\\sigma$. Use $P(Z<1.5)=0.9332$ and $P(Z<0.5)=0.6915$.",
+        "structure": "find-both-from-two-probabilities",
+        "solution_text": "Both probabilities are greater than $0.5$, so both scores lie above the mean and both $z$ values are positive.\n$70=\\mu+1.5\\sigma$\n$58=\\mu+0.5\\sigma$\nSubtracting the second equation from the first removes $\\mu$.\n$12=\\sigma$\n$\\mu$\n$=58-0.5\\times 12$\n$=52$"
+      },
+      {
+        "question_text": "Bolt lengths are normally distributed with a mean of $40$ mm on both of a factory's machines. Machine A rejects the $2.28\\%$ of bolts shorter than $37.6$ mm, while machine B rejects only $0.62\\%$ at the same length. Find the standard deviation of each machine. Use $P(Z<2)=0.9772$ and $P(Z<2.5)=0.9938$.",
+        "structure": "find-sd-from-probability",
+        "solution_text": "$37.6$ mm is below the mean in both cases, so both $z$ values are negative.\nFor machine A, $1-0.0228=0.9772$, so $z=-2$.\n$-2=\\frac{37.6-40}{\\sigma}$\n$-2\\sigma=-2.4$\n$\\sigma=1.2$ mm\nFor machine B, $1-0.0062=0.9938$, so $z=-2.5$.\n$-2.5=\\frac{37.6-40}{\\sigma}$\n$-2.5\\sigma=-2.4$\n$\\sigma=0.96$ mm"
+      },
+      {
+        "question_text": "$X$ is normally distributed with standard deviation $8$, and $P(X<45)=0.3085$. A student writes $z=0.5$ and concludes that $\\mu=41$. Explain the error and find the correct mean. Use $P(Z<0.5)=0.6915$.",
+        "structure": "find-mean-from-probability",
+        "solution_text": "$0.3085$ is less than $0.5$, so $45$ lies below the mean and $z$ must be negative; the student used a positive $z$ and so placed the mean below $45$ instead of above it.\n$1-0.3085$\n$=0.6915$\n$z=-0.5$\n$-0.5=\\frac{45-\\mu}{8}$\n$-4=45-\\mu$\n$\\mu=49$"
+      }
+    ]
+  }
+}

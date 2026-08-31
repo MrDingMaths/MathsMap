@@ -1,0 +1,205 @@
+{
+  "skillId": "primitive-definition",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "$F(x)=x^{4}+3x$. For which function $f(x)$ is $F(x)$ a primitive?",
+      "structure": "verify-candidate-primitive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4x^{3}+3$",
+          "correct": true
+        },
+        {
+          "text": "$4x^{3}+3x$",
+          "why": "Differentiated $x^{4}$ correctly but left the term $3x$ unchanged instead of differentiating it to $3$."
+        },
+        {
+          "text": "$4x^{3}$",
+          "why": "Treated $3x$ as a constant and differentiated it to $0$."
+        },
+        {
+          "text": "$\\dfrac{x^{5}}{5}+\\dfrac{3x^{2}}{2}$",
+          "why": "Found a primitive of $F(x)$ instead of differentiating $F(x)$."
+        }
+      ],
+      "solution_text": "$F(x)=x^{4}+3x$\n$F'(x)=4x^{3}+3$\nSo $F(x)$ is a primitive of $f(x)=4x^{3}+3$."
+    },
+    {
+      "id": "q2",
+      "question_text": "Which function has $F(x)=2x^{3}-5x^{2}$ as a primitive?",
+      "structure": "verify-candidate-primitive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6x^{2}-10x$",
+          "correct": true
+        },
+        {
+          "text": "$2x^{2}-5x$",
+          "why": "Reduced each power by $1$ but forgot to multiply by the original powers."
+        },
+        {
+          "text": "$6x^{3}-10x^{2}$",
+          "why": "Multiplied each term by its power but did not reduce the powers by $1$."
+        },
+        {
+          "text": "$\\dfrac{x^{4}}{2}-\\dfrac{5x^{3}}{3}$",
+          "why": "Found a primitive of $F(x)$ instead of differentiating $F(x)$."
+        }
+      ],
+      "solution_text": "$F(x)=2x^{3}-5x^{2}$\n$F'(x)=6x^{2}-10x$\nSo $F(x)$ is a primitive of $6x^{2}-10x$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Which of these functions is a primitive of $f(x)=10x^{9}$?",
+      "structure": "choose-primitive-from-list",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x^{10}-12$",
+          "correct": true
+        },
+        {
+          "text": "$10x^{10}$",
+          "why": "Kept the coefficient $10$ as well as raising the power, so differentiating gives $100x^{9}$."
+        },
+        {
+          "text": "$90x^{8}$",
+          "why": "Differentiated $f(x)$ instead of reversing the differentiation."
+        },
+        {
+          "text": "$x^{9}-12$",
+          "why": "Left the power at $9$ instead of raising it by one to $10$."
+        }
+      ],
+      "solution_text": "$\\dfrac{d}{dx}(x^{10}-12)=10x^{9}-0$\n$=10x^{9}$\n$=f(x)$\nSo $x^{10}-12$ is a primitive of $f(x)=10x^{9}$."
+    },
+    {
+      "id": "q4",
+      "question_text": "One primitive of $f(x)=14x$ is $F(x)=7x^{2}$. Which expression is the general primitive of $f(x)$?",
+      "structure": "general-primitive-from-one",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7x^{2}+C$",
+          "correct": true
+        },
+        {
+          "text": "$7x^{2}$",
+          "why": "Omitted the constant of integration, so this names only one primitive rather than the whole family."
+        },
+        {
+          "text": "$7x^{2}+Cx$",
+          "why": "Attached the constant to $x$; differentiating this gives $14x+C$, not $14x$."
+        },
+        {
+          "text": "$14x+C$",
+          "why": "Added $C$ to $f(x)$ instead of to the primitive $F(x)$."
+        }
+      ],
+      "solution_text": "$F(x)=7x^{2}$\n$\\dfrac{d}{dx}(7x^{2}+C)=14x$\nGeneral primitive $=7x^{2}+C$"
+    },
+    {
+      "id": "q5",
+      "question_text": "$P(x)$ and $Q(x)$ are both primitives of the same function $f(x)$. Which statement must be true?",
+      "structure": "same-derivative-family",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$P(x)-Q(x)$ is a constant.",
+          "correct": true
+        },
+        {
+          "text": "$P(x)=Q(x)$ for all $x$.",
+          "why": "Assumes primitives are unique, but two primitives may differ by any constant."
+        },
+        {
+          "text": "$P(x)-Q(x)=0$ only when $x=0$.",
+          "why": "Treats the difference as a varying function of $x$ rather than a fixed constant."
+        },
+        {
+          "text": "$P(x)$ and $Q(x)$ differ by a multiple of $x$.",
+          "why": "A difference of $kx$ would differentiate to $k$, so $P'(x)$ and $Q'(x)$ could not both equal $f(x)$."
+        }
+      ],
+      "solution_text": "$P'(x)=f(x)$ and $Q'(x)=f(x)$\n$\\dfrac{d}{dx}(P(x)-Q(x))=f(x)-f(x)$\n$=0$\nA function with derivative zero everywhere is constant, so $P(x)-Q(x)$ is a constant."
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph of $y=h(x)$ has a horizontal tangent at every point. Which statement describes $h(x)$?",
+      "structure": "zero-derivative-constant",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$h(x)$ is a constant function.",
+          "correct": true
+        },
+        {
+          "text": "$h(x)$ is a linear function with non-zero gradient.",
+          "why": "A non-zero gradient gives a non-zero derivative, so the tangent would never be horizontal."
+        },
+        {
+          "text": "$h(x)=x$.",
+          "why": "$y=x$ has gradient $1$ everywhere, so its tangent is never horizontal."
+        },
+        {
+          "text": "$h(x)$ is any function with one stationary point.",
+          "why": "One stationary point gives a horizontal tangent at a single $x$-value, not at every point."
+        }
+      ],
+      "solution_text": "A horizontal tangent everywhere means $h'(x)=0$ for all $x$.\nOnly a constant function has a derivative of zero everywhere.\nSo $h(x)$ is a constant function."
+    },
+    {
+      "id": "q7",
+      "question_text": "The rule that a primitive of $x^{n}$ is $\\dfrac{x^{n+1}}{n+1}$ works for every real $n$ except $n=-1$. Why is $n=-1$ excluded?",
+      "structure": "excluded-power-n-minus-one",
+      "mastery": false,
+      "options": [
+        {
+          "text": "It would make the denominator $n+1$ equal to zero.",
+          "correct": true
+        },
+        {
+          "text": "A negative index makes the function negative, and the rule needs positive values.",
+          "why": "A negative index does not make the function negative, and the rule works for $n=-2$."
+        },
+        {
+          "text": "$x^{-1}$ is undefined at $x=0$.",
+          "why": "$x^{-2}$ is also undefined at $x=0$ yet the rule applies to it, so this is not the reason."
+        },
+        {
+          "text": "Raising the power by one gives $x^{0}=1$, which has no primitive.",
+          "why": "$x^{0}=1$ does have a primitive, namely $x$; the failure is the zero denominator."
+        }
+      ],
+      "solution_text": "$\\dfrac{x^{n+1}}{n+1}$ with $n=-1$\n$=\\dfrac{x^{0}}{0}$\nDividing by zero is undefined, so the rule cannot be used when $n=-1$."
+    },
+    {
+      "id": "q8",
+      "question_text": "$F(x)=x^{4}$ is a primitive of $4x^{3}$ and $G(x)=x^{9}$ is a primitive of $9x^{8}$. Which function is a primitive of $9x^{8}+4x^{3}$?",
+      "structure": "constant-multiple-sum-property",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$x^{9}+x^{4}$",
+          "correct": true
+        },
+        {
+          "text": "$x^{13}$",
+          "why": "Multiplied the two primitives together instead of adding them."
+        },
+        {
+          "text": "$9x^{9}+4x^{4}$",
+          "why": "Kept the coefficients $9$ and $4$ as well as raising the powers, so differentiating gives $81x^{8}+16x^{3}$."
+        },
+        {
+          "text": "$\\dfrac{x^{9}+x^{4}}{2}$",
+          "why": "Averaged the two primitives; the sum rule adds them and does not halve the result."
+        }
+      ],
+      "solution_text": "$F(x)+G(x)=x^{9}+x^{4}$\n$\\dfrac{d}{dx}(x^{9}+x^{4})=9x^{8}+4x^{3}$\nSo $x^{9}+x^{4}$ is a primitive of $9x^{8}+4x^{3}$."
+    }
+  ]
+}

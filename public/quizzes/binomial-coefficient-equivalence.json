@@ -1,0 +1,205 @@
+{
+  "skillId": "binomial-coefficient-equivalence",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "What is the value of the $3$rd entry (entry index $r = 2$) of Row $8$ of Pascal's triangle?",
+      "structure": "identify-pascals-entry-ncr",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$28$",
+          "correct": true
+        },
+        {
+          "text": "$56$",
+          "why": "Evaluated $^{8}C_{3}$ using index $3$ instead of the $0$-indexed entry $r = 2$."
+        },
+        {
+          "text": "$21$",
+          "why": "Used Row $7$ instead of Row $8$, evaluating $^{7}C_{2} = 21$."
+        },
+        {
+          "text": "$8$",
+          "why": "Used entry index $r = 1$ instead of $r = 2$."
+        }
+      ],
+      "solution_text": "Row $8$, entry index $r = 2$ corresponds to $^{8}C_{2}$:\n$^{8}C_{2} = \\dfrac{8 \\times 7}{2 \\times 1} = 28$."
+    },
+    {
+      "id": "q2",
+      "question_text": "In the expansion of $(x+y)^{9}$, what is the coefficient of $x^{6}y^{3}$?",
+      "structure": "match-term-coefficient-ncr",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$84$",
+          "correct": true
+        },
+        {
+          "text": "$36$",
+          "why": "Evaluated $^{9}C_{2} = 36$ using the wrong power exponent."
+        },
+        {
+          "text": "$126$",
+          "why": "Subtracted exponents to use index $6-3=3$ incorrectly on a different row."
+        },
+        {
+          "text": "$20$",
+          "why": "Used the power of $x$ as the top index, evaluating $^{6}C_{3} = 20$."
+        }
+      ],
+      "solution_text": "The coefficient of $x^{n-r}y^{r}$ in $(x+y)^{n}$ is $^{n}C_{r}$.\nHere $n = 9$ and $r = 3$:\n$^{9}C_{3} = \\dfrac{9 \\times 8 \\times 7}{3 \\times 2 \\times 1} = 84$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Express $^{11}C_{4} + {^{11}C_{5}}$ as a single combination.",
+      "structure": "pascals-identity-equivalence",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{12}C_{5}$",
+          "correct": true
+        },
+        {
+          "text": "$^{12}C_{9}$",
+          "why": "Added the lower indices $4 + 5 = 9$ instead of taking the greater index $5$."
+        },
+        {
+          "text": "$^{11}C_{9}$",
+          "why": "Kept $n = 11$ and added the lower indices."
+        },
+        {
+          "text": "$^{22}C_{9}$",
+          "why": "Added both the upper and lower indices together."
+        }
+      ],
+      "solution_text": "By Pascal's addition rule $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$:\n$^{11}C_{4} + {^{11}C_{5}} = {^{12}C_{5}}$."
+    },
+    {
+      "id": "q4",
+      "question_text": "Use the symmetry of Pascal's triangle to evaluate $^{13}C_{9}$.",
+      "structure": "symmetry-pascals-identity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$715$",
+          "correct": true
+        },
+        {
+          "text": "$286$",
+          "why": "Evaluated $^{13}C_{3} = 286$ instead of $^{13}C_{13-9} = {^{13}C_{4}}$."
+        },
+        {
+          "text": "$1716$",
+          "why": "Evaluated $^{13}C_{6} = 1716$ instead of $^{13}C_{4}$."
+        },
+        {
+          "text": "$1287$",
+          "why": "Evaluated $^{13}C_{5} = 1287$ instead of $^{13}C_{4}$."
+        }
+      ],
+      "solution_text": "By symmetry $^{13}C_{9} = {^{13}C_{13-9}} = {^{13}C_{4}}$:\n$^{13}C_{4} = \\dfrac{13 \\times 12 \\times 11 \\times 10}{4 \\times 3 \\times 2 \\times 1} = 715$."
+    },
+    {
+      "id": "q5",
+      "question_text": "What is the sum of all entries in Row $7$ of Pascal's triangle?",
+      "structure": "row-sum-and-hockey-stick-properties",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$128$",
+          "correct": true
+        },
+        {
+          "text": "$64$",
+          "why": "Calculated $2^{6} = 64$ using Row $6$ instead of Row $7$."
+        },
+        {
+          "text": "$256$",
+          "why": "Calculated $2^{8} = 256$ using Row $8$ instead of Row $7$."
+        },
+        {
+          "text": "$49$",
+          "why": "Computed $7^{2} = 49$ instead of $2^{7} = 128$."
+        }
+      ],
+      "solution_text": "The sum of all entries in Row $n$ is $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$:\nFor Row $7$: $2^{7} = 128$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Evaluate $^{3}C_{3} + {^{4}C_{3}} + {^{5}C_{3}} + {^{6}C_{3}} + {^{7}C_{3}}$ using the Hockey Stick identity.",
+      "structure": "row-sum-and-hockey-stick-properties",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$70$",
+          "correct": true
+        },
+        {
+          "text": "$56$",
+          "why": "Evaluated $^{8}C_{3} = 56$ without incrementing the lower index."
+        },
+        {
+          "text": "$84$",
+          "why": "Evaluated $^{9}C_{3} = 84$ with incorrect indices."
+        },
+        {
+          "text": "$35$",
+          "why": "Only evaluated the last term $^{7}C_{3} = 35$ instead of summing all terms."
+        }
+      ],
+      "solution_text": "By the Hockey Stick identity $\\sum_{k=r}^{n} {^{k}C_{r}} = {^{n+1}C_{r+1}}$:\nHere $r = 3$ and $n = 7$:\n$\\sum_{k=3}^{7} {^{k}C_{3}} = {^{8}C_{4}} = \\dfrac{8 \\times 7 \\times 6 \\times 5}{4 \\times 3 \\times 2 \\times 1} = 70$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Given $^{16}C_{3k-2} = {^{16}C_{k+6}}$ where $3k-2 \\ne k+6$, find the value of $k$.",
+      "structure": "symmetry-pascals-identity",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$k = 3$",
+          "correct": true
+        },
+        {
+          "text": "$k = 4$",
+          "why": "Equated $3k - 2 = k + 6 \\implies k = 4$, which violates the given condition $3k - 2 \\ne k + 6$."
+        },
+        {
+          "text": "$k = 2$",
+          "why": "Substituted into $(3k-2) + (k+6) = 12$ instead of the upper index $16$."
+        },
+        {
+          "text": "$k = 5$",
+          "why": "Arithmetic error: solved $4k + 4 = 16$ as $4k = 20$."
+        }
+      ],
+      "solution_text": "By the symmetry property $^{n}C_{a} = {^{n}C_{b}}$ with $a \\ne b$, $a + b = n$:\n$(3k - 2) + (k + 6) = 16$\n$4k + 4 = 16$\n$4k = 12$\n$k = 3$."
+    },
+    {
+      "id": "q8",
+      "question_text": "Evaluate $^{10}C_{3} + 2{^{10}C_{4}} + {^{10}C_{5}}$ by reducing to a single combination.",
+      "structure": "pascals-identity-equivalence",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$792$",
+          "correct": true
+        },
+        {
+          "text": "$495$",
+          "why": "Evaluated $^{12}C_{4} = 495$ instead of $^{12}C_{5} = 792$."
+        },
+        {
+          "text": "$582$",
+          "why": "Computed $^{10}C_{3} + {^{10}C_{4}} + {^{10}C_{5}} = 120 + 210 + 252$ without the factor of $2$."
+        },
+        {
+          "text": "$924$",
+          "why": "Evaluated $^{12}C_{6} = 924$ instead of $^{12}C_{5} = 792$."
+        }
+      ],
+      "solution_text": "Group the terms using Pascal's addition rule:\n$({^{10}C_{3}} + {^{10}C_{4}}) + ({^{10}C_{4}} + {^{10}C_{5}})$\n$= {^{11}C_{4}} + {^{11}C_{5}}$\n$= {^{12}C_{5}}$\n$= \\dfrac{12 \\times 11 \\times 10 \\times 9 \\times 8}{5 \\times 4 \\times 3 \\times 2 \\times 1} = 792$."
+    }
+  ]
+}

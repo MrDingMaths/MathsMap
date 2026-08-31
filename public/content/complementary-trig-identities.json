@@ -1,0 +1,123 @@
+{
+  "skillId": "complementary-trig-identities",
+  "atomType": "T",
+  "theory": {
+        "intro": "In a right-angled triangle the two acute angles add to $90^{\\circ}$, so each is the other's complement. Swapping them swaps the opposite and adjacent sides, so every ratio of $\\theta$ equals the co-ratio of $90^{\\circ}-\\theta$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.8,0);\n\\coordinate (C) at (4.8,2.9);\n\\draw (A) -- (B) node[midway, below] {$b$};\n\\draw (B) -- (C) node[midway, right] {$a$};\n\\draw (C) -- (A) node[midway, above left] {$c$};\n\\coordinate (p) at ($(B)!0.3cm!(A)$);\n\\coordinate (q) at ($(B)!0.3cm!(C)$);\n\\draw (p) -- ($(p)+(q)-(B)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=2] {angle = B--A--C};\n\\pic[draw, \"$90^{\\circ}-\\theta$\", angle radius=0.75cm, angle eccentricity=2] {angle = A--C--B};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Two angles are **complementary** when they add to $90^{\\circ}$, so $A+B=90^{\\circ}$.",
+          "$\\sin(90^{\\circ}-\\theta)=\\cos\\theta$ and $\\cos(90^{\\circ}-\\theta)=\\sin\\theta$.",
+          "$\\tan(90^{\\circ}-\\theta)=\\cot\\theta$ and $\\cot(90^{\\circ}-\\theta)=\\tan\\theta$, provided $\\theta\\neq 0^{\\circ}, 90^{\\circ}$.",
+          "$\\sec(90^{\\circ}-\\theta)=\\operatorname{cosec}\\theta$ and $\\operatorname{cosec}(90^{\\circ}-\\theta)=\\sec\\theta$, provided $\\theta\\neq 0^{\\circ}, 90^{\\circ}$.",
+          "If a ratio equals its co-ratio, such as $\\sec A=\\operatorname{cosec} B$ or $\\tan A=\\cot B$, then $A+B=90^{\\circ}$.",
+          "Complementary co-ratios divide to $1$, as $\\dfrac{\\sec 20^{\\circ}}{\\operatorname{cosec} 70^{\\circ}}=1$, and subtract to $0$, as $\\cot 35^{\\circ}-\\tan 55^{\\circ}=0$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Rewrite $\\sec 38^{\\circ}$ as the cosecant of an acute angle.",
+        "structure": "rewrite-reciprocal-cofunction",
+        "solution_text": "$\\sec 38^{\\circ} = \\operatorname{cosec}(90^{\\circ} - 38^{\\circ})$\n$= \\operatorname{cosec} 52^{\\circ}$"
+      },
+      {
+        "question_text": "Rewrite $\\cot 74^{\\circ}$ as the tangent of an acute angle.",
+        "structure": "rewrite-reciprocal-cofunction",
+        "solution_text": "$\\cot 74^{\\circ} = \\tan(90^{\\circ} - 74^{\\circ})$\n$= \\tan 16^{\\circ}$"
+      },
+      {
+        "question_text": "Rewrite $\\operatorname{cosec} 19^{\\circ}$ as the secant of an acute angle.",
+        "structure": "rewrite-reciprocal-cofunction",
+        "solution_text": "$\\operatorname{cosec} 19^{\\circ} = \\sec(90^{\\circ} - 19^{\\circ})$\n$= \\sec 71^{\\circ}$"
+      },
+      {
+        "question_text": "Simplify $\\sec\\theta - \\operatorname{cosec}(90^{\\circ}-\\theta)$ for an acute angle $\\theta$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\sec\\theta - \\operatorname{cosec}(90^{\\circ}-\\theta) = \\sec\\theta - \\sec\\theta$\n$= 0$"
+      },
+      {
+        "question_text": "Simplify $\\cos(90^{\\circ}-\\phi) \\operatorname{cosec}\\phi$ for an acute angle $\\phi$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\cos(90^{\\circ}-\\phi) \\operatorname{cosec}\\phi = \\sin\\phi \\cdot \\dfrac{1}{\\sin\\phi}$\n$= 1$"
+      },
+      {
+        "question_text": "Without using a calculator, evaluate $\\dfrac{\\sec 40^{\\circ}}{\\operatorname{cosec} 50^{\\circ}}$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\dfrac{\\sec 40^{\\circ}}{\\operatorname{cosec} 50^{\\circ}} = \\dfrac{\\operatorname{cosec}(90^{\\circ}-40^{\\circ})}{\\operatorname{cosec} 50^{\\circ}}$\n$= \\dfrac{\\operatorname{cosec} 50^{\\circ}}{\\operatorname{cosec} 50^{\\circ}}$\n$= 1$"
+      },
+      {
+        "question_text": "$\\theta$ is acute. Find its value in degrees if $\\tan 28^{\\circ} = \\cot(90^{\\circ}-\\theta)$.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$\\tan 28^{\\circ} = \\cot(90^{\\circ}-\\theta)$\n$\\tan 28^{\\circ} = \\tan\\theta$\n$\\theta = 28^{\\circ}$"
+      },
+      {
+        "question_text": "Prove that $\\sec(90^{\\circ}-\\theta) = \\operatorname{cosec}\\theta$ for an acute angle $\\theta$ using reciprocal and complementary angle identities.",
+        "structure": "prove-cofunction-identity",
+        "solution_text": "$\\text{LHS} = \\sec(90^{\\circ}-\\theta)$\n$= \\dfrac{1}{\\cos(90^{\\circ}-\\theta)}$\n$= \\dfrac{1}{\\sin\\theta}$\n$= \\operatorname{cosec}\\theta$\n$= \\text{RHS}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Without using a calculator, evaluate $\\dfrac{\\cot 20^{\\circ} + \\tan 70^{\\circ}}{\\cot 20^{\\circ}}$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\dfrac{\\cot 20^{\\circ} + \\tan 70^{\\circ}}{\\cot 20^{\\circ}} = \\dfrac{\\cot 20^{\\circ} + \\cot(90^{\\circ}-70^{\\circ})}{\\cot 20^{\\circ}}$\n$= \\dfrac{\\cot 20^{\\circ} + \\cot 20^{\\circ}}{\\cot 20^{\\circ}}$\n$= \\dfrac{2\\cot 20^{\\circ}}{\\cot 20^{\\circ}}$\n$= 2$"
+      },
+      {
+        "question_text": "Simplify $\\tan 65^{\\circ} + \\cot 25^{\\circ} - 2\\tan 65^{\\circ}$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\tan 65^{\\circ} + \\cot 25^{\\circ} - 2\\tan 65^{\\circ} = \\tan 65^{\\circ} + \\tan(90^{\\circ}-25^{\\circ}) - 2\\tan 65^{\\circ}$\n$= \\tan 65^{\\circ} + \\tan 65^{\\circ} - 2\\tan 65^{\\circ}$\n$= 2\\tan 65^{\\circ} - 2\\tan 65^{\\circ}$\n$= 0$"
+      },
+      {
+        "question_text": "Simplify $\\dfrac{1}{\\cot(90^{\\circ}-\\beta)} \\cdot \\cot\\beta$ for an acute angle $\\beta$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\dfrac{1}{\\cot(90^{\\circ}-\\beta)} \\cdot \\cot\\beta = \\dfrac{1}{\\tan\\beta} \\cdot \\cot\\beta$\n$= \\cot\\beta \\cdot \\cot\\beta$\n$= \\cot^2\\beta$"
+      },
+      {
+        "question_text": "Find the value of $t$ if $\\cot(2t+5^{\\circ}) = \\tan(3t-15^{\\circ})$ where both angles are acute.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$\\cot(2t+5^{\\circ}) = \\tan(3t-15^{\\circ})$\n$(2t+5^{\\circ}) + (3t-15^{\\circ}) = 90^{\\circ}$\n$5t - 10^{\\circ} = 90^{\\circ}$\n$5t = 100^{\\circ}$\n$t = 20^{\\circ}$"
+      },
+      {
+        "question_text": "Find the value of $k$ if $\\sec(15^{\\circ}-k) = \\operatorname{cosec}(2k+60^{\\circ})$ where both angles are acute.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$\\sec(15^{\\circ}-k) = \\operatorname{cosec}(2k+60^{\\circ})$\n$(15^{\\circ}-k) + (2k+60^{\\circ}) = 90^{\\circ}$\n$k + 75^{\\circ} = 90^{\\circ}$\n$k = 15^{\\circ}$"
+      },
+      {
+        "question_text": "Find the value of acute angle $\\theta$ in degrees if $\\tan(2\\theta+14^{\\circ}) = \\cot(\\theta+34^{\\circ})$.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$\\tan(2\\theta+14^{\\circ}) = \\cot(\\theta+34^{\\circ})$\n$(2\\theta+14^{\\circ}) + (\\theta+34^{\\circ}) = 90^{\\circ}$\n$3\\theta + 48^{\\circ} = 90^{\\circ}$\n$3\\theta = 42^{\\circ}$\n$\\theta = 14^{\\circ}$"
+      },
+      {
+        "question_text": "Prove that $\\cot(90^{\\circ}-\\theta) = \\tan\\theta$ for an acute angle $\\theta$ using ratio and complementary angle identities.",
+        "structure": "prove-cofunction-identity",
+        "solution_text": "$\\text{LHS} = \\cot(90^{\\circ}-\\theta)$\n$= \\dfrac{\\cos(90^{\\circ}-\\theta)}{\\sin(90^{\\circ}-\\theta)}$\n$= \\dfrac{\\sin\\theta}{\\cos\\theta}$\n$= \\tan\\theta$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove that $\\operatorname{cosec}(90^{\\circ}-\\theta) = \\sec\\theta$ for an acute angle $\\theta$ using reciprocal and complementary angle identities.",
+        "structure": "prove-cofunction-identity",
+        "solution_text": "$\\text{LHS} = \\operatorname{cosec}(90^{\\circ}-\\theta)$\n$= \\dfrac{1}{\\sin(90^{\\circ}-\\theta)}$\n$= \\dfrac{1}{\\cos\\theta}$\n$= \\sec\\theta$\n$= \\text{RHS}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $\\sec(3x+10^{\\circ}) = \\operatorname{cosec}(x+20^{\\circ})$ for acute $x$, and hence evaluate $\\tan(3x)$.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$(3x+10^{\\circ}) + (x+20^{\\circ}) = 90^{\\circ}$\n$4x + 30^{\\circ} = 90^{\\circ}$\n$4x = 60^{\\circ}$\n$x = 15^{\\circ}$\n$\\tan(3x) = \\tan(3 \\times 15^{\\circ})$\n$= \\tan 45^{\\circ}$\n$= 1$"
+      },
+      {
+        "question_text": "Prove that $\\dfrac{\\sin(90^{\\circ}-\\theta)\\sec(90^{\\circ}-\\theta)}{\\cot\\theta} = 1$ for all acute angles $\\theta$.",
+        "structure": "prove-cofunction-identity",
+        "solution_text": "$\\text{LHS} = \\dfrac{\\sin(90^{\\circ}-\\theta)\\sec(90^{\\circ}-\\theta)}{\\cot\\theta}$\n$= \\dfrac{\\cos\\theta \\cdot \\operatorname{cosec}\\theta}{\\cot\\theta}$\n$= \\dfrac{\\cos\\theta \\cdot \\dfrac{1}{\\sin\\theta}}{\\dfrac{\\cos\\theta}{\\sin\\theta}}$\n$= \\dfrac{\\cot\\theta}{\\cot\\theta}$\n$= 1$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Solve $\\cos(2x+18^{\\circ}) = \\sin x$ in the domain $x \\in [0^{\\circ}, 90^{\\circ}]$.",
+        "structure": "solve-cofunction-linear-equation",
+        "solution_text": "$\\cos(2x+18^{\\circ}) = \\sin(90^{\\circ}-(2x+18^{\\circ}))$\n$\\sin(72^{\\circ}-2x) = \\sin x$\n$72^{\\circ}-2x = x$\n$3x = 72^{\\circ}$\n$x = 24^{\\circ}$"
+      },
+      {
+        "question_text": "Simplify $\\dfrac{\\sec(90^{\\circ}-\\theta)\\sin\\theta}{\\cot\\theta\\tan\\theta}$ for an acute angle $\\theta$.",
+        "structure": "simplify-complementary-expression",
+        "solution_text": "$\\dfrac{\\sec(90^{\\circ}-\\theta)\\sin\\theta}{\\cot\\theta\\tan\\theta} = \\dfrac{\\operatorname{cosec}\\theta \\sin\\theta}{1}$\n$= \\dfrac{1}{1}$\n$= 1$"
+      }
+    ]
+  }
+}

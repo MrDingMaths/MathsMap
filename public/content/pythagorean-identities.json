@@ -1,0 +1,122 @@
+{
+  "skillId": "pythagorean-identities",
+  "atomType": "T",
+  "theory": {
+        "intro": "On the unit circle a point at angle $\\theta$ has coordinates $x=\\cos\\theta$ and $y=\\sin\\theta$. Its equation $x^2+y^2=1$ becomes the **Pythagorean identity** $\\cos^{2}\\theta+\\sin^{2}\\theta=1$. Dividing that identity by $\\cos^{2}\\theta$ or $\\sin^{2}\\theta$ gives two more.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.147,1.638);\n\\coordinate (Q) at (1.147,0);\n\\draw[{Stealth}-{Stealth}] (-2.6,0) -- (2.6,0) node[below right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.6) node[above left] {$y$};\n\\draw (O) circle (2);\n\\draw (O) -- (P) node[midway, above left] {$1$};\n\\draw (Q) -- (P);\n\\fill (P) circle (1.5pt);\n\\node[above right] at (P) {$P(\\cos\\theta,\\sin\\theta)$};\n\\coordinate (p) at ($(Q)!0.25cm!(O)$);\n\\coordinate (q) at ($(Q)!0.25cm!(P)$);\n\\draw (p) -- ($(p)+(q)-(Q)$) -- (q);\n\\pic[draw, \"$\\theta$\", angle radius=0.45cm, angle eccentricity=1.8] {angle = Q--O--P};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "$\\cos^{2}\\theta+\\sin^{2}\\theta=1$, which rearranges to $\\sin^{2}\\theta=1-\\cos^{2}\\theta$ and $\\cos^{2}\\theta=1-\\sin^{2}\\theta$.",
+          "Dividing through by $\\cos^{2}\\theta$ gives $1+\\tan^{2}\\theta=\\sec^{2}\\theta$, for $\\cos\\theta\\neq 0$.",
+          "Dividing through by $\\sin^{2}\\theta$ gives $1+\\cot^{2}\\theta=\\operatorname{cosec}^{2}\\theta$, for $\\sin\\theta\\neq 0$.",
+          "Rearranged, these give the difference forms $\\sec^{2}\\theta-\\tan^{2}\\theta=1$ and $\\operatorname{cosec}^{2}\\theta-\\cot^{2}\\theta=1$.",
+          "As a difference of squares, $1-\\sin^{2}\\theta=(1-\\sin\\theta)(1+\\sin\\theta)=\\cos^{2}\\theta$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Derive the identity relating $\\tan\\theta$ and $\\sec\\theta$ by dividing $\\cos^{2}\\theta + \\sin^{2}\\theta = 1$ by $\\cos^{2}\\theta$.",
+        "structure": "derive-pythagorean-identity",
+        "solution_text": "$\\cos^{2}\\theta + \\sin^{2}\\theta = 1$\n$\\dfrac{\\cos^{2}\\theta}{\\cos^{2}\\theta} + \\dfrac{\\sin^{2}\\theta}{\\cos^{2}\\theta} = \\dfrac{1}{\\cos^{2}\\theta}$\n$1 + \\left(\\dfrac{\\sin\\theta}{\\cos\\theta}\\right)^2 = \\left(\\dfrac{1}{\\cos\\theta}\\right)^2$\n$1 + \\tan^{2}\\theta = \\sec^{2}\\theta$"
+      },
+      {
+        "question_text": "Derive the identity relating $\\cot\\theta$ and $\\operatorname{cosec}\\theta$ by dividing $\\cos^{2}\\theta + \\sin^{2}\\theta = 1$ by $\\sin^{2}\\theta$.",
+        "structure": "derive-pythagorean-identity",
+        "solution_text": "$\\cos^{2}\\theta + \\sin^{2}\\theta = 1$\n$\\dfrac{\\cos^{2}\\theta}{\\sin^{2}\\theta} + \\dfrac{\\sin^{2}\\theta}{\\sin^{2}\\theta} = \\dfrac{1}{\\sin^{2}\\theta}$\n$\\left(\\dfrac{\\cos\\theta}{\\sin\\theta}\\right)^2 + 1 = \\left(\\dfrac{1}{\\sin\\theta}\\right)^2$\n$\\cot^{2}\\theta + 1 = \\operatorname{cosec}^{2}\\theta$\n$1 + \\cot^{2}\\theta = \\operatorname{cosec}^{2}\\theta$"
+      },
+      {
+        "question_text": "Simplify $1 - \\cos^{2}\\alpha$ using a Pythagorean identity.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$1 - \\cos^{2}\\alpha = \\sin^{2}\\alpha$"
+      },
+      {
+        "question_text": "Simplify $\\sec^{2}\\beta - \\tan^{2}\\beta$ using a Pythagorean identity.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$\\sec^{2}\\beta - \\tan^{2}\\beta = (1 + \\tan^{2}\\beta) - \\tan^{2}\\beta$\n$= 1$"
+      },
+      {
+        "question_text": "Simplify $1 + \\cot^{2}\\phi$ using a Pythagorean identity.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$1 + \\cot^{2}\\phi = \\operatorname{cosec}^{2}\\phi$"
+      },
+      {
+        "question_text": "Simplify $\\operatorname{cosec}^{2}A - 1$ using a Pythagorean identity.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$\\operatorname{cosec}^{2}A - 1 = (1 + \\cot^{2}A) - 1$\n$= \\cot^{2}A$"
+      },
+      {
+        "question_text": "Prove the identity $(1-\\sin\\theta)(1+\\sin\\theta) = \\cos^{2}\\theta$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = (1-\\sin\\theta)(1+\\sin\\theta)$\n$= 1 - \\sin^{2}\\theta$\n$= \\cos^{2}\\theta$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove the identity $(1+\\tan^{2}x)\\cos^{2}x = 1$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = (1+\\tan^{2}x)\\cos^{2}x$\n$= \\sec^{2}x \\cos^{2}x$\n$= \\dfrac{1}{\\cos^{2}x} \\cdot \\cos^{2}x$\n$= 1$\n$= \\text{RHS}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Simplify $4\\cot^{2}\\theta + 4$ using a Pythagorean identity.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$4\\cot^{2}\\theta + 4 = 4(\\cot^{2}\\theta + 1)$\n$= 4\\operatorname{cosec}^{2}\\theta$"
+      },
+      {
+        "question_text": "Simplify $\\tan^{2}\\theta - \\dfrac{1}{\\cos^{2}\\theta}$.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$\\tan^{2}\\theta - \\dfrac{1}{\\cos^{2}\\theta} = \\tan^{2}\\theta - \\sec^{2}\\theta$\n$= \\tan^{2}\\theta - (1 + \\tan^{2}\\theta)$\n$= -1$"
+      },
+      {
+        "question_text": "Simplify $\\sin^{2}\\theta - \\sin^{2}\\theta\\cos^{2}\\theta$ by factorising.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$\\sin^{2}\\theta - \\sin^{2}\\theta\\cos^{2}\\theta = \\sin^{2}\\theta(1 - \\cos^{2}\\theta)$\n$= \\sin^{2}\\theta(\\sin^{2}\\theta)$\n$= \\sin^{4}\\theta$"
+      },
+      {
+        "question_text": "Simplify $1 - \\tan^{2}\\theta + \\sec^{2}\\theta$.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$1 - \\tan^{2}\\theta + \\sec^{2}\\theta = 1 - \\tan^{2}\\theta + (1 + \\tan^{2}\\theta)$\n$= 2$"
+      },
+      {
+        "question_text": "Prove that $(\\sin\\beta + \\cos\\beta)^{2} = 1 + 2\\sin\\beta\\cos\\beta$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = (\\sin\\beta + \\cos\\beta)^{2}$\n$= \\sin^{2}\\beta + 2\\sin\\beta\\cos\\beta + \\cos^{2}\\beta$\n$= (\\sin^{2}\\beta + \\cos^{2}\\beta) + 2\\sin\\beta\\cos\\beta$\n$= 1 + 2\\sin\\beta\\cos\\beta$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove that $\\cos^{4}x + \\cos^{2}x\\sin^{2}x = \\cos^{2}x$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = \\cos^{4}x + \\cos^{2}x\\sin^{2}x$\n$= \\cos^{2}x(\\cos^{2}x + \\sin^{2}x)$\n$= \\cos^{2}x(1)$\n$= \\cos^{2}x$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove that $\\cot\\theta(\\sec^{2}\\theta - 1) = \\tan\\theta$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = \\cot\\theta(\\sec^{2}\\theta - 1)$\n$= \\cot\\theta \\tan^{2}\\theta$\n$= \\dfrac{1}{\\tan\\theta} \\cdot \\tan^{2}\\theta$\n$= \\tan\\theta$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove that $\\dfrac{1-\\cos^{2}A}{1-\\sin^{2}A} = \\tan^{2}A$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = \\dfrac{1-\\cos^{2}A}{1-\\sin^{2}A}$\n$= \\dfrac{\\sin^{2}A}{\\cos^{2}A}$\n$= \\tan^{2}A$\n$= \\text{RHS}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove that $\\sin^{4}\\theta - \\cos^{4}\\theta = 2\\sin^{2}\\theta - 1$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = \\sin^{4}\\theta - \\cos^{4}\\theta$\n$= (\\sin^{2}\\theta - \\cos^{2}\\theta)(\\sin^{2}\\theta + \\cos^{2}\\theta)$\n$= (\\sin^{2}\\theta - \\cos^{2}\\theta)(1)$\n$= \\sin^{2}\\theta - (1 - \\sin^{2}\\theta)$\n$= 2\\sin^{2}\\theta - 1$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Prove that $\\dfrac{1}{1-\\sin x} + \\dfrac{1}{1+\\sin x} = 2\\sec^{2}x$.",
+        "structure": "prove-pythagorean-identity",
+        "solution_text": "$\\text{LHS} = \\dfrac{1}{1-\\sin x} + \\dfrac{1}{1+\\sin x}$\n$= \\dfrac{(1+\\sin x) + (1-\\sin x)}{(1-\\sin x)(1+\\sin x)}$\n$= \\dfrac{2}{1-\\sin^{2}x}$\n$= \\dfrac{2}{\\cos^{2}x}$\n$= 2\\sec^{2}x$\n$= \\text{RHS}$"
+      },
+      {
+        "question_text": "Simplify $(\\sec\\theta - \\tan\\theta)(\\sec\\theta + \\tan\\theta) + (\\operatorname{cosec}\\theta - \\cot\\theta)(\\operatorname{cosec}\\theta + \\cot\\theta)$.",
+        "structure": "simplify-pythagorean-expression",
+        "solution_text": "$(\\sec\\theta - \\tan\\theta)(\\sec\\theta + \\tan\\theta) + (\\operatorname{cosec}\\theta - \\cot\\theta)(\\operatorname{cosec}\\theta + \\cot\\theta) = (\\sec^{2}\\theta - \\tan^{2}\\theta) + (\\operatorname{cosec}^{2}\\theta - \\cot^{2}\\theta)$\n$= 1 + 1$\n$= 2$"
+      },
+      {
+        "question_text": "A point $P(x,y)$ on the unit circle has coordinates $x=\\cos\\theta$ and $y=\\sin\\theta$. Show how the circle equation $x^2+y^2=1$ establishes $\\cos^{2}\\theta+\\sin^{2}\\theta=1$, and state the condition under which $1+\\tan^2\\theta=\\sec^2\\theta$ is valid.",
+        "structure": "derive-pythagorean-identity",
+        "solution_text": "Every point on the unit circle satisfies $x^2+y^2=1$.\n$\\cos^{2}\\theta + \\sin^{2}\\theta = 1$\nDividing through by $\\cos^{2}\\theta$ requires $\\cos\\theta \\neq 0$, which holds when $\\theta \\neq 90^{\\circ} + 180^{\\circ}k$ for integer $k$."
+      }
+    ]
+  }
+}

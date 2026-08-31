@@ -1,0 +1,146 @@
+{
+  "skillId": "evaluate-trig-of-inverse-trig",
+  "atomType": "R",
+  "theory": {
+    "intro": "To evaluate $\\sin(\\arccos x)$, name the inner angle $\\alpha$ and build a right-angled triangle from its ratio. The range of the inverse function fixes which quadrant $\\alpha$ lies in, and that quadrant fixes the sign of the answer.",
+    "facts": [
+      "$\\arcsin x$ has range $-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, so $\\alpha$ is in quadrant 1 when $x>0$ and quadrant 4 when $x<0$.",
+      "$\\arccos x$ has range $0\\le\\alpha\\le\\pi$, so $\\alpha$ is in quadrant 1 when $x>0$ and quadrant 2 when $x<0$.",
+      "$\\arctan x$ has range $-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$, so $\\alpha$ is in quadrant 1 when $x>0$ and quadrant 4 when $x<0$.",
+      "In quadrant 2 the sine is positive while the cosine and the tangent are negative.",
+      "In quadrant 4 the cosine is positive while the sine and the tangent are negative.",
+      "Build the triangle from the positive side lengths, then attach the sign the quadrant demands.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (A) at (0,2);\n\\draw (C) -- (B) node[midway, below] {adjacent};\n\\draw (B) -- (A) node[midway, above right] {hypotenuse};\n\\draw (A) -- (C) node[midway, left] {opposite};\n\\coordinate (c1) at ($(C)!0.25cm!(B)$);\n\\coordinate (c2) at ($(C)!0.25cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.7cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+      "$\\cos(\\arcsin x)=\\sqrt{1-x^{2}}$ is never negative, because $\\arcsin x$ always has a positive cosine.",
+      "$\\sin(\\arccos x)=\\sqrt{1-x^{2}}$ is never negative, because $\\arccos x$ always has a positive sine."
+    ],
+    "steps": [
+      "Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio",
+      "Identify the quadrant from the range of the inverse function and the sign of the ratio",
+      "Draw a right-angled triangle and find the missing side using Pythagoras",
+      "Evaluate the required ratio with the sign of the quadrant"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The right-angled triangle below has $\\alpha=\\arcsin\\frac{3}{5}$.\nFind the exact value of $\\cos\\left(\\arcsin\\frac{3}{5}\\right)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (2.8,0);\n\\coordinate (A) at (0,2.1);\n\\draw (C) -- (B);\n\\draw (B) -- (A) node[midway, above right] {$5$};\n\\draw (A) -- (C) node[midway, left] {$3$};\n\\coordinate (c1) at ($(C)!0.25cm!(B)$);\n\\coordinate (c2) at ($(C)!0.25cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "trig-of-inverse-positive",
+        "solution_text": "1. **Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio**\n$\\alpha=\\arcsin\\frac{3}{5}$\n$\\sin\\alpha=\\frac{3}{5}$\n2. **Identify the quadrant from the range of the inverse function and the sign of the ratio**\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha>0$, so $\\alpha$ is in quadrant 1.\n3. **Draw a right-angled triangle and find the missing side using Pythagoras**\n$\\text{adjacent}=\\sqrt{5^{2}-3^{2}}$\n$=4$\n4. **Evaluate the required ratio with the sign of the quadrant**\n$\\cos\\alpha$\n$=\\frac{4}{5}$"
+      },
+      {
+        "question_text": "The right-angled triangle below has $\\alpha=\\arccos\\frac{12}{13}$.\nFind the exact value of $\\tan\\left(\\arccos\\frac{12}{13}\\right)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.6]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (2.64,0);\n\\coordinate (A) at (0,1.1);\n\\draw (C) -- (B) node[midway, below] {$12$};\n\\draw (B) -- (A) node[midway, above right] {$13$};\n\\draw (A) -- (C);\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "trig-of-inverse-positive",
+        "solution_text": "1. **Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio**\n$\\alpha=\\arccos\\frac{12}{13}$\n$\\cos\\alpha=\\frac{12}{13}$\n2. **Identify the quadrant from the range of the inverse function and the sign of the ratio**\n$0\\le\\alpha\\le\\pi$ and $\\cos\\alpha>0$, so $\\alpha$ is in quadrant 1.\n3. **Draw a right-angled triangle and find the missing side using Pythagoras**\n$\\text{opposite}=\\sqrt{13^{2}-12^{2}}$\n$=5$\n4. **Evaluate the required ratio with the sign of the quadrant**\n$\\tan\\alpha$\n$=\\frac{5}{12}$"
+      },
+      {
+        "question_text": "In which quadrant does the angle $\\alpha=\\arccos\\left(-\\frac{2}{7}\\right)$ lie?",
+        "structure": "quadrant-identification",
+        "solution_text": "The range of $\\arccos$ is $0\\le\\alpha\\le\\pi$, so $\\alpha$ is in quadrant 1 or quadrant 2.\n$\\cos\\alpha=-\\frac{2}{7}<0$, and the cosine is negative only in quadrant 2.\n$\\alpha$ is in quadrant 2."
+      },
+      {
+        "question_text": "The right-angled triangle below has $\\alpha=\\arctan\\frac{2}{5}$.\nFind the exact value of $\\sin\\left(\\arctan\\frac{2}{5}\\right)$, with a rational denominator.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.6]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (2.75,0);\n\\coordinate (A) at (0,1.1);\n\\draw (C) -- (B) node[midway, below] {$5$};\n\\draw (B) -- (A);\n\\draw (A) -- (C) node[midway, left] {$2$};\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.6cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "trig-of-inverse-positive",
+        "solution_text": "1. **Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio**\n$\\alpha=\\arctan\\frac{2}{5}$\n$\\tan\\alpha=\\frac{2}{5}$\n2. **Identify the quadrant from the range of the inverse function and the sign of the ratio**\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha>0$, so $\\alpha$ is in quadrant 1.\n3. **Draw a right-angled triangle and find the missing side using Pythagoras**\n$\\text{hypotenuse}=\\sqrt{2^{2}+5^{2}}$\n$=\\sqrt{29}$\n4. **Evaluate the required ratio with the sign of the quadrant**\n$\\sin\\alpha$\n$=\\frac{2}{\\sqrt{29}}$\n$=\\frac{2\\sqrt{29}}{29}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arcsin\\left(-\\frac{8}{17}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "1. **Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio**\n$\\alpha=\\arcsin\\left(-\\frac{8}{17}\\right)$\n$\\sin\\alpha=-\\frac{8}{17}$\n2. **Identify the quadrant from the range of the inverse function and the sign of the ratio**\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha<0$, so $\\alpha$ is in quadrant 4.\n3. **Draw a right-angled triangle and find the missing side using Pythagoras**\n$\\text{adjacent}=\\sqrt{17^{2}-8^{2}}$\n$=15$\n4. **Evaluate the required ratio with the sign of the quadrant**\nThe cosine is positive in quadrant 4.\n$\\cos\\alpha$\n$=\\frac{15}{17}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arccos\\left(-\\frac{9}{41}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "1. **Let $\\alpha$ be the inner inverse trigonometric function and write its trigonometric ratio**\n$\\alpha=\\arccos\\left(-\\frac{9}{41}\\right)$\n$\\cos\\alpha=-\\frac{9}{41}$\n2. **Identify the quadrant from the range of the inverse function and the sign of the ratio**\n$0\\le\\alpha\\le\\pi$ and $\\cos\\alpha<0$, so $\\alpha$ is in quadrant 2.\n3. **Draw a right-angled triangle and find the missing side using Pythagoras**\n$\\text{opposite}=\\sqrt{41^{2}-9^{2}}$\n$=\\sqrt{1600}$\n$=40$\n4. **Evaluate the required ratio with the sign of the quadrant**\nThe sine is positive in quadrant 2.\n$\\sin\\alpha$\n$=\\frac{40}{41}$"
+      },
+      {
+        "question_text": "Is $\\tan\\left(\\arcsin\\left(-\\frac{4}{9}\\right)\\right)$ positive or negative? Give a reason.",
+        "structure": "quadrant-identification",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{4}{9}\\right)$, so $\\sin\\alpha=-\\frac{4}{9}$.\nThe range of $\\arcsin$ is $-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, and $\\sin\\alpha<0$, so $\\alpha$ is in quadrant 4.\nThe tangent is negative in quadrant 4, so $\\tan\\left(\\arcsin\\left(-\\frac{4}{9}\\right)\\right)$ is negative."
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(\\arcsin\\frac{20}{29}\\right)$.",
+        "structure": "trig-of-inverse-positive",
+        "solution_text": "Let $\\alpha=\\arcsin\\frac{20}{29}$, so $\\sin\\alpha=\\frac{20}{29}$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha>0$, so $\\alpha$ is in quadrant 1.\n$\\text{adjacent}=\\sqrt{29^{2}-20^{2}}$\n$=\\sqrt{441}$\n$=21$\n$\\tan\\alpha$\n$=\\frac{20}{21}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arctan\\frac{8}{15}\\right)$.",
+        "structure": "trig-of-inverse-positive",
+        "solution_text": "Let $\\alpha=\\arctan\\frac{8}{15}$, so $\\tan\\alpha=\\frac{8}{15}$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha>0$, so $\\alpha$ is in quadrant 1.\n$\\text{hypotenuse}=\\sqrt{8^{2}+15^{2}}$\n$=17$\n$\\sin\\alpha$\n$=\\frac{8}{17}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the exact value of $\\tan\\left(\\arccos\\left(-\\frac{2}{5}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{2}{5}\\right)$, so $\\cos\\alpha=-\\frac{2}{5}$.\n$0\\le\\alpha\\le\\pi$ and $\\cos\\alpha<0$, so $\\alpha$ is in quadrant 2.\nThe reference triangle has adjacent $2$ and hypotenuse $5$.\n$\\text{opposite}=\\sqrt{5^{2}-2^{2}}$\n$=\\sqrt{21}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (1.1,0);\n\\coordinate (A) at (0,2.52);\n\\draw (C) -- (B) node[midway, below] {$2$};\n\\draw (B) -- (A) node[midway, above right] {$5$};\n\\draw (A) -- (C) node[midway, left] {$\\sqrt{21}$};\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]\nThe tangent is negative in quadrant 2.\n$\\tan\\alpha$\n$=-\\frac{\\sqrt{21}}{2}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arcsin\\left(-\\frac{2}{3}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{2}{3}\\right)$, so $\\sin\\alpha=-\\frac{2}{3}$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{adjacent}=\\sqrt{3^{2}-2^{2}}$\n$=\\sqrt{5}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (2.01,0);\n\\coordinate (A) at (0,1.8);\n\\draw (C) -- (B) node[midway, below] {$\\sqrt{5}$};\n\\draw (B) -- (A) node[midway, above right] {$3$};\n\\draw (A) -- (C) node[midway, left] {$2$};\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]\nThe cosine is positive in quadrant 4.\n$\\cos\\alpha$\n$=\\frac{\\sqrt{5}}{3}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(\\arcsin\\left(-\\frac{1}{4}\\right)\\right)$, with a rational denominator.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{1}{4}\\right)$, so $\\sin\\alpha=-\\frac{1}{4}$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{adjacent}=\\sqrt{4^{2}-1^{2}}$\n$=\\sqrt{15}$\nThe tangent is negative in quadrant 4.\n$\\tan\\alpha$\n$=-\\frac{1}{\\sqrt{15}}$\n$=-\\frac{\\sqrt{15}}{15}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arctan\\left(-\\frac{3}{2}\\right)\\right)$, with a rational denominator.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{3}{2}\\right)$, so $\\tan\\alpha=-\\frac{3}{2}$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{hypotenuse}=\\sqrt{3^{2}+2^{2}}$\n$=\\sqrt{13}$\nThe sine is negative in quadrant 4.\n$\\sin\\alpha$\n$=-\\frac{3}{\\sqrt{13}}$\n$=-\\frac{3\\sqrt{13}}{13}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arctan\\left(-\\frac{12}{5}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{12}{5}\\right)$, so $\\tan\\alpha=-\\frac{12}{5}$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{hypotenuse}=\\sqrt{12^{2}+5^{2}}$\n$=13$\nThe cosine is positive in quadrant 4.\n$\\cos\\alpha$\n$=\\frac{5}{13}$"
+      },
+      {
+        "question_text": "Show that $\\sin\\left(\\arccos x\\right)=\\sqrt{1-x^{2}}$ for $-1\\le x\\le 1$.",
+        "structure": "trig-of-inverse-general",
+        "solution_text": "Let $\\alpha=\\arccos x$, so $\\cos\\alpha=x$.\n$0\\le\\alpha\\le\\pi$, and the sine is positive in both quadrant 1 and quadrant 2, so $\\sin\\alpha\\ge 0$.\nTake hypotenuse $1$ and adjacent side $x$.\n$\\text{opposite}=\\sqrt{1^{2}-x^{2}}$\n$=\\sqrt{1-x^{2}}$\n$\\sin\\left(\\arccos x\\right)$\n$=\\frac{\\sqrt{1-x^{2}}}{1}$\n$=\\sqrt{1-x^{2}}$"
+      },
+      {
+        "question_text": "Show that $\\tan\\left(\\arcsin x\\right)=\\dfrac{x}{\\sqrt{1-x^{2}}}$ for $-1<x<1$.",
+        "structure": "trig-of-inverse-general",
+        "solution_text": "Let $\\alpha=\\arcsin x$, so $\\sin\\alpha=x$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, so $\\cos\\alpha\\ge 0$ in both quadrant 1 and quadrant 4.\nTake hypotenuse $1$ and opposite side $x$.\n$\\text{adjacent}=\\sqrt{1-x^{2}}$\n$\\tan\\left(\\arcsin x\\right)$\n$=\\frac{x}{\\sqrt{1-x^{2}}}$"
+      },
+      {
+        "question_text": "Show that $\\sin\\left(\\arctan x\\right)=\\dfrac{x}{\\sqrt{1+x^{2}}}$ for all real $x$.",
+        "structure": "trig-of-inverse-general",
+        "solution_text": "Let $\\alpha=\\arctan x$, so $\\tan\\alpha=x$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$, so $\\cos\\alpha>0$ and $\\sin\\alpha$ takes the sign of $x$.\nTake opposite side $x$ and adjacent side $1$.\n$\\text{hypotenuse}=\\sqrt{x^{2}+1^{2}}$\n$=\\sqrt{1+x^{2}}$\n$\\sin\\left(\\arctan x\\right)$\n$=\\frac{x}{\\sqrt{1+x^{2}}}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arccos\\left(-\\frac{1}{2}\\right)\\right)$ by first naming the angle $\\arccos\\left(-\\frac{1}{2}\\right)$ in radians.",
+        "structure": "exact-angle-composition",
+        "solution_text": "$\\arccos\\left(-\\frac{1}{2}\\right)$\n$=\\frac{2\\pi}{3}$\nThis lies in $0\\le\\alpha\\le\\pi$, in quadrant 2, where the sine is positive.\n$\\sin\\frac{2\\pi}{3}$\n$=\\frac{\\sqrt{3}}{2}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(\\arcsin\\left(-\\frac{\\sqrt{2}}{2}\\right)\\right)$ by first naming the angle $\\arcsin\\left(-\\frac{\\sqrt{2}}{2}\\right)$ in radians.",
+        "structure": "exact-angle-composition",
+        "solution_text": "$\\arcsin\\left(-\\frac{\\sqrt{2}}{2}\\right)$\n$=-\\frac{\\pi}{4}$\nThis lies in $-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, in quadrant 4, where the tangent is negative.\n$\\tan\\left(-\\frac{\\pi}{4}\\right)$\n$=-1$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$\\cos\\left(\\arcsin x\\right)=\\dfrac{2\\sqrt{2}}{3}$ and $x<0$. Find the exact value of $x$.",
+        "structure": "trig-of-inverse-general",
+        "solution_text": "$\\cos\\left(\\arcsin x\\right)=\\sqrt{1-x^{2}}$\n$\\sqrt{1-x^{2}}=\\frac{2\\sqrt{2}}{3}$\n$1-x^{2}=\\frac{8}{9}$\n$x^{2}=\\frac{1}{9}$\n$x=\\pm\\frac{1}{3}$\nSince $x<0$,\n$x=-\\frac{1}{3}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arccos\\left(-\\frac{4}{5}\\right)\\right)+\\tan\\left(\\arcsin\\left(-\\frac{3}{5}\\right)\\right)$.",
+        "structure": "trig-of-inverse-negative",
+        "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{4}{5}\\right)$, so $\\cos\\alpha=-\\frac{4}{5}$ and $\\alpha$ is in quadrant 2.\n$\\text{opposite}=\\sqrt{5^{2}-4^{2}}=3$, and the sine is positive in quadrant 2, so $\\sin\\alpha=\\frac{3}{5}$.\nLet $\\beta=\\arcsin\\left(-\\frac{3}{5}\\right)$, so $\\sin\\beta=-\\frac{3}{5}$ and $\\beta$ is in quadrant 4.\n$\\text{adjacent}=\\sqrt{5^{2}-3^{2}}=4$, and the tangent is negative in quadrant 4, so $\\tan\\beta=-\\frac{3}{4}$.\n$\\sin\\alpha+\\tan\\beta$\n$=\\frac{3}{5}-\\frac{3}{4}$\n$=\\frac{12}{20}-\\frac{15}{20}$\n$=-\\frac{3}{20}$"
+      },
+      {
+        "question_text": "Show that $\\cos\\left(\\arcsin 3x\\right)=\\sqrt{1-9x^{2}}$ for $-\\frac{1}{3}\\le x\\le\\frac{1}{3}$.",
+        "structure": "trig-of-inverse-general",
+        "solution_text": "Let $\\alpha=\\arcsin 3x$, so $\\sin\\alpha=3x$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, so $\\alpha$ is in quadrant 1 or quadrant 4 and $\\cos\\alpha\\ge 0$.\nTake hypotenuse $1$ and opposite side $3x$.\n$\\text{adjacent}=\\sqrt{1-(3x)^{2}}$\n$=\\sqrt{1-9x^{2}}$\n$\\cos\\left(\\arcsin 3x\\right)$\n$=\\sqrt{1-9x^{2}}$"
+      },
+      {
+        "question_text": "Explain why $\\sin\\left(\\arccos x\\right)$ is never negative, while $\\tan\\left(\\arccos x\\right)$ can be negative.",
+        "structure": "quadrant-identification",
+        "solution_text": "Let $\\alpha=\\arccos x$, so $0\\le\\alpha\\le\\pi$.\nThat range covers quadrant 1 and quadrant 2 only, and the sine is positive in both, so $\\sin\\alpha\\ge 0$ for every $x$ in $-1\\le x\\le 1$.\nThe tangent, however, is positive in quadrant 1 but negative in quadrant 2.\nSo when $x<0$ the angle $\\alpha$ is in quadrant 2 and $\\tan\\left(\\arccos x\\right)$ is negative."
+      }
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "skillId": "fundamental-theorem-calculus",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **Fundamental Theorem of Calculus** links area and primitives. If $F$ is any primitive of a continuous function $f$, then $\\int_{a}^{b} f(x)\\,dx = F(b) - F(a)$. Differentiating an area function undoes integrating, so the two operations are inverses.",
+    "facts": [
+      "A **primitive** $F$ of $f$ is a function with $F'(x) = f(x)$.",
+      "The **area function** $A(x) = \\int_{a}^{x} f(t)\\,dt$ measures signed area from the fixed left end $a$ to the moving right end $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (6.4,0) node[right] {$t$};\n\\draw[->] (0,-0.5) -- (0,4.8) node[above] {$y$};\n\\fill[gray!35, domain=1.2:4, variable=\\x] (1.2,0) -- plot ({\\x},{1 + 0.12*(\\x-0.6)*(\\x-0.6)}) -- (4,0) -- cycle;\n\\draw[thick, <->, domain=0.2:5.8, smooth, variable=\\x] plot ({\\x},{1 + 0.12*(\\x-0.6)*(\\x-0.6)});\n\\draw[dashed] (1.2,0) -- (1.2,1.04);\n\\draw[dashed] (4,0) -- (4,2.39);\n\\node[below] at (1.2,0) {$a$};\n\\node[below] at (4,0) {$x$};\n\\node at (2.6,0.7) {$A(x)$};\n\\node at (3.6,4.1) {$y=f(t)$};\n\\end{tikzpicture}\n[/tikz]",
+      "The first form of the theorem says $\\dfrac{d}{dx}\\int_{a}^{x} f(t)\\,dt = f(x)$, so the area function is a primitive of $f$.",
+      "The second form says $\\int_{a}^{b} f(x)\\,dx = F(b) - F(a)$ for any primitive $F$ of $f$.",
+      "This is set out as $\\int_{a}^{b} f(x)\\,dx = \\left[F(x)\\right]_{a}^{b}$, meaning substitute $b$ and then subtract the value at $a$.",
+      "The constant $+C$ cancels in that subtraction, so a definite integral never carries $+C$.",
+      "A definite integral is a number, while an indefinite integral is a function.",
+      "Signed area counts any part of the region below the $x$-axis as negative."
+    ],
+    "steps": [
+      "Find a primitive $F(x)$ of the integrand and write it in square brackets with the limits.",
+      "Substitute the upper limit $b$ into $F$.",
+      "Subtract the value of $F$ at the lower limit $a$.",
+      "Simplify to a single number."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Show that $F(x) = x^{3} - 2x$ is a primitive of $f(x) = 3x^{2} - 2$.",
+        "structure": "verify-primitive",
+        "solution_text": "$\\dfrac{d}{dx}\\left(x^{3} - 2x\\right)$\n$= 3x^{2} - 2$\n$= f(x)$, so $F$ is a primitive of $f$."
+      },
+      {
+        "question_text": "Find $\\dfrac{d}{dx}\\int_{2}^{x}\\left(t^{4} + 5\\right)dt$.",
+        "structure": "differentiate-area-function",
+        "solution_text": "$\\dfrac{d}{dx}\\int_{2}^{x}\\left(t^{4} + 5\\right)dt$\n$= x^{4} + 5$"
+      },
+      {
+        "question_text": "A function $f$ has primitive $F(x) = x^{4} + 3x$. Use $\\int_{a}^{b} f(x)\\,dx = F(b) - F(a)$ to evaluate $\\int_{1}^{2} f(x)\\,dx$.",
+        "structure": "apply-given-primitive",
+        "solution_text": "$\\int_{1}^{2} f(x)\\,dx$\n$= F(2) - F(1)$\n$= \\left(2^{4} + 3(2)\\right) - \\left(1^{4} + 3(1)\\right)$\n$= 22 - 4$\n$= 18$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{2} 6x\\,dx$.",
+        "structure": "evaluate-with-ftc",
+        "solution_text": "$\\int_{1}^{2} 6x\\,dx$\n$= \\left[3x^{2}\\right]_{1}^{2}$\n$= 3(2)^{2} - 3(1)^{2}$\n$= 12 - 3$\n$= 9$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2}(x - 3)\\,dx$.",
+        "structure": "evaluate-with-ftc",
+        "solution_text": "$\\int_{0}^{2}(x - 3)\\,dx$\n$= \\left[\\dfrac{x^{2}}{2} - 3x\\right]_{0}^{2}$\n$= \\left(\\dfrac{2^{2}}{2} - 3(2)\\right) - (0 - 0)$\n$= (2 - 6) - 0$\n$= -4$"
+      },
+      {
+        "question_text": "For $A(x) = \\int_{1}^{x} 2t\\,dt$, find $A(4)$.",
+        "structure": "area-function-value",
+        "solution_text": "$A(4) = \\int_{1}^{4} 2t\\,dt$\n$= \\left[t^{2}\\right]_{1}^{4}$\n$= 16 - 1$\n$= 15$"
+      },
+      {
+        "question_text": "The shaded region in the diagram lies between the curve and the $x$-axis. Write a definite integral whose value is the area of the shaded region.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,6.2) node[above] {$y$};\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x + 1}) -- (2,0) -- cycle;\n\\draw[thick, <->, domain=-0.7:2.2, smooth, variable=\\x] plot ({\\x},{\\x*\\x + 1});\n\\draw[dashed] (2,0) -- (2,5);\n\\node[below] at (2,0) {$2$};\n\\node[below left] at (0,0) {$O$};\n\\node[anchor=west] at (2.3,4.4) {$y=x^{2}+1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-integral-for-region",
+        "solution_text": "The region runs from $x = 0$ to $x = 2$ under $y = x^{2} + 1$.\nArea $= \\int_{0}^{2}\\left(x^{2} + 1\\right)dx$"
+      },
+      {
+        "question_text": "A tank fills at a rate of $r(t)$ litres per minute. A primitive of $r$ is $R$, with $R(0) = 12$ and $R(5) = 47$. How many litres enter the tank between $t = 0$ and $t = 5$ minutes?",
+        "structure": "total-change",
+        "solution_text": "Volume added $= \\int_{0}^{5} r(t)\\,dt$\n$= R(5) - R(0)$\n$= 47 - 12$\n$= 35$ litres"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Given $A(x) = \\int_{-1}^{x}\\left(t^{3} - 4t\\right)dt$, find $A'(2)$.",
+        "structure": "differentiate-area-function",
+        "solution_text": "$A'(x) = x^{3} - 4x$\n$A'(2) = 2^{3} - 4(2)$\n$= 8 - 8$\n$= 0$"
+      },
+      {
+        "question_text": "Explain why $F(x) = x^{3} + 7$ and $G(x) = x^{3} - 5$ give the same value for $\\int_{1}^{2} 3x^{2}\\,dx$.",
+        "structure": "verify-primitive",
+        "solution_text": "$F(2) - F(1) = (8 + 7) - (1 + 7)$\n$= 7$\n$G(2) - G(1) = (8 - 5) - (1 - 5)$\n$= 7$\nThe constants cancel in the subtraction, so every primitive of $3x^{2}$ gives the same value $7$."
+      },
+      {
+        "question_text": "Evaluate $\\int_{-1}^{1}\\left(4x^{3} - 9x^{2}\\right)dx$.",
+        "structure": "evaluate-with-ftc",
+        "solution_text": "$\\int_{-1}^{1}\\left(4x^{3} - 9x^{2}\\right)dx$\n$= \\left[x^{4} - 3x^{3}\\right]_{-1}^{1}$\n$= \\left(1 - 3\\right) - \\left(1 + 3\\right)$\n$= -2 - 4$\n$= -6$"
+      },
+      {
+        "question_text": "Between $x = -2$ and $x = 0$ the curve $y = x^{3}$ lies below the $x$-axis, and between $x = 0$ and $x = 2$ it lies above. Evaluate $\\int_{-2}^{2} x^{3}\\,dx$ and explain the answer.",
+        "structure": "interpret-sign",
+        "solution_text": "$\\int_{-2}^{2} x^{3}\\,dx$\n$= \\left[\\dfrac{x^{4}}{4}\\right]_{-2}^{2}$\n$= \\dfrac{16}{4} - \\dfrac{16}{4}$\n$= 0$\nThe negative signed area from $-2$ to $0$ exactly cancels the positive signed area from $0$ to $2$."
+      },
+      {
+        "question_text": "$F$ is a primitive of $f$, with $\\int_{2}^{7} f(x)\\,dx = 23$ and $F(2) = 9$. Find $F(7)$.",
+        "structure": "apply-given-primitive",
+        "solution_text": "$F(7) - F(2) = 23$\n$F(7) - 9 = 23$\n$F(7) = 32$"
+      },
+      {
+        "question_text": "Water leaves a dam at $f(t)$ megalitres per day, and a primitive of $f$ is $F(t) = 0.5t^{2} + 3t$. Find the total volume that leaves between $t = 2$ and $t = 6$ days.",
+        "structure": "total-change",
+        "solution_text": "Volume $= \\int_{2}^{6} f(t)\\,dt$\n$= F(6) - F(2)$\n$= \\left(0.5(6)^{2} + 3(6)\\right) - \\left(0.5(2)^{2} + 3(2)\\right)$\n$= 36 - 8$\n$= 28$ megalitres"
+      },
+      {
+        "question_text": "The diagram shows a curve and the region between it and the $x$-axis. Write the definite integral whose value is the signed area of the shaded region, and state whether that value is positive or negative.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-4.8) -- (0,2.4) node[above] {$y$};\n\\fill[gray!35, domain=1:3, variable=\\x] (1,0) -- plot ({\\x},{\\x*\\x - 4*\\x}) -- (3,0) -- cycle;\n\\draw[thick, <->, domain=-0.4:4.5, smooth, variable=\\x] plot ({\\x},{\\x*\\x - 4*\\x});\n\\draw[dashed] (1,0) -- (1,-3);\n\\draw[dashed] (3,0) -- (3,-3);\n\\node[above] at (1,0) {$1$};\n\\node[above] at (3,0) {$3$};\n\\node at (3.9,-3.6) {$y=x^{2}-4x$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "write-integral-for-region",
+        "solution_text": "Signed area $= \\int_{1}^{3}\\left(x^{2} - 4x\\right)dx$\nThe shaded region lies below the $x$-axis, so the value of this integral is negative."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the value of $k > 0$ for which $\\int_{0}^{k}(6x + 2)\\,dx = 56$.",
+        "structure": "evaluate-with-ftc",
+        "solution_text": "$\\int_{0}^{k}(6x + 2)\\,dx$\n$= \\left[3x^{2} + 2x\\right]_{0}^{k}$\n$= 3k^{2} + 2k$\n$3k^{2} + 2k = 56$\n$3k^{2} + 2k - 56 = 0$\n$(3k + 14)(k - 4) = 0$\n$k = 4$, since $k > 0$"
+      },
+      {
+        "question_text": "Let $A(x) = \\int_{3}^{x}(2t - 5)\\,dt$. Find the value of $x$ at which $A$ has a stationary point, and evaluate $A$ there.",
+        "structure": "differentiate-area-function",
+        "solution_text": "$A'(x) = 2x - 5$\n$2x - 5 = 0$\n$x = \\dfrac{5}{2}$\n$A\\left(\\dfrac{5}{2}\\right) = \\left[t^{2} - 5t\\right]_{3}^{\\frac{5}{2}}$\n$= \\left(\\dfrac{25}{4} - \\dfrac{25}{2}\\right) - (9 - 15)$\n$= -\\dfrac{25}{4} + 6$\n$= -\\dfrac{1}{4}$"
+      },
+      {
+        "question_text": "A particle has velocity $v(t) = 3t^{2} - 12$ metres per second and displacement $x(t)$ metres, with $x(0) = 5$. Use $\\int_{0}^{4} v(t)\\,dt = x(4) - x(0)$ to find $x(4)$.",
+        "structure": "total-change",
+        "solution_text": "$\\int_{0}^{4}\\left(3t^{2} - 12\\right)dt$\n$= \\left[t^{3} - 12t\\right]_{0}^{4}$\n$= (64 - 48) - 0$\n$= 16$\n$x(4) = x(0) + 16$\n$= 5 + 16$\n$= 21$"
+      }
+    ]
+  }
+}

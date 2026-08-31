@@ -1,0 +1,115 @@
+{
+  "skillId": "polynomial-division-statement",
+  "atomType": "R",
+  "theory": {
+        "intro": "Dividing a polynomial $P(x)$ (the **dividend**) by a non-zero **divisor** $A(x)$ gives a **quotient** $Q(x)$ and a **remainder** $R(x)$, written $P(x) = A(x)Q(x) + R(x)$. The remainder always has lower degree than the divisor.",
+        "facts": [
+          "The division identity is $P(x) = A(x)Q(x) + R(x)$, also written $P(x) = D(x)Q(x) + R(x)$ when the divisor is called $D(x)$.",
+          "The remainder satisfies $\\deg(R(x)) < \\deg(A(x))$, or $R(x) = 0$ when the division is exact.",
+          "If the divisor $A(x)$ is linear (degree $1$), the remainder is a constant.",
+          "If the divisor $A(x)$ is quadratic (degree $2$), the remainder is at most linear, of the form $ax + b$.",
+          "Fraction form and identity form are equivalent: $\\frac{P(x)}{A(x)} = Q(x) + \\frac{R(x)}{A(x)} \\iff P(x) = A(x)Q(x) + R(x)$.",
+          "When $R(x) = 0$, both the divisor $A(x)$ and the quotient $Q(x)$ are factors of $P(x)$.",
+          "The identity holds for every $x$, so substituting a root of $A(x) = 0$ finds remainders or unknown coefficients."
+        ],
+        "steps": [
+          "Identify dividend $P(x)$ and divisor $A(x)$.",
+          "Perform division to find quotient $Q(x)$ and remainder $R(x)$.",
+          "Check that $\\deg(R(x)) < \\deg(A(x))$.",
+          "Express the result in identity form $P(x) = A(x)Q(x) + R(x)$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Given $\\frac{x^{3} + 2x^{2} - x + 3}{x - 2} = (x^{2} + 4x + 7) + \\frac{17}{x - 2}$, express this result in the identity form $P(x) = A(x)Q(x) + R(x)$ and state the quotient and remainder.",
+        "structure": "convert-fraction-to-identity",
+        "solution_text": "Multiply both sides by $(x - 2)$:\n$x^{3} + 2x^{2} - x + 3 = (x - 2)(x^{2} + 4x + 7) + 17$\nQuotient $Q(x) = x^{2} + 4x + 7$, remainder $R(x) = 17$."
+      },
+      {
+        "question_text": "Express the division $\\frac{2x^{2} + 5x - 1}{x + 3} = (2x - 1) + \\frac{2}{x + 3}$ in the form $P(x) = (x + 3)Q(x) + R$.",
+        "structure": "convert-fraction-to-identity",
+        "solution_text": "Multiply by the divisor $(x + 3)$:\n$2x^{2} + 5x - 1 = (x + 3)(2x - 1) + 2$"
+      },
+      {
+        "question_text": "Divide $(x^{3} + x^{2} - 2x + 3)$ by $(x - 1)$ and express the result in the form $P(x) = (x - 1)Q(x) + R(x)$.",
+        "structure": "division-to-identity-linear",
+        "solution_text": "$x^{3} + x^{2} - 2x + 3$\n$= x^{2}(x - 1) + 2x^{2} - 2x + 3$\n$= x^{2}(x - 1) + 2x(x - 1) + 3$\n$= (x - 1)(x^{2} + 2x) + 3$"
+      },
+      {
+        "question_text": "Divide $(2x^{3} - x^{2} + 3x - 1)$ by $(x + 2)$ and write the result in the form $P(x) = (x + 2)Q(x) + R$.",
+        "structure": "division-to-identity-linear",
+        "solution_text": "$2x^{3} - x^{2} + 3x - 1$\n$= 2x^{2}(x + 2) - 5x^{2} + 3x - 1$\n$= 2x^{2}(x + 2) - 5x(x + 2) + 13x - 1$\n$= 2x^{2}(x + 2) - 5x(x + 2) + 13(x + 2) - 27$\n$= (x + 2)(2x^{2} - 5x + 13) - 27$"
+      },
+      {
+        "question_text": "If a polynomial $P(x)$ is divided by a cubic divisor $A(x) = x^{3} - 2x + 1$, what are the possible degrees of the remainder $R(x)$?",
+        "structure": "degree-constraint-remainder",
+        "solution_text": "The degree of the remainder must be strictly less than the degree of the divisor.\n$\\deg(A(x)) = 3 \\implies \\deg(R(x)) < 3$\nPossible degrees for $R(x)$ are $0, 1,$ or $2$ (or $R(x) = 0$)."
+      },
+      {
+        "question_text": "What is the most general algebraic form of the remainder when a polynomial $P(x)$ is divided by the quadratic divisor $x^{2} + 3x - 5$?",
+        "structure": "degree-constraint-remainder",
+        "solution_text": "Dividing by a quadratic divisor of degree $2$ leaves a remainder of degree at most $1$.\nThe general linear form is $ax + b$ (where $a$ and $b$ are real constants)."
+      },
+      {
+        "question_text": "A polynomial satisfies $P(x) = (x - 4)(x^{2} + 2x - 3) + 7$. Evaluate $P(4)$ without expanding $P(x)$.",
+        "structure": "evaluate-from-division-identity",
+        "solution_text": "$P(4) = (4 - 4)(4^{2} + 2(4) - 3) + 7$\n$= 0 \\times (21) + 7$\n$= 7$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Divide $(3x^{4} - 4x^{3} + 4x - 8)$ by $(x^{2} - 2)$ and write the result in the form $P(x) = (x^{2} - 2)Q(x) + R(x)$.",
+        "structure": "division-to-identity-quadratic",
+        "solution_text": "$3x^{4} - 4x^{3} + 4x - 8$\n$= 3x^{2}(x^{2} - 2) - 4x^{3} + 6x^{2} + 4x - 8$\n$= 3x^{2}(x^{2} - 2) - 4x(x^{2} - 2) + 6x^{2} - 4x - 8$\n$= 3x^{2}(x^{2} - 2) - 4x(x^{2} - 2) + 6(x^{2} - 2) - 4x + 4$\n$= (x^{2} - 2)(3x^{2} - 4x + 6) + (-4x + 4)$"
+      },
+      {
+        "question_text": "Express $(x^{3} - 3x^{2} + x + 4) \\div (x^{2} - x)$ in the form $P(x) = (x^{2} - x)Q(x) + R(x)$.",
+        "structure": "division-to-identity-quadratic",
+        "solution_text": "$x^{3} - 3x^{2} + x + 4$\n$= x(x^{2} - x) - 2x^{2} + x + 4$\n$= x(x^{2} - x) - 2(x^{2} - x) - x + 4$\n$= (x^{2} - x)(x - 2) + (-x + 4)$"
+      },
+      {
+        "question_text": "Given $\\frac{x^{4} - 2x^{3} + 5x - 3}{x^{2} + 1} = (x^{2} - 2x - 1) + \\frac{7x - 2}{x^{2} + 1}$, identify $P(x)$, $A(x)$, $Q(x)$, and $R(x)$ in $P(x) = A(x)Q(x) + R(x)$.",
+        "structure": "convert-fraction-to-identity",
+        "solution_text": "$P(x) = x^{4} - 2x^{3} + 5x - 3$\n$A(x) = x^{2} + 1$\n$Q(x) = x^{2} - 2x - 1$\n$R(x) = 7x - 2$"
+      },
+      {
+        "question_text": "A polynomial $P(x)$ is divided by a polynomial $A(x)$. If the remainder is $3x^{2} - 5x + 1$, what is the smallest possible degree of $A(x)$?",
+        "structure": "degree-constraint-remainder",
+        "solution_text": "The degree of the remainder is $2$.\nSince $\\deg(R(x)) < \\deg(A(x))$, we must have $\\deg(A(x)) > 2$.\nThe smallest possible degree of $A(x)$ is $3$."
+      },
+      {
+        "question_text": "When $P(x)$ is divided by $(x - 2)(x + 3)$, the quotient is $Q(x)$ and the remainder is $4x - 1$. Find the values of $P(2)$ and $P(-3)$.",
+        "structure": "evaluate-from-division-identity",
+        "solution_text": "$P(x) = (x - 2)(x + 3)Q(x) + (4x - 1)$\n$P(2) = (0)Q(2) + (4(2) - 1) = 7$\n$P(-3) = (0)Q(-3) + (4(-3) - 1) = -13$\n$P(2) = 7,\\ P(-3) = -13$"
+      },
+      {
+        "question_text": "When $P(x) = x^{3} + ax^{2} + bx + 5$ is divided by $(x - 1)$, the remainder is $4$. When divided by $(x + 2)$, the remainder is $7$. Write two equations in $a$ and $b$.",
+        "structure": "evaluate-from-division-identity",
+        "solution_text": "By the division identity, $P(1) = 4$ and $P(-2) = 7$.\n$P(1) = 1 + a + b + 5 = 4 \\implies a + b = -2$\n$P(-2) = -8 + 4a - 2b + 5 = 7 \\implies 4a - 2b = 10$\n$a + b = -2$ and $2a - b = 5$"
+      },
+      {
+        "question_text": "Express $x^{4} - 16$ in the form $(x - 2)Q(x) + R(x)$. What does $R(x) = 0$ tell you about $(x - 2)$?",
+        "structure": "division-to-identity-linear",
+        "solution_text": "$x^{4} - 16 = (x^{2} - 4)(x^{2} + 4)$\n$= (x - 2)(x + 2)(x^{2} + 4)$\n$= (x - 2)(x^{3} + 2x^{2} + 4x + 8) + 0$\n$R(x) = 0$ indicates that $(x - 2)$ is an exact factor of $x^{4} - 16$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "When $P(x) = x^{4} - 2x^{3} + x^{2} + ax + b$ is divided by $x^{2} + x - 1$, the remainder is $0$. Find $a$ and $b$.",
+        "structure": "division-to-identity-quadratic",
+        "solution_text": "Carrying out long division of $P(x)$ by $(x^{2} + x - 1)$:\n$x^{4} - 2x^{3} + x^{2} + ax + b = (x^{2} + x - 1)(x^{2} - 3x + 5) + (a + 8)x + (b + 5)$\nFor remainder $R(x) = 0$, both coefficients must vanish:\n$a + 8 = 0 \\implies a = -8$\n$b + 5 = 0 \\implies b = -5$\n$a = -8,\\ b = -5$"
+      },
+      {
+        "question_text": "When a polynomial $P(x)$ is divided by $(x - 1)$, the remainder is $5$; when divided by $(x - 3)$, the remainder is $11$. Find the remainder when $P(x)$ is divided by $(x - 1)(x - 3)$.",
+        "structure": "evaluate-from-division-identity",
+        "solution_text": "Dividing by a quadratic $(x - 1)(x - 3)$ gives a linear remainder $R(x) = ax + b$.\n$P(x) = (x - 1)(x - 3)Q(x) + (ax + b)$\n$P(1) = a + b = 5$\n$P(3) = 3a + b = 11$\nSubtracting gives $2a = 6 \\implies a = 3$, so $b = 2$.\nRemainder is $3x + 2$."
+      },
+      {
+        "question_text": "A polynomial $P(x)$ is divided by $(x - 1)(x^{2} + 4)$. State the maximum degree of the remainder and write its general algebraic form.",
+        "structure": "degree-constraint-remainder",
+        "solution_text": "Divisor $A(x) = (x - 1)(x^{2} + 4)$ has degree $3$.\nThe remainder $R(x)$ has degree strictly less than $3$, so maximum degree is $2$.\nGeneral form: $ax^{2} + bx + c$ (where $a, b, c$ are real numbers)."
+      }
+    ]
+  }
+}

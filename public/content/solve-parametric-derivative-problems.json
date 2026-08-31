@@ -1,0 +1,125 @@
+{
+  "skillId": "solve-parametric-derivative-problems",
+  "atomType": "R",
+  "theory": {
+    "intro": "For a curve given parametrically, $\\dfrac{dy}{dx}$ is the gradient of the tangent at that value of $t$. Use it to write tangents and normals, and to find stationary points.",
+    "facts": [
+      "The point on the curve at $t=p$ is $\\left(x(p),\\,y(p)\\right)$, found by substituting $p$ into both equations.",
+      "The tangent at $t=p$ has gradient $\\dfrac{dy}{dx}$ evaluated at $t=p$.",
+      "The normal is perpendicular to the tangent, so its gradient is $-\\dfrac{1}{dy/dx}$.",
+      "Use $y-y_{1}=m(x-x_{1})$ with the point on the curve, never with the value of $t$.",
+      "A stationary point occurs where $\\dfrac{dy}{dt}=0$ and $\\dfrac{dx}{dt}\\neq 0$.",
+      "The tangent is vertical where $\\dfrac{dx}{dt}=0$ and $\\dfrac{dy}{dt}\\neq 0$.",
+      "When a point is given by its coordinates, find $t$ by solving both equations and keeping the common value."
+    ],
+    "steps": [
+      "Find $\\dfrac{dx}{dt}$ and $\\dfrac{dy}{dt}$, then $\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}$.",
+      "Find the value of $t$ the question needs, and the point $(x,y)$ there.",
+      "Substitute to get the gradient, taking the negative reciprocal if a normal is wanted.",
+      "Write the line through the point using $y-y_{1}=m(x-x_{1})$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A curve has parametric equations $x=t^{2}$ and $y=2t$. Find the equation of the tangent to the curve at the point where $t=4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3, xmax=23.5, ymin=-10.5, ymax=10.5, xtick={4,8,12,16,20}, ytick={-8,-4,4,8}, samples=120, clip=false, width=10cm, height=8.5cm]\n\\addplot[thick, <->, variable=\\t, domain=-4.6:4.6] ({\\t*\\t},{2*\\t}) node[pos=0.04, below left] {$x=t^{2},\\ y=2t$};\n\\addplot[dashed, <->, domain=-3:23.5] {x/4 + 4} node[pos=0.35, above left] {tangent at $t=4$};\n\\addplot[only marks, mark=*] coordinates {(16,8)};\n\\node[below right] at (axis cs:16,8) {$P$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=4$: $x=16$ and $y=8$.\n$\\dfrac{dx}{dt}=2t$ and $\\dfrac{dy}{dt}=2$\n$\\dfrac{dy}{dx}=\\dfrac{2}{2t}=\\dfrac{1}{t}=\\dfrac{1}{4}$\n$y-8=\\dfrac{1}{4}(x-16)$\n$4y-32=x-16$\n$x-4y+16=0$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t+2$ and $y=t^{2}-1$. Find the equation of the tangent to the curve at the point where $t=3$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=3$: $x=5$ and $y=8$.\n$\\dfrac{dx}{dt}=1$ and $\\dfrac{dy}{dt}=2t=6$\n$\\dfrac{dy}{dx}=6$\n$y-8=6(x-5)$\n$y=6x-22$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=4t^{2}$ and $y=8t$. Find the equation of the normal to the curve at the point where $t=1$.",
+        "structure": "param-normal-equation",
+        "solution_text": "At $t=1$: $x=4$ and $y=8$.\n$\\dfrac{dx}{dt}=8t$ and $\\dfrac{dy}{dt}=8$\n$\\dfrac{dy}{dx}=\\dfrac{8}{8t}=\\dfrac{1}{t}=1$\nNormal gradient $=-1$.\n$y-8=-1(x-4)$\n$x+y-12=0$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=3t$ and $y=t^{2}$. Find the equation of the normal to the curve at the point where $t=2$.",
+        "structure": "param-normal-equation",
+        "solution_text": "At $t=2$: $x=6$ and $y=4$.\n$\\dfrac{dx}{dt}=3$ and $\\dfrac{dy}{dt}=2t=4$\n$\\dfrac{dy}{dx}=\\dfrac{4}{3}$\nNormal gradient $=-\\dfrac{3}{4}$.\n$y-4=-\\dfrac{3}{4}(x-6)$\n$4y-16=-3x+18$\n$3x+4y-34=0$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=4\\cos t$ and $y=4\\sin t$. Find the equation of the tangent to the curve at the point where $t=\\dfrac{\\pi}{2}$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=\\dfrac{\\pi}{2}$: $x=0$ and $y=4$.\n$\\dfrac{dx}{dt}=-4\\sin t$ and $\\dfrac{dy}{dt}=4\\cos t$\n$\\dfrac{dy}{dx}=\\dfrac{4\\cos t}{-4\\sin t}=-\\cot t$\nAt $t=\\dfrac{\\pi}{2}$, $\\cot t=0$, so the gradient is $0$.\n$y=4$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{2}$ and $y=6t$. Find the equation of the tangent to the curve at the point where $t=1$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=1$: $x=1$ and $y=6$.\n$\\dfrac{dx}{dt}=2t$ and $\\dfrac{dy}{dt}=6$\n$\\dfrac{dy}{dx}=\\dfrac{6}{2t}=\\dfrac{3}{t}=3$\n$y-6=3(x-1)$\n$y=3x+3$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{3}$ and $y=3t$. Find the equation of the normal to the curve at the point where $t=1$.",
+        "structure": "param-normal-equation",
+        "solution_text": "At $t=1$: $x=1$ and $y=3$.\n$\\dfrac{dx}{dt}=3t^{2}$ and $\\dfrac{dy}{dt}=3$\n$\\dfrac{dy}{dx}=\\dfrac{3}{3t^{2}}=\\dfrac{1}{t^{2}}=1$\nNormal gradient $=-1$.\n$y-3=-1(x-1)$\n$y=-x+4$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=5t$ and $y=t^{2}+1$. Find the equation of the tangent to the curve at the point where $t=2$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=2$: $x=10$ and $y=5$.\n$\\dfrac{dx}{dt}=5$ and $\\dfrac{dy}{dt}=2t=4$\n$\\dfrac{dy}{dx}=\\dfrac{4}{5}$\n$y-5=\\dfrac{4}{5}(x-10)$\n$5y-25=4x-40$\n$4x-5y-15=0$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A curve has parametric equations $x=t^{3}+t$ and $y=t^{2}-4t$. Find the coordinates of the stationary point on the curve.",
+        "structure": "param-stationary-point",
+        "solution_text": "$\\dfrac{dy}{dt}=2t-4$ and $\\dfrac{dx}{dt}=3t^{2}+1$\n$2t-4=0$\n$t=2$\nAt $t=2$, $\\dfrac{dx}{dt}=13\\neq 0$, so the tangent is horizontal.\n$x=2^{3}+2=10$ and $y=2^{2}-4(2)=-4$\nThe stationary point is $(10,-4)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=e^{t}$ and $y=t^{2}-2t$. Find the coordinates of the stationary point on the curve.",
+        "structure": "param-stationary-point",
+        "solution_text": "$\\dfrac{dy}{dt}=2t-2$ and $\\dfrac{dx}{dt}=e^{t}$\n$2t-2=0$\n$t=1$\nAt $t=1$, $\\dfrac{dx}{dt}=e\\neq 0$, so the tangent is horizontal.\n$x=e$ and $y=1-2=-1$\nThe stationary point is $(e,-1)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{2}-t$ and $y=t^{3}-3t$. Find the coordinates of the points where the tangent to the curve is horizontal.",
+        "structure": "param-horizontal-vertical-tangent",
+        "solution_text": "$\\dfrac{dy}{dt}=3t^{2}-3$ and $\\dfrac{dx}{dt}=2t-1$\n$3t^{2}-3=0$\n$t=\\pm 1$\nAt $t=1$, $\\dfrac{dx}{dt}=1\\neq 0$; at $t=-1$, $\\dfrac{dx}{dt}=-3\\neq 0$.\nAt $t=1$: $x=0$ and $y=-2$.\nAt $t=-1$: $x=2$ and $y=2$.\nThe tangent is horizontal at $(0,-2)$ and $(2,2)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{3}-3t$ and $y=t^{2}+1$. Find the coordinates of the points where the tangent to the curve is vertical.",
+        "structure": "param-horizontal-vertical-tangent",
+        "solution_text": "$\\dfrac{dx}{dt}=3t^{2}-3$ and $\\dfrac{dy}{dt}=2t$\n$3t^{2}-3=0$\n$t=\\pm 1$\nAt $t=1$, $\\dfrac{dy}{dt}=2\\neq 0$; at $t=-1$, $\\dfrac{dy}{dt}=-2\\neq 0$.\nAt $t=1$: $x=-2$ and $y=2$.\nAt $t=-1$: $x=2$ and $y=2$.\nThe tangent is vertical at $(-2,2)$ and $(2,2)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=2t$ and $y=t^{3}$. Find the coordinates of the points where the tangent to the curve has gradient $6$.",
+        "structure": "param-gradient-given-find-parameter",
+        "solution_text": "$\\dfrac{dx}{dt}=2$ and $\\dfrac{dy}{dt}=3t^{2}$\n$\\dfrac{dy}{dx}=\\dfrac{3t^{2}}{2}$\n$\\dfrac{3t^{2}}{2}=6$\n$t^{2}=4$\n$t=\\pm 2$\nAt $t=2$: $(4,8)$. At $t=-2$: $(-4,-8)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{2}$ and $y=4t$, where $t>0$. Find the coordinates of the point where the tangent to the curve has gradient $\\dfrac{1}{2}$.",
+        "structure": "param-gradient-given-find-parameter",
+        "solution_text": "$\\dfrac{dx}{dt}=2t$ and $\\dfrac{dy}{dt}=4$\n$\\dfrac{dy}{dx}=\\dfrac{4}{2t}=\\dfrac{2}{t}$\n$\\dfrac{2}{t}=\\dfrac{1}{2}$\n$t=4$\nAt $t=4$: $x=16$ and $y=16$, giving $(16,16)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=3t^{2}$ and $y=t^{3}$. Find the equation of the tangent to the curve at the point $(12,8)$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "$3t^{2}=12$ gives $t=\\pm 2$, and $t^{3}=8$ gives $t=2$, so $t=2$.\n$\\dfrac{dx}{dt}=6t$ and $\\dfrac{dy}{dt}=3t^{2}$\n$\\dfrac{dy}{dx}=\\dfrac{3t^{2}}{6t}=\\dfrac{t}{2}=1$\n$y-8=1(x-12)$\n$y=x-4$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=2t^{3}$ and $y=3t^{2}$. Find the equation of the normal to the curve at the point where $t=2$.",
+        "structure": "param-normal-equation",
+        "solution_text": "At $t=2$: $x=16$ and $y=12$.\n$\\dfrac{dx}{dt}=6t^{2}=24$ and $\\dfrac{dy}{dt}=6t=12$\n$\\dfrac{dy}{dx}=\\dfrac{12}{24}=\\dfrac{1}{2}$\nNormal gradient $=-2$.\n$y-12=-2(x-16)$\n$y=-2x+44$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A curve has parametric equations $x=2t^{2}$ and $y=4t$. Show that the tangent to the curve at the point where $t=p$ has equation $x-py+2p^{2}=0$.",
+        "structure": "param-tangent-equation",
+        "solution_text": "At $t=p$: $x=2p^{2}$ and $y=4p$.\n$\\dfrac{dx}{dt}=4t$ and $\\dfrac{dy}{dt}=4$\n$\\dfrac{dy}{dx}=\\dfrac{4}{4t}=\\dfrac{1}{t}=\\dfrac{1}{p}$\n$y-4p=\\dfrac{1}{p}\\left(x-2p^{2}\\right)$\n$py-4p^{2}=x-2p^{2}$\n$x-py+2p^{2}=0$"
+      },
+      {
+        "question_text": "A curve has parametric equations $x=t^{2}-4t$ and $y=t^{3}-3t$. Find the coordinates of the point where the tangent to the curve is vertical.",
+        "structure": "param-horizontal-vertical-tangent",
+        "solution_text": "$\\dfrac{dx}{dt}=2t-4$ and $\\dfrac{dy}{dt}=3t^{2}-3$\n$2t-4=0$\n$t=2$\nAt $t=2$, $\\dfrac{dy}{dt}=3(4)-3=9\\neq 0$, so the tangent is vertical.\n$x=4-8=-4$ and $y=8-6=2$\nThe tangent is vertical at $(-4,2)$."
+      },
+      {
+        "question_text": "A curve has parametric equations $x=4t$ and $y=2t^{2}$. The normal to the curve at the point where $t=1$ meets the $x$-axis. Find the coordinates of that point.",
+        "structure": "param-normal-equation",
+        "solution_text": "At $t=1$: $x=4$ and $y=2$.\n$\\dfrac{dx}{dt}=4$ and $\\dfrac{dy}{dt}=4t=4$\n$\\dfrac{dy}{dx}=1$\nNormal gradient $=-1$.\n$y-2=-1(x-4)$\n$y=-x+6$\nSetting $y=0$ gives $x=6$, so the normal meets the $x$-axis at $(6,0)$."
+      }
+    ]
+  }
+}

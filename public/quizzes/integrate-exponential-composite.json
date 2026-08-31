@@ -1,0 +1,122 @@
+{
+  "skillId": "integrate-exponential-composite",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\int 5x^{4}e^{x^{5}+2}\\,dx$ in simplest form, with $+C$.",
+      "structure": "composite-polynomial-inner",
+      "mastery": false,
+      "options": [
+        { "text": "$e^{x^{5}+2} + C$", "correct": true },
+        { "text": "$5x^{4}e^{x^{5}+2} + C$", "why": "Copied the integrand, forgetting that the factor $f'(x)$ disappears in the primitive." },
+        { "text": "$\\dfrac{e^{x^{5}+2}}{5} + C$", "why": "Divided by $5$ even though $5x^{4}$ is already exactly $f'(x)$, so no adjustment is needed." },
+        { "text": "$\\dfrac{e^{x^{5}+2}}{5x^{4}} + C$", "why": "Divided by the whole factor $5x^{4}$, moving a variable across the integral sign." }
+      ],
+      "solution_text": "$f(x) = x^{5}+2$, so $f'(x) = 5x^{4}$.\n$\\int 5x^{4}e^{x^{5}+2}\\,dx$\n$= e^{x^{5}+2} + C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find $\\int xe^{x^{2}+6}\\,dx$ in simplest form, with $+C$.",
+      "structure": "adjust-constant-factor",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}e^{x^{2}+6} + C$", "correct": true },
+        { "text": "$e^{x^{2}+6} + C$", "why": "Treated $x$ as if it were $f'(x) = 2x$, so no adjustment was made." },
+        { "text": "$2e^{x^{2}+6} + C$", "why": "Multiplied by $2$ instead of dividing by it when adjusting for the missing factor." },
+        { "text": "$\\dfrac{e^{x^{2}+6}}{2x} + C$", "why": "Divided by the whole factor $2x$, moving a variable across the integral sign." }
+      ],
+      "solution_text": "$f(x) = x^{2}+6$, so $f'(x) = 2x$.\n$\\int xe^{x^{2}+6}\\,dx$\n$= \\dfrac{1}{2}\\int 2xe^{x^{2}+6}\\,dx$\n$= \\dfrac{1}{2}e^{x^{2}+6} + C$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find $\\int 4xe^{5-2x^{2}}\\,dx$ in simplest form, with $+C$.",
+      "structure": "adjust-constant-factor",
+      "mastery": false,
+      "options": [
+        { "text": "$-e^{5-2x^{2}} + C$", "correct": true },
+        { "text": "$e^{5-2x^{2}} + C$", "why": "Ignored the sign of $f'(x) = -4x$, matching only its size." },
+        { "text": "$-4e^{5-2x^{2}} + C$", "why": "Multiplied by $-4$ instead of dividing by it." },
+        { "text": "$4e^{5-2x^{2}} + C$", "why": "Multiplied by $4$ instead of dividing, and dropped the sign of $f'(x)$." }
+      ],
+      "solution_text": "$f(x) = 5-2x^{2}$, so $f'(x) = -4x$.\n$\\int 4xe^{5-2x^{2}}\\,dx$\n$= -\\int (-4x)e^{5-2x^{2}}\\,dx$\n$= -e^{5-2x^{2}} + C$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which of these integrals can be found directly using $\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$?",
+      "structure": "recognise-applicability",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int 4x^{3}e^{x^{4}}\\,dx$", "correct": true },
+        { "text": "$\\int x^{3}e^{x^{4}+x}\\,dx$", "why": "Here $f'(x) = 4x^{3}+1$, and $x^{3}$ is not a constant multiple of it." },
+        { "text": "$\\int e^{x^{4}}\\,dx$", "why": "There is no factor of $f'(x) = 4x^{3}$ present at all." },
+        { "text": "$\\int x^{4}e^{4x^{3}}\\,dx$", "why": "The index and the factor are swapped: here $f'(x) = 12x^{2}$, not $x^{4}$." }
+      ],
+      "solution_text": "$\\int 4x^{3}e^{x^{4}}\\,dx$ has $f(x) = x^{4}$ and $f'(x) = 4x^{3}$, which is exactly the factor present.\n$\\int 4x^{3}e^{x^{4}}\\,dx$\n$= e^{x^{4}} + C$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Evaluate $\\int_{0}^{2} xe^{x^{2}-4}\\,dx$, giving the exact value.",
+      "structure": "definite-composite-integral",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}\\left(1 - e^{-4}\\right)$", "correct": true },
+        { "text": "$\\dfrac{1}{2}\\left(e^{-4} - 1\\right)$", "why": "Subtracted the limits in the wrong order, computing $F(0) - F(2)$." },
+        { "text": "$1 - e^{-4}$", "why": "Omitted the factor $\\dfrac{1}{2}$ needed to adjust for $f'(x) = 2x$." },
+        { "text": "$e^{-4} - 1$", "why": "Omitted the $\\dfrac{1}{2}$ and also subtracted the limits in the wrong order." }
+      ],
+      "solution_text": "$f(x) = x^{2}-4$, so $f'(x) = 2x$.\n$\\int_{0}^{2} xe^{x^{2}-4}\\,dx$\n$= \\left[\\dfrac{1}{2}e^{x^{2}-4}\\right]_{0}^{2}$\n$= \\dfrac{1}{2}e^{0} - \\dfrac{1}{2}e^{-4}$\n$= \\dfrac{1}{2}\\left(1 - e^{-4}\\right)$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Given that $\\dfrac{d}{dx}\\left(e^{x^{2}-4x}\\right) = (2x-4)e^{x^{2}-4x}$, find $\\int (x-2)e^{x^{2}-4x}\\,dx$ in simplest form, with $+C$.",
+      "structure": "differentiate-then-integrate",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}e^{x^{2}-4x} + C$", "correct": true },
+        { "text": "$2e^{x^{2}-4x} + C$", "why": "Multiplied by $2$ instead of dividing, although $x-2$ is half of $2x-4$." },
+        { "text": "$e^{x^{2}-4x} + C$", "why": "Used the given derivative without adjusting for the factor $x-2$ being half of $2x-4$." },
+        { "text": "$(x-2)e^{x^{2}-4x} + C$", "why": "Kept the factor $x-2$ in the primitive instead of letting it disappear." }
+      ],
+      "solution_text": "$x-2 = \\dfrac{1}{2}(2x-4)$\n$\\int (x-2)e^{x^{2}-4x}\\,dx$\n$= \\dfrac{1}{2}\\int (2x-4)e^{x^{2}-4x}\\,dx$\n$= \\dfrac{1}{2}e^{x^{2}-4x} + C$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find $\\int \\dfrac{e^{\\frac{3}{x}}}{x^{2}}\\,dx$ in simplest form, with $+C$.",
+      "structure": "non-polynomial-inner",
+      "mastery": true,
+      "options": [
+        { "text": "$-\\dfrac{1}{3}e^{\\frac{3}{x}} + C$", "correct": true },
+        { "text": "$\\dfrac{1}{3}e^{\\frac{3}{x}} + C$", "why": "Missed the negative sign in $f'(x) = -\\dfrac{3}{x^{2}}$." },
+        { "text": "$-3e^{\\frac{3}{x}} + C$", "why": "Multiplied by $-3$ instead of dividing by it." },
+        { "text": "$3e^{\\frac{3}{x}} + C$", "why": "Multiplied by $3$ instead of dividing, and dropped the negative sign as well." }
+      ],
+      "solution_text": "$f(x) = 3x^{-1}$, so $f'(x) = -3x^{-2}$.\n$\\int x^{-2}e^{\\frac{3}{x}}\\,dx$\n$= -\\dfrac{1}{3}\\int \\left(-3x^{-2}\\right)e^{\\frac{3}{x}}\\,dx$\n$= -\\dfrac{1}{3}e^{\\frac{3}{x}} + C$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Evaluate $\\int_{-1}^{0} 4xe^{2x^{2}}\\,dx$, giving the exact value.",
+      "structure": "definite-composite-integral",
+      "mastery": false,
+      "options": [
+        { "text": "$1 - e^{2}$", "correct": true },
+        { "text": "$e^{2} - 1$", "why": "Substituted the limits in the wrong order, computing $F(-1) - F(0)$." },
+        { "text": "$\\dfrac{1 - e^{2}}{4}$", "why": "Divided by $4$ although $4x$ is already exactly $f'(x)$." },
+        { "text": "$\\dfrac{e^{2} - 1}{4}$", "why": "Divided by $4$ unnecessarily and also substituted the limits in the wrong order." }
+      ],
+      "solution_text": "$f(x) = 2x^{2}$, so $f'(x) = 4x$.\n$\\int_{-1}^{0} 4xe^{2x^{2}}\\,dx$\n$= \\left[e^{2x^{2}}\\right]_{-1}^{0}$\n$= e^{0} - e^{2}$\n$= 1 - e^{2}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "For which value of $k$ is $\\int kxe^{2x^{2}+7}\\,dx = e^{2x^{2}+7} + C$?",
+      "structure": "recognise-applicability",
+      "mastery": true,
+      "options": [
+        { "text": "$k = 4$", "correct": true },
+        { "text": "$k = 2$", "why": "Used the coefficient of $x^{2}$ in the index instead of differentiating the index." },
+        { "text": "$k = \\dfrac{1}{4}$", "why": "Divided by the inner derivative instead of matching it, inverting the required factor." },
+        { "text": "$k = 1$", "why": "Assumed no factor is needed, as if $\\int e^{f(x)}\\,dx = e^{f(x)} + C$." }
+      ],
+      "solution_text": "$f(x) = 2x^{2}+7$, so $f'(x) = 4x$.\nThe primitive is $e^{f(x)} + C$ exactly when the factor is $f'(x)$.\n$kx = 4x$\n$k = 4$"
+    }
+  ]
+}

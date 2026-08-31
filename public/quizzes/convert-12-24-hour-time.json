@@ -3,9 +3,81 @@
   "questions": [
     { "id": "q1", "question_text": "Convert $8{:}35$ am to 24-hour time.", "structure": "am-to-24-leading-zero", "mastery": false, "options": [{ "text": "$0835$", "correct": true }, { "text": "$2035$", "why": "Adds 12 to an am hour as though the time were pm." }, { "text": "$8350$", "why": "Places the hour and minute digits in the wrong four-digit positions." }], "solution_text": "Keep the am hour and add a leading zero.\n$8{:}35\\text{ am}=0835$" },
     { "id": "q2", "question_text": "Convert $7{:}42$ pm to 24-hour time.", "structure": "pm-to-24-add-twelve", "mastery": false, "options": [{ "text": "$1942$", "correct": true }, { "text": "$0742$", "why": "Keeps the hour unchanged as though the time were am." }, { "text": "$1742$", "why": "Adds 10 rather than 12 to the pm hour." }, { "text": "$2042$", "why": "Adds 13 rather than 12 to the pm hour." }], "solution_text": "$7+12=19$\n$7{:}42\\text{ pm}=1942$" },
-    { "id": "q3", "question_text": "Convert $1048$ to 12-hour time.", "structure": "morning-24-to-12", "mastery": false, "options": [{ "text": "$10{:}48$ am", "correct": true }, { "text": "$10{:}48$ pm", "why": "Labels a before-noon hour as pm instead of am." }, { "text": "$8{:}10$ am", "why": "Reverses the hour and minute pairs when changing notation." }], "solution_text": "Hour $10$ is before noon, so use am.\n$1048=10{:}48\\text{ am}$" },
-    { "id": "q4", "question_text": "Convert $2140$ to 12-hour time.", "structure": "evening-24-to-12", "mastery": false, "options": [{ "text": "$9{:}40$ pm", "correct": true }, { "text": "$9{:}40$ am", "why": "Subtracts 12 correctly but attaches am to an evening time." }, { "text": "$11{:}40$ pm", "why": "Subtracts 10 rather than 12 from the 24-hour hour." }, { "text": "$21{:}40$ pm", "why": "Keeps the 24-hour hour instead of converting it to the 12-hour range." }], "solution_text": "$21-12=9$\n$2140=9{:}40\\text{ pm}$" },
+    {
+      "id": "q3",
+      "question_text": "Convert $1048$ to 12-hour time.",
+      "structure": "morning-24-to-12",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10{:}48$ am",
+          "correct": true
+        },
+        {
+          "text": "$10{:}48$ pm",
+          "why": "Labels a before-noon hour as pm, assuming every 24-hour time is afternoon."
+        },
+        {
+          "text": "$2{:}48$ am",
+          "why": "Applies the subtract-12 rule to a morning hour and reverses it to avoid a negative, computing $12-10=2$."
+        },
+        {
+          "text": "$2{:}48$ pm",
+          "why": "Computes $12-10=2$ by the same reversed subtraction and then also labels the time pm."
+        }
+      ],
+      "solution_text": "Hour $10$ is before noon, so use am.\n$1048=10{:}48\\text{ am}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Convert $2140$ to 12-hour time.",
+      "structure": "evening-24-to-12",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$9{:}40$ pm",
+          "correct": true
+        },
+        {
+          "text": "$9{:}40$ am",
+          "why": "Subtracts 12 correctly but attaches am to an evening time."
+        },
+        {
+          "text": "$11{:}40$ pm",
+          "why": "Subtracts 10 rather than 12 from the 24-hour hour, computing $21-10=11$."
+        },
+        {
+          "text": "$11{:}40$ am",
+          "why": "Subtracts 10 instead of 12 to get hour 11 and then also labels the time am."
+        }
+      ],
+      "solution_text": "$21-12=9$\n$2140=9{:}40\\text{ pm}$"
+    },
     { "id": "q5", "question_text": "Which conversion is correct?", "structure": "distinguish-noon-and-midnight", "mastery": true, "options": [{ "text": "$12{:}18$ am $=0018$", "correct": true }, { "text": "$12{:}18$ am $=1218$", "why": "Treats a midnight-hour am time as though it were after noon." }, { "text": "$12{:}18$ pm $=0018$", "why": "Treats a noon-hour pm time as though it were after midnight." }, { "text": "$12{:}18$ pm $=2418$", "why": "Adds 12 at noon and creates the invalid hour 24." }], "solution_text": "Hour $12$ am becomes hour $00$.\n$12{:}18\\text{ am}=0018$" },
-    { "id": "q6", "question_text": "A concert time is shown as $1545$. Which 12-hour label matches it?", "structure": "interpret-converted-schedule-time", "mastery": true, "options": [{ "text": "$3{:}45$ pm", "correct": true }, { "text": "$5{:}45$ pm", "why": "Subtracts 10 rather than 12 from hour 15." }, { "text": "$3{:}45$ am", "why": "Subtracts 12 but labels an afternoon time as am." }, { "text": "$15{:}45$ pm", "why": "Mixes a 24-hour hour value with a 12-hour pm label." }], "solution_text": "$15-12=3$\n$1545=3{:}45\\text{ pm}$" }
+    {
+      "id": "q6",
+      "question_text": "A concert time is shown as $1545$. Which 12-hour label matches it?",
+      "structure": "interpret-converted-schedule-time",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$3{:}45$ pm",
+          "correct": true
+        },
+        {
+          "text": "$3{:}45$ am",
+          "why": "Subtracts 12 correctly but labels an afternoon time as am."
+        },
+        {
+          "text": "$5{:}45$ pm",
+          "why": "Subtracts 10 rather than 12 from hour 15, computing $15-10=5$."
+        },
+        {
+          "text": "$5{:}45$ am",
+          "why": "Subtracts 10 instead of 12 to get hour 5 and then also labels the time am."
+        }
+      ],
+      "solution_text": "$15-12=3$\n$1545=3{:}45\\text{ pm}$"
+    }
   ]
 }

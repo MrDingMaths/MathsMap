@@ -1,0 +1,114 @@
+{
+  "skillId": "position-vector-function",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **position vector function** $\\underset{\\sim}{r}(t)$ gives a particle's position at time $t$, measured from the origin. Its components are the functions $x(t)$ and $y(t)$, written $\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$. Substituting a value of $t$ gives the position at that time.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.6) node[above,font=\\footnotesize] {$y$};\n\\draw[thick,blue,<->,domain=0.4:5.6,smooth,variable=\\x] plot ({\\x},{0.35*\\x*\\x-1.9*\\x+3.6});\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4.4,2.016);\n\\draw[dashed,gray] (P)--(4.4,0);\n\\draw[dashed,gray] (P)--(0,2.016);\n\\draw[->,thick] (O)--(P) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{r}(t)$};\n\\node[below,font=\\footnotesize] at (4.4,-0.05) {$x(t)$};\n\\node[left,font=\\footnotesize] at (-0.05,2.016) {$y(t)$};\n\\fill (P) circle (2.2pt);\n\\node[above right,font=\\footnotesize] at (P) {$P$};\n\\node[below left,font=\\footnotesize] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "$\\underset{\\sim}{r}(t)=x(t)\\underset{\\sim}{i}+y(t)\\underset{\\sim}{j}$ says the particle is $x(t)$ across and $y(t)$ up at time $t$.",
+      "To find the position at a particular time, substitute that value of $t$ into both components.",
+      "The pair $x=x(t)$ and $y=y(t)$ are **parametric equations** for the path, with time as the parameter.",
+      "The particle's distance from the origin at time $t$ is $\\sqrt{x(t)^{2}+y(t)^{2}}$.",
+      "The **path** is the curve the particle traces out, and it does not show when the particle reaches each point.",
+      "The particle is on the $y$-axis when $x(t)=0$, and on the $x$-axis when $y(t)=0$.",
+      "Time is usually restricted to $t\\ge0$, so only part of the curve is traced."
+    ],
+    "steps": [
+      "Write down the two component functions $x(t)$ and $y(t)$.",
+      "Substitute the given value of $t$ into each component.",
+      "State the position as a vector or as a point."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(3t+1)\\underset{\\sim}{i}+(2t-5)\\underset{\\sim}{j}$. Find its position when $t=4$.",
+        "structure": "evaluate-position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}(4)=(3(4)+1)\\underset{\\sim}{i}+(2(4)-5)\\underset{\\sim}{j}$\n$=(12+1)\\underset{\\sim}{i}+(8-5)\\underset{\\sim}{j}$\n$=13\\underset{\\sim}{i}+3\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-2t)\\underset{\\sim}{i}+(5-t)\\underset{\\sim}{j}$. Find its position when $t=3$.",
+        "structure": "evaluate-position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}(3)=(3^{2}-2(3))\\underset{\\sim}{i}+(5-3)\\underset{\\sim}{j}$\n$=(9-6)\\underset{\\sim}{i}+2\\underset{\\sim}{j}$\n$=3\\underset{\\sim}{i}+2\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle starts at the point $(2,-3)$. After $t$ seconds it has moved $4t$ units to the right and $3t$ units up from its starting point. Write its position vector function $\\underset{\\sim}{r}(t)$.",
+        "structure": "write-position-function",
+        "solution_text": "$x(t)=2+4t$\n$y(t)=-3+3t$\n$\\underset{\\sim}{r}(t)=(2+4t)\\underset{\\sim}{i}+(3t-3)\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t+1)\\underset{\\sim}{i}+2t\\underset{\\sim}{j}$. How far is the particle from the origin when $t=2$?",
+        "structure": "distance-from-origin",
+        "solution_text": "$\\underset{\\sim}{r}(2)=3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$|\\underset{\\sim}{r}(2)|=\\sqrt{3^{2}+4^{2}}$\n$=\\sqrt{9+16}$\n$=5$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t-6)\\underset{\\sim}{i}+(t^{2}+1)\\underset{\\sim}{j}$ for $t\\ge0$. At what time is the particle on the $y$-axis?",
+        "structure": "axis-crossing-time",
+        "solution_text": "On the $y$-axis the $x$-component is zero.\n$t-6=0$\n$t=6$"
+      },
+      {
+        "question_text": "A particle is at $(-1,7)$ when $t=0$. Its $x$-coordinate decreases by $2$ each second and its $y$-coordinate never changes. Write its position vector function $\\underset{\\sim}{r}(t)$.",
+        "structure": "write-position-function",
+        "solution_text": "$x(t)=-1-2t$\n$y(t)=7$\n$\\underset{\\sim}{r}(t)=(-1-2t)\\underset{\\sim}{i}+7\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=4\\underset{\\sim}{i}+(t-2)\\underset{\\sim}{j}$ for $t\\ge0$. Describe the motion of the particle.",
+        "structure": "describe-motion",
+        "solution_text": "$x(t)=4$ for every value of $t$, so the particle stays on the vertical line $x=4$.\n$y(t)=t-2$ increases by $1$ each second, starting at $y=-2$.\nThe particle moves straight up the line $x=4$, starting at $(4,-2)$ and rising $1$ unit each second."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=6\\cos t\\,\\underset{\\sim}{i}+6\\sin t\\,\\underset{\\sim}{j}$. Find its exact position when $t=\\dfrac{\\pi}{6}$.",
+        "structure": "evaluate-position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}\\left(\\dfrac{\\pi}{6}\\right)=6\\cos\\dfrac{\\pi}{6}\\,\\underset{\\sim}{i}+6\\sin\\dfrac{\\pi}{6}\\,\\underset{\\sim}{j}$\n$=6\\times\\dfrac{\\sqrt{3}}{2}\\,\\underset{\\sim}{i}+6\\times\\dfrac{1}{2}\\,\\underset{\\sim}{j}$\n$=3\\sqrt{3}\\,\\underset{\\sim}{i}+3\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-9)\\underset{\\sim}{i}+(2t+1)\\underset{\\sim}{j}$ for $t\\ge0$. Find the position of the particle when it crosses the $y$-axis.",
+        "structure": "axis-crossing-time",
+        "solution_text": "On the $y$-axis the $x$-component is zero.\n$t^{2}-9=0$\n$t=3$ (since $t\\ge0$)\n$\\underset{\\sim}{r}(3)=0\\underset{\\sim}{i}+(2(3)+1)\\underset{\\sim}{j}$\n$=7\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(3t-1)\\underset{\\sim}{i}+(t+3)\\underset{\\sim}{j}$. How far is the particle from the origin when $t=3$?",
+        "structure": "distance-from-origin",
+        "solution_text": "$\\underset{\\sim}{r}(3)=(3(3)-1)\\underset{\\sim}{i}+(3+3)\\underset{\\sim}{j}$\n$=8\\underset{\\sim}{i}+6\\underset{\\sim}{j}$\n$|\\underset{\\sim}{r}(3)|=\\sqrt{8^{2}+6^{2}}$\n$=\\sqrt{64+36}$\n$=10$"
+      },
+      {
+        "question_text": "At time $t$ a particle's $x$-coordinate is three less than twice $t$, and its $y$-coordinate is the square of $t$. Write its position vector function $\\underset{\\sim}{r}(t)$.",
+        "structure": "write-position-function",
+        "solution_text": "$x(t)=2t-3$\n$y(t)=t^{2}$\n$\\underset{\\sim}{r}(t)=(2t-3)\\underset{\\sim}{i}+t^{2}\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2+t)\\underset{\\sim}{i}+(6-t)\\underset{\\sim}{j}$ for $t\\ge0$. Describe the motion of the particle.",
+        "structure": "describe-motion",
+        "solution_text": "$x(t)=2+t$ increases by $1$ each second, starting at $x=2$.\n$y(t)=6-t$ decreases by $1$ each second, starting at $y=6$.\nThe particle moves in a straight line from $(2,6)$, going $1$ unit right and $1$ unit down each second."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-4t)\\underset{\\sim}{i}+(t^{2}+t)\\underset{\\sim}{j}$. Find its position when $t=2$.",
+        "structure": "evaluate-position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}(2)=(2^{3}-4(2))\\underset{\\sim}{i}+(2^{2}+2)\\underset{\\sim}{j}$\n$=(8-8)\\underset{\\sim}{i}+(4+2)\\underset{\\sim}{j}$\n$=6\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t+3)\\underset{\\sim}{i}+(t^{2}-4t)\\underset{\\sim}{j}$ for $t\\ge0$. Find all times at which the particle is on the $x$-axis.",
+        "structure": "axis-crossing-time",
+        "solution_text": "On the $x$-axis the $y$-component is zero.\n$t^{2}-4t=0$\n$t(t-4)=0$\n$t=0$ or $t=4$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t-5)\\underset{\\sim}{i}+(t+1)\\underset{\\sim}{j}$ for $t\\ge0$. Find the time at which the particle is closest to the origin, and its exact distance from the origin then.",
+        "structure": "distance-from-origin",
+        "solution_text": "$|\\underset{\\sim}{r}(t)|^{2}=(t-5)^{2}+(t+1)^{2}$\n$=t^{2}-10t+25+t^{2}+2t+1$\n$=2t^{2}-8t+26$\nThis is a parabola in $t$ with a minimum at $t=\\dfrac{8}{2\\times2}$.\n$t=2$\n$|\\underset{\\sim}{r}(2)|^{2}=2(4)-8(2)+26$\n$=8-16+26$\n$=18$\n$|\\underset{\\sim}{r}(2)|=3\\sqrt{2}$"
+      },
+      {
+        "question_text": "A particle moves in a straight line at a steady rate. It is at $(2,5)$ when $t=0$ and at $(14,-3)$ when $t=4$. Write its position vector function $\\underset{\\sim}{r}(t)$.",
+        "structure": "write-position-function",
+        "solution_text": "Change in position over $4$ seconds $=(14-2)\\underset{\\sim}{i}+(-3-5)\\underset{\\sim}{j}$\n$=12\\underset{\\sim}{i}-8\\underset{\\sim}{j}$\nChange each second $=3\\underset{\\sim}{i}-2\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(t)=(2+3t)\\underset{\\sim}{i}+(5-2t)\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-2t-3)\\underset{\\sim}{i}+(t^{2}-9)\\underset{\\sim}{j}$ for $t\\ge0$. Show that the particle passes through the origin and find the time at which it does so.",
+        "structure": "axis-crossing-time",
+        "solution_text": "At the origin both components are zero.\n$t^{2}-2t-3=0$\n$(t-3)(t+1)=0$\n$t=3$ (since $t\\ge0$)\n$t^{2}-9=0$\n$t=3$ (since $t\\ge0$)\nBoth components are zero at $t=3$, so the particle passes through the origin when $t=3$."
+      }
+    ]
+  }
+}

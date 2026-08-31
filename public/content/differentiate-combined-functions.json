@@ -1,0 +1,151 @@
+{
+  "skillId": "differentiate-combined-functions",
+  "atomType": "R",
+  "theory": {
+    "intro": "Functions such as $x^{2}e^{3x}$ and $\\dfrac{\\ln x}{\\sin x}$ combine an exponential, logarithm or trigonometric function with an algebraic one. Name the outermost structure — product, quotient or composite — and apply that rule first.",
+    "facts": [
+      "The **product rule** is $\\dfrac{d}{dx}(uv) = u'v + uv'$, never $u'v'$.",
+      "The **quotient rule** is $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right) = \\dfrac{u'v - uv'}{v^{2}}$, and the order $u'v - uv'$ matters.",
+      "The **chain rule** is $\\dfrac{d}{dx}f(g(x)) = g'(x)f'(g(x))$: differentiate the outside, then multiply by the inside derivative.",
+      "For exponentials and logarithms, $\\dfrac{d}{dx}e^{f(x)} = f'(x)e^{f(x)}$ and $\\dfrac{d}{dx}\\ln f(x) = \\dfrac{f'(x)}{f(x)}$.",
+      "For trigonometric functions, $\\dfrac{d}{dx}\\sin f(x) = f'(x)\\cos f(x)$ and $\\dfrac{d}{dx}\\cos f(x) = -f'(x)\\sin f(x)$.",
+      "For a base other than $e$, $\\dfrac{d}{dx}a^{f(x)} = f'(x)(\\ln a)a^{f(x)}$ and $\\dfrac{d}{dx}\\log_{a}f(x) = \\dfrac{f'(x)}{(\\ln a)f(x)}$.",
+      "A log law such as $\\ln\\dfrac{u}{v} = \\ln u - \\ln v$ can replace a quotient rule with a subtraction.",
+      "Finish by factorising out the common exponential or the common power."
+    ],
+    "steps": [
+      "Name the outermost structure: product, quotient or composite.",
+      "Set up the pieces: write $u$ and $v$, or the inside function, and differentiate each.",
+      "Substitute into the rule for that structure, using the chain rule on any composite piece.",
+      "Factorise and simplify."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Differentiate $y = e^{3x^{2}}$ using the chain rule.",
+        "structure": "chain-rule-composite",
+        "solution_text": "Chain rule, with inside function $u = 3x^{2}$.\n$u = 3x^{2}, \\quad u' = 6x$\n$y' = 6xe^{3x^{2}}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\ln(x^{2} + 5)$.",
+        "structure": "chain-rule-composite",
+        "solution_text": "Chain rule, using $\\dfrac{d}{dx}\\ln f(x) = \\dfrac{f'(x)}{f(x)}$ with $f(x) = x^{2} + 5$.\n$f'(x) = 2x$\n$y' = \\dfrac{2x}{x^{2} + 5}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\sin(4x^{3})$.",
+        "structure": "chain-rule-composite",
+        "solution_text": "Chain rule, with inside function $u = 4x^{3}$.\n$u = 4x^{3}, \\quad u' = 12x^{2}$\n$y' = 12x^{2}\\cos(4x^{3})$"
+      },
+      {
+        "question_text": "Differentiate $y = (\\ln x)^{3}$ for $x > 0$.",
+        "structure": "chain-rule-composite",
+        "solution_text": "Chain rule, with inside function $u = \\ln x$.\n$u = \\ln x, \\quad u' = \\dfrac{1}{x}$\n$y' = 3(\\ln x)^{2} \\times \\dfrac{1}{x}$\n$= \\dfrac{3(\\ln x)^{2}}{x}$"
+      },
+      {
+        "question_text": "Differentiate $y = x^{3}e^{2x}$ using the product rule.",
+        "structure": "product-rule-mixed",
+        "solution_text": "$u = x^{3}, \\quad u' = 3x^{2}$\n$v = e^{2x}, \\quad v' = 2e^{2x}$\n$y' = 3x^{2}e^{2x} + 2x^{3}e^{2x}$\n$= x^{2}e^{2x}(3 + 2x)$"
+      },
+      {
+        "question_text": "Differentiate $y = x^{2}\\cos x$ using the product rule.",
+        "structure": "product-rule-mixed",
+        "solution_text": "$u = x^{2}, \\quad u' = 2x$\n$v = \\cos x, \\quad v' = -\\sin x$\n$y' = 2x\\cos x - x^{2}\\sin x$"
+      },
+      {
+        "question_text": "Differentiate $y = \\dfrac{e^{x}}{x}$ using the quotient rule.",
+        "structure": "quotient-rule-mixed",
+        "solution_text": "$u = e^{x}, \\quad u' = e^{x}$\n$v = x, \\quad v' = 1$\n$y' = \\dfrac{xe^{x} - e^{x}}{x^{2}}$\n$= \\dfrac{e^{x}(x - 1)}{x^{2}}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\dfrac{\\sin x}{x^{2}}$ using the quotient rule.",
+        "structure": "quotient-rule-mixed",
+        "solution_text": "$u = \\sin x, \\quad u' = \\cos x$\n$v = x^{2}, \\quad v' = 2x$\n$y' = \\dfrac{x^{2}\\cos x - 2x\\sin x}{x^{4}}$\n$= \\dfrac{x\\cos x - 2\\sin x}{x^{3}}$"
+      },
+      {
+        "question_text": "Differentiate $y = 4^{3x}$.",
+        "structure": "other-base-derivative",
+        "solution_text": "Use $\\dfrac{d}{dx}a^{f(x)} = f'(x)(\\ln a)a^{f(x)}$ with $a = 4$ and $f(x) = 3x$.\n$f'(x) = 3$\n$y' = 3(\\ln 4)4^{3x}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\log_{5}x$ for $x > 0$.",
+        "structure": "other-base-derivative",
+        "solution_text": "Use $\\dfrac{d}{dx}\\log_{a}x = \\dfrac{1}{x\\ln a}$ with $a = 5$.\n$y' = \\dfrac{1}{x\\ln 5}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Differentiate $y = x^{2}e^{\\sin x}$, naming the rules you use.",
+        "structure": "combine-two-rules",
+        "solution_text": "Product rule, with the chain rule on $e^{\\sin x}$.\n$u = x^{2}, \\quad u' = 2x$\n$v = e^{\\sin x}, \\quad v' = \\cos x\\,e^{\\sin x}$\n$y' = 2xe^{\\sin x} + x^{2}\\cos x\\,e^{\\sin x}$\n$= xe^{\\sin x}(2 + x\\cos x)$"
+      },
+      {
+        "question_text": "Differentiate $y = \\dfrac{e^{2x}}{\\cos 3x}$, naming the rules you use.",
+        "structure": "combine-two-rules",
+        "solution_text": "Quotient rule, with the chain rule on both $e^{2x}$ and $\\cos 3x$.\n$u = e^{2x}, \\quad u' = 2e^{2x}$\n$v = \\cos 3x, \\quad v' = -3\\sin 3x$\n$y' = \\dfrac{2e^{2x}\\cos 3x + 3e^{2x}\\sin 3x}{\\cos^{2}3x}$\n$= \\dfrac{e^{2x}(2\\cos 3x + 3\\sin 3x)}{\\cos^{2}3x}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\left(xe^{x}\\right)^{4}$, naming the rules you use.",
+        "structure": "combine-two-rules",
+        "solution_text": "Chain rule on the outer power, with the product rule on the inside.\n$u = xe^{x}, \\quad u' = e^{x} + xe^{x} = e^{x}(1 + x)$\n$y' = 4\\left(xe^{x}\\right)^{3} \\times e^{x}(1 + x)$\n$= 4x^{3}e^{3x} \\times e^{x}(1 + x)$\n$= 4x^{3}e^{4x}(1 + x)$"
+      },
+      {
+        "question_text": "Differentiate $y = e^{\\cos 2x}$.",
+        "structure": "chain-rule-composite",
+        "solution_text": "Chain rule, with inside function $u = \\cos 2x$.\n$u = \\cos 2x, \\quad u' = -2\\sin 2x$\n$y' = -2\\sin 2x\\,e^{\\cos 2x}$"
+      },
+      {
+        "question_text": "Differentiate $y = e^{3x}\\sin 2x$, naming the rules you use.",
+        "structure": "product-rule-mixed",
+        "solution_text": "Product rule, with the chain rule on each factor.\n$u = e^{3x}, \\quad u' = 3e^{3x}$\n$v = \\sin 2x, \\quad v' = 2\\cos 2x$\n$y' = 3e^{3x}\\sin 2x + 2e^{3x}\\cos 2x$\n$= e^{3x}(3\\sin 2x + 2\\cos 2x)$"
+      },
+      {
+        "question_text": "Differentiate $y = \\dfrac{\\ln x}{x^{3}}$ for $x > 0$, using the quotient rule.",
+        "structure": "quotient-rule-mixed",
+        "solution_text": "$u = \\ln x, \\quad u' = \\dfrac{1}{x}$\n$v = x^{3}, \\quad v' = 3x^{2}$\n$y' = \\dfrac{x^{3} \\times \\dfrac{1}{x} - 3x^{2}\\ln x}{x^{6}}$\n$= \\dfrac{x^{2} - 3x^{2}\\ln x}{x^{6}}$\n$= \\dfrac{1 - 3\\ln x}{x^{4}}$"
+      },
+      {
+        "question_text": "Differentiate $y = x^{2}3^{x}$.",
+        "structure": "other-base-derivative",
+        "solution_text": "Product rule, with $\\dfrac{d}{dx}3^{x} = (\\ln 3)3^{x}$.\n$u = x^{2}, \\quad u' = 2x$\n$v = 3^{x}, \\quad v' = (\\ln 3)3^{x}$\n$y' = 2x\\,3^{x} + x^{2}(\\ln 3)3^{x}$\n$= 3^{x}\\left(2x + x^{2}\\ln 3\\right)$"
+      },
+      {
+        "question_text": "Use log laws to simplify first, then differentiate $y = \\ln\\left(\\dfrac{x^{2}}{3x + 1}\\right)$ for $x > 0$.",
+        "structure": "simplify-with-log-laws",
+        "solution_text": "$y = 2\\ln x - \\ln(3x + 1)$\n$y' = \\dfrac{2}{x} - \\dfrac{3}{3x + 1}$\n$= \\dfrac{2(3x + 1) - 3x}{x(3x + 1)}$\n$= \\dfrac{6x + 2 - 3x}{x(3x + 1)}$\n$= \\dfrac{3x + 2}{x(3x + 1)}$"
+      },
+      {
+        "question_text": "Given $f(x) = \\ln(x^{3} - 2x + 4)$, find $f'(2)$.",
+        "structure": "evaluate-derivative-at-point",
+        "solution_text": "$f'(x) = \\dfrac{3x^{2} - 2}{x^{3} - 2x + 4}$\n$f'(2) = \\dfrac{3(2)^{2} - 2}{2^{3} - 2(2) + 4}$\n$= \\dfrac{12 - 2}{8 - 4 + 4}$\n$= \\dfrac{10}{8}$\n$= \\dfrac{5}{4}$"
+      },
+      {
+        "question_text": "Given $f(x) = x\\sin 2x$, find the exact value of $f'\\left(\\dfrac{\\pi}{2}\\right)$.",
+        "structure": "evaluate-derivative-at-point",
+        "solution_text": "Product rule, with the chain rule on $\\sin 2x$.\n$u = x, \\quad u' = 1$\n$v = \\sin 2x, \\quad v' = 2\\cos 2x$\n$f'(x) = \\sin 2x + 2x\\cos 2x$\n$f'\\left(\\dfrac{\\pi}{2}\\right) = \\sin\\pi + 2\\left(\\dfrac{\\pi}{2}\\right)\\cos\\pi$\n$= 0 + \\pi(-1)$\n$= -\\pi$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Let $y = e^{2x}\\cos x$. Show that $y'' - 4y' + 5y = 0$.",
+        "structure": "second-derivative-identity",
+        "solution_text": "$y' = 2e^{2x}\\cos x - e^{2x}\\sin x$\n$= e^{2x}(2\\cos x - \\sin x)$\n$y'' = 2e^{2x}(2\\cos x - \\sin x) + e^{2x}(-2\\sin x - \\cos x)$\n$= e^{2x}(4\\cos x - 2\\sin x - 2\\sin x - \\cos x)$\n$= e^{2x}(3\\cos x - 4\\sin x)$\n$y'' - 4y' + 5y = e^{2x}(3\\cos x - 4\\sin x) - 4e^{2x}(2\\cos x - \\sin x) + 5e^{2x}\\cos x$\n$= e^{2x}(3\\cos x - 4\\sin x - 8\\cos x + 4\\sin x + 5\\cos x)$\n$= 0$"
+      },
+      {
+        "question_text": "If $y = \\ln\\left(\\dfrac{1 + \\cos x}{\\sin x}\\right)$ for $0 < x < \\pi$, show that $\\dfrac{dy}{dx} = -\\operatorname{cosec} x$.",
+        "structure": "simplify-with-log-laws",
+        "solution_text": "$y = \\ln(1 + \\cos x) - \\ln(\\sin x)$\n$\\dfrac{dy}{dx} = \\dfrac{-\\sin x}{1 + \\cos x} - \\dfrac{\\cos x}{\\sin x}$\n$= \\dfrac{-\\sin^{2}x - \\cos x(1 + \\cos x)}{\\sin x(1 + \\cos x)}$\n$= \\dfrac{-\\sin^{2}x - \\cos^{2}x - \\cos x}{\\sin x(1 + \\cos x)}$\n$= \\dfrac{-(1 + \\cos x)}{\\sin x(1 + \\cos x)}$\n$= -\\dfrac{1}{\\sin x}$\n$= -\\operatorname{cosec} x$"
+      },
+      {
+        "question_text": "Find $\\dfrac{dy}{dx}$ for $y = \\dfrac{e^{2x}}{\\left(x^{2} + 1\\right)^{3}}$, giving your answer in factored form.",
+        "structure": "combine-two-rules",
+        "solution_text": "Quotient rule, with the chain rule on $\\left(x^{2} + 1\\right)^{3}$.\n$u = e^{2x}, \\quad u' = 2e^{2x}$\n$v = \\left(x^{2} + 1\\right)^{3}, \\quad v' = 6x\\left(x^{2} + 1\\right)^{2}$\n$\\dfrac{dy}{dx} = \\dfrac{2e^{2x}\\left(x^{2} + 1\\right)^{3} - 6xe^{2x}\\left(x^{2} + 1\\right)^{2}}{\\left(x^{2} + 1\\right)^{6}}$\n$= \\dfrac{e^{2x}\\left(x^{2} + 1\\right)^{2}\\left[2\\left(x^{2} + 1\\right) - 6x\\right]}{\\left(x^{2} + 1\\right)^{6}}$\n$= \\dfrac{e^{2x}\\left(2x^{2} - 6x + 2\\right)}{\\left(x^{2} + 1\\right)^{4}}$\n$= \\dfrac{2e^{2x}\\left(x^{2} - 3x + 1\\right)}{\\left(x^{2} + 1\\right)^{4}}$"
+      },
+      {
+        "question_text": "The curves $y = 3^{x}$ and $y = 9^{x}$ have tangents with the same gradient at one value of $x$. Find that value, correct to 3 significant figures.",
+        "structure": "other-base-derivative",
+        "solution_text": "$\\dfrac{d}{dx}3^{x} = (\\ln 3)3^{x}, \\qquad \\dfrac{d}{dx}9^{x} = (\\ln 9)9^{x}$\nThe gradients are equal, and $\\ln 9 = 2\\ln 3$.\n$(\\ln 3)3^{x} = 2(\\ln 3)9^{x}$\n$3^{x} = 2 \\times 9^{x}$\n$\\left(\\dfrac{3}{9}\\right)^{x} = 2$\n$\\left(\\dfrac{1}{3}\\right)^{x} = 2$\n$-x\\ln 3 = \\ln 2$\n$x = -\\dfrac{\\ln 2}{\\ln 3}$\n$= -0.631$"
+      }
+    ]
+  }
+}

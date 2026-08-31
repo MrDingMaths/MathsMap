@@ -1,0 +1,106 @@
+{
+  "batch": "W3-8",
+  "model": "gemini-3.7-flash-high",
+  "note": "Adv Y11 Introduction to differentiation, all 25 skills in one batch (was W3-8+W3-9). Sections 1-2 own the prerequisites of sections 3-7; run sections 1-2 first if voice samples matter, but nothing blocks a single wave. Booklet set has no '2_' file — 1_Estimating Change, 3_Calculations, 4_Graphical applications, 5_Rate of change is the complete set.",
+  "sections": [
+    {
+      "name": "diff-rates-of-change",
+      "skillIds": ["average-rate-of-change", "average-speed-distance-time", "instantaneous-rate-tangent", "estimate-instantaneous-rate-graph"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 1_Estimating Change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "AVERAGE vs INSTANTANEOUS is the whole point of this section. `average-rate-of-change` = gradient of the CHORD between two points, $\\frac{f(b)-f(a)}{b-a}$, with units. `average-speed-distance-time` = the same idea in a distance-time context, including a multi-leg journey where the average speed is total distance over total time and NOT the mean of the leg speeds. `instantaneous-rate-tangent` = the rate at ONE instant as the gradient of the tangent. `estimate-instantaneous-rate-graph` = physically drawing/reading a tangent off a curve and computing its gradient from two points on the TANGENT, not on the curve.",
+        "The 'mean of the two speeds' error must appear as a named distractor on at least one average-speed item, with the arithmetic that produces it stated in `why`.",
+        "UNITS ARE PART OF THE ANSWER for every rate item (m/s, °C per minute, litres per hour). An option list of bare numbers where units distinguish the readings is a defect; either fix the units in the stem or put them in every option.",
+        "An ESTIMATE from a graph is not exact: `estimate-instantaneous-rate-graph` items must accept a stated tolerance or ask for the nearest of well-separated options (e.g. 2, 5, 10, 20), never for a value that depends on the exact pixel a student reads.",
+        "Figures: curve with the chord drawn for average rate, the tangent drawn at the marked point for instantaneous rate. Mark the two points used, label the axes with quantity and unit, and never label the gradient itself on the figure (that is the answer). Keep the tangent line inside the axis window."
+      ]
+    },
+    {
+      "name": "diff-gradient-limit",
+      "skillIds": ["gradient-secant-limit", "infer-derivative-power", "define-derivative-tangent", "derivative-first-principles", "derivative-constant-linear"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 1_Estimating Change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "DEAL DISJOINTLY. `gradient-secant-limit` = the gradient of the secant through $(x, f(x))$ and $(x+h, f(x+h))$ and what happens numerically as $h\\to 0$ (a table of shrinking $h$ is the natural display). `infer-derivative-power` = spotting the pattern $f(x)=x^{n}\\Rightarrow f'(x)=nx^{n-1}$ from first-principles results already computed. `define-derivative-tangent` = the definition $f'(x)=\\lim_{h\\to 0}\\frac{f(x+h)-f(x)}{h}$ and its meaning as the tangent gradient function, including where it fails to exist. `derivative-first-principles` = actually carrying out the limit for a given function. `derivative-constant-linear` = $f(x)=c\\Rightarrow f'(x)=0$ and $f(x)=mx+c\\Rightarrow f'(x)=m$, derived rather than asserted.",
+        "FIRST-PRINCIPLES WORKING MUST BE COMPLETE: expand $f(x+h)$, subtract, factor $h$, CANCEL $h$ (stating $h\\neq 0$), then take the limit. A solution that substitutes $h=0$ before cancelling is the error to build distractors from, not the working to ship.",
+        "Keep the functions inside the taught class: constants, linear, quadratic, cubic, and simple $1/x$ or $\\sqrt{x}$ ONLY if you show the conjugate/common-denominator step in full. No exponentials, logs or trig — those are later topics.",
+        "Notation: $f'(x)$, $\\frac{dy}{dx}$ and $y'$ all appear in the booklet; use them consistently within an item and state the notation asked for. $\\frac{dy}{dx}$ is not a fraction and must not be split in working.",
+        "The secant/tangent figure needs BOTH points marked with a visible secant, and the label $h$ on the horizontal gap. Do not print the coordinates of a point whose value is already on a tick, and keep the function label off the curve."
+      ]
+    },
+    {
+      "name": "diff-power-rule",
+      "skillIds": ["power-rule", "derivative-sum-multiple"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 3_Calculations with the derivative.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`power-rule` = differentiating a single power, INCLUDING negative and fractional indices, which first requires rewriting $\\frac{1}{x^{3}}$ as $x^{-3}$ and $\\sqrt{x}$ as $x^{1/2}$. `derivative-sum-multiple` = the sum/difference and constant-multiple rules applied to polynomials and to sums of such powers. Do not let the second skill's items be single-power differentiations.",
+        "The index arithmetic is where generated content goes wrong: $\\frac{d}{dx}x^{-3}=-3x^{-4}$ (not $-3x^{-2}$), $\\frac{d}{dx}x^{1/2}=\\tfrac{1}{2}x^{-1/2}$. Recompute every index by hand and give at least one distractor built from 'added 1 to the index instead of subtracting'.",
+        "ANSWER FORM must be pinned when more than one is reachable: say whether the answer is wanted with positive indices, as a surd, or as a single fraction. $\\tfrac{1}{2}x^{-1/2}$ and $\\frac{1}{2\\sqrt{x}}$ are the same answer and must not both appear as options.",
+        "A constant term differentiates to 0 and a term in $x$ to its coefficient — include the 'kept the constant' and 'dropped the coefficient' slips as named distractors.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "diff-tangent-normal",
+      "skillIds": ["tangent-normal-equations", "points-given-gradient", "angle-inclination-gradient"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 3_Calculations with the derivative.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "angles"],
+      "hazards": [
+        "`tangent-normal-equations` = find the equation of the tangent AND of the normal at a stated point ($m_{normal}=-1/m_{tangent}$). `points-given-gradient` = the reverse: solve $f'(x)=m$ for the x-values and give the POINTS (both coordinates). `angle-inclination-gradient` = $m=\\tan\\theta$, converting between a gradient and the angle of inclination, including obtuse angles for negative gradients.",
+        "A `points-given-gradient` item on a cubic usually has TWO solutions. State whether both are wanted; if the option is a single point, restrict the domain in the stem. An item silently keeping one root is broken.",
+        "ANGLE OF INCLINATION is measured anticlockwise from the positive x-direction and lies in $[0^{\\circ},180^{\\circ})$: a gradient of $-1$ gives $135^{\\circ}$, not $-45^{\\circ}$. Make the negative-gradient case an item, with $-45^{\\circ}$ as a named distractor.",
+        "Equations of lines must be pinned to one form (gradient-intercept or general form $ax+by+c=0$) in the stem, or two options are equally correct.",
+        "Figures: the curve with the point marked and the tangent (and, where relevant, the normal) drawn through it; for inclination, mark the angle between the line and the positive x-axis with `\\pic {angle=...}` — never a hand-drawn arc — and keep the angle label inside the marked region."
+      ]
+    },
+    {
+      "name": "diff-product-quotient-chain",
+      "skillIds": ["product-rule", "quotient-rule", "chain-rule", "combine-differentiation-rules"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 3_Calculations with the derivative.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One skill per rule, plus `combine-differentiation-rules` for expressions needing TWO or more rules (a product whose factor needs the chain rule, a quotient inside a power). Every item in the combine skill must genuinely require more than one rule.",
+        "The quotient rule's numerator order matters: $\\frac{u'v-uv'}{v^{2}}$. 'Swapped the numerator terms' is the single best distractor for that skill and must be named in `why` where used.",
+        "CHAIN RULE items must state the outer and inner functions in the working ($u=$ inner, $y=$ outer), and the answer must keep the inner function unsimplified where expanding would obscure it. Pin the required form in the stem if both factored and expanded answers are reachable.",
+        "Do not use exponential, logarithmic or trigonometric functions — this topic is polynomial/rational/surd only; those cases belong to a later topic.",
+        "Simplification is where these answers collide: decide and state whether a common factor should be taken out, and make sure no two options are algebraically equal (a factored and an expanded form of the same expression are the same answer).",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "diff-graphical-applications",
+      "skillIds": ["increasing-decreasing-functions", "stationary-points", "graph-derivative-function", "analyse-cubic-stationary"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 4_Graphical applications of the derivative.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`increasing-decreasing-functions` = the sign of $f'(x)$ over an interval. `stationary-points` = solving $f'(x)=0$ and CLASSIFYING each point (maximum, minimum, horizontal point of inflection) by a sign table of $f'$ either side. `graph-derivative-function` = sketching $y=f'(x)$ from a given $y=f(x)$ (and the reverse reading). `analyse-cubic-stationary` = the full analysis of a cubic: stationary points, nature, and the resulting sketch.",
+        "CLASSIFICATION MUST BE SHOWN, not asserted: every stationary-point solution needs the sign table (or second-derivative test if the booklet teaches it here) with the test values stated. A horizontal point of inflection ($f'$ the same sign both sides) must appear at least once — 'called it a minimum because $f''=0$' is a real misconception to name.",
+        "STRICT vs NON-STRICT intervals: a function is increasing where $f'(x)>0$; the stationary point itself belongs to neither interval unless the booklet's convention says otherwise. Use the booklet's convention and state the interval with the same strictness in every option, or two options differ only by an endpoint and both are defensible.",
+        "In `graph-derivative-function`, a stationary point of $f$ becomes an x-INTERCEPT of $f'$, and the degree drops by one. The most common error is sketching $f'$ with the same shape as $f$; make that a named distractor.",
+        "Figures: when the stem gives the graph of $f$, the figure must NOT also show $f'$; when the answer is a sketch, the options are descriptions or separate small graphs, and the question figure must not pre-mark the stationary points' coordinates. Keep every curve inside its axis window (clip the plotted domain) and put curve labels in clear space, never on the curve."
+      ]
+    },
+    {
+      "name": "diff-rate-of-change",
+      "skillIds": ["interpret-derivative-rate", "displacement-velocity-distinction", "velocity-from-displacement"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Introduction to Differentiation 5_The derivative as a rate of change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`interpret-derivative-rate` = saying what $\\frac{dV}{dt}$ MEANS in a context, with units, and what its sign tells you. `displacement-velocity-distinction` = displacement vs distance travelled, velocity vs speed, including a particle that reverses direction (distance exceeds |displacement|). `velocity-from-displacement` = differentiating $x(t)$ to get $v(t)$, evaluating it, and finding when the particle is at rest.",
+        "A particle that changes direction inside the interval is the discriminating case: at least one item must have the particle reverse, so that distance travelled must be computed piece by piece and is NOT $|x(b)-x(a)|$. Name 'used displacement as distance' in a `why`.",
+        "SIGN CONVENTION: negative velocity means moving in the negative direction, not decelerating. 'Negative velocity means slowing down' is a named misconception, and at least one item should turn on it.",
+        "Every rate answer carries units derived from the context ($\\text{cm}^{3}\\,\\text{s}^{-1}$, m/s), and every 'interpret' item must have exactly one defensible interpretation — avoid stems where both 'the volume is increasing' and 'the volume is increasing at an increasing rate' could be argued.",
+        "Displacement-time figures: label the axes with quantity and unit, mark the times where the particle is at rest only if the item is not asking for them, and keep the plotted domain inside the axis window."
+      ]
+    }
+  ]
+}

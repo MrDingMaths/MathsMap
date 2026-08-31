@@ -1,0 +1,116 @@
+{
+  "skillId": "solve-arithmetic-series-n",
+  "atomType": "R",
+  "theory": {
+    "intro": "To find the number of terms $n$ in an arithmetic series with known sum $S_n$, form a quadratic equation in $n$. Because the number of terms must be a positive integer, any negative or fractional root is rejected.",
+    "facts": [
+      "Substituting given values into $S_n = \\dfrac{n}{2}[2a + (n - 1)d]$ produces a quadratic equation in $n$.",
+      "The number of terms $n$ must be a positive integer: $n \\in \\mathbb{Z}^+$.",
+      "Roots that are negative, zero, or non-integer must be explicitly rejected with reason stated.",
+      "When terms become negative, $S_n$ can reach the same positive sum at two different positive values of $n$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "How many terms of the arithmetic series $3 + 7 + 11 + 15 + \\dots$ are needed to give a sum of $210$?",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 3, d = 4, S_n = 210$\n$210 = \\dfrac{n}{2}[2(3) + (n - 1)(4)]$\n$420 = n(6 + 4n - 4)$\n$420 = n(4n + 2)$\n$4n^2 + 2n - 420 = 0$\n$2n^2 + n - 210 = 0$\n$(2n + 21)(n - 10) = 0$\n$n = 10 \\text{ or } n = -\\dfrac{21}{2}$\n$\\text{Since } n \\text{ must be a positive integer, reject } n = -\\dfrac{21}{2}.$\n$n = 10$"
+      },
+      {
+        "question_text": "Find the number of terms $n$ for which the sum of the series $1 + 4 + 7 + 10 + \\dots$ equals $176$.",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 1, d = 3, S_n = 176$\n$176 = \\dfrac{n}{2}[2(1) + (n - 1)(3)]$\n$352 = n(2 + 3n - 3)$\n$352 = n(3n - 1)$\n$3n^2 - n - 352 = 0$\n$(3n + 32)(n - 11) = 0$\n$n = 11 \\text{ or } n = -\\dfrac{32}{3}$\n$\\text{Reject } n = -\\dfrac{32}{3} \\text{ as } n > 0.$\n$n = 11$"
+      },
+      {
+        "question_text": "How many terms of the arithmetic series $8 + 13 + 18 + \\dots$ sum to $426$?",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 8, d = 5, S_n = 426$\n$426 = \\dfrac{n}{2}[2(8) + (n - 1)(5)]$\n$852 = n(16 + 5n - 5)$\n$5n^2 + 11n - 852 = 0$\n$(n - 12)(5n + 71) = 0$\n$n = 12 \\text{ or } n = -\\dfrac{71}{5}$\n$\\text{Reject } n = -\\dfrac{71}{5} \\text{ since } n > 0.$\n$n = 12$"
+      },
+      {
+        "question_text": "Find the number of terms of the series $35 + 30 + 25 + \\dots$ required to make the sum equal to $0$.",
+        "structure": "solve-n-zero-sum",
+        "solution_text": "$a = 35, d = -5, S_n = 0$\n$0 = \\dfrac{n}{2}[2(35) + (n - 1)(-5)]$\n$0 = \\dfrac{n}{2}(70 - 5n + 5)$\n$0 = \\dfrac{n}{2}(75 - 5n)$\n$n(15 - n) = 0$\n$n = 0 \\text{ or } n = 15$\n$\\text{Since } n > 0, \\text{ reject } n = 0.$\n$n = 15$"
+      },
+      {
+        "question_text": "How many terms of the decreasing arithmetic progression $48 + 44 + 40 + \\dots$ must be added to produce a sum of $0$?",
+        "structure": "solve-n-zero-sum",
+        "solution_text": "$a = 48, d = -4, S_n = 0$\n$0 = \\dfrac{n}{2}[2(48) + (n - 1)(-4)]$\n$0 = \\dfrac{n}{2}(96 - 4n + 4)$\n$0 = \\dfrac{n}{2}(100 - 4n)$\n$2n(25 - n) = 0$\n$n = 0 \\text{ or } n = 25$\n$\\text{Reject } n = 0 \\text{ as } n \\text{ must be positive.}$\n$n = 25$"
+      },
+      {
+        "question_text": "Find the number of terms in the arithmetic series $6 + 10 + 14 + \\dots$ if the sum is $406$.",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 6, d = 4, S_n = 406$\n$406 = \\dfrac{n}{2}[2(6) + (n - 1)(4)]$\n$812 = n(12 + 4n - 4)$\n$812 = n(4n + 8)$\n$4n^2 + 8n - 812 = 0$\n$n^2 + 2n - 203 = 0$\n$(n - 13)(n + 15) = 0$\n$n = 13 \\text{ or } n = -15$\n$\\text{Reject } n = -15 \\text{ since } n \\text{ must be a positive integer.}$\n$n = 13$"
+      },
+      {
+        "question_text": "Find the least number of terms of the series $50 + 46 + 42 + \\dots$ for which the partial sum $S_n$ becomes negative.",
+        "structure": "solve-n-fractional-bound",
+        "solution_text": "$a = 50, d = -4$\n$S_n < 0$\n$\\dfrac{n}{2}[2(50) + (n - 1)(-4)] < 0$\n$\\dfrac{n}{2}(100 - 4n + 4) < 0$\n$\\dfrac{n}{2}(104 - 4n) < 0$\n$\\text{Since } n > 0, 104 - 4n < 0$\n$4n > 104$\n$n > 26$\n$\\text{Least integer is } n = 27.$"
+      },
+      {
+        "question_text": "Solve for $n$: $\\sum_{k=1}^n (6k - 1) = 261$.",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 5, d = 6, S_n = 261$\n$261 = \\dfrac{n}{2}[2(5) + (n - 1)(6)]$\n$522 = n(6n + 4)$\n$6n^2 + 4n - 522 = 0$\n$3n^2 + 2n - 261 = 0$\n$(n - 9)(3n + 29) = 0$\n$n = 9 \\text{ or } n = -\\dfrac{29}{3}$\n$\\text{Reject } n = -\\dfrac{29}{3} \\text{ as } n > 0.$\n$n = 9$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For the arithmetic series $28 + 24 + 20 + \\dots$, find the two values of $n$ for which the partial sum $S_n$ equals $104$, and explain why there are two solutions.",
+        "structure": "solve-n-two-positive-roots",
+        "solution_text": "$a = 28, d = -4, S_n = 104$\n$104 = \\dfrac{n}{2}[2(28) + (n - 1)(-4)]$\n$208 = n(56 - 4n + 4)$\n$208 = n(60 - 4n)$\n$4n^2 - 60n + 208 = 0$\n$n^2 - 15n + 52 = 0$\n$(n - 4)(n - 13) = 0$\n$n = 4 \\text{ or } n = 13$\n$\\text{Both are positive integers: terms from } a_5 \\text{ to } a_{13} \\text{ sum to zero as positive and negative terms cancel.}$"
+      },
+      {
+        "question_text": "Find the two values of $n$ such that the sum of the series $30 + 27 + 24 + \\dots$ is $162$.",
+        "structure": "solve-n-two-positive-roots",
+        "solution_text": "$a = 30, d = -3, S_n = 162$\n$162 = \\dfrac{n}{2}[2(30) + (n - 1)(-3)]$\n$324 = n(60 - 3n + 3)$\n$324 = n(63 - 3n)$\n$3n^2 - 63n + 324 = 0$\n$n^2 - 21n + 108 = 0$\n$(n - 9)(n - 12) = 0$\n$n = 9 \\text{ or } n = 12$\n$\\text{Both } n = 9 \\text{ and } n = 12 \\text{ are valid solutions.}$"
+      },
+      {
+        "question_text": "An AP has first term $-14$ and common difference $4$. How many terms must be added to give a sum of $40$?",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = -14, d = 4, S_n = 40$\n$40 = \\dfrac{n}{2}[2(-14) + (n - 1)(4)]$\n$40 = \\dfrac{n}{2}(4n - 32)$\n$40 = 2n^2 - 16n$\n$2n^2 - 16n - 40 = 0$\n$n^2 - 8n - 20 = 0$\n$(n - 10)(n + 2) = 0$\n$n = 10 \\text{ or } n = -2$\n$\\text{Reject } n = -2 \\text{ since } n \\text{ must be positive.}$\n$n = 10$"
+      },
+      {
+        "question_text": "How many terms of the arithmetic series $2.5 + 3.5 + 4.5 + \\dots$ sum to $84$?",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 2.5, d = 1, S_n = 84$\n$84 = \\dfrac{n}{2}[2(2.5) + (n - 1)(1)]$\n$168 = n(5 + n - 1)$\n$168 = n(n + 4)$\n$n^2 + 4n - 168 = 0$\n$(n - 12)(n + 14) = 0$\n$n = 12 \\text{ or } n = -14$\n$\\text{Reject } n = -14 \\text{ as } n > 0.$\n$n = 12$"
+      },
+      {
+        "question_text": "An arithmetic series has common difference $d = 3$, last term $l = 38$, and sum $S_n = 255$. Find the number of terms $n$.",
+        "structure": "solve-n-simultaneous-with-last-term",
+        "solution_text": "$a_n = a + (n - 1)d \\implies 38 = a + 3(n - 1) \\implies a = 41 - 3n$\n$S_n = \\dfrac{n}{2}(a + l) \\implies 255 = \\dfrac{n}{2}(41 - 3n + 38)$\n$510 = n(79 - 3n)$\n$3n^2 - 79n + 510 = 0$\n$(n - 15)(3n - 34) = 0$\n$n = 15 \\text{ or } n = \\dfrac{34}{3}$\n$\\text{Reject } n = \\dfrac{34}{3} \\text{ because } n \\text{ must be an integer.}$\n$n = 15$"
+      },
+      {
+        "question_text": "Find the least number of terms of $4 + 9 + 14 + \\dots$ whose sum exceeds $500$.",
+        "structure": "solve-n-fractional-bound",
+        "solution_text": "$a = 4, d = 5$\n$S_n > 500$\n$\\dfrac{n}{2}[2(4) + (n - 1)(5)] > 500$\n$n(5n + 3) > 1000$\n$5n^2 + 3n - 1000 > 0$\n$\\text{Roots of } 5n^2 + 3n - 1000 = 0: n = \\dfrac{-3 \\pm \\sqrt{9 + 20000}}{10} = \\dfrac{-3 \\pm \\sqrt{20009}}{10} \\approx \\dfrac{-3 + 141.45}{10} = 13.845$\n$\\text{Since } n > 0, n > 13.845 \\implies n = 14$\n$\\text{Least integer is } n = 14.$"
+      },
+      {
+        "question_text": "Solve $S_n = 90$ for the arithmetic series $-9 - 6 - 3 + \\dots$.",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = -9, d = 3, S_n = 90$\n$90 = \\dfrac{n}{2}[2(-9) + (n - 1)(3)]$\n$180 = n(-18 + 3n - 3)$\n$3n^2 - 21n - 180 = 0$\n$n^2 - 7n - 60 = 0$\n$(n - 12)(n + 5) = 0$\n$n = 12 \\text{ or } n = -5$\n$\\text{Reject } n = -5 \\text{ since } n > 0.$\n$n = 12$"
+      },
+      {
+        "question_text": "How many terms of the series $11 + 17 + 23 + \\dots$ are required to yield a sum of $611$?",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = 11, d = 6, S_n = 611$\n$611 = \\dfrac{n}{2}[2(11) + (n - 1)(6)]$\n$1222 = n(6n + 16)$\n$6n^2 + 16n - 1222 = 0$\n$3n^2 + 8n - 611 = 0$\n$(n - 13)(3n + 47) = 0$\n$n = 13 \\text{ or } n = -\\dfrac{47}{3}$\n$\\text{Reject } n = -\\dfrac{47}{3} \\text{ since } n \\text{ must be a positive integer.}$\n$n = 13$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The sum of $n$ terms of an AP is $S_n = 4n(16 - n)$. Determine the two values of $n$ for which $S_n = 220$, and explain why no sum can exceed $256$.",
+        "structure": "solve-n-two-positive-roots",
+        "solution_text": "$4n(16 - n) = 220$\n$64n - 4n^2 = 220$\n$4n^2 - 64n + 220 = 0$\n$n^2 - 16n + 55 = 0$\n$(n - 5)(n - 11) = 0$\n$n = 5 \\text{ or } n = 11$\n$S_n = -4(n^2 - 16n) = -4(n - 8)^2 + 256$\n$\\text{The parabola has vertex } (8, 256) \\text{ and opens downwards, so the maximum sum is } 256.$"
+      },
+      {
+        "question_text": "In an arithmetic progression, the common difference is $d = -2$, the $n$th term is $a_n = -15$, and the sum of the first $n$ terms is $S_n = -48$. If the initial term is positive, find $a$ and $n$.",
+        "structure": "solve-n-simultaneous-with-last-term",
+        "solution_text": "$a_n = a + (n - 1)(-2) \\implies -15 = a - 2n + 2 \\implies a = 2n - 17$\n$S_n = \\dfrac{n}{2}(a + a_n) \\implies -48 = \\dfrac{n}{2}(2n - 32)$\n$-96 = 2n^2 - 32n$\n$n^2 - 16n + 48 = 0$\n$(n - 12)(n - 4) = 0$\n$\\text{For positive initial term } a > 0: n = 12 \\implies a = 2(12) - 17 = 7$"
+      },
+      {
+        "question_text": "Find the number of terms of the AP $\\sqrt{2}, 3\\sqrt{2}, 5\\sqrt{2}, \\dots$ needed to give a sum of $64\\sqrt{2}$.",
+        "structure": "solve-n-positive-sum-reject-negative",
+        "solution_text": "$a = \\sqrt{2}, d = 2\\sqrt{2}, S_n = 64\\sqrt{2}$\n$64\\sqrt{2} = \\dfrac{n}{2}[2\\sqrt{2} + (n - 1)(2\\sqrt{2})]$\n$64\\sqrt{2} = \\dfrac{n}{2}(2n\\sqrt{2})$\n$64\\sqrt{2} = n^2\\sqrt{2}$\n$n^2 = 64$\n$n = 8 \\text{ or } n = -8$\n$\\text{Reject } n = -8 \\text{ since } n > 0.$\n$n = 8$"
+      }
+    ]
+  }
+}

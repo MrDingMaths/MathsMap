@@ -1,0 +1,255 @@
+{
+  "skillId": "combinatorial-argument-proof",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which statement best explains why $^{n}C_{r} = {^{n}C_{n-r}}$ by combinatorial argument?",
+      "structure": "combinatorial-proof-symmetry",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Choosing $r$ objects to include in a subset is equivalent to choosing the remaining $n - r$ objects to exclude.",
+          "correct": true
+        },
+        {
+          "text": "Arranging $r$ objects in a row has the same number of permutations as arranging $n - r$ objects.",
+          "why": "Confuses unordered combination subsets with ordered line permutations."
+        },
+        {
+          "text": "Expanding the factorial formula shows that $r!(n-r)! = (n-r)!r!$.",
+          "why": "Gives an algebraic factorial rearrangement rather than a combinatorial counting argument."
+        },
+        {
+          "text": "Adding the two quantities gives $^{n}C_{r} + {^{n}C_{n-r}} = 2^n$.",
+          "why": "Confuses the symmetry identity with the sum of all binomial coefficients."
+        }
+      ],
+      "solution_text": "Selecting $r$ objects from $n$ distinct objects uniquely determines the $n - r$ objects that are excluded.\nTherefore, $^{n}C_{r} = {^{n}C_{n-r}}$."
+    },
+    {
+      "id": "q2",
+      "question_text": "In a combinatorial proof of Pascal's identity $^{7}C_{4} = {^{6}C_{3}} + {^{6}C_{4}}$, how is the selection of $4$ committee members from $7$ candidates partitioned?",
+      "structure": "combinatorial-proof-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "By conditioning on whether a specific candidate $A$ is included in the committee or excluded from the committee.",
+          "correct": true
+        },
+        {
+          "text": "By dividing the $7$ candidates into two separate groups of sizes $3$ and $4$ and counting within each group.",
+          "why": "Partitions the candidate pool by size rather than conditioning on a single distinguished element."
+        },
+        {
+          "text": "By first choosing $4$ members and then selecting $1$ leader from among them.",
+          "why": "Describes the committee-chair identity rather than Pascal's addition rule."
+        },
+        {
+          "text": "By expanding into factorial fractions $\\dfrac{7!}{4!3!} = \\dfrac{6!}{3!3!} + \\dfrac{6!}{4!2!}$ and finding a common denominator.",
+          "why": "Cites algebraic manipulation instead of explaining the combinatorial case split."
+        }
+      ],
+      "solution_text": "Conditioning on a single distinguished candidate $A$ splits the selections into two disjoint cases:\n$A$ is included: choose $3$ more members from the remaining $6$ candidates ($^{6}C_{3}$).\n$A$ is excluded: choose all $4$ members from the remaining $6$ candidates ($^{6}C_{4}$).\nTotal $= {^{6}C_{3}} + {^{6}C_{4}} = {^{7}C_{4}}$."
+    },
+    {
+      "id": "q3",
+      "question_text": "A sports squad has $8$ athletes, including Ben. When choosing a team of $5$, Ben is either chosen or not chosen. Which equation represents this combinatorial argument?",
+      "structure": "combinatorial-proof-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$^{8}C_{5} = {^{7}C_{4}} + {^{7}C_{5}}$",
+          "correct": true
+        },
+        {
+          "text": "$^{8}C_{5} = {^{8}C_{3}}$",
+          "why": "Names the symmetry identity rather than the Pascal case partition on Ben."
+        },
+        {
+          "text": "$^{8}C_{5} = {^{7}C_{5}} + 5 \\cdot {^{7}C_{4}}$",
+          "why": "Introduces an extraneous factor of 5 as if the positions were ordered."
+        },
+        {
+          "text": "$^{8}C_{5} = {^{8}C_{4}} + {^{8}C_{5}}$",
+          "why": "Fails to reduce the pool size to 7 when conditioning on the distinguished member."
+        }
+      ],
+      "solution_text": "If Ben is chosen, choose $4$ from the $7$ remaining athletes ($^{7}C_{4}$).\nIf Ben is not chosen, choose $5$ from the $7$ remaining athletes ($^{7}C_{5}$).\nTotal $= {^{7}C_{4}} + {^{7}C_{5}} = {^{8}C_{5}}$."
+    },
+    {
+      "id": "q4",
+      "question_text": "In the combinatorial proof of $\\sum_{r=0}^{4} {^{4}C_{r}} = 2^{4}$, what single collection of objects is being counted by both sides?",
+      "structure": "combinatorial-proof-subsets-binary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The total number of subsets of a set containing $4$ distinct elements.",
+          "correct": true
+        },
+        {
+          "text": "The total number of ordered arrangements of $4$ distinct objects.",
+          "why": "Confuses subset counting with ordered permutations of 4 objects."
+        },
+        {
+          "text": "The number of ways to divide $4$ people into two teams of equal size.",
+          "why": "Restricts to equal partitions instead of all possible subsets."
+        },
+        {
+          "text": "The number of ways to arrange $4$ binary digits in ascending order.",
+          "why": "Introduces an ordering restriction that is not part of the subset proof."
+        }
+      ],
+      "solution_text": "Both sides count all possible subsets of a $4$-element set:\nLHS counts subsets by partitioning them according to size $r$ (from $r = 0$ to $r = 4$).\nRHS counts subsets by making an independent binary inclusion decision for each of the $4$ elements ($2^4$).\nTherefore, $\\sum_{r=0}^{4} {^{4}C_{r}} = 2^{4}$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Why does the Right-Hand Side of $\\sum_{r=0}^{6} {^{6}C_{r}} = 2^{6}$ evaluate to $2^{6}$ in a combinatorial argument?",
+      "structure": "combinatorial-proof-subsets-binary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Each of the $6$ distinct elements has independently $2$ choices: either to be included in the subset or excluded.",
+          "correct": true
+        },
+        {
+          "text": "There are $2$ subsets of each size from $r = 0$ to $r = 6$.",
+          "why": "Incorrectly claims every subset size has exactly 2 subsets."
+        },
+        {
+          "text": "Each subset is paired with its complement, creating $2$ copies of each combination.",
+          "why": "Confuses the symmetry pairing with the multiplication principle of binary choices."
+        },
+        {
+          "text": "The binomial expansion of $(1 + x)^6$ evaluated at $x = 1$ equals $2^6$.",
+          "why": "Cites algebraic binomial theorem expansion rather than a combinatorial counting choice."
+        }
+      ],
+      "solution_text": "By the multiplication principle, $6$ independent binary choices of $2$ outcomes (include or exclude) yield $2 \\times 2 \\times 2 \\times 2 \\times 2 \\times 2 = 2^6$ subsets."
+    },
+    {
+      "id": "q6",
+      "question_text": "To prove $4 \\cdot {^{9}C_{4}} = 9 \\cdot {^{8}C_{3}}$ combinatorially, what task is being counted in two different ways?",
+      "structure": "combinatorial-proof-committee-leader",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Choosing a committee of $4$ members from $9$ people and selecting $1$ committee member to be the chairperson.",
+          "correct": true
+        },
+        {
+          "text": "Choosing two disjoint committees of sizes $4$ and $5$ from $9$ people.",
+          "why": "Describes partitioning into two disjoint committees rather than appointing a chairperson."
+        },
+        {
+          "text": "Arranging $4$ people in a line from a pool of $9$ candidates.",
+          "why": "Describes permutations $^{9}P_{4}$ rather than selecting an unordered committee with one leader."
+        },
+        {
+          "text": "Selecting $4$ people from $9$ candidates where the oldest candidate is automatically excluded.",
+          "why": "Describes an exclusion restriction rather than designating a leader."
+        }
+      ],
+      "solution_text": "LHS chooses the $4$ committee members from $9$ candidates first, then chooses $1$ leader ($4 \\cdot {^{9}C_{4}}$).\nRHS chooses $1$ leader from all $9$ candidates first, then chooses the remaining $3$ members from $8$ ($9 \\cdot {^{8}C_{3}}$).\nSince both sides count the number of ways to choose a $4$-person committee with $1$ chairperson from $9$ people, $4 \\cdot {^{9}C_{4}} = 9 \\cdot {^{8}C_{3}}$."
+    },
+    {
+      "id": "q7",
+      "question_text": "In proving $\\sum_{r=1}^{5} r \\cdot {^{5}C_{r}} = 5 \\cdot 2^{4}$, how does the Right-Hand Side count the selection of a non-empty committee with a leader from $5$ people?",
+      "structure": "combinatorial-proof-committee-leader",
+      "mastery": true,
+      "options": [
+        {
+          "text": "First choose $1$ leader from $5$ people ($5$ ways), then each of the remaining $4$ people independently chooses whether to join the committee ($2^{4}$ ways).",
+          "correct": true
+        },
+        {
+          "text": "First choose all $2^{4}$ possible committees, then assign $5$ leaders to each committee.",
+          "why": "Reverses the order and multiplies the total committee count by 5."
+        },
+        {
+          "text": "First select a committee of $4$ members, then select $1$ additional leader from outside.",
+          "why": "Fixes the committee size at 4 rather than allowing arbitrary non-empty sizes."
+        },
+        {
+          "text": "Evaluate the derivative of $(1 + x)^5$ at $x = 1$ algebraically.",
+          "why": "Uses calculus rather than a combinatorial counting argument."
+        }
+      ],
+      "solution_text": "Choosing the leader first gives $5$ options.\nEach of the remaining $4$ people can either be on or off the committee ($2^4 = 16$ choices).\nBy the multiplication principle, total selections $= 5 \\cdot 2^{4} = 80$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A committee of $4$ is to be chosen from $6$ teachers and $5$ students. Which sum represents counting this committee by partitioning into cases based on the number of teachers chosen?",
+      "structure": "combinatorial-proof-vandermonde",
+      "mastery": false,
+      "options": [
+        {
+          "text": "${^{6}C_{0}}{^{5}C_{4}} + {^{6}C_{1}}{^{5}C_{3}} + {^{6}C_{2}}{^{5}C_{2}} + {^{6}C_{3}}{^{5}C_{1}} + {^{6}C_{4}}{^{5}C_{0}}$",
+          "correct": true
+        },
+        {
+          "text": "${^{6}C_{4}} + {^{5}C_{4}}$",
+          "why": "Considers only all-teacher or all-student committees, omitting mixed cases."
+        },
+        {
+          "text": "${^{6}C_{4}} \\times {^{5}C_{4}}$",
+          "why": "Multiplies selections of 4 from each group, resulting in an 8-person committee."
+        },
+        {
+          "text": "${^{11}C_{1}} + {^{11}C_{2}} + {^{11}C_{3}} + {^{11}C_{4}}$",
+          "why": "Sums selections of different committee sizes from the total pool."
+        }
+      ],
+      "solution_text": "Partitioning across $k = 0, 1, 2, 3, 4$ teachers gives:\n$\\sum_{k=0}^{4} {^{6}C_{k}}{^{5}C_{4-k}} = {^{11}C_{4}}$."
+    },
+    {
+      "id": "q9",
+      "question_text": "What counting scenario provides a combinatorial proof for Vandermonde's identity $\\sum_{k=0}^{r} {^{m}C_{k}}{^{n}C_{r-k}} = {^{m+n}C_{r}}$?",
+      "structure": "combinatorial-proof-vandermonde",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Choosing a total of $r$ people from two separate groups of $m$ men and $n$ women.",
+          "correct": true
+        },
+        {
+          "text": "Arranging $r$ objects chosen from $m + n$ objects in a straight line.",
+          "why": "Describes permutations rather than unordered selections from two groups."
+        },
+        {
+          "text": "Forming two disjoint committees of sizes $m$ and $n$ from $m + n$ people.",
+          "why": "Describes a fixed partition of the entire group rather than choosing r members."
+        },
+        {
+          "text": "Multiplying the binomial expansions of $(1+x)^m$ and $(1+x)^n$.",
+          "why": "Describes an algebraic polynomial proof rather than a combinatorial argument."
+        }
+      ],
+      "solution_text": "Selecting $r$ people from combined groups of size $m$ and $n$ equals the sum over all compositions of $k$ from the first group and $r-k$ from the second."
+    },
+    {
+      "id": "q10",
+      "question_text": "Why does the handshake scenario among $7$ people prove that $^{7}C_{2} = 1 + 2 + 3 + 4 + 5 + 6$?",
+      "structure": "combinatorial-proof-handshake-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "LHS counts handshakes as choosing $2$ people from $7$, while RHS counts handshakes sequentially as each person shakes hands with everyone remaining before leaving.",
+          "correct": true
+        },
+        {
+          "text": "LHS counts people in the room while RHS counts the total number of handshakes.",
+          "why": "Fails to recognize that both sides count the total number of handshakes."
+        },
+        {
+          "text": "LHS counts ordered pairs of people while RHS divides by 2 to remove duplicates.",
+          "why": "Combinations $^{7}C_{2}$ are already unordered and do not require further division."
+        },
+        {
+          "text": "LHS is the algebraic formula $\\dfrac{6 \\times 7}{2}$ evaluated by mathematical induction.",
+          "why": "Cites algebraic or inductive proof rather than combinatorial double counting."
+        }
+      ],
+      "solution_text": "Both sides count the total handshakes among $7$ people:\nLHS counts all unordered pairs of people ($^{7}C_{2} = 21$).\nRHS counts handshakes sequentially: $6 + 5 + 4 + 3 + 2 + 1 = 21$.\nTherefore, $^{7}C_{2} = 1 + 2 + 3 + 4 + 5 + 6$."
+    }
+  ]
+}

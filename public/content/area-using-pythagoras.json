@@ -2,21 +2,23 @@
   "skillId": "area-using-pythagoras",
   "atomType": "R",
   "theory": {
-    "intro": "Sometimes the length an area formula needs is not given. If the figure contains a right-angled triangle, Pythagoras’ theorem supplies that length first, and the area formula follows.",
-    "facts": [
-      "$a^{2}+b^{2}=h^{2}$: **add** the squares to find the hypotenuse, **subtract** them to find a shorter side.",
-      "The perpendicular height of an **isosceles triangle** comes from a right-angled triangle whose base is **half** the base of the triangle.",
-      "The height of a **trapezium** comes from a right-angled triangle whose base is the horizontal overhang; for an isosceles trapezium each overhang is half the difference of the parallel sides.",
-      "The diagonals of a **kite or rhombus** cross at right angles, so each half-diagonal is a shorter side of a right-angled triangle.",
-      "Area formulas: triangle $=\\frac{bh}{2}$, trapezium $=\\frac{h}{2}(a+b)$, kite or rhombus $=\\frac{1}{2}xy$.",
-      "Keep the Pythagoras result **exact** (as a surd such as $\\sqrt{65}$) while substituting into the area formula, then round **once** at the end, and only when the question asks for a rounded answer."
-    ],
-    "steps": [
-      "Find the right-angled triangle inside the figure and decide whether the missing length is the hypotenuse or a shorter side.",
-      "Use Pythagoras’ theorem to find that length, keeping it exact.",
-      "Substitute the length into the matching area formula and round only if the question asks."
-    ]
-  },
+        "intro": "Sometimes the length an area formula needs is not given. When the figure contains a right-angled triangle, Pythagoras’ theorem finds that length first, and the area formula follows.",
+        "facts": [
+          "$a^{2}+b^{2}=h^{2}$: **add** the squares to find the hypotenuse, **subtract** them to find a shorter side.",
+          "The perpendicular height of an **isosceles triangle** comes from a right-angled triangle whose base is **half** the base of the triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc,decorations.markings}\n\\tikzset{tickmark/.style={postaction={decorate, decoration={markings, mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (C) at (2,3);\n\\coordinate (M) at (2,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--cycle;\n\\draw[tickmark] (A)--(C);\n\\draw[tickmark] (B)--(C) node[midway,above right] {$s$};\n\\draw[dashed] (C)--(M) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\coordinate (m1) at ($(M)!0.3cm!(B)$);\n\\coordinate (m2) at ($(M)!0.3cm!(C)$);\n\\draw (m1) -- ($(m1)+(m2)-(M)$) -- (m2);\n\\node[below] at (1,-0.05) {$\\frac{b}{2}$};\n\\node[below] at (3,-0.05) {$\\frac{b}{2}$};\n\\end{tikzpicture}\n[/tikz]",
+          "The height of a **trapezium** comes from a right-angled triangle whose base is the horizontal overhang at one end.",
+          "In an isosceles trapezium each overhang is half the difference of the parallel sides.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (4,2.6);\n\\coordinate (D) at (1,2.6);\n\\coordinate (P) at (1,0);\n\\coordinate (Q) at (4,0);\n\\draw[fill=blue!15] (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(D) node[midway,above left] {$s$};\n\\draw[dashed] (D)--(P) node[midway,right,fill=white,inner sep=1pt] {$h$};\n\\draw[dashed] (C)--(Q);\n\\coordinate (p1) at ($(P)!0.3cm!(B)$);\n\\coordinate (p2) at ($(P)!0.3cm!(D)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\node[above] at (2.5,2.6) {$a$};\n\\node[below] at (2.5,0) {$b$};\n\\draw[dashed] (0,0)--(0,-1.2);\n\\draw[dashed] (1,0)--(1,-1.2);\n\\draw[dashed] (4,0)--(4,-1.2);\n\\draw[dashed] (5,0)--(5,-1.2);\n\\draw[<->] (0,-1.0)--(1,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\draw[<->] (4,-1.0)--(5,-1.0) node[midway,below] {$\\frac{b-a}{2}$};\n\\end{tikzpicture}\n[/tikz]",
+          "The diagonals of a **kite or rhombus** cross at right angles, so each half-diagonal is a shorter side of a right-angled triangle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (W) at (-1.6,0);\n\\coordinate (E) at (1.6,0);\n\\coordinate (N) at (0,2.4);\n\\coordinate (S) at (0,-1.6);\n\\coordinate (O) at (0,0);\n\\draw[fill=blue!15] (W)--(N)--(E)--(S)--cycle;\n\\draw[dashed] (W)--(O) node[midway,fill=white,inner sep=1pt] {$\\frac{x}{2}$};\n\\draw[dashed] (O)--(E);\n\\draw[dashed] (O)--(N) node[midway,fill=white,inner sep=1pt] {$\\frac{y}{2}$};\n\\draw[dashed] (O)--(S);\n\\coordinate (o1) at ($(O)!0.3cm!(E)$);\n\\coordinate (o2) at ($(O)!0.3cm!(N)$);\n\\draw (o1) -- ($(o1)+(o2)-(O)$) -- (o2);\n\\draw (N)--(E) node[midway,above right] {$s$};\n\\end{tikzpicture}\n[/tikz]",
+          "Area formulas: triangle $=\\frac{bh}{2}$, trapezium $=\\frac{h}{2}(a+b)$, kite or rhombus $=\\frac{1}{2}xy$.",
+          "Keep the Pythagoras result **exact**, such as $\\sqrt{65}$, when you substitute it into the area formula.",
+          "Round **once**, at the end, and only when the question asks for a rounded answer."
+        ],
+        "steps": [
+          "Find the right-angled triangle inside the figure and decide whether the missing length is the hypotenuse or a shorter side.",
+          "Use Pythagoras’ theorem to find that length, keeping it exact.",
+          "Substitute the length into the matching area formula and round only if the question asks."
+        ]
+      },
   "practice": {
     "foundation": [
       {

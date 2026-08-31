@@ -1,0 +1,135 @@
+{
+  "skillId": "projectile-features",
+  "atomType": "R",
+  "theory": {
+    "intro": "Once the equations of motion are known, every feature of the flight comes from them. The **time of flight** is when the projectile returns to its landing level, and the **greatest height** is where the vertical velocity is zero.",
+    "facts": [
+      "The greatest height occurs where $\\dot{y}=0$, not where the speed is zero, since the horizontal velocity $\\dot{x}$ never changes.",
+      "To find the greatest height, solve $\\dot{y}(t)=0$ for $t$, then substitute that $t$ into $y(t)$.",
+      "A projectile launched from and landing on the same level lands when $y(t)=0$, which gives $t=0$ and the time of flight.",
+      "When the launch point is taken as the origin on a cliff or platform of height $h$, the projectile lands when $y(t)=-h$.",
+      "The **range** is the horizontal distance travelled, found by substituting the time of flight into $x(t)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.6,0) -- (9.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.15) -- (0,3.4) node[above] {$y$};\n\\draw[thick, domain=0:8, samples=100, variable=\\x] plot ({\\x},{0.15625*\\x*(8-\\x)});\n\\draw[dashed] (4,0) -- (4,2.5) node[midway, right] {$H$};\n\\fill (4,2.5) circle (2pt);\n\\node[above] at (4,2.55) {$\\dot{y}=0$};\n\\fill (8,0) circle (2pt);\n\\draw[|<->|] (0,-0.9) -- (8,-0.9) node[midway, below] {$R$};\n\\end{tikzpicture}\n[/tikz]",
+      "The speed at time $t$ is $\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$ and the direction of motion is $\\tan^{-1}\\left(\\dfrac{\\dot{y}}{\\dot{x}}\\right)$.",
+      "A negative direction angle is stated as that many degrees below the horizontal.",
+      "The flight is symmetric only when the landing level equals the launch level.",
+      "From a height, the fall takes longer than the rise and the landing speed is greater than the launch speed."
+    ],
+    "steps": [
+      "Find the time at which the feature occurs",
+      "Substitute that time into the required equation of motion"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A ball is projected from ground level at $40\\text{ m/s}$ at $30^{\\circ}$ to the horizontal. Taking $g=10\\text{ m/s}^{2}$, find its greatest height.",
+        "structure": "max-height",
+        "solution_text": "$\\dot{y} = -10t + 40\\sin 30^{\\circ}$\n$= -10t + 20$\n1. **Find the time at which the feature occurs**\n$0 = -10t + 20$\n$t = 2$\n2. **Substitute that time into the required equation of motion**\n$y(2) = -5(2)^{2} + 20(2)$\n$= -20 + 40$\n$= 20\\text{ m}$"
+      },
+      {
+        "question_text": "A particle is projected from the origin with initial velocity $18\\underset{\\sim}{i} + 25\\underset{\\sim}{j}$, where $g=10\\text{ m/s}^{2}$. Find its greatest height.",
+        "structure": "max-height",
+        "solution_text": "$\\dot{y} = -10t + 25$\n1. **Find the time at which the feature occurs**\n$0 = -10t + 25$\n$t = 2.5$\n2. **Substitute that time into the required equation of motion**\n$y(2.5) = -5(2.5)^{2} + 25(2.5)$\n$= -31.25 + 62.5$\n$= 31.25\\text{ m}$"
+      },
+      {
+        "question_text": "A stone is thrown from level ground at $25\\text{ m/s}$ at an angle $\\theta$ where $\\tan\\theta = \\dfrac{3}{4}$. Taking $g=10\\text{ m/s}^{2}$, find the time of flight.",
+        "structure": "time-of-flight-level",
+        "solution_text": "$\\sin\\theta = \\dfrac{3}{5}$, so $\\dot{y}(0) = 25\\left(\\dfrac{3}{5}\\right) = 15$\n$y = -5t^{2} + 15t$\n$0 = -5t^{2} + 15t$\n$0 = -5t(t - 3)$\n$t = 0$ or $t = 3$\nThe stone lands after $3$ seconds."
+      },
+      {
+        "question_text": "A ball is hit from level ground at $30\\text{ m/s}$ at $45^{\\circ}$ to the horizontal. Taking $g=10\\text{ m/s}^{2}$, find the range.",
+        "structure": "range",
+        "solution_text": "$\\dot{x} = 30\\cos 45^{\\circ} = 15\\sqrt{2}$\n$y = -5t^{2} + 15\\sqrt{2}\\,t$\n1. **Find the time at which the feature occurs**\n$0 = -5t\\left(t - 3\\sqrt{2}\\right)$\n$t = 3\\sqrt{2}$\n2. **Substitute that time into the required equation of motion**\n$x\\left(3\\sqrt{2}\\right) = 15\\sqrt{2}\\left(3\\sqrt{2}\\right)$\n$= 45 \\times 2$\n$= 90\\text{ m}$"
+      },
+      {
+        "question_text": "A projectile leaves the ground with horizontal velocity $8\\text{ m/s}$ and vertical velocity $20\\text{ m/s}$. Taking $g=10\\text{ m/s}^{2}$, find the range.",
+        "structure": "range",
+        "solution_text": "$y = -5t^{2} + 20t$\n1. **Find the time at which the feature occurs**\n$0 = -5t(t - 4)$\n$t = 4$\n2. **Substitute that time into the required equation of motion**\n$x(4) = 8(4)$\n$= 32\\text{ m}$"
+      },
+      {
+        "question_text": "A ball is projected from the origin at $20\\text{ m/s}$ at $60^{\\circ}$ to the horizontal, with $g=10\\text{ m/s}^{2}$. Find its speed and direction of motion after $2$ seconds, to $1$ decimal place.",
+        "structure": "velocity-at-time",
+        "solution_text": "$\\dot{x} = 20\\cos 60^{\\circ} = 10$\n$\\dot{y} = -10t + 20\\sin 60^{\\circ}$\n$= -10t + 10\\sqrt{3}$\n$\\dot{y}(2) = -20 + 10\\sqrt{3}$\n$= -2.6795\\ldots$\nSpeed $= \\sqrt{10^{2} + (-2.6795\\ldots)^{2}}$\n$= 10.4\\text{ m/s}$\n$\\theta = \\tan^{-1}\\left(\\dfrac{-2.6795\\ldots}{10}\\right)$\n$= -15^{\\circ}$\nThe ball is moving at $10.4\\text{ m/s}$ at $15^{\\circ}$ below the horizontal."
+      },
+      {
+        "question_text": "A ball is struck from level ground at $20\\text{ m/s}$ at $30^{\\circ}$ to the horizontal, with $g=10\\text{ m/s}^{2}$. Find its impact velocity.",
+        "structure": "impact-velocity",
+        "solution_text": "$\\dot{x} = 10\\sqrt{3}$, $\\dot{y} = -10t + 10$\n1. **Find the time at which the feature occurs**\n$0 = -5t^{2} + 10t$\n$t = 2$\n2. **Substitute that time into the required equation of motion**\n$\\dot{y}(2) = -20 + 10 = -10$\nSpeed $= \\sqrt{\\left(10\\sqrt{3}\\right)^{2} + (-10)^{2}}$\n$= \\sqrt{300 + 100}$\n$= 20\\text{ m/s}$\n$\\theta = \\tan^{-1}\\left(\\dfrac{-10}{10\\sqrt{3}}\\right) = -30^{\\circ}$\nThe ball lands at $20\\text{ m/s}$ at $30^{\\circ}$ below the horizontal."
+      },
+      {
+        "question_text": "A ball is rolled horizontally off the top of a $20\\text{ m}$ cliff at $15\\text{ m/s}$. Taking the launch point as the origin and $g=10\\text{ m/s}^{2}$, find the time it takes to reach the ground below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\fill[gray!25] (0,0) rectangle (2,3);\n\\draw (0,3) -- (2,3) -- (2,0);\n\\draw (0,0) -- (8,0);\n\\fill (2,3) circle (2pt);\n\\draw[-{Stealth}] (2,3) -- (3.6,3) node[midway, above] {$15\\text{ m/s}$};\n\\draw[gray] (0,0) -- (-0.7,0);\n\\draw[gray] (0,3) -- (-0.7,3);\n\\draw[|<->|] (-0.5,0) -- (-0.5,3) node[midway, left] {$20\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "landing-from-height",
+        "solution_text": "$\\dot{y}(0) = 0$, so $y = -5t^{2}$\nThe ground is at $y = -20$.\n$-20 = -5t^{2}$\n$t^{2} = 4$\n$t = 2$ (as $t \\ge 0$)\nThe ball reaches the ground after $2$ seconds."
+      },
+      {
+        "question_text": "A ball is thrown from the top of a $40\\text{ m}$ tower at $20\\text{ m/s}$ at $30^{\\circ}$ above the horizontal. Taking the launch point as the origin and $g=10\\text{ m/s}^{2}$, find the time it takes to reach the ground.",
+        "structure": "landing-from-height",
+        "solution_text": "$\\dot{y} = -10t + 20\\sin 30^{\\circ} = -10t + 10$\n$y = -5t^{2} + 10t$\nThe ground is at $y = -40$.\n$-40 = -5t^{2} + 10t$\n$5t^{2} - 10t - 40 = 0$\n$t^{2} - 2t - 8 = 0$\n$(t - 4)(t + 2) = 0$\n$t = 4$ (as $t \\ge 0$)\nThe ball reaches the ground after $4$ seconds."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A rock is thrown from the top of a $35\\text{ m}$ cliff at $50\\text{ m/s}$ at an angle $\\theta$ where $\\tan\\theta = \\dfrac{4}{3}$. Taking $g=10\\text{ m/s}^{2}$, find the greatest height the rock reaches above the sea at the base of the cliff.",
+        "structure": "max-height",
+        "solution_text": "$\\sin\\theta = \\dfrac{4}{5}$, so $\\dot{y} = -10t + 50\\left(\\dfrac{4}{5}\\right) = -10t + 40$\n1. **Find the time at which the feature occurs**\n$0 = -10t + 40$\n$t = 4$\n2. **Substitute that time into the required equation of motion**\n$y(4) = -5(4)^{2} + 40(4)$\n$= -80 + 160$\n$= 80$\nThe rock rises $80\\text{ m}$ above the launch point, so its greatest height above the sea is $80 + 35 = 115\\text{ m}$."
+      },
+      {
+        "question_text": "A ball is kicked from level ground at $24.5\\text{ m/s}$ at $30^{\\circ}$ to the horizontal. Taking $g=9.8\\text{ m/s}^{2}$, find the time of flight.",
+        "structure": "time-of-flight-level",
+        "solution_text": "$\\dot{y}(0) = 24.5\\sin 30^{\\circ} = 12.25$\n$y = -4.9t^{2} + 12.25t$\n$0 = -4.9t(t - 2.5)$\n$t = 0$ or $t = 2.5$\nThe ball lands after $2.5$ seconds."
+      },
+      {
+        "question_text": "A projectile leaves level ground with horizontal velocity $21\\text{ m/s}$ and vertical velocity $14.7\\text{ m/s}$. Taking $g=9.8\\text{ m/s}^{2}$, find the range.",
+        "structure": "range",
+        "solution_text": "$y = -4.9t^{2} + 14.7t$\n1. **Find the time at which the feature occurs**\n$0 = -4.9t(t - 3)$\n$t = 3$\n2. **Substitute that time into the required equation of motion**\n$x(3) = 21(3)$\n$= 63\\text{ m}$"
+      },
+      {
+        "question_text": "A ball is projected from the origin at $30\\text{ m/s}$ at $60^{\\circ}$ to the horizontal, with $g=10\\text{ m/s}^{2}$. Find its speed and direction of motion after $2$ seconds, to $1$ decimal place.",
+        "structure": "velocity-at-time",
+        "solution_text": "$\\dot{x} = 30\\cos 60^{\\circ} = 15$\n$\\dot{y} = -10t + 15\\sqrt{3}$\n$\\dot{y}(2) = -20 + 15\\sqrt{3}$\n$= 5.9808\\ldots$\nSpeed $= \\sqrt{15^{2} + (5.9808\\ldots)^{2}}$\n$= \\sqrt{260.769\\ldots}$\n$= 16.1\\text{ m/s}$\n$\\theta = \\tan^{-1}\\left(\\dfrac{5.9808\\ldots}{15}\\right)$\n$= 21.7^{\\circ}$\nThe ball is moving at $16.1\\text{ m/s}$ at $21.7^{\\circ}$ above the horizontal."
+      },
+      {
+        "question_text": "A stone is thrown horizontally at $30\\text{ m/s}$ from the top of an $80\\text{ m}$ cliff, with the launch point as the origin and $g=10\\text{ m/s}^{2}$. Find its impact speed and the angle at which it strikes the ground, to $1$ decimal place.",
+        "structure": "impact-velocity",
+        "solution_text": "$\\dot{x} = 30$, $\\dot{y} = -10t$, $y = -5t^{2}$\n1. **Find the time at which the feature occurs**\n$-80 = -5t^{2}$\n$t = 4$ (as $t \\ge 0$)\n2. **Substitute that time into the required equation of motion**\n$\\dot{y}(4) = -40$\nSpeed $= \\sqrt{30^{2} + (-40)^{2}}$\n$= \\sqrt{2500}$\n$= 50\\text{ m/s}$\n$\\theta = \\tan^{-1}\\left(\\dfrac{-40}{30}\\right)$\n$= -53.1^{\\circ}$\nThe stone strikes the ground at $50\\text{ m/s}$ at $53.1^{\\circ}$ below the horizontal."
+      },
+      {
+        "question_text": "A ball is thrown from the top of a $20\\text{ m}$ cliff at $25\\text{ m/s}$ at an angle $\\theta$ above the horizontal, where $\\tan\\theta = \\dfrac{3}{4}$. Taking the launch point as the origin and $g=10\\text{ m/s}^{2}$, find how far from the base of the cliff the ball lands.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, angles, quotes}\n\\fill[gray!25] (0,0) rectangle (2,3);\n\\draw (0,3) -- (2,3) -- (2,0);\n\\draw (0,0) -- (9,0);\n\\coordinate (P) at (2,3);\n\\coordinate (H) at (3.8,3);\n\\coordinate (V) at (3.28,3.96);\n\\draw[dashed] (P) -- (H);\n\\fill (P) circle (2pt);\n\\draw[-{Stealth}] (P) -- (V) node[pos=1, above right] {$25\\text{ m/s}$};\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = H--P--V};\n\\draw[gray] (0,0) -- (-0.7,0);\n\\draw[gray] (0,3) -- (-0.7,3);\n\\draw[|<->|] (-0.5,0) -- (-0.5,3) node[midway, left] {$20\\text{ m}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "landing-from-height",
+        "solution_text": "$\\cos\\theta = \\dfrac{4}{5}$ and $\\sin\\theta = \\dfrac{3}{5}$, so $\\dot{x} = 20$ and $\\dot{y}(0) = 15$.\n$y = -5t^{2} + 15t$\n1. **Find the time at which the feature occurs**\n$-20 = -5t^{2} + 15t$\n$5t^{2} - 15t - 20 = 0$\n$t^{2} - 3t - 4 = 0$\n$(t - 4)(t + 1) = 0$\n$t = 4$ (as $t \\ge 0$)\n2. **Substitute that time into the required equation of motion**\n$x(4) = 20(4)$\n$= 80\\text{ m}$"
+      },
+      {
+        "question_text": "A stone is thrown from a clifftop at $10\\text{ m/s}$ at $30^{\\circ}$ **below** the horizontal, with $g=10\\text{ m/s}^{2}$. Find its speed and direction of motion after $2$ seconds, to $1$ decimal place.",
+        "structure": "velocity-at-time",
+        "solution_text": "$\\dot{x} = 10\\cos 30^{\\circ} = 5\\sqrt{3}$\n$\\dot{y} = -10t - 10\\sin 30^{\\circ} = -10t - 5$\n$\\dot{y}(2) = -20 - 5 = -25$\nSpeed $= \\sqrt{\\left(5\\sqrt{3}\\right)^{2} + (-25)^{2}}$\n$= \\sqrt{75 + 625}$\n$= 26.5\\text{ m/s}$\n$\\theta = \\tan^{-1}\\left(\\dfrac{-25}{5\\sqrt{3}}\\right)$\n$= -70.9^{\\circ}$\nThe stone is moving at $26.5\\text{ m/s}$ at $70.9^{\\circ}$ below the horizontal."
+      },
+      {
+        "question_text": "A particle is projected from the origin with initial velocity $20\\underset{\\sim}{i} + 14.7\\underset{\\sim}{j}$, where $g=9.8\\text{ m/s}^{2}$. Find its greatest height, to $2$ decimal places.",
+        "structure": "max-height",
+        "solution_text": "$\\dot{y} = -9.8t + 14.7$\n1. **Find the time at which the feature occurs**\n$0 = -9.8t + 14.7$\n$t = 1.5$\n2. **Substitute that time into the required equation of motion**\n$y(1.5) = -4.9(1.5)^{2} + 14.7(1.5)$\n$= -11.025 + 22.05$\n$= 11.03\\text{ m}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A ball is thrown from level ground at $40\\text{ m/s}$ at $60^{\\circ}$ to the horizontal, with $g=10\\text{ m/s}^{2}$. Find, in exact form, the two times at which the ball is $45\\text{ m}$ above the ground.",
+        "structure": "time-at-given-height",
+        "solution_text": "$\\dot{y}(0) = 40\\sin 60^{\\circ} = 20\\sqrt{3}$\n$y = -5t^{2} + 20\\sqrt{3}\\,t$\n$45 = -5t^{2} + 20\\sqrt{3}\\,t$\n$5t^{2} - 20\\sqrt{3}\\,t + 45 = 0$\n$t^{2} - 4\\sqrt{3}\\,t + 9 = 0$\n$t = \\dfrac{4\\sqrt{3} \\pm \\sqrt{48 - 36}}{2}$\n$= \\dfrac{4\\sqrt{3} \\pm 2\\sqrt{3}}{2}$\n$= \\sqrt{3}$ or $3\\sqrt{3}$\nThe ball is $45\\text{ m}$ high at $t = \\sqrt{3}$ seconds on the way up and $t = 3\\sqrt{3}$ seconds on the way down."
+      },
+      {
+        "question_text": "A ball is thrown from the top of a $30\\text{ m}$ building at $20\\text{ m/s}$ at $45^{\\circ}$ above the horizontal, with the launch point as the origin and $g=10\\text{ m/s}^{2}$. Find its impact speed to $1$ decimal place, and state by how much it exceeds the launch speed.",
+        "structure": "impact-velocity",
+        "solution_text": "$\\dot{x} = 10\\sqrt{2}$, $\\dot{y} = -10t + 10\\sqrt{2}$, $y = -5t^{2} + 10\\sqrt{2}\\,t$\n1. **Find the time at which the feature occurs**\n$-30 = -5t^{2} + 10\\sqrt{2}\\,t$\n$5t^{2} - 10\\sqrt{2}\\,t - 30 = 0$\n$t^{2} - 2\\sqrt{2}\\,t - 6 = 0$\n$t = \\dfrac{2\\sqrt{2} + \\sqrt{8 + 24}}{2}$\n$= \\dfrac{2\\sqrt{2} + 4\\sqrt{2}}{2}$\n$= 3\\sqrt{2}$\n2. **Substitute that time into the required equation of motion**\n$\\dot{y}\\left(3\\sqrt{2}\\right) = -30\\sqrt{2} + 10\\sqrt{2} = -20\\sqrt{2}$\nSpeed $= \\sqrt{\\left(10\\sqrt{2}\\right)^{2} + \\left(-20\\sqrt{2}\\right)^{2}}$\n$= \\sqrt{200 + 800}$\n$= 31.6\\text{ m/s}$\nThis is $11.6\\text{ m/s}$ faster than the launch speed of $20\\text{ m/s}$, because the ball lands below the level it was thrown from."
+      },
+      {
+        "question_text": "Two stones are thrown from level ground at $30\\text{ m/s}$, one at $40^{\\circ}$ and the other at $50^{\\circ}$ to the horizontal. Taking $g=9.8\\text{ m/s}^{2}$, decide which stone reaches the greater height, and by how many metres, to $1$ decimal place.",
+        "structure": "max-height",
+        "solution_text": "For the $40^{\\circ}$ stone, $\\dot{y}(0) = 30\\sin 40^{\\circ} = 19.2836\\ldots$\n$\\dot{y} = 0$ gives $t = \\dfrac{19.2836\\ldots}{9.8} = 1.9677\\ldots$\n$y = -4.9(1.9677\\ldots)^{2} + 19.2836\\ldots(1.9677\\ldots) = 18.9723\\ldots$\nFor the $50^{\\circ}$ stone, $\\dot{y}(0) = 30\\sin 50^{\\circ} = 22.9813\\ldots$\n$\\dot{y} = 0$ gives $t = \\dfrac{22.9813\\ldots}{9.8} = 2.3450\\ldots$\n$y = -4.9(2.3450\\ldots)^{2} + 22.9813\\ldots(2.3450\\ldots) = 26.9459\\ldots$\nDifference $= 26.9459\\ldots - 18.9723\\ldots$\n$= 8.0\\text{ m}$\nThe $50^{\\circ}$ stone rises $8.0\\text{ m}$ higher."
+      },
+      {
+        "question_text": "A ball is thrown from the top of a cliff with initial velocity $24\\underset{\\sim}{i} + 18\\underset{\\sim}{j}$ and hits the sea $4$ seconds later. Taking the launch point as the origin and $g=10\\text{ m/s}^{2}$, find the height of the cliff and the impact speed to $1$ decimal place.",
+        "structure": "landing-from-height",
+        "solution_text": "$y = -5t^{2} + 18t$\n$y(4) = -5(4)^{2} + 18(4)$\n$= -80 + 72$\n$= -8$\nThe launch point is $8\\text{ m}$ above the sea, so the cliff is $8\\text{ m}$ high.\n$\\dot{y}(4) = -40 + 18 = -22$\nSpeed $= \\sqrt{24^{2} + (-22)^{2}}$\n$= \\sqrt{1060}$\n$= 32.6\\text{ m/s}$"
+      }
+    ]
+  }
+}

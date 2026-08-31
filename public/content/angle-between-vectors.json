@@ -1,0 +1,117 @@
+{
+  "skillId": "angle-between-vectors",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **angle between two vectors** is the angle you see when their tails are joined. It always lies between $0^{\\circ}$ and $180^{\\circ}$. Rearranging the geometric dot product gives a formula for its cosine.",
+    "facts": [
+      "The two vectors are drawn **tail-to-tail**, so the angle marked is the one at their common starting point.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.6,1.2);\n\\coordinate (B) at (1.4,3.0);\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[right] {$\\underset{\\sim}{a}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[above] {$\\underset{\\sim}{b}$};\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+      "$\\cos\\theta = \\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{a}||\\underset{\\sim}{b}|}$, where $\\theta$ is the angle between $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+      "A negative $\\cos\\theta$ gives an **obtuse** angle, because $\\theta$ is always taken in $[0^{\\circ},180^{\\circ}]$ and is never negative.",
+      "The same formula works in three dimensions, using $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = x_1x_2+y_1y_2+z_1z_2$.",
+      "$\\cos\\theta$ must lie between $-1$ and $1$, so a value outside that range means the arithmetic is wrong."
+    ],
+    "steps": [
+      "Find the dot product of the two vectors",
+      "Find the magnitude of each vector",
+      "Substitute into the cosine formula and take the inverse cosine"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The angle between $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ is $\\theta$. Given $|\\underset{\\sim}{a}| = 8$, $|\\underset{\\sim}{b}| = 3$ and $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = 12$, find $\\theta$.",
+        "structure": "angle-from-dot-and-magnitudes",
+        "solution_text": "$\\cos\\theta = \\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{a}||\\underset{\\sim}{b}|}$\n$= \\dfrac{12}{(8)(3)}$\n$= \\dfrac{1}{2}$\n$\\theta = 60^{\\circ}$"
+      },
+      {
+        "question_text": "The angle between $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ is $\\theta$. Given $|\\underset{\\sim}{a}| = 6$, $|\\underset{\\sim}{b}| = 7$ and $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = -21$, find $\\theta$.",
+        "structure": "angle-from-dot-and-magnitudes",
+        "solution_text": "$\\cos\\theta = \\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{a}||\\underset{\\sim}{b}|}$\n$= \\dfrac{-21}{(6)(7)}$\n$= -\\dfrac{1}{2}$\n$\\theta = 120^{\\circ}$"
+      },
+      {
+        "question_text": "Vectors $\\underset{\\sim}{u}$ and $\\underset{\\sim}{v}$ have $|\\underset{\\sim}{u}| = 4$, $|\\underset{\\sim}{v}| = 9$ and $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v} = -15$. Find the angle between them, correct to the nearest degree.",
+        "structure": "angle-from-dot-and-magnitudes",
+        "solution_text": "$\\cos\\theta = \\dfrac{\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}}{|\\underset{\\sim}{u}||\\underset{\\sim}{v}|}$\n$= \\dfrac{-15}{(4)(9)}$\n$= -\\dfrac{5}{12}$\n$\\theta = \\cos^{-1}\\left(-\\dfrac{5}{12}\\right)$\n$\\approx 115^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{a} = \\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} 5 \\\\ -1 \\end{pmatrix}$, correct to the nearest degree.",
+        "structure": "angle-from-components-2d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (2)(5)+(3)(-1)$\n$= 7$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{a}| = \\sqrt{2^2+3^2} = \\sqrt{13}$\n$|\\underset{\\sim}{b}| = \\sqrt{5^2+(-1)^2} = \\sqrt{26}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{7}{\\sqrt{13}\\times\\sqrt{26}}$\n$\\theta = \\cos^{-1}(0.3808\\ldots)$\n$\\approx 68^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{a} = \\begin{pmatrix} 4 \\\\ -1 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} -2 \\\\ 5 \\end{pmatrix}$, correct to the nearest degree.",
+        "structure": "angle-from-components-2d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (4)(-2)+(-1)(5)$\n$= -13$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{a}| = \\sqrt{4^2+(-1)^2} = \\sqrt{17}$\n$|\\underset{\\sim}{b}| = \\sqrt{(-2)^2+5^2} = \\sqrt{29}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-13}{\\sqrt{17}\\times\\sqrt{29}}$\n$\\theta = \\cos^{-1}(-0.5854\\ldots)$\n$\\approx 126^{\\circ}$\nThe cosine is negative, so the angle is obtuse.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (2,-0.5);\n\\coordinate (B) at (-1,2.5);\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, right] {$\\underset{\\sim}{a}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, above] {$\\underset{\\sim}{b}$};\n\\pic[draw, \"$126^{\\circ}$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{u} = 3\\underset{\\sim}{i}-2\\underset{\\sim}{j}$ and $\\underset{\\sim}{v} = -6\\underset{\\sim}{i}+\\underset{\\sim}{j}$, correct to the nearest degree.",
+        "structure": "angle-from-components-2d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v} = (3)(-6)+(-2)(1)$\n$= -20$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{u}| = \\sqrt{3^2+(-2)^2} = \\sqrt{13}$\n$|\\underset{\\sim}{v}| = \\sqrt{(-6)^2+1^2} = \\sqrt{37}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-20}{\\sqrt{13}\\times\\sqrt{37}}$\n$\\theta = \\cos^{-1}(-0.9119\\ldots)$\n$\\approx 156^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{p} = \\begin{pmatrix} 6 \\\\ 2 \\end{pmatrix}$ and $\\underset{\\sim}{q} = \\begin{pmatrix} 1 \\\\ 4 \\end{pmatrix}$, correct to the nearest degree.",
+        "structure": "angle-from-components-2d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q} = (6)(1)+(2)(4)$\n$= 14$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{p}| = \\sqrt{6^2+2^2} = \\sqrt{40}$\n$|\\underset{\\sim}{q}| = \\sqrt{1^2+4^2} = \\sqrt{17}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{14}{\\sqrt{40}\\times\\sqrt{17}}$\n$\\theta = \\cos^{-1}(0.5368\\ldots)$\n$\\approx 58^{\\circ}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{a} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ -1 \\\\ 2 \\end{pmatrix}$, correct to the nearest degree.",
+        "structure": "angle-from-components-3d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (1)(2)+(2)(-1)+(2)(2)$\n$= 4$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{a}| = \\sqrt{1^2+2^2+2^2} = 3$\n$|\\underset{\\sim}{b}| = \\sqrt{2^2+(-1)^2+2^2} = 3$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{4}{9}$\n$\\theta = \\cos^{-1}\\left(\\dfrac{4}{9}\\right)$\n$\\approx 64^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{u} = \\begin{pmatrix} 2 \\\\ -3 \\\\ 6 \\end{pmatrix}$ and $\\underset{\\sim}{v} = \\begin{pmatrix} -1 \\\\ 2 \\\\ -2 \\end{pmatrix}$, correct to the nearest degree.",
+        "structure": "angle-from-components-3d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v} = (2)(-1)+(-3)(2)+(6)(-2)$\n$= -20$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{u}| = \\sqrt{2^2+(-3)^2+6^2} = \\sqrt{49} = 7$\n$|\\underset{\\sim}{v}| = \\sqrt{(-1)^2+2^2+(-2)^2} = \\sqrt{9} = 3$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-20}{21}$\n$\\theta = \\cos^{-1}\\left(-\\dfrac{20}{21}\\right)$\n$\\approx 162^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle between $\\underset{\\sim}{a} = \\underset{\\sim}{i}+\\underset{\\sim}{j}-\\underset{\\sim}{k}$ and $\\underset{\\sim}{b} = 2\\underset{\\sim}{i}-\\underset{\\sim}{j}+2\\underset{\\sim}{k}$, correct to the nearest degree.",
+        "structure": "angle-from-components-3d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (1)(2)+(1)(-1)+(-1)(2)$\n$= -1$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{a}| = \\sqrt{1^2+1^2+(-1)^2} = \\sqrt{3}$\n$|\\underset{\\sim}{b}| = \\sqrt{2^2+(-1)^2+2^2} = 3$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-1}{3\\sqrt{3}}$\n$\\theta = \\cos^{-1}(-0.1924\\ldots)$\n$\\approx 101^{\\circ}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\theta$, where $\\theta$ is the angle between $\\underset{\\sim}{a} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} 2 \\\\ -1 \\end{pmatrix}$.",
+        "structure": "exact-cos-angle",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (1)(2)+(3)(-1)$\n$= -1$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{a}| = \\sqrt{1^2+3^2} = \\sqrt{10}$\n$|\\underset{\\sim}{b}| = \\sqrt{2^2+(-1)^2} = \\sqrt{5}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-1}{\\sqrt{10}\\times\\sqrt{5}}$\n$= \\dfrac{-1}{\\sqrt{50}}$\n$= -\\dfrac{\\sqrt{2}}{10}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\theta$, where $\\theta$ is the angle between $\\underset{\\sim}{u} = 4\\underset{\\sim}{i}+3\\underset{\\sim}{j}$ and $\\underset{\\sim}{v} = -\\underset{\\sim}{i}+7\\underset{\\sim}{j}$.",
+        "structure": "exact-cos-angle",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v} = (4)(-1)+(3)(7)$\n$= 17$\n2. **Find the magnitude of each vector**\n$|\\underset{\\sim}{u}| = \\sqrt{4^2+3^2} = 5$\n$|\\underset{\\sim}{v}| = \\sqrt{(-1)^2+7^2} = \\sqrt{50} = 5\\sqrt{2}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{17}{5\\times 5\\sqrt{2}}$\n$= \\dfrac{17}{25\\sqrt{2}}$\n$= \\dfrac{17\\sqrt{2}}{50}$"
+      },
+      {
+        "question_text": "The points $A(1,2)$, $B(5,4)$ and $C(2,-4)$ are the vertices of a triangle. Find $\\angle BAC$, correct to the nearest degree.",
+        "structure": "angle-between-points",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\overrightarrow{AB} = \\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$, $\\overrightarrow{AC} = \\begin{pmatrix} 1 \\\\ -6 \\end{pmatrix}$\n$\\overrightarrow{AB}\\cdot\\overrightarrow{AC} = (4)(1)+(2)(-6)$\n$= -8$\n2. **Find the magnitude of each vector**\n$|\\overrightarrow{AB}| = \\sqrt{4^2+2^2} = \\sqrt{20}$\n$|\\overrightarrow{AC}| = \\sqrt{1^2+(-6)^2} = \\sqrt{37}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-8}{\\sqrt{20}\\times\\sqrt{37}}$\n$\\theta = \\cos^{-1}(-0.2940\\ldots)$\n$\\approx 107^{\\circ}$"
+      },
+      {
+        "question_text": "The points $P(-2,1)$, $Q(3,3)$ and $R(0,-5)$ are given. Find $\\angle QPR$, correct to the nearest degree.",
+        "structure": "angle-between-points",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\overrightarrow{PQ} = \\begin{pmatrix} 5 \\\\ 2 \\end{pmatrix}$, $\\overrightarrow{PR} = \\begin{pmatrix} 2 \\\\ -6 \\end{pmatrix}$\n$\\overrightarrow{PQ}\\cdot\\overrightarrow{PR} = (5)(2)+(2)(-6)$\n$= -2$\n2. **Find the magnitude of each vector**\n$|\\overrightarrow{PQ}| = \\sqrt{5^2+2^2} = \\sqrt{29}$\n$|\\overrightarrow{PR}| = \\sqrt{2^2+(-6)^2} = \\sqrt{40}$\n3. **Substitute into the cosine formula and take the inverse cosine**\n$\\cos\\theta = \\dfrac{-2}{\\sqrt{29}\\times\\sqrt{40}}$\n$\\theta = \\cos^{-1}(-0.0587\\ldots)$\n$\\approx 93^{\\circ}$\nThe cosine is only just negative, so the angle is only just obtuse."
+      },
+      {
+        "question_text": "The angle between $\\underset{\\sim}{u} = \\begin{pmatrix} k \\\\ 3 \\end{pmatrix}$ and $\\underset{\\sim}{v} = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$ is $45^{\\circ}$, where $k > 0$. Find $k$.",
+        "structure": "find-unknown-from-angle",
+        "solution_text": "$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v} = (k)(1)+(3)(0) = k$\n$|\\underset{\\sim}{u}| = \\sqrt{k^2+9}$, $|\\underset{\\sim}{v}| = 1$\n$\\cos 45^{\\circ} = \\dfrac{k}{\\sqrt{k^2+9}}$\n$\\dfrac{1}{\\sqrt{2}} = \\dfrac{k}{\\sqrt{k^2+9}}$\n$\\sqrt{k^2+9} = k\\sqrt{2}$\n$k^2+9 = 2k^2$\n$k^2 = 9$\n$k = 3$ (since $k > 0$)"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The angle between $\\underset{\\sim}{a} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} m \\\\ 1 \\end{pmatrix}$ is $45^{\\circ}$. Find all possible values of $m$.",
+        "structure": "find-unknown-from-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (1)(m)+(2)(1) = m+2$\n$|\\underset{\\sim}{a}| = \\sqrt{5}$, $|\\underset{\\sim}{b}| = \\sqrt{m^2+1}$\n$\\dfrac{1}{\\sqrt{2}} = \\dfrac{m+2}{\\sqrt{5}\\sqrt{m^2+1}}$\n$\\sqrt{2}(m+2) = \\sqrt{5}\\sqrt{m^2+1}$\n$2(m+2)^2 = 5(m^2+1)$\n$2m^2+8m+8 = 5m^2+5$\n$3m^2-8m-3 = 0$\n$(3m+1)(m-3) = 0$\n$m = 3$ or $m = -\\dfrac{1}{3}$\nBoth give $m+2 > 0$, so both are valid."
+      },
+      {
+        "question_text": "The points $A(1,0,2)$, $B(3,-1,4)$ and $C(0,2,3)$ are the vertices of a triangle. Find $\\angle ABC$, correct to the nearest degree.",
+        "structure": "angle-between-points",
+        "solution_text": "$\\overrightarrow{BA} = \\begin{pmatrix} -2 \\\\ 1 \\\\ -2 \\end{pmatrix}$, $\\overrightarrow{BC} = \\begin{pmatrix} -3 \\\\ 3 \\\\ -1 \\end{pmatrix}$\n$\\overrightarrow{BA}\\cdot\\overrightarrow{BC} = (-2)(-3)+(1)(3)+(-2)(-1)$\n$= 11$\n$|\\overrightarrow{BA}| = \\sqrt{4+1+4} = 3$\n$|\\overrightarrow{BC}| = \\sqrt{9+9+1} = \\sqrt{19}$\n$\\cos\\theta = \\dfrac{11}{3\\sqrt{19}}$\n$\\theta = \\cos^{-1}(0.8411\\ldots)$\n$\\approx 33^{\\circ}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\theta$, where $\\theta$ is the angle between $\\underset{\\sim}{a} = 2\\underset{\\sim}{i}-\\underset{\\sim}{j}+2\\underset{\\sim}{k}$ and $\\underset{\\sim}{b} = \\underset{\\sim}{i}+2\\underset{\\sim}{j}-2\\underset{\\sim}{k}$. Hence state whether $\\theta$ is acute or obtuse.",
+        "structure": "exact-cos-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (2)(1)+(-1)(2)+(2)(-2)$\n$= -4$\n$|\\underset{\\sim}{a}| = \\sqrt{4+1+4} = 3$\n$|\\underset{\\sim}{b}| = \\sqrt{1+4+4} = 3$\n$\\cos\\theta = -\\dfrac{4}{9}$\nSince $\\cos\\theta < 0$, the angle $\\theta$ is obtuse."
+      }
+    ]
+  }
+}

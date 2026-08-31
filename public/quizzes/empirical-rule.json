@@ -1,0 +1,122 @@
+{
+  "skillId": "empirical-rule",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "For a normally distributed dataset, what percentage of scores lie within $1$ standard deviation of the mean?",
+      "structure": "band-within-k-sd",
+      "mastery": false,
+      "options": [
+        { "text": "$68\\%$", "correct": true },
+        { "text": "$34\\%$", "why": "Halved the band, giving only the part between the mean and $\\mu+\\sigma$." },
+        { "text": "$84\\%$", "why": "Added the $50\\%$ below the mean to the $34\\%$ above it, which gives everything below $\\mu+\\sigma$." },
+        { "text": "$16\\%$", "why": "Gave the tail beyond one standard deviation instead of the band within it." }
+      ],
+      "solution_text": "$P(\\mu-\\sigma < X < \\mu+\\sigma)$\n$= 68\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-1,0) -- plot[domain=-1:1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (0,1.1) {$68\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q2",
+      "question_text": "For a normally distributed dataset, what percentage of scores lie between the mean and $3$ standard deviations above the mean?",
+      "structure": "half-band",
+      "mastery": false,
+      "options": [
+        { "text": "$49.85\\%$", "correct": true },
+        { "text": "$99.7\\%$", "why": "Quoted the whole band within three standard deviations without halving it." },
+        { "text": "$0.15\\%$", "why": "Gave the tail beyond $\\mu+3\\sigma$ instead of the region from the mean up to it." },
+        { "text": "$50\\%$", "why": "Assumed every score above the mean lies within three standard deviations." }
+      ],
+      "solution_text": "$99.7\\% \\div 2$\n$= 49.85\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:3, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$\\mu+3\\sigma$};\n\\node at (1.2,1.1) {$49.85\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q3",
+      "question_text": "For a normally distributed dataset, what percentage of scores are more than $2$ standard deviations below the mean?",
+      "structure": "tail-beyond-k-sd",
+      "mastery": false,
+      "options": [
+        { "text": "$2.5\\%$", "correct": true },
+        { "text": "$5\\%$", "why": "Left the whole leftover $100\\% - 95\\% = 5\\%$ in one tail instead of halving it between the two tails." },
+        { "text": "$2.35\\%$", "why": "Gave the band between $\\mu-3\\sigma$ and $\\mu-2\\sigma$ instead of the whole tail below $\\mu-2\\sigma$." },
+        { "text": "$47.5\\%$", "why": "Gave the region from the mean down to $\\mu-2\\sigma$ rather than the region beyond it." }
+      ],
+      "solution_text": "$(100\\% - 95\\%) \\div 2$\n$= 5\\% \\div 2$\n$= 2.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-2, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$\\mu-2\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\node at (-2.9,1.1) {$2.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "For a normally distributed dataset, what percentage of scores lie between $1$ and $3$ standard deviations above the mean?",
+      "structure": "between-bands",
+      "mastery": false,
+      "options": [
+        { "text": "$15.85\\%$", "correct": true },
+        { "text": "$31.7\\%$", "why": "Used $99.7\\% - 68\\%$, which includes the matching band below the mean as well." },
+        { "text": "$65.85\\%$", "why": "Added the $16\\%$ tail beyond $\\mu+\\sigma$ to $49.85\\%$ instead of subtracting the $34\\%$." },
+        { "text": "$49.85\\%$", "why": "Gave the whole region from the mean to $\\mu+3\\sigma$ without removing the first standard deviation." }
+      ],
+      "solution_text": "$49.85\\% - 34\\%$\n$= 15.85\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:3, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$\\mu+3\\sigma$};\n\\node at (2,1.9) {$15.85\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q5",
+      "question_text": "For a normally distributed dataset, what percentage of scores are less than $2$ standard deviations above the mean?",
+      "structure": "one-sided-cumulative",
+      "mastery": false,
+      "options": [
+        { "text": "$97.5\\%$", "correct": true },
+        { "text": "$95\\%$", "why": "Gave the band within two standard deviations, leaving out everything below $\\mu-2\\sigma$." },
+        { "text": "$47.5\\%$", "why": "Gave only the region from the mean up to $\\mu+2\\sigma$, omitting the $50\\%$ below the mean." },
+        { "text": "$2.5\\%$", "why": "Gave the tail above $\\mu+2\\sigma$ instead of everything below it." }
+      ],
+      "solution_text": "$50\\% + 47.5\\%$\n$= 97.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:2, samples=70, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (2,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$\\mu+2\\sigma$};\n\\node at (-0.2,1.1) {$97.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "For a normally distributed dataset, what percentage of scores lie between $3$ standard deviations below the mean and $1$ standard deviation above the mean?",
+      "structure": "asymmetric-interval",
+      "mastery": true,
+      "options": [
+        { "text": "$83.85\\%$", "correct": true },
+        { "text": "$84\\%$", "why": "Used $50\\%$ for the region below the mean instead of the $49.85\\%$ that reaches only to $\\mu-3\\sigma$." },
+        { "text": "$65.85\\%$", "why": "Used the $16\\%$ tail above $\\mu+\\sigma$ instead of the $34\\%$ between the mean and $\\mu+\\sigma$." },
+        { "text": "$34.15\\%$", "why": "Added the $0.15\\%$ tail below $\\mu-3\\sigma$ to $34\\%$ instead of the $49.85\\%$ inside it." }
+      ],
+      "solution_text": "$49.85\\% + 34\\%$\n$= 83.85\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:1, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$\\mu-3\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node at (-0.7,1.1) {$83.85\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "The lifetimes of a brand of light globe are normally distributed with a mean of $1200$ hours and a standard deviation of $60$ hours. What percentage of globes last between $1080$ and $1140$ hours?",
+      "structure": "context-interval",
+      "mastery": false,
+      "options": [
+        { "text": "$13.5\\%$", "correct": true },
+        { "text": "$2.35\\%$", "why": "Used the band between $\\mu-3\\sigma$ and $\\mu-2\\sigma$ instead of the band between $\\mu-2\\sigma$ and $\\mu-\\sigma$." },
+        { "text": "$27\\%$", "why": "Used $95\\% - 68\\%$, which counts the matching band above the mean as well." },
+        { "text": "$34\\%$", "why": "Gave the region from the mean down to $1140$ hours instead of the band between $1080$ and $1140$ hours." }
+      ],
+      "solution_text": "$1080$ is $2$ standard deviations below $1200$ and $1140$ is $1$ standard deviation below.\n$P(1080 < X < 1140)$\n$= 47.5\\% - 34\\%$\n$= 13.5\\%$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-2,0) -- plot[domain=-2:-1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$1080$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$1140$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$1200$};\n\\node at (-1.5,1.9) {$13.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q8",
+      "question_text": "The masses of packets of rice are normally distributed with a mean of $500$ g. About $99.7\\%$ of packets have a mass between $476$ g and $524$ g. Find the standard deviation.",
+      "structure": "reverse-interval",
+      "mastery": true,
+      "options": [
+        { "text": "$8$ g", "correct": true },
+        { "text": "$12$ g", "why": "Treated $476$ g and $524$ g as two standard deviations from the mean instead of three." },
+        { "text": "$16$ g", "why": "Divided the full width $524 - 476 = 48$ by $3$ instead of dividing the half-width $24$ by $3$." },
+        { "text": "$24$ g", "why": "Took the half-width from the mean as the standard deviation without dividing by $3$." }
+      ],
+      "solution_text": "$99.7\\%$ lies within $3$ standard deviations of the mean, so $524 = 500 + 3\\sigma$.\n$3\\sigma$\n$= 524 - 500$\n$= 24$\n$\\sigma = 8$ g\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3,0) -- plot[domain=-3:3, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (-3,0) -- (-3,-0.12) node[below, font=\\small] {$476$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$500$};\n\\draw (3,0) -- (3,-0.12) node[below, font=\\small] {$524$};\n\\node at (0,1.1) {$99.7\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q9",
+      "question_text": "Scores on a video game are normally distributed with a mean of $640$ and a standard deviation of $45$. One player scores $730$. Which statement best describes this score?",
+      "structure": "judgement",
+      "mastery": true,
+      "options": [
+        { "text": "It is $2$ standard deviations above the mean, and only about $2.5\\%$ of scores are higher, so it is unusual.", "correct": true },
+        { "text": "It is $2$ standard deviations above the mean, and about $5\\%$ of scores are higher, so it is unusual.", "why": "Left the whole leftover $100\\% - 95\\% = 5\\%$ in the upper tail instead of halving it between the two tails." },
+        { "text": "It is $2$ standard deviations above the mean, and about $47.5\\%$ of scores are higher, so it is not unusual.", "why": "Used the region from the mean up to $\\mu+2\\sigma$ instead of the region beyond $\\mu+2\\sigma$." },
+        { "text": "It is $2$ standard deviations above the mean, and about $95\\%$ of scores are higher, so it is not unusual.", "why": "Quoted the percentage lying within two standard deviations as if it were the percentage above $730$." }
+      ],
+      "solution_text": "$730 = 640 + 2(45)$, so the score is $2$ standard deviations above the mean.\n$P(X > 730)$\n$= (100\\% - 95\\%) \\div 2$\n$= 2.5\\%$\nOnly about $2.5\\%$ of scores are higher, so a score of $730$ is unusual.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (2,0) -- plot[domain=2:3.7, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$640$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$730$};\n\\node at (2.9,1.1) {$2.5\\%$};\n\\end{tikzpicture}\n[/tikz]"
+    }
+  ]
+}

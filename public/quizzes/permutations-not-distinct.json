@@ -1,0 +1,205 @@
+{
+  "skillId": "permutations-not-distinct",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "How many distinct arrangements of all the letters in the word $\\text{CHEESE}$ can be made?",
+      "structure": "distinct-letter-arrangements",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$120$",
+          "correct": true
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated 6!, treating all letters as distinct and forgetting repeated E's."
+        },
+        {
+          "text": "$240$",
+          "why": "Divided by 3 instead of dividing by 3! = 6 for the three identical E's."
+        },
+        {
+          "text": "$360$",
+          "why": "Divided by 2! instead of 3! for the three identical E's."
+        }
+      ],
+      "solution_text": "Letters: $\\text{E}: 3$, $\\text{C}: 1$, $\\text{H}: 1$, $\\text{S}: 1$ ($n = 6$).\n$= \\dfrac{6!}{3!}$\n$= \\dfrac{720}{6}$\n$= 120$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the number of distinct permutations of the letters in the word $\\text{MILLION}$.",
+      "structure": "distinct-letter-arrangements",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1260$",
+          "correct": true
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated 7!, failing to divide by identical letter factorials."
+        },
+        {
+          "text": "$2520$",
+          "why": "Divided by 2! once instead of dividing by 2! times 2! for L's and I's."
+        },
+        {
+          "text": "$630$",
+          "why": "Divided by an extra factor of 2 that was not needed."
+        }
+      ],
+      "solution_text": "Letters: $\\text{L}: 2$, $\\text{I}: 2$, $\\text{M}: 1$, $\\text{O}: 1$, $\\text{N}: 1$ ($n = 7$).\n$= \\dfrac{7!}{2!2!}$\n$= \\dfrac{5040}{4}$\n$= 1260$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$8$ flags are hoisted in a vertical line on a flagpole. If $5$ flags are red and $3$ flags are white, how many distinct signals can be displayed?",
+      "structure": "distinct-object-arrangements",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$56$",
+          "correct": true
+        },
+        {
+          "text": "$40320$",
+          "why": "Calculated 8!, assuming all flags are distinguishable."
+        },
+        {
+          "text": "$336$",
+          "why": "Divided by 5! only, forgetting to divide by 3! for the white flags."
+        },
+        {
+          "text": "$6720$",
+          "why": "Divided by 3! only, forgetting to divide by 5! for the red flags."
+        }
+      ],
+      "solution_text": "Arranging $8$ flags with $5$ red and $3$ white:\n$= \\dfrac{8!}{5!3!}$\n$= \\dfrac{40320}{120 \\times 6}$\n$= 56$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A bag contains $10$ identical-shaped marbles: $6$ blue and $4$ yellow. In how many distinct colour sequences can they be drawn out one at a time?",
+      "structure": "distinct-object-arrangements",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$210$",
+          "correct": true
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated 10P4 instead of dividing 10! by both 6! and 4!."
+        },
+        {
+          "text": "$2520$",
+          "why": "Divided by 6! only and omitted the 4! divisor for yellow marbles."
+        },
+        {
+          "text": "$24$",
+          "why": "Multiplied 6 by 4 instead of calculating linear arrangements."
+        }
+      ],
+      "solution_text": "Arranging $10$ marbles with $6$ blue and $4$ yellow:\n$= \\dfrac{10!}{6!4!}$\n$= \\dfrac{3628800}{720 \\times 24}$\n$= 210$"
+    },
+    {
+      "id": "q5",
+      "question_text": "In how many ways can the letters of $\\text{DIVIDED}$ be arranged if the first and last letters must both be $\\text{D}$?",
+      "structure": "not-distinct-with-fixed-positions",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$60$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated 5!, forgetting to divide by 2! for the two identical I's."
+        },
+        {
+          "text": "$30$",
+          "why": "Divided by 4 instead of dividing by 2! for the remaining letters."
+        },
+        {
+          "text": "$420$",
+          "why": "Calculated 7! / (3! 2!) without fixing the D's at the end positions."
+        }
+      ],
+      "solution_text": "Letters of $\\text{DIVIDED}$: $\\text{D}: 3$, $\\text{I}: 2$, $\\text{V}: 1$, $\\text{E}: 1$.\nFix $\\text{D}$ at first and last spots ($1$ way).\nRemaining $5$ letters: $\\text{D}: 1$, $\\text{I}: 2$, $\\text{V}: 1$, $\\text{E}: 1$.\n$= \\dfrac{5!}{2!}$\n$= 60$"
+    },
+    {
+      "id": "q6",
+      "question_text": "How many arrangements of the letters of $\\text{COMMITTEE}$ have the two $\\text{M}$s together?",
+      "structure": "not-distinct-grouping",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10080$",
+          "correct": true
+        },
+        {
+          "text": "$20160$",
+          "why": "Multiplied by 2! for internal swap of the two identical M's."
+        },
+        {
+          "text": "$45360$",
+          "why": "Calculated total unrestricted arrangements without grouping the M's."
+        },
+        {
+          "text": "$5040$",
+          "why": "Divided by an extra unnecessary factor of 2."
+        }
+      ],
+      "solution_text": "Letters: $\\text{C}: 1$, $\\text{O}: 1$, $\\text{M}: 2$, $\\text{I}: 1$, $\\text{T}: 2$, $\\text{E}: 2$ ($n = 9$).\nTreat $(\\text{MM})$ as $1$ unit.\nUnits: $(\\text{MM})$, $\\text{C}$, $\\text{O}$, $\\text{I}$, $\\text{T}$, $\\text{T}$, $\\text{E}$, $\\text{E}$ ($8$ units with $2$ $\\text{T}$s, $2$ $\\text{E}$s).\n$= \\dfrac{8!}{2!2!}$\n$= \\dfrac{40320}{4}$\n$= 10080$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How many $4$-letter words can be formed from the $5$ letters of $\\text{LEVEL}$?",
+      "structure": "not-distinct-subset-cases",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$30$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Calculated only one case instead of summing all three omission cases."
+        },
+        {
+          "text": "$24$",
+          "why": "Calculated 4!, ignoring that some letters are repeated identical items."
+        },
+        {
+          "text": "$60$",
+          "why": "Doubled the count without checking distinct omission cases."
+        }
+      ],
+      "solution_text": "Letters of $\\text{LEVEL}$: $\\text{L}: 2$, $\\text{E}: 2$, $\\text{V}: 1$.\nCase 1 (omit $\\text{V}$): letters $\\text{L}, \\text{L}, \\text{E}, \\text{E} \\implies \\dfrac{4!}{2!2!} = 6$\nCase 2 (omit one $\\text{L}$): letters $\\text{L}, \\text{E}, \\text{E}, \\text{V} \\implies \\dfrac{4!}{2!} = 12$\nCase 3 (omit one $\\text{E}$): letters $\\text{L}, \\text{L}, \\text{E}, \\text{V} \\implies \\dfrac{4!}{2!} = 12$\nTotal $= 6 + 12 + 12 = 30$."
+    },
+    {
+      "id": "q8",
+      "question_text": "Find the number of permutations of the letters of $\\text{LESSON}$ in which the two $\\text{S}$s are separated by at least one other letter.",
+      "structure": "not-distinct-grouping",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$240$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated the number of arrangements where the two S's are together."
+        },
+        {
+          "text": "$360$",
+          "why": "Calculated the total unrestricted arrangements of LESSON."
+        },
+        {
+          "text": "$180$",
+          "why": "Divided total arrangements by 2 without computing the together block."
+        }
+      ],
+      "solution_text": "Letters in $\\text{LESSON}$: $\\text{S}: 2$, $\\text{L}: 1$, $\\text{E}: 1$, $\\text{O}: 1$, $\\text{N}: 1$ ($n = 6$).\nTotal unrestricted arrangements $= \\dfrac{6!}{2!} = 360$.\nArrangements with $\\text{SS}$ together: treat $(\\text{SS})$ as $1$ unit $\\implies 5! = 120$.\nSeparated arrangements $= 360 - 120 = 240$."
+    }
+  ]
+}

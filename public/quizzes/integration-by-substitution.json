@@ -1,0 +1,159 @@
+{
+  "skillId": "integration-by-substitution",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\int 12x^{3}\\left(3x^{4}+5\\right)^{2}dx$ using the substitution $u = 3x^{4}+5$. Give your answer in simplest form, with $+C$.",
+      "structure": "given-u-indefinite",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{\\left(3x^{4}+5\\right)^{3}}{3} + C$", "correct": true },
+        { "text": "$\\left(3x^{4}+5\\right)^{3} + C$", "why": "Raised the power of the bracket but did not divide by the new power $3$." },
+        { "text": "$\\dfrac{\\left(3x^{4}+5\\right)^{3}}{36} + C$", "why": "Divided by the new power and then divided by $12$ again, although the $12x^{3}$ was already used up in $du$." },
+        { "text": "$\\dfrac{12x^{3}\\left(3x^{4}+5\\right)^{3}}{3} + C$", "why": "Kept the factor $12x^{3}$ in the answer after it had already been absorbed into $du$." }
+      ],
+      "solution_text": "$u = 3x^{4}+5$\n$\\dfrac{du}{dx} = 12x^{3}$\n$dx = \\dfrac{du}{12x^{3}}$\n$\\int 12x^{3}\\left(3x^{4}+5\\right)^{2}dx$\n$= \\int 12x^{3} \\times u^{2} \\times \\dfrac{du}{12x^{3}}$\n$= \\int u^{2}\\,du$\n$= \\dfrac{u^{3}}{3} + C$\n$= \\dfrac{\\left(3x^{4}+5\\right)^{3}}{3} + C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Evaluate $\\int_{1}^{3} 2x\\left(x^{2}-1\\right)^{3}dx$ using the substitution $u = x^{2}-1$.",
+      "structure": "given-u-definite",
+      "mastery": false,
+      "options": [
+        { "text": "$1024$", "correct": true },
+        { "text": "$20$", "why": "Kept the original $x$ limits and substituted them into the expression in $u$." },
+        { "text": "$4096$", "why": "Did not divide by the new power $4$ when integrating $u^{3}$." },
+        { "text": "$1640$", "why": "Changed the limits using $u = x^{2}$ instead of $u = x^{2}-1$." }
+      ],
+      "solution_text": "$u = x^{2}-1$\n$\\dfrac{du}{dx} = 2x$\n$dx = \\dfrac{du}{2x}$\nWhen $x = 1$, $u = 0$.\nWhen $x = 3$, $u = 8$.\n$\\int_{1}^{3} 2x\\left(x^{2}-1\\right)^{3}dx$\n$= \\int_{0}^{8} u^{3}\\,du$\n$= \\left[\\dfrac{u^{4}}{4}\\right]_{0}^{8}$\n$= \\dfrac{4096}{4}$\n$= 1024$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{6}} \\cos 2x\\,\\sin^{3}2x\\,dx$ using the substitution $u = \\sin 2x$.",
+      "structure": "given-u-definite",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{9}{128}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{9}{64}$",
+          "why": "Omitted the factor $\\dfrac{1}{2}$ that comes from $du = 2\\cos 2x\\,dx$."
+        },
+        {
+          "text": "$\\dfrac{3}{32}$",
+          "why": "Kept the $\\dfrac{1}{2}$ but evaluated $\\left(\\dfrac{\\sqrt{3}}{2}\\right)^{4}$ as $\\dfrac{3}{4}$, squaring the surd once instead of raising it to the fourth power."
+        },
+        {
+          "text": "$\\dfrac{3}{16}$",
+          "why": "Omitted the factor $\\dfrac{1}{2}$ and also evaluated $\\left(\\dfrac{\\sqrt{3}}{2}\\right)^{4}$ as $\\dfrac{3}{4}$."
+        }
+      ],
+      "solution_text": "$u = \\sin 2x$\n$\\dfrac{du}{dx} = 2\\cos 2x$, so $\\cos 2x\\,dx = \\dfrac{du}{2}$\nWhen $x = 0$, $u = 0$.\nWhen $x = \\dfrac{\\pi}{6}$, $u = \\sin\\dfrac{\\pi}{3} = \\dfrac{\\sqrt{3}}{2}$.\n$\\int_{0}^{\\frac{\\pi}{6}} \\cos 2x\\,\\sin^{3}2x\\,dx$\n$= \\dfrac{1}{2}\\int_{0}^{\\frac{\\sqrt{3}}{2}} u^{3}\\,du$\n$= \\dfrac{1}{2}\\left[\\dfrac{u^{4}}{4}\\right]_{0}^{\\frac{\\sqrt{3}}{2}}$\n$= \\dfrac{1}{8} \\times \\dfrac{9}{16}$\n$= \\dfrac{9}{128}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find $\\int x\\sqrt{x+2}\\,dx$ using the substitution $u = x+2$. Give your answer in simplest form, with $+C$.",
+      "structure": "leftover-x-in-terms-of-u",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{2}{5}(x+2)^{\\frac{5}{2}} - \\dfrac{4}{3}(x+2)^{\\frac{3}{2}} + C$", "correct": true },
+        { "text": "$\\dfrac{2}{5}(x+2)^{\\frac{5}{2}} + \\dfrac{4}{3}(x+2)^{\\frac{3}{2}} + C$", "why": "Wrote $x = u+2$ instead of $x = u-2$, so the second term came out positive." },
+        { "text": "$\\dfrac{2}{5}(x+2)^{\\frac{5}{2}} - \\dfrac{2}{3}(x+2)^{\\frac{3}{2}} + C$", "why": "Integrated $-2u^{\\frac{1}{2}}$ as $-\\dfrac{2}{3}u^{\\frac{3}{2}}$, dropping the factor $2$." },
+        { "text": "$\\dfrac{2}{5}(x+2)^{\\frac{5}{2}} + \\dfrac{2}{3}(x+2)^{\\frac{3}{2}} + C$", "why": "Made both slips: the wrong sign for $x$ in terms of $u$ and a dropped factor $2$." }
+      ],
+      "solution_text": "$u = x+2$, so $x = u-2$\n$\\dfrac{du}{dx} = 1$, so $dx = du$\n$\\int x\\sqrt{x+2}\\,dx$\n$= \\int (u-2)u^{\\frac{1}{2}}\\,du$\n$= \\int \\left(u^{\\frac{3}{2}} - 2u^{\\frac{1}{2}}\\right)du$\n$= \\dfrac{2}{5}u^{\\frac{5}{2}} - \\dfrac{4}{3}u^{\\frac{3}{2}} + C$\n$= \\dfrac{2}{5}(x+2)^{\\frac{5}{2}} - \\dfrac{4}{3}(x+2)^{\\frac{3}{2}} + C$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Evaluate $\\int_{0}^{4} \\dfrac{x}{\\sqrt{2x+1}}\\,dx$ using the substitution $x = \\dfrac{1}{2}\\left(u^{2}-1\\right)$, where $u \\ge 0$.",
+      "structure": "x-as-subject",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{10}{3}$", "correct": true },
+        { "text": "$\\dfrac{20}{3}$", "why": "Dropped the factor $\\dfrac{1}{2}$ in $x = \\dfrac{1}{2}\\left(u^{2}-1\\right)$." },
+        { "text": "$\\dfrac{26}{3}$", "why": "Kept the original $x$ limits $0$ and $4$ instead of changing them to $u$ values." },
+        { "text": "$3$", "why": "Substituted only the upper limit and treated the lower limit as giving zero." }
+      ],
+      "solution_text": "$x = \\dfrac{1}{2}\\left(u^{2}-1\\right)$, so $2x+1 = u^{2}$ and $\\sqrt{2x+1} = u$\n$\\dfrac{dx}{du} = u$, so $dx = u\\,du$\nWhen $x = 0$, $u = 1$.\nWhen $x = 4$, $u = 3$.\n$\\int_{0}^{4} \\dfrac{x}{\\sqrt{2x+1}}\\,dx$\n$= \\int_{1}^{3} \\dfrac{\\frac{1}{2}\\left(u^{2}-1\\right)}{u} \\times u\\,du$\n$= \\dfrac{1}{2}\\int_{1}^{3} \\left(u^{2}-1\\right)du$\n$= \\dfrac{1}{2}\\left[\\dfrac{u^{3}}{3} - u\\right]_{1}^{3}$\n$= \\dfrac{1}{2}\\left(6 + \\dfrac{2}{3}\\right)$\n$= \\dfrac{10}{3}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The integral $\\int_{0}^{\\ln 3} \\dfrac{e^{2x}}{1+e^{2x}}\\,dx$ is to be evaluated using the substitution $u = 1+e^{2x}$. Which integral in $u$ is correct?",
+      "structure": "substitution-setup",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}\\int_{2}^{10} \\dfrac{1}{u}\\,du$", "correct": true },
+        { "text": "$\\dfrac{1}{2}\\int_{0}^{\\ln 3} \\dfrac{1}{u}\\,du$", "why": "Kept the original $x$ limits after changing the variable to $u$." },
+        { "text": "$\\int_{2}^{10} \\dfrac{1}{u}\\,du$", "why": "Omitted the factor $\\dfrac{1}{2}$ that comes from $du = 2e^{2x}\\,dx$." },
+        { "text": "$\\dfrac{1}{2}\\int_{1}^{9} \\dfrac{1}{u}\\,du$", "why": "Changed the limits using $u = e^{2x}$ instead of $u = 1+e^{2x}$." }
+      ],
+      "solution_text": "$u = 1+e^{2x}$\n$\\dfrac{du}{dx} = 2e^{2x}$, so $e^{2x}\\,dx = \\dfrac{du}{2}$\nWhen $x = 0$, $u = 1+1 = 2$.\nWhen $x = \\ln 3$, $e^{2\\ln 3} = 9$, so $u = 10$.\n$\\int_{0}^{\\ln 3} \\dfrac{e^{2x}}{1+e^{2x}}\\,dx$\n$= \\dfrac{1}{2}\\int_{2}^{10} \\dfrac{1}{u}\\,du$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find $\\int \\dfrac{\\sin x}{3+\\cos x}\\,dx$ using the substitution $u = 3+\\cos x$. Give your answer in simplest form, with $+C$.",
+      "structure": "given-u-indefinite",
+      "mastery": false,
+      "options": [
+        { "text": "$-\\ln(3+\\cos x) + C$", "correct": true },
+        { "text": "$\\ln(3+\\cos x) + C$", "why": "Missed the negative sign coming from $du = -\\sin x\\,dx$." },
+        { "text": "$-\\ln(3-\\cos x) + C$", "why": "Wrote the substitution as $u = 3-\\cos x$, changing the sign inside the logarithm." },
+        { "text": "$\\ln(3-\\cos x) + C$", "why": "Wrote $u = 3-\\cos x$ and also lost the negative sign from $du$." }
+      ],
+      "solution_text": "$u = 3+\\cos x$\n$\\dfrac{du}{dx} = -\\sin x$, so $\\sin x\\,dx = -du$\n$\\int \\dfrac{\\sin x}{3+\\cos x}\\,dx$\n$= \\int \\dfrac{-1}{u}\\,du$\n$= -\\ln u + C$\n$= -\\ln(3+\\cos x) + C$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The gradient of a curve is $\\dfrac{dy}{dx} = \\dfrac{6x}{\\left(x^{2}+3\\right)^{2}}$ and the curve passes through the point $(1,\\,2)$. Using the substitution $u = x^{2}+3$, find $y$ as a function of $x$.",
+      "structure": "substitution-application",
+      "mastery": true,
+      "options": [
+        { "text": "$y = -\\dfrac{3}{x^{2}+3} + \\dfrac{11}{4}$", "correct": true },
+        { "text": "$y = -\\dfrac{3}{x^{2}+3} + 2$", "why": "Took $C$ to be the $y$-value of the point instead of solving for it." },
+        { "text": "$y = \\dfrac{3}{x^{2}+3} + \\dfrac{5}{4}$", "why": "Lost the negative sign when integrating $u^{-2}$, which also changes the constant." },
+        { "text": "$y = -\\dfrac{6}{x^{2}+3} + \\dfrac{7}{2}$", "why": "Did not use $du = 2x\\,dx$, so the coefficient stayed at $6$ instead of becoming $3$." }
+      ],
+      "solution_text": "$u = x^{2}+3$\n$\\dfrac{du}{dx} = 2x$, so $6x\\,dx = 3\\,du$\n$y = \\int \\dfrac{6x}{\\left(x^{2}+3\\right)^{2}}\\,dx$\n$= 3\\int u^{-2}\\,du$\n$= -\\dfrac{3}{u} + C$\n$= -\\dfrac{3}{x^{2}+3} + C$\nSubstituting $(1,\\,2)$:\n$2 = -\\dfrac{3}{4} + C$\n$C = \\dfrac{11}{4}$\n$y = -\\dfrac{3}{x^{2}+3} + \\dfrac{11}{4}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Evaluate $\\int_{0}^{3} \\dfrac{x}{\\sqrt{x+1}}\\,dx$ using the substitution $x = u^{2}-1$, where $u \\ge 0$.",
+      "structure": "x-as-subject",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{8}{3}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{4}{3}$",
+          "why": "Omitted the factor $2$ from $dx = 2u\\,du$."
+        },
+        {
+          "text": "$12$",
+          "why": "Kept the original $x$ limits $0$ and $3$ instead of changing them to the $u$ values $1$ and $2$."
+        },
+        {
+          "text": "$\\dfrac{9}{2}$",
+          "why": "Forgot that $\\sqrt{x+1}=u$ sits in the denominator and integrated $\\left(u^{2}-1\\right)\\times 2u$ instead of $\\dfrac{u^{2}-1}{u}\\times 2u$."
+        }
+      ],
+      "solution_text": "$x = u^{2}-1$, so $x+1 = u^{2}$ and $\\sqrt{x+1} = u$\n$\\dfrac{dx}{du} = 2u$, so $dx = 2u\\,du$\nWhen $x = 0$, $u = 1$.\nWhen $x = 3$, $u = 2$.\n$\\int_{0}^{3} \\dfrac{x}{\\sqrt{x+1}}\\,dx$\n$= \\int_{1}^{2} \\dfrac{u^{2}-1}{u} \\times 2u\\,du$\n$= 2\\int_{1}^{2} \\left(u^{2}-1\\right)du$\n$= 2\\left[\\dfrac{u^{3}}{3} - u\\right]_{1}^{2}$\n$= 2\\left(\\dfrac{2}{3} - \\left(-\\dfrac{2}{3}\\right)\\right)$\n$= \\dfrac{8}{3}$"
+    },
+    {
+      "id": "q10",
+      "question_text": "Evaluate $\\int_{0}^{1} x^{3}\\left(1-x^{2}\\right)^{4}dx$ using the substitution $u = 1-x^{2}$.",
+      "structure": "leftover-x-in-terms-of-u",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{1}{60}$", "correct": true },
+        { "text": "$\\dfrac{1}{30}$", "why": "Omitted the factor $\\dfrac{1}{2}$ from $x\\,dx = -\\dfrac{1}{2}du$." },
+        { "text": "$-\\dfrac{1}{60}$", "why": "Left the limits reversed as $1$ to $0$ as well as using the negative from $-\\dfrac{1}{2}du$." },
+        { "text": "$\\dfrac{1}{10}$", "why": "Replaced $x^{3}\\,dx$ by $-\\dfrac{1}{2}du$, forgetting that $x^{2} = 1-u$ still has to be substituted." }
+      ],
+      "solution_text": "$u = 1-x^{2}$, so $x^{2} = 1-u$\n$\\dfrac{du}{dx} = -2x$, so $x\\,dx = -\\dfrac{1}{2}du$\nWhen $x = 0$, $u = 1$.\nWhen $x = 1$, $u = 0$.\n$\\int_{0}^{1} x^{3}\\left(1-x^{2}\\right)^{4}dx$\n$= \\int_{1}^{0} (1-u)u^{4}\\left(-\\dfrac{1}{2}du\\right)$\n$= \\dfrac{1}{2}\\int_{0}^{1} \\left(u^{4}-u^{5}\\right)du$\n$= \\dfrac{1}{2}\\left[\\dfrac{u^{5}}{5} - \\dfrac{u^{6}}{6}\\right]_{0}^{1}$\n$= \\dfrac{1}{2}\\left(\\dfrac{1}{5} - \\dfrac{1}{6}\\right)$\n$= \\dfrac{1}{60}$"
+    }
+  ]
+}

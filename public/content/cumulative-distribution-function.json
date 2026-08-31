@@ -1,0 +1,129 @@
+{
+  "skillId": "cumulative-distribution-function",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **cumulative distribution function** $F(x)$ gives $P(X \\le x)$. It is the area under the density from the left end of the domain up to $x$, so $F(x) = \\int_{a}^{x} f(t)\\,dt$.",
+    "facts": [
+      "$F(x) = P(X \\le x)$ is a running total of probability, so it never decreases.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35, domain=0:2.6, variable=\\x] (0,0) -- plot ({\\x},{2.4*exp(-0.45*\\x)}) -- (2.6,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.9,0) node[right] {$t$};\n\\draw[->] (0,-0.5) -- (0,3.0) node[above] {$f(t)$};\n\\draw[thick] (-0.5,0) -- (0,0);\n\\draw[thick, domain=0:5, smooth, samples=100, variable=\\x] plot ({\\x},{2.4*exp(-0.45*\\x)});\n\\draw[thick] (5,0) -- (5.7,0);\n\\draw (2.6,0) -- (2.6,0.744);\n\\node[below] at (0,0) {$a$};\n\\node[below] at (2.6,0) {$x$};\n\\end{tikzpicture}\n[/tikz]",
+      "At the left end of the domain $F(a) = 0$, and at the right end $F(b) = 1$.",
+      "The variable of integration is written $t$ so that the upper limit $x$ is not reused inside the integral.",
+      "$P(c \\le X \\le d) = F(d) - F(c)$.",
+      "$P(X \\ge c) = 1 - F(c)$.",
+      "Differentiating the cumulative distribution function returns the density, so $f(x) = F'(x)$.",
+      "For a density defined in pieces, each piece of $F$ starts from the probability already accumulated below it."
+    ],
+    "steps": [
+      "Integrate the density from the left endpoint of the domain to a variable upper limit $x$.",
+      "Simplify $F(x)$ and check that $F(b) = 1$.",
+      "Substitute the required values of $x$ into $F$ and combine them."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{3x^{2}}{56}$ on $[2,4]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.0cm, y=2.4cm]\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.2) -- (0,1.25) node[above] {$f(x)$};\n\\draw[thick] (-0.5,0) -- (2,0);\n\\draw[thick, domain=2:4, smooth, samples=100, variable=\\x] plot ({\\x},{0.05357*\\x*\\x});\n\\draw (2,0) -- (2,0.2143);\n\\draw (4,0) -- (4,0.8571);\n\\draw[thick] (4,0) -- (5.2,0);\n\\node[below] at (2,0) {$2$};\n\\node[below] at (4,0) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{2}^{x}\\dfrac{3t^{2}}{56}\\,dt$\n$= \\left[\\dfrac{t^{3}}{56}\\right]_{2}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{x^{3} - 8}{56}$\n$F(4) = \\dfrac{64 - 8}{56} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{2(x - 1)}{9}$ on $[1,4]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{1}^{x}\\dfrac{2(t - 1)}{9}\\,dt$\n$= \\left[\\dfrac{(t - 1)^{2}}{9}\\right]_{1}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{(x - 1)^{2}}{9}$\n$F(4) = \\dfrac{9}{9} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{e^{x}}{e^{3} - 1}$ on $[0,3]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{0}^{x}\\dfrac{e^{t}}{e^{3} - 1}\\,dt$\n$= \\dfrac{1}{e^{3} - 1}\\left[e^{t}\\right]_{0}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{e^{x} - 1}{e^{3} - 1}$\n$F(3) = \\dfrac{e^{3} - 1}{e^{3} - 1} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{5x^{4}}{1023}$ on $[1,4]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{1}^{x}\\dfrac{5t^{4}}{1023}\\,dt$\n$= \\left[\\dfrac{t^{5}}{1023}\\right]_{1}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{x^{5} - 1}{1023}$\n$F(4) = \\dfrac{1024 - 1}{1023} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{4} - 16}{609}$ on $[2,5]$. Find $P(3 \\le X \\le 4)$.",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(3 \\le X \\le 4) = F(4) - F(3)$\n$= \\dfrac{240}{609} - \\dfrac{65}{609}$\n$= \\dfrac{175}{609}$\n$= \\dfrac{25}{87}$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{2}}{49}$ on $[0,7]$. Find $P(X \\le 3)$.",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(X \\le 3) = F(3)$\n$= \\dfrac{9}{49}$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{2} - 1}{24}$ on $[1,5]$. Find $P(X \\ge 4)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=2.4cm]\n\\draw[->] (-0.6,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-0.2) -- (0,1.45) node[above] {$F(x)$};\n\\draw[thick] (-0.5,0) -- (1,0);\n\\draw[thick, domain=1:5, smooth, samples=100, variable=\\x] plot ({\\x},{(\\x*\\x-1)/24});\n\\draw[thick] (5,1) -- (6.4,1);\n\\draw[dashed] (0,1) -- (5,1);\n\\node[left] at (0,1) {$1$};\n\\node[below] at (1,0) {$1$};\n\\node[below] at (5,0) {$5$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(X \\ge 4) = 1 - F(4)$\n$= 1 - \\dfrac{15}{24}$\n$= \\dfrac{9}{24}$\n$= \\dfrac{3}{8}$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{3}}{216}$ on $[0,6]$. Find its probability density function $f(x)$.",
+        "structure": "pdf-from-cdf",
+        "solution_text": "$f(x) = F'(x)$\n$= \\dfrac{3x^{2}}{216}$\n$= \\dfrac{x^{2}}{72}$"
+      },
+      {
+        "question_text": "A continuous random variable defined on $[0,10]$ has cumulative distribution function $F$, with $F(4) = 0.62$. A student claims $F(7) = 0.55$. Explain why this is impossible.",
+        "structure": "cdf-properties",
+        "solution_text": "$F(x) = P(X \\le x)$, so $F$ is a running total of probability and cannot decrease.\nSince $7 > 4$, the value of $F(7)$ must be at least $F(4) = 0.62$.\nA value of $0.55$ would mean the interval from $4$ to $7$ had negative probability, so it is impossible."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{3(8 - x)^{2}}{512}$ on $[0,8]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{0}^{x}\\dfrac{3(8 - t)^{2}}{512}\\,dt$\n$= \\left[-\\dfrac{(8 - t)^{3}}{512}\\right]_{0}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= -\\dfrac{(8 - x)^{3}}{512} + \\dfrac{512}{512}$\n$= 1 - \\dfrac{(8 - x)^{3}}{512}$\n$F(8) = 1 - 0 = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{1}{x\\ln 4}$ on $[1,4]$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{1}^{x}\\dfrac{1}{t\\ln 4}\\,dt$\n$= \\dfrac{1}{\\ln 4}\\left[\\ln t\\right]_{1}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{\\ln x}{\\ln 4}$\n$F(4) = \\dfrac{\\ln 4}{\\ln 4} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{2} - 4}{32}$ on $[2,6]$. Find $P(3 < X < 5)$.",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(3 < X < 5) = F(5) - F(3)$\n$= \\dfrac{21}{32} - \\dfrac{5}{32}$\n$= \\dfrac{16}{32}$\n$= \\dfrac{1}{2}$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\sin x$ on $\\left[0, \\dfrac{\\pi}{2}\\right]$. Find its probability density function $f(x)$, and verify that the total area is $1$.",
+        "structure": "pdf-from-cdf",
+        "solution_text": "$f(x) = F'(x)$\n$= \\cos x$\n$\\int_{0}^{\\frac{\\pi}{2}}\\cos x\\,dx = \\left[\\sin x\\right]_{0}^{\\frac{\\pi}{2}} = 1 - 0 = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{1}{8}$ for $0 \\le x < 4$ and $f(x) = \\dfrac{1}{4}$ for $4 \\le x \\le 6$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$ on each piece.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.72cm, y=8cm]\n\\draw[->] (-0.8,0) -- (7.6,0) node[right] {$x$};\n\\draw[->] (0,-0.06) -- (0,0.34) node[above] {$f(x)$};\n\\draw[thick] (-0.7,0) -- (0,0);\n\\draw[thick] (0,0.125) -- (4,0.125);\n\\draw[thick] (4,0.25) -- (6,0.25);\n\\draw[dashed] (0,0.125) -- (0,0);\n\\draw[dashed] (4,0.125) -- (4,0.25);\n\\draw[dashed] (6,0.25) -- (6,0);\n\\draw[thick] (6,0) -- (7.4,0);\n\\node[left] at (0,0.125) {$\\frac{1}{8}$};\n\\node[left] at (0,0.25) {$\\frac{1}{4}$};\n\\node[below] at (4,0) {$4$};\n\\node[below] at (6,0) {$6$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "piecewise-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\nFor $0 \\le x < 4$:\n$F(x) = \\int_{0}^{x}\\dfrac{1}{8}\\,dt$\n$= \\dfrac{x}{8}$\nSo $F(4) = \\dfrac{1}{2}$, which is the probability already accumulated below $x = 4$.\nFor $4 \\le x \\le 6$:\n$F(x) = \\dfrac{1}{2} + \\int_{4}^{x}\\dfrac{1}{4}\\,dt$\n$= \\dfrac{1}{2} + \\dfrac{x - 4}{4}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{x}{4} - \\dfrac{1}{2}$\n$F(6) = \\dfrac{6}{4} - \\dfrac{1}{2} = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{1}{x^{2}}$ for $x \\ge 1$, and $0$ elsewhere. Find the cumulative distribution function $F(x)$, and hence $P(2 \\le X \\le 5)$.",
+        "structure": "find-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\n$F(x) = \\int_{1}^{x}t^{-2}\\,dt$\n$= \\left[-\\dfrac{1}{t}\\right]_{1}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= 1 - \\dfrac{1}{x}$\nAs $x \\to \\infty$, $\\dfrac{1}{x} \\to 0$, so $F(x) \\to 1$.\n3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(2 \\le X \\le 5) = F(5) - F(2)$\n$= \\dfrac{4}{5} - \\dfrac{1}{2}$\n$= \\dfrac{3}{10}$"
+      },
+      {
+        "question_text": "A continuous random variable is defined on $[1,7]$ with cumulative distribution function $F$, where $F(3) = 0.4$ and $F(5) = 0.85$. Find $P(3 < X \\le 5)$ and $P(X > 5)$.",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$P(3 < X \\le 5) = F(5) - F(3)$\n$= 0.85 - 0.4$\n$= 0.45$\n$P(X > 5) = 1 - F(5)$\n$= 1 - 0.85$\n$= 0.15$"
+      },
+      {
+        "question_text": "A hen wanders at random inside a circular pen of radius $9$ m. The distance $X$, in metres, from the centre has cumulative distribution function $F(x) = \\dfrac{x^{2}}{81}$ on $[0,9]$. Find the probability density function $f(x)$.",
+        "structure": "pdf-from-cdf",
+        "solution_text": "$f(x) = F'(x)$\n$= \\dfrac{2x}{81}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A continuous random variable has $f(x) = \\dfrac{4 + x}{16}$ for $-4 \\le x \\le 0$ and $f(x) = \\dfrac{4 - x}{16}$ for $0 < x \\le 4$, and $0$ elsewhere. Find the cumulative distribution function on each piece.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.55cm, y=8cm]\n\\draw[->] (-5.6,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.06) -- (0,0.34) node[above] {$f(x)$};\n\\draw[thick] (-5.4,0) -- (-4,0);\n\\draw[thick] (-4,0) -- (0,0.25) -- (4,0);\n\\draw[thick] (4,0) -- (5.4,0);\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[left] at (0,0.25) {$\\frac{1}{4}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "piecewise-cdf",
+        "solution_text": "1. **Integrate the density from the left endpoint of the domain to a variable upper limit $x$**\nFor $-4 \\le x \\le 0$:\n$F(x) = \\int_{-4}^{x}\\dfrac{4 + t}{16}\\,dt$\n$= \\left[\\dfrac{(4 + t)^{2}}{32}\\right]_{-4}^{x}$\n$= \\dfrac{(4 + x)^{2}}{32}$\nSo $F(0) = \\dfrac{16}{32} = \\dfrac{1}{2}$.\nFor $0 < x \\le 4$:\n$F(x) = \\dfrac{1}{2} + \\int_{0}^{x}\\dfrac{4 - t}{16}\\,dt$\n$= \\dfrac{1}{2} + \\left[-\\dfrac{(4 - t)^{2}}{32}\\right]_{0}^{x}$\n2. **Simplify $F(x)$ and check that $F(b) = 1$**\n$= \\dfrac{1}{2} - \\dfrac{(4 - x)^{2}}{32} + \\dfrac{16}{32}$\n$= 1 - \\dfrac{(4 - x)^{2}}{32}$\n$F(4) = 1 - 0 = 1$"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = \\dfrac{x^{2} - 1}{15}$ on $[1,4]$. Find the exact value of $c$ for which $P(X \\le c) = 0.6$.",
+        "structure": "probability-from-cdf",
+        "solution_text": "3. **Substitute the required values of $x$ into $F$ and combine them**\n$\\dfrac{c^{2} - 1}{15} = 0.6$\n$c^{2} - 1 = 9$\n$c^{2} = 10$\n$c = \\sqrt{10}$ (rejecting $c = -\\sqrt{10}$, which is outside the domain)"
+      },
+      {
+        "question_text": "A continuous random variable has cumulative distribution function $F(x) = 4x^{3} - 3x^{4}$ on $[0,1]$. Find its probability density function, and verify that the total area under it is $1$.",
+        "structure": "pdf-from-cdf",
+        "solution_text": "$f(x) = F'(x)$\n$= 12x^{2} - 12x^{3}$\n$= 12x^{2}(1 - x)$\n$\\int_{0}^{1}\\left(12x^{2} - 12x^{3}\\right)dx = \\left[4x^{3} - 3x^{4}\\right]_{0}^{1} = 4 - 3 = 1$"
+      }
+    ]
+  }
+}

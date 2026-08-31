@@ -1,0 +1,205 @@
+{
+  "skillId": "reducing-balance-loan-calculations",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A mortgage of $\\$165\\,000$ at $9\\%$ p.a. compounded monthly ($r=0.0075$) is repaid with monthly payments of $\\$1700$. Evaluate the balance $A_{180}$ after $15$ years ($180$ months), to the nearest cent.",
+      "structure": "calculate-balance-owing",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-\\$10\\,012.67$",
+          "correct": true
+        },
+        {
+          "text": "$\\$10\\,012.67$",
+          "why": "Ignored the negative sign indicating the loan was already overpaid."
+        },
+        {
+          "text": "$\\$575\\,509.61$",
+          "why": "Used the annual interest rate with 15 years and multiplied repayments without the annuity formula ($165\\,000(1.09)^{15}-1700(15)$)."
+        },
+        {
+          "text": "$-\\$20\\,450.12$",
+          "why": "Rounded intermediate powers of $(1+r)$ to two decimal places."
+        }
+      ],
+      "solution_text": "$r=0.0075, n=180$\n$A_{180}=165\\,000(1.0075)^{180}-1700\\left[\\dfrac{(1.0075)^{180}-1}{0.0075}\\right]$\n$=633\\,277.14-643\\,289.81$\n$=-\\$10\\,012.67$\nThe negative balance indicates the loan is paid off in less than 15 years."
+    },
+    {
+      "id": "q2",
+      "question_text": "A business loan of $\\$80\\,000$ is repaid in quarterly instalments of $\\$3450$ over $8$ years. Find the total amount paid over the life of the loan.",
+      "structure": "calculate-total-paid",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$110\\,400$",
+          "correct": true
+        },
+        {
+          "text": "$\\$27\\,600$",
+          "why": "Multiplied repayment by 8 years instead of 32 quarters."
+        },
+        {
+          "text": "$\\$190\\,400$",
+          "why": "Added the initial principal to the total payments."
+        },
+        {
+          "text": "$\\$30\\,400$",
+          "why": "Calculated total interest instead of total amount paid."
+        }
+      ],
+      "solution_text": "$n=8\\times4=32$\n$\\text{Total Paid}=32\\times3450$\n$=\\$110\\,400$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A personal loan of $\\$55\\,000$ is fully repaid with $60$ monthly payments of $\\$1140$. How much total interest was charged?",
+      "structure": "calculate-total-interest",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$13\\,400$",
+          "correct": true
+        },
+        {
+          "text": "$\\$68\\,400$",
+          "why": "Reported the total amount paid rather than the interest charged."
+        },
+        {
+          "text": "$\\$11\\,400$",
+          "why": "Multiplied monthly repayment by 10 instead of computing total payments minus principal."
+        },
+        {
+          "text": "$\\$2680$",
+          "why": "Calculated the average annual interest by dividing total interest by 5 years ($13\\,400 \\div 5$)."
+        }
+      ],
+      "solution_text": "$\\text{Total Paid}=60\\times1140=\\$68\\,400$\n$\\text{Total Interest}=68\\,400-55\\,000$\n$=\\$13\\,400$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A loan of $\\$25\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) has monthly repayments of $\\$400$. Find the balance owing after $24$ months, to the nearest cent.",
+      "structure": "calculate-balance-owing",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$18\\,006.21$",
+          "correct": true
+        },
+        {
+          "text": "$\\$15\\,400.00$",
+          "why": "Subtracted 24 repayments directly from principal without compounding interest."
+        },
+        {
+          "text": "$\\$28\\,178.99$",
+          "why": "Computed compound growth of principal but neglected repayments."
+        },
+        {
+          "text": "$\\$19\\,452.10$",
+          "why": "Used the annual rate with the monthly $n$."
+        }
+      ],
+      "solution_text": "$r=0.005, n=24$\n$A_{24}=25\\,000(1.005)^{24}-400\\left[\\dfrac{(1.005)^{24}-1}{0.005}\\right]$\n$=28\\,178.99-10\\,172.78$\n$=\\$18\\,006.21$"
+    },
+    {
+      "id": "q5",
+      "question_text": "For a $\\$35\\,000$ loan where $A_{36}=\\$18\\,483.69$ after $36$ monthly repayments of $\\$650$, calculate the total interest charged during the first $36$ months.",
+      "structure": "calculate-total-interest",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$6883.69$",
+          "correct": true
+        },
+        {
+          "text": "$\\$16\\,516.31$",
+          "why": "Reported principal reduction instead of interest charged."
+        },
+        {
+          "text": "$\\$23\\,400.00$",
+          "why": "Reported total amount paid rather than interest."
+        },
+        {
+          "text": "$\\$4916.31$",
+          "why": "Subtracted the remaining balance directly from total payments instead of computing total payments minus principal reduction."
+        }
+      ],
+      "solution_text": "$\\text{Total paid}=36\\times650=\\$23\\,400$\n$\\text{Principal reduction}=35\\,000-18\\,483.69=\\$16\\,516.31$\n$\\text{Interest charged}=23\\,400-16\\,516.31$\n$=\\$6883.69$"
+    },
+    {
+      "id": "q6",
+      "question_text": "In the loan balance formula $A_{n}=PV(1+r)^{n}-M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$, what does the subtracted term $M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ represent?",
+      "structure": "derive-closed-balance-formula",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The future value of all $n$ repayments compounded to the end of period $n$.",
+          "correct": true
+        },
+        {
+          "text": "The total interest accumulated on the original principal.",
+          "why": "Confused the repayment annuity sum with total interest."
+        },
+        {
+          "text": "The total amount of principal remaining unpaid after $n$ periods.",
+          "why": "Confused the repayment sum with the net balance $A_n$."
+        },
+        {
+          "text": "The simple sum of all $n$ repayments $n\\times M$.",
+          "why": "Ignored the compounding of individual repayments over time."
+        }
+      ],
+      "solution_text": "Each repayment $M$ compounds from the moment it is paid until period $n$.\nThe sum $M+M(1+r)+\\dots+M(1+r)^{n-1}=M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$ represents the total future value of all $n$ repayments."
+    },
+    {
+      "id": "q7",
+      "question_text": "A couple takes out a $\\$250\\,000$ mortgage at $7.2\\%$ p.a. compounded monthly ($r=0.006$) with monthly payments of $\\$2000$. What is the balance owing at the end of $10$ years ($120$ months)?",
+      "structure": "calculate-balance-owing",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$162\\,498.50$",
+          "correct": true
+        },
+        {
+          "text": "$\\$125\\,000.00$",
+          "why": "Assumed exactly half the principal is repaid after half the term."
+        },
+        {
+          "text": "$\\$10\\,000.00$",
+          "why": "Subtracted total payments $120 \\times 2000 = 240\\,000$ directly from principal."
+        },
+        {
+          "text": "$\\$512\\,504.51$",
+          "why": "Computed compound growth of principal but neglected repayments."
+        }
+      ],
+      "solution_text": "$r=0.006, n=120$\n$A_{120}=250\\,000(1.006)^{120}-2000\\left[\\dfrac{(1.006)^{120}-1}{0.006}\\right]$\n$=512\\,504.5142-350\\,006.0189$\n$=\\$162\\,498.50$"
+    },
+    {
+      "id": "q8",
+      "question_text": "After $10$ years on a $20$-year mortgage with equal monthly repayments, why is the outstanding balance substantially more than $50\\%$ of the initial principal?",
+      "structure": "calculate-principal-reduction",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Early repayments are predominantly consumed by interest on the large initial principal, so the principal reduces slowly at first.",
+          "correct": true
+        },
+        {
+          "text": "The bank increases the interest rate during the first half of the loan term.",
+          "why": "Incorrectly assumes a variable interest rate rather than constant rate mathematics."
+        },
+        {
+          "text": "The monthly repayments are smaller during the first 10 years.",
+          "why": "Assumed repayments are non-equal when they are fixed equal instalments."
+        },
+        {
+          "text": "Compound interest only begins to accrue in the second half of the loan term.",
+          "why": "Misunderstands the continuous compounding mechanism of reducing balance loans."
+        }
+      ],
+      "solution_text": "In the early years, the debt is large, so a large fraction of each repayment pays interest.\nOnly a small fraction reduces the principal, meaning the balance drops slowly.\nAs the balance decreases, less interest is charged, accelerating principal reduction in later years."
+    }
+  ]
+}

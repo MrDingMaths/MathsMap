@@ -1,0 +1,124 @@
+{
+  "skillId": "vector-direction-angle",
+  "atomType": "R",
+  "theory": {
+    "intro": "The direction of a vector is usually given as its **angle of inclination**, the angle turned anticlockwise from the positive $x$-axis. Sketch the vector, find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$, then let the quadrant fix $\\theta$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-2.4,1.8);\n\\coordinate (W) at (-3,0);\n\\coordinate (E) at (3,0);\n\\coordinate (F) at (-2.4,0);\n\\draw[->] (-3.2,0)--(3.2,0) node[right]{$x$};\n\\draw[->] (0,-0.8)--(0,2.8) node[above]{$y$};\n\\draw[dashed] (P)--(F);\n\\draw[-{Stealth},thick] (O)--(P) node[above right]{$\\underset{\\sim}{a}$};\n\\pic[draw, \"$A$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = P--O--W};\n\\pic[draw, \"$\\theta$\", angle radius=1.2cm, angle eccentricity=1.45] {angle = E--O--P};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$ is always acute, because the absolute values remove the signs.",
+      "By quadrant, $\\theta=A$, $180^{\\circ}-A$, $180^{\\circ}+A$ or $360^{\\circ}-A$ for quadrants $1$, $2$, $3$ and $4$.",
+      "A calculator returns $\\tan^{-1}$ between $-90^{\\circ}$ and $90^{\\circ}$, so it never gives a second- or third-quadrant angle directly.",
+      "A **true bearing** is measured clockwise from north, so $\\text{bearing}=90^{\\circ}-\\theta$, adding $360^{\\circ}$ if that is negative.",
+      "A bearing and an angle of inclination are different numbers for the same vector, so read which one is wanted.",
+      "A vector and its negative point opposite ways, so their angles of inclination differ by $180^{\\circ}$."
+    ],
+    "steps": [
+      "Sketch the vector and name the quadrant it lies in.",
+      "Find the reference angle $A=\\tan^{-1}\\frac{|y|}{|x|}$.",
+      "Use the quadrant to write the angle of inclination $\\theta$.",
+      "Convert to a true bearing with $\\text{bearing}=90^{\\circ}-\\theta$ if the question asks for one."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{a}=\\begin{pmatrix}5\\\\2\\end{pmatrix}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Both components are positive, so the vector lies in the first quadrant.\n$A=\\tan^{-1}\\frac{2}{5}$\n$=21.80^{\\circ}$\n$\\theta=A$\n$\\approx 22^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{a}=-4\\underset{\\sim}{i}+3\\underset{\\sim}{j}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{3}{4}$\n$=36.87^{\\circ}$\n$\\theta=180^{\\circ}-36.87^{\\circ}$\n$\\approx 143^{\\circ}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta,angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-2.4,1.8);\n\\coordinate (W) at (-3,0);\n\\coordinate (F) at (-2.4,0);\n\\draw[->] (-3.2,0)--(3.2,0) node[right]{$x$};\n\\draw[->] (0,-0.8)--(0,2.8) node[above]{$y$};\n\\draw[dashed] (P)--(F);\n\\draw[-{Stealth},thick] (O)--(P) node[above right]{$\\underset{\\sim}{a}$};\n\\pic[draw, \"$A$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = P--O--W};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the exact angle of inclination of $\\underset{\\sim}{b}=\\begin{pmatrix}-6\\\\-6\\end{pmatrix}$.",
+        "structure": "inclination-from-components",
+        "solution_text": "Both components are negative, so the vector lies in the third quadrant.\n$A=\\tan^{-1}\\frac{6}{6}$\n$=45^{\\circ}$\n$\\theta=180^{\\circ}+45^{\\circ}$\n$=225^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{c}=7\\underset{\\sim}{i}-4\\underset{\\sim}{j}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{4}{7}$\n$=29.74^{\\circ}$\n$\\theta=360^{\\circ}-29.74^{\\circ}$\n$\\approx 330^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{d}=\\begin{pmatrix}-1\\\\5\\end{pmatrix}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{5}{1}$\n$=78.69^{\\circ}$\n$\\theta=180^{\\circ}-78.69^{\\circ}$\n$\\approx 101^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{e}=3\\underset{\\sim}{i}-8\\underset{\\sim}{j}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{8}{3}$\n$=69.44^{\\circ}$\n$\\theta=360^{\\circ}-69.44^{\\circ}$\n$\\approx 291^{\\circ}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{a}=4\\underset{\\sim}{i}+4\\underset{\\sim}{j}$ is drawn with $\\underset{\\sim}{i}$ pointing east and $\\underset{\\sim}{j}$ pointing north. Find the direction of $\\underset{\\sim}{a}$ as a true bearing.",
+        "structure": "true-bearing-from-components",
+        "solution_text": "Both components are positive, so the vector lies in the first quadrant.\n$A=\\tan^{-1}\\frac{4}{4}$\n$=45^{\\circ}$\n$\\theta=45^{\\circ}$\n$\\text{bearing}=90^{\\circ}-45^{\\circ}$\n$=045^{\\circ}\\text{T}$\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\usetikzlibrary{arrows.meta, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (Npt) at (0,2.8);\n\\coordinate (A) at (2,2);\n\\draw[->] (-0.6,0) -- (2.8,0) node[right] {$E$};\n\\draw[->] (0,-0.6) -- (Npt) node[above] {$N$};\n\\draw[-{Stealth},thick] (O) -- (A) node[above right] {$\\underset{\\sim}{a}$};\n\\pic[draw, \"$45^{\\circ}$\", angle radius=0.9cm, angle eccentricity=1.6] {angle = A--O--Npt};\n\\end{tikzpicture}[/tikz]"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{b}=\\begin{pmatrix}-8\\\\15\\end{pmatrix}$ is drawn with $\\underset{\\sim}{i}$ pointing east and $\\underset{\\sim}{j}$ pointing north. Find the direction of $\\underset{\\sim}{b}$ as a true bearing, to the nearest degree.",
+        "structure": "true-bearing-from-components",
+        "solution_text": "Here $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{15}{8}$\n$=61.93^{\\circ}$\n$\\theta=180^{\\circ}-61.93^{\\circ}$\n$=118.07^{\\circ}$\n$\\text{bearing}=90^{\\circ}-118.07^{\\circ}$\n$=-28.07^{\\circ}$\n$=-28.07^{\\circ}+360^{\\circ}$\n$\\approx 332^{\\circ}\\text{T}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the angle of inclination of $\\underset{\\sim}{a}=\\begin{pmatrix}-9\\\\-4\\end{pmatrix}$, to the nearest degree.",
+        "structure": "inclination-from-components",
+        "solution_text": "Both components are negative, so the vector lies in the third quadrant.\n$A=\\tan^{-1}\\frac{4}{9}$\n$=23.96^{\\circ}$\n$\\theta=180^{\\circ}+23.96^{\\circ}$\n$\\approx 204^{\\circ}$"
+      },
+      {
+        "question_text": "Find the exact angle of inclination of $\\underset{\\sim}{b}=2\\underset{\\sim}{i}-2\\sqrt{3}\\,\\underset{\\sim}{j}$.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{2\\sqrt{3}}{2}$\n$=\\tan^{-1}\\sqrt{3}$\n$=60^{\\circ}$\n$\\theta=360^{\\circ}-60^{\\circ}$\n$=300^{\\circ}$"
+      },
+      {
+        "question_text": "Find the exact angle of inclination of $\\underset{\\sim}{c}=\\begin{pmatrix}-1\\\\\\sqrt{3}\\end{pmatrix}$.",
+        "structure": "inclination-from-components",
+        "solution_text": "Here $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{\\sqrt{3}}{1}$\n$=60^{\\circ}$\n$\\theta=180^{\\circ}-60^{\\circ}$\n$=120^{\\circ}$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a}=\\begin{pmatrix}4\\\\7\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}-9\\\\-2\\end{pmatrix}$, find the exact angle of inclination of $\\underset{\\sim}{a}+\\underset{\\sim}{b}$.",
+        "structure": "direction-of-sum-or-difference",
+        "solution_text": "$\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\begin{pmatrix}4+(-9)\\\\7+(-2)\\end{pmatrix}$\n$=\\begin{pmatrix}-5\\\\5\\end{pmatrix}$\nHere $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{5}{5}$\n$=45^{\\circ}$\n$\\theta=180^{\\circ}-45^{\\circ}$\n$=135^{\\circ}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{d}=-3\\underset{\\sim}{i}-4\\underset{\\sim}{j}$ is drawn with $\\underset{\\sim}{i}$ pointing east and $\\underset{\\sim}{j}$ pointing north. Find the direction of $\\underset{\\sim}{d}$ as a true bearing, to the nearest degree.",
+        "structure": "true-bearing-from-components",
+        "solution_text": "Both components are negative, so the vector lies in the third quadrant.\n$A=\\tan^{-1}\\frac{4}{3}$\n$=53.13^{\\circ}$\n$\\theta=180^{\\circ}+53.13^{\\circ}$\n$=233.13^{\\circ}$\n$\\text{bearing}=90^{\\circ}-233.13^{\\circ}$\n$=-143.13^{\\circ}$\n$=-143.13^{\\circ}+360^{\\circ}$\n$\\approx 217^{\\circ}\\text{T}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{v}=5\\underset{\\sim}{i}+c\\,\\underset{\\sim}{j}$ has an angle of inclination of $60^{\\circ}$. Find the exact value of $c$.",
+        "structure": "find-component-from-direction",
+        "solution_text": "$\\tan 60^{\\circ}=\\frac{c}{5}$\n$\\sqrt{3}=\\frac{c}{5}$\n$c=5\\sqrt{3}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{u}=\\begin{pmatrix}d\\\\4\\end{pmatrix}$ has an angle of inclination of $135^{\\circ}$, where $d<0$. Find the value of $d$.",
+        "structure": "find-component-from-direction",
+        "solution_text": "$\\tan 135^{\\circ}=\\frac{4}{d}$\n$-1=\\frac{4}{d}$\n$d=-4$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{p}=\\underset{\\sim}{i}+6\\underset{\\sim}{j}$ and $\\underset{\\sim}{q}=4\\underset{\\sim}{i}+2\\underset{\\sim}{j}$, find the angle of inclination of $\\underset{\\sim}{p}-\\underset{\\sim}{q}$, to the nearest degree.",
+        "structure": "direction-of-sum-or-difference",
+        "solution_text": "$\\underset{\\sim}{p}-\\underset{\\sim}{q}=(1-4)\\underset{\\sim}{i}+(6-2)\\underset{\\sim}{j}$\n$=-3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\nHere $x<0$ and $y>0$, so the vector lies in the second quadrant.\n$A=\\tan^{-1}\\frac{4}{3}$\n$=53.13^{\\circ}$\n$\\theta=180^{\\circ}-53.13^{\\circ}$\n$\\approx 127^{\\circ}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A ferry's displacement from the harbour is $\\underset{\\sim}{s}=-7\\underset{\\sim}{i}+24\\underset{\\sim}{j}$, measured in kilometres, with $\\underset{\\sim}{i}$ east and $\\underset{\\sim}{j}$ north. Find the true bearing of the ferry from the harbour, to the nearest degree.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\usetikzlibrary{arrows.meta}\n\\draw[->] (-2,0)--(2,0) node[right]{$E$};\n\\draw[->] (0,-0.6)--(0,4.3) node[above]{$N$};\n\\draw[dashed] (-1.05,3.6)--(-1.05,0);\n\\draw[-{Stealth},thick] (0,0)--(-1.05,3.6) node[above left]{$\\underset{\\sim}{s}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "direction-in-context",
+        "solution_text": "Here $x<0$ and $y>0$, so the displacement lies in the second quadrant.\n$A=\\tan^{-1}\\frac{24}{7}$\n$=73.74^{\\circ}$\n$\\theta=180^{\\circ}-73.74^{\\circ}$\n$=106.26^{\\circ}$\n$\\text{bearing}=90^{\\circ}-106.26^{\\circ}$\n$=-16.26^{\\circ}$\n$=-16.26^{\\circ}+360^{\\circ}$\n$\\approx 344^{\\circ}\\text{T}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{v}=m\\underset{\\sim}{i}+(m+2)\\underset{\\sim}{j}$ has an angle of inclination of $135^{\\circ}$. Find the value of $m$.",
+        "structure": "find-component-from-direction",
+        "solution_text": "$\\tan 135^{\\circ}=\\frac{m+2}{m}$\n$-1=\\frac{m+2}{m}$\n$-m=m+2$\n$-2m=2$\n$m=-1$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a}=6\\underset{\\sim}{i}-\\underset{\\sim}{j}$ and $\\underset{\\sim}{b}=-2\\underset{\\sim}{i}+5\\underset{\\sim}{j}$, find the angle of inclination of $2\\underset{\\sim}{a}-3\\underset{\\sim}{b}$, to the nearest degree.",
+        "structure": "direction-of-sum-or-difference",
+        "solution_text": "$2\\underset{\\sim}{a}=12\\underset{\\sim}{i}-2\\underset{\\sim}{j}$\n$3\\underset{\\sim}{b}=-6\\underset{\\sim}{i}+15\\underset{\\sim}{j}$\n$2\\underset{\\sim}{a}-3\\underset{\\sim}{b}=(12-(-6))\\underset{\\sim}{i}+(-2-15)\\underset{\\sim}{j}$\n$=18\\underset{\\sim}{i}-17\\underset{\\sim}{j}$\nHere $x>0$ and $y<0$, so the vector lies in the fourth quadrant.\n$A=\\tan^{-1}\\frac{17}{18}$\n$=43.36^{\\circ}$\n$\\theta=360^{\\circ}-43.36^{\\circ}$\n$\\approx 317^{\\circ}$"
+      }
+    ]
+  }
+}

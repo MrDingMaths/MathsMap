@@ -1,0 +1,113 @@
+{
+  "skillId": "permutations-nPr",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **permutation** is an ordered arrangement of distinct objects with no repetition. The number of ways to choose and arrange $r$ objects from $n$ distinct objects is $^{n}P_{r} = \\dfrac{n!}{(n-r)!} = n(n-1)(n-2)\\cdots(n-r+1)$.",
+        "facts": [
+          "$^{n}P_{r} = \\dfrac{n!}{(n-r)!}$ counts the ordered arrangements of $r$ objects chosen from $n$ distinct objects.",
+          "Arranging all $n$ objects gives $^{n}P_{n} = \\dfrac{n!}{0!} = n!$.",
+          "By convention, $^{n}P_{0} = \\dfrac{n!}{n!} = 1$.",
+          "$^{n}P_{n-1} = \\dfrac{n!}{1!} = n!$ equals $^{n}P_{n}$, because leaving one object out already decides which object it is.",
+          "Use $^{n}P_{r}$ whenever order matters: queue positions, podium places, named committee roles, or digits without repeats.",
+          "The recurrence relation is $^{n+1}P_{r} = {^{n}P_{r}} + r \\cdot {^{n}P_{r-1}}$."
+        ],
+        "steps": [
+          "Identify the total number of available distinct objects $n$ and the number of positions $r$",
+          "Apply the permutation formula $^{n}P_{r} = \\dfrac{n!}{(n-r)!}$",
+          "Calculate the product of $r$ descending consecutive integers starting from $n$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Evaluate $^{6}P_{3}$.",
+        "structure": "evaluate-npr",
+        "solution_text": "$^{6}P_{3} = \\dfrac{6!}{(6-3)!}$\n$= \\dfrac{6!}{3!}$\n$= 6 \\times 5 \\times 4$\n$= 120$"
+      },
+      {
+        "question_text": "Evaluate $^{7}P_{2}$.",
+        "structure": "evaluate-npr",
+        "solution_text": "$^{7}P_{2} = \\dfrac{7!}{(7-2)!}$\n$= \\dfrac{7!}{5!}$\n$= 7 \\times 6$\n$= 42$"
+      },
+      {
+        "question_text": "In a sprint final with $8$ runners, in how many ways can the gold, silver, and bronze medals be awarded?",
+        "structure": "npr-word-problem-positions",
+        "solution_text": "Number of ways to award $3$ medals to $8$ runners:\n$= {^{8}P_{3}}$\n$= 8 \\times 7 \\times 6$\n$= 336$"
+      },
+      {
+        "question_text": "A club with $10$ members must elect a president and a treasurer. In how many ways can these $2$ distinct positions be filled?",
+        "structure": "npr-word-problem-positions",
+        "solution_text": "Number of ways to fill $2$ distinct roles from $10$ members:\n$= {^{10}P_{2}}$\n$= 10 \\times 9$\n$= 90$"
+      },
+      {
+        "question_text": "How many $3$-digit numbers can be formed from the digits $\\{1, 2, 3, 4, 5\\}$ without repeating any digit?",
+        "structure": "npr-digit-codes",
+        "solution_text": "Number of $3$-digit arrangements from $5$ digits:\n$= {^{5}P_{3}}$\n$= 5 \\times 4 \\times 3$\n$= 60$"
+      },
+      {
+        "question_text": "How many $4$-letter security codes can be formed from the $7$ letters in the word $\\text{CHAPTER}$ without repetition?",
+        "structure": "npr-digit-codes",
+        "solution_text": "All $7$ letters in $\\text{CHAPTER}$ are distinct.\n$= {^{7}P_{4}}$\n$= 7 \\times 6 \\times 5 \\times 4$\n$= 840$"
+      },
+      {
+        "question_text": "Find the positive integer $n$ such that $^{n}P_{2} = 56$.",
+        "structure": "solve-for-unknown-in-npr",
+        "solution_text": "$^{n}P_{2} = 56$\n$n(n-1) = 56$\n$n^2 - n - 56 = 0$\n$(n-8)(n+7) = 0$\nSince $n > 0$, $n = 8$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Evaluate $^{9}P_{4}$.",
+        "structure": "evaluate-npr",
+        "solution_text": "$^{9}P_{4} = \\dfrac{9!}{(9-4)!}$\n$= \\dfrac{9!}{5!}$\n$= 9 \\times 8 \\times 7 \\times 6$\n$= 3024$"
+      },
+      {
+        "question_text": "Simplify the algebraic expression $\\dfrac{^{n}P_{3}}{n}$.",
+        "structure": "evaluate-npr",
+        "solution_text": "$\\dfrac{^{n}P_{3}}{n} = \\dfrac{n(n-1)(n-2)}{n}$\n$= (n-1)(n-2)$\n$= n^2 - 3n + 2$"
+      },
+      {
+        "question_text": "$12$ singers audition for $4$ distinct solo parts in a production. In how many ways can the parts be assigned?",
+        "structure": "npr-word-problem-positions",
+        "solution_text": "Number of ways to assign $4$ distinct parts from $12$ singers:\n$= {^{12}P_{4}}$\n$= 12 \\times 11 \\times 10 \\times 9$\n$= 11880$"
+      },
+      {
+        "question_text": "An art gallery has $5$ empty spaces in a row along a wall. If there are $9$ different paintings available, how many different display arrangements can be made?",
+        "structure": "npr-word-problem-positions",
+        "solution_text": "Number of arrangements of $5$ paintings chosen from $9$:\n$= {^{9}P_{5}}$\n$= 9 \\times 8 \\times 7 \\times 6 \\times 5$\n$= 15120$"
+      },
+      {
+        "question_text": "How many $4$-digit passcodes can be formed from the digits $\\{2, 3, 5, 7, 8, 9\\}$ if no digit may be used more than once?",
+        "structure": "npr-digit-codes",
+        "solution_text": "Selecting and ordering $4$ digits from $6$ distinct digits:\n$= {^{6}P_{4}}$\n$= 6 \\times 5 \\times 4 \\times 3$\n$= 360$"
+      },
+      {
+        "question_text": "If $^{n}P_{3} = 210$, find the value of $n$.",
+        "structure": "solve-for-unknown-in-npr",
+        "solution_text": "$^{n}P_{3} = 210$\n$n(n-1)(n-2) = 210$\nSince $210 = 7 \\times 6 \\times 5$,\n$n = 7$."
+      },
+      {
+        "question_text": "Simplify the ratio $\\dfrac{^{n}P_{r}}{^{n-1}P_{r-1}}$.",
+        "structure": "npr-algebraic-proof",
+        "solution_text": "$\\dfrac{^{n}P_{r}}{^{n-1}P_{r-1}} = \\dfrac{\\dfrac{n!}{(n-r)!}}{\\dfrac{(n-1)!}{(n-1-(r-1))!}}$\n$= \\dfrac{\\dfrac{n!}{(n-r)!}}{\\dfrac{(n-1)!}{(n-r)!}}$\n$= \\dfrac{n!}{(n-1)!}$\n$= n$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve for the positive integer $n$: $^{n+1}P_{3} = 12 \\cdot {^{n-1}P_{1}}$.",
+        "structure": "solve-for-unknown-in-npr",
+        "solution_text": "$(n+1)(n)(n-1) = 12(n-1)$\nSince $n \\ge 2$, divide both sides by $(n-1)$:\n$n(n+1) = 12$\n$n^2 + n - 12 = 0$\n$(n+4)(n-3) = 0$\nSince $n > 0$, $n = 3$."
+      },
+      {
+        "question_text": "If $^{8}P_{r} = 6720$, find the value of $r$.",
+        "structure": "solve-for-unknown-in-npr",
+        "solution_text": "$\\dfrac{8!}{(8-r)!} = 6720$\n$8 \\times 7 \\times 6 \\times 5 \\times 4 = 6720$\nThere are $5$ consecutive descending factors starting from $8$.\n$r = 5$."
+      },
+      {
+        "question_text": "Prove that $^{n+1}P_{r} - {^{n}P_{r}} = r \\cdot {^{n}P_{r-1}}$.",
+        "structure": "npr-algebraic-proof",
+        "solution_text": "$^{n+1}P_{r} - {^{n}P_{r}} = \\dfrac{(n+1)!}{(n+1-r)!} - \\dfrac{n!}{(n-r)!}$\n$= \\dfrac{(n+1)n!}{(n+1-r)(n-r)!} - \\dfrac{n!(n+1-r)}{(n+1-r)(n-r)!}$\n$= \\dfrac{n![(n+1) - (n+1-r)]}{(n+1-r)!}$\n$= \\dfrac{n! \\cdot r}{(n+1-r)!}$\n$= r \\cdot {^{n}P_{r-1}}$"
+      }
+    ]
+  }
+}

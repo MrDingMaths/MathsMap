@@ -1,0 +1,121 @@
+{
+  "skillId": "solve-de-dydx-fx",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=9x^2-4x$.",
+      "structure": "general-solution-polynomial",
+      "mastery": false,
+      "options": [
+        { "text": "$y=3x^3-2x^2+C$", "correct": true },
+        { "text": "$y=3x^3-2x^2$", "why": "Integrated correctly but omitted the arbitrary constant, so this is only one curve of the family." },
+        { "text": "$y=18x-4+C$", "why": "Differentiated the right-hand side instead of integrating it." },
+        { "text": "$y=18x-4$", "why": "Differentiated instead of integrating, and also omitted the arbitrary constant." }
+      ],
+      "solution_text": "$y=\\displaystyle\\int\\left(9x^2-4x\\right)dx$\n$=3x^3-2x^2+C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=8e^{4x}$.",
+      "structure": "general-solution-standard-function",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y=2e^{4x}+C$",
+          "correct": true
+        },
+        {
+          "text": "$y=32e^{4x}+C$",
+          "why": "Multiplied by the $4$ from the index instead of dividing by it."
+        },
+        {
+          "text": "$y=2xe^{4x}+C$",
+          "why": "Divided by $4$ correctly but then applied the power rule as well, attaching an extra factor of $x$ to the exponential."
+        },
+        {
+          "text": "$y=32xe^{4x}+C$",
+          "why": "Multiplied by $4$ instead of dividing, and also attached an extra factor of $x$ by treating $e^{4x}$ as a constant."
+        }
+      ],
+      "solution_text": "$y=\\displaystyle\\int 8e^{4x}\\,dx$\n$=\\dfrac{8}{4}e^{4x}+C$\n$=2e^{4x}+C$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Solve $2x^2\\dfrac{dy}{dx}=5$ for $x>0$, giving the general solution.",
+      "structure": "rearrange-then-integrate",
+      "mastery": false,
+      "options": [
+        { "text": "$y=-\\dfrac{5}{2x}+C$", "correct": true },
+        { "text": "$y=-\\dfrac{5}{x}+C$", "why": "Did not divide by the $2$ when rearranging to $\\dfrac{dy}{dx}=\\dfrac{5}{2x^2}$." },
+        { "text": "$y=\\dfrac{5}{2}\\ln x+C$", "why": "Read $\\dfrac{5}{2x^2}$ as $\\dfrac{5}{2x}$ and integrated to a logarithm instead of using the power rule." },
+        { "text": "$y=5\\ln x+C$", "why": "Made both slips: no division by $2$, and the reciprocal square integrated as a logarithm." }
+      ],
+      "solution_text": "$2x^2\\dfrac{dy}{dx}=5$\n$\\dfrac{dy}{dx}=\\dfrac{5}{2}x^{-2}$\n$y=\\displaystyle\\int\\dfrac{5}{2}x^{-2}\\,dx$\n$=\\dfrac{5}{2}\\times\\dfrac{x^{-1}}{-1}+C$\n$=-\\dfrac{5}{2x}+C$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Solve $\\dfrac{dy}{dx}=6x-5$ given that $y(2)=1$.",
+      "structure": "ivp-particular-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$y=3x^2-5x-1$", "correct": true },
+        { "text": "$y=3x^2-5x+1$", "why": "Took the constant to be the given value $y=1$ without substituting $x=2$." },
+        { "text": "$y=6x^2-5x-13$", "why": "Integrated $6x$ as $6x^2$ instead of $3x^2$, then found the constant from that." },
+        { "text": "$y=6x^2-5x+1$", "why": "Integrated $6x$ as $6x^2$ and also used $y=1$ directly as the constant." }
+      ],
+      "solution_text": "$y=\\displaystyle\\int(6x-5)\\,dx$\n$=3x^2-5x+C$\n$1=3(2)^2-5(2)+C$\n$1=12-10+C$\n$C=-1$\n$y=3x^2-5x-1$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Find $y$ given that $\\dfrac{d^2y}{dx^2}=20x^3$, $y'(1)=2$ and $y(0)=4$.",
+      "structure": "integrate-twice",
+      "mastery": false,
+      "options": [
+        { "text": "$y=x^5-3x+4$", "correct": true },
+        { "text": "$y=x^5+7x+4$", "why": "Solved $5+A=2$ by adding rather than subtracting, giving $A=7$ instead of $A=-3$." },
+        { "text": "$y=x^5-3x+2$", "why": "Used the value $2$ from $y'(1)=2$ as the second constant instead of the value $4$ from $y(0)=4$." },
+        { "text": "$y=x^5+7x+2$", "why": "Made both slips: the wrong sign when solving for $A$, and the wrong condition for the second constant." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=\\displaystyle\\int 20x^3\\,dx$\n$=5x^4+A$\n$2=5(1)^4+A$\n$A=-3$\n$\\dfrac{dy}{dx}=5x^4-3$\n$y=\\displaystyle\\int\\left(5x^4-3\\right)dx$\n$=x^5-3x+B$\n$4=0-0+B$\n$B=4$\n$y=x^5-3x+4$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A culture's mass changes at a rate of $\\dfrac{dM}{dt}=8t-6$ grams per hour. The mass is $20$ grams when $t=1$. What is the mass when $t=3$?",
+      "structure": "context-ivp",
+      "mastery": false,
+      "options": [
+        { "text": "$40$ grams", "correct": true },
+        { "text": "$38$ grams", "why": "Used the constant $C=20$ directly, without substituting $t=1$ to find it." },
+        { "text": "$22$ grams", "why": "Stopped at the constant $C=22$ and reported it instead of evaluating $M$ at $t=3$." },
+        { "text": "$72$ grams", "why": "Integrated $8t$ as $8t^2$ instead of $4t^2$." }
+      ],
+      "solution_text": "$M=\\displaystyle\\int(8t-6)\\,dt$\n$=4t^2-6t+C$\n$20=4(1)^2-6(1)+C$\n$20=-2+C$\n$C=22$\n$M=4t^2-6t+22$\nAt $t=3$:\n$M=36-18+22$\n$=40$ grams"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\sin\\dfrac{x}{2}$.",
+      "structure": "general-solution-standard-function",
+      "mastery": false,
+      "options": [
+        { "text": "$y=-2\\cos\\dfrac{x}{2}+C$", "correct": true },
+        { "text": "$y=-\\dfrac{1}{2}\\cos\\dfrac{x}{2}+C$", "why": "Multiplied by the $\\dfrac{1}{2}$ in the angle instead of dividing by it." },
+        { "text": "$y=-2\\sin\\dfrac{x}{2}+C$", "why": "Kept $\\sin$ instead of changing it to $\\cos$, although the coefficient was handled correctly." },
+        { "text": "$y=-\\dfrac{1}{2}\\sin\\dfrac{x}{2}+C$", "why": "Made both slips: kept $\\sin$ and multiplied by $\\dfrac{1}{2}$ rather than dividing." }
+      ],
+      "solution_text": "$y=\\displaystyle\\int\\sin\\dfrac{x}{2}\\,dx$\n$=\\dfrac{-\\cos\\dfrac{x}{2}}{\\frac{1}{2}}+C$\n$=-2\\cos\\dfrac{x}{2}+C$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A curve passes through $(1,4)$ and has gradient $\\dfrac{dy}{dx}=\\dfrac{3}{\\sqrt{x}}-2x$ for $x>0$. Find $y$ when $x=4$.",
+      "structure": "ivp-particular-solution",
+      "mastery": true,
+      "options": [
+        { "text": "$-5$", "correct": true },
+        { "text": "$-4$", "why": "Left the constant of integration as $0$ instead of using the point $(1,4)$ to find it." },
+        { "text": "$0$", "why": "Took the constant to be $4$ from the $y$-value of the point, without substituting $x=1$." },
+        { "text": "$-9.5$", "why": "Integrated $3x^{-\\frac{1}{2}}$ as $\\dfrac{3}{2}\\sqrt{x}$ instead of $6\\sqrt{x}$." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=3x^{-\\frac{1}{2}}-2x$\n$y=\\displaystyle\\int\\left(3x^{-\\frac{1}{2}}-2x\\right)dx$\n$=6x^{\\frac{1}{2}}-x^2+C$\n$4=6(1)-1+C$\n$4=5+C$\n$C=-1$\n$y=6\\sqrt{x}-x^2-1$\nAt $x=4$:\n$y=6(2)-16-1$\n$=-5$"
+    }
+  ]
+}

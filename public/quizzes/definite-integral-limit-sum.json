@@ -1,0 +1,109 @@
+{
+  "skillId": "definite-integral-limit-sum",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.35cm]\n\\fill[gray!35] (2,0) -- (2,4) -- (5,13) -- (5,0) -- cycle;\n\\draw[->] (-1.2,0) -- (6.2,0) node[right] {$x$};\n\\draw[->] (0,-4) -- (0,17) node[above] {$y$};\n\\draw[thick,<->] (-0.3,-2.9) -- (5.5,14.5);\n\\node at (3.4,12) {$y=3x-2$};\n\\foreach \\x in {1,2,3,4,5} \\draw (\\x,0.5) -- (\\x,-0.5) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {4,8,12} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nWhich definite integral gives the area of the shaded region?",
+      "structure": "read-integral-parts",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int_{2}^{5}(3x-2)\\,dx$", "correct": true },
+        { "text": "$\\int_{5}^{2}(3x-2)\\,dx$", "why": "The limits are written in the wrong order; the lower limit is the left edge $x=2$." },
+        { "text": "$\\int_{0}^{3}(3x-2)\\,dx$", "why": "Used the width of the region, $5-2=3$, as the upper limit instead of the actual right edge." },
+        { "text": "$\\int_{4}^{13}(3x-2)\\,dx$", "why": "Used the heights of the region at its two edges as the limits instead of the $x$-values." }
+      ],
+      "solution_text": "The shaded region runs from $x=2$ to $x=5$, so these are the lower and upper limits.\nThe height of the region at each $x$ is $3x-2$, so this is the integrand.\nArea $=\\int_{2}^{5}(3x-2)\\,dx$"
+    },
+    {
+      "id": "q2",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1,0) -- (-1,1.4) -- plot[smooth,domain=-1:5,variable=\\x] ({\\x},{0.2*\\x*\\x+1.2}) -- (5,0) -- cycle;\n\\draw[->] (-2.6,0) -- (6,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,7.8) node[above] {$y$};\n\\draw[thick,<->,domain=-2:5.4,smooth,variable=\\x] plot ({\\x},{0.2*\\x*\\x+1.2});\n\\node at (-1.4,5.6) {$y=f(x)$};\n\\foreach \\x in {-0.5,0,0.5,1,1.5,2,2.5,3,3.5,4,4.5} \\draw[dashed] (\\x,0) -- (\\x,{0.2*\\x*\\x+1.2});\n\\draw (-1,0.15) -- (-1,-0.15) node[below,fill=white,inner sep=1pt] {$-1$};\n\\draw (5,0.15) -- (5,-0.15) node[below,fill=white,inner sep=1pt] {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe interval $-1\\le x\\le 5$ is divided into $12$ equal strips. What is $\\Delta x$?",
+      "structure": "strip-width",
+      "mastery": false,
+      "options": [
+        { "text": "$0.5$", "correct": true },
+        { "text": "$\\frac{5}{12}$", "why": "Used only the upper limit as the width instead of $b-a=5-(-1)=6$." },
+        { "text": "$2$", "why": "Divided the number of strips by the width instead of the width by the number of strips." },
+        { "text": "$\\frac{6}{13}$", "why": "Divided by the number of boundary points, $13$, instead of the number of strips, $12$." }
+      ],
+      "solution_text": "$\\Delta x=\\frac{b-a}{n}$\n$=\\frac{5-(-1)}{12}$\n$=\\frac{6}{12}$\n$=0.5$"
+    },
+    {
+      "id": "q3",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0.8) -- plot[smooth,domain=0:5,variable=\\x] ({\\x},{0.15*\\x*\\x+0.8}) -- (5,0) -- (0,0) -- cycle;\n\\draw[->] (-0.6,0) -- (6.2,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,6.4) node[above] {$y$};\n\\draw[thick,->,domain=0:5.6,smooth,variable=\\x] plot ({\\x},{0.15*\\x*\\x+0.8});\n\\node at (1.2,4.4) {$y=f(x)$};\n\\foreach \\x in {0.5,1,1.5,2,2.5,3,3.5,4,4.5} \\draw[dashed] (\\x,0) -- (\\x,{0.15*\\x*\\x+0.8});\n\\draw (5,0.15) -- (5,-0.15) node[below] {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe interval $0\\le x\\le 5$ is divided into $10$ equal strips, as shown. How many boundary points $x_{0},x_{1},x_{2},\\dots$ are there?",
+      "structure": "strip-width",
+      "mastery": false,
+      "options": [
+        { "text": "$11$", "correct": true },
+        { "text": "$10$", "why": "Counted one boundary point per strip; the extra boundary at the far right end is missed." },
+        { "text": "$9$", "why": "Counted only the boundaries drawn between strips and left out both end points." },
+        { "text": "$20$", "why": "Counted two boundaries for every strip, but neighbouring strips share a boundary." }
+      ],
+      "solution_text": "Each strip has a boundary at its left end and at its right end, and neighbouring strips share a boundary.\nSo $n$ strips have $n+1$ boundary points.\nNumber of boundary points $=10+1$\n$=11$"
+    },
+    {
+      "id": "q4",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm, y=0.25cm]\n\\fill[gray!35] (3,0) -- (3,11) -- (8,21) -- (8,0) -- cycle;\n\\draw[->] (-1.2,0) -- (10.4,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,26) node[above] {$y$};\n\\draw[thick,<->] (-0.5,4) -- (9.6,24.2);\n\\node at (2,18) {$y=2x+5$};\n\\foreach \\x in {2,4,6,8} \\draw (\\x,0.7) -- (\\x,-0.7) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {5,10,15,20} \\draw (0.15,\\y) -- (-0.15,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded area is estimated by rectangles of width $\\Delta x$. Which definite integral does $\\lim_{\\Delta x\\to 0}\\sum_{3}^{8}(2x+5)\\,\\Delta x$ equal?",
+      "structure": "sum-to-integral",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int_{3}^{8}(2x+5)\\,dx$", "correct": true },
+        { "text": "$\\int_{8}^{3}(2x+5)\\,dx$", "why": "Ignored the order of the limits; the lower number of the sum becomes the lower limit of the integral." },
+        { "text": "$\\int_{0}^{5}(2x+5)\\,dx$", "why": "Used the width $8-3=5$ as the upper limit and started the interval at $0$." },
+        { "text": "$\\int_{3}^{8}2x\\,dx+5$", "why": "Left the constant term outside the integrand; the whole of $2x+5$ is the rectangle height." }
+      ],
+      "solution_text": "In the sum, the rectangle height is $2x+5$ and the width is $\\Delta x$.\nThe interval runs from $x=3$ to $x=8$.\n$\\lim_{\\Delta x\\to 0}\\sum_{3}^{8}(2x+5)\\,\\Delta x$\n$=\\int_{3}^{8}(2x+5)\\,dx$"
+    },
+    {
+      "id": "q5",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.4cm]\n\\fill[gray!35] (0,0) -- (0,-9) -- plot[smooth,domain=0:2,variable=\\x] ({\\x},{\\x*\\x-9}) -- (2,0) -- cycle;\n\\draw[->] (-4,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-11) -- (0,4.4) node[above] {$y$};\n\\draw[thick,<->,domain=-3.4:3.4,smooth,variable=\\x] plot ({\\x},{\\x*\\x-9});\n\\node at (2.6,-6) {$y=x^{2}-9$};\n\\foreach \\x in {-3,-2,-1,1,2,3} \\draw (\\x,0.4) -- (\\x,-0.4) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {-9,-6,-3,3} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nWhich statement about $\\int_{0}^{2}(x^{2}-9)\\,dx$ is correct?",
+      "structure": "sign-of-integral",
+      "mastery": false,
+      "options": [
+        { "text": "It is negative, because $f(x)<0$ across the whole interval, so every rectangle height is negative.", "correct": true },
+        { "text": "It is positive, because an area is always a positive quantity.", "why": "Treats a definite integral as an unsigned area; heights below the axis are counted as negative." },
+        { "text": "It is positive, because $x^{2}$ is positive for every $x$ in the interval.", "why": "Judges the sign from one term of the integrand instead of the value of the whole integrand." },
+        { "text": "It is zero, because the curve crosses the $x$-axis inside the interval.", "why": "Assumes a sign change occurs, but $x^{2}-9=0$ only at $x=\\pm 3$, which is outside $0\\le x\\le 2$." }
+      ],
+      "solution_text": "For $0\\le x\\le 2$, the largest value of $x^{2}$ is $4$, so the largest value of $x^{2}-9$ is $-5$.\nEvery value of the integrand is negative, so every rectangle height $f(x)$ is negative.\nThe limit of the sum of these signed areas is negative."
+    },
+    {
+      "id": "q6",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.28cm, y=0.5cm]\n\\fill[gray!35] (0,0) -- (0,2) -- (20,8) -- (20,0) -- cycle;\n\\draw[->] (-3,0) -- (25,0) node[right] {$t$ (s)};\n\\draw[->] (0,-1.5) -- (0,10.5) node[above] {$R$ (kg/s)};\n\\draw[thick,->] (-2,1.4) -- (23,8.9);\n\\node at (6,8) {$R=0.3t+2$};\n\\foreach \\x in {5,10,15,20} \\draw (\\x,0.2) -- (\\x,-0.2) node[below] {$\\x$};\n\\foreach \\y in {2,4,6,8} \\draw (0.4,\\y) -- (-0.4,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nGrain falls onto a pile at a rate $R$ kilograms per second over $0\\le t\\le 20$ seconds. What does $\\sum_{0}^{20}R\\,\\Delta t$ estimate?",
+      "structure": "rate-of-change-meaning",
+      "mastery": false,
+      "options": [
+        { "text": "The total mass of grain, in kilograms, added during the $20$ seconds.", "correct": true },
+        { "text": "The rate, in kilograms per second, at which grain is falling when $t=20$.", "why": "Reads the sum as a single function value at the upper limit rather than a total over the interval." },
+        { "text": "The average rate, in kilograms per second, over the $20$ seconds.", "why": "An average needs a division by the interval length; the sum has no such division." },
+        { "text": "The time, in seconds, taken for $20$ kg of grain to fall.", "why": "Swaps the roles of the quantity being summed and the variable $t$ that the strips divide up." }
+      ],
+      "solution_text": "One rectangle has area $R\\,\\Delta t$, a rate in kilograms per second multiplied by a time in seconds.\nThat product is a mass in kilograms.\nAdding all the rectangles estimates the total mass of grain added over the $20$ seconds, in kilograms."
+    },
+    {
+      "id": "q7",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, y=0.5cm]\n\\fill[gray!35] (-4,0) -- (-4,2) -- (1,7) -- (1,0) -- cycle;\n\\draw[->] (-7.4,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-1.8) -- (0,9.6) node[above] {$y$};\n\\draw[thick,<->] (-6.5,-0.5) -- (2,8);\n\\node at (-4.6,6.5) {$y=x+6$};\n\\foreach \\x in {-6,-4,-2,2} \\draw (\\x,0.2) -- (\\x,-0.2) node[below,fill=white,inner sep=1pt] {$\\x$};\n\\foreach \\y in {2,4,6,8} \\draw (0.1,\\y) -- (-0.1,\\y) node[left,fill=white,inner sep=1pt] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is measured by $\\int_{-4}^{1}(x+6)\\,dx$. Which statement about this integral is correct?",
+      "structure": "read-integral-parts",
+      "mastery": false,
+      "options": [
+        { "text": "The lower limit is $-4$, the upper limit is $1$ and the integrand is $x+6$.", "correct": true },
+        { "text": "The lower limit is $1$, the upper limit is $-4$ and the integrand is $x+6$.", "why": "Takes the number written on top of the integral sign as the lower limit; it is the upper limit." },
+        { "text": "The lower limit is $-4$, the upper limit is $1$ and the integrand is $(x+6)\\,dx$.", "why": "Includes $dx$ in the integrand; $dx$ records which variable is used, it is not part of $f(x)$." },
+        { "text": "The lower limit is $-4$, the upper limit is $5$ and the integrand is $x+6$.", "why": "Uses the width of the interval, $1-(-4)=5$, as the upper limit instead of the right-hand edge $x=1$." }
+      ],
+      "solution_text": "The number at the bottom of the integral sign is the lower limit, $-4$.\nThe number at the top is the upper limit, $1$.\nThe function between the integral sign and $dx$ is the integrand, $x+6$."
+    },
+    {
+      "id": "q8",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.5cm, y=0.35cm]\n\\fill[gray!35] (2,0) -- (2,10) -- plot[smooth,domain=2:10,variable=\\x] ({\\x},{20/\\x}) -- (10,0) -- cycle;\n\\draw[->] (-1.6,0) -- (13.4,0) node[right] {$x$};\n\\draw[->] (0,-2) -- (0,16.5) node[above] {$y$};\n\\draw[thick,<->,domain=1.4:12,smooth,variable=\\x] plot ({\\x},{20/\\x});\n\\node at (7,9) {$y=\\frac{20}{x}$};\n\\foreach \\x in {2,4,6,8,10} \\draw (\\x,0.4) -- (\\x,-0.4) node[below] {$\\x$};\n\\foreach \\y in {4,8,12} \\draw (0.2,\\y) -- (-0.2,\\y) node[left] {$\\y$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is split into $n$ equal strips of width $\\Delta x$, and each rectangle's height is read from a point in its own strip. Which expression gives the exact area of the region?",
+      "structure": "sum-to-integral",
+      "mastery": true,
+      "options": [
+        { "text": "$\\lim_{n\\to\\infty}\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{8}{n}$", "correct": true },
+        { "text": "$\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{8}{n}$", "why": "A sum over $n$ strips is only an estimate; without the limit as $n\\to\\infty$ it is not the exact area." },
+        { "text": "$\\lim_{n\\to\\infty}\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{10}{n}$", "why": "Uses the upper limit $b=10$ as the total width instead of $b-a=8$." },
+        { "text": "$\\lim_{n\\to\\infty}\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{8}{n+1}$", "why": "Divides the width by the number of boundary points, $n+1$, instead of the number of strips, $n$." }
+      ],
+      "solution_text": "The strip width is $\\Delta x=\\frac{b-a}{n}$\n$=\\frac{10-2}{n}$\n$=\\frac{8}{n}$\nEach rectangle has area $\\frac{20}{x}\\cdot\\frac{8}{n}$, so the estimate is $\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{8}{n}$.\nThe estimate becomes exact only in the limit, giving $\\lim_{n\\to\\infty}\\sum_{2}^{10}\\frac{20}{x}\\cdot\\frac{8}{n}$."
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "skillId": "transform-translations",
+  "atomType": "T",
+  "theory": {
+        "intro": "A **translation** slides a graph without changing its size, shape or orientation. Replacing $x$ by $x - a$ shifts it horizontally, and replacing $y$ by $y - b$, which gives $y = f(x) + b$, shifts it vertically.",
+        "facts": [
+          "Replacing $x$ by $x - a$ gives $y = f(x - a)$, which shifts the graph right by $a$ units when $a > 0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.0:2.8, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*(\\x-1.2)*(\\x-1.2)*(\\x-1.2) + 0.5*(\\x-1.2)*(\\x-1.2) - 1.2*(\\x-1.2) - 0.6});\n\\draw[->, red, thick] (0.667,-1.059) -- (1.867,-1.059);\n\\node[red] at (1.267,-1.62) {right $a$};\n\\node[gray] at (-1.6,1.55) {$y=f(x)$};\n\\node[blue] at (1.9,1.55) {$y=f(x-a)$};\n\\end{tikzpicture}\n[/tikz]",
+          "Replacing $y$ by $y - b$ instead gives $y = f(x) + b$, which shifts the graph up by $b$ units when $b > 0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.8,0) -- (3.0,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,3.1) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x + 0.6});\n\\draw[->, red, thick] (1.5,0.075) -- (1.5,1.275);\n\\node[red] at (2.35,0.675) {up $b$};\n\\node[gray] at (-1.3,-1.55) {$y=f(x)$};\n\\node[blue] at (-1.3,2.65) {$y=f(x)+b$};\n\\end{tikzpicture}\n[/tikz]",
+          "A negative value reverses the direction: $a<0$ shifts the graph left by $|a|$ units, and $b<0$ shifts it down by $|b|$.",
+          "Together the two replacements move each point $(x, y)$ to $(x + a, y + b)$.",
+          "A horizontal translation moves the $x$-intercepts and vertical asymptotes but leaves horizontal asymptotes unchanged.",
+          "A vertical translation moves the $y$-intercepts and horizontal asymptotes but leaves vertical asymptotes unchanged.",
+          "Translations are **commutative**: shifting horizontally then vertically gives the same graph as shifting vertically then horizontally.",
+          "To find an unknown translation, replace $x$ by $x - a$ and $y$ by $y - b$ in the original equation, then equate coefficients."
+        ],
+        "steps": [
+          "Identify the replacement: $x \\mapsto x - a$ for horizontal shifts and $y \\mapsto y - b$ (or $y = f(x) + b$) for vertical shifts",
+          "Substitute $(x - a)$ for each occurrence of $x$ and/or add $b$ to the function rule",
+          "Expand and simplify the resulting expression, or map key features (vertex, asymptotes, intercepts) by $(x, y) \\to (x + a, y + b)$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the equation of the curve when $y = x^2$ is translated $3$ units to the right.",
+        "structure": "translate-equation-horizontal",
+        "solution_text": "Replacing $x$ with $x - 3$:\n$y = (x - 3)^2$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = \\dfrac{1}{x}$ is translated $4$ units to the left.",
+        "structure": "translate-equation-horizontal",
+        "solution_text": "Replacing $x$ with $x - (-4) = x + 4$:\n$y = \\dfrac{1}{x + 4}$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = x^3$ is translated $5$ units down.",
+        "structure": "translate-equation-vertical",
+        "solution_text": "Replacing $y$ with $y - (-5) = y + 5$:\n$y + 5 = x^3$\n$y = x^3 - 5$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = 2^x$ is translated $1$ unit up.",
+        "structure": "translate-equation-vertical",
+        "solution_text": "Replacing $y$ with $y - 1$:\n$y - 1 = 2^x$\n$y = 2^x + 1$"
+      },
+      {
+        "question_text": "Find the equation of the circle $x^2 + y^2 = 16$ after it is translated $2$ units right and $3$ units up.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-5.2,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-5.2) -- (0,5.2) node[above] {$y$};\n\\foreach \\x in {-4,4} {\n  \\draw (\\x,0.15) -- (\\x,-0.15);\n}\n\\foreach \\y in {-4,4} {\n  \\draw (0.15,\\y) -- (-0.15,\\y);\n}\n\\node[below right] at (4,0) {$4$};\n\\node[below left] at (-4,0) {$-4$};\n\\node[above left] at (0,4) {$4$};\n\\node[below left] at (0,-4) {$-4$};\n\\draw[thick] (0,0) circle (4);\n\\fill (0,0) circle (2.5pt);\n\\node[below left] at (0,0) {$O$};\n\\node[above right] at (2.83,2.83) {$x^2 + y^2 = 16$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "translate-equation-combined-shift",
+        "solution_text": "Replacing $x$ with $x - 2$ and $y$ with $y - 3$:\n$(x - 2)^2 + (y - 3)^2 = 16$"
+      },
+      {
+        "question_text": "Identify the translation that maps the curve $y = \\sqrt{x}$ onto the curve $y = \\sqrt{x - 6}$.",
+        "structure": "identify-translation-from-equation",
+        "solution_text": "$x$ is replaced with $x - 6$.\nReplacing $x$ with $x - 6$ corresponds to a horizontal shift of $6$ units to the right.\nTranslated $6$ units right"
+      },
+      {
+        "question_text": "The point $A(2, -5)$ lies on $y = f(x)$. Find the coordinates of the corresponding point after the graph is translated $4$ units left and $7$ units up.",
+        "structure": "transform-points-and-features",
+        "solution_text": "A shift of $4$ units left and $7$ units up maps $(x, y) \\to (x - 4, y + 7)$.\n$x = 2 - 4 = -2$\n$y = -5 + 7 = 2$\n$A'(-2, 2)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the equation of the curve when $y = \\sqrt{3x + 1}$ is translated $2$ units to the left.",
+        "structure": "translate-equation-horizontal",
+        "solution_text": "Replace $x$ with $x + 2$:\n$y = \\sqrt{3(x + 2) + 1}$\n$= \\sqrt{3x + 6 + 1}$\n$= \\sqrt{3x + 7}$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = \\dfrac{4}{x - 1}$ is translated $3$ units up, expressed as a single algebraic fraction.",
+        "structure": "translate-equation-vertical",
+        "solution_text": "$y = \\dfrac{4}{x - 1} + 3$\n$= \\dfrac{4 + 3(x - 1)}{x - 1}$\n$= \\dfrac{4 + 3x - 3}{x - 1}$\n$= \\dfrac{3x + 1}{x - 1}$"
+      },
+      {
+        "question_text": "The parabola $y = (x - 1)^2 - 4$ is translated $3$ units left and $5$ units down. Write the new equation in vertex form.",
+        "structure": "translate-equation-combined-shift",
+        "solution_text": "Replace $x$ with $x + 3$ and subtract $5$ from the output:\n$y = ((x + 3) - 1)^2 - 4 - 5$\n$= (x + 2)^2 - 9$"
+      },
+      {
+        "question_text": "The curve $y = \\dfrac{1}{2x - 3}$ was translated horizontally to produce $y = \\dfrac{1}{2x + 7}$. Determine the horizontal translation.",
+        "structure": "identify-translation-from-equation",
+        "solution_text": "Let the horizontal shift be $a$ units right ($x \\mapsto x - a$):\n$y = \\dfrac{1}{2(x - a) - 3} = \\dfrac{1}{2x - 2a - 3}$\nEquating denominators with $2x + 7$:\n$-2a - 3 = 7$\n$-2a = 10$\n$a = -5$\nSince $a = -5$, the curve is translated $5$ units left."
+      },
+      {
+        "question_text": "The parabola $y = 3x^2 + 2$ was translated horizontally to produce $y = 3x^2 - 12x + 14$. Determine the horizontal translation.",
+        "structure": "identify-translation-from-equation",
+        "solution_text": "Let the horizontal shift be $a$ units ($x \\mapsto x - a$):\n$y = 3(x - a)^2 + 2$\n$= 3(x^2 - 2ax + a^2) + 2$\n$= 3x^2 - 6ax + 3a^2 + 2$\nEquating the $x$-coefficients:\n$-6a = -12 \\implies a = 2$\nChecking constant: $3(2)^2 + 2 = 12 + 2 = 14$\nTranslated $2$ units right"
+      },
+      {
+        "question_text": "The hyperbola $y = \\dfrac{1}{x} + 4$ has asymptotes $x = 0$ and $y = 4$. State the equations of the asymptotes after a translation of $3$ units right and $2$ units down.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.6]\n\\draw[->] (-4.5,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,9.2) node[above] {$y$};\n\\foreach \\x in {-4,-2,2,4} {\n  \\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-1,2,4,6,8} {\n  \\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$0$};\n\\draw[dashed, thick] (-4.5,4) -- (4.5,4) node[right] {$y=4$};\n\\draw[dashed, thick] (0,-2.2) -- (0,8.8) node[above right] {$x=0$};\n\\draw[thick, <->, domain=0.23:4.2, samples=60, smooth, variable=\\x] plot ({\\x}, {1/\\x + 4});\n\\draw[thick, <->, domain=-4.2:-0.18, samples=60, smooth, variable=\\x] plot ({\\x}, {1/\\x + 4});\n\\node[above right] at (1.5,5.5) {$y = \\dfrac{1}{x} + 4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "transform-points-and-features",
+        "solution_text": "Vertical asymptote shifts with the horizontal translation:\n$x = 0 + 3 \\implies x = 3$\nHorizontal asymptote shifts with the vertical translation:\n$y = 4 - 2 \\implies y = 2$\n$x = 3$ and $y = 2$"
+      },
+      {
+        "question_text": "The parabola $y = x^2 - 4$ is translated $h$ units to the right ($h > 0$) so that it passes through the point $(5, 5)$. Find the value of $h$.",
+        "structure": "solve-translation-parameter",
+        "solution_text": "The translated parabola has equation $y = (x - h)^2 - 4$.\nSubstituting $(5, 5)$:\n$5 = (5 - h)^2 - 4$\n$(5 - h)^2 = 9$\n$5 - h = \\pm 3$\n$h = 5 - 3 = 2 \\text{ or } h = 5 + 3 = 8$\n$h = 2 \\text{ or } 8$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The parabola $y = (x - 1)(x - 3)$ is translated $k$ units to the right and $k$ units up ($k > 0$). The translated curve passes through the point $(5, 8)$. Find the value of $k$.",
+        "structure": "solve-translation-parameter",
+        "solution_text": "Equation of the translated curve:\n$y = (x - k - 1)(x - k - 3) + k$\nSubstituting $(5, 8)$:\n$8 = (5 - k - 1)(5 - k - 3) + k$\n$8 = (4 - k)(2 - k) + k$\n$8 = 8 - 6k + k^2 + k$\n$8 = k^2 - 5k + 8$\n$k^2 - 5k = 0$\n$k(k - 5) = 0$\nSince $k > 0$, $k = 5$."
+      },
+      {
+        "question_text": "Show that translating the curve $y = 3^x$ by $2$ units left and $4$ units up produces the equation $y = 9 \\times 3^x + 4$.",
+        "structure": "translate-equation-combined-shift",
+        "solution_text": "Translating $2$ units left replaces $x$ with $x + 2$.\nTranslating $4$ units up adds $4$ to the function:\n$y = 3^{x+2} + 4$\n$= 3^x \\times 3^2 + 4$\n$= 9 \\times 3^x + 4$"
+      },
+      {
+        "question_text": "The circle $x^2 + y^2 - 6x + 4y - 12 = 0$ is translated so that its centre lies at $(-2, 5)$. Determine the horizontal and vertical translations applied.",
+        "structure": "identify-translation-from-equation",
+        "solution_text": "Completing the squares for the original circle:\n$(x^2 - 6x + 9) + (y^2 + 4y + 4) = 12 + 9 + 4$\n$(x - 3)^2 + (y + 2)^2 = 25$\nOriginal centre is $(3, -2)$.\nTarget centre is $(-2, 5)$.\nHorizontal change: $-2 - 3 = -5$ ($5$ units left).\nVertical change: $5 - (-2) = 7$ ($7$ units up).\nTranslated $5$ units left and $7$ units up"
+      }
+    ]
+  }
+}

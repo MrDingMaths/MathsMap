@@ -1,0 +1,205 @@
+{
+  "skillId": "solve-arithmetic-series-n",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "How many terms of the arithmetic series $2 + 5 + 8 + 11 + \\dots$ are needed to give a sum of $155$?",
+      "structure": "solve-n-positive-sum-reject-negative",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10$",
+          "correct": true
+        },
+        {
+          "text": "$11$",
+          "why": "Miscalculated the quadratic roots from $3n^2 + n - 310 = 0$."
+        },
+        {
+          "text": "$9$",
+          "why": "Subtracted $1$ from the positive root solution."
+        },
+        {
+          "text": "$31$",
+          "why": "Selected the numerator of the extraneous negative root $-31/3$."
+        }
+      ],
+      "solution_text": "$a = 2, d = 3, S_n = 155$\n$155 = \\dfrac{n}{2}[2(2) + (n - 1)(3)]$\n$310 = n(3n + 1)$\n$3n^2 + n - 310 = 0$\n$(n - 10)(3n + 31) = 0$\n$n = 10 \\text{ or } n = -\\dfrac{31}{3}$\n$\\text{Reject } n = -\\dfrac{31}{3} \\text{ since } n > 0.$\n$n = 10$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find the number of terms of the series $20 + 18 + 16 + \\dots$ required to make the partial sum $S_n = 0$.",
+      "structure": "solve-n-zero-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$21$",
+          "correct": true
+        },
+        {
+          "text": "$20$",
+          "why": "Used $20$ terms without accounting for the zero-sum midpoint."
+        },
+        {
+          "text": "$0$",
+          "why": "Gave the trivial root $n = 0$ instead of the positive solution."
+        },
+        {
+          "text": "$22$",
+          "why": "Added $1$ extra term beyond the zero sum."
+        }
+      ],
+      "solution_text": "$a = 20, d = -2, S_n = 0$\n$0 = \\dfrac{n}{2}[2(20) + (n - 1)(-2)]$\n$0 = \\dfrac{n}{2}(40 - 2n + 2)$\n$0 = \\dfrac{n}{2}(42 - 2n)$\n$n(21 - n) = 0$\n$n = 0 \\text{ or } n = 21$\n$\\text{Since } n > 0, \\text{ reject } n = 0.$\n$n = 21$"
+    },
+    {
+      "id": "q3",
+      "question_text": "For the decreasing series $15 + 13 + 11 + \\dots$, which two values of $n$ give a partial sum of $63$?",
+      "structure": "solve-n-two-positive-roots",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$7 \\text{ and } 9$",
+          "correct": true
+        },
+        {
+          "text": "$6 \\text{ and } 10$",
+          "why": "Selected integers that sum to $16$ but have a product different from $63$."
+        },
+        {
+          "text": "$5 \\text{ and } 11$",
+          "why": "Chose symmetrical values around $8$ that do not satisfy the quadratic."
+        },
+        {
+          "text": "$7 \\text{ only}$",
+          "why": "Omitted the second valid positive integer solution."
+        }
+      ],
+      "solution_text": "$a = 15, d = -2, S_n = 63$\n$63 = \\dfrac{n}{2}[2(15) + (n - 1)(-2)]$\n$126 = n(30 - 2n + 2)$\n$126 = n(32 - 2n)$\n$2n^2 - 32n + 126 = 0$\n$n^2 - 16n + 63 = 0$\n$(n - 7)(n - 9) = 0$\n$n = 7 \\text{ or } n = 9$"
+    },
+    {
+      "id": "q4",
+      "question_text": "How many terms of the arithmetic series $5 + 9 + 13 + \\dots$ must be summed to equal $230$?",
+      "structure": "solve-n-positive-sum-reject-negative",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10$",
+          "correct": true
+        },
+        {
+          "text": "$11$",
+          "why": "Used $a + nd$ instead of $a + (n - 1)d$ when setting up the quadratic."
+        },
+        {
+          "text": "$23$",
+          "why": "Took the magnitude of the rejected fractional root $-23/2$."
+        },
+        {
+          "text": "$8$",
+          "why": "Miscalculated the factorisation of $2n^2 + 3n - 230 = 0$."
+        }
+      ],
+      "solution_text": "$a = 5, d = 4, S_n = 230$\n$230 = \\dfrac{n}{2}[2(5) + (n - 1)(4)]$\n$460 = n(10 + 4n - 4)$\n$4n^2 + 6n - 460 = 0$\n$2n^2 + 3n - 230 = 0$\n$(n - 10)(2n + 23) = 0$\n$n = 10 \\text{ or } n = -\\dfrac{23}{2}$\n$\\text{Reject } n = -\\dfrac{23}{2} \\text{ since } n > 0.$\n$n = 10$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Find the least number of terms of the series $36 + 31 + 26 + \\dots$ for which the partial sum $S_n$ is negative.",
+      "structure": "solve-n-fractional-bound",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$16$",
+          "correct": true
+        },
+        {
+          "text": "$15$",
+          "why": "Found the last term for which the sum is still non-negative ($S_{15} \\ge 0$)."
+        },
+        {
+          "text": "$17$",
+          "why": "Added an extra term beyond the minimal threshold."
+        },
+        {
+          "text": "$14$",
+          "why": "Truncated the inequality $n > 15.4$ instead of taking the next whole integer."
+        }
+      ],
+      "solution_text": "$a = 36, d = -5$\n$S_n < 0 \\implies \\dfrac{n}{2}[2(36) + (n - 1)(-5)] < 0$\n$\\dfrac{n}{2}(72 - 5n + 5) < 0$\n$77 - 5n < 0 \\implies 5n > 77 \\implies n > 15.4$\n$\\text{Least integer is } n = 16.$"
+    },
+    {
+      "id": "q6",
+      "question_text": "An arithmetic series has $d = 2$, last term $l = 25$, and sum $S_n = 168$. If the first term is $a = 3$, find the number of terms $n$.",
+      "structure": "solve-n-simultaneous-with-last-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12$",
+          "correct": true
+        },
+        {
+          "text": "$14$",
+          "why": "Selected the alternative root $n = 14$ which corresponds to $a = -1$."
+        },
+        {
+          "text": "$13$",
+          "why": "Averaged the two roots $12$ and $14$."
+        },
+        {
+          "text": "$11$",
+          "why": "Subtracted $1$ from the correct root."
+        }
+      ],
+      "solution_text": "$S_n = \\dfrac{n}{2}(a + l) \\implies 168 = \\dfrac{n}{2}(3 + 25)$\n$168 = 14n$\n$n = 12$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How many terms of the arithmetic series $-5 - 2 + 1 + 4 + \\dots$ are needed to obtain a sum of $203$?",
+      "structure": "solve-n-positive-sum-reject-negative",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$14$",
+          "correct": true
+        },
+        {
+          "text": "$29$",
+          "why": "Took the numerator of the rejected negative root $-\\dfrac{29}{3}$."
+        },
+        {
+          "text": "$13$",
+          "why": "Subtracted $1$ from the quadratic root."
+        },
+        {
+          "text": "$15$",
+          "why": "Added $1$ extra term to the quadratic root."
+        }
+      ],
+      "solution_text": "$a = -5, d = 3, S_n = 203$\n$203 = \\dfrac{n}{2}[2(-5) + (n - 1)(3)]$\n$406 = n(-10 + 3n - 3)$\n$3n^2 - 13n - 406 = 0$\n$(n - 14)(3n + 29) = 0$\n$n = 14 \\text{ or } n = -\\dfrac{29}{3}$\n$\\text{Reject } n = -\\dfrac{29}{3} \\text{ since } n > 0.$\n$n = 14$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The sum of $n$ terms of an AP is $S_n = n(35 - n)$. Which two values of $n$ give a sum of $300$?",
+      "structure": "solve-n-two-positive-roots",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$15 \\text{ and } 20$",
+          "correct": true
+        },
+        {
+          "text": "$10 \\text{ and } 25$",
+          "why": "Selected numbers summing to $35$ with product $250$ instead of $300$."
+        },
+        {
+          "text": "$12 \\text{ and } 23$",
+          "why": "Miscalculated factor pairs of $300$."
+        },
+        {
+          "text": "$15 \\text{ only}$",
+          "why": "Omitted the second positive integer root."
+        }
+      ],
+      "solution_text": "$n(35 - n) = 300$\n$35n - n^2 = 300$\n$n^2 - 35n + 300 = 0$\n$(n - 15)(n - 20) = 0$\n$n = 15 \\text{ or } n = 20$"
+    }
+  ]
+}

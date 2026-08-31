@@ -1,0 +1,118 @@
+{
+  "batch": "W4-6",
+  "model": "gemini-3.7-flash-high",
+  "note": "Advanced Y12 applications of calculus (17) + the discrete half of Advanced Y12 random variables (6) = 23. ORDER: needs W4-4 (second derivative, exponential/log/trig derivatives) and W4-5 (integration of those functions, for the rates-by-integration and motion skills).",
+  "sections": [
+    {
+      "name": "second-derivative-basics",
+      "skillIds": ["differentiability-continuity", "second-derivative"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 1_Turning points inflections and curve-sketching.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`differentiability-continuity` = the relationship in ONE direction only — differentiable implies continuous, but continuous does NOT imply differentiable — with the standard counterexamples (a corner such as $y=|x|$ at $0$, a cusp, a vertical tangent) and identifying from a graph or a piecewise definition where a function fails to be differentiable. `second-derivative` = computing $f''(x)$, the notations $\\frac{d^{2}y}{dx^{2}}$ and $y''$, and evaluating it at a point.",
+        "THE IMPLICATION RUNS ONE WAY. 'Continuous therefore differentiable' is the compulsory named distractor for `differentiability-continuity`, and at least half its items must present a function that IS continuous and is NOT differentiable somewhere.",
+        "$\\frac{d^{2}y}{dx^{2}}$ IS NOT $\\left(\\frac{dy}{dx}\\right)^{2}$. Squaring the first derivative is the compulsory named distractor for `second-derivative`, and at least one item must have a first derivative whose square is a plausible offered option.",
+        "DO NOT INTERPRET THE SECOND DERIVATIVE HERE — concavity, inflections and the second-derivative test are the next section's skills. `second-derivative` is computation and notation only.",
+        "FIGURES: `differentiability-continuity` needs them — draw the corner, the cusp, the jump and the vertical tangent as `[tikz]` curves with the offending point marked but NOT labelled with the reason. Plot as functions restricted to the axis window (a piecewise function is two separate restricted plots); never `^` inside a plotted expression. `second-derivative` is figure-free.",
+        "A PIECEWISE FUNCTION'S CONTINUITY AND DIFFERENTIABILITY AT THE JOIN ARE SEPARATE CHECKS — equal values, then equal one-sided derivatives. Any item asking for a constant that makes a piecewise function differentiable must have BOTH conditions solvable and must show both; verify the solution satisfies both before keying."
+      ]
+    },
+    {
+      "name": "stationary-points-and-concavity",
+      "skillIds": ["classify-stationary-first-derivative", "concavity-second-derivative", "points-of-inflection", "classify-stationary-second-derivative"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 1_Turning points inflections and curve-sketching.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `classify-stationary-first-derivative` = the sign table for $f'$ either side of a stationary point (maximum, minimum, horizontal point of inflection). `concavity-second-derivative` = the sign of $f''$ as concave up or down over an interval. `points-of-inflection` = where $f''=0$ AND CHANGES SIGN, including the horizontal case. `classify-stationary-second-derivative` = using the sign of $f''$ at a stationary point, and the inconclusive case $f''=0$.",
+        "$f''(x)=0$ IS NOT SUFFICIENT FOR AN INFLECTION — the concavity must actually CHANGE. $y=x^{4}$ at the origin is the standard counterexample and must appear. 'Solved $f''=0$ and stopped' is the compulsory named distractor for `points-of-inflection`.",
+        "THE SECOND-DERIVATIVE TEST IS INCONCLUSIVE WHEN $f''=0$ AT A STATIONARY POINT, and the first-derivative test must then be used. `classify-stationary-second-derivative` must include one such item whose correct answer is 'the test fails; use the sign of $f'$'.",
+        "CONCAVE UP MEANS $f''>0$ — an increasing gradient — and has nothing to do with the function increasing. 'Confused concave up with increasing' is the compulsory named distractor for `concavity-second-derivative`.",
+        "SOLVE EVERY STATIONARY POINT AND EVERY INFLECTION EXACTLY AND SUBSTITUTE BACK for the $y$ value. An item whose keyed maximum is not actually a maximum, or whose keyed point does not lie on the curve, is the wrong-key class that no gate script catches — check the sign of $f'$ on both sides numerically before keying, and check the classification is consistent with the drawn curve. A cubic with a stated local maximum BELOW its local minimum is impossible.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE where the skill is graphical (reading concavity or classifying from a drawn curve) and a solution figure elsewhere. Plot curves as functions with `domain=` clipped to the axis window — a cubic clipped INSIDE its turning points shows the wrong shape, so compute where the curve leaves the window. Never `^` inside a plotted expression. Never pre-mark or coordinate-label the stationary point a question asks the student to find.",
+        "The shipped Y11 skills `stationary-points` and `increasing-decreasing-functions` own the first-derivative basics on polynomials. Take the space they cannot: exponential, logarithmic and trigonometric functions, the second derivative, and inflections."
+      ]
+    },
+    {
+      "name": "curve-sketching",
+      "skillIds": ["curve-sketching-calculus", "graph-first-second-derivative"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 1_Turning points inflections and curve-sketching.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`curve-sketching-calculus` = the full routine — intercepts, stationary points and their nature, inflections, concavity, behaviour as $x\\to\\pm\\infty$ and any asymptotes — assembled into one sketch. `graph-first-second-derivative` = reading the graph of $f$ to sketch $f'$ (and $f''$), or the reverse: given $f'$, describing $f$.",
+        "A STATIONARY POINT OF $f$ IS A ZERO OF $f'$, AND AN INFLECTION OF $f$ IS A TURNING POINT OF $f'$. Both correspondences must be stated in the theory and exercised, and 'read a maximum of $f$ as a maximum of $f'$' is the compulsory named distractor for `graph-first-second-derivative`.",
+        "$f'$ IS ONE DEGREE LOWER THAN $f$: a cubic's derivative is a parabola. An offered option of the wrong degree is a good distractor, but the KEY's shape must be checked against the degree before it is keyed.",
+        "EVERY ITEM IN BOTH SKILLS CARRIES A `[tikz]` FIGURE — these are the wave's most figure-dependent skills and `audit-figure-quota` requires them. Plot every curve as a FUNCTION with a `domain=` clipped to the axis window and compute where it leaves; never `^` inside a plotted expression (write `exp(x)`, `exp(x*ln(3))`). For a 'sketch $f'$ from $f$' item the question figure shows only $f$; the options are four DRAWN candidate derivative curves, each a genuine function plot, differing in a stated feature — not in a hand-nudged wiggle.",
+        "VERIFY THE PICTURE AGAINST THE CLAIM by evaluating the plotted expression at every $x$ the stem names: the drawn intercepts, turning points and inflections must be exactly where the algebra puts them. A sketch that contradicts its own answer key is this topic's dominant defect and no script sees it.",
+        "Keep the two skills apart: `curve-sketching-calculus` produces one sketch of a given function; `graph-first-second-derivative` never asks for the equation, only for the shape relationship. An item giving an equation and asking for the derivative's graph belongs to the second skill only if the reasoning is graphical."
+      ]
+    },
+    {
+      "name": "optimisation",
+      "skillIds": ["model-optimisation", "global-maximum-minimum", "solve-optimisation"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 2_Optimisation.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "polygons"],
+      "hazards": [
+        "One routine per skill. `model-optimisation` = SETTING UP only — writing the quantity to be optimised as a function of ONE variable using the constraint, and stating the domain. No differentiation. `global-maximum-minimum` = comparing stationary values with the ENDPOINT values on a closed domain to find the global extremum. `solve-optimisation` = the whole routine end to end on a practical problem.",
+        "THE GLOBAL MAXIMUM MAY BE AT AN ENDPOINT. Checking only the stationary points is the compulsory named distractor for `global-maximum-minimum`, and at least half its items must have the answer at an endpoint.",
+        "THE DOMAIN IS PART OF THE MODEL: a length cannot be negative, and a constraint caps it. Every `model-optimisation` item must state the domain, and an item whose stated optimum lies outside its own domain is a false premise — check it before keying.",
+        "THE QUESTION ASKS FOR EITHER THE OPTIMISING VALUE OR THE OPTIMUM ITSELF — the $x$ that maximises the area, or the maximum area. Pin which in every stem and never place both in one option list; 'gave $x$ when the area was asked for' is the compulsory named distractor for `solve-optimisation`.",
+        "VERIFY THE OPTIMUM IS AN OPTIMUM, not just a stationary point: show the second-derivative test or a sign table in every solution. And re-derive the model from the stated constraint yourself before keying — a wrong constraint gives internally consistent but wrong answers throughout the item.",
+        "FIGURES: any item whose geometry is described in prose (a box folded from a rectangle with corners cut, a fence against a wall, a cylinder inscribed in a cone) carries a labelled `[tikz]` diagram instead — draw the shape with the variable marked and the constraint shown, drawn so labelled lengths match drawn lengths in proportion (`audit-figure-scale` checks this), and never mark the optimal value on it. Where a graph of the quantity is drawn, plot it as a function clipped to the axis window.",
+        "Give each of the three skills its own context family and never reuse a scenario across them."
+      ]
+    },
+    {
+      "name": "rates-of-change",
+      "skillIds": ["rates-of-change-derivatives", "rates-of-change-integration", "exponential-rate-proportional", "model-exponential-growth-decay-calculus"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 3_Rates of change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `rates-of-change-derivatives` = differentiating a quantity given as a function of time and interpreting $\\frac{dQ}{dt}$ with its units and sign. `rates-of-change-integration` = the reverse — given the RATE, integrate to find the total change or the quantity, using an initial condition. `exponential-rate-proportional` = RECOGNISING that $\\frac{dQ}{dt}=kQ$ has solution $Q=Ae^{kt}$, and verifying it by differentiation. `model-exponential-growth-decay-calculus` = applying that model — finding $A$ and $k$ from data, predicting, and finding the time to reach a value or the half-life.",
+        "A NEGATIVE $k$ IS DECAY AND A NEGATIVE RATE MEANS THE QUANTITY IS FALLING. Every skill needs at least one decreasing item, and 'reported a negative rate as a decrease of a negative amount' or 'took $k$ positive for decay' must be named distractors.",
+        "$\\int_{a}^{b}\\frac{dQ}{dt}dt$ IS THE CHANGE IN $Q$, NOT $Q$ ITSELF. `rates-of-change-integration` must include one item asking for the total change and one asking for the final amount (which needs the initial value), and 'omitted the initial value' is the compulsory named distractor. Pin which is wanted in every stem.",
+        "UNITS ARE PART OF THE ANSWER: a rate is in units per unit time (litres per minute, °C per hour). State the units in every stem and every key; never place a rate and a quantity in one option list.",
+        "SOLVING FOR $t$ NEEDS A LOGARITHM, and the answer must be interpreted in the context's time units and rounded as the stem pins. Recompute $\\ln$ evaluations digit by digit — this is where prose arithmetic fails — and check the answer is inside the model's sensible domain.",
+        "FIGURES: growth and decay curves where a graph genuinely carries the item (reading a half-life, comparing two rates). Plot as a function clipped to the axis window and NEVER use `^` inside a plotted expression: write $Ae^{kt}$ as `A*exp(k*x)` and $2^{t}$ as `exp(x*ln(2))`. The horizontal asymptote is never crossed; do not draw a decay curve reaching the axis.",
+        "The shipped Y11 skill `exponential-growth-decay` and the Standard `exponential-growth-decay-model` own the algebraic $y=ka^{x}$ treatment. This section is the CALCULUS treatment: every item must involve $\\frac{dQ}{dt}$ explicitly."
+      ]
+    },
+    {
+      "name": "motion-in-a-straight-line",
+      "skillIds": ["velocity-acceleration-calculus", "motion-displacement-velocity-acceleration"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Applications of Calculus 3_Rates of change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`velocity-acceleration-calculus` = differentiating a displacement function to get $v=\\dot{x}$ and $a=\\ddot{x}$, and evaluating them at a time. `motion-displacement-velocity-acceleration` = the whole relationship in both directions, including integrating acceleration back to velocity and displacement with initial conditions, and interpreting the signs (at rest, changing direction, speeding up).",
+        "DISPLACEMENT IS NOT DISTANCE TRAVELLED. If the particle changes direction inside the interval, the distance travelled is the sum of the magnitudes of each leg and is LARGER than $|x(b)-x(a)|$. Every item must state which is wanted, at least one must have a direction change inside the interval, and 'gave the displacement when the distance was asked for' is the compulsory named distractor.",
+        "SPEED IS $|v|$, AND 'SPEEDING UP' MEANS $v$ AND $a$ HAVE THE SAME SIGN — not that $a>0$. That distinction must appear as an item with the misconception named.",
+        "AT REST MEANS $v=0$, NOT $x=0$. Include both conditions in the section and never let one item's stem be ambiguous between them.",
+        "SOLVE $v=0$ EXACTLY and check every root lies inside the stated time interval — and that $t\\ge0$. A keyed direction change at a negative time is a false premise. Substitute every answer back into the original displacement function before keying.",
+        "FIGURES: displacement–time and velocity–time graphs where the item reads them. Plot as functions clipped to the axis window (never `^` in a plotted expression), tick the time axis at the values the stem uses, and do not mark the times of rest on a question figure.",
+        "This is motion in a STRAIGHT LINE, in one dimension. Vector motion in two dimensions is an Extension 1 topic generated in W4-11 — no item here may use $\\underset{\\sim}{r}(t)$, components or a projectile."
+      ]
+    },
+    {
+      "name": "discrete-random-variables",
+      "skillIds": ["discrete-probability-distribution", "uniform-discrete-distribution", "expected-value-discrete", "variance-discrete", "solve-discrete-distribution-problems", "linearity-of-expectation"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Random Variables 1_Discrete random variables.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["tables", "data-displays"],
+      "hazards": [
+        "One routine per skill. `discrete-probability-distribution` = what a discrete random variable IS, reading and building a probability distribution table, and the requirement $\\sum P(X=x)=1$ (including solving for an unknown probability). `uniform-discrete-distribution` = the equally-likely case, $P(X=x)=\\frac{1}{n}$, and its mean and variance. `expected-value-discrete` = $E(X)=\\sum xP(X=x)$ and its interpretation as a long-run average. `variance-discrete` = $\\mathrm{Var}(X)=E(X^{2})-[E(X)]^{2}$ (and the $\\sum(x-\\mu)^{2}P(x)$ form) plus the standard deviation. `solve-discrete-distribution-problems` = applied problems combining the above, including a fair-game or expected-winnings judgement. `linearity-of-expectation` = $E(aX+b)=aE(X)+b$ and $\\mathrm{Var}(aX+b)=a^{2}\\mathrm{Var}(X)$.",
+        "$\\mathrm{Var}(aX+b)=a^{2}\\mathrm{Var}(X)$ — THE $b$ DROPS OUT AND THE $a$ IS SQUARED. Both slips ('added $b$ to the variance', 'multiplied by $a$ not $a^{2}$') are compulsory named distractors for `linearity-of-expectation`, and every item there must have $b\\ne0$ and $a\\ne1$.",
+        "$E(X^{2})\\ne[E(X)]^{2}$. Swapping them is the compulsory named distractor for `variance-discrete`, and the two values must be genuinely different in every item — check that before keying.",
+        "THE EXPECTED VALUE NEED NOT BE A POSSIBLE VALUE of the variable (an expected $2.4$ children), and it is NOT the most likely value. Both misreadings must appear as named distractors, and at least one item must have a non-integer mean.",
+        "EVERY DISTRIBUTION'S PROBABILITIES MUST SUM TO EXACTLY 1 — check every table you write, in every skill, before keying anything from it. A table summing to $0.99$ is a false premise that makes every derived answer wrong while remaining internally consistent.",
+        "PROBABILITY DISTRIBUTION TABLES ARE KaTeX `array` BLOCKS INSIDE `$…$`, never [tikz] and never Markdown tables. A probability HISTOGRAM (a legitimate display for `discrete-probability-distribution`) is a [tikz] bar chart following the data-displays anti-collision rules — title centred above, y-label rotated at the left midpoint, x-label on its own centred line under the categories.",
+        "Give each skill its own context family (dice/spinner, insurance, a game with a stake, quality control, a queue) and check no two items across the six skills share a value signature — small integer distributions collide easily.",
+        "The BINOMIAL distribution is an Extension 1 topic generated in W4-7. No item here may use $\\binom{n}{r}p^{r}(1-p)^{n-r}$ or the formulas $np$ and $np(1-p)$."
+      ]
+    }
+  ]
+}

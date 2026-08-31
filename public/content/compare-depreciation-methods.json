@@ -1,0 +1,115 @@
+{
+  "skillId": "compare-depreciation-methods",
+  "atomType": "Com",
+  "theory": {
+    "intro": "Straight-line depreciation takes off the same **dollar amount** each period; declining balance takes off the same **percentage** of the current value. So one graph is a straight line and the other is a curve that flattens out.",
+    "facts": [
+      "Straight-line uses $S = V_{0} - Dn$ and declining balance uses $S = V_{0}(1-r)^{n}$, both starting from the same $V_{0}$.",
+      "Straight-line loses the same amount every period, so its graph is a straight line that reaches zero.",
+      "Declining balance loses a percentage of a smaller amount each period, so its graph is a curve that never reaches zero.",
+      "Declining balance falls faster than straight-line at first, then more slowly, so the two graphs usually cross once.",
+      "Where the graphs cross, the two methods give the same salvage value; after that the declining-balance value is the higher one.",
+      "To compare, work out both salvage values for the same $V_{0}$ and the same $n$, then say which is lower.",
+      "A method can change part-way through: work out the value at the changeover, then use it as the starting value for the second method.",
+      "Both graphs start at the same value $V_{0}$ but fall in different shapes.[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8.5cm,height=6cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=8.8,ymin=0,ymax=11.5,xtick=\\empty,ytick=\\empty,samples=60,clip=false,xlabel={Time},ylabel={Value}]\n\\addplot[thick,blue,domain=0:8]{10 - 1.25*x} node[pos=0.18,above right,blue,font=\\small]{Straight-line};\n\\addplot[thick,red,dashed,domain=0:8]{10*exp(x*ln(0.78))} node[pos=0.42,below left,red,font=\\small]{Declining-balance};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "Work out the straight-line value with $S = V_{0} - Dn$.",
+      "Work out the declining-balance value with $S = V_{0}(1-r)^{n}$.",
+      "Compare the two values and answer the question asked."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A van costs $\\$30\\,000$. Find its value after $3$ years under straight-line depreciation of $\\$4200$ per year, and under declining-balance depreciation at $12\\%$ p.a. Give money answers to the nearest cent.",
+        "structure": "compare-values",
+        "solution_text": "Straight-line:\n$S = V_{0} - Dn$\n$= 30\\,000 - 4200(3)$\n$= \\$17\\,400$\n\nDeclining balance:\n$S = V_{0}(1-r)^{n}$\n$= 30\\,000(0.88)^{3}$\n$= \\$20\\,444.16$"
+      },
+      {
+        "question_text": "A machine costs $\\$44\\,000$. Straight-line depreciation removes $\\$5500$ per year; declining-balance depreciation is $20\\%$ p.a. Which method gives the **lower** salvage value after $4$ years, and what is it?",
+        "structure": "compare-values",
+        "solution_text": "Straight-line:\n$S = 44\\,000 - 5500(4)$\n$= \\$22\\,000$\n\nDeclining balance:\n$S = 44\\,000(0.8)^{4}$\n$= \\$18\\,022.40$\n\nThe declining-balance method gives the lower salvage value, $\\$18\\,022.40$."
+      },
+      {
+        "question_text": "An asset's recorded value falls by exactly $\\$2500$ every year. Which method of depreciation is being used, and will the value ever reach zero?",
+        "structure": "describe-difference",
+        "solution_text": "The same **dollar amount** is lost each year, so this is straight-line depreciation.\nStraight-line depreciation does reach zero, after $n = \\dfrac{V_{0}}{2500}$ years."
+      },
+      {
+        "question_text": "A $\\$12\\,000$ asset depreciates at $30\\%$ p.a. by the declining-balance method. Explain why its value never reaches zero.",
+        "structure": "describe-difference",
+        "solution_text": "$S = 12\\,000(0.7)^{n}$\nFor every value of $n$, $(0.7)^{n} > 0$, so $S > 0$.\nEach year takes off $30\\%$ of a smaller amount, so a fraction of the value always remains."
+      },
+      {
+        "question_text": "Equipment costing $\\$18\\,000$ can be depreciated by $\\$2000$ per year (straight-line) or at $18\\%$ p.a. (declining balance). Find the **total depreciation** over $5$ years under each method, to the nearest cent.",
+        "structure": "compare-totals",
+        "solution_text": "Straight-line:\nTotal depreciation $= 2000(5)$\n$= \\$10\\,000$\n\nDeclining balance:\n$S = 18\\,000(0.82)^{5}$\n$= \\$6673.32$\nTotal depreciation $= 18\\,000 - 6673.32$\n$= \\$11\\,326.68$"
+      },
+      {
+        "question_text": "The graph shows a $\\$24\\,000$ asset depreciated by both methods.\n\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=9.5cm,height=7cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=8.6,ymin=0,ymax=26000,xtick={0,1,2,3,4,5,6,7,8},ytick={0,3000,6000,9000,12000,15000,18000,21000,24000},grid=both,samples=60,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Years, $n$},ylabel={Value (\\$)},ylabel near ticks]\n\\addplot[thick,blue,domain=0:8]{24000 - 3000*x} node[pos=0.15,above right,blue,font=\\small]{Straight-line};\n\\addplot[thick,red,dashed,domain=0:8]{24000*exp(x*ln(0.8))} node[pos=0.625,below left,red,font=\\small]{Declining-balance};\n\\end{axis}\n\\end{tikzpicture}[/tikz]\n\nBetween which two whole years do the two methods give the same value?",
+        "structure": "graph-read-compare",
+        "solution_text": "The two graphs cross once.\nAt $n = 5$ the straight line is still above the curve.\nAt $n = 6$ the straight line is below the curve.\nThe values are equal between $5$ and $6$ years."
+      },
+      {
+        "question_text": "An asset costing $\\$16\\,000$ is depreciated either by $\\$2600$ per year (straight-line) or at $25\\%$ p.a. (declining balance). Between which two whole years do the two methods give the same value?",
+        "structure": "crossover",
+        "solution_text": "Straight-line at $n = 4$: $16\\,000 - 2600(4) = \\$5600$\nDeclining balance at $n = 4$: $16\\,000(0.75)^{4} = \\$5062.50$\n\nStraight-line at $n = 5$: $16\\,000 - 2600(5) = \\$3000$\nDeclining balance at $n = 5$: $16\\,000(0.75)^{5} = \\$3796.88$\n\nThe straight-line value drops below the declining-balance value between $4$ and $5$ years."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "An asset costing $\\$25\\,000$ depreciates at $20\\%$ p.a. by the declining-balance method. What annual straight-line amount would give the same value after $4$ years?",
+        "structure": "equivalent-amount",
+        "solution_text": "$S = 25\\,000(0.8)^{4}$\n$= \\$10\\,240$\n\n$D = \\dfrac{V_{0} - S}{n}$\n$= \\dfrac{25\\,000 - 10\\,240}{4}$\n$= \\dfrac{14\\,760}{4}$\n$= \\$3690$ per year"
+      },
+      {
+        "question_text": "A car costing $\\$50\\,000$ is depreciated by $\\$4000$ per year for $3$ years, after which the declining-balance method at $25\\%$ p.a. is used. Find its value $7$ years after purchase, to the nearest cent.",
+        "structure": "mixed-methods",
+        "solution_text": "First $3$ years, straight-line:\n$S = 50\\,000 - 4000(3)$\n$= \\$38\\,000$\n\nNext $7 - 3 = 4$ years, declining balance:\n$S = 38\\,000(0.75)^{4}$\n$= \\$12\\,023.44$"
+      },
+      {
+        "question_text": "An asset costs $\\$21\\,000$. Straight-line depreciation removes $\\$1800$ per year; declining-balance depreciation is $10\\%$ p.a. Which method gives the **higher** value after $6$ years, and what is it?",
+        "structure": "compare-values",
+        "solution_text": "Straight-line:\n$S = 21\\,000 - 1800(6)$\n$= \\$10\\,200$\n\nDeclining balance:\n$S = 21\\,000(0.9)^{6}$\n$= \\$11\\,160.26$\n\nThe declining-balance method gives the higher value, $\\$11\\,160.26$."
+      },
+      {
+        "question_text": "An asset costing $\\$36\\,000$ can be depreciated by $\\$5000$ per year (straight-line) or at $22\\%$ p.a. (declining balance). After how many whole years is the straight-line value first below the declining-balance value?",
+        "structure": "crossover",
+        "solution_text": "At $n = 5$: straight-line $= 36\\,000 - 5000(5) = \\$11\\,000$; declining balance $= 36\\,000(0.78)^{5} = \\$10\\,393.83$\nAt $n = 6$: straight-line $= 36\\,000 - 5000(6) = \\$6000$; declining balance $= 36\\,000(0.78)^{6} = \\$8107.19$\n\nThe straight-line value is first the lower one after $6$ years."
+      },
+      {
+        "question_text": "An asset costing $\\$60\\,000$ is depreciated by $\\$7500$ per year using the straight-line method. What declining-balance rate would give the same value after $2$ years? Answer to one decimal place.",
+        "structure": "equivalent-amount",
+        "solution_text": "Straight-line:\n$S = 60\\,000 - 7500(2)$\n$= \\$45\\,000$\n\nDeclining balance:\n$45\\,000 = 60\\,000(1-r)^{2}$\n$(1-r)^{2} = 0.75$\n$1-r = \\sqrt{0.75}$\n$= 0.86602\\ldots$\n$r = 0.13397\\ldots$\n$= 13.4\\%$ p.a."
+      },
+      {
+        "question_text": "A $\\$32\\,000$ asset is depreciated either by $\\$4000$ per year (straight-line) or at $15\\%$ p.a. (declining balance). How much more total depreciation does the method with the larger loss give over $4$ years?",
+        "structure": "compare-totals",
+        "solution_text": "Straight-line total $= 4000(4)$\n$= \\$16\\,000$\n\nDeclining balance:\n$S = 32\\,000(0.85)^{4}$\n$= \\$16\\,704.20$\nTotal depreciation $= 32\\,000 - 16\\,704.20$\n$= \\$15\\,295.80$\n\nStraight-line loses more:\n$16\\,000 - 15\\,295.80 = \\$704.20$ more"
+      },
+      {
+        "question_text": "A machine costing $\\$80\\,000$ is depreciated at $20\\%$ p.a. by the declining-balance method for $2$ years, after which the firm switches to straight-line depreciation of $\\$9000$ per year. Find its value $5$ years after purchase.",
+        "structure": "mixed-methods",
+        "solution_text": "First $2$ years, declining balance:\n$S = 80\\,000(0.8)^{2}$\n$= \\$51\\,200$\n\nNext $5 - 2 = 3$ years, straight-line:\n$S = 51\\,200 - 9000(3)$\n$= 51\\,200 - 27\\,000$\n$= \\$24\\,200$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A council leases equipment valued at $\\$70\\,000$. Method A is straight-line depreciation of $\\$6800$ per year; Method B is declining-balance depreciation at $14\\%$ p.a. Under which method is the salvage value lower at the end of $4$ years? Justify your answer with calculations.",
+        "structure": "compare-values",
+        "solution_text": "Method A:\n$S = V_{0} - Dn$\n$= 70\\,000 - 6800(4)$\n$= \\$42\\,800$\n\nMethod B:\n$S = V_{0}(1-r)^{n}$\n$= 70\\,000(0.86)^{4}$\n$= \\$38\\,290.57$\n\nSince $\\$38\\,290.57 < \\$42\\,800$, Method B (declining balance) gives the lower salvage value."
+      },
+      {
+        "question_text": "An asset costs $\\$54\\,000$. Straight-line depreciation writes it down to zero over $9$ years; declining-balance depreciation is $25\\%$ p.a. After how many whole years is the declining-balance value first greater than the straight-line value?",
+        "structure": "crossover",
+        "solution_text": "$D = \\dfrac{54\\,000}{9}$\n$= \\$6000$ per year\n\nAt $n = 8$: straight-line $= 54\\,000 - 6000(8) = \\$6000$; declining balance $= 54\\,000(0.75)^{8} = \\$5406.10$\nAt $n = 9$: straight-line $= 54\\,000 - 6000(9) = \\$0$; declining balance $= 54\\,000(0.75)^{9} = \\$4054.57$\n\nThe declining-balance value is first the greater one after $9$ years."
+      },
+      {
+        "question_text": "A business buys a press for $\\$120\\,000$. It is depreciated by the straight-line method at $\\$11\\,000$ per year for $5$ years, after which the declining-balance method at $30\\%$ p.a. is used. Find the **total depreciation** at the end of $9$ years, to the nearest cent.",
+        "structure": "mixed-methods",
+        "solution_text": "First $5$ years, straight-line:\n$S = 120\\,000 - 11\\,000(5)$\n$= \\$65\\,000$\n\nNext $9 - 5 = 4$ years, declining balance:\n$S = 65\\,000(0.7)^{4}$\n$= \\$15\\,606.50$\n\nTotal depreciation $= 120\\,000 - 15\\,606.50$\n$= \\$104\\,393.50$"
+      }
+    ]
+  }
+}

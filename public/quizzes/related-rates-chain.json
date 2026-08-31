@@ -1,0 +1,158 @@
+{
+  "skillId": "related-rates-chain",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A quantity $y$ depends on $x$, and $x$ changes with time $t$. You know $\\dfrac{dx}{dt}$ and want $\\dfrac{dy}{dt}$. Which product gives $\\dfrac{dy}{dt}$?",
+      "structure": "chain-rule-setup",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dy}{dx} \\times \\dfrac{dx}{dt}$", "correct": true },
+        { "text": "$\\dfrac{dx}{dy} \\times \\dfrac{dx}{dt}$", "why": "Inverted the first factor, so the product is $\\dfrac{dx^{2}}{dy\\,dt}$ and not $\\dfrac{dy}{dt}$." },
+        { "text": "$\\dfrac{dy}{dx} \\times \\dfrac{dt}{dx}$", "why": "Inverted the given rate, so the $dx$ terms do not cancel." },
+        { "text": "$\\dfrac{dx}{dy} \\times \\dfrac{dt}{dx}$", "why": "Inverted both factors, giving $\\dfrac{dt}{dy}$, which is the reciprocal of the rate wanted." }
+      ],
+      "solution_text": "The middle variable must cancel, so $dx$ appears once on the bottom and once on the top.\n$\\dfrac{dy}{dt} = \\dfrac{dy}{dx} \\times \\dfrac{dx}{dt}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Given $y = 4x^{2} + 3x$ and $\\dfrac{dx}{dt} = 2$ units/s, find $\\dfrac{dy}{dt}$ when $x = 5$.",
+      "structure": "evaluate-forward-rate",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$86$ units/s",
+          "correct": true
+        },
+        {
+          "text": "$43$ units/s",
+          "why": "Stopped at $\\dfrac{dy}{dx} = 43$ and never multiplied by the given rate $\\dfrac{dx}{dt} = 2$."
+        },
+        {
+          "text": "$80$ units/s",
+          "why": "Dropped the $+3x$ term when differentiating, using $\\dfrac{dy}{dx} = 8x = 40$."
+        },
+        {
+          "text": "$215$ units/s",
+          "why": "Multiplied by the value $x = 5$ instead of by the rate $\\dfrac{dx}{dt} = 2$."
+        }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx} = 8x + 3$\n$\\dfrac{dy}{dt} = \\dfrac{dy}{dx} \\times \\dfrac{dx}{dt}$\n$= (8x + 3) \\times 2$\nWhen $x = 5$:\n$\\dfrac{dy}{dt} = (40 + 3) \\times 2$\n$= 43 \\times 2$\n$= 86$ units/s"
+    },
+    {
+      "id": "q3",
+      "question_text": "Given $y = x^{3} + 2x$, where $x$ is decreasing at $4$ units/s, find $\\dfrac{dy}{dt}$ when $x = 3$.",
+      "structure": "evaluate-forward-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$-116$ units/s", "correct": true },
+        { "text": "$116$ units/s", "why": "Used $\\dfrac{dx}{dt} = 4$ instead of $-4$, ignoring that $x$ is decreasing." },
+        { "text": "$-108$ units/s", "why": "Differentiated only $x^{3}$ and dropped the $+2x$ term." },
+        { "text": "$29$ units/s", "why": "Stopped at $\\dfrac{dy}{dx} = 3x^{2} + 2$ without multiplying by the given rate." }
+      ],
+      "solution_text": "$x$ is decreasing, so $\\dfrac{dx}{dt} = -4$ units/s.\n$\\dfrac{dy}{dx} = 3x^{2} + 2$\n$\\dfrac{dy}{dt} = (3x^{2} + 2) \\times (-4)$\nWhen $x = 3$:\n$\\dfrac{dy}{dt} = (27 + 2) \\times (-4)$\n$= -116$ units/s"
+    },
+    {
+      "id": "q4",
+      "question_text": "Given $y = x^{4} - x$ and $\\dfrac{dy}{dt} = 22$ units/s, find $\\dfrac{dx}{dt}$ when $x = 2$.",
+      "structure": "evaluate-reverse-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{22}{31}$ units/s", "correct": true },
+        { "text": "$\\dfrac{31}{22}$ units/s", "why": "Turned the fraction upside down, dividing $\\dfrac{dy}{dx}$ by $\\dfrac{dy}{dt}$." },
+        { "text": "$\\dfrac{11}{16}$ units/s", "why": "Dropped the $-x$ term, using $\\dfrac{dy}{dx} = 4x^{3} = 32$." },
+        { "text": "$682$ units/s", "why": "Multiplied by $\\dfrac{dy}{dx}$ instead of dividing by it." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx} = 4x^{3} - 1$\n$\\dfrac{dy}{dt} = (4x^{3} - 1) \\times \\dfrac{dx}{dt}$\nWhen $x = 2$:\n$22 = (32 - 1) \\times \\dfrac{dx}{dt}$\n$22 = 31 \\times \\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt} = \\dfrac{22}{31}$ units/s"
+    },
+    {
+      "id": "q5",
+      "question_text": "Given $y = x^{2} - 7x$ and $\\dfrac{dx}{dt} = 5$ units/s, which expression gives $\\dfrac{dy}{dt}$ in terms of $x$?",
+      "structure": "rate-in-terms-of-variable",
+      "mastery": false,
+      "options": [
+        { "text": "$10x - 35$", "correct": true },
+        { "text": "$2x - 7$", "why": "Gave $\\dfrac{dy}{dx}$ only, never multiplying by the given rate $5$." },
+        { "text": "$10x - 7$", "why": "Multiplied only the first term of $\\dfrac{dy}{dx}$ by $5$, leaving the constant term untouched." },
+        { "text": "$5x^{2} - 35x$", "why": "Multiplied $y$ itself by $5$ instead of differentiating first." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx} = 2x - 7$\n$\\dfrac{dy}{dt} = (2x - 7) \\times 5$\n$= 10x - 35$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A quantity $y$ satisfies $y = x^{3}$, where $x > 0$. At a certain instant $\\dfrac{dx}{dt} = 2$ units/s and $\\dfrac{dy}{dt} = 150$ units/s. What is the value of $x$ at that instant?",
+      "structure": "find-unknown-from-rates",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$",
+          "correct": true
+        },
+        {
+          "text": "$25$",
+          "why": "Stopped at $x^{2} = 25$ without taking the square root."
+        },
+        {
+          "text": "$75$",
+          "why": "Divided $150$ by the given rate $2$ and treated the result as $x$, never differentiating $y = x^{3}$."
+        },
+        {
+          "text": "$50$",
+          "why": "Divided $150$ by $3$, the coefficient in $\\dfrac{dy}{dx} = 3x^{2}$, and treated the result as $x$."
+        }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx} = 3x^{2}$\n$\\dfrac{dy}{dt} = 3x^{2} \\times 2$\n$150 = 6x^{2}$\n$x^{2} = 25$\n$x = 5$ or $x = -5$\nThe question states $x > 0$, so the negative solution is rejected.\n$x = 5$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The length $L$ cm of a metal rod is decreasing at $0.4$ cm/s. Which statement records the given rate correctly?",
+      "structure": "chain-rule-setup",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{dL}{dt} = -0.4$ cm/s",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{dL}{dt} = 0.4$ cm/s",
+          "why": "Ignored the word decreasing, which makes the rate of change negative."
+        },
+        {
+          "text": "$\\dfrac{dt}{dL} = -0.4$ s/cm",
+          "why": "Wrote the derivative upside down, reading $0.4$ centimetres per second as $0.4$ seconds per centimetre; the true reciprocal rate is $-2.5$ s/cm."
+        },
+        {
+          "text": "$\\dfrac{dt}{dL} = 0.4$ s/cm",
+          "why": "Wrote the derivative upside down and also dropped the negative sign for a decreasing length."
+        }
+      ],
+      "solution_text": "The rod is getting shorter, so $L$ is decreasing and its rate of change is negative.\n$\\dfrac{dL}{dt} = -0.4$ cm/s\nThe reciprocal rate would be $\\dfrac{dt}{dL} = -2.5$ s/cm, so neither $\\dfrac{dt}{dL} = -0.4$ nor $\\dfrac{dt}{dL} = 0.4$ is a true statement."
+    },
+    {
+      "id": "q8",
+      "question_text": "Given $y = x^{2} + kx$, where $k$ is a constant. At an instant when $x = 3$, $\\dfrac{dx}{dt} = 4$ units/s and $\\dfrac{dy}{dt} = 32$ units/s. Find $k$.",
+      "structure": "find-unknown-from-rates",
+      "mastery": true,
+      "options": [
+        { "text": "$2$", "correct": true },
+        { "text": "$8$", "why": "Stopped at $\\dfrac{dy}{dx} = 8$ and reported that value as $k$." },
+        { "text": "$-2$", "why": "Wrote $6 - k = 8$ instead of $6 + k = 8$ when solving." },
+        { "text": "$26$", "why": "Subtracted $6$ from $32$ without first dividing by the given rate $\\dfrac{dx}{dt} = 4$." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx} = 2x + k$\n$\\dfrac{dy}{dt} = (2x + k) \\times \\dfrac{dx}{dt}$\nWhen $x = 3$:\n$32 = (6 + k) \\times 4$\n$8 = 6 + k$\n$k = 2$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A quantity $V$ depends on $h$ with $\\dfrac{dV}{dh} = 6h^{2}$, and $h$ depends on time with $\\dfrac{dh}{dt} = \\dfrac{5}{h}$ units/s. Find $\\dfrac{dV}{dt}$ when $h = 4$.",
+      "structure": "evaluate-forward-rate",
+      "mastery": true,
+      "options": [
+        { "text": "$120$ units/s", "correct": true },
+        { "text": "$96$ units/s", "why": "Reported $\\dfrac{dV}{dh} = 6h^{2}$ at $h = 4$ without multiplying by $\\dfrac{dh}{dt}$." },
+        { "text": "$480$ units/s", "why": "Multiplied by $5$ instead of by $\\dfrac{5}{h}$, dropping the $h$ in the denominator." },
+        { "text": "$30$ units/s", "why": "Divided by $h$ a second time, using $\\dfrac{6h^{2}}{h} \\times \\dfrac{5}{h}$." }
+      ],
+      "solution_text": "$\\dfrac{dV}{dt} = \\dfrac{dV}{dh} \\times \\dfrac{dh}{dt}$\n$= 6h^{2} \\times \\dfrac{5}{h}$\n$= 30h$\nWhen $h = 4$:\n$\\dfrac{dV}{dt} = 30(4)$\n$= 120$ units/s"
+    }
+  ]
+}

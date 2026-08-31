@@ -2,20 +2,20 @@
   "skillId": "convex-nonconvex",
   "atomType": "Cat",
   "theory": {
-    "intro": "A quadrilateral is **convex** when all four of its interior angles are less than $180^{\\circ}$. If one interior angle is reflex — bigger than $180^{\\circ}$ — the quadrilateral is **non-convex** (also called concave) and has a dent in its outline.",
-    "facts": [
-      "**Convex**: every interior angle is less than $180^{\\circ}$.",
-      "**Non-convex**: at least one interior angle is reflex, so a vertex points back into the shape.",
-      "Diagonal test: in a convex quadrilateral both diagonals lie inside the shape and meet inside it.",
-      "In a non-convex quadrilateral one diagonal lies outside the shape, so the two diagonals do not cross inside it.",
-      "A square, a rectangle, a rhombus and a parallelogram are all convex."
-    ],
-    "steps": [
-      "Look around the outline for a vertex that points back into the shape — a dent.",
-      "Check the interior angle at that vertex: is it more than $180^{\\circ}$?",
-      "One reflex interior angle makes it non-convex; if every interior angle is less than $180^{\\circ}$ it is convex."
-    ]
-  },
+        "intro": "A quadrilateral is **convex** when all four interior angles are less than $180^{\\circ}$. If one interior angle is reflex — bigger than $180^{\\circ}$ — it is **non-convex** (or concave) and its outline has a dent.",
+        "facts": [
+          "**Convex**: every interior angle is less than $180^{\\circ}$.",
+          "**Non-convex**: at least one interior angle is reflex, so a vertex points back into the shape.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,-1.25);\n\\coordinate (C) at (4.4,0);\n\\coordinate (D) at (2.2,3);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\pic[draw, \"$<180^{\\circ}$\"{font=\\small}, angle radius=0.5cm, angle eccentricity=1.6] {angle = C--B--A};\n\\node at (2.2,-2) {Convex};\n\\coordinate (P) at (6.2,0);\n\\coordinate (Q) at (8.4,1.05);\n\\coordinate (R) at (10.6,0);\n\\coordinate (S) at (8.4,3);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\pic[draw, \"$>180^{\\circ}$\"{font=\\small}, angle radius=0.5cm, angle eccentricity=1.6] {angle = R--Q--P};\n\\node at (8.4,-2) {Non-convex};\n\\end{tikzpicture}\n[/tikz]",
+          "Diagonal test: in a convex quadrilateral both diagonals lie inside the shape and meet inside it.",
+          "In a non-convex quadrilateral one diagonal lies outside the shape, so the two diagonals do not cross inside it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2.2,-1.25);\n\\coordinate (C) at (4.4,0);\n\\coordinate (D) at (2.2,3);\n\\draw (A) -- (B) -- (C) -- (D) -- cycle;\n\\draw[dashed] (A) -- (C);\n\\draw[dashed] (B) -- (D);\n\\node at (2.2,-2) {Convex};\n\\coordinate (P) at (6.2,0);\n\\coordinate (Q) at (8.4,1.05);\n\\coordinate (R) at (10.6,0);\n\\coordinate (S) at (8.4,3);\n\\draw (P) -- (Q) -- (R) -- (S) -- cycle;\n\\draw[dashed] (P) -- (R);\n\\draw[dashed] (Q) -- (S);\n\\node at (8.4,-2) {Non-convex};\n\\end{tikzpicture}\n[/tikz]",
+          "A square, a rectangle, a rhombus and a parallelogram are all convex."
+        ],
+        "steps": [
+          "Look around the outline for a vertex that points back into the shape — a dent.",
+          "Check the interior angle at that vertex: is it more than $180^{\\circ}$?",
+          "One reflex interior angle makes it non-convex; if every interior angle is less than $180^{\\circ}$ it is convex."
+        ]
+      },
   "practice": {
     "coverageNote": "Single yes/no recognition atom: the only in-skill depth is combining the reflex-angle test with the diagonal test, which supports two mastery cards without repeating the same judgement.",
     "foundation": [

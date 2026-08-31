@@ -1,0 +1,108 @@
+{
+  "skillId": "forward-backward-scanning",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The network below shows a car detailing job, with durations in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,3$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,8$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,9$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,2$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,5$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,4$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\end{tikzpicture}\n[/tikz]\nWhat is the minimum completion time for this project?",
+      "structure": "forward-scan",
+      "mastery": false,
+      "options": [
+        { "text": "$21$ minutes", "correct": true },
+        { "text": "$19$ minutes", "why": "Took the smaller total $8+2=10$ where $C$ and $D$ meet; a forward scan takes the larger." },
+        { "text": "$31$ minutes", "why": "Added every duration in the network instead of following the longest path." },
+        { "text": "$17$ minutes", "why": "Stopped at the vertex where $F$ begins and did not add the duration of $F$." }
+      ],
+      "solution_text": "End of $A$: $0+3=3$\nEnd of $B$: $0+8=8$\nWhere $E$ begins: $\\max(3+9,\\,8+2)=\\max(12,\\,10)=12$\nEnd of $E$: $12+5=17$\nFinish vertex: $17+4=21$\nThe minimum completion time is $21$ minutes."
+    },
+    {
+      "id": "q2",
+      "question_text": "The network below shows a bakery production run, with durations in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.6);\n\\coordinate (V2) at (2.4,-1.6);\n\\coordinate (V3) at (5,1.6);\n\\coordinate (V4) at (5,-1.6);\n\\coordinate (V5) at (7.4,0);\n\\coordinate (VF) at (9.6,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,6$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,2$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,4$};\n\\draw[midarrow] (V2) -- (V4) node[pos=0.5, below=4pt] {$D,\\,11$};\n\\draw[midarrow] (V3) -- (V5) node[pos=0.5, above=4pt] {$E,\\,3$};\n\\draw[midarrow] (V4) -- (V5) node[pos=0.5, below=4pt] {$F,\\,1$};\n\\draw[midarrow] (V5) -- (VF) node[pos=0.5, above=4pt] {$G,\\,7$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\draw[fill=white] ($(V5)+(-0.5,-0.3)$) rectangle ($(V5)+(0.5,0.3)$);\n\\draw ($(V5)+(0,-0.3)$) -- ($(V5)+(0,0.3)$);\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\end{tikzpicture}\n[/tikz]\nWhat is the earliest starting time of activity $G$?",
+      "structure": "est-single-activity",
+      "mastery": false,
+      "options": [
+        { "text": "$14$", "correct": true },
+        { "text": "$13$", "why": "Took the smaller of the two totals arriving at that vertex; the forward scan takes the larger." },
+        { "text": "$21$", "why": "Gave the minimum completion time, which is the EST at the finish vertex, not at the vertex where $G$ starts." },
+        { "text": "$10$", "why": "Stopped at the vertex where $E$ begins instead of continuing to the vertex where $G$ begins." }
+      ],
+      "solution_text": "End of $A$: $0+6=6$\nEnd of $B$: $0+2=2$\nEnd of $C$: $6+4=10$\nEnd of $D$: $2+11=13$\nWhere $G$ begins: $\\max(10+3,\\,13+1)=\\max(13,\\,14)=14$\nThe earliest starting time of $G$ is $14$ minutes."
+    },
+    {
+      "id": "q3",
+      "question_text": "The network below shows a boat service, with durations in hours. The forward scan is already complete.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,0);\n\\coordinate (V2) at (5,1.6);\n\\coordinate (V3) at (5,-1.6);\n\\coordinate (V4) at (7.4,0);\n\\coordinate (VF) at (9.6,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,7$};\n\\draw[midarrow] (V1) -- (V2) node[pos=0.5, above=4pt] {$B,\\,5$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, below=4pt] {$C,\\,12$};\n\\draw[midarrow] (V2) -- (V4) node[pos=0.5, above=4pt] {$D,\\,8$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, below=4pt] {$E,\\,2$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,6$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$7$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$12$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$19$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$21$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$27$};\n\\end{tikzpicture}\n[/tikz]\nAfter a backward scan, what number goes in the right-hand box at the vertex where $B$ and $C$ begin?",
+      "structure": "backward-scan",
+      "mastery": false,
+      "options": [
+        { "text": "$7$", "correct": true },
+        { "text": "$8$", "why": "Took the larger of the two results $13-5=8$ and $19-12=7$; a backward scan takes the smaller." },
+        { "text": "$12$", "why": "Copied the EST from the next vertex along instead of subtracting a duration." },
+        { "text": "$19$", "why": "Used the EST at the vertex where $C$ ends rather than working backwards to where $B$ and $C$ begin." }
+      ],
+      "solution_text": "Finish vertex LST: $27$\nBefore $F$: $27-6=21$\nBefore $D$: $21-8=13$\nBefore $E$: $21-2=19$\nWhere $B$ and $C$ begin: $\\min(13-5,\\,19-12)=\\min(8,\\,7)=7$\nThe right-hand box at that vertex holds $7$."
+    },
+    {
+      "id": "q4",
+      "question_text": "The network below shows a house painting job, with durations in hours.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.6);\n\\coordinate (V2) at (2.4,-1.6);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.4,1.6);\n\\coordinate (V5) at (7.4,-1.6);\n\\coordinate (VF) at (9.8,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,9$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,4$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,3$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,6$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,8$};\n\\draw[midarrow] (V3) -- (V5) node[pos=0.5, below=4pt] {$F,\\,2$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$G,\\,1$};\n\\draw[midarrow] (V5) -- (VF) node[pos=0.5, below=4pt] {$H,\\,10$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\draw[fill=white] ($(V5)+(-0.5,-0.3)$) rectangle ($(V5)+(0.5,0.3)$);\n\\draw ($(V5)+(0,-0.3)$) -- ($(V5)+(0,0.3)$);\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\end{tikzpicture}\n[/tikz]\nWhat is the latest starting time of activity $G$?",
+      "structure": "lst-single-activity",
+      "mastery": true,
+      "options": [
+        { "text": "$23$", "correct": true },
+        { "text": "$20$", "why": "Gave the EST at the vertex where $G$ begins instead of its LST." },
+        { "text": "$24$", "why": "Gave the minimum completion time without subtracting the duration of $G$." },
+        { "text": "$12$", "why": "Gave the LST at the vertex where $E$ and $F$ begin, one vertex too far back." }
+      ],
+      "solution_text": "End of $A$: $0+9=9$\nEnd of $B$: $0+4=4$\nWhere $E$ and $F$ begin: $\\max(9+3,\\,4+6)=\\max(12,\\,10)=12$\nEnd of $E$: $12+8=20$\nEnd of $F$: $12+2=14$\nFinish vertex: $\\max(20+1,\\,14+10)=\\max(21,\\,24)=24$\nBackward scan, before $G$: $24-1=23$\nOnly $G$ leaves that vertex, so the latest starting time of $G$ is $23$ hours."
+    },
+    {
+      "id": "q5",
+      "question_text": "The forward and backward scans below are complete except for the value $x$. All times are in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.5);\n\\coordinate (V2) at (2.4,-1.5);\n\\coordinate (V3) at (5,0);\n\\coordinate (V4) at (7.2,0);\n\\coordinate (VF) at (9.4,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,8$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,5$};\n\\draw[midarrow] (V1) -- (V3) node[pos=0.5, above=4pt] {$C,\\,6$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$D,\\,7$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, above=4pt] {$E,\\,4$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,9$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\node[font=\\small] at ($(V0)+(-0.25,0)$) {$0$};\n\\node[font=\\small] at ($(V0)+(0.25,0)$) {$0$};\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\node[font=\\small] at ($(V1)+(-0.25,0)$) {$8$};\n\\node[font=\\small] at ($(V1)+(0.25,0)$) {$8$};\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\node[font=\\small] at ($(V2)+(-0.25,0)$) {$5$};\n\\node[font=\\small] at ($(V2)+(0.25,0)$) {$7$};\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\node[font=\\small] at ($(V3)+(-0.25,0)$) {$x$};\n\\node[font=\\small] at ($(V3)+(0.25,0)$) {$14$};\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\node[font=\\small] at ($(V4)+(-0.25,0)$) {$18$};\n\\node[font=\\small] at ($(V4)+(0.25,0)$) {$18$};\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\node[font=\\small] at ($(VF)+(-0.25,0)$) {$27$};\n\\node[font=\\small] at ($(VF)+(0.25,0)$) {$27$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the value of $x$?",
+      "structure": "missing-value",
+      "mastery": false,
+      "options": [
+        { "text": "$14$", "correct": true },
+        { "text": "$12$", "why": "Took the smaller total $5+7=12$; the forward scan takes the larger of the two arriving totals." },
+        { "text": "$26$", "why": "Added both arriving totals together instead of choosing between them." },
+        { "text": "$8$", "why": "Copied the EST from the vertex where $C$ begins without adding the duration of $C$." }
+      ],
+      "solution_text": "$x$ is a forward-scan value where $C$ and $D$ arrive.\n$x=\\max(8+6,\\,5+7)$\n$=\\max(14,\\,12)$\n$=14$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The network below shows a workshop setup, with durations in minutes. The dashed edge is a dummy activity.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (V0) at (0,0);\n\\coordinate (V1) at (2.4,1.7);\n\\coordinate (V2) at (2.4,-1.7);\n\\coordinate (V3) at (5,-1.7);\n\\coordinate (V4) at (7.4,0);\n\\coordinate (VF) at (9.6,0);\n\\draw[midarrow] (V0) -- (V1) node[pos=0.5, above=4pt] {$A,\\,9$};\n\\draw[midarrow] (V0) -- (V2) node[pos=0.5, below=4pt] {$B,\\,7$};\n\\draw[midarrow, dashed] (V1) -- (V2) node[pos=0.3, left=3pt] {$0$};\n\\draw[midarrow] (V2) -- (V3) node[pos=0.5, below=4pt] {$C,\\,8$};\n\\draw[midarrow] (V1) -- (V4) node[pos=0.5, above=4pt] {$D,\\,6$};\n\\draw[midarrow] (V3) -- (V4) node[pos=0.5, below=4pt] {$E,\\,3$};\n\\draw[midarrow] (V4) -- (VF) node[pos=0.5, above=4pt] {$F,\\,2$};\n\\draw[fill=white] ($(V0)+(-0.5,-0.3)$) rectangle ($(V0)+(0.5,0.3)$);\n\\draw ($(V0)+(0,-0.3)$) -- ($(V0)+(0,0.3)$);\n\\draw[fill=white] ($(V1)+(-0.5,-0.3)$) rectangle ($(V1)+(0.5,0.3)$);\n\\draw ($(V1)+(0,-0.3)$) -- ($(V1)+(0,0.3)$);\n\\draw[fill=white] ($(V2)+(-0.5,-0.3)$) rectangle ($(V2)+(0.5,0.3)$);\n\\draw ($(V2)+(0,-0.3)$) -- ($(V2)+(0,0.3)$);\n\\draw[fill=white] ($(V3)+(-0.5,-0.3)$) rectangle ($(V3)+(0.5,0.3)$);\n\\draw ($(V3)+(0,-0.3)$) -- ($(V3)+(0,0.3)$);\n\\draw[fill=white] ($(V4)+(-0.5,-0.3)$) rectangle ($(V4)+(0.5,0.3)$);\n\\draw ($(V4)+(0,-0.3)$) -- ($(V4)+(0,0.3)$);\n\\draw[fill=white] ($(VF)+(-0.5,-0.3)$) rectangle ($(VF)+(0.5,0.3)$);\n\\draw ($(VF)+(0,-0.3)$) -- ($(VF)+(0,0.3)$);\n\\end{tikzpicture}\n[/tikz]\nWhat is the earliest starting time of activity $F$?",
+      "structure": "est-single-activity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$20$",
+          "correct": true
+        },
+        {
+          "text": "$18$",
+          "why": "Ignored the dummy, so the vertex where $C$ begins was given an EST of $7$ instead of $9$."
+        },
+        {
+          "text": "$15$",
+          "why": "Took the smaller total arriving at the vertex where $F$ begins instead of the larger."
+        },
+        {
+          "text": "$22$",
+          "why": "Gave the minimum completion time at the finish vertex rather than the EST of $F$."
+        }
+      ],
+      "solution_text": "End of $A$: $0+9=9$\nEnd of $B$, which the dummy also reaches: $\\max(0+7,\\,9+0)=\\max(7,\\,9)=9$\nEnd of $C$: $9+8=17$\nWhere $F$ begins: $\\max(9+6,\\,17+3)=\\max(15,\\,20)=20$\nThe earliest starting time of $F$ is $20$ minutes."
+    },
+    {
+      "id": "q7",
+      "question_text": "Part of an activity network is shown below. Three activities arrive at the same vertex, and the number on each edge is the running total for that arriving path.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, calc}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (P1) at (0,2.0);\n\\coordinate (P2) at (0,0);\n\\coordinate (P3) at (0,-2.0);\n\\coordinate (V) at (4,0);\n\\draw[midarrow] (P1) -- (V) node[pos=0.45, above=4pt] {$14$};\n\\draw[midarrow] (P2) -- (V) node[pos=0.45, above=4pt] {$17$};\n\\draw[midarrow] (P3) -- (V) node[pos=0.45, below=4pt] {$12$};\n\\draw[fill=white] ($(V)+(-0.5,-0.3)$) rectangle ($(V)+(0.5,0.3)$);\n\\draw ($(V)+(0,-0.3)$) -- ($(V)+(0,0.3)$);\n\\end{tikzpicture}\n[/tikz]\nWhat number does the forward scan write in the left-hand box at that vertex?",
+      "structure": "forward-scan",
+      "mastery": false,
+      "options": [
+        { "text": "$17$", "correct": true },
+        { "text": "$12$", "why": "Applied the backward scan's smallest rule to a forward scan; the vertex cannot be reached until the longest incoming path finishes." },
+        { "text": "$14$", "why": "Chose the middle value, as though the three incoming paths should be balanced." },
+        { "text": "$43$", "why": "Added the three incoming totals instead of choosing the largest of them." }
+      ],
+      "solution_text": "A forward scan takes the largest total of the activities arriving at a vertex.\n$\\max(14,\\,17,\\,12)=17$\nThe left-hand box holds $17$."
+    }
+  ]
+}

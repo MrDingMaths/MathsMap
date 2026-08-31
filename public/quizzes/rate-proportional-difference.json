@@ -1,0 +1,109 @@
+{
+  "skillId": "rate-proportional-difference",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A quantity satisfies $\\dfrac{dM}{dt}=-0.25(M-40)$. What does the number $40$ represent in this model?",
+      "structure": "recognise-model-form",
+      "mastery": false,
+      "options": [
+        { "text": "The fixed value that $M$ moves towards.", "correct": true },
+        { "text": "The initial value of $M$.", "why": "Confuses the fixed value $P$ with the starting value $M(0)$, which the equation does not give." },
+        { "text": "The rate of change of $M$ at $t=0$.", "why": "Reads a constant inside the bracket as a rate; the rate is $-0.25(M-40)$." },
+        { "text": "The fixed value that $M$ moves away from.", "why": "Ignores the sign of $k$; with $k=-0.25<0$ the gap shrinks, so $M$ moves towards $40$." }
+      ],
+      "solution_text": "$\\dfrac{dM}{dt}=k(M-P)$ with $k=-0.25$ and $P=40$\nSince $k<0$ the gap $M-40$ shrinks, so $40$ is the fixed value $M$ moves towards."
+    },
+    {
+      "id": "q2",
+      "question_text": "A pie at $150^{\\circ}$C is placed in a fridge kept at $4^{\\circ}$C. The pie cools at a rate proportional to the difference between its temperature $T$ and the fridge temperature. Which differential equation models this?",
+      "structure": "write-model-from-context",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dT}{dt}=k(T-4)$", "correct": true },
+        { "text": "$\\dfrac{dT}{dt}=k(T-150)$", "why": "Uses the pie's starting temperature as the fixed value instead of the fridge temperature." },
+        { "text": "$\\dfrac{dT}{dt}=k(4-T)$", "why": "Writes the difference the wrong way round, giving the negative of the required expression." },
+        { "text": "$\\dfrac{dT}{dt}=k(150-T)$", "why": "Both errors together: the starting temperature is used as the fixed value and the difference is reversed." }
+      ],
+      "solution_text": "The fixed value is the temperature of the surroundings, so $P=4$.\n$\\dfrac{dT}{dt}=k(T-4)$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A tray of ice cream at $-16^{\\circ}$C is left on a bench in a room at $23^{\\circ}$C, and warms according to $\\dfrac{dT}{dt}=k(T-23)$. Which statement about $k$ is correct?",
+      "structure": "sign-of-k",
+      "mastery": false,
+      "options": [
+        { "text": "$k<0$, because the gap $T-23$ is negative while the temperature is rising.", "correct": true },
+        { "text": "$k>0$, because the temperature of the ice cream is increasing.", "why": "Matches the sign of $k$ to the sign of $\\frac{dT}{dt}$ without allowing for the negative difference $T-23$." },
+        { "text": "$k>0$, because the ice cream is colder than the room.", "why": "Reads the sign of $k$ off the sign of the difference $T-23$ instead of solving for $k$." },
+        { "text": "$k<0$, because the ice cream is losing energy to the room.", "why": "Reaches the right sign from a false physical claim: the ice cream gains energy from the warmer room." }
+      ],
+      "solution_text": "While the ice cream is colder than the room, $T-23<0$.\nThe ice cream is warming, so $\\dfrac{dT}{dt}>0$.\nA negative difference times $k$ is positive only when $k<0$."
+    },
+    {
+      "id": "q4",
+      "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=-0.04(Q-25)$. What is the rate of change of $Q$ at the instant when $Q=90$?",
+      "structure": "rate-at-an-instant",
+      "mastery": false,
+      "options": [
+        { "text": "$-2.6$", "correct": true },
+        { "text": "$-3.6$", "why": "Substitutes $Q=90$ into $-0.04Q$, ignoring the fixed value $25$." },
+        { "text": "$2.6$", "why": "Uses the difference $25-90$ instead of $90-25$, reversing the sign." },
+        { "text": "$-1$", "why": "Multiplies $-0.04$ by $25$ instead of by the difference $90-25$." }
+      ],
+      "solution_text": "$\\dfrac{dQ}{dt}=-0.04(90-25)$\n$=-0.04\\times 65$\n$=-2.6$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A tub of yoghurt at $5^{\\circ}$C is left in a room at $27^{\\circ}$C, and its temperature obeys $\\dfrac{dT}{dt}=k(T-P)$. What are the values of $P$ and of the initial difference $T(0)-P$?",
+      "structure": "identify-p-and-a",
+      "mastery": false,
+      "options": [
+        { "text": "$P=27$ and $T(0)-P=-22$", "correct": true },
+        { "text": "$P=27$ and $T(0)-P=22$", "why": "Takes the size of the gap without its sign; the yoghurt starts below room temperature." },
+        { "text": "$P=5$ and $T(0)-P=22$", "why": "Uses the yoghurt's starting temperature as the fixed value and the room temperature as the starting value." },
+        { "text": "$P=5$ and $T(0)-P=-22$", "why": "Uses the starting temperature as the fixed value, then subtracts in the reverse order." }
+      ],
+      "solution_text": "The surroundings give the fixed value, so $P=27$.\n$T(0)-P=5-27$\n$=-22$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A lake supports at most $2000$ fish, and the population $N$ obeys $\\dfrac{dN}{dt}=k(N-2000)$. When there are $500$ fish the population is growing at $45$ fish per week. What is the value of $k$?",
+      "structure": "rate-at-an-instant",
+      "mastery": false,
+      "options": [
+        { "text": "$-0.03$", "correct": true },
+        { "text": "$0.03$", "why": "Divides by $2000-500$ instead of $500-2000$, losing the negative sign that growth towards the capacity requires." },
+        { "text": "$0.09$", "why": "Divides the rate by the population $500$ rather than by the difference $500-2000$." },
+        { "text": "$-0.0225$", "why": "Divides the rate by the capacity $2000$ rather than by the difference $500-2000$." }
+      ],
+      "solution_text": "$45=k(500-2000)$\n$45=-1500k$\n$k=-0.03$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A hot casserole cools in a room at $18^{\\circ}$C according to $\\dfrac{dT}{dt}=k(T-18)$ with $k<0$. Why does this model say the casserole never becomes exactly $18^{\\circ}$C?",
+      "structure": "zero-rate-at-p",
+      "mastery": false,
+      "options": [
+        { "text": "At $T=18$ the rate would be $k\\times 0=0$, and the rate shrinks with the gap, so the gap never closes.", "correct": true },
+        { "text": "Because $k$ is negative, so the temperature keeps falling past $18^{\\circ}$C.", "why": "Confuses a shrinking gap with an unbounded fall; while $T>18$ the model keeps $T$ above $18$." },
+        { "text": "Because the room temperature slowly rises as the casserole cools.", "why": "Invents a change in the surroundings; the model treats the room temperature as a fixed value." },
+        { "text": "Because $\\dfrac{dT}{dt}$ is undefined when $T=18$.", "why": "The expression $k(T-18)$ is defined for every $T$; at $T=18$ it simply equals zero." }
+      ],
+      "solution_text": "If $T=18$ then $\\dfrac{dT}{dt}=k(18-18)=0$.\nAs $T$ falls towards $18$ the difference $T-18$ shrinks, so the cooling rate shrinks with it.\nThe temperature therefore gets as close to $18^{\\circ}$C as we like without ever reaching it."
+    },
+    {
+      "id": "q8",
+      "question_text": "A body cools in air kept at $18^{\\circ}$C, following $\\dfrac{dT}{dt}=k(T-18)$. At the instant its temperature is $78^{\\circ}$C it is cooling at $4.2^{\\circ}$C per minute. At what rate is it cooling when its temperature is $48^{\\circ}$C?",
+      "structure": "rate-at-an-instant",
+      "mastery": true,
+      "options": [
+        { "text": "$2.1^{\\circ}$C per minute", "correct": true },
+        { "text": "$4.2^{\\circ}$C per minute", "why": "Treats the cooling rate as constant instead of proportional to the shrinking difference $T-18$." },
+        { "text": "$2.6^{\\circ}$C per minute", "why": "Divides by the temperatures themselves rather than the differences from $18^{\\circ}$C, giving $\\frac{4.2}{78}\\times 48$." },
+        { "text": "$8.4^{\\circ}$C per minute", "why": "Scales by $\\frac{60}{30}$ instead of $\\frac{30}{60}$, so the rate is doubled when the difference has halved." }
+      ],
+      "solution_text": "$-4.2=k(78-18)$\n$-4.2=60k$\n$k=-0.07$\n$\\dfrac{dT}{dt}=-0.07(48-18)$\n$=-0.07\\times 30$\n$=-2.1$, so the body is cooling at $2.1^{\\circ}$C per minute."
+    }
+  ]
+}

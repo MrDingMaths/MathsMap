@@ -1,0 +1,113 @@
+{
+  "skillId": "estimate-instantaneous-rate-graph",
+  "atomType": "R",
+  "theory": {
+        "intro": "To estimate $f'(c)$ from a graph, draw the **tangent** touching the curve at that point. Pick two clear grid points on the tangent and find its gradient, $m = \\dfrac{\\text{rise}}{\\text{run}}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (0,0) grid (5,5);\n\\draw[->] (0,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.4) node[above] {$y$};\n\\draw[thick,blue,domain=0.2:4.0,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x + 1}) node[above left] {$y=f(x)$};\n\\draw[thick,red] (0.6,0.6) -- (4.6,4.6) node[right,font=\\small] {tangent};\n\\draw[dashed,gray] (1,1) -- (4,1) node[midway,below,font=\\small] {run};\n\\draw[dashed,gray] (4,1) -- (4,4) node[midway,right,font=\\small] {rise};\n\\fill (1,1) circle (2.5pt) node[below right,font=\\small] {$(x_1,y_1)$};\n\\fill (4,4) circle (2.5pt) node[below right,font=\\small] {$(x_2,y_2)$};\n\\fill (2,2) circle (2.5pt) node[below right,font=\\small] {$P$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The instantaneous rate of change at $x = c$ is $f'(c)$, the gradient of the tangent line at $x = c$.",
+          "Read the two points off the **tangent line**, not off the curve.",
+          "Calculate the gradient: $m = \\dfrac{y_2 - y_1}{x_2 - x_1} = \\dfrac{\\text{rise}}{\\text{run}}$.",
+          "State the rate with compound units, such as $\\text{m/s}$, $^{\\circ}\\text{C/min}$ or $\\text{L/s}$.",
+          "Hand-drawn tangents vary slightly, so a graph estimate is only close to the true gradient."
+        ],
+        "steps": [
+          "Locate the specified point $P(c, f(c))$ on the curve and inspect the drawn tangent line.",
+          "Select two points $(x_1, y_1)$ and $(x_2, y_2)$ that lie clearly on the tangent line at grid intersections.",
+          "Calculate the gradient $m = \\dfrac{y_2 - y_1}{x_2 - x_1}$.",
+          "State the instantaneous rate of change with the appropriate physical units."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The graph of $y = f(x)$ has a tangent line drawn at $(2, 4)$ passing through $(0, 0)$ and $(4, 8)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:4.4,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x + 1}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0,0) -- (4.5,4.5);\n\\fill (2,2.0) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (2,2.0) {$(2,4)$};\n\\fill (4,4.0) circle (2.5pt);\n\\node[below right,font=\\scriptsize,fill=white,inner sep=1pt] at (4,4.0) {$(4,8)$};\n\\end{tikzpicture}\n[/tikz]\nEstimate the instantaneous rate of change $f'(2)$.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "Choose two points on the tangent line: $(0, 0)$ and $(4, 8)$.\n$f'(2) = \\dfrac{8 - 0}{4 - 0}$\n$= \\dfrac{8}{4}$\n$= 2$"
+      },
+      {
+        "question_text": "The graph shows the temperature $T$ ($^{\\circ}\\text{C}$) of a cooling object over $t$ minutes, with a tangent drawn at $t = 10\\text{ min}$ passing through $(0, 70)$ and $(30, 10)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$T$};\n\\foreach \\x/\\val in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\foreach \\y/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:6,smooth,variable=\\x] plot (\\x, {0.5 + 3.297*exp(-0.5*\\x)}) node[above right] {$T(t)$};\n\\draw[thick,dashed,red] (0,3.5) -- (3.5,0.0);\n\\fill (1,2.5) circle (2.5pt);\n\\node[above right,font=\\scriptsize,fill=white,inner sep=1pt] at (1,2.5) {$(10,50)$};\n\\node[rotate=90] at (-1.3,2.75) {Temperature ($^{\\circ}\\text{C}$)};\n\\node[below] at (3.2,-0.9) {Time (min)};\n\\end{tikzpicture}\n[/tikz]\nEstimate the instantaneous rate of cooling at $t = 10\\text{ minutes}$.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "Read two points on the tangent line: $(0, 70)$ and $(30, 10)$.\n$T'(10) = \\dfrac{10 - 70}{30 - 0}$\n$= \\dfrac{-60}{30}$\n$= -2^{\\circ}\\text{C/min}$"
+      },
+      {
+        "question_text": "The graph shows a curve with tangents drawn at $x = 1$ and at $x = 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0.5:4.6,smooth,variable=\\x] plot (\\x, {0.125*\\x*\\x + 0.375}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0.2,0.3) -- (2.5,0.875) node[right] {$T_1$};\n\\draw[thick,dashed,teal] (2.8,1.175) -- (4.8,3.175) node[right] {$T_2$};\n\\fill (1,0.5) circle (2.5pt);\n\\fill (4,2.375) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nCompare the instantaneous rate of change at $x = 1$ with that at $x = 4$.",
+        "structure": "compare-instantaneous-rates-graph",
+        "solution_text": "$\\text{Tangent } T_1\\text{ at } x = 1\\text{ has gradient } m \\approx 0.5.$\n$\\text{Tangent } T_2\\text{ at } x = 4\\text{ has gradient } m \\approx 2.$\n$\\text{The instantaneous rate of change at } x = 4\\text{ is greater than at } x = 1\\text{ } (2 > 0.5).$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ shows a tangent line drawn at $(1, 1)$ passing through $(0, -1)$ and $(2, 3)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (-1,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-2) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(-0.5,0.25) (0,0) (1,1) (2,4)} node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (-0.5,-2) -- (2.5,4);\n\\fill (1,1) circle (2.5pt) node[below right] {$(1,1)$};\n\\fill (0,-1) circle (2.5pt) node[above left] {$(0,-1)$};\n\\fill (2,3) circle (2.5pt) node[above left] {$(2,3)$};\n\\end{tikzpicture}\n[/tikz]\nCalculate the estimated value of $f'(1)$.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "Using points $(0, -1)$ and $(2, 3)$ on the tangent line:\n$f'(1) = \\dfrac{3 - (-1)}{2 - 0}$\n$= \\dfrac{4}{2}$\n$= 2$"
+      },
+      {
+        "question_text": "The distance–time graph of an accelerating vehicle shows a tangent drawn at $t = 4\\text{ s}$ passing through $(2, 10)$ and $(6, 50)$, where distance is in metres.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$d$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/10,2/20,3/30,4/40,5/50} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:6,smooth] plot (\\x, {0.0625*\\x*\\x + 0.5*\\x}) node[above left] {$d(t)$};\n\\draw[thick,dashed,red] (1,0.0) -- (6,5.0);\n\\fill (4,3.0) circle (2.5pt);\n\\node[above left,font=\\scriptsize,fill=white,inner sep=1pt] at (4,3.0) {$(4,30)$};\n\\node[rotate=90] at (-1.3,2.75) {Distance (m)};\n\\node[below] at (3.2,-0.9) {Time (s)};\n\\end{tikzpicture}[/tikz]\nEstimate the instantaneous speed of the vehicle at $t = 4\\text{ seconds}$.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "Use the points $(2, 10)$ and $(6, 50)$ on the tangent line:\n$\\text{Instantaneous speed} = \\dfrac{50 - 10}{6 - 2}$\n$= \\dfrac{40}{4}$\n$= 10\\text{ m/s}$"
+      },
+      {
+        "question_text": "When estimating the instantaneous rate of change at point $P(2, 4)$ on a curve, why must the two points used for the gradient calculation lie on the tangent line rather than elsewhere on the curve?",
+        "structure": "choose-best-tangent-reading",
+        "solution_text": "$\\text{The instantaneous rate of change is the gradient of the tangent line.}$\n$\\text{Points on the curve other than } P\\text{ form a secant chord, whereas points along the tangent line give its straight-line slope.}$"
+      },
+      {
+        "question_text": "The graph shows $y = f(x)$ with a tangent at $(3, 6)$ passing through $(1, 2)$ and $(5, 10)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0.4:4.8,smooth,variable=\\x] plot (\\x, {0.12*\\x*\\x + 0.28*\\x + 1.08}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0.5,0.5) -- (5.3,5.3);\n\\fill (3,3.0) circle (2.5pt) node[below right] {$(3,6)$};\n\\end{tikzpicture}\n[/tikz]\nFind the estimated value of $f'(3)$.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "$f'(3) = \\dfrac{10 - 2}{5 - 1}$\n$= \\dfrac{8}{4}$\n$= 2$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph shows the volume $V$ (mL) of gas produced in a chemical reaction over time $t$ (seconds), with a tangent drawn at $t = 20\\text{ s}$ passing through $(0, 15)$ and $(40, 75)$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$V$};\n\\foreach \\x/\\val in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below] at (\\x,-0.12) {$\\val$};}\n\\foreach \\y/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left] at (-0.12,\\y) {$\\val$};}\n\\node[below left] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:5.5,smooth,variable=\\x] plot ({\\x}, {4.227*(1 - exp(-0.38*\\x))}) node[above] {$V(t)$};\n\\draw[thick,dashed,red] (0,0.75) -- (5,4.5);\n\\fill (2,2.25) circle (2.5pt) node[above left] {$(20,45)$};\n\\node[rotate=90] at (-1.4,2.75) {Volume (mL)};\n\\node[below] at (3.25,-0.9) {Time (s)};\n\\end{tikzpicture}[/tikz]\nEstimate the instantaneous rate of reaction at $t = 20\\text{ seconds}$.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "Using the tangent points $(0, 15)$ and $(40, 75)$:\n$\\text{Rate} = \\dfrac{75 - 15}{40 - 0}$\n$= \\dfrac{60}{40}$\n$= 1.5\\text{ mL/s}$"
+      },
+      {
+        "question_text": "The graph of $y = g(x)$ shows a tangent line drawn at $(2, 5)$ passing through $(0, 9)$ and $(4, 1)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0.4:4.4,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x - 2*\\x + 5.5}) node[above right] {$y=g(x)$};\n\\draw[thick,dashed,red] (0,4.5) -- (4.5,0.0);\n\\fill (2,2.5) circle (2.5pt) node[above right] {$(2,5)$};\n\\end{tikzpicture}\n[/tikz]\nEstimate the derivative value $g'(2)$.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "Using points $(0, 9)$ and $(4, 1)$ on the tangent line:\n$g'(2) = \\dfrac{1 - 9}{4 - 0}$\n$= \\dfrac{-8}{4}$\n$= -2$"
+      },
+      {
+        "question_text": "A population curve $P(t)$ has tangents drawn at $t = 2\\text{ years}$ (gradient $m_1 = 40$) and at $t = 6\\text{ years}$ (gradient $m_2 = 150$). Describe how the rate of population growth is changing over time.",
+        "structure": "compare-instantaneous-rates-graph",
+        "solution_text": "$\\text{At } t = 2\\text{, the instantaneous growth rate is } 40\\text{ individuals/year}.$\n$\\text{At } t = 6\\text{, the instantaneous growth rate is } 150\\text{ individuals/year}.$\n$\\text{The instantaneous rate of population growth is increasing rapidly over time (accelerating growth).}$"
+      },
+      {
+        "question_text": "A weather balloon ascends such that its height $H$ in metres over time $t$ in minutes is plotted. The tangent line at $t = 5\\text{ min}$ passes through $(1, 40)$ and $(9, 200)$. Estimate the balloon's vertical climb rate at $t = 5\\text{ minutes}$.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "$\\text{Rate} = \\dfrac{200 - 40}{9 - 1}$\n$= \\dfrac{160}{8}$\n$= 20\\text{ m/min}$"
+      },
+      {
+        "question_text": "A tangent line drawn to a curve at point $P$ crosses the $y$-axis at $(0, 12)$ and the $x$-axis at $(6, 0)$. Calculate the gradient of this tangent line.",
+        "structure": "choose-best-tangent-reading",
+        "solution_text": "$m = \\dfrac{0 - 12}{6 - 0}$\n$= \\dfrac{-12}{6}$\n$= -2$"
+      },
+      {
+        "question_text": "The concentration $C(t)$ of a medication in $\\text{mg/L}$ after $t$ hours is graphed. The tangent line drawn at $t = 3\\text{ h}$ passes through $(1, 8)$ and $(5, 2)$. Estimate the instantaneous rate of change in concentration at $t = 3\\text{ hours}$.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "$\\text{Rate} = \\dfrac{2 - 8}{5 - 1}$\n$= \\dfrac{-6}{4}$\n$= -1.5\\text{ mg/L per hour}$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ shows a tangent line drawn at $(0, 2)$ passing through $(-2, -4)$ and $(2, 8)$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (-3,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-2.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {-2/-4,-1/-2,1/2,2/4,3/6,4/8} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=-1.9:2.3,smooth] plot (\\x, {-0.15*\\x*\\x + 1.5*\\x + 1.0}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (-2,-2) -- (2,4);\n\\fill (0,1.0) circle (2.5pt) node[above left] {$(0,2)$};\n\\end{tikzpicture}[/tikz]\nFind the value of $f'(0)$.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "$f'(0) = \\dfrac{8 - (-4)}{2 - (-2)}$\n$= \\dfrac{12}{4}$\n$= 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A water heating experiment has temperature $T(t)$ graphed over $20\\text{ minutes}$. The tangent line at $t = 10\\text{ min}$ passes through $(4, 30)$ and $(16, 78)$, while the average rate over the entire $[0, 20]$ interval is $3.2^{\\circ}\\text{C/min}$. Calculate the instantaneous rate at $t = 10\\text{ min}$ and compare it with the overall average rate.",
+        "structure": "estimate-instantaneous-rate-context",
+        "solution_text": "$\\text{Instantaneous rate: } T'(10) = \\dfrac{78 - 30}{16 - 4} = \\dfrac{48}{12} = 4^{\\circ}\\text{C/min}$\n$\\text{Overall average rate} = 3.2^{\\circ}\\text{C/min}$\n$\\text{The instantaneous rate at } t = 10\\text{ min } (4^{\\circ}\\text{C/min})\\text{ is greater than the overall average rate } (3.2^{\\circ}\\text{C/min}).$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ shows a polynomial with a local maximum at $x = -2$ and a local minimum at $x = 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (-3.5,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-2.5) -- (0,3.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(-3.2,0.8) (-2,2.5) (-0.5,1.2) (1,0) (3,-1.8) (4,0.5)} node[above left] {$y=f(x)$};\n\\fill (-2,2.5) circle (2.5pt);\n\\fill (3,-1.8) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nState the exact value of $f'(-2)$ and $f'(3)$, and state the sign of $f'(0)$.",
+        "structure": "compare-instantaneous-rates-graph",
+        "solution_text": "$\\text{At local extrema } x = -2\\text{ and } x = 3\\text{, the tangent lines are horizontal, so } f'(-2) = 0\\text{ and } f'(3) = 0.$\n$\\text{Between the local maximum at } x = -2\\text{ and the local minimum at } x = 3\\text{, the curve is decreasing, so } f'(0) < 0\\text{ (negative).}$"
+      },
+      {
+        "question_text": "A high-resolution graph of $y = f(x)$ shows a tangent line at $(4, 8)$ that passes through $(1, 2)$ and $(7, 14)$. Calculate $f'(4)$, determine the equation of this tangent line in the form $y = mx + c$, and find its $x$-intercept.",
+        "structure": "estimate-tangent-gradient-grid",
+        "solution_text": "$m = \\dfrac{14 - 2}{7 - 1} = \\dfrac{12}{6} = 2 \\implies f'(4) = 2$\n$y - 8 = 2(x - 4) \\implies y = 2x$\n$\\text{Setting } y = 0 \\implies 2x = 0 \\implies x = 0$\n$\\text{Equation: } y = 2x, \\quad x\\text{-intercept: } (0, 0)$"
+      }
+    ]
+  }
+}

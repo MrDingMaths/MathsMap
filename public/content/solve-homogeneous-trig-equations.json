@@ -1,0 +1,112 @@
+{
+  "skillId": "solve-homogeneous-trig-equations",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **homogeneous** trigonometric equation has the same total degree in $\\sin x$ and $\\cos x$ in every term. Divide through by a power of $\\cos x$ to get a polynomial in $\\tan x$, after testing $\\cos x = 0$ separately.",
+        "facts": [
+          "$\\sin^2 x$, $\\sin x\\cos x$ and $\\cos^2 x$ all have total degree $2$, so an expression built only from these is homogeneous of degree $2$.",
+          "**Always test $\\cos x = 0$ separately**, because dividing by $\\cos^n x$ assumes $\\cos x \\ne 0$: substitute $x = \\frac{\\pi}{2}$ and $\\frac{3\\pi}{2}$ into the original equation.",
+          "Constant terms can be made homogeneous of degree $2$ using the Pythagorean identity: $c = c(\\sin^2 x + \\cos^2 x)$.",
+          "Terms in $\\sin 2x$ or $\\cos 2x$ become homogeneous degree-2 expressions using $\\sin 2x = 2\\sin x\\cos x$ and $\\cos 2x = \\cos^2 x - \\sin^2 x$."
+        ],
+        "steps": [
+          "Express all terms to show uniform degree in $\\sin x$ and $\\cos x$ (using Pythagorean or double angle identities if needed)",
+          "Test whether $\\cos x = 0$ ($x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$) satisfies the original equation",
+          "For $\\cos x \\ne 0$, divide every term by $\\cos^n x$ to form a polynomial in $\\tan x$",
+          "Factorise and solve for $\\tan x$, then find all solutions for $x$ on the specified domain"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Solve $\\sin x - \\sqrt{3}\\cos x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-linear-ratio",
+        "solution_text": "Test $\\cos x = 0$: $\\sin x = \\pm 1 \\ne 0$, so $\\cos x = 0$ gives no solutions.\nDivide by $\\cos x$:\n$\\tan x - \\sqrt{3} = 0$\n$\\tan x = \\sqrt{3}$\n$x = \\frac{\\pi}{3}, \\frac{4\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $3\\sin x + \\sqrt{3}\\cos x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-linear-ratio",
+        "solution_text": "Test $\\cos x = 0$: $\\text{LHS} = \\pm 3 \\ne 0$.\nDivide by $\\cos x$:\n$3\\tan x + \\sqrt{3} = 0$\n$\\tan x = -\\frac{1}{\\sqrt{3}}$\n$x = \\frac{5\\pi}{6}, \\frac{11\\pi}{6}$"
+      },
+      {
+        "question_text": "Solve $\\sin^2 x - \\sin x\\cos x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-quadratic-two-term",
+        "solution_text": "Test $\\cos x = 0$ ($x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$): $\\sin^2\\left(\\frac{\\pi}{2}\\right) - 0 = 1 \\ne 0$, not a solution.\nDivide by $\\cos^2 x$:\n$\\tan^2 x - \\tan x = 0$\n$\\tan x(\\tan x - 1) = 0$\n$\\tan x = 0$ or $\\tan x = 1$\nFor $\\tan x = 0$: $x = 0, \\pi$\nFor $\\tan x = 1$: $x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$\n$x = 0, \\frac{\\pi}{4}, \\pi, \\frac{5\\pi}{4}$"
+      },
+      {
+        "question_text": "Solve $\\sin x\\cos x + \\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-quadratic-two-term",
+        "solution_text": "Factorise directly:\n$\\cos x(\\sin x + \\cos x) = 0$\nCase 1: $\\cos x = 0 \\implies x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$\nCase 2: $\\sin x + \\cos x = 0 \\implies \\tan x = -1 \\implies x = \\frac{3\\pi}{4}, \\frac{7\\pi}{4}$\n$x = \\frac{\\pi}{2}, \\frac{3\\pi}{4}, \\frac{3\\pi}{2}, \\frac{7\\pi}{4}$"
+      },
+      {
+        "question_text": "Solve $\\sin^2 x - (1+\\sqrt{3})\\sin x\\cos x + \\sqrt{3}\\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-quadratic-three-term",
+        "solution_text": "Test $\\cos x = 0$: $\\sin^2 x = 1 \\ne 0$.\nDivide by $\\cos^2 x$:\n$\\tan^2 x - (1+\\sqrt{3})\\tan x + \\sqrt{3} = 0$\n$(\\tan x - 1)(\\tan x - \\sqrt{3}) = 0$\n$\\tan x = 1$ or $\\tan x = \\sqrt{3}$\nFor $\\tan x = 1$: $x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$\nFor $\\tan x = \\sqrt{3}$: $x = \\frac{\\pi}{3}, \\frac{4\\pi}{3}$\n$x = \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{5\\pi}{4}, \\frac{4\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $\\sin^2 x + \\sin 2x - \\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-double-angle-reduction",
+        "solution_text": "Expand $\\sin 2x = 2\\sin x\\cos x$:\n$\\sin^2 x + 2\\sin x\\cos x - \\cos^2 x = 0$\nAlternatively, $\\sin 2x - (\\cos^2 x - \\sin^2 x) = 0$\n$\\sin 2x - \\cos 2x = 0$\n$\\tan 2x = 1$\nFor $x \\in [0, 2\\pi)$, $2x \\in [0, 4\\pi)$.\n$2x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}, \\frac{9\\pi}{4}, \\frac{13\\pi}{4}$\n$x = \\frac{\\pi}{8}, \\frac{5\\pi}{8}, \\frac{9\\pi}{8}, \\frac{13\\pi}{8}$"
+      },
+      {
+        "question_text": "Explain why testing $\\cos x = 0$ is a mandatory step when solving homogeneous trigonometric equations by division.",
+        "structure": "homogeneous-zero-test-conceptual",
+        "solution_text": "Dividing by $\\cos^n x$ is valid only when $\\cos x \\ne 0$.\nIf the equation has solutions where $\\cos x = 0$ (such as when $\\cos x$ is a factor of the equation), dividing through eliminates those valid solutions.\nTherefore, $x = \\frac{\\pi}{2}$ and $x = \\frac{3\\pi}{2}$ must always be tested separately."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $\\sin 2x + \\cos 2x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-linear-ratio",
+        "solution_text": "Test $\\cos 2x = 0$: $\\sin 2x = \\pm 1 \\ne 0$.\nDivide by $\\cos 2x$:\n$\\tan 2x = -1$\nFor $x \\in [0, 2\\pi)$, $2x \\in [0, 4\\pi)$.\n$2x = \\frac{3\\pi}{4}, \\frac{7\\pi}{4}, \\frac{11\\pi}{4}, \\frac{15\\pi}{4}$\n$x = \\frac{3\\pi}{8}, \\frac{7\\pi}{8}, \\frac{11\\pi}{8}, \\frac{15\\pi}{8}$"
+      },
+      {
+        "question_text": "Solve $\\sin x\\cos x - \\sqrt{3}\\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-quadratic-two-term",
+        "solution_text": "Factorise directly:\n$\\cos x(\\sin x - \\sqrt{3}\\cos x) = 0$\nCase 1: $\\cos x = 0 \\implies x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$\nCase 2: $\\sin x - \\sqrt{3}\\cos x = 0 \\implies \\tan x = \\sqrt{3} \\implies x = \\frac{\\pi}{3}, \\frac{4\\pi}{3}$\n$x = \\frac{\\pi}{3}, \\frac{\\pi}{2}, \\frac{4\\pi}{3}, \\frac{3\\pi}{2}$"
+      },
+      {
+        "question_text": "Solve $\\sqrt{3}\\sin^2 x - 4\\sin x\\cos x + \\sqrt{3}\\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-quadratic-three-term",
+        "solution_text": "Test $\\cos x = 0$: $\\sqrt{3}(1) = \\sqrt{3} \\ne 0$.\nDivide by $\\cos^2 x$:\n$\\sqrt{3}\\tan^2 x - 4\\tan x + \\sqrt{3} = 0$\n$(\\sqrt{3}\\tan x - 1)(\\tan x - \\sqrt{3}) = 0$\n$\\tan x = \\frac{1}{\\sqrt{3}}$ or $\\tan x = \\sqrt{3}$\nFor $\\tan x = \\frac{1}{\\sqrt{3}}$: $x = \\frac{\\pi}{6}, \\frac{7\\pi}{6}$\nFor $\\tan x = \\sqrt{3}$: $x = \\frac{\\pi}{3}, \\frac{4\\pi}{3}$\n$x = \\frac{\\pi}{6}, \\frac{\\pi}{3}, \\frac{7\\pi}{6}, \\frac{4\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $\\sin^2 x - 4\\sin x\\cos x + 3\\cos^2 x = 0$ for $0^{\\circ} \\le x < 360^{\\circ}$ correct to the nearest minute where necessary.",
+        "structure": "homogeneous-quadratic-three-term",
+        "solution_text": "Test $\\cos x = 0$: $\\sin^2(90^{\\circ}) = 1 \\ne 0$.\nDivide by $\\cos^2 x$:\n$\\tan^2 x - 4\\tan x + 3 = 0$\n$(\\tan x - 1)(\\tan x - 3) = 0$\n$\\tan x = 1$ or $\\tan x = 3$\nFor $\\tan x = 1$: $x = 45^{\\circ}, 225^{\\circ}$\nFor $\\tan x = 3$: $x = 71^{\\circ}34', 251^{\\circ}34'$\n$x = 45^{\\circ}, 71^{\\circ}34', 225^{\\circ}, 251^{\\circ}34'$"
+      },
+      {
+        "question_text": "Solve $\\sin 2x + \\sqrt{3}\\cos 2x = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-double-angle-reduction",
+        "solution_text": "Test $\\cos 2x = 0$: $\\text{LHS} = \\pm 1 \\ne 0$.\nDivide by $\\cos 2x$:\n$\\tan 2x = -\\sqrt{3}$\nFor $x \\in [0, 2\\pi)$, $2x \\in [0, 4\\pi)$.\n$2x = \\frac{2\\pi}{3}, \\frac{5\\pi}{3}, \\frac{8\\pi}{3}, \\frac{11\\pi}{3}$\n$x = \\frac{\\pi}{3}, \\frac{5\\pi}{6}, \\frac{4\\pi}{3}, \\frac{11\\pi}{6}$"
+      },
+      {
+        "question_text": "Solve $2\\sin^2 x + \\sqrt{3}\\sin x\\cos x + \\cos^2 x = 1$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-constant-pythagorean-lift",
+        "solution_text": "Replace $1$ with $\\sin^2 x + \\cos^2 x$:\n$2\\sin^2 x + \\sqrt{3}\\sin x\\cos x + \\cos^2 x = \\sin^2 x + \\cos^2 x$\n$\\sin^2 x + \\sqrt{3}\\sin x\\cos x = 0$\n$\\sin x(\\sin x + \\sqrt{3}\\cos x) = 0$\n$\\sin x = 0$ or $\\tan x = -\\sqrt{3}$\nFor $\\sin x = 0$: $x = 0, \\pi$\nFor $\\tan x = -\\sqrt{3}$: $x = \\frac{2\\pi}{3}, \\frac{5\\pi}{3}$\n$x = 0, \\frac{2\\pi}{3}, \\pi, \\frac{5\\pi}{3}$"
+      },
+      {
+        "question_text": "For $2\\sin x\\cos x - \\cos^2 x = 0$, verify that $x = \\frac{\\pi}{2}$ is a solution and find all solutions in $[0, 2\\pi)$.",
+        "structure": "homogeneous-zero-test-conceptual",
+        "solution_text": "Substitute $x = \\frac{\\pi}{2}$:\n$2\\sin\\left(\\frac{\\pi}{2}\\right)\\cos\\left(\\frac{\\pi}{2}\\right) - \\cos^2\\left(\\frac{\\pi}{2}\\right) = 2(1)(0) - 0 = 0$\nFactorise:\n$\\cos x(2\\sin x - \\cos x) = 0$\n$\\cos x = 0$ or $\\tan x = \\frac{1}{2}$\nFor $\\cos x = 0$: $x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$\nFor $\\tan x = 0.5$: $x = \\tan^{-1}(0.5), \\pi + \\tan^{-1}(0.5)$\n$x = \\tan^{-1}(0.5), \\frac{\\pi}{2}, \\pi + \\tan^{-1}(0.5), \\frac{3\\pi}{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $2\\sin^2 x - 5\\sin x\\cos x + 2\\cos^2 x = 0$ for $0^{\\circ} \\le x < 360^{\\circ}$ correct to the nearest minute.",
+        "structure": "homogeneous-quadratic-three-term",
+        "solution_text": "Test $\\cos x = 0$: $2(1) = 2 \\ne 0$.\nDivide by $\\cos^2 x$:\n$2\\tan^2 x - 5\\tan x + 2 = 0$\n$(2\\tan x - 1)(\\tan x - 2) = 0$\n$\\tan x = \\frac{1}{2}$ or $\\tan x = 2$\nFor $\\tan x = 0.5$: $x = 26^{\\circ}34', 206^{\\circ}34'$\nFor $\\tan x = 2$: $x = 63^{\\circ}26', 243^{\\circ}26'$\n$x = 26^{\\circ}34', 63^{\\circ}26', 206^{\\circ}34', 243^{\\circ}26'$"
+      },
+      {
+        "question_text": "Solve $3\\sin^2 x - 4\\sin x\\cos x + 5\\cos^2 x = 2$ for $0 \\le x < 2\\pi$.",
+        "structure": "homogeneous-constant-pythagorean-lift",
+        "solution_text": "Replace $2$ with $2(\\sin^2 x + \\cos^2 x) = 2\\sin^2 x + 2\\cos^2 x$:\n$3\\sin^2 x - 4\\sin x\\cos x + 5\\cos^2 x - 2\\sin^2 x - 2\\cos^2 x = 0$\n$\\sin^2 x - 4\\sin x\\cos x + 3\\cos^2 x = 0$\nDivide by $\\cos^2 x$:\n$\\tan^2 x - 4\\tan x + 3 = 0$\n$(\\tan x - 1)(\\tan x - 3) = 0$\n$\\tan x = 1$ or $\\tan x = 3$\nFor $\\tan x = 1$: $x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$\nFor $\\tan x = 3$: $x = \\tan^{-1}(3), \\pi + \\tan^{-1}(3)$\n$x = \\frac{\\pi}{4}, \\tan^{-1}(3), \\frac{5\\pi}{4}, \\pi + \\tan^{-1}(3)$"
+      },
+      {
+        "question_text": "Solve $\\cos 2x - 3\\sin 2x + 2 = 0$ for $0 \\le x < \\pi$.",
+        "structure": "homogeneous-double-angle-reduction",
+        "solution_text": "$(\\cos^2 x - \\sin^2 x) - 6\\sin x\\cos x + 2(\\sin^2 x + \\cos^2 x) = 0$\n$\\sin^2 x - 6\\sin x\\cos x + 3\\cos^2 x = 0$\nDivide by $\\cos^2 x$:\n$\\tan^2 x - 6\\tan x + 3 = 0$\n$\\tan x = \\frac{6 \\pm \\sqrt{36 - 12}}{2} = 3 \\pm \\sqrt{6}$\n$x = \\tan^{-1}(3 - \\sqrt{6}), \\tan^{-1}(3 + \\sqrt{6})$"
+      }
+    ]
+  }
+}

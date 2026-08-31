@@ -1,0 +1,105 @@
+{
+  "skillId": "variance-discrete",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **variance** $\\mathrm{Var}(X)$ measures how far the values of $X$ spread from the mean $\\mu$. Find $E(X^{2})=\\sum x^{2}P(x)$ and subtract $\\mu^{2}$. The **standard deviation** $\\sigma$ is the square root of the variance.",
+    "facts": [
+      "$\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$, where $\\mu=E(X)$.",
+      "$E(X^{2})=\\sum x^{2}P(x)$: square each value, multiply by its probability, then add.",
+      "$E(X^{2})$ and $[E(X)]^{2}$ are different numbers, so averaging the squares is not the same as squaring the average.",
+      "The equivalent form $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$ always gives the same value.",
+      "$\\mathrm{Var}(X)=E\\left((X-\\mu)^{2}\\right)$, so the variance is itself an expected value.",
+      "The standard deviation is $\\sigma=\\sqrt{\\mathrm{Var}(X)}$ and is measured in the same units as $X$.",
+      "A variance can never be negative; a negative answer means $E(X^{2})$ and $\\mu^{2}$ were subtracted the wrong way round."
+    ],
+    "steps": [
+      "Find the mean $\\mu=\\sum xP(x)$.",
+      "Find $E(X^{2})=\\sum x^{2}P(x)$.",
+      "Subtract to get $\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$.",
+      "Take the square root for the standard deviation $\\sigma$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\mathrm{Var}(X)$ for the distribution below.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.2 & 0.2 & 0.4 & 0.2 \\end{array}$",
+        "structure": "variance-from-table",
+        "solution_text": "1. **Find the mean $\\mu=\\sum xP(x)$.**\n$\\mu=1(0.2)+2(0.2)+3(0.4)+4(0.2)$\n$=0.2+0.4+1.2+0.8$\n$=2.6$\n2. **Find $E(X^{2})=\\sum x^{2}P(x)$.**\n$E(X^{2})=1(0.2)+4(0.2)+9(0.4)+16(0.2)$\n$=0.2+0.8+3.6+3.2$\n$=7.8$\n3. **Subtract to get $\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$.**\n$\\mathrm{Var}(X)=7.8-2.6^{2}$\n$=7.8-6.76$\n$=1.04$"
+      },
+      {
+        "question_text": "The number of stoppages $X$ on a machine during a shift has the distribution below. Find $\\mathrm{Var}(X)$ and $\\sigma$, correct to two decimal places where necessary.\n$\\begin{array}{c|ccc} x & 0 & 1 & 2 \\\\ \\hline P(X=x) & 0.5 & 0.3 & 0.2 \\end{array}$",
+        "structure": "sd-from-table",
+        "solution_text": "$\\mu=0(0.5)+1(0.3)+2(0.2)$\n$=0.7$\n$E(X^{2})=0(0.5)+1(0.3)+4(0.2)$\n$=1.1$\n$\\mathrm{Var}(X)=1.1-0.7^{2}$\n$=1.1-0.49$\n$=0.61$\n$\\sigma=\\sqrt{0.61}$\n$=0.78$"
+      },
+      {
+        "question_text": "Use $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$ to find the variance.\n$\\begin{array}{c|ccc} x & 2 & 4 & 6 \\\\ \\hline P(X=x) & 0.25 & 0.5 & 0.25 \\end{array}$",
+        "structure": "variance-two-methods",
+        "solution_text": "$\\mu=2(0.25)+4(0.5)+6(0.25)$\n$=0.5+2+1.5$\n$=4$\n$\\mathrm{Var}(X)=(2-4)^{2}(0.25)+(4-4)^{2}(0.5)+(6-4)^{2}(0.25)$\n$=4(0.25)+0+4(0.25)$\n$=2$"
+      },
+      {
+        "question_text": "The random variable $X$ has mean $\\mu=6.7$. Find $\\mathrm{Var}(X)$ and $\\sigma$.\n$\\begin{array}{c|cccc} x & 5 & 6 & 7 & 8 \\\\ \\hline P(X=x) & 0.1 & 0.3 & 0.4 & 0.2 \\end{array}$",
+        "structure": "variance-from-mean-given",
+        "solution_text": "$E(X^{2})=25(0.1)+36(0.3)+49(0.4)+64(0.2)$\n$=2.5+10.8+19.6+12.8$\n$=45.7$\n$\\mathrm{Var}(X)=45.7-6.7^{2}$\n$=45.7-44.89$\n$=0.81$\n$\\sigma=\\sqrt{0.81}$\n$=0.9$"
+      },
+      {
+        "question_text": "The mass of scrap metal, in kilograms, produced by a press in an hour has the distribution below. Find $\\sigma$.\n$\\begin{array}{c|ccc} x & 10 & 20 & 30 \\\\ \\hline P(X=x) & 0.2 & 0.5 & 0.3 \\end{array}$",
+        "structure": "sd-from-table",
+        "solution_text": "$\\mu=10(0.2)+20(0.5)+30(0.3)$\n$=2+10+9$\n$=21$\n$E(X^{2})=100(0.2)+400(0.5)+900(0.3)$\n$=20+200+270$\n$=490$\n$\\mathrm{Var}(X)=490-21^{2}$\n$=490-441$\n$=49$\n$\\sigma=\\sqrt{49}$\n$=7$ kg"
+      },
+      {
+        "question_text": "The random variables $X$ and $Y$ have the distributions below. Which has the greater spread?\n$X: \\begin{array}{c|ccc} x & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.25 & 0.5 & 0.25 \\end{array}$\n$Y: \\begin{array}{c|ccc} y & 1 & 2 & 3 \\\\ \\hline P(Y=y) & 0.45 & 0.1 & 0.45 \\end{array}$",
+        "structure": "compare-spread",
+        "solution_text": "$E(X)=1(0.25)+2(0.5)+3(0.25)$\n$=2$\n$E(X^{2})=1(0.25)+4(0.5)+9(0.25)$\n$=4.5$\n$\\mathrm{Var}(X)=4.5-4$\n$=0.5$\n$E(Y)=1(0.45)+2(0.1)+3(0.45)$\n$=2$\n$E(Y^{2})=1(0.45)+4(0.1)+9(0.45)$\n$=4.9$\n$\\mathrm{Var}(Y)=4.9-4$\n$=0.9$\n$Y$ has the greater variance, so $Y$ has the greater spread even though the two means are equal."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\mathrm{Var}(X)$ and $\\sigma$ for the distribution below, correct to two decimal places where necessary.\n$\\begin{array}{c|cccc} x & -2 & 0 & 1 & 3 \\\\ \\hline P(X=x) & 0.3 & 0.2 & 0.4 & 0.1 \\end{array}$",
+        "structure": "variance-from-table",
+        "solution_text": "$\\mu=-2(0.3)+0(0.2)+1(0.4)+3(0.1)$\n$=-0.6+0+0.4+0.3$\n$=0.1$\n$E(X^{2})=4(0.3)+0(0.2)+1(0.4)+9(0.1)$\n$=1.2+0+0.4+0.9$\n$=2.5$\n$\\mathrm{Var}(X)=2.5-0.1^{2}$\n$=2.5-0.01$\n$=2.49$\n$\\sigma=\\sqrt{2.49}$\n$=1.58$"
+      },
+      {
+        "question_text": "A random variable has $P(x)=0.05x$ for $x \\in \\{2,\\ 4,\\ 6,\\ 8\\}$. Find $\\mathrm{Var}(X)$ and $\\sigma$.",
+        "structure": "variance-from-function-rule",
+        "solution_text": "$P(2)=0.1$, $P(4)=0.2$, $P(6)=0.3$, $P(8)=0.4$\n$0.1+0.2+0.3+0.4=1$, so this is a probability distribution.\n$\\mu=2(0.1)+4(0.2)+6(0.3)+8(0.4)$\n$=0.2+0.8+1.8+3.2$\n$=6$\n$E(X^{2})=4(0.1)+16(0.2)+36(0.3)+64(0.4)$\n$=0.4+3.2+10.8+25.6$\n$=40$\n$\\mathrm{Var}(X)=40-6^{2}$\n$=4$\n$\\sigma=\\sqrt{4}$\n$=2$"
+      },
+      {
+        "question_text": "The number of faulty tiles $X$ in a box has mean $\\mu=0.76$. Find $\\mathrm{Var}(X)$ and $\\sigma$, correct to two decimal places.\n$\\begin{array}{c|ccccc} x & 0 & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.55 & 0.25 & 0.12 & 0.05 & 0.03 \\end{array}$",
+        "structure": "variance-from-mean-given",
+        "solution_text": "$E(X^{2})=0(0.55)+1(0.25)+4(0.12)+9(0.05)+16(0.03)$\n$=0+0.25+0.48+0.45+0.48$\n$=1.66$\n$\\mathrm{Var}(X)=1.66-0.76^{2}$\n$=1.66-0.5776$\n$=1.0824$\n$=1.08$\n$\\sigma=\\sqrt{1.0824}$\n$=1.04$"
+      },
+      {
+        "question_text": "Find the variance using $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$, then check it with $E(X^{2})-\\mu^{2}$.\n$\\begin{array}{c|cccc} x & 3 & 5 & 7 & 9 \\\\ \\hline P(X=x) & 0.2 & 0.3 & 0.3 & 0.2 \\end{array}$",
+        "structure": "variance-two-methods",
+        "solution_text": "$\\mu=3(0.2)+5(0.3)+7(0.3)+9(0.2)$\n$=0.6+1.5+2.1+1.8$\n$=6$\n$\\mathrm{Var}(X)=(-3)^{2}(0.2)+(-1)^{2}(0.3)+1^{2}(0.3)+3^{2}(0.2)$\n$=1.8+0.3+0.3+1.8$\n$=4.2$\nChecking with the other form:\n$E(X^{2})=9(0.2)+25(0.3)+49(0.3)+81(0.2)$\n$=1.8+7.5+14.7+16.2$\n$=40.2$\n$\\mathrm{Var}(X)=40.2-36$\n$=4.2$"
+      },
+      {
+        "question_text": "Two machines have the distributions below for the number of rejects $X$ per hour. Both have mean $1$. Which machine is less consistent, and why?\n$\\text{Machine P: } \\begin{array}{c|ccc} x & 0 & 1 & 2 \\\\ \\hline P(X=x) & 0.3 & 0.4 & 0.3 \\end{array}$\n$\\text{Machine Q: } \\begin{array}{c|ccc} x & 0 & 1 & 2 \\\\ \\hline P(X=x) & 0.4 & 0.2 & 0.4 \\end{array}$",
+        "structure": "compare-spread",
+        "solution_text": "$E(X^{2})$ for P $=0(0.3)+1(0.4)+4(0.3)$\n$=1.6$\n$\\mathrm{Var}(P)=1.6-1$\n$=0.6$\n$E(X^{2})$ for Q $=0(0.4)+1(0.2)+4(0.4)$\n$=1.8$\n$\\mathrm{Var}(Q)=1.8-1$\n$=0.8$\nMachine Q has the greater variance, so Q is the less consistent machine."
+      },
+      {
+        "question_text": "The random variable $X$ has mean $1.8$.\n$\\begin{array}{c|ccc} x & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.5 & a & b \\end{array}$\nFind $\\mathrm{Var}(X)$ and $\\sigma$, correct to two decimal places where necessary.",
+        "structure": "reverse-variance",
+        "solution_text": "$0.5+a+b=1$\n$a+b=0.5$\n$1(0.5)+2a+3b=1.8$\n$2a+3b=1.3$\nSubstituting $a=0.5-b$:\n$2(0.5-b)+3b=1.3$\n$1+b=1.3$\n$b=0.3$\n$a=0.2$\n$E(X^{2})=1(0.5)+4(0.2)+9(0.3)$\n$=0.5+0.8+2.7$\n$=4$\n$\\mathrm{Var}(X)=4-1.8^{2}$\n$=4-3.24$\n$=0.76$\n$\\sigma=\\sqrt{0.76}$\n$=0.87$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The random variable $X$ takes only the values $0$ and $4$, with $P(X=0)=p$. Given that $\\mathrm{Var}(X)=3$, find the possible values of $p$.",
+        "structure": "reverse-variance",
+        "solution_text": "$\\mu=0(p)+4(1-p)$\n$=4-4p$\n$E(X^{2})=0(p)+16(1-p)$\n$=16-16p$\n$\\mathrm{Var}(X)=16-16p-(4-4p)^{2}$\n$=16-16p-(16-32p+16p^{2})$\n$=16p-16p^{2}$\n$16p-16p^{2}=3$\n$16p^{2}-16p+3=0$\n$(4p-1)(4p-3)=0$\n$p=\\frac{1}{4}$ or $p=\\frac{3}{4}$"
+      },
+      {
+        "question_text": "The random variable $X$ has mean $2.7$.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.15 & a & b & 0.3 \\end{array}$\nFind $\\sigma$, correct to two decimal places.",
+        "structure": "variance-from-table",
+        "solution_text": "$0.15+a+b+0.3=1$\n$a+b=0.55$\n$1(0.15)+2a+3b+4(0.3)=2.7$\n$2a+3b=1.35$\nSubstituting $a=0.55-b$:\n$2(0.55-b)+3b=1.35$\n$1.1+b=1.35$\n$b=0.25$\n$a=0.3$\n$E(X^{2})=1(0.15)+4(0.3)+9(0.25)+16(0.3)$\n$=0.15+1.2+2.25+4.8$\n$=8.4$\n$\\mathrm{Var}(X)=8.4-2.7^{2}$\n$=8.4-7.29$\n$=1.11$\n$\\sigma=\\sqrt{1.11}$\n$=1.05$"
+      },
+      {
+        "question_text": "The distributions of $V$ and $W$ below are reversals of each other. Show that they have the same variance and explain why.\n$V: \\begin{array}{c|cccc} v & 0 & 1 & 2 & 3 \\\\ \\hline P(V=v) & 0.4 & 0.3 & 0.2 & 0.1 \\end{array}$\n$W: \\begin{array}{c|cccc} w & 0 & 1 & 2 & 3 \\\\ \\hline P(W=w) & 0.1 & 0.2 & 0.3 & 0.4 \\end{array}$",
+        "structure": "compare-spread",
+        "solution_text": "$E(V)=0(0.4)+1(0.3)+2(0.2)+3(0.1)$\n$=1$\n$E(V^{2})=0(0.4)+1(0.3)+4(0.2)+9(0.1)$\n$=2$\n$\\mathrm{Var}(V)=2-1$\n$=1$\n$E(W)=0(0.1)+1(0.2)+2(0.3)+3(0.4)$\n$=2$\n$E(W^{2})=0(0.1)+1(0.2)+4(0.3)+9(0.4)$\n$=5$\n$\\mathrm{Var}(W)=5-4$\n$=1$\nReversing the probabilities reflects the distribution about the centre of the values, which moves the mean but leaves every distance from the mean unchanged, so the variance is the same."
+      }
+    ]
+  }
+}

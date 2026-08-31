@@ -16,7 +16,8 @@
 
   let selectedStage = $derived.by(() => {
     const requested = Number(route.query.stage);
-    return stages.includes(requested) ? requested : stages[0];
+    if (stages.includes(requested)) return requested;
+    return stages.includes(4) ? 4 : stages[0];
   });
   let stageCourses = $derived(groupedCourses.get(selectedStage) ?? []);
   let selectedCourse = $derived.by(() => {

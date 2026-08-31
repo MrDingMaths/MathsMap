@@ -2,21 +2,22 @@
   "skillId": "domain-and-range",
   "atomType": "R",
   "theory": {
-    "intro": "The **domain** is the set of all allowable input ($x$) values of a function; the **range** is the set of all output ($y$) values. Reading them from a graph, the domain is the graph's \"shadow\" on the $x$-axis and the range is its shadow on the $y$-axis. Each can be written as an **inequality** and in **interval notation**.",
-    "facts": [
-      "Domain: read from the left-most to the right-most $x$ the graph reaches. Range: read from the lowest to the highest $y$ it reaches.",
-      "A closed endpoint $\\bullet$ is **included** (use $\\leq$, $\\geq$ or a square bracket $[\\ ]$); an open endpoint $\\circ$ is **excluded** (use $<$, $>$ or a round bracket $(\\ )$).",
-      "An arrow means the graph continues forever that way: the domain or range runs to $-\\infty$ or $\\infty$, which are always written with a round bracket.",
-      "Interval notation lists the smallest value first: e.g. $-2 \\leq x \\leq 2$ is $[-2, 2]$, and $y > 0$ is $(0, \\infty)$. \"All real values\" is written $(-\\infty, \\infty)$.",
-      "The lowest or highest $y$ may occur at a turning point inside the graph, not only at the endpoints — read the actual top and bottom of the curve."
-    ],
-    "steps": [
-      "Find the domain: read the smallest and largest $x$-values the graph reaches (its shadow on the $x$-axis).",
-      "Find the range: read the smallest and largest $y$-values the graph reaches (its shadow on the $y$-axis).",
-      "Check each endpoint: closed (included) or open/arrow (excluded).",
-      "Write each as an inequality, then in interval notation."
-    ]
-  },
+        "intro": "The **domain** is every allowed input $x$; the **range** is every output $y$. On a graph the domain is the shadow on the $x$-axis, the range the shadow on the $y$-axis. Write each as an **inequality** and in **interval notation**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-1.4,0)--(5.2,0) node[right] {$x$};\n\\draw[->] (0,-1.1)--(0,4.4) node[above] {$y$};\n\\draw[gray,dashed] (1,1)--(1,0);\n\\draw[gray,dashed] (1,1)--(0,1);\n\\draw[gray,dashed] (4,3.5)--(4,0);\n\\draw[gray,dashed] (4,3.5)--(0,3.5);\n\\draw[thick,domain=1:4,smooth,samples=60,variable=\\x] plot ({\\x},{1+0.2778*(\\x-1)*(\\x-1)});\n\\fill[black] (1,1) circle (2.5pt);\n\\fill[black] (4,3.5) circle (2.5pt);\n\\draw[blue,line width=2pt] (1,0)--(4,0);\n\\draw[red,line width=2pt] (0,1)--(0,3.5);\n\\node[below] at (1,-0.12) {$a$};\n\\node[below] at (4,-0.12) {$b$};\n\\node[left] at (-0.14,1) {$c$};\n\\node[left] at (-0.14,3.5) {$d$};\n\\node[blue,below] at (2.5,-0.85) {domain};\n\\node[red,rotate=90] at (-1.1,2.25) {range};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Read the domain from the left-most to the right-most $x$ the graph reaches, and the range from its lowest to highest $y$.",
+          "A closed endpoint $\\bullet$ is **included**, shown by $\\leq$ or $\\geq$ and a square bracket.",
+          "An open endpoint $\\circ$ is **excluded**, shown by $<$ or $>$ and a round bracket.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-1.4,0)--(5.2,0) node[right] {$x$};\n\\draw[->] (0,-1.1)--(0,4.4) node[above] {$y$};\n\\draw[gray,dashed] (1,1)--(1,0);\n\\draw[gray,dashed] (4,3.5)--(4,0);\n\\draw[thick,domain=1:4,smooth,samples=60,variable=\\x] plot ({\\x},{1+0.2778*(\\x-1)*(\\x-1)});\n\\fill[black] (1,1) circle (2.5pt);\n\\draw[thick,fill=white] (4,3.5) circle (2.5pt);\n\\draw[blue,line width=2pt] (1,0)--(4,0);\n\\fill[blue] (1,0) circle (2.5pt);\n\\draw[blue,line width=1pt,fill=white] (4,0) circle (2.5pt);\n\\node[below] at (1,-0.16) {$a$};\n\\node[below] at (4,-0.16) {$b$};\n\\node at (1.9,3.2) {$a \\leq x < b$};\n\\end{tikzpicture}\n[/tikz]",
+          "An arrow means the graph continues forever, so the domain or range runs to $-\\infty$ or $\\infty$, always written with a round bracket.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-1.4,0)--(5.6,0) node[right] {$x$};\n\\draw[->] (0,-1.1)--(0,4.7) node[above] {$y$};\n\\draw[gray,dashed] (1,1)--(1,0);\n\\draw[thick,->,domain=1:4.3,smooth,samples=60,variable=\\x] plot ({\\x},{1+0.2778*(\\x-1)*(\\x-1)});\n\\fill[black] (1,1) circle (2.5pt);\n\\draw[blue,line width=2pt,->] (1,0)--(4.9,0);\n\\fill[blue] (1,0) circle (2.5pt);\n\\node[below] at (1,-0.16) {$a$};\n\\node at (1.9,3.2) {$x \\geq a$};\n\\end{tikzpicture}\n[/tikz]",
+          "Interval notation lists the smallest value first: $-2 \\leq x \\leq 2$ is $[-2, 2]$, $y > 0$ is $(0, \\infty)$, and all real values is $(-\\infty, \\infty)$.",
+          "The lowest or highest $y$ may occur at a turning point inside the graph, not only at the ends."
+        ],
+        "steps": [
+          "Find the domain: read the smallest and largest $x$-values the graph reaches (its shadow on the $x$-axis).",
+          "Find the range: read the smallest and largest $y$-values the graph reaches (its shadow on the $y$-axis).",
+          "Check each endpoint: closed (included) or open/arrow (excluded).",
+          "Write each as an inequality, then in interval notation."
+        ]
+      },
   "practice": {
     "foundation": [
       {

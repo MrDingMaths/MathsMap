@@ -1,0 +1,114 @@
+{
+  "skillId": "combinatorial-argument-proof",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **combinatorial argument** (or combinatorial proof) proves an algebraic identity by establishing that both sides of the equation count the **same set of outcomes or selections** in two different, valid ways. Because both expressions describe the exact same quantity, they must be equal.",
+    "facts": [
+      "A combinatorial proof requires defining a clear counting scenario (e.g. choosing a committee, forming subsets, or selecting pairs) and showing that LHS and RHS evaluate that same scenario.",
+      "Symmetry $\\dbinom{n}{r} = \\dbinom{n}{n-r}$: Choosing $r$ objects to include in a group from $n$ objects is equivalent to choosing $n-r$ objects to exclude.",
+      "Pascal's identity $\\dbinom{n}{r} = \\dbinom{n-1}{r-1} + \\dbinom{n-1}{r}$: Counts selections of $r$ items from $n$ by conditioning on a single distinguished object $x$ (either $x$ is included or $x$ is excluded).",
+      "Subset sum $\\sum_{r=0}^{n} \\dbinom{n}{r} = 2^{n}$: Counts the total number of subsets of an $n$-element set by partitioning by subset size (LHS) and by making an independent binary choice (in/out) for each element (RHS).",
+      "Committee-chair identity $r\\dbinom{n}{r} = n\\dbinom{n-1}{r-1}$: Counts ways to select an $r$-person committee with a designated leader by choosing the committee first (LHS) versus choosing the leader first (RHS).",
+      "Vandermonde's convolution $\\sum_{k=0}^{r} \\dbinom{m}{k}\\dbinom{n}{r-k} = \\dbinom{m+n}{r}$: Counts choosing $r$ people from two distinct groups of sizes $m$ and $n$ by partitioning into cases based on how many are selected from the first group."
+    ],
+    "steps": [
+      "State the single question or set of configurations being counted",
+      "Explain how the Left-Hand Side counts the set (e.g. by partitioning into cases or choosing the group first)",
+      "Explain how the Right-Hand Side counts the identical set (e.g. by an independent choice or choosing the leader first)",
+      "Conclude that since both sides count the same collection of outcomes, LHS = RHS"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Explain why $^{n}C_{r} = {^{n}C_{n-r}}$ by considering the selection of a team of $r$ players from a squad of $n$ players.",
+        "structure": "combinatorial-proof-symmetry",
+        "solution_text": "Consider selecting a team of $r$ players from a squad of $n$ players.\nNumber of ways to choose the $r$ players to be on the team is $^{n}C_{r}$.\nChoosing the $r$ team members is equivalent to choosing the $n-r$ players who are left off the team, which can be done in $^{n}C_{n-r}$ ways.\nSince both methods count the same set of team selections, $^{n}C_{r} = {^{n}C_{n-r}}$."
+      },
+      {
+        "question_text": "A teacher has $10$ distinct books and selects $3$ books to give to a student. Explain why the number of ways to choose the $3$ books to give away equals the number of ways to choose the $7$ books to keep.",
+        "structure": "combinatorial-proof-symmetry",
+        "solution_text": "Number of ways to choose $3$ books to give away from $10$ is $^{10}C_{3}$.\nSelecting the $3$ books to give away automatically determines the $7$ books kept, which can be chosen in $^{10}C_{7}$ ways.\nSince each selection of $3$ books uniquely corresponds to a selection of $7$ books kept, $^{10}C_{3} = {^{10}C_{7}}$."
+      },
+      {
+        "question_text": "Prove by combinatorial argument that $^{5}C_{3} = {^{4}C_{2}} + {^{4}C_{3}}$ by considering whether a particular person, Alice, is included in a committee of $3$ chosen from $5$ people.",
+        "structure": "combinatorial-proof-pascal",
+        "solution_text": "Total ways to choose $3$ people from $5$ is $^{5}C_{3}$.\nConsider a specific person Alice. Any committee either contains Alice or does not.\nCase 1 (Alice is included): We need $2$ more people from the remaining $4$, giving $^{4}C_{2}$ ways.\nCase 2 (Alice is excluded): We choose all $3$ people from the remaining $4$, giving $^{4}C_{3}$ ways.\nSince these cases are mutually exclusive and cover all possibilities, $^{5}C_{3} = {^{4}C_{2}} + {^{4}C_{3}}$."
+      },
+      {
+        "question_text": "Prove the identity $^{n}C_{r} = {^{n-1}C_{r-1}} + {^{n-1}C_{r}}$ by considering the selection of a committee of $r$ people from $n$ people, focusing on a specific individual $P$.",
+        "structure": "combinatorial-proof-pascal",
+        "solution_text": "The total number of committees of $r$ people chosen from $n$ people is $^{n}C_{r}$.\nFocus on a specific person $P$ in the pool.\nCase 1: $P$ is selected for the committee. The remaining $r-1$ members must be chosen from the remaining $n-1$ people, in $^{n-1}C_{r-1}$ ways.\nCase 2: $P$ is not selected. All $r$ members must be chosen from the remaining $n-1$ people, in $^{n-1}C_{r}$ ways.\nSumming the two mutually exclusive cases gives $^{n}C_{r} = {^{n-1}C_{r-1}} + {^{n-1}C_{r}}$."
+      },
+      {
+        "question_text": "Prove that $^{3}C_{0} + {^{3}C_{1}} + {^{3}C_{2}} + {^{3}C_{3}} = 2^{3}$ by counting the total number of subsets of the set $S = \\{a, b, c\\}$ in two different ways.",
+        "structure": "combinatorial-proof-subsets-binary",
+        "solution_text": "LHS counts subsets by grouping them according to size: $^{3}C_{0}$ subsets of size 0, $^{3}C_{1}$ of size 1, $^{3}C_{2}$ of size 2, and $^{3}C_{3}$ of size 3.\nRHS counts subsets by making a binary decision for each element: $a$ is in or out (2 choices), $b$ is in or out (2 choices), $c$ is in or out (2 choices), giving $2 \\times 2 \\times 2 = 2^3$ ways.\nSince both sides count the total number of subsets of $S$, $^{3}C_{0} + {^{3}C_{1}} + {^{3}C_{2}} + {^{3}C_{3}} = 2^{3}$."
+      },
+      {
+        "question_text": "Prove the identity $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$ by counting the total number of subsets of a set of $n$ distinct elements in two different ways.",
+        "structure": "combinatorial-proof-subsets-binary",
+        "solution_text": "Let $S$ be a set with $n$ elements.\nMethod 1 (LHS): Count subsets by their cardinality $r$. There are $^{n}C_{r}$ subsets of size $r$, so the total is $\\sum_{r=0}^{n} {^{n}C_{r}}$.\nMethod 2 (RHS): For each of the $n$ distinct elements, there are 2 independent choices (include or exclude). By the multiplication principle, the total number of subsets is $2^n$.\nTherefore, $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$."
+      },
+      {
+        "question_text": "In a room of $5$ people, every person shakes hands with every other person exactly once. Use this scenario to prove that $^{5}C_{2} = 4 + 3 + 2 + 1$.",
+        "structure": "combinatorial-proof-handshake-sum",
+        "solution_text": "Each handshake corresponds to an unordered pair of $2$ people chosen from $5$, giving $^{5}C_{2}$ total handshakes.\nAlternatively, count handshakes sequentially: Person 1 shakes hands with $4$ people and leaves, Person 2 shakes hands with the $3$ remaining people and leaves, Person 3 shakes hands with $2$ people, Person 4 shakes hands with $1$ person, and Person 5 has 0 remaining.\nTotal handshakes $= 4 + 3 + 2 + 1$.\nTherefore, $^{5}C_{2} = 4 + 3 + 2 + 1$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Prove that $r \\cdot {^{n}C_{r}} = n \\cdot {^{n-1}C_{r-1}}$ by counting the number of ways to choose a committee of $r$ people with a designated chairperson from a group of $n$ people.",
+        "structure": "combinatorial-proof-committee-leader",
+        "solution_text": "Count the number of ways to form an $r$-person committee with a chairperson from $n$ people.\nMethod 1 (LHS): First choose the $r$ committee members from $n$ in $^{n}C_{r}$ ways, then choose $1$ chairperson from the $r$ members in $r$ ways, giving $r \\cdot {^{n}C_{r}}$.\nMethod 2 (RHS): First choose the chairperson from all $n$ people in $n$ ways, then choose the remaining $r-1$ committee members from the remaining $n-1$ people in $^{n-1}C_{r-1}$ ways, giving $n \\cdot {^{n-1}C_{r-1}}$.\nSince both methods count the same outcomes, $r \\cdot {^{n}C_{r}} = n \\cdot {^{n-1}C_{r-1}}$."
+      },
+      {
+        "question_text": "Prove that $2 \\cdot {^{n}C_{2}} = n(n-1)$ by considering the selection of a president and vice-president from $n$ members.",
+        "structure": "combinatorial-proof-committee-leader",
+        "solution_text": "Count the number of ways to elect a president and a vice-president from $n$ people.\nMethod 1 (LHS): Select the $2$ officers as an unordered pair in $^{n}C_{2}$ ways, then assign the $2$ distinct roles in $2! = 2$ ways, giving $2 \\cdot {^{n}C_{2}}$.\nMethod 2 (RHS): Choose the president first ($n$ choices), then choose the vice-president from the remaining $n-1$ members ($n-1$ choices), giving $n(n-1)$ ways.\nTherefore, $2 \\cdot {^{n}C_{2}} = n(n-1)$."
+      },
+      {
+        "question_text": "Prove that $3 \\cdot {^{n}C_{3}} = n \\cdot {^{n-1}C_{2}}$ by considering the selection of a $3$-person subcommittee with a coordinator from $n$ people.",
+        "structure": "combinatorial-proof-committee-leader",
+        "solution_text": "Count ways to choose a $3$-person subcommittee with $1$ coordinator from $n$ people.\nMethod 1: Choose $3$ members from $n$ in $^{n}C_{3}$ ways, then pick $1$ of the $3$ to be coordinator in $3$ ways, giving $3 \\cdot {^{n}C_{3}}$.\nMethod 2: Pick the coordinator from $n$ people in $n$ ways, then pick the other $2$ committee members from the remaining $n-1$ candidates in $^{n-1}C_{2}$ ways, giving $n \\cdot {^{n-1}C_{2}}$.\nSince both expressions count the exact same task, $3 \\cdot {^{n}C_{3}} = n \\cdot {^{n-1}C_{2}}$."
+      },
+      {
+        "question_text": "Prove that $^{m+n}C_{2} = {^{m}C_{2}} + {^{m}C_{1}}{^{n}C_{1}} + {^{n}C_{2}}$ by considering the selection of a $2$-person delegation from $m$ teachers and $n$ students.",
+        "structure": "combinatorial-proof-vandermonde",
+        "solution_text": "Count ways to select $2$ people from a combined group of $m$ teachers and $n$ students (total $m+n$ people).\nMethod 1 (LHS): Select $2$ people directly from all $m+n$ individuals in $^{m+n}C_{2}$ ways.\nMethod 2 (RHS): Partition into cases based on composition:\nCase 1 (2 teachers): $^{m}C_{2}$ ways.\nCase 2 (1 teacher and 1 student): $^{m}C_{1} \\times {^{n}C_{1}}$ ways.\nCase 3 (2 students): $^{n}C_{2}$ ways.\nSumming the mutually exclusive cases gives $^{m+n}C_{2} = {^{m}C_{2}} + {^{m}C_{1}}{^{n}C_{1}} + {^{n}C_{2}}$."
+      },
+      {
+        "question_text": "A committee of $3$ people is chosen from $5$ men and $4$ women. Use case analysis on the number of men chosen to prove that $^{9}C_{3} = {^{5}C_{0}}{^{4}C_{3}} + {^{5}C_{1}}{^{4}C_{2}} + {^{5}C_{2}}{^{4}C_{1}} + {^{5}C_{3}}{^{4}C_{0}}$.",
+        "structure": "combinatorial-proof-vandermonde",
+        "solution_text": "The total number of $3$-person committees chosen from all $9$ candidates is $^{9}C_{3}$.\nPartition into cases based on the number of men selected ($k = 0, 1, 2, 3$):\n$0$ men, $3$ women: $^{5}C_{0} \\times {^{4}C_{3}}$\n$1$ man, $2$ women: $^{5}C_{1} \\times {^{4}C_{2}}$\n$2$ men, $1$ woman: $^{5}C_{2} \\times {^{4}C_{1}}$\n$3$ men, $0$ women: $^{5}C_{3} \\times {^{4}C_{0}}$\nSince these cases partition all possible committees, $^{9}C_{3} = {^{5}C_{0}}{^{4}C_{3}} + {^{5}C_{1}}{^{4}C_{2}} + {^{5}C_{2}}{^{4}C_{1}} + {^{5}C_{3}}{^{4}C_{0}}$."
+      },
+      {
+        "question_text": "Prove that $1 + 2 + 3 + \\dots + n = {^{n+1}C_{2}}$ by considering $n+1$ people arranged in a line where each person shakes hands with everyone behind them before leaving the room.",
+        "structure": "combinatorial-proof-handshake-sum",
+        "solution_text": "Total handshakes among $n+1$ people is the number of pairs chosen from $n+1$, which is $^{n+1}C_{2}$.\nPerson 1 (first in line) shakes hands with $n$ people behind them and exits.\nPerson 2 shakes hands with the $n-1$ remaining people and exits.\nThis continues until Person $n$ shakes hands with the last person ($1$ handshake).\nTotal handshakes $= n + (n-1) + \\dots + 1 = 1 + 2 + 3 + \\dots + n$.\nTherefore, $1 + 2 + 3 + \\dots + n = {^{n+1}C_{2}}$."
+      },
+      {
+        "question_text": "Prove that $\\sum_{r=1}^{n} {^{n}C_{r}} = 2^{n} - 1$ by counting the number of non-empty subsets of an $n$-element set in two different ways.",
+        "structure": "combinatorial-proof-subsets-binary",
+        "solution_text": "Method 1: Count non-empty subsets by size $r \\in \\{1, 2, \\dots, n\\}$, giving $\\sum_{r=1}^{n} {^{n}C_{r}}$.\nMethod 2: Total number of subsets of $n$ elements is $2^n$. Exactly $1$ subset is the empty set (size 0). Subtracting the empty set gives $2^n - 1$.\nTherefore, $\\sum_{r=1}^{n} {^{n}C_{r}} = 2^{n} - 1$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove by a combinatorial argument that $\\sum_{r=1}^{n} r \\cdot {^{n}C_{r}} = n \\cdot 2^{n-1}$ by considering the selection of a non-empty committee with a chairperson from $n$ people.",
+        "structure": "combinatorial-proof-committee-leader",
+        "solution_text": "Count the number of ways to form a committee of any non-empty size with $1$ chairperson from $n$ people.\nLHS: Sum over all possible committee sizes $r$ from $1$ to $n$. For a fixed size $r$, choose $r$ members in $^{n}C_{r}$ ways and choose $1$ chairperson in $r$ ways, giving $\\sum_{r=1}^{n} r \\cdot {^{n}C_{r}}$.\nRHS: First choose the chairperson from $n$ people in $n$ ways. Each of the remaining $n-1$ people can either join the committee or not ($2^{n-1}$ ways). Total $= n \\cdot 2^{n-1}$.\nSince both sides count the same configurations, $\\sum_{r=1}^{n} r \\cdot {^{n}C_{r}} = n \\cdot 2^{n-1}$."
+      },
+      {
+        "question_text": "Prove by a combinatorial argument that $\\sum_{k=0}^{n} ({^{n}C_{k}})^2 = {^{2n}C_{n}}$ by considering the selection of $n$ people from a group of $n$ men and $n$ women.",
+        "structure": "combinatorial-proof-vandermonde",
+        "solution_text": "Count ways to choose a team of $n$ people from a pool of $n$ men and $n$ women ($2n$ people total).\nRHS: Choose $n$ people directly from $2n$ in $^{2n}C_{n}$ ways.\nLHS: Partition into cases where $k$ men are chosen ($k = 0, 1, \\dots, n$). The remaining $n - k$ members must be women. This gives $^{n}C_{k} \\times {^{n}C_{n-k}}$ ways.\nBy symmetry, $^{n}C_{n-k} = {^{n}C_{k}}$, so each case is $({^{n}C_{k}})^2$.\nSumming over $k$ gives $\\sum_{k=0}^{n} ({^{n}C_{k}})^2 = {^{2n}C_{n}}$."
+      },
+      {
+        "question_text": "Prove by a combinatorial argument that $^{n+1}P_{k} = {^{n}P_{k}} + k \\cdot {^{n}P_{k-1}}$ by considering ordered arrangements of $k$ people chosen from $n+1$ people, conditioning on whether a specific person Jimmy is included.",
+        "structure": "combinatorial-proof-pascal",
+        "solution_text": "LHS counts the number of ordered arrangements of $k$ people chosen from $n+1$ people, which is $^{n+1}P_{k}$.\nCondition on a specific person Jimmy:\nCase 1 (Jimmy is not included): We choose and arrange $k$ people from the other $n$ people in $^{n}P_{k}$ ways.\nCase 2 (Jimmy is included): Choose which of the $k$ positions Jimmy occupies ($k$ choices), then fill the remaining $k-1$ positions with people chosen from the remaining $n$ candidates in $^{n}P_{k-1}$ ways, giving $k \\cdot {^{n}P_{k-1}}$.\nSumming the two cases gives $^{n+1}P_{k} = {^{n}P_{k}} + k \\cdot {^{n}P_{k-1}}$."
+      }
+    ]
+  }
+}

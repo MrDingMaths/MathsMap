@@ -24,8 +24,11 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { stripBom } from './lib/agy-run.mjs';
 import { findArraySpan, objectSpansInArray } from './lib/json-splice.mjs';
+import { standingHazardsBlock } from './lib/hazards.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+const MATHSDATABASE_ROOT = process.env.MATHSDATABASE_ROOT
+  || path.resolve(rootDir, '..', 'MathsDatabase');
 
 function arg(flag, fallback) {
   const i = process.argv.indexOf(flag);
@@ -33,8 +36,18 @@ function arg(flag, fallback) {
 }
 const defectsFile = arg('--defects', '');
 const outDir = arg('--out', '');
+
+// A repair that has to ADD or REDRAW a figure needs the same drawing manual the generation
+// lane gets; without it the model invents TikZ against no rules. Opt in per run with
+// `--tikz curve,polygons` — the section names are the ones build-gen-tasks accepts.
+const tikzSections = arg('--tikz', '').split(',').map(s => s.trim()).filter(Boolean);
+const tikzManual = tikzSections.length
+  ? (await import(
+      new URL(`file:///${path.join(MATHSDATABASE_ROOT, 'tools', 'qgen', 'lib', 'tikz-sections.mjs').replace(/\\/g, '/')}`)
+    )).assembleTikzRules(tikzSections.filter(s => s !== 'core'))
+  : null;
 if (!defectsFile || !outDir) {
-  console.error('usage: node scripts/agy/build-repair-tasks.mjs --defects <defects.json> --out <tasks-dir>');
+  console.error('usage: node scripts/agy/build-repair-tasks.mjs --defects <defects.json> --out <tasks-dir> [--tikz curve,polygons]');
   process.exit(2);
 }
 
@@ -136,6 +149,9 @@ for (const [skillId, skillDefects] of bySkill) {
     'Formatting rules: KaTeX inline as in the current item; degree symbol as `^{\\circ}`;',
     'no raw tab/control characters inside JSON strings.',
     '',
+    standingHazardsBlock('repair'),
+    '',
+    ...(tikzManual ? ['## TikZ rules (only sections relevant to this task)', '', tikzManual, ''] : []),
     ...items,
     '',
     '### Sibling stems (do not converge onto these)',

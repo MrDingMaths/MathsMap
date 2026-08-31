@@ -1,0 +1,108 @@
+{
+  "skillId": "inverse-trig-parity",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph of $y=\\arcsin x$ is shown. Which classification and reason are both correct?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\draw[->] (-1.8,0) -- (1.8,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.3) node[above] {$y$};\n\\draw[thick,domain=-1.5708:1.5708,samples=80,smooth,variable=\\t] plot ({sin(deg(\\t))},{\\t});\n\\fill (1,1.5708) circle (1.6pt);\n\\fill (-1,-1.5708) circle (1.6pt);\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.07,1.5708) -- (-0.07,1.5708);\n\\node[left,font=\\small] at (-0.1,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.07,-1.5708) -- (-0.07,-1.5708);\n\\node[left,font=\\small] at (-0.1,-1.5708) {$-\\frac{\\pi}{2}$};\n\\node[font=\\small] at (-0.95,1.95) {$y=\\arcsin x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-parity",
+      "mastery": false,
+      "options": [
+        { "text": "Odd, because $\\arcsin(-x)=-\\arcsin x$", "correct": true },
+        { "text": "Odd, because the graph is symmetric about the $y$-axis", "why": "Symmetry about the $y$-axis is the test for an even function, and $y=\\arcsin x$ does not have it." },
+        { "text": "Even, because $\\arcsin(-x)=\\arcsin x$", "why": "Replacing $x$ by $-x$ reverses the sign of the angle, so $\\arcsin(-x)=-\\arcsin x$, not $\\arcsin x$." },
+        { "text": "Neither, because $\\arcsin(-x)=\\pi-\\arcsin x$", "why": "The $\\pi-$ relationship belongs to $\\arccos$, not to $\\arcsin$." }
+      ],
+      "solution_text": "$f(-x)=\\arcsin(-x)$\n$=-\\arcsin x$\n$=-f(x)$\nThe graph has $180^{\\circ}$ rotational symmetry about the origin, so $y=\\arcsin x$ is odd."
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph of $y=\\arccos x$ is shown. Which classification and reason are both correct?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\draw[->] (-1.9,0) -- (1.9,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,samples=80,smooth,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\fill (1,0) circle (1.6pt);\n\\fill (-1,3.1416) circle (1.6pt);\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.09,1.5708) -- (-0.09,1.5708);\n\\node[left,font=\\small] at (-0.12,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.09,3.1416) -- (-0.09,3.1416);\n\\node[left,font=\\small] at (-0.12,3.1416) {$\\pi$};\n\\node[font=\\small] at (1.1,2.6) {$y=\\arccos x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-parity",
+      "mastery": false,
+      "options": [
+        { "text": "Neither, because $\\arccos(-x)=\\pi-\\arccos x$", "correct": true },
+        { "text": "Neither, because the graph has no symmetry of any kind", "why": "The classification is right but the reason is false: the curve does have point symmetry, about $\\left(0,\\frac{\\pi}{2}\\right)$ rather than the origin." },
+        { "text": "Odd, because $\\arccos(-x)=-\\arccos x$", "why": "Treats $\\arccos$ like $\\arcsin$; since $\\arccos x$ is never negative, $-\\arccos x$ cannot be a value of the function." },
+        { "text": "Even, because $\\arccos(-x)=\\arccos x$", "why": "$\\arccos(-1)=\\pi$ but $\\arccos 1=0$, so the two outputs are not equal." }
+      ],
+      "solution_text": "$f(-x)=\\arccos(-x)$\n$=\\pi-\\arccos x$\nThis is neither $\\arccos x$ nor $-\\arccos x$.\n$y=\\arccos x$ is neither odd nor even."
+    },
+    {
+      "id": "q3",
+      "question_text": "The graph of $y=\\arcsin x$ is shown. Which expression is equal to $3\\arcsin(-x)$?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.4]\n\\draw[->] (-1.8,0) -- (1.8,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.3) node[above] {$y$};\n\\draw[thick,domain=-1.5708:1.5708,samples=80,smooth,variable=\\t] plot ({sin(deg(\\t))},{\\t});\n\\fill (1,1.5708) circle (1.6pt);\n\\fill (-1,-1.5708) circle (1.6pt);\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.07,1.5708) -- (-0.07,1.5708);\n\\node[left,font=\\small] at (-0.1,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.07,-1.5708) -- (-0.07,-1.5708);\n\\node[left,font=\\small] at (-0.1,-1.5708) {$-\\frac{\\pi}{2}$};\n\\node[font=\\small] at (-0.95,1.95) {$y=\\arcsin x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "simplify-negative-argument",
+      "mastery": false,
+      "options": [
+        { "text": "$-3\\arcsin x$", "correct": true },
+        { "text": "$3\\arcsin x$", "why": "Dropped the negative sign; $\\arcsin$ is odd, so the sign of the argument passes through to the output." },
+        { "text": "$-\\arcsin 3x$", "why": "Moved the coefficient $3$ inside the function, which changes the argument instead of scaling the output." },
+        { "text": "$3\\pi-3\\arcsin x$", "why": "Applied the $\\arccos$ rule $\\arccos(-x)=\\pi-\\arccos x$ to $\\arcsin$." }
+      ],
+      "solution_text": "$3\\arcsin(-x)=3\\left(-\\arcsin x\\right)$\n$=-3\\arcsin x$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The graph of $y=\\arccos x$ is shown, and $\\arccos\\frac{\\sqrt{2}}{2}=\\frac{\\pi}{4}$. What is the value of $\\arccos\\left(-\\frac{\\sqrt{2}}{2}\\right)$?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\draw[->] (-1.9,0) -- (1.9,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,samples=80,smooth,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\fill (1,0) circle (1.6pt);\n\\fill (-1,3.1416) circle (1.6pt);\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.09,1.5708) -- (-0.09,1.5708);\n\\node[left,font=\\small] at (-0.12,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.09,3.1416) -- (-0.09,3.1416);\n\\node[left,font=\\small] at (-0.12,3.1416) {$\\pi$};\n\\node[font=\\small] at (1.1,2.6) {$y=\\arccos x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "evaluate-using-parity",
+      "mastery": false,
+      "options": [
+        { "text": "$\\frac{3\\pi}{4}$", "correct": true },
+        { "text": "$-\\frac{3\\pi}{4}$", "why": "Subtracted from $\\pi$ correctly but then also changed the sign; $\\arccos$ never returns a negative value." },
+        { "text": "$-\\frac{\\pi}{4}$", "why": "Treated $\\arccos$ as odd, which is the rule for $\\arcsin$ and $\\arctan$." },
+        { "text": "$\\frac{\\pi}{4}$", "why": "Treated $\\arccos$ as even, so the negative sign was ignored altogether." }
+      ],
+      "solution_text": "$\\arccos\\left(-\\frac{\\sqrt{2}}{2}\\right)=\\pi-\\arccos\\frac{\\sqrt{2}}{2}$\n$=\\pi-\\frac{\\pi}{4}$\n$=\\frac{3\\pi}{4}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The point $P(0.8,\\,0.6747)$ lies on the graph of $y=\\arctan x$ shown. Which point must also lie on this graph?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.7cm, y=1.3cm]\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,2.4) node[above] {$y$};\n\\draw[dashed] (-4.4,1.5708) -- (4.4,1.5708);\n\\draw[dashed] (-4.4,-1.5708) -- (4.4,-1.5708);\n\\draw[thick,<->,domain=-4.4:4.4,samples=100,smooth,variable=\\x] plot ({\\x},{rad(atan(\\x))});\n\\fill (0.8,0.6747) circle (2pt);\n\\node[below right,font=\\small] at (0.9,0.62) {$P$};\n\\node[font=\\small,above] at (-3.0,1.5708) {$y=\\frac{\\pi}{2}$};\n\\node[font=\\small,below] at (-3.0,-1.5708) {$y=-\\frac{\\pi}{2}$};\n\\node[font=\\small] at (2.9,0.35) {$y=\\arctan x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "justify-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$(-0.8,\\,-0.6747)$",
+          "correct": true
+        },
+        {
+          "text": "$(-0.8,\\,2.4669)$",
+          "why": "Applied $\\pi-0.6747$, the $\\arccos$ rule, instead of the odd-function rule for $\\arctan$."
+        },
+        {
+          "text": "$(0.8,\\,-0.6747)$",
+          "why": "This is a reflection in the $x$-axis, which negates the $y$-value without reflecting the $x$-value."
+        },
+        {
+          "text": "$(0.8,\\,2.4669)$",
+          "why": "Applied $\\pi-0.6747=2.4669$ to the $y$-coordinate while leaving the $x$-coordinate unchanged."
+        }
+      ],
+      "solution_text": "$y=\\arctan x$ is odd, so it has $180^{\\circ}$ rotational symmetry about the origin.\n$\\arctan(-0.8)=-\\arctan 0.8$\n$=-0.6747$\nThe point $(-0.8,\\,-0.6747)$ lies on the graph."
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph of $y=\\arccos x$ is shown. Which expression is equal to $\\arccos(-x)+\\arcsin(-x)+\\arcsin x$?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.25]\n\\draw[->] (-1.9,0) -- (1.9,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=0:3.1416,samples=80,smooth,variable=\\t] plot ({cos(deg(\\t))},{\\t});\n\\fill (1,0) circle (1.6pt);\n\\fill (-1,3.1416) circle (1.6pt);\n\\draw (1,0.07) -- (1,-0.07);\n\\node[below,font=\\small] at (1,-0.07) {$1$};\n\\draw (-1,0.07) -- (-1,-0.07);\n\\node[below,font=\\small] at (-1,-0.07) {$-1$};\n\\draw (0.09,1.5708) -- (-0.09,1.5708);\n\\node[left,font=\\small] at (-0.12,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.09,3.1416) -- (-0.09,3.1416);\n\\node[left,font=\\small] at (-0.12,3.1416) {$\\pi$};\n\\node[font=\\small] at (1.1,2.6) {$y=\\arccos x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "simplify-negative-argument",
+      "mastery": false,
+      "options": [
+        { "text": "$\\pi-\\arccos x$", "correct": true },
+        { "text": "$\\pi+\\arccos x$", "why": "Used $\\arccos(-x)=\\pi+\\arccos x$; the correct rule subtracts $\\arccos x$ from $\\pi$." },
+        { "text": "$\\pi-\\arccos x-2\\arcsin x$", "why": "Treated $\\arcsin(-x)$ as $-2\\arcsin x$ instead of cancelling with the $+\\arcsin x$ term." },
+        { "text": "$-\\arccos x$", "why": "Dropped the $\\pi$ from the $\\arccos$ rule and treated $\\arccos$ as an odd function." }
+      ],
+      "solution_text": "$\\arccos(-x)+\\arcsin(-x)+\\arcsin x=\\left(\\pi-\\arccos x\\right)+\\left(-\\arcsin x\\right)+\\arcsin x$\n$=\\pi-\\arccos x$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The graphs of $y=\\arcsin x$ and $y=\\arctan x$ are shown for $-1\\le x\\le1$. How should $f(x)=\\arcsin x+\\arctan x$ be classified?\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.7cm, y=1.2cm]\n\\draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};\n\\draw[->] (0,-1.9) -- (0,2.1) node[above] {$y$};\n\\draw[thick,domain=-1.5708:1.5708,samples=80,smooth,variable=\\t] plot ({sin(deg(\\t))},{\\t});\n\\draw[thick,blue,dashed,domain=-1:1,samples=80,smooth,variable=\\x] plot ({\\x},{rad(atan(\\x))});\n\\fill (1,1.5708) circle (1.6pt);\n\\fill (-1,-1.5708) circle (1.6pt);\n\\fill[blue] (1,0.7854) circle (1.6pt);\n\\fill[blue] (-1,-0.7854) circle (1.6pt);\n\\draw (1,0.06) -- (1,-0.06);\n\\node[below,font=\\small] at (1,-0.06) {$1$};\n\\draw (-1,0.06) -- (-1,-0.06);\n\\node[below,font=\\small] at (-1,-0.06) {$-1$};\n\\draw (0.06,1.5708) -- (-0.06,1.5708);\n\\node[left,font=\\small] at (-0.09,1.5708) {$\\frac{\\pi}{2}$};\n\\draw (0.06,0.7854) -- (-0.06,0.7854);\n\\node[left,font=\\small] at (-0.09,0.7854) {$\\frac{\\pi}{4}$};\n\\node[font=\\small] at (-0.82,1.35) {$y=\\arcsin x$};\n\\node[font=\\small,blue] at (0.78,-0.8) {$y=\\arctan x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "classify-parity",
+      "mastery": true,
+      "options": [
+        { "text": "Odd, because $f(-x)=-\\arcsin x-\\arctan x=-f(x)$", "correct": true },
+        { "text": "Odd, because every inverse trigonometric function is odd", "why": "The classification is right but the reason is false: $\\arccos$ is neither odd nor even, so the claim does not hold for every inverse trigonometric function." },
+        { "text": "Even, because adding two odd functions cancels their odd behaviour", "why": "Adding two odd functions gives another odd function; only a product of two odd functions is even." },
+        { "text": "Neither, because $\\arcsin x$ and $\\arctan x$ have different domains", "why": "Different domains only restrict where $f$ is defined; on the common domain $-1\\le x\\le1$ the test $f(-x)=-f(x)$ still holds." }
+      ],
+      "solution_text": "$f(-x)=\\arcsin(-x)+\\arctan(-x)$\n$=-\\arcsin x-\\arctan x$\n$=-\\left(\\arcsin x+\\arctan x\\right)$\n$=-f(x)$\nSince $f(-x)=-f(x)$ on the domain $-1\\le x\\le1$, $f(x)$ is odd."
+    }
+  ]
+}

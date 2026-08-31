@@ -2,14 +2,17 @@
   "skillId": "graph-log-functions",
   "atomType": "R",
   "theory": {
-    "intro": "The graphs of $y=a^{x}$ and $y=\\log_{a}x$ are **inverses**, so each is the **mirror image** of the other in the line $y=x$. Reading one tells you about the other.",
-    "facts": [
-      "$y=\\log_{a}x$ is an **increasing** curve when $a>1$, and a **decreasing** curve when $0<a<1$.",
-      "$y=\\log_{a}x$ has a **vertical asymptote** at $x=0$: the input of a logarithm must be positive, so the curve hugs the $y$-axis and never touches it. Its partner $y=a^{x}$ has a **horizontal asymptote** at $y=0$.",
-      "$y=\\log_{a}x$ always passes through $(1,0)$ because $\\log_{a}1=0$; its partner $y=a^{x}$ always passes through $(0,1)$ because $a^{0}=1$. These two key points are reflections of each other in $y=x$.",
-      "Reflecting in $y=x$ **swaps the coordinates**: a point $(p,q)$ on $y=a^{x}$ corresponds to $(q,p)$ on $y=\\log_{a}x$."
-    ]
-  },
+        "intro": "The graphs of $y=a^{x}$ and $y=\\log_{a}x$ are **inverses**, so each is the mirror image of the other in the line $y=x$. Reading one curve tells you about the other.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-3.5,xmax=6,ymin=-3.5,ymax=6,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[dashed,gray,domain=-3.5:6,samples=2] {x};\n\\addplot[thick,red!70!black,<->,domain=-3.5:2.58] {exp(x*ln(2))};\n\\addplot[thick,blue!70!black,<->,domain=0.088:6] {ln(x)/ln(2)};\n\\node[red!70!black] at (axis cs:-2.2,1.4) {$y=a^{x}$};\n\\node[gray] at (axis cs:5.2,3.9) {$y=x$};\n\\node[blue!70!black] at (axis cs:3.6,0.85) {$y=\\log_{a}x$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
+        "facts": [
+          "$y=\\log_{a}x$ is an **increasing** curve when $a>1$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[thick,blue!70!black,<->,domain=0.09:8.9] {ln(x)/ln(2)};\n\\node[blue!70!black] at (axis cs:5.5,-2.2) {$a>1$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
+          "$y=\\log_{a}x$ is a **decreasing** curve when $0<a<1$; the only feature changed is the base, now less than $1$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=6.5cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1,xmax=9,ymin=-4,ymax=4,xtick=\\empty,ytick=\\empty,clip=false,xlabel={$x$},ylabel={$y$},samples=100]\n\\addplot[thick,blue!70!black,<->,domain=0.09:8.9] {ln(x)/ln(0.5)};\n\\node[blue!70!black] at (axis cs:5.5,2.2) {$0<a<1$};\n\\end{axis}\n\\end{tikzpicture}[/tikz]",
+          "$y=\\log_{a}x$ has a **vertical asymptote** at $x=0$, because the input of a logarithm must be positive, so the curve never touches the $y$-axis.",
+          "Its partner $y=a^{x}$ has a **horizontal asymptote** at $y=0$.",
+          "$y=\\log_{a}x$ always passes through $(1,0)$ because $\\log_{a}1=0$.",
+          "Its partner $y=a^{x}$ always passes through $(0,1)$ because $a^{0}=1$, and these two points are reflections of each other in $y=x$.",
+          "Reflecting in $y=x$ **swaps the coordinates**, so a point $(p,q)$ on $y=a^{x}$ becomes $(q,p)$ on $y=\\log_{a}x$."
+        ]
+      },
   "practice": {
     "foundation": [
       {

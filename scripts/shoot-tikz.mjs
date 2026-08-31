@@ -60,7 +60,7 @@ const baseQuery = input
   ? `input=${encodeURIComponent(inputUrl)}`
   : ids ? `ids=${encodeURIComponent(ids)}` : `topic=${encodeURIComponent(topic)}`;
 
-const TOTAL_TIMEOUT_MS = 8 * 60 * 1000;
+const TOTAL_TIMEOUT_MS = 20 * 60 * 1000;
 const STALL_MS = 90_000;
 const launchOpts = { headless: true };
 let browser;
@@ -86,7 +86,7 @@ for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 2000 }, deviceScaleFactor: 2 });
   page.on('pageerror', (error) => console.error('[page error]', error.message));
   console.error(`[shoot-tikz] batch ${batchIndex + 1}/${batches.length}: ${url}`);
-  await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
   const deadline = Date.now() + TOTAL_TIMEOUT_MS;
   let lastDone = -1;

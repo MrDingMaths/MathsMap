@@ -1,0 +1,109 @@
+{
+  "skillId": "induction-structure",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Consider the claim $1 + 4 + 7 + \\dots + (3n - 2) = \\dfrac{n(3n - 1)}{2}$ for all integers $n \\ge 1$. Which line is the correct inductive hypothesis?",
+      "structure": "write-inductive-hypothesis",
+      "mastery": false,
+      "options": [
+        { "text": "$1 + 4 + 7 + \\dots + (3k - 2) = \\dfrac{k(3k - 1)}{2}$ for some integer $k \\ge 1$", "correct": true },
+        { "text": "$1 + 4 + 7 + \\dots + (3k - 2) = \\dfrac{k(3k - 1)}{2}$ for every integer $k \\ge 1$", "why": "Assumes the result for every $k$ at once, which is the whole statement being proved, so the argument becomes circular." },
+        { "text": "$1 + 4 + 7 + \\dots + (3k + 1) = \\dfrac{k(3k - 1)}{2}$ for some integer $k \\ge 1$", "why": "The last term has been written with $n = k + 1$ substituted, so the left side runs one term further than the right side allows." },
+        { "text": "$3k - 2 = \\dfrac{k(3k - 1)}{2}$ for some integer $k \\ge 1$", "why": "Assumes only that the final term equals the closed form, dropping all the earlier terms of the sum." }
+      ],
+      "solution_text": "The hypothesis is the whole statement with $n$ replaced by $k$, assumed for one integer $k$.\n$1 + 4 + 7 + \\dots + (3k - 2) = \\dfrac{k(3k - 1)}{2}$ for some integer $k \\ge 1$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A proof by induction is required for the claim $2^{n} > 2n$ for all integers $n \\ge 3$. Which statement correctly describes what the base case must verify?",
+      "structure": "state-base-case",
+      "mastery": false,
+      "options": [
+        { "text": "That $2^{3} > 2(3)$, that is $8 > 6$", "correct": true },
+        { "text": "That $2^{1} > 2(1)$, that is $2 > 2$", "why": "Tests $n = 1$ when the claim starts at $n = 3$, so the real first case is never checked." },
+        { "text": "That $2^{k} > 2k$ for some integer $k \\ge 3$", "why": "That is the inductive hypothesis; the base case substitutes an actual number, not the letter $k$." },
+        { "text": "That $2^{n} > 2n$ holds at $n = 3$, $n = 4$ and $n = 5$", "why": "Checking a run of values is not a base case; induction needs one starting value plus the step." }
+      ],
+      "solution_text": "The base case is the smallest value in the claim, $n = 3$.\n$LHS = 2^{3} = 8$\n$RHS = 2(3) = 6$\n$8 > 6$, so the statement is true for $n = 3$."
+    },
+    {
+      "id": "q3",
+      "question_text": "For the claim $1 \\times 2 + 2 \\times 3 + \\dots + n(n + 1) = \\dfrac{1}{3}n(n + 1)(n + 2)$ for all integers $n \\ge 1$, which statement must the inductive step prove?",
+      "structure": "write-k-plus-one-statement",
+      "mastery": false,
+      "options": [
+        { "text": "$1 \\times 2 + \\dots + k(k + 1) + (k + 1)(k + 2) = \\dfrac{1}{3}(k + 1)(k + 2)(k + 3)$", "correct": true },
+        { "text": "$1 \\times 2 + \\dots + k(k + 1) + (k + 2)(k + 3) = \\dfrac{1}{3}(k + 1)(k + 2)(k + 3)$", "why": "The added term was formed by substituting $n = k + 2$ instead of $n = k + 1$ into $n(n + 1)$." },
+        { "text": "$1 \\times 2 + \\dots + k(k + 1) + (k + 1)(k + 2) = \\dfrac{1}{3}(k + 1)(k + 2)$", "why": "Only two of the three factors of the closed form were shifted; the factor $n + 2$ was dropped rather than becoming $k + 3$." },
+        { "text": "$1 \\times 2 + \\dots + k(k + 1) = \\dfrac{1}{3}k(k + 1)(k + 2)$", "why": "That is the inductive hypothesis, the statement assumed at $n = k$, not the statement to be proved." }
+      ],
+      "solution_text": "Replace every $n$ by $k + 1$, and add the $(k + 1)$th term to the left side.\nThe added term is $(k + 1)\\left((k + 1) + 1\\right) = (k + 1)(k + 2)$.\n$1 \\times 2 + \\dots + k(k + 1) + (k + 1)(k + 2) = \\dfrac{1}{3}(k + 1)(k + 2)(k + 3)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "In a proof that $9^{n} + 3$ is divisible by $6$ for all integers $n \\ge 1$, a student writes the line $9^{k} + 3 = 6p$, where $p$ is an integer. What is the role of this line?",
+      "structure": "name-the-stage",
+      "mastery": false,
+      "options": [
+        { "text": "It is the inductive hypothesis: the statement assumed true for one integer $k \\ge 1$", "correct": true },
+        { "text": "It is the base case: the statement checked at the smallest value of $n$", "why": "A base case substitutes a number for $n$ and evaluates both sides; this line keeps the letter $k$." },
+        { "text": "It is the statement the inductive step must prove", "why": "The step must prove the $n = k + 1$ version, $9^{k + 1} + 3 = 6q$; this line is what is assumed, not what is shown." },
+        { "text": "It is the conclusion of the proof", "why": "The conclusion states the result for all $n$ and comes after the step; this line is written before the step begins." }
+      ],
+      "solution_text": "The line is the claim with $n$ replaced by $k$, written in the divisibility form $6 \\times (\\text{an integer})$.\nIt is the inductive hypothesis, assumed for one integer $k \\ge 1$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Why is assuming the statement true for $n = k$ not circular reasoning?",
+      "structure": "why-not-circular",
+      "mastery": false,
+      "options": [
+        { "text": "Because the step proves only a conditional, that truth at $n = k$ forces truth at $n = k + 1$, while the base case supplies one value where the statement really does hold", "correct": true },
+        { "text": "Because $k$ is a different letter from $n$, so a different statement is being assumed", "why": "The letter is irrelevant; what saves the argument is that the assumption is used only inside a conditional." },
+        { "text": "Because the assumption is checked separately for every integer $k$ before it is used", "why": "No such check happens, and checking every integer is exactly the work induction is designed to avoid." },
+        { "text": "Because the base case has already shown the statement is true for every value of $k$", "why": "The base case establishes one value only; it does not establish the statement at a general $k$." }
+      ],
+      "solution_text": "The inductive step never asserts that the statement holds at $n = k$.\nIt proves the conditional: if the statement holds at $n = k$, then it holds at $n = k + 1$.\nThe base case gives one integer where the statement genuinely holds, and the conditional then carries that truth to every later integer."
+    },
+    {
+      "id": "q6",
+      "question_text": "The claim $3 + 6 + 12 + \\dots + 3(2^{n}) = 3(2^{n + 1} - 1)$ is made for all integers $n \\ge 0$. Which line correctly tests the base case?",
+      "structure": "state-base-case",
+      "mastery": false,
+      "options": [
+        { "text": "$n = 0$: $LHS = 3$ and $RHS = 3(2^{1} - 1) = 3$", "correct": true },
+        { "text": "$n = 1$: $LHS = 3 + 6 = 9$ and $RHS = 3(2^{2} - 1) = 9$", "why": "Starts at $n = 1$ when the claim begins at $n = 0$, leaving the first case of the claim unchecked." },
+        { "text": "$n = 0$: $LHS = 0$ and $RHS = 3(2^{1} - 1) = 3$", "why": "Reads the $n = 0$ left side as an empty sum instead of the single term $3 \\times 2^{0} = 3$." },
+        { "text": "$n = 0$: $LHS = 3$ and $RHS = 3(2^{0} - 1) = 0$", "why": "Substituted $n = 0$ into $2^{n}$ on the right instead of into $2^{n + 1}$." }
+      ],
+      "solution_text": "The claim starts at $n = 0$, so the base case is $n = 0$.\n$LHS = 3 \\times 2^{0} = 3$\n$RHS = 3(2^{0 + 1} - 1) = 3(2 - 1) = 3$\n$LHS = RHS$, so the statement is true for $n = 0$."
+    },
+    {
+      "id": "q7",
+      "question_text": "A proof has verified a claim at $n = 2$ and has shown that its truth at $n = k$ forces its truth at $n = k + 1$ for every integer $k \\ge 2$. Which conclusion is correct?",
+      "structure": "write-conclusion",
+      "mastery": false,
+      "options": [
+        { "text": "Since the statement is true for $n = 2$, by mathematical induction it is true for all integers $n \\ge 2$", "correct": true },
+        { "text": "Since the statement is true for $n = 2$, by mathematical induction it is true for all integers $n \\ge 1$", "why": "Extends the conclusion below the base case, where nothing has been verified and the step is not available." },
+        { "text": "Since the statement is true for $n = 2$, by mathematical induction it is true for all real numbers $n \\ge 2$", "why": "Induction steps from one integer to the next, so it establishes nothing about non-integer values." },
+        { "text": "Since the statement is true for $n = k$, by mathematical induction it is true for all integers $n \\ge 2$", "why": "Cites the assumption as the verified case; it is the base case at $n = 2$ that must be true, not the hypothesis." }
+      ],
+      "solution_text": "The verified case is $n = 2$, and the step carries truth upwards from there.\nSince the statement is true for $n = 2$, by mathematical induction it is true for all integers $n \\ge 2$."
+    },
+    {
+      "id": "q8",
+      "question_text": "For a statement $P(n)$ it has been shown that $P(k)$ implies $P(k + 1)$ for every integer $k \\ge 1$, and that $P(4)$ is true. Nothing else is known. Which conclusion is justified?",
+      "structure": "write-conclusion",
+      "mastery": true,
+      "options": [
+        { "text": "$P(n)$ is true for every integer $n \\ge 4$", "correct": true },
+        { "text": "$P(n)$ is true for every integer $n \\ge 1$", "why": "The implication only moves upwards, so it says nothing about the integers below the one case known to be true." },
+        { "text": "$P(n)$ is true for every integer $n \\ge 5$", "why": "Omits $n = 4$ itself, which is the case that has actually been verified." },
+        { "text": "Nothing can be concluded, because the verified case was not $n = 1$", "why": "A base case may sit at any integer; the conclusion then runs from that integer upwards." }
+      ],
+      "solution_text": "$P(4)$ is true, and $P(4)$ implies $P(5)$, which implies $P(6)$, and so on.\nThe chain starts at $4$ and runs upwards only.\n$P(n)$ is true for every integer $n \\ge 4$."
+    }
+  ]
+}

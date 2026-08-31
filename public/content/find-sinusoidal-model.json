@@ -1,0 +1,106 @@
+{
+  "skillId": "find-sinusoidal-model",
+  "atomType": "R",
+  "theory": {
+    "intro": "A sinusoidal model $y=k\\cos(at)+c$ is built from three features of the situation. The **amplitude** $k$ is half the gap between the maximum and the minimum, the **mean position** $c$ sits halfway between them, and $a$ comes from the period.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.3,0) -- (8.4,0) node[right] {$t$};\n\\draw[-{Stealth}] (0,0) -- (0,4.8) node[above] {$y$};\n\\draw[dashed] (0,2.5) -- (8,2.5);\n\\node[left,font=\\small] at (0,2.5) {$c$};\n\\draw[thick,blue!70!black,domain=0:8,samples=120,variable=\\x] plot ({\\x},{2.5+1.2*cos(60*\\x)});\n\\draw[<->] (3,2.5) -- (3,3.7) node[midway,right,font=\\small] {$k$};\n\\draw[<->] (0,4.3) -- (6,4.3) node[midway,above,font=\\small] {$T$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The amplitude is $k=\\dfrac{\\max-\\min}{2}$, which is **half** the range and never the whole range.",
+      "The mean position is $c=\\dfrac{\\max+\\min}{2}$, the level the curve swings above and below.",
+      "The period of $y=k\\cos(at)+c$ is $T=\\dfrac{2\\pi}{a}$, which rearranges to $a=\\dfrac{2\\pi}{T}$.",
+      "The time from a maximum to the very next minimum is **half** a period.",
+      "Use $y=k\\cos(at)+c$ when the maximum happens at $t=0$.",
+      "Use $y=-k\\cos(at)+c$ when the minimum happens at $t=0$.",
+      "Use $y=k\\sin(at)+c$ when the value starts at the mean position and is rising.",
+      "A frequency of $f$ cycles per unit of time gives a period of $T=\\dfrac{1}{f}$."
+    ],
+    "steps": [
+      "Find the amplitude $k$ from half the difference of the maximum and minimum.",
+      "Find the mean position $c$ from the average of the maximum and minimum.",
+      "Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$.",
+      "Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The depth of water at a wharf reaches a maximum of $9.4$ m and a minimum of $2.6$ m. Find the amplitude and the mean position of a sinusoidal model of the depth.",
+        "structure": "amplitude-and-mean-from-extremes",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{9.4-2.6}{2}$\n$=\\dfrac{6.8}{2}$\n$=3.4$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{9.4+2.6}{2}$\n$=\\dfrac{12}{2}$\n$=6$\nThe amplitude is $3.4$ m and the mean position is $6$ m."
+      },
+      {
+        "question_text": "The air temperature in a desert reaches a maximum of $31^{\\circ}$C and a minimum of $13^{\\circ}$C each day. Find the amplitude and the mean position of a sinusoidal model of the temperature.",
+        "structure": "amplitude-and-mean-from-extremes",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{31-13}{2}$\n$=\\dfrac{18}{2}$\n$=9$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{31+13}{2}$\n$=\\dfrac{44}{2}$\n$=22$\nThe amplitude is $9^{\\circ}$C and the mean position is $22^{\\circ}$C."
+      },
+      {
+        "question_text": "An observation wheel completes one full turn every $40$ seconds. A cabin's height is modelled by $h=k\\cos(at)+c$, where $t$ is in seconds. Find the value of $a$.",
+        "structure": "coefficient-from-period",
+        "solution_text": "$T=40$\n$a=\\dfrac{2\\pi}{T}$\n$=\\dfrac{2\\pi}{40}$\n$=\\dfrac{\\pi}{20}$"
+      },
+      {
+        "question_text": "At a harbour the time from a high tide to the very next low tide is $6.5$ hours. The depth is modelled by $y=k\\cos(at)+c$, where $t$ is in hours. Find the value of $a$.",
+        "structure": "coefficient-from-period",
+        "solution_text": "A high tide to the next low tide is half a period.\n$T=2\\times6.5$\n$=13$\n$a=\\dfrac{2\\pi}{T}$\n$=\\dfrac{2\\pi}{13}$"
+      },
+      {
+        "question_text": "A Ferris wheel carries passengers between a lowest point $1.5$ m above the ground and a highest point $25.5$ m above the ground, completing one revolution every $80$ seconds. A cabin is at its lowest point when $t=0$ seconds. Find a model $h=k\\cos(at)+c$ for the cabin's height $h$ metres.",
+        "structure": "build-negative-cosine-model",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{25.5-1.5}{2}$\n$=\\dfrac{24}{2}$\n$=12$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{25.5+1.5}{2}$\n$=\\dfrac{27}{2}$\n$=13.5$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\n$a=\\dfrac{2\\pi}{80}$\n$=\\dfrac{\\pi}{40}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe cabin is at its minimum when $t=0$, so the coefficient of $\\cos$ is negative.\n$h=-12\\cos\\left(\\dfrac{\\pi t}{40}\\right)+13.5$"
+      },
+      {
+        "question_text": "In a tidal river the depth is greatest at $7.8$ m and least at $2.2$ m, and successive greatest depths are $12$ hours apart. The depth is greatest when $t=0$ hours. Find a model $y=k\\cos(at)+c$ for the depth $y$ metres.",
+        "structure": "build-cosine-model",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{7.8-2.2}{2}$\n$=\\dfrac{5.6}{2}$\n$=2.8$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{7.8+2.2}{2}$\n$=\\dfrac{10}{2}$\n$=5$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\n$a=\\dfrac{2\\pi}{12}$\n$=\\dfrac{\\pi}{6}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe depth is at its maximum when $t=0$, so the coefficient of $\\cos$ is positive.\n$y=2.8\\cos\\left(\\dfrac{\\pi t}{6}\\right)+5$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The voltage from a power point swings between $-340$ volts and $340$ volts and completes $50$ cycles each second. The voltage is $0$ and rising when $t=0$ seconds. Find a model $V=k\\sin(at)+c$ for the voltage $V$ volts.",
+        "structure": "build-sine-model",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{340-(-340)}{2}$\n$=\\dfrac{680}{2}$\n$=340$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{340+(-340)}{2}$\n$=0$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\n$T=\\dfrac{1}{50}$\n$a=\\dfrac{2\\pi}{\\frac{1}{50}}$\n$=100\\pi$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe voltage starts at the mean position and is rising, so use $\\sin$ with a positive coefficient.\n$V=340\\sin(100\\pi t)$"
+      },
+      {
+        "question_text": "The average monthly sea temperature at a bay is warmest at $24^{\\circ}$C on $1$ January and coldest at $14^{\\circ}$C six months later, repeating every $12$ months. Let $t$ be the number of months after $1$ January. Find a model $T=k\\cos(at)+c$ for the temperature $T$ degrees Celsius.",
+        "structure": "build-cosine-model",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{24-14}{2}$\n$=\\dfrac{10}{2}$\n$=5$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{24+14}{2}$\n$=\\dfrac{38}{2}$\n$=19$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\n$a=\\dfrac{2\\pi}{12}$\n$=\\dfrac{\\pi}{6}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe temperature is at its maximum when $t=0$, so the coefficient of $\\cos$ is positive.\n$T=5\\cos\\left(\\dfrac{\\pi t}{6}\\right)+19$"
+      },
+      {
+        "question_text": "The graph shows the depth of water at a jetty over $16$ hours, with the mean position drawn as a dashed line. Find a model $y=k\\cos(at)+c$ for the depth $y$ metres, where $t$ is the number of hours after midnight.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=10cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.6,xmax=17.5,ymin=-0.6,ymax=7.4,xtick={0,2,...,16},ytick={0,1,...,7},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (hours after midnight)},ylabel={Depth (m)},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:16,samples=150] {2*cos(22.5*x)+4};\n\\addplot[dashed,domain=0:16,samples=2] {4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "model-from-graph",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\nFrom the graph the maximum is $6$ m and the minimum is $2$ m.\n$k=\\dfrac{6-2}{2}$\n$=2$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{6+2}{2}$\n$=4$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\nThe graph repeats every $16$ hours.\n$a=\\dfrac{2\\pi}{16}$\n$=\\dfrac{\\pi}{8}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe graph starts at its maximum, so the coefficient of $\\cos$ is positive.\n$y=2\\cos\\left(\\dfrac{\\pi t}{8}\\right)+4$"
+      },
+      {
+        "question_text": "A mass hangs from a spring above a bench. The graph shows its height over $10$ seconds, with the mean position drawn as a dashed line. Find a model $h=k\\sin(at)+c$ for the height $h$ centimetres, where $t$ is the time in seconds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=10cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.4,xmax=11,ymin=0,ymax=23,xtick={0,1,...,10},ytick={0,2,...,22},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (seconds)},ylabel={Height (cm)},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:10,samples=150] {6*sin(36*x)+14};\n\\addplot[dashed,domain=0:10,samples=2] {14};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "model-from-graph",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\nFrom the graph the maximum is $20$ cm and the minimum is $8$ cm.\n$k=\\dfrac{20-8}{2}$\n$=6$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{20+8}{2}$\n$=14$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\nThe graph repeats every $10$ seconds.\n$a=\\dfrac{2\\pi}{10}$\n$=\\dfrac{\\pi}{5}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe graph starts at the mean position and is rising, so the coefficient of $\\sin$ is positive.\n$h=6\\sin\\left(\\dfrac{\\pi t}{5}\\right)+14$"
+      },
+      {
+        "question_text": "In a wave pool the water level ranges from $0.3$ m to $1.5$ m and a crest passes a marker every $4.5$ seconds. At $t=0$ seconds the level is at its mean position and rising. Find a model $y=k\\sin(at)+c$ for the water level $y$ metres.",
+        "structure": "build-sine-model",
+        "solution_text": "1. **Find the amplitude $k$ from half the difference of the maximum and minimum**\n$k=\\dfrac{1.5-0.3}{2}$\n$=\\dfrac{1.2}{2}$\n$=0.6$\n2. **Find the mean position $c$ from the average of the maximum and minimum**\n$c=\\dfrac{1.5+0.3}{2}$\n$=\\dfrac{1.8}{2}$\n$=0.9$\n3. **Find $a$ from the period using $a=\\dfrac{2\\pi}{T}$**\n$a=\\dfrac{2\\pi}{4.5}$\n$=\\dfrac{4\\pi}{9}$\n4. **Choose $\\sin$ or $\\cos$, and the sign of $k$, to match the value at $t=0$**\nThe level starts at the mean position and is rising, so the coefficient of $\\sin$ is positive.\n$y=0.6\\sin\\left(\\dfrac{4\\pi t}{9}\\right)+0.9$"
+      },
+      {
+        "question_text": "A lake's surface level is highest at $5.2$ m and lowest at $1.8$ m. A student writes the model $y=3.4\\cos(at)+3.5$. Explain the error in the student's model and state the correct value of the amplitude.",
+        "structure": "diagnose-amplitude-error",
+        "solution_text": "$5.2-1.8=3.4$\nThis is the range, which is the whole distance from the lowest level to the highest.\n$k=\\dfrac{5.2-1.8}{2}$\n$=1.7$\nThe student used the full range as the amplitude, but the amplitude is only half of it, so $k=1.7$ m."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A tuning fork vibrates $440$ times each second. Its tip moves according to $y=k\\sin(at)$, where $t$ is in seconds. Find the exact value of $a$.",
+        "structure": "coefficient-from-period",
+        "solution_text": "$T=\\dfrac{1}{440}$\n$a=\\dfrac{2\\pi}{T}$\n$=\\dfrac{2\\pi}{\\frac{1}{440}}$\n$=880\\pi$"
+      },
+      {
+        "question_text": "The graph shows the volume of air in a person's lungs over $8$ seconds of steady breathing, with the mean position drawn as a dashed line. Find a model $V=k\\cos(at)+c$ for the volume $V$ litres, where $t$ is the time in seconds.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=10cm,height=6.5cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.4,xmax=9,ymin=0,ymax=6.6,xtick={0,1,...,8},ytick={0,1,...,6},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (seconds)},ylabel={Volume (L)},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:8,samples=150] {-1.6*cos(45*x)+4};\n\\addplot[dashed,domain=0:8,samples=2] {4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "model-from-graph",
+        "solution_text": "From the graph the maximum is $5.6$ L and the minimum is $2.4$ L.\n$k=\\dfrac{5.6-2.4}{2}$\n$=1.6$\n$c=\\dfrac{5.6+2.4}{2}$\n$=4$\nThe graph repeats every $8$ seconds.\n$a=\\dfrac{2\\pi}{8}$\n$=\\dfrac{\\pi}{4}$\nThe graph starts at its minimum, so the coefficient of $\\cos$ is negative.\n$V=-1.6\\cos\\left(\\dfrac{\\pi t}{4}\\right)+4$"
+      },
+      {
+        "question_text": "A harbour's tide model $y=1.7\\cos\\left(\\dfrac{\\pi t}{6}\\right)+3.5$ was built from the highest and lowest depths recorded on one day. Give two reasons why this model may not predict the depth accurately three months later.",
+        "structure": "model-limitation",
+        "solution_text": "The amplitude $1.7$ came from a single day, but real tidal ranges change through the month, so the highest and lowest depths three months later will not match the ones used.\nThe period was taken as exactly $12$ hours, and a small error in the period grows into a large error in the predicted time of high tide after many cycles.\nThe model also ignores weather, wind and rainfall, which change the depth on any particular day."
+      }
+    ]
+  }
+}

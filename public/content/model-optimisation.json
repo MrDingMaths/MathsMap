@@ -1,0 +1,125 @@
+{
+  "skillId": "model-optimisation",
+  "atomType": "R",
+  "theory": {
+    "intro": "To **model** an optimisation problem, write the quantity you want to make largest or smallest as a function of one variable. Use the constraint to replace the second variable. Then state the **domain**, the values that variable can actually take.",
+    "facts": [
+      "The **objective function** is the quantity being maximised or minimised, such as an area, a volume, a cost or a time.",
+      "The **constraint** is the fixed condition linking the two variables, such as a fixed perimeter, a fixed area or a fixed volume.",
+      "Rearrange the constraint to make the second variable the subject, then substitute it into the objective function.",
+      "A finished model has one variable only on the right-hand side, with no other unknown letters left in it.",
+      "A length, area, volume or time cannot be negative, so the domain always starts at $0$ or above.",
+      "The constraint caps the variable too: cutting squares of side $x$ from the corners of a $12$ cm side forces $x < 6$.",
+      "Write the domain beside the model, for example $A = 60x - x^{2}$ for $0 < x < 60$."
+    ],
+    "steps": [
+      "Define the variables and write the constraint as an equation",
+      "Write the quantity to be optimised in terms of those variables",
+      "Substitute from the constraint so only one variable remains",
+      "State the domain of that variable"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Two positive numbers have a sum of $24$. One of them is $x$. Write their product $P$ as a function of $x$, and state the domain.",
+        "structure": "model-from-linear-constraint",
+        "solution_text": "Let the numbers be $x$ and $y$.\nConstraint: $x + y = 24$\n$y = 24 - x$\n$P = xy$\n$= x(24 - x)$\n$= 24x - x^{2}$\nBoth numbers are positive, so $x > 0$ and $24 - x > 0$.\nThe model is $P = 24x - x^{2}$ for $0 < x < 24$."
+      },
+      {
+        "question_text": "The sum of two positive numbers is $30$. One of them is $x$. Write the sum $S$ of their squares as a function of $x$, and state the domain.",
+        "structure": "model-from-linear-constraint",
+        "solution_text": "Let the numbers be $x$ and $y$.\nConstraint: $x + y = 30$\n$y = 30 - x$\n$S = x^{2} + y^{2}$\n$= x^{2} + (30 - x)^{2}$\n$= x^{2} + 900 - 60x + x^{2}$\n$= 2x^{2} - 60x + 900$\nThe model is $S = 2x^{2} - 60x + 900$ for $0 < x < 30$."
+      },
+      {
+        "question_text": "A rectangular vegetable plot is fenced on all four sides using $44$ m of fencing. The plot is $x$ m long and $y$ m wide.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (5,0) node[midway, below] {$x$ m} -- (5,3) node[midway, right] {$y$ m} -- (0,3) -- cycle;\n\\end{tikzpicture}\n[/tikz]\nWrite the area $A$ m$^{2}$ as a function of $x$, and state the domain.",
+        "structure": "model-from-perimeter",
+        "solution_text": "Constraint: $2x + 2y = 44$\n$x + y = 22$\n$y = 22 - x$\n$A = xy$\n$= x(22 - x)$\n$= 22x - x^{2}$\nBoth $x$ and $y$ must be positive, so $0 < x < 22$.\nThe model is $A = 22x - x^{2}$ for $0 < x < 22$."
+      },
+      {
+        "question_text": "A rectangular sheet of glass must have an area of $72$ cm$^{2}$. Its width is $x$ cm and its length is $y$ cm.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (5,0) node[midway, below] {$y$ cm} -- (5,2.6) node[midway, right] {$x$ cm} -- (0,2.6) -- cycle;\n\\end{tikzpicture}\n[/tikz]\nWrite the perimeter $P$ cm as a function of $x$, and state the domain.",
+        "structure": "model-from-fixed-area",
+        "solution_text": "Constraint: $xy = 72$\n$y = \\dfrac{72}{x}$\n$P = 2x + 2y$\n$= 2x + 2\\left(\\dfrac{72}{x}\\right)$\n$= 2x + \\dfrac{144}{x}$\nA width must be positive, and no upper cap applies.\nThe model is $P = 2x + \\dfrac{144}{x}$ for $x > 0$."
+      },
+      {
+        "question_text": "An open box is made from a $14$ cm by $9$ cm rectangle of card by cutting a square of side $x$ cm from each corner and folding up the sides.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (5.6,0) node[midway, below] {$14$ cm} -- (5.6,3.6) node[midway, right] {$9$ cm} -- (0,3.6) -- cycle;\n\\draw (0.8,0) -- (0.8,0.8) -- (0,0.8);\n\\draw (4.8,0) -- (4.8,0.8) -- (5.6,0.8);\n\\draw (0,2.8) -- (0.8,2.8) -- (0.8,3.6);\n\\draw (5.6,2.8) -- (4.8,2.8) -- (4.8,3.6);\n\\draw (0,2.8) -- (0,3.6) node[midway, left] {$x$ cm};\n\\draw[dashed] (0.8,0.8) -- (4.8,0.8) -- (4.8,2.8) -- (0.8,2.8) -- cycle;\n\\end{tikzpicture}\n[/tikz]\nWrite the volume $V$ cm$^{3}$ as a function of $x$, and state the domain.",
+        "structure": "model-cut-corner-box",
+        "solution_text": "The base measures $(14 - 2x)$ cm by $(9 - 2x)$ cm, and the height is $x$ cm.\n$V = x(14 - 2x)(9 - 2x)$\n$= x(126 - 28x - 18x + 4x^{2})$\n$= x(126 - 46x + 4x^{2})$\n$= 126x - 46x^{2} + 4x^{3}$\nThe cut must be positive and less than half the shorter side, so $0 < x < 4.5$.\nThe model is $V = 126x - 46x^{2} + 4x^{3}$ for $0 < x < 4.5$."
+      },
+      {
+        "question_text": "A closed cylindrical drum has a volume of $750$ cm$^{3}$, base radius $r$ cm and height $h$ cm.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,3) ellipse (1.2 and 0.45);\n\\draw (-1.2,0) arc (180:360:1.2 and 0.45);\n\\draw[dashed] (-1.2,0) arc (180:0:1.2 and 0.45);\n\\draw (-1.2,3) -- (-1.2,0);\n\\draw (1.2,3) -- (1.2,0) node[midway, right] {$h$ cm};\n\\draw (0,3) -- (1.2,3) node[midway, above] {$r$ cm};\n\\end{tikzpicture}\n[/tikz]\nWrite the total surface area $S$ cm$^{2}$ as a function of $r$, and state the domain.",
+        "structure": "model-from-volume-constraint",
+        "solution_text": "Constraint: $\\pi r^{2} h = 750$\n$h = \\dfrac{750}{\\pi r^{2}}$\n$S = 2\\pi r^{2} + 2\\pi r h$\n$= 2\\pi r^{2} + 2\\pi r \\times \\dfrac{750}{\\pi r^{2}}$\n$= 2\\pi r^{2} + \\dfrac{1500}{r}$\nA radius must be positive, and no upper cap applies.\nThe model is $S = 2\\pi r^{2} + \\dfrac{1500}{r}$ for $r > 0$."
+      },
+      {
+        "question_text": "A gutter is made from a $26$ cm wide metal strip by bending up a strip of width $x$ cm at right angles along each edge. The cross-sectional area is $A = x(26 - 2x)$. State the domain of $x$.",
+        "structure": "state-domain",
+        "solution_text": "A bent-up strip must have positive width, so $x > 0$.\nThe base of the gutter is $26 - 2x$ cm, which must also be positive.\n$26 - 2x > 0$\n$26 > 2x$\n$x < 13$\nThe domain is $0 < x < 13$."
+      },
+      {
+        "question_text": "A piece of wire $48$ cm long is cut into two pieces. The piece of length $x$ cm is bent into a square, and the rest is bent into a second square. The total area is $A = \\dfrac{x^{2} - 48x + 1152}{8}$. State the domain of $x$.",
+        "structure": "state-domain",
+        "solution_text": "The first piece must have positive length, so $x > 0$.\nThe second piece has length $48 - x$ cm, which must also be positive.\n$48 - x > 0$\n$x < 48$\nThe domain is $0 < x < 48$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A farmer has $90$ m of fencing for three sides of a rectangular paddock; a straight wall forms the fourth side. The side parallel to the wall has length $x$ m and each of the other two sides has length $w$ m.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\draw[thick] (-0.6,2.6) -- (5.6,2.6);\n\\node[above] at (2.5,2.6) {wall};\n\\draw[tickmark] (0,2.6) -- (0,0) node[midway, left] {$w$ m};\n\\draw (0,0) -- (5,0) node[midway, below] {$x$ m};\n\\draw[tickmark] (5,0) -- (5,2.6);\n\\end{tikzpicture}\n[/tikz]\nWrite the area $A$ m$^{2}$ as a function of $x$, and state the domain.",
+        "structure": "model-from-perimeter",
+        "solution_text": "Constraint: $x + 2w = 90$\n$w = \\dfrac{90 - x}{2}$\n$A = xw$\n$= x\\left(\\dfrac{90 - x}{2}\\right)$\n$= 45x - \\dfrac{x^{2}}{2}$\nBoth $x$ and $w$ must be positive, so $0 < x < 90$.\nThe model is $A = 45x - \\dfrac{x^{2}}{2}$ for $0 < x < 90$."
+      },
+      {
+        "question_text": "A rectangular enclosure of area $600$ m$^{2}$ is divided into three equal pens by two internal fences, each parallel to the ends. Each end has length $x$ m.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) -- (6,0) -- (6,2.5) -- (0,2.5) -- cycle;\n\\draw (2,0) -- (2,2.5);\n\\draw (4,0) -- (4,2.5);\n\\draw (0,0) -- (0,2.5) node[midway, left] {$x$ m};\n\\end{tikzpicture}\n[/tikz]\nWrite the total length $F$ m of fencing as a function of $x$, and state the domain.",
+        "structure": "model-from-fixed-area",
+        "solution_text": "Let the other side be $L$ m.\nConstraint: $xL = 600$\n$L = \\dfrac{600}{x}$\nThe fencing is two ends, two long sides and two internal fences.\n$F = 2x + 2L + 2x$\n$= 4x + 2\\left(\\dfrac{600}{x}\\right)$\n$= 4x + \\dfrac{1200}{x}$\nA side length must be positive, and no upper cap applies.\nThe model is $F = 4x + \\dfrac{1200}{x}$ for $x > 0$."
+      },
+      {
+        "question_text": "A closed rectangular box has width $x$ cm, length twice its width, and volume $216$ cm$^{3}$. Write the total surface area $S$ cm$^{2}$ as a function of $x$, and state the domain.",
+        "structure": "model-from-volume-constraint",
+        "solution_text": "Let the height be $h$ cm. The base is $2x$ cm by $x$ cm.\nConstraint: $2x \\times x \\times h = 216$\n$2x^{2}h = 216$\n$h = \\dfrac{108}{x^{2}}$\n$S = 2(2x)(x) + 2(x)(h) + 2(2x)(h)$\n$= 4x^{2} + 6xh$\n$= 4x^{2} + 6x \\times \\dfrac{108}{x^{2}}$\n$= 4x^{2} + \\dfrac{648}{x}$\nThe model is $S = 4x^{2} + \\dfrac{648}{x}$ for $x > 0$."
+      },
+      {
+        "question_text": "An open box is made from a square sheet of card of side $24$ cm by cutting a square of side $x$ cm from each corner and folding up the sides. Write the volume $V$ cm$^{3}$ as a function of $x$, and state the domain.",
+        "structure": "model-cut-corner-box",
+        "solution_text": "The base is a square of side $(24 - 2x)$ cm and the height is $x$ cm.\n$V = x(24 - 2x)^{2}$\n$= x(576 - 96x + 4x^{2})$\n$= 576x - 96x^{2} + 4x^{3}$\nThe cut must be positive and less than half the side, so $0 < x < 12$.\nThe model is $V = 576x - 96x^{2} + 4x^{3}$ for $0 < x < 12$."
+      },
+      {
+        "question_text": "A rectangle has one side of length $x$ cm along the base of a right-angled triangle of base $18$ cm and height $12$ cm, with its opposite corner on the hypotenuse.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5.4,0);\n\\coordinate (C) at (0,3.6);\n\\draw (A) -- (B) node[midway, below] {$18$ cm};\n\\draw (B) -- (C);\n\\draw (C) -- (A) node[midway, left] {$12$ cm};\n\\coordinate (a) at ($(A)!0.3cm!(B)$);\n\\coordinate (b) at ($(A)!0.3cm!(C)$);\n\\draw (a) -- ($(a)+(b)-(A)$) -- (b);\n\\draw (0,2.0) -- (2.4,2.0) node[midway, above] {$x$ cm};\n\\draw (2.4,2.0) -- (2.4,0);\n\\end{tikzpicture}\n[/tikz]\nWrite the area $A$ cm$^{2}$ of the rectangle as a function of $x$, and state the domain.",
+        "structure": "model-from-similar-triangles",
+        "solution_text": "Let the height of the rectangle be $y$ cm.\nThe small triangle above the rectangle is similar to the whole triangle.\n$\\dfrac{y}{12} = \\dfrac{18 - x}{18}$\n$y = \\dfrac{12(18 - x)}{18}$\n$= 12 - \\dfrac{2x}{3}$\n$A = xy$\n$= x\\left(12 - \\dfrac{2x}{3}\\right)$\n$= 12x - \\dfrac{2x^{2}}{3}$\nThe model is $A = 12x - \\dfrac{2x^{2}}{3}$ for $0 < x < 18$."
+      },
+      {
+        "question_text": "A page has $96$ cm$^{2}$ of printed area, with margins of $3$ cm at the top and bottom and $2$ cm at each side. The printed area has width $x$ cm. Write the total area $A$ cm$^{2}$ of the page as a function of $x$, and state the domain.",
+        "structure": "model-from-fixed-area",
+        "solution_text": "Let the printed height be $p$ cm.\nConstraint: $xp = 96$\n$p = \\dfrac{96}{x}$\nThe page is $(x + 4)$ cm wide and $\\left(\\dfrac{96}{x} + 6\\right)$ cm tall.\n$A = (x + 4)\\left(\\dfrac{96}{x} + 6\\right)$\n$= 96 + 6x + \\dfrac{384}{x} + 24$\n$= 120 + 6x + \\dfrac{384}{x}$\nThe model is $A = 120 + 6x + \\dfrac{384}{x}$ for $x > 0$."
+      },
+      {
+        "question_text": "A cone has a slant height of $15$ cm and base radius $r$ cm. Write the volume $V$ cm$^{3}$ as a function of $r$, and state the domain.",
+        "structure": "model-from-pythagoras",
+        "solution_text": "Let the perpendicular height be $h$ cm.\nBy Pythagoras' theorem: $r^{2} + h^{2} = 15^{2}$\n$h^{2} = 225 - r^{2}$\n$h = \\sqrt{225 - r^{2}}$\n$V = \\dfrac{1}{3}\\pi r^{2}h$\n$= \\dfrac{1}{3}\\pi r^{2}\\sqrt{225 - r^{2}}$\nThe radius must be positive and less than the slant height, so $0 < r < 15$.\nThe model is $V = \\dfrac{1}{3}\\pi r^{2}\\sqrt{225 - r^{2}}$ for $0 < r < 15$."
+      },
+      {
+        "question_text": "A cylinder of radius $r$ cm and height $h$ cm stands inside a cone of base radius $9$ cm and height $24$ cm, with its base on the base of the cone and its top rim touching the curved surface.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.25,0) arc (180:360:2.25 and 0.5);\n\\draw[dashed] (-2.25,0) arc (180:0:2.25 and 0.5);\n\\draw (-2.25,0) -- (0,6) -- (2.25,0);\n\\draw (-1.2,2.8) arc (180:360:1.2 and 0.28);\n\\draw[dashed] (-1.2,2.8) arc (180:0:1.2 and 0.28);\n\\draw (-1.2,0) -- (-1.2,2.8);\n\\draw (1.2,0) -- (1.2,2.8) node[midway, right] {$h$ cm};\n\\draw (0,2.8) -- (1.2,2.8) node[midway, above] {$r$ cm};\n\\draw[dashed] (0,0) -- (0,-1.3);\n\\draw[dashed] (2.25,0) -- (2.25,-1.3);\n\\draw[<->] (0,-1.15) -- (2.25,-1.15) node[midway, below] {$9$ cm};\n\\draw[dashed] (0,6) -- (-3.2,6);\n\\draw[dashed] (0,0) -- (-3.2,0);\n\\draw[<->] (-3.05,0) -- (-3.05,6) node[midway, left] {$24$ cm};\n\\end{tikzpicture}\n[/tikz]\nWrite the volume $V$ cm$^{3}$ of the cylinder as a function of $r$, and state the domain.",
+        "structure": "model-from-similar-triangles",
+        "solution_text": "The triangle above the cylinder is similar to the whole cross-section of the cone.\n$\\dfrac{r}{9} = \\dfrac{24 - h}{24}$\n$\\dfrac{24r}{9} = 24 - h$\n$h = 24 - \\dfrac{8r}{3}$\n$V = \\pi r^{2}h$\n$= \\pi r^{2}\\left(24 - \\dfrac{8r}{3}\\right)$\n$= 24\\pi r^{2} - \\dfrac{8\\pi r^{3}}{3}$\nThe model is $V = 24\\pi r^{2} - \\dfrac{8\\pi r^{3}}{3}$ for $0 < r < 9$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A piece of wire $40$ cm long is cut into two pieces. The piece of length $x$ cm is bent into a circle and the rest is bent into a square. Write the total enclosed area $A$ cm$^{2}$ as a function of $x$, and state the domain.",
+        "structure": "model-from-linear-constraint",
+        "solution_text": "The circle has circumference $x$, so its radius is $\\dfrac{x}{2\\pi}$.\nArea of circle $= \\pi\\left(\\dfrac{x}{2\\pi}\\right)^{2}$\n$= \\dfrac{\\pi x^{2}}{4\\pi^{2}}$\n$= \\dfrac{x^{2}}{4\\pi}$\nThe square has perimeter $40 - x$, so its side is $\\dfrac{40 - x}{4}$.\nArea of square $= \\dfrac{(40 - x)^{2}}{16}$\n$A = \\dfrac{x^{2}}{4\\pi} + \\dfrac{(40 - x)^{2}}{16}$\nThe model is $A = \\dfrac{x^{2}}{4\\pi} + \\dfrac{(40 - x)^{2}}{16}$ for $0 < x < 40$."
+      },
+      {
+        "question_text": "A rectangle is inscribed in a semicircle of radius $6$ cm with one side along the diameter. The rectangle has width $2x$ cm.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-3,0) -- (3,0);\n\\draw (3,0) arc (0:180:3);\n\\draw (-1.9,0) -- (-1.9,2.32) -- (1.9,2.32) -- (1.9,0);\n\\draw (-1.9,0) -- (1.9,0) node[midway, below] {$2x$ cm};\n\\fill (0,0) circle (1.5pt);\n\\draw[dashed] (-3,0) -- (-3,-0.9);\n\\draw[dashed] (0,-0.45) -- (0,-0.9);\n\\draw[<->] (-3,-0.8) -- (0,-0.8) node[midway, below] {$6$ cm};\n\\end{tikzpicture}[/tikz]\nWrite the area $A$ cm$^{2}$ of the rectangle as a function of $x$, and state the domain.",
+        "structure": "model-from-pythagoras",
+        "solution_text": "Let the height of the rectangle be $y$ cm.\nThe top corner lies on the semicircle, at horizontal distance $x$ from the centre.\nBy Pythagoras' theorem: $x^{2} + y^{2} = 6^{2}$\n$y = \\sqrt{36 - x^{2}}$\n$A = 2x \\times y$\n$= 2x\\sqrt{36 - x^{2}}$\nThe half-width must be positive and less than the radius, so $0 < x < 6$.\nThe model is $A = 2x\\sqrt{36 - x^{2}}$ for $0 < x < 6$."
+      },
+      {
+        "question_text": "An open-topped rectangular tank has a square base of side $x$ m and must hold $32$ m$^{3}$. The base costs $\\$18$ per m$^{2}$ and the four walls cost $\\$10$ per m$^{2}$. Write the total cost $C$ dollars as a function of $x$, and state the domain.",
+        "structure": "model-from-volume-constraint",
+        "solution_text": "Let the height be $h$ m.\nConstraint: $x^{2}h = 32$\n$h = \\dfrac{32}{x^{2}}$\nBase area $= x^{2}$, so the base costs $18x^{2}$ dollars.\nWall area $= 4xh$\n$= 4x \\times \\dfrac{32}{x^{2}}$\n$= \\dfrac{128}{x}$\nThe walls cost $10 \\times \\dfrac{128}{x} = \\dfrac{1280}{x}$ dollars.\n$C = 18x^{2} + \\dfrac{1280}{x}$\nThe model is $C = 18x^{2} + \\dfrac{1280}{x}$ for $x > 0$."
+      }
+    ]
+  }
+}

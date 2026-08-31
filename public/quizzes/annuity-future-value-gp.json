@@ -1,0 +1,205 @@
+{
+  "skillId": "annuity-future-value-gp",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "An investor deposits $\\$600$ at the end of each year for $10\\text{ years}$ into an account earning $5\\%$ p.a. compounded annually. Which geometric series represents the future value $FV$?",
+      "structure": "derive-annuity-gp",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$600 + 600(1.05) + 600(1.05)^{2} + \\dots + 600(1.05)^{9}$",
+          "correct": true
+        },
+        {
+          "text": "$600(1.05) + 600(1.05)^{2} + \\dots + 600(1.05)^{10}$",
+          "why": "Treated as start-of-period payments (annuity due) rather than end-of-period payments."
+        },
+        {
+          "text": "$600 + 600(1.05) + 600(1.05)^{2} + \\dots + 600(1.05)^{10}$",
+          "why": "Included 11 payments instead of 10 payments for a 10-year term."
+        },
+        {
+          "text": "$600(1.05)^{10}$",
+          "why": "Calculated compound interest on a single deposit rather than an annuity series."
+        }
+      ],
+      "solution_text": "For end-of-year deposits, the first deposit compounds for $9$ years and the 10th deposit earns no interest.\n$FV = 600 + 600(1.05) + 600(1.05)^{2} + \\dots + 600(1.05)^{9}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A sum of $\\$2000$ is invested at the end of each year for $14\\text{ years}$ at $6\\%$ p.a. compounded annually. Calculate the future value of the annuity.",
+      "structure": "future-value-annual",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$42\\,030.04$",
+          "correct": true
+        },
+        {
+          "text": "$\\$44\\,551.84$",
+          "why": "Multiplied by $(1+r)$ as if payments were made at the start of each year."
+        },
+        {
+          "text": "$\\$28\\,000.00$",
+          "why": "Summed the payments without adding any compound interest."
+        },
+        {
+          "text": "$\\$45\\,218.00$",
+          "why": "Calculated compound interest on a single lump sum of $\\$20\\,000$."
+        }
+      ],
+      "solution_text": "$FV = \\dfrac{2000(1.06^{14}-1)}{0.06}$\n$= \\$42\\,030.04$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Sarah deposits $\\$250$ at the end of each month into an annuity paying $7.2\\%$ p.a. compounded monthly. What is the value of the investment after $4\\text{ years}$?",
+      "structure": "future-value-periodic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$13\\,858.75$",
+          "correct": true
+        },
+        {
+          "text": "$\\$94\\,241.87$",
+          "why": "Used the annual interest rate of $7.2\\%$ instead of the monthly rate of $0.6\\%$."
+        },
+        {
+          "text": "$\\$13\\,941.90$",
+          "why": "Multiplied by $1.006$ for start-of-month payments instead of end-of-month payments."
+        },
+        {
+          "text": "$\\$12\\,000.00$",
+          "why": "Calculated simple principal total ($48 \\times 250$) without compound interest."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.072}{12} = 0.006$, $n = 48$\n$FV = \\dfrac{250(1.006^{48}-1)}{0.006}$\n$= \\$13\\,858.75$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A council deposits $\\$1200$ at the end of each quarter into a park upgrade fund paying $4.8\\%$ p.a. compounded quarterly. Find the amount in the fund after $5\\text{ years}$.",
+      "structure": "future-value-periodic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$26\\,943.51$",
+          "correct": true
+        },
+        {
+          "text": "$\\$27\\,266.83$",
+          "why": "Treated the annuity as an annuity due by including an extra factor of $1.012$."
+        },
+        {
+          "text": "$\\$24\\,000.00$",
+          "why": "Ignored compound interest and simply calculated $20 \\times 1200$."
+        },
+        {
+          "text": "$\\$29\\,752.12$",
+          "why": "Used $n = 5$ years instead of $n = 20$ quarterly compounding periods."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.048}{4} = 0.012$, $n = 5 \\times 4 = 20$\n$FV = \\dfrac{1200(1.012^{20}-1)}{0.012}$\n$= \\$26\\,943.51$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Marcus deposits $\\$1500$ at the end of each year for $8\\text{ years}$ into a savings bond earning $6.5\\%$ p.a. compounded annually. How much interest did the investment earn?",
+      "structure": "calculate-interest-earned",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$3115.30$",
+          "correct": true
+        },
+        {
+          "text": "$\\$15\\,115.30$",
+          "why": "Reported the total future value rather than subtracting total contributions."
+        },
+        {
+          "text": "$\\$3900.00$",
+          "why": "Calculated simple interest on the total contributions ($12000 \\times 0.065 \\times 5$)."
+        },
+        {
+          "text": "$\\$2415.30$",
+          "why": "Subtracted $9$ contributions instead of $8$ contributions from the future value."
+        }
+      ],
+      "solution_text": "$FV = \\dfrac{1500(1.065^{8}-1)}{0.065} = \\$15\\,115.30$\n$\\text{Contributions} = 8 \\times 1500 = \\$12\\,000$\n$\\text{Interest} = 15115.30 - 12000$\n$= \\$3115.30$"
+    },
+    {
+      "id": "q6",
+      "question_text": "An apprentice deposits $\\$400$ at the end of each month for $3\\text{ years}$ into a high-interest account earning $8.4\\%$ p.a. compounded monthly. Find the total interest earned over the $3\\text{ years}$.",
+      "structure": "calculate-interest-earned",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$1912.40$",
+          "correct": true
+        },
+        {
+          "text": "$\\$16\\,312.40$",
+          "why": "Stated the future value instead of subtracting the total deposits made."
+        },
+        {
+          "text": "$\\$14\\,400.00$",
+          "why": "Reported the total contributions made without calculating interest."
+        },
+        {
+          "text": "$\\$2026.59$",
+          "why": "Calculated interest assuming deposits were made at the start of each month."
+        }
+      ],
+      "solution_text": "$r = \\dfrac{0.084}{12} = 0.007$, $n = 36$\n$FV = \\dfrac{400(1.007^{36}-1)}{0.007} = \\$16\\,312.40$\n$\\text{Total deposits} = 36 \\times 400 = \\$14\\,400$\n$\\text{Interest} = 16312.40 - 14400$\n$= \\$1912.40$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A medical clinic deposits $\\$5000$ at the end of each year for $12\\text{ years}$ into an account earning $7.5\\%$ p.a. compounded annually. What percentage of the final accumulated balance comes from earned interest? Round to the nearest whole percentage.",
+      "structure": "calculate-interest-earned",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$35\\%$",
+          "correct": true
+        },
+        {
+          "text": "$65\\%$",
+          "why": "Calculated the proportion of the balance from principal contributions rather than interest."
+        },
+        {
+          "text": "$54\\%$",
+          "why": "Divided the earned interest by the total contributions instead of the future value."
+        },
+        {
+          "text": "$28\\%$",
+          "why": "Calculated interest using simple interest rather than compound geometric series."
+        }
+      ],
+      "solution_text": "$FV = \\dfrac{5000(1.075^{12}-1)}{0.075} = \\$92\\,117.84$\n$\\text{Contributions} = 12 \\times 5000 = \\$60\\,000$\n$\\text{Interest} = 92117.84 - 60000 = \\$32\\,117.84$\n$\\text{Percentage} = \\dfrac{32117.84}{92117.84} \\times 100\\%$\n$\\approx 34.87\\%$\n$\\approx 35\\%$"
+    },
+    {
+      "id": "q8",
+      "question_text": "An investor makes $20$ annual contributions of $\\$3000$ at the end of each year at $8\\%$ p.a. compounded annually. By how much does the compound value of the very first deposit exceed the compound value of the 10th deposit at maturity?",
+      "structure": "derive-annuity-gp",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$6469.96$",
+          "correct": true
+        },
+        {
+          "text": "$\\$9947.14$",
+          "why": "Subtracted the uncompounded $\\$3000$ payment instead of the 10th deposit's future value."
+        },
+        {
+          "text": "$\\$12\\,947.14$",
+          "why": "Calculated the future value of the first deposit alone without subtracting the 10th deposit."
+        },
+        {
+          "text": "$\\$4800.00$",
+          "why": "Used simple interest differences over 9 years."
+        }
+      ],
+      "solution_text": "First deposit grows for $19$ years: $3000(1.08)^{19} = \\$12\\,947.14$\n10th deposit grows for $10$ years: $3000(1.08)^{10} = \\$6477.18$\n$\\text{Difference} = 12947.14 - 6477.18$\n$= \\$6469.96$"
+    }
+  ]
+}

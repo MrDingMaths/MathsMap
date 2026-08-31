@@ -1,0 +1,205 @@
+{
+  "skillId": "prove-binomial-identities",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which substitution establishes that $^{7}C_{0} + {^{7}C_{1}} + {^{7}C_{2}} + \\dots + {^{7}C_{7}} = 128$?",
+      "structure": "substitution-all-coefficients",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Put $x = 1$ into the expansion of $(1+x)^{7}$.",
+          "correct": true
+        },
+        {
+          "text": "Put $x = 2$ into the expansion of $(1+x)^{7}$.",
+          "why": "Substituted the base of the power $2$ instead of $x=1$."
+        },
+        {
+          "text": "Put $x = 0$ into the expansion of $(1+x)^{7}$.",
+          "why": "Setting $x=0$ leaves only the constant term $^{7}C_{0} = 1$."
+        },
+        {
+          "text": "Put $x = -1$ into the expansion of $(1+x)^{7}$.",
+          "why": "Setting $x=-1$ gives the alternating sum $0$, not $128$."
+        }
+      ],
+      "solution_text": "In $(1+x)^{7} = \\sum_{r=0}^{7} {^{7}C_{r}} x^{r}$, substitute $x = 1$:\n$(1+1)^{7} = \\sum_{r=0}^{7} {^{7}C_{r}}$\n$2^{7} = 128 = \\sum_{r=0}^{7} {^{7}C_{r}}$\nPut $x = 1$ into the expansion of $(1+x)^{7}$."
+    },
+    {
+      "id": "q2",
+      "question_text": "What is the value of the alternating sum $^{8}C_{0} - {^{8}C_{1}} + {^{8}C_{2}} - {^{8}C_{3}} + {^{8}C_{4}} - {^{8}C_{5}} + {^{8}C_{6}} - {^{8}C_{7}} + {^{8}C_{8}}$?",
+      "structure": "substitution-alternating-sum",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0$",
+          "correct": true
+        },
+        {
+          "text": "$256$",
+          "why": "Evaluated the non-alternating sum $2^8 = 256$ instead of setting $x=-1$."
+        },
+        {
+          "text": "$1$",
+          "why": "Subtracted alternating terms pairwise assuming the final coefficient remains."
+        },
+        {
+          "text": "$-1$",
+          "why": "Assumed the alternating sum equals $(-1)^8 = 1$ with an incorrect sign."
+        }
+      ],
+      "solution_text": "In $(1+x)^{8} = \\sum_{r=0}^{8} {^{8}C_{r}} x^{r}$, substitute $x = -1$:\n$(1 - 1)^{8} = \\sum_{r=0}^{8} {^{8}C_{r}} (-1)^{r}$\n$= 0$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Which value of $x$ should be substituted into $(1+x)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} x^{r}$ to prove that $\\sum_{r=0}^{10} {^{10}C_{r}} 2^{r} = 3^{10}$?",
+      "structure": "substitution-weighted-power",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = 2$",
+          "correct": true
+        },
+        {
+          "text": "$x = 3$",
+          "why": "Substituted the target base $3$ instead of the base of the powers $x=2$."
+        },
+        {
+          "text": "$x = 1$",
+          "why": "Substituted $x=1$, which gives the unweighted sum $2^{10}$."
+        },
+        {
+          "text": "$x = \\dfrac{1}{2}$",
+          "why": "Inverted the base to $\\dfrac{1}{2}$, which yields $\\left(\\dfrac{3}{2}\\right)^{10}$."
+        }
+      ],
+      "solution_text": "$(1+x)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} x^{r}$\nTo obtain the coefficient multiplier $2^{r}$, substitute $x = 2$:\n$(1+2)^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} 2^{r}$\n$3^{10} = \\sum_{r=0}^{10} {^{10}C_{r}} 2^{r}$\n$x = 2$"
+    },
+    {
+      "id": "q4",
+      "question_text": "What is the sum of the odd-positioned binomial coefficients $^{6}C_{1} + {^{6}C_{3}} + {^{6}C_{5}}$?",
+      "structure": "substitution-even-odd-split",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$32$",
+          "correct": true
+        },
+        {
+          "text": "$64$",
+          "why": "Computed the total row sum $2^6 = 64$ rather than half the row sum."
+        },
+        {
+          "text": "$16$",
+          "why": "Subtracted 2 from the exponent twice, computing $2^{6-2} = 16$."
+        },
+        {
+          "text": "$31$",
+          "why": "Subtracted 1 from the power value, calculating $2^5 - 1 = 31$."
+        }
+      ],
+      "solution_text": "Sum of odd coefficients is $2^{n-1}$ for $n = 6$:\n$2^{6-1} = 2^{5}$\n$= 32$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A student proves that ${^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots = 2^{n-1}$ using two substitutions into $(1+x)^{n}$. What operation on the two resulting equations yields this result?",
+      "structure": "identify-substitution-proof-step",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Add the equation for $x = 1$ and the equation for $x = -1$, then divide by 2.",
+          "correct": true
+        },
+        {
+          "text": "Subtract the equation for $x = -1$ from the equation for $x = 1$, then divide by 2.",
+          "why": "Subtracting isolates the odd-indexed coefficients, not the even-indexed coefficients."
+        },
+        {
+          "text": "Multiply the equation for $x = 1$ by the equation for $x = -1$.",
+          "why": "Multiplying the equations does not cancel the odd terms."
+        },
+        {
+          "text": "Differentiate both equations and evaluate at $x = 1$.",
+          "why": "Differentiation is not required and introduces extra factors of $r$."
+        }
+      ],
+      "solution_text": "Let (1) be $(1+1)^{n} = \\sum {^{n}C_{r}} = 2^{n}$ and (2) be $(1-1)^{n} = \\sum (-1)^{r} {^{n}C_{r}} = 0$.\nAdding (1) and (2) cancels odd terms:\n$2({^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots) = 2^{n} + 0 = 2^{n}$\nDividing by 2 gives $2^{n-1}$.\nAdd the equation for $x = 1$ and the equation for $x = -1$, then divide by 2."
+    },
+    {
+      "id": "q6",
+      "question_text": "If $\\sum_{r=0}^{n} {^{n}C_{r}} = 1024$, what is the value of $n$?",
+      "structure": "substitution-all-coefficients",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10$",
+          "correct": true
+        },
+        {
+          "text": "$9$",
+          "why": "Computed $2^9 = 512$ instead of $1024$."
+        },
+        {
+          "text": "$11$",
+          "why": "Computed $2^{11} = 2048$ instead of $1024$."
+        },
+        {
+          "text": "$8$",
+          "why": "Computed $2^8 = 256$ instead of $1024$."
+        }
+      ],
+      "solution_text": "$\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$\n$2^{n} = 1024$\n$n = 10$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Which identity results from substituting $x = -\\dfrac{1}{3}$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$?",
+      "structure": "substitution-weighted-power",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{2}{3}\\right)^{n}$",
+          "correct": true
+        },
+        {
+          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{4}{3}\\right)^{n}$",
+          "why": "Added $\\dfrac{1}{3}$ instead of subtracting it, computing $1 + \\dfrac{1}{3} = \\dfrac{4}{3}$."
+        },
+        {
+          "text": "$\\sum_{r=0}^{n} \\dfrac{{^{n}C_{r}}}{3^{r}} = \\left(\\dfrac{2}{3}\\right)^{n}$",
+          "why": "Omitted the alternating factor $(-1)^r$ in the expansion."
+        },
+        {
+          "text": "$\\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}} = 0$",
+          "why": "Confused $x = -\\dfrac{1}{3}$ with $x = -1$."
+        }
+      ],
+      "solution_text": "In $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$, substitute $x = -\\dfrac{1}{3}$:\n$\\left(1 - \\dfrac{1}{3}\\right)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} \\left(-\\dfrac{1}{3}\\right)^{r}$\n$\\left(\\dfrac{2}{3}\\right)^{n} = \\sum_{r=0}^{n} \\dfrac{(-1)^{r} {^{n}C_{r}}}{3^{r}}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "To prove that ${^{n}C_{0}} + 4{^{n}C_{1}} + 16{^{n}C_{2}} + \\dots + 4^{n}{^{n}C_{n}} = 5^{n}$, what substitution and expansion should be used?",
+      "structure": "identify-substitution-proof-step",
+      "mastery": true,
+      "options": [
+        {
+          "text": "Put $x = 4$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$.",
+          "correct": true
+        },
+        {
+          "text": "Put $x = 5$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$.",
+          "why": "Substituted the resulting base 5 instead of the multiplier 4."
+        },
+        {
+          "text": "Put $x = 1$ into $(1+4x)^{n}$.",
+          "why": "While $(1+4(1))^n = 5^n$, the standard expansion is $(1+x)^n$ evaluated at $x=4$."
+        },
+        {
+          "text": "Put $a = 1, b = 5$ into $(a+b)^{n}$.",
+          "why": "Setting $b=5$ produces terms with $5^r$ rather than $4^r$."
+        }
+      ],
+      "solution_text": "$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = 4$:\n$(1+4)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 4^{r}$\n$5^{n} = {^{n}C_{0}} + 4{^{n}C_{1}} + 16{^{n}C_{2}} + \\dots + 4^{n}{^{n}C_{n}}$\nPut $x = 4$ into $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$."
+    }
+  ]
+}

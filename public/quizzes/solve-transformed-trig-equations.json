@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-transformed-trig-equations",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph of $y = 2\\sin x + 3$ and the line $y = 2$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=6.2,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={1, 2, 3, 5},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {2*sin(deg(x))+3};\n\\addplot[thick, red, domain=0:6.2832] {2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\sin x + 3 = 2$ for $0 \\le x \\le 2\\pi$.",
+      "structure": "solve-with-vertical-shift",
+      "mastery": false,
+      "options": [
+        { "text": "$x = \\dfrac{7\\pi}{6},\\ \\dfrac{11\\pi}{6}$", "correct": true },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$", "why": "Dropped the negative sign from $\\sin x = -\\frac{1}{2}$ and used quadrants 1 and 2." },
+        { "text": "$x = \\dfrac{5\\pi}{6},\\ \\dfrac{7\\pi}{6}$", "why": "Used the quadrants where $\\cos$ is negative instead of where $\\sin$ is negative." },
+        { "text": "$x = \\dfrac{7\\pi}{6}$", "why": "Stopped at the quadrant 3 solution without also taking the quadrant 4 solution." }
+      ],
+      "solution_text": "$2\\sin x + 3 = 2$\n$\\sin x = -\\dfrac{1}{2}$\nThe reference angle is $\\dfrac{\\pi}{6}$, and $\\sin x < 0$ in quadrants 3 and 4.\n$x = \\pi + \\dfrac{\\pi}{6},\\ 2\\pi - \\dfrac{\\pi}{6}$\n$x = \\dfrac{7\\pi}{6},\\ \\dfrac{11\\pi}{6}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph of $y = 2\\sin(2x)+3$ and the line $y = 4$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=6.2,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={1, 3, 4, 5},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {2*sin(deg(2*x))+3};\n\\addplot[thick, red, domain=0:6.2832] {4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\sin(2x)+3 = 4$ for $0 \\le x \\le 2\\pi$.",
+      "structure": "isolate-and-solve-multiple-angle",
+      "mastery": false,
+      "options": [
+        { "text": "$x = \\dfrac{\\pi}{12},\\ \\dfrac{5\\pi}{12},\\ \\dfrac{13\\pi}{12},\\ \\dfrac{17\\pi}{12}$", "correct": true },
+        { "text": "$x = \\dfrac{\\pi}{12},\\ \\dfrac{5\\pi}{12}$", "why": "Solved only the first revolution of $u=2x$ instead of the full domain $0 \\le u \\le 4\\pi$." },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6},\\ \\dfrac{13\\pi}{6},\\ \\dfrac{17\\pi}{6}$", "why": "Found the four values of $u$ but never divided them by $2$ to recover $x$." },
+        { "text": "$x = \\dfrac{7\\pi}{12},\\ \\dfrac{11\\pi}{12},\\ \\dfrac{19\\pi}{12},\\ \\dfrac{23\\pi}{12}$", "why": "Used the quadrants where sine is negative, solving $\\sin u = -\\frac{1}{2}$ instead." }
+      ],
+      "solution_text": "$2\\sin(2x)+3 = 4$\n$\\sin(2x) = \\dfrac{1}{2}$\nLet $u = 2x$, so $0 \\le u \\le 4\\pi$.\n$u = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$\nAdding $2\\pi$ to each gives two more values inside $0 \\le u \\le 4\\pi$.\n$u = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6},\\ \\dfrac{13\\pi}{6},\\ \\dfrac{17\\pi}{6}$\n$x = \\dfrac{\\pi}{12},\\ \\dfrac{5\\pi}{12},\\ \\dfrac{13\\pi}{12},\\ \\dfrac{17\\pi}{12}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The graph of $y = 2\\cos\\left(x+\\dfrac{\\pi}{6}\\right)$ and the line $y = 1$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-2.6, ymax=2.6,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-2, 1, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {2*cos(deg(x+pi/6))};\n\\addplot[thick, red, domain=0:6.2832] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\cos\\left(x+\\dfrac{\\pi}{6}\\right)-1 = 0$ for $0 \\le x \\le 2\\pi$.",
+      "structure": "isolate-and-solve-phase-shift",
+      "mastery": false,
+      "options": [
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{3\\pi}{2}$", "correct": true },
+        { "text": "$x = \\dfrac{\\pi}{2},\\ \\dfrac{11\\pi}{6}$", "why": "Added $\\frac{\\pi}{6}$ to each value of $u$ instead of subtracting it to undo the translation." },
+        { "text": "$x = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$", "why": "Solved for $u$ and stopped there, never undoing the horizontal translation." },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{3\\pi}{2},\\ \\dfrac{13\\pi}{6}$", "why": "Included $u=\\frac{7\\pi}{3}$ without checking that it lies outside the domain for $u$." }
+      ],
+      "solution_text": "$2\\cos\\left(x+\\dfrac{\\pi}{6}\\right)-1 = 0$\n$\\cos\\left(x+\\dfrac{\\pi}{6}\\right) = \\dfrac{1}{2}$\nLet $u = x+\\dfrac{\\pi}{6}$, so $\\dfrac{\\pi}{6} \\le u \\le \\dfrac{13\\pi}{6}$.\nThe reference angle is $\\dfrac{\\pi}{3}$, and $\\cos u > 0$ in quadrants 1 and 4.\n$u = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$\nThe next value, $\\dfrac{7\\pi}{3}$, is larger than $\\dfrac{13\\pi}{6}$, so it is rejected.\n$x = u - \\dfrac{\\pi}{6}$\n$x = \\dfrac{\\pi}{6},\\ \\dfrac{3\\pi}{2}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The graph of $y = 2-\\sqrt{3}\\tan x$ and the line $y = 3$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-6.5, ymax=10.5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-4, 3, 8},\n  samples=100, clip=false,\n  restrict y to domain=-6.5:10.5, unbounded coords=jump,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:1.3573] {2-1.73205*tan(deg(x))};\n\\addplot[smooth, thick, blue, domain=1.7843:4.4989] {2-1.73205*tan(deg(x))};\n\\addplot[smooth, thick, blue, domain=4.9259:6.2832] {2-1.73205*tan(deg(x))};\n\\addplot[thick, red, domain=0:6.2832] {3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2-\\sqrt{3}\\tan x = 3$ for $0 \\le x \\le 2\\pi$.",
+      "structure": "solve-negative-amplitude",
+      "mastery": false,
+      "options": [
+        { "text": "$x = \\dfrac{5\\pi}{6},\\ \\dfrac{11\\pi}{6}$", "correct": true },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{7\\pi}{6}$", "why": "Divided by $-\\sqrt{3}$ but kept the ratio positive, solving $\\tan x = \\frac{1}{\\sqrt{3}}$." },
+        { "text": "$x = \\dfrac{2\\pi}{3},\\ \\dfrac{5\\pi}{3}$", "why": "Used a reference angle of $\\frac{\\pi}{3}$ instead of $\\frac{\\pi}{6}$ for $\\tan^{-1}\\frac{1}{\\sqrt{3}}$." },
+        { "text": "$x = \\dfrac{5\\pi}{6}$", "why": "Took only the quadrant 2 solution, forgetting that $\\tan$ repeats every $\\pi$." }
+      ],
+      "solution_text": "$2-\\sqrt{3}\\tan x = 3$\n$-\\sqrt{3}\\tan x = 1$\n$\\tan x = -\\dfrac{1}{\\sqrt{3}}$\nThe reference angle is $\\dfrac{\\pi}{6}$, and $\\tan x < 0$ in quadrants 2 and 4.\n$x = \\pi - \\dfrac{\\pi}{6},\\ 2\\pi - \\dfrac{\\pi}{6}$\n$x = \\dfrac{5\\pi}{6},\\ \\dfrac{11\\pi}{6}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The graph of $y = 2\\cos(2x)+1$ and the line $y = 2$ are shown for $-\\pi \\le x \\le \\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-3.6, xmax=3.6, ymin=-1.8, ymax=3.8,\n  xtick={-3.1416, -1.5708, 1.5708, 3.1416},\n  xticklabels={$-\\pi$, $-\\frac{\\pi}{2}$, $\\frac{\\pi}{2}$, $\\pi$},\n  ytick={-1, 1, 2, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-3.1416:3.1416] {2*cos(deg(2*x))+1};\n\\addplot[thick, red, domain=-3.1416:3.1416] {2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\cos(2x)+1 = 2$ for $-\\pi \\le x \\le \\pi$.",
+      "structure": "solve-nonstandard-domain",
+      "mastery": false,
+      "options": [
+        { "text": "$x = -\\dfrac{5\\pi}{6},\\ -\\dfrac{\\pi}{6},\\ \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$", "correct": true },
+        { "text": "$x = -\\dfrac{\\pi}{6},\\ \\dfrac{\\pi}{6}$", "why": "Used only $-\\pi \\le u \\le \\pi$ instead of the full transformed domain $-2\\pi \\le u \\le 2\\pi$." },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$", "why": "Solved over $0 \\le x \\le \\pi$ only, ignoring the negative half of the given domain." },
+        { "text": "$x = -\\dfrac{5\\pi}{3},\\ -\\dfrac{\\pi}{3},\\ \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$", "why": "Found the four values of $u$ but never halved them to recover $x$." }
+      ],
+      "solution_text": "$2\\cos(2x)+1 = 2$\n$\\cos(2x) = \\dfrac{1}{2}$\nLet $u = 2x$, so $-2\\pi \\le u \\le 2\\pi$.\nThe reference angle is $\\dfrac{\\pi}{3}$, and $\\cos u > 0$ in quadrants 1 and 4.\nIn $0 \\le u \\le 2\\pi$: $u = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$\nSince $\\cos u$ is even, the negative half gives $u = -\\dfrac{\\pi}{3},\\ -\\dfrac{5\\pi}{3}$\n$x = \\dfrac{u}{2}$\n$x = -\\dfrac{5\\pi}{6},\\ -\\dfrac{\\pi}{6},\\ \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph of $y = 4\\sin(3x)+6$ and the line $y = 1$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-0.6, ymax=11.5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={1, 2, 6, 10},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {4*sin(deg(3*x))+6};\n\\addplot[thick, red, domain=0:6.2832] {1};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $4\\sin(3x)+6 = 1$ have for $0 \\le x \\le 2\\pi$?",
+      "structure": "extreme-value-check",
+      "mastery": false,
+      "options": [
+        { "text": "$0$", "correct": true },
+        { "text": "$6$", "why": "Assumed two solutions in each of the three cycles without checking that $|\\sin u| \\le 1$." },
+        { "text": "$2$", "why": "Read $\\sin 3x = -\\frac{5}{4}$ as $-\\frac{4}{5}$ and then solved only the first cycle." },
+        { "text": "$1$", "why": "Assumed the line just touches the curve at its minimum, as happens when the values are equal." }
+      ],
+      "solution_text": "$4\\sin(3x)+6 = 1$\n$\\sin(3x) = -\\dfrac{5}{4}$\nThe sine of any angle lies between $-1$ and $1$, and $-\\dfrac{5}{4} < -1$.\nThe lowest point of the curve is $y=2$, which is still above the line $y=1$.\nThere are $0$ solutions."
+    },
+    {
+      "id": "q7",
+      "question_text": "The graph of $y = 2\\sin\\left(\\dfrac{x}{2}\\right)$ and the line $y = -\\sqrt{3}$ are shown for $0 \\le x \\le 4\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.6, xmax=14.6, ymin=-2.6, ymax=2.6,\n  xtick={3.1416, 6.2832, 9.4248, 12.5664},\n  xticklabels={$\\pi$, $2\\pi$, $3\\pi$, $4\\pi$},\n  ytick={-2, 2},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:12.5664] {2*sin(deg(x/2))};\n\\addplot[thick, red, domain=0:12.5664] {-1.73205};\n\\node[red, anchor=west] at (axis cs:12.8,-1.73205) {$y=-\\sqrt{3}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\sin\\left(\\dfrac{x}{2}\\right)+\\sqrt{3} = 0$ for $0 \\le x \\le 4\\pi$.",
+      "structure": "isolate-and-solve-multiple-angle",
+      "mastery": true,
+      "options": [
+        { "text": "$x = \\dfrac{8\\pi}{3},\\ \\dfrac{10\\pi}{3}$", "correct": true },
+        { "text": "$x = \\dfrac{4\\pi}{3},\\ \\dfrac{5\\pi}{3}$", "why": "Found the values of $u=\\frac{x}{2}$ correctly but never doubled them to recover $x$." },
+        { "text": "$x = \\dfrac{2\\pi}{3},\\ \\dfrac{4\\pi}{3}$", "why": "Dropped the negative sign and solved $\\sin u = \\frac{\\sqrt{3}}{2}$ before doubling." },
+        { "text": "$x = \\dfrac{8\\pi}{3}$", "why": "Stopped after the quadrant 3 solution instead of also taking the quadrant 4 solution." }
+      ],
+      "solution_text": "$2\\sin\\left(\\dfrac{x}{2}\\right)+\\sqrt{3} = 0$\n$\\sin\\left(\\dfrac{x}{2}\\right) = -\\dfrac{\\sqrt{3}}{2}$\nLet $u = \\dfrac{x}{2}$, so $0 \\le u \\le 2\\pi$.\nThe reference angle is $\\dfrac{\\pi}{3}$, and $\\sin u < 0$ in quadrants 3 and 4.\n$u = \\dfrac{4\\pi}{3},\\ \\dfrac{5\\pi}{3}$\n$x = 2u$\n$x = \\dfrac{8\\pi}{3},\\ \\dfrac{10\\pi}{3}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph of $y = 4\\cos(2x)$ and the line $y = -2$ are shown for $0 \\le x \\le \\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.2, xmax=3.5, ymin=-5, ymax=5,\n  xtick={0.7854, 1.5708, 2.3562, 3.1416},\n  xticklabels={$\\frac{\\pi}{4}$, $\\frac{\\pi}{2}$, $\\frac{3\\pi}{4}$, $\\pi$},\n  ytick={-4, -2, 4},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:3.1416] {4*cos(deg(2*x))};\n\\addplot[thick, red, domain=0:3.1416] {-2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $4\\cos(2x)+2 = 0$ for $0 \\le x \\le \\pi$.",
+      "structure": "solve-with-vertical-shift",
+      "mastery": true,
+      "options": [
+        { "text": "$x = \\dfrac{\\pi}{3},\\ \\dfrac{2\\pi}{3}$", "correct": true },
+        { "text": "$x = \\dfrac{2\\pi}{3},\\ \\dfrac{4\\pi}{3}$", "why": "Found the values of $u=2x$ correctly but never halved them to recover $x$." },
+        { "text": "$x = \\dfrac{\\pi}{6},\\ \\dfrac{5\\pi}{6}$", "why": "Dropped the negative sign and solved $\\cos u = \\frac{1}{2}$ instead." },
+        { "text": "$x = \\dfrac{\\pi}{3}$", "why": "Used the domain $0 \\le u \\le \\pi$ instead of $0 \\le u \\le 2\\pi$, losing the second solution." }
+      ],
+      "solution_text": "$4\\cos(2x)+2 = 0$\n$\\cos(2x) = -\\dfrac{1}{2}$\nLet $u = 2x$, so $0 \\le u \\le 2\\pi$.\nThe reference angle is $\\dfrac{\\pi}{3}$, and $\\cos u < 0$ in quadrants 2 and 3.\n$u = \\dfrac{2\\pi}{3},\\ \\dfrac{4\\pi}{3}$\n$x = \\dfrac{u}{2}$\n$x = \\dfrac{\\pi}{3},\\ \\dfrac{2\\pi}{3}$"
+    }
+  ]
+}

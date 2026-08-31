@@ -1,0 +1,112 @@
+{
+  "skillId": "prove-binomial-identities-equate-coefficients",
+  "atomType": "R",
+  "theory": {
+        "intro": "Multiplying two binomial expansions gives the same polynomial as expanding the single power, so the coefficient of each $x^{k}$ must match. Equating those coefficients proves identities about sums of products of binomial coefficients.",
+        "facts": [
+          "**Vandermonde's identity**: the coefficient of $x^{k}$ in $(1+x)^{a}(1+x)^{b} = (1+x)^{a+b}$ gives $\\sum_{r=0}^{k} {^{a}C_{r}} {^{b}C_{k-r}} = {^{a+b}C_{k}}$.",
+          "The coefficient of $x^{n}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$, with symmetry ${^{n}C_{n-r}} = {^{n}C_{r}}$, proves $({^{n}C_{0}})^{2} + ({^{n}C_{1}})^{2} + \\dots + ({^{n}C_{n}})^{2} = {^{2n}C_{n}}$.",
+          "The coefficient of $x^{n-1}$ or $x^{n+1}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$ proves $\\sum_{r=0}^{n-1} {^{n}C_{r}} {^{n}C_{r+1}} = {^{2n}C_{n-1}}$.",
+          "The coefficient of $x^{n}$ in $(1+x)^{n}(1-x)^{n} = (1-x^{2})^{n}$ gives $\\sum_{r=0}^{n} (-1)^{r} ({^{n}C_{r}})^{2} = 0$ for odd $n$, and $(-1)^{m} {^{2m}C_{m}}$ when $n = 2m$.",
+          "Every proof must state the product identity, the expansion of each side, and the power of $x$ whose coefficients are equated."
+        ],
+        "steps": [
+          "Write down the product identity, such as $(1+x)^{a}(1+x)^{b} = (1+x)^{a+b}$ or $(1+x)^{n}(1-x)^{n} = (1-x^{2})^{n}$",
+          "Expand both sides using the binomial theorem and collect terms contributing to the chosen power $x^{k}$",
+          "Apply symmetry ${^{n}C_{n-r}} = {^{n}C_{r}}$ where necessary and equate the coefficients from both sides"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "By equating the coefficients of $x^{3}$ in $(1+x)^{3}(1+x)^{3} = (1+x)^{6}$, prove that $({^{3}C_{0}})^{2} + ({^{3}C_{1}})^{2} + ({^{3}C_{2}})^{2} + ({^{3}C_{3}})^{2} = {^{6}C_{3}} = 20$.",
+        "structure": "equate-sum-of-squares",
+        "solution_text": "Consider the product $(1+x)^{3}(1+x)^{3} = (1+x)^{6}$.\nOn LHS: $({^{3}C_{0}} + {^{3}C_{1}}x + {^{3}C_{2}}x^{2} + {^{3}C_{3}}x^{3})({^{3}C_{0}} + {^{3}C_{1}}x + {^{3}C_{2}}x^{2} + {^{3}C_{3}}x^{3})$\nCoefficient of $x^{3}$ on LHS:\n$= {^{3}C_{0}}{^{3}C_{3}} + {^{3}C_{1}}{^{3}C_{2}} + {^{3}C_{2}}{^{3}C_{1}} + {^{3}C_{3}}{^{3}C_{0}}$\nOn RHS: coefficient of $x^{3}$ in $(1+x)^{6}$ is $^{6}C_{3}$.\nUsing $^{3}C_{3} = {^{3}C_{0}}$ and $^{3}C_{2} = {^{3}C_{1}}$:\n$({^{3}C_{0}})^{2} + ({^{3}C_{1}})^{2} + ({^{3}C_{2}})^{2} + ({^{3}C_{3}})^{2} = {^{6}C_{3}} = 20$"
+      },
+      {
+        "question_text": "Prove that $({^{n}C_{0}})^{2} + ({^{n}C_{1}})^{2} + \\dots + ({^{n}C_{n}})^{2} = {^{2n}C_{n}}$ by equating the coefficient of $x^{n}$ on both sides of $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.",
+        "structure": "equate-sum-of-squares",
+        "solution_text": "Consider $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.\nLHS $= (\\sum_{r=0}^{n} {^{n}C_{r}} x^{r})(\\sum_{s=0}^{n} {^{n}C_{s}} x^{s})$\nCoefficient of $x^{n}$ on LHS is $\\sum_{r=0}^{n} {^{n}C_{r}} {^{n}C_{n-r}}$.\nRHS $= (1+x)^{2n}$, so coefficient of $x^{n}$ is $^{2n}C_{n}$.\nBy symmetry $^{n}C_{n-r} = {^{n}C_{r}}$, equating coefficients gives:\n$\\sum_{r=0}^{n} ({^{n}C_{r}})^{2} = {^{2n}C_{n}}$"
+      },
+      {
+        "question_text": "By equating the coefficient of $x^{3}$ in $(1+x)^{2}(1+x)^{4} = (1+x)^{6}$, prove that $^{2}C_{0}{^{4}C_{3}} + {^{2}C_{1}}{^{4}C_{2}} + {^{2}C_{2}}{^{4}C_{1}} = {^{6}C_{3}}$.",
+        "structure": "equate-asymmetric-powers",
+        "solution_text": "Consider $(1+x)^{2}(1+x)^{4} = (1+x)^{6}$.\nLHS $= ({^{2}C_{0}} + {^{2}C_{1}}x + {^{2}C_{2}}x^{2})({^{4}C_{0}} + {^{4}C_{1}}x + {^{4}C_{2}}x^{2} + {^{4}C_{3}}x^{3} + {^{4}C_{4}}x^{4})$\nCollecting terms with power $x^{3}$:\n${^{2}C_{0}}{^{4}C_{3}} + {^{2}C_{1}}{^{4}C_{2}} + {^{2}C_{2}}{^{4}C_{1}}$\nOn RHS: coefficient of $x^{3}$ in $(1+x)^{6}$ is $^{6}C_{3}$.\nEquating coefficients:\n${^{2}C_{0}}{^{4}C_{3}} + {^{2}C_{1}}{^{4}C_{2}} + {^{2}C_{2}}{^{4}C_{1}} = {^{6}C_{3}}$"
+      },
+      {
+        "question_text": "Use $(1+x)^{3}(1+x)^{5} = (1+x)^{8}$ and equate the coefficient of $x^{4}$ to express $^{8}C_{4}$ as a sum of products of binomial coefficients.",
+        "structure": "equate-asymmetric-powers",
+        "solution_text": "Consider $(1+x)^{3}(1+x)^{5} = (1+x)^{8}$.\nLHS coefficient of $x^{4}$ is ${^{3}C_{0}}{^{5}C_{4}} + {^{3}C_{1}}{^{5}C_{3}} + {^{3}C_{2}}{^{5}C_{2}} + {^{3}C_{3}}{^{5}C_{1}}$.\nRHS coefficient of $x^{4}$ is $^{8}C_{4}$.\nEquating coefficients:\n${^{8}C_{4}} = {^{3}C_{0}}{^{5}C_{4}} + {^{3}C_{1}}{^{5}C_{3}} + {^{3}C_{2}}{^{5}C_{2}} + {^{3}C_{3}}{^{5}C_{1}}$"
+      },
+      {
+        "question_text": "Which algebraic product expansion and power of $x$ should be compared to prove that $\\sum_{r=0}^{n} ({^{n}C_{r}})^{2} = {^{2n}C_{n}}$?",
+        "structure": "identify-equating-expansion-and-power",
+        "solution_text": "Expand the identity $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$ and equate the coefficient of $x^{n}$ on both sides."
+      },
+      {
+        "question_text": "By equating the coefficient of $x^{n-1}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$, prove that ${^{n}C_{0}}{^{n}C_{1}} + {^{n}C_{1}}{^{n}C_{2}} + \\dots + {^{n}C_{n-1}}{^{n}C_{n}} = {^{2n}C_{n-1}}$.",
+        "structure": "equate-shifted-products",
+        "solution_text": "Consider $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.\nLHS coefficient of $x^{n-1}$ is $\\sum_{r=0}^{n-1} {^{n}C_{r}} {^{n}C_{n-1-r}}$.\nRHS coefficient of $x^{n-1}$ is $^{2n}C_{n-1}$.\nSince $^{n}C_{n-1-r} = {^{n}C_{r+1}}$, equating coefficients gives:\n${^{n}C_{0}}{^{n}C_{1}} + {^{n}C_{1}}{^{n}C_{2}} + \\dots + {^{n}C_{n-1}}{^{n}C_{n}} = {^{2n}C_{n-1}}$"
+      },
+      {
+        "question_text": "By equating the coefficient of $x^{3}$ in $(1+x)^{3}(1-x)^{3} = (1-x^{2})^{3}$, prove that $({^{3}C_{0}})^{2} - ({^{3}C_{1}})^{2} + ({^{3}C_{2}})^{2} - ({^{3}C_{3}})^{2} = 0$.",
+        "structure": "equate-alternating-product",
+        "solution_text": "Consider $(1+x)^{3}(1-x)^{3} = (1-x^{2})^{3}$.\nLHS coefficient of $x^{3}$:\n${^{3}C_{0}}(-{^{3}C_{3}}) + {^{3}C_{1}}({^{3}C_{2}}) + {^{3}C_{2}}(-{^{3}C_{1}}) + {^{3}C_{3}}({^{3}C_{0}})$\nUsing $^{3}C_{3-r} = {^{3}C_{r}}$, this equals $-({^{3}C_{0}})^{2} + ({^{3}C_{1}})^{2} - ({^{3}C_{2}})^{2} + ({^{3}C_{3}})^{2}$.\nRHS $= (1-x^{2})^{3}$ has only even powers of $x$, so the coefficient of $x^{3}$ is $0$.\nTherefore $({^{3}C_{0}})^{2} - ({^{3}C_{1}})^{2} + ({^{3}C_{2}})^{2} - ({^{3}C_{3}})^{2} = 0$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "By using the identity $(1+x)^{4}(1+x)^{9} = (1+x)^{13}$, show that $^{9}C_{4} + {^{4}C_{1}}{^{9}C_{3}} + {^{4}C_{2}}{^{9}C_{2}} + {^{4}C_{3}}{^{9}C_{1}} + 1 = {^{13}C_{4}}$.",
+        "structure": "equate-asymmetric-powers",
+        "solution_text": "Consider $(1+x)^{4}(1+x)^{9} = (1+x)^{13}$.\nLHS coefficient of $x^{4}$:\n${^{4}C_{0}}{^{9}C_{4}} + {^{4}C_{1}}{^{9}C_{3}} + {^{4}C_{2}}{^{9}C_{2}} + {^{4}C_{3}}{^{9}C_{1}} + {^{4}C_{4}}{^{9}C_{0}}$\nRHS coefficient of $x^{4}$ is $^{13}C_{4}$.\nSince $^{4}C_{0} = 1$ and $^{4}C_{4}{^{9}C_{0}} = 1 \\times 1 = 1$:\n${^{9}C_{4}} + {^{4}C_{1}}{^{9}C_{3}} + {^{4}C_{2}}{^{9}C_{2}} + {^{4}C_{3}}{^{9}C_{1}} + 1 = {^{13}C_{4}}$"
+      },
+      {
+        "question_text": "By considering the coefficient of $x^{5}$ in the expansion of $(1+x)^{3}(1+x)^{8} = (1+x)^{11}$, show that $^{8}C_{5} + {^{3}C_{1}}{^{8}C_{4}} + {^{3}C_{2}}{^{8}C_{3}} + {^{8}C_{2}} = {^{11}C_{5}}$.",
+        "structure": "equate-asymmetric-powers",
+        "solution_text": "Consider $(1+x)^{3}(1+x)^{8} = (1+x)^{11}$.\nLHS coefficient of $x^{5}$:\n${^{3}C_{0}}{^{8}C_{5}} + {^{3}C_{1}}{^{8}C_{4}} + {^{3}C_{2}}{^{8}C_{3}} + {^{3}C_{3}}{^{8}C_{2}}$\nRHS coefficient of $x^{5}$ is $^{11}C_{5}$.\nSince $^{3}C_{0} = 1$ and $^{3}C_{3} = 1$:\n${^{8}C_{5}} + {^{3}C_{1}}{^{8}C_{4}} + {^{3}C_{2}}{^{8}C_{3}} + {^{8}C_{2}} = {^{11}C_{5}}$"
+      },
+      {
+        "question_text": "Prove that ${^{n}C_{0}}{^{n}C_{2}} + {^{n}C_{1}}{^{n}C_{3}} + {^{n}C_{2}}{^{n}C_{4}} + \\dots + {^{n}C_{n-2}}{^{n}C_{n}} = {^{2n}C_{n-2}}$ by equating the coefficient of $x^{n-2}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.",
+        "structure": "equate-shifted-products",
+        "solution_text": "Consider $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.\nLHS coefficient of $x^{n-2}$ is $\\sum_{r=0}^{n-2} {^{n}C_{r}} {^{n}C_{n-2-r}}$.\nRHS coefficient of $x^{n-2}$ is $^{2n}C_{n-2}$.\nUsing $^{n}C_{n-2-r} = {^{n}C_{r+2}}$, equating coefficients gives:\n$\\sum_{r=0}^{n-2} {^{n}C_{r}} {^{n}C_{r+2}} = {^{2n}C_{n-2}}$"
+      },
+      {
+        "question_text": "For any odd positive integer $n$, prove that $\\sum_{r=0}^{n} (-1)^{r} ({^{n}C_{r}})^{2} = 0$ by expanding $(1+x)^{n}(1-x)^{n} = (1-x^{2})^{n}$.",
+        "structure": "equate-alternating-product",
+        "solution_text": "Consider $(1+x)^{n}(1-x)^{n} = (1-x^{2})^{n}$.\nCoefficient of $x^{n}$ on LHS is $\\sum_{r=0}^{n} {^{n}C_{r}} (-1)^{n-r} {^{n}C_{n-r}} = (-1)^{n} \\sum_{r=0}^{n} (-1)^{r} ({^{n}C_{r}})^{2}$.\nRHS is $(1-x^{2})^{n} = \\sum_{k=0}^{n} {^{n}C_{k}} (-1)^{k} x^{2k}$, containing only even powers of $x$. Since $n$ is odd, the coefficient of $x^{n}$ on RHS is $0$.\nTherefore $\\sum_{r=0}^{n} (-1)^{r} ({^{n}C_{r}})^{2} = 0$."
+      },
+      {
+        "question_text": "A student wants to prove the identity $\\sum_{r=0}^{k} {^{m}C_{r}} {^{n}C_{k-r}} = {^{m+n}C_{k}}$. Which two algebraic expansions must they compare, and which power of $x$ must be equated?",
+        "structure": "identify-equating-expansion-and-power",
+        "solution_text": "Compare the product expansion of $(1+x)^{m}(1+x)^{n}$ with $(1+x)^{m+n}$, and equate the coefficient of $x^{k}$ on both sides."
+      },
+      {
+        "question_text": "Prove the identity $\\sum_{r=0}^{n} ({^{n}C_{r}})^{2} = {^{2n}C_{n}}$ by finding the constant term in the expansion of $\\left(x + \\dfrac{1}{x}\\right)^{n}\\left(x + \\dfrac{1}{x}\\right)^{n} = \\left(x + \\dfrac{1}{x}\\right)^{2n}$.",
+        "structure": "equate-sum-of-squares",
+        "solution_text": "Consider $\\left(x + \\dfrac{1}{x}\\right)^{n}\\left(x + \\dfrac{1}{x}\\right)^{n} = \\left(x + \\dfrac{1}{x}\\right)^{2n}$.\nOn RHS: the constant term occurs when powers of $x$ cancel, giving $^{2n}C_{n}$.\nOn LHS: the general terms multiply to a constant when powers match, giving $\\sum_{r=0}^{n} {^{n}C_{r}} {^{n}C_{n-r}} = \\sum_{r=0}^{n} ({^{n}C_{r}})^{2}$.\nEquating constant terms yields $\\sum_{r=0}^{n} ({^{n}C_{r}})^{2} = {^{2n}C_{n}}$."
+      },
+      {
+        "question_text": "Show that $^{5}C_{2} + {^{5}C_{1}}{^{6}C_{1}} + {^{6}C_{2}} = {^{11}C_{2}}$ by equating the coefficient of $x^{2}$ in $(1+x)^{5}(1+x)^{6} = (1+x)^{11}$.",
+        "structure": "equate-asymmetric-powers",
+        "solution_text": "Consider $(1+x)^{5}(1+x)^{6} = (1+x)^{11}$.\nCoefficient of $x^{2}$ on LHS:\n${^{5}C_{2}}{^{6}C_{0}} + {^{5}C_{1}}{^{6}C_{1}} + {^{5}C_{0}}{^{6}C_{2}}$\n$= {^{5}C_{2}}(1) + {^{5}C_{1}}{^{6}C_{1}} + (1){^{6}C_{2}}$\n$= {^{5}C_{2}} + {^{5}C_{1}}{^{6}C_{1}} + {^{6}C_{2}}$\nCoefficient of $x^{2}$ on RHS is $^{11}C_{2}$.\nEquating coefficients of $x^{2}$:\n${^{5}C_{2}} + {^{5}C_{1}}{^{6}C_{1}} + {^{6}C_{2}} = {^{11}C_{2}}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "By expanding $(1+x)^{2m}(1-x)^{2m} = (1-x^{2})^{2m}$, prove that $\\sum_{r=0}^{2m} (-1)^{r} ({^{2m}C_{r}})^{2} = (-1)^{m} {^{2m}C_{m}}$.",
+        "structure": "equate-alternating-product",
+        "solution_text": "Consider $(1+x)^{2m}(1-x)^{2m} = (1-x^{2})^{2m}$.\nLHS coefficient of $x^{2m}$:\n$\\sum_{r=0}^{2m} {^{2m}C_{r}} (-1)^{2m-r} {^{2m}C_{2m-r}} = \\sum_{r=0}^{2m} (-1)^{r} ({^{2m}C_{r}})^{2}$\nRHS $= (1-x^{2})^{2m} = \\sum_{k=0}^{2m} {^{2m}C_{k}} (-1)^{k} x^{2k}$. The term in $x^{2m}$ occurs when $2k = 2m \\implies k = m$, giving $(-1)^{m} {^{2m}C_{m}}$.\nEquating coefficients of $x^{2m}$:\n$\\sum_{r=0}^{2m} (-1)^{r} ({^{2m}C_{r}})^{2} = (-1)^{m} {^{2m}C_{m}}$"
+      },
+      {
+        "question_text": "An attempt to prove that $\\sum_{r=0}^{n} ({^{n}C_{r}})^{2} = {^{2n}C_{n}}$ compares the coefficient of $x^{n+1}$ instead of $x^{n}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$. What identity does equating the coefficient of $x^{n+1}$ actually establish?",
+        "structure": "identify-equating-expansion-and-power",
+        "solution_text": "Equating the coefficient of $x^{n+1}$ on LHS gives $\\sum_{r=0}^{n-1} {^{n}C_{r+1}} {^{n}C_{n-r}} = \\sum_{r=0}^{n-1} {^{n}C_{r+1}} {^{n}C_{r}}$, while on RHS the coefficient of $x^{n+1}$ is $^{2n}C_{n+1}$.\nThis establishes the shifted product identity $\\sum_{r=0}^{n-1} {^{n}C_{r}} {^{n}C_{r+1}} = {^{2n}C_{n+1}} = {^{2n}C_{n-1}}$."
+      },
+      {
+        "question_text": "By equating the coefficient of $x^{n-3}$ in $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$, establish a formula for $\\sum_{r=0}^{n-3} {^{n}C_{r}} {^{n}C_{r+3}}$ in terms of a single binomial coefficient.",
+        "structure": "equate-shifted-products",
+        "solution_text": "Consider $(1+x)^{n}(1+x)^{n} = (1+x)^{2n}$.\nLHS coefficient of $x^{n-3}$ is $\\sum_{r=0}^{n-3} {^{n}C_{r}} {^{n}C_{n-3-r}}$.\nRHS coefficient of $x^{n-3}$ is $^{2n}C_{n-3}$.\nSince $^{n}C_{n-3-r} = {^{n}C_{r+3}}$, equating coefficients gives:\n$\\sum_{r=0}^{n-3} {^{n}C_{r}} {^{n}C_{r+3}} = {^{2n}C_{n-3}}$"
+      }
+    ]
+  }
+}

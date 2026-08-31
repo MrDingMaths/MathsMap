@@ -1,0 +1,122 @@
+{
+  "skillId": "area-integral-symmetry",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Use symmetry to evaluate $\\int_{-2}^{2}\\left(x^{3}+5x\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.05cm, y=0.15cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x+5*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x+5*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.1,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-24) -- (0,24) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, smooth, samples=120, variable=\\x] plot ({\\x},{\\x*\\x*\\x+5*\\x});\n\\node[above left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,10) {$10$};\n\\node[left] at (0,-10) {$-10$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "odd-integral-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$0$", "correct": true },
+        { "text": "$28$", "why": "Treated the integrand as even and doubled $\\int_{0}^{2}$ instead of recognising that the halves cancel." },
+        { "text": "$14$", "why": "Evaluated only $\\int_{0}^{2}$ and stopped, ignoring the interval to the left of the $y$-axis." },
+        { "text": "$-14$", "why": "Evaluated only $\\int_{-2}^{0}$ and reported that as the whole integral." }
+      ],
+      "solution_text": "$f(-x) = -x^{3}-5x = -\\left(x^{3}+5x\\right) = -f(x)$, so $f$ is odd.\n$\\int_{-2}^{2}\\left(x^{3}+5x\\right)dx$\n$= 0$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Use symmetry to evaluate $\\int_{-4}^{4} x^{2}\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.58cm, y=0.24cm]\n\\fill[gray!35, domain=-4:4, variable=\\x] (-4,0) -- plot ({\\x},{\\x*\\x}) -- (4,0) -- cycle;\n\\draw[->] (-5.8,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-4.4) -- (0,24) node[above] {$y$};\n\\draw[thick, <->, domain=-4.6:4.6, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[left] at (0,10) {$10$};\n\\node[left] at (0,20) {$20$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "even-integral-double",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{128}{3}$", "correct": true },
+        { "text": "$\\dfrac{64}{3}$", "why": "Found $\\int_{0}^{4}$ correctly but forgot to double it for the even function." },
+        { "text": "$\\dfrac{256}{3}$", "why": "Doubled $\\int_{-4}^{4}$ itself instead of doubling the half-integral $\\int_{0}^{4}$." },
+        { "text": "$0$", "why": "Treated $x^{2}$ as odd, wrongly concluding that the two halves cancel." }
+      ],
+      "solution_text": "$f(-x) = (-x)^{2} = x^{2} = f(x)$, so $f$ is even.\n$\\int_{-4}^{4} x^{2}\\,dx$\n$= 2\\int_{0}^{4} x^{2}\\,dx$\n$= 2\\left[\\dfrac{x^{3}}{3}\\right]_{0}^{4}$\n$= 2\\left(\\dfrac{64}{3}\\right)$\n$= \\dfrac{128}{3}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Use symmetry to evaluate $\\int_{-3}^{3}\\left(x^{5}+x^{2}\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.011cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x+\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x+\\x*\\x}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-300) -- (0,300) node[above] {$y$};\n\\draw[thick, <->, domain=-3.05:3.05, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x+\\x*\\x});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[left] at (0,200) {$200$};\n\\node[left] at (0,-200) {$-200$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "split-by-parity",
+      "mastery": false,
+      "options": [
+        { "text": "$18$", "correct": true },
+        { "text": "$9$", "why": "Handled the odd term correctly but forgot to double the even term's half-integral." },
+        { "text": "$54$", "why": "Used $x^{3}$ as the primitive of $x^{2}$ instead of $\\dfrac{x^{3}}{3}$." },
+        { "text": "$0$", "why": "Assumed the whole integrand was odd because it contains $x^{5}$, ignoring the even $x^{2}$ term." }
+      ],
+      "solution_text": "$x^{5}$ is odd and $x^{2}$ is even.\n$\\int_{-3}^{3} x^{5}\\,dx = 0$\n$\\int_{-3}^{3} x^{2}\\,dx = 2\\left[\\dfrac{x^{3}}{3}\\right]_{0}^{3} = 2\\left(9\\right) = 18$\n$\\int_{-3}^{3}\\left(x^{5}+x^{2}\\right)dx = 0+18$\n$= 18$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The shaded region lies between $y=x^{5}$ and the $x$-axis, from $x=-2$ to $x=2$. Find its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=0.115cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-42) -- (0,42) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x});\n\\node[above left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,30) {$30$};\n\\node[left] at (0,-30) {$-30$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "odd-area-not-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{64}{3}\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$0\\ \\text{units}^{2}$", "why": "Gave the value of $\\int_{-2}^{2} x^{5}\\,dx$, which is zero by odd symmetry, rather than the area." },
+        { "text": "$\\dfrac{32}{3}\\ \\text{units}^{2}$", "why": "Found only the area of the half on $0\\le x\\le 2$ and did not double it." },
+        { "text": "$\\dfrac{128}{3}\\ \\text{units}^{2}$", "why": "Used $\\dfrac{x^{6}}{3}$ as the primitive of $x^{5}$ instead of $\\dfrac{x^{6}}{6}$." }
+      ],
+      "solution_text": "$f(-x) = -x^{5} = -f(x)$, so $f$ is odd and $\\int_{-2}^{2} x^{5}\\,dx = 0$.\nThe two halves have equal area, so the total area is twice the area on $0\\le x\\le 2$.\n$2\\int_{0}^{2} x^{5}\\,dx$\n$= 2\\left[\\dfrac{x^{6}}{6}\\right]_{0}^{2}$\n$= 2\\left(\\dfrac{32}{3}\\right)$\n$= \\dfrac{64}{3}\\ \\text{units}^{2}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Use symmetry to evaluate $\\int_{-1}^{1}\\left(x^{9}-4x\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=2cm, y=0.9cm]\n\\fill[gray!35, domain=-1:0, variable=\\x] (-1,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x-4*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x-4*\\x}) -- (1,0) -- cycle;\n\\draw[->] (-1.6,0) -- (1.6,0) node[right] {$x$};\n\\draw[->] (0,-4.4) -- (0,4.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.1:1.1, smooth, samples=160, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x*\\x-4*\\x});\n\\node[above left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\node[left] at (0,3) {$3$};\n\\node[left] at (0,-3) {$-3$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "odd-integral-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$0$", "correct": true },
+        { "text": "$-\\dfrac{19}{5}$", "why": "Treated the integrand as even and doubled $\\int_{0}^{1}$ instead of recognising that the halves cancel." },
+        { "text": "$-\\dfrac{19}{10}$", "why": "Evaluated only $\\int_{0}^{1}$ and stopped, ignoring the interval to the left of the $y$-axis." },
+        { "text": "$\\dfrac{19}{10}$", "why": "Evaluated only $\\int_{-1}^{0}$ and reported that as the whole integral." }
+      ],
+      "solution_text": "$f(-x) = -x^{9}+4x = -\\left(x^{9}-4x\\right) = -f(x)$, so $f$ is odd.\n$\\int_{-1}^{1}\\left(x^{9}-4x\\right)dx$\n$= 0$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Use symmetry to evaluate $\\int_{-\\frac{\\pi}{6}}^{\\frac{\\pi}{6}}\\cos 3x\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=2.6cm, y=1.6cm]\n\\fill[gray!35, domain=-0.5236:0.5236, variable=\\x] (-0.5236,0) -- plot ({\\x},{cos(deg(3*\\x))}) -- (0.5236,0) -- cycle;\n\\draw[->] (-1.3,0) -- (1.3,0) node[right] {$x$};\n\\draw[->] (0,-1.7) -- (0,1.9) node[above] {$y$};\n\\draw[thick, <->, domain=-1.05:1.05, smooth, samples=160, variable=\\x] plot ({\\x},{cos(deg(3*\\x))});\n\\node[below left] at (-0.5236,0) {$-\\frac{\\pi}{6}$};\n\\node[below right] at (0.5236,0) {$\\frac{\\pi}{6}$};\n\\node[left] at (0,1) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "even-integral-double",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{2}{3}$", "correct": true },
+        { "text": "$\\dfrac{1}{3}$", "why": "Found $\\int_{0}^{\\frac{\\pi}{6}}$ correctly but forgot to double it for the even function." },
+        { "text": "$2$", "why": "Used $\\sin 3x$ as the primitive of $\\cos 3x$, omitting the factor $\\dfrac{1}{3}$." },
+        { "text": "$0$", "why": "Treated $\\cos 3x$ as odd, wrongly concluding that the two halves cancel." }
+      ],
+      "solution_text": "$\\cos\\left(-3x\\right) = \\cos 3x$, so the integrand is even.\n$\\int_{-\\frac{\\pi}{6}}^{\\frac{\\pi}{6}}\\cos 3x\\,dx$\n$= 2\\int_{0}^{\\frac{\\pi}{6}}\\cos 3x\\,dx$\n$= 2\\left[\\dfrac{1}{3}\\sin 3x\\right]_{0}^{\\frac{\\pi}{6}}$\n$= 2\\left(\\dfrac{1}{3}\\right)$\n$= \\dfrac{2}{3}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The function $f$ is even, and $\\int_{-3}^{3} f(x)\\,dx = 20$. Find $\\int_{0}^{3} f(x)\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.8cm, y=0.62cm]\n\\fill[gray!35, domain=-3:3, variable=\\x] (-3,0) -- plot ({\\x},{4-0.3*\\x*\\x}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,6.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3.9:3.9, smooth, samples=120, variable=\\x] plot ({\\x},{4-0.3*\\x*\\x});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[right] at (1.6,4.6) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "even-integral-double",
+      "mastery": false,
+      "options": [
+        { "text": "$10$", "correct": true },
+        { "text": "$40$", "why": "Doubled the given integral instead of halving it, applying the even rule backwards." },
+        { "text": "$20$", "why": "Assumed each half equals the whole integral, ignoring that the two halves add to $20$." },
+        { "text": "$0$", "why": "Applied the odd-function rule, even though $f$ is stated to be even." }
+      ],
+      "solution_text": "$f$ is even, so $\\int_{-3}^{3} f(x)\\,dx = 2\\int_{0}^{3} f(x)\\,dx$.\n$2\\int_{0}^{3} f(x)\\,dx = 20$\n$\\int_{0}^{3} f(x)\\,dx = 10$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Use symmetry to evaluate $\\int_{-2}^{2}\\left(3x^{4}-x^{3}+5x-8\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.05cm, y=0.14cm]\n\\fill[gray!35, domain=-2:-1.421, variable=\\x] (-2,0) -- plot ({\\x},{3*\\x*\\x*\\x*\\x-\\x*\\x*\\x+5*\\x-8}) -- (-1.421,0) -- cycle;\n\\fill[gray!35, domain=-1.421:1.0665, variable=\\x] (-1.421,0) -- plot ({\\x},{3*\\x*\\x*\\x*\\x-\\x*\\x*\\x+5*\\x-8}) -- (1.0665,0) -- cycle;\n\\fill[gray!35, domain=1.0665:2, variable=\\x] (1.0665,0) -- plot ({\\x},{3*\\x*\\x*\\x*\\x-\\x*\\x*\\x+5*\\x-8}) -- (2,0) -- cycle;\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-24) -- (0,58) node[above] {$y$};\n\\draw[thick, <->, domain=-2.15:2.1, smooth, samples=160, variable=\\x] plot ({\\x},{3*\\x*\\x*\\x*\\x-\\x*\\x*\\x+5*\\x-8});\n\\node[above left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,20) {$20$};\n\\node[left] at (0,-20) {$-20$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "split-by-parity",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{32}{5}$", "correct": true },
+        { "text": "$\\dfrac{16}{5}$", "why": "Handled the odd terms correctly but forgot to double the even terms' half-integral." },
+        { "text": "$\\dfrac{92}{5}$", "why": "Doubled $\\int_{0}^{2}$ of every term, including the odd terms $-x^{3}$ and $5x$, which should contribute $0$." },
+        { "text": "$0$", "why": "Assumed the whole integrand was odd because it contains $-x^{3}$ and $5x$, ignoring the even terms." }
+      ],
+      "solution_text": "$-x^{3}$ and $5x$ are odd; $3x^{4}$ and $-8$ are even.\n$\\int_{-2}^{2}\\left(-x^{3}+5x\\right)dx = 0$\n$\\int_{-2}^{2}\\left(3x^{4}-8\\right)dx = 2\\left[\\dfrac{3x^{5}}{5}-8x\\right]_{0}^{2} = 2\\left(\\dfrac{96}{5}-16\\right) = 2\\left(\\dfrac{16}{5}\\right)$\n$\\int_{-2}^{2}\\left(3x^{4}-x^{3}+5x-8\\right)dx = 0+\\dfrac{32}{5}$\n$= \\dfrac{32}{5}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "The shaded region is enclosed between the curve $y=x^{3}-16x$ and the $x$-axis. Use symmetry to find its total **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.075cm]\n\\fill[gray!35, domain=-4:0, variable=\\x] (-4,0) -- plot ({\\x},{\\x*\\x*\\x-16*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:4, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-16*\\x}) -- (4,0) -- cycle;\n\\draw[->] (-5.8,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-42) -- (0,42) node[above] {$y$};\n\\draw[thick, <->, domain=-4.6:4.6, smooth, samples=160, variable=\\x] plot ({\\x},{\\x*\\x*\\x-16*\\x});\n\\node[below left] at (-4,0) {$-4$};\n\\node[above right] at (4,0) {$4$};\n\\node[left] at (0,30) {$30$};\n\\node[left] at (0,-30) {$-30$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "odd-area-not-zero",
+      "mastery": true,
+      "options": [
+        { "text": "$128\\ \\text{units}^{2}$", "correct": true },
+        { "text": "$64\\ \\text{units}^{2}$", "why": "Found only the area of the half on $0\\le x\\le 4$ and did not double it." },
+        { "text": "$0\\ \\text{units}^{2}$", "why": "Gave the value of $\\int_{-4}^{4}\\left(x^{3}-16x\\right)dx$, which is zero by odd symmetry, rather than the area." },
+        { "text": "$384\\ \\text{units}^{2}$", "why": "Used $\\dfrac{x^{4}}{4}-16x^{2}$ as the primitive, forgetting to halve the coefficient of $x^{2}$." }
+      ],
+      "solution_text": "$x^{3}-16x=0$\n$x\\left(x-4\\right)\\left(x+4\\right)=0$\n$x=-4,\\ 0,\\ 4$\n$f(-x) = -x^{3}+16x = -f(x)$, so $f$ is odd and the two halves have equal area.\nOn $0\\le x\\le 4$ the curve lies below the $x$-axis.\n$\\int_{0}^{4}\\left(x^{3}-16x\\right)dx = \\left[\\dfrac{x^{4}}{4}-8x^{2}\\right]_{0}^{4} = 64-128 = -64$\n$\\text{Area} = 2\\times 64$\n$= 128\\ \\text{units}^{2}$"
+    }
+  ]
+}

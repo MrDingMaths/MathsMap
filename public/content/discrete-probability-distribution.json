@@ -1,0 +1,104 @@
+{
+  "skillId": "discrete-probability-distribution",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **discrete random variable** $X$ takes separate countable values from a chance experiment. Its **probability distribution** lists every value $x$ together with $P(X=x)$. Every probability lies between $0$ and $1$, and the whole set adds to $1$.",
+    "facts": [
+      "A **discrete random variable** takes separate countable values, such as the number of parcels delivered to a house in one day.",
+      "$P(X=x)$ is the probability that $X$ takes the value $x$, shortened to $P(x)$ when $X$ is understood.",
+      "Every probability in a distribution satisfies $0 \\le P(x) \\le 1$.",
+      "The probabilities add to exactly $1$, because the values of $X$ cover every possible outcome.",
+      "A table with a negative entry, an entry above $1$, or a total other than $1$ is not a probability distribution.",
+      "Find $P(a \\le X \\le b)$ by adding the probabilities of every value of $x$ in that range.",
+      "A **probability histogram** draws each $P(x)$ as a bar of that height above its value of $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(0,6.4);\n\\draw[->] (0,0)--(8.6,0);\n\\draw (0.75,0) rectangle (2.25,3);\n\\draw (2.55,0) rectangle (4.05,5);\n\\draw (4.35,0) rectangle (5.85,4);\n\\draw (6.15,0) rectangle (7.65,2);\n\\node[above,font=\\scriptsize] at (1.5,3) {$P(x_{1})$};\n\\node[above,font=\\scriptsize] at (3.3,5) {$P(x_{2})$};\n\\node[above,font=\\scriptsize] at (5.1,4) {$P(x_{3})$};\n\\node[above,font=\\scriptsize] at (6.9,2) {$P(x_{4})$};\n\\node[below,font=\\scriptsize] at (1.5,0) {$x_{1}$};\n\\node[below,font=\\scriptsize] at (3.3,0) {$x_{2}$};\n\\node[below,font=\\scriptsize] at (5.1,0) {$x_{3}$};\n\\node[below,font=\\scriptsize] at (6.9,0) {$x_{4}$};\n\\node[rotate=90] at (-0.9,3) {Probability};\n\\node[below] at (4.2,-1.0) {Value of $X$};\n\\node at (4.2,6.1) {Probability histogram};\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "List every value $x$ that the random variable can take.",
+      "Find the probability of each value and write it under that value.",
+      "Check that the probabilities add to $1$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The table shows the distribution of $X$, the number of parcels delivered to a house in one day.\n$\\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.35 & 0.4 & 0.15 & 0.1 \\end{array}$\nFind $P(X=1)$.",
+        "structure": "read-probability-from-table",
+        "solution_text": "$P(X=1)$ is the entry in the column headed $x=1$.\n$P(X=1)=0.4$"
+      },
+      {
+        "question_text": "A discrete random variable $X$ has this distribution.\n$\\begin{array}{c|ccccc} x & 1 & 2 & 3 & 4 & 5 \\\\ \\hline P(X=x) & 0.12 & 0.23 & 0.3 & 0.25 & 0.1 \\end{array}$\nFind $P(2 \\le X \\le 4)$.",
+        "structure": "range-probability-from-table",
+        "solution_text": "$P(2 \\le X \\le 4)=P(2)+P(3)+P(4)$\n$=0.23+0.3+0.25$\n$=0.78$"
+      },
+      {
+        "question_text": "Explain why this table is **not** a probability distribution.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.3 & 0.15 & 0.4 & 0.2 \\end{array}$",
+        "structure": "validity-check",
+        "solution_text": "$0.3+0.15+0.4+0.2$\n$=1.05$\nThe probabilities add to $1.05$, not $1$, so this is not a probability distribution."
+      },
+      {
+        "question_text": "Let $X$ be the number of pets in a randomly chosen household.\n$\\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.28 & k & 0.17 & 0.05 \\end{array}$\nFind $k$.",
+        "structure": "find-unknown-probability",
+        "solution_text": "$0.28+k+0.17+0.05=1$\n$k+0.5=1$\n$k=0.5$"
+      },
+      {
+        "question_text": "For the random variable $C$, the number of children in a randomly chosen family, $P(C=2)=0.31$. Write in words what this tells you.",
+        "structure": "interpret-notation",
+        "solution_text": "The probability that a randomly chosen family has exactly $2$ children is $0.31$."
+      },
+      {
+        "question_text": "Draw a probability histogram for $X$, the number of books a member borrows from a library in one day.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.15 & 0.4 & 0.3 & 0.15 \\end{array}$",
+        "structure": "histogram-of-distribution",
+        "solution_text": "$0.15+0.4+0.3+0.15=1$, so the heights of the four bars must add to $1$.\nDraw a bar of height $P(x)$ above each value of $x$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(8.6,0);\n\\foreach \\y/\\lbl in {1/0.1,2/0.2,3/0.3,4/0.4} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lbl$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.75,0) rectangle (2.25,1.5);\n\\draw (2.55,0) rectangle (4.05,4);\n\\draw (4.35,0) rectangle (5.85,3);\n\\draw (6.15,0) rectangle (7.65,1.5);\n\\node[below,font=\\scriptsize] at (1.5,0) {$1$};\n\\node[below,font=\\scriptsize] at (3.3,0) {$2$};\n\\node[below,font=\\scriptsize] at (5.1,0) {$3$};\n\\node[below,font=\\scriptsize] at (6.9,0) {$4$};\n\\node[rotate=90] at (-1.4,2) {$P(X=x)$};\n\\node[below] at (4.2,-1.0) {Books borrowed};\n\\node at (4.2,5.1) {Books borrowed in a day};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The distribution of $X$ is given below, where $a$ is a constant.\n$\\begin{array}{c|ccccc} x & 2 & 4 & 6 & 8 & 10 \\\\ \\hline P(X=x) & 2a & 3a & 6a & 4a & 5a \\end{array}$\nFind $a$ and hence $P(X=6)$.",
+        "structure": "find-unknown-probability",
+        "solution_text": "$2a+3a+6a+4a+5a=1$\n$20a=1$\n$a=\\frac{1}{20}$\n$P(X=6)=6a$\n$=\\frac{6}{20}$\n$=0.3$"
+      },
+      {
+        "question_text": "A function is given by $P(x)=\\frac{x+3}{22}$ for $x \\in \\{1,\\ 2,\\ 3,\\ 4\\}$. Complete the probability distribution table and show that it is a probability distribution.",
+        "structure": "probability-function-rule",
+        "solution_text": "$P(1)=\\frac{4}{22}$, $P(2)=\\frac{5}{22}$, $P(3)=\\frac{6}{22}$, $P(4)=\\frac{7}{22}$\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & \\frac{4}{22} & \\frac{5}{22} & \\frac{6}{22} & \\frac{7}{22} \\end{array}$\n$\\frac{4}{22}+\\frac{5}{22}+\\frac{6}{22}+\\frac{7}{22}$\n$=\\frac{22}{22}$\n$=1$\nEvery probability is between $0$ and $1$ and the total is $1$, so this is a probability distribution."
+      },
+      {
+        "question_text": "A drawer holds $4$ grey socks and $6$ blue socks. Two socks are taken at random without replacement. Let $X$ be the number of grey socks taken. Construct the probability distribution table for $X$.",
+        "structure": "build-distribution-from-experiment",
+        "solution_text": "$P(X=0)=\\frac{6}{10} \\times \\frac{5}{9}$\n$=\\frac{30}{90}$\n$P(X=1)=2 \\times \\frac{6}{10} \\times \\frac{4}{9}$\n$=\\frac{48}{90}$\n$P(X=2)=\\frac{4}{10} \\times \\frac{3}{9}$\n$=\\frac{12}{90}$\n$\\begin{array}{c|ccc} x & 0 & 1 & 2 \\\\ \\hline P(X=x) & \\frac{30}{90} & \\frac{48}{90} & \\frac{12}{90} \\end{array}$\n$\\frac{30}{90}+\\frac{48}{90}+\\frac{12}{90}=1$, so the table is complete."
+      },
+      {
+        "question_text": "A word is chosen at random from the sentence 'The cat sat on a warm mat'. Let $X$ be the number of letters in the chosen word. Construct the probability distribution table for $X$.",
+        "structure": "build-distribution-from-experiment",
+        "solution_text": "The word lengths are $3,\\ 3,\\ 3,\\ 2,\\ 1,\\ 4,\\ 3$, so there are $7$ equally likely words.\nOne word has $1$ letter, one has $2$, four have $3$ and one has $4$.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & \\frac{1}{7} & \\frac{1}{7} & \\frac{4}{7} & \\frac{1}{7} \\end{array}$\n$\\frac{1}{7}+\\frac{1}{7}+\\frac{4}{7}+\\frac{1}{7}=1$, so the table is complete."
+      },
+      {
+        "question_text": "The random variable $X$ records the change in the number of students in a class from one year to the next.\n$\\begin{array}{c|cccccc} x & -2 & -1 & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.08 & 0.17 & 0.3 & 0.2 & 0.15 & 0.1 \\end{array}$\nFind $P(-1 \\le X < 2)$.",
+        "structure": "range-probability-from-table",
+        "solution_text": "The values included are $-1$, $0$ and $1$, since $2$ is excluded by the strict inequality.\n$P(-1 \\le X < 2)=0.17+0.3+0.2$\n$=0.67$"
+      },
+      {
+        "question_text": "Decide whether $P(x)=\\frac{x-1}{6}$ for $x \\in \\{0,\\ 1,\\ 2,\\ 3\\}$ can be a probability distribution. Justify your answer.",
+        "structure": "validity-check",
+        "solution_text": "$P(0)=\\frac{0-1}{6}$\n$=-\\frac{1}{6}$\nA probability cannot be negative, so this function cannot be a probability distribution."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For the distribution below, $P(X \\le 1)=0.4$.\n$\\begin{array}{c|ccccc} x & 0 & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.1 & a & 0.25 & b & 0.05 \\end{array}$\nFind $a$ and $b$.",
+        "structure": "find-unknown-probability",
+        "solution_text": "$0.1+a=0.4$\n$a=0.3$\n$0.1+0.3+0.25+b+0.05=1$\n$b+0.7=1$\n$b=0.3$"
+      },
+      {
+        "question_text": "The random variable $X$ has the distribution below, where $p>0$.\n$\\begin{array}{c|ccc} x & 1 & 2 & 3 \\\\ \\hline P(X=x) & p^{2} & p & \\frac{1}{4} \\end{array}$\nFind $p$.",
+        "structure": "find-unknown-probability",
+        "solution_text": "$p^{2}+p+\\frac{1}{4}=1$\n$p^{2}+p-\\frac{3}{4}=0$\n$4p^{2}+4p-3=0$\n$(2p+3)(2p-1)=0$\n$p=-\\frac{3}{2}$ or $p=\\frac{1}{2}$\nSince $p>0$, $p=\\frac{1}{2}$"
+      },
+      {
+        "question_text": "Prove that the table below can never represent a probability distribution.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 3k+1 & 1-k & 2k & k \\end{array}$",
+        "structure": "validity-check",
+        "solution_text": "Suppose the table is a probability distribution.\n$(3k+1)+(1-k)+2k+k=1$\n$5k+2=1$\n$k=-\\frac{1}{5}$\n$P(X=3)=2k$\n$=-\\frac{2}{5}$\nThe total of $1$ forces a negative probability, which is impossible, so the table can never be a probability distribution."
+      }
+    ]
+  }
+}

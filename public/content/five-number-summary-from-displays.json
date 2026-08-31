@@ -2,21 +2,22 @@
   "skillId": "five-number-summary-from-displays",
   "atomType": "R",
   "theory": {
-    "intro": "A dot plot or stem-and-leaf plot already shows the data in order, so the five-number summary can often be read straight from the display without writing out every value separately.",
-    "facts": [
-      "In a **dot plot**, read the values in order from left to right, treating each dot as one data value (a value with $2$ stacked dots is counted twice).",
-      "In a **stem-and-leaf plot**, the leaves in each row are already written in ascending order, and the rows run from the smallest stem to the largest — so the whole plot is already the ordered dataset.",
-      "Once the data is listed in order, $Q_1$, $Q_2$ (the median) and $Q_3$ are found exactly as for an ordered list: exclude the median (if $n$ is odd), then $Q_1$ is the median of the lower half and $Q_3$ is the median of the upper half.",
-      "The minimum is the first value shown (the leftmost dot, or the smallest stem's smallest leaf); the maximum is the last."
-    ],
-    "steps": [
-      "Read the data from the display, in ascending order",
-      "Find the median, $Q_2$",
-      "Find $Q_1$, the median of the lower half",
-      "Find $Q_3$, the median of the upper half",
-      "State the minimum and maximum"
-    ]
-  },
+        "intro": "A dot plot or stem-and-leaf plot already shows the data in order, so you can read the five-number summary straight from the display.",
+        "facts": [
+          "In a **dot plot**, read the values left to right, counting each dot as one value, so a stack of $2$ dots counts twice.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[-{Stealth}] (-0.4,0) -- (8.6,0);\n\\foreach \\x in {0,...,8} {\\draw (\\x,-0.12) -- (\\x,0.12);}\n\\foreach \\x/\\c in {0/1,1/2,3/1,4/2,6/1,7/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.45*\\k}) circle (3pt);}}\n\\node[above] at (4.0,1.5) {one dot $=$ one data value};\n\\draw[-{Stealth}] (0.3,-0.8) -- (7.7,-0.8);\n\\node[below] at (4.0,-0.9) {values increase in this direction};\n\\end{tikzpicture}\n[/tikz]",
+          "In a **stem-and-leaf plot**, each row's leaves are in ascending order and the stems increase down the page, so the whole plot is ordered.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node at (0.7,0.7) {Stem};\n\\node at (2.9,0.7) {Leaf};\n\\draw (0,0.35) -- (4.8,0.35);\n\\draw (1.4,0.5) -- (1.4,-2.1);\n\\node at (0.7,-0.05) {$1$};\n\\node at (0.7,-0.75) {$2$};\n\\node at (0.7,-1.45) {$3$};\n\\foreach \\x/\\v in {1.9/2, 2.5/5, 3.1/8} {\\node at (\\x,-0.05) {$\\v$};}\n\\foreach \\x/\\v in {1.9/0, 2.5/3, 3.1/3, 3.7/7, 4.3/9} {\\node at (\\x,-0.75) {$\\v$};}\n\\foreach \\x/\\v in {1.9/1, 2.5/4} {\\node at (\\x,-1.45) {$\\v$};}\n\\node at (2.4,-2.5) {every row is already in order};\n\\end{tikzpicture}\n[/tikz]",
+          "Once the data is in order, $Q_1$ is the median of the lower half and $Q_3$ the median of the upper half.",
+          "Exclude the median itself from both halves when $n$ is odd.",
+          "The minimum is the first value shown — the leftmost dot, or the smallest stem's first leaf — and the maximum is the last."
+        ],
+        "steps": [
+          "Read the data from the display, in ascending order",
+          "Find the median, $Q_2$",
+          "Find $Q_1$, the median of the lower half",
+          "Find $Q_3$, the median of the upper half",
+          "State the minimum and maximum"
+        ]
+      },
   "practice": {
     "foundation": [
       {

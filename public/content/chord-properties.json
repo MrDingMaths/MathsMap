@@ -2,21 +2,21 @@
   "skillId": "chord-properties",
   "atomType": "R",
   "theory": {
-    "intro": "A chord's length is tied to its angle at the centre and its distance from the centre. These chord properties link **equal chords**, **equal central angles**, **equal distances from the centre** and the **perpendicular bisector** of a chord — each provable from congruent triangles built on radii.",
-    "facts": [
-      "Equal chords subtend equal angles at the centre, and (conversely) chords subtending equal angles at the centre are equal.",
-      "Equal chords are equidistant from the centre, and (conversely) chords equidistant from the centre are equal.",
-      "The perpendicular from the centre of a circle to a chord bisects the chord, and (conversely) the perpendicular bisector of a chord passes through the centre.",
-      "Because $OA = OB$ (radii) in $\\triangle OAB$, the segment from $O$ that bisects chord $AB$ also bisects $\\angle AOB$.",
-      "When two circles intersect at two points, the line joining their centres bisects the common chord at right angles."
-    ],
-    "steps": [
-      "Identify which chord property matches the given information — equal chords, a right angle at the centre, or two intersecting circles.",
-      "Mark the equal lengths, equal angles or right angle the property gives.",
-      "Write an equation from the property, using Pythagoras' theorem where a right-angled triangle is formed.",
-      "Solve for the unknown."
-    ]
-  },
+        "intro": "A chord's length is tied to the angle it makes at the centre and to its distance from the centre. Each **chord property** below comes from congruent triangles built on two radii.",
+        "facts": [
+          "Equal chords subtend equal angles at the centre, and chords subtending equal angles at the centre are equal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings, angles, quotes}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[below right] at (O) {$O$};\n\\coordinate (A) at (125:2);\n\\coordinate (B) at (55:2);\n\\coordinate (C) at (185:2);\n\\coordinate (D) at (255:2);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\draw[tickmark] (A) -- (B);\n\\draw[tickmark] (C) -- (D);\n\\draw (O) -- (A);\n\\draw (O) -- (B);\n\\draw (O) -- (C);\n\\draw (O) -- (D);\n\\pic[draw, \"$\\theta$\", angle radius=0.55cm, angle eccentricity=2] {angle = B--O--A};\n\\pic[draw, \"$\\theta$\", angle radius=0.42cm, angle eccentricity=2.6] {angle = C--O--D};\n\\end{tikzpicture}\n[/tikz]",
+          "Equal chords are the same distance from the centre, and chords the same distance from the centre are equal.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n  tickmark2/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (-2pt,-4pt) -- (-2pt,4pt);\n                               \\draw[black] (2pt,-4pt) -- (2pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\coordinate (A) at (-1.147,1.638);\n\\coordinate (B) at (1.147,1.638);\n\\coordinate (E) at (0,1.638);\n\\coordinate (C) at (1.812,-0.844);\n\\coordinate (D) at (-0.174,-1.992);\n\\coordinate (F) at (0.819,-1.418);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\draw[tickmark2] (A) -- (B);\n\\draw[tickmark2] (C) -- (D);\n\\draw[tickmark] (O) -- (E);\n\\draw[tickmark] (O) -- (F);\n\\coordinate (Ea) at ($(E)!0.3cm!(B)$);\n\\coordinate (Eb) at ($(E)!0.3cm!(O)$);\n\\draw (Ea) -- ($(Ea)+(Eb)-(E)$) -- (Eb);\n\\coordinate (Fa) at ($(F)!0.3cm!(C)$);\n\\coordinate (Fb) at ($(F)!0.3cm!(O)$);\n\\draw (Fa) -- ($(Fa)+(Fb)-(F)$) -- (Fb);\n\\end{tikzpicture}\n[/tikz]",
+          "The perpendicular from the centre to a chord bisects the chord, and the perpendicular bisector of a chord passes through the centre.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (O) at (0,0);\n\\draw (O) circle (2);\n\\fill (O) circle (1.5pt);\n\\node[left] at (O) {$O$};\n\\coordinate (A) at (1.2,1.6);\n\\coordinate (B) at (1.2,-1.6);\n\\coordinate (M) at (1.2,0);\n\\node[above] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[right] at (M) {$M$};\n\\draw[tickmark] (A) -- (M);\n\\draw[tickmark] (M) -- (B);\n\\draw (O) -- (M);\n\\coordinate (Ma) at ($(M)!0.3cm!(A)$);\n\\coordinate (Mb) at ($(M)!0.3cm!(O)$);\n\\draw (Ma) -- ($(Ma)+(Mb)-(M)$) -- (Mb);\n\\end{tikzpicture}\n[/tikz]",
+          "Because $OA = OB$ are radii, the line from $O$ that bisects chord $AB$ also bisects $\\angle AOB$.",
+          "When two circles cross at two points, the line joining their centres bisects the common chord at right angles.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc, decorations.markings}\n\\tikzset{\n  tickmark/.style={postaction={decorate, decoration={markings,\n    mark=at position 0.5 with {\\draw[black] (0pt,-4pt) -- (0pt,4pt);}}}},\n}\n\\coordinate (C) at (-1.2,0);\n\\coordinate (D) at (1.2,0);\n\\draw (C) circle (2);\n\\draw (D) circle (1.7);\n\\fill (C) circle (1.5pt);\n\\fill (D) circle (1.5pt);\n\\node[left] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\coordinate (A) at (0.231,1.397);\n\\coordinate (B) at (0.231,-1.397);\n\\coordinate (E) at (0.231,0);\n\\node[above] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[below left] at (E) {$E$};\n\\draw (C) -- (D);\n\\draw[tickmark] (A) -- (E);\n\\draw[tickmark] (E) -- (B);\n\\coordinate (Ea) at ($(E)!0.25cm!(A)$);\n\\coordinate (Eb) at ($(E)!0.25cm!(D)$);\n\\draw (Ea) -- ($(Ea)+(Eb)-(E)$) -- (Eb);\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Identify which chord property matches the given information — equal chords, a right angle at the centre, or two intersecting circles.",
+          "Mark the equal lengths, equal angles or right angle the property gives.",
+          "Write an equation from the property, using Pythagoras' theorem where a right-angled triangle is formed.",
+          "Solve for the unknown."
+        ]
+      },
   "practice": {
     "foundation": [
       {

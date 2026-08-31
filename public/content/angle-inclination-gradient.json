@@ -1,0 +1,114 @@
+{
+  "skillId": "angle-inclination-gradient",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **angle of inclination** $\\theta$ of a tangent is the angle it makes with the positive $x$-axis, measured anticlockwise, with $0^{\\circ} \\le \\theta < 180^{\\circ}$. Its gradient is $m = f'(x_1)$, and $m = \\tan\\theta$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\draw[->] (-3.3,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-1.0) -- (0,3.4) node[above] {$y$};\n\\coordinate (V) at (-0.15,0);\n\\coordinate (Ax) at (1.5,0);\n\\coordinate (Bt) at (1.9,2.46);\n\\coordinate (P) at (1.2,1.62);\n\\draw[thick, <->, domain=-2.0:2.0, smooth, samples=60, variable=\\x] plot ({\\x}, {0.5*\\x*\\x + 0.9}) node[pos=0.1, left] {$y=f(x)$};\n\\draw[thick] (-0.5,-0.42) -- (Bt) node[pos=0, below left] {tangent};\n\\fill (P) circle (2pt);\n\\node[above left] at (P) {$P$};\n\\pic[draw, \"$\\theta$\", angle radius=0.6cm, angle eccentricity=2] {angle = Ax--V--Bt};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Gradient and angle of inclination are linked by $m = \\tan\\theta$, where $0^{\\circ} \\le \\theta < 180^{\\circ}$.",
+          "A positive gradient gives an acute angle, and $\\theta = \\tan^{-1}(m)$.",
+          "A negative gradient gives an obtuse angle, and $\\theta = 180^{\\circ} + \\tan^{-1}(m)$, since the calculator returns a negative value.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\draw[->] (-3.6,0) -- (3.8,0) node[right] {$x$};\n\\draw[->] (0,-1.0) -- (0,3.2) node[above] {$y$};\n\\coordinate (V) at (2.6,0);\n\\coordinate (Ax) at (3.6,0);\n\\coordinate (Bt) at (0.4,2.64);\n\\coordinate (P) at (1.2,1.68);\n\\draw[thick, <->, domain=-2.4:2.4, smooth, samples=60, variable=\\x] plot ({\\x}, {-0.5*\\x*\\x + 2.4}) node[pos=0.1, left] {$y=f(x)$};\n\\draw[thick] (Bt) -- (3.0,-0.48) node[pos=0, above right] {tangent};\n\\fill (P) circle (2pt);\n\\node[above right] at (P) {$P$};\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = Ax--V--Bt};\n\\end{tikzpicture}\n[/tikz]",
+          "A horizontal tangent has $m = 0$ and $\\theta = 0^{\\circ}$.",
+          "A vertical line has $\\theta = 90^{\\circ}$ and no gradient.",
+          "Exact values: $m = \\dfrac{1}{\\sqrt{3}}$ gives $30^{\\circ}$, $m = 1$ gives $45^{\\circ}$, $m = \\sqrt{3}$ gives $60^{\\circ}$, $m = -\\dfrac{1}{\\sqrt{3}}$ gives $150^{\\circ}$, $m = -1$ gives $135^{\\circ}$, and $m = -\\sqrt{3}$ gives $120^{\\circ}$."
+        ],
+        "steps": [
+          "Differentiate $f(x)$ to find the gradient $m = f'(x_1)$",
+          "Set $\\tan\\theta = m$",
+          "Calculate $\\theta = \\tan^{-1}(m)$",
+          "If $m < 0$, add $180^{\\circ}$ to the calculator result to obtain the obtuse angle in $[0^{\\circ}, 180^{\\circ})$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = x^2 - 3x + 1$ at $x = 2$.",
+        "structure": "inclination-exact-values",
+        "solution_text": "$f'(x) = 2x - 3$\n$m = f'(2) = 2(2) - 3 = 1$\n$\\tan\\theta = 1$\n$\\theta = 45^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = 2x - x^2$ at $x = 1.5$.",
+        "structure": "inclination-exact-values",
+        "solution_text": "$f'(x) = 2 - 2x$\n$m = f'(1.5) = 2 - 2(1.5) = -1$\n$\\tan\\theta = -1$\n$\\theta = 180^{\\circ} - 45^{\\circ} = 135^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = x^2 + x - 2$ at the point $(1, 0)$, correct to the nearest degree.",
+        "structure": "inclination-from-tangent-positive",
+        "solution_text": "$f'(x) = 2x + 1$\n$m = f'(1) = 2(1) + 1 = 3$\n$\\tan\\theta = 3$\n$\\theta = \\tan^{-1}(3) \\approx 71.57^{\\circ} \\approx 72^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = 6 - x^2$ at $x = 2$, correct to the nearest degree.",
+        "structure": "inclination-from-tangent-negative",
+        "solution_text": "$f'(x) = -2x$\n$m = f'(2) = -2(2) = -4$\n$\\tan\\theta = -4$\n$\\theta = 180^{\\circ} - \\tan^{-1}(4) \\approx 180^{\\circ} - 75.96^{\\circ} \\approx 104^{\\circ}$"
+      },
+      {
+        "question_text": "Find the coordinates of the point on $y = x^2 - 5x + 4$ where the tangent has an angle of inclination of $45^{\\circ}$.",
+        "structure": "point-from-angle-of-inclination",
+        "solution_text": "$m = \\tan 45^{\\circ} = 1$\n$f'(x) = 2x - 5$\n$2x - 5 = 1$\n$2x = 6$\n$x = 3$\n$y = (3)^2 - 5(3) + 4 = 9 - 15 + 4 = -2$\nThe point is $(3, -2)$."
+      },
+      {
+        "question_text": "Find the coordinates of the point on $y = 4x - x^2$ where the tangent has an angle of inclination of $135^{\\circ}$.",
+        "structure": "point-from-angle-of-inclination",
+        "solution_text": "$m = \\tan 135^{\\circ} = -1$\n$f'(x) = 4 - 2x$\n$4 - 2x = -1$\n$-2x = -5$\n$x = 2.5$\n$y = 4(2.5) - (2.5)^2 = 10 - 6.25 = 3.75$\nThe point is $(2.5, 3.75)$."
+      },
+      {
+        "question_text": "The tangent to a curve at a point has an angle of inclination of $45^{\\circ}$. What is the angle of inclination of the normal at that point?",
+        "structure": "inclination-normal-relationship",
+        "solution_text": "$m_{\\text{tangent}} = \\tan 45^{\\circ} = 1$\n$m_{\\text{normal}} = -\\dfrac{1}{1} = -1$\n$\\tan\\theta_n = -1$\n$\\theta_n = 180^{\\circ} - 45^{\\circ} = 135^{\\circ}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = \\dfrac{1}{3}x^3 - 2x$ at $x = 1$.",
+        "structure": "inclination-exact-values",
+        "solution_text": "$f'(x) = x^2 - 2$\n$m = f'(1) = (1)^2 - 2 = -1$\n$\\tan\\theta = -1$\n$\\theta = 180^{\\circ} - 45^{\\circ} = 135^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = x^3 - x$ at $x = 2$, correct to the nearest minute.",
+        "structure": "inclination-from-tangent-positive",
+        "solution_text": "$f'(x) = 3x^2 - 1$\n$m = f'(2) = 3(2)^2 - 1 = 11$\n$\\tan\\theta = 11$\n$\\theta = \\tan^{-1}(11) \\approx 84.8056^{\\circ} = 84^{\\circ} 48'$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = 4 - x^2$ at its positive $x$-intercept $(2, 0)$, correct to the nearest minute.",
+        "structure": "inclination-from-tangent-negative",
+        "solution_text": "$f'(x) = -2x$\n$m = f'(2) = -2(2) = -4$\n$\\tan\\theta = -4$\n$\\theta = 180^{\\circ} - \\tan^{-1}(4) \\approx 180^{\\circ} - 75^{\\circ} 58' = 104^{\\circ} 02'$"
+      },
+      {
+        "question_text": "Find the coordinates of the two points on the curve $y = \\dfrac{1}{3}x^3 - 3x + 1$ where the tangent has an angle of inclination of $45^{\\circ}$.",
+        "structure": "point-from-angle-of-inclination",
+        "solution_text": "$m = \\tan 45^{\\circ} = 1$\n$f'(x) = x^2 - 3$\n$x^2 - 3 = 1$\n$x^2 = 4$\n$x = 2 \\text{ or } x = -2$\nFor $x = 2$: $y = \\dfrac{1}{3}(2)^3 - 3(2) + 1 = \\dfrac{8}{3} - 6 + 1 = -\\dfrac{7}{3} \\implies \\left(2, -\\dfrac{7}{3}\\right)$\nFor $x = -2$: $y = \\dfrac{1}{3}(-2)^3 - 3(-2) + 1 = -\\dfrac{8}{3} + 6 + 1 = \\dfrac{13}{3} \\implies \\left(-2, \\dfrac{13}{3}\\right)$\nThe points are $\\left(2, -\\dfrac{7}{3}\\right)$ and $\\left(-2, \\dfrac{13}{3}\\right)$."
+      },
+      {
+        "question_text": "Find the coordinates of the point on $y = 2\\sqrt{x}$ where the tangent has an angle of inclination of $45^{\\circ}$.",
+        "structure": "point-from-angle-of-inclination",
+        "solution_text": "$m = \\tan 45^{\\circ} = 1$\n$y = 2x^{\\frac{1}{2}} \\implies f'(x) = x^{-\\frac{1}{2}} = \\dfrac{1}{\\sqrt{x}}$\n$\\dfrac{1}{\\sqrt{x}} = 1$\n$\\sqrt{x} = 1$\n$x = 1$\n$y = 2\\sqrt{1} = 2$\nThe point is $(1, 2)$."
+      },
+      {
+        "question_text": "The tangent to $y = x^2 - x$ at $x = 1.5$ has gradient $m$. Find the angle of inclination of the normal at this point, correct to the nearest degree.",
+        "structure": "inclination-normal-relationship",
+        "solution_text": "$f'(x) = 2x - 1$\n$m_{\\text{tangent}} = f'(1.5) = 2(1.5) - 1 = 2$\n$m_{\\text{normal}} = -\\dfrac{1}{2} = -0.5$\n$\\tan\\theta_n = -0.5$\n$\\theta_n = 180^{\\circ} - \\tan^{-1}(0.5) \\approx 180^{\\circ} - 26.57^{\\circ} \\approx 153^{\\circ}$"
+      },
+      {
+        "question_text": "Find the angle of inclination of the tangent to $y = \\dfrac{2}{3}x\\sqrt{x}$ at $x = 3$.",
+        "structure": "inclination-exact-values",
+        "solution_text": "$y = \\dfrac{2}{3}x^{\\frac{3}{2}} \\implies f'(x) = x^{\\frac{1}{2}} = \\sqrt{x}$\n$m = f'(3) = \\sqrt{3}$\n$\\tan\\theta = \\sqrt{3}$\n$\\theta = 60^{\\circ}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "At which point on the parabola $y = 2x^2 - 11x + 3$ can a tangent be drawn such that its angle of inclination is $135^{\\circ}$?",
+        "structure": "point-from-angle-of-inclination",
+        "solution_text": "$m = \\tan 135^{\\circ} = -1$\n$f'(x) = 4x - 11$\n$4x - 11 = -1$\n$4x = 10$\n$x = 2.5$\n$y = 2(2.5)^2 - 11(2.5) + 3 = 12.5 - 27.5 + 3 = -12$\nThe point is $(2.5, -12)$."
+      },
+      {
+        "question_text": "The curve $y = x^3 - 3x^2 + 2x$ has a tangent at the origin. Find the angle of inclination of the normal at the origin, correct to the nearest minute.",
+        "structure": "inclination-normal-relationship",
+        "solution_text": "$f'(x) = 3x^2 - 6x + 2$\n$m_{\\text{tangent}} = f'(0) = 2$\n$m_{\\text{normal}} = -\\dfrac{1}{2} = -0.5$\n$\\tan\\theta_n = -0.5$\n$\\theta_n = 180^{\\circ} - \\tan^{-1}(0.5) \\approx 180^{\\circ} - 26^{\\circ} 34' = 153^{\\circ} 26'$"
+      },
+      {
+        "question_text": "Find the coordinates of the points on the cubic curve $y = x^3 - 2x$ where the tangent is inclined at $45^{\\circ}$ to the positive $x$-axis.",
+        "structure": "inclination-exact-values",
+        "solution_text": "$m = \\tan 45^{\\circ} = 1$\n$f'(x) = 3x^2 - 2$\n$3x^2 - 2 = 1$\n$3x^2 = 3$\n$x^2 = 1$\n$x = 1 \\text{ or } x = -1$\nFor $x = 1$: $y = (1)^3 - 2(1) = -1 \\implies (1, -1)$\nFor $x = -1$: $y = (-1)^3 - 2(-1) = 1 \\implies (-1, 1)$\nThe points are $(1, -1)$ and $(-1, 1)$."
+      }
+    ]
+  }
+}

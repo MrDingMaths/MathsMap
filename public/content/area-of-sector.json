@@ -2,21 +2,22 @@
   "skillId": "area-of-sector",
   "atomType": "R",
   "theory": {
-    "intro": "A sector with interior angle $\\theta$ takes up the fraction $\\frac{\\theta}{360}$ of the full turn at the centre, so it covers that same fraction of the whole circle. Its area is therefore $\\frac{\\theta}{360}$ of $\\pi r^{2}$.",
-    "facts": [
-      "**$A = \\frac{\\theta}{360} \\times \\pi r^{2}$**, where $\\theta$ is the **interior** angle of the sector.",
-      "A quadrant is the case $\\theta = 90^{\\circ}$, giving $A = \\frac{1}{4}\\pi r^{2}$. A semicircle is the case $\\theta = 180^{\\circ}$, giving $A = \\frac{1}{2}\\pi r^{2}$.",
-      "When the diagram marks the **exterior** angle, the interior angle is $360^{\\circ}$ minus the marked angle.",
-      "The formula uses the radius, so halve the diameter first if that is what the question gives.",
-      "Use the calculator value of $\\pi$, keep the working exact and round only at the last line, to the form the question asks for.",
-      "The answer is an area, so the units are square units."
-    ],
-    "steps": [
-      "Write the formula.",
-      "Substitute the interior angle and the radius.",
-      "Evaluate, then round or leave in terms of $\\pi$ as asked."
-    ]
-  },
+        "intro": "A sector's interior angle $\\theta$ is the fraction $\\frac{\\theta}{360}$ of the full turn at the centre, so the sector covers that fraction of the whole circle. Its area is $\\frac{\\theta}{360}$ of $\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.2);\n\\coordinate (B) at (110:2.2);\n\\draw[dashed] (O) circle (2.2);\n\\draw[thick] (O) -- (A) node[midway, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:110:2.2);\n\\fill (O) circle (1.5pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "**$A = \\frac{\\theta}{360} \\times \\pi r^{2}$**, where $\\theta$ is the **interior** angle of the sector.",
+          "A quadrant is the case $\\theta = 90^{\\circ}$, giving $A = \\frac{1}{4}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2);\n\\coordinate (B) at (90:2);\n\\draw[thick] (O) -- (A) node[midway, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:90:2);\n\\coordinate (a) at ($(O)!0.3cm!(A)$);\n\\coordinate (b) at ($(O)!0.3cm!(B)$);\n\\draw (a) -- ($(a)+(b)-(O)$) -- (b);\n\\fill (O) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "A semicircle is the same sector with the angle opened to $\\theta = 180^{\\circ}$, giving $A = \\frac{1}{2}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) -- (2,0) node[midway, below] {$r$};\n\\draw[thick] (O) -- (-2,0);\n\\draw[thick] (2,0) arc (0:180:2);\n\\fill (O) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "When the diagram marks the **exterior** angle instead, the interior angle is $360^{\\circ}$ minus the marked angle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2);\n\\coordinate (B) at (110:2);\n\\draw[thick] (O) -- (A) node[pos=0.85, below] {$r$};\n\\draw[thick] (O) -- (B);\n\\draw[thick] (A) arc (0:110:2);\n\\fill (O) circle (1.5pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.6cm, angle eccentricity=2] {angle = A--O--B};\n\\pic[draw, \"$360^{\\circ}-\\theta$\", angle radius=1.1cm, angle eccentricity=1.6] {angle = B--O--A};\n\\end{tikzpicture}\n[/tikz]",
+          "The formula uses the radius, so halve the diameter first if that is what the question gives.",
+          "Use the calculator value of $\\pi$, keep the working exact and round only at the last line, to the form the question asks for.",
+          "The answer is an area, so the units are square units."
+        ],
+        "steps": [
+          "Write the formula.",
+          "Substitute the interior angle and the radius.",
+          "Evaluate, then round or leave in terms of $\\pi$ as asked."
+        ]
+      },
   "practice": {
     "foundation": [
       {

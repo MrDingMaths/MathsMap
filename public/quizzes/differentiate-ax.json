@@ -1,0 +1,109 @@
+{
+  "skillId": "differentiate-ax",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Differentiate $y = 6^{x}$. Give your answer in simplest form.",
+      "structure": "differentiate-a-x",
+      "mastery": false,
+      "options": [
+        { "text": "$(\\ln 6)6^{x}$", "correct": true },
+        { "text": "$6^{x}$", "why": "Assumed every exponential is its own derivative; that is true only for $e^{x}$, because $\\ln e = 1$." },
+        { "text": "$x6^{x-1}$", "why": "Applied the power rule, but here $x$ is the index and $6$ is the base, so the power rule does not apply." },
+        { "text": "$(\\ln 6)6^{x-1}$", "why": "Multiplied by $\\ln 6$ correctly but also reduced the index by $1$, as in the power rule." },
+        { "text": "$6^{x}\\ln x$", "why": "Wrote $\\ln x$ instead of the constant $\\ln 6$; the logarithm is taken of the base, not of $x$." }
+      ],
+      "solution_text": "$y = 6^{x}$\n$\\dfrac{dy}{dx} = (\\ln 6)6^{x}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Differentiate $y = 4^{5x}$. Give your answer in simplest form.",
+      "structure": "differentiate-a-linear-index",
+      "mastery": false,
+      "options": [
+        { "text": "$5(\\ln 4)4^{5x}$", "correct": true },
+        { "text": "$(\\ln 4)4^{5x}$", "why": "Left out the chain-rule factor $5$, the coefficient of $x$ in the index." },
+        { "text": "$5 \\times 4^{5x}$", "why": "Applied the chain-rule factor $5$ but omitted the factor $\\ln 4$." },
+        { "text": "$5(\\ln 5)4^{5x}$", "why": "Took the logarithm of the index coefficient $5$ instead of the base $4$." }
+      ],
+      "solution_text": "$y = 4^{5x}$\n$\\dfrac{dy}{dx} = 5(\\ln 4)4^{5x}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Which line correctly writes $y = 9^{x}$ as a power of $e$ and then differentiates it?",
+      "structure": "rewrite-base-e-and-differentiate",
+      "mastery": false,
+      "options": [
+        { "text": "$y = e^{x\\ln 9}$, so $\\dfrac{dy}{dx} = (\\ln 9)9^{x}$", "correct": true },
+        { "text": "$y = e^{9x}$, so $\\dfrac{dy}{dx} = 9e^{9x}$", "why": "Put the base $9$ into the index instead of $\\ln 9$; $9 \\ne e^{9}$." },
+        { "text": "$y = e^{x\\ln 9}$, so $\\dfrac{dy}{dx} = e^{x\\ln 9}$", "why": "Differentiated $e^{u}$ without multiplying by $\\dfrac{du}{dx} = \\ln 9$." },
+        { "text": "$y = (\\ln 9)e^{x}$, so $\\dfrac{dy}{dx} = (\\ln 9)e^{x}$", "why": "Treated $\\ln 9$ as a coefficient in front rather than as part of the index." }
+      ],
+      "solution_text": "$y = 9^{x}$\n$= \\left(e^{\\ln 9}\\right)^{x}$\n$= e^{x\\ln 9}$\n$\\dfrac{dy}{dx} = (\\ln 9)e^{x\\ln 9}$\n$= (\\ln 9)9^{x}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "For which base $a$ is $\\dfrac{d}{dx}\\left(a^{x}\\right) = a^{x}$ true?",
+      "structure": "special-base-e",
+      "mastery": false,
+      "options": [
+        { "text": "$a = e$", "correct": true },
+        { "text": "$a = 1$", "why": "$1^{x}$ is the constant $1$, whose derivative is $0$, not $1^{x}$." },
+        { "text": "$a = 10$", "why": "Confused base $10$, used by the common logarithm, with the base for which $\\ln a = 1$." },
+        { "text": "$a = 0$", "why": "Chose a base making the factor vanish, but $\\ln 0$ is undefined and the rule needs $a > 0$." }
+      ],
+      "solution_text": "$\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$\nThis equals $a^{x}$ only when $\\ln a = 1$.\n$a = e$"
+    },
+    {
+      "id": "q5",
+      "question_text": "For $f(x) = 3^{x}$, find the exact value of $f'(4)$.",
+      "structure": "evaluate-derivative-at-point",
+      "mastery": false,
+      "options": [
+        { "text": "$81\\ln 3$", "correct": true },
+        { "text": "$81$", "why": "Omitted the factor $\\ln 3$ from the derivative." },
+        { "text": "$108$", "why": "Used the power rule $xa^{x-1}$, giving $4 \\times 3^{3} = 108$." },
+        { "text": "$12\\ln 3$", "why": "Evaluated $3 \\times 4$ instead of $3^{4}$." }
+      ],
+      "solution_text": "$f(x) = 3^{x}$\n$f'(x) = (\\ln 3)3^{x}$\n$f'(4) = (\\ln 3)3^{4}$\n$= 81\\ln 3$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The curve $y = a^{x}$, where $a > 0$, has gradient $8\\ln 2$ at $x = 3$. Find $a$.",
+      "structure": "find-unknown-constant",
+      "mastery": true,
+      "options": [
+        { "text": "$2$", "correct": true },
+        { "text": "$8$", "why": "Read the $8$ in the gradient as the base, when $8$ is the value of $a^{3}$." },
+        { "text": "$\\ln 2$", "why": "Took the logarithm factor from the gradient as the base itself." }
+      ],
+      "solution_text": "$y = a^{x}$\n$\\dfrac{dy}{dx} = (\\ln a)a^{x}$\nAt $x = 3$:\n$\\dfrac{dy}{dx} = (\\ln a)a^{3}$\n$(\\ln a)a^{3} = 8\\ln 2$\nMatching the two sides gives $\\ln a = \\ln 2$ and $a^{3} = 8$.\n$a = 2$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Find the equation of the tangent to $y = 5^{x}$ at the point where $x = 0$.",
+      "structure": "tangent-to-exponential",
+      "mastery": true,
+      "options": [
+        { "text": "$y = (\\ln 5)x + 1$", "correct": true },
+        { "text": "$y = 5x + 1$", "why": "Used the base $5$ as the gradient instead of $\\ln 5$." },
+        { "text": "$y = (\\ln 5)x$", "why": "Forgot that the curve passes through $(0, 1)$, not the origin." },
+        { "text": "$y = x + \\ln 5$", "why": "Swapped the gradient and the $y$-intercept." }
+      ],
+      "solution_text": "At $x = 0$: $y = 5^{0} = 1$, so the point is $(0, 1)$.\n$\\dfrac{dy}{dx} = (\\ln 5)5^{x}$\n$m = (\\ln 5)5^{0}$\n$= \\ln 5$\n$y - 1 = (\\ln 5)(x - 0)$\n$y = (\\ln 5)x + 1$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Differentiate $y = 7^{-2x}$. Give your answer in simplest form.",
+      "structure": "differentiate-a-linear-index",
+      "mastery": true,
+      "options": [
+        { "text": "$-2(\\ln 7)7^{-2x}$", "correct": true },
+        { "text": "$2(\\ln 7)7^{-2x}$", "why": "Lost the negative sign from the index coefficient $-2$." },
+        { "text": "$(\\ln 7)7^{-2x}$", "why": "Omitted the chain-rule factor $-2$ from the index." },
+        { "text": "$-2(\\ln 7)7^{-2x-1}$", "why": "Reduced the index by a further $1$, as if the power rule applied." }
+      ],
+      "solution_text": "$y = 7^{-2x}$\n$\\dfrac{dy}{dx} = -2(\\ln 7)7^{-2x}$"
+    }
+  ]
+}

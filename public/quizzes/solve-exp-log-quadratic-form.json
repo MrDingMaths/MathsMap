@@ -1,0 +1,230 @@
+{
+  "skillId": "solve-exp-log-quadratic-form",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Solve $e^{2x} - 7e^x + 12 = 0$ for $x$.",
+      "structure": "solve-exp-quadratic-two-valid-roots",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\ln 3, \\ln 4$",
+          "correct": true
+        },
+        {
+          "text": "$x = 3, 4$",
+          "why": "solved for $u=e^x$ as $3, 4$ but forgot to take natural logarithms to find $x$"
+        },
+        {
+          "text": "$x = \\ln 7, \\ln 12$",
+          "why": "used the linear and constant coefficients of the quadratic equation as arguments"
+        },
+        {
+          "text": "$x = -\\ln 3, -\\ln 4$",
+          "why": "used incorrect negative signs when solving $e^x = 3$ and $e^x = 4$"
+        }
+      ],
+      "solution_text": "Let $u=e^x$.\n$u^2 - 7u + 12 = 0$\n$(u-3)(u-4) = 0$\n$u=3 \\text{ or } u=4$\n$e^x = 3 \\implies x = \\ln 3$\n$e^x = 4 \\implies x = \\ln 4$\n$x = \\ln 3, \\ln 4$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Solve $e^{2x} - 4e^x - 21 = 0$ for all real $x$.",
+      "structure": "solve-exp-quadratic-one-rejected-root",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\ln 7$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\ln 7, \\ln(-3)$",
+          "why": "did not reject the extraneous root $u=-3$, which has no real logarithm"
+        },
+        {
+          "text": "$x = 7$",
+          "why": "gave the quadratic root $u=7$ rather than solving $e^x = 7$"
+        },
+        {
+          "text": "$x = \\ln 7, -\\ln 3$",
+          "why": "incorrectly replaced $\\ln(-3)$ with $-\\ln 3$ instead of rejecting the negative root"
+        }
+      ],
+      "solution_text": "Let $u=e^x$.\n$u^2 - 4u - 21 = 0$\n$(u-7)(u+3) = 0$\n$u=7 \\text{ or } u=-3$\nSince $e^x > 0$ for all real $x$, $e^x = -3$ has no solution.\n$e^x = 7 \\implies x = \\ln 7$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Solve $2e^{2x} + 5e^x - 3 = 0$ for $x$.",
+      "structure": "solve-exp-quadratic-one-rejected-root",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = -\\ln 2$",
+          "correct": true
+        },
+        {
+          "text": "$x = -\\ln 2, \\ln(-3)$",
+          "why": "kept the invalid negative root $u=-3$ instead of discarding it"
+        },
+        {
+          "text": "$x = \\ln 2, \\ln 3$",
+          "why": "ignored signs and treated negative roots as positive arguments"
+        },
+        {
+          "text": "$x = \\dfrac{1}{2}$",
+          "why": "stopped at the substituted variable $u=\\dfrac{1}{2}$ without solving for $x$"
+        }
+      ],
+      "solution_text": "Let $u=e^x$.\n$2u^2 + 5u - 3 = 0$\n$(2u-1)(u+3) = 0$\n$u = \\dfrac{1}{2} \\text{ or } u = -3$\nSince $e^x > 0$, $u=-3$ is rejected.\n$e^x = \\dfrac{1}{2} \\implies x = \\ln\\left(\\dfrac{1}{2}\\right) = -\\ln 2$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Solve $4^x - 10(2^x) + 16 = 0$ for $x$.",
+      "structure": "solve-exp-quadratic-hidden-base",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = 1, 3$",
+          "correct": true
+        },
+        {
+          "text": "$x = 2, 8$",
+          "why": "gave the values of $u=2^x$ rather than solving for the exponent $x$"
+        },
+        {
+          "text": "$x = \\ln 2, \\ln 8$",
+          "why": "took natural logarithms instead of base-$2$ logarithms"
+        },
+        {
+          "text": "$x = 2, 4$",
+          "why": "used factors of $16$ without correctly solving $2^x = 2$ and $2^x = 8$"
+        }
+      ],
+      "solution_text": "Let $u=2^x$, so $4^x = (2^x)^2 = u^2$.\n$u^2 - 10u + 16 = 0$\n$(u-2)(u-8) = 0$\n$u=2 \\text{ or } u=8$\n$2^x = 2 \\implies x = 1$\n$2^x = 8 \\implies x = 3$\n$x = 1, 3$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Solve $9^x - 10(3^x) + 9 = 0$ for $x$.",
+      "structure": "solve-exp-quadratic-hidden-base",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = 0, 2$",
+          "correct": true
+        },
+        {
+          "text": "$x = 1, 9$",
+          "why": "gave the values of $u=3^x$ rather than solving for the exponent $x$"
+        },
+        {
+          "text": "$x = 3, 9$",
+          "why": "divided the quadratic roots by $3$ without recognizing powers of $3$"
+        },
+        {
+          "text": "$x = 0, 1$",
+          "why": "confused $3^2=9$ with $3^1=3$"
+        }
+      ],
+      "solution_text": "Let $u=3^x$, so $9^x = u^2$.\n$u^2 - 10u + 9 = 0$\n$(u-1)(u-9) = 0$\n$u=1 \\text{ or } u=9$\n$3^x = 1 \\implies x = 0$\n$3^x = 9 \\implies x = 2$\n$x = 0, 2$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Solve $(\\ln x)^2 - 7\\ln x + 10 = 0$ for $x$.",
+      "structure": "solve-log-quadratic-equation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = e^2, e^5$",
+          "correct": true
+        },
+        {
+          "text": "$x = 2, 5$",
+          "why": "gave the values of $u=\\ln x$ instead of exponentiating to find $x=e^u$"
+        },
+        {
+          "text": "$x = \\ln 2, \\ln 5$",
+          "why": "took natural logarithms of the roots instead of raising $e$ to the roots"
+        },
+        {
+          "text": "$x = e^7, e^{10}$",
+          "why": "used the quadratic equation coefficients as exponents"
+        }
+      ],
+      "solution_text": "Let $u=\\ln x$.\n$u^2 - 7u + 10 = 0$\n$(u-2)(u-5) = 0$\n$u=2 \\text{ or } u=5$\n$\\ln x = 2 \\implies x = e^2$\n$\\ln x = 5 \\implies x = e^5$\n$x = e^2, e^5$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Solve $(\\log_2 x)^2 - 2\\log_2 x - 8 = 0$ for $x$.",
+      "structure": "solve-log-quadratic-equation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = 16, \\dfrac{1}{4}$",
+          "correct": true
+        },
+        {
+          "text": "$x = 4, -2$",
+          "why": "stopped at the roots $u=4, -2$ without solving $\\log_2 x = u$"
+        },
+        {
+          "text": "$x = 16$",
+          "why": "incorrectly rejected the negative logarithm value $u=-2$, which is valid and gives $x=2^{-2}=\\dfrac{1}{4}$"
+        },
+        {
+          "text": "$x = 8, \\dfrac{1}{4}$",
+          "why": "computed $2 \\times 4 = 8$ instead of $2^4 = 16$"
+        }
+      ],
+      "solution_text": "Let $u=\\log_2 x$.\n$u^2 - 2u - 8 = 0$\n$(u-4)(u+2) = 0$\n$u=4 \\text{ or } u=-2$\n$\\log_2 x = 4 \\implies x = 2^4 = 16$\n$\\log_2 x = -2 \\implies x = 2^{-2} = \\dfrac{1}{4}$\n$x = 16, \\dfrac{1}{4}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Solve $e^x - 6e^{-x} = 5$ for all real $x$.",
+      "structure": "solve-exp-quadratic-one-rejected-root",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\ln 6$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\ln 6, \\ln(-1)$",
+          "why": "kept the negative root $u=-1$ after multiplying by $e^x$"
+        },
+        {
+          "text": "$x = 6, -1$",
+          "why": "stopped at the quadratic roots $u=6, -1$ without solving $e^x = u$"
+        },
+        {
+          "text": "$x = \\ln 5, \\ln 6$",
+          "why": "used the constant term $5$ from the original equation as a solution"
+        }
+      ],
+      "solution_text": "Multiply both sides by $e^x$:\n$e^{2x} - 6 = 5e^x$\n$e^{2x} - 5e^x - 6 = 0$\nLet $u=e^x$:\n$u^2 - 5u - 6 = 0$\n$(u-6)(u+1) = 0$\n$u=6 \\text{ or } u=-1$\nSince $e^x > 0$, $u=-1$ is rejected.\n$e^x = 6 \\implies x = \\ln 6$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Find all real solutions to $e^{2x} - 6e^x + 9 = 0$.",
+      "structure": "solve-exp-log-quadratic-model",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$x = \\ln 3$",
+          "correct": true
+        },
+        {
+          "text": "$x = 3$",
+          "why": "stopped at $u=3$ without taking the natural logarithm to solve for $x$"
+        },
+        {
+          "text": "$x = \\ln 9$",
+          "why": "took the logarithm of the constant term $9$ instead of the repeated root $u=3$"
+        },
+        {
+          "text": "$x = \\pm\\ln 3$",
+          "why": "introduced a spurious negative solution $-\\ln 3$"
+        }
+      ],
+      "solution_text": "Let $u=e^x$.\n$u^2 - 6u + 9 = 0$\n$(u-3)^2 = 0$\n$u = 3$\n$e^x = 3 \\implies x = \\ln 3$"
+    }
+  ]
+}

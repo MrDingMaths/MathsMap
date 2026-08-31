@@ -1,0 +1,136 @@
+{
+  "skillId": "integrate-f-dash-over-f",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\int \\dfrac{5x^{4}}{x^{5}+8}\\,dx$.",
+      "structure": "exact-derivative-on-top",
+      "mastery": false,
+      "options": [
+        { "text": "$\\ln|x^{5}+8| + C$", "correct": true },
+        { "text": "$5\\ln|x^{5}+8| + C$", "why": "Kept the $5$ as an extra multiplier as well as using it as part of $f'(x)$." },
+        { "text": "$\\dfrac{1}{5}\\ln|x^{5}+8| + C$", "why": "Divided by $5$ even though $f'(x) = 5x^{4}$ was already exactly the numerator." },
+        { "text": "$\\ln|5x^{4}| + C$", "why": "Took the logarithm of the numerator instead of the denominator." },
+        { "text": "$\\ln(x^{5}+8) + C$", "why": "Dropped the modulus, so the primitive fails wherever $x^{5}+8$ is negative." }
+      ],
+      "solution_text": "$f(x) = x^{5}+8$, so $f'(x) = 5x^{4}$.\n$\\int \\dfrac{5x^{4}}{x^{5}+8}\\,dx$\n$= \\ln|x^{5}+8| + C$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find $\\int \\dfrac{x}{x^{2}-9}\\,dx$.",
+      "structure": "constant-adjustment",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}\\ln|x^{2}-9| + C$", "correct": true },
+        { "text": "$\\ln|x^{2}-9| + C$", "why": "Used the rule without adjusting for the missing factor of $2$ from $f'(x) = 2x$." },
+        { "text": "$2\\ln|x^{2}-9| + C$", "why": "Multiplied by $2$ instead of dividing by it when adjusting the constant." },
+        { "text": "$\\dfrac{1}{9}\\ln|x^{2}-9| + C$", "why": "Divided by the constant term $9$ instead of by the factor coming from $f'(x)$." }
+      ],
+      "solution_text": "$f(x) = x^{2}-9$, so $f'(x) = 2x$.\n$\\int \\dfrac{x}{x^{2}-9}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{2x}{x^{2}-9}\\,dx$\n$= \\dfrac{1}{2}\\ln|x^{2}-9| + C$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find $\\int \\dfrac{3e^{3x}}{e^{3x}+2}\\,dx$.",
+      "structure": "exponential-numerator",
+      "mastery": false,
+      "options": [
+        { "text": "$\\ln\\left(e^{3x}+2\\right) + C$", "correct": true },
+        { "text": "$3\\ln\\left(e^{3x}+2\\right) + C$", "why": "Kept the $3$ as an extra factor although it is already part of $f'(x) = 3e^{3x}$." },
+        { "text": "$\\dfrac{1}{3}\\ln\\left(e^{3x}+2\\right) + C$", "why": "Divided by $3$ even though the numerator was already exactly $f'(x)$." },
+        { "text": "$\\ln\\left(3e^{3x}\\right) + C$", "why": "Took the logarithm of the numerator instead of the denominator." }
+      ],
+      "solution_text": "$f(x) = e^{3x}+2$, so $f'(x) = 3e^{3x}$.\n$\\int \\dfrac{3e^{3x}}{e^{3x}+2}\\,dx$\n$= \\ln\\left(e^{3x}+2\\right) + C$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Find $\\int \\dfrac{\\cos x}{5+2\\sin x}\\,dx$.",
+      "structure": "trig-numerator",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{2}\\ln|5+2\\sin x| + C$", "correct": true },
+        { "text": "$\\ln|5+2\\sin x| + C$", "why": "Did not adjust for the factor $2$ in $f'(x) = 2\\cos x$." },
+        { "text": "$2\\ln|5+2\\sin x| + C$", "why": "Multiplied by $2$ instead of dividing by it." },
+        { "text": "$-\\dfrac{1}{2}\\ln|5+2\\sin x| + C$", "why": "Used $\\dfrac{d}{dx}\\sin x = -\\cos x$, introducing a sign that is not there." }
+      ],
+      "solution_text": "$f(x) = 5+2\\sin x$, so $f'(x) = 2\\cos x$.\n$\\int \\dfrac{\\cos x}{5+2\\sin x}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{2\\cos x}{5+2\\sin x}\\,dx$\n$= \\dfrac{1}{2}\\ln|5+2\\sin x| + C$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Evaluate $\\int_{1}^{2} \\dfrac{3x^{2}}{x^{3}+1}\\,dx$, giving the answer as a single logarithm.",
+      "structure": "definite-f-dash-over-f",
+      "mastery": false,
+      "options": [
+        { "text": "$\\ln\\dfrac{9}{2}$", "correct": true },
+        { "text": "$\\ln 7$", "why": "Subtracted inside the logarithm, using $\\ln(9-2)$ instead of $\\ln 9 - \\ln 2$." },
+        { "text": "$\\ln 18$", "why": "Multiplied instead of divided when combining $\\ln 9 - \\ln 2$." },
+        { "text": "$\\dfrac{\\ln 9}{\\ln 2}$", "why": "Divided the two logarithms rather than subtracting them." }
+      ],
+      "solution_text": "$f(x) = x^{3}+1$, so $f'(x) = 3x^{2}$.\n$\\int_{1}^{2} \\dfrac{3x^{2}}{x^{3}+1}\\,dx$\n$= \\left[\\ln(x^{3}+1)\\right]_{1}^{2}$\n$= \\ln 9 - \\ln 2$\n$= \\ln\\dfrac{9}{2}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{4}} \\tan x\\,dx$, giving an exact answer.",
+      "structure": "definite-f-dash-over-f",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{1}{2}\\ln 2$", "correct": true },
+        { "text": "$-\\dfrac{1}{2}\\ln 2$", "why": "Used $\\dfrac{d}{dx}\\cos x = \\sin x$, losing the minus sign in the primitive." },
+        { "text": "$\\ln 2$", "why": "Read $\\cos\\dfrac{\\pi}{4}$ as $\\dfrac{1}{2}$ instead of $\\dfrac{1}{\\sqrt{2}}$, doubling the logarithm." },
+        { "text": "$-\\ln 2$", "why": "Made the sign slip on the primitive and also read $\\cos\\dfrac{\\pi}{4}$ as $\\dfrac{1}{2}$." }
+      ],
+      "solution_text": "$\\int_{0}^{\\frac{\\pi}{4}} \\dfrac{\\sin x}{\\cos x}\\,dx$\n$= \\left[-\\ln|\\cos x|\\right]_{0}^{\\frac{\\pi}{4}}$\n$= -\\ln\\dfrac{1}{\\sqrt{2}} + \\ln 1$\n$= \\ln\\sqrt{2}$\n$= \\dfrac{1}{2}\\ln 2$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Which of these integrals **cannot** be found using $\\int \\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$?",
+      "structure": "identify-applicability",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int \\dfrac{x^{2}}{x^{2}+4}\\,dx$", "correct": true },
+        { "text": "$\\int \\dfrac{x}{x^{2}+4}\\,dx$", "why": "The numerator is half of $f'(x) = 2x$, and a constant adjustment makes the rule work." },
+        { "text": "$\\int \\dfrac{6x^{5}}{x^{6}+4}\\,dx$", "why": "The numerator is exactly $f'(x) = 6x^{5}$, so the rule applies directly." },
+        { "text": "$\\int \\dfrac{4x+3}{2x^{2}+3x}\\,dx$", "why": "The numerator is exactly $f'(x) = 4x+3$, so the rule applies directly." }
+      ],
+      "solution_text": "For $\\int \\dfrac{x^{2}}{x^{2}+4}\\,dx$, $f(x) = x^{2}+4$ and $f'(x) = 2x$.\n$\\dfrac{x^{2}}{2x} = \\dfrac{x}{2}$, which still contains $x$, so the numerator is not a constant multiple of $f'(x)$.\nOnly a constant factor may be adjusted for, so the rule cannot be used here."
+    },
+    {
+      "id": "q8",
+      "question_text": "Given that $\\dfrac{d}{dx}\\left[\\ln\\left(x^{2}+1\\right)\\right] = \\dfrac{2x}{x^{2}+1}$, evaluate $\\int_{0}^{3} \\dfrac{5x}{x^{2}+1}\\,dx$ in exact form.",
+      "structure": "hence-integrate",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{5}{2}\\ln 10$", "correct": true },
+        { "text": "$5\\ln 10$", "why": "Forgot to halve, using $5x$ as if it were $f'(x)$ rather than $\\dfrac{5}{2}$ of it." },
+        { "text": "$\\dfrac{2}{5}\\ln 10$", "why": "Inverted the adjusting factor, dividing by $\\dfrac{5}{2}$ instead of multiplying." },
+        { "text": "$\\dfrac{5}{2}\\ln 9$", "why": "Substituted $x^{2}$ rather than $x^{2}+1$ at the upper limit." }
+      ],
+      "solution_text": "$\\int_{0}^{3} \\dfrac{5x}{x^{2}+1}\\,dx$\n$= \\dfrac{5}{2}\\int_{0}^{3} \\dfrac{2x}{x^{2}+1}\\,dx$\n$= \\dfrac{5}{2}\\left[\\ln\\left(x^{2}+1\\right)\\right]_{0}^{3}$\n$= \\dfrac{5}{2}\\left(\\ln 10 - \\ln 1\\right)$\n$= \\dfrac{5}{2}\\ln 10$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Find $\\int \\dfrac{6x}{7-x^{2}}\\,dx$.",
+      "structure": "constant-adjustment",
+      "mastery": false,
+      "options": [
+        { "text": "$-3\\ln|7-x^{2}| + C$", "correct": true },
+        { "text": "$3\\ln|7-x^{2}| + C$", "why": "Missed the negative sign in $f'(x) = -2x$ when differentiating $7-x^{2}$." },
+        { "text": "$-\\dfrac{1}{3}\\ln|7-x^{2}| + C$", "why": "Inverted the constant adjustment, dividing by $3$ instead of multiplying by it." },
+        { "text": "$-6\\ln|7-x^{2}| + C$", "why": "Kept the numerator's $6$ without dividing by the $2$ from $f'(x)$." }
+      ],
+      "solution_text": "$f(x) = 7-x^{2}$, so $f'(x) = -2x$.\n$\\int \\dfrac{6x}{7-x^{2}}\\,dx$\n$= -3\\int \\dfrac{-2x}{7-x^{2}}\\,dx$\n$= -3\\ln|7-x^{2}| + C$"
+    },
+    {
+      "id": "q10",
+      "question_text": "Find $\\int \\dfrac{\\sec^{2}x}{3+\\tan x}\\,dx$.",
+      "structure": "trig-numerator",
+      "mastery": false,
+      "options": [
+        { "text": "$\\ln|3+\\tan x| + C$", "correct": true },
+        { "text": "$\\dfrac{1}{3}\\ln|3+\\tan x| + C$", "why": "Divided by the constant term $3$, which is not a factor of $f'(x)$." },
+        { "text": "$-\\ln|3+\\tan x| + C$", "why": "Took $\\dfrac{d}{dx}\\tan x = -\\sec^{2}x$, introducing a sign that is not there." },
+        { "text": "$\\ln|\\sec^{2}x| + C$", "why": "Took the logarithm of the numerator instead of the denominator." }
+      ],
+      "solution_text": "$f(x) = 3+\\tan x$, so $f'(x) = \\sec^{2}x$.\n$\\int \\dfrac{\\sec^{2}x}{3+\\tan x}\\,dx$\n$= \\ln|3+\\tan x| + C$"
+    }
+  ]
+}

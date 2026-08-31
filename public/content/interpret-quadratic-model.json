@@ -1,0 +1,108 @@
+{
+  "skillId": "interpret-quadratic-model",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **quadratic model** uses a parabola to describe a real situation. The vertex gives the largest or smallest value, the intercepts mark the start and the finish, and only part of the parabola makes sense in context.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.4,0) -- (6.4,0) node[right] {time};\n\\draw[-{Stealth}] (0,-0.4) -- (0,4.4) node[above] {height};\n\\draw[thick,blue!70!black,domain=0:5.458,samples=100,variable=\\x] plot ({\\x},{0.9+1.8*\\x-0.36*\\x*\\x});\n\\fill (0,0.9) circle (2pt);\n\\fill (2.5,3.15) circle (2pt);\n\\fill (5.458,0) circle (2pt);\n\\node[right] at (2.65,3.35) {vertex: greatest height};\n\\node[right] at (0.2,0.5) {starting height};\n\\node[below] at (5.458,-0.15) {lands};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The **vertex** gives the largest or smallest value: its $y$-coordinate is that value and its $x$-coordinate is when it happens.",
+      "The **$y$-intercept** is the value at the start, when the input variable is zero.",
+      "An **$x$-intercept** is where the modelled quantity is zero, such as when a ball lands or a business breaks even.",
+      "Because a parabola is symmetric, most values are reached twice, once on each side of the vertex.",
+      "A model is only valid where the context makes sense, so negative times, heights and lengths are usually excluded.",
+      "The parabola keeps going in both directions, but the real situation stops where the context stops."
+    ],
+    "steps": [
+      "Read the vertex and say what the maximum or minimum means in the situation.",
+      "Read the intercepts and say what they mean in the situation.",
+      "State the values of the variables for which the model makes sense."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A ball is thrown upwards from the ground. Its height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+30t$, and the graph is shown. Find the maximum height of the ball and the time at which it occurs.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=7,ymin=-5,ymax=52,xtick={0,1,...,6},ytick={0,5,...,50},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,domain=0:6,samples=100] {-5*x*x+30*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "The highest point of the curve is the vertex $(3,45)$.\nThe maximum height is $45$ m, and it occurs $3$ seconds after the ball is thrown."
+      },
+      {
+        "question_text": "A ball is thrown from a balcony. Its height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+10t+15$, and the graph is shown. Use the graph to find when the ball hits the ground.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.6,xmax=4.2,ymin=-6,ymax=26,xtick={-1,0,...,4},ytick={-5,0,...,25},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,<->,domain=-1.2:3.2,samples=100] {-5*x*x+10*x+15};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-x-intercept-in-context",
+        "solution_text": "The ball hits the ground when the height is zero, so read where the curve crosses the horizontal axis.\nThe curve crosses at $t=-1$ and $t=3$.\nTime cannot be negative, so the ball hits the ground after $3$ seconds."
+      },
+      {
+        "question_text": "A stone is thrown upwards from the top of a wall. Its height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+20t+10$, and the graph is shown. What does the intercept with the vertical axis represent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.2,xmax=5.4,ymin=-11,ymax=36,xtick={-1,0,...,5},ytick={-10,-5,...,35},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.8:4.8,samples=100] {-5*x*x+20*x+10};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-y-intercept-in-context",
+        "solution_text": "The curve meets the vertical axis at $h=10$, and that point is at $t=0$.\nThe intercept is the height of the stone at the moment it was thrown, which is $10$ m: the height of the wall."
+      },
+      {
+        "question_text": "A stall's daily profit $P$ dollars for a selling price of $\\$x$ is modelled by $P=-2x^{2}+40x-150$. Find the profit when the selling price is $\\$12$.",
+        "structure": "evaluate-model-in-context",
+        "solution_text": "$P=-2(12)^{2}+40(12)-150$\n$=-2(144)+480-150$\n$=-288+480-150$\n$=42$\nThe profit is $\\$42$."
+      },
+      {
+        "question_text": "A cinema's weekly revenue $R$ dollars is modelled by $R=-5n^{2}+100n$, where $n$ is the ticket price in dollars. The $n$-intercepts of the model are $n=0$ and $n=20$. Find the ticket price that gives the greatest revenue, and state that revenue.",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "The greatest revenue is at the vertex, midway between the two intercepts.\n$\\frac{0+20}{2}=10$\n$R=-5(10)^{2}+100(10)$\n$=-500+1000$\n$=500$\nA ticket price of $\\$10$ gives the greatest revenue, $\\$500$."
+      },
+      {
+        "question_text": "A firework is launched from the ground and its height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+80t$. The model has $t$-intercepts at $t=0$ and $t=16$. Explain why the model only makes sense for $0\\le t\\le16$.",
+        "structure": "state-limitation-in-context",
+        "solution_text": "Before launch there is no flight, so negative values of $t$ have no meaning and the model starts at $t=0$.\nAt $t=16$ the height is zero, which is when the firework returns to the ground.\nAfter that the parabola gives negative heights, which would put the firework below the ground.\nThe model is only valid for $0\\le t\\le16$."
+      },
+      {
+        "question_text": "An object is launched from a platform. Its height $h$ metres after $t$ seconds is modelled by $h=-t^{2}+8t+2$, and the graph is shown. At which two times is the object $14$ m above the ground?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-1.2,xmax=9.2,ymin=-4.5,ymax=21,xtick={-1,0,...,9},ytick={-4,-2,...,20},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,<->,domain=-0.5:8.5,samples=100] {-x*x+8*x+2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-two-times-for-value",
+        "solution_text": "Read across from $h=14$ to the curve, then down to the horizontal axis.\nThe curve is at $h=14$ when $t=2$ and when $t=6$.\nCheck: $-(2)^{2}+8(2)+2=14$ and $-(6)^{2}+8(6)+2=14$.\nThe object is $14$ m above the ground after $2$ seconds and after $6$ seconds."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A company's profit $P$ dollars from making $x$ machines is modelled by $P=-x^{2}+60x-500$. The model has $x$-intercepts at $x=10$ and $x=50$. Find the number of machines that gives the greatest profit and that profit, and explain what the two $x$-intercepts mean.",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "1. **Read the vertex and say what the maximum or minimum means in the situation.**\nThe vertex is midway between the intercepts, at $\\frac{10+50}{2}=30$.\n$P=-(30)^{2}+60(30)-500$\n$=-900+1800-500$\n$=400$\nMaking $30$ machines gives the greatest profit, $\\$400$.\n2. **Read the intercepts and say what they mean in the situation.**\nAt $x=10$ and $x=50$ the profit is zero, so these are the break-even points: below $10$ or above $50$ machines the company makes a loss."
+      },
+      {
+        "question_text": "A rectangular pen is built against a wall using $24$ m of fencing for the three open sides. Its area $A$ square metres is modelled by $A=-w^{2}+24w$, where $w$ is the width in metres. The model has $w$-intercepts at $w=0$ and $w=24$. Find the width that gives the greatest area, and that area.",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "The greatest area is at the vertex, midway between the two intercepts.\n$\\frac{0+24}{2}=12$\n$A=-(12)^{2}+24(12)$\n$=-144+288$\n$=144$\nA width of $12$ m gives the greatest area, $144$ m$^{2}$."
+      },
+      {
+        "question_text": "A garden bed has area $A$ square metres modelled by $A=-0.25w^{2}+15w$, where $w$ is its width in metres. The model has $w$-intercepts at $w=0$ and $w=60$. Explain why the model cannot be used for a width of $70$ m.",
+        "structure": "state-limitation-in-context",
+        "solution_text": "$A=-0.25(70)^{2}+15(70)$\n$=-1225+1050$\n$=-175$\nThe model gives an area of $-175$ m$^{2}$, and an area cannot be negative.\nThe model only makes sense for $0\\le w\\le60$, which is where the curve is on or above the horizontal axis."
+      },
+      {
+        "question_text": "A theatre's nightly revenue $R$ dollars is modelled by $R=-0.5n^{2}+30n$, where $n$ is the number of seats sold. Find the revenue when $n=20$ and when $n=40$, and explain why the two answers are equal.",
+        "structure": "evaluate-model-in-context",
+        "solution_text": "$R=-0.5(20)^{2}+30(20)$\n$=-200+600$\n$=400$\n$R=-0.5(40)^{2}+30(40)$\n$=-800+1200$\n$=400$\nBoth give a revenue of $\\$400$.\nThe $n$-intercepts are $n=0$ and $n=60$, so the axis of symmetry is $n=30$.\nThe values $20$ and $40$ are each $10$ away from $30$, so the symmetry of the parabola makes their revenues equal."
+      },
+      {
+        "question_text": "A rocket's height $h$ metres after $t$ seconds is modelled by $h=-5t^{2}+60t$, and the graph is shown. At which two times is the rocket $160$ m above the ground?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.8,xmax=13,ymin=-20,ymax=205,xtick={0,1,...,12},ytick={0,20,...,200},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,domain=0:12,samples=100] {-5*x*x+60*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-two-times-for-value",
+        "solution_text": "Read across from $h=160$ to the curve, then down to the horizontal axis.\nThe curve is at $h=160$ when $t=4$ and when $t=8$.\nCheck: $-5(4)^{2}+60(4)=-80+240=160$ and $-5(8)^{2}+60(8)=-320+480=160$.\nThe rocket is $160$ m above the ground after $4$ seconds and after $8$ seconds."
+      },
+      {
+        "question_text": "The cost $C$ dollars per item of running a print job is modelled by $C=x^{2}-8x+31$, where $x$ is the number of items in hundreds. The graph is shown. Find the smallest cost per item and the value of $x$ that gives it.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.6,xmax=9.6,ymin=-3,ymax=44,xtick={0,1,...,9},ytick={0,5,...,40},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$C$}]\n\\addplot[thick,blue!70!black,->,domain=0:8.9,samples=100] {x*x-8*x+31};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "The parabola is concave up, so the lowest point of the curve is the vertex.\nFrom the graph the vertex is $(4,15)$.\nThe smallest cost is $\\$15$ per item, and it occurs when $x=4$, that is for $400$ items."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A theatre has $300$ seats and currently sells every ticket for $\\$10$. For each $\\$1$ the price rises, $10$ fewer tickets are sold. The income $I$ dollars for a price rise of $\\$x$ is modelled by $I=-10x^{2}+200x+3000$, and the graph is shown. Running a session costs $\\$400$ plus $\\$3$ per ticket sold. Find the ticket price that maximises the income, and the profit at that price.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-12,xmax=33,ymin=-400,ymax=4600,xtick={-10,-5,...,30},ytick={0,500,...,4500},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$x$},ylabel={$I$},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=-10:30,samples=100] {-10*x*x+200*x+3000};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "interpret-vertex-in-context",
+        "solution_text": "1. **Read the vertex and say what the maximum or minimum means in the situation.**\nFrom the graph the vertex is $(10,4000)$, so the income is greatest for a price rise of $\\$10$.\n$\\$10+\\$10=\\$20$\nThe ticket price that maximises the income is $\\$20$.\nAt that price the tickets sold are $300-10(10)=200$, and $200\\times\\$20=\\$4000$ confirms the income.\nCost $=400+3\\times200$\n$=400+600$\n$=1000$\nProfit $=4000-1000$\n$=\\$3000$"
+      },
+      {
+        "question_text": "A rectangle has width $w$ centimetres, and its area $A$ square centimetres is modelled by $A=w^{2}+3w$. The graph is shown. The area of the rectangle is $40$ cm$^{2}$. Find its perimeter.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.5,xmax=7.4,ymin=-5,ymax=72,xtick={0,1,...,7},ytick={0,10,...,70},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$w$},ylabel={$A$}]\n\\addplot[thick,blue!70!black,->,domain=0:6.6,samples=100] {x*x+3*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "evaluate-model-in-context",
+        "solution_text": "Read across from $A=40$ to the curve, then down to the horizontal axis.\nThe curve is at $A=40$ when $w=5$.\nCheck: $(5)^{2}+3(5)=25+15=40$.\nThe other side is $\\frac{40}{5}=8$ cm.\nPerimeter $=2(5+8)$\n$=26$ cm"
+      },
+      {
+        "question_text": "A ball is thrown upwards from the top of a $25$ m cliff. Its height $h$ metres above the sea after $t$ seconds is modelled by $h=-5t^{2}+20t+25$, and the full parabola is shown. State the values of $t$ for which the model makes sense, and explain what the rest of the parabola would mean.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=8cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2.6,xmax=6.6,ymin=-42,ymax=52,xtick={-2,-1,...,6},ytick={-40,-30,...,50},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={$t$},ylabel={$h$}]\n\\addplot[thick,blue!70!black,<->,domain=-2:6,samples=100] {-5*x*x+20*x+25};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "state-limitation-in-context",
+        "solution_text": "3. **State the values of the variables for which the model makes sense.**\nThe curve crosses the horizontal axis at $t=-1$ and $t=5$.\nThe throw happens at $t=0$, so values of $t$ before that describe a time when the ball had not been thrown.\nAt $t=5$ the ball reaches the sea, and after that the model gives negative heights, which would put the ball below the water.\nThe model makes sense for $0\\le t\\le5$.\nThe left-hand part of the parabola and the part beyond $t=5$ are still on the graph, but neither describes the flight of this ball."
+      }
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "skillId": "primitive-power-functions",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **primitive** of $x^{n}$ is found by adding $1$ to the power, then dividing by the new power. This works for every real $n$ except $n=-1$. Always add the constant of integration $+C$.",
+    "facts": [
+      "$\\displaystyle\\int x^{n}\\,dx=\\dfrac{x^{n+1}}{n+1}+C$ for every real $n\\ne-1$.",
+      "A constant multiplier stays out the front: $\\displaystyle\\int kx^{n}\\,dx=\\dfrac{kx^{n+1}}{n+1}+C$.",
+      "Integrate a sum term by term, and write a single $+C$ at the end.",
+      "A constant integrates to $kx$, since $k=kx^{0}$.",
+      "The rule fails at $n=-1$, because $\\dfrac{x^{0}}{0}$ divides by zero.",
+      "Rewrite an algebraic denominator as a negative index first, such as $\\dfrac{1}{x^{3}}=x^{-3}$.",
+      "Rewrite a root as a fractional index first, such as $\\sqrt{x}=x^{\\frac{1}{2}}$ and $\\sqrt[3]{x}=x^{\\frac{1}{3}}$.",
+      "Expand a product and split a fraction before integrating; there is no reverse product or quotient rule.",
+      "Check any primitive by differentiating it, which should return the original function."
+    ],
+    "steps": [
+      "Rewrite roots, algebraic denominators and products in the form $kx^{n}$",
+      "Add $1$ to each power",
+      "Divide each term by its new power",
+      "Add the constant of integration $+C$"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the primitive of $f'(x)=x^{8}$.",
+        "structure": "primitive-single-power-term",
+        "solution_text": "$x^{8}$\n$=\\dfrac{x^{9}}{9}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=7x^{6}$.",
+        "structure": "primitive-single-power-term",
+        "solution_text": "$7x^{6}$\n$=\\dfrac{7x^{7}}{7}+C$\n$=x^{7}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=12$.",
+        "structure": "primitive-single-power-term",
+        "solution_text": "$12$\n$=12x^{0}$\n$=12x+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=6x^{4}$.",
+        "structure": "primitive-single-power-term",
+        "solution_text": "$6x^{4}$\n$=\\dfrac{6x^{5}}{5}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=x^{3}+x^{2}$.",
+        "structure": "primitive-sum-of-powers",
+        "solution_text": "$x^{3}+x^{2}$\n$=\\dfrac{x^{4}}{4}+\\dfrac{x^{3}}{3}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=8x^{3}-6x+5$.",
+        "structure": "primitive-sum-of-powers",
+        "solution_text": "$8x^{3}-6x+5$\n$=\\dfrac{8x^{4}}{4}-\\dfrac{6x^{2}}{2}+5x+C$\n$=2x^{4}-3x^{2}+5x+C$"
+      },
+      {
+        "question_text": "Write $\\dfrac{1}{x^{5}}$ using a negative index, then find its primitive, writing the answer as a fraction without a negative index.",
+        "structure": "primitive-negative-index",
+        "solution_text": "$\\dfrac{1}{x^{5}}$\n$=x^{-5}$\n$=\\dfrac{x^{-4}}{-4}+C$\n$=-\\dfrac{1}{4x^{4}}+C$"
+      },
+      {
+        "question_text": "Write $\\sqrt[4]{x}$ using a fractional index, then find its primitive.",
+        "structure": "primitive-fractional-index",
+        "solution_text": "$\\sqrt[4]{x}$\n$=x^{\\frac{1}{4}}$\n$=\\dfrac{x^{\\frac{5}{4}}}{\\frac{5}{4}}+C$\n$=\\dfrac{4x^{\\frac{5}{4}}}{5}+C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the primitive of $f'(x)=\\dfrac{x^{4}}{2}-9x^{2}$.",
+        "structure": "primitive-sum-of-powers",
+        "solution_text": "$\\dfrac{x^{4}}{2}-9x^{2}$\n$=\\dfrac{x^{5}}{2(5)}-\\dfrac{9x^{3}}{3}+C$\n$=\\dfrac{x^{5}}{10}-3x^{3}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=x^{-2}+3x^{-4}$, writing your answer without negative indices.",
+        "structure": "primitive-negative-index",
+        "solution_text": "$x^{-2}+3x^{-4}$\n$=\\dfrac{x^{-1}}{-1}+\\dfrac{3x^{-3}}{-3}+C$\n$=-x^{-1}-x^{-3}+C$\n$=-\\dfrac{1}{x}-\\dfrac{1}{x^{3}}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=\\dfrac{6}{\\sqrt{x}}$.",
+        "structure": "primitive-fractional-index",
+        "solution_text": "$\\dfrac{6}{\\sqrt{x}}$\n$=6x^{-\\frac{1}{2}}$\n$=\\dfrac{6x^{\\frac{1}{2}}}{\\frac{1}{2}}+C$\n$=12\\sqrt{x}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=x(2x-5)$.",
+        "structure": "primitive-after-expanding",
+        "solution_text": "$x(2x-5)$\n$=2x^{2}-5x$\n$=\\dfrac{2x^{3}}{3}-\\dfrac{5x^{2}}{2}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=(x-4)(x+2)$.",
+        "structure": "primitive-after-expanding",
+        "solution_text": "$(x-4)(x+2)$\n$=x^{2}-2x-8$\n$=\\dfrac{x^{3}}{3}-\\dfrac{2x^{2}}{2}-8x+C$\n$=\\dfrac{x^{3}}{3}-x^{2}-8x+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=\\dfrac{x^{5}+4x^{3}}{x^{2}}$.",
+        "structure": "primitive-after-splitting-fraction",
+        "solution_text": "$\\dfrac{x^{5}+4x^{3}}{x^{2}}$\n$=x^{3}+4x$\n$=\\dfrac{x^{4}}{4}+\\dfrac{4x^{2}}{2}+C$\n$=\\dfrac{x^{4}}{4}+2x^{2}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=\\dfrac{3x^{2}+1}{x^{4}}$, writing your answer without negative indices.",
+        "structure": "primitive-after-splitting-fraction",
+        "solution_text": "$\\dfrac{3x^{2}+1}{x^{4}}$\n$=3x^{-2}+x^{-4}$\n$=\\dfrac{3x^{-1}}{-1}+\\dfrac{x^{-3}}{-3}+C$\n$=-\\dfrac{3}{x}-\\dfrac{1}{3x^{3}}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=15x^{4}-2$, then check your answer by differentiating it.",
+        "structure": "verify-primitive-by-differentiating",
+        "solution_text": "$15x^{4}-2$\n$=\\dfrac{15x^{5}}{5}-2x+C$\n$=3x^{5}-2x+C$\nCheck: $\\dfrac{d}{dx}(3x^{5}-2x+C)=15x^{4}-2$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the primitive of $f'(x)=x^{2}(3x^{3}-4x)$.",
+        "structure": "primitive-after-expanding",
+        "solution_text": "$x^{2}(3x^{3}-4x)$\n$=3x^{5}-4x^{3}$\n$=\\dfrac{3x^{6}}{6}-\\dfrac{4x^{4}}{4}+C$\n$=\\dfrac{x^{6}}{2}-x^{4}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=\\sqrt{x}\\left(x-\\dfrac{1}{x}\\right)$, writing your answer with fractional indices.",
+        "structure": "primitive-fractional-index",
+        "solution_text": "$\\sqrt{x}\\left(x-\\dfrac{1}{x}\\right)$\n$=x^{\\frac{1}{2}}(x-x^{-1})$\n$=x^{\\frac{3}{2}}-x^{-\\frac{1}{2}}$\n$=\\dfrac{x^{\\frac{5}{2}}}{\\frac{5}{2}}-\\dfrac{x^{\\frac{1}{2}}}{\\frac{1}{2}}+C$\n$=\\dfrac{2x^{\\frac{5}{2}}}{5}-2x^{\\frac{1}{2}}+C$"
+      },
+      {
+        "question_text": "Find the primitive of $f'(x)=\\dfrac{2x^{4}-5\\sqrt{x}}{x^{2}}$.",
+        "structure": "primitive-after-splitting-fraction",
+        "solution_text": "$\\dfrac{2x^{4}-5\\sqrt{x}}{x^{2}}$\n$=2x^{2}-5x^{-\\frac{3}{2}}$\n$=\\dfrac{2x^{3}}{3}-\\dfrac{5x^{-\\frac{1}{2}}}{-\\frac{1}{2}}+C$\n$=\\dfrac{2x^{3}}{3}+10x^{-\\frac{1}{2}}+C$\n$=\\dfrac{2x^{3}}{3}+\\dfrac{10}{\\sqrt{x}}+C$"
+      }
+    ]
+  }
+}

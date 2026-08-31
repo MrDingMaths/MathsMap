@@ -2,21 +2,23 @@
   "skillId": "graph-power-curves",
   "atomType": "R",
   "theory": {
-    "intro": "A **power curve** has the form $y=k(x-b)^{n}+c$, where $n\\ge2$ is a whole number; the most basic is $y=x^{n}$. **Even powers** ($x^{2},x^{4},\\dots$) look like a parabola — both arms rise the same way from a **turning point**, symmetric about the $y$-axis. **Odd powers** ($x^{3},x^{5},\\dots$) have arms going opposite ways through a **point of inflection**, where the concavity changes. The number $k$ stretches the curve, and reflects it when $k<0$; $b$ and $c$ translate the curve so its turning or inflection point sits at $(b,c)$.",
-    "facts": [
-      "For $y=x^{n}$: an **even** power gives a turning point with line symmetry about the $y$-axis; an **odd** power gives a point of inflection with point symmetry about the origin.",
-      "$k$ controls width and direction: $|k|>1$ makes the curve narrower (steeper), $0<|k|<1$ makes it wider, and $k<0$ reflects it in the $x$-axis.",
-      "$y=x^{n}+c$ shifts the curve $c$ units vertically, moving the turning or inflection point to $(0,c)$.",
-      "$y=(x-b)^{n}$ shifts the curve $b$ units horizontally, moving the turning or inflection point to $(b,0)$.",
-      "As $n$ increases, the curve becomes flatter near its turning or inflection point but steeper further out."
-    ],
-    "steps": [
-      "State the end behaviour as $x\\to\\infty$.",
-      "Find the $y$-intercept by letting $x=0$.",
-      "Find the $x$-intercept by letting $y=0$.",
-      "Mark the point of inflection $(b,c)$ and draw the curve."
-    ]
-  },
+        "intro": "A **power curve** has the form $y=k(x-b)^{n}+c$, where $n\\ge2$ is a whole number; the simplest is $y=x^{n}$. Its shape depends on whether $n$ is even or odd. At a **point of inflection** the concavity changes.",
+        "facts": [
+          "An **even** power gives a **turning point** at the origin, with both arms rising the same way and line symmetry about the $y$-axis.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.2)--(0,3.2) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.33:1.33,smooth,variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x});\n\\fill (0,0) circle (2pt);\n\\node[right,font=\\small] at (0.3,-0.8) {turning point};\n\\end{tikzpicture}\n[/tikz]",
+          "An **odd** power gives a point of inflection at the origin, with the arms going opposite ways and point symmetry about the origin.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.2,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.2)--(0,3.2) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.25:1.25,smooth,variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x});\n\\fill (0,0) circle (2pt);\n\\node[right,font=\\small] at (0.35,-0.9) {point of inflection};\n\\end{tikzpicture}\n[/tikz]",
+          "$k$ controls width and direction: $|k|>1$ makes the curve narrower and steeper, $0<|k|<1$ makes it wider, and $k<0$ reflects it in the $x$-axis.",
+          "$y=x^{n}+c$ shifts the curve $c$ units vertically, moving the turning or inflection point to $(0,c)$.",
+          "$y=(x-b)^{n}$ shifts the curve $b$ units horizontally, moving the turning or inflection point to $(b,0)$.",
+          "In $y=k(x-b)^{n}+c$ the two shifts combine, putting the turning or inflection point at $(b,c)$.",
+          "As $n$ increases the curve becomes flatter near its turning or inflection point but steeper further out."
+        ],
+        "steps": [
+          "State the end behaviour as $x\\to\\infty$.",
+          "Find the $y$-intercept by letting $x=0$.",
+          "Find the $x$-intercept by letting $y=0$.",
+          "Mark the point of inflection $(b,c)$ and draw the curve."
+        ]
+      },
   "practice": {
     "foundation": [
       {

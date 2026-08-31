@@ -1,0 +1,112 @@
+{
+  "skillId": "combinations-nCr",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **combination** is an unordered selection of $r$ distinct objects chosen from a set of $n$ distinct objects without replacement. Because the order of selection does not matter, the number of combinations is given by $^{n}C_{r} = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!} = \\dfrac{^{n}P_{r}}{r!}$.",
+    "facts": [
+      "$^{n}C_{r} = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!}$ counts the number of ways to choose $r$ objects from $n$ distinct objects when order is irrelevant.",
+      "The relationship between permutations and combinations is $^{n}P_{r} = r! \\times {^{n}C_{r}}$, reflecting that each group of $r$ objects can be arranged in $r!$ distinct orders.",
+      "Boundary cases: $^{n}C_{0} = 1$ (one way to choose nothing), $^{n}C_{n} = 1$ (one way to choose all objects), and $^{n}C_{1} = n$.",
+      "When choosing subsets from independent categories (such as selecting $r_1$ items from group 1 and $r_2$ items from group 2), multiply the combinations: $^{n_1}C_{r_1} \\times {^{n_2}C_{r_2}}$.",
+      "Geometric counting: If no three of $n$ points in a plane are collinear, the number of lines connecting pairs is $^{n}C_{2}$ and the number of triangles formed by triples of vertices is $^{n}C_{3}$."
+    ],
+    "steps": [
+      "Identify whether the problem involves unordered selection where arrangement does not matter",
+      "Identify the total number of distinct objects $n$ and the number to be chosen $r$",
+      "Apply the combination formula $^{n}C_{r} = \\dfrac{n!}{r!(n-r)!}$ and simplify"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Evaluate $^{6}C_{2}$.",
+        "structure": "evaluate-ncr",
+        "solution_text": "$^{6}C_{2} = \\dfrac{6!}{2!(6-2)!}$\n$= \\dfrac{6!}{2! \\times 4!}$\n$= \\dfrac{6 \\times 5}{2 \\times 1}$\n$= 15$"
+      },
+      {
+        "question_text": "Evaluate $^{8}C_{3}$.",
+        "structure": "evaluate-ncr",
+        "solution_text": "$^{8}C_{3} = \\dfrac{8!}{3!(8-3)!}$\n$= \\dfrac{8!}{3! \\times 5!}$\n$= \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1}$\n$= 56$"
+      },
+      {
+        "question_text": "A squad has $9$ players. In how many ways can a team of $4$ players be chosen if player positions do not matter?",
+        "structure": "ncr-team-selection",
+        "solution_text": "Number of ways to choose $4$ players from $9$:\n$= {^{9}C_{4}}$\n$= \\dfrac{9 \\times 8 \\times 7 \\times 6}{4 \\times 3 \\times 2 \\times 1}$\n$= 126$"
+      },
+      {
+        "question_text": "From a reading club of $7$ members, $3$ members are selected to attend a seminar. How many different selections are possible?",
+        "structure": "ncr-team-selection",
+        "solution_text": "Number of selections:\n$= {^{7}C_{3}}$\n$= \\dfrac{7 \\times 6 \\times 5}{3 \\times 2 \\times 1}$\n$= 35$"
+      },
+      {
+        "question_text": "A committee of $2$ teachers and $3$ students is to be chosen from $5$ teachers and $8$ students. How many different committees can be formed?",
+        "structure": "ncr-multi-group-selection",
+        "solution_text": "Number of ways to select teachers and students:\n$= {^{5}C_{2}} \\times {^{8}C_{3}}$\n$= \\dfrac{5 \\times 4}{2 \\times 1} \\times \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1}$\n$= 10 \\times 56$\n$= 560$"
+      },
+      {
+        "question_text": "$8$ points are marked on the circumference of a circle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2.2);\n\\fill (90:2.2) circle (2pt) node[above] {$A$};\n\\fill (45:2.2) circle (2pt) node[above right] {$B$};\n\\fill (0:2.2) circle (2pt) node[right] {$C$};\n\\fill (-45:2.2) circle (2pt) node[below right] {$D$};\n\\fill (-90:2.2) circle (2pt) node[below] {$E$};\n\\fill (-135:2.2) circle (2pt) node[below left] {$F$};\n\\fill (180:2.2) circle (2pt) node[left] {$G$};\n\\fill (135:2.2) circle (2pt) node[above left] {$H$};\n\\end{tikzpicture}\n[/tikz]\nHow many straight lines can be drawn by joining pairs of these points?",
+        "structure": "ncr-geometric-points",
+        "solution_text": "Number of lines connecting pairs of $8$ points:\n$= {^{8}C_{2}}$\n$= \\dfrac{8 \\times 7}{2 \\times 1}$\n$= 28$"
+      },
+      {
+        "question_text": "A fair coin is tossed $6$ times. In how many ways can exactly $2$ heads occur?",
+        "structure": "ncr-coin-binary-outcomes",
+        "solution_text": "Number of ways to choose $2$ positions for heads out of $6$ tosses:\n$= {^{6}C_{2}}$\n$= \\dfrac{6 \\times 5}{2 \\times 1}$\n$= 15$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Evaluate $^{10}C_{4}$.",
+        "structure": "evaluate-ncr",
+        "solution_text": "$^{10}C_{4} = \\dfrac{10!}{4!(10-4)!}$\n$= \\dfrac{10!}{4! \\times 6!}$\n$= \\dfrac{10 \\times 9 \\times 8 \\times 7}{4 \\times 3 \\times 2 \\times 1}$\n$= 210$"
+      },
+      {
+        "question_text": "A jury of $4$ people is to be randomly selected from a pool of $12$ candidates. How many different juries can be formed?",
+        "structure": "ncr-team-selection",
+        "solution_text": "Number of juries:\n$= {^{12}C_{4}}$\n$= \\dfrac{12 \\times 11 \\times 10 \\times 9}{4 \\times 3 \\times 2 \\times 1}$\n$= 495$"
+      },
+      {
+        "question_text": "A hand of $5$ cards is dealt from a standard $52$-card deck. How many hands consist of exactly $3$ red cards and $2$ black cards?",
+        "structure": "ncr-multi-group-selection",
+        "solution_text": "There are $26$ red cards and $26$ black cards.\n$= {^{26}C_{3}} \\times {^{26}C_{2}}$\n$= 2600 \\times 325$\n$= 845000$"
+      },
+      {
+        "question_text": "$9$ points lie in a plane such that no three points are collinear.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill (-2,1.6) circle (2pt) node[above left] {$A$};\n\\fill (-0.5,2.1) circle (2pt) node[above] {$B$};\n\\fill (1.8,1.7) circle (2pt) node[above right] {$C$};\n\\fill (2.2,0.2) circle (2pt) node[right] {$D$};\n\\fill (1.4,-1.5) circle (2pt) node[below right] {$E$};\n\\fill (-0.2,-2.1) circle (2pt) node[below] {$F$};\n\\fill (-1.9,-1.6) circle (2pt) node[below left] {$G$};\n\\fill (-2.2,0) circle (2pt) node[left] {$H$};\n\\fill (0.2,0.4) circle (2pt) node[above right] {$I$};\n\\end{tikzpicture}\n[/tikz]\nHow many distinct triangles can be formed with vertices at these points?",
+        "structure": "ncr-geometric-points",
+        "solution_text": "Number of triangles:\n$= {^{9}C_{3}}$\n$= \\dfrac{9 \\times 8 \\times 7}{3 \\times 2 \\times 1}$\n$= 84$"
+      },
+      {
+        "question_text": "An $8$-question true/false quiz is answered at random. In how many ways can a student answer exactly $5$ questions with 'True'?",
+        "structure": "ncr-coin-binary-outcomes",
+        "solution_text": "Number of ways to choose $5$ true answers from $8$ questions:\n$= {^{8}C_{5}}$\n$= \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1}$\n$= 56$"
+      },
+      {
+        "question_text": "Find the positive integer $n$ such that $^{n}C_{2} = 36$.",
+        "structure": "solve-for-unknown-in-ncr",
+        "solution_text": "$^{n}C_{2} = 36$\n$\\dfrac{n(n-1)}{2} = 36$\n$n(n-1) = 72$\n$n^2 - n - 72 = 0$\n$(n-9)(n+8) = 0$\nSince $n > 0$, $n = 9$."
+      },
+      {
+        "question_text": "If $^{n}C_{3} = 120$, find the value of $n$.",
+        "structure": "solve-for-unknown-in-ncr",
+        "solution_text": "$^{n}C_{3} = 120$\n$\\dfrac{n(n-1)(n-2)}{6} = 120$\n$n(n-1)(n-2) = 720$\nSince $10 \\times 9 \\times 8 = 720$,\n$n = 10$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the value of the integer $n > 3$ such that $^{n+1}C_{2} = 2 \\cdot {^{n-1}C_{2}} + 4$.",
+        "structure": "solve-for-unknown-in-ncr",
+        "solution_text": "$\\dfrac{(n+1)n}{2} = 2 \\cdot \\dfrac{(n-1)(n-2)}{2} + 4$\n$\\dfrac{n^2 + n}{2} = n^2 - 3n + 2 + 4$\n$n^2 + n = 2n^2 - 6n + 12$\n$n^2 - 7n + 12 = 0$\n$(n-3)(n-4) = 0$\nSince $n > 3$, $n = 4$."
+      },
+      {
+        "question_text": "$12$ points are marked on the circumference of a circle.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2.2);\n\\fill (90:2.2) circle (2pt) node[above] {$A$};\n\\fill (60:2.2) circle (2pt) node[above right] {$B$};\n\\fill (30:2.2) circle (2pt) node[above right] {$C$};\n\\fill (0:2.2) circle (2pt) node[right] {$D$};\n\\fill (-30:2.2) circle (2pt) node[below right] {$E$};\n\\fill (-60:2.2) circle (2pt) node[below right] {$F$};\n\\fill (-90:2.2) circle (2pt) node[below] {$G$};\n\\fill (-120:2.2) circle (2pt) node[below left] {$H$};\n\\fill (-150:2.2) circle (2pt) node[below left] {$I$};\n\\fill (180:2.2) circle (2pt) node[left] {$J$};\n\\fill (150:2.2) circle (2pt) node[above left] {$K$};\n\\fill (120:2.2) circle (2pt) node[above left] {$L$};\n\\end{tikzpicture}\n[/tikz]\nHow many sets of $4$ points can be chosen to form a convex quadrilateral?",
+        "structure": "ncr-geometric-points",
+        "solution_text": "Number of quadrilaterals:\n$= {^{12}C_{4}}$\n$= \\dfrac{12 \\times 11 \\times 10 \\times 9}{4 \\times 3 \\times 2 \\times 1}$\n$= 495$"
+      },
+      {
+        "question_text": "A delegation of $6$ delegates is chosen from $7$ economists, $6$ lawyers, and $5$ historians. How many delegations contain exactly $2$ members from each profession?",
+        "structure": "ncr-multi-group-selection",
+        "solution_text": "Number of delegations:\n$= {^{7}C_{2}} \\times {^{6}C_{2}} \\times {^{5}C_{2}}$\n$= 21 \\times 15 \\times 10$\n$= 3150$"
+      }
+    ]
+  }
+}

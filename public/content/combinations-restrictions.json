@@ -1,0 +1,112 @@
+{
+  "skillId": "combinations-restrictions",
+  "atomType": "R",
+  "theory": {
+    "intro": "Combinations with restrictions count unordered selections subject to specific constraints, such as mandatory inclusion or exclusion of particular items, minimum/maximum category requirements ('at least' or 'at most'), complement counting, and partitioning into indistinguishable groups.",
+    "facts": [
+      "Inclusion/Exclusion of specific items: If $k$ specific items must be included in a selection of size $r$ from $n$, fix them and choose the remaining $r - k$ items from $n - k$, giving $^{n-k}C_{r-k}$. If $k$ specific items are excluded, choose all $r$ items from $n - k$, giving $^{n-k}C_{r}$.",
+      "Case splitting: When a constraint specifies 'at least' or 'at most' across multiple categories, partition the problem into mutually exclusive cases, calculate the combinations for each case, and add them together.",
+      "Complement principle: When counting 'at least one' object of a certain type, subtract the count of the unwanted cases from the unrestricted total: $\\text{At least one} = \\text{Total} - \\text{None}$.",
+      "Indistinguishable groups: When partitioning $n$ objects into $k$ groups of equal size where the groups are unlabeled, divide by $k!$ to account for the arbitrary order of the groups.",
+      "Geometric constraints: If $k$ of $n$ points are collinear, the number of triangles formed by choosing $3$ vertices is $^{n}C_{3} - {^{k}C_{3}}$."
+    ],
+    "steps": [
+      "Identify whether the restriction is an inclusion/exclusion constraint, a case split, a complement situation, or group division",
+      "Set up the combination formula for each valid case or apply the complement rule",
+      "Multiply selections within independent stages and sum across mutually exclusive cases"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A committee of $5$ is chosen from $11$ people. How many committees are possible if a particular person, Tom, must be included?",
+        "structure": "ncr-inclusion-exclusion-specific",
+        "solution_text": "Fix Tom on the committee.\nChoose the remaining $4$ members from the other $10$ people:\n$= {^{10}C_{4}}$\n$= \\dfrac{10 \\times 9 \\times 8 \\times 7}{4 \\times 3 \\times 2 \\times 1}$\n$= 210$"
+      },
+      {
+        "question_text": "From a squad of $12$ players, $5$ are selected for a starting lineup. How many selections are possible if $2$ specific players are injured and cannot be selected?",
+        "structure": "ncr-inclusion-exclusion-specific",
+        "solution_text": "Exclude the $2$ injured players.\nChoose $5$ players from the remaining $10$ available:\n$= {^{10}C_{5}}$\n$= \\dfrac{10 \\times 9 \\times 8 \\times 7 \\times 6}{5 \\times 4 \\times 3 \\times 2 \\times 1}$\n$= 252$"
+      },
+      {
+        "question_text": "A team of $6$ is chosen from $10$ students. If Anna must be included but Ben must be excluded, how many different teams can be formed?",
+        "structure": "ncr-inclusion-exclusion-specific",
+        "solution_text": "Fix Anna on the team and remove Ben from the candidate pool.\nChoose the remaining $5$ members from the remaining $8$ students:\n$= {^{8}C_{5}}$\n$= \\dfrac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1}$\n$= 56$"
+      },
+      {
+        "question_text": "A committee of $4$ people is chosen from $5$ men and $4$ women. How many committees contain at least $3$ women?",
+        "structure": "ncr-cases-at-least-at-most",
+        "solution_text": "Case 1 ($3$ women, $1$ man):\n$= {^{4}C_{3}} \\times {^{5}C_{1}} = 4 \\times 5 = 20$\nCase 2 ($4$ women, $0$ men):\n$= {^{4}C_{4}} \\times {^{5}C_{0}} = 1 \\times 1 = 1$\nTotal $= 20 + 1$\n$= 21$"
+      },
+      {
+        "question_text": "From a bag of $4$ green balls and $6$ yellow balls, $3$ balls are drawn. How many selections contain at most $1$ green ball?",
+        "structure": "ncr-cases-at-least-at-most",
+        "solution_text": "Case 1 ($0$ green, $3$ yellow):\n$= {^{4}C_{0}} \\times {^{6}C_{3}} = 1 \\times 20 = 20$\nCase 2 ($1$ green, $2$ yellow):\n$= {^{4}C_{1}} \\times {^{6}C_{2}} = 4 \\times 15 = 60$\nTotal $= 20 + 60$\n$= 80$"
+      },
+      {
+        "question_text": "A committee of $4$ is chosen from $6$ boys and $5$ girls. How many committees contain at least one girl?",
+        "structure": "ncr-complement-at-least-one",
+        "solution_text": "Total committees without restriction:\n$= {^{11}C_{4}} = 330$\nCommittees with no girls (all boys):\n$= {^{6}C_{4}} = 15$\nAt least one girl $= 330 - 15$\n$= 315$"
+      },
+      {
+        "question_text": "In how many ways can $6$ friends be divided into two groups of $3$ to play a game, if the two groups have no distinct names?",
+        "structure": "ncr-group-partition-equal-unequal",
+        "solution_text": "Choose $3$ people for the first group in $^{6}C_{3}$ ways.\nSince the two groups of $3$ are indistinguishable, divide by $2!$:\n$= \\dfrac{^{6}C_{3}}{2!}$\n$= \\dfrac{20}{2}$\n$= 10$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A debating team of $5$ is selected from $8$ seniors and $6$ juniors. How many teams contain the senior captain and exactly $2$ juniors?",
+        "structure": "ncr-inclusion-exclusion-specific",
+        "solution_text": "Fix the senior captain ($1$ choice).\nChoose $2$ other seniors from the remaining $7$ seniors in $^{7}C_{2}$ ways.\nChoose $2$ juniors from the $6$ juniors in $^{6}C_{2}$ ways.\n$= {^{7}C_{2}} \\times {^{6}C_{2}}$\n$= 21 \\times 15$\n$= 315$"
+      },
+      {
+        "question_text": "A delegation of $5$ is chosen from $6$ doctors and $7$ nurses. How many delegations contain a majority of doctors?",
+        "structure": "ncr-cases-at-least-at-most",
+        "solution_text": "A majority of doctors in $5$ members requires $3$, $4$, or $5$ doctors.\nCase 1 ($3$ doctors, $2$ nurses): $^{6}C_{3} \\times {^{7}C_{2}} = 20 \\times 21 = 420$\nCase 2 ($4$ doctors, $1$ nurse): $^{6}C_{4} \\times {^{7}C_{1}} = 15 \\times 7 = 105$\nCase 3 ($5$ doctors, $0$ nurses): $^{6}C_{5} \\times {^{7}C_{0}} = 6 \\times 1 = 6$\nTotal $= 420 + 105 + 6$\n$= 531$"
+      },
+      {
+        "question_text": "$4$ numbers are chosen from the set $\\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}$. How many combinations contain at least one odd number?",
+        "structure": "ncr-complement-at-least-one",
+        "solution_text": "Total selections of $4$ numbers from $10$:\n$= {^{10}C_{4}} = 210$\nSelections with only even numbers ($4$ from $\\{2, 4, 6, 8, 10\\}$):\n$= {^{5}C_{4}} = 5$\nAt least one odd number $= 210 - 5$\n$= 205$"
+      },
+      {
+        "question_text": "In how many ways can $8$ students be divided into two equal groups of $4$ for a project?",
+        "structure": "ncr-group-partition-equal-unequal",
+        "solution_text": "Choose $4$ students for one group in $^{8}C_{4}$ ways.\nSince the two groups are of equal size and unlabeled, divide by $2!$:\n$= \\dfrac{^{8}C_{4}}{2!}$\n$= \\dfrac{70}{2}$\n$= 35$"
+      },
+      {
+        "question_text": "In how many ways can $9$ travelers be assigned to three distinct rooms holding $4$, $3$, and $2$ guests respectively?",
+        "structure": "ncr-group-partition-equal-unequal",
+        "solution_text": "Because the rooms have different capacities, they are distinct:\nChoose $4$ for the first room: $^{9}C_{4} = 126$\nChoose $3$ for the second room: $^{5}C_{3} = 10$\nAssign remaining $2$ to the third room: $^{2}C_{2} = 1$\nTotal $= 126 \\times 10 \\times 1$\n$= 1260$"
+      },
+      {
+        "question_text": "$10$ points lie in a plane. Exactly $4$ of these points lie on a single straight line, but no other three points are collinear.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0.2,0.8) -- (5.4,0.8);\n\\fill (0.8,0.8) circle (2pt) node[below] {$A$};\n\\fill (2.1,0.8) circle (2pt) node[below] {$B$};\n\\fill (3.5,0.8) circle (2pt) node[below] {$C$};\n\\fill (4.8,0.8) circle (2pt) node[below] {$D$};\n\\fill (0.7,3.1) circle (2pt) node[left] {$E$};\n\\fill (1.3,4.1) circle (2pt) node[above left] {$F$};\n\\fill (2.3,4.4) circle (2pt) node[above] {$G$};\n\\fill (3.6,2.2) circle (2pt) node[above left] {$H$};\n\\fill (4.9,2.2) circle (2pt) node[right] {$I$};\n\\fill (4.5,4.3) circle (2pt) node[above right] {$J$};\n\\end{tikzpicture}\n[/tikz]\nHow many distinct triangles can be formed with vertices at these points?",
+        "structure": "ncr-geometric-collinear-restrictions",
+        "solution_text": "Total triples chosen from $10$ points: $^{10}C_{3} = 120$.\nTriples chosen from the $4$ collinear points cannot form triangles: $^{4}C_{3} = 4$.\nNumber of triangles $= 120 - 4$\n$= 116$"
+      },
+      {
+        "question_text": "$11$ points are chosen in a plane. Exactly $5$ points are collinear and no other $3$ points are collinear.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0.2,0.75) -- (5.0,4.35);\n\\fill (0.8,1.2) circle (2pt) node[below right] {$A$};\n\\fill (1.7,1.875) circle (2pt) node[below right] {$B$};\n\\fill (2.6,2.55) circle (2pt) node[below right] {$C$};\n\\fill (3.5,3.225) circle (2pt) node[below right] {$D$};\n\\fill (4.4,3.9) circle (2pt) node[below right] {$E$};\n\\fill (4.9,0.9) circle (2pt) node[right] {$F$};\n\\fill (3.4,4.7) circle (2pt) node[above] {$G$};\n\\fill (4.9,2.4) circle (2pt) node[right] {$H$};\n\\fill (2.0,4.9) circle (2pt) node[above] {$I$};\n\\fill (4.0,1.8) circle (2pt) node[below right] {$J$};\n\\fill (1.3,3.9) circle (2pt) node[above left] {$K$};\n\\end{tikzpicture}\n[/tikz]\nHow many straight lines can be drawn by connecting pairs of these points?",
+        "structure": "ncr-geometric-collinear-restrictions",
+        "solution_text": "Total pairs from $11$ points: $^{11}C_{2} = 55$.\nPairs from the $5$ collinear points: $^{5}C_{2} = 10$.\nThe $5$ collinear points all lie on $1$ single line.\nNumber of lines $= 55 - 10 + 1$\n$= 46$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "In how many ways can $9$ tennis players be divided into three teams of three players each, where the teams are unlabeled?",
+        "structure": "ncr-group-partition-equal-unequal",
+        "solution_text": "Partition $9$ players into groups of $3$, $3$, and $3$:\n$= \\dfrac{^{9}C_{3} \\times {^{6}C_{3}} \\times {^{3}C_{3}}}{3!}$\n$= \\dfrac{84 \\times 20 \\times 1}{6}$\n$= \\dfrac{1680}{6}$\n$= 280$"
+      },
+      {
+        "question_text": "Two numbers are chosen from the set $\\{1, 2, 3, \\dots, 12\\}$. How many pairs have an even sum?",
+        "structure": "ncr-cases-at-least-at-most",
+        "solution_text": "There are $6$ odd numbers and $6$ even numbers.\nA sum of two numbers is even if both are odd or both are even.\nBoth odd: $^{6}C_{2} = 15$\nBoth even: $^{6}C_{2} = 15$\nTotal $= 15 + 15$\n$= 30$"
+      },
+      {
+        "question_text": "A committee of $5$ is to be chosen from $7$ men and $6$ women. Two particular men, Jack and Leo, refuse to serve on the committee together. How many different committees can be formed?",
+        "structure": "ncr-inclusion-exclusion-specific",
+        "solution_text": "Total committees without restriction:\n$= {^{13}C_{5}} = 1287$\nCommittees containing both Jack and Leo:\nFix both on the committee and choose $3$ members from the other $11$ people:\n$= {^{11}C_{3}} = 165$\nCommittees where they do not serve together $= 1287 - 165$\n$= 1122$"
+      }
+    ]
+  }
+}

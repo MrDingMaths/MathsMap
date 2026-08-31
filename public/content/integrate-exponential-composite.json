@@ -1,0 +1,153 @@
+{
+  "skillId": "integrate-exponential-composite",
+  "atomType": "R",
+  "theory": {
+    "intro": "Differentiating $e^{f(x)}$ by the chain rule gives $f'(x)e^{f(x)}$, so integrating reverses that: $\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$. The inner derivative $f'(x)$ must already appear as a factor, up to a constant multiple.",
+    "facts": [
+      "The **inner function** $f(x)$ is the index of $e$.",
+      "$\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$: the index is unchanged and the factor disappears.",
+      "The factor $f'(x)$ must be present, so $\\int e^{x^{2}}\\,dx$ cannot be found by this method.",
+      "A constant multiple of $f'(x)$ is enough: divide by that constant at the end.",
+      "Constants can be moved across the integral sign, but variable factors cannot.",
+      "In $\\int 2xe^{x^{2}+5}\\,dx$ the inner function is $x^{2}+5$ and $f'(x) = 2x$ is already there.",
+      "$\\int xe^{x^{2}}\\,dx = \\dfrac{1}{2}e^{x^{2}} + C$, because $x$ is half of $f'(x) = 2x$.",
+      "A negative inner derivative makes the adjusting constant negative, as in $\\int xe^{-x^{2}}\\,dx = -\\dfrac{1}{2}e^{-x^{2}} + C$.",
+      "A definite integral is evaluated as $\\left[e^{f(x)}\\right]_{p}^{q}$, with the limits unchanged.",
+      "Check any primitive by differentiating it with the chain rule."
+    ],
+    "steps": [
+      "Identify the inner function $f(x)$, the index of $e$.",
+      "Check that $f'(x)$ appears as a factor, up to a constant multiple.",
+      "Adjust for any missing constant factor.",
+      "Write the result as $e^{f(x)} + C$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Differentiate $e^{x^{2}+7}$, and hence find $\\int 2xe^{x^{2}+7}\\,dx$.",
+        "structure": "differentiate-then-integrate",
+        "solution_text": "$\\dfrac{d}{dx}\\left(e^{x^{2}+7}\\right) = 2xe^{x^{2}+7}$\n$\\int 2xe^{x^{2}+7}\\,dx$\n$= e^{x^{2}+7} + C$"
+      },
+      {
+        "question_text": "Find $\\int 3x^{2}e^{x^{3}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "composite-polynomial-inner",
+        "solution_text": "$f(x) = x^{3}$, so $f'(x) = 3x^{2}$.\n$\\int 3x^{2}e^{x^{3}}\\,dx$\n$= e^{x^{3}} + C$"
+      },
+      {
+        "question_text": "Find $\\int 8xe^{4x^{2}+1}\\,dx$ in simplest form, with $+C$.",
+        "structure": "composite-polynomial-inner",
+        "solution_text": "$f(x) = 4x^{2}+1$, so $f'(x) = 8x$.\n$\\int 8xe^{4x^{2}+1}\\,dx$\n$= e^{4x^{2}+1} + C$"
+      },
+      {
+        "question_text": "Find $\\int xe^{x^{2}+3}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = x^{2}+3$, so $f'(x) = 2x$.\n$\\int xe^{x^{2}+3}\\,dx$\n$= \\dfrac{1}{2}\\int 2xe^{x^{2}+3}\\,dx$\n$= \\dfrac{1}{2}e^{x^{2}+3} + C$"
+      },
+      {
+        "question_text": "Find $\\int x^{2}e^{x^{3}-4}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = x^{3}-4$, so $f'(x) = 3x^{2}$.\n$\\int x^{2}e^{x^{3}-4}\\,dx$\n$= \\dfrac{1}{3}\\int 3x^{2}e^{x^{3}-4}\\,dx$\n$= \\dfrac{1}{3}e^{x^{3}-4} + C$"
+      },
+      {
+        "question_text": "Find $\\int 10xe^{x^{2}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = x^{2}$, so $f'(x) = 2x$.\n$\\int 10xe^{x^{2}}\\,dx$\n$= 5\\int 2xe^{x^{2}}\\,dx$\n$= 5e^{x^{2}} + C$"
+      },
+      {
+        "question_text": "Find $\\int (2x+3)e^{x^{2}+3x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "composite-polynomial-inner",
+        "solution_text": "$f(x) = x^{2}+3x$, so $f'(x) = 2x+3$.\n$\\int (2x+3)e^{x^{2}+3x}\\,dx$\n$= e^{x^{2}+3x} + C$"
+      },
+      {
+        "question_text": "Find $\\int (x+2)e^{x^{2}+4x-1}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = x^{2}+4x-1$, so $f'(x) = 2x+4 = 2(x+2)$.\n$\\int (x+2)e^{x^{2}+4x-1}\\,dx$\n$= \\dfrac{1}{2}\\int (2x+4)e^{x^{2}+4x-1}\\,dx$\n$= \\dfrac{1}{2}e^{x^{2}+4x-1} + C$"
+      },
+      {
+        "question_text": "Which of $\\int x^{2}e^{x^{2}}\\,dx$, $\\int 5x^{4}e^{x^{5}}\\,dx$ and $\\int e^{x^{3}}\\,dx$ can be found using $\\int f'(x)e^{f(x)}\\,dx = e^{f(x)} + C$? Give a reason for each.",
+        "structure": "recognise-applicability",
+        "solution_text": "For $\\int x^{2}e^{x^{2}}\\,dx$: $f(x) = x^{2}$ and $f'(x) = 2x$, and $x^{2}$ is not a constant multiple of $2x$, so the method fails.\nFor $\\int 5x^{4}e^{x^{5}}\\,dx$: $f(x) = x^{5}$ and $f'(x) = 5x^{4}$, which is exactly the factor present, so the method works.\nFor $\\int e^{x^{3}}\\,dx$: $f'(x) = 3x^{2}$ does not appear at all, so the method fails.\nOnly $\\int 5x^{4}e^{x^{5}}\\,dx$ can be found this way."
+      },
+      {
+        "question_text": "Find $\\int 6xe^{-3x^{2}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "composite-polynomial-inner",
+        "solution_text": "$f(x) = -3x^{2}$, so $f'(x) = -6x$.\n$\\int 6xe^{-3x^{2}}\\,dx$\n$= -\\int (-6x)e^{-3x^{2}}\\,dx$\n$= -e^{-3x^{2}} + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int xe^{4-x^{2}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = 4-x^{2}$, so $f'(x) = -2x$.\n$\\int xe^{4-x^{2}}\\,dx$\n$= -\\dfrac{1}{2}\\int (-2x)e^{4-x^{2}}\\,dx$\n$= -\\dfrac{1}{2}e^{4-x^{2}} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\left(3x^{2}-2x\\right)e^{x^{3}-x^{2}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "composite-polynomial-inner",
+        "solution_text": "$f(x) = x^{3}-x^{2}$, so $f'(x) = 3x^{2}-2x$.\n$\\int \\left(3x^{2}-2x\\right)e^{x^{3}-x^{2}}\\,dx$\n$= e^{x^{3}-x^{2}} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\left(x^{2}-x\\right)e^{2x^{3}-3x^{2}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = 2x^{3}-3x^{2}$, so $f'(x) = 6x^{2}-6x = 6\\left(x^{2}-x\\right)$.\n$\\int \\left(x^{2}-x\\right)e^{2x^{3}-3x^{2}}\\,dx$\n$= \\dfrac{1}{6}\\int \\left(6x^{2}-6x\\right)e^{2x^{3}-3x^{2}}\\,dx$\n$= \\dfrac{1}{6}e^{2x^{3}-3x^{2}} + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{1} xe^{x^{2}}\\,dx$, giving the exact value.",
+        "structure": "definite-composite-integral",
+        "solution_text": "$f(x) = x^{2}$, so $f'(x) = 2x$.\n$\\int_{0}^{1} xe^{x^{2}}\\,dx$\n$= \\left[\\dfrac{1}{2}e^{x^{2}}\\right]_{0}^{1}$\n$= \\dfrac{1}{2}e^{1} - \\dfrac{1}{2}e^{0}$\n$= \\dfrac{1}{2}(e - 1)$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{2} 3x^{2}e^{x^{3}}\\,dx$, giving the exact value.",
+        "structure": "definite-composite-integral",
+        "solution_text": "$f(x) = x^{3}$, so $f'(x) = 3x^{2}$.\n$\\int_{1}^{2} 3x^{2}e^{x^{3}}\\,dx$\n$= \\left[e^{x^{3}}\\right]_{1}^{2}$\n$= e^{8} - e^{1}$\n$= e^{8} - e$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2} xe^{-x^{2}}\\,dx$, giving the exact value.",
+        "structure": "definite-composite-integral",
+        "solution_text": "$f(x) = -x^{2}$, so $f'(x) = -2x$.\n$\\int_{0}^{2} xe^{-x^{2}}\\,dx$\n$= \\left[-\\dfrac{1}{2}e^{-x^{2}}\\right]_{0}^{2}$\n$= -\\dfrac{1}{2}e^{-4} + \\dfrac{1}{2}$\n$= \\dfrac{1}{2}\\left(1 - e^{-4}\\right)$"
+      },
+      {
+        "question_text": "Differentiate $e^{x^{3}+2x}$, and hence find $\\int \\left(3x^{2}+2\\right)e^{x^{3}+2x}\\,dx$.",
+        "structure": "differentiate-then-integrate",
+        "solution_text": "$\\dfrac{d}{dx}\\left(e^{x^{3}+2x}\\right) = \\left(3x^{2}+2\\right)e^{x^{3}+2x}$\n$\\int \\left(3x^{2}+2\\right)e^{x^{3}+2x}\\,dx$\n$= e^{x^{3}+2x} + C$"
+      },
+      {
+        "question_text": "Differentiate $e^{2x^{2}-5x}$, and hence find $\\int (8x-10)e^{2x^{2}-5x}\\,dx$.",
+        "structure": "differentiate-then-integrate",
+        "solution_text": "$\\dfrac{d}{dx}\\left(e^{2x^{2}-5x}\\right) = (4x-5)e^{2x^{2}-5x}$\n$\\int (8x-10)e^{2x^{2}-5x}\\,dx$\n$= 2\\int (4x-5)e^{2x^{2}-5x}\\,dx$\n$= 2e^{2x^{2}-5x} + C$"
+      },
+      {
+        "question_text": "Explain why $\\int x^{3}e^{x^{2}}\\,dx$ cannot be found by this method, while $\\int xe^{x^{2}}\\,dx$ can.",
+        "structure": "recognise-applicability",
+        "solution_text": "In both integrals $f(x) = x^{2}$, so $f'(x) = 2x$.\nIn $\\int xe^{x^{2}}\\,dx$ the factor $x$ is the constant multiple $\\dfrac{1}{2}$ of $2x$, and a constant can be moved across the integral sign.\nIn $\\int x^{3}e^{x^{2}}\\,dx$ the factor $x^{3}$ is $\\dfrac{x^{2}}{2}$ times $2x$, and a variable cannot be moved across the integral sign.\nSo only $\\int xe^{x^{2}}\\,dx$ can be found by this method."
+      },
+      {
+        "question_text": "Find $\\int (6x+9)e^{2x^{2}+6x}\\,dx$ in simplest form, with $+C$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = 2x^{2}+6x$, so $f'(x) = 4x+6$.\n$6x+9 = \\dfrac{3}{2}(4x+6)$\n$\\int (6x+9)e^{2x^{2}+6x}\\,dx$\n$= \\dfrac{3}{2}\\int (4x+6)e^{2x^{2}+6x}\\,dx$\n$= \\dfrac{3}{2}e^{2x^{2}+6x} + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find $\\int \\dfrac{3}{x^{2}}e^{\\frac{2}{x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "non-polynomial-inner",
+        "solution_text": "$f(x) = 2x^{-1}$, so $f'(x) = -2x^{-2}$.\n$\\int 3x^{-2}e^{\\frac{2}{x}}\\,dx$\n$= -\\dfrac{3}{2}\\int \\left(-2x^{-2}\\right)e^{\\frac{2}{x}}\\,dx$\n$= -\\dfrac{3}{2}e^{\\frac{2}{x}} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{e^{\\sqrt{x}}}{\\sqrt{x}}\\,dx$ in simplest form, with $+C$.",
+        "structure": "non-polynomial-inner",
+        "solution_text": "$f(x) = x^{\\frac{1}{2}}$, so $f'(x) = \\dfrac{1}{2\\sqrt{x}}$.\n$\\int \\dfrac{e^{\\sqrt{x}}}{\\sqrt{x}}\\,dx$\n$= 2\\int \\dfrac{1}{2\\sqrt{x}}e^{\\sqrt{x}}\\,dx$\n$= 2e^{\\sqrt{x}} + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{1} (2x+1)e^{x^{2}+x}\\,dx$, giving the exact value.",
+        "structure": "definite-composite-integral",
+        "solution_text": "$f(x) = x^{2}+x$, so $f'(x) = 2x+1$.\n$\\int_{0}^{1} (2x+1)e^{x^{2}+x}\\,dx$\n$= \\left[e^{x^{2}+x}\\right]_{0}^{1}$\n$= e^{2} - e^{0}$\n$= e^{2} - 1$"
+      },
+      {
+        "question_text": "Find the value of the constant $k$ for which $\\int kx^{2}e^{x^{3}-1}\\,dx = e^{x^{3}-1} + C$.",
+        "structure": "recognise-applicability",
+        "solution_text": "$f(x) = x^{3}-1$, so $f'(x) = 3x^{2}$.\nThe primitive is $e^{f(x)} + C$ exactly when the factor is $f'(x)$.\n$kx^{2} = 3x^{2}$\n$k = 3$"
+      }
+    ]
+  }
+}

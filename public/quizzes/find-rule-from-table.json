@@ -1,7 +1,31 @@
 {
   "skillId":"find-rule-from-table",
   "questions":[
-    {"id":"q1","question_text":"What is the rule for $\\begin{array}{c|ccc}\\text{Top}&1&3&7\\\\\\hline\\text{Bottom}&6&18&42\\end{array}$?","structure":"find-rule-basic-table","mastery":false,"options":[{"text":"Bottom $=6 \\times$ top","correct":true},{"text":"Bottom $=6+$ top","why":"Uses the first output as an amount to add, which fails for later columns."},{"text":"Bottom $=7 \\times$ top","why":"Uses the largest top value as the multiplier instead of comparing matched values."},{"text":"Bottom $=3 \\times$ top","why":"Uses a top-row value rather than dividing bottom by matching top."}],"solution_text":"$18 \\div 3=6$\n$42 \\div 7=6$\nBottom $=6 \\times$ top."},
+    {
+      "id": "q1",
+      "question_text": "What is the rule for $\\begin{array}{c|ccc}\\text{Top}&1&3&7\\\\\\hline\\text{Bottom}&6&18&42\\end{array}$?",
+      "structure": "find-rule-basic-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Bottom $=6 \\times$ top",
+          "correct": true
+        },
+        {
+          "text": "Bottom $=6+$ top",
+          "why": "Read the first bottom value $6$ as an amount to add on rather than as a multiplier."
+        },
+        {
+          "text": "Bottom $=5+$ top",
+          "why": "Took the difference $6-1$ in the first column as the rule, which fits that column only and fails at $3$."
+        },
+        {
+          "text": "Bottom $=5 \\times$ top",
+          "why": "Found $6-1=5$ as a difference in the first column but then used it as a multiplier."
+        }
+      ],
+      "solution_text": "$18 \\div 3=6$\n$42 \\div 7=6$\nBottom $=6 \\times$ top."
+    },
     {"id":"q2","question_text":"Which multiplier connects $\\begin{array}{c|ccc}\\text{Top}&2&5&9\\\\\\hline\\text{Bottom}&28&70&126\\end{array}$?","structure":"identify-table-multiplier","mastery":false,"options":[{"text":"$14$","correct":true},{"text":"$12$","why":"Subtracts top from bottom in the first column instead of dividing matched values."},{"text":"$16$","why":"Adds the first top and bottom values instead of finding their multiplicative relationship."},{"text":"$2$","why":"Copies the first top-row value instead of dividing its matching bottom value by it."}],"solution_text":"$28 \\div 2=14$\n$70 \\div 5=14$\nThe multiplier is $14$."},
     {"id":"q3","question_text":"The rule for this table is multiplicative. Find the missing value: $\\begin{array}{c|ccc}\\text{Top}&3&8&11\\\\\\hline\\text{Bottom}&48&128&\\square\\end{array}$.","structure":"apply-found-rule-output","mastery":false,"options":[{"text":"$176$","correct":true},{"text":"$139$","why":"Adds $11$ to the previous output instead of applying the table's multiplier."},{"text":"$27$","why":"Adds the multiplier $16$ to the top value rather than multiplying by it."},{"text":"$121$","why":"Squares the top value $11$ instead of using the multiplier found from the table."}],"solution_text":"$48 \\div 3=16$\nBottom $=16 \\times$ top.\n$16 \\times 11=176$"},
     {"id":"q4","question_text":"Find the missing top value: $\\begin{array}{c|ccc}\\text{Top}&4&7&\\square\\\\\\hline\\text{Bottom}&72&126&216\\end{array}$.","structure":"apply-found-rule-input","mastery":false,"options":[{"text":"$12$","correct":true},{"text":"$198$","why":"Subtracts the multiplier $18$ from $216$ instead of dividing by it."},{"text":"$234$","why":"Adds the multiplier to $216$ instead of reversing multiplication with division."},{"text":"$3888$","why":"Multiplies $216$ by $18$ rather than using the inverse operation."}],"solution_text":"$72 \\div 4=18$\nBottom $=18 \\times$ top.\n$216 \\div 18=12$"},

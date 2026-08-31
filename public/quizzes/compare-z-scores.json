@@ -1,0 +1,109 @@
+{
+  "skillId": "compare-z-scores",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Mia scored $81$ in Art, where the mean was $72$ and the standard deviation was $12$. She scored $58$ in Music, where the mean was $50$ and the standard deviation was $8$. In which subject was her result better relative to the class?",
+      "structure": "compare-two-subjects",
+      "mastery": false,
+      "options": [
+        { "text": "Music, because its $z$-score of $1$ is higher than the Art $z$-score of $0.75$", "correct": true },
+        { "text": "Art, because $81$ is the higher mark", "why": "Compares raw marks from two different tests, which have different means and different spreads." },
+        { "text": "Art, because it is $9$ marks above its mean while Music is only $8$ marks above", "why": "Compares the raw differences $x - \\mu$ without dividing by each standard deviation." },
+        { "text": "Equally well, because both marks are above their means", "why": "Treats 'above the mean' as a single category instead of measuring how far above in standard deviations." }
+      ],
+      "solution_text": "Art: $z = \\dfrac{81 - 72}{12}$\n$= 0.75$\nMusic: $z = \\dfrac{58 - 50}{8}$\n$= 1$\n$1 > 0.75$, so her Music result was better relative to the class, even though Art was the higher mark."
+    },
+    {
+      "id": "q2",
+      "question_text": "Lachlan swims $50$ m freestyle in $31.2$ s, where the club mean is $34.0$ s with a standard deviation of $1.4$ s. He swims $50$ m breaststroke in $39.6$ s, where the club mean is $43.2$ s with a standard deviation of $2.4$ s. A faster (lower) time is better. In which event was his swim better relative to the club?",
+      "structure": "compare-lower-is-better",
+      "mastery": false,
+      "options": [
+        { "text": "Freestyle, because its $z$-score of $-2$ is further below the mean than the breaststroke $z$-score of $-1.5$", "correct": true },
+        { "text": "Breaststroke, because $-1.5$ is greater than $-2$", "why": "Applies the higher-z-score rule when a low value is better; for times the more negative z-score wins." },
+        { "text": "Breaststroke, because $3.6$ s below the club mean beats $2.8$ s below", "why": "Compares the raw differences without dividing by each standard deviation." },
+        { "text": "Breaststroke, because its standard deviation is larger", "why": "Reads the size of the standard deviation as a measure of performance rather than as the scale used to standardise." }
+      ],
+      "solution_text": "Freestyle: $z = \\dfrac{31.2 - 34.0}{1.4}$\n$= \\dfrac{-2.8}{1.4}$\n$= -2$\nBreaststroke: $z = \\dfrac{39.6 - 43.2}{2.4}$\n$= \\dfrac{-3.6}{2.4}$\n$= -1.5$\nA lower time is better here, so the more negative $z$-score is the better swim.\n$-2 < -1.5$, so his freestyle swim was better relative to the club."
+    },
+    {
+      "id": "q3",
+      "question_text": "The table shows Ari's marks in three subjects, with the class mean and standard deviation for each.\n$\\begin{array}{c|ccc} \\text{Subject} & \\text{Mark} & \\mu & \\sigma \\\\ \\hline \\text{Physics} & 70 & 64 & 8 \\\\ \\text{Chemistry} & 58 & 52 & 5 \\\\ \\text{Biology} & 83 & 74 & 15 \\end{array}$\nIn which subject was his relative performance the best?",
+      "structure": "compare-from-table",
+      "mastery": false,
+      "options": [
+        { "text": "Chemistry", "correct": true },
+        { "text": "Biology", "why": "Chooses the highest raw mark, $83$, but it comes from the test with by far the largest spread." },
+        { "text": "Physics", "why": "Chooses the subject whose raw difference from the mean is second largest, without dividing by each standard deviation." },
+        { "text": "All three were equally good.", "why": "The three z-scores are $0.75$, $1.2$ and $0.6$, so the relative performances are clearly different." }
+      ],
+      "solution_text": "Physics: $z = \\dfrac{70 - 64}{8} = 0.75$\nChemistry: $z = \\dfrac{58 - 52}{5} = 1.2$\nBiology: $z = \\dfrac{83 - 74}{15} = 0.6$\n$1.2$ is the highest of the three $z$-scores, so his relative performance was best in Chemistry, his lowest raw mark."
+    },
+    {
+      "id": "q4",
+      "question_text": "Tom's standardised score in Design was $1.2$. In Textiles the mean is $66$ and the standard deviation is $7.5$. What Textiles mark would represent an equivalent performance?",
+      "structure": "equivalent-score",
+      "mastery": false,
+      "options": [
+        { "text": "$75$", "correct": true },
+        { "text": "$57$", "why": "Subtracted $z\\sigma$ from the mean even though the z-score is positive." },
+        { "text": "$67.2$", "why": "Added the z-score itself to the mean instead of multiplying it by the standard deviation first." },
+        { "text": "$9$", "why": "Stopped at $z\\sigma = 1.2 \\times 7.5$ and forgot to add the mean." }
+      ],
+      "solution_text": "An equivalent performance needs the same $z$-score of $1.2$.\n$x = \\mu + z\\sigma$\n$= 66 + 1.2 \\times 7.5$\n$= 66 + 9$\n$= 75$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Ivy scored $84$ in Test A, where the mean was $76$ and the standard deviation was $16$. She scored $61$ in Test B, where the mean was $55$ and the standard deviation was $8$. Ivy says Test A was her stronger result relative to the class. Is she correct?",
+      "structure": "judge-a-claim",
+      "mastery": false,
+      "options": [
+        { "text": "No, because her Test B $z$-score of $0.75$ is higher than her Test A $z$-score of $0.5$", "correct": true },
+        { "text": "Yes, because $84$ is the higher mark", "why": "Compares raw marks from two tests with different means and spreads." },
+        { "text": "Yes, because she is $8$ marks above the mean in Test A but only $6$ marks above in Test B", "why": "Compares the raw differences without dividing by each standard deviation." },
+        { "text": "It cannot be decided without knowing how many students sat each test", "why": "The z-score already measures position relative to the group; the group size is not needed." }
+      ],
+      "solution_text": "Test A: $z = \\dfrac{84 - 76}{16}$\n$= 0.5$\nTest B: $z = \\dfrac{61 - 55}{8}$\n$= 0.75$\n$0.75 > 0.5$, so Test B was her stronger result relative to the class and Ivy is not correct."
+    },
+    {
+      "id": "q6",
+      "question_text": "Noah scored $44$ in French, where the mean was $52$ and the standard deviation was $10$. He scored $39$ in German, where the mean was $51$ and the standard deviation was $8$. In which subject was his result better relative to the class?",
+      "structure": "compare-two-subjects",
+      "mastery": false,
+      "options": [
+        { "text": "French, because its $z$-score of $-0.8$ is greater than the German $z$-score of $-1.5$", "correct": true },
+        { "text": "German, because $-1.5$ is further from zero than $-0.8$", "why": "Compares the sizes of the z-scores and ignores their signs; further below the mean is worse, not better." },
+        { "text": "German, because a more negative $z$-score is always the better one", "why": "Applies the lower-is-better rule, which belongs only to contexts such as times where a small raw value is good." },
+        { "text": "Neither, because both marks are below the mean so the two results are equally poor", "why": "Treats 'below the mean' as one category instead of measuring how far below in standard deviations." }
+      ],
+      "solution_text": "French: $z = \\dfrac{44 - 52}{10}$\n$= -0.8$\nGerman: $z = \\dfrac{39 - 51}{8}$\n$= -1.5$\nBoth results are below the mean, but $-0.8 > -1.5$, so his French result was better relative to the class."
+    },
+    {
+      "id": "q7",
+      "question_text": "The table shows Rosa's marks in three subjects, with the class mean and standard deviation for each.\n$\\begin{array}{c|ccc} \\text{Subject} & \\text{Mark} & \\mu & \\sigma \\\\ \\hline \\text{Maths} & 57 & 63 & 12 \\\\ \\text{English} & 71 & 65 & 8 \\\\ \\text{Science} & 48 & 54 & 4 \\end{array}$\nIn which subject was her relative performance the weakest?",
+      "structure": "compare-from-table",
+      "mastery": false,
+      "options": [
+        { "text": "Science", "correct": true },
+        { "text": "Maths", "why": "Both Maths and Science are $6$ marks below their means, and this choice ignores that Science has the much smaller standard deviation." },
+        { "text": "English", "why": "English is the only subject above its mean, with a z-score of $0.75$, so it is her strongest rather than her weakest." },
+        { "text": "Maths and Science equally, since both marks are $6$ below the mean", "why": "Compares the raw differences without dividing by each standard deviation." }
+      ],
+      "solution_text": "Maths: $z = \\dfrac{57 - 63}{12} = -0.5$\nEnglish: $z = \\dfrac{71 - 65}{8} = 0.75$\nScience: $z = \\dfrac{48 - 54}{4} = -1.5$\n$-1.5$ is the lowest of the three $z$-scores, so her relative performance was weakest in Science."
+    },
+    {
+      "id": "q8",
+      "question_text": "Ella scored $69$ in Test 1, where the mean was $60$ and the standard deviation was $6$. Test 2 has a mean of $72$ and a standard deviation of $10$. What mark in Test 2 would give Ella the same performance relative to the class?",
+      "structure": "equivalent-score",
+      "mastery": true,
+      "options": [
+        { "text": "$87$", "correct": true },
+        { "text": "$57$", "why": "Subtracted $z\\sigma$ from the mean even though the z-score is positive." },
+        { "text": "$73.5$", "why": "Added the z-score itself to the mean instead of multiplying it by the standard deviation first." },
+        { "text": "$81$", "why": "Used Test 1's standard deviation of $6$ with Test 2's mean, instead of Test 2's standard deviation of $10$." }
+      ],
+      "solution_text": "Test 1: $z = \\dfrac{69 - 60}{6}$\n$= 1.5$\nThe same relative performance in Test 2 needs the same $z$-score.\n$x = \\mu + z\\sigma$\n$= 72 + 1.5 \\times 10$\n$= 72 + 15$\n$= 87$"
+    }
+  ]
+}

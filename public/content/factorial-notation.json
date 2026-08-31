@@ -1,0 +1,125 @@
+{
+  "skillId": "factorial-notation",
+  "atomType": "R",
+  "theory": {
+        "intro": "For a whole number $n$, the **factorial** $n!$ is the product $n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$. By definition $0! = 1$. Each factorial also **unrolls** as $n! = n \\times (n-1)!$, which is how factorial expressions are simplified.",
+        "facts": [
+          "**Factorial notation**: for a whole number $n \\ge 1$, $n! = n \\times (n-1) \\times (n-2) \\times \\dots \\times 2 \\times 1$.",
+          "**Zero factorial**: $0! = 1$, not $0$.",
+          "**Recursive relation**: $n! = n \\times (n-1)!$, and unrolling again gives $n! = n(n-1)(n-2)!$.",
+          "Only whole numbers have factorials, so $1.5!$ and $(-3)!$ are undefined.",
+          "To simplify a quotient, unroll the larger factorial until the smaller one appears, then cancel: $\\dfrac{n!}{(n-r)!} = n(n-1)\\dots(n-r+1)$.",
+          "To simplify a sum or difference, take out the smallest factorial: $(n+1)! - n! = n!(n+1-1) = n \\cdot n!$.",
+          "To combine fractions, unroll the larger factorial in the denominator to get a common denominator."
+        ],
+        "steps": [
+          "Identify the factorials in the expression and determine the largest and smallest factorial terms.",
+          "Unroll the larger factorials using $n! = n \\times (n-1)!$ until common factors appear.",
+          "Cancel common factorial terms or factor out common factorial factors.",
+          "Simplify the remaining arithmetic or algebraic expression."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Evaluate $5!$ without using a calculator.",
+        "structure": "evaluate-numeric-factorial",
+        "solution_text": "$5!$\n$= 5 \\times 4 \\times 3 \\times 2 \\times 1$\n$= 120$"
+      },
+      {
+        "question_text": "Evaluate $0! + 4!$ without using a calculator.",
+        "structure": "evaluate-numeric-factorial",
+        "solution_text": "$0! + 4!$\n$= 1 + (4 \\times 3 \\times 2 \\times 1)$\n$= 1 + 24$\n$= 25$"
+      },
+      {
+        "question_text": "Express $8!$ in terms of $6!$ by unrolling it two times.",
+        "structure": "unroll-factorial-expression",
+        "solution_text": "$8!$\n$= 8 \\times 7 \\times 6!$\n$= 56 \\times 6!$"
+      },
+      {
+        "question_text": "Simplify $\\frac{9!}{7!}$ without using a calculator.",
+        "structure": "simplify-numeric-ratio",
+        "solution_text": "$\\frac{9!}{7!}$\n$= \\frac{9 \\times 8 \\times 7!}{7!}$\n$= 9 \\times 8$\n$= 72$"
+      },
+      {
+        "question_text": "Simplify $\\frac{10!}{8! \\times 2!}$ without using a calculator.",
+        "structure": "simplify-numeric-ratio",
+        "solution_text": "$\\frac{10!}{8! \\times 2!}$\n$= \\frac{10 \\times 9 \\times 8!}{8! \\times 2}$\n$= \\frac{90}{2}$\n$= 45$"
+      },
+      {
+        "question_text": "Simplify the algebraic fraction $\\frac{n!}{(n - 1)!}$.",
+        "structure": "simplify-algebraic-ratio",
+        "solution_text": "$\\frac{n!}{(n - 1)!}$\n$= \\frac{n(n - 1)!}{(n - 1)!}$\n$= n$"
+      },
+      {
+        "question_text": "Simplify $\\frac{(n + 2)!}{n!}$.",
+        "structure": "simplify-algebraic-ratio",
+        "solution_text": "$\\frac{(n + 2)!}{n!}$\n$= \\frac{(n + 2)(n + 1)n!}{n!}$\n$= (n + 2)(n + 1)$\n$= n^2 + 3n + 2$"
+      },
+      {
+        "question_text": "Simplify $7! - 6!$ by taking out a common factor of $6!$.",
+        "structure": "factorise-factorial-sum",
+        "solution_text": "$7! - 6!$\n$= 7 \\times 6! - 6!$\n$= 6!(7 - 1)$\n$= 6 \\times 6!$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Evaluate $\\frac{12!}{9! \\times 3!}$ without using a calculator.",
+        "structure": "simplify-numeric-ratio",
+        "solution_text": "$\\frac{12!}{9! \\times 3!}$\n$= \\frac{12 \\times 11 \\times 10 \\times 9!}{9! \\times 6}$\n$= \\frac{1320}{6}$\n$= 220$"
+      },
+      {
+        "question_text": "Evaluate $\\frac{14!}{11! \\times 4!}$ without using a calculator.",
+        "structure": "simplify-numeric-ratio",
+        "solution_text": "$\\frac{14!}{11! \\times 4!}$\n$= \\frac{14 \\times 13 \\times 12 \\times 11!}{11! \\times 24}$\n$= \\frac{14 \\times 13 \\times 12}{24}$\n$= \\frac{14 \\times 13}{2}$\n$= 91$"
+      },
+      {
+        "question_text": "Simplify $\\frac{(n + 1)!}{(n - 1)!}$ fully.",
+        "structure": "simplify-algebraic-ratio",
+        "solution_text": "$\\frac{(n + 1)!}{(n - 1)!}$\n$= \\frac{(n + 1)n(n - 1)!}{(n - 1)!}$\n$= n(n + 1)$\n$= n^2 + n$"
+      },
+      {
+        "question_text": "Simplify the fraction $\\frac{(n - 2)!}{n!}$.",
+        "structure": "simplify-algebraic-ratio",
+        "solution_text": "$\\frac{(n - 2)!}{n!}$\n$= \\frac{(n - 2)!}{n(n - 1)(n - 2)!}$\n$= \\frac{1}{n(n - 1)}$"
+      },
+      {
+        "question_text": "Simplify $(n + 1)! - n!$ by factorising.",
+        "structure": "factorise-factorial-sum",
+        "solution_text": "$(n + 1)! - n!$\n$= (n + 1)n! - n!$\n$= n!(n + 1 - 1)$\n$= n \\times n!$"
+      },
+      {
+        "question_text": "Express $8! + 7! + 6!$ in the form $k \\times 6!$, where $k$ is an integer.",
+        "structure": "factorise-factorial-sum",
+        "solution_text": "$8! + 7! + 6!$\n$= (8 \\times 7 \\times 6!) + (7 \\times 6!) + 6!$\n$= 6!(56 + 7 + 1)$\n$= 64 \\times 6!$"
+      },
+      {
+        "question_text": "Write $\\frac{1}{9!} - \\frac{1}{10!}$ as a single fraction in terms of $10!$.",
+        "structure": "combine-factorial-fractions",
+        "solution_text": "$\\frac{1}{9!} - \\frac{1}{10!}$\n$= \\frac{10}{10!} - \\frac{1}{10!}$\n$= \\frac{10 - 1}{10!}$\n$= \\frac{9}{10!}$"
+      },
+      {
+        "question_text": "Express $\\frac{1}{n!} + \\frac{1}{(n + 1)!}$ as a single fraction in simplest form.",
+        "structure": "combine-factorial-fractions",
+        "solution_text": "$\\frac{1}{n!} + \\frac{1}{(n + 1)!}$\n$= \\frac{n + 1}{(n + 1)!} + \\frac{1}{(n + 1)!}$\n$= \\frac{n + 1 + 1}{(n + 1)!}$\n$= \\frac{n + 2}{(n + 1)!}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Simplify $\\frac{(n - 1)!(n + 2)!}{(n + 1)!(n - 2)!}$ fully.",
+        "structure": "simplify-algebraic-ratio",
+        "solution_text": "$\\frac{(n - 1)!(n + 2)!}{(n + 1)!(n - 2)!}$\n$= \\frac{(n - 1)(n - 2)! \\times (n + 2)(n + 1)!}{(n + 1)!(n - 2)!}$\n$= (n - 1)(n + 2)$\n$= n^2 + n - 2$"
+      },
+      {
+        "question_text": "Simplify $(n + 2)! + (n + 1)! + n!$ into the form $P(n) \\times n!$, where $P(n)$ is a polynomial in $n$.",
+        "structure": "factorise-factorial-sum",
+        "solution_text": "$(n + 2)! + (n + 1)! + n!$\n$= (n + 2)(n + 1)n! + (n + 1)n! + n!$\n$= n!((n + 2)(n + 1) + (n + 1) + 1)$\n$= n!(n^2 + 3n + 2 + n + 1 + 1)$\n$= (n^2 + 4n + 4)n!$\n$= (n + 2)^2 n!$"
+      },
+      {
+        "question_text": "Express $\\frac{1}{(n - 1)!} - \\frac{1}{(n + 1)!}$ as a single fraction.",
+        "structure": "combine-factorial-fractions",
+        "solution_text": "$\\frac{1}{(n - 1)!} - \\frac{1}{(n + 1)!}$\n$= \\frac{(n + 1)n}{(n + 1)!} - \\frac{1}{(n + 1)!}$\n$= \\frac{n(n + 1) - 1}{(n + 1)!}$\n$= \\frac{n^2 + n - 1}{(n + 1)!}$"
+      }
+    ]
+  }
+}

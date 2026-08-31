@@ -1,0 +1,112 @@
+{
+  "skillId": "auxiliary-angle-form",
+  "atomType": "T",
+  "theory": {
+        "intro": "A sine wave and a cosine wave with the same angle add to a single wave: $a\\cos x + b\\sin x$ becomes $R\\cos(x \\pm \\alpha)$ or $R\\sin(x \\pm \\alpha)$. Here $R = \\sqrt{a^2 + b^2} > 0$ and $\\alpha$ is the **auxiliary angle**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.3]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,0);\n\\coordinate (Q) at (4,3);\n\\draw (O) -- (P) node[midway, below] {$a$};\n\\draw (P) -- (Q) node[midway, right] {$b$};\n\\draw (Q) -- (O) node[midway, above left] {$R=\\sqrt{a^2+b^2}$};\n\\coordinate (p1) at ($(P)!0.3cm!(O)$);\n\\coordinate (p2) at ($(P)!0.3cm!(Q)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\pic[draw, \"$\\alpha$\", angle radius=0.8cm, angle eccentricity=2] {angle = P--O--Q};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Expanding $R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$ and equating coefficients gives $R\\cos\\alpha = a$ and $R\\sin\\alpha = b$.",
+          "Squaring and adding yields $R^2(\\cos^2\\alpha + \\sin^2\\alpha) = a^2 + b^2 \\implies R = \\sqrt{a^2 + b^2}$.",
+          "Dividing the equations gives $\\tan\\alpha = \\frac{b}{a}$, and the signs of $\\cos\\alpha$ and $\\sin\\alpha$ fix the quadrant of $\\alpha$.",
+          "For $R\\sin(x + \\alpha) = R\\sin x\\cos\\alpha + R\\cos x\\sin\\alpha$, matching $b\\sin x + a\\cos x$ gives $R\\cos\\alpha = b$, $R\\sin\\alpha = a$ and $\\tan\\alpha = \\frac{a}{b}$."
+        ],
+        "steps": [
+          "Expand the required form $R\\cos(x \\pm \\alpha)$ or $R\\sin(x \\pm \\alpha)$ using compound angle formulas",
+          "Equate coefficients of $\\cos x$ and $\\sin x$ to obtain equations for $R\\cos\\alpha$ and $R\\sin\\alpha$",
+          "Find $R = \\sqrt{a^2 + b^2}$ by squaring and adding",
+          "Find $\\tan\\alpha = \\frac{\\sin\\alpha}{\\cos\\alpha}$ and determine the quadrant from the signs of $R\\cos\\alpha$ and $R\\sin\\alpha$"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Express $\\sin x + \\sqrt{3}\\cos x$ in the form $R\\sin(x + \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\sin(x + \\alpha) = R\\sin x\\cos\\alpha + R\\cos x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = \\sqrt{3}$\n$R = \\sqrt{1^2 + (\\sqrt{3})^2} = 2$\n$\\tan\\alpha = \\frac{\\sqrt{3}}{1} = \\sqrt{3} \\implies \\alpha = \\frac{\\pi}{3}$\n$2\\sin\\left(x + \\frac{\\pi}{3}\\right)$"
+      },
+      {
+        "question_text": "Express $\\cos x - \\sin x$ in the form $R\\cos(x + \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\cos(x + \\alpha) = R\\cos x\\cos\\alpha - R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = 1$\n$R = \\sqrt{1^2 + 1^2} = \\sqrt{2}$\n$\\tan\\alpha = 1 \\implies \\alpha = \\frac{\\pi}{4}$\n$\\sqrt{2}\\cos\\left(x + \\frac{\\pi}{4}\\right)$"
+      },
+      {
+        "question_text": "Express $\\sqrt{3}\\cos x - \\sin x$ in the form $R\\cos(x + \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\cos(x + \\alpha) = R\\cos x\\cos\\alpha - R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = \\sqrt{3}$\n$R\\sin\\alpha = 1$\n$R = \\sqrt{(\\sqrt{3})^2 + 1^2} = 2$\n$\\tan\\alpha = \\frac{1}{\\sqrt{3}} \\implies \\alpha = \\frac{\\pi}{6}$\n$2\\cos\\left(x + \\frac{\\pi}{6}\\right)$"
+      },
+      {
+        "question_text": "Express $3\\sin x + 4\\cos x$ in the form $R\\sin(x + \\alpha)$ where $R > 0$ and $\\alpha$ is acute in radians correct to four decimal places.",
+        "structure": "auxiliary-pythagorean-triple",
+        "solution_text": "$R\\sin(x + \\alpha) = R\\sin x\\cos\\alpha + R\\cos x\\sin\\alpha$\n$R\\cos\\alpha = 3$\n$R\\sin\\alpha = 4$\n$R = \\sqrt{3^2 + 4^2} = 5$\n$\\tan\\alpha = \\frac{4}{3} \\implies \\alpha = \\tan^{-1}\\left(\\frac{4}{3}\\right) \\approx 0.9273$\n$5\\sin(x + 0.9273)$"
+      },
+      {
+        "question_text": "Express $5\\cos x + 12\\sin x$ in the form $R\\cos(x - \\alpha)$ where $R > 0$ and $\\alpha$ is acute correct to the nearest minute.",
+        "structure": "auxiliary-pythagorean-triple",
+        "solution_text": "$R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = 5$\n$R\\sin\\alpha = 12$\n$R = \\sqrt{5^2 + 12^2} = 13$\n$\\tan\\alpha = \\frac{12}{5} \\implies \\alpha = \\tan^{-1}\\left(\\frac{12}{5}\\right) \\approx 67^{\\circ}23'$\n$13\\cos(x - 67^{\\circ}23')$"
+      },
+      {
+        "question_text": "Express $2\\cos x + \\sin x$ in the form $R\\cos(x - \\alpha)$ where $R > 0$ and $0^{\\circ} < \\alpha < 90^{\\circ}$ correct to the nearest minute.",
+        "structure": "auxiliary-surd-modulus",
+        "solution_text": "$R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = 2$\n$R\\sin\\alpha = 1$\n$R = \\sqrt{2^2 + 1^2} = \\sqrt{5}$\n$\\tan\\alpha = \\frac{1}{2} \\implies \\alpha = \\tan^{-1}\\left(\\frac{1}{2}\\right) \\approx 26^{\\circ}34'$\n$\\sqrt{5}\\cos(x - 26^{\\circ}34')$"
+      },
+      {
+        "question_text": "Find the maximum and minimum values of $f(x) = 8\\cos x + 6\\sin x$.",
+        "structure": "auxiliary-amplitude-phase-properties",
+        "solution_text": "$R = \\sqrt{8^2 + 6^2} = \\sqrt{64 + 36} = 10$\n$8\\cos x + 6\\sin x = 10\\cos(x - \\alpha)$\nSince $-1 \\le \\cos(x - \\alpha) \\le 1$:\nMaximum value $= 10$\nMinimum value $= -10$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Express $\\sin x - \\cos x$ in the form $R\\sin(x - \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\sin(x - \\alpha) = R\\sin x\\cos\\alpha - R\\cos x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = 1$\n$R = \\sqrt{1^2 + 1^2} = \\sqrt{2}$\n$\\tan\\alpha = 1 \\implies \\alpha = \\frac{\\pi}{4}$\n$\\sqrt{2}\\sin\\left(x - \\frac{\\pi}{4}\\right)$"
+      },
+      {
+        "question_text": "Express $\\sqrt{3}\\sin x + \\cos x$ in the form $R\\cos(x - \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = \\sqrt{3}$\n$R = \\sqrt{1^2 + (\\sqrt{3})^2} = 2$\n$\\tan\\alpha = \\sqrt{3} \\implies \\alpha = \\frac{\\pi}{3}$\n$2\\cos\\left(x - \\frac{\\pi}{3}\\right)$"
+      },
+      {
+        "question_text": "Express $4\\sin x - 3\\cos x$ in the form $R\\sin(x - \\alpha)$ where $R > 0$ and $\\alpha$ is acute correct to the nearest minute.",
+        "structure": "auxiliary-pythagorean-triple",
+        "solution_text": "$R\\sin(x - \\alpha) = R\\sin x\\cos\\alpha - R\\cos x\\sin\\alpha$\n$R\\cos\\alpha = 4$\n$R\\sin\\alpha = 3$\n$R = \\sqrt{4^2 + 3^2} = 5$\n$\\tan\\alpha = \\frac{3}{4} \\implies \\alpha = \\tan^{-1}\\left(\\frac{3}{4}\\right) \\approx 36^{\\circ}52'$\n$5\\sin(x - 36^{\\circ}52')$"
+      },
+      {
+        "question_text": "Express $\\cos x - 3\\sin x$ in the form $R\\cos(x + \\alpha)$ where $R > 0$ and $\\alpha$ is acute correct to the nearest minute.",
+        "structure": "auxiliary-surd-modulus",
+        "solution_text": "$R\\cos(x + \\alpha) = R\\cos x\\cos\\alpha - R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = 3$\n$R = \\sqrt{1^2 + 3^2} = \\sqrt{10}$\n$\\tan\\alpha = 3 \\implies \\alpha = \\tan^{-1}(3) \\approx 71^{\\circ}34'$\n$\\sqrt{10}\\cos(x + 71^{\\circ}34')$"
+      },
+      {
+        "question_text": "Express $\\sqrt{5}\\sin x + 2\\cos x$ in the form $R\\sin(x + \\alpha)$ where $R > 0$ and $\\alpha$ is acute correct to the nearest minute.",
+        "structure": "auxiliary-surd-modulus",
+        "solution_text": "$R\\sin(x + \\alpha) = R\\sin x\\cos\\alpha + R\\cos x\\sin\\alpha$\n$R\\cos\\alpha = \\sqrt{5}$\n$R\\sin\\alpha = 2$\n$R = \\sqrt{(\\sqrt{5})^2 + 2^2} = 3$\n$\\tan\\alpha = \\frac{2}{\\sqrt{5}} \\implies \\alpha = \\tan^{-1}\\left(\\frac{2}{\\sqrt{5}}\\right) \\approx 41^{\\circ}49'$\n$3\\sin(x + 41^{\\circ}49')$"
+      },
+      {
+        "question_text": "Express $-3\\sin x - 4\\cos x$ in the form $R\\cos(x - \\alpha)$ where $R > 0$ and $0 < \\alpha < 2\\pi$ correct to four decimal places.",
+        "structure": "auxiliary-quadrant-signs",
+        "solution_text": "$R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = -4$\n$R\\sin\\alpha = -3$\n$R = \\sqrt{(-4)^2 + (-3)^2} = 5$\nSince $\\cos\\alpha < 0$ and $\\sin\\alpha < 0$, $\\alpha$ lies in Quadrant 3.\n$\\alpha = \\pi + \\tan^{-1}\\left(\\frac{3}{4}\\right) \\approx 3.14159 + 0.64350 = 3.7851$\n$5\\cos(x - 3.7851)$"
+      },
+      {
+        "question_text": "Find the range of the function $g(x) = 5 - 2\\sqrt{3}\\cos x + 2\\sin x$.",
+        "structure": "auxiliary-amplitude-phase-properties",
+        "solution_text": "$R = \\sqrt{(-2\\sqrt{3})^2 + 2^2} = \\sqrt{12 + 4} = 4$\n$-2\\sqrt{3}\\cos x + 2\\sin x = 4\\cos(x - \\alpha)$\nSince $-4 \\le 4\\cos(x - \\alpha) \\le 4$:\nMinimum value $= 5 - 4 = 1$\nMaximum value $= 5 + 4 = 9$\nRange is $[1, 9]$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Express $-\\cos x + \\sqrt{3}\\sin x$ in the form $R\\cos(x - \\alpha)$ where $R > 0$ and $0 \\le \\alpha < 2\\pi$.",
+        "structure": "auxiliary-quadrant-signs",
+        "solution_text": "$R\\cos(x - \\alpha) = R\\cos x\\cos\\alpha + R\\sin x\\sin\\alpha$\n$R\\cos\\alpha = -1$\n$R\\sin\\alpha = \\sqrt{3}$\n$R = \\sqrt{(-1)^2 + (\\sqrt{3})^2} = 2$\nSince $\\cos\\alpha < 0$ and $\\sin\\alpha > 0$, $\\alpha$ lies in Quadrant 2.\n$\\alpha = \\pi - \\frac{\\pi}{3} = \\frac{2\\pi}{3}$\n$2\\cos\\left(x - \\frac{2\\pi}{3}\\right)$"
+      },
+      {
+        "question_text": "Express $\\sin 2x + \\cos 2x$ in the form $R\\sin(2x + \\alpha)$ where $R > 0$ and $0 < \\alpha < \\frac{\\pi}{2}$.",
+        "structure": "auxiliary-exact-special-angles",
+        "solution_text": "$R\\sin(2x + \\alpha) = R\\sin 2x\\cos\\alpha + R\\cos 2x\\sin\\alpha$\n$R\\cos\\alpha = 1$\n$R\\sin\\alpha = 1$\n$R = \\sqrt{1^2 + 1^2} = \\sqrt{2}$\n$\\tan\\alpha = 1 \\implies \\alpha = \\frac{\\pi}{4}$\n$\\sqrt{2}\\sin\\left(2x + \\frac{\\pi}{4}\\right)$"
+      },
+      {
+        "question_text": "Find the coordinates of the first maximum of $f(t) = 6\\sin(0.05t) + 8\\cos(0.05t)$ for $t \\ge 0$, giving $t$ to one decimal place.",
+        "structure": "auxiliary-amplitude-phase-properties",
+        "solution_text": "$f(t) = 10\\sin(0.05t + \\alpha)$ where $\\tan\\alpha = \\frac{8}{6} = \\frac{4}{3} \\implies \\alpha \\approx 0.9273$\nMaximum value is $10$, occurring when $\\sin(0.05t + 0.9273) = 1$.\n$0.05t + 0.9273 = \\frac{\\pi}{2} \\approx 1.5708$\n$0.05t = 0.6435$\n$t \\approx 12.9$\n$(12.9, 10)$"
+      }
+    ]
+  }
+}

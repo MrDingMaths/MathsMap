@@ -1,0 +1,109 @@
+{
+  "skillId": "probability-density-function",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which of these functions is a valid probability density function on the domain shown, taking $f(x) = 0$ elsewhere?",
+      "structure": "verify-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$f(x) = \\dfrac{4x^{3}}{625}$ on $[0,5]$", "correct": true },
+        { "text": "$f(x) = \\dfrac{x^{3}}{324}$ on $[0,3]$", "why": "The total area is $\\frac{1}{16}$, not $1$, so the second condition fails." },
+        { "text": "$f(x) = \\dfrac{x}{8}$ on $[1,8]$", "why": "The total area is $\\frac{63}{16}$, far above $1$, because the domain is too wide for this height." },
+        { "text": "$f(x) = x^{2} - 3$ on $[0,3]$", "why": "The function is negative for $x < \\sqrt{3}$, so the condition $f(x) \\ge 0$ fails." }
+      ],
+      "solution_text": "$\\dfrac{4x^{3}}{625} \\ge 0$ for $x \\ge 0$.\n$\\int_{0}^{5}\\dfrac{4x^{3}}{625}\\,dx$\n$= \\left[\\dfrac{x^{4}}{625}\\right]_{0}^{5}$\n$= \\dfrac{625}{625}$\n$= 1$\nSo $f(x) = \\dfrac{4x^{3}}{625}$ on $[0,5]$ is the valid density."
+    },
+    {
+      "id": "q2",
+      "question_text": "Consider $f(x) = \\dfrac{5 - x}{8}$ on $[1,7]$, and $0$ elsewhere. Which statement is correct?",
+      "structure": "verify-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "It is not a density: the total area is $\\dfrac{3}{4}$ and $f(x) < 0$ for $x > 5$", "correct": true },
+        { "text": "It is a valid probability density function", "why": "Checks only that the rule is defined across the domain, without testing either condition." },
+        { "text": "It is not a density: the total area is $1$ but $f(x) < 0$ for $x > 5$", "why": "Spots the sign failure but mis-integrates and assumes the area comes out to $1$." },
+        { "text": "It is not a density: the total area is $\\dfrac{3}{4}$ but $f(x) \\ge 0$ throughout", "why": "Tests the sign only at the left endpoint, missing that $5 - x$ turns negative inside the domain." }
+      ],
+      "solution_text": "$5 - x < 0$ when $x > 5$, and $x = 7$ lies in the domain, so $f(7) = -\\dfrac{1}{4} < 0$.\n$\\int_{1}^{7}\\dfrac{5 - x}{8}\\,dx$\n$= \\dfrac{1}{8}\\left[5x - \\dfrac{x^{2}}{2}\\right]_{1}^{7}$\n$= \\dfrac{1}{8}\\left(\\dfrac{21}{2} - \\dfrac{9}{2}\\right)$\n$= \\dfrac{3}{4}$\nBoth conditions fail, so $f$ is not a probability density function."
+    },
+    {
+      "id": "q3",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{3x^{2}}{117}$ on $[2,5]$, and $0$ elsewhere. Find $P(2 \\le X \\le 3)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.8cm, y=3.2cm]\n\\fill[gray!35, domain=2:3, variable=\\x] (2,0) -- plot ({\\x},{0.02564*\\x*\\x}) -- (3,0) -- cycle;\n\\draw[->] (-0.8,0) -- (6.6,0) node[right] {$x$};\n\\draw[->] (0,-0.16) -- (0,0.86) node[above] {$f(x)$};\n\\draw[thick] (-0.7,0) -- (2,0);\n\\draw[thick, domain=2:5, smooth, samples=100, variable=\\x] plot ({\\x},{0.02564*\\x*\\x});\n\\draw (2,0) -- (2,0.1026);\n\\draw[thick] (5,0) -- (6.4,0);\n\\node[below] at (2,0) {$2$};\n\\node[below] at (3,0) {$3$};\n\\node[below] at (5,0) {$5$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "probability-interval",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{19}{117}$", "correct": true },
+        { "text": "$\\dfrac{27}{117}$", "why": "Integrates from $0$ instead of from the domain's left endpoint $2$." },
+        { "text": "$\\dfrac{57}{117}$", "why": "Multiplies by $3$ again after integrating, using $\\frac{3x^{3}}{117}$ as the antiderivative." },
+        { "text": "$\\dfrac{81}{117}$", "why": "Both slips together: the wrong lower limit and the extra factor of $3$." }
+      ],
+      "solution_text": "$\\int_{2}^{3}\\dfrac{3x^{2}}{117}\\,dx$\n$= \\left[\\dfrac{x^{3}}{117}\\right]_{2}^{3}$\n$= \\dfrac{27}{117} - \\dfrac{8}{117}$\n$= \\dfrac{19}{117}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{x}{50}$ on $[0,10]$, and $0$ elsewhere. Find $P(X \\ge 7)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.46cm, y=10cm]\n\\fill[gray!35] (7,0) -- (7,0.14) -- (10,0.2) -- (10,0) -- cycle;\n\\draw[->] (-1,0) -- (12.4,0) node[right] {$x$};\n\\draw[->] (0,-0.05) -- (0,0.27) node[above] {$f(x)$};\n\\draw[thick] (-0.9,0) -- (0,0);\n\\draw[thick] (0,0) -- (10,0.2);\n\\draw[thick] (10,0) -- (12.2,0);\n\\node[below] at (7,0) {$7$};\n\\node[below] at (10,0) {$10$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "probability-tail",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{51}{100}$", "correct": true },
+        { "text": "$\\dfrac{49}{100}$", "why": "Finds $P(X \\le 7)$, integrating on the wrong side of $7$." },
+        { "text": "$\\dfrac{51}{50}$", "why": "Uses $\\frac{x^{2}}{50}$ as the antiderivative, dropping the $\\frac{1}{2}$ from integrating $x$." },
+        { "text": "$\\dfrac{49}{50}$", "why": "Both slips together: the wrong side of $7$ and the missing $\\frac{1}{2}$." }
+      ],
+      "solution_text": "$\\int_{7}^{10}\\dfrac{x}{50}\\,dx$\n$= \\left[\\dfrac{x^{2}}{100}\\right]_{7}^{10}$\n$= \\dfrac{100}{100} - \\dfrac{49}{100}$\n$= \\dfrac{51}{100}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A probability density function $f(x)$ is non-zero only on $[3,9]$. Which integral gives $P(X \\ge 5)$?",
+      "structure": "notation-to-integral",
+      "mastery": false,
+      "options": [
+        { "text": "$\\int_{5}^{9} f(x)\\,dx$", "correct": true },
+        { "text": "$\\int_{3}^{5} f(x)\\,dx$", "why": "Shades the region to the left of $5$ instead of to the right." },
+        { "text": "$\\int_{3}^{9} f(x)\\,dx$", "why": "Integrates over the whole domain, which gives $1$ rather than the upper tail." },
+        { "text": "$\\int_{0}^{5} f(x)\\,dx$", "why": "Starts at $0$ instead of the domain's left endpoint and also takes the wrong side of $5$." }
+      ],
+      "solution_text": "The density is $0$ above $x = 9$, so the upper limit is $9$.\n$P(X \\ge 5) = \\int_{5}^{9} f(x)\\,dx$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{x^{2}}{9}$ on $[0,3]$, and $0$ elsewhere. Find $P(1 \\le X \\le 2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=2.2cm]\n\\fill[gray!35, domain=1:2, variable=\\x] (1,0) -- plot ({\\x},{0.11111*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-0.5,0) -- (4.2,0) node[right] {$x$};\n\\draw[->] (0,-0.22) -- (0,1.35) node[above] {$f(x)$};\n\\draw[thick] (-0.4,0) -- (0,0);\n\\draw[thick, domain=0:3, smooth, samples=100, variable=\\x] plot ({\\x},{0.11111*\\x*\\x});\n\\draw[thick] (3,0) -- (4,0);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (2,0) {$2$};\n\\node[below] at (3,0) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "probability-interval",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{7}{27}$", "correct": true },
+        { "text": "$\\dfrac{8}{27}$", "why": "Integrates from $0$ rather than from $1$, so the lower limit is never subtracted." },
+        { "text": "$\\dfrac{7}{9}$", "why": "Uses $\\frac{x^{3}}{9}$ as the antiderivative, forgetting the $\\frac{1}{3}$ from integrating $x^{2}$." },
+        { "text": "$\\dfrac{8}{9}$", "why": "Both slips together: the wrong lower limit and the missing $\\frac{1}{3}$." }
+      ],
+      "solution_text": "$\\int_{1}^{2}\\dfrac{x^{2}}{9}\\,dx$\n$= \\left[\\dfrac{x^{3}}{27}\\right]_{1}^{2}$\n$= \\dfrac{8}{27} - \\dfrac{1}{27}$\n$= \\dfrac{7}{27}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x) = 2x$ on $[0,1]$, and $0$ elsewhere, so $f(0.8) = 1.6$. Which statement is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=3.4cm, y=1.5cm]\n\\draw[->] (-0.25,0) -- (1.65,0) node[right] {$x$};\n\\draw[->] (0,-0.3) -- (0,2.5) node[above] {$f(x)$};\n\\draw[thick] (-0.2,0) -- (0,0);\n\\draw[thick] (0,0) -- (1,2);\n\\draw[thick] (1,0) -- (1.5,0);\n\\draw[dashed] (0.8,0) -- (0.8,1.6);\n\\draw[dashed] (0,1.6) -- (0.8,1.6);\n\\draw[dashed] (0,1) -- (1,1);\n\\node[left] at (0,1) {$1$};\n\\node[left] at (0,1.6) {$1.6$};\n\\node[below] at (0.8,0) {$0.8$};\n\\node[below right] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "density-not-probability",
+      "mastery": false,
+      "options": [
+        { "text": "$1.6$ is a density value, and $P(X = 0.8) = 0$", "correct": true },
+        { "text": "$P(X = 0.8) = 1.6$", "why": "Reads the height of the density curve as the probability of that single value." },
+        { "text": "$f$ cannot be a density, because a probability can never exceed $1$", "why": "Applies the bound of $1$ to the height of the curve instead of to the area under it." },
+        { "text": "$P(X = 0.8) = 0.8$, once the density is scaled to fit below $1$", "why": "Invents a rescaling to force the density value below $1$ and then reads it as a probability." }
+      ],
+      "solution_text": "$f(0.8) = 1.6$ is the height of the curve at $x = 0.8$, not a probability.\nA density may rise above $1$ provided the total area stays $1$.\nSince $X$ is continuous, $P(X = 0.8) = 0$."
+    },
+    {
+      "id": "q8",
+      "question_text": "A continuous random variable has $f(x) = \\dfrac{x}{8}$ on $[0,4]$, and $0$ elsewhere. Find the value of $c$ for which $P(X \\le c) = \\dfrac{9}{16}$.",
+      "structure": "probability-interval",
+      "mastery": true,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$9$", "why": "Stops at $c^{2} = 9$ without taking the square root." },
+        { "text": "$\\dfrac{9}{2}$", "why": "Solves $\\frac{c}{8} = \\frac{9}{16}$, treating the density value as the probability instead of integrating." },
+        { "text": "$\\dfrac{3}{\\sqrt{2}}$", "why": "Uses $\\frac{x^{2}}{8}$ as the antiderivative, dropping the $\\frac{1}{2}$ from integrating $x$." }
+      ],
+      "solution_text": "$\\int_{0}^{c}\\dfrac{x}{8}\\,dx = \\dfrac{9}{16}$\n$\\left[\\dfrac{x^{2}}{16}\\right]_{0}^{c} = \\dfrac{9}{16}$\n$\\dfrac{c^{2}}{16} = \\dfrac{9}{16}$\n$c^{2} = 9$\n$c = 3$ (rejecting $c = -3$, which is outside the domain)"
+    }
+  ]
+}

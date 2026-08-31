@@ -1,0 +1,109 @@
+{
+  "skillId": "variance-discrete",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\mathrm{Var}(X)$ for the distribution below.\n$\\begin{array}{c|cccc} x & 2 & 3 & 4 & 5 \\\\ \\hline P(X=x) & 0.4 & 0.3 & 0.2 & 0.1 \\end{array}$",
+      "structure": "variance-from-table",
+      "mastery": false,
+      "options": [
+        { "text": "$1$", "correct": true },
+        { "text": "$10$", "why": "Gave $E(X^{2})$ and did not subtract $\\mu^{2}$." },
+        { "text": "$9$", "why": "Gave $\\mu^{2}$ instead of the difference $E(X^{2})-\\mu^{2}$." },
+        { "text": "$3$", "why": "Gave the mean $\\mu$ rather than the variance." }
+      ],
+      "solution_text": "$\\mu=2(0.4)+3(0.3)+4(0.2)+5(0.1)$\n$=0.8+0.9+0.8+0.5$\n$=3$\n$E(X^{2})=4(0.4)+9(0.3)+16(0.2)+25(0.1)$\n$=1.6+2.7+3.2+2.5$\n$=10$\n$\\mathrm{Var}(X)=10-3^{2}$\n$=1$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Find $\\sigma$ for the distribution below, correct to two decimal places.\n$\\begin{array}{c|ccc} x & 1 & 4 & 9 \\\\ \\hline P(X=x) & 0.5 & 0.3 & 0.2 \\end{array}$",
+      "structure": "sd-from-table",
+      "mastery": false,
+      "options": [
+        { "text": "$3.04$", "correct": true },
+        { "text": "$9.25$", "why": "Stopped at the variance and did not take the square root." },
+        { "text": "$4.64$", "why": "Took the square root of $E(X^{2})$ without subtracting $\\mu^{2}$ first." },
+        { "text": "$1.87$", "why": "Took the square root of the mean instead of the square root of the variance." }
+      ],
+      "solution_text": "$\\mu=1(0.5)+4(0.3)+9(0.2)$\n$=0.5+1.2+1.8$\n$=3.5$\n$E(X^{2})=1(0.5)+16(0.3)+81(0.2)$\n$=0.5+4.8+16.2$\n$=21.5$\n$\\mathrm{Var}(X)=21.5-3.5^{2}$\n$=21.5-12.25$\n$=9.25$\n$\\sigma=\\sqrt{9.25}$\n$=3.04$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The random variable $X$ has mean $\\mu=4.2$. Find $\\mathrm{Var}(X)$.\n$\\begin{array}{c|cccc} x & 3 & 4 & 5 & 6 \\\\ \\hline P(X=x) & 0.25 & 0.4 & 0.25 & 0.1 \\end{array}$",
+      "structure": "variance-from-mean-given",
+      "mastery": false,
+      "options": [
+        { "text": "$0.86$", "correct": true },
+        { "text": "$18.5$", "why": "Gave $E(X^{2})$ without subtracting $\\mu^{2}$." },
+        { "text": "$17.64$", "why": "Gave $\\mu^{2}$, the quantity that should have been subtracted." },
+        { "text": "$0.93$", "why": "Went one step too far and gave the standard deviation." }
+      ],
+      "solution_text": "$E(X^{2})=9(0.25)+16(0.4)+25(0.25)+36(0.1)$\n$=2.25+6.4+6.25+3.6$\n$=18.5$\n$\\mathrm{Var}(X)=18.5-4.2^{2}$\n$=18.5-17.64$\n$=0.86$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Use $\\mathrm{Var}(X)=\\sum (x-\\mu)^{2}P(x)$ to find the variance.\n$\\begin{array}{c|ccc} x & 1 & 3 & 5 \\\\ \\hline P(X=x) & 0.3 & 0.5 & 0.2 \\end{array}$",
+      "structure": "variance-two-methods",
+      "mastery": false,
+      "options": [
+        { "text": "$1.96$", "correct": true },
+        { "text": "$1.4$", "why": "Gave the standard deviation instead of the variance." },
+        { "text": "$0$", "why": "Forgot to square the deviations, and $\\sum (x-\\mu)P(x)$ is always $0$." },
+        { "text": "$9.8$", "why": "Computed $E(X^{2})$ and never subtracted $\\mu^{2}$." }
+      ],
+      "solution_text": "$\\mu=1(0.3)+3(0.5)+5(0.2)$\n$=0.3+1.5+1$\n$=2.8$\n$\\mathrm{Var}(X)=(1-2.8)^{2}(0.3)+(3-2.8)^{2}(0.5)+(5-2.8)^{2}(0.2)$\n$=3.24(0.3)+0.04(0.5)+4.84(0.2)$\n$=0.972+0.02+0.968$\n$=1.96$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The random variables $A$ and $B$ below both have mean $2$. Which has the greater standard deviation?\n$A: \\begin{array}{c|ccc} a & 0 & 2 & 4 \\\\ \\hline P(A=a) & 0.25 & 0.5 & 0.25 \\end{array}$\n$B: \\begin{array}{c|ccc} b & 0 & 2 & 4 \\\\ \\hline P(B=b) & 0.4 & 0.2 & 0.4 \\end{array}$",
+      "structure": "compare-spread",
+      "mastery": false,
+      "options": [
+        { "text": "$B$, because more of its probability sits at $0$ and $4$, giving $\\mathrm{Var}(B)=3.2$ against $\\mathrm{Var}(A)=2$.", "correct": true },
+        { "text": "$A$, because its middle value carries the highest probability.", "why": "Judged spread by the height of the peak rather than by the variance." },
+        { "text": "Neither, because both distributions have mean $2$.", "why": "Assumed equal means force equal spread." },
+        { "text": "$A$, because $A$ has the larger value of $E(X^{2})$.", "why": "Compared $E(X^{2})$, and in any case $A$'s value of $6$ is the smaller of the two." }
+      ],
+      "solution_text": "$E(A^{2})=0(0.25)+4(0.5)+16(0.25)$\n$=6$\n$\\mathrm{Var}(A)=6-2^{2}$\n$=2$\n$E(B^{2})=0(0.4)+4(0.2)+16(0.4)$\n$=7.2$\n$\\mathrm{Var}(B)=7.2-2^{2}$\n$=3.2$\n$B$ has the greater variance and so the greater standard deviation."
+    },
+    {
+      "id": "q6",
+      "question_text": "A random variable has $P(x)=\\frac{x}{21}$ for $x \\in \\{1,\\ 2,\\ 3,\\ 4,\\ 5,\\ 6\\}$. Find $\\mathrm{Var}(X)$, correct to two decimal places.",
+      "structure": "variance-from-function-rule",
+      "mastery": false,
+      "options": [
+        { "text": "$2.22$", "correct": true },
+        { "text": "$21$", "why": "Gave $E(X^{2})$ without subtracting $\\mu^{2}$." },
+        { "text": "$18.78$", "why": "Gave $\\mu^{2}$, the quantity that should have been subtracted." },
+        { "text": "$1.49$", "why": "Went one step too far and gave the standard deviation." }
+      ],
+      "solution_text": "$\\mu=\\frac{1(1)+2(2)+3(3)+4(4)+5(5)+6(6)}{21}$\n$=\\frac{91}{21}$\n$=\\frac{13}{3}$\n$E(X^{2})=\\frac{1(1)+4(2)+9(3)+16(4)+25(5)+36(6)}{21}$\n$=\\frac{441}{21}$\n$=21$\n$\\mathrm{Var}(X)=21-\\left(\\frac{13}{3}\\right)^{2}$\n$=21-\\frac{169}{9}$\n$=\\frac{20}{9}$\n$=2.22$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A random variable has $E(X^{2})=30$ and $\\mathrm{Var}(X)=5$. Given that $E(X)>0$, find $E(X)$.",
+      "structure": "reverse-variance",
+      "mastery": false,
+      "options": [
+        { "text": "$5$", "correct": true },
+        { "text": "$25$", "why": "Stopped at $\\mu^{2}$ without taking the square root." },
+        { "text": "$5.92$", "why": "Added the variance to $E(X^{2})$ instead of subtracting it, then square-rooted $35$." },
+        { "text": "$2.24$", "why": "Took the square root of the variance, giving $\\sigma$ rather than the mean." }
+      ],
+      "solution_text": "$\\mathrm{Var}(X)=E(X^{2})-\\mu^{2}$\n$5=30-\\mu^{2}$\n$\\mu^{2}=25$\n$\\mu=5$ since $E(X)>0$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Find $\\sigma$ for the distribution below, correct to two decimal places.\n$\\begin{array}{c|cccc} x & -3 & -1 & 2 & 4 \\\\ \\hline P(X=x) & 0.2 & 0.3 & 0.4 & 0.1 \\end{array}$",
+      "structure": "variance-from-table",
+      "mastery": true,
+      "options": [
+        { "text": "$2.28$", "correct": true },
+        { "text": "$5.21$", "why": "Stopped at the variance and did not take the square root." },
+        { "text": "$2.30$", "why": "Took $\\sqrt{E(X^{2})}$, forgetting to subtract $\\mu^{2}=0.09$ first." },
+        { "text": "$0.55$", "why": "Took the square root of the mean $0.3$ instead of the square root of the variance." }
+      ],
+      "solution_text": "$\\mu=-3(0.2)-1(0.3)+2(0.4)+4(0.1)$\n$=-0.6-0.3+0.8+0.4$\n$=0.3$\n$E(X^{2})=9(0.2)+1(0.3)+4(0.4)+16(0.1)$\n$=1.8+0.3+1.6+1.6$\n$=5.3$\n$\\mathrm{Var}(X)=5.3-0.3^{2}$\n$=5.3-0.09$\n$=5.21$\n$\\sigma=\\sqrt{5.21}$\n$=2.28$"
+    }
+  ]
+}

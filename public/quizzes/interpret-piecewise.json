@@ -1,0 +1,205 @@
+{
+  "skillId": "interpret-piecewise",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Given the piecewise function $f(x) = \\begin{cases} 4x - 1, & x \\le 3 \\\\ x^{2} - 5, & x > 3 \\end{cases}$, which subfunction rule applies to evaluate $f(3)$, and what is its value?",
+      "structure": "identify-applicable-subfunction",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4x - 1$, with $f(3) = 11$",
+          "correct": true
+        },
+        {
+          "text": "$x^{2} - 5$, with $f(3) = 4$",
+          "why": "Substituted into the strict inequality branch $x > 3$ instead of $x \\le 3$."
+        },
+        {
+          "text": "$4x - 1$, with $f(3) = 13$",
+          "why": "Added $1$ instead of subtracting $1$ when evaluating $4(3) - 1$."
+        },
+        {
+          "text": "Both rules apply, giving $f(3) = 11$ and $f(3) = 4$",
+          "why": "Incorrectly evaluated both subfunctions instead of choosing the single active branch."
+        }
+      ],
+      "solution_text": "Since $x = 3$ satisfies the condition $x \\le 3$, use $4x - 1$.\n$f(3) = 4(3) - 1$\n$= 12 - 1$\n$= 11$"
+    },
+    {
+      "id": "q2",
+      "question_text": "For the function $f(x) = \\begin{cases} 3x + 2, & x < 0 \\\\ 2 - x^{2}, & x \\ge 0 \\end{cases}$, evaluate $f(-2)$.",
+      "structure": "evaluate-algebraic-single-boundary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-4$",
+          "correct": true
+        },
+        {
+          "text": "$-2$",
+          "why": "Substituted into the wrong branch $2 - x^{2}$ to get $2 - (-2)^{2} = -2$."
+        },
+        {
+          "text": "$-8$",
+          "why": "Subtracted $2$ instead of adding $2$ when evaluating $3(-2) + 2$."
+        },
+        {
+          "text": "$2$",
+          "why": "Evaluated the function at the boundary $x = 0$ using $2 - 0^{2} = 2$ instead of at $x = -2$."
+        }
+      ],
+      "solution_text": "Since $-2 < 0$, use the branch $3x + 2$:\n$f(-2) = 3(-2) + 2$\n$= -6 + 2$\n$= -4$"
+    },
+    {
+      "id": "q3",
+      "question_text": "For the function $f(x) = \\begin{cases} x^{2} + 2x, & x < 2 \\\\ 10 - x, & x \\ge 2 \\end{cases}$, evaluate $f(2)$.",
+      "structure": "evaluate-algebraic-single-boundary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$6$",
+          "why": "Substituted into the wrong branch $x^{2} + 2x$ and made an arithmetic error."
+        },
+        {
+          "text": "$12$",
+          "why": "Added $x$ instead of subtracting $x$ when evaluating $10 - x$."
+        },
+        {
+          "text": "Undefined",
+          "why": "Assumed the boundary point is excluded when $x \\ge 2$ explicitly includes $x = 2$."
+        }
+      ],
+      "solution_text": "Since $x = 2$ satisfies $x \\ge 2$, use the subfunction $10 - x$:\n$f(2) = 10 - 2$\n$= 8$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A function is defined by $f(x) = \\begin{cases} 2x + 1, & x < -1 \\\\ 5, & -1 \\le x < 3 \\\\ 2x - 1, & x \\ge 3 \\end{cases}$. Find the value of $f(3)$.",
+      "structure": "evaluate-algebraic-multi-boundary",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$",
+          "correct": true
+        },
+        {
+          "text": "$-5$",
+          "why": "Substituted into the first branch $2x + 1$ with a sign error."
+        },
+        {
+          "text": "$7$",
+          "why": "Substituted $x = 3$ into $2x + 1$ instead of the $x \\ge 3$ branch $2x - 1$."
+        },
+        {
+          "text": "Undefined",
+          "why": "Believed $x = 3$ is not included in the domain."
+        }
+      ],
+      "solution_text": "Since $x = 3$ satisfies $x \\ge 3$, use $2x - 1$:\n$f(3) = 2(3) - 1$\n$= 6 - 1$\n$= 5$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The graph of $y = f(x)$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-2.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-2,-1,1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,-1) -- (1,3);\n\\draw[fill=white] (1,3) circle (2.5pt);\n\\draw[thick, ->] (1,-1) -- (4,-1);\n\\fill (1,-1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nWhat is the value of $f(1)$?",
+      "structure": "evaluate-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-1$",
+          "correct": true
+        },
+        {
+          "text": "$3$",
+          "why": "Read the open circle coordinate at $(1,3)$ instead of the filled dot at $(1,-1)$."
+        },
+        {
+          "text": "$0$",
+          "why": "Read the $x$-intercept near $x = 0$ instead of the value at $x = 1$."
+        },
+        {
+          "text": "Undefined",
+          "why": "Assumed the function is undefined because of the jump discontinuity."
+        }
+      ],
+      "solution_text": "At $x = 1$, locate the filled dot.\nThe point $(1,3)$ is an open circle (excluded).\nThe point $(1,-1)$ is a filled dot (included).\n$f(1) = -1$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph of $y = g(x)$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-4.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-4,4) -- (-2,4);\n\\fill (-2,4) circle (2.5pt);\n\\draw[thick, ->] (-2,1) -- (2,5);\n\\draw[fill=white] (-2,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nWhat is the value of $g(-2)$?",
+      "structure": "evaluate-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$1$",
+          "why": "Read the open circle at $(-2,1)$ instead of the filled circle at $(-2,4)$."
+        },
+        {
+          "text": "$-2$",
+          "why": "Stated the input $x$-value instead of the output $y$-value."
+        },
+        {
+          "text": "$5$",
+          "why": "Read the upper right endpoint coordinate at $x = 2$ instead of $x = -2$."
+        }
+      ],
+      "solution_text": "At $x = -2$, find the included endpoint.\nThe point $(-2,4)$ has a filled circle.\n$g(-2) = 4$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Given $f(x) = \\begin{cases} x^{2} + 1, & x \\le 1 \\\\ 3x - 1, & x > 1 \\end{cases}$, calculate the value of $2f(0) + f(3)$.",
+      "structure": "evaluate-compound-expression",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$10$",
+          "correct": true
+        },
+        {
+          "text": "$8$",
+          "why": "Substituted $x = 3$ into the first branch $x^{2} + 1$ to get $10$, then subtracted $2$."
+        },
+        {
+          "text": "$12$",
+          "why": "Calculated $f(0) = 2$ instead of $0^{2} + 1 = 1$ before multiplying by $2$."
+        },
+        {
+          "text": "$6$",
+          "why": "Omitted the coefficient $2$ on $f(0)$, computing $1 + 8 = 9$ or making an arithmetic error."
+        }
+      ],
+      "solution_text": "Evaluate $f(0)$ using $x^{2} + 1$ (since $0 \\le 1$):\n$f(0) = 0^{2} + 1 = 1$\nEvaluate $f(3)$ using $3x - 1$ (since $3 > 1$):\n$f(3) = 3(3) - 1 = 8$\nSubstitute into the expression:\n$2f(0) + f(3) = 2(1) + 8$\n$= 2 + 8$\n$= 10$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Given $f(x) = \\begin{cases} 2x + 5, & x < 2 \\\\ x^{2} - 3, & x \\ge 2 \\end{cases}$, evaluate the nested expression $f(f(1))$.",
+      "structure": "evaluate-compound-expression",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$46$",
+          "correct": true
+        },
+        {
+          "text": "$19$",
+          "why": "Substituted the inner result $7$ into the left branch $2x + 5$ instead of $x^{2} - 3$."
+        },
+        {
+          "text": "$7$",
+          "why": "Evaluated only the inner function $f(1) = 7$ without evaluating the outer $f(7)$."
+        },
+        {
+          "text": "$1$",
+          "why": "Substituted $x = 1$ into $x^{2} - 3$ to get $-2$, then evaluated $f(-2) = 1$."
+        }
+      ],
+      "solution_text": "First evaluate the inner function $f(1)$ (since $1 < 2$):\n$f(1) = 2(1) + 5 = 7$\nNow evaluate $f(7)$ with input $x = 7$ (since $7 \\ge 2$):\n$f(7) = (7)^{2} - 3$\n$= 49 - 3$\n$= 46$"
+    }
+  ]
+}

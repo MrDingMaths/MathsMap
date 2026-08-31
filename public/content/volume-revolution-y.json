@@ -1,0 +1,104 @@
+{
+  "skillId": "volume-revolution-y",
+  "atomType": "R",
+  "theory": {
+    "intro": "Spinning a region about the $y$-axis makes each slice a disc of radius $x$. So the rule is rearranged to give $x^{2}$ in terms of $y$, and the limits are $y$ values: $V=\\pi\\int_{c}^{d}x^{2}\\,dy$.",
+    "facts": [
+      "Rotating about the $y$-axis from $y=c$ to $y=d$ gives $V=\\pi\\int_{c}^{d}x^{2}\\,dy$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:3, samples=60, variable=\\y] ({0.4*\\y*\\y+0.3},{\\y}) -- (0,3) -- cycle;\n\\draw[->] (-1.4,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-0.8) -- (0,4.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.2:3.4, samples=60, variable=\\y] plot ({0.4*\\y*\\y+0.3},{\\y}) node[pos=0.98, right] {$x=g(y)$};\n\\draw[dashed] (0,2) ellipse [x radius=1.9, y radius=0.22];\n\\node[left] at (0,1) {$c$};\n\\node[left] at (0,3) {$d$};\n\\end{tikzpicture}\n[/tikz]",
+      "The radius of each disc is the $x$ value, so the integrand is $x^{2}$ written in terms of $y$.",
+      "Rearrange the rule to make $x^{2}$ the subject before integrating.",
+      "For $y=x^{3}$ the rearrangement is $x=y^{\\frac{1}{3}}$, so $x^{2}=y^{\\frac{2}{3}}$.",
+      "The limits are $y$ values, and using the $x$ values from the question instead is the most common error.",
+      "A limit given as an $x$ value is converted to a $y$ value by substituting it into the rule.",
+      "Volume is measured in cubic units, written $\\text{units}^{3}$."
+    ],
+    "steps": [
+      "Rearrange the rule to make $x^{2}$ the subject in terms of $y$.",
+      "Identify the limits as the $y$ values $c$ and $d$.",
+      "Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The shaded region between $y=2x$ and the $y$-axis from $y=0$ to $y=4$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:4, samples=2, variable=\\y] ({\\y/2},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-2.6,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.1:2.6, samples=2, variable=\\x] plot ({\\x},{2*\\x}) node[pos=0.98, right] {$y=2x$};\n\\node[left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-linear-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y=2x$\n$x=\\dfrac{y}{2}$\n$x^{2}=\\dfrac{y^{2}}{4}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{4}\\dfrac{y^{2}}{4}dy$\n$= \\pi\\left[\\dfrac{y^{3}}{12}\\right]_{0}^{4}$\n$= \\dfrac{16\\pi}{3}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=x^{2}$ and the $y$-axis from $y=0$ to $y=9$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=0.5cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:9, samples=60, variable=\\y] ({sqrt(\\y)},{\\y}) -- (0,9) -- cycle;\n\\draw[->] (-3.6,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,11.6) node[above] {$y$};\n\\draw[thick, <->, domain=-3.2:3.2, samples=60, variable=\\x] plot ({\\x},{\\x*\\x}) node[pos=0.98, right] {$y=x^{2}$};\n\\node[left] at (0,9) {$9$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x^{2}=y$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{9}y\\,dy$\n$= \\pi\\left[\\dfrac{y^{2}}{2}\\right]_{0}^{9}$\n$= \\dfrac{81\\pi}{2}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=x^{3}$ and the $y$-axis from $y=0$ to $y=8$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=0.42cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:8, samples=60, variable=\\y] ({pow(\\y,0.3333)},{\\y}) -- (0,8) -- cycle;\n\\draw[->] (-2.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-11.6) -- (0,11.6) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, samples=60, variable=\\x] plot ({\\x},{\\x*\\x*\\x}) node[pos=0.98, right] {$y=x^{3}$};\n\\node[left] at (0,8) {$8$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=y^{\\frac{1}{3}}$\n$x^{2}=y^{\\frac{2}{3}}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{8}y^{\\frac{2}{3}}dy$\n$= \\pi\\left[\\dfrac{3}{5}y^{\\frac{5}{3}}\\right]_{0}^{8}$\n$= \\dfrac{3\\pi}{5}\\times 32$\n$= \\dfrac{96\\pi}{5}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=x+1$ and the $y$-axis from $y=1$ to $y=3$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1.2cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:3, samples=2, variable=\\y] ({\\y-1},{\\y}) -- (0,3) -- cycle;\n\\draw[->] (-2.4,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,4.2) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.6, samples=2, variable=\\x] plot ({\\x},{\\x+1}) node[pos=0.98, right] {$y=x+1$};\n\\node[left] at (0,1) {$1$};\n\\node[left] at (0,3) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-linear-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=y-1$\n$x^{2}=(y-1)^{2}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{1}^{3}(y-1)^{2}dy$\n$= \\pi\\left[\\dfrac{(y-1)^{3}}{3}\\right]_{1}^{3}$\n$= \\pi\\left(\\dfrac{8}{3}-0\\right)$\n$= \\dfrac{8\\pi}{3}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=4-x^{2}$ and the $y$-axis from $y=1$ to $y=4$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=0.9cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:4, samples=60, variable=\\y] ({sqrt(4-\\y)},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-3.2,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.5:2.5, samples=60, variable=\\x] plot ({\\x},{4-\\x*\\x}) node[pos=0.98, below right] {$y=4-x^{2}$};\n\\node[left] at (0,1) {$1$};\n\\node[above left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y=4-x^{2}$\n$x^{2}=4-y$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{1}^{4}(4-y)dy$\n$= \\pi\\left[4y-\\dfrac{y^{2}}{2}\\right]_{1}^{4}$\n$= \\pi\\left(8-\\dfrac{7}{2}\\right)$\n$= \\dfrac{9\\pi}{2}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=\\sqrt{x}$ and the $y$-axis from $y=0$ to $y=2$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=1.2cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:2, samples=60, variable=\\y] ({\\y*\\y},{\\y}) -- (0,2) -- cycle;\n\\draw[->] (-1.2,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,3.4) node[above] {$y$};\n\\draw[thick, ->, domain=0:5.2, samples=80, variable=\\x] plot ({\\x},{sqrt(\\x)}) node[pos=0.98, above right] {$y=\\sqrt{x}$};\n\\node[left] at (0,2) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=y^{2}$\n$x^{2}=y^{4}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{2}y^{4}dy$\n$= \\pi\\left[\\dfrac{y^{5}}{5}\\right]_{0}^{2}$\n$= \\dfrac{32\\pi}{5}\\ \\text{units}^{3}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The shaded region between $y=2x+1$ and the $y$-axis from $y=1$ to $y=7$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=0.6cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:7, samples=2, variable=\\y] ({(\\y-1)/2},{\\y}) -- (0,7) -- cycle;\n\\draw[->] (-3.2,0) -- (3.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,9.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.6:3.2, samples=2, variable=\\x] plot ({\\x},{2*\\x+1}) node[pos=0.98, right] {$y=2x+1$};\n\\node[left] at (0,1) {$1$};\n\\node[left] at (0,7) {$7$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-linear-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=\\dfrac{y-1}{2}$\n$x^{2}=\\dfrac{(y-1)^{2}}{4}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{1}^{7}\\dfrac{(y-1)^{2}}{4}dy$\n$= \\pi\\left[\\dfrac{(y-1)^{3}}{12}\\right]_{1}^{7}$\n$= \\pi\\left(\\dfrac{216}{12}-0\\right)$\n$= 18\\pi\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=\\ln x$ and the $y$-axis from $y=0$ to $y=1$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1.1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:1, samples=60, variable=\\y] ({exp(\\y)},{\\y}) -- (0,1) -- cycle;\n\\draw[->] (-1.2,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,2.4) node[above] {$y$};\n\\draw[thick, <->, domain=0.1:4.2, samples=80, variable=\\x] plot ({\\x},{ln(\\x)}) node[pos=0.98, above right] {$y=\\ln x$};\n\\node[left] at (0,1) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=e^{y}$\n$x^{2}=e^{2y}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{1}e^{2y}dy$\n$= \\pi\\left[\\dfrac{e^{2y}}{2}\\right]_{0}^{1}$\n$= \\dfrac{\\pi}{2}\\left(e^{2}-1\\right)\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=\\dfrac{1}{x^{2}}$ and the $y$-axis from $y=1$ to $y=4$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:4, samples=60, variable=\\y] ({1/sqrt(\\y)},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-3.2,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,5.6) node[above] {$y$};\n\\draw[thick, <->, domain=0.45:3, samples=80, variable=\\x] plot ({\\x},{1/(\\x*\\x)}) node[pos=0.98, above right] {$y=\\frac{1}{x^{2}}$};\n\\draw[thick, <->, domain=-3:-0.45, samples=80, variable=\\x] plot ({\\x},{1/(\\x*\\x)});\n\\node[left] at (0,1) {$1$};\n\\node[left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y=\\dfrac{1}{x^{2}}$\n$x^{2}=\\dfrac{1}{y}$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{1}^{4}\\dfrac{1}{y}dy$\n$= \\pi\\left[\\ln y\\right]_{1}^{4}$\n$= \\pi\\ln 4$\n$= 2\\pi\\ln 2\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region lies between $y=x^{2}$ and the $y$-axis, from the point $(1,1)$ to the point $(2,4)$. It is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=0.85cm]\n\\fill[gray!35] (0,1) -- plot[domain=1:4, samples=60, variable=\\y] ({sqrt(\\y)},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-2.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,6.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.4:2.4, samples=60, variable=\\x] plot ({\\x},{\\x*\\x}) node[pos=0.98, right] {$y=x^{2}$};\n\\fill (1,1) circle (0.06);\n\\fill (2,4) circle (0.06);\n\\node[below right] at (1,1) {$(1,1)$};\n\\node[above left] at (2,4) {$(2,4)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "limits-from-x-values",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x^{2}=y$\n2. **Identify the limits as the $y$ values $c$ and $d$**\nThe points $(1,1)$ and $(2,4)$ give $y=1$ and $y=4$.\n3. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{1}^{4}y\\,dy$\n$= \\pi\\left[\\dfrac{y^{2}}{2}\\right]_{1}^{4}$\n$= \\pi\\left(8-\\dfrac{1}{2}\\right)$\n$= \\dfrac{15\\pi}{2}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region bounded by $y=8-2x$, the $x$-axis and the $y$-axis is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=0.55cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:8, samples=2, variable=\\y] ({(8-\\y)/2},{\\y}) -- (0,8) -- cycle;\n\\draw[->] (-1.6,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,10.4) node[above] {$y$};\n\\draw[thick, <->, domain=-0.6:5, samples=2, variable=\\x] plot ({\\x},{8-2*\\x}) node[pos=0.98, below right] {$y=8-2x$};\n\\node[left] at (0,8) {$8$};\n\\node[below] at (4,-0.3) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-linear-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x=\\dfrac{8-y}{2}$\n$x^{2}=\\dfrac{(8-y)^{2}}{4}$\n2. **Identify the limits as the $y$ values $c$ and $d$**\nThe $x$-axis gives $y=0$ and the $y$-intercept gives $y=8$.\n3. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{8}\\dfrac{(8-y)^{2}}{4}dy$\n$= \\pi\\left[-\\dfrac{(8-y)^{3}}{12}\\right]_{0}^{8}$\n$= \\pi\\left(0+\\dfrac{512}{12}\\right)$\n$= \\dfrac{128\\pi}{3}\\ \\text{units}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=x^{2}-2$ and the $y$-axis from $y=-2$ to $y=2$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1.1cm]\n\\fill[gray!35] (0,-2) -- plot[domain=-2:2, samples=60, variable=\\y] ({sqrt(\\y+2)},{\\y}) -- (0,2) -- cycle;\n\\draw[->] (-2.6,0) -- (2.6,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, samples=60, variable=\\x] plot ({\\x},{\\x*\\x-2}) node[pos=0.98, right] {$y=x^{2}-2$};\n\\node[left] at (0,-2) {$-2$};\n\\node[left] at (0,2) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y=x^{2}-2$\n$x^{2}=y+2$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{-2}^{2}(y+2)dy$\n$= \\pi\\left[\\dfrac{y^{2}}{2}+2y\\right]_{-2}^{2}$\n$= \\pi\\left(6-(-2)\\right)$\n$= 8\\pi\\ \\text{units}^{3}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A bowl is modelled by rotating the shaded region between $y=\\dfrac{x^{2}}{4}$ and the $y$-axis from $y=0$ to $y=4$ about the $y$-axis, where $1$ unit $=1$ cm. Find the exact capacity of the bowl in cubic centimetres.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.6cm, y=0.9cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:4, samples=60, variable=\\y] ({2*sqrt(\\y)},{\\y}) -- (0,4) -- cycle;\n\\draw[->] (-5.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,5.8) node[above] {$y$};\n\\draw[thick, <->, domain=-4.6:4.6, samples=60, variable=\\x] plot ({\\x},{\\x*\\x/4}) node[pos=0.98, right] {$y=\\frac{x^{2}}{4}$};\n\\node[left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y=\\dfrac{x^{2}}{4}$\n$x^{2}=4y$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{4}4y\\,dy$\n$= \\pi\\left[2y^{2}\\right]_{0}^{4}$\n$= 32\\pi\\ \\text{cm}^{3}$"
+      },
+      {
+        "question_text": "The shaded region between $y=x^{2}$ and the $y$-axis from $y=0$ to $y=k$, where $k>0$, is rotated about the $y$-axis. The solid has volume $50\\pi\\ \\text{units}^{3}$. Find $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=0.7cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:5, samples=60, variable=\\y] ({sqrt(\\y)},{\\y}) -- (0,5) -- cycle;\n\\draw[->] (-3.2,0) -- (3.2,0) node[right] {$x$};\n\\draw[->] (0,-1.6) -- (0,8.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.7:2.7, samples=60, variable=\\x] plot ({\\x},{\\x*\\x}) node[pos=0.98, right] {$y=x^{2}$};\n\\node[left] at (0,5) {$k$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "reverse-find-limit-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$x^{2}=y$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{k}y\\,dy$\n$= \\pi\\left[\\dfrac{y^{2}}{2}\\right]_{0}^{k}$\n$= \\dfrac{\\pi k^{2}}{2}$\nSetting this equal to the given volume:\n$\\dfrac{\\pi k^{2}}{2}=50\\pi$\n$k^{2}=100$\n$k=10$"
+      },
+      {
+        "question_text": "The shaded region between $y=\\sqrt{x-1}$ and the $y$-axis from $y=0$ to $y=2$ is rotated about the $y$-axis. Find the exact volume of the solid formed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=1.2cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:2, samples=60, variable=\\y] ({\\y*\\y+1},{\\y}) -- (0,2) -- cycle;\n\\draw[->] (-1.4,0) -- (6.4,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,3.4) node[above] {$y$};\n\\draw[thick, ->, domain=1:6, samples=80, variable=\\x] plot ({\\x},{sqrt(\\x-1)}) node[pos=0.98, above right] {$y=\\sqrt{x-1}$};\n\\node[left] at (0,2) {$2$};\n\\node[below] at (1,-0.15) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "rearrange-curve-rotate-y",
+        "solution_text": "1. **Rearrange the rule to make $x^{2}$ the subject in terms of $y$**\n$y^{2}=x-1$\n$x=y^{2}+1$\n$x^{2}=y^{4}+2y^{2}+1$\n2. **Evaluate $V=\\pi\\int_{c}^{d}x^{2}\\,dy$**\n$V=\\pi\\int_{0}^{2}\\left(y^{4}+2y^{2}+1\\right)dy$\n$= \\pi\\left[\\dfrac{y^{5}}{5}+\\dfrac{2y^{3}}{3}+y\\right]_{0}^{2}$\n$= \\pi\\left(\\dfrac{32}{5}+\\dfrac{16}{3}+2\\right)$\n$= \\dfrac{206\\pi}{15}\\ \\text{units}^{3}$"
+      }
+    ]
+  }
+}

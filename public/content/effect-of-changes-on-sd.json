@@ -2,20 +2,21 @@
   "skillId": "effect-of-changes-on-sd",
   "atomType": "Com",
   "theory": {
-    "intro": "Standard deviation only responds to changes that alter how far the data values sit from their **mean** — not to every change equally. Two changes come up again and again: **shifting every value by the same amount**, and **adding one new value** to the dataset.",
-    "facts": [
-      "Adding (or subtracting) the same constant to **every** value shifts the **mean** by that constant, but leaves the **spread** of the data — and therefore $\\sigma_x$ — **unchanged**.",
-      "This is true no matter how large or small the constant is.",
-      "Adding a **single new value equal to the current mean** pulls the average distance from the mean **down**, so $\\sigma_x$ **decreases**.",
-      "Adding a **single new value far outside** the current data (an outlier) pulls the average distance from the mean **up**, so $\\sigma_x$ **increases**.",
-      "If every value in a dataset is identical, there is no spread at all, so $\\sigma_x = 0$."
-    ],
-    "steps": [
-      "Identify what changes about the dataset",
-      "Decide the effect on the mean",
-      "Decide the effect on the standard deviation"
-    ]
-  },
+        "intro": "Standard deviation only responds to changes that alter how far the values sit from their **mean**. Two changes come up again and again: shifting every value by the same amount, and adding one new value.",
+        "facts": [
+          "Adding or subtracting the same constant to **every** value shifts the **mean** by that constant.",
+          "The shift moves the whole dataset without changing its **spread**, so $\\sigma_x$ is **unchanged**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (9.6,0);\n\\fill (1,0) circle (0.11);\n\\fill (2,0) circle (0.11);\n\\fill (3,0) circle (0.11);\n\\fill (4,0) circle (0.11);\n\\fill (5,0) circle (0.11);\n\\draw[->] (3,-0.9) -- (3,-0.12);\n\\node[below] at (3,-0.95) {$\\bar{x}$};\n\\node[anchor=west] at (0.1,0.55) {original data};\n\\draw[->] (0,-2.6) -- (9.6,-2.6);\n\\fill (4,-2.6) circle (0.11);\n\\fill (5,-2.6) circle (0.11);\n\\fill (6,-2.6) circle (0.11);\n\\fill (7,-2.6) circle (0.11);\n\\fill (8,-2.6) circle (0.11);\n\\draw[->] (6,-3.5) -- (6,-2.72);\n\\node[below] at (6,-3.55) {$\\bar{x}+k$};\n\\node[anchor=west] at (0.1,-2.05) {each value $+k$};\n\\end{tikzpicture}\n[/tikz]",
+          "This is true no matter how large or small the constant is.",
+          "Adding a **single new value equal to the mean** pulls the average distance from the mean **down**, so $\\sigma_x$ **decreases**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (9.6,0);\n\\fill (1,0) circle (0.11);\n\\fill (2,0) circle (0.11);\n\\fill (3,0) circle (0.11);\n\\fill (4,0) circle (0.11);\n\\fill (5,0) circle (0.11);\n\\filldraw[fill=white,thick] (3,0.42) circle (0.11);\n\\node[anchor=south] at (3,0.62) {new value};\n\\draw[->] (3,-0.9) -- (3,-0.12);\n\\node[below] at (3,-0.95) {$\\bar{x}$};\n\\end{tikzpicture}\n[/tikz]",
+          "Adding a **single new value far outside** the data (an outlier) pulls the average distance from the mean **up**, so $\\sigma_x$ **increases**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (9.6,0);\n\\fill (1,0) circle (0.11);\n\\fill (2,0) circle (0.11);\n\\fill (3,0) circle (0.11);\n\\fill (4,0) circle (0.11);\n\\fill (5,0) circle (0.11);\n\\filldraw[fill=white,thick] (8,0) circle (0.11);\n\\node[anchor=south] at (8,0.22) {new value};\n\\draw[->] (3,-0.9) -- (3,-0.12);\n\\node[below] at (3,-0.95) {$\\bar{x}$};\n\\end{tikzpicture}\n[/tikz]",
+          "If every value in a dataset is identical, there is no spread at all, so $\\sigma_x = 0$."
+        ],
+        "steps": [
+          "Identify what changes about the dataset",
+          "Decide the effect on the mean",
+          "Decide the effect on the standard deviation"
+        ]
+      },
   "practice": {
     "foundation": [
       {

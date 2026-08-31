@@ -1,0 +1,230 @@
+{
+  "skillId": "probability-perm-comb",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A committee of $3$ members is chosen at random from $5$ men and $5$ women. What is the probability that the committee consists of $2$ men and $1$ woman?",
+      "structure": "committee-selection-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{5}{12}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Assumed an even split of genders has probability 1/2 without evaluating the combination counts."
+        },
+        {
+          "text": "$\\frac{5}{24}$",
+          "why": "Calculated $\\frac{\\binom{5}{2} \\times \\binom{5}{1}}{^{10}P_{3}} = \\frac{50}{720}$, mixing combinations in numerator with permutations in denominator."
+        },
+        {
+          "text": "$\\frac{1}{12}$",
+          "why": "Calculated $\\frac{\\binom{5}{2}}{120}$, forgetting to multiply by $\\binom{5}{1}$ for the woman."
+        }
+      ],
+      "solution_text": "Total outcomes: $\\binom{10}{3} = 120$\nFavourable outcomes: $\\binom{5}{2} \\times \\binom{5}{1} = 10 \\times 5 = 50$\n$P = \\frac{50}{120}$\n$= \\frac{5}{12}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "$6$ students line up at random in a row. What is the probability that $2$ specific students, Liam and Emma, do NOT stand next to each other?",
+      "structure": "arrangement-line-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{2}{3}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{3}$",
+          "why": "Calculated the probability that Liam and Emma ARE together instead of not together."
+        },
+        {
+          "text": "$\\frac{5}{6}$",
+          "why": "Forgot the internal permutation $2!$ of Liam and Emma when finding the complement."
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Assumed adjacent and separated outcomes are equally likely."
+        }
+      ],
+      "solution_text": "Total arrangements: $6! = 720$\nLiam and Emma together: $5! \\times 2! = 240$\n$P(\\text{together}) = \\frac{240}{720} = \\frac{1}{3}$\n$P(\\text{not together}) = 1 - \\frac{1}{3}$\n$= \\frac{2}{3}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$2$ cards are drawn at random without replacement from a standard deck of $52$ cards. What is the probability that both cards are Kings?",
+      "structure": "cards-selection-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{221}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{2}{221}$",
+          "why": "Counted the $4 \\times 3 = 12$ ORDERED King pairs but divided by the UNORDERED total $\\binom{52}{2} = 1326$, giving $12/1326 = 2/221$."
+        },
+        {
+          "text": "$\\frac{1}{169}$",
+          "why": "Treated the draw as WITH replacement, so $(4/52)^2 = (1/13)^2 = 1/169$."
+        },
+        {
+          "text": "$\\frac{2}{169}$",
+          "why": "Made both slips at once: assumed replacement AND doubled for the two orders, giving $2 \\times (1/13)^2 = 2/169$."
+        }
+      ],
+      "solution_text": "Total ways to draw $2$ cards: $\\binom{52}{2} = 1326$\nWays to draw $2$ Kings: $\\binom{4}{2} = 6$\n$P(\\text{both Kings}) = \\frac{6}{1326}$\n$= \\frac{1}{221}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A $3$-digit number is formed by randomly arranging $3$ distinct digits from $\\{1, 2, 3, 4, 6, 8\\}$. What is the probability that the resulting number is odd?",
+      "structure": "digits-number-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{3}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{2}{3}$",
+          "why": "Answered the complement: counted the $4$ EVEN units digits, $4 \\times {}^{5}P_{2} = 80$, so $80/120 = 2/3$."
+        },
+        {
+          "text": "$\\frac{1}{6}$",
+          "why": "Allowed only the digit $1$ as an odd units digit and overlooked $3$, giving $1 \\times 20 = 20$ and $20/120 = 1/6$."
+        },
+        {
+          "text": "$\\frac{5}{6}$",
+          "why": "Overlooked $3$ as odd AND answered the complement, treating $5$ of the digits as even: $5 \\times 20 = 100$, so $100/120 = 5/6$."
+        }
+      ],
+      "solution_text": "Total $3$-digit numbers: $^{6}P_{3} = 120$\nOdd digits $\\{1, 3\\}$ ($2$ choices for units digit).\nFirst $2$ digits: $^{5}P_{2} = 20$\nFavourable numbers: $2 \\times 20 = 40$\n$P(\\text{odd}) = \\frac{40}{120}$\n$= \\frac{1}{3}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A bag contains $7$ red marbles and $3$ blue marbles. If $3$ marbles are drawn at random without replacement, what is the probability of drawing at least one blue marble?",
+      "structure": "complement-at-least-one-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{17}{24}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{7}{24}$",
+          "why": "Found the probability of drawing zero blue marbles (the complement) without subtracting from 1."
+        },
+        {
+          "text": "$\\frac{21}{40}$",
+          "why": "Calculated probability with replacement as $1 - (7/10)^3 = 1 - 343/1000 = 657/1000$."
+        },
+        {
+          "text": "$\\frac{3}{10}$",
+          "why": "Used the single-draw proportion $3/10$ rather than evaluating the 3-marble selection."
+        }
+      ],
+      "solution_text": "Total selections: $\\binom{10}{3} = 120$\nNo blue marbles (all $3$ red): $\\binom{7}{3} = 35$\n$P(\\text{no blue}) = \\frac{35}{120} = \\frac{7}{24}$\n$P(\\text{at least } 1 \\text{ blue}) = 1 - \\frac{7}{24}$\n$= \\frac{17}{24}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$5$ people sit at random around a circular table. What is the probability that $2$ designated people sit next to each other?",
+      "structure": "arrangement-circle-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{4}$",
+          "why": "Forgot the internal arrangements $2!$ of the two designated people."
+        },
+        {
+          "text": "$\\frac{2}{5}$",
+          "why": "Used linear seating $(4! \\times 2!)/5! = 2/5$ instead of circular seating."
+        },
+        {
+          "text": "$\\frac{1}{3}$",
+          "why": "Used $(5-1)!$ as denominator but subtracted 2 from the numerator unit count incorrectly."
+        }
+      ],
+      "solution_text": "Total circular arrangements: $(5-1)! = 4! = 24$\nDesignated pair together: $(4-1)! \\times 2! = 3! \\times 2 = 12$\n$P(\\text{together}) = \\frac{12}{24}$\n$= \\frac{1}{2}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A council of $5$ is selected at random from $6$ Conservatives and $4$ Labour members. What is the probability that Conservatives hold a majority on the council?",
+      "structure": "committee-selection-probability",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{31}{42}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{10}{21}$",
+          "why": "Only counted the case with exactly 3 Conservatives ($120/252 = 10/21$), omitting 4 and 5."
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Assumed majority probability is 1/2 without evaluating the unequal group sizes."
+        },
+        {
+          "text": "$\\frac{5}{7}$",
+          "why": "Omitted the all-Conservative case ($180/252 = 5/7$)."
+        }
+      ],
+      "solution_text": "Total selections: $\\binom{10}{5} = 252$\nCase 1 ($3$ Cons, $2$ Lab): $\\binom{6}{3} \\times \\binom{4}{2} = 20 \\times 6 = 120$\nCase 2 ($4$ Cons, $1$ Lab): $\\binom{6}{4} \\times \\binom{4}{1} = 15 \\times 4 = 60$\nCase 3 ($5$ Cons, $0$ Lab): $\\binom{6}{5} \\times \\binom{4}{0} = 6 \\times 1 = 6$\nFavourable: $120 + 60 + 6 = 186$\n$P(\\text{majority}) = \\frac{186}{252}$\n$= \\frac{31}{42}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$5$ cards are dealt at random from a standard deck of $52$ cards. What is the probability that all $5$ cards are of the same suit?",
+      "structure": "cards-selection-probability",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{33}{16660}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{33}{66640}$",
+          "why": "Calculated the probability for one specific suit without multiplying by 4 for the 4 suits."
+        },
+        {
+          "text": "$\\frac{11}{4165}$",
+          "why": "Calculated $\\frac{\\binom{13}{5}}{\\binom{52}{5}} \\times 13$ incorrectly."
+        },
+        {
+          "text": "$\\frac{1}{1024}$",
+          "why": "Calculated $(1/4)^5$ assuming independent suit draws with replacement."
+        }
+      ],
+      "solution_text": "Total hands: $\\binom{52}{5} = 2598960$\nChoose suit: $\\binom{4}{1} = 4$\nChoose $5$ cards of that suit: $\\binom{13}{5} = 1287$\nFavourable hands: $4 \\times 1287 = 5148$\n$P(\\text{all same suit}) = \\frac{5148}{2598960}$\n$= \\frac{33}{16660}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "$3$ Maths books, $2$ Physics books, and $3$ Chemistry books are arranged randomly in a row on a shelf. What is the probability that books of the same subject stay together in their respective subject blocks?",
+      "structure": "arrangement-line-probability",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{3}{280}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{560}$",
+          "why": "Forgot to multiply by $3! = 6$ for the arrangement of the 3 subject blocks."
+        },
+        {
+          "text": "$\\frac{1}{280}$",
+          "why": "Forgot the internal arrangement of the Physics books ($2!$)."
+        },
+        {
+          "text": "$\\frac{9}{280}$",
+          "why": "Multiplied by $3 \\times 3 = 9$ instead of $3!$ for the block order."
+        }
+      ],
+      "solution_text": "Total arrangements: $8! = 40320$\nArrange $3$ subject units: $3! = 6$\nInternal arrangements: Maths $3! = 6$, Physics $2! = 2$, Chemistry $3! = 6$\nFavourable: $6 \\times (6 \\times 2 \\times 6) = 432$\n$P(\\text{blocks together}) = \\frac{432}{40320}$\n$= \\frac{3}{280}$"
+    }
+  ]
+}

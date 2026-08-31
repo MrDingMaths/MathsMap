@@ -1,0 +1,111 @@
+{
+  "skillId": "non-constant-velocity-motion",
+  "atomType": "R",
+  "theory": {
+    "intro": "When a particle's velocity changes with time, questions ask **when** something happens. The particle is momentarily **at rest** only when both components of $\\underset{\\sim}{v}(t)$ are zero at the same time; it moves parallel to an axis when just one component is zero.",
+    "facts": [
+      "A particle is at rest when $\\dot{x}=0$ and $\\dot{y}=0$ at the same value of $t$.",
+      "If only $\\dot{y}=0$, the particle is moving parallel to the $x$-axis, not at rest.",
+      "If only $\\dot{x}=0$, the particle is moving parallel to the $y$-axis, not at rest.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-4.2,0) -- (4.8,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-3) -- (0,3.6) node[above] {$y$};\n\\draw[thick] (0,0) ellipse (3 and 2);\n\\fill (3,0) circle (2pt);\n\\fill (0,2) circle (2pt);\n\\draw[-{Stealth}, thick] (3,0) -- (3,1.4) node[right] {$\\dot{x}=0$};\n\\draw[-{Stealth}, thick] (0,2) -- (-1.6,2) node[left] {$\\dot{y}=0$};\n\\end{tikzpicture}\n[/tikz]",
+      "Speed is $|\\underset{\\sim}{v}|=\\sqrt{\\dot{x}^{2}+\\dot{y}^{2}}$, so it is never negative and is never $\\dot{x}+\\dot{y}$.",
+      "Since the square root is increasing, minimise or maximise $\\dot{x}^{2}+\\dot{y}^{2}$ instead of the speed itself.",
+      "Solve each component equation separately, then keep only the times common to both.",
+      "Reject any solution with $t<0$, or outside the interval the question states.",
+      "Substitute the time back into $\\underset{\\sim}{r}(t)$ to find where the event happens."
+    ],
+    "steps": [
+      "Differentiate $\\underset{\\sim}{r}(t)$ to get $\\underset{\\sim}{v}(t)$",
+      "Write the condition described in the question as equations in $\\dot{x}$ and $\\dot{y}$",
+      "Solve for $t$, rejecting times outside the allowed interval",
+      "Substitute that value of $t$ back to answer the question asked"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-6t+5)\\underset{\\sim}{i}+(t^{2}-6t+8)\\underset{\\sim}{j}$ for $t\\ge 0$. Find the time at which the particle is momentarily at rest.",
+        "structure": "time-at-rest",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t-6)\\underset{\\sim}{i}+(2t-6)\\underset{\\sim}{j}$\n$2t-6=0$\n$t=3$\nBoth components vanish at $t=3$, so the particle is at rest at $t=3$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-12t)\\underset{\\sim}{i}+(t^{2}-4t)\\underset{\\sim}{j}$ for $t\\ge 0$. Find the time at which the particle is momentarily at rest.",
+        "structure": "time-at-rest",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-12)\\underset{\\sim}{i}+(2t-4)\\underset{\\sim}{j}$\n$3t^{2}-12=0$\n$t^{2}=4$\n$t=2$ (rejecting $t=-2$ since $t\\ge 0$)\n$2t-4=0$\n$t=2$\nBoth components vanish at $t=2$, so the particle is at rest at $t=2$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^{2}-10t)\\underset{\\sim}{i}+(t^{3}-3t^{2})\\underset{\\sim}{j}$ for $t\\ge 0$. Find the time at which the particle is moving parallel to the $y$-axis.",
+        "structure": "moving-parallel-to-axis",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(4t-10)\\underset{\\sim}{i}+(3t^{2}-6t)\\underset{\\sim}{j}$\nMoving parallel to the $y$-axis means $\\dot{x}=0$ and $\\dot{y}\\ne 0$.\n$4t-10=0$\n$t=2.5$\n$\\dot{y}(2.5)$\n$=3(2.5)^{2}-6(2.5)$\n$=18.75-15$\n$=3.75$\nSince $\\dot{y}\\ne 0$, the particle is moving parallel to the $y$-axis at $t=2.5$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(4t+1)\\underset{\\sim}{i}+(t^{2}-6t)\\underset{\\sim}{j}$ for $t\\ge 0$. Find the time at which the particle is moving parallel to the $x$-axis.",
+        "structure": "moving-parallel-to-axis",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=4\\underset{\\sim}{i}+(2t-6)\\underset{\\sim}{j}$\nMoving parallel to the $x$-axis means $\\dot{y}=0$ and $\\dot{x}\\ne 0$.\n$2t-6=0$\n$t=3$\n$\\dot{x}=4$, which is never zero, so the particle is moving parallel to the $x$-axis at $t=3$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-6t)\\underset{\\sim}{i}+4t\\,\\underset{\\sim}{j}$ for $t\\ge 0$. Find its minimum speed.",
+        "structure": "extreme-speed",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t-6)\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=(2t-6)^{2}+16$\nThe square root is increasing, so the speed is least when $(2t-6)^{2}$ is least.\n$(2t-6)^{2}=0$\n$t=3$\n$|\\underset{\\sim}{v}(3)|$\n$=\\sqrt{0+16}$\n$=4$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-3t^{2})\\underset{\\sim}{i}+(2t^{3}-6t^{2})\\underset{\\sim}{j}$ for $t>0$. Find its position vector at the instant it is momentarily at rest.",
+        "structure": "position-at-event",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-6t)\\underset{\\sim}{i}+(6t^{2}-12t)\\underset{\\sim}{j}$\n$3t(t-2)=0$\n$6t(t-2)=0$\nFor $t>0$ both components vanish at $t=2$.\n$\\underset{\\sim}{r}(2)$\n$=(8-12)\\underset{\\sim}{i}+(16-24)\\underset{\\sim}{j}$\n$=-4\\underset{\\sim}{i}-8\\underset{\\sim}{j}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^{3}-9t^{2}+12t)\\underset{\\sim}{i}+(t^{2}-4t+4)\\underset{\\sim}{j}$ for $t\\ge 0$. Show that the particle is momentarily at rest exactly once, and find that time.",
+        "structure": "time-at-rest",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(6t^{2}-18t+12)\\underset{\\sim}{i}+(2t-4)\\underset{\\sim}{j}$\n$6t^{2}-18t+12=0$\n$6(t-1)(t-2)=0$\n$t=1$ or $t=2$\n$2t-4=0$\n$t=2$\nOnly $t=2$ makes both components zero, so the particle is at rest exactly once, at $t=2$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\sin 2t\\,\\underset{\\sim}{i}+2t\\,\\underset{\\sim}{j}$ for $0\\le t\\le \\pi$. Find all times at which the particle is moving parallel to the $y$-axis.",
+        "structure": "moving-parallel-to-axis",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2\\cos 2t\\,\\underset{\\sim}{i}+2\\underset{\\sim}{j}$\n$\\dot{y}=2$, which is never zero.\n$2\\cos 2t=0$\nFor $0\\le t\\le \\pi$, $2t$ runs from $0$ to $2\\pi$.\n$2t=\\dfrac{\\pi}{2}$ or $2t=\\dfrac{3\\pi}{2}$\n$t=\\dfrac{\\pi}{4}$ or $t=\\dfrac{3\\pi}{4}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+(t^{2}-6t)\\underset{\\sim}{j}$ for $0\\le t\\le 4$. Find its minimum speed, in exact form.",
+        "structure": "extreme-speed",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=2t\\,\\underset{\\sim}{i}+(2t-6)\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=4t^{2}+(2t-6)^{2}$\n$=4t^{2}+4t^{2}-24t+36$\n$=8t^{2}-24t+36$\nThis is least at the vertex.\n$t=\\dfrac{24}{16}$\n$t=1.5$, which lies in $0\\le t\\le 4$.\n$|\\underset{\\sim}{v}(1.5)|^{2}$\n$=8(2.25)-36+36$\n$=18$\n$|\\underset{\\sim}{v}(1.5)|$\n$=\\sqrt{18}$\n$=3\\sqrt{2}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-6t^{2}+9t)\\underset{\\sim}{i}+(t^{2}-6t+5)\\underset{\\sim}{j}$ for $t\\ge 0$. Find its position vector at the instant it is momentarily at rest.",
+        "structure": "position-at-event",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(3t^{2}-12t+9)\\underset{\\sim}{i}+(2t-6)\\underset{\\sim}{j}$\n$3(t-1)(t-3)=0$\n$t=1$ or $t=3$\n$2t-6=0$\n$t=3$\nBoth components vanish only at $t=3$.\n$\\underset{\\sim}{r}(3)$\n$=(27-54+27)\\underset{\\sim}{i}+(9-18+5)\\underset{\\sim}{j}$\n$=0\\underset{\\sim}{i}-4\\underset{\\sim}{j}$\n$=-4\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-4t)\\underset{\\sim}{i}+(t^{3}-27t)\\underset{\\sim}{j}$ for $t\\ge 0$. Is the particle ever momentarily at rest? Justify your answer.",
+        "structure": "distinguish-rest-vs-parallel",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t-4)\\underset{\\sim}{i}+(3t^{2}-27)\\underset{\\sim}{j}$\n$2t-4=0$\n$t=2$\n$3t^{2}-27=0$\n$t^{2}=9$\n$t=3$ (rejecting $t=-3$ since $t\\ge 0$)\nThe two components are never zero at the same time.\nThe particle is never at rest: at $t=2$ it is moving parallel to the $y$-axis, and at $t=3$ it is moving parallel to the $x$-axis."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(e^{t}-3t)\\underset{\\sim}{i}+(t^{2}-2t)\\underset{\\sim}{j}$ for $t\\ge 0$. Find the exact time at which the particle is moving parallel to the $y$-axis.",
+        "structure": "moving-parallel-to-axis",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(e^{t}-3)\\underset{\\sim}{i}+(2t-2)\\underset{\\sim}{j}$\n$e^{t}-3=0$\n$e^{t}=3$\n$t=\\ln 3$\n$\\dot{y}(\\ln 3)$\n$=2\\ln 3-2$\nSince $\\ln 3>1$, $\\dot{y}\\ne 0$, so the particle is moving parallel to the $y$-axis at $t=\\ln 3$."
+      },
+      {
+        "question_text": "A drone's position, in kilometres from its base, is $\\underset{\\sim}{r}(t)=4t\\,\\underset{\\sim}{i}+(t^{2}-2t)\\underset{\\sim}{j}$, where $t$ is in hours and $0\\le t\\le 4$. Find its exact maximum speed over this interval.",
+        "structure": "extreme-speed",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=4\\underset{\\sim}{i}+(2t-2)\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=16+(2t-2)^{2}$\nThis is greatest when $(2t-2)^{2}$ is greatest, so test the ends of $0\\le t\\le 4$.\n$(2(0)-2)^{2}=4$\n$(2(4)-2)^{2}=36$\nThe maximum is at $t=4$.\n$|\\underset{\\sim}{v}(4)|$\n$=\\sqrt{16+36}$\n$=\\sqrt{52}$\n$=2\\sqrt{13}$ km/h"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^{3}-15t^{2}+24t)\\underset{\\sim}{i}+(t^{2}-8t+12)\\underset{\\sim}{j}$ for $t\\ge 0$. Find its exact distance from the origin at the instant it is momentarily at rest.",
+        "structure": "position-at-event",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(6t^{2}-30t+24)\\underset{\\sim}{i}+(2t-8)\\underset{\\sim}{j}$\n$6(t-1)(t-4)=0$\n$t=1$ or $t=4$\n$2t-8=0$\n$t=4$\nBoth components vanish only at $t=4$.\n$\\underset{\\sim}{r}(4)$\n$=(128-240+96)\\underset{\\sim}{i}+(16-32+12)\\underset{\\sim}{j}$\n$=-16\\underset{\\sim}{i}-4\\underset{\\sim}{j}$\n$|\\underset{\\sim}{r}(4)|$\n$=\\sqrt{256+16}$\n$=\\sqrt{272}$\n$=4\\sqrt{17}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=\\left(t-4\\ln(t+1)\\right)\\underset{\\sim}{i}+5t\\,\\underset{\\sim}{j}$ for $t\\ge 0$. Find its minimum speed and the time at which it occurs.",
+        "structure": "extreme-speed",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=\\left(1-\\dfrac{4}{t+1}\\right)\\underset{\\sim}{i}+5\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|^{2}$\n$=\\left(1-\\dfrac{4}{t+1}\\right)^{2}+25$\nThe speed is least when the squared bracket is zero.\n$1-\\dfrac{4}{t+1}=0$\n$t+1=4$\n$t=3$\n$|\\underset{\\sim}{v}(3)|$\n$=\\sqrt{0+25}$\n$=5$\nThe minimum speed is $5$, at $t=3$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}+at)\\underset{\\sim}{i}+(t^{3}+bt)\\underset{\\sim}{j}$ for $t\\ge 0$, where $a$ and $b$ are constants. The particle is momentarily at rest when $t=2$. Find $a$ and $b$.",
+        "structure": "time-at-rest",
+        "solution_text": "$\\underset{\\sim}{v}(t)$\n$=(2t+a)\\underset{\\sim}{i}+(3t^{2}+b)\\underset{\\sim}{j}$\nAt rest at $t=2$ means both components are zero there.\n$4+a=0$\n$a=-4$\n$12+b=0$\n$b=-12$"
+      }
+    ]
+  }
+}

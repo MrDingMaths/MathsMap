@@ -2,20 +2,20 @@
   "skillId": "space-diagonal-3d",
   "atomType": "R",
   "theory": {
-    "intro": "A space diagonal runs through the inside of a solid, from one corner to the opposite corner. Finding it needs Pythagoras twice: first the diagonal across the base face, kept exact as a surd, then the space diagonal itself using that surd and the height. Rounding the surd too early makes the final answer inaccurate.",
-    "facts": [
-      "A **space diagonal** joins two opposite corners through the interior of the solid.",
-      "It is the **hypotenuse** of a right-angled triangle whose shorter sides are a **base face diagonal** and a vertical **edge**.",
-      "Find the base face diagonal first with $\\sqrt{a^{2}+b^{2}}$ and keep it exact.",
-      "Then $d=\\sqrt{(\\text{face diagonal})^{2}+h^{2}}$, which simplifies to $d=\\sqrt{a^{2}+b^{2}+h^{2}}$.",
-      "Only round at the very end; squaring a rounded surd loses accuracy."
-    ],
-    "steps": [
-      "Draw two relevant right-angled triangles.",
-      "Find the length of the relevant face diagonal, keeping it exact.",
-      "Calculate the length of the space diagonal using Pythagoras’ theorem."
-    ]
-  },
+        "intro": "The longest straight line in a box runs through its inside, from one corner to the opposite corner. Finding it needs Pythagoras twice: the base face diagonal first, kept exact, then the diagonal itself. Round only at the end.",
+        "facts": [
+          "A **space diagonal** joins two opposite corners through the interior of the solid.",
+          "It is the **hypotenuse** of a right-angled triangle whose shorter sides are a **base face diagonal** and a vertical **edge**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4.5,0);\n\\coordinate (B2) at (6.752,1.3);\n\\coordinate (A2) at (2.252,1.3);\n\\coordinate (At) at (0,3.5);\n\\coordinate (Bt) at (4.5,3.5);\n\\coordinate (B2t) at (6.752,4.8);\n\\coordinate (A2t) at (2.252,4.8);\n\\draw (A)--(B) node[midway,below] {$a$};\n\\draw (B)--(B2) node[midway,below right] {$b$};\n\\draw (A)--(At) node[midway,left] {$h$};\n\\draw (B)--(Bt);\n\\draw (B2)--(B2t);\n\\draw (At)--(Bt)--(B2t)--(A2t)--cycle;\n\\draw[dashed] (A)--(A2);\n\\draw[dashed] (A2)--(B2);\n\\draw[dashed] (A2)--(A2t);\n\\draw[blue,dashed] (A)--(B2) node[midway,fill=white,inner sep=1pt] {$\\sqrt{a^{2}+b^{2}}$};\n\\draw[red,thick] (A)--(B2t) node[midway,above left,fill=white,inner sep=1pt] {$d$};\n\\coordinate (ra) at ($(B)!0.3cm!(A)$);\n\\coordinate (rb) at ($(B)!0.3cm!(B2)$);\n\\draw (ra)--($(ra)+(rb)-(B)$)--(rb);\n\\coordinate (sa) at ($(B2)!0.3cm!(A)$);\n\\coordinate (sb) at ($(B2)!0.3cm!(B2t)$);\n\\draw (sa)--($(sa)+(sb)-(B2)$)--(sb);\n\\end{tikzpicture}\n[/tikz]",
+          "Find the base face diagonal first with $\\sqrt{a^{2}+b^{2}}$ and keep it exact.",
+          "Then $d=\\sqrt{(\\text{face diagonal})^{2}+h^{2}}$, which simplifies to $d=\\sqrt{a^{2}+b^{2}+h^{2}}$.",
+          "Only round at the very end; squaring a rounded surd loses accuracy."
+        ],
+        "steps": [
+          "Draw two relevant right-angled triangles.",
+          "Find the length of the relevant face diagonal, keeping it exact.",
+          "Calculate the length of the space diagonal using Pythagoras’ theorem."
+        ]
+      },
   "practice": {
     "foundation": [
       {

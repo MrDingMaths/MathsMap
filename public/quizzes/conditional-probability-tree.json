@@ -1,0 +1,255 @@
+{
+  "skillId": "conditional-probability-tree",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "At a mountain resort, the probability of snow on any day is $0.4$. When it snows ($S$), the cable car operates ($C$) $50\\%$ of the time. When it does not snow ($S'$), the cable car operates $90\\%$ of the time. Given that the cable car is operating on a randomly chosen day, find the probability that it is snowing, as a fraction in simplest form.",
+      "structure": "reverse-conditional-weather-transport",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{10}{37}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{2}$",
+          "why": "Used the forward conditional probability $P(C \\mid S) = 0.5$ instead of the reverse conditional probability."
+        },
+        {
+          "text": "$\\frac{27}{37}$",
+          "why": "Calculated the probability that it was not snowing given the cable car is operating ($P(S' \\mid C)$)."
+        },
+        {
+          "text": "$\\frac{1}{5}$",
+          "why": "Stated the joint probability $P(S \\cap C) = 0.20$ without dividing by $P(C)$."
+        }
+      ],
+      "solution_text": "$P(S \\cap C) = 0.4 \\times 0.5 = 0.20$\n$P(S' \\cap C) = 0.6 \\times 0.9 = 0.54$\n$P(C) = 0.20 + 0.54 = 0.74$\n$P(S \\mid C) = \\frac{P(S \\cap C)}{P(C)}$\n$= \\frac{0.20}{0.74}$\n$= \\frac{20}{74}$\n$= \\frac{10}{37}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A factory produces microchips on two lines: Line 1 produces $80\\%$ of all chips and has a $3\\%$ defect rate; Line 2 produces $20\\%$ of all chips and has a $7\\%$ defect rate. A microchip is selected at random and found to be defective. Find the probability that it came from Line 1, as a fraction in simplest form.",
+      "structure": "reverse-conditional-factory-inspection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{12}{19}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{4}{5}$",
+          "why": "Used the production proportion $P(L_1) = 0.8$ without weighting by the defect rate."
+        },
+        {
+          "text": "$\\frac{7}{19}$",
+          "why": "Calculated the probability that the defective chip came from Line 2."
+        },
+        {
+          "text": "$\\frac{3}{10}$",
+          "why": "Compared the two defect rates $\\frac{3}{3+7}$ ignoring the differing line production volumes."
+        }
+      ],
+      "solution_text": "$P(L_1 \\cap D) = 0.80 \\times 0.03 = 0.024$\n$P(L_2 \\cap D) = 0.20 \\times 0.07 = 0.014$\n$P(D) = 0.024 + 0.014 = 0.038$\n$P(L_1 \\mid D) = \\frac{P(L_1 \\cap D)}{P(D)}$\n$= \\frac{0.024}{0.038}$\n$= \\frac{24}{38}$\n$= \\frac{12}{19}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A clinic tests for an allergy that affects $20\\%$ of patients ($A$). The test gives a positive result ($+$) for $90\\%$ of allergic patients and for $10\\%$ of non-allergic patients ($A'$). Given that a patient tests positive, find the probability that they are allergic, as a fraction in simplest form.",
+      "structure": "reverse-conditional-medical-screening",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{9}{13}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{4}{13}$",
+          "why": "Divided the wrong branch by $P(+)$, finding $P(A' \\mid +) = \\frac{0.08}{0.26}$, the probability the patient is not allergic."
+        },
+        {
+          "text": "$\\frac{9}{14}$",
+          "why": "Left the false-positive branch unweighted, taking $P(+) = 0.18 + 0.10 = 0.28$ instead of multiplying $0.10$ by $P(A') = 0.80$."
+        },
+        {
+          "text": "$\\frac{5}{14}$",
+          "why": "Left the false-positive branch unweighted ($P(+) = 0.28$) and then divided the non-allergic branch $0.10$ by it."
+        }
+      ],
+      "solution_text": "$P(A \\cap +) = 0.20 \\times 0.90 = 0.18$\n$P(A' \\cap +) = 0.80 \\times 0.10 = 0.08$\n$P(+) = 0.18 + 0.08 = 0.26$\n$P(A \\mid +) = \\frac{P(A \\cap +)}{P(+)}$\n$= \\frac{0.18}{0.26}$\n$= \\frac{18}{26}$\n$= \\frac{9}{13}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Jar A contains $5$ green and $1$ red marble. Jar B contains $2$ green and $4$ red marbles. A fair coin is tossed to select a jar ($P(A) = P(B) = \\frac{1}{2}$), and one marble is drawn. Given that the drawn marble is red, find the probability that Jar B was chosen, as a fraction in simplest form.",
+      "structure": "reverse-conditional-bag-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{4}{5}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{5}$",
+          "why": "Calculated the probability that Jar A was chosen given a red marble."
+        },
+        {
+          "text": "$\\frac{2}{3}$",
+          "why": "Used the proportion of red marbles in Jar B alone ($\\frac{4}{6}$) without conditioning."
+        },
+        {
+          "text": "$\\frac{1}{3}$",
+          "why": "Found the joint probability $P(B \\cap R) = \\frac{4}{12} = \\frac{1}{3}$ without dividing by $P(R)$."
+        }
+      ],
+      "solution_text": "$P(A \\cap R) = \\frac{1}{2} \\times \\frac{1}{6} = \\frac{1}{12}$\n$P(B \\cap R) = \\frac{1}{2} \\times \\frac{4}{6} = \\frac{4}{12}$\n$P(R) = \\frac{1}{12} + \\frac{4}{12} = \\frac{5}{12}$\n$P(B \\mid R) = \\frac{P(B \\cap R)}{P(R)}$\n$= \\frac{\\frac{4}{12}}{\\frac{5}{12}}$\n$= \\frac{4}{5}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "In a driving school, $60\\%$ of students complete a preparatory course ($C$). Of those who complete it, $85\\%$ pass the test on their first attempt ($P$). Of those who do not complete it ($C'$), only $50\\%$ pass on their first attempt. Given that a student passed on their first attempt, find the probability that they completed the preparatory course, as a fraction in simplest form.",
+      "structure": "reverse-conditional-exam-study",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{51}{71}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{20}{71}$",
+          "why": "Divided the wrong branch by $P(P)$, finding $P(C' \\mid P) = \\frac{0.20}{0.71}$, the probability the student did not complete the course."
+        },
+        {
+          "text": "$\\frac{17}{32}$",
+          "why": "Swapped the two group proportions, using $P(C) = 0.40$ and $P(C') = 0.60$, giving $\\frac{0.34}{0.64}$."
+        },
+        {
+          "text": "$\\frac{15}{32}$",
+          "why": "Swapped the two group proportions ($P(C) = 0.40$, $P(C') = 0.60$) and then divided the non-completer branch $0.30$ by the total $0.64$."
+        }
+      ],
+      "solution_text": "$P(C \\cap P) = 0.60 \\times 0.85 = 0.51$\n$P(C' \\cap P) = 0.40 \\times 0.50 = 0.20$\n$P(P) = 0.51 + 0.20 = 0.71$\n$P(C \\mid P) = \\frac{P(C \\cap P)}{P(P)}$\n$= \\frac{0.51}{0.71}$\n$= \\frac{51}{71}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A manufacturer sources $45\\%$ of components from Supplier A and $55\\%$ from Supplier B. Components from Supplier A have a $4\\%$ failure rate, while components from Supplier B have an $8\\%$ failure rate. A randomly chosen component failed. Find the probability that it was supplied by Supplier A, as a fraction in simplest form.",
+      "structure": "reverse-conditional-factory-inspection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{9}{31}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{22}{31}$",
+          "why": "Divided the wrong branch by $P(F)$, finding $\\frac{0.044}{0.062}$, the probability the failed component came from Supplier B."
+        },
+        {
+          "text": "$\\frac{18}{29}$",
+          "why": "Attached the failure rates to the wrong suppliers, using $8\\%$ for A and $4\\%$ for B, giving $\\frac{0.036}{0.058}$."
+        },
+        {
+          "text": "$\\frac{11}{29}$",
+          "why": "Attached the failure rates to the wrong suppliers ($8\\%$ for A, $4\\%$ for B) and then divided the Supplier B branch $0.022$ by the total $0.058$."
+        }
+      ],
+      "solution_text": "$P(A \\cap F) = 0.45 \\times 0.04 = 0.018$\n$P(B \\cap F) = 0.55 \\times 0.08 = 0.044$\n$P(F) = 0.018 + 0.044 = 0.062$\n$P(A \\mid F) = \\frac{P(A \\cap F)}{P(F)}$\n$= \\frac{0.018}{0.062}$\n$= \\frac{18}{62}$\n$= \\frac{9}{31}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A blood test for a condition with a $10\\%$ prevalence has a $92\\%$ sensitivity ($P(+ \\mid D) = 0.92$) and an $8\\%$ false positive rate ($P(+ \\mid D') = 0.08$). Given that a person tests negative ($-$), find the probability that they are disease-free ($D'$), as a fraction in simplest form.",
+      "structure": "reverse-conditional-medical-screening",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{207}{209}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{2}{209}$",
+          "why": "Calculated the probability that the person has the disease despite testing negative."
+        },
+        {
+          "text": "$\\frac{23}{25}$",
+          "why": "Quoted the test specificity $P(- \\mid D') = 0.92$ instead of finding $P(D' \\mid -)$."
+        },
+        {
+          "text": "$\\frac{9}{10}$",
+          "why": "Used the prior probability of being healthy $P(D') = 0.90$ without updating."
+        }
+      ],
+      "solution_text": "$P(D \\cap -) = 0.10 \\times (1 - 0.92) = 0.10 \\times 0.08 = 0.008$\n$P(D' \\cap -) = 0.90 \\times (1 - 0.08) = 0.90 \\times 0.92 = 0.828$\n$P(-) = 0.008 + 0.828 = 0.836$\n$P(D' \\mid -) = \\frac{P(D' \\cap -)}{P(-)}$\n$= \\frac{0.828}{0.836}$\n$= \\frac{828}{836}$\n$= \\frac{207}{209}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A box contains $2$ fair coins and $1$ two-headed coin. One coin is randomly chosen ($P = \\frac{2}{3}$ for fair, $P = \\frac{1}{3}$ for two-headed) and tossed. It lands on Heads. Find the probability that the chosen coin is the two-headed coin, as a fraction in simplest form.",
+      "structure": "reverse-conditional-bag-selection",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{2}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{3}$",
+          "why": "Used the prior probability of choosing the two-headed coin without updating."
+        },
+        {
+          "text": "$1$",
+          "why": "Assumed seeing a Head guarantees the coin is two-headed."
+        },
+        {
+          "text": "$\\frac{2}{3}$",
+          "why": "Calculated the probability of choosing a fair coin instead of the two-headed coin."
+        }
+      ],
+      "solution_text": "$P(\\text{Two-headed} \\cap H) = \\frac{1}{3} \\times 1 = \\frac{1}{3}$\n$P(\\text{Fair} \\cap H) = \\frac{2}{3} \\times \\frac{1}{2} = \\frac{1}{3}$\n$P(H) = \\frac{1}{3} + \\frac{1}{3} = \\frac{2}{3}$\n$P(\\text{Two-headed} \\mid H) = \\frac{P(\\text{Two-headed} \\cap H)}{P(H)}$\n$= \\frac{\\frac{1}{3}}{\\frac{2}{3}}$\n$= \\frac{1}{2}$"
+    },
+    {
+      "id": "q9",
+      "question_text": "On days when it rains ($30\\%$ of days), bus traffic has a $40\\%$ chance of significant delays ($D$). On dry days, bus traffic has a $10\\%$ chance of significant delays. Given that a bus trip experienced significant delays, find the probability that it was a dry day, as a fraction in simplest form.",
+      "structure": "reverse-conditional-weather-transport",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{7}{19}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{12}{19}$",
+          "why": "Divided the wrong branch by $P(D)$, finding $\\frac{0.12}{0.19}$, the probability that it was raining given the delays."
+        },
+        {
+          "text": "$\\frac{3}{31}$",
+          "why": "Read the $30\\%$ as the proportion of dry days, so used $P(\\text{Dry}) = 0.30$ and $P(\\text{Rain}) = 0.70$, giving $\\frac{0.03}{0.31}$."
+        },
+        {
+          "text": "$\\frac{28}{31}$",
+          "why": "Read the $30\\%$ as the proportion of dry days ($P(\\text{Rain}) = 0.70$) and then divided the rainy branch $0.28$ by the total $0.31$."
+        }
+      ],
+      "solution_text": "$P(\\text{Rain} \\cap D) = 0.30 \\times 0.40 = 0.12$\n$P(\\text{Dry} \\cap D) = 0.70 \\times 0.10 = 0.07$\n$P(D) = 0.12 + 0.07 = 0.19$\n$P(\\text{Dry} \\mid D) = \\frac{P(\\text{Dry} \\cap D)}{P(D)}$\n$= \\frac{0.07}{0.19}$\n$= \\frac{7}{19}$"
+    },
+    {
+      "id": "q10",
+      "question_text": "A screening program tests for a rare genetic mutation present in $2$ in $1000$ individuals ($p = 0.002$). The test has a $100\\%$ true positive rate ($P(+ \\mid M) = 1$) and a $5\\%$ false positive rate ($P(+ \\mid M') = 0.05$). Find the probability that an individual has the mutation given that they tested positive, as a fraction in simplest form.",
+      "structure": "reverse-conditional-medical-screening",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{20}{519}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{499}{519}$",
+          "why": "Calculated the probability that the individual does not have the mutation given a positive test."
+        },
+        {
+          "text": "$1$",
+          "why": "Assumed a 100% true positive rate means a positive test is 100% certain to indicate the mutation."
+        },
+        {
+          "text": "$\\frac{1}{26}$",
+          "why": "Approximated $0.998 \\approx 1.0$ giving $\\frac{0.002}{0.052} = \\frac{1}{26}$ instead of using exact values."
+        }
+      ],
+      "solution_text": "$P(M \\cap +) = 0.002 \\times 1 = 0.002$\n$P(M' \\cap +) = 0.998 \\times 0.05 = 0.0499$\n$P(+) = 0.002 + 0.0499 = 0.0519$\n$P(M \\mid +) = \\frac{P(M \\cap +)}{P(+)}$\n$= \\frac{0.002}{0.0519}$\n$= \\frac{20}{519}$"
+    }
+  ]
+}

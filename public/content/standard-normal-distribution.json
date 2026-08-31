@@ -1,0 +1,120 @@
+{
+  "skillId": "standard-normal-distribution",
+  "atomType": "T",
+  "theory": {
+    "intro": "$X\\sim N(\\mu,\\sigma^{2})$ says $X$ is normal with mean $\\mu$ and **variance** $\\sigma^{2}$, the square of the standard deviation. The **standard normal distribution** is $Z\\sim N(0,1)$, the one curve with mean $0$ and standard deviation $1$.",
+    "facts": [
+      "In $X\\sim N(\\mu,\\sigma^{2})$ the second number is the variance, so the standard deviation is its square root.",
+      "$X\\sim N(70,25)$ and $X\\sim N(70,5^{2})$ describe the same variable, with mean $70$ and standard deviation $5$.",
+      "A distribution is standard normal only when both $\\mu=0$ and $\\sigma=1$; any other pair is non-standard.",
+      "Standardising uses $Z=\\frac{X-\\mu}{\\sigma}$, which subtracts the mean and then divides by the standard deviation.",
+      "Subtracting $\\mu$ moves the centre to $0$, and dividing by $\\sigma$ makes the standard deviation $1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.2*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\draw[->] (-3.6,-1.7) -- (3.9,-1.7) node[right] {$z$};\n\\draw (0,-1.7) -- (0,-1.82) node[below, font=\\small] {$0$};\n\\draw (-1,-1.7) -- (-1,-1.82) node[below, font=\\small] {$-1$};\n\\draw (1,-1.7) -- (1,-1.82) node[below, font=\\small] {$1$};\n\\node[font=\\small] at (0,-0.95) {$z=\\frac{x-\\mu}{\\sigma}$};\n\\end{tikzpicture}\n[/tikz]",
+      "Every normal variable standardises to the same curve, so one table of $z$ values serves all of them.",
+      "A $z$ value counts standard deviations, so it has no units even when $X$ is measured in grams or hours.",
+      "The score $x=\\mu+\\sigma$ always maps to $z=1$, whatever the mean and standard deviation happen to be."
+    ],
+    "steps": [
+      "Read the first number in $N(\\mu,\\sigma^{2})$ as the mean",
+      "Read the second number as the variance $\\sigma^{2}$",
+      "Take the square root of the variance to get the standard deviation"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "$X\\sim N(70,25)$. State the mean and the standard deviation of $X$.",
+        "structure": "read-mu-sigma-from-notation",
+        "solution_text": "$\\mu=70$\n$\\sigma^{2}=25$\n$\\sigma$\n$=\\sqrt{25}$\n$=5$"
+      },
+      {
+        "question_text": "$X\\sim N(268,9^{2})$. State the mean and the standard deviation of $X$.",
+        "structure": "read-mu-sigma-from-notation",
+        "solution_text": "The variance is already written as a square, so the standard deviation can be read straight off.\n$\\mu=268$\n$\\sigma^{2}=9^{2}$\n$\\sigma$\n$=9$"
+      },
+      {
+        "question_text": "The volume of juice in a carton is normally distributed with mean $12.5$ mL above the label and standard deviation $0.4$ mL. Write this using $N(\\mu,\\sigma^{2})$ notation, with $X$ the excess volume in mL.",
+        "structure": "write-notation",
+        "solution_text": "The second entry is the variance, so square the standard deviation.\n$\\sigma^{2}$\n$=0.4^{2}$\n$=0.16$\n$X\\sim N(12.5,0.16)$"
+      },
+      {
+        "question_text": "A normal random variable $W$ has mean $150$ and standard deviation $20$. Write this using $N(\\mu,\\sigma^{2})$ notation.",
+        "structure": "write-notation",
+        "solution_text": "$\\sigma^{2}$\n$=20^{2}$\n$=400$\n$W\\sim N(150,400)$"
+      },
+      {
+        "question_text": "$X\\sim N(0,4)$. Explain whether $X$ has the standard normal distribution.",
+        "structure": "classify-standard-or-not",
+        "solution_text": "$\\sigma$\n$=\\sqrt{4}$\n$=2$\nThe mean is $0$, but the standard deviation is $2$ rather than $1$.\nNo, $X$ is not standard normal."
+      },
+      {
+        "question_text": "$Z\\sim N(0,1)$ and $W\\sim N(1,1)$. Explain which of these, if either, is standard normal.",
+        "structure": "classify-standard-or-not",
+        "solution_text": "$Z$ has mean $0$ and variance $1$, so its standard deviation is $1$ as well.\n$W$ has standard deviation $1$, but its mean is $1$ rather than $0$.\nOnly $Z$ is standard normal."
+      },
+      {
+        "question_text": "$X\\sim N(50,64)$. Write $P(X<66)$ as a probability about the standard normal variable $Z$.",
+        "structure": "map-probability-to-z",
+        "solution_text": "$\\sigma$\n$=\\sqrt{64}$\n$=8$\n$z$\n$=\\frac{66-50}{8}$\n$=2$\n$P(X<66)$\n$=P(Z<2)$"
+      },
+      {
+        "question_text": "$X\\sim N(84,36)$. State the mean and the standard deviation of $Z=\\frac{X-84}{6}$.",
+        "structure": "why-mean-zero-sd-one",
+        "solution_text": "$\\sigma$\n$=\\sqrt{36}$\n$=6$\nSubtracting $84$ moves the centre of the distribution to $0$, and dividing by $6$ shrinks the spread by a factor of $6$.\nThe mean of $Z$ is $0$ and its standard deviation is $1$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "$X\\sim N(4.2,2.25)$. State the mean and the standard deviation of $X$.",
+        "structure": "read-mu-sigma-from-notation",
+        "solution_text": "$\\mu=4.2$\n$\\sigma^{2}=2.25$\n$\\sigma$\n$=\\sqrt{2.25}$\n$=1.5$"
+      },
+      {
+        "question_text": "$X\\sim N(120,225)$. Write $P(X>96)$ as a probability about the standard normal variable $Z$.",
+        "structure": "map-probability-to-z",
+        "solution_text": "$\\sigma$\n$=\\sqrt{225}$\n$=15$\n$z$\n$=\\frac{96-120}{15}$\n$=-1.6$\n$P(X>96)$\n$=P(Z>-1.6)$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-1.6,0) -- plot[domain=-1.6:3.6, samples=70, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (3.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (-1.6,0) -- (-1.6,-0.12) node[below, font=\\small] {$-1.6$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X\\sim N(60,16)$ and $Y\\sim N(500,100)$. Show that $P(X<68)$ and $P(Y<520)$ are equal.",
+        "structure": "same-standard-curve",
+        "solution_text": "For $X$ the standard deviation is $\\sqrt{16}=4$.\n$z$\n$=\\frac{68-60}{4}$\n$=2$\nFor $Y$ the standard deviation is $\\sqrt{100}=10$.\n$z$\n$=\\frac{520-500}{10}$\n$=2$\nBoth scores standardise to $z=2$, so both probabilities equal $P(Z<2)$."
+      },
+      {
+        "question_text": "A bottling machine fills bottles to a mean of $750$ mL with a standard deviation of $2.5$ mL. Write the volume $V$ using $N(\\mu,\\sigma^{2})$ notation.",
+        "structure": "write-notation",
+        "solution_text": "$\\sigma^{2}$\n$=2.5^{2}$\n$=6.25$\n$V\\sim N(750,6.25)$"
+      },
+      {
+        "question_text": "Explain why the variable $Z=\\frac{X-\\mu}{\\sigma}$ always has mean $0$ and standard deviation $1$, whatever $\\mu$ and $\\sigma$ are.",
+        "structure": "why-mean-zero-sd-one",
+        "solution_text": "Subtracting $\\mu$ from every score shifts the whole distribution left by $\\mu$, so the centre lands on $0$ and the spread is unchanged.\nDividing every shifted score by $\\sigma$ shrinks every distance from the centre by a factor of $\\sigma$, so a distance of one standard deviation becomes a distance of $1$.\nThe centre is therefore at $0$ and the standard deviation is $1$."
+      },
+      {
+        "question_text": "Which of $N(0,1)$, $N(0,1^{2})$, $N(1,1)$ and $N(0,2)$ are standard normal distributions? Explain.",
+        "structure": "classify-standard-or-not",
+        "solution_text": "$N(0,1)$ and $N(0,1^{2})$ are two ways of writing the same thing, since $1^{2}=1$, and both have mean $0$ and standard deviation $1$.\n$N(1,1)$ has standard deviation $1$ but mean $1$.\n$N(0,2)$ has mean $0$ but standard deviation $\\sqrt{2}$.\nOnly $N(0,1)$ and $N(0,1^{2})$ are standard normal."
+      },
+      {
+        "question_text": "$X\\sim N(30,49)$ and $P(X<c)=P(Z<-2)$, where $Z$ is standard normal. Find $c$.",
+        "structure": "map-probability-to-z",
+        "solution_text": "$\\sigma$\n$=\\sqrt{49}$\n$=7$\n$\\frac{c-30}{7}=-2$\n$c-30=-14$\n$c=16$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$X\\sim N(\\mu,\\sigma^{2})$. The score $x=43$ standardises to $z=1.5$ and the score $x=31$ standardises to $z=-0.5$. Find $\\mu$ and $\\sigma$.",
+        "structure": "find-parameters-from-z-pair",
+        "solution_text": "$43=\\mu+1.5\\sigma$\n$31=\\mu-0.5\\sigma$\nSubtracting the second equation from the first removes $\\mu$.\n$12=2\\sigma$\n$\\sigma=6$\n$\\mu$\n$=31+0.5\\times 6$\n$=34$"
+      },
+      {
+        "question_text": "$X\\sim N(160,\\sigma^{2})$, and the score $x=172$ standardises to $z=0.8$. Find $\\sigma^{2}$ and write the distribution in full $N(\\mu,\\sigma^{2})$ notation.",
+        "structure": "find-parameters-from-z-pair",
+        "solution_text": "$0.8=\\frac{172-160}{\\sigma}$\n$0.8\\sigma=12$\n$\\sigma=15$\n$\\sigma^{2}$\n$=15^{2}$\n$=225$\n$X\\sim N(160,225)$"
+      },
+      {
+        "question_text": "$X\\sim N(25,9)$ and $Y\\sim N(25,36)$. A score of $31$ is recorded on each scale. Explain which score is the more extreme.",
+        "structure": "same-standard-curve",
+        "solution_text": "For $X$ the standard deviation is $\\sqrt{9}=3$.\n$z$\n$=\\frac{31-25}{3}$\n$=2$\nFor $Y$ the standard deviation is $\\sqrt{36}=6$.\n$z$\n$=\\frac{31-25}{6}$\n$=1$\nBoth scores map onto the same standard normal curve, and $31$ sits two standard deviations out on the $X$ scale but only one on the $Y$ scale.\nThe score of $31$ on the $X$ scale is the more extreme."
+      }
+    ]
+  }
+}

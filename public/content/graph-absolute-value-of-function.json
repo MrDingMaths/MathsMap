@@ -1,0 +1,113 @@
+{
+  "skillId": "graph-absolute-value-of-function",
+  "atomType": "T",
+  "theory": {
+        "intro": "$y = |f(x)|$ takes the absolute value of the **output**, and $y = f(|x|)$ takes it of the **input**. One folds the graph up off the $x$-axis; the other mirrors the right half across the $y$-axis.",
+        "facts": [
+          "For $y = |f(x)|$, keep every part of $y = f(x)$ on or above the $x$-axis and reflect every part below it upwards.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-2.4, xmax=2.4, ymin=-3.5, ymax=3.5,\n  xtick=\\empty, ytick=\\empty,\n  samples=100, clip=false,\n  axis line style={-{Stealth}}, width=9cm, height=7cm]\n\\addplot[dashed, thick, blue, <->, domain=-2.1:2.1] {x^3 - 3*x};\n\\addplot[thick, red, <-, domain=-2.1:-1.7320508] {-(x^3) + 3*x};\n\\addplot[thick, red, domain=-1.7320508:0] {x^3 - 3*x};\n\\addplot[thick, red, domain=0:1.7320508] {-(x^3) + 3*x};\n\\addplot[thick, red, ->, domain=1.7320508:2.1] {x^3 - 3*x};\n\\node[blue, right] at (axis cs:-1.55,-2.6) {$y=f(x)$};\n\\node[red, right] at (axis cs:0.45,2.75) {$y=|f(x)|$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "The range of $y = |f(x)|$ lies within $[0, \\infty)$, and each $x$-intercept $(r, 0)$ stays put, usually becoming a sharp corner.",
+          "For $y = f(|x|)$, keep the graph for $x \\ge 0$, delete the part for $x < 0$, and reflect the kept part across the $y$-axis.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-2.4, xmax=2.4, ymin=-3.5, ymax=3.5,\n  xtick=\\empty, ytick=\\empty,\n  samples=100, clip=false,\n  axis line style={-{Stealth}}, width=9cm, height=7cm]\n\\addplot[dashed, thick, blue, <->, domain=-2.1:2.1] {x^3 - 3*x};\n\\addplot[thick, red, <-, domain=-2.1:0] {-(x^3) + 3*x};\n\\addplot[thick, red, ->, domain=0:2.1] {x^3 - 3*x};\n\\node[blue, right] at (axis cs:-1.5,2.85) {$y=f(x)$};\n\\node[red, right] at (axis cs:-1.4,-2.9) {$y=f(|x|)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "The graph of $y = f(|x|)$ is always **even**, symmetric about the $y$-axis, because $f(|-x|) = f(|x|)$.",
+          "$y = |f(x)|$ changes the **outputs** ($y$-values), while $y = f(|x|)$ changes the **inputs** ($x$-values).",
+          "If $f$ is even, so $f(-x) = f(x)$, then $y = f(|x|)$ is the same graph as $y = f(x)$."
+        ],
+        "steps": [
+          "For $y = |f(x)|$: keep the graph where $y \\ge 0$ and reflect any sections where $y < 0$ vertically across the $x$-axis",
+          "For $y = f(|x|)$: delete the left half ($x < 0$) and reflect the right half ($x \\ge 0$) horizontally across the $y$-axis",
+          "Locate all transformed intercepts, vertices, turning points, and sharp corners, and state the new domain and range"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The linear graph $y = f(x) = 2x - 6$ has $x$-intercept $(3, 0)$ and $y$-intercept $(0, -6)$. Find the intercepts and vertex of the graph $y = |f(x)|$.",
+        "structure": "graph-abs-f-x",
+        "solution_text": "For $y = |2x - 6|$:\nThe $x$-intercept stays at $(3, 0)$, which is the vertex (sharp corner).\nThe $y$-intercept is reflected: $(0, |-6|) = (0, 6)$.\nVertex at $(3, 0)$, $x$-intercept $(3, 0)$, $y$-intercept $(0, 6)$."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ is a line passing through $(0, 4)$ and $(2, 0)$ with equation $f(x) = 4 - 2x$. Describe the graph of $y = f(|x|)$ and state its equation in piecewise form.",
+        "structure": "graph-f-abs-x",
+        "solution_text": "For $x \\ge 0$, $y = 4 - 2x$.\nReflecting across the $y$-axis gives $y = 4 - 2(-x) = 4 + 2x$ for $x < 0$.\nThe graph is an inverted V-shape with vertex at $(0, 4)$ and $x$-intercepts at $(\\pm 2, 0)$.\nPiecewise: $y = 4 - 2x$ for $x \\ge 0$ and $y = 4 + 2x$ for $x < 0$."
+      },
+      {
+        "question_text": "Explain the fundamental geometric difference between the transformations $y = |f(x)|$ and $y = f(|x|)$ applied to the curve $y = x - 4$.",
+        "structure": "compare-abs-transformations",
+        "solution_text": "For $y = |f(x)| = |x - 4|$: the line below the $x$-axis ($x < 4$) is reflected vertically upward, giving vertex $(4, 0)$ and range $[0, \\infty)$.\nFor $y = f(|x|) = |x| - 4$: the section $x < 0$ is deleted and the section $x \\ge 0$ is reflected horizontally across the $y$-axis, giving vertex $(0, -4)$ and $y$-axis symmetry.\n$y = |f(x)|$ reflects negative $y$-values vertically; $y = f(|x|)$ mirrors the right half horizontally across the $y$-axis."
+      },
+      {
+        "question_text": "The parabola $y = f(x) = (x - 3)^2 - 4$ has vertex $(3, -4)$, $y$-intercept $(0, 5)$, and $x$-intercepts at $(1, 0)$ and $(5, 0)$. State the coordinates of the turning points and intercepts of $y = |f(x)|$.",
+        "structure": "transform-features-and-intercepts",
+        "solution_text": "$x$-intercepts remain $(1, 0)$ and $(5, 0)$ (sharp corners).\nThe $y$-intercept remains $(0, 5)$ since $5 > 0$.\nThe vertex $(3, -4)$ lies below the $x$-axis and reflects to a local maximum at $(3, 4)$.\nIntercepts: $(1, 0), (5, 0), (0, 5)$; local maximum at $(3, 4)$."
+      },
+      {
+        "question_text": "For the cubic $f(x) = x^3 - 8$, find the domain and range of $y = |f(x)|$ and $y = f(|x|)$.",
+        "structure": "domain-and-range-abs-functions",
+        "solution_text": "For $y = |f(x)| = |x^3 - 8|$:\nDomain: $(-\\infty, \\infty)$;\nRange: $[0, \\infty)$ since absolute value cannot be negative.\nFor $y = f(|x|) = |x|^3 - 8$:\nDomain: $(-\\infty, \\infty)$;\nSince $|x|^3 \\ge 0$, the minimum occurs at $x = 0$ with $y = -8$.\nRange: $[-8, \\infty)$."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-3, xmax=4, ymin=-4, ymax=4,\n  xtick={-2,-1,1,2,3}, ytick={-3,-2,-1,1,2,3},\n  samples=100, clip=false,\n  axis line style={-{Stealth}}, width=9cm, height=6.5cm]\n\\addplot[smooth, thick, blue, <->, domain=-2.5:3.5] {x^2 - 2*x - 3};\n\\node[blue, right] at (axis cs:2.8,2) {$y=f(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the vertex and $y$-intercept of $y = f(|x|)$.",
+        "structure": "transform-features-and-intercepts",
+        "solution_text": "The original function is $f(x) = x^2 - 2x - 3$.\nFor $x \\ge 0$, $f(x)$ has vertex at $(1, -4)$ and $y$-intercept $(0, -3)$.\nUnder $y = f(|x|)$, the right half is mirrored across the $y$-axis.\nLocal minima occur at $(1, -4)$ and $(-1, -4)$.\nThe $y$-intercept is at $(0, -3)$, which is a local maximum (sharp corner).\nMinima at $(\\pm 1, -4)$, $y$-intercept at $(0, -3)$."
+      },
+      {
+        "question_text": "Sketch the graph of $y = |x^2 - 4|$ by stating its axis of symmetry, $x$-intercepts, and $y$-intercept.",
+        "structure": "piecewise-and-algebraic-abs-graph",
+        "solution_text": "Original parabola $f(x) = x^2 - 4$ has $x$-intercepts at $(\\pm 2, 0)$ and vertex at $(0, -4)$.\nFor $|x| \\ge 2$, $x^2 - 4 \\ge 0$, so the curve is unchanged.\nFor $-2 < x < 2$, $x^2 - 4 < 0$, so the curve is reflected upward with maximum at $(0, 4)$.\n$x$-intercepts: $(-2, 0)$ and $(2, 0)$;\n$y$-intercept: $(0, 4)$;\nAxis of symmetry: $x = 0$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph of $y = f(x) = x(x - 2)(x + 3)$ is a cubic with zeros at $x = -3, 0, 2$. Describe the appearance of $y = |f(x)|$ and list all $x$-values where sharp corners occur.",
+        "structure": "graph-abs-f-x",
+        "solution_text": "For $y = |f(x)|$, all sections where the cubic is below the $x$-axis (on $(-3, 0)$ and $(-\\infty, -3)$) are reflected upward.\nThe graph remains entirely on or above the $x$-axis.\nSharp corners (cusps) occur at the simple roots of $f(x)$ where the derivative changes sign abruptly:\n$x = -3, x = 0, x = 2$."
+      },
+      {
+        "question_text": "The cubic function $f(x) = x(x - 2)^2$ has a simple zero at $x = 0$ and a double zero at $x = 2$. Compare the nature of the graph $y = |f(x)|$ at $x = 0$ versus at $x = 2$.",
+        "structure": "graph-abs-f-x",
+        "solution_text": "At $x = 0$, $f'(0) = (0 - 2)^2 + 2(0)(0 - 2) = 4 \\neq 0$.\nBecause the curve crosses the $x$-axis with non-zero gradient, $y = |f(x)|$ has a **sharp corner (cusp)** at $(0, 0)$.\nAt $x = 2$, $f(2) = 0$ and $f'(2) = 0$ (the parabola touches the axis tangentially).\nBecause $f(x) \\ge 0$ for all $x \\ge 0$, $y = |f(x)| = f(x)$ around $x = 2$, so the graph is **smooth** with a horizontal tangent at $(2, 0)$."
+      },
+      {
+        "question_text": "The rational function $f(x) = 1 + \\dfrac{1}{x}$ has vertical asymptote $x = 0$, horizontal asymptote $y = 1$, and $x$-intercept $(-1, 0)$. Determine the asymptotes, intercepts, and range of $y = |f(x)|$.",
+        "structure": "compare-abs-transformations",
+        "solution_text": "For $y = \\left|1 + \\dfrac{1}{x}\\right|$:\nVertical asymptote remains $x = 0$.\nHorizontal asymptote remains $y = |1| = 1$.\n$x$-intercept at $(-1, 0)$ is a sharp corner, where the negative branch on $(-1, 0)$ is reflected upward.\nRange: $[0, \\infty)$ with $y \\neq 1$ (approached as $x \\to \\pm\\infty$).\nVertical asymptote $x = 0$, horizontal asymptote $y = 1$, $x$-intercept $(-1, 0)$, range $[0, 1) \\cup (1, \\infty)$."
+      },
+      {
+        "question_text": "The rational function $f(x) = 1 + \\dfrac{1}{x}$ is given. Determine the asymptotes, intercepts, symmetry, and range of $y = f(|x|)$.",
+        "structure": "graph-f-abs-x",
+        "solution_text": "$y = 1 + \\dfrac{1}{|x|}$.\nFor $x > 0$, $y = 1 + \\dfrac{1}{x}$.\nFor $x < 0$, $y = 1 - \\dfrac{1}{x} = 1 + \\dfrac{1}{|x|}$.\nVertical asymptote: $x = 0$ (both sides approach $+\\infty$).\nHorizontal asymptote: $y = 1$.\nSymmetry: Even ($y$-axis symmetry).\nRange: $(1, \\infty)$ since $\\dfrac{1}{|x|} > 0$ for all $x \\neq 0$."
+      },
+      {
+        "question_text": "The curve $y = f(x)$ has local maximum $(-2, 5)$ and local minimum $(3, -4)$, with $y$-intercept $(0, 2)$. Find the turning points and $y$-intercept of $y = f(|x|)$.",
+        "structure": "transform-features-and-intercepts",
+        "solution_text": "For $y = f(|x|)$, the region $x < 0$ is discarded.\nThe local minimum at $(3, -4)$ for $x > 0$ is preserved and reflected to $(-3, -4)$.\nThe $y$-intercept remains $(0, 2)$, which becomes a sharp corner local maximum.\nLocal minima at $(3, -4)$ and $(-3, -4)$; local maximum at $(0, 2)$."
+      },
+      {
+        "question_text": "Find the number of real solutions to the equation $|x^2 - 4x| = 3$ using a graphical approach.",
+        "structure": "piecewise-and-algebraic-abs-graph",
+        "solution_text": "The parabola $f(x) = x^2 - 4x = x(x - 4)$ has vertex $(2, -4)$ and zeros at $x = 0, 4$.\nThe graph of $y = |x^2 - 4x|$ has local maximum at $(2, 4)$ and zeros at $(0, 0)$ and $(4, 0)$.\nThe horizontal line $y = 3$ lies between $y = 0$ and the local peak $y = 4$.\nTherefore $y = 3$ intersects the outer branches twice and the reflected central loop twice.\nTotal number of real solutions $= 4$."
+      },
+      {
+        "question_text": "Find all real values of $x$ satisfying $|2x - 5| = x + 1$ by graphing or case analysis.",
+        "structure": "piecewise-and-algebraic-abs-graph",
+        "solution_text": "Case 1: $2x - 5 \\ge 0 \\implies x \\ge 2.5$\n$2x - 5 = x + 1 \\implies x = 6$ (valid since $6 \\ge 2.5$).\nCase 2: $2x - 5 < 0 \\implies x < 2.5$\n$-(2x - 5) = x + 1$\n$-2x + 5 = x + 1$\n$3x = 4 \\implies x = \\dfrac{4}{3}$ (valid since $\\dfrac{4}{3} < 2.5$).\nSolutions: $x = \\dfrac{4}{3}, 6$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The graph of $y = f(x)$ is shown below with vertical asymptote $x = 2$, horizontal asymptote $y = -1$, and $x$-intercept $(4, 0)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-3, xmax=6, ymin=-5, ymax=5,\n  xtick={-2,-1,1,2,3,4,5}, ytick={-4,-2,2,4},\n  samples=100, clip=false,\n  axis line style={-{Stealth}}, width=10cm, height=7cm]\n\\addplot[smooth, thick, blue, <->, domain=-3:1.7, restrict y to domain=-5:5, unbounded coords=jump] { (4 - x)/(x - 2) };\n\\addplot[smooth, thick, blue, <->, domain=2.3:6, restrict y to domain=-5:5, unbounded coords=jump] { (4 - x)/(x - 2) };\n\\addplot[dashed, gray, domain=-5:5] ({2}, {x}) node[above right] {$x=2$};\n\\addplot[dashed, gray, domain=-3:6] (x, {-1}) node[below right] {$y=-1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nState the equations of all asymptotes for $y = |f(x)|$ and for $y = f(|x|)$.",
+        "structure": "compare-abs-transformations",
+        "solution_text": "For $y = |f(x)|$:\nVertical asymptote: $x = 2$.\nHorizontal asymptote: $y = |-1| = 1$.\nFor $y = f(|x|)$:\nVertical asymptotes: $x = 2$ and $x = -2$ (from $y$-axis reflection).\nHorizontal asymptote: $y = -1$ (as $x \\to \\pm\\infty$).\n$y = |f(x)|$: VA $x = 2$, HA $y = 1$; $y = f(|x|)$: VAs $x = \\pm 2$, HA $y = -1$."
+      },
+      {
+        "question_text": "Determine all values of the constant $k$ for which the equation $|x^2 - 6x + 5| = k$ has exactly $3$ distinct real solutions.",
+        "structure": "piecewise-and-algebraic-abs-graph",
+        "solution_text": "The parabola $f(x) = x^2 - 6x + 5 = (x - 1)(x - 5)$ has vertex $(3, -4)$ and zeros at $x = 1, 5$.\nThe graph $y = |x^2 - 6x + 5|$ has vertex reflected to $(3, 4)$ and cusps at $(1, 0)$ and $(5, 0)$.\nThe line $y = k$ intersects the curve:\n- $0$ times for $k < 0$\n- $2$ times for $k = 0$ (at the zeros $x = 1, 5$)\n- $4$ times for $0 < k < 4$\n- **$3$ times** for $k = 4$ (tangent to local maximum at $(3, 4)$ and intersecting two outer branches)\n- $2$ times for $k > 4$.\n$k = 4$."
+      },
+      {
+        "question_text": "Find the domain and range of the composite absolute value function $y = \\sqrt{9 - |x - 2|}$.",
+        "structure": "domain-and-range-abs-functions",
+        "solution_text": "The expression under the square root must be non-negative:\n$9 - |x - 2| \\ge 0 \\implies |x - 2| \\le 9$\n$-9 \\le x - 2 \\le 9 \\implies -7 \\le x \\le 11$\nDomain: $[-7, 11]$.\nSince $0 \\le |x - 2| \\le 9$ on this domain:\nWhen $|x - 2| = 0$ (at $x = 2$), $y = \\sqrt{9 - 0} = 3$ (maximum).\nWhen $|x - 2| = 9$ (at $x = -7, 11$), $y = \\sqrt{9 - 9} = 0$ (minimum).\nRange: $[0, 3]$."
+      }
+    ]
+  }
+}

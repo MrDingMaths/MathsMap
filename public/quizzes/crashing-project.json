@@ -1,0 +1,205 @@
+{
+  "skillId": "crashing-project",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The network shows a beauty salon fit-out. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.3);\n\\coordinate (Q) at (2.4,-1.3);\n\\coordinate (R) at (4.8,0);\n\\coordinate (Z) at (6.9,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 11$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 7$};\n\\draw[midarrow] (P) -- (R) node[midway, above right] {$C,\\ 6$};\n\\draw[midarrow] (Q) -- (R) node[midway, below right] {$D,\\ 8$};\n\\draw[midarrow] (R) -- (Z) node[midway, above] {$E,\\ 5$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nActivity $A$ is reduced by $5$ days. What is the new minimum completion time?",
+      "structure": "effect-of-single-reduction",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$20$ days",
+          "correct": true
+        },
+        {
+          "text": "$17$ days",
+          "why": "Assumed the whole $5$-day reduction carries through, but the project cannot beat the $20$-day path $B$–$D$–$E$."
+        },
+        {
+          "text": "$22$ days",
+          "why": "Left the completion time unchanged, but $A$ is on the critical path so cutting it does shorten the project."
+        },
+        {
+          "text": "$15$ days",
+          "why": "Subtracted the $5$ days from the other path as well, but only activity $A$ was shortened."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$E$:\n$11 + 6 + 5$\n$= 22$\nPath $B$–$D$–$E$:\n$7 + 8 + 5$\n$= 20$\nAfter the cut, path $A$–$C$–$E$:\n$6 + 6 + 5$\n$= 17$\nThe longest path is now $B$–$D$–$E$, so the new minimum completion time is $20$ days."
+    },
+    {
+      "id": "q2",
+      "question_text": "The network shows a pharmacy refit. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.3);\n\\coordinate (Q) at (2.4,-1.3);\n\\coordinate (R) at (4.8,0);\n\\coordinate (Z) at (6.9,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 9$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 4$};\n\\draw[midarrow] (P) -- (R) node[midway, above right] {$C,\\ 10$};\n\\draw[midarrow] (Q) -- (R) node[midway, below right] {$D,\\ 7$};\n\\draw[midarrow] (R) -- (Z) node[midway, above] {$E,\\ 6$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nWhat is the greatest reduction in activity $C$ that actually shortens the refit?",
+      "structure": "max-useful-reduction",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$ days",
+          "correct": true
+        },
+        {
+          "text": "$10$ days",
+          "why": "Cut $C$ all the way to zero without checking that the other path still takes $17$ days."
+        },
+        {
+          "text": "$9$ days",
+          "why": "Went one day past the point at which $B$–$D$–$E$ takes over as the critical path, so the last day saves nothing."
+        },
+        {
+          "text": "$17$ days",
+          "why": "Gave the length of the path $B$–$D$–$E$ instead of the difference between the two path lengths."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$E$:\n$9 + 10 + 6$\n$= 25$\nPath $B$–$D$–$E$:\n$4 + 7 + 6$\n$= 17$\nCutting $C$ helps only while $A$–$C$–$E$ stays longer than $17$.\n$25 - 17$\n$= 8$ days"
+    },
+    {
+      "id": "q3",
+      "question_text": "The network shows a medical centre fit-out. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.2,1.6);\n\\coordinate (Q) at (2.2,-1.6);\n\\coordinate (R) at (4.6,1.6);\n\\coordinate (T) at (4.6,-1.6);\n\\coordinate (Z) at (7.0,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 6$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 10$};\n\\draw[midarrow] (P) -- (R) node[midway, above] {$C,\\ 4$};\n\\draw[midarrow] (Q) -- (R) node[midway, right] {$D,\\ 5$};\n\\draw[midarrow] (Q) -- (T) node[midway, below] {$E,\\ 3$};\n\\draw[midarrow] (R) -- (Z) node[midway, above right] {$F,\\ 8$};\n\\draw[midarrow] (T) -- (Z) node[midway, below right] {$G,\\ 2$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nActivity $C$ is reduced from $4$ days to $1$ day. By how many days does the fit-out finish earlier?",
+      "structure": "why-no-effect",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0$ days",
+          "correct": true
+        },
+        {
+          "text": "$3$ days",
+          "why": "Assumed the whole $3$-day cut carries through, but $C$ is not on the critical path so it changes nothing."
+        },
+        {
+          "text": "$5$ days",
+          "why": "Gave the float on the path through $C$ ($23-18$) instead of the time the project actually saves."
+        },
+        {
+          "text": "$1$ day",
+          "why": "Gave $C$'s new duration instead of the change in the fit-out's completion time."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$F$:\n$6 + 4 + 8$\n$= 18$\nPath $B$–$D$–$F$:\n$10 + 5 + 8$\n$= 23$\nPath $B$–$E$–$G$:\n$10 + 3 + 2$\n$= 15$\nThe critical path is $B$–$D$–$F$ and $C$ is not on it.\nAfter the cut, $A$–$C$–$F$ is $15$ days, and the longest path is still $23$ days, so the fit-out finishes $0$ days earlier."
+    },
+    {
+      "id": "q4",
+      "question_text": "The network shows a dental surgery fit-out. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.3);\n\\coordinate (Q) at (2.4,-1.3);\n\\coordinate (R) at (4.8,0);\n\\coordinate (Z) at (6.9,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 10$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 6$};\n\\draw[midarrow] (P) -- (R) node[midway, above right] {$C,\\ 7$};\n\\draw[midarrow] (Q) -- (R) node[midway, below right] {$D,\\ 5$};\n\\draw[midarrow] (R) -- (Z) node[midway, above] {$E,\\ 4$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nActivity $A$ can be shortened by up to $4$ days at $\\$150$ per day and activity $C$ by up to $5$ days at $\\$220$ per day. What is the least cost of shortening the fit-out as much as is useful?",
+      "structure": "cheapest-crash",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\$1040$",
+          "correct": true
+        },
+        {
+          "text": "$\\$1250$",
+          "why": "Bought $C$'s dearer days first, taking $5$ days of $C$ and $1$ of $A$ instead of filling $A$'s cheaper days first."
+        },
+        {
+          "text": "$\\$1320$",
+          "why": "Bought all $6$ days from $C$ at $\\$220$, ignoring that $C$ can only be shortened by $5$ days."
+        },
+        {
+          "text": "$\\$900$",
+          "why": "Bought all $6$ days from $A$ at $\\$150$, ignoring that $A$ can only be shortened by $4$ days."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$E$:\n$10 + 7 + 4$\n$= 21$\nPath $B$–$D$–$E$:\n$6 + 5 + 4$\n$= 15$\nThe useful reduction is $21 - 15 = 6$ days.\nTake the cheaper days first: all $4$ days of $A$ at $\\$150$, then $2$ days of $C$ at $\\$220$.\n$4 \\times 150 + 2 \\times 220$\n$= 600 + 440$\n$= \\$1040$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The network shows a veterinary clinic refit. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.8,1.5);\n\\coordinate (Q) at (2.8,-1.5);\n\\coordinate (Z) at (5.6,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 7$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 13$};\n\\draw[midarrow] (P) -- (Q) node[midway, right] {$C,\\ 4$};\n\\draw[midarrow] (P) -- (Z) node[midway, above right] {$D,\\ 9$};\n\\draw[midarrow] (Q) -- (Z) node[midway, below right] {$E,\\ 6$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nActivity $B$ is reduced by $5$ days. Which activities now form the critical path?",
+      "structure": "new-critical-path-after-crash",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A$–$C$–$E$",
+          "correct": true
+        },
+        {
+          "text": "$B$–$E$",
+          "why": "Assumed the original critical path stays critical, but after the cut $B$–$E$ is only $14$ days."
+        },
+        {
+          "text": "$A$–$D$",
+          "why": "Chose the path containing the largest remaining duration; $A$–$D$ is $16$ days, one day short of $A$–$C$–$E$."
+        },
+        {
+          "text": "$A$–$C$–$E$–$D$",
+          "why": "Added $D$ to the end, but $D$ runs from the upper vertex straight to Finish and cannot follow $E$."
+        }
+      ],
+      "solution_text": "Path $A$–$D$:\n$7 + 9$\n$= 16$\nPath $A$–$C$–$E$:\n$7 + 4 + 6$\n$= 17$\nPath $B$–$E$ after the cut:\n$8 + 6$\n$= 14$\nThe longest path is now $A$–$C$–$E$, at $17$ days."
+    },
+    {
+      "id": "q6",
+      "question_text": "The network shows a bakery fit-out. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.3);\n\\coordinate (Q) at (2.4,-1.3);\n\\coordinate (R) at (4.8,0);\n\\coordinate (Z) at (6.9,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 8$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 9$};\n\\draw[midarrow] (P) -- (R) node[midway, above right] {$C,\\ 11$};\n\\draw[midarrow] (Q) -- (R) node[midway, below right] {$D,\\ 6$};\n\\draw[midarrow] (R) -- (Z) node[midway, above] {$E,\\ 5$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nActivity $A$ is reduced by $2$ days and activity $C$ by $4$ days. What is the new minimum completion time?",
+      "structure": "effect-of-single-reduction",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$20$ days",
+          "correct": true
+        },
+        {
+          "text": "$18$ days",
+          "why": "Assumed the whole $6$ days of crashing carries through, but the project cannot beat the $20$-day path $B$–$D$–$E$."
+        },
+        {
+          "text": "$24$ days",
+          "why": "Left the completion time unchanged, but both $A$ and $C$ are on the critical path so some time is saved."
+        },
+        {
+          "text": "$22$ days",
+          "why": "Counted only the $2$-day cut to $A$ and left $C$ at its original $11$ days."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$E$:\n$8 + 11 + 5$\n$= 24$\nPath $B$–$D$–$E$:\n$9 + 6 + 5$\n$= 20$\nAfter the cuts, path $A$–$C$–$E$:\n$6 + 7 + 5$\n$= 18$\nThe longest path is now $B$–$D$–$E$, so the new minimum completion time is $20$ days."
+    },
+    {
+      "id": "q7",
+      "question_text": "The network shows a supermarket refit. All times are in days.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2,1.4);\n\\coordinate (Q) at (2,-1.4);\n\\coordinate (R) at (4,0);\n\\coordinate (T) at (6,1.4);\n\\coordinate (U) at (6,-1.4);\n\\coordinate (Z) at (8,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 5$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 8$};\n\\draw[midarrow] (P) -- (R) node[pos=0.32, xshift=0.26cm, yshift=0.37cm] {$C,\\ 9$};\n\\draw[midarrow] (Q) -- (R) node[pos=0.32, xshift=0.26cm, yshift=-0.37cm] {$D,\\ 4$};\n\\draw[midarrow] (R) -- (T) node[pos=0.68, xshift=-0.26cm, yshift=0.37cm] {$E,\\ 7$};\n\\draw[midarrow] (R) -- (U) node[pos=0.68, xshift=-0.26cm, yshift=-0.37cm] {$F,\\ 3$};\n\\draw[midarrow] (T) -- (Z) node[midway, above right] {$G,\\ 5$};\n\\draw[midarrow] (U) -- (Z) node[midway, below right] {$H,\\ 10$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (U) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}[/tikz]\nWhat is the greatest reduction in activity $C$ that actually shortens the refit?",
+      "structure": "max-useful-reduction",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$2$ days",
+          "correct": true
+        },
+        {
+          "text": "$9$ days",
+          "why": "Cut $C$ all the way to zero without checking the paths that avoid $C$ altogether."
+        },
+        {
+          "text": "$3$ days",
+          "why": "Went one day past the point at which $B$–$D$–$F$–$H$ at $25$ days takes over, so that day saves nothing."
+        },
+        {
+          "text": "$1$ day",
+          "why": "Stopped where the two paths through $C$ would level out, but both of those paths shorten together when $C$ is cut."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$E$–$G$:\n$5 + 9 + 7 + 5$\n$= 26$\nPath $A$–$C$–$F$–$H$:\n$5 + 9 + 3 + 10$\n$= 27$\nPath $B$–$D$–$E$–$G$:\n$8 + 4 + 7 + 5$\n$= 24$\nPath $B$–$D$–$F$–$H$:\n$8 + 4 + 3 + 10$\n$= 25$\nCutting $C$ shortens both paths that pass through it, but the paths that avoid $C$ stay at $24$ and $25$.\n$27 - 25$\n$= 2$ days"
+    },
+    {
+      "id": "q8",
+      "question_text": "The network shows an art gallery fit-out. All times are in days.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.2,1.6);\n\\coordinate (Q) at (2.2,-1.6);\n\\coordinate (R) at (4.6,1.6);\n\\coordinate (T) at (4.6,-1.6);\n\\coordinate (Z) at (7.0,0);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$A,\\ 12$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$B,\\ 5$};\n\\draw[midarrow] (P) -- (R) node[midway, above] {$C,\\ 6$};\n\\draw[midarrow] (Q) -- (R) node[midway, right] {$D,\\ 7$};\n\\draw[midarrow] (Q) -- (T) node[midway, below] {$E,\\ 4$};\n\\draw[midarrow] (R) -- (Z) node[midway, above right] {$F,\\ 9$};\n\\draw[midarrow] (T) -- (Z) node[midway, below right] {$G,\\ 8$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[left] at (S) {Start};\n\\node[right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nFour activities can be shortened: $A$ at $\\$180$ per day, $C$ at $\\$240$ per day, $E$ at $\\$90$ per day and $F$ at $\\$150$ per day. Which activity should be shortened first to save time at least cost?",
+      "structure": "cheapest-crash",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$F$",
+          "correct": true
+        },
+        {
+          "text": "$E$",
+          "why": "$E$ is the cheapest at $\\$90$ per day, but it lies on the $17$-day path $B$–$E$–$G$, so shortening it saves no time at all."
+        },
+        {
+          "text": "$A$",
+          "why": "Chose the activity with the longest duration rather than the cheapest of the activities on the critical path."
+        },
+        {
+          "text": "$C$",
+          "why": "$C$ is on the critical path, but at $\\$240$ per day it is the dearest of the three critical options."
+        }
+      ],
+      "solution_text": "Path $A$–$C$–$F$:\n$12 + 6 + 9$\n$= 27$\nPath $B$–$D$–$F$:\n$5 + 7 + 9$\n$= 21$\nPath $B$–$E$–$G$:\n$5 + 4 + 8$\n$= 17$\nThe critical path is $A$–$C$–$F$, so only $A$, $C$ or $F$ can save any time.\nOf those three, $F$ is the cheapest at $\\$150$ per day, so $F$ should be shortened first."
+    }
+  ]
+}

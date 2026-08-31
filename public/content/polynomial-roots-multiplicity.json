@@ -2,22 +2,25 @@
   "skillId": "polynomial-roots-multiplicity",
   "atomType": "R",
   "theory": {
-    "intro": "A **repeated factor** changes what the curve does at its $x$-intercept. A single root **cuts** the axis like a straight line, a double root (**multiplicity 2**) **bounces** off the axis like a parabola, and a triple root (**multiplicity 3**) **inflects** along the axis like a cubic. Together with the sign of the leading term and whether the degree is odd or even, the multiplicities determine the whole shape of $y=P(x)$ — and simple changes to the rule ($-P(x)$, $P(-x)$, $P(x)+c$, $kP(x)$) transform the graph in predictable ways.",
-    "facts": [
-      "A factor to the power $1$ **cuts** the axis; to the power $2$ it **bounces** (touches without crossing); to the power $3$ it **inflects** (flattens as it crosses).",
-      "If the degree is **even**, the two ends of the graph point in the **same** direction; if the degree is **odd**, they point in **different** directions.",
-      "If the leading term is positive, as $x\\to\\infty$, $y\\to\\infty$; if negative, as $x\\to\\infty$, $y\\to-\\infty$.",
-      "$y=-P(x)$ is $y=P(x)$ reflected in the $x$-axis; $y=P(-x)$ is $y=P(x)$ reflected in the $y$-axis.",
-      "$y=P(x)+c$ shifts the graph $c$ units vertically; the $x$-intercepts move but the shape is unchanged.",
-      "$y=kP(x)$ scales the graph vertically: $|k|>1$ makes it narrower (steeper), $0<|k|<1$ makes it wider (flatter), and the $x$-intercepts do not move."
-    ],
-    "steps": [
-      "Determine the end behaviour from the leading term.",
-      "Find the $y$-intercept by letting $x=0$.",
-      "Find the $x$-intercepts by letting $y=0$.",
-      "State the behaviour at each $x$-intercept and draw the curve."
-    ]
-  },
+        "intro": "A **repeated factor** changes what the curve does where it meets the $x$-axis. The multiplicities, the sign of the leading term and whether the degree is odd or even fix the shape of $y=P(x)$. Changes to the rule reflect, shift or stretch the graph.",
+        "facts": [
+          "A factor to the power $1$ **cuts** the axis, crossing it like a straight line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.5*(\\x-1.2)+0.05*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "A factor to the power $2$ **bounces**, touching the axis without crossing it.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-1.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.4*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "A factor to the power $3$ **inflects**, flattening along the axis as it crosses.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.16*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "If the degree is **even**, the two ends of the graph point in the same direction.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-2.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.3:3.3,smooth,variable=\\x,samples=90] plot ({\\x},{0.10*\\x*\\x*\\x*\\x-0.9*\\x*\\x+0.5});\n\\end{tikzpicture}\n[/tikz]",
+          "If the degree is **odd**, the two ends point in different directions.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.2,0)--(4.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.4:3.4,smooth,variable=\\x,samples=70] plot ({\\x},{0.16*\\x*\\x*\\x-1.0*\\x});\n\\end{tikzpicture}\n[/tikz]",
+          "If the leading term is positive, $y\\to\\infty$ as $x\\to\\infty$; if it is negative, $y\\to-\\infty$.",
+          "$y=-P(x)$ reflects $y=P(x)$ in the $x$-axis, and $y=P(-x)$ reflects it in the $y$-axis.",
+          "$y=P(x)+c$ shifts the graph $c$ units vertically, moving the $x$-intercepts but not the shape.",
+          "$y=kP(x)$ stretches the graph vertically without moving the $x$-intercepts: $|k|>1$ steeper, $0<|k|<1$ flatter."
+        ],
+        "steps": [
+          "Determine the end behaviour from the leading term.",
+          "Find the $y$-intercept by letting $x=0$.",
+          "Find the $x$-intercepts by letting $y=0$.",
+          "State the behaviour at each $x$-intercept and draw the curve."
+        ]
+      },
   "practice": {
     "foundation": [
       {

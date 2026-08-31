@@ -1,10 +1,11 @@
 <script>
   import { skills as allSkills, skillsForTopic, skillById } from '../lib/data.js';
-  import { loadSkillContent } from '../lib/content.js';
-  import { loadSkillQuiz } from '../lib/quiz.js';
+  import { loadSkillContent, setContentCache } from '../lib/content.js';
+  import { loadSkillQuiz, setQuizCache } from '../lib/quiz.js';
+  import { saveContent, saveQuiz } from '../lib/admin.svelte.js';
   import { renderTikzCode } from '../lib/tikz.js';
   import InlineContent from '../components/InlineContent.svelte';
-  import { extractTikzBlocks, stripTikzBlocks } from '../lib/inline-content.js';
+  import { extractTikzBlocks, stripTikzBlocks, replaceTikzBlock } from '../lib/inline-content.js';
 
   // Dev-only visual diagram harness: loads every content/quiz TikZ in scope and
   // renders each into its OWN persistent card (question + expected answer beside
@@ -88,18 +89,56 @@
           loadSkillContent(id).catch(() => null),
           loadSkillQuiz(id).catch(() => null)
         ]);
+        // Theory figures: one generic reference diagram per skill, addressed by the
+        // field it sits in (theory.intro, theory.facts[2]) so it matches the `where`
+        // grammar scripts/lib/tikz-blocks.mjs produces.
+        if (content?.theory) {
+          const theoryFields = [
+            ['intro', content.theory.intro],
+            ...(content.theory.facts || []).map((t, i) => [`facts[${i}]`, t]),
+            ...(content.theory.steps || []).map((t, i) => [`steps[${i}]`, t]),
+          ];
+          for (const [where, text] of theoryFields) {
+            extractTikzBlocks(text).blocks.forEach((code, j) => out.push({
+              skillId: id, kind: 'theory', field: `theory.${where}[${j}]`,
+              q: stripTikzBlocks(text), a: '', code, status: 'pending',
+              textKey: where, blockIndex: j, sourceText: text,
+              loc: { skillId: id, kind: 'theory', textKey: where }
+            }));
+          }
+        }
         if (content?.practice) {
           for (const tier of ['foundation', 'development', 'mastery']) {
             (content.practice[tier] || []).forEach((card, i) => {
-              extractTikzBlocks(card.question_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].question_text[${j}]`, q: card.question_text, a: card.solution_text, code, status: 'pending' }));
-              extractTikzBlocks(card.solution_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'practice', field: `${tier}[${i}].solution_text[${j}]`, q: card.question_text, a: card.solution_text, code, status: 'pending' }));
+              extractTikzBlocks(card.question_text).blocks.forEach((code, j) => out.push({
+                skillId: id, kind: 'practice', field: `${tier}[${i}].question_text[${j}]`,
+                q: card.question_text, a: card.solution_text, code, status: 'pending',
+                textKey: 'question_text', blockIndex: j, sourceText: card.question_text,
+                loc: { skillId: id, kind: 'practice', tier, cardIndex: i, textKey: 'question_text' }
+              }));
+              extractTikzBlocks(card.solution_text).blocks.forEach((code, j) => out.push({
+                skillId: id, kind: 'practice', field: `${tier}[${i}].solution_text[${j}]`,
+                q: card.question_text, a: card.solution_text, code, status: 'pending',
+                textKey: 'solution_text', blockIndex: j, sourceText: card.solution_text,
+                loc: { skillId: id, kind: 'practice', tier, cardIndex: i, textKey: 'solution_text' }
+              }));
             });
           }
         }
         if (quiz?.questions) {
           quiz.questions.forEach((qq) => {
-            extractTikzBlocks(qq.question_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'quiz', field: `quiz ${qq.id}.question_text[${j}]`, q: qq.question_text, a: correctText(qq), code, status: 'pending' }));
-            extractTikzBlocks(qq.solution_text).blocks.forEach((code, j) => out.push({ skillId: id, kind: 'quiz', field: `quiz ${qq.id}.solution_text[${j}]`, q: qq.question_text, a: correctText(qq), code, status: 'pending' }));
+            extractTikzBlocks(qq.question_text).blocks.forEach((code, j) => out.push({
+              skillId: id, kind: 'quiz', field: `quiz ${qq.id}.question_text[${j}]`,
+              q: qq.question_text, a: correctText(qq), code, status: 'pending',
+              textKey: 'question_text', blockIndex: j, sourceText: qq.question_text,
+              loc: { skillId: id, kind: 'quiz', questionId: qq.id, textKey: 'question_text' }
+            }));
+            extractTikzBlocks(qq.solution_text).blocks.forEach((code, j) => out.push({
+              skillId: id, kind: 'quiz', field: `quiz ${qq.id}.solution_text[${j}]`,
+              q: qq.question_text, a: correctText(qq), code, status: 'pending',
+              textKey: 'solution_text', blockIndex: j, sourceText: qq.solution_text,
+              loc: { skillId: id, kind: 'quiz', questionId: qq.id, textKey: 'solution_text' }
+            }));
           });
         }
       }
@@ -122,11 +161,10 @@
   const hasCompiledSvg = (el) => [...el.querySelectorAll('svg')].some((s) => !s.querySelector('animate'));
   const hasError = (el) => !!el.querySelector('.tikz-error');
 
-  // Sequential compile: render into each card's own container in turn.
-  $effect(() => {
-    if (cursor < 0 || cursor >= items.length) return;
-    const el = cardEls[cursor];
-    if (!el) return;
+  // Compile `code` into `el`, calling onSettled('pass'|'fail') once. Returns a
+  // cleanup function. Shared by the sequential gather pass and by one-off
+  // recompiles after an edit.
+  function compileInto(el, code, onSettled) {
     let settled = false;
     let obs, timer;
     const settle = (status) => {
@@ -134,8 +172,7 @@
       settled = true;
       if (obs) obs.disconnect();
       if (timer) clearTimeout(timer);
-      items[cursor].status = status;
-      cursor += 1;
+      onSettled(status);
     };
     obs = new MutationObserver(() => {
       if (hasError(el)) settle('fail');
@@ -145,9 +182,98 @@
     timer = setTimeout(() => settle('fail'), TIMEOUT_MS);
     // eager: the harness renders sequentially into below-fold cards — viewport-lazy
     // mode would stall every off-screen card into the timeout.
-    renderTikzCode(el, items[cursor].code, { eager: true });
+    renderTikzCode(el, code, { eager: true });
     return () => { if (obs) obs.disconnect(); if (timer) clearTimeout(timer); };
+  }
+
+  // Sequential compile: render into each card's own container in turn.
+  $effect(() => {
+    if (cursor < 0 || cursor >= items.length) return;
+    const el = cardEls[cursor];
+    if (!el) return;
+    const idx = cursor;
+    return compileInto(el, items[idx].code, (status) => {
+      items[idx].status = status;
+      cursor += 1;
+    });
   });
+
+  // --- Inline diagram editing -------------------------------------------
+  let editingIndex = $state(null);
+  let draftCode = $state('');
+  let saving = $state(false);
+  let saveError = $state('');
+
+  function startEdit(i) {
+    editingIndex = i;
+    draftCode = items[i].code;
+    saveError = '';
+  }
+
+  function cancelEdit() {
+    editingIndex = null;
+    saveError = '';
+  }
+
+  // Recompile the card with the draft code without writing anything to disk —
+  // for iterating on a diagram before committing it.
+  function preview(i) {
+    const el = cardEls[i];
+    if (!el) return;
+    items[i].status = 'pending';
+    compileInto(el, draftCode, (status) => { items[i].status = status; });
+  }
+
+  async function saveEdit(i) {
+    const item = items[i];
+    if (!item.loc) return;
+    saving = true;
+    saveError = '';
+    try {
+      const updatedText = replaceTikzBlock(item.sourceText, item.blockIndex, draftCode);
+      const { loc } = item;
+      if (loc.kind === 'theory') {
+        const content = await loadSkillContent(loc.skillId);
+        const next = structuredClone(content);
+        const m = loc.textKey.match(/^(facts|steps)\[(\d+)\]$/);
+        if (m) next.theory[m[1]][Number(m[2])] = updatedText;
+        else next.theory.intro = updatedText;
+        await saveContent(loc.skillId, next);
+        setContentCache(loc.skillId, next);
+      } else if (loc.kind === 'practice') {
+        const content = await loadSkillContent(loc.skillId);
+        const next = structuredClone(content);
+        next.practice[loc.tier][loc.cardIndex][loc.textKey] = updatedText;
+        await saveContent(loc.skillId, next);
+        setContentCache(loc.skillId, next);
+      } else {
+        const quiz = await loadSkillQuiz(loc.skillId);
+        const next = structuredClone(quiz);
+        const qq = next.questions.find((q) => q.id === loc.questionId);
+        qq[loc.textKey] = updatedText;
+        await saveQuiz(loc.skillId, next);
+        setQuizCache(loc.skillId, next);
+      }
+      // Reflect the edit in every item sharing this same text field (a text
+      // can hold more than one [tikz] block) so their preview stays in sync.
+      for (const other of items) {
+        if (other.loc && other.loc.skillId === loc.skillId && other.loc.kind === loc.kind
+          && other.loc.textKey === loc.textKey
+          && (loc.kind === 'practice' ? other.loc.tier === loc.tier && other.loc.cardIndex === loc.cardIndex : other.loc.questionId === loc.questionId)) {
+          other.sourceText = updatedText;
+          if (other.blockIndex === item.blockIndex) other.code = draftCode;
+          if (other.textKey === 'question_text') other.q = updatedText;
+          else if (loc.kind === 'practice') other.a = updatedText;
+        }
+      }
+      editingIndex = null;
+      preview(i);
+    } catch (e) {
+      saveError = String(e.message ?? e);
+    } finally {
+      saving = false;
+    }
+  }
 
   let doneCount = $derived(items.filter((r) => r.status !== 'pending').length);
   let passCount = $derived(items.filter((r) => r.status === 'pass').length);
@@ -224,7 +350,27 @@
         {#if it.q}<div class="q"><InlineContent text={stripTikzBlocks(it.q)} /></div>{/if}
         <div class="stage" bind:this={cardEls[i]}></div>
         {#if it.a}<div class="a">answer: <InlineContent text={stripTikzBlocks(it.a)} /></div>{/if}
-        <button class="copy" onclick={() => copyCode(it.code)}>copy tikz</button>
+
+        {#if editingIndex === i}
+          <div class="editbox">
+            <textarea bind:value={draftCode} rows="10" spellcheck="false"></textarea>
+            {#if saveError}<p class="edit-error">{saveError}</p>{/if}
+            <div class="edit-btns">
+              <button class="mini" onclick={() => preview(i)}>Recompile</button>
+              <button class="mini" onclick={cancelEdit}>Cancel</button>
+              {#if it.loc}
+                <button class="mini save" onclick={() => saveEdit(i)} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
+              {:else}
+                <span class="edit-hint">no source file — preview only</span>
+              {/if}
+            </div>
+          </div>
+        {:else}
+          <div class="card-btns">
+            <button class="copy" onclick={() => copyCode(it.code)}>copy tikz</button>
+            <button class="copy" onclick={() => startEdit(i)}>edit</button>
+          </div>
+        {/if}
       </article>
     {/each}
   </div>
@@ -279,5 +425,20 @@
   }
   .stage :global(svg) { max-width: 100%; }
   .stage :global(.tikz-error) { color: #ef4444; font-family: monospace; font-size: 0.75rem; white-space: pre-wrap; }
+  .card-btns { display: flex; gap: 0.4rem; }
   .copy { align-self: flex-start; font: inherit; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+
+  .editbox { display: flex; flex-direction: column; gap: 0.4rem; }
+  .editbox textarea {
+    width: 100%; box-sizing: border-box; resize: vertical;
+    font-family: ui-monospace, monospace; font-size: 0.78rem; line-height: 1.4;
+    padding: 0.5rem 0.6rem; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel-2, #f5f5f5); color: var(--text, #111);
+  }
+  .edit-error { color: #ef4444; font-size: 0.78rem; margin: 0; }
+  .edit-btns { display: flex; align-items: center; gap: 0.4rem; }
+  .edit-hint { font-size: 0.72rem; color: var(--muted); }
+  .mini { font: inherit; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }
+  .mini.save { background: var(--accent, #2563eb); border-color: transparent; color: #fff; }
+  .mini.save:disabled { opacity: 0.6; cursor: default; }
 </style>

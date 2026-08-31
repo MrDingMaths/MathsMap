@@ -30,6 +30,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { standingHazardsBlock } from './lib/hazards.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const MATHSDATABASE_ROOT = process.env.MATHSDATABASE_ROOT
@@ -108,6 +109,23 @@ const HOUSE_RULES = `## House rules (non-negotiable)
   Advanced-course skills must not lean on Standard-only prerequisite content.
 - **Scenario/display exclusivity**: each real-world scenario and each display type appears in
   at most one item per skill, dealt across the skill's items.
+- **Theory voice — booklet English, and a hard word budget.** A student meeting this idea for
+  the first time cannot hold a paragraph of technical vocabulary in working memory, and the
+  booklet states its definition in a sentence. \`theory.intro\` is **≤ 45 words and ≤ 3
+  sentences**; **each fact is ONE sentence of ≤ 25 words carrying ONE idea** (a \`$...$\` span
+  counts as one word). Write the everyday word unless the technical word is the thing being
+  taught — "how far apart", not "the magnitude of the displacement". Technical vocabulary that
+  IS the content stays, **bolded on first use** and defined in the sentence it appears in.
+  Say what a thing IS before what follows from it; cut hedges, restatement, and any sentence
+  whose only job is to introduce the next one. The validator warns on every breach.
+- **Theory figures**: \`theory.intro\`, \`theory.facts[]\` and \`theory.steps[]\` render inline
+  \`[tikz]\` too. When the theory is SPATIAL — its central object is a shape, a display or a
+  positional convention words can only gesture at (a box plot, a spanning tree, a transversal,
+  opposite-vs-adjacent, an interval on a number line), or its steps work ON a diagram — end
+  ONE of those strings with a single generic, labelled reference figure. A theory figure
+  carries labels, not the numbers of a problem: if it carries a problem's values it is a
+  practice card, not theory. Skip it for numeric/algebraic/procedural theory, and never draw
+  one that pre-marks anything a practice or quiz item asks for.
 - **Tables vs figures**: tabular data (rate tables, bills, budgets, frequency tables, two-way
   tables, spreadsheets) is a **KaTeX \`array\` inside \`$...$\`** per content-schema.md — NOT a
   \`[tikz]\` block, and never hand-drawn with raw \`\\draw\` lines. Use \`[tikz]\` only for genuine
@@ -196,6 +214,8 @@ for (const section of config.sections) {
     '## Governing dot points',
     '',
     ...dpTexts,
+    '',
+    standingHazardsBlock('gen'),
     '',
     ...(section.hazards?.length ? ['## Batch-specific hazards', '', ...section.hazards.map(h => `- ${h}`), ''] : []),
     '## Content schema (docs/content-schema.md)',

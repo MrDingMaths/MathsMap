@@ -2,19 +2,21 @@
   "skillId": "volume-prism-curved-cross-section",
   "atomType": "R",
   "theory": {
-    "intro": "Some prisms have the same cross-section all the way through, but that cross-section is a **part of a circle** — a semicircle, a quadrant, or a sector. A semicircular gutter, a quarter-round moulding and a wedge of cheese are all like this. The prism rule $V = Ah$ still works: find the area $A$ of the curved cross-section, then multiply by the length $h$ the prism runs.",
-    "facts": [
-      "**$V = Ah$**, where $A$ is the area of the curved cross-section and $h$ is the length (perpendicular distance) through the prism.",
-      "Cross-section areas: semicircle $A = \\frac{1}{2}\\pi r^{2}$, quadrant $A = \\frac{1}{4}\\pi r^{2}$, sector $A = \\frac{\\theta}{360} \\times \\pi r^{2}$.",
-      "A semicircle is the sector with $\\theta = 180^{\\circ}$ and a quadrant is the sector with $\\theta = 90^{\\circ}$.",
-      "The area formulas use the **radius**; when a diameter is given, halve it first.",
-      "Use the calculator value of $\\pi$, keep the working exact and round only at the last line; a length in cm and an area in cm² give a volume in cm³."
-    ],
-    "steps": [
-      "Find the area of the curved cross-section using the semicircle, quadrant or sector formula.",
-      "Multiply the cross-sectional area by the length of the prism."
-    ]
-  },
+        "intro": "Some prisms have a cross-section that is **part of a circle** — a semicircle, a quadrant or a sector. A semicircular gutter and a wedge of cheese are like this. The rule $V = Ah$ still works on the curved cross-section.",
+        "facts": [
+          "**$V = Ah$**, where $A$ is the area of the curved cross-section and $h$ is the length (perpendicular distance) through the prism.",
+          "A **sector** of radius $r$ and angle $\\theta$ has area $A = \\frac{\\theta}{360} \\times \\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (20:3);\n\\coordinate (Q) at (130:3);\n\\fill[gray!20] (O) -- (P) arc (20:130:3) -- cycle;\n\\draw (O) -- (P) node[midway, below right] {$r$};\n\\draw (O) -- (Q);\n\\draw (P) arc (20:130:3);\n\\fill (O) circle (2pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2] {angle = P--O--Q};\n\\end{tikzpicture}\n[/tikz]",
+          "A **semicircle** is the sector with $\\theta = 180^{\\circ}$, so $A = \\frac{1}{2}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (-3,0) -- (3,0) arc (0:180:3) -- cycle;\n\\draw (-3,0) -- (3,0);\n\\draw (3,0) arc (0:180:3);\n\\draw (0,0) -- (0,3) node[midway, right] {$r$};\n\\fill (0,0) circle (2pt);\n\\end{tikzpicture}\n[/tikz]",
+          "A **quadrant** is the sector with $\\theta = 90^{\\circ}$, so $A = \\frac{1}{4}\\pi r^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,0);\n\\coordinate (Q) at (0,3);\n\\fill[gray!20] (O) -- (P) arc (0:90:3) -- cycle;\n\\draw (O) -- (P) node[midway, below] {$r$};\n\\draw (O) -- (Q);\n\\draw (P) arc (0:90:3);\n\\coordinate (a) at ($(O)!0.4cm!(P)$);\n\\coordinate (b) at ($(O)!0.4cm!(Q)$);\n\\draw (a) -- ($(a)+(b)-(O)$) -- (b);\n\\end{tikzpicture}\n[/tikz]",
+          "These area formulas use the **radius**; when a diameter is given, halve it first.",
+          "Use the calculator value of $\\pi$, keeping the working exact and rounding only at the last line.",
+          "A length in cm and an area in cm² give a volume in cm³."
+        ],
+        "steps": [
+          "Find the area of the curved cross-section using the semicircle, quadrant or sector formula.",
+          "Multiply the cross-sectional area by the length of the prism."
+        ]
+      },
   "practice": {
     "foundation": [
       {

@@ -25,7 +25,9 @@
 // edge is never mistaken for a short one — no projection is modelled. A block
 // that mentions tdplot but carries only 2D coordinates is a hand-projected
 // solid whose drawn lengths are deliberately not to scale; those are SKIPPED
-// and counted, never flagged.
+// and counted, never flagged. So is a 2D block that never mentions tdplot but
+// repeats one OBLIQUE offset vector across 3+ coordinate pairs — the signature
+// of an oblique projection, and the house convention the shipped 3D skills use.
 //
 // Usage:
 //   node scripts/audit-figure-scale.mjs                      # all skills
@@ -97,6 +99,34 @@ function matchSegment(at, segments) {
   return best && best.score <= MATCH_SCORE_MAX ? best : null;
 }
 
+// An obliquely projected solid repeats ONE depth offset across every edge that runs
+// "into the page": in a cuboid ABCD-EFGH drawn by hand, B->C, A->D, F->G and E->H are
+// all the same vector, and that vector is oblique (both components non-zero) because a
+// depth edge is deliberately foreshortened AND slanted. Three or more coordinate pairs
+// sharing one oblique offset is that signature; a plane rectangle or parallelogram only
+// ever reaches two, so this cannot swallow a flat figure. Needed because the house 3D
+// convention (see `trigonometry-3d`) hand-projects WITHOUT mentioning tdplot at all, so
+// the string test below misses it and the foreshortened depth edge is then compared
+// against the median of the in-plane edges and flagged — W3-11's three cuboids.
+function hasRepeatedObliqueOffset(named) {
+  const pts = [...named.values()].filter((p) => p.length === 2);
+  if (pts.length < 6) return false;
+  const EPS = 1e-6;
+  const counts = new Map();
+  for (let i = 0; i < pts.length; i++) {
+    for (let j = 0; j < pts.length; j++) {
+      if (i === j) continue;
+      const dx = pts[j][0] - pts[i][0];
+      const dy = pts[j][1] - pts[i][1];
+      if (Math.abs(dx) < EPS || Math.abs(dy) < EPS) continue; // axis-aligned: not a depth edge
+      const key = `${dx.toFixed(4)},${dy.toFixed(4)}`;
+      counts.set(key, (counts.get(key) || 0) + 1);
+      if (counts.get(key) >= 3) return true;
+    }
+  }
+  return false;
+}
+
 const blocks = collectBlocks(baseDir, filterFn);
 
 const suspects = [];
@@ -115,7 +145,7 @@ for (const block of blocks) {
   const is3dPlot = /tdplot|tikz-3dplot/.test(body);
   const has3dCoords = [...named.values()].some((p) => p.length === 3)
     || segments.some(([a, b]) => a.length === 3 || b.length === 3);
-  if (is3dPlot && !has3dCoords) {
+  if ((is3dPlot || hasRepeatedObliqueOffset(named)) && !has3dCoords) {
     // Hand-projected solid: drawn lengths are intentionally not to scale.
     figuresSkipped3d++;
     continue;

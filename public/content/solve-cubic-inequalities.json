@@ -1,0 +1,115 @@
+{
+  "skillId": "solve-cubic-inequalities",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **cubic inequality** compares a cubic to $0$. Move every term to one side, factorise, then find where the curve is above or below the $x$-axis. The roots of $P(x) = 0$ are the **critical values** that split the number line.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0) -- (4.6,0);\n\\node[right] at (4.7,0) {$x$};\n\\foreach \\x in {-2.5,0,2.5} \\draw (\\x,-0.15) -- (\\x,0.15);\n\\node[below] at (-2.5,-0.2) {$\\alpha$};\n\\node[below] at (0,-0.2) {$\\beta$};\n\\node[below] at (2.5,-0.2) {$\\gamma$};\n\\node at (-3.6,0.55) {$-$};\n\\node at (-1.25,0.55) {$+$};\n\\node at (1.25,0.55) {$-$};\n\\node at (3.6,0.55) {$+$};\n\\node at (0,1.3) {sign of $P(x)$ when $a > 0$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The critical values are the real roots of $P(x) = 0$, where the curve meets the $x$-axis.",
+          "At a **simple root** $(x - c)^1$ the curve crosses the $x$-axis, so the sign of $P(x)$ changes there.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.2,0) -- (2.4,0) node[right] {$x$};\n\\draw[thick, <->, domain=-1.7:1.7, smooth, variable=\\x] plot ({\\x},{0.25*\\x*(\\x*\\x+1)});\n\\fill (0,0) circle (2pt);\n\\node[below] at (0,-0.2) {$c$};\n\\end{tikzpicture}\n[/tikz]",
+          "At a **double root** $(x - c)^2$ the curve touches the axis without crossing, so the sign of $P(x)$ does not change.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.2,0) -- (2.4,0) node[right] {$x$};\n\\draw[thick, <->, domain=-1.5:1.5, smooth, variable=\\x] plot ({\\x},{0.7*\\x*\\x});\n\\fill (0,0) circle (2pt);\n\\node[below] at (0,-0.2) {$c$};\n\\end{tikzpicture}\n[/tikz]",
+          "If the leading coefficient is positive, $P(x) \\to +\\infty$ as $x \\to +\\infty$ and $P(x) \\to -\\infty$ as $x \\to -\\infty$.",
+          "If the leading coefficient is negative, $P(x) \\to -\\infty$ as $x \\to +\\infty$ and $P(x) \\to +\\infty$ as $x \\to -\\infty$.",
+          "Strict inequalities $>$ and $<$ exclude the roots; $\\ge$ and $\\le$ include them, because $P(x) = 0$ there."
+        ],
+        "steps": [
+          "Rearrange the inequality so that one side is $0$ (e.g. $P(x) \\ge 0$ or $P(x) < 0$).",
+          "Factorise $P(x)$ completely into linear factors.",
+          "Identify the critical values (roots) and their multiplicities.",
+          "Determine the sign of $P(x)$ across the intervals using the leading coefficient and root behavior or test points.",
+          "State the solution set using inequality notation or interval notation, paying careful attention to strictness and isolated points."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Solve $(x - 1)(x + 2)(x - 4) > 0$.",
+        "structure": "solve-cubic-factored-distinct",
+        "solution_text": "Critical values: $x = -2, 1, 4$.\nLeading coefficient is positive ($a = 1 > 0$).\n$P(x) > 0$ for $-2 < x < 1$ and $x > 4$.\n$-2 < x < 1$ or $x > 4$"
+      },
+      {
+        "question_text": "Solve $(x + 3)(x - 2)(x - 6) \\le 0$.",
+        "structure": "solve-cubic-factored-distinct",
+        "solution_text": "Critical values: $x = -3, 2, 6$.\nLeading coefficient is positive ($a = 1 > 0$).\n$P(x) \\le 0$ on $(-\\infty, -3]$ and $[2, 6]$.\n$x \\le -3$ or $2 \\le x \\le 6$"
+      },
+      {
+        "question_text": "Solve $-(x + 2)(x - 1)(x - 5) > 0$.",
+        "structure": "solve-cubic-factored-distinct",
+        "solution_text": "Critical values: $x = -2, 1, 5$.\nLeading coefficient is negative ($a = -1 < 0$).\n$P(x) > 0$ for $x < -2$ and $1 < x < 5$.\n$x < -2$ or $1 < x < 5$"
+      },
+      {
+        "question_text": "Solve $(x - 3)(x + 1)^2 \\ge 0$.",
+        "structure": "solve-cubic-factored-repeated",
+        "solution_text": "Critical values: $x = -1$ (multiplicity $2$) and $x = 3$ (multiplicity $1$).\nSince $(x + 1)^2 \\ge 0$ for all $x$, $P(x) \\ge 0$ requires $x - 3 \\ge 0 \\implies x \\ge 3$, plus $P(-1) = 0$.\n$x = -1$ or $x \\ge 3$"
+      },
+      {
+        "question_text": "Solve $(x + 4)(x - 2)^2 < 0$.",
+        "structure": "solve-cubic-factored-repeated",
+        "solution_text": "Critical values: $x = -4$ (multiplicity $1$) and $x = 2$ (multiplicity $2$).\nSince $(x - 2)^2 > 0$ for all $x \\neq 2$, the sign depends on $(x + 4)$.\n$x + 4 < 0 \\implies x < -4$.\n$x < -4$"
+      },
+      {
+        "question_text": "Solve $x(x - 3)(x + 4) \\le 0$.",
+        "structure": "solve-cubic-common-factor",
+        "solution_text": "Critical values: $x = -4, 0, 3$.\nPositive leading coefficient ($a = 1 > 0$).\n$P(x) \\le 0$ for $x \\le -4$ and $0 \\le x \\le 3$.\n$x \\le -4$ or $0 \\le x \\le 3$"
+      },
+      {
+        "question_text": "Solve $x^3 - 9x > 0$.",
+        "structure": "solve-cubic-common-factor",
+        "solution_text": "$x(x^2 - 9) > 0$\n$x(x - 3)(x + 3) > 0$\nCritical values: $x = -3, 0, 3$.\n$P(x) > 0$ for $-3 < x < 0$ and $x > 3$.\n$-3 < x < 0$ or $x > 3$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $x^3 \\le 16x$.",
+        "structure": "solve-cubic-common-factor",
+        "solution_text": "$x^3 - 16x \\le 0$\n$x(x - 4)(x + 4) \\le 0$\nCritical values: $x = -4, 0, 4$.\n$P(x) \\le 0$ for $x \\le -4$ and $0 \\le x \\le 4$.\n$x \\le -4$ or $0 \\le x \\le 4$"
+      },
+      {
+        "question_text": "Solve $x^2(x - 6) < 0$.",
+        "structure": "solve-cubic-factored-repeated",
+        "solution_text": "Critical values: $x = 0$ (multiplicity $2$) and $x = 6$ (multiplicity $1$).\nFor $x \\neq 0$, $x^2 > 0$.\n$x - 6 < 0 \\implies x < 6$.\nExcluding $x = 0$ due to strict inequality:\n$x < 6,\\; x \\neq 0$"
+      },
+      {
+        "question_text": "Solve $(x + 5)^2(3 - x) \\ge 0$.",
+        "structure": "solve-cubic-factored-repeated",
+        "solution_text": "Critical values: $x = -5$ (multiplicity $2$) and $x = 3$ (multiplicity $1$).\nSince $(x + 5)^2 \\ge 0$ for all $x$, the sign is determined by $3 - x \\ge 0 \\implies x \\le 3$.\n$x \\le 3$"
+      },
+      {
+        "question_text": "Solve $x^3 - 4x^2 - x + 4 > 0$.",
+        "structure": "solve-cubic-rearrange-factorise",
+        "solution_text": "$x^2(x - 4) - (x - 4) > 0$\n$(x - 4)(x^2 - 1) > 0$\n$(x - 4)(x - 1)(x + 1) > 0$\nCritical values: $x = -1, 1, 4$.\n$P(x) > 0$ for $-1 < x < 1$ and $x > 4$.\n$-1 < x < 1$ or $x > 4$"
+      },
+      {
+        "question_text": "Solve $x^3 + 3x^2 \\ge 4x + 12$.",
+        "structure": "solve-cubic-rearrange-factorise",
+        "solution_text": "$x^3 + 3x^2 - 4x - 12 \\ge 0$\n$x^2(x + 3) - 4(x + 3) \\ge 0$\n$(x + 3)(x^2 - 4) \\ge 0$\n$(x + 3)(x - 2)(x + 2) \\ge 0$\nCritical values: $x = -3, -2, 2$.\n$P(x) \\ge 0$ for $-3 \\le x \\le -2$ and $x \\ge 2$.\n$-3 \\le x \\le -2$ or $x \\ge 2$"
+      },
+      {
+        "question_text": "Solve $(x + 4)(x + 2)(x - 1)(x - 3) \\le 0$.",
+        "structure": "solve-polynomial-higher-degree",
+        "solution_text": "Critical values: $x = -4, -2, 1, 3$.\nLeading coefficient is positive ($a = 1 > 0$).\n$P(x) \\le 0$ on $[-4, -2]$ and $[1, 3]$.\n$-4 \\le x \\le -2$ or $1 \\le x \\le 3$"
+      },
+      {
+        "question_text": "Solve $x^4 - 10x^2 + 9 < 0$.",
+        "structure": "solve-polynomial-higher-degree",
+        "solution_text": "$(x^2 - 1)(x^2 - 9) < 0$\n$(x - 1)(x + 1)(x - 3)(x + 3) < 0$\nCritical values: $x = -3, -1, 1, 3$.\n$P(x) < 0$ on $(-3, -1)$ and $(1, 3)$.\n$-3 < x < -1$ or $1 < x < 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $x^3 + 25x \\le 10x^2$.",
+        "structure": "solve-cubic-factored-repeated",
+        "solution_text": "$x^3 - 10x^2 + 25x \\le 0$\n$x(x^2 - 10x + 25) \\le 0$\n$x(x - 5)^2 \\le 0$\nCritical values: $x = 0$ and $x = 5$ (multiplicity $2$).\nSince $(x - 5)^2 \\ge 0$, $P(x) \\le 0$ for $x \\le 0$ and at $x = 5$.\n$x \\le 0$ or $x = 5$"
+      },
+      {
+        "question_text": "Solve $x^3 - 2x^2 - 11x + 12 \\le 0$.",
+        "structure": "solve-cubic-rearrange-factorise",
+        "solution_text": "Test $x = 1$: $1 - 2 - 11 + 12 = 0$, so $(x - 1)$ is a factor.\n$x^3 - 2x^2 - 11x + 12 = (x - 1)(x^2 - x - 12) = (x - 1)(x - 4)(x + 3)$.\n$(x + 3)(x - 1)(x - 4) \\le 0$\nCritical values: $x = -3, 1, 4$.\n$P(x) \\le 0$ for $x \\le -3$ and $1 \\le x \\le 4$.\n$x \\le -3$ or $1 \\le x \\le 4$"
+      },
+      {
+        "question_text": "Solve $x(x - 2)^2(x + 4) > 0$.",
+        "structure": "solve-polynomial-higher-degree",
+        "solution_text": "Critical values: $x = -4, 0$ (multiplicity $1$) and $x = 2$ (multiplicity $2$).\nSince $(x - 2)^2 > 0$ for $x \\neq 2$, sign is given by $x(x + 4) > 0$.\n$x < -4$ or $x > 0$ with $x \\neq 2$.\n$x < -4$ or $0 < x < 2$ or $x > 2$"
+      }
+    ]
+  }
+}

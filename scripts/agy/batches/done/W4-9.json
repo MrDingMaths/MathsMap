@@ -1,0 +1,121 @@
+{
+  "batch": "W4-9",
+  "model": "gemini-3.7-flash-high",
+  "note": "Extension 1 Y12 further calculus skills (9) + the multiplicity, further-rates and area/volume thirds of further applications of calculus (13) = 22. ORDER: needs W4-4 (differentiation of exponential/log/trig functions, primitives) and W4-5 (integration of those functions, areas under curves). `differentiate-combined-functions` also carries the Extension 1 dot point `dp-s6x1y12-calculus-1` but is generated ONCE in W4-4 and is NOT re-queued here.",
+  "sections": [
+    {
+      "name": "further-differentiation",
+      "skillIds": ["differentiate-parametric", "solve-parametric-derivative-problems", "derivative-of-inverse-function", "solve-inverse-derivative-problems"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Calculus Skills 1_Further differentiation and Integration.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `differentiate-parametric` = $\\frac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}$, and the second derivative $\\frac{d^{2}y}{dx^{2}}=\\dfrac{d}{dt}\\!\\left(\\frac{dy}{dx}\\right)\\big/\\frac{dx}{dt}$. `solve-parametric-derivative-problems` = using it for a tangent, a normal or a stationary point on a parametrically defined curve. `derivative-of-inverse-function` = $\\left(f^{-1}\\right)'(b)=\\dfrac{1}{f'(a)}$ where $f(a)=b$. `solve-inverse-derivative-problems` = applying that to a tangent to $y=f^{-1}(x)$ or to a numerical value.",
+        "$\\frac{dy}{dx}$ IS A QUOTIENT OF DERIVATIVES, NOT A DERIVATIVE OF A QUOTIENT, and it is not $\\frac{dx/dt}{dy/dt}$. Inverting the quotient is the compulsory named distractor for `differentiate-parametric`.",
+        "THE SECOND PARAMETRIC DERIVATIVE DIVIDES BY $\\frac{dx}{dt}$ AGAIN — it is NOT $\\dfrac{d^{2}y/dt^{2}}{d^{2}x/dt^{2}}$. That is the compulsory named distractor for any second-derivative item, and at least one item must require it.",
+        "THE INVERSE DERIVATIVE IS EVALUATED AT THE MATCHING POINT, AND THE COORDINATES SWAP: $\\left(f^{-1}\\right)'(b)=\\frac{1}{f'(a)}$ where $f(a)=b$. Evaluating $f'$ at $b$ instead of $a$ is the compulsory named distractor, and every item must state (or make findable) the pair $(a,b)$. Verify $f(a)=b$ by substitution before keying — a mismatched pair is a false premise.",
+        "$f$ MUST BE ONE-TO-ONE ON THE STATED DOMAIN for the inverse to exist, and $f'(a)\\ne0$ (a horizontal tangent gives a vertical tangent on the inverse). Include one item where the inverse derivative is undefined and say why.",
+        "SIMPLIFY PARAMETRIC ANSWERS TO ONE PINNED FORM — a result in $t$ and the same result in $x$ are both defensible, so every stem must say which variable the answer is in. Never offer both.",
+        "FIGURES: where a parametric curve or an inverse pair is drawn, plot it as a genuine function or parametric plot clipped to the axis window, with $y=x$ drawn dashed for an inverse pair. Never `^` inside a plotted expression. Any tangent drawn must be derived from the plotted function's gradient (`audit-tangent-lines` checks this), never eyeballed.",
+        "The shipped Y11 skill `parametric-equations-concept` owns what a parametric equation IS and converting to Cartesian. Do not re-teach it; every item here must differentiate."
+      ]
+    },
+    {
+      "name": "inverse-trigonometric-calculus",
+      "skillIds": ["differentiate-inverse-trig", "differentiate-inverse-trig-applications", "integrate-inverse-trig-forms"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Calculus Skills 1_Further differentiation and Integration.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `differentiate-inverse-trig` = the three derivatives $\\frac{d}{dx}\\arcsin x=\\frac{1}{\\sqrt{1-x^{2}}}$, $\\frac{d}{dx}\\arccos x=-\\frac{1}{\\sqrt{1-x^{2}}}$, $\\frac{d}{dx}\\arctan x=\\frac{1}{1+x^{2}}$, and their $f(x)$ chain-rule forms. `differentiate-inverse-trig-applications` = using them for a gradient, a tangent, a stationary point or a rate. `integrate-inverse-trig-forms` = $\\int\\frac{dx}{\\sqrt{a^{2}-x^{2}}}=\\arcsin\\frac{x}{a}+C$ and $\\int\\frac{dx}{a^{2}+x^{2}}=\\frac{1}{a}\\arctan\\frac{x}{a}+C$.",
+        "$\\arccos$ CARRIES THE MINUS SIGN AND $\\arcsin$ DOES NOT — otherwise their derivatives are identical, so the sign is the only thing distinguishing them. Losing it is the compulsory named distractor, and every item set must contain both.",
+        "THE $\\frac{1}{a}$ APPEARS ON THE $\\arctan$ INTEGRAL BUT NOT ON THE $\\arcsin$ ONE. That asymmetry is the compulsory named distractor for `integrate-inverse-trig-forms`; put $a\\ne1$ in at least two thirds of its items and include both forms in every skill's item mix.",
+        "THE DOMAIN OF $\\frac{1}{\\sqrt{a^{2}-x^{2}}}$ IS $|x|<a$, so a definite integral's limits must lie strictly inside it — $\\int_{0}^{a}$ is improper and is out of scope. Check every set of limits before keying; this is the section's dominant false-premise risk.",
+        "VERIFY EVERY PRIMITIVE BY DIFFERENTIATING IT BACK, and verify every derivative by checking its sign against the graph's slope (arcsin and arctan increase everywhere on their domains; arccos decreases). A derivative whose sign contradicts the graph is a wrong key.",
+        "PIN THE FORM: $\\arcsin\\frac{x}{2}$ and $\\sin^{-1}\\frac{x}{2}$ are the same answer written twice, and so are $\\frac{1}{2}\\arctan\\frac{x}{2}$ and $\\frac{1}{2}\\tan^{-1}\\frac{x}{2}$. Use ONE notation throughout the section and never offer two writings of one value.",
+        "RADIANS THROUGHOUT; exact answers are fractions of $\\pi$.",
+        "The inverse-trig FUNCTIONS themselves are generated in W4-8 and are assumed — do not re-teach domains, ranges or graphs beyond one reference line."
+      ]
+    },
+    {
+      "name": "further-integration",
+      "skillIds": ["integration-by-substitution", "integrate-sin2-cos2"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Calculus Skills 1_Further differentiation and Integration.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`integration-by-substitution` = the full method with a GIVEN substitution — computing $du$, replacing every $x$ and $dx$, integrating in $u$, and returning to $x$ (indefinite) or CHANGING THE LIMITS (definite). `integrate-sin2-cos2` = $\\int\\sin^{2}nx\\,dx$ and $\\int\\cos^{2}nx\\,dx$ via $\\cos2A=1-2\\sin^{2}A=2\\cos^{2}A-1$.",
+        "A DEFINITE INTEGRAL EITHER CHANGES ITS LIMITS TO $u$ VALUES OR RETURNS TO $x$ BEFORE SUBSTITUTING — never mixes the two. Substituting the original $x$ limits into a $u$ expression is the compulsory named distractor, and at least half the substitution items must be definite so the trap fires.",
+        "EVERY $x$ MUST GO, INCLUDING THE ONE HIDING IN $dx$. An answer still containing $x$ (or an integral in $u$ still containing $x$) is a defect; show the $dx=\\frac{du}{\\dots}$ line explicitly in every solution.",
+        "THE IDENTITY MUST BE STATED BEFORE IT IS USED in `integrate-sin2-cos2`: $\\sin^{2}nx=\\frac{1-\\cos2nx}{2}$. The result is $\\frac{x}{2}-\\frac{\\sin2nx}{4n}+C$ — the $\\frac{1}{4n}$ is the compulsory named distractor (students write $\\frac{1}{4}$ or $\\frac{1}{2n}$), so at least two thirds of items must have $n\\ne1$.",
+        "VERIFY EVERY PRIMITIVE BY DIFFERENTIATING IT BACK. For the definite ones, also sanity-check the sign and rough size: $\\int_{0}^{\\pi}\\sin^{2}x\\,dx=\\frac{\\pi}{2}$, a positive number of order $1$, not $0$.",
+        "RADIANS THROUGHOUT. Pin the answer's form in every stem ('in simplest form, with $+C$'), and never offer two algebraically equal options — trigonometric answers rewrite easily.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "multiplicity-and-polynomial-graphs",
+      "skillIds": ["multiplicity-derivative", "factorise-polynomial-using-calculus", "multiplicity-graph-behaviour", "graph-polynomial-with-calculus"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 1_Multiplicity of zeroes of polynomial functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `multiplicity-derivative` = the theorem — if $(x-a)^{m}$ divides $P(x)$ with $m\\ge2$ then $a$ is a zero of $P'$ as well, with multiplicity $m-1$ — and using it to find the multiplicity of a known zero. `factorise-polynomial-using-calculus` = using $\\gcd(P,P')$ or a common zero of $P$ and $P'$ to extract a repeated factor and factorise. `multiplicity-graph-behaviour` = what multiplicity does at the $x$-axis: odd CROSSES, even TOUCHES, and multiplicity $\\ge3$ flattens as it passes. `graph-polynomial-with-calculus` = the full sketch combining multiplicity, stationary points and end behaviour.",
+        "EVEN MULTIPLICITY TOUCHES, ODD CROSSES, AND MULTIPLICITY 3 FLATTENS WHILE CROSSING. Swapping touch and cross is the compulsory named distractor for `multiplicity-graph-behaviour`; the shipped W3-11 skill `polynomial-roots-multiplicity` already teaches the bare rule, so items here must reach further — into the derivative test, the flattening at multiplicity 3, or a full sketch.",
+        "A ZERO OF $P'$ IS NOT AUTOMATICALLY A REPEATED ZERO OF $P$ — it must also be a zero of $P$. That is the converse error and is the compulsory named distractor for `multiplicity-derivative`. Check both conditions before claiming a repeated root.",
+        "FACTORISE COMPLETELY AND VERIFY BY EXPANDING before keying anything in `factorise-polynomial-using-calculus`. A factorisation that does not expand back to the given polynomial is internally consistent for the rest of the item and no script sees it. Confirm the multiplicities sum to the degree.",
+        "EVERY ITEM IN `multiplicity-graph-behaviour` AND `graph-polynomial-with-calculus` CARRIES A `[tikz]` FIGURE. Plot the polynomial as a FUNCTION with `domain=` computed so the curve leaves the axis window OUTSIDE its turning points — a cubic or quartic clipped inside its turning points shows the wrong end behaviour, which is exactly the W3-11 defect this hazard exists to prevent. Never `^` inside a plotted expression: write $x^{3}$ as `x*x*x` or `pow(x,3)` per the playbook's convention, not `x^3`. Evaluate the plotted expression at every zero the stem names to confirm the drawn intercepts are right, and confirm the drawn behaviour at each zero (touch vs cross) matches its multiplicity.",
+        "Do not label the multiplicity on a question figure where identifying it is the task, and do not coordinate-label an intercept the tick labels already give.",
+        "The shipped W3-11 skills `poly-degree-sum`, `polynomial-end-behaviour`, `zeroes-roots-multiplicity` and `polynomial-division-statement` own the Year 11 language. Nothing here may be answerable without calculus."
+      ]
+    },
+    {
+      "name": "related-rates",
+      "skillIds": ["related-rates-chain", "solve-related-rates"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 2_Further rates of change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["polygons", "solids-3d", "circle"],
+      "hazards": [
+        "`related-rates-chain` = the chain rule connecting rates, $\\frac{dA}{dt}=\\frac{dA}{dr}\\times\\frac{dr}{dt}$ — setting up the relationship and identifying which rate is given and which is wanted. `solve-related-rates` = the full applied problem (expanding balloon, spreading oil slick, sliding ladder, draining conical tank, shadow lengthening).",
+        "SUBSTITUTE THE INSTANTANEOUS VALUE ONLY AFTER DIFFERENTIATING. Putting $r=5$ into the formula first and then differentiating gives zero — that is the compulsory named distractor and every solution must show the differentiation before the substitution.",
+        "REDUCE TO ONE VARIABLE FIRST where the geometry constrains two (a conical tank's radius is proportional to its depth). An item whose solution differentiates a two-variable formula without using the constraint is wrong; state the constraint in the stem or make deriving it the work.",
+        "SIGNS ENCODE DIRECTION: a draining tank has $\\frac{dV}{dt}<0$, and a falling ladder top has $\\frac{dy}{dt}<0$. Every stem must state the rate with its sign or its direction in words, and 'lost the negative' must be a named distractor. Check the answer's sign against the physical situation before keying.",
+        "UNITS ARE PART OF THE ANSWER (cm³/s, m/min) and must be stated in the stem and carried through. Never place the same number with two different units in one option list.",
+        "EVERY ITEM WHOSE GEOMETRY IS DESCRIBED IN PROSE CARRIES A LABELLED `[tikz]` FIGURE INSTEAD — the ladder against the wall with $x$ and $y$ marked, the cone with $r$ and $h$, the circle with $r$. Draw so the labelled lengths match the drawn lengths in proportion (`audit-figure-scale` checks this) and mark right angles with the `calc` square. For a solid, HAND-PROJECT it into plain 2D coordinates with a single consistent oblique offset for every depth edge — no tikz-3dplot, and therefore `\\pic {angle=...}` works normally.",
+        "The shipped Standard skill `related-rates-problems` is a RATE-ARITHMETIC skill with no calculus and owns that stem space. Every item here must differentiate."
+      ]
+    },
+    {
+      "name": "further-rates-of-change",
+      "skillIds": ["rate-proportional-difference", "verify-graph-Q-P-model", "solve-limiting-value-problems"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 2_Further rates of change.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `rate-proportional-difference` = recognising $\\frac{dQ}{dt}=k(Q-P)$ — Newton's law of cooling and its relatives — and what each symbol means. `verify-graph-Q-P-model` = VERIFYING by differentiation that $Q=P+Ae^{kt}$ satisfies that equation, finding $A$ and $k$ from conditions, and sketching the result. `solve-limiting-value-problems` = the long-run behaviour, $Q\\to P$ as $t\\to\\infty$ when $k<0$, and the time to reach a stated value.",
+        "$P$ IS THE LIMITING VALUE AND $A$ IS THE INITIAL DIFFERENCE $Q_{0}-P$, NOT $Q_{0}$. That substitution error is the compulsory named distractor across all three skills, and every item must state the ambient/limiting value distinctly from the initial value.",
+        "COOLING NEEDS $k<0$; a positive $k$ makes the body's temperature run away from the ambient. Check the sign of every computed $k$ against the physical situation before keying — a keyed positive $k$ on a cooling problem is a wrong key that stays internally consistent.",
+        "$Q$ APPROACHES $P$ BUT NEVER REACHES IT. 'The coffee reaches room temperature at $t=40$ min' is a false premise, not a hard item; ask instead when it is within a stated tolerance, or what the limiting temperature is. At least one item per skill must turn on that asymptote.",
+        "`verify-graph-Q-P-model` MEANS DIFFERENTIATE THE PROPOSED SOLUTION AND SUBSTITUTE IT BACK — showing that both sides agree. A 'verification' that only checks the initial condition has verified nothing, and that shortfall is a good named distractor in a which-line-is-wrong item.",
+        "FIGURES: the cooling/heating curve with the horizontal asymptote $Q=P$ drawn dashed and clearly not touched. Plot as a function clipped to the axis window and NEVER use `^` inside a plotted expression — write $P+Ae^{kt}$ as `P + A*exp(k*x)`. Do not mark the answer's value on a question figure.",
+        "SOLVING FOR $t$ NEEDS A LOGARITHM; recompute every $\\ln$ evaluation digit by digit and check the answer is positive and inside the stated time range."
+      ]
+    },
+    {
+      "name": "areas-and-volumes-of-revolution",
+      "skillIds": ["area-between-curves", "volume-revolution-x", "volume-revolution-y", "volume-revolution-between-curves"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Further Applications of Calculus 3_Area between curves and volumes of revolution.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve", "solids-3d"],
+      "hazards": [
+        "One routine per skill. `area-between-curves` = $\\int_{a}^{b}\\left[f(x)-g(x)\\right]dx$ with $f$ the UPPER curve, including regions where the curves swap over and the integral must be split at the crossing. `volume-revolution-x` = $V=\\pi\\int_{a}^{b}y^{2}dx$. `volume-revolution-y` = $V=\\pi\\int_{c}^{d}x^{2}dy$, rearranging the equation first. `volume-revolution-between-curves` = the washer, $V=\\pi\\int\\left(y_{\\text{outer}}^{2}-y_{\\text{inner}}^{2}\\right)dx$.",
+        "$\\int(y_{1}^{2}-y_{2}^{2})$, NEVER $\\int(y_{1}-y_{2})^{2}$. Squaring the difference is the compulsory named distractor for `volume-revolution-between-curves` and the single most common real error in this topic; build at least one item where the wrong version lands on an offered option.",
+        "UPPER MINUS LOWER, AND SPLIT WHERE THEY CROSS. Find the intersections EXACTLY, check each lies inside the stated limits, and determine which curve is on top on each sub-interval by evaluating both at a test point. An area item that integrates straight across a crossing is the compulsory named distractor, and at least one item must genuinely require the split.",
+        "THE $\\pi$ IS PART OF THE VOLUME. Omitting it is a named distractor exactly once per volume skill. Pin whether an exact answer (in terms of $\\pi$) or a decimal is wanted, and never place $\\frac{16\\pi}{3}$ and $16.755$ in one option list.",
+        "FOR ROTATION ABOUT THE $y$-AXIS THE LIMITS ARE $y$ VALUES AND THE INTEGRAND IS $x^{2}=\\left[g(y)\\right]^{2}$. Using the $x$ limits is the compulsory named distractor for `volume-revolution-y`, and rearranging to $x=g(y)$ must be the first line of every solution there.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE. For an area item: both curves plotted as FUNCTIONS with `domain=` clipped to the axis window (never `^` inside a plotted expression — write `exp(x)`, `pow(x,3)`), with the region between them shaded and the intersections NOT coordinate-labelled. For a volume item: the plane region shaded plus, where it helps, the solid HAND-PROJECTED into plain 2D coordinates with a consistent oblique offset for depth — no tikz-3dplot, so `\\pic` and the right-angle square work normally — with the axis of rotation drawn. Verify by evaluating each plotted function at every $x$ (or $y$) the stem names that the drawn intersections really are the stated ones.",
+        "The Advanced skills `area-under-curve`, `area-with-y-axis` and `area-integral-symmetry` are generated in W4-5 and own the single-curve area. Every item here involves TWO boundaries or a rotation."
+      ]
+    }
+  ]
+}

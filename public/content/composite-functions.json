@@ -1,0 +1,112 @@
+{
+  "skillId": "composite-functions",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **composite function** applies one function to the output of another. In $f(g(x))$ or $(f \\circ g)(x)$, the inner function $g$ acts first, and its result is the input to the outer function $f$.",
+        "facts": [
+          "In $(f \\circ g)(x) = f(g(x))$, $g$ is the inner function and $f$ is the outer function.",
+          "To evaluate $f(g(c))$, calculate the inner value $g(c)$ first, then substitute it into $f$.",
+          "Function composition is not commutative: in general, $f(g(c)) \\neq g(f(c))$.",
+          "For a self-composition $f(f(c))$, evaluate $f(c)$ first and substitute that result back into $f$.",
+          "For tables or discrete pairs, use the output of the inner function as the input for the outer function."
+        ],
+        "steps": [
+          "Identify the inner function and evaluate it at the given input.",
+          "Substitute the resulting value into the outer function.",
+          "Evaluate the outer function to obtain the final numerical answer."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Given $f(x) = 2x + 5$ and $g(x) = 3x - 1$, find the value of $f(g(2))$.",
+        "structure": "eval-composite-linear",
+        "solution_text": "$g(2) = 3(2) - 1 = 5$\n$f(g(2)) = f(5)$\n$= 2(5) + 5$\n$= 15$"
+      },
+      {
+        "question_text": "Given $f(x) = 4 - x$ and $g(x) = 2x + 3$, find the value of $g(f(1))$.",
+        "structure": "eval-composite-linear",
+        "solution_text": "$f(1) = 4 - 1 = 3$\n$g(f(1)) = g(3)$\n$= 2(3) + 3$\n$= 9$"
+      },
+      {
+        "question_text": "Given $f(x) = 3x - 2$, find the value of $f(f(3))$.",
+        "structure": "eval-composite-self",
+        "solution_text": "$f(3) = 3(3) - 2 = 7$\n$f(f(3)) = f(7)$\n$= 3(7) - 2$\n$= 19$"
+      },
+      {
+        "question_text": "Given $g(x) = 5 - 2x$, find the value of $(g \\circ g)(-1)$.",
+        "structure": "eval-composite-self",
+        "solution_text": "$g(-1) = 5 - 2(-1) = 7$\n$(g \\circ g)(-1) = g(7)$\n$= 5 - 2(7)$\n$= -9$"
+      },
+      {
+        "question_text": "Given $f(x) = x^{2} + 3$ and $g(x) = 2x - 1$, find the value of $f(g(3))$.",
+        "structure": "eval-composite-polynomial",
+        "solution_text": "$g(3) = 2(3) - 1 = 5$\n$f(g(3)) = f(5)$\n$= (5)^{2} + 3$\n$= 28$"
+      },
+      {
+        "question_text": "Given $f(x) = 3x + 1$ and $g(x) = x^{2} - 4$, find the value of $g(f(-2))$.",
+        "structure": "eval-composite-polynomial",
+        "solution_text": "$f(-2) = 3(-2) + 1 = -5$\n$g(f(-2)) = g(-5)$\n$= (-5)^{2} - 4$\n$= 21$"
+      },
+      {
+        "question_text": "Functions $f$ and $g$ are defined by $\\begin{array}{|c|c|c|c|c|}\\hline x & 1 & 2 & 3 & 4 \\\\ \\hline f(x) & 3 & 1 & 4 & 2 \\\\ \\hline g(x) & 4 & 3 & 1 & 2 \\\\ \\hline \\end{array}$. Find the value of $f(g(2))$.",
+        "structure": "eval-composite-table",
+        "solution_text": "$g(2) = 3$\n$f(g(2)) = f(3)$\n$= 4$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Given $f(x) = 5 - 3x$ and $g(x) = 4x + 1$, find the value of $(f \\circ g)(-2)$.",
+        "structure": "eval-composite-linear",
+        "solution_text": "$g(-2) = 4(-2) + 1 = -7$\n$(f \\circ g)(-2) = f(-7)$\n$= 5 - 3(-7)$\n$= 26$"
+      },
+      {
+        "question_text": "Given $f(x) = x^{3} - 2x$ and $g(x) = 3 - x$, find the value of $f(g(5))$.",
+        "structure": "eval-composite-polynomial",
+        "solution_text": "$g(5) = 3 - 5 = -2$\n$f(g(5)) = f(-2)$\n$= (-2)^{3} - 2(-2)$\n$= -4$"
+      },
+      {
+        "question_text": "Given $f(x) = 2x^{2} - x + 1$ and $g(x) = x - 4$, find the value of $f(g(1))$.",
+        "structure": "eval-composite-polynomial",
+        "solution_text": "$g(1) = 1 - 4 = -3$\n$f(g(1)) = f(-3)$\n$= 2(-3)^{2} - (-3) + 1$\n$= 22$"
+      },
+      {
+        "question_text": "Given $f(x) = \\sqrt{2x + 7}$ and $g(x) = x^{2} + 5$, find the value of $f(g(2))$.",
+        "structure": "eval-composite-root-rational",
+        "solution_text": "$g(2) = (2)^{2} + 5 = 9$\n$f(g(2)) = f(9)$\n$= \\sqrt{2(9) + 7}$\n$= 5$"
+      },
+      {
+        "question_text": "Given $f(x) = \\dfrac{6}{x + 1}$ and $g(x) = 3x - 4$, find the value of $f(g(3))$.",
+        "structure": "eval-composite-root-rational",
+        "solution_text": "$g(3) = 3(3) - 4 = 5$\n$f(g(3)) = f(5)$\n$= \\dfrac{6}{5 + 1}$\n$= 1$"
+      },
+      {
+        "question_text": "Given $f(x) = \\dfrac{x + 2}{x - 1}$, find the value of $f(f(3))$.",
+        "structure": "eval-composite-self",
+        "solution_text": "$f(3) = \\dfrac{3 + 2}{3 - 1} = \\dfrac{5}{2}$\n$f(f(3)) = f\\left(\\dfrac{5}{2}\\right)$\n$= \\dfrac{\\frac{5}{2} + 2}{\\frac{5}{2} - 1}$\n$= 3$"
+      },
+      {
+        "question_text": "Given discrete functions $f = \\{(1, 4), (2, 5), (3, 2), (4, 1)\\}$ and $g = \\{(1, 2), (2, 3), (3, 4), (4, 2)\\}$, evaluate $(g \\circ f)(3)$.",
+        "structure": "eval-composite-table",
+        "solution_text": "$f(3) = 2$\n$(g \\circ f)(3) = g(2)$\n$= 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Given $f(x) = \\dfrac{4x}{x^{2} + 3}$ and $g(x) = \\sqrt{x + 5}$, evaluate $(f \\circ g)(4)$.",
+        "structure": "eval-composite-root-rational",
+        "solution_text": "$g(4) = \\sqrt{4 + 5} = 3$\n$(f \\circ g)(4) = f(3)$\n$= \\dfrac{4(3)}{(3)^{2} + 3}$\n$= 1$"
+      },
+      {
+        "question_text": "Given $f(x) = 2x - 1$, find the value of $f(f(f(2)))$.",
+        "structure": "eval-composite-self",
+        "solution_text": "$f(2) = 2(2) - 1 = 3$\n$f(f(2)) = f(3) = 2(3) - 1 = 5$\n$f(f(f(2))) = f(5)$\n$= 2(5) - 1$\n$= 9$"
+      },
+      {
+        "question_text": "Given $f(x) = x^{2} - 5$ and $g$ defined by $\\begin{array}{|c|c|c|c|}\\hline x & 2 & 4 & 6 \\\\ \\hline g(x) & 3 & 5 & 1 \\\\ \\hline \\end{array}$, evaluate $g(f(g(2)))$.",
+        "structure": "eval-composite-table",
+        "solution_text": "$g(2) = 3$\n$f(g(2)) = f(3) = (3)^{2} - 5 = 4$\n$g(f(g(2))) = g(4)$\n$= 5$"
+      }
+    ]
+  }
+}

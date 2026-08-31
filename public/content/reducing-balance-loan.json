@@ -1,0 +1,111 @@
+{
+  "skillId": "reducing-balance-loan",
+  "atomType": "R",
+  "theory": {
+    "intro": "On a **reducing balance loan** the interest each period is charged on the amount still owing, not on the amount first borrowed. Each repayment lowers the balance, so the next interest charge is smaller.",
+    "facts": [
+      "Each row of a loan table gives closing balance $= P + I - R$, for opening balance $P$, interest $I$ and repayment $R$.",
+      "The interest is always charged on the **opening** balance, and the repayment is taken off afterwards.",
+      "The rate per period must match the repayment period: $7.2\\%$ p.a. compounded monthly gives $\\dfrac{0.072}{12} = 0.006$ per month.",
+      "Each month's interest is rounded to the nearest cent before the closing balance is worked out.",
+      "One row's closing balance becomes the next row's opening balance.",
+      "The total repaid is the repayment multiplied by the number of periods, and the total interest is that total minus the amount borrowed.",
+      "A graph of the balance owing falls slowly at first and then more steeply, because early repayments are mostly interest.",
+      "If the interest charged in a period is more than the repayment, the balance grows and the loan is never repaid."
+    ],
+    "steps": [
+      "Work out the interest rate per period.",
+      "Multiply the opening balance by that rate to get the interest.",
+      "Add the interest and subtract the repayment to get the closing balance.",
+      "Carry the closing balance down as the next opening balance."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A reducing balance loan of $\\$8000$ is charged interest at $12\\%$ p.a. compounded monthly, with monthly repayments of $\\$250$. Find the interest charged in the first month and the balance owing at the end of that month.",
+        "structure": "build-table-row",
+        "solution_text": "Rate per month $= \\dfrac{0.12}{12} = 0.01$\n\n$I = 8000 \\times 0.01$\n$= \\$80$\n\nClosing balance $= P + I - R$\n$= 8000 + 80 - 250$\n$= \\$7830$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$15\\,000$ is charged interest at $7.2\\%$ p.a. compounded monthly, with monthly repayments of $\\$450$. Find the balance owing at the end of the first month.",
+        "structure": "build-table-row",
+        "solution_text": "Rate per month $= \\dfrac{0.072}{12} = 0.006$\n\n$I = 15\\,000 \\times 0.006$\n$= \\$90$\n\nClosing balance $= P + I - R$\n$= 15\\,000 + 90 - 450$\n$= \\$14\\,640$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$5000$ is charged interest at $18\\%$ p.a. compounded monthly, with monthly repayments of $\\$300$. Find the balance owing at the end of the **second** month, rounding each month's interest to the nearest cent.",
+        "structure": "next-balance",
+        "solution_text": "Rate per month $= \\dfrac{0.18}{12} = 0.015$\n\nMonth $1$:\n$I = 5000 \\times 0.015 = \\$75$\nBalance $= 5000 + 75 - 300 = \\$4775$\n\nMonth $2$:\n$I = 4775 \\times 0.015 = \\$71.63$\nBalance $= 4775 + 71.63 - 300$\n$= \\$4546.63$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$12\\,000$ is charged interest at $9\\%$ p.a. compounded monthly, with monthly repayments of $\\$400$. Find the balance owing at the end of the **third** month, rounding each month's interest to the nearest cent.",
+        "structure": "next-balance",
+        "solution_text": "Rate per month $= \\dfrac{0.09}{12} = 0.0075$\n\nMonth $1$:\n$I = 12\\,000 \\times 0.0075 = \\$90$\nBalance $= 12\\,000 + 90 - 400 = \\$11\\,690$\n\nMonth $2$:\n$I = 11\\,690 \\times 0.0075 = \\$87.68$\nBalance $= 11\\,690 + 87.68 - 400 = \\$11\\,377.68$\n\nMonth $3$:\n$I = 11\\,377.68 \\times 0.0075 = \\$85.33$\nBalance $= 11\\,377.68 + 85.33 - 400$\n$= \\$11\\,063.01$"
+      },
+      {
+        "question_text": "Nadia owes $\\$6200$ on a reducing balance loan charged at $24\\%$ p.a. compounded monthly and repays $\\$120$ each month. Show that this loan will never be repaid, and find the balance at the end of the first month.",
+        "structure": "interest-exceeds-repayment",
+        "solution_text": "Rate per month $= \\dfrac{0.24}{12} = 0.02$\n\n$I = 6200 \\times 0.02$\n$= \\$124$\n\nThe interest of $\\$124$ is more than the repayment of $\\$120$, so the balance rises.\nBalance $= 6200 + 124 - 120$\n$= \\$6204$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$18\\,000$ is repaid by monthly repayments of $\\$395$ over $5$ years. Find the total amount repaid and the total interest charged.",
+        "structure": "total-repaid-interest",
+        "solution_text": "Number of repayments $= 5 \\times 12 = 60$\n\nTotal repaid $= 395 \\times 60$\n$= \\$23\\,700$\n\nTotal interest $= 23\\,700 - 18\\,000$\n$= \\$5700$"
+      },
+      {
+        "question_text": "The graph shows the balance owing on a reducing balance home loan.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=9.5cm,height=7cm,axis lines=left,axis line style={-{Stealth}},xmin=0,xmax=315,ymin=0,ymax=215000,xtick={0,50,100,150,200,250,300},ytick={0,25000,50000,75000,100000,125000,150000,175000,200000},grid=both,samples=80,clip=false,scaled ticks=false,ticklabel style={font=\\scriptsize,/pgf/number format/fixed},xlabel={Months},ylabel={Balance owing (\\$)},ylabel near ticks]\n\\addplot[thick,blue,domain=0:300]{200000*(4.46497 - exp(x*0.0049875))/3.46497};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\n\nUse the graph to estimate how much was borrowed, and how much is still owing after $200$ months.",
+        "structure": "graph-read-balance",
+        "solution_text": "The curve starts at $\\$200\\,000$, so that is the amount borrowed.\nAt $200$ months the curve is level with the $\\$100\\,000$ gridline.\nAbout $\\$100\\,000$ is still owing after $200$ months."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The first two months of a reducing balance loan of $\\$60\\,000$ at $6.6\\%$ p.a. compounded monthly, with monthly repayments of $\\$700$, are shown below.\n\n$\\begin{array}{|c|c|c|c|c|}\\hline \\textbf{Month} & \\textbf{Opening } (P) & \\textbf{Interest } (I) & \\textbf{Repayment } (R) & \\textbf{Closing } (P+I-R) \\\\ \\hline 1 & \\$60\\,000 & \\$330 & \\$700 & \\$59\\,630 \\\\ \\hline 2 & \\$59\\,630 & A & \\$700 & B \\\\ \\hline \\end{array}$\n\nFind the values of $A$ and $B$, to the nearest cent.",
+        "structure": "find-missing-entry",
+        "solution_text": "Rate per month $= \\dfrac{0.066}{12} = 0.0055$\n\n$A = 59\\,630 \\times 0.0055$\n$= \\$327.97$\n\n$B = P + I - R$\n$= 59\\,630 + 327.97 - 700$\n$= \\$59\\,257.97$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$9000$ is charged interest at $10.8\\%$ p.a. compounded monthly, with monthly repayments of $\\$500$. Of the $\\$1500$ repaid over the first three months, how much was interest and how much reduced the principal? Round each month's interest to the nearest cent.",
+        "structure": "principal-and-interest-paid",
+        "solution_text": "Rate per month $= \\dfrac{0.108}{12} = 0.009$\n\nMonth $1$: $I = 9000 \\times 0.009 = \\$81$, balance $= \\$8581$\nMonth $2$: $I = 8581 \\times 0.009 = \\$77.23$, balance $= \\$8158.23$\nMonth $3$: $I = 8158.23 \\times 0.009 = \\$73.42$, balance $= \\$7731.65$\n\nInterest $= 81 + 77.23 + 73.42$\n$= \\$231.65$\n\nPrincipal repaid $= 1500 - 231.65$\n$= \\$1268.35$"
+      },
+      {
+        "question_text": "A reducing balance loan of $\\$30\\,000$ is charged interest at $8\\%$ p.a. compounded **quarterly**, with quarterly repayments of $\\$1500$. Find the balance owing at the end of the second quarter.",
+        "structure": "build-table-row",
+        "solution_text": "Rate per quarter $= \\dfrac{0.08}{4} = 0.02$\n\nQuarter $1$:\n$I = 30\\,000 \\times 0.02 = \\$600$\nBalance $= 30\\,000 + 600 - 1500 = \\$29\\,100$\n\nQuarter $2$:\n$I = 29\\,100 \\times 0.02 = \\$582$\nBalance $= 29\\,100 + 582 - 1500$\n$= \\$28\\,182$"
+      },
+      {
+        "question_text": "A reducing balance home loan of $\\$310\\,000$ is repaid by monthly repayments of $\\$2140$ over $30$ years. Find the total interest charged.",
+        "structure": "total-repaid-interest",
+        "solution_text": "Number of repayments $= 30 \\times 12 = 360$\n\nTotal repaid $= 2140 \\times 360$\n$= \\$770\\,400$\n\nTotal interest $= 770\\,400 - 310\\,000$\n$= \\$460\\,400$"
+      },
+      {
+        "question_text": "A reducing balance loan is charged interest at $1.5\\%$ per month. In one month the opening balance is $\\$4200$ and the closing balance is $\\$4113$. Find the repayment made that month.",
+        "structure": "find-missing-entry",
+        "solution_text": "$I = 4200 \\times 0.015$\n$= \\$63$\n\nClosing balance $= P + I - R$\n$4113 = 4200 + 63 - R$\n$R = 4263 - 4113$\n$= \\$150$"
+      },
+      {
+        "question_text": "A personal loan of $\\$4500$ is charged interest at $21.6\\%$ p.a. compounded monthly and the borrower repays $\\$75$ each month. Find the balance owing at the end of the second month and explain what is happening to the debt.",
+        "structure": "interest-exceeds-repayment",
+        "solution_text": "Rate per month $= \\dfrac{0.216}{12} = 0.018$\n\nMonth $1$: $I = 4500 \\times 0.018 = \\$81$, balance $= 4500 + 81 - 75 = \\$4506$\nMonth $2$: $I = 4506 \\times 0.018 = \\$81.11$, balance $= 4506 + 81.11 - 75 = \\$4512.11$\n\nEach month's interest is more than the $\\$75$ repayment, so the balance is growing and the loan is never repaid."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A reducing balance loan of $\\$10\\,000$ is charged interest at $15\\%$ p.a. compounded monthly, with monthly repayments of $\\$900$. Build the table for the first four months and find the total interest charged over those four months. Round each month's interest to the nearest cent.",
+        "structure": "build-table-row",
+        "solution_text": "Rate per month $= \\dfrac{0.15}{12} = 0.0125$\n\nMonth $1$: $I = 10\\,000 \\times 0.0125 = \\$125$, balance $= \\$9225$\nMonth $2$: $I = 9225 \\times 0.0125 = \\$115.31$, balance $= \\$8440.31$\nMonth $3$: $I = 8440.31 \\times 0.0125 = \\$105.50$, balance $= \\$7645.81$\nMonth $4$: $I = 7645.81 \\times 0.0125 = \\$95.57$, balance $= \\$6841.38$\n\nTotal interest $= 125 + 115.31 + 105.50 + 95.57$\n$= \\$441.38$"
+      },
+      {
+        "question_text": "The first month of a reducing balance loan shows an opening balance of $\\$250\\,000$, interest of $\\$1500$, a repayment of $\\$1900$ and a closing balance of $\\$249\\,600$. Find the annual interest rate (compounded monthly) and the closing balance at the end of the second month.",
+        "structure": "find-missing-entry",
+        "solution_text": "Rate per month $= \\dfrac{1500}{250\\,000}$\n$= 0.006$\n\nAnnual rate $= 0.006 \\times 12 \\times 100$\n$= 7.2\\%$ p.a.\n\nMonth $2$:\n$I = 249\\,600 \\times 0.006 = \\$1497.60$\nBalance $= 249\\,600 + 1497.60 - 1900$\n$= \\$249\\,197.60$"
+      },
+      {
+        "question_text": "A borrower owes $\\$9600$ on a reducing balance loan charged at $13.2\\%$ p.a. compounded monthly. What is the smallest whole-dollar monthly repayment that will actually reduce the balance owing?",
+        "structure": "interest-exceeds-repayment",
+        "solution_text": "Rate per month $= \\dfrac{0.132}{12} = 0.011$\n\n$I = 9600 \\times 0.011$\n$= \\$105.60$\n\nThe repayment must be more than $\\$105.60$, so the smallest whole-dollar repayment is $\\$106$."
+      }
+    ]
+  }
+}

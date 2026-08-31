@@ -1,0 +1,103 @@
+{
+  "skillId": "mean-variance-continuous",
+  "atomType": "R",
+  "theory": {
+    "intro": "For a continuous variable the sum $\\sum xP(x)$ becomes an integral. The **expected value** is $\\mu=\\int_{a}^{b}xf(x)\\,dx$, and the spread is measured by the **variance** $\\text{Var}(X)=E(X^{2})-\\mu^{2}$.",
+    "facts": [
+      "$E(X)=\\mu=\\int_{a}^{b}xf(x)\\,dx$: multiply the density by $x$, then integrate across the support.",
+      "$E(X^{2})=\\int_{a}^{b}x^{2}f(x)\\,dx$ is found the same way, with $x^{2}$ in place of $x$.",
+      "$\\text{Var}(X)=E(X^{2})-\\mu^{2}$, so $\\mu^{2}$ is subtracted once, at the very end.",
+      "The standard deviation is $\\sigma=\\sqrt{\\text{Var}(X)}$, measured in the same units as $X$.",
+      "A variance can never be negative, so a negative answer means the working must be checked.",
+      "$\\mu$ is the balance point of the density, so it need not be the peak or the middle of the support."
+    ],
+    "steps": [
+      "Find $\\mu=\\int_{a}^{b}xf(x)\\,dx$.",
+      "Find $E(X^{2})=\\int_{a}^{b}x^{2}f(x)\\,dx$.",
+      "Subtract to get $\\text{Var}(X)=E(X^{2})-\\mu^{2}$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{18}$ on $[0,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.8, xmax=7.2, ymin=-0.06, ymax=0.45, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.1,0.2,0.3}]\n\\addplot[thick, domain=0:6] {x/18};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $E(X)$.",
+        "structure": "mean-from-pdf",
+        "solution_text": "$E(X)=\\int_{0}^{6}x\\cdot\\frac{x}{18}\\,dx$\n$=\\int_{0}^{6}\\frac{x^{2}}{18}\\,dx$\n$=\\left[\\frac{x^{3}}{54}\\right]_{0}^{6}$\n$=\\frac{216}{54}-0$\n$=4$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.8, xmax=7.2, ymin=-0.06, ymax=0.45, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.1,0.2,0.3}]\n\\addplot[thick, domain=0:6] {x/18};\n\\draw[dashed] (axis cs:4,0) -- (axis cs:4,0.2222);\n\\node[above] at (axis cs:4,0.24) {$\\mu=4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3x^{2}}{125}$ on $[0,5]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.7, xmax=6.2, ymin=-0.1, ymax=0.8, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.2,0.4,0.6}]\n\\addplot[thick, domain=0:5] {3*x*x/125};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the expected value of $X$.",
+        "structure": "mean-from-pdf",
+        "solution_text": "$E(X)=\\int_{0}^{5}x\\cdot\\frac{3x^{2}}{125}\\,dx$\n$=\\int_{0}^{5}\\frac{3x^{3}}{125}\\,dx$\n$=\\left[\\frac{3x^{4}}{500}\\right]_{0}^{5}$\n$=\\frac{3\\times 625}{500}$\n$=\\frac{15}{4}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.7, xmax=6.2, ymin=-0.1, ymax=0.8, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.2,0.4,0.6}]\n\\addplot[thick, domain=0:5] {3*x*x/125};\n\\draw[dashed] (axis cs:3.75,0) -- (axis cs:3.75,0.3375);\n\\node[above left] at (axis cs:3.75,0.36) {$\\mu=\\frac{15}{4}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{2x}{25}$ on $[0,5]$, and $E(X)=\\frac{10}{3}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.7, xmax=6.2, ymin=-0.07, ymax=0.55, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.1,0.2,0.3,0.4}]\n\\addplot[thick, domain=0:5] {2*x/25};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the variance of $X$.",
+        "structure": "variance-from-pdf",
+        "solution_text": "$E(X^{2})=\\int_{0}^{5}x^{2}\\cdot\\frac{2x}{25}\\,dx$\n$=\\int_{0}^{5}\\frac{2x^{3}}{25}\\,dx$\n$=\\left[\\frac{x^{4}}{50}\\right]_{0}^{5}$\n$=\\frac{625}{50}$\n$=\\frac{25}{2}$\n$\\text{Var}(X)=\\frac{25}{2}-\\left(\\frac{10}{3}\\right)^{2}$\n$=\\frac{25}{2}-\\frac{100}{9}$\n$=\\frac{225-200}{18}$\n$=\\frac{25}{18}$"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{8}$ on $[0,4]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=5.2, ymin=-0.09, ymax=0.7, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.1,0.2,0.3,0.4,0.5}]\n\\addplot[thick, domain=0:4] {x/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "mean-and-variance",
+        "solution_text": "$\\mu=\\int_{0}^{4}x\\cdot\\frac{x}{8}\\,dx$\n$=\\left[\\frac{x^{3}}{24}\\right]_{0}^{4}$\n$=\\frac{64}{24}$\n$=\\frac{8}{3}$\n$E(X^{2})=\\int_{0}^{4}x^{2}\\cdot\\frac{x}{8}\\,dx$\n$=\\left[\\frac{x^{4}}{32}\\right]_{0}^{4}$\n$=\\frac{256}{32}$\n$=8$\n$\\text{Var}(X)=8-\\left(\\frac{8}{3}\\right)^{2}$\n$=8-\\frac{64}{9}$\n$=\\frac{8}{9}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=5.2, ymin=-0.09, ymax=0.7, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.1,0.2,0.3,0.4,0.5}]\n\\addplot[thick, domain=0:4] {x/8};\n\\draw[dashed] (axis cs:2.6667,0) -- (axis cs:2.6667,0.3333);\n\\node[above left] at (axis cs:2.6667,0.36) {$\\mu=\\frac{8}{3}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{2(3-x)}{9}$ on $[0,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.1, ymax=0.85, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.2,0.4,0.6}]\n\\addplot[thick, domain=0:3] {2*(3-x)/9};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $E(X)$.",
+        "structure": "mean-from-pdf",
+        "solution_text": "$E(X)=\\int_{0}^{3}x\\cdot\\frac{2(3-x)}{9}\\,dx$\n$=\\frac{2}{9}\\int_{0}^{3}(3x-x^{2})\\,dx$\n$=\\frac{2}{9}\\left[\\frac{3x^{2}}{2}-\\frac{x^{3}}{3}\\right]_{0}^{3}$\n$=\\frac{2}{9}\\left(\\frac{27}{2}-9\\right)$\n$=\\frac{2}{9}\\times\\frac{9}{2}$\n$=1$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.1, ymax=0.85, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.2,0.4,0.6}]\n\\addplot[thick, domain=0:3] {2*(3-x)/9};\n\\draw[dashed] (axis cs:1,0) -- (axis cs:1,0.4444);\n\\node[above right] at (axis cs:1,0.47) {$\\mu=1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{4x^{3}}{81}$ on $[0,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.18, ymax=1.7, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.4,0.8,1.2}]\n\\addplot[thick, domain=0:3] {4*x*x*x/81};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "mean-and-variance",
+        "solution_text": "$\\mu=\\int_{0}^{3}x\\cdot\\frac{4x^{3}}{81}\\,dx$\n$=\\left[\\frac{4x^{5}}{405}\\right]_{0}^{3}$\n$=\\frac{4\\times 243}{405}$\n$=\\frac{12}{5}$\n$E(X^{2})=\\int_{0}^{3}x^{2}\\cdot\\frac{4x^{3}}{81}\\,dx$\n$=\\left[\\frac{4x^{6}}{486}\\right]_{0}^{3}$\n$=\\frac{4\\times 729}{486}$\n$=6$\n$\\text{Var}(X)=6-\\left(\\frac{12}{5}\\right)^{2}$\n$=6-\\frac{144}{25}$\n$=\\frac{6}{25}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3(x-2)^{2}}{64}$ on $[2,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.5, xmax=7.2, ymin=-0.12, ymax=1.0, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.25,0.5,0.75}]\n\\addplot[thick, domain=2:6] {3*(x-2)*(x-2)/64};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "mean-and-variance",
+        "solution_text": "$\\mu=\\int_{2}^{6}x\\cdot\\frac{3(x-2)^{2}}{64}\\,dx$\n$=\\frac{3}{64}\\int_{2}^{6}(x^{3}-4x^{2}+4x)\\,dx$\n$=\\frac{3}{64}\\left[\\frac{x^{4}}{4}-\\frac{4x^{3}}{3}+2x^{2}\\right]_{2}^{6}$\n$=\\frac{3}{64}\\left(\\left(324-288+72\\right)-\\left(4-\\frac{32}{3}+8\\right)\\right)$\n$=\\frac{3}{64}\\left(108-\\frac{4}{3}\\right)$\n$=\\frac{3}{64}\\times\\frac{320}{3}$\n$=5$\n$E(X^{2})=\\frac{3}{64}\\int_{2}^{6}(x^{4}-4x^{3}+4x^{2})\\,dx$\n$=\\frac{3}{64}\\left[\\frac{x^{5}}{5}-x^{4}+\\frac{4x^{3}}{3}\\right]_{2}^{6}$\n$=\\frac{3}{64}\\left(\\left(\\frac{7776}{5}-1296+288\\right)-\\left(\\frac{32}{5}-16+\\frac{32}{3}\\right)\\right)$\n$=\\frac{3}{64}\\left(\\frac{2736}{5}-\\frac{16}{15}\\right)$\n$=\\frac{3}{64}\\times\\frac{8192}{15}$\n$=\\frac{128}{5}$\n$\\text{Var}(X)=\\frac{128}{5}-5^{2}$\n$=\\frac{128-125}{5}$\n$=\\frac{3}{5}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.5, xmax=7.2, ymin=-0.12, ymax=1.0, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.25,0.5,0.75}]\n\\addplot[thick, domain=2:6] {3*(x-2)*(x-2)/64};\n\\draw[dashed] (axis cs:5,0) -- (axis cs:5,0.4219);\n\\node[above left] at (axis cs:5,0.45) {$\\mu=5$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{50}$ on $[0,10]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.2, xmax=11.6, ymin=-0.04, ymax=0.28, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8,10}, ytick={0.05,0.1,0.15,0.2}]\n\\addplot[thick, domain=0:10] {x/50};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the exact standard deviation of $X$.",
+        "structure": "standard-deviation-from-pdf",
+        "solution_text": "$\\mu=\\int_{0}^{10}\\frac{x^{2}}{50}\\,dx$\n$=\\left[\\frac{x^{3}}{150}\\right]_{0}^{10}$\n$=\\frac{1000}{150}$\n$=\\frac{20}{3}$\n$E(X^{2})=\\int_{0}^{10}\\frac{x^{3}}{50}\\,dx$\n$=\\left[\\frac{x^{4}}{200}\\right]_{0}^{10}$\n$=\\frac{10000}{200}$\n$=50$\n$\\text{Var}(X)=50-\\left(\\frac{20}{3}\\right)^{2}$\n$=50-\\frac{400}{9}$\n$=\\frac{50}{9}$\n$\\sigma=\\sqrt{\\frac{50}{9}}$\n$=\\frac{5\\sqrt{2}}{3}$"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x^{2}}{9}$ on $[0,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.14, ymax=1.3, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:3] {x*x/9};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "mean-and-variance",
+        "solution_text": "$\\mu=\\int_{0}^{3}\\frac{x^{3}}{9}\\,dx$\n$=\\left[\\frac{x^{4}}{36}\\right]_{0}^{3}$\n$=\\frac{81}{36}$\n$=\\frac{9}{4}$\n$E(X^{2})=\\int_{0}^{3}\\frac{x^{4}}{9}\\,dx$\n$=\\left[\\frac{x^{5}}{45}\\right]_{0}^{3}$\n$=\\frac{243}{45}$\n$=\\frac{27}{5}$\n$\\text{Var}(X)=\\frac{27}{5}-\\left(\\frac{9}{4}\\right)^{2}$\n$=\\frac{27}{5}-\\frac{81}{16}$\n$=\\frac{432-405}{80}$\n$=\\frac{27}{80}$"
+      },
+      {
+        "question_text": "The number of hours $X$ that a delivery van stands idle during a shift has probability density function $f(x)=\\frac{x-1}{8}$ on $[1,5]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.5, xmax=6.2, ymin=-0.09, ymax=0.7, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.1,0.2,0.3,0.4,0.5}]\n\\addplot[thick, domain=1:5] {(x-1)/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean idle time and the variance.",
+        "structure": "mean-variance-context",
+        "solution_text": "$\\mu=\\int_{1}^{5}\\frac{x(x-1)}{8}\\,dx$\n$=\\frac{1}{8}\\left[\\frac{x^{3}}{3}-\\frac{x^{2}}{2}\\right]_{1}^{5}$\n$=\\frac{1}{8}\\left(\\frac{175}{6}+\\frac{1}{6}\\right)$\n$=\\frac{1}{8}\\times\\frac{176}{6}$\n$=\\frac{11}{3}$\n$E(X^{2})=\\frac{1}{8}\\int_{1}^{5}(x^{3}-x^{2})\\,dx$\n$=\\frac{1}{8}\\left[\\frac{x^{4}}{4}-\\frac{x^{3}}{3}\\right]_{1}^{5}$\n$=\\frac{1}{8}\\left(\\frac{1375}{12}+\\frac{1}{12}\\right)$\n$=\\frac{1}{8}\\times\\frac{1376}{12}$\n$=\\frac{43}{3}$\n$\\text{Var}(X)=\\frac{43}{3}-\\left(\\frac{11}{3}\\right)^{2}$\n$=\\frac{129-121}{9}$\n$=\\frac{8}{9}$\nThe mean idle time is $\\frac{11}{3}$ hours, with variance $\\frac{8}{9}$."
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=kx$ on $[2,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.5, xmax=7.2, ymin=-0.06, ymax=0.55, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick=\\empty]\n\\addplot[thick, domain=2:6] {x/16};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $k$, and hence find $E(X)$.",
+        "structure": "mean-with-unknown-constant",
+        "solution_text": "$\\int_{2}^{6}kx\\,dx=1$\n$k\\left[\\frac{x^{2}}{2}\\right]_{2}^{6}=1$\n$k(18-2)=1$\n$16k=1$\n$k=\\frac{1}{16}$\n$E(X)=\\int_{2}^{6}\\frac{x^{2}}{16}\\,dx$\n$=\\left[\\frac{x^{3}}{48}\\right]_{2}^{6}$\n$=\\frac{216-8}{48}$\n$=\\frac{13}{3}$"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3(4-x)^{2}}{64}$ on $[0,4]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=5.2, ymin=-0.12, ymax=1.0, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.25,0.5,0.75}]\n\\addplot[thick, domain=0:4] {3*(4-x)*(4-x)/64};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the exact standard deviation of $X$.",
+        "structure": "standard-deviation-from-pdf",
+        "solution_text": "$\\mu=\\frac{3}{64}\\int_{0}^{4}(16x-8x^{2}+x^{3})\\,dx$\n$=\\frac{3}{64}\\left[8x^{2}-\\frac{8x^{3}}{3}+\\frac{x^{4}}{4}\\right]_{0}^{4}$\n$=\\frac{3}{64}\\left(128-\\frac{512}{3}+64\\right)$\n$=\\frac{3}{64}\\times\\frac{64}{3}$\n$=1$\n$E(X^{2})=\\frac{3}{64}\\int_{0}^{4}(16x^{2}-8x^{3}+x^{4})\\,dx$\n$=\\frac{3}{64}\\left[\\frac{16x^{3}}{3}-2x^{4}+\\frac{x^{5}}{5}\\right]_{0}^{4}$\n$=\\frac{3}{64}\\left(\\frac{1024}{3}-512+\\frac{1024}{5}\\right)$\n$=\\frac{3}{64}\\times\\frac{512}{15}$\n$=\\frac{8}{5}$\n$\\text{Var}(X)=\\frac{8}{5}-1^{2}$\n$=\\frac{3}{5}$\n$\\sigma=\\sqrt{\\frac{3}{5}}$\n$=\\frac{\\sqrt{15}}{5}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=k(6-x)$ on $[0,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.8, xmax=7.2, ymin=-0.05, ymax=0.45, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick=\\empty]\n\\addplot[thick, domain=0:6] {(6-x)/18};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $k$, then find the mean and variance of $X$.",
+        "structure": "mean-with-unknown-constant",
+        "solution_text": "$\\int_{0}^{6}k(6-x)\\,dx=1$\n$k\\left[6x-\\frac{x^{2}}{2}\\right]_{0}^{6}=1$\n$k(36-18)=1$\n$k=\\frac{1}{18}$\n$\\mu=\\frac{1}{18}\\int_{0}^{6}(6x-x^{2})\\,dx$\n$=\\frac{1}{18}\\left[3x^{2}-\\frac{x^{3}}{3}\\right]_{0}^{6}$\n$=\\frac{1}{18}(108-72)$\n$=2$\n$E(X^{2})=\\frac{1}{18}\\int_{0}^{6}(6x^{2}-x^{3})\\,dx$\n$=\\frac{1}{18}\\left[2x^{3}-\\frac{x^{4}}{4}\\right]_{0}^{6}$\n$=\\frac{1}{18}(432-324)$\n$=6$\n$\\text{Var}(X)=6-2^{2}$\n$=2$"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{3(x-1)^{2}}{8}$ on $[1,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.5, xmax=4.2, ymin=-0.22, ymax=1.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.5,1,1.5}]\n\\addplot[thick, domain=1:3] {3*(x-1)*(x-1)/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "mean-and-variance",
+        "solution_text": "$\\mu=\\frac{3}{8}\\int_{1}^{3}(x^{3}-2x^{2}+x)\\,dx$\n$=\\frac{3}{8}\\left[\\frac{x^{4}}{4}-\\frac{2x^{3}}{3}+\\frac{x^{2}}{2}\\right]_{1}^{3}$\n$=\\frac{3}{8}\\left(\\left(\\frac{81}{4}-18+\\frac{9}{2}\\right)-\\left(\\frac{1}{4}-\\frac{2}{3}+\\frac{1}{2}\\right)\\right)$\n$=\\frac{3}{8}\\left(\\frac{27}{4}-\\frac{1}{12}\\right)$\n$=\\frac{3}{8}\\times\\frac{20}{3}$\n$=\\frac{5}{2}$\n$E(X^{2})=\\frac{3}{8}\\int_{1}^{3}(x^{4}-2x^{3}+x^{2})\\,dx$\n$=\\frac{3}{8}\\left[\\frac{x^{5}}{5}-\\frac{x^{4}}{2}+\\frac{x^{3}}{3}\\right]_{1}^{3}$\n$=\\frac{3}{8}\\left(\\left(\\frac{243}{5}-\\frac{81}{2}+9\\right)-\\left(\\frac{1}{5}-\\frac{1}{2}+\\frac{1}{3}\\right)\\right)$\n$=\\frac{3}{8}\\left(\\frac{171}{10}-\\frac{1}{30}\\right)$\n$=\\frac{3}{8}\\times\\frac{256}{15}$\n$=\\frac{32}{5}$\n$\\text{Var}(X)=\\frac{32}{5}-\\left(\\frac{5}{2}\\right)^{2}$\n$=\\frac{128-125}{20}$\n$=\\frac{3}{20}$"
+      },
+      {
+        "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{2x}{9}$ on $[0,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.09, ymax=0.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.2,0.4,0.6}]\n\\addplot[thick, domain=0:3] {2*x/9};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $\\sigma$, then find the probability that $X$ lies within one standard deviation of the mean, correct to two decimal places.",
+        "structure": "sd-interval-probability",
+        "solution_text": "$\\mu=\\int_{0}^{3}\\frac{2x^{2}}{9}\\,dx$\n$=\\left[\\frac{2x^{3}}{27}\\right]_{0}^{3}$\n$=2$\n$E(X^{2})=\\int_{0}^{3}\\frac{2x^{3}}{9}\\,dx$\n$=\\left[\\frac{x^{4}}{18}\\right]_{0}^{3}$\n$=\\frac{9}{2}$\n$\\text{Var}(X)=\\frac{9}{2}-2^{2}$\n$=\\frac{1}{2}$\n$\\sigma=\\frac{1}{\\sqrt{2}}$\n$\\approx 0.7071$\n$P(1.2929\\le X\\le 2.7071)=\\int_{1.2929}^{2.7071}\\frac{2x}{9}\\,dx$\n$=\\left[\\frac{x^{2}}{9}\\right]_{1.2929}^{2.7071}$\n$=\\frac{7.3284-1.6716}{9}$\n$=\\frac{5.6569}{9}$\n$\\approx 0.63$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.6, xmax=4.2, ymin=-0.09, ymax=0.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.2,0.4,0.6}]\n\\addplot[draw=none, fill=gray!35, domain=1.2929:2.7071] {2*x/9} \\closedcycle;\n\\addplot[thick, domain=0:3] {2*x/9};\n\\draw[dashed] (axis cs:2,0) -- (axis cs:2,0.4444);\n\\node[above] at (axis cs:2,0.72) {$\\mu=2$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

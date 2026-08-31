@@ -1,0 +1,114 @@
+{
+  "skillId": "transform-reflections",
+  "atomType": "T",
+  "theory": {
+        "intro": "A **reflection** flips a graph across an axis; its size and shape do not change. Replacing $x$ by $-x$ reflects the graph in the $y$-axis, and replacing $y$ by $-y$ reflects it in the $x$-axis.",
+        "facts": [
+          "Replacing $x$ by $-x$ gives $y = f(-x)$, a reflection in the $y$-axis, so each point $(x, y)$ moves to $(-x, y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (2.6,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.6:2.2, samples=80, smooth, variable=\\x] plot ({\\x}, {-0.4*\\x*\\x*\\x + 0.5*\\x*\\x + 1.2*\\x - 0.6});\n\\node[gray] at (-1.5,1.55) {$y=f(x)$};\n\\node[blue] at (1.5,-1.55) {$y=f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "Replacing $y$ by $-y$ instead gives $y = -f(x)$, a reflection in the $x$-axis, so each point $(x, y)$ moves to $(x, -y)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.6,0) -- (2.6,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {-0.4*\\x*\\x*\\x - 0.5*\\x*\\x + 1.2*\\x + 0.6});\n\\node[gray] at (-1.5,1.55) {$y=f(x)$};\n\\node[blue] at (1.5,-1.55) {$y=-f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "Replacing both gives $y = -f(-x)$, sending each point $(x, y)$ to $(-x, -y)$, which is the same as a $180^\\circ$ rotation about the origin.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->] (-2.8,0) -- (2.8,0) node[right] {$x$};\n\\draw[->] (0,-2.0) -- (0,2.0) node[above] {$y$};\n\\draw[thick, gray, <->, domain=-2.2:1.6, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x + 0.5*\\x*\\x - 1.2*\\x - 0.6});\n\\draw[thick, blue, <->, domain=-1.6:2.2, samples=80, smooth, variable=\\x] plot ({\\x}, {0.4*\\x*\\x*\\x - 0.5*\\x*\\x - 1.2*\\x + 0.6});\n\\node[gray] at (-1.6,1.55) {$y=f(x)$};\n\\node[blue] at (1.6,-1.55) {$y=-f(-x)$};\n\\end{tikzpicture}\n[/tikz]",
+          "Reflecting in the $x$-axis keeps every $x$-intercept fixed and changes the sign of the $y$-intercept, so $(0, c)$ becomes $(0, -c)$.",
+          "Reflecting in the $y$-axis keeps the $y$-intercept fixed and changes the sign of every $x$-intercept, so $(a, 0)$ becomes $(-a, 0)$.",
+          "An **even** function has $f(-x) = f(x)$, so reflecting it in the $y$-axis leaves the graph unchanged.",
+          "An **odd** function has $f(-x) = -f(x)$, so reflecting it in the $y$-axis gives the same graph as reflecting it in the $x$-axis."
+        ],
+        "steps": [
+          "Identify the required reflection: across the $x$-axis ($y \\mapsto -y$, $y = -f(x)$), across the $y$-axis ($x \\mapsto -x$, $y = f(-x)$), or both ($y = -f(-x)$)",
+          "Substitute $-x$ for every occurrence of $x$ (with brackets) and/or $-y$ for $y$ in the equation",
+          "Simplify the resulting algebraic expression and identify the transformed features"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the equation of the curve when $f(x) = x^2 - 6x + 5$ is reflected across the $x$-axis.",
+        "structure": "reflect-equation-x-axis",
+        "solution_text": "$y = -f(x)$\n$= -(x^2 - 6x + 5)$\n$= -x^2 + 6x - 5$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $f(x) = (x - 3)^2$ is reflected across the $y$-axis.",
+        "structure": "reflect-equation-y-axis",
+        "solution_text": "$y = f(-x)$\n$= (-x - 3)^2$\n$= (-(x + 3))^2$\n$= (x + 3)^2$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $f(x) = 2^x$ is reflected across both coordinate axes.",
+        "structure": "reflect-equation-both-axes",
+        "solution_text": "$y = -f(-x)$\n$= -2^{-x}$"
+      },
+      {
+        "question_text": "The point $P(4, -7)$ lies on the curve $y = f(x)$. Find the coordinates of the corresponding point on the graph of $y = f(-x)$.",
+        "structure": "transform-points-and-features",
+        "solution_text": "A reflection across the $y$-axis maps $(x, y) \\to (-x, y)$.\n$x = 4 \\to -4$\n$y = -7 \\to -7$\n$P'(-4, -7)$"
+      },
+      {
+        "question_text": "The parabola $y = (x - 3)^2 - 2$ has its vertex at $(3, -2)$. Find the vertex of the parabola after reflection across the $x$-axis.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.65]\n\\draw[->] (-1.5,0) -- (6.8,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,6.8) node[above] {$y$};\n\\foreach \\x in {-1,1,2,3,4,5,6} {\n  \\draw (\\x,0.15) -- (\\x,-0.15) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-2,-1,1,2,3,4,5,6} {\n  \\draw (0.15,\\y) -- (-0.15,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$0$};\n\\fill (3,-2) circle (2.5pt);\n\\draw[thick, <->, domain=0.25:5.75, samples=60, smooth, variable=\\x] plot ({\\x}, {(\\x-3)*(\\x-3)-2});\n\\node[right] at (5.2, 3.8) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "transform-points-and-features",
+        "solution_text": "A reflection across the $x$-axis maps $(x, y) \\to (x, -y)$.\n$x = 3 \\to 3$\n$y = -2 \\to -(-2) = 2$\n$(3, 2)$"
+      },
+      {
+        "question_text": "Identify the transformation that maps the curve $y = \\sqrt{x}$ onto the curve $y = \\sqrt{-x}$.",
+        "structure": "identify-reflection-from-equation",
+        "solution_text": "$x$ has been replaced with $-x$.\nReplacing $x$ by $-x$ corresponds to a reflection across the $y$-axis.\nReflection across the $y$-axis"
+      },
+      {
+        "question_text": "Identify the transformation that maps the curve $y = \\dfrac{1}{x+2}$ onto the curve $y = -\\dfrac{1}{x+2}$.",
+        "structure": "identify-reflection-from-equation",
+        "solution_text": "$y$ has been replaced with $-y$, giving $-y = \\dfrac{1}{x+2} \\iff y = -\\dfrac{1}{x+2}$.\nReplacing $y$ by $-y$ corresponds to a reflection across the $x$-axis.\nReflection across the $x$-axis"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the equation of the curve when $y = \\sqrt{3x - 5}$ is reflected across the $x$-axis.",
+        "structure": "reflect-equation-x-axis",
+        "solution_text": "Replacing $y$ with $-y$ gives $-y = \\sqrt{3x - 5}$.\n$y = -\\sqrt{3x - 5}$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = 3^{2x+1}$ is reflected across the $y$-axis.",
+        "structure": "reflect-equation-y-axis",
+        "solution_text": "Replacing $x$ with $-x$:\n$y = 3^{2(-x)+1}$\n$= 3^{-2x+1}$"
+      },
+      {
+        "question_text": "Find the equation of the curve when $y = (x - 1)(x - 4)$ is reflected across both coordinate axes.",
+        "structure": "reflect-equation-both-axes",
+        "solution_text": "Replacing $x$ with $-x$ and $y$ with $-y$:\n$-y = (-x - 1)(-x - 4)$\n$-y = (x + 1)(x + 4)$\n$y = -(x + 1)(x + 4)$\n$= -x^2 - 5x - 4$"
+      },
+      {
+        "question_text": "The curve $y = x^3 - 4x$ is transformed to $y = -x^3 + 4x$. Show that this transformation can be interpreted as either a reflection in the $x$-axis or a reflection in the $y$-axis.",
+        "structure": "parity-and-reflection-symmetry",
+        "solution_text": "Reflection in the $x$-axis:\n-f(x) = -(x^3 - 4x) = -x^3 + 4x\nReflection in the $y$-axis:\nf(-x) = (-x)^3 - 4(-x) = -x^3 + 4x\nSince $f(x)$ is an odd function ($f(-x) = -f(x)$), both reflections produce the identical equation."
+      },
+      {
+        "question_text": "The hyperbola $y = \\dfrac{1}{x-3} + 2$ is reflected across the $y$-axis. State the equations of its asymptotes after this reflection.",
+        "structure": "transform-points-and-features",
+        "solution_text": "The original asymptotes are $x = 3$ and $y = 2$.\nReflecting across the $y$-axis replaces $x$ with $-x$, so $-x = 3 \\implies x = -3$.\nThe horizontal asymptote $y = 2$ is unaffected by a horizontal reflection.\n$x = -3$ and $y = 2$"
+      },
+      {
+        "question_text": "Explain using function notation why reflecting $f(x) = 5 - x^4$ across the $y$-axis results in an unchanged graph.",
+        "structure": "parity-and-reflection-symmetry",
+        "solution_text": "$f(-x) = 5 - (-x)^4$\n$= 5 - x^4$\n$= f(x)$\nSince $f(-x) = f(x)$, $f(x)$ is an even function, so reflection across the $y$-axis leaves the graph unchanged."
+      },
+      {
+        "question_text": "Find the equation of the circle $(x - 4)^2 + (y + 1)^2 = 9$ after it is reflected across the $y$-axis.",
+        "structure": "reflect-equation-y-axis",
+        "solution_text": "Replace $x$ with $-x$:\n(-x - 4)^2 + (y + 1)^2 = 9\n(-(x + 4))^2 + (y + 1)^2 = 9\n$(x + 4)^2 + (y + 1)^2 = 9$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the equation of the cubic curve $y = (x + 2)(x - 1)^2$ after a rotation of $180^\\circ$ about the origin (reflection across both axes).",
+        "structure": "reflect-equation-both-axes",
+        "solution_text": "Replacing $x$ with $-x$ and $y$ with $-y$:\n-y = (-x + 2)(-x - 1)^2\n-y = -(x - 2)(-(x + 1))^2\n-y = -(x - 2)(x + 1)^2\n$y = (x - 2)(x + 1)^2$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ has $x$-intercepts at $x = -2$ and $x = 5$, and a $y$-intercept at $y = -10$. Determine all intercepts of the transformed graph $y = -f(-x)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.45]\n\\draw[->] (-3.8,0) -- (6.8,0) node[right] {$x$};\n\\draw[->] (0,-13.8) -- (0,6.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4,5,6} {\n  \\draw (\\x,0.2) -- (\\x,-0.2) node[below, font=\\scriptsize] {$\\x$};\n}\n\\foreach \\y in {-12,-10,-8,-6,-4,-2,2,4,6} {\n  \\draw (0.2,\\y) -- (-0.2,\\y) node[left, font=\\scriptsize] {$\\y$};\n}\n\\node[below left, font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <->, domain=-2.6:5.6, samples=60, smooth, variable=\\x] plot ({\\x}, {(\\x+2)*(\\x-5)});\n\\fill (-2,0) circle (2.5pt);\n\\fill (5,0) circle (2.5pt);\n\\fill (0,-10) circle (2.5pt);\n\\node[right] at (3.5,-5) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "transform-points-and-features",
+        "solution_text": "Under $y = -f(-x)$, each point $(x, y) \\to (-x, -y)$.\nFor the $x$-intercepts $(-2, 0)$ and $(5, 0)$:\n$(-2, 0) \\to (2, 0)$\n$(5, 0) \\to (-5, 0)$\nFor the $y$-intercept $(0, -10)$:\n$(0, -10) \\to (0, 10)$\n$x$-intercepts at $x = -5, 2$ and $y$-intercept at $y = 10$"
+      },
+      {
+        "question_text": "Given that $f(x)$ is an odd function, prove that reflecting the graph of $y = f(x)$ across the $x$-axis produces the same graph as reflecting it across the $y$-axis.",
+        "structure": "parity-and-reflection-symmetry",
+        "solution_text": "Reflection across the $x$-axis gives $y = -f(x)$.\nReflection across the $y$-axis gives $y = f(-x)$.\nSince $f(x)$ is an odd function, by definition $f(-x) = -f(x)$ for all $x$ in the domain.\nTherefore $y = f(-x)$ is algebraically and graphically identical to $y = -f(x)$."
+      }
+    ]
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "skillId": "combinations-restrictions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A committee of $4$ is to be chosen from a group of $10$ people. If one specific person, Mark, must be included, how many different committees can be formed?",
+      "structure": "ncr-inclusion-exclusion-specific",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$84$",
+          "correct": true
+        },
+        {
+          "text": "$210$",
+          "why": "Calculated 10C4, ignoring the restriction that Mark must be included."
+        },
+        {
+          "text": "$126$",
+          "why": "Calculated 9C4, excluding Mark instead of including him."
+        },
+        {
+          "text": "$24$",
+          "why": "Multiplied 8 by 3 instead of evaluating the combination 9C3."
+        }
+      ],
+      "solution_text": "Fix Mark on the committee and choose $3$ from $9$ remaining:\n$= {^{9}C_{3}}$\n$= \\dfrac{9 \\times 8 \\times 7}{3 \\times 2 \\times 1}$\n$= 84$"
+    },
+    {
+      "id": "q2",
+      "question_text": "From a club of $12$ members, a committee of $5$ is selected. Two members, David and Sarah, cannot serve together. How many committees are possible?",
+      "structure": "ncr-inclusion-exclusion-specific",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$672$",
+          "correct": true
+        },
+        {
+          "text": "$792$",
+          "why": "Calculated total combinations 12C5 without subtracting cases where both serve."
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated only the number of committees where both David and Sarah serve."
+        },
+        {
+          "text": "$252$",
+          "why": "Calculated 10C5, excluding both individuals entirely."
+        }
+      ],
+      "solution_text": "Total committees $= {^{12}C_{5}} = 792$.\nCommittees containing both David and Sarah $= {^{10}C_{3}} = 120$.\nCommittees where both do not serve $= 792 - 120$\n$= 672$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A panel of $4$ judges is selected from $5$ lawyers and $4$ academics. In how many ways can the panel be formed if it must contain at least $3$ lawyers?",
+      "structure": "ncr-cases-at-least-at-most",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$45$",
+          "correct": true
+        },
+        {
+          "text": "$35$",
+          "why": "Subtracted 10 from 45 due to an arithmetic error."
+        },
+        {
+          "text": "$126$",
+          "why": "Calculated 9C4 without enforcing the minimum requirement of 3 lawyers."
+        },
+        {
+          "text": "$50$",
+          "why": "Multiplied 10 by 5 instead of adding the two mutually exclusive cases."
+        }
+      ],
+      "solution_text": "Case 1 ($3$ lawyers, $1$ academic): $^{5}C_{3} \\times {^{4}C_{1}} = 10 \\times 4 = 40$\nCase 2 ($4$ lawyers, $0$ academics): $^{5}C_{4} \\times {^{4}C_{0}} = 5 \\times 1 = 5$\nTotal $= 40 + 5$\n$= 45$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A delegation of $3$ is chosen from $5$ men and $3$ women. How many delegations contain more men than women?",
+      "structure": "ncr-cases-at-least-at-most",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$40$",
+          "correct": true
+        },
+        {
+          "text": "$30$",
+          "why": "Calculated only the case with 2 men and 1 woman, omitting the case with 3 men."
+        },
+        {
+          "text": "$56$",
+          "why": "Calculated 8C3 without considering the gender restriction."
+        },
+        {
+          "text": "$10$",
+          "why": "Calculated only the case with 3 men, omitting the case with 2 men."
+        }
+      ],
+      "solution_text": "More men than women in $3$ members requires $2$ men or $3$ men.\nCase 1 ($2$ men, $1$ woman): $^{5}C_{2} \\times {^{3}C_{1}} = 10 \\times 3 = 30$\nCase 2 ($3$ men, $0$ women): $^{5}C_{3} \\times {^{3}C_{0}} = 10 \\times 1 = 10$\nTotal $= 30 + 10$\n$= 40$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A committee of $3$ is selected from $7$ doctors and $4$ nurses. How many different committees contain at least one nurse?",
+      "structure": "ncr-complement-at-least-one",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$130$",
+          "correct": true
+        },
+        {
+          "text": "$165$",
+          "why": "Calculated total combinations 11C3 without subtracting the all-doctor cases."
+        },
+        {
+          "text": "$35$",
+          "why": "Calculated the number of committees with no nurses instead of at least one."
+        },
+        {
+          "text": "$84$",
+          "why": "Calculated 4C1 times 7C2, double counting committees with multiple nurses."
+        }
+      ],
+      "solution_text": "Total committees: $^{11}C_{3} = 165$.\nAll doctors (no nurses): $^{7}C_{3} = 35$.\nAt least one nurse $= 165 - 35$\n$= 130$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$3$ letters are chosen at random without replacement from the $8$ letters in $\\text{TRIANGLE}$. In how many ways can the selection contain at least one vowel?",
+      "structure": "ncr-complement-at-least-one",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$46$",
+          "correct": true
+        },
+        {
+          "text": "$56$",
+          "why": "Calculated total combinations 8C3 without subtracting all-consonant selections."
+        },
+        {
+          "text": "$10$",
+          "why": "Counted only selections with zero vowels instead of subtracting from total."
+        },
+        {
+          "text": "$30$",
+          "why": "Multiplied 3C1 by 5C2, failing to account for selections with multiple vowels."
+        }
+      ],
+      "solution_text": "Vowels: I, A, E ($3$); Consonants: T, R, N, G, L ($5$).\nTotal selections: $^{8}C_{3} = 56$.\nAll consonants: $^{5}C_{3} = 10$.\nAt least one vowel $= 56 - 10$\n$= 46$"
+    },
+    {
+      "id": "q7",
+      "question_text": "In how many ways can $6$ students be divided into two groups of $2$ and $4$ students respectively?",
+      "structure": "ncr-group-partition-equal-unequal",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$15$",
+          "correct": true
+        },
+        {
+          "text": "$30$",
+          "why": "Multiplied 6C2 by 2, incorrectly permuting the group assignments."
+        },
+        {
+          "text": "$10$",
+          "why": "Calculated 6C3 / 2!, dividing as if the groups had equal size."
+        },
+        {
+          "text": "$8$",
+          "why": "Divided 6C2 by 2, incorrectly halving an unequal partition."
+        }
+      ],
+      "solution_text": "Because the group sizes are unequal ($2$ and $4$), no division by factorials is required:\n$= {^{6}C_{2}} \\times {^{4}C_{4}}$\n$= 15 \\times 1$\n$= 15$"
+    },
+    {
+      "id": "q8",
+      "question_text": "In how many ways can $10$ players be divided into two teams of $5$ players each, if the two teams are unlabeled?",
+      "structure": "ncr-group-partition-equal-unequal",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$126$",
+          "correct": true
+        },
+        {
+          "text": "$252$",
+          "why": "Calculated 10C5 without dividing by 2! for the indistinguishable teams."
+        },
+        {
+          "text": "$50$",
+          "why": "Multiplied 10 by 5 instead of evaluating the combination partition."
+        },
+        {
+          "text": "$63$",
+          "why": "Divided by 4 instead of 2!."
+        }
+      ],
+      "solution_text": "Choose $5$ players for one team in $^{10}C_{5} = 252$ ways.\nSince the two teams of $5$ are indistinguishable, divide by $2!$:\n$= \\dfrac{252}{2}$\n$= 126$"
+    },
+    {
+      "id": "q9",
+      "question_text": "$9$ points are marked in a plane. Exactly $4$ of the points lie on a straight line, and no other set of $3$ points is collinear.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0.2,3.0) -- (5.4,3.0);\n\\fill (0.8,3.0) circle (2pt) node[below] {$A$};\n\\fill (2.1,3.0) circle (2pt) node[below] {$B$};\n\\fill (3.4,3.0) circle (2pt) node[below] {$C$};\n\\fill (4.8,3.0) circle (2pt) node[below] {$D$};\n\\fill (1.1,1.3) circle (2pt) node[below left] {$E$};\n\\fill (2.8,1.0) circle (2pt) node[below] {$F$};\n\\fill (3.8,1.4) circle (2pt) node[below right] {$G$};\n\\fill (2.3,4.3) circle (2pt) node[above left] {$H$};\n\\fill (4.9,5.1) circle (2pt) node[above right] {$I$};\n\\end{tikzpicture}\n[/tikz]\nHow many distinct triangles can be formed with vertices at these points?",
+      "structure": "ncr-geometric-collinear-restrictions",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$80$",
+          "correct": true
+        },
+        {
+          "text": "$84$",
+          "why": "Calculated total triples 9C3 without subtracting the collinear points."
+        },
+        {
+          "text": "$70$",
+          "why": "Subtracted 4C2 instead of 4C3 from total combinations."
+        },
+        {
+          "text": "$40$",
+          "why": "Halved the total triangles due to confusion over vertex ordering."
+        }
+      ],
+      "solution_text": "Total triples: $^{9}C_{3} = 84$.\nCollinear triples: $^{4}C_{3} = 4$.\nNumber of triangles $= 84 - 4$\n$= 80$"
+    },
+    {
+      "id": "q10",
+      "question_text": "A committee of $5$ is selected from $7$ teachers and $6$ students. The committee must include at least $2$ teachers and at least $2$ students. If two specific teachers, Mr Brown and Ms Green, refuse to serve together, how many different committees can be formed?",
+      "structure": "ncr-cases-at-least-at-most",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$850$",
+          "correct": true
+        },
+        {
+          "text": "$945$",
+          "why": "Calculated the number of committees with at least 2 teachers and at least 2 students without subtracting the cases where both Mr Brown and Ms Green serve together."
+        },
+        {
+          "text": "$780$",
+          "why": "Subtracted all 11C3 = 165 committees containing both teachers, including those with invalid category distributions."
+        },
+        {
+          "text": "$450$",
+          "why": "Calculated only the case with 3 teachers and 2 students, omitting the case with 2 teachers and 3 students."
+        }
+      ],
+      "solution_text": "Committees with at least $2$ teachers and at least $2$ students:\nCase 1 ($2$ teachers, $3$ students): $^{7}C_{2} \\times {^{6}C_{3}} = 21 \\times 20 = 420$\nCase 2 ($3$ teachers, $2$ students): $^{7}C_{3} \\times {^{6}C_{2}} = 35 \\times 15 = 525$\nTotal without conflict restriction $= 420 + 525 = 945$\nCommittees containing both Mr Brown and Ms Green:\nCase 1 ($2$ teachers total, $3$ students): $^{5}C_{0} \\times {^{6}C_{3}} = 1 \\times 20 = 20$\nCase 2 ($3$ teachers total, $2$ students): $^{5}C_{1} \\times {^{6}C_{2}} = 5 \\times 15 = 75$\nSubtotal containing both $= 20 + 75 = 95$\nValid committees $= 945 - 95$\n$= 850$"
+    }
+  ]
+}

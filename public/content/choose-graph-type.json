@@ -2,19 +2,19 @@
   "skillId": "choose-graph-type",
   "atomType": "Cat",
   "theory": {
-    "intro": "The best graph for a dataset depends on the type of data and what you want to show. Match the data and its purpose to the display that shows it most clearly.",
-    "facts": [
-      "**Categorical** data, when comparing categories, suits a **column (bar) graph**.",
-      "**Parts of a whole** (each category as a share of a total) suit a **sector (pie) graph** or divided bar graph.",
-      "**Change over time** with continuous data suits a **line graph**.",
-      "The **shape** of a numerical dataset (clusters, gaps, outliers) suits a **dot plot**, **stem-and-leaf plot** or **histogram**."
-    ],
-    "steps": [
-      "Identify the type of data (categorical or numerical).",
-      "Identify the purpose (compare categories, show a distribution, show change over time, or show parts of a whole).",
-      "Match the data and purpose to the display that shows it best."
-    ]
-  },
+        "intro": "The best graph for a dataset depends on the type of data and what you want to show. Match the data and its purpose to the display that shows it most clearly.",
+        "facts": [
+          "**Categorical** data, when comparing categories, suits a **column (bar) graph**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,8.6);\n\\draw[->] (0,0)--(9.0,0);\n\\foreach \\y in {2,4,6} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.6,0) rectangle (1.8,4);\n\\draw (2.2,0) rectangle (3.4,7);\n\\draw (3.8,0) rectangle (5.0,2);\n\\draw (5.4,0) rectangle (6.6,6);\n\\draw (7.0,0) rectangle (8.2,3);\n\\node[below,font=\\scriptsize] at (1.2,0) {$A$};\n\\node[below,font=\\scriptsize] at (2.8,0) {$B$};\n\\node[below,font=\\scriptsize] at (4.4,0) {$C$};\n\\node[below,font=\\scriptsize] at (6.0,0) {$D$};\n\\node[below,font=\\scriptsize] at (7.6,0) {$E$};\n\\node[rotate=90] at (-1.1,3.5) {Frequency};\n\\node[below] at (4.4,-1.0) {Category};\n\\node at (4.4,8.3) {Column graph};\n\\end{tikzpicture}\n[/tikz]",
+          "**Parts of a whole** (each category as a share of a total) suit a **sector (pie) graph** or divided bar graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) circle (2);\n\\draw (0,0)--(90:2);\n\\draw (0,0)--(0:2);\n\\draw (0,0)--(260:2);\n\\draw (0,0)--(200:2);\n\\node at (45:1.2) {$A$};\n\\node at (310:1.2) {$B$};\n\\node at (145:1.2) {$C$};\n\\node at (230:1.2) {$D$};\n\\node at (0,2.6) {Sector graph};\n\\end{tikzpicture}\n[/tikz]",
+          "**Change over time** with continuous data suits a **line graph**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0)--(0,7.6);\n\\draw[->] (0,0)--(7.6,0);\n\\foreach \\y in {2,4,6} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\foreach \\x in {1,2,3,4,5,6} {\\draw (\\x,0.1)--(\\x,-0.1);}\n\\draw[thick] (1,2)--(2,4.5)--(3,3)--(4,5.5)--(5,6.5)--(6,4);\n\\foreach \\p in {(1,2),(2,4.5),(3,3),(4,5.5),(5,6.5),(6,4)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.1,3.5) {Value};\n\\node[below] at (3.5,-1.0) {Time};\n\\node at (3.5,7.3) {Line graph};\n\\end{tikzpicture}\n[/tikz]",
+          "The **shape** of a numerical dataset (clusters, gaps, outliers) suits a **dot plot**, **stem-and-leaf plot** or **histogram**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-0.6,0)--(9.4,0);\n\\foreach \\x in {0,1,2,3,4,5,6,7,8} {\\draw (\\x,0.1)--(\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\x/\\c in {1/1,2/3,3/4,4/2,8/1} {\\foreach \\k in {1,...,\\c} {\\fill (\\x,{0.35*\\k}) circle (2.2pt);}}\n\\node[below] at (4,-0.9) {Score};\n\\node at (4,2.3) {Dot plot};\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Identify the type of data (categorical or numerical).",
+          "Identify the purpose (compare categories, show a distribution, show change over time, or show parts of a whole).",
+          "Match the data and purpose to the display that shows it best."
+        ]
+      },
   "practice": {
     "foundation": [
       {
@@ -50,7 +50,7 @@
         "solution_text": "A sector graph shows shares of a whole, not exact frequencies.\nChoose a column graph, because it shows the actual number sold for each drink and makes them easy to compare."
       },
       {
-        "question_text": "A student wants to display their classmates’ favourite sports using a line graph.\nExplain why a line graph is not appropriate for this data.",
+        "question_text": "A student wants to display their classmates’ favourite sports using a line graph.\nExplain why a line graph is not appropriate for this data.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,9.4);\n\\draw[->] (0,0) -- (6.6,0);\n\\foreach \\y in {2,4,6,8} {\\draw (-0.15,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\node[below,font=\\scriptsize] at (1.2,0) {Soccer};\n\\node[below,font=\\scriptsize] at (2.6,0) {Netball};\n\\node[below,font=\\scriptsize] at (4.0,0) {Tennis};\n\\node[below,font=\\scriptsize] at (5.4,0) {Cricket};\n\\draw[thick] (1.2,8) -- (2.6,5) -- (4.0,7) -- (5.4,3);\n\\foreach \\p in {(1.2,8),(2.6,5),(4.0,7),(5.4,3)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.1,4.0) {Number of students};\n\\node[below] at (3.3,-1.0) {Sport};\n\\node at (3.3,9.1) {Favourite sports};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "categorical-compare",
         "solution_text": "Favourite sport is categorical data.\nA line graph joins points to show change between them, but there is nothing between \"soccer\" and \"netball\", so a column graph should be used instead."
       },
@@ -72,7 +72,7 @@
         "solution_text": "(a) A line graph, because it shows change over time across the year.\n(b) A sector graph, because it shows each month as a part of the whole year’s sales."
       },
       {
-        "question_text": "The shoe sizes of a class are recorded (a numerical, discrete dataset) and you want to see the most common size and the spread. A student chooses a line graph.\nExplain why the line graph is a poor choice and name a better display.",
+        "question_text": "The shoe sizes of a class are recorded (a numerical, discrete dataset) and you want to see the most common size and the spread. A student chooses a line graph.\nExplain why the line graph is a poor choice and name a better display.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.75]\n\\draw[->] (0,0) -- (0,11.4);\n\\draw[->] (0,0) -- (7.0,0);\n\\foreach \\y in {2,4,6,8,10} {\\draw (-0.15,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\s in {1/5, 2/6, 3/7, 4/8, 5/9, 6/10} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\s$};}\n\\draw[thick] (1,2) -- (2,6) -- (3,9) -- (4,7) -- (5,4) -- (6,1);\n\\foreach \\p in {(1,2),(2,6),(3,9),(4,7),(5,4),(6,1)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.1,5.0) {Frequency};\n\\node[below] at (3.5,-1.0) {Shoe size};\n\\node at (3.5,11.1) {Class shoe sizes};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "distribution",
         "solution_text": "The data is not a change over time, so joining the points with a line is meaningless.\nA dot plot is a better choice, because it shows the most common size and the spread of a numerical dataset."
       }

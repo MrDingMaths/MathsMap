@@ -2,20 +2,22 @@
   "skillId": "find-equation-polynomial-graph",
   "atomType": "R",
   "theory": {
-    "intro": "A polynomial graph hands you its own equation. Each $x$-intercept gives a factor — a cut means the factor appears once, a bounce means it is squared, an inflection along the axis means it is cubed. That fixes the equation up to a constant: $y=k(x-a)(x-b)\\dots$ To pin down $k$, substitute one more marked point (usually the $y$-intercept) and solve.",
-    "facts": [
-      "An $x$-intercept at $x=a$ that **cuts** gives the factor $(x-a)$; a **bounce** gives $(x-a)^{2}$; an **inflection along the axis** gives $(x-a)^{3}$.",
-      "The roots alone determine the equation only up to a constant multiple $k$ — infinitely many curves share the same intercepts.",
-      "Substituting a marked point $(p,q)$ into $y=k(x-a)(x-b)\\dots$ gives one equation in $k$.",
-      "The $y$-intercept is the most convenient point for finding $k$ — unless the curve passes through the origin, in which case another marked point must be used.",
-      "The sign of $k$ must agree with the end behaviour shown: a graph falling to the right needs the leading term, including $k$, to be negative."
-    ],
-    "steps": [
-      "Read each $x$-intercept and its multiplicity from the graph.",
-      "Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.",
-      "Substitute the marked point to find $k$."
-    ]
-  },
+        "intro": "A polynomial graph hands you its own equation. Each $x$-intercept gives a factor, which fixes the equation as $y=k(x-a)(x-b)\\dots$ Substituting one more marked point pins down $k$.",
+        "facts": [
+          "An $x$-intercept where the curve **cuts** gives the factor $(x-a)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.5*(\\x-1.2)+0.05*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "An $x$-intercept where the curve **bounces** gives $(x-a)^{2}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-1.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.4*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "An $x$-intercept where the curve **inflects** along the axis gives $(x-a)^{3}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.4,0)--(4.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-1.4:3.8,smooth,variable=\\x,samples=70] plot ({\\x},{0.16*(\\x-1.2)*(\\x-1.2)*(\\x-1.2)});\n\\fill (1.2,0) circle (2pt);\n\\node[below right] at (1.2,0) {$x=a$};\n\\end{tikzpicture}\n[/tikz]",
+          "The roots fix the equation only up to a constant multiple $k$, since infinitely many curves share the same intercepts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-4.6,0)--(4.6,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-3.6:3.5,smooth,variable=\\x,samples=80] plot ({\\x},{0.10*(\\x+2.4)*(\\x+0.4)*(\\x-2.4)});\n\\draw[thick,red,dashed,<->,domain=-3.2:3.1,smooth,variable=\\x,samples=80] plot ({\\x},{0.22*(\\x+2.4)*(\\x+0.4)*(\\x-2.4)});\n\\draw[thick,green!50!black,dashdotted,<->,domain=-3.8:3.8,smooth,variable=\\x,samples=80] plot ({\\x},{0.045*(\\x+2.4)*(\\x+0.4)*(\\x-2.4)});\n\\fill (-2.4,0) circle (2pt);\n\\node[below right] at (-2.4,0) {$a$};\n\\fill (-0.4,0) circle (2pt);\n\\node[below left] at (-0.4,0) {$b$};\n\\fill (2.4,0) circle (2pt);\n\\node[below right] at (2.4,0) {$c$};\n\\end{tikzpicture}\n[/tikz]",
+          "Substituting a marked point $(p,q)$ into $y=k(x-a)(x-b)\\dots$ gives one equation in $k$.",
+          "Use the $y$-intercept to find $k$, unless the curve passes through the origin, when another marked point is needed.",
+          "The sign of $k$ must match the end behaviour: a graph falling to the right needs a negative leading term."
+        ],
+        "steps": [
+          "Read each $x$-intercept and its multiplicity from the graph.",
+          "Write $y=k(x-a)(x-b)\\dots$ with a factor for each root.",
+          "Substitute the marked point to find $k$."
+        ]
+      },
   "practice": {
     "foundation": [
       {

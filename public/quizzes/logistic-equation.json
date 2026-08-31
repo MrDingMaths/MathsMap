@@ -1,0 +1,122 @@
+{
+  "skillId": "logistic-equation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.006P(250-P)$. Written in the form $kP\\left(1-\\dfrac{P}{C}\\right)$, what are $C$ and $k$?",
+      "structure": "identify-capacity",
+      "mastery": false,
+      "options": [
+        { "text": "$C=250$ and $k=1.5$", "correct": true },
+        { "text": "$C=250$ and $k=0.006$", "why": "Read the coefficient straight off without multiplying it by $250$ to convert to the bracket form." },
+        { "text": "$C=1.5$ and $k=250$", "why": "Swapped the two results, using the growth constant as the capacity." },
+        { "text": "$C=0.006$ and $k=250$", "why": "Swapped the roles of the coefficient and the capacity without converting the form at all." }
+      ],
+      "solution_text": "$0.006P(250-P)=0.006\\times 250\\times P\\left(1-\\dfrac{P}{250}\\right)$\n$=1.5P\\left(1-\\dfrac{P}{250}\\right)$\n$C=250$ and $k=1.5$"
+    },
+    {
+      "id": "q2",
+      "question_text": "State the constant solutions of $\\dfrac{dP}{dt}=\\dfrac{1}{9}P\\left(1-\\dfrac{P}{720}\\right)$.",
+      "structure": "constant-solutions",
+      "mastery": false,
+      "options": [
+        { "text": "$P=0$ and $P=720$", "correct": true },
+        { "text": "$P=720$ only", "why": "Missed the factor $P$, so the extinct population $P=0$ was left out." },
+        { "text": "$P=0$ and $P=360$", "why": "Used half the carrying capacity, which is where growth is fastest, not where it stops." },
+        { "text": "$P=0$, $P=360$ and $P=720$", "why": "Included half the carrying capacity as well; at $P=360$ the rate is a maximum, not zero." }
+      ],
+      "solution_text": "$\\dfrac{1}{9}P\\left(1-\\dfrac{P}{720}\\right)=0$\n$P=0$ or $1-\\dfrac{P}{720}=0$\n$P=0$ or $P=720$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Solve $\\dfrac{dP}{dt}=\\dfrac{1}{4}P\\left(1-\\dfrac{P}{600}\\right)$ with $P(0)=120$, using $\\dfrac{600}{P(600-P)}=\\dfrac{1}{P}+\\dfrac{1}{600-P}$.",
+      "structure": "solve-logistic-ivp",
+      "mastery": false,
+      "options": [
+        { "text": "$P=\\dfrac{600}{1+4e^{-\\frac{t}{4}}}$", "correct": true },
+        { "text": "$P=\\dfrac{600}{1+4e^{\\frac{t}{4}}}$", "why": "Left the exponent positive, which makes the population fall towards zero instead of rising towards $600$." },
+        { "text": "$P=\\dfrac{600}{1+5e^{-\\frac{t}{4}}}$", "why": "Used $\\frac{C}{P_{0}}$ instead of $\\frac{C-P_{0}}{P_{0}}$ when evaluating the constant." },
+        { "text": "$P=\\dfrac{600}{1+5e^{\\frac{t}{4}}}$", "why": "Used $\\frac{C}{P_{0}}$ for the constant and also left the exponent positive." }
+      ],
+      "solution_text": "$\\dfrac{dt}{dP}=4\\left(\\dfrac{1}{P}+\\dfrac{1}{600-P}\\right)$\n$\\dfrac{P}{600-P}=Ae^{\\frac{t}{4}}$\n$\\dfrac{120}{480}=A$, so $A=\\dfrac{1}{4}$.\n$4P=(600-P)e^{\\frac{t}{4}}$\n$P\\left(4+e^{\\frac{t}{4}}\\right)=600e^{\\frac{t}{4}}$\n$P=\\dfrac{600}{1+4e^{-\\frac{t}{4}}}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A population is modelled by $N=\\dfrac{3200}{1+7e^{-0.5t}}$, with $t$ in years. Find $N(8)$, correct to the nearest whole number.",
+      "structure": "evaluate-population",
+      "mastery": false,
+      "options": [
+        { "text": "$2836$", "correct": true },
+        { "text": "$3200$", "why": "Gave the carrying capacity, which the model approaches but never reaches at a finite time." },
+        { "text": "$400$", "why": "Evaluated the model at $t=0$ instead of $t=8$." },
+        { "text": "$1600$", "why": "Gave half the carrying capacity, which is where growth is fastest, not the value at $t=8$." }
+      ],
+      "solution_text": "$N(8)=\\dfrac{3200}{1+7e^{-4}}$\n$=\\dfrac{3200}{1+7\\times 0.018316}$\n$=\\dfrac{3200}{1.128209}$\n$=2836.35$\n$N(8)\\approx 2836$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=0.24P\\left(1-\\dfrac{P}{5000}\\right)$, with $t$ in years. What is the greatest possible value of $\\dfrac{dP}{dt}$?",
+      "structure": "fastest-growth",
+      "mastery": false,
+      "options": [
+        { "text": "$300$ per year", "correct": true },
+        { "text": "$600$ per year", "why": "Used $0.24P$ at $P=2500$ and ignored the bracket, which equals $\\frac{1}{2}$ there." },
+        { "text": "$1200$ per year", "why": "Used $0.24P$ at $P=5000$; at the carrying capacity the bracket is zero, so the rate is zero." },
+        { "text": "$2500$ per year", "why": "Gave the population at which growth is fastest rather than the rate itself." }
+      ],
+      "solution_text": "$\\dfrac{dP}{dt}$ is a concave down quadratic in $P$ with roots $0$ and $5000$, so it is greatest at $P=2500$.\n$\\dfrac{dP}{dt}=0.24\\times 2500\\times\\left(1-\\dfrac{2500}{5000}\\right)$\n$=0.24\\times 2500\\times 0.5$\n$=300$ per year"
+    },
+    {
+      "id": "q6",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=\\dfrac{1}{8}P\\left(1-\\dfrac{P}{700}\\right)$ with $P(0)=950$. Which statement describes the long-term behaviour of $P$?",
+      "structure": "long-term-behaviour",
+      "mastery": false,
+      "options": [
+        { "text": "$P$ decreases and approaches $700$ from above, never reaching it at a finite time.", "correct": true },
+        { "text": "$P$ increases without bound, because the growth constant $\\frac{1}{8}$ is positive.", "why": "Reads the sign of $k$ alone; with $P>700$ the bracket is negative, so the rate is negative." },
+        { "text": "$P$ decreases to zero, because the population started above the carrying capacity.", "why": "Overshoots the constant solution $P=700$, which a solution curve cannot cross." },
+        { "text": "$P$ stays at $950$, because that is the initial population and the model is at equilibrium.", "why": "Treats any initial value as an equilibrium; only $P=0$ and $P=700$ make the rate zero." }
+      ],
+      "solution_text": "$1-\\dfrac{950}{700}<0$, so $\\dfrac{dP}{dt}<0$ and $P$ decreases.\n$P=700$ is a constant solution, so the curve cannot cross it.\n$P$ falls towards $700$ from above and approaches it without reaching it."
+    },
+    {
+      "id": "q7",
+      "question_text": "The graph shows a logistic model, with the dashed line as its horizontal asymptote. Which equation could it be?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$P$}, xmin=-1, xmax=17, ymin=-40, ymax=470, xtick={5,10,15}, ytick={100,400}, samples=120, clip=false, ylabel near ticks]\n\\addplot[thick, ->, domain=0:16] {400/(1+3*exp(-0.4*x))};\n\\addplot[dashed, domain=0:17] (x, 400);\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "read-logistic-graph",
+      "mastery": false,
+      "options": [
+        { "text": "$P=\\dfrac{400}{1+3e^{-0.4t}}$", "correct": true },
+        { "text": "$P=\\dfrac{400}{1+3e^{0.4t}}$", "why": "A positive exponent makes the denominator grow, so this curve falls from $100$ towards zero." },
+        { "text": "$P=\\dfrac{100}{1+3e^{-0.4t}}$", "why": "Used the $P$-intercept as the carrying capacity; this model has asymptote $100$ and starts at $25$." },
+        { "text": "$P=\\dfrac{100}{1+3e^{0.4t}}$", "why": "Used the $P$-intercept as the carrying capacity and also left the exponent positive." }
+      ],
+      "solution_text": "The dashed asymptote gives $C=400$.\nThe curve rises, so the exponent must be negative.\n$P(0)=\\dfrac{400}{1+3}$\n$=100$\nThis matches the $P$-intercept, so $P=\\dfrac{400}{1+3e^{-0.4t}}$."
+    },
+    {
+      "id": "q8",
+      "question_text": "Why is a logistic model usually preferred to $\\dfrac{dP}{dt}=kP$ for a population living in a fixed habitat?",
+      "structure": "logistic-vs-exponential",
+      "mastery": false,
+      "options": [
+        { "text": "The logistic model has a carrying capacity, so its predicted population levels off instead of increasing without bound.", "correct": true },
+        { "text": "The logistic model grows faster at every time, which matches the rapid growth of real populations.", "why": "The logistic rate is smaller than the exponential rate once $P$ is an appreciable fraction of $C$; that slowing is the point of the model." },
+        { "text": "The exponential model cannot be solved exactly, whereas the logistic model can.", "why": "Both are separable and both have exact solutions, so solvability is not the difference." },
+        { "text": "The exponential model always predicts a decreasing population, which is unrealistic for a growing colony.", "why": "$\\frac{dP}{dt}=kP$ with $k>0$ predicts growth; the sign of $k$ decides the direction." }
+      ],
+      "solution_text": "$\\dfrac{dP}{dt}=kP$ makes the rate of increase grow in proportion to $P$, with no upper limit.\nIn the logistic model the bracket $1-\\dfrac{P}{C}$ shrinks the rate as $P$ rises, and the rate reaches zero at $P=C$.\nA fixed habitat has limited food and space, so a levelling-off model fits it better."
+    },
+    {
+      "id": "q9",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=kP\\left(1-\\dfrac{P}{2400}\\right)$ with $P(0)=400$ and $P(5)=1200$, where $t$ is in years. Find $P(10)$.",
+      "structure": "find-k-from-second-point",
+      "mastery": true,
+      "options": [
+        { "text": "$2000$", "correct": true },
+        { "text": "$3600$", "why": "Assumed the population keeps tripling, using $1200\\times 3$, which ignores the carrying capacity." },
+        { "text": "$2400$", "why": "Assumed the population has reached the carrying capacity, which it approaches but never attains." },
+        { "text": "$1600$", "why": "Used $e^{-10k}=\\frac{1}{10}$, halving the exponent's effect instead of squaring $e^{-5k}$." }
+      ],
+      "solution_text": "$A=\\dfrac{2400-400}{400}$\n$=5$\n$P=\\dfrac{2400}{1+5e^{-kt}}$\n$1200=\\dfrac{2400}{1+5e^{-5k}}$\n$1+5e^{-5k}=2$\n$e^{-5k}=\\dfrac{1}{5}$\n$e^{-10k}=\\left(\\dfrac{1}{5}\\right)^{2}=\\dfrac{1}{25}$\n$P(10)=\\dfrac{2400}{1+\\frac{5}{25}}$\n$=\\dfrac{2400}{1.2}$\n$=2000$"
+    }
+  ]
+}

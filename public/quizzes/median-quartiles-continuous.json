@@ -1,0 +1,122 @@
+{
+  "skillId": "median-quartiles-continuous",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The continuous random variable $X$ has cumulative distribution function $F(x)=\\frac{x^{2}}{36}$ on $[0,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.8, xmax=7.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5,6}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:6] {x*x/36};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the median, correct to two decimal places.",
+      "structure": "median-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$4.24$", "correct": true },
+        { "text": "$3$", "why": "Took the midpoint of the support, which is the median only for a symmetric density." },
+        { "text": "$18$", "why": "Stopped at $x^{2}=18$ without taking the square root." },
+        { "text": "$5.20$", "why": "Solved $F(x)=0.75$, which gives the third quartile rather than the median." }
+      ],
+      "solution_text": "$\\frac{m^{2}}{36}=0.5$\n$m^{2}=18$\n$m=\\sqrt{18}$\n$\\approx 4.24$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.8, xmax=7.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5,6}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:6] {x*x/36};\n\\draw[dashed] (axis cs:0,0.5) -- (axis cs:4.2426,0.5) -- (axis cs:4.2426,0);\n\\node[right] at (axis cs:4.4,0.3) {$m\\approx 4.24$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q2",
+      "question_text": "The continuous random variable $X$ has cumulative distribution function $F(x)=\\frac{x^{3}}{27}$ on $[0,3]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.5, xmax=4.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:3] {x*x*x/27};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind $Q_{1}$, correct to two decimal places.",
+      "structure": "quartile-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$1.89$", "correct": true },
+        { "text": "$2.38$", "why": "Solved $F(x)=0.5$, which gives the median rather than the first quartile." },
+        { "text": "$6.75$", "why": "Stopped at $x^{3}=6.75$ without taking the cube root." },
+        { "text": "$0.75$", "why": "Took a quarter of the way along the support instead of solving $F(x)=0.25$." }
+      ],
+      "solution_text": "$\\frac{x^{3}}{27}=0.25$\n$x^{3}=6.75$\n$Q_{1}=\\sqrt[3]{6.75}$\n$\\approx 1.89$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.5, xmax=4.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:3] {x*x*x/27};\n\\draw[dashed] (axis cs:0,0.25) -- (axis cs:1.8899,0.25) -- (axis cs:1.8899,0);\n\\node[right] at (axis cs:2.05,0.13) {$Q_{1}\\approx 1.89$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q3",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{50}$ on $[0,10]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.2, xmax=11.6, ymin=-0.04, ymax=0.28, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8,10}, ytick={0.05,0.1,0.15,0.2}]\n\\addplot[thick, domain=0:10] {x/50};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the median, correct to two decimal places.",
+      "structure": "median-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$7.07$", "correct": true },
+        { "text": "$25$", "why": "Solved $f(m)=0.5$ instead of $F(m)=0.5$, giving a value far outside the support." },
+        { "text": "$5$", "why": "Took the midpoint of the support, which is the median only for a symmetric density." },
+        { "text": "$8.66$", "why": "Solved $F(x)=0.75$, which gives the third quartile rather than the median." }
+      ],
+      "solution_text": "$F(x)=\\int_{0}^{x}\\frac{t}{50}\\,dt$\n$=\\frac{x^{2}}{100}$\n$\\frac{m^{2}}{100}=0.5$\n$m^{2}=50$\n$m=\\sqrt{50}$\n$\\approx 7.07$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1.2, xmax=11.6, ymin=-0.04, ymax=0.28, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8,10}, ytick={0.05,0.1,0.15,0.2}]\n\\addplot[draw=none, fill=gray!35, domain=0:7.0711] {x/50} \\closedcycle;\n\\addplot[thick, domain=0:10] {x/50};\n\\draw[dashed] (axis cs:7.0711,0) -- (axis cs:7.0711,0.1414);\n\\node[above left] at (axis cs:7.0711,0.16) {$m\\approx 7.07$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{2(5-x)}{25}$ on $[0,5]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.7, xmax=6.2, ymin=-0.06, ymax=0.55, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.1,0.2,0.3,0.4}]\n\\addplot[thick, domain=0:5] {2*(5-x)/25};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the median, correct to two decimal places.",
+      "structure": "median-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$1.46$", "correct": true },
+        { "text": "$8.54$", "why": "Kept the second root of the quadratic, which lies outside the support $[0,5]$." },
+        { "text": "$2.5$", "why": "Took the midpoint of the support, although this density is not symmetric." },
+        { "text": "$-1.25$", "why": "Solved $f(x)=0.5$ instead of $F(x)=0.5$, giving a value outside the support." }
+      ],
+      "solution_text": "$F(x)=\\int_{0}^{x}\\frac{2(5-t)}{25}\\,dt$\n$=\\frac{2}{25}\\left[5t-\\frac{t^{2}}{2}\\right]_{0}^{x}$\n$=\\frac{10x-x^{2}}{25}$\n$\\frac{10m-m^{2}}{25}=0.5$\n$m^{2}-10m+12.5=0$\n$m=\\frac{10\\pm\\sqrt{100-50}}{2}$\n$m\\approx 1.46$ or $m\\approx 8.54$\nThe root $m\\approx 8.54$ is rejected because it lies outside $[0,5]$.\n$m\\approx 1.46$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.7, xmax=6.2, ymin=-0.06, ymax=0.55, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4,5}, ytick={0.1,0.2,0.3,0.4}]\n\\addplot[draw=none, fill=gray!35, domain=0:1.4645] {2*(5-x)/25} \\closedcycle;\n\\addplot[thick, domain=0:5] {2*(5-x)/25};\n\\draw[dashed] (axis cs:1.4645,0) -- (axis cs:1.4645,0.2828);\n\\node[above right] at (axis cs:1.4645,0.31) {$m\\approx 1.46$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q5",
+      "question_text": "The continuous random variable $X$ has cumulative distribution function $F(x)=\\frac{x^{2}-4}{32}$ on $[2,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.5, xmax=7.4, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:6] {(x*x-4)/32};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the $30$th percentile, correct to two decimal places.",
+      "structure": "percentile-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$3.69$", "correct": true },
+        { "text": "$13.6$", "why": "Stopped at $x^{2}=13.6$ without taking the square root." },
+        { "text": "$3.2$", "why": "Went $30\\%$ of the way along the support, assuming percentiles are evenly spaced." },
+        { "text": "$4$", "why": "Gave the midpoint of the support instead of solving $F(x)=0.3$." }
+      ],
+      "solution_text": "$\\frac{x^{2}-4}{32}=0.3$\n$x^{2}-4=9.6$\n$x^{2}=13.6$\n$x=\\sqrt{13.6}$\n$\\approx 3.69$\nThe root $x=-\\sqrt{13.6}$ is rejected because it lies outside $[2,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.5, xmax=7.4, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:6] {(x*x-4)/32};\n\\draw[dashed] (axis cs:2,0.3) -- (axis cs:3.6878,0.3) -- (axis cs:3.6878,0);\n\\node[right] at (axis cs:3.85,0.16) {$x\\approx 3.69$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "The continuous random variable $X$ has cumulative distribution function $F(x)=\\frac{x^{4}}{16}$ on $[0,2]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.4, xmax=3.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:2] {x*x*x*x/16};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the interquartile range, correct to two decimal places.",
+      "structure": "iqr-from-cdf",
+      "mastery": false,
+      "options": [
+        { "text": "$0.45$", "correct": true },
+        { "text": "$1.86$", "why": "Gave $Q_{3}$ alone instead of the difference between the quartiles." },
+        { "text": "$1.41$", "why": "Gave $Q_{1}$ alone instead of the difference between the quartiles." },
+        { "text": "$3.27$", "why": "Added the two quartiles instead of subtracting $Q_{1}$ from $Q_{3}$." }
+      ],
+      "solution_text": "$\\frac{x^{4}}{16}=0.25$\n$x^{4}=4$\n$Q_{1}=\\sqrt{2}$\n$\\approx 1.4142$\n$\\frac{x^{4}}{16}=0.75$\n$x^{4}=12$\n$Q_{3}=\\sqrt[4]{12}$\n$\\approx 1.8612$\n$\\text{IQR}=1.8612-1.4142$\n$\\approx 0.45$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.4, xmax=3.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=0:2] {x*x*x*x/16};\n\\draw[dashed] (axis cs:0,0.25) -- (axis cs:1.4142,0.25) -- (axis cs:1.4142,0);\n\\draw[dashed] (axis cs:0,0.75) -- (axis cs:1.8612,0.75) -- (axis cs:1.8612,0);\n\\node[right] at (axis cs:1.5,0.1) {$Q_{1}$};\n\\node[right] at (axis cs:1.95,0.6) {$Q_{3}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "The time $X$ hours until a sensor first reports a fault has probability density function $f(x)=\\frac{3(2-x)^{2}}{8}$ on $[0,2]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=3.2, ymin=-0.22, ymax=1.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.5,1,1.5}]\n\\addplot[thick, domain=0:2] {3*(2-x)*(2-x)/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the median time, correct to two decimal places.",
+      "structure": "median-context",
+      "mastery": false,
+      "options": [
+        { "text": "$0.41$", "correct": true },
+        { "text": "$1.59$", "why": "Solved $(2-m)^{3}=4$ and then wrote $m=\\sqrt[3]{4}$, forgetting to subtract from $2$." },
+        { "text": "$1$", "why": "Took the midpoint of the support, although this density is far from symmetric." },
+        { "text": "$0.18$", "why": "Solved $F(x)=0.25$, which gives the first quartile rather than the median." }
+      ],
+      "solution_text": "$F(x)=\\int_{0}^{x}\\frac{3(2-t)^{2}}{8}\\,dt$\n$=\\left[-\\frac{(2-t)^{3}}{8}\\right]_{0}^{x}$\n$=1-\\frac{(2-x)^{3}}{8}$\n$1-\\frac{(2-m)^{3}}{8}=0.5$\n$(2-m)^{3}=4$\n$2-m=\\sqrt[3]{4}$\n$2-m\\approx 1.5874$\n$m\\approx 0.41$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-0.4, xmax=3.2, ymin=-0.22, ymax=1.9, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2}, ytick={0.5,1,1.5}]\n\\addplot[draw=none, fill=gray!35, domain=0:0.4126] {3*(2-x)*(2-x)/8} \\closedcycle;\n\\addplot[thick, domain=0:2] {3*(2-x)*(2-x)/8};\n\\draw[dashed] (axis cs:0.4126,0) -- (axis cs:0.4126,0.9449);\n\\node[above right] at (axis cs:0.4126,1.0) {$m\\approx 0.41$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q8",
+      "question_text": "The continuous random variable $X$ has cumulative distribution function $F(x)=\\frac{x^{2}-2x}{8}$ on $[2,4]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.4, xmax=5.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:4] {(x*x-2*x)/8};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the median, correct to two decimal places.",
+      "structure": "median-from-cdf",
+      "mastery": true,
+      "options": [
+        { "text": "$3.24$", "correct": true },
+        { "text": "$-1.24$", "why": "Kept the root $1-\\sqrt{5}$, which lies outside the support $[2,4]$." },
+        { "text": "$3$", "why": "Took the midpoint of the support instead of solving $F(x)=0.5$." },
+        { "text": "$4$", "why": "Solved $x^{2}-2x=8$, using $F(x)=1$ in place of $F(x)=0.5$." }
+      ],
+      "solution_text": "$\\frac{m^{2}-2m}{8}=0.5$\n$m^{2}-2m=4$\n$m^{2}-2m-4=0$\n$m=\\frac{2\\pm\\sqrt{4+16}}{2}$\n$m=1\\pm\\sqrt{5}$\n$m\\approx 3.24$ or $m\\approx -1.24$\nThe root $m\\approx -1.24$ is rejected because it lies outside $[2,4]$.\n$m\\approx 3.24$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$F(x)$}, xmin=-0.4, xmax=5.2, ymin=-0.18, ymax=1.25, samples=100, clip=false, width=8cm, height=6cm, xtick={0,1,2,3,4}, ytick={0.25,0.5,0.75,1}]\n\\addplot[thick, domain=2:4] {(x*x-2*x)/8};\n\\draw[dashed] (axis cs:2,0.5) -- (axis cs:3.2361,0.5) -- (axis cs:3.2361,0);\n\\node[left] at (axis cs:3.15,0.68) {$m\\approx 3.24$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q9",
+      "question_text": "The continuous random variable $X$ has probability density function $f(x)=\\frac{x}{32}$ on $[0,8]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1, xmax=9.4, ymin=-0.04, ymax=0.35, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8}, ytick={0.1,0.2}]\n\\addplot[thick, domain=0:8] {x/32};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nFind the first quartile $Q_{1}$.",
+      "structure": "quartile-from-pdf",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$2$", "why": "Took a quarter of the way along the support instead of solving $F(x)=0.25$." },
+        { "text": "$16$", "why": "Stopped at $x^{2}=16$ without taking the square root." },
+        { "text": "$5.66$", "why": "Solved $F(x)=0.5$, which gives the median rather than the first quartile." }
+      ],
+      "solution_text": "$F(x)=\\int_{0}^{x}\\frac{t}{32}\\,dt$\n$=\\frac{x^{2}}{64}$\n$\\frac{x^{2}}{64}=0.25$\n$x^{2}=16$\n$Q_{1}=4$\nThe root $x=-4$ is rejected because it lies outside $[0,8]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-1, xmax=9.4, ymin=-0.04, ymax=0.35, samples=100, clip=false, width=8cm, height=6cm, xtick={0,2,4,6,8}, ytick={0.1,0.2}]\n\\addplot[draw=none, fill=gray!35, domain=0:4] {x/32} \\closedcycle;\n\\addplot[thick, domain=0:8] {x/32};\n\\draw[dashed] (axis cs:4,0) -- (axis cs:4,0.125);\n\\node[above left] at (axis cs:4,0.15) {$Q_{1}=4$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "skillId": "constant-velocity-motion",
+  "atomType": "R",
+  "theory": {
+    "intro": "An object moving with **constant velocity** $\\underset{\\sim}{v}$ travels in a straight line at a steady speed. Its position after time $t$ is $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$, where $\\underset{\\sim}{r}_{0}$ is its position at $t=0$.",
+    "facts": [
+      "The **initial position** $\\underset{\\sim}{r}_{0}$ is where the object is when $t=0$.",
+      "The velocity $\\underset{\\sim}{v}$ is the displacement made in each unit of time, so $t\\underset{\\sim}{v}$ is the displacement after $t$ units of time.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.4,0) -- (6.2,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,4.4) node[above] {$y$};\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.6,0.9);\n\\coordinate (Q) at (4.8,3.4);\n\\draw[->,thick] (O) -- (P) node[midway,below right] {$\\underset{\\sim}{r}_{0}$};\n\\draw[->,thick] (P) -- (Q) node[midway,right] {$t\\underset{\\sim}{v}$};\n\\draw[->,thick,dashed] (O) -- (Q) node[midway,above left] {$\\underset{\\sim}{r}(t)$};\n\\end{tikzpicture}\n[/tikz]",
+      "Two known positions give the velocity: $\\underset{\\sim}{v}=\\frac{\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})}{t_{2}-t_{1}}$.",
+      "The **speed** is the magnitude $|\\underset{\\sim}{v}|$, which is a number, while the velocity is a vector.",
+      "Two objects **collide** only if they are at the same position at the same value of $t$.",
+      "Paths that cross need not give a collision, because the objects may pass the crossing point at different times."
+    ],
+    "steps": [
+      "Write down the initial position and the velocity",
+      "Substitute into $\\underset{\\sim}{r}(t)=\\underset{\\sim}{r}_{0}+t\\underset{\\sim}{v}$",
+      "Work with the components separately to answer the question"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A particle has position $\\underset{\\sim}{r}(t)=\\begin{pmatrix}3\\\\-2\\end{pmatrix}+t\\begin{pmatrix}4\\\\5\\end{pmatrix}$ metres, where $t$ is in seconds. Find its position vector when $t=3$.",
+        "structure": "position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}(3)$\n$=\\begin{pmatrix}3\\\\-2\\end{pmatrix}+3\\begin{pmatrix}4\\\\5\\end{pmatrix}$\n$=\\begin{pmatrix}3\\\\-2\\end{pmatrix}+\\begin{pmatrix}12\\\\15\\end{pmatrix}$\n$=\\begin{pmatrix}15\\\\13\\end{pmatrix}$"
+      },
+      {
+        "question_text": "A drone has position $\\underset{\\sim}{r}(t)=(7-2t)\\underset{\\sim}{i}+(1+3t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. Find its position vector when $t=4$.",
+        "structure": "position-at-time",
+        "solution_text": "$\\underset{\\sim}{r}(4)$\n$=(7-2\\times 4)\\underset{\\sim}{i}+(1+3\\times 4)\\underset{\\sim}{j}$\n$=(7-8)\\underset{\\sim}{i}+(1+12)\\underset{\\sim}{j}$\n$=-\\underset{\\sim}{i}+13\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "At $t=0$ a robot is at the point with position vector $-5\\underset{\\sim}{i}+2\\underset{\\sim}{j}$ metres. It then moves with constant velocity $3\\underset{\\sim}{i}-4\\underset{\\sim}{j}$ m/s. Write its position vector $\\underset{\\sim}{r}(t)$.",
+        "structure": "write-position-function",
+        "solution_text": "$\\underset{\\sim}{r}(t)$\n$=(-5\\underset{\\sim}{i}+2\\underset{\\sim}{j})+t(3\\underset{\\sim}{i}-4\\underset{\\sim}{j})$\n$=(-5+3t)\\underset{\\sim}{i}+(2-4t)\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A boat starts at the point with position vector $\\begin{pmatrix}8\\\\-3\\end{pmatrix}$ km and travels with constant velocity $\\begin{pmatrix}-2\\\\6\\end{pmatrix}$ km/h. Write its position vector $\\underset{\\sim}{r}(t)$ as a single column, where $t$ is in hours.",
+        "structure": "write-position-function",
+        "solution_text": "$\\underset{\\sim}{r}(t)$\n$=\\begin{pmatrix}8\\\\-3\\end{pmatrix}+t\\begin{pmatrix}-2\\\\6\\end{pmatrix}$\n$=\\begin{pmatrix}8-2t\\\\-3+6t\\end{pmatrix}$"
+      },
+      {
+        "question_text": "A particle moves with constant velocity. At $t=1$ s it is at the point $(2,5)$ and at $t=4$ s it is at the point $(14,-1)$, with distances in metres. Find its velocity vector.",
+        "structure": "velocity-from-two-positions",
+        "solution_text": "$\\underset{\\sim}{v}$\n$=\\frac{1}{4-1}\\begin{pmatrix}14-2\\\\-1-5\\end{pmatrix}$\n$=\\frac{1}{3}\\begin{pmatrix}12\\\\-6\\end{pmatrix}$\n$=\\begin{pmatrix}4\\\\-2\\end{pmatrix}$"
+      },
+      {
+        "question_text": "A yacht moves with constant velocity. At $t=2$ h it is at the point $(-3,4)$ and at $t=6$ h it is at the point $(9,0)$, with distances in kilometres. Find its velocity vector.",
+        "structure": "velocity-from-two-positions",
+        "solution_text": "$\\underset{\\sim}{v}$\n$=\\frac{1}{6-2}\\begin{pmatrix}9-(-3)\\\\0-4\\end{pmatrix}$\n$=\\frac{1}{4}\\begin{pmatrix}12\\\\-4\\end{pmatrix}$\n$=\\begin{pmatrix}3\\\\-1\\end{pmatrix}$"
+      },
+      {
+        "question_text": "A particle has position $\\underset{\\sim}{r}(t)=(1+6t)\\underset{\\sim}{i}+(4+8t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. How fast is the particle moving?",
+        "structure": "speed-from-velocity",
+        "solution_text": "$\\underset{\\sim}{v}=6\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$|\\underset{\\sim}{v}|$\n$=\\sqrt{6^{2}+8^{2}}$\n$=\\sqrt{100}$\n$=10$ m/s"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A particle has position $\\underset{\\sim}{r}(t)=(2+5t)\\underset{\\sim}{i}+(9-3t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. At what time is the particle at the point $(22,-3)$?",
+        "structure": "time-to-reach-point",
+        "solution_text": "$2+5t=22$\n$5t=20$\n$t=4$\nChecking the $\\underset{\\sim}{j}$ component:\n$9-3\\times 4$\n$=-3$\nThe particle is at $(22,-3)$ when $t=4$ s."
+      },
+      {
+        "question_text": "A particle has position $\\underset{\\sim}{r}(t)=(-8+2t)\\underset{\\sim}{i}+(5-t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. Find the time at which the particle crosses the $y$-axis, and its position then.",
+        "structure": "time-to-reach-point",
+        "solution_text": "On the $y$-axis the $\\underset{\\sim}{i}$ component is zero.\n$-8+2t=0$\n$2t=8$\n$t=4$\n$\\underset{\\sim}{r}(4)$\n$=0\\underset{\\sim}{i}+(5-4)\\underset{\\sim}{j}$\n$=\\underset{\\sim}{j}$\nThe particle crosses the $y$-axis at $t=4$ s, at the point $(0,1)$."
+      },
+      {
+        "question_text": "Two hikers have positions $\\underset{\\sim}{r}_{A}(t)=(1+3t)\\underset{\\sim}{i}+(2+t)\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}_{B}(t)=(9-t)\\underset{\\sim}{i}+(6+4t)\\underset{\\sim}{j}$ kilometres, where $t$ is in hours. How far apart are they when $t=2$?",
+        "structure": "distance-between-objects-at-time",
+        "solution_text": "$\\underset{\\sim}{r}_{A}(2)=7\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}_{B}(2)=7\\underset{\\sim}{i}+14\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}_{B}(2)-\\underset{\\sim}{r}_{A}(2)$\n$=0\\underset{\\sim}{i}+10\\underset{\\sim}{j}$\nDistance\n$=\\sqrt{0^{2}+10^{2}}$\n$=10$ km"
+      },
+      {
+        "question_text": "Two particles have positions $\\underset{\\sim}{r}_{P}(t)=(2+4t)\\underset{\\sim}{i}+(-1+2t)\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}_{Q}(t)=(10-2t)\\underset{\\sim}{i}+(5-t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. Find the exact distance between them when $t=1$.",
+        "structure": "distance-between-objects-at-time",
+        "solution_text": "$\\underset{\\sim}{r}_{P}(1)=6\\underset{\\sim}{i}+\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}_{Q}(1)=8\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}_{Q}(1)-\\underset{\\sim}{r}_{P}(1)$\n$=2\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\nDistance\n$=\\sqrt{2^{2}+3^{2}}$\n$=\\sqrt{13}$ m"
+      },
+      {
+        "question_text": "Two drones have positions $\\underset{\\sim}{r}_{A}(t)=\\begin{pmatrix}2\\\\1\\end{pmatrix}+t\\begin{pmatrix}3\\\\5\\end{pmatrix}$ and $\\underset{\\sim}{r}_{B}(t)=\\begin{pmatrix}23\\\\34\\end{pmatrix}+t\\begin{pmatrix}-4\\\\-6\\end{pmatrix}$ metres, where $t$ is in seconds. Show that the drones collide, and state where and when.",
+        "structure": "collision-test",
+        "solution_text": "Equating the $\\underset{\\sim}{i}$ components:\n$2+3t=23-4t$\n$7t=21$\n$t=3$\nEquating the $\\underset{\\sim}{j}$ components:\n$1+5t=34-6t$\n$11t=33$\n$t=3$\nBoth components agree at $t=3$.\n$\\underset{\\sim}{r}_{A}(3)=\\begin{pmatrix}11\\\\16\\end{pmatrix}$ and $\\underset{\\sim}{r}_{B}(3)=\\begin{pmatrix}11\\\\16\\end{pmatrix}$\nThe drones collide at the point $(11,16)$ when $t=3$ s."
+      },
+      {
+        "question_text": "Two particles have positions $\\underset{\\sim}{r}_{A}(t)=2t\\underset{\\sim}{i}+(1+t)\\underset{\\sim}{j}$ and $\\underset{\\sim}{r}_{B}(t)=(10-t)\\underset{\\sim}{i}+(9-2t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. Do the particles collide? Justify your answer.",
+        "structure": "collision-test",
+        "solution_text": "Equating the $\\underset{\\sim}{i}$ components:\n$2t=10-t$\n$3t=10$\n$t=\\frac{10}{3}$\nEquating the $\\underset{\\sim}{j}$ components:\n$1+t=9-2t$\n$3t=8$\n$t=\\frac{8}{3}$\nThe two times are different, so there is no value of $t$ giving the same position for both particles.\nThe particles do not collide. Their paths do cross at $(8,5)$, but $A$ is there at $t=4$ s and $B$ is there at $t=2$ s."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A particle $P$ has position $\\underset{\\sim}{r}_{P}(t)=(4+t)\\underset{\\sim}{i}+(-6+4t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds. A particle $Q$ starts at the point $(34,36)$ at $t=0$ and moves with constant velocity so that it collides with $P$ when $t=6$. Find the velocity of $Q$ and its speed.",
+        "structure": "find-velocity-for-interception",
+        "solution_text": "$\\underset{\\sim}{r}_{P}(6)$\n$=10\\underset{\\sim}{i}+18\\underset{\\sim}{j}$\n$\\underset{\\sim}{v}_{Q}$\n$=\\frac{1}{6}\\left((10\\underset{\\sim}{i}+18\\underset{\\sim}{j})-(34\\underset{\\sim}{i}+36\\underset{\\sim}{j})\\right)$\n$=\\frac{1}{6}(-24\\underset{\\sim}{i}-18\\underset{\\sim}{j})$\n$=-4\\underset{\\sim}{i}-3\\underset{\\sim}{j}$ m/s\n$|\\underset{\\sim}{v}_{Q}|$\n$=\\sqrt{(-4)^{2}+(-3)^{2}}$\n$=5$ m/s"
+      },
+      {
+        "question_text": "A particle moves with constant velocity. At $t=2$ s it is at the point $(5,-4)$ and at $t=7$ s it is at the point $(-5,11)$, with distances in metres. Find its position at $t=0$ and its exact speed.",
+        "structure": "velocity-from-two-positions",
+        "solution_text": "$\\underset{\\sim}{v}$\n$=\\frac{1}{7-2}\\begin{pmatrix}-5-5\\\\11-(-4)\\end{pmatrix}$\n$=\\frac{1}{5}\\begin{pmatrix}-10\\\\15\\end{pmatrix}$\n$=\\begin{pmatrix}-2\\\\3\\end{pmatrix}$\n$\\underset{\\sim}{r}(0)$\n$=\\begin{pmatrix}5\\\\-4\\end{pmatrix}-2\\begin{pmatrix}-2\\\\3\\end{pmatrix}$\n$=\\begin{pmatrix}9\\\\-10\\end{pmatrix}$\n$|\\underset{\\sim}{v}|$\n$=\\sqrt{(-2)^{2}+3^{2}}$\n$=\\sqrt{13}$ m/s"
+      },
+      {
+        "question_text": "Particle $A$ has position $\\underset{\\sim}{r}_{A}(t)=(1+2t)\\underset{\\sim}{i}+(-3+3t)\\underset{\\sim}{j}$ and particle $B$ has position $\\underset{\\sim}{r}_{B}(t)=(13-ct)\\underset{\\sim}{i}+(21-5t)\\underset{\\sim}{j}$ metres, where $t$ is in seconds and $c$ is a constant. Find the value of $c$ for which the particles collide.",
+        "structure": "collision-test",
+        "solution_text": "Equating the $\\underset{\\sim}{j}$ components:\n$-3+3t=21-5t$\n$8t=24$\n$t=3$\nEquating the $\\underset{\\sim}{i}$ components at $t=3$:\n$1+2\\times 3=13-3c$\n$7=13-3c$\n$3c=6$\n$c=2$\nAt $t=3$ both particles are at $(7,6)$, so $c=2$."
+      }
+    ]
+  }
+}

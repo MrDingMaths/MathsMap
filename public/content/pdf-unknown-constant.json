@@ -1,0 +1,130 @@
+{
+  "skillId": "pdf-unknown-constant",
+  "atomType": "R",
+  "theory": {
+    "intro": "An unknown constant in a probability density function comes from the fact that the **total area** under $f$ is $1$. Set $\\int_{a}^{b} f(x)\\,dx = 1$ and solve for the unknown.",
+    "facts": [
+      "The equation that determines the unknown is always $\\int_{a}^{b} f(x)\\,dx = 1$, taken over the whole domain.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.05cm, y=1cm]\n\\fill[gray!35, domain=0.6:4.2, variable=\\x] (0.6,0) -- plot ({\\x},{0.15*\\x*\\x}) -- (4.2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.5) -- (0,3.0) node[above] {$f(x)$};\n\\draw[thick] (-0.3,0) -- (0.6,0);\n\\draw[thick, domain=0.6:4.2, smooth, samples=100, variable=\\x] plot ({\\x},{0.15*\\x*\\x});\n\\draw (4.2,0) -- (4.2,2.646);\n\\draw[thick] (4.2,0) -- (5.2,0);\n\\node[below] at (0.6,0) {$a$};\n\\node[below] at (4.2,0) {$b$};\n\\node at (3.1,0.5) {Area $= 1$};\n\\end{tikzpicture}\n[/tikz]",
+      "A constant factor comes outside the integral, so $k\\int_{a}^{b} g(x)\\,dx = 1$ gives $k$ in one step.",
+      "The unknown may be a domain endpoint rather than a coefficient, and then it appears as a limit.",
+      "Solving for an endpoint often gives a quadratic, so two roots may appear.",
+      "Reject any root that makes $f(x) < 0$ somewhere in the domain, because a density is never negative.",
+      "The constant $k$ is a scale factor, not a probability, so values of $k$ above $1$ are allowed.",
+      "For a density defined in pieces, add the area of each piece before setting the total equal to $1$."
+    ],
+    "steps": [
+      "Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$.",
+      "Integrate and substitute the limits.",
+      "Solve the resulting equation for the unknown.",
+      "Reject any solution that makes $f(x)$ negative on the domain."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The function $f(x) = ax^{2}$ on $[0,2]$, and $0$ elsewhere, is a probability density function. Find $a$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.8cm, y=1.2cm]\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.6*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-0.4,0) -- (3.0,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,3.1) node[above] {$f(x)$};\n\\draw[thick] (-0.3,0) -- (0,0);\n\\draw[thick, domain=0:2, smooth, samples=100, variable=\\x] plot ({\\x},{0.6*\\x*\\x});\n\\draw[thick] (2,0) -- (2.8,0);\n\\node[below] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{2}ax^{2}\\,dx = 1$\n$a\\left[\\dfrac{x^{3}}{3}\\right]_{0}^{2} = 1$\n$\\dfrac{8a}{3} = 1$\n$a = \\dfrac{3}{8}$"
+      },
+      {
+        "question_text": "The function $f(x) = kx$ on $[0,6]$, and $0$ elsewhere, is a probability density function. Find $k$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{6}kx\\,dx = 1$\n$k\\left[\\dfrac{x^{2}}{2}\\right]_{0}^{6} = 1$\n$18k = 1$\n$k = \\dfrac{1}{18}$"
+      },
+      {
+        "question_text": "The function $f(x) = cx^{3}$ on $[0,4]$, and $0$ elsewhere, is a probability density function. Find $c$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{4}cx^{3}\\,dx = 1$\n$c\\left[\\dfrac{x^{4}}{4}\\right]_{0}^{4} = 1$\n$64c = 1$\n$c = \\dfrac{1}{64}$"
+      },
+      {
+        "question_text": "The function $f(x) = ax^{2}$ on $[1,3]$, and $0$ elsewhere, is a probability density function. Find $a$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{1}^{3}ax^{2}\\,dx = 1$\n$a\\left[\\dfrac{x^{3}}{3}\\right]_{1}^{3} = 1$\n$a\\left(9 - \\dfrac{1}{3}\\right) = 1$\n$\\dfrac{26a}{3} = 1$\n$a = \\dfrac{3}{26}$"
+      },
+      {
+        "question_text": "The function $f(x) = k(x + 2)$ on $[0,4]$, and $0$ elsewhere, is a probability density function. Find $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.98cm, y=1.2cm]\n\\fill[gray!35] (0,0) -- (0,0.6) -- (4,1.8) -- (4,0) -- cycle;\n\\draw[->] (-0.5,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,2.6) node[above] {$f(x)$};\n\\draw[thick] (-0.4,0) -- (0,0);\n\\draw[thick] (0,0.6) -- (4,1.8);\n\\draw[thick] (4,0) -- (5.4,0);\n\\draw (4,0) -- (4,1.8);\n\\node[below] at (4,0) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{4}k(x + 2)\\,dx = 1$\n$k\\left[\\dfrac{x^{2}}{2} + 2x\\right]_{0}^{4} = 1$\n$k(8 + 8) = 1$\n$16k = 1$\n$k = \\dfrac{1}{16}$"
+      },
+      {
+        "question_text": "The function $f(x) = c$ on $[-3,5]$, and $0$ elsewhere, is a probability density function. Find $c$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{-3}^{5}c\\,dx = 1$\n$c\\left[x\\right]_{-3}^{5} = 1$\n$8c = 1$\n$c = \\dfrac{1}{8}$"
+      },
+      {
+        "question_text": "The function $f(x) = ae^{x}$ on $[0,3]$, and $0$ elsewhere, is a probability density function. Find the exact value of $a$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{3}ae^{x}\\,dx = 1$\n$a\\left[e^{x}\\right]_{0}^{3} = 1$\n$a\\left(e^{3} - 1\\right) = 1$\n$a = \\dfrac{1}{e^{3} - 1}$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{x^{2}}{72}$ on $[0,b]$, and $0$ elsewhere, is a probability density function. Find $b$.",
+        "structure": "endpoint-unknown",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{0}^{b}\\dfrac{x^{2}}{72}\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\left[\\dfrac{x^{3}}{216}\\right]_{0}^{b} = 1$\n$\\dfrac{b^{3}}{216} = 1$\n3. **Solve the resulting equation for the unknown**\n$b^{3} = 216$\n$b = 6$"
+      },
+      {
+        "question_text": "The function $f(x) = k\\sin x$ on $[0,\\pi]$, and $0$ elsewhere, is a probability density function. Find $k$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{0}^{\\pi}k\\sin x\\,dx = 1$\n$k\\left[-\\cos x\\right]_{0}^{\\pi} = 1$\n$k(1 + 1) = 1$\n$2k = 1$\n$k = \\dfrac{1}{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The function $f(x) = \\dfrac{5x^{4}}{243}$ on $[0,b]$, and $0$ elsewhere, is a probability density function. Find $b$.",
+        "structure": "endpoint-unknown",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{0}^{b}\\dfrac{5x^{4}}{243}\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\left[\\dfrac{x^{5}}{243}\\right]_{0}^{b} = 1$\n$\\dfrac{b^{5}}{243} = 1$\n3. **Solve the resulting equation for the unknown**\n$b^{5} = 243$\n$b = 3$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{3x^{2}}{98}$ on $[a,5]$, and $0$ elsewhere, is a probability density function. Find $a$.",
+        "structure": "endpoint-unknown",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{a}^{5}\\dfrac{3x^{2}}{98}\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\left[\\dfrac{x^{3}}{98}\\right]_{a}^{5} = 1$\n$\\dfrac{125 - a^{3}}{98} = 1$\n3. **Solve the resulting equation for the unknown**\n$a^{3} = 27$\n$a = 3$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{8}{3}(1 - x)$ on $[0,c]$, and $0$ elsewhere, is a probability density function. Find $c$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=4cm, y=1cm]\n\\fill[gray!35] (0,0) -- (0,2.667) -- (0.62,1.013) -- (0.62,0) -- cycle;\n\\draw[->] (-0.12,0) -- (1.35,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,3.2) node[above] {$f(x)$};\n\\draw[thick] (0,2.667) -- (1,0);\n\\draw[thick] (1,0) -- (1.3,0);\n\\draw (0.62,0) -- (0.62,1.013);\n\\node[below] at (0.62,0) {$c$};\n\\node[below] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "reject-invalid-root",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\dfrac{8}{3}\\int_{0}^{c}(1 - x)\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\dfrac{8}{3}\\left[x - \\dfrac{x^{2}}{2}\\right]_{0}^{c} = 1$\n$\\dfrac{8}{3}\\left(c - \\dfrac{c^{2}}{2}\\right) = 1$\n3. **Solve the resulting equation for the unknown**\n$4c^{2} - 8c + 3 = 0$\n$(2c - 1)(2c - 3) = 0$\n$c = \\dfrac{1}{2}$ or $c = \\dfrac{3}{2}$\n4. **Reject any solution that makes $f(x)$ negative on the domain**\n$1 - x < 0$ for $x > 1$, so $c$ cannot exceed $1$.\n$c = \\dfrac{1}{2}$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{2}{3}(2 - x)$ on $[0,c]$, and $0$ elsewhere, is a probability density function. Find $c$.",
+        "structure": "reject-invalid-root",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\dfrac{2}{3}\\int_{0}^{c}(2 - x)\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\dfrac{2}{3}\\left[2x - \\dfrac{x^{2}}{2}\\right]_{0}^{c} = 1$\n$\\dfrac{2}{3}\\left(2c - \\dfrac{c^{2}}{2}\\right) = 1$\n3. **Solve the resulting equation for the unknown**\n$c^{2} - 4c + 3 = 0$\n$(c - 1)(c - 3) = 0$\n$c = 1$ or $c = 3$\n4. **Reject any solution that makes $f(x)$ negative on the domain**\n$2 - x < 0$ for $x > 2$, so $c$ cannot exceed $2$.\n$c = 1$"
+      },
+      {
+        "question_text": "A probability density function is $f(x) = c$ for $0 \\le x \\le 5$ and $f(x) = 2c$ for $5 < x \\le 10$, and $0$ elsewhere. Find $c$.",
+        "structure": "piecewise-constant",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{0}^{5}c\\,dx + \\int_{5}^{10}2c\\,dx = 1$\n2. **Integrate and substitute the limits**\n$5c + 10c = 1$\n3. **Solve the resulting equation for the unknown**\n$15c = 1$\n$c = \\dfrac{1}{15}$"
+      },
+      {
+        "question_text": "A probability density function is $f(x) = k$ for $0 \\le x < 2$ and $f(x) = 3k$ for $2 \\le x \\le 6$, and $0$ elsewhere. Find $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.78cm, y=1.2cm]\n\\draw[->] (-0.7,0) -- (7.4,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,2.6) node[above] {$f(x)$};\n\\draw[thick] (-0.6,0) -- (0,0);\n\\draw[thick] (0,0.6) -- (2,0.6);\n\\draw[thick] (2,1.8) -- (6,1.8);\n\\draw[dashed] (0,0.6) -- (0,0);\n\\draw[dashed] (2,0.6) -- (2,1.8);\n\\draw[dashed] (6,1.8) -- (6,0);\n\\draw[thick] (6,0) -- (7.2,0);\n\\node[left] at (0,0.6) {$k$};\n\\node[left] at (0,1.8) {$3k$};\n\\node[below] at (2,0) {$2$};\n\\node[below] at (6,0) {$6$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "piecewise-constant",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{0}^{2}k\\,dx + \\int_{2}^{6}3k\\,dx = 1$\n2. **Integrate and substitute the limits**\n$2k + 12k = 1$\n3. **Solve the resulting equation for the unknown**\n$14k = 1$\n$k = \\dfrac{1}{14}$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{k}{x}$ on $[1,5]$, and $0$ elsewhere, is a probability density function. Find the exact value of $k$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{1}^{5}\\dfrac{k}{x}\\,dx = 1$\n$k\\left[\\ln x\\right]_{1}^{5} = 1$\n$k(\\ln 5 - 0) = 1$\n$k = \\dfrac{1}{\\ln 5}$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{a}{x^{2}}$ on $[1,4]$, and $0$ elsewhere, is a probability density function. Find $a$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{1}^{4}ax^{-2}\\,dx = 1$\n$a\\left[-\\dfrac{1}{x}\\right]_{1}^{4} = 1$\n$a\\left(-\\dfrac{1}{4} + 1\\right) = 1$\n$\\dfrac{3a}{4} = 1$\n$a = \\dfrac{4}{3}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The function $f(x) = \\dfrac{2x^{5}}{87381}$ on $[1,b]$, and $0$ elsewhere, is a probability density function. Find $b$.",
+        "structure": "endpoint-unknown",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\int_{1}^{b}\\dfrac{2x^{5}}{87381}\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\dfrac{2}{87381}\\left[\\dfrac{x^{6}}{6}\\right]_{1}^{b} = 1$\n$\\dfrac{b^{6} - 1}{262143} = 1$\n3. **Solve the resulting equation for the unknown**\n$b^{6} = 262144$\n$b = 8$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{1}{6}(4 - x)$ on $[0,c]$, and $0$ elsewhere, is a probability density function. Find $c$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.0cm, y=3cm]\n\\fill[gray!35] (0,0) -- (0,0.667) -- (2.6,0.233) -- (2.6,0) -- cycle;\n\\draw[->] (-0.5,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.12) -- (0,0.95) node[above] {$f(x)$};\n\\draw[thick] (-0.4,0) -- (0,0);\n\\draw[thick] (0,0.667) -- (4,0);\n\\draw[thick] (4,0) -- (5.2,0);\n\\draw (2.6,0) -- (2.6,0.233);\n\\node[below] at (2.6,0) {$c$};\n\\node[below] at (4,0) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "reject-invalid-root",
+        "solution_text": "1. **Write $\\int_{a}^{b} f(x)\\,dx = 1$ using the domain of $f$**\n$\\dfrac{1}{6}\\int_{0}^{c}(4 - x)\\,dx = 1$\n2. **Integrate and substitute the limits**\n$\\dfrac{1}{6}\\left[4x - \\dfrac{x^{2}}{2}\\right]_{0}^{c} = 1$\n$4c - \\dfrac{c^{2}}{2} = 6$\n3. **Solve the resulting equation for the unknown**\n$c^{2} - 8c + 12 = 0$\n$(c - 2)(c - 6) = 0$\n$c = 2$ or $c = 6$\n4. **Reject any solution that makes $f(x)$ negative on the domain**\n$4 - x < 0$ for $x > 4$, so $c$ cannot exceed $4$.\n$c = 2$"
+      },
+      {
+        "question_text": "The function $f(x) = k\\cos x$ on $\\left[-\\dfrac{\\pi}{3}, \\dfrac{\\pi}{3}\\right]$, and $0$ elsewhere, is a probability density function. Find the exact value of $k$.",
+        "structure": "constant-coefficient",
+        "solution_text": "$\\int_{-\\frac{\\pi}{3}}^{\\frac{\\pi}{3}}k\\cos x\\,dx = 1$\n$k\\left[\\sin x\\right]_{-\\frac{\\pi}{3}}^{\\frac{\\pi}{3}} = 1$\n$k\\left(\\dfrac{\\sqrt{3}}{2} + \\dfrac{\\sqrt{3}}{2}\\right) = 1$\n$k\\sqrt{3} = 1$\n$k = \\dfrac{\\sqrt{3}}{3}$"
+      }
+    ]
+  }
+}

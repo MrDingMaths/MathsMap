@@ -1,0 +1,118 @@
+{
+  "skillId": "vector-projection",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **projection of $\\underset{\\sim}{a}$ onto $\\underset{\\sim}{b}$**, written $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$, is the shadow $\\underset{\\sim}{a}$ casts on the line of $\\underset{\\sim}{b}$. It is a vector, and it points along $\\underset{\\sim}{b}$.",
+    "facts": [
+      "The shadow is found by dropping a perpendicular from the head of $\\underset{\\sim}{a}$ onto the line of $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, calc, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (A) at (2.8,2.6);\n\\coordinate (P) at (2.8,0);\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, below right] {$\\underset{\\sim}{b}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, above right] {$\\underset{\\sim}{a}$};\n\\draw[dashed] (A) -- (P);\n\\draw[thick, -{Stealth[length=3mm]}] (O) -- (P) node[pos=0.5, below] {$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\coordinate (p1) at ($(P)!0.3cm!(A)$);\n\\coordinate (p2) at ($(P)!0.3cm!(O)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\pic[draw, \"$\\theta$\", angle radius=0.8cm, angle eccentricity=2] {angle = B--O--A};\n\\end{tikzpicture}\n[/tikz]",
+      "$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\left(\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^{2}}\\right)\\underset{\\sim}{b}$, a scalar multiple of $\\underset{\\sim}{b}$.",
+      "The divisor is the magnitude of the vector being projected **onto**, so $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$ and $\\text{proj}_{\\underset{\\sim}{a}}\\underset{\\sim}{b}$ are different vectors.",
+      "The **scalar projection** of $\\underset{\\sim}{a}$ in the direction of $\\underset{\\sim}{b}$ is the number $\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|}$, which also equals $|\\underset{\\sim}{a}|\\cos\\theta$.",
+      "A negative scalar projection means the shadow points opposite to $\\underset{\\sim}{b}$, which happens when $\\theta$ is obtuse.",
+      "The length of the projection is $\\left|\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|}\\right|$, since a length is never negative."
+    ],
+    "steps": [
+      "Find the dot product of the two vectors",
+      "Find the square of the magnitude of the vector being projected onto",
+      "Multiply the resulting scalar by the vector being projected onto"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = 5\\underset{\\sim}{i}-2\\underset{\\sim}{j}$ in the direction of $\\underset{\\sim}{b} = 3\\underset{\\sim}{i}$.",
+        "structure": "projection-onto-axis-vector",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (5)(3)+(-2)(0) = 15$\n$|\\underset{\\sim}{b}|^{2} = 3^2 = 9$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{15}{9}(3\\underset{\\sim}{i})$\n$= 5\\underset{\\sim}{i}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = \\begin{pmatrix} -4 \\\\ 7 \\end{pmatrix}$ in the direction of $\\underset{\\sim}{b} = \\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix}$.",
+        "structure": "projection-onto-axis-vector",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (-4)(0)+(7)(2) = 14$\n$|\\underset{\\sim}{b}|^{2} = 0^2+2^2 = 4$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{14}{4}\\begin{pmatrix} 0 \\\\ 2 \\end{pmatrix}$\n$= \\begin{pmatrix} 0 \\\\ 7 \\end{pmatrix}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 6 \\\\ 2 \\end{pmatrix}$ onto $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$.",
+        "structure": "vector-projection-components",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (6)(1)+(2)(3)$\n$= 12$\n2. **Find the square of the magnitude of the vector being projected onto**\n$|\\underset{\\sim}{b}|^{2} = 1^2+3^2 = 10$\n3. **Multiply the resulting scalar by the vector being projected onto**\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{12}{10}\\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$\n$= \\begin{pmatrix} \\frac{6}{5} \\\\ \\frac{18}{5} \\end{pmatrix}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = \\begin{pmatrix} -5 \\\\ 1 \\end{pmatrix}$ onto $\\underset{\\sim}{b} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$.",
+        "structure": "vector-projection-components",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (-5)(3)+(1)(4)$\n$= -11$\n2. **Find the square of the magnitude of the vector being projected onto**\n$|\\underset{\\sim}{b}|^{2} = 3^2+4^2 = 25$\n3. **Multiply the resulting scalar by the vector being projected onto**\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = -\\dfrac{11}{25}\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$\n$= \\begin{pmatrix} -\\frac{33}{25} \\\\ -\\frac{44}{25} \\end{pmatrix}$\nThe scalar is negative, so the shadow points the opposite way to $\\underset{\\sim}{b}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.75cm, y=0.75cm]\n\\usetikzlibrary{arrows.meta, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (-5,1);\n\\coordinate (B) at (3,4);\n\\coordinate (P) at (-1.32,-1.76);\n\\draw[dashed, gray] (-2.4,-3.2) -- (O);\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, above right] {$\\underset{\\sim}{b}$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, left] {$\\underset{\\sim}{a}$};\n\\draw[thick, -{Stealth[length=3mm]}] (O) -- (P) node[pos=1, below right] {$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$};\n\\draw[dashed] (A) -- (P);\n\\coordinate (p1) at ($(P)!0.3cm!(A)$);\n\\coordinate (p2) at ($(P)!0.3cm!(O)$);\n\\draw (p1) -- ($(p1)+(p2)-(P)$) -- (p2);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = 7\\underset{\\sim}{i}+4\\underset{\\sim}{j}$ onto $\\underset{\\sim}{b} = \\underset{\\sim}{i}+2\\underset{\\sim}{j}$.",
+        "structure": "vector-projection-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (7)(1)+(4)(2) = 15$\n$|\\underset{\\sim}{b}|^{2} = 1^2+2^2 = 5$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{15}{5}(\\underset{\\sim}{i}+2\\underset{\\sim}{j})$\n$= 3\\underset{\\sim}{i}+6\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "Find the scalar projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 8 \\\\ -1 \\end{pmatrix}$ in the direction of $\\underset{\\sim}{b} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$.",
+        "structure": "scalar-projection",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (8)(3)+(-1)(4) = 20$\n$|\\underset{\\sim}{b}| = \\sqrt{3^2+4^2} = 5$\nScalar projection $= \\dfrac{20}{5}$\n$= 4$"
+      },
+      {
+        "question_text": "Find the scalar projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix}$ in the direction of $\\underset{\\sim}{b} = \\begin{pmatrix} -4 \\\\ 3 \\end{pmatrix}$.",
+        "structure": "scalar-projection",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (2)(-4)+(5)(3) = 7$\n$|\\underset{\\sim}{b}| = \\sqrt{(-4)^2+3^2} = 5$\nScalar projection $= \\dfrac{7}{5}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$ onto $\\underset{\\sim}{b} = \\begin{pmatrix} 6 \\\\ 3 \\end{pmatrix}$, and describe what your answer shows.",
+        "structure": "vector-projection-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (4)(6)+(2)(3) = 30$\n$|\\underset{\\sim}{b}|^{2} = 6^2+3^2 = 45$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{30}{45}\\begin{pmatrix} 6 \\\\ 3 \\end{pmatrix}$\n$= \\begin{pmatrix} 4 \\\\ 2 \\end{pmatrix}$\nThe projection equals $\\underset{\\sim}{a}$ itself, because $\\underset{\\sim}{a}$ already lies along $\\underset{\\sim}{b}$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "$|\\overrightarrow{OA}| = 10$ and $\\angle AOB = 60^{\\circ}$. Find the length of the projection of $\\overrightarrow{OA}$ onto $\\overrightarrow{OB}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{arrows.meta, angles, quotes}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (4.2,0);\n\\coordinate (A) at (2.1,3.64);\n\\draw[-{Stealth[length=3mm]}] (O) -- (B) node[pos=1, right] {$B$};\n\\draw[-{Stealth[length=3mm]}] (O) -- (A) node[pos=1, above] {$A$};\n\\node[below left] at (O) {$O$};\n\\pic[draw, \"$60^{\\circ}$\", angle radius=0.9cm, angle eccentricity=2] {angle = B--O--A};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "projection-from-magnitudes-angle",
+        "solution_text": "Length of projection $= |\\overrightarrow{OA}|\\cos\\theta$\n$= 10\\cos 60^{\\circ}$\n$= 10\\times\\dfrac{1}{2}$\n$= 5$"
+      },
+      {
+        "question_text": "$|\\overrightarrow{OA}| = 8$ and $\\angle AOB = 150^{\\circ}$. Find the scalar projection of $\\overrightarrow{OA}$ in the direction of $\\overrightarrow{OB}$, in exact form.",
+        "structure": "projection-from-magnitudes-angle",
+        "solution_text": "Scalar projection $= |\\overrightarrow{OA}|\\cos\\theta$\n$= 8\\cos 150^{\\circ}$\n$= 8\\times\\left(-\\dfrac{\\sqrt{3}}{2}\\right)$\n$= -4\\sqrt{3}$\nThe angle is obtuse, so the scalar projection is negative and the shadow points opposite to $\\overrightarrow{OB}$."
+      },
+      {
+        "question_text": "The points $A(-1,2)$ and $B(5,6)$ are given. Find the projection of $\\overrightarrow{AB}$ onto $\\underset{\\sim}{c} = \\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix}$.",
+        "structure": "projection-from-points",
+        "solution_text": "$\\overrightarrow{AB} = \\begin{pmatrix} 5-(-1) \\\\ 6-2 \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ 4 \\end{pmatrix}$\n$\\overrightarrow{AB}\\cdot\\underset{\\sim}{c} = (6)(3)+(4)(-1) = 14$\n$|\\underset{\\sim}{c}|^{2} = 3^2+(-1)^2 = 10$\n$\\text{proj}_{\\underset{\\sim}{c}}\\overrightarrow{AB} = \\dfrac{14}{10}\\begin{pmatrix} 3 \\\\ -1 \\end{pmatrix}$\n$= \\begin{pmatrix} \\frac{21}{5} \\\\ -\\frac{7}{5} \\end{pmatrix}$"
+      },
+      {
+        "question_text": "The points $P(2,-3)$ and $Q(8,5)$ are given. Find the scalar projection of $\\overrightarrow{PQ}$ in the direction of $\\underset{\\sim}{d} = \\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix}$.",
+        "structure": "projection-from-points",
+        "solution_text": "$\\overrightarrow{PQ} = \\begin{pmatrix} 8-2 \\\\ 5-(-3) \\end{pmatrix} = \\begin{pmatrix} 6 \\\\ 8 \\end{pmatrix}$\n$\\overrightarrow{PQ}\\cdot\\underset{\\sim}{d} = (6)(4)+(8)(3) = 48$\n$|\\underset{\\sim}{d}| = \\sqrt{4^2+3^2} = 5$\nScalar projection $= \\dfrac{48}{5}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 2 \\\\ 3 \\\\ -1 \\end{pmatrix}$ onto $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix}$.",
+        "structure": "vector-projection-3d",
+        "solution_text": "1. **Find the dot product of the two vectors**\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (2)(1)+(3)(2)+(-1)(2)$\n$= 6$\n2. **Find the square of the magnitude of the vector being projected onto**\n$|\\underset{\\sim}{b}|^{2} = 1^2+2^2+2^2 = 9$\n3. **Multiply the resulting scalar by the vector being projected onto**\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{6}{9}\\begin{pmatrix} 1 \\\\ 2 \\\\ 2 \\end{pmatrix}$\n$= \\begin{pmatrix} \\frac{2}{3} \\\\ \\frac{4}{3} \\\\ \\frac{4}{3} \\end{pmatrix}$"
+      },
+      {
+        "question_text": "Find the projection of $\\underset{\\sim}{a} = 4\\underset{\\sim}{i}+3\\underset{\\sim}{k}$ onto $\\underset{\\sim}{b} = 2\\underset{\\sim}{i}-2\\underset{\\sim}{j}+\\underset{\\sim}{k}$.",
+        "structure": "vector-projection-3d",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (4)(2)+(0)(-2)+(3)(1) = 11$\n$|\\underset{\\sim}{b}|^{2} = 2^2+(-2)^2+1^2 = 9$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{11}{9}(2\\underset{\\sim}{i}-2\\underset{\\sim}{j}+\\underset{\\sim}{k})$\n$= \\dfrac{22}{9}\\underset{\\sim}{i}-\\dfrac{22}{9}\\underset{\\sim}{j}+\\dfrac{11}{9}\\underset{\\sim}{k}$"
+      },
+      {
+        "question_text": "Find the exact scalar projection of $\\underset{\\sim}{a} = \\begin{pmatrix} 5 \\\\ 2 \\end{pmatrix}$ in the direction of $\\underset{\\sim}{b} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$, with a rational denominator.",
+        "structure": "scalar-projection",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (5)(1)+(2)(3) = 11$\n$|\\underset{\\sim}{b}| = \\sqrt{1^2+3^2} = \\sqrt{10}$\nScalar projection $= \\dfrac{11}{\\sqrt{10}}$\n$= \\dfrac{11\\sqrt{10}}{10}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the possible values of $t$ if the projection of $t\\underset{\\sim}{i}+2\\underset{\\sim}{j}$ onto $3\\underset{\\sim}{i}+4\\underset{\\sim}{j}$ has length $\\dfrac{22}{5}$.",
+        "structure": "find-unknown-from-projection",
+        "solution_text": "Dot product $= (t)(3)+(2)(4) = 3t+8$\n$|3\\underset{\\sim}{i}+4\\underset{\\sim}{j}| = \\sqrt{9+16} = 5$\n$\\dfrac{|3t+8|}{5} = \\dfrac{22}{5}$\n$|3t+8| = 22$\n$3t+8 = 22$ or $3t+8 = -22$\n$3t = 14$ or $3t = -30$\n$t = \\dfrac{14}{3}$ or $t = -10$"
+      },
+      {
+        "question_text": "Find the length of the projection of $\\overrightarrow{AB}$ onto $\\overrightarrow{CD}$, given $A(1,-2)$, $B(7,6)$, $C(-1,3)$ and $D(4,15)$.",
+        "structure": "projection-from-points",
+        "solution_text": "$\\overrightarrow{AB} = \\begin{pmatrix} 6 \\\\ 8 \\end{pmatrix}$, $\\overrightarrow{CD} = \\begin{pmatrix} 5 \\\\ 12 \\end{pmatrix}$\n$\\overrightarrow{AB}\\cdot\\overrightarrow{CD} = (6)(5)+(8)(12) = 126$\n$|\\overrightarrow{CD}| = \\sqrt{25+144} = 13$\nLength of projection $= \\dfrac{126}{13}$"
+      },
+      {
+        "question_text": "Given $\\underset{\\sim}{a} = \\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$ and $\\underset{\\sim}{b} = \\begin{pmatrix} 9 \\\\ -3 \\end{pmatrix}$, find $\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$ and $\\text{proj}_{\\underset{\\sim}{a}}\\underset{\\sim}{b}$, and explain why they are different.",
+        "structure": "vector-projection-components",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b} = (3)(9)+(6)(-3) = 9$\n$|\\underset{\\sim}{b}|^{2} = 81+9 = 90$\n$\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a} = \\dfrac{9}{90}\\begin{pmatrix} 9 \\\\ -3 \\end{pmatrix} = \\begin{pmatrix} \\frac{9}{10} \\\\ -\\frac{3}{10} \\end{pmatrix}$\n$|\\underset{\\sim}{a}|^{2} = 9+36 = 45$\n$\\text{proj}_{\\underset{\\sim}{a}}\\underset{\\sim}{b} = \\dfrac{9}{45}\\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix} = \\begin{pmatrix} \\frac{3}{5} \\\\ \\frac{6}{5} \\end{pmatrix}$\nThe dot product is the same both ways, but each projection is divided by the squared magnitude of the vector being projected onto and points along that vector, so the two answers differ."
+      }
+    ]
+  }
+}

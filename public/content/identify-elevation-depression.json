@@ -2,22 +2,23 @@
   "skillId": "identify-elevation-depression",
   "atomType": "Cat",
   "theory": {
-    "intro": "When you look at something above or below you, the angle you turn through is measured from the **horizontal** at your eye — not from a cliff face, a tower wall or a sloping hillside. Fixing that reference line, and the vertex it sits at, is the whole skill.",
-    "facts": [
-      "The **line of sight** is the straight line from the observer's eye to the object.",
-      "The **horizontal** through the observer's eye is the line the angle is measured from; on a diagram it is usually drawn dashed.",
-      "An angle of **elevation** opens upwards from the horizontal: the object is above the observer.",
-      "An angle of **depression** opens downwards from the horizontal: the object is below the observer.",
-      "An angle measured from a **vertical** — a cliff face, a tower wall, a balloon's drop line — is neither. It is the complement of the true angle, so subtract it from $90^{\\circ}$.",
-      "The horizontal at the top and the horizontal at the bottom are parallel, so the angle of depression from the top **equals** the angle of elevation from the bottom (alternate angles)."
-    ],
-    "steps": [
-      "Find the observer's eye.",
-      "Draw the horizontal at the eye.",
-      "Draw the line of sight to the object.",
-      "Name the angle between them."
-    ]
-  },
+        "intro": "When you look up or down at something, the angle you turn through is measured from the **horizontal** at your eye — never from a wall, a cliff face or a slope.",
+        "facts": [
+          "The **line of sight** is the straight line from the observer's eye to the object.",
+          "The **horizontal** through the observer's eye is the line the angle is measured from, and is usually drawn dashed.",
+          "An angle of **elevation** opens upwards from the horizontal, so the object is above the observer.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,2.2);\n\\coordinate (H) at (4.9,0);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw[thick] (A) -- (B) node[midway, above, sloped] {line of sight};\n\\fill (A) circle (1.6pt);\n\\fill (B) circle (1.6pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2] {angle = H--A--B};\n\\node[left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
+          "An angle of **depression** opens downwards from the horizontal, so the object is below the observer.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes}\n\\coordinate (A) at (0,2.4);\n\\coordinate (B) at (4,0);\n\\coordinate (H) at (4.9,2.4);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw[thick] (A) -- (B);\n\\fill (A) circle (1.6pt);\n\\fill (B) circle (1.6pt);\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2] {angle = B--A--H};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\end{tikzpicture}[/tikz]",
+          "An angle measured from a **vertical** wall instead of the horizontal is neither an elevation nor a depression.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,2.4);\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (H) at (4.9,2.4);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw[thick] (A) -- (B);\n\\coordinate (ra) at ($(C)!0.3cm!(A)$);\n\\coordinate (rb) at ($(C)!0.3cm!(B)$);\n\\draw (ra) -- ($(ra)+(rb)-(C)$) -- (rb);\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=1.8] {angle = C--A--B};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}[/tikz]",
+          "That angle and the true angle add to $90^{\\circ}$, so subtract it from $90^{\\circ}$.",
+          "The horizontal at the top is parallel to the ground, so the angle of depression equals the angle of elevation (alternate angles).\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (A) at (0,2.4);\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (H) at (4.9,2.4);\n\\draw[dashed] (A) -- (H) node[pos=0.85, above] {horizontal};\n\\draw (A) -- (C);\n\\draw (C) -- (B);\n\\draw[thick] (A) -- (B);\n\\coordinate (ra) at ($(C)!0.3cm!(A)$);\n\\coordinate (rb) at ($(C)!0.3cm!(B)$);\n\\draw (ra) -- ($(ra)+(rb)-(C)$) -- (rb);\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=2] {angle = B--A--H};\n\\pic[draw, \"$\\theta$\", angle radius=0.9cm, angle eccentricity=2.1] {angle = A--B--C};\n\\node[left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}[/tikz]"
+        ],
+        "steps": [
+          "Find the observer's eye.",
+          "Draw the horizontal at the eye.",
+          "Draw the line of sight to the object.",
+          "Name the angle between them."
+        ]
+      },
   "practice": {
     "foundation": [
       {

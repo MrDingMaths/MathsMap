@@ -1,0 +1,131 @@
+{
+  "skillId": "classify-stationary-second-derivative",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **second-derivative test** classifies a stationary point from the sign of $f''$ there. $f''(x) < 0$ means concave down, so a local maximum; $f''(x) > 0$ means concave up, so a local minimum. When $f''(x) = 0$ the test fails.",
+    "facts": [
+      "Use the test only at a stationary point, so solve $f'(x) = 0$ first.",
+      "$f''(x_0) > 0$ means the curve is concave up at the point, making it a **local minimum**.",
+      "$f''(x_0) < 0$ means the curve is concave down at the point, making it a **local maximum**.",
+      "$f''(x_0) = 0$ gives no information: the point may be a maximum, a minimum or a horizontal point of inflection.",
+      "When $f''(x_0) = 0$, fall back on the sign of $f'(x)$ just left and just right of the point.",
+      "$y = x^{4}$ and $y = x^{3}$ both have $f'(0) = f''(0) = 0$, yet one is a minimum and the other a horizontal inflection.",
+      "The test is quicker than a slope table, so try it first unless $f''$ turns out to be zero.",
+      "Substitute the $x$-value into $f(x)$ to give the $y$-coordinate of the classified point."
+    ],
+    "steps": [
+      "Differentiate to find $f'(x)$ and solve $f'(x) = 0$",
+      "Differentiate again to find $f''(x)$",
+      "Substitute each stationary $x$-value into $f''(x)$ and read its sign",
+      "If $f''(x) = 0$, classify instead using the sign of $f'(x)$ on each side"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the stationary point of $y = x^{2} - 10x + 21$ and use the second derivative to classify it.",
+        "structure": "classify-second-derivative-quadratic",
+        "solution_text": "$\\dfrac{dy}{dx} = 2x - 10$\nSet $\\dfrac{dy}{dx} = 0$:\n$2x - 10 = 0$\n$x = 5$\n$y = 25 - 50 + 21 = -4$\n$\\dfrac{d^{2}y}{dx^{2}} = 2 > 0$\nSince the second derivative is positive, $(5, -4)$ is a local minimum."
+      },
+      {
+        "question_text": "Find the stationary point of $y = 9 + 4x - x^{2}$ and use the second derivative to classify it.",
+        "structure": "classify-second-derivative-quadratic",
+        "solution_text": "$\\dfrac{dy}{dx} = 4 - 2x$\nSet $\\dfrac{dy}{dx} = 0$:\n$4 - 2x = 0$\n$x = 2$\n$y = 9 + 8 - 4 = 13$\n$\\dfrac{d^{2}y}{dx^{2}} = -2 < 0$\nSince the second derivative is negative, $(2, 13)$ is a local maximum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x^{3} + 6x^{2} - 36x + 2$ using the second derivative.",
+        "structure": "classify-second-derivative-cubic",
+        "solution_text": "1. **Differentiate to find $f'(x)$ and solve $f'(x) = 0$**\n$f'(x) = 3x^{2} + 12x - 36$\n$= 3(x + 6)(x - 2)$\n$x = -6$ or $x = 2$\n$f(-6) = -216 + 216 + 216 + 2 = 218$\n$f(2) = 8 + 24 - 72 + 2 = -38$\n2. **Differentiate again to find $f''(x)$**\n$f''(x) = 6x + 12$\n3. **Substitute each stationary $x$-value into $f''(x)$ and read its sign**\n$f''(-6) = -36 + 12 = -24 < 0$, so $(-6, 218)$ is a local maximum.\n$f''(2) = 12 + 12 = 24 > 0$, so $(2, -38)$ is a local minimum.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-11.5, xmax=7.5, ymin=-125, ymax=290, samples=100, clip=false,\n             xtick={-10,-8,-6,-4,-2,2,4,6}, ytick={-100,100,200}, ylabel near ticks]\n\\addplot[smooth, thick, <->, domain=-10.5:6.34] {x*x*x + 6*x*x - 36*x + 2};\n\\addplot[only marks, mark=*] coordinates {(-6,218) (2,-38)};\n\\node[right, font=\\small] at (axis cs:-6,218) {$(-6,218)$};\n\\node[right, font=\\small] at (axis cs:2,-38) {$(2,-38)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = 2x^{3} + 9x^{2} - 24x - 5$ using the second derivative.",
+        "structure": "classify-second-derivative-cubic",
+        "solution_text": "$f'(x) = 6x^{2} + 18x - 24$\n$= 6(x + 4)(x - 1)$\n$x = -4$ or $x = 1$\n$f(-4) = -128 + 144 + 96 - 5 = 107$\n$f(1) = 2 + 9 - 24 - 5 = -18$\n$f''(x) = 12x + 18$\n$f''(-4) = -48 + 18 = -30 < 0$, so $(-4, 107)$ is a local maximum.\n$f''(1) = 12 + 18 = 30 > 0$, so $(1, -18)$ is a local minimum."
+      },
+      {
+        "question_text": "Show that the second-derivative test fails at the stationary point of $f(x) = x^{3} - 9$, then classify the point another way.",
+        "structure": "second-derivative-test-inconclusive",
+        "solution_text": "$f'(x) = 3x^{2}$\nSet $f'(x) = 0$:\n$x = 0$\n$f(0) = -9$\n$f''(x) = 6x$\n$f''(0) = 0$, so the second-derivative test gives no information.\nTesting the sign of $f'$ on each side:\n$f'(-1) = 3 > 0$\n$f'(1) = 3 > 0$\nThere is no sign change, so $(0, -9)$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "Show that the second-derivative test fails at the stationary point of $f(x) = (x - 2)^{4} + 1$, then classify the point another way.",
+        "structure": "second-derivative-test-inconclusive",
+        "solution_text": "$f'(x) = 4(x - 2)^{3}$\nSet $f'(x) = 0$:\n$x = 2$\n$f(2) = 1$\n$f''(x) = 12(x - 2)^{2}$\n$f''(2) = 0$, so the second-derivative test gives no information.\nTesting the sign of $f'$ on each side:\n$f'(1) = 4(-1)^{3} = -4 < 0$\n$f'(3) = 4(1)^{3} = 4 > 0$\nThe sign changes from negative to positive, so $(2, 1)$ is a local minimum."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = x^{4} - 108x + 5$ using the second derivative.",
+        "structure": "classify-second-derivative-quartic",
+        "solution_text": "$f'(x) = 4x^{3} - 108$\nSet $f'(x) = 0$:\n$4x^{3} = 108$\n$x^{3} = 27$\n$x = 3$\n$f(3) = 81 - 324 + 5 = -238$\n$f''(x) = 12x^{2}$\n$f''(3) = 108 > 0$\nSince the second derivative is positive, $(3, -238)$ is a local minimum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x^{3} - 3x^{2} - 45x + 7$ using the second derivative.",
+        "structure": "classify-second-derivative-cubic",
+        "solution_text": "$f'(x) = 3x^{2} - 6x - 45$\n$= 3(x - 5)(x + 3)$\n$x = 5$ or $x = -3$\n$f(5) = 125 - 75 - 225 + 7 = -168$\n$f(-3) = -27 - 27 + 135 + 7 = 88$\n$f''(x) = 6x - 6$\n$f''(5) = 24 > 0$, so $(5, -168)$ is a local minimum.\n$f''(-3) = -24 < 0$, so $(-3, 88)$ is a local maximum."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = 3x^{4} - 4x^{3} - 36x^{2} + 5$ using the second derivative.",
+        "structure": "classify-second-derivative-quartic",
+        "solution_text": "$f'(x) = 12x^{3} - 12x^{2} - 72x$\n$= 12x(x - 3)(x + 2)$\n$x = 0$, $x = 3$ or $x = -2$\n$f(0) = 5$\n$f(3) = 243 - 108 - 324 + 5 = -184$\n$f(-2) = 48 + 32 - 144 + 5 = -59$\n$f''(x) = 36x^{2} - 24x - 72$\n$f''(0) = -72 < 0$, so $(0, 5)$ is a local maximum.\n$f''(3) = 324 - 72 - 72 = 180 > 0$, so $(3, -184)$ is a local minimum.\n$f''(-2) = 144 + 48 - 72 = 120 > 0$, so $(-2, -59)$ is a local minimum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x^{4} + 4x^{3} - 20x^{2} + 9$ using the second derivative.",
+        "structure": "classify-second-derivative-quartic",
+        "solution_text": "$f'(x) = 4x^{3} + 12x^{2} - 40x$\n$= 4x(x + 5)(x - 2)$\n$x = 0$, $x = -5$ or $x = 2$\n$f(0) = 9$\n$f(-5) = 625 - 500 - 500 + 9 = -366$\n$f(2) = 16 + 32 - 80 + 9 = -23$\n$f''(x) = 12x^{2} + 24x - 40$\n$f''(0) = -40 < 0$, so $(0, 9)$ is a local maximum.\n$f''(-5) = 300 - 120 - 40 = 140 > 0$, so $(-5, -366)$ is a local minimum.\n$f''(2) = 48 + 48 - 40 = 56 > 0$, so $(2, -23)$ is a local minimum."
+      },
+      {
+        "question_text": "Show that the second-derivative test fails at the stationary point of $f(x) = 3x^{5} + 10$, then classify the point another way.",
+        "structure": "second-derivative-test-inconclusive",
+        "solution_text": "$f'(x) = 15x^{4}$\nSet $f'(x) = 0$:\n$x = 0$\n$f(0) = 10$\n$f''(x) = 60x^{3}$\n$f''(0) = 0$, so the second-derivative test gives no information.\nTesting the sign of $f'$ on each side:\n$f'(-1) = 15 > 0$\n$f'(1) = 15 > 0$\nA fourth power is never negative, so $f'$ is positive on both sides.\nThere is no sign change, so $(0, 10)$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = 2x^{3} - 3x^{2} - 72x + 1$ using the second derivative.",
+        "structure": "classify-second-derivative-cubic",
+        "solution_text": "$f'(x) = 6x^{2} - 6x - 72$\n$= 6(x - 4)(x + 3)$\n$x = 4$ or $x = -3$\n$f(4) = 128 - 48 - 288 + 1 = -207$\n$f(-3) = -54 - 27 + 216 + 1 = 136$\n$f''(x) = 12x - 6$\n$f''(4) = 42 > 0$, so $(4, -207)$ is a local minimum.\n$f''(-3) = -42 < 0$, so $(-3, 136)$ is a local maximum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = (x - 1)^{2}(x + 5)$ using the second derivative.",
+        "structure": "classify-second-derivative-factorised-form",
+        "solution_text": "$f'(x) = 2(x - 1)(x + 5) + (x - 1)^{2}$\n$= (x - 1)(2x + 10 + x - 1)$\n$= 3(x - 1)(x + 3)$\n$x = 1$ or $x = -3$\n$f(1) = 0$\n$f(-3) = 16 \\times 2 = 32$\n$f'(x) = 3x^{2} + 6x - 9$, so $f''(x) = 6x + 6$.\n$f''(1) = 12 > 0$, so $(1, 0)$ is a local minimum.\n$f''(-3) = -12 < 0$, so $(-3, 32)$ is a local maximum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x^{2}(x - 6)^{2}$ using the second derivative.",
+        "structure": "classify-second-derivative-factorised-form",
+        "solution_text": "$f'(x) = 2x(x - 6)^{2} + 2x^{2}(x - 6)$\n$= 2x(x - 6)(x - 6 + x)$\n$= 4x(x - 6)(x - 3)$\n$x = 0$, $x = 6$ or $x = 3$\n$f(0) = 0$, $f(6) = 0$, $f(3) = 9 \\times 9 = 81$\nExpanding, $f'(x) = 4x^{3} - 36x^{2} + 72x$, so $f''(x) = 12x^{2} - 72x + 72$.\n$f''(0) = 72 > 0$, so $(0, 0)$ is a local minimum.\n$f''(6) = 432 - 432 + 72 = 72 > 0$, so $(6, 0)$ is a local minimum.\n$f''(3) = 108 - 216 + 72 = -36 < 0$, so $(3, 81)$ is a local maximum.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-2.6, xmax=8.6, ymin=-30, ymax=220, samples=100, clip=false,\n             xtick={-2,-1,1,2,3,4,5,6,7,8}, ytick={50,100,150,200}, ylabel near ticks]\n\\addplot[smooth, thick, <->, domain=-1.81:7.81] {x*x*(x-6)*(x-6)};\n\\addplot[only marks, mark=*] coordinates {(0,0) (3,81) (6,0)};\n\\node[above, font=\\small] at (axis cs:3,81) {$(3,81)$};\n\\node[below left, font=\\small] at (axis cs:0,0) {$(0,0)$};\n\\node[below right, font=\\small] at (axis cs:6,0) {$(6,0)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The curve $y = ax^{2} - 6x + 5$ has a stationary point at $x = \\dfrac{3}{4}$. Find $a$, then classify the stationary point using the second derivative.",
+        "structure": "classify-second-derivative-parameter",
+        "solution_text": "$\\dfrac{dy}{dx} = 2ax - 6$\nAt $x = \\dfrac{3}{4}$ the derivative is zero:\n$2a\\left(\\tfrac{3}{4}\\right) - 6 = 0$\n$\\dfrac{3a}{2} = 6$\n$a = 4$\nSo $y = 4x^{2} - 6x + 5$ and $y\\left(\\tfrac{3}{4}\\right) = \\tfrac{9}{4} - \\tfrac{9}{2} + 5 = \\tfrac{11}{4}$.\n$\\dfrac{d^{2}y}{dx^{2}} = 8 > 0$\nSince the second derivative is positive, $\\left(\\dfrac{3}{4}, \\dfrac{11}{4}\\right)$ is a local minimum."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $y = x + \\dfrac{25}{x}$ for $x \\neq 0$, using the second derivative.",
+        "structure": "classify-second-derivative-rational",
+        "solution_text": "$\\dfrac{dy}{dx} = 1 - \\dfrac{25}{x^{2}}$\nSet $\\dfrac{dy}{dx} = 0$:\n$x^{2} = 25$\n$x = 5$ or $x = -5$\n$y(5) = 5 + 5 = 10$\n$y(-5) = -5 - 5 = -10$\n$\\dfrac{d^{2}y}{dx^{2}} = \\dfrac{50}{x^{3}}$\nAt $x = 5$: $\\dfrac{50}{125} = \\dfrac{2}{5} > 0$, so $(5, 10)$ is a local minimum.\nAt $x = -5$: $\\dfrac{50}{-125} = -\\dfrac{2}{5} < 0$, so $(-5, -10)$ is a local maximum."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The cubic $f(x) = x^{3} + bx^{2} + cx$ has a stationary point at $(3, -18)$. Find $b$ and $c$, then find and classify the other stationary point.",
+        "structure": "classify-second-derivative-parameter",
+        "solution_text": "$f'(x) = 3x^{2} + 2bx + c$\nSince $f'(3) = 0$:\n$27 + 6b + c = 0$ ... (1)\nSince $f(3) = -18$:\n$27 + 9b + 3c = -18$\n$3b + c = -15$ ... (2)\nSubtracting (2) from (1):\n$27 + 3b = 15$\n$b = -4$\nFrom (2): $c = -15 + 12 = -3$\nSo $f(x) = x^{3} - 4x^{2} - 3x$ and $f'(x) = 3x^{2} - 8x - 3 = (3x + 1)(x - 3)$.\nThe other stationary point is at $x = -\\dfrac{1}{3}$.\n$f\\left(-\\tfrac{1}{3}\\right) = -\\tfrac{1}{27} - \\tfrac{4}{9} + 1 = \\tfrac{-1 - 12 + 27}{27} = \\tfrac{14}{27}$\n$f''(x) = 6x - 8$, so $f''\\left(-\\tfrac{1}{3}\\right) = -2 - 8 = -10 < 0$.\nThe other stationary point $\\left(-\\dfrac{1}{3}, \\dfrac{14}{27}\\right)$ is a local maximum."
+      },
+      {
+        "question_text": "Find and classify every stationary point of $f(x) = x^{4} - 4x^{3}$, noting where the second-derivative test fails.",
+        "structure": "second-derivative-test-inconclusive",
+        "solution_text": "$f'(x) = 4x^{3} - 12x^{2}$\n$= 4x^{2}(x - 3)$\n$x = 0$ or $x = 3$\n$f(0) = 0$ and $f(3) = 81 - 108 = -27$\n$f''(x) = 12x^{2} - 24x$\n$f''(3) = 108 - 72 = 36 > 0$, so $(3, -27)$ is a local minimum.\n$f''(0) = 0$, so the test fails at $x = 0$.\n$f'(-1) = 4(1)(-4) = -16 < 0$\n$f'(1) = 4(1)(-2) = -8 < 0$\nThere is no sign change, so $(0, 0)$ is a horizontal point of inflection.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-2.4, xmax=5.2, ymin=-38, ymax=35, samples=100, clip=false,\n             xtick={-2,-1,1,2,3,4}, ytick={-30,-20,-10,10,20,30}]\n\\addplot[smooth, thick, <->, domain=-1.73:4.36] {x*x*x*x - 4*x*x*x};\n\\addplot[only marks, mark=*] coordinates {(0,0) (3,-27)};\n\\node[above right, font=\\small] at (axis cs:0,0) {$(0,0)$};\n\\node[below right, font=\\small] at (axis cs:3,-27) {$(3,-27)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x^{4} + 4x^{3} + 4x^{2} + 3$ using the second derivative.",
+        "structure": "classify-second-derivative-quartic",
+        "solution_text": "$f'(x) = 4x^{3} + 12x^{2} + 8x$\n$= 4x(x + 1)(x + 2)$\n$x = 0$, $x = -1$ or $x = -2$\n$f(0) = 3$\n$f(-1) = 1 - 4 + 4 + 3 = 4$\n$f(-2) = 16 - 32 + 16 + 3 = 3$\n$f''(x) = 12x^{2} + 24x + 8$\n$f''(0) = 8 > 0$, so $(0, 3)$ is a local minimum.\n$f''(-1) = 12 - 24 + 8 = -4 < 0$, so $(-1, 4)$ is a local maximum.\n$f''(-2) = 48 - 48 + 8 = 8 > 0$, so $(-2, 3)$ is a local minimum."
+      },
+      {
+        "question_text": "The cubic $f(x) = x^{3} + px^{2} + qx + 1$ has a local maximum at $(1, 5)$. Find $p$ and $q$, then find and classify the other stationary point.",
+        "structure": "classify-second-derivative-parameter",
+        "solution_text": "$f'(x) = 3x^{2} + 2px + q$\nSince $f'(1) = 0$:\n$3 + 2p + q = 0$\n$2p + q = -3$ ... (1)\nSince $f(1) = 5$:\n$1 + p + q + 1 = 5$\n$p + q = 3$ ... (2)\nSubtracting (2) from (1):\n$p = -6$\nFrom (2): $q = 3 - (-6) = 9$\nSo $f(x) = x^{3} - 6x^{2} + 9x + 1$ and $f'(x) = 3x^{2} - 12x + 9 = 3(x - 1)(x - 3)$.\nThe other stationary point is at $x = 3$, where $f(3) = 3^{3} - 6(3^{2}) + 9(3) + 1 = 1$.\n$f''(x) = 6x - 12$, so $f''(3) = 6(3) - 12 = 6 > 0$.\nThe other stationary point $(3, 1)$ is a local minimum."
+      }
+    ]
+  }
+}

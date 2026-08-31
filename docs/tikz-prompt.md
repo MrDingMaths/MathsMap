@@ -850,6 +850,49 @@ A cone is the one case where a genuine apex exists — but it is the apex of the
 
 For a solid where the box's vertical edges aren't A–D-style (composites, roofs on a box, etc.), apply the same rule: label the wall-height dimension on whichever vertical edge sits **furthest from the hidden/dashed cluster**, not the one nearest it.
 
+### Networks and graphs
+
+Weighted network diagrams (Stage 6 Standard *Networks, Paths and Trees*) are built from exactly three kinds of line, in this order. Everything else — a spanning tree, a Dijkstra label, a traced route — is this base figure with the styling changed, never a redrawn one.
+
+```
+\begin{tikzpicture}[every node/.style={font=\large}]
+\coordinate (A) at (0,1.5);
+\coordinate (B) at (2,2.6);
+\coordinate (C) at (2,0.4);
+\draw (A) -- (B) node[midway, above left] {$2$};
+\draw (B) -- (C) node[midway, fill=white, inner sep=1pt] {$4$};
+\draw (A) -- (C) node[midway, below left] {$6$};
+\fill (A) circle (2.5pt) node[left] {$A$};
+\fill (B) circle (2.5pt) node[above] {$B$};
+\fill (C) circle (2.5pt) node[below] {$C$};
+\end{tikzpicture}
+```
+
+- One `\coordinate` per vertex, one `\draw (X) -- (Y) node[midway, …] {$w$};` per edge, one `\fill (X) circle (2.5pt) node[<anchor>] {$X$};` per vertex dot and name. Vertices are drawn **last** so their marks sit over the edge ends.
+- A weight that falls on a crossing uses `node[midway, fill=white, inner sep=1pt]` — the white fill lifts it clear of the edge beneath.
+- Vertex names must be single tokens usable as TikZ node names (`A`, `S`, `M1`).
+- Lay the graph out so that: every pair of vertices is at least 1.2 cm apart; every edge passes at least 0.6 cm clear of any vertex that is not one of its endpoints; every weight sits at least 0.6 cm from any vertex and 0.5 cm from any vertex **name**; **no weight lands on a different edge**; and no two weights come within 0.55 cm of each other. A vertex name goes on the side of the vertex with no edge leaving it. Keep the picture roughly 5–9 cm wide — a wide figure costs nothing.
+- The weight-on-a-foreign-edge rule is the one that bites. When several edges cross one long edge near its middle, their midpoints all land on it and its own weight ends up sandwiched between theirs as a single run of digits (`2 8 3`). Stagger the crossing vertices so those midpoints fall at different heights, or move the labels along their own edges with `pos=0.3` / `pos=0.7`.
+- `scripts/networks-steps.mjs` exports `findCrowdedVertices(fig)`, which checks all of the above deterministically; the question-figure lane (`scripts/check-figures.mjs`) and the step lane both gate on it.
+- **Directed** graphs declare the arrow style once, immediately after `\begin{tikzpicture}` — see the mid-line arrowhead rule under Carryover types — and draw every edge as `\draw[midarrow] (A) -- (B) node[pos=0.3, fill=white, inner sep=1pt] {$4$};`. `pos=0.3` keeps the weight off the mid-line arrowhead.
+
+**Selected edges — spanning trees, minimum spanning trees, shortest paths.** Thicken the chosen edge with `line width=1.6pt`. Never delete a rejected edge; the reader has to see what was passed over.
+
+```
+\draw[line width=1.6pt] (A) -- (B) node[midway, above left] {$2$};
+```
+
+**Dijkstra vertices.** The booklet redraws the graph "with empty circles at each vertex" and writes the lowest running total inside each circle. So for a Dijkstra figure, replace every `\fill` vertex with a circle node plus the vertex name pushed outside it:
+
+```
+\node[circle, draw, fill=white, minimum size=7mm, inner sep=0pt] at (A) {$4$};
+\node[above=4mm] at (A) {$A$};
+```
+
+A vertex not yet reached keeps an **empty** circle (`{}`) — that is the state, not an omission. The `fill=white` is what hides the edge ends under the circle, so these nodes must come after every `\draw`.
+
+**Step sequences.** A worked solution that executes Prim's or Dijkstra's algorithm shows one figure per step, each the same graph with the tree or the labels grown so far. Every figure in the sequence must reuse the question figure's `\coordinate` block **byte for byte** — this is NEVER-DO #10 in its networks form. Do not hand-author these: `scripts/networks-steps.mjs` renders them from the base figure and a step description, and `docs/content-generation.md` (Networks step-diagram setout) describes the authoring contract.
+
 ### Carryover types
 
 - **Number lines:** `\draw[->]` for the line; short ticks for marked integers; `\node` for the label `0`, `1`, … below; open/closed circles for inequalities.

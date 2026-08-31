@@ -1,0 +1,117 @@
+{
+  "skillId": "solve-optimisation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The daily profit, in dollars, from selling $x$ items is $P(x) = 180x - 3x^{2}$, for $0 \\le x \\le 50$. How many items should be sold to maximise the profit?",
+      "structure": "optimise-given-function",
+      "mastery": false,
+      "options": [
+        { "text": "$30$ items", "correct": true },
+        { "text": "$60$ items", "why": "Differentiated $3x^{2}$ as $3x$, then solved $180 - 3x = 0$." },
+        { "text": "$50$ items", "why": "Took the right endpoint of the domain without testing the stationary point." }
+      ],
+      "solution_text": "$P'(x) = 180 - 6x$\nSet $P'(x) = 0$:\n$x = 30$, which is inside the domain.\n$P''(x) = -6 < 0$, so $x = 30$ gives a maximum.\n$P(30) = 5400 - 2700 = 2700$\nEndpoints:\n$P(0) = 0$\n$P(50) = 9000 - 7500 = 1500$\nThe profit is greatest when $30$ items are sold."
+    },
+    {
+      "id": "q2",
+      "question_text": "The cost of running a machine for $x$ hours is $C(x) = 2x^{2} - 24x + 150$ dollars, for $0 \\le x \\le 10$. Find the minimum cost.",
+      "structure": "optimise-given-function",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$78$", "correct": true },
+        { "text": "$\\$110$", "why": "Compared only the two endpoints and took the smaller of those." },
+        { "text": "$\\$150$", "why": "Assumed the cost is least at the start of the domain, without differentiating." }
+      ],
+      "solution_text": "$C'(x) = 4x - 24$\nSet $C'(x) = 0$:\n$x = 6$, which is inside the domain.\n$C''(x) = 4 > 0$, so $x = 6$ gives a minimum.\n$C(6) = 72 - 144 + 150 = 78$\nEndpoints:\n$C(0) = 150$\n$C(10) = 200 - 240 + 150 = 110$\nThe minimum cost is $\\$78$."
+    },
+    {
+      "id": "q3",
+      "question_text": "A boat travels $120$ km at a constant speed of $v$ km/h. Its running cost is $\\left(20 + \\dfrac{v^{2}}{20}\\right)$ dollars per hour, for $10 \\le v \\le 40$. Find the speed that minimises the cost of the trip.",
+      "structure": "optimise-cost-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$20$ km/h", "correct": true },
+        { "text": "$40$ km/h", "why": "Assumed the fastest allowed speed is always cheapest, ignoring the rising hourly running cost." },
+        { "text": "$10$ km/h", "why": "Assumed the slowest allowed speed is cheapest, ignoring the extra hours it takes." }
+      ],
+      "solution_text": "Time for the trip $= \\dfrac{120}{v}$ hours.\n$C = \\left(20 + \\dfrac{v^{2}}{20}\\right)\\left(\\dfrac{120}{v}\\right)$\n$= \\dfrac{2400}{v} + 6v$\n$C'(v) = -\\dfrac{2400}{v^{2}} + 6$\nSet $C'(v) = 0$:\n$v^{2} = 400$\n$v = 20$, which is inside the domain.\n$C''(v) = \\dfrac{4800}{v^{3}} > 0$ for $v > 0$, so $v = 20$ gives a minimum.\n$C(20) = 120 + 120 = 240$\nEndpoints:\n$C(10) = 240 + 60 = 300$\n$C(40) = 60 + 240 = 300$\nThe cost is least at $20$ km/h."
+    },
+    {
+      "id": "q4",
+      "question_text": "A car park charges $\\$8$ per day and is used by $200$ cars a day. For each $\\$1$ increase in the charge, $10$ fewer cars use it. What daily charge maximises the revenue?",
+      "structure": "optimise-revenue-price",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$14$", "correct": true },
+        { "text": "$\\$6$", "why": "Gave the number of $\\$1$ increases instead of adding it to the original $\\$8$ charge." },
+        { "text": "$\\$20$", "why": "Took the largest increase in the domain rather than testing the stationary point." }
+      ],
+      "solution_text": "Let $x$ be the number of $\\$1$ increases, for $0 \\le x \\le 20$.\nCharge $= 8 + x$ dollars and cars $= 200 - 10x$.\n$R = (8 + x)(200 - 10x)$\n$= 1600 - 80x + 200x - 10x^{2}$\n$= 1600 + 120x - 10x^{2}$\n$R'(x) = 120 - 20x$\nSet $R'(x) = 0$:\n$x = 6$, which is inside the domain.\n$R''(x) = -20 < 0$, so $x = 6$ gives a maximum.\n$R(6) = 1600 + 720 - 360 = 1960$\nEndpoints:\n$R(0) = 1600$\n$R(20) = 1600 + 2400 - 4000 = 0$\nThe charge is $8 + 6 = \\$14$ per day."
+    },
+    {
+      "id": "q5",
+      "question_text": "A cable runs from $P$ on one bank of a $24$ km wide channel to a station $S$ on the opposite bank, $30$ km downstream from the point $Q$ directly opposite $P$. Underwater cable costs $\\$65\\,000$ per km and cable along the bank costs $\\$25\\,000$ per km. The cable crosses to a point $x$ km from $Q$, then runs along the bank to $S$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (Q) at (0,0);\n\\coordinate (P) at (0,4.32);\n\\coordinate (M) at (2.9,0);\n\\coordinate (S) at (5.4,0);\n\\draw (-0.5,4.32) -- (5.9,4.32);\n\\draw (-0.5,0) -- (5.9,0);\n\\draw (Q) -- (P) node[midway, left] {$24$ km};\n\\draw (P) -- (M);\n\\draw (Q) -- (M) node[midway, below] {$x$ km};\n\\draw (M) -- (S) node[midway, below] {$30 - x$ km};\n\\coordinate (a) at ($(Q)!0.35cm!(S)$);\n\\coordinate (b) at ($(Q)!0.35cm!(P)$);\n\\draw (a) -- ($(a)+(b)-(Q)$) -- (b);\n\\node[above] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\node[below right] at (S) {$S$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $x$ that minimises the total cost.",
+      "structure": "optimise-path-choice",
+      "mastery": true,
+      "options": [
+        { "text": "$x = 10$", "correct": true },
+        { "text": "$x = 30$", "why": "Ran the whole cable underwater straight to $S$, ignoring the cheaper rate along the bank." },
+        { "text": "$x = 0$", "why": "Took the shortest underwater crossing, ignoring the extra $30$ km then needed along the bank." },
+        { "text": "$x = 24$", "why": "Used the channel width as the landing distance instead of solving $C'(x) = 0$." }
+      ],
+      "solution_text": "The underwater length is $\\sqrt{576 + x^{2}}$ km and the bank length is $30 - x$ km.\n$C = 65\\,000\\sqrt{576 + x^{2}} + 25\\,000(30 - x)$, for $0 \\le x \\le 30$.\n$C'(x) = \\dfrac{65\\,000x}{\\sqrt{576 + x^{2}}} - 25\\,000$\nSet $C'(x) = 0$:\n$13x = 5\\sqrt{576 + x^{2}}$\n$169x^{2} = 25(576 + x^{2})$\n$169x^{2} = 14\\,400 + 25x^{2}$\n$144x^{2} = 14\\,400$\n$x^{2} = 100$\n$x = 10$, taking the positive value, which is inside the domain.\nSign of $C'$: $C'(8) \\approx -4445$ and $C'(12) \\approx 4068$, so $C$ changes from decreasing to increasing and $x = 10$ is a minimum.\n$C(10) = 65\\,000(26) + 25\\,000(20) = 2\\,190\\,000$\nEndpoints:\n$C(0) = 1\\,560\\,000 + 750\\,000 = 2\\,310\\,000$\n$C(30) = 65\\,000\\sqrt{1476} \\approx 2\\,497\\,000$\nThe cost is least when $x = 10$ km."
+    },
+    {
+      "id": "q6",
+      "question_text": "The height of a drone above the ground is $h(t) = t^{3} - 12t^{2} + 36t + 10$ metres, for $0 \\le t \\le 9$ seconds. Find the greatest height it reaches.",
+      "structure": "optimise-with-endpoint-check",
+      "mastery": false,
+      "options": [
+        { "text": "$91$ m", "correct": true },
+        { "text": "$42$ m", "why": "Stopped at the local maximum inside the domain without checking the endpoint values." },
+        { "text": "$10$ m", "why": "Gave the starting height $h(0)$ rather than the largest value on the domain." }
+      ],
+      "solution_text": "$h'(t) = 3t^{2} - 24t + 36$\nSet $h'(t) = 0$:\n$3(t - 2)(t - 6) = 0$\n$t = 2$ or $t = 6$, both inside the domain.\n$h''(t) = 6t - 24$\n$h''(2) = -12 < 0$, so $t = 2$ is a local maximum.\n$h''(6) = 12 > 0$, so $t = 6$ is a local minimum.\n$h(2) = 8 - 48 + 72 + 10 = 42$\n$h(6) = 216 - 432 + 216 + 10 = 10$\nEndpoints:\n$h(0) = 10$\n$h(9) = 729 - 972 + 324 + 10 = 91$\nThe greatest height is $91$ m."
+    },
+    {
+      "id": "q7",
+      "question_text": "A factory's weekly profit is $P(x) = 140x - 2x^{2}$ hundreds of dollars, where $x$ is the number of machines running, for $0 \\le x \\le 60$. Find the maximum weekly profit in dollars.",
+      "structure": "interpret-optimisation-units",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$245\\,000$", "correct": true },
+        { "text": "$\\$2450$", "why": "Left the answer in hundreds of dollars instead of converting to dollars." },
+        { "text": "$\\$24\\,500$", "why": "Multiplied by $10$ rather than $100$ when converting hundreds of dollars to dollars." },
+        { "text": "$\\$3500$", "why": "Multiplied the optimising value $x = 35$ by $100$ instead of evaluating $P(35)$." }
+      ],
+      "solution_text": "$P'(x) = 140 - 4x$\nSet $P'(x) = 0$:\n$x = 35$, which is inside the domain.\n$P''(x) = -4 < 0$, so $x = 35$ gives a maximum.\n$P(35) = 4900 - 2450 = 2450$\nEndpoints:\n$P(0) = 0$\n$P(60) = 8400 - 7200 = 1200$\nThe greatest value is $2450$ hundreds of dollars, so the maximum weekly profit is $\\$245\\,000$."
+    },
+    {
+      "id": "q8",
+      "question_text": "The cost of a trip is $C(v) = \\dfrac{k}{v} + 8v$ dollars, where $v > 0$ and $k$ is a positive constant. The minimum cost is $\\$160$. Find $k$.",
+      "structure": "find-parameter-from-optimum",
+      "mastery": true,
+      "options": [
+        { "text": "$800$", "correct": true },
+        { "text": "$3200$", "why": "Solved $\\sqrt{8k} = 160$ instead of $2\\sqrt{8k} = 160$, forgetting the two equal terms." },
+        { "text": "$1600$", "why": "Found $v = 10$ correctly but then solved $\\dfrac{k}{10} = 160$, dropping the $8v$ term." },
+        { "text": "$80$", "why": "Stopped at $\\sqrt{8k} = 80$ and read off $k = 80$ without solving for $k$." }
+      ],
+      "solution_text": "$C'(v) = -\\dfrac{k}{v^{2}} + 8$\nSet $C'(v) = 0$:\n$v^{2} = \\dfrac{k}{8}$\n$v = \\sqrt{\\dfrac{k}{8}}$, taking the positive value.\n$C''(v) = \\dfrac{2k}{v^{3}} > 0$ for $v > 0$, so this is a minimum.\n$C\\left(\\sqrt{\\dfrac{k}{8}}\\right) = \\sqrt{8k} + \\sqrt{8k}$\n$= 2\\sqrt{8k}$\nSet $2\\sqrt{8k} = 160$:\n$\\sqrt{8k} = 80$\n$8k = 6400$\n$k = 800$"
+    },
+    {
+      "id": "q9",
+      "question_text": "A courier van covers $300$ km at a constant speed of $v$ km/h. Wages cost $\\$45$ per hour and fuel costs $\\dfrac{v^{2}}{80}$ dollars per hour, for $30 \\le v \\le 110$. Find the minimum total cost of the trip, to the nearest dollar.",
+      "structure": "optimise-cost-rate",
+      "mastery": true,
+      "options": [
+        { "text": "$\\$450$", "correct": true },
+        { "text": "$\\$535$", "why": "Took the fastest allowed speed, assuming less time on the road always costs less." },
+        { "text": "$\\$563$", "why": "Took the slowest allowed speed, assuming less fuel per hour always costs less." },
+        { "text": "$\\$225$", "why": "Used only the wages term $\\dfrac{13\\,500}{v}$ at $v = 60$ and omitted the fuel cost." }
+      ],
+      "solution_text": "Time for the trip $= \\dfrac{300}{v}$ hours.\n$C = \\left(45 + \\dfrac{v^{2}}{80}\\right)\\left(\\dfrac{300}{v}\\right)$\n$= \\dfrac{13\\,500}{v} + \\dfrac{15v}{4}$\n$C'(v) = -\\dfrac{13\\,500}{v^{2}} + \\dfrac{15}{4}$\nSet $C'(v) = 0$:\n$v^{2} = \\dfrac{4 \\times 13\\,500}{15} = 3600$\n$v = 60$, which is inside the domain.\n$C''(v) = \\dfrac{27\\,000}{v^{3}} > 0$ for $v > 0$, so $v = 60$ gives a minimum.\n$C(60) = 225 + 225 = 450$\nEndpoints:\n$C(30) = 450 + 112.5 = 562.5$\n$C(110) \\approx 122.73 + 412.5 = 535.23$\nThe minimum total cost is $\\$450$."
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "skillId": "discrete-probability-distribution",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The table shows the distribution of $X$, the number of cars parked in a randomly chosen driveway.\n$\\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.18 & 0.44 & 0.3 & 0.08 \\end{array}$\nFind $P(X=2)$.",
+      "structure": "read-probability-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.3$",
+          "correct": true
+        },
+        {
+          "text": "$0.08$",
+          "why": "Counted the columns starting at $x=1$, so read the entry above $x=3$."
+        },
+        {
+          "text": "$0.44$",
+          "why": "Treated the first column as $x=1$, so read the entry above $x=1$."
+        },
+        {
+          "text": "$0.38$",
+          "why": "Added $P(2)$ and $P(3)$ instead of reading a single probability."
+        }
+      ],
+      "solution_text": "$P(X=2)$ is the entry in the column headed $x=2$.\n$P(X=2)=0.3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A discrete random variable $X$ has this distribution.\n$\\begin{array}{c|ccccc} x & 2 & 3 & 4 & 5 & 6 \\\\ \\hline P(X=x) & 0.1 & 0.25 & 0.3 & 0.2 & 0.15 \\end{array}$\nFind $P(3 \\le X < 6)$.",
+      "structure": "range-probability-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.75$",
+          "correct": true
+        },
+        {
+          "text": "$0.9$",
+          "why": "Included $x=6$, although the strict inequality $X<6$ excludes it."
+        },
+        {
+          "text": "$0.5$",
+          "why": "Excluded $x=3$, reading $3 \\le X$ as a strict inequality."
+        },
+        {
+          "text": "$0.65$",
+          "why": "Excluded $x=3$ and included $x=6$, reversing both endpoint conventions."
+        }
+      ],
+      "solution_text": "The values included are $3$, $4$ and $5$.\n$P(3 \\le X < 6)=0.25+0.3+0.2$\n$=0.75$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The distribution of $X$ is given below, where $c$ is a constant.\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 3c & 5c & 4c & 8c \\end{array}$\nFind $c$.",
+      "structure": "find-unknown-probability",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{1}{20}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{4}$",
+          "why": "Divided $1$ by the number of outcomes, as though the distribution were uniform."
+        },
+        {
+          "text": "$20$",
+          "why": "Solved $20c=1$ by multiplying instead of dividing."
+        },
+        {
+          "text": "$\\frac{1}{19}$",
+          "why": "Added the coefficients $3+5+4+8$ as $19$."
+        }
+      ],
+      "solution_text": "$3c+5c+4c+8c=1$\n$20c=1$\n$c=\\frac{1}{20}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Is the table below a probability distribution?\n$\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.4 & 0.35 & -0.05 & 0.3 \\end{array}$",
+      "structure": "validity-check",
+      "mastery": false,
+      "options": [
+        {
+          "text": "No, because $P(X=3)$ is negative and a probability cannot be less than $0$.",
+          "correct": true
+        },
+        {
+          "text": "Yes, because the four probabilities add to $1$.",
+          "why": "Checked only the total and ignored the requirement that every probability lies between $0$ and $1$."
+        },
+        {
+          "text": "No, because the probabilities add to $1.1$ rather than $1$.",
+          "why": "Added $0.05$ instead of subtracting it, so the total was computed incorrectly."
+        },
+        {
+          "text": "No, because the four probabilities are not all equal.",
+          "why": "Applied the uniform condition instead of the general conditions for a distribution."
+        }
+      ],
+      "solution_text": "$0.4+0.35-0.05+0.3=1$, so the total is correct.\nHowever $P(X=3)=-0.05$, which is negative.\nA probability cannot be negative, so this is not a probability distribution."
+    },
+    {
+      "id": "q5",
+      "question_text": "A box holds $2$ lemons and $5$ limes. Two pieces of fruit are taken at random without replacement. Let $X$ be the number of lemons taken. Find $P(X=1)$.",
+      "structure": "build-distribution-from-experiment",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac{10}{21}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{5}{21}$",
+          "why": "Counted only lemon-then-lime and missed the lime-then-lemon order."
+        },
+        {
+          "text": "$\\frac{20}{49}$",
+          "why": "Used with-replacement probabilities, keeping $7$ items for the second draw."
+        },
+        {
+          "text": "$\\frac{1}{21}$",
+          "why": "Found $P(X=2)$, the probability that both are lemons, instead."
+        }
+      ],
+      "solution_text": "$P(X=1)=2 \\times \\frac{2}{7} \\times \\frac{5}{6}$\n$=\\frac{20}{42}$\n$=\\frac{10}{21}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A function is given by $P(x)=\\frac{x^{2}}{k}$ for $x \\in \\{1,\\ 2,\\ 3,\\ 4\\}$. Find the value of $k$ that makes this a probability distribution.",
+      "structure": "probability-function-rule",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$30$",
+          "correct": true
+        },
+        {
+          "text": "$10$",
+          "why": "Added the values $1+2+3+4$ without squaring them first."
+        },
+        {
+          "text": "$100$",
+          "why": "Squared the total $1+2+3+4$ instead of adding the individual squares."
+        },
+        {
+          "text": "$4$",
+          "why": "Used the number of values, as though each probability were $\\frac{1}{4}$."
+        }
+      ],
+      "solution_text": "$\\frac{1}{k}+\\frac{4}{k}+\\frac{9}{k}+\\frac{16}{k}=1$\n$\\frac{30}{k}=1$\n$k=30$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The histogram shows the distribution of $X$, the number of buses arriving late at a stop in one hour.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0)--(0,5.4);\n\\draw[->] (0,0)--(8.6,0);\n\\foreach \\y/\\lbl in {1/0.1,2/0.2,3/0.3,4/0.4} {\\draw (-0.2,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.2,\\y) {$\\lbl$};}\n\\node[left,font=\\scriptsize] at (-0.2,0) {$0$};\n\\draw (0.75,0) rectangle (2.25,1.5);\n\\draw (2.55,0) rectangle (4.05,3.5);\n\\draw (4.35,0) rectangle (5.85,3);\n\\draw (6.15,0) rectangle (7.65,2);\n\\node[below,font=\\scriptsize] at (1.5,0) {$0$};\n\\node[below,font=\\scriptsize] at (3.3,0) {$1$};\n\\node[below,font=\\scriptsize] at (5.1,0) {$2$};\n\\node[below,font=\\scriptsize] at (6.9,0) {$3$};\n\\node[rotate=90] at (-1.4,2) {$P(X=x)$};\n\\node[below] at (4.2,-1.0) {Late buses};\n\\node at (4.2,5.1) {Late buses each hour};\n\\end{tikzpicture}\n[/tikz]\nFind $P(X \\ge 2)$.",
+      "structure": "histogram-of-distribution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.5$",
+          "correct": true
+        },
+        {
+          "text": "$0.85$",
+          "why": "Included the bar above $x=1$, reading $X \\ge 2$ as $X \\ge 1$."
+        },
+        {
+          "text": "$0.2$",
+          "why": "Read only the last bar, treating $X \\ge 2$ as the largest value alone."
+        },
+        {
+          "text": "$0.3$",
+          "why": "Read only the bar above $x=2$, ignoring the values beyond it."
+        }
+      ],
+      "solution_text": "The bar above $x=2$ has height $0.3$ and the bar above $x=3$ has height $0.2$.\n$P(X \\ge 2)=0.3+0.2$\n$=0.5$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Let $N$ be the number of times a household recycling bin is emptied in a month, and suppose $P(N \\ge 2)=0.86$. Which statement says what this means?",
+      "structure": "interpret-notation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The probability that the bin is emptied at least twice in a month is $0.86$.",
+          "correct": true
+        },
+        {
+          "text": "The probability that the bin is emptied more than twice in a month is $0.86$.",
+          "why": "Read $\\ge$ as strictly greater than, dropping the value $2$ itself."
+        },
+        {
+          "text": "The probability that the bin is emptied exactly twice in a month is $0.86$.",
+          "why": "Read the statement as $P(N=2)$ rather than as a cumulative probability."
+        },
+        {
+          "text": "The probability that the bin is emptied at most twice in a month is $0.86$.",
+          "why": "Read $\\ge$ as $\\le$, reversing the inequality."
+        }
+      ],
+      "solution_text": "$N \\ge 2$ means $N$ takes the value $2$ or any value above it.\nThe probability that the bin is emptied at least twice in a month is $0.86$."
+    },
+    {
+      "id": "q9",
+      "question_text": "A spinner has $4$ equal sectors, exactly one of which is shaded. The spinner is spun $3$ times. Let $X$ be the number of spins that land on the shaded sector. Find $P(X \\ge 1)$.",
+      "structure": "build-distribution-then-cumulative",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\frac{37}{64}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{27}{64}$",
+          "why": "Found $P(X=0)$ and stopped, without subtracting it from $1$."
+        },
+        {
+          "text": "$\\frac{7}{16}$",
+          "why": "Used only $2$ spins, giving $1-\\left(\\frac{3}{4}\\right)^{2}$ instead of $1-\\left(\\frac{3}{4}\\right)^{3}$."
+        },
+        {
+          "text": "$\\frac{3}{4}$",
+          "why": "Added $\\frac{1}{4}$ once per spin, treating the three spins as though they could not overlap."
+        }
+      ],
+      "solution_text": "Each spin lands on the shaded sector with probability $\\frac{1}{4}$, and the spins are independent.\n$P(X \\ge 1)=1-P(X=0)$\n$P(X=0)=\\frac{3}{4} \\times \\frac{3}{4} \\times \\frac{3}{4}$\n$=\\frac{27}{64}$\n$P(X \\ge 1)=1-\\frac{27}{64}$\n$=\\frac{37}{64}$"
+    }
+  ]
+}

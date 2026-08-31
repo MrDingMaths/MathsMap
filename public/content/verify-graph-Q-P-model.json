@@ -1,0 +1,116 @@
+{
+  "skillId": "verify-graph-Q-P-model",
+  "atomType": "R",
+  "theory": {
+    "intro": "The equation $\\dfrac{dQ}{dt}=k(Q-P)$ is solved by $Q=P+Ae^{kt}$. To **verify** this, differentiate it and substitute back. Putting $t=0$ gives $A=Q(0)-P$, the initial difference.",
+    "facts": [
+      "Differentiating gives $\\dfrac{dQ}{dt}=kAe^{kt}$, and since $Ae^{kt}=Q-P$ this is $k(Q-P)$.",
+      "Checking only that $Q(0)$ comes out right is not a verification, because it never uses the derivative.",
+      "$A=Q(0)-P$, so $A$ is the initial difference and $P+A$ is the initial value.",
+      "If $A=0$ then $Q=P$ for every $t$, and the rate stays zero.",
+      "For $k<0$ the graph has the horizontal asymptote $Q=P$, which it approaches but never meets.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$Q$},\n            xmin=-0.5, xmax=5.4, ymin=-0.8, ymax=6.4, samples=100, clip=false,\n            ytick={2,5}, yticklabels={$P$,$P+A$}, xtick=\\empty]\n\\addplot[dashed, domain=0:5.4] (x, 2);\n\\addplot[smooth, thick, ->, domain=0:5] {2 + 3*exp(-0.7*x)};\n\\node[below right] at (axis cs:3,2) {$Q=P$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "$A>0$ puts the whole curve above the line $Q=P$, and $A<0$ puts it below.",
+      "For $k>0$ the term $Ae^{kt}$ grows, so the curve bends away from $Q=P$ without bound.",
+      "Find $k$ by substituting a second pair of values and taking natural logarithms."
+    ],
+    "steps": [
+      "Differentiate the proposed function to find $\\dfrac{dQ}{dt}$.",
+      "Rewrite $Ae^{kt}$ as $Q-P$ to show $\\dfrac{dQ}{dt}=k(Q-P)$.",
+      "Substitute $t=0$ to find $A$, then a second pair of values to find $k$.",
+      "Sketch the curve through $(0,\\,P+A)$ with the asymptote $Q=P$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Show that $T=30+45e^{kt}$ satisfies $\\dfrac{dT}{dt}=k(T-30)$.",
+        "structure": "verify-by-differentiation",
+        "solution_text": "$T=30+45e^{kt}$\n$\\dfrac{dT}{dt}=45ke^{kt}$\nAlso $T-30=45e^{kt}$, so $k(T-30)=45ke^{kt}$.\nBoth sides equal $45ke^{kt}$, so $\\dfrac{dT}{dt}=k(T-30)$."
+      },
+      {
+        "question_text": "Show that $N=1200-700e^{kt}$ satisfies $\\dfrac{dN}{dt}=k(N-1200)$.",
+        "structure": "verify-by-differentiation",
+        "solution_text": "$N=1200-700e^{kt}$\n$\\dfrac{dN}{dt}=-700ke^{kt}$\nAlso $N-1200=-700e^{kt}$, so $k(N-1200)=-700ke^{kt}$.\nBoth sides equal $-700ke^{kt}$, so $\\dfrac{dN}{dt}=k(N-1200)$."
+      },
+      {
+        "question_text": "A quantity is modelled by $Q=18+Ae^{kt}$ and $Q=63$ when $t=0$. Find $A$.",
+        "structure": "find-a-from-initial",
+        "solution_text": "$63=18+Ae^{0}$\n$63=18+A$\n$A=45$"
+      },
+      {
+        "question_text": "A temperature is modelled by $T=25+Ae^{kt}$, and the initial temperature is $-11^{\\circ}$C. Find $A$.",
+        "structure": "find-a-from-initial",
+        "solution_text": "$-11=25+Ae^{0}$\n$-11=25+A$\n$A=-36$"
+      },
+      {
+        "question_text": "A liquid cools according to $T=20+60e^{kt}$, and $T=44$ when $t=8$. Find $k$ in exact form.",
+        "structure": "find-k-from-condition",
+        "solution_text": "$44=20+60e^{8k}$\n$24=60e^{8k}$\n$e^{8k}=\\dfrac{2}{5}$\n$8k=\\ln\\dfrac{2}{5}$\n$k=\\dfrac{1}{8}\\ln\\dfrac{2}{5}$"
+      },
+      {
+        "question_text": "For $Q=40-15e^{0.2t}$, state the values of $P$, $A$ and $k$, and describe how the graph behaves for $t\\ge 0$.",
+        "structure": "match-graph-to-signs",
+        "solution_text": "$P=40$, $A=-15$ and $k=0.2$\nSince $A<0$ the curve lies below the line $Q=40$, starting at $Q=25$.\nSince $k>0$ the term $-15e^{0.2t}$ grows in size, so the curve falls away from $Q=40$ and decreases without bound."
+      },
+      {
+        "question_text": "Sketch $T=15+55e^{-0.3t}$ for $t\\ge 0$, showing the value at $t=0$ and the asymptote.",
+        "structure": "sketch-qp-curve",
+        "solution_text": "$T(0)=15+55e^{0}$\n$=70$\nAs $t\\to\\infty$, $55e^{-0.3t}\\to 0$, so $T\\to 15$ from above and $T=15$ is a horizontal asymptote.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$T$},\n            xmin=-0.7, xmax=12.6, ymin=-7, ymax=84, samples=100, clip=false,\n            ytick={15,70}, xtick={4,8,12}]\n\\addplot[dashed, domain=0:12.6] (x, 15);\n\\addplot[smooth, thick, ->, domain=0:12] {15 + 55*exp(-0.3*x)};\n\\node[below right] at (axis cs:7,15) {$T=15$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A quantity is modelled by $N=800-500e^{kt}$, and $N=500$ when $t=4$. Find $k$ in exact form.",
+        "structure": "find-k-from-condition",
+        "solution_text": "$500=800-500e^{4k}$\n$-300=-500e^{4k}$\n$e^{4k}=\\dfrac{3}{5}$\n$4k=\\ln\\dfrac{3}{5}$\n$k=\\dfrac{1}{4}\\ln\\dfrac{3}{5}$"
+      },
+      {
+        "question_text": "A student is asked to verify that $Q=60+20e^{kt}$ satisfies $\\dfrac{dQ}{dt}=k(Q-60)$. He writes: \"When $t=0$, $Q=60+20=80$, which is the initial value, so the function works.\" Explain why he has verified nothing.",
+        "structure": "spot-the-flawed-verification",
+        "solution_text": "The student has only checked one value of the function at one time.\nThe equation $\\dfrac{dQ}{dt}=k(Q-60)$ is a statement about the derivative, and the student never differentiated.\nA correct verification differentiates: $\\dfrac{dQ}{dt}=20ke^{kt}$, and $k(Q-60)=k(20e^{kt})=20ke^{kt}$, so the two sides agree for all $t$."
+      },
+      {
+        "question_text": "Show that $Q=50+12e^{kt}+3t$ does not satisfy $\\dfrac{dQ}{dt}=k(Q-50)$ for any constant $k$.",
+        "structure": "verify-by-differentiation",
+        "solution_text": "$Q=50+12e^{kt}+3t$\n$\\dfrac{dQ}{dt}=12ke^{kt}+3$\nAlso $Q-50=12e^{kt}+3t$, so $k(Q-50)=12ke^{kt}+3kt$.\nThe two sides differ by $3-3kt$, which is not zero for all $t$ whatever value $k$ takes.\nSo the function does not satisfy the equation."
+      },
+      {
+        "question_text": "The mass of salt in a tank is modelled by $S=15+Ae^{kt}$ kg. Initially $S=3$, and $S=9$ after $5$ hours. Find $A$ and $k$ in exact form.",
+        "structure": "find-k-from-condition",
+        "solution_text": "$3=15+A$\n$A=-12$\n$9=15-12e^{5k}$\n$-6=-12e^{5k}$\n$e^{5k}=\\dfrac{1}{2}$\n$k=-\\dfrac{1}{5}\\ln 2$"
+      },
+      {
+        "question_text": "Sketch $N=500+200e^{0.15t}$ for $t\\ge 0$, showing the value at $t=0$ and the line $N=500$.",
+        "structure": "sketch-qp-curve",
+        "solution_text": "$N(0)=500+200e^{0}$\n$=700$\nSince $k=0.15>0$, the term $200e^{0.15t}$ grows, so the curve rises away from the line $N=500$ and there is no limiting value.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$t$}, ylabel={$N$},\n            xmin=-0.5, xmax=8.8, ymin=-120, ymax=1400, samples=100, clip=false,\n            ytick={500,700}, xtick={2,4,6,8}, ylabel near ticks]\n\\addplot[dashed, domain=0:8.8] (x, 500);\n\\addplot[smooth, thick, ->, domain=0:8] {500 + 200*exp(0.15*x)};\n\\node[below right] at (axis cs:4.5,500) {$N=500$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A quantity modelled by $Q=P+Ae^{kt}$ starts at $12$ and rises steadily towards $40$, never passing it. State the sign of $A$, the sign of $k$, and the value of $A$.",
+        "structure": "match-graph-to-signs",
+        "solution_text": "The quantity approaches $40$, so $P=40$.\n$A=Q(0)-P=12-40$\n$=-28$, so $A<0$ and the curve lies below $Q=40$.\nThe gap shrinks as $t$ increases, so $e^{kt}\\to 0$ and $k<0$."
+      },
+      {
+        "question_text": "Show that $T=18-26e^{-kt}$ satisfies $\\dfrac{dT}{dt}=-k(T-18)$.",
+        "structure": "verify-by-differentiation",
+        "solution_text": "$T=18-26e^{-kt}$\n$\\dfrac{dT}{dt}=26ke^{-kt}$\nAlso $T-18=-26e^{-kt}$, so $-k(T-18)=-k\\left(-26e^{-kt}\\right)=26ke^{-kt}$.\nBoth sides equal $26ke^{-kt}$, so $\\dfrac{dT}{dt}=-k(T-18)$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A quantity is modelled by $Q=45+Ae^{kt}$, with $Q=85$ when $t=0$ and $Q=65$ when $t=10$. Find $A$ and $k$ in exact form, then find $Q$ when $t=20$.",
+        "structure": "find-k-from-condition",
+        "solution_text": "$85=45+A$\n$A=40$\n$65=45+40e^{10k}$\n$20=40e^{10k}$\n$e^{10k}=\\dfrac{1}{2}$\n$k=-\\dfrac{1}{10}\\ln 2$\n$Q(20)=45+40e^{20k}$\n$=45+40\\left(\\dfrac{1}{2}\\right)^{2}$\n$=45+10$\n$=55$"
+      },
+      {
+        "question_text": "A student verifies that $Q=70-25e^{kt}$ satisfies $\\dfrac{dQ}{dt}=k(Q-70)$ and writes:\n$\\dfrac{dQ}{dt}=-25ke^{kt}$\n$Q-70=25e^{kt}$\n$k(Q-70)=25ke^{kt}=\\dfrac{dQ}{dt}$\nIdentify the incorrect line, correct it, and complete the verification.",
+        "structure": "spot-the-flawed-verification",
+        "solution_text": "The second line is wrong: subtracting $70$ from both sides of $Q=70-25e^{kt}$ gives a negative term.\n$Q-70=-25e^{kt}$\n$k(Q-70)=-25ke^{kt}$\nThe first line is correct, since $\\dfrac{dQ}{dt}=-25ke^{kt}$.\nBoth sides equal $-25ke^{kt}$, so the function does satisfy the equation, but the student's third line only agreed because two sign errors were left in."
+      },
+      {
+        "question_text": "The graph of $Q=6+Ae^{kt}$ passes through $(0,\\,9)$ and $(2,\\,18)$, and bends away from the line $Q=6$. Find $A$ and $k$ in exact form, and state whether $Q$ has a limiting value.",
+        "structure": "match-graph-to-signs",
+        "solution_text": "$9=6+A$\n$A=3$\n$18=6+3e^{2k}$\n$12=3e^{2k}$\n$e^{2k}=4$\n$2k=\\ln 4$\n$k=\\ln 2$\nSince $k>0$ the term $3e^{kt}$ grows without bound, so $Q$ has no limiting value."
+      }
+    ]
+  }
+}

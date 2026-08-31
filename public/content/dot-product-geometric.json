@@ -1,0 +1,119 @@
+{
+  "skillId": "dot-product-geometric",
+  "atomType": "R",
+  "theory": {
+    "intro": "The dot product can also be found from lengths and an angle. Multiply the two magnitudes together, then multiply by the cosine of the angle between the vectors.",
+    "facts": [
+      "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos\\theta$, where $\\theta$ is the angle between the two vectors.",
+      "The **angle between two vectors** is measured with the vectors drawn tail to tail, and $0^{\\circ}\\le\\theta\\le180^{\\circ}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (4,0);\n\\coordinate (B) at (2.1,3.1);\n\\draw[-{Stealth}] (O) -- (A) node[midway, below] {$\\underset{\\sim}{a}$};\n\\draw[-{Stealth}] (O) -- (B) node[midway, above left] {$\\underset{\\sim}{b}$};\n\\pic[draw, \"$\\theta$\", angle radius=0.7cm, angle eccentricity=2] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+      "The result is a scalar, and it has the same sign as $\\cos\\theta$.",
+      "An acute angle gives a positive dot product, and an obtuse angle gives a negative one.",
+      "Perpendicular vectors give $\\cos90^{\\circ}=0$, so their dot product is zero.",
+      "Vectors in the same direction give $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|$, the largest value possible.",
+      "This formula must agree with the component formula, so the two methods make a useful check on each other."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$, given $|\\underset{\\sim}{a}|=8$, $|\\underset{\\sim}{b}|=3$ and the angle between them is $60^{\\circ}$.",
+        "structure": "dot-product-exact-special-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(8)(3)\\cos60^{\\circ}$\n$=24\\times\\frac{1}{2}$\n$=12$"
+      },
+      {
+        "question_text": "Find the exact value of $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$, given $|\\underset{\\sim}{a}|=6$, $|\\underset{\\sim}{b}|=2$ and the angle between them is $135^{\\circ}$.",
+        "structure": "dot-product-exact-special-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(6)(2)\\cos135^{\\circ}$\n$=12\\times\\left(-\\frac{\\sqrt{2}}{2}\\right)$\n$=-6\\sqrt{2}$"
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ correct to two decimal places, given $|\\underset{\\sim}{a}|=9$, $|\\underset{\\sim}{b}|=4$ and the angle between them is $52^{\\circ}$.",
+        "structure": "dot-product-from-magnitudes-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(9)(4)\\cos52^{\\circ}$\n$=36\\cos52^{\\circ}$\n$=22.16$"
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}$ correct to two decimal places, given $|\\underset{\\sim}{u}|=5$, $|\\underset{\\sim}{v}|=7$ and the angle between them is $118^{\\circ}$.",
+        "structure": "dot-product-from-magnitudes-angle",
+        "solution_text": "$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}$\n$=(5)(7)\\cos118^{\\circ}$\n$=35\\cos118^{\\circ}$\n$=-16.43$"
+      },
+      {
+        "question_text": "Find the exact value of $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ for the vectors shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (4.2,0);\n\\coordinate (B) at (30:2.8);\n\\draw[-{Stealth}] (O) -- (A) node[midway, below] {$|\\underset{\\sim}{a}|=6$};\n\\draw[-{Stealth}] (O) -- (B) node[midway, above left] {$|\\underset{\\sim}{b}|=4$};\n\\pic[draw, \"$30^{\\circ}$\", angle radius=1.1cm, angle eccentricity=1.7] {angle = A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "dot-product-from-figure",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(6)(4)\\cos30^{\\circ}$\n$=24\\times\\frac{\\sqrt{3}}{2}$\n$=12\\sqrt{3}$"
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}$ for the vectors shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (U) at (4,0);\n\\coordinate (V) at (120:3.2);\n\\draw[-{Stealth}] (O) -- (U) node[midway, below] {$|\\underset{\\sim}{u}|=5$};\n\\draw[-{Stealth}] (O) -- (V) node[midway, above right] {$|\\underset{\\sim}{v}|=4$};\n\\pic[draw, \"$120^{\\circ}$\", angle radius=1.0cm, angle eccentricity=1.6] {angle = U--O--V};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "dot-product-from-figure",
+        "solution_text": "$\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}$\n$=(5)(4)\\cos120^{\\circ}$\n$=20\\times\\left(-\\frac{1}{2}\\right)$\n$=-10$"
+      },
+      {
+        "question_text": "The angle between two non-zero vectors is $105^{\\circ}$. Is their dot product positive, negative or zero? Give a reason.",
+        "structure": "sign-of-dot-product",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos105^{\\circ}$\nThe magnitudes are positive, so the sign comes from $\\cos105^{\\circ}$.\n$105^{\\circ}$ is obtuse, so $\\cos105^{\\circ}<0$ and the dot product is negative."
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$, given $|\\underset{\\sim}{a}|=12$, $|\\underset{\\sim}{b}|=5$ and the angle between them is $90^{\\circ}$.",
+        "structure": "dot-product-exact-special-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(12)(5)\\cos90^{\\circ}$\n$=60\\times0$\n$=0$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Two vectors satisfy $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=18$, $|\\underset{\\sim}{b}|=4$, and the angle between them is $60^{\\circ}$. Find $|\\underset{\\sim}{a}|$.",
+        "structure": "find-magnitude-from-dot-product",
+        "solution_text": "$|\\underset{\\sim}{a}|(4)\\cos60^{\\circ}=18$\n$|\\underset{\\sim}{a}|\\times4\\times\\frac{1}{2}=18$\n$2|\\underset{\\sim}{a}|=18$\n$|\\underset{\\sim}{a}|=9$"
+      },
+      {
+        "question_text": "Two vectors satisfy $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}=-20$, $|\\underset{\\sim}{u}|=8$, and the angle between them is $120^{\\circ}$. Find $|\\underset{\\sim}{v}|$.",
+        "structure": "find-magnitude-from-dot-product",
+        "solution_text": "$(8)|\\underset{\\sim}{v}|\\cos120^{\\circ}=-20$\n$8|\\underset{\\sim}{v}|\\times\\left(-\\frac{1}{2}\\right)=-20$\n$-4|\\underset{\\sim}{v}|=-20$\n$|\\underset{\\sim}{v}|=5$"
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ correct to two decimal places, given $|\\underset{\\sim}{a}|=2.5$, $|\\underset{\\sim}{b}|=6$ and the angle between them is $73^{\\circ}$.",
+        "structure": "dot-product-from-magnitudes-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(2.5)(6)\\cos73^{\\circ}$\n$=15\\cos73^{\\circ}$\n$=4.39$"
+      },
+      {
+        "question_text": "The vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ point in the same direction, with $|\\underset{\\sim}{a}|=7$ and $|\\underset{\\sim}{b}|=11$. Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$.",
+        "structure": "dot-product-exact-special-angle",
+        "solution_text": "Same direction, so $\\theta=0^{\\circ}$.\n$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(7)(11)\\cos0^{\\circ}$\n$=77\\times1$\n$=77$"
+      },
+      {
+        "question_text": "The vectors $\\underset{\\sim}{p}$ and $\\underset{\\sim}{q}$ point in opposite directions, with $|\\underset{\\sim}{p}|=6$ and $|\\underset{\\sim}{q}|=5$. Find $\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}$.",
+        "structure": "dot-product-exact-special-angle",
+        "solution_text": "Opposite directions, so $\\theta=180^{\\circ}$.\n$\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}$\n$=(6)(5)\\cos180^{\\circ}$\n$=30\\times(-1)$\n$=-30$"
+      },
+      {
+        "question_text": "Two non-zero vectors satisfy $|\\underset{\\sim}{u}|=5$, $|\\underset{\\sim}{v}|=8$ and $\\underset{\\sim}{u}\\cdot\\underset{\\sim}{v}=-20$. Is the angle between them acute, right or obtuse? Give a reason.",
+        "structure": "sign-of-dot-product",
+        "solution_text": "$(5)(8)\\cos\\theta=-20$\n$40\\cos\\theta=-20$\n$\\cos\\theta=-\\frac{1}{2}$\nThe cosine is negative, so the angle between the vectors is obtuse."
+      },
+      {
+        "question_text": "Find the exact value of $\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}$ for the vectors shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\usetikzlibrary{angles, quotes, arrows.meta}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (4,0);\n\\coordinate (Q) at (45:2.12);\n\\draw[-{Stealth}] (O) -- (P) node[midway, below] {$|\\underset{\\sim}{p}|=8$};\n\\draw[-{Stealth}] (O) -- (Q) node[midway, above left] {$|\\underset{\\sim}{q}|=3\\sqrt{2}$};\n\\pic[draw, \"$45^{\\circ}$\", angle radius=0.9cm, angle eccentricity=1.9] {angle = P--O--Q};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "dot-product-from-figure",
+        "solution_text": "$\\underset{\\sim}{p}\\cdot\\underset{\\sim}{q}$\n$=(8)(3\\sqrt{2})\\cos45^{\\circ}$\n$=24\\sqrt{2}\\times\\frac{\\sqrt{2}}{2}$\n$=\\frac{24\\times2}{2}$\n$=24$"
+      },
+      {
+        "question_text": "Find $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ correct to two decimal places, given $|\\underset{\\sim}{a}|=3.2$, $|\\underset{\\sim}{b}|=7.5$ and the angle between them is $161^{\\circ}$.",
+        "structure": "dot-product-from-magnitudes-angle",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$\n$=(3.2)(7.5)\\cos161^{\\circ}$\n$=24\\cos161^{\\circ}$\n$=-22.69$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Two non-zero vectors have $|\\underset{\\sim}{a}|=6$ and $|\\underset{\\sim}{b}|=10$. State the largest and the smallest possible values of $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$, and the angle giving each.",
+        "structure": "extreme-values-dot-product",
+        "solution_text": "$\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=(6)(10)\\cos\\theta=60\\cos\\theta$\nFor $0^{\\circ}\\le\\theta\\le180^{\\circ}$, $\\cos\\theta$ runs from $1$ down to $-1$.\nLargest: $60$ when $\\theta=0^{\\circ}$; smallest: $-60$ when $\\theta=180^{\\circ}$."
+      },
+      {
+        "question_text": "Two vectors satisfy $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=-24\\sqrt{3}$, $|\\underset{\\sim}{b}|=8$, and the angle between them is $150^{\\circ}$. Find $|\\underset{\\sim}{a}|$.",
+        "structure": "find-magnitude-from-dot-product",
+        "solution_text": "$|\\underset{\\sim}{a}|(8)\\cos150^{\\circ}=-24\\sqrt{3}$\n$|\\underset{\\sim}{a}|\\times8\\times\\left(-\\frac{\\sqrt{3}}{2}\\right)=-24\\sqrt{3}$\n$-4\\sqrt{3}\\,|\\underset{\\sim}{a}|=-24\\sqrt{3}$\n$|\\underset{\\sim}{a}|=6$"
+      },
+      {
+        "question_text": "Vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ have $|\\underset{\\sim}{a}|=5$ and $|\\underset{\\sim}{b}|=9$, and the angle between them is $40^{\\circ}$. Find $(2\\underset{\\sim}{a})\\cdot\\underset{\\sim}{b}$ correct to two decimal places.",
+        "structure": "dot-product-from-magnitudes-angle",
+        "solution_text": "$(2\\underset{\\sim}{a})\\cdot\\underset{\\sim}{b}$\n$=2(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b})$\n$=2(5)(9)\\cos40^{\\circ}$\n$=90\\cos40^{\\circ}$\n$=68.94$"
+      }
+    ]
+  }
+}

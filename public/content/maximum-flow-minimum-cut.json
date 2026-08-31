@@ -1,0 +1,112 @@
+{
+  "skillId": "maximum-flow-minimum-cut",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **maximum-flow minimum-cut theorem** states that the maximum flow from source to sink equals the capacity of the **minimum cut** in the network.",
+    "facts": [
+      "The **minimum cut** is the valid cut with the smallest total capacity.",
+      "The **maximum flow** of any network is exactly equal to the capacity of its minimum cut.",
+      "A cut whose capacity exceeds the maximum flow is valid but **not minimal**.",
+      "Every edge crossing the minimum cut from source to sink is fully saturated at maximum flow."
+    ],
+    "steps": [
+      "Calculate the capacity of all possible valid cuts separating source from sink",
+      "Identify the cut with the minimum capacity",
+      "State the maximum flow as equal to the minimum cut capacity",
+      "Verify that maximum flow from path saturation matches the minimum cut"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A network has four candidate cuts with capacities $C_1 = 28, C_2 = 24, C_3 = 31, C_4 = 29$.\nDetermine the minimum cut capacity and state the maximum flow of the network.",
+        "structure": "find-minimum-cut-value",
+        "solution_text": "1. **Identify the cut with the minimum capacity**\nCompare all cut capacities:\n$\\min(28, 24, 31, 29) = 24$\n2. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = \\text{Minimum cut capacity}$\n$= 24$"
+      },
+      {
+        "question_text": "A water network has a maximum flow of $35\\text{ L/min}$ determined by saturating paths. A cut $C$ shown on the network has a capacity of $42\\text{ L/min}$.\nIs cut $C$ a minimum cut? Give a reason for your answer.",
+        "structure": "verify-cut-is-minimal",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\nBy the maximum-flow minimum-cut theorem, the minimum cut must have capacity equal to the maximum flow ($35\\text{ L/min}$).\nSince $\\text{Capacity}(C) = 42 > 35$, cut $C$ is not a minimum cut."
+      },
+      {
+        "question_text": "A network with source $S$ and sink $T$ is shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (A) at (2.5,2.7);\n\\coordinate (B) at (2.5,0.3);\n\\coordinate (T) at (5.0,1.5);\n\\draw[midarrow] (S) -- (A) node[midway, above left] {$18$};\n\\draw[midarrow] (S) -- (B) node[midway, below left] {$22$};\n\\draw[midarrow] (A) -- (B) node[midway, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (A) -- (T) node[midway, above right] {$15$};\n\\draw[midarrow] (B) -- (T) node[midway, below right] {$17$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nFind the capacity of the cut separating $\\{S, A, B\\}$ from $\\{T\\}$, and determine the maximum flow from $S$ to $T$.",
+        "structure": "apply-max-flow-min-cut-theorem",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\nSource cut $\\{S\\} \\to \\{A, B, T\\}: 18 + 22 = 40$\nSink cut $\\{S, A, B\\} \\to \\{T\\}: 15 + 17 = 32$\nCut $\\{S, A\\} \\to \\{B, T\\}: w(SB) + w(AB) + w(AT) = 22 + 6 + 15 = 43$\nCut $\\{S, B\\} \\to \\{A, T\\}: w(SA) + w(BT) = 18 + 17 = 35$ ($AB$ is backflow)\n2. **Identify the cut with the minimum capacity**\n$\\text{Minimum cut capacity} = 32$\n3. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 32$"
+      },
+      {
+        "question_text": "In a network with vertices $S, A, B, T$, the edges have capacities $SA = 10, SB = 14, AT = 8, BT = 12, AB = 3$ ($A\\to B$).\nIdentify the set of edges that forms the minimum cut and calculate its capacity.",
+        "structure": "identify-minimum-cut-edges",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\nCut $\\{SA, SB\\} = 10 + 14 = 24$\nCut $\\{AT, BT\\} = 8 + 12 = 20$\nCut $\\{AT, AB, SB\\} = 8 + 3 + 14 = 25$\nCut $\\{SA, BT\\} = 10 + 12 = 22$ (with $AB$ excluded as backflow)\n2. **Identify the cut with the minimum capacity**\nEdges $\\{AT, BT\\}$ form the minimum cut with capacity $20$."
+      },
+      {
+        "question_text": "A network has a maximum flow of $50$. The unique minimum cut consists of three edges with capacities $18, x, 14$.\nSolve for the value of $x$.",
+        "structure": "find-unknown-edge-from-min-cut",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Capacity of minimum cut} = \\text{Maximum flow}$\n$18 + x + 14 = 50$\n$32 + x = 50$\n$x = 50 - 32$\n$= 18$"
+      },
+      {
+        "question_text": "A pipeline network has a maximum flow of $48\\text{ kL/h}$. A nominated cut $K$ has a capacity of $48\\text{ kL/h}$.\nIs cut $K$ a minimum cut for this network? Justify your answer.",
+        "structure": "verify-cut-is-minimal",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\nBy the maximum-flow minimum-cut theorem, the capacity of any minimum cut equals the maximum flow.\nSince $\\text{Capacity}(K) = 48\\text{ kL/h} = \\text{Maximum flow}$, cut $K$ is a minimum cut."
+      },
+      {
+        "question_text": "A network has candidate cuts with capacities $C_1 = 85, C_2 = 72, C_3 = 90, C_4 = 78$.\nDetermine the maximum flow of this network.",
+        "structure": "find-minimum-cut-value",
+        "solution_text": "1. **Identify the cut with the minimum capacity**\n$\\min(85, 72, 90, 78) = 72$\n2. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 72$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A network connects source $S$ to sink $T$ through intermediate junctions $A, B, C, D$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.2,3.0);\n\\coordinate (B) at (2.2,0.6);\n\\coordinate (C) at (4.6,3.0);\n\\coordinate (D) at (4.6,0.6);\n\\coordinate (T) at (6.8,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left] {$30$};\n\\draw[midarrow] (S) -- (B) node[midway, below left] {$25$};\n\\draw[midarrow] (A) -- (C) node[midway, above] {$20$};\n\\draw[midarrow] (A) -- (D) node[pos=0.3, fill=white, inner sep=1pt] {$10$};\n\\draw[midarrow] (B) -- (C) node[pos=0.3, fill=white, inner sep=1pt] {$12$};\n\\draw[midarrow] (B) -- (D) node[midway, below] {$18$};\n\\draw[midarrow] (C) -- (T) node[midway, above right] {$26$};\n\\draw[midarrow] (D) -- (T) node[midway, below right] {$24$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nFind the minimum cut and calculate the maximum flow from $S$ to $T$.",
+        "structure": "find-minimum-cut-value",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\nSource cut: $w(SA) + w(SB) = 30 + 25 = 55$\nSink cut: $w(CT) + w(DT) = 26 + 24 = 50$\nMiddle cut $\\{S, A, B\\} \\to \\{C, D, T\\}: 20 + 10 + 12 + 18 = 60$\nCut $\\{S, A, C\\} \\to \\{B, D, T\\}: w(SB) + w(AD) + w(CT) = 25 + 10 + 26 = 61$\n2. **Identify the cut with the minimum capacity**\nSink cut $\\{CT, DT\\}$ has the minimum capacity ($50$).\n3. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 50$"
+      },
+      {
+        "question_text": "The maximum flow through a water channel network is calculated by path saturation to be $280\\text{ L/s}$. A cut $C$ on the diagram has capacity $320\\text{ L/s}$.\nExplain whether cut $C$ is a minimum cut.",
+        "structure": "verify-cut-is-minimal",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\nThe maximum-flow minimum-cut theorem states that the minimum cut capacity must equal the maximum flow ($280\\text{ L/s}$).\nSince cut $C$ has capacity $320 > 280$, cut $C$ is not a minimum cut because a smaller cut of capacity $280\\text{ L/s}$ exists."
+      },
+      {
+        "question_text": "A network has four candidate cuts:\n$C_1$: edges $\\{SA, SB\\}$ with capacity $110$\n$C_2$: edges $\\{AC, BC, BD\\}$ with capacity $95$\n$C_3$: edges $\\{CT, DT\\}$ with capacity $102$\n$C_4$: edges $\\{AC, AD, SB\\}$ with capacity $115$\nIdentify the minimum cut and state the maximum flow.",
+        "structure": "identify-minimum-cut-edges",
+        "solution_text": "1. **Identify the cut with the minimum capacity**\nCompare cut capacities: $\\min(110, 95, 102, 115) = 95$ (Cut $C_2$).\n2. **State the maximum flow as equal to the minimum cut capacity**\nEdges $\\{AC, BC, BD\\}$ form the minimum cut.\n$\\text{Maximum flow} = 95$"
+      },
+      {
+        "question_text": "A regional road network has four bottleneck roads forming its minimum cut with capacities $1200, 850, 950, 1100\\text{ vehicles/hour}$.\nApply the maximum-flow minimum-cut theorem to calculate the maximum traffic flow per hour.",
+        "structure": "apply-max-flow-min-cut-theorem",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\n$\\text{Capacity of minimum cut} = 1200 + 850 + 950 + 1100$\n$= 4100\\text{ vehicles/hour}$\n2. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum traffic flow} = 4100\\text{ vehicles/hour}$"
+      },
+      {
+        "question_text": "In a telecommunications network, the maximum bandwidth from server $S$ to hub $T$ is $150\\text{ Gbps}$. The unique minimum cut consists of three fiber cables with capacities $45\\text{ Gbps}$, $2x\\text{ Gbps}$, and $55\\text{ Gbps}$.\nCalculate the bandwidth capacity of the cable represented by $2x$.",
+        "structure": "find-unknown-edge-from-min-cut",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Capacity of minimum cut} = \\text{Maximum flow}$\n$45 + 2x + 55 = 150$\n$100 + 2x = 150$\n$2x = 150 - 100$\n$= 50\\text{ Gbps}$\n$x = 25\\text{ Gbps}$\n$\\text{Cable capacity } (2x) = 50\\text{ Gbps}$"
+      },
+      {
+        "question_text": "A network has vertices $S, P, Q, R, T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.5);\n\\coordinate (P) at (2.2,2.8);\n\\coordinate (Q) at (2.2,0.2);\n\\coordinate (R) at (4.6,2.8);\n\\coordinate (T) at (6.8,1.5);\n\\draw[midarrow] (S) -- (P) node[midway, above left] {$40$};\n\\draw[midarrow] (S) -- (Q) node[midway, below left] {$35$};\n\\draw[midarrow] (P) -- (Q) node[midway, fill=white, inner sep=1pt] {$10$};\n\\draw[midarrow] (P) -- (R) node[midway, above] {$25$};\n\\draw[midarrow] (Q) -- (R) node[midway, fill=white, inner sep=1pt] {$20$};\n\\draw[midarrow] (Q) -- (T) node[midway, below right] {$22$};\n\\draw[midarrow] (R) -- (T) node[midway, above right] {$42$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (P) circle (2.5pt) node[above] {$P$};\n\\fill (Q) circle (2.5pt) node[below] {$Q$};\n\\fill (R) circle (2.5pt) node[above] {$R$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nFind the minimum cut capacity and determine the maximum flow from $S$ to $T$.",
+        "structure": "find-minimum-cut-value",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\nSource cut $\\{S\\} \\to \\{P, Q, R, T\\}: 40 + 35 = 75$\nSink cut $\\{S, P, Q, R\\} \\to \\{T\\}: 22 + 42 = 64$\nCut $\\{S, P\\} \\to \\{Q, R, T\\}: w(SQ) + w(PQ) + w(PR) = 35 + 10 + 25 = 70$\nCut $\\{S, P, Q\\} \\to \\{R, T\\}: w(PR) + w(QR) + w(QT) = 25 + 20 + 22 = 67$\n2. **Identify the cut with the minimum capacity**\nSink cut $\\{QT, RT\\}$ is the minimum cut with capacity $64$.\n3. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 64$"
+      },
+      {
+        "question_text": "Five candidate cuts on a network have capacities $C_1 = 140, C_2 = 125, C_3 = 125, C_4 = 138, C_5 = 150$.\nIdentify the minimum cut capacity and determine the maximum flow.",
+        "structure": "verify-cut-is-minimal",
+        "solution_text": "1. **Identify the cut with the minimum capacity**\n$\\min(140, 125, 125, 138, 150) = 125$\nBoth $C_2$ and $C_3$ are minimum cuts.\n2. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 125$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A complex network with seven vertices connects source $S$ to sink $T$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,2.0);\n\\coordinate (A) at (2.0,3.5);\n\\coordinate (B) at (2.0,2.0);\n\\coordinate (C) at (2.0,0.5);\n\\coordinate (D) at (4.5,3.5);\n\\coordinate (E) at (4.5,0.5);\n\\coordinate (T) at (7.0,2.0);\n\\draw[midarrow] (S) -- (A) node[midway, above left] {$60$};\n\\draw[midarrow] (S) -- (B) node[midway, above] {$50$};\n\\draw[midarrow] (S) -- (C) node[midway, below left] {$40$};\n\\draw[midarrow] (A) -- (D) node[midway, above] {$35$};\n\\draw[midarrow] (B) -- (D) node[pos=0.3, fill=white, inner sep=1pt] {$25$};\n\\draw[midarrow] (B) -- (E) node[pos=0.3, fill=white, inner sep=1pt] {$30$};\n\\draw[midarrow] (C) -- (E) node[midway, below] {$35$};\n\\draw[midarrow] (D) -- (E) node[midway, fill=white, inner sep=1pt] {$15$};\n\\draw[midarrow] (D) -- (T) node[midway, above right] {$55$};\n\\draw[midarrow] (E) -- (T) node[midway, below right] {$60$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[above left] {$B$};\n\\fill (C) circle (2.5pt) node[below] {$C$};\n\\fill (D) circle (2.5pt) node[above] {$D$};\n\\fill (E) circle (2.5pt) node[below] {$E$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nFind the capacity of the minimum cut and determine the maximum flow from $S$ to $T$.",
+        "structure": "find-minimum-cut-value",
+        "solution_text": "1. **Calculate the capacity of all possible valid cuts separating source from sink**\nSource cut: $60 + 50 + 40 = 150$\nSink cut: $55 + 60 = 115$\nCut through $\\{AD, BD, BE, CE\\}: 35 + 25 + 30 + 35 = 125$\nCut $\\{S, A, B, C, D\\} \\to \\{E, T\\}: w(DT) + w(DE) + w(BE) + w(CE) = 55 + 15 + 30 + 35 = 135$\n2. **Identify the cut with the minimum capacity**\nSink cut $\\{DT, ET\\}$ is the minimum cut with capacity $115$.\n3. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Maximum flow} = 115$"
+      },
+      {
+        "question_text": "A network has a maximum flow of $180\\text{ units}$. The minimum cut passes through edges with capacities $70, 3x, 50$. All other cuts have capacity $\\ge 200\\text{ units}$.\nFind the value of $x$.",
+        "structure": "find-unknown-edge-from-min-cut",
+        "solution_text": "1. **State the maximum flow as equal to the minimum cut capacity**\n$\\text{Capacity of minimum cut} = \\text{Maximum flow}$\n$70 + 3x + 50 = 180$\n$120 + 3x = 180$\n$3x = 60$\n$x = 20$"
+      },
+      {
+        "question_text": "A network has Cut $K$ with capacity $210$ and Cut $M$ with capacity $195$.\nExplain why Cut $K$ cannot be the minimum cut, and state an upper bound on the maximum flow of the network.",
+        "structure": "verify-cut-is-minimal",
+        "solution_text": "1. **Identify the cut with the minimum capacity**\nSince Cut $M$ has capacity $195 < 210$, Cut $K$ is not the cut of minimum capacity.\n2. **State the maximum flow as equal to the minimum cut capacity**\nBy the theorem, maximum flow is at most $\\text{Capacity}(M) = 195$.\nCut $K$ cannot be minimal; maximum flow $\\le 195$."
+      }
+    ]
+  }
+}

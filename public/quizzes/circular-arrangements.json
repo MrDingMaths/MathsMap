@@ -1,0 +1,205 @@
+{
+  "skillId": "circular-arrangements",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "In how many ways can $7$ people be seated around a circular table, assuming rotations are equivalent?",
+      "structure": "circular-unrestricted-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$720$",
+          "correct": true
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated 7!, assuming a linear arrangement instead of a circular arrangement."
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated (7 - 2)! = 5! instead of (7 - 1)! = 6!."
+        },
+        {
+          "text": "$2520$",
+          "why": "Divided by 2, incorrectly assuming reflections are equivalent for people at a table."
+        }
+      ],
+      "solution_text": "Arranging $7$ people in a circle:\n$= (7-1)!$\n$= 6!$\n$= 720$"
+    },
+    {
+      "id": "q2",
+      "question_text": "How many distinct arrangements of $6$ different keys can be placed on a key ring, where reflections are considered identical?",
+      "structure": "circular-flipped-ring",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$60$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated (6 - 1)!, forgetting to divide by 2 for the key ring reflection."
+        },
+        {
+          "text": "$360$",
+          "why": "Calculated 6! / 2 instead of (6 - 1)! / 2."
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated 6!, treating the keys as arranged in a distinct linear row."
+        }
+      ],
+      "solution_text": "Arranging $6$ keys on a ring with reflections equivalent:\n$= \\dfrac{(6-1)!}{2}$\n$= \\dfrac{120}{2}$\n$= 60$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$8$ guests sit around a circular dining table. In how many ways can they sit if a specific married couple must sit together?",
+      "structure": "circular-block-together",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1440$",
+          "correct": true
+        },
+        {
+          "text": "$720$",
+          "why": "Forgot the 2! internal arrangement of the couple in their seating block."
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated unrestricted circular arrangements (8 - 1)! = 5040."
+        },
+        {
+          "text": "$2880$",
+          "why": "Multiplied by 4 instead of 2! for the internal couple arrangement."
+        }
+      ],
+      "solution_text": "Treat couple as $1$ unit $\\implies 7$ units in circle.\n$= (7-1)! \\times 2!$\n$= 720 \\times 2$\n$= 1440$"
+    },
+    {
+      "id": "q4",
+      "question_text": "$6$ people sit around a circular table. In how many ways can they sit if $2$ particular people must NOT sit next to each other?",
+      "structure": "circular-separated-apart",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$72$",
+          "correct": true
+        },
+        {
+          "text": "$48$",
+          "why": "Calculated the number of arrangements where they DO sit together."
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated total unrestricted circular arrangements (6 - 1)! = 120."
+        },
+        {
+          "text": "$60$",
+          "why": "Divided 120 by 2 assuming half of all circular arrangements separate them."
+        }
+      ],
+      "solution_text": "Total $= (6-1)! = 120$.\nTogether $= (5-1)! \\times 2! = 48$.\nApart $= 120 - 48 = 72$."
+    },
+    {
+      "id": "q5",
+      "question_text": "$3$ boys and $3$ girls sit around a circular table. How many seating arrangements are possible if boys and girls alternate?",
+      "structure": "circular-alternating",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "Multiplied by 2, confusing with the linear alternating formula."
+        },
+        {
+          "text": "$72$",
+          "why": "Calculated linear alternating arrangements 2 times 3! times 3!."
+        },
+        {
+          "text": "$6$",
+          "why": "Calculated only (3 - 1)! times 3 without permuting all girls as 3!."
+        }
+      ],
+      "solution_text": "Fix $1$ boy ($1$). Arrange remaining $2$ boys: $(3-1)! = 2$.\nArrange $3$ girls in $3$ alternating spots: $3! = 6$.\n$= 2 \\times 6$\n$= 12$"
+    },
+    {
+      "id": "q6",
+      "question_text": "$8$ delegates sit around a circular table, where rotations are considered equivalent. In how many ways can they be seated if Colin must sit directly between Alice and Brian?",
+      "structure": "circular-relative-fixed-positions",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$240$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Omitted the 2! internal arrangements of Alice and Brian on either side of Colin."
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated (6 - 1)! times 3! = 720, treating all 3 members as freely permutable."
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated unrestricted circular arrangements (8 - 1)! = 5040, ignoring the seating restriction."
+        }
+      ],
+      "solution_text": "Treat Alice, Colin, and Brian as $1$ block with Colin in the middle.\nInternal arrangements of Alice and Brian: $2! = 2$.\nArrange $6$ units around the table: $(6-1)! = 5! = 120$.\n$= 120 \\times 2$\n$= 240$"
+    },
+    {
+      "id": "q7",
+      "question_text": "$9$ committee members sit around a circular table. In how many ways can they sit if $3$ specific members must sit together?",
+      "structure": "circular-block-together",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$4320$",
+          "correct": true
+        },
+        {
+          "text": "$720$",
+          "why": "Forgot the 3! = 6 internal arrangements of the 3 people in the block."
+        },
+        {
+          "text": "$40320$",
+          "why": "Calculated unrestricted circular arrangements (9 - 1)! = 40320."
+        },
+        {
+          "text": "$2160$",
+          "why": "Multiplied by 3 instead of 3! = 6 for the internal block arrangement."
+        }
+      ],
+      "solution_text": "Treat $3$ people as $1$ unit $\\implies 7$ units in circle.\n$= (7-1)! \\times 3!$\n$= 720 \\times 6$\n$= 4320$"
+    },
+    {
+      "id": "q8",
+      "question_text": "$6$ people sit around a circular table. In how many ways can they sit if Person A must sit directly opposite Person B?",
+      "structure": "circular-relative-fixed-positions",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$24$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Calculated (6 - 1)! = 120, ignoring the opposite seating condition."
+        },
+        {
+          "text": "$6$",
+          "why": "Calculated (4 - 1)! = 6, treating remaining seats as circular."
+        },
+        {
+          "text": "$48$",
+          "why": "Multiplied by 2, assuming A and B can swap after A fixes orientation."
+        }
+      ],
+      "solution_text": "Fix Person A ($1$). Person B must sit directly opposite ($1$).\nArrange remaining $4$ people in remaining $4$ distinct seats:\n$= 4!$\n$= 24$"
+    }
+  ]
+}

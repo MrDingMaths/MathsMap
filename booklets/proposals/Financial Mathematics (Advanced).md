@@ -1,6 +1,8 @@
 # Financial Mathematics (Advanced) — atomisation proposal
 
-**Status: APPLIED (nil result) — no graph changes.**
+**Status: SUPERSEDED 2026-08-27** — the two stub booklets this audited were replaced by the combined `Stage 6 Advanced/Financial Mathematics.md` (v260827), re-atomised in `proposals/Financial Mathematics.md` (4 new skills, 1 new edge, 2 prereq swaps, 1 re-scope). The nil result below was forced by the stubs' lack of content.
+
+**Original status: APPLIED (nil result) — no graph changes.**
 
 ## Context
 

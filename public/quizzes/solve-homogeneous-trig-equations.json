@@ -1,0 +1,205 @@
+{
+  "skillId": "solve-homogeneous-trig-equations",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Solve $\\sqrt{3}\\sin x + \\cos x = 0$ for $0 \\le x < 2\\pi$.",
+      "structure": "homogeneous-linear-ratio",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\frac{5\\pi}{6}, \\frac{11\\pi}{6}$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{\\pi}{6}, \\frac{7\\pi}{6}$",
+          "why": "Ignored the negative sign when solving $\\tan x = -1/\\sqrt{3}$."
+        },
+        {
+          "text": "$x = \\frac{2\\pi}{3}, \\frac{5\\pi}{3}$",
+          "why": "Divided incorrectly to get $\\tan x = -\\sqrt{3}$ instead of $-1/\\sqrt{3}$."
+        },
+        {
+          "text": "$x = \\frac{5\\pi}{6}$",
+          "why": "Found only the second quadrant angle and missed the fourth quadrant root."
+        }
+      ],
+      "solution_text": "Test $\\cos x = 0$: $\\text{LHS} = \\pm\\sqrt{3} \\ne 0$.\n$\\sqrt{3}\\sin x = -\\cos x$\n$\\tan x = -\\frac{1}{\\sqrt{3}}$\n$x = \\frac{5\\pi}{6}, \\frac{11\\pi}{6}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Solve $\\sqrt{3}\\sin x\\cos x - \\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+      "structure": "homogeneous-quadratic-two-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\frac{\\pi}{6}, \\frac{\\pi}{2}, \\frac{7\\pi}{6}, \\frac{3\\pi}{2}$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{\\pi}{6}, \\frac{7\\pi}{6}$",
+          "why": "Divided through and never checked $\\cos x = 0$, missing two roots."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$",
+          "why": "Only found the roots where $\\cos x = 0$ and missed $\\tan x = \\frac{1}{\\sqrt{3}}$."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{3}, \\frac{\\pi}{2}, \\frac{4\\pi}{3}, \\frac{3\\pi}{2}$",
+          "why": "Evaluated $\\tan x = \\frac{1}{\\sqrt{3}}$ as $\\frac{\\pi}{3}$ instead of $\\frac{\\pi}{6}$."
+        }
+      ],
+      "solution_text": "$\\cos x(\\sqrt{3}\\sin x - \\cos x) = 0$\n$\\cos x = 0$ or $\\tan x = \\frac{1}{\\sqrt{3}}$\nFor $\\cos x = 0$: $x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$\nFor $\\tan x = \\frac{1}{\\sqrt{3}}$: $x = \\frac{\\pi}{6}, \\frac{7\\pi}{6}$\n$x = \\frac{\\pi}{6}, \\frac{\\pi}{2}, \\frac{7\\pi}{6}, \\frac{3\\pi}{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Solve $\\sin^2 x - 2\\sin x\\cos x - 3\\cos^2 x = 0$ for $0 \\le x < 2\\pi$.",
+      "structure": "homogeneous-quadratic-three-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\frac{3\\pi}{4}, \\tan^{-1}(3), \\frac{7\\pi}{4}, \\pi + \\tan^{-1}(3)$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{3\\pi}{4}, \\frac{7\\pi}{4}$",
+          "why": "Omitted the roots from $\\tan x = 3$."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\tan^{-1}(3), \\frac{5\\pi}{4}, \\pi + \\tan^{-1}(3)$",
+          "why": "Factored as $(\\tan x - 3)(\\tan x - 1) = 0$ with sign error."
+        },
+        {
+          "text": "$x = \\tan^{-1}(3), \\pi + \\tan^{-1}(3)$",
+          "why": "Rejected $\\tan x = -1$ mistakenly assuming $\\tan x > 0$."
+        }
+      ],
+      "solution_text": "Test $\\cos x = 0$: $\\sin^2 x = 1 \\ne 0$.\nDivide by $\\cos^2 x$:\n$\\tan^2 x - 2\\tan x - 3 = 0$\n$(\\tan x - 3)(\\tan x + 1) = 0$\n$\\tan x = -1$ or $\\tan x = 3$\nFor $\\tan x = -1$: $x = \\frac{3\\pi}{4}, \\frac{7\\pi}{4}$\nFor $\\tan x = 3$: $x = \\tan^{-1}(3), \\pi + \\tan^{-1}(3)$\n$x = \\frac{3\\pi}{4}, \\tan^{-1}(3), \\frac{7\\pi}{4}, \\pi + \\tan^{-1}(3)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A student solves $\\sin x\\cos x - \\cos^2 x = 0$ by dividing by $\\cos^2 x$ to get $\\tan x - 1 = 0 \\implies x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$. What is the fatal flaw in their method?",
+      "structure": "homogeneous-zero-test-conceptual",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Divided through and never checked $\\cos x = 0$, thereby missing $x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$.",
+          "correct": true
+        },
+        {
+          "text": "Dividing by $\\cos^2 x$ creates fake extraneous solutions in quadrants 1 and 3.",
+          "why": "Dividing by terms that can be zero loses roots; it does not add them."
+        },
+        {
+          "text": "The ratio $\\tan x$ is undefined for all $x \\in [0, 2\\pi)$.",
+          "why": "Tangent is defined everywhere except odd multiples of $\\pi/2$."
+        },
+        {
+          "text": "Homogeneous equations can only be solved using the auxiliary angle method.",
+          "why": "Homogeneous equations are specifically designed to reduce to polynomials in $\\tan x$."
+        }
+      ],
+      "solution_text": "Dividing by $\\cos^2 x$ requires $\\cos x \\ne 0$.\nSince $\\cos x = 0$ gives $x = \\frac{\\pi}{2}, \\frac{3\\pi}{2}$ which satisfy the original equation ($0 - 0 = 0$), dividing without checking loses these two valid solutions."
+    },
+    {
+      "id": "q5",
+      "question_text": "Solve $\\sin 2x - \\cos 2x = 0$ for $0 \\le x < \\pi$.",
+      "structure": "homogeneous-double-angle-reduction",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\frac{\\pi}{8}, \\frac{5\\pi}{8}$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$",
+          "why": "Forgot to divide the angles by $2$ when solving for $x$ from $2x$."
+        },
+        {
+          "text": "$x = \\frac{3\\pi}{8}, \\frac{7\\pi}{8}$",
+          "why": "Solved $\\tan 2x = -1$ instead of $\\tan 2x = 1$."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{8}$",
+          "why": "Found only the first angle in the interval and missed the second root."
+        }
+      ],
+      "solution_text": "$\\sin 2x = \\cos 2x$\n$\\tan 2x = 1$\nFor $x \\in [0, \\pi)$, $2x \\in [0, 2\\pi)$.\n$2x = \\frac{\\pi}{4}, \\frac{5\\pi}{4}$\n$x = \\frac{\\pi}{8}, \\frac{5\\pi}{8}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "To reduce $2\\sin^2 x + 3\\sin x\\cos x = 1$ to a homogeneous equation in $\\tan x$, what is the necessary initial step?",
+      "structure": "homogeneous-constant-pythagorean-lift",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Replace $1$ with $\\sin^2 x + \\cos^2 x$ so every term has total degree $2$.",
+          "correct": true
+        },
+        {
+          "text": "Divide through by $\\cos^2 x$ leaving $\\sec^2 x$ on the right side.",
+          "why": "Leaves mixed $\\tan x$ and $\\sec^2 x$ terms rather than a single polynomial in $\\tan x$."
+        },
+        {
+          "text": "Square both sides of the equation.",
+          "why": "Squaring raises terms to degree 4 and introduces extraneous solutions."
+        },
+        {
+          "text": "Divide by $\\sin x$ to eliminate the quadratic power.",
+          "why": "Dividing by $\\sin x$ loses roots and produces non-homogeneous terms."
+        }
+      ],
+      "solution_text": "To make the constant $1$ homogeneous of degree 2, rewrite it as $1(\\sin^2 x + \\cos^2 x)$.\nThen $2\\sin^2 x + 3\\sin x\\cos x = \\sin^2 x + \\cos^2 x \\implies \\sin^2 x + 3\\sin x\\cos x - \\cos^2 x = 0$, which can be divided by $\\cos^2 x$ to yield $\\tan^2 x + 3\\tan x - 1 = 0$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Solve $\\tan^2 x - (\\sqrt{3}+1)\\tan x + \\sqrt{3} = 0$ for $0 \\le x < \\pi$.",
+      "structure": "homogeneous-quadratic-three-term",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\frac{\\pi}{3}$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\frac{\\pi}{6}$",
+          "why": "Evaluated $\\tan^{-1}(\\sqrt{3})$ as $\\pi/6$ instead of $\\pi/3$."
+        },
+        {
+          "text": "$x = \\frac{3\\pi}{4}, \\frac{2\\pi}{3}$",
+          "why": "Used negative tangent values $\\tan x = -1, -\\sqrt{3}$."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\frac{\\pi}{3}, \\frac{5\\pi}{4}, \\frac{4\\pi}{3}$",
+          "why": "Gave roots on $[0, 2\\pi)$ instead of the restricted domain $[0, \\pi)$."
+        }
+      ],
+      "solution_text": "$(\\tan x - 1)(\\tan x - \\sqrt{3}) = 0$\n$\\tan x = 1$ or $\\tan x = \\sqrt{3}$\nFor $x \\in [0, \\pi)$:\n$x = \\frac{\\pi}{4}, \\frac{\\pi}{3}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Solve $4\\sin^2 x - 2\\sin x\\cos x + 2\\cos^2 x = 3$ for $0 \\le x < \\pi$.",
+      "structure": "homogeneous-constant-pythagorean-lift",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$x = \\frac{3\\pi}{8}, \\frac{7\\pi}{8}$",
+          "correct": true
+        },
+        {
+          "text": "$x = \\frac{\\pi}{8}, \\frac{5\\pi}{8}$",
+          "why": "Solved $\\tan^2 x + 2\\tan x - 1 = 0$ instead of $\\tan^2 x - 2\\tan x - 1 = 0$."
+        },
+        {
+          "text": "$x = \\frac{\\pi}{4}, \\frac{3\\pi}{4}$",
+          "why": "Factored as $(\\tan x - 1)^2 = 0$ by error."
+        },
+        {
+          "text": "$x = \\frac{3\\pi}{8}$",
+          "why": "Found only the acute solution and missed the second root in $[0, \\pi)$."
+        }
+      ],
+      "solution_text": "$4\\sin^2 x - 2\\sin x\\cos x + 2\\cos^2 x = 3(\\sin^2 x + \\cos^2 x)$\n$\\sin^2 x - 2\\sin x\\cos x - \\cos^2 x = 0$\nDivide by $\\cos^2 x$:\n$\\tan^2 x - 2\\tan x - 1 = 0$\n$\\tan 2x = \\frac{2\\tan x}{1 - \\tan^2 x} = -1$\nFor $x \\in [0, \\pi)$, $2x \\in [0, 2\\pi)$.\n$2x = \\frac{3\\pi}{4}, \\frac{7\\pi}{4}$\n$x = \\frac{3\\pi}{8}, \\frac{7\\pi}{8}$"
+    }
+  ]
+}

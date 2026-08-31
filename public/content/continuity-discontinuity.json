@@ -1,0 +1,113 @@
+{
+  "skillId": "continuity-discontinuity",
+  "atomType": "R",
+  "theory": {
+        "intro": "A function is **continuous** at $x = a$ if you can draw its graph through that point without lifting your pen. A point where it is not continuous is a **discontinuity**. A piecewise function is continuous at a boundary $x = a$ when $g(a) = h(a)$.",
+        "facts": [
+          "A graph is continuous over an interval when it has no breaks, jumps or holes.",
+          "A piecewise function is continuous at $x = a$ exactly when the two branch values agree, that is $g(a) = h(a)$.",
+          "A **jump discontinuity** happens when the two branches reach different values at $x = a$, so the graph steps.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.6) node[above] {$y$};\n\\draw[thick, <-] (-0.6,0.85) -- (2.4,3.2);\n\\draw[thick, ->] (2.4,1.3) -- (5.2,2.3);\n\\fill (2.4,3.2) circle (2.5pt);\n\\draw[fill=white] (2.4,1.3) circle (2.5pt);\n\\draw (2.4,0.12) -- (2.4,-0.12);\n\\node[below] at (2.4,-0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **removable discontinuity** is a hole, where the curve reaches one value from both sides but the point itself is missing.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.6,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.6) node[above] {$y$};\n\\draw[thick, <->] (-0.5,0.7) -- (5.2,4.12);\n\\draw[fill=white] (2.4,2.44) circle (2.5pt);\n\\draw (2.4,0.12) -- (2.4,-0.12);\n\\node[below] at (2.4,-0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "An **infinite discontinuity** is a vertical asymptote, where the function values grow without bound near $x = a$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (5.2,0) node[right] {$x$};\n\\draw[->] (0,-3.2) -- (0,3.4) node[above] {$y$};\n\\draw[dashed] (2.4,-3.1) -- (2.4,3.3);\n\\draw[thick, <->, domain=-0.6:2.05, smooth, samples=60, variable=\\x] plot ({\\x}, {1/(\\x-2.4)});\n\\draw[thick, <->, domain=2.75:5, smooth, samples=60, variable=\\x] plot ({\\x}, {1/(\\x-2.4)});\n\\node[below right] at (2.4,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+          "Polynomials, exponentials and straight lines are continuous everywhere on their natural domains."
+        ],
+        "steps": [
+          "Evaluate the left subfunction at the boundary: calculate $g(a)$",
+          "Evaluate the right subfunction at the boundary: calculate $h(a)$",
+          "Compare the values: if $g(a) = h(a)$, the function is continuous at $x = a$; if $g(a) \\neq h(a)$, a discontinuity occurs"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Test whether the function $f(x) = \\begin{cases} x^{2} - 1, & x \\le 1 \\\\ 2x - 2, & x > 1 \\end{cases}$ is continuous at $x = 1$.",
+        "structure": "test-boundary-continuity-algebraic",
+        "solution_text": "Evaluate both subfunctions at $x = 1$:\nLet $g(x) = x^{2} - 1 \\implies g(1) = 1^{2} - 1 = 0$\nLet $h(x) = 2x - 2 \\implies h(1) = 2(1) - 2 = 0$\nSince $g(1) = h(1) = 0$, the function is continuous at $x = 1$."
+      },
+      {
+        "question_text": "Test whether the function $f(x) = \\begin{cases} x^{2} - 1, & x \\le 0 \\\\ x^{2} + 1, & x > 0 \\end{cases}$ is continuous at $x = 0$.",
+        "structure": "test-boundary-continuity-algebraic",
+        "solution_text": "Evaluate both subfunctions at the boundary $x = 0$:\nLet $g(x) = x^{2} - 1 \\implies g(0) = 0^{2} - 1 = -1$\nLet $h(x) = x^{2} + 1 \\implies h(0) = 0^{2} + 1 = 1$\nSince $g(0) \\neq h(0)$ ($-1 \\neq 1$), the function is discontinuous at $x = 0$ (jump discontinuity)."
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} 3x + 2, & x \\le 2 \\\\ x^{2} + 1, & x > 2 \\end{cases}$ is continuous at $x = 2$.",
+        "structure": "test-boundary-continuity-algebraic",
+        "solution_text": "Evaluate at $x = 2$:\n$g(2) = 3(2) + 2 = 8$\n$h(2) = (2)^{2} + 1 = 5$\nSince $g(2) \\neq h(2)$ ($8 \\neq 5$), the function is discontinuous at $x = 2$."
+      },
+      {
+        "question_text": "State the value of $x$ at which a discontinuity occurs in the graph below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-2.5,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3,4} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-2,1) -- (2,3);\n\\fill (2,3) circle (2.5pt);\n\\draw[thick, ->] (2,1) -- (4,1);\n\\draw[fill=white] (2,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "identify-discontinuity-from-graph",
+        "solution_text": "Inspect the graph for any break or jump.\nAt $x = 2$, there is a vertical jump from $y = 3$ to $y = 1$.\nA jump discontinuity occurs at $x = 2$."
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ has a hole at $(3,2)$ and a separate point at $(3,4)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-1.5,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-1,1,2,3,4,5} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <->] (0.5,0.75) -- (2.9,1.95);\n\\draw[thick, <->] (3.1,2.05) -- (5,3);\n\\draw[fill=white] (3,2) circle (2.5pt);\n\\fill (3,4) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]\nState the $x$-value of the discontinuity and classify its type.",
+        "structure": "identify-discontinuity-from-graph",
+        "solution_text": "At $x = 3$, the curve approaches $y = 2$ from both sides, but $f(3) = 4$.\nA removable discontinuity (hole) occurs at $x = 3$."
+      },
+      {
+        "question_text": "Find the value of $x$ where the function $f(x) = \\dfrac{5}{6 - x}$ is discontinuous.",
+        "structure": "identify-rational-discontinuities",
+        "solution_text": "A rational function is discontinuous where its denominator is zero:\n$6 - x = 0$\n$x = 6$\nThere is a vertical asymptote (infinite discontinuity) at $x = 6$."
+      },
+      {
+        "question_text": "Classify the type of discontinuity in the piecewise function $f(x) = \\begin{cases} 2x, & x < 3 \\\\ 10, & x = 3 \\\\ 2x, & x > 3 \\end{cases}$ at $x = 3$.",
+        "structure": "classify-discontinuity-type",
+        "solution_text": "For $x \\neq 3$, the function is $2x$, which approaches $2(3) = 6$ from both sides.\nHowever, the defined value at $x = 3$ is $f(3) = 10 \\neq 6$.\nSince the curve has a single missing point relocated elsewhere, this is a removable discontinuity (hole)."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the value of the constant $k$ that makes the function $f(x) = \\begin{cases} 2x + k, & x \\le 3 \\\\ x^{2} - 1, & x > 3 \\end{cases}$ continuous at $x = 3$.",
+        "structure": "find-parameter-for-continuity",
+        "solution_text": "For continuity at $x = 3$, the two subfunctions must agree at $x = 3$:\n$g(3) = h(3)$\n$2(3) + k = (3)^{2} - 1$\n$6 + k = 9 - 1$\n$6 + k = 8$\n$k = 2$"
+      },
+      {
+        "question_text": "Determine the value of $c$ for which $g(x) = \\begin{cases} cx + 4, & x < -2 \\\\ 3 - x^{2}, & x \\ge -2 \\end{cases}$ is continuous at $x = -2$.",
+        "structure": "find-parameter-for-continuity",
+        "solution_text": "Set the left and right branch values equal at $x = -2$:\n$c(-2) + 4 = 3 - (-2)^{2}$\n$-2c + 4 = 3 - 4$\n$-2c + 4 = -1$\n$-2c = -5$\n$c = 2.5$"
+      },
+      {
+        "question_text": "Determine all values of $x$ where $f(x) = \\dfrac{3x}{(x - 1)(x - 3)(x - 5)}$ is discontinuous.",
+        "structure": "identify-rational-discontinuities",
+        "solution_text": "Set the denominator equal to zero:\n$(x - 1)(x - 3)(x - 5) = 0$\n$x = 1, 3, 5$\nDiscontinuities occur at $x = 1$, $x = 3$, and $x = 5$."
+      },
+      {
+        "question_text": "Find all values of $x$ where the function $f(x) = \\dfrac{x(x + 1)}{(x + 1)(x + 3)}$ is discontinuous, and identify any removable discontinuities.",
+        "structure": "identify-rational-discontinuities",
+        "solution_text": "The denominator is zero when $(x + 1)(x + 3) = 0$, giving $x = -1$ and $x = -3$.\nAt $x = -1$, the factor $(x + 1)$ cancels from numerator and denominator, so $x = -1$ is a removable discontinuity (hole).\nAt $x = -3$, there is a vertical asymptote (infinite discontinuity).\nDiscontinuities occur at $x = -1$ and $x = -3$."
+      },
+      {
+        "question_text": "A function is defined by $f(x) = \\begin{cases} 4 - x^{2}, & x < 2 \\\\ 0, & x = 2 \\\\ 2x - 4, & x > 2 \\end{cases}$. Determine whether $f(x)$ is continuous at $x = 2$.",
+        "structure": "test-boundary-continuity-algebraic",
+        "solution_text": "Evaluate the branches as $x \\to 2$ and at $x = 2$:\nLeft branch: $4 - (2)^{2} = 4 - 4 = 0$\nPoint value: $f(2) = 0$\nRight branch: $2(2) - 4 = 4 - 4 = 0$\nAll three values equal $0$.\nThe function is continuous at $x = 2$."
+      },
+      {
+        "question_text": "For the piecewise function $h(x) = \\begin{cases} x + 1, & x \\le 0 \\\\ \\dfrac{1}{x}, & x > 0 \\end{cases}$, determine whether $h(x)$ is continuous at $x = 0$, and classify any discontinuity.",
+        "structure": "classify-discontinuity-type",
+        "solution_text": "At $x = 0$:\nLeft branch: $h(0) = 0 + 1 = 1$\nRight branch: as $x > 0$ approaches $0$, $\\dfrac{1}{x} \\to \\infty$.\nSince the right branch grows without bound, the function is discontinuous at $x = 0$ with an infinite discontinuity (asymptote)."
+      },
+      {
+        "question_text": "Test the continuity of $f(x) = \\begin{cases} 2^{x}, & x < 1 \\\\ 3 - x, & 1 \\le x \\le 3 \\\\ x^{2} - 9, & x > 3 \\end{cases}$ at both boundary points $x = 1$ and $x = 3$.",
+        "structure": "test-boundary-continuity-algebraic",
+        "solution_text": "At $x = 1$:\nLeft: $2^{1} = 2$\nRight: $3 - 1 = 2$\nContinuous at $x = 1$ since $2 = 2$.\nAt $x = 3$:\nLeft: $3 - 3 = 0$\nRight: $3^{2} - 9 = 0$\nContinuous at $x = 3$ since $0 = 0$.\nThe function is continuous at both $x = 1$ and $x = 3$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the values of the constants $a$ and $b$ such that the function $f(x) = \\begin{cases} ax + 2, & x < 1 \\\\ 5, & 1 \\le x \\le 4 \\\\ x^{2} - b, & x > 4 \\end{cases}$ is continuous everywhere.",
+        "structure": "find-parameter-for-continuity",
+        "solution_text": "For continuity at $x = 1$:\n$a(1) + 2 = 5$\n$a + 2 = 5$\n$a = 3$\nFor continuity at $x = 4$:\n$5 = (4)^{2} - b$\n$5 = 16 - b$\n$b = 11$\n$a = 3$ and $b = 11$"
+      },
+      {
+        "question_text": "Determine all points of discontinuity of $f(x) = \\dfrac{x^{2} - 16}{x^{2} - 5x + 4}$, and classify each discontinuity as removable or infinite.",
+        "structure": "identify-rational-discontinuities",
+        "solution_text": "Factorise the numerator and denominator:\n$f(x) = \\dfrac{(x - 4)(x + 4)}{(x - 1)(x - 4)}$\nDenominator is zero at $x = 1$ and $x = 4$.\nAt $x = 4$, the factor $(x - 4)$ cancels, so $x = 4$ is a removable discontinuity (hole).\nAt $x = 1$, $(x - 1)$ does not cancel, so $x = 1$ is an infinite discontinuity (vertical asymptote).\nDiscontinuities at $x = 1$ (infinite) and $x = 4$ (removable)."
+      },
+      {
+        "question_text": "Consider the function $g(x) = \\begin{cases} \\dfrac{x^{2} - 9}{x - 3}, & x \\neq 3 \\\\ 6, & x = 3 \\end{cases}$. Determine whether $g(x)$ is continuous at $x = 3$.",
+        "structure": "classify-discontinuity-type",
+        "solution_text": "Simplify the rule for $x \\neq 3$:\n$\\dfrac{x^{2} - 9}{x - 3} = \\dfrac{(x - 3)(x + 3)}{x - 3} = x + 3$\nAs $x$ approaches $3$, $x + 3$ approaches $3 + 3 = 6$.\nSince $g(3) = 6$, the defined value fills the hole exactly.\nThe function is continuous at $x = 3$."
+      }
+    ]
+  }
+}

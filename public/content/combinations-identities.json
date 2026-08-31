@@ -1,0 +1,112 @@
+{
+  "skillId": "combinations-identities",
+  "atomType": "R",
+  "theory": {
+    "intro": "Combinatorial identities express algebraic and structural relationships between combination coefficients. Key identities include the symmetry property $^{n}C_{r} = {^{n}C_{n-r}}$, Pascal's addition identity $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$, and the total subset sum $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$.",
+    "facts": [
+      "Symmetry property: $^{n}C_{r} = {^{n}C_{n-r}}$. If $^{n}C_{a} = {^{n}C_{b}}$ with $a \\ne b$, then $a + b = n$.",
+      "Pascal's identity: $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$ (or equivalently $^{n-1}C_{r-1} + {^{n-1}C_{r}} = {^{n}C_{r}}$).",
+      "Sum of combinations: $\\sum_{r=0}^{n} {^{n}C_{r}} = {^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}} = 2^{n}$.",
+      "Ratio identity: $\\dfrac{^{n}C_{r}}{^{n}C_{r-1}} = \\dfrac{n-r+1}{r}$.",
+      "Algebraic proofs of combination identities are established by rewriting each combination in factorial form $\\dfrac{n!}{r!(n-r)!}$ and manipulating fractions to reach a common denominator."
+    ],
+    "steps": [
+      "Identify the relevant combinatorial identity or convert combination terms to factorial form",
+      "Apply algebraic operations such as common denominators and factorial factorisation",
+      "Simplify the resulting expression or equate indices to solve for the unknown"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "If $^{12}C_{n} = {^{12}C_{4}}$ and $n \\ne 4$, find the value of $n$.",
+        "structure": "symmetry-solve-unknown",
+        "solution_text": "By the symmetry property $^{n}C_{r} = {^{n}C_{n-r}}$:\n$n = 12 - 4$\n$= 8$"
+      },
+      {
+        "question_text": "If $^{n}C_{5} = {^{n}C_{3}}$, find the value of $n$.",
+        "structure": "symmetry-solve-unknown",
+        "solution_text": "By the symmetry property $^{n}C_{a} = {^{n}C_{b}} \\implies a + b = n$:\n$n = 5 + 3$\n$= 8$"
+      },
+      {
+        "question_text": "Express $^{7}C_{3} + {^{7}C_{4}}$ as a single combination in the form $^{n}C_{r}$.",
+        "structure": "pascals-identity-simplify",
+        "solution_text": "By Pascal's identity $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$:\n$^{7}C_{3} + {^{7}C_{4}} = {^{8}C_{4}}$"
+      },
+      {
+        "question_text": "Express $^{10}C_{6} + {^{10}C_{7}}$ as a single combination in the form $^{n}C_{r}$.",
+        "structure": "pascals-identity-simplify",
+        "solution_text": "By Pascal's identity $^{n}C_{r} + {^{n}C_{r+1}} = {^{n+1}C_{r+1}}$:\n$^{10}C_{6} + {^{10}C_{7}} = {^{11}C_{7}}$"
+      },
+      {
+        "question_text": "Find the positive integer $n$ such that $^{n}C_{4} + {^{n}C_{5}} = {^{13}C_{5}}$.",
+        "structure": "pascals-identity-solve-unknown",
+        "solution_text": "By Pascal's identity $^{n}C_{4} + {^{n}C_{5}} = {^{n+1}C_{5}}$:\n$n + 1 = 13$\n$n = 12$"
+      },
+      {
+        "question_text": "Evaluate the sum $^{5}C_{0} + {^{5}C_{1}} + {^{5}C_{2}} + {^{5}C_{3}} + {^{5}C_{4}} + {^{5}C_{5}}$.",
+        "structure": "sum-of-binomial-coefficients",
+        "solution_text": "$\\sum_{r=0}^{5} {^{5}C_{r}} = 2^{5}$\n$= 32$"
+      },
+      {
+        "question_text": "Evaluate $^{6}C_{1} + {^{6}C_{2}} + {^{6}C_{3}} + {^{6}C_{4}} + {^{6}C_{5}} + {^{6}C_{6}}$.",
+        "structure": "sum-of-binomial-coefficients",
+        "solution_text": "$\\sum_{r=0}^{6} {^{6}C_{r}} = 2^{6} = 64$\nSubtracting $^{6}C_{0} = 1$:\n$= 64 - 1$\n$= 63$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve for $x$ given $^{15}C_{2x+1} = {^{15}C_{x+2}}$ where $2x+1 \\ne x+2$.",
+        "structure": "symmetry-solve-unknown",
+        "solution_text": "$(2x+1) + (x+2) = 15$\n$3x + 3 = 15$\n$3x = 12$\n$x = 4$"
+      },
+      {
+        "question_text": "Simplify $^{9}C_{4} + {^{9}C_{5}} + {^{10}C_{6}}$ to a single combination.",
+        "structure": "pascals-identity-simplify",
+        "solution_text": "Apply Pascal's identity to the first two terms:\n$^{9}C_{4} + {^{9}C_{5}} = {^{10}C_{5}}$\nThen combine with the third term:\n$^{10}C_{5} + {^{10}C_{6}} = {^{11}C_{6}}$"
+      },
+      {
+        "question_text": "If $^{14}C_{r} + {^{14}C_{r+1}} = {^{15}C_{9}}$, find the value of $r$.",
+        "structure": "pascals-identity-solve-unknown",
+        "solution_text": "By Pascal's identity $^{14}C_{r} + {^{14}C_{r+1}} = {^{15}C_{r+1}}$:\n$r + 1 = 9$\n$r = 8$"
+      },
+      {
+        "question_text": "Evaluate $^{7}C_{0} + {^{7}C_{1}} + {^{7}C_{2}} + {^{7}C_{3}}$.",
+        "structure": "sum-of-binomial-coefficients",
+        "solution_text": "By symmetry, $^{7}C_{0} + {^{7}C_{1}} + {^{7}C_{2}} + {^{7}C_{3}} = {^{7}C_{4}} + {^{7}C_{5}} + {^{7}C_{6}} + {^{7}C_{7}}$.\nTotal sum $= 2^{7} = 128$.\nSum of first $4$ terms $= \\dfrac{128}{2}$\n$= 64$"
+      },
+      {
+        "question_text": "Find the value of $\\sum_{k=0}^{8} {^{8}C_{k}} - {^{8}C_{0}} - {^{8}C_{8}}$.",
+        "structure": "sum-of-binomial-coefficients",
+        "solution_text": "$\\sum_{k=0}^{8} {^{8}C_{k}} = 2^{8} = 256$\n$^{8}C_{0} = 1$ and $^{8}C_{8} = 1$\n$= 256 - 1 - 1$\n$= 254$"
+      },
+      {
+        "question_text": "Simplify the ratio $\\dfrac{^{n}C_{r}}{^{n}C_{r-1}}$.",
+        "structure": "factorial-algebraic-proof",
+        "solution_text": "$\\dfrac{^{n}C_{r}}{^{n}C_{r-1}} = \\dfrac{\\dfrac{n!}{r!(n-r)!}}{\\dfrac{n!}{(r-1)!(n-r+1)!}}$\n$= \\dfrac{(r-1)!(n-r+1)!}{r!(n-r)!}$\n$= \\dfrac{(r-1)!(n-r+1)(n-r)!}{r(r-1)!(n-r)!}$\n$= \\dfrac{n-r+1}{r}$"
+      },
+      {
+        "question_text": "Show that $^{n}C_{2} + {^{n+1}C_{2}} = n^2$.",
+        "structure": "factorial-algebraic-proof",
+        "solution_text": "$^{n}C_{2} + {^{n+1}C_{2}} = \\dfrac{n(n-1)}{2} + \\dfrac{(n+1)n}{2}$\n$= \\dfrac{n^2 - n + n^2 + n}{2}$\n$= \\dfrac{2n^2}{2}$\n$= n^2$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove that $^{n}C_{r} + 2 \\cdot {^{n}C_{r-1}} + {^{n}C_{r-2}} = {^{n+2}C_{r}}$.",
+        "structure": "factorial-algebraic-proof",
+        "solution_text": "Group the terms:\n$({^{n}C_{r}} + {^{n}C_{r-1}}) + ({^{n}C_{r-1}} + {^{n}C_{r-2}})$\n$= {^{n+1}C_{r}} + {^{n+1}C_{r-1}}$\n$= {^{n+2}C_{r}}$"
+      },
+      {
+        "question_text": "Simplify the sum $^{4}C_{4} + {^{5}C_{4}} + {^{6}C_{4}} + {^{7}C_{4}}$ to a single combination.",
+        "structure": "pascals-identity-simplify",
+        "solution_text": "Since $^{4}C_{4} = {^{5}C_{5}}$:\n${^{5}C_{5}} + {^{5}C_{4}} = {^{6}C_{5}}$\n${^{6}C_{5}} + {^{6}C_{4}} = {^{7}C_{5}}$\n${^{7}C_{5}} + {^{7}C_{4}} = {^{8}C_{5}}$"
+      },
+      {
+        "question_text": "Solve for $n$ if $^{2n}C_{3} = {^{2n}C_{n+5}}$ with $3 \\ne n+5$.",
+        "structure": "symmetry-solve-unknown",
+        "solution_text": "By symmetry, the lower indices sum to the upper index:\n$3 + (n+5) = 2n$\n$n + 8 = 2n$\n$n = 8$"
+      }
+    ]
+  }
+}

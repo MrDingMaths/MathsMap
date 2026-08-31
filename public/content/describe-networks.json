@@ -2,19 +2,19 @@
   "skillId": "describe-networks",
   "atomType": "T",
   "theory": {
-    "intro": "A **network** (also called a **graph**) is a diagram of dots joined by lines. Each dot is a **vertex** (plural **vertices**) and each line joining two vertices is an **edge**. A network records only *what is joined to what*, so where a vertex sits on the page and how long or curved an edge is drawn carry no meaning at all — the same network can be drawn in many different ways. The **degree** of a vertex is the number of edge-ends meeting at it. An edge that leaves a vertex and returns to the same vertex is a **loop**, and because both of its ends are at that vertex it adds $2$ to the degree. Two vertices may be joined by more than one edge, and each of those **multiple edges** is counted separately. An edge that may only be travelled one way is **directed** and is drawn with an arrowhead, and an edge carrying a number such as a travel time is **weighted**.",
-    "facts": [
-      "A **vertex** is a dot in the network; an **edge** is a line joining two vertices.",
-      "The **degree** of a vertex is the number of edge-ends meeting at it.",
-      "A **loop** joins a vertex to itself and contributes **$2$** to that vertex's degree.",
-      "**Multiple edges** between the same pair of vertices are allowed, and each one is counted separately.",
-      "Every edge has two ends, so the **sum of all the degrees is $2\\times$ the number of edges** — and is therefore always even.",
-      "Two edges that cross on the page do **not** meet at a vertex unless a dot is actually drawn there.",
-      "A **directed** edge carries an arrowhead and may be travelled only in the direction of the arrow.",
-      "A **weighted** edge carries a number beside it giving a cost such as a time, a fare or a distance.",
-      "Only the connections matter, so moving the vertices around the page gives a **different drawing of the same network**."
-    ]
-  },
+        "intro": "A **network** (or **graph**) is a set of dots joined by lines. Each dot is a **vertex** and each line joining two vertices is an **edge**. Only what is joined to what matters, not where anything is drawn.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (3.4,2.8);\n\\coordinate (D) at (0,2.8);\n\\draw (A) to[bend left=25] (B);\n\\draw (A) to[bend right=25] (B);\n\\draw (B) -- (C);\n\\draw (C) -- (D);\n\\draw (D) -- (A);\n\\draw (0,3.35) circle (0.55);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\fill (D) circle (2.5pt);\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[left] at (D) {$D$};\n\\node[right] at (0.75,3.9) {loop};\n\\node at (1.7,-1.3) {multiple edges};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "A **vertex** (plural **vertices**) is a dot in the network, and an **edge** is a line joining two vertices.",
+          "The **degree** of a vertex is the number of edge-ends meeting at it.",
+          "A **loop** joins a vertex to itself and adds $2$ to that vertex's degree.",
+          "**Multiple edges** between the same pair of vertices are allowed, and each one is counted separately.",
+          "Every edge has two ends, so the **sum of all the degrees is $2\\times$ the number of edges** and is always even.",
+          "Two edges that cross on the page do **not** meet at a vertex unless a dot is drawn there.",
+          "A **directed** edge carries an arrowhead and may be travelled only in the direction of the arrow.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta, decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{Stealth[length=3mm]}}}, postaction={decorate}}}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (1.5,2.4);\n\\draw[midarrow] (A) -- (B);\n\\draw[midarrow] (B) -- (C);\n\\draw[midarrow] (A) -- (C);\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+          "A **weighted** edge carries a number beside it giving a cost such as a time, a fare or a distance.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (1.5,2.4);\n\\draw (A) -- (B) node[midway, below] {$5$};\n\\draw (B) -- (C) node[midway, right] {$8$};\n\\draw (A) -- (C) node[midway, left] {$4$};\n\\fill (A) circle (2.5pt);\n\\fill (B) circle (2.5pt);\n\\fill (C) circle (2.5pt);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}\n[/tikz]",
+          "Only the connections matter, so moving the vertices or bending the edges gives a **different drawing of the same network**."
+        ]
+      },
   "practice": {
     "foundation": [
       {

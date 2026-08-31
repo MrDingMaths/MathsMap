@@ -1,0 +1,103 @@
+{
+  "skillId": "expected-value-discrete",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **expected value** $E(X)$ is the long-run average of $X$ over many repeats of an experiment. Multiply each value by its probability and add the results. It is also written $\\mu$, the mean of the distribution.",
+    "facts": [
+      "$E(X)=\\mu=\\sum xP(x)$: multiply each value by its probability, then add every product.",
+      "$E(X)$ is the average value of $X$ over many repeats, not the result of a single trial.",
+      "The expected value need not be a value $X$ can take: an expected $2.4$ children is a valid mean.",
+      "$E(X)$ is not the most likely value; the most likely value is the one with the greatest probability.",
+      "Check that the probabilities add to $1$ before finding $E(X)$.",
+      "A negative value of $x$ contributes a negative term $xP(x)$ to the sum."
+    ],
+    "steps": [
+      "Check that the probabilities add to $1$.",
+      "Multiply each value $x$ by its probability $P(x)$.",
+      "Add the products to get $E(X)$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The table shows the distribution of $X$, the number of tries a player scores in a match.\n$\\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.15 & 0.25 & 0.45 & 0.15 \\end{array}$\nFind $E(X)$.",
+        "structure": "mean-from-table",
+        "solution_text": "$E(X)=0(0.15)+1(0.25)+2(0.45)+3(0.15)$\n$=0+0.25+0.9+0.45$\n$=1.6$"
+      },
+      {
+        "question_text": "Find the expected value of the random variable $X$.\n$\\begin{array}{c|ccccc} x & 1 & 2 & 3 & 4 & 5 \\\\ \\hline P(X=x) & 0.1 & 0.2 & 0.4 & 0.2 & 0.1 \\end{array}$",
+        "structure": "mean-from-table",
+        "solution_text": "$E(X)=1(0.1)+2(0.2)+3(0.4)+4(0.2)+5(0.1)$\n$=0.1+0.4+1.2+0.8+0.5$\n$=3$"
+      },
+      {
+        "question_text": "A distribution is given by the ordered pairs $\\left(0,\\frac{1}{8}\\right)$, $\\left(1,\\frac{3}{8}\\right)$, $\\left(2,\\frac{3}{8}\\right)$, $\\left(3,\\frac{1}{8}\\right)$. Find $E(X)$.",
+        "structure": "mean-from-pairs",
+        "solution_text": "$E(X)=0\\left(\\frac{1}{8}\\right)+1\\left(\\frac{3}{8}\\right)+2\\left(\\frac{3}{8}\\right)+3\\left(\\frac{1}{8}\\right)$\n$=\\frac{0+3+6+3}{8}$\n$=\\frac{12}{8}$\n$=1.5$"
+      },
+      {
+        "question_text": "A random variable has $P(x)=\\frac{x}{15}$ for $x \\in \\{1,\\ 2,\\ 3,\\ 4,\\ 5\\}$. Find $E(X)$ in exact form.",
+        "structure": "mean-from-function-rule",
+        "solution_text": "$E(X)=1\\left(\\frac{1}{15}\\right)+2\\left(\\frac{2}{15}\\right)+3\\left(\\frac{3}{15}\\right)+4\\left(\\frac{4}{15}\\right)+5\\left(\\frac{5}{15}\\right)$\n$=\\frac{1+4+9+16+25}{15}$\n$=\\frac{55}{15}$\n$=\\frac{11}{3}$"
+      },
+      {
+        "question_text": "A survey finds that $X$, the number of bicycles owned by a household, has $E(X)=2.4$. Explain what this means, and why $2.4$ is a sensible answer even though no household owns $2.4$ bicycles.",
+        "structure": "interpret-expected-value",
+        "solution_text": "Over a large number of households, the average number of bicycles per household is $2.4$.\nThe expected value is a long-run average, so it does not have to be one of the values $X$ can take."
+      },
+      {
+        "question_text": "The random variable $X$ is the change in the number of birds counted at a feeder from one day to the next.\n$\\begin{array}{c|ccccc} x & -3 & -1 & 0 & 2 & 4 \\\\ \\hline P(X=x) & 0.1 & 0.2 & 0.3 & 0.25 & 0.15 \\end{array}$\nFind $E(X)$.",
+        "structure": "mean-from-table",
+        "solution_text": "$E(X)=-3(0.1)-1(0.2)+0(0.3)+2(0.25)+4(0.15)$\n$=-0.3-0.2+0+0.5+0.6$\n$=0.6$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The distribution of $X$ is given below.\n$\\begin{array}{c|cccc} x & 2 & 4 & 6 & 8 \\\\ \\hline P(X=x) & 0.15 & k & 0.35 & 0.2 \\end{array}$\nFind $k$ and hence $E(X)$.",
+        "structure": "mean-with-unknown-probability",
+        "solution_text": "$0.15+k+0.35+0.2=1$\n$k+0.7=1$\n$k=0.3$\n$E(X)=2(0.15)+4(0.3)+6(0.35)+8(0.2)$\n$=0.3+1.2+2.1+1.6$\n$=5.2$"
+      },
+      {
+        "question_text": "The relative frequencies below estimate the distribution of $X$, the number of children in a randomly chosen family.\n$\\begin{array}{c|ccccc} x & 0 & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.42 & 0.22 & 0.21 & 0.1 & 0.05 \\end{array}$\nFind the expected number of children per family.",
+        "structure": "mean-from-table",
+        "solution_text": "$E(X)=0(0.42)+1(0.22)+2(0.21)+3(0.1)+4(0.05)$\n$=0+0.22+0.42+0.3+0.2$\n$=1.14$"
+      },
+      {
+        "question_text": "A box holds six tiles: two marked $1$, three marked $4$ and one marked $10$. One tile is drawn at random and $X$ is the number on it. Build the probability distribution and find $E(X)$.",
+        "structure": "mean-from-experiment",
+        "solution_text": "$\\begin{array}{c|ccc} x & 1 & 4 & 10 \\\\ \\hline P(X=x) & \\frac{2}{6} & \\frac{3}{6} & \\frac{1}{6} \\end{array}$\n$\\frac{2}{6}+\\frac{3}{6}+\\frac{1}{6}=1$, so the distribution is complete.\n$E(X)=1\\left(\\frac{2}{6}\\right)+4\\left(\\frac{3}{6}\\right)+10\\left(\\frac{1}{6}\\right)$\n$=\\frac{2+12+10}{6}$\n$=\\frac{24}{6}$\n$=4$"
+      },
+      {
+        "question_text": "A random variable has $P(x)=\\frac{x+2}{28}$ for $x \\in \\{2,\\ 4,\\ 6,\\ 8\\}$. Find $E(X)$ in exact form.",
+        "structure": "mean-from-function-rule",
+        "solution_text": "$P(2)=\\frac{4}{28}$, $P(4)=\\frac{6}{28}$, $P(6)=\\frac{8}{28}$, $P(8)=\\frac{10}{28}$\n$\\frac{4}{28}+\\frac{6}{28}+\\frac{8}{28}+\\frac{10}{28}=1$, so this is a probability distribution.\n$E(X)=\\frac{2(4)+4(6)+6(8)+8(10)}{28}$\n$=\\frac{8+24+48+80}{28}$\n$=\\frac{160}{28}$\n$=\\frac{40}{7}$"
+      },
+      {
+        "question_text": "The random variable $X$ has $E(X)=3.5$.\n$\\begin{array}{c|cccc} x & 1 & 3 & 4 & 6 \\\\ \\hline P(X=x) & 0.2 & p & 0.3 & q \\end{array}$\nFind $p$ and $q$ by setting up two equations.",
+        "structure": "reverse-find-value",
+        "solution_text": "$0.2+p+0.3+q=1$\n$p+q=0.5$\n$1(0.2)+3p+4(0.3)+6q=3.5$\n$3p+6q=2.1$\nSubstituting $p=0.5-q$:\n$3(0.5-q)+6q=2.1$\n$1.5+3q=2.1$\n$3q=0.6$\n$q=0.2$\n$p=0.3$"
+      },
+      {
+        "question_text": "Two goalkeepers' saving records give the distributions below for the number of penalties saved per match.\n$\\text{Amina: } \\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.1 & 0.3 & 0.4 & 0.2 \\end{array}$\n$\\text{Bea: } \\begin{array}{c|cccc} x & 0 & 1 & 2 & 3 \\\\ \\hline P(X=x) & 0.15 & 0.25 & 0.25 & 0.35 \\end{array}$\nWho saves more penalties per match in the long run?",
+        "structure": "interpret-expected-value",
+        "solution_text": "$E(\\text{Amina})=0(0.1)+1(0.3)+2(0.4)+3(0.2)$\n$=1.7$\n$E(\\text{Bea})=0(0.15)+1(0.25)+2(0.25)+3(0.35)$\n$=1.8$\nBea has the greater expected value, so over many matches she saves more penalties per match."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The distribution $(1,a)$, $\\left(2,0.15\\right)$, $(3,b)$, $\\left(4,0.3\\right)$, $\\left(5,0.25\\right)$ has mean $3.45$. Find $a$ and $b$.",
+        "structure": "reverse-find-value",
+        "solution_text": "$a+0.15+b+0.3+0.25=1$\n$a+b=0.3$\n$a+2(0.15)+3b+4(0.3)+5(0.25)=3.45$\n$a+3b+2.75=3.45$\n$a+3b=0.7$\nSubstituting $a=0.3-b$:\n$0.3-b+3b=0.7$\n$2b=0.4$\n$b=0.2$\n$a=0.1$"
+      },
+      {
+        "question_text": "A random variable has $P(x)=k(x+1)$ for $x \\in \\{1,\\ 2,\\ 3,\\ 4,\\ 5\\}$. Find $k$ and $E(X)$.",
+        "structure": "mean-with-unknown-probability",
+        "solution_text": "$k(2)+k(3)+k(4)+k(5)+k(6)=1$\n$20k=1$\n$k=\\frac{1}{20}$\n$E(X)=\\frac{1(2)+2(3)+3(4)+4(5)+5(6)}{20}$\n$=\\frac{2+6+12+20+30}{20}$\n$=\\frac{70}{20}$\n$=3.5$"
+      },
+      {
+        "question_text": "A hen lays $0$, $1$ or $2$ eggs on a day with probabilities $0.2$, $0.5$ and $0.3$. How many eggs should the farmer expect from this hen over a $7$-day week, and why is that figure not guaranteed?",
+        "structure": "mean-from-experiment",
+        "solution_text": "$E(X)=0(0.2)+1(0.5)+2(0.3)$\n$=0+0.5+0.6$\n$=1.1$\nExpected eggs in $7$ days $=7(1.1)$\n$=7.7$\nThe expected value is a long-run average per day, so an individual week can give any whole number of eggs from $0$ to $14$."
+      }
+    ]
+  }
+}

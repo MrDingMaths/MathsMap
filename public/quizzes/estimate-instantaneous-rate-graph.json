@@ -1,0 +1,205 @@
+{
+  "skillId": "estimate-instantaneous-rate-graph",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph shows a curve $y = f(x)$ with a tangent line drawn at $(2, 5)$ passing through $(0, 1)$ and $(4, 9)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4,5} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:4.2,smooth,variable=\\x] plot (\\x, {0.15*\\x*\\x + 0.4*\\x + 1.1}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0,0.5) -- (4.5,5.0);\n\\fill (2,2.5) circle (2.5pt) node[above left] {$(2,5)$};\n\\fill (0,0.5) circle (2.5pt) node[below right] {$(0,1)$};\n\\fill (4,4.5) circle (2.5pt) node[below right] {$(4,9)$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the estimated instantaneous rate of change $f'(2)$?",
+      "structure": "estimate-tangent-gradient-grid",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$2$",
+          "correct": true
+        },
+        {
+          "text": "$5$",
+          "why": "States the function value $y = 5$ at $x = 2$ instead of finding the tangent slope."
+        },
+        {
+          "text": "$2.5$",
+          "why": "Divides $y = 5$ by $x = 2$ ($5 \\div 2 = 2.5$) instead of computing the tangent gradient."
+        },
+        {
+          "text": "$6$",
+          "why": "Mistakenly takes the average of the coordinates instead of the gradient."
+        }
+      ],
+      "solution_text": "$f'(2) = \\dfrac{9 - 1}{4 - 0}$\n$= \\dfrac{8}{4}$\n$= 2$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Water drains from a tank. The volume $V$ (litres) after $t$ minutes is plotted, and the tangent line at $t = 4\\text{ min}$ passes through $(0, 60)$ and $(8, 12)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$t$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$V$};\n\\foreach \\x/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\foreach \\y/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:5.2,smooth,variable=\\x] plot (\\x, {0.6 + 3.262*exp(-0.5*\\x)}) node[above right] {$V(t)$};\n\\draw[thick,dashed,red] (0,3.0) -- (4,0.6);\n\\fill (2,1.8) circle (2.5pt) node[above right] {$(4,36)$};\n\\node[rotate=90] at (-1.3,2.75) {Volume (L)};\n\\node[below] at (2.7,-0.9) {Time (min)};\n\\end{tikzpicture}\n[/tikz]\nWhat is the estimated instantaneous rate of change of the volume at $t = 4\\text{ minutes}$?",
+      "structure": "estimate-instantaneous-rate-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-6\\text{ L/min}$",
+          "correct": true
+        },
+        {
+          "text": "$6\\text{ L/min}$",
+          "why": "Omits the negative sign; because the volume is decreasing over time, the rate of change of volume is negative."
+        },
+        {
+          "text": "$-48\\text{ L/min}$",
+          "why": "Calculates the total change in volume $12 - 60 = -48\\text{ L}$ without dividing by the elapsed time of $8\\text{ min}$."
+        },
+        {
+          "text": "$-9\\text{ L/min}$",
+          "why": "Divides the volume $V(4) = 36\\text{ L}$ by $4\\text{ min}$ with a negative sign instead of finding the gradient of the tangent line."
+        }
+      ],
+      "solution_text": "$\\text{Rate of change} = \\dfrac{12 - 60}{8 - 0}$\n$= \\dfrac{-48}{8}$\n$= -6\\text{ L/min}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A graph of $y = f(x)$ shows tangents drawn at point $A$ (with gradient $m_A = 5$) and at point $B$ (with gradient $m_B = 1$). Which statement correctly describes the behaviour of the curve at these two points?",
+      "structure": "compare-instantaneous-rates-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The curve is rising 5 times faster at point $A$ than at point $B$.",
+          "correct": true
+        },
+        {
+          "text": "The curve is falling at point $A$ and rising at point $B$.",
+          "why": "Both gradient values are positive, so the curve is rising at both points."
+        },
+        {
+          "text": "The curve reaches its maximum at point $A$.",
+          "why": "A positive gradient of $5$ indicates the curve is still rising, not at a peak."
+        },
+        {
+          "text": "Point $B$ is 5 times steeper than point $A$.",
+          "why": "Reverses the comparison since $5 > 1$."
+        }
+      ],
+      "solution_text": "$\\text{Since } m_A = 5\\text{ and } m_B = 1\\text{, both instantaneous rates are positive, and the curve is rising } 5\\text{ times steeper at point } A\\text{ than at point } B.$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A student needs to estimate the gradient of the tangent at $P(3, 7)$ from a graph. The tangent line passes through $(1, 1)$ and $(5, 13)$. Which calculation gives the correct gradient?",
+      "structure": "choose-best-tangent-reading",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{13 - 1}{5 - 1} = 3$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{7}{3} = 2.33$",
+          "why": "Divides the point coordinates $\\frac{y}{x}$ instead of computing the rise over run along the tangent."
+        },
+        {
+          "text": "$\\dfrac{13 - 7}{5 - 3} = \\dfrac{6}{2} = 3$, but only if $(5, 13)$ is on the curve.",
+          "why": "Any two points on the tangent line are valid regardless of whether they lie on the curve."
+        },
+        {
+          "text": "$\\dfrac{5 - 1}{13 - 1} = 0.33$",
+          "why": "Inverts the gradient formula by calculating run over rise."
+        }
+      ],
+      "solution_text": "$m = \\dfrac{13 - 1}{5 - 1} = \\dfrac{12}{4} = 3$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A runner's distance–time graph has a tangent drawn at $t = 6\\text{ s}$ that passes through $(3, 15)$ and $(9, 63)$, where distance is in metres. What is the runner's estimated instantaneous speed at $t = 6\\text{ seconds}$?",
+      "structure": "estimate-instantaneous-rate-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8\\text{ m/s}$",
+          "correct": true
+        },
+        {
+          "text": "$48\\text{ m/s}$",
+          "why": "Calculates the distance change $63 - 15 = 48\\text{ m}$ without dividing by time $6\\text{ s}$."
+        },
+        {
+          "text": "$6.5\\text{ m/s}$",
+          "why": "Divides total distance $63$ by time $9$ ($\\frac{63}{9} = 7$) with an arithmetic error."
+        },
+        {
+          "text": "$10.5\\text{ m/s}$",
+          "why": "Divides $63$ by $6\\text{ s}$ instead of using the two points on the tangent line."
+        }
+      ],
+      "solution_text": "$\\text{Speed} = \\dfrac{63 - 15}{9 - 3}$\n$= \\dfrac{48}{6}$\n$= 8\\text{ m/s}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph shows a curve $y = f(x)$ with a tangent line at $(2, 3)$ passing through $(0, -5)$ and $(3, 7)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (-1,0) -- (5.0,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {-2/-4,1/2,2/4,3/6,4/8} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:3.2,smooth,variable=\\x] plot (\\x, {0.3*\\x*\\x + 0.8*\\x - 1.3}) node[above left] {$y=f(x)$};\n\\draw[thick,dashed,red] (0.5,-1.5) -- (3.5,4.5);\n\\fill (2,1.5) circle (2.5pt) node[below right] {$(2,3)$};\n\\end{tikzpicture}\n[/tikz]\nFind the estimated derivative $f'(2)$.",
+      "structure": "estimate-tangent-gradient-grid",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$1.5$",
+          "why": "Divides coordinate $y = 3$ by $x = 2$ ($3 \\div 2 = 1.5$) instead of computing tangent gradient."
+        },
+        {
+          "text": "$3$",
+          "why": "States the $y$-value at the point of tangency instead of the gradient."
+        },
+        {
+          "text": "$12$",
+          "why": "States the rise between $(0, -5)$ and $(3, 7)$ without dividing by the run of $3$."
+        }
+      ],
+      "solution_text": "$f'(2) = \\dfrac{7 - (-5)}{3 - 0}$\n$= \\dfrac{12}{3}$\n$= 4$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A bamboo plant's height $H$ in centimetres over $t$ days is plotted on a graph. The tangent line at $t = 5\\text{ days}$ passes through $(2, 6)$ and $(8, 24)$. What is the estimated instantaneous growth rate at $t = 5\\text{ days}$?",
+      "structure": "estimate-instantaneous-rate-context",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3\\text{ cm/day}$",
+          "correct": true
+        },
+        {
+          "text": "$18\\text{ cm/day}$",
+          "why": "Calculates the height change $24 - 6 = 18\\text{ cm}$ without dividing by the $6\\text{-day}$ interval."
+        },
+        {
+          "text": "$4.8\\text{ cm/day}$",
+          "why": "Divides $24$ by $5\\text{ days}$ instead of using the points on the tangent line."
+        },
+        {
+          "text": "$1.5\\text{ cm/day}$",
+          "why": "Inverts the run over rise formula ($\\frac{6}{18} = 0.33$) or makes an arithmetic error."
+        }
+      ],
+      "solution_text": "$\\text{Growth rate} = \\dfrac{24 - 6}{8 - 2}$\n$= \\dfrac{18}{6}$\n$= 3\\text{ cm/day}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph of $y = f(x)$ shows a tangent line drawn at $(2, 7)$ passing through $(0, 1)$ and $(4, 13)$. What is the exact gradient of this tangent line, and what is its equation?",
+      "structure": "estimate-tangent-gradient-grid",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$f'(2) = 3$, with equation $y = 3x + 1$",
+          "correct": true
+        },
+        {
+          "text": "$f'(2) = 3.5$, with equation $y = 3.5x$",
+          "why": "Divides $7$ by $2$ to guess slope $3.5$ and assumes a line through the origin."
+        },
+        {
+          "text": "$f'(2) = 3$, with equation $y = 3x + 7$",
+          "why": "Uses the point $(2, 7)$ incorrectly as the $y$-intercept."
+        },
+        {
+          "text": "$f'(2) = 6$, with equation $y = 6x + 1$",
+          "why": "Divides $13 - 1 = 12$ by $2$ instead of the run $4 - 0 = 4$."
+        }
+      ],
+      "solution_text": "$m = \\dfrac{13 - 1}{4 - 0} = \\dfrac{12}{4} = 3 \\implies f'(2) = 3$\n$\\text{Using } y\\text{-intercept } (0, 1): y = 3x + 1$"
+    }
+  ]
+}

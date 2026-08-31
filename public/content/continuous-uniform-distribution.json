@@ -1,0 +1,103 @@
+{
+  "skillId": "continuous-uniform-distribution",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **continuous uniform distribution** spreads probability evenly across an interval $[a,b]$, so its density is the constant $f(x)=\\frac{1}{b-a}$. Every probability is then the area of a rectangle.",
+    "facts": [
+      "$f(x)=\\frac{1}{b-a}$ for $a\\le x\\le b$, and $f(x)=0$ for every other value of $x$.",
+      "The height $\\frac{1}{b-a}$ makes the rectangle of width $b-a$ have area $1$, as every density must.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$a$};\n\\node[below] at (5,0) {$b$};\n\\node[left] at (0,2) {$\\frac{1}{b-a}$};\n\\end{tikzpicture}\n[/tikz]",
+      "$P(c\\le X\\le d)=\\frac{d-c}{b-a}$, the width of the interval divided by the width of the whole support.",
+      "An interval running outside $[a,b]$ is cut back to the boundary, because $f(x)=0$ outside the support.",
+      "The mean sits at the midpoint of the support, $\\mu=\\frac{a+b}{2}$.",
+      "The variance is $\\sigma^{2}=\\frac{(b-a)^{2}}{12}$, so a wider support gives a larger spread."
+    ],
+    "steps": [
+      "Find the width of the support, $b-a$.",
+      "Write the density $f(x)=\\frac{1}{b-a}$ on $[a,b]$.",
+      "Multiply the density by the width of the interval asked for."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The continuous random variable $X$ is uniformly distributed on $[4,10]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$4$};\n\\node[below] at (5,0) {$10$};\n\\end{tikzpicture}\n[/tikz]\nWrite down the probability density function $f(x)$.",
+        "structure": "pdf-from-interval",
+        "solution_text": "$b-a=10-4$\n$=6$\n$f(x)=\\frac{1}{6}$ for $4\\le x\\le 10$, and $f(x)=0$ otherwise\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$4$};\n\\node[below] at (5,0) {$10$};\n\\node[left] at (0,2) {$\\frac{1}{6}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[1,9]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (5,0) {$9$};\n\\node[left] at (0,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(3\\le X\\le 6)$.",
+        "structure": "uniform-probability-interval",
+        "solution_text": "$P(3\\le X\\le 6)=\\frac{6-3}{9-1}$\n$=\\frac{3}{8}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (2,0) rectangle (3.5,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (2,0) {$3$};\n\\node[below] at (3.5,0) {$6$};\n\\node[below] at (5,0) {$9$};\n\\node[left] at (0,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[0,5]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (5,0) {$5$};\n\\node[left] at (0,2) {$\\frac{1}{5}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(X>3.5)$.",
+        "structure": "uniform-tail-probability",
+        "solution_text": "$P(X>3.5)=\\frac{5-3.5}{5-0}$\n$=\\frac{1.5}{5}$\n$=\\frac{3}{10}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (3.8,0) rectangle (5,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (3.8,0) {$3.5$};\n\\node[below] at (5,0) {$5$};\n\\node[left] at (0,2) {$\\frac{1}{5}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[2,14]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$2$};\n\\node[below] at (5,0) {$14$};\n\\node[left] at (0,2) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "uniform-mean-variance",
+        "solution_text": "$\\mu=\\frac{2+14}{2}$\n$=8$\n$\\sigma^{2}=\\frac{(14-2)^{2}}{12}$\n$=\\frac{144}{12}$\n$=12$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (3,0) -- (3,2);\n\\node[below] at (1,0) {$2$};\n\\node[below] at (5,0) {$14$};\n\\node[above right] at (3,2) {$\\mu=8$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[-3,5]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-2.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (-1.5,0) -- (-1.5,2) -- (2.5,2) -- (2.5,0);\n\\node[below] at (-1.5,0) {$-3$};\n\\node[below right] at (0,0) {$0$};\n\\node[below] at (2.5,0) {$5$};\n\\node[left] at (-1.5,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(0\\le X\\le 5)$.",
+        "structure": "uniform-probability-interval",
+        "solution_text": "$P(0\\le X\\le 5)=\\frac{5-0}{5-(-3)}$\n$=\\frac{5}{8}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (0,0) rectangle (2.5,2);\n\\draw[-{Stealth}] (-2.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (-1.5,0) -- (-1.5,2) -- (2.5,2) -- (2.5,0);\n\\node[below] at (-1.5,0) {$-3$};\n\\node[below right] at (0,0) {$0$};\n\\node[below] at (2.5,0) {$5$};\n\\node[left] at (-1.5,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A shuttle bus leaves the terminal at a time that is uniformly distributed over the $12$ minutes after you arrive. Let $X$ be the number of minutes you wait.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (5,0) {$12$};\n\\node[left] at (0,2) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]\nFind the probability that you wait less than $4$ minutes.",
+        "structure": "uniform-context",
+        "solution_text": "$P(X<4)=\\frac{4-0}{12-0}$\n$=\\frac{1}{3}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (2.33,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (2.33,0) {$4$};\n\\node[below] at (5,0) {$12$};\n\\node[left] at (0,2) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A uniform density has $f(x)=\\frac{1}{7}$ and its support begins at $x=4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$4$};\n\\node[below] at (5,0) {$b$};\n\\node[left] at (0,2) {$\\frac{1}{7}$};\n\\end{tikzpicture}\n[/tikz]\nFind $b$.",
+        "structure": "interval-from-density",
+        "solution_text": "$\\frac{1}{b-4}=\\frac{1}{7}$\n$b-4=7$\n$b=11$"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[5,20]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$5$};\n\\node[below] at (5,0) {$20$};\n\\node[left] at (0,2) {$\\frac{1}{15}$};\n\\end{tikzpicture}\n[/tikz]\nFind the value of $c$ for which $P(X\\le c)=0.4$.",
+        "structure": "reverse-probability-bound",
+        "solution_text": "$\\frac{c-5}{20-5}=0.4$\n$c-5=0.4\\times 15$\n$c-5=6$\n$c=11$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (2.6,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$5$};\n\\node[below] at (2.6,0) {$11$};\n\\node[below] at (5,0) {$20$};\n\\node[left] at (0,2) {$\\frac{1}{15}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[-4,6]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-2.4,0) -- (3.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (-1.6,0) -- (-1.6,2) -- (2.4,2) -- (2.4,0);\n\\node[below] at (-1.6,0) {$-4$};\n\\node[below left] at (0,0) {$0$};\n\\node[below] at (2.4,0) {$6$};\n\\node[left] at (-1.6,2) {$\\frac{1}{10}$};\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the variance of $X$.",
+        "structure": "uniform-mean-variance",
+        "solution_text": "$\\mu=\\frac{-4+6}{2}$\n$=1$\n$\\sigma^{2}=\\frac{(6-(-4))^{2}}{12}$\n$=\\frac{100}{12}$\n$=\\frac{25}{3}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-2.4,0) -- (3.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (-1.6,0) -- (-1.6,2) -- (2.4,2) -- (2.4,0);\n\\draw[dashed] (0.4,0) -- (0.4,2);\n\\node[below] at (-1.6,0) {$-4$};\n\\node[below left] at (0,0) {$0$};\n\\node[below] at (2.4,0) {$6$};\n\\node[above right] at (0.4,2) {$\\mu=1$};\n\\node[left] at (-1.6,2) {$\\frac{1}{10}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[2,10]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$2$};\n\\node[below] at (5,0) {$10$};\n\\node[left] at (0,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]\nFind $P(6\\le X\\le 14)$.",
+        "structure": "uniform-probability-interval",
+        "solution_text": "$f(x)=0$ beyond $x=10$, so the interval is cut back to $[6,10]$.\n$P(6\\le X\\le 14)=\\frac{10-6}{10-2}$\n$=\\frac{4}{8}$\n$=\\frac{1}{2}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (3,0) rectangle (5,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$2$};\n\\node[below] at (3,0) {$6$};\n\\node[below] at (5,0) {$10$};\n\\node[left] at (0,2) {$\\frac{1}{8}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A machine cuts cord to a length, in centimetres, that is uniformly distributed on $[118,130]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$118$};\n\\node[below] at (5,0) {$130$};\n\\node[left] at (0,2) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]\nFind the probability that a cut length is longer than $127$ cm.",
+        "structure": "uniform-context",
+        "solution_text": "$P(X>127)=\\frac{130-127}{130-118}$\n$=\\frac{3}{12}$\n$=\\frac{1}{4}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (4,0) rectangle (5,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$118$};\n\\node[below] at (4,0) {$127$};\n\\node[below] at (5,0) {$130$};\n\\node[left] at (0,2) {$\\frac{1}{12}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[1,b]$ and has variance $3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (5,0) {$b$};\n\\end{tikzpicture}\n[/tikz]\nFind $b$.",
+        "structure": "reverse-mean-variance",
+        "solution_text": "$\\frac{(b-1)^{2}}{12}=3$\n$(b-1)^{2}=36$\n$b-1=6$ or $b-1=-6$\n$b=7$ or $b=-5$\n$b=-5$ is rejected because $b$ must be greater than $a=1$.\n$b=7$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A uniformly distributed random variable $X$ has mean $9$ and variance $12$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$a$};\n\\node[below] at (5,0) {$b$};\n\\end{tikzpicture}\n[/tikz]\nFind $a$ and $b$.",
+        "structure": "reverse-mean-variance",
+        "solution_text": "$\\frac{a+b}{2}=9$\n$a+b=18$\n$\\frac{(b-a)^{2}}{12}=12$\n$(b-a)^{2}=144$\n$b-a=12$\nAdding the two equations gives $2b=30$.\n$b=15$\n$a=18-15$\n$=3$"
+      },
+      {
+        "question_text": "A uniform density has $f(x)=\\frac{1}{9}$, and $P(X\\le 6)=\\frac{2}{3}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$a$};\n\\node[below] at (5,0) {$b$};\n\\node[left] at (0,2) {$\\frac{1}{9}$};\n\\end{tikzpicture}\n[/tikz]\nFind the interval $[a,b]$ on which $X$ is defined.",
+        "structure": "interval-from-density",
+        "solution_text": "$b-a=9$\n$\\frac{6-a}{9}=\\frac{2}{3}$\n$6-a=6$\n$a=0$\n$b=0+9$\n$=9$\nThe interval is $[0,9]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (1,0) rectangle (3.67,2);\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\draw[dashed] (0,2) -- (1,2);\n\\node[below] at (1,0) {$0$};\n\\node[below] at (3.67,0) {$6$};\n\\node[below] at (5,0) {$9$};\n\\node[left] at (0,2) {$\\frac{1}{9}$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ is uniformly distributed on $[6,24]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[-{Stealth}] (-0.5,0) -- (6.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-0.4) -- (0,3.0) node[above] {$y$};\n\\draw[thick] (1,0) -- (1,2) -- (5,2) -- (5,0);\n\\node[below] at (1,0) {$6$};\n\\node[below] at (5,0) {$24$};\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the exact standard deviation of $X$.",
+        "structure": "uniform-mean-variance",
+        "solution_text": "$\\mu=\\frac{6+24}{2}$\n$=15$\n$\\sigma^{2}=\\frac{(24-6)^{2}}{12}$\n$=\\frac{324}{12}$\n$=27$\n$\\sigma=\\sqrt{27}$\n$=3\\sqrt{3}$"
+      }
+    ]
+  }
+}

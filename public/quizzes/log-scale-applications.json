@@ -1,0 +1,109 @@
+{
+  "skillId": "log-scale-applications",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "One earthquake has a ground amplitude $1000$ times that of another. Richter magnitude is given by $M=\\log_{10}A$. What is the difference between the two magnitudes?",
+      "structure": "ratio-to-level-difference",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$1000$", "why": "Treated the scale as linear, reading the amplitude ratio straight off as the difference in magnitude." },
+        { "text": "$10$", "why": "Gave the base of the scale rather than the index that produces the ratio." },
+        { "text": "$100$", "why": "Divided the ratio by the base once instead of taking its logarithm." }
+      ],
+      "solution_text": "$M_{1}-M_{2}=\\log_{10}\\dfrac{A_{1}}{A_{2}}$\n$=\\log_{10}1000$\n$=3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Sound level is given by $S=10\\log_{10}\\dfrac{I}{I_{0}}$. A machine's sound intensity is multiplied by $1000$. By how many decibels does its level rise?",
+      "structure": "decibel-change-from-intensity-ratio",
+      "mastery": false,
+      "options": [
+        { "text": "$30$ dB", "correct": true },
+        { "text": "$3$ dB", "why": "Took $\\log_{10}1000=3$ but left out the factor of $10$ in the decibel formula." },
+        { "text": "$1000$ dB", "why": "Treated the scale as linear, adding the intensity ratio straight to the level." },
+        { "text": "$10\\,000$ dB", "why": "Multiplied the intensity ratio by $10$ instead of taking its logarithm first." }
+      ],
+      "solution_text": "Rise $=10\\log_{10}1000$\n$=10\\times3$\n$=30$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The hydrogen-ion concentration of a solution is multiplied by $100\\,000$. Using $pH=-\\log_{10}M$, how does the pH change?",
+      "structure": "ph-change-from-concentration-change",
+      "mastery": false,
+      "options": [
+        { "text": "It falls by $5$.", "correct": true },
+        { "text": "It rises by $5$.", "why": "Missed the minus sign in $pH=-\\log_{10}M$, so the direction of the change is reversed." },
+        { "text": "It falls by $100\\,000$.", "why": "Treated the scale as linear, subtracting the concentration ratio from the pH." },
+        { "text": "It rises by $100\\,000$.", "why": "Treated the scale as linear and also missed the minus sign in the formula." }
+      ],
+      "solution_text": "$pH_{\\text{new}}-pH_{\\text{old}}=-\\log_{10}M_{\\text{new}}+\\log_{10}M_{\\text{old}}$\n$=-\\log_{10}\\dfrac{M_{\\text{new}}}{M_{\\text{old}}}$\n$=-\\log_{10}100\\,000$\n$=-5$\nThe pH falls by $5$."
+    },
+    {
+      "id": "q4",
+      "question_text": "Star magnitudes satisfy $m_{1}-m_{2}=-2.5\\log_{10}\\dfrac{b_{1}}{b_{2}}$, where $b$ is brightness. Star X has magnitude $3.5$ and star Y has magnitude $6.0$. How many times brighter is star X than star Y?",
+      "structure": "star-magnitude-ratio",
+      "mastery": true,
+      "options": [
+        { "text": "$10$ times", "correct": true },
+        { "text": "$2.5$ times", "why": "Treated the scale as linear, reading the difference in magnitude as the brightness ratio." },
+        { "text": "$316$ times", "why": "Raised $10$ to the magnitude difference of $2.5$ without dividing by the factor $2.5$." },
+        { "text": "$6.25$ times", "why": "Multiplied the magnitude difference by $2.5$ instead of dividing by it." }
+      ],
+      "solution_text": "$3.5-6.0=-2.5\\log_{10}\\dfrac{b_{X}}{b_{Y}}$\n$-2.5=-2.5\\log_{10}\\dfrac{b_{X}}{b_{Y}}$\n$\\log_{10}\\dfrac{b_{X}}{b_{Y}}=1$\n$\\dfrac{b_{X}}{b_{Y}}=10$"
+    },
+    {
+      "id": "q5",
+      "question_text": "One air-conditioning unit measures $54$ dB. Four identical units run together, giving four times the sound intensity. Using $S=10\\log_{10}\\dfrac{I}{I_{0}}$, what is the sound level of the four units, correct to one decimal place?",
+      "structure": "combine-identical-sources",
+      "mastery": false,
+      "options": [
+        { "text": "$60.0$ dB", "correct": true },
+        { "text": "$216$ dB", "why": "Multiplied the decibel reading by $4$, treating the scale as linear." },
+        { "text": "$58.0$ dB", "why": "Added $4$ decibels because there are four units, instead of adding $10\\log_{10}4$." },
+        { "text": "$94.0$ dB", "why": "Added $10$ dB for each of the three extra units rather than $10\\log_{10}4$ in total." }
+      ],
+      "solution_text": "Rise $=10\\log_{10}4$\n$=10\\times0.6020\\ldots$\n$=6.02\\ldots$\nNew level $=54+6.02\\ldots$\n$=60.0$ dB"
+    },
+    {
+      "id": "q6",
+      "question_text": "The graph plots $\\log_{10}V$ against time for an investment, where $V$ is the value in dollars. By what factor did the investment grow over the $40$ years shown?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=9cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-2,xmax=46,ymin=0,ymax=5.6,xtick={0,5,...,40},ytick={0,0.5,...,5},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$t$ (years)},ylabel={$\\log_{10}V$},ylabel near ticks]\n\\addplot[thick,blue!70!black,domain=0:40,samples=2] {3+0.05*x};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "semi-log-graph-read",
+      "mastery": false,
+      "options": [
+        { "text": "$100$ times", "correct": true },
+        { "text": "$2$ times", "why": "Read the rise of $2$ on the logarithmic axis as the growth factor itself." },
+        { "text": "About $1.7$ times", "why": "Divided the final reading $5$ by the starting reading $3$ instead of subtracting them." },
+        { "text": "$20$ times", "why": "Multiplied the rise of $2$ by $10$ rather than raising $10$ to that power." }
+      ],
+      "solution_text": "At $t=0$ the graph reads $3$ and at $t=40$ it reads $5$.\n$5-3=2$\n$\\dfrac{V_{40}}{V_{0}}=10^{2}$\n$=100$\nThe investment grew to $100$ times its starting value."
+    },
+    {
+      "id": "q7",
+      "question_text": "Richter magnitude is given by $M=\\log_{10}A$, where $A$ is the ground amplitude. Which statement is correct?",
+      "structure": "interpret-linear-misreading",
+      "mastery": true,
+      "options": [
+        { "text": "A magnitude-$7$ earthquake has $100$ times the ground amplitude of a magnitude-$5$ earthquake.", "correct": true },
+        { "text": "A magnitude-$7$ earthquake has twice the ground amplitude of a magnitude-$5$ earthquake.", "why": "Divided the magnitudes, treating the scale as linear when it records indices." },
+        { "text": "A magnitude-$7$ earthquake has $10$ times the ground amplitude of a magnitude-$5$ earthquake.", "why": "Used a magnitude difference of $1$ rather than the actual difference of $2$." },
+        { "text": "A magnitude-$7$ earthquake has $2$ more units of ground amplitude than a magnitude-$5$ earthquake.", "why": "Read the difference in magnitude as a difference in amplitude rather than as an index." }
+      ],
+      "solution_text": "$7-5=2$\n$\\dfrac{A_{1}}{A_{2}}=10^{2}$\n$=100$\nThe magnitude-$7$ earthquake has $100$ times the ground amplitude."
+    },
+    {
+      "id": "q8",
+      "question_text": "A workshop tool's sound intensity is reduced to one quarter of its original value. Using $S=10\\log_{10}\\dfrac{I}{I_{0}}$, by how many decibels does its level fall, correct to one decimal place?",
+      "structure": "decibel-change-from-intensity-ratio",
+      "mastery": true,
+      "options": [
+        { "text": "$6.0$ dB", "correct": true },
+        { "text": "$0.6$ dB", "why": "Found $\\log_{10}4=0.602$ but left out the factor of $10$ in the decibel formula." },
+        { "text": "$4.0$ dB", "why": "Treated the scale as linear, subtracting the intensity ratio of $4$ from the level." },
+        { "text": "$12.0$ dB", "why": "Costed each halving at $6$ dB instead of $3$ dB, so doubled the true drop." }
+      ],
+      "solution_text": "Fall $=10\\log_{10}4$\n$=10\\times0.60205\\ldots$\n$=6.020\\ldots$\n$=6.0$ dB"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "skillId": "normal-distribution-features",
+  "atomType": "F",
+  "theory": {
+    "intro": "The **normal curve** is the graph of a probability density function, so an area under it is a probability. Its total area is $1$, it is symmetrical about the mean $\\mu$, and its **points of inflection** sit at $\\mu-\\sigma$ and $\\mu+\\sigma$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.3cm, y=1cm]\n\\draw[thick] plot[domain=-3.2:3.2, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-3.6,0) -- (3.9,0) node[right] {$x$};\n\\draw[dashed] (0,0) -- (0,2.4);\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\node[right, font=\\small] at (1.2,1.95) {points of inflection};\n\\node[font=\\small] at (0,2.8) {area $=1$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "The total area under a normal curve is $1$, because every value of the variable lies somewhere under the curve.",
+      "The curve is symmetrical about the mean, so the mean, the median and the mode all sit at $x=\\mu$.",
+      "The **global maximum** is the peak at $x=\\mu$; the curve falls away on both sides and never reaches the horizontal axis.",
+      "The **points of inflection**, where the curve stops bending downwards and starts bending upwards, are at $\\mu-\\sigma$ and $\\mu+\\sigma$.",
+      "Changing $\\mu$ slides the whole curve left or right along the axis without changing its shape.",
+      "A larger $\\sigma$ spreads the curve wider, and since the area stays $1$ the peak must become lower.",
+      "A smaller $\\sigma$ makes the curve narrower and taller, with the values packed more tightly around the mean.",
+      "A context suits a normal model when its values are continuous, cluster about one centre, and fall away evenly on both sides."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A normal random variable has mean $\\mu=60$ and standard deviation $\\sigma=8$. Write down the $x$-values of the two points of inflection of its curve.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$60$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "inflection-points-from-parameters",
+        "solution_text": "$\\mu-\\sigma$\n$=60-8$\n$=52$\n$\\mu+\\sigma$\n$=60+8$\n$=68$"
+      },
+      {
+        "question_text": "A normal random variable has mean $\\mu=200$ and standard deviation $\\sigma=15$. Write down the $x$-values of the two points of inflection of its curve.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$200$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "inflection-points-from-parameters",
+        "solution_text": "$\\mu-\\sigma$\n$=200-15$\n$=185$\n$\\mu+\\sigma$\n$=200+15$\n$=215$"
+      },
+      {
+        "question_text": "The two points of inflection of the normal curve below are marked. Find the mean and the standard deviation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (-1,0) -- (-1,1.46);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$34$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$46$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sigma-from-inflection",
+        "solution_text": "The mean sits halfway between the two points of inflection.\n$\\mu$\n$=\\frac{34+46}{2}$\n$=40$\n$\\sigma$\n$=46-40$\n$=6$"
+      },
+      {
+        "question_text": "A normal curve has mean $12$, and one of its points of inflection is marked at $x=12.5$. Find the standard deviation and the other point of inflection.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$12$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$12.5$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sigma-from-inflection",
+        "solution_text": "A point of inflection is one standard deviation from the mean.\n$\\sigma$\n$=12.5-12$\n$=0.5$\n$\\mu-\\sigma$\n$=12-0.5$\n$=11.5$"
+      },
+      {
+        "question_text": "Curves $P$ and $Q$ are normal curves drawn on the same axes. Which curve has the larger standard deviation? Give a reason.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=1cm]\n\\draw[->] (-4.6,0) -- (4.8,0) node[right] {$x$};\n\\draw[thick] plot[domain=-4.4:4.4, samples=100, smooth, variable=\\x] ({\\x},{3*exp(-\\x*\\x/2)});\n\\draw[thick] plot[domain=-4.4:4.4, samples=100, smooth, variable=\\x] ({\\x},{1.5*exp(-\\x*\\x/8)});\n\\draw (-2.6,2.2) node[left, font=\\small] {$P$} -- (-1.1,1.64);\n\\draw (3.2,1.4) node[right, font=\\small] {$Q$} -- (2.0,0.91);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "effect-of-changing-sigma",
+        "solution_text": "Curve $Q$ is wider and its peak is lower, so its values are spread further from the mean.\nCurve $Q$ has the larger standard deviation."
+      },
+      {
+        "question_text": "Curves $P$ and $Q$ are normal curves drawn on the same axes with the same scale. Which curve has the larger mean? Give a reason.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=1cm]\n\\draw[->] (-5.4,0) -- (5.6,0) node[right] {$x$};\n\\draw[thick] plot[domain=-5.2:1.4, samples=90, smooth, variable=\\x] ({\\x},{2.6*exp(-(\\x+2)*(\\x+2)/2)});\n\\draw[thick] plot[domain=-1.4:5.2, samples=90, smooth, variable=\\x] ({\\x},{2.6*exp(-(\\x-2)*(\\x-2)/2)});\n\\draw (-4.2,2.3) node[left, font=\\small] {$P$} -- (-2.9,1.73);\n\\draw (4.2,2.3) node[right, font=\\small] {$Q$} -- (2.9,1.73);\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "effect-of-changing-mu",
+        "solution_text": "A normal curve is symmetrical about its mean, so the mean is the $x$-value of the peak.\nThe peak of $Q$ is further right along the axis than the peak of $P$.\nCurve $Q$ has the larger mean."
+      },
+      {
+        "question_text": "$X$ is normally distributed with mean $25$. Find $P(X>25)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (0,0) -- plot[domain=0:3.6, samples=60, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (3.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$25$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "area-and-symmetry",
+        "solution_text": "The total area under the curve is $1$, and the curve is symmetrical about the mean.\n$P(X>25)$\n$=\\frac{1}{2}\\times 1$\n$=0.5$"
+      },
+      {
+        "question_text": "The masses of a large sample of newborn babies are recorded. Explain whether a normal random variable is a reasonable model for this context.",
+        "structure": "identify-normal-context",
+        "solution_text": "Mass is a continuous quantity, so it can take any value in a range.\nMost newborns have a mass close to the middle of the range, and the numbers of unusually light and unusually heavy babies fall away at about the same rate on each side.\nYes, a normal random variable is a reasonable model."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "$X$ has mean $50$ and standard deviation $4$. $Y$ has mean $50$ and standard deviation $8$. Describe how the curve of $Y$ differs from the curve of $X$.",
+        "structure": "effect-of-changing-sigma",
+        "solution_text": "Both curves are symmetrical about $50$, so they have the same centre and the same peak position.\nThe standard deviation of $Y$ is twice that of $X$, so the curve of $Y$ is twice as spread out.\nThe area under each curve is still $1$, so the wider curve of $Y$ has the lower peak.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.9cm, y=1cm]\n\\draw[->] (-4.6,0) -- (4.8,0) node[right] {$x$};\n\\draw[thick] plot[domain=-4.4:4.4, samples=100, smooth, variable=\\x] ({\\x},{3*exp(-\\x*\\x/2)});\n\\draw[thick] plot[domain=-4.4:4.4, samples=100, smooth, variable=\\x] ({\\x},{1.5*exp(-\\x*\\x/8)});\n\\draw (-2.6,2.2) node[left, font=\\small] {$X$} -- (-1.1,1.64);\n\\draw (3.2,1.4) node[right, font=\\small] {$Y$} -- (2.0,0.91);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$50$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "$X$ has mean $30$ and standard deviation $4$. $Y$ has mean $42$ and standard deviation $4$. Describe how the curve of $Y$ differs from the curve of $X$.",
+        "structure": "effect-of-changing-mu",
+        "solution_text": "The two standard deviations are equal, so the two curves have exactly the same width and the same peak height.\n$42-30$\n$=12$\nThe curve of $Y$ is the curve of $X$ slid $12$ units to the right.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=1cm]\n\\draw[->] (-5.4,0) -- (5.6,0) node[right] {$x$};\n\\draw[thick] plot[domain=-5.2:1.4, samples=90, smooth, variable=\\x] ({\\x},{2.6*exp(-(\\x+2)*(\\x+2)/2)});\n\\draw[thick] plot[domain=-1.4:5.2, samples=90, smooth, variable=\\x] ({\\x},{2.6*exp(-(\\x-2)*(\\x-2)/2)});\n\\draw (-4.2,2.3) node[left, font=\\small] {$X$} -- (-2.9,1.73);\n\\draw (4.2,2.3) node[right, font=\\small] {$Y$} -- (2.9,1.73);\n\\draw (-2,0) -- (-2,-0.12) node[below, font=\\small] {$30$};\n\\draw (2,0) -- (2,-0.12) node[below, font=\\small] {$42$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "For a normal curve the area between $\\mu-\\sigma$ and $\\mu$ is $0.34$. Use the symmetry of the curve and its total area to find the area to the right of $\\mu+\\sigma$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (1,0) -- plot[domain=1:3.6, samples=50, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (3.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$\\mu-\\sigma$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$\\mu$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$\\mu+\\sigma$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "area-and-symmetry",
+        "solution_text": "The curve is symmetrical about $\\mu$, so the area between $\\mu$ and $\\mu+\\sigma$ is also $0.34$.\nThe area to the right of $\\mu$ is half the total area, which is $0.5$.\n$P(X>\\mu+\\sigma)$\n$=0.5-0.34$\n$=0.16$"
+      },
+      {
+        "question_text": "A normal random variable has mean $\\mu=7.4$ and standard deviation $\\sigma=1.2$. Write down the $x$-values of the two points of inflection of its curve.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$7.4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "inflection-points-from-parameters",
+        "solution_text": "$\\mu-\\sigma$\n$=7.4-1.2$\n$=6.2$\n$\\mu+\\sigma$\n$=7.4+1.2$\n$=8.6$"
+      },
+      {
+        "question_text": "A normal curve is symmetrical about $x=90$, and one of its points of inflection is at $x=103$. Find the standard deviation and the other point of inflection.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$90$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$103$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "sigma-from-inflection",
+        "solution_text": "The curve is symmetrical about its mean, so $\\mu=90$.\n$\\sigma$\n$=103-90$\n$=13$\n$\\mu-\\sigma$\n$=90-13$\n$=77$"
+      },
+      {
+        "question_text": "Customers at a help desk wait a mean of $4$ minutes, but a small number of them wait more than $30$ minutes. Explain whether a normal random variable is a reasonable model for the waiting times.",
+        "structure": "identify-normal-context",
+        "solution_text": "A normal curve is symmetrical about its mean, so values far above the mean must be as common as values the same distance below it.\nA wait of $30$ minutes is $26$ minutes above the mean, but a wait $26$ minutes below the mean is impossible.\nThe long tail on the right makes the distribution skewed, so a normal random variable is not a reasonable model."
+      },
+      {
+        "question_text": "Two normal curves are drawn on the same axes and have the same mean. One has a peak height of $0.4$ and the other has a peak height of $0.2$. Explain which curve has the larger standard deviation.",
+        "structure": "effect-of-changing-sigma",
+        "solution_text": "Each curve encloses a total area of $1$.\nThe curve with the peak height of $0.2$ is only half as tall, so it must be spread over a wider interval to enclose the same area.\nThe curve with the peak height of $0.2$ has the larger standard deviation."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The curve of $X$ has points of inflection at $x=118$ and $x=142$. The curve of $Y$ has points of inflection at $x=124$ and $x=136$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.6cm, y=1cm]\n\\draw[thick] plot[domain=-3.4:3.4, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[thick, dashed] plot[domain=-1.8:1.8, samples=90, smooth, variable=\\x] ({\\x},{3.4*exp(-2*\\x*\\x)});\n\\draw[->] (-3.8,0) -- (4.0,0) node[right] {$x$};\n\\fill (-1,1.456) circle (2pt);\n\\fill (1,1.456) circle (2pt);\n\\fill (-0.5,2.062) circle (2pt);\n\\fill (0.5,2.062) circle (2pt);\n\\draw (-1,0) -- (-1,-0.14) node[below, font=\\small] {$118$};\n\\draw (1,0) -- (1,-0.14) node[below, font=\\small] {$142$};\n\\draw (-0.5,0) -- (-0.5,-0.72) node[below, font=\\small] {$124$};\n\\draw (0.5,0) -- (0.5,-0.72) node[below, font=\\small] {$136$};\n\\node[right, font=\\small] at (1.5,1.5) {curve of $X$};\n\\node[right, font=\\small] at (0.75,3.0) {curve of $Y$};\n\\end{tikzpicture}\n[/tikz]\nFind the mean and the standard deviation of each variable, and state which curve has the higher peak, giving a reason.",
+        "structure": "sigma-from-inflection",
+        "solution_text": "The mean sits halfway between the two points of inflection.\n$\\mu_X$\n$=\\frac{118+142}{2}$\n$=130$\n$\\sigma_X$\n$=142-130$\n$=12$\n$\\mu_Y$\n$=\\frac{124+136}{2}$\n$=130$\n$\\sigma_Y$\n$=136-130$\n$=6$\nThe two curves have the same mean, but $\\sigma_Y$ is smaller, so the curve of $Y$ is narrower.\nThe area under each curve is $1$, so the narrower curve must be the taller one.\nThe curve of $Y$ has the higher peak."
+      },
+      {
+        "question_text": "$X$ has mean $60$ and standard deviation $5$. $Y$ has the same mean, and the points of inflection of its curve are twice as far from the mean as those of $X$. State the standard deviation of $Y$ and compare the peak heights of the two curves.",
+        "structure": "effect-of-changing-sigma",
+        "solution_text": "The points of inflection of $X$ are at $60\\pm 5$, so those of $Y$ are at $60\\pm 10$.\n$\\sigma_Y$\n$=2\\times 5$\n$=10$\nThe area under each curve is $1$, and the curve of $Y$ is spread over twice the width.\nThe peak of $Y$ is lower than the peak of $X$."
+      },
+      {
+        "question_text": "A student draws two normal curves on one set of axes, one with $\\sigma=4$ and one with $\\sigma=8$, and makes the two peaks the same height. Explain why the drawing must be wrong.",
+        "structure": "effect-of-changing-sigma",
+        "solution_text": "Every normal curve encloses a total area of $1$.\nThe curve with $\\sigma=8$ is twice as spread out as the curve with $\\sigma=4$, so it covers roughly twice the width of the axis.\nIf it also had the same peak height, it would enclose about twice the area, and both areas cannot equal $1$.\nThe wider curve must have the lower peak, so the drawing is wrong."
+      }
+    ]
+  }
+}

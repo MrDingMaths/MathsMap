@@ -1,0 +1,115 @@
+{
+  "skillId": "solve-inequality-abs-both-sides",
+  "atomType": "R",
+  "theory": {
+        "intro": "When both sides vary, an absolute value inequality cannot be split by a single rule. Sketch $y = |f(x)|$ and $y = g(x)$ and read where one lies above the other, or split into cases where an expression inside the bars is $0$.",
+        "facts": [
+          "When both sides are absolute values, $|f(x)| \\le |g(x)|$ means $[f(x)]^2 \\le [g(x)]^2$, so $[f(x) - g(x)][f(x) + g(x)] \\le 0$.",
+          "Do not square $|f(x)| < g(x)$ unless $g(x) > 0$, because squaring adds false solutions where $g(x)$ is negative.",
+          "**Case analysis** splits at $f(x) = 0$: use $|f(x)| = f(x)$ where $f(x) \\ge 0$, and $|f(x)| = -f(x)$ where $f(x) < 0$.",
+          "A solution found in one case must be intersected with that case's own condition on $x$.",
+          "Graphically, solve $f(x) = g(x)$ and $-f(x) = g(x)$ for the intersections, then read off where $|f(x)|$ is above or below $g(x)$.",
+          "Since $|x - a| > 0$ for all $x \\neq a$, multiplying by $|x - a|$ never reverses the inequality."
+        ],
+        "steps": [
+          "Choose an appropriate method: squaring both sides (if both sides are absolute values), case analysis, or graphical sketching.",
+          "For case analysis, split the domain at the critical values where expressions inside absolute value bars equal $0$.",
+          "Solve the resulting algebraic inequality in each case.",
+          "Intersect each case solution with its defining domain condition.",
+          "Take the union of the valid solutions from all cases to form the complete solution set."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Solve $|x + 2| \\le |x - 4|$.",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(x + 2)^2 \\le (x - 4)^2$\n$x^2 + 4x + 4 \\le x^2 - 8x + 16$\n$12x \\le 12$\n$x \\le 1$"
+      },
+      {
+        "question_text": "Solve $|2x - 3| < |x + 3|$.",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(2x - 3)^2 < (x + 3)^2$\n$(2x - 3)^2 - (x + 3)^2 < 0$\n$[(2x - 3) - (x + 3)][(2x - 3) + (x + 3)] < 0$\n$(x - 6)(3x) < 0$\n$3x(x - 6) < 0$\n$0 < x < 6$"
+      },
+      {
+        "question_text": "Solve $|3x + 1| \\ge |3x - 5|$.",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(3x + 1)^2 \\ge (3x - 5)^2$\n$9x^2 + 6x + 1 \\ge 9x^2 - 30x + 25$\n$36x \\ge 24$\n$x \\ge \\dfrac{2}{3}$"
+      },
+      {
+        "question_text": "Solve $|x - 3| < x + 5$.",
+        "structure": "solve-abs-vs-linear-function",
+        "solution_text": "For $x \\ge 3$:\n$x - 3 < x + 5 \\implies -3 < 5$, true for all $x \\ge 3$.\nFor $x < 3$:\n$-(x - 3) < x + 5$\n$-x + 3 < x + 5$\n$-2x < 2 \\implies x > -1$\nInterval: $-1 < x < 3$.\nCombining both cases:\n$x > -1$"
+      },
+      {
+        "question_text": "Solve $|2x - 5| > x$.",
+        "structure": "solve-abs-vs-linear-function",
+        "solution_text": "For $x \\ge \\dfrac{5}{2}$:\n$2x - 5 > x \\implies x > 5$\nFor $x < \\dfrac{5}{2}$:\n$-(2x - 5) > x$\n$-2x + 5 > x$\n$-3x > -5 \\implies x < \\dfrac{5}{3}$\nCombining cases:\n$x < \\dfrac{5}{3}$ or $x > 5$"
+      },
+      {
+        "question_text": "Solve $|x| \\le 6 - x^2$.",
+        "structure": "solve-abs-quadratic-composite",
+        "solution_text": "$|x|^2 + |x| - 6 \\le 0$\n$(|x| + 3)(|x| - 2) \\le 0$\nSince $|x| + 3 > 0$ for all real $x$:\n$|x| - 2 \\le 0$\n$|x| \\le 2$\n$-2 \\le x \\le 2$"
+      },
+      {
+        "question_text": "Solve $|3x + 2| \\le 2x + 5$.",
+        "structure": "solve-abs-vs-linear-function",
+        "solution_text": "For $x \\ge -\\dfrac{2}{3}$:\n$3x + 2 \\le 2x + 5 \\implies x \\le 3$\nInterval: $-\\dfrac{2}{3} \\le x \\le 3$.\nFor $x < -\\dfrac{2}{3}$:\n$-(3x + 2) \\le 2x + 5$\n$-3x - 2 \\le 2x + 5$\n$-5x \\le 7 \\implies x \\ge -\\dfrac{7}{5}$\nInterval: $-\\dfrac{7}{5} \\le x < -\\dfrac{2}{3}$.\nCombining cases:\n$-\\dfrac{7}{5} \\le x \\le 3$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $|2x + 1| \\le |x - 5|$.",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(2x + 1)^2 \\le (x - 5)^2$\n$4x^2 + 4x + 1 \\le x^2 - 10x + 25$\n$3x^2 + 14x - 24 \\le 0$\n$(3x - 4)(x + 6) \\le 0$\nCritical values: $x = -6, \\dfrac{4}{3}$.\n$-6 \\le x \\le \\dfrac{4}{3}$"
+      },
+      {
+        "question_text": "Solve $|4x - 3| > 2x + 3$.",
+        "structure": "solve-abs-vs-linear-function",
+        "solution_text": "For $x \\ge \\dfrac{3}{4}$:\n$4x - 3 > 2x + 3 \\implies 2x > 6 \\implies x > 3$\nFor $x < \\dfrac{3}{4}$:\n$-(4x - 3) > 2x + 3$\n$-4x + 3 > 2x + 3$\n$-6x > 0 \\implies x < 0$\nCombining cases:\n$x < 0$ or $x > 3$"
+      },
+      {
+        "question_text": "Solve $|x^2 - 5| < 4$.",
+        "structure": "solve-abs-quadratic-composite",
+        "solution_text": "$-4 < x^2 - 5 < 4$\n$1 < x^2 < 9$\nTaking square roots:\n$-3 < x < -1$ or $1 < x < 3$"
+      },
+      {
+        "question_text": "Solve $\\dfrac{x}{3} \\ge \\dfrac{1}{|x - 2|}$.",
+        "structure": "solve-abs-denominator-variable",
+        "solution_text": "Restriction: $x \\neq 2$.\nSince $|x - 2| > 0$, multiply by $3|x - 2|$:\n$x|x - 2| \\ge 3$\nFor $x > 2$:\n$x(x - 2) \\ge 3 \\implies x^2 - 2x - 3 \\ge 0 \\implies (x - 3)(x + 1) \\ge 0$\nSince $x > 2$, this gives $x \\ge 3$.\nFor $x < 2$:\n$-x(x - 2) \\ge 3 \\implies -x^2 + 2x \\ge 3 \\implies x^2 - 2x + 3 \\le 0$\nDiscriminant $\\Delta = 4 - 12 = -8 < 0$, no real solution.\n$x \\ge 3$"
+      },
+      {
+        "question_text": "Solve $|x| + 2 < 14 - x^2$.",
+        "structure": "solve-abs-quadratic-composite",
+        "solution_text": "$|x|^2 + |x| - 12 < 0$\n$(|x| + 4)(|x| - 3) < 0$\nSince $|x| + 4 > 0$ for all real $x$:\n$|x| - 3 < 0$\n$|x| < 3$\n$-3 < x < 3$"
+      },
+      {
+        "question_text": "Solve $|3x - 2| > |x + 6|$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.55]\n\\draw[->] (-8,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,-1) -- (0,12.5) node[above] {$y$};\n\\node[below left] at (0,0) {$0$};\n\\draw[thick, blue, <->] (-3.167,11.5) -- (0.6667,0) -- (4.5,11.5) node[pos=0.9, right] {$y = |3x - 2|$};\n\\draw[thick, red, <->] (-7.5,1.5) -- (-6,0) -- (5.5,11.5) node[pos=0.85, left] {$y = |x + 6|$};\n\\fill (-6,0) circle (2.5pt) node[below] {$-6$};\n\\fill (0.6667,0) circle (2.5pt) node[below] {$\\dfrac{2}{3}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(3x - 2)^2 > (x + 6)^2$\n$(3x - 2)^2 - (x + 6)^2 > 0$\n$[(3x - 2) - (x + 6)][(3x - 2) + (x + 6)] > 0$\n$(2x - 8)(4x + 4) > 0$\n$8(x - 4)(x + 1) > 0$\nCritical values: $x = -1, 4$.\n$x < -1$ or $x > 4$"
+      },
+      {
+        "question_text": "Solve $\\left|x + \\dfrac{1}{x}\\right| < 3x$.",
+        "structure": "solve-abs-case-analysis-rational",
+        "solution_text": "Since LHS $\\ge 0$, $3x > 0 \\implies x > 0$.\nFor $x > 0$, $x + \\dfrac{1}{x} > 0$, so $\\left|x + \\dfrac{1}{x}\\right| = x + \\dfrac{1}{x}$.\n$x + \\dfrac{1}{x} < 3x$\n$\\dfrac{1}{x} < 2x$\nMultiply by $x > 0$:\n$1 < 2x^2$\n$x^2 > \\dfrac{1}{2}$\nSince $x > 0$:\n$x > \\dfrac{1}{\\sqrt{2}}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $5 - x > \\dfrac{1}{|x - 4|}$.",
+        "structure": "solve-abs-denominator-variable",
+        "solution_text": "Restriction: $x \\neq 4$.\nMultiply by $|x - 4| > 0$:\n$(5 - x)|x - 4| > 1$\nFor $x > 4$:\n$(5 - x)(x - 4) > 1 \\implies -x^2 + 9x - 20 > 1 \\implies x^2 - 9x + 21 < 0$\nDiscriminant $\\Delta = 81 - 84 = -3 < 0$, no real solution.\nFor $x < 4$:\n$-(5 - x)(x - 4) > 1 \\implies (x - 5)(x - 4) > 1 \\implies x^2 - 9x + 20 > 1 \\implies x^2 - 9x + 19 > 0$\nRoots: $x = \\dfrac{9 \\pm \\sqrt{5}}{2}$.\nIntersecting $x < \\dfrac{9 - \\sqrt{5}}{2}$ or $x > \\dfrac{9 + \\sqrt{5}}{2}$ with $x < 4$:\n$x < \\dfrac{9 - \\sqrt{5}}{2}$"
+      },
+      {
+        "question_text": "Solve $|3x + 2| \\le |2x - 5|$.",
+        "structure": "solve-abs-both-sides-linear",
+        "solution_text": "Square both sides:\n$(3x + 2)^2 \\le (2x - 5)^2$\n$(3x + 2)^2 - (2x - 5)^2 \\le 0$\n$[(3x + 2) - (2x - 5)][(3x + 2) + (2x - 5)] \\le 0$\n$(x + 7)(5x - 3) \\le 0$\nCritical values: $x = -7, \\dfrac{3}{5}$.\n$-7 \\le x \\le \\dfrac{3}{5}$"
+      },
+      {
+        "question_text": "Solve $|x^2 - 3x| < 2x$.",
+        "structure": "solve-abs-vs-linear-function",
+        "solution_text": "Since $|x^2 - 3x| \\ge 0$, we require $2x > 0 \\implies x > 0$.\nSplit into double inequality:\n$-2x < x^2 - 3x < 2x$\nLeft inequality:\n$x^2 - 3x > -2x \\implies x^2 - x > 0 \\implies x(x - 1) > 0$\nSince $x > 0$, this requires $x > 1$.\nRight inequality:\n$x^2 - 3x < 2x \\implies x^2 - 5x < 0 \\implies x(x - 5) < 0$\nThis gives $0 < x < 5$.\nIntersecting $x > 1$ and $0 < x < 5$:\n$1 < x < 5$"
+      }
+    ]
+  }
+}

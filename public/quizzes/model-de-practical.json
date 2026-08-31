@@ -1,0 +1,108 @@
+{
+  "skillId": "model-de-practical",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A rumour spreads through a town of $5000$ people at a rate proportional to the product of the number $x$ who have heard it and the number who have not. Which differential equation models this?",
+      "structure": "write-the-de",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dx}{dt}=kx(5000-x)$", "correct": true },
+        { "text": "$\\dfrac{dx}{dt}=kx(5000+x)$", "why": "Added $x$ to the population instead of subtracting it, so the second factor is not the number who have not heard the rumour." },
+        { "text": "$\\dfrac{dx}{dt}=k(5000-x)$", "why": "Left out the factor $x$, making the rate proportional only to the number who have not heard it." },
+        { "text": "$\\dfrac{dx}{dt}=k(5000+x)$", "why": "Left out the factor $x$ and also added instead of subtracting." }
+      ],
+      "solution_text": "The number who have heard it is $x$.\nThe number who have not heard it is $5000-x$.\nThe rate is proportional to the product of these.\n$\\dfrac{dx}{dt}=kx(5000-x)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A tank holds $200$ litres of brine containing $S$ kg of salt. Pure water flows in at $5$ litres per minute, and the well-mixed solution flows out at $5$ litres per minute. Which differential equation models $S$?",
+      "structure": "write-the-de",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dS}{dt}=-\\dfrac{S}{40}$", "correct": true },
+        { "text": "$\\dfrac{dS}{dt}=-5S$", "why": "Used the flow rate as the constant, without dividing the salt by the volume of the tank." },
+        { "text": "$\\dfrac{dS}{dt}=-\\dfrac{S}{200}$", "why": "Used the concentration $\\frac{S}{200}$ but forgot to multiply it by the outflow of $5$ litres per minute." },
+        { "text": "$\\dfrac{dS}{dt}=-\\dfrac{200}{S}$", "why": "Inverted the concentration, dividing the volume by the mass of salt." }
+      ],
+      "solution_text": "The concentration in the tank is $\\dfrac{S}{200}$ kg per litre.\nSalt leaves at $5\\times\\dfrac{S}{200}$ kg per minute, and none enters.\n$\\dfrac{dS}{dt}=-\\dfrac{5S}{200}$\n$=-\\dfrac{S}{40}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A square metal sheet of side $x$ cm is heated, and its area increases at $0.6$ cm$^{2}$ per second. Find the rate at which the side length is increasing when $x=10$.",
+      "structure": "chain-rule-model",
+      "mastery": false,
+      "options": [
+        { "text": "$0.03$ cm/s", "correct": true },
+        { "text": "$0.06$ cm/s", "why": "Differentiated $x^{2}$ as $x$ instead of $2x$, leaving out the factor of $2$." },
+        { "text": "$0.006$ cm/s", "why": "Used $2x^{2}=200$ instead of $2x=20$ when applying the chain rule." },
+        { "text": "$6$ cm/s", "why": "Divided by $0.1$ rather than by $20$, inverting the derivative." }
+      ],
+      "solution_text": "$A=x^{2}$\n$\\dfrac{dA}{dt}=2x\\dfrac{dx}{dt}$\n$0.6=2\\times 10\\times\\dfrac{dx}{dt}$\n$\\dfrac{dx}{dt}=\\dfrac{0.6}{20}$\n$=0.03$ cm/s"
+    },
+    {
+      "id": "q4",
+      "question_text": "A population satisfies $\\dfrac{dP}{dt}=aP-b$, where $a$ and $b$ are positive constants and $t$ is in years. The population stays constant at $5000$, and when $P=2000$ it is falling at $45$ per year. Find $a$.",
+      "structure": "find-constant-from-data",
+      "mastery": false,
+      "options": [
+        { "text": "$a=0.015$", "correct": true },
+        { "text": "$a=0.009$", "why": "Divided $45$ by $5000$, using the equilibrium population instead of the difference between the two populations." },
+        { "text": "$a=0.0225$", "why": "Divided $45$ by $2000$, using only the second population and ignoring the equilibrium condition." },
+        { "text": "$a=0.03$", "why": "Divided $45$ by $1500$, taking the difference of the populations as $1500$ rather than $3000$." }
+      ],
+      "solution_text": "$5000a-b=0$, so $b=5000a$.\n$2000a-b=-45$\n$2000a-5000a=-45$\n$-3000a=-45$\n$a=0.015$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A herd is modelled by $\\dfrac{dW}{dt}=0.05W-2$, where $W$ is the number of animals in hundreds and $t$ is in years. What does the term $-2$ represent?",
+      "structure": "interpret-parameter",
+      "mastery": false,
+      "options": [
+        { "text": "$200$ animals are removed from the herd each year.", "correct": true },
+        { "text": "Two animals are removed from the herd each year.", "why": "Ignores the units: $W$ is measured in hundreds, so $2$ stands for $200$ animals." },
+        { "text": "The herd decreases by $2\\%$ each year.", "why": "Reads a constant term as a percentage; a percentage decrease would be a multiple of $W$, not a constant." },
+        { "text": "The herd is $200$ animals below its carrying capacity.", "why": "Reads the constant as a population level; it is a rate, measured in hundreds of animals per year." }
+      ],
+      "solution_text": "$0.05W$ is the natural increase, $5\\%$ of the herd each year.\n$-2$ is a constant rate of removal, in hundreds of animals per year.\nSince $W$ is in hundreds, $200$ animals are removed each year."
+    },
+    {
+      "id": "q6",
+      "question_text": "The area of a drying puddle is modelled by $A=(5-0.2t)^{2}$ m$^{2}$, where $t$ is in hours. For which values of $t$ does the model make sense?",
+      "structure": "domain-of-validity",
+      "mastery": false,
+      "options": [
+        { "text": "$0\\le t\\le 25$", "correct": true },
+        { "text": "$t\\ge 0$", "why": "Ignores that $A$ starts increasing again once $5-0.2t$ becomes negative, which a drying puddle cannot do." },
+        { "text": "$0\\le t\\le 5$", "why": "Used the $5$ inside the bracket as the time, rather than solving $5-0.2t=0$." },
+        { "text": "$0\\le t\\le 50$", "why": "Divided $5$ by $0.1$ instead of by $0.2$ when solving for the time the puddle dries out." }
+      ],
+      "solution_text": "$A=0$ when $5-0.2t=0$.\n$t=25$\nFor $t>25$ the bracket is negative and $A$ increases again, which cannot happen once the puddle has dried.\nThe model makes sense for $0\\le t\\le 25$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The mass $y$ grams of a product formed after $t$ minutes is modelled by $y=\\dfrac{100t}{t+5}$. Which differential equation does $y$ satisfy?",
+      "structure": "verify-model",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dy}{dt}=\\dfrac{(100-y)^{2}}{500}$", "correct": true },
+        { "text": "$\\dfrac{dy}{dt}=\\dfrac{(100-y)^{2}}{100}$", "why": "Divided by $100$ rather than by $500$, so the constant does not match $\\frac{500}{(t+5)^{2}}$." },
+        { "text": "$\\dfrac{dy}{dt}=\\dfrac{100-y}{500}$", "why": "Did not square $100-y$, which gives a rate proportional to $\\frac{1}{t+5}$ instead of $\\frac{1}{(t+5)^{2}}$." },
+        { "text": "$\\dfrac{dy}{dt}=\\dfrac{100-y}{100}$", "why": "Neither squared $100-y$ nor used the correct constant." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dt}=\\dfrac{100(t+5)-100t}{(t+5)^{2}}$\n$=\\dfrac{500}{(t+5)^{2}}$\n$100-y=\\dfrac{100(t+5)-100t}{t+5}$\n$=\\dfrac{500}{t+5}$\n$\\dfrac{(100-y)^{2}}{500}=\\dfrac{500^{2}}{500(t+5)^{2}}$\n$=\\dfrac{500}{(t+5)^{2}}$\nThe two expressions agree."
+    },
+    {
+      "id": "q8",
+      "question_text": "A block of dry ice of mass $m$ kg satisfies $\\dfrac{dm}{dt}=-0.6m^{\\frac{2}{3}}$, where $t$ is in hours and $m(0)=64$. Find when half the original mass has gone, correct to one decimal place.",
+      "structure": "solve-in-context",
+      "mastery": true,
+      "options": [
+        { "text": "$4.1$ hours", "correct": true },
+        { "text": "$10.0$ hours", "why": "Assumed half the mass takes half the total melting time, but the rate slows as the block shrinks." },
+        { "text": "$20.0$ hours", "why": "Gave the time for the block to disappear completely instead of the time to lose half its mass." }
+      ],
+      "solution_text": "$m^{-\\frac{2}{3}}\\,dm=-0.6\\,dt$\n$3m^{\\frac{1}{3}}=-0.6t+C$\nSubstituting $t=0$, $m=64$ gives $3\\times 4=C$, so $C=12$.\n$3m^{\\frac{1}{3}}=12-0.6t$\nHalf the original mass is $32$ kg, and $32^{\\frac{1}{3}}=3.174802$.\n$3\\times 3.174802=12-0.6t$\n$9.524406=12-0.6t$\n$0.6t=2.475594$\n$t=4.1$ hours"
+    }
+  ]
+}

@@ -2,17 +2,18 @@
   "skillId": "unit-circle-definitions",
   "atomType": "R",
   "theory": {
-    "intro": "A **unit circle** is a circle centred at the origin $O$ with radius $1$. For a point $P$ on the unit circle at angle of inclination $\\theta$ (measured anticlockwise from the positive $x$-axis), the sine and cosine ratios are exactly the coordinates of $P$. This extends SOH-CAH-TOA: the radius is the hypotenuse, and because the radius is $1$, each ratio is just a coordinate.",
-    "facts": [
-      "On the unit circle, the point at angle $\\theta$ is $P(\\cos\\theta,\\sin\\theta)$.",
-      "$\\cos\\theta$ is the $x$-coordinate of $P$.",
-      "$\\sin\\theta$ is the $y$-coordinate of $P$.",
-      "Because the radius is $1$: $\\cos\\theta=\\dfrac{\\text{adjacent}}{1}=x$ and $\\sin\\theta=\\dfrac{\\text{opposite}}{1}=y$.",
-      "The quadrantal points are exact: $0^{\\circ}\\to(1,0)$, $90^{\\circ}\\to(0,1)$, $180^{\\circ}\\to(-1,0)$, $270^{\\circ}\\to(0,-1)$.",
-      "The sign of each coordinate follows the position of $P$: right of the $y$-axis $x>0$, left $x<0$; above the $x$-axis $y>0$, below $y<0$.",
-      "Every point on the unit circle satisfies $x^2+y^2=1$, so $\\cos\\theta$ and $\\sin\\theta$ always lie between $-1$ and $1$."
-    ]
-  },
+        "intro": "A **unit circle** is a circle centred at the origin $O$ with radius $1$. The point $P$ at angle $\\theta$, measured anticlockwise from the positive $x$-axis, has coordinates $(\\cos\\theta,\\sin\\theta)$. The radius is the hypotenuse, so each ratio is just a coordinate.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (1.2,0);\n\\coordinate (P) at (55:2.4);\n\\coordinate (F) at ({2.4*cos(55)},0);\n\\draw[{Stealth}-{Stealth}] (-3,0)--(3,0) node[right] {$x$};\n\\draw[{Stealth}-{Stealth}] (0,-3)--(0,3) node[above] {$y$};\n\\draw (O) circle (2.4);\n\\draw[thick] (O)--(P) node[midway, above left] {$1$};\n\\draw[red, thick] (F)--(P) node[midway, right] {$y$};\n\\draw[blue, thick] (O)--(F) node[midway, below] {$x$};\n\\fill (P) circle (1.6pt);\n\\node[above right] at (P) {$P(x,y)$};\n\\node[below left] at (O) {$O$};\n\\node[below] at (2.4,0) {$1$};\n\\node[below] at (-2.4,0) {$-1$};\n\\node[left] at (0,2.4) {$1$};\n\\node[left] at (0,-2.4) {$-1$};\n\\pic[draw, \"$\\theta$\", angle radius=0.75cm, angle eccentricity=1.5] {angle=X--O--P};\n\\coordinate (ra) at ($(F)!0.28cm!(O)$);\n\\coordinate (rb) at ($(F)!0.28cm!(P)$);\n\\draw (ra) -- ($(ra)+(rb)-(F)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "On the unit circle, the point at angle $\\theta$ is $P(\\cos\\theta,\\sin\\theta)$.",
+          "$\\cos\\theta$ is the $x$-coordinate of $P$.",
+          "$\\sin\\theta$ is the $y$-coordinate of $P$.",
+          "Because the radius is $1$: $\\cos\\theta=\\dfrac{\\text{adjacent}}{1}=x$ and $\\sin\\theta=\\dfrac{\\text{opposite}}{1}=y$.",
+          "The quadrantal points are exact: $0^{\\circ}\\to(1,0)$, $90^{\\circ}\\to(0,1)$, $180^{\\circ}\\to(-1,0)$, $270^{\\circ}\\to(0,-1)$.",
+          "$\\cos\\theta$ is positive when $P$ is right of the $y$-axis and negative when $P$ is left of it.",
+          "$\\sin\\theta$ is positive when $P$ is above the $x$-axis and negative when $P$ is below it.",
+          "Every point on the unit circle satisfies $x^2+y^2=1$, so $\\cos\\theta$ and $\\sin\\theta$ always lie between $-1$ and $1$."
+        ]
+      },
   "practice": {
     "foundation": [
       {

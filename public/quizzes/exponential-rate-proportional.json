@@ -1,0 +1,109 @@
+{
+  "skillId": "exponential-rate-proportional",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which function satisfies $\\dfrac{dQ}{dt}=4Q$?",
+      "structure": "verify-solution-by-differentiation",
+      "mastery": false,
+      "options": [
+        { "text": "$Q=7e^{4t}$", "correct": true },
+        { "text": "$Q=7e^{-4t}$", "why": "Differentiating gives $-4Q$, so the sign of $k$ is wrong." },
+        { "text": "$Q=4e^{7t}$", "why": "Swapped $A$ and $k$: differentiating gives $7Q$, not $4Q$." },
+        { "text": "$Q=4e^{-7t}$", "why": "Swapped $A$ and $k$ and also used the wrong sign, giving $-7Q$." }
+      ],
+      "solution_text": "$Q=7e^{4t}$\n$\\dfrac{dQ}{dt}=28e^{4t}$\n$=4\\left(7e^{4t}\\right)$\n$=4Q$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=kQ$. When $Q=80$ litres, the quantity is increasing at $6$ litres per hour. Find $k$.",
+      "structure": "find-k-from-de",
+      "mastery": false,
+      "options": [
+        { "text": "$k=0.075$", "correct": true },
+        { "text": "$k=-0.075$", "why": "Attached a negative sign although the quantity is increasing, so $k>0$." },
+        { "text": "$k=13.33$", "why": "Divided $Q$ by the rate instead of the rate by $Q$." },
+        { "text": "$k=-13.33$", "why": "Divided $Q$ by the rate and also attached a negative sign to an increasing quantity." }
+      ],
+      "solution_text": "$\\dfrac{dQ}{dt}=kQ$\n$6=k\\times 80$\n$k=\\dfrac{6}{80}$\n$=0.075\\text{ per hour}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The mass $M$ of a sample decreases at a rate proportional to the mass present, with constant of proportionality $0.12$. Which differential equation models this?",
+      "structure": "write-de-from-description",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dM}{dt}=-0.12M$", "correct": true },
+        { "text": "$\\dfrac{dM}{dt}=0.12M$", "why": "Used a positive constant, which models growth rather than a decreasing mass." },
+        { "text": "$\\dfrac{dM}{dt}=-0.12t$", "why": "Made the rate proportional to the time rather than to the amount present." },
+        { "text": "$\\dfrac{dM}{dt}=0.12t$", "why": "Made the rate proportional to the time and also used a positive constant." }
+      ],
+      "solution_text": "The rate is proportional to the amount $M$, so $\\dfrac{dM}{dt}=kM$.\nThe mass is decreasing, so $k$ is negative.\n$\\dfrac{dM}{dt}=-0.12M$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A sample has mass $Q=640e^{-0.05t}$ grams after $t$ hours. Find the rate of change of the mass at $t=0$.",
+      "structure": "initial-value-a",
+      "mastery": false,
+      "options": [
+        { "text": "$-32\\text{ g/h}$", "correct": true },
+        { "text": "$32\\text{ g/h}$", "why": "Lost the negative sign from the index, reporting a decaying sample as growing." },
+        { "text": "$-12\\,800\\text{ g/h}$", "why": "Divided $640$ by $0.05$ instead of multiplying." },
+        { "text": "$12\\,800\\text{ g/h}$", "why": "Divided $640$ by $0.05$ and also lost the negative sign." }
+      ],
+      "solution_text": "$Q=640e^{-0.05t}$\n$\\dfrac{dQ}{dt}=-0.05\\times 640e^{-0.05t}$\n$\\text{At }t=0:$\n$\\dfrac{dQ}{dt}=-0.05\\times 640$\n$=-32\\text{ g/h}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A quantity is given by $Q=-300e^{0.2t}$. Which statement about this model is correct?",
+      "structure": "identify-growth-or-decay",
+      "mastery": true,
+      "options": [
+        { "text": "$k=0.2>0$, and because $A<0$ the quantity is negative and becomes more negative as $t$ increases.", "correct": true },
+        { "text": "$k=0.2>0$, so the quantity increases towards larger and larger positive values.", "why": "Read $k>0$ as meaning $Q$ must rise, ignoring the negative value of $A$." },
+        { "text": "$k=-0.2<0$, so the quantity decays towards zero.", "why": "Took the minus sign from $A$ and attached it to $k$ instead." },
+        { "text": "Because $A<0$, the value of $k$ must also be negative, so this is decay.", "why": "Assumed the sign of $A$ determines the sign of $k$; the two are independent." }
+      ],
+      "solution_text": "$Q=-300e^{0.2t}$\n$\\dfrac{dQ}{dt}=-60e^{0.2t}$\n$=0.2\\left(-300e^{0.2t}\\right)$\n$=0.2Q$\n$k=0.2>0$\n$A=-300<0$, so $Q<0$ for all $t$, and since $\\dfrac{dQ}{dt}<0$ the quantity becomes more negative as $t$ increases."
+    },
+    {
+      "id": "q6",
+      "question_text": "Which of these functions does NOT satisfy $\\dfrac{dQ}{dt}=kQ$ for any constant $k$?",
+      "structure": "verify-solution-by-differentiation",
+      "mastery": false,
+      "options": [
+        { "text": "$Q=9e^{0.5t}+2$", "correct": true },
+        { "text": "$Q=9e^{0.5t}$", "why": "This does satisfy the equation, with $k=0.5$." },
+        { "text": "$Q=-9e^{0.5t}$", "why": "A negative value of $A$ still satisfies the equation, with $k=0.5$." },
+        { "text": "$Q=0.5e^{9t}$", "why": "This does satisfy the equation, with $k=9$; the roles of $A$ and $k$ are simply swapped." }
+      ],
+      "solution_text": "$Q=9e^{0.5t}+2$\n$\\dfrac{dQ}{dt}=4.5e^{0.5t}$\n$9e^{0.5t}=Q-2$\n$\\dfrac{dQ}{dt}=0.5\\left(Q-2\\right)$\n$=0.5Q-1$\nThis is not a constant multiple of $Q$, so no value of $k$ works."
+    },
+    {
+      "id": "q7",
+      "question_text": "A quantity satisfies $\\dfrac{dQ}{dt}=kQ$. When $Q=450$ grams, the quantity is decreasing at $36$ grams per minute. Find $k$.",
+      "structure": "find-k-from-de",
+      "mastery": false,
+      "options": [
+        { "text": "$k=-0.08$", "correct": true },
+        { "text": "$k=0.08$", "why": "Took $k$ as positive for a decreasing quantity, ignoring that the rate is $-36$." },
+        { "text": "$k=-12.5$", "why": "Divided $Q$ by the rate instead of the rate by $Q$." },
+        { "text": "$k=12.5$", "why": "Divided $Q$ by the rate and also took $k$ as positive for a decreasing quantity." }
+      ],
+      "solution_text": "$\\dfrac{dQ}{dt}=-36$ when $Q=450$\n$-36=k\\times 450$\n$k=-\\dfrac{36}{450}$\n$=-0.08\\text{ per minute}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A quantity is given by $Q=15e^{-0.6t}$. Which differential equation does it satisfy?",
+      "structure": "write-de-from-description",
+      "mastery": true,
+      "options": [
+        { "text": "$\\dfrac{dQ}{dt}=-0.6Q$", "correct": true },
+        { "text": "$\\dfrac{dQ}{dt}=0.6Q$", "why": "Dropped the negative sign in the index when reading off $k$." },
+        { "text": "$\\dfrac{dQ}{dt}=15Q$", "why": "Used the initial value $A$ as the constant of proportionality instead of $k$." },
+        { "text": "$\\dfrac{dQ}{dt}=-0.6t$", "why": "Made the rate proportional to the time rather than to the amount $Q$." }
+      ],
+      "solution_text": "$Q=15e^{-0.6t}$\n$\\dfrac{dQ}{dt}=-0.6\\times 15e^{-0.6t}$\n$=-0.6\\left(15e^{-0.6t}\\right)$\n$=-0.6Q$"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "skillId": "vector-from-two-points",
+  "atomType": "R",
+  "theory": {
+    "intro": "The vector $\\overrightarrow{AB}$ joining two points is found by subtracting their position vectors: $\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$. Final point first, initial point second.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.2,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.2) node[above,font=\\footnotesize] {$y$};\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (1.5,3.2);\n\\coordinate (B) at (5,1.5);\n\\draw[->,thick] (O)--(A) node[midway,left,font=\\footnotesize] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (O)--(B) node[midway,below,font=\\footnotesize] {$\\underset{\\sim}{b}$};\n\\draw[->,thick,blue] (A)--(B) node[midway,above right,font=\\footnotesize] {$\\overrightarrow{AB}$};\n\\fill (O) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (O) {$O$};\n\\fill (A) circle (2.2pt);\n\\node[above,font=\\footnotesize] at (A) {$A$};\n\\fill (B) circle (2.2pt);\n\\node[right,font=\\footnotesize] at (B) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "$\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$, where $\\underset{\\sim}{a}=\\overrightarrow{OA}$ and $\\underset{\\sim}{b}=\\overrightarrow{OB}$ are the **position vectors** of $A$ and $B$.",
+      "Final minus initial: the point the arrow ends at is the one you subtract from.",
+      "For $A(x,y)$ and $B(u,v)$, $\\overrightarrow{AB}=\\begin{pmatrix}u-x\\\\v-y\\end{pmatrix}$.",
+      "$\\overrightarrow{BA}=-\\overrightarrow{AB}$, so reversing the letters changes the sign of every component.",
+      "In three dimensions subtract the $z$-coordinates as well, giving $\\overrightarrow{AB}=\\begin{pmatrix}u-x\\\\v-y\\\\w-z\\end{pmatrix}$.",
+      "A point is written $A(3,4)$ but its position vector is written $\\overrightarrow{OA}=\\begin{pmatrix}3\\\\4\\end{pmatrix}$, and they are not the same kind of object.",
+      "If $\\overrightarrow{AB}=\\underset{\\sim}{0}$ then $A$ and $B$ are the same point."
+    ],
+    "steps": [
+      "Write down the position vector of each point.",
+      "Subtract the initial point's position vector from the final point's.",
+      "Simplify each component."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For $A(2,5)$ and $B(7,1)$, find $\\overrightarrow{AB}$ as a column vector.",
+        "structure": "vector-ab-from-coordinates",
+        "solution_text": "$\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$\n$=\\begin{pmatrix}7\\\\1\\end{pmatrix}-\\begin{pmatrix}2\\\\5\\end{pmatrix}$\n$=\\begin{pmatrix}5\\\\-4\\end{pmatrix}$"
+      },
+      {
+        "question_text": "For $A(-3,-2)$ and $B(1,6)$, find $\\overrightarrow{AB}$ as a column vector.",
+        "structure": "vector-ab-from-coordinates",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}1\\\\6\\end{pmatrix}-\\begin{pmatrix}-3\\\\-2\\end{pmatrix}$\n$=\\begin{pmatrix}1-(-3)\\\\6-(-2)\\end{pmatrix}$\n$=\\begin{pmatrix}4\\\\8\\end{pmatrix}$"
+      },
+      {
+        "question_text": "For $P(4,-1)$ and $Q(-2,3)$, find $\\overrightarrow{PQ}$ and $\\overrightarrow{QP}$ as column vectors.",
+        "structure": "reverse-vector-ba",
+        "solution_text": "$\\overrightarrow{PQ}=\\begin{pmatrix}-2\\\\3\\end{pmatrix}-\\begin{pmatrix}4\\\\-1\\end{pmatrix}$\n$=\\begin{pmatrix}-6\\\\4\\end{pmatrix}$\n$\\overrightarrow{QP}=-\\overrightarrow{PQ}$\n$=\\begin{pmatrix}6\\\\-4\\end{pmatrix}$"
+      },
+      {
+        "question_text": "Given $\\overrightarrow{OA}=3\\underset{\\sim}{i}+7\\underset{\\sim}{j}$ and $\\overrightarrow{OB}=-2\\underset{\\sim}{i}+4\\underset{\\sim}{j}$, find $\\overrightarrow{AB}$ in component form.",
+        "structure": "vector-from-position-vectors",
+        "solution_text": "$\\overrightarrow{AB}=\\overrightarrow{OB}-\\overrightarrow{OA}$\n$=(-2\\underset{\\sim}{i}+4\\underset{\\sim}{j})-(3\\underset{\\sim}{i}+7\\underset{\\sim}{j})$\n$=(-2-3)\\underset{\\sim}{i}+(4-7)\\underset{\\sim}{j}$\n$=-5\\underset{\\sim}{i}-3\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "Given $\\overrightarrow{OX}=\\begin{pmatrix}6\\\\-1\\end{pmatrix}$ and $\\overrightarrow{OY}=\\begin{pmatrix}6\\\\5\\end{pmatrix}$, find $\\overrightarrow{XY}$.",
+        "structure": "vector-from-position-vectors",
+        "solution_text": "$\\overrightarrow{XY}=\\overrightarrow{OY}-\\overrightarrow{OX}$\n$=\\begin{pmatrix}6\\\\5\\end{pmatrix}-\\begin{pmatrix}6\\\\-1\\end{pmatrix}$\n$=\\begin{pmatrix}0\\\\6\\end{pmatrix}$"
+      },
+      {
+        "question_text": "For $A(1,0,4)$ and $B(5,-3,6)$, find $\\overrightarrow{AB}$ as a column vector.",
+        "structure": "vector-ab-3d",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}5\\\\-3\\\\6\\end{pmatrix}-\\begin{pmatrix}1\\\\0\\\\4\\end{pmatrix}$\n$=\\begin{pmatrix}4\\\\-3\\\\2\\end{pmatrix}$"
+      },
+      {
+        "question_text": "For $A(0,-4)$ and $B(-5,-4)$, find $\\overrightarrow{AB}$ as a column vector.",
+        "structure": "vector-ab-from-coordinates",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}-5\\\\-4\\end{pmatrix}-\\begin{pmatrix}0\\\\-4\\end{pmatrix}$\n$=\\begin{pmatrix}-5-0\\\\-4-(-4)\\end{pmatrix}$\n$=\\begin{pmatrix}-5\\\\0\\end{pmatrix}$"
+      },
+      {
+        "question_text": "$A$ is the point $(3,2)$ and $\\overrightarrow{AB}=\\begin{pmatrix}-4\\\\5\\end{pmatrix}$. Find the coordinates of $B$.",
+        "structure": "find-endpoint-from-vector",
+        "solution_text": "$\\overrightarrow{AB}$ is the step from $A$ to $B$, so add it to $A$.\n$B=(3+(-4),\\ 2+5)$\n$=(-1,7)$"
+      },
+      {
+        "question_text": "For $P(-2,3,-1)$ and $Q(0,3,4)$, find $\\overrightarrow{PQ}$ as a column vector.",
+        "structure": "vector-ab-3d",
+        "solution_text": "$\\overrightarrow{PQ}=\\begin{pmatrix}0\\\\3\\\\4\\end{pmatrix}-\\begin{pmatrix}-2\\\\3\\\\-1\\end{pmatrix}$\n$=\\begin{pmatrix}0-(-2)\\\\3-3\\\\4-(-1)\\end{pmatrix}$\n$=\\begin{pmatrix}2\\\\0\\\\5\\end{pmatrix}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For $A(4,-2,7)$ and $B(-1,5,2)$, find $\\overrightarrow{AB}$ as a column vector.",
+        "structure": "vector-ab-3d",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}-1\\\\5\\\\2\\end{pmatrix}-\\begin{pmatrix}4\\\\-2\\\\7\\end{pmatrix}$\n$=\\begin{pmatrix}-1-4\\\\5-(-2)\\\\2-7\\end{pmatrix}$\n$=\\begin{pmatrix}-5\\\\7\\\\-5\\end{pmatrix}$"
+      },
+      {
+        "question_text": "$\\overrightarrow{DE}=\\begin{pmatrix}6\\\\-2\\\\3\\end{pmatrix}$ and $E$ is the point $(1,4,-2)$. Find the coordinates of $D$.",
+        "structure": "find-endpoint-from-vector",
+        "solution_text": "$\\overrightarrow{DE}$ is the step from $D$ to $E$, so $D$ is found by taking that step backwards from $E$.\n$D=(1-6,\\ 4-(-2),\\ -2-3)$\n$=(-5,6,-5)$"
+      },
+      {
+        "question_text": "$\\overrightarrow{MN}=-3\\underset{\\sim}{i}+8\\underset{\\sim}{j}$. Write $\\overrightarrow{NM}$ and state how the two vectors are related.",
+        "structure": "reverse-vector-ba",
+        "solution_text": "$\\overrightarrow{NM}=-\\overrightarrow{MN}$\n$=-(-3\\underset{\\sim}{i}+8\\underset{\\sim}{j})$\n$=3\\underset{\\sim}{i}-8\\underset{\\sim}{j}$\n$\\overrightarrow{NM}$ has the same length as $\\overrightarrow{MN}$ but points in the opposite direction."
+      },
+      {
+        "question_text": "For $A(1,2)$, $B(5,3)$, $C(4,7)$ and $D(0,6)$, show that $\\overrightarrow{AB}=\\overrightarrow{DC}$.",
+        "structure": "equal-vectors-check",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}5\\\\3\\end{pmatrix}-\\begin{pmatrix}1\\\\2\\end{pmatrix}=\\begin{pmatrix}4\\\\1\\end{pmatrix}$\n$\\overrightarrow{DC}=\\begin{pmatrix}4\\\\7\\end{pmatrix}-\\begin{pmatrix}0\\\\6\\end{pmatrix}=\\begin{pmatrix}4\\\\1\\end{pmatrix}$\nBoth components match, so $\\overrightarrow{AB}=\\overrightarrow{DC}$."
+      },
+      {
+        "question_text": "Given $\\overrightarrow{OA}=\\begin{pmatrix}-3\\\\5\\\\2\\end{pmatrix}$ and $\\overrightarrow{OB}=\\begin{pmatrix}4\\\\5\\\\-3\\end{pmatrix}$, find $\\overrightarrow{AB}$.",
+        "structure": "vector-from-position-vectors",
+        "solution_text": "$\\overrightarrow{AB}=\\overrightarrow{OB}-\\overrightarrow{OA}$\n$=\\begin{pmatrix}4\\\\5\\\\-3\\end{pmatrix}-\\begin{pmatrix}-3\\\\5\\\\2\\end{pmatrix}$\n$=\\begin{pmatrix}7\\\\0\\\\-5\\end{pmatrix}$"
+      },
+      {
+        "question_text": "For $A(-2,1)$, $B(3,-1)$ and $C(6,4)$, find the point $D$ such that $\\overrightarrow{AB}=\\overrightarrow{DC}$.",
+        "structure": "equal-vectors-check",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}3\\\\-1\\end{pmatrix}-\\begin{pmatrix}-2\\\\1\\end{pmatrix}=\\begin{pmatrix}5\\\\-2\\end{pmatrix}$\n$\\overrightarrow{DC}$ is the step from $D$ to $C$, so $D$ is $C$ with that step taken backwards.\n$D=(6-5,\\ 4-(-2))$\n$=(1,6)$"
+      },
+      {
+        "question_text": "$\\overrightarrow{PQ}=\\begin{pmatrix}-7\\\\0\\end{pmatrix}$ and $Q$ is the point $(2,-6)$. Find the coordinates of $P$.",
+        "structure": "find-endpoint-from-vector",
+        "solution_text": "$P$ is found by taking the step $\\overrightarrow{PQ}$ backwards from $Q$.\n$P=(2-(-7),\\ -6-0)$\n$=(9,-6)$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For $A(1,-1,2)$, $B(4,1,-3)$ and $C(0,5,1)$, find the point $D$ such that $\\overrightarrow{AB}=\\overrightarrow{CD}$.",
+        "structure": "equal-vectors-check",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}4\\\\1\\\\-3\\end{pmatrix}-\\begin{pmatrix}1\\\\-1\\\\2\\end{pmatrix}=\\begin{pmatrix}3\\\\2\\\\-5\\end{pmatrix}$\n$\\overrightarrow{CD}$ is the step from $C$ to $D$, so add that step to $C$.\n$D=(0+3,\\ 5+2,\\ 1+(-5))$\n$=(3,7,-4)$"
+      },
+      {
+        "question_text": "$\\overrightarrow{AB}=\\begin{pmatrix}5\\\\-2\\\\4\\end{pmatrix}$ and $B$ is the point $(3,1,-2)$. Find the coordinates of $A$, then write $\\overrightarrow{BA}$.",
+        "structure": "reverse-vector-ba",
+        "solution_text": "$A$ is found by taking the step $\\overrightarrow{AB}$ backwards from $B$.\n$A=(3-5,\\ 1-(-2),\\ -2-4)$\n$=(-2,3,-6)$\n$\\overrightarrow{BA}=-\\overrightarrow{AB}$\n$=\\begin{pmatrix}-5\\\\2\\\\-4\\end{pmatrix}$"
+      },
+      {
+        "question_text": "$A$ is the point $(2,-1)$, $B$ is the point $(k,5)$ and $\\overrightarrow{AB}=\\begin{pmatrix}-6\\\\m\\end{pmatrix}$. Find $k$ and $m$.",
+        "structure": "vector-ab-from-coordinates",
+        "solution_text": "$\\overrightarrow{AB}=\\begin{pmatrix}k-2\\\\5-(-1)\\end{pmatrix}=\\begin{pmatrix}k-2\\\\6\\end{pmatrix}$\nMatching the top components:\n$k-2=-6$\n$k=-4$\nMatching the bottom components:\n$m=6$"
+      }
+    ]
+  }
+}

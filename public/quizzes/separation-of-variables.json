@@ -1,0 +1,122 @@
+{
+  "skillId": "separation-of-variables",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Which of these differential equations can be solved by separation of variables?",
+      "structure": "identify-separable",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{dy}{dx}=x^{2}y^{3}$", "correct": true },
+        { "text": "$\\dfrac{dy}{dx}=x^{2}+y^{3}$", "why": "A sum of a function of $x$ and a function of $y$ cannot be written as a product, so the variables will not separate." },
+        { "text": "$\\dfrac{dy}{dx}=x^{2}-y^{3}$", "why": "A difference is not a product; subtracting $y^{3}$ leaves $y$ on the same side as $x$." },
+        { "text": "$\\dfrac{dy}{dx}=\\dfrac{1}{x^{2}+y^{3}}$", "why": "The denominator is a sum, so the reciprocal cannot be split into an $x$ factor and a $y$ factor." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=x^{2}y^{3}$\n$y^{-3}\\,dy=x^{2}\\,dx$\nThe right side is a product of a function of $x$ alone and a function of $y$ alone, so this equation is separable."
+    },
+    {
+      "id": "q2",
+      "question_text": "Separate the variables in $\\dfrac{dy}{dx}=\\dfrac{x^{2}}{y+1}$.",
+      "structure": "separate-only",
+      "mastery": false,
+      "options": [
+        { "text": "$(y+1)\\,dy=x^{2}\\,dx$", "correct": true },
+        { "text": "$\\dfrac{1}{y+1}\\,dy=x^{2}\\,dx$", "why": "Left $y+1$ in the denominator instead of multiplying both sides by it." },
+        { "text": "$(y+1)\\,dy=\\dfrac{1}{x^{2}}\\,dx$", "why": "Inverted the $x$ factor, which is already a numerator on the right side." },
+        { "text": "$\\dfrac{1}{y+1}\\,dy=\\dfrac{1}{x^{2}}\\,dx$", "why": "Inverted both factors instead of clearing the single denominator $y+1$." }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=\\dfrac{x^{2}}{y+1}$\n$(y+1)\\,dy=x^{2}\\,dx$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Find the general solution of $\\dfrac{dy}{dx}=\\dfrac{3x^{2}}{y}$.",
+      "structure": "general-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$y^{2}=2x^{3}+C$", "correct": true },
+        { "text": "$y^{2}=x^{3}+C$", "why": "Forgot to double the right side when clearing the $\\frac{1}{2}$ from $\\frac{y^{2}}{2}$." },
+        { "text": "$y=2x^{3}+C$", "why": "Integrated $y\\,dy$ as $y$ instead of $\\frac{y^{2}}{2}$." },
+        { "text": "$y=x^{3}+C$", "why": "Integrated $y\\,dy$ as $y$ and also failed to double the right side." }
+      ],
+      "solution_text": "$y\\,dy=3x^{2}\\,dx$\n$\\dfrac{y^{2}}{2}=x^{3}+C$\n$y^{2}=2x^{3}+D$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Solve $\\dfrac{dy}{dx}=4xy$ given $y(0)=3$.",
+      "structure": "particular-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$y=3e^{2x^{2}}$", "correct": true },
+        { "text": "$y=3e^{4x^{2}}$", "why": "Copied the coefficient $4$ straight into the exponent instead of integrating $4x$ to $2x^{2}$." },
+        { "text": "$y=3e^{2x}$", "why": "Halved the coefficient but left the power of $x$ unchanged, so $4x$ was not integrated." },
+        { "text": "$y=3e^{4x}$", "why": "Did not integrate the right side at all, simply writing $4x$ in the exponent." }
+      ],
+      "solution_text": "$\\dfrac{1}{y}\\,dy=4x\\,dx$\n$\\ln|y|=2x^{2}+C$\n$y=Ae^{2x^{2}}$\nSubstituting $x=0$, $y=3$ gives $A=3$.\n$y=3e^{2x^{2}}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "State all constant solutions of $\\dfrac{dy}{dx}=x^{2}(y-3)(y+1)$.",
+      "structure": "constant-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$y=3$ and $y=-1$", "correct": true },
+        { "text": "$y=-3$ and $y=1$", "why": "Read the factors as the roots without changing sign, giving $y=-3$ from $y-3$." },
+        { "text": "$y=0$, $y=3$ and $y=-1$", "why": "Included $y=0$ from the factor $x^{2}$, but $x^{2}=0$ constrains $x$, not $y$." },
+        { "text": "$y=0$ only", "why": "Set the whole right side to zero by choosing $x=0$, which gives a point rather than a constant solution." }
+      ],
+      "solution_text": "A constant solution needs $\\dfrac{dy}{dx}=0$ for every value of $x$.\n$(y-3)(y+1)=0$\n$y=3$ or $y=-1$"
+    },
+    {
+      "id": "q6",
+      "question_text": "The solution curve of $\\dfrac{dy}{dx}=-\\dfrac{x}{4y}$ passes through $(2,1)$. Find its equation.",
+      "structure": "implicit-relation",
+      "mastery": false,
+      "options": [
+        { "text": "$x^{2}+4y^{2}=8$", "correct": true },
+        { "text": "$x^{2}-4y^{2}=0$", "why": "Dropped the negative sign when integrating the right side, so the two squares subtract instead of add." },
+        { "text": "$4x^{2}+y^{2}=17$", "why": "Attached the $4$ to the $x$ side instead of the $y$ side when separating." },
+        { "text": "$4x^{2}-y^{2}=15$", "why": "Attached the $4$ to the wrong side and also dropped the negative sign." }
+      ],
+      "solution_text": "$4y\\,dy=-x\\,dx$\n$2y^{2}=-\\dfrac{x^{2}}{2}+C$\n$4y^{2}=-x^{2}+D$\n$x^{2}+4y^{2}=D$\nSubstituting $x=2$, $y=1$ gives $4+4=8$.\n$x^{2}+4y^{2}=8$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A student solves $\\dfrac{dy}{dx}=2xy$ with $y(0)=5$ and writes: $\\ln|y|=x^{2}$, so $y=e^{x^{2}}$; then, to make $y(0)=5$, the answer is $y=e^{x^{2}}+4$. Which statement identifies the error?",
+      "structure": "order-of-steps",
+      "mastery": false,
+      "options": [
+        { "text": "The constant of integration was omitted at the integration step, so it was added on at the end instead of appearing as the multiplier $A$ in $y=Ae^{x^{2}}$.", "correct": true },
+        { "text": "The integral of $2x$ should be $2x^{2}$, not $x^{2}$, so every later line carries the wrong exponent.", "why": "The integration of $2x$ is correct; $\\int 2x\\,dx=x^{2}$." },
+        { "text": "The absolute value signs should have been kept, so the answer should be written as $|y|=e^{x^{2}}+4$.", "why": "The absolute value is correctly absorbed into the sign of the arbitrary constant; keeping it does not fix the missing constant." },
+        { "text": "The variables were never separated, so the equation could not be integrated in the first place.", "why": "The variables were separated correctly; $\\frac{1}{y}\\,dy=2x\\,dx$ is what produces $\\ln|y|$." }
+      ],
+      "solution_text": "$\\dfrac{1}{y}\\,dy=2x\\,dx$\n$\\ln|y|=x^{2}+C$\n$y=Ae^{x^{2}}$\nSubstituting $x=0$, $y=5$ gives $A=5$.\n$y=5e^{x^{2}}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Solve $\\dfrac{dy}{dx}=xe^{-y}$ given $y(0)=0$.",
+      "structure": "particular-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$y=\\ln\\left(\\dfrac{x^{2}}{2}+1\\right)$", "correct": true },
+        { "text": "$y=\\ln\\left(\\dfrac{x^{2}}{2}+2\\right)$", "why": "Applied the initial condition after taking logarithms, giving the constant the wrong value." },
+        { "text": "$y=\\ln\\left(x^{2}+1\\right)$", "why": "Integrated $x$ as $x^{2}$ instead of $\\frac{x^{2}}{2}$." },
+        { "text": "$y=\\ln\\left(x^{2}+2\\right)$", "why": "Integrated $x$ as $x^{2}$ and also applied the condition after taking logarithms." }
+      ],
+      "solution_text": "$e^{y}\\,dy=x\\,dx$\n$e^{y}=\\dfrac{x^{2}}{2}+C$\nSubstituting $x=0$, $y=0$ gives $1=C$.\n$e^{y}=\\dfrac{x^{2}}{2}+1$\n$y=\\ln\\left(\\dfrac{x^{2}}{2}+1\\right)$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Water drains from a tank so that the depth $h$ cm after $t$ minutes satisfies $\\dfrac{dh}{dt}=-\\dfrac{3}{\\sqrt{h}}$, with $h(0)=25$. Find when the tank is empty, correct to one decimal place.",
+      "structure": "particular-solution",
+      "mastery": true,
+      "options": [
+        { "text": "$27.8$ minutes", "correct": true },
+        { "text": "$41.7$ minutes", "why": "Integrated $\\sqrt{h}$ as $h^{\\frac{3}{2}}$ without the factor $\\frac{2}{3}$, giving $t=\\frac{125}{3}$." },
+        { "text": "$8.3$ minutes", "why": "Treated the rate as a constant $-3$ cm per minute and used $\\frac{25}{3}$." },
+        { "text": "$3.3$ minutes", "why": "Integrated $h^{-\\frac{1}{2}}$ instead of $\\sqrt{h}$, taking the reciprocal of the wrong side." }
+      ],
+      "solution_text": "$\\sqrt{h}\\,dh=-3\\,dt$\n$\\dfrac{2}{3}h^{\\frac{3}{2}}=-3t+C$\nSubstituting $t=0$, $h=25$ gives $\\dfrac{2}{3}\\times 125=C$, so $C=\\dfrac{250}{3}$.\n$\\dfrac{2}{3}h^{\\frac{3}{2}}=-3t+\\dfrac{250}{3}$\nThe tank is empty when $h=0$.\n$3t=\\dfrac{250}{3}$\n$t=\\dfrac{250}{9}$\n$=27.8$ minutes"
+    }
+  ]
+}

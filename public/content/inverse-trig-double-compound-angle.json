@@ -1,0 +1,142 @@
+{
+  "skillId": "inverse-trig-double-compound-angle",
+  "atomType": "R",
+  "theory": {
+    "intro": "An expression such as $\\cos\\left(2\\arcsin x\\right)$ needs a double angle identity. Let $\\alpha$ be the inverse trigonometric value, find $\\sin\\alpha$ and $\\cos\\alpha$ from its triangle and quadrant, then substitute into the identity.",
+    "facts": [
+      "$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$",
+      "$\\cos 2\\alpha=1-2\\sin^{2}\\alpha$ is the form to use when only $\\sin\\alpha$ is known.",
+      "$\\cos 2\\alpha=2\\cos^{2}\\alpha-1$ is the form to use when only $\\cos\\alpha$ is known.",
+      "$\\tan 2\\alpha=\\dfrac{2\\tan\\alpha}{1-\\tan^{2}\\alpha}$",
+      "$\\sin(\\alpha\\pm\\beta)=\\sin\\alpha\\cos\\beta\\pm\\cos\\alpha\\sin\\beta$",
+      "$\\cos(\\alpha\\pm\\beta)=\\cos\\alpha\\cos\\beta\\mp\\sin\\alpha\\sin\\beta$",
+      "$\\tan(\\alpha\\pm\\beta)=\\dfrac{\\tan\\alpha\\pm\\tan\\beta}{1\\mp\\tan\\alpha\\tan\\beta}$",
+      "Each inverse value's range fixes its quadrant, so settle every ratio's sign before substituting."
+    ],
+    "steps": [
+      "Let each inverse trigonometric expression be an angle and write its trigonometric ratio",
+      "Identify each angle's quadrant from the range of its inverse function",
+      "Use a right-angled triangle and Pythagoras to find the remaining ratios with the correct signs",
+      "Substitute into the double angle or compound angle identity",
+      "Simplify to an exact value"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the exact value of $\\sin\\left(2\\arcsin\\frac{8}{17}\\right)$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "1. **Let each inverse trigonometric expression be an angle and write its trigonometric ratio**\n$\\alpha=\\arcsin\\frac{8}{17}$\n$\\sin\\alpha=\\frac{8}{17}$\n2. **Identify each angle's quadrant from the range of its inverse function**\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha>0$, so $\\alpha$ is in quadrant 1.\n3. **Use a right-angled triangle and Pythagoras to find the remaining ratios with the correct signs**\n$\\text{adjacent}=\\sqrt{17^{2}-8^{2}}$\n$=15$\n$\\cos\\alpha=\\frac{15}{17}$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.7]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (2.55,0);\n\\coordinate (A) at (0,1.36);\n\\draw (C) -- (B) node[midway, below] {$15$};\n\\draw (B) -- (A) node[midway, above right] {$17$};\n\\draw (A) -- (C) node[midway, left] {$8$};\n\\coordinate (c1) at ($(C)!0.2cm!(B)$);\n\\coordinate (c2) at ($(C)!0.2cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]\n4. **Substitute into the double angle or compound angle identity**\n$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$\n$=2\\times\\frac{8}{17}\\times\\frac{15}{17}$\n$=\\frac{240}{289}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(2\\arcsin\\frac{1}{4}\\right)$, using $\\cos 2\\alpha=1-2\\sin^{2}\\alpha$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arcsin\\frac{1}{4}$, so $\\sin\\alpha=\\frac{1}{4}$.\n$\\cos 2\\alpha=1-2\\sin^{2}\\alpha$\n$=1-2\\times\\left(\\frac{1}{4}\\right)^{2}$\n$=1-\\frac{1}{8}$\n$=\\frac{7}{8}$"
+      },
+      {
+        "question_text": "The right-angled triangle below has $\\alpha=\\arccos\\frac{2}{3}$.\nFind the exact value of $\\cos\\left(2\\arccos\\frac{2}{3}\\right)$, using $\\cos 2\\alpha=2\\cos^{2}\\alpha-1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (1.8,0);\n\\coordinate (A) at (0,2.01);\n\\draw (C) -- (B) node[midway, below] {$2$};\n\\draw (B) -- (A) node[midway, above right] {$3$};\n\\draw (A) -- (C);\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arccos\\frac{2}{3}$, so $\\cos\\alpha=\\frac{2}{3}$.\n$\\cos 2\\alpha=2\\cos^{2}\\alpha-1$\n$=2\\times\\left(\\frac{2}{3}\\right)^{2}-1$\n$=\\frac{8}{9}-1$\n$=-\\frac{1}{9}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(2\\arctan\\frac{1}{3}\\right)$.",
+        "structure": "tan-double-angle",
+        "solution_text": "Let $\\alpha=\\arctan\\frac{1}{3}$, so $\\tan\\alpha=\\frac{1}{3}$.\n$\\tan 2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^{2}\\alpha}$\n$=\\frac{2\\times\\frac{1}{3}}{1-\\frac{1}{9}}$\n$=\\frac{\\frac{2}{3}}{\\frac{8}{9}}$\n$=\\frac{2}{3}\\times\\frac{9}{8}$\n$=\\frac{3}{4}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(2\\arcsin\\left(-\\frac{1}{3}\\right)\\right)$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{1}{3}\\right)$, so $\\sin\\alpha=-\\frac{1}{3}$.\n$\\cos 2\\alpha=1-2\\sin^{2}\\alpha$\n$=1-2\\times\\left(-\\frac{1}{3}\\right)^{2}$\n$=1-\\frac{2}{9}$\n$=\\frac{7}{9}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(2\\arctan\\left(-\\frac{3}{4}\\right)\\right)$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{3}{4}\\right)$, so $\\tan\\alpha=-\\frac{3}{4}$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{hypotenuse}=\\sqrt{3^{2}+4^{2}}=5$, so $\\sin\\alpha=-\\frac{3}{5}$ and $\\cos\\alpha=\\frac{4}{5}$.\n$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$\n$=2\\times\\left(-\\frac{3}{5}\\right)\\times\\frac{4}{5}$\n$=-\\frac{24}{25}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(2\\arctan\\left(-\\frac{1}{2}\\right)\\right)$.",
+        "structure": "tan-double-angle",
+        "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{1}{2}\\right)$, so $\\tan\\alpha=-\\frac{1}{2}$.\n$\\tan 2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^{2}\\alpha}$\n$=\\frac{2\\times\\left(-\\frac{1}{2}\\right)}{1-\\frac{1}{4}}$\n$=\\frac{-1}{\\frac{3}{4}}$\n$=-\\frac{4}{3}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(2\\arccos\\left(-\\frac{1}{4}\\right)\\right)$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{1}{4}\\right)$, so $\\cos\\alpha=-\\frac{1}{4}$.\n$\\cos 2\\alpha=2\\cos^{2}\\alpha-1$\n$=2\\times\\left(-\\frac{1}{4}\\right)^{2}-1$\n$=\\frac{1}{8}-1$\n$=-\\frac{7}{8}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arcsin\\frac{3}{5}+\\arccos\\frac{5}{13}\\right)$.",
+        "structure": "compound-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arcsin\\frac{3}{5}$ and $\\beta=\\arccos\\frac{5}{13}$.\nBoth arguments are positive, so $\\alpha$ and $\\beta$ are in quadrant 1 and every ratio is positive.\n$\\sin\\alpha=\\frac{3}{5}$ and $\\cos\\alpha=\\frac{4}{5}$\n$\\cos\\beta=\\frac{5}{13}$ and $\\sin\\beta=\\frac{12}{13}$\n$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$\n$=\\frac{3}{5}\\times\\frac{5}{13}+\\frac{4}{5}\\times\\frac{12}{13}$\n$=\\frac{15}{65}+\\frac{48}{65}$\n$=\\frac{63}{65}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\cos\\left(\\arccos\\left(-\\frac{3}{5}\\right)+\\arctan\\frac{4}{3}\\right)$.",
+        "structure": "compound-angle-numeric",
+        "solution_text": "1. **Let each inverse trigonometric expression be an angle and write its trigonometric ratio**\n$\\alpha=\\arccos\\left(-\\frac{3}{5}\\right)$ and $\\beta=\\arctan\\frac{4}{3}$\n2. **Identify each angle's quadrant from the range of its inverse function**\n$0\\le\\alpha\\le\\pi$ and $\\cos\\alpha<0$, so $\\alpha$ is in quadrant 2.\n$-\\frac{\\pi}{2}<\\beta<\\frac{\\pi}{2}$ and $\\tan\\beta>0$, so $\\beta$ is in quadrant 1.\n3. **Use a right-angled triangle and Pythagoras to find the remaining ratios with the correct signs**\n$\\text{opposite}=\\sqrt{5^{2}-3^{2}}$\n$=4$\nThe sine is positive in quadrant 2, so $\\sin\\alpha=\\frac{4}{5}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{angles,quotes,calc}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (1.5,0);\n\\coordinate (A) at (0,2);\n\\draw (C) -- (B) node[midway, below] {$3$};\n\\draw (B) -- (A) node[midway, above right] {$5$};\n\\draw (A) -- (C) node[midway, left] {$4$};\n\\coordinate (c1) at ($(C)!0.22cm!(B)$);\n\\coordinate (c2) at ($(C)!0.22cm!(A)$);\n\\draw (c1) -- ($(c1)+(c2)-(C)$) -- (c2);\n\\pic[draw,\"$\\alpha$\",angle radius=0.5cm,angle eccentricity=1.8] {angle=A--B--C};\n\\end{tikzpicture}\n[/tikz]\nFor $\\beta$ the triangle has legs $4$ and $3$ with hypotenuse $5$, so $\\sin\\beta=\\frac{4}{5}$ and $\\cos\\beta=\\frac{3}{5}$.\n4. **Substitute into the double angle or compound angle identity**\n$\\cos(\\alpha+\\beta)=\\cos\\alpha\\cos\\beta-\\sin\\alpha\\sin\\beta$\n$=\\left(-\\frac{3}{5}\\right)\\times\\frac{3}{5}-\\frac{4}{5}\\times\\frac{4}{5}$\n$=-\\frac{9}{25}-\\frac{16}{25}$\n$=-1$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(\\arctan\\frac{1}{2}-\\arctan\\left(-\\frac{1}{3}\\right)\\right)$.",
+        "structure": "compound-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arctan\\frac{1}{2}$ and $\\beta=\\arctan\\left(-\\frac{1}{3}\\right)$, so $\\tan\\alpha=\\frac{1}{2}$ and $\\tan\\beta=-\\frac{1}{3}$.\n$\\tan(\\alpha-\\beta)=\\frac{\\tan\\alpha-\\tan\\beta}{1+\\tan\\alpha\\tan\\beta}$\n$=\\frac{\\frac{1}{2}-\\left(-\\frac{1}{3}\\right)}{1+\\frac{1}{2}\\times\\left(-\\frac{1}{3}\\right)}$\n$=\\frac{\\frac{5}{6}}{\\frac{5}{6}}$\n$=1$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arcsin\\left(-\\frac{4}{5}\\right)-\\arccos\\frac{3}{5}\\right)$.",
+        "structure": "compound-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{4}{5}\\right)$ and $\\beta=\\arccos\\frac{3}{5}$.\n$\\sin\\alpha<0$ with $-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$, so $\\alpha$ is in quadrant 4 and $\\cos\\alpha=\\frac{3}{5}$.\n$\\cos\\beta>0$ with $0\\le\\beta\\le\\pi$, so $\\beta$ is in quadrant 1 and $\\sin\\beta=\\frac{4}{5}$.\n$\\sin(\\alpha-\\beta)=\\sin\\alpha\\cos\\beta-\\cos\\alpha\\sin\\beta$\n$=\\left(-\\frac{4}{5}\\right)\\times\\frac{3}{5}-\\frac{3}{5}\\times\\frac{4}{5}$\n$=-\\frac{12}{25}-\\frac{12}{25}$\n$=-\\frac{24}{25}$"
+      },
+      {
+        "question_text": "Show that $\\cos\\left(2\\arcsin x\\right)=1-2x^{2}$ for $-1\\le x\\le 1$.",
+        "structure": "double-angle-general",
+        "solution_text": "Let $\\alpha=\\arcsin x$, so $\\sin\\alpha=x$.\n$\\cos 2\\alpha=1-2\\sin^{2}\\alpha$\n$=1-2x^{2}$"
+      },
+      {
+        "question_text": "Show that $\\sin\\left(2\\arctan x\\right)=\\dfrac{2x}{1+x^{2}}$ for all real $x$.",
+        "structure": "double-angle-general",
+        "solution_text": "Let $\\alpha=\\arctan x$, so $\\tan\\alpha=x$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$, so $\\cos\\alpha>0$ and the triangle with legs $x$ and $1$ has hypotenuse $\\sqrt{1+x^{2}}$.\n$\\sin\\alpha=\\frac{x}{\\sqrt{1+x^{2}}}$ and $\\cos\\alpha=\\frac{1}{\\sqrt{1+x^{2}}}$\n$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$\n$=2\\times\\frac{x}{\\sqrt{1+x^{2}}}\\times\\frac{1}{\\sqrt{1+x^{2}}}$\n$=\\frac{2x}{1+x^{2}}$"
+      },
+      {
+        "question_text": "Show that $\\cos\\left(2\\arctan x\\right)=\\dfrac{1-x^{2}}{1+x^{2}}$ for all real $x$.",
+        "structure": "double-angle-general",
+        "solution_text": "Let $\\alpha=\\arctan x$, so $\\tan\\alpha=x$ and $\\cos\\alpha=\\frac{1}{\\sqrt{1+x^{2}}}$.\n$\\cos 2\\alpha=2\\cos^{2}\\alpha-1$\n$=\\frac{2}{1+x^{2}}-1$\n$=\\frac{2-\\left(1+x^{2}\\right)}{1+x^{2}}$\n$=\\frac{1-x^{2}}{1+x^{2}}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(2\\arccos\\left(-\\frac{5}{13}\\right)\\right)$.",
+        "structure": "double-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{5}{13}\\right)$, so $\\cos\\alpha=-\\frac{5}{13}$.\n$0\\le\\alpha\\le\\pi$ and $\\cos\\alpha<0$, so $\\alpha$ is in quadrant 2.\n$\\text{opposite}=\\sqrt{13^{2}-5^{2}}=12$, and the sine is positive in quadrant 2, so $\\sin\\alpha=\\frac{12}{13}$.\n$\\sin 2\\alpha=2\\sin\\alpha\\cos\\alpha$\n$=2\\times\\frac{12}{13}\\times\\left(-\\frac{5}{13}\\right)$\n$=-\\frac{120}{169}$"
+      },
+      {
+        "question_text": "Show that $\\sin\\left(\\arcsin x+\\arccos x\\right)=1$ for $-1\\le x\\le 1$.",
+        "structure": "compound-angle-general",
+        "solution_text": "Let $\\alpha=\\arcsin x$ and $\\beta=\\arccos x$.\n$\\sin\\alpha=x$ and $\\cos\\alpha=\\sqrt{1-x^{2}}$, since $\\cos\\alpha\\ge 0$ on the range of $\\arcsin$.\n$\\cos\\beta=x$ and $\\sin\\beta=\\sqrt{1-x^{2}}$, since $\\sin\\beta\\ge 0$ on the range of $\\arccos$.\n$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$\n$=x\\times x+\\sqrt{1-x^{2}}\\times\\sqrt{1-x^{2}}$\n$=x^{2}+1-x^{2}$\n$=1$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(2\\arcsin\\left(-\\frac{3}{5}\\right)\\right)$.",
+        "structure": "tan-double-angle",
+        "solution_text": "Let $\\alpha=\\arcsin\\left(-\\frac{3}{5}\\right)$, so $\\sin\\alpha=-\\frac{3}{5}$.\n$-\\frac{\\pi}{2}\\le\\alpha\\le\\frac{\\pi}{2}$ and $\\sin\\alpha<0$, so $\\alpha$ is in quadrant 4.\n$\\text{adjacent}=\\sqrt{5^{2}-3^{2}}=4$, and the tangent is negative in quadrant 4, so $\\tan\\alpha=-\\frac{3}{4}$.\n$\\tan 2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^{2}\\alpha}$\n$=\\frac{2\\times\\left(-\\frac{3}{4}\\right)}{1-\\frac{9}{16}}$\n$=\\frac{-\\frac{3}{2}}{\\frac{7}{16}}$\n$=-\\frac{3}{2}\\times\\frac{16}{7}$\n$=-\\frac{24}{7}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$\\cos\\left(2\\arcsin x\\right)=\\frac{17}{25}$ and $x<0$. Find the exact value of $x$.",
+        "structure": "double-angle-general",
+        "solution_text": "$\\cos\\left(2\\arcsin x\\right)=1-2x^{2}$\n$1-2x^{2}=\\frac{17}{25}$\n$2x^{2}=\\frac{8}{25}$\n$x^{2}=\\frac{4}{25}$\n$x=\\pm\\frac{2}{5}$\nSince $x<0$,\n$x=-\\frac{2}{5}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\tan\\left(2\\arccos\\left(-\\frac{1}{3}\\right)\\right)$.",
+        "structure": "tan-double-angle",
+        "solution_text": "Let $\\alpha=\\arccos\\left(-\\frac{1}{3}\\right)$, so $\\cos\\alpha=-\\frac{1}{3}$ and $\\alpha$ is in quadrant 2.\n$\\text{opposite}=\\sqrt{3^{2}-1^{2}}$\n$=2\\sqrt{2}$\nThe tangent is negative in quadrant 2, so $\\tan\\alpha=-2\\sqrt{2}$.\n$\\tan 2\\alpha=\\frac{2\\tan\\alpha}{1-\\tan^{2}\\alpha}$\n$=\\frac{2\\times\\left(-2\\sqrt{2}\\right)}{1-8}$\n$=\\frac{-4\\sqrt{2}}{-7}$\n$=\\frac{4\\sqrt{2}}{7}$"
+      },
+      {
+        "question_text": "Show that $\\cos\\left(\\arctan x-\\arcsin x\\right)=\\dfrac{\\sqrt{1-x^{2}}+x^{2}}{\\sqrt{1+x^{2}}}$ for $-1<x<1$.",
+        "structure": "compound-angle-general",
+        "solution_text": "Let $\\alpha=\\arctan x$ and $\\beta=\\arcsin x$.\n$\\cos\\alpha=\\frac{1}{\\sqrt{1+x^{2}}}$ and $\\sin\\alpha=\\frac{x}{\\sqrt{1+x^{2}}}$\n$\\sin\\beta=x$ and $\\cos\\beta=\\sqrt{1-x^{2}}$\n$\\cos(\\alpha-\\beta)=\\cos\\alpha\\cos\\beta+\\sin\\alpha\\sin\\beta$\n$=\\frac{1}{\\sqrt{1+x^{2}}}\\times\\sqrt{1-x^{2}}+\\frac{x}{\\sqrt{1+x^{2}}}\\times x$\n$=\\frac{\\sqrt{1-x^{2}}+x^{2}}{\\sqrt{1+x^{2}}}$"
+      },
+      {
+        "question_text": "Find the exact value of $\\sin\\left(\\arctan\\left(-\\frac{5}{12}\\right)+\\arccos\\left(-\\frac{4}{5}\\right)\\right)$.",
+        "structure": "compound-angle-numeric",
+        "solution_text": "Let $\\alpha=\\arctan\\left(-\\frac{5}{12}\\right)$ and $\\beta=\\arccos\\left(-\\frac{4}{5}\\right)$.\n$-\\frac{\\pi}{2}<\\alpha<\\frac{\\pi}{2}$ and $\\tan\\alpha<0$, so $\\alpha$ is in quadrant 4, where the sine is negative and the cosine positive.\n$\\text{hypotenuse}=\\sqrt{5^{2}+12^{2}}=13$, so $\\sin\\alpha=-\\frac{5}{13}$ and $\\cos\\alpha=\\frac{12}{13}$.\n$0\\le\\beta\\le\\pi$ and $\\cos\\beta<0$, so $\\beta$ is in quadrant 2, where the sine is positive.\n$\\text{opposite}=\\sqrt{5^{2}-4^{2}}=3$, so $\\sin\\beta=\\frac{3}{5}$.\n$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$\n$=\\left(-\\frac{5}{13}\\right)\\times\\left(-\\frac{4}{5}\\right)+\\frac{12}{13}\\times\\frac{3}{5}$\n$=\\frac{20}{65}+\\frac{36}{65}$\n$=\\frac{56}{65}$"
+      }
+    ]
+  }
+}

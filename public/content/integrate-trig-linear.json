@@ -1,0 +1,152 @@
+{
+  "skillId": "integrate-trig-linear",
+  "atomType": "R",
+  "theory": {
+    "intro": "When the angle is a linear expression $ax + b$, integrate as usual and then divide by $a$, the coefficient of $x$. So $\\int\\cos(ax + b)\\,dx = \\dfrac{1}{a}\\sin(ax + b) + C$. The $\\dfrac{1}{a}$ undoes the $a$ that the chain rule would produce.",
+    "facts": [
+      "$\\int\\sin(ax + b)\\,dx = -\\dfrac{1}{a}\\cos(ax + b) + C$, keeping the minus sign from $\\int\\sin x\\,dx$.",
+      "$\\int\\cos(ax + b)\\,dx = \\dfrac{1}{a}\\sin(ax + b) + C$.",
+      "$\\int\\sec^{2}(ax + b)\\,dx = \\dfrac{1}{a}\\tan(ax + b) + C$.",
+      "The bracket $ax + b$ is copied unchanged into the answer; only the function and the factor outside change.",
+      "Here $a$ is the coefficient of $x$, so $\\cos\\dfrac{x}{5}$ has $a = \\dfrac{1}{5}$ and the factor outside is $5$.",
+      "A negative coefficient gives a negative factor, as in $\\int\\sec^{2}(-3x)\\,dx = -\\dfrac{1}{3}\\tan(-3x) + C$.",
+      "A constant factor multiplies the whole answer, so $\\int k\\cos(ax + b)\\,dx = \\dfrac{k}{a}\\sin(ax + b) + C$.",
+      "Check the answer by differentiating: the chain rule should return the $a$ you divided by.",
+      "For a definite integral, substitute each limit into $ax + b$ and work entirely in **radians**."
+    ],
+    "steps": [
+      "Identify $a$, the coefficient of $x$ inside the bracket.",
+      "Write the primitive of the trigonometric function, copying the bracket $ax + b$ unchanged.",
+      "Multiply by $\\dfrac{1}{a}$, keeping any constant factor from the integrand.",
+      "Add $+C$, or substitute the limits in radians and subtract."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\int\\cos 3x\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int\\cos 3x\\,dx$\n$= \\dfrac{1}{3}\\sin 3x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sin 4x\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int\\sin 4x\\,dx$\n$= -\\dfrac{1}{4}\\cos 4x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sec^{2}5x\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int\\sec^{2}5x\\,dx$\n$= \\dfrac{1}{5}\\tan 5x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\cos\\dfrac{x}{2}\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = \\dfrac{1}{2}$, so the factor outside is $2$.\n$\\int\\cos\\dfrac{x}{2}\\,dx$\n$= 2\\sin\\dfrac{x}{2} + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sin\\dfrac{x}{3}\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = \\dfrac{1}{3}$, so the factor outside is $3$.\n$\\int\\sin\\dfrac{x}{3}\\,dx$\n$= -3\\cos\\dfrac{x}{3} + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sec^{2}(-2x)\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = -2$.\n$\\int\\sec^{2}(-2x)\\,dx$\n$= -\\dfrac{1}{2}\\tan(-2x) + C$"
+      },
+      {
+        "question_text": "Find $\\int 6\\cos 2x\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int 6\\cos 2x\\,dx$\n$= \\dfrac{6}{2}\\sin 2x + C$\n$= 3\\sin 2x + C$"
+      },
+      {
+        "question_text": "Find $\\int 10\\sin 5x\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int 10\\sin 5x\\,dx$\n$= -\\dfrac{10}{5}\\cos 5x + C$\n$= -2\\cos 5x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\cos(2x + 1)\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int\\cos(2x + 1)\\,dx$\n$= \\dfrac{1}{2}\\sin(2x + 1) + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sin(3x - 2)\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$\\int\\sin(3x - 2)\\,dx$\n$= -\\dfrac{1}{3}\\cos(3x - 2) + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int\\sec^{2}(4 - x)\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = -1$.\n$\\int\\sec^{2}(4 - x)\\,dx$\n$= -\\tan(4 - x) + C$"
+      },
+      {
+        "question_text": "Find $\\int\\cos(5 - 2x)\\,dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = -2$.\n$\\int\\cos(5 - 2x)\\,dx$\n$= -\\dfrac{1}{2}\\sin(5 - 2x) + C$"
+      },
+      {
+        "question_text": "Find $\\int\\sec^{2}\\left(\\dfrac{x}{4} + \\pi\\right)dx$.",
+        "structure": "integrate-trig-linear-basic",
+        "solution_text": "$a = \\dfrac{1}{4}$, so the factor outside is $4$.\n$\\int\\sec^{2}\\left(\\dfrac{x}{4} + \\pi\\right)dx$\n$= 4\\tan\\left(\\dfrac{x}{4} + \\pi\\right) + C$"
+      },
+      {
+        "question_text": "Find $\\int(3\\cos 2x - 4\\sin 4x)\\,dx$.",
+        "structure": "integrate-trig-linear-sum",
+        "solution_text": "$\\int(3\\cos 2x - 4\\sin 4x)\\,dx$\n$= \\dfrac{3}{2}\\sin 2x - 4\\left(-\\dfrac{1}{4}\\cos 4x\\right) + C$\n$= \\dfrac{3}{2}\\sin 2x + \\cos 4x + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(8\\sec^{2}4x + 6\\sin 3x\\right)dx$.",
+        "structure": "integrate-trig-linear-sum",
+        "solution_text": "$\\int\\left(8\\sec^{2}4x + 6\\sin 3x\\right)dx$\n$= \\dfrac{8}{4}\\tan 4x - \\dfrac{6}{3}\\cos 3x + C$\n$= 2\\tan 4x - 2\\cos 3x + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{6}}\\sin 3x\\,dx$.",
+        "structure": "evaluate-definite-trig-linear",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{6}}\\sin 3x\\,dx$\n$= \\left[-\\dfrac{1}{3}\\cos 3x\\right]_{0}^{\\frac{\\pi}{6}}$\n$= -\\dfrac{1}{3}\\cos\\dfrac{\\pi}{2} + \\dfrac{1}{3}\\cos 0$\n$= 0 + \\dfrac{1}{3}$\n$= \\dfrac{1}{3}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{8}}\\sec^{2}2x\\,dx$.",
+        "structure": "evaluate-definite-trig-linear",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{8}}\\sec^{2}2x\\,dx$\n$= \\left[\\dfrac{1}{2}\\tan 2x\\right]_{0}^{\\frac{\\pi}{8}}$\n$= \\dfrac{1}{2}\\tan\\dfrac{\\pi}{4} - \\dfrac{1}{2}\\tan 0$\n$= \\dfrac{1}{2}(1) - 0$\n$= \\dfrac{1}{2}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{2}}\\cos\\dfrac{x}{2}\\,dx$.",
+        "structure": "evaluate-definite-trig-linear",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{2}}\\cos\\dfrac{x}{2}\\,dx$\n$= \\left[2\\sin\\dfrac{x}{2}\\right]_{0}^{\\frac{\\pi}{2}}$\n$= 2\\sin\\dfrac{\\pi}{4} - 2\\sin 0$\n$= 2 \\times \\dfrac{1}{\\sqrt{2}}$\n$= \\sqrt{2}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{3}}\\sin 2x\\,dx$.",
+        "structure": "evaluate-definite-trig-linear",
+        "solution_text": "$\\int_{0}^{\\frac{\\pi}{3}}\\sin 2x\\,dx$\n$= \\left[-\\dfrac{1}{2}\\cos 2x\\right]_{0}^{\\frac{\\pi}{3}}$\n$= -\\dfrac{1}{2}\\cos\\dfrac{2\\pi}{3} + \\dfrac{1}{2}\\cos 0$\n$= -\\dfrac{1}{2}\\left(-\\dfrac{1}{2}\\right) + \\dfrac{1}{2}$\n$= \\dfrac{1}{4} + \\dfrac{1}{2}$\n$= \\dfrac{3}{4}$"
+      },
+      {
+        "question_text": "A curve has gradient function $\\dfrac{dy}{dx} = \\cos 2x$ and passes through $\\left(\\dfrac{\\pi}{4},\\, 1\\right)$. Find the equation of the curve.",
+        "structure": "primitive-through-point-linear",
+        "solution_text": "$y = \\int\\cos 2x\\,dx$\n$= \\dfrac{1}{2}\\sin 2x + C$\nSubstitute $x = \\dfrac{\\pi}{4}$ and $y = 1$.\n$1 = \\dfrac{1}{2}\\sin\\dfrac{\\pi}{2} + C$\n$1 = \\dfrac{1}{2} + C$\n$C = \\dfrac{1}{2}$\n$y = \\dfrac{1}{2}\\sin 2x + \\dfrac{1}{2}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find $\\int\\left(12\\sec^{2}3x - 8\\cos\\dfrac{x}{2} + 9\\sin\\dfrac{x}{3}\\right)dx$.",
+        "structure": "integrate-trig-linear-sum",
+        "solution_text": "$\\int\\left(12\\sec^{2}3x - 8\\cos\\dfrac{x}{2} + 9\\sin\\dfrac{x}{3}\\right)dx$\n$= \\dfrac{12}{3}\\tan 3x - 8 \\times 2\\sin\\dfrac{x}{2} + 9 \\times \\left(-3\\cos\\dfrac{x}{3}\\right) + C$\n$= 4\\tan 3x - 16\\sin\\dfrac{x}{2} - 27\\cos\\dfrac{x}{3} + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{\\pi}^{2\\pi}\\cos\\left(3x + \\dfrac{\\pi}{2}\\right)dx$.",
+        "structure": "evaluate-definite-trig-linear",
+        "solution_text": "$\\int_{\\pi}^{2\\pi}\\cos\\left(3x + \\dfrac{\\pi}{2}\\right)dx$\n$= \\left[\\dfrac{1}{3}\\sin\\left(3x + \\dfrac{\\pi}{2}\\right)\\right]_{\\pi}^{2\\pi}$\n$= \\dfrac{1}{3}\\sin\\dfrac{13\\pi}{2} - \\dfrac{1}{3}\\sin\\dfrac{7\\pi}{2}$\n$= \\dfrac{1}{3}(1) - \\dfrac{1}{3}(-1)$\n$= \\dfrac{2}{3}$"
+      },
+      {
+        "question_text": "A function has $f'(x) = \\pi\\cos\\pi x$ and $f(0) = 0$. Find $f(x)$ and $f\\left(\\dfrac{1}{3}\\right)$.",
+        "structure": "primitive-through-point-linear",
+        "solution_text": "$f(x) = \\int\\pi\\cos\\pi x\\,dx$\n$= \\dfrac{\\pi}{\\pi}\\sin\\pi x + C$\n$= \\sin\\pi x + C$\nSubstitute $x = 0$ and $f(0) = 0$.\n$0 = \\sin 0 + C$\n$C = 0$\n$f(x) = \\sin\\pi x$\n$f\\left(\\dfrac{1}{3}\\right) = \\sin\\dfrac{\\pi}{3}$\n$= \\dfrac{\\sqrt{3}}{2}$"
+      },
+      {
+        "question_text": "Find $\\int a\\sin(ax + b)\\,dx$, where $a$ and $b$ are constants and $a \\ne 0$.",
+        "structure": "integrate-trig-linear-parameters",
+        "solution_text": "$\\int a\\sin(ax + b)\\,dx$\n$= a \\times \\left(-\\dfrac{1}{a}\\cos(ax + b)\\right) + C$\n$= -\\cos(ax + b) + C$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "skillId": "precedence-network",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The network below shows the activities in a printing job, with durations in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2,1.3);\n\\coordinate (Q) at (2,-1.3);\n\\coordinate (R) at (4.4,0);\n\\coordinate (T) at (6.4,0);\n\\coordinate (Z) at (8.4,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,4$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,6$};\n\\draw[midarrow] (P) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,2$};\n\\draw[midarrow] (Q) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,5$};\n\\draw[midarrow] (R) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,3$};\n\\draw[midarrow] (T) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,7$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nWhich activity has $C$ and $D$ as its immediate predecessors?",
+      "structure": "network-to-table",
+      "mastery": false,
+      "options": [
+        { "text": "$E$", "correct": true },
+        { "text": "$F$", "why": "Read one edge too far past the junction; $F$ begins where $E$ ends, so its only immediate predecessor is $E$." },
+        { "text": "$C$", "why": "Named one of the two arriving activities instead of the activity that leaves the junction." },
+        { "text": "$B$", "why": "Traced back to a predecessor of $D$ rather than forward to the activity starting at the junction." }
+      ],
+      "solution_text": "$C$ and $D$ both end at the same vertex.\nThe only edge leaving that vertex is $E$.\n$E$ has immediate predecessors $C$ and $D$."
+    },
+    {
+      "id": "q2",
+      "question_text": "The network below shows a furniture assembly project, with durations in minutes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.8);\n\\coordinate (Q) at (2.4,0);\n\\coordinate (R) at (2.4,-1.8);\n\\coordinate (T) at (5.2,0);\n\\coordinate (Z) at (7.4,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,3$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,5$};\n\\draw[midarrow] (S) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,2$};\n\\draw[midarrow] (P) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,4$};\n\\draw[midarrow] (Q) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,6$};\n\\draw[midarrow] (R) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,1$};\n\\draw[midarrow] (T) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$G,\\,8$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nHow many immediate predecessors does activity $G$ have?",
+      "structure": "network-to-table",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$4$", "why": "Counted every edge meeting the vertex where $G$ starts, including $G$ itself." },
+        { "text": "$6$", "why": "Counted every activity that must be finished before $G$, rather than only the immediate predecessors." },
+        { "text": "$1$", "why": "Counted the single vertex that $G$ leaves instead of the edges arriving at it." }
+      ],
+      "solution_text": "$G$ starts at the vertex where $D$, $E$ and $F$ all end.\nThree edges arrive at that vertex.\n$G$ has $3$ immediate predecessors."
+    },
+    {
+      "id": "q3",
+      "question_text": "A tree-planting day has the precedence table below. Durations are in hours.\n$\\begin{array}{c|c|c} \\text{Activity} & \\text{Duration} & \\text{Immediate predecessors} \\\\ \\hline A & 2 & - \\\\ B & 8 & - \\\\ C & 5 & - \\\\ D & 3 & A \\\\ E & 6 & B \\\\ F & 4 & C \\\\ G & 1 & D, E \\end{array}$\nHow many edges leave the start vertex of the network for this table?",
+      "structure": "table-to-network",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$1$", "why": "Assumed a network always begins with a single first activity, ignoring $B$ and $C$." },
+        { "text": "$4$", "why": "Counted $D$ as well, but $D$ begins where $A$ ends, not at the start vertex." },
+        { "text": "$7$", "why": "Counted every activity in the table rather than only those with no immediate predecessors." }
+      ],
+      "solution_text": "An edge leaves the start vertex for every activity with no immediate predecessors.\n$A$, $B$ and $C$ each show a dash in the predecessor column.\n$3$ edges leave the start vertex.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,2.0);\n\\coordinate (Q) at (2.4,0);\n\\coordinate (R) at (2.4,-2.0);\n\\coordinate (M) at (5.0,1.0);\n\\coordinate (Z) at (7.6,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,2$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,8$};\n\\draw[midarrow] (S) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,5$};\n\\draw[midarrow] (P) -- (M) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,3$};\n\\draw[midarrow] (Q) -- (M) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,6$};\n\\draw[midarrow] (R) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,4$};\n\\draw[midarrow] (M) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$G,\\,1$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (M) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "A hospital ward audit has the precedence table below. Durations are in hours.\n$\\begin{array}{c|c|c} \\text{Activity} & \\text{Duration} & \\text{Immediate predecessors} \\\\ \\hline A & 9 & - \\\\ B & 4 & - \\\\ C & 7 & A \\\\ D & 2 & B \\\\ E & 5 & C \\\\ F & 3 & D \\\\ G & 6 & E, F \\end{array}$\nIn the network for this table, activity $G$ begins at the vertex where which activities end?",
+      "structure": "table-to-network",
+      "mastery": false,
+      "options": [
+        { "text": "$E, F$", "correct": true },
+        { "text": "$C, D$", "why": "Went one step too far back and named the immediate predecessors of $E$ and $F$." },
+        { "text": "$F, G$", "why": "Included $G$ itself, which starts at that vertex rather than ending there." },
+        { "text": "$E, F, G$", "why": "Listed every activity touching the vertex instead of only the two arriving at it." }
+      ],
+      "solution_text": "The predecessor column for $G$ lists $E$ and $F$.\nAn activity begins at the vertex where all of its immediate predecessors end.\n$G$ begins where $E$ and $F$ end.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.2,1.6);\n\\coordinate (Q) at (2.2,-1.6);\n\\coordinate (R) at (4.6,1.6);\n\\coordinate (T) at (4.6,-1.6);\n\\coordinate (U) at (6.8,0);\n\\coordinate (Z) at (8.8,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,9$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,4$};\n\\draw[midarrow] (P) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,7$};\n\\draw[midarrow] (Q) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,2$};\n\\draw[midarrow] (R) -- (U) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,5$};\n\\draw[midarrow] (T) -- (U) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,3$};\n\\draw[midarrow] (U) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$G,\\,6$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (U) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q5",
+      "question_text": "A music festival setup has the precedence table below. Durations are in hours.\n$\\begin{array}{c|c|c} \\text{Activity} & \\text{Duration} & \\text{Immediate predecessors} \\\\ \\hline A & 6 & - \\\\ B & 2 & - \\\\ C & 8 & - \\\\ D & 4 & A, B \\\\ E & 9 & B, C \\\\ F & 3 & D \\\\ G & 5 & E \\end{array}$\nHow many dummy activities does the network for this table need?",
+      "structure": "table-to-network-dummy",
+      "mastery": true,
+      "options": [
+        { "text": "$2$", "correct": true },
+        { "text": "$1$", "why": "Stopped after making $D$'s predecessors work and did not check that $E$ also needs $B$ separately." },
+        { "text": "$0$", "why": "Assumed a dummy is needed only when two activities would share both their start and finish vertices." },
+        { "text": "$3$", "why": "Added one dummy for each activity that has two immediate predecessors, plus one more." }
+      ],
+      "solution_text": "$D$ needs $\\{A, B\\}$ and $E$ needs $\\{B, C\\}$.\nThe two lists share $B$ only, so $B$ cannot end at the same vertex as $A$ or as $C$.\nOne dummy carries $B$ forward to the vertex where $D$ starts, and a second carries $B$ forward to the vertex where $E$ starts.\n$2$ dummy activities are needed.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,2.0);\n\\coordinate (Q) at (2.4,0);\n\\coordinate (R) at (2.4,-2.0);\n\\coordinate (M) at (5.0,2.0);\n\\coordinate (N) at (5.0,-2.0);\n\\coordinate (Z) at (7.4,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,6$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,2$};\n\\draw[midarrow] (S) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,8$};\n\\draw[midarrow, dashed] (Q) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$0$} node[pos=0.75, right, font=\\small] {dummy};\n\\draw[midarrow, dashed] (Q) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$0$} node[pos=0.75, right, font=\\small] {dummy};\n\\draw[midarrow] (P) -- (M) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,4$};\n\\draw[midarrow] (R) -- (N) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,9$};\n\\draw[midarrow] (M) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,3$};\n\\draw[midarrow] (N) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$G,\\,5$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (M) circle (2.5pt);\n\\fill (N) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "A pool installation has the precedence table below. Durations are in days.\n$\\begin{array}{c|c|c} \\text{Activity} & \\text{Duration} & \\text{Immediate predecessors} \\\\ \\hline A & 7 & - \\\\ B & 11 & - \\\\ C & 3 & A \\\\ D & 8 & A, B \\\\ E & 2 & C \\\\ F & 5 & D \\end{array}$\nWhich pair of activities makes a dummy activity necessary?",
+      "structure": "dummy-decision",
+      "mastery": false,
+      "options": [
+        { "text": "$C$ and $D$", "correct": true },
+        { "text": "$A$ and $B$", "why": "$A$ and $B$ share the start vertex, but leaving the same vertex never forces a dummy." },
+        { "text": "$E$ and $F$", "why": "$E$ and $F$ have no immediate predecessor in common, so their predecessor lists do not overlap at all." },
+        { "text": "$C$ and $E$", "why": "$C$ is the immediate predecessor of $E$; a dummy is forced by a shared predecessor, not by a chain." }
+      ],
+      "solution_text": "$C$ has predecessor list $\\{A\\}$ and $D$ has predecessor list $\\{A, B\\}$.\nThey share $A$ but not $B$, so they cannot start from the same vertex.\nA dummy is drawn from the end of $A$ to the end of $B$, giving $D$ a start vertex reached by both while $C$ still starts from $A$ alone.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.4,1.5);\n\\coordinate (Q) at (2.4,-1.5);\n\\coordinate (R) at (5,1.5);\n\\coordinate (T) at (5,-1.5);\n\\coordinate (Z) at (7.4,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,7$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,11$};\n\\draw[midarrow, dashed] (P) -- (Q) node[pos=0.3, fill=white, inner sep=1pt] {$0$} node[pos=0.72, right, font=\\small] {dummy};\n\\draw[midarrow] (P) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,3$};\n\\draw[midarrow] (Q) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,8$};\n\\draw[midarrow] (R) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,2$};\n\\draw[midarrow] (T) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,5$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "The network below shows a laboratory experiment, with durations in minutes. The dashed edge is a dummy activity.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.5 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,0);\n\\coordinate (P) at (2.2,1.6);\n\\coordinate (Q) at (2.2,-1.6);\n\\coordinate (R) at (4.6,1.6);\n\\coordinate (T) at (4.6,-1.6);\n\\coordinate (Z) at (7,0);\n\\draw[midarrow] (S) -- (P) node[pos=0.35, fill=white, inner sep=1pt] {$A,\\,7$};\n\\draw[midarrow] (S) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$B,\\,2$};\n\\draw[midarrow, dashed] (P) -- (Q) node[pos=0.35, fill=white, inner sep=1pt] {$0$};\n\\draw[midarrow] (P) -- (R) node[pos=0.35, fill=white, inner sep=1pt] {$C,\\,5$};\n\\draw[midarrow] (Q) -- (T) node[pos=0.35, fill=white, inner sep=1pt] {$D,\\,8$};\n\\draw[midarrow] (R) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$E,\\,3$};\n\\draw[midarrow] (T) -- (Z) node[pos=0.35, fill=white, inner sep=1pt] {$F,\\,4$};\n\\fill (S) circle (2.5pt);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (T) circle (2.5pt);\n\\fill (Z) circle (2.5pt);\n\\node[font=\\small, left] at (S) {Start};\n\\node[font=\\small, right] at (Z) {Finish};\n\\end{tikzpicture}\n[/tikz]\nWhich activity has both $A$ and $B$ as its immediate predecessors?",
+      "structure": "network-to-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$D$",
+          "correct": true
+        },
+        {
+          "text": "$C$",
+          "why": "Chose the activity leaving the vertex the dummy starts from; only $A$ arrives there, so $C$ has just one immediate predecessor."
+        },
+        {
+          "text": "$A$",
+          "why": "Named one of the two predecessors themselves instead of the activity that follows them."
+        },
+        {
+          "text": "$F$",
+          "why": "Followed the chain one step too far; $F$ starts where $D$ ends, so its only immediate predecessor is $D$."
+        }
+      ],
+      "solution_text": "$D$ starts at the vertex where $B$ ends.\nThe dummy also arrives at that vertex from the end of $A$, so $A$ must be finished before $D$ can begin.\nA dummy is not itself an activity; it only passes the dependency across.\nThe immediate predecessors of $D$ are $A$ and $B$."
+    }
+  ]
+}

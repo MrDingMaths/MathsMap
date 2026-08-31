@@ -1,0 +1,96 @@
+{
+  "skillId": "scalar-multiple-vector",
+  "atomType": "T",
+  "theory": {
+    "intro": "**Scalar multiplication** multiplies a vector by a number $k$. The new vector is parallel to the original: it is $|k|$ times as long, and it points the opposite way when $k$ is negative.",
+    "facts": [
+      "In column form, multiply each component by $k$, so $3\\begin{pmatrix}2\\\\-5\\end{pmatrix}=\\begin{pmatrix}6\\\\-15\\end{pmatrix}$.",
+      "The length scales by the size of $k$: $\\left|k\\underset{\\sim}{a}\\right|=|k|\\,\\left|\\underset{\\sim}{a}\\right|$.",
+      "A positive $k$ keeps the direction, and a negative $k$ reverses it.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\draw[->,thick] (0,0) -- (2,1) node[midway,above left] {$\\underset{\\sim}{a}$};\n\\draw[->,thick] (2.8,0) -- (6.8,2) node[midway,above left] {$2\\underset{\\sim}{a}$};\n\\draw[->,thick] (2,-1.4) -- (0,-2.4) node[midway,below] {$-\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+      "$k\\underset{\\sim}{a}$ is always parallel to $\\underset{\\sim}{a}$, and $0\\underset{\\sim}{a}$ is the zero vector $\\underset{\\sim}{0}$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The vector $\\underset{\\sim}{a}$ is shown on the grid. Find $4\\underset{\\sim}{a}$ as a column vector.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[help lines] (-1,-3) grid (4,2);\n\\draw[->] (-1,0) -- (4,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,2) node[above] {$y$};\n\\draw[->,thick] (0,0) -- (3,-2) node[midway,above right] {$\\underset{\\sim}{a}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "scale-column-vector",
+        "solution_text": "$4\\underset{\\sim}{a}$\n$=4\\begin{pmatrix}3\\\\-2\\end{pmatrix}$\n$=\\begin{pmatrix}4\\times3\\\\4\\times(-2)\\end{pmatrix}$\n$=\\begin{pmatrix}12\\\\-8\\end{pmatrix}$"
+      },
+      {
+        "question_text": "Find $-3\\begin{pmatrix}-1\\\\5\\end{pmatrix}$.",
+        "structure": "scale-column-vector",
+        "solution_text": "$-3\\begin{pmatrix}-1\\\\5\\end{pmatrix}$\n$=\\begin{pmatrix}-3\\times(-1)\\\\-3\\times5\\end{pmatrix}$\n$=\\begin{pmatrix}3\\\\-15\\end{pmatrix}$"
+      },
+      {
+        "question_text": "On the grid, $\\underset{\\sim}{v}$ and $\\underset{\\sim}{w}$ are drawn. Write $\\underset{\\sim}{w}$ in terms of $\\underset{\\sim}{v}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[help lines] (-4,-1) grid (3,4);\n\\draw[->,thick] (0,0) -- (2,1) node[midway,below right] {$\\underset{\\sim}{v}$};\n\\draw[->,thick] (1,3) -- (-3,1) node[midway,above] {$\\underset{\\sim}{w}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "scale-vector-graphically",
+        "solution_text": "$\\underset{\\sim}{v}=\\begin{pmatrix}2\\\\1\\end{pmatrix}$\n$\\underset{\\sim}{w}=\\begin{pmatrix}-4\\\\-2\\end{pmatrix}$\n$=-2\\begin{pmatrix}2\\\\1\\end{pmatrix}$\n$=-2\\underset{\\sim}{v}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{c}$ points due east, as shown. Describe the direction and the relative length of $\\frac{1}{3}\\underset{\\sim}{c}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.2]\n\\draw[->,thick] (0,0) -- (3,0) node[midway,below] {$\\underset{\\sim}{c}$};\n\\draw[->] (-1,0.4) -- (-1,2.0) node[above] {$N$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "describe-effect",
+        "solution_text": "The scalar $\\frac{1}{3}$ is positive, so the direction is unchanged.\n$\\frac{1}{3}\\underset{\\sim}{c}$ points due east and is one third as long as $\\underset{\\sim}{c}$."
+      },
+      {
+        "question_text": "$\\left|\\underset{\\sim}{a}\\right|=7$. Find $\\left|-3\\underset{\\sim}{a}\\right|$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$\\left|-3\\underset{\\sim}{a}\\right|$\n$=|-3|\\times\\left|\\underset{\\sim}{a}\\right|$\n$=3\\times7$\n$=21$"
+      },
+      {
+        "question_text": "$\\underset{\\sim}{a}=\\begin{pmatrix}2\\\\-3\\end{pmatrix}$ and $\\underset{\\sim}{b}=\\begin{pmatrix}10\\\\-15\\end{pmatrix}$. Find the value of $k$ for which $\\underset{\\sim}{b}=k\\underset{\\sim}{a}$.",
+        "structure": "find-scalar",
+        "solution_text": "$2k=10$\n$k=5$\nCheck the bottom row:\n$5\\times(-3)=-15$\n$k=5$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\frac{3}{2}\\begin{pmatrix}-6\\\\4\\end{pmatrix}$.",
+        "structure": "scale-column-vector",
+        "solution_text": "$\\frac{3}{2}\\begin{pmatrix}-6\\\\4\\end{pmatrix}$\n$=\\begin{pmatrix}\\frac{3}{2}\\times(-6)\\\\\\frac{3}{2}\\times4\\end{pmatrix}$\n$=\\begin{pmatrix}-9\\\\6\\end{pmatrix}$"
+      },
+      {
+        "question_text": "Find $-2(5\\underset{\\sim}{i}-\\underset{\\sim}{j})$.",
+        "structure": "scale-column-vector",
+        "solution_text": "$-2(5\\underset{\\sim}{i}-\\underset{\\sim}{j})$\n$=-2\\times5\\underset{\\sim}{i}+(-2)\\times(-1)\\underset{\\sim}{j}$\n$=-10\\underset{\\sim}{i}+2\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "$\\underset{\\sim}{p}=\\begin{pmatrix}-4\\\\6\\end{pmatrix}$ and $\\underset{\\sim}{q}=\\begin{pmatrix}6\\\\-9\\end{pmatrix}$. Find the value of $k$ for which $\\underset{\\sim}{q}=k\\underset{\\sim}{p}$.",
+        "structure": "find-scalar",
+        "solution_text": "$-4k=6$\n$k=-\\frac{3}{2}$\nCheck the bottom row:\n$-\\frac{3}{2}\\times6=-9$\n$k=-\\frac{3}{2}$"
+      },
+      {
+        "question_text": "$\\left|\\underset{\\sim}{v}\\right|=12$ and $\\left|k\\underset{\\sim}{v}\\right|=30$, where $k<0$. Find $k$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$|k|\\times12=30$\n$|k|=\\frac{30}{12}$\n$|k|=\\frac{5}{2}$\nSince $k<0$,\n$k=-\\frac{5}{2}$"
+      },
+      {
+        "question_text": "On the grid, $\\underset{\\sim}{u}$ and $\\underset{\\sim}{w}$ are drawn. Write $\\underset{\\sim}{w}$ in terms of $\\underset{\\sim}{u}$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[help lines] (-4,-1) grid (4,4);\n\\draw[->,thick] (0,0) -- (2,1) node[midway,below right] {$\\underset{\\sim}{u}$};\n\\draw[->,thick] (3,3) -- (-3,0) node[midway,above] {$\\underset{\\sim}{w}$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "scale-vector-graphically",
+        "solution_text": "$\\underset{\\sim}{u}=\\begin{pmatrix}2\\\\1\\end{pmatrix}$\n$\\underset{\\sim}{w}=\\begin{pmatrix}-6\\\\-3\\end{pmatrix}$\n$=-3\\begin{pmatrix}2\\\\1\\end{pmatrix}$\n$=-3\\underset{\\sim}{u}$"
+      },
+      {
+        "question_text": "Explain why $-\\frac{1}{2}\\underset{\\sim}{a}$ is parallel to $\\underset{\\sim}{a}$ but points the opposite way.",
+        "structure": "describe-effect",
+        "solution_text": "$-\\frac{1}{2}\\underset{\\sim}{a}$ is a scalar multiple of $\\underset{\\sim}{a}$, and every scalar multiple lies along the same line, so the two vectors are parallel.\nThe scalar $-\\frac{1}{2}$ is negative, so the arrow is reversed, and $\\left|-\\frac{1}{2}\\right|=\\frac{1}{2}$, so it is half as long."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "$\\begin{pmatrix}-6\\\\t\\end{pmatrix}=k\\begin{pmatrix}4\\\\-3\\end{pmatrix}$. Find the values of $k$ and $t$.",
+        "structure": "find-scalar",
+        "solution_text": "$4k=-6$\n$k=-\\frac{3}{2}$\n$t=-\\frac{3}{2}\\times(-3)$\n$t=\\frac{9}{2}$"
+      },
+      {
+        "question_text": "$\\underset{\\sim}{b}=-4\\underset{\\sim}{a}$ and $\\left|\\underset{\\sim}{b}\\right|=18$. Find $\\left|3\\underset{\\sim}{a}\\right|$.",
+        "structure": "magnitude-of-scalar-multiple",
+        "solution_text": "$\\left|\\underset{\\sim}{b}\\right|=|-4|\\times\\left|\\underset{\\sim}{a}\\right|$\n$18=4\\left|\\underset{\\sim}{a}\\right|$\n$\\left|\\underset{\\sim}{a}\\right|=\\frac{9}{2}$\n$\\left|3\\underset{\\sim}{a}\\right|=3\\times\\frac{9}{2}$\n$=\\frac{27}{2}$"
+      },
+      {
+        "question_text": "The vector $\\underset{\\sim}{a}$ has magnitude $6$ and points north-east. State the magnitude and direction of $-\\frac{2}{3}\\underset{\\sim}{a}$.",
+        "structure": "describe-effect",
+        "solution_text": "$\\left|-\\frac{2}{3}\\underset{\\sim}{a}\\right|=\\frac{2}{3}\\times6$\n$=4$\nThe scalar is negative, so the direction is reversed.\n$-\\frac{2}{3}\\underset{\\sim}{a}$ has magnitude $4$ and points south-west."
+      }
+    ]
+  }
+}

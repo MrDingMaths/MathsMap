@@ -1,0 +1,121 @@
+{
+  "skillId": "multiplicity-derivative",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The number $x=3$ is a zero of $P(x)=x^{4}-8x^{3}+18x^{2}-27$. Which is the first derivative of $P$ that is not zero at $x=3$?",
+      "structure": "multiplicity-from-derivatives",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$P'''$",
+          "correct": true
+        },
+        {
+          "text": "$P'$",
+          "why": "Checked only that $P(3)=0$ and assumed the very next derivative must be non-zero, but $P'(3)=108-216+108=0$."
+        },
+        {
+          "text": "$P''$",
+          "why": "Stopped one derivative early: $P''(3)=108-144+36=0$, so $P''$ is still zero at $x=3$."
+        },
+        {
+          "text": "$P''''$",
+          "why": "Read a multiplicity of $3$ as meaning the first three derivatives after $P'$ all vanish, counting one derivative too far; in fact $P'''(3)=24\\ne0$."
+        }
+      ],
+      "solution_text": "$P(3)=81-216+162-27$\n$=0$\n$P'(x)=4x^{3}-24x^{2}+36x$\n$P'(3)=108-216+108$\n$=0$\n$P''(x)=12x^{2}-48x+36$\n$P''(3)=108-144+36$\n$=0$\n$P'''(x)=24x-48$\n$P'''(3)=72-48$\n$=24$\nSo $P'''$ is the first derivative that is not zero at $x=3$ (and hence $x=3$ has multiplicity $3$)."
+    },
+    {
+      "id": "q2",
+      "question_text": "It is known that $x=-1$ is a zero of $P(x)=x^{4}-6x^{2}-8x-3$. What is its multiplicity?",
+      "structure": "multiplicity-from-derivatives",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$1$", "why": "Only $P(-1)=0$ was checked; $P'(-1)$ is zero too, so the zero repeats." },
+        { "text": "$2$", "why": "Stopped at $P'(-1)=0$ without testing $P''(-1)$, which is also zero." },
+        { "text": "$4$", "why": "Used the degree of $P(x)$ rather than the order of the first non-zero derivative." }
+      ],
+      "solution_text": "$P(-1)=1-6+8-3$\n$=0$\n$P'(x)=4x^{3}-12x-8$\n$P'(-1)=-4+12-8$\n$=0$\n$P''(x)=12x^{2}-12$\n$P''(-1)=12-12$\n$=0$\n$P'''(x)=24x$\n$P'''(-1)=-24$\nThe first derivative that is not zero at $x=-1$ is $P'''$, so the multiplicity is $3$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Let $P(x)=x^{3}-9x^{2}+24x-12$. Which statement about $x=2$ is correct?",
+      "structure": "test-converse-stationary-not-zero",
+      "mastery": false,
+      "options": [
+        { "text": "$P'(2)=0$ but $P(2)\\ne0$, so $x=2$ is not a zero of $P(x)$ at all.", "correct": true },
+        { "text": "$P'(2)=0$, so $x=2$ is a zero of $P(x)$ of multiplicity $2$.", "why": "Uses the converse: a zero of $P'$ is a repeated zero only if it is also a zero of $P$." },
+        { "text": "$P(2)=0$ and $P'(2)\\ne0$, so $x=2$ is a zero of multiplicity $1$.", "why": "Swaps which of $P$ and $P'$ vanishes at $x=2$." },
+        { "text": "$P(2)=P'(2)=0$, so $(x-2)^{2}$ is a factor of $P(x)$.", "why": "Assumes $P(2)=0$ without evaluating it; in fact $P(2)=8$." }
+      ],
+      "solution_text": "$P'(x)=3x^{2}-18x+24$\n$=3(x-2)(x-4)$\n$P'(2)=0$\n$P(2)=8-36+48-12$\n$=8$\nSince $P(2)\\ne0$, $x=2$ is a stationary point that is not a zero of $P(x)$."
+    },
+    {
+      "id": "q4",
+      "question_text": "A polynomial $P(x)$ satisfies $P(-3)=0$, $P'(-3)=0$, $P''(-3)=0$ and $P'''(-3)\\ne0$. Which factor of $P(x)$ is guaranteed?",
+      "structure": "deduce-factor-from-derivative-conditions",
+      "mastery": false,
+      "options": [
+        { "text": "$(x+3)^{3}$", "correct": true },
+        { "text": "$(x-3)^{3}$", "why": "The zero is $x=-3$, so the factor is $(x+3)$, not $(x-3)$." },
+        { "text": "$(x+3)^{2}$", "why": "Used only $P(-3)=0$ and $P'(-3)=0$ and ignored $P''(-3)=0$." },
+        { "text": "$(x-3)^{2}$", "why": "Combines both errors: the wrong sign in the factor and one derivative condition ignored." }
+      ],
+      "solution_text": "$P(-3)=P'(-3)=P''(-3)=0$, so $x=-3$ is a zero of multiplicity at least $3$.\n$P'''(-3)\\ne0$, so the multiplicity is exactly $3$.\nThe guaranteed factor is $(x+3)^{3}$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The polynomial $P(x)=x^{3}-48x+128$ has a double zero. What is it?",
+      "structure": "identify-repeated-zero-among-stationary",
+      "mastery": false,
+      "options": [
+        { "text": "$x=4$", "correct": true },
+        { "text": "$x=-4$", "why": "Took the other zero of $P'$ without testing it in $P$; $P(-4)=256\\ne0$." },
+        { "text": "$x=-8$", "why": "This is the remaining simple zero, found from the sum of the zeroes." },
+        { "text": "$x=8$", "why": "Sign slip when solving $3x^{2}-48=0$, giving $x=\\pm8$ instead of $x=\\pm4$." }
+      ],
+      "solution_text": "$P'(x)=3x^{2}-48$\n$3x^{2}-48=0$\n$x=4$ or $x=-4$\n$P(4)=64-192+128$\n$=0$\n$P(-4)=-64+192+128$\n$=256$\nOnly $x=4$ is a zero of both $P$ and $P'$, so the double zero is $x=4$."
+    },
+    {
+      "id": "q6",
+      "question_text": "The polynomial $P(x)=x^{3}-12x^{2}+k$ has a double zero. Find the possible values of $k$.",
+      "structure": "find-unknown-coefficient-double-root",
+      "mastery": false,
+      "options": [
+        { "text": "$k=0$ or $k=256$", "correct": true },
+        { "text": "$k=0$ or $k=-256$", "why": "Sign slip in $P(8)=512-768+k$, giving $k=-256$ instead of $k=256$." },
+        { "text": "$k=256$ only", "why": "Discarded the stationary point $x=0$, which also gives a double zero when $k=0$." },
+        { "text": "$k=0$ or $k=64$", "why": "Substituted $x=4$ instead of the correct stationary point $x=8$." }
+      ],
+      "solution_text": "$P'(x)=3x^{2}-24x$\n$=3x(x-8)$\n$P'(x)=0$ gives $x=0$ or $x=8$.\n$P(0)=k$\n$k=0$\n$P(8)=512-768+k$\n$=k-256$\n$k=256$\nThe possible values are $k=0$ and $k=256$."
+    },
+    {
+      "id": "q7",
+      "question_text": "The polynomial $P(x)=x^{3}+bx^{2}+cx-16$ has a double zero at $x=4$. Find $b$ and $c$.",
+      "structure": "find-unknown-coefficient-double-root",
+      "mastery": false,
+      "options": [
+        { "text": "$b=-9$, $c=24$", "correct": true },
+        { "text": "$b=-9$, $c=-24$", "why": "Sign slip when back-substituting into $4b+c=-12$." },
+        { "text": "$b=9$, $c=24$", "why": "Sign slip when solving $4b=-36$ for $b$." },
+        { "text": "$b=9$, $c=-24$", "why": "Both sign slips: the wrong sign for $b$ carried through into $c$." }
+      ],
+      "solution_text": "$P(4)=64+16b+4c-16$\n$=0$\n$4b+c=-12$\n$P'(x)=3x^{2}+2bx+c$\n$P'(4)=48+8b+c$\n$=0$\n$8b+c=-48$\nSubtracting the first equation from the second,\n$4b=-36$\n$b=-9$\n$c=-12-4(-9)$\n$=24$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The polynomial $P(x)=x^{3}+px+q$, with $p\\ne0$, has a double zero. Which relationship must $p$ and $q$ satisfy?",
+      "structure": "prove-general-multiplicity-result",
+      "mastery": true,
+      "options": [
+        { "text": "$4p^{3}+27q^{2}=0$", "correct": true },
+        { "text": "$4p^{3}-27q^{2}=0$", "why": "Sign error when squaring $\\alpha=-\\dfrac{3q}{2p}$ and substituting into $\\alpha^{2}=-\\dfrac{p}{3}$." },
+        { "text": "$27p^{3}+4q^{2}=0$", "why": "The coefficients $4$ and $27$ have been attached to the wrong letters." },
+        { "text": "$p^{2}=4q$", "why": "This is the condition for a double zero of a quadratic, not of this cubic." }
+      ],
+      "solution_text": "Let the double zero be $x=\\alpha$, so $P(\\alpha)=0$ and $P'(\\alpha)=0$.\n$P'(x)=3x^{2}+p$\n$3\\alpha^{2}+p=0$\n$\\alpha^{2}=-\\dfrac{p}{3}$\n$P(\\alpha)=\\alpha^{3}+p\\alpha+q$\n$=0$\n$\\alpha(\\alpha^{2}+p)=-q$\n$\\alpha\\left(-\\dfrac{p}{3}+p\\right)=-q$\n$\\dfrac{2p\\alpha}{3}=-q$\n$\\alpha=-\\dfrac{3q}{2p}$\n$\\dfrac{9q^{2}}{4p^{2}}=-\\dfrac{p}{3}$\n$27q^{2}=-4p^{3}$\n$4p^{3}+27q^{2}=0$"
+    }
+  ]
+}

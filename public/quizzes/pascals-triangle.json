@@ -1,0 +1,205 @@
+{
+  "skillId": "pascals-triangle",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Row $5$ of Pascal's triangle is $1 \\quad 5 \\quad 10 \\quad 10 \\quad 5 \\quad 1$. What are the entries of Row $6$?",
+      "structure": "construct-pascals-row",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1, 6, 15, 20, 15, 6, 1$",
+          "correct": true
+        },
+        {
+          "text": "$1, 6, 15, 15, 15, 6, 1$",
+          "why": "For the middle entry the student re-used the pair $5 + 10 = 15$ instead of adding the two central entries $10 + 10 = 20$."
+        },
+        {
+          "text": "$1, 5, 15, 20, 15, 5, 1$",
+          "why": "Copied the $5$ straight down for the second and second-last entries instead of adding $1 + 5 = 6$."
+        },
+        {
+          "text": "$1, 5, 15, 15, 15, 5, 1$",
+          "why": "Copied the $5$ down instead of adding $1 + 5 = 6$, and also re-used $5 + 10 = 15$ for the middle entry instead of $10 + 10 = 20$."
+        }
+      ],
+      "solution_text": "Apply the addition rule $\\text{Entry}(n, r) = \\text{Entry}(n-1, r-1) + \\text{Entry}(n-1, r)$:\nRow $6$ begins and ends with $1$.\nSecond entry: $1 + 5 = 6$\nThird entry: $5 + 10 = 15$\nFourth entry: $10 + 10 = 20$\nFifth entry: $10 + 5 = 15$\nSixth entry: $5 + 1 = 6$\nRow $6$ is $1, 6, 15, 20, 15, 6, 1$."
+    },
+    {
+      "id": "q2",
+      "question_text": "What is the full expansion of $(1-y)^{5}$ obtained using Pascal's triangle?",
+      "structure": "expand-monic-binomial-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1 - 5y + 10y^{2} - 10y^{3} + 5y^{4} - y^{5}$",
+          "correct": true
+        },
+        {
+          "text": "$1 + 5y + 10y^{2} + 10y^{3} + 5y^{4} + y^{5}$",
+          "why": "Kept all signs positive instead of alternating signs for the subtraction $(1-y)^{5}$."
+        },
+        {
+          "text": "$1 - 5y - 10y^{2} - 10y^{3} - 5y^{4} - y^{5}$",
+          "why": "Made all non-leading signs negative instead of alternating $+ - + - + - $."
+        },
+        {
+          "text": "$1 - 5y + 10y^{2} - 10y^{3} + 5y^{4}$",
+          "why": "Omitted the final term $-y^{5}$ from the expansion of power $5$."
+        }
+      ],
+      "solution_text": "Row $5$ coefficients are $1, 5, 10, 10, 5, 1$.\nFor $(1-y)^{5}$, terms alternate in sign:\n$(1-y)^{5} = 1 - 5y + 10y^{2} - 10y^{3} + 5y^{4} - y^{5}$."
+    },
+    {
+      "id": "q3",
+      "question_text": "Use Pascal's triangle to expand $(3x+1)^{3}$.",
+      "structure": "expand-scaled-binomial-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$27x^{3} + 27x^{2} + 9x + 1$",
+          "correct": true
+        },
+        {
+          "text": "$27x^{3} + 9x^{2} + 9x + 1$",
+          "why": "Forgot to square the coefficient $3$ in the second term, writing $3(3x^{2})$ instead of $3(9x^{2})$."
+        },
+        {
+          "text": "$3x^{3} + 9x^{2} + 9x + 1$",
+          "why": "Did not cube the leading coefficient $3$, writing $3x^{3}$ instead of $(3x)^{3} = 27x^{3}$."
+        },
+        {
+          "text": "$27x^{3} + 27x^{2} + 27x + 1$",
+          "why": "Multiplied the linear coefficient by an extra factor of $3$."
+        }
+      ],
+      "solution_text": "Row $3$ coefficients: $1, 3, 3, 1$.\n$(3x+1)^{3} = 1(3x)^{3} + 3(3x)^{2}(1) + 3(3x)(1)^{2} + 1(1)^{3}$\n$= 27x^{3} + 3(9x^{2}) + 9x + 1$\n$= 27x^{3} + 27x^{2} + 9x + 1$."
+    },
+    {
+      "id": "q4",
+      "question_text": "Which expression represents the expansion of $(1-2x)^{4}$?",
+      "structure": "expand-scaled-binomial-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1 - 8x + 24x^{2} - 32x^{3} + 16x^{4}$",
+          "correct": true
+        },
+        {
+          "text": "$1 + 8x + 24x^{2} + 32x^{3} + 16x^{4}$",
+          "why": "Expanded $(1+2x)^{4}$ instead, ignoring the minus sign so the terms do not alternate in sign."
+        },
+        {
+          "text": "$1 - 8x + 12x^{2} - 8x^{3} + 2x^{4}$",
+          "why": "Treated $(2x)^{k}$ as $2x^{k}$, multiplying each Pascal coefficient by $2$ instead of by $2^{k}$."
+        },
+        {
+          "text": "$1 + 8x + 12x^{2} + 8x^{3} + 2x^{4}$",
+          "why": "Ignored the minus sign in $(1-2x)$ and also treated $(2x)^{k}$ as $2x^{k}$, so every coefficient is only doubled."
+        }
+      ],
+      "solution_text": "Row $4$ coefficients: $1, 4, 6, 4, 1$.\n$(1-2x)^{4} = 1 - 4(2x) + 6(2x)^{2} - 4(2x)^{3} + (2x)^{4}$\n$= 1 - 8x + 6(4x^{2}) - 4(8x^{3}) + 16x^{4}$\n$= 1 - 8x + 24x^{2} - 32x^{3} + 16x^{4}$."
+    },
+    {
+      "id": "q5",
+      "question_text": "Simplify the expression $1 + 3(2x-1) + 3(2x-1)^{2} + (2x-1)^{3}$ without full expansion.",
+      "structure": "collapse-binomial-expansion",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8x^{3}$",
+          "correct": true
+        },
+        {
+          "text": "$2x^{3}$",
+          "why": "Did not cube the coefficient $2$, evaluating as $2x^{3}$ rather than $(2x)^{3} = 8x^{3}$."
+        },
+        {
+          "text": "$(2x-1)^{3}$",
+          "why": "Omitted the leading term $1$ from the collapsed binomial base $(1 + (2x-1))^{3}$."
+        },
+        {
+          "text": "$8x^{3} - 1$",
+          "why": "Subtracted an extra constant $1$ after cubing the binomial base."
+        }
+      ],
+      "solution_text": "Notice the coefficients $1, 3, 3, 1$ correspond to $(a+b)^{3}$ with $a = 1$ and $b = 2x-1$:\n$1 + 3(2x-1) + 3(2x-1)^{2} + (2x-1)^{3}$\n$= (1 + (2x-1))^{3}$\n$= (2x)^{3}$\n$= 8x^{3}$."
+    },
+    {
+      "id": "q6",
+      "question_text": "Given that $(1+\\sqrt{3})^{3} = a + b\\sqrt{3}$ where $a$ and $b$ are integers, find $a$ and $b$.",
+      "structure": "evaluate-surd-power-pascal",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$a = 10, \\quad b = 6$",
+          "correct": true
+        },
+        {
+          "text": "$a = 10, \\quad b = 3$",
+          "why": "Stopped after the third term and omitted the final term $(\\sqrt{3})^{3} = 3\\sqrt{3}$, so only the $3\\sqrt{3}$ from the second term was counted."
+        },
+        {
+          "text": "$a = 4, \\quad b = 6$",
+          "why": "Evaluated the third term $3(\\sqrt{3})^{2}$ as $3$, dropping the Pascal coefficient, giving $a = 1 + 3 = 4$."
+        },
+        {
+          "text": "$a = 4, \\quad b = 3$",
+          "why": "Dropped the Pascal coefficient in $3(\\sqrt{3})^{2}$, writing $3$ rather than $9$, and also omitted the final term $(\\sqrt{3})^{3} = 3\\sqrt{3}$."
+        }
+      ],
+      "solution_text": "Row $3$ coefficients are $1, 3, 3, 1$:\n$(1+\\sqrt{3})^{3} = 1 + 3(\\sqrt{3}) + 3(\\sqrt{3})^{2} + (\\sqrt{3})^{3}$\n$= 1 + 3\\sqrt{3} + 3(3) + 3\\sqrt{3}$\n$= 1 + 9 + 6\\sqrt{3}$\n$= 10 + 6\\sqrt{3}$\nTherefore $a = 10$ and $b = 6$."
+    },
+    {
+      "id": "q7",
+      "question_text": "Simplify $(2x+1)^{4} - 4(2x+1)^{3}(2x) + 6(2x+1)^{2}(2x)^{2} - 4(2x+1)(2x)^{3} + (2x)^{4}$.",
+      "structure": "collapse-binomial-expansion",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$1$",
+          "correct": true
+        },
+        {
+          "text": "$16x^{4} + 1$",
+          "why": "Assumed intermediate terms cancel leaving the outer power terms $(2x)^{4} + 1$."
+        },
+        {
+          "text": "$(4x+1)^{4}$",
+          "why": "Used addition instead of subtraction in the alternating binomial formula $((2x+1) - 2x)^{4}$."
+        },
+        {
+          "text": "$0$",
+          "why": "Assumed the entire expansion cancels to zero rather than yielding $1^{4} = 1$."
+        }
+      ],
+      "solution_text": "The expression matches the expansion of $(a-b)^{4}$ with $a = 2x+1$ and $b = 2x$:\n$((2x+1) - 2x)^{4}$\n$= (1)^{4}$\n$= 1$."
+    },
+    {
+      "id": "q8",
+      "question_text": "Express $(1+\\sqrt{5})^{4}$ in the form $a + b\\sqrt{5}$ where $a$ and $b$ are integers.",
+      "structure": "evaluate-surd-power-pascal",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$a = 56, \\quad b = 24$",
+          "correct": true
+        },
+        {
+          "text": "$a = 31, \\quad b = 24$",
+          "why": "Omitted the final term $(\\sqrt{5})^{4} = 25$, so the rational part was taken as $1 + 30 = 31$."
+        },
+        {
+          "text": "$a = 56, \\quad b = 4$",
+          "why": "Omitted the fourth term $4(\\sqrt{5})^{3} = 20\\sqrt{5}$, leaving only $4\\sqrt{5}$ in the surd part."
+        },
+        {
+          "text": "$a = 31, \\quad b = 4$",
+          "why": "Omitted both the fourth term $4(\\sqrt{5})^{3} = 20\\sqrt{5}$ and the final term $(\\sqrt{5})^{4} = 25$, stopping the expansion after three terms."
+        }
+      ],
+      "solution_text": "Row $4$ coefficients are $1, 4, 6, 4, 1$:\n$(1+\\sqrt{5})^{4} = 1 + 4(\\sqrt{5}) + 6(\\sqrt{5})^{2} + 4(\\sqrt{5})^{3} + (\\sqrt{5})^{4}$\n$= 1 + 4\\sqrt{5} + 6(5) + 4(5\\sqrt{5}) + 25$\n$= 1 + 4\\sqrt{5} + 30 + 20\\sqrt{5} + 25$\n$= 56 + 24\\sqrt{5}$\nTherefore $a = 56$ and $b = 24$."
+    }
+  ]
+}

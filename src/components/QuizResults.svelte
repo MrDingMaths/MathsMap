@@ -4,11 +4,15 @@
   import { nextSkills } from '../lib/recommender.js';
   import { uncheckedResultItems, visibleResultItems } from '../lib/quiz-ui.js';
   import MathText from './Math.svelte';
+  import InlineContent from './InlineContent.svelte';
   import MasteryStatus from './MasteryStatus.svelte';
   import Confetti from './Confetti.svelte';
 
-  let { results, courseId = null, scopeLabel = null, scopeSkillIds = null, celebrate = false } = $props();
+  let { results, answerLog = null, courseId = null, scopeLabel = null, scopeSkillIds = null, celebrate = false } = $props();
   let showAllUnchecked = $state(false);
+  let showReview = $state(false);
+
+  let missedCount = $derived((answerLog || []).filter((item) => !item.correct).length);
 
   let query = $derived(courseId ? `?course=${courseId}` : '');
   const titleOf = (id) => skillById.get(id)?.title ?? id;
@@ -125,6 +129,36 @@
     </section>
   {/if}
 
+  {#if answerLog && answerLog.length}
+    <section class="result-section review-section">
+      <div class="section-heading"><span class="section-icon" aria-hidden="true">&#8801;</span><div><span class="eyebrow">Review</span><h2>Your answers</h2></div></div>
+      <p class="scope-note">{answerLog.length} {answerLog.length === 1 ? 'question' : 'questions'} answered, {missedCount} to look back at.</p>
+      <button class="disclosure" type="button" aria-expanded={showReview} onclick={() => (showReview = !showReview)}>
+        {showReview ? 'Hide your answers' : `Show all ${answerLog.length} answers`}
+        <span class:open={showReview} aria-hidden="true">⌄</span>
+      </button>
+      {#if showReview}
+        <div class="review-list">
+          {#each answerLog as item, index}
+            <div class="review-item {item.correct ? 'is-correct' : 'is-wrong'}" style="--enter-index:{Math.min(index, 6)}">
+              <div class="review-status">{item.correct ? '✓ Correct' : item.chosenIndex === -1 ? 'Skipped' : '✕ Not quite'}</div>
+              <div class="review-q"><InlineContent text={item.questionText} class="qq-diagram" /></div>
+              <div class="review-options">
+                {#each item.options as opt, i}
+                  <div class="review-opt {i === item.correctIndex ? 'correct' : i === item.chosenIndex ? 'wrong' : ''}">
+                    <span class="review-opt-text"><MathText text={opt.text} /></span>
+                    {#if i === item.correctIndex}<span class="opt-mark">✓</span>{/if}
+                    {#if i === item.chosenIndex && !item.correct}<span class="opt-mark">✕</span>{/if}
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/each}
+        </div>
+      {/if}
+    </section>
+  {/if}
+
   {#if upNext.length}
     <section class="result-section recommendations">
       <div class="section-heading"><span class="section-icon accent" aria-hidden="true">→</span><div><span class="eyebrow">Keep moving</span><h2>{recommendationTitle}</h2></div></div>
@@ -173,6 +207,23 @@
   .disclosure:active { transform: scale(0.985); }
   .disclosure span { transition: transform var(--motion-base) var(--ease-snap); }
   .disclosure span.open { transform: rotate(180deg); }
+  .review-list { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 0.9rem; }
+  .review-item { padding: 0.9rem 1rem; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 35ms) both; }
+  .review-item.is-correct { border-color: color-mix(in srgb, var(--m-mastered) 45%, var(--border)); }
+  .review-item.is-wrong { border-color: color-mix(in srgb, #ef4444 40%, var(--border)); }
+  .review-status { font-size: 0.7rem; font-weight: 750; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .review-item.is-correct .review-status { color: var(--m-mastered); }
+  .review-item.is-wrong .review-status { color: #ef4444; }
+  .review-q { font-size: 1rem; margin-bottom: 0.6rem; }
+  .review-options { display: flex; flex-direction: column; gap: 0.35rem; }
+  .review-opt { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.45rem 0.6rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; color: var(--muted); }
+  .review-opt-text { flex: 1; }
+  .review-opt.correct { border-color: var(--m-mastered); color: var(--text); background: color-mix(in srgb, var(--m-mastered) 10%, var(--panel)); }
+  .review-opt.wrong { border-color: #ef4444; color: var(--text); background: color-mix(in srgb, #ef4444 10%, var(--panel)); }
+  .review-opt .opt-mark { flex: none; font-weight: 700; }
+  .review-opt.correct .opt-mark { color: var(--m-mastered); }
+  .review-opt.wrong .opt-mark { color: #ef4444; }
+
   .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.65rem; }
   .recommendation-grid a { display: flex; justify-content: space-between; gap: 0.8rem; padding: 0.8rem 0.9rem; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); color: var(--text); animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 40ms) both; transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), color var(--motion-fast), box-shadow var(--motion-fast); }
   .recommendation-grid a:hover { transform: translateY(-2px); border-color: var(--border-strong); color: var(--accent); box-shadow: var(--shadow); text-decoration: none; }

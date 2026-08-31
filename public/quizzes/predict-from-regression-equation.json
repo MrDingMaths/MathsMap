@@ -1,0 +1,121 @@
+{
+  "skillId": "predict-from-regression-equation",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Taxi fares are modelled by $C = 24.5 + 0.86k$, where $C$ is the fare in dollars and $k$ is the distance in kilometres. What fare does the model predict for a $32$ km trip?",
+      "structure": "predict-y-from-x",
+      "mastery": false,
+      "options": [
+        { "text": "$\\$52.02$", "correct": true },
+        { "text": "$\\$784.86$", "why": "Treated $24.5$ as the gradient and $0.86$ as the intercept, giving $0.86 + 24.5 \\times 32$." },
+        { "text": "$\\$8.72$", "why": "Treated the $32$ km as the dependent variable and solved for $k$ instead of substituting it." },
+        { "text": "$\\$3.02$", "why": "Subtracted the intercept instead of adding it." }
+      ],
+      "solution_text": "Let $k = 32$.\n$C = 24.5 + 0.86(32)$\n$= 24.5 + 27.52$\n$= \\$52.02$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A dam is modelled by $D = 62.5 - 1.35t$, where $D$ is the depth in metres and $t$ is the number of weeks of drought. What depth does the model predict after $18$ weeks?",
+      "structure": "predict-y-from-x",
+      "mastery": false,
+      "options": [
+        { "text": "$38.2$ m", "correct": true },
+        { "text": "$86.8$ m", "why": "Added the gradient term instead of subtracting it, ignoring the negative gradient." },
+        { "text": "$24.3$ m", "why": "Found the change in depth, $1.35 \\times 18$, but never subtracted it from the starting depth." },
+        { "text": "$32.96$ m", "why": "Treated the $18$ weeks as the dependent variable and solved for $t$ instead of substituting it." }
+      ],
+      "solution_text": "Let $t = 18$.\n$D = 62.5 - 1.35(18)$\n$= 62.5 - 24.3$\n$= 38.2$ m"
+    },
+    {
+      "id": "q3",
+      "question_text": "A reading study gives $S = 19.4 + 2.6b$, where $S$ is a comprehension score and $b$ is the number of books read in a year. How many books does the model associate with a score of $58.4$?",
+      "structure": "predict-x-from-y",
+      "mastery": false,
+      "options": [
+        { "text": "$15$", "correct": true },
+        { "text": "$171.24$", "why": "Substituted $58.4$ for $b$ instead of for $S$." },
+        { "text": "$22.46$", "why": "Divided by the gradient without first subtracting the intercept." },
+        { "text": "$29.92$", "why": "Added the intercept instead of subtracting it before dividing." }
+      ],
+      "solution_text": "Let $S = 58.4$.\n$58.4 = 19.4 + 2.6b$\n$58.4 - 19.4 = 2.6b$\n$39 = 2.6b$\n$b = \\frac{39}{2.6}$\n$= 15$ books"
+    },
+    {
+      "id": "q4",
+      "question_text": "A park study gives $P = 145 - 3.8x$, where $P$ is the number of pigeons counted and $x$ is the number of hawks released. For which value of $x$ does the model predict $90$ pigeons? Give your answer correct to one decimal place.",
+      "structure": "predict-x-from-y",
+      "mastery": false,
+      "options": [
+        { "text": "$14.5$", "correct": true },
+        { "text": "$61.8$", "why": "Added $145$ and $90$ instead of subtracting before dividing by the gradient." },
+        { "text": "$23.7$", "why": "Divided $90$ by the gradient without first removing the intercept." },
+        { "text": "$-197$", "why": "Substituted $90$ for $x$ instead of for $P$." }
+      ],
+      "solution_text": "Let $P = 90$.\n$90 = 145 - 3.8x$\n$3.8x = 145 - 90$\n$3.8x = 55$\n$x = \\frac{55}{3.8}$\n$= 14.473\\ldots$\n$= 14.5$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A team's season is modelled by $G = 6.4 + 0.28f$, where $G$ is the number of goals scored and $f$ is the number of full-time training sessions. A team scored $27$ goals. Which substitution is correct?",
+      "structure": "identify-variable-role",
+      "mastery": false,
+      "options": [
+        { "text": "$27 = 6.4 + 0.28f$", "correct": true },
+        { "text": "$G = 6.4 + 0.28(27)$", "why": "Substitutes the number of goals for $f$, treating the dependent value as the independent variable." },
+        { "text": "$f = 6.4 + 0.28(27)$", "why": "Substitutes the goals for $f$ on the right and then labels the result $f$, swapping both variables." },
+        { "text": "$27 = 0.28 + 6.4f$", "why": "Swaps the gradient and the intercept before substituting." }
+      ],
+      "solution_text": "The $27$ goals is a value of $G$, the dependent variable, because $G$ is the letter on its own.\n$27 = 6.4 + 0.28f$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A fitness study gives $R = 118 - 2.9s$, where $R$ is resting heart rate in beats per minute and $s$ is the number of swim sessions per week. Priya swims $5$ times a week. Which statement is correct?",
+      "structure": "identify-variable-role",
+      "mastery": false,
+      "options": [
+        { "text": "$s = 5$ is the independent value, so $R = 118 - 2.9(5) = 103.5$ beats per minute.", "correct": true },
+        { "text": "$R = 5$, so solving $5 = 118 - 2.9s$ gives $s = 38.97$ sessions.", "why": "Treats the number of sessions as the dependent variable and solves for the wrong letter." },
+        { "text": "$s = 5$, so $R = 118 + 2.9(5) = 132.5$ beats per minute.", "why": "Adds the gradient term although the gradient is negative." },
+        { "text": "$s = 5$, so $R = 118 - 2.9 = 115.1$ beats per minute.", "why": "Subtracts the gradient once without multiplying it by the number of sessions." }
+      ],
+      "solution_text": "The number of swim sessions is $s$, the independent variable, so let $s = 5$.\n$R = 118 - 2.9(5)$\n$= 118 - 14.5$\n$= 103.5$ beats per minute"
+    },
+    {
+      "id": "q7",
+      "question_text": "A charity models donations with $A = 26.8 + 1.15n$, where $A$ is the amount raised in dollars and $n$ is the number of donors. Which pair gives the predicted amount for $40$ donors and the number of donors needed to raise $\\$95$, the second correct to one decimal place?",
+      "structure": "two-way-prediction",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\$72.80$ and $59.3$ donors",
+          "correct": true
+        },
+        {
+          "text": "$\\$72.80$ and $82.6$ donors",
+          "why": "Divides $95$ by the gradient $1.15$ without first subtracting the intercept $26.8$, giving $82.6$ instead of $59.3$."
+        },
+        {
+          "text": "$\\$46.00$ and $59.3$ donors",
+          "why": "Omits the intercept $26.8$ when predicting, computing only $1.15 \\times 40 = 46$."
+        },
+        {
+          "text": "$\\$46.00$ and $82.6$ donors",
+          "why": "Ignores the intercept $26.8$ in both directions: multiplies $1.15 \\times 40$ alone, then divides $95$ by $1.15$ alone."
+        }
+      ],
+      "solution_text": "Let $n = 40$.\n$A = 26.8 + 1.15(40)$\n$= 26.8 + 46$\n$= \\$72.80$\nLet $A = 95$.\n$95 = 26.8 + 1.15n$\n$95 - 26.8 = 1.15n$\n$68.2 = 1.15n$\n$n = \\frac{68.2}{1.15}$\n$= 59.304\\ldots$\n$= 59.3$ donors"
+    },
+    {
+      "id": "q8",
+      "question_text": "A wetland survey gives $B = 4.7 + 0.83m$, where $B$ is the number of bird species recorded and $m$ is the number of marsh zones surveyed. How many species does the model predict for $26$ zones, correct to the nearest whole number?",
+      "structure": "predict-y-from-x",
+      "mastery": false,
+      "options": [
+        { "text": "$26$", "correct": true },
+        { "text": "$27$", "why": "Rounded $26.28$ up rather than to the nearest whole number." },
+        { "text": "$22$", "why": "Omitted the intercept and rounded $0.83 \\times 26 = 21.58$." },
+        { "text": "$123$", "why": "Swapped the gradient and the intercept, giving $0.83 + 4.7 \\times 26$." }
+      ],
+      "solution_text": "Let $m = 26$.\n$B = 4.7 + 0.83(26)$\n$= 4.7 + 21.58$\n$= 26.28$\n$= 26$ species"
+    }
+  ]
+}

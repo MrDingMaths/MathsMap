@@ -1,0 +1,109 @@
+{
+  "skillId": "z-score-to-raw-score",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A dataset has a mean of $\\mu = 58$ and a standard deviation of $\\sigma = 9$. What is the raw value with a $z$-score of $1.4$?",
+      "structure": "raw-from-z",
+      "mastery": false,
+      "options": [
+        { "text": "$70.6$", "correct": true },
+        { "text": "$45.4$", "why": "Subtracted $z\\sigma$ from the mean even though $z$ is positive, placing the value below the mean." },
+        { "text": "$12.6$", "why": "Stopped at $z\\sigma = 1.4 \\times 9$ and forgot to add the mean." },
+        { "text": "$59.4$", "why": "Added the z-score itself to the mean instead of multiplying it by the standard deviation first." }
+      ],
+      "solution_text": "$x = \\mu + z\\sigma$\n$= 58 + 1.4 \\times 9$\n$= 58 + 12.6$\n$= 70.6$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A dataset has a mean of $\\mu = 210$ and a standard deviation of $\\sigma = 16$. What is the raw value with a $z$-score of $-0.75$?",
+      "structure": "raw-from-z",
+      "mastery": false,
+      "options": [
+        { "text": "$198$", "correct": true },
+        { "text": "$222$", "why": "Ignored the negative sign on $z$ and added $12$ instead of subtracting it." },
+        { "text": "$209.25$", "why": "Subtracted the z-score itself from the mean instead of multiplying it by the standard deviation first." },
+        { "text": "$194$", "why": "Subtracted a whole standard deviation, treating any negative z-score as one deviation below the mean." }
+      ],
+      "solution_text": "$x = \\mu + z\\sigma$\n$= 210 + (-0.75) \\times 16$\n$= 210 - 12$\n$= 198$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The marks in an examination have a mean of $64$ and a standard deviation of $7$. What mark is $2.5$ standard deviations below the mean?",
+      "structure": "raw-from-words",
+      "mastery": false,
+      "options": [
+        { "text": "$46.5$", "correct": true },
+        { "text": "$81.5$", "why": "Added instead of subtracting, giving the mark $2.5$ standard deviations above the mean." },
+        { "text": "$61.5$", "why": "Subtracted $2.5$ from the mean instead of $2.5$ standard deviations." },
+        { "text": "$57$", "why": "Subtracted a single standard deviation, ignoring the factor of $2.5$." }
+      ],
+      "solution_text": "$2.5$ standard deviations below the mean means $z = -2.5$.\n$x = \\mu + z\\sigma$\n$= 64 + (-2.5) \\times 7$\n$= 64 - 17.5$\n$= 46.5$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The lengths of a batch of bolts have a mean of $24.6$ cm and a standard deviation of $1.8$ cm. What is the length of a bolt with a $z$-score of $1.5$?",
+      "structure": "raw-from-z-context",
+      "mastery": false,
+      "options": [
+        { "text": "$27.3$ cm", "correct": true },
+        { "text": "$21.9$ cm", "why": "Subtracted $z\\sigma$ from the mean even though $z$ is positive." },
+        { "text": "$26.1$ cm", "why": "Added the z-score itself to the mean instead of multiplying it by the standard deviation first." },
+        { "text": "$2.7$ cm", "why": "Stopped at $z\\sigma = 1.5 \\times 1.8$ and forgot to add the mean." }
+      ],
+      "solution_text": "$x = \\mu + z\\sigma$\n$= 24.6 + 1.5 \\times 1.8$\n$= 24.6 + 2.7$\n$= 27.3$ cm"
+    },
+    {
+      "id": "q5",
+      "question_text": "In a dataset with a standard deviation of $6$, the value $35$ has a $z$-score of $-2.5$. What is the mean?",
+      "structure": "find-mean",
+      "mastery": false,
+      "options": [
+        { "text": "$50$", "correct": true },
+        { "text": "$20$", "why": "Used $\\mu = x + z\\sigma$, subtracting $15$ instead of adding it, so the mean ends up below a value that is known to be below the mean." },
+        { "text": "$14$", "why": "Divided the value by the z-score instead of using $\\mu = x - z\\sigma$." },
+        { "text": "$41$", "why": "Added one standard deviation to the value, ignoring the size of the z-score." }
+      ],
+      "solution_text": "$\\mu = x - z\\sigma$\n$= 35 - (-2.5) \\times 6$\n$= 35 + 15$\n$= 50$"
+    },
+    {
+      "id": "q6",
+      "question_text": "In a dataset with a mean of $71$, the value $95$ has a $z$-score of $3$. What is the standard deviation?",
+      "structure": "find-sd",
+      "mastery": false,
+      "options": [
+        { "text": "$8$", "correct": true },
+        { "text": "$24$", "why": "Stopped at the difference $95 - 71$ without dividing by the z-score." },
+        { "text": "$72$", "why": "Multiplied the difference by the z-score instead of dividing by it." },
+        { "text": "$31.67$", "why": "Divided the raw value by the z-score instead of dividing the difference $x - \\mu$ by it." }
+      ],
+      "solution_text": "$\\sigma = \\dfrac{x - \\mu}{z}$\n$= \\dfrac{95 - 71}{3}$\n$= \\dfrac{24}{3}$\n$= 8$"
+    },
+    {
+      "id": "q7",
+      "question_text": "In a dataset with a mean of $59$, the value $44$ has a $z$-score of $-2.5$. What is the standard deviation?",
+      "structure": "find-sd",
+      "mastery": false,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$-6$", "why": "Divided $-15$ by $2.5$, dropping the negative sign on the z-score; a standard deviation is never negative." },
+        { "text": "$37.5$", "why": "Multiplied the difference by the z-score instead of dividing by it." },
+        { "text": "$15$", "why": "Stopped at the size of the difference $44 - 59$ without dividing by the z-score." }
+      ],
+      "solution_text": "$\\sigma = \\dfrac{x - \\mu}{z}$\n$= \\dfrac{44 - 59}{-2.5}$\n$= \\dfrac{-15}{-2.5}$\n$= 6$"
+    },
+    {
+      "id": "q8",
+      "question_text": "In a dataset the value $84$ has a $z$-score of $2$ and the value $66$ has a $z$-score of $-1$. What is the mean?",
+      "structure": "find-mean",
+      "mastery": true,
+      "options": [
+        { "text": "$72$", "correct": true },
+        { "text": "$75$", "why": "Averaged the two values, which ignores that they are different distances from the mean." },
+        { "text": "$60$", "why": "Found $\\sigma = 6$ correctly but then subtracted it from $66$ instead of adding it." },
+        { "text": "$78$", "why": "Found $\\sigma = 6$ correctly but subtracted only one standard deviation from $84$, treating $z = 2$ as one deviation." }
+      ],
+      "solution_text": "$x = \\mu + z\\sigma$ for each value gives\n$84 = \\mu + 2\\sigma$\n$66 = \\mu - \\sigma$\nSubtracting the second equation from the first,\n$18 = 3\\sigma$\n$\\sigma = 6$\nSubstituting into the second equation,\n$66 = \\mu - 6$\n$\\mu = 72$"
+    }
+  ]
+}

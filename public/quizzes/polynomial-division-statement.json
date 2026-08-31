@@ -1,0 +1,205 @@
+{
+  "skillId": "polynomial-division-statement",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "If $\\frac{x^{3} - 4x + 5}{x + 2} = (x^{2} - 2x) + \\frac{5}{x + 2}$, which equation expresses this division as an identity?",
+      "structure": "convert-fraction-to-identity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x^{3} - 4x + 5 = (x + 2)(x^{2} - 2x) + 5$",
+          "correct": true
+        },
+        {
+          "text": "$x^{3} - 4x + 5 = (x + 2)(x^{2} - 2x) - 5$",
+          "why": "Subtracted the remainder instead of adding it: moved the $\\frac{5}{x + 2}$ term across the equals sign rather than multiplying it by the divisor."
+        },
+        {
+          "text": "$x^{3} - 4x + 5 = (x - 2)(x^{2} - 2x) + 5$",
+          "why": "Copied the divisor with the wrong sign, reading $(x + 2)$ from the denominator as $(x - 2)$ as if applying the factor theorem's sign flip."
+        },
+        {
+          "text": "$x^{3} - 4x + 5 = (x - 2)(x^{2} - 2x) - 5$",
+          "why": "Made both slips at once: flipped the sign of the divisor to $(x - 2)$ and also subtracted the remainder instead of adding it."
+        }
+      ],
+      "solution_text": "Multiplying both sides by the divisor $(x + 2)$ gives:\n$x^{3} - 4x + 5 = (x + 2)(x^{2} - 2x) + 5$"
+    },
+    {
+      "id": "q2",
+      "question_text": "When $(2x^{3} - 3x^{2} + 4x - 5)$ is divided by $(x - 2)$, what is the quotient $Q(x)$ and remainder $R$ in $P(x) = (x - 2)Q(x) + R$?",
+      "structure": "division-to-identity-linear",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$Q(x) = 2x^{2} + x + 6,\\ R = 7$",
+          "correct": true
+        },
+        {
+          "text": "$Q(x) = 2x^{2} - 7x + 18,\\ R = -41$",
+          "why": "Used $-2$ instead of $+2$ when multiplying during synthetic or long division."
+        },
+        {
+          "text": "$Q(x) = 2x^{2} + x + 6,\\ R = -5$",
+          "why": "Copied the constant term of $P(x)$ as the remainder without completing the division."
+        },
+        {
+          "text": "$Q(x) = 2x^{2} - x + 2,\\ R = -1$",
+          "why": "Made sign errors in the subtraction steps of polynomial long division."
+        }
+      ],
+      "solution_text": "Dividing $2x^{3} - 3x^{2} + 4x - 5$ by $(x - 2)$:\n$2x^{3} - 3x^{2} + 4x - 5 = (x - 2)(2x^{2} + x + 6) + 7$\n$Q(x) = 2x^{2} + x + 6,\\ R = 7$"
+    },
+    {
+      "id": "q3",
+      "question_text": "When $(x^{3} + 2x^{2} - 5x + 3)$ is divided by $(x^{2} + 1)$, which statement expresses the division identity?",
+      "structure": "division-to-identity-quadratic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x^{3} + 2x^{2} - 5x + 3 = (x^{2} + 1)(x + 2) + (-6x + 1)$",
+          "correct": true
+        },
+        {
+          "text": "$x^{3} + 2x^{2} - 5x + 3 = (x^{2} + 1)(x + 2) + 1$",
+          "why": "Assumed the remainder must be a constant, dropping the linear term $-6x$."
+        },
+        {
+          "text": "$x^{3} + 2x^{2} - 5x + 3 = (x^{2} + 1)(x - 2) + (-4x + 5)$",
+          "why": "Made a sign error in the second term of the quotient."
+        },
+        {
+          "text": "$x^{3} + 2x^{2} - 5x + 3 = (x^{2} + 1)(x + 2) + (6x - 1)$",
+          "why": "Reversed the signs of the remainder terms during subtraction."
+        }
+      ],
+      "solution_text": "$x^{3} + 2x^{2} - 5x + 3$\n$= x(x^{2} + 1) + 2x^{2} - 6x + 3$\n$= x(x^{2} + 1) + 2(x^{2} + 1) - 6x + 1$\n$= (x^{2} + 1)(x + 2) + (-6x + 1)$"
+    },
+    {
+      "id": "q4",
+      "question_text": "When a polynomial $P(x)$ is divided by a quadratic divisor $A(x) = x^{2} - 4x + 3$, what is the condition on the degree of the remainder $R(x)$?",
+      "structure": "degree-constraint-remainder",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\deg(R(x)) \\le 1$",
+          "correct": true
+        },
+        {
+          "text": "$\\deg(R(x)) = 2$",
+          "why": "Claimed the remainder has the same degree as the divisor."
+        },
+        {
+          "text": "$\\deg(R(x)) = 0$",
+          "why": "Assumed the remainder is always a single constant number."
+        },
+        {
+          "text": "$\\deg(R(x)) \\ge 2$",
+          "why": "Reversed the inequality, violating $\\deg(R) < \\deg(A)$."
+        }
+      ],
+      "solution_text": "The division algorithm requires $\\deg(R(x)) < \\deg(A(x))$.\nSince $\\deg(A(x)) = 2$, $\\deg(R(x))$ can be $0$ or $1$ (or $R(x) = 0$), so $\\deg(R(x)) \\le 1$."
+    },
+    {
+      "id": "q5",
+      "question_text": "If the remainder when dividing $P(x)$ by $D(x)$ is $5x^{3} - 2x + 7$, what is the minimum possible degree of the divisor $D(x)$?",
+      "structure": "degree-constraint-remainder",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$3$",
+          "why": "Equated the divisor degree to the remainder degree instead of strictly greater."
+        },
+        {
+          "text": "$2$",
+          "why": "Chose a degree smaller than the remainder, which is impossible."
+        },
+        {
+          "text": "$5$",
+          "why": "Picked the leading coefficient $5$ instead of the degree $3 + 1 = 4$."
+        }
+      ],
+      "solution_text": "The remainder $R(x) = 5x^{3} - 2x + 7$ has degree $3$.\nSince $\\deg(D(x)) > \\deg(R(x))$, the minimum degree of $D(x)$ is $3 + 1 = 4$."
+    },
+    {
+      "id": "q6",
+      "question_text": "A polynomial satisfies $P(x) = (x - 3)Q(x) + 8$. What is the value of $P(3)$?",
+      "structure": "evaluate-from-division-identity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$8$",
+          "correct": true
+        },
+        {
+          "text": "$0$",
+          "why": "Assumed $(x - 3)$ is a factor of $P(x)$ despite the remainder being $8$."
+        },
+        {
+          "text": "$-8$",
+          "why": "Subtracted the remainder instead of evaluating $(3 - 3)Q(3) + 8$."
+        },
+        {
+          "text": "$11$",
+          "why": "Added $3 + 8$ instead of evaluating $(0)Q(3) + 8$."
+        }
+      ],
+      "solution_text": "Substitute $x = 3$ into the identity:\n$P(3) = (3 - 3)Q(3) + 8$\n$= 0 + 8$\n$= 8$"
+    },
+    {
+      "id": "q7",
+      "question_text": "When $P(x)$ is divided by $(x - 1)(x + 4)$, the remainder is $3x + 2$. What is $P(-4)$?",
+      "structure": "evaluate-from-division-identity",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$-10$",
+          "correct": true
+        },
+        {
+          "text": "$14$",
+          "why": "Substituted $x = +4$ instead of $x = -4$ into the remainder $3x + 2$."
+        },
+        {
+          "text": "$0$",
+          "why": "Assumed $P(-4) = 0$ without evaluating the remainder $3(-4) + 2$."
+        },
+        {
+          "text": "$-14$",
+          "why": "Computed $3(-4) - 2$ instead of $3(-4) + 2$."
+        }
+      ],
+      "solution_text": "$P(x) = (x - 1)(x + 4)Q(x) + (3x + 2)$\n$P(-4) = (-4 - 1)(0)Q(-4) + (3(-4) + 2)$\n$= -12 + 2$\n$= -10$"
+    },
+    {
+      "id": "q8",
+      "question_text": "When a polynomial $P(x)$ is divided by $(x - 2)$, the remainder is $7$, and when divided by $(x + 1)$, the remainder is $-2$. What is the remainder when $P(x)$ is divided by $(x - 2)(x + 1)$?",
+      "structure": "evaluate-from-division-identity",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$3x + 1$",
+          "correct": true
+        },
+        {
+          "text": "$3x - 1$",
+          "why": "Made a sign error when solving the simultaneous equations for $a$ and $b$."
+        },
+        {
+          "text": "$5x + 3$",
+          "why": "Subtracted the remainders incorrectly when finding the slope."
+        },
+        {
+          "text": "$5$",
+          "why": "Averaged the two constant remainders instead of finding a linear remainder $ax + b$."
+        }
+      ],
+      "solution_text": "Dividing by the quadratic $(x - 2)(x + 1)$ leaves a remainder $R(x) = ax + b$.\n$P(x) = (x - 2)(x + 1)Q(x) + (ax + b)$\n$P(2) = 2a + b = 7$\n$P(-1) = -a + b = -2$\nSubtracting gives $3a = 9 \\implies a = 3$, so $b = 7 - 2(3) = 1$.\nRemainder is $3x + 1$."
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "batch": "W3-9",
+  "model": "gemini-3.7-flash-high",
+  "note": "Adv Y11 exp/log remainder (5) + graph transformations (6) + Ext1 permutations & combinations (14) = 25. Order dependency: `eulers-number` and `derivative-of-ex` need differentiation content from W3-8, so W3-8 must be collected before this batch's gen tasks are built (their prereq voice samples come from those files).",
+  "sections": [
+    {
+      "name": "exp-log-remainder",
+      "skillIds": ["exponential-end-behaviour", "eulers-number", "derivative-of-ex", "natural-logarithm", "solve-exp-log-quadratic-form"],
+      "bookletPaths": [
+        "booklets/Stage 6 Advanced/Exponential and Logarithmic Functions 1_Exponential functions.md",
+        "booklets/Stage 6 Advanced/Exponential and Logarithmic Functions 2_Logarithmic functions.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "MOST OF THIS TOPIC IS ALREADY GENERATED (`graph-exponential-features`, `exponential-transformations`, `define-logarithm`, `index-log-conversion`, `graph-log-functions`, `laws-of-logarithms`, `log-results`, `evaluate-simplify-logs`, `solve-exponential-log-equations`, `log-identities-inverse`). Do NOT re-teach any of them; use them freely as assumed prerequisites.",
+        "`exponential-end-behaviour` = behaviour as $x\\to\\pm\\infty$ for $y=a^{x}$ and its transformations, the horizontal asymptote and why the curve never reaches it (including a translated asymptote $y=c$). `eulers-number` = what $e$ IS: the base for which the gradient of $y=a^{x}$ at $(0,1)$ equals 1, $e\\approx 2.718$, and where it sits between $2^{x}$ and $3^{x}$. `derivative-of-ex` = $\\frac{d}{dx}e^{x}=e^{x}$ and $\\frac{d}{dx}e^{kx}=ke^{kx}$, applied to gradients and tangents. `natural-logarithm` = $\\ln x=\\log_{e}x$, its graph as the inverse of $e^{x}$, and converting between $\\ln$ and index form. `solve-exp-log-quadratic-form` = equations quadratic in $a^{x}$ or in $\\log x$ (substitute $u$, solve, reject invalid roots).",
+        "REJECTED ROOTS ARE COMPULSORY in `solve-exp-log-quadratic-form`: $u=a^{x}$ can never be negative or zero, and $\\log$ of a non-positive number is undefined. At least one item must require a root to be discarded, with the rejection shown in the working, and 'kept the negative root' must appear as a named distractor.",
+        "$e$ IS NOT $2.718$: keep exact answers in terms of $e$ and $\\ln$, and only give a decimal when the stem asks for one to a stated accuracy. An option list mixing $e^{2}$ with $7.39$ has two correct answers.",
+        "$\\ln(a+b)\\neq\\ln a+\\ln b$ — the false log law is the highest-value distractor in this section and should be named explicitly, not left as a bare wrong number.",
+        "Figures: exponential/log curves with the asymptote drawn as a dashed line and LABELLED with its equation in clear space, the intercept marked, and the plotted domain clipped to the axis window. Do not label a point whose coordinates are already given by tick labels."
+      ]
+    },
+    {
+      "name": "transformations-single",
+      "skillIds": ["transform-reflections", "transform-translations", "transform-dilations"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Graph Transformations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One transformation type per skill: reflections ($y=-f(x)$, $y=f(-x)$), translations ($y=f(x)+k$, $y=f(x-h)$), dilations ($y=af(x)$, $y=f(bx)$). Items mixing two transformations belong to the combined-transformations section of this batch, not here.",
+        "THE INSIDE-THE-BRACKET DIRECTION IS THE HAZARD: $y=f(x-h)$ moves the graph $h$ units in the POSITIVE $x$ direction, and $y=f(bx)$ is a horizontal dilation by factor $1/b$ (a stretch when $0<b<1$). Both counter-intuitive directions must be taught explicitly and both wrong directions must appear as named distractors.",
+        "Describe transformations in the booklet's language and be consistent: 'a dilation of factor $k$ from the $x$-axis' vs 'parallel to the $y$-axis' mean the same thing — pick the booklet's phrasing and use it in every stem, option and solution, or two options will say the same thing differently.",
+        "Every transformation item must state what is being transformed (a named function, a stated equation, or a graph shown as a figure). 'The graph is moved 3 units' with no reference object is undecidable.",
+        "Figures: show the original curve dashed/grey and the image solid, both labelled with their equations in clear space; keep both inside the axis window and never print a coordinate label on a point whose values are already tick-labelled."
+      ]
+    },
+    {
+      "name": "transformations-combined",
+      "skillIds": ["apply-combined-transformations", "order-of-transformations", "describe-transformations-from-equation"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Graph Transformations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`apply-combined-transformations` = given a sequence, produce the image equation or graph. `order-of-transformations` = why the ORDER matters (a dilation then a translation is not the same as the reverse) and which order a given equation encodes. `describe-transformations-from-equation` = read an equation such as $y=-2f(3x-6)+1$ and describe the transformations in order.",
+        "$f(3x-6)$ MUST BE FACTORED as $f(3(x-2))$ before the horizontal translation is read: the translation is 2 units, not 6. This is the defining error of the topic — make it an item and a named distractor in more than one skill.",
+        "Order convention: horizontal changes are applied in the reverse of the order they appear to act, and the booklet's stated convention governs. State the convention in the theory and use exactly one convention across all three skills.",
+        "An item that asks 'describe the transformations' needs its answer pinned to a single complete list in a stated order, or several option wordings become defensible. Prefer asking for one named element (the vertical dilation factor, the direction of the horizontal shift) when a full description would be ambiguous.",
+        "Do not use trigonometric parent functions here — transformations of trig graphs are a separate later topic. Use quadratics, cubics, $1/x$, $\\sqrt{x}$, $|x|$ and exponentials.",
+        "Figures: original and image on the same axes, each labelled clear of the curve; a question figure must not label the image's equation when finding it is the task."
+      ]
+    },
+    {
+      "name": "counting-basics",
+      "skillIds": ["factorial-notation", "arrange-n-objects", "count-ordered-selections-repetition"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Permutations and Combinations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`factorial-notation` = what $n!$ means, $0!=1$, and simplifying factorial expressions such as $\\frac{10!}{7!}$ WITHOUT evaluating the factorials. `arrange-n-objects` = arrangements of $n$ distinct objects in a line ($n!$). `count-ordered-selections-repetition` = ordered selections WITH repetition ($n^{r}$: PINs, number plates, menu choices), which is the multiplication principle, not a permutation.",
+        "`multiplication-principle` ALREADY EXISTS (Stage 5). Use it as an assumed prerequisite; do not re-teach it.",
+        "SIMPLIFY, DON'T EVALUATE: $\\frac{10!}{7!}=10\\times 9\\times 8=720$ is fine, but items whose answer is a raw factorial such as $12!$ must keep the factorial form in the options — a mix of $12!$ and $479001600$ as options is one answer twice.",
+        "REPETITION ALLOWED OR NOT must be stated in every stem, together with whether order matters. Almost every ambiguous counting item traces back to one of those two facts being left implicit.",
+        "$0!=1$ is a definition, not a computation; include one item where it is used, with '$0!=0$' as a named distractor.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "permutations",
+      "skillIds": ["permutations-nPr", "permutations-not-distinct", "permutations-restrictions", "counting-complement-principle", "circular-arrangements"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Permutations and Combinations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`permutations-nPr` = ordered selections of $r$ from $n$ distinct objects, $^{n}P_{r}=\\frac{n!}{(n-r)!}$. `permutations-not-distinct` = arrangements with repeated identical objects, $\\frac{n!}{p!q!\\dots}$ (the letters-of-a-word case). `permutations-restrictions` = 'these two must sit together' (block/glue method) and 'this one must be first'. `counting-complement-principle` = counting the arrangements that FAIL a condition and subtracting from the total ('at least one', 'not all together'). `circular-arrangements` = $(n-1)!$ around a table, and $(n-1)!/2$ where reflections coincide (a bracelet/necklace).",
+        "STATE THE CONVENTION for circular arrangements explicitly: rotations are the same arrangement, and whether reflections also count as the same must be said in the stem — the answer differs by a factor of 2 and both are defensible otherwise.",
+        "THE BLOCK METHOD MUST INCLUDE THE INTERNAL ARRANGEMENT: treating two people as one block gives $(n-1)!$ blocks arrangements, then $\\times 2!$ for the pair. 'Forgot the internal $2!$' is the standard distractor.",
+        "Every restriction item must have EXACTLY ONE reading. 'At least one', 'no two together' and 'not all together' mean three different counts — pick one and phrase it unambiguously; where the complement is the intended method, do not also permit a direct count with a different convention.",
+        "The answers here are large integers and collide easily across items. Vary the object counts as well as the wording between items, and check no two items of the same structure produce the same number.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "combinations",
+      "skillIds": ["combinations-nCr", "combinations-identities", "combinatorial-argument-proof", "combinations-restrictions"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Permutations and Combinations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`combinations-nCr` = unordered selections, $^{n}C_{r}=\\binom{n}{r}=\\frac{n!}{r!(n-r)!}$, and telling a combination problem from a permutation one. `combinations-identities` = $\\binom{n}{r}=\\binom{n}{n-r}$ and Pascal's rule $\\binom{n}{r}+\\binom{n}{r+1}=\\binom{n+1}{r+1}$, used to simplify or to solve for an unknown. `combinatorial-argument-proof` = justifying an identity by counting the SAME set two ways, in words. `combinations-restrictions` = selections where some objects must (or must not) be included, and committee-style problems that split into cases.",
+        "ORDER MATTERS OR NOT is the one distinction being taught: every item must make it unambiguous, and $^{n}P_{r}$ where $^{n}C_{r}$ was wanted (a factor of $r!$ out) is the compulsory named distractor.",
+        "A `combinatorial-argument-proof` item must test the ARGUMENT (which set is being counted, why both counts describe it, which step is the double count), not the arithmetic. An algebraic factorial manipulation is `combinations-identities`, not a combinatorial argument.",
+        "CASE-SPLIT ITEMS: when a restriction forces cases ('at least 2 women'), the solution must list every case and add — and the stem must not admit a second case-split that gives a different total. Recompute the sum of cases and check it against a complement count before shipping.",
+        "Notation: use $\\binom{n}{r}$ consistently (the booklet's form), and keep answers as integers; do not mix $\\binom{8}{3}$ and $56$ in one option list.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "counting-applications",
+      "skillIds": ["perm-comb-cases", "probability-perm-comb"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Permutations and Combinations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`perm-comb-cases` = problems that need BOTH ideas or a case split across them (choose a committee then arrange it; select with a restriction then order). Every item must genuinely need more than one step — a single $^{n}C_{r}$ evaluation belongs to `combinations-nCr`.",
+        "`probability-perm-comb` = probabilities computed as (favourable count)/(total count) using counting techniques. The two counts must use the SAME convention: if the numerator counts unordered selections, the denominator must too. A mismatched pair is the standard error and belongs in a `why`.",
+        "Give probability answers as exact fractions in simplest form (or state the required accuracy); an option list mixing $\\frac{1}{15}$ and $0.0667$ has two correct answers.",
+        "These two skills are the batch's most likely source of cross-skill duplicate stems with the permutations and combinations sections — use different contexts (not another committee, not another word) and different numbers from every earlier section.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    }
+  ]
+}

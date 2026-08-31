@@ -1,0 +1,142 @@
+{
+  "skillId": "tangents-normals-advanced",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **tangent** touches $y = f(x)$ at $P(x_1, y_1)$ and has gradient $m = f'(x_1)$. The **normal** is the line through $P$ at right angles to the tangent. The same method works for exponential, logarithmic and trigonometric curves.",
+    "facts": [
+      "Find the point of contact first: $y_1 = f(x_1)$, and check that the point really lies on the curve.",
+      "The tangent at $P(x_1, y_1)$ has equation $y - y_1 = f'(x_1)(x - x_1)$.",
+      "The normal has gradient $m_{\\perp} = -\\dfrac{1}{f'(x_1)}$, not $-f'(x_1)$ and not $\\dfrac{1}{f'(x_1)}$.",
+      "The normal has equation $y - y_1 = -\\dfrac{1}{f'(x_1)}(x - x_1)$ whenever $f'(x_1) \\neq 0$.",
+      "If $f'(x_1) = 0$ the tangent is the horizontal line $y = y_1$ and the normal is the vertical line $x = x_1$.",
+      "A tangent is horizontal where $f'(x) = 0$, and an exponential factor is never zero, so only its other factor can vanish.",
+      "A tangent is parallel to $y = mx + c$ at the values of $x$ where $f'(x) = m$.",
+      "General form is $ax + by + c = 0$, where $a$, $b$ and $c$ are integers and $a > 0$."
+    ],
+    "steps": [
+      "Find the point of contact $y_1 = f(x_1)$.",
+      "Differentiate to find $f'(x)$, choosing the product, quotient or chain rule as needed.",
+      "Evaluate the gradient $m = f'(x_1)$.",
+      "For a normal use $m_{\\perp} = -\\dfrac{1}{m}$, or write $x = x_1$ when $m = 0$.",
+      "Substitute into $y - y_1 = m(x - x_1)$ and rearrange to the required form."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find the equation of the tangent to $y = e^{3x}$ at the point where $x = 0$.",
+        "structure": "tangent-equation-exponential",
+        "solution_text": "$y_1 = e^{0} = 1$\n$\\dfrac{dy}{dx} = 3e^{3x}$\n$m = 3e^{0} = 3$\n$y - 1 = 3(x - 0)$\n$y = 3x + 1$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = 2^{x}$ at the point $(3, 8)$.",
+        "structure": "tangent-equation-exponential",
+        "solution_text": "$y_1 = 2^{3} = 8$\n$\\dfrac{dy}{dx} = (\\ln 2)2^{x}$\n$m = (\\ln 2)2^{3} = 8\\ln 2$\n$y - 8 = 8\\ln 2\\,(x - 3)$\n$y = (8\\ln 2)x - 24\\ln 2 + 8$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = \\ln x$ at the point $(1, 0)$.",
+        "structure": "tangent-equation-log",
+        "solution_text": "$\\dfrac{dy}{dx} = \\dfrac{1}{x}$\n$m = \\dfrac{1}{1} = 1$\n$y - 0 = 1(x - 1)$\n$y = x - 1$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = \\ln(2x)$ at the point where $x = \\dfrac{1}{2}$.",
+        "structure": "tangent-equation-log",
+        "solution_text": "$y_1 = \\ln\\left(2 \\times \\dfrac{1}{2}\\right) = \\ln 1 = 0$\n$\\dfrac{dy}{dx} = \\dfrac{2}{2x} = \\dfrac{1}{x}$\n$m = \\dfrac{1}{\\frac{1}{2}} = 2$\n$y - 0 = 2\\left(x - \\dfrac{1}{2}\\right)$\n$y = 2x - 1$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = \\sin x$ at the point where $x = \\pi$.",
+        "structure": "tangent-equation-trig",
+        "solution_text": "$y_1 = \\sin\\pi = 0$\n$\\dfrac{dy}{dx} = \\cos x$\n$m = \\cos\\pi = -1$\n$y - 0 = -1(x - \\pi)$\n$y = -x + \\pi$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = \\cos x$ at the point where $x = \\dfrac{\\pi}{2}$.",
+        "structure": "normal-equation",
+        "solution_text": "$y_1 = \\cos\\dfrac{\\pi}{2} = 0$\n$\\dfrac{dy}{dx} = -\\sin x$\n$m = -\\sin\\dfrac{\\pi}{2} = -1$\n$m_{\\perp} = -\\dfrac{1}{-1} = 1$\n$y - 0 = 1\\left(x - \\dfrac{\\pi}{2}\\right)$\n$y = x - \\dfrac{\\pi}{2}$"
+      },
+      {
+        "question_text": "Find the $x$-coordinate of the point on the curve $y = xe^{x}$ where the tangent is horizontal.",
+        "structure": "horizontal-tangent",
+        "solution_text": "$u = x, \\quad u' = 1$\n$v = e^{x}, \\quad v' = e^{x}$\n$\\dfrac{dy}{dx} = e^{x} + xe^{x}$\n$= e^{x}(1 + x)$\nA horizontal tangent needs $\\dfrac{dy}{dx} = 0$, and $e^{x} > 0$ for all $x$.\n$1 + x = 0$\n$x = -1$"
+      },
+      {
+        "question_text": "Find the $x$-coordinates of the points on $y = e^{\\sin 2x}$, for $0 \\leq x \\leq \\pi$, where the tangent is horizontal.",
+        "structure": "horizontal-tangent",
+        "solution_text": "$\\dfrac{dy}{dx} = 2\\cos 2x\\,e^{\\sin 2x}$\nA horizontal tangent needs $\\dfrac{dy}{dx} = 0$, and $e^{\\sin 2x} > 0$ for all $x$.\n$\\cos 2x = 0$\nFor $0 \\leq x \\leq \\pi$, $2x$ runs from $0$ to $2\\pi$.\n$2x = \\dfrac{\\pi}{2}, \\dfrac{3\\pi}{2}$\n$x = \\dfrac{\\pi}{4}, \\dfrac{3\\pi}{4}$"
+      },
+      {
+        "question_text": "The curve $y = e^{x^{2}}$ has a horizontal tangent at $x = 0$. Write down the equations of the tangent and the normal to the curve at that point.",
+        "structure": "vertical-normal",
+        "solution_text": "$y_1 = e^{0} = 1$\n$\\dfrac{dy}{dx} = 2xe^{x^{2}}$\n$m = 2(0)e^{0} = 0$\nThe tangent is horizontal, so it is the line $y = 1$.\nA horizontal tangent has a vertical normal through the same point.\nThe normal is $x = 0$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The diagram shows the curve $y = e^{x}$ and the tangent to the curve at the point $P$ where the curve crosses the $y$-axis. The tangent meets the $x$-axis at $A$, and $O$ is the origin. Find the equation of the tangent and the area of $\\triangle OAP$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.9,0) -- (2.1,0) node[right] {$x$};\n\\draw[->] (0,-1.3) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.5:1.6, smooth, samples=80, variable=\\x] plot ({\\x},{exp(\\x)});\n\\node[left] at (1.42,4.5) {$y=e^{x}$};\n\\draw (-1.9,-0.9) -- (1.7,2.7);\n\\node[below right] at (1.2,2.2) {tangent};\n\\fill (0,1) circle (2pt);\n\\node[above left] at (0,1) {$P$};\n\\fill (-1,0) circle (2pt);\n\\node[below left] at (-1,0) {$A$};\n\\node[below right] at (0,0) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "tangent-equation-exponential",
+        "solution_text": "$P$ lies on the $y$-axis, so $x_1 = 0$ and $y_1 = e^{0} = 1$.\n$\\dfrac{dy}{dx} = e^{x}$\n$m = e^{0} = 1$\n$y - 1 = 1(x - 0)$\n$y = x + 1$\nAt $A$, $y = 0$, so $x = -1$ and $A$ is $(-1, 0)$.\nArea $= \\dfrac{1}{2} \\times OA \\times OP$\n$= \\dfrac{1}{2} \\times 1 \\times 1$\n$= \\dfrac{1}{2}$ square units"
+      },
+      {
+        "question_text": "The diagram shows the curve $y = e^{2x}$ and the normal to the curve at the point $P$ where the curve crosses the $y$-axis. The normal meets the $x$-axis at $B$. Find the coordinates of $B$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-2.2,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-1.0) -- (0,5.2) node[above] {$y$};\n\\draw[thick, <->, domain=-1.6:0.78, smooth, samples=80, variable=\\x] plot ({\\x},{exp(2*\\x)});\n\\node[right] at (0.85,4.4) {$y=e^{2x}$};\n\\draw (-0.8,1.4) -- (2.6,-0.3);\n\\node[below] at (2.35,-0.18) {normal};\n\\fill (0,1) circle (2pt);\n\\node[above left] at (0,1) {$P$};\n\\fill (2,0) circle (2pt);\n\\node[above right] at (2,0) {$B$};\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "normal-equation",
+        "solution_text": "$P$ lies on the $y$-axis, so $x_1 = 0$ and $y_1 = e^{0} = 1$.\n$\\dfrac{dy}{dx} = 2e^{2x}$\n$m = 2e^{0} = 2$\n$m_{\\perp} = -\\dfrac{1}{2}$\n$y - 1 = -\\dfrac{1}{2}(x - 0)$\n$y = -\\dfrac{1}{2}x + 1$\nAt $B$, $y = 0$.\n$\\dfrac{1}{2}x = 1$\n$x = 2$\n$B$ is $(2, 0)$."
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = x\\cos x$ at the point where $x = \\dfrac{\\pi}{2}$, in the form $ax + by + c = 0$ with $a > 0$.",
+        "structure": "tangent-equation-trig",
+        "solution_text": "$y_1 = \\dfrac{\\pi}{2}\\cos\\dfrac{\\pi}{2} = 0$\n$u = x, \\quad u' = 1$\n$v = \\cos x, \\quad v' = -\\sin x$\n$\\dfrac{dy}{dx} = \\cos x - x\\sin x$\n$m = \\cos\\dfrac{\\pi}{2} - \\dfrac{\\pi}{2}\\sin\\dfrac{\\pi}{2} = -\\dfrac{\\pi}{2}$\n$y - 0 = -\\dfrac{\\pi}{2}\\left(x - \\dfrac{\\pi}{2}\\right)$\n$4y = -2\\pi x + \\pi^{2}$\n$2\\pi x + 4y - \\pi^{2} = 0$"
+      },
+      {
+        "question_text": "Find the equation of the normal to $y = x^{2}e^{x}$ at the point where $x = 2$.",
+        "structure": "normal-equation",
+        "solution_text": "$y_1 = 2^{2}e^{2} = 4e^{2}$\n$u = x^{2}, \\quad u' = 2x$\n$v = e^{x}, \\quad v' = e^{x}$\n$\\dfrac{dy}{dx} = 2xe^{x} + x^{2}e^{x}$\n$m = 4e^{2} + 4e^{2} = 8e^{2}$\n$m_{\\perp} = -\\dfrac{1}{8e^{2}}$\n$y - 4e^{2} = -\\dfrac{1}{8e^{2}}(x - 2)$\n$y = -\\dfrac{x}{8e^{2}} + \\dfrac{1}{4e^{2}} + 4e^{2}$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = x\\ln x$ at the point where $x = e$.",
+        "structure": "tangent-equation-log",
+        "solution_text": "$y_1 = e\\ln e = e$\n$u = x, \\quad u' = 1$\n$v = \\ln x, \\quad v' = \\dfrac{1}{x}$\n$\\dfrac{dy}{dx} = \\ln x + 1$\n$m = \\ln e + 1 = 2$\n$y - e = 2(x - e)$\n$y = 2x - e$"
+      },
+      {
+        "question_text": "Find the coordinates of the point on $y = e^{x}$ where the tangent is parallel to the line $y = 4x - 7$.",
+        "structure": "tangent-parallel-to-line",
+        "solution_text": "$\\dfrac{dy}{dx} = e^{x}$\nParallel lines have equal gradients, and $y = 4x - 7$ has gradient $4$.\n$e^{x} = 4$\n$x = \\ln 4$\n$y = e^{\\ln 4} = 4$\nThe point is $(\\ln 4, 4)$."
+      },
+      {
+        "question_text": "Find the $x$-coordinate of the point on $y = \\ln(3x)$, $x > 0$, where the tangent is parallel to the line $2x - 3y = 5$.",
+        "structure": "tangent-parallel-to-line",
+        "solution_text": "$2x - 3y = 5$\n$y = \\dfrac{2}{3}x - \\dfrac{5}{3}$, so the line has gradient $\\dfrac{2}{3}$.\n$\\dfrac{dy}{dx} = \\dfrac{3}{3x} = \\dfrac{1}{x}$\n$\\dfrac{1}{x} = \\dfrac{2}{3}$\n$x = \\dfrac{3}{2}$"
+      },
+      {
+        "question_text": "Show that the curve $y = \\ln\\left(x^{2} + 4\\right)$ has a horizontal tangent at $x = 0$, and write down the equations of the tangent and the normal there.",
+        "structure": "vertical-normal",
+        "solution_text": "$\\dfrac{dy}{dx} = \\dfrac{2x}{x^{2} + 4}$\nAt $x = 0$: $\\dfrac{dy}{dx} = \\dfrac{0}{4} = 0$, so the tangent is horizontal.\n$y_1 = \\ln\\left(0^{2} + 4\\right) = \\ln 4$\nTangent: $y = \\ln 4$\nA horizontal tangent has a vertical normal through the same point.\nNormal: $x = 0$"
+      },
+      {
+        "question_text": "Find the exact coordinates of the point on $y = \\dfrac{\\ln x}{x}$, $x > 0$, where the tangent is horizontal.",
+        "structure": "horizontal-tangent",
+        "solution_text": "$u = \\ln x, \\quad u' = \\dfrac{1}{x}$\n$v = x, \\quad v' = 1$\n$\\dfrac{dy}{dx} = \\dfrac{x \\times \\dfrac{1}{x} - \\ln x}{x^{2}}$\n$= \\dfrac{1 - \\ln x}{x^{2}}$\nA horizontal tangent needs the numerator to be zero.\n$1 - \\ln x = 0$\n$\\ln x = 1$\n$x = e$\n$y = \\dfrac{\\ln e}{e} = \\dfrac{1}{e}$\nThe point is $\\left(e, \\dfrac{1}{e}\\right)$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "The diagram shows the curve $y = \\ln x$ and the tangent to the curve drawn from the origin $O$, touching the curve at $P$. Find the coordinates of $P$ and the equation of the tangent.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.7,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-1.9) -- (0,2.5) node[above] {$y$};\n\\draw[thick, <->, domain=0.25:4.6, smooth, samples=100, variable=\\x] plot ({\\x},{ln(\\x)});\n\\node[below right] at (4.3,1.30) {$y=\\ln x$};\n\\draw (0,0) -- (5.0,1.8394);\n\\node[above left] at (3.9,1.4348) {tangent};\n\\fill (2.718,1) circle (2pt);\n\\node[above left] at (2.718,1) {$P$};\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "tangent-through-given-point",
+        "solution_text": "Let $P$ be the point $(a, \\ln a)$, where $a > 0$.\n$\\dfrac{dy}{dx} = \\dfrac{1}{x}$, so the tangent at $P$ has gradient $\\dfrac{1}{a}$.\nThe tangent also passes through $O(0, 0)$, so its gradient is $\\dfrac{\\ln a - 0}{a - 0}$.\n$\\dfrac{1}{a} = \\dfrac{\\ln a}{a}$\n$\\ln a = 1$\n$a = e$\n$P$ is $(e, 1)$.\n$y - 1 = \\dfrac{1}{e}(x - e)$\n$y = \\dfrac{1}{e}x$"
+      },
+      {
+        "question_text": "The line $y = mx$ is a tangent to the curve $y = e^{3x}$. Find the exact value of $m$ and the coordinates of the point of contact.",
+        "structure": "tangent-through-given-point",
+        "solution_text": "Let the point of contact be $\\left(a, e^{3a}\\right)$.\n$\\dfrac{dy}{dx} = 3e^{3x}$, so $m = 3e^{3a}$.\nThe line passes through $(0, 0)$ and $\\left(a, e^{3a}\\right)$, so $m = \\dfrac{e^{3a}}{a}$.\n$3e^{3a} = \\dfrac{e^{3a}}{a}$\n$3a = 1$\n$a = \\dfrac{1}{3}$\n$m = 3e^{3 \\times \\frac{1}{3}} = 3e$\nThe point of contact is $\\left(\\dfrac{1}{3}, e\\right)$."
+      },
+      {
+        "question_text": "The point $P\\left(\\dfrac{\\pi}{4}, \\dfrac{1}{2}\\right)$ lies on the curve $y = \\sin^{2}x$. The tangent at $P$ meets the $x$-axis at $A$ and the normal at $P$ meets the $y$-axis at $B$. Show that $\\triangle OAB$ has area $\\dfrac{\\pi^{2} - 4}{32}$ square units, where $O$ is the origin.",
+        "structure": "tangent-equation-trig",
+        "solution_text": "$\\dfrac{dy}{dx} = 2\\sin x\\cos x = \\sin 2x$\n$m = \\sin\\dfrac{\\pi}{2} = 1$\n$y - \\dfrac{1}{2} = 1\\left(x - \\dfrac{\\pi}{4}\\right)$\nAt $A$, $y = 0$, so $x = \\dfrac{\\pi}{4} - \\dfrac{1}{2}$ and $OA = \\dfrac{\\pi}{4} - \\dfrac{1}{2}$.\n$m_{\\perp} = -\\dfrac{1}{1} = -1$\n$y - \\dfrac{1}{2} = -1\\left(x - \\dfrac{\\pi}{4}\\right)$\nAt $B$, $x = 0$, so $y = \\dfrac{\\pi}{4} + \\dfrac{1}{2}$ and $OB = \\dfrac{\\pi}{4} + \\dfrac{1}{2}$.\nArea $= \\dfrac{1}{2} \\times OA \\times OB$\n$= \\dfrac{1}{2}\\left(\\dfrac{\\pi}{4} - \\dfrac{1}{2}\\right)\\left(\\dfrac{\\pi}{4} + \\dfrac{1}{2}\\right)$\n$= \\dfrac{1}{2}\\left(\\dfrac{\\pi^{2}}{16} - \\dfrac{1}{4}\\right)$\n$= \\dfrac{\\pi^{2}}{32} - \\dfrac{1}{8}$\n$= \\dfrac{\\pi^{2} - 4}{32}$"
+      },
+      {
+        "question_text": "The normal to $y = e^{-x}$ at the point where $x = \\ln 2$ crosses the $x$-axis at $Q$. Find the exact coordinates of $Q$.",
+        "structure": "normal-equation",
+        "solution_text": "$y_1 = e^{-\\ln 2} = \\dfrac{1}{2}$\n$\\dfrac{dy}{dx} = -e^{-x}$\n$m = -e^{-\\ln 2} = -\\dfrac{1}{2}$\n$m_{\\perp} = -\\dfrac{1}{-\\frac{1}{2}} = 2$\n$y - \\dfrac{1}{2} = 2(x - \\ln 2)$\nAt $Q$, $y = 0$.\n$-\\dfrac{1}{2} = 2x - 2\\ln 2$\n$2x = 2\\ln 2 - \\dfrac{1}{2}$\n$x = \\ln 2 - \\dfrac{1}{4}$\n$Q$ is $\\left(\\ln 2 - \\dfrac{1}{4},\\ 0\\right)$."
+      }
+    ]
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "skillId": "solve-trig-equations-graphically",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The graph of $y = \\cos(2x)$ and the line $y = \\dfrac{\\sqrt{3}}{2}$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-1.6, ymax=1.6,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {cos(deg(2*x))};\n\\addplot[thick, red, domain=0:6.2832] {0.86603};\n\\node[red, anchor=west] at (axis cs:6.45,0.86603) {$y=\\frac{\\sqrt{3}}{2}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $\\cos(2x) = \\dfrac{\\sqrt{3}}{2}$ have for $0 \\le x \\le 2\\pi$?",
+      "structure": "count-intersections-horizontal-line",
+      "mastery": false,
+      "options": [
+        { "text": "$4$", "correct": true },
+        { "text": "$2$", "why": "Counted only the first cycle instead of the two cycles the domain holds." },
+        { "text": "$8$", "why": "Multiplied the two crossings per cycle by the dilation constant $2$ as well as by the number of cycles." },
+        { "text": "$6$", "why": "Used a period of $\\frac{2\\pi}{3}$ instead of $\\pi$, so counted three cycles." }
+      ],
+      "solution_text": "Period $=\\dfrac{2\\pi}{2}$\n$=\\pi$\nThe domain $0 \\le x \\le 2\\pi$ holds two complete cycles.\nThe line $y=\\dfrac{\\sqrt{3}}{2}$ lies between $-1$ and $1$, so it cuts each cycle twice.\n$2 \\times 2 = 4$ points of intersection"
+    },
+    {
+      "id": "q2",
+      "question_text": "The graph of $y = 5\\sin(3x)$ and the line $y = 5$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-6.4, ymax=6.4,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-5, 5},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {5*sin(deg(3*x))};\n\\addplot[thick, red, domain=0:6.2832] {5};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $5\\sin(3x) = 5$ have for $0 \\le x \\le 2\\pi$?",
+      "structure": "count-intersections-horizontal-line",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$6$", "why": "Assumed two crossings in each of the three cycles, missing that the line sits at the maximum." },
+        { "text": "$1$", "why": "Counted only the first cycle instead of the three cycles the domain holds." },
+        { "text": "$0$", "why": "Treated $y=5$ as lying outside the range of the curve rather than equal to its maximum." }
+      ],
+      "solution_text": "Period $=\\dfrac{2\\pi}{3}$, so the domain holds three complete cycles.\nThe line $y=5$ sits at the maximum value of the curve, so it touches each cycle once instead of crossing it twice.\nThere are $3$ solutions."
+    },
+    {
+      "id": "q3",
+      "question_text": "The graph of $y = 6\\cos x$ and the line $y = 2$ are shown for $0 \\le x \\le 2\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-0.3, xmax=6.9, ymin=-7.5, ymax=7.5,\n  xtick={1.5708, 3.1416, 4.7124, 6.2832},\n  xticklabels={$\\frac{\\pi}{2}$, $\\pi$, $\\frac{3\\pi}{2}$, $2\\pi$},\n  ytick={-6, 2, 6},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:6.2832] {6*cos(deg(x))};\n\\addplot[thick, red, domain=0:6.2832] {2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nOne solution of $6\\cos x = 2$ is $x \\approx 1.23$. What is the other solution in $0 \\le x \\le 2\\pi$, correct to two decimal places?",
+      "structure": "symmetry-from-one-solution",
+      "mastery": false,
+      "options": [
+        { "text": "$5.05$", "correct": true },
+        { "text": "$1.91$", "why": "Used $\\pi - 1.23$, which is the symmetry of a sine curve about $x=\\frac{\\pi}{2}$, not a cosine curve." },
+        { "text": "$4.37$", "why": "Added $\\pi$ to the known solution, treating the half-period as the gap between solutions." },
+        { "text": "$7.51$", "why": "Added the period $2\\pi$ to the known solution, which lands outside the given domain." }
+      ],
+      "solution_text": "The two intersections lie either side of the minimum at $x=\\pi$, so they are symmetric about it.\n$x = 2\\pi - 1.23$\n$= 5.05$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The graph of $y = 3\\sin\\left(\\dfrac{\\pi x}{5}\\right)$ and the line $y = 3$ are shown for $0 \\le x \\le 30$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1.2, xmax=32.5, ymin=-4, ymax=4,\n  xtick={5, 10, 15, 20, 25, 30},\n  ytick={-3, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:30] {3*sin(deg(pi*x/5))};\n\\addplot[thick, red, domain=0:30] {3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe curve has period $10$, and $x=2.5$ is a solution of $3\\sin\\left(\\dfrac{\\pi x}{5}\\right)=3$. What are all the solutions in $0 \\le x \\le 30$?",
+      "structure": "period-extend-solutions",
+      "mastery": false,
+      "options": [
+        { "text": "$x = 2.5,\\ 12.5,\\ 22.5$", "correct": true },
+        { "text": "$x = 2.5,\\ 12.5,\\ 22.5,\\ 32.5$", "why": "Kept adding the period without checking that $32.5$ lies outside the domain." },
+        { "text": "$x = 2.5,\\ 7.5,\\ 12.5,\\ 17.5,\\ 22.5,\\ 27.5$", "why": "Added half the period each time, as though the line crossed the curve twice per cycle." },
+        { "text": "$x = 2.5$", "why": "Gave only the solution supplied, without using the period to reach the later cycles." }
+      ],
+      "solution_text": "The line sits at the maximum value of the curve, so it touches each cycle exactly once.\nEach later touching point is one period further on.\n$2.5 + 10 = 12.5$\n$12.5 + 10 = 22.5$\nThe next value, $32.5$, lies outside the domain.\n$x = 2.5,\\ 12.5,\\ 22.5$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The curve $y = \\sin x$ and the line $y = \\dfrac{x}{3}$ are shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-4.6, xmax=4.6, ymin=-1.8, ymax=1.8,\n  xtick={-3.1416, 3.1416},\n  xticklabels={$-\\pi$, $\\pi$},\n  ytick={-1, 1},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=11cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-4:4] {sin(deg(x))};\n\\addplot[thick, red, domain=-4:4] {x/3};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nHow many solutions does $\\sin x = \\dfrac{x}{3}$ have over all real values of $x$?",
+      "structure": "count-intersections-with-line",
+      "mastery": false,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$2$", "why": "Missed the intersection at the origin, where both graphs pass through $(0,0)$." },
+        { "text": "$1$", "why": "Counted only the crossing at the origin and ignored the two symmetric crossings either side." },
+        { "text": "$5$", "why": "Assumed the line meets every arch of the sine curve, ignoring that $|\\frac{x}{3}|>1$ once $|x|>3$." }
+      ],
+      "solution_text": "Since $-1 \\le \\sin x \\le 1$, a solution needs $\\left|\\dfrac{x}{3}\\right| \\le 1$.\n$-3 \\le x \\le 3$\nInside this interval the graphs cross at the origin, once more for positive $x$ and once more for negative $x$.\nThe graphs meet $3$ times in total."
+    },
+    {
+      "id": "q6",
+      "question_text": "The curve $y = 5\\sin x$ and the line $y = x+2$ are shown.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-9, xmax=5, ymin=-7, ymax=7,\n  xtick={-6, -3, 3},\n  ytick={-5, 5},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=-8:4] {5*sin(deg(x))};\n\\addplot[thick, red, domain=-8:4] {x+2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nEvery solution of $5\\sin x = x+2$ must lie in which interval?",
+      "structure": "bound-solutions-by-range",
+      "mastery": false,
+      "options": [
+        { "text": "$-7 \\le x \\le 3$", "correct": true },
+        { "text": "$-3 \\le x \\le 7$", "why": "Added $2$ to each end of $-5 \\le x+2 \\le 5$ instead of subtracting it." },
+        { "text": "$-5 \\le x \\le 5$", "why": "Used the range of $5\\sin x$ as the interval for $x$, ignoring the $+2$ in the line." },
+        { "text": "$-1 \\le x \\le 1$", "why": "Used the range of $\\sin x$ rather than $5\\sin x$, and also ignored the $+2$." }
+      ],
+      "solution_text": "Since $-1 \\le \\sin x \\le 1$:\n$-5 \\le 5\\sin x \\le 5$\nAt a solution, $x+2$ equals $5\\sin x$.\n$-5 \\le x+2 \\le 5$\n$-7 \\le x \\le 3$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The graph of $y = 2\\cos\\left(\\dfrac{x}{2}\\right)+1$ and the line $y = 2$ are shown for $0 \\le x \\le 8\\pi$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1.2, xmax=27, ymin=-2, ymax=4,\n  xtick={6.2832, 12.5664, 18.8496, 25.1327},\n  xticklabels={$2\\pi$, $4\\pi$, $6\\pi$, $8\\pi$},\n  ytick={-1, 1, 2, 3},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:25.1327] {2*cos(deg(x/2))+1};\n\\addplot[thick, red, domain=0:25.1327] {2};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nSolve $2\\cos\\left(\\dfrac{x}{2}\\right)+1 = 2$ for $0 \\le x \\le 8\\pi$.",
+      "structure": "count-intersections-horizontal-line",
+      "mastery": true,
+      "options": [
+        { "text": "$x = \\dfrac{2\\pi}{3},\\ \\dfrac{10\\pi}{3},\\ \\dfrac{14\\pi}{3},\\ \\dfrac{22\\pi}{3}$", "correct": true },
+        { "text": "$x = \\dfrac{2\\pi}{3},\\ \\dfrac{10\\pi}{3}$", "why": "Solved only the first revolution of $u=\\frac{x}{2}$ instead of the full domain $0 \\le u \\le 4\\pi$." },
+        { "text": "$x = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3},\\ \\dfrac{7\\pi}{3},\\ \\dfrac{11\\pi}{3}$", "why": "Found the four values of $u$ but never doubled them to recover $x$." },
+        { "text": "$x = \\dfrac{4\\pi}{3},\\ \\dfrac{20\\pi}{3},\\ \\dfrac{28\\pi}{3},\\ \\dfrac{44\\pi}{3}$", "why": "Doubled the values of $u$ twice, multiplying each solution by $4$ instead of by $2$." }
+      ],
+      "solution_text": "$2\\cos\\left(\\dfrac{x}{2}\\right)+1 = 2$\n$\\cos\\left(\\dfrac{x}{2}\\right) = \\dfrac{1}{2}$\nLet $u = \\dfrac{x}{2}$, so $0 \\le u \\le 4\\pi$.\n$u = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3}$\nAdding $2\\pi$ to each gives two more values inside $0 \\le u \\le 4\\pi$.\n$u = \\dfrac{\\pi}{3},\\ \\dfrac{5\\pi}{3},\\ \\dfrac{7\\pi}{3},\\ \\dfrac{11\\pi}{3}$\n$x = 2u$\n$x = \\dfrac{2\\pi}{3},\\ \\dfrac{10\\pi}{3},\\ \\dfrac{14\\pi}{3},\\ \\dfrac{22\\pi}{3}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph of $f(x) = 7\\cos\\left(\\dfrac{\\pi x}{8}\\right)+2$ and the line $y = 4$ are shown for $0 \\le x \\le 16$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n  xmin=-1, xmax=18.5, ymin=-6.5, ymax=11,\n  xtick={4, 8, 12, 16},\n  ytick={-5, 2, 4, 9},\n  samples=200, clip=false,\n  axis line style={-{Stealth}}, width=12cm, height=6.5cm]\n\\addplot[smooth, thick, blue, domain=0:16] {7*cos(deg(pi*x/8))+2};\n\\addplot[thick, red, domain=0:16] {4};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]\nThe function has period $16$ and a minimum at $x=8$. Given that $x \\approx 3.26$ is a solution of $f(x)=4$, what is the other solution in $0 \\le x \\le 16$, correct to two decimal places?",
+      "structure": "symmetry-from-one-solution",
+      "mastery": true,
+      "options": [
+        { "text": "$12.74$", "correct": true },
+        { "text": "$11.26$", "why": "Added the known solution to the minimum's position instead of reflecting it in that position." },
+        { "text": "$4.74$", "why": "Subtracted the known solution from the minimum's position rather than from twice that position." },
+        { "text": "$19.26$", "why": "Added the period $16$ to the known solution, which lands outside the given domain." }
+      ],
+      "solution_text": "The two intersections lie either side of the minimum at $x=8$, so they are symmetric about it.\n$x = 2(8) - 3.26$\n$= 12.74$"
+    }
+  ]
+}

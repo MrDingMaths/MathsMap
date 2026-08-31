@@ -1,14 +1,18 @@
 <script>
-  import MathText from './Math.svelte';
+  // Theory fields carry the same rich-text format as practice cards, inline
+  // `[tikz]` figures included, so they render through InlineContent rather than
+  // MathText. InlineContent emits block-level divs, hence `.theory-intro` is a
+  // div: a div inside a <p> would close the paragraph early.
+  import InlineContent from './InlineContent.svelte';
   let { theory } = $props();
 </script>
 
 <div class="theory">
-  {#if theory.intro}<p class="theory-intro"><MathText text={theory.intro} /></p>{/if}
-  {#if theory.facts?.length}<ul class="theory-facts">{#each theory.facts as fact}<li><MathText text={fact} /></li>{/each}</ul>{/if}
+  {#if theory.intro}<div class="theory-intro"><InlineContent text={theory.intro} /></div>{/if}
+  {#if theory.facts?.length}<ul class="theory-facts">{#each theory.facts as fact}<li><InlineContent text={fact} /></li>{/each}</ul>{/if}
   {#if theory.steps?.length}
     <div class="theory-sub">Method</div>
-    <ol class="theory-steps">{#each theory.steps as step}<li><MathText text={step} /></li>{/each}</ol>
+    <ol class="theory-steps">{#each theory.steps as step}<li><InlineContent text={step} /></li>{/each}</ol>
   {/if}
 </div>
 

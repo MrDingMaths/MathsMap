@@ -1,0 +1,230 @@
+{
+  "skillId": "arrange-n-objects",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Six keynote speakers are scheduled to present one after another at a conference. Each speaker presents once. In how many different orders can they be scheduled?",
+      "structure": "arrange-all-distinct-row",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$720$",
+          "correct": true
+        },
+        {
+          "text": "$36$",
+          "why": "Multiplied $6 \\times 6$ instead of evaluating $6! = 6 \\times 5 \\times 4 \\times 3 \\times 2 \\times 1$."
+        },
+        {
+          "text": "$46\\,656$",
+          "why": "Evaluated $6^6$, assuming speakers could be scheduled multiple times."
+        },
+        {
+          "text": "$120$",
+          "why": "Evaluated $5!$ instead of $6!$, leaving out one speaker."
+        }
+      ],
+      "solution_text": "There are $6$ distinct speakers and $6$ scheduled slots without repetition.\n$6!$\n$= 6 \\times 5 \\times 4 \\times 3 \\times 2 \\times 1$\n$= 720$"
+    },
+    {
+      "id": "q2",
+      "question_text": "How many different arrangements can be made using all $5$ letters of the word $\\text{CRAFT}$, without repeating any letter?",
+      "structure": "arrange-distinct-word-letters",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$120$",
+          "correct": true
+        },
+        {
+          "text": "$25$",
+          "why": "Calculated $5 \\times 5$ instead of $5!$."
+        },
+        {
+          "text": "$3125$",
+          "why": "Calculated $5^5$, allowing letters to repeat across positions."
+        },
+        {
+          "text": "$24$",
+          "why": "Evaluated $4!$ instead of $5!$, omitting one letter."
+        }
+      ],
+      "solution_text": "The word $\\text{CRAFT}$ contains $5$ distinct letters.\n$5!$\n$= 5 \\times 4 \\times 3 \\times 2 \\times 1$\n$= 120$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Eight swimmers in a final are randomly assigned to lanes $1$ to $8$. In how many ways can the lanes be allocated if the top-seeded swimmer must be placed in lane $4$?",
+      "structure": "fixed-single-position",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5040$",
+          "correct": true
+        },
+        {
+          "text": "$40\\,320$",
+          "why": "Evaluated $8!$, ignoring the condition that the top-seeded swimmer's lane is fixed."
+        },
+        {
+          "text": "$720$",
+          "why": "Evaluated $6!$ instead of $7!$, fixing two swimmers instead of one."
+        },
+        {
+          "text": "$35$",
+          "why": "Calculated $8 - 1 = 7$ and multiplied by $5$ instead of evaluating $7!$."
+        }
+      ],
+      "solution_text": "The top-seeded swimmer has $1$ fixed spot in lane $4$.\nThe remaining $7$ swimmers can be arranged in the other $7$ lanes in $7!$ ways.\n$1 \\times 7!$\n$= 5040$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Seven different potted plants are arranged in a row along a windowsill. Two of the plants are ferns. In how many ways can all $7$ plants be arranged if the two ferns must occupy the two end positions of the windowsill?",
+      "structure": "fixed-both-ends",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$240$",
+          "correct": true
+        },
+        {
+          "text": "$120$",
+          "why": "Placed the two ferns at the ends in only one specific order ($5!$), forgetting that they can swap ends ($2!$)."
+        },
+        {
+          "text": "$5040$",
+          "why": "Evaluated $7!$, ignoring the restriction on the end positions."
+        },
+        {
+          "text": "$24$",
+          "why": "Evaluated $4!$ for the middle plants instead of $5!$."
+        }
+      ],
+      "solution_text": "The $2$ ferns can occupy the $2$ end positions in $2! = 2$ ways.\nThe remaining $5$ plants can be arranged in the middle $5$ positions in $5!$ ways.\n$2! \\times 5!$\n$= 2 \\times 120$\n$= 240$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Four people are standing in a queue. If a fifth person joins the queue, by what factor does the number of possible queues increase?",
+      "structure": "compare-arrangement-counts",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$5$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "Gave $4!$ instead of the ratio $\\frac{5!}{4!} = 5$."
+        },
+        {
+          "text": "$120$",
+          "why": "Gave the new total number of arrangements $5!$ instead of the factor of increase."
+        },
+        {
+          "text": "$4$",
+          "why": "Divided by the previous number of people minus one."
+        }
+      ],
+      "solution_text": "With $4$ people, there are $4! = 24$ arrangements.\nWith $5$ people, there are $5! = 120$ arrangements.\n$\\frac{5!}{4!}$\n$= \\frac{120}{24}$\n$= 5$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Which statement best explains why $5$ different books can be arranged on a shelf in $5!$ ways rather than $5 \\times 5$ ways?",
+      "structure": "explain-factorial-arrangement",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Each book can only occupy one position, so after placing each book the number of available books decreases by $1$, giving $5 \\times 4 \\times 3 \\times 2 \\times 1 = 5!$.",
+          "correct": true
+        },
+        {
+          "text": "There are $5$ books and $5$ positions, so the total is $5 + 5 = 10$.",
+          "why": "Added the number of books and positions instead of applying the multiplication principle."
+        },
+        {
+          "text": "Each position can receive any of the $5$ books with repetition allowed, giving $5^5$.",
+          "why": "Assumed books could be duplicated on the shelf rather than being distinct physical items."
+        },
+        {
+          "text": "The books can be grouped in pairs, giving $5 \\times 2 = 10$ arrangements.",
+          "why": "Multiplied by $2$ assuming pairing rather than multiplying across all choices."
+        }
+      ],
+      "solution_text": "Each of the $5$ distinct books can only be used once.\nThere are $5$ choices for the first position, $4$ for the second, $3$ for the third, $2$ for the fourth, and $1$ for the fifth.\nBy the multiplication principle:\n$5 \\times 4 \\times 3 \\times 2 \\times 1$\n$= 5!$\n$= 120$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How many $4$-digit numbers can be formed using each of the digits $1, 4, 6, 9$ exactly once if the number must be odd?",
+      "structure": "fixed-single-position",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$12$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "Evaluated $4! = 24$, ignoring the restriction that the last digit must be odd."
+        },
+        {
+          "text": "$6$",
+          "why": "Counted only one odd ending digit ($3! = 6$) instead of both $1$ and $9$."
+        },
+        {
+          "text": "$18$",
+          "why": "Subtracted $6$ from $24$ instead of multiplying $3! \\times 2$."
+        }
+      ],
+      "solution_text": "For the number to be odd, the last digit must be $1$ or $9$ ($2$ choices).\nThe remaining $3$ digits can be arranged in the other $3$ positions in $3!$ ways.\n$3! \\times 2$\n$= 6 \\times 2$\n$= 12$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Seven students are seated in a row of $7$ chairs. If Leo and Maya must sit in the two end chairs (in either order), and Nina must sit in the central chair (chair $4$), in how many different ways can all $7$ students be seated?",
+      "structure": "fixed-both-ends",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$48$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "Fixed Leo and Maya at the ends in only one order, omitting the factor of $2!$."
+        },
+        {
+          "text": "$120$",
+          "why": "Evaluated $5!$ for the remaining students, forgetting that Nina's central seat is already taken."
+        },
+        {
+          "text": "$5040$",
+          "why": "Calculated $7!$, ignoring all seat restrictions."
+        }
+      ],
+      "solution_text": "The $2$ end chairs can be filled by Leo and Maya in $2! = 2$ ways.\nNina has $1$ fixed chair in the centre.\nThe remaining $4$ students can be arranged in the remaining $4$ chairs in $4!$ ways.\n$2! \\times 1 \\times 4!$\n$= 2 \\times 24$\n$= 48$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Six different paintings are arranged in a row along a gallery wall ($6! = 720$ arrangements). If a seventh distinct painting is added to the row, how many **additional** arrangements can be formed?",
+      "structure": "compare-arrangement-counts",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$4320$",
+          "correct": true
+        },
+        {
+          "text": "$5040$",
+          "why": "Gave the new total number of arrangements $7!$ rather than the number of additional arrangements."
+        },
+        {
+          "text": "$720$",
+          "why": "Assumed the number of arrangements increases by $6! = 720$."
+        },
+        {
+          "text": "$7$",
+          "why": "Gave the number of paintings rather than the increase in arrangements."
+        }
+      ],
+      "solution_text": "With $6$ paintings, there are $6! = 720$ arrangements.\nWith $7$ paintings, there are $7! = 5040$ arrangements.\n$5040 - 720$\n$= 4320$"
+    }
+  ]
+}

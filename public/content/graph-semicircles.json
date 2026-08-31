@@ -1,0 +1,114 @@
+{
+  "skillId": "graph-semicircles",
+  "atomType": "R",
+  "theory": {
+        "intro": "Solving the circle equation $x^2 + y^2 = r^2$ for $y$ or $x$ produces four **semicircles**. The vertical forms $y = \\pm\\sqrt{r^2 - x^2}$ are **functions** of $x$, while the horizontal forms $x = \\pm\\sqrt{r^2 - y^2}$ are **relations**.",
+        "facts": [
+          "$y = \\sqrt{r^2 - x^2}$ is the upper semicircle with radius $r$, domain $[-r, r]$, and range $[0, r]$.",
+          "$y = -\\sqrt{r^2 - x^2}$ is the lower semicircle with radius $r$, domain $[-r, r]$, and range $[-r, 0]$.",
+          "$x = \\sqrt{r^2 - y^2}$ is the right semicircle with radius $r$, domain $[0, r]$, and range $[-r, r]$.",
+          "$x = -\\sqrt{r^2 - y^2}$ is the left semicircle with radius $r$, domain $[-r, 0]$, and range $[-r, r]$.",
+          "$y = \\pm\\sqrt{r^2 - x^2}$ pass the vertical line test and are functions of $x$, whereas $x = \\pm\\sqrt{r^2 - y^2}$ are relations.",
+          "The endpoints of $y = \\pm\\sqrt{r^2 - x^2}$ are $(-r, 0)$ and $(r, 0)$, while endpoints of $x = \\pm\\sqrt{r^2 - y^2}$ are $(0, -r)$ and $(0, r)$."
+        ],
+        "steps": [
+          "Identify the radius $r = \\sqrt{r^2}$ and orientation from the sign and subject variable.",
+          "State the domain and range in interval notation.",
+          "Identify the coordinates of the endpoints and the peak or intercept.",
+          "Sketch a circular arc of radius $r$ with equal scale on both axes."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For the semicircle $y = \\sqrt{9 - x^2}$, state the radius, orientation (upper or lower), domain, and range in interval notation.",
+        "structure": "upper-lower-semicircle-features",
+        "solution_text": "The equation is in the form $y = \\sqrt{r^2 - x^2}$ with $r^2 = 9$, so $r = 3$.\nOrientation: upper semicircle.\nDomain: $[-3, 3]$\nRange: $[0, 3]$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[<->] (-4.2,0) -- (4.2,0) node[right] {$x$};\n\\draw[<->] (0,-1) -- (0,4.2) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1);}\n\\foreach \\y in {1,2,3} {\\draw (0.1,\\y) -- (-0.1,\\y);}\n\\draw[thick, blue] (3,0) arc (0:180:3);\n\\fill (-3,0) circle (2.5pt) node[below left] {$(-3, 0)$};\n\\fill (3,0) circle (2.5pt) node[below right] {$(3, 0)$};\n\\fill (0,3) circle (2.5pt) node[above right] {$(0, 3)$};\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "For the semicircle $y = -\\sqrt{16 - x^2}$, state the radius, orientation, domain, and range in interval notation.",
+        "structure": "upper-lower-semicircle-features",
+        "solution_text": "The equation is in the form $y = -\\sqrt{r^2 - x^2}$ with $r^2 = 16$, so $r = 4$.\nOrientation: lower semicircle.\nDomain: $[-4, 4]$\nRange: $[-4, 0]$"
+      },
+      {
+        "question_text": "For the semicircle $x = \\sqrt{25 - y^2}$, state the radius, orientation (right or left), domain, and range in interval notation.",
+        "structure": "left-right-semicircle-features",
+        "solution_text": "The equation is in the form $x = \\sqrt{r^2 - y^2}$ with $r^2 = 25$, so $r = 5$.\nOrientation: right semicircle ($x \\ge 0$).\nDomain: $[0, 5]$\nRange: $[-5, 5]$"
+      },
+      {
+        "question_text": "For the semicircle $x = -\\sqrt{4 - y^2}$, state the radius, orientation, domain, and range.",
+        "structure": "left-right-semicircle-features",
+        "solution_text": "The equation is in the form $x = -\\sqrt{r^2 - y^2}$ with $r^2 = 4$, so $r = 2$.\nOrientation: left semicircle ($x \\le 0$).\nDomain: $[-2, 0]$\nRange: $[-2, 2]$"
+      },
+      {
+        "question_text": "Write the equation of the upper semicircle centred at the origin with radius $5$.",
+        "structure": "equation-from-semicircle-graph",
+        "solution_text": "An upper semicircle centred at the origin has the form $y = \\sqrt{r^2 - x^2}$.\nWith $r = 5$, $r^2 = 25$.\n$y = \\sqrt{25 - x^2}$"
+      },
+      {
+        "question_text": "State the coordinates of the two endpoints and the $y$-intercept for the lower semicircle $y = -\\sqrt{1 - x^2}$.",
+        "structure": "sketch-semicircle-key-points",
+        "solution_text": "Here $r = 1$.\nThe endpoints on the $x$-axis occur where $y = 0$: $(-1, 0)$ and $(1, 0)$.\nThe $y$-intercept occurs at $x = 0$: $y = -\\sqrt{1 - 0} = -1$, giving $(0, -1)$.\nEndpoints: $(-1, 0)$ and $(1, 0)$; $y$-intercept: $(0, -1)$"
+      },
+      {
+        "question_text": "Explain why $y = \\sqrt{4 - x^2}$ is a function of $x$, whereas the full circle $x^2 + y^2 = 4$ is not a function.",
+        "structure": "concept-semicircle-function-status",
+        "solution_text": "For $y = \\sqrt{4 - x^2}$, the radical gives only the non-negative square root, so each input $x \\in [-2, 2]$ produces exactly one output $y$.\nFor $x^2 + y^2 = 4$, solving for $y$ yields $y = \\pm\\sqrt{4 - x^2}$, so each $x \\in (-2, 2)$ produces two distinct outputs (failing the vertical line test)."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For the semicircle $y = \\sqrt{\\dfrac{25}{4} - x^2}$, state the exact radius, domain, and range in interval notation.",
+        "structure": "upper-lower-semicircle-features",
+        "solution_text": "$r^2 = \\dfrac{25}{4} \\implies r = \\dfrac{5}{2}$.\nOrientation: upper semicircle.\nDomain: $\\left[-\\dfrac{5}{2}, \\dfrac{5}{2}\\right]$\nRange: $\\left[0, \\dfrac{5}{2}\\right]$"
+      },
+      {
+        "question_text": "For the semicircle $y = -\\sqrt{7 - x^2}$, state the exact radius, domain, and range.",
+        "structure": "upper-lower-semicircle-features",
+        "solution_text": "$r^2 = 7 \\implies r = \\sqrt{7}$.\nOrientation: lower semicircle ($y \\le 0$).\nDomain: $[-\\sqrt{7}, \\sqrt{7}]$\nRange: $[-\\sqrt{7}, 0]$"
+      },
+      {
+        "question_text": "Explain whether the relation $x = \\sqrt{9 - y^2}$ represents a function of $x$, and state its domain and range in interval notation.",
+        "structure": "left-right-semicircle-features",
+        "solution_text": "The curve is a right semicircle.\nIt is NOT a function of $x$ because vertical lines with $0 \\le x < 3$ intersect the curve twice ($y = \\pm\\sqrt{9 - x^2}$).\nDomain: $[0, 3]$\nRange: $[-3, 3]$"
+      },
+      {
+        "question_text": "A semicircle has diameter along the $y$-axis with endpoints $(0, -6)$ and $(0, 6)$, and lies entirely in the region $x \\le 0$. Write its equation.",
+        "structure": "equation-from-semicircle-graph",
+        "solution_text": "The endpoints $(0, -6)$ and $(0, 6)$ give radius $r = 6$ and $r^2 = 36$.\nSince the semicircle lies in $x \\le 0$, it is a left semicircle with equation $x = -\\sqrt{r^2 - y^2}$.\n$x = -\\sqrt{36 - y^2}$"
+      },
+      {
+        "question_text": "The graph shows a semicircle centred at the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[<->] (-5.2,0) -- (5.2,0) node[right] {$x$};\n\\draw[<->] (0,-5.2) -- (0,1.5) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} {\\draw (\\x,0.1) -- (\\x,-0.1);}\n\\foreach \\y in {-4,-3,-2,-1,1} {\\draw (0.1,\\y) -- (-0.1,\\y);}\n\\draw[thick, blue] (-4,0) arc (180:360:4);\n\\fill (-4,0) circle (2.5pt) node[above left] {$(-4, 0)$};\n\\fill (4,0) circle (2.5pt) node[above right] {$(4, 0)$};\n\\fill (0,-4) circle (2.5pt);\n\\node[above left] at (0,0) {$O$};\n\\end{tikzpicture}\n[/tikz]\nWrite the equation of the semicircle, and state its domain and range in interval notation.",
+        "structure": "equation-from-semicircle-graph",
+        "solution_text": "The graph is a lower semicircle centred at $(0,0)$ with radius $r = 4$, so $r^2 = 16$.\nEquation: $y = -\\sqrt{16 - x^2}$\nDomain: $[-4, 4]$\nRange: $[-4, 0]$"
+      },
+      {
+        "question_text": "State the coordinates of the endpoints and axis intercept of $x = \\sqrt{49 - y^2}$, and explain how to sketch it.",
+        "structure": "sketch-semicircle-key-points",
+        "solution_text": "Here $r = 7$, so the endpoints on the $y$-axis are $(0, -7)$ and $(0, 7)$.\nThe $x$-intercept is $(7, 0)$.\nSketch a circular arc in the right half-plane ($x \\ge 0$) connecting $(0, -7)$, $(7, 0)$, and $(0, 7)$."
+      },
+      {
+        "question_text": "A student writes the equation of the lower semicircle of radius $3$ as $y = \\sqrt{9 - x^2} - 3$. Correct the student's error and write the correct equation.",
+        "structure": "concept-semicircle-function-status",
+        "solution_text": "The student subtracted $3$ from an upper semicircle, which translates the upper semicircle down instead of reflecting it.\nThe lower semicircle centred at the origin is formed by taking the negative square root: $y = -\\sqrt{9 - x^2}$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the coordinates of the points of intersection between the upper semicircle $y = \\sqrt{25 - x^2}$ and the horizontal line $y = 3$.",
+        "structure": "upper-lower-semicircle-features",
+        "solution_text": "Set $\\sqrt{25 - x^2} = 3$:\n$25 - x^2 = 3^2$\n$25 - x^2 = 9$\n$x^2 = 16$\n$x = 4$ or $x = -4$\nPoints of intersection: $(-4, 3)$ and $(4, 3)$"
+      },
+      {
+        "question_text": "Find the point of intersection between the right semicircle $x = \\sqrt{18 - y^2}$ and the line $y = x$.",
+        "structure": "left-right-semicircle-features",
+        "solution_text": "Substitute $y = x$ into $x = \\sqrt{18 - y^2}$:\n$x = \\sqrt{18 - x^2}$ with $x \\ge 0$\n$x^2 = 18 - x^2$\n$2x^2 = 18$\n$x^2 = 9$\nSince $x \\ge 0$, $x = 3$, so $y = 3$.\nPoint of intersection: $(3, 3)$"
+      },
+      {
+        "question_text": "By making $y$ the subject of $9x^2 + 9y^2 = 144$, express the lower half as an explicit function of $x$, and state its domain and range.",
+        "structure": "concept-semicircle-function-status",
+        "solution_text": "Divide both sides by $9$:\n$x^2 + y^2 = 16$\n$y^2 = 16 - x^2$\nFor the lower half, take the negative square root:\n$y = -\\sqrt{16 - x^2}$\nDomain: $[-4, 4]$\nRange: $[-4, 0]$"
+      }
+    ]
+  }
+}

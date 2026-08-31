@@ -1,0 +1,115 @@
+{
+  "skillId": "frequency-cumulative-graphs",
+  "atomType": "R",
+  "theory": {
+        "intro": "A **frequency histogram** has a column for each score, and a **frequency polygon** joins the tops of those columns. A **cumulative frequency histogram** and its **ogive** show the running total instead.",
+        "facts": [
+          "In a **frequency histogram** the columns are equal width and touch each other, and the frequency axis starts at $0$.",
+          "A **frequency polygon** joins the midpoints of the column tops and drops to the horizontal axis at an empty class at each end.",
+          "In a **cumulative frequency histogram** the height of each column is the cumulative frequency $cf$.",
+          "The **ogive** joins the top-right corners of the cumulative columns, starting at height $0$ at the lower boundary of the first class.",
+          "The **mode** is the score under the tallest column of the frequency histogram.",
+          "To estimate the **median**, find $0.5 \\times n$ on the cumulative axis, go across to the ogive, then read down.",
+          "Read $Q_1$ at $0.25 \\times n$ and $Q_3$ at $0.75 \\times n$, then $IQR = Q_3 - Q_1$."
+        ],
+        "steps": [
+          "Identify whether the graph is a frequency display (bars show individual frequencies) or a cumulative frequency display (bars show running totals).",
+          "To find the mode, locate the score under the tallest column on the frequency histogram.",
+          "To estimate the median or percentiles from an ogive, calculate the target cumulative frequency (e.g. $0.5 \\times n$ for the median, $0.25 \\times n$ for $Q_1$, $0.75 \\times n$ for $Q_3$).",
+          "Locate the target value on the vertical cumulative frequency axis, project horizontally to intersect the ogive, and read vertically down to the horizontal axis."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The frequency histogram shows the scores obtained in a game.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,8.4);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {2,4,6,8,10,12,14,16} {\\draw (-0.15,\\y/2) -- (0,\\y/2); \\node[left,font=\\scriptsize] at (-0.15,\\y/2) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,2.0);\n\\draw (1.5,0) rectangle (2.5,4.5);\n\\draw (2.5,0) rectangle (3.5,7.0);\n\\draw (3.5,0) rectangle (4.5,4.0);\n\\draw (4.5,0) rectangle (5.5,1.5);\n\\foreach \\x/\\val in {1/1,2/2,3/3,4/4,5/5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,4.0) {Frequency};\n\\node[below] at (3.0,-1.0) {Score};\n\\node at (3.0,8.1) {Game scores};\n\\end{tikzpicture}\n[/tikz]\nIdentify the modal score.",
+        "structure": "read-mode-histogram",
+        "solution_text": "The tallest column has a height of $14$, which is centred on the score $3$.\n$\\text{Mode} = 3$"
+      },
+      {
+        "question_text": "The frequency polygon shows the number of goals scored by players in a tournament.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.4);\n\\draw[->] (0,0) -- (8.2,0);\n\\foreach \\y in {2,4,6,8,10,12} {\\draw (-0.15,\\y/2) -- (0,\\y/2); \\node[left,font=\\scriptsize] at (-0.15,\\y/2) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x in {1,2,3,4,5,6,7} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\draw[thick] (1,0) -- (2,1.5) -- (3,3.5) -- (4,5.0) -- (5,3.0) -- (6,1.0) -- (7,0);\n\\foreach \\p in {(1,0),(2,1.5),(3,3.5),(4,5.0),(5,3.0),(6,1.0),(7,0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3.0) {Frequency};\n\\node[below] at (4.0,-1.0) {Goals scored};\n\\node at (4.0,6.1) {Tournament goals};\n\\end{tikzpicture}\n[/tikz]\nFind the total number of players represented in the polygon.",
+        "structure": "interpret-frequency-polygon",
+        "solution_text": "Read the frequency at each score vertex (excluding the $0$-frequency anchors at $1$ and $7$):\n$\\text{Score } 2: 3$\n$\\text{Score } 3: 7$\n$\\text{Score } 4: 10$\n$\\text{Score } 5: 6$\n$\\text{Score } 6: 2$\n$\\text{Total players} = 3 + 7 + 10 + 6 + 2$\n$= 28$"
+      },
+      {
+        "question_text": "The cumulative frequency histogram and ogive represent the test scores of $36$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,8.4);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {5,10,15,20,25,30,35,40} {\\draw (-0.15,\\y/5) -- (0,\\y/5); \\node[left,font=\\scriptsize] at (-0.15,\\y/5) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.8);\n\\draw (1.5,0) rectangle (2.5,2.2);\n\\draw (2.5,0) rectangle (3.5,4.6);\n\\draw (3.5,0) rectangle (4.5,6.2);\n\\draw (4.5,0) rectangle (5.5,7.2);\n\\draw[thick] (0.5,0) -- (1.5,0.8) -- (2.5,2.2) -- (3.5,4.6) -- (4.5,6.2) -- (5.5,7.2);\n\\foreach \\p in {(0.5,0),(1.5,0.8),(2.5,2.2),(3.5,4.6),(4.5,6.2),(5.5,7.2)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\val in {1/10,2/11,3/12,4/13,5/14} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,4.0) {Cumulative frequency};\n\\node[below] at (3.0,-1.0) {Score};\n\\node at (3.0,8.1) {Cumulative test scores};\n\\end{tikzpicture}\n[/tikz]\nFind the median score.",
+        "structure": "read-median-ogive",
+        "solution_text": "$n = 36$\n$\\text{Median cumulative frequency} = 0.5 \\times 36 = 18$\nOn the ogive, $cf$ reaches $18$ within the column for score $12$ (where $cf$ rises from $11$ to $23$).\n$\\text{Median} = 12$"
+      },
+      {
+        "question_text": "The ogive shows the cumulative marks of $50$ students in a science exam.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.4);\n\\draw[->] (0,0) -- (7.5,0);\n\\foreach \\y in {10,20,30,40,50} {\\draw (-0.15,\\y/10) -- (0,\\y/10); \\node[left,font=\\scriptsize] at (-0.15,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/30,3/40,4/50,5/60,6/70} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (1,0) -- (2,0.5) -- (3,1.4) -- (4,2.6) -- (5,3.8) -- (6,5.0);\n\\foreach \\p in {(1,0),(2,0.5),(3,1.4),(4,2.6),(5,3.8),(6,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3.0) {Cumulative frequency};\n\\node[below] at (3.5,-1.0) {Mark};\n\\node at (3.5,6.1) {Science exam results};\n\\end{tikzpicture}\n[/tikz]\nHow many students scored $60$ marks or less?",
+        "structure": "interpret-cumulative-ogive",
+        "solution_text": "Locate mark $60$ on the horizontal axis and read up to the ogive vertex.\nThe cumulative frequency at mark $60$ is $38$.\n$38\\text{ students scored } 60 \\text{ or less}$"
+      },
+      {
+        "question_text": "State the key difference between where points are plotted when drawing a frequency polygon versus when drawing an ogive.",
+        "structure": "compare-histogram-ogive",
+        "solution_text": "A frequency polygon connects points plotted at the **class centres** of each column at height equal to frequency $f$.\nAn ogive connects points plotted at the **upper class boundaries** (top-right corners) at height equal to cumulative frequency $cf$, starting at the lower boundary of the first class at height $0$."
+      },
+      {
+        "question_text": "The frequency histogram below displays weekly quiz marks.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,7.4);\n\\draw[->] (0,0) -- (5.5,0);\n\\foreach \\y in {2,4,6,8,10,12,14} {\\draw (-0.15,\\y/2) -- (0,\\y/2); \\node[left,font=\\scriptsize] at (-0.15,\\y/2) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,3.0);\n\\draw (1.5,0) rectangle (2.5,6.0);\n\\draw (2.5,0) rectangle (3.5,3.5);\n\\draw (3.5,0) rectangle (4.5,1.5);\n\\foreach \\x/\\val in {1/5,2/6,3/7,4/8} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,3.5) {Frequency};\n\\node[below] at (2.5,-1.0) {Quiz mark};\n\\node at (2.5,7.1) {Weekly quiz};\n\\end{tikzpicture}\n[/tikz]\nState the modal mark and its frequency.",
+        "structure": "read-mode-histogram",
+        "solution_text": "The tallest column corresponds to mark $6$ with a column height of $12$.\n$\\text{Modal mark} = 6\\text{ with frequency } 12$"
+      },
+      {
+        "question_text": "The cumulative frequency ogive represents the scores of $60$ students on a driving test.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,7.4);\n\\draw[->] (0,0) -- (7.2,0);\n\\foreach \\y in {10,20,30,40,50,60} {\\draw (-0.15,\\y/10) -- (0,\\y/10); \\node[left,font=\\scriptsize] at (-0.15,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/40,2/50,3/60,4/70,5/80,6/90} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (1,0) -- (2,0.8) -- (3,2.2) -- (4,4.2) -- (5,5.4) -- (6,6.0);\n\\foreach \\p in {(1,0),(2,0.8),(3,2.2),(4,4.2),(5,5.4),(6,6.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3.5) {Cumulative frequency};\n\\node[below] at (3.5,-1.0) {Test score};\n\\node at (3.5,7.1) {Driving test scores};\n\\end{tikzpicture}\n[/tikz]\nHow many students scored more than $70$ marks?",
+        "structure": "interpret-cumulative-ogive",
+        "solution_text": "At score $70$, the cumulative frequency is $42$ (students scoring $70$ or less).\n$\\text{Students scoring more than } 70 = 60 - 42$\n$= 18$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The ogive shows the daily commute times of $80$ workers.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {20,40,60,80} {\\draw (-0.15,\\y/16) -- (0,\\y/16); \\node[left,font=\\scriptsize] at (-0.15,\\y/16) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/10,2/20,3/30,4/40,5/50} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.75) -- (2,2.0) -- (3,3.75) -- (4,4.625) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.75),(2,2.0),(3,3.75),(4,4.625),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Time (minutes)};\n\\node at (2.5,5.8) {Commute times};\n\\end{tikzpicture}\n[/tikz]\nEstimate the median commute time.",
+        "structure": "read-median-ogive",
+        "solution_text": "$n = 80$\n$\\text{Median position} = 0.5 \\times 80 = 40$\nAt $cf = 40$ (height $2.5$), read across to the segment between $(20, 32)$ and $(30, 60)$:\n$\\text{Interpolated time} = 20 + \\frac{40 - 32}{60 - 32} \\times 10 = 20 + \\frac{8}{28} \\times 10 \\approx 23\\text{ minutes}$\n$\\text{Median} \\approx 23\\text{ minutes}$"
+      },
+      {
+        "question_text": "The ogive shows the distribution of exam marks for $80$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,5.8);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {20,40,60,80} {\\draw (-0.15,\\y/16) -- (0,\\y/16); \\node[left,font=\\scriptsize] at (-0.15,\\y/16) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.625) -- (2,1.5) -- (3,3.375) -- (4,4.5) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.625),(2,1.5),(3,3.375),(4,4.5),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Exam mark};\n\\node at (2.5,5.6) {Exam distribution};\n\\end{tikzpicture}\n[/tikz]\nFind the first quartile ($Q_1$), the third quartile ($Q_3$), and calculate the interquartile range ($IQR$).",
+        "structure": "estimate-quartiles-ogive",
+        "solution_text": "$n = 80$\n$Q_1\\text{ at } cf = 0.25 \\times 80 = 20 \\implies Q_1 \\approx 34$\n$Q_3\\text{ at } cf = 0.75 \\times 80 = 60 \\implies Q_3 \\approx 67$\n$IQR = Q_3 - Q_1$\n$= 67 - 34$\n$= 33$"
+      },
+      {
+        "question_text": "Why is a frequency polygon extended to the horizontal axis at empty class centres on both sides?",
+        "structure": "interpret-frequency-polygon",
+        "solution_text": "Extending the polygon to the horizontal axis at zero frequency closes the polygon shape and ensures the total area under the frequency polygon equals the total area of the frequency histogram."
+      },
+      {
+        "question_text": "The cumulative frequency histogram shows the number of correct answers in a test for $40$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,9.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {10,20,30,40} {\\draw (-0.15,\\y/5) -- (0,\\y/5); \\node[left,font=\\scriptsize] at (-0.15,\\y/5) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.8);\n\\draw (1.5,0) rectangle (2.5,2.4);\n\\draw (2.5,0) rectangle (3.5,5.2);\n\\draw (3.5,0) rectangle (4.5,7.0);\n\\draw (4.5,0) rectangle (5.5,8.0);\n\\draw[thick] (0.5,0) -- (1.5,0.8) -- (2.5,2.4) -- (3.5,5.2) -- (4.5,7.0) -- (5.5,8.0);\n\\foreach \\p in {(0.5,0),(1.5,0.8),(2.5,2.4),(3.5,5.2),(4.5,7.0),(5.5,8.0)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\val in {1/15,2/16,3/17,4/18,5/19} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,4.0) {Cumulative frequency};\n\\node[below] at (3.0,-1.0) {Correct answers};\n\\node at (3.0,8.7) {Test results};\n\\end{tikzpicture}\n[/tikz]\nFind the median number of correct answers.",
+        "structure": "read-median-ogive",
+        "solution_text": "$n = 40$\n$\\text{Median cumulative frequency} = 0.5 \\times 40 = 20$\nThe cumulative frequency reaches $20$ in the column for score $17$ (where $cf$ rises from $12$ to $26$).\n$\\text{Median} = 17$"
+      },
+      {
+        "question_text": "An ogive of $100$ candidate scores is plotted from $0$ to $100$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {20,40,60,80,100} {\\draw (-0.15,\\y/20) -- (0,\\y/20); \\node[left,font=\\scriptsize] at (-0.15,\\y/20) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.75) -- (2,1.75) -- (3,3.25) -- (4,4.25) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.75),(2,1.75),(3,3.25),(4,4.25),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Score};\n\\node at (2.5,5.8) {Candidate scores};\n\\end{tikzpicture}\n[/tikz]\nEstimate the $80\\text{th}$ percentile of the scores.",
+        "structure": "estimate-quartiles-ogive",
+        "solution_text": "$80\\text{th percentile corresponds to } cf = 0.80 \\times 100 = 80$\nAt $cf = 80$ (height $4.0$), read across to the segment between $(60, 65)$ and $(80, 85)$:\n$\\text{Score} = 60 + \\frac{80 - 65}{85 - 65} \\times 20 = 60 + \\frac{15}{20} \\times 20 = 75$\n$80\\text{th percentile} = 75$"
+      },
+      {
+        "question_text": "The ogive shows the marks of $50$ students in a competition.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.0);\n\\draw[->] (0,0) -- (7.0,0);\n\\foreach \\y in {10,20,30,40,50} {\\draw (-0.15,\\y/10) -- (0,\\y/10); \\node[left,font=\\scriptsize] at (-0.15,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/10,2/20,3/30,4/40,5/50,6/60} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (1,0) -- (2,0.6) -- (3,1.6) -- (4,3.2) -- (5,4.4) -- (6,5.0);\n\\foreach \\p in {(1,0),(2,0.6),(3,1.6),(4,3.2),(5,4.4),(6,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (3.5,-1.0) {Mark};\n\\node at (3.5,5.8) {Competition marks};\n\\end{tikzpicture}\n[/tikz]\nFind the percentage of students who scored between $30$ and $50$ marks.",
+        "structure": "interpret-cumulative-ogive",
+        "solution_text": "Cumulative frequency at $50$ marks is $44$.\nCumulative frequency at $30$ marks is $16$.\n$\\text{Students scoring between } 30 \\text{ and } 50 = 44 - 16 = 28$\n$\\text{Percentage} = \\frac{28}{50} \\times 100\\% = 56\\%$"
+      },
+      {
+        "question_text": "A cumulative frequency histogram has consecutive column heights of $5, 14, 28, 38, 44$. What is the individual frequency of the third class interval?",
+        "structure": "compare-histogram-ogive",
+        "solution_text": "The frequency of a class is the difference between its cumulative frequency and the preceding cumulative frequency.\n$f_3 = cf_3 - cf_2$\n$= 28 - 14$\n$= 14$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "An ogive of $120$ exam marks has $Q_1 = 42$ and $Q_3 = 74$. Calculate the interquartile range ($IQR$), determine the upper outlier fence ($Q_3 + 1.5 \\times IQR$), and state whether a student who scored $95$ is an outlier.",
+        "structure": "estimate-quartiles-ogive",
+        "solution_text": "$IQR = Q_3 - Q_1$\n$= 74 - 42$\n$= 32$\n$\\text{Upper fence} = Q_3 + 1.5 \\times IQR$\n$= 74 + 1.5(32)$\n$= 74 + 48$\n$= 122$\n$95 < 122$, so a score of $95$ is not an outlier."
+      },
+      {
+        "question_text": "A frequency polygon has vertices at $(15, 4), (25, 10), (35, 16), (45, 8), (55, 2)$ where the $x$-coordinates are class centres and $y$-coordinates are frequencies. Calculate the estimated mean $\\overline{x}$.",
+        "structure": "interpret-frequency-polygon",
+        "solution_text": "$\\Sigma f = 4 + 10 + 16 + 8 + 2 = 40$\n$\\Sigma xf = 15(4) + 25(10) + 35(16) + 45(8) + 55(2)$\n$= 60 + 250 + 560 + 360 + 110$\n$= 1340$\n$\\overline{x} = \\frac{1340}{40}$\n$= 33.5$"
+      },
+      {
+        "question_text": "Two cumulative frequency ogives for cohorts of $60$ students show that Cohort A has a median of $52$ with $IQR = 22$, while Cohort B has a median of $64$ with $IQR = 14$. Compare the performance and consistency of the two cohorts.",
+        "structure": "read-median-ogive",
+        "solution_text": "Cohort B had a higher median ($64 > 52$), indicating a higher typical performance.\nCohort B had a smaller interquartile range ($14 < 22$), indicating more consistent scores than Cohort A.\nCohort B achieved higher typical scores with greater consistency."
+      }
+    ]
+  }
+}

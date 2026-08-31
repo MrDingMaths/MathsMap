@@ -1,0 +1,205 @@
+{
+  "skillId": "frequency-cumulative-graphs",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The frequency histogram below displays scores from a skills test.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,10.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {4,8,12,16,20} {\\draw (-0.15,\\y/2) -- (0,\\y/2); \\node[left,font=\\scriptsize] at (-0.15,\\y/2) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,2.5);\n\\draw (1.5,0) rectangle (2.5,6.0);\n\\draw (2.5,0) rectangle (3.5,9.0);\n\\draw (3.5,0) rectangle (4.5,5.0);\n\\draw (4.5,0) rectangle (5.5,1.5);\n\\foreach \\x/\\val in {1/1,2/2,3/3,4/4,5/5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,5.0) {Frequency};\n\\node[below] at (3.0,-1.0) {Score};\n\\node at (3.0,9.7) {Skills test};\n\\end{tikzpicture}\n[/tikz]\nWhat is the modal score?",
+      "structure": "read-mode-histogram",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3$",
+          "correct": true
+        },
+        {
+          "text": "$18$",
+          "why": "States the maximum frequency rather than the corresponding score."
+        },
+        {
+          "text": "$2$",
+          "why": "Selects the score with frequency $12$ instead of the peak."
+        },
+        {
+          "text": "$5$",
+          "why": "States the total number of categories rather than the mode."
+        }
+      ],
+      "solution_text": "The tallest column corresponds to score $3$ (frequency $18$).\n$\\text{Modal score} = 3$"
+    },
+    {
+      "id": "q2",
+      "question_text": "The frequency polygon shows the distribution of scores for $40$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,8.4);\n\\draw[->] (0,0) -- (7.5,0);\n\\foreach \\y in {4,8,12,16} {\\draw (-0.15,\\y/2) -- (0,\\y/2); \\node[left,font=\\scriptsize] at (-0.15,\\y/2) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/0,2/10,3/20,4/30,5/40,6/50,7/60} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (1,0) -- (2,2.0) -- (3,4.5) -- (4,7.5) -- (5,4.0) -- (6,2.0) -- (7,0);\n\\foreach \\p in {(1,0),(2,2.0),(3,4.5),(4,7.5),(5,4.0),(6,2.0),(7,0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,4.0) {Frequency};\n\\node[below] at (4.0,-1.0) {Mark};\n\\node at (4.0,8.1) {Mark distribution};\n\\end{tikzpicture}\n[/tikz]\nWhat is the frequency of the modal score $30$?",
+      "structure": "interpret-frequency-polygon",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$15$",
+          "correct": true
+        },
+        {
+          "text": "$30$",
+          "why": "States the score value instead of reading its frequency on the vertical axis."
+        },
+        {
+          "text": "$7.5$",
+          "why": "Reads the raw diagram coordinate height instead of the vertical axis frequency."
+        },
+        {
+          "text": "$40$",
+          "why": "States the total number of students in the distribution."
+        }
+      ],
+      "solution_text": "At mark $30$, the vertex is at frequency $15$.\n$\\text{Frequency} = 15$"
+    },
+    {
+      "id": "q3",
+      "question_text": "The cumulative frequency histogram and ogive show the quiz results of $30$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (0,0) -- (0,7.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {5,10,15,20,25,30} {\\draw (-0.15,\\y/5) -- (0,\\y/5); \\node[left,font=\\scriptsize] at (-0.15,\\y/5) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\draw (0.5,0) rectangle (1.5,0.6);\n\\draw (1.5,0) rectangle (2.5,1.8);\n\\draw (2.5,0) rectangle (3.5,4.2);\n\\draw (3.5,0) rectangle (4.5,5.6);\n\\draw (4.5,0) rectangle (5.5,6.0);\n\\draw[thick] (0.5,0) -- (1.5,0.6) -- (2.5,1.8) -- (3.5,4.2) -- (4.5,5.6) -- (5.5,6.0);\n\\foreach \\p in {(0.5,0),(1.5,0.6),(2.5,1.8),(3.5,4.2),(4.5,5.6),(5.5,6.0)} {\\fill \\p circle (2.2pt);}\n\\foreach \\x/\\val in {1/1,2/2,3/3,4/4,5/5} {\\node[below,font=\\scriptsize] at (\\x,0) {$\\val$};}\n\\node[rotate=90] at (-1.4,3.0) {Cumulative frequency};\n\\node[below] at (3.0,-1.0) {Quiz score};\n\\node at (3.0,6.7) {Quiz cumulative frequencies};\n\\end{tikzpicture}\n[/tikz]\nWhat is the median quiz score?",
+      "structure": "read-median-ogive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$3$",
+          "correct": true
+        },
+        {
+          "text": "$15$",
+          "why": "States $50\\%$ of total cumulative frequency instead of the corresponding score."
+        },
+        {
+          "text": "$2$",
+          "why": "Selects score $2$ where cumulative frequency is $9$, which is below $15$."
+        },
+        {
+          "text": "$4$",
+          "why": "Selects score $4$ where cumulative frequency is $28$."
+        }
+      ],
+      "solution_text": "$n = 30$\n$\\text{Median } cf = 0.5 \\times 30 = 15$\nCumulative frequency reaches $15$ in the column for score $3$ (where $cf$ rises from $9$ to $21$).\n$\\text{Median} = 3$"
+    },
+    {
+      "id": "q4",
+      "question_text": "The ogive shows the cumulative distribution of marks for $50$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {10,20,30,40,50} {\\draw (-0.15,\\y/10) -- (0,\\y/10); \\node[left,font=\\scriptsize] at (-0.15,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.8) -- (2,2.2) -- (3,3.8) -- (4,4.7) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.8),(2,2.2),(3,3.8),(4,4.7),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Mark};\n\\node at (2.5,5.7) {Exam marks};\n\\end{tikzpicture}\n[/tikz]\nHow many students scored $60$ marks or less?",
+      "structure": "interpret-cumulative-ogive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$38$",
+          "correct": true
+        },
+        {
+          "text": "$12$",
+          "why": "Subtracts from $50$ to give students scoring more than $60$."
+        },
+        {
+          "text": "$22$",
+          "why": "Reads the cumulative frequency at mark $40$ instead of mark $60$."
+        },
+        {
+          "text": "$16$",
+          "why": "Calculates the individual frequency of the interval $40-60$ ($38 - 22 = 16$)."
+        }
+      ],
+      "solution_text": "Read the cumulative frequency at mark $60$:\n$cf = 38$\n$38\\text{ students}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Which statement correctly describes how an **ogive** is constructed from a cumulative frequency table?",
+      "structure": "compare-histogram-ogive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Points are plotted at the upper class boundary of each class with height equal to cumulative frequency, starting at height $0$ at the lower boundary of the first class.",
+          "correct": true
+        },
+        {
+          "text": "Points are plotted at the class centres of each class with height equal to individual frequency.",
+          "why": "Describes a frequency polygon rather than an ogive."
+        },
+        {
+          "text": "Points are plotted at the midpoints of cumulative frequency columns and anchored to the origin.",
+          "why": "Ogives connect top-right corners (upper boundaries), not column midpoints."
+        },
+        {
+          "text": "Columns are drawn with gaps between them to represent cumulative running totals.",
+          "why": "Histogram columns must touch with no gaps between continuous class intervals."
+        }
+      ],
+      "solution_text": "An ogive connects the top-right corners (upper class boundaries) of cumulative columns, starting at (lower boundary, $0$).\nPoints are plotted at the upper class boundary of each class with height equal to cumulative frequency, starting at height $0$ at the lower boundary of the first class."
+    },
+    {
+      "id": "q6",
+      "question_text": "The ogive shows the test marks of $80$ students.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,5.8);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {20,40,60,80} {\\draw (-0.15,\\y/16) -- (0,\\y/16); \\node[left,font=\\scriptsize] at (-0.15,\\y/16) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.5) -- (2,1.6) -- (3,3.4) -- (4,4.5) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.5),(2,1.6),(3,3.4),(4,4.5),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Mark};\n\\node at (2.5,5.5) {Test results};\n\\end{tikzpicture}\n[/tikz]\nIf $Q_1 = 35$ and $Q_3 = 65$, what is the interquartile range ($IQR$)?",
+      "structure": "estimate-quartiles-ogive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$30$",
+          "correct": true
+        },
+        {
+          "text": "$50$",
+          "why": "Calculates the midpoint of quartiles $(35 + 65)/2 = 50$ instead of the difference."
+        },
+        {
+          "text": "$40$",
+          "why": "Calculates $Q_3 - \\text{median}$ or confuses $IQR$ with $50\\%$ of $n$."
+        },
+        {
+          "text": "$65$",
+          "why": "States the third quartile $Q_3$ rather than the interquartile range."
+        }
+      ],
+      "solution_text": "$IQR = Q_3 - Q_1$\n$= 65 - 35$\n$= 30$"
+    },
+    {
+      "id": "q7",
+      "question_text": "The ogive shows the distribution of scores for $60$ applicants.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,7.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {10,20,30,40,50,60} {\\draw (-0.15,\\y/10) -- (0,\\y/10); \\node[left,font=\\scriptsize] at (-0.15,\\y/10) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/20,2/40,3/60,4/80,5/100} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.8) -- (2,2.4) -- (3,4.6) -- (4,5.6) -- (5,6.0);\n\\foreach \\p in {(0,0),(1,0.8),(2,2.4),(3,4.6),(4,5.6),(5,6.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,3.0) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Score};\n\\node at (2.5,6.7) {Applicant scores};\n\\end{tikzpicture}\n[/tikz]\nHow many applicants scored **more than $40$**?",
+      "structure": "interpret-cumulative-ogive",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$36$",
+          "correct": true
+        },
+        {
+          "text": "$24$",
+          "why": "States the number of applicants who scored $40$ or less."
+        },
+        {
+          "text": "$46$",
+          "why": "Reads cumulative frequency at score $60$ instead of score $40$."
+        },
+        {
+          "text": "$18$",
+          "why": "Calculates half of $36$ rather than subtracting from total frequency $60$."
+        }
+      ],
+      "solution_text": "At score $40$, $cf = 24$ applicants scored $40$ or less.\n$\\text{Number scoring more than } 40 = 60 - 24$\n$= 36$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The ogive shows the results of $100$ runners in a $10\\text{ km}$ race.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (0,6.0);\n\\draw[->] (0,0) -- (6.5,0);\n\\foreach \\y in {20,40,60,80,100} {\\draw (-0.15,\\y/20) -- (0,\\y/20); \\node[left,font=\\scriptsize] at (-0.15,\\y/20) {$\\y$};}\n\\node[left,font=\\scriptsize] at (-0.15,0) {$0$};\n\\foreach \\x/\\val in {1/30,2/40,3/50,4/60,5/70} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\val$};}\n\\draw[thick] (0,0) -- (1,0.2) -- (2,0.6) -- (3,2.5) -- (4,4.4) -- (5,5.0);\n\\foreach \\p in {(0,0),(1,0.2),(2,0.6),(3,2.5),(4,4.4),(5,5.0)} {\\fill \\p circle (2.5pt);}\n\\node[rotate=90] at (-1.3,2.5) {Cumulative frequency};\n\\node[below] at (2.5,-1.0) {Time (minutes)};\n\\node at (2.5,5.7) {Race finish times};\n\\end{tikzpicture}\n[/tikz]\nWhich statement correctly gives the estimated median and interquartile range ($IQR$) if $Q_1 \\approx 43.5\\text{ min}$ and $Q_3 \\approx 56.5\\text{ min}$?",
+      "structure": "estimate-quartiles-ogive",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\text{Median} \\approx 50\\text{ min}$, $IQR \\approx 13\\text{ min}$",
+          "correct": true
+        },
+        {
+          "text": "$\\text{Median} \\approx 50\\text{ min}$, $IQR \\approx 6.5\\text{ min}$",
+          "why": "Halves the quartile difference, quoting $\\frac{56.5-43.5}{2}$ instead of the full interquartile range."
+        },
+        {
+          "text": "$\\text{Median} \\approx 43.5\\text{ min}$, $IQR \\approx 13\\text{ min}$",
+          "why": "Reads the median at a cumulative frequency of $25$ instead of $50$, so it quotes $Q_1$ as the median."
+        },
+        {
+          "text": "$\\text{Median} \\approx 43.5\\text{ min}$, $IQR \\approx 6.5\\text{ min}$",
+          "why": "Reads the median at cumulative frequency $25$ AND halves the quartile difference, making both slips at once."
+        }
+      ],
+      "solution_text": "$n = 100$\n$\\text{Median at } cf = 50 \\implies \\text{Median} \\approx 50\\text{ min}$\n$IQR = Q_3 - Q_1$\n$= 56.5 - 43.5$\n$= 13\\text{ min}$"
+    }
+  ]
+}

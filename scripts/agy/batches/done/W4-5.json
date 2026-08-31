@@ -1,0 +1,120 @@
+{
+  "batch": "W4-5",
+  "model": "gemini-3.7-flash-high",
+  "note": "The second half of Advanced Y12 integral calculus — exponential, logarithmic and trigonometric integrands and areas (13) — plus Advanced Y12 further graph transformations and modelling (7) = 20. ORDER: needs W4-4 (the exponential/logarithmic/trigonometric DERIVATIVES and the power-rule integration this section reverses); the transformation sections need only Y11 content, already shipped.",
+  "sections": [
+    {
+      "name": "integrate-exponentials",
+      "skillIds": ["integrate-exponential", "integrate-ax", "integrate-exponential-composite"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 2_Integration of Exponential, Logarithmic, and Trigonometric Functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One rule per skill. `integrate-exponential` = $\\int e^{x}dx=e^{x}+C$ and $\\int e^{ax+b}dx=\\frac{1}{a}e^{ax+b}+C$. `integrate-ax` = $\\int a^{x}dx=\\frac{a^{x}}{\\ln a}+C$. `integrate-exponential-composite` = $\\int f'(x)e^{f(x)}dx=e^{f(x)}+C$, recognising the inner derivative as a factor.",
+        "THE $\\frac{1}{a}$ IS THE COMPULSORY NAMED DISTRACTOR: $\\int e^{5x}dx=\\frac{1}{5}e^{5x}+C$. At least two thirds of `integrate-exponential`'s items must have $a\\ne1$, and one must have $a$ negative so the sign of the reciprocal matters.",
+        "$\\int a^{x}dx$ DIVIDES BY $\\ln a$ WHILE $\\frac{d}{dx}a^{x}$ MULTIPLIES BY IT. Multiplying instead of dividing is the compulsory named distractor for `integrate-ax`; include one item with $a=e$ so the student sees the general rule collapse.",
+        "THE INNER DERIVATIVE MUST ALREADY BE THERE (up to a constant): $\\int 2xe^{x^{2}}dx$ works, $\\int e^{x^{2}}dx$ does not. Include an item asking which integrals the method applies to, and never key an integral that silently invents the missing factor.",
+        "CHECK EVERY PRIMITIVE BY DIFFERENTIATING IT BACK before keying — one line, and it catches every slip in this section. Pin the answer's form in the stem ('in simplest form, with $+C$') so $\\frac{1}{5}e^{5x}$ and $\\frac{e^{5x}}{5}$ can never both be offered.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "integrate-to-logarithms",
+      "skillIds": ["integrate-reciprocal", "integrate-f-dash-over-f"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 2_Integration of Exponential, Logarithmic, and Trigonometric Functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "`integrate-reciprocal` = $\\int\\frac{1}{x}dx=\\ln|x|+C$ and $\\int\\frac{1}{ax+b}dx=\\frac{1}{a}\\ln|ax+b|+C$. `integrate-f-dash-over-f` = $\\int\\frac{f'(x)}{f(x)}dx=\\ln|f(x)|+C$ for a non-linear $f$, including cases needing a constant adjustment.",
+        "THE ABSOLUTE VALUE IS PART OF THE ANSWER. $\\ln x$ without the modulus is a legitimate named distractor exactly once per skill, and the theory must say why it is there.",
+        "A DEFINITE INTEGRAL OF $\\frac{1}{x}$ MUST NOT SPAN $x=0$ — the integrand is undefined there and the integral does not exist. Check every set of limits before keying; $\\int_{-1}^{2}\\frac{dx}{x}$ is a false premise, not a hard item. The same applies to $\\frac{1}{ax+b}$ at $x=-\\frac{b}{a}$.",
+        "THE $\\frac{1}{a}$ AGAIN: $\\int\\frac{dx}{3x+1}=\\frac{1}{3}\\ln|3x+1|+C$, not $\\ln|3x+1|$. Compulsory named distractor, and at least two thirds of `integrate-reciprocal`'s items must have $a\\ne1$.",
+        "$\\ln$ LAWS MAKE EQUIVALENT ANSWERS EASY TO SHIP BY ACCIDENT: $\\ln 8-\\ln 2$, $\\ln 4$ and $2\\ln 2$ are one number. Pin the required form in every stem ('as a single logarithm', 'as an exact value', 'to 2 decimal places') and never offer two equal writings in one option list.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "integrate-trigonometric",
+      "skillIds": ["integrate-trig", "integrate-trig-linear", "integrate-trig-composite"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 2_Integration of Exponential, Logarithmic, and Trigonometric Functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One rule per skill. `integrate-trig` = $\\int\\sin x\\,dx=-\\cos x+C$, $\\int\\cos x\\,dx=\\sin x+C$, $\\int\\sec^{2}x\\,dx=\\tan x+C$. `integrate-trig-linear` = the $ax+b$ forms with the $\\frac{1}{a}$ factor. `integrate-trig-composite` = $\\int f'(x)\\cos f(x)dx$ style reverse-chain-rule forms, including $\\int\\sin^{n}x\\cos x\\,dx$.",
+        "THE MINUS SIGN MOVES WHEN YOU INTEGRATE: $\\int\\sin=-\\cos$ but $\\frac{d}{dx}\\sin=+\\cos$. Getting the sign backwards is the compulsory named distractor in every skill of this section, and every solution must be verified by differentiating the primitive back.",
+        "RADIANS ONLY. No degree symbol appears anywhere in this section, and every limit is a multiple or fraction of $\\pi$. The formulas are false in degrees.",
+        "$\\frac{1}{a}$ ON THE LINEAR FORMS: $\\int\\cos 4x\\,dx=\\frac{1}{4}\\sin 4x+C$. At least two thirds of `integrate-trig-linear`'s items have $a\\ne1$.",
+        "A DEFINITE TRIGONOMETRIC INTEGRAL CAN BE ZERO BY SYMMETRY, AND TWO DIFFERENT-LOOKING LIMITS CAN GIVE THE SAME VALUE. Before keying, evaluate every option's expression: an integral of $\\sin$ over a full period is $0$, and so is any odd integrand over a symmetric interval. Never let a distractor coincidentally equal the key.",
+        "$\\int\\sin^{2}x\\,dx$ NEEDS A DOUBLE-ANGLE IDENTITY and is an Extension 1 skill (`integrate-sin2-cos2`, W4-9). No item in this section may require it — keep every trigonometric power to an odd power of $\\sin$ or $\\cos$ accompanied by its partner's derivative.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "areas-under-curves",
+      "skillIds": ["area-under-curve", "area-with-y-axis", "area-integral-symmetry"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 3_Further Areas under Curves.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `area-under-curve` = the area between a curve and the $x$-axis, INCLUDING regions below the axis, which must be integrated separately and their absolute values added. `area-with-y-axis` = area between a curve and the $y$-axis, integrating $x$ with respect to $y$ after rearranging. `area-integral-symmetry` = using odd/even symmetry to shorten an evaluation, and recognising when an integral is zero by symmetry.",
+        "AREA IS POSITIVE; A DEFINITE INTEGRAL NEED NOT BE. A region straddling the $x$-axis must be split at the intercepts and each part's magnitude added — 'evaluated one integral straight across the intercept' is the compulsory named distractor. Every stem must say whether the integral's VALUE or the AREA is wanted; both in one option list without that pinning is a two-correct-answer defect.",
+        "FOR THE $y$-AXIS AREA THE LIMITS ARE $y$ VALUES AND THE INTEGRAND IS $x=g(y)$. 'Used the $x$ limits' is the compulsory named distractor. Include at least one curve whose inverse is genuinely easy to write and one that needs care about the branch.",
+        "AN ODD FUNCTION INTEGRATES TO ZERO OVER $[-a,a]$ AND AN EVEN FUNCTION TO TWICE ITS HALF. `area-integral-symmetry` must include at least one item where the symmetry answer is zero AND the corresponding AREA is not — that distinction is the skill. Verify each function's parity by substituting $-x$; a function claimed odd that is not is a wrong-key defect.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE with the region shaded. Plot the curve as a function with `domain=` restricted to the axis window — never `^` inside a plotted expression (write `exp(x)`, `exp(x*ln(2))`) — compute where the curve leaves the window rather than guessing, and evaluate the plotted expression at every $x$ the stem names to confirm the drawn intercepts really are the stated ones. Shade only the region the item is about; never label the area's value on a question figure.",
+        "FIND THE INTERCEPTS EXACTLY before choosing the limits — a region whose stated limits are not the actual intercepts is a false premise, and the arithmetic will still be internally consistent, so no script sees it.",
+        "The area BETWEEN TWO CURVES is an Extension 1 skill (`area-between-curves`, W4-9). No item here may involve two curves bounding a region."
+      ]
+    },
+    {
+      "name": "area-applications",
+      "skillIds": ["trapezoidal-rule-integral", "area-applications"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 3_Further Areas under Curves.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`trapezoidal-rule-integral` = approximating $\\int_{a}^{b}f(x)dx$ with $\\frac{h}{2}[y_{0}+2(y_{1}+\\dots+y_{n-1})+y_{n}]$ from a function OR from a table of values, and saying whether it over- or under-estimates. `area-applications` = practical areas — a cross-section, a block of land, distance from a velocity–time curve, work or volume from a rate — where the integral has to be SET UP from the context.",
+        "THE INTERIOR ORDINATES ARE DOUBLED AND THE TWO END ONES ARE NOT. 'Doubled every ordinate' and 'doubled none' are the compulsory named distractors. $n$ strips need $n+1$ ordinates, and $h=\\frac{b-a}{n}$ — the off-by-one on the ordinate count is the other named distractor.",
+        "CONCAVITY DECIDES THE DIRECTION OF THE ERROR: the trapezoidal rule OVER-estimates a concave-up curve and UNDER-estimates a concave-down one. At least one item must ask for that judgement, with the concavity determinable from the given curve or table.",
+        "IN `area-applications` THE UNITS ARE PART OF THE ANSWER: the area under a velocity–time graph is a DISTANCE in metres, not an area in square units. Every stem must state the axes' units and the answer's unit, and 'gave square units for a distance' is a good named distractor.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE: the curve with the trapezia actually drawn to the stated strip width for the trapezoidal skill, and the practical region or the rate graph for the applications skill. Verify the drawn ordinate heights by evaluating the function at every strip boundary; a figure whose trapezia do not touch the curve at the boundaries contradicts its own answer. Plot as a function restricted to the axis window; never `^` in a plotted expression.",
+        "The Standard-course skills `trapezoidal-rule` and `irregular-land-area` already ship and own the two-strip land-area form with offsets. This Advanced section takes the space they cannot: three or more strips, a stated function, or a rate-of-change context.",
+        "Recompute every ordinate and the final sum digit by digit; a trapezoidal answer is a long addition and is exactly where prose arithmetic fails."
+      ]
+    },
+    {
+      "name": "trigonometric-transformations",
+      "skillIds": ["transform-trig-functions", "solve-transformed-trig-equations", "solve-trig-equations-graphically"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Further Graph Transformations and Modelling 1_Transformations of trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `transform-trig-functions` = the effect of $a$, $b$, $c$ and $d$ in $y=a\\sin[b(x-c)]+d$ — amplitude $|a|$, period $\\frac{2\\pi}{b}$, phase shift $c$, vertical shift $d$ — both directions (features from the equation, equation from a drawn graph). `solve-transformed-trig-equations` = solving $a\\sin[b(x-c)]+d=k$ algebraically over a stated domain. `solve-trig-equations-graphically` = counting or locating solutions from the intersection of the curve with a horizontal line.",
+        "THE PERIOD IS $\\frac{2\\pi}{b}$, NOT $2\\pi b$, AND THE PHASE SHIFT IS $c$ ONLY WHEN $b$ IS FACTORED OUT: $y=\\sin(2x-\\pi)$ shifts by $\\frac{\\pi}{2}$, not $\\pi$. Both are compulsory named distractors, and at least one item must present the unfactored form so the trap fires.",
+        "TRANSFORM THE DOMAIN BEFORE SOLVING: solving $\\sin 3x=\\frac{1}{2}$ for $0\\le x\\le2\\pi$ means solving $\\sin u=\\frac{1}{2}$ for $0\\le u\\le6\\pi$ — SIX solutions, not two. Every equation states its domain, every solution lists ALL solutions in it, and 'solved only the first cycle' is the compulsory named distractor. Where an option must be a single value, restrict the domain so exactly one solution survives and say so in the stem.",
+        "STATE THE DOMAIN AND KEEP DEGREES AND RADIANS CONSISTENT WITHIN AN ITEM — never mix them in one stem, one solution or one option list. Prefer radians throughout, since this topic feeds the calculus batches.",
+        "EVERY ITEM IN ALL THREE SKILLS CARRIES A `[tikz]` FIGURE: the transformed curve over exactly the stated domain, with the horizontal line drawn where the item is about intersections so the number of solutions is visible. Plot as a function with `domain=` clipped to the axis window; do not coordinate-label the intersection points on a question figure (that gives the answer away) and keep the curve's equation label off the curve.",
+        "The shipped Y11 skills `transform-sine-cosine`, `solve-trig-equations` and `solve-trig-equations-restricted` own the basic transformations and plain equations over $0^{\\circ}$–$360^{\\circ}$. Take the space they cannot: radian domains, non-standard domains ($-\\pi$ to $\\pi$, $0$ to $4\\pi$), a horizontal AND a vertical shift together, and reading a model off a drawn graph.",
+        "VERIFY EVERY SOLUTION SET by substituting each value back into the original equation, and count the solutions against the drawn intersections. A solution list that disagrees with the figure is the defect class no script catches."
+      ]
+    },
+    {
+      "name": "modelling-with-functions",
+      "skillIds": ["model-periodic-phenomena", "find-sinusoidal-model", "model-with-function-transformations", "log-scale-applications"],
+      "bookletPaths": [
+        "booklets/Stage 6 Advanced/Further Graph Transformations and Modelling 2_Modelling with functions.md",
+        "booklets/Stage 6 Advanced/Exponential and Logarithmic Functions 2_Logarithmic functions.md"
+      ],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `find-sinusoidal-model` = BUILDING $y=a\\sin[b(t-c)]+d$ from stated features — maximum and minimum give $a=\\frac{\\max-\\min}{2}$ and $d=\\frac{\\max+\\min}{2}$, the period gives $b$, the first maximum or the mean crossing gives $c$. `model-periodic-phenomena` = USING such a model in context (tides, temperature, a Ferris wheel, daylight hours) to predict a value or find when a level is reached. `model-with-function-transformations` = choosing and fitting a non-trigonometric transformed model (exponential, reciprocal, absolute value, cubic) to a described situation. `log-scale-applications` = pH, decibels, the Richter scale and log-scaled axes.",
+        "THE MEAN LINE IS $d$ AND THE AMPLITUDE IS HALF THE RANGE, NOT THE RANGE. 'Used the full range as the amplitude' is the compulsory named distractor for `find-sinusoidal-model`, and every item must give both extremes so the halving is required.",
+        "A `model-periodic-phenomena` ITEM ASKING 'WHEN' HAS MANY ANSWERS — the model repeats. Every such stem must restrict the time domain ('during the first 24 hours', 'before noon') and the solution must list every solution in it. An unrestricted 'when is the depth 3 m' item is a two-correct-answer defect.",
+        "A LOGARITHMIC SCALE IS MULTIPLICATIVE: a Richter increase of 2 is a factor of $100$ in amplitude, not $2$; a pH drop of 1 is TEN times more acidic. Every `log-scale-applications` item must involve a RATIO or a difference of levels, and 'treated the scale as linear' is the compulsory named distractor. The shipped skill `logarithmic-scales` already teaches reading the scale — do not re-teach it; every item here must apply it to a quantity comparison.",
+        "THE MODEL'S LIMITATIONS ARE PART OF THE TOPIC: at least one item per modelling skill must ask what the model predicts outside its sensible domain, or which feature of the data the model cannot capture.",
+        "FIGURES: `find-sinusoidal-model` and `model-periodic-phenomena` carry the sinusoid over the stated domain with the mean line drawn and the axes labelled in the context's units; `model-with-function-transformations` carries the fitted curve with the data points shown. Plot every curve as a function clipped to the axis window; never `^` inside a plotted expression (use `exp(k*ln(b))`). Never mark the answer's value on a question figure.",
+        "CHECK EVERY MODEL AGAINST EVERY FEATURE THE STEM STATES before keying: substitute the times of the maximum and minimum and the stated period into your model and confirm it reproduces them. A model that satisfies only some of its own stated features is the wrong-key class this topic produces."
+      ]
+    }
+  ]
+}

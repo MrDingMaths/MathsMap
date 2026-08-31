@@ -1,0 +1,230 @@
+{
+  "skillId": "perm-comb-cases",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A team of $4$ players is selected from $5$ boys and $6$ girls. How many different teams can be formed that contain at least $3$ boys?",
+      "structure": "committee-case-split",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$65$",
+          "correct": true
+        },
+        {
+          "text": "$60$",
+          "why": "Only counted the case with exactly 3 boys, omitting the 4 boys case."
+        },
+        {
+          "text": "$75$",
+          "why": "Added $\\binom{5}{3} \\times \\binom{6}{1} + \\binom{5}{4} \\times \\binom{6}{1}$ instead of $\\binom{6}{0}$ for the all-boys case."
+        },
+        {
+          "text": "$150$",
+          "why": "Multiplied the cases instead of adding them together."
+        }
+      ],
+      "solution_text": "Case 1 ($3$ boys, $1$ girl): $\\binom{5}{3} \\times \\binom{6}{1} = 10 \\times 6 = 60$\nCase 2 ($4$ boys, $0$ girls): $\\binom{5}{4} \\times \\binom{6}{0} = 5 \\times 1 = 5$\nTotal:\n$= 60 + 5$\n$= 65$"
+    },
+    {
+      "id": "q2",
+      "question_text": "From a pool of $7$ candidates, a subcommittee of $3$ is chosen and assigned the distinct roles of Chair, Secretary, and Treasurer. In how many ways can this subcommittee and roles be assigned?",
+      "structure": "select-then-arrange",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$210$",
+          "correct": true
+        },
+        {
+          "text": "$35$",
+          "why": "Selected the 3 members using $\\binom{7}{3}$ but forgot to arrange them into the 3 distinct roles."
+        },
+        {
+          "text": "$105$",
+          "why": "Multiplied $\\binom{7}{3}$ by 3 instead of $3! = 6$."
+        },
+        {
+          "text": "$42$",
+          "why": "Calculated $^{7}P_{2}$ instead of $^{7}P_{3}$."
+        }
+      ],
+      "solution_text": "Choose $3$ candidates: $\\binom{7}{3} = 35$\nAssign $3$ distinct roles: $3! = 6$\nTotal:\n$= 35 \\times 6$\n$= 210$"
+    },
+    {
+      "id": "q3",
+      "question_text": "How many $3$-digit numbers greater than $600$ can be formed using the digits $\\{2, 4, 6, 7, 8, 9\\}$ without repetition?",
+      "structure": "digit-conditions-cases",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$80$",
+          "correct": true
+        },
+        {
+          "text": "$60$",
+          "why": "Assumed only 3 choices for the hundreds digit instead of 4."
+        },
+        {
+          "text": "$100$",
+          "why": "Allowed digit repetition in the last two positions as $5^2 = 25$."
+        },
+        {
+          "text": "$24$",
+          "why": "Multiplied 4 by $\\binom{5}{2} = 10$ and divided incorrectly."
+        }
+      ],
+      "solution_text": "Hundreds digit must be $6, 7, 8$, or $9$ ($4$ choices).\nRemaining $2$ digits from $5$ available: $^{5}P_{2} = 20$\nTotal:\n$= 4 \\times 20$\n$= 80$"
+    },
+    {
+      "id": "q4",
+      "question_text": "In how many ways can $8$ tennis players be paired up into $4$ doubles matches (where the pairings are unlabeled and order does not matter)?",
+      "structure": "partition-into-groups",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$105$",
+          "correct": true
+        },
+        {
+          "text": "$2520$",
+          "why": "Forgot to divide by $4!$ for the 4 unlabeled pairs."
+        },
+        {
+          "text": "$210$",
+          "why": "Divided by $2!$ instead of $4!$ for the four equal-sized groups."
+        },
+        {
+          "text": "$70$",
+          "why": "Calculated $\\binom{8}{4}$ instead of pairing all 8 players into groups of 2."
+        }
+      ],
+      "solution_text": "Pair selections: $\\binom{8}{2} \\times \\binom{6}{2} \\times \\binom{4}{2} \\times \\binom{2}{2} = 28 \\times 15 \\times 6 \\times 1 = 2520$\nDivide by $4! = 24$ for $4$ unlabeled pairs:\n$= \\frac{2520}{24}$\n$= 105$"
+    },
+    {
+      "id": "q5",
+      "question_text": "In how many ways can $2$ distinct numbers be chosen from $\\{1, 2, 3, 4, 5, 6, 7, 8\\}$ so that their product is even?",
+      "structure": "subset-sum-parity-cases",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$22$",
+          "correct": true
+        },
+        {
+          "text": "$16$",
+          "why": "Only counted the case with one odd and one even, omitting two even numbers."
+        },
+        {
+          "text": "$6$",
+          "why": "Found the number of pairs with an odd product instead of even."
+        },
+        {
+          "text": "$28$",
+          "why": "Found the total number of unrestricted pairs without applying the product condition."
+        }
+      ],
+      "solution_text": "Total pairs: $\\binom{8}{2} = 28$\nOdd product (both numbers odd): $\\binom{4}{2} = 6$\nEven product:\n$= 28 - 6$\n$= 22$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A display of $3$ books in a row on a shelf is formed by choosing from $5$ different fiction books and $3$ different non-fiction books. In how many ways can the books be chosen and arranged in a row if the display must contain at least $2$ non-fiction books?",
+      "structure": "select-then-arrange",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$96$",
+          "correct": true
+        },
+        {
+          "text": "$90$",
+          "why": "Only counted the case with exactly 2 non-fiction books ($15 \\times 6 = 90$), omitting the 3 non-fiction case."
+        },
+        {
+          "text": "$48$",
+          "why": "Multiplied the 16 valid selections by 3 instead of arranging all 3 books with $3! = 6$."
+        },
+        {
+          "text": "$336$",
+          "why": "Calculated total unrestricted arrangements $^{8}P_{3} = 336$ without applying the non-fiction constraint."
+        }
+      ],
+      "solution_text": "Case 1 ($2$ non-fiction, $1$ fiction):\n$\\binom{3}{2} \\times \\binom{5}{1} \\times 3! = 3 \\times 5 \\times 6 = 90$\nCase 2 ($3$ non-fiction, $0$ fiction):\n$\\binom{3}{3} \\times \\binom{5}{0} \\times 3! = 1 \\times 1 \\times 6 = 6$\nTotal:\n$= 90 + 6$\n$= 96$"
+    },
+    {
+      "id": "q7",
+      "question_text": "How many $4$-digit numbers greater than $6000$ and divisible by $5$ can be formed from the digits $\\{0, 2, 4, 5, 6, 7, 8\\}$ without repetition?",
+      "structure": "digit-conditions-cases",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$120$",
+          "correct": true
+        },
+        {
+          "text": "$60$",
+          "why": "Only allowed 1 choice for the final digit instead of both 0 and 5."
+        },
+        {
+          "text": "$150$",
+          "why": "Calculated middle digits with repetition as $5^2 = 25$ instead of $^{5}P_{2} = 20$."
+        },
+        {
+          "text": "$40$",
+          "why": "Divided by $3!$ incorrectly treating digits as unordered."
+        }
+      ],
+      "solution_text": "First digit $\\in \\{6, 7, 8\\}$ ($3$ choices).\nLast digit $\\in \\{0, 5\\}$ ($2$ choices).\nMiddle $2$ digits from remaining $5$: $^{5}P_{2} = 20$\nTotal:\n$= 3 \\times 2 \\times 20$\n$= 120$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A committee of $5$ is chosen from $5$ architects and $6$ surveyors. In how many ways can the committee be formed if surveyors must outnumber architects?",
+      "structure": "committee-case-split",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$281$",
+          "correct": true
+        },
+        {
+          "text": "$275$",
+          "why": "Omitted the case with 5 surveyors and 0 architects."
+        },
+        {
+          "text": "$431$",
+          "why": "Included the case with 2 surveyors and 3 architects where architects outnumber surveyors."
+        },
+        {
+          "text": "$462$",
+          "why": "Calculated the total unrestricted selections $\\binom{11}{5}$ without restrictions."
+        }
+      ],
+      "solution_text": "Surveyors must outnumber architects (number of surveyors $\\ge 3$).\nCase 1 ($3$ surveyors, $2$ architects): $\\binom{6}{3} \\times \\binom{5}{2} = 20 \\times 10 = 200$\nCase 2 ($4$ surveyors, $1$ architect): $\\binom{6}{4} \\times \\binom{5}{1} = 15 \\times 5 = 75$\nCase 3 ($5$ surveyors, $0$ architects): $\\binom{6}{5} \\times \\binom{5}{0} = 6 \\times 1 = 6$\nTotal:\n$= 200 + 75 + 6$\n$= 281$"
+    },
+    {
+      "id": "q9",
+      "question_text": "From $10$ finalists in a competition, $6$ are chosen. From those $6$, $3$ are awarded Gold, Silver, and Bronze medals. In how many ways can this selection and awarding be carried out?",
+      "structure": "select-then-arrange",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$25200$",
+          "correct": true
+        },
+        {
+          "text": "$4200$",
+          "why": "Multiplied $\\binom{10}{6}$ by $\\binom{6}{3}$ but forgot to arrange the medal positions ($3!$)."
+        },
+        {
+          "text": "$720$",
+          "why": "Calculated $^{10}P_{3}$ directly, ignoring the initial selection of 6 finalists."
+        },
+        {
+          "text": "$1260$",
+          "why": "Multiplied $\\binom{10}{6} \\times 6$ instead of $^{6}P_{3}$."
+        }
+      ],
+      "solution_text": "Choose $6$ finalists from $10$: $\\binom{10}{6} = 210$\nAward $3$ medals from $6$: $^{6}P_{3} = 120$\nTotal:\n$= 210 \\times 120$\n$= 25200$"
+    }
+  ]
+}

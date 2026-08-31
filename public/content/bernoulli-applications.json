@@ -1,0 +1,134 @@
+{
+  "skillId": "bernoulli-applications",
+  "atomType": "R",
+  "theory": {
+    "intro": "To model a context with a Bernoulli variable, describe **one** trial, say which outcome counts as a success, and find its probability $p$. Then $E(X)=p$ and $\\text{Var}(X)=p(1-p)$ describe that single trial.",
+    "facts": [
+      "Choose the trial first: a Bernoulli model describes exactly one trial, never a count over many trials.",
+      "State the success in words before writing $p$, because the context decides which outcome is the success.",
+      "A percentage in the context becomes a probability by dividing by $100$, so $18\\%$ becomes $0.18$.",
+      "If the context gives the failure rate, the success probability is $1$ minus that rate.",
+      "$E(X)=p$ is the long-run proportion of trials that are successes, not a whole number of successes.",
+      "A variance near $0$ means the result is almost certain; a variance near $0.25$ means the two outcomes are close to equally likely.",
+      "For repeated independent trials, multiply the single-trial probabilities to find the chance of a stated order of results."
+    ],
+    "steps": [
+      "Describe one trial and say which outcome is the success.",
+      "Write $p=P(X=1)$ from the information given.",
+      "Answer the question using $E(X)=p$, $\\text{Var}(X)=p(1-p)$, or a product of single-trial probabilities."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A bus arrives late on $16\\%$ of days. One day is chosen at random and $X=1$ if the bus is late. Write $X \\sim \\text{Bernoulli}(p)$ and find $E(X)$.",
+        "structure": "model-context-as-bernoulli",
+        "solution_text": "Success: the bus is late on the chosen day.\n$p=0.16$\n$X \\sim \\text{Bernoulli}(0.16)$\n$E(X)=0.16$"
+      },
+      {
+        "question_text": "A basketballer scores a free throw with probability $0.68$. She takes one throw and $X=1$ if she scores. Write $X \\sim \\text{Bernoulli}(p)$ and find $\\text{Var}(X)$.",
+        "structure": "model-context-as-bernoulli",
+        "solution_text": "Success: she scores the throw.\n$X \\sim \\text{Bernoulli}(0.68)$\n$\\text{Var}(X)=0.68(0.32)$\n$=0.2176$"
+      },
+      {
+        "question_text": "A vending machine fails to dispense on $7\\%$ of uses. One use is a trial, with $X=1$ for a failure to dispense. Find the mean and the variance of $X$.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$p=0.07$\n$E(X)=0.07$\n$\\text{Var}(X)=0.07(0.93)$\n$=0.0651$"
+      },
+      {
+        "question_text": "A globe is faulty with probability $0.03$. Two globes are tested independently. Find the probability that the first is faulty and the second is not.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{faulty, then not faulty})=0.03 \\times 0.97$\n$=0.0291$"
+      },
+      {
+        "question_text": "A seed germinates with probability $0.9$. Three seeds are planted independently. Find the probability that all three germinate.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{all three germinate})=0.9 \\times 0.9 \\times 0.9$\n$=0.729$"
+      },
+      {
+        "question_text": "A survey question is answered 'yes' by a randomly chosen adult with probability $0.42$, and $X=1$ for a 'yes'. Explain what $E(X)=0.42$ tells you about the survey.",
+        "structure": "interpret-expected-value",
+        "solution_text": "$E(X)=p$\n$=0.42$\nOver many randomly chosen adults, about $42\\%$ answer 'yes'.\nThe mean is a long-run proportion; it is not a value $X$ can take, since $X$ is only ever $0$ or $1$."
+      },
+      {
+        "question_text": "A machine part passes inspection $96\\%$ of the time. One part is checked and $X=1$ if the part fails. Write $X \\sim \\text{Bernoulli}(p)$ and find $E(X)$.",
+        "structure": "model-context-as-bernoulli",
+        "solution_text": "Success: the part fails inspection.\n$p=1-0.96$\n$=0.04$\n$X \\sim \\text{Bernoulli}(0.04)$\n$E(X)=0.04$"
+      },
+      {
+        "question_text": "A biased spinner lands on green with probability $\\frac{3}{8}$. One spin is a trial, with $X=1$ for green. Find $E(X)$ and $\\text{Var}(X)$ as fractions.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$E(X)=\\frac{3}{8}$\n$\\text{Var}(X)=\\frac{3}{8}\\left(\\frac{5}{8}\\right)$\n$=\\frac{15}{64}$"
+      },
+      {
+        "question_text": "A test message is delivered within one second with probability $0.8$. Two messages are sent independently. Find the probability that neither is delivered within one second.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{not delivered})=1-0.8$\n$=0.2$\n$P(\\text{neither delivered})=0.2 \\times 0.2$\n$=0.04$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A quality check rejects a bolt with probability $0.06$. Four bolts are checked independently. Find the probability that the first three pass and the fourth is rejected, correct to four decimal places.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{pass})=1-0.06$\n$=0.94$\n$P(\\text{pass, pass, pass, reject})=0.94 \\times 0.94 \\times 0.94 \\times 0.06$\n$=0.830584 \\times 0.06$\n$=0.0498$"
+      },
+      {
+        "question_text": "A trial records whether a randomly chosen household owns a pet, with $X=1$ if it does. Given $\\text{Var}(X)=0.2451$ and that more than half of households own a pet, find $p$.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$p(1-p)=0.2451$\n$p^2-p+0.2451=0$\n$p=\\frac{1 \\pm \\sqrt{1-0.9804}}{2}$\n$=\\frac{1 \\pm 0.14}{2}$\n$p=0.57$ or $p=0.43$\nMore than half own a pet, so $p=0.57$"
+      },
+      {
+        "question_text": "A card reader declines a payment on $2.5\\%$ of transactions. One transaction is a trial and a decline is a success. Write $X \\sim \\text{Bernoulli}(p)$ and find $\\sigma(X)$, correct to three decimal places.",
+        "structure": "model-context-as-bernoulli",
+        "solution_text": "$p=0.025$\n$X \\sim \\text{Bernoulli}(0.025)$\n$\\text{Var}(X)=0.025(0.975)$\n$=0.024375$\n$\\sigma(X)=\\sqrt{0.024375}$\n$=0.156$"
+      },
+      {
+        "question_text": "A goalkeeper saves a penalty with probability $0.35$. Three penalties are taken independently. Find the probability that the first is saved and the next two are not, correct to four decimal places.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{not saved})=1-0.35$\n$=0.65$\n$P(\\text{saved, not, not})=0.35 \\times 0.65 \\times 0.65$\n$=0.35 \\times 0.4225$\n$=0.1479$"
+      },
+      {
+        "question_text": "Two production lines make a defective item with probability $0.02$ and $0.5$ respectively. Compare the variances of the two Bernoulli variables and explain what the difference means.",
+        "structure": "interpret-expected-value",
+        "solution_text": "$\\text{Var}(X)=0.02(0.98)$\n$=0.0196$\n$\\text{Var}(Y)=0.5(0.5)$\n$=0.25$\nThe first line has a variance close to $0$, so its result is almost always the same: the item is not defective.\nThe second line has the largest variance possible, so its two outcomes are equally likely and the result is least predictable."
+      },
+      {
+        "question_text": "A drawer holds $13$ black socks and $7$ blue socks. One sock is taken at random and $X=1$ if it is blue. Find $E(X)$ and $\\text{Var}(X)$ as fractions.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$p=\\frac{7}{20}$\n$E(X)=\\frac{7}{20}$\n$\\text{Var}(X)=\\frac{7}{20}\\left(\\frac{13}{20}\\right)$\n$=\\frac{91}{400}$"
+      },
+      {
+        "question_text": "A drug relieves symptoms in $74\\%$ of patients. One patient is treated, with $X=1$ for relief. Find $E(X)$, $\\text{Var}(X)$ and $\\sigma(X)$, giving $\\sigma(X)$ correct to three decimal places.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$p=0.74$\n$E(X)=0.74$\n$\\text{Var}(X)=0.74(0.26)$\n$=0.1924$\n$\\sigma(X)=\\sqrt{0.1924}$\n$=0.439$"
+      },
+      {
+        "question_text": "A machine produces an acceptable item with probability $p$ on each independent trial. The probability that two consecutive items are both acceptable is $0.81$. Find $p$.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$p \\times p=0.81$\n$p^2=0.81$\n$p=0.9$"
+      },
+      {
+        "question_text": "A biologist writes: 'Twenty frogs are tested and $X$ is the number that carry the fungus, so $X \\sim \\text{Bernoulli}(0.3)$.' Explain the error, then give a correct Bernoulli model for this context.",
+        "structure": "model-context-as-bernoulli",
+        "solution_text": "$X$ counts successes over $20$ trials, but a Bernoulli variable comes from exactly one trial and takes only the values $0$ and $1$.\nA correct model tests one frog: let $X=1$ if that frog carries the fungus.\n$X \\sim \\text{Bernoulli}(0.3)$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A traffic light is red for an arriving car with probability $0.45$, independently each morning. Find the probability that on three consecutive mornings the light is red, red, then not red, correct to four decimal places.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$P(\\text{not red})=1-0.45$\n$=0.55$\n$P(\\text{red, red, not red})=0.45 \\times 0.45 \\times 0.55$\n$=0.2025 \\times 0.55$\n$=0.1114$"
+      },
+      {
+        "question_text": "A component is faulty with probability $p$. For a single component $\\text{Var}(X)=0.1131$, and faults are rare, so $p<0.5$. Find $p$, then find the probability that two independent components are both faulty.",
+        "structure": "mean-variance-in-context",
+        "solution_text": "$p(1-p)=0.1131$\n$p^2-p+0.1131=0$\n$p=\\frac{1 \\pm \\sqrt{1-0.4524}}{2}$\n$=\\frac{1 \\pm 0.74}{2}$\n$p=0.87$ or $p=0.13$\nSince $p<0.5$, $p=0.13$\n$P(\\text{both faulty})=0.13 \\times 0.13$\n$=0.0169$"
+      },
+      {
+        "question_text": "A test gives the correct result for a randomly chosen person with probability $0.86$, independently. Find the variance of the Bernoulli variable for one test, and the probability that the test is correct for the first of three people and incorrect for the other two.",
+        "structure": "sequence-of-trials",
+        "solution_text": "$\\text{Var}(X)=0.86(0.14)$\n$=0.1204$\n$P(\\text{correct, incorrect, incorrect})=0.86 \\times 0.14 \\times 0.14$\n$=0.86 \\times 0.0196$\n$=0.016856$"
+      }
+    ]
+  }
+}

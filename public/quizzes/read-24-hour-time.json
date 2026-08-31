@@ -6,6 +6,30 @@
     { "id": "q3", "question_text": "Which time is noon?", "structure": "recognise-noon-midnight", "mastery": false, "options": [{ "text": "$1200$", "correct": true }, { "text": "$0000$", "why": "Chooses midnight, which begins the day, instead of noon." }, { "text": "$2400$", "why": "Uses a nonstandard end-of-day label instead of the four-digit noon time." }], "solution_text": "Noon is hour $12$ with zero minutes.\n$1200$" },
     { "id": "q4", "question_text": "Which is a valid 24-hour time?", "structure": "validate-24-hour-time", "mastery": false, "options": [{ "text": "$2258$", "correct": true }, { "text": "$2460$", "why": "Uses both an invalid hour 24 and an invalid minute value 60." }, { "text": "$1964$", "why": "Uses 64 minutes, but the minute part can only reach 59." }, { "text": "$2530$", "why": "Uses hour 25, but the hour part can only reach 23." }], "solution_text": "Valid hours are $00$–$23$ and valid minutes are $00$–$59$.\n$2258$ is valid." },
     { "id": "q5", "question_text": "Starting late in one day, which sequence is chronological across midnight?", "structure": "order-times-across-midnight", "mastery": true, "options": [{ "text": "$2345,0010,0130$", "correct": true }, { "text": "$0010,0130,2345$", "why": "Orders only by the written numbers and ignores that the sequence starts before midnight." }, { "text": "$0130,0010,2345$", "why": "Places 1:30 am before 12:10 am and then moves back to the previous day." }], "solution_text": "$2345$ is before midnight, followed by $0010$ and then $0130$.\nThe order is $2345,0010,0130$." },
-    { "id": "q6", "question_text": "Which description of $0007$ is correct?", "structure": "interpret-time-near-midnight", "mastery": true, "options": [{ "text": "seven minutes after midnight", "correct": true }, { "text": "seven minutes after noon", "why": "Confuses hour 00 with hour 12, which represents noon." }, { "text": "seven minutes before midnight", "why": "Treats the minute value as a countdown instead of minutes after hour 00." }], "solution_text": "Hour $00$ begins at midnight and the minute part is $07$.\n$0007$ is seven minutes after midnight." }
+    {
+      "id": "q6",
+      "question_text": "Which description of $0007$ is correct?",
+      "structure": "interpret-time-near-midnight",
+      "mastery": true,
+      "options": [
+        {
+          "text": "seven minutes after midnight",
+          "correct": true
+        },
+        {
+          "text": "seven minutes after noon",
+          "why": "Confuses hour $00$ with hour $12$, which represents noon."
+        },
+        {
+          "text": "seven minutes before midnight",
+          "why": "Treats the minute value as a countdown to the hour instead of minutes after hour $00$."
+        },
+        {
+          "text": "seven minutes before noon",
+          "why": "Makes both slips at once: reads hour $00$ as noon and counts the $07$ backwards to that hour."
+        }
+      ],
+      "solution_text": "Hour $00$ begins at midnight and the minute part is $07$.\n$0007$ is seven minutes after midnight."
+    }
   ]
 }

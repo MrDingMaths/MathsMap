@@ -1,0 +1,114 @@
+{
+  "skillId": "displacement-vector",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **displacement** from one position to another is the vector $\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})$. It points from the first position to the second. Its magnitude is the distance between the two positions.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.4,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-0.6)--(0,4.6) node[above,font=\\footnotesize] {$y$};\n\\draw[thick,blue,domain=0.6:5.8,smooth,variable=\\x] plot ({\\x},{0.3*\\x*\\x-2.0*\\x+4.6});\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.2,2.632);\n\\coordinate (Q) at (5.2,2.312);\n\\draw[->,gray] (O)--(P) node[midway,above left,font=\\footnotesize] {$\\underset{\\sim}{r}(t_{1})$};\n\\draw[->,gray] (O)--(Q) node[midway,below right,font=\\footnotesize] {$\\underset{\\sim}{r}(t_{2})$};\n\\draw[->,very thick,red] (P)--(Q) node[midway,above,font=\\footnotesize] {$\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})$};\n\\fill (P) circle (2.2pt);\n\\fill (Q) circle (2.2pt);\n\\node[below left,font=\\footnotesize] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+    "facts": [
+      "Displacement is a vector, while the distance between the two positions is its magnitude, a single number.",
+      "$\\underset{\\sim}{r}(t_{2})-\\underset{\\sim}{r}(t_{1})$ subtracts the earlier position from the later one, in that order.",
+      "Reversing the order reverses the vector, so the two answers differ only by a minus sign.",
+      "For a displacement $a\\underset{\\sim}{i}+b\\underset{\\sim}{j}$, the distance between the positions is $\\sqrt{a^{2}+b^{2}}$.",
+      "The displacement is the straight-line change in position, not the distance travelled along a curved path.",
+      "A zero displacement means the particle has returned to where it started.",
+      "The direction is the angle measured anticlockwise from the positive $x$-axis, found from $\\tan\\theta=\\dfrac{b}{a}$."
+    ],
+    "steps": [
+      "Find the position vector at each of the two times.",
+      "Subtract the earlier position vector from the later one.",
+      "If a distance or a direction is asked for, find the magnitude or the angle of that displacement."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t+1)\\underset{\\sim}{i}+(3t-4)\\underset{\\sim}{j}$. Find its displacement from $t=1$ to $t=4$.",
+        "structure": "displacement-between-times",
+        "solution_text": "$\\underset{\\sim}{r}(1)=3\\underset{\\sim}{i}-\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(4)=9\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(4)-\\underset{\\sim}{r}(1)=(9-3)\\underset{\\sim}{i}+(8-(-1))\\underset{\\sim}{j}$\n$=6\\underset{\\sim}{i}+9\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+5t\\underset{\\sim}{j}$. Find its displacement from $t=2$ to $t=5$.",
+        "structure": "displacement-between-times",
+        "solution_text": "$\\underset{\\sim}{r}(2)=4\\underset{\\sim}{i}+10\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(5)=25\\underset{\\sim}{i}+25\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(5)-\\underset{\\sim}{r}(2)=(25-4)\\underset{\\sim}{i}+(25-10)\\underset{\\sim}{j}$\n$=21\\underset{\\sim}{i}+15\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=4t\\underset{\\sim}{i}+(t^{2}+2)\\underset{\\sim}{j}$. How far apart are its positions at $t=0$ and $t=3$?",
+        "structure": "distance-between-positions",
+        "solution_text": "$\\underset{\\sim}{r}(0)=2\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=12\\underset{\\sim}{i}+11\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(0)=12\\underset{\\sim}{i}+9\\underset{\\sim}{j}$\n$|12\\underset{\\sim}{i}+9\\underset{\\sim}{j}|=\\sqrt{12^{2}+9^{2}}$\n$=\\sqrt{144+81}$\n$=15$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(3t-1)\\underset{\\sim}{i}+(4t+2)\\underset{\\sim}{j}$. How far apart are its positions at $t=1$ and $t=3$?",
+        "structure": "distance-between-positions",
+        "solution_text": "$\\underset{\\sim}{r}(1)=2\\underset{\\sim}{i}+6\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=8\\underset{\\sim}{i}+14\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=6\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$|6\\underset{\\sim}{i}+8\\underset{\\sim}{j}|=\\sqrt{6^{2}+8^{2}}$\n$=\\sqrt{36+64}$\n$=10$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+3t\\underset{\\sim}{j}$. Find the direction of its displacement from $t=1$ to $t=2$, as an angle measured anticlockwise from the positive $x$-axis.",
+        "structure": "direction-of-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(1)=\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(2)=4\\underset{\\sim}{i}+6\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(2)-\\underset{\\sim}{r}(1)=3\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\n$\\tan\\theta=\\dfrac{3}{3}$\n$=1$\n$\\theta=45^{\\circ}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(5-t)\\underset{\\sim}{i}+(t^{2}-2t)\\underset{\\sim}{j}$. Find its displacement from $t=0$ to $t=3$.",
+        "structure": "displacement-between-times",
+        "solution_text": "$\\underset{\\sim}{r}(0)=5\\underset{\\sim}{i}$\n$\\underset{\\sim}{r}(3)=2\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(0)=(2-5)\\underset{\\sim}{i}+(3-0)\\underset{\\sim}{j}$\n$=-3\\underset{\\sim}{i}+3\\underset{\\sim}{j}$\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0)--(6.4,0) node[right,font=\\footnotesize] {$x$};\n\\draw[->] (0,-1.8)--(0,4.6) node[above,font=\\footnotesize] {$y$};\n\\draw[thick,blue,domain=2:5,smooth,variable=\\x] plot ({\\x},{\\x*\\x-8*\\x+15});\n\\coordinate (A) at (5,0);\n\\coordinate (B) at (2,3);\n\\draw[->,very thick,red] (A)--(B) node[midway,above right,font=\\footnotesize] {$-3\\underset{\\sim}{i}+3\\underset{\\sim}{j}$};\n\\fill (A) circle (2.5pt) node[below right,font=\\footnotesize] {$t=0$};\n\\fill (B) circle (2.5pt) node[above left,font=\\footnotesize] {$t=3$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=4t\\underset{\\sim}{i}+(t+1)\\underset{\\sim}{j}$. Its displacement from $t=1$ to a later time $T$ is $12\\underset{\\sim}{i}+3\\underset{\\sim}{j}$. Find $T$.",
+        "structure": "find-time-from-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(1)=4\\underset{\\sim}{i}+2\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(T)=(4+12)\\underset{\\sim}{i}+(2+3)\\underset{\\sim}{j}$\n$=16\\underset{\\sim}{i}+5\\underset{\\sim}{j}$\n$4T=16$\n$T=4$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=4\\cos t\\,\\underset{\\sim}{i}+4\\sin t\\,\\underset{\\sim}{j}$. Find its displacement from $t=0$ to $t=\\dfrac{\\pi}{2}$.",
+        "structure": "displacement-between-times",
+        "solution_text": "$\\underset{\\sim}{r}(0)=4\\underset{\\sim}{i}$\n$\\underset{\\sim}{r}\\left(\\dfrac{\\pi}{2}\\right)=4\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}\\left(\\dfrac{\\pi}{2}\\right)-\\underset{\\sim}{r}(0)=(0-4)\\underset{\\sim}{i}+(4-0)\\underset{\\sim}{j}$\n$=-4\\underset{\\sim}{i}+4\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=6\\cos t\\,\\underset{\\sim}{i}+6\\sin t\\,\\underset{\\sim}{j}$. How far apart are its positions at $t=0$ and $t=\\pi$?",
+        "structure": "distance-between-positions",
+        "solution_text": "$\\underset{\\sim}{r}(0)=6\\underset{\\sim}{i}$\n$\\underset{\\sim}{r}(\\pi)=-6\\underset{\\sim}{i}$\n$\\underset{\\sim}{r}(\\pi)-\\underset{\\sim}{r}(0)=-12\\underset{\\sim}{i}$\n$|-12\\underset{\\sim}{i}|=12$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{2}-t)\\underset{\\sim}{i}+2t\\underset{\\sim}{j}$. Find the direction of its displacement from $t=1$ to $t=3$, as an angle measured anticlockwise from the positive $x$-axis, to the nearest degree.",
+        "structure": "direction-of-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(1)=2\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=6\\underset{\\sim}{i}+6\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=6\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$\\tan\\theta=\\dfrac{4}{6}$\n$\\theta=34^{\\circ}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(t^{3}-3t)\\underset{\\sim}{i}+(t^{2}+t)\\underset{\\sim}{j}$. Find its displacement from $t=1$ to $t=3$.",
+        "structure": "displacement-between-times",
+        "solution_text": "$\\underset{\\sim}{r}(1)=(1-3)\\underset{\\sim}{i}+(1+1)\\underset{\\sim}{j}$\n$=-2\\underset{\\sim}{i}+2\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=(27-9)\\underset{\\sim}{i}+(9+3)\\underset{\\sim}{j}$\n$=18\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=(18-(-2))\\underset{\\sim}{i}+(12-2)\\underset{\\sim}{j}$\n$=20\\underset{\\sim}{i}+10\\underset{\\sim}{j}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+6t\\underset{\\sim}{j}$ for $t\\ge0$. Its displacement from $t=2$ to a later time $T$ is $21\\underset{\\sim}{i}+18\\underset{\\sim}{j}$. Find $T$.",
+        "structure": "find-time-from-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(2)=4\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(T)=(4+21)\\underset{\\sim}{i}+(12+18)\\underset{\\sim}{j}$\n$=25\\underset{\\sim}{i}+30\\underset{\\sim}{j}$\n$T^{2}=25$\n$T=5$ (since $T\\ge0$)"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t-5)\\underset{\\sim}{i}+t^{2}\\underset{\\sim}{j}$. Find the exact distance between its positions at $t=1$ and $t=3$.",
+        "structure": "distance-between-positions",
+        "solution_text": "$\\underset{\\sim}{r}(1)=-3\\underset{\\sim}{i}+\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=\\underset{\\sim}{i}+9\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=4\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$|4\\underset{\\sim}{i}+8\\underset{\\sim}{j}|=\\sqrt{4^{2}+8^{2}}$\n$=\\sqrt{80}$\n$=4\\sqrt{5}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(10-t^{2})\\underset{\\sim}{i}+4t\\underset{\\sim}{j}$. Find the direction of its displacement from $t=1$ to $t=3$, as an angle measured anticlockwise from the positive $x$-axis.",
+        "structure": "direction-of-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(1)=9\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=\\underset{\\sim}{i}+12\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=-8\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\nThe displacement points left and up, so it lies in the second quadrant.\n$\\theta=180^{\\circ}-45^{\\circ}$\n$=135^{\\circ}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=3\\cos t\\,\\underset{\\sim}{i}+3\\sin t\\,\\underset{\\sim}{j}$. Find the exact distance between its positions at $t=\\dfrac{\\pi}{3}$ and $t=\\pi$.",
+        "structure": "distance-between-positions",
+        "solution_text": "$\\underset{\\sim}{r}\\left(\\dfrac{\\pi}{3}\\right)=\\dfrac{3}{2}\\underset{\\sim}{i}+\\dfrac{3\\sqrt{3}}{2}\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(\\pi)=-3\\underset{\\sim}{i}$\n$\\underset{\\sim}{r}(\\pi)-\\underset{\\sim}{r}\\left(\\dfrac{\\pi}{3}\\right)=-\\dfrac{9}{2}\\underset{\\sim}{i}-\\dfrac{3\\sqrt{3}}{2}\\underset{\\sim}{j}$\nDistance $=\\sqrt{\\left(\\dfrac{9}{2}\\right)^{2}+\\left(\\dfrac{3\\sqrt{3}}{2}\\right)^{2}}$\n$=\\sqrt{\\dfrac{81}{4}+\\dfrac{27}{4}}$\n$=\\sqrt{27}$\n$=3\\sqrt{3}$"
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=t^{2}\\underset{\\sim}{i}+4t\\underset{\\sim}{j}$ for $t\\ge0$. Its displacement from $t=a$ to $t=a+2$ is $24\\underset{\\sim}{i}+8\\underset{\\sim}{j}$. Find the two times.",
+        "structure": "find-time-from-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(a+2)-\\underset{\\sim}{r}(a)=\\left((a+2)^{2}-a^{2}\\right)\\underset{\\sim}{i}+\\left(4(a+2)-4a\\right)\\underset{\\sim}{j}$\n$=(4a+4)\\underset{\\sim}{i}+8\\underset{\\sim}{j}$\n$4a+4=24$\n$4a=20$\n$a=5$\nThe two times are $t=5$ and $t=7$."
+      },
+      {
+        "question_text": "A particle has position vector $\\underset{\\sim}{r}(t)=(2t^{2}-t)\\underset{\\sim}{i}+(t^{2}+3t)\\underset{\\sim}{j}$. Find its displacement from $t=1$ to $t=3$, and the angle that displacement makes with the positive $x$-axis.",
+        "structure": "direction-of-displacement",
+        "solution_text": "$\\underset{\\sim}{r}(1)=(2-1)\\underset{\\sim}{i}+(1+3)\\underset{\\sim}{j}$\n$=\\underset{\\sim}{i}+4\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)=(18-3)\\underset{\\sim}{i}+(9+9)\\underset{\\sim}{j}$\n$=15\\underset{\\sim}{i}+18\\underset{\\sim}{j}$\n$\\underset{\\sim}{r}(3)-\\underset{\\sim}{r}(1)=14\\underset{\\sim}{i}+14\\underset{\\sim}{j}$\n$\\tan\\theta=\\dfrac{14}{14}$\n$\\theta=45^{\\circ}$"
+      }
+    ]
+  }
+}

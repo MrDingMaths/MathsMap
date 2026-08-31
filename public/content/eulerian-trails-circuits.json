@@ -2,26 +2,27 @@
   "skillId": "eulerian-trails-circuits",
   "atomType": "Cat",
   "theory": {
-    "intro": "A **walk** through a network is any route that travels along edges from vertex to vertex; edges and vertices may be repeated. Four special kinds of walk have their own names. A **trail** repeats no **edge**. A **path** repeats no **vertex** (and so repeats no edge either). A **circuit** is a trail that finishes where it started, and a **cycle** is a path that finishes where it started. An **Eulerian trail** is a trail that uses **every** edge of the network exactly once, and an **Eulerian circuit** is one that also finishes where it started. Whether either exists is settled by counting **odd-degree vertices** in a connected network: none at all gives an Eulerian circuit, exactly two gives an Eulerian trail that must start at one odd vertex and finish at the other, and more than two gives neither. This is the reasoning that settled the famous Königsberg bridges problem, where four land masses joined by seven bridges all have odd degree, so no walk crosses every bridge exactly once.",
-    "facts": [
-      "A **walk** is any route along edges; both edges and vertices may repeat.",
-      "A **trail** is a walk with **no repeated edge**; a **path** is a walk with **no repeated vertex**.",
-      "A **circuit** is a trail that finishes where it started; a **cycle** is a path that finishes where it started.",
-      "An **Eulerian trail** uses every edge exactly once; an **Eulerian circuit** does that and finishes where it started.",
-      "A connected network has an **Eulerian circuit** exactly when **every** vertex has an even degree.",
-      "A connected network has an **Eulerian trail but no Eulerian circuit** exactly when **exactly two** vertices are odd; the trail must start at one of them and finish at the other.",
-      "With **more than two** odd vertices there is neither an Eulerian trail nor an Eulerian circuit.",
-      "The number of odd-degree vertices is always even, because the degrees add to $2\\times$ the number of edges.",
-      "The network must be **connected** — even degrees are not enough if it is drawn in separate pieces.",
-      "A **loop** adds $2$ to a degree, so it never changes whether a vertex is odd or even."
-    ],
-    "steps": [
-      "Check that the network is connected",
-      "Find the degree of every vertex",
-      "Count the vertices of odd degree",
-      "Apply the test for a circuit or a trail"
-    ]
-  },
+        "intro": "A **walk** is any route through a network along edges, repeating edges and vertices freely. Whether a walk can use **every** edge exactly once is decided by counting the vertices of **odd degree**.",
+        "facts": [
+          "A **walk** is any route along edges; both edges and vertices may repeat.",
+          "A **trail** is a walk with **no repeated edge**; a **path** is a walk with **no repeated vertex**.",
+          "A **circuit** is a trail that finishes where it started; a **cycle** is a path that finishes where it started.",
+          "An **Eulerian trail** uses every edge exactly once; an **Eulerian circuit** does that and finishes where it started.",
+          "A connected network has an **Eulerian circuit** exactly when every vertex has an even degree.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (3,3);\n\\coordinate (S) at (0,3);\n\\draw (P) -- (Q);\n\\draw (Q) -- (R);\n\\draw (R) -- (S);\n\\draw (S) -- (P);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\node[below left] at (P) {$P\\,(2)$};\n\\node[below right] at (Q) {$Q\\,(2)$};\n\\node[above right] at (R) {$R\\,(2)$};\n\\node[above left] at (S) {$S\\,(2)$};\n\\node at (1.5,-1.4) {no odd vertices};\n\\end{tikzpicture}\n[/tikz]",
+          "A connected network with **exactly two** odd vertices has an Eulerian trail only, starting at one odd vertex and finishing at the other.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (3,3);\n\\coordinate (S) at (0,3);\n\\draw (P) -- (Q);\n\\draw (Q) -- (R);\n\\draw (R) -- (S);\n\\draw (S) -- (P);\n\\draw (P) -- (R);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\node[below left] at (P) {$P\\,(3)$};\n\\node[below right] at (Q) {$Q\\,(2)$};\n\\node[above right] at (R) {$R\\,(3)$};\n\\node[above left] at (S) {$S\\,(2)$};\n\\node at (1.5,-1.4) {two odd vertices: $P$ and $R$};\n\\end{tikzpicture}\n[/tikz]",
+          "With **more than two** odd vertices there is neither an Eulerian trail nor an Eulerian circuit.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3,0);\n\\coordinate (R) at (3,3);\n\\coordinate (S) at (0,3);\n\\draw (P) -- (Q);\n\\draw (Q) -- (R);\n\\draw (R) -- (S);\n\\draw (S) -- (P);\n\\draw (P) -- (R);\n\\draw (Q) -- (S);\n\\fill (P) circle (2.5pt);\n\\fill (Q) circle (2.5pt);\n\\fill (R) circle (2.5pt);\n\\fill (S) circle (2.5pt);\n\\node[below left] at (P) {$P\\,(3)$};\n\\node[below right] at (Q) {$Q\\,(3)$};\n\\node[above right] at (R) {$R\\,(3)$};\n\\node[above left] at (S) {$S\\,(3)$};\n\\node at (1.5,-1.4) {four odd vertices};\n\\end{tikzpicture}\n[/tikz]",
+          "The number of odd-degree vertices is always even, because the degrees add to $2\\times$ the number of edges.",
+          "The network must be **connected**: even degrees are not enough if it is drawn in separate pieces.",
+          "A **loop** adds $2$ to a degree, so it never changes whether a vertex is odd or even.",
+          "In the **Königsberg bridges** problem all four land masses have odd degree, so no walk crosses every bridge exactly once."
+        ],
+        "steps": [
+          "Check that the network is connected",
+          "Find the degree of every vertex",
+          "Count the vertices of odd degree",
+          "Apply the test for a circuit or a trail"
+        ]
+      },
   "practice": {
     "foundation": [
       {

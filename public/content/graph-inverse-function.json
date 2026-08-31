@@ -1,0 +1,125 @@
+{
+  "skillId": "graph-inverse-function",
+  "atomType": "R",
+  "theory": {
+        "intro": "The graph of $y = f^{-1}(x)$ is the reflection of the graph of $y = f(x)$ in the line $y = x$. Every point $(a, b)$ on $y = f(x)$ becomes the point $(b, a)$ on $y = f^{-1}(x)$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-3.8,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,4.6) node[above] {$y$};\n\\draw[dashed] (-3,-3) -- (3.7,3.7);\n\\draw[thick, <->, domain=-3:2.68, samples=80, smooth, variable=\\x] plot ({\\x}, {0.5*exp(\\x*ln(2)) + 1});\n\\draw[thick, <->, domain=1.07:4.4, samples=80, smooth, variable=\\x] plot ({\\x}, {ln(2*(\\x - 1))/ln(2)});\n\\fill (2,3) circle (2.5pt);\n\\fill (3,2) circle (2.5pt);\n\\node at (1.2,3.35) {$(a,b)$};\n\\node at (3.6,1.4) {$(b,a)$};\n\\node at (-1.6,3.4) {$y=f(x)$};\n\\node at (2.8,-1.6) {$y=f^{-1}(x)$};\n\\node at (-2.9,-1.6) {$y=x$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Reflecting a graph in the line $y = x$ swaps the coordinates of every point: $(a, b) \\to (b, a)$.",
+          "The domain of $f(x)$ becomes the range of $f^{-1}(x)$, and the range of $f(x)$ becomes the domain of $f^{-1}(x)$.",
+          "An $x$-intercept $(a, 0)$ of $y = f(x)$ reflects to a $y$-intercept $(0, a)$ of $y = f^{-1}(x)$.",
+          "A $y$-intercept $(0, b)$ of $y = f(x)$ reflects to an $x$-intercept $(b, 0)$ of $y = f^{-1}(x)$.",
+          "A vertical asymptote $x = k$ of $y = f(x)$ becomes a horizontal asymptote $y = k$ of $y = f^{-1}(x)$.",
+          "A horizontal asymptote $y = c$ of $y = f(x)$ becomes a vertical asymptote $x = c$ of $y = f^{-1}(x)$.",
+          "A point where $y = f(x)$ meets the line $y = x$ does not move: $(c, c) \\to (c, c)$."
+        ],
+        "steps": [
+          "Identify key points, intercepts, and asymptotes on the graph of $y = f(x)$.",
+          "Swap the $x$- and $y$-coordinates of each key point to obtain $(y, x)$.",
+          "Transform asymptotes by swapping horizontal and vertical lines.",
+          "Sketch the inverse curve passing through the reflected points with symmetry across $y = x$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The point $(3, 7)$ lies on the graph of $y = f(x)$. Find the coordinates of the corresponding point on the graph of $y = f^{-1}(x)$.",
+        "structure": "reflect-point-table",
+        "solution_text": "Reflect across the line $y = x$ by interchanging the $x$- and $y$-coordinates.\n$(x, y) \\to (y, x)$\n$(3, 7) \\to (7, 3)$"
+      },
+      {
+        "question_text": "The points $(-4, 1)$ and $(2, -5)$ lie on the curve $y = f(x)$. State the coordinates of the corresponding points on the inverse curve $y = f^{-1}(x)$.",
+        "structure": "reflect-point-table",
+        "solution_text": "Reflect each point in the line $y = x$:\n$(-4, 1) \\to (1, -4)$\n$(2, -5) \\to (-5, 2)$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ has an $x$-intercept at $(5, 0)$ and a $y$-intercept at $(0, -2)$. Find the intercepts of the graph of $y = f^{-1}(x)$.",
+        "structure": "reflect-intercepts-features",
+        "solution_text": "$x\\text{-intercept } (5, 0) \\to y\\text{-intercept } (0, 5)$\n$y\\text{-intercept } (0, -2) \\to x\\text{-intercept } (-2, 0)$"
+      },
+      {
+        "question_text": "The function $y = f(x)$ has a $y$-intercept at $(0, 4)$ and passes through $(3, 10)$. Find the $x$-intercept of $y = f^{-1}(x)$ and another point on its graph.",
+        "structure": "reflect-intercepts-features",
+        "solution_text": "$y\\text{-intercept } (0, 4) \\to x\\text{-intercept } (4, 0)$\n$(3, 10) \\to (10, 3)$"
+      },
+      {
+        "question_text": "The exponential function $f(x) = 2^x$ has horizontal asymptote $y = 0$, domain $(-\\infty, \\infty)$, and range $(0, \\infty)$. State the asymptote, domain, and range of the inverse function $f^{-1}(x) = \\log_2 x$.",
+        "structure": "transform-asymptotes-domain-range",
+        "solution_text": "$\\text{Horizontal asymptote } y = 0 \\to \\text{vertical asymptote } x = 0$\n$\\text{Domain of } f^{-1} = \\text{Range of } f = (0, \\infty)$\n$\\text{Range of } f^{-1} = \\text{Domain of } f = (-\\infty, \\infty)$"
+      },
+      {
+        "question_text": "The rational function $f(x) = \\dfrac{1}{x - 3} + 2$ has vertical asymptote $x = 3$ and horizontal asymptote $y = 2$. State the equations of the asymptotes of $y = f^{-1}(x)$.",
+        "structure": "transform-asymptotes-domain-range",
+        "solution_text": "$\\text{Vertical asymptote } x = 3 \\to \\text{horizontal asymptote } y = 3$\n$\\text{Horizontal asymptote } y = 2 \\to \\text{vertical asymptote } x = 2$"
+      },
+      {
+        "question_text": "The line $y = 2x - 4$ has intercepts $(2, 0)$ and $(0, -4)$. Find the equation of the reflected line $y = f^{-1}(x)$.",
+        "structure": "identify-reflected-graph",
+        "solution_text": "$\\text{Reflected intercepts: } (0, 2) \\text{ and } (-4, 0)$\n$\\text{Gradient } m = \\dfrac{2 - 0}{0 - (-4)} = \\dfrac{1}{2}$\n$y = \\dfrac{1}{2}x + 2$"
+      },
+      {
+        "question_text": "The curve $y = f(x)$ passes through $(1, 1)$ on the line $y = x$ and $( -2, 5)$. Find the coordinates of the corresponding points on $y = f^{-1}(x)$.",
+        "structure": "graph-inverse-key-points",
+        "solution_text": "$(1, 1) \\to (1, 1)$\n$(-2, 5) \\to (5, -2)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A function $f(x)$ has the table of values:\n$\\begin{array}{|c|c|c|c|c|}\\hline x & -1 & 0 & 2 & 5 \\\\ \\hline y & 3 & 5 & 9 & 15 \\\\ \\hline \\end{array}$\nConstruct the table of values for the inverse function $f^{-1}(x)$.",
+        "structure": "reflect-point-table",
+        "solution_text": "Swap each input and output pair $(x, y) \\to (y, x)$:\n$\\begin{array}{|c|c|c|c|c|}\\hline x & 3 & 5 & 9 & 15 \\\\ \\hline y & -1 & 0 & 2 & 5 \\\\ \\hline \\end{array}$"
+      },
+      {
+        "question_text": "The cubic function $f(x) = x^3 - 8$ has an $x$-intercept at $(2, 0)$ and a $y$-intercept at $(0, -8)$. Determine the intercepts of $y = f^{-1}(x)$.",
+        "structure": "reflect-intercepts-features",
+        "solution_text": "$x\\text{-intercept } (2, 0) \\to y\\text{-intercept } (0, 2)$\n$y\\text{-intercept } (0, -8) \\to x\\text{-intercept } (-8, 0)$"
+      },
+      {
+        "question_text": "The function $f(x) = \\dfrac{3x - 1}{x + 4}$ has vertical asymptote $x = -4$ and horizontal asymptote $y = 3$. State the asymptotes and domain of $y = f^{-1}(x)$.",
+        "structure": "transform-asymptotes-domain-range",
+        "solution_text": "$\\text{Vertical asymptote of } f^{-1}: x = 3$\n$\\text{Horizontal asymptote of } f^{-1}: y = -4$\n$\\text{Domain of } f^{-1}: (-\\infty, 3) \\cup (3, \\infty)$"
+      },
+      {
+        "question_text": "The function $f(x) = 3^{x - 1} - 4$ has domain $(-\\infty, \\infty)$ and range $(-4, \\infty)$ with horizontal asymptote $y = -4$. Find the domain, range, and vertical asymptote of $y = f^{-1}(x)$.",
+        "structure": "transform-asymptotes-domain-range",
+        "solution_text": "$\\text{Domain of } f^{-1} = (-4, \\infty)$\n$\\text{Range of } f^{-1} = (-\\infty, \\infty)$\n$\\text{Vertical asymptote: } x = -4$"
+      },
+      {
+        "question_text": "The curve $y = 2^x - 1$ passes through $(0, 0)$, $(1, 1)$, and $(2, 3)$ with horizontal asymptote $y = -1$.\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[->] (-3,0) -- (4,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,4) node[above] {$y$};\n\\draw[dashed, gray] (-2.5,-2.5) -- (3.5,3.5) node[above right] {$y=x$};\n\\draw[dashed, red] (-3,-1) -- (4,-1) node[below left] {$y=-1$};\n\\draw[thick, blue, domain=-2.8:2.2, samples=60] plot (\\x, {exp(\\x*ln(2)) - 1});\n\\fill[blue] (0,0) circle (2.5pt) node[below right] {$(0,0)$};\n\\fill[blue] (1,1) circle (2.5pt) node[below right] {$(1,1)$};\n\\fill[blue] (2,3) circle (2.5pt) node[above left] {$(2,3)$};\n\\end{tikzpicture}\n[/tikz]\nState the asymptote and key points for the graph of $y = f^{-1}(x)$.",
+        "structure": "identify-reflected-graph",
+        "solution_text": "$\\text{Vertical asymptote: } x = -1$\n$\\text{Reflected points: } (0, 0), (1, 1), (3, 2)$\n[tikz]\n\\begin{tikzpicture}[scale=0.6]\n\\draw[->] (-3,0) -- (4,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,4) node[above] {$y$};\n\\draw[dashed, gray] (-2.5,-2.5) -- (3.5,3.5) node[above right] {$y=x$};\n\\draw[dashed, red] (-1,-3) -- (-1,4) node[above left] {$x=-1$};\n\\draw[thick, teal, domain=-0.85:3.5, samples=60] plot (\\x, {ln(\\x + 1)/ln(2)});\n\\fill[teal] (0,0) circle (2.5pt) node[above left] {$(0,0)$};\n\\fill[teal] (1,1) circle (2.5pt) node[above left] {$(1,1)$};\n\\fill[teal] (3,2) circle (2.5pt) node[below right] {$(3,2)$};\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "A line segment on the graph of $y = f(x)$ has endpoints $A(-3, 1)$ and $B(4, 5)$. Find the endpoints $A'$ and $B'$ of the reflected segment on $y = f^{-1}(x)$ and calculate the midpoint of the reflected segment.",
+        "structure": "graph-inverse-key-points",
+        "solution_text": "$A' = (1, -3)$\n$B' = (5, 4)$\n$\\text{Midpoint} = \\left(\\dfrac{1 + 5}{2}, \\dfrac{-3 + 4}{2}\\right) = \\left(3, \\dfrac{1}{2}\\right)$"
+      },
+      {
+        "question_text": "The cubic curve $y = (x - 2)^3 + 1$ has a horizontal point of inflection at $(2, 1)$ and a $y$-intercept at $(0, -7)$. Find the coordinates of the inflection point and the $x$-intercept of $y = f^{-1}(x)$.",
+        "structure": "graph-inverse-key-points",
+        "solution_text": "$\\text{Point of inflection: } (1, 2)$\n$x\\text{-intercept: } (-7, 0)$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A continuous one-to-one function $f(x)$ has domain $[-4, 6]$ and range $[1, 9]$, with $f(-4) = 1$ and $f(6) = 9$. State the domain, range, and endpoints of the inverse function $f^{-1}(x)$.",
+        "structure": "reflect-point-table",
+        "solution_text": "$\\text{Domain of } f^{-1} = [1, 9]$\n$\\text{Range of } f^{-1} = [-4, 6]$\n$\\text{Endpoints: } (1, -4) \\text{ and } (9, 6)$"
+      },
+      {
+        "question_text": "The rational function $f(x) = \\dfrac{ax + b}{cx + d}$ with $c \\ne 0$ and $ad - bc \\ne 0$ has vertical asymptote $x = -\\dfrac{d}{c}$ and horizontal asymptote $y = \\dfrac{a}{c}$. Explain why the condition for the asymptotes of $y = f(x)$ to be identical to the asymptotes of $y = f^{-1}(x)$ is $a = -d$.",
+        "structure": "transform-asymptotes-domain-range",
+        "solution_text": "$\\text{Asymptotes of } f: x = -\\dfrac{d}{c}, y = \\dfrac{a}{c}$\n$\\text{Asymptotes of } f^{-1}: x = \\dfrac{a}{c}, y = -\\dfrac{d}{c}$\n$\\text{Equating vertical asymptotes: } \\dfrac{a}{c} = -\\dfrac{d}{c} \\implies a = -d$"
+      },
+      {
+        "question_text": "The tangent to the curve $y = f(x)$ at the point $(2, 8)$ has equation $y = 12x - 16$. Find the coordinates of the corresponding point on $y = f^{-1}(x)$ and the equation of the tangent line to $y = f^{-1}(x)$ at that point.",
+        "structure": "graph-inverse-key-points",
+        "solution_text": "$\\text{Corresponding point: } (8, 2)$\n$\\text{Gradient of inverse tangent: } m' = \\dfrac{1}{12}$\n$y - 2 = \\dfrac{1}{12}(x - 8)$\n$y = \\dfrac{1}{12}x + \\dfrac{4}{3}$"
+      },
+      {
+        "question_text": "A piecewise linear function $y = f(x)$ connects the points $A(-3, -1)$, $B(0, 2)$, and $C(4, 4)$. Determine the coordinates of the invariant point where $y = f(x)$ meets $y = f^{-1}(x)$ on the line $y = x$.",
+        "structure": "identify-reflected-graph",
+        "solution_text": "$\\text{Check given vertices on } y = x: C(4, 4) \\text{ has } x = y = 4$\n$\\text{Invariant point} = (4, 4)$"
+      }
+    ]
+  }
+}

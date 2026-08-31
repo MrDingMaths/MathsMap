@@ -1,0 +1,113 @@
+{
+  "skillId": "probability-perm-comb",
+  "atomType": "R",
+  "theory": {
+    "intro": "Probability problems involving complex selections and arrangements are evaluated using classical probability: $P(E) = \\frac{\\text{favourable outcomes}}{\\text{total outcomes}}$. To obtain a valid probability, both the numerator and the denominator must use the **same counting convention**—either both as unordered combinations or both as ordered permutations. Combinations are used when order is irrelevant (such as choosing committees, hands of cards, or item samples), while permutations are used when position or order matters (such as seating lines, race finishes, or digit sequences).",
+    "facts": [
+      "**Uniform convention rule**: The numerator and denominator must match in order-sensitivity. If the sample space is counted using $\\binom{n}{r}$, the event must be counted with combinations; if the sample space is $n!$ or $^{n}P_{r}$, the event must be counted with permutations.",
+      "**Hypergeometric committee model**: When drawing $r$ items without replacement from a group of $a$ items of type A and $b$ items of type B ($a+b=n$), the probability of obtaining exactly $k$ items of type A is $\\frac{\\binom{a}{k} \\times \\binom{b}{r-k}}{\\binom{n}{r}}$.",
+      "**Grouping in arrangements**: When calculating the probability that $k$ designated items are together in a line of $n$ items, treat them as a single block: $P = \\frac{(n-k+1)! \\times k!}{n!}$.",
+      "**Circular seating probability**: In circular arrangements of $n$ people, fixing one person establishes a frame of reference, making the probability that a specific person sits next to or opposite them simpler to evaluate as $\\frac{\\text{favourable seats}}{\\text{total remaining seats}}$.",
+      "**Complement rule for 'at least one'**: For problems involving 'at least one', calculating $P(\\text{at least one}) = 1 - P(\\text{none})$ is usually much faster than summing multiple positive cases.",
+      "**Exact fractional form**: Probability answers should be simplified to exact fractions in lowest terms unless a decimal or percentage is explicitly requested."
+    ],
+    "steps": [
+      "Determine whether the problem is ordered (permutations) or unordered (combinations) and calculate the total number of outcomes in the sample space",
+      "Calculate the number of favourable outcomes using the same counting convention",
+      "Form the probability fraction $P = \\frac{\\text{favourable outcomes}}{\\text{total outcomes}}$ and simplify to lowest terms"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A team of $4$ students is chosen at random from $6$ boys and $4$ girls. Find the probability that the team consists of all boys.",
+        "structure": "committee-selection-probability",
+        "solution_text": "Total selections: $\\binom{10}{4} = 210$\nAll boys: $\\binom{6}{4} = 15$\n$P(\\text{all boys}) = \\frac{15}{210}$\n$= \\frac{1}{14}$"
+      },
+      {
+        "question_text": "$5$ friends, including Mia and Noah, line up in a random order for a photo. Find the probability that Mia and Noah stand next to each other.",
+        "structure": "arrangement-line-probability",
+        "solution_text": "Total arrangements: $5! = 120$\nMia and Noah together: $4! \\times 2! = 48$\n$P(\\text{together}) = \\frac{48}{120}$\n$= \\frac{2}{5}$"
+      },
+      {
+        "question_text": "$3$ cards are drawn simultaneously at random from a standard deck of $52$ playing cards. Find the probability that all $3$ cards are Aces.",
+        "structure": "cards-selection-probability",
+        "solution_text": "Total ways to draw $3$ cards: $\\binom{52}{3} = 22100$\nWays to draw $3$ Aces: $\\binom{4}{3} = 4$\n$P(\\text{all } 3 \\text{ Aces}) = \\frac{4}{22100}$\n$= \\frac{1}{5525}$"
+      },
+      {
+        "question_text": "A $3$-digit number is formed by randomly arranging $3$ digits from $\\{2, 3, 5, 7, 8\\}$ without repetition. Find the probability that the number is even.",
+        "structure": "digits-number-probability",
+        "solution_text": "Total $3$-digit numbers: $^{5}P_{3} = 60$\nLast digit must be $2$ or $8$ ($2$ choices).\nFirst two digits: $^{4}P_{2} = 12$\nFavourable numbers: $2 \\times 12 = 24$\n$P(\\text{even}) = \\frac{24}{60}$\n$= \\frac{2}{5}$"
+      },
+      {
+        "question_text": "A box contains $5$ good light bulbs and $3$ defective bulbs. If $2$ bulbs are selected at random, find the probability that at least one bulb is defective.",
+        "structure": "complement-at-least-one-probability",
+        "solution_text": "Total selections: $\\binom{8}{2} = 28$\nNo defective bulbs (both good): $\\binom{5}{2} = 10$\n$P(\\text{no defective}) = \\frac{10}{28} = \\frac{5}{14}$\n$P(\\text{at least } 1 \\text{ defective}) = 1 - \\frac{5}{14}$\n$= \\frac{9}{14}$"
+      },
+      {
+        "question_text": "$6$ people sit at random around a circular table. What is the probability that $2$ specific friends sit next to each other?",
+        "structure": "arrangement-circle-probability",
+        "solution_text": "Total circular arrangements: $(6-1)! = 5! = 120$\nTreat friends as $1$ block: $(5-1)! \\times 2! = 4! \\times 2 = 48$\n$P(\\text{friends adjacent}) = \\frac{48}{120}$\n$= \\frac{2}{5}$"
+      },
+      {
+        "question_text": "A committee of $3$ is selected at random from $5$ teachers and $4$ parents. Find the probability that the committee contains $2$ teachers and $1$ parent.",
+        "structure": "committee-selection-probability",
+        "solution_text": "Total selections: $\\binom{9}{3} = 84$\nFavourable selections: $\\binom{5}{2} \\times \\binom{4}{1} = 10 \\times 4 = 40$\n$P(2\\text{ teachers}, 1\\text{ parent}) = \\frac{40}{84}$\n$= \\frac{10}{21}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A jury of $4$ people is selected from $7$ men and $5$ women. Find the probability that the jury contains at least $3$ women.",
+        "structure": "committee-selection-probability",
+        "solution_text": "Total selections: $\\binom{12}{4} = 495$\nCase 1 ($3$ women, $1$ man): $\\binom{5}{3} \\times \\binom{7}{1} = 10 \\times 7 = 70$\nCase 2 ($4$ women, $0$ men): $\\binom{5}{4} \\times \\binom{7}{0} = 5 \\times 1 = 5$\nFavourable: $70 + 5 = 75$\n$P(\\text{at least } 3 \\text{ women}) = \\frac{75}{495}$\n$= \\frac{5}{33}$"
+      },
+      {
+        "question_text": "$4$ boys and $4$ girls sit in a single row of $8$ chairs at random. Find the probability that the boys and girls alternate.",
+        "structure": "arrangement-line-probability",
+        "solution_text": "Total arrangements: $8! = 40320$\nAlternating patterns: BGBGBGBG or GBGBGBGB ($2$ patterns).\nEach pattern: $4! \\times 4! = 24 \\times 24 = 576$\nFavourable: $2 \\times 576 = 1152$\n$P(\\text{alternate}) = \\frac{1152}{40320}$\n$= \\frac{1}{35}$"
+      },
+      {
+        "question_text": "$4$ cards are dealt from a standard deck of $52$ cards. What is the probability that all $4$ cards are of different suits?",
+        "structure": "cards-selection-probability",
+        "solution_text": "Total selections: $\\binom{52}{4} = 270725$\nChoose $1$ card from each suit: $\\binom{13}{1}^4 = 13^4 = 28561$\n$P(\\text{all different suits}) = \\frac{28561}{270725}$\n$= \\frac{2197}{20825}$"
+      },
+      {
+        "question_text": "$7$ executives are seated randomly around a circular conference table. What is the probability that $3$ particular colleagues sit together in adjacent seats?",
+        "structure": "arrangement-circle-probability",
+        "solution_text": "Total circular arrangements: $(7-1)! = 6! = 720$\nTreat $3$ colleagues as $1$ unit with $4$ others ($5$ units).\nCircular arrangements of $5$ units: $(5-1)! = 4! = 24$\nInternal arrangements: $3! = 6$\nFavourable: $24 \\times 6 = 144$\n$P(\\text{3 colleagues together}) = \\frac{144}{720}$\n$= \\frac{1}{5}$"
+      },
+      {
+        "question_text": "A $4$-digit number is formed by randomly arranging the digits $\\{1, 2, 3, 4, 5, 6\\}$ without repetition. Find the probability that the number is greater than $4000$ and odd.",
+        "structure": "digits-number-probability",
+        "solution_text": "Total $4$-digit numbers: $^{6}P_{4} = 360$\nFirst digit $\\in \\{4, 5, 6\\}$, last digit $\\in \\{1, 3, 5\\}$.\nCase 1 (First digit $4$ or $6$): $2 \\times 3 \\times \\ ^{4}P_{2} = 2 \\times 3 \\times 12 = 72$\nCase 2 (First digit $5$): $1 \\times 2 \\times \\ ^{4}P_{2} = 1 \\times 2 \\times 12 = 24$\nFavourable: $72 + 24 = 96$\n$P = \\frac{96}{360}$\n$= \\frac{4}{15}$"
+      },
+      {
+        "question_text": "In a class of $15$ students, $4$ are left-handed. If $3$ students are chosen at random, find the probability that at least one student is left-handed.",
+        "structure": "complement-at-least-one-probability",
+        "solution_text": "Total selections: $\\binom{15}{3} = 455$\nRight-handed students: $15 - 4 = 11$\nSelections with no left-handed students: $\\binom{11}{3} = 165$\n$P(\\text{no left-handed}) = \\frac{165}{455} = \\frac{33}{91}$\n$P(\\text{at least } 1 \\text{ left-handed}) = 1 - \\frac{33}{91}$\n$= \\frac{58}{91}$"
+      },
+      {
+        "question_text": "The letters of the word $\\text{ORANGE}$ are arranged randomly in a line. What is the probability that all $3$ vowels (O, A, E) are separated from each other?",
+        "structure": "arrangement-line-probability",
+        "solution_text": "Total arrangements: $6! = 720$\nArrange $3$ consonants (R, N, G): $3! = 6$\nPlace $3$ vowels in $4$ available gaps: $^{4}P_{3} = 24$\nFavourable: $6 \\times 24 = 144$\n$P(\\text{vowels separated}) = \\frac{144}{720}$\n$= \\frac{1}{5}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A $5$-card poker hand is dealt at random from a standard deck of $52$ cards. Find the probability of being dealt a full house (three cards of one rank and two cards of another rank).",
+        "structure": "cards-selection-probability",
+        "solution_text": "Total hands: $\\binom{52}{5} = 2598960$\nChoose rank for triple: $\\binom{13}{1} = 13$, choose $3$ cards: $\\binom{4}{3} = 4$\nChoose rank for pair: $\\binom{12}{1} = 12$, choose $2$ cards: $\\binom{4}{2} = 6$\nFavourable: $13 \\times 4 \\times 12 \\times 6 = 3744$\n$P(\\text{full house}) = \\frac{3744}{2598960}$\n$= \\frac{6}{4165}$"
+      },
+      {
+        "question_text": "A committee of $2$ managers and $6$ employees sits at random around a circular table. What is the probability that the $2$ managers sit directly opposite each other?",
+        "structure": "arrangement-circle-probability",
+        "solution_text": "Total circular arrangements of $8$ people: $(8-1)! = 7! = 5040$\nFix Manager 1 in any seat.\nManager 2 has $1$ designated opposite seat among $7$ remaining.\nArrange $6$ employees in remaining $6$ seats: $6! = 720$\nFavourable: $1 \\times 720 = 720$\n$P(\\text{opposite}) = \\frac{720}{5040}$\n$= \\frac{1}{7}$"
+      },
+      {
+        "question_text": "$10$ candidates including Alice and Bob apply for $4$ identical scholarships. What is the probability that exactly one of Alice or Bob is awarded a scholarship?",
+        "structure": "committee-selection-probability",
+        "solution_text": "Total ways to award scholarships: $\\binom{10}{4} = 210$\nChoose $1$ of Alice or Bob: $\\binom{2}{1} = 2$\nChoose remaining $3$ from other $8$: $\\binom{8}{3} = 56$\nFavourable: $2 \\times 56 = 112$\n$P(\\text{exactly } 1) = \\frac{112}{210}$\n$= \\frac{8}{15}$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "skillId": "least-squares-regression",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **least-squares regression line** is the line a calculator finds by making the total squared vertical distance from the points as small as possible. Its equation is written $y = a + bx$.",
+    "facts": [
+      "In two-variable statistics mode a calculator reports $a$, the **$y$-intercept**, and $b$, the **gradient**, along with $r$.",
+      "The gradient can also be found from summary statistics using $b = r \\times \\frac{s_y}{s_x}$.",
+      "The line always passes through the point of means, so $a = \\bar{y} - b\\bar{x}$.",
+      "The gradient $b$ and the correlation coefficient $r$ always have the same sign.",
+      "Round $a$ and $b$ only at the end, because rounding early changes every prediction the line makes."
+    ],
+    "steps": [
+      "Read the calculator output, or the summary statistics, for this dataset.",
+      "Find the gradient $b$, from the calculator or from $b = r \\times \\frac{s_y}{s_x}$.",
+      "Find the intercept $a$, from the calculator or from $a = \\bar{y} - b\\bar{x}$.",
+      "Write the equation as $y = a + bx$ using the variables of the context."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A calculator in two-variable statistics mode reports $a = 24.6$, $b = 1.85$ and $r = 0.91$ for a dataset in which $x$ is weekly income in hundreds of dollars and $y$ is weekly spending in dollars. Write the equation of the least-squares regression line.",
+        "structure": "equation-from-calculator-output",
+        "solution_text": "The calculator's $a$ is the $y$-intercept and its $b$ is the gradient.\n$y = 24.6 + 1.85x$"
+      },
+      {
+        "question_text": "A calculator screen shows $a = 118.4$ and $b = -3.72$. State which value is the gradient, then write the equation of the least-squares regression line.",
+        "structure": "identify-a-and-b",
+        "solution_text": "The gradient is $b = -3.72$, and $a = 118.4$ is the $y$-intercept.\n$y = 118.4 - 3.72x$"
+      },
+      {
+        "question_text": "For a dataset, $\\bar{x} = 12$, $\\bar{y} = 48$, $s_x = 4$, $s_y = 10$ and $r = 0.8$. Find the equation of the least-squares regression line.",
+        "structure": "equation-from-summary-statistics",
+        "solution_text": "2. **Find the gradient $b$, from the calculator or from $b = r \\times \\frac{s_y}{s_x}$.**\n$b = 0.8 \\times \\frac{10}{4}$\n$= 0.8 \\times 2.5$\n$= 2$\n3. **Find the intercept $a$, from the calculator or from $a = \\bar{y} - b\\bar{x}$.**\n$a = 48 - 2 \\times 12$\n$= 48 - 24$\n$= 24$\n4. **Write the equation as $y = a + bx$ using the variables of the context.**\n$y = 24 + 2x$"
+      },
+      {
+        "question_text": "For a dataset, $\\bar{x} = 20$, $\\bar{y} = 65$, $s_x = 5$, $s_y = 12$ and $r = -0.75$. Find the equation of the least-squares regression line.",
+        "structure": "equation-from-summary-statistics",
+        "solution_text": "$b = -0.75 \\times \\frac{12}{5}$\n$= -0.75 \\times 2.4$\n$= -1.8$\n$a = 65 - (-1.8) \\times 20$\n$= 65 + 36$\n$= 101$\n$y = 101 - 1.8x$"
+      },
+      {
+        "question_text": "The least-squares regression line for a dataset is $y = 7.35 + 0.92x$. Find the predicted value of $y$ when $x = 28$.",
+        "structure": "use-least-squares-line",
+        "solution_text": "$y = 7.35 + 0.92(28)$\n$= 7.35 + 25.76$\n$= 33.11$"
+      },
+      {
+        "question_text": "A calculator gives the least-squares line $C = 45.8 + 6.25n$ for the cost $C$ in dollars of catering for $n$ guests. Find the predicted cost of catering for $34$ guests.",
+        "structure": "use-least-squares-line",
+        "solution_text": "$C = 45.8 + 6.25(34)$\n$= 45.8 + 212.5$\n$= \\$258.30$"
+      },
+      {
+        "question_text": "For a crop trial, a calculator reports $a = 82.4$, $b = -0.56$ and $r = -0.88$, where $x$ is the number of weeds per square metre and $y$ is the yield in tonnes per hectare. Write the equation of the least-squares line and describe the association.",
+        "structure": "interpret-least-squares-output",
+        "solution_text": "$y = 82.4 - 0.56x$\n$r = -0.88$ is negative and its size lies between $0.75$ and $1$.\nThere is a strong negative linear association between weed density and yield."
+      },
+      {
+        "question_text": "A calculator reports $b = 0.7368$, $a = 5.3149$ and $r = 0.8574$. Write the equation of the least-squares regression line with each coefficient correct to two decimal places.",
+        "structure": "equation-from-calculator-output",
+        "solution_text": "The $y$-intercept is $a = 5.3149$, which rounds to $5.31$.\nThe gradient is $b = 0.7368$, which rounds to $0.74$.\n$y = 5.31 + 0.74x$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "For a dataset, $\\bar{x} = 6.5$, $\\bar{y} = 74.2$, $s_x = 2.4$, $s_y = 8.6$ and $r = 0.68$. Find the equation of the least-squares regression line, giving each coefficient correct to two decimal places.",
+        "structure": "equation-from-summary-statistics",
+        "solution_text": "$b = 0.68 \\times \\frac{8.6}{2.4}$\n$= 0.68 \\times 3.58333\\ldots$\n$= 2.43666\\ldots$\n$a = 74.2 - 2.43666\\ldots \\times 6.5$\n$= 74.2 - 15.83833\\ldots$\n$= 58.36166\\ldots$\nRounding only at the end,\n$y = 58.36 + 2.44x$"
+      },
+      {
+        "question_text": "For a dataset, $\\bar{x} = 45$, $\\bar{y} = 128$, $s_x = 12$, $s_y = 15$ and $r = -0.64$. Find the equation of the least-squares regression line.",
+        "structure": "equation-from-summary-statistics",
+        "solution_text": "$b = -0.64 \\times \\frac{15}{12}$\n$= -0.64 \\times 1.25$\n$= -0.8$\n$a = 128 - (-0.8) \\times 45$\n$= 128 + 36$\n$= 164$\n$y = 164 - 0.8x$"
+      },
+      {
+        "question_text": "The least-squares regression line for a machine trial is $t = 96.4 - 1.28d$, where $t$ is the time in seconds and $d$ is the depth setting. Find the depth setting the line associates with a time of $60$ seconds, correct to one decimal place.",
+        "structure": "use-least-squares-line",
+        "solution_text": "$60 = 96.4 - 1.28d$\n$1.28d = 96.4 - 60$\n$1.28d = 36.4$\n$d = \\frac{36.4}{1.28}$\n$= 28.4375$\n$= 28.4$"
+      },
+      {
+        "question_text": "A wellbeing study gives calculator output $a = 12.9$, $b = 0.148$ and $r = 0.34$, where $x$ is minutes of daily meditation and $y$ is a wellbeing score. Write the least-squares equation and comment on how reliable predictions from it would be.",
+        "structure": "interpret-least-squares-output",
+        "solution_text": "$y = 12.9 + 0.148x$\n$r = 0.34$ is positive but its size is below $0.5$, so the linear association is weak.\nThe points are widely spread about the line, so predictions made from this equation would be unreliable."
+      },
+      {
+        "question_text": "A student reads $a = 3.42$ and $b = 17.6$ from a calculator and writes the least-squares line as $y = 17.6 + 3.42x$. Explain the error and write the correct equation.",
+        "structure": "identify-a-and-b",
+        "solution_text": "The calculator's $a$ is the $y$-intercept and its $b$ is the gradient, so the student has swapped the two roles.\nThe $y$-intercept is $3.42$ and the gradient is $17.6$.\n$y = 3.42 + 17.6x$"
+      },
+      {
+        "question_text": "For the least-squares regression line $y = 18.5 + 2.34x$, find the increase in the predicted value of $y$ when $x$ increases from $15$ to $40$.",
+        "structure": "use-least-squares-line",
+        "solution_text": "At $x = 15$: $y = 18.5 + 2.34(15) = 18.5 + 35.1 = 53.6$\nAt $x = 40$: $y = 18.5 + 2.34(40) = 18.5 + 93.6 = 112.1$\n$112.1 - 53.6 = 58.5$"
+      },
+      {
+        "question_text": "For a dataset of house size $s$ (in square metres) and price $P$ (in thousands of dollars), a calculator reports $a = 186.5$ and $b = 2.94$. Write the equation of the least-squares regression line using $s$ and $P$.",
+        "structure": "equation-from-calculator-output",
+        "solution_text": "House size is the independent variable and price is the dependent variable, so $s$ replaces $x$ and $P$ replaces $y$.\n$P = 186.5 + 2.94s$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For a dataset, $\\bar{x} = 28$, $\\bar{y} = 61.4$, $s_x = 6.2$, $s_y = 9.3$ and $r = -0.8$. Find the equation of the least-squares regression line and use it to predict $y$ when $x = 35$.",
+        "structure": "equation-from-summary-statistics",
+        "solution_text": "$b = -0.8 \\times \\frac{9.3}{6.2}$\n$= -0.8 \\times 1.5$\n$= -1.2$\n$a = 61.4 - (-1.2) \\times 28$\n$= 61.4 + 33.6$\n$= 95$\n$y = 95 - 1.2x$\nAt $x = 35$:\n$y = 95 - 1.2(35)$\n$= 95 - 42$\n$= 53$"
+      },
+      {
+        "question_text": "Two calculators are used on the same dataset. One reports $b = 1.45$ with $r = -0.83$; the other reports $b = -1.45$ with $r = -0.83$. Decide which output must be wrong, and justify your answer.",
+        "structure": "interpret-least-squares-output",
+        "solution_text": "The gradient of the least-squares line and the correlation coefficient always have the same sign, because the gradient is $r \\times \\frac{s_y}{s_x}$ and both standard deviations are positive.\nThe first output pairs a positive gradient with a negative $r$, which is impossible, so the first output must be wrong.\nThe second output, $b = -1.45$ with $r = -0.83$, is consistent."
+      },
+      {
+        "question_text": "A least-squares line $y = 34.6 + 0.52x$ models a student's final mark $y$ from their attendance percentage $x$. Student A attends $62\\%$ and student B attends $88\\%$. Find both predicted marks and the difference between them.",
+        "structure": "use-least-squares-line",
+        "solution_text": "Student A, $x = 62$:\n$y = 34.6 + 0.52(62)$\n$= 34.6 + 32.24$\n$= 66.84$\nStudent B, $x = 88$:\n$y = 34.6 + 0.52(88)$\n$= 34.6 + 45.76$\n$= 80.36$\n$80.36 - 66.84 = 13.52$"
+      }
+    ]
+  }
+}

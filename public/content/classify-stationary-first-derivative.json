@@ -1,0 +1,130 @@
+{
+  "skillId": "classify-stationary-first-derivative",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **first-derivative test** classifies a stationary point from the sign of $f'(x)$ just left and just right of it. Positive then negative is a local maximum, negative then positive a local minimum. No sign change is a horizontal point of inflection.",
+    "facts": [
+      "The nature of a stationary point is decided by the sign of $f'$ on each side, not by $f'$ at the point.",
+      "$f'$ changing from positive to negative across the point gives a **local maximum**, where the curve rises then falls.",
+      "$f'$ changing from negative to positive gives a **local minimum**, where the curve falls then rises.",
+      "The same sign of $f'$ on both sides gives a **horizontal point of inflection**, where the curve flattens without turning.",
+      "Choose test values close enough that no other stationary point lies between them and the point being classified.",
+      "A **slope table** lists $x$, the value of $f'(x)$ and a slope stroke $/$, $-$ or $\\backslash$ for each test value.",
+      "The same test works for exponential, logarithmic and trigonometric curves; only the derivative changes.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x},{1-\\x*\\x});\n\\draw[dashed] (-0.5,1) -- (0.5,1);\n\\node[font=\\small] at (0,1.9) {Local maximum};\n\\node[font=\\small] at (0,-1.9) {$f'$: $+$ then $-$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+3.6},{\\x*\\x-1});\n\\draw[dashed] (3.1,-1) -- (4.1,-1);\n\\node[font=\\small] at (3.6,1.9) {Local minimum};\n\\node[font=\\small] at (3.6,-1.9) {$f'$: $-$ then $+$};\n\\draw[thick,<->,domain=-1.2:1.2,smooth,variable=\\x] plot ({\\x+7.2},{0.8*\\x*\\x*\\x});\n\\draw[dashed] (6.7,0) -- (7.7,0);\n\\node[font=\\small] at (7.2,1.9) {Horizontal inflection};\n\\node[font=\\small] at (7.2,-1.9) {$f'$: $+$ then $+$};\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "Differentiate to find $f'(x)$ and solve $f'(x) = 0$",
+      "Choose a test value on each side of every stationary point",
+      "Record the sign of $f'(x)$ at each test value in a slope table",
+      "Read the sign pattern to classify each stationary point"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A curve $y = f(x)$ has a stationary point at $x = 4$, and these values of the derivative are known.\n$\\begin{array}{c|ccc} x & 3 & 4 & 5 \\\\ \\hline f'(x) & -7 & 0 & 6 \\end{array}$\nClassify the stationary point.",
+        "structure": "classify-from-sign-table",
+        "solution_text": "$f'(3) = -7 < 0$, so the curve is falling to the left of $x = 4$.\n$f'(5) = 6 > 0$, so the curve is rising to the right of $x = 4$.\nThe sign of $f'$ changes from negative to positive, so $x = 4$ is a local minimum."
+      },
+      {
+        "question_text": "A curve $y = f(x)$ has its only stationary point at $x = 2$, and these values of the derivative are known.\n$\\begin{array}{c|ccc} x & 1 & 2 & 3 \\\\ \\hline f'(x) & 5 & 0 & 8 \\end{array}$\nClassify the stationary point.",
+        "structure": "classify-from-sign-table",
+        "solution_text": "$f'(1) = 5 > 0$ and $f'(3) = 8 > 0$, so the curve is rising on both sides.\nThe sign of $f'$ does not change, so $x = 2$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "The derivative of $y = f(x)$ is $f'(x) = (x - 2)(x + 5)$. Classify the stationary point at $x = -5$.",
+        "structure": "classify-from-derivative-factored",
+        "solution_text": "$f'(-6) = (-8)(-1) = 8 > 0$\n$f'(-4) = (-6)(1) = -6 < 0$\nThe sign of $f'$ changes from positive to negative, so $x = -5$ is a local maximum."
+      },
+      {
+        "question_text": "The derivative of $y = f(x)$ is $f'(x) = -3(x - 1)(x - 7)$. Classify the stationary point at $x = 1$.",
+        "structure": "classify-from-derivative-factored",
+        "solution_text": "$f'(0) = -3(-1)(-7) = -21 < 0$\n$f'(2) = -3(1)(-5) = 15 > 0$\nThe sign of $f'$ changes from negative to positive, so $x = 1$ is a local minimum."
+      },
+      {
+        "question_text": "The derivative of $y = f(x)$ is $f'(x) = (x + 4)^2$. Classify the stationary point at $x = -4$.",
+        "structure": "classify-from-derivative-factored",
+        "solution_text": "$f'(-5) = (-1)^2 = 1 > 0$\n$f'(-3) = (1)^2 = 1 > 0$\nA square is never negative, so $f'$ keeps the same sign on both sides.\nThere is no sign change, so $x = -4$ is a horizontal point of inflection."
+      },
+      {
+        "question_text": "Find the stationary point of $f(x) = xe^{x}$ and classify it using the first-derivative test.",
+        "structure": "classify-stationary-exponential",
+        "solution_text": "1. **Differentiate to find $f'(x)$ and solve $f'(x) = 0$**\n$f'(x) = e^{x} + xe^{x}$\n$= e^{x}(1 + x)$\nSince $e^{x} > 0$ for all $x$, $f'(x) = 0$ when $1 + x = 0$.\n$x = -1$\n$f(-1) = -e^{-1}$\n2. **Record the sign of $f'(x)$ at each test value in a slope table**\n$f'(-2) = e^{-2}(-1) < 0$\n$f'(0) = e^{0}(1) = 1 > 0$\nThe sign changes from negative to positive, so there is a local minimum at $\\left(-1, -\\dfrac{1}{e}\\right)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-3.8, xmax=1.5, ymin=-1.2, ymax=3.2, samples=100, clip=false,\n             xtick={-3,-2,-1,1}, ytick={-1,1,2,3}]\n\\addplot[smooth, thick, <->, domain=-3.8:1.05] {x*exp(x)};\n\\addplot[only marks, mark=*] coordinates {(-1,-0.3679)};\n\\node[below right, font=\\small] at (axis cs:-1,-0.3679) {$\\left(-1,-\\frac{1}{e}\\right)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the stationary point of $f(x) = \\ln x - x$ for $x > 0$ and classify it using the first-derivative test.",
+        "structure": "classify-stationary-logarithmic",
+        "solution_text": "$f'(x) = \\dfrac{1}{x} - 1$\nSet $f'(x) = 0$:\n$\\dfrac{1}{x} = 1$\n$x = 1$\n$f(1) = \\ln 1 - 1 = -1$\n$f'\\left(\\tfrac{1}{2}\\right) = 2 - 1 = 1 > 0$\n$f'(2) = \\tfrac{1}{2} - 1 = -\\tfrac{1}{2} < 0$\nThe sign changes from positive to negative, so there is a local maximum at $(1, -1)$."
+      },
+      {
+        "question_text": "The curve $f(x) = \\sin x + \\cos x$ has a stationary point at $x = \\dfrac{\\pi}{4}$ in the domain $0 \\le x \\le 2\\pi$. Classify it using the first-derivative test.",
+        "structure": "classify-stationary-trigonometric",
+        "solution_text": "$f'(x) = \\cos x - \\sin x$\n$f'(0) = 1 - 0 = 1 > 0$\n$f'\\left(\\tfrac{\\pi}{2}\\right) = 0 - 1 = -1 < 0$\nThe sign changes from positive to negative, so $x = \\dfrac{\\pi}{4}$ is a local maximum.\n$f\\left(\\tfrac{\\pi}{4}\\right) = \\dfrac{\\sqrt{2}}{2} + \\dfrac{\\sqrt{2}}{2} = \\sqrt{2}$\nThe local maximum is at $\\left(\\dfrac{\\pi}{4}, \\sqrt{2}\\right)$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = xe^{-2x}$.",
+        "structure": "classify-stationary-exponential",
+        "solution_text": "$f'(x) = e^{-2x} - 2xe^{-2x}$\n$= e^{-2x}(1 - 2x)$\nSet $f'(x) = 0$. Since $e^{-2x} > 0$, $1 - 2x = 0$.\n$x = \\dfrac{1}{2}$\n$f\\left(\\tfrac{1}{2}\\right) = \\tfrac{1}{2}e^{-1}$\n$f'(0) = 1 > 0$\n$f'(1) = e^{-2}(-1) < 0$\nThe sign changes from positive to negative, so there is a local maximum at $\\left(\\dfrac{1}{2}, \\dfrac{1}{2e}\\right)$."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = (x - 3)e^{x}$.",
+        "structure": "classify-stationary-exponential",
+        "solution_text": "$f'(x) = e^{x} + (x - 3)e^{x}$\n$= e^{x}(x - 2)$\nSet $f'(x) = 0$. Since $e^{x} > 0$, $x - 2 = 0$.\n$x = 2$\n$f(2) = -e^{2}$\n$f'(1) = e(1 - 2) < 0$\n$f'(3) = e^{3}(3 - 2) > 0$\nThe sign changes from negative to positive, so there is a local minimum at $\\left(2, -e^{2}\\right)$."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = x^{2}\\ln x$ for $x > 0$.",
+        "structure": "classify-stationary-logarithmic",
+        "solution_text": "$f'(x) = 2x\\ln x + x$\n$= x(2\\ln x + 1)$\nSet $f'(x) = 0$. Since $x > 0$, $2\\ln x + 1 = 0$.\n$\\ln x = -\\dfrac{1}{2}$\n$x = e^{-\\frac{1}{2}}$\n$f'\\left(e^{-2}\\right) = e^{-2}(-4 + 1) < 0$\n$f'(1) = 1(0 + 1) = 1 > 0$\nThe sign changes from negative to positive, so there is a local minimum.\n$f\\left(e^{-\\frac{1}{2}}\\right) = e^{-1}\\left(-\\tfrac{1}{2}\\right) = -\\dfrac{1}{2e}$\nThe local minimum is at $\\left(e^{-\\frac{1}{2}}, -\\dfrac{1}{2e}\\right)$."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = x + \\sin x$ for $-2\\pi < x < 2\\pi$.",
+        "structure": "classify-stationary-trigonometric",
+        "solution_text": "$f'(x) = 1 + \\cos x$\nSet $f'(x) = 0$:\n$\\cos x = -1$\n$x = -\\pi$ or $x = \\pi$\nSince $\\cos x \\ge -1$ for every $x$, $f'(x) = 1 + \\cos x \\ge 0$ everywhere.\nThe derivative is positive on both sides of each point, so neither is a turning point.\nThere are horizontal points of inflection at $(-\\pi, -\\pi)$ and $(\\pi, \\pi)$."
+      },
+      {
+        "question_text": "Find and classify the stationary points of $f(x) = 2\\sin x + x$ for $0 \\le x \\le 2\\pi$.",
+        "structure": "classify-stationary-trigonometric",
+        "solution_text": "1. **Differentiate to find $f'(x)$ and solve $f'(x) = 0$**\n$f'(x) = 2\\cos x + 1$\n$\\cos x = -\\dfrac{1}{2}$\n$x = \\dfrac{2\\pi}{3}$ or $x = \\dfrac{4\\pi}{3}$\n2. **Record the sign of $f'(x)$ at each test value in a slope table**\n$f'\\left(\\tfrac{\\pi}{2}\\right) = 0 + 1 = 1 > 0$\n$f'(\\pi) = -2 + 1 = -1 < 0$\n$f'\\left(\\tfrac{3\\pi}{2}\\right) = 0 + 1 = 1 > 0$\nAt $x = \\dfrac{2\\pi}{3}$ the sign changes from positive to negative, a local maximum at $\\left(\\dfrac{2\\pi}{3}, \\sqrt{3} + \\dfrac{2\\pi}{3}\\right)$.\nAt $x = \\dfrac{4\\pi}{3}$ the sign changes from negative to positive, a local minimum at $\\left(\\dfrac{4\\pi}{3}, \\dfrac{4\\pi}{3} - \\sqrt{3}\\right)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-0.4, xmax=7.1, ymin=-0.6, ymax=7.4, samples=100, clip=false,\n             xtick={2.0944,4.1888,6.2832}, xticklabels={$\\frac{2\\pi}{3}$,$\\frac{4\\pi}{3}$,$2\\pi$},\n             ytick={2,4,6}]\n\\addplot[smooth, thick, domain=0:6.2832] {2*sin(deg(x)) + x};\n\\addplot[only marks, mark=*] coordinates {(2.0944,3.8264) (4.1888,2.4568)};\n\\node[above left, font=\\small] at (axis cs:2.0944,3.8264) {max};\n\\node[below right, font=\\small] at (axis cs:4.1888,2.4568) {min};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The curve $f(x) = x\\sqrt{9 - x^{2}}$ has derivative $f'(x) = \\dfrac{9 - 2x^{2}}{\\sqrt{9 - x^{2}}}$ for $-3 < x < 3$. Classify the stationary point at $x = \\dfrac{3}{\\sqrt{2}}$.",
+        "structure": "classify-stationary-surd",
+        "solution_text": "The denominator $\\sqrt{9 - x^{2}}$ is positive throughout $-3 < x < 3$, so the sign of $f'$ is the sign of $9 - 2x^{2}$.\n$f'(2) = \\dfrac{9 - 8}{\\sqrt{5}} > 0$\n$f'(2.5) = \\dfrac{9 - 12.5}{\\sqrt{2.75}} < 0$\nThe sign changes from positive to negative, so there is a local maximum.\n$f\\left(\\tfrac{3}{\\sqrt{2}}\\right) = \\dfrac{3}{\\sqrt{2}} \\times \\sqrt{9 - \\tfrac{9}{2}} = \\dfrac{3}{\\sqrt{2}} \\times \\dfrac{3}{\\sqrt{2}} = \\dfrac{9}{2}$\nThe local maximum is at $\\left(\\dfrac{3}{\\sqrt{2}}, \\dfrac{9}{2}\\right)$."
+      },
+      {
+        "question_text": "The diagram shows the graph of $y = f'(x)$, the derivative of a function $y = f(x)$. Classify the stationary points of $y = f(x)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-3.4, xmax=5.4, ymin=-5.6, ymax=6.8, samples=100, clip=false,\n             xtick={-3,-2,-1,1,2,3,4,5}, ytick={-4,-2,2,4,6}]\n\\addplot[smooth, thick, <->, domain=-2.16:4.16] {x*x - 2*x - 3};\n\\node[font=\\small] at (axis cs:3.7,4.7) {$y=f'(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "classify-from-derivative-graph",
+        "solution_text": "The graph of $y = f'(x)$ cuts the $x$-axis at $x = -1$ and $x = 3$, so these are the stationary points of $y = f(x)$.\nTo the left of $x = -1$ the graph of $f'$ lies above the axis, so $f'(x) > 0$.\nBetween $x = -1$ and $x = 3$ it lies below the axis, so $f'(x) < 0$.\nTo the right of $x = 3$ it lies above the axis again, so $f'(x) > 0$.\nAt $x = -1$ the sign changes from positive to negative, a local maximum.\nAt $x = 3$ the sign changes from negative to positive, a local minimum."
+      },
+      {
+        "question_text": "A curve $y = f(x)$ has stationary points only at $x = -1$ and $x = 2$, and these values of the derivative are known.\n$\\begin{array}{c|ccccc} x & -2 & -1 & 0 & 2 & 3 \\\\ \\hline f'(x) & 8 & 0 & -4 & 0 & 9 \\end{array}$\nClassify both stationary points.",
+        "structure": "classify-from-sign-table",
+        "solution_text": "Across $x = -1$ the sign of $f'$ goes from $+8$ to $-4$, a change from positive to negative.\nSo $x = -1$ is a local maximum.\nAcross $x = 2$ the sign of $f'$ goes from $-4$ to $+9$, a change from negative to positive.\nSo $x = 2$ is a local minimum."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find and classify all stationary points of $f(x) = x^{2}e^{-x}$.",
+        "structure": "classify-stationary-exponential",
+        "solution_text": "$f'(x) = 2xe^{-x} - x^{2}e^{-x}$\n$= xe^{-x}(2 - x)$\nSince $e^{-x} > 0$, $f'(x) = 0$ when $x = 0$ or $x = 2$.\n$f(0) = 0$ and $f(2) = 4e^{-2}$\n$f'(-1) = (-1)e^{1}(3) < 0$\n$f'(1) = (1)e^{-1}(1) > 0$\n$f'(3) = (3)e^{-3}(-1) < 0$\nAt $x = 0$ the sign changes from negative to positive, a local minimum at $(0, 0)$.\nAt $x = 2$ the sign changes from positive to negative, a local maximum at $\\left(2, \\dfrac{4}{e^{2}}\\right)$."
+      },
+      {
+        "question_text": "The derivative of $y = f(x)$ is $f'(x) = x^{2}(x - 4)^{3}$. Classify every stationary point of $y = f(x)$.",
+        "structure": "classify-from-derivative-factored",
+        "solution_text": "$f'(x) = 0$ when $x = 0$ or $x = 4$.\n$f'(-1) = (1)(-125) = -125 < 0$\n$f'(1) = (1)(-27) = -27 < 0$\nThere is no sign change at $x = 0$, so it is a horizontal point of inflection.\n$f'(3) = (9)(-1) = -9 < 0$\n$f'(5) = (25)(1) = 25 > 0$\nThe sign changes from negative to positive at $x = 4$, so it is a local minimum."
+      },
+      {
+        "question_text": "A curve has derivative $f'(x) = k(x - 2)(x - 6)$, where $k$ is a non-zero constant. The stationary point at $x = 2$ is a local minimum. Determine the sign of $k$ and classify the stationary point at $x = 6$.",
+        "structure": "classify-from-derivative-factored",
+        "solution_text": "$f'(1) = k(-1)(-5) = 5k$\n$f'(3) = k(1)(-3) = -3k$\nFor a local minimum at $x = 2$ the sign must go from negative to positive, so $5k < 0$ and $-3k > 0$.\nBoth require $k < 0$.\nWith $k < 0$:\n$f'(5) = k(3)(-1) = -3k > 0$\n$f'(7) = k(5)(1) = 5k < 0$\nThe sign changes from positive to negative, so $x = 6$ is a local maximum."
+      },
+      {
+        "question_text": "Find and classify the stationary point of $f(x) = \\dfrac{\\ln x}{x}$ for $x > 0$.",
+        "structure": "classify-stationary-logarithmic",
+        "solution_text": "$f'(x) = \\dfrac{x \\times \\frac{1}{x} - \\ln x \\times 1}{x^{2}}$\n$= \\dfrac{1 - \\ln x}{x^{2}}$\nSet $f'(x) = 0$. Since $x^{2} > 0$, $1 - \\ln x = 0$.\n$\\ln x = 1$\n$x = e$\n$f'(1) = \\dfrac{1 - 0}{1} = 1 > 0$\n$f'\\left(e^{2}\\right) = \\dfrac{1 - 2}{e^{4}} < 0$\nThe sign changes from positive to negative, so there is a local maximum at $\\left(e, \\dfrac{1}{e}\\right)$."
+      }
+    ]
+  }
+}

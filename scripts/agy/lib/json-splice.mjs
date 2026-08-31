@@ -44,32 +44,35 @@ export function scanObjectSpans(raw) {
   return spans;
 }
 
-// Span of the ARRAY value belonging to `"key":` searched from `from`. String-aware search
-// for the key token, then the first '[' after the colon, then bracket-balance to its ']'.
-export function findArraySpan(raw, key, from = 0) {
+// Index of the `"key":` token itself, skipping any occurrence that is really the CONTENT
+// of a string (a question that mentions "theory" in its prose, say). -1 when absent.
+export function findKeyIndex(raw, key, from = 0) {
   const token = `"${key}"`;
-  let i = from;
   let inString = false;
   let escaped = false;
-  let keyAt = -1;
-  for (; i < raw.length; i++) {
+  for (let i = from; i < raw.length; i++) {
     const c = raw[i];
     if (escaped) { escaped = false; continue; }
     if (c === '\\' && inString) { escaped = true; continue; }
     if (c === '"') {
-      if (!inString && raw.startsWith(token, i)) {
-        const after = raw.slice(i + token.length).match(/^\s*:/);
-        if (after) { keyAt = i; break; }
-      }
+      if (!inString && raw.startsWith(token, i) && /^\s*:/.test(raw.slice(i + token.length))) return i;
       inString = !inString;
-      continue;
     }
   }
+  return -1;
+}
+
+// Span of the ARRAY value belonging to `"key":` searched from `from`: the key token, then
+// the first '[' after the colon, then bracket-balance to its ']'.
+export function findArraySpan(raw, key, from = 0) {
+  const token = `"${key}"`;
+  const keyAt = findKeyIndex(raw, key, from);
   if (keyAt === -1) return null;
   const open = raw.indexOf('[', keyAt + token.length);
   if (open === -1) return null;
   let depth = 0;
-  inString = false; escaped = false;
+  let inString = false;
+  let escaped = false;
   for (let j = open; j < raw.length; j++) {
     const c = raw[j];
     if (escaped) { escaped = false; continue; }
@@ -114,6 +117,19 @@ export function spliceQuizItem(raw, itemId, replacement) {
   });
   if (matches.length !== 1) throw new Error(`quiz item ${itemId}: found ${matches.length} matching object(s)`);
   return serialiseAt(raw, matches[0], replacement);
+}
+
+// Replace the whole `theory` object. Theory has no per-item addressing — its three fields
+// are read as one block — so the theory-figure lane returns the object entire and the
+// splice keeps every byte outside it (practice, quiz, key order, escapes) intact.
+export function spliceTheory(raw, replacement) {
+  const keyAt = findKeyIndex(raw, 'theory');
+  if (keyAt === -1) throw new Error('no "theory" key found');
+  const open = raw.indexOf('{', keyAt + '"theory"'.length);
+  if (open === -1) throw new Error('no "theory" object found');
+  const span = scanObjectSpans(raw).find(s => s.start === open);
+  if (!span) throw new Error('"theory" object is unbalanced');
+  return serialiseAt(raw, span, replacement);
 }
 
 // Replace practice item `index` (0-based) in tier 'foundation'|'development'|'mastery'.

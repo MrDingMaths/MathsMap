@@ -1,0 +1,131 @@
+{
+  "skillId": "area-integral-symmetry",
+  "atomType": "R",
+  "theory": {
+    "intro": "Over an interval $[-a,a]$, symmetry shortens the work. An **odd** function has $\\int_{-a}^{a} f(x)\\,dx = 0$, because the two signed halves cancel. An **even** function has $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
+    "facts": [
+      "A function is **even** if $f(-x)=f(x)$, so its graph is symmetric about the $y$-axis.",
+      "A function is **odd** if $f(-x)=-f(x)$, so its graph has point symmetry about the origin.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=1cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-3.4) -- (0,3.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=100, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x});\n\\node[below left] at (-2,0) {$-a$};\n\\node[below right] at (2,0) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+      "Test parity by substituting $-x$ for every $x$ and simplifying the signs.",
+      "For an odd function, $\\int_{-a}^{a} f(x)\\,dx = 0$, since the signed halves are equal and opposite.",
+      "For an even function, $\\int_{-a}^{a} f(x)\\,dx = 2\\int_{0}^{a} f(x)\\,dx$.",
+      "In a sum, each term can be treated separately, so odd terms contribute $0$ and even terms double.",
+      "An odd function still encloses **area** with the $x$-axis; that area is twice the area of the half on $[0,a]$.",
+      "So an integral of $0$ over $[-a,a]$ does not mean the enclosed area is $0$."
+    ],
+    "steps": [
+      "Test each term for parity by substituting $-x$.",
+      "Replace every odd term's integral over $[-a,a]$ with $0$.",
+      "Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$.",
+      "For an area, take the absolute value of each half before doubling."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-3}^{3} x^{5}\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.011cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-300) -- (0,300) node[above] {$y$};\n\\draw[thick, <->, domain=-3.1:3.1, smooth, samples=120, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[left] at (0,200) {$200$};\n\\node[left] at (0,-200) {$-200$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-integral-zero",
+        "solution_text": "$f(-x) = (-x)^{5} = -x^{5} = -f(x)$, so $f$ is odd.\n$\\int_{-3}^{3} x^{5}\\,dx$\n$= 0$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-2}^{2}\\left(x^{3}-4x\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.05cm, y=0.75cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x-4*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-4*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.1,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-4.6) -- (0,4.6) node[above] {$y$};\n\\draw[thick, <->, domain=-2.42:2.42, smooth, samples=120, variable=\\x] plot ({\\x},{\\x*\\x*\\x-4*\\x});\n\\node[below left] at (-2,0) {$-2$};\n\\node[above right] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-integral-zero",
+        "solution_text": "$f(-x) = -x^{3}+4x = -\\left(x^{3}-4x\\right) = -f(x)$, so $f$ is odd.\n$\\int_{-2}^{2}\\left(x^{3}-4x\\right)dx$\n$= 0$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-2}^{2} x^{2}\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.15cm, y=0.85cm]\n\\fill[gray!35, domain=-2:2, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3,0) -- (3,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,6.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.4:2.4, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x});\n\\node[below left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f(-x) = (-x)^{2} = x^{2} = f(x)$, so $f$ is even.\n$\\int_{-2}^{2} x^{2}\\,dx$\n$= 2\\int_{0}^{2} x^{2}\\,dx$\n$= 2\\left[\\dfrac{x^{3}}{3}\\right]_{0}^{2}$\n$= 2\\left(\\dfrac{8}{3}\\right)$\n$= \\dfrac{16}{3}$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-1}^{1}\\left(3x^{2}+1\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.5cm, y=0.85cm]\n\\fill[gray!35, domain=-1:1, variable=\\x] (-1,0) -- plot ({\\x},{3*\\x*\\x+1}) -- (1,0) -- cycle;\n\\draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,6.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.3:1.3, smooth, samples=100, variable=\\x] plot ({\\x},{3*\\x*\\x+1});\n\\node[below left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f(-x) = 3x^{2}+1 = f(x)$, so $f$ is even.\n$\\int_{-1}^{1}\\left(3x^{2}+1\\right)dx$\n$= 2\\int_{0}^{1}\\left(3x^{2}+1\\right)dx$\n$= 2\\left[x^{3}+x\\right]_{0}^{1}$\n$= 2\\left(2\\right)$\n$= 4$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-3}^{3}\\left(x^{2}+2\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.7cm, y=0.4cm]\n\\fill[gray!35, domain=-3:3, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x+2}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,14.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3.5:3.5, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x+2});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[left] at (0,10) {$10$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f(-x) = x^{2}+2 = f(x)$, so $f$ is even.\n$\\int_{-3}^{3}\\left(x^{2}+2\\right)dx$\n$= 2\\int_{0}^{3}\\left(x^{2}+2\\right)dx$\n$= 2\\left[\\dfrac{x^{3}}{3}+2x\\right]_{0}^{3}$\n$= 2\\left(9+6\\right)$\n$= 30$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-2}^{2}\\left(x^{3}+6x^{2}\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.95cm, y=0.13cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x+6*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x+6*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.4,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-8) -- (0,42) node[above] {$y$};\n\\draw[thick, <->, domain=-2.8:2.25, smooth, samples=120, variable=\\x] plot ({\\x},{\\x*\\x*\\x+6*\\x*\\x});\n\\node[below left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,20) {$20$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "split-by-parity",
+        "solution_text": "1. **Test each term for parity by substituting $-x$**\n$x^{3}$ is odd and $6x^{2}$ is even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-2}^{2} x^{3}\\,dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-2}^{2} 6x^{2}\\,dx = 2\\left[2x^{3}\\right]_{0}^{2} = 2\\left(16\\right) = 32$\n$\\int_{-2}^{2}\\left(x^{3}+6x^{2}\\right)dx = 0+32$\n$= 32$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-1}^{1}\\left(5x^{7}+3\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.5cm, y=0.62cm]\n\\fill[gray!35, domain=-1:0, variable=\\x] (-1,0) -- plot ({\\x},{5*\\x*\\x*\\x*\\x*\\x*\\x*\\x+3}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1, variable=\\x] (0,0) -- plot ({\\x},{5*\\x*\\x*\\x*\\x*\\x*\\x*\\x+3}) -- (1,0) -- cycle;\n\\draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[->] (0,-4.4) -- (0,10.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.05:1.05, smooth, samples=140, variable=\\x] plot ({\\x},{5*\\x*\\x*\\x*\\x*\\x*\\x*\\x+3});\n\\node[below left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\node[left] at (0,3) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "split-by-parity",
+        "solution_text": "1. **Test each term for parity by substituting $-x$**\n$5x^{7}$ is odd and $3$ is even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-1}^{1} 5x^{7}\\,dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-1}^{1} 3\\,dx = 2\\left[3x\\right]_{0}^{1} = 6$\n$\\int_{-1}^{1}\\left(5x^{7}+3\\right)dx = 0+6$\n$= 6$"
+      },
+      {
+        "question_text": "The shaded region lies between $y=x^{3}$ and the $x$-axis, from $x=-2$ to $x=2$. Use symmetry to find its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.36cm, y=0.24cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-2.7,0) -- (2.7,0) node[right] {$x$};\n\\draw[->] (0,-12.4) -- (0,12.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, smooth, samples=100, variable=\\x] plot ({\\x},{\\x*\\x*\\x});\n\\node[above left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,8) {$8$};\n\\node[left] at (0,-8) {$-8$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-area-not-zero",
+        "solution_text": "$f(-x) = -x^{3} = -f(x)$, so $f$ is odd and $\\int_{-2}^{2} x^{3}\\,dx = 0$.\nThe two halves have equal area, so the total area is twice the area on $0\\le x\\le 2$.\n$2\\int_{0}^{2} x^{3}\\,dx$\n$= 2\\left[\\dfrac{x^{4}}{4}\\right]_{0}^{2}$\n$= 2\\left(4\\right)$\n$= 8\\ \\text{units}^{2}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The shaded region lies between $y=x^{3}-9x$ and the $x$-axis, from $x=-3$ to $x=3$. Use symmetry to find its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=0.24cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x*\\x-9*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-9*\\x}) -- (3,0) -- cycle;\n\\draw[->] (-4.4,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-14.4) -- (0,14.4) node[above] {$y$};\n\\draw[thick, <->, domain=-3.5:3.5, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x-9*\\x});\n\\node[below left] at (-3,0) {$-3$};\n\\node[above right] at (3,0) {$3$};\n\\node[left] at (0,10) {$10$};\n\\node[left] at (0,-10) {$-10$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-area-not-zero",
+        "solution_text": "$f(-x) = -x^{3}+9x = -f(x)$, so $f$ is odd and $\\int_{-3}^{3} f(x)\\,dx = 0$.\nOn $0\\le x\\le 3$ the curve lies below the $x$-axis.\n$\\int_{0}^{3}\\left(x^{3}-9x\\right)dx = \\left[\\dfrac{x^{4}}{4}-\\dfrac{9x^{2}}{2}\\right]_{0}^{3} = \\dfrac{81}{4}-\\dfrac{81}{2} = -\\dfrac{81}{4}$\n$\\text{Area} = 2\\times\\dfrac{81}{4}$\n$= \\dfrac{81}{2}\\ \\text{units}^{2}$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-2}^{2}\\left(x^{4}-3x^{2}\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1cm, y=0.5cm]\n\\fill[gray!35, domain=-2:-1.732, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x*\\x-3*\\x*\\x}) -- (-1.732,0) -- cycle;\n\\fill[gray!35, domain=-1.732:0, variable=\\x] (-1.732,0) -- plot ({\\x},{\\x*\\x*\\x*\\x-3*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1.732, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x-3*\\x*\\x}) -- (1.732,0) -- cycle;\n\\fill[gray!35, domain=1.732:2, variable=\\x] (1.732,0) -- plot ({\\x},{\\x*\\x*\\x*\\x-3*\\x*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.1,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-4.4) -- (0,7.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.14:2.14, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x-3*\\x*\\x});\n\\node[above left] at (-2,0) {$-2$};\n\\node[above right] at (2,0) {$2$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f(-x) = x^{4}-3x^{2} = f(x)$, so $f$ is even.\n$\\int_{-2}^{2}\\left(x^{4}-3x^{2}\\right)dx$\n$= 2\\int_{0}^{2}\\left(x^{4}-3x^{2}\\right)dx$\n$= 2\\left[\\dfrac{x^{5}}{5}-x^{3}\\right]_{0}^{2}$\n$= 2\\left(\\dfrac{32}{5}-8\\right)$\n$= -\\dfrac{16}{5}$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-\\pi}^{\\pi}\\left(2\\sin x+5\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=0.55cm]\n\\fill[gray!35, domain=-3.1416:0, variable=\\x] (-3.1416,0) -- plot ({\\x},{2*sin(deg(\\x))+5}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3.1416, variable=\\x] (0,0) -- plot ({\\x},{2*sin(deg(\\x))+5}) -- (3.1416,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-1.8) -- (0,9.4) node[above] {$y$};\n\\draw[thick, <->, domain=-4:4, smooth, samples=140, variable=\\x] plot ({\\x},{2*sin(deg(\\x))+5});\n\\node[below] at (-3.1416,0) {$-\\pi$};\n\\node[below] at (3.1416,0) {$\\pi$};\n\\node[left] at (0,5) {$5$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "split-by-parity",
+        "solution_text": "1. **Test each term for parity by substituting $-x$**\n$2\\sin(-x) = -2\\sin x$, so $2\\sin x$ is odd; $5$ is even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-\\pi}^{\\pi} 2\\sin x\\,dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-\\pi}^{\\pi} 5\\,dx = 2\\left[5x\\right]_{0}^{\\pi} = 10\\pi$\n$\\int_{-\\pi}^{\\pi}\\left(2\\sin x+5\\right)dx = 0+10\\pi$\n$= 10\\pi$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-1}^{1}\\left(x^{3}+6x^{2}+2\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.5cm, y=0.5cm]\n\\fill[gray!35, domain=-1:1, variable=\\x] (-1,0) -- plot ({\\x},{\\x*\\x*\\x+6*\\x*\\x+2}) -- (1,0) -- cycle;\n\\draw[->] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[->] (0,-2.4) -- (0,12.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.3:1.18, smooth, samples=120, variable=\\x] plot ({\\x},{\\x*\\x*\\x+6*\\x*\\x+2});\n\\node[below left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\node[left] at (0,10) {$10$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "split-by-parity",
+        "solution_text": "1. **Test each term for parity by substituting $-x$**\n$x^{3}$ is odd; $6x^{2}$ and $2$ are even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-1}^{1} x^{3}\\,dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-1}^{1}\\left(6x^{2}+2\\right)dx = 2\\left[2x^{3}+2x\\right]_{0}^{1} = 2\\left(4\\right) = 8$\n$\\int_{-1}^{1}\\left(x^{3}+6x^{2}+2\\right)dx = 0+8$\n$= 8$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-1}^{1}\\left(4-x^{2}\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.4cm, y=1cm]\n\\fill[gray!35, domain=-1:1, variable=\\x] (-1,0) -- plot ({\\x},{4-\\x*\\x}) -- (1,0) -- cycle;\n\\draw[->] (-2.4,0) -- (2.4,0) node[right] {$x$};\n\\draw[->] (0,-1.4) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-1.9:1.9, smooth, samples=100, variable=\\x] plot ({\\x},{4-\\x*\\x});\n\\node[below left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\node[left] at (0,4) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f(-x) = 4-x^{2} = f(x)$, so $f$ is even.\n$\\int_{-1}^{1}\\left(4-x^{2}\\right)dx$\n$= 2\\int_{0}^{1}\\left(4-x^{2}\\right)dx$\n$= 2\\left[4x-\\dfrac{x^{3}}{3}\\right]_{0}^{1}$\n$= 2\\left(4-\\dfrac{1}{3}\\right)$\n$= \\dfrac{22}{3}$"
+      },
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-3}^{3}\\dfrac{x}{x^{2}+4}\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.85cm, y=7cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x/(\\x*\\x+4)}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x/(\\x*\\x+4)}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-0.4) -- (0,0.4) node[above] {$y$};\n\\draw[thick, <->, domain=-4:4, smooth, samples=140, variable=\\x] plot ({\\x},{\\x/(\\x*\\x+4)});\n\\node[below left] at (-3,0) {$-3$};\n\\node[above right] at (3,0) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-integral-zero",
+        "solution_text": "$f(-x) = \\dfrac{-x}{x^{2}+4} = -f(x)$, so $f$ is odd.\n$\\int_{-3}^{3}\\dfrac{x}{x^{2}+4}\\,dx$\n$= 0$"
+      },
+      {
+        "question_text": "The shaded region lies between $y=x^{5}$ and the $x$-axis, from $x=-1$ to $x=1$. Use symmetry to find its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=2.2cm, y=2.2cm]\n\\fill[gray!35, domain=-1:0, variable=\\x] (-1,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x}) -- (1,0) -- cycle;\n\\draw[->] (-1.5,0) -- (1.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,1.5) node[above] {$y$};\n\\draw[thick, <->, domain=-1.08:1.08, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x});\n\\node[above left] at (-1,0) {$-1$};\n\\node[below right] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-area-not-zero",
+        "solution_text": "$f(-x) = -x^{5} = -f(x)$, so $f$ is odd and $\\int_{-1}^{1} x^{5}\\,dx = 0$.\nThe two halves have equal area, so the total area is twice the area on $0\\le x\\le 1$.\n$2\\int_{0}^{1} x^{5}\\,dx$\n$= 2\\left[\\dfrac{x^{6}}{6}\\right]_{0}^{1}$\n$= 2\\left(\\dfrac{1}{6}\\right)$\n$= \\dfrac{1}{3}\\ \\text{units}^{2}$"
+      },
+      {
+        "question_text": "Explain why $\\int_{-2}^{2} x^{3}\\sqrt{x^{2}+1}\\,dx = 0$ without finding a primitive.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.15cm, y=0.14cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{\\x*\\x*\\x*sqrt(\\x*\\x+1)}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*sqrt(\\x*\\x+1)}) -- (2,0) -- cycle;\n\\draw[->] (-2.9,0) -- (2.9,0) node[right] {$x$};\n\\draw[->] (0,-24) -- (0,24) node[above] {$y$};\n\\draw[thick, <->, domain=-2.05:2.05, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x*sqrt(\\x*\\x+1)});\n\\node[above left] at (-2,0) {$-2$};\n\\node[below right] at (2,0) {$2$};\n\\node[left] at (0,15) {$15$};\n\\node[left] at (0,-15) {$-15$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-integral-zero",
+        "solution_text": "$f(-x) = (-x)^{3}\\sqrt{(-x)^{2}+1}$\n$= -x^{3}\\sqrt{x^{2}+1}$\n$= -f(x)$\nSince $f$ is odd and the limits $-2$ and $2$ are symmetric, the signed areas on each side of the $y$-axis are equal and opposite, so the integral is $0$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Use symmetry to evaluate $\\int_{-3}^{3}\\left(x^{5}-2x^{3}+4x^{2}-6\\right)dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.011cm]\n\\fill[gray!35, domain=-3:0, variable=\\x] (-3,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6}) -- (3,0) -- cycle;\n\\draw[->] (-4.6,0) -- (4.6,0) node[right] {$x$};\n\\draw[->] (0,-330) -- (0,330) node[above] {$y$};\n\\draw[thick, <->, domain=-3.05:3.05, smooth, samples=160, variable=\\x] plot ({\\x},{\\x*\\x*\\x*\\x*\\x-2*\\x*\\x*\\x+4*\\x*\\x-6});\n\\node[below left] at (-3,0) {$-3$};\n\\node[below right] at (3,0) {$3$};\n\\node[left] at (0,200) {$200$};\n\\node[left] at (0,-200) {$-200$};\n\\node[right, font=\\footnotesize] at (0.2,-45) {$f(0)=-6$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "split-by-parity",
+        "solution_text": "1. **Test each term for parity by substituting $-x$**\n$x^{5}$ and $-2x^{3}$ are odd; $4x^{2}$ and $-6$ are even.\n2. **Replace every odd term's integral over $[-a,a]$ with $0$**\n$\\int_{-3}^{3}\\left(x^{5}-2x^{3}\\right)dx = 0$\n3. **Replace every even term's integral over $[-a,a]$ with twice the integral over $[0,a]$**\n$\\int_{-3}^{3}\\left(4x^{2}-6\\right)dx = 2\\left[\\dfrac{4x^{3}}{3}-6x\\right]_{0}^{3} = 2\\left(36-18\\right) = 36$\n$\\int_{-3}^{3}\\left(x^{5}-2x^{3}+4x^{2}-6\\right)dx = 0+36$\n$= 36$"
+      },
+      {
+        "question_text": "The shaded region lies between $y=x^{3}-x$ and the $x$-axis, from $x=-1$ to $x=1$. Find its **area**.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=2.2cm, y=4.4cm]\n\\fill[gray!35, domain=-1:0, variable=\\x] (-1,0) -- plot ({\\x},{\\x*\\x*\\x-\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:1, variable=\\x] (0,0) -- plot ({\\x},{\\x*\\x*\\x-\\x}) -- (1,0) -- cycle;\n\\draw[->] (-1.6,0) -- (1.6,0) node[right] {$x$};\n\\draw[->] (0,-0.75) -- (0,0.75) node[above] {$y$};\n\\draw[thick, <->, domain=-1.24:1.24, smooth, samples=140, variable=\\x] plot ({\\x},{\\x*\\x*\\x-\\x});\n\\node[below left] at (-1,0) {$-1$};\n\\node[above right] at (1,0) {$1$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-area-not-zero",
+        "solution_text": "$f(-x) = -x^{3}+x = -f(x)$, so $f$ is odd and $\\int_{-1}^{1} f(x)\\,dx = 0$.\nOn $0\\le x\\le 1$ the curve lies below the $x$-axis.\n$\\int_{0}^{1}\\left(x^{3}-x\\right)dx = \\left[\\dfrac{x^{4}}{4}-\\dfrac{x^{2}}{2}\\right]_{0}^{1} = \\dfrac{1}{4}-\\dfrac{1}{2} = -\\dfrac{1}{4}$\n$\\text{Area} = 2\\times\\dfrac{1}{4}$\n$= \\dfrac{1}{2}\\ \\text{units}^{2}$"
+      },
+      {
+        "question_text": "The function $f$ is even, and the shaded region between $y=f(x)$ and the $x$-axis from $x=0$ to $x=4$ has $\\int_{0}^{4} f(x)\\,dx = 7$. Find $\\int_{-4}^{4} f(x)\\,dx$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.62cm, y=0.62cm]\n\\fill[gray!35, domain=0:4, variable=\\x] (0,0) -- plot ({\\x},{3-0.15*\\x*\\x}) -- (4,0) -- cycle;\n\\draw[->] (-5.8,0) -- (5.8,0) node[right] {$x$};\n\\draw[->] (0,-2.2) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-5:5, smooth, samples=120, variable=\\x] plot ({\\x},{3-0.15*\\x*\\x});\n\\node[below left] at (-4,0) {$-4$};\n\\node[below right] at (4,0) {$4$};\n\\node[right] at (2.2,3.4) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "even-integral-double",
+        "solution_text": "$f$ is even, so the graph is symmetric about the $y$-axis and the two halves contribute equally.\n$\\int_{-4}^{4} f(x)\\,dx$\n$= 2\\int_{0}^{4} f(x)\\,dx$\n$= 2\\left(7\\right)$\n$= 14$"
+      },
+      {
+        "question_text": "The function $g$ is odd, and the region between $y=g(x)$ and the $x$-axis from $x=0$ to $x=2$ has area $5$ square units. Find the total area between $y=g(x)$ and the $x$-axis from $x=-2$ to $x=2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=0.5cm]\n\\fill[gray!35, domain=-2:0, variable=\\x] (-2,0) -- plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x}) -- (0,0) -- cycle;\n\\fill[gray!35, domain=0:2, variable=\\x] (0,0) -- plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x}) -- (2,0) -- cycle;\n\\draw[->] (-3.1,0) -- (3.1,0) node[right] {$x$};\n\\draw[->] (0,-5.4) -- (0,5.4) node[above] {$y$};\n\\draw[thick, <->, domain=-2.2:2.2, smooth, samples=140, variable=\\x] plot ({\\x},{0.35*\\x*\\x*\\x+0.4*\\x});\n\\node[below left] at (-2,0) {$-2$};\n\\node[above right] at (2,0) {$2$};\n\\node[right] at (0.6,4.4) {$y=g(x)$};\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "odd-area-not-zero",
+        "solution_text": "$g$ is odd, so the graph has point symmetry about the origin and the region on $-2\\le x\\le 0$ is a rotation of the region on $0\\le x\\le 2$.\nThe two regions therefore have equal area, even though $\\int_{-2}^{2} g(x)\\,dx = 0$.\n$\\text{Area} = 2\\times 5$\n$= 10\\ \\text{units}^{2}$"
+      }
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "skillId": "differentiate-ax",
+  "atomType": "R",
+  "theory": {
+    "intro": "Any positive base can be written with base $e$, since $a = e^{\\ln a}$ and so $a^{x} = e^{x\\ln a}$. Differentiating that form gives $\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$. The extra factor $\\ln a$ equals $1$ only when $a = e$.",
+    "facts": [
+      "$a^{x} = e^{x\\ln a}$ for any base $a > 0$, because $a = e^{\\ln a}$.",
+      "$\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$, so the function is multiplied by the constant $\\ln a$.",
+      "$\\dfrac{d}{dx}\\left(ka^{mx+c}\\right) = km(\\ln a)a^{mx+c}$, the chain rule contributing the extra factor $m$.",
+      "When $a = e$ we have $\\ln e = 1$, so the rule collapses to $\\dfrac{d}{dx}\\left(e^{x}\\right) = e^{x}$.",
+      "$\\ln a$ is a fixed number, not a function of $x$, so it behaves like any other constant coefficient.",
+      "The power rule does not apply, because $x$ is the index and $a$ is the base: $\\dfrac{d}{dx}\\left(2^{x}\\right) \\ne x2^{x-1}$.",
+      "Omitting $\\ln a$ is the most common error: $\\dfrac{d}{dx}\\left(3^{x}\\right) \\ne 3^{x}$, since $\\ln 3 \\ne 1$.",
+      "The rule needs $a > 0$, so an expression such as $(-3)^{x}$ is not a real exponential function."
+    ],
+    "steps": [
+      "Write the function in the form $ka^{mx+c}$ with base $a > 0$.",
+      "Multiply by $\\ln a$, the natural logarithm of the base.",
+      "Multiply by $m$, the coefficient of $x$ in the index.",
+      "Keep the index unchanged and simplify the constant factors."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Differentiate $y = 7^{x}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-x",
+        "solution_text": "$y = 7^{x}$\n$\\dfrac{dy}{dx} = (\\ln 7)7^{x}$"
+      },
+      {
+        "question_text": "Differentiate $y = 4 \\times 3^{x}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-x",
+        "solution_text": "$y = 4 \\times 3^{x}$\n$\\dfrac{dy}{dx} = 4(\\ln 3)3^{x}$"
+      },
+      {
+        "question_text": "Differentiate $y = 3^{x} + x^{3}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-x",
+        "solution_text": "$y = 3^{x} + x^{3}$\n$\\dfrac{dy}{dx} = (\\ln 3)3^{x} + 3x^{2}$"
+      },
+      {
+        "question_text": "Differentiate $y = e^{x}$ using the rule $\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$, and say why the result agrees with the base $e$ rule.",
+        "structure": "special-base-e",
+        "solution_text": "$y = e^{x}$\n$\\dfrac{dy}{dx} = (\\ln e)e^{x}$\n$= 1 \\times e^{x}$\n$= e^{x}$\nThe factor $\\ln e$ equals $1$, so the general rule reduces to $\\dfrac{d}{dx}\\left(e^{x}\\right) = e^{x}$."
+      },
+      {
+        "question_text": "Express $y = 2^{x}$ as a power of $e$, then differentiate it. Give your answer in simplest form.",
+        "structure": "rewrite-base-e-and-differentiate",
+        "solution_text": "$y = 2^{x}$\n$= e^{x\\ln 2}$\n$\\dfrac{dy}{dx} = (\\ln 2)e^{x\\ln 2}$\n$= (\\ln 2)2^{x}$"
+      },
+      {
+        "question_text": "Express $y = 10^{x}$ as a power of $e$, then differentiate it. Give your answer in simplest form.",
+        "structure": "rewrite-base-e-and-differentiate",
+        "solution_text": "$y = 10^{x}$\n$= e^{x\\ln 10}$\n$\\dfrac{dy}{dx} = (\\ln 10)e^{x\\ln 10}$\n$= (\\ln 10)10^{x}$"
+      },
+      {
+        "question_text": "Differentiate $y = 6^{2x}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-linear-index",
+        "solution_text": "$y = 6^{2x}$\n$\\dfrac{dy}{dx} = 2(\\ln 6)6^{2x}$"
+      },
+      {
+        "question_text": "Differentiate $y = 5^{3x-4}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-linear-index",
+        "solution_text": "$y = 5^{3x-4}$\n$\\dfrac{dy}{dx} = 3(\\ln 5)5^{3x-4}$"
+      },
+      {
+        "question_text": "Differentiate $y = 8^{-x}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-linear-index",
+        "solution_text": "$y = 8^{-x}$\n$\\dfrac{dy}{dx} = -(\\ln 8)8^{-x}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Differentiate $y = 2 \\times 7^{4x+1}$. Give your answer in simplest form.",
+        "structure": "differentiate-a-linear-index",
+        "solution_text": "$y = 2 \\times 7^{4x+1}$\n$\\dfrac{dy}{dx} = 2 \\times 4(\\ln 7)7^{4x+1}$\n$= 8(\\ln 7)7^{4x+1}$"
+      },
+      {
+        "question_text": "Prove that $\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$ for $a > 0$, by first writing $a^{x}$ as a power of $e$.",
+        "structure": "rewrite-base-e-and-differentiate",
+        "solution_text": "$a = e^{\\ln a}$\n$a^{x} = \\left(e^{\\ln a}\\right)^{x}$\n$= e^{x\\ln a}$\nThe index is $x\\ln a$, whose coefficient of $x$ is the constant $\\ln a$.\n$\\dfrac{d}{dx}\\left(e^{x\\ln a}\\right) = (\\ln a)e^{x\\ln a}$\n$= (\\ln a)a^{x}$"
+      },
+      {
+        "question_text": "For $y = 4^{x}$, find $\\dfrac{dy}{dx}$ and then evaluate it at $x = 2$, giving your answer in exact form and correct to two decimal places.",
+        "structure": "evaluate-derivative-at-point",
+        "solution_text": "$y = 4^{x}$\n$\\dfrac{dy}{dx} = (\\ln 4)4^{x}$\nAt $x = 2$:\n$\\dfrac{dy}{dx} = (\\ln 4)4^{2}$\n$= 16\\ln 4$\n$= 22.18$ (2 d.p.)"
+      },
+      {
+        "question_text": "For $f(x) = 2^{3x}$, find $f'(1)$ in exact form and correct to two decimal places.",
+        "structure": "evaluate-derivative-at-point",
+        "solution_text": "$f(x) = 2^{3x}$\n$f'(x) = 3(\\ln 2)2^{3x}$\n$f'(1) = 3(\\ln 2)2^{3}$\n$= 24\\ln 2$\n$= 16.64$ (2 d.p.)"
+      },
+      {
+        "question_text": "A function has the form $f(x) = a^{x}$ with $a > 0$, and $f'(0) = \\ln 11$. Find $a$.",
+        "structure": "find-unknown-constant",
+        "solution_text": "$f(x) = a^{x}$\n$f'(x) = (\\ln a)a^{x}$\n$f'(0) = (\\ln a)a^{0}$\n$= \\ln a$\n$\\ln a = \\ln 11$\n$a = 11$"
+      },
+      {
+        "question_text": "The function $g(x) = k \\times 2^{x}$ has $g'(3) = 40\\ln 2$. Find $k$.",
+        "structure": "find-unknown-constant",
+        "solution_text": "$g(x) = k \\times 2^{x}$\n$g'(x) = k(\\ln 2)2^{x}$\n$g'(3) = k(\\ln 2)2^{3}$\n$= 8k\\ln 2$\n$8k\\ln 2 = 40\\ln 2$\n$k = 5$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = 3^{x}$ at the point where $x = 1$, in the form $y = mx + c$.",
+        "structure": "tangent-to-exponential",
+        "solution_text": "At $x = 1$: $y = 3^{1} = 3$, so the point is $(1, 3)$.\n$\\dfrac{dy}{dx} = (\\ln 3)3^{x}$\n$m = (\\ln 3)3^{1}$\n$= 3\\ln 3$\n$y - 3 = 3(\\ln 3)(x - 1)$\n$y = 3(\\ln 3)x - 3\\ln 3 + 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Find the exact value of $x$ for which the curve $y = 3^{x}$ has gradient $9\\ln 3$.",
+        "structure": "find-unknown-constant",
+        "solution_text": "$y = 3^{x}$\n$\\dfrac{dy}{dx} = (\\ln 3)3^{x}$\n$(\\ln 3)3^{x} = 9\\ln 3$\n$3^{x} = 9$\n$3^{x} = 3^{2}$\n$x = 2$"
+      },
+      {
+        "question_text": "Find the equation of the tangent to $y = 2^{x+3}$ at the point where $x = -3$, in general form.",
+        "structure": "tangent-to-exponential",
+        "solution_text": "At $x = -3$: $y = 2^{0} = 1$, so the point is $(-3, 1)$.\n$\\dfrac{dy}{dx} = (\\ln 2)2^{x+3}$\n$m = (\\ln 2)2^{0}$\n$= \\ln 2$\n$y - 1 = (\\ln 2)(x + 3)$\n$y = (\\ln 2)x + 3\\ln 2 + 1$\n$(\\ln 2)x - y + 3\\ln 2 + 1 = 0$"
+      },
+      {
+        "question_text": "Explain why $\\dfrac{d}{dx}\\left(a^{x}\\right) = a^{x}$ holds for one base only, and state that base.",
+        "structure": "special-base-e",
+        "solution_text": "$\\dfrac{d}{dx}\\left(a^{x}\\right) = (\\ln a)a^{x}$\nThis equals $a^{x}$ only when the factor $\\ln a$ equals $1$.\n$\\ln a = 1$\n$a = e$\nSo $e^{x}$ is the only exponential function that is its own derivative."
+      }
+    ]
+  }
+}

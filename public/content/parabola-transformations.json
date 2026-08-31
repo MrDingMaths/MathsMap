@@ -2,20 +2,22 @@
   "skillId": "parabola-transformations",
   "atomType": "T",
   "theory": {
-    "intro": "The parabola $y=k(x-b)^2+c$ is the basic curve $y=x^2$ after transformations set by the three parameters $k$, $b$ and $c$. Reading the parameters tells you the shape and position of the graph, and the vertex (turning point) is $(b,c)$, read straight from the equation with no calculation.",
-    "facts": [
-      "$k$ sets the **concavity** and **width**: $k>0$ opens upward (concave up, U), $k<0$ opens downward (concave down, $\\cap$); $|k|>1$ makes the parabola **narrower** and $0<|k|<1$ makes it **wider** than $y=x^2$.",
-      "$b$ gives a **horizontal** translation. The sign flips: $y=(x-3)^2$ is $y=x^2$ moved **right** $3$, while $y=(x+3)^2$ is moved **left** $3$.",
-      "$c$ gives a **vertical** translation: $y=x^2+c$ moves the graph **up** $c$ when $c>0$ and **down** $|c|$ when $c<0$.",
-      "$y=-x^2$ is $y=x^2$ **reflected** in the $x$-axis.",
-      "The **vertex** of $y=k(x-b)^2+c$ is $(b,c)$; the value of $k$ changes the shape but never moves the vertex."
-    ],
-    "steps": [
-      "State the concavity and width from $k$.",
-      "State the horizontal translation from $b$.",
-      "State the vertical translation from $c$."
-    ]
-  },
+        "intro": "The parabola $y=k(x-b)^2+c$ is $y=x^2$ reshaped and moved by the three numbers $k$, $b$ and $c$. Read them off the equation to describe the graph. The **vertex** is $(b,c)$.",
+        "facts": [
+          "$k>0$ opens the parabola upward (**concave up**), and $k<0$ opens it downward (**concave down**).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-3.6, xmax=3.6, ymin=-5, ymax=5, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, blue, <->, domain=-2.15:2.15] {x*x};\n\\addplot[smooth, thick, red, dashed, <->, domain=-2.15:2.15] {-x*x};\n\\node[blue] at (axis cs:3.0,3.2) {$k>0$};\n\\node[red] at (axis cs:3.0,-3.2) {$k<0$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$y=-x^2$ is $y=x^2$ **reflected** in the $x$-axis.",
+          "$|k|>1$ makes the parabola **narrower** than $y=x^2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.6, xmax=4.6, ymin=-1.2, ymax=5.6, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-1.87:1.87] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=-1.29:1.29] {3*x*x};\n\\node[anchor=east] at (axis cs:-2.3,3.5) {$y=x^{2}$};\n\\node[anchor=west, blue] at (axis cs:1.6,5.0) {$|k|>1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$0<|k|<1$ makes it **wider** than $y=x^2$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.4, xmax=5.4, ymin=-1.2, ymax=4.6, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-1.87:1.87] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=-3:3] {0.3*x*x};\n\\node[anchor=east] at (axis cs:-2.2,3.5) {$y=x^{2}$};\n\\node[anchor=west, blue] at (axis cs:3.3,2.7) {$0<|k|<1$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$b$ translates the graph horizontally with the sign flipped: $y=(x-3)^2$ moves **right** $3$ and $y=(x+3)^2$ moves **left** $3$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-4.4, xmax=6.8, ymin=-2.0, ymax=4.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-1.87:1.87] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=1.13:4.87] {(x-3)*(x-3)};\n\\addplot[-{Stealth}, thick] coordinates {(0,-0.9) (3,-0.9)};\n\\node[below] at (axis cs:1.5,-0.95) {$b$};\n\\addplot[only marks, mark=*, blue] coordinates {(3,0)};\n\\node[anchor=west] at (axis cs:-4.3,3.5) {$y=x^{2}$};\n\\node[anchor=east, blue] at (axis cs:6.7,4.3) {$y=(x-b)^{2}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "$c$ translates the graph vertically: **up** $c$ when $c>0$ and **down** $|c|$ when $c<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.0, xmax=5.0, ymin=-1.2, ymax=6.8, samples=100, clip=false, axis line style={-{Stealth}}, xtick=\\empty, ytick=\\empty]\n\\addplot[smooth, thick, dashed, <->, domain=-2.2:2.2] {x*x};\n\\addplot[smooth, thick, blue, <->, domain=-2.14:2.14] {x*x+2};\n\\addplot[-{Stealth}, thick] coordinates {(-3.4,0) (-3.4,2)};\n\\node[anchor=east] at (axis cs:-3.5,1.0) {$c$};\n\\node[anchor=east] at (axis cs:-2.9,4.6) {$y=x^{2}$};\n\\node[anchor=west, blue] at (axis cs:2.5,6.3) {$y=x^{2}+c$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+          "The **vertex** of $y=k(x-b)^2+c$ is $(b,c)$, and changing $k$ never moves it."
+        ],
+        "steps": [
+          "State the concavity and width from $k$.",
+          "State the horizontal translation from $b$.",
+          "State the vertical translation from $c$."
+        ]
+      },
   "practice": {
     "foundation": [
       {

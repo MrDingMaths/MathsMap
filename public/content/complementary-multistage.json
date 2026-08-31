@@ -2,21 +2,22 @@
   "skillId": "complementary-multistage",
   "atomType": "R",
   "theory": {
-    "intro": "The complement of \"**at least one**\" is \"**none**\". Listing every way of getting at least one success is slow — with three shots there are seven such paths — but there is only ever **one** path with none at all. So find the probability of the 'none' path by multiplying along its branches, then subtract from $1$: $P(\\text{at least one}) = 1 - P(\\text{none})$. The same idea handles the complement of 'all', since $P(\\text{at least one fails}) = 1 - P(\\text{all work})$.",
-    "facts": [
-      "The complement of \"at least one\" is \"none\", so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
-      "The complement of \"all\" is \"at least one not\", so $P(\\text{at least one fails}) = 1 - P(\\text{all work})$.",
-      "\"None\" is a single path on the tree, so its probability is found by multiplying one set of branches.",
-      "For independent stages the 'none' branches keep the same probability at every stage; without replacement they change as items are removed.",
-      "$1 - P(\\text{exactly one})$ is **not** the probability of at least one — 'exactly one' is only part of 'at least one'.",
-      "Give the answer in the form of the given data: a fraction in simplest form, a decimal, or a percentage."
-    ],
-    "steps": [
-      "Write down the complementary event.",
-      "Find the probability of the complementary event.",
-      "Subtract from 1."
-    ]
-  },
+        "intro": "The **complement** of \"at least one\" is \"none\". Listing every way to get at least one is slow, but there is only ever one path with none, so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
+        "facts": [
+          "The complement of \"at least one\" is \"none\", so $P(\\text{at least one}) = 1 - P(\\text{none})$.",
+          "The complement of \"all\" is \"at least one not\", so $P(\\text{at least one fails}) = 1 - P(\\text{all work})$.",
+          "\"None\" is a single path on the tree, so its probability is one set of branches multiplied together.",
+          "With three stages there are seven paths with at least one success, but only one with none.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (A1) at (1.8,2.0);\n\\coordinate (A2) at (1.8,-2.0);\n\\coordinate (B1) at (3.6,3.0);\n\\coordinate (B2) at (3.6,1.0);\n\\coordinate (B3) at (3.6,-1.0);\n\\coordinate (B4) at (3.6,-3.0);\n\\coordinate (C1) at (5.4,3.5);\n\\coordinate (C2) at (5.4,2.5);\n\\coordinate (C3) at (5.4,1.5);\n\\coordinate (C4) at (5.4,0.5);\n\\coordinate (C5) at (5.4,-0.5);\n\\coordinate (C6) at (5.4,-1.5);\n\\coordinate (C7) at (5.4,-2.5);\n\\coordinate (C8) at (5.4,-3.5);\n\\draw (O) -- (A1) node[midway, above, fill=white, font=\\small] {$S$};\n\\draw[very thick] (O) -- (A2) node[midway, below, fill=white, font=\\small] {$F$};\n\\draw (A1) -- (B1) node[midway, above, fill=white, font=\\small] {$S$};\n\\draw (A1) -- (B2) node[midway, below, fill=white, font=\\small] {$F$};\n\\draw (A2) -- (B3) node[midway, above, fill=white, font=\\small] {$S$};\n\\draw[very thick] (A2) -- (B4) node[midway, below, fill=white, font=\\small] {$F$};\n\\draw (B1) -- (C1);\n\\draw (B1) -- (C2);\n\\draw (B2) -- (C3);\n\\draw (B2) -- (C4);\n\\draw (B3) -- (C5);\n\\draw (B3) -- (C6);\n\\draw (B4) -- (C7);\n\\draw[very thick] (B4) -- (C8);\n\\node[right, font=\\small] at (C1) {$SSS$};\n\\node[right, font=\\small] at (C2) {$SSF$};\n\\node[right, font=\\small] at (C3) {$SFS$};\n\\node[right, font=\\small] at (C4) {$SFF$};\n\\node[right, font=\\small] at (C5) {$FSS$};\n\\node[right, font=\\small] at (C6) {$FSF$};\n\\node[right, font=\\small] at (C7) {$FFS$};\n\\node[right, font=\\small] at (C8) {$FFF$};\n\\node[font=\\small] at (1.8,4.4) {Stage $1$};\n\\node[font=\\small] at (3.6,4.4) {Stage $2$};\n\\node[font=\\small] at (5.4,4.4) {Stage $3$};\n\\node[font=\\small] at (6.9,4.4) {Path};\n\\end{tikzpicture}\n[/tikz]",
+          "For independent stages the 'none' branches keep the same probability at every stage; without replacement they change as items are removed.",
+          "$1 - P(\\text{exactly one})$ is **not** the probability of at least one, because 'exactly one' is only part of 'at least one'.",
+          "Give the answer in the form of the given data: a fraction in simplest form, a decimal, or a percentage."
+        ],
+        "steps": [
+          "Write down the complementary event.",
+          "Find the probability of the complementary event.",
+          "Subtract from 1."
+        ]
+      },
   "practice": {
     "foundation": [
       {

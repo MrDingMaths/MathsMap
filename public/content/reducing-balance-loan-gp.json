@@ -1,0 +1,103 @@
+{
+  "skillId": "reducing-balance-loan-gp",
+  "atomType": "R",
+  "theory": {
+    "intro": "A **reducing balance loan** is a compound interest loan where regular repayments reduce the remaining balance. Each period, interest is charged on the current balance before the repayment is subtracted, causing the interest charged to decrease over time.",
+    "facts": [
+      "The **recurrence relation** is $A_{n}=A_{n-1}(1+r)-M$, where $A_{0}=PV$ is the amount borrowed and $M$ is the periodic repayment.",
+      "The rate per period $r$ is the annual rate divided by the number of compounding periods per year.",
+      "Expanding $A_{1}=PV(1+r)-M$ and $A_{2}=PV(1+r)^{2}-M(1+r)-M$ displays the balance after each payment.",
+      "After $n$ repayments, the subtracted repayments form a **geometric series** with first term $a=M$ and common ratio $1+r$.",
+      "Because the balance decreases after each repayment, the amount of interest charged each period also decreases."
+    ],
+    "steps": [
+      "Identify the initial principal $PV$, annual interest rate, compounding frequency, and repayment $M$.",
+      "Calculate the rate per period $r$ and state the recurrence relation $A_{n}=A_{n-1}(1+r)-M$ with $A_{0}=PV$.",
+      "Expand sequentially for $A_{1}$, $A_{2}$, and $A_{3}$ to establish the pattern of terms.",
+      "Write the general expanded form $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-\\dots-M$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "A loan of $\\$12\\,000$ is taken at $6\\%$ p.a. compounded monthly with monthly repayments of $\\$350$. Write the recurrence relation for the balance $A_{n}$ after $n$ months, specifying the initial value $A_{0}$.",
+        "structure": "write-loan-recurrence-relation",
+        "solution_text": "$r=\\dfrac{0.06}{12}=0.005$\n$A_{0}=\\$12\\,000$\n$A_{n}=A_{n-1}(1.005)-350$"
+      },
+      {
+        "question_text": "A personal loan of $\\$8000$ charges $12\\%$ p.a. compounded quarterly with quarterly repayments of $\\$600$. State the recurrence relation for the balance $A_{n}$, including the initial value $A_{0}$.",
+        "structure": "write-loan-recurrence-relation",
+        "solution_text": "$r=\\dfrac{0.12}{4}=0.03$\n$A_{0}=\\$8000$\n$A_{n}=A_{n-1}(1.03)-600$"
+      },
+      {
+        "question_text": "A loan of $\\$5000$ is charged interest at $9\\%$ p.a. compounded monthly ($r=0.0075$) with monthly repayments of $\\$200$. Write the unsimplified expression for the balance $A_{2}$ after $2$ months in terms of powers of $1.0075$.",
+        "structure": "expand-loan-balance-terms",
+        "solution_text": "$A_{1}=5000(1.0075)-200$\n$A_{2}=[5000(1.0075)-200](1.0075)-200$\n$=5000(1.0075)^{2}-200(1.0075)-200$"
+      },
+      {
+        "question_text": "A debt of $\\$10\\,000$ grows at $1\\%$ per month with monthly repayments of $\\$400$. Expand $A_{3}$, the balance owing after $3$ repayments, in expanded polynomial form.",
+        "structure": "expand-loan-balance-terms",
+        "solution_text": "$A_{1}=10\\,000(1.01)-400$\n$A_{2}=10\\,000(1.01)^{2}-400(1.01)-400$\n$A_{3}=10\\,000(1.01)^{3}-400(1.01)^{2}-400(1.01)-400$"
+      },
+      {
+        "question_text": "In the reducing balance loan model $A_{n}=20\\,000(1.006)^{n}-M(1.006)^{n-1}-M(1.006)^{n-2}-\\dots-M$, identify the first term $a$, common ratio $R$, and number of terms of the repayment series $M+M(1.006)+\\dots+M(1.006)^{n-1}$.",
+        "structure": "identify-repayment-geometric-series",
+        "solution_text": "$a=M$\n$R=1.006$\n$\\text{Number of terms}=n$"
+      },
+      {
+        "question_text": "An account is modelled by $A_{n}=A_{n-1}(1.004)+250$ with $A_{0}=0$. Explain why this is an annuity investment rather than a reducing balance loan.",
+        "structure": "classify-reducing-balance-loan",
+        "solution_text": "The regular payment of $\\$250$ is added each period ($+250$) starting from zero balance, which accumulates savings rather than reducing a debt.\nA reducing balance loan begins with a non-zero debt $A_{0}=PV$ and subtracts repayments each period ($-M$)."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A car loan of $\\$28\\,000$ incurs interest at $7.2\\%$ p.a. compounded monthly with monthly repayments of $\\$650$. Write the unsimplified expanded expression for $A_{4}$, the balance owing after $4$ months.",
+        "structure": "write-expanded-balance-expression",
+        "solution_text": "$r=\\dfrac{0.072}{12}=0.006$\n$A_{1}=28\\,000(1.006)-650$\n$A_{2}=28\\,000(1.006)^{2}-650(1.006)-650$\n$A_{3}=28\\,000(1.006)^{3}-650(1.006)^{2}-650(1.006)-650$\n$A_{4}=28\\,000(1.006)^{4}-650(1.006)^{3}-650(1.006)^{2}-650(1.006)-650$"
+      },
+      {
+        "question_text": "A borrower takes out a $\\$45\\,000$ loan at $8.4\\%$ p.a. compounded monthly ($r=0.007$) with monthly repayments $M$. Write the expanded expression for $A_{36}$, the balance owing after $3$ years.",
+        "structure": "write-expanded-balance-expression",
+        "solution_text": "$n=3\\times12=36$\n$A_{36}=45\\,000(1.007)^{36}-M(1.007)^{35}-M(1.007)^{34}-\\dots-M$"
+      },
+      {
+        "question_text": "In the loan balance expansion $A_{48}=15\\,000(1.0125)^{48}-350(1.0125)^{47}-350(1.0125)^{46}-\\dots-350$, state the monthly interest rate as a percentage, the repayment amount, and the number of terms in the subtracted geometric series.",
+        "structure": "identify-repayment-geometric-series",
+        "solution_text": "$\\text{Monthly interest rate}=1.25\\%$\n$\\text{Repayment amount}=\\$350$\n$\\text{Number of terms in geometric series}=48$"
+      },
+      {
+        "question_text": "A mortgage of $\\$320\\,000$ charges $5.2\\%$ p.a. compounded fortnightly with fortnightly repayments of $\\$1100$. Assuming $26$ fortnights in a year, write the recurrence relation for $A_{n}$ and state $A_{0}$.",
+        "structure": "write-loan-recurrence-relation",
+        "solution_text": "$r=\\dfrac{0.052}{26}=0.002$\n$A_{0}=\\$320\\,000$\n$A_{n}=A_{n-1}(1.002)-1100$"
+      },
+      {
+        "question_text": "An equipment loan of $\\$16\\,000$ at $10\\%$ p.a. compounded half-yearly ($r=0.05$) is repaid with half-yearly instalments of $\\$1800$. Show by step-by-step expansion that $A_{3}=16\\,000(1.05)^{3}-1800(1.05)^{2}-1800(1.05)-1800$.",
+        "structure": "expand-loan-balance-terms",
+        "solution_text": "$A_{1}=16\\,000(1.05)-1800$\n$A_{2}=[16\\,000(1.05)-1800](1.05)-1800$\n$=16\\,000(1.05)^{2}-1800(1.05)-1800$\n$A_{3}=[16\\,000(1.05)^{2}-1800(1.05)-1800](1.05)-1800$\n$=16\\,000(1.05)^{3}-1800(1.05)^{2}-1800(1.05)-1800$"
+      },
+      {
+        "question_text": "A flat-rate loan of $\\$10\\,000$ at $6\\%$ p.a. and a reducing balance loan of $\\$10\\,000$ at $6\\%$ p.a. are each repaid over $2$ years. Explain why the total interest charged on the reducing balance loan is strictly less than on the flat-rate loan.",
+        "structure": "classify-reducing-balance-loan",
+        "solution_text": "A flat-rate loan calculates interest on the entire original principal $\\$10\\,000$ for the full $2$ years.\nA reducing balance loan calculates interest each period on the remaining unpaid debt, which decreases after every repayment.\nTherefore, the interest charged each period diminishes, resulting in a lower total interest charge."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A business loan of $\\$P$ incurs interest at rate $r$ per month with equal monthly repayments of $\\$M$. If an extra lump sum payment of $\\$L$ is made immediately after the second repayment, write the algebraic expression for $A_{3}$ in expanded form.",
+        "structure": "write-expanded-balance-expression",
+        "solution_text": "$A_{1}=P(1+r)-M$\n$A_{2}=P(1+r)^{2}-M(1+r)-M-L$\n$A_{3}=[P(1+r)^{2}-M(1+r)-M-L](1+r)-M$\n$=P(1+r)^{3}-M(1+r)^{2}-M(1+r)-M-L(1+r)$"
+      },
+      {
+        "question_text": "In a loan balance model $A_{n}=P(1+r)^{n}-M\\sum_{k=0}^{n-1}(1+r)^{k}$, express the sum of repayments $\\sum_{k=0}^{n-1}(1+r)^{k}$ in terms of the geometric series sum formula with first term $a=1$ and ratio $R=1+r$.",
+        "structure": "identify-repayment-geometric-series",
+        "solution_text": "$a=1$\n$R=1+r$\n$S_{n}=\\dfrac{a(R^{n}-1)}{R-1}$\n$=\\dfrac{1[(1+r)^{n}-1]}{(1+r)-1}$\n$=\\dfrac{(1+r)^{n}-1}{r}$"
+      },
+      {
+        "question_text": "A loan is modelled by $A_{n}=A_{n-1}(1.008)-M$, where $A_{0}=\\$50\\,000$. What is the minimum monthly repayment $M$ required so that the balance actually reduces after the first month?",
+        "structure": "classify-reducing-balance-loan",
+        "solution_text": "$A_{1}=50\\,000(1.008)-M$\n$=50\\,000+400-M$\n$A_{1}<50\\,000\\implies50\\,000+400-M<50\\,000$\n$M>400$\nThe repayment must strictly exceed $\\$400$, which is the first month's interest."
+      }
+    ]
+  }
+}

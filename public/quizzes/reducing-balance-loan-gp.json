@@ -1,0 +1,205 @@
+{
+  "skillId": "reducing-balance-loan-gp",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A personal loan of $\\$18\\,000$ charges $9\\%$ p.a. compounded monthly with monthly repayments of $\\$420$. Which recurrence relation models the loan balance $A_{n}$ after $n$ months?",
+      "structure": "write-loan-recurrence-relation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A_{n}=A_{n-1}(1.0075)-420$, with $A_{0}=18\\,000$",
+          "correct": true
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(1.09)-420$, with $A_{0}=18\\,000$",
+          "why": "Used the annual rate with the monthly $n$."
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(1.0075)+420$, with $A_{0}=18\\,000$",
+          "why": "Added repayments instead of subtracting them from the loan balance."
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(0.0075)-420$, with $A_{0}=18\\,000$",
+          "why": "Multiplied by the interest rate alone instead of the growth factor $1+r$."
+        }
+      ],
+      "solution_text": "$r=\\dfrac{0.09}{12}=0.0075$\n$1+r=1.0075$\n$A_{0}=18\\,000$\n$A_{n}=A_{n-1}(1.0075)-420$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A debt of $\\$6000$ has a monthly interest rate of $1\\%$ ($r=0.01$) and monthly repayments of $\\$250$. Which expression represents the balance $A_{2}$ after $2$ repayments?",
+      "structure": "expand-loan-balance-terms",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$6000(1.01)^{2}-250(1.01)-250$",
+          "correct": true
+        },
+        {
+          "text": "$6000(1.01)^{2}-500$",
+          "why": "Subtracted simple total repayments without compounding the first repayment."
+        },
+        {
+          "text": "$6000(1.01)^{2}-250(1.01)^{2}-250$",
+          "why": "Applied an extra power of the growth factor to the first repayment."
+        },
+        {
+          "text": "$6000(1.12)^{2}-250(1.12)-250$",
+          "why": "Used the annual rate with the monthly $n$."
+        }
+      ],
+      "solution_text": "$A_{1}=6000(1.01)-250$\n$A_{2}=A_{1}(1.01)-250$\n$=[6000(1.01)-250](1.01)-250$\n$=6000(1.01)^{2}-250(1.01)-250$"
+    },
+    {
+      "id": "q3",
+      "question_text": "In the loan balance expansion $A_{n}=PV(1+r)^{n}-M(1+r)^{n-1}-M(1+r)^{n-2}-\\dots-M$, what are the common ratio and number of terms of the repayment series $M+M(1+r)+\\dots+M(1+r)^{n-1}$?",
+      "structure": "identify-repayment-geometric-series",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Common ratio $1+r$, number of terms $n$",
+          "correct": true
+        },
+        {
+          "text": "Common ratio $r$, number of terms $n$",
+          "why": "Confused the common ratio with the interest rate $r$ rather than $1+r$."
+        },
+        {
+          "text": "Common ratio $1+r$, number of terms $n-1$",
+          "why": "Counted the highest power $n-1$ instead of the total number of terms from $0$ to $n-1$."
+        },
+        {
+          "text": "Common ratio $M$, number of terms $n$",
+          "why": "Confused the common ratio with the first term $M$."
+        }
+      ],
+      "solution_text": "The terms are $M(1+r)^{0}, M(1+r)^{1}, \\dots, M(1+r)^{n-1}$.\nEach term is multiplied by $1+r$, so the common ratio is $1+r$.\nThe powers range from $0$ to $n-1$, giving $n$ terms."
+    },
+    {
+      "id": "q4",
+      "question_text": "A car loan of $\\$22\\,000$ incurs interest at $6\\%$ p.a. compounded monthly ($r=0.005$) with monthly repayments of $\\$500$. Which is the correct expanded expression for $A_{3}$?",
+      "structure": "write-expanded-balance-expression",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$22\\,000(1.005)^{3}-500(1.005)^{2}-500(1.005)-500$",
+          "correct": true
+        },
+        {
+          "text": "$22\\,000(1.005)^{3}-500(1.005)^{3}-500(1.005)^{2}-500$",
+          "why": "Included four repayment terms instead of three for $A_3$."
+        },
+        {
+          "text": "$22\\,000(1.06)^{3}-500(1.06)^{2}-500(1.06)-500$",
+          "why": "Used the annual rate with the monthly $n$."
+        },
+        {
+          "text": "$22\\,000(1.005)^{3}-1500$",
+          "why": "Treated repayments as a simple uncompounded lump sum."
+        }
+      ],
+      "solution_text": "$A_{1}=22\\,000(1.005)-500$\n$A_{2}=22\\,000(1.005)^{2}-500(1.005)-500$\n$A_{3}=22\\,000(1.005)^{3}-500(1.005)^{2}-500(1.005)-500$"
+    },
+    {
+      "id": "q5",
+      "question_text": "How does a reducing balance loan differ fundamentally from a flat-rate loan?",
+      "structure": "classify-reducing-balance-loan",
+      "mastery": false,
+      "options": [
+        {
+          "text": "Interest on a reducing balance loan is charged only on the remaining balance each period, whereas a flat-rate loan charges interest on the original principal throughout.",
+          "correct": true
+        },
+        {
+          "text": "A reducing balance loan charges simple interest while a flat-rate loan charges compound interest.",
+          "why": "Inverted the interest types between flat-rate and reducing balance loans."
+        },
+        {
+          "text": "A reducing balance loan has repayments that increase each month.",
+          "why": "Mistakenly claims repayments change rather than the interest component changing."
+        },
+        {
+          "text": "A reducing balance loan charges all interest at the end of the loan term.",
+          "why": "Confused reducing balance loans with deferred interest loans."
+        }
+      ],
+      "solution_text": "In a reducing balance loan, interest is calculated on the reducing unpaid principal.\nIn a flat-rate loan, interest is calculated on the initial principal for the entire loan duration.\nTherefore, reducing balance loans charge less total interest over time."
+    },
+    {
+      "id": "q6",
+      "question_text": "A loan of $\\$14\\,000$ charges interest at $7.8\\%$ p.a. compounded half-yearly with half-yearly repayments of $\\$1200$. What is the recurrence relation for the balance $A_{n}$?",
+      "structure": "write-loan-recurrence-relation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A_{n}=A_{n-1}(1.039)-1200$, with $A_{0}=14\\,000$",
+          "correct": true
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(1.078)-1200$, with $A_{0}=14\\,000$",
+          "why": "Used the annual rate with the monthly $n$."
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(1.039)+1200$, with $A_{0}=14\\,000$",
+          "why": "Added the repayments instead of subtracting them from the debt."
+        },
+        {
+          "text": "$A_{n}=A_{n-1}(1.0065)-1200$, with $A_{0}=14\\,000$",
+          "why": "Divided the annual rate by 12 instead of 2 for half-yearly compounding."
+        }
+      ],
+      "solution_text": "$r=\\dfrac{0.078}{2}=0.039$\n$1+r=1.039$\n$A_{0}=14\\,000$\n$A_{n}=A_{n-1}(1.039)-1200$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A borrower takes a loan of $\\$40\\,000$ at $6\\%$ p.a. compounded monthly ($r=0.005$) and makes monthly repayments of $\\$180$. What will happen to the loan balance $A_{n}$ over time?",
+      "structure": "classify-reducing-balance-loan",
+      "mastery": true,
+      "options": [
+        {
+          "text": "The balance increases each month because the monthly repayment of $\\$180$ is less than the first month's interest of $\\$200$.",
+          "correct": true
+        },
+        {
+          "text": "The balance decreases steadily to zero after approximately $222$ months.",
+          "why": "Assumed repayments always pay off the loan regardless of the interest amount."
+        },
+        {
+          "text": "The balance remains constant at $\\$40\\,000$ every month.",
+          "why": "Assumed the repayment exactly balances the monthly interest charge."
+        },
+        {
+          "text": "The loan is paid off in fewer than $100$ months due to compounding.",
+          "why": "Mistakenly believed compounding accelerates loan payoff even when repayments are below interest."
+        }
+      ],
+      "solution_text": "First month interest $=40\\,000\\times0.005=\\$200$\n$A_{1}=40\\,000(1.005)-180=40\\,200-180=\\$40\\,020$\nSince the repayment is less than the interest added, the balance increases indefinitely."
+    },
+    {
+      "id": "q8",
+      "question_text": "For a loan of $\\$P$ at periodic interest rate $r$ with regular repayment $M$, if the borrower makes no repayment at the end of the first period but makes payment $M$ in all subsequent periods, what is the balance $A_{2}$?",
+      "structure": "write-expanded-balance-expression",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$P(1+r)^{2}-M$",
+          "correct": true
+        },
+        {
+          "text": "$P(1+r)^{2}-M(1+r)-M$",
+          "why": "Included a repayment in the first period when none was made."
+        },
+        {
+          "text": "$P(1+r)-M$",
+          "why": "Only compounded the principal for one period instead of two."
+        },
+        {
+          "text": "$P(1+r)^{2}-2M$",
+          "why": "Subtracted two repayments without accounting for the skipped first payment."
+        }
+      ],
+      "solution_text": "$A_{1}=P(1+r)$\n$A_{2}=A_{1}(1+r)-M$\n$=P(1+r)(1+r)-M$\n$=P(1+r)^{2}-M$"
+    }
+  ]
+}

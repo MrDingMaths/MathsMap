@@ -2,19 +2,20 @@
   "skillId": "distinguish-linear-quadratic-exponential",
   "atomType": "Cat",
   "theory": {
-    "intro": "Straight lines, parabolas and exponential curves each have a signature shape and a signature equation. Given a graph, a table or an equation, you can name the family it belongs to.",
-    "facts": [
-      "**Linear** $y=mx+c$: a straight line with a constant slope; in a table the $y$-values change by a constant **difference**.",
-      "**Quadratic** $y=ax^2+bx+c$: a parabola with a turning point and line symmetry; in a table the **second** differences are constant.",
-      "**Exponential** $y=a^x$: a curve that flattens toward an asymptote on one side and shoots away on the other; in a table the $y$-values change by a constant **ratio**.",
-      "Shape clues: a straight line has no bend, a parabola turns back on itself, and an exponential curve never turns but hugs an asymptote."
-    ],
-    "steps": [
-      "Look at the equation's form, the graph's shape, or the table's pattern.",
-      "A constant slope, straight line, or constant first difference means linear.",
-      "A turning point or constant second difference means quadratic; an asymptote or constant ratio means exponential."
-    ]
-  },
+        "intro": "Straight lines, parabolas and exponential curves each have their own shape and their own equation. Given a graph, a table or an equation, you can name which family a relationship belongs to.",
+        "facts": [
+          "**Linear** $y=mx+c$ is a straight line with a constant slope.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[{Stealth}-{Stealth}] (-2.8,0) -- (2.8,0);\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.8);\n\\node at (3.05,-0.3) {$x$};\n\\node at (-0.35,3.0) {$y$};\n\\draw[thick,blue!70!black,<->] (-2.2,-1.6) -- (2.2,2.2);\n\\end{tikzpicture}\n[/tikz]",
+          "**Quadratic** $y=ax^2+bx+c$ is a parabola with a turning point and line symmetry.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[{Stealth}-{Stealth}] (-2.8,0) -- (2.8,0);\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.8);\n\\node at (3.05,-0.3) {$x$};\n\\node at (-0.35,3.0) {$y$};\n\\draw[thick,blue!70!black,<->,domain=-2.1:2.1,smooth,samples=60,variable=\\x] plot ({\\x},{0.8*\\x*\\x-1.3});\n\\end{tikzpicture}\n[/tikz]",
+          "**Exponential** $y=a^x$ is a curve that flattens toward an asymptote on one side and shoots away on the other.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[{Stealth}-{Stealth}] (-2.8,0) -- (2.8,0);\n\\draw[{Stealth}-{Stealth}] (0,-2.6) -- (0,2.8);\n\\node at (3.05,-0.3) {$x$};\n\\node at (-0.35,3.0) {$y$};\n\\draw[thick,blue!70!black,<->,domain=-2.2:1.9,smooth,samples=80,variable=\\x] plot ({\\x},{0.55*exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]",
+          "In a table, $y$-values with a constant **difference** are linear, constant **second** differences are quadratic, and a constant **ratio** is exponential.",
+          "The key difference: a parabola turns back on itself, while an exponential curve never turns."
+        ],
+        "steps": [
+          "Look at the equation's form, the graph's shape, or the table's pattern.",
+          "A constant slope, straight line, or constant first difference means linear.",
+          "A turning point or constant second difference means quadratic; an asymptote or constant ratio means exponential."
+        ]
+      },
   "practice": {
     "foundation": [
       {

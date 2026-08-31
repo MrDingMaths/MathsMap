@@ -1,0 +1,111 @@
+{
+  "skillId": "annuity-lump-sum-and-withdrawals",
+  "atomType": "R",
+  "theory": {
+    "intro": "An account with an initial principal and regular payments is modelled by splitting it into two parts: the initial **lump sum** compounding as $PV(1+r)^{n}$, and a geometric series of regular payments.",
+    "facts": [
+      "For regular **contributions**, the annuity series is **added**: $FV = PV(1+r)^{n} + a\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+      "For regular **withdrawals**, the annuity series is **subtracted**: $A_{n} = PV(1+r)^{n} - M\\left[\\dfrac{(1+r)^{n}-1}{r}\\right]$.",
+      "To fund a retirement pension until the balance reaches zero ($A_{n} = 0$), solve for the required initial deposit $PV$.",
+      "If monthly withdrawals exceed interest earned, the balance decreases over time until the fund is fully exhausted."
+    ],
+    "steps": [
+      "Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.",
+      "Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.",
+      "Add the series for contributions, or subtract it for withdrawals, to find the final balance."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "An account begins with an initial deposit of $\\$5000$. A further $\\$1000$ is deposited at the end of each year for $6\\text{ years}$. The account earns $6\\%$ p.a. compounded annually. Find the value of the account after $6\\text{ years}$.",
+        "structure": "lump-sum-with-contributions",
+        "solution_text": "1. **Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.**\n$\\text{Lump sum value} = 5000(1.06)^{6} = \\$7092.60$\n2. **Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.**\n$\\text{Annuity value} = \\dfrac{1000(1.06^{6}-1)}{0.06} = \\$6975.32$\n3. **Add the series for contributions, or subtract it for withdrawals, to find the final balance.**\n$FV = 7092.60 + 6975.32$\n$= \\$14\\,067.92$"
+      },
+      {
+        "question_text": "A retirement fund starts with $\\$50\\,000$ earning $5\\%$ p.a. compounded annually. At the end of each year, $\\$6000$ is withdrawn. Calculate the balance remaining in the fund after $5\\text{ years}$.",
+        "structure": "lump-sum-with-withdrawals",
+        "solution_text": "1. **Compound the initial principal $PV$ for $n$ periods as $PV(1+r)^{n}$.**\n$\\text{Compounded principal} = 50000(1.05)^{5} = \\$63\\,814.08$\n2. **Form the geometric series for regular payments and sum it using $\\dfrac{a((1+r)^{n}-1)}{r}$.**\n$\\text{Withdrawal series} = \\dfrac{6000(1.05^{5}-1)}{0.05} = \\$33\\,153.79$\n3. **Add the series for contributions, or subtract it for withdrawals, to find the final balance.**\n$A_{5} = 63814.08 - 33153.79$\n$= \\$30\\,660.29$"
+      },
+      {
+        "question_text": "An investment account begins with $\\$12\\,000$. Monthly contributions of $\\$250$ are made at the end of each month for $4\\text{ years}$ at $4.8\\%$ p.a. compounded monthly. Find the balance at the end of $4\\text{ years}$.",
+        "structure": "lump-sum-with-contributions",
+        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 4 \\times 12 = 48$\n$\\text{Lump sum} = 12000(1.004^{48}) = \\$14\\,533.82$\n$\\text{Annuity series} = \\dfrac{250(1.004^{48}-1)}{0.004} = \\$13\\,194.39$\n$FV = 14533.82 + 13194.39$\n$= \\$27\\,728.21$"
+      },
+      {
+        "question_text": "A person deposits an initial lump sum into an account earning $6\\%$ p.a. compounded monthly in order to withdraw $\\$1000$ at the end of each month for $5\\text{ years}$ ($n=60$), leaving a balance of $\\$0$. Find the required initial investment $PV$.",
+        "structure": "solve-initial-lump-sum",
+        "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$, $n = 60$\n$0 = PV(1.005^{60}) - \\dfrac{1000(1.005^{60}-1)}{0.005}$\n$PV(1.005^{60}) = \\dfrac{1000(1.005^{60}-1)}{0.005} = 69770.03$\n$PV = \\dfrac{69770.03}{1.005^{60}}$\n$= \\$51\\,725.56$"
+      },
+      {
+        "question_text": "A term deposit starts with $\\$20\\,000$ and earns $7.2\\%$ p.a. compounded monthly. At the end of each month, $\\$800$ is withdrawn. Calculate the balance remaining after $2\\text{ years}$.",
+        "structure": "lump-sum-with-withdrawals",
+        "solution_text": "$r = \\dfrac{0.072}{12} = 0.006$, $n = 2 \\times 12 = 24$\n$\\text{Compounded principal} = 20000(1.006^{24}) = \\$23\\,088.39$\n$\\text{Withdrawals} = \\dfrac{800(1.006^{24}-1)}{0.006} = \\$20\\,589.24$\n$A_{24} = 23088.39 - 20589.24$\n$= \\$2499.15$"
+      },
+      {
+        "question_text": "A fund begins with $\\$15\\,000$ earning $6\\%$ p.a. compounded monthly. Monthly withdrawals of $\\$500$ are made. How many whole months will it take for the fund to be completely exhausted?",
+        "structure": "solve-drawdown-duration",
+        "solution_text": "$r = \\dfrac{0.06}{12} = 0.005$\n$0 = 15000(1.005^{n}) - \\dfrac{500(1.005^{n}-1)}{0.005}$\n$0 = 15000(1.005^{n}) - 100000(1.005^{n}-1)$\n$0 = 15000(1.005^{n}) - 100000(1.005^{n}) + 100000$\n$85000(1.005^{n}) = 100000$\n$1.005^{n} = \\dfrac{100000}{85000} = \\dfrac{20}{17}$\n$n = \\dfrac{\\ln(20/17)}{\\ln(1.005)} \\approx 32.59$\n$= 33\\text{ months}$"
+      },
+      {
+        "question_text": "An endowment fund starts with $\\$80\\,000$ and earns $4\\%$ p.a. compounded annually. At the end of each year, a scholarship grant of $\\$5000$ is awarded from the fund. Find the balance after $8\\text{ years}$.",
+        "structure": "lump-sum-with-withdrawals",
+        "solution_text": "$r = 0.04$, $n = 8$\n$\\text{Compounded principal} = 80000(1.04^{8}) = \\$109\\,485.50$\n$\\text{Scholarships} = \\dfrac{5000(1.04^{8}-1)}{0.04} = \\$46\\,071.18$\n$A_{8} = 109485.50 - 46071.18$\n$= \\$63\\,414.32$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "A retiree invests $\\$150\\,000$ in an annuity earning $5.4\\%$ p.a. compounded monthly. She withdraws $\\$1400$ at the end of each month for living expenses. Calculate the balance remaining in the fund after $10\\text{ years}$.",
+        "structure": "lump-sum-with-withdrawals",
+        "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 10 \\times 12 = 120$\n$\\text{Compounded principal} = 150000(1.0045^{120}) = \\$257\\,043.91$\n$\\text{Withdrawals} = \\dfrac{1400(1.0045^{120}-1)}{0.0045} = \\$222\\,027.60$\n$A_{120} = 257043.91 - 222027.60$\n$= \\$35\\,016.31$"
+      },
+      {
+        "question_text": "An investor has $\\$25\\,000$ in savings and adds $\\$400$ at the end of each month into an account paying $6.6\\%$ p.a. compounded monthly. Find the total value of the account after $8\\text{ years}$.",
+        "structure": "lump-sum-with-contributions",
+        "solution_text": "$r = \\dfrac{0.066}{12} = 0.0055$, $n = 8 \\times 12 = 96$\n$\\text{Compounded principal} = 25000(1.0055^{96}) = \\$42\\,318.06$\n$\\text{Annuity deposits} = \\dfrac{400(1.0055^{96}-1)}{0.0055} = \\$50\\,382.63$\n$FV = 42318.06 + 50382.63$\n$= \\$92\\,700.69$"
+      },
+      {
+        "question_text": "Determine the initial principal $P$ required in an account paying $4.8\\%$ p.a. compounded monthly so that a retiree can withdraw $\\$1800$ at the end of each month for $12\\text{ years}$, leaving a final balance of exactly $\\$0$.",
+        "structure": "solve-initial-lump-sum",
+        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 12 \\times 12 = 144$\n$0 = P(1.004^{144}) - \\dfrac{1800(1.004^{144}-1)}{0.004}$\n$P(1.004^{144}) = \\dfrac{1800(1.004^{144}-1)}{0.004} = 348560.85$\n$P = \\dfrac{348560.85}{1.004^{144}}$\n$= \\$196\\,413.91$"
+      },
+      {
+        "question_text": "A person with $\\$100\\,000$ in a fund earning $6\\%$ p.a. compounded monthly withdraws $\\$1200$ at the end of each month. (a) Show that the balance $A_{n}$ after $n$ months is $A_{n} = 100000(1.005)^{n} - 200000(1.005^{n}-1)$. (b) Find the number of whole months until the fund is exhausted.",
+        "structure": "solve-drawdown-duration",
+        "solution_text": "$r = 0.005$\n$A_{n} = 100000(1.005)^{n} - \\dfrac{1200(1.005^{n}-1)}{0.005} = 100000(1.005)^{n} - 240000(1.005^{n}-1)$\nSet $A_{n} = 0$:\n$100000(1.005^{n}) - 240000(1.005^{n}) + 240000 = 0$\n$140000(1.005^{n}) = 240000$\n$1.005^{n} = \\dfrac{240000}{140000} = \\dfrac{12}{7}$\n$n = \\dfrac{\\ln(12/7)}{\\ln(1.005)} \\approx 108.08$\n$= 109\\text{ months}$"
+      },
+      {
+        "question_text": "A trust fund begins with $\\$40\\,000$ and receives an additional deposit of $\\$1500$ at the end of each quarter for $6\\text{ years}$. If the fund earns $6\\%$ p.a. compounded quarterly, calculate the total interest earned over the $6\\text{ years}$.",
+        "structure": "lump-sum-with-contributions",
+        "solution_text": "$r = \\dfrac{0.06}{4} = 0.015$, $n = 6 \\times 4 = 24$\n$\\text{Compounded principal} = 40000(1.015^{24}) = \\$57\\,180.03$\n$\\text{Annuity deposits} = \\dfrac{1500(1.015^{24}-1)}{0.015} = \\$42\\,950.04$\n$FV = 57180.03 + 42950.04 = \\$100\\,130.07$\n$\\text{Total principal deposited} = 40000 + (24 \\times 1500) = \\$76\\,000$\n$\\text{Interest} = 100130.07 - 76000$\n$= \\$24\\,130.07$"
+      },
+      {
+        "question_text": "A retiree starts with $\\$200\\,000$ in an investment earning $4.8\\%$ p.a. compounded monthly. If $\\$1600$ is withdrawn at the end of each month, find the balance remaining after $15\\text{ years}$.",
+        "structure": "lump-sum-with-withdrawals",
+        "solution_text": "$r = \\dfrac{0.048}{12} = 0.004$, $n = 15 \\times 12 = 180$\n$\\text{Compounded principal} = 200000(1.004^{180}) = \\$410\\,311.13$\n$\\text{Withdrawals} = \\dfrac{1600(1.004^{180}-1)}{0.004} = \\$420\\,622.25$\n$A_{180} = 410311.13 - 420622.25$\n$= -\\$10\\,311.12$\nThe fund is exhausted before 15 years, with balance $\\$0.00$."
+      },
+      {
+        "question_text": "An account starts with an initial balance $P$. An investor adds $\\$3000$ at the end of each year for $10\\text{ years}$ at $7\\%$ p.a. compounded annually. If the target future value is $\\$60\\,000$, find the required initial principal $P$.",
+        "structure": "solve-initial-lump-sum",
+        "solution_text": "$r = 0.07$, $n = 10$\n$\\text{Annuity value} = \\dfrac{3000(1.07^{10}-1)}{0.07} = \\$41\\,449.34$\n$60000 = P(1.07^{10}) + 41449.34$\n$P(1.07^{10}) = 60000 - 41449.34 = 18550.66$\n$P = \\dfrac{18550.66}{1.07^{10}}$\n$= \\$9430.22$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A retiree has a $\\$300\\,000$ superannuation balance earning $6\\%$ p.a. compounded monthly. She wants the fund to provide monthly living payments for $20\\text{ years}$ ($n=240$). (a) Calculate the maximum monthly withdrawal $M$ that fully exhausts the fund at $20\\text{ years}$. (b) If she instead withdraws $\\$2500$ per month, calculate the number of complete months until the fund is fully exhausted.",
+        "structure": "solve-drawdown-duration",
+        "solution_text": "Part (a):\n$r = 0.005$, $n = 240$\n$0 = 300000(1.005^{240}) - \\dfrac{M(1.005^{240}-1)}{0.005}$\n$300000 \\times 3.310204 = M \\times 462.040895$\n$M = \\dfrac{993061.20}{462.040895} = \\$2149.29$\nPart (b):\nSet $M = 2500$:\n$0 = 300000(1.005^{n}) - \\dfrac{2500(1.005^{n}-1)}{0.005} = 300000(1.005^{n}) - 500000(1.005^{n}-1)$\n$200000(1.005^{n}) = 500000$\n$1.005^{n} = 2.5 \\implies n = \\dfrac{\\ln(2.5)}{\\ln(1.005)} \\approx 183.72$\n$= 184\\text{ months}$"
+      },
+      {
+        "question_text": "An individual opens a business expansion account with an initial $\\$35\\,000$. At the end of each quarter for $5\\text{ years}$, they make an additional deposit of $\\$2000$. The account earns $6.8\\%$ p.a. compounded quarterly. (a) Calculate the final balance after $5\\text{ years}$. (b) Determine what percentage of the final accumulated balance was generated by compound interest.",
+        "structure": "lump-sum-with-contributions",
+        "solution_text": "$r = \\dfrac{0.068}{4} = 0.017$, $n = 20$\n$\\text{Compounded principal} = 35000(1.017^{20}) = \\$49\\,037.38$\n$\\text{Annuity deposits} = \\dfrac{2000(1.017^{20}-1)}{0.017} = \\$47\\,180.52$\n$FV = 49037.38 + 47180.52 = \\$96\\,217.90$\n$\\text{Total deposits} = 35000 + (20 \\times 2000) = \\$75\\,000$\n$\\text{Interest} = 96217.90 - 75000 = \\$21\\,217.90$\n$\\text{Percentage} = \\dfrac{21217.90}{96217.90} \\times 100\\%$\n$= 22.1\\%$"
+      },
+      {
+        "question_text": "A family sets up a university living allowance fund with an initial deposit $PV$ in an account earning $5.4\\%$ p.a. compounded monthly. The fund must provide $\\$1200$ at the end of each month for $4\\text{ years}$ ($n=48$) and leave a remaining balance of $\\$10\\,000$ at the end of the $4\\text{ years}$ for graduation expenses. Calculate the required initial deposit $PV$.",
+        "structure": "solve-initial-lump-sum",
+        "solution_text": "$r = \\dfrac{0.054}{12} = 0.0045$, $n = 48$\n$\\text{Withdrawals series} = \\dfrac{1200(1.0045^{48}-1)}{0.0045} = \\$64\\,114.77$\n$10000 = PV(1.0045^{48}) - 64114.77$\n$PV(1.0045^{48}) = 74114.77$\n$PV = \\dfrac{74114.77}{1.0045^{48}}$\n$= \\$59\\,750.80$"
+      }
+    ]
+  }
+}

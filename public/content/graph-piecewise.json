@@ -1,0 +1,113 @@
+{
+  "skillId": "graph-piecewise",
+  "atomType": "R",
+  "theory": {
+        "intro": "To graph a piecewise-defined function, sketch each subfunction only on its own interval. At each boundary, work out the value and mark it with a **filled circle** if included or an **open circle** if excluded. The finished graph gives the domain, range and parity.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (6,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,5.3) node[above] {$y$};\n\\draw[thick, <-] (-0.6,0.45) -- (2.5,2.5) node[pos=0.4, above left] {$y=g(x)$};\n\\draw[thick, ->] (2.5,3.8) -- (5.6,4.7) node[pos=0.6, below right] {$y=h(x)$};\n\\fill (2.5,2.5) circle (2.5pt);\n\\draw[fill=white] (2.5,3.8) circle (2.5pt);\n\\draw (2.5,0.12) -- (2.5,-0.12);\n\\node[below] at (2.5,-0.12) {$a$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "Draw each subfunction only over the interval where it applies.",
+          "An included endpoint takes a filled dot ($\\bullet$), and an excluded endpoint takes an open circle ($\\circ$).",
+          "If two branches meet at the same point and one includes it, the filled dot covers the open circle and the graph joins.",
+          "Put arrowheads on ends that continue forever, and dots only where a branch stops.",
+          "The domain is every $x$ that is used, and the range is every $y$ that comes out, written in interval notation.",
+          "The graph is **even** if it reflects in the $y$-axis ($f(-x) = f(x)$), and **odd** if it has $180^{\\circ}$ rotational symmetry about the origin ($f(-x) = -f(x)$)."
+        ],
+        "steps": [
+          "Identify the subfunctions and their domain intervals",
+          "Calculate the boundary values and determine whether each endpoint is open ($\\circ$) or filled ($\\bullet$)",
+          "Plot the subfunctions on their intervals and mark open/closed endpoints"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} x + 2, & x < 0 \\\\ 2 - x, & x \\ge 0 \\end{cases}$.",
+        "structure": "sketch-linear-linear",
+        "solution_text": "For $x < 0$, $y = x + 2$ is a line with slope $1$, ending at $(0,2)$ with an open circle.\nFor $x \\ge 0$, $y = 2 - x$ is a line with slope $-1$, starting at $(0,2)$ with a filled dot.\nThe filled dot fills the open circle, so the two lines meet continuously at $(0,2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,-1) -- (0,2);\n\\draw[thick, ->] (0,2) -- (3,-1);\n\\fill (0,2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} -x - 1, & x \\le 1 \\\\ x - 1, & x > 1 \\end{cases}$, marking all endpoints clearly.",
+        "structure": "sketch-linear-linear",
+        "solution_text": "For $x \\le 1$, $y = -x - 1$ is a line ending at $(1,-2)$ with a filled dot.\nFor $x > 1$, $y = x - 1$ is a line starting at $(1,0)$ with an open circle.\nThere is a jump discontinuity at $x = 1$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-3,-2,-1,1,2,3} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-2,1) -- (1,-2);\n\\fill (1,-2) circle (2.5pt);\n\\draw[thick, ->] (1,0) -- (3.5,2.5);\n\\draw[fill=white] (1,0) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} 4 - x^{2}, & x \\le 0 \\\\ 4 + x, & x > 0 \\end{cases}$.",
+        "structure": "sketch-linear-quadratic",
+        "solution_text": "For $x \\le 0$, $y = 4 - x^{2}$ is the left half of a parabola with vertex $(0,4)$, ending with a filled dot.\nFor $x > 0$, $y = 4 + x$ is a line starting at $(0,4)$ with an open circle.\nThe two branches meet continuously at $(0,4)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,6.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {1,2,3,4,5,6} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-, domain=-2.3:0, smooth, variable=\\x] plot ({\\x}, {4 - \\x*\\x});\n\\draw[thick, ->] (0,4) -- (2,6);\n\\fill (0,4) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} 2x, & x < 1 \\\\ x^{2} + 1, & x \\ge 1 \\end{cases}$.",
+        "structure": "sketch-linear-quadratic",
+        "solution_text": "For $x < 1$, $y = 2x$ is a line through the origin ending at $(1,2)$ with an open circle.\nFor $x \\ge 1$, $y = x^{2} + 1$ starts at $(1,2)$ with a filled dot and curves upward.\nThe branches meet continuously at $(1,2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-2.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-2.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-2,-1,1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-1,-2) -- (1,2);\n\\draw[thick, ->, domain=1:2, smooth, variable=\\x] plot ({\\x}, {\\x*\\x + 1});\n\\fill (1,2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Determine the domain and range of the function $f(x) = \\begin{cases} x + 1, & x \\le 0 \\\\ 1 - x^{2}, & x > 0 \\end{cases}$.",
+        "structure": "determine-domain-range",
+        "solution_text": "The domain is $(-\\infty, 0] \\cup (0, \\infty) = (-\\infty, \\infty)$.\nFor $x \\le 0$, $y = x + 1$ produces outputs $(-\\infty, 1]$.\nFor $x > 0$, $y = 1 - x^{2}$ produces outputs $(-\\infty, 1)$.\nThe combined set of outputs is $(-\\infty, 1]$.\n$\\text{Domain} = (-\\infty, \\infty)$\n$\\text{Range} = (-\\infty, 1]$"
+      },
+      {
+        "question_text": "Determine whether the function $f(x) = \\begin{cases} 2x, & x < 0 \\\\ -2x, & x \\ge 0 \\end{cases}$ is even, odd, or neither.",
+        "structure": "test-even-odd-parity",
+        "solution_text": "Test symmetry using $f(-x)$:\nFor $x > 0$, $-x < 0$, so $f(-x) = 2(-x) = -2x$.\nSince $f(x) = -2x$ for $x \\ge 0$, we have $f(-x) = f(x)$ for all $x$.\nThe graph is symmetric under reflection across the $y$-axis.\nThe function is even."
+      },
+      {
+        "question_text": "Sketch the piecewise function $f(x) = \\begin{cases} -2, & x < -1 \\\\ 2x, & -1 \\le x \\le 1 \\\\ 2, & x > 1 \\end{cases}$.",
+        "structure": "sketch-three-branch",
+        "solution_text": "For $x < -1$, horizontal line $y = -2$ with open circle at $(-1,-2)$.\nFor $-1 \\le x \\le 1$, line segment from $(-1,-2)$ (filled) to $(1,2)$ (filled).\nFor $x > 1$, horizontal line $y = 2$ with open circle at $(1,2)$.\nThe filled dots cover the open circles, making a continuous graph.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-3.5) -- (0,3.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-3,-2,-1,1,2,3} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,-2) -- (-1,-2);\n\\draw[thick] (-1,-2) -- (1,2);\n\\draw[thick, ->] (1,2) -- (3,2);\n\\fill (-1,-2) circle (2.5pt);\n\\fill (1,2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} -x, & x \\le 0 \\\\ x^{2} + 1, & x > 0 \\end{cases}$ and state its range.",
+        "structure": "sketch-linear-quadratic",
+        "solution_text": "For $x \\le 0$, line $y = -x$ ends at $(0,0)$ with a filled dot.\nFor $x > 0$, parabola $y = x^{2} + 1$ starts at $(0,1)$ with an open circle and curves upward.\nThere is a jump at $x = 0$.\nRange from left branch is $[0, \\infty)$; from right branch is $(1, \\infty)$.\n$\\text{Range} = [0, \\infty)$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,3) -- (0,0);\n\\fill (0,0) circle (2.5pt);\n\\draw[thick, ->, domain=0:2, smooth, variable=\\x] plot ({\\x}, {\\x*\\x + 1});\n\\draw[fill=white] (0,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the domain and range of $f(x) = \\begin{cases} 3 - x, & x < 2 \\\\ 2x - 3, & x \\ge 2 \\end{cases}$ in interval notation.",
+        "structure": "determine-domain-range",
+        "solution_text": "Domain is all real numbers: $(-\\infty, \\infty)$.\nFor $x < 2$, $y = 3 - x > 1$, output is $(1, \\infty)$.\nFor $x \\ge 2$, $y = 2x - 3 \\ge 1$, output is $[1, \\infty)$.\nThe union is $[1, \\infty)$.\n$\\text{Domain} = (-\\infty, \\infty)$\n$\\text{Range} = [1, \\infty)$"
+      },
+      {
+        "question_text": "Determine whether $f(x) = \\begin{cases} x^{2}, & x < 0 \\\\ -x^{2}, & x \\ge 0 \\end{cases}$ is even, odd, or neither.",
+        "structure": "test-even-odd-parity",
+        "solution_text": "For $x > 0$, $-x < 0$ so $f(-x) = (-x)^{2} = x^{2}$.\nCompare with $-f(x)$ for $x > 0$:\n$-f(x) = -(-x^{2}) = x^{2}$\nSince $f(-x) = -f(x)$ for all $x$, the graph has rotational symmetry of $180^{\\circ}$ about the origin.\nThe function is odd."
+      },
+      {
+        "question_text": "Sketch $f(x) = \\begin{cases} x + 3, & x < -1 \\\\ x^{2} + 1, & x \\ge -1 \\end{cases}$, showing the coordinates of the endpoint at $x = -1$.",
+        "structure": "sketch-linear-quadratic",
+        "solution_text": "For $x < -1$, $y = x + 3$ ends at $(-1, 2)$ with an open circle.\nFor $x \\ge -1$, $y = x^{2} + 1$ starts at $(-1, (-1)^{2}+1) = (-1, 2)$ with a filled dot.\nThe filled dot fills the open circle, forming a continuous join at $(-1,2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {1,2,3,4,5} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-3,0) -- (-1,2);\n\\draw[thick, ->, domain=-1:2, smooth, variable=\\x] plot ({\\x}, {\\x*\\x + 1});\n\\fill (-1,2) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "The piecewise function $g(x) = \\begin{cases} 4, & x < -2 \\\\ x^{2}, & -2 \\le x \\le 2 \\\\ 4, & x > 2 \\end{cases}$ is plotted. State its domain, range, and parity.",
+        "structure": "determine-domain-range",
+        "solution_text": "Domain is $(-\\infty, \\infty)$.\nOn $[-2,2]$, $y = x^{2}$ has vertex $(0,0)$ and endpoints $(-2,4)$ and $(2,4)$, giving outputs $[0,4]$.\nOn $(-\\infty,-2)$ and $(2,\\infty)$, $y = 4$.\n$\\text{Range} = [0, 4]$\nSince $g(-x) = g(x)$ for all $x$, the function is even."
+      },
+      {
+        "question_text": "Test whether $f(x) = \\begin{cases} 2x + 1, & x < 0 \\\\ 2x - 1, & x \\ge 0 \\end{cases}$ is even, odd, or neither.",
+        "structure": "test-even-odd-parity",
+        "solution_text": "Evaluate $f(2)$ and $f(-2)$:\n$f(2) = 2(2) - 1 = 3$\n$f(-2) = 2(-2) + 1 = -3$\nNotice $f(-2) = -f(2)$.\nNow test general $x > 0$:\n$f(-x) = 2(-x) + 1 = -2x + 1$\n$-f(x) = -(2x - 1) = -2x + 1$\nSince $f(-x) = -f(x)$ for all $x \\neq 0$, but $f(0) = -1 \\neq 0$, the function fails the odd condition at $x = 0$.\nThe function is neither even nor odd."
+      },
+      {
+        "question_text": "Sketch $f(x) = \\begin{cases} 1 - x, & x < 0 \\\\ 1, & 0 \\le x \\le 2 \\\\ x - 1, & x > 2 \\end{cases}$.",
+        "structure": "sketch-three-branch",
+        "solution_text": "At $x = 0$, left branch reaches $(0,1)$ (open) and middle starts at $(0,1)$ (filled).\nAt $x = 2$, middle branch reaches $(2,1)$ (filled) and right starts at $(2,1)$ (open).\nThe graph is continuous everywhere with a flat bottom on $[0,2]$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-3.5,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-3,-2,-1,1,2,3,4} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-1,1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-] (-2,3) -- (0,1);\n\\draw[thick] (0,1) -- (2,1);\n\\draw[thick, ->] (2,1) -- (4,3);\n\\fill (0,1) circle (2.5pt);\n\\fill (2,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A function is defined by $f(x) = \\begin{cases} -(x+2)^{2} + 4, & x < 0 \\\\ 2 - x, & 0 \\le x < 3 \\\\ 1, & x \\ge 3 \\end{cases}$. Determine its range in interval notation.",
+        "structure": "determine-domain-range",
+        "solution_text": "Analyze each branch:\nFor $x < 0$, $y = -(x+2)^{2} + 4$ has vertex at $(-2,4)$ and open endpoint at $(0,0)$, giving output $(-\\infty, 4]$.\nFor $0 \\le x < 3$, $y = 2 - x$ gives output $(-1, 2]$.\nFor $x \\ge 3$, $y = 1$.\nThe union of all outputs is $(-\\infty, 4]$.\n$\\text{Range} = (-\\infty, 4]$"
+      },
+      {
+        "question_text": "Prove algebraically that $f(x) = \\begin{cases} -x^{3}, & x < 0 \\\\ x^{3}, & x \\ge 0 \\end{cases}$ is an even function, and sketch its graph.",
+        "structure": "test-even-odd-parity",
+        "solution_text": "For $x > 0$, $-x < 0$ so $f(-x) = -(-x)^{3} = -(-x^{3}) = x^{3}$.\nFor $x > 0$, $f(x) = x^{3}$.\nThus $f(-x) = f(x)$ for all $x$, proving the function is even.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};\n\\draw[->] (0,-1.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-, domain=-1.5:0, smooth, variable=\\x] plot ({\\x}, {-\\x*\\x*\\x});\n\\draw[thick, ->, domain=0:1.5, smooth, variable=\\x] plot ({\\x}, {\\x*\\x*\\x});\n\\fill (0,0) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Sketch the graph of $f(x) = \\begin{cases} 2 - x^{2}, & x < 1 \\\\ 2x - 1, & x \\ge 1 \\end{cases}$ and state the coordinates of all axis intercepts.",
+        "structure": "sketch-linear-quadratic",
+        "solution_text": "Left branch $y = 2 - x^{2}$ on $x < 1$:\n$y$-intercept at $(0,2)$.\n$x$-intercept at $(-\\sqrt{2}, 0)$ (since $-\\sqrt{2} < 1$).\nEndpoint at $(1,1)$ (open).\nRight branch $y = 2x - 1$ on $x \\ge 1$:\nStarts at $(1,1)$ (filled).\nNo additional $x$-intercept because $x = 0.5$ is not in $x \\ge 1$.\nIntercepts are $(0,2)$ and $(-\\sqrt{2}, 0)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.0]\n\\draw[->] (-2.5,0) -- (3.5,0) node[right] {$x$};\n\\draw[->] (0,-2.5) -- (0,4.5) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3} {\\draw (\\x,0.1) -- (\\x,-0.1); \\node[below,font=\\scriptsize] at (\\x,-0.1) {$\\x$};}\n\\foreach \\y in {-2,-1,1,2,3,4} {\\draw (0.1,\\y) -- (-0.1,\\y); \\node[left,font=\\scriptsize] at (-0.1,\\y) {$\\y$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick, <-, domain=-1.8:1, smooth, variable=\\x] plot ({\\x}, {2 - \\x*\\x});\n\\draw[thick, ->] (1,1) -- (2.5,4);\n\\fill (1,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+      }
+    ]
+  }
+}

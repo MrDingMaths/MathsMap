@@ -1,0 +1,112 @@
+{
+  "skillId": "prove-binomial-identities",
+  "atomType": "R",
+  "theory": {
+        "intro": "An identity about binomial coefficients can be proved by substituting a chosen value for $x$ in the expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$. The value you choose decides which identity comes out.",
+        "facts": [
+          "Substituting $x = 1$ gives the total ${^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}} = 2^{n}$.",
+          "Substituting $x = -1$ gives the alternating sum ${^{n}C_{0}} - {^{n}C_{1}} + {^{n}C_{2}} - \\dots + (-1)^{n} {^{n}C_{n}} = 0$.",
+          "Adding those two results gives $\\sum_{\\text{even } r} {^{n}C_{r}} = 2^{n-1}$, and subtracting them gives $\\sum_{\\text{odd } r} {^{n}C_{r}} = 2^{n-1}$.",
+          "Substituting $x = k$ gives ${^{n}C_{0}} + k {^{n}C_{1}} + k^{2} {^{n}C_{2}} + \\dots + k^{n} {^{n}C_{n}} = (1+k)^{n}$.",
+          "In every proof, state the expansion you start from and the exact value you substitute."
+        ],
+        "steps": [
+          "State the general binomial expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$ or $(a+b)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} a^{n-r} b^{r}$",
+          "Substitute the chosen value(s) for the variable(s) into both the expanded form and the factored form",
+          "Simplify the resulting arithmetic expressions or combine equations by addition or subtraction to establish the identity"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Prove that $^{5}C_{0} + {^{5}C_{1}} + {^{5}C_{2}} + {^{5}C_{3}} + {^{5}C_{4}} + {^{5}C_{5}} = 32$ by substituting a value into the expansion of $(1+x)^{5}$.",
+        "structure": "substitution-all-coefficients",
+        "solution_text": "Consider the expansion:\n$(1+x)^{5} = {^{5}C_{0}} + {^{5}C_{1}}x + {^{5}C_{2}}x^{2} + {^{5}C_{3}}x^{3} + {^{5}C_{4}}x^{4} + {^{5}C_{5}}x^{5}$\nSubstitute $x = 1$:\n$(1+1)^{5} = {^{5}C_{0}} + {^{5}C_{1}}(1) + {^{5}C_{2}}(1)^{2} + {^{5}C_{3}}(1)^{3} + {^{5}C_{4}}(1)^{4} + {^{5}C_{5}}(1)^{5}$\n$2^{5} = {^{5}C_{0}} + {^{5}C_{1}} + {^{5}C_{2}} + {^{5}C_{3}} + {^{5}C_{4}} + {^{5}C_{5}}$\n$= 32$"
+      },
+      {
+        "question_text": "Use the binomial expansion of $(1+x)^{6}$ to prove that $^{6}C_{0} - {^{6}C_{1}} + {^{6}C_{2}} - {^{6}C_{3}} + {^{6}C_{4}} - {^{6}C_{5}} + {^{6}C_{6}} = 0$.",
+        "structure": "substitution-alternating-sum",
+        "solution_text": "Consider the expansion:\n$(1+x)^{6} = {^{6}C_{0}} + {^{6}C_{1}}x + {^{6}C_{2}}x^{2} + {^{6}C_{3}}x^{3} + {^{6}C_{4}}x^{4} + {^{6}C_{5}}x^{5} + {^{6}C_{6}}x^{6}$\nSubstitute $x = -1$:\n$(1 - 1)^{6} = {^{6}C_{0}} + {^{6}C_{1}}(-1) + {^{6}C_{2}}(-1)^{2} + {^{6}C_{3}}(-1)^{3} + {^{6}C_{4}}(-1)^{4} + {^{6}C_{5}}(-1)^{5} + {^{6}C_{6}}(-1)^{6}$\n$0^{6} = {^{6}C_{0}} - {^{6}C_{1}} + {^{6}C_{2}} - {^{6}C_{3}} + {^{6}C_{4}} - {^{6}C_{5}} + {^{6}C_{6}}$\n$= 0$"
+      },
+      {
+        "question_text": "Prove that $^{4}C_{0} + 2{^{4}C_{1}} + 4{^{4}C_{2}} + 8{^{4}C_{3}} + 16{^{4}C_{4}} = 81$ by substituting into $(1+x)^{4}$.",
+        "structure": "substitution-weighted-power",
+        "solution_text": "Consider the expansion:\n$(1+x)^{4} = {^{4}C_{0}} + {^{4}C_{1}}x + {^{4}C_{2}}x^{2} + {^{4}C_{3}}x^{3} + {^{4}C_{4}}x^{4}$\nSubstitute $x = 2$:\n$(1+2)^{4} = {^{4}C_{0}} + {^{4}C_{1}}(2) + {^{4}C_{2}}(2)^{2} + {^{4}C_{3}}(2)^{3} + {^{4}C_{4}}(2)^{4}$\n$3^{4} = {^{4}C_{0}} + 2{^{4}C_{1}} + 4{^{4}C_{2}} + 8{^{4}C_{3}} + 16{^{4}C_{4}}$\n$= 81$"
+      },
+      {
+        "question_text": "By expanding $(1+x)^{4}$, show that $^{4}C_{0} + {^{4}C_{2}} + {^{4}C_{4}} = 8$.",
+        "structure": "substitution-even-odd-split",
+        "solution_text": "Consider the expansion:\n$(1+x)^{4} = {^{4}C_{0}} + {^{4}C_{1}}x + {^{4}C_{2}}x^{2} + {^{4}C_{3}}x^{3} + {^{4}C_{4}}x^{4}$\nAt $x = 1$: ${^{4}C_{0}} + {^{4}C_{1}} + {^{4}C_{2}} + {^{4}C_{3}} + {^{4}C_{4}} = 2^{4} = 16$\nAt $x = -1$: ${^{4}C_{0}} - {^{4}C_{1}} + {^{4}C_{2}} - {^{4}C_{3}} + {^{4}C_{4}} = 0$\nAdding both equations:\n$2({^{4}C_{0}} + {^{4}C_{2}} + {^{4}C_{4}}) = 16$\n${^{4}C_{0}} + {^{4}C_{2}} + {^{4}C_{4}} = 8$"
+      },
+      {
+        "question_text": "By considering $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$, prove that $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$.",
+        "structure": "substitution-all-coefficients",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = {^{n}C_{0}} + {^{n}C_{1}}x + {^{n}C_{2}}x^{2} + \\dots + {^{n}C_{n}}x^{n}$\nSubstitute $x = 1$:\n$(1+1)^{n} = {^{n}C_{0}} + {^{n}C_{1}}(1) + {^{n}C_{2}}(1)^{2} + \\dots + {^{n}C_{n}}(1)^{n}$\n$2^{n} = {^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}}$"
+      },
+      {
+        "question_text": "Which substitution into the expansion $(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$ establishes that $\\sum_{r=0}^{n} (-1)^{r} {^{n}C_{r}} = 0$?",
+        "structure": "identify-substitution-proof-step",
+        "solution_text": "Substitute $x = -1$ into $(1+x)^{n}$:\n$(1 + (-1))^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} (-1)^{r}$\n$0^{n} = \\sum_{r=0}^{n} (-1)^{r} {^{n}C_{r}}$\nSubstitute $x = -1$"
+      },
+      {
+        "question_text": "Prove that $\\sum_{r=0}^{n} 3^{r} {^{n}C_{r}} = 4^{n}$ by substituting into $(1+x)^{n}$.",
+        "structure": "substitution-weighted-power",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = 3$:\n$(1+3)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 3^{r}$\n$4^{n} = \\sum_{r=0}^{n} 3^{r} {^{n}C_{r}}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Prove that ${^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots = 2^{n-1}$ for any integer $n \\ge 1$.",
+        "structure": "substitution-even-odd-split",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = {^{n}C_{0}} + {^{n}C_{1}}x + {^{n}C_{2}}x^{2} + \\dots + {^{n}C_{n}}x^{n}$\nLet $x = 1$: ${^{n}C_{0}} + {^{n}C_{1}} + {^{n}C_{2}} + \\dots + {^{n}C_{n}} = 2^{n}$\nLet $x = -1$: ${^{n}C_{0}} - {^{n}C_{1}} + {^{n}C_{2}} - \\dots + (-1)^{n}{^{n}C_{n}} = 0$\nAdding both equations:\n$2({^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots) = 2^{n}$\n${^{n}C_{0}} + {^{n}C_{2}} + {^{n}C_{4}} + \\dots = 2^{n-1}$"
+      },
+      {
+        "question_text": "Prove that ${^{2n}C_{1}} + {^{2n}C_{3}} + {^{2n}C_{5}} + \\dots + {^{2n}C_{2n-1}} = 2^{2n-1}$.",
+        "structure": "substitution-even-odd-split",
+        "solution_text": "State the expansion:\n$(1+x)^{2n} = \\sum_{r=0}^{2n} {^{2n}C_{r}} x^{r}$\nAt $x = 1$: $\\sum_{r=0}^{2n} {^{2n}C_{r}} = 2^{2n}$\nAt $x = -1$: $\\sum_{r=0}^{2n} (-1)^{r} {^{2n}C_{r}} = 0$\nSubtracting the second equation from the first:\n$2({^{2n}C_{1}} + {^{2n}C_{3}} + \\dots + {^{2n}C_{2n-1}}) = 2^{2n}$\n${^{2n}C_{1}} + {^{2n}C_{3}} + \\dots + {^{2n}C_{2n-1}} = 2^{2n-1}$"
+      },
+      {
+        "question_text": "Prove that $\\sum_{r=0}^{n} (-2)^{r} {^{n}C_{r}} = (-1)^{n}$ by substituting into $(1+x)^{n}$.",
+        "structure": "substitution-weighted-power",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = -2$:\n$(1 + (-2))^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} (-2)^{r}$\n$(-1)^{n} = \\sum_{r=0}^{n} (-2)^{r} {^{n}C_{r}}$"
+      },
+      {
+        "question_text": "By substituting $x = \\dfrac{1}{2}$ into the expansion of $(1+x)^{n}$, prove that $\\sum_{r=0}^{n} \\dfrac{^{n}C_{r}}{2^{r}} = \\left(\\dfrac{3}{2}\\right)^{n}$.",
+        "structure": "substitution-weighted-power",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = \\dfrac{1}{2}$:\n$\\left(1 + \\dfrac{1}{2}\\right)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} \\left(\\dfrac{1}{2}\\right)^{r}$\n$\\left(\\dfrac{3}{2}\\right)^{n} = \\sum_{r=0}^{n} \\dfrac{^{n}C_{r}}{2^{r}}$"
+      },
+      {
+        "question_text": "Show that $2^{n} {^{n}C_{0}} - 2^{n-1} {^{n}C_{1}} + 2^{n-2} {^{n}C_{2}} - \\dots + (-1)^{n} {^{n}C_{n}} = 1$ by substituting into $(2-x)^{n}$.",
+        "structure": "substitution-alternating-sum",
+        "solution_text": "Consider the expansion of $(2-x)^{n}$:\n$(2-x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 2^{n-r} (-x)^{r}$\nSubstitute $x = 1$:\n$(2 - 1)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 2^{n-r} (-1)^{r}$\n$1^{n} = 2^{n} {^{n}C_{0}} - 2^{n-1} {^{n}C_{1}} + 2^{n-2} {^{n}C_{2}} - \\dots + (-1)^{n} {^{n}C_{n}}$\n$= 1$"
+      },
+      {
+        "question_text": "A student attempts to prove that ${^{n}C_{1}} + 2{^{n}C_{2}} + 3{^{n}C_{3}} + \\dots + n{^{n}C_{n}} = n 2^{n-1}$. What algebraic mistake occurs if they simply substitute $x = 1$ into $(1+x)^{n}$?",
+        "structure": "identify-substitution-proof-step",
+        "solution_text": "Substituting $x = 1$ into $(1+x)^{n}$ yields ${^{n}C_{0}} + {^{n}C_{1}} + \\dots + {^{n}C_{n}} = 2^{n}$, which produces unweighted binomial coefficients rather than coefficients weighted by their index $r$.\nSubstituting $x = 1$ gives unweighted coefficients $\\sum {^{n}C_{r}} = 2^{n}$ without the factor of $r$."
+      },
+      {
+        "question_text": "Prove that $\\sum_{r=1}^{n} {^{n}C_{r}} = 2^{n} - 1$ by substituting into $(1+x)^{n}$.",
+        "structure": "substitution-all-coefficients",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = {^{n}C_{0}} + \\sum_{r=1}^{n} {^{n}C_{r}} x^{r}$\nSubstitute $x = 1$:\n$(1+1)^{n} = 1 + \\sum_{r=1}^{n} {^{n}C_{r}}$\n$2^{n} = 1 + \\sum_{r=1}^{n} {^{n}C_{r}}$\n$\\sum_{r=1}^{n} {^{n}C_{r}} = 2^{n} - 1$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Prove that $\\sum_{r=0}^{n} (-1)^{r} 3^{n-r} {^{n}C_{r}} = 2^{n}$ by substituting into the expansion of $(a+b)^{n}$.",
+        "structure": "substitution-weighted-power",
+        "solution_text": "State the general binomial theorem:\n$(a+b)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} a^{n-r} b^{r}$\nSubstitute $a = 3$ and $b = -1$:\n$(3 + (-1))^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 3^{n-r} (-1)^{r}$\n$2^{n} = \\sum_{r=0}^{n} (-1)^{r} 3^{n-r} {^{n}C_{r}}$"
+      },
+      {
+        "question_text": "By considering $(1+x)^{3n}$, prove that the sum of even-indexed coefficients is $\\sum_{k=0}^{\\lfloor 3n/2 \\rfloor} {^{3n}C_{2k}} = 2^{3n-1}$.",
+        "structure": "substitution-even-odd-split",
+        "solution_text": "State the expansion:\n$(1+x)^{3n} = \\sum_{r=0}^{3n} {^{3n}C_{r}} x^{r}$\nAt $x = 1$: $\\sum_{r=0}^{3n} {^{3n}C_{r}} = 2^{3n}$\nAt $x = -1$: $\\sum_{r=0}^{3n} (-1)^{r} {^{3n}C_{r}} = 0$\nAdding both equations:\n$2 \\sum_{\\text{even } r} {^{3n}C_{r}} = 2^{3n}$\n$\\sum_{\\text{even } r} {^{3n}C_{r}} = 2^{3n-1}$"
+      },
+      {
+        "question_text": "For which integer value of $k$ does substituting $x = k$ into $(1+x)^{n}$ prove that ${^{n}C_{0}} + 5{^{n}C_{1}} + 25{^{n}C_{2}} + \\dots + 5^{n}{^{n}C_{n}} = 6^{n}$?",
+        "structure": "identify-substitution-proof-step",
+        "solution_text": "State the expansion:\n$(1+x)^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} x^{r}$\nFor the coefficient powers to be $5^{r}$, set $x = 5$:\n$(1+5)^{n} = 6^{n} = \\sum_{r=0}^{n} {^{n}C_{r}} 5^{r}$\n$k = 5$"
+      }
+    ]
+  }
+}

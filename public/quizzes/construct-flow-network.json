@@ -1,0 +1,205 @@
+{
+  "skillId": "construct-flow-network",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A flow network is recorded in this table.\n$\\begin{array}{c|ccccc} \\text{From / To} & D & E & F & G & H \\\\ \\hline D & - & 6 & - & - & 8 \\\\ E & - & - & - & - & - \\\\ F & 12 & - & - & 19 & - \\\\ G & - & - & - & - & 14 \\\\ H & - & 22 & - & - & - \\end{array}$\nWhich vertex is the source and which is the sink?",
+      "structure": "identify-source-sink-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$F$ is the source and $E$ is the sink",
+          "correct": true
+        },
+        {
+          "text": "$D$ is the source and $E$ is the sink",
+          "why": "Took the first row heading as the source; column $D$ contains a $12$, so an edge is directed into $D$ and it cannot be the source."
+        },
+        {
+          "text": "$F$ is the source and $H$ is the sink",
+          "why": "Chose the sink as the vertex that the most edges point into ($D$ and $G$ both reach $H$), but row $H$ contains a $22$, so an edge still leaves $H$."
+        },
+        {
+          "text": "$D$ is the source and $H$ is the sink",
+          "why": "Made both slips at once: read the first row heading as the source and the most-pointed-to vertex as the sink, checking neither column $D$ nor row $H$ for entries."
+        }
+      ],
+      "solution_text": "Column $F$ contains only dashes, so no edge is directed into $F$.\nRow $E$ contains only dashes, so no edge is directed out of $E$.\n$F$ is the source and $E$ is the sink."
+    },
+    {
+      "id": "q2",
+      "question_text": "A flow network is shown below.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.8);\n\\coordinate (A) at (2.4,3.6);\n\\coordinate (B) at (2.4,0);\n\\coordinate (C) at (5.2,3.6);\n\\coordinate (D) at (5.2,0);\n\\coordinate (T) at (7.6,1.8);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$20$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$13$};\n\\draw[midarrow] (A) -- (D) node[midway, above right, fill=white, inner sep=1pt] {$11$};\n\\draw[midarrow] (B) -- (D) node[midway, below, fill=white, inner sep=1pt] {$18$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (D) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$24$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (D) circle (2.5pt) node[below] {$D$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nIn a table with rows and columns in the order $S, A, B, C, D, T$, which row correctly records vertex $A$?",
+      "structure": "flow-network-to-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\begin{array}{c|cccccc} A & - & - & - & 13 & 11 & - \\end{array}$",
+          "correct": true
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} A & - & 20 & - & 13 & 11 & - \\end{array}$",
+          "why": "Included the $20$ from edge $S \\to A$, but that edge leaves $S$, so it belongs in row $S$, column $A$."
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} A & - & - & - & 13 & - & - \\end{array}$",
+          "why": "Recorded only one of the two edges leaving $A$, missing the edge $A \\to D$ of capacity $11$."
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} A & 20 & - & - & - & - & - \\end{array}$",
+          "why": "Read down column $A$ instead of across row $A$, recording the edge that enters $A$ rather than those that leave it."
+        }
+      ],
+      "solution_text": "Row $A$ records only the edges directed away from $A$.\nThese are $A \\to C$ ($13$) and $A \\to D$ ($11$).\n$\\begin{array}{c|cccccc} \\text{From / To} & S & A & B & C & D & T \\\\ \\hline A & - & - & - & 13 & 11 & - \\end{array}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A flow network is recorded in this table.\n$\\begin{array}{c|cccc} \\text{From / To} & S & P & Q & T \\\\ \\hline S & - & 5 & 7 & - \\\\ P & - & - & 3 & 6 \\\\ Q & - & - & - & 4 \\\\ T & - & - & - & - \\end{array}$\nFour students each drew a network from this table. Which drawing, $A$, $B$, $C$ or $D$, is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S1) at (0,1.1);\n\\coordinate (P1) at (1.9,2.4);\n\\coordinate (Q1) at (1.9,-0.2);\n\\coordinate (T1) at (3.8,1.1);\n\\draw[midarrow] (S1) -- (P1) node[midway, above left, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (S1) -- (Q1) node[midway, below left, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (P1) -- (Q1) node[midway, right, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (P1) -- (T1) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (Q1) -- (T1) node[midway, below right, fill=white, inner sep=1pt] {$4$};\n\\fill (S1) circle (2.5pt) node[left] {$S$};\n\\fill (P1) circle (2.5pt) node[above] {$P$};\n\\fill (Q1) circle (2.5pt) node[below] {$Q$};\n\\fill (T1) circle (2.5pt) node[right] {$T$};\n\\node at (1.9,3.4) {$A$};\n\\coordinate (S2) at (5.6,1.1);\n\\coordinate (P2) at (7.5,2.4);\n\\coordinate (Q2) at (7.5,-0.2);\n\\coordinate (T2) at (9.4,1.1);\n\\draw[midarrow] (S2) -- (P2) node[midway, above left, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (S2) -- (Q2) node[midway, below left, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (Q2) -- (P2) node[midway, right, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (P2) -- (T2) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (Q2) -- (T2) node[midway, below right, fill=white, inner sep=1pt] {$4$};\n\\fill (S2) circle (2.5pt) node[left] {$S$};\n\\fill (P2) circle (2.5pt) node[above] {$P$};\n\\fill (Q2) circle (2.5pt) node[below] {$Q$};\n\\fill (T2) circle (2.5pt) node[right] {$T$};\n\\node at (7.5,3.4) {$B$};\n\\coordinate (S3) at (0,-4.1);\n\\coordinate (P3) at (1.9,-2.8);\n\\coordinate (Q3) at (1.9,-5.4);\n\\coordinate (T3) at (3.8,-4.1);\n\\draw[midarrow] (S3) -- (P3) node[midway, above left, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (S3) -- (Q3) node[midway, below left, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (P3) -- (Q3) node[midway, right, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (P3) -- (T3) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (Q3) -- (T3) node[midway, below right, fill=white, inner sep=1pt] {$4$};\n\\fill (S3) circle (2.5pt) node[left] {$S$};\n\\fill (P3) circle (2.5pt) node[above] {$P$};\n\\fill (Q3) circle (2.5pt) node[below] {$Q$};\n\\fill (T3) circle (2.5pt) node[right] {$T$};\n\\node at (1.9,-1.9) {$C$};\n\\coordinate (S4) at (5.6,-4.1);\n\\coordinate (P4) at (7.5,-2.8);\n\\coordinate (Q4) at (7.5,-5.4);\n\\coordinate (T4) at (9.4,-4.1);\n\\draw[midarrow] (S4) -- (P4) node[midway, above left, fill=white, inner sep=1pt] {$5$};\n\\draw[midarrow] (S4) -- (Q4) node[midway, below left, fill=white, inner sep=1pt] {$7$};\n\\draw[midarrow] (P4) -- (Q4) node[midway, right, fill=white, inner sep=1pt] {$3$};\n\\draw[midarrow] (P4) -- (T4) node[midway, above right, fill=white, inner sep=1pt] {$6$};\n\\draw[midarrow] (T4) -- (Q4) node[midway, below right, fill=white, inner sep=1pt] {$4$};\n\\fill (S4) circle (2.5pt) node[left] {$S$};\n\\fill (P4) circle (2.5pt) node[above] {$P$};\n\\fill (Q4) circle (2.5pt) node[below] {$Q$};\n\\fill (T4) circle (2.5pt) node[right] {$T$};\n\\node at (7.5,-1.9) {$D$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "table-to-flow-network",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$A$",
+          "correct": true
+        },
+        {
+          "text": "$B$",
+          "why": "The $3$ sits in row $P$, column $Q$, so that edge runs from $P$ to $Q$; drawing $B$ reverses it by reading the column as the starting vertex."
+        },
+        {
+          "text": "$C$",
+          "why": "The $5$ is in row $S$, column $P$ and the $7$ in row $S$, column $Q$; drawing $C$ swaps the two capacities leaving $S$."
+        },
+        {
+          "text": "$D$",
+          "why": "The $4$ sits in row $Q$, column $T$, so it runs from $Q$ to $T$; drawing $D$ reverses it, which would also leave an edge directed out of the sink."
+        }
+      ],
+      "solution_text": "Row $S$ gives $S \\to P$ ($5$) and $S \\to Q$ ($7$).\nRow $P$ gives $P \\to Q$ ($3$) and $P \\to T$ ($6$).\nRow $Q$ gives $Q \\to T$ ($4$).\nDrawing $A$ matches every row of the table."
+    },
+    {
+      "id": "q4",
+      "question_text": "This table records a flow network.\n$\\begin{array}{c|ccccc} \\text{From / To} & S & A & B & C & T \\\\ \\hline S & - & 14 & 26 & - & - \\\\ A & - & - & - & 9 & - \\\\ B & - & - & - & - & 17 \\\\ C & - & - & - & - & 21 \\\\ T & - & - & - & - & - \\end{array}$\nThe diagram below is meant to represent the table.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (S) at (0,1.6);\n\\coordinate (A) at (2.6,3.2);\n\\coordinate (B) at (3.0,0);\n\\coordinate (C) at (5.4,3.2);\n\\coordinate (T) at (7.8,1.6);\n\\draw[midarrow] (S) -- (A) node[midway, above left, fill=white, inner sep=1pt] {$26$};\n\\draw[midarrow] (S) -- (B) node[midway, below left, fill=white, inner sep=1pt] {$14$};\n\\draw[midarrow] (A) -- (C) node[midway, above, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (C) -- (T) node[midway, above right, fill=white, inner sep=1pt] {$21$};\n\\draw[midarrow] (B) -- (T) node[midway, below right, fill=white, inner sep=1pt] {$17$};\n\\fill (S) circle (2.5pt) node[left] {$S$};\n\\fill (A) circle (2.5pt) node[above] {$A$};\n\\fill (B) circle (2.5pt) node[below] {$B$};\n\\fill (C) circle (2.5pt) node[above] {$C$};\n\\fill (T) circle (2.5pt) node[right] {$T$};\n\\end{tikzpicture}\n[/tikz]\nWhat is the error in the diagram?",
+      "structure": "check-diagram-matches-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The capacities on $SA$ and $SB$ have been swapped",
+          "correct": true
+        },
+        {
+          "text": "The edge $AC$ points the wrong way",
+          "why": "The $9$ sits in row $A$, column $C$, so $A \\to C$ is drawn correctly; this option reads the column heading as the starting vertex."
+        },
+        {
+          "text": "The edge $BT$ is missing",
+          "why": "Row $B$ has a $17$ in column $T$ and the diagram does draw $B \\to T$ with $17$; this option counts the edges of the diagram without checking the row headings."
+        },
+        {
+          "text": "There should be an edge from $B$ to $C$",
+          "why": "Row $B$ has only one entry, in column $T$, so no edge runs from $B$ to $C$; this option assumes every middle vertex must connect to every other."
+        }
+      ],
+      "solution_text": "Row $S$ gives $S \\to A$ with capacity $14$ and $S \\to B$ with capacity $26$.\nThe diagram labels $SA$ as $26$ and $SB$ as $14$.\nThe two capacities leaving $S$ have been swapped; $SA$ should be $14$ and $SB$ should be $26$."
+    },
+    {
+      "id": "q5",
+      "question_text": "A mine sends ore along one-way conveyors, with capacities in tonnes per hour: $M$ to $R$ ($120$), $M$ to $N$ ($95$), $R$ to $K$ ($60$), $N$ to $K$ ($80$), $N$ to $H$ ($45$), and $K$ to $H$ ($130$).\nIn the flow network described, which vertex is the sink?",
+      "structure": "context-list-to-flow-network",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$H$",
+          "correct": true
+        },
+        {
+          "text": "$K$",
+          "why": "$K$ receives ore from two conveyors, but ore still leaves $K$ for $H$, so $K$ is not where the network ends."
+        },
+        {
+          "text": "$M$",
+          "why": "Named the vertex that nothing is directed into, which identifies the source rather than the sink."
+        },
+        {
+          "text": "$N$",
+          "why": "Chose a middle vertex; two conveyors leave $N$, so it cannot be the sink."
+        }
+      ],
+      "solution_text": "The sink is the vertex with no conveyor leaving it.\nConveyors leave $M$, $R$, $N$ and $K$, but none leaves $H$.\n$H$ is the sink.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (M) at (0,1.6);\n\\coordinate (R) at (2.4,3.2);\n\\coordinate (N) at (2.4,0);\n\\coordinate (K) at (5.0,1.6);\n\\coordinate (H) at (7.4,1.6);\n\\draw[midarrow] (M) -- (R) node[midway, above left, fill=white, inner sep=1pt] {$120$};\n\\draw[midarrow] (M) -- (N) node[midway, below left, fill=white, inner sep=1pt] {$95$};\n\\draw[midarrow] (R) -- (K) node[midway, above right, fill=white, inner sep=1pt] {$60$};\n\\draw[midarrow] (N) -- (K) node[midway, below right, fill=white, inner sep=1pt] {$80$};\n\\draw[midarrow] (N) -- (H) node[midway, below right, fill=white, inner sep=1pt] {$45$};\n\\draw[midarrow] (K) -- (H) node[midway, above, fill=white, inner sep=1pt] {$130$};\n\\fill (M) circle (2.5pt) node[left] {$M$};\n\\fill (R) circle (2.5pt) node[above] {$R$};\n\\fill (N) circle (2.5pt) node[below] {$N$};\n\\fill (K) circle (2.5pt) node[above] {$K$};\n\\fill (H) circle (2.5pt) node[right] {$H$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "A flow network with six vertices is recorded in this table.\n$\\begin{array}{c|cccccc} \\text{From / To} & A & B & C & D & E & F \\\\ \\hline A & - & 18 & - & - & - & - \\\\ B & - & - & - & - & 40 & - \\\\ C & - & 22 & - & - & - & 15 \\\\ D & 31 & - & 27 & - & - & - \\\\ E & - & - & - & - & - & - \\\\ F & - & - & - & - & 12 & - \\end{array}$\nWhich vertex is the source?",
+      "structure": "identify-source-sink-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$D$",
+          "correct": true
+        },
+        {
+          "text": "$A$",
+          "why": "Took the first row heading, but column $A$ contains a $31$, so an edge is directed into $A$."
+        },
+        {
+          "text": "$E$",
+          "why": "Chose the vertex with the empty row, which identifies the sink; the source has the empty column."
+        },
+        {
+          "text": "$C$",
+          "why": "Chose a vertex with two edges leaving it, but column $C$ contains a $27$, so an edge is directed into $C$."
+        }
+      ],
+      "solution_text": "The source has no edge directed into it, so its column is entirely dashes.\nColumn $D$ contains only dashes.\n$D$ is the source."
+    },
+    {
+      "id": "q7",
+      "question_text": "A flow network is shown below, drawn with its source on the right.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{decorations.markings}\n\\tikzset{midarrow/.style={decoration={markings, mark=at position 0.55 with {\\arrow{>}}}, postaction={decorate}}}\n\\coordinate (G) at (7.2,2.0);\n\\coordinate (H) at (4.8,4.0);\n\\coordinate (J) at (4.8,0);\n\\coordinate (K) at (2.4,3.2);\n\\coordinate (M) at (2.4,0.8);\n\\coordinate (L) at (0,2.0);\n\\draw[midarrow] (G) -- (H) node[midway, above right, fill=white, inner sep=1pt] {$28$};\n\\draw[midarrow] (G) -- (J) node[midway, below right, fill=white, inner sep=1pt] {$35$};\n\\draw[midarrow] (H) -- (K) node[midway, above, fill=white, inner sep=1pt] {$16$};\n\\draw[midarrow] (J) -- (M) node[midway, below, fill=white, inner sep=1pt] {$21$};\n\\draw[midarrow] (J) -- (K) node[midway, right, fill=white, inner sep=1pt] {$9$};\n\\draw[midarrow] (K) -- (L) node[midway, above left, fill=white, inner sep=1pt] {$30$};\n\\draw[midarrow] (M) -- (L) node[midway, below left, fill=white, inner sep=1pt] {$18$};\n\\fill (G) circle (2.5pt) node[right] {$G$};\n\\fill (H) circle (2.5pt) node[above] {$H$};\n\\fill (J) circle (2.5pt) node[below] {$J$};\n\\fill (K) circle (2.5pt) node[above] {$K$};\n\\fill (M) circle (2.5pt) node[below] {$M$};\n\\fill (L) circle (2.5pt) node[left] {$L$};\n\\end{tikzpicture}\n[/tikz]\nIn a table with rows and columns in the order $G, H, J, K, L, M$, which row correctly records vertex $J$?",
+      "structure": "flow-network-to-table",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$\\begin{array}{c|cccccc} J & - & - & - & 9 & - & 21 \\end{array}$",
+          "correct": true
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} J & - & - & 35 & 9 & - & 21 \\end{array}$",
+          "why": "Included the $35$ from edge $G \\to J$, which leaves $G$ and so belongs in row $G$, column $J$."
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} J & 35 & - & - & - & - & - \\end{array}$",
+          "why": "Read down column $J$ instead of across row $J$, recording the edge that enters $J$ rather than those leaving it."
+        },
+        {
+          "text": "$\\begin{array}{c|cccccc} J & - & - & - & 9 & 21 & - \\end{array}$",
+          "why": "Put the $21$ in column $L$ instead of column $M$; the edge $J \\to M$ ends at $M$, and it is $M \\to L$ that reaches $L$."
+        }
+      ],
+      "solution_text": "Row $J$ records only the edges directed away from $J$.\nThese are $J \\to K$ ($9$) and $J \\to M$ ($21$).\n$\\begin{array}{c|cccccc} \\text{From / To} & G & H & J & K & L & M \\\\ \\hline J & - & - & - & 9 & - & 21 \\end{array}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "A flow network is recorded in this table.\n$\\begin{array}{c|cccccc} \\text{From / To} & S & A & B & C & D & T \\\\ \\hline S & - & 33 & 29 & - & - & - \\\\ A & - & - & - & 14 & 12 & - \\\\ B & - & - & - & - & 25 & - \\\\ C & - & - & - & - & - & 18 \\\\ D & - & - & - & - & - & 41 \\\\ T & - & - & - & - & - & - \\end{array}$\nWhich of these edges does **not** appear in the network drawn from this table?",
+      "structure": "table-to-flow-network",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$B \\to C$ with capacity $25$",
+          "correct": true
+        },
+        {
+          "text": "$A \\to D$ with capacity $12$",
+          "why": "This edge does appear: the $12$ sits in row $A$, column $D$."
+        },
+        {
+          "text": "$C \\to T$ with capacity $18$",
+          "why": "This edge does appear: the $18$ sits in row $C$, column $T$."
+        },
+        {
+          "text": "$S \\to B$ with capacity $29$",
+          "why": "This edge does appear: the $29$ sits in row $S$, column $B$."
+        }
+      ],
+      "solution_text": "Row $B$ has just one entry, a $25$ in column $D$.\nSo the $25$ edge runs from $B$ to $D$, and column $C$ in row $B$ is a dash.\nThere is no edge from $B$ to $C$."
+    }
+  ]
+}

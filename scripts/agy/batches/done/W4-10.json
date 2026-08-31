@@ -1,0 +1,107 @@
+{
+  "batch": "W4-10",
+  "model": "gemini-3.7-flash-high",
+  "note": "Extension 1 Y12 vectors, first half: Introduction to Vectors 1 (representation, notation and operations — 15 skills) + Introduction to Vectors 2 (further operations, the dot product — 7 skills) = 22. ORDER: no in-wave prereq, so this batch can run early and in parallel with the calculus batches. NOTHING UPSTREAM TEACHES VECTORS — Year 11 shipped no vector content in any course, so there is no prerequisite content file to take voice or notation from and every convention below must be established here and held identically across all 22 skills of this batch and the 13 of W4-11.",
+  "sections": [
+    {
+      "name": "vector-basics",
+      "skillIds": ["vector-definition-notation", "represent-vectors-graphically", "unit-zero-vectors"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 1_Vector Representation, notation and operations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "NOTATION IS FIXED FOR THE WHOLE TOPIC AND MUST BE IDENTICAL IN EVERY ONE OF THESE 22 SKILLS. In KaTeX write the undertilde vector as `\\underset{\\sim}{a}` and the directed line segment as `\\overrightarrow{AB}`; write magnitude as `|\\underset{\\sim}{a}|`; write components as `\\underset{\\sim}{a}=3\\underset{\\sim}{i}+4\\underset{\\sim}{j}` and column vectors as `\\begin{pmatrix}3\\\\4\\end{pmatrix}`. Never use a bold letter, never `\\vec{a}`, never `\\hat{i}` for the basis vectors (reserve the hat for a unit vector derived in `unit-vector-from-vector`). There is NO shipped vector content anywhere in the repo to copy this from — establish it here and hold it.",
+        "One routine per skill. `vector-definition-notation` = what a vector is (magnitude AND direction), what a scalar is, the notations above, and classifying described quantities as vector or scalar. `represent-vectors-graphically` = a vector as a directed line segment, and recognising EQUAL vectors (same magnitude and direction, position irrelevant) and NEGATIVE vectors (same magnitude, opposite direction). `unit-zero-vectors` = the zero vector $\\underset{\\sim}{0}$ (magnitude $0$, no defined direction) and unit vectors including $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$.",
+        "TWO VECTORS ARE EQUAL EVEN IF THEY START AT DIFFERENT POINTS. That is the definitional point of `represent-vectors-graphically`, and 'said they differ because they are drawn elsewhere' is the compulsory named distractor. Every figure for that skill must show at least two equal vectors drawn in different positions.",
+        "VECTOR OR SCALAR IS A CLOSED OPTION SET, so deal `vector-definition-notation` ONE item per answer value and then vary the item's SHAPE — ask which of four quantities is the odd one out, ask for the reason, ask which notation is being used — never two same-structure classify items.",
+        "THE ZERO VECTOR IS NOT THE NUMBER ZERO and has no direction; a unit vector has magnitude exactly $1$ and any direction. 'Called any short vector a unit vector' is the compulsory named distractor for `unit-zero-vectors`.",
+        "EVERY FIGURE IS A `[tikz]` DIAGRAM WITH REAL ARROWHEADS: draw each vector as `\\draw[->]` (or `-latex`) from tail to head, label it near the midpoint but OFF the segment, and never draw a vector as a plain line. Where several vectors appear, place them so no two labels collide and no arrowhead lands on another vector's label. Do not label a vector's components on a question figure that asks for them.",
+        "Grid squares behind the vectors are fine and often necessary, but the drawn length must match the vector's stated magnitude in proportion — `audit-figure-scale` reads labelled segments, and a vector labelled $5$ drawn shorter than one labelled $3$ contradicts its own item."
+      ]
+    },
+    {
+      "name": "vectors-in-figures",
+      "skillIds": ["vectors-in-geometric-figures", "add-subtract-vectors", "scalar-multiple-vector"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 1_Vector Representation, notation and operations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover", "polygons"],
+      "hazards": [
+        "Hold the notation fixed exactly as stated in the `vector-basics` section — `\\underset{\\sim}{a}`, `\\overrightarrow{AB}`, `\\begin{pmatrix}3\\\\4\\end{pmatrix}` — in every item of every skill.",
+        "One routine per skill. `add-subtract-vectors` = the triangle and parallelogram laws graphically AND component addition, including $\\underset{\\sim}{a}-\\underset{\\sim}{b}=\\underset{\\sim}{a}+(-\\underset{\\sim}{b})$. `scalar-multiple-vector` = $k\\underset{\\sim}{a}$ — the magnitude scales by $|k|$ and the direction reverses when $k<0$. `vectors-in-geometric-figures` = expressing a vector in a figure in terms of given vectors (a parallelogram's diagonal, a midpoint, a point dividing a side in a ratio) and proving simple results such as 'the line joining the midpoints of two sides is parallel to the third and half its length'.",
+        "$\\overrightarrow{AB}=-\\overrightarrow{BA}$ AND THE HEAD-TO-TAIL ORDER IS THE WHOLE DIFFICULTY: $\\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}$, and $\\overrightarrow{AB}=\\overrightarrow{OB}-\\overrightarrow{OA}$ (final minus initial). Reversing that subtraction is the compulsory named distractor throughout this section and the next.",
+        "THE RESULTANT MUST BE UNAMBIGUOUS IN EVERY FIGURE. When a sum is drawn, the two component vectors go head to tail and the RESULTANT is drawn from the first tail to the last head, in a distinguishable style (dashed, or `line width=1.6pt`) with its own arrowhead, and labelled. A parallelogram construction must show the two originals from a COMMON tail with the diagonal drawn. A figure in which the reader cannot tell which arrow is the resultant is a defect.",
+        "A SCALAR MULTIPLE IS PARALLEL, NOT EQUAL. $-2\\underset{\\sim}{a}$ points the opposite way and is twice as long — draw it that way, and make 'kept the original direction for a negative scalar' the compulsory named distractor for `scalar-multiple-vector`.",
+        "A GEOMETRIC PROOF ITEM ASKS FOR THE REASONING, NOT A NUMBER: which expression equals $\\overrightarrow{MN}$, or which line of a given argument is wrong. Every proof item's figure must label every point named in the stem, and every route through the figure must be checked to give the same expression.",
+        "EVERY ITEM CARRIES A `[tikz]` FIGURE with real arrowheads on every vector. Label points with capital letters outside the shape and vectors near their midpoints off the segment; never label the answer's vector on a question figure. Draw each side exactly once — do not draw a `-- cycle` and then redraw sides for labels."
+      ]
+    },
+    {
+      "name": "components-and-three-dimensions",
+      "skillIds": ["vector-component-form", "points-3d-coordinates", "distance-midpoint-3d", "vector-from-two-points"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 1_Vector Representation, notation and operations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "Hold the fixed notation. Present a component vector in BOTH the $\\underset{\\sim}{i},\\underset{\\sim}{j}$ form and the column form somewhere in `vector-component-form`, state that they mean the same thing, then use ONE of them consistently within any single item — mixing forms inside one option list is a defect.",
+        "One routine per skill. `vector-component-form` = writing a vector as an ordered pair/triple, as $x\\underset{\\sim}{i}+y\\underset{\\sim}{j}$ and as a column, and converting between them and a drawn arrow. `points-3d-coordinates` = plotting and describing $(x,y,z)$, the three coordinate planes, and which octant a point lies in. `distance-midpoint-3d` = $d=\\sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}+(z_{2}-z_{1})^{2}}$ and the midpoint as the average of the coordinates, in 2D AND 3D. `vector-from-two-points` = $\\overrightarrow{AB}=\\underset{\\sim}{b}-\\underset{\\sim}{a}$.",
+        "FINAL MINUS INITIAL. $\\overrightarrow{AB}$ uses $B$'s position vector first. Reversing it is the compulsory named distractor for `vector-from-two-points`, and at least one item must have an answer whose reversal is an offered option.",
+        "A POSITION VECTOR IS A VECTOR AND A POINT IS A POINT: $A(3,4)$ is a point, $\\overrightarrow{OA}=\\begin{pmatrix}3\\\\4\\end{pmatrix}$ is its position vector. Never place a coordinate pair and a column vector in one option list without the stem saying which is wanted.",
+        "THE MIDPOINT AVERAGES; THE DISTANCE SUBTRACTS THEN SQUARES. Confusing them is a named distractor, and the distance formula's differences may be taken in either order because they are squared — say so, so a student who reverses them is not marked wrong. Check every surd is fully simplified and pin the form ('exact surd' or 'to 2 decimal places').",
+        "A 3D FIGURE IS HAND-PROJECTED INTO PLAIN 2D COORDINATES with a single consistent oblique offset applied to every depth edge — an ordinary `tikzpicture`, no tikz-3dplot anywhere, so `\\pic` and the right-angle square behave normally. Draw the three axes with arrowheads and label them $x$, $y$, $z$; draw hidden construction lines dashed; place each point's label clear of its dropped perpendicular.",
+        "`points-3d-coordinates` MUST CARRY FIGURES on its foundation and development cards — a point in 3D is exactly the case prose cannot convey. Never pre-mark the coordinates a question asks the student to read off.",
+        "RECOMPUTE EVERY DISTANCE: square each difference, add, and take the root digit by digit. A 3D distance is three squares and one root and is where this topic's arithmetic fails."
+      ]
+    },
+    {
+      "name": "magnitude-and-direction",
+      "skillIds": ["vector-magnitude", "vector-direction-angle", "unit-vector-from-vector", "perpendicular-component-vector", "parallel-vectors-condition"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 1_Vector Representation, notation and operations.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover", "bearings"],
+      "hazards": [
+        "Hold the fixed notation. Write a unit vector as $\\hat{\\underset{\\sim}{a}}$ and reserve the hat for that meaning only.",
+        "One routine per skill. `vector-magnitude` = $|\\underset{\\sim}{a}|=\\sqrt{x^{2}+y^{2}}$ and its 3D form. `vector-direction-angle` = the angle of inclination from the positive $x$-axis, or the TRUE BEARING, found with $\\tan^{-1}\\frac{|y|}{|x|}$ and quadrant reasoning. `unit-vector-from-vector` = $\\hat{\\underset{\\sim}{a}}=\\frac{1}{|\\underset{\\sim}{a}|}\\underset{\\sim}{a}$. `perpendicular-component-vector` = resolving a vector into its $\\underset{\\sim}{i}$ and $\\underset{\\sim}{j}$ components, including from a magnitude and an angle ($x=r\\cos\\theta$, $y=r\\sin\\theta$). `parallel-vectors-condition` = $\\underset{\\sim}{b}=k\\underset{\\sim}{a}$, testing componentwise for a common ratio.",
+        "THE QUADRANT DECIDES THE DIRECTION ANGLE. $\\tan^{-1}$ returns an angle in $\\left(-90^{\\circ},90^{\\circ}\\right)$, so a vector in the second or third quadrant needs $180^{\\circ}$ added (or the reference angle reasoned from a sketch). Every solution must state the quadrant BEFORE giving the angle, at least half the items must lie outside the first quadrant, and 'quoted the calculator's acute angle' is the compulsory named distractor.",
+        "AN INCLINATION AND A TRUE BEARING ARE DIFFERENT NUMBERS for the same vector — a bearing is measured clockwise from north. Every stem must say which is wanted, and never place an inclination and a bearing in one option list. Where a bearing is used, the figure must draw north as a vertical arrow.",
+        "PARALLEL MEANS THE SAME $k$ IN EVERY COMPONENT — checking one component only is the compulsory named distractor for `parallel-vectors-condition`, so at least one item must have vectors whose first components share a ratio that the second components do not. A negative $k$ means antiparallel, which still counts as parallel unless the stem says 'same direction': say which.",
+        "$|\\underset{\\sim}{a}|$ IS NEVER NEGATIVE, AND $\\hat{\\underset{\\sim}{a}}$ ALWAYS HAS MAGNITUDE EXACTLY $1$ — verify that by recomputing the magnitude of every unit vector you key. Pin whether the answer is an exact surd or a decimal; $\\frac{1}{5}\\begin{pmatrix}3\\\\4\\end{pmatrix}$ and $\\begin{pmatrix}0.6\\\\0.8\\end{pmatrix}$ are the same vector and must never both be offered.",
+        "EVERY FIGURE DRAWS THE VECTOR WITH A REAL ARROWHEAD, its components as dashed lines to the axes, and the angle marked with `\\pic {angle=A--V--B}` — never a hand-drawn arc. Draw the vector to a length consistent with its components; never label the magnitude or the angle a question asks for."
+      ]
+    },
+    {
+      "name": "dot-product",
+      "skillIds": ["dot-product-algebraic", "dot-product-geometric", "dot-product-magnitude", "perpendicular-vectors-dot"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 2_Further operations with vectors.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "Hold the fixed notation. Write the dot product as $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}$ throughout — never $\\underset{\\sim}{a}\\times\\underset{\\sim}{b}$ and never juxtaposition.",
+        "One routine per skill. `dot-product-algebraic` = $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=a_{1}b_{1}+a_{2}b_{2}$ (and the 3D form) plus the algebraic laws (commutative, distributive over addition, and $(k\\underset{\\sim}{a})\\cdot\\underset{\\sim}{b}=k(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b})$). `dot-product-geometric` = $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos\\theta$ used forwards. `dot-product-magnitude` = $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}=|\\underset{\\sim}{a}|^{2}$ and its use in expanding $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|^{2}$. `perpendicular-vectors-dot` = $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=0$ as the perpendicularity test, including solving for an unknown component.",
+        "THE DOT PRODUCT IS A SCALAR. An option that is a vector is a legitimate named distractor exactly once per skill, and the stem must never suggest a vector answer.",
+        "THE SIGN OF THE DOT PRODUCT IS THE SIGN OF $\\cos\\theta$: negative means an obtuse angle. Include items with negative dot products in every skill, and make 'ignored the sign' a named distractor.",
+        "$|\\underset{\\sim}{a}+\\underset{\\sim}{b}|^{2}=|\\underset{\\sim}{a}|^{2}+2\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}+|\\underset{\\sim}{b}|^{2}$ — the cross term is NOT zero in general, and $|\\underset{\\sim}{a}+\\underset{\\sim}{b}|\\ne|\\underset{\\sim}{a}|+|\\underset{\\sim}{b}|$. Both errors are compulsory named distractors for `dot-product-magnitude`.",
+        "SOLVING $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=0$ FOR AN UNKNOWN can give a value that makes one vector the zero vector, which is trivially perpendicular to everything and is not a sensible answer. Check every solution for that degenerate case and exclude it in the stem if it arises.",
+        "RECOMPUTE EVERY DOT PRODUCT — two or three products and a sum — and, where both forms are available, CHECK THEM AGAINST EACH OTHER: the component answer must equal $|\\underset{\\sim}{a}||\\underset{\\sim}{b}|\\cos\\theta$. That cross-check is one line and catches every sign slip in this section.",
+        "Figures are optional here and used only where two vectors' relative directions carry the item; when drawn, both vectors share a common tail, both have real arrowheads, and the angle between them is marked with `\\pic {angle=A--V--B}`."
+      ]
+    },
+    {
+      "name": "angles-and-projections",
+      "skillIds": ["angle-between-vectors", "vector-projection", "perpendicular-component-projection"],
+      "bookletPaths": ["booklets/Stage 6 Extension 1/Introduction to Vectors 2_Further operations with vectors.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["carryover"],
+      "hazards": [
+        "Hold the fixed notation throughout.",
+        "One routine per skill. `angle-between-vectors` = $\\cos\\theta=\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{a}||\\underset{\\sim}{b}|}$, in 2D and 3D, including obtuse answers. `vector-projection` = the projection of $\\underset{\\sim}{a}$ ONTO $\\underset{\\sim}{b}$, $\\left(\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^{2}}\\right)\\underset{\\sim}{b}$, and the scalar projection $\\dfrac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|}$. `perpendicular-component-projection` = splitting $\\underset{\\sim}{a}$ into the component parallel to $\\underset{\\sim}{b}$ (the projection) and the perpendicular remainder $\\underset{\\sim}{a}-\\text{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}$.",
+        "PROJECTING $\\underset{\\sim}{a}$ ONTO $\\underset{\\sim}{b}$ IS NOT THE SAME AS PROJECTING $\\underset{\\sim}{b}$ ONTO $\\underset{\\sim}{a}$ — the divisor is the magnitude of the vector being projected ONTO. Getting that backwards is the compulsory named distractor for `vector-projection`, and every stem must name the direction of the projection unambiguously ('the projection of $\\underset{\\sim}{a}$ in the direction of $\\underset{\\sim}{b}$').",
+        "THE VECTOR PROJECTION AND THE SCALAR PROJECTION ARE DIFFERENT ANSWERS to nearly the same words. Every stem must say which is wanted, and a vector and a scalar must never appear together in one option list. 'Gave the scalar projection when the vector was asked for' is the compulsory named distractor.",
+        "THE ANGLE BETWEEN TWO VECTORS IS TAKEN IN $[0^{\\circ},180^{\\circ}]$ — a negative $\\cos\\theta$ gives an OBTUSE angle, not a negative one. At least half the `angle-between-vectors` items must be obtuse, and 'took the acute supplement' is the compulsory named distractor. This is exactly the inverse-cosine range trap: check every keyed angle against $[0^{\\circ},180^{\\circ}]$ (or $[0,\\pi]$) before shipping it, and never place an angle and its supplement in one option list where both would be defensible.",
+        "VERIFY THE DECOMPOSITION: the parallel and perpendicular components must ADD BACK to the original vector, and their dot product must be ZERO. Show both checks in at least one solution per item type and run them on every key — that pair of one-line checks catches every arithmetic and sign error in this section.",
+        "$\\cos\\theta$ MUST LIE IN $[-1,1]$. A computed value outside it means the arithmetic is wrong; never key an angle from such a value.",
+        "FIGURES: both vectors from a common tail with real arrowheads, the projection drawn ALONG $\\underset{\\sim}{b}$ in a distinguishable style with its own arrowhead, the perpendicular dropped from the head of $\\underset{\\sim}{a}$ as a dashed line, and the right angle marked with the `calc` square. Mark the angle between the vectors with `\\pic {angle=A--V--B}`, never a hand-drawn arc. Draw the projection to its correct computed length — a projection drawn longer than the vector it projects onto contradicts its own answer.",
+        "State degrees or radians per item and never mix them; pin the rounding ('to the nearest degree')."
+      ]
+    }
+  ]
+}

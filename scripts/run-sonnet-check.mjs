@@ -182,7 +182,7 @@ async function checkOneSkill({ skillId, checkworkDir, resolveMode, timeoutMs }) 
 }
 
 function parseArgs(argv) {
-  const opts = { skills: [], checkworkDir: defaultCheckworkDir, resolveMode: 'figures-first', concurrency: 3, timeoutMs: DEFAULT_CALL_TIMEOUT_MS };
+  const opts = { skills: [], checkworkDir: defaultCheckworkDir, resolveMode: 'figures-first', concurrency: 5, timeoutMs: DEFAULT_CALL_TIMEOUT_MS };
   for (let i = 0; i < argv.length; i++) {
     const flag = argv[i];
     const value = argv[i + 1];

@@ -1,0 +1,109 @@
+{
+  "skillId": "differentiate-combined-functions",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Differentiate $y = \\cos(x^{2} - 1)$.",
+      "structure": "chain-rule-composite",
+      "mastery": false,
+      "options": [
+        { "text": "$-2x\\sin(x^{2} - 1)$", "correct": true },
+        { "text": "$2x\\sin(x^{2} - 1)$", "why": "Lost the minus sign in $\\dfrac{d}{dx}\\cos u = -\\sin u$." },
+        { "text": "$-\\sin(x^{2} - 1)$", "why": "Forgot to multiply by the inside derivative $2x$ from the chain rule." },
+        { "text": "$2x\\cos(x^{2} - 1)$", "why": "Multiplied by the inside derivative but left $\\cos$ unchanged instead of differentiating it to $-\\sin$." }
+      ],
+      "solution_text": "Chain rule, with inside function $u = x^{2} - 1$.\n$u = x^{2} - 1, \\quad u' = 2x$\n$y' = 2x \\times \\left(-\\sin(x^{2} - 1)\\right)$\n$= -2x\\sin(x^{2} - 1)$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Differentiate $y = x^{4}e^{-x}$.",
+      "structure": "product-rule-mixed",
+      "mastery": false,
+      "options": [
+        { "text": "$x^{3}e^{-x}(4 - x)$", "correct": true },
+        { "text": "$x^{3}e^{-x}(4 + x)$", "why": "Differentiated $e^{-x}$ as $e^{-x}$, missing the chain-rule factor $-1$." },
+        { "text": "$-4x^{3}e^{-x}$", "why": "Used $u'v'$ instead of the product rule $u'v + uv'$." },
+        { "text": "$4x^{3}e^{-x}$", "why": "Treated $e^{-x}$ as a constant and differentiated only $x^{4}$." }
+      ],
+      "solution_text": "$u = x^{4}, \\quad u' = 4x^{3}$\n$v = e^{-x}, \\quad v' = -e^{-x}$\n$y' = 4x^{3}e^{-x} - x^{4}e^{-x}$\n$= x^{3}e^{-x}(4 - x)$"
+    },
+    {
+      "id": "q3",
+      "question_text": "Differentiate $y = \\dfrac{\\cos x}{x}$.",
+      "structure": "quotient-rule-mixed",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{-x\\sin x - \\cos x}{x^{2}}$", "correct": true },
+        { "text": "$\\dfrac{x\\sin x + \\cos x}{x^{2}}$", "why": "Reversed the quotient numerator, using $uv' - u'v$ instead of $u'v - uv'$." },
+        { "text": "$\\dfrac{-x\\sin x + \\cos x}{x^{2}}$", "why": "Used the product-rule numerator $u'v + uv'$ over $v^{2}$ instead of $u'v - uv'$." },
+        { "text": "$-\\sin x$", "why": "Differentiated the numerator and the denominator separately, giving $\\dfrac{u'}{v'}$." }
+      ],
+      "solution_text": "$u = \\cos x, \\quad u' = -\\sin x$\n$v = x, \\quad v' = 1$\n$y' = \\dfrac{-x\\sin x - \\cos x}{x^{2}}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Differentiate $y = \\log_{3}(2x)$ for $x > 0$.",
+      "structure": "other-base-derivative",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{1}{x\\ln 3}$", "correct": true },
+        { "text": "$\\dfrac{1}{2x\\ln 3}$", "why": "Omitted the chain-rule factor $f'(x) = 2$ from the numerator." },
+        { "text": "$\\dfrac{2}{x\\ln 3}$", "why": "Wrote $\\dfrac{f'(x)}{(\\ln a)x}$, using $x$ rather than $f(x) = 2x$ in the denominator." },
+        { "text": "$\\dfrac{\\ln 3}{x}$", "why": "Multiplied by $\\ln a$ instead of dividing by it." }
+      ],
+      "solution_text": "Use $\\dfrac{d}{dx}\\log_{a}f(x) = \\dfrac{f'(x)}{(\\ln a)f(x)}$ with $a = 3$ and $f(x) = 2x$.\n$f'(x) = 2$\n$y' = \\dfrac{2}{(\\ln 3)(2x)}$\n$= \\dfrac{1}{x\\ln 3}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "Differentiate $y = \\left(2x + e^{3x}\\right)^{5}$.",
+      "structure": "combine-two-rules",
+      "mastery": false,
+      "options": [
+        { "text": "$5\\left(2 + 3e^{3x}\\right)\\left(2x + e^{3x}\\right)^{4}$", "correct": true },
+        { "text": "$5\\left(2 + e^{3x}\\right)\\left(2x + e^{3x}\\right)^{4}$", "why": "Differentiated $e^{3x}$ as $e^{3x}$, missing the chain-rule factor $3$." },
+        { "text": "$5\\left(2x + e^{3x}\\right)^{4}$", "why": "Applied the power rule but omitted the inside derivative altogether." },
+        { "text": "$5\\left(2 + 3e^{3x}\\right)^{4}$", "why": "Differentiated the inside function first and then raised that to the fourth power." }
+      ],
+      "solution_text": "Chain rule on the outer power, with the chain rule again on $e^{3x}$.\n$u = 2x + e^{3x}, \\quad u' = 2 + 3e^{3x}$\n$y' = 5\\left(2x + e^{3x}\\right)^{4} \\times \\left(2 + 3e^{3x}\\right)$\n$= 5\\left(2 + 3e^{3x}\\right)\\left(2x + e^{3x}\\right)^{4}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "Use log laws to simplify first, then differentiate $y = \\ln\\left(x^{3}\\sqrt{x + 4}\\right)$ for $x > 0$.",
+      "structure": "simplify-with-log-laws",
+      "mastery": false,
+      "options": [
+        { "text": "$\\dfrac{3}{x} + \\dfrac{1}{2(x + 4)}$", "correct": true },
+        { "text": "$\\dfrac{3}{x} + \\dfrac{1}{x + 4}$", "why": "Dropped the factor $\\tfrac{1}{2}$ from $\\ln\\sqrt{x + 4} = \\tfrac{1}{2}\\ln(x + 4)$." },
+        { "text": "$\\dfrac{3}{x} + \\dfrac{1}{2\\sqrt{x + 4}}$", "why": "Differentiated $\\sqrt{x + 4}$ but forgot to divide by $\\sqrt{x + 4}$ as the log rule requires." },
+        { "text": "$\\dfrac{1}{x^{3}} + \\dfrac{1}{2(x + 4)}$", "why": "Wrote the derivative of $\\ln x^{3}$ as $\\dfrac{1}{x^{3}}$ instead of $\\dfrac{3}{x}$." }
+      ],
+      "solution_text": "$y = 3\\ln x + \\dfrac{1}{2}\\ln(x + 4)$\n$y' = \\dfrac{3}{x} + \\dfrac{1}{2} \\times \\dfrac{1}{x + 4}$\n$= \\dfrac{3}{x} + \\dfrac{1}{2(x + 4)}$"
+    },
+    {
+      "id": "q7",
+      "question_text": "Given $f(x) = e^{x}\\ln x$, find the exact value of $f'(1)$.",
+      "structure": "evaluate-derivative-at-point",
+      "mastery": false,
+      "options": [
+        { "text": "$e$", "correct": true },
+        { "text": "$0$", "why": "Differentiated only $e^{x}$ and kept $\\ln x$ as a constant factor, giving $e^{1}\\ln 1 = 0$." },
+        { "text": "$2e$", "why": "Applied the product rule correctly but evaluated $\\ln 1$ as $1$ instead of $0$." },
+        { "text": "$-e$", "why": "Used the quotient-rule numerator $u'v - uv'$ on a product." }
+      ],
+      "solution_text": "$u = e^{x}, \\quad u' = e^{x}$\n$v = \\ln x, \\quad v' = \\dfrac{1}{x}$\n$f'(x) = e^{x}\\ln x + \\dfrac{e^{x}}{x}$\n$f'(1) = e^{1}\\ln 1 + \\dfrac{e^{1}}{1}$\n$= 0 + e$\n$= e$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Let $y = e^{-2x}\\sin x$. Which equation does $y$ satisfy?",
+      "structure": "second-derivative-identity",
+      "mastery": true,
+      "options": [
+        { "text": "$y'' + 4y' + 5y = 0$", "correct": true },
+        { "text": "$y'' - 4y' + 5y = 0$", "why": "Differentiated $e^{-2x}$ as $2e^{-2x}$, losing the minus sign, which gives the equation for $e^{2x}\\sin x$." },
+        { "text": "$y'' + 4y' + 4y = 0$", "why": "Treated $y$ as $e^{-2x}$ alone and ignored the $\\sin x$ factor." },
+        { "text": "$y'' + 5y' + 4y = 0$", "why": "Interchanged the coefficients of $y'$ and $y$." }
+      ],
+      "solution_text": "$y' = -2e^{-2x}\\sin x + e^{-2x}\\cos x$\n$= e^{-2x}(\\cos x - 2\\sin x)$\n$y'' = -2e^{-2x}(\\cos x - 2\\sin x) + e^{-2x}(-\\sin x - 2\\cos x)$\n$= e^{-2x}(-2\\cos x + 4\\sin x - \\sin x - 2\\cos x)$\n$= e^{-2x}(3\\sin x - 4\\cos x)$\n$y'' + 4y' + 5y = e^{-2x}(3\\sin x - 4\\cos x + 4\\cos x - 8\\sin x + 5\\sin x)$\n$= 0$"
+    }
+  ]
+}

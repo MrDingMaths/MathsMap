@@ -1,0 +1,116 @@
+{
+  "batch": "W4-4",
+  "model": "gemini-3.7-flash-high",
+  "note": "Advanced Y12 differential calculus (11) + the first half of integral calculus — primitives, the definite integral as an area, the Fundamental Theorem and the power rule (11) = 22. ORDER: no in-wave prereq; the Y11 differentiation skills shipped in W3-8. `differentiate-combined-functions` also carries an Extension 1 dot point (`dp-s6x1y12-calculus-1`) — it is generated ONCE, here, and W4-9 must not re-queue it. NEAR-ANCHOR NOTE: there is no `Introduction to Differentiation 2_` booklet in `booklets/Stage 6 Advanced/`; that gap sits under the Y11 topic already shipped in W3-8, and every Year 12 dot point in this batch is covered by Differential Calculus 1–4 and Integral Calculus 1, so no skill here is `anchor: none`.",
+  "sections": [
+    {
+      "name": "differentiate-exponentials",
+      "skillIds": ["differentiate-exponential", "differentiate-ax", "differentiate-exponential-composite"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Differential Calculus 1_Differentiation with exponential functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One rule per skill. `differentiate-exponential` = $\\frac{d}{dx}e^{x}=e^{x}$ and $\\frac{d}{dx}e^{kx}=ke^{kx}$, plus sums and constant multiples. `differentiate-ax` = $\\frac{d}{dx}a^{x}=a^{x}\\ln a$ (and $\\frac{d}{dx}a^{kx}=ka^{kx}\\ln a$), including why the $\\ln a$ appears. `differentiate-exponential-composite` = the chain rule form $\\frac{d}{dx}e^{f(x)}=f'(x)e^{f(x)}$, and $e^{f(x)}$ inside a product or quotient.",
+        "$e^{x}$ IS THE ONLY EXPONENTIAL WHOSE DERIVATIVE IS ITSELF. Omitting $\\ln a$ from $\\frac{d}{dx}a^{x}$ is the compulsory named distractor for `differentiate-ax`, and at least one item must have $a=e$ so the student sees why the general rule collapses.",
+        "NEVER APPLY THE POWER RULE TO AN EXPONENTIAL: $\\frac{d}{dx}2^{x}\\ne x2^{x-1}$. That confusion must appear as a named distractor at least once, and no item may mix $x^{n}$ and $a^{x}$ in a way that lets the student get the right answer by the wrong rule.",
+        "THE INNER DERIVATIVE MULTIPLIES, IT DOES NOT REPLACE: $\\frac{d}{dx}e^{3x^{2}}=6xe^{3x^{2}}$, and the exponent is UNCHANGED. 'Differentiated the exponent as well' ($6xe^{6x}$) is the compulsory named distractor for the composite skill.",
+        "ANSWERS MUST BE PINNED TO ONE FORM. $2e^{2x}$, $2\\cdot e^{2x}$ and $\\frac{2}{e^{-2x}}$ are the same number; state 'in simplest form' in every stem and never offer two algebraically equal options.",
+        "This section is figure-free: emit no [tikz] blocks. Nothing here asks for a curve to be sketched — the graphical applications belong to W4-6."
+      ]
+    },
+    {
+      "name": "differentiate-logarithms",
+      "skillIds": ["differentiate-ln", "differentiate-loga", "differentiate-ln-composite"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Differential Calculus 2_Differentiation with logarithmic functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One rule per skill. `differentiate-ln` = $\\frac{d}{dx}\\ln x=\\frac{1}{x}$ (with the domain $x>0$), plus constant multiples and sums. `differentiate-loga` = $\\frac{d}{dx}\\log_{a}x=\\frac{1}{x\\ln a}$ via the change of base. `differentiate-ln-composite` = $\\frac{d}{dx}\\ln f(x)=\\frac{f'(x)}{f(x)}$, including $\\ln$ inside a product or quotient.",
+        "$\\frac{f'(x)}{f(x)}$, NOT $\\frac{1}{f(x)}$ AND NOT $\\frac{1}{f'(x)}$ — both omissions must appear as named distractors on the composite skill, and at least one item must have $f'(x)$ non-constant so the difference is visible.",
+        "SIMPLIFY THE LOGARITHM BEFORE DIFFERENTIATING where the log laws allow it ($\\ln(x^{3})=3\\ln x$, $\\ln\\frac{x}{x+1}=\\ln x-\\ln(x+1)$). At least one item must be far easier that way, and its solution must show the simplification as its first line. Both routes must give the same simplified answer — verify that before keying.",
+        "THE DOMAIN IS PART OF THE ANSWER when the item asks for it: $\\ln f(x)$ requires $f(x)>0$. Never write $\\ln(x-3)$ and then evaluate a derivative at $x=2$ — that is a false premise the arithmetic audit cannot see. Check every evaluation point lies in the domain.",
+        "$\\ln a$ IS A CONSTANT, so $\\frac{1}{x\\ln a}$ is not $\\frac{\\ln a}{x}$ and not $\\frac{1}{x}\\ln a$. Pin the form and never offer two equivalent writings of the same derivative.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "differentiate-trigonometric",
+      "skillIds": ["differentiate-sin-cos", "differentiate-tan-reciprocal-trig", "differentiate-trig-composite"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Differential Calculus 3_Differentiation with trigonometric functions.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One rule per skill. `differentiate-sin-cos` = $\\frac{d}{dx}\\sin x=\\cos x$, $\\frac{d}{dx}\\cos x=-\\sin x$ and the $\\sin kx$/$\\cos kx$ forms. `differentiate-tan-reciprocal-trig` = $\\frac{d}{dx}\\tan x=\\sec^{2}x$, $\\frac{d}{dx}\\sec x=\\sec x\\tan x$, $\\frac{d}{dx}\\csc x=-\\csc x\\cot x$, $\\frac{d}{dx}\\cot x=-\\csc^{2}x$. `differentiate-trig-composite` = the chain rule on $\\sin f(x)$ etc., and trig inside a product or quotient.",
+        "EVERYTHING IN THIS TOPIC IS IN RADIANS. State it in the theory and keep every item in radians: the derivative formulas are FALSE in degrees. No item may print a degree symbol, and any evaluation point is a multiple or fraction of $\\pi$.",
+        "THE MINUS SIGN ON $\\cos$, $\\csc$ AND $\\cot$ IS THE TOPIC'S WHOLE DIFFICULTY. Every skill needs at least one item where dropping a minus sign lands on an offered option, and 'lost the negative' must be a named distractor with the slip stated.",
+        "$\\frac{d}{dx}\\sin^{2}x=2\\sin x\\cos x$ — the chain rule applies to the POWER as well as the argument. Distinguish $\\sin^{2}x$, $\\sin(x^{2})$ and $\\sin 2x$ explicitly; put at most one of them in any one option list, since their derivatives are easily confused but genuinely different.",
+        "$2\\sin x\\cos x$ AND $\\sin 2x$ ARE EQUAL — never offer both as options, and pin the required form in the stem when a double-angle identity could rewrite the answer. Same for $\\sec^{2}x$ versus $1+\\tan^{2}x$.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "using-derivatives",
+      "skillIds": ["differentiate-combined-functions", "tangents-normals-advanced"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Differential Calculus 4_Using derivatives.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "`differentiate-combined-functions` = choosing and combining the product, quotient and chain rules on functions built from exponential, logarithmic, trigonometric and polynomial pieces — the point is the CHOICE and the nesting ($x^{2}e^{3x}$, $\\frac{\\ln x}{\\sin x}$, $e^{\\sin 2x}$), not any one rule. `tangents-normals-advanced` = the equation of a tangent or normal to any of these curves at a stated point, and the reverse (where is the tangent horizontal, or parallel to a given line).",
+        "THIS SKILL ALSO CARRIES AN EXTENSION 1 DOT POINT but is generated once, here, at the Advanced level. Do not reach into Extension 1 material: no parametric differentiation, no inverse-function derivative, no inverse trigonometric functions. Those are separate skills in W4-9.",
+        "THE PRODUCT RULE IS NOT $u'v'$ AND THE QUOTIENT RULE'S NUMERATOR IS $u'v-uv'$ IN THAT ORDER. Reversing the quotient numerator is the compulsory named distractor; build at least one item where the reversed version is a plausible offered answer.",
+        "A NORMAL'S GRADIENT IS $-\\frac{1}{m}$, NOT $-m$ AND NOT $\\frac{1}{m}$ — and a horizontal tangent has a VERTICAL normal ($x=c$), which has no gradient at all. Include that case and state the equation correctly; 'wrote $y=c$ for the vertical normal' is a good named distractor.",
+        "EVERY TANGENT AND NORMAL ITEM THAT CARRIES A FIGURE MUST DERIVE THE LINE FROM THE PLOTTED FUNCTION — plot the curve with a `domain=`-restricted function plot, compute the gradient at the point of contact, and draw the line from that gradient. Hand-picked coordinate lists with an eyeballed tangent fail `audit-tangent-lines.mjs`. Never use `^` inside a plotted TikZ expression: write $e^{x}$ as `exp(x)` and $2^{x}$ as `exp(x*ln(2))`. Restrict every plot's domain to the axis window and compute where the curve leaves it.",
+        "The shipped Y11 skills `tangent-normal-equations` and `points-given-gradient` own tangents to polynomials. This section takes the space they cannot: every curve here involves an exponential, a logarithm or a trigonometric function.",
+        "Verify every stated point actually lies ON the curve before keying the item — substituting the $x$ value must reproduce the $y$ value exactly. A point off the curve is a false premise the gate cannot see."
+      ]
+    },
+    {
+      "name": "primitives",
+      "skillIds": ["primitive-definition", "primitive-power-functions", "primitive-linear-power", "primitive-initial-condition"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 1_The Fundamental Theorem of Calculus.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": [],
+      "hazards": [
+        "One routine per skill. `primitive-definition` = what a primitive (antiderivative) IS — $F'(x)=f(x)$ — verifying a candidate by differentiating it, and why the family differs by a constant. `primitive-power-functions` = $\\int x^{n}\\,dx=\\frac{x^{n+1}}{n+1}+C$ for $n\\ne-1$, including negative and fractional $n$. `primitive-linear-power` = $\\int(ax+b)^{n}\\,dx=\\frac{(ax+b)^{n+1}}{a(n+1)}+C$. `primitive-initial-condition` = recovering the specific function from its derivative plus a point.",
+        "$+C$ IS NOT OPTIONAL on any indefinite primitive, and an option that omits it is a legitimate named distractor exactly once per skill. Conversely `primitive-initial-condition` answers carry NO $C$ — it has been evaluated.",
+        "$n=-1$ IS EXCLUDED FROM THE POWER RULE ($\\frac{x^{0}}{0}$ is undefined). Say so in the theory, include one item that asks which power the rule cannot handle, and never let $\\int x^{-1}dx$ appear with a power-rule answer. The logarithmic primitive belongs to W4-5.",
+        "THE $\\frac{1}{a}$ IN `primitive-linear-power` IS THE COMPULSORY NAMED DISTRACTOR: $\\int(3x+2)^{4}dx=\\frac{(3x+2)^{5}}{15}+C$, not $\\frac{(3x+2)^{5}}{5}$. At least two thirds of that skill's items must have $a\\ne1$.",
+        "REWRITE BEFORE INTEGRATING: $\\frac{1}{x^{3}}=x^{-3}$ and $\\sqrt{x}=x^{1/2}$. At least one item per skill must require that rewriting, and its solution must show the rewritten line first. 'Integrated the denominator' is a named distractor.",
+        "EVERY PRIMITIVE MUST BE VERIFIED BY DIFFERENTIATING IT BACK before the item is keyed — that check is one line and catches every arithmetic slip in this section. Show it in at least one solution per skill.",
+        "This section is figure-free: emit no [tikz] blocks."
+      ]
+    },
+    {
+      "name": "definite-integral-as-area",
+      "skillIds": ["definite-integral-limit-sum", "approximate-area-rectangles", "definite-integral-geometric"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 1_The Fundamental Theorem of Calculus.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `definite-integral-limit-sum` = the CONCEPT — $\\int_{a}^{b}f(x)dx$ as the limit of a sum of rectangle areas as their width tends to zero, and reading the notation's parts. `approximate-area-rectangles` = actually computing a left-endpoint, right-endpoint or midpoint rectangle approximation (and a trapezium approximation) over a stated number of strips, and saying whether it over- or under-estimates. `definite-integral-geometric` = evaluating an integral by recognising the region as triangles, rectangles, trapezia or a semicircle — NO primitive is used.",
+        "OVER- vs UNDER-ESTIMATE DEPENDS ON WHETHER THE FUNCTION IS INCREASING OR DECREASING: on an increasing function, left endpoints under-estimate and right endpoints over-estimate; on a decreasing one the reverse. Every `approximate-area-rectangles` item must state which endpoints are used and at least one must be on a decreasing function, with 'assumed left always under-estimates' a named distractor.",
+        "AREA BELOW THE AXIS COUNTS AS NEGATIVE in a definite integral. `definite-integral-geometric` must include one item where part of the region is below the axis, and must distinguish 'the value of the integral' from 'the total area enclosed' in the stem — those two answers differ, and offering both without pinning which is wanted is a two-correct-answer defect.",
+        "$\\int_{a}^{b}=-\\int_{b}^{a}$: include one item with reversed limits, and make 'ignored the order of the limits' a named distractor.",
+        "EVERY ITEM IN ALL THREE SKILLS CARRIES A `[tikz]` FIGURE — the curve with the region shaded, and for the rectangle skill the actual rectangles drawn to the stated strip width with the correct endpoint heights. Plot the curve as a function with a `domain=` restricted to the axis window (never `^` in a plotted expression); draw each rectangle's height at the endpoint the stem names, and verify by evaluating the function at every strip boundary that the drawn heights are right. A figure whose rectangles touch the curve at the wrong endpoints contradicts its own answer.",
+        "The strip width is $h=\\frac{b-a}{n}$ and $n$ strips have $n+1$ boundaries — the off-by-one on how many function values are needed is the section's other named distractor.",
+        "The Fundamental Theorem does not appear in this section: no item may evaluate an integral by finding a primitive. That is the next section's skill."
+      ]
+    },
+    {
+      "name": "ftc-and-power-integration",
+      "skillIds": ["fundamental-theorem-calculus", "indefinite-integral-notation", "integrate-power-rule", "reverse-chain-rule-power"],
+      "bookletPaths": ["booklets/Stage 6 Advanced/Integral Calculus 1_The Fundamental Theorem of Calculus.md"],
+      "model": "gemini-3.7-flash-high",
+      "tikzSections": ["curve"],
+      "hazards": [
+        "One routine per skill. `fundamental-theorem-calculus` = the statement in both directions — $\\frac{d}{dx}\\int_{a}^{x}f(t)dt=f(x)$, and $\\int_{a}^{b}f(x)dx=F(b)-F(a)$ — and what it means that differentiation and integration undo each other. `indefinite-integral-notation` = reading and writing $\\int f(x)dx$, the role of $dx$, and the difference between a definite and an indefinite integral. `integrate-power-rule` = evaluating definite integrals of polynomials and power functions. `reverse-chain-rule-power` = $\\int f'(x)[f(x)]^{n}dx=\\frac{[f(x)]^{n+1}}{n+1}+C$, recognising when the derivative of the inner function is present as a factor.",
+        "$F(b)-F(a)$ IN THAT ORDER, and the $+C$ CANCELS in a definite integral so it must not appear in the answer. 'Computed $F(a)-F(b)$' is the compulsory named distractor for `integrate-power-rule`, and at least a third of items must produce a negative value so the sign error is visible.",
+        "THE REVERSE CHAIN RULE NEEDS THE INNER DERIVATIVE TO BE PRESENT UP TO A CONSTANT. $\\int 2x(x^{2}+1)^{3}dx$ works; $\\int(x^{2}+1)^{3}dx$ does NOT by this method. Include one item asking which of several integrals the method applies to, and never key an item that silently invents the missing factor.",
+        "AN INDEFINITE INTEGRAL IS A FUNCTION AND A DEFINITE INTEGRAL IS A NUMBER. Never place a function and a number in one option list, and make 'left the answer as a function when a number was asked for' a named distractor exactly once.",
+        "EVERY DEFINITE-INTEGRAL VALUE MUST BE RE-COMPUTED DIGIT BY DIGIT and checked for sign against the picture: if the region lies above the axis the answer is positive. A keyed value whose sign contradicts the region is the defect class no gate script catches.",
+        "FIGURES: `fundamental-theorem-calculus` carries one reference figure showing the accumulating area under a curve from $a$ to a moving $x$, and definite-integral items shade the region between the curve and the axis over the stated limits. Plot curves as functions restricted to the axis window; never `^` inside a plotted expression.",
+        "Exponential, logarithmic and trigonometric integrands do NOT appear in this section — they are W4-5's skills. Keep every integrand a polynomial or a power of $x$ (or of a linear expression)."
+      ]
+    }
+  ]
+}

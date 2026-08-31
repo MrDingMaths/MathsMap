@@ -1,0 +1,173 @@
+{
+  "skillId": "integrate-f-dash-over-f",
+  "atomType": "R",
+  "theory": {
+    "intro": "When the top of a fraction is the derivative of the bottom, the primitive is a logarithm: $\\int\\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$. Always check the numerator first, because without $f'(x)$ the rule does not apply.",
+    "facts": [
+      "The denominator is $f(x)$, and it must appear to the power $1$ for this rule to work.",
+      "$\\int\\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$ on any interval where $f(x) \\ne 0$.",
+      "Differentiate the denominator and compare it with the numerator before choosing this rule.",
+      "A constant multiple is enough: if the numerator is $kf'(x)$, the answer is $k\\ln|f(x)| + C$.",
+      "For $\\int\\dfrac{x}{x^{2}+7}\\,dx$ you need $2x$ on top, so the answer is $\\dfrac{1}{2}\\ln|x^{2}+7| + C$.",
+      "The rule fails when the numerator is not a constant multiple of $f'(x)$, as in $\\int\\dfrac{x^{2}}{x^{2}+1}\\,dx$.",
+      "A squared denominator needs the reverse chain rule for powers, not this logarithm rule.",
+      "Since $\\dfrac{d}{dx}\\cos x = -\\sin x$, writing $\\tan x = \\dfrac{\\sin x}{\\cos x}$ gives $\\int\\tan x\\,dx = -\\ln|\\cos x| + C$.",
+      "Where $f(x)$ is always positive, such as $e^{x}+1$, the modulus signs may be dropped.",
+      "Check any answer by differentiating it with the chain rule."
+    ],
+    "steps": [
+      "Identify $f(x)$ as the denominator, which must have power $1$.",
+      "Differentiate $f(x)$ and check the numerator is $f'(x)$ or a constant multiple of it.",
+      "Adjust for any missing constant factor.",
+      "Write the answer as $\\ln|f(x)| + C$."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $\\int \\dfrac{2x}{x^{2}-7}\\,dx$.",
+        "structure": "exact-derivative-on-top",
+        "solution_text": "$f(x) = x^{2}-7$, so $f'(x) = 2x$.\n$\\int \\dfrac{2x}{x^{2}-7}\\,dx$\n$= \\ln|x^{2}-7| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{3x^{2}+2}{x^{3}+2x-9}\\,dx$.",
+        "structure": "exact-derivative-on-top",
+        "solution_text": "$f(x) = x^{3}+2x-9$, so $f'(x) = 3x^{2}+2$.\n$\\int \\dfrac{3x^{2}+2}{x^{3}+2x-9}\\,dx$\n$= \\ln|x^{3}+2x-9| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{8x+3}{4x^{2}+3x}\\,dx$.",
+        "structure": "exact-derivative-on-top",
+        "solution_text": "$f(x) = 4x^{2}+3x$, so $f'(x) = 8x+3$.\n$\\int \\dfrac{8x+3}{4x^{2}+3x}\\,dx$\n$= \\ln|4x^{2}+3x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{x}{x^{2}+5}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = x^{2}+5$, so $f'(x) = 2x$.\n$\\int \\dfrac{x}{x^{2}+5}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{2x}{x^{2}+5}\\,dx$\n$= \\dfrac{1}{2}\\ln|x^{2}+5| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{x^{2}}{x^{3}-4}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = x^{3}-4$, so $f'(x) = 3x^{2}$.\n$\\int \\dfrac{x^{2}}{x^{3}-4}\\,dx$\n$= \\dfrac{1}{3}\\int \\dfrac{3x^{2}}{x^{3}-4}\\,dx$\n$= \\dfrac{1}{3}\\ln|x^{3}-4| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{2x+1}{4x^{2}+4x-3}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = 4x^{2}+4x-3$, so $f'(x) = 8x+4 = 4(2x+1)$.\n$\\int \\dfrac{2x+1}{4x^{2}+4x-3}\\,dx$\n$= \\dfrac{1}{4}\\int \\dfrac{8x+4}{4x^{2}+4x-3}\\,dx$\n$= \\dfrac{1}{4}\\ln|4x^{2}+4x-3| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{10x}{3-x^{2}}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = 3-x^{2}$, so $f'(x) = -2x$.\n$\\int \\dfrac{10x}{3-x^{2}}\\,dx$\n$= -5\\int \\dfrac{-2x}{3-x^{2}}\\,dx$\n$= -5\\ln|3-x^{2}| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{e^{x}}{e^{x}+6}\\,dx$.",
+        "structure": "exponential-numerator",
+        "solution_text": "$f(x) = e^{x}+6$, so $f'(x) = e^{x}$.\n$\\int \\dfrac{e^{x}}{e^{x}+6}\\,dx$\n$= \\ln(e^{x}+6) + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{e^{2x}}{e^{2x}-1}\\,dx$.",
+        "structure": "exponential-numerator",
+        "solution_text": "$f(x) = e^{2x}-1$, so $f'(x) = 2e^{2x}$.\n$\\int \\dfrac{e^{2x}}{e^{2x}-1}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{2e^{2x}}{e^{2x}-1}\\,dx$\n$= \\dfrac{1}{2}\\ln|e^{2x}-1| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{\\cos x}{4+\\sin x}\\,dx$.",
+        "structure": "trig-numerator",
+        "solution_text": "$f(x) = 4+\\sin x$, so $f'(x) = \\cos x$.\n$\\int \\dfrac{\\cos x}{4+\\sin x}\\,dx$\n$= \\ln(4+\\sin x) + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{\\sin x}{3-\\cos x}\\,dx$.",
+        "structure": "trig-numerator",
+        "solution_text": "$f(x) = 3-\\cos x$, so $f'(x) = \\sin x$.\n$\\int \\dfrac{\\sin x}{3-\\cos x}\\,dx$\n$= \\ln(3-\\cos x) + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{\\sec^{2}x}{2+\\tan x}\\,dx$.",
+        "structure": "trig-numerator",
+        "solution_text": "$f(x) = 2+\\tan x$, so $f'(x) = \\sec^{2}x$.\n$\\int \\dfrac{\\sec^{2}x}{2+\\tan x}\\,dx$\n$= \\ln|2+\\tan x| + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int \\dfrac{x+2}{x^{2}+4x-5}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = x^{2}+4x-5$, so $f'(x) = 2x+4 = 2(x+2)$.\n$\\int \\dfrac{x+2}{x^{2}+4x-5}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{2x+4}{x^{2}+4x-5}\\,dx$\n$= \\dfrac{1}{2}\\ln|x^{2}+4x-5| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{2-x}{4x-x^{2}}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = 4x-x^{2}$, so $f'(x) = 4-2x = 2(2-x)$.\n$\\int \\dfrac{2-x}{4x-x^{2}}\\,dx$\n$= \\dfrac{1}{2}\\int \\dfrac{4-2x}{4x-x^{2}}\\,dx$\n$= \\dfrac{1}{2}\\ln|4x-x^{2}| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{9x^{2}-4}{3x^{3}-4x+2}\\,dx$.",
+        "structure": "exact-derivative-on-top",
+        "solution_text": "$f(x) = 3x^{3}-4x+2$, so $f'(x) = 9x^{2}-4$.\n$\\int \\dfrac{9x^{2}-4}{3x^{3}-4x+2}\\,dx$\n$= \\ln|3x^{3}-4x+2| + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{3} \\dfrac{2x}{x^{2}+2}\\,dx$ as a single logarithm.",
+        "structure": "definite-f-dash-over-f",
+        "solution_text": "$f(x) = x^{2}+2$, so $f'(x) = 2x$.\n$\\int_{1}^{3} \\dfrac{2x}{x^{2}+2}\\,dx$\n$= \\left[\\ln(x^{2}+2)\\right]_{1}^{3}$\n$= \\ln 11 - \\ln 3$\n$= \\ln\\dfrac{11}{3}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2} \\dfrac{x}{x^{2}+4}\\,dx$, giving an exact answer.",
+        "structure": "definite-f-dash-over-f",
+        "solution_text": "$f(x) = x^{2}+4$, so $f'(x) = 2x$.\n$\\int_{0}^{2} \\dfrac{x}{x^{2}+4}\\,dx$\n$= \\dfrac{1}{2}\\left[\\ln(x^{2}+4)\\right]_{0}^{2}$\n$= \\dfrac{1}{2}\\left(\\ln 8 - \\ln 4\\right)$\n$= \\dfrac{1}{2}\\ln 2$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{\\frac{\\pi}{3}} \\dfrac{\\sin x}{2-\\cos x}\\,dx$ as a single logarithm.",
+        "structure": "definite-f-dash-over-f",
+        "solution_text": "$f(x) = 2-\\cos x$, so $f'(x) = \\sin x$.\n$\\int_{0}^{\\frac{\\pi}{3}} \\dfrac{\\sin x}{2-\\cos x}\\,dx$\n$= \\left[\\ln(2-\\cos x)\\right]_{0}^{\\frac{\\pi}{3}}$\n$= \\ln\\dfrac{3}{2} - \\ln 1$\n$= \\ln\\dfrac{3}{2}$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{1} \\dfrac{e^{x}}{e^{x}+1}\\,dx$ as a single logarithm.",
+        "structure": "definite-f-dash-over-f",
+        "solution_text": "$f(x) = e^{x}+1$, so $f'(x) = e^{x}$.\n$\\int_{0}^{1} \\dfrac{e^{x}}{e^{x}+1}\\,dx$\n$= \\left[\\ln(e^{x}+1)\\right]_{0}^{1}$\n$= \\ln(e+1) - \\ln 2$\n$= \\ln\\dfrac{e+1}{2}$"
+      },
+      {
+        "question_text": "Explain why $\\int \\dfrac{x^{3}}{x^{2}+1}\\,dx$ cannot be found using $\\int \\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$.",
+        "structure": "identify-applicability",
+        "solution_text": "$f(x) = x^{2}+1$, so $f'(x) = 2x$.\nThe numerator $x^{3}$ is not a constant multiple of $2x$, since $\\dfrac{x^{3}}{2x} = \\dfrac{x^{2}}{2}$ still contains $x$.\nThe rule does not apply, because only a constant factor may be adjusted for."
+      },
+      {
+        "question_text": "Decide whether $\\int \\dfrac{4x+1}{2x^{2}+x-6}\\,dx$ can be found using $\\int \\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$, and if so find it.",
+        "structure": "identify-applicability",
+        "solution_text": "$f(x) = 2x^{2}+x-6$, so $f'(x) = 4x+1$.\nThe numerator is exactly $f'(x)$, so the rule applies.\n$\\int \\dfrac{4x+1}{2x^{2}+x-6}\\,dx$\n$= \\ln|2x^{2}+x-6| + C$"
+      },
+      {
+        "question_text": "By writing $\\tan x$ as $\\dfrac{\\sin x}{\\cos x}$, find $\\int \\tan x\\,dx$.",
+        "structure": "trig-numerator",
+        "solution_text": "$\\int \\tan x\\,dx$\n$= \\int \\dfrac{\\sin x}{\\cos x}\\,dx$\n$f(x) = \\cos x$, so $f'(x) = -\\sin x$.\n$= -\\int \\dfrac{-\\sin x}{\\cos x}\\,dx$\n$= -\\ln|\\cos x| + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{e^{x}-e^{-x}}{e^{x}+e^{-x}}\\,dx$.",
+        "structure": "exponential-numerator",
+        "solution_text": "$f(x) = e^{x}+e^{-x}$, so $f'(x) = e^{x}-e^{-x}$.\n$\\int \\dfrac{e^{x}-e^{-x}}{e^{x}+e^{-x}}\\,dx$\n$= \\ln\\left(e^{x}+e^{-x}\\right) + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{12x^{2}-6}{2x^{3}-3x+7}\\,dx$.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = 2x^{3}-3x+7$, so $f'(x) = 6x^{2}-3$.\n$\\int \\dfrac{12x^{2}-6}{2x^{3}-3x+7}\\,dx$\n$= 2\\int \\dfrac{6x^{2}-3}{2x^{3}-3x+7}\\,dx$\n$= 2\\ln|2x^{3}-3x+7| + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Differentiate $\\ln(\\ln x)$, and hence find $\\int \\dfrac{1}{x\\ln x}\\,dx$ for $x > 1$.",
+        "structure": "hence-integrate",
+        "solution_text": "$\\dfrac{d}{dx}\\ln(\\ln x)$\n$= \\dfrac{1}{\\ln x} \\times \\dfrac{1}{x}$\n$= \\dfrac{1}{x\\ln x}$\nThe integrand is exactly this derivative.\n$\\int \\dfrac{1}{x\\ln x}\\,dx = \\ln(\\ln x) + C$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{\\frac{\\pi}{6}}^{\\frac{\\pi}{3}} \\cot x\\,dx$, giving an exact answer.",
+        "structure": "definite-f-dash-over-f",
+        "solution_text": "$\\int_{\\frac{\\pi}{6}}^{\\frac{\\pi}{3}} \\dfrac{\\cos x}{\\sin x}\\,dx$\n$= \\left[\\ln|\\sin x|\\right]_{\\frac{\\pi}{6}}^{\\frac{\\pi}{3}}$\n$= \\ln\\dfrac{\\sqrt{3}}{2} - \\ln\\dfrac{1}{2}$\n$= \\ln\\sqrt{3}$\n$= \\dfrac{1}{2}\\ln 3$"
+      },
+      {
+        "question_text": "A curve has gradient $\\dfrac{dy}{dx} = \\dfrac{6x}{3x^{2}+4}$ and passes through $(0,\\,5)$. Find its equation.",
+        "structure": "constant-adjustment",
+        "solution_text": "$f(x) = 3x^{2}+4$, so $f'(x) = 6x$.\n$y = \\ln(3x^{2}+4) + C$\nUsing $(0,\\,5)$: $\\ln 4 + C = 5$, so $C = 5 - \\ln 4$.\n$y = \\ln(3x^{2}+4) - \\ln 4 + 5$\n$y = \\ln\\dfrac{3x^{2}+4}{4} + 5$"
+      },
+      {
+        "question_text": "Explain why $\\int_{-1}^{2} \\dfrac{2x}{x^{2}-1}\\,dx$ is not defined.",
+        "structure": "identify-applicability",
+        "solution_text": "$x^{2}-1 = 0$ when $x = 1$ or $x = -1$.\nBoth of these lie in the interval from $-1$ to $2$, so the integrand is undefined there.\nThe rule $\\int \\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$ holds only where $f(x) \\ne 0$, so this integral has no value."
+      }
+    ]
+  }
+}

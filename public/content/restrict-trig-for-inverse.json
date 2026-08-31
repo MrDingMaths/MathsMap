@@ -1,0 +1,103 @@
+{
+  "skillId": "restrict-trig-for-inverse",
+  "atomType": "Cat",
+  "theory": {
+    "intro": "The graphs of $y=\\sin x$, $y=\\cos x$ and $y=\\tan x$ all fail the horizontal line test, so none of them has an inverse function. **Restricting the domain** means keeping only a piece of the curve on which the function is one-to-one.",
+    "facts": [
+      "A horizontal line meets $y=\\sin x$ infinitely often, so infinitely many $x$-values share the same $y$-value.",
+      "A useful restricted piece must be one-to-one and must still take every value in the function's full range.",
+      "The agreed restriction for sine is $-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$, where sine increases steadily from $-1$ to $1$.",
+      "The agreed restriction for cosine is $0\\le x\\le\\pi$, where cosine decreases steadily from $1$ to $-1$.",
+      "The agreed restriction for tangent is $-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$, an open interval because $\\tan x$ is undefined at $\\pm\\frac{\\pi}{2}$.",
+      "Other intervals such as $\\frac{\\pi}{2}\\le x\\le\\frac{3\\pi}{2}$ also work for sine; mathematicians simply agreed on the simplest choice.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-7.4, xmax=7.4, ymin=-2.6, ymax=1.7, samples=150, clip=false, width=12cm, height=7cm, xtick={-6.2832,-3.1416,-1.5708,1.5708,3.1416,6.2832}, xticklabels={$-2\\pi$,$-\\pi$,$-\\frac{\\pi}{2}$,$\\frac{\\pi}{2}$,$\\pi$,$2\\pi$}, ytick={-1,1}, every tick label/.style={font=\\scriptsize}]\n\\addplot[thick, <->, domain=-7.4:7.4] {sin(deg(x))};\n\\addplot[very thick, red, domain=-1.5708:1.5708] {sin(deg(x))};\n\\addplot[dashed, domain=-7.4:7.4] {0.6} node[pos=0.03, above] {$y=c$};\n\\node[red, font=\\small] at (axis cs:0,-2.2) {one-to-one piece: $-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+    ],
+    "steps": [
+      "Check the function is defined everywhere on the interval",
+      "Check no horizontal line meets the curve more than once on the interval",
+      "Check the piece still takes every value in the function's range"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Explain why $y=\\sin x$ has no inverse function on its natural domain.",
+        "structure": "why-restriction-needed",
+        "solution_text": "A horizontal line such as $y=\\frac{1}{2}$ cuts $y=\\sin x$ infinitely many times.\nSo $y=\\sin x$ fails the horizontal line test and is not one-to-one.\nA function only has an inverse function when it is one-to-one, so $y=\\sin x$ has no inverse function until its domain is restricted."
+      },
+      {
+        "question_text": "State the agreed restricted domain used to define the inverse of $y=\\sin x$.",
+        "structure": "identify-standard-restricted-domain",
+        "solution_text": "$-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "State the agreed restricted domain used to define the inverse of $y=\\cos x$.",
+        "structure": "identify-standard-restricted-domain",
+        "solution_text": "$0\\le x\\le\\pi$"
+      },
+      {
+        "question_text": "State the agreed restricted domain used to define the inverse of $y=\\tan x$, and say why the endpoints are excluded.",
+        "structure": "identify-standard-restricted-domain",
+        "solution_text": "$-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$\nThe endpoints are excluded because $\\tan x$ is undefined at $x=\\pm\\frac{\\pi}{2}$, where the graph has vertical asymptotes."
+      },
+      {
+        "question_text": "How many solutions does $\\sin x=0.4$ have for $-2\\pi\\le x\\le 2\\pi$?",
+        "structure": "count-solutions-horizontal-line",
+        "solution_text": "The interval $-2\\pi\\le x\\le 2\\pi$ contains two full periods of $y=\\sin x$.\nThe line $y=0.4$ cuts each period twice.\n$2\\times 2=4$ solutions"
+      },
+      {
+        "question_text": "Is $0\\le x\\le\\pi$ a suitable restricted domain for $y=\\sin x$? Justify your answer.",
+        "structure": "test-candidate-interval",
+        "solution_text": "1. **Check the function is defined everywhere on the interval**\n$\\sin x$ is defined for all $x$, so this is satisfied.\n2. **Check no horizontal line meets the curve more than once on the interval**\n$\\sin\\frac{\\pi}{6}=\\frac{1}{2}$ and $\\sin\\frac{5\\pi}{6}=\\frac{1}{2}$, and both values lie in $0\\le x\\le\\pi$.\nNo, it is not suitable: the piece is not one-to-one."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Is $\\pi\\le x\\le 2\\pi$ a suitable restricted domain for $y=\\cos x$? Justify your answer.",
+        "structure": "test-candidate-interval",
+        "solution_text": "1. **Check the function is defined everywhere on the interval**\n$\\cos x$ is defined for all $x$.\n2. **Check no horizontal line meets the curve more than once on the interval**\nOn $\\pi\\le x\\le 2\\pi$ the cosine curve rises steadily, so it is one-to-one.\n3. **Check the piece still takes every value in the function's range**\nIt runs from $\\cos\\pi=-1$ up to $\\cos 2\\pi=1$, covering all of $[-1,1]$.\nYes, it is suitable, although the agreed restriction is $0\\le x\\le\\pi$."
+      },
+      {
+        "question_text": "Is $-\\frac{\\pi}{2}\\le x\\le\\frac{\\pi}{2}$ a suitable restricted domain for $y=\\cos x$? Justify your answer.",
+        "structure": "test-candidate-interval",
+        "solution_text": "$\\cos\\left(-\\frac{\\pi}{3}\\right)=\\frac{1}{2}$ and $\\cos\\frac{\\pi}{3}=\\frac{1}{2}$\nBoth $x$-values lie in the interval, so the horizontal line $y=\\frac{1}{2}$ cuts the piece twice.\nNo, it is not suitable: cosine is even, so this interval is not one-to-one."
+      },
+      {
+        "question_text": "The thick section of the graph below is the piece of $y=\\tan x$ kept when the domain is restricted. State the interval, using correct bracket notation.\n[tikz]\n\\begin{tikzpicture}\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$}, xmin=-5.4, xmax=5.4, ymin=-5.8, ymax=4.4, samples=150, clip=false, width=11cm, height=8cm, xtick={-4.7124,-1.5708,1.5708,4.7124}, xticklabels={$-\\frac{3\\pi}{2}$,$-\\frac{\\pi}{2}$,$\\frac{\\pi}{2}$,$\\frac{3\\pi}{2}$}, every tick label/.style={font=\\scriptsize}]\n\\addplot[thick, <->, domain=-4.479:-1.804] {tan(deg(x))};\n\\addplot[very thick, red, <->, domain=-1.3374:1.3374] {tan(deg(x))};\n\\addplot[thick, <->, domain=1.804:4.479] {tan(deg(x))};\n\\addplot[dashed, domain=-4.2:4.2] ({-1.5708},{x});\n\\addplot[dashed, domain=-4.2:4.2] ({1.5708},{x});\n\\addplot[dashed, domain=-4.2:4.2] ({-4.7124},{x});\n\\addplot[dashed, domain=-4.2:4.2] ({4.7124},{x});\n\\node[red, font=\\small] at (axis cs:0,-5.2) {thick section};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "read-restriction-from-graph",
+        "solution_text": "The thick section runs between the asymptotes at $x=-\\frac{\\pi}{2}$ and $x=\\frac{\\pi}{2}$.\nThose two values are not included, because $\\tan x$ is undefined there.\n$-\\frac{\\pi}{2}<x<\\frac{\\pi}{2}$"
+      },
+      {
+        "question_text": "How many solutions does $\\cos x=-0.7$ have for $0\\le x\\le 4\\pi$?",
+        "structure": "count-solutions-horizontal-line",
+        "solution_text": "The interval $0\\le x\\le 4\\pi$ contains two full periods of $y=\\cos x$.\nThe line $y=-0.7$ cuts each period twice.\n$2\\times 2=4$ solutions"
+      },
+      {
+        "question_text": "Why is the restricted domain of $y=\\tan x$ written with round brackets, while the restricted domain of $y=\\sin x$ is written with square brackets?",
+        "structure": "why-restriction-needed",
+        "solution_text": "$\\sin x$ is defined at $x=\\pm\\frac{\\pi}{2}$, taking the values $-1$ and $1$, so those endpoints are included.\n$\\tan x$ is undefined at $x=\\pm\\frac{\\pi}{2}$, where the graph has vertical asymptotes, so those endpoints must be excluded.\nRound brackets show an excluded endpoint and square brackets show an included one."
+      },
+      {
+        "question_text": "Is $0\\le x\\le\\frac{\\pi}{2}$ a suitable restricted domain for $y=\\sin x$? Justify your answer.",
+        "structure": "test-candidate-interval",
+        "solution_text": "2. **Check no horizontal line meets the curve more than once on the interval**\nOn $0\\le x\\le\\frac{\\pi}{2}$ the sine curve rises steadily, so it is one-to-one.\n3. **Check the piece still takes every value in the function's range**\nIt runs only from $\\sin 0=0$ to $\\sin\\frac{\\pi}{2}=1$, so it takes no negative values.\nNo, it is not suitable: the piece misses every value in $-1\\le y<0$."
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Give a restricted domain for $y=\\sin x$, different from the agreed one, on which sine is one-to-one and still takes every value from $-1$ to $1$. Justify your choice.",
+        "structure": "test-candidate-interval",
+        "solution_text": "Choose $\\frac{\\pi}{2}\\le x\\le\\frac{3\\pi}{2}$.\nOn this interval the sine curve falls steadily from $\\sin\\frac{\\pi}{2}=1$ to $\\sin\\frac{3\\pi}{2}=-1$, so no horizontal line cuts it twice.\nBecause it runs from $1$ down to $-1$, it takes every value in $[-1,1]$."
+      },
+      {
+        "question_text": "A student claims that $y=\\tan x$ can be restricted to $0\\le x\\le\\pi$ to obtain an inverse function. Give two separate reasons why this fails.",
+        "structure": "test-candidate-interval",
+        "solution_text": "First, $\\tan x$ is undefined at $x=\\frac{\\pi}{2}$, which lies inside the interval, so the function is not defined on the whole interval.\nSecond, $\\tan 0=0$ and $\\tan\\pi=0$, so the horizontal line $y=0$ cuts the graph twice on $0\\le x\\le\\pi$ and the piece is not one-to-one.\nEither reason on its own is enough to rule the interval out."
+      },
+      {
+        "question_text": "The horizontal line $y=k$ meets the curve $y=\\sin x$ exactly three times for $0\\le x\\le 2\\pi$. Find $k$.",
+        "structure": "count-solutions-horizontal-line",
+        "solution_text": "For $-1<k<0$ or $0<k<1$ the line cuts $y=\\sin x$ exactly twice in $0\\le x\\le 2\\pi$.\nFor $k=1$ it touches only at $x=\\frac{\\pi}{2}$, and for $k=-1$ only at $x=\\frac{3\\pi}{2}$.\nFor $k=0$ the solutions are $x=0$, $x=\\pi$ and $x=2\\pi$.\n$k=0$"
+      }
+    ]
+  }
+}

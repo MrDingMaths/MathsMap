@@ -24,7 +24,7 @@
           "why": "Recorded edge of weight $7$ between $A$ and $D$ instead of $B$ and $D$."
         }
       ],
-      "solution_text": "List the edge weights for each vertex:\nRow $A$: $AB=6, AC=8$\nRow $B$: $BA=6, BC=5, BD=7$\nRow $C$: $CA=8, CB=5, CD=4$\nRow $D$: $DB=7, DC=4$\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & - \\\\ B & 6 & - & 5 & 7 \\\\ C & 8 & 5 & - & 4 \\\\ D & - & 7 & 4 & - \\end{array}$"
+      "solution_text": "1. **Set up rows and columns for each vertex**\n2. **Record the weight and direction of each direct edge in the table**\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 6 & 8 & - \\\\ B & 6 & - & 5 & 7 \\\\ C & 8 & 5 & - & 4 \\\\ D & - & 7 & 4 & - \\end{array}$"
     },
     {
       "id": "q2",
@@ -49,7 +49,7 @@
           "why": "Read the weight of edge $C\\to D$ instead of $C\\to A$."
         }
       ],
-      "solution_text": "Row $C$, column $A$ represents the directed edge from $C$ to $A$.\nFrom the diagram, there is a directed arrow $C\\to A$ with weight $2$.\nEntry $= 2$"
+      "solution_text": "$\\text{Row } C\\text{, column } A = \\text{weight}(C\\to A)$\n$= 2$"
     },
     {
       "id": "q3",
@@ -63,18 +63,18 @@
         },
         {
           "text": "$10$ edges, $\\deg(B) = 3$",
-          "why": "Counted every symmetric non-dash entry twice rather than counting unique edges."
+          "why": "Counted all $10$ non-dash entries as separate edges, forgetting that the table is symmetric so each edge appears twice."
         },
         {
           "text": "$5$ edges, $\\deg(B) = 4$",
-          "why": "Included the dash on the leading diagonal in the vertex degree count."
+          "why": "Counted every cell in row $B$, including the dash on the leading diagonal, so the degree came out one too high."
         },
         {
-          "text": "$4$ edges, $\\deg(B) = 2$",
-          "why": "Miscounted non-dash entries in row $B$."
+          "text": "$10$ edges, $\\deg(B) = 4$",
+          "why": "Made both slips at once: counted each symmetric entry as its own edge and also counted the diagonal dash in row $B$ as a connection."
         }
       ],
-      "solution_text": "Count unique pairs above the diagonal: $AB=12, AD=15, BC=8, BD=11, CD=9$.\nNumber of edges $= 5$\nDegree of $B$ is the number of connections in row $B$: $3$.\n$5$ edges, $\\deg(B) = 3$"
+      "solution_text": "$\\text{Number of unique edges} = 5$\n$\\deg(B) = 3$\n$5\\text{ edges}, \\deg(B) = 3$"
     },
     {
       "id": "q4",
@@ -99,7 +99,7 @@
           "why": "Summed edge weights instead of counting the number of outgoing edges."
         }
       ],
-      "solution_text": "Out-degree equals the count of non-dash entries in each row:\nRow $P$: $1$\nRow $Q$: $2$ ($Q\\to R, Q\\to S$)\nRow $R$: $2$ ($R\\to P, R\\to S$)\nRow $S$: $0$\nVertices $Q$ and $R$ tie with out-degree $2$."
+      "solution_text": "$\\text{out-deg}(P) = 1$\n$\\text{out-deg}(Q) = 2$\n$\\text{out-deg}(R) = 2$\n$\\text{out-deg}(S) = 0$\nVertices $Q$ and $R$ tie with an out-degree of $2$."
     },
     {
       "id": "q5",
@@ -124,7 +124,7 @@
           "why": "Omitted reciprocal entries, treating two-way corridors as one-way."
         }
       ],
-      "solution_text": "Corridors are two-way connections ($1$):\n$A$ connects to $B, C$.\n$B$ connects to $A, C, D$.\n$C$ connects to $A, B, D$.\n$D$ connects to $B, C$.\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & - \\\\ B & 1 & - & 1 & 1 \\\\ C & 1 & 1 & - & 1 \\\\ D & - & 1 & 1 & - \\end{array}$"
+      "solution_text": "1. **Set up rows and columns for each vertex**\nList rooms $A, B, C, D$ as row and column headers.\n2. **Record the weight and direction of each direct edge in the table**\nCorridors are two-way connections ($1$):\n$AB=1, AC=1, BC=1, BD=1, CD=1$.\n$\\begin{array}{c|cccc} & A & B & C & D \\\\ \\hline A & - & 1 & 1 & - \\\\ B & 1 & - & 1 & 1 \\\\ C & 1 & 1 & - & 1 \\\\ D & - & 1 & 1 & - \\end{array}$"
     },
     {
       "id": "q6",
@@ -149,7 +149,7 @@
           "why": "Vertices in directed graphs routinely have both incoming and outgoing edges."
         }
       ],
-      "solution_text": "In a directed graph, an edge from $X$ to $Y$ only allows travel in that direction.\nThus, row $X$, column $Y$ has a weight, but row $Y$, column $X$ remains a dash unless an opposite edge exists.\nA directed edge $X\\to Y$ creates an entry at $(X,Y)$ but not $(Y,X)$."
+      "solution_text": "In a directed graph, an edge from $X$ to $Y$ only allows travel in one direction.\nRow $Y$, column $X$ remains empty unless an opposite directed edge $Y\\to X$ exists.\nA directed edge from $X$ to $Y$ creates an entry in row $X$, column $Y$, but not necessarily in row $Y$, column $X$."
     },
     {
       "id": "q7",
@@ -174,7 +174,7 @@
           "why": "Subtracted $9$ from $29$ instead of summing $x$ and $y$."
         }
       ],
-      "solution_text": "$x = \\text{weight}(AC) = 16$\n$y = \\text{weight}(BD) = 13$\n$x + y = 16 + 13$\n$= 29$"
+      "solution_text": "$x = 16$\n$y = 13$\n$x + y = 16 + 13$\n$= 29$"
     },
     {
       "id": "q8",
@@ -199,7 +199,7 @@
           "why": "Summed both row $V_3$ and column $V_3$ entries ($32 + 21 = 53$)."
         }
       ],
-      "solution_text": "Outgoing edges from $V_3$ are the entries in row $V_3$:\n$V_3\\to V_1 = 7$\n$V_3\\to V_4 = 11$\n$V_3\\to V_5 = 14$\n$\\text{Total outgoing weight} = 7 + 11 + 14$\n$= 32$"
+      "solution_text": "$V_3\\to V_1 = 7$\n$V_3\\to V_4 = 11$\n$V_3\\to V_5 = 14$\n$\\text{Total outgoing weight} = 7 + 11 + 14$\n$= 32$"
     }
   ]
 }

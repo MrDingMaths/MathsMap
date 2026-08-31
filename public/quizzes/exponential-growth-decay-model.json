@@ -1,0 +1,145 @@
+{
+  "skillId": "exponential-growth-decay-model",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "A town produces $6$ tonnes of rubbish this year, and the amount increases by $25\\%$ each year. Which model gives the rubbish $W$ tonnes after $n$ years?",
+      "structure": "build-model-from-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$W=6(1.25)^{n}$", "correct": true },
+        { "text": "$W=6(0.75)^{n}$", "why": "Subtracted the rate instead of adding it, which models a $25\\%$ decrease." },
+        { "text": "$W=25(6)^{n}$", "why": "Swapped the initial value and the rate, using $25$ as the initial amount." },
+        { "text": "$W=6(1.025)^{n}$", "why": "Wrote $25\\%$ as $0.025$ instead of $0.25$." }
+      ],
+      "solution_text": "The initial value is $k=6$.\nAn increase of $25\\%$ gives $a=1+0.25=1.25$.\n$W=6(1.25)^{n}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A scooter is worth $\\$900$ and loses $40\\%$ of its value each year. Which model gives its value $V$ dollars after $n$ years?",
+      "structure": "build-model-from-rate",
+      "mastery": false,
+      "options": [
+        { "text": "$V=900(0.6)^{n}$", "correct": true },
+        { "text": "$V=900(1.4)^{n}$", "why": "Added the rate instead of subtracting it, which models a $40\\%$ increase." },
+        { "text": "$V=900(0.4)^{n}$", "why": "Used the rate itself as the base instead of $1-0.4$." },
+        { "text": "$V=900(0.96)^{n}$", "why": "Wrote $40\\%$ as $0.04$ instead of $0.40$." }
+      ],
+      "solution_text": "The initial value is $k=900$.\nA decrease of $40\\%$ gives $a=1-0.4=0.6$.\n$V=900(0.6)^{n}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A quantity is modelled by $A=150(1.6)^{x}$. Find $A$ when $x=4$.",
+      "structure": "evaluate-model",
+      "mastery": false,
+      "options": [
+        { "text": "$983.04$", "correct": true },
+        { "text": "$960$", "why": "Multiplied $150$ by the base and then by $4$, instead of raising the base to the power $4$." },
+        { "text": "$614.4$", "why": "Used a power of $3$ instead of $4$, one period too few." },
+        { "text": "$1572.864$", "why": "Used a power of $5$ instead of $4$, one period too many." }
+      ],
+      "solution_text": "$A=150(1.6)^{4}$\n$=150\\times6.5536$\n$=983.04$"
+    },
+    {
+      "id": "q4",
+      "question_text": "A quantity is modelled by $y=972(3)^{-x}$. Find $y$ when $x=4$.",
+      "structure": "evaluate-model",
+      "mastery": false,
+      "options": [
+        { "text": "$12$", "correct": true },
+        { "text": "$36$", "why": "Divided by $3^{3}$ instead of $3^{4}$, one period too few." },
+        { "text": "$4$", "why": "Divided by $3^{5}$ instead of $3^{4}$, one period too many." },
+        { "text": "$-12$", "why": "Treated the negative index as making the answer negative rather than as a reciprocal." }
+      ],
+      "solution_text": "$y=972(3)^{-4}$\n$=\\frac{972}{3^{4}}$\n$=\\frac{972}{81}$\n$=12$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The table shows an exponential relationship.\n$\\begin{array}{c|c|c|c|c} x & 0 & 1 & 2 & 3 \\\\ \\hline y & 7 & 28 & 112 & 448 \\end{array}$\nWhich equation fits the table?",
+      "structure": "initial-value-and-base-from-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y=7(4)^{x}$",
+          "correct": true
+        },
+        {
+          "text": "$y=7(21)^{x}$",
+          "why": "Used the first difference $28-7=21$ as the base instead of the ratio $28\\div 7$."
+        },
+        {
+          "text": "$y=28(4)^{x}$",
+          "why": "Took the value at $x=1$ as the initial value instead of the value at $x=0$."
+        },
+        {
+          "text": "$y=28(21)^{x}$",
+          "why": "Took the value at $x=1$ as the initial value and used the first difference $28-7=21$ as the base."
+        }
+      ],
+      "solution_text": "At $x=0$, $y=7$, so $k=7$.\n$\\frac{28}{7}=4$, $\\frac{112}{28}=4$ and $\\frac{448}{112}=4$, so $a=4$.\n$y=7(4)^{x}$"
+    },
+    {
+      "id": "q6",
+      "question_text": "For the model $y=2(3)^{x}$, what is the smallest whole number value of $x$ for which $y$ is greater than $500$?",
+      "structure": "find-time-by-table",
+      "mastery": true,
+      "options": [
+        { "text": "$6$", "correct": true },
+        { "text": "$5$", "why": "Chose the last value still below $500$ rather than the first value above it." },
+        { "text": "$7$", "why": "Continued one row past the first value that exceeds $500$." },
+        { "text": "$250$", "why": "Divided $500$ by $2$ instead of testing values of $x$ in the model." }
+      ],
+      "solution_text": "$\\begin{array}{c|c|c|c} x & 5 & 6 & 7 \\\\ \\hline y & 486 & 1458 & 4374 \\end{array}$\nAt $x=5$, $y=486$, which is below $500$.\nAt $x=6$, $y=1458$, which is above $500$.\nThe smallest whole number value is $x=6$."
+    },
+    {
+      "id": "q7",
+      "question_text": "A sample of a substance has a mass of $250$ g, and after one hour its mass is $200$ g. The decay is exponential. Which model gives the mass $m$ grams after $t$ hours?",
+      "structure": "model-from-two-points",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$m=250(0.8)^{t}$",
+          "correct": true
+        },
+        {
+          "text": "$m=250(1.25)^{t}$",
+          "why": "Divided the masses the wrong way round as $\\frac{250}{200}=1.25$, giving a growth base for a decaying sample."
+        },
+        {
+          "text": "$m=200(0.8)^{t}$",
+          "why": "Used the mass after one hour as the initial value instead of the mass at $t=0$."
+        },
+        {
+          "text": "$m=200(1.25)^{t}$",
+          "why": "Used the mass after one hour as the initial value and divided the masses the wrong way round as $\\frac{250}{200}=1.25$."
+        }
+      ],
+      "solution_text": "The initial value is $k=250$.\n$a=\\frac{200}{250}=0.8$\n$m=250(0.8)^{t}$"
+    },
+    {
+      "id": "q8",
+      "question_text": "The graph shows an exponential relationship. Which equation does it represent?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[width=7.5cm,height=7cm,axis lines=middle,axis line style={-{Stealth}},xmin=-0.3,xmax=2.5,ymin=-10,ymax=132,xtick={0,1,2},ytick={0,12,...,120},grid=both,clip=false,scaled ticks=false,ticklabel style={font=\\small,/pgf/number format/fixed},xlabel={$x$},ylabel={$y$},ylabel near ticks]\n\\addplot[thick,blue!70!black,->,domain=0:2.05,samples=100] {12*exp(x*ln(3))};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "model-from-graph",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y=12(3)^{x}$",
+          "correct": true
+        },
+        {
+          "text": "$y=12(9)^{x}$",
+          "why": "Treated the jump from $x=0$ to $x=2$ as a single step, so $\\frac{108}{12}=9$ was used as the base."
+        },
+        {
+          "text": "$y=36(3)^{x}$",
+          "why": "Read the height at $x=1$ as the initial value instead of the height where the curve meets the vertical axis."
+        },
+        {
+          "text": "$y=36(9)^{x}$",
+          "why": "Read the height at $x=1$ as the initial value and treated $x=0$ to $x=2$ as a single step, giving the base $\\frac{108}{12}=9$."
+        }
+      ],
+      "solution_text": "The curve meets the vertical axis at $y=12$, so $k=12$.\nAt $x=1$ the curve is at $y=36$, so $a=\\frac{36}{12}=3$.\n$y=12(3)^{x}$"
+    }
+  ]
+}

@@ -2,22 +2,22 @@
   "skillId": "identify-graph-from-equation",
   "atomType": "Cat",
   "theory": {
-    "intro": "The **form** of an equation tells you the shape of its graph before you plot a single point. By reading which variables are squared, whether $x$ sits in an exponent or a denominator, and the highest power present, you can name the family a graph belongs to — line, parabola, exponential, hyperbola or circle — and match an equation to its graph.",
-    "facts": [
-      "**Line:** $y=mx+c$ (also forms like $x+2y=6$). The highest power of $x$ and $y$ is $1$, and the graph is straight.",
-      "**Parabola:** $y=ax^{2}+bx+c$. The highest power of $x$ is $2$ (and $y$ is not squared). It is a U-shape — opening up when $a>0$ and down when $a<0$.",
-      "**Exponential:** $y=a^{x}$. The variable $x$ is the **exponent**. The curve rises (or, for $a^{-x}$, falls) ever more steeply and has a horizontal asymptote.",
-      "**Hyperbola:** $y=\\dfrac{k}{x}$ (equivalently $xy=k$). The variable $x$ is in the **denominator**. It has two separate branches and two asymptotes.",
-      "**Circle:** $x^{2}+y^{2}=r^{2}$. Both $x$ **and** $y$ are squared and added, equal to a constant. It is a closed round curve (centre $(a,b)$ in the form $(x-a)^{2}+(y-b)^{2}=r^{2}$).",
-      "A single power of $x^{3}$ (as in $y=x^{3}$) gives a **cubic** — highest power $3$, with a central point where it flattens then continues rising."
-    ],
-    "steps": [
-      "Are both $x$ and $y$ squared and added to a constant? If so, it is a circle.",
-      "Is $x$ in the exponent (a power)? If so, it is exponential.",
-      "Is $x$ in the denominator? If so, it is a hyperbola.",
-      "Otherwise read the highest power of $x$: power $1$ is a line, power $2$ a parabola, power $3$ a cubic."
-    ]
-  },
+        "intro": "The **form** of an equation tells you the shape of its graph before you plot a point. Look at which variables are squared, whether $x$ is an exponent or in a denominator, and the highest power — that names the family.",
+        "facts": [
+          "**Line:** $y=mx+c$, or a rearrangement like $x+2y=6$, has $x$ and $y$ to the power $1$ and a straight graph.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->] (-2.8,-1.7)--(2.8,2.8);\n\\end{tikzpicture}\n[/tikz]",
+          "**Parabola:** $y=ax^{2}+bx+c$ has highest power $2$ in $x$ only, giving a U-shape opening up when $a>0$ and down when $a<0$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.2:2.2,variable=\\x] plot ({\\x},{(\\x-0.5)*(\\x-0.5)-1.5});\n\\end{tikzpicture}\n[/tikz]",
+          "**Exponential:** $y=a^{x}$ has $x$ as the **exponent**, so the curve gets steeper and steeper, falls instead for $a^{-x}$, and has a horizontal asymptote.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-3:1.55,variable=\\x] plot ({\\x},{0.85*exp(\\x*ln(2))});\n\\end{tikzpicture}\n[/tikz]",
+          "**Hyperbola:** $y=\\dfrac{k}{x}$, or equivalently $xy=k$, has $x$ in the **denominator**, and its graph is two separate branches with two asymptotes.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=0.42:3,variable=\\x] plot ({\\x},{1.3/\\x});\n\\draw[thick,blue,<->,smooth,domain=-3:-0.42,variable=\\x] plot ({\\x},{1.3/\\x});\n\\end{tikzpicture}\n[/tikz]",
+          "**Circle:** $x^{2}+y^{2}=r^{2}$, or $(x-a)^{2}+(y-b)^{2}=r^{2}$ with centre $(a,b)$, squares and adds **both** $x$ and $y$, and its graph is a closed round curve.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue] (0,0) circle (2);\n\\fill (0,0) circle (0.07);\n\\draw[dashed] (0,0)--(1.414,1.414) node[midway,above left] {$r$};\n\\end{tikzpicture}\n[/tikz]",
+          "**Cubic:** $y=x^{3}$ has highest power $3$, with a central point where the curve flattens and then keeps rising.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\draw[->] (-3.2,0)--(3.4,0) node[right] {$x$};\n\\draw[->] (0,-3.2)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,smooth,domain=-1.45:1.45,variable=\\x] plot ({\\x},{\\x*\\x*\\x});\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Are both $x$ and $y$ squared and added to a constant? If so, it is a circle.",
+          "Is $x$ in the exponent (a power)? If so, it is exponential.",
+          "Is $x$ in the denominator? If so, it is a hyperbola.",
+          "Otherwise read the highest power of $x$: power $1$ is a line, power $2$ a parabola, power $3$ a cubic."
+        ]
+      },
   "practice": {
     "foundation": [
       {

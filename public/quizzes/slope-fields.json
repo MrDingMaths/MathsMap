@@ -1,0 +1,205 @@
+{
+  "skillId": "slope-fields",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "The slope field of $\\dfrac{dy}{dx}=2x-y$ is being drawn on the grid below. What is the gradient of the line element at the marked point $(1,-2)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[-{Stealth}] (-3.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-3.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-3,-2,-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-3,-2,-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\fill (1,-2) circle (2.5pt);\n\\node[below right,font=\\small] at (1.05,-2.05) {$(1,-2)$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "gradient-at-a-point",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$4$",
+          "correct": true
+        },
+        {
+          "text": "$0$",
+          "why": "Computed $2(1)-2=0$ instead of subtracting $-2$."
+        },
+        {
+          "text": "$-4$",
+          "why": "Reversed the subtraction as $y-2x=-2-2=-4$."
+        },
+        {
+          "text": "$-5$",
+          "why": "Swapped the coordinates, evaluating $2(-2)-1=-5$."
+        }
+      ],
+      "solution_text": "$\\dfrac{dy}{dx}=2x-y$\n$=2(1)-(-2)$\n$=2+2$\n$=4$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-3,-3) grid (3,3);\n\\draw[-{Stealth}] (-3.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-3.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-3,-2,-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-3,-2,-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\draw[thick] (0.915,-2.34) -- (1.085,-1.66);\n\\fill (1,-2) circle (2.5pt);\n\\node[right,font=\\small] at (1.2,-2) {gradient $4$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q2",
+      "question_text": "The slope field below has identical line elements all the way along each horizontal line. Which of the following equations could describe this field?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-2,-2) grid (2,2);\n\\draw[-{Stealth}] (-2.9,0) -- (2.9,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-2.9) -- (0,2.9) node[left] {$y$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.55) {$\\t$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.55,\\t) {$\\t$};\n\\foreach \\x in {-2,-1,0,1,2} \\draw ({\\x-0.111},-1.668) -- ({\\x+0.111},-2.332);\n\\foreach \\x in {-2,-1,0,1,2} \\draw ({\\x-0.157},-0.687) -- ({\\x+0.157},-1.313);\n\\foreach \\x in {-2,-1,0,1,2} \\draw ({\\x-0.247},0.247) -- ({\\x+0.247},-0.247);\n\\foreach \\x in {-2,-1,0,1,2} \\draw ({\\x-0.35},1) -- ({\\x+0.35},1);\n\\foreach \\x in {-2,-1,0,1,2} \\draw ({\\x-0.247},1.753) -- ({\\x+0.247},2.247);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "field-symmetry-type",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{dy}{dx}=y-1$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=x-1$",
+          "why": "The gradient would depend only on $x$, producing identical vertical columns rather than rows."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=x+y$",
+          "why": "The gradient would vary along both horizontal rows and vertical columns."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=xy$",
+          "why": "The gradient would depend on both variables, with horizontal elements on both coordinate axes."
+        }
+      ],
+      "solution_text": "Along each horizontal row $y$ is constant while $x$ changes.\nBecause the elements do not change across any row, the gradient depends only on $y$, so the equation has the form $\\dfrac{dy}{dx}=g(y)$.\nOn the line $y=1$ the elements are horizontal (gradient $0$), which matches $y-1=0$."
+    },
+    {
+      "id": "q3",
+      "question_text": "For the differential equation $\\dfrac{dy}{dx}=x+2y-4$, on which line are all line elements horizontal?",
+      "structure": "identify-isocline",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y=-\\dfrac{1}{2}x+2$",
+          "correct": true
+        },
+        {
+          "text": "$y=\\dfrac{1}{2}x+2$",
+          "why": "Made a sign slip when rearranging: $2y=x+4$ instead of $2y=4-x$."
+        },
+        {
+          "text": "$y=-2x+4$",
+          "why": "Did not divide by the coefficient $2$ when making $y$ the subject."
+        },
+        {
+          "text": "$y=2x-4$",
+          "why": "Made $x$ the subject instead of $y$, solving $x=4-2y$ and then reading the result as an equation for $y$."
+        }
+      ],
+      "solution_text": "Line elements are horizontal where the gradient is $0$.\n$\\dfrac{dy}{dx}=0$\n$x+2y-4=0$\n$2y=4-x$\n$y=-\\dfrac{1}{2}x+2$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-2,-1) grid (4,3);\n\\draw[-{Stealth}] (-2.4,0) -- (4.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-2,-1,1,2,3,4} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\draw[thick,dashed,domain=-2:4,variable=\\x] plot ({\\x},{2-\\x/2}) node[pos=0.8,above right,font=\\small] {$y=-\\frac{1}{2}x+2$};\n\\foreach \\x/\\y in {-2/3,0/2,2/1,4/0} \\draw[thick] ({\\x-0.35},{\\y}) -- ({\\x+0.35},{\\y});\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which differential equation corresponds to the slope field shown below?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-2,-2) grid (2,2);\n\\draw[-{Stealth}] (-2.9,0) -- (2.9,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-2.9) -- (0,2.9) node[left] {$y$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.55) {$\\t$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.55,\\t) {$\\t$};\n\\foreach \\x/\\y in {-2/0,-1/0,0/0,1/0,2/0,0/-2,0/-1,0/1,0/2} \\draw ({\\x-0.35},{\\y}) -- ({\\x+0.35},{\\y});\n\\foreach \\x/\\y in {-1/-1,1/1} \\draw ({\\x-0.247},{\\y+0.247}) -- ({\\x+0.247},{\\y-0.247});\n\\foreach \\x/\\y in {-1/1,1/-1} \\draw ({\\x-0.247},{\\y-0.247}) -- ({\\x+0.247},{\\y+0.247});\n\\foreach \\x/\\y in {-2/-1,-1/-2,1/2,2/1} \\draw ({\\x-0.157},{\\y+0.313}) -- ({\\x+0.157},{\\y-0.313});\n\\foreach \\x/\\y in {-2/1,-1/2,1/-2,2/-1} \\draw ({\\x-0.157},{\\y-0.313}) -- ({\\x+0.157},{\\y+0.313});\n\\foreach \\x/\\y in {-2/-2,2/2} \\draw ({\\x-0.085},{\\y+0.340}) -- ({\\x+0.085},{\\y-0.340});\n\\foreach \\x/\\y in {-2/2,2/-2} \\draw ({\\x-0.085},{\\y-0.340}) -- ({\\x+0.085},{\\y+0.340});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-field-to-equation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{dy}{dx}=-xy$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=xy$",
+          "why": "Gives positive gradient in quadrant $1$, but the field slopes downwards there."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=x-y$",
+          "why": "Has horizontal elements along the line $y=x$, not along both axes."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=-x+y$",
+          "why": "Has horizontal elements along the line $y=x$, not along both axes."
+        }
+      ],
+      "solution_text": "On both axes $x=0$ or $y=0$, giving horizontal line elements (gradient $0$). This rules out $x-y$ and $-x+y$.\nIn quadrant $1$ ($x>0, y>0$), the elements slope downwards (gradient $<0$).\nFor $\\dfrac{dy}{dx}=-xy$, at $(1,1)$ we have $\\dfrac{dy}{dx}=-(1)(1)=-1<0$.\nFor $\\dfrac{dy}{dx}=xy$, at $(1,1)$ we have $\\dfrac{dy}{dx}=(1)(1)=1>0$.\nThus the equation is $\\dfrac{dy}{dx}=-xy$."
+    },
+    {
+      "id": "q5",
+      "question_text": "The slope field of $\\dfrac{dy}{dx}=1-x$ is shown below. Which statement correctly describes the solution curve passing through $(1,2)$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\y in {-1,0,1,2,3} \\draw (-1.157,{\\y-0.313}) -- (-0.843,{\\y+0.313});\n\\foreach \\y in {-1,0,1,2,3} \\draw (-0.247,{\\y-0.247}) -- (0.247,{\\y+0.247});\n\\foreach \\y in {-1,0,1,2,3} \\draw (0.65,{\\y}) -- (1.35,{\\y});\n\\foreach \\y in {-1,0,1,2,3} \\draw (1.753,{\\y+0.247}) -- (2.247,{\\y-0.247});\n\\foreach \\y in {-1,0,1,2,3} \\draw (2.843,{\\y+0.313}) -- (3.157,{\\y-0.313});\n\\fill (1,2) circle (2.5pt);\n\\node[above right,font=\\small] at (1,2) {$(1,2)$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "sketch-solution-curve",
+      "mastery": false,
+      "options": [
+        {
+          "text": "The curve has a local maximum at $(1,2)$",
+          "correct": true
+        },
+        {
+          "text": "The curve has a local minimum at $(1,2)$",
+          "why": "The gradient changes from positive to negative, giving a maximum rather than a minimum."
+        },
+        {
+          "text": "The curve is a straight line through $(1,2)$",
+          "why": "Mistook the vertical isocline $x=1$ for a solution curve."
+        },
+        {
+          "text": "The curve has a point of inflection at $(1,2)$",
+          "why": "The gradient changes sign through $x=1$, so $(1,2)$ is a turning point, not an inflection point."
+        }
+      ],
+      "solution_text": "At $(1,2)$, $\\dfrac{dy}{dx}=1-1=0$, so the curve has a stationary point.\nFor $x<1$, $\\dfrac{dy}{dx}=1-x>0$, so the curve is increasing.\nFor $x>1$, $\\dfrac{dy}{dx}=1-x<0$, so the curve is decreasing.\nA curve that increases before a stationary point and decreases after it has a local maximum at $(1,2)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\y in {-1,0,1,2,3} \\draw[gray!70] (-1.157,{\\y-0.313}) -- (-0.843,{\\y+0.313});\n\\foreach \\y in {-1,0,1,2,3} \\draw[gray!70] (-0.247,{\\y-0.247}) -- (0.247,{\\y+0.247});\n\\foreach \\y in {-1,0,1,2,3} \\draw[gray!70] (0.65,{\\y}) -- (1.35,{\\y});\n\\foreach \\y in {-1,0,1,2,3} \\draw[gray!70] (1.753,{\\y+0.247}) -- (2.247,{\\y-0.247});\n\\foreach \\y in {-1,0,1,2,3} \\draw[gray!70] (2.843,{\\y+0.313}) -- (3.157,{\\y-0.313});\n\\draw[thick,domain=-1.2:3.2,smooth,variable=\\x] plot ({\\x},{-\\x*\\x/2+\\x+1.5});\n\\fill (1,2) circle (2.5pt);\n\\node[above,font=\\small] at (1,2.05) {$(1,2)$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q6",
+      "question_text": "The slope field of $\\dfrac{dy}{dx}=2-y$ has a constant solution $y=2$. What happens to the solution curve passing through $(0,0)$ as $x$ increases without bound?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.111},-1.332) -- ({\\x+0.111},-0.668);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.157},-0.313) -- ({\\x+0.157},0.313);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.247},0.753) -- ({\\x+0.247},1.247);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.35},2) -- ({\\x+0.35},2);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.247},3.247) -- ({\\x+0.247},2.753);\n\\fill (0,0) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "behaviour-of-solution",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$y$ increases and approaches $2$ as an asymptote",
+          "correct": true
+        },
+        {
+          "text": "$y$ increases without bound towards $+\\infty$",
+          "why": "Ignored the horizontal solution $y=2$, which bounds the solution from above."
+        },
+        {
+          "text": "$y$ decreases towards $-\\infty$",
+          "why": "At $(0,0)$ the gradient is $2-0=2>0$, so $y$ increases rather than decreases."
+        },
+        {
+          "text": "$y$ oscillates periodically between $0$ and $2$",
+          "why": "The gradient decreases monotonically towards $0$, producing exponential approach rather than oscillation."
+        }
+      ],
+      "solution_text": "At $(0,0)$, $\\dfrac{dy}{dx}=2-0=2>0$, so the curve starts by rising.\nFor any point with $0\\le y<2$, $\\dfrac{dy}{dx}=2-y>0$, so $y$ continues to increase.\nBecause two solution curves of a first order differential equation can never cross, the curve cannot cross $y=2$.\nAs $y$ approaches $2$, the gradient $\\dfrac{dy}{dx}=2-y$ approaches $0$, so the curve flattens out and approaches $y=2$ as a horizontal asymptote.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.111},-1.332) -- ({\\x+0.111},-0.668);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.157},-0.313) -- ({\\x+0.157},0.313);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.247},0.753) -- ({\\x+0.247},1.247);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.35},2) -- ({\\x+0.35},2);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.247},3.247) -- ({\\x+0.247},2.753);\n\\draw[thick,domain=-0.4:3.2,smooth,variable=\\x] plot ({\\x},{2-2*exp(-\\x)});\n\\draw[dashed] (-1,2) -- (3.3,2) node[right,font=\\small] {$y=2$};\n\\fill (0,0) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "q7",
+      "question_text": "The slope field below has vertical line elements along the $x$-axis ($y=0$) and horizontal line elements along the $y$-axis ($x=0$). In the first quadrant ($x>0, y>0$), all line elements slope upwards. Which differential equation corresponds to this field?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-2,-2) grid (2,2);\n\\draw[-{Stealth}] (-2.9,0) -- (2.9,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-2.9) -- (0,2.9) node[left] {$y$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.55) {$\\t$};\n\\foreach \\t in {-2,-1,1,2} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.55,\\t) {$\\t$};\n\\foreach \\y in {-2,-1,1,2} \\draw (-0.35,{\\y}) -- (0.35,{\\y});\n\\foreach \\x in {-2,-1,1,2} \\draw ({\\x},-0.35) -- ({\\x},0.35);\n\\foreach \\x/\\y in {1/2,-1/-2} \\draw ({\\x-0.340},{\\y-0.085}) -- ({\\x+0.340},{\\y+0.085});\n\\foreach \\x/\\y in {-1/2,1/-2} \\draw ({\\x-0.340},{\\y+0.085}) -- ({\\x+0.340},{\\y-0.085});\n\\foreach \\x/\\y in {1/1,2/2,-1/-1,-2/-2} \\draw ({\\x-0.313},{\\y-0.157}) -- ({\\x+0.313},{\\y+0.157});\n\\foreach \\x/\\y in {-1/1,-2/2,1/-1,2/-2} \\draw ({\\x-0.313},{\\y+0.157}) -- ({\\x+0.313},{\\y-0.157});\n\\foreach \\x/\\y in {2/1,-2/-1} \\draw ({\\x-0.247},{\\y-0.247}) -- ({\\x+0.247},{\\y+0.247});\n\\foreach \\x/\\y in {-2/1,2/-1} \\draw ({\\x-0.247},{\\y+0.247}) -- ({\\x+0.247},{\\y-0.247});\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "match-field-to-equation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{dy}{dx}=\\dfrac{x}{2y}$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=\\dfrac{2y}{x}$",
+          "why": "Would give vertical elements on $x=0$ and horizontal elements on $y=0$, which is the opposite of this field."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=-\\dfrac{x}{2y}$",
+          "why": "Gives negative gradients in the first quadrant, but the field slopes upwards there."
+        },
+        {
+          "text": "$\\dfrac{dy}{dx}=-\\dfrac{2y}{x}$",
+          "why": "Reverses the roles of $x$ and $y$, and gives negative gradients in the first quadrant."
+        }
+      ],
+      "solution_text": "Along the $y$-axis ($x=0$), the elements are horizontal (gradient $0$). This requires $x$ in the numerator.\nAlong the $x$-axis ($y=0$), the elements are vertical (gradient undefined). This requires $y$ in the denominator.\nIn the first quadrant ($x>0, y>0$), the elements slope upwards (positive gradient), which rules out $-\\dfrac{x}{2y}$.\nTherefore the equation is $\\dfrac{dy}{dx}=\\dfrac{x}{2y}$."
+    },
+    {
+      "id": "q8",
+      "question_text": "Consider the differential equation $\\dfrac{dy}{dx}=y(y-2)$. The slope field has two constant solutions, $y=0$ and $y=2$. A solution curve passes through the point $(0,1)$. What is the limiting value of $y$ as $x\\to\\infty$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.111},-1.332) -- ({\\x+0.111},-0.668);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.35},0) -- ({\\x+0.35},0);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.247},1.247) -- ({\\x+0.247},0.753);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.35},2) -- ({\\x+0.35},2);\n\\foreach \\x in {-1,0,1,2,3} \\draw ({\\x-0.111},2.668) -- ({\\x+0.111},3.332);\n\\fill (0,1) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "behaviour-of-solution",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$0$",
+          "correct": true
+        },
+        {
+          "text": "$2$",
+          "why": "In the region $0<y<2$, $y(y-2)<0$, so $y$ decreases towards $0$, not $2$."
+        },
+        {
+          "text": "$-\\infty$",
+          "why": "The constant solution $y=0$ cannot be crossed, so $y$ is bounded below by $0$."
+        },
+        {
+          "text": "$1$",
+          "why": "At $(0,1)$ the gradient is $1(1-2)=-1\\ne0$, so $y$ does not remain at $1$."
+        }
+      ],
+      "solution_text": "For $0<y<2$, $y>0$ and $y-2<0$, so $\\dfrac{dy}{dx}=y(y-2)<0$.\nBecause the gradient is negative throughout the band $0<y<2$, the solution curve through $(0,1)$ strictly decreases as $x$ increases.\nBecause $y=0$ is a constant solution and solution curves cannot cross, $y$ remains strictly greater than $0$ for all $x$.\nTherefore, as $x\\to\\infty$, $y$ decreases asymptotically towards $0$.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[gray!30,very thin] (-1,-1) grid (3,3);\n\\draw[-{Stealth}] (-1.4,0) -- (3.4,0) node[below] {$x$};\n\\draw[-{Stealth}] (0,-1.4) -- (0,3.4) node[left] {$y$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (\\t,-0.4) {$\\t$};\n\\foreach \\t in {-1,1,2,3} \\node[font=\\small,fill=white,inner sep=1pt] at (-0.4,\\t) {$\\t$};\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.111},-1.332) -- ({\\x+0.111},-0.668);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.35},0) -- ({\\x+0.35},0);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.247},1.247) -- ({\\x+0.247},0.753);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.35},2) -- ({\\x+0.35},2);\n\\foreach \\x in {-1,0,1,2,3} \\draw[gray!70] ({\\x-0.111},2.668) -- ({\\x+0.111},3.332);\n\\draw[thick,domain=-0.6:3.2,smooth,variable=\\x] plot ({\\x},{2/(1+exp(2*\\x))});\n\\draw[dashed] (-1,2) -- (3.3,2) node[right,font=\\small] {$y=2$};\n\\draw[dashed] (-1,0) -- (3.3,0);\n\\node[font=\\small,fill=white,inner sep=1pt] at (2.4,0.55) {$y=0$};\n\\fill (0,1) circle (2.5pt);\n\\end{tikzpicture}[/tikz]"
+    }
+  ]
+}

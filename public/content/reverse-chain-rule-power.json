@@ -1,0 +1,121 @@
+{
+  "skillId": "reverse-chain-rule-power",
+  "atomType": "R",
+  "theory": {
+    "intro": "The **reverse chain rule** undoes the chain rule. When the derivative of the inner function appears as a factor, $\\int f'(x)\\left[f(x)\\right]^{n}dx = \\dfrac{\\left[f(x)\\right]^{n+1}}{n+1} + C$ for $n \\ne -1$. Without that factor the method does not apply.",
+    "facts": [
+      "The **inner function** $f(x)$ is the expression inside the bracket that is raised to the power $n$.",
+      "Increase the power of the bracket by one and divide by the new power, leaving the bracket itself unchanged.",
+      "The factor $f'(x)$ must be present, so $\\int\\left(x^{2} + 1\\right)^{3}dx$ cannot be done by this method.",
+      "A constant multiple of $f'(x)$ is enough: divide by that constant at the end.",
+      "For a linear inner function, $f'(x) = a$, giving $\\int(ax + b)^{n}dx = \\dfrac{(ax + b)^{n+1}}{a(n+1)} + C$.",
+      "The rule also covers negative and fractional powers, such as $\\int f'(x)\\sqrt{f(x)}\\,dx$.",
+      "Check any answer by differentiating it with the chain rule.",
+      "For a definite integral, evaluate $\\left[\\dfrac{\\left[f(x)\\right]^{n+1}}{n+1}\\right]_{a}^{b}$ without changing the limits."
+    ],
+    "steps": [
+      "Choose the inner function $f(x)$ and differentiate it to get $f'(x)$.",
+      "Check that $f'(x)$ appears as a factor, up to a constant multiple.",
+      "Raise the power of the bracket by one and divide by the new power.",
+      "Divide by whatever constant is needed so that differentiating back gives the integrand."
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "For $\\int 3x^{2}\\left(x^{3} - 7\\right)^{5}dx$, state the inner function $f(x)$ and its derivative $f'(x)$.",
+        "structure": "identify-inner-function",
+        "solution_text": "$f(x) = x^{3} - 7$\n$f'(x) = 3x^{2}$\nThe factor $3x^{2}$ in the integral is exactly $f'(x)$."
+      },
+      {
+        "question_text": "Find $\\int 2x\\left(x^{2} + 5\\right)^{4}dx$.",
+        "structure": "reverse-chain-basic",
+        "solution_text": "$f(x) = x^{2} + 5$, so $f'(x) = 2x$.\n$\\int 2x\\left(x^{2} + 5\\right)^{4}dx$\n$= \\dfrac{\\left(x^{2} + 5\\right)^{5}}{5} + C$"
+      },
+      {
+        "question_text": "Find $\\int (4x + 1)^{3}\\,dx$.",
+        "structure": "linear-inner",
+        "solution_text": "$\\int (4x + 1)^{3}\\,dx$\n$= \\dfrac{(4x + 1)^{4}}{4 \\times 4} + C$\n$= \\dfrac{(4x + 1)^{4}}{16} + C$"
+      },
+      {
+        "question_text": "Find $\\int (5 - 2x)^{6}\\,dx$.",
+        "structure": "linear-inner",
+        "solution_text": "$\\int (5 - 2x)^{6}\\,dx$\n$= \\dfrac{(5 - 2x)^{7}}{(-2) \\times 7} + C$\n$= -\\dfrac{(5 - 2x)^{7}}{14} + C$"
+      },
+      {
+        "question_text": "Explain why the reverse chain rule cannot be used to find $\\int\\left(x^{2} + 3\\right)^{4}dx$.",
+        "structure": "applies-or-not",
+        "solution_text": "The inner function is $f(x) = x^{2} + 3$, so $f'(x) = 2x$.\nThe integrand has no factor of $2x$, nor any constant multiple of it.\nThe method needs $f'(x)$ present, so it does not apply here."
+      },
+      {
+        "question_text": "Find $\\int x\\left(x^{2} - 1\\right)^{3}dx$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = x^{2} - 1$, so $f'(x) = 2x$.\n$\\int x\\left(x^{2} - 1\\right)^{3}dx$\n$= \\dfrac{1}{2}\\int 2x\\left(x^{2} - 1\\right)^{3}dx$\n$= \\dfrac{1}{2} \\times \\dfrac{\\left(x^{2} - 1\\right)^{4}}{4} + C$\n$= \\dfrac{\\left(x^{2} - 1\\right)^{4}}{8} + C$"
+      },
+      {
+        "question_text": "Find $\\int\\left(3x^{2} + 2\\right)\\left(x^{3} + 2x\\right)^{5}dx$.",
+        "structure": "reverse-chain-basic",
+        "solution_text": "$f(x) = x^{3} + 2x$, so $f'(x) = 3x^{2} + 2$.\n$\\int\\left(3x^{2} + 2\\right)\\left(x^{3} + 2x\\right)^{5}dx$\n$= \\dfrac{\\left(x^{3} + 2x\\right)^{6}}{6} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{1}{(x - 4)^{3}}\\,dx$.",
+        "structure": "composite-root-or-reciprocal",
+        "solution_text": "$\\int (x - 4)^{-3}\\,dx$\n$= \\dfrac{(x - 4)^{-2}}{1 \\times (-2)} + C$\n$= -\\dfrac{1}{2(x - 4)^{2}} + C$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find $\\int 6x\\sqrt{x^{2} + 4}\\,dx$.",
+        "structure": "composite-root-or-reciprocal",
+        "solution_text": "$f(x) = x^{2} + 4$, so $f'(x) = 2x$.\n$\\int 6x\\left(x^{2} + 4\\right)^{\\frac{1}{2}}dx$\n$= 3\\int 2x\\left(x^{2} + 4\\right)^{\\frac{1}{2}}dx$\n$= 3 \\times \\dfrac{\\left(x^{2} + 4\\right)^{\\frac{3}{2}}}{\\frac{3}{2}} + C$\n$= 2\\left(x^{2} + 4\\right)^{\\frac{3}{2}} + C$"
+      },
+      {
+        "question_text": "Find $\\int x^{2}\\left(4 - x^{3}\\right)^{7}dx$.",
+        "structure": "adjust-constant-factor",
+        "solution_text": "$f(x) = 4 - x^{3}$, so $f'(x) = -3x^{2}$.\n$\\int x^{2}\\left(4 - x^{3}\\right)^{7}dx$\n$= -\\dfrac{1}{3}\\int \\left(-3x^{2}\\right)\\left(4 - x^{3}\\right)^{7}dx$\n$= -\\dfrac{1}{3} \\times \\dfrac{\\left(4 - x^{3}\\right)^{8}}{8} + C$\n$= -\\dfrac{\\left(4 - x^{3}\\right)^{8}}{24} + C$"
+      },
+      {
+        "question_text": "Only one of these integrals can be found with the reverse chain rule. Identify it and name the inner function.\nA. $\\int\\left(x^{2} - 9\\right)^{5}dx$\nB. $\\int x^{3}\\left(x^{2} - 9\\right)^{5}dx$\nC. $\\int 4x\\left(x^{2} - 9\\right)^{5}dx$",
+        "structure": "applies-or-not",
+        "solution_text": "In each integral the inner function is $f(x) = x^{2} - 9$, so $f'(x) = 2x$.\nA has no factor of $x$ at all.\nB has the factor $x^{3}$, which is not a constant multiple of $2x$.\nC has the factor $4x = 2(2x)$, a constant multiple of $f'(x)$, so only C can be done this way."
+      },
+      {
+        "question_text": "Evaluate $\\int_{0}^{2} 2x\\left(x^{2} + 1\\right)^{3}dx$.",
+        "structure": "definite-reverse-chain",
+        "solution_text": "$\\int_{0}^{2} 2x\\left(x^{2} + 1\\right)^{3}dx$\n$= \\left[\\dfrac{\\left(x^{2} + 1\\right)^{4}}{4}\\right]_{0}^{2}$\n$= \\dfrac{5^{4}}{4} - \\dfrac{1^{4}}{4}$\n$= \\dfrac{625 - 1}{4}$\n$= 156$"
+      },
+      {
+        "question_text": "Evaluate $\\int_{1}^{3}(2x - 1)^{4}\\,dx$.",
+        "structure": "linear-inner",
+        "solution_text": "$\\int_{1}^{3}(2x - 1)^{4}\\,dx$\n$= \\left[\\dfrac{(2x - 1)^{5}}{10}\\right]_{1}^{3}$\n$= \\dfrac{5^{5}}{10} - \\dfrac{1^{5}}{10}$\n$= \\dfrac{3125 - 1}{10}$\n$= \\dfrac{1562}{5}$"
+      },
+      {
+        "question_text": "Differentiate $y = \\left(x^{2} - 3x\\right)^{4}$, and hence find $\\int (2x - 3)\\left(x^{2} - 3x\\right)^{3}dx$.",
+        "structure": "identify-inner-function",
+        "solution_text": "$\\dfrac{dy}{dx} = 4\\left(x^{2} - 3x\\right)^{3}(2x - 3)$\n$\\int 4(2x - 3)\\left(x^{2} - 3x\\right)^{3}dx = \\left(x^{2} - 3x\\right)^{4} + C$\n$\\int (2x - 3)\\left(x^{2} - 3x\\right)^{3}dx = \\dfrac{\\left(x^{2} - 3x\\right)^{4}}{4} + C$"
+      },
+      {
+        "question_text": "Find $\\int \\sqrt{3x + 7}\\,dx$.",
+        "structure": "composite-root-or-reciprocal",
+        "solution_text": "$\\int (3x + 7)^{\\frac{1}{2}}dx$\n$= \\dfrac{(3x + 7)^{\\frac{3}{2}}}{3 \\times \\frac{3}{2}} + C$\n$= \\dfrac{2(3x + 7)^{\\frac{3}{2}}}{9} + C$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Evaluate $\\int_{1}^{2} x\\left(x^{2} + 2\\right)^{4}dx$.",
+        "structure": "definite-reverse-chain",
+        "solution_text": "$\\int_{1}^{2} x\\left(x^{2} + 2\\right)^{4}dx$\n$= \\dfrac{1}{2}\\int_{1}^{2} 2x\\left(x^{2} + 2\\right)^{4}dx$\n$= \\left[\\dfrac{\\left(x^{2} + 2\\right)^{5}}{10}\\right]_{1}^{2}$\n$= \\dfrac{6^{5}}{10} - \\dfrac{3^{5}}{10}$\n$= \\dfrac{7776 - 243}{10}$\n$= \\dfrac{7533}{10}$"
+      },
+      {
+        "question_text": "Show that $\\int\\left(x^{2} + 1\\right)^{2}dx$ cannot be found by the reverse chain rule, then find it another way.",
+        "structure": "applies-or-not",
+        "solution_text": "The inner function is $f(x) = x^{2} + 1$, so $f'(x) = 2x$.\nThe integrand has no factor of $2x$, so the reverse chain rule does not apply.\n$\\int\\left(x^{2} + 1\\right)^{2}dx$\n$= \\int\\left(x^{4} + 2x^{2} + 1\\right)dx$\n$= \\dfrac{x^{5}}{5} + \\dfrac{2x^{3}}{3} + x + C$"
+      },
+      {
+        "question_text": "Find $\\int \\dfrac{x}{\\left(x^{2} - 6\\right)^{4}}\\,dx$.",
+        "structure": "composite-root-or-reciprocal",
+        "solution_text": "$f(x) = x^{2} - 6$, so $f'(x) = 2x$.\n$\\int x\\left(x^{2} - 6\\right)^{-4}dx$\n$= \\dfrac{1}{2}\\int 2x\\left(x^{2} - 6\\right)^{-4}dx$\n$= \\dfrac{1}{2} \\times \\dfrac{\\left(x^{2} - 6\\right)^{-3}}{-3} + C$\n$= -\\dfrac{1}{6\\left(x^{2} - 6\\right)^{3}} + C$"
+      }
+    ]
+  }
+}

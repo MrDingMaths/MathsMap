@@ -1,0 +1,114 @@
+{
+  "skillId": "solve-trig-equations-restricted",
+  "atomType": "R",
+  "theory": {
+        "intro": "To solve a trigonometric equation on a restricted domain, first get the ratio by itself. Then find the acute **reference angle** from the positive value of the ratio, and use **ASTC** to decide which quadrants the solutions lie in.",
+        "facts": [
+          "Always use the positive value of the ratio, so the calculator gives the acute reference angle $\\alpha$.",
+          "**ASTC** names the ratio that is positive in each quadrant, and the solutions in $[0^{\\circ}, 360^{\\circ})$ are $\\alpha$, $180^{\\circ} - \\alpha$, $180^{\\circ} + \\alpha$ and $360^{\\circ} - \\alpha$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\draw (-2,0) -- (2,0);\n\\draw (0,-2) -- (0,2);\n\\node at (1,1.25) {$A$};\n\\node[font=\\small] at (1,0.75) {all $+$};\n\\node at (-1,1.25) {$S$};\n\\node[font=\\small] at (-1,0.75) {$\\sin +$};\n\\node at (-1,-0.75) {$T$};\n\\node[font=\\small] at (-1,-1.25) {$\\tan +$};\n\\node at (1,-0.75) {$C$};\n\\node[font=\\small] at (1,-1.25) {$\\cos +$};\n\\node[font=\\small] at (1.8,1.8) {$1$};\n\\node[font=\\small] at (-1.8,1.8) {$2$};\n\\node[font=\\small] at (-1.8,-1.8) {$3$};\n\\node[font=\\small] at (1.8,-1.8) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+          "In radians on $[0, 2\\pi)$ the same four angles are $\\alpha$, $\\pi - \\alpha$, $\\pi + \\alpha$ and $2\\pi - \\alpha$.",
+          "Rewrite a reciprocal ratio first, so $\\sec x = k$ becomes $\\cos x = \\frac{1}{k}$, and likewise for $\\operatorname{cosec} x$ and $\\cot x$.",
+          "For a domain wider than one revolution, add or subtract $360^{\\circ}$ (or $2\\pi$) to reach the extra solutions.",
+          "Boundary values such as $\\sin x = 0$ or $\\cos x = \\pm 1$ are read straight off the unit circle or the graph."
+        ],
+        "steps": [
+          "Isolate the trigonometric ratio",
+          "Find the acute reference angle",
+          "Identify valid quadrants using ASTC",
+          "Calculate all solutions in the given domain"
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Solve $\\sin x = \\dfrac{1}{2}$ for $0 \\le x < 2\\pi$.",
+        "structure": "linear-trig-radians-standard",
+        "solution_text": "$\\sin x = \\dfrac{1}{2}$\nReference angle: $x_{\\text{ref}} = \\sin^{-1}\\left(\\dfrac{1}{2}\\right) = \\dfrac{\\pi}{6}$\n$\\sin x > 0$, so $x$ is in Quadrant 1 or Quadrant 2.\nQuadrant 1: $x = \\dfrac{\\pi}{6}$\nQuadrant 2: $x = \\pi - \\dfrac{\\pi}{6} = \\dfrac{5\\pi}{6}$\n$x = \\dfrac{\\pi}{6}, \\dfrac{5\\pi}{6}$"
+      },
+      {
+        "question_text": "Solve $\\cos x = \\dfrac{1}{\\sqrt{2}}$ for $0 \\le x < 2\\pi$.",
+        "structure": "linear-trig-radians-standard",
+        "solution_text": "$\\cos x = \\dfrac{1}{\\sqrt{2}}$\nReference angle: $x_{\\text{ref}} = \\cos^{-1}\\left(\\dfrac{1}{\\sqrt{2}}\\right) = \\dfrac{\\pi}{4}$\n$\\cos x > 0$, so $x$ is in Quadrant 1 or Quadrant 4.\nQuadrant 1: $x = \\dfrac{\\pi}{4}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{4}$\n$x = \\dfrac{\\pi}{4}, \\dfrac{7\\pi}{4}$"
+      },
+      {
+        "question_text": "Solve $\\tan x = -1$ for $0 \\le x < 2\\pi$.",
+        "structure": "linear-trig-radians-standard",
+        "solution_text": "$\\tan x = -1$\nReference angle: $x_{\\text{ref}} = \\tan^{-1}(1) = \\dfrac{\\pi}{4}$\n$\\tan x < 0$, so $x$ is in Quadrant 2 or Quadrant 4.\nQuadrant 2: $x = \\pi - \\dfrac{\\pi}{4} = \\dfrac{3\\pi}{4}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{4}$\n$x = \\dfrac{3\\pi}{4}, \\dfrac{7\\pi}{4}$"
+      },
+      {
+        "question_text": "Solve $\\cos x = -\\dfrac{1}{2}$ for $0 \\le x < 2\\pi$.",
+        "structure": "linear-trig-radians-standard",
+        "solution_text": "$\\cos x = -\\dfrac{1}{2}$\nReference angle: $x_{\\text{ref}} = \\cos^{-1}\\left(\\dfrac{1}{2}\\right) = \\dfrac{\\pi}{3}$\n$\\cos x < 0$, so $x$ is in Quadrant 2 or Quadrant 3.\nQuadrant 2: $x = \\pi - \\dfrac{\\pi}{3} = \\dfrac{2\\pi}{3}$\nQuadrant 3: $x = \\pi + \\dfrac{\\pi}{3} = \\dfrac{4\\pi}{3}$\n$x = \\dfrac{2\\pi}{3}, \\dfrac{4\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $\\sin\\theta = -1$ for $0^{\\circ} \\le \\theta < 360^{\\circ}$.",
+        "structure": "boundary-quadrantal-equations",
+        "solution_text": "$\\sin\\theta = -1$\nOn the unit circle, $y = -1$ occurs at the bottom boundary (negative $y$-axis).\n$\\theta = 270^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $2\\cos x - 1 = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "rearrange-linear-trig",
+        "solution_text": "$2\\cos x - 1 = 0$\n$2\\cos x = 1$\n$\\cos x = \\dfrac{1}{2}$\nReference angle: $x_{\\text{ref}} = \\cos^{-1}\\left(\\dfrac{1}{2}\\right) = \\dfrac{\\pi}{3}$\n$\\cos x > 0$, so $x$ is in Quadrant 1 or Quadrant 4.\nQuadrant 1: $x = \\dfrac{\\pi}{3}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{3} = \\dfrac{5\\pi}{3}$\n$x = \\dfrac{\\pi}{3}, \\dfrac{5\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $\\sec\\theta = 2$ for $0^{\\circ} \\le \\theta < 360^{\\circ}$.",
+        "structure": "linear-reciprocal-trig-equations",
+        "solution_text": "$\\sec\\theta = 2$\n$\\dfrac{1}{\\cos\\theta} = 2$\n$\\cos\\theta = \\dfrac{1}{2}$\nReference angle: $\\theta_{\\text{ref}} = \\cos^{-1}\\left(\\dfrac{1}{2}\\right) = 60^{\\circ}$\n$\\cos\\theta > 0$, so $\\theta$ is in Quadrant 1 or Quadrant 4.\nQuadrant 1: $\\theta = 60^{\\circ}$\nQuadrant 4: $\\theta = 360^{\\circ} - 60^{\\circ} = 300^{\\circ}$\n$\\theta = 60^{\\circ}, 300^{\\circ}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Solve $\\tan\\theta = \\sqrt{3}$ for $-180^{\\circ} \\le \\theta \\le 180^{\\circ}$.",
+        "structure": "linear-trig-nonstandard-domain",
+        "solution_text": "$\\tan\\theta = \\sqrt{3}$\nReference angle: $\\theta_{\\text{ref}} = \\tan^{-1}(\\sqrt{3}) = 60^{\\circ}$\n$\\tan\\theta > 0$, so solutions lie in Quadrant 1 and Quadrant 3.\nIn $[0^{\\circ}, 180^{\\circ}]$: $\\theta = 60^{\\circ}$\nIn $[-180^{\\circ}, 0^{\\circ}]$ (Quadrant 3): $\\theta = -180^{\\circ} + 60^{\\circ} = -120^{\\circ}$\n$\\theta = -120^{\\circ}, 60^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $\\sin x = -\\dfrac{\\sqrt{3}}{2}$ for $-\\pi \\le x \\le \\pi$.",
+        "structure": "linear-trig-nonstandard-domain",
+        "solution_text": "$\\sin x = -\\dfrac{\\sqrt{3}}{2}$\nReference angle: $x_{\\text{ref}} = \\sin^{-1}\\left(\\dfrac{\\sqrt{3}}{2}\\right) = \\dfrac{\\pi}{3}$\n$\\sin x < 0$, so solutions lie in Quadrant 3 and Quadrant 4.\nIn $[-\\pi, \\pi]$:\nQuadrant 4: $x = -\\dfrac{\\pi}{3}$\nQuadrant 3: $x = -\\pi + \\dfrac{\\pi}{3} = -\\dfrac{2\\pi}{3}$\n$x = -\\dfrac{2\\pi}{3}, -\\dfrac{\\pi}{3}$"
+      },
+      {
+        "question_text": "Solve $2\\cos\\theta + 1 = 0$ for $0^{\\circ} \\le \\theta \\le 720^{\\circ}$.",
+        "structure": "linear-trig-nonstandard-domain",
+        "solution_text": "$2\\cos\\theta + 1 = 0$\n$\\cos\\theta = -\\dfrac{1}{2}$\nReference angle: $\\theta_{\\text{ref}} = \\cos^{-1}\\left(\\dfrac{1}{2}\\right) = 60^{\\circ}$\n$\\cos\\theta < 0$, so $\\theta$ is in Quadrant 2 or Quadrant 3.\nIn $[0^{\\circ}, 360^{\\circ}]$:\nQuadrant 2: $\\theta = 180^{\\circ} - 60^{\\circ} = 120^{\\circ}$\nQuadrant 3: $\\theta = 180^{\\circ} + 60^{\\circ} = 240^{\\circ}$\nIn $[360^{\\circ}, 720^{\\circ}]$ (adding $360^{\\circ}$):\n$\\theta = 120^{\\circ} + 360^{\\circ} = 480^{\\circ}$\n$\\theta = 240^{\\circ} + 360^{\\circ} = 600^{\\circ}$\n$\\theta = 120^{\\circ}, 240^{\\circ}, 480^{\\circ}, 600^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $\\cot x = -\\sqrt{3}$ for $0 \\le x < 2\\pi$.",
+        "structure": "linear-reciprocal-trig-equations",
+        "solution_text": "$\\cot x = -\\sqrt{3}$\n$\\dfrac{1}{\\tan x} = -\\sqrt{3}$\n$\\tan x = -\\dfrac{1}{\\sqrt{3}}$\nReference angle: $x_{\\text{ref}} = \\tan^{-1}\\left(\\dfrac{1}{\\sqrt{3}}\\right) = \\dfrac{\\pi}{6}$\n$\\tan x < 0$, so $x$ is in Quadrant 2 or Quadrant 4.\nQuadrant 2: $x = \\pi - \\dfrac{\\pi}{6} = \\dfrac{5\\pi}{6}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{6} = \\dfrac{11\\pi}{6}$\n$x = \\dfrac{5\\pi}{6}, \\dfrac{11\\pi}{6}$"
+      },
+      {
+        "question_text": "Solve $\\cos\\theta = 0$ for $-180^{\\circ} \\le \\theta \\le 180^{\\circ}$.",
+        "structure": "boundary-quadrantal-equations",
+        "solution_text": "$\\cos\\theta = 0$\nOn the unit circle, $x = 0$ occurs at the top and bottom vertical axes ($90^{\\circ}$ and $-90^{\\circ}$).\n$\\theta = -90^{\\circ}, 90^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $3\\tan\\theta + 4 = 0$ for $0^{\\circ} \\le \\theta < 360^{\\circ}$, giving solutions to the nearest degree.",
+        "structure": "approximate-trig-equations",
+        "solution_text": "$3\\tan\\theta + 4 = 0$\n$\\tan\\theta = -\\dfrac{4}{3}$\nReference angle: $\\theta_{\\text{ref}} = \\tan^{-1}\\left(\\dfrac{4}{3}\\right) \\approx 53.13^{\\circ} \\approx 53^{\\circ}$\n$\\tan\\theta < 0$, so $\\theta$ is in Quadrant 2 or Quadrant 4.\nQuadrant 2: $\\theta = 180^{\\circ} - 53^{\\circ} = 127^{\\circ}$\nQuadrant 4: $\\theta = 360^{\\circ} - 53^{\\circ} = 307^{\\circ}$\n$\\theta = 127^{\\circ}, 307^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $\\sqrt{2}\\sin x + 1 = 0$ for $0 \\le x < 2\\pi$.",
+        "structure": "rearrange-linear-trig",
+        "solution_text": "$\\sqrt{2}\\sin x + 1 = 0$\n$\\sqrt{2}\\sin x = -1$\n$\\sin x = -\\dfrac{1}{\\sqrt{2}}$\nReference angle: $x_{\\text{ref}} = \\sin^{-1}\\left(\\dfrac{1}{\\sqrt{2}}\\right) = \\dfrac{\\pi}{4}$\n$\\sin x < 0$, so $x$ is in Quadrant 3 or Quadrant 4.\nQuadrant 3: $x = \\pi + \\dfrac{\\pi}{4} = \\dfrac{5\\pi}{4}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{4} = \\dfrac{7\\pi}{4}$\n$x = \\dfrac{5\\pi}{4}, \\dfrac{7\\pi}{4}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "Solve $\\operatorname{cosec}\\theta = -\\sqrt{2}$ for $-180^{\\circ} \\le \\theta \\le 180^{\\circ}$.",
+        "structure": "linear-reciprocal-trig-equations",
+        "solution_text": "$\\operatorname{cosec}\\theta = -\\sqrt{2}$\n$\\sin\\theta = -\\dfrac{1}{\\sqrt{2}}$\nReference angle: $\\theta_{\\text{ref}} = \\sin^{-1}\\left(\\dfrac{1}{\\sqrt{2}}\\right) = 45^{\\circ}$\n$\\sin\\theta < 0$, so solutions lie in Quadrants 3 and 4.\nIn $[-180^{\\circ}, 180^{\\circ}]$:\nQuadrant 4: $\\theta = -45^{\\circ}$\nQuadrant 3: $\\theta = -180^{\\circ} + 45^{\\circ} = -135^{\\circ}$\n$\\theta = -135^{\\circ}, -45^{\\circ}$"
+      },
+      {
+        "question_text": "Solve $\\tan x = -\\dfrac{1}{\\sqrt{3}}$ for $0 \\le x \\le 4\\pi$.",
+        "structure": "linear-trig-nonstandard-domain",
+        "solution_text": "$\\tan x = -\\dfrac{1}{\\sqrt{3}}$\nReference angle: $x_{\\text{ref}} = \\tan^{-1}\\left(\\dfrac{1}{\\sqrt{3}}\\right) = \\dfrac{\\pi}{6}$\n$\\tan x < 0$, so $x$ is in Quadrant 2 or Quadrant 4.\nIn $[0, 2\\pi]$:\nQuadrant 2: $x = \\pi - \\dfrac{\\pi}{6} = \\dfrac{5\\pi}{6}$\nQuadrant 4: $x = 2\\pi - \\dfrac{\\pi}{6} = \\dfrac{11\\pi}{6}$\nIn $[2\\pi, 4\\pi]$ (adding $2\\pi$):\n$x = \\dfrac{5\\pi}{6} + 2\\pi = \\dfrac{17\\pi}{6}$\n$x = \\dfrac{11\\pi}{6} + 2\\pi = \\dfrac{23\\pi}{6}$\n$x = \\dfrac{5\\pi}{6}, \\dfrac{11\\pi}{6}, \\dfrac{17\\pi}{6}, \\dfrac{23\\pi}{6}$"
+      },
+      {
+        "question_text": "Solve $5\\cos\\theta - 2 = 0$ for $0^{\\circ} \\le \\theta < 360^{\\circ}$, giving solutions to the nearest degree.",
+        "structure": "approximate-trig-equations",
+        "solution_text": "$5\\cos\\theta - 2 = 0$\n$5\\cos\\theta = 2$\n$\\cos\\theta = \\dfrac{2}{5} = 0.4$\nReference angle: $\\theta_{\\text{ref}} = \\cos^{-1}(0.4) \\approx 66.42^{\\circ} \\approx 66^{\\circ}$\n$\\cos\\theta > 0$, so $\\theta$ is in Quadrant 1 or Quadrant 4.\nQuadrant 1: $\\theta = 66^{\\circ}$\nQuadrant 4: $\\theta = 360^{\\circ} - 66^{\\circ} = 294^{\\circ}$\n$\\theta = 66^{\\circ}, 294^{\\circ}$"
+      }
+    ]
+  }
+}

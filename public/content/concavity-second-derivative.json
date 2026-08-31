@@ -1,0 +1,129 @@
+{
+  "skillId": "concavity-second-derivative",
+  "atomType": "R",
+  "theory": {
+    "intro": "A curve is **concave up** where $f''(x) > 0$ and **concave down** where $f''(x) < 0$. Concave up means the gradient is increasing, so the curve bends upwards like a cup.",
+    "facts": [
+      "$f''(x)$ is the derivative of $f'(x)$, so it measures how fast the gradient is changing.",
+      "$f''(x) > 0$ means the gradient is increasing and the curve is **concave up**, bending like $\\cup$.",
+      "$f''(x) < 0$ means the gradient is decreasing and the curve is **concave down**, bending like $\\cap$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick,<->,domain=-1.5:1.5,smooth,variable=\\x] plot ({\\x},{0.6*\\x*\\x-1});\n\\draw[dashed] (-1.4,0.08) -- (-0.6,-0.88);\n\\draw[dashed] (-0.4,-1) -- (0.4,-1);\n\\draw[dashed] (0.6,-0.88) -- (1.4,0.08);\n\\node[font=\\small] at (0,1.9) {Concave up \\ $f''>0$};\n\\node[font=\\small] at (0,-1.9) {gradient increasing};\n\\draw[thick,<->,domain=-1.5:1.5,smooth,variable=\\x] plot ({\\x+4.4},{1-0.6*\\x*\\x});\n\\draw[dashed] (3.0,-0.08) -- (3.8,0.88);\n\\draw[dashed] (4.0,1) -- (4.8,1);\n\\draw[dashed] (5.0,0.88) -- (5.8,-0.08);\n\\node[font=\\small] at (4.4,1.9) {Concave down \\ $f''<0$};\n\\node[font=\\small] at (4.4,-1.9) {gradient decreasing};\n\\end{tikzpicture}\n[/tikz]",
+      "Concavity is about how the gradient changes, not about whether the function itself is increasing or decreasing.",
+      "A curve can be decreasing and concave up at the same time: falling, but less and less steeply.",
+      "For a cubic $f''(x)$ is linear, so the curve is concave up on one side of a single value and concave down on the other.",
+      "A parabola $y = ax^{2} + bx + c$ has the constant second derivative $f''(x) = 2a$, so its concavity never changes."
+    ],
+    "steps": [
+      "Differentiate twice to find $f''(x)$",
+      "Substitute the $x$-value, or solve $f''(x) > 0$ for concave up and $f''(x) < 0$ for concave down",
+      "State the concavity, or the interval of $x$-values, as the answer"
+    ]
+  },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "Find $f''(x)$ for $f(x) = x^{3} - 5x^{2} + 2$, and state whether the curve is concave up or concave down at $x = 1$.",
+        "structure": "concavity-at-a-point",
+        "solution_text": "$f'(x) = 3x^{2} - 10x$\n$f''(x) = 6x - 10$\n$f''(1) = 6 - 10 = -4$\nSince $f''(1) < 0$, the curve is concave down at $x = 1$."
+      },
+      {
+        "question_text": "Find $f''(x)$ for $f(x) = 2x^{3} + 3x^{2} - 7x + 1$, and state whether the curve is concave up or concave down at $x = 0$.",
+        "structure": "concavity-at-a-point",
+        "solution_text": "$f'(x) = 6x^{2} + 6x - 7$\n$f''(x) = 12x + 6$\n$f''(0) = 6$\nSince $f''(0) > 0$, the curve is concave up at $x = 0$."
+      },
+      {
+        "question_text": "Is the curve $f(x) = x^{4} - 6x^{2} + 5$ concave up or concave down at $x = -2$?",
+        "structure": "concavity-at-a-point",
+        "solution_text": "$f'(x) = 4x^{3} - 12x$\n$f''(x) = 12x^{2} - 12$\n$f''(-2) = 48 - 12 = 36$\nSince $f''(-2) > 0$, the curve is concave up at $x = -2$."
+      },
+      {
+        "question_text": "Explain why $y = 3x^{2} - 12x + 7$ is concave up for every value of $x$.",
+        "structure": "concavity-all-x",
+        "solution_text": "$\\dfrac{dy}{dx} = 6x - 12$\n$\\dfrac{d^{2}y}{dx^{2}} = 6$\nThe second derivative is the constant $6$, which is positive for every $x$.\nSo the curve is concave up for all values of $x$."
+      },
+      {
+        "question_text": "Explain why $y = 5 + 8x - 2x^{2}$ is concave down for every value of $x$.",
+        "structure": "concavity-all-x",
+        "solution_text": "$\\dfrac{dy}{dx} = 8 - 4x$\n$\\dfrac{d^{2}y}{dx^{2}} = -4$\nThe second derivative is the constant $-4$, which is negative for every $x$.\nSo the curve is concave down for all values of $x$."
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = x^{3} - 9x^{2} + 4x - 1$ is concave up.",
+        "structure": "concavity-interval-cubic",
+        "solution_text": "$\\dfrac{dy}{dx} = 3x^{2} - 18x + 4$\n$\\dfrac{d^{2}y}{dx^{2}} = 6x - 18$\nFor concave up, $\\dfrac{d^{2}y}{dx^{2}} > 0$:\n$6x - 18 > 0$\n$6x > 18$\n$x > 3$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = 2x^{3} + 15x^{2} - x + 6$ is concave down.",
+        "structure": "concavity-interval-cubic",
+        "solution_text": "$\\dfrac{dy}{dx} = 6x^{2} + 30x - 1$\n$\\dfrac{d^{2}y}{dx^{2}} = 12x + 30$\nFor concave down, $\\dfrac{d^{2}y}{dx^{2}} < 0$:\n$12x + 30 < 0$\n$12x < -30$\n$x < -\\dfrac{5}{2}$"
+      },
+      {
+        "question_text": "The diagram shows the curve $y = f(x)$. Over which values of $x$ is the curve concave down?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-2.5, xmax=7.4, ymin=-6.7, ymax=6.0, samples=100, clip=false,\n             xtick={-2,-1,1,2,3,4,5,6,7}, ytick={-6,-4,-2,2,4}]\n\\addplot[smooth, thick, <->, domain=-1.96:6.62] {0.2*(x*x*x - 6*x*x)};\n\\node[font=\\small] at (axis cs:1.3,3.4) {$y=f(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]",
+        "structure": "concavity-from-graph",
+        "solution_text": "Read the bending of the curve from left to right.\nOn the left the curve bends downwards like $\\cap$, and on the right it bends upwards like $\\cup$.\nThe bending reverses at $x = 2$.\nThe curve is concave down for $x < 2$."
+      }
+    ],
+    "development": [
+      {
+        "question_text": "Find the values of $x$ for which $y = x^{3} - x^{2} - 5x + 1$ is concave up.",
+        "structure": "concavity-interval-cubic",
+        "solution_text": "$\\dfrac{dy}{dx} = 3x^{2} - 2x - 5$\n$\\dfrac{d^{2}y}{dx^{2}} = 6x - 2$\nFor concave up, $\\dfrac{d^{2}y}{dx^{2}} > 0$:\n$6x - 2 > 0$\n$6x > 2$\n$x > \\dfrac{1}{3}$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = x^{4} - 6x^{2} + 7$ is concave down.",
+        "structure": "concavity-interval-quartic",
+        "solution_text": "$\\dfrac{dy}{dx} = 4x^{3} - 12x$\n$\\dfrac{d^{2}y}{dx^{2}} = 12x^{2} - 12$\nFor concave down, $\\dfrac{d^{2}y}{dx^{2}} < 0$:\n$12x^{2} - 12 < 0$\n$x^{2} < 1$\n$-1 < x < 1$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\begin{axis}[axis lines=middle, xlabel={$x$}, ylabel={$y$},\n             xmin=-2.9, xmax=2.9, ymin=-3.5, ymax=11.5, samples=100, clip=false,\n             xtick={-2,-1,1,2}, ytick={2,4,6,8,10}]\n\\addplot[smooth, thick, <->, domain=-2.58:2.58] {x*x*x*x - 6*x*x + 7};\n\\draw[dashed] (axis cs:-1,-3.5) -- (axis cs:-1,11.5);\n\\draw[dashed] (axis cs:1,-3.5) -- (axis cs:1,11.5);\n\\node[font=\\small] at (axis cs:0,-2.4) {concave down};\n\\node[font=\\small] at (axis cs:2.1,8.6) {$y=f(x)$};\n\\end{axis}\n\\end{tikzpicture}\n[/tikz]"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = x^{4} - 2x^{3} + 5x$ is concave up.",
+        "structure": "concavity-interval-quartic",
+        "solution_text": "$\\dfrac{dy}{dx} = 4x^{3} - 6x^{2} + 5$\n$\\dfrac{d^{2}y}{dx^{2}} = 12x^{2} - 12x$\n$= 12x(x - 1)$\nFor concave up, $12x(x - 1) > 0$.\nThe product of the two factors is positive when both are negative or both are positive.\n$x < 0$ or $x > 1$"
+      },
+      {
+        "question_text": "Show that $y = \\ln x$ is concave down at every point of its domain.",
+        "structure": "concavity-exponential-log",
+        "solution_text": "The domain of $y = \\ln x$ is $x > 0$.\n$\\dfrac{dy}{dx} = \\dfrac{1}{x}$\n$\\dfrac{d^{2}y}{dx^{2}} = -\\dfrac{1}{x^{2}}$\nFor every $x > 0$, $x^{2} > 0$, so $-\\dfrac{1}{x^{2}} < 0$.\nThe second derivative is negative throughout the domain, so the curve is concave down everywhere."
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = xe^{3x}$ is concave up.",
+        "structure": "concavity-exponential-log",
+        "solution_text": "$\\dfrac{dy}{dx} = e^{3x} + 3xe^{3x}$\n$= e^{3x}(1 + 3x)$\n$\\dfrac{d^{2}y}{dx^{2}} = 3e^{3x}(1 + 3x) + 3e^{3x}$\n$= e^{3x}(9x + 6)$\nSince $e^{3x} > 0$, the sign is the sign of $9x + 6$.\n$9x + 6 > 0$\n$x > -\\dfrac{2}{3}$"
+      },
+      {
+        "question_text": "The curve $y = \\dfrac{x + 2}{x - 3}$ has second derivative $\\dfrac{d^{2}y}{dx^{2}} = \\dfrac{10}{(x - 3)^{3}}$. Is the curve concave up or concave down at $x = 5$?",
+        "structure": "concavity-at-a-point",
+        "solution_text": "$\\dfrac{d^{2}y}{dx^{2}}$ at $x = 5$ is $\\dfrac{10}{(5 - 3)^{3}}$\n$= \\dfrac{10}{8}$\n$= \\dfrac{5}{4}$\nSince $\\dfrac{5}{4} > 0$, the curve is concave up at $x = 5$."
+      },
+      {
+        "question_text": "At the point where $x = 4$, a curve $y = f(x)$ has $f'(4) < 0$ and $f''(4) > 0$. Describe how the curve behaves there.",
+        "structure": "concavity-and-increasing-contrast",
+        "solution_text": "$f'(4) < 0$ means the gradient is negative, so the curve is decreasing at $x = 4$.\n$f''(4) > 0$ means the gradient is increasing, so the curve is concave up at $x = 4$.\nThe curve is falling, but the gradient is becoming less negative.\nSo the curve is decreasing at a decreasing rate: falling, but less and less steeply."
+      },
+      {
+        "question_text": "For what values of $a$ is $y = x^{3} + ax^{2} + 3x - 4$ concave up at the point where $x = -1$?",
+        "structure": "concavity-parameter",
+        "solution_text": "$\\dfrac{dy}{dx} = 3x^{2} + 2ax + 3$\n$\\dfrac{d^{2}y}{dx^{2}} = 6x + 2a$\nFor concave up at $x = -1$:\n$6(-1) + 2a > 0$\n$2a > 6$\n$a > 3$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For what values of $b$ is $y = x^{4} + bx^{3} - x^{2}$ concave up at the point where $x = 1$?",
+        "structure": "concavity-parameter",
+        "solution_text": "$\\dfrac{dy}{dx} = 4x^{3} + 3bx^{2} - 2x$\n$\\dfrac{d^{2}y}{dx^{2}} = 12x^{2} + 6bx - 2$\nFor concave up at $x = 1$:\n$12 + 6b - 2 > 0$\n$6b > -10$\n$b > -\\dfrac{5}{3}$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $f(x) = x^{4} - 16x^{3} + 72x^{2} + 10$ is concave down.",
+        "structure": "concavity-interval-quartic",
+        "solution_text": "$f'(x) = 4x^{3} - 48x^{2} + 144x$\n$f''(x) = 12x^{2} - 96x + 144$\n$= 12(x^{2} - 8x + 12)$\n$= 12(x - 2)(x - 6)$\nFor concave down, $12(x - 2)(x - 6) < 0$.\nThe product of the two factors is negative between the roots.\n$2 < x < 6$"
+      },
+      {
+        "question_text": "Find the values of $x$ for which $y = x^{3}\\ln x$ is concave down in its natural domain.",
+        "structure": "concavity-exponential-log",
+        "solution_text": "The natural domain is $x > 0$.\n$\\dfrac{dy}{dx} = 3x^{2}\\ln x + x^{2}$\n$\\dfrac{d^{2}y}{dx^{2}} = 6x\\ln x + 3x + 2x$\n$= x(6\\ln x + 5)$\nSince $x > 0$, the sign is the sign of $6\\ln x + 5$.\n$6\\ln x + 5 < 0$\n$\\ln x < -\\dfrac{5}{6}$\n$0 < x < e^{-\\frac{5}{6}}$"
+      },
+      {
+        "question_text": "A quantity $Q$ changes over time $t$ so that $\\dfrac{dQ}{dt} < 0$ and $\\dfrac{d^{2}Q}{dt^{2}} > 0$ throughout. Describe how $Q$ is changing.",
+        "structure": "concavity-and-increasing-contrast",
+        "solution_text": "$\\dfrac{dQ}{dt} < 0$ means $Q$ is decreasing throughout.\n$\\dfrac{d^{2}Q}{dt^{2}} > 0$ means the rate of change is increasing, so the graph of $Q$ against $t$ is concave up.\nA negative rate that is increasing is becoming less negative.\nSo $Q$ is decreasing, but the rate at which it decreases is slowing down."
+      }
+    ]
+  }
+}

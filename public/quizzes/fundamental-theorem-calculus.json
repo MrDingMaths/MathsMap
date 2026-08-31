@@ -1,0 +1,122 @@
+{
+  "skillId": "fundamental-theorem-calculus",
+  "questions": [
+    {
+      "id": "q1",
+      "question_text": "Find $\\dfrac{d}{dx}\\int_{5}^{x}\\left(t^{2} + 7t\\right)dt$.",
+      "structure": "differentiate-area-function",
+      "mastery": false,
+      "options": [
+        { "text": "$x^{2} + 7x$", "correct": true },
+        { "text": "$\\dfrac{x^{3}}{3} + \\dfrac{7x^{2}}{2}$", "why": "Found a primitive of the integrand instead of recognising that differentiating undoes the integral." },
+        { "text": "$2x + 7$", "why": "Differentiated the integrand itself rather than the area function." },
+        { "text": "$x^{2} + 7x - 60$", "why": "Subtracted the value of the primitive at the lower limit, but that constant vanishes when the area function is differentiated." }
+      ],
+      "solution_text": "$\\dfrac{d}{dx}\\int_{5}^{x}\\left(t^{2} + 7t\\right)dt$\n$= x^{2} + 7x$"
+    },
+    {
+      "id": "q2",
+      "question_text": "Evaluate $\\int_{1}^{4}(3x - 10)\\,dx$.",
+      "structure": "evaluate-with-ftc",
+      "mastery": false,
+      "options": [
+        { "text": "$-\\dfrac{15}{2}$", "correct": true },
+        { "text": "$\\dfrac{15}{2}$", "why": "Computed $F(a) - F(b)$ instead of $F(b) - F(a)$." },
+        { "text": "$-\\dfrac{49}{2}$", "why": "Added the two substituted values instead of subtracting them." },
+        { "text": "$-16$", "why": "Substituted the upper limit only and forgot to subtract the value at the lower limit." }
+      ],
+      "solution_text": "$\\int_{1}^{4}(3x - 10)\\,dx$\n$= \\left[\\dfrac{3x^{2}}{2} - 10x\\right]_{1}^{4}$\n$= (24 - 40) - \\left(\\dfrac{3}{2} - 10\\right)$\n$= -16 + \\dfrac{17}{2}$\n$= -\\dfrac{15}{2}$"
+    },
+    {
+      "id": "q3",
+      "question_text": "$F(x) = x^{3} - 4x^{2}$ is a primitive of $f$. Evaluate $\\int_{2}^{5} f(x)\\,dx$.",
+      "structure": "apply-given-primitive",
+      "mastery": false,
+      "options": [
+        { "text": "$33$", "correct": true },
+        { "text": "$17$", "why": "Subtracted $8$ instead of $-8$, losing the double negative in $25 - (-8)$." },
+        { "text": "$-33$", "why": "Computed $F(2) - F(5)$, reversing the order of the limits." },
+        { "text": "$25$", "why": "Used $F(5)$ only and did not subtract $F(2)$." }
+      ],
+      "solution_text": "$\\int_{2}^{5} f(x)\\,dx$\n$= F(5) - F(2)$\n$= (125 - 100) - (8 - 16)$\n$= 25 - (-8)$\n$= 33$"
+    },
+    {
+      "id": "q4",
+      "question_text": "Which function is a primitive of $f(x) = 8x^{3} + 1$?",
+      "structure": "verify-primitive",
+      "mastery": false,
+      "options": [
+        { "text": "$2x^{4} + x$", "correct": true },
+        { "text": "$24x^{2}$", "why": "Differentiated $f$ instead of finding a function whose derivative is $f$." },
+        { "text": "$2x^{4} + 1$", "why": "Left the constant term $1$ unchanged instead of integrating it to $x$." },
+        { "text": "$\\dfrac{8x^{4}}{3} + x$", "why": "Divided by the old index $3$ instead of the new index $4$." }
+      ],
+      "solution_text": "$\\dfrac{d}{dx}\\left(2x^{4} + x\\right)$\n$= 8x^{3} + 1$\n$= f(x)$"
+    },
+    {
+      "id": "q5",
+      "question_text": "The diagram shows the curve $y = f(x)$, with the region between the curve and the $x$-axis over the interval shown shaded. Which statement about the definite integral measuring that signed area is correct?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-1.2,0) -- (4.4,0) node[right] {$x$};\n\\draw[->] (0,-3.6) -- (0,1.6) node[above] {$y$};\n\\fill[gray!35, domain=0:3, variable=\\x] (0,0) -- plot ({\\x},{0.32*(\\x*\\x - 9)}) -- (3,0) -- cycle;\n\\draw[thick, <->, domain=-1:3.7, smooth, variable=\\x] plot ({\\x},{0.32*(\\x*\\x - 9)});\n\\node[above left] at (0,0) {$O$};\n\\node[above right] at (3,0) {$3$};\n\\node at (2.4,-2.4) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "interpret-sign",
+      "mastery": false,
+      "options": [
+        { "text": "It is negative, because the shaded region lies below the $x$-axis.", "correct": true },
+        { "text": "It is positive, because an area can never be negative.", "why": "Confuses geometric area with signed area; a definite integral is negative where the curve lies below the axis." },
+        { "text": "It is zero, because the curve meets the $x$-axis at the right-hand end of the interval.", "why": "A crossing at one endpoint does not cancel anything; the whole region still lies below the axis." },
+        { "text": "It is positive, because the upper limit is greater than the lower limit.", "why": "The limits are in the correct order, but the sign of a definite integral is set by where the region lies, not by the limits." }
+      ],
+      "solution_text": "Across the shaded interval the curve lies below the $x$-axis, so $f(x)$ is negative there.\nThe signed area is therefore negative."
+    },
+    {
+      "id": "q6",
+      "question_text": "$A(x) = \\int_{2}^{x} 6t\\,dt$. Find $A(5)$.",
+      "structure": "area-function-value",
+      "mastery": false,
+      "options": [
+        { "text": "$63$", "correct": true },
+        { "text": "$75$", "why": "Substituted the upper limit only, forgetting to subtract the value at $t = 2$." },
+        { "text": "$30$", "why": "Substituted $t = 5$ into the integrand $6t$ instead of into the primitive." },
+        { "text": "$-63$", "why": "Computed the value at the lower limit minus the value at the upper limit." }
+      ],
+      "solution_text": "$A(5) = \\int_{2}^{5} 6t\\,dt$\n$= \\left[3t^{2}\\right]_{2}^{5}$\n$= 75 - 12$\n$= 63$"
+    },
+    {
+      "id": "q7",
+      "question_text": "A machine produces bolts at a rate of $r(t)$ bolts per hour, and $R$ is a primitive of $r$. Given $R(1) = 140$ and $R(6) = 890$, how many bolts are produced between $t = 1$ and $t = 6$ hours?",
+      "structure": "total-change",
+      "mastery": false,
+      "options": [
+        { "text": "$750$", "correct": true },
+        { "text": "$1030$", "why": "Added the two values of the primitive instead of subtracting them." },
+        { "text": "$-750$", "why": "Computed $R(1) - R(6)$, reversing the order in $F(b) - F(a)$." },
+        { "text": "$150$", "why": "Divided the change by the $5$-hour interval, which gives an average rate rather than a total." }
+      ],
+      "solution_text": "Bolts produced $= \\int_{1}^{6} r(t)\\,dt$\n$= R(6) - R(1)$\n$= 890 - 140$\n$= 750$"
+    },
+    {
+      "id": "q8",
+      "question_text": "Find the value of $k > 0$ for which $\\int_{0}^{k}(4x + 3)\\,dx = 27$.",
+      "structure": "evaluate-with-ftc",
+      "mastery": true,
+      "options": [
+        { "text": "$3$", "correct": true },
+        { "text": "$6$", "why": "Substituted $k$ into the integrand and solved $4k + 3 = 27$ instead of using the primitive." },
+        { "text": "$-\\dfrac{9}{2}$", "why": "The other root of $2k^{2} + 3k - 27 = 0$, which must be rejected because $k > 0$." },
+        { "text": "$\\dfrac{27}{2}$", "why": "Divided $27$ by the coefficient $2$ of $k^{2}$ instead of solving the quadratic." }
+      ],
+      "solution_text": "$\\int_{0}^{k}(4x + 3)\\,dx$\n$= \\left[2x^{2} + 3x\\right]_{0}^{k}$\n$= 2k^{2} + 3k$\n$2k^{2} + 3k = 27$\n$2k^{2} + 3k - 27 = 0$\n$(2k + 9)(k - 3) = 0$\n$k = 3$, since $k > 0$"
+    },
+    {
+      "id": "q9",
+      "question_text": "Which definite integral gives the signed area of the shaded region shown?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.8,0) -- (3.4,0) node[right] {$x$};\n\\draw[->] (0,-1.2) -- (0,6.0) node[above] {$y$};\n\\fill[gray!35] (1,0) -- (1,3) -- (2,1) -- (2,0) -- cycle;\n\\draw[thick, <->] (-0.4,5.8) -- (3.1,-1.2);\n\\draw[dashed] (1,0) -- (1,3);\n\\draw[dashed] (2,0) -- (2,1);\n\\node[below] at (1,0) {$1$};\n\\node[below] at (2,0) {$2$};\n\\node at (2.9,2.2) {$y=5-2x$};\n\\end{tikzpicture}\n[/tikz]",
+      "structure": "write-integral-for-region",
+      "mastery": true,
+      "options": [
+        { "text": "$\\int_{1}^{2}(5 - 2x)\\,dx$", "correct": true },
+        { "text": "$\\int_{2}^{1}(5 - 2x)\\,dx$", "why": "Wrote the limits the wrong way round; the left-hand end of the region is the lower limit." },
+        { "text": "$\\int_{1}^{2}(5 - 2x)\\,dy$", "why": "Used $dy$ although the strips making up the region are measured along the $x$-axis." },
+        { "text": "$\\int_{1}^{2}\\left(5x - x^{2}\\right)dx$", "why": "Placed a primitive of the function inside the integral sign instead of the function itself." }
+      ],
+      "solution_text": "The shaded region runs from $x = 1$ to $x = 2$, between $y = 5 - 2x$ and the $x$-axis.\nSigned area $= \\int_{1}^{2}(5 - 2x)\\,dx$"
+    }
+  ]
+}

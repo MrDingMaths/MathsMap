@@ -1,0 +1,108 @@
+{
+  "skillId": "angles-any-magnitude-definitions",
+  "atomType": "R",
+  "theory": {
+        "intro": "For an angle of inclination $\\theta$, the trigonometric ratios are defined by a point $P(x,y)$ on a circle of radius $r=\\sqrt{x^2+y^2}$ centred at the origin: $\\cos\\theta=\\dfrac{x}{r}$, $\\sin\\theta=\\dfrac{y}{r}$, and $\\tan\\theta=\\dfrac{y}{x}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes}\n\\draw[-{Stealth}] (-2.2,0) -- (2.2,0) node[right] {$x$};\n\\draw[-{Stealth}] (0,-2.2) -- (0,2.2) node[above] {$y$};\n\\draw (0,0) circle (1.8);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (1.2,1.34);\n\\coordinate (A) at (2,0);\n\\coordinate (X) at (1.2,0);\n\\draw[thick] (O) -- (P) node[midway, above left] {$r$};\n\\draw[dashed] (P) -- (X);\n\\fill (P) circle (1.5pt) node[above right] {$P(x,y)$};\n\\pic[draw, \"$\\theta$\", angle radius=0.6cm, angle eccentricity=1.8] {angle = A--O--P};\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}\n[/tikz]",
+        "facts": [
+          "The radius $r=\\sqrt{x^2+y^2}$ is the distance from the origin $O(0,0)$ to $P(x,y)$, with $r>0$ always.",
+          "$\\cos\\theta=\\dfrac{x}{r}$ shares the sign of $x$: positive in quadrants 1 and 4 ($x>0$), and negative in quadrants 2 and 3 ($x<0$).",
+          "$\\sin\\theta=\\dfrac{y}{r}$ shares the sign of $y$: positive in quadrants 1 and 2 ($y>0$), and negative in quadrants 3 and 4 ($y<0$).",
+          "$\\tan\\theta=\\dfrac{y}{x}$ is positive where $x$ and $y$ have the same sign (quadrants 1 and 3) and negative where signs differ.",
+          "The **ASTC** rule identifies positive ratios: **A**ll in Q1, **S**ine in Q2, **T**angent in Q3, and **C**osine in Q4.",
+          "A point on a circle of radius $r$ at angle $\\theta$ has coordinates $P(r\\cos\\theta, r\\sin\\theta)$."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\usetikzlibrary{angles, quotes}\n\\draw[-{Stealth}] (-1.5,0)--(5.5,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.5)--(0,5.5) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (5);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (3,4);\n\\coordinate (A) at (5,0);\n\\draw[thick,blue] (O)--(P) node[midway,above left]{$r=5$};\n\\fill[red] (P) circle (2.5pt) node[above right]{$P(3,4)$};\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=1.5] {angle = A--O--P};\n\\end{tikzpicture}[/tikz]\nThe point $P(3,4)$ lies on a circle of radius $r=5$ centred at the origin. Write down the exact values of $\\cos\\theta$, $\\sin\\theta$, and $\\tan\\theta$.",
+        "structure": "ratios-from-point",
+        "solution_text": "$\\cos\\theta=\\dfrac{x}{r}=\\dfrac{3}{5}$\n$\\sin\\theta=\\dfrac{y}{r}=\\dfrac{4}{5}$\n$\\tan\\theta=\\dfrac{y}{x}=\\dfrac{4}{3}$"
+      },
+      {
+        "question_text": "[tikz]\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.7]\n\\usetikzlibrary{angles, quotes}\n\\draw[-{Stealth}] (-5.5,0)--(2,0) node[right,font=\\scriptsize]{$x$};\n\\draw[-{Stealth}] (0,-1.5)--(0,5.5) node[above,font=\\scriptsize]{$y$};\n\\draw (0,0) circle (5);\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (-4,3);\n\\coordinate (A) at (2,0);\n\\draw[thick,blue] (O)--(P) node[midway,above right]{$r=5$};\n\\fill[red] (P) circle (2.5pt) node[above left]{$P(-4,3)$};\n\\pic[draw, \"$\\theta$\", angle radius=1cm, angle eccentricity=1.5] {angle = A--O--P};\n\\end{tikzpicture}[/tikz]\nThe point $P(-4,3)$ lies on a circle of radius $r=5$ centred at the origin. Write down the exact values of $\\cos\\theta$, $\\sin\\theta$, and $\\tan\\theta$.",
+        "structure": "ratios-from-point",
+        "solution_text": "$\\cos\\theta=\\dfrac{x}{r}=-\\dfrac{4}{5}$\n$\\sin\\theta=\\dfrac{y}{r}=\\dfrac{3}{5}$\n$\\tan\\theta=\\dfrac{y}{x}=-\\dfrac{3}{4}$"
+      },
+      {
+        "question_text": "An angle of inclination $\\theta=140^{\\circ}$ lies in the second quadrant. State whether $\\sin 140^{\\circ}$, $\\cos 140^{\\circ}$, and $\\tan 140^{\\circ}$ are positive or negative.",
+        "structure": "sign-from-quadrant-or-angle",
+        "solution_text": "In the second quadrant, $x<0$ and $y>0$.\n$\\sin 140^{\\circ}$ is positive ($y>0$).\n$\\cos 140^{\\circ}$ is negative ($x<0$).\n$\\tan 140^{\\circ}$ is negative ($y/x<0$)."
+      },
+      {
+        "question_text": "An angle of inclination $\\theta=230^{\\circ}$ lies in the third quadrant. State whether $\\sin 230^{\\circ}$, $\\cos 230^{\\circ}$, and $\\tan 230^{\\circ}$ are positive or negative.",
+        "structure": "sign-from-quadrant-or-angle",
+        "solution_text": "In the third quadrant, $x<0$ and $y<0$.\n$\\sin 230^{\\circ}$ is negative ($y<0$).\n$\\cos 230^{\\circ}$ is negative ($x<0$).\n$\\tan 230^{\\circ}$ is positive ($y/x>0$)."
+      },
+      {
+        "question_text": "If $\\sin\\theta>0$ and $\\cos\\theta<0$, determine which quadrant $\\theta$ lies in.",
+        "structure": "quadrant-from-signs",
+        "solution_text": "$\\sin\\theta>0$ means $y>0$ (first or second quadrant).\n$\\cos\\theta<0$ means $x<0$ (second or third quadrant).\nBoth conditions are met in the second quadrant."
+      },
+      {
+        "question_text": "If $\\tan\\theta>0$ and $\\cos\\theta<0$, determine which quadrant $\\theta$ lies in.",
+        "structure": "quadrant-from-signs",
+        "solution_text": "$\\tan\\theta>0$ means $x$ and $y$ have the same sign (first or third quadrant).\n$\\cos\\theta<0$ means $x<0$ (second or third quadrant).\nBoth conditions are met in the third quadrant."
+      },
+      {
+        "question_text": "A point $P(x,y)$ lies on a circle of radius $r=10$ centred at the origin with angle of inclination $\\theta$. If $\\cos\\theta=0.6$ and $\\sin\\theta=0.8$, find the coordinates of $P$.",
+        "structure": "point-from-ratios-radius",
+        "solution_text": "$x=r\\cos\\theta=10\\times0.6=6$\n$y=r\\sin\\theta=10\\times0.8=8$\n$P(6,8)$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The point $P(-5,-12)$ lies on the terminal arm of angle $\\theta$ on a circle centred at the origin. Find the radius $r$ and evaluate $\\cos\\theta$, $\\sin\\theta$, and $\\tan\\theta$.",
+        "structure": "ratios-from-point",
+        "solution_text": "$r=\\sqrt{(-5)^2+(-12)^2}=\\sqrt{25+144}=\\sqrt{169}=13$\n$\\cos\\theta=\\dfrac{x}{r}=-\\dfrac{5}{13}$\n$\\sin\\theta=\\dfrac{y}{r}=-\\dfrac{12}{13}$\n$\\tan\\theta=\\dfrac{y}{x}=\\dfrac{-12}{-5}=\\dfrac{12}{5}$"
+      },
+      {
+        "question_text": "The point $P(8,-15)$ lies on the terminal arm of angle $\\theta$ on a circle centred at the origin. Find the radius $r$ and evaluate $\\cos\\theta$, $\\sin\\theta$, and $\\tan\\theta$.",
+        "structure": "ratios-from-point",
+        "solution_text": "$r=\\sqrt{8^2+(-15)^2}=\\sqrt{64+225}=\\sqrt{289}=17$\n$\\cos\\theta=\\dfrac{x}{r}=\\dfrac{8}{17}$\n$\\sin\\theta=\\dfrac{y}{r}=-\\dfrac{15}{17}$\n$\\tan\\theta=\\dfrac{y}{x}=-\\dfrac{15}{8}$"
+      },
+      {
+        "question_text": "A point $P(x,y)$ lies on a circle of radius $r=6$ centred at the origin. If $\\cos\\theta=-\\dfrac{1}{2}$ and $\\sin\\theta=\\dfrac{\\sqrt{3}}{2}$, find the exact coordinates of $P$.",
+        "structure": "point-from-ratios-radius",
+        "solution_text": "$x=r\\cos\\theta=6\\left(-\\dfrac{1}{2}\\right)=-3$\n$y=r\\sin\\theta=6\\left(\\dfrac{\\sqrt{3}}{2}\\right)=3\\sqrt{3}$\n$P(-3, 3\\sqrt{3})$"
+      },
+      {
+        "question_text": "Given that $\\cos\\theta>0$ and $\\sin\\theta<0$, name the quadrant containing $\\theta$ and state the sign of $\\tan\\theta$.",
+        "structure": "quadrant-from-signs",
+        "solution_text": "$\\cos\\theta>0$ ($x>0$) and $\\sin\\theta<0$ ($y<0$) places $\\theta$ in the fourth quadrant.\nIn the fourth quadrant, $\\tan\\theta=\\dfrac{y}{x}$ is negative."
+      },
+      {
+        "question_text": "An angle of inclination $\\theta=315^{\\circ}$ lies in the fourth quadrant. State whether $\\sin 315^{\\circ}$, $\\cos 315^{\\circ}$, and $\\tan 315^{\\circ}$ are positive or negative.",
+        "structure": "sign-from-quadrant-or-angle",
+        "solution_text": "In the fourth quadrant, $x>0$ and $y<0$.\n$\\sin 315^{\\circ}$ is negative ($y<0$).\n$\\cos 315^{\\circ}$ is positive ($x>0$).\n$\\tan 315^{\\circ}$ is negative ($y/x<0$)."
+      },
+      {
+        "question_text": "The point $P(x,-8)$ lies on the circle $x^2+y^2=100$ in the third quadrant. Find $x$ and evaluate $\\tan\\theta$.",
+        "structure": "point-on-circle-missing-coord",
+        "solution_text": "$x^2+(-8)^2=100$\n$x^2=100-64=36$\nIn the third quadrant, $x<0$, so $x=-6$.\n$\\tan\\theta=\\dfrac{y}{x}=\\dfrac{-8}{-6}=\\dfrac{4}{3}$"
+      },
+      {
+        "question_text": "The point $P(-3,y)$ lies on the circle $x^2+y^2=25$ in the second quadrant. Find $y$ and evaluate $\\cos\\theta$.",
+        "structure": "point-on-circle-missing-coord",
+        "solution_text": "$(-3)^2+y^2=25$\n$y^2=25-9=16$\nIn the second quadrant, $y>0$, so $y=4$.\nRadius $r=\\sqrt{25}=5$.\n$\\cos\\theta=\\dfrac{x}{r}=-\\dfrac{3}{5}$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "A point $P(x,y)$ on the circle $x^2+y^2=169$ has $x=-5$ and $\\tan\\theta>0$. Find $y$, and state the values of $\\sin\\theta$ and $\\cos\\theta$.",
+        "structure": "point-on-circle-missing-coord",
+        "solution_text": "Radius $r=\\sqrt{169}=13$.\n$(-5)^2+y^2=169$\n$y^2=169-25=144$\nBecause $x<0$ and $\\tan\\theta=\\dfrac{y}{x}>0$, $y$ must also be negative: $y=-12$.\n$\\sin\\theta=\\dfrac{y}{r}=-\\dfrac{12}{13}$\n$\\cos\\theta=\\dfrac{x}{r}=-\\dfrac{5}{13}$"
+      },
+      {
+        "question_text": "The terminal arm of an angle $\\theta$ passes through $P(-2\\sqrt{2}, 1)$. Find the radius $r$ in exact simplified form, and hence determine $\\sin\\theta$, $\\cos\\theta$, and $\\tan\\theta$.",
+        "structure": "ratios-from-point",
+        "solution_text": "$r=\\sqrt{(-2\\sqrt{2})^2+1^2}=\\sqrt{8+1}=\\sqrt{9}=3$\n$\\sin\\theta=\\dfrac{y}{r}=\\dfrac{1}{3}$\n$\\cos\\theta=\\dfrac{x}{r}=-\\dfrac{2\\sqrt{2}}{3}$\n$\\tan\\theta=\\dfrac{y}{x}=\\dfrac{1}{-2\\sqrt{2}}=-\\dfrac{\\sqrt{2}}{4}$"
+      },
+      {
+        "question_text": "Given that $\\sin\\theta\\cos\\theta>0$ and $\\sin\\theta<0$, determine which quadrant $\\theta$ lies in, explaining your reasoning using the signs of the coordinates $x$ and $y$.",
+        "structure": "quadrant-from-signs",
+        "solution_text": "$\\sin\\theta<0$ implies $y<0$.\nSince $\\sin\\theta\\cos\\theta>0$ and $\\sin\\theta$ is negative, $\\cos\\theta$ must also be negative, which implies $x<0$.\nWith both $x<0$ and $y<0$, the point $P(x,y)$ lies in the third quadrant.\nTherefore $\\theta$ lies in the third quadrant."
+      }
+    ]
+  }
+}

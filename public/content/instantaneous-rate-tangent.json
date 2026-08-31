@@ -1,0 +1,115 @@
+{
+  "skillId": "instantaneous-rate-tangent",
+  "atomType": "R",
+  "theory": {
+        "intro": "The **instantaneous rate of change** of $f(x)$ at $x = a$ is the rate at that single moment. It is the gradient of the **tangent** to the curve at $(a, f(a))$, written $f'(a)$.",
+        "facts": [
+          "A **secant** cuts the curve at two points, and its gradient is the average rate of change between them.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\draw[thick,blue,domain=0.3:3.9,smooth,variable=\\x] plot (\\x, {0.3*\\x*\\x + 0.4}) node[above left] {$y=f(x)$};\n\\draw[thick,red] (0.6,0.172) -- (3.9,4.528) node[right,font=\\small] {secant};\n\\fill (1.0,0.7) circle (2.5pt);\n\\fill (3.4,3.868) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "A **tangent** differs by touching the same curve at just one point, and its gradient is the instantaneous rate there.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (0,0) -- (4.9,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\draw[thick,blue,domain=0.3:3.9,smooth,variable=\\x] plot (\\x, {0.3*\\x*\\x + 0.4}) node[above left] {$y=f(x)$};\n\\draw[thick,red] (1.2,0.244) -- (4.0,4.612) node[right,font=\\small] {tangent};\n\\fill (2.6,2.428) circle (2.5pt);\n\\end{tikzpicture}\n[/tikz]",
+          "The instantaneous rate of change at $x = a$ is written $f'(a)$, read \"$f$ prime of $a$\".",
+          "As the second point of a secant slides towards $a$, the secant turns until it becomes the tangent.",
+          "A tangent sloping upwards means the instantaneous rate is positive, $f'(a) > 0$.",
+          "A horizontal tangent means $f'(a) = 0$, which is a stationary point.",
+          "A tangent sloping downwards means the instantaneous rate is negative, $f'(a) < 0$."
+        ],
+        "steps": [
+          "Identify the point of interest $(a, f(a))$ on the curve.",
+          "Recognise that the instantaneous rate is the gradient of the tangent line at that single point.",
+          "Determine whether the tangent slopes upward ($f' > 0$), is horizontal ($f' = 0$), or slopes downward ($f' < 0$).",
+          "Interpret the value of $f'(a)$ in context with appropriate rate units."
+        ]
+      },
+  "practice": {
+    "foundation": [
+      {
+        "question_text": "The diagram shows a curve with two lines $L_1$ and $L_2$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\draw[thick,blue,domain=0.4:3.8,smooth,variable=\\x] plot (\\x, {0.25*\\x*\\x + 0.25*\\x + 0.3125}) node[above right] {$y=f(x)$};\n\\draw[thick,dashed,red] (0.5,0.5) -- (3.5,4.25) node[above left] {$L_1$};\n\\draw[thick,dashed,teal] (1.0,0.25) -- (4.0,4.75) node[below right] {$L_2$};\n\\fill (2.5,2.5) circle (2.5pt) node[below right] {$P$};\n\\end{tikzpicture}\n[/tikz]\nIdentify which line is the secant through two points and which line is the tangent at point $P$.",
+        "structure": "distinguish-secant-tangent",
+        "solution_text": "$L_1\\text{ cuts the curve at two distinct points, so it is a secant line (average rate).}$\n$L_2\\text{ touches the curve at the single point } P\\text{, so it is the tangent line (instantaneous rate).}$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ shows tangents at points $A$, $B$, and $C$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.0) node[above] {$y$};\n\\draw[thick,blue,domain=0.4:5.1,smooth,variable=\\x] plot (\\x, {-0.55*(\\x-2.75)*(\\x-2.75) + 4.2}) node[above right] {$y=f(x)$};\n\\fill (1.2,2.88) circle (2.5pt) node[left] {$A$};\n\\draw[thick,dashed,red] (0.5,1.69) -- (1.9,4.07);\n\\fill (2.75,4.2) circle (2.5pt) node[above] {$B$};\n\\draw[thick,dashed,red] (1.5,4.2) -- (4.0,4.2);\n\\fill (4.3,2.88) circle (2.5pt) node[right] {$C$};\n\\draw[thick,dashed,red] (3.6,4.07) -- (5.0,1.69);\n\\end{tikzpicture}\n[/tikz]\nState whether the derivative $f'(x)$ is positive, zero, or negative at each point.",
+        "structure": "interpret-sign-of-tangent-gradient",
+        "solution_text": "$\\text{At } A\\text{, the tangent slopes upward to the right, so } f'(x) > 0\\text{ (positive).}$\n$\\text{At } B\\text{, the tangent is horizontal, so } f'(x) = 0\\text{ (zero).}$\n$\\text{At } C\\text{, the tangent slopes downward to the right, so } f'(x) < 0\\text{ (negative).}$"
+      },
+      {
+        "question_text": "A vehicle's speedometer reads $75\\text{ km/h}$ at the exact moment $t = 12\\text{ s}$. State whether this speedometer reading represents an average speed or an instantaneous speed.",
+        "structure": "interpret-tangent-in-context",
+        "solution_text": "$\\text{The speedometer measures the speed of the vehicle at that single precise moment in time.}$\n$\\text{The speedometer reading represents an instantaneous speed (gradient of the tangent).}$"
+      },
+      {
+        "question_text": "Explain how the gradient of a secant line between $(a, f(a))$ and $(a+h, f(a+h))$ relates to the gradient of the tangent at $x = a$ as $h$ approaches zero.",
+        "structure": "secant-approaching-tangent-limit",
+        "solution_text": "$\\text{As } h \\to 0\\text{, the second point approaches } (a, f(a)).$\n$\\text{The secant line rotates until it coincides with the tangent line at } x = a.$\n$\\text{Therefore, the limiting value of the secant gradient is the tangent gradient } f'(a).$"
+      },
+      {
+        "question_text": "Classify each statement as describing either an average rate or an instantaneous rate:\n1. A car travelled $150\\text{ km}$ in $2\\text{ hours}$, averaging $75\\text{ km/h}$.\n2. A police radar clocking a motorcycle at $110\\text{ km/h}$.",
+        "structure": "distinguish-secant-tangent",
+        "solution_text": "$\\text{Statement 1 describes an average rate (calculated over a } 2\\text{-hour interval).}$\n$\\text{Statement 2 describes an instantaneous rate (measured at a single specific instant).}$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ has a turning point (local maximum) at $(3, 8)$. State the value of $f'(3)$ and describe the geometric appearance of the tangent line at this point.",
+        "structure": "interpret-sign-of-tangent-gradient",
+        "solution_text": "$\\text{At a smooth turning point, the tangent line is horizontal.}$\n$\\text{A horizontal line has a gradient of } 0.$\n$f'(3) = 0$"
+      },
+      {
+        "question_text": "A cup of coffee cools on a desk. The temperature graph is steep at first and becomes flatter as it approaches room temperature. Explain what is happening to the instantaneous rate of cooling over time.",
+        "structure": "interpret-tangent-in-context",
+        "solution_text": "$\\text{The tangent line to the temperature curve becomes less steep (closer to horizontal) as time passes.}$\n$\\text{This means the instantaneous rate of cooling decreases in magnitude over time as the temperature nears room temperature.}$"
+      }
+    ],
+    "development": [
+      {
+        "question_text": "The graph shows a parabola $y = x^2$ with a secant through $(1, 1)$ and $(3, 9)$, and a tangent at $(2, 4)$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.5) node[above] {$y$};\n\\foreach \\x in {1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\foreach \\y/\\val in {1/2,2/4,3/6,4/8,5/10} {\\draw (-0.12,\\y) -- (0,\\y); \\node[left,font=\\scriptsize] at (-0.12,\\y) {$\\val$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue,domain=0:3.15,smooth,variable=\\x] plot (\\x, {0.5*\\x*\\x}) node[above left] {$y=x^2$};\n\\draw[thick,dashed,red] (0.75,0.0) -- (3.25,5.0) node[right] {secant};\n\\draw[thick,teal] (1.0,0.0) -- (3.0,4.0) node[right] {tangent};\n\\fill (2,2.0) circle (2.5pt) node[below right] {$(2,4)$};\n\\end{tikzpicture}\n[/tikz]\nCompare the gradient of the secant line across $[1, 3]$ with the gradient of the tangent at $x = 2$.",
+        "structure": "distinguish-secant-tangent",
+        "solution_text": "$\\text{Secant gradient} = \\dfrac{9 - 1}{3 - 1} = \\dfrac{8}{2} = 4$\n$\\text{Tangent gradient at } x = 2: f'(2) = 2(2) = 4$\n$\\text{For a quadratic curve, the secant gradient over } [1, 3] \\text{ equals the tangent gradient at the midpoint } x = 2.$"
+      },
+      {
+        "question_text": "The graph of $y = f(x)$ has turning points at $x = -1$ and $x = 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.8]\n\\draw[->] (-3,0) -- (5,0) node[right] {$x$};\n\\draw[->] (0,-3) -- (0,4) node[above] {$y$};\n\\foreach \\x in {-2,-1,1,2,3,4} {\\draw (\\x,0) -- (\\x,-0.12); \\node[below,font=\\scriptsize] at (\\x,-0.12) {$\\x$};}\n\\node[below left,font=\\scriptsize] at (0,0) {$0$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(-2.5,-1.5) (-1,2.5) (1,0) (3,-2) (4.5,2)} node[above right] {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]\nIdentify the intervals of $x$ where $f'(x) > 0$ and where $f'(x) < 0$.",
+        "structure": "interpret-sign-of-tangent-gradient",
+        "solution_text": "$\\text{The curve rises where tangents slope upwards: } f'(x) > 0\\text{ for } x < -1\\text{ and for } x > 3.$\n$\\text{The curve falls where tangents slope downwards: } f'(x) < 0\\text{ for } -1 < x < 3.$"
+      },
+      {
+        "question_text": "Secant gradients for $f(x) = x^2 + x$ on intervals $[2, 2+h]$ are evaluated as follows:\n$\\begin{array}{c|cccc} h & 1 & 0.1 & 0.01 & 0.001 \\\\ \\hline m_{\\text{secant}} & 6 & 5.1 & 5.01 & 5.001 \\end{array}$\nDeduce the exact value of the instantaneous rate of change $f'(2)$.",
+        "structure": "secant-approaching-tangent-limit",
+        "solution_text": "$\\text{As } h \\to 0\\text{, the secant gradients approach the value } 5.$\n$\\text{Therefore, the instantaneous rate of change at } x = 2\\text{ is } f'(2) = 5.$"
+      },
+      {
+        "question_text": "A skydiver falls until reaching terminal velocity. On their velocity–time graph, the curve flattens into a horizontal line at $v = 55\\text{ m/s}$. Interpret what happens to the skydiver's instantaneous acceleration (rate of change of velocity) at terminal velocity.",
+        "structure": "interpret-tangent-in-context",
+        "solution_text": "$\\text{At terminal velocity, the velocity graph is horizontal, so the gradient of the tangent is } 0.$\n$\\text{The instantaneous acceleration is } 0\\text{ m/s}^2\\text{, meaning the skydiver falls at constant speed.}$"
+      },
+      {
+        "question_text": "A commuter travels $60\\text{ km}$ in $1\\text{ hour}$, so their average speed is $60\\text{ km/h}$. However, at $t = 30\\text{ min}$, their speedometer showed $95\\text{ km/h}$. Explain how both statements can be correct simultaneously.",
+        "structure": "distinguish-secant-tangent",
+        "solution_text": "$\\text{Average speed is calculated across the entire } 1\\text{-hour journey } (60\\text{ km/h}),\\text{ accounting for stops.}$\n$\\text{Instantaneous speed } (95\\text{ km/h})\\text{ is the gradient of the tangent at that specific moment.}$\n$\\text{A vehicle's instantaneous speed can exceed its overall average speed during open road segments.}$"
+      },
+      {
+        "question_text": "For $f(x) = 2x^2$, find the gradient of the secant line over $[3, 3.1]$ and over $[3, 3.01]$. Use these to estimate the gradient of the tangent at $x = 3$.",
+        "structure": "secant-approaching-tangent-limit",
+        "solution_text": "$f(3) = 2(3^2) = 18$\n$f(3.1) = 2(3.1^2) = 19.22 \\implies \\dfrac{19.22 - 18}{0.1} = 12.2$\n$f(3.01) = 2(3.01^2) = 18.1202 \\implies \\dfrac{18.1202 - 18}{0.01} = 12.02$\n$\\text{As the interval shrinks, the secant gradients approach } 12.$\n$\\text{Estimated tangent gradient: } f'(3) = 12$"
+      },
+      {
+        "question_text": "The graph shows tangents at four points $A, B, C, D$ along a curve.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=0.85]\n\\draw[->] (0,0) -- (6.5,0) node[right] {$x$};\n\\draw[->] (0,0) -- (0,5.0) node[above] {$y$};\n\\draw[thick,blue] plot[smooth,tension=0.6] coordinates {(0.5,1.0) (2,3.5) (3.5,4.0) (5,2.0) (6,1.0)} node[above right] {$y=f(x)$};\n\\fill (1.2,2.3) circle (2.5pt) node[left] {$A$};\n\\fill (3.0,3.9) circle (2.5pt) node[above] {$B$};\n\\fill (4.5,2.8) circle (2.5pt) node[above right] {$C$};\n\\fill (5.5,1.4) circle (2.5pt) node[below left] {$D$};\n\\end{tikzpicture}\n[/tikz]\nOrder the four points from smallest to largest value of $f'(x)$.",
+        "structure": "interpret-sign-of-tangent-gradient",
+        "solution_text": "$\\text{Point } D\\text{ has the steepest negative slope.}$\n$\\text{Point } C\\text{ has a moderate negative slope.}$\n$\\text{Point } B\\text{ has a horizontal slope of } 0.$\n$\\text{Point } A\\text{ has a steep positive slope.}$\n$\\text{Order from smallest to largest: } D < C < B < A$"
+      }
+    ],
+    "mastery": [
+      {
+        "question_text": "For $f(x) = x^2$, algebraically find the secant gradient over $[x, x+h]$, and evaluate the limit as $h \\to 0$ to find the general formula for the tangent gradient $f'(x)$.",
+        "structure": "secant-approaching-tangent-limit",
+        "solution_text": "$\\text{Secant gradient} = \\dfrac{(x+h)^2 - x^2}{h}$\n$= \\dfrac{x^2 + 2xh + h^2 - x^2}{h}$\n$= \\dfrac{2xh + h^2}{h}$\n$= 2x + h$\n$\\text{As } h \\to 0, \\text{ the limit is } f'(x) = 2x.$"
+      },
+      {
+        "question_text": "The graph of a polynomial function $y = f(x)$ has tangent slopes $f'(-2) = 3$, $f'(0) = 0$, and $f'(2) = -5$. Describe the behaviour of the function at each of these three $x$-values.",
+        "structure": "interpret-sign-of-tangent-gradient",
+        "solution_text": "$\\text{At } x = -2: f'(-2) = 3 > 0\\text{, so the function is increasing (rising to the right).}$\n$\\text{At } x = 0: f'(0) = 0\\text{, so the function has a stationary point (horizontal tangent).}$\n$\\text{At } x = 2: f'(2) = -5 < 0\\text{, so the function is decreasing (falling to the right).}$"
+      },
+      {
+        "question_text": "In a chemical reaction, the mass of gas produced over $t$ minutes is $M(t)$. The average rate of production over the first $10\\text{ minutes}$ is $4\\text{ g/min}$, but the initial instantaneous rate is $f'(0) = 12\\text{ g/min}$. Explain the physical reason for this difference.",
+        "structure": "interpret-tangent-in-context",
+        "solution_text": "$\\text{The reaction proceeds fastest at the start when reactant concentrations are highest } (f'(0) = 12\\text{ g/min}).$\n$\\text{As reactants are consumed, the rate slows down steadily.}$\n$\\text{The average rate of } 4\\text{ g/min}\\text{ averages the fast initial burst with subsequent slower production.}$"
+      }
+    ]
+  }
+}
