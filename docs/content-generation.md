@@ -162,6 +162,11 @@ item 7 is the source of the stage structure). The house style, verbatim in
   follow a computed `$=112^{\circ}$` with a bare `$x=112^{\circ}$` — that restatement is a
   defect. And never write a false continuation: `$x+68^{\circ}=180^{\circ}$` then `$=180^{\circ}-68^{\circ}$`
   reads as `180°=180°−68°`; the second line must re-anchor its LHS (`$x=180^{\circ}-68^{\circ}$`).
+- **Two runs of maths that are not one chain need a blank line between them.** It is the only
+  separator that ends an `aligned` block when there is no prose to put in between (computing
+  `$a^2+b^2$` and then `$h^2$`, say). It is also the ONLY blank line the house format allows —
+  see the line-break rules in [content-schema.md](content-schema.md), enforced by
+  `scripts/audit-house-format.mjs` and applied by `scripts/apply-house-format.mjs`.
 - **Step headers only at genuine stage boundaries**, as a standalone `N. **Step name**` line
   (number outside the bold) drawn from `theory.steps` in order. **Single-stage routines carry
   no headers** — do not label every line.
@@ -571,6 +576,25 @@ Where a booklet is internally inconsistent on a definition, the ruling below is 
 convention and **overrides the booklet**. Record any new case here rather than deciding it
 per batch — a convention settled in one batch and forgotten is how two skills end up
 contradicting each other.
+
+**Notation** — shared with MathsBase
+(`MathsDatabase/tools/qgen/prompts/generation-formatting-rules.md`), so a question can move
+between the two corpora without a rewrite:
+
+| Element | Write | Not |
+|---|---|---|
+| Degrees, pi, infinity | `$45^{\circ}$`, `$\pi$`, `$\infty$` | `45°`, `π`, `∞` |
+| Multiply, divide | `$3 \times 4$`, `$246 \div 100$` | `3 × 4`, `246 ÷ 100` |
+| Minus | `$-5$` (hyphen-minus in maths) | `−5` (U+2212 in prose) |
+| Roots, integrals, sums | `$\sqrt{24}$`, `$\int_a^b f(x)\,dx$`, `$\sum_{i=1}^{n}$` | `√24`, `∫`, `∑` |
+| Relations | `$\leq$`, `$\geq$`, `$\neq$`, `$\approx$` | `≤`, `≥`, `≠`, `≈` |
+| Vectors | `$\mathbf{v}$` (named), `$\vec{AB}$` (two points) | — |
+| Currency | `\$36` in prose, `$\text{£}2.48 \times 4$` in an expression | `$\$36$` |
+| Unit superscripts | `12 cm²` in prose is fine | — |
+
+**Names** — take every person from the shared name pool in that same file; never invent one,
+and never reuse a name across a batch. `Sydney` and `Victoria` are places too: do not use
+either as a person in a question that also names a location.
 
 - **Trapezium — INCLUSIVE** (owner ruling, batch 14). A trapezium has **at least** one pair
   of parallel sides, so **every parallelogram is a trapezium**, as are rectangles, rhombuses

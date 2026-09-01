@@ -44,6 +44,7 @@ const GATE = [
   ['scripts/audit-figure-quota.mjs', true],
   ['scripts/audit-angle-arms.mjs', true],
   ['scripts/audit-tangent-lines.mjs', true],
+  ['scripts/audit-house-format.mjs', true],
 ];
 
 // Gate scripts print a defect as a `✗ CLASS` (or `✗ where: message`) line followed by

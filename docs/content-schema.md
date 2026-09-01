@@ -12,12 +12,40 @@ as MathsBase.
 - Inline maths uses `$...$` and is rendered with KaTeX. Display maths is not supported.
 - Bold uses `**...**`. Other Markdown is not supported.
 - Preserve working as one line per step; newline characters are rendered as line breaks.
+- **Every operator and constant lives inside `$...$`** — write `$45^{\circ}$`, `$3 \times 4$`,
+  `$\pi$`, `$\sqrt{24}$`, `$-5$`, never a raw `°`, `×`, `÷`, `π`, `√` or `−` in prose. The one
+  exception is a superscript unit digit: `12 cm²` in prose is house style.
+- Named vectors are `\mathbf{v}`; a vector named by two points is `\vec{AB}`.
 - Mathematical tables use a KaTeX `array` inside `$...$`, with corresponding values in the
   same columns.
 - Write a literal dollar as `\$`.
 - Every LaTeX backslash must be JSON-escaped: `\\frac`, `\\times`, `\\begin`, and so on.
 
 This same format applies to the three `theory` fields (`intro`, `facts[]`, `steps[]`).
+
+### Line breaks and spacing
+
+These rules are enforced by `scripts/audit-house-format.mjs` (in the gate) and applied
+mechanically by `scripts/apply-house-format.mjs`; the canonicaliser itself is
+`scripts/lib/house-format.mjs`, a port of MathsBase's `tightenSpacing()`.
+
+- **`question_text`: one sentence per line.** A sentence end followed by a space and a capital
+  or `$` becomes a newline. A trailing abbreviation (`e.g.`, `Mr.`) is not a sentence end.
+- **An enumerator label stays with its item** — `A. $y = f(3x)$`, never `A.` alone on its line.
+- **`solution_text` is not sentence-split.** It is working, not prose: one step per line.
+- **No blank lines**, with exactly one exception: a blank line **between two runs of whole-line
+  `$…$` maths**, which is what stops `groupTextBlocks()` welding two unrelated computations into
+  one column of equals signs. A blank line anywhere else is a defect.
+
+This last rule is a **deliberate divergence from MathsBase**, whose spec puts one blank line
+around every `[tikz]` block. There a blank line is a source convention; here
+`groupTextBlocks()` (`src/lib/inline-content.js`) renders it as a visible vertical gap, so
+figures are separated by a single `\n` like everything else.
+
+Person names come from the shared pool in
+`MathsDatabase/tools/qgen/prompts/generation-formatting-rules.md` — never invent one. The audit
+reports an off-pool name as an advisory rather than a defect, because renaming a person can
+collide with a diagram label.
 
 ### Inline TikZ
 
@@ -108,7 +136,12 @@ Worked solutions follow the booklet house style:
 - **Align the working on `=`.** The opening line is the bare expression (no `=`); each later
   line begins `=`, so the equals signs stack. Keep pedagogically useful intermediate lines.
 - **The final line states the answer** — the last `=` line, or a short answer sentence for
-  word/justify questions. **Do not add a line that merely restates the answer.**
+  word/justify questions. **Do not add a line that merely restates the answer.** A closing
+  sentence has to carry something the algebra line did not ("The passenger travelled $15$ km.");
+  "Therefore $x = 53$." after a line that already read `$x = 53$` is the defect.
+- **A solution shows the work a marker needs; it does not teach.** No restating the question,
+  no "First, we…", no naming a routine result. (MathsBase house register, R1/R2 in
+  `tools/qgen/policies/house-math-conventions.md`.)
 - **Step headers are optional and used only at genuine stage boundaries.** A header is a
   standalone line `N. **Step name**` (the number sits *outside* the bold) placed before that
   stage's working — as the booklets number the factorise stage then the solve stage. Simple
