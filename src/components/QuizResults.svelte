@@ -53,7 +53,6 @@
 <div class="results">
   <section class="summary" aria-labelledby="result-summary-title">
     <div class="summary-copy">
-      <span class="eyebrow">Quiz complete</span>
       <h2 id="result-summary-title">Here’s your clearest next step</h2>
       <p>{summaryText}</p>
       {#if upNext[0]}
@@ -71,7 +70,7 @@
 
   {#if demonstrated.length}
     <section class="result-section">
-      <div class="section-heading"><span class="section-icon tone-proficient" aria-hidden="true">✓</span><div><span class="eyebrow">Demonstrated</span><h2>Skills you showed</h2></div></div>
+      <div class="section-heading"><span class="section-icon tone-proficient" aria-hidden="true">✓</span><div><h2>Skills you showed</h2></div></div>
       <div class="result-list">
         {#each demonstrated as item, index}
           <a class="result-row" style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${item.id}${query}`)}>
@@ -87,7 +86,7 @@
 
   {#if needsWork.length}
     <section class="result-section">
-      <div class="section-heading"><span class="section-icon tone-learning" aria-hidden="true">↗</span><div><span class="eyebrow">Needs practice</span><h2>Worth revisiting</h2></div></div>
+      <div class="section-heading"><span class="section-icon tone-learning" aria-hidden="true">↗</span><div><h2>Worth revisiting</h2></div></div>
       <div class="result-list">
         {#each needsWork as item, index}
           <a class="result-row" style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${item.id}${query}`)}>
@@ -103,7 +102,7 @@
 
   {#if notCheckedCount}
     <section class="result-section">
-      <div class="section-heading"><span class="section-icon tone-none" aria-hidden="true">○</span><div><span class="eyebrow">Not checked yet</span><h2>Not checked in this quiz</h2></div></div>
+      <div class="section-heading"><span class="section-icon tone-none" aria-hidden="true">○</span><div><h2>Not checked in this quiz</h2></div></div>
       <p class="scope-note">
         This is limited to quiz-ready skills in {#if scopeLabel}<strong><MathText text={scopeLabel} /></strong>{:else}the selected quiz scope{/if}, not every unchecked skill in MathsMap.
       </p>
@@ -131,7 +130,7 @@
 
   {#if answerLog && answerLog.length}
     <section class="result-section review-section">
-      <div class="section-heading"><span class="section-icon" aria-hidden="true">&#8801;</span><div><span class="eyebrow">Review</span><h2>Your answers</h2></div></div>
+      <div class="section-heading"><span class="section-icon" aria-hidden="true">&#8801;</span><div><h2>Your answers</h2></div></div>
       <p class="scope-note">{answerLog.length} {answerLog.length === 1 ? 'question' : 'questions'} answered, {missedCount} to look back at.</p>
       <button class="disclosure" type="button" aria-expanded={showReview} onclick={() => (showReview = !showReview)}>
         {showReview ? 'Hide your answers' : `Show all ${answerLog.length} answers`}
@@ -161,7 +160,7 @@
 
   {#if upNext.length}
     <section class="result-section recommendations">
-      <div class="section-heading"><span class="section-icon accent" aria-hidden="true">→</span><div><span class="eyebrow">Keep moving</span><h2>{recommendationTitle}</h2></div></div>
+      <div class="section-heading"><span class="section-icon accent" aria-hidden="true">→</span><div><h2>{recommendationTitle}</h2></div></div>
       <div class="recommendation-grid">
         {#each upNext as skill, index}
           <a class:featured={index === 0} style="--enter-index:{Math.min(index, 6)}" href={href(`/skill/${skill.id}${query}`)}><span><MathText text={skill.title} /></span><span aria-hidden="true">&rarr;</span></a>
@@ -174,8 +173,7 @@
 <style>
   .results { display: flex; flex-direction: column; gap: 2rem; }
   .summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; padding: 1.4rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--surface-warm), var(--panel)); animation: content-rise var(--motion-slow) var(--ease-out) both; }
-  .eyebrow { color: var(--muted); font-size: 0.66rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
-  .summary h2, .section-heading h2 { margin: 0.15rem 0 0; font-size: 1.2rem; }
+  .summary h2, .section-heading h2 { margin: 0; font-size: 1.2rem; }
   .summary p { margin: 0.45rem 0 0.9rem; color: var(--muted); }
   .primary-action { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.65rem 0.85rem; border-radius: 9px; background: var(--accent); color: #fff; font-size: 0.82rem; font-weight: 750; transition: transform var(--motion-fast) var(--ease-snap), background var(--motion-fast), box-shadow var(--motion-fast); }
   .primary-action:hover { transform: translateY(-2px); background: var(--accent-strong); box-shadow: var(--shadow); text-decoration: none; }

@@ -30,7 +30,6 @@
 
 <div class="container learning-view">
   <header class="learning-hero">
-    <span class="eyebrow">My learning</span>
     <h1>Pick up where you left off</h1>
     <p>Continue a skill or start a new one.</p>
     {#if active[0]}
@@ -42,7 +41,7 @@
 
   {#if active.length}
     <section>
-      <div class="section-heading"><div><span class="eyebrow">In progress</span><h2>Continue learning</h2></div><span>{active.length} {active.length === 1 ? 'skill' : 'skills'}</span></div>
+      <div class="section-heading"><div><h2>Continue learning</h2></div><span>{active.length} {active.length === 1 ? 'skill' : 'skills'}</span></div>
       <div class="learning-list">
         {#each active as item}
           <a href={href(`/skill/${item.skill.id}`)}>
@@ -57,14 +56,14 @@
 
   {#if recommended.length}
     <section>
-      <div class="section-heading"><div><span class="eyebrow">Ready now</span><h2>Recommended next</h2></div></div>
+      <div class="section-heading"><div><h2>Recommended next</h2></div></div>
       <div class="grid">{#each recommended as skill}<SkillCard {skill} />{/each}</div>
     </section>
   {/if}
 
   {#if quizHistory.length}
     <section>
-      <div class="section-heading"><div><span class="eyebrow">Diagnostics</span><h2>Recent quiz results</h2></div><a href={href('/quiz-history')}>See all &rarr;</a></div>
+      <div class="section-heading"><div><h2>Recent quiz results</h2></div><a href={href('/quiz-history')}>See all &rarr;</a></div>
       <div class="learning-list">
         {#each quizHistory.slice(0, 3) as item (item.id)}
           <a href={href(`/quiz-history/${item.id}`)}>
@@ -93,9 +92,7 @@
 <style>
   .learning-view { max-width: 1080px; }
   .learning-hero { position: relative; overflow: hidden; padding: 2rem; border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--accent) 11%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); }
-  .learning-hero .eyebrow { color: var(--accent); }
-  .eyebrow { color: var(--muted); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  h1 { margin: 0.25rem 0 0.45rem; font-size: clamp(1.8rem, 4vw, 2.5rem); }
+  h1 { margin: 0 0 0.45rem; font-size: clamp(1.8rem, 4vw, 2.5rem); }
   .learning-hero p { max-width: 55ch; margin: 0 0 1.25rem; color: var(--muted); }
   .primary-action, .secondary-action { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.7rem 1rem; border-radius: 10px; font-weight: 700; }
   .primary-action { background: var(--accent); color: #fff; }
@@ -103,7 +100,7 @@
   .secondary-action { margin-left: 0.5rem; border: 1px solid var(--border-strong); color: var(--text); }
   section { margin-top: 2rem; }
   .section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 0.8rem; color: var(--muted); font-size: 0.78rem; }
-  .section-heading h2 { margin: 0.15rem 0 0; color: var(--text); font-size: 1.25rem; }
+  .section-heading h2 { margin: 0; color: var(--text); font-size: 1.25rem; }
   .learning-list { overflow: hidden; border-block: 1px solid var(--border); }
   .learning-list a { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 0.25rem; color: var(--text); border-bottom: 1px solid var(--border); }
   .learning-list a:last-child { border-bottom: 0; }

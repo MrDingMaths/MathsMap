@@ -9,7 +9,7 @@
 
 <section class="mastery-control" aria-labelledby="mastery-title">
   <div class="head">
-    <div><span class="eyebrow">Progress</span><h2 id="mastery-title">Your mastery</h2></div>
+    <div><h2 id="mastery-title">Your mastery</h2></div>
     <MasteryStatus level={current} />
   </div>
   <div class="selector" role="group" aria-label="Set mastery level">
@@ -31,8 +31,7 @@
 <style>
   .mastery-control { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); box-shadow: var(--shadow); }
   .head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.85rem; }
-  .eyebrow { display: block; color: var(--muted); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  h2 { margin: 0.08rem 0 0; font-size: 1rem; }
+  h2 { margin: 0; font-size: 1rem; }
   .selector { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; }
   .option { display: flex; align-items: center; gap: 0.45rem; min-height: 42px; padding: 0.45rem 0.55rem; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--text); font: 650 0.76rem var(--font-body); cursor: pointer; text-align: left; transition: border-color var(--motion-fast), background var(--motion-fast), transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-fast); }
   .option:hover { border-color: var(--border-strong); background: var(--surface-soft); }

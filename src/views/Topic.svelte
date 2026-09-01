@@ -52,7 +52,6 @@
 
     <SlabHero
       color={topic.color}
-      eyebrow={course?.title}
       title={topic.title}
       meta={`${groups.length} ${groups.length === 1 ? 'dot point' : 'dot points'} · ${stats.total} ${stats.total === 1 ? 'skill' : 'skills'}`}
       {stats}

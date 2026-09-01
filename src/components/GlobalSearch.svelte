@@ -43,7 +43,6 @@
     <div class="finder" bind:this={finderEl} role="dialog" aria-modal="true" aria-labelledby="finder-title">
       <header>
         <div>
-          <span class="eyebrow">Quick finder</span>
           <h2 id="finder-title">Go anywhere</h2>
         </div>
         <button class="close" onclick={onClose} aria-label="Close search">&times;</button>
@@ -115,8 +114,8 @@
     box-shadow: var(--shadow-lg);
   }
   header { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.25rem 0.8rem; }
-  .eyebrow, .group-label { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  h2 { margin: 0.15rem 0 0; font-size: 1.35rem; }
+  .group-label { color: var(--muted); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  h2 { margin: 0; font-size: 1.35rem; }
   .close { width: 2.2rem; height: 2.2rem; border: 0; border-radius: 999px; background: var(--panel-2); color: var(--text); font-size: 1.35rem; cursor: pointer; }
   .finder-input { display: flex; align-items: center; gap: 0.7rem; margin: 0 1.25rem; padding: 0 0.9rem; height: 3.1rem; border: 1px solid var(--border-strong); border-radius: 12px; color: var(--muted); background: var(--surface-soft); }
   .finder-input:focus-within { border-color: var(--accent); box-shadow: var(--focus-ring); }

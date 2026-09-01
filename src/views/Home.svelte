@@ -94,7 +94,6 @@
 <div class="container browse-page">
   <section class="home-hero">
     <div class="hero-copy">
-      <span class="eyebrow">Your learning route</span>
       <h1>Find the next maths skill that makes sense</h1>
       <p class="lede">Choose your stage, explore a course, and see the topics that connect your next steps.</p>
     </div>
@@ -115,7 +114,6 @@
   <section class="dashboard" aria-labelledby="browse-title">
     <div class="dashboard-head">
       <div>
-        <span class="eyebrow">Browse the curriculum</span>
         <h2 id="browse-title">Choose a stage</h2>
       </div>
       <span class="dashboard-hint">Use Search in the navigation to jump straight to any skill.</span>
@@ -201,8 +199,7 @@
   .browse-page { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.8rem); }
   .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--accent) 12%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); animation: route-enter var(--motion-base) var(--ease-out) both; }
   .hero-copy, .hero-actions { position: relative; z-index: 1; }
-  .eyebrow { color: var(--accent); font-size: 0.68rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
-  h1 { max-width: 690px; margin: 0.28rem 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
+  h1 { max-width: 690px; margin: 0 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
   .lede { max-width: 580px; margin: 0; color: var(--muted); }
   .hero-actions { display: grid; gap: 0.65rem; }
   .continue-cta, .quiz-cta { display: grid; grid-template-columns: 2rem 1fr; align-items: center; gap: 0.8rem; min-height: 70px; padding: 0.8rem 1rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--panel); color: var(--text); transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast); }
@@ -218,7 +215,7 @@
 
   .dashboard { display: flex; flex-direction: column; gap: 1rem; }
   .dashboard-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
-  .dashboard-head h2 { margin: 0.15rem 0 0; font-size: 1.5rem; }
+  .dashboard-head h2 { margin: 0; font-size: 1.5rem; }
   .dashboard-hint { max-width: 340px; color: var(--muted); font-size: 0.76rem; text-align: right; }
   .stage-tabs { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.45rem; scrollbar-width: thin; }
   .stage-tabs button { position: relative; flex: none; min-width: 92px; min-height: 42px; padding: 0.55rem 1rem; border: 1px solid var(--border); border-radius: 999px; background: var(--panel); color: var(--muted); font: 700 0.82rem var(--font-body); cursor: pointer; transition: transform var(--motion-fast) var(--ease-snap), color var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast); }

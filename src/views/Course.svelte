@@ -62,7 +62,6 @@
     {#if stats}
       <SlabHero
         color={course.color}
-        eyebrow={`Stage ${course.stage}`}
         title={course.title}
         meta={`${stats.topicCount} ${stats.topicCount === 1 ? 'topic' : 'topics'} · ${stats.skillCount} ${stats.skillCount === 1 ? 'skill' : 'skills'}`}
         {stats}
