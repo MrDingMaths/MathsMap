@@ -202,7 +202,7 @@
   }
 
   const FAR_ZOOM = 0.55;
-  const WHEEL_ZOOM_SENSITIVITY = 0.12;
+  const WHEEL_ZOOM_SENSITIVITY = 0.14;
   const ZOOM_STEP = 1.18;
   function syncFar() {
     if (!cy || cy.destroyed()) return;
@@ -625,7 +625,6 @@
   <aside class="sidebar" class:open={sidebarOpen} aria-label="Map filters">
     <div class="sidebar-head">
       <div>
-        <span class="sidebar-kicker">Explore</span>
         <h1>Maths map</h1>
       </div>
       <button class="drawer-close" aria-label="Close map filters" onclick={() => (sidebarOpen = false)}>×</button>
@@ -764,7 +763,6 @@
       <aside class="node-inspector" aria-label="Selected {mode === 'topic' ? 'topic' : 'skill'}">
         <div class="inspector-head">
           <div>
-            <span class="inspector-kicker">Selected {mode === 'topic' ? 'topic' : 'skill'}</span>
             <h2><MathText text={inspector.title} /></h2>
           </div>
           <button class="inspector-close" aria-label="Close selection" onclick={() => clearFocus({ clearTip: true })}>×</button>
@@ -820,12 +818,6 @@
     <div class="map-toolbar">
       <button class="filters-button" aria-expanded={sidebarOpen} onclick={() => (sidebarOpen = true)}>☰ <span>Filters</span></button>
     </div>
-    {#if !selectedNodeId && !tip}
-      <div class="map-guide">
-        <strong>{mode === 'topic' ? 'A simpler overview' : scopeTopicIds ? 'Topic skill links' : 'Select a skill to reveal its links'}</strong>
-        <span>{mode === 'topic' ? 'Only the essential pathway is shown. Select a topic to see every direct connection.' : scopeTopicIds ? 'Select a skill to distinguish what comes before and after it.' : 'The global skill map hides links until you choose a skill.'}</span>
-      </div>
-    {/if}
     <div class="zoom-controls" aria-label="Map zoom controls">
       <button aria-label="Zoom in" title="Zoom in" onclick={() => zoomBy(ZOOM_STEP)}>＋</button>
       <button aria-label="Zoom out" title="Zoom out" onclick={() => zoomBy(1 / ZOOM_STEP)}>−</button>
@@ -866,7 +858,6 @@
   }
   .sidebar-head { display: flex; align-items: center; justify-content: space-between; }
   .sidebar h1 { margin: 0.08rem 0 0; font-family: var(--font-display); font-size: 1.35rem; }
-  .sidebar-kicker { display: block; color: var(--accent); font-size: 0.64rem; font-weight: 750; letter-spacing: 0.09em; text-transform: uppercase; }
   .drawer-close { display: none; }
   .hint { font-size: 0.76rem; line-height: 1.5; margin: 0.45rem 0 0; }
   .section-label {
@@ -978,7 +969,6 @@
 
   .node-inspector { position: absolute; z-index: 8; top: 14px; right: 14px; bottom: 14px; width: min(330px, calc(100% - 28px)); display: flex; flex-direction: column; padding: 1rem; border: 1px solid var(--border-strong); border-radius: 16px; background: color-mix(in srgb, var(--panel) 96%, transparent); box-shadow: var(--shadow-lg); backdrop-filter: blur(16px); overflow: hidden; }
   .inspector-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
-  .inspector-kicker { display: block; margin-bottom: 0.2rem; color: var(--accent); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; }
   .inspector-head h2 { margin: 0; font: 600 1.12rem/1.2 var(--font-display); text-wrap: balance; }
   .inspector-close { width: 36px; height: 36px; flex: none; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-soft); color: var(--muted); cursor: pointer; font-size: 1.25rem; }
   .inspector-close:hover { color: var(--text); background: var(--panel-2); }
@@ -1004,10 +994,6 @@
   .inspector-actions button.primary { border-color: transparent; background: var(--accent); color: #fff; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
-  .map-guide { position: absolute; z-index: 4; top: 12px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; width: min(420px, calc(100% - 150px)); padding: 0.55rem 0.75rem; border: 1px solid var(--border); border-radius: 12px; background: color-mix(in srgb, var(--panel) 90%, transparent); box-shadow: var(--shadow); backdrop-filter: blur(12px); pointer-events: none; text-align: center; }
-  .map-guide strong { font-size: 0.76rem; }
-  .map-guide span { margin-top: 0.12rem; color: var(--muted); font-size: 0.68rem; line-height: 1.35; }
-
   .map-toolbar { position: absolute; z-index: 4; top: 12px; left: 12px; }
   .filters-button { display: none; min-height: 44px; padding: 0 0.85rem; border-radius: 10px; align-items: center; gap: 0.45rem; box-shadow: var(--shadow); backdrop-filter: blur(10px); font: 700 0.78rem var(--font-body); }
   .zoom-controls { position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); z-index: 4; display: flex; flex-direction: column; gap: 5px; padding: 5px; border: 1px solid var(--border-strong); border-radius: 14px; background: color-mix(in srgb, var(--panel) 88%, transparent); box-shadow: var(--shadow); backdrop-filter: blur(10px); }
@@ -1026,7 +1012,6 @@
     .filters-button { display: inline-flex; }
     .zoom-controls button { width: 44px; height: 44px; }
     .tip.touch { position: absolute; left: 12px !important; right: 12px; top: auto !important; bottom: calc(70px + env(safe-area-inset-bottom)); width: auto; max-width: none; transform: none; pointer-events: auto; }
-    .map-guide { top: 68px; width: min(300px, calc(100% - 24px)); }
     .node-inspector { top: auto; left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom)); width: auto; max-height: 46dvh; padding: 0.85rem; border-radius: 18px; }
     .inspector-head h2 { font-size: 1rem; }
     .inspector-blurb { display: none; }

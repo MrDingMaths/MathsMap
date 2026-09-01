@@ -72,8 +72,9 @@
     gap: 0.6rem;
     min-height: 5rem;
   }
+  .flip-front { align-items: flex-start; }
   .flip-back { transform: rotateY(180deg); align-items: flex-start; justify-content: flex-start; }
-  .flip-q { font-size: 1.05rem; text-align: center; }
+  .flip-q { width: 100%; font-size: 1.05rem; text-align: left; }
   .flip-back-q {
     font-size: 0.9rem;
     font-weight: 600;

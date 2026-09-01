@@ -129,7 +129,7 @@
           {/if}
         {:else}
           <section class="practice-section">
-            <div class="section-title"><span class="section-kicker">Coming soon</span><h2>Practice</h2></div>
+            <div class="section-title"><h2>Practice</h2></div>
             <div class="practice-placeholder"><div class="tier-list"><span><b>1</b> Foundation</span><span><b>2</b> Development</span><span><b>3</b> Mastery</span></div><p>Teaching content for this skill is being prepared.</p></div>
           </section>
         {/if}
@@ -153,11 +153,11 @@
         <div class="learning-context">
           <div class="context-tags">{#each skill.courses as id}<span class="tag">{courseById.get(id)?.title ?? id}</span>{/each}</div>
           <section class="side-section">
-            <div class="side-heading"><div><span class="section-kicker">Before this</span><h2>Prerequisites</h2></div>{#if prereqLabel}<span class="count-pill">{prereqLabel}</span>{/if}</div>
+            <div class="side-heading"><div><h2>Prerequisites</h2></div>{#if prereqLabel}<span class="count-pill">{prereqLabel}</span>{/if}</div>
             {#if prereqs.length}<div class="side-link-stack">{#each prereqs as prerequisite}<SkillLink skill={prerequisite} {courseId} variant="prereq" />{/each}</div>{:else}<p class="muted">None — this is a good entry point.</p>{/if}
           </section>
           <section class="side-section">
-            <div class="side-heading"><div><span class="section-kicker">After this</span><h2>Unlocks next</h2></div>{#if unlocks.length}<span class="count-pill">{unlocks.length} {unlocks.length === 1 ? 'skill' : 'skills'}</span>{/if}</div>
+            <div class="side-heading"><div><h2>Unlocks next</h2></div>{#if unlocks.length}<span class="count-pill">{unlocks.length} {unlocks.length === 1 ? 'skill' : 'skills'}</span>{/if}</div>
             {#if unlocks.length}<div class="side-link-stack">{#each unlocks as dependent}<SkillLink skill={dependent} {courseId} variant="unlock" />{/each}</div>{:else}<p class="muted">Nothing currently depends on this skill.</p>{/if}
           </section>
         </div>
@@ -185,7 +185,6 @@
   .learning-context { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); }
   .context-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
   .tag { margin: 0; border-color: transparent; background: var(--surface-soft); }
-  .section-kicker { display: block; color: var(--muted); font-size: 0.64rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
   .theory-disclosure { scroll-margin-top: 150px; border-block: 1px solid var(--border); }
   .theory-disclosure summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; cursor: pointer; list-style: none; }
   .theory-disclosure summary::-webkit-details-marker { display: none; }
