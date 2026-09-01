@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { lintMathString, validateInlineText } from '../lib/lint-math.mjs';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
@@ -222,20 +223,35 @@ function jaccard(a, b) {
   return intersection / (a.size + b.size - intersection || 1);
 }
 
-export function semanticSimilarity(left, right) {
-  const leftCanonical = canonicalQuestion(left);
-  const rightCanonical = canonicalQuestion(right);
-  if (leftCanonical === rightCanonical) return 1;
-  const tokenScore = jaccard(new Set(words(leftCanonical)), new Set(words(rightCanonical)));
-  const trigramScore = jaccard(ngrams(leftCanonical), ngrams(rightCanonical));
-  const fullScore = 0.6 * tokenScore + 0.4 * trigramScore;
-  const leftStem = canonicalStem(left);
-  const rightStem = canonicalStem(right);
-  const stemScore = leftStem && rightStem
-    ? 0.6 * jaccard(new Set(words(leftStem)), new Set(words(rightStem)))
-      + 0.4 * jaccard(ngrams(leftStem), ngrams(rightStem))
+/**
+ * Everything `semanticSimilarity` needs about one side of a comparison. Hoisted
+ * out so a candidate is canonicalised once instead of once per existing item:
+ * the corpus is ~26,000 questions and cards.
+ */
+export function prepareForSimilarity(questionOrCandidate) {
+  const canonical = canonicalQuestion(questionOrCandidate);
+  const stem = canonicalStem(questionOrCandidate);
+  return {
+    canonical,
+    words: new Set(words(canonical)),
+    trigrams: ngrams(canonical),
+    stem,
+    stemWords: stem ? new Set(words(stem)) : new Set(),
+    stemTrigrams: stem ? ngrams(stem) : new Set(),
+  };
+}
+
+function similarityBetween(left, right) {
+  if (left.canonical === right.canonical) return 1;
+  const fullScore = 0.6 * jaccard(left.words, right.words) + 0.4 * jaccard(left.trigrams, right.trigrams);
+  const stemScore = left.stem && right.stem
+    ? 0.6 * jaccard(left.stemWords, right.stemWords) + 0.4 * jaccard(left.stemTrigrams, right.stemTrigrams)
     : 0;
   return Math.max(0, Math.min(1, Math.max(fullScore, stemScore)));
+}
+
+export function semanticSimilarity(left, right) {
+  return similarityBetween(prepareForSimilarity(left), prepareForSimilarity(right));
 }
 
 function normaliseExisting(entry, skillId) {
@@ -243,29 +259,54 @@ function normaliseExisting(entry, skillId) {
   return { skillId, question: entry };
 }
 
+/**
+ * Flattens one existing quiz question or practice card into the shape the
+ * duplicate scan compares against, with its canonical forms already computed.
+ * Building this once per corpus turns the scan from O(candidates x corpus)
+ * canonicalisations into O(corpus).
+ */
+export function prepareExistingEntry(raw) {
+  const entry = normaliseExisting(raw, raw?.skillId);
+  const question = entry.question ?? {};
+  const canonical = canonicalQuestion(question);
+  return {
+    skillId: entry.skillId,
+    questionId: question.id,
+    sourceId: String(entry.sourceId ?? entry.source?.id ?? ''),
+    pngSha256: String(entry.pngSha256 ?? entry.source?.pngSha256 ?? '').toLowerCase(),
+    canonical,
+    hash: canonical ? sha256(canonical) : '',
+    similarity: prepareForSimilarity(question),
+  };
+}
+
+export function prepareExistingEntries(existing = []) {
+  return existing.map(prepareExistingEntry);
+}
+
 /** Exact checks are source id, PNG digest, production id, and canonical stem/options digest. */
-export function findDuplicates(candidate, existing = [], { nearThreshold = 0.9 } = {}) {
+export function findDuplicates(candidate, existing = [], { nearThreshold = 0.9, preparedExisting } = {}) {
   const sourceId = String(candidate?.source?.id ?? '');
   const pngSha256 = candidate?.source?.pngSha256?.toLowerCase();
   const id = stableQuestionId(sourceId);
   const hash = questionHash(candidate);
+  const candidateSimilarity = prepareForSimilarity(candidate);
+  const entries = preparedExisting ?? prepareExistingEntries(existing);
   const exact = [];
   const near = [];
 
-  for (const raw of existing) {
-    const entry = normaliseExisting(raw, raw?.skillId);
-    const other = entry.question ?? {};
+  for (const entry of entries) {
     const reasons = [];
-    if (sourceId && String(entry.sourceId ?? entry.source?.id ?? '') === sourceId) reasons.push('source_id');
-    if (pngSha256 && String(entry.pngSha256 ?? entry.source?.pngSha256 ?? '').toLowerCase() === pngSha256) reasons.push('png_sha256');
-    if (other.id === id) reasons.push('production_id');
-    if (canonicalQuestion(other) && questionHash(other) === hash) reasons.push('canonical_question');
+    if (sourceId && entry.sourceId === sourceId) reasons.push('source_id');
+    if (pngSha256 && entry.pngSha256 === pngSha256) reasons.push('png_sha256');
+    if (entry.questionId === id) reasons.push('production_id');
+    if (entry.canonical && entry.hash === hash) reasons.push('canonical_question');
     if (reasons.length) {
-      exact.push({ skillId: entry.skillId, questionId: other.id, reasons });
+      exact.push({ skillId: entry.skillId, questionId: entry.questionId, reasons });
       continue;
     }
-    const similarity = semanticSimilarity(candidate, other);
-    if (similarity >= nearThreshold) near.push({ skillId: entry.skillId, questionId: other.id, similarity });
+    const similarity = similarityBetween(candidateSimilarity, entry.similarity);
+    if (similarity >= nearThreshold) near.push({ skillId: entry.skillId, questionId: entry.questionId, similarity });
   }
   near.sort((a, b) => b.similarity - a.similarity);
   return { duplicate: exact.length > 0 || near.length > 0, exact, near };
@@ -438,22 +479,30 @@ export function resolveMappedSkill(candidate) {
   };
 }
 
-export function toProductionQuestion(candidate) {
+/**
+ * `structureMap` renormalises an import's hyper-specific structure slug onto an
+ * archetype the target skill already uses. Imports arrive with roughly one slug
+ * per question, which would defeat both the per-structure selection cap and the
+ * quiz engine's distinct-structure preference.
+ */
+export function toProductionQuestion(candidate, { structureMap } = {}) {
   const transcription = getTranscription(candidate);
   if (!isObject(transcription)) throw new Error('candidate transcription is required');
+  const override = structureMap?.[String(candidate.source?.id ?? '')];
   const question = {
     id: stableQuestionId(candidate.source?.id),
     question_text: transcription.question_text,
-    structure: transcription.structure,
+    structure: override ?? transcription.structure,
     mastery: transcription.mastery,
     options: transcription.options?.map((option) => option.correct === true
       ? { text: option.text, correct: true }
       : { text: option.text, why: option.why }),
     solution_text: transcription.solution_text,
   };
-  const validation = validateProductionQuestion(question, { exactKeys: true });
+  const normalised = normaliseProductionQuestion(question);
+  const validation = validateProductionQuestion(normalised, { exactKeys: true });
   if (!validation.valid) throw new Error(`invalid production question: ${validation.errors.join('; ')}`);
-  return question;
+  return normalised;
 }
 
 export function createProvenanceEntry(candidate, { skillId, decision, decidedAt = new Date().toISOString(), duplicateAudit } = {}) {
@@ -475,10 +524,16 @@ export function createProvenanceEntry(candidate, { skillId, decision, decidedAt 
   };
 }
 
-function structureCaseKey(item) {
+function effectiveStructure(item, structureMap) {
+  const override = structureMap?.[String(item?.source?.id ?? '')];
+  if (override) return override;
   const question = getTranscription(item) ?? item.question ?? item;
+  return question?.structure;
+}
+
+function structureCaseKey(item, structureMap) {
   const meaningfulCase = getMeaningfulCase(item) || item.meaningfulCase || item.case || '';
-  return `${canonicalizeText(question?.structure)}\u0000${canonicalizeText(meaningfulCase)}`;
+  return `${canonicalizeText(effectiveStructure(item, structureMap))}\u0000${canonicalizeText(meaningfulCase)}`;
 }
 
 function candidateQuality(candidate) {
@@ -494,6 +549,7 @@ export function selectQuestionsForSkill({
   existingQuestions = [],
   maxQuestions = MAX_QUESTIONS_PER_SKILL,
   maxPerStructureCase = MAX_PER_STRUCTURE_CASE,
+  structureMap,
 }) {
   const capacity = Math.max(0, maxQuestions - existingQuestions.length);
   const variantCounts = new Map();
@@ -505,7 +561,7 @@ export function selectQuestionsForSkill({
   const ordered = [...candidates].sort((a, b) => candidateQuality(b) - candidateQuality(a) || String(a.source?.id).localeCompare(String(b.source?.id)));
   const groups = new Map();
   for (const candidate of ordered) {
-    const structure = canonicalizeText(getTranscription(candidate)?.structure);
+    const structure = canonicalizeText(effectiveStructure(candidate, structureMap));
     if (!groups.has(structure)) groups.set(structure, []);
     groups.get(structure).push(candidate);
   }
@@ -518,7 +574,7 @@ export function selectQuestionsForSkill({
       let accepted = false;
       while (queue.length && !accepted) {
         const candidate = queue.shift();
-        const key = structureCaseKey(candidate);
+        const key = structureCaseKey(candidate, structureMap);
         if ((variantCounts.get(key) ?? 0) >= maxPerStructureCase) {
           skipped.push({ candidate, reason: 'structure_case_limit' });
           continue;
@@ -543,16 +599,23 @@ export function selectQuestionsForSkill({
   return { selected, skipped, capacity, finalCount: existingQuestions.length + selected.length };
 }
 
-export async function assessPromotionEligibility(candidate, { repoRoot, existing = [], nearThreshold = 0.9 } = {}) {
+export async function assessPromotionEligibility(candidate, {
+  repoRoot,
+  existing = [],
+  nearThreshold = 0.9,
+  skillIds,
+  preparedExisting,
+} = {}) {
   const validation = validateCandidate(candidate, { phase: 'ready' });
   if (!validation.valid) return { status: 'invalid', reasons: validation.errors, skillId: null };
 
   const mapped = resolveMappedSkill(candidate);
   if (!mapped.skillId) return { status: 'needs_human_review', reasons: mapped.reasons, skillId: null };
 
+  // `skillIds` lets a bundle run load skills.json once instead of once per candidate.
   try {
-    const skills = await readJson(path.join(repoRoot, 'data', 'skills.json'));
-    if (!skills.some((skill) => skill.id === mapped.skillId)) {
+    const known = skillIds ?? new Set((await readJson(path.join(repoRoot, 'data', 'skills.json'))).map((skill) => skill.id));
+    if (!known.has(mapped.skillId)) {
       return { status: 'invalid', reasons: ['mapped skill does not exist'], skillId: mapped.skillId };
     }
   } catch (error) {
@@ -583,7 +646,15 @@ export async function assessPromotionEligibility(candidate, { repoRoot, existing
     return { status: 'needs_human_review', reasons: ['diagram requires compiled visual approval'], skillId: mapped.skillId };
   }
 
-  const duplicateAudit = findDuplicates(candidate, existing, { nearThreshold });
+  // Hold anything the repo's own text lints reject. Delimiter style is already
+  // normalised by this point, so what survives is real corruption -- typically a
+  // LaTeX backslash eaten in transit, arriving as a raw TAB or FORMFEED.
+  const lintProblems = lintProductionQuestion(toProductionQuestion(candidate));
+  if (lintProblems.length) {
+    return { status: 'invalid', reasons: lintProblems.slice(0, 4), skillId: mapped.skillId };
+  }
+
+  const duplicateAudit = findDuplicates(candidate, existing, { nearThreshold, preparedExisting });
   if (duplicateAudit.duplicate) return { status: 'duplicate', reasons: ['exact or near duplicate'], skillId: mapped.skillId, duplicateAudit };
   return { status: 'eligible', reasons: [], skillId: mapped.skillId, duplicateAudit };
 }
@@ -635,36 +706,90 @@ async function writeJsonAtomic(file, value) {
 /**
  * Plan or execute publication. `promote` is false by default and is the only switch that writes.
  */
+/**
+ * Resolve a topic id to the skills that hang off it, via dot points. Mirrors the
+ * course -> topic -> dotpoint -> skill traversal the content pipeline uses.
+ */
+export async function skillIdsForTopic(repoRoot, topicId) {
+  const dataDir = path.join(repoRoot, 'data');
+  const [skills, dotpoints] = await Promise.all([
+    readJson(path.join(dataDir, 'skills.json')),
+    readJson(path.join(dataDir, 'dotpoints.json')),
+  ]);
+  const topicByDotpoint = new Map(dotpoints.map((item) => [item.id, item.topicId]));
+  return skills
+    .filter((skill) => (skill.dotPointIds ?? []).some((id) => topicByDotpoint.get(id) === topicId))
+    .map((skill) => skill.id);
+}
+
 export async function processCandidateBundle({
   candidates,
   repoRoot,
   promote = false,
   provenancePath = path.join(repoRoot, 'data', 'dq-provenance.json'),
   nearThreshold = 0.9,
+  skillFilter,
+  excludeSourceIds,
+  maxQuestions = MAX_QUESTIONS_PER_SKILL,
+  structureMap,
 }) {
   if (!Array.isArray(candidates)) throw new Error('candidates must be an array');
+  if (!Number.isInteger(maxQuestions) || maxQuestions < 1 || maxQuestions > MAX_QUESTIONS_PER_SKILL) {
+    throw new Error(`maxQuestions must be an integer between 1 and ${MAX_QUESTIONS_PER_SKILL}`);
+  }
+  const scope = skillFilter ? new Set(skillFilter) : null;
+  // Human-rejected candidates: content that is sound but does not belong on this
+  // site (wrong language, a stem that cites a figure it does not carry, an
+  // off-skill mapping). Recorded so a rerun stays reproducible.
+  const excluded = excludeSourceIds ? new Set(excludeSourceIds.map(String)) : null;
+  // A repo without a taxonomy (test fixtures) skips the skill-existence check,
+  // exactly as the per-candidate read used to.
+  const skillIds = await (async () => {
+    try {
+      return new Set((await readJson(path.join(repoRoot, 'data', 'skills.json'))).map((skill) => skill.id));
+    } catch (error) {
+      if (error.code === 'ENOENT') return undefined;
+      throw error;
+    }
+  })();
   const existing = await loadExistingQuestions(repoRoot, { provenancePath });
+  // Canonicalise the corpus once; the batch's own accepted items are appended as
+  // they are prepared, so a later candidate still sees an earlier one.
+  const preparedExisting = prepareExistingEntries(existing);
   const decisions = [];
   const eligibleBySkill = new Map();
-  const acceptedInBatch = [];
+  const outOfScope = [];
 
+  const rejected = [];
   for (const candidate of candidates) {
+    if (excluded?.has(String(candidate?.source?.id ?? ''))) {
+      rejected.push(String(candidate.source.id));
+      continue;
+    }
+    if (scope) {
+      const mapped = resolveMappedSkill(candidate);
+      if (!mapped.skillId || !scope.has(mapped.skillId)) {
+        outOfScope.push(String(candidate?.source?.id ?? ''));
+        continue;
+      }
+    }
     const eligibility = await assessPromotionEligibility(candidate, {
       repoRoot,
-      existing: [...existing, ...acceptedInBatch],
       nearThreshold,
+      skillIds,
+      preparedExisting,
     });
     const decision = { sourceId: candidate?.source?.id, ...eligibility };
     decisions.push(decision);
     if (eligibility.status === 'eligible') {
       if (!eligibleBySkill.has(eligibility.skillId)) eligibleBySkill.set(eligibility.skillId, []);
       eligibleBySkill.get(eligibility.skillId).push(candidate);
-      acceptedInBatch.push({
+      preparedExisting.push(prepareExistingEntry({
         skillId: eligibility.skillId,
         sourceId: candidate.source.id,
         pngSha256: candidate.source.pngSha256,
-        question: toProductionQuestion(candidate),
-      });
+        question: toProductionQuestion(candidate, { structureMap }),
+      }));
     }
   }
 
@@ -677,7 +802,12 @@ export async function processCandidateBundle({
     } catch (error) {
       if (error.code !== 'ENOENT') throw error;
     }
-    const selection = selectQuestionsForSkill({ candidates: group, existingQuestions: quiz.questions ?? [] });
+    const selection = selectQuestionsForSkill({
+      candidates: group,
+      existingQuestions: quiz.questions ?? [],
+      maxQuestions,
+      structureMap,
+    });
     const selectedIds = new Set(selection.selected.map((candidate) => String(candidate.source.id)));
     for (const decision of decisions.filter((item) => item.skillId === skillId && item.status === 'eligible')) {
       if (!selectedIds.has(String(decision.sourceId))) decision.status = 'not_selected';
@@ -710,8 +840,14 @@ export async function processCandidateBundle({
       await fs.access(path.join(repoRoot, 'public', 'content', `${plan.skillId}.json`));
       const questions = [
         ...(plan.quiz.questions ?? []),
-        ...plan.selection.selected.map(toProductionQuestion),
+        ...plan.selection.selected.map((candidate) => toProductionQuestion(candidate, { structureMap })),
       ];
+      // `maxQuestions` is a ceiling on what this pass may ADD up to, not a claim about banks
+      // that were already larger — an authored skill with 11 questions is not a defect, and
+      // selection has already given it zero capacity. Only a bank this pass actually grew
+      // past the ceiling is a bug.
+      const ceiling = Math.max(maxQuestions, plan.quiz.questions?.length ?? 0);
+      if (questions.length > ceiling) throw new Error(`refusing to publish ${plan.skillId}: bank would exceed ${ceiling}`);
       if (questions.length > MAX_QUESTIONS_PER_SKILL) throw new Error(`refusing to publish ${plan.skillId}: bank would exceed 20`);
       await writeJsonAtomic(plan.quizPath, { ...plan.quiz, skillId: plan.skillId, questions });
       for (const candidate of plan.selection.selected) {
@@ -729,10 +865,56 @@ export async function processCandidateBundle({
 
   return {
     mode: promote ? 'promote' : 'dry-run',
+    scope: scope ? { skillIds: [...scope], outOfScopeCount: outOfScope.length } : undefined,
+    excludedSourceIds: rejected.length ? rejected : undefined,
+    maxQuestions,
     decisions,
     promotionPlan: promotionPlan.map(({ quiz, selection, ...plan }) => ({
       ...plan,
       skipped: selection.skipped.map((entry) => ({ sourceId: entry.candidate.source.id, reason: entry.reason })),
     })),
   };
+}
+
+/**
+ * Source transcriptions use LaTeX's \( \) and \[ \] delimiters; this repo's
+ * renderer only understands $…$, so anything left in the other form renders as
+ * literal TeX. Swapping the delimiter is formatting normalisation — it does not
+ * touch the mathematics — and is the only in-place edit an import may receive.
+ */
+export function normaliseMathDelimiters(value) {
+  if (typeof value !== 'string') return value;
+  return value
+    .split('\\(').join('$')
+    .split('\\)').join('$')
+    .split('\\[').join('$')
+    .split('\\]').join('$');
+}
+
+export function normaliseProductionQuestion(question) {
+  return {
+    ...question,
+    question_text: normaliseMathDelimiters(question.question_text),
+    solution_text: normaliseMathDelimiters(question.solution_text),
+    options: question.options.map((option) => (option.correct === true
+      ? { text: normaliseMathDelimiters(option.text), correct: true }
+      : { text: normaliseMathDelimiters(option.text), why: normaliseMathDelimiters(option.why) })),
+  };
+}
+
+/**
+ * Run a production question through the same text lints `scripts/validate.mjs`
+ * applies to authored content. Catches the corruption class where a LaTeX
+ * backslash was eaten in transit ("\times" arriving as a raw TAB), which no
+ * amount of reformatting can honestly repair.
+ */
+export function lintProductionQuestion(question) {
+  const problems = [];
+  validateInlineText(question.question_text, 'question_text', problems);
+  validateInlineText(question.solution_text, 'solution_text', problems);
+  question.options.forEach((option, index) => {
+    lintMathString(option.text, `options[${index}].text`, problems);
+    if (option.why) lintMathString(option.why, `options[${index}].why`, problems);
+  });
+  return problems;
 }

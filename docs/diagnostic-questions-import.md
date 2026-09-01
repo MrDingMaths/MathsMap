@@ -145,23 +145,194 @@ After a write, run repository validation, focused import tests, TikZ compilation
 where applicable, the full test suite, and manifest generation. The manifest builder warns and
 excludes any orphan quiz as a final defensive gate.
 
+## Screening a slice with agy
+
+The two jobs that made the first pilot slow — assigning every candidate a structure slug from
+its skill's vocabulary, and spotting the questions a machine gate cannot judge — are handed to
+agy. Nothing in this lane writes production content; it produces the structure map and the
+exclusion list that `process-candidates.mjs` then consumes.
+
+```text
+node scripts/dq/build-screen-tasks.mjs --bundle .diagnostic-questions/worker-results.json \
+  --topic t-s4-alg --out .agywork/dq-t-s4-alg --batch-size 12
+node scripts/agy/run-gen.mjs --tasks-dir .agywork/dq-t-s4-alg --concurrency 5
+node scripts/dq/apply-screen.mjs --tasks-dir .agywork/dq-t-s4-alg \
+  --structure-map .diagnostic-questions/structure-map-t-s4-alg.json \
+  --exclusions .diagnostic-questions/exclusions-t-s4-alg.txt
+```
+
+`--topic` accepts a comma-separated list, so several topics can share one agy run. The builder
+applies the same eligibility funnel as promotion, so the screen only ever sees candidates that
+would actually be published, and it keeps a whole skill inside one task so the model can see
+that skill's full vocabulary and catch within-skill option collisions.
+
+`apply-screen.mjs` refuses a partial merge. Every id the tasks asked about must come back
+exactly once with a `keep`/`reject` verdict, a kebab-case slug when kept, and a reason when
+rejected — a screen that silently dropped candidates would otherwise promote them unmapped.
+
+The reject classes agy applies are the ones observed by hand on the pilot: corrupted source
+text, not English, cites a figure it does not carry, off-skill, exam-paper fragment, duplicate,
+and option collision. **Off-skill is the common one** — on `t-s4-alg`, 11 of 15 rejections were
+binomial or triple-product expansions that two independent mappers had still landed on a
+Stage 4 single-bracket skill.
+
+## Re-running after a gate defect — mind the ledger
+
+A gate defect means dropping the question and re-promoting, but promotion writes **two** things:
+the quiz files and `data/dq-provenance.json`. `loadExistingQuestions` counts everything in that
+ledger as already published, so reverting only the quizzes makes the very next run classify all
+of the previous slice as `duplicate` and promote almost nothing.
+
+Revert both, and re-promote every slice from the clean baseline:
+
+```text
+git checkout -- public/quizzes
+rm -f data/dq-provenance.json
+# then re-run each slice's --promote command in turn
+```
+
+Note also that `git checkout -- public/quizzes` reverts **every** slice, not just the one being
+fixed — which is why re-promoting each slice in turn is the recovery, not an optional tidy-up.
+
+## Scoping a promotion pass
+
+Promotion runs one slice at a time. Beyond `--bundle`, `--promote` and `--output`:
+
+| Flag | Purpose |
+| --- | --- |
+| `--topic <topicId>` | Restrict to the skills hanging off one topic, resolved through `data/dotpoints.json`. |
+| `--skills <id,id,...>` | Restrict to named skills; combines with `--topic`. |
+| `--max-questions <n>` | Final bank ceiling for this pass. **20 is the hard safety ceiling, not a target** — a slice should aim at 8–10. |
+| `--structure-map <file>` | `{ "<sourceId>": "<slug>" }`, renormalising each import's structure onto an archetype the target skill already uses. |
+| `--exclude <id,id,...>` | Human-rejected source ids, recorded in the report so a rerun stays reproducible. |
+
+**Why the structure map is not optional.** Transcriptions arrive with roughly one hyper-specific
+`structure` slug per question (2,543 distinct slugs across 3,305 candidates). Left alone they break
+three things at once: `checkStructureParity` warns on every unmatched slug, the
+`MAX_PER_STRUCTURE_CASE` selection cap never binds, and `pickNonMasteryQuestions()` in
+`src/lib/quiz-engine.js` — which prefers two *distinct* structures — systematically over-picks
+imports over authored items. Map every candidate in the slice onto that skill's existing
+vocabulary before promoting.
+
+**Text normalisation and its limit.** `\( \)` and `\[ \]` delimiters are rewritten to `$…$`
+automatically; the renderer understands nothing else, and swapping a delimiter does not touch the
+mathematics. Beyond that, every production question is run through the repo's own text lints
+(`scripts/lib/lint-math.mjs`) and anything still failing is marked `invalid`. In practice that
+catches transcriptions whose LaTeX backslash was eaten in transit, arriving as a raw TAB or
+FORMFEED (`$45\timports0.2$` → `$45  imes0.2$`). Those are dropped, never guessed at.
+
 ## Current import snapshot
 
 The completed 2 August 2026 checker, dual-mapping, adjudication, and conservative-repair pass
-contains 3,305 candidates. The dry-run promotion gate currently reports:
+contains 3,305 candidates. Re-run against the repository on 31 August 2026, after Waves 3 and 4
+added the missing teaching content, the dry-run promotion gate reports:
 
-| Status | Count | Meaning |
-| --- | ---: | --- |
-| Eligible/importable | 479 | Passes validation, checker, mapping, content, review, duplicate, and selection gates |
-| Held for missing content | 948 | Mapping is usable, but `public/content/{skillId}.json` is absent |
-| Needs review | 590 | Checker, uncertainty, diagram, or mapping decision remains unresolved |
-| Invalid | 1,271 | Fails production schema, checker, atomic-mapping, or skill-existence checks |
-| Duplicate | 14 | Matches an existing or already accepted question |
-| Not selected | 3 | Passed eligibility but was excluded by per-skill selection limits |
+| Status | 2 Aug | 31 Aug | Meaning |
+| --- | ---: | ---: | --- |
+| Eligible/importable | 479 | 1,095 | Passes validation, checker, mapping, content, review, duplicate, and selection gates |
+| Held for missing content | 948 | 71 | Mapping is usable, but `public/content/{skillId}.json` is absent |
+| Needs review | 590 | 868 | Checker, uncertainty, diagram, or mapping decision remains unresolved |
+| Invalid | 1,271 | 1,271 | Fails production schema, checker, atomic-mapping, or skill-existence checks |
 
 The 112 conservative repairs were source-confirmed local corrections only. Twenty-one ambiguous
-repair candidates remain unchanged. No candidate has been promoted to a production quiz by this
-pass.
+repair candidates remain unchanged.
+
+### Promoted to date, 31 August 2026
+
+**447 questions across 293 skills**, in five slices, gated together:
+
+| Slice | Scope | Screened | Kept | Promoted |
+| --- | --- | ---: | ---: | ---: |
+| `t-s4-frc` pilot | 1 topic | 87 (by hand) | 75 | 55 |
+| `t-s4-alg` | 1 topic | 54 (agy) | 39 | 28 |
+| batch 2 | 9 topics | 260 (agy) | 225 | 108 |
+| batch 3 | 33 topics | — (agy) | — | 161 |
+| batch 4 | 107 skills | 192 (agy) | 150 | 95 |
+
+"Kept" exceeds "promoted" because the per-skill bank cap (`--max-questions 10`) and the
+per-structure-case limit leave surplus candidates unselected; they stay available for a later
+pass that raises the ceiling.
+
+Batch 4 is scoped by **skill**, not topic, and `promote-all.sh` calls it through
+`promote_skills`. Its unscreened skills are scattered across topics that also hold
+already-screened ones (`t-s6st11-measurement`: 11 fresh candidates of 43), and a `--topic`
+scope would pull those already-published candidates into a slice whose structure map does not
+cover them — they would promote unmapped.
+
+Rebuild every slice with `.diagnostic-questions/promote-all.sh`, which does the clean-baseline
+revert and re-promotes each slice in order.
+
+**32 parity warnings** now come from imports — cases where agy minted an archetype the skill's
+practice cards do not yet cover (`recall-formula`, `identify-point`, `product-rule-trig`, …).
+These are deliberately left unsuppressed: a `coverageNote` would also silence that skill's
+genuine practice-side gaps, and the warning is accurate signal that a practice card is missing
+for a question type the quiz now tests.
+
+#### Never run the convergence gate through `npm run`
+
+`promote-all.sh` originally gated with `npm run gate --silent -- --only "$(cat all-ids.txt)"`.
+Once the id list passed roughly 360 skills, npm's cmd.exe shim answered **"The command line is
+too long."** — and because the gate call ends in `|| true`, the loop swallowed it, grepped an
+empty string for `dq-` ids, found none, and printed a confident `converged` having verified
+nothing. Call `node scripts/agy/gate.mjs` directly. Any convergence that reports zero named
+imports on its **first** round deserves one manual gate run before it is believed.
+
+#### Option letters baked into option text
+
+Eleven promoted imports carried their source's `A. `/`B. ` prefixes inside `options[].text`.
+No audit catches this, and it is worse than cosmetic: `QuizQuestion.svelte` shuffles options
+per question, so the baked letters render out of order. One of the eleven also carried
+corrupted text ("by 6 and add subtract 1"). All were dropped. Scan a new slice for
+`^[A-D][.)] ` across imported options before believing a clean gate.
+
+#### Two figure defects the gate cannot see
+
+Both from batch 4, both caught only by rendering and looking:
+
+- A `oreach` over a coordinate list that **would not compile** (`nets-of-3d-objects`).
+- A cone whose stem gives the **height** as 4.2 m while the drawing labels 4.2 m along the
+  **slant** (`surface-area-cone`). The item's whole point is that the height is not the slant,
+  so the figure inverted its answer. A figure that contradicts its stem is reject class 3(b).
+
+#### Pre-existing authored defects the wider scope exposed
+
+Batch 4 grew the gate's `--only` list from 258 to 364 skills, which surfaced three authored
+defects that are byte-identical to HEAD and are **not** import damage. The drop-never-rewrite
+contract does not cover them, so they are left for an owner decision:
+
+- `order-operations-roots` f8 vs d1 — the known canonicaliser false positive; it strips the
+  parentheses that are the entire difference between an order-of-operations pair.
+- `classify-stationary-first-derivative` q2/q3 — each question's key is an option of the other.
+- `classify-stationary-second-derivative` q8 — the key is the strict mode of all three varying
+  slots, so it is guessable without the calculus.
+
+### The `t-s4-frc` pilot, in detail
+
+**56 questions across 23 skills** (Fractions, decimals and percentages, Stage 4) — the first
+candidates ever published. Banks went from 4–6 questions to 5–10 at `--max-questions 10`. The
+full ten-check gate is clean, `npm run validate` passes, and the 250-test suite is green.
+
+Twelve candidates were rejected by hand and are listed in
+`.diagnostic-questions/pilot-exclusions.txt`. The reasons are the classes worth expecting in every
+later slice:
+
+- **Corrupted source text** — a stem reading `$dfrac18$`, where the backslash is simply gone.
+- **Wrong language** — one question in Welsh.
+- **Cites a figure it does not carry** — "the following shape", "which other diagram", a table
+  described but not drawn. Unanswerable as shipped.
+- **Off-skill mapping** — an equation-solving item mapped to multiply/divide fractions.
+- **Exam-paper fragment** — a stem still carrying its "(b) (i)" part labels and requiring a calculator.
+- **Gate defects** — an item whose options contained two equal values, one duplicating an existing
+  practice card by value, and two `LEAKED-KEY` collisions with the authored bank.
+- **A figure that would not compile** — caught by `scripts/shoot-tikz.mjs`, not by the gate.
+
+Note that a gate defect on an imported question means **dropping the question**, not rewriting it.
+Re-run the promotion from a clean `git checkout -- public/quizzes` with the id added to
+`--exclude`, so selection can backfill from the candidates it had passed over.
+
+One open question for later slices: 11 of the promoted items use £ amounts, which is
+mathematically sound but reads oddly on an NSW site. Localising currency would be a text edit, so
+it is deliberately out of scope for the repair contract.
 
 ## Archive cleanup and version control
 

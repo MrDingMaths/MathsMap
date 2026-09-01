@@ -2,11 +2,12 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadSkillIndex, processCandidateBundle, retrieveSkillCandidates } from './core.mjs';
+import { loadSkillIndex, processCandidateBundle, retrieveSkillCandidates, skillIdsForTopic } from './core.mjs';
 
 function usage() {
   return `Usage:
   node scripts/dq/process-candidates.mjs --bundle <file> [--repo <dir>] [--output <file>] [--promote]
+    [--topic <topicId>] [--skills <id,id,...>] [--max-questions <n>] [--structure-map <file>] [--exclude <id,id,...>]
   node scripts/dq/process-candidates.mjs --bundle <file> --suggest [--limit 10]
 
 The default is a read-only dry run. Only --promote writes quiz and provenance files.`;
@@ -18,7 +19,7 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === '--promote') result.promote = true;
     else if (arg === '--suggest') result.suggest = true;
-    else if (['--bundle', '--repo', '--output', '--provenance', '--limit'].includes(arg)) {
+    else if (['--bundle', '--repo', '--output', '--provenance', '--limit', '--topic', '--skills', '--max-questions', '--structure-map', '--exclude'].includes(arg)) {
       if (argv[i + 1] === undefined) throw new Error(`${arg} requires a value`);
       result[arg.slice(2)] = argv[++i];
     } else if (arg === '--help' || arg === '-h') result.help = true;
@@ -26,6 +27,10 @@ function parseArgs(argv) {
   }
   result.limit = Number(result.limit);
   if (!Number.isInteger(result.limit) || result.limit < 1) throw new Error('--limit must be a positive integer');
+  if (result['max-questions'] !== undefined) {
+    result.maxQuestions = Number(result['max-questions']);
+    if (!Number.isInteger(result.maxQuestions) || result.maxQuestions < 1) throw new Error('--max-questions must be a positive integer');
+  }
   return result;
 }
 
@@ -66,11 +71,29 @@ async function main() {
       })),
     };
   } else {
+    const scoped = [];
+    // `--topic` takes a comma-separated list so one pass can cover several topics,
+    // matching build-screen-tasks.mjs.
+    for (const topicId of (args.topic ?? '').split(',').map((t) => t.trim()).filter(Boolean)) {
+      scoped.push(...await skillIdsForTopic(repoRoot, topicId));
+    }
+    if (args.skills) scoped.push(...args.skills.split(',').map((id) => id.trim()).filter(Boolean));
+    if ((args.topic || args.skills) && scoped.length === 0) {
+      throw new Error('--topic/--skills matched no skills; refusing to run an empty scope');
+    }
+    const structureMap = args['structure-map']
+      ? JSON.parse(await fs.readFile(path.resolve(args['structure-map']), 'utf8'))
+      : undefined;
+
     report = await processCandidateBundle({
       candidates,
       repoRoot,
       promote: args.promote,
       provenancePath: args.provenance ? path.resolve(args.provenance) : undefined,
+      skillFilter: scoped.length ? [...new Set(scoped)] : undefined,
+      excludeSourceIds: args.exclude ? args.exclude.split(',').map((id) => id.trim()).filter(Boolean) : undefined,
+      maxQuestions: args.maxQuestions,
+      structureMap,
     });
   }
 
