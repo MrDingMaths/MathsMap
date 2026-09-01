@@ -2,18 +2,18 @@
   "skillId": "classify-angles",
   "atomType": "R",
   "theory": {
-    "intro": "Angles are named by their size. Knowing the special turns lets you classify any angle on sight.",
-    "facts": [
-      "**Acute** $< 90^{\\circ}$; **right** $= 90^{\\circ}$; **obtuse** between $90^{\\circ}$ and $180^{\\circ}$.",
-      "**Straight** $= 180^{\\circ}$; **reflex** between $180^{\\circ}$ and $360^{\\circ}$.",
-      "A full turn, or **revolution**, $= 360^{\\circ}$."
-    ],
-    "steps": [
-      "Compare the angle with the right angle ($90^{\\circ}$) and the straight angle ($180^{\\circ}$).",
-      "Decide which range it falls in.",
-      "Name it: acute, right, obtuse, straight, reflex or revolution."
-    ]
-  },
+        "intro": "Angles are named by their size. Knowing the special turns lets you classify any angle on sight.",
+        "facts": [
+          "**Acute** $< 90^{\\circ}$; **right** $= 90^{\\circ}$; **obtuse** between $90^{\\circ}$ and $180^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,calc}\n\\coordinate (V1) at (0,0);\\coordinate (A1) at (1.5,0);\\coordinate (B1) at (40:1.5);\n\\draw (A1)--(V1)--(B1);\n\\pic[draw,angle radius=0.45cm]{angle=A1--V1--B1};\n\\node[font=\\small] at (0.75,-0.7) {acute};\n\\coordinate (V2) at (3.6,0);\\coordinate (A2) at (5.1,0);\\coordinate (B2) at (3.6,1.5);\n\\draw (A2)--(V2)--(B2);\n\\coordinate (a2) at ($(V2)!0.35cm!(A2)$);\\coordinate (b2) at ($(V2)!0.35cm!(B2)$);\n\\draw (a2)--($(a2)+(b2)-(V2)$)--(b2);\n\\node[font=\\small] at (4.35,-0.7) {right};\n\\coordinate (V3) at (7.6,0);\\coordinate (A3) at (9.1,0);\\coordinate (B3) at ($(V3)+(130:1.5)$);\n\\draw (A3)--(V3)--(B3);\n\\pic[draw,angle radius=0.45cm]{angle=A3--V3--B3};\n\\node[font=\\small] at (7.6,-0.7) {obtuse};\n\\end{tikzpicture}\n[/tikz]",
+          "**Straight** $= 180^{\\circ}$; **reflex** between $180^{\\circ}$ and $360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles,calc}\n\\coordinate (V1) at (1.5,0);\\coordinate (A1) at (3,0);\\coordinate (B1) at (0,0);\n\\draw (A1)--(V1)--(B1);\\fill (V1) circle (1.5pt);\n\\pic[draw,angle radius=0.45cm]{angle=A1--V1--B1};\n\\node[font=\\small] at (1.5,-0.9) {straight};\n\\coordinate (V2) at (5.6,0);\\coordinate (A2) at (7.1,0);\\coordinate (B2) at ($(V2)+(135:1.5)$);\n\\draw (A2)--(V2)--(B2);\\fill (V2) circle (1.5pt);\n\\draw ($(V2)+(135:0.55)$) arc (135:360:0.55);\n\\node[font=\\small] at ($(V2)+(258:1.25)$) {reflex};\n\\end{tikzpicture}\n[/tikz]",
+          "A full turn, or **revolution**, $= 360^{\\circ}$.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (V) at (0,0);\n\\draw (V)--(1.6,0);\\fill (V) circle (1.5pt);\n\\draw[->] (12:0.7) arc (12:348:0.7);\n\\node[font=\\small] at (0,-1.3) {revolution};\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Compare the angle with the right angle ($90^{\\circ}$) and the straight angle ($180^{\\circ}$).",
+          "Decide which range it falls in.",
+          "Name it: acute, right, obtuse, straight, reflex or revolution."
+        ]
+      },
   "practice": {
     "foundation": [
       {
@@ -69,12 +69,12 @@
         "solution_text": "$181^{\\circ}$ is above $180^{\\circ}$ but below $360^{\\circ}$, so it is reflex."
       },
       {
-        "question_text": "The smaller angle between two rays is $70^{\\circ}$. Classify the larger angle around the point.",
+        "question_text": "The smaller angle between two rays is $70^{\\circ}$.\nClassify the larger angle around the point.",
         "structure": "classify-reflex",
         "solution_text": "$360^{\\circ}-70^{\\circ}$\n$=290^{\\circ}$\n$290^{\\circ}$ is reflex."
       },
       {
-        "question_text": "A rectangle corner has an outside angle of $270^{\\circ}$. Classify that outside angle.",
+        "question_text": "A rectangle corner has an outside angle of $270^{\\circ}$.\nClassify that outside angle.",
         "structure": "classify-reflex",
         "solution_text": "$270^{\\circ}$ is between $180^{\\circ}$ and $360^{\\circ}$, so it is reflex."
       }
@@ -86,12 +86,12 @@
         "solution_text": "$45^{\\circ}$ acute; $90^{\\circ}$ right; $135^{\\circ}$ obtuse; $180^{\\circ}$ straight; $315^{\\circ}$ reflex; $360^{\\circ}$ revolution."
       },
       {
-        "question_text": "A learner says every angle greater than $90^{\\circ}$ is obtuse. Give a counterexample and classify it correctly.",
+        "question_text": "A learner says every angle greater than $90^{\\circ}$ is obtuse.\nGive a counterexample and classify it correctly.",
         "structure": "classify-straight-boundary",
         "solution_text": "For example, $250^{\\circ}>90^{\\circ}$, but it is reflex because it lies between $180^{\\circ}$ and $360^{\\circ}$."
       },
       {
-        "question_text": "An angle is neither acute, right, obtuse nor straight, and it is less than a full revolution. What classification must it have?",
+        "question_text": "An angle is neither acute, right, obtuse nor straight, and it is less than a full revolution.\nWhat classification must it have?",
         "structure": "classify-reflex",
         "solution_text": "It must be greater than $180^{\\circ}$ and less than $360^{\\circ}$, so it is reflex."
       }

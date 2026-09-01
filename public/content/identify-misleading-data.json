@@ -2,22 +2,23 @@
   "skillId": "identify-misleading-data",
   "atomType": "R",
   "theory": {
-    "intro": "A graph can give a false impression even when its numbers are correct. Spotting misleading features helps you judge data fairly.",
-    "facts": [
-      "A **broken (truncated) axis** that does not start at $0$ makes small differences look huge.",
-      "**Uneven scales** or different bar widths can exaggerate or hide a change.",
-      "Always read the actual numbers, not just how big the bars *look*."
-    ],
-    "steps": [
-      "Check where the vertical axis starts — is it $0$, or higher?",
-      "Check the scale is even and the bars are the same width.",
-      "Compare the real values to decide if the picture is fair."
-    ]
-  },
+        "intro": "A graph can give a false impression even when its numbers are correct. Spotting misleading features helps you judge data fairly.",
+        "facts": [
+          "A **broken (truncated) axis** that does not start at $0$ makes small differences look huge.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.0); \\draw[->] (0,0)--(6.0,0);\n\\foreach \\y/\\lab in {0/68,1.5/70,3/72,4.5/74} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\small] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.0,0) rectangle (2.2,1.5); \\draw (3.2,0) rectangle (4.4,5.25);\n\\node[below,font=\\small] at (1.6,0) {P}; \\node[below,font=\\small] at (3.8,0) {Q};\n\\node[rotate=90] at (-1.7,2.5) {Value};\n\\node[below] at (3.0,-1.0) {Item};\n\\node[font=\\small] at (3.0,6.6) {axis starts at $68$: gap looks huge};\n\\end{tikzpicture}\n[/tikz]",
+          "The same two values on an axis starting at $0$ show the true, much smaller gap.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.0); \\draw[->] (0,0)--(6.0,0);\n\\foreach \\y/\\lab in {0/0,1.1/20,2.2/40,3.3/60,4.4/80} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\small] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.0,0) rectangle (2.2,3.85); \\draw (3.2,0) rectangle (4.4,4.125);\n\\node[below,font=\\small] at (1.6,0) {P}; \\node[below,font=\\small] at (3.8,0) {Q};\n\\node[rotate=90] at (-1.7,2.5) {Value};\n\\node[below] at (3.0,-1.0) {Item};\n\\node[font=\\small] at (3.0,6.6) {axis starts at $0$: same data, small gap};\n\\end{tikzpicture}\n[/tikz]",
+          "**Uneven scales** or different bar widths can exaggerate or hide a change.",
+          "Always read the actual numbers, not just how big the bars *look*."
+        ],
+        "steps": [
+          "Check where the vertical axis starts — is it $0$, or higher?",
+          "Check the scale is even and the bars are the same width.",
+          "Compare the real values to decide if the picture is fair."
+        ]
+      },
   "practice": {
     "foundation": [
       {
-        "question_text": "A café advert uses this graph to compare cups sold. What feature makes the difference look much larger than it is?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/95,2.5/100,5/105} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.1,0) rectangle (2.5,1.5); \\draw (3.5,0) rectangle (4.9,3.5); \\node[below,font=\\scriptsize] at (1.8,0) {Mon}; \\node[below,font=\\scriptsize] at (4.2,0) {Tue}; \\node[rotate=90] at (-1.4,2.5) {Cups sold}; \\node[below] at (3,-1.0) {Day}; \\node at (3,6.1) {Coffee sales};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "A café advert uses this graph to compare cups sold.\nWhat feature makes the difference look much larger than it is?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/95,2.5/100,5/105} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.1,0) rectangle (2.5,1.5); \\draw (3.5,0) rectangle (4.9,3.5); \\node[below,font=\\scriptsize] at (1.8,0) {Mon}; \\node[below,font=\\scriptsize] at (4.2,0) {Tue}; \\node[rotate=90] at (-1.4,2.5) {Cups sold}; \\node[below] at (3,-1.0) {Day}; \\node at (3,6.1) {Coffee sales};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-truncated-axis",
         "solution_text": "The vertical axis starts at $95$ instead of $0$. This truncated axis exaggerates the small change from $98$ to $102$."
       },
@@ -27,71 +28,71 @@
         "solution_text": "Equal value increases of $10$ use unequal vertical gaps. The $20$ to $30$ gap is twice as tall as the earlier gaps, so the scale is uneven."
       },
       {
-        "question_text": "The bars show the correct heights, but the display is still unfair. What is the problem?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(7.5,0); \\foreach \\y in {0,2,4,6} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\draw (0.8,0) rectangle (1.6,5); \\draw (2.8,0) rectangle (6.3,5); \\node[below,font=\\scriptsize] at (1.2,0) {Muffin}; \\node[below,font=\\scriptsize] at (4.55,0) {Scone}; \\node[rotate=90] at (-1.2,3) {Dozens sold}; \\node[below] at (3.5,-1.0) {Item}; \\node at (3.5,7.1) {Bakery sales};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "The bars show the correct heights, but the display is still unfair.\nWhat is the problem?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,7.4); \\draw[->] (0,0)--(7.5,0); \\foreach \\y in {0,2,4,6} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\y$};}\n\\draw (0.8,0) rectangle (1.6,5); \\draw (2.8,0) rectangle (6.3,5); \\node[below,font=\\scriptsize] at (1.2,0) {Muffin}; \\node[below,font=\\scriptsize] at (4.55,0) {Scone}; \\node[rotate=90] at (-1.2,3) {Dozens sold}; \\node[below] at (3.5,-1.0) {Item}; \\node at (3.5,7.1) {Bakery sales};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-unequal-bar-widths",
         "solution_text": "Both values are $5$, but the scone bar is much wider. Unequal bar widths make its area look larger even though the values are equal."
       },
       {
-        "question_text": "A café poster shows $6$ large cup icons for smoothies and $8$ small cup icons for milkshakes, but gives no key. Why can the totals not be read reliably?",
+        "question_text": "A café poster shows $6$ large cup icons for smoothies and $8$ small cup icons for milkshakes, but gives no key.\nWhy can the totals not be read reliably?",
         "structure": "identify-pictogram-no-key",
         "solution_text": "The poster never states how many drinks each icon represents, and the icons are different sizes. A count cannot be converted to a reliable total."
       },
       {
-        "question_text": "Two graphs show sales of $40$ and $50$ sandwiches. Graph A starts at $0$ with equal intervals. Graph B starts at $38$. Which graph gives the fairer visual comparison?",
+        "question_text": "Two graphs show sales of $40$ and $50$ sandwiches.\nGraph A starts at $0$ with equal intervals.\nGraph B starts at $38$.\nWhich graph gives the fairer visual comparison?",
         "structure": "choose-fair-graph-repairs",
         "solution_text": "Graph A is fairer because its axis starts at $0$ and uses equal intervals. Graph B exaggerates the $10$-sandwich difference."
       },
       {
-        "question_text": "An advert says sales ‘doubled’ because one bar is drawn twice as tall. The printed values are $90$ and $100$. Is the claim supported?",
+        "question_text": "An advert says sales ‘doubled’ because one bar is drawn twice as tall.\nThe printed values are $90$ and $100$.\nIs the claim supported?",
         "structure": "evaluate-exaggerated-media-claim",
         "solution_text": "$100$ is not twice $90$; twice $90$ would be $180$. The bar heights give a misleading impression, so the claim is not supported."
       }
     ],
     "development": [
       {
-        "question_text": "This graph begins at $200$. What is the actual increase from Wednesday to Thursday?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/200,2/204,4/208,6/212} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.1,0) rectangle (2.5,1); \\draw (3.5,0) rectangle (4.9,5); \\node[below,font=\\scriptsize] at (1.8,0) {Wed}; \\node[below,font=\\scriptsize] at (4.2,0) {Thu}; \\node[rotate=90] at (-1.4,3) {Customers}; \\node[below] at (3,-1.0) {Day}; \\node at (3,7.1) {Café customers};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "This graph begins at $200$.\nWhat is the actual increase from Wednesday to Thursday?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large},scale=0.9]\n\\draw[->] (0,0)--(0,6.4); \\draw[->] (0,0)--(6.5,0); \\foreach \\y/\\lab in {0/200,2/204,4/208,6/212} {\\draw (-0.15,\\y)--(0,\\y); \\node[left,font=\\scriptsize] at (-0.15,\\y) {$\\lab$};}\n\\draw (1.1,0) rectangle (2.5,1); \\draw (3.5,0) rectangle (4.9,5); \\node[below,font=\\scriptsize] at (1.8,0) {Wed}; \\node[below,font=\\scriptsize] at (4.2,0) {Thu}; \\node[rotate=90] at (-1.4,3) {Customers}; \\node[below] at (3,-1.0) {Day}; \\node at (3,7.1) {Café customers};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "read-values-on-truncated-axis",
         "solution_text": "Wednesday is $202$ and Thursday is $210$.\n$210-202=8$\nThe actual increase is $8$ customers."
       },
       {
-        "question_text": "A menu graphic compares $48$ soup orders with $52$ salad orders using an axis from $45$ to $55$. What single change would make the bar graph fairer without changing the data?",
+        "question_text": "A menu graphic compares $48$ soup orders with $52$ salad orders using an axis from $45$ to $55$.\nWhat single change would make the bar graph fairer without changing the data?",
         "structure": "choose-fair-graph-repairs",
         "solution_text": "Start the numerical axis at $0$ while keeping equal intervals. This shows the $4$-order difference in proportion to the full values."
       },
       {
-        "question_text": "Graph P shows cookie sales of $120$ and $132$ on a $0$ to $140$ axis. Graph Q shows the same values on a $118$ to $134$ axis. Which graph makes the increase appear greater, and why?",
+        "question_text": "Graph P shows cookie sales of $120$ and $132$ on a $0$ to $140$ axis.\nGraph Q shows the same values on a $118$ to $134$ axis.\nWhich graph makes the increase appear greater, and why?",
         "structure": "identify-truncated-axis",
         "solution_text": "Graph Q makes the increase appear greater because its truncated axis uses nearly the whole plot for a difference of only $12$."
       },
       {
-        "question_text": "A café website shows monthly sales only for March and June, the two strongest months, and labels the result ‘sales are always high’. What makes this representation biased?",
+        "question_text": "A café website shows monthly sales only for March and June, the two strongest months, and labels the result ‘sales are always high’.\nWhat makes this representation biased?",
         "structure": "identify-cherry-picked-data",
         "solution_text": "It selects only the strongest months and omits the other months. The displayed sample is not representative of sales across the year."
       },
       {
-        "question_text": "A graph has tick labels $0,10,20,40,50$ placed at equal distances. A bar ends at the tick labelled $40$. Why is judging its height against nearby bars unreliable?",
+        "question_text": "A graph has tick labels $0,10,20,40,50$ placed at equal distances.\nA bar ends at the tick labelled $40$.\nWhy is judging its height against nearby bars unreliable?",
         "structure": "identify-uneven-scale",
         "solution_text": "The labels jump by $20$ between $20$ and $40$ but by $10$ elsewhere. Equal distances do not represent equal value changes, so the vertical scale is uneven."
       },
       {
-        "question_text": "An advert draws the $60$-sale bar with width $3$ cm and the $50$-sale bar with width $1$ cm. Both use the correct height scale. Which rule has been broken, and what should be changed?",
+        "question_text": "An advert draws the $60$-sale bar with width $3$ cm and the $50$-sale bar with width $1$ cm.\nBoth use the correct height scale.\nWhich rule has been broken, and what should be changed?",
         "structure": "identify-unequal-bar-widths",
         "solution_text": "The bars do not have equal widths. Redraw both bars with the same width and equal gaps so only height represents sales."
       }
     ],
     "mastery": [
       {
-        "question_text": "Café A increased weekly sales revenue from $\\$240$ to $\\$252$. Café B increased weekly sales revenue from $\\$80$ to $\\$92$. An advert says both had the same absolute revenue increase. Evaluate this claim.",
+        "question_text": "Café A increased weekly sales revenue from $\\$240$ to $\\$252$.\nCafé B increased weekly sales revenue from $\\$80$ to $\\$92$.\nAn advert says both had the same absolute revenue increase.\nEvaluate this claim.",
         "structure": "evaluate-exaggerated-media-claim",
         "solution_text": "A increase: $\\$252-\\$240=\\$12$\nB increase: $\\$92-\\$80=\\$12$\nThe claim is supported: both absolute revenue increases are $\\$12$."
       },
       {
-        "question_text": "A graph shows values $495$ and $505$ using a vertical axis from $490$ to $510$. A headline says the second value is ‘about twice as large’. Use the numbers to evaluate the headline.",
+        "question_text": "A graph shows values $495$ and $505$ using a vertical axis from $490$ to $510$.\nA headline says the second value is ‘about twice as large’.\nUse the numbers to evaluate the headline.",
         "structure": "evaluate-exaggerated-media-claim",
         "solution_text": "$505-495=10$\nTwice $495$ is $990$, not $505$. The truncated axis may make the bar look much taller, but the headline is false."
       },
       {
-        "question_text": "A sales display has three problems: its axis starts at $75$, the tick gaps represent unequal amounts, and its three bars have different widths. State the three repairs needed for a fair column graph.",
+        "question_text": "A sales display has three problems: its axis starts at $75$, the tick gaps represent unequal amounts, and its three bars have different widths.\nState the three repairs needed for a fair column graph.",
         "structure": "choose-fair-graph-repairs",
         "solution_text": "Start the axis at $0$; use equal distances for equal value intervals; and draw all bars with equal widths and even gaps."
       }

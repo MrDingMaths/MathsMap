@@ -2,47 +2,47 @@
   "skillId": "describe-transformations",
   "atomType": "R",
   "theory": {
-    "intro": "A transformation moves a shape to a new position. The three transformations are translation (slide), reflection (flip) and rotation (turn). The shape keeps its size and shape.",
-    "facts": [
-      "**Translation** slides a shape: right/left and up/down, with no turning or flipping.",
-      "**Reflection** flips a shape over a mirror line; the image is back-to-front.",
-      "**Rotation** turns a shape about a point by an amount such as a quarter ($90^{\\circ}$) or half ($180^{\\circ}$) turn."
-    ],
-    "steps": [
-      "Compare the image with the original.",
-      "If it has slid → translation; flipped → reflection; turned → rotation.",
-      "Describe the amount: how far/direction for a slide, the mirror line for a flip, the angle for a turn."
-    ]
-  },
+        "intro": "A transformation moves a shape to a new position. The three transformations are translation (slide), reflection (flip) and rotation (turn). The shape keeps its size and shape.",
+        "facts": [
+          "**Translation** slides a shape: right/left and up/down, with no turning or flipping.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.6,0)--(1.6,0.7)--(0.7,0.7)--(0.7,1.8)--(0,1.8)--cycle;\n\\draw (2.8,0.9)--(4.4,0.9)--(4.4,1.6)--(3.5,1.6)--(3.5,2.7)--(2.8,2.7)--cycle;\n\\draw[->, dashed] (0,0)--(2.8,0.9);\n\\node[below, font=\\small] at (0.8,0) {object};\n\\node[below, font=\\small] at (3.6,0.9) {image};\n\\end{tikzpicture}\n[/tikz]",
+          "**Reflection** flips a shape over a mirror line; the image is back-to-front.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.6,0)--(1.6,0.7)--(0.7,0.7)--(0.7,1.8)--(0,1.8)--cycle;\n\\draw[dashed] (2.6,-0.5)--(2.6,2.6);\n\\draw (5.2,0)--(3.6,0)--(3.6,0.7)--(4.5,0.7)--(4.5,1.8)--(5.2,1.8)--cycle;\n\\node[below, font=\\small] at (0.8,0) {object};\n\\node[below, font=\\small] at (4.4,0) {image};\n\\node[above, font=\\small] at (2.6,2.6) {mirror line};\n\\end{tikzpicture}\n[/tikz]",
+          "**Rotation** turns a shape about a point by an amount such as a quarter ($90^{\\circ}$) or half ($180^{\\circ}$) turn.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (O) at (0,0);\n\\coordinate (V) at (2.4,0.8);\n\\coordinate (W) at (-0.8,2.4);\n\\draw (0.8,0.8)--(2.4,0.8)--(2.4,1.5)--(1.5,1.5)--(1.5,2.6)--(0.8,2.6)--cycle;\n\\draw (-0.8,0.8)--(-0.8,2.4)--(-1.5,2.4)--(-1.5,1.5)--(-2.6,1.5)--(-2.6,0.8)--cycle;\n\\draw[dashed] (O)--($(O)!1.15!(V)$);\n\\draw[dashed] (O)--($(O)!1.15!(W)$);\n\\pic[draw, angle radius=0.9cm] {angle=V--O--W};\n\\fill (O) circle (2pt);\n\\node[below, font=\\small] at (0,-0.05) {$O$};\n\\node[right, font=\\small] at (2.5,2.2) {object};\n\\node[left, font=\\small] at (-2.7,2.2) {image};\n\\end{tikzpicture}\n[/tikz]"
+        ],
+        "steps": [
+          "Compare the image with the original.",
+          "If it has slid → translation; flipped → reflection; turned → rotation.",
+          "Describe the amount: how far/direction for a slide, the mirror line for a flip, the angle for a turn."
+        ]
+      },
   "practice": {
     "foundation": [
       {
-        "question_text": "Shape $A$ moves to shape $B$. Name the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.4,0)--(1.4,0.6)--(0.6,0.6)--(0.6,1.8)--(0,1.8)--cycle;\n\\draw (3,1)--(4.4,1)--(4.4,1.6)--(3.6,1.6)--(3.6,2.8)--(3,2.8)--cycle;\n\\node[below] at (0.7,0) {$A$};\n\\node[below] at (3.7,1) {$B$};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "Shape $A$ moves to shape $B$.\nName the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.4,0)--(1.4,0.6)--(0.6,0.6)--(0.6,1.8)--(0,1.8)--cycle;\n\\draw (3,1)--(4.4,1)--(4.4,1.6)--(3.6,1.6)--(3.6,2.8)--(3,2.8)--cycle;\n\\node[below] at (0.7,0) {$A$};\n\\node[below] at (3.7,1) {$B$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-translation",
         "solution_text": "The shape has slid right and up without turning or flipping.\nTranslation\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0)--(1.4,0)--(1.4,0.6)--(0.6,0.6)--(0.6,1.8)--(0,1.8)--cycle;\\draw (3,1)--(4.4,1)--(4.4,1.6)--(3.6,1.6)--(3.6,2.8)--(3,2.8)--cycle;\\draw[->,dashed] (1.1,1.1)--(3.2,1.8);\\node[below] at (0.7,0) {$A$};\\node[below] at (3.7,1) {$B$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
-        "question_text": "Shape $P$ moves to shape $Q$. Name the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.3,0)--(-0.7,0)--(-0.7,1.5)--(-1.3,0.8)--(-2.3,0.8)--cycle;\n\\draw[dashed] (0,-0.4)--(0,2);\n\\draw (2.3,0)--(0.7,0)--(0.7,1.5)--(1.3,0.8)--(2.3,0.8)--cycle;\n\\node[below] at (-1.5,0) {$P$};\n\\node[below] at (1.5,0) {$Q$};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "Shape $P$ moves to shape $Q$.\nName the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.3,0)--(-0.7,0)--(-0.7,1.5)--(-1.3,0.8)--(-2.3,0.8)--cycle;\n\\draw[dashed] (0,-0.4)--(0,2);\n\\draw (2.3,0)--(0.7,0)--(0.7,1.5)--(1.3,0.8)--(2.3,0.8)--cycle;\n\\node[below] at (-1.5,0) {$P$};\n\\node[below] at (1.5,0) {$Q$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-rotation",
         "solution_text": "The shapes are mirror images on opposite sides of the dashed line.\nReflection\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.3,0)--(-0.7,0)--(-0.7,1.5)--(-1.3,0.8)--(-2.3,0.8)--cycle;\\draw[thick,dashed] (0,-0.4)--(0,2) node[above] {mirror line};\\draw (2.3,0)--(0.7,0)--(0.7,1.5)--(1.3,0.8)--(2.3,0.8)--cycle;\\draw[<->,dashed] (-1.3,0.8)--(1.3,0.8);\n\\end{tikzpicture}\n[/tikz]"
       },
       {
-        "question_text": "Shape $R$ moves to shape $S$. Name the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw (0.5,0.5)--(2.2,0.5)--(0.5,1.4)--cycle;\n\\draw (-0.5,0.5)--(-0.5,2.2)--(-1.4,0.5)--cycle;\n\\fill (O) circle (1.5pt);\n\\node[below right] at (O) {$O$};\n\\node[right] at (2.2,0.5) {$R$};\n\\node[above] at (-0.5,2.2) {$S$};\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "Shape $R$ moves to shape $S$.\nName the transformation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\draw (0.5,0.5)--(2.2,0.5)--(0.5,1.4)--cycle;\n\\draw (-0.5,0.5)--(-0.5,2.2)--(-1.4,0.5)--cycle;\n\\fill (O) circle (1.5pt);\n\\node[below right] at (O) {$O$};\n\\node[right] at (2.2,0.5) {$R$};\n\\node[above] at (-0.5,2.2) {$S$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "identify-reflection",
         "solution_text": "The shape has turned about point $O$ without being flipped.\nRotation\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\\draw (0.5,0.5)--(2.2,0.5)--(0.5,1.4)--cycle;\\draw (-0.5,0.5)--(-0.5,2.2)--(-1.4,0.5)--cycle;\\draw[dashed] (O)--(0.5,0.5);\\draw[dashed] (O)--(-0.5,0.5);\\fill (O) circle (1.5pt);\\node[below] at (O) {centre $O$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
-        "question_text": "A tile slides $4$ squares right and $2$ squares down without turning. Describe the transformation.",
+        "question_text": "A tile slides $4$ squares right and $2$ squares down without turning.\nDescribe the transformation.",
         "structure": "describe-translation",
         "solution_text": "Translation $4$ squares right and $2$ squares down"
       },
       {
-        "question_text": "A flag is flipped across a vertical mirror line. Describe the transformation.",
+        "question_text": "A flag is flipped across a vertical mirror line.\nDescribe the transformation.",
         "structure": "identify-reflection",
         "solution_text": "Reflection in the vertical mirror line"
       },
       {
-        "question_text": "An arrow turns one quarter-turn clockwise about point $C$. Describe the transformation using an angle.",
+        "question_text": "An arrow turns one quarter-turn clockwise about point $C$.\nDescribe the transformation using an angle.",
         "structure": "describe-quarter-turn",
         "solution_text": "A quarter-turn is $90^{\\circ}$.\nRotation $90^{\\circ}$ clockwise about $C$"
       }
@@ -69,29 +69,29 @@
         "solution_text": "Each point moves to the opposite side of $C$, and the arrow reverses direction.\nRotation $180^{\\circ}$ about $C$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (C) at (0,0);\\draw[->] (-0.6,0.7)--(-2.3,1.5);\\draw[->] (0.6,-0.7)--(2.3,-1.5);\\draw[dashed] (-0.6,0.7)--(0.6,-0.7);\\fill (C) circle (1.5pt);\\node[above right] at (C) {centre $C$};\n\\end{tikzpicture}\n[/tikz]"
       },
       {
-        "question_text": "Kai says that moving a shape from the left of a line to the right must be a reflection. Explain why that is not enough information.",
+        "question_text": "Kai says that moving a shape from the left of a line to the right must be a reflection.\nExplain why that is not enough information.",
         "structure": "distinguish-reflection",
         "solution_text": "A translation can also move a shape from left to right.\nIt is a reflection only if the image is flipped and corresponding points are equally far from the mirror line."
       },
       {
-        "question_text": "A shape and its image have the same orientation, and every point has moved the same distance in the same direction. Identify the transformation and explain why it cannot be a rotation.",
+        "question_text": "A shape and its image have the same orientation, and every point has moved the same distance in the same direction.\nIdentify the transformation and explain why it cannot be a rotation.",
         "structure": "distinguish-reflection",
         "solution_text": "Every point making the same straight move describes a translation.\nA rotation turns points around a centre, so their directions of movement are not all the same."
       }
     ],
     "mastery": [
       {
-        "question_text": "A shape turns from pointing north-east to pointing south-west about point $K$. Describe the smallest rotation that does this.",
+        "question_text": "A shape turns from pointing north-east to pointing south-west about point $K$.\nDescribe the smallest rotation that does this.",
         "structure": "describe-half-turn",
         "solution_text": "North-east and south-west are opposite directions, so the turn is a half-turn.\nRotation $180^{\\circ}$ about $K$"
       },
       {
-        "question_text": "Mia says the diagram shows a translation because the two shapes are the same size. Is Mia correct? Explain.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.4,0)--(-0.8,0)--(-0.8,1.5)--(-1.6,0.7)--cycle;\n\\draw[dashed] (0,-0.4)--(0,1.9);\n\\draw (2.4,0)--(0.8,0)--(0.8,1.5)--(1.6,0.7)--cycle;\n\\end{tikzpicture}\n[/tikz]",
+        "question_text": "Mia says the diagram shows a translation because the two shapes are the same size.\nIs Mia correct?\nExplain.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (-2.4,0)--(-0.8,0)--(-0.8,1.5)--(-1.6,0.7)--cycle;\n\\draw[dashed] (0,-0.4)--(0,1.9);\n\\draw (2.4,0)--(0.8,0)--(0.8,1.5)--(1.6,0.7)--cycle;\n\\end{tikzpicture}\n[/tikz]",
         "structure": "distinguish-reflection",
         "solution_text": "Mia is not correct. All three transformations preserve size.\nHere the image is back-to-front across the dashed line, so it is a reflection."
       },
       {
-        "question_text": "A shape moves to a new position and its orientation changes. Give two possible kinds of transformation, and state one extra observation that would distinguish them.",
+        "question_text": "A shape moves to a new position and its orientation changes.\nGive two possible kinds of transformation, and state one extra observation that would distinguish them.",
         "structure": "distinguish-reflection",
         "solution_text": "The move could be a reflection or a rotation.\nA reflection produces a mirror image across a line; a rotation turns the shape about a fixed point."
       }

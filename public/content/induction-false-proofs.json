@@ -37,7 +37,7 @@
         "solution_text": "Induction moves from one integer to the next: it verifies a base case and then steps from $n = k$ to $n = k + 1$.\nBetween any two real numbers there is no next real number, so the step covers nothing.\nThe method can only prove the formula for integer values of $n$."
       },
       {
-        "question_text": "A student writes: \"Claim: $n(n + 1)$ is even for all integers $n \\ge 1$. True for $n = 1$ since $2$ is even. Assume true for $n = k$. Now $(k + 1)(k + 2)$ is a product of two consecutive integers, one of which must be even, so the product is even.\" Why is this not a proof by mathematical induction?",
+        "question_text": "A student writes: \"Claim: $n(n + 1)$ is even for all integers $n \\ge 1$.\nTrue for $n = 1$ since $2$ is even.\nAssume true for $n = k$.\nNow $(k + 1)(k + 2)$ is a product of two consecutive integers, one of which must be even, so the product is even.\" Why is this not a proof by mathematical induction?",
         "structure": "diagnose-unused-hypothesis",
         "solution_text": "The reasoning is correct, but the assumption is never used: the argument for $n = k + 1$ stands entirely on its own.\nThat makes it a direct proof of each case, not an induction, because no link between $n = k$ and $n = k + 1$ has been established.\nAn induction proof must rewrite $(k + 1)(k + 2)$ so that the assumed fact about $k(k + 1)$ is actually used."
       },
@@ -47,7 +47,7 @@
         "solution_text": "Line 1 and line 2 are correct.\nLine 3 is the first line that is wrong: the term added must be the general term at $n = k + 1$, which is $2^{k + 1}$, not $2^{k + 2}$.\nWith the correct term the left side becomes $2^{k + 1} - 2 + 2^{k + 1} = 2^{k + 2} - 2$, which is the required $n = k + 1$ form."
       },
       {
-        "question_text": "A claim is stated for all integers $n \\ge 4$. A student's proof verifies the claim at $n = 1$ and then completes a valid inductive step for every integer $k \\ge 4$. What is wrong with the proof?",
+        "question_text": "A claim is stated for all integers $n \\ge 4$.\nA student's proof verifies the claim at $n = 1$ and then completes a valid inductive step for every integer $k \\ge 4$.\nWhat is wrong with the proof?",
         "structure": "name-the-missing-part",
         "solution_text": "The base case has been tested at the wrong value.\nThe claim says nothing about $n = 1$, and the step is only available from $k = 4$ onwards, so nothing connects $n = 1$ to $n = 4$.\nThe proof must verify $n = 4$, the smallest value the claim mentions."
       }
@@ -59,12 +59,12 @@
         "solution_text": "Lines 1 to 3 are correct: the added term is $7(k + 1) - 4 = 7k + 3$.\nLine 4 is the first line that is wrong. Putting $7k + 3$ over the denominator $2$ requires multiplying it by $2$.\n$\\dfrac{k(7k - 1) + 2(7k + 3)}{2}$\n$= \\dfrac{7k^{2} + 13k + 6}{2}$\n$= \\dfrac{(k + 1)(7k + 6)}{2}$\nLine 5 is the correct destination, but line 4 does not lead to it."
       },
       {
-        "question_text": "At the $n = k + 1$ stage of a proof, a student writes: \"Start from $5 + 8 + 11 + \\dots + (3k + 2) + (3k + 5) = \\dfrac{(k + 1)(3k + 10)}{2}$. Multiply both sides by $2$, expand, and subtract the right side from the left. This gives $0 = 0$, which is true, so the $n = k + 1$ case is true.\" Explain the error in this step.",
+        "question_text": "At the $n = k + 1$ stage of a proof, a student writes: \"Start from $5 + 8 + 11 + \\dots + (3k + 2) + (3k + 5) = \\dfrac{(k + 1)(3k + 10)}{2}$.\nMultiply both sides by $2$, expand, and subtract the right side from the left.\nThis gives $0 = 0$, which is true, so the $n = k + 1$ case is true.\" Explain the error in this step.",
         "structure": "diagnose-assumed-conclusion",
         "solution_text": "The argument begins by writing down the $n = k + 1$ equation as though it were known, and then manipulates it.\nReaching a true statement such as $0 = 0$ from an assumed equation shows nothing: false equations can also lead to true ones after multiplying by zero or squaring.\nA valid step starts from the left side alone, substitutes the inductive hypothesis, and simplifies until the required right side appears."
       },
       {
-        "question_text": "A student writes: \"Claim: $5^{n} + 3^{n}$ is even for all integers $n \\ge 1$. Check: $n = 1$ gives $8$, $n = 2$ gives $34$, $n = 3$ gives $152$, $n = 4$ gives $706$ and $n = 5$ gives $3368$. All are even, so the claim is proved by induction.\" Identify what the argument is missing.",
+        "question_text": "A student writes: \"Claim: $5^{n} + 3^{n}$ is even for all integers $n \\ge 1$.\nCheck: $n = 1$ gives $8$, $n = 2$ gives $34$, $n = 3$ gives $152$, $n = 4$ gives $706$ and $n = 5$ gives $3368$.\nAll are even, so the claim is proved by induction.\" Identify what the argument is missing.",
         "structure": "diagnose-unused-hypothesis",
         "solution_text": "Five verified cases are five cases, not a proof, and no inductive hypothesis has been stated or used.\nThe argument has a base case and nothing else, so it is a table of values rather than an induction.\nWhat is missing is the inductive step: assume $5^{k} + 3^{k} = 2p$ for an integer $p$, then show $5^{k + 1} + 3^{k + 1}$ is also even, using that assumption."
       },
@@ -91,7 +91,7 @@
         "solution_text": "Lines 1 to 3 are correct.\nLine 4 is the first line that is wrong. The assumption gives $4^{k} - 1 = 3p$, so $4^{k} = 3p + 1$; substituting $3p$ for $4^{k}$ uses the assumption for the wrong expression.\nThe corrected working is\n$4^{k + 1} - 1 = 4(3p + 1) - 1$\n$= 12p + 4 - 1$\n$= 12p + 3$\n$= 3(4p + 1)$\nSince $p$ is an integer, $4p + 1$ is an integer, so $4^{k + 1} - 1$ is divisible by $3$."
       },
       {
-        "question_text": "Two students attempt the inductive step for $1 \\times 2 + 2 \\times 3 + \\dots + n(n + 1) = \\dfrac{n(n + 1)(n + 2)}{3}$.\nStudent A writes: \"Assume the $n = k$ case. Then $LHS = \\dfrac{k(k + 1)(k + 2)}{3} + (k + 1)(k + 2) = \\dfrac{(k + 1)(k + 2)(k + 3)}{3} = RHS$.\"\nStudent B writes: \"Assume the $n = k$ case. The $n = k + 1$ case says $\\dfrac{k(k + 1)(k + 2)}{3} + (k + 1)(k + 2) = \\dfrac{(k + 1)(k + 2)(k + 3)}{3}$. Multiplying both sides by $3$ and expanding gives the same cubic on each side, so the case is true.\"\nDecide whether each step is valid and justify your decision.",
+        "question_text": "Two students attempt the inductive step for $1 \\times 2 + 2 \\times 3 + \\dots + n(n + 1) = \\dfrac{n(n + 1)(n + 2)}{3}$.\nStudent A writes: \"Assume the $n = k$ case.\nThen $LHS = \\dfrac{k(k + 1)(k + 2)}{3} + (k + 1)(k + 2) = \\dfrac{(k + 1)(k + 2)(k + 3)}{3} = RHS$.\"\nStudent B writes: \"Assume the $n = k$ case.\nThe $n = k + 1$ case says $\\dfrac{k(k + 1)(k + 2)}{3} + (k + 1)(k + 2) = \\dfrac{(k + 1)(k + 2)(k + 3)}{3}$.\nMultiplying both sides by $3$ and expanding gives the same cubic on each side, so the case is true.\"\nDecide whether each step is valid and justify your decision.",
         "structure": "diagnose-assumed-conclusion",
         "solution_text": "Student A is valid. The working starts from the left side alone, uses the hypothesis on the first $k$ terms, and simplifies until the required right side appears.\nStudent B is not valid as written. The starting line is the $n = k + 1$ statement itself, so the equation being verified is assumed rather than derived.\nStudent B's line happens to be a true identity, so the working can be repaired, but only by starting from the left side and deriving the right side, as Student A did."
       },

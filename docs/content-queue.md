@@ -10036,3 +10036,101 @@ syllabus dot points alone and need more human review than the rest of the batch*
 situation as W4-6's template booklet and W4-10's 3D skills. The projectile and differential-
 equation booklets are real, and yielded ~25 errata between them (several sign and bracket errors
 in printed solutions, and `log` used for `ln` throughout the separation-of-variables exercises).
+
+---
+
+## Stage 3 theory pass (T3-1 … T3-3) — COMPLETE 2026-08-31
+
+The theory pass had run over Stages 4, 5 and 6; Stage 3 had never been passed, except for the
+11 Stage-3 skills tagged to Stage-4 dot points that T4-* swept up incidentally.
+
+**Stage 3 prose was already clean.** Measured over all 149 skills before the pass: **0
+word-budget breaches** (intro max 38/45 words, fact max 22/25, facts ≤ 4). Stage 3 was generated
+after the budget entered the generation brief, so Job 1 had almost nothing to do — most rewrite
+rows returned prose byte-identical and existed only to splice a figure in. **The gap was
+diagrams:** 7 skills carried a theory figure and all 7 came from T4-*.
+
+Scope was therefore figure-led (owner decision): the 52 skills carrying a figure signal plus the
+4 nearest the budget, minus the 11 already passed = **56 skills**, in 3 batches / 8 task files.
+Selection is reproducible from `.agywork/T3/select.mjs`.
+
+| Batch | Topics | Skills | Rewrites | Figures | Skips |
+|---|---|---:|---:|---:|---:|
+| T3-1 | rn-a/b, rqf-a/b, mr-a | 13 | 11 | 11 | 2 |
+| T3-2 | gm-a/b, 2ds-a/b | 22 | 18 | 18 | 4 |
+| T3-3 | 3ds-a/b, data-a/b, chan-a/b | 21 | 16 | 16 | 5 |
+
+**Result: 45 skills gained a theory figure; Stage 3 went from 7 to 52 skills with one
+(70 figures total). 0 breaches before and after.** Gate clean on the first pass, `npm test` 258.
+
+### Stage 3 has no booklets — the lane runs `anchor: none`
+
+`booklets/` starts at Stage 4. `build-theory-config.mjs:bookletDirs()` fell through for a
+`t-s3-` topic and returned all four Stage 4/5 directories, which would have handed a Stage 3
+fraction skill a Stage 5 booklet's figures. It now returns `[]` for `t-s3-`, so every section is
+`anchor: none` and `bookletBlock([])`'s existing copy applies. `syllabus/Stage 3 Content.md` was
+deliberately NOT used as a substitute anchor: 3 101 lines covering every Stage 3 topic, carrying
+no figures, would have blown out every task file for nothing — and the governing dot points are
+already injected per task.
+
+### Two lane frictions worth remembering
+
+- **The config builder cuts sections per TOPIC, but the theory pass takes a SUBSET of each
+  topic.** The 56 selected skills left 21 sections of 1–5 skills — 21 agents' worth of task files
+  for 56 skills. `.agywork/T3/merge-plan.mjs` reassigns plan rows, in curriculum order, into
+  chunks of ≤ 8 under existing section names, giving 8 task files. Do this on any pass that
+  narrows a config with `--only`.
+- **`tests/batch-configs.test.js`'s ALREADY-COMPLETE assertion fails every theory config.** It
+  asserts no un-retired config queues a skill that already has content — a GENERATION-lane rule.
+  The theory lane inverts that selection by definition. Now exempted with `config.lane ===
+  'theory'`, mirroring the file's existing lane-scoping for `section.hazards`. T4-*/T5-* never hit
+  this only because they were retired to `done/` before the suite next ran.
+
+### `check-theory` fault that was pre-existing content, not the rewrite
+
+`probability-benchmark-equivalents` failed with three "a `$...$` span opens or closes on
+whitespace" faults on `facts[0]`. The agent had returned the fact byte-identical, as instructed —
+the trailing-space spans (`$0 = $ impossible`) were already in the shipped file. Tightened to
+`$0 =$ impossible`; the maths spans compare whitespace-stripped, so this is not a maths change.
+**A theory-lane fault on a byte-identical fact is a pre-existing defect surfacing, not a
+regression — check the original before repairing the rewrite.**
+
+### Vision review: 70 figures, 61 clean, 9 defects
+
+Four reviewers, ~18 figures each, judging BOTH render quality and answer leakage against the
+owning skill's practice and quiz stems. One merged repair round fixed all nine.
+
+- **A figure that contradicts its own sentence** (`non-unit-fraction-of-quantity`: prose names
+  $\tfrac{2}{5}$, bar shaded 3 of 5). No automated check sees this — the prose and the TikZ are
+  both individually valid.
+- **A figure that contradicts its own SKILL** (`symmetry-quadrilaterals`: a "turn about the
+  centre" arrow on an isosceles trapezium, order 1, while a quiz rationale in the same skill says
+  a trapezium has no half-turn symmetry). Now a parallelogram.
+- **The one answer leak** (`compare-prisms-pyramids`): captions read "Prism: two identical bases"
+  / "Pyramid: one base, one apex" — verbatim the correct option of that skill's quiz q5. Trimmed
+  to "Prism" / "Pyramid", part labels kept. **A caption is where a theory figure leaks**, not the
+  geometry; the drawing itself was clean.
+- **Prose asserts a mark the figure never draws** (`recognise-angle-relationships`,
+  `angles-add-to-90`: "forming a right angle" with no right-angle square — and in the latter the
+  very next fact says a right angle IS marked with a square).
+- Two pre-existing figures from T4-* also repaired: `equivalent-fractions` drew 2 of the 4 bars
+  its prose asserts, with both labels floating a unit clear of the bar they name;
+  `area-composite-figures` never drew the composite outline, so it was indistinguishable from its
+  own bounding rectangle.
+- One reviewer flag was **wrong and worth recording**: `perimeter-area-same-comparison`'s
+  rectangles were measured 8% unequal in pixels. The coordinates are 6×1 and 3×2 — exactly equal.
+  Measuring a thin rectangle's pixel height includes stroke width and biases small dimensions.
+- Two reviewers flagged raw TeX in card titles (`$\tfrac{1}{2}$`, `$90^{\circ}$`). **Harness
+  artifact, not a defect** — 48 titles across every stage carry maths and the app renders them
+  through `<Math>`; it is the `TikzCheck` capture page that does not.
+
+### Adjacent defect found and fixed: a silent `\foreach` range
+
+While verifying a reviewer's claim, rendering the SHIPPED practice figures of
+`plot-points-four-quadrants` showed axes labelled −5 … −1 then **only 1** — ticks 2–5 missing on
+both axes while the grid still ran to 5. Students were asked to plot $A(-3, 4)$ against it. Cause:
+`\foreach \n in {-5,...,-1,1,...,5}` — pgffor cannot infer the second range's step across the
+gap. 11 blocks in that one skill (9 content, 2 quiz, in `-4`/`-5`/`-6` variants), all replaced
+with explicit lists, the idiom one figure in the same file already used. No other file in the
+corpus carries the pattern. **Nothing catches this: it compiles, renders, and looks like a
+deliberate choice.**

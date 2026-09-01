@@ -26,7 +26,7 @@
         "solution_text": "Consider selecting a team of $r$ players from a squad of $n$ players.\nNumber of ways to choose the $r$ players to be on the team is $^{n}C_{r}$.\nChoosing the $r$ team members is equivalent to choosing the $n-r$ players who are left off the team, which can be done in $^{n}C_{n-r}$ ways.\nSince both methods count the same set of team selections, $^{n}C_{r} = {^{n}C_{n-r}}$."
       },
       {
-        "question_text": "A teacher has $10$ distinct books and selects $3$ books to give to a student. Explain why the number of ways to choose the $3$ books to give away equals the number of ways to choose the $7$ books to keep.",
+        "question_text": "A teacher has $10$ distinct books and selects $3$ books to give to a student.\nExplain why the number of ways to choose the $3$ books to give away equals the number of ways to choose the $7$ books to keep.",
         "structure": "combinatorial-proof-symmetry",
         "solution_text": "Number of ways to choose $3$ books to give away from $10$ is $^{10}C_{3}$.\nSelecting the $3$ books to give away automatically determines the $7$ books kept, which can be chosen in $^{10}C_{7}$ ways.\nSince each selection of $3$ books uniquely corresponds to a selection of $7$ books kept, $^{10}C_{3} = {^{10}C_{7}}$."
       },
@@ -51,7 +51,7 @@
         "solution_text": "Let $S$ be a set with $n$ elements.\nMethod 1 (LHS): Count subsets by their cardinality $r$. There are $^{n}C_{r}$ subsets of size $r$, so the total is $\\sum_{r=0}^{n} {^{n}C_{r}}$.\nMethod 2 (RHS): For each of the $n$ distinct elements, there are 2 independent choices (include or exclude). By the multiplication principle, the total number of subsets is $2^n$.\nTherefore, $\\sum_{r=0}^{n} {^{n}C_{r}} = 2^{n}$."
       },
       {
-        "question_text": "In a room of $5$ people, every person shakes hands with every other person exactly once. Use this scenario to prove that $^{5}C_{2} = 4 + 3 + 2 + 1$.",
+        "question_text": "In a room of $5$ people, every person shakes hands with every other person exactly once.\nUse this scenario to prove that $^{5}C_{2} = 4 + 3 + 2 + 1$.",
         "structure": "combinatorial-proof-handshake-sum",
         "solution_text": "Each handshake corresponds to an unordered pair of $2$ people chosen from $5$, giving $^{5}C_{2}$ total handshakes.\nAlternatively, count handshakes sequentially: Person 1 shakes hands with $4$ people and leaves, Person 2 shakes hands with the $3$ remaining people and leaves, Person 3 shakes hands with $2$ people, Person 4 shakes hands with $1$ person, and Person 5 has 0 remaining.\nTotal handshakes $= 4 + 3 + 2 + 1$.\nTherefore, $^{5}C_{2} = 4 + 3 + 2 + 1$."
       }
@@ -78,7 +78,7 @@
         "solution_text": "Count ways to select $2$ people from a combined group of $m$ teachers and $n$ students (total $m+n$ people).\nMethod 1 (LHS): Select $2$ people directly from all $m+n$ individuals in $^{m+n}C_{2}$ ways.\nMethod 2 (RHS): Partition into cases based on composition:\nCase 1 (2 teachers): $^{m}C_{2}$ ways.\nCase 2 (1 teacher and 1 student): $^{m}C_{1} \\times {^{n}C_{1}}$ ways.\nCase 3 (2 students): $^{n}C_{2}$ ways.\nSumming the mutually exclusive cases gives $^{m+n}C_{2} = {^{m}C_{2}} + {^{m}C_{1}}{^{n}C_{1}} + {^{n}C_{2}}$."
       },
       {
-        "question_text": "A committee of $3$ people is chosen from $5$ men and $4$ women. Use case analysis on the number of men chosen to prove that $^{9}C_{3} = {^{5}C_{0}}{^{4}C_{3}} + {^{5}C_{1}}{^{4}C_{2}} + {^{5}C_{2}}{^{4}C_{1}} + {^{5}C_{3}}{^{4}C_{0}}$.",
+        "question_text": "A committee of $3$ people is chosen from $5$ men and $4$ women.\nUse case analysis on the number of men chosen to prove that $^{9}C_{3} = {^{5}C_{0}}{^{4}C_{3}} + {^{5}C_{1}}{^{4}C_{2}} + {^{5}C_{2}}{^{4}C_{1}} + {^{5}C_{3}}{^{4}C_{0}}$.",
         "structure": "combinatorial-proof-vandermonde",
         "solution_text": "The total number of $3$-person committees chosen from all $9$ candidates is $^{9}C_{3}$.\nPartition into cases based on the number of men selected ($k = 0, 1, 2, 3$):\n$0$ men, $3$ women: $^{5}C_{0} \\times {^{4}C_{3}}$\n$1$ man, $2$ women: $^{5}C_{1} \\times {^{4}C_{2}}$\n$2$ men, $1$ woman: $^{5}C_{2} \\times {^{4}C_{1}}$\n$3$ men, $0$ women: $^{5}C_{3} \\times {^{4}C_{0}}$\nSince these cases partition all possible committees, $^{9}C_{3} = {^{5}C_{0}}{^{4}C_{3}} + {^{5}C_{1}}{^{4}C_{2}} + {^{5}C_{2}}{^{4}C_{1}} + {^{5}C_{3}}{^{4}C_{0}}$."
       },

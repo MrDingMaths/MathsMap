@@ -78,6 +78,11 @@ const isStarted = batch => fs.existsSync(path.join(rootDir, '.agywork', batch, '
 
 test('a skill already generated is never re-queued', () => {
   for (const { config } of configs) {
+    // The ALREADY-COMPLETE rule guards the GENERATION lane, where a queued skill that already
+    // has content is duplicated work. The theory lane inverts the selection on purpose — it
+    // rewrites theory that already shipped — so every one of its skills has content by
+    // definition and this assertion would fail every theory config ever written.
+    if (config.lane === 'theory') continue;
     if (isStarted(config.batch)) continue;
     for (const section of config.sections) {
       for (const id of section.skillIds) {

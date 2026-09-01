@@ -74,7 +74,11 @@ function normaliseStem(text) {
     .replace(/\\left|\\right/g, '')
     .replace(/\\dfrac|\\tfrac/g, '\\frac')
     .replace(/[${}]/g, '')
-    .replace(/[.,;:!?'"()‘’“”]/g, '')
+    // Prose punctuation only. Parentheses are NOT punctuation in a maths stem —
+    // they are the whole point of a bracket-contrast pair, and stripping them
+    // reported `$12+4\times\sqrt{9}$` and `$(12+4)\times\sqrt{9}$` (a deliberate
+    // order-of-operations pair in order-operations-roots) as a duplicate.
+    .replace(/[.,;:!?'"‘’“”]/g, '')
     .replace(/\s+/g, '');
 }
 

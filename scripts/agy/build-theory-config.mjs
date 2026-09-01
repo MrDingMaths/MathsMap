@@ -56,6 +56,10 @@ for (const list of dpByTopic.values()) list.sort((a, b) => a.order - b.order);
 // Booklet directories a topic may draw from, narrowed by its id: a Core topic is taught by the
 // Core booklets plus the shared Stage 5 folder, never by the Path folder.
 function bookletDirs(topicId) {
+  // No Stage 3 booklets exist (booklets/ starts at Stage 4), so a t-s3- topic must anchor on
+  // nothing rather than fall through to the Stage 4/5 scan, which would hand a Stage 3 fraction
+  // skill a Stage 5 booklet's figures.
+  if (/^t-s3-/.test(topicId)) return [];
   if (/^t-s4-/.test(topicId)) return ['Stage 4'];
   if (/^t-s5c-/.test(topicId)) return ['Stage 5 Core', 'Stage 5'];
   if (/^t-s5p-/.test(topicId)) return ['Stage 5 Path', 'Stage 5'];
