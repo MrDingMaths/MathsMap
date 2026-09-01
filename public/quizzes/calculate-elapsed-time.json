@@ -1,11 +1,226 @@
 {
   "skillId": "calculate-elapsed-time",
   "questions": [
-    { "id": "q1", "question_text": "How much time passes from $8{:}35$ am to $10{:}10$ am?", "structure": "find-elapsed-time-same-part-day", "mastery": false, "options": [{ "text": "$1\\text{ h }35\\text{ min}$", "correct": true }, { "text": "$2\\text{ h }25\\text{ min}$", "why": "Subtracts minute values in the wrong direction and adds the difference to two hours." }, { "text": "$1\\text{ h }75\\text{ min}$", "why": "Subtracts the displayed digits without regrouping 60 minutes as one hour." }], "solution_text": "$8{:}35\\to9{:}00=25\\text{ min}$\n$9{:}00\\to10{:}00=1\\text{ h}$\n$10{:}00\\to10{:}10=10\\text{ min}$\n$=1\\text{ h }35\\text{ min}$" },
-    { "id": "q2", "question_text": "A match starts at $14{:}25$ and lasts $1$ hour $50$ minutes. When does it finish?", "structure": "find-finish-time", "mastery": false, "options": [{ "text": "$16{:}15$", "correct": true }, { "text": "$15{:}75$", "why": "Adds hours and minutes but does not regroup 75 minutes as 1 hour 15 minutes." }, { "text": "$16{:}05$", "why": "Adds only 40 of the stated 50 minutes after advancing one hour." }, { "text": "$12{:}35$", "why": "Subtracts the duration from the start instead of adding it." }], "solution_text": "$14{:}25+1\\text{ h}=15{:}25$\n$15{:}25+50\\text{ min}=16{:}15$" },
-    { "id": "q3", "question_text": "A lesson ends at $3{:}05$ pm and lasts $45$ minutes. When did it start?", "structure": "find-start-time", "mastery": false, "options": [{ "text": "$2{:}20$ pm", "correct": true }, { "text": "$2{:}60$ pm", "why": "Subtracts 45 from the minute digits without borrowing one hour." }, { "text": "$3{:}50$ pm", "why": "Adds the duration to the finish time instead of subtracting it." }, { "text": "$2{:}30$ pm", "why": "Subtracts only 35 minutes rather than the stated 45 minutes." }], "solution_text": "$3{:}05\\text{ pm}-5\\text{ min}=3{:}00\\text{ pm}$\n$3{:}00\\text{ pm}-40\\text{ min}=2{:}20\\text{ pm}$" },
-    { "id": "q4", "question_text": "How long is it from $2318$ to $0042$ the next day?", "structure": "elapsed-time-across-midnight", "mastery": false, "options": [{ "text": "$1\\text{ h }24\\text{ min}$", "correct": true }, { "text": "$22\\text{ h }36\\text{ min}$", "why": "Treats 0042 as an earlier same-day time and takes the absolute difference, ignoring the next-day instruction." }, { "text": "$24\\text{ min}$", "why": "Compares only the minute parts and omits the hour across midnight." }, { "text": "$2\\text{ h }36\\text{ min}$", "why": "Adds the complements to 60 incorrectly on both sides of midnight." }], "solution_text": "$2318\\to\\text{midnight}=42\\text{ min}$\n$0000\\to0042=42\\text{ min}$\n$42+42=84\\text{ min}$\n$=1\\text{ h }24\\text{ min}$" },
-    { "id": "q5", "question_text": "A flight arrives at $0520$ after $4$ hours $55$ minutes. When did it leave?", "structure": "find-start-across-midnight", "mastery": true, "options": [{ "text": "$0025$", "correct": true }, { "text": "$0115$", "why": "Subtracts the hours but adds the 55-minute part instead of subtracting it." }, { "text": "$1025$", "why": "Adds the duration to the arrival time instead of working backwards." }, { "text": "$0065$", "why": "Subtracts the displayed minute values without borrowing across the hour." }], "solution_text": "$0520-4\\text{ h}=0120$\n$0120-55\\text{ min}=0025$" },
-    { "id": "q6", "question_text": "A timer starts at $22{:}46$ and runs for $3$ hours $37$ minutes. When does it stop?", "structure": "find-finish-across-midnight", "mastery": true, "options": [{ "text": "$02{:}23$", "correct": true }, { "text": "$01{:}83$", "why": "Adds the values but does not regroup 83 minutes as 1 hour 23 minutes." }, { "text": "$02{:}13$", "why": "Adds only 27 minutes instead of the stated 37 minutes." }, { "text": "$19{:}09$", "why": "Subtracts the duration from the start time instead of adding it." }], "solution_text": "$22{:}46+3\\text{ h}=01{:}46$\n$01{:}46+37\\text{ min}=02{:}23$" }
+    {
+      "id": "q1",
+      "question_text": "How much time passes from $8{:}35$ am to $10{:}10$ am?",
+      "structure": "find-elapsed-time-same-part-day",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1\\text{ h }35\\text{ min}$",
+          "correct": true
+        },
+        {
+          "text": "$2\\text{ h }25\\text{ min}$",
+          "why": "Subtracts minute values in the wrong direction and adds the difference to two hours."
+        },
+        {
+          "text": "$1\\text{ h }75\\text{ min}$",
+          "why": "Subtracts the displayed digits without regrouping 60 minutes as one hour."
+        }
+      ],
+      "solution_text": "$8{:}35\\to9{:}00=25\\text{ min}$\n$9{:}00\\to10{:}00=1\\text{ h}$\n$10{:}00\\to10{:}10=10\\text{ min}$\n$=1\\text{ h }35\\text{ min}$"
+    },
+    {
+      "id": "q2",
+      "question_text": "A match starts at $14{:}25$ and lasts $1$ hour $50$ minutes.\nWhen does it finish?",
+      "structure": "find-finish-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$16{:}15$",
+          "correct": true
+        },
+        {
+          "text": "$15{:}75$",
+          "why": "Adds hours and minutes but does not regroup 75 minutes as 1 hour 15 minutes."
+        },
+        {
+          "text": "$16{:}05$",
+          "why": "Adds only 40 of the stated 50 minutes after advancing one hour."
+        },
+        {
+          "text": "$12{:}35$",
+          "why": "Subtracts the duration from the start instead of adding it."
+        }
+      ],
+      "solution_text": "$14{:}25+1\\text{ h}=15{:}25$\n$15{:}25+50\\text{ min}=16{:}15$"
+    },
+    {
+      "id": "q3",
+      "question_text": "A lesson ends at $3{:}05$ pm and lasts $45$ minutes.\nWhen did it start?",
+      "structure": "find-start-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$2{:}20$ pm",
+          "correct": true
+        },
+        {
+          "text": "$2{:}60$ pm",
+          "why": "Subtracts 45 from the minute digits without borrowing one hour."
+        },
+        {
+          "text": "$3{:}50$ pm",
+          "why": "Adds the duration to the finish time instead of subtracting it."
+        },
+        {
+          "text": "$2{:}30$ pm",
+          "why": "Subtracts only 35 minutes rather than the stated 45 minutes."
+        }
+      ],
+      "solution_text": "$3{:}05\\text{ pm}-5\\text{ min}=3{:}00\\text{ pm}$\n$3{:}00\\text{ pm}-40\\text{ min}=2{:}20\\text{ pm}$"
+    },
+    {
+      "id": "q4",
+      "question_text": "How long is it from $2318$ to $0042$ the next day?",
+      "structure": "elapsed-time-across-midnight",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1\\text{ h }24\\text{ min}$",
+          "correct": true
+        },
+        {
+          "text": "$22\\text{ h }36\\text{ min}$",
+          "why": "Treats 0042 as an earlier same-day time and takes the absolute difference, ignoring the next-day instruction."
+        },
+        {
+          "text": "$24\\text{ min}$",
+          "why": "Compares only the minute parts and omits the hour across midnight."
+        },
+        {
+          "text": "$2\\text{ h }36\\text{ min}$",
+          "why": "Adds the complements to 60 incorrectly on both sides of midnight."
+        }
+      ],
+      "solution_text": "$2318\\to\\text{midnight}=42\\text{ min}$\n$0000\\to0042=42\\text{ min}$\n$42+42=84\\text{ min}$\n$=1\\text{ h }24\\text{ min}$"
+    },
+    {
+      "id": "q5",
+      "question_text": "A flight arrives at $0520$ after $4$ hours $55$ minutes.\nWhen did it leave?",
+      "structure": "find-start-across-midnight",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$0025$",
+          "correct": true
+        },
+        {
+          "text": "$0115$",
+          "why": "Subtracts the hours but adds the 55-minute part instead of subtracting it."
+        },
+        {
+          "text": "$1025$",
+          "why": "Adds the duration to the arrival time instead of working backwards."
+        },
+        {
+          "text": "$0065$",
+          "why": "Subtracts the displayed minute values without borrowing across the hour."
+        }
+      ],
+      "solution_text": "$0520-4\\text{ h}=0120$\n$0120-55\\text{ min}=0025$"
+    },
+    {
+      "id": "q6",
+      "question_text": "A timer starts at $22{:}46$ and runs for $3$ hours $37$ minutes.\nWhen does it stop?",
+      "structure": "find-finish-across-midnight",
+      "mastery": true,
+      "options": [
+        {
+          "text": "$02{:}23$",
+          "correct": true
+        },
+        {
+          "text": "$01{:}83$",
+          "why": "Adds the values but does not regroup 83 minutes as 1 hour 23 minutes."
+        },
+        {
+          "text": "$02{:}13$",
+          "why": "Adds only 27 minutes instead of the stated 37 minutes."
+        },
+        {
+          "text": "$19{:}09$",
+          "why": "Subtracts the duration from the start time instead of adding it."
+        }
+      ],
+      "solution_text": "$22{:}46+3\\text{ h}=01{:}46$\n$01{:}46+37\\text{ min}=02{:}23$"
+    },
+    {
+      "id": "dq-31773",
+      "question_text": "A film starts at 8:50 pm.\nThe film lasts 2 hours and 52 minutes.\nWhat time does the film finish?",
+      "structure": "find-finish-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "11:02 pm",
+          "why": "Adds the minutes without carrying the extra hour correctly."
+        },
+        {
+          "text": "10:58 pm",
+          "why": "Subtracts or mishandles the 52-minute addition."
+        },
+        {
+          "text": "10:42 pm",
+          "why": "Does not add the full two hours and 52 minutes."
+        },
+        {
+          "text": "11:42 pm",
+          "correct": true
+        }
+      ],
+      "solution_text": "Add 2 hours to 8:50 pm to get 10:50 pm. Adding 52 minutes gives 11:42 pm."
+    },
+    {
+      "id": "dq-160399",
+      "question_text": "Jacob put a cake in the oven at 2:45 pm.\nAfter 30 minutes he put some biscuits in the oven.\nThe cake and the biscuits were in the oven together for 45 minutes.\nThen Jacob took them both out of the oven.\nWhat time did Jacob take both the cake and the biscuits out of the oven?",
+      "structure": "find-finish-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A: 4:00 pm",
+          "correct": true
+        },
+        {
+          "text": "B: 3:00 pm",
+          "why": "This is the time the biscuits were added, not removed."
+        },
+        {
+          "text": "C: 4:15 pm",
+          "why": "This adds fifteen minutes too much to the total time."
+        },
+        {
+          "text": "D: 2:30 pm",
+          "why": "This is before the cake was placed in the oven."
+        }
+      ],
+      "solution_text": "The biscuits were added at 2:45 pm + 30 minutes = 3:15 pm. Adding 45 minutes gives 4:00 pm."
+    },
+    {
+      "id": "dq-160395",
+      "question_text": "Isaac started eating his breakfast at 10:10 a.m.\nHe finished eating his breakfast 15 minutes later.\nWhich clock shows the time Isaac finished his breakfast?",
+      "structure": "find-finish-time",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A: An analogue clock with the short hand between 10 and 11 and the long hand pointing to 5, showing 10:25.",
+          "correct": true
+        },
+        {
+          "text": "B: An analogue clock with the short hand pointing to 2 and the long hand pointing to 1, showing 2:05.",
+          "why": "Shows a different hour and five minutes rather than the elapsed time."
+        },
+        {
+          "text": "C: An analogue clock with the short hand between 10 and 11 and the long hand pointing to 8, showing 10:40.",
+          "why": "Uses forty minutes instead of adding fifteen minutes to 10:10."
+        },
+        {
+          "text": "D: An analogue clock with the short hand just past 10 and the long hand pointing to 3, showing 10:15.",
+          "why": "Adds only five minutes to 10:10 instead of fifteen minutes."
+        }
+      ],
+      "solution_text": "Adding 15 minutes to 10:10 gives 10:25, so select the clock showing 10:25."
+    }
   ]
 }

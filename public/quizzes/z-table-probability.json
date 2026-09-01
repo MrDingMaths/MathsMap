@@ -7,10 +7,22 @@
       "structure": "table-less-than",
       "mastery": false,
       "options": [
-        { "text": "$0.8264$", "correct": true },
-        { "text": "$0.1736$", "why": "Complemented the table value, which gives the area to the right of $0.94$ instead of the left." },
-        { "text": "$0.3264$", "why": "Subtracted $0.5$, which gives only the area between $0$ and $0.94$." },
-        { "text": "$0.9535$", "why": "Read the $z = 1.68$ column of the table instead of the $z = 0.94$ column." }
+        {
+          "text": "$0.8264$",
+          "correct": true
+        },
+        {
+          "text": "$0.1736$",
+          "why": "Complemented the table value, which gives the area to the right of $0.94$ instead of the left."
+        },
+        {
+          "text": "$0.3264$",
+          "why": "Subtracted $0.5$, which gives only the area between $0$ and $0.94$."
+        },
+        {
+          "text": "$0.9535$",
+          "why": "Read the $z = 1.68$ column of the table instead of the $z = 0.94$ column."
+        }
       ],
       "solution_text": "$P(z < 0.94)$\n$= 0.8264$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:0.94, samples=60, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (0.94,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.94,0) -- (0.94,-0.5) node[below, font=\\small] {$0.94$};\n\\node at (-0.8,1.1) {$0.8264$};\n\\end{tikzpicture}\n[/tikz]"
     },
@@ -20,10 +32,22 @@
       "structure": "table-more-than",
       "mastery": false,
       "options": [
-        { "text": "$0.0951$", "correct": true },
-        { "text": "$0.9049$", "why": "Read $P(z<1.31)$ straight off the table without taking the complement." },
-        { "text": "$0.1292$", "why": "Used the $z = 1.13$ column, giving $1 - 0.8708$ instead of $1 - 0.9049$." },
-        { "text": "$0.4049$", "why": "Subtracted $0.5$ instead of $1$ when taking the complement." }
+        {
+          "text": "$0.0951$",
+          "correct": true
+        },
+        {
+          "text": "$0.9049$",
+          "why": "Read $P(z<1.31)$ straight off the table without taking the complement."
+        },
+        {
+          "text": "$0.1292$",
+          "why": "Used the $z = 1.13$ column, giving $1 - 0.8708$ instead of $1 - 0.9049$."
+        },
+        {
+          "text": "$0.4049$",
+          "why": "Subtracted $0.5$ instead of $1$ when taking the complement."
+        }
       ],
       "solution_text": "$P(z > 1.31)$\n$= 1 - P(z < 1.31)$\n$= 1 - 0.9049$\n$= 0.0951$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (1.31,0) -- plot[domain=1.31:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1.31,0) -- (1.31,-0.5) node[below, font=\\small] {$1.31$};\n\\node at (2.6,1.3) {$0.0951$};\n\\end{tikzpicture}\n[/tikz]"
     },
@@ -33,10 +57,22 @@
       "structure": "table-between",
       "mastery": false,
       "options": [
-        { "text": "$0.2139$", "correct": true },
-        { "text": "$0.1314$", "why": "Used the $z = 1.24$ column as the upper boundary instead of $z = 1.96$." },
-        { "text": "$1.7361$", "why": "Added the two table values instead of subtracting them, giving a probability greater than $1$." },
-        { "text": "$0.0250$", "why": "Gave $1 - 0.9750$, the tail above $1.96$, instead of the strip between the two $z$-scores." }
+        {
+          "text": "$0.2139$",
+          "correct": true
+        },
+        {
+          "text": "$0.1314$",
+          "why": "Used the $z = 1.24$ column as the upper boundary instead of $z = 1.96$."
+        },
+        {
+          "text": "$1.7361$",
+          "why": "Added the two table values instead of subtracting them, giving a probability greater than $1$."
+        },
+        {
+          "text": "$0.0250$",
+          "why": "Gave $1 - 0.9750$, the tail above $1.96$, instead of the strip between the two $z$-scores."
+        }
       ],
       "solution_text": "$P(0.71 < z < 1.96)$\n$= P(z < 1.96) - P(z < 0.71)$\n$= 0.9750 - 0.7611$\n$= 0.2139$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0.71,0) -- plot[domain=0.71:1.96, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1.96,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.71,0) -- (0.71,-0.5) node[below, font=\\small] {$0.71$};\n\\draw (1.96,0) -- (1.96,-0.9) node[below, font=\\small] {$1.96$};\n\\node at (1.3,2.2) {$0.2139$};\n\\end{tikzpicture}\n[/tikz]"
     },
@@ -46,23 +82,47 @@
       "structure": "table-negative",
       "mastery": false,
       "options": [
-        { "text": "$0.1379$", "correct": true },
-        { "text": "$0.8621$", "why": "Read $P(z<1.09)$ and ignored the negative sign on the $z$-score." },
-        { "text": "$0.3621$", "why": "Subtracted $0.5$ from the table value instead of using symmetry and the complement." },
-        { "text": "$0.2810$", "why": "Used the $z = 0.58$ column, giving $1 - 0.7190$ instead of $1 - 0.8621$." }
+        {
+          "text": "$0.1379$",
+          "correct": true
+        },
+        {
+          "text": "$0.8621$",
+          "why": "Read $P(z<1.09)$ and ignored the negative sign on the $z$-score."
+        },
+        {
+          "text": "$0.3621$",
+          "why": "Subtracted $0.5$ from the table value instead of using symmetry and the complement."
+        },
+        {
+          "text": "$0.2810$",
+          "why": "Used the $z = 0.58$ column, giving $1 - 0.7190$ instead of $1 - 0.8621$."
+        }
       ],
       "solution_text": "$P(z < -1.09)$\n$= P(z > 1.09)$\n$= 1 - P(z < 1.09)$\n$= 1 - 0.8621$\n$= 0.1379$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1.09, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.09,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.09,0) -- (-1.09,-0.5) node[below, font=\\small] {$-1.09$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.4,1.3) {$0.1379$};\n\\end{tikzpicture}\n[/tikz]"
     },
     {
       "id": "q5",
-      "question_text": "The masses of a breed of dog are normally distributed with a mean of $24.0$ kg and a standard deviation of $3.5$ kg. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.60 & 0.86 & 1.00 \\\\ \\hline P(Z<z) & 0.7257 & 0.8051 & 0.8413 \\\\ \\hline\\end{array}$\nFind the probability that a randomly chosen dog has a mass greater than $26.1$ kg.",
+      "question_text": "The masses of a breed of dog are normally distributed with a mean of $24.0$ kg and a standard deviation of $3.5$ kg.\nPart of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.60 & 0.86 & 1.00 \\\\ \\hline P(Z<z) & 0.7257 & 0.8051 & 0.8413 \\\\ \\hline\\end{array}$\nFind the probability that a randomly chosen dog has a mass greater than $26.1$ kg.",
       "structure": "context-z-then-table",
       "mastery": false,
       "options": [
-        { "text": "$0.2743$", "correct": true },
-        { "text": "$0.7257$", "why": "Read $P(z<0.6)$ off the table without taking the complement for 'greater than'." },
-        { "text": "$0.2257$", "why": "Subtracted $0.5$ from the table value instead of subtracting it from $1$." },
-        { "text": "$0.1949$", "why": "Used the $z = 0.86$ column, giving $1 - 0.8051$ instead of $1 - 0.7257$." }
+        {
+          "text": "$0.2743$",
+          "correct": true
+        },
+        {
+          "text": "$0.7257$",
+          "why": "Read $P(z<0.6)$ off the table without taking the complement for 'greater than'."
+        },
+        {
+          "text": "$0.2257$",
+          "why": "Subtracted $0.5$ from the table value instead of subtracting it from $1$."
+        },
+        {
+          "text": "$0.1949$",
+          "why": "Used the $z = 0.86$ column, giving $1 - 0.8051$ instead of $1 - 0.7257$."
+        }
       ],
       "solution_text": "$z = \\dfrac{26.1 - 24.0}{3.5}$\n$= 0.6$\n$P(z > 0.6)$\n$= 1 - P(z < 0.6)$\n$= 1 - 0.7257$\n$= 0.2743$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (0.6,0) -- plot[domain=0.6:3.7, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (3.7,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (0.6,0) -- (0.6,-0.5) node[below, font=\\small] {$0.6$};\n\\node at (2.0,1.3) {$0.2743$};\n\\end{tikzpicture}\n[/tikz]"
     },
@@ -72,38 +132,124 @@
       "structure": "expected-frequency",
       "mastery": true,
       "options": [
-        { "text": "$33$ eggs", "correct": true },
-        { "text": "$32$ eggs", "why": "Truncated $32.88$ instead of rounding it to the nearest whole egg." },
-        { "text": "$567$ eggs", "why": "Used $P(z<1.60) = 0.9452$, which is the proportion heavier than $51.6$ g." },
-        { "text": "$60$ eggs", "why": "Read the $z = 1.28$ column instead of the $z = 1.60$ column." }
+        {
+          "text": "$33$ eggs",
+          "correct": true
+        },
+        {
+          "text": "$32$ eggs",
+          "why": "Truncated $32.88$ instead of rounding it to the nearest whole egg."
+        },
+        {
+          "text": "$567$ eggs",
+          "why": "Used $P(z<1.60) = 0.9452$, which is the proportion heavier than $51.6$ g."
+        },
+        {
+          "text": "$60$ eggs",
+          "why": "Read the $z = 1.28$ column instead of the $z = 1.60$ column."
+        }
       ],
       "solution_text": "$z = \\dfrac{51.6 - 58.0}{4.0}$\n$= -1.6$\n$P(z < -1.6) = 1 - 0.9452 = 0.0548$\n$f = np$\n$= 600 \\times 0.0548$\n$= 32.88$\n$\\approx 33$ eggs\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-1.6, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-1.6,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-1.6,0) -- (-1.6,-0.5) node[below, font=\\small] {$-1.6$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.7,1.3) {$0.0548$};\n\\end{tikzpicture}\n[/tikz]"
     },
     {
       "id": "q7",
-      "question_text": "The times taken to complete a puzzle are normally distributed with a mean of $95$ seconds and a standard deviation of $20$ seconds. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.83 & 0.84 & 0.85 \\\\ \\hline P(Z<z) & 0.7967 & 0.7995 & 0.8023 \\\\ \\hline\\end{array}$\nUsing the table, find the approximate time below which the fastest $20\\%$ of times fall.",
+      "question_text": "The times taken to complete a puzzle are normally distributed with a mean of $95$ seconds and a standard deviation of $20$ seconds.\nPart of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.83 & 0.84 & 0.85 \\\\ \\hline P(Z<z) & 0.7967 & 0.7995 & 0.8023 \\\\ \\hline\\end{array}$\nUsing the table, find the approximate time below which the fastest $20\\%$ of times fall.",
       "structure": "table-reverse-lookup",
       "mastery": true,
       "options": [
-        { "text": "$78.2$ seconds", "correct": true },
-        { "text": "$111.8$ seconds", "why": "Used $z = +0.84$ instead of $z = -0.84$, giving the slowest $20\\%$ boundary." },
-        { "text": "$78.4$ seconds", "why": "Chose $z = 0.83$, whose table value $0.7967$ is further from $0.8000$ than $0.7995$ is." },
-        { "text": "$16.8$ seconds", "why": "Gave the distance $z\\sigma$ below the mean rather than the time itself." }
+        {
+          "text": "$78.2$ seconds",
+          "correct": true
+        },
+        {
+          "text": "$111.8$ seconds",
+          "why": "Used $z = +0.84$ instead of $z = -0.84$, giving the slowest $20\\%$ boundary."
+        },
+        {
+          "text": "$78.4$ seconds",
+          "why": "Chose $z = 0.83$, whose table value $0.7967$ is further from $0.8000$ than $0.7995$ is."
+        },
+        {
+          "text": "$16.8$ seconds",
+          "why": "Gave the distance $z\\sigma$ below the mean rather than the time itself."
+        }
       ],
       "solution_text": "The fastest $20\\%$ lies below the $z$-score with $P(z < c) = 0.20$.\n$P(z < -c) = 0.20$ means $P(z < c) = 0.80$, and the closest table value to $0.8000$ is $0.7995$, so $c = 0.84$.\n$x = \\mu + z\\sigma$\n$= 95 + (-0.84) \\times 20$\n$= 95 - 16.8$\n$= 78.2$ seconds\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-3.7,0) -- plot[domain=-3.7:-0.84, samples=50, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (-0.84,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.84,0) -- (-0.84,-0.5) node[below, font=\\small] {$-0.84$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\node at (-2.3,1.3) {$0.20$};\n\\end{tikzpicture}\n[/tikz]"
     },
     {
       "id": "q8",
-      "question_text": "The annual rainfall in a region is normally distributed with a mean of $640$ mm and a standard deviation of $110$ mm. Part of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.50 & 1.00 & 1.50 \\\\ \\hline P(Z<z) & 0.6915 & 0.8413 & 0.9332 \\\\ \\hline\\end{array}$\nFind the probability that a year's rainfall is between $585$ mm and $750$ mm.",
+      "question_text": "The annual rainfall in a region is normally distributed with a mean of $640$ mm and a standard deviation of $110$ mm.\nPart of a standard normal table of $P(Z<z)$ is shown.\n$\\begin{array}{|c|c|c|c|}\\hline z & 0.50 & 1.00 & 1.50 \\\\ \\hline P(Z<z) & 0.6915 & 0.8413 & 0.9332 \\\\ \\hline\\end{array}$\nFind the probability that a year's rainfall is between $585$ mm and $750$ mm.",
       "structure": "context-z-then-table",
       "mastery": false,
       "options": [
-        { "text": "$0.5328$", "correct": true },
-        { "text": "$0.1498$", "why": "Subtracted the table values directly, forgetting that $P(z<-0.5)$ is $1 - 0.6915$, not $0.6915$." },
-        { "text": "$0.3085$", "why": "Gave only $P(z<-0.5)$, the tail below $585$ mm." },
-        { "text": "$0.4672$", "why": "Gave the complement of the correct area, which is the rainfall outside the interval." }
+        {
+          "text": "$0.5328$",
+          "correct": true
+        },
+        {
+          "text": "$0.1498$",
+          "why": "Subtracted the table values directly, forgetting that $P(z<-0.5)$ is $1 - 0.6915$, not $0.6915$."
+        },
+        {
+          "text": "$0.3085$",
+          "why": "Gave only $P(z<-0.5)$, the tail below $585$ mm."
+        },
+        {
+          "text": "$0.4672$",
+          "why": "Gave the complement of the correct area, which is the rainfall outside the interval."
+        }
       ],
       "solution_text": "$z = \\dfrac{585 - 640}{110} = -0.5$ and $z = \\dfrac{750 - 640}{110} = 1.0$\n$P(-0.5 < z < 1.0)$\n$= P(z < 1.0) - P(z < -0.5)$\n$= 0.8413 - (1 - 0.6915)$\n$= 0.8413 - 0.3085$\n$= 0.5328$\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.2cm, y=1cm]\n\\fill[gray!35] (-0.5,0) -- plot[domain=-0.5:1, samples=40, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)}) -- (1,0) -- cycle;\n\\draw[thick] plot[domain=-3.7:3.7, samples=80, smooth, variable=\\x] ({\\x},{2.5*exp(-\\x*\\x/2)});\n\\draw[->] (-4.1,0) -- (4.3,0) node[right] {$z$};\n\\draw (-0.5,0) -- (-0.5,-0.5) node[below, font=\\small] {$-0.5$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$0$};\n\\draw (1,0) -- (1,-0.5) node[below, font=\\small] {$1.0$};\n\\node at (0.25,1.1) {$0.5328$};\n\\end{tikzpicture}\n[/tikz]"
+    },
+    {
+      "id": "dq-11236",
+      "question_text": "The masses $M$ of adult men can be modelled by the Normal distribution with mean $80\\text{ kg}$ and standard deviation $4\\text{ kg}$.\nFollowing standardisation, which of the following would give you the correct answer to $P(M>78)$?",
+      "structure": "context-z-then-table",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$P(Z\\le-0.5)$",
+          "why": "Uses the lower tail at the standardised boundary instead of the upper tail."
+        },
+        {
+          "text": "$P(Z\\le-1)$",
+          "why": "Standardises 78 using the wrong distance from the mean."
+        },
+        {
+          "text": "$P(Z\\le1)$",
+          "why": "Uses the wrong positive standardised value for a mass of 78 kilograms."
+        },
+        {
+          "text": "$P(Z\\le0.5)$",
+          "correct": true
+        }
+      ],
+      "solution_text": "Standardise 78: $z=(78-80)/4=-0.5$. Thus $P(M>78)=P(Z>-0.5)$. By symmetry of the standard Normal distribution, this equals $P(Z<0.5)$, written here as $P(Z\\le0.5)$."
+    },
+    {
+      "id": "dq-11235",
+      "question_text": "If $Z\\sim N(0,1)$, what is $P(Z<1)$?",
+      "structure": "table-less-than",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$0.53983$",
+          "why": "Uses an inaccurate standard-normal table value for $z=1$."
+        },
+        {
+          "text": "$0$",
+          "why": "A standard normal variable has substantial probability below $1$."
+        },
+        {
+          "text": "$0.84134$",
+          "correct": true
+        },
+        {
+          "text": "$0.15866$",
+          "why": "This is the upper-tail probability $P(Z>1)$, not the lower tail."
+        }
+      ],
+      "solution_text": "From the standard normal table, $\\Phi(1)=P(Z<1)=0.84134$."
     }
   ]
 }

@@ -3,92 +3,176 @@
   "questions": [
     {
       "id": "q1",
-      "question_text": "A fair six-sided die is rolled $45$ times and $X$ is the number of rolls that show an odd number. Is $X$ a binomial random variable?",
+      "question_text": "A fair six-sided die is rolled $45$ times and $X$ is the number of rolls that show an odd number.\nIs $X$ a binomial random variable?",
       "structure": "judge-binomial",
       "mastery": false,
       "options": [
-        { "text": "Yes — there are $45$ fixed trials, each roll is odd or it is not, the rolls are independent, and $p=\\dfrac{1}{2}$ every time.", "correct": true },
-        { "text": "Yes — but only because $p=\\dfrac{1}{2}$, since a binomial variable needs equally likely outcomes.", "why": "Treats $p=\\dfrac{1}{2}$ as a condition; a binomial variable allows any fixed $p$ between $0$ and $1$." },
-        { "text": "No — each roll has six possible outcomes, so a trial does not have exactly two outcomes.", "why": "Counts the faces of the die instead of the two recorded outcomes, odd or not odd." },
-        { "text": "No — the $45$ rolls all use the same die, so they cannot be independent of one another.", "why": "Assumes reusing one die creates dependence, but separate rolls do not affect each other." }
+        {
+          "text": "Yes — there are $45$ fixed trials, each roll is odd or it is not, the rolls are independent, and $p=\\dfrac{1}{2}$ every time.",
+          "correct": true
+        },
+        {
+          "text": "Yes — but only because $p=\\dfrac{1}{2}$, since a binomial variable needs equally likely outcomes.",
+          "why": "Treats $p=\\dfrac{1}{2}$ as a condition; a binomial variable allows any fixed $p$ between $0$ and $1$."
+        },
+        {
+          "text": "No — each roll has six possible outcomes, so a trial does not have exactly two outcomes.",
+          "why": "Counts the faces of the die instead of the two recorded outcomes, odd or not odd."
+        },
+        {
+          "text": "No — the $45$ rolls all use the same die, so they cannot be independent of one another.",
+          "why": "Assumes reusing one die creates dependence, but separate rolls do not affect each other."
+        }
       ],
       "solution_text": "Success: the roll shows an odd number.\n$n=45$ is fixed, each roll is odd or not odd, the rolls do not affect one another, and $p=\\dfrac{3}{6}=\\dfrac{1}{2}$ every time.\nAll four conditions hold, so $X\\sim\\mathrm{Bin}\\left(45,\\dfrac{1}{2}\\right)$ is binomial."
     },
     {
       "id": "q2",
-      "question_text": "Nine cards are dealt one at a time, without replacement, from a shuffled standard deck, and $X$ is the number of spades among them. Is $X$ a binomial random variable?",
+      "question_text": "Nine cards are dealt one at a time, without replacement, from a shuffled standard deck, and $X$ is the number of spades among them.\nIs $X$ a binomial random variable?",
       "structure": "judge-binomial",
       "mastery": true,
       "options": [
-        { "text": "No — the trials are not independent, because $p$ changes as cards are removed and not replaced.", "correct": true },
-        { "text": "No — the number of trials is not fixed.", "why": "Nine cards are dealt, so $n=9$ is fixed; it is the independence condition that fails." },
-        { "text": "Yes — there are $9$ fixed trials and each card is a spade or it is not.", "why": "Checks only fixed $n$ and two outcomes, ignoring that $p$ changes when cards are not replaced." },
-        { "text": "Yes — the deck is shuffled, so every card dealt is equally likely to be a spade.", "why": "Shuffling makes a single draw fair but does not stop earlier cards from changing the chances for later ones." }
+        {
+          "text": "No — the trials are not independent, because $p$ changes as cards are removed and not replaced.",
+          "correct": true
+        },
+        {
+          "text": "No — the number of trials is not fixed.",
+          "why": "Nine cards are dealt, so $n=9$ is fixed; it is the independence condition that fails."
+        },
+        {
+          "text": "Yes — there are $9$ fixed trials and each card is a spade or it is not.",
+          "why": "Checks only fixed $n$ and two outcomes, ignoring that $p$ changes when cards are not replaced."
+        },
+        {
+          "text": "Yes — the deck is shuffled, so every card dealt is equally likely to be a spade.",
+          "why": "Shuffling makes a single draw fair but does not stop earlier cards from changing the chances for later ones."
+        }
       ],
       "solution_text": "Success: a card dealt is a spade.\nThe first card is a spade with probability $\\dfrac{13}{52}$, but after a spade is dealt the next card is a spade with probability $\\dfrac{12}{51}$.\nBecause the cards are not replaced, the trials are not independent and $p$ is not constant, so $X$ is not binomial."
     },
     {
       "id": "q3",
-      "question_text": "A biased coin shows a head with probability $0.7$. It is tossed $16$ times, independently, and $X$ is the number of heads. Which distribution describes $X$?",
+      "question_text": "A biased coin shows a head with probability $0.7$.\nIt is tossed $16$ times, independently, and $X$ is the number of heads.\nWhich distribution describes $X$?",
       "structure": "state-n-and-p",
       "mastery": false,
       "options": [
-        { "text": "$X\\sim\\mathrm{Bin}(16,0.7)$", "correct": true },
-        { "text": "$X\\sim\\mathrm{Bin}(16,0.3)$", "why": "Used the probability of a tail, which is the failure probability, as $p$." },
-        { "text": "$X\\sim\\mathrm{Bin}(0.7,16)$", "why": "Wrote the parameters in the wrong order; $n$ is written first and $p$ second." },
-        { "text": "$X\\sim\\mathrm{Bin}(0.3,16)$", "why": "Reversed the order of the parameters and also used the failure probability." }
+        {
+          "text": "$X\\sim\\mathrm{Bin}(16,0.7)$",
+          "correct": true
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(16,0.3)$",
+          "why": "Used the probability of a tail, which is the failure probability, as $p$."
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(0.7,16)$",
+          "why": "Wrote the parameters in the wrong order; $n$ is written first and $p$ second."
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(0.3,16)$",
+          "why": "Reversed the order of the parameters and also used the failure probability."
+        }
       ],
       "solution_text": "Success: the coin shows a head.\n$n=16$, $p=0.7$\n$X\\sim\\mathrm{Bin}(16,0.7)$"
     },
     {
       "id": "q4",
-      "question_text": "A $30$-question multiple-choice test has five options per question, one of which is correct. A student guesses every answer independently and $X$ is the number she gets right. Which distribution describes $X$?",
+      "question_text": "A $30$-question multiple-choice test has five options per question, one of which is correct.\nA student guesses every answer independently and $X$ is the number she gets right.\nWhich distribution describes $X$?",
       "structure": "state-n-and-p",
       "mastery": false,
       "options": [
-        { "text": "$X\\sim\\mathrm{Bin}(30,0.2)$", "correct": true },
-        { "text": "$X\\sim\\mathrm{Bin}(30,0.8)$", "why": "Used the probability of guessing wrongly instead of the probability of a correct guess." },
-        { "text": "$X\\sim\\mathrm{Bin}(5,0.2)$", "why": "Used the number of options per question as the number of trials instead of the $30$ questions." },
-        { "text": "$X\\sim\\mathrm{Bin}(5,0.8)$", "why": "Used the number of options as $n$ and the probability of a wrong guess as $p$." }
+        {
+          "text": "$X\\sim\\mathrm{Bin}(30,0.2)$",
+          "correct": true
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(30,0.8)$",
+          "why": "Used the probability of guessing wrongly instead of the probability of a correct guess."
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(5,0.2)$",
+          "why": "Used the number of options per question as the number of trials instead of the $30$ questions."
+        },
+        {
+          "text": "$X\\sim\\mathrm{Bin}(5,0.8)$",
+          "why": "Used the number of options as $n$ and the probability of a wrong guess as $p$."
+        }
       ],
       "solution_text": "Success: a question is answered correctly.\n$n=30$, $p=\\dfrac{1}{5}=0.2$\n$X\\sim\\mathrm{Bin}(30,0.2)$"
     },
     {
       "id": "q5",
-      "question_text": "A gymnast performs a routine $25$ times in one training session. She grows more tired as the session goes on, so each attempt is a little less likely to be clean than the one before, and $X$ is the number of clean routines. Which condition of a binomial random variable fails?",
+      "question_text": "A gymnast performs a routine $25$ times in one training session.\nShe grows more tired as the session goes on, so each attempt is a little less likely to be clean than the one before, and $X$ is the number of clean routines.\nWhich condition of a binomial random variable fails?",
       "structure": "name-failing-condition",
       "mastery": false,
       "options": [
-        { "text": "The chance of a clean routine drifts downwards from attempt to attempt, so the success probability is not the same in every trial.", "correct": true },
-        { "text": "The gymnast keeps going until she tires, so the number of attempts is not settled in advance.", "why": "Reads the tiring as an open-ended session, but the stem fixes the session at $25$ routines." },
-        { "text": "A routine can be clean, slightly flawed, or a fall, so an attempt has more than two outcomes.", "why": "Invents a middle category; $X$ counts clean routines, so each attempt is recorded only as clean or not clean." },
-        { "text": "Tiredness carries from one routine into the next, so the attempts are not independent of one another.", "why": "Names the right cause but the wrong condition: the tiring changes the value of $p$ itself rather than letting one attempt's result decide another's." }
+        {
+          "text": "The chance of a clean routine drifts downwards from attempt to attempt, so the success probability is not the same in every trial.",
+          "correct": true
+        },
+        {
+          "text": "The gymnast keeps going until she tires, so the number of attempts is not settled in advance.",
+          "why": "Reads the tiring as an open-ended session, but the stem fixes the session at $25$ routines."
+        },
+        {
+          "text": "A routine can be clean, slightly flawed, or a fall, so an attempt has more than two outcomes.",
+          "why": "Invents a middle category; $X$ counts clean routines, so each attempt is recorded only as clean or not clean."
+        },
+        {
+          "text": "Tiredness carries from one routine into the next, so the attempts are not independent of one another.",
+          "why": "Names the right cause but the wrong condition: the tiring changes the value of $p$ itself rather than letting one attempt's result decide another's."
+        }
       ],
       "solution_text": "The session contains $25$ attempts, so $n$ is fixed, and each attempt is recorded as clean or not clean.\nOne attempt does not decide the result of another, so the trials are still independent.\nWhat changes is the chance of success itself, which falls as the gymnast tires.\nThe condition that $p$ is the same in every trial fails."
     },
     {
       "id": "q6",
-      "question_text": "A basketballer shoots free throws until she has scored four, and $X$ is the number of throws she takes. Which condition of a binomial random variable fails?",
+      "question_text": "A basketballer shoots free throws until she has scored four, and $X$ is the number of throws she takes.\nWhich condition of a binomial random variable fails?",
       "structure": "name-failing-condition",
       "mastery": false,
       "options": [
-        { "text": "The number of trials $n$ is not fixed.", "correct": true },
-        { "text": "The probability of success $p$ is not the same in every trial.", "why": "Each throw is scored with the same probability; it is the number of throws that is not decided in advance." },
-        { "text": "The trials do not have exactly two outcomes.", "why": "Each throw is scored or missed, which is exactly two outcomes." },
-        { "text": "The trials are not independent.", "why": "One throw does not change the chance of scoring on another; the stopping rule is what breaks the model." }
+        {
+          "text": "The number of trials $n$ is not fixed.",
+          "correct": true
+        },
+        {
+          "text": "The probability of success $p$ is not the same in every trial.",
+          "why": "Each throw is scored with the same probability; it is the number of throws that is not decided in advance."
+        },
+        {
+          "text": "The trials do not have exactly two outcomes.",
+          "why": "Each throw is scored or missed, which is exactly two outcomes."
+        },
+        {
+          "text": "The trials are not independent.",
+          "why": "One throw does not change the chance of scoring on another; the stopping rule is what breaks the model."
+        }
       ],
       "solution_text": "Shooting stops as soon as the fourth score is made, so the number of throws depends on the results.\nThe number of trials is not fixed in advance."
     },
     {
       "id": "q7",
-      "question_text": "In a large population, $84\\%$ of adults hold a driver's licence. Twelve adults are chosen at random and $Y$ is the number who do **not** hold a licence. Which distribution describes $Y$?",
+      "question_text": "In a large population, $84\\%$ of adults hold a driver's licence.\nTwelve adults are chosen at random and $Y$ is the number who do **not** hold a licence.\nWhich distribution describes $Y$?",
       "structure": "redefine-success",
       "mastery": false,
       "options": [
-        { "text": "$Y\\sim\\mathrm{Bin}(12,0.16)$", "correct": true },
-        { "text": "$Y\\sim\\mathrm{Bin}(12,0.84)$", "why": "Used the probability of holding a licence, but $Y$ counts the adults without one." },
-        { "text": "$Y\\sim\\mathrm{Bin}(0.16,12)$", "why": "Wrote the parameters in the wrong order; $n$ is written first and $p$ second." },
-        { "text": "$Y\\sim\\mathrm{Bin}(0.84,12)$", "why": "Reversed the order of the parameters and also used the probability of the wrong outcome." }
+        {
+          "text": "$Y\\sim\\mathrm{Bin}(12,0.16)$",
+          "correct": true
+        },
+        {
+          "text": "$Y\\sim\\mathrm{Bin}(12,0.84)$",
+          "why": "Used the probability of holding a licence, but $Y$ counts the adults without one."
+        },
+        {
+          "text": "$Y\\sim\\mathrm{Bin}(0.16,12)$",
+          "why": "Wrote the parameters in the wrong order; $n$ is written first and $p$ second."
+        },
+        {
+          "text": "$Y\\sim\\mathrm{Bin}(0.84,12)$",
+          "why": "Reversed the order of the parameters and also used the probability of the wrong outcome."
+        }
       ],
       "solution_text": "Success: an adult does not hold a licence.\n$p=1-0.84=0.16$\n$n=12$\n$Y\\sim\\mathrm{Bin}(12,0.16)$"
     },
@@ -98,12 +182,74 @@
       "structure": "read-binomial-histogram",
       "mastery": true,
       "options": [
-        { "text": "$n=4$ and $p>0.5$", "correct": true },
-        { "text": "$n=5$ and $p>0.5$", "why": "Counted the five bars as the number of trials, but the bars run from $r=0$ to $r=n$, so $n$ is one less than the number of bars." },
-        { "text": "$n=4$ and $p<0.5$", "why": "Read the skew backwards; the tallest bar sits above the middle value $\\dfrac{n}{2}$, so a success is more likely than a failure." },
-        { "text": "$n=5$ and $p<0.5$", "why": "Counted the bars as $n$ and also read the skew backwards." }
+        {
+          "text": "$n=4$ and $p>0.5$",
+          "correct": true
+        },
+        {
+          "text": "$n=5$ and $p>0.5$",
+          "why": "Counted the five bars as the number of trials, but the bars run from $r=0$ to $r=n$, so $n$ is one less than the number of bars."
+        },
+        {
+          "text": "$n=4$ and $p<0.5$",
+          "why": "Read the skew backwards; the tallest bar sits above the middle value $\\dfrac{n}{2}$, so a success is more likely than a failure."
+        },
+        {
+          "text": "$n=5$ and $p<0.5$",
+          "why": "Counted the bars as $n$ and also read the skew backwards."
+        }
       ],
       "solution_text": "The bars are labelled $0,1,2,3,4$, and a binomial variable takes the values $0,1,\\dots,n$.\n$n=4$\nThe tallest bar sits at $r=3$, above the middle value $\\dfrac{n}{2}=2$, so successes outnumber failures on average.\n$p>0.5$"
+    },
+    {
+      "id": "dq-2872",
+      "question_text": "For the following random variables, state which one can be modelled by a binomial distribution:\nA: A dice is thrown repeatedly until a three is seen.\n$X=$ number of throws.\nB: A bag has 12 blue marbles and 6 red marbles.\nFive marbles are selected without replacement.\n$X=$ number of red marbles.\nC: A pair of dice are thrown 14 times.\n$X=$ average score of the sum of the numbers showing.\nD: $X=$ number of boys in a family of 6 children.",
+      "structure": "judge-binomial",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A",
+          "why": "The number of trials is random because throwing stops when a three appears."
+        },
+        {
+          "text": "B",
+          "why": "Sampling without replacement changes the success probability between draws."
+        },
+        {
+          "text": "C",
+          "why": "An average of dice sums is not a count of Bernoulli successes."
+        },
+        {
+          "text": "D",
+          "correct": true
+        }
+      ],
+      "solution_text": "A binomial variable counts successes in a fixed number of independent trials with a constant success probability. The number of boys in six children satisfies this model, so $Xsimoperatorname{Bin}(6,p)$ (with the usual independence assumption)."
+    },
+    {
+      "id": "dq-11229",
+      "question_text": "Which one of the following conditions is NOT true when the binomial distribution is used to model a situation?",
+      "structure": "name-failing-condition",
+      "mastery": false,
+      "options": [
+        {
+          "text": "There are two possible outcomes",
+          "why": "A binomial trial does require exactly two possible outcomes."
+        },
+        {
+          "text": "The sample chosen is a random sample",
+          "why": "Random selection is compatible with the binomial modelling assumptions."
+        },
+        {
+          "text": "Both outcomes have fixed probabilities, p and q, and p+q=1",
+          "why": "Fixed complementary outcome probabilities are required by the model."
+        },
+        {
+          "text": "The probabilities are dependent on the outcomes of previous trials",
+          "correct": true
+        }
+      ],
+      "solution_text": "Binomial trials have independent outcomes, so the probability of success remains constant and does not depend on earlier trials. Therefore the dependent-probabilities statement is not true."
     }
   ]
 }

@@ -3,14 +3,26 @@
   "questions": [
     {
       "id": "q1",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1.1,0) -- plot[domain=-2:7,smooth,variable=\\x] ({0.55*\\x},{1.4+0.18*\\x-0.012*\\x*\\x}) -- (3.85,0) -- cycle;\n\\draw[->] (-2.0,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.3) node[above] {$y$};\n\\draw[thick,domain=-2.6:7.6,smooth,variable=\\x] plot ({0.55*\\x},{1.4+0.18*\\x-0.012*\\x*\\x});\n\\draw (-1.1,0.12) -- (-1.1,-0.12) node[below] {$-2$};\n\\draw (3.85,0.12) -- (3.85,-0.12) node[below] {$7$};\n\\node at (2.4,2.9) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is divided into $6$ strips of equal width so that $\\int_{-2}^{7}f(x)\\,dx$ can be estimated by the Trapezoidal rule. What is the strip width $h$?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!35] (-1.1,0) -- plot[domain=-2:7,smooth,variable=\\x] ({0.55*\\x},{1.4+0.18*\\x-0.012*\\x*\\x}) -- (3.85,0) -- cycle;\n\\draw[->] (-2.0,0) -- (4.8,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.3) node[above] {$y$};\n\\draw[thick,domain=-2.6:7.6,smooth,variable=\\x] plot ({0.55*\\x},{1.4+0.18*\\x-0.012*\\x*\\x});\n\\draw (-1.1,0.12) -- (-1.1,-0.12) node[below] {$-2$};\n\\draw (3.85,0.12) -- (3.85,-0.12) node[below] {$7$};\n\\node at (2.4,2.9) {$y=f(x)$};\n\\end{tikzpicture}\n[/tikz]\nThe shaded region is divided into $6$ strips of equal width so that $\\int_{-2}^{7}f(x)\\,dx$ can be estimated by the Trapezoidal rule.\nWhat is the strip width $h$?",
       "structure": "strip-setup",
       "mastery": false,
       "options": [
-        { "text": "$1.5$", "correct": true },
-        { "text": "$1.8$", "why": "Divided by $5$ instead of $6$, confusing the number of strips with one less than the number of ordinates." },
-        { "text": "$0.75$", "why": "Used $\\frac{b-a}{2n}$, mixing the $\\frac{h}{2}$ factor of the rule into the strip width." },
-        { "text": "$1.286$", "why": "Divided by the $7$ ordinates instead of the $6$ strips." }
+        {
+          "text": "$1.5$",
+          "correct": true
+        },
+        {
+          "text": "$1.8$",
+          "why": "Divided by $5$ instead of $6$, confusing the number of strips with one less than the number of ordinates."
+        },
+        {
+          "text": "$0.75$",
+          "why": "Used $\\frac{b-a}{2n}$, mixing the $\\frac{h}{2}$ factor of the rule into the strip width."
+        },
+        {
+          "text": "$1.286$",
+          "why": "Divided by the $7$ ordinates instead of the $6$ strips."
+        }
       ],
       "solution_text": "$h=\\frac{b-a}{n}$\n$=\\frac{7-(-2)}{6}$\n$=\\frac{9}{6}$\n$=1.5$"
     },
@@ -20,10 +32,22 @@
       "structure": "from-table",
       "mastery": false,
       "options": [
-        { "text": "$150$", "correct": true },
-        { "text": "$200$", "why": "Doubled every ordinate, including the first and the last." },
-        { "text": "$100$", "why": "Doubled none of the ordinates, so the interior values were counted only once." },
-        { "text": "$112.5$", "why": "Used $h=\\frac{15}{4}=3.75$, dividing by the number of ordinates rather than the $3$ strips." }
+        {
+          "text": "$150$",
+          "correct": true
+        },
+        {
+          "text": "$200$",
+          "why": "Doubled every ordinate, including the first and the last."
+        },
+        {
+          "text": "$100$",
+          "why": "Doubled none of the ordinates, so the interior values were counted only once."
+        },
+        {
+          "text": "$112.5$",
+          "why": "Used $h=\\frac{15}{4}=3.75$, dividing by the number of ordinates rather than the $3$ strips."
+        }
       ],
       "solution_text": "$h=5$\n$\\int_{0}^{15}f(x)\\,dx$\n$\\approx\\frac{5}{2}\\left[8+12+2(11+9)\\right]$\n$\\approx\\frac{5}{2}(20+40)$\n$\\approx150$"
     },
@@ -33,10 +57,22 @@
       "structure": "from-function",
       "mastery": false,
       "options": [
-        { "text": "$27.5$", "correct": true },
-        { "text": "$19$", "why": "Added the four ordinates without doubling the two interior ones." },
-        { "text": "$38$", "why": "Doubled all four ordinates instead of only the interior two." },
-        { "text": "$55$", "why": "Multiplied by $h$ instead of $\\frac{h}{2}$, leaving out the halving in the trapezium area." }
+        {
+          "text": "$27.5$",
+          "correct": true
+        },
+        {
+          "text": "$19$",
+          "why": "Added the four ordinates without doubling the two interior ones."
+        },
+        {
+          "text": "$38$",
+          "why": "Doubled all four ordinates instead of only the interior two."
+        },
+        {
+          "text": "$55$",
+          "why": "Multiplied by $h$ instead of $\\frac{h}{2}$, leaving out the halving in the trapezium area."
+        }
       ],
       "solution_text": "$h=\\frac{4-1}{3}$\n$=1$\n$\\begin{array}{c|c|c|c|c}x&1&2&3&4\\\\\\hline y&3&6&11&18\\end{array}$\n$\\int_{1}^{4}\\left(x^{2}+2\\right)dx$\n$\\approx\\frac{1}{2}\\left[3+18+2(6+11)\\right]$\n$\\approx\\frac{1}{2}(21+34)$\n$\\approx27.5$"
     },
@@ -46,77 +82,174 @@
       "structure": "from-function",
       "mastery": false,
       "options": [
-        { "text": "$7.900$", "correct": true },
-        { "text": "$4.916$", "why": "Added the five ordinates without doubling the three interior ones." },
-        { "text": "$9.832$", "why": "Doubled all five ordinates instead of only the interior three." },
-        { "text": "$15.800$", "why": "Multiplied by $h$ rather than $\\frac{h}{2}$, so the result is twice too large." }
+        {
+          "text": "$7.900$",
+          "correct": true
+        },
+        {
+          "text": "$4.916$",
+          "why": "Added the five ordinates without doubling the three interior ones."
+        },
+        {
+          "text": "$9.832$",
+          "why": "Doubled all five ordinates instead of only the interior three."
+        },
+        {
+          "text": "$15.800$",
+          "why": "Multiplied by $h$ rather than $\\frac{h}{2}$, so the result is twice too large."
+        }
       ],
       "solution_text": "$h=\\frac{6-2}{4}$\n$=1$\n$\\begin{array}{c|c|c|c|c|c}x&2&3&4&5&6\\\\\\hline y&1.4142&1.7321&2&2.2361&2.4495\\end{array}$\n$\\int_{2}^{6}\\sqrt{x}\\,dx$\n$\\approx\\frac{1}{2}\\left[1.4142+2.4495+2(1.7321+2+2.2361)\\right]$\n$\\approx0.5(3.8637+11.9364)$\n$\\approx7.900$"
     },
     {
       "id": "q5",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0,0) -- (0,0.42) -- (1.3,0.84) -- (2.6,1.68) -- (3.9,3.36) -- (3.9,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.0,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.2) node[above] {$y$};\n\\draw[thick,domain=0:3,smooth,variable=\\x] plot ({1.3*\\x},{0.42*exp(\\x*ln(2))});\n\\draw (1.3,0) -- (1.3,0.84);\n\\draw (2.6,0) -- (2.6,1.68);\n\\draw (3.9,0) -- (3.9,3.36);\n\\draw[thick] (0,0.42) -- (1.3,0.84) -- (2.6,1.68) -- (3.9,3.36);\n\\node[below left] at (0,-0.05) {$0$};\n\\draw (1.3,0.12) -- (1.3,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (2.6,0.12) -- (2.6,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (3.9,0.12) -- (3.9,-0.12) node[below,font=\\footnotesize] {$3$};\n\\node at (1.7,3.5) {$y=2^{x}$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $3$ strips is used to estimate $\\int_{0}^{3}2^{x}\\,dx$. How does the estimate compare with the exact value?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0,0) -- (0,0.42) -- (1.3,0.84) -- (2.6,1.68) -- (3.9,3.36) -- (3.9,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.0,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.2) node[above] {$y$};\n\\draw[thick,domain=0:3,smooth,variable=\\x] plot ({1.3*\\x},{0.42*exp(\\x*ln(2))});\n\\draw (1.3,0) -- (1.3,0.84);\n\\draw (2.6,0) -- (2.6,1.68);\n\\draw (3.9,0) -- (3.9,3.36);\n\\draw[thick] (0,0.42) -- (1.3,0.84) -- (2.6,1.68) -- (3.9,3.36);\n\\node[below left] at (0,-0.05) {$0$};\n\\draw (1.3,0.12) -- (1.3,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (2.6,0.12) -- (2.6,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (3.9,0.12) -- (3.9,-0.12) node[below,font=\\footnotesize] {$3$};\n\\node at (1.7,3.5) {$y=2^{x}$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $3$ strips is used to estimate $\\int_{0}^{3}2^{x}\\,dx$.\nHow does the estimate compare with the exact value?",
       "structure": "over-or-under-estimate",
       "mastery": false,
       "options": [
-        { "text": "Greater than the exact value, because the curve is concave up so every chord lies above it.", "correct": true },
-        { "text": "Less than the exact value, because the curve is concave up so every chord lies below it.", "why": "Correct concavity but the chord is placed on the wrong side of a concave-up curve." },
-        { "text": "Less than the exact value, because the rule always misses area under a rising curve.", "why": "Uses the fact that the curve is increasing instead of its concavity to decide the direction of the error." },
-        { "text": "Equal to the exact value, because the strips all have the same width.", "why": "Assumes equal strip widths make the rule exact; it is exact only when the graph is a straight line." }
+        {
+          "text": "Greater than the exact value, because the curve is concave up so every chord lies above it.",
+          "correct": true
+        },
+        {
+          "text": "Less than the exact value, because the curve is concave up so every chord lies below it.",
+          "why": "Correct concavity but the chord is placed on the wrong side of a concave-up curve."
+        },
+        {
+          "text": "Less than the exact value, because the rule always misses area under a rising curve.",
+          "why": "Uses the fact that the curve is increasing instead of its concavity to decide the direction of the error."
+        },
+        {
+          "text": "Equal to the exact value, because the strips all have the same width.",
+          "why": "Assumes equal strip widths make the rule exact; it is exact only when the graph is a straight line."
+        }
       ],
       "solution_text": "$y=2^{x}$ is an exponential growth curve, so it is concave up on $0\\le x\\le 3$.\nEvery chord joining two points of a concave-up curve lies above the curve.\nEach trapezium therefore includes extra area, so the estimate is greater than the exact value."
     },
     {
       "id": "q6",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0.85,0) -- (0.85,1.7) -- (1.7,2.72) -- (2.55,3.06) -- (3.4,2.72) -- (4.25,1.7) -- (4.25,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=1:5,smooth,variable=\\x] plot ({0.85*\\x},{0.34*(6*\\x-\\x*\\x)});\n\\draw (0.85,0) -- (0.85,1.7);\n\\draw (1.7,0) -- (1.7,2.72);\n\\draw (2.55,0) -- (2.55,3.06);\n\\draw (3.4,0) -- (3.4,2.72);\n\\draw (4.25,0) -- (4.25,1.7);\n\\draw[thick] (0.85,1.7) -- (1.7,2.72) -- (2.55,3.06) -- (3.4,2.72) -- (4.25,1.7);\n\\draw (0.85,0.12) -- (0.85,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (1.7,0.12) -- (1.7,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (2.55,0.12) -- (2.55,-0.12) node[below,font=\\footnotesize] {$3$};\n\\draw (3.4,0.12) -- (3.4,-0.12) node[below,font=\\footnotesize] {$4$};\n\\draw (4.25,0.12) -- (4.25,-0.12) node[below,font=\\footnotesize] {$5$};\n\\node at (4.4,3.4) {$y=6x-x^{2}$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $4$ strips is used to estimate $\\int_{1}^{5}\\left(6x-x^{2}\\right)dx$. How does the estimate compare with the exact value?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0.85,0) -- (0.85,1.7) -- (1.7,2.72) -- (2.55,3.06) -- (3.4,2.72) -- (4.25,1.7) -- (4.25,0) -- cycle;\n\\draw[->] (-0.6,0) -- (5.4,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.9) node[above] {$y$};\n\\draw[thick,domain=1:5,smooth,variable=\\x] plot ({0.85*\\x},{0.34*(6*\\x-\\x*\\x)});\n\\draw (0.85,0) -- (0.85,1.7);\n\\draw (1.7,0) -- (1.7,2.72);\n\\draw (2.55,0) -- (2.55,3.06);\n\\draw (3.4,0) -- (3.4,2.72);\n\\draw (4.25,0) -- (4.25,1.7);\n\\draw[thick] (0.85,1.7) -- (1.7,2.72) -- (2.55,3.06) -- (3.4,2.72) -- (4.25,1.7);\n\\draw (0.85,0.12) -- (0.85,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (1.7,0.12) -- (1.7,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (2.55,0.12) -- (2.55,-0.12) node[below,font=\\footnotesize] {$3$};\n\\draw (3.4,0.12) -- (3.4,-0.12) node[below,font=\\footnotesize] {$4$};\n\\draw (4.25,0.12) -- (4.25,-0.12) node[below,font=\\footnotesize] {$5$};\n\\node at (4.4,3.4) {$y=6x-x^{2}$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $4$ strips is used to estimate $\\int_{1}^{5}\\left(6x-x^{2}\\right)dx$.\nHow does the estimate compare with the exact value?",
       "structure": "over-or-under-estimate",
       "mastery": false,
       "options": [
-        { "text": "Less than the exact value, because the curve is concave down so every chord lies below it.", "correct": true },
-        { "text": "Greater than the exact value, because the curve is concave down so every chord lies above it.", "why": "Correct concavity but the chord is placed on the wrong side of a concave-down curve." },
-        { "text": "Greater than the exact value, because the trapezia bulge outwards near the maximum at $x=3$.", "why": "Reads the shape of the graph near its turning point instead of applying the concavity rule." },
-        { "text": "Equal to the exact value, because the interval is symmetric about the turning point.", "why": "Assumes symmetry makes the rule exact; symmetry does not remove the gap between a chord and a curve." }
+        {
+          "text": "Less than the exact value, because the curve is concave down so every chord lies below it.",
+          "correct": true
+        },
+        {
+          "text": "Greater than the exact value, because the curve is concave down so every chord lies above it.",
+          "why": "Correct concavity but the chord is placed on the wrong side of a concave-down curve."
+        },
+        {
+          "text": "Greater than the exact value, because the trapezia bulge outwards near the maximum at $x=3$.",
+          "why": "Reads the shape of the graph near its turning point instead of applying the concavity rule."
+        },
+        {
+          "text": "Equal to the exact value, because the interval is symmetric about the turning point.",
+          "why": "Assumes symmetry makes the rule exact; symmetry does not remove the gap between a chord and a curve."
+        }
       ],
       "solution_text": "$y=6x-x^{2}$\n$y'=6-2x$\n$y''=-2$\n$y''<0$, so the curve is concave down on $1\\le x\\le 5$.\nEvery chord lies below the curve, so the estimate is less than the exact value."
     },
     {
       "id": "q7",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0,0) -- (0,0.35) -- (0.85,0.394) -- (1.7,0.7) -- (2.55,1.531) -- (3.4,3.15) -- (3.4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.0) node[above] {$y$};\n\\draw[thick,domain=0:2,smooth,variable=\\x] plot ({1.7*\\x},{0.35*(\\x*\\x*\\x+1)});\n\\draw (0,0) -- (0,0.35);\n\\draw (0.85,0) -- (0.85,0.394);\n\\draw (1.7,0) -- (1.7,0.7);\n\\draw (2.55,0) -- (2.55,1.531);\n\\draw (3.4,0) -- (3.4,3.15);\n\\draw[thick] (0,0.35) -- (0.85,0.394) -- (1.7,0.7) -- (2.55,1.531) -- (3.4,3.15);\n\\draw (0.85,0.12) -- (0.85,-0.12) node[below,font=\\footnotesize] {$0.5$};\n\\draw (1.7,0.12) -- (1.7,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (2.55,0.12) -- (2.55,-0.12) node[below,font=\\footnotesize] {$1.5$};\n\\draw (3.4,0.12) -- (3.4,-0.12) node[below,font=\\footnotesize] {$2$};\n\\node at (1.5,3.4) {$y=x^{3}+1$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $2$ strips gives $\\int_{0}^{2}\\left(x^{3}+1\\right)dx\\approx7$. What does the rule give with the $4$ strips shown in the diagram?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\fill[gray!20] (0,0) -- (0,0.35) -- (0.85,0.394) -- (1.7,0.7) -- (2.55,1.531) -- (3.4,3.15) -- (3.4,0) -- cycle;\n\\draw[->] (-0.6,0) -- (4.5,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,4.0) node[above] {$y$};\n\\draw[thick,domain=0:2,smooth,variable=\\x] plot ({1.7*\\x},{0.35*(\\x*\\x*\\x+1)});\n\\draw (0,0) -- (0,0.35);\n\\draw (0.85,0) -- (0.85,0.394);\n\\draw (1.7,0) -- (1.7,0.7);\n\\draw (2.55,0) -- (2.55,1.531);\n\\draw (3.4,0) -- (3.4,3.15);\n\\draw[thick] (0,0.35) -- (0.85,0.394) -- (1.7,0.7) -- (2.55,1.531) -- (3.4,3.15);\n\\draw (0.85,0.12) -- (0.85,-0.12) node[below,font=\\footnotesize] {$0.5$};\n\\draw (1.7,0.12) -- (1.7,-0.12) node[below,font=\\footnotesize] {$1$};\n\\draw (2.55,0.12) -- (2.55,-0.12) node[below,font=\\footnotesize] {$1.5$};\n\\draw (3.4,0.12) -- (3.4,-0.12) node[below,font=\\footnotesize] {$2$};\n\\node at (1.5,3.4) {$y=x^{3}+1$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $2$ strips gives $\\int_{0}^{2}\\left(x^{3}+1\\right)dx\\approx7$.\nWhat does the rule give with the $4$ strips shown in the diagram?",
       "structure": "compare-strip-counts",
       "mastery": true,
       "options": [
-        { "text": "$6.25$", "correct": true },
-        { "text": "$7$", "why": "Kept the two-strip answer, using $h=1$ instead of recalculating $h=0.5$ for four strips." },
-        { "text": "$12.5$", "why": "Multiplied by $h$ instead of $\\frac{h}{2}$, so the four-strip result is doubled." },
-        { "text": "$4.375$", "why": "Added the five ordinates without doubling the three interior ones." }
+        {
+          "text": "$6.25$",
+          "correct": true
+        },
+        {
+          "text": "$7$",
+          "why": "Kept the two-strip answer, using $h=1$ instead of recalculating $h=0.5$ for four strips."
+        },
+        {
+          "text": "$12.5$",
+          "why": "Multiplied by $h$ instead of $\\frac{h}{2}$, so the four-strip result is doubled."
+        },
+        {
+          "text": "$4.375$",
+          "why": "Added the five ordinates without doubling the three interior ones."
+        }
       ],
       "solution_text": "$h=\\frac{2-0}{4}$\n$=0.5$\n$\\begin{array}{c|c|c|c|c|c}x&0&0.5&1&1.5&2\\\\\\hline y&1&1.125&2&4.375&9\\end{array}$\n$\\int_{0}^{2}\\left(x^{3}+1\\right)dx$\n$\\approx\\frac{0.5}{2}\\left[1+9+2(1.125+2+4.375)\\right]$\n$\\approx0.25(10+15)$\n$\\approx6.25$"
     },
     {
       "id": "q8",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.9) node[above] {$y$};\n\\draw (0,0) -- (0,1.5);\n\\draw (1.1,0) -- (1.1,2.7);\n\\draw (3.3,0) -- (3.3,2.1);\n\\draw (4.4,0) -- (4.4,0.9);\n\\draw[dashed] (2.2,0) -- (2.2,3.4) node[above] {$?$};\n\\node[below left] at (0,-0.05) {$0$};\n\\draw (1.1,0.12) -- (1.1,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (2.2,0.12) -- (2.2,-0.12) node[below,font=\\footnotesize] {$4$};\n\\draw (3.3,0.12) -- (3.3,-0.12) node[below,font=\\footnotesize] {$6$};\n\\draw (4.4,0.12) -- (4.4,-0.12) node[below,font=\\footnotesize] {$8$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $4$ strips gives $\\int_{0}^{8}f(x)\\,dx\\approx62$. Four of the five ordinates are $f(0)=5$, $f(2)=9$, $f(6)=7$ and $f(8)=3$. What is $f(4)$?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (5.5,0) node[right] {$x$};\n\\draw[->] (0,-0.6) -- (0,3.9) node[above] {$y$};\n\\draw (0,0) -- (0,1.5);\n\\draw (1.1,0) -- (1.1,2.7);\n\\draw (3.3,0) -- (3.3,2.1);\n\\draw (4.4,0) -- (4.4,0.9);\n\\draw[dashed] (2.2,0) -- (2.2,3.4) node[above] {$?$};\n\\node[below left] at (0,-0.05) {$0$};\n\\draw (1.1,0.12) -- (1.1,-0.12) node[below,font=\\footnotesize] {$2$};\n\\draw (2.2,0.12) -- (2.2,-0.12) node[below,font=\\footnotesize] {$4$};\n\\draw (3.3,0.12) -- (3.3,-0.12) node[below,font=\\footnotesize] {$6$};\n\\draw (4.4,0.12) -- (4.4,-0.12) node[below,font=\\footnotesize] {$8$};\n\\end{tikzpicture}\n[/tikz]\nThe Trapezoidal rule with $4$ strips gives $\\int_{0}^{8}f(x)\\,dx\\approx62$.\nFour of the five ordinates are $f(0)=5$, $f(2)=9$, $f(6)=7$ and $f(8)=3$.\nWhat is $f(4)$?",
       "structure": "reverse-ordinate",
       "mastery": true,
       "options": [
-        { "text": "$11$", "correct": true },
-        { "text": "$7$", "why": "Doubled every ordinate, including $f(0)$ and $f(8)$, before solving." },
-        { "text": "$38$", "why": "Doubled none of the ordinates, so the interior values were counted only once." },
-        { "text": "$18.75$", "why": "Used $h=\\frac{8}{5}$, dividing by the number of ordinates instead of the $4$ strips." }
+        {
+          "text": "$11$",
+          "correct": true
+        },
+        {
+          "text": "$7$",
+          "why": "Doubled every ordinate, including $f(0)$ and $f(8)$, before solving."
+        },
+        {
+          "text": "$38$",
+          "why": "Doubled none of the ordinates, so the interior values were counted only once."
+        },
+        {
+          "text": "$18.75$",
+          "why": "Used $h=\\frac{8}{5}$, dividing by the number of ordinates instead of the $4$ strips."
+        }
       ],
       "solution_text": "$h=\\frac{8-0}{4}$\n$=2$\n$\\frac{2}{2}\\left[5+3+2\\left(9+f(4)+7\\right)\\right]=62$\n$8+32+2f(4)=62$\n$2f(4)=22$\n$f(4)=11$"
     },
     {
       "id": "q9",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (5.3,0) node[right] {$x$};\n\\draw[->] (0,-1.3) -- (0,4.0) node[above] {$y$};\n\\draw (0,0) -- (0,0.68);\n\\draw (1.05,0) -- (1.05,2.04);\n\\draw (2.1,0) -- (2.1,3.06);\n\\draw (3.15,0) -- (3.15,2.38);\n\\draw (4.2,0) -- (4.2,1.36);\n\\draw[thick] (0,0.68) -- (1.05,2.04) -- (2.1,3.06) -- (3.15,2.38) -- (4.2,1.36);\n\\node[above left,font=\\small] at (0,0.68) {$2$};\n\\node[above,font=\\small] at (1.05,2.04) {$6$};\n\\node[above,font=\\small] at (2.1,3.06) {$9$};\n\\node[above,font=\\small] at (3.15,2.38) {$7$};\n\\node[above right,font=\\small] at (4.2,1.36) {$4$};\n\\draw[<->] (0,-0.9) -- (1.05,-0.9) node[midway,below] {$h$};\n\\end{tikzpicture}\n[/tikz]\nFive equally spaced function values $2$, $6$, $9$, $7$, $4$ are used in the Trapezoidal rule and give an estimate of $62.5$. What is the strip width $h$?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[->] (-0.6,0) -- (5.3,0) node[right] {$x$};\n\\draw[->] (0,-1.3) -- (0,4.0) node[above] {$y$};\n\\draw (0,0) -- (0,0.68);\n\\draw (1.05,0) -- (1.05,2.04);\n\\draw (2.1,0) -- (2.1,3.06);\n\\draw (3.15,0) -- (3.15,2.38);\n\\draw (4.2,0) -- (4.2,1.36);\n\\draw[thick] (0,0.68) -- (1.05,2.04) -- (2.1,3.06) -- (3.15,2.38) -- (4.2,1.36);\n\\node[above left,font=\\small] at (0,0.68) {$2$};\n\\node[above,font=\\small] at (1.05,2.04) {$6$};\n\\node[above,font=\\small] at (2.1,3.06) {$9$};\n\\node[above,font=\\small] at (3.15,2.38) {$7$};\n\\node[above right,font=\\small] at (4.2,1.36) {$4$};\n\\draw[<->] (0,-0.9) -- (1.05,-0.9) node[midway,below] {$h$};\n\\end{tikzpicture}\n[/tikz]\nFive equally spaced function values $2$, $6$, $9$, $7$, $4$ are used in the Trapezoidal rule and give an estimate of $62.5$.\nWhat is the strip width $h$?",
       "structure": "reverse-ordinate",
       "mastery": true,
       "options": [
-        { "text": "$2.5$", "correct": true },
-        { "text": "$1.25$", "why": "Solved $50h=62.5$, using $h$ in place of $\\frac{h}{2}$ in the rule." },
-        { "text": "$2.232$", "why": "Doubled the two end ordinates as well, giving a bracket total of $56$ instead of $50$." },
-        { "text": "$4.464$", "why": "Doubled none of the ordinates, giving a bracket total of $28$ instead of $50$." }
+        {
+          "text": "$2.5$",
+          "correct": true
+        },
+        {
+          "text": "$1.25$",
+          "why": "Solved $50h=62.5$, using $h$ in place of $\\frac{h}{2}$ in the rule."
+        },
+        {
+          "text": "$2.232$",
+          "why": "Doubled the two end ordinates as well, giving a bracket total of $56$ instead of $50$."
+        },
+        {
+          "text": "$4.464$",
+          "why": "Doubled none of the ordinates, giving a bracket total of $28$ instead of $50$."
+        }
       ],
       "solution_text": "$\\frac{h}{2}\\left[2+4+2(6+9+7)\\right]=62.5$\n$\\frac{h}{2}(6+44)=62.5$\n$25h=62.5$\n$h=2.5$"
+    },
+    {
+      "id": "dq-131041",
+      "question_text": "Which of these is true about the trapezium rule?",
+      "structure": "over-or-under-estimate",
+      "mastery": false,
+      "options": [
+        {
+          "text": "A: It always underestimates the true area",
+          "why": "The error direction depends on the curve's concavity."
+        },
+        {
+          "text": "B: It overestimates when the curve is convex, and underestimates when the curve is concave",
+          "correct": true
+        },
+        {
+          "text": "C: It overestimates when the curve is increasing, and underestimates when the curve is decreasing",
+          "why": "Increasing or decreasing behavior does not determine the error direction."
+        },
+        {
+          "text": "D: It overestimates when the curve is concave, and underestimates when the curve is convex",
+          "why": "This reverses the effects of convexity and concavity."
+        }
+      ],
+      "solution_text": "For a convex curve, the straight-line chords lie above the curve, so the trapezium rule overestimates the area. For a concave curve, the chords lie below the curve, so it underestimates the area."
     }
   ]
 }

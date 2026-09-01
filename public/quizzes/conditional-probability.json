@@ -3,120 +3,253 @@
   "questions": [
     {
       "id": "q1",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$L$};\n\\node at (6.1,4.15) {$C$};\n\\node at (2.15,2.3) {$4$};\n\\node at (4,2.3) {$5$};\n\\node at (5.85,2.3) {$13$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $28$ students, where $L$ is 'the student is left-handed' and $C$ is 'the student buys lunch at the canteen'. Find $P(L \\mid C)$ as a fraction in simplest form.",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$L$};\n\\node at (6.1,4.15) {$C$};\n\\node at (2.15,2.3) {$4$};\n\\node at (4,2.3) {$5$};\n\\node at (5.85,2.3) {$13$};\n\\node at (7.3,0.5) {$6$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $28$ students, where $L$ is 'the student is left-handed' and $C$ is 'the student buys lunch at the canteen'.\nFind $P(L \\mid C)$ as a fraction in simplest form.",
       "structure": "conditional-from-venn",
       "mastery": false,
       "options": [
-        { "text": "$\\frac{5}{18}$", "correct": true },
-        { "text": "$\\frac{5}{9}$", "why": "Divided by $n(L) = 9$ instead of $n(C) = 18$, which reverses the condition and gives $P(C \\mid L)$." },
-        { "text": "$\\frac{5}{28}$", "why": "Kept the whole survey of $28$ as the denominator, so this is $P(L \\cap C)$ and ignores the reduced sample space." },
-        { "text": "$\\frac{9}{28}$", "why": "Gave the unconditional $P(L)$ by using the whole $L$ circle over the whole survey." }
+        {
+          "text": "$\\frac{5}{18}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{5}{9}$",
+          "why": "Divided by $n(L) = 9$ instead of $n(C) = 18$, which reverses the condition and gives $P(C \\mid L)$."
+        },
+        {
+          "text": "$\\frac{5}{28}$",
+          "why": "Kept the whole survey of $28$ as the denominator, so this is $P(L \\cap C)$ and ignores the reduced sample space."
+        },
+        {
+          "text": "$\\frac{9}{28}$",
+          "why": "Gave the unconditional $P(L)$ by using the whole $L$ circle over the whole survey."
+        }
       ],
       "solution_text": "The condition is $C$, so the sample space is reduced to the $5 + 13 = 18$ students in $C$.\nOf those $18$, the $5$ in the overlap are left-handed.\n$P(L \\mid C) = \\frac{n(L \\cap C)}{n(C)}$\n$= \\frac{5}{18}$"
     },
     {
       "id": "q2",
-      "question_text": "The two-way table shows the lunch orders placed by $72$ students at a school canteen.\n$\\begin{array}{l|c|c|c} & \\text{Year 7} & \\text{Year 8} & \\text{Total} \\\\ \\hline \\text{Hot food} & 24 & 12 & 36 \\\\ \\text{Sandwich} & 16 & 20 & 36 \\\\ \\hline \\text{Total} & 40 & 32 & 72 \\end{array}$\nOne order is chosen at random. Find the probability that it is hot food, given that it was placed by a Year $8$ student, as a fraction in simplest form.",
+      "question_text": "The two-way table shows the lunch orders placed by $72$ students at a school canteen.\n$\\begin{array}{l|c|c|c} & \\text{Year 7} & \\text{Year 8} & \\text{Total} \\\\ \\hline \\text{Hot food} & 24 & 12 & 36 \\\\ \\text{Sandwich} & 16 & 20 & 36 \\\\ \\hline \\text{Total} & 40 & 32 & 72 \\end{array}$\nOne order is chosen at random.\nFind the probability that it is hot food, given that it was placed by a Year $8$ student, as a fraction in simplest form.",
       "structure": "conditional-from-table",
       "mastery": false,
       "options": [
-        { "text": "$\\frac{3}{8}$", "correct": true },
-        { "text": "$\\frac{1}{3}$", "why": "Divided the $12$ by the hot food row total of $36$, which reverses the condition and gives $P(\\text{Year } 8 \\mid \\text{hot food})$." },
-        { "text": "$\\frac{1}{6}$", "why": "Used the grand total of $72$ as the denominator instead of the Year $8$ column total." },
-        { "text": "$\\frac{4}{9}$", "why": "Gave the unconditional probability of a Year $8$ order by using $32$ out of $72$." }
+        {
+          "text": "$\\frac{3}{8}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{1}{3}$",
+          "why": "Divided the $12$ by the hot food row total of $36$, which reverses the condition and gives $P(\\text{Year } 8 \\mid \\text{hot food})$."
+        },
+        {
+          "text": "$\\frac{1}{6}$",
+          "why": "Used the grand total of $72$ as the denominator instead of the Year $8$ column total."
+        },
+        {
+          "text": "$\\frac{4}{9}$",
+          "why": "Gave the unconditional probability of a Year $8$ order by using $32$ out of $72$."
+        }
       ],
       "solution_text": "The condition restricts the sample space to the Year $8$ column, whose total is $32$.\nOf those $32$ orders, $12$ are hot food.\n$P(\\text{hot food} \\mid \\text{Year } 8) = \\frac{12}{32}$\n$= \\frac{3}{8}$"
     },
     {
       "id": "q3",
-      "question_text": "In a class of $32$ students, $20$ walk to school, $14$ have a part-time job and $9$ both walk and have a part-time job. One student is chosen at random. Find the probability that the student walks to school, given that they have a part-time job, as a fraction in simplest form.",
+      "question_text": "In a class of $32$ students, $20$ walk to school, $14$ have a part-time job and $9$ both walk and have a part-time job.\nOne student is chosen at random.\nFind the probability that the student walks to school, given that they have a part-time job, as a fraction in simplest form.",
       "structure": "conditional-from-words",
       "mastery": false,
       "options": [
-        { "text": "$\\frac{9}{14}$", "correct": true },
-        { "text": "$\\frac{9}{20}$", "why": "Conditioned on walking instead of on having a job, so this is $P(\\text{job} \\mid \\text{walks})$." },
-        { "text": "$\\frac{9}{32}$", "why": "Used the whole class of $32$ as the denominator instead of reducing the sample space to the job holders." },
-        { "text": "$\\frac{7}{16}$", "why": "Gave the unconditional probability of having a part-time job, $14$ out of $32$, ignoring the condition." }
+        {
+          "text": "$\\frac{9}{14}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{9}{20}$",
+          "why": "Conditioned on walking instead of on having a job, so this is $P(\\text{job} \\mid \\text{walks})$."
+        },
+        {
+          "text": "$\\frac{9}{32}$",
+          "why": "Used the whole class of $32$ as the denominator instead of reducing the sample space to the job holders."
+        },
+        {
+          "text": "$\\frac{7}{16}$",
+          "why": "Gave the unconditional probability of having a part-time job, $14$ out of $32$, ignoring the condition."
+        }
       ],
       "solution_text": "The condition is 'has a part-time job', so the sample space is reduced to those $14$ students.\nOf those $14$, the $9$ who also walk are favourable.\n$P(\\text{walks} \\mid \\text{job}) = \\frac{9}{14}$"
     },
     {
       "id": "q4",
-      "question_text": "Let $B$ be the event 'a student catches the bus to school' and $J$ be the event 'a student has a part-time job'. Which expression represents 'the probability that a student catches the bus, knowing that they have a part-time job'?",
+      "question_text": "Let $B$ be the event 'a student catches the bus to school' and $J$ be the event 'a student has a part-time job'.\nWhich expression represents 'the probability that a student catches the bus, knowing that they have a part-time job'?",
       "structure": "translate-condition-to-notation",
       "mastery": false,
       "options": [
-        { "text": "$P(B \\mid J)$", "correct": true },
-        { "text": "$P(J \\mid B)$", "why": "Writes the events in the order the words appear, putting the event before the bar and the condition first." },
-        { "text": "$P(B \\cap J)$", "why": "Reads 'knowing that' as 'and', so no reduction of the sample space is made." },
-        { "text": "$P(B)$", "why": "Ignores the condition altogether and gives the unconditional probability of catching the bus." }
+        {
+          "text": "$P(B \\mid J)$",
+          "correct": true
+        },
+        {
+          "text": "$P(J \\mid B)$",
+          "why": "Writes the events in the order the words appear, putting the event before the bar and the condition first."
+        },
+        {
+          "text": "$P(B \\cap J)$",
+          "why": "Reads 'knowing that' as 'and', so no reduction of the sample space is made."
+        },
+        {
+          "text": "$P(B)$",
+          "why": "Ignores the condition altogether and gives the unconditional probability of catching the bus."
+        }
       ],
       "solution_text": "'Knowing that they have a part-time job' names the condition, so $J$ goes after the bar.\nThe event asked about is catching the bus, so $B$ goes before the bar.\n$P(B \\mid J)$"
     },
     {
       "id": "q5",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$7$};\n\\node at (4,2.3) {$8$};\n\\node at (5.85,2.3) {$16$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $36$ students, where $J$ is 'the student has a part-time job' and $B$ is 'the student catches the bus to school'. Asked for $P(J \\mid B)$, a student writes $\\frac{8}{15}$. Which statement correctly identifies the mistake?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$7$};\n\\node at (4,2.3) {$8$};\n\\node at (5.85,2.3) {$16$};\n\\node at (7.3,0.5) {$5$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $36$ students, where $J$ is 'the student has a part-time job' and $B$ is 'the student catches the bus to school'.\nAsked for $P(J \\mid B)$, a student writes $\\frac{8}{15}$.\nWhich statement correctly identifies the mistake?",
       "structure": "identify-reversal-mistake",
       "mastery": false,
       "options": [
-        { "text": "They divided by $n(J) = 15$ instead of $n(B) = 24$, so they have found $P(B \\mid J)$ instead.", "correct": true },
-        { "text": "They divided by the whole sample space of $36$ instead of reducing it to the condition.", "why": "Confuses the reduced-sample-space error with the reversal error; using $36$ would have produced $\\frac{8}{36}$, not $\\frac{8}{15}$." },
-        { "text": "They used $n(J \\cap B)$ as the numerator when $n(B)$ was needed.", "why": "Believes the condition supplies the numerator, when the condition supplies the denominator and the overlap supplies the numerator." },
-        { "text": "They included the $5$ students in neither event in the reduced sample space.", "why": "Assumes the outside region joins the condition, when the condition removes every student outside $B$." }
+        {
+          "text": "They divided by $n(J) = 15$ instead of $n(B) = 24$, so they have found $P(B \\mid J)$ instead.",
+          "correct": true
+        },
+        {
+          "text": "They divided by the whole sample space of $36$ instead of reducing it to the condition.",
+          "why": "Confuses the reduced-sample-space error with the reversal error; using $36$ would have produced $\\frac{8}{36}$, not $\\frac{8}{15}$."
+        },
+        {
+          "text": "They used $n(J \\cap B)$ as the numerator when $n(B)$ was needed.",
+          "why": "Believes the condition supplies the numerator, when the condition supplies the denominator and the overlap supplies the numerator."
+        },
+        {
+          "text": "They included the $5$ students in neither event in the reduced sample space.",
+          "why": "Assumes the outside region joins the condition, when the condition removes every student outside $B$."
+        }
       ],
       "solution_text": "The condition is $B$, so the denominator must be $n(B) = 8 + 16 = 24$.\nThe student used $n(J) = 7 + 8 = 15$, which is the denominator for the reversed conditional.\n$\\frac{8}{15} = P(B \\mid J)$\n$P(J \\mid B) = \\frac{8}{24}$\n$= \\frac{1}{3}$"
     },
     {
       "id": "q6",
-      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$6$};\n\\node at (4,2.3) {$9$};\n\\node at (5.85,2.3) {$18$};\n\\node at (7.3,0.5) {$12$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $45$ students, where $J$ is 'the student has a part-time job' and $B$ is 'the student catches the bus to school'. What effect does the condition 'given that the student catches the bus' have on the sample space?",
+      "question_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\draw (3,2.3) circle (1.7);\n\\draw (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$6$};\n\\node at (4,2.3) {$9$};\n\\node at (5.85,2.3) {$18$};\n\\node at (7.3,0.5) {$12$};\n\\end{tikzpicture}\n[/tikz]\nThe Venn diagram shows a survey of $45$ students, where $J$ is 'the student has a part-time job' and $B$ is 'the student catches the bus to school'.\nWhat effect does the condition 'given that the student catches the bus' have on the sample space?",
       "structure": "describe-effect-on-sample-space",
       "mastery": false,
       "options": [
-        { "text": "It reduces the sample space from $45$ students to the $27$ students in $B$.", "correct": true },
-        { "text": "It reduces the sample space from $45$ students to the $9$ students in both events.", "why": "Confuses the reduced sample space with the reduced event space, which is the overlap $J \\cap B$." },
-        { "text": "It reduces the sample space from $45$ students to the $15$ students in $J$.", "why": "Reduces to the event being asked about rather than to the event named by the condition." },
-        { "text": "It leaves the sample space at $45$ students and changes only the favourable outcomes.", "why": "Treats a condition as narrowing the numerator only, so the denominator is never reduced." }
+        {
+          "text": "It reduces the sample space from $45$ students to the $27$ students in $B$.",
+          "correct": true
+        },
+        {
+          "text": "It reduces the sample space from $45$ students to the $9$ students in both events.",
+          "why": "Confuses the reduced sample space with the reduced event space, which is the overlap $J \\cap B$."
+        },
+        {
+          "text": "It reduces the sample space from $45$ students to the $15$ students in $J$.",
+          "why": "Reduces to the event being asked about rather than to the event named by the condition."
+        },
+        {
+          "text": "It leaves the sample space at $45$ students and changes only the favourable outcomes.",
+          "why": "Treats a condition as narrowing the numerator only, so the denominator is never reduced."
+        }
       ],
       "solution_text": "The condition rules out every student outside $B$, so the $6$ in $J$ only and the $12$ in neither event are removed.\n$n(B) = 9 + 18$\n$= 27$\nThe sample space is reduced from $45$ students to those $27$ bus catchers, and the denominator becomes $27$."
     },
     {
       "id": "q7",
-      "question_text": "At a large school, $P(B) = 0.4$, $P(J) = 0.25$ and $P(J \\cap B) = 0.14$, where $B$ is 'a student catches the bus to school' and $J$ is 'a student has a part-time job'. Find $P(J \\mid B)$ as a decimal.",
+      "question_text": "At a large school, $P(B) = 0.4$, $P(J) = 0.25$ and $P(J \\cap B) = 0.14$, where $B$ is 'a student catches the bus to school' and $J$ is 'a student has a part-time job'.\nFind $P(J \\mid B)$ as a decimal.",
       "structure": "conditional-from-probabilities",
       "mastery": false,
       "options": [
-        { "text": "$0.35$", "correct": true },
-        { "text": "$0.56$", "why": "Divided by $P(J)$ instead of $P(B)$, which reverses the condition and gives $P(B \\mid J)$." },
-        { "text": "$0.14$", "why": "Stopped at the intersection probability without dividing by the probability of the condition." },
-        { "text": "$0.25$", "why": "Gave the unconditional $P(J)$, ignoring the reduction of the sample space to $B$." }
+        {
+          "text": "$0.35$",
+          "correct": true
+        },
+        {
+          "text": "$0.56$",
+          "why": "Divided by $P(J)$ instead of $P(B)$, which reverses the condition and gives $P(B \\mid J)$."
+        },
+        {
+          "text": "$0.14$",
+          "why": "Stopped at the intersection probability without dividing by the probability of the condition."
+        },
+        {
+          "text": "$0.25$",
+          "why": "Gave the unconditional $P(J)$, ignoring the reduction of the sample space to $B$."
+        }
       ],
       "solution_text": "The condition is $B$, so the denominator is $P(B)$.\n$P(J \\mid B) = \\frac{P(J \\cap B)}{P(B)}$\n$= \\frac{0.14}{0.4}$\n$= 0.35$"
     },
     {
       "id": "q8",
-      "question_text": "At a large school, $30\\%$ of students are left-handed and $60\\%$ catch the bus to school. Being left-handed and catching the bus are independent events. Find $P(L \\mid B)$ as a percentage, where $L$ is 'the student is left-handed' and $B$ is 'the student catches the bus'.",
+      "question_text": "At a large school, $30\\%$ of students are left-handed and $60\\%$ catch the bus to school.\nBeing left-handed and catching the bus are independent events.\nFind $P(L \\mid B)$ as a percentage, where $L$ is 'the student is left-handed' and $B$ is 'the student catches the bus'.",
       "structure": "condition-with-independent-events",
       "mastery": false,
       "options": [
-        { "text": "$30\\%$", "correct": true },
-        { "text": "$60\\%$", "why": "Swapped the event and the condition, giving $P(B \\mid L)$ rather than $P(L \\mid B)$." },
-        { "text": "$50\\%$", "why": "Divided $30\\%$ by $60\\%$ as though $P(L)$ were the intersection probability." },
-        { "text": "$18\\%$", "why": "Multiplied $30\\%$ by $60\\%$, which gives $P(L \\cap B)$ rather than the conditional probability." }
+        {
+          "text": "$30\\%$",
+          "correct": true
+        },
+        {
+          "text": "$60\\%$",
+          "why": "Swapped the event and the condition, giving $P(B \\mid L)$ rather than $P(L \\mid B)$."
+        },
+        {
+          "text": "$50\\%$",
+          "why": "Divided $30\\%$ by $60\\%$ as though $P(L)$ were the intersection probability."
+        },
+        {
+          "text": "$18\\%$",
+          "why": "Multiplied $30\\%$ by $60\\%$, which gives $P(L \\cap B)$ rather than the conditional probability."
+        }
       ],
       "solution_text": "The events are independent, so knowing that a student catches the bus gives no new information about being left-handed.\nThe bus catchers contain the same proportion of left-handed students as the whole school.\n$P(L \\mid B) = P(L)$\n$= 30\\%$"
     },
     {
       "id": "q9",
-      "question_text": "In a survey of $48$ students, $30$ catch the bus to school, $22$ have a part-time job and $8$ do neither. One student is chosen at random. Find the probability that the student has a part-time job, given that they catch the bus, as a fraction in simplest form.",
+      "question_text": "In a survey of $48$ students, $30$ catch the bus to school, $22$ have a part-time job and $8$ do neither.\nOne student is chosen at random.\nFind the probability that the student has a part-time job, given that they catch the bus, as a fraction in simplest form.",
       "structure": "conditional-from-words",
       "mastery": true,
       "options": [
-        { "text": "$\\frac{2}{5}$", "correct": true },
-        { "text": "$\\frac{6}{11}$", "why": "Divided the $12$ in both events by the $22$ job holders, which reverses the condition and gives $P(B \\mid J)$." },
-        { "text": "$\\frac{1}{4}$", "why": "Used the whole survey of $48$ as the denominator instead of reducing it to the bus catchers." },
-        { "text": "$\\frac{11}{24}$", "why": "Gave the unconditional probability of having a part-time job, $22$ out of $48$." }
+        {
+          "text": "$\\frac{2}{5}$",
+          "correct": true
+        },
+        {
+          "text": "$\\frac{6}{11}$",
+          "why": "Divided the $12$ in both events by the $22$ job holders, which reverses the condition and gives $P(B \\mid J)$."
+        },
+        {
+          "text": "$\\frac{1}{4}$",
+          "why": "Used the whole survey of $48$ as the denominator instead of reducing it to the bus catchers."
+        },
+        {
+          "text": "$\\frac{11}{24}$",
+          "why": "Gave the unconditional probability of having a part-time job, $22$ out of $48$."
+        }
       ],
       "solution_text": "1. **Reduce the sample space to the condition**\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{patterns}\n\\draw (0,0) rectangle (8,4.6);\n\\node[anchor=north west, font=\\small] at (0.15,4.5) {$\\xi$};\n\\begin{scope}\n\\clip (3,2.3) circle (1.7);\n\\fill[gray!35] (5,2.3) circle (1.7);\n\\end{scope}\n\\draw (3,2.3) circle (1.7);\n\\draw[thick] (5,2.3) circle (1.7);\n\\node at (1.9,4.15) {$J$};\n\\node at (6.1,4.15) {$B$};\n\\node at (2.15,2.3) {$10$};\n\\node at (4,2.3) {$12$};\n\\node at (5.85,2.3) {$18$};\n\\node at (7.3,0.5) {$8$};\n\\end{tikzpicture}\n[/tikz]\nLet $x$ be the number in both events. The four regions must add to $48$.\n$(30 - x) + x + (22 - x) + 8 = 48$\n$60 - x = 48$\n$x = 12$\nThe condition reduces the sample space to the $30$ students inside the thick circle.\n2. **Count the favourable outcomes inside it**\nOf those $30$, the $12$ in the shaded region have a part-time job.\n3. **Write the fraction and simplify**\n$P(J \\mid B) = \\frac{12}{30}$\n$= \\frac{2}{5}$"
+    },
+    {
+      "id": "dq-119717",
+      "question_text": "In general, $P(M\\mid N)=\\dots$",
+      "structure": "translate-condition-to-notation",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$P(M\\cap N)$",
+          "why": "This is the joint probability, not a conditional probability."
+        },
+        {
+          "text": "$\\frac{P(M\\cap N)}{P(M)}$",
+          "why": "This conditions on M instead of conditioning on N."
+        },
+        {
+          "text": "$P(N\\mid M)$",
+          "why": "This reverses the conditioning events and is generally different."
+        },
+        {
+          "text": "$\\frac{P(M\\cap N)}{P(N)}$",
+          "correct": true
+        }
+      ],
+      "solution_text": "The conditional probability of M given N is the probability of both M and N divided by the probability of N: $P(M\\mid N)=\\frac{P(M\\cap N)}{P(N)}$."
     }
   ]
 }

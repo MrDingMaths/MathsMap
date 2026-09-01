@@ -3,40 +3,76 @@
   "questions": [
     {
       "id": "q1",
-      "question_text": "The graph below shows a cubic polynomial with leading coefficient $1$. Which is its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6.6,0)--(8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.85:7.23,smooth,variable=\\x,samples=60] plot ({\\x},{0.038*(\\x+5)*(\\x-2)*(\\x-6)});\n\\fill (-5,0) circle (2pt);\n\\node[below left] at (-5,0) {$(-5,0)$};\n\\fill (2,0) circle (2pt);\n\\node[below left] at (2,0) {$(2,0)$};\n\\fill (6,0) circle (2pt);\n\\node[below right] at (6,0) {$(6,0)$};\n\\fill (0,2.28) circle (2pt);\n\\node[above right] at (0,2.28) {$(0,60)$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The graph below shows a cubic polynomial with leading coefficient $1$.\nWhich is its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6.6,0)--(8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.85:7.23,smooth,variable=\\x,samples=60] plot ({\\x},{0.038*(\\x+5)*(\\x-2)*(\\x-6)});\n\\fill (-5,0) circle (2pt);\n\\node[below left] at (-5,0) {$(-5,0)$};\n\\fill (2,0) circle (2pt);\n\\node[below left] at (2,0) {$(2,0)$};\n\\fill (6,0) circle (2pt);\n\\node[below right] at (6,0) {$(6,0)$};\n\\fill (0,2.28) circle (2pt);\n\\node[above right] at (0,2.28) {$(0,60)$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "read-monic-cubic",
       "mastery": false,
       "options": [
-        { "text": "$y=(x+5)(x-2)(x-6)$", "correct": true },
-        { "text": "$y=(x-5)(x+2)(x+6)$", "why": "Every root was read with the opposite sign — a crossing at $x=-5$ needs the factor $(x+5)$." },
-        { "text": "$y=-(x+5)(x-2)(x-6)$", "why": "The curve rises to the right, so the leading coefficient is positive, not negative." },
-        { "text": "$y=(x+5)(x-2)(x-6)+60$", "why": "The $y$-intercept $60$ is already produced by the factors $(5)(-2)(-6)$; adding it shifts the curve off its roots." }
+        {
+          "text": "$y=(x+5)(x-2)(x-6)$",
+          "correct": true
+        },
+        {
+          "text": "$y=(x-5)(x+2)(x+6)$",
+          "why": "Every root was read with the opposite sign — a crossing at $x=-5$ needs the factor $(x+5)$."
+        },
+        {
+          "text": "$y=-(x+5)(x-2)(x-6)$",
+          "why": "The curve rises to the right, so the leading coefficient is positive, not negative."
+        },
+        {
+          "text": "$y=(x+5)(x-2)(x-6)+60$",
+          "why": "The $y$-intercept $60$ is already produced by the factors $(5)(-2)(-6)$; adding it shifts the curve off its roots."
+        }
       ],
       "solution_text": "Single roots at $x=-5,\\ 2,\\ 6$ and leading coefficient $1$:\n$y=(x+5)(x-2)(x-6)$\nCheck: the $y$-intercept $(5)(-2)(-6)=60$ matches the marked point."
     },
     {
       "id": "q2",
-      "question_text": "The graph below shows a cubic polynomial $y=P(x)$. Which is the correct **form** of its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6.6,0)--(2.8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-6.0:1.87,smooth,variable=\\x] plot ({\\x},{0.10*(\\x+4)*(\\x+4)*(\\x-1)});\n\\fill (-4,0) circle (2pt);\n\\node[above left] at (-4,0) {$(-4,0)$};\n\\fill (1,0) circle (2pt);\n\\node[above right] at (1,0) {$(1,0)$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The graph below shows a cubic polynomial $y=P(x)$.\nWhich is the correct **form** of its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-6.6,0)--(2.8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-6.0:1.87,smooth,variable=\\x] plot ({\\x},{0.10*(\\x+4)*(\\x+4)*(\\x-1)});\n\\fill (-4,0) circle (2pt);\n\\node[above left] at (-4,0) {$(-4,0)$};\n\\fill (1,0) circle (2pt);\n\\node[above right] at (1,0) {$(1,0)$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "state-form-multiplicity",
       "mastery": false,
       "options": [
-        { "text": "$y=k(x+4)^{2}(x-1)$", "correct": true },
-        { "text": "$y=k(x+4)(x-1)$", "why": "The multiplicity was ignored — the curve bounces at $x=-4$, so that factor must be squared." },
-        { "text": "$y=k(x+4)(x-1)^{2}$", "why": "The square was attached to the wrong root; the bounce is at $x=-4$, and the curve cuts at $x=1$." },
-        { "text": "$y=k(x-4)^{2}(x+1)$", "why": "Both roots were read with the opposite sign — the bounce sits at $x=-4$, not $x=4$." }
+        {
+          "text": "$y=k(x+4)^{2}(x-1)$",
+          "correct": true
+        },
+        {
+          "text": "$y=k(x+4)(x-1)$",
+          "why": "The multiplicity was ignored — the curve bounces at $x=-4$, so that factor must be squared."
+        },
+        {
+          "text": "$y=k(x+4)(x-1)^{2}$",
+          "why": "The square was attached to the wrong root; the bounce is at $x=-4$, and the curve cuts at $x=1$."
+        },
+        {
+          "text": "$y=k(x-4)^{2}(x+1)$",
+          "why": "Both roots were read with the opposite sign — the bounce sits at $x=-4$, not $x=4$."
+        }
       ],
       "solution_text": "Bounce at $x=-4$ (double root); cut at $x=1$ (single root).\n$y=k(x+4)^{2}(x-1)$"
     },
     {
       "id": "q3",
-      "question_text": "The cubic graphed below has equation $y=k(x+2)(x-1)(x-4)$. Find $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.51:4.50,smooth,variable=\\x] plot ({\\x},{0.13*2*(\\x+2)*(\\x-1)*(\\x-4)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below left] at (1,0) {$(1,0)$};\n\\fill (4,0) circle (2pt);\n\\node[below right] at (4,0) {$(4,0)$};\n\\fill (0,2.08) circle (2pt);\n\\node[above right] at (0,2.08) {$(0,16)$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The cubic graphed below has equation $y=k(x+2)(x-1)(x-4)$.\nFind $k$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-3.4,0)--(5.4,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.51:4.50,smooth,variable=\\x] plot ({\\x},{0.13*2*(\\x+2)*(\\x-1)*(\\x-4)});\n\\fill (-2,0) circle (2pt);\n\\node[below left] at (-2,0) {$(-2,0)$};\n\\fill (1,0) circle (2pt);\n\\node[below left] at (1,0) {$(1,0)$};\n\\fill (4,0) circle (2pt);\n\\node[below right] at (4,0) {$(4,0)$};\n\\fill (0,2.08) circle (2pt);\n\\node[above right] at (0,2.08) {$(0,16)$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "find-k-y-intercept",
       "mastery": false,
       "options": [
-        { "text": "$k=2$", "correct": true },
-        { "text": "$k=1$", "why": "Assumed the polynomial is monic without substituting the marked point; $(2)(-1)(-4)=8\\neq16$." },
-        { "text": "$k=-2$", "why": "Sign slip in the product $(2)(-1)(-4)$ — the two negative factors give $+8$, so $16=8k$ has a positive solution." },
-        { "text": "$k=16$", "why": "Took the $y$-intercept itself as $k$ instead of dividing it by the product of the constants." }
+        {
+          "text": "$k=2$",
+          "correct": true
+        },
+        {
+          "text": "$k=1$",
+          "why": "Assumed the polynomial is monic without substituting the marked point; $(2)(-1)(-4)=8\\neq16$."
+        },
+        {
+          "text": "$k=-2$",
+          "why": "Sign slip in the product $(2)(-1)(-4)$ — the two negative factors give $+8$, so $16=8k$ has a positive solution."
+        },
+        {
+          "text": "$k=16$",
+          "why": "Took the $y$-intercept itself as $k$ instead of dividing it by the product of the constants."
+        }
       ],
       "solution_text": "Using $(0,16)$:\n$16=k(2)(-1)(-4)$\n$16=8k$\n$k=2$"
     },
@@ -46,10 +82,22 @@
       "structure": "find-k-double-root",
       "mastery": false,
       "options": [
-        { "text": "$y=3(x-3)^{2}(x+1)$", "correct": true },
-        { "text": "$y=(x-3)^{2}(x+1)$", "why": "Assumed $k=1$ without checking the marked point: it gives a $y$-intercept of $9$, not $27$." },
-        { "text": "$y=3(x-3)(x+1)^{2}$", "why": "The square was attached to the wrong root; the bounce is at $x=3$, and the cut is at $x=-1$." },
-        { "text": "$y=9(x-3)(x+1)$", "why": "The bounce at $x=3$ was drawn as a cut — the double root needs $(x-3)$ squared, not a bigger $k$." }
+        {
+          "text": "$y=3(x-3)^{2}(x+1)$",
+          "correct": true
+        },
+        {
+          "text": "$y=(x-3)^{2}(x+1)$",
+          "why": "Assumed $k=1$ without checking the marked point: it gives a $y$-intercept of $9$, not $27$."
+        },
+        {
+          "text": "$y=3(x-3)(x+1)^{2}$",
+          "why": "The square was attached to the wrong root; the bounce is at $x=3$, and the cut is at $x=-1$."
+        },
+        {
+          "text": "$y=9(x-3)(x+1)$",
+          "why": "The bounce at $x=3$ was drawn as a cut — the double root needs $(x-3)$ squared, not a bigger $k$."
+        }
       ],
       "solution_text": "Bounce at $x=3$; cut at $x=-1$:\n$y=k(x-3)^{2}(x+1)$\nUsing $(0,27)$:\n$27=k(-3)^{2}(1)$\n$27=9k$\n$k=3$\n$y=3(x-3)^{2}(x+1)$"
     },
@@ -59,51 +107,124 @@
       "structure": "find-negative-k",
       "mastery": false,
       "options": [
-        { "text": "$y=-2(x+6)(x+1)(x-2)$", "correct": true },
-        { "text": "$y=2(x+6)(x+1)(x-2)$", "why": "The sign of $k$ was not checked against the graph: this curve falls to the right, so $k$ must be negative." },
-        { "text": "$y=-2(x-6)(x-1)(x+2)$", "why": "Every root was read with the opposite sign — the crossings are at $-6$, $-1$ and $2$." },
-        { "text": "$y=24(x+6)(x+1)(x-2)$", "why": "Took the $y$-intercept itself as $k$ instead of solving $24=k(6)(1)(-2)$." }
+        {
+          "text": "$y=-2(x+6)(x+1)(x-2)$",
+          "correct": true
+        },
+        {
+          "text": "$y=2(x+6)(x+1)(x-2)$",
+          "why": "The sign of $k$ was not checked against the graph: this curve falls to the right, so $k$ must be negative."
+        },
+        {
+          "text": "$y=-2(x-6)(x-1)(x+2)$",
+          "why": "Every root was read with the opposite sign — the crossings are at $-6$, $-1$ and $2$."
+        },
+        {
+          "text": "$y=24(x+6)(x+1)(x-2)$",
+          "why": "Took the $y$-intercept itself as $k$ instead of solving $24=k(6)(1)(-2)$."
+        }
       ],
       "solution_text": "Single roots at $x=-6,\\ -1,\\ 2$:\n$y=k(x+6)(x+1)(x-2)$\nUsing $(0,24)$:\n$24=k(6)(1)(-2)$\n$24=-12k$\n$k=-2$\n$y=-2(x+6)(x+1)(x-2)$"
     },
     {
       "id": "q6",
-      "question_text": "The graph below shows a quartic polynomial with leading coefficient $1$. Which is its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.8,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.0:2.51,smooth,variable=\\x,samples=60] plot ({\\x},{0.035*(\\x+3)*(\\x+3)*(\\x+3)*(\\x-2)});\n\\fill (-3,0) circle (2pt);\n\\node[above left] at (-3,0) {$(-3,0)$};\n\\fill (2,0) circle (2pt);\n\\node[above right] at (2,0) {$(2,0)$};\n\\fill (0,-1.89) circle (2pt);\n\\node[below right] at (0,-1.89) {$(0,-54)$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The graph below shows a quartic polynomial with leading coefficient $1$.\nWhich is its equation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-5.8,0)--(3.2,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,3.4) node[above] {$y$};\n\\draw[thick,blue,<->,domain=-5.0:2.51,smooth,variable=\\x,samples=60] plot ({\\x},{0.035*(\\x+3)*(\\x+3)*(\\x+3)*(\\x-2)});\n\\fill (-3,0) circle (2pt);\n\\node[above left] at (-3,0) {$(-3,0)$};\n\\fill (2,0) circle (2pt);\n\\node[above right] at (2,0) {$(2,0)$};\n\\fill (0,-1.89) circle (2pt);\n\\node[below right] at (0,-1.89) {$(0,-54)$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "triple-root-equation",
       "mastery": false,
       "options": [
-        { "text": "$y=(x+3)^{3}(x-2)$", "correct": true },
-        { "text": "$y=(x+3)^{2}(x-2)$", "why": "The curve flattens as it crosses at $x=-3$ — an inflection, so the factor is cubed, not squared; a square would bounce." },
-        { "text": "$y=(x+3)(x-2)^{3}$", "why": "The cube was attached to the wrong root; the inflection is at $x=-3$ and the plain cut is at $x=2$." },
-        { "text": "$y=(x+3)^{3}(x+2)$", "why": "The root at $x=2$ was read with the opposite sign; a crossing at $x=2$ needs $(x-2)$." }
+        {
+          "text": "$y=(x+3)^{3}(x-2)$",
+          "correct": true
+        },
+        {
+          "text": "$y=(x+3)^{2}(x-2)$",
+          "why": "The curve flattens as it crosses at $x=-3$ — an inflection, so the factor is cubed, not squared; a square would bounce."
+        },
+        {
+          "text": "$y=(x+3)(x-2)^{3}$",
+          "why": "The cube was attached to the wrong root; the inflection is at $x=-3$ and the plain cut is at $x=2$."
+        },
+        {
+          "text": "$y=(x+3)^{3}(x+2)$",
+          "why": "The root at $x=2$ was read with the opposite sign; a crossing at $x=2$ needs $(x-2)$."
+        }
       ],
       "solution_text": "Inflection along the axis at $x=-3$ (triple root); cut at $x=2$.\n$y=(x+3)^{3}(x-2)$\nCheck: the $y$-intercept $(3)^{3}(-2)=-54$ matches the marked point."
     },
     {
       "id": "q7",
-      "question_text": "A water jet follows the curve $h=kt(t-5)^{2}$, where $h$ is the height in centimetres after $t$ seconds. The graph passes through the point $(1,48)$. Find $k$.",
+      "question_text": "A water jet follows the curve $h=kt(t-5)^{2}$, where $h$ is the height in centimetres after $t$ seconds.\nThe graph passes through the point $(1,48)$.\nFind $k$.",
       "structure": "applied-find-k",
       "mastery": false,
       "options": [
-        { "text": "$k=3$", "correct": true },
-        { "text": "$k=1$", "why": "Assumed the equation was monic instead of substituting the given point into $h=kt(t-5)^{2}$." },
-        { "text": "$k=-3$", "why": "Evaluated $(1-5)^{2}$ as $-16$; squaring makes it $+16$, so $k$ comes out positive." },
-        { "text": "$k=48$", "why": "Took the given $h$-value as $k$ instead of dividing by $t(t-5)^{2}=16$." }
+        {
+          "text": "$k=3$",
+          "correct": true
+        },
+        {
+          "text": "$k=1$",
+          "why": "Assumed the equation was monic instead of substituting the given point into $h=kt(t-5)^{2}$."
+        },
+        {
+          "text": "$k=-3$",
+          "why": "Evaluated $(1-5)^{2}$ as $-16$; squaring makes it $+16$, so $k$ comes out positive."
+        },
+        {
+          "text": "$k=48$",
+          "why": "Took the given $h$-value as $k$ instead of dividing by $t(t-5)^{2}=16$."
+        }
       ],
       "solution_text": "Using $(1,48)$:\n$48=k(1)(1-5)^{2}$\n$48=16k$\n$k=3$"
     },
     {
       "id": "q8",
-      "question_text": "The quartic graphed below has equation $y=k(x+1)^{2}(x-3)^{2}$. Find its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.8,0)--(4.8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,1)  node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.08:4.07,smooth,variable=\\x,samples=60] plot ({\\x},{-0.10*(\\x+1)*(\\x+1)*(\\x-3)*(\\x-3)});\n\\fill (-1,0) circle (2pt);\n\\node[above left] at (-1,0) {$(-1,0)$};\n\\fill (3,0) circle (2pt);\n\\node[above right] at (3,0) {$(3,0)$};\n\\fill (1,-1.6) circle (2pt);\n\\node[below right] at (1,-1.6) {$(1,-16)$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The quartic graphed below has equation $y=k(x+1)^{2}(x-3)^{2}$.\nFind its equation.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[<->] (-2.8,0)--(4.8,0) node[right] {$x$};\n\\draw[<->] (0,-3.4)--(0,1)  node[above] {$y$};\n\\draw[thick,blue,<->,domain=-2.08:4.07,smooth,variable=\\x,samples=60] plot ({\\x},{-0.10*(\\x+1)*(\\x+1)*(\\x-3)*(\\x-3)});\n\\fill (-1,0) circle (2pt);\n\\node[above left] at (-1,0) {$(-1,0)$};\n\\fill (3,0) circle (2pt);\n\\node[above right] at (3,0) {$(3,0)$};\n\\fill (1,-1.6) circle (2pt);\n\\node[below right] at (1,-1.6) {$(1,-16)$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "find-k-other-point",
       "mastery": true,
       "options": [
-        { "text": "$y=-(x+1)^{2}(x-3)^{2}$", "correct": true },
-        { "text": "$y=(x+1)^{2}(x-3)^{2}$", "why": "The sign of $k$ was not checked: the curve sits below the axis, so $k$ must be negative." },
-        { "text": "$y=-16(x+1)^{2}(x-3)^{2}$", "why": "Took the marked $y$-value as $k$ instead of solving $-16=k(2)^{2}(-2)^{2}$." },
-        { "text": "$y=-4(x+1)^{2}(x-3)^{2}$", "why": "Only one of the squared brackets was evaluated when substituting $x=1$; both give $(2)^{2}(-2)^{2}=16$." }
+        {
+          "text": "$y=-(x+1)^{2}(x-3)^{2}$",
+          "correct": true
+        },
+        {
+          "text": "$y=(x+1)^{2}(x-3)^{2}$",
+          "why": "The sign of $k$ was not checked: the curve sits below the axis, so $k$ must be negative."
+        },
+        {
+          "text": "$y=-16(x+1)^{2}(x-3)^{2}$",
+          "why": "Took the marked $y$-value as $k$ instead of solving $-16=k(2)^{2}(-2)^{2}$."
+        },
+        {
+          "text": "$y=-4(x+1)^{2}(x-3)^{2}$",
+          "why": "Only one of the squared brackets was evaluated when substituting $x=1$; both give $(2)^{2}(-2)^{2}=16$."
+        }
       ],
       "solution_text": "Using $(1,-16)$:\n$-16=k(1+1)^{2}(1-3)^{2}$\n$-16=k(4)(4)$\n$-16=16k$\n$k=-1$\n$y=-(x+1)^{2}(x-3)^{2}$"
+    },
+    {
+      "id": "dq-79861",
+      "question_text": "Which of the following could be the equation of this curve? [tikz]\\begin{tikzpicture}[scale=0.65]\\draw[step=1cm,gray] (-2,-3) grid (3,2);\\draw[->] (-2.5,0)--(3.5,0) node[right] {$x$};\\draw[->] (0,-3.5)--(0,2.5) node[above] {$y$};\\draw[red,thick] plot[smooth] coordinates {(-1.8,-3.2),(-1.4,-1.4),(-1,0),(-0.6,0.1),(0,-1),(0.7,-2),(1.1,-1.6),(1.5,0),(1.9,2.4)};\\end{tikzpicture}[/tikz]",
+      "structure": "read-monic-cubic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x+y=-1$",
+          "why": "This equation represents a straight line, not the shown cubic curve."
+        },
+        {
+          "text": "$y=\\frac{1}{x}-1$",
+          "why": "A reciprocal graph has asymptotes rather than two turning points."
+        },
+        {
+          "text": "$y=x^3-2x-1$",
+          "correct": true
+        },
+        {
+          "text": "$y=x^2-2x-1$",
+          "why": "This quadratic would produce a parabola rather than a cubic curve."
+        }
+      ],
+      "solution_text": "The graph has the characteristic S-shape of a cubic and passes through $(0,-1)$. The equation $y=x^3-2x-1$ has these features, so it could represent the curve."
     }
   ]
 }

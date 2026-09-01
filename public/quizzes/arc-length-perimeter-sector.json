@@ -53,7 +53,7 @@
     },
     {
       "id": "q3",
-      "question_text": "The angle marked is the **exterior** angle of the sector. Calculate the arc length, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (120:2.5);\n\\draw (O) -- (A) node[midway,below] {$6\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (120:2.5) arc[start angle=120,end angle=360,radius=2.5];\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The angle marked is the **exterior** angle of the sector.\nCalculate the arc length, correct to $2$ decimal places.\n[tikz]\n\\begin{tikzpicture}[scale=0.9]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0:2.5);\n\\coordinate (B) at (120:2.5);\n\\draw (O) -- (A) node[midway,below] {$6\\text{ cm}$};\n\\draw (O) -- (B);\n\\draw (120:2.5) arc[start angle=120,end angle=360,radius=2.5];\n\\pic[draw,\"$120^{\\circ}$\",angle radius=0.65cm,angle eccentricity=2.1] {angle=A--O--B};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "arc-length-exterior-angle",
       "mastery": false,
       "options": [
@@ -200,6 +200,56 @@
         }
       ],
       "solution_text": "$P = l + 2r$\n$22 = l + 2(5)$\n$l = 12$\n$12 = \\frac{\\theta}{360}\\times 2\\pi(5)$\n$\\theta = \\frac{12\\times 360}{2\\pi(5)}$\n$= 137.5^{\\circ}$"
+    },
+    {
+      "id": "dq-83963",
+      "question_text": "Which calculation gives the arc length of this sector with radius $16\\,mm$ and angle $40^\\circ$? [tikz]\\begin{tikzpicture}[scale=0.5]\\draw (0,0)--(2,0) arc (0:40:2)--cycle;\\node at (1,0.4) {$40^\\circ$};\\node at (1,0) {$16\\,mm$};\\end{tikzpicture}[/tikz]",
+      "structure": "arc-versus-perimeter",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\dfrac{360}{40}\\times\\pi\\times32$",
+          "why": "Uses the reciprocal angle fraction and therefore overestimates the arc."
+        },
+        {
+          "text": "$\\dfrac{360}{40}\\times\\pi\\times16$",
+          "why": "Uses the reciprocal angle fraction and omits the diameter relationship."
+        },
+        {
+          "text": "$\\dfrac{40}{360}\\times\\pi\\times32$",
+          "correct": true
+        },
+        {
+          "text": "$\\dfrac{40}{360}\\times\\pi\\times16$",
+          "why": "Uses the radius where the circumference formula needs the diameter."
+        }
+      ],
+      "solution_text": "Arc length is the fraction $40/360$ of the circumference. The diameter is $2(16)=32$ mm, so the calculation is $\\frac{40}{360}\\pi\\times32$."
+    },
+    {
+      "id": "dq-17398",
+      "question_text": "Find the perimeter of this semi circle.\nGive your answer to 1 decimal place.\nThe diameter is 10m.",
+      "structure": "sector-perimeter-special-case",
+      "mastery": false,
+      "options": [
+        {
+          "text": "31.4 m",
+          "why": "Uses an incorrect combination of the arc and diameter."
+        },
+        {
+          "text": "25.7 m",
+          "correct": true
+        },
+        {
+          "text": "78.5 m",
+          "why": "Uses the full circumference with an incorrect radius calculation."
+        },
+        {
+          "text": "15.7 m",
+          "why": "Calculates only part of the curved perimeter."
+        }
+      ],
+      "solution_text": "The curved part is half of the circumference: $\\frac{1}{2}\\pi(10)=5\\pi$. Add the diameter: $5\\pi+10\\approx25.7\\text{ m}$."
     }
   ]
 }

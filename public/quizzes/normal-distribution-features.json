@@ -3,66 +3,126 @@
   "questions": [
     {
       "id": "q1",
-      "question_text": "A normal random variable has mean $45$ and standard deviation $6$. Where are the points of inflection of its curve?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$45$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "A normal random variable has mean $45$ and standard deviation $6$.\nWhere are the points of inflection of its curve?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$45$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "inflection-points-from-parameters",
       "mastery": false,
       "options": [
-        { "text": "$x=39$ and $x=51$", "correct": true },
-        { "text": "$x=33$ and $x=57$", "why": "Measured two standard deviations from the mean instead of one." },
-        { "text": "$x=45$ only", "why": "Placed the inflection at the mean, which is the global maximum rather than a point of inflection." },
-        { "text": "$x=39$ and $x=57$", "why": "Used one standard deviation below the mean but two standard deviations above it." }
+        {
+          "text": "$x=39$ and $x=51$",
+          "correct": true
+        },
+        {
+          "text": "$x=33$ and $x=57$",
+          "why": "Measured two standard deviations from the mean instead of one."
+        },
+        {
+          "text": "$x=45$ only",
+          "why": "Placed the inflection at the mean, which is the global maximum rather than a point of inflection."
+        },
+        {
+          "text": "$x=39$ and $x=57$",
+          "why": "Used one standard deviation below the mean but two standard deviations above it."
+        }
       ],
       "solution_text": "$\\mu-\\sigma$\n$=45-6$\n$=39$\n$\\mu+\\sigma$\n$=45+6$\n$=51$"
     },
     {
       "id": "q2",
-      "question_text": "A normal curve is symmetrical about $x=24$, and one of its points of inflection is at $x=30$. What is the standard deviation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$24$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$30$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "A normal curve is symmetrical about $x=24$, and one of its points of inflection is at $x=30$.\nWhat is the standard deviation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$24$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$30$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "sigma-from-inflection",
       "mastery": false,
       "options": [
-        { "text": "$6$", "correct": true },
-        { "text": "$3$", "why": "Halved the gap, treating the point of inflection as two standard deviations from the mean." },
-        { "text": "$30$", "why": "Read the $x$-value of the point of inflection itself as the standard deviation." },
-        { "text": "$54$", "why": "Added the mean to the point of inflection instead of subtracting." }
+        {
+          "text": "$6$",
+          "correct": true
+        },
+        {
+          "text": "$3$",
+          "why": "Halved the gap, treating the point of inflection as two standard deviations from the mean."
+        },
+        {
+          "text": "$30$",
+          "why": "Read the $x$-value of the point of inflection itself as the standard deviation."
+        },
+        {
+          "text": "$54$",
+          "why": "Added the mean to the point of inflection instead of subtracting."
+        }
       ],
       "solution_text": "A point of inflection is one standard deviation from the mean.\n$\\sigma$\n$=30-24$\n$=6$"
     },
     {
       "id": "q3",
-      "question_text": "$X$ is normal with mean $15$ and standard deviation $2$. $Y$ is normal with mean $15$ and standard deviation $5$. Which statement correctly compares the two curves?",
+      "question_text": "$X$ is normal with mean $15$ and standard deviation $2$.\n$Y$ is normal with mean $15$ and standard deviation $5$.\nWhich statement correctly compares the two curves?",
       "structure": "effect-of-changing-sigma",
       "mastery": false,
       "options": [
-        { "text": "The curve of $Y$ is wider than the curve of $X$ and its peak is lower.", "correct": true },
-        { "text": "The curve of $Y$ is wider than the curve of $X$ and its peak is the same height.", "why": "Drew a wider curve at the same height, which would enclose more than the total area of $1$." },
-        { "text": "The curve of $Y$ is narrower than the curve of $X$ and its peak is higher.", "why": "Read the larger standard deviation as less spread, giving a taller narrower curve." },
-        { "text": "The curve of $Y$ is narrower than the curve of $X$ and its peak is lower.", "why": "Applied the rule that the lower curve is the wider one, but attached the widths to the wrong variables." }
+        {
+          "text": "The curve of $Y$ is wider than the curve of $X$ and its peak is lower.",
+          "correct": true
+        },
+        {
+          "text": "The curve of $Y$ is wider than the curve of $X$ and its peak is the same height.",
+          "why": "Drew a wider curve at the same height, which would enclose more than the total area of $1$."
+        },
+        {
+          "text": "The curve of $Y$ is narrower than the curve of $X$ and its peak is higher.",
+          "why": "Read the larger standard deviation as less spread, giving a taller narrower curve."
+        },
+        {
+          "text": "The curve of $Y$ is narrower than the curve of $X$ and its peak is lower.",
+          "why": "Applied the rule that the lower curve is the wider one, but attached the widths to the wrong variables."
+        }
       ],
       "solution_text": "The standard deviation of $Y$ is larger, so its values are spread further from the mean and its curve is wider.\nThe area under each curve is $1$, so the wider curve of $Y$ must have the lower peak.\nThe curve of $Y$ is wider than the curve of $X$ and its peak is lower."
     },
     {
       "id": "q4",
-      "question_text": "$X$ is normal with mean $30$ and standard deviation $4$. $Y$ is normal with mean $42$ and standard deviation $4$. How does the curve of $Y$ compare with the curve of $X$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$30$};\n\\node[right, font=\\small] at (1.2,1.9) {curve of $X$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "$X$ is normal with mean $30$ and standard deviation $4$.\n$Y$ is normal with mean $42$ and standard deviation $4$.\nHow does the curve of $Y$ compare with the curve of $X$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$30$};\n\\node[right, font=\\small] at (1.2,1.9) {curve of $X$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "effect-of-changing-mu",
       "mastery": false,
       "options": [
-        { "text": "The same shape, slid $12$ units to the right.", "correct": true },
-        { "text": "The same shape, slid $12$ units to the left.", "why": "Subtracted the means the wrong way round, moving the larger mean towards the smaller values." },
-        { "text": "The same centre, but wider and lower.", "why": "Read a change in the mean as a change in the spread." },
-        { "text": "Slid $12$ units to the right, with a lower peak.", "why": "Assumed moving the curve along the axis also flattens it, although the standard deviation is unchanged." }
+        {
+          "text": "The same shape, slid $12$ units to the right.",
+          "correct": true
+        },
+        {
+          "text": "The same shape, slid $12$ units to the left.",
+          "why": "Subtracted the means the wrong way round, moving the larger mean towards the smaller values."
+        },
+        {
+          "text": "The same centre, but wider and lower.",
+          "why": "Read a change in the mean as a change in the spread."
+        },
+        {
+          "text": "Slid $12$ units to the right, with a lower peak.",
+          "why": "Assumed moving the curve along the axis also flattens it, although the standard deviation is unchanged."
+        }
       ],
       "solution_text": "The two standard deviations are equal, so the curves have the same width and the same peak height.\n$42-30$\n$=12$\nThe curve of $Y$ is the curve of $X$ slid $12$ units to the right."
     },
     {
       "id": "q5",
-      "question_text": "A normal curve has mean $82$. What is the area under the curve to the left of $x=82$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:0, samples=60, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (0,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$82$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "A normal curve has mean $82$.\nWhat is the area under the curve to the left of $x=82$?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\fill[gray!35] (-3.6,0) -- plot[domain=-3.6:0, samples=60, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)}) -- (0,0) -- cycle;\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$82$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "area-and-symmetry",
       "mastery": false,
       "options": [
-        { "text": "$0.5$", "correct": true },
-        { "text": "$1$", "why": "Gave the total area under the whole curve rather than the area on one side of the mean." },
-        { "text": "$0.68$", "why": "Quoted the empirical-rule area within one standard deviation of the mean." },
-        { "text": "$0.34$", "why": "Quoted the area between the mean and one standard deviation above it." }
+        {
+          "text": "$0.5$",
+          "correct": true
+        },
+        {
+          "text": "$1$",
+          "why": "Gave the total area under the whole curve rather than the area on one side of the mean."
+        },
+        {
+          "text": "$0.68$",
+          "why": "Quoted the empirical-rule area within one standard deviation of the mean."
+        },
+        {
+          "text": "$0.34$",
+          "why": "Quoted the area between the mean and one standard deviation above it."
+        }
       ],
       "solution_text": "The total area under the curve is $1$, and the curve is symmetrical about the mean $82$.\n$P(X<82)$\n$=\\frac{1}{2}\\times 1$\n$=0.5$"
     },
@@ -72,38 +132,124 @@
       "structure": "identify-normal-context",
       "mastery": false,
       "options": [
-        { "text": "The masses of $5000$ eggs chosen at random from a farm.", "correct": true },
-        { "text": "The number of heads obtained in a single toss of three coins.", "why": "A count with only four possible values is discrete, so it has no continuous bell shape." },
-        { "text": "The times customers spend being served, where most are quick but a few take very long.", "why": "A long tail on the right makes the distribution skewed rather than symmetrical." },
-        { "text": "The last digit of $5000$ phone numbers chosen at random.", "why": "Every digit is equally likely, giving a flat distribution with no central peak." }
+        {
+          "text": "The masses of $5000$ eggs chosen at random from a farm.",
+          "correct": true
+        },
+        {
+          "text": "The number of heads obtained in a single toss of three coins.",
+          "why": "A count with only four possible values is discrete, so it has no continuous bell shape."
+        },
+        {
+          "text": "The times customers spend being served, where most are quick but a few take very long.",
+          "why": "A long tail on the right makes the distribution skewed rather than symmetrical."
+        },
+        {
+          "text": "The last digit of $5000$ phone numbers chosen at random.",
+          "why": "Every digit is equally likely, giving a flat distribution with no central peak."
+        }
       ],
       "solution_text": "Mass is a continuous quantity that clusters about one central value, with unusually light and unusually heavy eggs about equally rare.\nThe masses of $5000$ eggs chosen at random from a farm are best modelled by a normal random variable."
     },
     {
       "id": "q7",
-      "question_text": "A normal random variable has mean $8.5$ and standard deviation $1.4$. Where are the points of inflection of its curve?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$8.5$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "A normal random variable has mean $8.5$ and standard deviation $1.4$.\nWhere are the points of inflection of its curve?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\draw (0,0) -- (0,-0.12) node[below, font=\\small] {$8.5$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "inflection-points-from-parameters",
       "mastery": false,
       "options": [
-        { "text": "$x=7.1$ and $x=9.9$", "correct": true },
-        { "text": "$x=5.7$ and $x=11.3$", "why": "Measured two standard deviations from the mean instead of one." },
-        { "text": "$x=9.9$ only", "why": "Gave only the point above the mean, although a normal curve has one on each side." },
-        { "text": "$x=7.1$ and $x=8.5$", "why": "Used the mean itself as the upper point of inflection." }
+        {
+          "text": "$x=7.1$ and $x=9.9$",
+          "correct": true
+        },
+        {
+          "text": "$x=5.7$ and $x=11.3$",
+          "why": "Measured two standard deviations from the mean instead of one."
+        },
+        {
+          "text": "$x=9.9$ only",
+          "why": "Gave only the point above the mean, although a normal curve has one on each side."
+        },
+        {
+          "text": "$x=7.1$ and $x=8.5$",
+          "why": "Used the mean itself as the upper point of inflection."
+        }
       ],
       "solution_text": "$\\mu-\\sigma$\n$=8.5-1.4$\n$=7.1$\n$\\mu+\\sigma$\n$=8.5+1.4$\n$=9.9$"
     },
     {
       "id": "q8",
-      "question_text": "The points of inflection of a normal curve are at $x=64$ and $x=88$. What are the mean and the standard deviation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (-1,0) -- (-1,1.46);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$64$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$88$};\n\\end{tikzpicture}\n[/tikz]",
+      "question_text": "The points of inflection of a normal curve are at $x=64$ and $x=88$.\nWhat are the mean and the standard deviation?\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=1.1cm, y=1cm]\n\\draw[thick] plot[domain=-3.6:3.6, samples=90, smooth, variable=\\x] ({\\x},{2.4*exp(-\\x*\\x/2)});\n\\draw[->] (-4,0) -- (4.2,0) node[right] {$x$};\n\\fill (-1,1.46) circle (2pt);\n\\fill (1,1.46) circle (2pt);\n\\draw[dashed] (-1,0) -- (-1,1.46);\n\\draw[dashed] (1,0) -- (1,1.46);\n\\draw (-1,0) -- (-1,-0.12) node[below, font=\\small] {$64$};\n\\draw (1,0) -- (1,-0.12) node[below, font=\\small] {$88$};\n\\end{tikzpicture}\n[/tikz]",
       "structure": "sigma-from-inflection",
       "mastery": true,
       "options": [
-        { "text": "$\\mu=76$ and $\\sigma=12$", "correct": true },
-        { "text": "$\\mu=76$ and $\\sigma=24$", "why": "Used the whole gap between the two points of inflection as the standard deviation instead of half of it." },
-        { "text": "$\\mu=64$ and $\\sigma=12$", "why": "Took the lower point of inflection as the mean rather than the midpoint of the two." },
-        { "text": "$\\mu=64$ and $\\sigma=24$", "why": "Took the lower point of inflection as the mean and the whole gap as the standard deviation." }
+        {
+          "text": "$\\mu=76$ and $\\sigma=12$",
+          "correct": true
+        },
+        {
+          "text": "$\\mu=76$ and $\\sigma=24$",
+          "why": "Used the whole gap between the two points of inflection as the standard deviation instead of half of it."
+        },
+        {
+          "text": "$\\mu=64$ and $\\sigma=12$",
+          "why": "Took the lower point of inflection as the mean rather than the midpoint of the two."
+        },
+        {
+          "text": "$\\mu=64$ and $\\sigma=24$",
+          "why": "Took the lower point of inflection as the mean and the whole gap as the standard deviation."
+        }
       ],
       "solution_text": "The mean sits halfway between the two points of inflection.\n$\\mu$\n$=\\frac{64+88}{2}$\n$=76$\n$\\sigma$\n$=88-76$\n$=12$"
+    },
+    {
+      "id": "dq-125699",
+      "question_text": "In a normal distribution, what is $P(X>\\mu)$?",
+      "structure": "area-and-symmetry",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$1$",
+          "why": "The mean divides the distribution into two equal halves, not zero probability on one side."
+        },
+        {
+          "text": "$\\dfrac23$",
+          "why": "There is no asymmetry that would give two-thirds above the mean."
+        },
+        {
+          "text": "$0.5$",
+          "correct": true
+        },
+        {
+          "text": "Depends on the specific distribution",
+          "why": "For every normal distribution, symmetry about the mean fixes this probability."
+        }
+      ],
+      "solution_text": "A normal distribution is symmetric about its mean. Exactly half of the area lies above $\\mu$, so $P(X>\\mu)=0.5$."
+    },
+    {
+      "id": "dq-125068",
+      "question_text": "In a normal distribution, what proportion of the data lies above the mean?",
+      "structure": "area-and-symmetry",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$\\frac12$",
+          "correct": true
+        },
+        {
+          "text": "All of it",
+          "why": "A normal distribution has values on both sides of its mean."
+        },
+        {
+          "text": "$\\frac23$",
+          "why": "Confuses the proportion within roughly one standard deviation with the half above the mean."
+        },
+        {
+          "text": "$95\\%$",
+          "why": "Confuses the central two-standard-deviation proportion with one side of the mean."
+        }
+      ],
+      "solution_text": "The normal distribution is symmetric about its mean. Therefore half of the probability lies above the mean, so the proportion is $\\frac12$."
     }
   ]
 }

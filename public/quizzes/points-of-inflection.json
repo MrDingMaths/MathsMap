@@ -7,10 +7,22 @@
       "structure": "find-inflection-cubic",
       "mastery": false,
       "options": [
-        { "text": "$(-1, 13)$", "correct": true },
-        { "text": "$(1, -3)$", "why": "Solved $6x + 6 = 0$ as $x = 1$, dropping the negative sign, then substituted $x = 1$." },
-        { "text": "$(-1, -3)$", "why": "Solved $6x + 6 = 0$ correctly but substituted $x = 1$ into the original function." },
-        { "text": "$(1, 13)$", "why": "Solved $6x + 6 = 0$ as $x = 1$ but substituted $x = -1$ into the original function." }
+        {
+          "text": "$(-1, 13)$",
+          "correct": true
+        },
+        {
+          "text": "$(1, -3)$",
+          "why": "Solved $6x + 6 = 0$ as $x = 1$, dropping the negative sign, then substituted $x = 1$."
+        },
+        {
+          "text": "$(-1, -3)$",
+          "why": "Solved $6x + 6 = 0$ correctly but substituted $x = 1$ into the original function."
+        },
+        {
+          "text": "$(1, 13)$",
+          "why": "Solved $6x + 6 = 0$ as $x = 1$ but substituted $x = -1$ into the original function."
+        }
       ],
       "solution_text": "$y' = 3x^{2} + 6x - 9$\n$y'' = 6x + 6$\nSet $y'' = 0$:\n$6x + 6 = 0$\n$x = -1$\nAt $x = -2$, $y'' = -6 < 0$; at $x = 0$, $y'' = 6 > 0$, so the concavity changes.\n$y(-1) = -1 + 3 + 9 + 2 = 13$\nThe point of inflection is $(-1, 13)$."
     },
@@ -20,49 +32,97 @@
       "structure": "find-inflection-quartic",
       "mastery": false,
       "options": [
-        { "text": "$x = 0$ and $x = 2$", "correct": true },
-        { "text": "$x = 0$ only", "why": "Solved $12x(x - 2) = 0$ and kept only the root from the first factor." },
-        { "text": "$x = 2$ only", "why": "Divided both sides of $12x^{2} - 24x = 0$ by $12x$, losing the root $x = 0$." },
-        { "text": "$x = 1$ only", "why": "Took the midpoint of the two roots of $y''$, as though a quartic had a single inflection like a cubic." }
+        {
+          "text": "$x = 0$ and $x = 2$",
+          "correct": true
+        },
+        {
+          "text": "$x = 0$ only",
+          "why": "Solved $12x(x - 2) = 0$ and kept only the root from the first factor."
+        },
+        {
+          "text": "$x = 2$ only",
+          "why": "Divided both sides of $12x^{2} - 24x = 0$ by $12x$, losing the root $x = 0$."
+        },
+        {
+          "text": "$x = 1$ only",
+          "why": "Took the midpoint of the two roots of $y''$, as though a quartic had a single inflection like a cubic."
+        }
       ],
       "solution_text": "$y' = 4x^{3} - 12x^{2} + 18$\n$y'' = 12x^{2} - 24x$\n$= 12x(x - 2)$\nSo $y'' = 0$ when $x = 0$ or $x = 2$.\nAt $x = -1$, $y'' = 36 > 0$; at $x = 1$, $y'' = -12 < 0$; at $x = 3$, $y'' = 36 > 0$.\nThe concavity changes at both values, so both are points of inflection."
     },
     {
       "id": "q3",
-      "question_text": "The curve $y = x^{6}$ has $y'' = 30x^{4}$, so $y''(0) = 0$. What happens at the origin?",
+      "question_text": "The curve $y = x^{6}$ has $y'' = 30x^{4}$, so $y''(0) = 0$.\nWhat happens at the origin?",
       "structure": "test-f2-zero-not-inflection",
       "mastery": false,
       "options": [
-        { "text": "There is no point of inflection; the origin is a local minimum turning point.", "correct": true },
-        { "text": "There is a horizontal point of inflection, because $y'(0) = 0$ and $y''(0) = 0$.", "why": "Solved $y'' = 0$ and stopped, without testing whether the concavity actually changes." },
-        { "text": "There is a point of inflection with a non-zero gradient.", "why": "Assumed every solution of $y'' = 0$ is an inflection, and also overlooked that $y'(0) = 0$." },
-        { "text": "There is a local maximum turning point.", "why": "Read the even power as producing a curve that opens downwards." }
+        {
+          "text": "There is no point of inflection; the origin is a local minimum turning point.",
+          "correct": true
+        },
+        {
+          "text": "There is a horizontal point of inflection, because $y'(0) = 0$ and $y''(0) = 0$.",
+          "why": "Solved $y'' = 0$ and stopped, without testing whether the concavity actually changes."
+        },
+        {
+          "text": "There is a point of inflection with a non-zero gradient.",
+          "why": "Assumed every solution of $y'' = 0$ is an inflection, and also overlooked that $y'(0) = 0$."
+        },
+        {
+          "text": "There is a local maximum turning point.",
+          "why": "Read the even power as producing a curve that opens downwards."
+        }
       ],
       "solution_text": "$y'' = 30x^{4}$\n$y''(-1) = 30 > 0$\n$y''(1) = 30 > 0$\nThe second derivative is positive on both sides, so the concavity does not change and there is no point of inflection.\n$y' = 6x^{5}$, so $y'(-1) = -6 < 0$ and $y'(1) = 6 > 0$.\nThe gradient changes from negative to positive, so the origin is a local minimum turning point."
     },
     {
       "id": "q4",
-      "question_text": "The curve $y = 2x^{3} - 6x^{2} + 6x + 1$ has a point of inflection at $x = 1$. Which statement is correct?",
+      "question_text": "The curve $y = 2x^{3} - 6x^{2} + 6x + 1$ has a point of inflection at $x = 1$.\nWhich statement is correct?",
       "structure": "horizontal-vs-nonhorizontal-inflection",
       "mastery": false,
       "options": [
-        { "text": "It is a horizontal point of inflection at $(1, 3)$.", "correct": true },
-        { "text": "It is a point of inflection at $(1, 3)$ with gradient $6$.", "why": "Evaluated $y'$ at $x = 0$ rather than at $x = 1$." },
-        { "text": "It is a horizontal point of inflection at $(1, 1)$.", "why": "Read the constant term $1$ as the $y$-coordinate instead of substituting $x = 1$ into the function." },
-        { "text": "It is a local minimum turning point at $(1, 3)$.", "why": "Saw $y'(1) = 0$ and assumed a stationary point must be a turning point." }
+        {
+          "text": "It is a horizontal point of inflection at $(1, 3)$.",
+          "correct": true
+        },
+        {
+          "text": "It is a point of inflection at $(1, 3)$ with gradient $6$.",
+          "why": "Evaluated $y'$ at $x = 0$ rather than at $x = 1$."
+        },
+        {
+          "text": "It is a horizontal point of inflection at $(1, 1)$.",
+          "why": "Read the constant term $1$ as the $y$-coordinate instead of substituting $x = 1$ into the function."
+        },
+        {
+          "text": "It is a local minimum turning point at $(1, 3)$.",
+          "why": "Saw $y'(1) = 0$ and assumed a stationary point must be a turning point."
+        }
       ],
       "solution_text": "$y' = 6x^{2} - 12x + 6$\n$= 6(x - 1)^{2}$\n$y'(1) = 0$, so the tangent at the inflection is horizontal.\n$y(1) = 2 - 6 + 6 + 1 = 3$\nThere is a horizontal point of inflection at $(1, 3)$."
     },
     {
       "id": "q5",
-      "question_text": "A function has second derivative $f''(x) = (x + 1)^{2}(x - 4)$. At which values of $x$ does the curve have points of inflection?",
+      "question_text": "A function has second derivative $f''(x) = (x + 1)^{2}(x - 4)$.\nAt which values of $x$ does the curve have points of inflection?",
       "structure": "inflection-from-second-derivative-given",
       "mastery": false,
       "options": [
-        { "text": "$x = 4$ only", "correct": true },
-        { "text": "$x = -1$ and $x = 4$", "why": "Took every root of $f''(x) = 0$ as an inflection without testing for a change of sign." },
-        { "text": "$x = -1$ only", "why": "Chose the repeated root, assuming the squared factor is what marks the change of concavity." },
-        { "text": "There are none, because $f''(x)$ is never zero.", "why": "Read $(x + 1)^{2}$ as strictly positive and concluded the whole product can never be zero." }
+        {
+          "text": "$x = 4$ only",
+          "correct": true
+        },
+        {
+          "text": "$x = -1$ and $x = 4$",
+          "why": "Took every root of $f''(x) = 0$ as an inflection without testing for a change of sign."
+        },
+        {
+          "text": "$x = -1$ only",
+          "why": "Chose the repeated root, assuming the squared factor is what marks the change of concavity."
+        },
+        {
+          "text": "There are none, because $f''(x)$ is never zero.",
+          "why": "Read $(x + 1)^{2}$ as strictly positive and concluded the whole product can never be zero."
+        }
       ],
       "solution_text": "$f''(x) = 0$ when $x = -1$ or $x = 4$.\n$f''(-2) = (1)(-6) = -6 < 0$\n$f''(0) = (1)(-4) = -4 < 0$\nThe sign does not change at $x = -1$, so it is not a point of inflection.\n$f''(3) = (16)(-1) = -16 < 0$\n$f''(5) = (36)(1) = 36 > 0$\nThe sign changes at $x = 4$, so that is the only point of inflection."
     },
@@ -72,38 +132,99 @@
       "structure": "inflection-non-polynomial",
       "mastery": false,
       "options": [
-        { "text": "$\\left(2, \\dfrac{2}{e^{2}}\\right)$", "correct": true },
-        { "text": "$\\left(1, \\dfrac{1}{e}\\right)$", "why": "Solved $y' = 0$ instead of $y'' = 0$, which gives the stationary point rather than the inflection." },
-        { "text": "$\\left(-2, -2e^{2}\\right)$", "why": "Solved $x - 2 = 0$ as $x = -2$, reading the factor backwards." },
-        { "text": "$\\left(2, 2e^{2}\\right)$", "why": "Found $x = 2$ correctly but substituted into $e^{x}$ rather than $e^{-x}$." }
+        {
+          "text": "$\\left(2, \\dfrac{2}{e^{2}}\\right)$",
+          "correct": true
+        },
+        {
+          "text": "$\\left(1, \\dfrac{1}{e}\\right)$",
+          "why": "Solved $y' = 0$ instead of $y'' = 0$, which gives the stationary point rather than the inflection."
+        },
+        {
+          "text": "$\\left(-2, -2e^{2}\\right)$",
+          "why": "Solved $x - 2 = 0$ as $x = -2$, reading the factor backwards."
+        },
+        {
+          "text": "$\\left(2, 2e^{2}\\right)$",
+          "why": "Found $x = 2$ correctly but substituted into $e^{x}$ rather than $e^{-x}$."
+        }
       ],
       "solution_text": "$y' = e^{-x} - xe^{-x}$\n$= e^{-x}(1 - x)$\n$y'' = -e^{-x}(1 - x) - e^{-x}$\n$= e^{-x}(x - 2)$\nSince $e^{-x} > 0$, set $x - 2 = 0$.\n$x = 2$\nAt $x = 1$, $y'' = -e^{-1} < 0$; at $x = 3$, $y'' = e^{-3} > 0$, so the concavity changes.\n$y(2) = 2e^{-2}$\nThe point of inflection is $\\left(2, \\dfrac{2}{e^{2}}\\right)$."
     },
     {
       "id": "q7",
-      "question_text": "The curve $y = 3\\sin x + x$ has second derivative $y'' = -3\\sin x$. Find its point of inflection for $0 < x < 2\\pi$.",
+      "question_text": "The curve $y = 3\\sin x + x$ has second derivative $y'' = -3\\sin x$.\nFind its point of inflection for $0 < x < 2\\pi$.",
       "structure": "inflection-non-polynomial",
       "mastery": false,
       "options": [
-        { "text": "$(\\pi, \\pi)$", "correct": true },
-        { "text": "$(\\pi, 0)$", "why": "Substituted into $3\\sin x$ only and left out the $+x$ term when finding the $y$-coordinate." },
-        { "text": "$(0, 0)$", "why": "Took a solution of $\\sin x = 0$ that lies outside the open domain $0 < x < 2\\pi$." },
-        { "text": "$(2\\pi, 2\\pi)$", "why": "Took the other solution of $\\sin x = 0$ that lies outside the open domain $0 < x < 2\\pi$." }
+        {
+          "text": "$(\\pi, \\pi)$",
+          "correct": true
+        },
+        {
+          "text": "$(\\pi, 0)$",
+          "why": "Substituted into $3\\sin x$ only and left out the $+x$ term when finding the $y$-coordinate."
+        },
+        {
+          "text": "$(0, 0)$",
+          "why": "Took a solution of $\\sin x = 0$ that lies outside the open domain $0 < x < 2\\pi$."
+        },
+        {
+          "text": "$(2\\pi, 2\\pi)$",
+          "why": "Took the other solution of $\\sin x = 0$ that lies outside the open domain $0 < x < 2\\pi$."
+        }
       ],
       "solution_text": "Set $y'' = 0$:\n$-3\\sin x = 0$\n$\\sin x = 0$\nThe only solution with $0 < x < 2\\pi$ is $x = \\pi$.\nAt $x = \\dfrac{\\pi}{2}$, $y'' = -3 < 0$; at $x = \\dfrac{3\\pi}{2}$, $y'' = 3 > 0$, so the concavity changes.\n$y(\\pi) = 3\\sin\\pi + \\pi = \\pi$\nThe point of inflection is $(\\pi, \\pi)$."
     },
     {
       "id": "q8",
-      "question_text": "The curve $y = x^{3} + bx^{2} + 5x - 1$ has a point of inflection at $x = -2$. What is the value of $b$?",
+      "question_text": "The curve $y = x^{3} + bx^{2} + 5x - 1$ has a point of inflection at $x = -2$.\nWhat is the value of $b$?",
       "structure": "inflection-parameter",
       "mastery": true,
       "options": [
-        { "text": "$b = 6$", "correct": true },
-        { "text": "$b = -6$", "why": "Solved $-12 + 2b = 0$ as $2b = -12$, keeping the sign of $6x$ on the wrong side." },
-        { "text": "$b = 12$", "why": "Reached $2b = 12$ but did not divide by $2$." },
-        { "text": "$b = -12$", "why": "Both moved $-12$ across without changing its sign and did not divide by $2$." }
+        {
+          "text": "$b = 6$",
+          "correct": true
+        },
+        {
+          "text": "$b = -6$",
+          "why": "Solved $-12 + 2b = 0$ as $2b = -12$, keeping the sign of $6x$ on the wrong side."
+        },
+        {
+          "text": "$b = 12$",
+          "why": "Reached $2b = 12$ but did not divide by $2$."
+        },
+        {
+          "text": "$b = -12$",
+          "why": "Both moved $-12$ across without changing its sign and did not divide by $2$."
+        }
       ],
       "solution_text": "$y' = 3x^{2} + 2bx + 5$\n$y'' = 6x + 2b$\nAt a point of inflection $y'' = 0$, so at $x = -2$:\n$6(-2) + 2b = 0$\n$2b = 12$\n$b = 6$"
+    },
+    {
+      "id": "dq-21361",
+      "question_text": "Consider $f(x)=2x^3-13x^2+17x-6$.\nFind all the points of inflexion of $f$.",
+      "structure": "find-inflection-cubic",
+      "mastery": false,
+      "options": [
+        {
+          "text": "$x=3.53$ and $x=0.802$",
+          "why": "These values do not solve the linear second-derivative equation."
+        },
+        {
+          "text": "$x=\\dfrac{13}{6}$",
+          "correct": true
+        },
+        {
+          "text": "$x=-\\dfrac{13}{6}$",
+          "why": "Uses the wrong sign when solving $12x-26=0$."
+        },
+        {
+          "text": "There are no points of inflexion",
+          "why": "A cubic has a point of inflexion where its second derivative changes sign."
+        }
+      ],
+      "solution_text": "$f'(x)=6x^2-26x+17$ and $f''(x)=12x-26$. Setting $f''(x)=0$ gives $x=26/12=13/6$."
     }
   ]
 }
