@@ -10,11 +10,13 @@ import { validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknow
 import { rejectStrayPositionals } from './lib/argv.mjs';
 import { lintMathString, validateInlineText, validateTikz } from './lib/lint-math.mjs';
 import { voiceBreaches } from './lib/theory-voice.mjs';
+import { allNodes, containsForbiddenMarks, containsSourceMetadata, invalidFractionSpans, validateQuestion } from '../src/lib/practice-question-model.js';
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = join(rootDir, 'data');
 const contentDir = join(rootDir, 'public', 'content');
 const quizzesDir = join(rootDir, 'public', 'quizzes');
+const practiceBankDir = join(rootDir, 'booklets', 'question-bank');
 const MAX_QUIZ_QUESTIONS = 20;
 // Backfill complete (see docs/content-generation.md): every practice card in
 // public/content carries a structure slug, so a missing one is now an error.
@@ -427,6 +429,37 @@ function crossCheckMastery(contentResult, quizResult) {
   return errs;
 }
 
+function validatePracticeBank() {
+  const errs = [];
+  const files = existsSync(practiceBankDir) ? readdirSync(practiceBankDir).filter((file) => /^(?:q-|pq-).*\.json$/.test(file)) : [];
+  const skillIds = new Set(skills.map((skill) => skill.id));
+  for (const filename of files) {
+    const where = 'practice bank ' + filename;
+    let question;
+    try { question = JSON.parse(readFileSync(join(practiceBankDir, filename), 'utf8')); }
+    catch (error) { errs.push(where + ': invalid JSON - ' + error.message); continue; }
+    const checked = validateQuestion(question, { skillIds });
+    for (const error of checked.errors) errs.push(where + ': ' + error);
+    if (containsForbiddenMarks(question)) errs.push(where + ': forbidden mark field');
+    if (containsSourceMetadata(question)) errs.push(where + ': source metadata is not allowed in the canonical question bank');
+    for (const node of allNodes(question.content)) {
+      for (const value of [node.prompt, node.answer?.short, node.answer?.worked]) {
+        if (invalidFractionSpans(value).length) errs.push(where + ': slash-style fraction in ' + node.id);
+      }
+    }
+  }
+  const manifestPath = join(practiceBankDir, 'manifest.json');
+  if (existsSync(manifestPath)) {
+    try {
+      const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+      if (manifest.format !== 'mathsmap-practice-bank-v3' || manifest.version !== 3) errs.push('practice bank manifest: expected v3');
+      if (JSON.stringify(manifest).includes('"marks"')) errs.push('practice bank manifest: forbidden mark field');
+      if (manifest.questions?.length !== files.length) errs.push('practice bank manifest: question count does not match bank');
+    } catch (error) { errs.push('practice bank manifest: invalid JSON - ' + error.message); }
+  } else if (files.length) errs.push('practice bank manifest: missing manifest.json');
+  return { checked: files.length, errors: errs };
+}
+
 // --only id1,id2,... | prefix — restricts content+quiz checks to matching skill ids.
 // Taxonomy checks above always run in full.
 function parseOnlyArg(argv) {
@@ -446,6 +479,7 @@ rejectStrayPositionals(argv, { valueFlags: ['--only'], boolFlags: [] });
 const filterFn = parseOnlyArg(argv);
 const contentResult = validateContent(filterFn);
 const quizResult = validateQuizzes(filterFn);
+const practiceBankResult = validatePracticeBank();
 const crossErrors = crossCheckMastery(contentResult, quizResult);
 const parityWarnings = checkStructureParity(contentResult, quizResult);
 
@@ -464,7 +498,7 @@ if (parityWarnings.length) {
   for (const w of parityWarnings) console.log(`  ⚠ ${w}`);
 }
 
-const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...crossErrors];
+const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...practiceBankResult.errors, ...crossErrors];
 const totalWarnings = warnings.length + contentResult.warnings.length + quizResult.warnings.length + parityWarnings.length;
 if (allErrors.length) {
   console.error(`\n✗ ${allErrors.length} error(s):`);

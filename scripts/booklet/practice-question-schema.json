@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mathsmap-practice-import-v3",
+  "title": "MathsMap Booklet Studio v3 import",
+  "type": "object",
+  "required": [
+    "format",
+    "version",
+    "questions"
+  ],
+  "properties": {
+    "format": {
+      "const": "mathsmap-practice-import-v3"
+    },
+    "version": {
+      "const": 3
+    },
+    "status": {
+      "type": "string"
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/question"
+      }
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "jobId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "$defs": {
+    "diagram": {
+      "type": "object",
+      "required": [
+        "id",
+        "role",
+        "format",
+        "reviewStatus"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": [
+            "question",
+            "solution",
+            "solution-overlay"
+          ]
+        },
+        "format": {
+          "enum": [
+            "tikz",
+            "svg",
+            "image"
+          ]
+        },
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "src": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "widthMm": {
+          "type": "number",
+          "minimum": 0
+        },
+        "alt": {
+          "type": "string"
+        },
+        "overlayOf": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "transparent": {
+          "type": "boolean"
+        },
+        "axes": {},
+        "derived": {
+          "type": "boolean"
+        },
+        "reviewStatus": {
+          "enum": [
+            "approved",
+            "needs-review",
+            "blocked"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "answer": {
+      "type": "object",
+      "required": [
+        "short",
+        "worked",
+        "solutionDiagrams"
+      ],
+      "properties": {
+        "short": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "worked": {
+          "type": "string"
+        },
+        "solutionDiagrams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/diagram"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "node": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/leaf"
+        },
+        {
+          "$ref": "#/$defs/parent"
+        }
+      ]
+    },
+    "nodeBase": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "prompt",
+        "layout",
+        "columns",
+        "questionDiagrams",
+        "children"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "question",
+            "group",
+            "part"
+          ]
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "layout": {
+          "enum": [
+            "list",
+            "grid"
+          ]
+        },
+        "columns": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "questionDiagrams": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/diagram"
+          }
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "answerSpaceMm": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "layout": {
+                "const": "grid"
+              }
+            },
+            "required": [
+              "layout"
+            ]
+          },
+          "then": {
+            "required": [
+              "columns"
+            ],
+            "properties": {
+              "columns": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 4
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layout": {
+                "const": "list"
+              }
+            },
+            "required": [
+              "layout"
+            ]
+          },
+          "then": {
+            "properties": {
+              "columns": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "marks"
+            ]
+          },
+          {
+            "required": [
+              "totalMarks"
+            ]
+          },
+          {
+            "required": [
+              "mark"
+            ]
+          },
+          {
+            "required": [
+              "parts"
+            ]
+          },
+          {
+            "required": [
+              "shortAnswer"
+            ]
+          },
+          {
+            "required": [
+              "workedSolution"
+            ]
+          },
+          {
+            "required": [
+              "solutionDiagrams"
+            ]
+          }
+        ]
+      }
+    },
+    "leaf": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/nodeBase"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "question",
+                "part"
+              ]
+            },
+            "children": {
+              "maxItems": 0
+            },
+            "answer": {
+              "$ref": "#/$defs/answer"
+            }
+          },
+          "required": [
+            "answer"
+          ]
+        }
+      ]
+    },
+    "parent": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/nodeBase"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "question",
+                "group"
+              ]
+            },
+            "children": {
+              "minItems": 1
+            }
+          },
+          "not": {
+            "required": [
+              "answer",
+              "answerSpaceMm"
+            ]
+          }
+        }
+      ]
+    },
+    "question": {
+      "type": "object",
+      "required": [
+        "format",
+        "version",
+        "id",
+        "status",
+        "classification",
+        "content",
+        "review"
+      ],
+      "properties": {
+        "format": {
+          "const": "mathsmap-practice-question-v3"
+        },
+        "version": {
+          "const": 3
+        },
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "approved"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "classification": {
+          "type": "object",
+          "required": [
+            "primarySkillId",
+            "secondarySkillIds",
+            "reasoningScore",
+            "difficulty",
+            "difficultyReason"
+          ],
+          "properties": {
+            "primarySkillId": {
+              "type": "string"
+            },
+            "secondarySkillIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "difficulty": {
+              "enum": [
+                "Foundation",
+                "Development",
+                "Mastery",
+                "Challenge"
+              ]
+            },
+            "reasoningScore": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "difficultyReason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "content": {
+          "$ref": "#/$defs/node"
+        },
+        "review": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

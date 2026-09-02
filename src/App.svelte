@@ -9,8 +9,10 @@
   import Map from './views/Map.svelte';
   import Quiz from './views/Quiz.svelte';
   import QuizHistory from './views/QuizHistory.svelte';
-  import TikzCheck from './views/TikzCheck.svelte';
+ import TikzCheck from './views/TikzCheck.svelte';
+  import BookletStudioView from './views/BookletStudio.svelte';
   import GlobalSearch from './components/GlobalSearch.svelte';
+  import SiteFooter from './components/SiteFooter.svelte';
 
   let searchOpen = $state(false);
   let routeKey = $derived(`${route.name}/${route.params.join('/')}`);
@@ -99,6 +101,8 @@
           <Quiz skillId={route.query.skill ?? null} topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
         {:else if route.name === 'quiz-history'}
           <QuizHistory id={route.params[0] ?? null} />
+        {:else if route.name === 'booklet' && import.meta.env.DEV}
+          <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'builder'} initialOutput={route.query.output ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
           <TikzCheck
             topicId={route.query.topic ?? null}
@@ -113,6 +117,10 @@
       </div>
     {/key}
   </main>
+{/if}
+
+{#if route.name !== 'map'}
+  <SiteFooter />
 {/if}
 
 {#if route.name !== 'map'}
