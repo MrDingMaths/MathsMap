@@ -5,12 +5,19 @@ import {
   extractTikzBlocks,
   stripTikzBlocks,
   groupTextBlocks,
+  setoutMathChain,
   validateProcedureLabels,
   unknownKeys,
   isStructureSlug,
   PRACTICE_CARD_KEYS,
   QUIZ_QUESTION_KEYS
 } from '../src/lib/inline-content.js';
+
+test('expands a chained worked solution for vertical relation alignment', () => {
+  assert.equal(setoutMathChain('$-2+(-3)=-2-3=-5$'), '$-2+(-3)=-2-3$\n$=-5$');
+  assert.equal(setoutMathChain('$x=2$'), '$x=2$');
+  assert.match(groupTextBlocks(setoutMathChain('$a=b=c$'))[0].value, /begin\{aligned\}/);
+});
 
 test('splits multiline maths and multiple inline TikZ blocks in source order', () => {
   const text = '$x=1$\n[tikz]\\begin{tikzpicture}A\\end{tikzpicture}[/tikz]\nthen\n[tikz]\\begin{tikzpicture}B\\end{tikzpicture}[/tikz]';

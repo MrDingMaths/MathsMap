@@ -56,3 +56,11 @@ test('the same input renders identically on repeat calls (the cache is transpare
 test('escapeHtml covers the three characters that would break the markup', () => {
   assert.equal(escapeHtml('<a> & "b"'), '&lt;a&gt; &amp; "b"');
 });
+
+test('normalises imported display delimiters and repeated dot leaders', () => {
+  const boxed = renderMath('$$\\boxed{-4} \\quad \\boxed{-10}$$');
+  assert.match(boxed, /class="katex"/);
+  assert.ok(!boxed.startsWith('$$'), 'display delimiters are consumed rather than shown');
+  const dots = renderMath('$2 \\dots\\dots 3$');
+  assert.equal((dots.match(/mspace/g) || []).length, (renderMath('$2 \\ldots 3$').match(/mspace/g) || []).length);
+});

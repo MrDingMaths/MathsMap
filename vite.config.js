@@ -4,6 +4,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { buildManifest } from './scripts/build-manifest.mjs';
 import { practiceStudioPlugin } from './scripts/booklet/practice-studio-server.mjs';
+import { fullBookletImportPlugin } from './scripts/booklet/full-import-server.mjs';
 
 function tikzjaxRawGzPlugin() {
   const rawGz = (req, res, next) => {
@@ -24,6 +25,6 @@ function contentWritePlugin() {
 }
 
 export default defineConfig({
-  plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), practiceStudioPlugin()],
+  plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), practiceStudioPlugin(), fullBookletImportPlugin()()],
   server: { open: true, watch: { ignored: ['**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });

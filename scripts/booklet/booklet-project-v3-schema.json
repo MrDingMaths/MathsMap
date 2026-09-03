@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mathsmap-booklet-project-v3",
+  "type": "object",
+  "required": ["format", "version", "id", "title", "sections", "settings"],
+  "properties": {
+    "format": { "const": "mathsmap-booklet-project-v3" },
+    "version": { "const": 3 },
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "role", "blocks"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "role": { "enum": ["front-matter", "teaching", "mixed-practice", "challenge"] },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "id"],
+              "properties": {
+                "type": { "enum": ["module-ref", "question-set", "local-block"] },
+                "id": { "type": "string" }
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "includeSolutions": { "type": "boolean" },
+        "showTheorySolutions": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

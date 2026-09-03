@@ -108,6 +108,32 @@ function alignedFromRun(inners) {
   return `$\\begin{aligned}${rows.join(' \\\\ ')}\\end{aligned}$`;
 }
 
+// Expand one fully-delimited equality chain into lines. groupTextBlocks then
+// turns those lines into a single aligned KaTeX block.
+export function setoutMathChain(value) {
+  const source = String(value ?? '');
+  const inner = pureMathInner(source);
+  if (inner === null) return source;
+  const terms = [];
+  let depth = 0;
+  let start = 0;
+  for (let index = 0; index < inner.length; index++) {
+    const character = inner[index];
+    if (character === '\\') {
+      const macro = /^\\[a-zA-Z]+/.exec(inner.slice(index));
+      index += macro ? macro[0].length - 1 : 1;
+    } else if (character === '{') depth += 1;
+    else if (character === '}') depth -= 1;
+    else if (character === '=' && depth === 0) {
+      terms.push(inner.slice(start, index).trim());
+      start = index + 1;
+    }
+  }
+  if (terms.length < 2) return source;
+  terms.push(inner.slice(start).trim());
+  return [`$${terms[0]}=${terms[1]}$`, ...terms.slice(2).map((term) => `$=${term}$`)].join('\n');
+}
+
 // Split a text part's value into render blocks. Consecutive whole-line maths
 // runs (2+) collapse into one `aligned` block; everything else stays as its own
 // line (or a blank spacer), preserving today's behaviour for prose and singles.

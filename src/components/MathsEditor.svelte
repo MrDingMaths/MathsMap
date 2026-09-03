@@ -10,6 +10,9 @@
     onchange = () => {},
     onfocus = () => {},
     onblur = () => {},
+    onsave = null,
+    oncancel = null,
+    inline = false,
   } = $props();
 
   let editorEl = $state(null);
@@ -19,6 +22,7 @@
   let historyIndex = $state(-1);
   let lastSource = '';
   let savedRange = null;
+  let currentValue = $state(value);
 
   const palette = [
     ['x', 'x'], ['x^2', 'x²'], ['\\frac{a}{b}', 'fraction'], ['\\sqrt{x}', '√x'],
@@ -26,6 +30,7 @@
   ];
 
   function emit(next, source = serializeRichText(next)) {
+    currentValue = next;
     sourceText = source;
     onchange({ richText: next, source });
   }
@@ -120,6 +125,8 @@
 
   function handleKeydown(event) {
     const modifier = event.ctrlKey || event.metaKey;
+    if (modifier && event.key === 'Enter' && onsave) { event.preventDefault(); onsave({ richText: currentValue, source: sourceText }); return; }
+    if (event.key === 'Escape' && oncancel) { event.preventDefault(); oncancel(); return; }
     if (modifier && event.key.toLowerCase() === 'b') { event.preventDefault(); command('bold'); return; }
     if (modifier && event.key.toLowerCase() === 'i') { event.preventDefault(); command('italic'); return; }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); moveHistory(event.shiftKey ? 1 : -1); return; }
@@ -133,6 +140,18 @@
     remember(sourceText);
     renderValue(next);
     emit(next, sourceText);
+  }
+
+  function editMathIsland(event) {
+    const node = event.target?.closest?.('[data-node-type="math"]');
+    if (!node || !editorEl?.contains(node)) return;
+    const latex = window.prompt('Edit LaTeX', node.dataset.latex ?? '');
+    if (latex === null) return;
+    node.dataset.latex = latex;
+    node.dataset.source = `$${latex}$`;
+    const next = parseEditorDom(editorEl);
+    emit(next, serializeRichText(next));
+    renderValue(next);
   }
 
   onMount(() => {
@@ -149,7 +168,7 @@
   });
 </script>
 
-<div class="maths-editor" aria-label={label}>
+<div class:inline class="maths-editor" aria-label={label}>
   <div class="editor-toolbar" role="toolbar" aria-label="Formatting and maths tools">
     <button type="button" title="Bold (Ctrl+B)" aria-label="Bold" onmousedown={(event) => event.preventDefault()} onclick={() => command('bold')}><strong>B</strong></button>
     <button type="button" title="Italic (Ctrl+I)" aria-label="Italic" onmousedown={(event) => event.preventDefault()} onclick={() => command('italic')}><em>I</em></button>
@@ -159,6 +178,8 @@
     {/each}
     <button type="button" class="cloze-button" title="Insert inline cloze" onclick={insertCloze}>cloze</button>
     <span class="toolbar-spacer"></span>
+    {#if inline && oncancel}<button type="button" class="cancel-button" onclick={oncancel}>Cancel</button>{/if}
+    {#if inline && onsave}<button type="button" class="save-button" onclick={() => onsave({ richText: currentValue, source: sourceText })}>Save</button>{/if}
     <button type="button" title="Undo" aria-label="Undo" onclick={() => moveHistory(-1)}>↶</button>
     <button type="button" title="Redo" aria-label="Redo" onclick={() => moveHistory(1)}>↷</button>
   </div>
@@ -173,12 +194,13 @@
     bind:this={editorEl}
     onkeydown={handleKeydown}
     oninput={handleInput}
+    ondblclick={editMathIsland}
     onmouseup={saveSelection}
     onkeyup={saveSelection}
     onfocus={() => onfocus()}
     onblur={() => { saveSelection(); onblur(); }}
   ></div>
-  <details class="source-fallback" open={showSource} ontoggle={(event) => (showSource = event.currentTarget.open)}>
+  <details class:inline-source={inline} class="source-fallback" open={showSource} ontoggle={(event) => (showSource = event.currentTarget.open)}>
     <summary>Source fallback</summary>
     <p>Keep the original rich-text source here when a block contains notation the visual editor cannot interpret yet.</p>
     <textarea aria-label="Rich-text source fallback" value={sourceText} oninput={handleSourceInput}></textarea>
@@ -188,13 +210,13 @@
 <style>
   .maths-editor { border: 1px solid #d6dce5; border-radius: 8px; background: #fff; color: #172033; }
   .editor-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 0.22rem; padding: 0.35rem; border-bottom: 1px solid #e3e7ed; background: #f7f9fc; }
-  .editor-toolbar button { min-width: 28px; height: 28px; padding: 0 0.4rem; border: 1px solid transparent; border-radius: 5px; background: transparent; color: #23395d; font: 700 0.75rem Arial, sans-serif; cursor: pointer; }
+  .editor-toolbar button { min-width: 28px; height: 28px; padding: 0 0.4rem; border: 1px solid transparent; border-radius: 5px; background: transparent; color: #23395d; font: 700 0.75rem 'Nunito', system-ui, sans-serif; cursor: pointer; }
   .editor-toolbar button:hover, .editor-toolbar button:focus-visible { border-color: #b7c4d7; background: #fff; outline: none; }
   .palette-button { font-weight: 400 !important; font-family: Georgia, serif !important; }
   .cloze-button { color: #a52e28 !important; }
   .toolbar-divider { width: 1px; height: 18px; margin: 0 0.2rem; background: #d6dce5; }
   .toolbar-spacer { flex: 1; }
-  .editor-surface { min-height: 5rem; padding: 0.7rem 0.8rem; font: 0.92rem/1.45 Arial, sans-serif; outline: none; }
+  .editor-surface { min-height: 5rem; padding: 0.7rem 0.8rem; font: inherit; line-height: inherit; outline: none; }
   .editor-surface.empty::before { content: attr(data-placeholder); color: #8b96a8; pointer-events: none; }
   .editor-surface :global(p) { margin: 0 0 0.55rem; }
   .editor-surface :global(p:last-child) { margin-bottom: 0; }
@@ -205,4 +227,10 @@
   .source-fallback summary { cursor: pointer; color: #23395d; font-weight: 700; }
   .source-fallback p { margin: 0.45rem 0; }
   .source-fallback textarea { width: 100%; min-height: 4.5rem; box-sizing: border-box; padding: 0.5rem; border: 1px solid #d6dce5; border-radius: 5px; background: #fbfcfe; color: #172033; font: 0.76rem/1.4 ui-monospace, Consolas, monospace; resize: vertical; }
+  .maths-editor.inline { position: relative; border-color: #e45b55; border-radius: 3px; box-shadow: 0 0 0 1px rgba(228,91,85,.18); font: inherit; line-height: inherit; }
+  .maths-editor.inline .editor-toolbar { position: absolute; z-index: 30; right: 0; bottom: calc(100% + 3px); min-width: 410px; border: 1px solid #d6dce5; border-radius: 6px; box-shadow: 0 5px 18px rgba(15,23,42,.18); }
+  .maths-editor.inline .editor-surface { min-height: 1.4em; padding: 0; }
+  .maths-editor.inline .inline-source { position: absolute; z-index: 31; top: calc(100% + 3px); right: 0; width: min(520px, 80vw); background: #fff; box-shadow: 0 5px 18px rgba(15,23,42,.18); }
+  .cancel-button { color: #7b3c38 !important; }
+  .save-button { border-color: #2f6fb2 !important; background: #2f6fb2 !important; color: #fff !important; }
 </style>

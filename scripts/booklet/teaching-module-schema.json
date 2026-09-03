@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mathsmap-teaching-module-v1",
+  "type": "object",
+  "required": ["format", "version", "id", "status", "title", "classification", "sequence", "review"],
+  "properties": {
+    "format": { "const": "mathsmap-teaching-module-v1" },
+    "version": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["draft", "approved"] },
+    "title": { "type": "string", "minLength": 1 },
+    "classification": {
+      "type": "object",
+      "required": ["primarySkillId", "secondarySkillIds", "dotPointIds", "mappingStatus", "mappingNote"],
+      "properties": {
+        "primarySkillId": { "type": ["string", "null"] },
+        "secondarySkillIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "dotPointIds": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "mappingStatus": { "enum": ["mapped", "cross-skill", "unmapped"] },
+        "mappingNote": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "sequence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["type", "id", "pedagogyRole", "block"],
+            "properties": {
+              "type": { "const": "content-block" },
+              "id": { "type": "string" },
+              "pedagogyRole": { "enum": ["theory", "investigation", "identify", "worked-example", "guided-practice", "key-ideas", "practice"] },
+              "block": { "type": "object" }
+            },
+            "additionalProperties": true
+          },
+          {
+            "type": "object",
+            "required": ["type", "id", "questionId", "pedagogyRole", "order"],
+            "properties": {
+              "type": { "const": "question-ref" },
+              "id": { "type": "string" },
+              "questionId": { "type": "string" },
+              "pedagogyRole": { "enum": ["identify", "guided-practice", "practice"] },
+              "order": { "const": "fixed" }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "review": { "type": "object" }
+  },
+  "additionalProperties": true
+}

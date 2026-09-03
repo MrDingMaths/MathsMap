@@ -3,6 +3,7 @@
   import { flip } from 'svelte/animate';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import PracticeQuestionEditor from './PracticeQuestionEditor.svelte';
+  import FullBookletImport from './FullBookletImport.svelte';
   import { courses, dotpoints, skills, topics } from '../lib/data.js';
   import {
     DIFFICULTIES,
@@ -125,7 +126,7 @@
   function applyRouteState() {
     const query = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
     const requestedStage = query.get('stage');
-    if (requestedStage === 'import' || requestedStage === 'review') stage = requestedStage;
+    if (requestedStage === 'import' || requestedStage === 'review' || requestedStage === 'full-import') stage = requestedStage;
     else if (requestedStage === 'build' || requestedStage === 'builder') stage = 'builder';
     else stage = initialStage === 'import' || initialStage === 'review' ? initialStage : 'builder';
     const requestedOutput = query.get('output') ?? initialOutput;
@@ -179,6 +180,7 @@
   function goBuilder() { stage = 'builder'; error = ''; status = ''; }
   function openImport() { stage = 'import'; error = ''; status = ''; }
   function openReview() { stage = 'review'; error = ''; status = ''; }
+  function openFullImport() { stage = 'full-import'; error = ''; status = ''; }
   function chooseFile(event) { sourceFileInput = event.currentTarget.files; }
 
   function clearInvalidSkill(courseId = filters.courseId, topicId = filters.topicId, subtopicId = filters.subtopicId) {
@@ -518,6 +520,7 @@
   <nav class="workspace-tabs" aria-label="Booklet Studio workspace">
     <button class:active={stage === 'builder'} onclick={goBuilder}>Question bank</button>
     <button class:active={stage === 'import' || stage === 'review'} onclick={openImport}>Import / review</button>
+    <button class:active={stage === 'full-import'} onclick={openFullImport}>Full booklet</button>
   </nav>
 
   {#if status || error}
@@ -658,6 +661,8 @@
       </div>
       {#if job?.pages?.length}<section class="card page-strip"><div class="panel-heading"><div><h3>Source pages</h3></div><span class="muted">{job.pages.length} pages</span></div><div class="page-grid">{#each job.pages as page}<figure><img src={page.imageUrl} alt={'Source page ' + page.pageNumber} /><figcaption>Page {page.pageNumber}</figcaption></figure>{/each}</div></section>{/if}
     </section>
+  {:else if stage === 'full-import'}
+    <FullBookletImport />
   {:else}
     <section class="full-workspace review-workspace">
       <header class="page-heading"><div><h2>Review and approve</h2></div><div class="page-actions"><button class="secondary" onclick={openImport}>Back to import</button><button class="primary" onclick={publishApproved} disabled={busy || !approvedCount}>{busy ? 'Publishing...' : 'Publish approved'}</button></div></header>
@@ -767,7 +772,7 @@
   .a4-preview { width: min(100%, 210mm); min-height: 297mm; box-sizing: border-box; margin: 0 auto; padding: 15mm 14mm; background: #fff; color: #172033; box-shadow: 0 8px 30px rgba(35, 57, 93, .12); }
   .worksheet-header { padding-bottom: 5mm; border-bottom: 0; }
   .header-accent { width: 18mm; height: 2mm; margin-bottom: 3mm; background: #e8443a; }
-  .worksheet-header h2 { margin: 1mm 0; color: #23395d; font-size: 19pt; }
+  .worksheet-header h2 { margin: 1mm 0; color: #23395d; font-size: 18pt; }
   .worksheet-header p { margin: 0; color: #66758d; font-size: 8pt; }
   .preview-question { position: relative; margin-top: 7mm; padding-top: 0; border-top: 0; break-inside: avoid; will-change: transform; }
   .preview-question-tools { display: flex; align-items: center; gap: .3rem; margin-bottom: 2mm; color: #66758d; font-size: .64rem; }
@@ -880,7 +885,7 @@
 
 
   .worksheet-header__title-row{display:inline-flex;align-items:center;gap:.35rem}
-  .worksheet-header__editable-title{min-width:12rem;margin:0;color:#1e293b;font-size:19pt;outline:none;cursor:text;border:1.5px dashed var(--md-accent,#f87171);border-radius:3px;padding:1px 4px}
+  .worksheet-header__editable-title{min-width:12rem;margin:0;color:#1e293b;font-size:18pt;outline:none;cursor:text;border:1.5px dashed var(--md-accent,#f87171);border-radius:3px;padding:1px 4px}
   .worksheet-header__editable-title:hover{box-shadow:0 0 0 1px var(--md-accent,#f87171)}
   .worksheet-header__editable-title:focus{box-shadow:0 0 0 2px var(--md-accent,#f87171);background:#fff}
   .worksheet-header__editable-title:empty::before{content:attr(data-placeholder);opacity:.4}

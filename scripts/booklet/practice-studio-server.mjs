@@ -137,7 +137,10 @@ export function practiceStudioPlugin() {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
-        if (!pathname.startsWith('/__booklet/')) return next();
+        const ownsPath = pathname.startsWith('/__booklet/bank/')
+          || pathname === '/__booklet/imports'
+          || pathname.startsWith('/__booklet/imports/');
+        if (!ownsPath) return next();
         try {
           if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await writeManifest());
 

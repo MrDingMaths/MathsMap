@@ -4,8 +4,10 @@
 
 import { deepCopy, normalizeBookletProject } from './booklet-model.js';
 
-export const BOOKLET_PROJECTS_KEY = 'mathsmap.booklet.projects.v2';
-export const BOOKLET_LIBRARY_KEY = 'mathsmap.booklet.library.v2';
+export const BOOKLET_PROJECTS_KEY = 'mathsmap.booklet.projects.v3';
+export const BOOKLET_LIBRARY_KEY = 'mathsmap.booklet.library.v3';
+export const LEGACY_BOOKLET_PROJECTS_KEY = 'mathsmap.booklet.projects.v2';
+export const LEGACY_BOOKLET_LIBRARY_KEY = 'mathsmap.booklet.library.v2';
 
 function usableStorage(storage) {
   if (storage) return storage;
@@ -28,7 +30,8 @@ function writeJson(storage, key, value) {
 }
 
 export function loadBookletProjects(storage) {
-  const values = readJson(storage, BOOKLET_PROJECTS_KEY, []);
+  const current = readJson(storage, BOOKLET_PROJECTS_KEY, []);
+  const values = Array.isArray(current) && current.length ? current : readJson(storage, LEGACY_BOOKLET_PROJECTS_KEY, []);
   return Array.isArray(values) ? values.map((value) => normalizeBookletProject(value)) : [];
 }
 
@@ -49,7 +52,8 @@ export function deleteBookletProject(id, storage) {
 }
 
 export function loadBookletLibrary(storage) {
-  const values = readJson(storage, BOOKLET_LIBRARY_KEY, []);
+  const current = readJson(storage, BOOKLET_LIBRARY_KEY, []);
+  const values = Array.isArray(current) && current.length ? current : readJson(storage, LEGACY_BOOKLET_LIBRARY_KEY, []);
   return Array.isArray(values) ? deepCopy(values) : [];
 }
 

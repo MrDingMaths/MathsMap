@@ -54,7 +54,7 @@ test('MathsEditor remains compatible with text/maths segment records', () => {
   assert.equal(value.paragraphs[0].inlines[1].latex, 'x^2');
 });
 
-test('project numbering is section-local and multipart parts inherit numbering', () => {
+test('project numbering is section-local with plain question and part labels', () => {
   const project = createBookletProject({
     id: 'numbering',
     title: 'Numbering',
@@ -64,10 +64,10 @@ test('project numbering is section-local and multipart parts inherit numbering',
     ],
   });
   const numbered = numberProject(project);
-  assert.equal(numbered.sections[0].blocks[0].number, '1.1');
-  assert.deepEqual(numbered.sections[0].blocks[0].parts.map((part) => part.number), ['1.1(a)', '1.1(b)']);
-  assert.deepEqual(numbered.sections[1].blocks.map((block) => block.number), ['2.1', '2.2']);
-  assert.deepEqual(numbered.sections[1].blocks[1].parts.map((part) => part.number), ['2.2(a)', '2.2(b)', '2.2(c)']);
+  assert.equal(numbered.sections[0].blocks[0].number, '1');
+  assert.deepEqual(numbered.sections[0].blocks[0].parts.map((part) => part.number), ['a', 'b']);
+  assert.deepEqual(numbered.sections[1].blocks.map((block) => block.number), ['1', '2']);
+  assert.deepEqual(numbered.sections[1].blocks[1].parts.map((part) => part.number), ['a', 'b', 'c']);
   assert.deepEqual(wrapMultipartParts([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]]);
   assert.deepEqual(wrapMultipartParts([1, 2, 3, 4, 5], 3), [[1, 2, 3], [4, 5]]);
   assert.deepEqual(wrapMultipartParts([1, 2, 3, 4, 5], 4), [[1, 2, 3, 4], [5]]);

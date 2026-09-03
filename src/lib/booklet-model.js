@@ -6,8 +6,9 @@
 
 import { normalizeRichText, richTextToPlainText, serializeRichText } from './maths-editor.js';
 
-export const BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v2';
-export const BOOKLET_PROJECT_VERSION = 2;
+export const LEGACY_BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v2';
+export const BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v3';
+export const BOOKLET_PROJECT_VERSION = 3;
 export const BOOKLET_IMPORT_FORMAT = 'mathsmap-booklet-import-v2';
 export const PAGE_HEIGHT_MM = 257;
 export const PAGE_WIDTH_MM = 210;
@@ -29,8 +30,11 @@ export const RESPONSE_SPACE_MM = Object.freeze({
 
 export const BLOCK_TYPES = Object.freeze([
   'rich-text', 'heading', 'callout', 'image', 'worked-example',
-  'question', 'grid', 'page-break', 'narrative', 'questions'
+  'question', 'grid', 'page-break', 'narrative', 'questions',
+  'module-ref', 'question-set', 'local-block'
 ]);
+
+export const SECTION_ROLES = Object.freeze(['front-matter', 'teaching', 'mixed-practice', 'challenge']);
 
 const TIER_NAMES = ['foundation', 'development', 'mastery'];
 
@@ -350,6 +354,9 @@ export function normalizeQuestionBlock(raw = {}, { id = null, origin = null } = 
 export function normalizeBlock(raw = {}, index = 0) {
   const value = raw ?? {};
   const type = value.type ?? 'rich-text';
+  if (type === 'module-ref') return { ...projectClone(value), type, id: value.id ?? stableBookletId('module-ref', value.moduleId ?? index), moduleId: String(value.moduleId ?? ''), layout: projectClone(value.layout ?? {}) };
+  if (type === 'question-set') return { ...projectClone(value), type, id: value.id ?? stableBookletId('question-set', index), questionIds: [...(value.questionIds ?? [])].map(String), sort: value.sort ?? 'source', layout: projectClone(value.layout ?? {}) };
+  if (type === 'local-block') return { ...projectClone(value), type, id: value.id ?? stableBookletId('local-block', value.block?.id ?? index), block: normalizeBlock(value.block ?? { type: 'rich-text', content: '' }, index), layout: projectClone(value.layout ?? {}) };
   if (type === 'question') return normalizeQuestionBlock(value);
   if (type === 'worked-example') {
     const question = value.question ? normalizeQuestionBlock(value.question, { id: value.question.id }) : normalizeQuestionBlock(value);
@@ -383,6 +390,7 @@ function normalizeSection(raw = {}, index = 0) {
     id: raw.id ?? `section-${index + 1}`,
     title: raw.title ?? `Section ${index + 1}`,
     kicker: raw.kicker ?? '',
+    role: SECTION_ROLES.includes(raw.role) ? raw.role : 'teaching',
     blocks: (raw.blocks ?? []).map((block, blockIndex) => normalizeBlock(block, blockIndex)),
   };
 }
@@ -398,11 +406,20 @@ export function normalizeBookletProject(raw = {}) {
     subtitle: value.subtitle ?? '',
     sections: (value.sections ?? []).map(normalizeSection),
     assets: projectClone(value.assets ?? {}),
-    settings: { includeSolutions: true, ...projectClone(value.settings ?? {}) },
+    settings: { includeSolutions: true, showTheorySolutions: true, ...projectClone(value.settings ?? {}) },
     source: projectClone(value.source ?? null),
     status: value.status ?? 'draft',
     updatedAt: value.updatedAt ?? null,
   };
+  if (value.format === LEGACY_BOOKLET_PROJECT_FORMAT || Number(value.version) === 2) {
+    normalized.migratedFrom = projectClone(value.migratedFrom ?? { format: LEGACY_BOOKLET_PROJECT_FORMAT, version: 2 });
+    normalized.sections = normalized.sections.map((section) => ({
+      ...section,
+      blocks: section.blocks.map((block) => ['module-ref', 'question-set', 'local-block'].includes(block.type)
+        ? block
+        : normalizeBlock({ type: 'local-block', id: `placement-${block.id}`, block }, 0)),
+    }));
+  }
   // v1 recipes used a soft target. It is intentionally not part of the v2
   // project contract: page count is measured from live A4 flow instead.
   delete normalized.pageTarget;
@@ -467,14 +484,14 @@ export function numberProject(project) {
     const blocks = section.blocks.map((block) => {
       if (block.type === 'question') {
         questionIndex += 1;
-        const number = `${sectionIndex + 1}.${questionIndex}`;
-        return { ...block, number, parts: block.parts.map((part, partIndex) => ({ ...part, number: block.parts.length > 1 ? `${number}(${part.label ?? String.fromCharCode(97 + partIndex)})` : null })) };
+        const number = String(questionIndex);
+        return { ...block, number, parts: block.parts.map((part, partIndex) => ({ ...part, number: block.parts.length > 1 ? String(part.label ?? String.fromCharCode(97 + partIndex)) : null })) };
       }
       if (block.type === 'worked-example' && block.question) return { ...block, question: { ...block.question, number: null } };
       if (block.type === 'questions') return { ...block, questions: (block.questions ?? []).map((question) => {
         questionIndex += 1;
-        const number = `${sectionIndex + 1}.${questionIndex}`;
-        return { ...question, number, parts: (question.parts ?? []).map((part, partIndex) => ({ ...part, number: question.parts.length > 1 ? `${number}(${part.label ?? String.fromCharCode(97 + partIndex)})` : null })) };
+        const number = String(questionIndex);
+        return { ...question, number, parts: (question.parts ?? []).map((part, partIndex) => ({ ...part, number: question.parts.length > 1 ? String(part.label ?? String.fromCharCode(97 + partIndex)) : null })) };
       }) };
       return block;
     });
@@ -483,19 +500,41 @@ export function numberProject(project) {
   return { ...value, sections };
 }
 
-export function resolveProject(project, bankInput = new Map(), { includeSolutions = true } = {}) {
+export function resolveProject(project, bankInput = new Map(), { includeSolutions = true, showTheorySolutions = null, modules = new Map() } = {}) {
   const bank = normalizeBank(bankInput);
   const base = normalizeBookletProject(project);
+  const moduleBank = modules instanceof Map ? modules : new Map((modules ?? []).map((module) => [module.id, module]));
+  const revealTheory = showTheorySolutions ?? base.settings.showTheorySolutions === true;
+  const theoryVisible = (value) => {
+    const copy = projectClone(value);
+    if (!revealTheory && copy && typeof copy === 'object') {
+      delete copy.theorySolution;
+      for (const example of copy.examples ?? []) delete example.theorySolution;
+    }
+    return copy;
+  };
   const sections = base.sections.map((section) => {
     const blocks = [];
     for (const block of section.blocks) {
-      if (block.type === 'questions') {
+      if (block.type === 'local-block') {
+        blocks.push(theoryVisible(block.block));
+      } else if (block.type === 'module-ref') {
+        const module = moduleBank.get(block.moduleId);
+        if (!module) { blocks.push({ type: 'callout', id: `missing-${block.id}`, variant: 'warning', content: normalizeRichText(`Missing teaching module ${block.moduleId}`), reviewFlags: ['missing-teaching-module'] }); continue; }
+        for (const item of module.sequence ?? []) {
+          if (item.type === 'question-ref') { const question = bank.get(item.questionId); if (question) blocks.push(makeQuestionBlock(question)); }
+          else if (item.block) blocks.push(theoryVisible(item.block));
+        }
+      } else if (block.type === 'questions' || block.type === 'question-set') {
+        const selected = [];
         for (const id of block.questionIds ?? []) {
           const question = bank.get(id);
-          if (question) blocks.push(makeQuestionBlock(question));
+          if (question) selected.push(question);
         }
+        if (block.type === 'question-set' && block.sort === 'reasoning') selected.sort((a, b) => Number(a.classification?.reasoningScore ?? 0) - Number(b.classification?.reasoningScore ?? 0) || (a.source?.order ?? 0) - (b.source?.order ?? 0));
+        for (const question of selected) blocks.push(makeQuestionBlock(question));
       } else {
-        blocks.push(block);
+        blocks.push(theoryVisible(block));
       }
     }
     return { ...section, blocks };
@@ -510,7 +549,10 @@ export function resolveProject(project, bankInput = new Map(), { includeSolution
 }
 
 export function projectQuestions(project) {
-  return normalizeBookletProject(project).sections.flatMap((section) => section.blocks.flatMap((block) => block.type === 'question' ? [block] : block.type === 'questions' ? block.questions ?? [] : []));
+  const fromBlock = (block) => block.type === 'question' ? [block]
+    : block.type === 'questions' ? block.questions ?? []
+    : block.type === 'local-block' && block.block ? fromBlock(block.block) : [];
+  return normalizeBookletProject(project).sections.flatMap((section) => section.blocks.flatMap(fromBlock));
 }
 
 export function addQuestionsToSection(project, sectionId, questions, { index = null } = {}) {
@@ -612,7 +654,7 @@ export function projectStats(project, pageCount = null) {
 export function validateBookletProject(project) {
   const value = project ?? {};
   const errors = [];
-  if (value.format && value.format !== BOOKLET_PROJECT_FORMAT) errors.push(`Unsupported booklet format: ${value.format}`);
+  if (value.format && ![BOOKLET_PROJECT_FORMAT, LEGACY_BOOKLET_PROJECT_FORMAT].includes(value.format)) errors.push(`Unsupported booklet format: ${value.format}`);
   if (value.version && Number(value.version) > BOOKLET_PROJECT_VERSION) errors.push(`Unsupported booklet version: ${value.version}`);
   if (!value.id) errors.push('Project needs an id');
   if (!value.title) errors.push('Project needs a title');
@@ -634,6 +676,9 @@ export function validateBookletProject(project) {
         if (block.columns !== undefined && clampColumns(block.columns) !== Number(block.columns)) errors.push(`Question ${block.id} columns must be between 1 and 4`);
         for (const part of block.parts ?? []) if (Number(part.answerSpaceMm) < 0) errors.push(`Question ${block.id} has negative answer space`);
       }
+      if (block.type === 'module-ref' && !block.moduleId) errors.push(`Module reference ${block.id} needs moduleId`);
+      if (block.type === 'question-set' && !Array.isArray(block.questionIds)) errors.push(`Question set ${block.id} needs questionIds`);
+      if (block.type === 'local-block' && !block.block?.type) errors.push(`Local placement ${block.id} needs a block`);
       if (block.type === 'grid' && block.columns !== undefined && clampColumns(block.columns) !== Number(block.columns)) errors.push(`Grid ${block.id} columns must be between 1 and 4`);
     }
   }

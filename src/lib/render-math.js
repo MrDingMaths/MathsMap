@@ -27,11 +27,19 @@ export function renderMath(text) {
   const str = String(text);
   if (cache.has(str)) return cache.get(str);
 
+  // Transcription lanes may preserve display delimiters. The shared renderer lays
+  // expressions out itself, so reduce $$...$$ to the same single-delimiter form
+  // before tokenising. Repeated source dot leaders are collapsed to one stable
+  // ellipsis rather than producing irregularly spaced groups of ellipses.
+  const normalized = str
+    .replace(/\$\$([\s\S]*?)\$\$/g, (_match, latex) => `$${latex}$`)
+    .replace(/(?:\\dots){2,}/g, '\\ldots');
+
   // Alternating split: even indices are prose, odd indices are LaTeX.
   // A literal `$` is written `\$`; the `\\.` alternation lets a math run
   // contain escaped chars (e.g. `\$` for currency) without ending early,
   // and the opening lookbehind keeps a prose `\$` from starting a run.
-  const parts = str.split(/(?<!\\)\$((?:\\.|[^$])*?)\$/);
+  const parts = normalized.split(/(?<!\\)\$((?:\\.|[^$])*?)\$/);
 
   // Assemble the prose with math runs swapped out for placeholder tokens, so
   // **bold** that wraps a math run (e.g. `**divide by $4$**`) stays intact for

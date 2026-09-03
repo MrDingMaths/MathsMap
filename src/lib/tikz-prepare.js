@@ -97,6 +97,13 @@ export function prepareTikz(code) {
     }) + comment;
   }).join('\n');
 
+  // AGY structural results sometimes contain the visible TikZ body without the
+  // environment wrapper. A body made only of drawing commands is unambiguous and
+  // can be completed deterministically for both browser and PDF rendering.
+  if (!/\\begin\{tikzpicture\}/.test(cleanCode) && /\\(?:draw|path|node|coordinate|fill|shade)\b/.test(cleanCode)) {
+    cleanCode = `\\begin{tikzpicture}\n${cleanCode.trim()}\n\\end{tikzpicture}`;
+  }
+
   // Which packages the renderer must inject, detected from the source exactly as the app
   // detects them (docs/tikz-prompt.md: the author never writes \usepackage for these).
   const pkgs = {};
