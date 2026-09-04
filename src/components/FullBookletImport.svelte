@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
 
+  let { onprojectcreated = null } = $props();
+
   const pilotPages = '1-3,29-38,46,48,51,61-62';
   let pdf = $state('C:\\Users\\james\\OneDrive\\Admin\\WebApps\\MathsMap\\booklets\\Computation with Integers.pdf');
   let docx = $state('C:\\Users\\james\\OneDrive\\Admin\\WebApps\\MathsMap\\booklets\\Computation with Integers.docx');
@@ -72,6 +74,15 @@
     if (!run) return;
     const value = await task('Capturing fidelity evidence', () => request(`/__booklet/full-imports/${encodeURIComponent(run.runId)}/action`, { method: 'POST', body: JSON.stringify({ action: 'capture-fidelity', base: location.origin }) }));
     if (value?.run) run = value.run;
+  }
+
+  async function materializeProject() {
+    if (!run) return;
+    const project = await task('Creating editable booklet', () => request('/__booklet/projects/materialize', { method: 'POST', body: JSON.stringify({ runId: run.runId }) }));
+    if (project) {
+      message = `Created editable booklet ${project.title}.`;
+      onprojectcreated?.(project);
+    }
   }
 
   async function saveReview(mutator) {
@@ -208,7 +219,7 @@
           <article><div><strong>{lane[1]}</strong><span>{run.lanes?.[lane[0]]?.status ?? 'not-started'} · {run.lanes?.[lane[0]]?.results ?? 0}/{run.lanes?.[lane[0]]?.tasks ?? 0} results</span></div><div><button onclick={() => laneAction('build-tasks', lane[0])} disabled={!!busy}>Build</button><button onclick={() => laneAction('run', lane[0])} disabled={!!busy}>Run / resume</button><button onclick={() => laneAction('merge', lane[0])} disabled={!!busy}>Merge</button></div></article>
         {/each}
       </div>
-      <div class="lane-footer"><button class="secondary" onclick={captureFidelity} disabled={!!busy}>Capture audit pages</button><button class="secondary" onclick={() => laneAction('validate', 'exact')} disabled={!!busy}>Validate</button><button class="secondary" onclick={() => laneAction('repair-build', 'repair')} disabled={!!busy}>Build flagged repairs</button><button class="secondary" onclick={() => laneAction('repair-run', 'repair')} disabled={!!busy}>Run repairs</button><button class="secondary" onclick={() => laneAction('publish-dry-run', 'exact')} disabled={!!busy}>Publication dry run</button><button class="primary" onclick={() => laneAction('publish-apply', 'exact')} disabled={!!busy}>Publish approved</button></div>
+      <div class="lane-footer"><button class="secondary" onclick={captureFidelity} disabled={!!busy}>Capture audit pages</button><button class="secondary" onclick={() => laneAction('validate', 'exact')} disabled={!!busy}>Validate</button><button class="secondary" onclick={() => laneAction('repair-build', 'repair')} disabled={!!busy}>Build flagged repairs</button><button class="secondary" onclick={() => laneAction('repair-run', 'repair')} disabled={!!busy}>Run repairs</button><button class="secondary" onclick={() => laneAction('publish-dry-run', 'exact')} disabled={!!busy}>Publication dry run</button><button class="primary" onclick={materializeProject} disabled={!!busy}>Create editable booklet</button><button class="secondary" onclick={() => laneAction('publish-apply', 'exact')} disabled={!!busy}>Publish approved to banks</button></div>
       {#if run.validation}<div class:invalid={!run.validation.valid} class="validation"><strong>{run.validation.valid ? 'Deterministic validation passed' : 'Validation blocked'}</strong><span>{run.validation.pages} pages · {run.validation.modules} modules · {run.validation.questions} questions</span>{#each run.validation.errors ?? [] as item}<small>{item}</small>{/each}</div>{/if}
     </section>
 
@@ -270,7 +281,6 @@
   .preview-controls select, .diagram-controls select { display: block; margin-top: .15rem; font: inherit; }
   .layout-hint { margin: .55rem 0; padding: .4rem .55rem; background: #f2f7fb; color: #51667d; font-size: .68rem; }
   .diagram-actions, .diagram-controls { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
-  .reconstruction article { padding: .7rem 0; border-bottom: 1px solid #edf0f3; } .reconstruction article > span { color: #3d6ea8; font-size: .62rem; } pre { max-height: 190px; overflow: auto; padding: .5rem; background: #f7f9fb; font-size: .62rem; white-space: pre-wrap; }
   .record-grid { display: grid; gap: .65rem; margin-top: 1rem; } .record { padding: .8rem; } .record h3 { margin: .2rem 0; } .record p { margin-bottom: 0; } .empty { padding: 1rem; color: #66758d; }
   .record.resolved { opacity:.58; }
   @media (max-width: 900px) { .setup-grid, .page-review, .comparison { grid-template-columns: 1fr; } .page-list { display: flex; overflow: auto; } .page-list button { min-width: 110px; } }

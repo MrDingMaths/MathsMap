@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mathsmap-booklet-project-v4",
+  "title": "MathsMap editable booklet project v4",
+  "type": "object",
+  "required": ["format", "version", "id", "title", "status", "revision", "sections", "settings"],
+  "properties": {
+    "format": { "const": "mathsmap-booklet-project-v4" },
+    "version": { "const": 4 },
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "subtitle": { "type": "string" },
+    "status": { "enum": ["draft", "published", "archived"] },
+    "revision": { "type": "integer", "minimum": 0 },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "role", "blocks"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "role": { "type": "string" },
+          "sourcePageNumber": { "type": ["integer", "null"], "minimum": 1 },
+          "sourceSectionId": { "type": ["string", "null"] },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "type"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "type": { "enum": ["rich-text", "heading", "callout", "image", "worked-example", "question", "grid", "page-break", "spacer", "narrative"] },
+                "snapshotKind": { "enum": ["local", "bank"] },
+                "bankRef": {
+                  "type": ["object", "null"],
+                  "properties": { "id": { "type": "string" }, "revision": { "type": "string" } },
+                  "required": ["id", "revision"],
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "settings": {
+      "type": "object",
+      "required": ["showTheorySolutions", "practiceAnswers", "showResponseSpaces", "layoutOverrides"],
+      "properties": {
+        "showTheorySolutions": { "type": "boolean" },
+        "practiceAnswers": { "enum": ["none", "short", "worked"] },
+        "showResponseSpaces": { "type": "boolean" },
+        "layoutOverrides": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "source": { "type": ["object", "null"] },
+    "assets": { "type": ["array", "object"] },
+    "createdAt": { "type": ["string", "null"] },
+    "updatedAt": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

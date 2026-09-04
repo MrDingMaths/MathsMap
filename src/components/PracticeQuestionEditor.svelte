@@ -189,7 +189,6 @@
   .preview-pane__label { margin-top: .35rem; color: #66758d; font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
   .editor-header { display: flex; justify-content: space-between; gap: .7rem; align-items: flex-start; }
   .editor-header h3 { margin: .12rem 0 .2rem; color: #23395d; font-size: 1.1rem; }
-  .editor-header p { margin: 0; color: #66758d; font-size: .72rem; line-height: 1.45; }
   .editor-id { max-width: 240px; overflow: hidden; color: #66758d; font: .65rem ui-monospace, Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; }
   .editor-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 160px; gap: .55rem; }
   .editor-fields .wide { grid-column: 1 / -1; }

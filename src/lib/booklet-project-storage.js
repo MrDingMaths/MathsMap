@@ -1,0 +1,53 @@
+function responseJson(response) {
+  return response.json().then((value) => {
+    if (!response.ok) throw Object.assign(new Error(value.error ?? `Booklet project request failed (${response.status})`), { status: response.status });
+    return value;
+  });
+}
+
+async function request(url, options = {}, fetchImpl = globalThis.fetch) {
+  const response = await fetchImpl(url, {
+    headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
+    ...options,
+  });
+  return responseJson(response);
+}
+
+export function listBookletProjects(fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects', {}, fetchImpl);
+}
+
+export function loadBookletProject(id, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(id), {}, fetchImpl);
+}
+
+export function createBookletProject(value = {}, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects', { method: 'POST', body: JSON.stringify(value) }, fetchImpl);
+}
+
+export function saveBookletProject(project, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(project.id), {
+    method: 'PUT',
+    body: JSON.stringify({ project, expectedRevision: project.revision }),
+  }, fetchImpl);
+}
+
+export function duplicateBookletProject(id, title = null, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(id) + '/duplicate', { method: 'POST', body: JSON.stringify({ title }) }, fetchImpl);
+}
+
+export function deleteBookletProject(id, confirmId, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(id), { method: 'DELETE', body: JSON.stringify({ confirmId }) }, fetchImpl);
+}
+
+export function materializeBookletImport(runId, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/materialize', { method: 'POST', body: JSON.stringify({ runId }) }, fetchImpl);
+}
+
+export function promoteProjectQuestion(projectId, body, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(projectId) + '/promote-question', { method: 'POST', body: JSON.stringify(body) }, fetchImpl);
+}
+
+export function promoteProjectModule(projectId, body, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(projectId) + '/promote-module', { method: 'POST', body: JSON.stringify(body) }, fetchImpl);
+}

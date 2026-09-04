@@ -3,7 +3,7 @@
   import PracticeStudio from '../components/PracticeStudio.svelte';
   import { loadPracticeBank } from '../lib/practice-question-storage.js';
 
-  let { initialDifficulty = 'all', initialStage = 'builder', initialOutput = null } = $props();
+  let { initialDifficulty = 'all', initialStage = 'builder', initialOutput = null, projectId = null } = $props();
   let bank = $state([]);
   let loading = $state(true);
   let error = $state('');
@@ -16,7 +16,7 @@
 </script>
 
 {#if loading}<main class="booklet-loading"><p>Loading Practice Question Studio...</p></main>
-{:else}<PracticeStudio initialBank={bank} {initialDifficulty} initialError={error} {initialStage} {initialOutput} />{/if}
+{:else}<PracticeStudio initialBank={bank} {initialDifficulty} initialError={error} {initialStage} {initialOutput} initialProjectId={projectId} />{/if}
 
 <style>
   .booklet-loading { min-height: calc(100dvh - 72px); display: grid; place-items: center; color: var(--muted); background: var(--app-canvas); font-family: var(--font-body); }

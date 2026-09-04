@@ -15,14 +15,17 @@
     inline = false,
   } = $props();
 
+  function initialSourceText() { return sourceFallback || serializeRichText(value); }
+  function initialValue() { return value; }
+
   let editorEl = $state(null);
-  let sourceText = $state(sourceFallback || serializeRichText(value));
+  let sourceText = $state(initialSourceText());
   let showSource = $state(false);
   let history = $state([]);
   let historyIndex = $state(-1);
   let lastSource = '';
   let savedRange = null;
-  let currentValue = $state(value);
+  let currentValue = $state(initialValue());
 
   const palette = [
     ['x', 'x'], ['x^2', 'x²'], ['\\frac{a}{b}', 'fraction'], ['\\sqrt{x}', '√x'],

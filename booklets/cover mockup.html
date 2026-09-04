@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Further Calculus Skills — Booklet Cover</title>
+  <style>
+    /* =========================================================
+       QUICK EDIT AREA
+       Change these values to update the whole cover consistently.
+       ========================================================= */
+    :root {
+      --page-width: 210mm;
+      --page-height: 297mm;
+
+      --accent: #f28f94;
+      --ink: #111111;
+      --muted: #777777;
+      --line: #d8d8d8;
+      --soft: #f7f7f7;
+
+      /* Page margins: 10 mm top/bottom, 15 mm left/right */
+      --page-padding-top: 10mm;
+      --page-padding-right: 15mm;
+      --page-padding-bottom: 10mm;
+      --page-padding-left: 15mm;
+
+      --accent-bar-width: 6mm;
+      --accent-bar-gap: 9mm;
+
+      --font: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      background: #ececec;
+      color: var(--ink);
+      font-family: var(--font);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      display: grid;
+      place-items: start center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .page {
+      position: relative;
+      width: var(--page-width);
+      min-height: var(--page-height);
+      background: #ffffff;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    }
+
+    .accent-bar {
+      position: absolute;
+      top: var(--page-padding-top);
+      bottom: var(--page-padding-bottom);
+      left: var(--page-padding-left);
+      width: var(--accent-bar-width);
+      border-radius: 1.8mm;
+      background: var(--accent);
+    }
+
+    .page-inner {
+      min-height: var(--page-height);
+      padding:
+        var(--page-padding-top)
+        var(--page-padding-right)
+        var(--page-padding-bottom)
+        calc(var(--page-padding-left) + var(--accent-bar-width) + var(--accent-bar-gap));
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top row */
+    .top-row {
+      min-height: 16mm;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .name-field {
+      width: 66mm;
+      height: 14mm;
+      border: 0.45mm solid #777;
+      border-radius: 4mm;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 2.3mm 3.2mm;
+    }
+
+    .name-label {
+      font-size: 9pt;
+      color: var(--muted);
+      line-height: 1;
+      letter-spacing: .01em;
+    }
+
+    /* Main title */
+    .title-block {
+      margin-top: 10mm;
+      padding: 0 2.5mm 8mm 2.5mm;
+      border-bottom: 0.35mm solid var(--line);
+    }
+
+    .course-line {
+      margin: 0 0 4.5mm;
+      font-size: 17pt;
+      font-weight: 400;
+      letter-spacing: -.015em;
+      color: #333;
+    }
+
+    .main-title {
+      margin: 0;
+      font-size: 36pt;
+      line-height: 1.03;
+      font-weight: 750;
+      letter-spacing: -.025em;
+    }
+
+    /* Book information */
+    .book-info {
+      margin-top: 8mm;
+      display: grid;
+      grid-template-columns: 31mm 1fr 58mm;
+      min-height: 29mm;
+      border: 0;
+    }
+
+    /* Keep the information row open and borderless — no visible table grid. */
+    .book-info > * {
+      border: 0;
+      outline: 0;
+    }
+
+    .book-badge,
+    .topics,
+    .meta {
+      padding: 5mm 4mm;
+    }
+
+    .book-badge {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .book-badge span {
+      display: inline-block;
+      padding: 1.5mm 2.4mm;
+      background: color-mix(in srgb, var(--accent) 18%, white);
+      border-left: 1.2mm solid var(--accent);
+      font-size: 12.5pt;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .topics {
+      font-size: 12pt;
+      line-height: 1.4;
+    }
+
+    .topics div + div { margin-top: .8mm; }
+
+    .meta {
+      font-size: 8.5pt;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .meta strong {
+      color: #5f5f5f;
+      font-weight: 600;
+    }
+
+    /* Contents */
+    .contents {
+      margin-top: 6.5mm;
+      padding: 0 2.5mm;
+    }
+
+    .contents-title {
+      margin: 0 0 4mm;
+      font-size: 16pt;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .contents-list {
+      display: grid;
+      gap: 3.1mm;
+    }
+
+    .contents-row {
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      align-items: end;
+      gap: 2mm;
+      font-size: 11.5pt;
+      line-height: 1.15;
+    }
+
+    .leader {
+      border-bottom: 0.45mm dotted #777;
+      transform: translateY(-1.25mm);
+    }
+
+    .page-no {
+      min-width: 5mm;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Footer */
+    .footer {
+      position: absolute;
+      left: calc(var(--page-padding-left) + var(--accent-bar-width) + var(--accent-bar-gap));
+      right: var(--page-padding-right);
+      bottom: var(--page-padding-bottom);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6mm;
+      color: #b5b5b5;
+      font-size: 7.5pt;
+      line-height: 1;
+    }
+
+    .footer-left,
+    .footer-right {
+      white-space: nowrap;
+    }
+
+    /* Print settings */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        background: white;
+      }
+
+      body { padding: 0; }
+
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: none;
+      }
+    }
+
+    /* Small-screen preview: scales the page without changing print size. */
+    @media screen and (max-width: 850px) {
+      body { padding: 10px; }
+      .page {
+        transform-origin: top center;
+        width: min(210mm, calc(100vw - 20px));
+        min-height: auto;
+        aspect-ratio: 210 / 297;
+      }
+      .page-inner { min-height: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" aria-label="Booklet cover">
+    <div class="accent-bar" aria-hidden="true"></div>
+
+    <div class="page-inner">
+      <header class="top-row">
+        <!-- EDIT: student field -->
+        <div class="name-field">
+          <span class="name-label">Name</span>
+        </div>
+      </header>
+
+      <section class="title-block">
+        <!-- EDIT: course and booklet title -->
+        <p class="course-line">Course</p>
+        <h1 class="main-title">Topic</h1>
+      </section>
+
+      <section class="book-info" aria-label="Book information">
+        <div class="book-badge">
+          <span>Book<br>n</span>
+        </div>
+
+        <!-- EDIT: topic list -->
+        <div class="topics">
+          <div>Subtopic 1</div>
+          <div>Subtopic 2</div>
+        </div>
+
+        <!-- EDIT: version and feedback details -->
+        <div class="meta">
+          <div><strong>Version:</strong> n</div>
+          <div style="margin-top: 2mm;"><strong>Feedback</strong></div>
+          <div>https://MrDingMaths.com</div>
+        </div>
+      </section>
+
+      <section class="contents" aria-labelledby="contents-heading">
+        <h2 id="contents-heading" class="contents-title">Contents</h2>
+
+        <!-- EDIT: duplicate a .contents-row to add more entries -->
+        <div class="contents-list">
+          <div class="contents-row">
+            <span>Syllabus Content</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="page-no">2</span>
+          </div>
+
+          <div class="contents-row">
+            <span>Learning Intention</span>
+            <span class="leader" aria-hidden="true"></span>
+            <span class="page-no">3</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="footer">
+      <div class="footer-left">https://MrDingMaths.com | 260317</div>
+      <div class="footer-right">Page 1 of 6</div>
+    </footer>
+  </main>
+</body>
+</html>
