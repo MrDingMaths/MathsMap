@@ -110,7 +110,7 @@ function alignedFromRun(inners) {
 
 // Expand one fully-delimited equality chain into lines. groupTextBlocks then
 // turns those lines into a single aligned KaTeX block.
-export function setoutMathChain(value) {
+export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
   const source = String(value ?? '');
   const inner = pureMathInner(source);
   if (inner === null) return source;
@@ -129,9 +129,11 @@ export function setoutMathChain(value) {
       start = index + 1;
     }
   }
-  if (terms.length < 2) return source;
+  if (terms.length < (stackFirstTerm ? 1 : 2)) return source;
   terms.push(inner.slice(start).trim());
-  return [`$${terms[0]}=${terms[1]}$`, ...terms.slice(2).map((term) => `$=${term}$`)].join('\n');
+  return stackFirstTerm
+    ? [`$${terms[0]}$`, ...terms.slice(1).map((term) => `$=${term}$`)].join('\n')
+    : [`$${terms[0]}=${terms[1]}$`, ...terms.slice(2).map((term) => `$=${term}$`)].join('\n');
 }
 
 // Split a text part's value into render blocks. Consecutive whole-line maths

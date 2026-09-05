@@ -8,6 +8,7 @@ import { AGY_BIN, parseResultFile, runTasks } from '../agy/lib/agy-run.mjs';
 import { normaliseQuestion, validateQuestion, makeBankManifest } from '../../src/lib/practice-question-model.js';
 import { normalizeTeachingModule, validateTeachingModule } from '../../src/lib/teaching-module-model.js';
 import { normalizeBookletProject, validateBookletProject } from '../../src/lib/booklet-model.js';
+import { sourcePresentationFlags } from '../../src/lib/source-presentation.js';
 
 export const BOOKLET_AGY_MODEL = 'gemini-3.8-flash-high';
 export const DEFAULT_CONCURRENCY = 3;
@@ -21,6 +22,14 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = path.resolve(HERE, '../..');
 export const WORK_ROOT = path.join(REPO_ROOT, '.booklet-work', 'full-imports');
 const PROMPT_ROOT = path.join(HERE, 'prompts');
+const PRESENTATION_CONTRACT = path.join(PROMPT_ROOT, 'source-presentation-v2.md');
+export function presentationContractForRun(manifest) {
+  for (const file of [PRESENTATION_CONTRACT, path.join(PROMPT_ROOT, 'source-presentation-v1.md')]) {
+    const relative = path.relative(REPO_ROOT, file).replaceAll(path.sep, '/');
+    if (manifest.pins?.files?.[relative]) return fs.readFileSync(file, 'utf8');
+  }
+  return '';
+}
 const SCHEMA_FILES = [
   path.join(HERE, 'exact-transcription-v2-schema.json'),
   path.join(HERE, 'practice-question-schema.json'),
@@ -231,7 +240,7 @@ export function prepareRun({ pdf, docx, pages, runId = null, workRoot = WORK_ROO
     source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy) },
     pins: {
       model: hashValue(BOOKLET_AGY_MODEL),
-      files: pinFiles([...SCHEMA_FILES, ...Object.values(PROMPT_FILES), ...TAXONOMY_FILES]),
+      files: pinFiles([...SCHEMA_FILES, ...Object.values(PROMPT_FILES), PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map((relative) => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])),
     },
     lanes: {},
@@ -268,7 +277,7 @@ function copyLaneEvidence(runDir, dir) {
 }
 
 function exactTask(runDir, dir, pages, index) {
-  const prompt = fs.readFileSync(PROMPT_FILES.exact, 'utf8');
+  const prompt = fs.readFileSync(PROMPT_FILES.exact, 'utf8') + '\n\n' + presentationContractForRun(readJson(manifestPath(runDir)));
   const inputs = pages.map((page) => ({
     id: `page-${page}`, pageNumber: page,
     image: `evidence/pages/page-${String(page).padStart(3, '0')}.png`,
@@ -464,7 +473,7 @@ export function buildTasks(runIdOrDir, { lane = 'exact', workRoot = WORK_ROOT } 
     count = Math.ceil(modules.length / MAX_QUESTIONS_PER_TASK);
   } else if (lane === 'fidelity') {
     const transcription = applyContentOverrides(readJson(mergedPath(runDir, 'transcription')), readJson(reviewPath(runDir)));
-    const prompt = fs.readFileSync(PROMPT_FILES.fidelity, 'utf8');
+    const prompt = fs.readFileSync(PROMPT_FILES.fidelity, 'utf8') + '\n\n' + presentationContractForRun(manifest);
     const screenshots = path.join(runDir, 'evidence', 'reconstructed');
     for (const page of transcription.pages ?? []) {
       const file = path.join(screenshots, `page-${String(page.pageNumber).padStart(3, '0')}.png`);
@@ -478,6 +487,7 @@ export function buildTasks(runIdOrDir, { lane = 'exact', workRoot = WORK_ROOT } 
         return {
           pageNumber,
           rootId: page.id,
+          structure: page,
           contentHash: contentHash(page),
           evidenceHash: fidelityPageEvidenceHash(runDir, pageNumber),
           source: `evidence/pages/page-${String(pageNumber).padStart(3, '0')}.png`,
@@ -614,8 +624,8 @@ export function mergeLane(runIdOrDir, { lane = 'exact', workRoot = WORK_ROOT } =
   return { lane, results: results.length };
 }
 
-function allReviewFlags(transcription, review) {
-  const flags = [...(review.flags ?? [])];
+function allReviewFlags(transcription, review, manifest = {}) {
+  const flags = [...(review.flags ?? []).filter((flag) => flag.source !== 'source-presentation'), ...sourcePresentationFlags(applyContentOverrides(transcription, review, { strict: false }), { requireEvidence: Boolean(manifest.pins?.files?.['scripts/booklet/prompts/source-presentation-v2.md']) })];
   for (const page of transcription.pages ?? []) {
     for (const flag of page.reviewFlags ?? []) flags.push({ rootId: page.id, code: String(flag), severity: 'fatal' });
     walk(page.blocks, (node) => { for (const flag of node?.reviewFlags ?? []) flags.push({ rootId: node.id, code: String(flag), severity: 'fatal' }); });
@@ -688,6 +698,10 @@ export function validateRun(runIdOrDir, { forPublish = false, workRoot = WORK_RO
   if (gotPages.length !== manifest.selectedPages.length || gotPages.some((page, index) => page !== manifest.selectedPages[index])) errors.push('Selected page coverage is incomplete');
   const duplicates = duplicateIds({ pages: transcription.pages });
   if (duplicates.length) errors.push(`Duplicate ids: ${duplicates.join(', ')}`);
+  const presentationFlags = sourcePresentationFlags(transcription, { requireEvidence: Boolean(manifest.pins?.files?.['scripts/booklet/prompts/source-presentation-v2.md']) });
+  review.flags = [...(review.flags ?? []).filter((flag) => flag.source !== 'source-presentation'), ...presentationFlags];
+  writeJson(reviewPath(runDir), review);
+  errors.push(...presentationFlags.map((flag) => `${flag.rootId}: ${flag.note}`));
   errors.push(...transcriptionHazards(transcription));
   const questions = collectQuestions(transcription);
   for (const question of questions) {
@@ -700,7 +714,7 @@ export function validateRun(runIdOrDir, { forPublish = false, workRoot = WORK_RO
     const checked = validateTeachingModule(normalizeTeachingModule({ ...module, classification: module.classification ?? { mappingStatus: 'unmapped' } }), { skillIds, dotPointIds });
     if (!checked.valid) errors.push(`${module.id}: ${checked.errors.join('; ')}`);
   }
-  const fatalFlags = allReviewFlags(transcription, review).filter((flag) => (flag.severity ?? 'fatal') === 'fatal' && flag.resolved !== true);
+  const fatalFlags = allReviewFlags(rawTranscription, review, manifest).filter((flag) => (flag.severity ?? 'fatal') === 'fatal' && flag.resolved !== true);
   if (fatalFlags.length) errors.push(`${fatalFlags.length} fatal review flag(s) remain`);
   if (forPublish && review.pages.some((page) => page.accepted !== true)) errors.push('Every selected source page must be accepted');
   if (forPublish && questions.some((question) => review.questions?.[question.id]?.accepted !== true)) errors.push('Every selected question must be explicitly accepted');
@@ -929,19 +943,31 @@ export function saveContentOverride(runIdOrDir, { rootId, pointer, value, note =
 }
 
 export function buildRepairTasks(runIdOrDir, { workRoot = WORK_ROOT } = {}) {
-  const { runDir } = loadRun(runIdOrDir, workRoot); assertPinnedInputs(runDir);
+  const { runDir, manifest } = loadRun(runIdOrDir, workRoot); assertPinnedInputs(runDir);
   const transcription = readJson(mergedPath(runDir, 'transcription')); const review = readJson(reviewPath(runDir));
-  const flags = allReviewFlags(transcription, review).filter((flag) => flag.resolved !== true && flag.rootId);
+  const flags = allReviewFlags(transcription, review, manifest).filter((flag) => flag.resolved !== true && flag.rootId);
   const roots = [...new Set(flags.map((flag) => flag.rootId))].map((id) => { const node = findRoot(transcription.pages, id); if (!node) throw new Error(`Flagged root not found: ${id}`); return { id, beforeHash: contentHash(node), node, flags: flags.filter((flag) => flag.rootId === id) }; });
-  const dir = laneDir(runDir, 'repair'); clearTasks(dir); copyLaneEvidence(runDir, dir); const prompt = fs.readFileSync(PROMPT_FILES.repair, 'utf8');
+  assertRepairPreservesEdits(transcription, review, roots.map((root) => root.id));
+  const dir = laneDir(runDir, 'repair'); clearTasks(dir); copyLaneEvidence(runDir, dir); const prompt = fs.readFileSync(PROMPT_FILES.repair, 'utf8') + '\n\n' + presentationContractForRun(manifest);
   shardQuestions(roots).forEach((items, index) => writeTask(dir, index, `${prompt}\n\n## Requested roots\n${json(items)}\n\n## Output Contract\nWrite task-${String(index + 1).padStart(3, '0')}.result.json as {"format":"mathsmap-targeted-repair-result-v1","repairs":[{"id":"requested-root-id","beforeHash":"...","replacement":{}}]}. Return exactly these requested root ids: ${items.map((item) => item.id).join(', ')}.`, items.map((item) => item.id)));
   return { roots: roots.length, tasks: Math.ceil(roots.length / MAX_QUESTIONS_PER_TASK) };
+}
+
+export function assertRepairPreservesEdits(transcription, review, ids) {
+  for (const id of ids) {
+    const target = findRoot(transcription.pages, id);
+    for (const [editedId, overrides] of Object.entries(review.contentOverrides ?? {})) {
+      if (!Object.keys(overrides).length) continue;
+      const editedRoot = findRoot(transcription.pages, editedId);
+      if (findRoot(target, editedId) || findRoot(editedRoot, id)) throw new Error(`Repair ${id} overlaps saved edit ${editedId}. Saved edits are preserved; use a reviewed content edit for this target instead of replacing its imported root.`);
+    }
+  }
 }
 
 export function mergeRepairs(runIdOrDir, { workRoot = WORK_ROOT } = {}) {
   const { runDir, manifest } = loadRun(runIdOrDir, workRoot); assertPinnedInputs(runDir);
   const transcription = readJson(mergedPath(runDir, 'transcription')); const review = readJson(reviewPath(runDir));
-  const addressed = new Set(allReviewFlags(transcription, review).filter((flag) => flag.resolved !== true && flag.rootId).map((flag) => flag.rootId));
+  const addressed = new Set(allReviewFlags(transcription, review, manifest).filter((flag) => flag.resolved !== true && flag.rootId).map((flag) => flag.rootId));
   const before = new Map(); walk(transcription.pages, (node) => { if (node?.id) before.set(node.id, contentHash(node)); });
   const allowedToChange = new Set(addressed);
   const markRepairTree = (value, ancestors = [], inside = false) => {
@@ -955,13 +981,20 @@ export function mergeRepairs(runIdOrDir, { workRoot = WORK_ROOT } = {}) {
   };
   markRepairTree(transcription.pages);
   const repairs = taskResults(laneDir(runDir, 'repair')).flatMap((result) => result.repairs ?? []);
+  assertRepairPreservesEdits(transcription, review, repairs.map((repair) => repair.id));
+  const affectedPages = new Set(repairs.map((repair) => pageContaining(transcription.pages, repair.id)?.pageNumber).filter(Number.isFinite));
   if (repairs.length !== addressed.size || new Set(repairs.map((item) => item.id)).size !== addressed.size || repairs.some((item) => !addressed.has(item.id))) throw new Error('Repair results do not cover exactly the requested root ids');
   for (const repair of repairs) {
     const node = findRoot(transcription.pages, repair.id);
     if (!node || repair.beforeHash !== contentHash(node)) throw new Error(`Repair beforeHash mismatch: ${repair.id}`);
+    if (repair.replacement?.id !== repair.id) throw new Error(`Repair must preserve root identity: ${repair.id}`);
     if (!replaceRoot(transcription.pages, repair.id, repair.replacement)) throw new Error(`Repair target disappeared: ${repair.id}`);
   }
   walk(transcription.pages, (node) => { if (node?.id && before.has(node.id) && !allowedToChange.has(node.id) && contentHash(node) !== before.get(node.id)) throw new Error(`Repair modified unaddressed node: ${node.id}`); });
+  applyContentOverrides(transcription, review);
+  for (const pageNumber of affectedPages) invalidateReviewForPage(runDir, manifest, review, pageNumber, 'AI repair requires review');
+  for (const repair of repairs) walk(repair.replacement, (node) => { if (node?.id) delete review.diagrams?.[node.id]; });
+  writeJson(reviewPath(runDir), review);
   writeJson(mergedPath(runDir, 'transcription'), transcription);
   writeJson(mergedPath(runDir, 'modules'), { format: 'mathsmap-module-candidates-v1', modules: buildModuleCandidates(transcription) });
   manifest.lanes.repair = { ...(manifest.lanes.repair ?? {}), status: 'merged', mergedAt: new Date().toISOString() }; writeJson(manifestPath(runDir), manifest);

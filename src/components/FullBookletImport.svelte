@@ -1,12 +1,14 @@
 <script>
   import { onMount } from 'svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
+  import Tikz from './Tikz.svelte';
+  import { combinedExampleTikz } from '../lib/booklet-preview.js';
 
   let { onprojectcreated = null } = $props();
 
   const pilotPages = '1-3,29-38,46,48,51,61-62';
-  let pdf = $state('C:\\Users\\james\\OneDrive\\Admin\\WebApps\\MathsMap\\booklets\\Computation with Integers.pdf');
-  let docx = $state('C:\\Users\\james\\OneDrive\\Admin\\WebApps\\MathsMap\\booklets\\Computation with Integers.docx');
+  let pdf = $state('booklets/Computation with Integers.pdf');
+  let docx = $state('booklets/Computation with Integers.docx');
   let pages = $state(pilotPages);
   let runId = $state('computation-integers-pilot');
   let runs = $state([]);
@@ -29,6 +31,23 @@
   const questions = $derived(effectiveTranscription?.pages?.flatMap((page) => (page.blocks ?? []).filter((block) => block.type === 'question').map((question) => ({ ...question, pageNumber: page.pageNumber }))) ?? []);
   const diagrams = $derived(collectDiagrams(effectiveTranscription?.pages ?? []));
   const flags = $derived(run?.review?.flags ?? []);
+  const queueHelp = {
+    pages: 'Compare content and meaningful arrangements with the source. Accept page only when its reconstruction is complete.',
+    modules: 'Modules are proposed reusable teaching sequences: theory, examples and related practice. Their titles are not a list of the booklet’s skills. Check the grouping before approving.',
+    questions: 'Check each question, its parts, answers and scaffolding here. Approved questions can be reused in the question bank; review layout in Pages.',
+    mappings: 'Mappings connect teaching modules and questions to curriculum skills. A module title is not a skill assignment. Question enrichment supplies question-level skills; module mapping supplies module-level links. Unmapped means no assignment has been made yet.',
+    diagrams: 'Compare each reconstruction with its source. Where an exact source asset has not been linked, the full source page is shown. Approve only after checking labels, geometry and arrows.',
+    flags: 'Flags are repair requests. Add the source page, what is wrong and the intended result. Build flagged repairs sends unresolved notes to the AI; Run repairs applies targeted results. Inspect the result before resolving a flag. Repeated defects also need a shared pipeline fix and regression test; resolving a flag does not teach future imports automatically.',
+  };
+  const skillSummary = (record) => [record.classification?.primarySkillId, ...(record.classification?.secondarySkillIds ?? [])].filter(Boolean).join(', ') || 'No skills assigned yet';
+  const assetUrl = (src) => src?.startsWith('evidence/') ? `/__booklet/full-imports/${encodeURIComponent(run.runId)}/files/lanes/exact/${src}` : src;
+  function sourceAsset(diagram) {
+    return effectiveTranscription?.assets?.find((asset) => asset.occurrenceId === diagram.sourceAssetOccurrenceId || (diagram.src && asset.path === diagram.src && asset.pageNumber === diagram.pageNumber));
+  }
+  function diagramCode(diagram) {
+    const base = diagram.overlayOf && diagrams.find((item) => item.id === diagram.overlayOf);
+    return (base && combinedExampleTikz(base, diagram)) || diagram.code;
+  }
 
   async function request(url, options = {}) {
     const response = await fetch(url, { headers: { 'Content-Type': 'application/json', ...(options.headers ?? {}) }, ...options });
@@ -226,6 +245,7 @@
     <nav class="queues" aria-label="Full booklet review queues">
       {#each [['pages','Pages'],['modules','Modules'],['questions','Questions'],['mappings','Mappings'],['diagrams','Diagrams'],['flags','Flags']] as item}<button class:active={queue === item[0]} onclick={() => (queue = item[0])}>{item[1]}</button>{/each}
     </nav>
+    <p class="layout-hint">{queueHelp[queue]}</p>
 
     {#if queue === 'pages'}
       <div class="page-review">
@@ -240,11 +260,21 @@
     {:else if queue === 'questions'}
       <div class="record-grid">{#each questions as question}<article class="card record"><div><span>Page {question.pageNumber} · {question.classification?.reasoningScore ?? '—'}/100</span><h3>{question.id}</h3><p>{question.content?.prompt || 'Multipart question'}</p></div><label><input type="checkbox" checked={run.review.questions?.[question.id]?.accepted ?? false} onchange={(event) => acceptRecord('questions', question.id, event.currentTarget.checked)} /> Approve question</label></article>{/each}</div>
     {:else if queue === 'mappings'}
-      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'Awaiting mapping'}</span><h3>{module.title}</h3><p>{module.classification?.mappingNote || 'Curriculum mapping may intentionally remain absent.'}</p></div><label><input type="checkbox" checked={run.review.mappings?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('mappings', module.id, event.currentTarget.checked)} /> Accept mapping</label></article>{/each}</div>
+      <p class="layout-hint">Module assignments</p>
+      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'Awaiting mapping'}</span><h3>Module: {module.title}</h3><p>Skills: {skillSummary(module)}</p><p>{module.classification?.mappingNote || 'Awaiting curriculum assignment.'}</p></div><label><input type="checkbox" checked={run.review.mappings?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('mappings', module.id, event.currentTarget.checked)} /> Accept mapping</label></article>{/each}</div>
+      <p class="layout-hint">Question assignments · {questions.filter((question) => question.classification?.primarySkillId).length}/{questions.length} questions have a primary skill. Review individual parts when auditing atomisation.</p>
+      <div class="record-grid">{#each questions as question}<article class="card record"><div><h3>{question.id} · page {question.pageNumber}</h3><p>Skills: {skillSummary(question)}</p></div></article>{/each}</div>
     {:else if queue === 'diagrams'}
       <div class="record-grid">
         <div class="diagram-actions"><span>Image treatment is a reversible placement override.</span><button class="secondary" onclick={saveLayoutOverrides} disabled={!!busy}>Save diagram treatments</button></div>
-        {#each diagrams as diagram}<article class="card record"><div><span>{diagram.format === 'tikz' ? 'Proposed TikZ' : 'Source fallback'} · page {diagram.pageNumber ?? '—'}</span><h3>{diagram.id}</h3><p>{diagram.alt}</p></div><div class="diagram-controls">{#if diagram.format !== 'tikz'}<label>Colour <select value={diagramColourModes[diagram.id] ?? 'original'} onchange={(event) => setDiagramColour(diagram.id, event.currentTarget.value)}><option value="original">Original asset</option><option value="grayscale">Black &amp; white</option></select></label>{/if}{#if diagram.format === 'tikz'}<label><input type="checkbox" checked={run.review.diagrams?.[diagram.id]?.accepted ?? false} onchange={(event) => acceptRecord('diagrams', diagram.id, event.currentTarget.checked)} /> Visual approval</label>{:else}<span>Retained</span>{/if}</div></article>{/each}
+        {#each diagrams as diagram}<article class="card diagram-record">
+          <h3>{diagram.id} · source page {diagram.pageNumber ?? '—'}</h3><p>{diagram.alt}</p>
+          <div class="diagram-comparison">
+            <figure><figcaption>{sourceAsset(diagram) ? 'Linked source asset' : 'Source page — exact crop not linked'}</figcaption><a href={sourceAsset(diagram) ? assetUrl(sourceAsset(diagram).path) : pageImage(diagram.pageNumber)} target="_blank" rel="noreferrer"><img src={sourceAsset(diagram) ? assetUrl(sourceAsset(diagram).path) : pageImage(diagram.pageNumber)} alt="Source evidence; open for full size" /></a></figure>
+            <figure><figcaption>{diagram.format === 'tikz' ? (diagram.overlayOf ? 'TikZ with base diagram' : 'Generated TikZ') : 'Retained image'}</figcaption>{#if diagram.format === 'tikz'}<Tikz code={diagramCode(diagram)} eager={true} />{:else}<img class:grayscale={diagramColourModes[diagram.id] === 'grayscale'} src={assetUrl(diagram.src)} alt={diagram.alt ?? 'Reconstructed diagram'} />{/if}</figure>
+          </div>
+          <div class="diagram-controls">{#if diagram.format !== 'tikz'}<label>Colour <select value={diagramColourModes[diagram.id] ?? 'original'} onchange={(event) => setDiagramColour(diagram.id, event.currentTarget.value)}><option value="original">Original asset</option><option value="grayscale">Black &amp; white</option></select></label>{:else}<label><input type="checkbox" checked={run.review.diagrams?.[diagram.id]?.accepted ?? false} onchange={(event) => acceptRecord('diagrams', diagram.id, event.currentTarget.checked)} /> Visual approval</label>{/if}<button class="secondary" onclick={() => { selectedPage = diagram.pageNumber; queue = 'pages'; }}>Review source page / flag issue</button></div>
+        </article>{/each}
       </div>
     {:else if queue === 'flags'}
       <div class="record-grid">{#each flags as flag, flagIndex}<article class:resolved={flag.resolved} class="card record"><div><span>{flag.severity ?? 'fatal'} � {flag.category ?? flag.source ?? 'review'}</span><h3>{flag.code}</h3><p>{flag.rootId} � {flag.note ?? 'Reviewer action required'}</p></div>{#if !flag.resolved}<button class="secondary" onclick={() => resolveFlag(flagIndex)}>Resolve</button>{:else}<span>Resolved</span>{/if}</article>{/each}{#if !flags.length}<p class="card empty">No reviewer flags.</p>{/if}</div>
@@ -256,6 +286,12 @@
 
 <style>
   .full-import-shell { max-width: 1400px; margin: 0 auto; color: var(--text, #1e293b); }
+  .diagram-record { padding: 1rem; color: #172033; }
+  .diagram-comparison :global(.tikz-wrap svg) { filter: none !important; }
+  .diagram-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .diagram-comparison figure { min-width: 0; border: 1px solid #dfe6ee; overflow: auto; }
+  .diagram-comparison img { max-height: 420px; }
+  .grayscale { filter: grayscale(1); }
   .full-heading, .panel-title, .lane-footer, .record { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   h2, h3, p { margin-top: 0; } h2 { margin: .2rem 0; color: #23395d; } h3 { color: #23395d; font-size: .95rem; }
   .full-heading p, .panel-title p, .record p, .runs-card p { color: #66758d; font-size: .75rem; }

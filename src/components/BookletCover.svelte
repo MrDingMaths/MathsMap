@@ -37,7 +37,7 @@
 
 <style>
   .booklet-cover { --accent:#f28f94; --ink:#111; --muted:#777; --line:#d8d8d8; --type-meta:8.5pt; --type-label:9pt; --type-body:11.5pt; --type-subheading:17pt; --type-heading:16pt; --type-display:36pt; position:relative; width:210mm; min-height:297mm; overflow:hidden; box-sizing:border-box; background:#fff; color:var(--ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11pt; line-height:1.38; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
-  .accent-bar { position:absolute; top:10mm; bottom:10mm; left:15mm; width:6mm; border-radius:1.8mm; background:var(--accent); }
+  .accent-bar { position:absolute; top:10mm; bottom:16mm; left:15mm; width:6mm; border-radius:1.8mm; background:var(--accent); }
   .cover-inner { display:flex; min-height:297mm; box-sizing:border-box; padding:10mm 15mm 10mm 30mm; flex-direction:column; }
   .top-row { display:flex; min-height:16mm; align-items:flex-start; justify-content:flex-end; }
   .name-field { display:flex; width:66mm; height:14mm; padding:2.3mm 3.2mm; box-sizing:border-box; align-items:flex-start; justify-content:flex-end; border:.45mm solid #777; border-radius:4mm; }

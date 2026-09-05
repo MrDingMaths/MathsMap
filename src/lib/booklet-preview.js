@@ -64,10 +64,45 @@ export function isRewriteTableQuestion(question) {
     && content.children.every((child) => !(child.children?.length));
 }
 
+export function shortAnswerDisplay(value) {
+  const text = String(value ?? '');
+  // Legacy numeric answers may contain bare TeX. Render the formula without
+  // rewriting its stored review value or treating prose/currency as mathematics.
+  return !text.includes('$') && /^[+-]?\d/.test(text) && /\\(?:circ|text|frac|sqrt)\b/.test(text) ? `$${text}$` : text;
+}
+
 export function visibleImportedQuestionTitle(question) {
   const title = String(question?.title ?? '').trim();
-  if (!title || title === String(question?.content?.prompt ?? '').trim()) return '';
+  const prompt = String(question?.content?.prompt ?? '').trim().replace(/\*\*/g, '');
+  if (!title || title === prompt || prompt.startsWith(title + '\n') || prompt.startsWith(title + ':')) return '';
   return /^(NAPLAN|HSC)\b/i.test(title) ? title : '';
+}
+
+// Explicit layout opt-in: keep source text editable as one field, but present
+// numbered rules with indented bullets and their maths in an adjacent column.
+export function numberedTheoryRules(value) {
+  if (typeof value !== 'string') return null;
+  const rules = [];
+  for (const line of value.split(/\r?\n/).filter((line) => line.trim())) {
+    const heading = line.match(/^(\d+)\.\s+(.+)$/);
+    if (heading) { rules.push({ number: heading[1], text: heading[2], bullets: [] }); continue; }
+    const bullet = line.match(/^\s+[-*]\s+(.+)$/);
+    if (!bullet || !rules.length) return null;
+    const parts = bullet[1].match(/^(.*?)\s+(\$[^$]+\$)$/);
+    rules.at(-1).bullets.push({ text: parts ? parts[1] : bullet[1], maths: parts?.[2] ?? '' });
+  }
+  return rules.length && rules.every((rule) => rule.bullets.length) ? rules : null;
+}
+
+// Compile compatible TikZ layers together so independent SVG bounds and wrapper
+// margins cannot shift solution arrows relative to the question number line.
+export function combinedExampleTikz(base, overlay) {
+  if (base?.format !== 'tikz' || overlay?.format !== 'tikz' || overlay.overlayOf !== base.id) return null;
+  const pattern = /^\s*\\begin\{tikzpicture\}(\[[^\]]*\])?([\s\S]*?)\\end\{tikzpicture\}\s*$/;
+  const a = base.code?.match(pattern);
+  const b = overlay.code?.match(pattern);
+  if (!a || !b || (a[1] ?? '') !== (b[1] ?? '')) return null;
+  return `\\begin{tikzpicture}${a[1] ?? ''}${a[2]}${b[2]}\\end{tikzpicture}`;
 }
 
 export function investigationDescription(value) {

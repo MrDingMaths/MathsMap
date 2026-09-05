@@ -359,7 +359,8 @@ export function parseEditorDom(root) {
       if (tag === 'br') { inlines.push(hardBreakNode()); return; }
       [...node.childNodes].forEach(visit);
     };
-    [...element.childNodes].forEach(visit);
+    if (element.dataset?.nodeType) visit(element);
+    else [...element.childNodes].forEach(visit);
     return paragraph(inlines);
   };
   const children = [...root.childNodes];

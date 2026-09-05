@@ -153,6 +153,8 @@ export function materializeAcceptedImport(transcription, review = {}, { projectI
     id: uniqueId('section', `${page.id}-${index}`),
     title: sourcePageTitle(page, index),
     role: page.section?.role ?? 'teaching',
+    ...(page.section?.headingStyle ? { headingStyle: page.section.headingStyle } : {}),
+    ...(page.section?.difficultyTitle ? { difficultyTitle: page.section.difficultyTitle } : {}),
     sourcePageNumber: page.pageNumber,
     sourceSectionId: page.section?.id ?? null,
     blocks: (page.blocks ?? []).map((raw, blockIndex) => {

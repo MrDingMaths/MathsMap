@@ -12,7 +12,7 @@
   };
   const tones = {
     'review': 'green',
-    'investigation': 'green',
+    'investigation': 'red',
     'definition': 'blue',
     'identify': 'pink',
     'example': 'orange',
@@ -28,16 +28,25 @@
     'guided-practice': "Guided Practice",
     'key-ideas': "Key Ideas",
   };
-  let path = $derived(kind === 'investigation' ? paths.review : paths[kind] ?? paths.definition);
+  let path = $derived(paths[kind] ?? paths.definition);
   let tone = $derived(tones[kind] ?? tones.definition);
   let heading = $derived(label !== undefined ? label : labels[kind] ?? labels.definition);
   const commit = (event) => onContentEdit?.({ ...event, rootIds: rootIds.length ? rootIds : undefined });
   const revert = (event) => onContentRevert?.({ ...event, rootIds: rootIds.length ? rootIds : undefined });
 </script>
 
-<div class="accent-header {tone}">
+<div class="accent-header {tone}" data-header-kind={kind}>
   <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
-    <path d={path} fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+    {#if kind === 'identify'}
+      <circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2" />
+      <path d="M15 15 L21 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+    {:else if kind === 'investigation'}
+      <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M9 8.5 C9 4.8 15.5 4.8 15.5 8.5 C15.5 11 12 11 12 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <circle cx="12" cy="17.5" r="1" fill="currentColor" />
+    {:else}
+      <path d={path} fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+    {/if}
   </svg>
   {#if heading}<span class="header-main">{heading}</span>{/if}
   {#if subtitle}<div class="header-sub">{#if editMode && rootId}<EditableBookletText value={subtitle} {rootId} {pointer} {editMode} edited={isEdited(rootId, pointer)} oncommit={commit} onrevert={revert} oneditingchange={onEditingChange} />{:else}{subtitle}{/if}</div>{/if}
@@ -58,6 +67,7 @@
   }
   .accent-header.blue { color: #2f6fb2; background: #eef5fc; }
   .accent-header.green { color: #4f9b63; background: #eef8f1; }
+  .accent-header.red { color: #d65e65; background: #fde1e2; }
   .accent-header.pink { color: #d05f84; background: #fdf0f4; }
   .accent-header.orange { color: #df8b38; background: #fff4e8; }
   .header-icon {

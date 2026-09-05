@@ -100,7 +100,10 @@ test('targeted repair cannot modify an unaddressed root', () => {
     { id: 'page-2', pageNumber: 2, section: { id: 's2', role: 'mixed-practice' }, blocks: [q2] },
   ] });
   mergeLane(runDir, { lane: 'exact' });
-  const review = JSON.parse(fs.readFileSync(path.join(runDir, 'review.json'))); review.flags = [{ rootId: q1.id, code: 'bad-text', severity: 'fatal' }]; writeJson(path.join(runDir, 'review.json'), review);
+  const review = JSON.parse(fs.readFileSync(path.join(runDir, 'review.json'))); review.flags = [{ rootId: q1.id, code: 'bad-text', severity: 'fatal' }];
+  review.pages.forEach((page) => { page.accepted = true; });
+  review.questions[q1.id] = { accepted: true };
+  writeJson(path.join(runDir, 'review.json'), review);
   fs.mkdirSync(path.join(runDir, 'lanes', 'repair'), { recursive: true });
   const replacement = question(q1.id, 'Corrected prompt');
   writeJson(path.join(runDir, 'lanes', 'repair', 'task-001.result.json'), { repairs: [{ id: q1.id, beforeHash: contentHash(q1), replacement }] });
@@ -109,6 +112,11 @@ test('targeted repair cannot modify an unaddressed root', () => {
   const merged = JSON.parse(fs.readFileSync(path.join(runDir, 'merged', 'transcription.json')));
   assert.equal(merged.pages[0].blocks[0].content.prompt, 'Corrected prompt');
   assert.equal(contentHash(merged.pages[1].blocks[0]), untouchedBefore);
+  const afterReview = JSON.parse(fs.readFileSync(path.join(runDir, 'review.json')));
+  assert.equal(afterReview.pages[0].accepted, false);
+  assert.equal(afterReview.pages[1].accepted, true);
+  assert.equal(afterReview.questions[q1.id], undefined);
+  assert.notEqual(afterReview.flags[0].resolved, true);
 });
 
 test('v2 projects normalize to reversible v3 local placements and still resolve', () => {

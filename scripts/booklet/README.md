@@ -1,5 +1,8 @@
 # Booklet Studio
 
+For full-booklet transcription, header terminology and the content-first human
+review process, see [Human review workflow](../../docs/booklet-human-review.md).
+
 Booklet Studio is the local MathsMap worksheet workflow for selecting approved practice questions and assembling clean A4 output in the MathsDatabase style.
 
 ## Local-only question bank

@@ -39,11 +39,15 @@ async function previewMetrics(page) {
     const main = article?.querySelector('main');
     const footer = article?.querySelector('.booklet-footer');
     const failedAssets = [...preview.querySelectorAll('img')].filter((image) => !image.complete || image.naturalWidth === 0).length;
-    const failedTikz = preview.querySelectorAll('.tikz-error').length;
+    const failedTikz = [...preview.querySelectorAll('.tikz-wrap')].filter((wrapper) => {
+      const svg = wrapper.querySelector('svg');
+      const box = svg?.viewBox?.baseVal;
+      return wrapper.querySelector('.tikz-error') || !svg || svg.querySelector('animate') || !box || box.width <= 0 || box.height <= 0;
+    }).length;
     const rawText = preview.textContent ?? '';
     const content = main ? [...main.children].filter((element) => element.getClientRects().length) : [];
     const contentBottom = content.length ? Math.max(...content.map((element) => element.getBoundingClientRect().bottom)) : 0;
-    const contentRight = article ? Math.max(article.getBoundingClientRect().right, ...[...article.querySelectorAll('*')].filter((element) => element.getClientRects().length).map((element) => element.getBoundingClientRect().right)) : 0;
+    const contentRight = article ? Math.max(article.getBoundingClientRect().right, ...[...article.querySelectorAll('*')].filter((element) => element.getClientRects().length && !element.closest('.katex-mathml')).map((element) => element.getBoundingClientRect().right)) : 0;
     const footerCollision = Boolean(footer && contentBottom > footer.getBoundingClientRect().top - .5);
     return {
       horizontalOverflow: Boolean(article && contentRight > article.getBoundingClientRect().right + 1),

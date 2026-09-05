@@ -12,6 +12,8 @@
     editMode = false,
     edited = false,
     fillCloze = false,
+    layout = null,
+    tableStyle = 'grid',
     oncommit = null,
     onrevert = null,
     oneditingchange = null,
@@ -69,7 +71,7 @@
 <span class:edit-mode={editMode} class:edited class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer}>
   {#each parts as part, partIndex}
     {#if part.type === 'table'}
-      <table class="editable-table">
+      <table class:borderless={tableStyle === 'borderless'} class="editable-table">
         {#if part.header}
           <thead><tr>{#each part.header as cell, cellIndex}<th>
             {#if active === `h-${partIndex}-${cellIndex}`}
@@ -89,8 +91,8 @@
       <MathsEditor inline value={part.value} onsave={(result) => saveText(partIndex, result)} oncancel={cancel} />
     {:else}
       {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={(event) => activate(event, `t-${partIndex}`)} onkeydown={(event) => activate(event, `t-${partIndex}`)}>
-        <BookletRichText text={part.value} {fillCloze} />
-      </span>{:else}<span><BookletRichText text={part.value} {fillCloze} /></span>{/if}
+        <BookletRichText text={part.value} {fillCloze} {layout} />
+      </span>{:else}<span><BookletRichText text={part.value} {fillCloze} {layout} /></span>{/if}
     {/if}
   {/each}
   {#if edited && editMode && !active}<span class="edit-badge">Edited {#if edited?.originalValue !== undefined}<button type="button" onclick={() => window.alert('Original:\n\n' + (typeof edited.originalValue === 'string' ? edited.originalValue : JSON.stringify(edited.originalValue, null, 2)))}>Compare</button>{/if}<button type="button" onclick={() => onrevert?.({ rootId, pointer })}>Revert</button></span>{/if}
@@ -107,4 +109,5 @@
   .editable-table { width: 100%; margin: 2mm 0; border-collapse: collapse; table-layout: fixed; }
   .editable-table th, .editable-table td { padding: 1.5mm 2mm; border: .25mm solid #2f4058; vertical-align: top; text-align: left; }
   .editable-table th { background: #edf4f9; color: #244e74; font-weight: 800; }
+  .editable-table.borderless th, .editable-table.borderless td { border: 0; background: transparent; color: inherit; }
 </style>

@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { normalizeRichText, parseEditorDom, parseRichText, renderRichTextHtml, serializeRichText } from '../lib/maths-editor.js';
 
   let {
@@ -26,6 +26,10 @@
   let lastSource = '';
   let savedRange = null;
   let currentValue = $state(initialValue());
+  let mathNode = null;
+  let mathDraft = $state('');
+  let editingMath = $state(false);
+  let mathInput = $state(null);
 
   const palette = [
     ['x', 'x'], ['x^2', 'x²'], ['\\frac{a}{b}', 'fraction'], ['\\sqrt{x}', '√x'],
@@ -66,7 +70,7 @@
   }
 
   function restoreSelection() {
-    if (!savedRange || !editorEl) return;
+    if (!savedRange || !editorEl?.contains(savedRange.commonAncestorContainer)) return;
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(savedRange);
@@ -84,8 +88,10 @@
     if (kind === 'math') {
       node.dataset.latex = data;
       node.dataset.source = `$${data}$`;
-      node.className = 'editor-math-island';
-      node.textContent = `$${data}$`;
+      node.className = 'math-island';
+      const rendered = document.createElement('div');
+      rendered.innerHTML = renderRichTextHtml(`$${data}$`);
+      node.innerHTML = rendered.querySelector('[data-node-type="math"]')?.innerHTML ?? '';
     } else {
       node.dataset.answer = data?.answer ?? '';
       node.dataset.width = String(data?.width ?? 24);
@@ -100,6 +106,7 @@
     selection.removeAllRanges();
     selection.addRange(range);
     handleInput();
+    if (kind === 'math') editMathIsland({ target: node });
   }
 
   function insertCloze() {
@@ -134,7 +141,6 @@
     if (modifier && event.key.toLowerCase() === 'i') { event.preventDefault(); command('italic'); return; }
     if (modifier && event.key.toLowerCase() === 'z') { event.preventDefault(); moveHistory(event.shiftKey ? 1 : -1); return; }
     if (modifier && event.key.toLowerCase() === 'y') { event.preventDefault(); moveHistory(1); return; }
-    if (event.key === 'Tab' && !event.shiftKey) { event.preventDefault(); insertIsland('math', 'x'); }
   }
 
   function handleSourceInput(event) {
@@ -145,28 +151,52 @@
     emit(next, sourceText);
   }
 
-  function editMathIsland(event) {
+  async function editMathIsland(event) {
     const node = event.target?.closest?.('[data-node-type="math"]');
     if (!node || !editorEl?.contains(node)) return;
-    const latex = window.prompt('Edit LaTeX', node.dataset.latex ?? '');
-    if (latex === null) return;
-    node.dataset.latex = latex;
-    node.dataset.source = `$${latex}$`;
+    mathNode = node;
+    mathDraft = node.dataset.latex ?? '';
+    editingMath = true;
+    await tick();
+    mathInput?.focus();
+  }
+
+  function applyMath() {
+    if (!mathNode || !editorEl?.contains(mathNode)) return;
+    mathNode.dataset.latex = mathDraft;
+    mathNode.dataset.source = `$${mathDraft}$`;
     const next = parseEditorDom(editorEl);
+    remember(serializeRichText(next));
     emit(next, serializeRichText(next));
     renderValue(next);
+    closeMath();
+  }
+
+  function closeMath() {
+    editingMath = false;
+    mathNode = null;
+    editorEl?.focus();
   }
 
   onMount(() => {
     const next = normalizeRichText(value);
     renderValue(next);
     remember(serializeRichText(next));
+    if (inline) {
+      editorEl?.focus();
+      const range = document.createRange();
+      range.selectNodeContents(editorEl);
+      range.collapse(false);
+      const selection = window.getSelection();
+      selection.removeAllRanges(); selection.addRange(range);
+      saveSelection();
+    }
     return () => {};
   });
 
   $effect(() => {
     const nextSource = serializeRichText(value);
-    if (editorEl && nextSource !== lastSource && document.activeElement !== editorEl) renderValue(value);
+    if (editorEl && !editingMath && nextSource !== lastSource && document.activeElement !== editorEl) renderValue(value);
     if (!sourceText && (sourceFallback || nextSource)) sourceText = sourceFallback || nextSource;
   });
 </script>
@@ -182,7 +212,7 @@
     <button type="button" class="cloze-button" title="Insert inline cloze" onclick={insertCloze}>cloze</button>
     <span class="toolbar-spacer"></span>
     {#if inline && oncancel}<button type="button" class="cancel-button" onclick={oncancel}>Cancel</button>{/if}
-    {#if inline && onsave}<button type="button" class="save-button" onclick={() => onsave({ richText: currentValue, source: sourceText })}>Save</button>{/if}
+    {#if inline && onsave}<button type="button" class="save-button" onclick={() => { if (editingMath) applyMath(); onsave({ richText: currentValue, source: sourceText }); }}>Save</button>{/if}
     <button type="button" title="Undo" aria-label="Undo" onclick={() => moveHistory(-1)}>↶</button>
     <button type="button" title="Redo" aria-label="Redo" onclick={() => moveHistory(1)}>↷</button>
   </div>
@@ -197,21 +227,33 @@
     bind:this={editorEl}
     onkeydown={handleKeydown}
     oninput={handleInput}
-    ondblclick={editMathIsland}
+    onclick={editMathIsland}
     onmouseup={saveSelection}
     onkeyup={saveSelection}
     onfocus={() => onfocus()}
     onblur={() => { saveSelection(); onblur(); }}
   ></div>
+  {#if editingMath}
+    <div class="equation-panel">
+      <label>Equation (LaTeX, without dollar signs)<input bind:this={mathInput} bind:value={mathDraft} onkeydown={(event) => { event.stopPropagation(); if (event.key === 'Enter') { event.preventDefault(); applyMath(); } if (event.key === 'Escape') { event.preventDefault(); closeMath(); } }} /></label>
+      <div aria-label="Equation preview">{@html renderRichTextHtml(`$${mathDraft}$`)}</div>
+      <button type="button" onclick={applyMath}>Apply equation</button>
+      <button type="button" onclick={closeMath}>Cancel equation</button>
+    </div>
+  {/if}
   <details class:inline-source={inline} class="source-fallback" open={showSource} ontoggle={(event) => (showSource = event.currentTarget.open)}>
-    <summary>Source fallback</summary>
-    <p>Keep the original rich-text source here when a block contains notation the visual editor cannot interpret yet.</p>
+    <summary>Help and source editor</summary>
+    <p>Type ordinary text directly. Click an equation to edit it, or use the palette to insert one. Apply the equation, then Save the block (Ctrl+Enter). Tab moves between controls. In source, put maths between dollar signs, for example $x^2$.</p>
     <textarea aria-label="Rich-text source fallback" value={sourceText} oninput={handleSourceInput}></textarea>
   </details>
 </div>
 
 <style>
   .maths-editor { border: 1px solid #d6dce5; border-radius: 8px; background: #fff; color: #172033; }
+  .equation-panel { position: relative; z-index: 32; padding: .6rem; background: #eef3fb; min-width: 280px; font: 13px/1.5 system-ui; }
+  .equation-panel input { display: block; width: 100%; box-sizing: border-box; font: 14px Consolas, monospace; }
+  .equation-panel button { margin: .4rem .4rem 0 0; }
+  .editor-surface :global(.math-island) { padding: 0 .2rem; border-radius: 4px; background: #eef3fb; cursor: pointer; outline: 1px dotted #91a8c9; }
   .editor-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 0.22rem; padding: 0.35rem; border-bottom: 1px solid #e3e7ed; background: #f7f9fc; }
   .editor-toolbar button { min-width: 28px; height: 28px; padding: 0 0.4rem; border: 1px solid transparent; border-radius: 5px; background: transparent; color: #23395d; font: 700 0.75rem 'Nunito', system-ui, sans-serif; cursor: pointer; }
   .editor-toolbar button:hover, .editor-toolbar button:focus-visible { border-color: #b7c4d7; background: #fff; outline: none; }

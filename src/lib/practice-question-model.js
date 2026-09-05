@@ -88,7 +88,8 @@ function normaliseDiagram(raw, role, index) {
     src: src == null ? null : String(src),
     widthMm: clampSpace(value.widthMm, 95),
     alt: text(value.alt ?? value.caption ?? 'Mathematical diagram') || 'Mathematical diagram',
-    overlayOf: value.overlayOf ?? null,
+      overlayOf: value.overlayOf ?? null,
+      ...(value.sourceAssetOccurrenceId ? { sourceAssetOccurrenceId: String(value.sourceAssetOccurrenceId) } : {}),
     transparent: value.transparent === true,
     axes: deepCopy(value.axes ?? null),
     derived: value.derived === true,
@@ -146,6 +147,7 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
       solutionDiagrams: normaliseDiagrams(answer.solutionDiagrams, 'solution'),
     };
     node.answerSpaceMm = clampSpace(value.answerSpaceMm ?? value.defaultAnswerSpaceMm ?? value.responseSpaceMm, null);
+    if (value.responseSpace === 'scaffold') node.responseSpace = 'scaffold';
   }
   return node;
 }
@@ -171,6 +173,7 @@ export function hasDiagrams(question) {
 }
 
 export function estimateAnswerSpaceMm(node = {}) {
+  if (node.responseSpace === 'scaffold') return 0;
   if (node.answerSpaceMm != null && node.answerSpaceMm !== '' && Number.isFinite(Number(node.answerSpaceMm))) return Math.max(0, Number(node.answerSpaceMm));
   const workedLines = text(node.answer?.worked).split('\n').filter(Boolean).length;
   const diagramCount = (node.questionDiagrams?.length ?? 0) + (node.answer?.solutionDiagrams?.length ?? 0);
