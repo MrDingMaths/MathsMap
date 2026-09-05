@@ -9,6 +9,7 @@ import { normaliseQuestion, validateQuestion, makeBankManifest } from '../../src
 import { normalizeTeachingModule, validateTeachingModule } from '../../src/lib/teaching-module-model.js';
 import { normalizeBookletProject, validateBookletProject } from '../../src/lib/booklet-model.js';
 import { sourcePresentationFlags } from '../../src/lib/source-presentation.js';
+import { validSourceRegion } from '../../src/lib/diagram-source-region.js';
 
 export const BOOKLET_AGY_MODEL = 'gemini-3.8-flash-high';
 export const DEFAULT_CONCURRENCY = 3;
@@ -194,7 +195,7 @@ export async function preflight({ keep = false } = {}) {
   }
 }
 
-export function prepareRun({ pdf, docx, pages, runId = null, workRoot = WORK_ROOT, continuations = [] }) {
+export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, pages, runId = null, workRoot = WORK_ROOT, continuations = [] }) {
   assertTooling();
   const selectedPages = Array.isArray(pages) ? pages : parsePageSelection(pages);
   if (!selectedPages.length) throw new Error('At least one source page must be selected');
@@ -233,11 +234,23 @@ export function prepareRun({ pdf, docx, pages, runId = null, workRoot = WORK_ROO
     path.relative(runDir, path.join(wordDir, 'asset-occurrences.json')),
     path.relative(runDir, path.join(evidenceDir, 'continuations.json')),
   ];
+  if (teacherPdf || teacherDocx) {
+    if (!teacherPdf || !teacherDocx || !fs.existsSync(teacherPdf) || !fs.existsSync(teacherDocx)) throw new Error('Provide both teacher PDF and DOCX');
+    const teacherDir = path.join(evidenceDir, 'teacher');
+    fs.mkdirSync(teacherDir, { recursive: true });
+    fs.copyFileSync(teacherPdf, path.join(sourceDir, 'teacher.pdf'));
+    fs.copyFileSync(teacherDocx, path.join(sourceDir, 'teacher.docx'));
+    fs.writeFileSync(path.join(teacherDir, 'pages.txt'), runCommand('pdftotext', ['-layout', teacherPdf, '-']));
+    runCommand('pandoc', [teacherDocx, '-t', 'markdown', `--extract-media=${path.join(teacherDir,'media')}`, '-o', path.join(teacherDir,'document.md')]);
+    const contract = 'Student pages define prompts, layouts, scaffolds and answer visibility. Teacher material supplies answer evidence only. Match questions by stem, labels and mathematical content, never by page number alone. Teacher text is in evidence/teacher/pages.txt (form-feed page boundaries), with Word evidence in evidence/teacher/document.md. Store page.answerEvidence records {questionId,teacherReference,matchEvidence,conflict}. Flag ambiguous matches, contradictions or absent answers; never silently substitute teacher prompts or leak answers into student questions. Preserve teacher answers separately under the canonical answer fields. Known equations and domains define graphs: use equation-based TikZ, not curve tracing; retain images when the mathematics is uncertain.';
+    fs.writeFileSync(path.join(teacherDir, 'authority.txt'), contract);
+    runFiles.push('source/teacher.pdf','source/teacher.docx','evidence/teacher/pages.txt','evidence/teacher/document.md','evidence/teacher/authority.txt');
+  }
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
     model: BOOKLET_AGY_MODEL, concurrency: DEFAULT_CONCURRENCY, selectedPages, continuations,
     exactResultFormat: EXACT_RESULT_FORMAT,
-    source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy) },
+    source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy), ...(teacherPdf ? { teacherPdf:path.resolve(teacherPdf), teacherDocx:path.resolve(teacherDocx) } : {}) },
     pins: {
       model: hashValue(BOOKLET_AGY_MODEL),
       files: pinFiles([...SCHEMA_FILES, ...Object.values(PROMPT_FILES), PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
@@ -277,7 +290,8 @@ function copyLaneEvidence(runDir, dir) {
 }
 
 function exactTask(runDir, dir, pages, index) {
-  const prompt = fs.readFileSync(PROMPT_FILES.exact, 'utf8') + '\n\n' + presentationContractForRun(readJson(manifestPath(runDir)));
+  const authority = path.join(runDir, 'evidence', 'teacher', 'authority.txt');
+  const prompt = fs.readFileSync(PROMPT_FILES.exact, 'utf8') + '\n\n' + presentationContractForRun(readJson(manifestPath(runDir))) + (fs.existsSync(authority) ? '\n\n' + fs.readFileSync(authority,'utf8') : '');
   const inputs = pages.map((page) => ({
     id: `page-${page}`, pageNumber: page,
     image: `evidence/pages/page-${String(page).padStart(3, '0')}.png`,
@@ -627,6 +641,7 @@ export function mergeLane(runIdOrDir, { lane = 'exact', workRoot = WORK_ROOT } =
 function allReviewFlags(transcription, review, manifest = {}) {
   const flags = [...(review.flags ?? []).filter((flag) => flag.source !== 'source-presentation'), ...sourcePresentationFlags(applyContentOverrides(transcription, review, { strict: false }), { requireEvidence: Boolean(manifest.pins?.files?.['scripts/booklet/prompts/source-presentation-v2.md']) })];
   for (const page of transcription.pages ?? []) {
+    if(manifest.source?.teacherPdf){for(const question of (page.blocks??[]).filter(b=>b.type==='question')){const evidence=(page.answerEvidence??[]).find(e=>e.questionId===question.id);if(!evidence?.teacherReference||!evidence?.matchEvidence||evidence.conflict)flags.push({rootId:question.id,pageNumber:page.pageNumber,code:evidence?.conflict?'student-teacher-disagreement':'missing-teacher-answer-alignment',note:evidence?.conflict??'Review teacher answer evidence against question identity and content',severity:'fatal'});}}
     for (const flag of page.reviewFlags ?? []) flags.push({ rootId: page.id, code: String(flag), severity: 'fatal' });
     walk(page.blocks, (node) => { for (const flag of node?.reviewFlags ?? []) flags.push({ rootId: node.id, code: String(flag), severity: 'fatal' }); });
   }
@@ -666,6 +681,11 @@ export function transcriptionHazards(transcription) {
       if (hasBareTex(field.value)) errors.push(`${where}: TeX command outside maths delimiters`);
       const pipeLines = field.value.split(/\r?\n/).filter((line) => /^\s*\|.*\|\s*$/.test(line));
       if (pipeLines.length && !pipeLines.some((line) => /^\s*\|(?:\s*:?-{3,}:?\s*\|)+\s*$/.test(line))) errors.push(`${where}: malformed Markdown table would render as pipe text`);
+      const tableGroups = field.value.match(/(?:^\s*\|.*\|[\t ]*(?:\r?\n|$))+/gm) ?? [];
+      for (const group of tableGroups) {
+        const counts = group.trim().split(/\r?\n/).map(line => line.trim().slice(1, -1).split(/(?<!\\)\|/).length);
+        if (new Set(counts).size > 1) errors.push(`${where}: Markdown table rows have different cell counts`);
+      }
       if (/^\s*Investigation\s+Investigation\b/i.test(field.value)) errors.push(`${where}: duplicated Investigation label`);
     }
   }
@@ -673,7 +693,10 @@ export function transcriptionHazards(transcription) {
     if (!node || Array.isArray(node)) return;
     const prompt = typeof node.prompt === 'string' ? node.prompt : '';
     const semanticVisual = /\\boxed\b/.test(prompt) || /^\s*\|.*\|\s*$/m.test(prompt);
-    if (semanticVisual && (node.questionDiagrams?.length ?? 0)) errors.push(`${node.id}: native content duplicates a rendered image`);
+    // A graph with a separate native response table is legitimate. Treat it as
+    // distinct only after a reviewer records the relationship against the source.
+    if (semanticVisual && (node.questionDiagrams ?? []).some(diagram => diagram.contentRelationship?.kind !== 'distinct-from-prompt' || !diagram.contentRelationship?.evidence)) errors.push(`${node.id}: native content duplicates a rendered image`);
+    if (node.sourceRegion && !validSourceRegion(node.sourceRegion)) errors.push(`${node.id}: invalid source image region`);
   });
   return [...new Set(errors)];
 }
@@ -1007,7 +1030,7 @@ export function runStatus(runIdOrDir, { workRoot = WORK_ROOT } = {}) {
     const dir = laneDir(runDir, lane); const tasks = fs.existsSync(dir) ? fs.readdirSync(dir).filter((name) => /^task-\d+\.md$/.test(name)).length : 0; const results = fs.existsSync(dir) ? fs.readdirSync(dir).filter((name) => /^task-\d+\.result\.json$/.test(name)).length : 0;
     return [lane, { ...(manifest.lanes[lane] ?? { status: 'not-started' }), tasks, results }];
   }));
-  return { runId: manifest.id, status: manifest.status, model: manifest.model, selectedPages: manifest.selectedPages, acceptedPages: review.pages.filter((page) => page.accepted).length, lanes: laneStatus };
+  return { runId: manifest.id, status: manifest.status, model: manifest.model, concurrency: manifest.concurrency ?? DEFAULT_CONCURRENCY, directBatch: manifest.directBatch ?? null, selectedPages: manifest.selectedPages, acceptedPages: review.pages.filter((page) => page.accepted).length, lanes: laneStatus };
 }
 
 function parseArgs(argv) {
@@ -1033,7 +1056,7 @@ export async function main(argv = process.argv.slice(2)) {
   if (args.command === 'preflight') output = await preflight({ keep: args.keep });
   else if (args.command === 'prepare') {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
-    output = prepareRun({ pdf: path.resolve(args.pdf), docx: path.resolve(args.docx), pages: args.pages, runId: args.runId, continuations });
+    output = prepareRun({ pdf: path.resolve(args.pdf), docx: path.resolve(args.docx), teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, runId: args.runId, continuations });
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'build-tasks') output = buildTasks(args.runId, { lane: args.lane ?? 'exact' });

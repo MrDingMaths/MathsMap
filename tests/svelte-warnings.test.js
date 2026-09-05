@@ -9,6 +9,11 @@ const activeComponents = [
   'src/components/PracticeQuestionEditor.svelte',
   'src/components/EditableBookletText.svelte',
   'src/components/MathsEditor.svelte',
+  'src/components/BookletReviewInspector.svelte',
+  'src/components/BookletAssemblyPanel.svelte',
+  'src/components/BookletWorkflowMetrics.svelte',
+  'src/components/BookletProjects.svelte',
+  'src/components/TranscribedBookletPage.svelte',
 ];
 
 test('active booklet components compile without Svelte warnings', () => {

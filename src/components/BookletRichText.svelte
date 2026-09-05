@@ -1,5 +1,6 @@
 <script>
   import InlineContent from './InlineContent.svelte';
+  import { isDocument, documentHtml } from '../lib/document-content.js';
   import { renderRichTextHtml } from '../lib/maths-editor.js';
   import { splitBookletTables, numberedTheoryRules } from '../lib/booklet-preview.js';
 
@@ -10,7 +11,9 @@
   let parts = $derived(isRich ? [] : splitBookletTables(text));
 </script>
 
-{#if rules}
+{#if isDocument(text)}
+  <div class="document-content {className}">{@html documentHtml(text, { fillCloze })}</div>
+{:else if rules}
   <div class="theory-rules">
     {#each rules as rule}
       <div class="theory-rule"><span>{rule.number}.</span><div><InlineContent text={rule.text} />
@@ -25,8 +28,8 @@
     {#each parts as part}
       {#if part.type === 'table'}
         <table>
-          {#if part.header}<thead><tr>{#each part.header as cell}<th><InlineContent text={cell} /></th>{/each}</tr></thead>{/if}
-          <tbody>{#each part.rows as row}<tr>{#each row as cell}<td><InlineContent text={cell} /></td>{/each}</tr>{/each}</tbody>
+          {#if part.header}<thead><tr>{#each part.header as cell}<th>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent text={cell} />{/if}</th>{/each}</tr></thead>{/if}
+          <tbody>{#each part.rows as row}<tr>{#each row as cell}<td>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent text={cell} />{/if}</td>{/each}</tr>{/each}</tbody>
         </table>
       {:else if part.value.includes('[[')}
         <div class="rich-content">{@html renderRichTextHtml(part.value, { fillCloze })}</div>
@@ -48,6 +51,6 @@
   .rich-content :global(p) { margin: 0 0 0.55rem; }
   .rich-content :global(p:last-child) { margin-bottom: 0; }
   .rich-content :global(.math-island) { white-space: nowrap; }
-  .rich-content :global(.cloze-island) { display: inline-block; min-width: var(--cloze-width, 24mm); border-bottom: 1px solid currentColor; color: transparent; vertical-align: baseline; }
-  .rich-content :global(.cloze-island:not(:empty)) { color: inherit; }
+  :global(.cloze-island) { display: inline-block; min-width: var(--cloze-width, 24mm); border-bottom: 1px solid currentColor; color: transparent; vertical-align: baseline; }
+  :global(.cloze-island:not(:empty)) { color: inherit; }
 </style>

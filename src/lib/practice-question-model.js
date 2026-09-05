@@ -1,3 +1,5 @@
+import { contentSource, contentValue, isDocument } from './document-content.js';
+import { validSourceRegion } from './diagram-source-region.js';
 // MathsMap Booklet Studio v3 question-first contract.
 // Canonical questions deliberately contain no source/provenance fields.
 // Source files, page renders, and question-to-page mapping live in the import job.
@@ -19,7 +21,7 @@ export const DIFFICULTIES = Object.freeze([
 export const DIFFICULTY_ORDER = Object.freeze(Object.fromEntries(DIFFICULTIES.map((d) => [d.id, d.order])));
 const LEGACY_SCORE = Object.freeze({ Foundation: 12, Development: 37, Mastery: 64, Challenge: 88 });
 
-const text = (value) => (value == null ? '' : String(value).replace(/\r\n?/g, '\n').trim());
+const text = (value) => contentSource(value).replace(/\r\n?/g, '\n').trim();
 const hasOwn = (value, key) => Boolean(value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, key));
 const unique = (values) => [...new Set((Array.isArray(values) ? values : []).map(text).filter(Boolean))];
 export const deepCopy = (value) => (value == null ? value : JSON.parse(JSON.stringify(value)));
@@ -64,7 +66,7 @@ export function normaliseReasoningScore(value, fallbackDifficulty = 'Development
 }
 
 function firstString(value, keys) {
-  for (const key of keys) if (value?.[key] != null) return text(value[key]);
+  for (const key of keys) if (value?.[key] != null) return isDocument(value[key]) ? contentValue(value[key]) : text(value[key]);
   return '';
 }
 
@@ -92,6 +94,10 @@ function normaliseDiagram(raw, role, index) {
       ...(value.sourceAssetOccurrenceId ? { sourceAssetOccurrenceId: String(value.sourceAssetOccurrenceId) } : {}),
     transparent: value.transparent === true,
     axes: deepCopy(value.axes ?? null),
+    ...(value.mathematicalModel ? { mathematicalModel: deepCopy(value.mathematicalModel) } : {}),
+    ...(value.sourceRegion ? { sourceRegion: deepCopy(value.sourceRegion) } : {}),
+    ...(value.contentRelationship ? { contentRelationship: deepCopy(value.contentRelationship) } : {}),
+    ...(value.reconstructionConfidence ? { reconstructionConfidence: value.reconstructionConfidence } : {}),
     derived: value.derived === true,
     reviewStatus: value.reviewStatus ?? (value.approved === true ? 'approved' : 'needs-review'),
   };
@@ -139,14 +145,18 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     questionDiagrams: normaliseDiagrams(value.questionDiagrams ?? value.question_diagrams ?? value.images ?? value.diagrams ?? value.tikz, 'question'),
     children: children.map((child, childIndex) => normaliseNode(child, depth + 1, childIndex, false)),
   };
+  if(value.teachingMapping)node.teachingMapping=deepCopy(value.teachingMapping);
+  if(['before-prompt','beside-prompt','right-of-prompt'].includes(value.diagramPlacement))node.diagramPlacement=value.diagramPlacement;
+  if(value.dependsOn?.length)node.dependsOn=unique(value.dependsOn);
   if (!children.length) {
     const answer = rawAnswer(value);
     node.answer = {
-      short: answer.short == null || text(answer.short) === '' ? null : text(answer.short),
-      worked: text(answer.worked),
+      short: answer.short == null || text(answer.short) === '' ? null : contentValue(answer.short),
+      worked: contentValue(answer.worked),
       solutionDiagrams: normaliseDiagrams(answer.solutionDiagrams, 'solution'),
     };
     node.answerSpaceMm = clampSpace(value.answerSpaceMm ?? value.defaultAnswerSpaceMm ?? value.responseSpaceMm, null);
+    if(value.answerSpaceStyle==='box')node.answerSpaceStyle='box';
     if (value.responseSpace === 'scaffold') node.responseSpace = 'scaffold';
   }
   return node;
@@ -209,6 +219,8 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
     classification: {
       primarySkillId: text(primary),
       secondarySkillIds: secondary,
+      ...(classification.archetype || value.structure ? { archetype: classification.archetype ?? value.structure } : {}),
+      ...(classification.teachingAtomIds ? { teachingAtomIds: unique(classification.teachingAtomIds) } : {}),
       reasoningScore: score,
       difficulty: difficultyBandForScore(score),
       difficultyReason: text(value.difficultyReason ?? classification.difficultyReason) || 'Score-derived from the calibrated 0–100 reasoning scale.',
@@ -294,6 +306,7 @@ export function invalidFractionSpans(value) {
 
 function validateDiagram(diagram, path, errors, warnings, diagramIds) {
   if (!diagram || typeof diagram !== 'object') return errors.push(path + ' must be an object');
+  if (diagram.sourceRegion && !validSourceRegion(diagram.sourceRegion)) errors.push(path + '.sourceRegion must fit within the source image');
   if (!diagram.id) errors.push(path + '.id is required');
   if (!['tikz', 'svg', 'image'].includes(diagram.format)) errors.push(path + '.format is unsupported');
   if (diagram.format === 'tikz' && !text(diagram.code)) errors.push(path + '.code is required for TikZ');
@@ -385,7 +398,7 @@ export function markApproved(raw, { approvedBy = 'Luna Max', at = new Date().toI
 
 export function questionSearchText(question) {
   return [question?.title, ...allNodes(question?.content).flatMap((node) => [node.prompt, node.answer?.short, node.answer?.worked])]
-    .filter(Boolean)
+    .filter(Boolean).map(contentSource)
     .join(' ');
 }
 

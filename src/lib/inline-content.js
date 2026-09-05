@@ -111,6 +111,7 @@ function alignedFromRun(inners) {
 // Expand one fully-delimited equality chain into lines. groupTextBlocks then
 // turns those lines into a single aligned KaTeX block.
 export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
+  if (value?.format === 'maths-editor-document-v1') return value;
   const source = String(value ?? '');
   const inner = pureMathInner(source);
   if (inner === null) return source;

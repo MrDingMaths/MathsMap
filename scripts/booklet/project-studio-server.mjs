@@ -1,5 +1,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { reconcileApprovals, publicationBlockers, studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
+import { createStudioProposal, createGapProposal } from './studio-proposals.mjs';
+import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, loadRun, validateRun,
@@ -17,7 +20,7 @@ import {
   validateEditableProject,
 } from '../../src/lib/editable-booklet-model.js';
 
-const MAX_BODY = 8 * 1024 * 1024;
+const MAX_BODY = 64 * 1024 * 1024;
 const PROJECT_ROOT = path.join(REPO_ROOT, 'booklets', 'projects');
 const BANK_ROOT = path.join(REPO_ROOT, 'booklets', 'question-bank');
 const MODULE_ROOT = path.join(REPO_ROOT, 'booklets', 'module-bank');
@@ -118,12 +121,13 @@ export async function saveBookletProject(raw, { projectRoot = PROJECT_ROOT, bank
   }
   const now = new Date().toISOString();
   const project = normalizeEditableProject({
-    ...checked.project,
+    ...(previous && (previous.studio || checked.project.studio) ? reconcileApprovals(previous, checked.project) : checked.project),
     revision: Math.max(0, Number(previous?.revision) || 0) + 1,
     createdAt: previous?.createdAt ?? checked.project.createdAt ?? now,
     updatedAt: now,
   });
   await hydrateBankRevisions(project, bankRoot);
+  if (previous) await writeJson(path.join(projectRoot, '.revisions', safeId(project.id), `${previous.revision ?? 0}.json`), previous);
   await writeJson(file, project);
   return project;
 }
@@ -205,11 +209,20 @@ export async function materializeRunAsProject(runId, {
   const preferredId = `project-${safeId(manifest.id)}`;
   const existing = await readJson(fileFor(projectRoot, preferredId));
   if (existing?.source?.runId === manifest.id) return normalizeEditableProject(existing);
-  const project = materializeAcceptedImport(transcription, review, { projectId: existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId });
+  const project = studioProject(materializeAcceptedImport(transcription, review, { projectId: existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId }));
+  project.studio.evidence={runId:manifest.id,answerEvidence:transcription.pages.flatMap(page=>(page.answerEvidence??[]).map(e=>({...e,studentPage:page.pageNumber}))),sourceReview:review};
+  const targets=reviewTargets(project),known=new Set(targets.map(t=>t.id));
+  for(const page of transcription.pages){
+    const flags=[...(page.reviewFlags??[]).map(note=>({note})),...(review.flags??[]).filter(f=>!f.resolved&&(f.pageNumber===page.pageNumber||f.rootId===page.id||page.blocks.some(b=>b.id===f.rootId)))];
+    for(const e of page.answerEvidence??[])if(e.conflict)flags.push({rootId:e.questionId,note:'Student/teacher disagreement: '+e.conflict});
+    if(manifest.source?.teacherPdf)for(const block of page.blocks.filter(b=>b.type==='question')){const evidence=(page.answerEvidence??[]).find(e=>e.questionId===block.id);if(!evidence?.teacherReference||evidence.missing||evidence.status==='missing')flags.push({rootId:block.id,note:'Teacher answer alignment is missing or ambiguous; compare by question content before approval.'});}
+    for(const f of flags)for(const targetId of known.has(f.rootId)?[f.rootId]:page.blocks.map(b=>b.id))project.studio.flags.push({id:randomUUID(),targetId,note:f.note??f.message??f.code??String(f),sourcePage:page.pageNumber,resolved:false});
+  }
   project.source = {
     ...project.source,
     exactResultFormat: manifest.exactResultFormat,
     sourceHashes: { pdf: manifest.source?.pdfHash ?? null, docx: manifest.source?.docxHash ?? null },
+    ...(manifest.source?.teacherPdf?{teacherSource:manifest.source.teacherPdf,teacherHashes:{pdf:manifest.pins?.files?.['source/teacher.pdf'],docx:manifest.pins?.files?.['source/teacher.docx']}}:{}),
     materializedAt: new Date().toISOString(),
   };
   project.assets = await materializeAssets(project, runDir, { assetRoot });
@@ -272,6 +285,8 @@ export async function promoteProjectQuestion(projectId, body = {}, {
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
   const candidates = await duplicateCandidates(placement.block, bankRoot);
   if (!body.mode || body.mode === 'inspect') return { project, candidates };
+  const blockers=publicationBlockers(project,[placement.block.id]);
+  if(blockers.length)throw Object.assign(new Error('Complete the block and part reviews before bank publication: '+blockers.join('; ')),{statusCode:409});
 
   if (body.mode === 'link-existing') {
     const target = await readJson(fileFor(bankRoot, body.targetId));
@@ -289,7 +304,11 @@ export async function promoteProjectQuestion(projectId, body = {}, {
   const previous = await readJson(file);
   if (body.mode === 'create' && previous) throw Object.assign(new Error('Question id already exists'), { statusCode: 409 });
   if (body.mode === 'update' && !previous) throw Object.assign(new Error('Referenced bank question no longer exists'), { statusCode: 404 });
-  const approved = canonicalFromProjectBlock(placement.block, targetId);
+  const reviewedBlock=JSON.parse(JSON.stringify(placement.block));
+  const mapping=project.studio?.atoms?.[placement.block.id];
+  if(mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
+  const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
+  const approved = canonicalFromProjectBlock(reviewedBlock, targetId);
   if (previous) await writeJson(path.join(bankRoot, '.revisions', safeId(targetId), `${revisionOf(previous)}.json`), previous);
   await writeJson(file, approved);
   await writeBankManifest(bankRoot);
@@ -309,10 +328,12 @@ export async function promoteProjectModule(projectId, body = {}, {
   const wanted = new Set(body.blockIds?.length ? body.blockIds : section.blocks.map((block) => block.id));
   const selected = section.blocks.filter((block) => wanted.has(block.id));
   if (!selected.length) throw Object.assign(new Error('Select at least one block for the teaching module'), { statusCode: 400 });
+  const blockers=publicationBlockers(project,selected.map(b=>b.id));
+  if(blockers.length)throw Object.assign(new Error('Complete all selected block and part reviews before module publication: '+blockers.join('; ')),{statusCode:409});
   const sequence = selected.map((block) => {
     if (block.type !== 'question') return { type: 'content-block', id: `module-item-${block.id}`, pedagogyRole: block.pedagogyRole ?? (block.type === 'worked-example' ? 'worked-example' : 'theory'), block };
     if (!block.bankRef?.id) throw Object.assign(new Error(`Question ${block.id} must be promoted before it can enter a reusable module`), { statusCode: 409 });
-    return { type: 'question-ref', id: `module-ref-${block.id}`, questionId: block.bankRef.id, pedagogyRole: block.pedagogyRole ?? 'guided-practice', order: 'fixed' };
+    return { type: 'question-ref', id: `module-ref-${block.id}`, questionId: block.bankRef.id, questionRevision: block.bankRef.revision, snapshot: normaliseQuestion({...block,id:block.bankRef.id}), pedagogyRole: block.pedagogyRole ?? 'guided-practice', order: 'fixed' };
   });
   const module = approveTeachingModule(normalizeTeachingModule({
     id: body.id ?? `module-${randomUUID()}`,
@@ -335,13 +356,20 @@ export function projectStudioPlugin() {
         const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
         if (!pathname.startsWith('/__booklet/projects')) return next();
         try {
+          if (pathname === '/__booklet/projects/assembly-bank' && req.method === 'GET') return send(res, 200, { candidates: await mathsMapCandidates((new URL(req.url,'http://localhost').searchParams.get('skills') ?? '').split(',').filter(Boolean)) });
           if (pathname === '/__booklet/projects' && req.method === 'GET') return send(res, 200, await listBookletProjects());
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
           if (pathname === '/__booklet/projects/materialize' && req.method === 'POST') {
             const body = await readBody(req);
-            return send(res, 201, await materializeRunAsProject(body.runId));
+            return send(res, 201, await materializeRunAsProject(body.runId, { requireAccepted: body.draftReview !== true }));
           }
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);
+          const proposalMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/propose$/);
+          if (proposalMatch && req.method === 'POST') {
+            const body = await readBody(req);
+            if (body.project?.id !== decodeURIComponent(proposalMatch[1])) throw new Error('Proposal project identity mismatch');
+            return send(res, 200, await (body.kind==='generate-gap'?createGapProposal(body):createStudioProposal(body)));
+          }
           if (duplicateMatch && req.method === 'POST') return send(res, 201, await duplicateBookletProject(decodeURIComponent(duplicateMatch[1]), await readBody(req)));
           const promoteMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-question$/);
           if (promoteMatch && req.method === 'POST') return send(res, 200, await promoteProjectQuestion(decodeURIComponent(promoteMatch[1]), await readBody(req)));

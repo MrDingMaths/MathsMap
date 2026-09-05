@@ -18,7 +18,7 @@ export function resolvePreviewAssets(value, resolveAssetUrl) {
 function markdownCells(line) {
   const trimmed = String(line ?? '').trim();
   if (!trimmed.startsWith('|') || !trimmed.endsWith('|')) return null;
-  return trimmed.slice(1, -1).split('|').map((cell) => cell.trim());
+  return tableCells(trimmed);
 }
 
 export function splitBookletTables(value) {
@@ -65,6 +65,7 @@ export function isRewriteTableQuestion(question) {
 }
 
 export function shortAnswerDisplay(value) {
+  if (value?.format === 'maths-editor-document-v1') return value;
   const text = String(value ?? '');
   // Legacy numeric answers may contain bare TeX. Render the formula without
   // rewriting its stored review value or treating prose/currency as mathematics.
@@ -135,3 +136,4 @@ export function groupBookletBlocks(blocks = []) {
   }
   return result;
 }
+import { tableCells } from '../../public/libs/maths-editor/document-model.mjs';

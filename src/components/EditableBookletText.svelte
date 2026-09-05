@@ -1,7 +1,6 @@
 <script>
   import { onDestroy } from 'svelte';
   import BookletRichText from './BookletRichText.svelte';
-  import InlineContent from './InlineContent.svelte';
   import MathsEditor from './MathsEditor.svelte';
   import { splitBookletTables } from '../lib/booklet-preview.js';
 
@@ -24,37 +23,11 @@
   let reportedActive = false;
   let parts = $derived(typeof value === 'string' ? splitBookletTables(value) : [{ type: 'rich', value }]);
 
-  function serialise(next) {
-    return next.map((part) => {
-      if (part.type !== 'table') return String(part.value ?? '').trim();
-      const columns = part.header?.length ?? part.rows?.[0]?.length ?? 1;
-      const header = part.header ?? Array.from({ length: columns }, () => '');
-      const line = (cells) => '| ' + cells.map((cell) => String(cell ?? '').trim()).join(' | ') + ' |';
-      return [line(header), line(header.map(() => '---')), ...(part.rows ?? []).map(line)].join('\n');
-    }).filter(Boolean).join('\n\n');
-  }
-
-  function saveText(index, result) {
-    const next = structuredClone(parts);
-    next[index].value = typeof value === 'string' ? result.source : result.richText;
-    const replacement = typeof value === 'string' ? serialise(next) : result.richText;
-    active = '';
-    oncommit?.({ rootId, pointer, value: replacement });
-  }
-
-  function saveCell(partIndex, rowIndex, cellIndex, result, header = false) {
-    const next = structuredClone(parts);
-    if (header) next[partIndex].header[cellIndex] = result.source;
-    else next[partIndex].rows[rowIndex][cellIndex] = result.source;
-    active = '';
-    oncommit?.({ rootId, pointer, value: serialise(next) });
-  }
-
   function cancel() { active = ''; }
-  function activate(event, key) {
+  function activate(event) {
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
-    active = key;
+    active = 'document';
   }
 
   $effect(() => {
@@ -69,32 +42,31 @@
 </script>
 
 <span class:edit-mode={editMode} class:edited class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer}>
+  {#if active === 'document'}
+    <MathsEditor {value} onsave={(result) => { active = ''; oncommit?.({ rootId, pointer, value: result.value }); }} oncancel={cancel} />
+  {:else}
+  {#if editMode}<button class="document-edit" type="button" onclick={() => { active = 'document'; }}>Edit content and layout</button>{/if}
   {#each parts as part, partIndex}
     {#if part.type === 'table'}
       <table class:borderless={tableStyle === 'borderless'} class="editable-table">
         {#if part.header}
           <thead><tr>{#each part.header as cell, cellIndex}<th>
-            {#if active === `h-${partIndex}-${cellIndex}`}
-              <MathsEditor inline value={cell} onsave={(result) => saveCell(partIndex, -1, cellIndex, result, true)} oncancel={cancel} />
-            {:else if editMode}<span class="clickable" role="button" tabindex="0" onclick={(event) => activate(event, `h-${partIndex}-${cellIndex}`)} onkeydown={(event) => activate(event, `h-${partIndex}-${cellIndex}`)}><InlineContent text={cell} /></span>
-            {:else}<span><InlineContent text={cell} /></span>{/if}
+            {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText text={cell} {fillCloze} /></span>
+            {:else}<span><BookletRichText text={cell} {fillCloze} /></span>{/if}
           </th>{/each}</tr></thead>
         {/if}
         <tbody>{#each part.rows as row, rowIndex}<tr>{#each row as cell, cellIndex}<td>
-          {#if active === `c-${partIndex}-${rowIndex}-${cellIndex}`}
-            <MathsEditor inline value={cell} onsave={(result) => saveCell(partIndex, rowIndex, cellIndex, result)} oncancel={cancel} />
-          {:else if editMode}<span class="clickable" role="button" tabindex="0" onclick={(event) => activate(event, `c-${partIndex}-${rowIndex}-${cellIndex}`)} onkeydown={(event) => activate(event, `c-${partIndex}-${rowIndex}-${cellIndex}`)}><InlineContent text={cell} /></span>
-          {:else}<span><InlineContent text={cell} /></span>{/if}
+          {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText text={cell} {fillCloze} /></span>
+          {:else}<span><BookletRichText text={cell} {fillCloze} /></span>{/if}
         </td>{/each}</tr>{/each}</tbody>
       </table>
-    {:else if active === `t-${partIndex}`}
-      <MathsEditor inline value={part.value} onsave={(result) => saveText(partIndex, result)} oncancel={cancel} />
     {:else}
-      {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={(event) => activate(event, `t-${partIndex}`)} onkeydown={(event) => activate(event, `t-${partIndex}`)}>
+      {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}>
         <BookletRichText text={part.value} {fillCloze} {layout} />
       </span>{:else}<span><BookletRichText text={part.value} {fillCloze} {layout} /></span>{/if}
     {/if}
   {/each}
+  {/if}
   {#if edited && editMode && !active}<span class="edit-badge">Edited {#if edited?.originalValue !== undefined}<button type="button" onclick={() => window.alert('Original:\n\n' + (typeof edited.originalValue === 'string' ? edited.originalValue : JSON.stringify(edited.originalValue, null, 2)))}>Compare</button>{/if}<button type="button" onclick={() => onrevert?.({ rootId, pointer })}>Revert</button></span>{/if}
 </span>
 

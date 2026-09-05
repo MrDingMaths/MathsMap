@@ -9,7 +9,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import {
-  stripBom, parseResultFile, collectIds, reconcileIds, taskComplete,
+  stripBom, parseResultFile, collectIds, reconcileIds, taskComplete, taskPointerPrompt, executionMetrics, OAuthExpiredError, effortArguments, modelForEffort,
 } from '../scripts/agy/lib/agy-run.mjs';
 import {
   spliceQuizItem, splicePracticeItem, findArraySpan, objectSpansInArray, findRawControlChars,
@@ -18,6 +18,33 @@ import {
 function tmpDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'agy-test-'));
 }
+
+test('explicit AGY reasoning effort is optional and invalid settings fail before invocation',()=>{
+  assert.deepEqual(effortArguments(),[]);
+  assert.deepEqual(effortArguments('low'),['--effort','low']);
+  assert.throws(()=>effortArguments('fast'),/effort must/);
+});
+
+test('AGY Flash model IDs must agree with explicit reasoning effort',()=>{
+  assert.equal(modelForEffort('gemini-3.8-flash-high','low'),'gemini-3.8-flash-low');
+  assert.equal(modelForEffort('gemini-3.8-flash-high'),'gemini-3.8-flash-high');
+  assert.equal(modelForEffort('gemini-3.7-flash-low','medium'),'gemini-3.7-flash-medium');
+  assert.equal(modelForEffort('claude-sonnet-4-6','low'),'claude-sonnet-4-6');
+});
+
+test('task pointer names the absolute workspace and file instead of assuming tool cwd', () => {
+  const workspace = path.resolve('tmp', 'a booklet with spaces');
+  const prompt = taskPointerPrompt(workspace, 'task-013.md');
+  assert.ok(prompt.includes(JSON.stringify(path.join(workspace, 'task-013.md'))));
+  assert.ok(prompt.includes(JSON.stringify(workspace)));
+  assert.match(prompt, /Resolve every relative evidence and output path/);
+});
+
+test('execution metrics distinguish wall time from agent duration and keep turn counts', () => {
+  const metrics = executionMetrics({ conversation_id: 'diagnostic', duration_seconds: 1.71, num_turns: 1, usage: { output_tokens: 46 } }, 8177);
+  assert.equal(metrics.elapsedMs, 8177);assert.equal(metrics.agentDurationMs, 1710);assert.equal(metrics.numTurns, 1);
+  assert.equal(executionMetrics(null, 120000).agentDurationMs, null);
+});
 
 test('stripBom removes a UTF-8 BOM and nothing else', () => {
   assert.equal(stripBom('﻿{"a":1}'), '{"a":1}');
@@ -153,4 +180,10 @@ test('findArraySpan is string-aware (a key mentioned inside a string does not ma
   const spans = objectSpansInArray(raw, span);
   assert.equal(spans.length, 1);
   assert.equal(JSON.parse(raw.slice(spans[0].start, spans[0].end)).id, 'q1');
+});
+
+test('response timeouts are not diagnosed as expired OAuth credentials', () => {
+ const failure = new OAuthExpiredError(3, 'agy error: timeout waiting for response');
+ assert.equal(failure.name, 'AgyTimeoutError');assert.doesNotMatch(failure.message, /OAuth|Re-authenticate/);
+ assert.equal(new OAuthExpiredError(3, 'Individual quota reached').name, 'AgyQuotaError');
 });

@@ -5,6 +5,8 @@ import {
   prepareRun, publishRun, runLane, runStatus, saveContentOverride, validateRun,
 } from './transcription.mjs';
 import { captureFidelityEvidence } from './capture-fidelity.mjs';
+import { runBatch } from './transcription-batch.mjs';
+import { loadDraftPreview } from './transcription-preview.mjs';
 
 const MAX_BODY = 2 * 1024 * 1024;
 const safeId = (value) => String(value ?? '').replace(/[^a-zA-Z0-9._-]/g, '-').slice(0, 120);
@@ -29,11 +31,13 @@ async function runDetails(id) {
   const status = runStatus(root);
   const review = await readJson(path.join(root, 'review.json'), {});
   const transcription = await readJson(path.join(root, 'merged', 'transcription.json'), null);
+  const draft = transcription ? null : loadDraftPreview(root, await readJson(path.join(root, 'manifest.json')));
   return {
     ...status,
     review,
     transcription,
-    previewTranscription: transcription ? applyContentOverrides(transcription, review, { strict: false }) : null,
+    previewTranscription: transcription ? applyContentOverrides(transcription, review, { strict: false }) : draft.transcription,
+    draftPreview: draft?.summary ?? null,
     modules: (await readJson(path.join(root, 'merged', 'modules.json'), { modules: [] })).modules,
     validation: await readJson(path.join(root, 'validation.json'), null),
     receipt: await readJson(path.join(root, 'publication-receipt.json'), null),
@@ -61,13 +65,21 @@ async function perform(id, body) {
     return { pages: result.pages.length, capturedAt: result.capturedAt };
   }
   if (body.action === 'build-tasks') return buildTasks(root, { lane });
-  if (body.action === 'run') return runLane(root, { lane, concurrency: body.concurrency ?? 3 });
+  if (body.action === 'run') {
+    const status = runStatus(root);
+    if (lane === 'exact' && status.directBatch) {
+      const batch = await readJson(path.join(status.directBatch, 'batch.json'));
+      if (!batch || path.resolve(batch.runDir) !== root) throw new Error('Direct batch belongs to a different import');
+      return runBatch(status.directBatch);
+    }
+    return runLane(root, { lane, concurrency: body.concurrency ?? status.concurrency });
+  }
   if (body.action === 'merge') return mergeLane(root, { lane });
   if (body.action === 'validate') return validateRun(root);
   if (body.action === 'publish-dry-run') return publishRun(root);
   if (body.action === 'publish-apply') return publishRun(root, { apply: true });
   if (body.action === 'repair-build') return buildRepairTasks(root);
-  if (body.action === 'repair-run') { await runLane(root, { lane: 'repair', concurrency: body.concurrency ?? 3 }); return mergeRepairs(root); }
+  if (body.action === 'repair-run') { await runLane(root, { lane: 'repair', concurrency: body.concurrency ?? runStatus(root).concurrency }); return mergeRepairs(root); }
   throw new Error(`Unknown full-import action: ${body.action}`);
 }
 
@@ -83,7 +95,7 @@ export function fullBookletImportPlugin() {
           if (pathname === '/__booklet/full-imports/preflight' && req.method === 'POST') return send(res, 200, await preflight());
           if (pathname === '/__booklet/full-imports/prepare' && req.method === 'POST') {
             const body = await readBody(req);
-            const prepared = prepareRun({ pdf: body.pdf, docx: body.docx, pages: body.pages, runId: body.runId, continuations: body.continuations ?? [] });
+            const prepared = prepareRun({ pdf: body.pdf, docx: body.docx, teacherPdf: body.teacherPdf || null, teacherDocx: body.teacherDocx || null, pages: body.pages, runId: body.runId, continuations: body.continuations ?? [] });
             return send(res, 200, await runDetails(prepared.manifest.id));
           }
           const fileMatch = pathname.match(/^\/__booklet\/full-imports\/([^/]+)\/files\/(.+)$/);

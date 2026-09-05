@@ -1,6 +1,10 @@
 <script>
   import { onMount, tick } from 'svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
+  import BookletReviewInspector from './BookletReviewInspector.svelte';
+  import BookletAssemblyPanel from './BookletAssemblyPanel.svelte';
+  import BookletWorkflowMetrics from './BookletWorkflowMetrics.svelte';
+  import { reconcileApprovals, reviewTargets } from '../lib/booklet-review-model.js';
   import { skills } from '../lib/data.js';
   import {
     addProjectBlock, addProjectSection, createProjectBlock, deleteProjectBlock,
@@ -19,6 +23,13 @@
   let project = $state(null);
   let selectedSectionId = $state('');
   let selectedBlockId = $state('');
+  let selectedTargetId = $state('');
+  let canvas=$state(null);
+  $effect(()=>{
+    if(!canvas)return;
+    const select=event=>{const rootId=event.target.closest('[data-edit-root]')?.dataset.editRoot??event.target.closest('[data-node-id]')?.dataset.nodeId;const target=reviewTargets(project).find(t=>t.id===rootId);if(target){selectedBlockId=target.block.id;selectedTargetId=target.id;}};
+    canvas.addEventListener('click',select);return()=>canvas?.removeEventListener('click',select);
+  });
   let bankQuestionId = $state('');
   let addBlockType = $state('rich-text');
   let status = $state('');
@@ -55,7 +66,8 @@
   const projectPages = $derived(buildPages(project?.sections ?? []));
   const previewPage = $derived(projectPages.find((page) => page.section.id === selectedSection?.id && (!selectedBlockId || page.blocks.some((block) => block.id === selectedBlockId))) ?? projectPages.find((page) => page.section.id === selectedSection?.id) ?? projectPages[0] ?? null);
   const bookletPages = $derived([{ id: 'project-cover-anchor', pageNumber: 0, section: { title: project?.title ?? '' }, blocks: [] }, ...projectPages]);
-  const answerPages = $derived(projectPages.map((page) => ({ ...page, blocks: page.blocks.filter((block) => block.type === 'question') })).filter((page) => page.blocks.length));
+  const exportPages = $derived(projectPages.filter(page=>page.section.role!=='candidate-pool'));
+  const answerPages = $derived(exportPages.map((page) => ({ ...page, blocks: page.blocks.filter((block) => block.type === 'question' && block.pedagogyRole !== 'worked-example') })).filter((page) => page.blocks.length));
   const effectiveSpaces = $derived((() => {
     const spaces = { ...(project?.settings?.layoutOverrides?.answerSpaces ?? {}) };
     if (exportSettings.showResponseSpaces !== false) return spaces;
@@ -139,7 +151,7 @@
 
   function change(next, { rememberBefore = true } = {}) {
     if (rememberBefore) remember();
-    project = next;
+    project = reconcileApprovals(project, next);
     saveState = 'Unsaved changes';
     promotion = null;
     queueSave();
@@ -293,7 +305,18 @@
 
   async function printProject() {
     if (saveState !== 'Saved') await persist();
-    await tick(); window.print();
+    busy = 'Preparing print'; error = '';
+    try {
+      await tick();
+      const root = document.querySelector('.project-print');
+      if (!root?.querySelector('.print-page')) throw new Error('Add booklet content before printing.');
+      if (window.TikZ && !await window.TikZ.flushPending(root, 300000)) throw new Error('Diagrams are still rendering. Please retry printing.');
+      if (root.querySelector('.tikz-error')) throw new Error('Repair the flagged diagram before printing.');
+      await document.fonts.ready;
+      await Promise.all([...root.querySelectorAll('img')].map(image => image.decode()));
+      window.print();
+    } catch (exception) { error = exception.message; }
+    finally { busy = ''; }
   }
 
   onMount(async () => {
@@ -318,6 +341,8 @@
   </div>
 
   {#if project}
+    <BookletAssemblyPanel {project} onchange={change} oncreated={openProject} />
+    {#key project.id}<BookletWorkflowMetrics {project} onchange={change} />{/key}
     <div class="project-editor project-screen">
       <aside class="project-outline">
         <label>Title<input value={project.title} onchange={(event) => change({ ...project, title: event.currentTarget.value })} /></label>
@@ -326,7 +351,7 @@
           <strong>PDF configuration</strong>
           <label><input type="checkbox" checked={exportSettings.showTheorySolutions} onchange={(event) => setExportSetting({ showTheorySolutions: event.currentTarget.checked })} /> Show theory solutions</label>
           <label><input type="checkbox" checked={exportSettings.showResponseSpaces} onchange={(event) => setExportSetting({ showResponseSpaces: event.currentTarget.checked })} /> Student response spaces</label>
-          <label>Practice answers<select value={exportSettings.practiceAnswers} onchange={(event) => setExportSetting({ practiceAnswers: event.currentTarget.value })}><option value="none">Questions only</option><option value="short">Short answers at back</option><option value="worked">Worked solutions at back</option></select></label>
+          <label>Practice answers<select aria-label="Practice answers" value={exportSettings.practiceAnswers} onchange={(event) => setExportSetting({ practiceAnswers: event.currentTarget.value })}><option value="none">Questions only</option><option value="short">Short answers at back</option><option value="worked">Worked solutions at back</option></select></label>
           <div class="row-actions"><button onclick={saveExportDefaults}>Save as defaults</button><button onclick={resetExportDefaults}>Reset</button></div>
         </div>
         <div class="outline-heading"><strong>Pages / sections</strong><button onclick={addSection}>+ Add</button></div>
@@ -348,12 +373,18 @@
         </div>
       </aside>
 
-      <main class="project-canvas">
+      <main class="project-canvas" bind:this={canvas}>
         <div class="canvas-heading"><div><strong>{selectedSection?.title}</strong><span>{selectedSection?.sourcePageNumber ? `Imported page ${selectedSection.sourcePageNumber}` : 'Project page'}</span></div><label><input type="checkbox" checked disabled /> Direct editing</label></div>
-        {#if previewPage}<TranscribedBookletPage page={previewPage} {bookletPages} runId={project.source?.runId ?? project.id} showTheorySolutions={exportSettings.showTheorySolutions} solutionMode="student" answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={() => false} />{/if}
+        <div class="source-reconstruction" class:paired={Boolean(project.source?.runId && selectedSection?.sourcePageNumber)}>
+        {#if project.source?.runId && selectedSection?.sourcePageNumber}
+          <details class="source-evidence" open><summary>Source page {selectedSection.sourcePageNumber}</summary><a href={`/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSection.sourcePageNumber).padStart(3,'0')}.png`} target="_blank" rel="noreferrer"><img src={`/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSection.sourcePageNumber).padStart(3,'0')}.png`} alt={`Original source page ${selectedSection.sourcePageNumber}`} style="width:100%;max-height:65vh;object-fit:contain;object-position:top" /></a></details>
+        {/if}
+        {#if previewPage}<TranscribedBookletPage flow={true} page={previewPage} {bookletPages} runId={project.source?.runId ?? project.id} showTheorySolutions={exportSettings.showTheorySolutions} solutionMode="student" answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={() => false} />{/if}
+        </div>
       </main>
 
       <aside class="project-inspector">
+        <BookletReviewInspector {project} blockId={selectedBlockId} {selectedTargetId} onchange={change} />
         <h3>Selected block</h3>
         {#if selectedBlock}
           <p><code>{selectedBlock.id}</code></p>
@@ -385,10 +416,10 @@
 
     <section class="project-print" aria-hidden="true">
       <article class="project-cover"><h1>{project.title}</h1>{#if project.subtitle}<p>{project.subtitle}</p>{/if}</article>
-      {#each projectPages as page}<div class="print-page"><TranscribedBookletPage {page} {bookletPages} runId={project.source?.runId ?? project.id} showTheorySolutions={exportSettings.showTheorySolutions} solutionMode="student" answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} /></div>{/each}
+      {#each exportPages as page}<div class="print-page"><TranscribedBookletPage flow={true} {page} {bookletPages} runId={project.source?.runId ?? project.id} showTheorySolutions={exportSettings.showTheorySolutions} solutionMode="student" answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} /></div>{/each}
       {#if exportSettings.practiceAnswers !== 'none'}
         <article class="answers-divider"><h1>{exportSettings.practiceAnswers === 'short' ? 'Answers' : 'Worked solutions'}</h1></article>
-        {#each answerPages as page}<div class="print-page"><TranscribedBookletPage {page} bookletPages={[{ id: 'answer-anchor', pageNumber: 0, section: {}, blocks: [] }, ...answerPages]} runId={project.source?.runId ?? project.id} showTheorySolutions={false} solutionMode={exportSettings.practiceAnswers} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} /></div>{/each}
+        {#each answerPages as page}<div class="print-page"><TranscribedBookletPage flow={true} {page} bookletPages={[{ id: 'answer-anchor', pageNumber: 0, section: {}, blocks: [] }, ...answerPages]} runId={project.source?.runId ?? project.id} showTheorySolutions={false} solutionMode={exportSettings.practiceAnswers} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} /></div>{/each}
       {/if}
     </section>
   {:else}
@@ -397,8 +428,10 @@
 </section>
 
 <style>
+  .source-reconstruction{display:grid;gap:.7rem;min-width:0}.source-reconstruction.paired{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.source-evidence{min-width:0}.source-evidence summary{cursor:pointer;padding:.5rem;background:white}@media(max-width:1300px){.source-reconstruction.paired{grid-template-columns:1fr}}@media(min-width:1700px){.project-shell{max-width:2200px!important}.project-editor{grid-template-columns:230px minmax(700px,1fr) 300px!important}}
   .project-shell{--blue:#2f6fb2;--ink:#23395d;--muted:#66758d;--border:#dfe6ee;max-width:1600px;margin:0 auto;padding:1rem 1.5rem 3rem;color:#1e293b}.project-toolbar,.toolbar-actions,.outline-heading,.row-actions,.canvas-heading,.bank-state{display:flex;align-items:center;justify-content:space-between;gap:.55rem}.project-toolbar{align-items:flex-start}.project-toolbar h2{margin:.15rem 0;color:var(--ink)}.project-toolbar p{margin:0;color:var(--muted);font-size:.76rem}.eyebrow{color:var(--blue);font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.toolbar-actions{flex-wrap:wrap;justify-content:flex-end}button,select,input{box-sizing:border-box;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#26364d;font:inherit}button{min-height:32px;padding:.35rem .6rem;cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button.primary{border-color:#2d7650;background:#2d7650;color:#fff}button.danger{color:#a33b32}.save-state{color:var(--muted);font-size:.72rem}.project-notice{margin:.8rem 0;padding:.65rem;border:1px solid #b9dac6;border-radius:7px;background:#f1fbf5;color:#236543}.project-notice.error{border-color:#e5b7a7;background:#fff8f5;color:#99472c}.project-picker{max-width:560px;margin:.8rem 0}.project-picker label,.project-outline>label,.project-inspector label{display:grid;gap:.25rem;color:var(--muted);font-size:.72rem;font-weight:700}.project-picker select,.project-outline input,.project-inspector input,.project-inspector select{width:100%;min-height:36px;padding:.4rem}.project-editor{display:grid;grid-template-columns:280px minmax(520px,1fr) 260px;gap:1rem;align-items:start}.project-outline,.project-inspector,.project-canvas{min-width:0;border:1px solid var(--border);border-radius:10px;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.05)}.project-outline,.project-inspector{padding:.8rem}.project-outline{position:sticky;top:1rem;max-height:calc(100vh - 2rem);overflow:auto}.project-inspector{position:sticky;top:1rem}.project-inspector h3{margin-top:0;color:var(--ink)}.project-inspector code{font-size:.64rem;overflow-wrap:anywhere}.export-settings{display:grid;gap:.4rem;margin:.8rem 0;padding:.65rem;border-radius:7px;background:#f2f7fb}.export-settings label{display:flex;align-items:center;gap:.4rem;color:#51667d;font-size:.72rem}.export-settings label:last-child{display:grid}.outline-heading{margin:.8rem 0 .4rem}.section-list{display:grid;gap:.45rem}.section-list article{border:1px solid var(--border);border-radius:7px}.section-list article.active{border-color:#8db4d9}.section-select{display:grid;width:100%;grid-template-columns:24px 1fr;border:0;text-align:left}.section-select b{color:var(--blue)}.section-title{margin:.35rem;width:calc(100% - .7rem)!important}.section-list .row-actions{padding:0 .35rem}.row-actions{justify-content:flex-start}.row-actions button{min-height:26px;padding:.18rem .4rem;font-size:.68rem}.block-list{display:grid;gap:.2rem;margin:.45rem;padding:0;list-style:none}.block-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;border-radius:4px}.block-list li.active{background:#eaf3fb}.block-list li>button{overflow:hidden;border:0;background:transparent;text-align:left;text-overflow:ellipsis;white-space:nowrap}.block-list li span{display:flex}.block-list li span button{min-height:24px;padding:.1rem .25rem;border:0;background:transparent}.add-block,.bank-add{display:grid;grid-template-columns:1fr auto;gap:.3rem;padding:.35rem}.add-block select,.bank-add select{min-width:0}.module-button{width:calc(100% - .7rem);margin:.35rem}.project-canvas{padding:.75rem;background:#eef2f6}.canvas-heading{padding:0 0 .65rem}.canvas-heading div{display:grid}.canvas-heading span{color:var(--muted);font-size:.7rem}.project-inspector{display:grid;gap:.65rem}.project-inspector fieldset,.bank-state,.promotion{display:grid;gap:.4rem;padding:.6rem;border:1px solid var(--border);border-radius:7px}.bank-state strong{font-size:.7rem}.promotion article{display:grid;gap:.3rem;padding:.4rem;border-top:1px solid var(--border);font-size:.68rem}.empty-project{margin:2rem auto;padding:2rem;border:1px solid var(--border);border-radius:10px;background:#fff;text-align:center}.project-print{display:none}.project-cover,.answers-divider{box-sizing:border-box;width:210mm;height:297mm;padding:45mm 24mm;background:#fff;color:var(--ink);break-after:page}.project-cover h1,.answers-divider h1{font-size:30pt}.project-cover p{font-size:16pt}.print-page{break-after:page}
   @media(max-width:1250px){.project-editor{grid-template-columns:260px minmax(500px,1fr)}.project-inspector{position:static;grid-column:1/-1}}
   @media(max-width:850px){.project-shell{padding:.7rem}.project-toolbar{display:grid}.toolbar-actions{justify-content:flex-start}.project-editor{grid-template-columns:1fr}.project-outline{position:static;max-height:none}.project-canvas{overflow:auto}}
-  @media print{.project-screen{display:none!important}.project-shell{max-width:none;margin:0;padding:0}.project-print{display:block}.project-cover,.answers-divider{display:block}.print-page{display:block;width:210mm;min-height:297mm}.print-page:last-child{break-after:auto}}
+  @page studio-flow{background:white;size:A4;margin:10mm 15mm;@bottom-right{content:counter(page) " / " counter(pages);font-size:8pt;color:#66758d}}
+  @media print{:global(html),:global(body){color-scheme:light!important;background:white!important;color:#24282d!important}.project-shell :global(.project-screen){display:none!important}.project-screen{display:none!important}.project-shell{max-width:none;margin:0;padding:0}.project-print{display:block;page:studio-flow;background:white}.project-cover,.answers-divider{display:block;width:180mm;height:270mm;padding:35mm 10mm}.print-page{display:block;width:180mm;min-height:0}.print-page:last-child{break-after:auto}}
 </style>

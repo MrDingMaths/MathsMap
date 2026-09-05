@@ -9,6 +9,8 @@
   const pilotPages = '1-3,29-38,46,48,51,61-62';
   let pdf = $state('booklets/Computation with Integers.pdf');
   let docx = $state('booklets/Computation with Integers.docx');
+  let teacherPdf = $state('');
+  let teacherDocx = $state('');
   let pages = $state(pilotPages);
   let runId = $state('computation-integers-pilot');
   let runs = $state([]);
@@ -26,6 +28,7 @@
   let diagramColourModes = $state({});
 
   const effectiveTranscription = $derived(run?.previewTranscription ?? run?.transcription ?? null);
+  const draftOnly = $derived(Boolean(run?.draftPreview));
   const currentPage = $derived(effectiveTranscription?.pages?.find((page) => page.pageNumber === selectedPage) ?? null);
   const pageReview = $derived(run?.review?.pages?.find((page) => page.pageNumber === selectedPage) ?? null);
   const questions = $derived(effectiveTranscription?.pages?.flatMap((page) => (page.blocks ?? []).filter((block) => block.type === 'question').map((question) => ({ ...question, pageNumber: page.pageNumber }))) ?? []);
@@ -61,7 +64,7 @@
   }
 
   async function selectRun(id) {
-    error = ''; message = ''; run = await request('/__booklet/full-imports/' + encodeURIComponent(id));
+    error = ''; message = ''; editPreview = false; unsavedEdits = 0; run = await request('/__booklet/full-imports/' + encodeURIComponent(id));
     selectedPage = run.selectedPages?.[0] ?? 1;
     answerSpaces = { ...(run.review?.layoutOverrides?.answerSpaces ?? {}) };
     diagramColourModes = { ...(run.review?.layoutOverrides?.diagramColourModes ?? {}) };
@@ -79,13 +82,13 @@
   }
 
   async function prepare() {
-    const value = await task('Preparing pilot', () => request('/__booklet/full-imports/prepare', { method: 'POST', body: JSON.stringify({ pdf, docx, pages, runId }) }));
+    const value = await task('Preparing pilot', () => request('/__booklet/full-imports/prepare', { method: 'POST', body: JSON.stringify({ pdf, docx, teacherPdf, teacherDocx, pages, runId }) }));
     if (value) { run = value; selectedPage = value.selectedPages?.[0] ?? 1; await refreshRuns(); }
   }
 
   async function laneAction(action, lane) {
     if (!run) return;
-    const value = await task(`${action} ${lane}`, () => request(`/__booklet/full-imports/${encodeURIComponent(run.runId)}/action`, { method: 'POST', body: JSON.stringify({ action, lane, concurrency: 3 }) }));
+    const value = await task(`${action} ${lane}`, () => request(`/__booklet/full-imports/${encodeURIComponent(run.runId)}/action`, { method: 'POST', body: JSON.stringify({ action, lane, concurrency: run.concurrency ?? 3 }) }));
     if (value?.run) run = value.run;
   }
 
@@ -97,7 +100,7 @@
 
   async function materializeProject() {
     if (!run) return;
-    const project = await task('Creating editable booklet', () => request('/__booklet/projects/materialize', { method: 'POST', body: JSON.stringify({ runId: run.runId }) }));
+    const project = await task('Creating editable booklet', () => request('/__booklet/projects/materialize', { method: 'POST', body: JSON.stringify({ runId: run.runId, draftReview: true }) }));
     if (project) {
       message = `Created editable booklet ${project.title}.`;
       onprojectcreated?.(project);
@@ -105,7 +108,7 @@
   }
 
   async function saveReview(mutator) {
-    if (!run) return;
+    if (!run || draftOnly) return;
     const next = JSON.parse(JSON.stringify(run.review)); mutator(next);
     run = await request(`/__booklet/full-imports/${encodeURIComponent(run.runId)}/review`, { method: 'PUT', body: JSON.stringify(next) });
   }
@@ -220,6 +223,8 @@
       <h3>Prepare the 18-page pilot</h3>
       <label>PDF visual authority<input bind:value={pdf} /></label>
       <label>DOCX editable evidence<input bind:value={docx} /></label>
+      <label>Teacher PDF (optional answer evidence)<input bind:value={teacherPdf} /></label>
+      <label>Teacher DOCX (pair with teacher PDF)<input bind:value={teacherDocx} /></label>
       <div class="two"><label>Pages<input bind:value={pages} /></label><label>Run ID<input bind:value={runId} /></label></div>
       <button class="primary" onclick={prepare} disabled={!!busy}>{busy === 'Preparing pilot' ? 'Preparing…' : 'Prepare immutable evidence'}</button>
     </section>
@@ -232,15 +237,19 @@
 
   {#if run}
     <section class="card lane-card">
-      <div class="panel-title"><div><h3>Resumable lanes</h3><p>{run.runId} · concurrency 3 · no model fallback</p></div><span class="model">gemini-3.8-flash-high</span></div>
+      <div class="panel-title"><div><h3>Resumable lanes</h3><p>{run.runId} · concurrency {run.concurrency ?? 3} · no model fallback</p></div><span class="model">gemini-3.8-flash-high</span></div>
       <div class="lanes">
         {#each [['exact','Exact transcription'],['enrichment','Question enrichment'],['mapping','Module mapping'],['fidelity','Fidelity audit']] as lane}
           <article><div><strong>{lane[1]}</strong><span>{run.lanes?.[lane[0]]?.status ?? 'not-started'} · {run.lanes?.[lane[0]]?.results ?? 0}/{run.lanes?.[lane[0]]?.tasks ?? 0} results</span></div><div><button onclick={() => laneAction('build-tasks', lane[0])} disabled={!!busy}>Build</button><button onclick={() => laneAction('run', lane[0])} disabled={!!busy}>Run / resume</button><button onclick={() => laneAction('merge', lane[0])} disabled={!!busy}>Merge</button></div></article>
         {/each}
       </div>
-      <div class="lane-footer"><button class="secondary" onclick={captureFidelity} disabled={!!busy}>Capture audit pages</button><button class="secondary" onclick={() => laneAction('validate', 'exact')} disabled={!!busy}>Validate</button><button class="secondary" onclick={() => laneAction('repair-build', 'repair')} disabled={!!busy}>Build flagged repairs</button><button class="secondary" onclick={() => laneAction('repair-run', 'repair')} disabled={!!busy}>Run repairs</button><button class="secondary" onclick={() => laneAction('publish-dry-run', 'exact')} disabled={!!busy}>Publication dry run</button><button class="primary" onclick={materializeProject} disabled={!!busy}>Create editable booklet</button><button class="secondary" onclick={() => laneAction('publish-apply', 'exact')} disabled={!!busy}>Publish approved to banks</button></div>
+      <div class="lane-footer"><button class="secondary" onclick={async () => { const page = selectedPage; await selectRun(run.runId); selectedPage = page; }} disabled={!!busy || unsavedEdits > 0}>Refresh drafts</button><button class="secondary" onclick={captureFidelity} disabled={!!busy || draftOnly}>Capture audit pages</button><button class="secondary" onclick={() => laneAction('validate', 'exact')} disabled={!!busy || draftOnly}>Validate</button><button class="secondary" onclick={() => laneAction('repair-build', 'repair')} disabled={!!busy || draftOnly}>Build flagged repairs</button><button class="secondary" onclick={() => laneAction('repair-run', 'repair')} disabled={!!busy || draftOnly}>Run repairs</button><button class="secondary" onclick={() => laneAction('publish-dry-run', 'exact')} disabled={!!busy || draftOnly}>Publication dry run</button><button class="primary" onclick={materializeProject} disabled={!!busy || draftOnly}>Create editable booklet</button><button class="secondary" onclick={() => laneAction('publish-apply', 'exact')} disabled={!!busy || draftOnly}>Publish approved to banks</button></div>
       {#if run.validation}<div class:invalid={!run.validation.valid} class="validation"><strong>{run.validation.valid ? 'Deterministic validation passed' : 'Validation blocked'}</strong><span>{run.validation.pages} pages · {run.validation.modules} modules · {run.validation.questions} questions</span>{#each run.validation.errors ?? [] as item}<small>{item}</small>{/each}</div>{/if}
     </section>
+
+    {#if draftOnly}
+      <div class="notice" data-draft-preview><strong>Draft preview ? {run.draftPreview.availablePages}/{run.draftPreview.totalPages} pages available</strong><p>{run.draftPreview.adoptedPages} pages in the import and {run.draftPreview.batchPages} additional pages from transcription drafts. These pages are available to inspect before merge. Content and diagrams may still need repair; editing and approval become available after merge.</p>{#each run.draftPreview.issues as issue}<small>{issue.file}: {issue.note}</small>{/each}</div>
+    {/if}
 
     <nav class="queues" aria-label="Full booklet review queues">
       {#each [['pages','Pages'],['modules','Modules'],['questions','Questions'],['mappings','Mappings'],['diagrams','Diagrams'],['flags','Flags']] as item}<button class:active={queue === item[0]} onclick={() => (queue = item[0])}>{item[1]}</button>{/each}
@@ -252,32 +261,32 @@
         <aside class="card page-list">{#each run.selectedPages as pageNumber}<button class:active={selectedPage === pageNumber} class:accepted={run.review.pages.find((page) => page.pageNumber === pageNumber)?.accepted} onclick={() => (selectedPage = pageNumber)}><span>Page {pageNumber}</span><b>{run.review.pages.find((page) => page.pageNumber === pageNumber)?.accepted ? 'Accepted' : 'Review'}</b></button>{/each}</aside>
         <main class="comparison">
           <figure class="card"><figcaption>Source PDF · page {selectedPage}</figcaption><img src={pageImage(selectedPage)} alt={'Source booklet page ' + selectedPage} /></figure>
-          <section class="card reconstruction" data-review-page={selectedPage}><header><div><span>Structured reconstruction</span><strong>{currentPage?.section?.title ?? 'Awaiting exact transcription'}</strong></div><div class="preview-controls"><label>Review content <select bind:value={solutionMode}><option value="student">Student page</option><option value="short">Short answers (back)</option><option value="worked">Worked solutions (back)</option></select></label><label><input type="checkbox" bind:checked={showTheorySolutions} /> Theory solutions</label><label><input type="checkbox" bind:checked={editPreview} /> Edit preview</label><button class="secondary" onclick={addFlag} disabled={!currentPage || !!busy}>Flag issue</button><button class="secondary" onclick={saveLayoutOverrides} disabled={!!busy}>Save layout</button><label><input type="checkbox" checked={pageReview?.accepted ?? false} onchange={(event) => acceptPage(selectedPage, event.currentTarget.checked)} disabled={!currentPage || !!busy || unsavedEdits > 0} /> Accept page</label></div></header>{#if currentPage}<p class="layout-hint">Drag answer-space handles to resize. Turn on Edit preview, then click text, maths, or a table cell; Ctrl+Enter saves and Escape cancels. Answer modes preview content destined for the back-of-book sections; practice answers are never placed inline on student pages.{#if unsavedEdits > 0} Save or cancel the active edit before accepting this page.{/if}</p><TranscribedBookletPage page={currentPage} bookletPages={effectiveTranscription.pages} runId={run.runId} {showTheorySolutions} {solutionMode} answerSpaceOverrides={answerSpaces} {diagramColourModes} onSpaceResize={setAnswerSpace} editMode={editPreview} onContentEdit={editContent} onContentRevert={revertContent} onEditingChange={editingChanged} {isEdited} />{:else}<p>Build, run, and merge the exact-transcription lane to populate this view.</p>{/if}</section>
+          <section class="card reconstruction" data-review-page={selectedPage}><header><div><span>Structured reconstruction</span><strong>{currentPage?.section?.title ?? 'Awaiting exact transcription'}</strong></div><div class="preview-controls"><label>Review content <select bind:value={solutionMode}><option value="student">Student page</option><option value="short">Short answers (back)</option><option value="worked">Worked solutions (back)</option></select></label><label><input type="checkbox" bind:checked={showTheorySolutions} /> Theory solutions</label><label><input type="checkbox" bind:checked={editPreview} disabled={draftOnly} /> Edit preview</label><button class="secondary" onclick={addFlag} disabled={!currentPage || !!busy || draftOnly}>Flag issue</button><button class="secondary" onclick={saveLayoutOverrides} disabled={!!busy || draftOnly}>Save layout</button><label><input type="checkbox" checked={pageReview?.accepted ?? false} onchange={(event) => acceptPage(selectedPage, event.currentTarget.checked)} disabled={!currentPage || !!busy || unsavedEdits > 0 || draftOnly} /> Accept page</label></div></header>{#if currentPage}{#if !draftOnly}<p class="layout-hint">Drag answer-space handles to resize. Turn on Edit preview, then click text, maths, or a table cell; Ctrl+Enter saves and Escape cancels. Answer modes preview content destined for the back-of-book sections; practice answers are never placed inline on student pages.{#if unsavedEdits > 0} Save or cancel the active edit before accepting this page.{/if}</p>{/if}<TranscribedBookletPage page={currentPage} bookletPages={effectiveTranscription.pages} runId={run.runId} {showTheorySolutions} {solutionMode} answerSpaceOverrides={answerSpaces} {diagramColourModes} onSpaceResize={draftOnly ? null : setAnswerSpace} editMode={editPreview && !draftOnly} onContentEdit={editContent} onContentRevert={revertContent} onEditingChange={editingChanged} {isEdited} />{:else}<p>No transcription draft is available for page {selectedPage} yet. Use Refresh drafts to load newly completed pages.</p>{/if}</section>
         </main>
       </div>
     {:else if queue === 'modules'}
-      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'unmapped'}</span><h3>{module.title}</h3><p>Pages {module.pageNumbers?.join(', ')} · {module.sequence?.length ?? 0} ordered items</p></div><label><input type="checkbox" checked={run.review.modules?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('modules', module.id, event.currentTarget.checked)} /> Approve module</label></article>{/each}</div>
+      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'unmapped'}</span><h3>{module.title}</h3><p>Pages {module.pageNumbers?.join(', ')} · {module.sequence?.length ?? 0} ordered items</p></div><label><input type="checkbox" checked={run.review.modules?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('modules', module.id, event.currentTarget.checked)} disabled={draftOnly} /> Approve module</label></article>{/each}</div>
     {:else if queue === 'questions'}
-      <div class="record-grid">{#each questions as question}<article class="card record"><div><span>Page {question.pageNumber} · {question.classification?.reasoningScore ?? '—'}/100</span><h3>{question.id}</h3><p>{question.content?.prompt || 'Multipart question'}</p></div><label><input type="checkbox" checked={run.review.questions?.[question.id]?.accepted ?? false} onchange={(event) => acceptRecord('questions', question.id, event.currentTarget.checked)} /> Approve question</label></article>{/each}</div>
+      <div class="record-grid">{#each questions as question}<article class="card record"><div><span>Page {question.pageNumber} · {question.classification?.reasoningScore ?? '—'}/100</span><h3>{question.id}</h3><p>{question.content?.prompt || 'Multipart question'}</p></div><label><input type="checkbox" checked={run.review.questions?.[question.id]?.accepted ?? false} onchange={(event) => acceptRecord('questions', question.id, event.currentTarget.checked)} disabled={draftOnly} /> Approve question</label></article>{/each}</div>
     {:else if queue === 'mappings'}
       <p class="layout-hint">Module assignments</p>
-      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'Awaiting mapping'}</span><h3>Module: {module.title}</h3><p>Skills: {skillSummary(module)}</p><p>{module.classification?.mappingNote || 'Awaiting curriculum assignment.'}</p></div><label><input type="checkbox" checked={run.review.mappings?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('mappings', module.id, event.currentTarget.checked)} /> Accept mapping</label></article>{/each}</div>
+      <div class="record-grid">{#each run.modules ?? [] as module}<article class="card record"><div><span>{module.classification?.mappingStatus ?? 'Awaiting mapping'}</span><h3>Module: {module.title}</h3><p>Skills: {skillSummary(module)}</p><p>{module.classification?.mappingNote || 'Awaiting curriculum assignment.'}</p></div><label><input type="checkbox" checked={run.review.mappings?.[module.id]?.accepted ?? false} onchange={(event) => acceptRecord('mappings', module.id, event.currentTarget.checked)} disabled={draftOnly} /> Accept mapping</label></article>{/each}</div>
       <p class="layout-hint">Question assignments · {questions.filter((question) => question.classification?.primarySkillId).length}/{questions.length} questions have a primary skill. Review individual parts when auditing atomisation.</p>
       <div class="record-grid">{#each questions as question}<article class="card record"><div><h3>{question.id} · page {question.pageNumber}</h3><p>Skills: {skillSummary(question)}</p></div></article>{/each}</div>
     {:else if queue === 'diagrams'}
       <div class="record-grid">
-        <div class="diagram-actions"><span>Image treatment is a reversible placement override.</span><button class="secondary" onclick={saveLayoutOverrides} disabled={!!busy}>Save diagram treatments</button></div>
+        <div class="diagram-actions"><span>Image treatment is a reversible placement override.</span><button class="secondary" onclick={saveLayoutOverrides} disabled={!!busy || draftOnly}>Save diagram treatments</button></div>
         {#each diagrams as diagram}<article class="card diagram-record">
           <h3>{diagram.id} · source page {diagram.pageNumber ?? '—'}</h3><p>{diagram.alt}</p>
           <div class="diagram-comparison">
             <figure><figcaption>{sourceAsset(diagram) ? 'Linked source asset' : 'Source page — exact crop not linked'}</figcaption><a href={sourceAsset(diagram) ? assetUrl(sourceAsset(diagram).path) : pageImage(diagram.pageNumber)} target="_blank" rel="noreferrer"><img src={sourceAsset(diagram) ? assetUrl(sourceAsset(diagram).path) : pageImage(diagram.pageNumber)} alt="Source evidence; open for full size" /></a></figure>
             <figure><figcaption>{diagram.format === 'tikz' ? (diagram.overlayOf ? 'TikZ with base diagram' : 'Generated TikZ') : 'Retained image'}</figcaption>{#if diagram.format === 'tikz'}<Tikz code={diagramCode(diagram)} eager={true} />{:else}<img class:grayscale={diagramColourModes[diagram.id] === 'grayscale'} src={assetUrl(diagram.src)} alt={diagram.alt ?? 'Reconstructed diagram'} />{/if}</figure>
           </div>
-          <div class="diagram-controls">{#if diagram.format !== 'tikz'}<label>Colour <select value={diagramColourModes[diagram.id] ?? 'original'} onchange={(event) => setDiagramColour(diagram.id, event.currentTarget.value)}><option value="original">Original asset</option><option value="grayscale">Black &amp; white</option></select></label>{:else}<label><input type="checkbox" checked={run.review.diagrams?.[diagram.id]?.accepted ?? false} onchange={(event) => acceptRecord('diagrams', diagram.id, event.currentTarget.checked)} /> Visual approval</label>{/if}<button class="secondary" onclick={() => { selectedPage = diagram.pageNumber; queue = 'pages'; }}>Review source page / flag issue</button></div>
+          <div class="diagram-controls">{#if diagram.format !== 'tikz'}<label>Colour <select value={diagramColourModes[diagram.id] ?? 'original'} disabled={draftOnly} onchange={(event) => setDiagramColour(diagram.id, event.currentTarget.value)}><option value="original">Original asset</option><option value="grayscale">Black &amp; white</option></select></label>{:else}<label><input type="checkbox" checked={run.review.diagrams?.[diagram.id]?.accepted ?? false} onchange={(event) => acceptRecord('diagrams', diagram.id, event.currentTarget.checked)} disabled={draftOnly} /> Visual approval</label>{/if}<button class="secondary" onclick={() => { selectedPage = diagram.pageNumber; queue = 'pages'; }}>Review source page / flag issue</button></div>
         </article>{/each}
       </div>
     {:else if queue === 'flags'}
-      <div class="record-grid">{#each flags as flag, flagIndex}<article class:resolved={flag.resolved} class="card record"><div><span>{flag.severity ?? 'fatal'} � {flag.category ?? flag.source ?? 'review'}</span><h3>{flag.code}</h3><p>{flag.rootId} � {flag.note ?? 'Reviewer action required'}</p></div>{#if !flag.resolved}<button class="secondary" onclick={() => resolveFlag(flagIndex)}>Resolve</button>{:else}<span>Resolved</span>{/if}</article>{/each}{#if !flags.length}<p class="card empty">No reviewer flags.</p>{/if}</div>
+      <div class="record-grid">{#each flags as flag, flagIndex}<article class:resolved={flag.resolved} class="card record"><div><span>{flag.severity ?? 'fatal'} � {flag.category ?? flag.source ?? 'review'}</span><h3>{flag.code}</h3><p>{flag.rootId} � {flag.note ?? 'Reviewer action required'}</p></div>{#if !flag.resolved}<button class="secondary" onclick={() => resolveFlag(flagIndex)} disabled={draftOnly}>Resolve</button>{:else}<span>Resolved</span>{/if}</article>{/each}{#if !flags.length}<p class="card empty">No reviewer flags.</p>{/if}</div>
     {:else}
       <p class="card empty">No records in this queue.</p>
     {/if}

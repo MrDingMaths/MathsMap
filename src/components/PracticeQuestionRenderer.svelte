@@ -1,4 +1,5 @@
 <script>
+  import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import InlineContent from './InlineContent.svelte';
   import EditableBookletText from './EditableBookletText.svelte';
   import Tikz from './Tikz.svelte';
@@ -76,7 +77,8 @@
       {#if diagram.format === 'tikz' && diagram.code}
         <div class="diagram diagram-tikz"><Tikz code={diagram.code} eager={eagerDiagrams} /></div>
       {:else if diagram.src}
-        <figure class="diagram" class:grayscale={diagramColourModes[diagram.id] === 'grayscale'}><img src={diagram.src} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
+        {@const region = sourceRegionStyles(diagram.sourceRegion)}
+        <figure class="diagram" style={region?.frame} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'}><img style={region?.image} src={diagram.src} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
       {/if}
       {#if interactive}<button type="button" class="diagram-resize-handle" aria-label={'Resize diagram to ' + Math.round(width) + ' millimetres'} onpointerdown={(event) => beginDiagramResize(event, diagram)} onkeydown={(event) => resizeDiagramWithKeyboard(event, diagram)}></button>{/if}
     </div>
@@ -86,13 +88,13 @@
 {#snippet renderQuestionNode(node, depth = 0, index = 0)}
   {@const label = nodeLabel(node, index, depth)}
   {@const space = spaceFor(node)}
-  <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:compact class="question-node question-depth-{depth}" data-node-id={node.id}>
+  <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:diagrams-first={node.diagramPlacement === 'before-prompt'} class:diagrams-beside={['beside-prompt','right-of-prompt'].includes(node.diagramPlacement)} class:diagrams-right={node.diagramPlacement === 'right-of-prompt'} class:compact class="question-node question-depth-{depth}" data-node-id={node.id}>
     {#if label || node.prompt}<div class="question-line">{#if label}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{question.title}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
     {#each node.questionDiagrams ?? [] as diagram}{@render diagramView(diagram)}{/each}
     {#if node.children?.length}
       <div class:question-grid={node.layout === 'grid'} class="parts" style={node.layout === 'grid' ? '--columns:' + node.columns : ''}>{#each node.children as child, childIndex}{@render renderQuestionNode(child, depth + 1, childIndex)}{/each}</div>
     {:else if showSpaces && space > 0}
-      <div class="answer-space" style={'height:' + space + 'mm'} role="button" tabindex="0" aria-label={'Answer space ' + Math.round(space) + ' millimetres; drag to resize'} onpointerdown={(event) => beginResize(event, node.id, space)} onkeydown={(event) => resizeWithKeyboard(event, node.id, space)}><span class="space-label">Answer space</span><span class="space-handle" aria-hidden="true"></span></div>
+      <div class="answer-space" class:boxed-response={node.answerSpaceStyle === 'box'} style={'height:' + space + 'mm'} role="button" tabindex="0" aria-label={'Answer space ' + Math.round(space) + ' millimetres; drag to resize'} onpointerdown={(event) => beginResize(event, node.id, space)} onkeydown={(event) => resizeWithKeyboard(event, node.id, space)}><span class="space-label">Answer space</span><span class="space-handle" aria-hidden="true"></span></div>
     {/if}
   </section>
 {/snippet}
@@ -100,12 +102,13 @@
 {#snippet renderAnswerNode(node, path = [], index = 0)}
   {@const nextPath = node.type === 'question' && path.length === 0 ? path : node.children?.length && node.label == null ? path : [...path, String(node.label ?? letter(index))]}
   {#if node.children?.length}
-    <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + node.columns : ''}>
+    <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(node.columns, showWorkedSolutions ? 2 : node.columns) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex)}{/each}
     </div>
   {:else}
     <article class="answer-item" data-node-id={node.id}><div class="answer-label">{leafLabel(nextPath)}</div><div class="answer-content">
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(node.answer.short)} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
+      {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>
   {/if}
@@ -139,6 +142,16 @@
   .question-node { break-inside: avoid; margin: 0 0 2.2mm; }
   .practice-question > .question-node { break-inside: auto; }
   .question-node.part { margin: 1mm 0 1.5mm; }
+  .question-node.diagrams-first { display:flex; flex-direction:column; position:relative; padding-top:4mm; }
+  .diagrams-first > .question-line { order:1; }
+  .diagrams-first > .answer-space { order:2; }
+  .question-node.diagrams-beside { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.8fr); gap:2mm; position:relative; padding-top:4mm; }
+  .diagrams-beside > .question-line { grid-column:2; grid-row:1; }
+  .diagrams-beside > .diagram-resize-shell { grid-column:1; grid-row:1; }
+  .diagrams-right > .question-line { grid-column:1; }
+  .diagrams-right > .diagram-resize-shell { grid-column:2; }
+  .diagrams-beside > .answer-space { grid-column:1 / -1; }
+  .diagrams-first > .question-line > .part-label, .diagrams-beside > .question-line > .part-label { position:absolute; top:0; left:0; }
   .question-line { display: flex; align-items: flex-start; gap: var(--label-gap); }
   .part-label { flex: none; min-width: var(--label-width); font-weight: 700; }
   .exam-label { display: block; font: inherit; font-weight: 800; }
@@ -179,6 +192,7 @@
   .compact { margin-bottom: 2mm; }
   @media print {
     .answer-space { overflow: visible; border: none; background: #fff; }
+    .answer-space.boxed-response { border: .25mm solid #bbb; border-radius:0; }
     .space-label, .space-handle, .diagram-resize-handle { display: none; }
     .diagram-resize-shell { max-width: 100%; }
   }

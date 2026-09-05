@@ -1,5 +1,6 @@
 import { deepCopy as copyQuestion, normaliseQuestion } from './practice-question-model.js';
 import { normalizeBookletProject } from './booklet-model.js';
+import { isDocument, normalizeDocument } from './document-content.js';
 
 export const EDITABLE_BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v4';
 export const EDITABLE_BOOKLET_PROJECT_VERSION = 4;
@@ -45,6 +46,7 @@ function pointerParts(pointer) {
 function setPointer(root, pointer, value) {
   const parts = pointerParts(pointer);
   if (!parts.length) throw new Error('A project edit needs a field pointer');
+  if(parts.some(p=>['__proto__','prototype','constructor'].includes(p)))throw new Error('Invalid project edit path');
   let target = root;
   for (const part of parts.slice(0, -1)) {
     if (target?.[part] === undefined) throw new Error(`Project edit path does not exist: ${pointer}`);
@@ -231,8 +233,8 @@ export function materializeLegacyProject(raw, { bank = [], modules = [] } = {}) 
         const module = moduleMap.get(placement.moduleId);
         for (const item of module?.sequence ?? []) {
           if (item.type === 'question-ref') {
-            const question = bankMap.get(item.questionId);
-            if (question) blocks.push(snapshotBankQuestion(question));
+            const question = item.snapshot ?? bankMap.get(item.questionId);
+            if (question) { const snapshot=snapshotBankQuestion(question);snapshot.bankRef.revision=item.questionRevision??snapshot.bankRef.revision;blocks.push(snapshot); }
           } else if (item.block) blocks.push(clone(item.block));
         }
       } else {
@@ -444,17 +446,20 @@ export function collectProjectQuestions(project) {
 
 export function validateEditableProject(raw) {
   const errors = [];
+  if(raw?.studio && raw.studio.version !== 1) errors.push('Unsupported Studio review version');
   if (raw?.format !== EDITABLE_BOOKLET_PROJECT_FORMAT) errors.push(`Project format must be ${EDITABLE_BOOKLET_PROJECT_FORMAT}`);
   if (Number(raw?.version) !== EDITABLE_BOOKLET_PROJECT_VERSION) errors.push('Project version must be 4');
   if (!text(raw?.id)) errors.push('Project needs an id');
   if (!text(raw?.title)) errors.push('Project needs a title');
   if (!Array.isArray(raw?.sections) || !raw.sections.length) errors.push('Project needs at least one section');
   const ids = new Set();
-  walk(raw?.sections ?? [], (node) => {
-    if (!node?.id) return;
-    if (ids.has(node.id)) errors.push(`Duplicate project node id: ${node.id}`);
-    ids.add(node.id);
-  });
+  const scan=(node)=>{
+    if(!node||typeof node!=='object')return;
+    if(isDocument(node)){try{normalizeDocument(node);}catch(error){errors.push(error.message);}}
+    if(node.id){if(ids.has(node.id))errors.push(`Duplicate project node id: ${node.id}`);ids.add(node.id);}
+    for(const [key,value] of Object.entries(node))if(!['sourceAtom','source','sourceQuestionRef','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
+  };
+  scan(raw?.sections??[]);
   for (const section of raw?.sections ?? []) {
     if (!text(section.title)) errors.push(`Section ${section.id ?? '?'} needs a title`);
     if (!Array.isArray(section.blocks)) errors.push(`Section ${section.id ?? '?'} needs blocks`);

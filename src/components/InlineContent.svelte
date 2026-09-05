@@ -1,6 +1,7 @@
 <script>
   import MathText from './Math.svelte';
   import Tikz from './Tikz.svelte';
+  import { isDocument, documentHtml } from '../lib/document-content.js';
   import { splitInlineContent, groupTextBlocks } from '../lib/inline-content.js';
 
   let { text = '', class: className = '' } = $props();
@@ -8,6 +9,7 @@
 </script>
 
 <div class="inline-content {className}">
+  {#if isDocument(text)}{@html documentHtml(text)}{:else}
   {#each parsed.parts as part}
     {#if part.type === 'tikz'}
       <div class="inline-tikz"><Tikz code={part.value} /></div>
@@ -17,6 +19,7 @@
       {/each}
     {/if}
   {/each}
+  {/if}
 </div>
 
 <style>

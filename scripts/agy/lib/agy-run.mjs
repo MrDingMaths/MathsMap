@@ -38,15 +38,17 @@ export class OAuthExpiredError extends Error {
   // something that is not broken and hides the only fact that matters: when it resets.
   constructor(failures, lastError = '') {
     const quota = /quota|rate limit|resource[_ ]exhausted/i.test(String(lastError));
+    const timedOut = !quota && /timeout waiting for response|timed out|ETIMEDOUT/i.test(String(lastError)) && !/authentication|OAuth/i.test(String(lastError));
     const resets = String(lastError).match(/Resets? in ([\dhms ]+)/i);
     super(quota
       ? `agy: ${failures} consecutive calls failed on quota — "${String(lastError).trim()}". `
         + `Wait${resets ? ` ${resets[1].trim()}` : ''}, then rerun this command; tasks with a `
         + 'valid result file are skipped automatically.'
+      : timedOut ? `agy: ${failures} consecutive tasks timed out without a result file. Reduce task scope or investigate tool loops before resuming. Completed result files are preserved.`
       : `agy: ${failures} consecutive calls errored with no result file — Google OAuth has `
         + 'likely expired. Re-authenticate agy, then rerun this command; tasks with a valid '
         + 'result file are skipped automatically.');
-    this.name = quota ? 'AgyQuotaError' : 'OAuthExpiredError';
+    this.name = quota ? 'AgyQuotaError' : timedOut ? 'AgyTimeoutError' : 'OAuthExpiredError';
     this.quota = quota;
     this.lastError = lastError;
   }
@@ -115,17 +117,43 @@ export function taskComplete(tasksDir, taskFile, resultSuffix) {
   }
 }
 
-async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, printTimeout, pointerPrompt }) {
+export function taskPointerPrompt(tasksDir, taskFile) {
+  const workspace = path.resolve(tasksDir);
+  return `Read the task file at ${JSON.stringify(path.join(workspace, taskFile))} and follow its instructions exactly. `
+    + `The task workspace and output directory is ${JSON.stringify(workspace)}. Resolve every relative evidence and output path in the task against this directory. `
+    + 'Use absolute paths for file tools and set this directory as the working directory for terminal commands. '
+    + 'Do not search other drives or directories to locate the task. Its Output Contract specifies the JSON result filename and shape. '
+    + 'Do not ask for confirmation; write the result file directly.';
+}
+
+export function executionMetrics(envelope, elapsedMs) {
+  return { elapsedMs, usage: envelope?.usage ?? null, conversationId: envelope?.conversation_id ?? null,
+    numTurns: envelope?.num_turns ?? null,
+    agentDurationMs: Number.isFinite(envelope?.duration_seconds) ? Math.round(envelope.duration_seconds * 1000) : null };
+}
+
+export function effortArguments(effort = null) {
+  if (effort == null) return [];
+  if (!['low', 'medium', 'high'].includes(effort)) throw new Error('AGY effort must be low, medium or high');
+  return ['--effort', effort];
+}
+
+export function modelForEffort(model, effort = null) {
+  effortArguments(effort);
+  // These CLI model IDs encode effort and reject a conflicting --effort flag.
+  return effort && /^gemini-3\.[678]-flash-(high|medium|low)$/.test(model)
+    ? model.replace(/-(high|medium|low)$/, '-' + effort) : model;
+}
+
+async function runOne(tasksDir, taskFile, { model, effort, resultSuffix, timeoutMs, printTimeout, pointerPrompt }) {
+  const executionModel = modelForEffort(model, effort);
   const resultPath = path.join(tasksDir, taskFile.replace(/\.md$/, resultSuffix));
   const idsPath = path.join(tasksDir, taskFile.replace(/\.md$/, '.ids.json'));
   if (fs.existsSync(resultPath)) fs.unlinkSync(resultPath); // no stale result from a prior run
 
   const prompt = pointerPrompt
     ? pointerPrompt(taskFile)
-    : `Read the task file at ${taskFile} in the current directory and follow its instructions `
-      + 'exactly, including its Output Contract section, which tells you exactly where to '
-      + 'write your JSON result and its shape. Do not ask for confirmation; write the result '
-      + 'file directly.';
+    : taskPointerPrompt(tasksDir, taskFile);
   if (prompt.length > ARGV_CEILING) throw new Error(`pointer prompt is ${prompt.length} chars, over the ${ARGV_CEILING}-char argv ceiling`);
 
   const started = Date.now();
@@ -134,7 +162,8 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
   try {
     ({ stdout } = await execFileAsync(AGY_BIN, [
       '-p', prompt,
-      '--model', model,
+      '--model', executionModel,
+      ...effortArguments(effort),
       '--output-format', 'json',
       '--disable-slash-commands',
       '--dangerously-skip-permissions',
@@ -150,7 +179,7 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
   try { envelope = JSON.parse(stripBom(stdout).trim()); } catch { /* file check decides */ }
 
   const elapsedMs = Date.now() - started;
-  const base = { task: taskFile, model, elapsedMs, usage: envelope?.usage ?? null, at: new Date().toISOString() };
+  const base = { task: taskFile, model: executionModel, requestedModel: model, effort: effort ?? null, ...executionMetrics(envelope, elapsedMs), at: new Date().toISOString() };
 
   if (!fs.existsSync(resultPath)) {
     // Surface agy's own stderr: an instant (~10 s) failure with no result file is usually an
@@ -163,7 +192,7 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
       : envelope ? `agy reported status ${envelope.status} and no result file was written`
       : 'agy produced no parseable output and no result file';
     appendLedger(tasksDir, { ...base, ok: false, reason });
-    return { file: taskFile, ok: false, noFile: true, reason, raw: String(stdout).slice(0, 2000) };
+    return { file: taskFile, ok: false, noFile: true, reason, elapsedMs, raw: String(stdout).slice(0, 2000) };
   }
 
   let result;
@@ -187,7 +216,7 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
   if (envelope && envelope.status && envelope.status !== 'SUCCESS') {
     console.log(`${taskFile}: note — agy reported status ${envelope.status} but the result file is present and valid; trusting the file`);
   }
-  appendLedger(tasksDir, { ...base, ok: true });
+  appendLedger(tasksDir, { ...base, resultBytes: fs.statSync(resultPath).size, ok: true });
   return { file: taskFile, ok: true, result, elapsedMs, usage: envelope?.usage ?? null };
 }
 
@@ -196,6 +225,7 @@ async function runOne(tasksDir, taskFile, { model, resultSuffix, timeoutMs, prin
 // after `oauthHaltAfter` consecutive no-file failures.
 export async function runTasks(tasksDir, {
   model = 'gemini-3.7-flash-high',
+  effort = null,
   concurrency = 5,
   resultSuffix = '.result.json',
   timeoutMs = 25 * 60 * 1000,
@@ -204,6 +234,7 @@ export async function runTasks(tasksDir, {
   pointerPrompt = null,
   taskPattern = /^task-\d+\.md$/,
 } = {}) {
+  effortArguments(effort);
   if (!fs.existsSync(tasksDir)) throw new Error(`tasks dir does not exist: ${tasksDir}`);
   if (!fs.existsSync(AGY_BIN)) throw new Error(`agy.exe not found at ${AGY_BIN} — set AGY_PATH`);
   const all = fs.readdirSync(tasksDir).filter(f => taskPattern.test(f)).sort();
@@ -217,14 +248,21 @@ export async function runTasks(tasksDir, {
   let cursor = 0;
   let consecutiveNoFile = 0;
   let halted = null;
+  let recentFailureReasons = [];
 
   async function worker() {
     while (cursor < pending.length && !halted) {
       const file = pending[cursor++];
-      const outcome = await runOne(tasksDir, file, { model, resultSuffix, timeoutMs, printTimeout, pointerPrompt });
+      const outcome = await runOne(tasksDir, file, { model, effort, resultSuffix, timeoutMs, printTimeout, pointerPrompt });
       results.push(outcome);
-      if (outcome.ok) consecutiveNoFile = 0;
-      else if (outcome.noFile && ++consecutiveNoFile >= oauthHaltAfter) halted = new OAuthExpiredError(consecutiveNoFile, outcome.reason);
+      if (outcome.ok) { consecutiveNoFile = 0; recentFailureReasons = []; }
+      else if (outcome.noFile) {
+        recentFailureReasons.push(outcome.reason);
+        if (++consecutiveNoFile >= oauthHaltAfter && !halted) {
+          const quotaReason = recentFailureReasons.find(reason => /quota|rate limit|resource[_ ]exhausted/i.test(reason));
+          halted = new OAuthExpiredError(consecutiveNoFile, quotaReason ?? outcome.reason);
+        }
+      }
       console.log(`${file}: ${outcome.ok ? 'ok' : `FAIL — ${outcome.reason}`} (${Math.round((outcome.elapsedMs || 0) / 1000)}s)`);
     }
   }

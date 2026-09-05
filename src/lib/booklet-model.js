@@ -522,7 +522,7 @@ export function resolveProject(project, bankInput = new Map(), { includeSolution
         const module = moduleBank.get(block.moduleId);
         if (!module) { blocks.push({ type: 'callout', id: `missing-${block.id}`, variant: 'warning', content: normalizeRichText(`Missing teaching module ${block.moduleId}`), reviewFlags: ['missing-teaching-module'] }); continue; }
         for (const item of module.sequence ?? []) {
-          if (item.type === 'question-ref') { const question = bank.get(item.questionId); if (question) blocks.push(makeQuestionBlock(question)); }
+          if (item.type === 'question-ref') { const question = item.snapshot ?? bank.get(item.questionId); if (question) blocks.push(makeQuestionBlock(question)); }
           else if (item.block) blocks.push(theoryVisible(item.block));
         }
       } else if (block.type === 'questions' || block.type === 'question-set') {

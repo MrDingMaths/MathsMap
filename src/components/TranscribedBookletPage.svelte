@@ -6,11 +6,12 @@
   import EditableBookletText from './EditableBookletText.svelte';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import Tikz from './Tikz.svelte';
+  import { isDocument } from '../lib/document-content.js';
   import { deriveBookletCover } from '../lib/booklet-cover.js';
   import { combinedExampleTikz, groupBookletBlocks, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
 
   let {
-    page, bookletPages = [], runId, showTheorySolutions = true, solutionMode = 'student',
+    page, bookletPages = [], runId, showTheorySolutions = true, solutionMode = 'student', flow = false,
     answerSpaceOverrides = {}, diagramColourModes = {}, onSpaceResize = null,
     editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false,
   } = $props();
@@ -25,15 +26,16 @@
   const previewQuestion = (question) => resolvePreviewAssets(question, assetUrl);
   const isGuided = (question) => question.pedagogyRole === 'guided-practice';
   const mathLine = (value) => {
+    if (isDocument(value)) return value;
     const text = String(value ?? '').replace(/^\s*\d+\.\s*/, '').trim();
-    return text.includes('$') ? text : `$${text}$`;
+    return text.includes('$') || /\s[A-Za-z]{3,}\b/.test(text) ? text : `$${text}$`;
   };
   const calloutKind = (block) => block.variant === 'investigation' ? 'investigation' : block.variant === 'key-ideas' ? 'key-ideas' : 'definition';
   const calloutLabel = (block) => block.variant === 'investigation' ? '' : block.variant === 'key-ideas' ? 'Key Ideas' : block.variant === 'info' ? 'Definition' : 'Theory';
   const calloutDescription = (block) => block.variant === 'investigation' ? investigationDescription(block.title) : block.title;
 
   function editProps() {
-    return { editMode, onContentEdit, onContentRevert, onEditingChange, oneditingchange: onEditingChange, isEdited };
+    return { editMode, onContentEdit, onContentRevert, onEditingChange, oncommit: onContentEdit, onrevert: onContentRevert, oneditingchange: onEditingChange, isEdited };
   }
 
   onMount(() => {
@@ -85,7 +87,10 @@
 {/snippet}
 
 {#snippet questionView(block, number)}
-  <PracticeQuestionRenderer question={previewQuestion(block)} {number} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={solutionMode === 'student'} showShortAnswers={solutionMode === 'short'} showWorkedSolutions={solutionMode === 'worked'} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
+  {#if block.pedagogyRole === 'worked-example' && (showTheorySolutions || solutionMode !== 'student')}
+    <PracticeQuestionRenderer question={previewQuestion(block)} {number} showTitle={false} showSpaces={false} eagerDiagrams={true} {...editProps()} />
+  {/if}
+  <PracticeQuestionRenderer question={previewQuestion(block)} {number} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={solutionMode === 'student'&&block.pedagogyRole!=='worked-example'} showShortAnswers={solutionMode === 'short'} showWorkedSolutions={solutionMode === 'worked'||block.pedagogyRole==='worked-example'&&showTheorySolutions} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
 {/snippet}
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
@@ -93,7 +98,7 @@
     {#if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}
-      <section class:atom-practice={insideAtom} class="practice">{@render questionView(block, insideAtom ? null : block.sourceOrder ?? index + 1)}</section>
+      <section class:atom-practice={insideAtom} class="practice">{@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}</section>
     {/if}
   {:else if block.type === 'worked-example'}
     <section class:inside-atom={insideAtom} class="theory-section">
@@ -115,7 +120,7 @@
                 {#if showTheorySolutions}{@render exampleSolution(example, block.presentation?.numberSteps !== false)}{/if}
               </div>
               <div class="example-illustration">{@render exampleDiagramSet(example)}</div>
-              {#if example.explanation}<div class="example-explanation"><EditableBookletText value={example.explanation} rootId={example.id} pointer="/explanation" fillCloze={showTheorySolutions} {...editProps()} edited={isEdited(example.id, '/explanation')} /></div>{/if}
+              {#if example.explanation}<div class="example-explanation"><EditableBookletText value={example.explanation} rootId={example.id} pointer="/explanation" fillCloze={solutionMode !== 'student'} {...editProps()} edited={isEdited(example.id, '/explanation')} /></div>{/if}
             </div>
           {/each}
         {:else if block.examples?.length}
@@ -145,9 +150,9 @@
     </section>
   {:else if block.type === 'callout'}
     {#if insideAtom}
-      <EditableBookletText value={block.content} rootId={block.id} pointer="/content" layout={block.contentLayout} tableStyle={block.tableStyle} fillCloze={showTheorySolutions} {...editProps()} edited={isEdited(block.id, '/content')} />
+      <EditableBookletText value={block.content} rootId={block.id} pointer="/content" layout={block.contentLayout} tableStyle={block.tableStyle} fillCloze={solutionMode !== 'student'} {...editProps()} edited={isEdited(block.id, '/content')} />
     {:else}
-      <section class="theory-section"><BookletSectionHeader kind={calloutKind(block)} label={calloutLabel(block)} subtitle={calloutDescription(block)} editMode={editMode} rootId={block.id} pointer="/title" {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} /><div class="body-box"><EditableBookletText value={block.content} tableStyle={block.tableStyle} rootId={block.id} pointer="/content" fillCloze={showTheorySolutions} {...editProps()} edited={isEdited(block.id, '/content')} /></div></section>
+      <section class="theory-section"><BookletSectionHeader kind={calloutKind(block)} label={calloutLabel(block)} subtitle={calloutDescription(block)} editMode={editMode} rootId={block.id} pointer="/title" {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} /><div class="body-box"><EditableBookletText value={block.content} tableStyle={block.tableStyle} rootId={block.id} pointer="/content" fillCloze={solutionMode !== 'student'} {...editProps()} edited={isEdited(block.id, '/content')} /></div></section>
     {/if}
   {:else if block.type === 'image'}
     <figure><img src={assetUrl(block.src)} alt={block.alt ?? ''} style={'width:min(100%,' + (block.widthMm ?? 150) + 'mm)'} />{#if block.caption}<figcaption>{block.caption}</figcaption>{/if}</figure>
@@ -156,11 +161,11 @@
   {:else if block.type === 'spacer'}
     <div aria-hidden="true" style={`height:${Math.max(0, Math.min(80, Number(block.heightMm) || 0))}mm`}></div>
   {:else}
-    <section class="content-block">{#if block.title}<h3>{block.title}</h3>{/if}<EditableBookletText value={block.content ?? block.text ?? ''} rootId={block.id} pointer={block.content !== undefined ? '/content' : '/text'} fillCloze={showTheorySolutions} {...editProps()} edited={isEdited(block.id, block.content !== undefined ? '/content' : '/text')} /></section>
+    <section class="content-block">{#if block.title}<h3>{block.title}</h3>{/if}<EditableBookletText value={block.content ?? block.text ?? ''} rootId={block.id} pointer={block.content !== undefined ? '/content' : '/text'} fillCloze={solutionMode !== 'student'} {...editProps()} edited={isEdited(block.id, block.content !== undefined ? '/content' : '/text')} /></section>
   {/if}
 {/snippet}
 
-<div class="preview-frame" bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm`}>
+<div class="preview-frame" class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm`}>
   <div class="preview-page">
     {#if bookletPageNumber === 1}
       <BookletCover pages={bookletPages} />
@@ -189,6 +194,7 @@
 </div>
 
 <style>
+  .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
   .preview-frame { position:relative; width:100%; height:var(--preview-height); overflow:hidden; }
   .preview-page { position:absolute; top:0; left:50%; width:210mm; transform:translateX(-50%) scale(var(--preview-scale)); transform-origin:top center; }
   .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:#fff; color:#24282d; font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }

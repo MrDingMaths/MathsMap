@@ -3,11 +3,11 @@
 // and maths value used by those blocks.
 
 import { renderMath } from './render-math.js';
+import { isDocument, toSource, documentHtml, normalizeDocument } from './document-content.js';
 
 export const MATHS_EDITOR_VERSION = 1;
 export const RICH_TEXT_FORMAT = 'mathsmap-rich-text-v1';
 
-const INLINE_TYPES = new Set(['text', 'math', 'break', 'cloze']);
 
 function clone(value) {
   if (value === undefined) return value;
@@ -196,6 +196,7 @@ function normalizeInlines(raw) {
 }
 
 export function normalizeRichText(raw = '') {
+  if (isDocument(raw)) return normalizeDocument(raw);
   if (typeof raw === 'string' || typeof raw === 'number' || raw == null) return parseRichText(String(raw ?? ''));
   if (Array.isArray(raw)) {
     if (raw.some((item) => item?.type === 'paragraph')) return { format: RICH_TEXT_FORMAT, version: MATHS_EDITOR_VERSION, paragraphs: raw.map((item) => paragraph(item.inlines ?? item.children ?? [])) };
@@ -222,6 +223,7 @@ function serializeInline(node) {
 }
 
 export function serializeRichText(raw) {
+  if (isDocument(raw)) return toSource(raw);
   const value = normalizeRichText(raw);
   return value.paragraphs.map((item) => item.inlines.map(serializeInline).join('')).join('\n\n');
 }
@@ -229,6 +231,7 @@ export function serializeRichText(raw) {
 export const richTextToSource = serializeRichText;
 
 export function richTextToPlainText(raw, { fillCloze = false } = {}) {
+  if (isDocument(raw)) return toSource(raw);
   const value = normalizeRichText(raw);
   return value.paragraphs.map((item) => item.inlines.map((node) => {
     const valueNode = normalizeInline(node);
@@ -245,6 +248,7 @@ export function getSourceFallback(raw, fallback = '') {
 }
 
 export function roundTripRichText(raw) {
+  if (isDocument(raw)) return normalizeDocument(raw);
   return normalizeRichText(parseRichText(serializeRichText(raw)));
 }
 
@@ -305,6 +309,7 @@ function escapeHtml(value) {
 }
 
 export function renderRichTextHtml(raw, { fillCloze = false, editable = false } = {}) {
+  if (isDocument(raw)) return documentHtml(raw, { fillCloze });
   const value = normalizeRichText(raw);
   const paragraphs = value.paragraphs.map((item) => {
     const html = item.inlines.map((node) => {

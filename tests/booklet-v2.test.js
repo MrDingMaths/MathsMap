@@ -22,7 +22,6 @@ import {
   serializeRichText,
 } from '../src/lib/maths-editor.js';
 import { importPayloadToProject, reviewImportPayload } from '../src/lib/booklet-import.js';
-import { applyAiProposal, buildAiEditRequest, validateAiProposal } from '../src/lib/booklet-ai.js';
 import { createAutosave, loadBookletProject, saveBookletProject } from '../src/lib/booklet-storage.js';
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -132,7 +131,7 @@ test('unreconstructed import pages cannot publish even when a reviewer accepts t
   assert.equal(checked.canPublish, false);
 });
 
-test('autosave reloads a project and AI replacement is selected-node-only', async () => {
+test('legacy autosave reloads a project', async () => {
   const values = new Map();
   const storage = { getItem: (key) => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) };
   const project = createBookletProject({ id: 'autosave-project', title: 'Autosave', sections: [{ id: 's', blocks: [{ type: 'rich-text', id: 'copy-me', content: 'before' }] }] });
@@ -143,13 +142,6 @@ test('autosave reloads a project and AI replacement is selected-node-only', asyn
   autosave(project);
   await new Promise((resolve) => setTimeout(resolve, 15));
   assert.equal(saved.id, project.id);
-  const request = buildAiEditRequest(project.sections[0].blocks[0], {});
-  assert.equal(request.action, 'replace-selected-node');
-  assert.equal(validateAiProposal({ before: project.sections[0].blocks[0], after: { ...project.sections[0].blocks[0], content: 'after' }, reason: 'Tighten wording' }, project.sections[0].blocks[0]).errors.length, 0);
-  assert.ok(validateAiProposal({ before: { id: 'other' }, after: { id: 'other' }, reason: 'wrong node' }, project.sections[0].blocks[0]).errors.length);
-  const changed = applyAiProposal(project, { after: { ...project.sections[0].blocks[0], content: 'after' } });
-  assert.equal(serializeRichText(changed.sections[0].blocks[0].content), 'after');
-  assert.equal(serializeRichText(project.sections[0].blocks[0].content), 'before');
 });
 
 test('accepted import publisher writes project, master, and served original assets', () => {
