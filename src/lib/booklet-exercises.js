@@ -26,7 +26,7 @@ export function compactAnswerDisplay(value) {
 // Ratings are pinned presentation metadata, not edits to a bank classification.
 export function organiseExercises(source, ratings) {
   const project=structuredClone(source);
-  project.settings={...project.settings,exerciseOrganisation:'topic',compactAnswers:{...COMPACT_ANSWERS},flowEdition:'with-short'};
+  project.settings={...project.settings,exerciseOrganisation:'topic',compactAnswers:{...structuredClone(COMPACT_ANSWERS),...structuredClone(project.settings.compactAnswers??{})},flowEdition:'with-short'};
   const sections=[];
   for(let i=0;i<project.sections.length;i++){
     const section=project.sections[i];
