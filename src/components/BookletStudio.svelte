@@ -64,6 +64,13 @@
   let previewOpen = $state(false);
   let cardsExpanded = $state(false);
   let expandedQuestionIds = $state.raw(new Set());
+  let expandedSolutionIds = $state.raw(new Set());
+  function toggleSolution(id, open) {
+    if (expandedSolutionIds.has(id) === open) return;
+    const next = new Set(expandedSolutionIds);
+    if (open) next.add(id); else next.delete(id);
+    expandedSolutionIds = next;
+  }
   function toggleQuestionCard(id,open) {
     if(expandedQuestionIds.has(id)===open)return;
     const next=new Set(expandedQuestionIds);
@@ -506,6 +513,16 @@
                     </div>
                   </summary>
                   {#if expandedQuestionIds.has(question.id)}<div class="question-card__body"><PracticeQuestionRenderer question={question} showSpaces={false} compact={true} diagramWidthOverrides={diagramWidths} /></div>{/if}
+                  {#if expandedQuestionIds.has(question.id)}
+                    <details class="question-card__solution" open={expandedSolutionIds.has(question.id)} ontoggle={event => toggleSolution(question.id, event.currentTarget.open)}>
+                      <summary>{expandedSolutionIds.has(question.id) ? 'Hide solution' : 'Show solution'}</summary>
+                      {#if expandedSolutionIds.has(question.id)}
+                        <div class="question-card__solution-content">
+                          <PracticeQuestionRenderer question={question} showSpaces={false} showWorkedSolutions={true} showTitle={false} answerColumnsLimit={1} compact={true} diagramWidthOverrides={diagramWidths} blockLayouts={question.presentation?.layoutOverrides?.blockLayouts ?? {}} />
+                        </div>
+                      {/if}
+                    </details>
+                  {/if}
                   <div class="question-card__footer"><div><button class="btn btn--secondary btn--small" onclick={() => openEditor(question)}>Edit</button><button class="btn-link" onclick={() => deleteRecord(question)} disabled={busy}>Delete</button></div></div>
                 </details>
               </div>
@@ -555,6 +572,14 @@
 {/if}
 
 <style>
+  .question-card__solution { border-top:1px solid var(--color-border, #dfe4ea); margin:0 .75rem; }
+  .question-card__solution > summary { padding:.4rem 0; cursor:pointer; font-weight:600; font-size:.85rem; color:var(--md-green, #15803d); user-select:none; list-style:none; }
+  .question-card__solution > summary::-webkit-details-marker { display:none; }
+  .question-card__solution > summary:hover { text-decoration:underline; }
+  .question-card__solution > summary:focus-visible { outline:2px solid var(--color-accent, #2563eb); outline-offset:2px; border-radius:3px; }
+  .question-card__solution-content { padding:.5rem 0 .75rem; line-height:1.7; font-size:.9rem; overflow-x:auto; }
+  .questions-grid .question-card__body { background:#fff; }
+  .questions-grid .question-card__body :global(.practice-question) { color:#24282d; }
   .studio-shell { min-height: calc(100dvh - 70px); padding: 2rem 1.5rem 4rem; background: var(--app-canvas, #f8fafc); color: var(--text, #1e293b); font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .studio-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   .studio-header { max-width: 1400px; margin: 0 auto 1.25rem; }

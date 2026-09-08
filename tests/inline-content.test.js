@@ -6,6 +6,7 @@ import {
   stripTikzBlocks,
   groupTextBlocks,
   setoutMathChain,
+  setoutImplicationSteps,
   validateProcedureLabels,
   unknownKeys,
   isStructureSlug,
@@ -16,8 +17,17 @@ import {
 test('expands a chained worked solution for vertical relation alignment', () => {
   assert.equal(setoutMathChain('$-2+(-3)=-2-3=-5$'), '$-2+(-3)=-2-3$\n$=-5$');
   assert.equal(setoutMathChain('$x=2$'), '$x=2$');
-  assert.equal(setoutMathChain('$200=240x+80\\implies240x=120\\implies x=0.5$',{stackFirstTerm:true}), '$200=240x+80\\implies240x=120\\implies x=0.5$');
+  assert.equal(setoutMathChain('$200=240x+80\\implies240x=120\\implies x=0.5$',{stackFirstTerm:true}), '$$\\begin{align*}200&=240x+80 \\\\ 240x&=120 \\\\ x&=0.5\\end{align*}$$');
   assert.match(groupTextBlocks(setoutMathChain('$a=b=c$'))[0].value, /begin\{aligned\}/);
+});
+
+test('worked implication steps preserve equations, units and surrounding explanation',()=>{
+  const source=String.raw`Substitute: $80=3x+5 \implies 3x=75 \implies x=25\text{ km}$. Check the graph.`;
+  const result=setoutImplicationSteps(source);
+  assert.equal(result,String.raw`Substitute: $$\begin{align*}80&=3x+5 \\ 3x&=75 \\ x&=25\text{ km}\end{align*}$$. Check the graph.`);
+  assert.equal(setoutImplicationSteps(result),result);
+  for(const unchanged of [String.raw`$P\implies Q$`,String.raw`$x=1\iff y=3$`,String.raw`$\text{A \implies B}=1$`])assert.equal(setoutImplicationSteps(unchanged),unchanged);
+  const doc={format:'maths-editor-document-v1',blocks:[]};assert.equal(setoutImplicationSteps(doc),doc);
 });
 
 test('splits multiline maths and multiple inline TikZ blocks in source order', () => {

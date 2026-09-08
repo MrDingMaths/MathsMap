@@ -111,9 +111,40 @@ function alignedFromRun(inners) {
 
 // Expand one fully-delimited equality chain into lines. groupTextBlocks then
 // turns those lines into a single aligned KaTeX block.
+export function setoutImplicationSteps(value) {
+  if (value?.format === 'maths-editor-document-v1') return value;
+  return String(value ?? '').replace(/(?<!\\)\$\$([\s\S]*?)(?<!\\)\$\$|(?<!\\)\$([^$\n]*?)(?<!\\)\$/g, (original, display, inline) => {
+    const inner = display ?? inline;
+    if (!/\\(?:implies|Rightarrow|Longrightarrow)\b/.test(inner) || /\\(?:begin|iff)\b/.test(inner)) return original;
+    const steps = [];
+    let depth = 0, start = 0;
+    for (let i = 0; i < inner.length; i++) {
+      if (inner[i] === '\\') {
+        const macro = /^\\([a-zA-Z]+)/.exec(inner.slice(i));
+        if (macro) {
+          if (depth === 0 && ['implies','Rightarrow','Longrightarrow'].includes(macro[1])) {
+            steps.push(inner.slice(start,i).trim()); start = i + macro[0].length;
+          }
+          i += macro[0].length - 1;
+        } else i++;
+      } else if (inner[i] === '{') depth++;
+      else if (inner[i] === '}') depth--;
+    }
+    steps.push(inner.slice(start).trim());
+    // Only routine calculation/coordinate steps; leave logical propositions intact.
+    if (steps.length < 2 || steps.some(step => !step || relationCut(step) < 0 && !/\\in\b/.test(step))) return original;
+    const rows = steps.map(step => {
+      const cut = relationCut(step);
+      return cut < 0 ? '&' + step : step.slice(0,cut) + '&' + step.slice(cut);
+    });
+    return '$$\\begin{align*}' + rows.join(' \\\\ ') + '\\end{align*}$$';
+  });
+}
+
 export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
   if (value?.format === 'maths-editor-document-v1') return value;
-  const source = String(value ?? '');
+  const source = setoutImplicationSteps(value);
+  if (source !== String(value ?? '') || /\\begin\{/.test(source)) return source;
   const inner = pureMathInner(source);
   if (inner === null) return source;
   // An implication connects equations; it is not one chain of equal values.

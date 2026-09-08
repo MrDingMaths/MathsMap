@@ -1,4 +1,5 @@
 <script>
+  import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import { adoptHouseStyle, BOOKLET_HOUSE_STYLE, houseStyleVariables } from '../lib/booklet-house-style.js';
   import {teachingLabels} from '../lib/booklet-labels.js';
   import { independentAnswerPages } from '../lib/booklet-answer-options.js';
@@ -23,12 +24,30 @@
   import {
     createBookletProject, deleteBookletProject, duplicateBookletProject,
     listBookletProjects, loadBookletProject, promoteProjectModule,
-    promoteProjectQuestion, saveBookletProject,
+    promoteProjectQuestion, saveBookletProject, getProjectBankSync, resolveProjectBankSync,
   } from '../lib/booklet-project-storage.js';
 
   let { initialProjectId = null, bank = [], onprojectchange = null } = $props();
   let projects = $state([]);
   let project = $state.raw(null);
+  let bankSync = $state.raw({items:[]});
+  let showBankSync = $state(false), bankSyncError=$state(''), syncBusy=$state(false);
+  const bankUpdates=$derived(bankSync.items.filter(i=>['update','conflict','pending','missing'].includes(i.state)));
+  async function refreshBankSync(){
+    if(!project)return;const id=project.id;
+    try{const result=await getProjectBankSync(id);if(project?.id===id){bankSync=result;bankSyncError='';}}
+    catch(e){if(project?.id===id)bankSyncError='Could not check bank updates. '+e.message;}
+  }
+  async function applyBankSync(item,action){
+    if(inlineSession||editSession||saveState!=='Saved'||saveInFlight){status='Save or cancel the current edit before resolving a bank update.';return;}
+    syncBusy=true;error='';
+    try{
+      const saved=await resolveProjectBankSync(project.id,{blockId:item.blockId,action,bankRevision:item.bankRevision,localHash:item.localHash,expectedRevision:project.revision});
+      project=saved;savedBase=clone(saved);undoStack=[];redoStack=[];
+      status=action==='use-bank'?'Bank version applied; local page layout retained.':action==='keep-local'?'Local version kept as a separate question.':'Booklet version saved to the bank.';
+      await refreshBankSync();await refreshProjects();
+    }catch(e){error=e.message;await refreshBankSync();}finally{syncBusy=false;}
+  }
   const labels=$derived(teachingLabels(project?.sections.flatMap(s=>s.blocks)??[]));
   setContext('booklet-labels',()=>labels);
   let printReady = $state(false);
@@ -215,6 +234,7 @@
     busy = 'Opening'; error = ''; status = '';
     try {
       project = await loadBookletProject(id);savedBase=clone(project);saveConflict=false;mergeReview=null;
+      bankSync={items:[]};showBankSync=false;await refreshBankSync();
       selectDefaults(project);
       undoStack = []; redoStack = [];
       onprojectchange?.(project.id);
@@ -286,8 +306,11 @@
     try {
       const saved = await saveBookletProject(snapshot);
       if(project.id!==snapshot.id)return;
-      savedBase=clone(saved);project = { ...project, revision: saved.revision, updatedAt: saved.updatedAt };
-      saveState = 'Saved';
+      const editedDuringSave=project!==savingProject;
+      savedBase=clone(saved);project = editedDuringSave?{ ...project, revision: saved.revision, updatedAt: saved.updatedAt }:saved;
+      saveState = editedDuringSave?'Unsaved changes':'Saved';
+      if(editedDuringSave)savePending=true;
+      await refreshBankSync();
       await refreshProjects();
     } catch (exception) {
       error = exception.message;saveConflict=exception.status===409;if(saveConflict){clearTimeout(saveTimer);savePending=false;} saveState = saveConflict ? 'Conflict - edits retained' : 'Save failed';
@@ -475,13 +498,15 @@
   }
 
   onMount(() => {
+    const syncTimer=setInterval(()=>{if(project&&saveState==='Saved'&&!document.hidden)refreshBankSync();},15000);
+    window.addEventListener('focus',refreshBankSync);
     const key=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='p'){e.preventDefault();printProject();}};
     // Headless PDF exports explicitly request the same print surface.
     const preparePrint=()=>{printReady=true;};
     window.addEventListener('booklet-prepare-print',preparePrint);
     const unload=e=>{if(inlineSession||editSession||saveState!=='Saved'){e.preventDefault();e.returnValue='';}};
     window.addEventListener('keydown',key);window.addEventListener('beforeunload',unload);
-    return ()=>{window.removeEventListener('booklet-prepare-print',preparePrint);window.removeEventListener('keydown',key);window.removeEventListener('beforeunload',unload);clearTimeout(saveTimer);};
+    return ()=>{clearInterval(syncTimer);window.removeEventListener('focus',refreshBankSync);window.removeEventListener('booklet-prepare-print',preparePrint);window.removeEventListener('keydown',key);window.removeEventListener('beforeunload',unload);clearTimeout(saveTimer);};
   });
   onMount(async () => {
     try {
@@ -496,11 +521,30 @@
   <button aria-label="Toggle page navigation" aria-expanded={navigation&&!comparison} onclick={()=>navigation=!navigation}>☰ Pages</button>
   <label class="project-picker"><span class="sr-only">Open booklet</span><select disabled={!!inlineSession} aria-label="Open booklet" value={project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
   <span class="save-state" role="status">{saveState}</span>
+  {#if project}<button aria-expanded={showBankSync} onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button>{/if}
   <div class="toolbar-actions"><button onclick={undo} disabled={!!inlineSession||!undoStack.length}>Undo</button><button onclick={redo} disabled={!!inlineSession||!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
   <details inert={!!inlineSession} class="menu"><summary>Project</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>{panel='metadata';}}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details>
   <details class="menu"><summary>Tools</summary><div><button onclick={checkCurrentPage}>Check page</button><button onclick={()=>tool='assembly'}>Assembly</button></div></details></div>
  </header>
   {#if error || status}<div class:error class="project-notice project-screen">{error || status}</div>{/if}
+  {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank updates available.'} <button onclick={()=>showBankSync=true}>Review updates</button></div>{/if}
+  {#if showBankSync&&project}
+    <section class="bank-sync-panel project-screen" aria-label="Question bank sync">
+      <h2>Question bank sync</h2>
+      <p>Original booklet questions sync on save. Other booklets keep their saved versions until you accept an update. Page layout and answer spaces stay local.</p>
+      {#if bankSyncError}<p role="alert">{bankSyncError}</p>{/if}
+      {#if !bankUpdates.length}<p>{bankSync.items.some(i=>i.owner)?'Original questions are synced.':'No bank updates available.'}</p>{/if}
+      <button onclick={refreshBankSync} disabled={syncBusy}>Check for updates</button>
+      {#each bankUpdates as item (item.blockId)}
+        <article class="bank-sync-item">
+          <h3>{item.title??'Question'} — {item.state==='conflict'?'Both versions changed':item.state==='missing'?'Bank question removed':item.state==='pending'?'Waiting to sync':'Update available'}</h3>
+          {#if item.state==='conflict'}<p>Automatic sync is paused for this question. Compare both versions before choosing which to keep.</p>{/if}
+          {#if item.local&&item.bank}<details><summary>Compare question and worked solution</summary><div class="sync-comparison">{#each [{label:'This booklet',question:item.local},{label:'Question bank',question:item.bank}] as side}<section><h4>{side.label}</h4><PracticeQuestionRenderer question={side.question} showSpaces={false}/><h4>Worked solution</h4><PracticeQuestionRenderer question={side.question} showSpaces={false} showWorkedSolutions={true} answerColumnsLimit={1}/></section>{/each}</div></details>{/if}
+          {#if item.state!=='missing'}<div class="sync-actions"><button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'use-bank')}>Use bank version</button>{#if item.owner}<button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'use-booklet')}>Use booklet version</button>{:else}<button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'keep-local')}>Keep local version</button>{/if}</div>{/if}
+        </article>
+      {/each}
+    </section>
+  {/if}
 
   {#if saveConflict}<section class="project-screen project-notice" aria-label="Save recovery"><p>Your edits are retained. Another session saved a newer revision.</p><button onclick={downloadRecovery}>Download recovery</button><button onclick={loadLatestAndMerge}>Load latest and merge</button>
     {#if mergeReview}{#each mergeReview.conflicts as conflict}<fieldset><legend>{conflict.path}</legend><pre>Local: {JSON.stringify(conflict.local,null,2)}</pre><pre>Latest: {JSON.stringify(conflict.latest,null,2)}</pre><label>Keep<select aria-label={'Resolve '+conflict.path} value={mergeChoices[conflict.path]??''} onchange={e=>mergeChoices[conflict.path]=e.currentTarget.value}><option value="">Choose a version</option><option value="local">Local edit</option><option value="latest">Latest saved edit</option></select></label></fieldset>{/each}<button onclick={finishMerge} disabled={mergeReview.conflicts.some(c=>!mergeChoices[c.path])}>Save resolved merge</button>{/if}
@@ -604,6 +648,9 @@
 </section>
 
 <style>
+  .bank-sync-panel{padding:1rem;max-height:65vh;overflow:auto;border-bottom:1px solid #94a3b8;background:var(--panel,#fff);color:var(--text,#24324a)}
+  .bank-sync-panel h2{font-size:1rem;margin:0}.bank-sync-item{padding:.8rem 0;border-top:1px solid #94a3b8;margin-top:.75rem}.bank-sync-item h3{font-size:.95rem}.sync-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}.sync-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.sync-comparison>section{background:white;color:#24324a;padding:1rem;overflow:auto}.bank-sync-panel summary{cursor:pointer;padding:.5rem 0}
+  @media(max-width:700px){.sync-comparison{grid-template-columns:1fr}}
 
 
 .answer-views{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.answer-views button[aria-pressed=true]{background:#245f93;color:white;border-color:#245f93}

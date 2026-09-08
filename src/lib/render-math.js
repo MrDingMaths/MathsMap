@@ -58,7 +58,8 @@ export function renderMath(text) {
         const displayMath = `\\displaystyle ${parts[i].replace(/\\(?:[,;:!]|q?quad)\s*(?=[\^_])/g, '')}`;
         rendered = katex.renderToString(displayMath, {
           throwOnError: false,
-          displayMode: false,
+          // AMS align requires display mode; ordinary formula layout stays inline.
+          displayMode: /\\begin\{align\*?\}/.test(parts[i]),
           output: 'htmlAndMathml',
         });
       } catch {

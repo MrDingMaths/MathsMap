@@ -4,6 +4,7 @@ import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
+import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
 } from './transcription.mjs';
@@ -109,7 +110,10 @@ async function hydrateBankRevisions(project, bankRoot) {
   }
 }
 
-export async function saveBookletProject(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false } = {}) {
+export async function saveBookletProject(raw, options = {}) {
+  return withBankLock(()=>saveProjectUnlocked(raw,options));
+}
+async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false } = {}) {
   const checked = validateEditableProject(raw);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
   const file = fileFor(projectRoot, checked.project.id);
@@ -127,9 +131,26 @@ export async function saveBookletProject(raw, { projectRoot = PROJECT_ROOT, bank
     updatedAt: now,
   });
   await hydrateBankRevisions(project, bankRoot);
-  if (previous) await writeJson(path.join(projectRoot, '.revisions', safeId(project.id), `${previous.revision ?? 0}.json`), previous);
-  await writeJson(file, project);
+  const entries=await prepareAutomaticSync(project,bankRoot);
+  if (previous) entries.push([path.join(projectRoot, '.revisions', safeId(project.id), `${previous.revision ?? 0}.json`), previous]);
+  entries.push([file,project]);
+  await writeTransaction(entries);
   return project;
+}
+
+export async function getProjectBankSync(id,{projectRoot=PROJECT_ROOT,bankRoot=BANK_ROOT}={}){
+  return projectSyncStatus(await loadBookletProject(id,{projectRoot,bankRoot}),bankRoot);
+}
+export async function resolveProjectBankSync(id,body,{projectRoot=PROJECT_ROOT,bankRoot=BANK_ROOT}={}){
+  return withBankLock(async()=>{
+    const project=await loadBookletProject(id,{projectRoot,bankRoot});
+    if(project.revision!==body.expectedRevision)throw Object.assign(new Error('Booklet changed; reload before applying a bank update.'),{statusCode:409});
+    const previous=structuredClone(project),entries=await prepareSyncResolution(project,bankRoot,body);
+    const checked=validateEditableProject(project);if(!checked.valid)throw new Error(checked.errors.join('; '));
+    project.revision++;project.updatedAt=new Date().toISOString();
+    entries.push([path.join(projectRoot,'.revisions',safeId(project.id),previous.revision+'.json'),previous],[fileFor(projectRoot,project.id),project]);
+    await writeTransaction(entries);return project;
+  });
 }
 
 export async function createBookletProject(raw = {}, options = {}) {
@@ -151,6 +172,11 @@ export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, 
     createdAt: null,
     updatedAt: null,
   });
+  const links=await syncLinks(options.bankRoot??BANK_ROOT);
+  for(const block of copy.sections.flatMap(s=>s.blocks)){
+    const match=Object.entries(links).find(([,link])=>link.projectId===source.id&&link.blockId===block.id);
+    if(match){block.bankRef={id:match[0],revision:match[1].bankRevision??''};block.canonicalId=match[0];block.snapshotKind='bank';}
+  }
   return saveBookletProject(copy, { projectRoot, bankRoot: options.bankRoot, create: true });
 }
 
@@ -291,6 +317,9 @@ function topLevelQuestion(project, blockId) {
 export async function promoteProjectQuestion(projectId, body = {}, {
   projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, moduleRoot = MODULE_ROOT,
 } = {}) {
+  return withBankLock(()=>promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,moduleRoot}));
+}
+async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,moduleRoot}){
   const project = await loadBookletProject(projectId, { projectRoot, bankRoot, moduleRoot });
   const placement = topLevelQuestion(project, body.blockId);
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
@@ -301,7 +330,7 @@ export async function promoteProjectQuestion(projectId, body = {}, {
     const target = await readJson(fileFor(bankRoot, body.targetId));
     if (!target) throw Object.assign(new Error('The selected bank question no longer exists'), { statusCode: 404 });
     placement.section.blocks[placement.index] = snapshotBankQuestion(target, { placementId: placement.block.id });
-    const saved = await saveBookletProject(project, { projectRoot, bankRoot, expectedRevision: project.revision });
+    const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
     return { project: saved, question: target, candidates };
   }
 
@@ -326,7 +355,8 @@ export async function promoteProjectQuestion(projectId, body = {}, {
   placement.block.bankRef = { id: approved.id, revision: revisionOf(approved) };
   placement.block.canonicalId = approved.id;
   placement.block.snapshotKind = 'bank';
-  const saved = await saveBookletProject(project, { projectRoot, bankRoot, expectedRevision: project.revision });
+  const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
+  if(body.mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved);
   return { project: saved, question: approved, candidates };
 }
 
@@ -380,6 +410,9 @@ export function projectStudioPlugin() {
           const moduleMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-module$/);
           if (moduleMatch && req.method === 'POST') return send(res, 200, await promoteProjectModule(decodeURIComponent(moduleMatch[1]), await readBody(req)));
           const projectMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)$/);
+          const syncMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/bank-sync$/);
+          if(syncMatch&&req.method==='GET')return send(res,200,await getProjectBankSync(decodeURIComponent(syncMatch[1])));
+          if(syncMatch&&req.method==='POST')return send(res,200,await resolveProjectBankSync(decodeURIComponent(syncMatch[1]),await readBody(req)));
           if (projectMatch && req.method === 'GET') return send(res, 200, await loadBookletProject(decodeURIComponent(projectMatch[1])));
           if (projectMatch && req.method === 'PUT') {
             const body = await readBody(req);

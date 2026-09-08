@@ -1,6 +1,8 @@
 # Complete Linear Relationships booklet
 
-Created 6 September 2026. The active Studio project is `linear-relationships-complete-v1`, currently saved at revision 163. Open `/#/booklet?stage=projects&project=linear-relationships-complete-v1` in the running app.
+Created 6 September 2026. The active Studio project is `linear-relationships-complete-v1`, currently saved at revision 164. Open `/#/booklet?stage=projects&project=linear-relationships-complete-v1` in the running app.
+
+Revision 164 replaces routine implication-arrow chains in 25 solutions with successive aligned equations, preserving every mathematical step. Seventeen bank questions and the teaching modules were synchronised. Generation guidance now explicitly excludes implication arrows as routine step separators. The shared renderer supports the resulting `align*` display blocks, with left alignment matching MathsDatabase. Unit and browser checks pass; existing PDFs remain historical exports.
 
 On 8 September the user accepted the 93-page questions and layout. The subsequent tone edit shortened 190 solution entries without changing questions, diagrams or layout settings. The question bank and 13 reusable teaching modules are now explicitly synchronised to this revision; see [the sync receipt](linear-relationships-bank-sync.json). Future generation follows [MathsDatabase conventions and the booklet's taught methods](booklet-worked-solution-style.md). The original export and review details below describe their historical versions; existing PDFs have not been regenerated for the tone edit.
 

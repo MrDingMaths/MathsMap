@@ -49,12 +49,14 @@ Final editions contain **8, 3 and 14 pages**, respectively. All pages were visua
 
 Evidence: `output/linear-bank/baseline.json`, `inventory.json`, `transfer-verification.json`, `revision-selection.json`, and `final-verification.json`. The reproducible preparation scripts are `build-linear-bank.mjs`, `finalize-linear-bank.mjs`, `build-linear-revision.mjs` and `polish-linear-revision.mjs` under `scripts/booklet/`. The bank builder resumes its captured baseline rather than replacing it with a later source revision. Rebuilding the revision project replaces that generated project, so preserve any subsequent human edits in a separate copy first.
 
-## Deferred pain point: synchronisation
+## Synchronisation
 
-### Current explicit sync (8 September 2026)
+### Initial explicit sync (8 September 2026)
 
 The bank is now synchronised to the accepted complete booklet, revision 163: 168 current question records and all 13 teaching modules. Current questions, solutions, diagrams and captured presentation settings replace the older copies while existing bank IDs, classifications and part teaching mappings are retained. Three former continuation records are draft/superseded because their parts now appear in the corresponding parent question; their saved files and prior revisions remain available for pinned snapshots. The separate revision booklet, its eight excerpts and comparison variant retain their deliberate adaptations and pinned content.
 
 `scripts/booklet/sync-linear-bank.mjs` prepares and validates the transfer; `--apply` performs it with concurrent-edit checks and rollback on a write failure. It verifies canonical content, classification retention, module contracts and saved revision hashes. The complete source booklet is unchanged. See [the sync receipt](linear-relationships-bank-sync.json).
 
-Booklet edits and bank edits are **not automatically synchronised**. Use explicit bank updates; existing booklet and module snapshots remain pinned. A future workflow could identify newer bank revisions and let the user selectively refresh them while retaining local edits. That workflow is deliberately deferred. Linking an existing bank question replaces the local question; it is not a merge.
+### Automatic question sync (8 September 2026)
+
+Automatic sync is now enabled for all 168 original questions at source revision 164. Saving the original booklet publishes question and worked-solution changes to the bank while retaining local layout. Other booklets stay pinned and offer reviewed updates; changes on both sides pause publication for comparison. Teaching module snapshots remain pinned. See [automatic question-bank sync](booklet-bank-auto-sync.md) for the workflow and limitations.

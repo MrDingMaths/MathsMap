@@ -2,6 +2,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { renderMath, escapeHtml } from '../src/lib/render-math.js';
 
+test('aligned worked solutions render as successive display rows without KaTeX errors',()=>{
+  const html=renderMath(String.raw`Working: $$\begin{align*}80&=3x+5 \\ 3x&=75 \\ x&=25\end{align*}$$`);
+  assert.ok(!html.includes('katex-error'));
+  assert.ok(html.includes('katex-display'));
+  assert.equal((html.match(/<mtr>/g)??[]).length,3);
+});
+
 // This module is shared by the app (src/components/Math.svelte) and by the Node-side
 // booklet renderer, so these tests pin the behaviour both depend on: identical HTML from
 // the same source text, whichever side renders it.

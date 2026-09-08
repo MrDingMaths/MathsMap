@@ -45,6 +45,8 @@
 {/if}
 
 <style>
+  .booklet-content :global(.katex-display), .document-content :global(.katex-display) { text-align:left; margin:.5em 0; }
+  .booklet-content :global(.katex-display > .katex), .document-content :global(.katex-display > .katex) { display:inline-block; }
   .theory-rules { margin:0; padding-left:7mm; list-style-position:outside; }.theory-rule { display:list-item; padding:0; }
   .theory-rule + .theory-rule { margin-top: 6mm; }
   .theory-rule ul { margin: 0; padding-left: 7.5mm; list-style-type: circle; }

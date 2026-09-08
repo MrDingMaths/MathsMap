@@ -15,6 +15,7 @@ If the relevant example is outside the supplied pages, obtain that teaching cont
 - Show the calculation or mathematical observation directly. Keep the essential intermediate steps, units, reasons and requested checks.
 - Avoid repeating the question, instructions already evident from the working, redundant conclusions and commentary about source material.
 - Use `align*` for multi-step calculations; keep explanatory prose outside the equation block. Short single-line answers may remain inline.
+- Do not use `\implies`, `\Rightarrow` or `\Longrightarrow` to separate routine calculation steps. Put each successive equation on the next aligned line, retaining its full left-hand side. For example, write `80 &= 3x+5 \\ 3x &= 75 \\ x &= 25` in `align*`. Reserve implication notation for a question that genuinely requires a logical implication. Input/output substitutions may use “For $x=...$” followed by the calculation; do not chain them with implication arrows.
 - Preserve the intended method: a graphical solution must still use the graph; a justification must still give its reason.
 - Keep questions, diagrams, teaching scaffolds, response spaces and page/layout settings intact when revising tone.
 - Use `$...$` for inline mathematics and `$$...$$` for display mathematics. Align multi-step calculations at the relation sign with `&`, one mathematical step per row, and a separate block for each part. Preserve native editable equations and table structures already used by the booklet.

@@ -17,6 +17,13 @@ export function listBookletProjects(fetchImpl = globalThis.fetch) {
   return request('/__booklet/projects', {}, fetchImpl);
 }
 
+export function getProjectBankSync(id,fetchImpl=globalThis.fetch){
+  return request('/__booklet/projects/'+encodeURIComponent(id)+'/bank-sync',{},fetchImpl);
+}
+export function resolveProjectBankSync(id,body,fetchImpl=globalThis.fetch){
+  return request('/__booklet/projects/'+encodeURIComponent(id)+'/bank-sync',{method:'POST',body:JSON.stringify(body)},fetchImpl);
+}
+
 export function loadBookletProject(id, fetchImpl = globalThis.fetch) {
   return request('/__booklet/projects/' + encodeURIComponent(id), {}, fetchImpl);
 }

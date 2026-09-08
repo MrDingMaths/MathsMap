@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import {withBankLock,readSyncJson,revisionHash,writeTransaction,bankManifestEntry} from './bank-sync.mjs';
 import { allDiagrams, makeBankManifest, normaliseQuestion, validateQuestion } from '../../src/lib/practice-question-model.js';
 
 const WORK_ROOT = path.resolve('.booklet-work/practice-imports');
@@ -58,7 +59,7 @@ export function practiceStudioPlugin() {
           || pathname.startsWith('/__booklet/imports/');
         if (!ownsPath) return next();
         try {
-          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await writeManifest());
+          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(writeManifest));
 
           const questionMatch = pathname.match(/^\/__booklet\/bank\/questions\/([^/]+)$/);
           if (questionMatch && req.method === 'GET') {
@@ -69,13 +70,17 @@ export function practiceStudioPlugin() {
             const raw = await readBody(req);
             const checked = validateQuestion(raw);
             if (!checked.valid) return send(res, 400, { error: checked.errors.join('; ') });
-            const question = { ...normaliseQuestion(raw), status: 'approved' };
+            const question = { ...normaliseQuestion(raw), status: 'approved',updatedAt:new Date().toISOString() };
             if (questionMatch && question.id !== safeId(decodeURIComponent(questionMatch[1]))) {
               return send(res, 400, { error: 'Question id cannot be changed during an edit.' });
             }
-            await fs.mkdir(BANK_ROOT, { recursive: true });
-            await fs.writeFile(path.join(BANK_ROOT, safeId(question.id) + '.json'), json(question), 'utf8');
-            await writeManifest();
+            await withBankLock(async()=>{
+              const file=path.join(BANK_ROOT,safeId(question.id)+'.json'),previous=await readSyncJson(file);
+              if(previous&&raw.updatedAt&&previous.updatedAt!==raw.updatedAt)throw Object.assign(new Error('This bank question changed while you were editing. Reload it before saving.'),{statusCode:409});
+              const entries=[[file,question],await bankManifestEntry(BANK_ROOT,[question])];
+              if(previous)entries.unshift([path.join(BANK_ROOT,'.revisions',question.id,revisionHash(previous)+'.json'),previous]);
+              await writeTransaction(entries);
+            });
             return send(res, 200, question);
           }
           if (questionMatch && req.method === 'DELETE') {
@@ -84,9 +89,12 @@ export function practiceStudioPlugin() {
             if (body.confirmId !== id) return send(res, 400, { error: 'Exact question id confirmation is required.' });
             const file = path.join(BANK_ROOT, id + '.json');
             const question = normaliseQuestion(JSON.parse(await fs.readFile(file, 'utf8')));
-            await removeDerivedAssets(question);
-            await fs.rm(file, { force: true });
-            await writeManifest();
+            await withBankLock(async()=>{
+              // Keep the revision and assets needed by existing pinned booklets.
+              await writeTransaction([[path.join(BANK_ROOT,'.revisions',id,revisionHash(question)+'.json'),question]]);
+              await fs.rm(file, { force: true });
+              await writeManifest();
+            });
             return send(res, 200, { deleted: id });
           }
 
