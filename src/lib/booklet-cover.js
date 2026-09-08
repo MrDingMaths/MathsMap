@@ -59,9 +59,13 @@ export function deriveBookletCover(pages = []) {
         const number=p.section?.exerciseNumber;
         if(!number||seenExercises.has(number))return [];
         seenExercises.add(number);
-        return [{title:`Exercise ${number} · ${p.section.topicTitle}`,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
+        return [{number,title:p.section.topicTitle,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
       });
     }
+  }
+  for(const mode of ['short','worked']){
+    const start=ordered.find(p=>p.compactAnswers&&p.mode===mode);
+    if(start)contents.push({title:mode==='short'?'Short answers':'Worked solutions',answerSection:true,pageNumber:start.pageNumber,href:`#answer-section-${mode}`});
   }
   return {
     course: course || 'Mathematics',

@@ -11,6 +11,36 @@ import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {fromSource} from '../src/lib/document-content.js';
 import {reconcileSyncLayout} from '../src/lib/question-sync-layout.js';
+import {applyBankRatings} from '../src/lib/booklet-bank-ratings.js';
+
+test('linked display ratings refresh on load, polling and save without accepting content',async t=>{
+ const f=await fixture(t);
+ const copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'ratings-copy'});
+ const b=copy.sections[0].blocks[0];
+ b.flow={...b.flow,bankDifficulty:{difficulty:'Foundation',reasoningScore:1,revision:'old'}};
+ const saved=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
+ const bank={...f.bank,classification:{...f.bank.classification,difficulty:'Mastery',reasoningScore:75},content:{...f.bank.content,prompt:'Unaccepted bank content'}};
+ await writeTransaction([[path.join(f.bankRoot,bank.id+'.json'),bank]]);
+ const loaded=await loadBookletProject(copy.id,f.options);
+ const rating=loaded.sections[0].blocks[0].flow.bankDifficulty;
+ assert.equal(rating.reasoningScore,75);
+ assert.equal(rating.revision,revisionHash(bank));
+ assert.deepEqual(loaded.sections[0].blocks[0].content,b.content);
+ assert.deepEqual(loaded.sections[0].blocks[0].bankRef,b.bankRef);
+ assert.equal(loaded.revision,saved.revision);
+ const status=await getProjectBankSync(copy.id,f.options);
+ const local=structuredClone(saved);local.sections[0].blocks[0].content.prompt='Unsaved edit';
+ const polled=applyBankRatings(local,status.items);
+ assert.equal(polled.sections[0].blocks[0].content.prompt,'Unsaved edit');
+ assert.deepEqual(polled.sections[0].blocks[0].flow.bankDifficulty,rating);
+ assert.equal(applyBankRatings(polled,status.items),polled);
+ const detached=structuredClone(local);detached.sections[0].blocks[0].bankRef=null;
+ assert.equal(applyBankRatings(detached,status.items),detached);
+ const persisted=await saveBookletProject(saved,{...f.options,expectedRevision:saved.revision});
+ assert.deepEqual(persisted.sections[0].blocks[0].flow.bankDifficulty,rating);
+ assert.deepEqual(persisted.sections[0].blocks[0].content,b.content);
+ assert.deepEqual(await f.readBank(),bank);
+});
 
 async function fixture(t){
  const root=await fs.mkdtemp(path.join(os.tmpdir(),'booklet-bank-sync-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));

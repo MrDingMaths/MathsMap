@@ -1,5 +1,6 @@
 <script>
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
+  import {applyBankRatings} from '../lib/booklet-bank-ratings.js';
   import FlowBookletPreview from './FlowBookletPreview.svelte';
   import FlowBookletOutline from './FlowBookletOutline.svelte';
   import FlowBookletPage from './FlowBookletPage.svelte';
@@ -50,7 +51,7 @@
   const bankUpdates=$derived(bankSync.items.filter(i=>['update','conflict','pending','missing'].includes(i.state)));
   async function refreshBankSync(){
     if(!project)return;const id=project.id;
-    try{const result=await getProjectBankSync(id);if(project?.id===id){bankSync=result;bankSyncError='';}}
+    try{const result=await getProjectBankSync(id);if(project?.id===id){bankSync=result;project=applyBankRatings(project,result.items);bankSyncError='';}}
     catch(e){if(project?.id===id)bankSyncError='Could not check bank updates. '+e.message;}
   }
   async function applyBankSync(item,action){

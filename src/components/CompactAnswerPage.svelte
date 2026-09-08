@@ -13,7 +13,7 @@
 <div class="preview-frame" class:compact-pages={compact}>
   <div class="preview-page" data-house-style={project.settings.houseStyleVersion}>
     <article class="booklet-page compact-answer-page" data-page-number={page.pageNumber} data-house-style={project.settings.houseStyleVersion}>
-      <header>{page.mode==='short'?'Short answers':'Worked solutions'}</header>
+      {#if page.showAnswerHeading}<header id={`${anchorPrefix}answer-section-${page.mode}`}>{page.mode==='short'?'Short answers':'Worked solutions'}</header>{/if}
       <main>
         <div class="answer-columns" style={`grid-template-columns:repeat(${page.columns.length},minmax(0,1fr));gap:${settings.gutterMm}mm`}>
           {#each page.columns as entries}

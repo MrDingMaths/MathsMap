@@ -2,6 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { deriveBookletCover, parseImportedContents } from '../src/lib/booklet-cover.js';
 
+test('contents link only to included answer sections and use their first page',()=>{
+  const front={pageNumber:1,flexible:true,mode:'student',section:{phase:'front-matter'},blocks:[]};
+  const topic={pageNumber:3,mode:'student',section:{exerciseNumber:1,topicTitle:'Coordinates'},blocks:[]};
+  const short={pageNumber:20,mode:'short',compactAnswers:true,section:{},blocks:[]};
+  const worked={...short,pageNumber:30,mode:'worked'};
+  assert.deepEqual(deriveBookletCover([front,topic]).contents,[{number:1,title:'Coordinates',pageNumber:3,href:'#exercise-topic-1'}]);
+  assert.deepEqual(deriveBookletCover([front,topic,short,{...short,pageNumber:21},worked]).contents.slice(1),[
+    {title:'Short answers',answerSection:true,pageNumber:20,href:'#answer-section-short'},
+    {title:'Worked solutions',answerSection:true,pageNumber:30,href:'#answer-section-worked'},
+  ]);
+});
+
 test('derives cover metadata and recalculates contents page positions', () => {
   const pages = [
     { pageNumber: 1, section: { title: 'Computation with Integers' }, blocks: [

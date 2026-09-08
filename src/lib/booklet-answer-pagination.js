@@ -7,7 +7,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
   const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
   let columns=Array.from({length:count},()=>[]),column=0;
   const check=()=>{if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});};
-  const make=()=>({id:`compact-${mode}-${pages.length}`,pageNumber:pages.length+1,mode,flexible:true,compactAnswers:true,columns:columns.map(c=>[...c]),blocks:columns.flat().map(e=>e.block),section:columns.flat()[0]?.section,breakReason:'overflow'});
+  const make=()=>({id:`compact-${mode}-${pages.length}`,pageNumber:pages.length+1,mode,flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:columns.map(c=>[...c]),blocks:columns.flat().map(e=>e.block),section:columns.flat()[0]?.section,breakReason:'overflow'});
   const flush=()=>{if(columns.some(c=>c.length))pages.push(make());columns=Array.from({length:count},()=>[]);column=0;};
   let completed=0;
   for(const section of sections){

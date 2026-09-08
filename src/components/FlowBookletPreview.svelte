@@ -15,7 +15,8 @@
     const link=event.target.closest('a[href^="#"]');if(!link)return;
     const anchorId=link.getAttribute('href').slice(1),id=anchorId.replace(/^screen-/,'');
     let index=-1;
-    if(id.startsWith('exercise-topic-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.section.exerciseNumber===Number(id.slice(15)));
+    if(id.startsWith('answer-section-'))index=result.pages.findIndex(p=>p.mode===id.slice(15));
+    else if(id.startsWith('exercise-topic-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.section.exerciseNumber===Number(id.slice(15)));
     else if(id.startsWith('question-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.blocks.some(b=>b.id===id.slice(9)));
     else {const match=/^answer-(short|worked)-(.*)$/.exec(id);if(match)index=result.pages.findIndex(p=>p.mode===match[1]&&p.blocks.some(b=>b.id===match[2]));}
     if(index<0)return;

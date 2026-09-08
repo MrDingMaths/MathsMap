@@ -7,6 +7,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
 import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
+import {refreshBankRatings} from './bank-sync.mjs';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
 } from './transcription.mjs';
@@ -98,7 +99,7 @@ export async function loadBookletProject(id, options = {}) {
   const projectRoot = options.projectRoot ?? PROJECT_ROOT;
   const raw = await readJson(fileFor(projectRoot, id));
   if (!raw) throw Object.assign(new Error('Booklet project not found'), { statusCode: 404 });
-  if (Number(raw.version) === 4) return normalizeEditableProject(raw);
+  if (Number(raw.version) === 4) return refreshBankRatings(normalizeEditableProject(raw),options.bankRoot??BANK_ROOT);
   const libraries = await projectLibraries(options);
   return materializeLegacyProject(raw, libraries);
 }
@@ -134,6 +135,7 @@ async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot =
   });
   await hydrateBankRevisions(project, bankRoot);
   const entries=await prepareAutomaticSync(project,bankRoot);
+  await refreshBankRatings(project,bankRoot);
   if (previous) entries.push([path.join(projectRoot, '.revisions', safeId(project.id), `${previous.revision ?? 0}.json`), previous]);
   entries.push([file,project]);
   await writeTransaction(entries);

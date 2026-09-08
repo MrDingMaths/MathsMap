@@ -24,6 +24,14 @@ export async function bankManifestEntry(root,updates){const records=await bankRe
 export function registerOwner(links,project,block,bank){links[bank.id]={projectId:project.id,blockId:block.id,sourceHash:sharedHash(block),bankHash:sharedHash(bank),bankRevision:revisionHash(bank)};}
 export async function registerBankOwner(root,project,block,bank){const links=await syncLinks(root);if(!links[bank.id]){registerOwner(links,project,block,bank);await writeTransaction([[linksPath(root),links]]);}}
 const blocks=p=>p.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
+export async function refreshBankRatings(project,bankRoot){
+ for(const block of blocks(project)){
+  if(!block.flow?.bankDifficulty||!block.bankRef?.id)continue;
+  const bank=await readSyncJson(path.join(bankRoot,segment(block.bankRef.id)+'.json'));
+  if(bank&&Number.isFinite(bank.classification?.reasoningScore))block.flow.bankDifficulty={difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,revision:revisionHash(bank)};
+ }
+ return project;
+}
 export async function prepareAutomaticSync(project,bankRoot){
  const links=await syncLinks(bankRoot),entries=[],updated=[];let changed=false;
  for(const block of blocks(project)){
@@ -60,7 +68,7 @@ export async function projectSyncStatus(project,bankRoot){
     state=base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
    }else state='local';
   }
-  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
+  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
  }
  return {projectRevision:project.revision,items};
 }

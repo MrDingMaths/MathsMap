@@ -6,13 +6,19 @@ The trial has 12 exercises, one per existing topic. Questions run from 1 within 
 
 Difficulty labels and reasoning scores appear in the editor and outline only. Exercise numbers, contents page destinations, and question/answer links are calculated together. Screen and print use separate anchor identities so hidden editor content cannot steal PDF destinations.
 
+Front-cover contents use separate columns for exercise number, topic title at a consistent tab stop, and right-aligned page number, without dot leaders, separator symbols or the word “Exercise”. Navigation links remain active. This is the shared convention for future booklets, recorded in `AGENTS.md`. Small question-side “Answers” links appear on screen only and are hidden in print.
+
+Linked difficulty ratings automatically refresh from the current bank on open, save and the editor's regular bank checks (every 15 seconds while saved and visible, and on window focus). Question-content pins, question order and layout are retained; exercises are not automatically re-sorted. Detached questions retain their local ratings. The initial refresh on 8 September 2026 updated 122 of 126 ratings, including 35 band changes.
+
 Short answers use two explicit columns, 9 pt type and an 8 mm gutter. Worked solutions use one column and 9.5 pt type. Both flow across exercise boundaries. Every column begins with its exercise context; new headings stay with their first answer. Standalone and multipart answers share an exercise-wide label gutter. Coordinate lists wrap between complete values; escaped currency remains prose. Editing opens the original source value, not its formatted display value.
+
+The contents include a linked entry for each answer section present in the selected edition. “Short answers” and “Worked solutions” headings appear only at the start of their respective sections; exercise context remains on subsequent pages. The trial cover omits its two syllabus-summary lines. “Book 1” text aligns with the main text; version and feedback sit at the right with their text left-aligned.
 
 Answer diagrams initially use 45 mm/55 mm caps. Dense graphs have measured exceptions up to 76 mm; these retain readable tick and coordinate labels without changing question diagrams. Calibrated code is an answer-only presentation override bound to the original diagram's signature. Changing the source diagram invalidates that override, preventing an old answer graph from masking an edit. The graph should then be checked/calibrated again.
 
 ## Model and rendering
 
-The additive v4 settings are `exerciseOrganisation: "topic"` and `compactAnswers`, containing type sizes, column gutter, diagram caps and per-edition diagram presentation overrides. Blocks store pinned display ratings under `flow.bankDifficulty`; bank classifications and sync ownership are unchanged. Projects without these settings retain the legacy flexible rendering path.
+The additive v4 settings are `exerciseOrganisation: "topic"` and `compactAnswers`, containing type sizes, column gutter, diagram caps and per-edition diagram presentation overrides. Blocks cache bank-owned display ratings under `flow.bankDifficulty`; their rating revision is independent of the question-content pin. Bank classifications and sync ownership are unchanged. Projects without these settings retain the legacy flexible rendering path.
 
 Calculated compact pages contain explicit `columns` of answer fragments, each carrying its source section and label width. Stored question content is never fragmented. Shared solution diagrams and dependent parts remain atomic. Measurement, preview and PDF consume the same columns. Both diagram/style settings and column assignments participate in measurement cache keys.
 

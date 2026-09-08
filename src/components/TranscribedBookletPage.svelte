@@ -220,7 +220,7 @@
 
 <style>
   .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
-  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty{display:none!important}}
+  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
 .compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}

@@ -17,6 +17,8 @@ Open **Bank sync** in the booklet toolbar. Pending bank updates also show a **Re
 
 Checks run when opening/saving a booklet, when returning to the app, every 15 seconds while visible, and with **Check for updates**. Resolve updates only after saving or cancelling any current edit. Applying a version clears the local undo history to prevent an old undo from unexpectedly reapplying discarded content.
 
+Linked exercise difficulty labels and reasoning scores refresh automatically on load, save and these checks. This bank-owned display metadata updates independently of content review and preserves question order, layout and unsaved edits. Loading/checking does not create a project revision; the current ratings are persisted on the next save. Detached or missing bank questions keep their existing ratings.
+
 ## Persistence
 
 `booklets/question-bank/.sync/links.json` records the original project/block, shared-content baselines and bank revision for each linked question. Question revisions remain under `.revisions` for existing copies. Normal saves and explicit resolutions use the shared server write queue and rollback-capable file transactions. Stale project versions and stale resolution requests are rejected. Bank editor saves retain history and reject a changed modification timestamp.
