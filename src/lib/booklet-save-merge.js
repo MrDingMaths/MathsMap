@@ -4,6 +4,11 @@ const object=v=>v&&typeof v==='object'&&!Array.isArray(v);
 const keyed=v=>Array.isArray(v)&&v.every(x=>object(x)&&typeof x.id==='string')&&new Set(v.map(x=>x.id)).size===v.length;
 // Structured editor values are atomic. Arrays of identified project entities merge by ID.
 export function mergeProjectChanges(base,local,latest,choices={}) {
+  // Merge ownership and content once globally. Section-local merging otherwise
+  // interprets a move plus a remote edit as an unrelated deletion/insertion.
+  const moving = [base,local,latest].some(p=>p.settings?.paginationMode==='flexible');
+  const flatten = p => ({...p,sections:p.sections.map(s=>({...s,blocks:s.blocks.map(b=>({id:b.id}))})),flowEntities:p.sections.flatMap(s=>s.blocks.map(block=>({id:block.id,sectionId:s.id,block})))});
+  const inputs = moving ? [base,local,latest].map(flatten) : [base,local,latest];
   const conflicts=[];
   function merge(b,l,r,path){
     if(equal(l,b))return copy(r);if(equal(r,b)||equal(l,r))return copy(l);
@@ -23,6 +28,27 @@ export function mergeProjectChanges(base,local,latest,choices={}) {
     return conflict(b,l,r,path);
   }
   function conflict(b,l,r,path){if(choices[path]==='local')return copy(l);if(choices[path]==='latest')return copy(r);conflicts.push({path,base:copy(b),local:copy(l),latest:copy(r)});return copy(l);}
-  const project=merge(base,local,latest,'');project.revision=latest.revision;if(latest.updatedAt!==undefined)project.updatedAt=latest.updatedAt;
+  const project=merge(...inputs,'');project.revision=latest.revision;if(latest.updatedAt!==undefined)project.updatedAt=latest.updatedAt;
+  if(moving){
+    const entities=new Map(project.flowEntities.map(e=>[e.id,e]));
+    for(const section of project.sections){
+      const ordered=section.blocks.map(b=>b.id);
+      for(const e of entities.values())if(e.sectionId===section.id&&!ordered.includes(e.id))ordered.push(e.id);
+      section.blocks=ordered.map(id=>entities.get(id)).filter(e=>e?.sectionId===section.id).map(e=>e.block);
+    }
+    // A deleted section with edited/moved surviving content is a real conflict.
+    for(const sectionId of new Set([...entities.values()].filter(e=>!project.sections.some(s=>s.id===e.sectionId)).map(e=>e.sectionId))){
+      const path='/sections/id='+encodeURIComponent(sectionId),choice=choices[path];
+      const sourceProject=choice==='local'?local:choice==='latest'?latest:[local,latest,base].find(p=>p.sections.some(s=>s.id===sectionId));
+      const source=sourceProject.sections.find(s=>s.id===sectionId);
+      if(!choice&&!conflicts.some(c=>c.path===path))conflicts.push({path,base:copy(base.sections.find(s=>s.id===sectionId)),local:copy(local.sections.find(s=>s.id===sectionId)),latest:copy(latest.sections.find(s=>s.id===sectionId))});
+      if(source){
+        const previous=sourceProject.sections.slice(0,sourceProject.sections.indexOf(source)).reverse().find(s=>project.sections.some(p=>p.id===s.id));
+        const at=previous?project.sections.findIndex(s=>s.id===previous.id)+1:0;
+        project.sections.splice(at,0,{...copy(source),blocks:[...entities.values()].filter(e=>e.sectionId===sectionId).map(e=>e.block)});
+      }
+    }
+    delete project.flowEntities;
+  }
   return {project,conflicts};
 }

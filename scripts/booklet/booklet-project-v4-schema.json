@@ -12,6 +12,10 @@
     "subtitle": { "type": "string" },
     "status": { "enum": ["draft", "published", "archived"] },
     "revision": { "type": "integer", "minimum": 0 },
+    "topics": {
+      "type": "array",
+      "items": { "type": "object", "required": ["id", "title"], "properties": { "id": { "type": "string", "minLength": 1 }, "title": { "type": "string", "minLength": 1 } } }
+    },
     "sections": {
       "type": "array",
       "minItems": 1,
@@ -22,6 +26,12 @@
           "id": { "type": "string", "minLength": 1 },
           "title": { "type": "string", "minLength": 1 },
           "role": { "type": "string" },
+          "topicId": { "type": "string" },
+          "phase": { "enum": ["teaching", "practice", "front-matter"] },
+          "difficulty": { "type": ["string", "null"] },
+          "pageBreakBefore": { "type": "boolean" },
+          "showDifficultyHeading": { "type": "boolean" },
+          "numberingStart": { "type": ["integer", "null"], "minimum": 1 },
           "sourcePageNumber": { "type": ["integer", "null"], "minimum": 1 },
           "sourceSectionId": { "type": ["string", "null"] },
           "blocks": {
@@ -31,7 +41,13 @@
               "required": ["id", "type"],
               "properties": {
                 "id": { "type": "string", "minLength": 1 },
-                "type": { "enum": ["rich-text", "heading", "callout", "image", "worked-example", "question", "grid", "page-break", "spacer", "narrative"] },
+                "type": { "enum": ["rich-text", "heading", "callout", "image", "diagram", "worked-example", "question", "grid", "page-break", "spacer", "narrative"] },
+                "flow": { "type": "object", "properties": {
+                  "continuationOf": { "type": "string" }, "keepTogether": { "type": "boolean" }, "keepWithNext": { "type": "boolean" },
+                  "pageBreakBefore": { "type": "boolean" }, "continueBefore": { "type": ["string", "null"] },
+                  "sourcePageBreakBefore": { "type": "boolean" }, "sourceContinuationLabel": { "type": "boolean" },
+                  "numberGapBefore": { "type": "integer", "minimum": 0 }, "numberResetBefore": { "type": "integer", "minimum": 1 }
+                } },
                 "snapshotKind": { "enum": ["local", "bank"] },
                 "bankRef": {
                   "type": ["object", "null"],
@@ -51,6 +67,8 @@
       "type": "object",
       "required": ["showTheorySolutions", "practiceAnswers", "showResponseSpaces", "layoutOverrides"],
       "properties": {
+        "paginationMode": { "enum": ["flexible"] },
+        "flowEdition": { "enum": ["student", "short", "worked", "with-short", "with-worked"] },
         "showTheorySolutions": { "type": "boolean" },
         "practiceAnswers": { "enum": ["none", "short", "worked"] },
         "showResponseSpaces": { "type": "boolean" },

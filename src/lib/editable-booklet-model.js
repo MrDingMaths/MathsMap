@@ -61,6 +61,7 @@ function setPointer(root, pointer, value) {
 
 function normalizeSettings(raw = {}) {
   return {
+    ...(raw.paginationMode === 'flexible' ? {paginationMode:'flexible',flowEdition:['student','short','worked','with-short','with-worked'].includes(raw.flowEdition)?raw.flowEdition:'student'} : {}),
     ...(raw.houseStyleVersion ? {houseStyleVersion:String(raw.houseStyleVersion)} : {}),
     preserveSourcePages: raw.preserveSourcePages === true,
     showTheorySolutions: raw.showTheorySolutions !== false,
@@ -485,9 +486,14 @@ export function validateEditableProject(raw) {
     if(!node||typeof node!=='object')return;
     if(isDocument(node)){try{normalizeDocument(node);}catch(error){errors.push(error.message);}}
     if(node.id){if(ids.has(node.id))errors.push(`Duplicate project node id: ${node.id}`);ids.add(node.id);}
-    for(const [key,value] of Object.entries(node))if(!['sourceAtom','source','sourceQuestionRef','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
+    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','source','sourceQuestionRef','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
   };
   scan(raw?.sections??[]);
+  if(raw?.settings?.paginationMode==='flexible'){
+    const topics=raw.topics??[],topicIds=new Set(topics.map(t=>t.id));
+    if(!topics.length||topicIds.size!==topics.length||topics.some(t=>!text(t.id)||!text(t.title)))errors.push('Flexible booklet needs uniquely identified, titled topics');
+    for(const section of raw.sections??[]){if(!topicIds.has(section.topicId))errors.push(`Section ${section.id} needs a valid topic`);if(!['teaching','practice','front-matter'].includes(section.phase))errors.push(`Section ${section.id} needs a valid phase`);}
+  }
   for (const section of raw?.sections ?? []) {
     if (!text(section.title)) errors.push(`Section ${section.id ?? '?'} needs a title`);
     if (!Array.isArray(section.blocks)) errors.push(`Section ${section.id ?? '?'} needs blocks`);

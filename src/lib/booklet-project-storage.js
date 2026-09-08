@@ -40,7 +40,7 @@ export function saveBookletProject(project, fetchImpl = globalThis.fetch) {
 }
 
 export function duplicateBookletProject(id, title = null, fetchImpl = globalThis.fetch) {
-  return request('/__booklet/projects/' + encodeURIComponent(id) + '/duplicate', { method: 'POST', body: JSON.stringify({ title }) }, fetchImpl);
+  return request('/__booklet/projects/' + encodeURIComponent(id) + '/duplicate', { method: 'POST', body: JSON.stringify(typeof title==='object'&&title?title:{ title }) }, fetchImpl);
 }
 
 export function deleteBookletProject(id, confirmId, fetchImpl = globalThis.fetch) {

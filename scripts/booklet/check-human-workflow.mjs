@@ -81,6 +81,8 @@ try {
   const exports=[];
   for(const [mode,value] of [['student','none'],['short','short'],['worked','worked']]){
     await page.getByLabel('Practice answers',{exact:true}).selectOption(value);
+    await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
+    await page.locator('.project-print .print-page').first().waitFor({state:'attached'});
     await page.emulateMedia({media:'print'});
     await page.evaluate(()=>document.fonts.ready);
     const text=await page.locator('.project-print').innerText();

@@ -39,6 +39,21 @@ export function deriveBookletCover(pages = []) {
       return [{ title, pageNumber: index + 2 }];
     });
   }
+  if(first.flexible){
+    const seen=new Set();
+    const topicContents=ordered.filter(page=>page.mode==='student'&&page.section?.phase!=='front-matter').flatMap(page=>{
+      const topicId=page.section?.topicId;if(!topicId||seen.has(topicId))return [];seen.add(topicId);
+      return [{title:page.section.topicTitle??page.section.title,pageNumber:page.pageNumber}];
+    });
+    const coveredTopics=new Set();
+    const anchoredContents=imported.flatMap(entry=>{
+      const destination=ordered.find(page=>page.mode==='student'&&page.blocks?.some(block=>Number(block.sourcePageNumber)===entry.sourcePage));
+      if(destination)coveredTopics.add(destination.section?.topicId);
+      return destination?[{title:entry.title,pageNumber:destination.pageNumber}]:[];
+    });
+    const newTopics=topicContents.filter(entry=>!coveredTopics.has(ordered.find(page=>page.pageNumber===entry.pageNumber)?.section?.topicId));
+    contents=anchoredContents.length?[...anchoredContents,...newTopics].sort((a,b)=>a.pageNumber-b.pageNumber):topicContents;
+  }
   return {
     course: course || 'Mathematics',
     title: plain(heading ?? first.section?.title ?? 'Untitled booklet'),

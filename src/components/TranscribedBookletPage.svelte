@@ -19,7 +19,7 @@
     page, bookletPages = [], runId, zoom = null, showTheorySolutions = true, solutionMode = 'student', flow = false, houseStyleVersion = null,
     showKeyIdeasAnswers = false, showReviewAnswers = false, showIdentifyAnswers = false, showGuidedPracticeAnswers = false, answerSheet = false,
     blockLayouts = {}, answerSpaceOverrides = {}, diagramColourModes = {}, onSpaceResize = null,
-    editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false,
+    editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false, compactPages = false,
   } = $props();
   const parentLabels=getContext('booklet-labels');
   const labels=$derived(parentLabels?.()??teachingLabels(bookletPages.length?bookletPages.flatMap(p=>p.blocks??[]):page.blocks??[]));
@@ -182,14 +182,14 @@
   {/if}
 {/snippet}
 
-<div class="preview-frame" class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
+<div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
-    {#if bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
+    {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
       <BookletCover pages={bookletPages} />
     {:else}
       <article class="booklet-page" data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
-        {#if page.section?.headingStyle !== 'none'}<header class:difficulty-heading={page.section?.headingStyle === 'difficulty'} class="section-band"><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} edited={isEdited(page.id, '/section/title')} /></header>{/if}
-        {#if page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<header class="section-band difficulty-heading"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} edited={isEdited(page.id, '/section/difficultyTitle')} /></header>{/if}
+        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<header class:difficulty-heading={page.section?.headingStyle === 'difficulty'} class="section-band"><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></header>{/if}
+        {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<header class="section-band difficulty-heading"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></header>{/if}
         <main>
           {#each displayItems as item, index (item.id)}
             {#if item.type === 'teaching-atom'}
@@ -204,13 +204,18 @@
             {/if}
           {/each}
         </main>
-        <BookletFooter pageNumber={bookletPageNumber} totalPages={cover.totalPages} sourcePage={page.continuation||bookletPageNumber!==Number(page.pageNumber)?page.pageNumber:null} version={cover.version} feedback="https://MrDingMaths.com" />
+        <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback="https://MrDingMaths.com" />
       </article>
     {/if}
   </div>
 </div>
 
 <style>
+.compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
+.compact-pages .preview-page{position:relative;left:0;transform:none;}
+.compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}
+.compact-pages .booklet-page main{flex:none;}
+.compact-pages :global(.booklet-footer){position:static;margin-top:3mm;}
 .numbered-content{display:grid;grid-template-columns:7mm minmax(0,1fr);gap:3mm}
 
   .preview-frame:has(:global(.maths-editor.inline)){overflow:visible;z-index:12}.booklet-page:has(:global(.maths-editor.inline)){overflow:visible}.preview-page[data-house-style] :global(.key-ideas-body){line-height:1.5}

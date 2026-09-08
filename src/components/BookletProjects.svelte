@@ -1,5 +1,9 @@
 <script>
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
+  import FlowBookletPreview from './FlowBookletPreview.svelte';
+  import FlowBookletOutline from './FlowBookletOutline.svelte';
+  import FlowBookletPage from './FlowBookletPage.svelte';
+  import {isFlexible,FLOW_EDITIONS,flowCommand,selectedFlowIds} from '../lib/booklet-flow.js';
   import { adoptHouseStyle, BOOKLET_HOUSE_STYLE, houseStyleVariables } from '../lib/booklet-house-style.js';
   import {teachingLabels} from '../lib/booklet-labels.js';
   import { independentAnswerPages } from '../lib/booklet-answer-options.js';
@@ -30,6 +34,17 @@
   let { initialProjectId = null, bank = [], onprojectchange = null } = $props();
   let projects = $state([]);
   let project = $state.raw(null);
+  const flexible=$derived(isFlexible(project));
+  let flowPreview=$state(),flowOutline=$state(),flowMap=$state.raw({pages:[],issues:[],ready:false}),flowEdition=$state('student'),flowActive=$state(1);
+  function selectFlow(id,sectionId){selectedBlockId=id;selectedSectionId=sectionId;selectedTargetId='';flowPreview?.jumpTo(id);}
+  function flowSelected(page){selectedSectionId=page.section.sourceSectionId;}
+  async function createFlexibleCopy(){
+    if(inlineSession||editSession)return;
+    busy='Creating flexible copy';error='';
+    try{if(saveState!=='Saved')await persist();if(saveState!=='Saved')throw Error('Resolve the current save before creating a copy.');
+      const created=await duplicateBookletProject(project.id,{title:project.title+' — Flexible',flexible:true});await refreshProjects();await openProject(created.id);
+    }catch(e){error=e.message;}finally{busy='';}
+  }
   let bankSync = $state.raw({items:[]});
   let showBankSync = $state(false), bankSyncError=$state(''), syncBusy=$state(false);
   const bankUpdates=$derived(bankSync.items.filter(i=>['update','conflict','pending','missing'].includes(i.state)));
@@ -83,7 +98,8 @@
   let answerView=$state('student');
   let navigation=$state(true),comparison=$state(false),panel=$state(''),tool=$state(''),zoom=$state('width'),sourceZoom=$state('width'),workspaceWidth=$state(1400),workspace,focusedEditor=$state();
   let editSession=$state.raw(null),preferencesReady=$state(false);
-  const sourceUrl=$derived(project?.source?.runId && selectedSection?.sourcePageNumber ? `/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSection.sourcePageNumber).padStart(3,'0')}.png` : '');
+  const selectedSourcePage=$derived(selectedBlock?.sourcePageNumber??selectedSection?.sourcePageNumber);
+  const sourceUrl=$derived(project?.source?.runId && selectedSourcePage ? `/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSourcePage).padStart(3,'0')}.png` : '');
   const flagCount=$derived((project?.studio?.flags??[]).filter(f=>!f.resolved).length);
   const dockReview=$derived(panel==='review' && workspaceWidth-(navigation?240:0)-360>=794);
   const pageIndex=$derived(projectPages.indexOf(previewPage));
@@ -96,11 +112,13 @@
   function editLocation(origin,target){const labels=[];for(let node=origin?.closest('.question-node');node;node=node.parentElement?.closest('.question-node')){const label=node.querySelector(':scope > .question-line > .part-label')?.textContent?.trim().replace(/[.)]$/,'');if(label)labels.unshift(label);}return `Page ${previewPage?.pageNumber} · ${labels.length?'Question '+labels.join(''):target?blockLabel(target.block,previewPage.blocks.indexOf(target.block)):'Content'}`;}
   function requestEdit(request){
     if(inlineSession){status='Save or cancel the current page edit before editing another item.';return;}
-    if(request.pointer==='/section/title')request={...request,rootId:previewPage.section.id,pointer:'/title'};
+    if(request.pointer==='/section/title')request={...request,rootId:flexible?(flowMap.pages[Number(request.origin?.closest('[data-flow-index]')?.dataset.flowIndex)]?.section.sourceSectionId??selectedSectionId):previewPage.section.id,pointer:'/title'};
     let target=reviewTargets(project).find(t=>t.id===request.rootId);
     if(!target){for(const section of project.sections){for(const block of section.blocks){const node=findContent(block,request.rootId);if(node){target={id:request.rootId,node,block,section,kind:'part'};break;}}if(target)break;}}
+    if(flexible&&target?.section)selectedSectionId=target.section.id;
     if(target&&['question','worked-example','callout','activity','guided-practice'].includes(target.block.type)&&!/^\/(title|label|sourceAtom|section)/.test(request.pointer)){openArrangement(target,request);return;}
     if(target){selectedBlockId=target.block.id;selectedTargetId=target.id;}
+    if(flexible&&target&&request.value!==undefined){const original=request.pointer.split('/').slice(1).reduce((v,k)=>v?.[k],target.node);if(original!==undefined)request={...request,value:original};}
     const enclosing=request.origin?.closest('.question-node.diagrams-beside');
     const layoutId=enclosing?.dataset.nodeId??request.rootId;
     const layoutTarget=reviewTargets(project).find(t=>t.id===layoutId);
@@ -184,7 +202,7 @@
     return pages;
   }
 
-  const projectPages = $derived(buildPages(project?.sections ?? []));
+  const projectPages = $derived(flexible?flowMap.pages.map(p=>({...p,section:{...p.section,id:p.section.sourceSectionId}})):buildPages(project?.sections ?? []));
   async function checkCurrentPage(){
     status='Checking page…';
     try{const {settleBooklet,inspectBooklet}=await import('../lib/booklet-qa.js');const root=canvas.querySelector('.paper-scroll');await settleBooklet(root);const report=inspectBooklet(root,{style:project.settings.houseStyleVersion==='1.1.0'});const issues=report.flatMap(p=>p.issues);status=issues.length?'Page needs attention: '+issues.map(i=>`${i.kind} (${i.diagramId??i.id})`).join('; '):'Page QA passed: content fits above the footer and applicable style checks pass.';}catch(e){status='Page QA failed: '+e.message;}
@@ -212,6 +230,7 @@
   }
 
   function selectDefaults(next) {
+    flowMap={pages:[],issues:[],ready:false};flowEdition=next?.settings?.flowEdition??'student';flowActive=1;
     selectedPageId='';
     selectedSectionId = next?.sections?.[0]?.id ?? '';
     selectedBlockId = next?.sections?.[0]?.blocks?.[0]?.id ?? '';
@@ -358,10 +377,10 @@
 
   function setSetting(patch) { change(updateProjectSettings(project, patch)); }
 
-  function setExportSetting(patch) { exportSettings = { ...exportSettings, ...patch }; }
+  function setExportSetting(patch) { exportSettings = { ...exportSettings, ...patch }; if(flexible&&patch.practiceAnswers)flowEdition=patch.practiceAnswers==='none'?'student':patch.practiceAnswers; }
 
   function saveExportDefaults() {
-    setSetting(exportSettings);
+    setSetting({...exportSettings,...(flexible?{flowEdition}:{})});
     status = 'PDF defaults saved with this booklet.';
   }
 
@@ -415,10 +434,11 @@
 
   function removeBlock() {
     if (!selectedBlock || !window.confirm('Delete this block from the booklet?')) return;
-    const next = deleteProjectBlock(project, selectedSection.id, selectedBlock.id);
+    const next = flexible?flowCommand(project,{type:'delete',ids:[selectedBlock.id]}):deleteProjectBlock(project, selectedSection.id, selectedBlock.id);
     change(next);
     selectedBlockId = next.sections.find((section) => section.id === selectedSection.id)?.blocks?.[0]?.id ?? '';
   }
+  function duplicateActiveBlock(){if(!selectedBlock)return;if(!flexible){change(duplicateProjectBlock(project,selectedSection.id,selectedBlock.id));return;}const ids=selectedFlowIds(project,[selectedBlock.id]),last=Math.max(...selectedSection.blocks.map((b,i)=>ids.includes(b.id)?i:-1));change(flowCommand(project,{type:'duplicate',ids,sectionId:selectedSection.id,beforeId:selectedSection.blocks[last+1]?.id}));}
 
   function resizeTable(rows, columns) {
     try { change(resizeFirstProjectTable(project, selectedBlock.id, { rows, columns })); }
@@ -470,6 +490,7 @@
     try {
       if (saveState !== 'Saved') await persist();
       if (saveState !== 'Saved') throw new Error('Save the booklet before printing. Resolve any save conflict and try again.');
+      if(flexible)await flowPreview.waitUntilReady();
       printReady = true;
       await tick();
       const root = document.querySelector('.project-print');
@@ -521,6 +542,7 @@
   <button aria-label="Toggle page navigation" aria-expanded={navigation&&!comparison} onclick={()=>navigation=!navigation}>☰ Pages</button>
   <label class="project-picker"><span class="sr-only">Open booklet</span><select disabled={!!inlineSession} aria-label="Open booklet" value={project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
   <span class="save-state" role="status">{saveState}</span>
+  {#if project&&!flexible}<button disabled={!!inlineSession||!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
   {#if project}<button aria-expanded={showBankSync} onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button>{/if}
   <div class="toolbar-actions"><button onclick={undo} disabled={!!inlineSession||!undoStack.length}>Undo</button><button onclick={redo} disabled={!!inlineSession||!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
   <details inert={!!inlineSession} class="menu"><summary>Project</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>{panel='metadata';}}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details>
@@ -554,6 +576,7 @@
   <div class="project-editor project-screen" class:with-navigation={navigation&&!comparison} class:with-review={dockReview&&!comparison} class:comparison>
    <section class="tool-view" hidden={!tool}><header><h2>Assembly</h2><button onclick={()=>tool=''}>Back to booklet</button></header><div hidden={tool!=='assembly'}><BookletAssemblyPanel {project} onchange={change} oncreated={openProject} expanded/></div></section>
    <aside class="project-outline" class:drawer={workspaceWidth<1100} hidden={!navigation||comparison||!!tool} aria-label="Page navigation">
+    {#if flexible}<FlowBookletOutline bind:this={flowOutline} {project} pages={flowMap.pages} {bank} {selectedBlockId} disabled={!!inlineSession||!!editSession} onchange={change} onselect={selectFlow} onsection={id=>selectedSectionId=id} onerror={message=>error=message}/>{:else}
     <div class="outline-heading"><strong>Pages</strong><button aria-label="Close page navigation" onclick={()=>navigation=false}>×</button></div>
     <nav class="section-list">{#each projectPages as page,index}<article class:active={page.id===previewPage?.id}>
      <button class="section-select" aria-current={page.id===previewPage?.id?'page':undefined} onclick={()=>goPage(index)}><b>{page.pageNumber}</b><span>{page.section.title}{page.continuation?` (continued ${page.continuation})`:""}</span></button>
@@ -562,11 +585,16 @@
       <ol inert={!!inlineSession} class="block-list">{#each page.blocks as block,blockIndex}<li class:active={selectedBlockId===block.id}><button onclick={()=>{selectedBlockId=block.id;selectedTargetId='';}}>{blockLabel(block,blockIndex)}</button><details><summary aria-label={'Actions for '+blockLabel(block,blockIndex)}>⋯</summary><div><button onclick={()=>{selectedBlockId=block.id;panel='properties';}}>Block properties</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,-1))}>Move up</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,1))}>Move down</button><button onclick={()=>change(duplicateProjectBlock(project,page.section.id,block.id))}>Duplicate block</button><button onclick={()=>{selectedBlockId=block.id;removeBlock();}}>Delete block</button></div></details></li>{/each}</ol>
       <details class="page-menu"><summary>Add content</summary><label>Block type<select aria-label="Block type" bind:value={addBlockType}><option value="rich-text">Text</option><option value="heading">Heading</option><option value="callout">Theory / callout</option><option value="review">Review activity</option><option value="activity">Activity (identify / proof / investigation)</option><option value="guided-practice">Guided practice</option><option value="worked-example">Worked example</option><option value="question">Local question</option><option value="grid">Table</option><option value="image">Image</option><option value="spacer">Spacing</option><option value="page-break">Page break</option></select></label><button onclick={addBlock}>Add block</button><label>Question bank<select bind:value={bankQuestionId}><option value="">Choose a question</option>{#each bank as question}<option value={question.id}>{question.title||question.id}</option>{/each}</select></label><button onclick={addBankQuestion} disabled={!bankQuestionId}>Add copy</button></details>
      {/if}
-    </article>{/each}</nav><button disabled={!!inlineSession} class="add-page" onclick={addSection}>Add page</button>
+    </article>{/each}</nav><button disabled={!!inlineSession} class="add-page" onclick={addSection}>Add page</button>{/if}
    </aside>
    <main class="project-canvas" bind:this={canvas} hidden={!!tool}>
+    {#if flexible}
+    <div class="canvas-heading"><strong>{flowMap.ready ? 'Page '+flowActive+' of '+flowMap.pages.length : 'Paginating…'}</strong><label>Jump to page<input type="number" min="1" max={flowMap.pages.length} value={flowActive} onchange={e=>flowPreview?.jumpTo(flowMap.pages[Number(e.currentTarget.value)-1]?.id)} style="width:80px"/></label><label>Edition<select aria-label="Booklet edition" bind:value={flowEdition} disabled={!!inlineSession||!!editSession}>{#each FLOW_EDITIONS as [value,title]}<option {value}>{title}</option>{/each}</select></label><label>Zoom<select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label></div>
+    <div hidden={comparison}><FlowBookletPreview bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/></div>
+    {:else}
     <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]} disabled={!!inlineSession} onclick={()=>answerView=mode[0]}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
-    <div class="source-reconstruction" class:paired={comparison} style:--source-min-width={Number(sourceZoom)>0?210*Number(sourceZoom)+'mm':'0px'} style:--transcribed-min-width={Number(zoom)>0?210*Number(zoom)+'mm':'0px'}>
+    {/if}
+    <div class="source-reconstruction" hidden={flexible&&!comparison} class:paired={comparison} style:--source-min-width={Number(sourceZoom)>0?210*Number(sourceZoom)+'mm':'0px'} style:--transcribed-min-width={Number(zoom)>0?210*Number(zoom)+'mm':'0px'}>
      {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source</strong><select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+previewPage?.pageNumber} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
 
      <section class="transcribed-evidence comparison-pane">{#if comparison}<header><strong>Transcribed page</strong><select aria-label="Transcribed zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option>{#if !['width','page','1','1.5','2'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></header>{/if}<div class="paper-scroll">{#if previewPage}<TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} blockLayouts={project.settings.layoutOverrides.blockLayouts} flow={!project.settings.preserveSourcePages} {zoom} page={previewPage} {bookletPages} runId={project.source?.runId??project.id} showKeyIdeasAnswers={exportSettings.showKeyIdeasAnswers} showTheorySolutions={exportSettings.showTheorySolutions} showReviewAnswers={exportSettings.showReviewAnswers} showIdentifyAnswers={exportSettings.showIdentifyAnswers} showGuidedPracticeAnswers={exportSettings.showGuidedPracticeAnswers} solutionMode={answerView} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={()=>false}/>{/if}</div></section>
@@ -594,7 +622,7 @@
     <div hidden={panel!=='properties'}>        <h3>Selected block</h3>
         {#if selectedBlock}
           <p><code>{selectedBlock.id}</code></p>
-          <div class="row-actions"><button onclick={() => change(duplicateProjectBlock(project, selectedSection.id, selectedBlock.id))}>Duplicate</button><button class="danger" onclick={removeBlock}>Delete</button></div>
+          <div class="row-actions"><button onclick={duplicateActiveBlock}>Duplicate</button><button class="danger" onclick={removeBlock}>Delete</button></div>
           {#if typeof selectedBlock.content === 'string' && selectedBlock.content.includes('|')}
             <fieldset><legend>Table</legend><div class="row-actions"><button onclick={() => resizeTable(1, 0)}>+ Row</button><button onclick={() => resizeTable(-1, 0)}>− Row</button><button onclick={() => resizeTable(0, 1)}>+ Column</button><button onclick={() => resizeTable(0, -1)}>− Column</button></div></fieldset>
           {/if}
@@ -626,8 +654,11 @@
    </aside>
   </div>
   {#if editSession}<FocusedBookletEditor bind:this={focusedEditor} session={editSession} onclose={()=>editSession=null}/>{/if}
-    <section class="project-print" class:short-answers={exportSettings.practiceAnswers === 'short'} class:source-pages={project.settings.preserveSourcePages && exportSettings.practiceAnswers !== 'short'} aria-hidden="true">
+    <section class="project-print" data-pagination-state={flexible?(flowMap.error?'error':flowMap.ready&&flowMap.edition===flowEdition?'ready':'pending'):undefined} data-flow-edition={flexible?flowMap.edition:undefined} data-layout-issues={flexible?JSON.stringify(flowMap.issues):undefined} class:flexible-print={flexible} class:short-answers={!flexible&&exportSettings.practiceAnswers === 'short'} class:source-pages={project.settings.preserveSourcePages && exportSettings.practiceAnswers !== 'short'} aria-hidden="true">
       {#if printReady}
+      {#if flexible}
+        {#each flowMap.pages as page}<div class="print-page" data-flow-page={page.pageNumber} data-flow-blocks={page.blocks.map(b=>b.id).join(',')}><FlowBookletPage {project} {page} pages={flowMap.pages} options={exportSettings}/></div>{/each}
+      {:else}
       {#if exportSettings.practiceAnswers === 'short'}
         <h1 class="answer-heading">Answers</h1>
         {#each answerPages as page}<div class="print-page"><TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} answerSheet={true} blockLayouts={project.settings.layoutOverrides.blockLayouts} flow={true} page={{...page,section:{...page.section,headingStyle:'normal',title:project.settings.preserveSourcePages?'Page '+(exportPages.findIndex(p=>p.id===page.id)+1):page.section.title,difficultyTitle:null}}} bookletPages={answerPages} runId={project.source?.runId ?? project.id} showTheorySolutions={false} solutionMode="short" /></div>{/each}
@@ -641,6 +672,7 @@
       {/if}
       {/if}
       {/if}
+      {/if}
     </section>
   {:else}
     <section class="empty-project project-screen"><h3>{projects.length?'Open a booklet':'No editable booklets yet'}</h3><p>{projects.length?'Choose a saved booklet from the Open booklet menu above.':'Materialise an accepted full import or create a blank booklet.'}</p><button class="primary" onclick={createNew}>Create booklet</button></section>
@@ -648,6 +680,8 @@
 </section>
 
 <style>
+@media print{.project-print.flexible-print{page:booklet-source;}}
+@media print{.flexible-print .print-page{width:210mm;height:297mm;min-height:297mm;break-after:page;break-inside:avoid}.flexible-print .print-page:last-child{break-after:auto}.flexible-print :global(.preview-frame){height:297mm!important;width:210mm!important}.flexible-print :global(.preview-page){transform:none!important;position:static!important}.flexible-print :global(.booklet-page){height:297mm!important;overflow:visible!important}}
   .bank-sync-panel{padding:1rem;max-height:65vh;overflow:auto;border-bottom:1px solid #94a3b8;background:var(--panel,#fff);color:var(--text,#24324a)}
   .bank-sync-panel h2{font-size:1rem;margin:0}.bank-sync-item{padding:.8rem 0;border-top:1px solid #94a3b8;margin-top:.75rem}.bank-sync-item h3{font-size:.95rem}.sync-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}.sync-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.sync-comparison>section{background:white;color:#24324a;padding:1rem;overflow:auto}.bank-sync-panel summary{cursor:pointer;padding:.5rem 0}
   @media(max-width:700px){.sync-comparison{grid-template-columns:1fr}}

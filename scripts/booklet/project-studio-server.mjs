@@ -4,6 +4,7 @@ import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
+import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
@@ -160,18 +161,19 @@ export async function createBookletProject(raw = {}, options = {}) {
   return saveBookletProject(project, { ...options, create: true });
 }
 
-export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, title = null, ...options } = {}) {
+export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, title = null, flexible = false, assignments = {}, copyId = null, ...options } = {}) {
   const source = await loadBookletProject(id, { projectRoot, ...options });
-  const copy = normalizeEditableProject({
+  let copy = normalizeEditableProject({
     ...source,
-    id: `project-${randomUUID()}`,
+    id: copyId ? safeId(copyId) : `project-${randomUUID()}`,
     title: title ?? `${source.title} copy`,
     revision: 0,
     status: 'draft',
-    source: { type: 'project-copy', projectId: source.id, revision: source.revision },
+    source: { ...source.source, type: 'project-copy', projectId: source.id, revision: source.revision },
     createdAt: null,
     updatedAt: null,
   });
+  if(flexible)copy=convertToFlexible(copy,{linear:source.id==='linear-relationships-complete-v1',assignments});
   const links=await syncLinks(options.bankRoot??BANK_ROOT);
   for(const block of copy.sections.flatMap(s=>s.blocks)){
     const match=Object.entries(links).find(([,link])=>link.projectId===source.id&&link.blockId===block.id);

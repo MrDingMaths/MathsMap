@@ -9,7 +9,7 @@ function arg(name, fallback = null) { const i = process.argv.indexOf(name); retu
 const base = arg('--base', 'http://localhost:5173').replace(/\/$/, '');
 const output = resolve(arg('--out', '.booklet-work/booklet.pdf'));
 const mode = arg('--mode', 'student');
-if (!['student', 'short', 'worked'].includes(mode)) throw new Error('--mode must be student, short or worked');
+if (!['student', 'short', 'worked','with-short','with-worked'].includes(mode)) throw new Error('--mode must be student, short, worked, with-short or with-worked');
 const projectFile = arg('--project');
 let projectId = arg('--project-id');
 let browser;
@@ -35,20 +35,32 @@ try {
   }
   const query = new URLSearchParams({ stage: 'projects' });
   if (projectId) query.set('project', projectId);
-  await page.goto(base + '/#/booklet?' + query, { waitUntil: 'networkidle', timeout: 60000 });
+  await page.goto(base + '/#/booklet?' + query, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.locator('.project-print').waitFor({ state: 'attached', timeout: 60000 });
+  const flexible=await page.locator('.project-print.flexible-print').count()>0;
+  if(flexible){
+    await page.getByLabel('Booklet edition',{exact:true}).selectOption(mode);
+    if(process.argv.includes('--hide-theory')){await page.getByRole('button',{name:'PDF',exact:true}).click();await page.getByLabel('Show theory solutions',{exact:true}).uncheck();}
+    await page.waitForFunction(()=>['ready','error'].includes(document.querySelector('.project-print')?.dataset.paginationState),null,{timeout:600000});
+    const state=await page.locator('.project-print').getAttribute('data-pagination-state');
+    if(state==='error')throw Error(await page.locator('.flow-document').innerText());
+    const issues=JSON.parse(await page.locator('.project-print').getAttribute('data-layout-issues')||'[]');
+    if(issues.length)throw Error('Pagination needs attention: '+JSON.stringify(issues));
+  }else{
+  if(mode.startsWith('with-'))throw Error('Combined editions require a flexible project.');
   if(!await page.getByLabel('Practice answers',{exact:true}).isVisible())await page.getByRole('button',{name:'PDF',exact:true}).click();
   await page.getByLabel('Practice answers', { exact: true }).selectOption(mode === 'student' ? 'none' : mode);
+  }
   await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
   await page.locator('.project-print .print-page').first().waitFor({state:'attached'});
   // Wait for the selected edition's DOM, not merely the select's change event.
-  await page.waitForFunction(mode=>{
+  if(!flexible)await page.waitForFunction(mode=>{
     const root=document.querySelector('.project-print');
     if(mode==='worked')return Boolean(root?.querySelector('.worked-content'));
     if(mode==='short')return root?.classList.contains('short-answers');
     return root&&!root.classList.contains('short-answers')&&!root.querySelector('.answers-divider');
   },mode);
-  if(process.argv.includes('--hide-theory'))await page.getByLabel('Show theory solutions',{exact:true}).uncheck();
+  if(!flexible&&process.argv.includes('--hide-theory'))await page.getByLabel('Show theory solutions',{exact:true}).uncheck();
   await page.emulateMedia({ media: 'print' });
   console.log('Preparing print assets for ' + mode + ' export…');
   await page.evaluate(async () => {
@@ -68,9 +80,11 @@ try {
   }),null,2));
   const qa=await page.evaluate(async()=>{const {settleBooklet,inspectBooklet}=await import('/src/lib/booklet-qa.js');const root=document.querySelector('.project-print');await settleBooklet(root);return inspectBooklet(root,{style:document.querySelector('[data-house-style="1.1.0"]')!=null});});
   const edition=await page.evaluate(()=>({mode:document.querySelector('[aria-label="Practice answers"]')?.value,worked:document.querySelectorAll('.project-print .worked-content').length}));
-  if(edition.mode!==(mode==='student'?'none':mode)||(mode==='worked'&&!edition.worked))throw Error('The requested answer edition did not remain selected');
+  if(flexible){if(await page.locator('.project-print').getAttribute('data-flow-edition')!==mode)throw Error('The requested edition changed');}
+  else if(edition.mode!==(mode==='student'?'none':mode)||(mode==='worked'&&!edition.worked))throw Error('The requested answer edition did not remain selected');
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output+'.qa.json',JSON.stringify(qa,null,2));
+  if(flexible)writeFileSync(output+'.pages.json',JSON.stringify(await page.locator('.project-print .print-page').evaluateAll(els=>els.map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(','),questions:[...e.querySelectorAll('[data-question-id]')].map(q=>q.dataset.questionId)}))),null,2));
   if(qa.some(p=>p.issues.length))throw Error('Layout/style QA failed; see '+output+'.qa.json');
   mkdirSync(dirname(output), { recursive: true });
   await page.pdf({ path: output+'.partial.pdf', format: 'A4', printBackground: true, preferCSSPageSize: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
