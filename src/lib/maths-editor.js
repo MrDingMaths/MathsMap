@@ -1,3 +1,4 @@
+import {clozeLeader} from '../../public/libs/maths-editor/cloze-leader.mjs';
 // MathsEditor is deliberately a small document-neutral rich-text engine. A
 // booklet owns blocks and page flow; this module only owns the inline prose
 // and maths value used by those blocks.
@@ -321,7 +322,7 @@ export function renderRichTextHtml(raw, { fillCloze = false, editable = false } 
       if (valueNode.type === 'break') return '<br data-node-type="break">';
       if (valueNode.type === 'cloze') {
         const answer = fillCloze ? escapeHtml(valueNode.answer) : '';
-        return `<span class="cloze-island" data-node-type="cloze" data-answer="${escapeHtml(valueNode.answer)}" data-width="${valueNode.width}" style="--cloze-width:${valueNode.width}mm"${editable ? ' contenteditable="false"' : ''}>${answer || '&nbsp;'}</span>`;
+        return `<span class="cloze-island" data-node-type="cloze" data-answer="${escapeHtml(valueNode.answer)}" data-width="${valueNode.width}" style="--cloze-width:${valueNode.width}mm"${editable ? ' contenteditable="false"' : ''}>${answer || '&nbsp;'}${clozeLeader(valueNode.width)}</span>`;
       }
       let text = escapeHtml(valueNode.text);
       if (valueNode.marks.includes('bold')) text = `<strong>${text}</strong>`;

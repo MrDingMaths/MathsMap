@@ -1,3 +1,5 @@
+> Historical design: workflow and approval/proposal instructions below are superseded by [Booklet Studio: human editing workflow](booklet-human-workflow.md), 7 September 2026. Teaching and source-evidence principles still apply.
+
 # Editable theory and an auditable booklet bank
 
 Decision, 5 September 2026: all theory should ultimately be editable in Studio. Structured data supports auditing atomisation across booklets and controlled AI changes. Word remains source evidence; it is not the intended long-term theory editor.

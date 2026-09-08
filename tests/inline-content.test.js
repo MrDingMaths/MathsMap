@@ -16,6 +16,7 @@ import {
 test('expands a chained worked solution for vertical relation alignment', () => {
   assert.equal(setoutMathChain('$-2+(-3)=-2-3=-5$'), '$-2+(-3)=-2-3$\n$=-5$');
   assert.equal(setoutMathChain('$x=2$'), '$x=2$');
+  assert.equal(setoutMathChain('$200=240x+80\\implies240x=120\\implies x=0.5$',{stackFirstTerm:true}), '$200=240x+80\\implies240x=120\\implies x=0.5$');
   assert.match(groupTextBlocks(setoutMathChain('$a=b=c$'))[0].value, /begin\{aligned\}/);
 });
 
@@ -94,4 +95,14 @@ test('isStructureSlug accepts kebab-case only', () => {
   assert.equal(isStructureSlug('-round'), false);
   assert.equal(isStructureSlug('round-'), false);
   assert.equal(isStructureSlug(undefined), false);
+});
+
+
+test('simultaneous equation prompts keep independent left-aligned lines',()=>{
+ const source='$y = kx + 4$\n$3x - 2y = 5$';
+ assert.deepEqual(groupTextBlocks(source,{alignRelations:false}),[
+  {kind:'line',value:'$y = kx + 4$'},
+  {kind:'line',value:'$3x - 2y = 5$'}
+ ]);
+ assert.match(groupTextBlocks(source)[0].value,/begin\{aligned\}/,'worked-solution alignment remains available');
 });

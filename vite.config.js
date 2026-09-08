@@ -27,5 +27,5 @@ function contentWritePlugin() {
 
 export default defineConfig({
   plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
-  server: { open: true, watch: { ignored: ['**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
+  server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });

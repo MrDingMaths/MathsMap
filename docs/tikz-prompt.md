@@ -1225,3 +1225,5 @@ Before writing the output, verify every item:
 - [ ] Every table cell is a single `\node` carrying both its border and its text; no `grid`/`rectangle` ruling is positioned independently of cell text; nothing sits outside the table frame; no `\scriptsize`/`\tiny`.
 
 Output the TikZ code now.
+
+Graph strokes at final printed size: plotted relationships 0.8 pt (including dashed relationships), axes 0.5 pt, ticks 0.4 pt, major grids 0.25 pt, minor grids 0.15 pt, construction guides 0.4 pt. Use explicit line widths by role, never thin/thick keywords. Include \special{dvisvgm:raw <metadata data-graph-strokes="1"/>} inside the tikzpicture so preview and PDF compensate stroke widths for SVG fitting. Preserve colours, dashes, arrowheads and labels.

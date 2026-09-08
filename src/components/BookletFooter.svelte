@@ -4,12 +4,13 @@
     totalPages = 1,
     version = '',
     feedback = 'https://MrDingMaths.com',
+    sourcePage = null,
   } = $props();
 </script>
 
 <footer class="booklet-footer">
   <span>{feedback}{version ? ` | ${version}` : ''}</span>
-  <span>Page {pageNumber} of {totalPages}</span>
+  <span>{sourcePage?`Source p${sourcePage} · `:''}Page {pageNumber} of {totalPages}</span>
 </footer>
 
 <style>

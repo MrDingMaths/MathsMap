@@ -119,7 +119,7 @@
   </main>
 {/if}
 
-{#if route.name !== 'map'}
+{#if route.name !== 'map' && route.name !== 'booklet'}
   <SiteFooter />
 {/if}
 

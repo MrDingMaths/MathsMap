@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { assertRepairPreservesEdits, presentationContractForRun } from '../scripts/booklet/transcription.mjs';
+import { presentationContractForRun } from '../scripts/booklet/transcription.mjs';
 import { normaliseQuestion } from '../src/lib/practice-question-model.js';
 
 test('diagram source provenance survives question normalization', () => {
@@ -8,14 +8,6 @@ test('diagram source provenance survives question normalization', () => {
   assert.equal(question.content.questionDiagrams[0].sourceAssetOccurrenceId, 'source-1');
 });
 
-test('repairs protect edited descendants and ancestors but allow unrelated targets', () => {
-  const transcription = { pages: [{ id: 'page-1', blocks: [{ id: 'question', children: [{ id: 'part' }] }, { id: 'other' }] }] };
-  const review = { contentOverrides: { part: { '/prompt': { value: 'My correction' } } } };
-  assert.throws(() => assertRepairPreservesEdits(transcription, review, ['question']), /overlaps saved edit part/);
-  assert.throws(() => assertRepairPreservesEdits(transcription, review, ['part']), /overlaps saved edit part/);
-  assert.doesNotThrow(() => assertRepairPreservesEdits(transcription, review, ['other']));
-  assert.throws(() => assertRepairPreservesEdits(transcription, { contentOverrides: { question: { '/children': {} } } }, ['part']), /overlaps saved edit question/);
-});
 
 test('new presentation contract is opt-in through immutable run pins', () => {
   assert.equal(presentationContractForRun({ pins: { files: {} } }), '');

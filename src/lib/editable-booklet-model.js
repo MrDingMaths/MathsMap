@@ -1,3 +1,5 @@
+import { normalizeBlockLayouts } from './booklet-layout.js';
+import {remapQuestionPresentation} from './question-presentation.js';
 import { deepCopy as copyQuestion, normaliseQuestion } from './practice-question-model.js';
 import { normalizeBookletProject } from './booklet-model.js';
 import { isDocument, normalizeDocument } from './document-content.js';
@@ -6,7 +8,7 @@ export const EDITABLE_BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v4';
 export const EDITABLE_BOOKLET_PROJECT_VERSION = 4;
 export const PROJECT_ANSWER_MODES = Object.freeze(['none', 'short', 'worked']);
 export const PROJECT_BLOCK_TYPES = Object.freeze([
-  'rich-text', 'heading', 'callout', 'image', 'worked-example', 'question',
+  'rich-text', 'heading', 'callout', 'image', 'diagram', 'worked-example', 'question',
   'grid', 'page-break', 'spacer', 'narrative',
 ]);
 
@@ -59,10 +61,17 @@ function setPointer(root, pointer, value) {
 
 function normalizeSettings(raw = {}) {
   return {
+    ...(raw.houseStyleVersion ? {houseStyleVersion:String(raw.houseStyleVersion)} : {}),
+    preserveSourcePages: raw.preserveSourcePages === true,
     showTheorySolutions: raw.showTheorySolutions !== false,
+    showKeyIdeasAnswers: raw.showKeyIdeasAnswers === true,
+    showReviewAnswers: raw.showReviewAnswers === true,
+    showIdentifyAnswers: raw.showIdentifyAnswers === true,
+    showGuidedPracticeAnswers: raw.showGuidedPracticeAnswers === true,
     practiceAnswers: PROJECT_ANSWER_MODES.includes(raw.practiceAnswers) ? raw.practiceAnswers : 'none',
     showResponseSpaces: raw.showResponseSpaces !== false,
     layoutOverrides: {
+      blockLayouts: normalizeBlockLayouts(raw.layoutOverrides?.blockLayouts),
       answerSpaces: clone(raw.layoutOverrides?.answerSpaces ?? {}),
       diagramColourModes: clone(raw.layoutOverrides?.diagramColourModes ?? {}),
     },
@@ -73,6 +82,7 @@ function normalizeV4Block(raw = {}, index = 0) {
   const block = clone(raw ?? {});
   block.type ??= 'rich-text';
   block.id ??= uniqueId(block.type, index);
+  if (block.type === 'callout') block.label ??= block.variant === 'key-ideas' ? 'Key Ideas' : block.variant === 'info' ? 'Definition' : block.variant === 'investigation' ? '' : 'Theory';
   if (block.type === 'question') {
     block.snapshotKind = block.snapshotKind === 'bank' ? 'bank' : 'local';
     block.bankRef = block.bankRef?.id ? { id: String(block.bankRef.id), revision: String(block.bankRef.revision ?? '') } : null;
@@ -92,6 +102,9 @@ function normalizeV4Section(raw = {}, index = 0) {
 
 export function normalizeEditableProject(raw = {}) {
   const value = raw ?? {};
+  const layoutOverrides={blockLayouts:{},answerSpaces:{},diagramColourModes:{}};
+  for(const section of value.sections??[])for(const block of section.blocks??[])for(const key of Object.keys(layoutOverrides))Object.assign(layoutOverrides[key],block.presentation?.layoutOverrides?.[key]??{});
+  for(const key of Object.keys(layoutOverrides))Object.assign(layoutOverrides[key],value.settings?.layoutOverrides?.[key]??{});
   return {
     ...clone(value),
     format: EDITABLE_BOOKLET_PROJECT_FORMAT,
@@ -103,7 +116,7 @@ export function normalizeEditableProject(raw = {}) {
     revision: Math.max(0, Number(value.revision) || 0),
     sections: (value.sections ?? []).map(normalizeV4Section),
     assets: clone(value.assets ?? []),
-    settings: normalizeSettings(value.settings),
+    settings: normalizeSettings({...value.settings,layoutOverrides}),
     source: clone(value.source ?? null),
     createdAt: value.createdAt ?? null,
     updatedAt: value.updatedAt ?? null,
@@ -142,14 +155,8 @@ function applyDiagramModes(value, overrides = {}) {
   });
 }
 
-function applyDiagramApprovals(value, approvals = {}) {
-  walk(value, (node) => {
-    if (node?.id && node.format === 'tikz' && approvals[node.id]?.accepted === true) node.reviewStatus = 'approved';
-  });
-}
-
-export function materializeAcceptedImport(transcription, review = {}, { projectId = null } = {}) {
-  if (!transcription?.pages?.length) throw new Error('Accepted import has no transcribed pages');
+export function materializeReconstruction(transcription, review = {}, { projectId = null } = {}) {
+  if (!transcription?.pages?.length) throw new Error('Reconstruction has no pages');
   const pages = [...transcription.pages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber));
   const sections = pages.map((page, index) => ({
     id: uniqueId('section', `${page.id}-${index}`),
@@ -185,7 +192,6 @@ export function materializeAcceptedImport(transcription, review = {}, { projectI
   });
   applyAnswerSpaces(project, review.layoutOverrides?.answerSpaces);
   applyDiagramModes(project, review.layoutOverrides?.diagramColourModes);
-  applyDiagramApprovals(project, review.diagrams);
   return project;
 }
 
@@ -196,7 +202,9 @@ function rekeyTree(value, prefix) {
   walk(copy, (node) => {
     if (node?.id && idMap.has(node.id)) node.id = idMap.get(node.id);
     if (node?.overlayOf && idMap.has(node.overlayOf)) node.overlayOf = idMap.get(node.overlayOf);
+    if(node.diagramSlots)node.diagramSlots=Object.fromEntries(Object.entries(node.diagramSlots).map(([id,slot])=>[idMap.get(id)??id,slot]));
   });
+  if(copy.presentation){if(value.presentation.ownerId)idMap.set(value.presentation.ownerId,prefix);copy.presentation=remapQuestionPresentation(value.presentation,idMap);}
   return copy;
 }
 
@@ -204,6 +212,7 @@ export function snapshotBankQuestion(question, { placementId = null } = {}) {
   const canonical = normaliseQuestion(question);
   const id = placementId ?? uniqueId('question', canonical.id);
   const snapshot = rekeyTree(canonical, id);
+  if(snapshot.presentation?.ownerId)snapshot.presentation=remapQuestionPresentation(snapshot.presentation,new Map([[snapshot.presentation.ownerId,id]]));
   return {
     ...snapshot,
     id,
@@ -258,15 +267,21 @@ export function materializeLegacyProject(raw, { bank = [], modules = [] } = {}) 
 }
 
 export function updateProjectContent(project, rootId, pointer, value) {
-  const next = normalizeEditableProject(project);
-  const root = findProjectNode(next, rootId);
-  if (!root) throw new Error(`Project content root is missing: ${rootId}`);
-  setPointer(root, pointer, value);
-  return next;
+  let found=false;
+  const sections=project.sections.map(section=>{
+    if(section.id===rootId){found=true;const next=clone(section);setPointer(next,pointer,value);return next;}
+    const blocks=section.blocks.map(block=>{
+      if(!findProjectNode({sections:[block]},rootId))return block;
+      found=true;const next=clone(block);setPointer(findProjectNode({sections:[next]},rootId),pointer,value);return next;
+    });
+    return blocks.some((block,i)=>block!==section.blocks[i])?{...section,blocks}:section;
+  });
+  if (!found) throw new Error(`Project content root is missing: ${rootId}`);
+  return {...project,sections};
 }
 
 export function updateProjectSettings(project, patch = {}) {
-  const next = normalizeEditableProject(project);
+  const next = {...project};
   next.settings = normalizeSettings({ ...next.settings, ...clone(patch), layoutOverrides: { ...next.settings.layoutOverrides, ...(patch.layoutOverrides ?? {}) } });
   return next;
 }
@@ -326,7 +341,14 @@ function blankQuestion() {
 export function createProjectBlock(type = 'rich-text') {
   const id = uniqueId(type, 'new');
   if (type === 'question') return blankQuestion();
-  if (type === 'callout') return { id, type, variant: 'theory', title: 'Theory', content: 'Add theory content.' };
+  if (['activity', 'review', 'guided-practice'].includes(type)) {
+    const question = blankQuestion();
+    const kind = type === 'activity' ? 'identify' : type;
+    question.pedagogyRole = type;
+    question.sourceAtom = { id: uniqueId('activity'), kind, label: type === 'activity' ? 'Activity' : type === 'review' ? 'Review' : 'Guided Practice', visibleSubtitle: '', description: '' };
+    return question;
+  }
+  if (type === 'callout') return { id, type, variant: 'theory', label: 'Theory', title: '', content: 'Add theory content.' };
   if (type === 'worked-example') return { id, type, title: 'Worked example', content: 'Add the example prompt.', theorySolution: 'Add the worked solution.' };
   if (type === 'image') return { id, type, src: '', alt: 'Booklet image', caption: '', widthMm: 120 };
   if (type === 'page-break') return { id, type, label: 'Manual page break' };
@@ -350,8 +372,12 @@ export function moveProjectBlock(project, sectionId, blockId, delta) {
   const next = normalizeEditableProject(project);
   const section = sectionOf(next, sectionId);
   const from = section?.blocks.findIndex((block) => block.id === blockId) ?? -1;
-  const to = Math.max(0, Math.min((section?.blocks.length ?? 1) - 1, from + Number(delta)));
-  if (section && from >= 0 && from !== to) section.blocks.splice(to, 0, ...section.blocks.splice(from, 1));
+  if(!section||from<0||!delta)return next;
+  const units=[];
+  for(const block of section.blocks){const previous=units.at(-1);if(block.sourceAtom?.id&&previous?.[0].sourceAtom?.id===block.sourceAtom.id)previous.push(block);else units.push([block]);}
+  const index=units.findIndex(unit=>unit.some(block=>block.id===blockId)),to=Math.max(0,Math.min(units.length-1,index+Math.sign(delta)));
+  if(index!==to)units.splice(to,0,...units.splice(index,1));
+  section.blocks=units.flat();
   return next;
 }
 

@@ -1,10 +1,14 @@
 <script>
+  import { mountTabs } from '../../public/libs/maths-editor/tab-layout.mjs';
+  import { mountEquationAnnotations } from '../../public/libs/maths-editor/annotated-equation.mjs';
+  import { mountImageFeedback } from '../../public/libs/maths-editor/document-model.mjs';
   import InlineContent from './InlineContent.svelte';
+  import { mountTableAnnotations } from '../../public/libs/maths-editor/table-annotations.mjs';
   import { isDocument, documentHtml } from '../lib/document-content.js';
   import { renderRichTextHtml } from '../lib/maths-editor.js';
   import { splitBookletTables, numberedTheoryRules } from '../lib/booklet-preview.js';
 
-  let { text = '', class: className = '', fillCloze = false, layout = null } = $props();
+  let { text = '', class: className = '', fillCloze = false, layout = null, alignRelations = true } = $props();
   let rules = $derived(layout === 'numbered-rules' ? numberedTheoryRules(text) : null);
   let isRich = $derived(Boolean(text && typeof text === 'object' && (text.paragraphs || text.inlines || text.segments)));
   let html = $derived(isRich ? renderRichTextHtml(text, { fillCloze }) : '');
@@ -12,15 +16,15 @@
 </script>
 
 {#if isDocument(text)}
-  <div class="document-content {className}">{@html documentHtml(text, { fillCloze })}</div>
+  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={text} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze })}</div>
 {:else if rules}
-  <div class="theory-rules">
+  <ol class="theory-rules">
     {#each rules as rule}
-      <div class="theory-rule"><span>{rule.number}.</span><div><InlineContent text={rule.text} />
-        <ul>{#each rule.bullets as bullet}<li><div class="rule-detail"><InlineContent text={bullet.text} />{#if bullet.maths}<InlineContent text={bullet.maths} />{/if}</div></li>{/each}</ul>
-      </div></div>
+      <li class="theory-rule" value={Number(rule.number)}><div><InlineContent {alignRelations} text={rule.text} />
+        <ul>{#each rule.bullets as bullet}<li><div class="rule-detail"><InlineContent {alignRelations} text={bullet.text} />{#if bullet.maths}<InlineContent {alignRelations} text={bullet.maths} />{/if}</div></li>{/each}</ul>
+      </div></li>
     {/each}
-  </div>
+  </ol>
 {:else if isRich}
   <div class="rich-content {className}">{@html html}</div>
 {:else}
@@ -28,20 +32,20 @@
     {#each parts as part}
       {#if part.type === 'table'}
         <table>
-          {#if part.header}<thead><tr>{#each part.header as cell}<th>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent text={cell} />{/if}</th>{/each}</tr></thead>{/if}
-          <tbody>{#each part.rows as row}<tr>{#each row as cell}<td>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent text={cell} />{/if}</td>{/each}</tr>{/each}</tbody>
+          {#if part.header}<thead><tr>{#each part.header as cell}<th>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</th>{/each}</tr></thead>{/if}
+          <tbody>{#each part.rows as row}<tr>{#each row as cell}<td>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</td>{/each}</tr>{/each}</tbody>
         </table>
       {:else if part.value.includes('[[')}
         <div class="rich-content">{@html renderRichTextHtml(part.value, { fillCloze })}</div>
       {:else}
-        <InlineContent text={part.value} />
+        <InlineContent {alignRelations} text={part.value} />
       {/if}
     {/each}
   </div>
 {/if}
 
 <style>
-  .theory-rule { display: grid; grid-template-columns: 5mm minmax(0, 1fr); gap: 1mm; }
+  .theory-rules { margin:0; padding-left:7mm; list-style-position:outside; }.theory-rule { display:list-item; padding:0; }
   .theory-rule + .theory-rule { margin-top: 6mm; }
   .theory-rule ul { margin: 0; padding-left: 7.5mm; list-style-type: circle; }
   .rule-detail { display: grid; grid-template-columns: minmax(0, 1fr) 43mm; gap: 3mm; }
@@ -51,6 +55,6 @@
   .rich-content :global(p) { margin: 0 0 0.55rem; }
   .rich-content :global(p:last-child) { margin-bottom: 0; }
   .rich-content :global(.math-island) { white-space: nowrap; }
-  :global(.cloze-island) { display: inline-block; min-width: var(--cloze-width, 24mm); border-bottom: 1px solid currentColor; color: transparent; vertical-align: baseline; }
+  :global(.cloze-island) { position:relative; display: inline-block; min-width: var(--cloze-width, 24mm); border-bottom: 1px var(--document-cloze-line,solid) currentColor; color: transparent; vertical-align: baseline; }
   :global(.cloze-island:not(:empty)) { color: inherit; }
 </style>

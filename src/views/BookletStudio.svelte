@@ -10,14 +10,14 @@
 
   onMount(async () => {
     try { bank = (await loadPracticeBank()).records; }
-    catch (e) { error = 'The private question bank is empty or the authoring server is not running. You can still prepare an import once the dev server is available.'; console.warn(e); }
+    catch (e) { error = 'The private question bank is empty or the authoring server is not running. Start the dev server to open projects and source reconstructions.'; console.warn(e); }
     finally { loading = false; }
   });
 </script>
 
-{#if loading}<main class="booklet-loading"><p>Loading Practice Question Studio...</p></main>
-{:else}<PracticeStudio initialBank={bank} {initialDifficulty} initialError={error} {initialStage} {initialOutput} initialProjectId={projectId} />{/if}
+{#if loading}<p role="status">Loading question bank…</p>{/if}
+<PracticeStudio initialBank={bank} {initialDifficulty} initialError={error} {initialStage} {initialOutput} initialProjectId={projectId} />
 
 <style>
-  .booklet-loading { min-height: calc(100dvh - 72px); display: grid; place-items: center; color: var(--muted); background: var(--app-canvas); font-family: var(--font-body); }
+  p { margin:0; padding:.5rem 1rem; color:var(--muted); background:var(--app-canvas); }
 </style>

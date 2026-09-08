@@ -1,5 +1,5 @@
 <script>
-  import { DIFFICULTIES, allNodes, deepCopy, invalidateApproval, markApproved, normaliseQuestion, validateQuestion } from '../lib/practice-question-model.js';
+  import { DIFFICULTIES, allNodes, deepCopy, normaliseQuestion, validateQuestion } from '../lib/practice-question-model.js';
   import { skills } from '../lib/data.js';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
 
@@ -22,7 +22,7 @@
   function edit(mutator) {
     const next = copy();
     mutator(next);
-    draft = invalidateApproval(next, 'edited');
+    draft = next;
   }
   function updateQuestionField(field, value) {
     edit((next) => { next[field] = value; });
@@ -116,18 +116,12 @@
       if (node.answer) node.answer.solutionDiagrams = (node.answer.solutionDiagrams ?? []).filter((diagram) => diagram.id !== diagramId);
     });
   }
-  function saveDraft() {
-    saveError = '';
-    if (onSave) onSave(normaliseQuestion(draft));
+  function saveQuestion() {
+    const checked = validateQuestion(draft, { skillIds });
+    saveError = checked.errors.join('; ');
+    if (checked.valid) onSave?.(checked.question);
   }
-  function saveApproved() {
-    try {
-      saveError = '';
-      if (onSave) onSave(markApproved(draft, { approvedBy: 'Booklet Studio' }));
-    } catch (error) {
-      saveError = error.message;
-    }
-  }
+
 </script>
 
 <section class="structured-editor" aria-label={heading}>
@@ -167,7 +161,7 @@
 
   {#if saveError}<div class="editor-errors"><strong>{saveError}</strong></div>{/if}
   {#if check.errors.length}<div class="editor-errors"><strong>Cannot publish yet</strong><ul>{#each check.errors as item}<li>{item}</li>{/each}</ul></div>{/if}
-  <footer class="editor-actions"><button class="secondary" onclick={onCancel}>Cancel</button><span></span><button class="secondary" onclick={saveDraft}>Save draft</button><button class="primary" onclick={saveApproved} disabled={check.errors.length > 0}>Save and approve</button></footer>
+  <footer class="editor-actions"><button class="secondary" onclick={onCancel}>Cancel</button><span></span><button class="primary" onclick={saveQuestion} disabled={check.errors.length > 0}>Save question</button></footer>
     </div>
     <aside class="editor-live-preview" aria-label="Live question preview">
       <div class="preview-pane__label">Live preview</div>

@@ -1,3 +1,4 @@
+import { readSourceList } from '../../public/libs/maths-editor/document-model.mjs';
 const OPEN = '[tikz]';
 const CLOSE = '[/tikz]';
 export const PRACTICE_CARD_KEYS = new Set(['question_text', 'structure', 'solution_text']);
@@ -115,6 +116,8 @@ export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
   const source = String(value ?? '');
   const inner = pureMathInner(source);
   if (inner === null) return source;
+  // An implication connects equations; it is not one chain of equal values.
+  if (/\\(?:implies|Rightarrow|Longrightarrow|iff)\b/.test(inner)) return source;
   const terms = [];
   let depth = 0;
   let start = 0;
@@ -140,15 +143,18 @@ export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
 // Split a text part's value into render blocks. Consecutive whole-line maths
 // runs (2+) collapse into one `aligned` block; everything else stays as its own
 // line (or a blank spacer), preserving today's behaviour for prose and singles.
-export function groupTextBlocks(value) {
+export function groupTextBlocks(value, { alignRelations = true } = {}) {
   const blocks = [];
   let run = [];
   const flush = () => {
-    if (run.length >= 2) blocks.push({ kind: 'line', value: alignedFromRun(run) });
-    else if (run.length === 1) blocks.push({ kind: 'line', value: `$${run[0]}$` });
+    if (alignRelations && run.length >= 2) blocks.push({ kind: 'line', value: alignedFromRun(run) });
+    else for (const inner of run) blocks.push({ kind: 'line', value: `$${inner}$` });
     run = [];
   };
-  for (const line of String(value ?? '').split(/\r?\n/)) {
+  const lines=String(value ?? '').split(/\r?\n/);
+  for (let index=0;index<lines.length;index++) {
+    const line=lines[index],list=readSourceList(lines,index);
+    if(list){flush();blocks.push({kind:'list',list:list.list});index=list.next-1;continue;}
     const inner = pureMathInner(line);
     if (inner !== null) {
       run.push(inner);

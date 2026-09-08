@@ -43,26 +43,6 @@ export async function deleteQuestion(id, confirmId, fetchImpl = globalThis.fetch
   }));
 }
 
-export async function createImportJob(files, { selectedNames = [] } = {}, fetchImpl = globalThis.fetch) {
-  return jsonResponse(await fetchImpl('/__booklet/imports', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ files, selectedNames }),
-  }));
-}
-
-export async function saveImportResult(importId, payload, fetchImpl = globalThis.fetch) {
-  return jsonResponse(await fetchImpl('/__booklet/imports/' + encodeURIComponent(importId) + '/result', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(payload),
-  }));
-}
-
-export function sourceUrl(importId, name) {
-  return '/__booklet/imports/' + encodeURIComponent(importId) + '/files/' + String(name).split('/').map(encodeURIComponent).join('/');
-}
-
 export function readWorksheetDraft(storage = null) {
   const target = storage ?? (() => { try { return globalThis.localStorage; } catch { return null; } })();
   if (!target) return null;

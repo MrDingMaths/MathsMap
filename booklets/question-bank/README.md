@@ -7,4 +7,8 @@ This directory is the private/dev-only approved-import bank used by Booklet Stud
 - Existing `public/content` practice cards are intentionally not copied here.
 - Start the dev server with `npm run dev`, then open `/#/booklet`.
 
-The import flow accepts PDF or PNG/JPEG/WebP, renders source evidence locally, produces a copyable AI prompt, validates pasted `mathsmap-practice-import-v1` JSON, and requires per-question approval before publishing.
+Current questions use `mathsmap-practice-question-v3`. Codex reconstructs source material into editable projects; explicit Studio bank saves copy structurally valid questions into this library. There are no per-question approval gates.
+
+Question content includes saved TikZ code and graph models. The optional `presentation` field retains question layout overrides and dependent selection groups. Existing booklets use revision-pinned snapshots; saving a booklet edit does not automatically update the bank, and bank edits do not automatically refresh existing booklets.
+
+Linear Relationships source lineage is recorded separately in `docs/linear-relationships-bank-index.json`, in keeping with the canonical question contract.

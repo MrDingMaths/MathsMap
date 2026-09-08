@@ -1,3 +1,5 @@
+> Historical design: workflow and approval/proposal instructions below are superseded by [Booklet Studio: human editing workflow](booklet-human-workflow.md), 7 September 2026. Teaching and source-evidence principles still apply.
+
 # Booklet teaching and atomisation contract
 
 Version 1. Calibration page references and source issues are recorded in [booklet-calibration-findings.md](booklet-calibration-findings.md). Companion to the graph, teaching, worked-example and guided-practice principles. This contract governs reviewed booklet proposals; it does not authorise automatic public skill changes.
@@ -37,3 +39,7 @@ Interleaving tests method selection. Draw only on taught skills/prerequisites, b
 Preserve source mathematical structure. Use known equations/domains for graphs, known constraints for geometry, and common base geometry for question/solution overlays. Never fit a decorative curve where an equation is known or invent an equation where it is not. Keep source images when reconstruction is uncertain; flag contradictions.
 
 All improvements are proposals with source evidence and rationale. Preserve the original content, saved edits and question identities. Content, mapping, sequence and layout approvals are separate, revision-bound decisions. Unresolved conflicts prevent acceptance. Source defects are flagged, not silently corrected or copied as unquestioned truth.
+
+## House style 1.1
+
+Graph typography after final scaling targets 8.5 pt axis numbers (8 pt only when crowded) and 10 pt axis, coordinate and equation labels. Preserve source numerical scales and tick marks, including their absence, independently of grids. Verify final-size readability and collisions. Use grey grids, solid black axes, and blue/red/green successive plots. Descriptive first columns in value tables must fit one line at normal text size. Cloze and response spaces must match the expected handwritten response, with multiple lines for sentences. No accepted page may intrude within 3 mm of the footer; reflow or continue rather than reducing readability or writing capacity. See [the complete requirements](booklet-house-style-1.1.md).

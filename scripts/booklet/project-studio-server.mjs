@@ -1,21 +1,21 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { reconcileApprovals, publicationBlockers, studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
-import { createStudioProposal, createGapProposal } from './studio-proposals.mjs';
+import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
+import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
 import {
-  WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, loadRun, validateRun,
+  WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
 } from './transcription.mjs';
 import {
-  approvalCheck, makeBankManifest, markApproved, normaliseForDuplicate,
+  validateQuestion, makeBankManifest, normaliseForDuplicate,
   normaliseQuestion, questionSearchText,
 } from '../../src/lib/practice-question-model.js';
 import {
-  approveTeachingModule, normalizeTeachingModule, validateTeachingModule,
+  normalizeTeachingModule, validateTeachingModule,
 } from '../../src/lib/teaching-module-model.js';
 import {
-  createEditableProject, materializeAcceptedImport,
+  createEditableProject, materializeReconstruction, PROJECT_BLOCK_TYPES,
   materializeLegacyProject, normalizeEditableProject, snapshotBankQuestion,
   validateEditableProject,
 } from '../../src/lib/editable-booklet-model.js';
@@ -121,7 +121,7 @@ export async function saveBookletProject(raw, { projectRoot = PROJECT_ROOT, bank
   }
   const now = new Date().toISOString();
   const project = normalizeEditableProject({
-    ...(previous && (previous.studio || checked.project.studio) ? reconcileApprovals(previous, checked.project) : checked.project),
+    ...checked.project,
     revision: Math.max(0, Number(previous?.revision) || 0) + 1,
     createdAt: previous?.createdAt ?? checked.project.createdAt ?? now,
     updatedAt: now,
@@ -179,8 +179,11 @@ async function materializeAssets(project, runDir, { assetRoot = PROJECT_ASSET_RO
   });
   for (const node of destinations) {
     if (!copied.has(node.src)) {
-      const source = path.resolve(runDir, 'lanes', 'exact', node.src);
-      if (!contained(path.join(runDir, 'lanes', 'exact'), source)) throw new Error(`Bad import asset path: ${node.src}`);
+      const candidates = [path.resolve(runDir, 'lanes', 'exact', node.src), path.resolve(runDir, node.src)];
+      if (!candidates.every(file => contained(runDir, file))) throw new Error(`Bad import asset path: ${node.src}`);
+      let source;
+      for (const file of candidates) { try { if ((await fs.stat(file)).isFile()) { source = file; break; } } catch (error) { if(error.code !== 'ENOENT') throw error; } }
+      if (!source) throw new Error(`Missing reconstruction asset: ${node.src}`);
       const digest = hashFile(source).slice(0, 12);
       const name = `${digest}-${safeId(path.basename(source))}`;
       const target = path.join(assetRoot, safeId(project.id), name);
@@ -195,27 +198,31 @@ async function materializeAssets(project, runDir, { assetRoot = PROJECT_ASSET_RO
 
 export async function materializeRunAsProject(runId, {
   projectRoot = PROJECT_ROOT, workRoot = WORK_ROOT, assetRoot = PROJECT_ASSET_ROOT,
-  requireAccepted = true,
+  candidate = null, projectId = null,
 } = {}) {
   const { runDir, manifest } = loadRun(runId, workRoot);
-  if (requireAccepted) {
-    const validation = validateRun(runDir, { forPublish: true, workRoot });
-    if (!validation.valid) throw Object.assign(new Error(`Import is not ready to materialise: ${validation.errors.join('; ')}`), { statusCode: 409 });
+  const raw = candidate ?? editableTranscription(runDir, manifest);
+  if (!Array.isArray(raw.pages) || !raw.pages.length) throw new Error('Reconstruction needs source pages');
+  const pageNumbers = new Set();
+  for (const page of raw.pages) {
+    if (!Number.isInteger(page.pageNumber) || !manifest.selectedPages.includes(page.pageNumber) || pageNumbers.has(page.pageNumber)) throw new Error('Reconstruction has duplicate or unexpected source pages');
+    pageNumbers.add(page.pageNumber);
+    if (!Array.isArray(page.blocks) || page.blocks.some(block => !PROJECT_BLOCK_TYPES.includes(block.type))) throw new Error('Reconstruction contains unsupported blocks');
   }
-  const raw = await readJson(path.join(runDir, 'merged', 'transcription.json'));
   const review = await readJson(path.join(runDir, 'review.json'), {});
   if (!raw) throw Object.assign(new Error('Merged transcription is missing'), { statusCode: 409 });
-  const transcription = applyContentOverrides(raw, review);
-  const preferredId = `project-${safeId(manifest.id)}`;
+  const transcription = applyContentOverrides({...raw, runId:manifest.id}, review);
+  const preferredId = projectId ?? `project-${safeId(manifest.id)}${candidate ? '-'+randomUUID().slice(0,8) : ''}`;
   const existing = await readJson(fileFor(projectRoot, preferredId));
+  if (existing && (candidate || projectId)) throw Object.assign(new Error('A project with this id already exists'), {statusCode:409});
   if (existing?.source?.runId === manifest.id) return normalizeEditableProject(existing);
-  const project = studioProject(materializeAcceptedImport(transcription, review, { projectId: existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId }));
+  const project = studioProject(materializeReconstruction(transcription, review, { projectId: existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId }));
   project.studio.evidence={runId:manifest.id,answerEvidence:transcription.pages.flatMap(page=>(page.answerEvidence??[]).map(e=>({...e,studentPage:page.pageNumber}))),sourceReview:review};
   const targets=reviewTargets(project),known=new Set(targets.map(t=>t.id));
   for(const page of transcription.pages){
     const flags=[...(page.reviewFlags??[]).map(note=>({note})),...(review.flags??[]).filter(f=>!f.resolved&&(f.pageNumber===page.pageNumber||f.rootId===page.id||page.blocks.some(b=>b.id===f.rootId)))];
     for(const e of page.answerEvidence??[])if(e.conflict)flags.push({rootId:e.questionId,note:'Student/teacher disagreement: '+e.conflict});
-    if(manifest.source?.teacherPdf)for(const block of page.blocks.filter(b=>b.type==='question')){const evidence=(page.answerEvidence??[]).find(e=>e.questionId===block.id);if(!evidence?.teacherReference||evidence.missing||evidence.status==='missing')flags.push({rootId:block.id,note:'Teacher answer alignment is missing or ambiguous; compare by question content before approval.'});}
+    if(manifest.source?.teacherPdf)for(const block of page.blocks.filter(b=>b.type==='question')){const evidence=(page.answerEvidence??[]).find(e=>e.questionId===block.id);if(!evidence?.teacherReference||evidence.missing||evidence.status==='missing')flags.push({rootId:block.id,note:'Teacher answer alignment is missing or ambiguous; compare by question content against the source.'});}
     for(const f of flags)for(const targetId of known.has(f.rootId)?[f.rootId]:page.blocks.map(b=>b.id))project.studio.flags.push({id:randomUUID(),targetId,note:f.note??f.message??f.code??String(f),sourcePage:page.pageNumber,resolved:false});
   }
   project.source = {
@@ -223,8 +230,11 @@ export async function materializeRunAsProject(runId, {
     exactResultFormat: manifest.exactResultFormat,
     sourceHashes: { pdf: manifest.source?.pdfHash ?? null, docx: manifest.source?.docxHash ?? null },
     ...(manifest.source?.teacherPdf?{teacherSource:manifest.source.teacherPdf,teacherHashes:{pdf:manifest.pins?.files?.['source/teacher.pdf'],docx:manifest.pins?.files?.['source/teacher.docx']}}:{}),
+    reconstructionHash: hashValue(raw),
     materializedAt: new Date().toISOString(),
   };
+  const checked = validateEditableProject(project);
+  if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), {statusCode:400});
   project.assets = await materializeAssets(project, runDir, { assetRoot });
   return saveBookletProject(project, { projectRoot, create: true });
 }
@@ -244,11 +254,12 @@ function canonicalFromProjectBlock(block, id) {
     title: block.title ?? '',
     classification: block.classification ?? {},
     content: block.content,
+    presentation: block.presentation,
     review: block.review ?? { flags: [], history: [] },
   });
-  const ready = approvalCheck(question);
-  if (!ready.ready) throw Object.assign(new Error(`Question cannot be promoted: ${ready.blockers.join('; ')}`), { statusCode: 409 });
-  return markApproved(question, { approvedBy: 'Booklet Studio project editor' });
+  const ready = validateQuestion(question);
+  if (!ready.valid) throw Object.assign(new Error(`Question cannot be published: ${ready.errors.join('; ')}`), { statusCode: 409 });
+  return { ...ready.question, status: 'approved', updatedAt: new Date().toISOString() };
 }
 
 async function duplicateCandidates(block, bankRoot) {
@@ -285,8 +296,6 @@ export async function promoteProjectQuestion(projectId, body = {}, {
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
   const candidates = await duplicateCandidates(placement.block, bankRoot);
   if (!body.mode || body.mode === 'inspect') return { project, candidates };
-  const blockers=publicationBlockers(project,[placement.block.id]);
-  if(blockers.length)throw Object.assign(new Error('Complete the block and part reviews before bank publication: '+blockers.join('; ')),{statusCode:409});
 
   if (body.mode === 'link-existing') {
     const target = await readJson(fileFor(bankRoot, body.targetId));
@@ -305,6 +314,8 @@ export async function promoteProjectQuestion(projectId, body = {}, {
   if (body.mode === 'create' && previous) throw Object.assign(new Error('Question id already exists'), { statusCode: 409 });
   if (body.mode === 'update' && !previous) throw Object.assign(new Error('Referenced bank question no longer exists'), { statusCode: 404 });
   const reviewedBlock=JSON.parse(JSON.stringify(placement.block));
+  reviewedBlock.presentation=captureQuestionPresentation(placement.block,project.settings?.layoutOverrides);
+  placement.block.presentation=reviewedBlock.presentation;
   const mapping=project.studio?.atoms?.[placement.block.id];
   if(mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
   const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
@@ -328,20 +339,19 @@ export async function promoteProjectModule(projectId, body = {}, {
   const wanted = new Set(body.blockIds?.length ? body.blockIds : section.blocks.map((block) => block.id));
   const selected = section.blocks.filter((block) => wanted.has(block.id));
   if (!selected.length) throw Object.assign(new Error('Select at least one block for the teaching module'), { statusCode: 400 });
-  const blockers=publicationBlockers(project,selected.map(b=>b.id));
-  if(blockers.length)throw Object.assign(new Error('Complete all selected block and part reviews before module publication: '+blockers.join('; ')),{statusCode:409});
   const sequence = selected.map((block) => {
-    if (block.type !== 'question') return { type: 'content-block', id: `module-item-${block.id}`, pedagogyRole: block.pedagogyRole ?? (block.type === 'worked-example' ? 'worked-example' : 'theory'), block };
+    if (block.type !== 'question') return { type: 'content-block', id: `module-item-${block.id}`, pedagogyRole: block.pedagogyRole ?? (block.type === 'worked-example' ? 'worked-example' : 'theory'), block:{...block,presentation:captureQuestionPresentation(block,project.settings?.layoutOverrides)} };
     if (!block.bankRef?.id) throw Object.assign(new Error(`Question ${block.id} must be promoted before it can enter a reusable module`), { statusCode: 409 });
     return { type: 'question-ref', id: `module-ref-${block.id}`, questionId: block.bankRef.id, questionRevision: block.bankRef.revision, snapshot: normaliseQuestion({...block,id:block.bankRef.id}), pedagogyRole: block.pedagogyRole ?? 'guided-practice', order: 'fixed' };
   });
-  const module = approveTeachingModule(normalizeTeachingModule({
+  const module = normalizeTeachingModule({
+    status: 'approved',
     id: body.id ?? `module-${randomUUID()}`,
     title: body.title ?? section.title,
     classification: body.classification ?? { mappingStatus: 'unmapped' },
     sequence,
     review: { flags: [], history: [] },
-  }));
+  });
   const checked = validateTeachingModule(module);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
   await writeJson(fileFor(moduleRoot, module.id), module);
@@ -361,15 +371,9 @@ export function projectStudioPlugin() {
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
           if (pathname === '/__booklet/projects/materialize' && req.method === 'POST') {
             const body = await readBody(req);
-            return send(res, 201, await materializeRunAsProject(body.runId, { requireAccepted: body.draftReview !== true }));
+            return send(res, 201, await materializeRunAsProject(body.runId));
           }
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);
-          const proposalMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/propose$/);
-          if (proposalMatch && req.method === 'POST') {
-            const body = await readBody(req);
-            if (body.project?.id !== decodeURIComponent(proposalMatch[1])) throw new Error('Proposal project identity mismatch');
-            return send(res, 200, await (body.kind==='generate-gap'?createGapProposal(body):createStudioProposal(body)));
-          }
           if (duplicateMatch && req.method === 'POST') return send(res, 201, await duplicateBookletProject(decodeURIComponent(duplicateMatch[1]), await readBody(req)));
           const promoteMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-question$/);
           if (promoteMatch && req.method === 'POST') return send(res, 200, await promoteProjectQuestion(decodeURIComponent(promoteMatch[1]), await readBody(req)));

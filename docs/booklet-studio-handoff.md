@@ -1,3 +1,5 @@
+> Historical design: workflow and approval/proposal instructions below are superseded by [Booklet Studio: human editing workflow](booklet-human-workflow.md), 7 September 2026. Teaching and source-evidence principles still apply.
+
 # Booklet Studio handoff — 6 September 2026
 
 Use the following as the continuation prompt. This snapshot supersedes older progress counts and pending-approval statements in the chronological implementation log.

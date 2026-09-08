@@ -92,16 +92,3 @@ export function validateTeachingModule(raw, { skillIds = null, dotPointIds = nul
   if (dotPointIds) for (const id of classification.dotPointIds) if (!dotPointIds.has(id)) errors.push(`Unknown module dot point id: ${id}`);
   return { valid: errors.length === 0, errors, module };
 }
-
-export function approveTeachingModule(raw, { approvedBy = 'Booklet Studio reviewer', at = new Date().toISOString() } = {}) {
-  const module = normalizeTeachingModule(raw);
-  const flags = [...new Set(module.review?.flags ?? [])];
-  if (flags.length) throw new Error(`Teaching module has unresolved review flags: ${flags.join(', ')}`);
-  return {
-    ...module,
-    status: 'approved',
-    review: { ...module.review, approvedBy, approvedAt: at },
-    updatedAt: at,
-    createdAt: module.createdAt ?? at,
-  };
-}

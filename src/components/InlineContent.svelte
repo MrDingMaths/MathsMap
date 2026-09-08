@@ -4,7 +4,7 @@
   import { isDocument, documentHtml } from '../lib/document-content.js';
   import { splitInlineContent, groupTextBlocks } from '../lib/inline-content.js';
 
-  let { text = '', class: className = '' } = $props();
+  let { text = '', class: className = '', alignRelations = true } = $props();
   let parsed = $derived(splitInlineContent(text));
 </script>
 
@@ -14,8 +14,8 @@
     {#if part.type === 'tikz'}
       <div class="inline-tikz"><Tikz code={part.value} /></div>
     {:else if part.value}
-      {#each groupTextBlocks(part.value) as block}
-        {#if block.kind === 'blank'}<div class="blank-line" aria-hidden="true"></div>{:else}<div class="text-line"><MathText text={block.value} /></div>{/if}
+      {#each groupTextBlocks(part.value, { alignRelations }) as block}
+        {#if block.kind === 'list'}<div class="text-list">{@html documentHtml({blocks:[block.list]})}</div>{:else if block.kind === 'blank'}<div class="blank-line" aria-hidden="true"></div>{:else}<div class="text-line"><MathText text={block.value} /></div>{/if}
       {/each}
     {/if}
   {/each}

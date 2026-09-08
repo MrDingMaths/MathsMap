@@ -1,3 +1,5 @@
+> Historical design: workflow and approval/proposal instructions below are superseded by [Booklet Studio: human editing workflow](booklet-human-workflow.md), 7 September 2026. Teaching and source-evidence principles still apply.
+
 # Booklet human review
 
 Review in three passes: content and structure, teaching sequence, then layout.
@@ -105,3 +107,10 @@ The final correction restores borderless investigation tables, distinguishes pri
 New runs pin `source-presentation-v2.md`. Exact transcription records independent source-heading evidence, table border treatment and exam-label ownership. Deterministic validation reports mismatches in the Flags queue with repairable root IDs. The fidelity lane now receives page structure as well as both images and explicitly checks title presence/text/style, table borders and exam-label position. Targeted repairs receive the same contract. Existing pinned runs remain compatible.
 
 These checks cannot prove that model-recorded evidence matches the source; that remains the independent visual audit's job. Resolving a flag does not bypass a still-failing deterministic check. Run `node scripts/booklet/check-final-feedback.mjs` for the final heading/table/label browser regressions. The pilot can be retained as a regression fixture when moving to the next development stage; retiring it does not imply approval or publication of its remaining review items.
+
+## House style 1.1 and mandatory output QA
+
+See [the house-style specification](booklet-house-style-1.1.md) for final-size graph labels (8.5 pt axis numbers, 10 pt other labels), grey grids/black axes/blue-red-green plots, single-line descriptive table labels, answer-specific handwriting capacity, and the mandatory 3 mm footer clearance. Apply these checks to all pages in student and worked modes and to exported PDFs; visible screenshots alone do not establish that content fits. Unresolved cloze expectations must remain flagged for review.
+
+
+Final repair and acceptance report: [Linear Relationships house-style repair](linear-relationships-house-style-repair.md). Flowing answer sheets reserve a 15 mm bottom margin; the PDF exporter additionally checks actual paginated text and footer bounds using Poppler before replacing a delivered PDF.

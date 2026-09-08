@@ -8,7 +8,7 @@ export function solutionFields(solution, id, answer = null) {
   const parsed=splitInlineContent(solution);
   if(parsed.errors.length)throw new Error('Invalid source solution diagrams: '+parsed.errors.join('; '));
   const worked=parsed.parts.filter(p=>p.type==='text').map(p=>p.value).join('\n').trim();
-  return {short:answer??deriveAnswer(worked),worked,solutionDiagrams:parsed.parts.filter(p=>p.type==='tikz').map((p,i)=>({id:`${id}-solution-${i+1}`,role:'solution',format:'tikz',code:p.value,widthMm:80,reviewStatus:'approved'}))};
+  return {short:answer??deriveAnswer(worked),worked,solutionDiagrams:parsed.parts.filter(p=>p.type==='tikz').map((p,i)=>({id:`${id}-solution-${i+1}`,role:'solution',format:'tikz',code:p.value,widthMm:80}))};
 }
 export async function mathsMapCandidates(skillIds,{root=process.cwd()}={}) {
   const result=[];
@@ -20,7 +20,7 @@ export async function mathsMapCandidates(skillIds,{root=process.cwd()}={}) {
     for(const tier of ['foundation','development','mastery']) for(const [index,q] of (source.practice?.[tier]??[]).entries()) {
       const id=`mathsmap-${skillId}-${tier}-${index+1}`;
       const question=normaliseQuestion({id,classification:{primarySkillId:skillId,difficulty:tier[0].toUpperCase()+tier.slice(1)},content:{id:id+'-root',type:'question',prompt:q.question_text,children:[],answer:solutionFields(q.solution_text,id,q.answer),questionDiagrams:[]}});
-      result.push({question,origin:'mathsmap',sourceId:question.id,revision,skillIds:[skillId],archetype:q.structure??'',tier:question.classification.difficulty,prerequisiteIds:skills.find(s=>s.id===skillId)?.prereqs??[],reviewed:true});
+      result.push({question,origin:'mathsmap',sourceId:question.id,revision,skillIds:[skillId],archetype:q.structure??'',tier:question.classification.difficulty,prerequisiteIds:skills.find(s=>s.id===skillId)?.prereqs??[]});
     }
   }
   const bankRoot=path.join(root,'booklets','question-bank'),files=await fs.readdir(bankRoot).catch(e=>{if(e.code==='ENOENT')return [];throw e;});
@@ -28,7 +28,7 @@ export async function mathsMapCandidates(skillIds,{root=process.cwd()}={}) {
     const raw=JSON.parse(await fs.readFile(path.join(bankRoot,name),'utf8'));if(raw.status!=='approved')continue;
     const question=normaliseQuestion(raw),mapped=[question.classification.primarySkillId,...question.classification.secondarySkillIds];if(!mapped.some(s=>skillIds.includes(s)))continue;
     const prerequisiteIds=new Set(),walk=n=>{for(const key of n.teachingMapping?.prerequisiteIds??[])prerequisiteIds.add(key);(n.children??[]).forEach(walk);};walk(question.content);
-    result.push({question,origin:'bank',sourceId:question.id,revision:createHash('sha256').update(JSON.stringify(raw)).digest('hex'),skillIds:mapped,archetype:question.classification.archetype??'',tier:question.classification.difficulty,prerequisiteIds:[...prerequisiteIds],reviewed:true});
+    result.push({question,origin:'bank',sourceId:question.id,revision:createHash('sha256').update(JSON.stringify(raw)).digest('hex'),skillIds:mapped,archetype:question.classification.archetype??'',tier:question.classification.difficulty,prerequisiteIds:[...prerequisiteIds]});
   }
   return result;
 }

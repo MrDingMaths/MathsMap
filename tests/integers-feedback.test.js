@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { combinedExampleTikz, numberedTheoryRules, shortAnswerDisplay, visibleImportedQuestionTitle } from '../src/lib/booklet-preview.js';
 import { setoutMathChain } from '../src/lib/inline-content.js';
 import { estimateAnswerSpaceMm, normaliseQuestion } from '../src/lib/practice-question-model.js';
-import { materializeAcceptedImport } from '../src/lib/editable-booklet-model.js';
+import { materializeReconstruction } from '../src/lib/editable-booklet-model.js';
 import { applyContentOverrides, contentHash } from '../scripts/booklet/transcription.mjs';
 import { numberLineLayer, repairIntegersFeedback } from '../scripts/booklet/repair-integers-v2-feedback.mjs';
 
@@ -84,7 +84,7 @@ test('repeated exam label is suppressed only at a complete prompt prefix', () =>
 
 test('difficulty heading and example presentation survive materialization into an editable booklet', () => {
   const raw = { pages: [{ id: 'p31', pageNumber: 31, section: { title: 'Foundation', headingStyle: 'difficulty' }, blocks: [{ id: 'example', type: 'worked-example', presentation: { layout: 'columns', columns: 3, numberSteps: false } }] }] };
-  const project = materializeAcceptedImport(raw);
+  const project = materializeReconstruction(raw);
   assert.equal(project.sections[0].headingStyle, 'difficulty');
   assert.deepEqual(project.sections[0].blocks[0].presentation, raw.pages[0].blocks[0].presentation);
 });

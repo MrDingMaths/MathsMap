@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy } from 'svelte';
+  import { onDestroy, getContext } from 'svelte';
   import BookletRichText from './BookletRichText.svelte';
   import MathsEditor from './MathsEditor.svelte';
   import { splitBookletTables } from '../lib/booklet-preview.js';
@@ -7,6 +7,7 @@
   let {
     value = '',
     rootId,
+    rootIds = [],
     pointer,
     editMode = false,
     edited = false,
@@ -14,11 +15,16 @@
     layout = null,
     tableStyle = 'grid',
     oncommit = null,
+    oneditrequest = null,
     onrevert = null,
     oneditingchange = null,
     class: className = '',
   } = $props();
 
+  const workspaceEdit=getContext('booklet-edit-request');
+  const workspaceInline=getContext('booklet-inline-edit');
+  const inlineSession=$derived(workspaceInline?.session?.rootId===rootId&&workspaceInline?.session?.pointer===pointer?workspaceInline.session:null);
+  let inlineEditor=$state();
   let active = $state('');
   let reportedActive = false;
   let parts = $derived(typeof value === 'string' ? splitBookletTables(value) : [{ type: 'rich', value }]);
@@ -27,11 +33,13 @@
   function activate(event) {
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
+    const request=oneditrequest??workspaceEdit;
+    if(request){const css=getComputedStyle(event.currentTarget);request({renderContext:{colour:css.color,fontFamily:css.fontFamily,fontSize:css.fontSize,lineHeight:css.lineHeight},rootId,rootIds,pointer,value,selectedNodeId:event.target.closest('[data-id]')?.dataset.id,selectedType:event.target.closest('table')?'table':event.target.closest('img')?'image':null,origin:event.currentTarget,commit:oncommit});return;}
     active = 'document';
   }
 
   $effect(() => {
-    const next = Boolean(active);
+    const next = Boolean(active||inlineSession);
     if (next !== reportedActive) {
       reportedActive = next;
       oneditingchange?.(next);
@@ -42,28 +50,30 @@
 </script>
 
 <span class:edit-mode={editMode} class:edited class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer}>
-  {#if active === 'document'}
+  {#if inlineSession}
+    <MathsEditor bind:this={inlineEditor} {value} inline session={inlineSession} selectedNodeId={inlineSession.selectedNodeId} selectedType={inlineSession.selectedType} onsave={result=>{inlineSession.commit(result);workspaceInline.close();}} oncancel={()=>workspaceInline.close()} />
+    <button class="focus-edit" type="button" onclick={()=>workspaceInline.focus(inlineEditor?.getValue())}>Open focused editor</button>
+  {:else if active === 'document'}
     <MathsEditor {value} onsave={(result) => { active = ''; oncommit?.({ rootId, pointer, value: result.value }); }} oncancel={cancel} />
   {:else}
-  {#if editMode}<button class="document-edit" type="button" onclick={() => { active = 'document'; }}>Edit content and layout</button>{/if}
   {#each parts as part, partIndex}
     {#if part.type === 'table'}
       <table class:borderless={tableStyle === 'borderless'} class="editable-table">
         {#if part.header}
-          <thead><tr>{#each part.header as cell, cellIndex}<th>
-            {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText text={cell} {fillCloze} /></span>
-            {:else}<span><BookletRichText text={cell} {fillCloze} /></span>{/if}
+          <thead><tr>{#each part.header as cell, cellIndex}<th style:text-align={part.alignments?.[cellIndex] ?? "left"}>
+            {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={cell} {fillCloze} /></span>
+            {:else}<span><BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={cell} {fillCloze} /></span>{/if}
           </th>{/each}</tr></thead>
         {/if}
-        <tbody>{#each part.rows as row, rowIndex}<tr>{#each row as cell, cellIndex}<td>
-          {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText text={cell} {fillCloze} /></span>
-          {:else}<span><BookletRichText text={cell} {fillCloze} /></span>{/if}
+        <tbody>{#each part.rows as row, rowIndex}<tr>{#each row as cell, cellIndex}<td style:text-align={part.alignments?.[cellIndex] ?? "left"}>
+          {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}><BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={cell} {fillCloze} /></span>
+          {:else}<span><BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={cell} {fillCloze} /></span>{/if}
         </td>{/each}</tr>{/each}</tbody>
       </table>
     {:else}
       {#if editMode}<span class="clickable" role="button" tabindex="0" onclick={activate} onkeydown={activate}>
-        <BookletRichText text={part.value} {fillCloze} {layout} />
-      </span>{:else}<span><BookletRichText text={part.value} {fillCloze} {layout} /></span>{/if}
+        <BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={part.value} {fillCloze} {layout} />
+      </span>{:else}<span><BookletRichText alignRelations={!/prompt$/i.test(pointer ?? "")} text={part.value} {fillCloze} {layout} /></span>{/if}
     {/if}
   {/each}
   {/if}
@@ -71,6 +81,7 @@
 </span>
 
 <style>
+  .focus-edit{font:12px system-ui;padding:5px 10px;background:white;color:#245f91;border:1px solid #becbd7;border-radius:4px}
   .editable-booklet-text { position: relative; display: block; min-width: 0; }
   .clickable { display: block; min-width: 0; }
   .edit-mode .clickable { cursor: text; outline: 1px dashed transparent; outline-offset: 1px; }
@@ -80,6 +91,6 @@
   .edit-badge button { margin-left: 3px; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
   .editable-table { width: 100%; margin: 2mm 0; border-collapse: collapse; table-layout: fixed; }
   .editable-table th, .editable-table td { padding: 1.5mm 2mm; border: .25mm solid #2f4058; vertical-align: top; text-align: left; }
-  .editable-table th { background: #edf4f9; color: #244e74; font-weight: 800; }
+  .editable-table th { background: #edf4f9; color: #244e74; font-weight: 400; }
   .editable-table.borderless th, .editable-table.borderless td { border: 0; background: transparent; color: inherit; }
 </style>

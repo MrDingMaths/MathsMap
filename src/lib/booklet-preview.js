@@ -49,7 +49,7 @@ export function splitBookletTables(value) {
       rows.push(row);
       index += 1;
     }
-    parts.push({ type: 'table', header: header.some(Boolean) ? header : null, rows });
+    parts.push({ type: 'table', header: header.some(Boolean) ? header : null, rows, alignments: separator.map(cell => cell.startsWith(':') && cell.endsWith(':') ? 'center' : cell.endsWith(':') ? 'right' : 'left') });
   }
   flushText();
   return parts;
@@ -76,7 +76,7 @@ export function visibleImportedQuestionTitle(question) {
   const title = String(question?.title ?? '').trim();
   const prompt = String(question?.content?.prompt ?? '').trim().replace(/\*\*/g, '');
   if (!title || title === prompt || prompt.startsWith(title + '\n') || prompt.startsWith(title + ':')) return '';
-  return /^(NAPLAN|HSC)\b/i.test(title) ? title : '';
+  return /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(title) ? title : '';
 }
 
 // Explicit layout opt-in: keep source text editable as one field, but present
@@ -128,8 +128,9 @@ export function groupBookletBlocks(blocks = []) {
       id: atom.id,
       atom: {
         ...atom,
-        label: atom.kind === 'investigation' ? '' : atom.label,
-        description: atom.kind === 'investigation' ? investigationDescription(atom.description || atom.sourceText) : atom.description,
+        label: atom.visibleSubtitle !== undefined ? atom.label : atom.kind === 'investigation' ? '' : atom.label,
+        description: atom.description,
+        visibleSubtitle: atom.visibleSubtitle ?? (['review','guided-practice','definition','key-ideas'].includes(atom.kind) ? '' : atom.kind === 'investigation' ? investigationDescription(atom.description || atom.sourceText) : atom.description),
       },
       blocks: [block],
     });

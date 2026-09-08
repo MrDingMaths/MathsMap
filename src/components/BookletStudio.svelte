@@ -9,7 +9,6 @@
   import {
     DIFFICULTIES,
     allNodes,
-    approvalCheck,
     deepCopy,
     estimateAnswerSpaceMm,
     estimateWorksheetPages,
@@ -17,14 +16,11 @@
     skillMatchesTaxonomyPath,
     questionTaxonomy,
     sortQuestions,
-    validateImport,
   } from '../lib/practice-question-model.js';
   import {
-    createImportJob,
     deleteQuestion,
     loadPracticeBank,
     readWorksheetDraft,
-    saveImportResult,
     updateQuestion,
     writeWorksheetDraft,
   } from '../lib/practice-question-storage.js';
@@ -36,11 +32,6 @@
   let error = $state('');
   let status = $state('');
   let busy = $state(false);
-  let job = $state(null);
-  let importPayload = $state(null);
-  let importCheck = $state(null);
-  let reviewIndex = $state(0);
-  let reviewQuestion = $state(null);
   let selectedIds = $state([]);
   let editingQuestion = $state(null);
   let filters = $state({
@@ -72,6 +63,17 @@
   let manualOrder = $state(false);
   let previewOpen = $state(false);
   let cardsExpanded = $state(false);
+  let expandedQuestionIds = $state.raw(new Set());
+  function toggleQuestionCard(id,open) {
+    if(expandedQuestionIds.has(id)===open)return;
+    const next=new Set(expandedQuestionIds);
+    if(open)next.add(id);else next.delete(id);
+    expandedQuestionIds=next;
+  }
+  function toggleAllQuestionCards() {
+    cardsExpanded=!cardsExpanded;
+    expandedQuestionIds=new Set(cardsExpanded?filtered.map(question=>question.id):[]);
+  }
   let answerSpaces = $state({});
   let diagramWidths = $state({});
   let currentProjectId = $state(null);
@@ -81,10 +83,6 @@
   let showShortAnswers = $state(false);
   let showWorkedSolutions = $state(false);
   let viewMode = $state('browse');
-  let sourceFileInput = $state(null);
-  let jsonInput = $state('');
-  let showPrompt = $state(false);
-  let copied = $state(false);
   let draggedId = $state(null);
 
   const byOrder = (left, right) => (left.order ?? 0) - (right.order ?? 0) || String(left.title ?? left.text ?? '').localeCompare(String(right.title ?? right.text ?? ''));
@@ -119,18 +117,15 @@
   const filtered = $derived(sortDescending ? [...sortedQuestions].reverse() : sortedQuestions);
   const filtersDirty = $derived(JSON.stringify(filters) !== JSON.stringify(appliedFilters));
   const activeFilters = $derived(describeFilters(appliedFilters));
-  const reviewQuestions = $derived(importPayload?.questions ?? []);
-  const currentReview = $derived(reviewQuestion ?? reviewQuestions[reviewIndex] ?? null);
-  const approval = $derived(currentReview ? approvalCheck(currentReview, { skillIds: new Set(skills.map((skill) => skill.id)) }) : null);
-  const approvedCount = $derived(reviewQuestions.filter((question) => question.status === 'approved').length);
   const estimatedPages = $derived(estimateWorksheetPages(selectedQuestions, { includeSpaces: showSpaces, includeShortAnswers: showShortAnswers, includeWorkedSolutions: showWorkedSolutions }));
 
   function applyRouteState() {
     const query = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
     const requestedStage = query.get('stage');
-    if (requestedStage === 'import' || requestedStage === 'review' || requestedStage === 'full-import' || requestedStage === 'projects') stage = requestedStage;
+    if (requestedStage === 'full-import' || requestedStage === 'projects') stage = requestedStage;
+    else if (requestedStage === 'import' || requestedStage === 'review') stage = 'full-import';
     else if (requestedStage === 'build' || requestedStage === 'builder') stage = 'builder';
-    else stage = initialStage === 'import' || initialStage === 'review' ? initialStage : 'builder';
+    else stage = ['projects','full-import'].includes(initialStage) ? initialStage : 'builder';
     currentProjectId = query.get('project') ?? currentProjectId ?? initialProjectId;
     const requestedOutput = query.get('output') ?? initialOutput;
     if (requestedOutput === 'questions') { showSpaces = true; showShortAnswers = false; showWorkedSolutions = false; }
@@ -138,9 +133,9 @@
     if (requestedOutput === 'worked-solutions') { showSpaces = false; showShortAnswers = false; showWorkedSolutions = true; }
   }
 
+  $effect(()=>{bank=initialBank??[];});
+  $effect(()=>{error=initialError??'';});
   onMount(() => {
-    bank = initialBank ?? [];
-    error = initialError ?? '';
     if (initialDifficulty !== 'all') {
       filters.difficulty = [initialDifficulty];
       appliedFilters.difficulty = [initialDifficulty];
@@ -181,13 +176,10 @@
   }
 
   function goBuilder() { stage = 'builder'; error = ''; status = ''; }
-  function openImport() { stage = 'import'; error = ''; status = ''; }
-  function openReview() { stage = 'review'; error = ''; status = ''; }
   function openFullImport() { stage = 'full-import'; error = ''; status = ''; }
   function openProjects(projectId = currentProjectId) {
     stage = 'projects'; currentProjectId = projectId ?? null; error = ''; status = '';
   }
-  function chooseFile(event) { sourceFileInput = event.currentTarget.files; }
 
   function clearInvalidSkill(courseId = filters.courseId, topicId = filters.topicId, subtopicId = filters.subtopicId) {
     const selected = skillById.get(filters.skill);
@@ -261,108 +253,6 @@
     if (item.field === 'subtopicId') next.skill = '';
     filters = deepCopy(next);
     appliedFilters = next;
-  }
-
-  function fileToData(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function importFiles() {
-    if (!sourceFileInput?.length) return;
-    busy = true;
-    error = '';
-    status = 'Rendering source pages locally...';
-    try {
-      const files = [];
-      for (const file of sourceFileInput) files.push({ name: file.name, mimeType: file.type, data: await fileToData(file) });
-      job = await createImportJob(files);
-      showPrompt = true;
-      status = 'Source ready: ' + (job.pages?.length ?? 0) + ' page(s). Copy the prompt to an AI session, then paste its JSON result.';
-    } catch (exception) {
-      error = exception.message;
-    } finally {
-      busy = false;
-    }
-  }
-
-  async function copyPrompt() {
-    if (!job?.prompt) return;
-    try {
-      await navigator.clipboard.writeText(job.prompt);
-      copied = true;
-      setTimeout(() => (copied = false), 1800);
-    } catch {
-      error = 'Clipboard access was blocked; select and copy the prompt manually.';
-    }
-  }
-
-  function parseImportJson() {
-    error = '';
-    let raw;
-    try {
-      raw = JSON.parse(jsonInput.replace(/^\x60\x60\x60json\s*/i, '').replace(/\x60\x60\x60\s*$/i, '').trim());
-    } catch (exception) {
-      error = 'JSON could not be parsed: ' + exception.message;
-      return;
-    }
-    const checked = validateImport(raw, { skillIds: new Set(skills.map((skill) => skill.id)) });
-    importCheck = checked;
-    if (!checked.valid) {
-      error = checked.errors.join(' ');
-      return;
-    }
-    const evidence = { ...(job?.evidence ?? {}), ...(checked.payload.evidence ?? {}) };
-    const payload = { ...checked.payload, evidence };
-    importPayload = payload;
-    reviewIndex = 0;
-    reviewQuestion = deepCopy(payload.questions[0] ?? null);
-    stage = 'review';
-    status = payload.questions.length + ' question(s) ready for source review.';
-    if (job) saveImportResult(job.id, payload).catch(() => {});
-  }
-
-  function replaceReview(next) {
-    if (!importPayload) return;
-    reviewQuestion = deepCopy(next);
-    importPayload = { ...importPayload, questions: importPayload.questions.map((question, index) => index === reviewIndex ? next : question) };
-  }
-
-  function saveReviewQuestion(next) {
-    replaceReview(next);
-    status = next.status === 'approved' ? 'Approved ' + next.id + '.' : 'Saved draft ' + next.id + '.';
-    error = '';
-  }
-
-  function selectReview(index) {
-    reviewIndex = index;
-    reviewQuestion = deepCopy(reviewQuestions[index] ?? null);
-    error = '';
-  }
-  function nextReview() { if (reviewIndex < reviewQuestions.length - 1) selectReview(reviewIndex + 1); }
-  function previousReview() { if (reviewIndex > 0) selectReview(reviewIndex - 1); }
-
-  async function publishApproved() {
-    const approved = reviewQuestions.filter((question) => question.status === 'approved');
-    if (!approved.length) return;
-    busy = true;
-    error = '';
-    try {
-      for (const question of approved) await updateQuestion(question);
-      bank = (await loadPracticeBank()).records;
-      selectedIds = [...new Set([...selectedIds, ...approved.map((question) => question.id)])];
-      stage = 'builder';
-      status = 'Published ' + approved.length + ' approved question(s) to the private local bank.';
-      persistDraft();
-    } catch (exception) {
-      error = exception.message;
-    } finally {
-      busy = false;
-    }
   }
 
   function toggle(id) {
@@ -454,7 +344,7 @@
       const saved = await updateQuestion(next);
       bank = bank.map((question) => question.id === saved.id ? saved : question);
       editingQuestion = null;
-      status = saved.status === 'approved' ? 'Saved and approved ' + saved.id + '.' : 'Saved draft ' + saved.id + '. It is hidden from the approved bank until approved again.';
+      status = 'Saved ' + saved.id + ' to the question bank.';
     } catch (exception) {
       error = exception.message;
     } finally {
@@ -478,15 +368,6 @@
     }
   }
 
-  function evidenceFor(question) {
-    return importPayload?.evidence?.questionMap?.[question?.id] ?? job?.evidence?.questionMap?.[question?.id] ?? null;
-  }
-  function sourcePageFor(question) {
-    const evidence = evidenceFor(question);
-    const pageNumber = Number(evidence?.pageNumber);
-    const pages = [...(job?.pages ?? []), ...(importPayload?.evidence?.pages ?? [])];
-    return pages.find((page) => page.pageNumber === pageNumber) ?? null;
-  }
   function flowNodeMm(node) {
     const diagramLoad = (node.questionDiagrams ?? []).reduce((sum, diagram) => sum + Math.max(18, Math.min(72, (diagramWidths[diagram.id] ?? diagram.widthMm ?? 95) / 3.2)), 0);
     if (!node.children?.length) {
@@ -517,17 +398,15 @@
 
 <svelte:head><title>Booklet Studio</title></svelte:head>
 
-<div class="studio-shell">
+<div class="studio-shell" class:project-workspace={stage==='projects'}>
   <header class="studio-header">
     <strong>Booklet Studio</strong>
-    <div class="header-actions"><button class="primary import-button" onclick={openImport}>Import questions</button></div>
   </header>
 
   <nav class="workspace-tabs" aria-label="Booklet Studio workspace">
     <button class:active={stage === 'projects'} onclick={() => openProjects()}>Booklets</button>
     <button class:active={stage === 'builder'} onclick={goBuilder}>Question bank</button>
-    <button class:active={stage === 'import' || stage === 'review'} onclick={openImport}>Import / review</button>
-    <button class:active={stage === 'full-import'} onclick={openFullImport}>Full booklet</button>
+    <button class:active={stage === 'full-import'} onclick={openFullImport}>Source reconstructions</button>
   </nav>
 
   {#if status || error}
@@ -600,7 +479,7 @@
             <div class="expand-dropdown__menu"><button class="expand-dropdown__item" onclick={() => applySort('reasoning')}>Difficulty</button><button class="expand-dropdown__item" onclick={() => applySort('skill')}>Skill</button><button class="expand-dropdown__item" onclick={() => applySort('manual')}>Question ID</button></div>
           </details>
           <button type="button" class="btn btn--secondary btn--small" onclick={toggleSortDirection}>{sortDescending ? 'Descending' : 'Ascending'}</button>
-          <button type="button" class:active={cardsExpanded} class="btn btn--secondary btn--small btn--toggle" onclick={() => (cardsExpanded = !cardsExpanded)}>{cardsExpanded ? 'Collapse' : 'Expand'}</button>
+          <button type="button" class:active={cardsExpanded} class="btn btn--secondary btn--small btn--toggle" onclick={toggleAllQuestionCards}>{cardsExpanded ? 'Collapse' : 'Expand'}</button>
         </div>
         <div class="control-group" data-label="Select"><button class="btn btn--secondary btn--small" onclick={selectAll}>All</button><button class="btn btn--secondary btn--small" onclick={selectNone}>None</button><button class="btn btn--secondary btn--small" onclick={() => selectRandom(1)}>+1 Random</button><button class="btn btn--secondary btn--small" onclick={() => selectRandom(10)}>+10 Random</button></div>
         <div class="control-group" data-label="Worksheet order"><button class:active={manualOrder} aria-pressed={manualOrder} class="btn btn--secondary btn--small btn--toggle" onclick={toggleManualOrder}>{manualOrder ? 'Use auto difficulty' : 'Enable manual order'}</button></div>
@@ -619,20 +498,20 @@
             <div class="question-row">
               <label class="question-row__checkbox"><input aria-label={'Select ' + question.id} type="checkbox" checked={selectedIds.includes(question.id)} onchange={() => toggle(question.id)} /></label>
               <div class:question-card--selected={selectedIds.includes(question.id)} class="question-card">
-                <details class="question-card__collapsible" open={cardsExpanded}>
+                <details class="question-card__collapsible" open={expandedQuestionIds.has(question.id)} ontoggle={event=>toggleQuestionCard(question.id,event.currentTarget.open)}>
                   <summary class="question-card__summary">
                     <div class="question-card__rows">
                       <div class="question-card__row"><div class="question-card__meta">{#each taxonomy.courseIds.slice(0, 3) as courseId}<span class="badge badge--stage">{courseTitle(courseId)}</span>{/each}</div><div class="question-card__meta-right"><span class="badge badge--reasoning">{question.classification.reasoningScore}/100</span><span class="badge badge--difficulty">{question.classification.difficulty}</span></div></div>
                       <div class="question-card__row"><div class="question-card__meta">{#each taxonomy.topicIds.slice(0, 2) as topicId}<span class="badge badge--topic">{topicTitle(topicId)}</span>{/each}<span class="badge badge--skill">{skillTitle(question.classification.primarySkillId)}</span></div><div class="question-card__meta-right"><button class="id-copy-btn" onclick={(event) => { event.stopPropagation(); copyQuestionId(question.id); }} title={'Copy question ID: ' + question.id} aria-label={'Copy question ID ' + question.id}>{question.id.slice(0, 8)}</button></div></div>
                     </div>
                   </summary>
-                  <div class="question-card__body"><PracticeQuestionRenderer question={question} showSpaces={false} compact={true} diagramWidthOverrides={diagramWidths} /></div>
+                  {#if expandedQuestionIds.has(question.id)}<div class="question-card__body"><PracticeQuestionRenderer question={question} showSpaces={false} compact={true} diagramWidthOverrides={diagramWidths} /></div>{/if}
                   <div class="question-card__footer"><div><button class="btn btn--secondary btn--small" onclick={() => openEditor(question)}>Edit</button><button class="btn-link" onclick={() => deleteRecord(question)} disabled={busy}>Delete</button></div></div>
                 </details>
               </div>
             </div>
           {/each}
-          {#if !filtered.length}<p class="empty-bank">No approved questions match these filters.</p>{/if}
+          {#if !filtered.length}<p class="empty-bank">No questions match these filters.</p>{/if}
         </section>
       </div>
 
@@ -661,32 +540,9 @@
         </aside>
       {/if}
     </div>
-  {:else if stage === 'import'}
-    <section class="full-workspace import-workspace">
-      <header class="page-heading"><div><h2>Import questions</h2></div><button class="secondary" onclick={goBuilder}>Back to question bank</button></header>
-      <div class="import-grid">
-        <aside class="card source-card"><h3>1. Source evidence</h3><p>PDF and image sources are rendered locally. Evidence stays in the import job and is not stored on the canonical question.</p><label class="dropzone"><input type="file" multiple accept=".pdf,image/png,image/jpeg,image/webp" onchange={chooseFile} /><strong>{sourceFileInput?.length ? sourceFileInput.length + ' file(s) selected' : 'Choose source files'}</strong><span class="muted">Nothing leaves this machine.</span></label><button class="primary" onclick={importFiles} disabled={busy || !sourceFileInput?.length}>{busy ? 'Preparing...' : 'Prepare import job'}</button>{#if job}<div class="job-meta"><span>{job.pages?.length ?? 0} pages</span><span>{job.id}</span></div>{/if}</aside>
-        <main class="card import-card"><h3>2. AI transcription and validation</h3><p>Paste JSON matching the v3 contract. Validation checks exact wording, nesting, LaTeX, answers, diagram roles, and taxonomy; source evidence remains top-level job data.</p>{#if job}<div class="prompt-actions"><button class="secondary" onclick={() => (showPrompt = !showPrompt)}>{showPrompt ? 'Hide prompt' : 'Show prompt'}</button><button class="secondary" onclick={copyPrompt}>{copied ? 'Copied' : 'Copy prompt'}</button></div>{#if showPrompt}<textarea class="prompt" readonly value={job.prompt}></textarea>{/if}{/if}<textarea class="json-paste" bind:value={jsonInput} placeholder="Paste mathsmap-practice-import-v3 JSON here..."></textarea><button class="primary" onclick={parseImportJson} disabled={!jsonInput.trim()}>Validate and review</button>{#if importCheck?.warnings?.length}<div class="notice warning">{importCheck.warnings.length} review warning(s) will stay visible during approval.</div>{/if}</main>
-      </div>
-      {#if job?.pages?.length}<section class="card page-strip"><div class="panel-heading"><div><h3>Source pages</h3></div><span class="muted">{job.pages.length} pages</span></div><div class="page-grid">{#each job.pages as page}<figure><img src={page.imageUrl} alt={'Source page ' + page.pageNumber} /><figcaption>Page {page.pageNumber}</figcaption></figure>{/each}</div></section>{/if}
-    </section>
   {:else if stage === 'full-import'}
     <FullBookletImport onprojectcreated={(created) => openProjects(created.id)} />
-  {:else}
-    <section class="full-workspace review-workspace">
-      <header class="page-heading"><div><h2>Review and approve</h2></div><div class="page-actions"><button class="secondary" onclick={openImport}>Back to import</button><button class="primary" onclick={publishApproved} disabled={busy || !approvedCount}>{busy ? 'Publishing...' : 'Publish approved'}</button></div></header>
-      {#if currentReview}
-        <div class="review-grid">
-          <aside class="card review-list"><div class="panel-heading"><div><h3>{reviewQuestions.length} questions</h3></div><span class="badge">{approvedCount} approved</span></div>{#each reviewQuestions as question, index}<button class:current={index === reviewIndex} class:approved={question.status === 'approved'} class="review-row" onclick={() => selectReview(index)}><span class="review-id">{question.id}</span><span><strong>{question.content.prompt || 'Question with child parts'}</strong><small>{question.classification.difficulty} · {question.classification.reasoningScore}/100 · {skillTitle(question.classification.primarySkillId)}</small></span><b>{question.status === 'approved' ? 'Approved' : 'Review'}</b></button>{/each}<div class="review-nav"><button class="secondary tiny" onclick={previousReview} disabled={reviewIndex === 0}>Previous</button><button class="secondary tiny" onclick={nextReview} disabled={reviewIndex >= reviewQuestions.length - 1}>Next</button></div></aside>
-          <main class="card review-main">
-            <div class="panel-heading"><div><h3>{currentReview.title || 'Question editor'}</h3></div><span class:approved={currentReview.status === 'approved'} class="badge">{currentReview.status}</span></div>
-            {#if approval?.blockers?.length}<div class="notice warning"><strong>Approval blockers</strong><ul>{#each approval.blockers as blocker}<li>{blocker}</li>{/each}</ul></div>{/if}
-            {#if sourcePageFor(currentReview)?.imageUrl}<figure class="review-evidence"><img src={sourcePageFor(currentReview).imageUrl} alt={'Source evidence page ' + sourcePageFor(currentReview).pageNumber} /><figcaption>Import evidence · page {sourcePageFor(currentReview).pageNumber}</figcaption></figure>{:else}<p class="muted evidence-note">No page image is mapped to this question. The import job remains available for manual review.</p>{/if}
-            <PracticeQuestionEditor question={currentReview} heading={'Edit ' + currentReview.id} onSave={saveReviewQuestion} onCancel={() => selectReview(reviewIndex)} />
-          </main>
-        </div>
-      {:else}<div class="card empty-preview"><strong>No import result is loaded.</strong><span>Prepare an import and paste its v3 JSON before opening review.</span></div>{/if}
-    </section>
+
   {/if}
 </div>
 
@@ -700,30 +556,30 @@
 
 <style>
   .studio-shell { min-height: calc(100dvh - 70px); padding: 2rem 1.5rem 4rem; background: var(--app-canvas, #f8fafc); color: var(--text, #1e293b); font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif; }
-  .studio-header, .page-heading, .panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .studio-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   .studio-header { max-width: 1400px; margin: 0 auto 1.25rem; }
-  .header-actions, .page-actions { display: flex; align-items: center; gap: .6rem; }
+
   .workspace-tabs { display: flex; gap: .2rem; max-width: 1400px; margin: 0 auto 1rem; border-bottom: 1px solid var(--border, #d9e0e8); }
   .workspace-tabs button { padding: .65rem .85rem; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted, #66758d); font: inherit; font-size: .8rem; cursor: pointer; }
   .workspace-tabs button.active { border-color: var(--accent, #e8443a); color: var(--text-strong, #23395d); font-weight: 800; }
-  .card { border: 1px solid var(--border, #e2e8f0); border-radius: 12px; background: var(--panel, #fff); box-shadow: 0 2px 10px rgba(15, 23, 42, .06); transition: none; }
-  .card:hover { transform: none; }
+
+
   .status-bar { display: flex; gap: .6rem; max-width: 1400px; margin: 0 auto 1rem; padding: .65rem .8rem; border: 1px solid #bdd8c8; border-radius: 6px; background: #f2fbf5; color: #236543; font-size: .76rem; }
   .status-bar.has-error { border-color: #e5b7a7; background: #fff8f5; color: #99472c; }
   .filter-bar { display: grid; grid-template-columns: minmax(240px, 1.45fr) repeat(4, minmax(150px, 1fr)); gap: .75rem 1rem; max-width: 1400px; margin: 0 auto 1.25rem; padding: 1.15rem 1.25rem; align-items: end; }
   label { color: var(--text, #1e293b); font-size: .8rem; font-weight: 600; letter-spacing: .02em; }
-  input, select, textarea { box-sizing: border-box; width: 100%; min-height: 40px; margin-top: .35rem; padding: .5rem .75rem; border: 1px solid var(--border, #e2e8f0); border-radius: 8px; background: var(--panel, #fff); color: var(--text, #1e293b); font: inherit; font-size: .875rem; transition: border-color 200ms ease, box-shadow 200ms ease; }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent, #f87171); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #f87171) 24%, transparent); }
+  input, select { box-sizing: border-box; width: 100%; min-height: 40px; margin-top: .35rem; padding: .5rem .75rem; border: 1px solid var(--border, #e2e8f0); border-radius: 8px; background: var(--panel, #fff); color: var(--text, #1e293b); font: inherit; font-size: .875rem; transition: border-color 200ms ease, box-shadow 200ms ease; }
+  input:focus, select:focus { outline: none; border-color: var(--accent, #f87171); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #f87171) 24%, transparent); }
   button { font: inherit; cursor: pointer; }
   button:disabled { cursor: not-allowed; opacity: .5; }
-  .primary, .secondary { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; border-radius: 8px; padding: .5rem 1rem; font-size: .875rem; font-weight: 600; }
-  .primary { border: 1px solid var(--accent, #f87171); background: var(--accent, #f87171); color: #fff; }
-  .secondary { border: 1px solid var(--border, #e2e8f0); background: var(--panel, #fff); color: var(--text, #1e293b); }
-  .tiny { min-height: 28px; padding: .28rem .5rem; font-size: .7rem; }
-  .panel-heading h3 { margin: .12rem 0 .15rem; color: var(--text-strong, #23395d); }
-  .panel-heading h3 { font-size: .95rem; }
+
+
+
+
+
+
   .badge { display: inline-flex; align-items: center; padding: .25rem .45rem; border-radius: 999px; background: #edf2f7; color: var(--text-strong, #23395d); font-size: .63rem; font-weight: 800; white-space: nowrap; }
-  .badge.approved { background: #e6f6ec; color: #236543; }
+
   .question-card { overflow: hidden; border: 1px solid var(--border, #e2e8f0); border-radius: 12px; background: var(--panel, #fff); box-shadow: 0 2px 10px rgba(15, 23, 42, .06); transition: border-color 200ms ease, box-shadow 200ms ease; }
   .question-card:hover { border-color: color-mix(in srgb, var(--accent, #f87171) 24%, var(--border, #e2e8f0)); box-shadow: 0 10px 28px rgba(15, 23, 42, .11); }
   .question-card summary { display: flex; align-items: center; gap: .75rem; padding: .55rem .8rem; list-style: none; cursor: pointer; user-select: none; transition: background 200ms ease; }
@@ -743,50 +599,50 @@
   .page-break-indicator { margin: 5mm 0; border-top: 1px dashed #c9d3df; color: #8793a2; font-size: 7pt; text-align: center; break-after: avoid; }
   .empty-preview { display: grid; place-items: center; gap: .35rem; min-height: 120px; padding: 2rem; color: var(--muted, #66758d); text-align: center; }
   .empty-preview strong { color: var(--text-strong, #23395d); }
-  .full-workspace { max-width: 1400px; margin: 0 auto; }
-  .page-heading { margin-bottom: 1rem; }
-  .page-heading h2 { margin: .15rem 0 .25rem; color: var(--text-strong, #23395d); font-size: 1.4rem; }
-  .import-grid { display: grid; grid-template-columns: minmax(250px, .65fr) minmax(0, 1.35fr); gap: 1rem; }
-  .source-card, .import-card, .page-strip, .review-list, .review-main { padding: .85rem; }
-  .source-card h3, .import-card h3 { margin: 0 0 .35rem; color: var(--text-strong, #23395d); font-size: .95rem; }
-  .source-card p, .import-card p { color: var(--muted, #66758d); font-size: .72rem; line-height: 1.5; }
-  .dropzone { display: grid; place-items: center; gap: .35rem; min-height: 120px; margin: .8rem 0; padding: .8rem; border: 1px dashed #aebdcd; border-radius: 6px; color: var(--text-strong, #23395d); text-align: center; }
-  .dropzone input { width: auto; margin: 0; }
-  .job-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .7rem; color: var(--muted, #66758d); font: .62rem ui-monospace, Consolas, monospace; }
-  .prompt-actions { display: flex; gap: .4rem; margin-bottom: .45rem; }
-  .prompt, .json-paste { min-height: 170px; resize: vertical; font: .7rem ui-monospace, Consolas, monospace; line-height: 1.45; }
-  .json-paste { min-height: 220px; margin-bottom: .5rem; }
-  .notice { margin: .65rem 0; padding: .55rem .7rem; border-radius: 5px; background: #f2f6fa; color: #52637a; font-size: .7rem; }
-  .notice.warning { background: #fff8e8; color: #896820; }
-  .notice ul { margin: .3rem 0 0 1rem; padding: 0; }
-  .page-strip { margin-top: 1rem; }
-  .page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: .6rem; margin-top: .7rem; }
-  .page-grid figure { margin: 0; }
-  .page-grid img { display: block; width: 100%; height: 150px; object-fit: contain; border: 1px solid #d9e0e8; background: #f4f6f8; }
-  .page-grid figcaption, .review-evidence figcaption { padding-top: .25rem; color: var(--muted, #66758d); font-size: .61rem; text-align: center; }
-  .review-grid { display: grid; grid-template-columns: minmax(260px, .55fr) minmax(0, 1.45fr); gap: 1rem; align-items: start; }
-  .review-list { position: sticky; top: .8rem; max-height: calc(100dvh - 100px); overflow: auto; }
-  .review-row { display: grid; grid-template-columns: 85px minmax(0, 1fr) auto; gap: .45rem; width: 100%; padding: .55rem .4rem; border: 0; border-bottom: 1px solid #edf0f3; background: transparent; color: var(--text, #172033); text-align: left; }
-  .review-row.current { background: #f0f5fa; }
-  .review-row.approved { border-left: 3px solid #3aa76d; }
-  .review-row .review-id { overflow: hidden; color: var(--text-strong, #23395d); font: .57rem ui-monospace, Consolas, monospace; text-overflow: ellipsis; }
-  .review-row strong { display: block; overflow: hidden; font-size: .68rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-  .review-row small { display: block; margin-top: .18rem; color: var(--muted, #66758d); font-size: .59rem; }
-  .review-row b { color: var(--muted, #66758d); font-size: .58rem; white-space: nowrap; }
-  .review-nav { display: flex; justify-content: space-between; gap: .4rem; margin-top: .65rem; }
-  .review-evidence { margin: 0 0 1rem; padding: .5rem; border: 1px solid #d9e0e8; background: #f7f9fb; }
-  .review-evidence img { display: block; width: 100%; max-height: 340px; object-fit: contain; }
-  .evidence-note { padding: .5rem 0; font-size: .7rem; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   .editor-modal-backdrop { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgba(18, 31, 51, .42); }
   .editor-modal { width: min(1080px, 100%); max-height: calc(100dvh - 2rem); overflow: auto; padding: 1rem; border-radius: 9px; background: var(--panel, #fff); box-shadow: 0 18px 70px rgba(18, 31, 51, .28); }
   @media (max-width: 1120px) {
     .filter-bar { grid-template-columns: repeat(3, minmax(130px, 1fr)); }
   }
   @media (max-width: 800px) {
-    .studio-header, .page-heading { flex-direction: column; }
-    .header-actions, .page-actions { width: 100%; justify-content: space-between; }
-    .import-grid, .review-grid { grid-template-columns: 1fr; }
-    .review-list { position: static; max-height: none; }
+    .studio-header { flex-direction: column; }
+
+
+
     .filter-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 520px) {
@@ -819,11 +675,11 @@
   .question-card{min-width:0;overflow:hidden;border:1px solid var(--md-border);border-radius:12px;background:var(--md-card);box-shadow:0 2px 8px #0f172a0e}.question-card:hover{border-color:color-mix(in srgb,var(--md-accent) 38%,var(--md-border))}.question-card--selected{border-color:var(--md-green);background:color-mix(in srgb,var(--md-green) 5%,var(--md-card))}.question-card__collapsible>summary{list-style:none}.question-card__collapsible>summary::-webkit-details-marker{display:none}.question-card__summary{position:relative;display:flex;min-height:58px;padding:.72rem 2.25rem .72rem .9rem;align-items:center;cursor:pointer}.question-card__summary::after{position:absolute;top:50%;right:.9rem;width:10px;height:10px;border-right:2px solid var(--md-muted);border-bottom:2px solid var(--md-muted);content:'';transform:translateY(-65%) rotate(45deg)}.question-card__collapsible[open] .question-card__summary::after{transform:translateY(-35%) rotate(225deg)}.question-card__collapsible[open] .question-card__summary{border-bottom:1px solid var(--md-border)}
   .question-card__rows{display:grid;min-width:0;flex:1;gap:.35rem}.question-card__row{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:.7rem}.question-card__meta,.question-card__meta-right{display:flex;min-width:0;align-items:center;flex-wrap:wrap;gap:.3rem}.question-card__meta-right{flex:none;justify-content:flex-end}.question-card .badge{display:inline-flex;max-width:360px;min-height:24px;padding:.22rem .48rem;align-items:center;overflow:hidden;border-radius:5px;background:color-mix(in srgb,var(--md-text) 7%,var(--md-card));color:var(--md-muted);font-size:.68rem;font-weight:700;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}.badge--stage{background:color-mix(in srgb,#3b82f6 10%,var(--md-card))!important}.badge--topic{background:color-mix(in srgb,var(--md-accent) 9%,var(--md-card))!important}.badge--reasoning{background:color-mix(in srgb,var(--md-text) 7%,var(--md-card))!important;color:var(--md-muted)!important}.badge--skill{background:color-mix(in srgb,#0ea5e9 9%,var(--md-card))!important;color:var(--md-text)!important}.badge--difficulty{background:color-mix(in srgb,var(--md-green) 10%,var(--md-card))!important;color:var(--md-green)!important;text-transform:capitalize}
   .id-copy-btn{max-width:110px;min-height:24px;padding:.24rem .4rem;overflow:hidden;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--md-muted);font:.65rem ui-monospace,Consolas,monospace;text-overflow:ellipsis;white-space:nowrap}.question-card__body{padding:1rem 1.1rem;overflow-x:auto;color:var(--md-text)}.question-card__body :global(.practice-question){color:var(--md-text)}.question-card__footer{display:flex;padding:.65rem .9rem;align-items:center;justify-content:space-between;gap:.75rem;border-top:1px solid var(--md-border);color:var(--md-muted);font-size:.73rem}.question-card__footer{justify-content:flex-end}.question-card__footer>div{display:flex;align-items:center;gap:.35rem}.empty-bank{padding:2rem;color:var(--md-muted);text-align:center}
-  .worksheet-preview-outer{position:relative;overflow-x:auto;width:794px;max-width:100%}.worksheet-preview-close{position:absolute;z-index:3;top:.3rem;right:.3rem;width:32px;height:32px;min-height:0;padding:0;border:1px solid var(--md-border);border-radius:50%;background:var(--md-card);color:var(--md-muted);font-size:1.15rem}.a4-preview{width:210mm}.full-workspace{padding:0 1.5rem}.page-heading h2,.panel-heading h3{margin:0}.editor-modal-backdrop{position:fixed!important;z-index:300;inset:0!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;padding:clamp(.75rem,3vh,2rem)!important}.editor-modal{position:relative!important;width:min(1500px,calc(100vw - 2rem))!important;max-height:none!important;margin:0!important}
+  .worksheet-preview-outer{position:relative;overflow-x:auto;width:794px;max-width:100%}.worksheet-preview-close{position:absolute;z-index:3;top:.3rem;right:.3rem;width:32px;height:32px;min-height:0;padding:0;border:1px solid var(--md-border);border-radius:50%;background:var(--md-card);color:var(--md-muted);font-size:1.15rem}.a4-preview{width:210mm}.editor-modal-backdrop{position:fixed!important;z-index:300;inset:0!important;display:flex!important;align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;padding:clamp(.75rem,3vh,2rem)!important}.editor-modal{position:relative!important;width:min(1500px,calc(100vw - 2rem))!important;max-height:none!important;margin:0!important}
   @media(max-width:1100px){.worksheet-layout--split{width:auto;max-width:1400px;grid-template-columns:minmax(0,1fr)}.worksheet-preview-outer{position:static;margin:0 auto}}
   @media(max-width:800px){.taxonomy-picker__popover{position:fixed;top:20%;left:1rem;width:calc(100vw - 2rem);grid-template-columns:1fr}.worksheet-controls{position:static}.control-group{width:100%;padding:.4rem 0 0;flex-wrap:wrap}.control-group:not(:first-child)::before{top:0;width:100%;height:1px}.btn--print{margin-left:0}.mobile-view-toggle{display:flex}.mobile-view-toggle button{flex:1;padding:.5rem;border:1px solid var(--md-border);background:var(--md-card);color:var(--md-muted)}.mobile-view-toggle button.is-active{border-color:var(--md-green);background:color-mix(in srgb,var(--md-green) 10%,var(--md-card))}.worksheet-layout.mobile-show-preview .questions-col{display:none}.worksheet-layout:not(.mobile-show-preview) .worksheet-preview-outer{display:none}}
-  @media(max-width:560px){.studio-header,.workspace-tabs,.full-workspace,.worksheet-layout{padding-right:.7rem;padding-left:.7rem}.filter-bar,.worksheet-controls,.status-bar{max-width:calc(100% - 1.4rem)}.filter-bar__row--controls,.filter-group--props{align-items:stretch;flex-direction:column}.filter-row--search,.filter-group--props,.reasoning-filter{width:100%;flex-basis:auto}.filter-bar__apply-row{align-items:stretch;flex-direction:column}.apply-reminder{margin:0}.question-card__row,.question-card__footer{align-items:flex-start;flex-direction:column}}
-  @media print{.studio-header,.workspace-tabs,.status-bar,.filter-bar,.worksheet-controls,.questions-col,.worksheet-preview-close,.page-break-indicator{display:none!important}.worksheet-layout,.worksheet-layout--split{display:block;width:auto;max-width:none;margin:0;padding:0}.worksheet-preview-outer{position:static;display:block!important;width:auto;max-width:none;margin:0}.a4-preview{width:210mm}.preview-question-tools,.layout-controls{display:none}}
+  @media(max-width:560px){.studio-header, .workspace-tabs, .worksheet-layout{padding-right:.7rem;padding-left:.7rem}.filter-bar,.worksheet-controls,.status-bar{max-width:calc(100% - 1.4rem)}.filter-bar__row--controls,.filter-group--props{align-items:stretch;flex-direction:column}.filter-row--search,.filter-group--props,.reasoning-filter{width:100%;flex-basis:auto}.filter-bar__apply-row{align-items:stretch;flex-direction:column}.apply-reminder{margin:0}.question-card__row,.question-card__footer{align-items:flex-start;flex-direction:column}}
+  @media print{.studio-shell{padding:0!important;min-height:0!important}.studio-header,.workspace-tabs,.status-bar,.filter-bar,.worksheet-controls,.questions-col,.worksheet-preview-close,.page-break-indicator{display:none!important}.worksheet-layout,.worksheet-layout--split{display:block;width:auto;max-width:none;margin:0;padding:0}.worksheet-preview-outer{position:static;display:block!important;width:auto;max-width:none;margin:0}.a4-preview{width:210mm}.preview-question-tools,.layout-controls{display:none}}
 
 
   .worksheet-header__title-row{display:inline-flex;align-items:center;gap:.35rem}
@@ -835,4 +691,5 @@
   .worksheet-header__title-row:hover .worksheet-header__title-edit,.worksheet-header__title-edit:focus-visible{opacity:1}
   .preview-question.manual-order-item{cursor:grab}
   @media print{.worksheet-header__editable-title{border-color:transparent;box-shadow:none!important}.worksheet-header__title-edit{display:none!important}}
+  .studio-shell.project-workspace{padding:0;overflow-x:clip}.project-workspace>.studio-header{display:none}.project-workspace>.workspace-tabs{max-width:none;margin:0;padding:4px 16px;flex-wrap:wrap}.project-workspace>.workspace-tabs button{font-size:14px;min-height:36px}@media(max-width:600px){.project-workspace>.workspace-tabs{padding:4px 8px}.project-workspace>.workspace-tabs button{min-height:44px}}
 </style>

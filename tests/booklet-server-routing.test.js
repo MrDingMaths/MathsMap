@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
 import { practiceStudioPlugin } from '../scripts/booklet/practice-studio-server.mjs';
 import { fullBookletImportPlugin } from '../scripts/booklet/full-import-server.mjs';
+import { projectStudioPlugin } from '../scripts/booklet/project-studio-server.mjs';
 
 function middlewareFor(...plugins) {
   const stack = [];
@@ -49,4 +50,16 @@ test('practice middleware retains ownership of practice endpoints', async () => 
   const response = await request(stack, '/__booklet/imports/not-a-real-import/unknown');
   assert.equal(response.statusCode, 404);
   assert.equal(JSON.parse(response.body).error, 'Unknown Booklet Studio endpoint');
+});
+
+test('retired import, proposal and AI action endpoints reject requests without reading a job body', async () => {
+  const stack = middlewareFor(practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin());
+  for (const url of [
+    '/__booklet/imports', '/__booklet/imports/old/result',
+    '/__booklet/full-imports/preflight', '/__booklet/full-imports/prepare',
+    '/__booklet/full-imports/old/action', '/__booklet/projects/old/propose',
+  ]) {
+    const response = await request(stack, url, 'POST');
+    assert.equal(response.statusCode, 404, url);
+  }
 });

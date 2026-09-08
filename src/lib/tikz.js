@@ -28,6 +28,7 @@
 // EVERY started-but-unfinished job (not just the culprit) — terminating the worker kills
 // peers mid-compile and poisons TikZJax's internal serial queue, so every survivor must be
 // resubmitted to the fresh engine. Non-culprit peers are re-injected without penalty.
+import { watchGraphStrokes } from './graph-strokes.js';
 import { prepareTikz, TIKZ_PREAMBLE_LINES, tikzKey } from './tikz-prepare.js';
 
 if (typeof window.__installTikzWorkerTracker !== 'function') {
@@ -225,18 +226,21 @@ const _idbTouch = async (key) => {
 // wasm + core dump; the pristine vendor bundle never fires it, so the integrity
 // test in tests/tikz-bundles.test.js is what keeps this resolvable.
 let _tikzEngineLoading = null;
-const _loadEngineScript = () => new Promise((resolve) => {
+const _loadEngineScript = () => new Promise((resolve, reject) => {
   const startedAt = performance.now();
   let settled = false;
   const finish = (event = null) => {
     if (settled) return;
     settled = true;
+    clearTimeout(timer);
     window.removeEventListener('tikzjax-engine-ready', onReady);
     tikzLastProgress = Date.now();
     _recordEngineTimings(event?.detail || {}, startedAt);
-    resolve(event?.detail || {});
+    if (event?.detail?.error) reject(new Error('TikZ engine failed to load'));
+    else resolve(event?.detail || {});
   };
   const onReady = event => finish(event);
+  const timer = setTimeout(() => finish({ detail: { error: true } }), TIKZ_COLD_STALL_MS);
   window.addEventListener('tikzjax-engine-ready', onReady);
   const s = document.createElement('script');
   s.src = TIKZ_ENGINE_SRC;
@@ -275,7 +279,7 @@ const _applyCachedToNode = (node, svgHtml) => {
   // Tag the SVG itself so styling can target the diagram directly, independent of
   // the wrapper surviving DOM churn. Old cache entries may predate this tagging.
   wrapper.firstElementChild.classList.add('tikz-svg');
-  node.replaceWith(wrapper);
+  node.replaceChildren(...wrapper.childNodes);
   return true;
 };
 
@@ -292,9 +296,12 @@ const _isTikzErrorImg = (node) =>
   node && node.tagName === 'IMG' && /invalid\.site|img-not-found/.test(node.getAttribute('src') || '');
 
 const _finishJob = (job) => {
+  if(job.done)return;
+  if(!job.cancelled){const svg=job.wrapper.querySelector('svg.tikz-svg');if(job.error)job.onError?.(job.error);else if(svg)job.onSuccess?.(svg.outerHTML);}
   job.done = true;
   tikzActiveJobs.delete(job);
   if (job.timer) { clearTimeout(job.timer); job.timer = null; }
+  if (job.hardTimer) { clearTimeout(job.hardTimer); job.hardTimer = null; }
   if (job._outcomeObs) { job._outcomeObs.disconnect(); job._outcomeObs = null; }
   if (job.injectedAt != null && !job.latencyRecorded) {
     job.latencyRecorded = true;
@@ -305,6 +312,7 @@ const _finishJob = (job) => {
   if (tikzStats.firstPlaceholderAt && tikzStats.firstPlaceholderToSettledMs == null && !tikzActiveJobs.size) tikzStats.firstPlaceholderToSettledMs = performance.now() - tikzStats.firstPlaceholderAt;
 };
 const _failJob = (job, title) => {
+  if(job.done)return;job.error=title;
   _stat('failures');
   job.wrapper.innerHTML =
     '<div class="tikz-error" title="' + title + '">⚠ Diagram failed to render</div>';
@@ -462,7 +470,11 @@ const _resetAndReinjectAll = () => {
       _attachOutcomeObserver(j);
       _watchdogFor(j);
     }
-  })().finally(() => { tikzResetting = null; });
+  })().catch(() => {
+    for (const job of tikzActiveJobs) {
+      if (job.started && !job.done) _failJob(job, 'TikZ engine failed to load');
+    }
+  }).finally(() => { tikzResetting = null; });
   return tikzResetting;
 };
 
@@ -530,14 +542,21 @@ let _tikzFontsPromise = null;
 const _ensureTikzFonts = () => {
   if (_tikzFontsPromise) return _tikzFontsPromise;
   _tikzFontsPromise = new Promise(resolve => {
+    const finish = () => {
+      clearTimeout(timer);
+      link.removeEventListener('load', finish);
+      link.removeEventListener('error', finish);
+      resolve();
+    };
     const href = new URL(TIKZ_FONTS_HREF, document.baseURI).href;
     const links = [...document.querySelectorAll('link[rel="stylesheet"][href]')];
     const existing = links.find(link => { try { return new URL(link.href, document.baseURI).href === href; } catch (_) { return false; } });
     const link = existing || Object.assign(document.createElement('link'), { rel: 'stylesheet', href });
+    const timer = setTimeout(finish, 5000);
     if (!existing) { link.dataset.tikzFonts = '1'; document.head.appendChild(link); }
-    link.addEventListener('load', resolve, { once: true });
-    link.addEventListener('error', resolve, { once: true });
-    if (link.sheet) resolve();
+    link.addEventListener('load', finish, { once: true });
+    link.addEventListener('error', finish, { once: true });
+    if (link.sheet) finish();
   });
   return _tikzFontsPromise;
 };
@@ -548,6 +567,14 @@ const _startJob = async (job) => {
   if (_tikzIO) _tikzIO.unobserve(job.wrapper);
   if (!job.wrapper.isConnected) { _finishJob(job); return; }
 
+  // Cover every async startup stage, including IndexedDB and engine recovery.
+  job.deadline = Date.now() + TIKZ_HARD_CAP_MS;
+  job.hardTimer = setTimeout(() => {
+    if (!job.wrapper.isConnected) _finishJob(job);
+    else _failJob(job, 'TikZ render timed out');
+  }, TIKZ_HARD_CAP_MS);
+  try {
+
   // Persistent-cache check (memory layer was already checked at render time, but a peer
   // with the same key may have compiled since).
   const cachedMemory = tikzCache.get(job.key);
@@ -556,6 +583,7 @@ const _startJob = async (job) => {
   if (cached) {
     tikzCache.set(job.key, cached);
     await _ensureTikzFonts();
+    if (job.done || !job.wrapper.isConnected) { _finishJob(job); return; }
     if (_applyCachedToNode(job.wrapper, cached)) {
       TLOG('cache HIT job#' + job.seq, 'key:', job.key);
       _stat(cachedMemory ? 'memoryHits' : 'idbHits');
@@ -571,7 +599,6 @@ const _startJob = async (job) => {
   tikzLastProgress = Date.now();
   job.injectedAt = performance.now();
   performance.mark?.(`tikz-job-${job.seq}-start`);
-  job.deadline = Date.now() + TIKZ_HARD_CAP_MS;
   // The wrapper was inserted script-less, so this appendChild is the single mutation
   // TikZJax's MutationObserver sees for this job → exactly one push into its queue
   // (the old duplicate-push bug came from scripts being present inside larger
@@ -580,6 +607,9 @@ const _startJob = async (job) => {
   _attachOutcomeObserver(job);
   TLOG('injected job#' + job.seq, 'key:', job.key, 'codeLen:', job.code.length);
   _watchdogFor(job);
+  } catch (error) {
+    _failJob(job, error?.message || 'TikZ engine failed to load');
+  }
 };
 
 // Public helper mirror of the MathsBase window.TikZ API (print specifics trimmed —
@@ -611,9 +641,11 @@ window.addEventListener('pagehide', () => { try { if (localStorage.getItem('math
 // Cancel the in-flight job attached to a component's outer element (Svelte unmount /
 // re-render). Silent: no stats penalty, no error UI, no engine reset.
 export function cancelTikzJob(outerEl) {
+  outerEl?._stopGraphStrokes?.();
+  if(outerEl)outerEl._stopGraphStrokes=null;
   const job = outerEl && outerEl._tikzJob;
   if (!job) return;
-  outerEl._tikzJob = null;
+  outerEl._tikzJob = null;job.cancelled=true;
   if (job.done) return;
   if (_tikzIO) { try { _tikzIO.unobserve(job.wrapper); } catch (_) {} }
   _finishJob(job);
@@ -622,7 +654,7 @@ export function cancelTikzJob(outerEl) {
 // Normalise \usepackage lines and \fontsize values in TikZ source, detect required
 // packages, compute a cache key, then render into outerEl. `eager: true` (harness /
 // explicitly-assembled views) compiles immediately instead of waiting for the viewport.
-export function renderTikzCode(outerEl, code, { eager = false } = {}) {
+export function renderTikzCode(outerEl, code, { eager = false, onSuccess=null, onError=null } = {}) {
   cancelTikzJob(outerEl);
   outerEl.innerHTML = '';
   _stat('validPlaceholders');
@@ -639,12 +671,13 @@ export function renderTikzCode(outerEl, code, { eager = false } = {}) {
   wrapper.className = 'tikz-loading';
   wrapper.dataset.cacheKey = key;
   const seq = ++_jobSeq;
-  const job = { wrapper, code: cleanCode, pkgJson, extraPreamble, key, cacheHtml: tikzCache.get(key) || null, attempts: 0, timer: null,
+  const job = { onSuccess,onError,wrapper, code: cleanCode, pkgJson, extraPreamble, key, cacheHtml: tikzCache.get(key) || null, attempts: 0, timer: null,
     seq, deadline: 0, loaderStuckChecks: 0, started: false, done: false, resetPending: false,
     _outcomeObs: null };
   wrapper._tikzJob = job;
   outerEl._tikzJob = job;   // so cancelTikzJob(outerEl) can find it on unmount
   outerEl.appendChild(wrapper);
+  outerEl._stopGraphStrokes=watchGraphStrokes(outerEl);
   tikzActiveJobs.add(job);
   tikzStats.pending = tikzActiveJobs.size;
   if (eager || job.cacheHtml) _startJob(job);

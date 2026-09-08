@@ -25,7 +25,7 @@ export function deriveBookletCover(pages = []) {
     : [];
   const version = plain(lines.find((line) => /^Version\s*:/i.test(line)) ?? '').replace(/^Version\s*:\s*/i, '');
   const feedback = (lines.find((line) => /^Feedback\s*:/i.test(line)) ?? '').replace(/^Feedback\s*:\s*/i, '') || 'https://MrDingMaths.com';
-  const pagePositions = new Map(ordered.map((page, index) => [Number(page.pageNumber), index + 1]));
+  const pagePositions = new Map();ordered.forEach((page,index)=>{if(!pagePositions.has(Number(page.pageNumber)))pagePositions.set(Number(page.pageNumber),index+1);});
   const imported = parseImportedContents(contentsBlock?.content);
   let contents = imported
     .filter((entry) => pagePositions.has(entry.sourcePage))

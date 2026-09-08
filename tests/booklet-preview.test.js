@@ -27,7 +27,7 @@ test('booklet markdown tables become structural rows instead of visible pipe tex
   const parts = splitBookletTables('Intro\n\n| | |\n| --- | --- |\n| $3+2=$ | $(-3)+2=$ |');
   assert.deepEqual(parts, [
     { type: 'text', value: 'Intro' },
-    { type: 'table', header: null, rows: [['$3+2=$', '$(-3)+2=$']] },
+    { type: 'table', header: null, rows: [['$3+2=$', '$(-3)+2=$']], alignments: ['left','left'] },
   ]);
 });
 

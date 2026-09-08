@@ -69,6 +69,7 @@ class MathsEditor extends HTMLElement {
   }
 
   disconnectedCallback() {
+    this.documentController?.destroy();
     if (!this._content) return;
     document.removeEventListener('selectionchange', this._onSelectionChange);
     this.removeEventListener('keydown', this._onKeydown, true);

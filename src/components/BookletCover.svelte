@@ -1,5 +1,6 @@
 <script>
   import { deriveBookletCover } from '../lib/booklet-cover.js';
+  import InlineContent from './InlineContent.svelte';
   import BookletFooter from './BookletFooter.svelte';
 
   let { pages = [] } = $props();
@@ -27,7 +28,7 @@
       <h2 id="booklet-contents-heading">Contents</h2>
       <div class="contents-list">
         {#each cover.contents as item}
-          <div class="contents-row"><span>{item.title}</span><span class="leader" aria-hidden="true"></span><span class="page-no">{item.pageNumber}</span></div>
+          <div class="contents-row"><span><InlineContent text={item.title} /></span><span class="leader" aria-hidden="true"></span><span class="page-no">{item.pageNumber}</span></div>
         {/each}
       </div>
     </section>
@@ -49,7 +50,7 @@
   .book-badge,.topics,.meta { padding:5mm 4mm; }
   .book-badge { display:flex; align-items:flex-start; }
   .book-badge span { display:inline-block; padding:1.5mm 2.4mm; background:color-mix(in srgb,var(--accent) 18%,white); font-size:12.5pt; font-weight:700; line-height:1.1; white-space:nowrap; }
-  .topics { font-size:12pt; line-height:1.4; }
+  .topics { font-size:10pt; line-height:1.4; }
   .topics div + div { margin-top:.8mm; }
   .meta { color:var(--muted); font-size:var(--type-meta); line-height:1.45; }
   .meta strong { color:#5f5f5f; font-weight:600; }

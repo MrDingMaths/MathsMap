@@ -1,11 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import {
-  WORK_ROOT, applyContentOverrides, buildRepairTasks, buildTasks, mergeLane, mergeRepairs, preflight,
-  prepareRun, publishRun, runLane, runStatus, saveContentOverride, validateRun,
-} from './transcription.mjs';
-import { captureFidelityEvidence } from './capture-fidelity.mjs';
-import { runBatch } from './transcription-batch.mjs';
+import { WORK_ROOT, applyContentOverrides, runStatus, saveContentOverride, validateRun, contentHash } from './transcription.mjs';
 import { loadDraftPreview } from './transcription-preview.mjs';
 
 const MAX_BODY = 2 * 1024 * 1024;
@@ -32,11 +27,14 @@ async function runDetails(id) {
   const review = await readJson(path.join(root, 'review.json'), {});
   const transcription = await readJson(path.join(root, 'merged', 'transcription.json'), null);
   const draft = transcription ? null : loadDraftPreview(root, await readJson(path.join(root, 'manifest.json')));
+  const base = transcription ?? draft?.transcription;
+  const editConflicts = [];
+  const previewTranscription = base ? applyContentOverrides(base, review, { strict: false, conflicts: editConflicts }) : null;
   return {
     ...status,
     review,
     transcription,
-    previewTranscription: transcription ? applyContentOverrides(transcription, review, { strict: false }) : draft.transcription,
+    previewTranscription, editConflicts, baseHash: base ? contentHash(base) : null, revision: review.revision ?? 0,
     draftPreview: draft?.summary ?? null,
     modules: (await readJson(path.join(root, 'merged', 'modules.json'), { modules: [] })).modules,
     validation: await readJson(path.join(root, 'validation.json'), null),
@@ -53,36 +51,6 @@ async function listRuns() {
   return rows.sort((a, b) => b.runId.localeCompare(a.runId));
 }
 
-async function perform(id, body) {
-  const root = runRoot(id);
-  const lane = body.lane ?? 'exact';
-  if (body.action === 'capture-fidelity') {
-    const result = await captureFidelityEvidence(root, { base: body.base });
-    const manifest = await readJson(path.join(root, 'manifest.json'), {});
-    manifest.lanes ??= {};
-    manifest.lanes.fidelity = { ...(manifest.lanes.fidelity ?? {}), status: 'evidence-ready', capturedAt: result.capturedAt };
-    await writeJson(path.join(root, 'manifest.json'), manifest);
-    return { pages: result.pages.length, capturedAt: result.capturedAt };
-  }
-  if (body.action === 'build-tasks') return buildTasks(root, { lane });
-  if (body.action === 'run') {
-    const status = runStatus(root);
-    if (lane === 'exact' && status.directBatch) {
-      const batch = await readJson(path.join(status.directBatch, 'batch.json'));
-      if (!batch || path.resolve(batch.runDir) !== root) throw new Error('Direct batch belongs to a different import');
-      return runBatch(status.directBatch);
-    }
-    return runLane(root, { lane, concurrency: body.concurrency ?? status.concurrency });
-  }
-  if (body.action === 'merge') return mergeLane(root, { lane });
-  if (body.action === 'validate') return validateRun(root);
-  if (body.action === 'publish-dry-run') return publishRun(root);
-  if (body.action === 'publish-apply') return publishRun(root, { apply: true });
-  if (body.action === 'repair-build') return buildRepairTasks(root);
-  if (body.action === 'repair-run') { await runLane(root, { lane: 'repair', concurrency: body.concurrency ?? runStatus(root).concurrency }); return mergeRepairs(root); }
-  throw new Error(`Unknown full-import action: ${body.action}`);
-}
-
 export function fullBookletImportPlugin() {
   return {
     name: 'full-booklet-import',
@@ -92,12 +60,6 @@ export function fullBookletImportPlugin() {
         if (!pathname.startsWith('/__booklet/full-imports')) return next();
         try {
           if (pathname === '/__booklet/full-imports' && req.method === 'GET') return send(res, 200, await listRuns());
-          if (pathname === '/__booklet/full-imports/preflight' && req.method === 'POST') return send(res, 200, await preflight());
-          if (pathname === '/__booklet/full-imports/prepare' && req.method === 'POST') {
-            const body = await readBody(req);
-            const prepared = prepareRun({ pdf: body.pdf, docx: body.docx, teacherPdf: body.teacherPdf || null, teacherDocx: body.teacherDocx || null, pages: body.pages, runId: body.runId, continuations: body.continuations ?? [] });
-            return send(res, 200, await runDetails(prepared.manifest.id));
-          }
           const fileMatch = pathname.match(/^\/__booklet\/full-imports\/([^/]+)\/files\/(.+)$/);
           if (fileMatch && req.method === 'GET') {
             const root = runRoot(decodeURIComponent(fileMatch[1]));
@@ -110,31 +72,25 @@ export function fullBookletImportPlugin() {
           if (reviewMatch && req.method === 'PUT') {
             const root = runRoot(decodeURIComponent(reviewMatch[1])); const body = await readBody(req);
             const previous = await readJson(path.join(root, 'review.json'), {});
-            await writeJson(path.join(root, 'review.json'), body);
-            if (JSON.stringify(previous.layoutOverrides ?? {}) !== JSON.stringify(body.layoutOverrides ?? {})) {
-              const manifest = await readJson(path.join(root, 'manifest.json'), {});
-              if (manifest.lanes?.fidelity) manifest.lanes.fidelity.status = 'stale';
-              await writeJson(path.join(root, 'manifest.json'), manifest);
-            }
-            validateRun(root);
+            if (body.expectedRevision !== (previous.revision ?? 0)) return send(res, 409, { error: 'Review changed. Refresh before saving.' });
+            const updated = {...previous, flags:body.flags??previous.flags??[], layoutOverrides:body.layoutOverrides??previous.layoutOverrides??{}, history:body.history??previous.history??[], revision:(previous.revision??0)+1};
+            await writeJson(path.join(root, 'review.json'), updated);
+            if (await readJson(path.join(root, 'merged', 'transcription.json'))) validateRun(root);
             return send(res, 200, await runDetails(reviewMatch[1]));
           }
           const contentMatch = pathname.match(/^\/__booklet\/full-imports\/([^/]+)\/review\/content$/);
           if (contentMatch && req.method === 'PATCH') {
             const id = decodeURIComponent(contentMatch[1]);
-            saveContentOverride(runRoot(id), await readBody(req));
-            validateRun(runRoot(id));
+            const body = await readBody(req);
+            if (body.expectedRevision === undefined || !body.expectedBaseHash) return send(res, 409, { error: 'Refresh to obtain the current draft revision before editing.' });
+            saveContentOverride(runRoot(id), body);
+            if (await readJson(path.join(runRoot(id), 'merged', 'transcription.json'))) validateRun(runRoot(id));
             return send(res, 200, await runDetails(id));
-          }
-          const actionMatch = pathname.match(/^\/__booklet\/full-imports\/([^/]+)\/action$/);
-          if (actionMatch && req.method === 'POST') {
-            const id = decodeURIComponent(actionMatch[1]); const result = await perform(id, await readBody(req));
-            return send(res, 200, { result, run: await runDetails(id) });
           }
           const runMatch = pathname.match(/^\/__booklet\/full-imports\/([^/]+)$/);
           if (runMatch && req.method === 'GET') return send(res, 200, await runDetails(decodeURIComponent(runMatch[1])));
           return send(res, 404, { error: 'Full booklet import endpoint not found.' });
-        } catch (error) { return send(res, 500, { error: error.message }); }
+        } catch (error) { return send(res, error.status ?? 500, { error: error.message }); }
       });
     },
   };

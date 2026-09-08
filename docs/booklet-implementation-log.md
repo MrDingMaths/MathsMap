@@ -149,3 +149,55 @@ Fixed the misleading empty reconstruction view reported after the batch finished
 Added a read-only pre-merge preview that combines existing exact results with remaining direct-batch drafts, preferring adopted results over raw candidates. It validates batch ownership, task directory containment and execution-manifest hashes, reports unavailable/malformed drafts, and does not write or approve any import data. Merged imports continue to use their persisted transcription and existing content overrides. The UI now displays **Draft preview · 93/93 pages available**, provides Refresh drafts, and distinguishes inspection from editing/approval, which remain attached to the merged workflow.
 
 Verified the live endpoint returns all 93 pages without load issues. Browser checks visited source pages 1, 46 and 93, confirmed reconstruction and source images load, confirmed pre-merge editing/approval controls are disabled, and found no browser page errors. This checks visibility and loading, not the drafts' mathematical/layout fidelity. Inspection evidence: `tmp/agy-transcription-diagnostics/draft-preview-check.json` and the corresponding page screenshots. **384 tests pass and the production build passes** with the existing bundle-size advisory. No candidates were regenerated, adopted or published; exact-lane coverage and approvals remain unchanged.
+
+## Complete Linear Relationships Studio booklet — 6 September 2026
+
+At the user's request, archived all three saved pilots with their revision histories: 32 files copied and SHA-256 verified before removal from the active project directory. Archive records and restoration instructions are under `booklets/archives/2026-09-06-linear-pilots/`. Existing source evidence, assets and historical exports remain available.
+
+Assembled and saved `linear-relationships-complete-v1` at revision 2, with all 93 source pages in order. It combines the 45 exact-lane pages and 48 retained draft pages, carries forward corrected pilot content and source overrides, and records provenance. Repaired missing answers, maths/table formatting, diagrams in unsupported fields, graph solutions and page layouts. The project has 168 question blocks and 595 answer-bearing parts, all with short and worked answers; all 131 unique asset references resolve. There are 155 TikZ and 159 retained image records, plus 233 proposed curriculum mappings across 12 skills.
+
+Fixed two rendering issues exposed by the complete booklet: multiple beside-question diagrams shared a grid cell and overlapped; short-answer section headings could split across printed pages. A focused browser check now confirms both diagram groups on source page 60 are visible and do not overlap.
+
+Delivered student and worked-solution PDFs at 93 pages each, plus a 30-page compact independent-practice answer key. Reviewed every page across render passes and rechecked every final changed page; all 30 final short-answer pages were inspected after the heading fix. Final print metrics report zero collisions, PDF text checks found no missing-answer/raw-maths markers, and saved/working project content matches. **404 tests pass and the production build succeeds**, with existing CSS/bundle warnings. Reports and PDF hashes are in `output/linear-complete/`; the delivery guide is `docs/linear-relationships-complete.md`.
+
+The complete booklet remains a review draft. The 159 retained raster records still require retention/native-conversion decisions, and curriculum mappings and human mathematical/diagram approvals remain pending. Original exact-lane adoption and raw candidates were preserved; no further remote transcription, bank publication or deployment occurred.
+
+
+## House style and direct booklet editing ? 6 September 2026
+
+Implemented responsive local resizing with one release transaction, structural sharing in updates and review reconciliation, asynchronous save feedback, selected-content editing, and crop/grayscale parity. Added explicit house-style 1.0.0 adoption and synced standalone MathsEditor release 1.4.0.
+
+Applied the 52-item Linear Relationships feedback register to the preserved revision 11 baseline and saved revision 12 after source/layout review and browser/PDF checks. All 93 pages and 598 answer records retain their references; 143 source-image records remain explicitly flagged for review. Student/worked PDFs have 93 pages each and short answers 30. All 408 repository tests passed, relevant final checks passed, and the production build succeeds. The complete evidence and remaining review scope are in [the verification report](booklets-house-style-verification.md).
+
+
+## Focused editing preference and recoverable spaces ? 6 September 2026
+
+Content clicks now open the focused editor by default. Shared MathsEditor colour controls offer eight named booklet swatches alongside custom colour input; canonical changes are synced as release 1.4.1. Zero-height answer-space overrides retain a visible editing handle after save/reload, with pointer and arrow-key restoration. The recovery control is excluded from print. Existing project data is unchanged. All 408 repository tests, 15 standalone model tests, rich-editor browser checks and the production build pass. The full-project interaction check covers focused save/cancel, resize cancellation, undo/redo and restoring zero space.
+
+
+## Annotated equations and independent Key Ideas answers ? 6 September 2026
+
+Added native annotated equations in standalone MathsEditor release 1.5.0 and synced Booklet Studio. Converted source pages 29 and 73 in revision 43, merging into the user's latest revision 42 and preserving all 235 unrelated blocks. Retained original TikZ as evidence. Added the independent Show Key Ideas answers switch and fixed-pitch vector cloze dots shared by canvas and PDF.
+
+All 413 repository tests and 15 standalone model tests pass. Focused browser checks cover native equation typing/undo, anchor changes, palette, label editing, reload and saved Key Ideas defaults. Regenerated the 93-page student and worked PDFs and 30-page short-answer key with zero print collisions. See [verification and usage](booklets-annotated-equations-verification.md).
+
+
+### Focused arrangements - 7 September 2026
+
+Pinned MathsEditor 1.6.0 adds the shared arrangement transaction model, illustrated tab guidance and orange palette. Studio opens whole questions with structural movement, sizing/spacing controls, selected content editing and direct diagram saves. Revision 44 adopts the P11/P30/P38/P39/P41 repairs while preserving unrelated edits. See `docs/booklet-focused-editing.md` and `docs/booklets-focused-arrangements-verification.md`.
+
+### Human editing workflow cleanup - 7 September 2026
+
+Removed Studio model execution, proposal lifecycle, approval controls/gates, pasted question JSON import and workflow metrics. Manual mappings, splits, merges and continuation joins now apply direct edits with ordinary undo. Bank publication remains explicit and uses structural validation; assembly retains pinned revisions, prerequisites, mappings and coverage exceptions with rationale. Added the chat reconstruction importer without audit receipts. Historical project metadata remains inert and historical assets/results remain intact.
+
+Removed the obsolete v2 importer/writer/renderer, proposal and metrics modules, old execution endpoints, and standalone transcription batch/direct execution paths. Shared reconstruction contracts, evidence helpers, compatibility readers and hash-pinned historical prompts remain. Earlier workflow design notes are marked superseded.
+
+All 433 tests, the production build and the new human-workflow browser check pass. All three PDF modes were visually checked. The broader historical browser script passed its editing/responsive/TikZ checks but stopped at an outdated inline layout selector; later assertions in that script remain unverified. See [the current workflow and verification details](booklet-human-workflow.md).
+
+### Linear Relationships reusable bank and revision booklet — 8 September 2026
+
+Preserved source revision 145 and prepared 13 modules, 171 complete question records and 595 answer-bearing parts in a separate working project. Explicit bank saves preserve graph code, models and layout overrides; seven dependent continuation/comparison groups remain selection units. Added eight independent-part excerpts and one comparison-answer variant for a two-lesson revision booklet with 14 core and two optional challenge groups.
+
+Revision-mode recipes retain ordered selections and pinned bank versions without teaching placeholders. Diagram-slot and presentation references survive fresh IDs during assembly and insertion. PDF export now waits for the requested edition and checks the selected answer mode before printing. The source booklet was not edited; synchronization remains explicitly deferred.
+
+All 446 tests pass and the production build succeeds with its existing bundle-size advisory. Bank/module references and 131 assets resolve; source content/presentation transfer checks pass. See [the implementation and coverage report](linear-relationships-bank-and-revision.md), [source-to-bank index](linear-relationships-bank-index.json), and `output/linear-bank/final-verification.json` for PDF and source-preservation evidence.

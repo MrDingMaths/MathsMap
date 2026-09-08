@@ -1,3 +1,4 @@
+import {readGraphModel} from './graph-model.js';
 import { contentSource, contentValue, isDocument } from './document-content.js';
 import { validSourceRegion } from './diagram-source-region.js';
 // MathsMap Booklet Studio v3 question-first contract.
@@ -5,7 +6,6 @@ import { validSourceRegion } from './diagram-source-region.js';
 // Source files, page renders, and question-to-page mapping live in the import job.
 
 export const PRACTICE_QUESTION_FORMAT = 'mathsmap-practice-question-v3';
-export const PRACTICE_IMPORT_FORMAT = 'mathsmap-practice-import-v3';
 export const PRACTICE_QUESTION_VERSION = 3;
 export const QUESTION_BANK_MANIFEST = 'mathsmap-practice-bank-v3';
 export const NODE_TYPES = Object.freeze(['question', 'group', 'part']);
@@ -94,12 +94,16 @@ function normaliseDiagram(raw, role, index) {
       ...(value.sourceAssetOccurrenceId ? { sourceAssetOccurrenceId: String(value.sourceAssetOccurrenceId) } : {}),
     transparent: value.transparent === true,
     axes: deepCopy(value.axes ?? null),
-    ...(value.mathematicalModel ? { mathematicalModel: deepCopy(value.mathematicalModel) } : {}),
+    ...(value.retentionReason ? {retentionReason:String(value.retentionReason)} : {}),
+    ...(value.spec ? {spec:deepCopy(value.spec)} : {}),
+    ...(value.sourceOccurrenceId ? {sourceOccurrenceId:String(value.sourceOccurrenceId)} : {}),
+    ...(value.uncertainties ? {uncertainties:deepCopy(value.uncertainties)} : {}),
+    ...((value.mathematicalModel ?? readGraphModel(code)) ? { mathematicalModel: deepCopy(value.mathematicalModel ?? readGraphModel(code)) } : {}),
     ...(value.sourceRegion ? { sourceRegion: deepCopy(value.sourceRegion) } : {}),
     ...(value.contentRelationship ? { contentRelationship: deepCopy(value.contentRelationship) } : {}),
     ...(value.reconstructionConfidence ? { reconstructionConfidence: value.reconstructionConfidence } : {}),
     derived: value.derived === true,
-    reviewStatus: value.reviewStatus ?? (value.approved === true ? 'approved' : 'needs-review'),
+    ...(value.reviewStatus ? { reviewStatus: value.reviewStatus } : {}),
   };
 }
 
@@ -123,8 +127,8 @@ function rawAnswer(value) {
 
 function normaliseLayout(value) {
   const columns = Number(value?.columns);
-  if (value?.layout === 'grid' || (Number.isInteger(columns) && columns >= 2 && columns <= 4)) {
-    return { layout: 'grid', columns: Number.isInteger(columns) && columns >= 2 && columns <= 4 ? columns : 2 };
+  if (value?.layout === 'grid' || (Number.isInteger(columns) && columns >= 2 && columns <= 6)) {
+    return { layout: 'grid', columns: Number.isInteger(columns) && columns >= 2 && columns <= 6 ? columns : 2 };
   }
   return { layout: 'list', columns: null };
 }
@@ -145,6 +149,16 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
     questionDiagrams: normaliseDiagrams(value.questionDiagrams ?? value.question_diagrams ?? value.images ?? value.diagrams ?? value.tikz, 'question'),
     children: children.map((child, childIndex) => normaliseNode(child, depth + 1, childIndex, false)),
   };
+  if(value.answerColumns)node.answerColumns=Math.max(1,Math.min(6,Number(value.answerColumns)||2));
+  if(value.afterDiagramPrompt!=null)node.afterDiagramPrompt=contentValue(value.afterDiagramPrompt);
+  if(['scenario','pattern-top'].includes(value.layoutPreset))node.layoutPreset=value.layoutPreset;
+  if(value.representations){
+    node.representations=Object.fromEntries(['pattern','table','equation','graph'].map(key=>[key,contentValue(value.representations[key]??'')]));
+    node.representations.diagramSlots=Object.fromEntries(Object.entries(value.representations.diagramSlots??{}).filter(([,slot])=>['pattern','graph'].includes(slot)));
+  }
+  if(value.sharedSolutionDiagrams?.length)node.sharedSolutionDiagrams=normaliseDiagrams(value.sharedSolutionDiagrams,'solution');
+  if(value.sharedSolutionDiagramId)node.sharedSolutionDiagramId=String(value.sharedSolutionDiagramId);
+  if(value.responseKind)node.responseKind=String(value.responseKind);
   if(value.teachingMapping)node.teachingMapping=deepCopy(value.teachingMapping);
   if(['before-prompt','beside-prompt','right-of-prompt'].includes(value.diagramPlacement))node.diagramPlacement=value.diagramPlacement;
   if(value.dependsOn?.length)node.dependsOn=unique(value.dependsOn);
@@ -171,7 +185,7 @@ export function allNodes(node) {
 }
 
 export function allDiagrams(question) {
-  return allNodes(question?.content).flatMap((node) => [...(node.questionDiagrams ?? []), ...(node.answer?.solutionDiagrams ?? [])]);
+  return allNodes(question?.content).flatMap((node) => [...(node.questionDiagrams ?? []), ...(node.answer?.solutionDiagrams ?? []), ...(node.sharedSolutionDiagrams ?? [])]);
 }
 
 export function isMultipart(question) {
@@ -226,6 +240,7 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
       difficultyReason: text(value.difficultyReason ?? classification.difficultyReason) || 'Score-derived from the calibrated 0–100 reasoning scale.',
     },
     content: root,
+    ...(value.presentation ? {presentation:deepCopy(value.presentation)} : {}),
     review: {
       approvedBy: value.review?.approvedBy ?? null,
       approvedAt: value.review?.approvedAt ?? null,
@@ -275,14 +290,6 @@ export function containsSourceMetadata(value) {
   return found;
 }
 
-export function invalidateApproval(question, reason = 'edited') {
-  const next = normaliseQuestion(deepCopy(question));
-  next.status = next.status === 'approved' ? 'draft' : next.status;
-  next.review = { ...next.review, approvedAt: null, approvedBy: null, flags: reason === 'edited' ? [...next.review.flags] : unique([...next.review.flags, reason]) };
-  next.updatedAt = new Date().toISOString();
-  return next;
-}
-
 function balancedMath(value) {
   const source = text(value);
   const dollars = source.match(/(?<!\\)\$/g)?.length ?? 0;
@@ -316,7 +323,6 @@ function validateDiagram(diagram, path, errors, warnings, diagramIds) {
   if (diagram.overlayOf && diagram.role !== 'solution-overlay') errors.push(path + '.overlayOf requires role solution-overlay');
   if (diagram.overlayOf && diagram.transparent !== true) errors.push(path + '.overlayOf requires a transparent overlay');
   if (diagram.widthMm == null || !Number.isFinite(Number(diagram.widthMm)) || Number(diagram.widthMm) <= 0 || Number(diagram.widthMm) > 190) errors.push(path + '.widthMm must be between 1 and 190');
-  if (diagram.reviewStatus !== 'approved') warnings.push(path + ' is awaiting diagram review');
 }
 
 function validateNode(node, path, errors, warnings, depth, diagramIds) {
@@ -369,31 +375,8 @@ export function validateQuestion(raw, { skillIds = null, allowDraft = true } = {
   const diagramIds = new Set(allDiagrams(question).map((diagram) => diagram.id));
   validateNode(question.content, 'content', errors, warnings, 0, diagramIds);
   if (question.content.type !== 'question') errors.push('content.type must be question');
-  if (question.review.flags.length) warnings.push('review.flags must be resolved before approval');
+  if (question.review.flags.length) warnings.push('Question has issue notes');
   return { question, errors, warnings, valid: errors.length === 0 };
-}
-
-export function approvalCheck(raw, options = {}) {
-  const checked = validateQuestion(raw, options);
-  const blockers = [...checked.errors];
-  const question = checked.question;
-  if (question.review.flags.length) blockers.push('review.flags contains unresolved uncertainty');
-  for (const diagram of allDiagrams(question)) {
-    if (!diagram.role) blockers.push(diagram.id + ' has no diagram role');
-    if (diagram.reviewStatus !== 'approved') blockers.push(diagram.id + ' is awaiting diagram approval');
-    if (diagram.overlayOf && diagram.transparent !== true) blockers.push(diagram.id + ' overlay is not transparent');
-  }
-  return { ...checked, blockers, ready: blockers.length === 0 };
-}
-
-export function markApproved(raw, { approvedBy = 'Luna Max', at = new Date().toISOString() } = {}) {
-  const check = approvalCheck(raw);
-  if (!check.ready) throw new Error('Cannot approve ' + check.question.id + ': ' + check.blockers.join('; '));
-  const next = normaliseQuestion(deepCopy(raw));
-  next.status = 'approved';
-  next.review = { ...next.review, approvedBy, approvedAt: at, history: [...(next.review.history ?? []), { status: 'approved', approvedBy, at }] };
-  next.updatedAt = at;
-  return next;
 }
 
 export function questionSearchText(question) {
@@ -532,42 +515,4 @@ export function makeBankManifest(records = []) {
       shape: question.content.layout === 'grid' ? 'grid' : isMultipart(question) ? 'multipart' : 'single',
     })),
   };
-}
-
-export function normalizeImport(raw = {}, source = {}) {
-  const value = raw && typeof raw === 'object' ? raw : {};
-  const questions = Array.isArray(value.questions) ? value.questions : Array.isArray(value.items) ? value.items : [];
-  const evidence = deepCopy(value.evidence ?? value.sourceEvidence ?? {});
-  return {
-    format: PRACTICE_IMPORT_FORMAT,
-    version: PRACTICE_QUESTION_VERSION,
-    status: value.status ?? 'needs-review',
-    jobId: value.jobId ?? source.importId ?? null,
-    evidence,
-    questions: questions.map((question, index) => normaliseQuestion(question, { index, source: { ...source, ...(question?.source ?? {}) } })),
-    flags: unique(value.flags ?? value.reviewFlags),
-  };
-}
-
-export function validateImport(raw, { skillIds = null } = {}) {
-  const value = raw && typeof raw === 'object' ? raw : {};
-  const payload = normalizeImport(value);
-  const rawQuestions = Array.isArray(value.questions) ? value.questions : Array.isArray(value.items) ? value.items : [];
-  const errors = [];
-  const warnings = [...payload.flags];
-  if (value.format !== PRACTICE_IMPORT_FORMAT) errors.push('import format must be ' + PRACTICE_IMPORT_FORMAT);
-  if (Number(value.version) !== PRACTICE_QUESTION_VERSION) errors.push('import version must be 3');
-  if (!payload.questions.length) errors.push('Import contains no questions');
-  if (containsForbiddenMarks(value)) errors.push('marks are not part of the v3 import contract');
-  if (rawQuestions.some(containsParentAnswers)) errors.push('parent nodes cannot carry answers or solution summaries');
-  if (rawQuestions.some(containsSourceMetadata)) errors.push('source metadata belongs in the import job evidence map');
-  const ids = new Set();
-  for (const question of payload.questions) {
-    if (ids.has(question.id)) errors.push('Duplicate question id: ' + question.id);
-    ids.add(question.id);
-    const checked = validateQuestion(question, { skillIds });
-    errors.push(...checked.errors.map((error) => question.id + ': ' + error));
-    warnings.push(...checked.warnings.map((warning) => question.id + ': ' + warning));
-  }
-  return { payload, errors, warnings, valid: errors.length === 0 };
 }

@@ -4,11 +4,12 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {
-  BOOKLET_AGY_MODEL, DEFAULT_CONCURRENCY, applyContentOverrides, assertPinnedInputs, buildTasks, contentHash,
-  extractWordAssetOccurrences, hashFile, hashValue, mergeLane, mergeRepairs, parsePageSelection,
+  BOOKLET_AGY_MODEL, DEFAULT_CONCURRENCY, applyContentOverrides, assertPinnedInputs, contentHash,
+  extractWordAssetOccurrences, hashFile, hashValue, mergeLane, parsePageSelection,
   saveContentOverride, shardPages, shardQuestions, transcriptionHazards,
 } from '../scripts/booklet/transcription.mjs';
-import { normalizeBookletProject, resolveProject } from '../src/lib/booklet-model.js';
+import { materializeLegacyProject } from '../src/lib/editable-booklet-model.js';
+import { normalizeBookletProject } from '../src/lib/booklet-model.js';
 import { groupBookletBlocks, investigationDescription, splitBookletTables } from '../src/lib/booklet-preview.js';
 import { validateCaptureBase } from '../scripts/booklet/capture-fidelity.mjs';
 
@@ -30,9 +31,9 @@ function fakeRun() {
   return { workRoot, runDir };
 }
 
-test('booklet lanes are pinned to Gemini 3.8 Flash High and image-heavy concurrency three', () => {
+test('historical Gemini identity remains readable while new transcription runs serially', () => {
   assert.equal(BOOKLET_AGY_MODEL, 'gemini-3.8-flash-high');
-  assert.equal(DEFAULT_CONCURRENCY, 3);
+  assert.equal(DEFAULT_CONCURRENCY, 1);
 });
 
 test('page selection and structural sharding are deterministic and continuation-safe', () => {
@@ -68,56 +69,6 @@ test('exact merge rejects missing pages and duplicate ids', () => {
   assert.throws(() => mergeLane(duplicate.runDir, { lane: 'exact' }), /Duplicate ids/);
 });
 
-test('classification merge is content-hash locked', () => {
-  const { runDir } = fakeRun();
-  const q1 = question('page-1-q1', 'Calculate 2 + 3.');
-  const q2 = question('page-2-q1', 'Calculate 7 - 4.');
-  writeJson(path.join(runDir, 'lanes', 'exact', 'task-001.result.json'), { pages: [
-    { id: 'page-1', pageNumber: 1, section: { id: 's1', role: 'mixed-practice' }, blocks: [q1] },
-    { id: 'page-2', pageNumber: 2, section: { id: 's2', role: 'mixed-practice' }, blocks: [q2] },
-  ] });
-  mergeLane(runDir, { lane: 'exact' });
-  fs.mkdirSync(path.join(runDir, 'lanes', 'enrichment'), { recursive: true });
-  writeJson(path.join(runDir, 'lanes', 'enrichment', 'task-001.result.json'), { questions: [q1, q2].map((q, index) => ({
-    id: q.id, contentHash: contentHash(q), classification: { reasoningScore: 20 + index * 20, difficulty: index ? 'Development' : 'Foundation', primarySkillId: 'skill-x', secondarySkillIds: [], difficultyReason: 'Test' },
-  })) });
-  const before = [contentHash(q1), contentHash(q2)];
-  mergeLane(runDir, { lane: 'enrichment' });
-  const merged = JSON.parse(fs.readFileSync(path.join(runDir, 'merged', 'transcription.json')));
-  assert.deepEqual(merged.pages.flatMap((page) => page.blocks).map(contentHash), before);
-
-  const bad = JSON.parse(fs.readFileSync(path.join(runDir, 'lanes', 'enrichment', 'task-001.result.json')));
-  bad.questions[0].contentHash = 'changed';
-  writeJson(path.join(runDir, 'lanes', 'enrichment', 'task-001.result.json'), bad);
-  assert.throws(() => mergeLane(runDir, { lane: 'enrichment' }), /content hash changed/i);
-});
-
-test('targeted repair cannot modify an unaddressed root', () => {
-  const { runDir } = fakeRun();
-  const q1 = question('page-1-q1', 'Old prompt'); const q2 = question('page-2-q1', 'Untouched prompt');
-  writeJson(path.join(runDir, 'lanes', 'exact', 'task-001.result.json'), { pages: [
-    { id: 'page-1', pageNumber: 1, section: { id: 's1', role: 'mixed-practice' }, blocks: [q1] },
-    { id: 'page-2', pageNumber: 2, section: { id: 's2', role: 'mixed-practice' }, blocks: [q2] },
-  ] });
-  mergeLane(runDir, { lane: 'exact' });
-  const review = JSON.parse(fs.readFileSync(path.join(runDir, 'review.json'))); review.flags = [{ rootId: q1.id, code: 'bad-text', severity: 'fatal' }];
-  review.pages.forEach((page) => { page.accepted = true; });
-  review.questions[q1.id] = { accepted: true };
-  writeJson(path.join(runDir, 'review.json'), review);
-  fs.mkdirSync(path.join(runDir, 'lanes', 'repair'), { recursive: true });
-  const replacement = question(q1.id, 'Corrected prompt');
-  writeJson(path.join(runDir, 'lanes', 'repair', 'task-001.result.json'), { repairs: [{ id: q1.id, beforeHash: contentHash(q1), replacement }] });
-  const untouchedBefore = contentHash(q2);
-  mergeRepairs(runDir);
-  const merged = JSON.parse(fs.readFileSync(path.join(runDir, 'merged', 'transcription.json')));
-  assert.equal(merged.pages[0].blocks[0].content.prompt, 'Corrected prompt');
-  assert.equal(contentHash(merged.pages[1].blocks[0]), untouchedBefore);
-  const afterReview = JSON.parse(fs.readFileSync(path.join(runDir, 'review.json')));
-  assert.equal(afterReview.pages[0].accepted, false);
-  assert.equal(afterReview.pages[1].accepted, true);
-  assert.equal(afterReview.questions[q1.id], undefined);
-  assert.notEqual(afterReview.flags[0].resolved, true);
-});
 
 test('v2 projects normalize to reversible v3 local placements and still resolve', () => {
   const legacy = { format: 'mathsmap-booklet-project-v2', version: 2, id: 'old', title: 'Old', sections: [{ id: 's', title: 'S', blocks: [{ id: 'text', type: 'rich-text', content: 'Hello' }] }] };
@@ -125,18 +76,7 @@ test('v2 projects normalize to reversible v3 local placements and still resolve'
   assert.equal(migrated.format, 'mathsmap-booklet-project-v3');
   assert.equal(migrated.migratedFrom.format, legacy.format);
   assert.equal(migrated.sections[0].blocks[0].type, 'local-block');
-  assert.equal(resolveProject(migrated).sections[0].blocks[0].type, 'rich-text');
-});
-
-test('theory solutions are visible by default and can be hidden without affecting practice answers', () => {
-  const project = normalizeBookletProject({ id: 'toggle', title: 'Toggle', sections: [{ id: 's', title: 'S', role: 'teaching', blocks: [{ id: 'm-place', type: 'module-ref', moduleId: 'm' }] }] });
-  const modules = new Map([['m', { id: 'm', sequence: [{ type: 'content-block', block: { id: 'example', type: 'worked-example', content: 'Prompt', theorySolution: 'Blue solution', examples: [{ prompt: 'P', theorySolution: 'S' }] } }] }]]);
-  const shown = resolveProject(project, new Map(), { modules });
-  assert.equal(shown.sections[0].blocks[0].theorySolution, 'Blue solution');
-  assert.equal(shown.sections[0].blocks[0].examples[0].theorySolution, 'S');
-  const hidden = resolveProject(project, new Map(), { modules, showTheorySolutions: false });
-  assert.equal(hidden.sections[0].blocks[0].theorySolution, undefined);
-  assert.equal(hidden.sections[0].blocks[0].examples[0].theorySolution, undefined);
+  assert.equal(materializeLegacyProject(migrated).sections[0].blocks[0].type, 'rich-text');
 });
 
 test('Word asset extraction keeps occurrence order even when a path repeats', () => {
@@ -197,7 +137,7 @@ test('exact v2 keeps an Identify atom intact and rejects evidence-only duplicati
   assert.throws(() => mergeLane(bad.runDir, { lane: 'exact' }), /Evidence-only assets are referenced|no occurrence records/);
 });
 
-test('content overrides preserve raw transcription, retain original value, invalidate approvals, and reject stale roots', () => {
+test('content overrides preserve raw transcription, retain original value, preserve historical metadata, and reject stale roots', () => {
   const { runDir } = fakeRun();
   const q1 = question('page-1-q1', 'Before');
   writeJson(path.join(runDir, 'lanes', 'exact', 'task-001.result.json'), { pages: [
@@ -216,7 +156,7 @@ test('content overrides preserve raw transcription, retain original value, inval
   assert.equal(applyContentOverrides(raw, review).pages[0].blocks[0].content.prompt, 'After');
   assert.equal(review.contentOverrides[q1.id]['/content/prompt'].originalValue, 'Before');
   assert.equal(review.pages[0].accepted, false);
-  assert.equal(JSON.parse(fs.readFileSync(manifestFile)).lanes.fidelity.status, 'stale');
+  assert.equal(JSON.parse(fs.readFileSync(manifestFile)).lanes.fidelity.status, 'merged');
   raw.pages[0].blocks[0].content.prompt = 'Changed upstream';
   assert.throws(() => applyContentOverrides(raw, review), /stale/);
 });
@@ -224,30 +164,4 @@ test('content overrides preserve raw transcription, retain original value, inval
 test('fidelity capture base accepts only local Booklet Studio origins', () => {
   assert.equal(validateCaptureBase('http://localhost:5173/path'), 'http://localhost:5173');
   assert.throws(() => validateCaptureBase('https://example.com'), /local Booklet Studio/);
-});
-
-test('fidelity merge rejects results after reconstructed screenshot evidence changes', () => {
-  const { runDir } = fakeRun();
-  writeJson(path.join(runDir, 'lanes', 'exact', 'task-001.result.json'), { pages: [
-    { id: 'page-1', pageNumber: 1, section: { id: 's1', role: 'front-matter' }, blocks: [] },
-    { id: 'page-2', pageNumber: 2, section: { id: 's2', role: 'front-matter' }, blocks: [] },
-  ] });
-  mergeLane(runDir, { lane: 'exact' });
-  for (const pageNumber of [1, 2]) {
-    const suffix = String(pageNumber).padStart(3, '0');
-    const source = path.join(runDir, 'evidence', 'pages', `page-${suffix}.png`);
-    const reconstructed = path.join(runDir, 'evidence', 'reconstructed', `page-${suffix}.png`);
-    fs.mkdirSync(path.dirname(source), { recursive: true });
-    fs.mkdirSync(path.dirname(reconstructed), { recursive: true });
-    fs.writeFileSync(source, `source-${pageNumber}`);
-    fs.writeFileSync(reconstructed, `reconstructed-${pageNumber}`);
-  }
-  buildTasks(runDir, { lane: 'fidelity' });
-  const task = fs.readFileSync(path.join(runDir, 'lanes', 'fidelity', 'task-001.md'), 'utf8');
-  const inputs = [...task.matchAll(/"pageNumber": (\d+),[\s\S]*?"rootId": "([^"]+)",[\s\S]*?"contentHash": "([^"]+)",[\s\S]*?"evidenceHash": "([^"]+)"/g)]
-    .map((match) => ({ pageNumber: Number(match[1]), rootId: match[2], contentHash: match[3], evidenceHash: match[4], status: 'pass', flags: [] }));
-  assert.equal(inputs.length, 2);
-  writeJson(path.join(runDir, 'lanes', 'fidelity', 'task-001.result.json'), { format: 'mathsmap-fidelity-audit-result-v1', pages: inputs });
-  fs.writeFileSync(path.join(runDir, 'evidence', 'reconstructed', 'page-002.png'), 'changed screenshot');
-  assert.throws(() => mergeLane(runDir, { lane: 'fidelity' }), /screenshot evidence changed or is stale/);
 });
