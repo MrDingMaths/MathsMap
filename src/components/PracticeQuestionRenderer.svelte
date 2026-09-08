@@ -11,14 +11,19 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz } from '../lib/booklet-preview.js';
+  import {compactAnswerDisplay,answerDiagramStyle} from '../lib/booklet-exercises.js';
 
-  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compact = false, blockLayouts = {}, answerSpaceOverrides = {}, diagramWidthOverrides = {}, diagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
+  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts = {}, answerSpaceOverrides = {}, diagramWidthOverrides = {}, diagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   const letter = (index) => String.fromCharCode(97 + index);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
   const leafLabel = (path) => number == null ? path.join('') : [String(number), ...path].join('');
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
   const spaceFor = (node) => node.responseSpace === 'scaffold' ? 0 : Number.isFinite(Number(answerSpaceOverrides[node.id])) ? answerSpaceOverrides[node.id] : estimateAnswerSpaceMm(node);
-  const widthFor = (diagram) => blockLayouts[diagram.id]?.diagramWidthMm ?? (Number.isFinite(Number(diagramWidthOverrides[diagram.id])) ? diagramWidthOverrides[diagram.id] : (showShortAnswers || showWorkedSolutions ? Math.min(Number(diagram.widthMm) || 60,60) : Number(diagram.widthMm) || 95));
+  const widthFor = (diagram) => {
+    const width=blockLayouts[diagram.id]?.diagramWidthMm ?? (Number.isFinite(Number(diagramWidthOverrides[diagram.id])) ? diagramWidthOverrides[diagram.id] : (showShortAnswers || showWorkedSolutions ? Math.min(Number(diagram.widthMm) || 60,60) : Number(diagram.widthMm) || 95));
+    return compactAnswerSettings ? answerDiagramStyle(compactAnswerSettings,showShortAnswers?'short':'worked',diagram)?.widthMm??compactAnswerSettings.diagramWidths?.[diagram.id]??Math.min(width,showShortAnswers?compactAnswerSettings.shortDiagramMm:compactAnswerSettings.workedDiagramMm):width;
+  };
+  const diagramCode=diagram=>answerDiagramStyle(compactAnswerSettings,showShortAnswers?'short':'worked',diagram)?.code??diagram.code;
   const isPattern = diagram => /pattern|sequence|matchstick|chairs/i.test(diagram.alt??'')&&!/graph|grid|Cartesian|axes/i.test(diagram.alt??'');
   const clampSpace = (value) => Math.max(0, Math.min(180, Number(value) || 0));
   const clampWidth = (value) => Math.max(25, Math.min(190, Number(value) || 95));
@@ -113,7 +118,7 @@
   {:else}
     <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       {#if diagram.format === 'tikz' && diagram.code}
-        <div class="diagram diagram-tikz"><Tikz code={diagram.code} eager={eagerDiagrams} /></div>
+        <div class="diagram diagram-tikz"><Tikz code={diagramCode(diagram)} eager={eagerDiagrams} /></div>
       {:else if diagram.src}
         {@const region = sourceRegionStyles(diagram.sourceRegion)}
         <figure class="diagram" style={region?.frame} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'}><img style={region?.image} src={diagram.src} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
@@ -163,10 +168,10 @@
     </div>
     {#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
   {:else}
-    <article class="answer-item" data-node-id={node.id} style={questionLayoutStyle(node,blockLayouts)}><div class="answer-label">{leafLabel(nextPath)}</div><div class="answer-content">
-      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(node.answer.short)} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
+    <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label">{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
+      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(node.answer.short)} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(node.answer.short)):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
-      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
+      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>
   {/if}
 {/snippet}
@@ -186,7 +191,7 @@
   </div>
 {/snippet}
 
-<div class:answer-key={showShortAnswers || showWorkedSolutions} class="practice-question" data-question-id={question?.id ?? ''}>
+<div class:answer-key={showShortAnswers || showWorkedSolutions} class:compact-answer={!!compactAnswerSettings} class="practice-question" data-question-id={question?.id ?? ''} style={compactAnswerSettings?`--type-body:${showShortAnswers?compactAnswerSettings.shortFontPt:compactAnswerSettings.workedFontPt}pt;--answer-label-width:${answerLabelWidthMm}mm`:''}>
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions)}
@@ -195,6 +200,15 @@
 </div>
 
 <style>
+  .practice-question.compact-answer{line-height:1.22}
+  .compact-answer .answer-children{display:block;margin:0}
+  .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{grid-template-columns:var(--answer-label-width) minmax(0,1fr);gap:2mm;padding:.8mm 0;border-bottom:.15mm solid #e0e5ea}
+  .compact-answer .answer-label a{color:inherit;text-decoration:none}
+  .compact-answer .answer-content{text-align:left}
+  .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important;text-align:left!important}
+  .compact-answer :global(.katex-display){margin:.5mm 0!important;text-align:left!important}
+  .compact-answer :global(.katex-display > .katex){text-align:left!important}
+  .compact-answer .diagram-resize-shell{margin:1mm 0}
   .pattern-top .representation-pattern{grid-column:1 / span 2;grid-row:1}.pattern-top .representation-table{grid-column:1;grid-row:2}.pattern-top .representation-equation{grid-column:1;grid-row:3}.pattern-top .representation-graph{grid-column:2;grid-row:2 / span 2}
   .representations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3mm;margin-left:calc(var(--label-width) + var(--label-gap));break-inside:avoid}.representation{min-width:0;padding:1mm 2mm;border-top:.2mm solid #ddd}.representation-pattern{grid-column:1;grid-row:1;min-height:24mm}.representation-table{grid-column:2;grid-row:1}.representation-equation{grid-column:1;grid-row:2;min-height:28mm}.representation-graph{grid-column:2;grid-row:2}.without-pattern .representation-pattern{display:none}.without-pattern .representation-table{grid-column:1;grid-row:1}.without-pattern .representation-graph{grid-column:2;grid-row:1 / span 2}.representation-pattern .diagram-resize-shell{margin-left:0}.representation :global(p){margin-top:0}
 

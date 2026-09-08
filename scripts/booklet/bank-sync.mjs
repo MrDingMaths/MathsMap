@@ -3,6 +3,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {sharedQuestion,mergeQuestionContent} from '../../src/lib/question-sync.js';
 import {normaliseQuestion,validateQuestion,makeBankManifest} from '../../src/lib/practice-question-model.js';
+import {reconcileSyncLayout} from '../../src/lib/question-sync-layout.js';
 
 export const revisionHash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const sharedHash=q=>revisionHash(sharedQuestion(normaliseQuestion(q)));
@@ -32,6 +33,7 @@ export async function prepareAutomaticSync(project,bankRoot){
   if(localHash===bankHash){if(block.bankRef?.id===id)block.bankRef.revision=revisionHash(current);if(link.sourceHash!==localHash||link.bankHash!==bankHash||link.bankRevision!==revisionHash(current)){registerOwner(links,project,block,current);changed=true;}continue;}
   if(localHash===link.sourceHash||bankHash!==link.bankHash)continue; // local save succeeds; conflicting question pauses.
   const next=normaliseQuestion({...current,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(block).content,current.content),updatedAt:new Date().toISOString()});
+  reconcileSyncLayout(current,next,next.presentation);
   const check=validateQuestion(next);if(!check.valid)throw new Error('Bank sync: '+check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',id,revisionHash(current)+'.json'),current],[path.join(bankRoot,id+'.json'),next]);updated.push(next);
   registerOwner(links,project,block,next);changed=true;
@@ -69,11 +71,15 @@ export async function prepareSyncResolution(project,bankRoot,body){
  const links=await syncLinks(bankRoot),block=blocks(project).find(b=>b.id===body.blockId),bank=await readSyncJson(path.join(bankRoot,item.bankId+'.json')),entries=[];
  if(body.action==='use-bank'){
   const base=block.bankRef?.revision?await readSyncJson(path.join(bankRoot,'.revisions',item.bankId,block.bankRef.revision+'.json')):null;
+  const before=structuredClone(block);
   block.content=mergeQuestionContent(bank.content,block.content,base?.content);block.title=bank.title;
+  reconcileSyncLayout(before,block,block.presentation);
+  reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
   if(block.bankRef)block.bankRef.revision=item.bankRevision;
   if(item.owner)registerOwner(links,project,block,bank);
  }else if(body.action==='use-booklet'&&item.owner){
   const next=normaliseQuestion({...bank,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(block).content,bank.content),updatedAt:new Date().toISOString()});
+  reconcileSyncLayout(bank,next,next.presentation);
   const check=validateQuestion(next);if(!check.valid)throw new Error(check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',bank.id,item.bankRevision+'.json'),bank],[path.join(bankRoot,bank.id+'.json'),next],await bankManifestEntry(bankRoot,[next]));
   registerOwner(links,project,block,next);

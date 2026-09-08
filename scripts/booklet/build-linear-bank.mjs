@@ -5,6 +5,9 @@ import {createBookletProject,loadBookletProject,promoteProjectQuestion,promotePr
 import {reviewTargets} from '../../src/lib/booklet-review-model.js';
 import {contentSource} from '../../src/lib/document-content.js';
 import {normaliseQuestion,validateQuestion} from '../../src/lib/practice-question-model.js';
+import {isTheoryReview} from '../../src/lib/question-bank-eligibility.js';
+import {linearAssessments} from './linear-bank-assessments.mjs';
+import {assessedClassification} from './reassess-linear-bank.mjs';
 
 const sourcePath='booklets/projects/linear-relationships-complete-v1.json';
 const out='output/linear-bank';
@@ -57,9 +60,12 @@ try{working=await loadBookletProject(workId);}catch{
       const independent=targetAudit.get(b.id)?.roles?.includes('assesses')&&!['guided-practice','identify','investigation'].includes(b.pedagogyRole);
       b.pedagogyRole??=independent?'practice':(/guided|gp/.test(b.id)?'guided-practice':'practice');
       const extension=b.id==='page-93-q6'||b.id==='page-93-q5';
-      const hard=extension||[12,37,38,41,56,57,88,93].includes(b.sourcePageNumber);
-      const difficulty=hard?'Mastery':b.sourcePageNumber<27?'Foundation':'Development';
-      b.classification={primarySkillId:mapped[0],secondarySkillIds:mapped.slice(1),archetype:mapping.archetype,difficulty,difficultyReason:hard?'Additional method selection, transfer or boundary reasoning.':'Routine practice classified within its revised teaching sequence.'};
+      const assessment=linearAssessments[b.id];
+      if(!assessment)throw Error('Question needs an individual reasoning assessment: '+b.id);
+      b.classification=normaliseQuestion({classification:{primarySkillId:mapped[0],secondarySkillIds:mapped.slice(1),archetype:mapping.archetype,...assessment}}).classification;
+      b.classification=assessedClassification(b,b.id);
+      mapping.skillIds=[b.classification.primarySkillId,...b.classification.secondarySkillIds];
+      if(isTheoryReview(b,section))b.libraryRole='theory-review';
       const ids=new Set([b.id]);const scan=v=>{if(!v||typeof v!=='object')return;if(v.id)ids.add(v.id);Object.values(v).forEach(x=>Array.isArray(x)?x.forEach(scan):scan(x));};scan(b.content);
       b.presentation={layoutOverrides:Object.fromEntries(['blockLayouts','answerSpaces','diagramColourModes'].map(key=>[key,Object.fromEntries(Object.entries(source.settings?.layoutOverrides?.[key]??{}).filter(([id])=>ids.has(id)))]))};
       b.provenance={projectId:source.id,revision:baseline.revision,projectSha256:baseline.sha256,sourceBlockIds:[b.id],sourcePages:[b.sourcePageNumber],moduleId:chunk.id,revisionEligible:independent&&!extension,extension,sourceContentSha256:hash(original.content)};
@@ -75,6 +81,7 @@ for(const chunk of order){
   working=await loadBookletProject(workId);
   const section=working.sections.find(s=>s.id==='linear-module-'+chunk.id);
   for(const block of section.blocks.filter(b=>b.type==='question')){
+    if(isTheoryReview(block,section))continue;
     if(!block.bankRef?.id)await promoteProjectQuestion(workId,{blockId:block.id,mode:'create'});
   }
   working=await loadBookletProject(workId);
@@ -89,7 +96,7 @@ for(const chunk of order){
 }
 working=await loadBookletProject(workId);
 const graphChecks=[];
-for(const b of working.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question')){
+for(const b of working.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question'&&!isTheoryReview(b))){
   const bank=JSON.parse(await fs.readFile('booklets/question-bank/'+b.bankRef.id+'.json','utf8'));
   const expected=normaliseQuestion(b);
   if(hash(expected.content)!==hash(bank.content)||hash(expected.presentation)!==hash(bank.presentation))throw Error('Bank transfer mismatch '+b.id);

@@ -6,7 +6,7 @@ import {teachingLabels} from './booklet-labels.js';
 export function measurementKeyFor(project,options={}) {
   const signatures=new WeakMap(),overrides=project.settings.layoutOverrides??{};
   const labels=teachingLabels(project.sections.flatMap(s=>s.blocks));
-  const context=JSON.stringify([project.id,project.source?.runId,project.settings.houseStyleVersion,options]);
+  const context=JSON.stringify([project.id,project.source?.runId,project.settings.houseStyleVersion,project.settings.compactAnswers,project.settings.exerciseOrganisation,options]);
   const signature=block=>{
     if(signatures.has(block))return signatures.get(block);
     const ids=new Set();
@@ -16,7 +16,7 @@ export function measurementKeyFor(project,options={}) {
     const value=JSON.stringify([block,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
     signatures.set(block,value);return value;
   };
-  return page=>JSON.stringify([context,page.section.title,page.section.difficultyTitle,page.section.headingStyle,page.showTopicHeading,page.showDifficultyHeading,page.mode,page.blocks.map(signature)]);
+  return page=>JSON.stringify([context,page.section.title,page.section.difficultyTitle,page.section.headingStyle,page.showTopicHeading,page.showDifficultyHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment])),page.blocks.map(signature)]);
 }
 
 // Measurements need settled assets and a synchronous layout, not several paint

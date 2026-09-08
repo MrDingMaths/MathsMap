@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { normaliseQuestion } from '../../src/lib/practice-question-model.js';
+import { isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
 import { deriveAnswer } from '../../src/lib/booklet-model.js';
 import { splitInlineContent } from '../../src/lib/inline-content.js';
 export function solutionFields(solution, id, answer = null) {
@@ -25,7 +26,7 @@ export async function mathsMapCandidates(skillIds,{root=process.cwd()}={}) {
   }
   const bankRoot=path.join(root,'booklets','question-bank'),files=await fs.readdir(bankRoot).catch(e=>{if(e.code==='ENOENT')return [];throw e;});
   for(const name of files.filter(n=>n.endsWith('.json')&&n!=='manifest.json')){
-    const raw=JSON.parse(await fs.readFile(path.join(bankRoot,name),'utf8'));if(raw.status!=='approved')continue;
+    const raw=JSON.parse(await fs.readFile(path.join(bankRoot,name),'utf8'));if(!isSelectableBankQuestion(raw))continue;
     const question=normaliseQuestion(raw),mapped=[question.classification.primarySkillId,...question.classification.secondarySkillIds];if(!mapped.some(s=>skillIds.includes(s)))continue;
     const prerequisiteIds=new Set(),walk=n=>{for(const key of n.teachingMapping?.prerequisiteIds??[])prerequisiteIds.add(key);(n.children??[]).forEach(walk);};walk(question.content);
     result.push({question,origin:'bank',sourceId:question.id,revision:createHash('sha256').update(JSON.stringify(raw)).digest('hex'),skillIds:mapped,archetype:question.classification.archetype??'',tier:question.classification.difficulty,prerequisiteIds:[...prerequisiteIds]});

@@ -3,7 +3,7 @@
   import InlineContent from './InlineContent.svelte';
   import BookletFooter from './BookletFooter.svelte';
 
-  let { pages = [] } = $props();
+  let { pages = [],anchorPrefix='' } = $props();
   let cover = $derived(deriveBookletCover(pages));
 </script>
 
@@ -28,7 +28,7 @@
       <h2 id="booklet-contents-heading">Contents</h2>
       <div class="contents-list">
         {#each cover.contents as item}
-          <div class="contents-row"><span><InlineContent text={item.title} /></span><span class="leader" aria-hidden="true"></span><span class="page-no">{item.pageNumber}</span></div>
+          <div class="contents-row"><span>{#if item.href}<a href={'#'+anchorPrefix+item.href.slice(1)}><InlineContent text={item.title}/></a>{:else}<InlineContent text={item.title} />{/if}</span><span class="leader" aria-hidden="true"></span><span class="page-no">{item.pageNumber}</span></div>
         {/each}
       </div>
     </section>
@@ -37,6 +37,7 @@
 </article>
 
 <style>
+  .contents-row a{color:inherit;text-decoration:none}.contents-row:has(a){grid-template-columns:minmax(0,1fr) 8mm max-content;font-size:10pt}
   .booklet-cover { --accent:#f28f94; --ink:#111; --muted:#777; --line:#d8d8d8; --type-meta:8.5pt; --type-label:9pt; --type-body:11.5pt; --type-subheading:17pt; --type-heading:16pt; --type-display:36pt; position:relative; width:210mm; min-height:297mm; overflow:hidden; box-sizing:border-box; background:#fff; color:var(--ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11pt; line-height:1.38; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
   .accent-bar { position:absolute; top:10mm; bottom:16mm; left:15mm; width:6mm; border-radius:1.8mm; background:var(--accent); }
   .cover-inner { display:flex; min-height:297mm; box-sizing:border-box; padding:10mm 15mm 10mm 30mm; flex-direction:column; }

@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import { isTheoryReview, isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
 import path from 'node:path';
 import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
 import { mathsMapCandidates } from './assembly-bank.mjs';
@@ -294,7 +295,7 @@ async function duplicateCandidates(block, bankRoot) {
   const local = normaliseQuestion({ ...block, id: block.canonicalId ?? block.id, content: block.content });
   const localContent = revisionOf(local.content);
   const records = await readRecords(bankRoot);
-  return records.map((question) => ({
+  return records.filter(isSelectableBankQuestion).map((question) => ({
     id: question.id,
     title: question.title,
     revision: revisionOf(question),
@@ -325,12 +326,14 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   const project = await loadBookletProject(projectId, { projectRoot, bankRoot, moduleRoot });
   const placement = topLevelQuestion(project, body.blockId);
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
+  if (isTheoryReview(placement.block, placement.section)) throw Object.assign(new Error('Review questions belong to theory. Save them in a teaching module rather than the practice question bank.'), { statusCode: 400 });
   const candidates = await duplicateCandidates(placement.block, bankRoot);
   if (!body.mode || body.mode === 'inspect') return { project, candidates };
 
   if (body.mode === 'link-existing') {
     const target = await readJson(fileFor(bankRoot, body.targetId));
     if (!target) throw Object.assign(new Error('The selected bank question no longer exists'), { statusCode: 404 });
+    if (!isSelectableBankQuestion(target)) throw Object.assign(new Error('This question is not available in the practice question bank.'), { statusCode: 400 });
     placement.section.blocks[placement.index] = snapshotBankQuestion(target, { placementId: placement.block.id });
     const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
     return { project: saved, question: target, candidates };
@@ -372,6 +375,7 @@ export async function promoteProjectModule(projectId, body = {}, {
   const selected = section.blocks.filter((block) => wanted.has(block.id));
   if (!selected.length) throw Object.assign(new Error('Select at least one block for the teaching module'), { statusCode: 400 });
   const sequence = selected.map((block) => {
+    if (block.type === 'question' && isTheoryReview(block, section)) return { type: 'content-block', id: `module-item-${block.id}`, pedagogyRole: 'theory', block: {...block, libraryRole:'theory-review', bankRef:null, snapshotKind:'local', presentation:captureQuestionPresentation(block,project.settings?.layoutOverrides)} };
     if (block.type !== 'question') return { type: 'content-block', id: `module-item-${block.id}`, pedagogyRole: block.pedagogyRole ?? (block.type === 'worked-example' ? 'worked-example' : 'theory'), block:{...block,presentation:captureQuestionPresentation(block,project.settings?.layoutOverrides)} };
     if (!block.bankRef?.id) throw Object.assign(new Error(`Question ${block.id} must be promoted before it can enter a reusable module`), { statusCode: 409 });
     return { type: 'question-ref', id: `module-ref-${block.id}`, questionId: block.bankRef.id, questionRevision: block.bankRef.revision, snapshot: normaliseQuestion({...block,id:block.bankRef.id}), pedagogyRole: block.pedagogyRole ?? 'guided-practice', order: 'fixed' };

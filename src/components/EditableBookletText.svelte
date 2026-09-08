@@ -6,6 +6,7 @@
 
   let {
     value = '',
+    displayValue = null,
     rootId,
     rootIds = [],
     pointer,
@@ -27,7 +28,8 @@
   let inlineEditor=$state();
   let active = $state('');
   let reportedActive = false;
-  let parts = $derived(typeof value === 'string' ? splitBookletTables(value) : [{ type: 'rich', value }]);
+  let presentationValue=$derived(displayValue??value);
+  let parts = $derived(typeof presentationValue === 'string' ? splitBookletTables(presentationValue) : [{ type: 'rich', value:presentationValue }]);
 
   function cancel() { active = ''; }
   function activate(event) {

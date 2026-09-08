@@ -1,5 +1,6 @@
 import { logicalUnits, flowEditionSections } from './booklet-flow.js';
 import { resolveArrangement, arrangementCatalog } from './booklet-arrangement.js';
+import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -32,6 +33,7 @@ export function fragmentQuestion(block, groups, continuation=0) {
   next.flow={...next.flow,fragment:continuation};
   if(continuation!==(block.flow?.fragment??0)){
     next.flow.sourceContinuationLabel=false;next.flow.sourcePageBreakBefore=false;next.flow.pageBreakBefore=false;
+    delete next.flow.exerciseHeadingBefore;
     if(typeof next.content?.prompt==='string'&&/^Question \d+ continued\.?$/i.test(next.content.prompt))next.content.prompt='';
   }
   return next;
@@ -66,6 +68,17 @@ export function makeFlowPage(section,blocks,index=0,reason='section') {
 // measure(page) returns height of the actual main children and available body
 // capacity at print width. It must settle fonts, images and diagrams first.
 export async function paginateFlow(project,edition,measure,{cancelled=()=>false,onprogress=()=>{}}={}) {
+  if(project.settings.compactAnswers&&edition!=='student'){
+    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,onprogress});
+    if(!edition.startsWith('with-'))return answers;
+    const student=await paginateFlow(project,'student',measure,{cancelled,onprogress});
+    // Cross-edition links are derived after both maps are complete.
+    const answerMode=edition.includes('short')?'short':'worked';
+    const pages=[...student.pages,...answers.pages];
+    for(const page of student.pages)for(const block of page.blocks)if(block.flow?.exerciseNumber)block.flow={...block.flow,answerMode};
+    pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
+    return {pages,issues:[...student.issues,...answers.issues],edition};
+  }
   const editionSections=flowEditionSections(project,edition),sections=[],pages=[],issues=[],seenTopics=new Set();
   const sectionById=new Map(editionSections.map(s=>[s.id,s]));
   for(const section of editionSections){
@@ -105,6 +118,14 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
       if(force||blocks[0]?.flow?.pageBreakBefore||section.mode==='student'&&blocks[0]?.flow?.sourcePageBreakBefore&&blocks[0]?.flow?.pageBreakBefore!==false){flush();reason='manual';}
       let size=await fits([...current,...blocks]);
       if(size.height<=size.capacity+.2){current.push(...blocks);return;}
+      // The trial may use a page's remaining space at an established safe part
+      // boundary, rather than moving the entire next question to a fresh page.
+      if(current.length&&project.settings.exerciseOrganisation==='topic'&&blocks.length===1&&blocks[0].type==='question'){
+        const block=blocks[0],groups=questionSplitGroups(block,layouts);
+        let best=0,low=1,high=groups.length-1;
+        while(low<=high){const count=Math.floor((low+high)/2),fragment=fragmentQuestion(block,groups.slice(0,count),block.flow?.fragment??0);const measured=await fits([...current,fragment]);if(measured.height<=measured.capacity+.2){best=count;low=count+1;}else high=count-1;}
+        if(best){current.push(fragmentQuestion(block,groups.slice(0,best),block.flow?.fragment??0));flush();await add([fragmentQuestion(block,groups.slice(best),(block.flow?.fragment??0)+1)]);return;}
+      }
       if(current.length){flush();size=await fits(blocks);}
       if(size.height<=size.capacity+.2){current=blocks;return;}
       // Teaching atoms and pre-existing source continuation chains can break

@@ -105,16 +105,23 @@ export function matchSourceLayout(project, source) {
 export function flowNumbers(project) {
   const numbers = {}, counts = new Map();
   for (const section of project.sections) {
-   if(section.numberingStart!=null&&section.blocks.some(isPractice))counts.set(section.topicId,section.numberingStart-1);
+   if(project.settings?.exerciseOrganisation!=='topic'&&section.numberingStart!=null&&section.blocks.some(isPractice))counts.set(section.topicId,section.numberingStart-1);
    for(const block of section.blocks) {
     if (!isPractice(block)) continue;
     const continuation=block.flow?.continuationOf??block.continuationOf;
     if(numbers[continuation]!=null){numbers[block.id]=numbers[continuation];continue;}
-    const n = block.flow?.numberResetBefore ?? (counts.get(section.topicId) ?? 0) + 1 + (block.flow?.numberGapBefore??0); counts.set(section.topicId,n);
+    const n = project.settings?.exerciseOrganisation==='topic' ? (counts.get(section.topicId)??0)+1 : block.flow?.numberResetBefore ?? (counts.get(section.topicId) ?? 0) + 1 + (block.flow?.numberGapBefore??0); counts.set(section.topicId,n);
     numbers[block.id] = n;
    }
   }
   return numbers;
+}
+
+export function exerciseNumbers(project) {
+  if(project.settings?.exerciseOrganisation!=='topic')return {};
+  const result={};let number=0;
+  for(const section of project.sections)if(section.blocks.some(isPractice)&&result[section.topicId]==null)result[section.topicId]=++number;
+  return result;
 }
 
 export function selectedFlowIds(project, ids) {
@@ -196,11 +203,13 @@ export function flowCommand(project, command) {
 
 export function flowEditionSections(project, edition='student') {
   const numbers = flowNumbers(project), topics = new Map((project.topics ?? []).map(t => [t.id,t.title]));
+  const exercises=exerciseNumbers(project);
   const answers = edition.includes('short') ? 'short':'worked';
   const sections = project.sections.filter(s => s.role !== 'candidate-pool');
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
-    difficultyTitle:section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
-    blocks:section.blocks.filter(b => mode === 'student' || isPractice(b)).map(b => ({...b,sourceOrder:numbers[b.id] ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id]}}))});
+    exerciseNumber:exercises[section.topicId],
+    difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?`Exercise ${exercises[section.topicId]}`:section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
+    blocks:section.blocks.filter(b => mode === 'student' || isPractice(b)).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(exercises[section.topicId]&&section.phase==='practice'&&index===0?{exerciseHeadingBefore:exercises[section.topicId]}:{}),...(exercises[section.topicId]&&isPractice(b)?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return [...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])];
 }

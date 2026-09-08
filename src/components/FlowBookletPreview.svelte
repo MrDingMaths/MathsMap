@@ -11,6 +11,18 @@
   const scale=$derived(zoom==='width'||zoom==='page'?Math.min(1,width/794):Number(zoom)||1);
   const signature=$derived(JSON.stringify([project.id,project.sections,project.topics,project.settings,edition,options]));
   export function jumpTo(id){const index=result.pages.findIndex(p=>p.id===id||p.blocks.some(b=>b.id===id));if(index<0)return;visible=new Set([...visible,index]);tick().then(()=>root?.querySelector(`[data-flow-index="${index}"]`)?.scrollIntoView({block:'start'}));}
+  async function followReference(event){
+    const link=event.target.closest('a[href^="#"]');if(!link)return;
+    const anchorId=link.getAttribute('href').slice(1),id=anchorId.replace(/^screen-/,'');
+    let index=-1;
+    if(id.startsWith('exercise-topic-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.section.exerciseNumber===Number(id.slice(15)));
+    else if(id.startsWith('question-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.blocks.some(b=>b.id===id.slice(9)));
+    else {const match=/^answer-(short|worked)-(.*)$/.exec(id);if(match)index=result.pages.findIndex(p=>p.mode===match[1]&&p.blocks.some(b=>b.id===match[2]));}
+    if(index<0)return;
+    event.preventDefault();event.stopPropagation();visible=new Set([...visible,index]);await tick();
+    const group=root.querySelector(`[data-flow-index="${index}"]`);
+    (group?.querySelector(`[id="${CSS.escape(anchorId)}"]`)??group)?.scrollIntoView({block:'start'});
+  }
   export async function waitUntilReady(){await queue;if(error)throw Error(error);if(!ready)throw Error('Pagination is still updating.');if(result.issues.length)throw Error(result.issues.map(i=>`${i.id}: ${i.message}`).join('\n'));return result;}
   $effect(()=>{
     signature;
@@ -60,7 +72,7 @@
   onMount(()=>{scrollRoot=root.closest('.project-canvas');const observer=new ResizeObserver(()=>{width=root.parentElement.clientWidth;updateVisible();});observer.observe(root.parentElement);scrollRoot?.addEventListener('scroll',updateVisible,{passive:true});return()=>{generation++;observer.disconnect();scrollRoot?.removeEventListener('scroll',updateVisible);};});
   function rememberHeight(el){const observer=new ResizeObserver(()=>{const height=el.scrollHeight;if(height>0)el.parentElement.dataset.height=height;});observer.observe(el);return{destroy(){observer.disconnect();}};}
 </script>
-<div class="flow-document" bind:this={root} data-pagination-metrics={metrics?JSON.stringify(metrics):undefined} data-paginated-edition={result.edition} data-pagination-state={error?'error':ready&&result.edition===edition?'ready':'pending'} aria-busy={!ready&&!error}>
+<div class="flow-document" bind:this={root} onclick={followReference} role="presentation" data-pagination-metrics={metrics?JSON.stringify(metrics):undefined} data-paginated-edition={result.edition} data-pagination-state={error?'error':ready&&result.edition===edition?'ready':'pending'} aria-busy={!ready&&!error}>
   {#if progress}<p role="status">{progress}</p>{/if}
   {#if error}<p role="alert">Pagination failed: {error}</p>{/if}
   {#each result.issues as issue}<p class="layout-issue" role="alert"><button onclick={()=>jumpTo(issue.id)}>{issue.id}</button>: {issue.message}</p>{/each}

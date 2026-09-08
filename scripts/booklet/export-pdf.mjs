@@ -39,9 +39,12 @@ try {
   await page.locator('.project-print').waitFor({ state: 'attached', timeout: 60000 });
   const flexible=await page.locator('.project-print.flexible-print').count()>0;
   if(flexible){
+    // Project hydration may reset the edition selector. Wait for that first map
+    // before selecting the requested edition, then match readiness to that mode.
+    await page.waitForFunction(()=>['ready','error'].includes(document.querySelector('.project-print')?.dataset.paginationState),null,{timeout:600000});
     await page.getByLabel('Booklet edition',{exact:true}).selectOption(mode);
     if(process.argv.includes('--hide-theory')){await page.getByRole('button',{name:'PDF',exact:true}).click();await page.getByLabel('Show theory solutions',{exact:true}).uncheck();}
-    await page.waitForFunction(()=>['ready','error'].includes(document.querySelector('.project-print')?.dataset.paginationState),null,{timeout:600000});
+    await page.waitForFunction(mode=>{const el=document.querySelector('.project-print');return el?.dataset.paginationState==='error'||el?.dataset.paginationState==='ready'&&el.dataset.flowEdition===mode;},mode,{timeout:600000});
     const state=await page.locator('.project-print').getAttribute('data-pagination-state');
     if(state==='error')throw Error(await page.locator('.flow-document').innerText());
     const issues=JSON.parse(await page.locator('.project-print').getAttribute('data-layout-issues')||'[]');

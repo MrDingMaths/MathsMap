@@ -20,6 +20,7 @@
     showKeyIdeasAnswers = false, showReviewAnswers = false, showIdentifyAnswers = false, showGuidedPracticeAnswers = false, answerSheet = false,
     blockLayouts = {}, answerSpaceOverrides = {}, diagramColourModes = {}, onSpaceResize = null,
     editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false, compactPages = false,
+    anchorPrefix = '',
   } = $props();
   const parentLabels=getContext('booklet-labels');
   const labels=$derived(parentLabels?.()??teachingLabels(bookletPages.length?bookletPages.flatMap(p=>p.blocks??[]):page.blocks??[]));
@@ -35,6 +36,7 @@
   const assetUrl = (src) => src?.startsWith('evidence/') ? `/__booklet/full-imports/${encodeURIComponent(runId)}/files/lanes/exact/${src}` : src;
   const previewQuestion = (question) => labelledTeachingQuestion(resolvePreviewAssets(question, assetUrl),labels);
   const isGuided = (question) => question.pedagogyRole === 'guided-practice';
+  const firstPlacement=block=>!bookletPages.some(p=>p.mode===page.mode&&p.pageNumber<page.pageNumber&&p.blocks?.some(b=>b.id===block.id));
   const mathLine = (value) => {
     if (isDocument(value)) return value;
     const text = String(value ?? '').replace(/^\s*\d+\.\s*/, '').trim();
@@ -112,11 +114,17 @@
 {/snippet}
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
+  {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<h2 class="inline-exercise-heading">Exercise {block.flow.exerciseHeadingBefore}</h2>{/if}
   {#if block.type === 'question'}
     {#if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}
-      <section class:atom-practice={insideAtom} class="practice">{@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}</section>
+      <section class:atom-practice={insideAtom} class="practice" id={block.flow?.exerciseNumber&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
+        {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
+        {#if editMode&&block.flow?.exerciseNumber&&block.flow?.bankDifficulty}<span class="editor-difficulty" data-editor-difficulty title={`Question bank: ${block.flow.bankDifficulty.difficulty}, reasoning ${block.flow.bankDifficulty.reasoningScore}/100`}>{block.flow.bankDifficulty.difficulty}<br/>{block.flow.bankDifficulty.reasoningScore}/100</span>{/if}
+        {#if block.flow?.answerMode}<a class="answer-jump" href={`#${anchorPrefix}answer-${block.flow.answerMode}-${block.id}`} aria-label={`Answers for Exercise ${block.flow.exerciseNumber}, question ${block.sourceOrder}`}>Answers</a>{/if}
+        {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}
+      </section>
     {/if}
   {:else if block.type === 'worked-example'}
     <section class:inside-atom={insideAtom} class="theory-section">
@@ -185,10 +193,10 @@
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
     {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
-      <BookletCover pages={bookletPages} />
+      <BookletCover pages={bookletPages} {anchorPrefix}/>
     {:else}
       <article class="booklet-page" data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
-        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<header class:difficulty-heading={page.section?.headingStyle === 'difficulty'} class="section-band"><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></header>{/if}
+        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<header id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} class:difficulty-heading={page.section?.headingStyle === 'difficulty'} class="section-band"><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></header>{/if}
         {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<header class="section-band difficulty-heading"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></header>{/if}
         <main>
           {#each displayItems as item, index (item.id)}
@@ -211,6 +219,8 @@
 </div>
 
 <style>
+  .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
+  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty{display:none!important}}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
 .compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}

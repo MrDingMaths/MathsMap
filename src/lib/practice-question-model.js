@@ -1,6 +1,7 @@
 import {readGraphModel} from './graph-model.js';
 import { contentSource, contentValue, isDocument } from './document-content.js';
 import { validSourceRegion } from './diagram-source-region.js';
+import { isTheoryReview, isSelectableBankQuestion } from './question-bank-eligibility.js';
 // MathsMap Booklet Studio v3 question-first contract.
 // Canonical questions deliberately contain no source/provenance fields.
 // Source files, page renders, and question-to-page mapping live in the import job.
@@ -229,6 +230,7 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
     version: PRACTICE_QUESTION_VERSION,
     id: String(value.id ?? stableQuestionId(context, index)),
     status: value.status ?? 'draft',
+    ...(isTheoryReview(value) ? { libraryRole: 'theory-review' } : {}),
     title: text(value.title),
     classification: {
       primarySkillId: text(primary),
@@ -459,7 +461,7 @@ export function filterQuestionBank(records = [], filters = {}, taxonomy = {}) {
     dotpointMap: new Map((taxonomy.dotpoints ?? []).map((dotpoint) => [dotpoint.id, dotpoint])),
   };
   return records.filter((question) => {
-    if (question.status !== 'approved') return false;
+    if (!isSelectableBankQuestion(question)) return false;
     if (filters.difficulty?.length && !filters.difficulty.includes(question.classification.difficulty)) return false;
     if (filters.reasoningMin !== '' && filters.reasoningMin != null && question.classification.reasoningScore < Number(filters.reasoningMin)) return false;
     if (filters.reasoningMax !== '' && filters.reasoningMax != null && question.classification.reasoningScore > Number(filters.reasoningMax)) return false;
@@ -503,7 +505,7 @@ export function makeBankManifest(records = []) {
     format: QUESTION_BANK_MANIFEST,
     version: PRACTICE_QUESTION_VERSION,
     generatedAt: new Date().toISOString(),
-    questions: records.filter((question) => question.status === 'approved').map((question) => ({
+    questions: records.filter(isSelectableBankQuestion).map((question) => ({
       id: question.id,
       path: question.id + '.json',
       reasoningScore: question.classification.reasoningScore,

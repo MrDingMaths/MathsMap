@@ -1,0 +1,30 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright-core';
+const out='.booklet-work/compact-exercises',id='linear-relationships-compact-exercises-v1';
+const record=JSON.parse(fs.readFileSync(`booklets/projects/${id}.json`));record.settings.flowEdition='with-short';
+const browser=await chromium.launch({headless:true,channel:'chrome'}),context=await browser.newContext({viewport:{width:1600,height:1100},storageState:out+'/cache.json'}),page=await context.newPage(),errors=[];
+page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
+await page.route('**/__booklet/projects/'+id,r=>r.fulfill({json:record}));
+const ready=async()=>{await page.waitForFunction(()=>{const el=document.querySelector('.flow-document');return el?.dataset.paginationState==='ready'&&el.dataset.paginatedEdition==='with-short';},null,{timeout:600000});};
+try{
+ await page.goto('http://127.0.0.1:5173/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});await ready();
+ const url=page.url(),count=await page.locator('.page-marker').count();
+ await page.locator('.flow-document a[href="#screen-exercise-topic-1"]').click();
+ await page.locator('.flow-document #screen-exercise-topic-1').waitFor({state:'visible'});
+ const report=JSON.parse(fs.readFileSync(out+'/report.json')).report.trial['with-short'];
+ const number=report.map.find(p=>p.blocks.includes('page-6-q1')).page;
+ await page.getByLabel('Jump to page',{exact:true}).fill(String(number));await page.getByLabel('Jump to page',{exact:true}).press('Tab');
+ const question=page.locator('.flow-document #screen-question-page-6-q1');await question.waitFor({state:'visible'});
+ assert.ok(await question.locator('[data-editor-difficulty]').count());
+ await question.locator('.answer-jump').click();
+ const answer=page.locator('.flow-document #screen-answer-short-page-6-q1');await answer.waitFor({state:'visible'});
+ await answer.locator('.answer-label a').first().click();await question.waitFor({state:'visible'});assert.equal(page.url(),url);
+ await page.getByLabel('Booklet zoom',{exact:true}).selectOption('0.75');assert.equal(await page.locator('.page-marker').count(),count);
+ await page.setViewportSize({width:390,height:844});await page.getByLabel('Booklet zoom',{exact:true}).selectOption('width');assert.equal(await page.locator('.page-marker').count(),count);
+ await page.screenshot({path:out+'/navigation-mobile.png'});
+ await page.setViewportSize({width:1600,height:1100});await page.reload({waitUntil:'domcontentloaded'});await ready();assert.equal(await page.locator('.page-marker').count(),count);
+ assert.deepEqual(errors,[]);fs.writeFileSync(out+'/navigation.json',JSON.stringify({pages:count,contents:true,questionToAnswer:true,answerToQuestion:true,editorDifficulty:true,zoom:true,mobile:true,reload:true,errors},null,2));
+ console.log('Editor navigation, difficulty badges, zoom, mobile and reload passed.');
+}finally{await browser.close();}

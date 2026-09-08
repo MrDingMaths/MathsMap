@@ -62,6 +62,8 @@ function setPointer(root, pointer, value) {
 function normalizeSettings(raw = {}) {
   return {
     ...(raw.paginationMode === 'flexible' ? {paginationMode:'flexible',flowEdition:['student','short','worked','with-short','with-worked'].includes(raw.flowEdition)?raw.flowEdition:'student'} : {}),
+    ...(raw.exerciseOrganisation==='topic'?{exerciseOrganisation:'topic'}:{}),
+    ...(raw.compactAnswers?{compactAnswers:{shortFontPt:9,workedFontPt:9.5,gutterMm:8,shortDiagramMm:45,workedDiagramMm:55,...clone(raw.compactAnswers),diagramWidths:clone(raw.compactAnswers.diagramWidths??{})}}:{}),
     ...(raw.houseStyleVersion ? {houseStyleVersion:String(raw.houseStyleVersion)} : {}),
     preserveSourcePages: raw.preserveSourcePages === true,
     showTheorySolutions: raw.showTheorySolutions !== false,

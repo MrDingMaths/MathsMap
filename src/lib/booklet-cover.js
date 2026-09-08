@@ -53,6 +53,15 @@ export function deriveBookletCover(pages = []) {
     });
     const newTopics=topicContents.filter(entry=>!coveredTopics.has(ordered.find(page=>page.pageNumber===entry.pageNumber)?.section?.topicId));
     contents=anchoredContents.length?[...anchoredContents,...newTopics].sort((a,b)=>a.pageNumber-b.pageNumber):topicContents;
+    if(ordered.some(p=>p.section?.exerciseNumber)){
+      const seenExercises=new Set();
+      contents=ordered.filter(p=>p.mode==='student').flatMap(p=>{
+        const number=p.section?.exerciseNumber;
+        if(!number||seenExercises.has(number))return [];
+        seenExercises.add(number);
+        return [{title:`Exercise ${number} · ${p.section.topicTitle}`,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
+      });
+    }
   }
   return {
     course: course || 'Mathematics',

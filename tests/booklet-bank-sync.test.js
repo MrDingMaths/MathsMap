@@ -8,6 +8,9 @@ import {createBookletProject,saveBookletProject,promoteProjectQuestion,loadBookl
 import {revisionHash,writeTransaction,bankManifestEntry} from '../scripts/booklet/bank-sync.mjs';
 import {sharedQuestion,mergeQuestionContent} from '../src/lib/question-sync.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
+import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
+import {fromSource} from '../src/lib/document-content.js';
+import {reconcileSyncLayout} from '../src/lib/question-sync-layout.js';
 
 async function fixture(t){
  const root=await fs.mkdtemp(path.join(os.tmpdir(),'booklet-bank-sync-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));
@@ -19,6 +22,47 @@ async function fixture(t){
  const result=await promoteProjectQuestion(p.id,{blockId:b.id,mode:'create'},options);
  return{...options,options,project:result.project,bank:result.question,readBank:async()=>JSON.parse(await fs.readFile(path.join(options.bankRoot,result.question.id+'.json'),'utf8'))};
 }
+
+test('rich-text publication and conflict acceptance preserve valid destination layouts',async t=>{
+ const f=await fixture(t),block=f.project.sections[0].blocks[0];
+ const bank=await f.readBank();
+ bank.presentation={layoutOverrides:{blockLayouts:{[block.id]:{arrangement:arrangementCatalog({...bank,type:'question',sourceOrder:1}).initial}}}};
+ await writeTransaction([[path.join(f.bankRoot,bank.id+'.json'),bank]]);
+ const copy=await duplicateBookletProject(f.project.id,f.options),local=copy.sections[0].blocks[0];
+ local.content.prompt=fromSource('Independent local edit');
+ copy.settings.layoutOverrides={blockLayouts:{[local.id]:{arrangement:arrangementCatalog(local).initial}}};
+ const tree=copy.settings.layoutOverrides.blockLayouts[local.id].arrangement;
+ const findPrompt=n=>n.ref?.includes('/prompt')?n:n.children?.map(findPrompt).find(Boolean);
+ const item=findPrompt(tree.root);item.before=7;item.width=91;
+ const savedCopy=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
+ block.content.prompt=fromSource('Published edit');
+ let saved=await saveBookletProject(f.project,{...f.options,expectedRevision:f.project.revision});
+ const published=await f.readBank();
+ assert.deepEqual(resolveArrangement({...published,type:'question',sourceOrder:1},published.presentation.layoutOverrides.blockLayouts[block.id].arrangement).missing,[]);
+ const paragraphId=published.content.prompt.blocks[0].id;
+ saved.sections[0].blocks[0].content.prompt.blocks[0].inlines[0].text='Published again';
+ saved=await saveBookletProject(saved,{...f.options,expectedRevision:saved.revision});
+ assert.equal((await f.readBank()).content.prompt.blocks[0].id,paragraphId);
+ const status=(await getProjectBankSync(copy.id,f.options)).items[0];assert.equal(status.state,'conflict');
+ const updated=await resolveProjectBankSync(copy.id,{...status,action:'use-bank',expectedRevision:savedCopy.revision},f.options);
+ const result=updated.sections[0].blocks[0],layout=updated.settings.layoutOverrides.blockLayouts[result.id].arrangement;
+ assert.deepEqual(resolveArrangement(result,layout).missing,[]);
+ assert.equal(findPrompt(layout.root).id,item.id);assert.equal(findPrompt(layout.root).before,7);assert.equal(findPrompt(layout.root).width,91);
+ assert.equal(result.content.prompt.blocks[0].inlines[0].text,'Published again');
+});
+
+test('layout reconciliation expands and collapses rich text without hiding unknown references',()=>{
+ const before={id:'q',type:'question',sourceOrder:1,content:{id:'root',prompt:'Original',children:[]}};
+ const holder={arrangement:arrangementCatalog(before).initial};
+ const after=structuredClone(before);after.content.prompt=fromSource('First\n\nSecond');
+ reconcileSyncLayout(before,after,holder);
+ assert.deepEqual(resolveArrangement(after,holder.arrangement).missing,[]);
+ assert.equal([...resolveArrangement(after,holder.arrangement).entries.values()].filter(e=>e.field==='prompt').length,2);
+ reconcileSyncLayout(after,before,holder);
+ assert.deepEqual(resolveArrangement(before,holder.arrangement).missing,[]);
+ holder.arrangement.root.children.push({id:'bad',type:'item',ref:'root/prompt#unknown'});
+ assert.throws(()=>reconcileSyncLayout(before,after,holder),/could not preserve layout references/);
+});
 test('original saves sync content and solutions, preserve bank layout, and retain old revision',async t=>{
  const f=await fixture(t),p=f.project;p.sections[0].blocks[0].content.answer.worked='$x=3-1=2$';p.sections[0].blocks[0].content.answerSpaceMm=90;
  await saveBookletProject(p,{...f.options,expectedRevision:p.revision});const bank=await f.readBank();

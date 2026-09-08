@@ -20,7 +20,7 @@ export function mergeQuestionContent(incoming,local,base=null){
  const ids=new Map(),localFor=new Map();
  walk(incoming,n=>{
   if(!n.id)return;
-  const match=localById.get(n.id)??localPaths.get(basePaths.get(n.id));
+  const match=localById.get(n.id)??localById.get(`${local.id}-bank-${n.id}`)??localPaths.get(basePaths.get(n.id));
   ids.set(n.id,match?.id??`${local.id}-bank-${n.id}`);
   if(match)localFor.set(n.id,match);
  });
