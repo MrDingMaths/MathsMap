@@ -2,6 +2,8 @@
 
 Saving an original booklet automatically updates its linked bank questions and worked solutions. The 168 original Linear Relationships questions are owned by the canonical **Linear Relationships v1** (`booklets/projects/linear-relationships-v1.json`); newly created bank questions are linked to the booklet that promotes them. Duplicating an original creates a consumer of its bank questions, not a second original.
 
+The 149 whole practice questions from accepted **Index Laws revision 200** are also registered originals, owned by `booklets/projects/index-laws-complete-v1.json`. Revision 201 adds their bank links and individual skill/difficulty classifications. Teaching reviews, activities, Key Ideas and guided practice were excluded from this import. The source-to-bank receipt is `booklets/provenance/index-laws-complete-v1/bank-import.json`. `node scripts/booklet/import-index-bank.mjs` verifies an existing import without writing or duplicating questions; first publication requires `--apply` and uses an isolated staging store followed by a checked transaction.
+
 Page settings, answer spaces, local question arrangement, diagram sizes and bank classifications/teaching mappings are retained. Deleting a booklet question does not delete the bank question. A deleted bank question is not silently recreated by a later booklet save.
 
 When synced text changes between plain text and editor paragraphs, the destination's arrangement references are reconciled with the new content. Existing layout item IDs, spacing and sizing are retained; extra paragraphs receive additional items. Unresolved references stop the sync write with a review error instead of saving a broken layout. Repeated publication reuses previously mapped content IDs.

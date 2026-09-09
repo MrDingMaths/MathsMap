@@ -140,7 +140,9 @@ function normaliseNode(raw = {}, depth = 0, index = 0, root = false) {
   const children = rawChildren(value);
   const layout = normaliseLayout(value);
   const requestedType = value.type;
-  const type = root ? 'question' : NODE_TYPES.includes(requestedType) ? requestedType : (children.length ? 'group' : 'part');
+  // Editable booklet parts may contain subparts; the bank represents those as
+  // labelled groups. Keep their identity, prompt and children intact.
+  const type = root ? 'question' : children.length && requestedType === 'part' ? 'group' : NODE_TYPES.includes(requestedType) ? requestedType : (children.length ? 'group' : 'part');
   const node = {
     id: String(value.id ?? 'node-' + depth + '-' + (index + 1)),
     type,
@@ -296,9 +298,12 @@ export function containsSourceMetadata(value) {
 function balancedMath(value) {
   const source = text(value);
   const dollars = source.match(/(?<!\\)\$/g)?.length ?? 0;
-  const opens = (source.match(/\\\(/g)?.length ?? 0) + (source.match(/\\\[/g)?.length ?? 0);
-  const closes = (source.match(/\\\)/g)?.length ?? 0) + (source.match(/\\\]/g)?.length ?? 0);
-  return dollars % 2 === 0 && opens === closes;
+  // A LaTeX row break followed by spacing, e.g. \\\\[2mm], is not \\[.
+  const inlineOpens = source.match(/(?<!\\)\\\(/g)?.length ?? 0;
+  const inlineCloses = source.match(/(?<!\\)\\\)/g)?.length ?? 0;
+  const displayOpens = source.match(/(?<!\\)\\\[/g)?.length ?? 0;
+  const displayCloses = source.match(/(?<!\\)\\\]/g)?.length ?? 0;
+  return dollars % 2 === 0 && inlineOpens === inlineCloses && displayOpens === displayCloses;
 }
 
 export function mathSpans(value) {

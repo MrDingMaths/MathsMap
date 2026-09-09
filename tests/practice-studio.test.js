@@ -18,6 +18,26 @@ import {
   containsSourceMetadata,
 } from '../src/lib/practice-question-model.js';
 
+test('booklet parts with subparts become labelled bank groups without losing content', () => {
+  const question=normaliseQuestion({id:'nested-booklet',classification:{primarySkillId:'index-laws-variables'},
+    content:{prompt:'Simplify.',children:[{id:'a',type:'part',label:'a',prompt:'Compare these.',layout:'grid',columns:2,
+      children:[{id:'i',type:'part',label:'i',prompt:'$x^2 x^3$',answer:{short:'$x^5$',worked:'Add the indices.'}}]}]}});
+  const group=question.content.children[0];
+  assert.equal(group.type,'group');assert.equal(group.id,'a');assert.equal(group.label,'a');
+  assert.equal(group.prompt,'Compare these.');assert.equal(group.columns,2);
+  assert.equal(group.children[0].answer.short,'$x^5$');
+  assert.equal(validateQuestion(question).valid,true);
+  assert.deepEqual(normaliseQuestion(question),question);
+});
+
+test('math validation distinguishes spaced row breaks from display delimiters', () => {
+  const make=prompt=>normaliseQuestion({id:'spacing',classification:{primarySkillId:'index-laws-variables'},content:{prompt,answer:{short:'1',worked:'1'}}});
+  assert.equal(validateQuestion(make(String.raw`$\begin{aligned}x&=1\\[2mm]&=1\end{aligned}$`)).valid,true);
+  assert.equal(validateQuestion(make(String.raw`\[x=1\]`)).valid,true);
+  assert.equal(validateQuestion(make(String.raw`\[x=1`)).valid,false);
+  assert.equal(validateQuestion(make(String.raw`\(x=1\]`)).valid,false);
+});
+
 const diagram = { id: 'curve', role: 'question', format: 'tikz', code: '\\draw (0,0)--(1,1);', widthMm: 95, reviewStatus: 'approved' };
 const nested = normaliseQuestion({
   format: 'mathsmap-practice-question-v3',
