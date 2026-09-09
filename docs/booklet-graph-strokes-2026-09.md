@@ -23,7 +23,6 @@ Preview and PDF export use the same calibration. Shared booklet QA checks the fi
 
 ## Migration and reproduction
 
-`node scripts/booklet/migrate-graph-strokes.mjs` creates before snapshots, candidates and per-drawing role audits in `output/graph-strokes`. It visits active project content, including overlays and panels, while excluding original evidence and review snapshots. A structural guard permits changes only to diagram code. Current editable graphs are regenerated; older compiler output is edited by drawing role to retain its existing typography. Mathematical models and layout settings are unchanged.
 
 With a local Vite server running, use:
 
@@ -32,7 +31,6 @@ node scripts/booklet/check-graph-strokes.mjs --base http://127.0.0.1:5173
 node scripts/booklet/check-graph-stroke-resizing.mjs --base http://127.0.0.1:5173
 ```
 
-The first command compiles every candidate and baseline with the bundled engine, checks multiple widths and repeat calibration, and creates contact sheets. The second exercises live resizing, page zoom, cached SVG insertion and synchronous print layout. After reviewing candidates, `node scripts/booklet/migrate-graph-strokes.mjs --save` compares them against a fresh migration, requires the expected project revision and uses `saveBookletProject` to retain the previous revision.
 
 The compiler check also writes an isolated `cache-state.json` for the exporter's `--cache-state` option. Cached SVG identifiers are prefixed with their source key so clip paths cannot collide across different diagrams.
 

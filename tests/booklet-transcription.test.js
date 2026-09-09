@@ -11,7 +11,7 @@ import {
 import { materializeLegacyProject } from '../src/lib/editable-booklet-model.js';
 import { normalizeBookletProject } from '../src/lib/booklet-model.js';
 import { groupBookletBlocks, investigationDescription, splitBookletTables } from '../src/lib/booklet-preview.js';
-import { validateCaptureBase } from '../scripts/booklet/capture-fidelity.mjs';
+import { validateCaptureBase } from '../scripts/booklet/local-preview-url.mjs';
 
 const writeJson = (file, value) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(value, null, 2)); };
 const question = (id, prompt) => ({

@@ -118,7 +118,7 @@ try{
  await zoomSession.send('Emulation.clearDeviceMetricsOverride');await responsive.setViewportSize({width:1440,height:900});await responsive.evaluate(()=>document.documentElement.setAttribute('data-theme','light'));await responsive.screenshot({path:'tmp/ux-verification/workspace-light.png'});assert.equal(writes.length,beforeLayoutWrites,'layout and cancelled drafts never save or approve');await responsive.close();record=savedRecord;
  assert.deepEqual(errors,[]);
  // Real engine, real source diagrams, with all project writes still intercepted.
- const pilot=JSON.parse(fs.readFileSync('booklets/archives/2026-09-06-linear-pilots/projects/linear-relationships-pilot-v1.json'));
+ const pilot=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-editor-layout.json'));
  const realDiagrams=[7,9,16,28].map(sourcePage=>{const section=pilot.sections.find(s=>s.sourcePageNumber===sourcePage);let diagram;const find=n=>{if(!n||typeof n!=='object'||diagram)return;if(n.format==='tikz'&&n.code){diagram=structuredClone(n);return;}Object.values(n).forEach(v=>Array.isArray(v)?v.forEach(find):find(v));};find(section);assert.ok(diagram,'source '+sourcePage+' diagram');return {...diagram,id:'source-'+sourcePage};});
  record.sections[0].blocks[0].diagrams=realDiagrams;record.revision++;
  const real=await browser.newPage({viewport:{width:1800,height:1200}});await installRoutes(real,false);await real.goto('http://127.0.0.1:5173/#/booklet?stage=projects&project=studio-test',{waitUntil:'networkidle'});await real.getByRole('button',{name:/^Review/}).click();
@@ -134,7 +134,7 @@ try{
 
 
  // Layout controls use a fresh pilot copy, intercepted persistence and the same focused editor.
- const layoutPilot=JSON.parse(fs.readFileSync('booklets/archives/2026-09-06-linear-pilots/projects/linear-relationships-pilot-v1.json','utf8'));
+ const layoutPilot=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-editor-layout.json','utf8'));
  fs.mkdirSync('tmp/layout-1.3.0',{recursive:true});fs.writeFileSync('tmp/teaching-controls/pilot-verification.json',JSON.stringify(layoutPilot,null,2));
  record=structuredClone(layoutPilot);record.id='studio-test';record.title='Layout verification fixture';record.sections=record.sections.filter(s=>[1,7,9,13,29,33].includes(s.sourcePageNumber));
  const controls=await browser.newPage({viewport:{width:1920,height:1080}});await installRoutes(controls);controls.on('pageerror',e=>errors.push(e.message));

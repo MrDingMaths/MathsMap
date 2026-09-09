@@ -28,7 +28,7 @@ await page.route('**/__booklet/**',async route=>{
  }catch(e){await route.fulfill({status:e.statusCode??500,json:{error:e.message}});}
 });
 try{
- await page.goto('http://127.0.0.1:5173/#/booklet?stage=projects&project='+copy.id,{waitUntil:'networkidle'});
+ await page.goto((process.env.BOOKLET_TEST_BASE??'http://127.0.0.1:5173')+'/#/booklet?stage=projects&project='+copy.id,{waitUntil:'networkidle'});
  await page.getByRole('button',{name:'Review updates',exact:true}).click();
  const panel=page.getByRole('region',{name:'Question bank sync'});
  await panel.getByText('Compare question and worked solution',{exact:true}).click();

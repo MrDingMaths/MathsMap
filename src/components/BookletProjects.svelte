@@ -21,7 +21,7 @@
   import { resolvePreviewAssets } from '../lib/booklet-preview.js';
   import { fromSource, isDocument, normalizeDocument, toSource } from '../lib/document-content.js';
   import { mergeProjectChanges } from '../lib/booklet-save-merge.js';
-  import { onMount, tick, setContext } from 'svelte';
+  import { onMount, tick, setContext, untrack } from 'svelte';
   import FocusedBookletEditor from './FocusedBookletEditor.svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
   import BookletReviewInspector from './BookletReviewInspector.svelte';
@@ -47,6 +47,8 @@
 
   let { initialProjectId = null, bank = [], onprojectchange = null } = $props();
   let projects = $state([]);
+  let projectsReady = $state(false);
+  let lastRequestedProjectId;
   let project = $state.raw(null);
   const flexible=$derived(isFlexible(project));
   let flowPreview=$state(),flowOutline=$state(),flowMap=$state.raw({pages:[],issues:[],ready:false}),flowEdition=$state('student'),flowActive=$state(1);
@@ -650,11 +652,19 @@
     window.addEventListener('keydown',key,true);window.addEventListener('beforeunload',unload);
     return ()=>{clearInterval(syncTimer);document.removeEventListener('selectionchange',selection);window.removeEventListener('copy',clipboard,true);window.removeEventListener('cut',clipboard,true);window.removeEventListener('focus',refreshBankSync);window.removeEventListener('booklet-prepare-print',preparePrint);window.removeEventListener('keydown',key,true);window.removeEventListener('beforeunload',unload);clearTimeout(saveTimer);};
   });
+  $effect(() => {
+    const requested = initialProjectId;
+    if (!projectsReady) return;
+    untrack(() => {
+      if (requested === lastRequestedProjectId) return;
+      lastRequestedProjectId = requested;
+      if (requested && requested !== project?.id && projects.some(item => item.id === requested)) openProject(requested);
+    });
+  });
   onMount(async () => {
     try {
       await refreshProjects();
-      const requested = initialProjectId && projects.some((item) => item.id === initialProjectId) ? initialProjectId : null;
-      if (requested) await openProject(requested);
+      projectsReady = true;
     } catch (exception) { error = exception.message; }
   });
 </script>

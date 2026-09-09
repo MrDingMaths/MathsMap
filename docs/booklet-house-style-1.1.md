@@ -32,4 +32,4 @@ Manual width changes remain editable, but widths below the required handwriting 
 The Studio Tools menu exposes **Check page**. The shared implementation is `src/lib/booklet-qa.js`; the full-booklet migration/audit records are under `output/house-style-v2/`.
 
 
-Final repair and acceptance report: [Linear Relationships house-style repair](linear-relationships-house-style-repair.md). Flowing answer sheets reserve a 15 mm bottom margin; the PDF exporter additionally checks actual paginated text and footer bounds using Poppler before replacing a delivered PDF.
+Final repair and acceptance report: [Linear Relationships house-style repair](booklet-human-workflow.md). Flowing answer sheets reserve a 15 mm bottom margin; the PDF exporter additionally checks actual paginated text and footer bounds using Poppler before replacing a delivered PDF.

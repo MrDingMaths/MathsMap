@@ -28,7 +28,7 @@ test('transcription routing preserves existing outputs, rejects missing coverage
 
 
 test('fresh reconstruction and dedicated diagram prompts share final-print typography',async()=>{
- const {reconstructionPrompt}=await import('../scripts/booklet/benchmark.mjs');
+ const {reconstructionPrompt}=await import('../scripts/booklet/candidate-validation.mjs');
  for(const stage of ['reconstruction','diagrams']){
   const prompt=reconstructionPrompt(stage,4);
   assert.match(prompt,/8\.5 pt axis numbers/);
@@ -40,7 +40,7 @@ test('fresh reconstruction and dedicated diagram prompts share final-print typog
 });
 
 test('both production prompt routes include booklet methods and MathsDatabase solution rules',async t=>{
- const {reconstructionPrompt}=await import('../scripts/booklet/benchmark.mjs');
+ const {reconstructionPrompt}=await import('../scripts/booklet/candidate-validation.mjs');
  const {SOLUTION_CONVENTIONS}=await import('../scripts/booklet/solution-conventions.mjs');
  assert.ok(reconstructionPrompt('reconstruction',4).includes(SOLUTION_CONVENTIONS));
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'solution-conventions-'));

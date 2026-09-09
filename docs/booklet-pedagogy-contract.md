@@ -1,8 +1,6 @@
-> Historical design: workflow and approval/proposal instructions below are superseded by [Booklet Studio: human editing workflow](booklet-human-workflow.md), 7 September 2026. Teaching and source-evidence principles still apply.
-
 # Booklet teaching and atomisation contract
 
-Version 1. Calibration page references and source issues are recorded in [booklet-calibration-findings.md](booklet-calibration-findings.md). Companion to the graph, teaching, worked-example and guided-practice principles. This contract governs reviewed booklet proposals; it does not authorise automatic public skill changes.
+Companion to the graph, teaching, worked-example and guided-practice principles. Use the [current workflow](booklet-human-workflow.md) and [direct import evidence requirements](booklet-direct-compact-import.md). Booklet authoring does not authorise automatic public skill changes.
 
 ## Evidence and grain
 
@@ -30,15 +28,15 @@ Guided practice uses the same underlying procedure with changed surface features
 
 Scope a booklet to selected NSW content groups and explicit extensions. The bank contains the union of source and MathsMap coverage; missing mappings or archetypes are visible gaps. Do not silently discard unmatched material or force approximate one-to-one mappings.
 
-Use theory, guided practice and blocked practice per teaching chunk; mini mixed reviews follow intermediate chunks, followed by a cumulative interleaved set and challenge. Mastery is an optional strand. Every applicable archetype/tier requires coverage; a non-applicable tier requires an explicit rationale and approval. Difficulty comes from mathematical demand, not merely larger numbers or longer prose.
+Use theory, guided practice and blocked practice per teaching chunk; mini mixed reviews follow intermediate chunks, followed by a cumulative interleaved set and challenge. Mastery is an optional strand. Every applicable archetype/tier requires coverage; record a rationale for non-applicable tiers. Difficulty comes from mathematical demand, not merely larger numbers or longer prose.
 
 Interleaving tests method selection. Draw only on taught skills/prerequisites, balance covered chunks, avoid unintended repeats, and preserve shared stems, diagrams and dependent parts as selection units. Imported questions are candidates for cumulative practice, not automatically suitable because of their origin.
 
-## Diagrams and proposals
+## Diagrams and corrections
 
 Preserve source mathematical structure. Use known equations/domains for graphs, known constraints for geometry, and common base geometry for question/solution overlays. Never fit a decorative curve where an equation is known or invent an equation where it is not. Keep source images when reconstruction is uncertain; flag contradictions.
 
-All improvements are proposals with source evidence and rationale. Preserve the original content, saved edits and question identities. Content, mapping, sequence and layout approvals are separate, revision-bound decisions. Unresolved conflicts prevent acceptance. Source defects are flagged, not silently corrected or copied as unquestioned truth.
+Record source evidence and rationale for corrections. Preserve original evidence, saved edits and question identities. Verify content, teaching/arrangement fidelity and rendered layout separately, against the current revision. Unresolved conflicts remain review findings. Apply confirmed source corrections only within the user's authorised scope, retaining the original and replacement; do not silently copy or change source errors.
 
 ## House style 1.1
 

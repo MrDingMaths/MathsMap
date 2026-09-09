@@ -9,7 +9,7 @@ import {saveBookletProject} from './project-studio-server.mjs';
 
 const out='output/graph-typography';fs.mkdirSync(out+'/svg',{recursive:true});
 const refining=process.argv.includes('--refine');
-const source=refining?out+'/candidate.json':'booklets/projects/linear-relationships-complete-v1.json';
+const source=refining?out+'/candidate.json':'booklets/projects/linear-relationships-v1.json';
 const review=refining?JSON.parse(fs.readFileSync(out+'/text-review.json')):[];
 const auditFixes=process.argv.includes('--audit-fixes');
 const audit=auditFixes?JSON.parse(fs.readFileSync('output/house-style-v2/typography-final.json')):[];

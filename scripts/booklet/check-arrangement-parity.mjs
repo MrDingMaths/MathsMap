@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
-let record=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-complete-v1.json')),writes=0;
+let record=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-legacy-layout.json')),writes=0;
 const browser=await chromium.launch({headless:true,channel:'chrome'}),page=await browser.newPage({viewport:{width:1700,height:1300}}),errors=[];
 page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.continue():r.abort());

@@ -8,7 +8,7 @@ import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {spawnSync} from 'node:child_process';
 const full=process.argv.includes('--full'),out='.booklet-work/flexible-check';fs.mkdirSync(out,{recursive:true});
 const question=(id,count=1)=>({id,type:'question',content:{id:id+'-root',type:'question',prompt:'Complete these calculations.',layout:'list',children:Array.from({length:count},(_,i)=>({id:`${id}-${i}`,type:'part',label:String.fromCharCode(97+i),prompt:'Calculate $2x+1$ when $x=3$.',answerSpaceMm:35,answer:{short:'$7$',worked:'$2(3)+1=7$'}}))}});
-let record=full?convertToFlexible(JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-complete-v1.json','utf8'))):normalizeEditableProject({id:'flexible-browser',title:'Flexible browser fixture',settings:{paginationMode:'flexible'},topics:[{id:'topic',title:'Linear relationships'}],sections:[{id:'theory',topicId:'topic',phase:'teaching',role:'teaching',title:'Teaching',blocks:[{id:'definition',type:'callout',content:'A linear relationship has a constant rate of change.'}]},{id:'foundation',topicId:'topic',phase:'practice',role:'practice',title:'Foundation',difficulty:'Foundation',blocks:[question('q1',12),question('q2',2)]},{id:'development',topicId:'topic',phase:'practice',role:'practice',title:'Development',difficulty:'Development',blocks:[question('q3',3)]}]});
+let record=full?convertToFlexible(JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8'))):normalizeEditableProject({id:'flexible-browser',title:'Flexible browser fixture',settings:{paginationMode:'flexible'},topics:[{id:'topic',title:'Linear relationships'}],sections:[{id:'theory',topicId:'topic',phase:'teaching',role:'teaching',title:'Teaching',blocks:[{id:'definition',type:'callout',content:'A linear relationship has a constant rate of change.'}]},{id:'foundation',topicId:'topic',phase:'practice',role:'practice',title:'Foundation',difficulty:'Foundation',blocks:[question('q1',12),question('q2',2)]},{id:'development',topicId:'topic',phase:'practice',role:'practice',title:'Development',difficulty:'Development',blocks:[question('q3',3)]}]});
 record.id='flexible-browser';record.revision=1;
 if(!full){record.source={runId:'flow-source-fixture'};for(const block of record.sections.flatMap(s=>s.blocks))block.sourcePageNumber=7;}
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
@@ -39,7 +39,7 @@ try{
   assert.equal(report[edition].map.length,report[edition].pages);
   assert.equal(await page.locator('.project-print .continuation-label').count(),0,'Never add a continued line');
   if(full&&edition==='student'){
-   const source=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-complete-v1.json','utf8'));
+   const source=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8'));
    assert.deepEqual(report[edition].map.map(p=>p.blocks.split(',')),source.sections.map(s=>s.blocks.map(b=>b.id)),'Every original page must contain exactly the same blocks');
   }
   report[edition].headings=await page.locator('.project-print .print-page').evaluateAll(els=>els.map(e=>({page:e.dataset.flowPage,headings:[...e.querySelectorAll('.booklet-page > header.section-band')].map(h=>{const clone=h.cloneNode(true);clone.querySelectorAll('.katex').forEach(math=>math.replaceWith('$'+math.querySelector('annotation').textContent.replace(/^\\displaystyle\s*/,'')+'$'));return clone.textContent.trim();})})).filter(e=>e.headings.length));

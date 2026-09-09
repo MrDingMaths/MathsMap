@@ -47,10 +47,6 @@ export function deleteBookletProject(id, confirmId, fetchImpl = globalThis.fetch
   return request('/__booklet/projects/' + encodeURIComponent(id), { method: 'DELETE', body: JSON.stringify({ confirmId }) }, fetchImpl);
 }
 
-export function materializeBookletImport(runId, fetchImpl = globalThis.fetch, mode='compact') {
-  return request('/__booklet/projects/materialize', { method: 'POST', body: JSON.stringify({ runId,mode }) }, fetchImpl);
-}
-
 export function promoteProjectQuestion(projectId, body, fetchImpl = globalThis.fetch) {
   return request('/__booklet/projects/' + encodeURIComponent(projectId) + '/promote-question', { method: 'POST', body: JSON.stringify(body) }, fetchImpl);
 }

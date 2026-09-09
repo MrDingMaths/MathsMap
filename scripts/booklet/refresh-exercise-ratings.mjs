@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {loadBookletProject,saveBookletProject} from './project-studio-server.mjs';
 import {revisionHash} from './bank-sync.mjs';
 
-const id=process.argv.find(a=>a.startsWith('--project='))?.slice(10)??'linear-relationships-compact-exercises-v1';
+const id=process.argv.find(a=>a.startsWith('--project='))?.slice(10)??'linear-relationships-v1';
 const project=await loadBookletProject(id),before=structuredClone(project);
 let checked=0,changed=0,bandsChanged=0;
 for(const block of project.sections.flatMap(s=>s.blocks)){

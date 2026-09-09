@@ -5,7 +5,7 @@ import { setoutMathChain } from '../src/lib/inline-content.js';
 import { estimateAnswerSpaceMm, normaliseQuestion } from '../src/lib/practice-question-model.js';
 import { materializeReconstruction } from '../src/lib/editable-booklet-model.js';
 import { applyContentOverrides, contentHash } from '../scripts/booklet/transcription.mjs';
-import { numberLineLayer, repairIntegersFeedback } from '../scripts/booklet/repair-integers-v2-feedback.mjs';
+import { numberLineLayer, repairIntegersFeedback } from './fixtures/integers-feedback.mjs';
 
 function fixture() {
   const pages = [1, 29, 30, 31, 32, 33, 37, 46].map((n) => ({ id: `page-${n}`, pageNumber: n, section: { title: 'Integers' }, blocks: [] }));

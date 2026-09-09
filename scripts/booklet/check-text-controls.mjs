@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 
 // Exercise the actual activity with all saves intercepted in memory.
-let record=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-complete-v1.json','utf8'));
+let record=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8'));
 const section=record.sections.find(s=>s.blocks.some(b=>b.id==='page-4-q1'));
 record.sections=[{...section,blocks:[section.blocks.find(b=>b.id==='page-4-q1')]}];
 record.studio={};

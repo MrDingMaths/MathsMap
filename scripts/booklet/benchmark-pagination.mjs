@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const output=arg('--out','.booklet-work/pagination-benchmark.json');
-let project=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-flexible-v1.json'));
+let project=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-v1.json'));
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
 const errors=[],report=[];
 try{

@@ -1,13 +1,8 @@
-// Explicit, revision-safe migration. Default writes reviewable candidates only.
-import fs from 'node:fs';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+// Pure graph inspection and stroke transformation; no project writes.
 import assert from 'node:assert/strict';
 import {graphTikz} from '../../src/lib/graph-model.js';
 import {GRAPH_STROKE_MARKER} from '../../src/lib/graph-strokes.js';
 import {styleManualGraphStrokes} from '../../src/lib/graph-stroke-source.js';
-import {saveBookletProject} from './project-studio-server.mjs';
-
 export function visitGraphs(value,fn) {
   if(!value||typeof value!=='object')return;
   if(value.format==='tikz'&&value.code)fn(value);
@@ -29,26 +24,4 @@ export function migrateGraphStrokes(project) {
   const check=structuredClone(next),originalCodes=[];visitGraphs(project,n=>originalCodes.push(n.code));
   let i=0;visitGraphs(check,n=>n.code=originalCodes[i++]);assert.deepEqual(check,project);
   return {project:next,records};
-}
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
-  const out='output/graph-strokes';fs.mkdirSync(out,{recursive:true});
-  const saved=[];
-  for(const name of fs.readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){
-    const original=JSON.parse(fs.readFileSync('booklets/projects/'+name,'utf8'));
-    if(process.argv.includes('--save')){
-      const candidate=JSON.parse(fs.readFileSync(`${out}/${name}`,'utf8'));
-      if(candidate.revision!==original.revision)throw Error('Project revision changed: '+name);
-      const expected=migrateGraphStrokes(original);assert.deepEqual(candidate,expected.project);
-      if(!expected.records.length)continue;
-      const result=await saveBookletProject(candidate,{expectedRevision:original.revision});
-      saved.push({id:result.id,beforeRevision:original.revision,revision:result.revision,graphs:expected.records.length});
-    }else{
-      const result=migrateGraphStrokes(original);
-      fs.writeFileSync(`${out}/before-${name}`,JSON.stringify(original,null,2));
-      fs.writeFileSync(`${out}/${name}`,JSON.stringify(result.project,null,2));
-      fs.writeFileSync(`${out}/${name}.audit.json`,JSON.stringify(result.records,null,2));
-      console.log(name,result.records.length,'graphs');
-    }
-  }
-  if(saved.length){fs.writeFileSync(`${out}/saved.json`,JSON.stringify(saved,null,2));console.log(saved);}
 }

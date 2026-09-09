@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { normalizeDocument, renderDocument } from '../public/libs/maths-editor/document-model.mjs';
 import { splitBookletTables, groupBookletBlocks } from '../src/lib/booklet-preview.js';
-import { ARMS, candidateChecks, mergeDiagrams } from '../scripts/booklet/benchmark.mjs';
+import { candidateChecks, mergeDiagrams } from '../scripts/booklet/candidate-validation.mjs';
 import { BOOKLET_AGY_MODEL, hashValue, contentHash, editableTranscription, saveContentOverride, applyContentOverrides } from '../scripts/booklet/transcription.mjs';
 test('structured tables preserve source width, rotation, cell treatment and stable annotation anchors',()=>{
  const doc=normalizeDocument({blocks:[{id:'t',type:'table',widthMm:72,rowHeights:[28],widths:[1,2],annotations:[{id:'arrow',type:'arrow',cellId:'a',toCellId:'b',label:'+4',colour:'#268cff'}],rows:[[{id:'a',type:'cell',rotation:-90,align:'center',verticalAlign:'middle',background:'#d3e8fc',blocks:[]},{id:'b',type:'cell',colour:'#ef6068',blocks:[]}]]}]});
@@ -35,8 +35,7 @@ test('draft edit survives reload and merge, rejects stale browser saves and expo
  base.pages[0].blocks[0].content='New source';save('merged/transcription.json',base);
  const conflicts=[];const effective=applyContentOverrides(editableTranscription(dir),review,{strict:false,conflicts});assert.equal(conflicts.length,1);assert.equal(effective.pages[0].blocks[0].content,'New source');assert.equal(review.contentOverrides['page-1-b']['/content'].value,'Edited');
 });
-test('comparison pins exact requested arms and requires complete diagram replies',()=>{
- assert.deepEqual(ARMS.map(a=>[a.model,a.effort]),[['gpt-6-astra','low'],['gpt-5.6-luna','max'],['gemini-3.8-flash-high','high']]);
+test('diagram replies require complete coverage',()=>{
  const candidate={pages:[{pageNumber:1,blocks:[{id:'p',format:'tikz',code:''}]}]};
  assert.throws(()=>mergeDiagrams(candidate,{diagrams:[]}),/coverage/);
  const merged=mergeDiagrams(candidate,{diagrams:[{id:'p',code:'\\begin{tikzpicture}\\draw(0,0)--(1,1);\\end{tikzpicture}'}]});assert.equal(candidate.pages[0].blocks[0].code,'');assert.equal(merged.pages[0].blocks[0].reviewStatus,'needs-review');

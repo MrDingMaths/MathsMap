@@ -24,9 +24,9 @@ Default paragraph tabs advance to 10 mm increments from the paragraph's indented
 
 The shared question arrangement reserves 7 mm at each labelled level: a 6 mm label box and 1 mm remaining inset. Thus the heading and first part label begin 7 mm from the question-number origin, and first-part prose begins at 14 mm. Default group/column gaps are 2 mm. Column pitch depends on available question width and column count; row heights also depend on prose, maths and answer space. Paragraph indentation is an additional property, defaulting to 0 mm.
 
-Validation: `check-studio-menu-stability.mjs` checks unchanged content position, retained controls, 10/20/30 mm tabs at three zoom levels, rendered maths in the actual coordinate-question navigator, and unchanged canvas width when opening its content editor. `check-document-editor.mjs` passes. The broader `check-studio-workflow.mjs` passes content insertion/edit/save/reload and proposal acceptance/undo, then stops on its existing diagram-stage `Proposed TikZ` selector.
+Validation: `check-studio-menu-stability.mjs` checks content position, retained controls, tabs, rendered maths and canvas width. Use the current isolated document and arrangement checks listed in `booklet-document-editing.md`; historical run results are retained locally.
 
-The source of truth is `D:\WebApps\MathsEditor`. MathsMap consumes pinned release **1.3.1** under `public/libs/maths-editor`; `release.json` records SHA-256 checksums for every runtime file. Run `npm run booklet:sync-editor` after changing and verifying the standalone source. Do not patch the copied runtime independently.
+The source of truth is `D:\WebApps\MathsEditor`. MathsMap consumes the pinned release identified in `public/libs/maths-editor/release.json` under `public/libs/maths-editor`; `release.json` records SHA-256 checksums for every runtime file. Run `npm run booklet:sync-editor` after changing and verifying the standalone source. Do not patch the copied runtime independently.
 
 ## Public API
 
@@ -112,7 +112,7 @@ The shared arrow renderer measures in local CSS pixels, so paper zoom no longer 
 
 ## Booklet house style ? pinned release 1.4.0
 
-Shared changes were made in the standalone MathsEditor project and synced with `scripts/booklet/sync-maths-editor.mjs`. Release 1.4.0 includes `house-style.mjs`, opt-in house-style table insertion and dotted cloze defaults without redundant table blanks. Booklet Studio mounts the selected editor directly on the page and shares the same structured document, tab, table and crop controls with the focused editor. See [verification](booklets-house-style-verification.md).
+Shared changes were made in the standalone MathsEditor project and synced with `scripts/booklet/sync-maths-editor.mjs`. Release 1.4.0 includes `house-style.mjs`, opt-in house-style table insertion and dotted cloze defaults without redundant table blanks. Booklet Studio mounts the selected editor directly on the page and shares the same structured document, tab, table and crop controls with the focused editor. See [the current editing workflow](booklet-document-editing.md).
 
 
 ### Release 1.4.1
@@ -122,9 +122,9 @@ Adds named swatches from the shared booklet palette to shading, text, border and
 
 ### Release 1.5.0 ? annotated equations
 
-Adds structured annotated-equation blocks, term anchors, editable maths/prose labels, annotation properties and measured vector arrows. Native equation input commits to the focused draft and shares document undo. Rich copies remap target identities; removed targets remain flagged. Shared fixed-pitch vector cloze leaders replace width-dependent dotted borders in the booklet house style. See [verification](booklets-annotated-equations-verification.md).
+Adds structured annotated-equation blocks, term anchors, editable maths/prose labels, annotation properties and measured vector arrows. Native equation input commits to the focused draft and shares document undo. Rich copies remap target identities; removed targets remain flagged. Shared fixed-pitch vector cloze leaders replace width-dependent dotted borders in the booklet house style. See [the current editing workflow](booklet-document-editing.md).
 
 
 ### Focused arrangements - 7 September 2026
 
-Pinned MathsEditor 1.6.0 adds the shared arrangement transaction model, illustrated tab guidance and orange palette. Studio opens whole questions with structural movement, sizing/spacing controls, selected content editing and direct diagram saves. Revision 44 adopts the P11/P30/P38/P39/P41 repairs while preserving unrelated edits. See `docs/booklet-focused-editing.md` and `docs/booklets-focused-arrangements-verification.md`.
+Pinned MathsEditor 1.6.0 adds the shared arrangement transaction model, illustrated tab guidance and orange palette. Studio opens whole questions with structural movement, sizing/spacing controls, selected content editing and direct diagram saves. Revision 44 adopts the P11/P30/P38/P39/P41 repairs while preserving unrelated edits. See `docs/booklet-focused-editing.md` and `docs/booklet-human-workflow.md`.

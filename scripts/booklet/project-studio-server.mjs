@@ -11,7 +11,7 @@ import {refreshBankRatings} from './bank-sync.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
 import {
-  WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
+  WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun,
 } from './transcription.mjs';
 import {
   validateQuestion, makeBankManifest, normaliseForDuplicate,
@@ -21,7 +21,7 @@ import {
   normalizeTeachingModule, validateTeachingModule,
 } from '../../src/lib/teaching-module-model.js';
 import {
-  createEditableProject, materializeReconstruction, PROJECT_BLOCK_TYPES,
+  createEditableProject, PROJECT_BLOCK_TYPES,
   materializeLegacyProject, normalizeEditableProject, snapshotBankQuestion,
   validateEditableProject,
 } from '../../src/lib/editable-booklet-model.js';
@@ -236,8 +236,9 @@ export async function materializeRunAsProject(runId, {
   projectRoot = PROJECT_ROOT, workRoot = WORK_ROOT, assetRoot = PROJECT_ASSET_ROOT,
   candidate = null, projectId = null, mode='compact',
 } = {}) {
+  if (!candidate || typeof candidate !== 'object') throw new Error('Import requires an explicit candidate; historical run materialization is retired.');
   const { runDir, manifest } = loadRun(runId, workRoot);
-  const raw = candidate ?? editableTranscription(runDir, manifest);
+  const raw = candidate;
   if ((!Array.isArray(raw.pages) || !raw.pages.length)&&(!Array.isArray(raw.sections)||!raw.sections.length)) throw new Error('Import needs source pages or semantic sections');
   const pageNumbers = new Set();
   for (const page of raw.pages??[]) {
@@ -246,13 +247,11 @@ export async function materializeRunAsProject(runId, {
     if (!Array.isArray(page.blocks) || page.blocks.some(block => !PROJECT_BLOCK_TYPES.includes(block.type))) throw new Error('Reconstruction contains unsupported blocks');
   }
   const review = await readJson(path.join(runDir, 'review.json'), {});
-  if (!raw) throw Object.assign(new Error('Merged transcription is missing'), { statusCode: 409 });
   const transcription = applyContentOverrides({...raw, runId:manifest.id}, review);
-  const preferredId = projectId ?? `project-${safeId(manifest.id)}${candidate ? '-'+randomUUID().slice(0,8) : ''}`;
+  const preferredId = projectId ?? `project-${safeId(manifest.id)}-${randomUUID().slice(0,8)}`;
   const existing = await readJson(fileFor(projectRoot, preferredId));
-  if (existing && (candidate || projectId)) throw Object.assign(new Error('A project with this id already exists'), {statusCode:409});
-  if (existing?.source?.runId === manifest.id) return normalizeEditableProject(existing);
-  const project = studioProject(contentProject(transcription, {runId:manifest.id,review,mode,selectedPages:manifest.selectedPages,projectId:existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId}));
+  if (existing) throw Object.assign(new Error('A project with this id already exists'), {statusCode:409});
+  const project = studioProject(contentProject(transcription, {runId:manifest.id,review,mode,selectedPages:manifest.selectedPages,projectId:preferredId}));
   project.studio.evidence={runId:manifest.id,answerEvidence:(transcription.pages??[]).flatMap(page=>(page.answerEvidence??[]).map(e=>({...e,studentPage:page.pageNumber}))),sourceReview:review};
   const targets=reviewTargets(project),known=new Set(targets.map(t=>t.id));
   for(const page of transcription.pages??[]){
@@ -413,10 +412,6 @@ export function projectStudioPlugin() {
           if (pathname === '/__booklet/projects/assembly-bank' && req.method === 'GET') return send(res, 200, { candidates: await mathsMapCandidates((new URL(req.url,'http://localhost').searchParams.get('skills') ?? '').split(',').filter(Boolean)) });
           if (pathname === '/__booklet/projects' && req.method === 'GET') return send(res, 200, await listBookletProjects());
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
-          if (pathname === '/__booklet/projects/materialize' && req.method === 'POST') {
-            const body = await readBody(req);
-            return send(res, 201, await materializeRunAsProject(body.runId,{mode:body.mode??'compact'}));
-          }
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);
           if (duplicateMatch && req.method === 'POST') return send(res, 201, await duplicateBookletProject(decodeURIComponent(duplicateMatch[1]), await readBody(req)));
           const promoteMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-question$/);

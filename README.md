@@ -24,6 +24,11 @@ npm run validate   # check the taxonomy (refs, cycles, stage-monotonic prereqs)
 npm run build      # production build to dist/
 ```
 
+For Booklet Studio, use the [current workflow](docs/booklet-human-workflow.md) and
+[direct compact import](docs/booklet-direct-compact-import.md). Projects is the
+single booklet workspace; historical-import browsing and creation are retired.
+Reusable commands are listed in [Booklet tools](scripts/booklet/README.md).
+
 ## Data (source of truth) — `data/`
 
 | File | What it holds |

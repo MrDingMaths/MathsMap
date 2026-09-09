@@ -3,7 +3,7 @@
   import { flip } from 'svelte/animate';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import PracticeQuestionEditor from './PracticeQuestionEditor.svelte';
-  import FullBookletImport from './FullBookletImport.svelte';
+  import { bookletStudioRoute } from '../lib/booklet-studio-route.js';
   import BookletProjects from './BookletProjects.svelte';
   import { courses, dotpoints, skills, topics } from '../lib/data.js';
   import {
@@ -128,12 +128,10 @@
 
   function applyRouteState() {
     const query = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
-    const requestedStage = query.get('stage');
-    if (requestedStage === 'full-import' || requestedStage === 'projects') stage = requestedStage;
-    else if (requestedStage === 'import' || requestedStage === 'review') stage = 'full-import';
-    else if (requestedStage === 'build' || requestedStage === 'builder') stage = 'builder';
-    else stage = ['projects','full-import'].includes(initialStage) ? initialStage : 'builder';
-    currentProjectId = query.get('project') ?? currentProjectId ?? initialProjectId;
+    const route = bookletStudioRoute(window.location.hash, initialStage, currentProjectId ?? initialProjectId);
+    stage = route.stage;
+    currentProjectId = route.projectId;
+    if (route.redirect) window.history.replaceState(null, '', route.redirect);
     const requestedOutput = query.get('output') ?? initialOutput;
     if (requestedOutput === 'questions') { showSpaces = true; showShortAnswers = false; showWorkedSolutions = false; }
     if (requestedOutput === 'short-answers') { showSpaces = false; showShortAnswers = true; showWorkedSolutions = false; }
@@ -183,7 +181,6 @@
   }
 
   function goBuilder() { stage = 'builder'; error = ''; status = ''; }
-  function openFullImport() { stage = 'full-import'; error = ''; status = ''; }
   function openProjects(projectId = currentProjectId) {
     stage = 'projects'; currentProjectId = projectId ?? null; error = ''; status = '';
   }
@@ -413,7 +410,6 @@
   <nav class="workspace-tabs" aria-label="Booklet Studio workspace">
     <button class:active={stage === 'projects'} onclick={() => openProjects()}>Booklets</button>
     <button class:active={stage === 'builder'} onclick={goBuilder}>Question bank</button>
-    <button class:active={stage === 'full-import'} onclick={openFullImport}>Source reconstructions</button>
   </nav>
 
   {#if status || error}
@@ -557,8 +553,6 @@
         </aside>
       {/if}
     </div>
-  {:else if stage === 'full-import'}
-    <FullBookletImport onprojectcreated={(created) => openProjects(created.id)} />
 
   {/if}
 </div>

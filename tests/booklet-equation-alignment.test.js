@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import { normalizeDocument, renderDocument } from '../public/libs/maths-editor/document-model.mjs';
 
 test('p14 q1 equation prompts stay left aligned while table cells stay centred', () => {
-  const project = JSON.parse(fs.readFileSync(new URL('../booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-complete-v1.json', import.meta.url), 'utf8'));
+  const project = JSON.parse(fs.readFileSync(new URL('./fixtures/booklets/linear-legacy-layout.json', import.meta.url), 'utf8'));
   const question = project.sections.find(s => s.sourcePageNumber === 14).blocks.find(b => b.id === 'page-14-q1').content;
   assert.equal(question.children.length, 5);
   for (const part of question.children) {

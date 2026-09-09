@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright-core';
 import {loadTikzEngine} from './check-pgfplots-engine.mjs';
-import {visitGraphs} from './migrate-graph-strokes.mjs';
+import {visitGraphs} from './graph-stroke-tools.mjs';
 import {prepareTikz} from '../../src/lib/tikz-prepare.js';
 
 const baseIndex=process.argv.indexOf('--base');

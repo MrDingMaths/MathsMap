@@ -1,18 +1,22 @@
-# Booklet Studio
+# Booklet tools
 
-Current workflow: **Codex reconstruction through chat -> editable projects -> reusable banks -> assembly -> export**.
+Current workflow: **source evidence → semantic content → editable Projects → optional banks/assembly → export**.
 
-See [the human editing workflow](../../docs/booklet-human-workflow.md) for source preparation, reconstruction JSON import, compatibility, original design decisions and verification commands.
-
-Studio has no AI execution controls, proposals, approval tracking, pasted question JSON import or workflow measurement dashboard. Bank saves remain explicit. Technical validation, issue notes, source comparison, undo/redo and revision conflict protection remain.
+Read [direct compact import](../../docs/booklet-direct-compact-import.md), the [feedback checklist](../../docs/booklet-transcription-feedback-checklist.md) and [cross-session rules](../../docs/booklet-cross-session-rules.md) before authoring. See [document editing](../../docs/booklet-document-editing.md) and [bank sync](../../docs/booklet-bank-auto-sync.md) for ongoing changes.
 
 ```powershell
-npm.cmd run booklet:prepare -- --pdf SOURCE.pdf --docx SOURCE.docx --pages 1-12 --run-id source-v1
-npm.cmd run booklet:import -- --run-id source-v1 --input CANDIDATE.json --project-id editable-v1
-node scripts/booklet/export-pdf.mjs --project-id editable-v1 --mode student --out output/student.pdf
+npm run booklet:prepare -- --pdf SOURCE.pdf --docx SOURCE.docx --pages 1-12 --run-id source-v1
+node scripts/booklet/create-compact-booklet.mjs --run-id source-v1 --input CONTENT.json --project-id booklet-v1
+node scripts/booklet/create-compact-booklet.mjs --run-id source-v1 --input CONTENT.json --project-id booklet-v1 --apply
+node scripts/booklet/check-content-coverage.mjs --project booklet-v1 --out .booklet-work/coverage/booklet-v1
+node scripts/booklet/check-teaching-presentation.mjs --project booklet-v1 --out .booklet-work/presentation/booklet-v1
+node scripts/booklet/check-compact-exercises.mjs --project booklet-v1 --out .booklet-work/layout/booklet-v1
+node scripts/booklet/check-compact-navigation.mjs --project booklet-v1 --out .booklet-work/navigation/booklet-v1
+node scripts/booklet/export-pdf.mjs --project-id booklet-v1 --mode with-short --out output/pdf/booklet-v1.pdf
 ```
 
-PDF export needs the local Vite server. Modes are `student`, `short`, and `worked`. The question bank uses `mathsmap-practice-question-v3`; projects use `mathsmap-booklet-project-v4`. Older projects remain readable through compatibility normalization.
+The lower-level `npm run booklet:import` also requires an explicit `--input` candidate and supports `--mode compact|exact`. Source history cannot create a project. Projects use v4; existing schemas remain readable. Export editions are `student`, `short`, `worked`, `with-short` and `with-worked`.
 
+Keep source preparation/extraction, candidate validation, correction checks, source inspection, answer calibration, bank transactions, editor checks and export QA reusable. `candidate-validation.mjs` contains pure prompt/validation helpers extracted from retired benchmarks. `codex-transcription.mjs` remains an optional explicit batch-authoring helper with coverage and model-contract tests, independent of Studio.
 
-House-style 1.1.0 exports use the shared preview/print validator and a final Poppler geometry gate. `pdftotext` must be on PATH. Failed checks leave the delivered PDF unchanged and write diagnostic `.qa.json` / `.printed-qa.json` files. Use `audit-house-style-v2.mjs --project=booklets/projects/linear-relationships-complete-v1.json --both --tag=review --screenshots` for the full saved-booklet regression. See `docs/linear-relationships-house-style-repair.md`.
+PDF/editor checks require a local Vite server and the tools documented in the direct workflow. Run `npm test` and `npm run build` after shared changes. Browser checks should intercept writes or use isolated stores. Completed pilots, applied repair commands and benchmark runners are retired; useful originals are in ignored local recovery storage, not production commands.

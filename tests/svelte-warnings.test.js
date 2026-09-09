@@ -5,7 +5,6 @@ import { compile } from 'svelte/compiler';
 
 const activeComponents = [
   'src/components/BookletStudio.svelte',
-  'src/components/FullBookletImport.svelte',
   'src/components/PracticeQuestionEditor.svelte',
   'src/components/EditableBookletText.svelte',
   'src/components/MathsEditor.svelte',

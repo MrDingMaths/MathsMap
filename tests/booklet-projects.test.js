@@ -143,14 +143,15 @@ test('file-backed project CRUD is revision checked and duplication is independen
   assert.equal((await loadBookletProject(duplicated.id, roots)).title, 'Integers adaptation');
 });
 
-test('a run without approvals materialises without modifying its immutable transcription', async () => {
+test('an explicit candidate imports without modifying source evidence', async () => {
   const roots = tempRoots();
   const runDir = path.join(roots.workRoot, 'accepted-run');
   const transcription = { format: 'mathsmap-full-booklet-import-v1', runId: 'accepted-run', title: 'Imported', pages: [{ id: 'page-1', pageNumber: 1, section: { id: 's', title: 'Imported', role: 'teaching' }, blocks: [{ id: 'copy', type: 'rich-text', content: 'Evidence copy' }] }], assets: [] };
   write(path.join(runDir, 'manifest.json'), { id: 'accepted-run', selectedPages: [1], source: {}, exactResultFormat: 'mathsmap-exact-transcription-result-v2' });
   write(path.join(runDir, 'merged', 'transcription.json'), transcription);
   write(path.join(runDir, 'review.json'), { runId: 'accepted-run', layoutOverrides: {}, diagrams: {}, contentOverrides: {} });
-  const project = await materializeRunAsProject('accepted-run', roots);
+  await assert.rejects(materializeRunAsProject('accepted-run', roots), /explicit candidate/);
+  const project = await materializeRunAsProject('accepted-run', {...roots, candidate:transcription});
   assert.equal(project.source.runId, 'accepted-run');
   const changed = await saveBookletProject({ ...project, title: 'Edited master' }, { ...roots, expectedRevision: project.revision });
   assert.equal(changed.title, 'Edited master');
@@ -181,6 +182,10 @@ test('chat reconstruction imports source assets and IDs without receipts or merg
   assert.deepEqual(fs.readFileSync(input), before);
   assert.equal(fs.existsSync(path.join(runDir, 'merged/transcription.json')), false);
   await assert.rejects(importReconstruction({ ...roots, runId:'chat-source', input, projectId:'chat-project' }), /already exists/);
+  write(path.join(runDir, 'review.json'), {contentOverrides:{text:{'/content':{beforeHash:'stale-source-hash',value:'Unreviewed replacement'}}}});
+  await assert.rejects(importReconstruction({ ...roots, runId:'chat-source', input, projectId:'conflicting-project' }), /override is stale/);
+  assert.equal(fs.existsSync(path.join(roots.projectRoot,'conflicting-project.json')), false);
+  write(path.join(runDir, 'review.json'), {});
   candidate.pages.push(structuredClone(candidate.pages[0])); write(input, candidate);
   await assert.rejects(importReconstruction({ ...roots, runId:'chat-source', input }), /duplicate or unexpected/);
 });
@@ -248,12 +253,11 @@ test('project API client awaits fetch and reports decoded project data', async (
   assert.equal(value.url, '/__booklet/projects/project-one');
 });
 
-test('Booklets workspace exposes materialisation, structural editing, promotion and temporary export controls', () => {
+test('Booklets workspace exposes projects, structural editing, promotion and export controls', () => {
   const studio = fs.readFileSync('src/components/BookletStudio.svelte', 'utf8');
-  const imports = fs.readFileSync('src/components/FullBookletImport.svelte', 'utf8');
   const projects = fs.readFileSync('src/components/BookletProjects.svelte', 'utf8');
   assert.match(studio, />Booklets<\/button>/);
-  assert.match(imports, /Create editable booklet/);
+  assert.doesNotMatch(studio, /FullBookletImport|Source reconstructions/);
   assert.match(projects, /Duplicate page/);
   assert.match(projects, /Save as reusable module/);
   assert.match(projects, /Update bank question/);

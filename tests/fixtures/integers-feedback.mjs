@@ -1,9 +1,5 @@
-#!/usr/bin/env node
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { applyContentOverrides, assertPinnedInputs, contentHash, loadRun } from './transcription.mjs';
-
+// Historical feedback transformation retained only for regression tests.
+import {applyContentOverrides,contentHash} from '../../scripts/booklet/transcription.mjs';
 export const FEEDBACK_REVISION = 'integers-v2-feedback-2026-09-05';
 export const FEEDBACK_PAGES = [1, 29, 30, 31, 32, 33, 37, 46];
 const clone = (value) => structuredClone(value);
@@ -77,22 +73,3 @@ export function repairIntegersFeedback(raw, originalReview, at = new Date().toIS
   applyContentOverrides(transcription, review);
   return { transcription, review, changed: true };
 }
-
-export function repairRun(runId = 'computation-integers-pilot-v2') {
-  const { runDir, manifest } = loadRun(runId);
-  assertPinnedInputs(runDir);
-  const read = (file) => JSON.parse(fs.readFileSync(path.join(runDir, file), 'utf8').replace(/^\uFEFF/, ''));
-  const result = repairIntegersFeedback(read('merged/transcription.json'), read('review.json'));
-  if (!result.changed) return { runId: manifest.id, changed: false };
-  const backup = path.join(runDir, 'migration', FEEDBACK_REVISION);
-  fs.mkdirSync(backup, { recursive: true });
-  for (const file of ['merged/transcription.json', 'review.json', 'manifest.json']) fs.copyFileSync(path.join(runDir, file), path.join(backup, path.basename(file)), fs.constants.COPYFILE_EXCL);
-  for (const lane of ['enrichment', 'mapping', 'fidelity']) if (manifest.lanes?.[lane]) manifest.lanes[lane].status = 'stale';
-  const write = (file, value) => fs.writeFileSync(path.join(runDir, file), JSON.stringify(value, null, 2) + '\n', 'utf8');
-  write('merged/transcription.json', result.transcription);
-  write('review.json', result.review);
-  write('manifest.json', manifest);
-  return { runId: manifest.id, changed: true, backup, pages: FEEDBACK_PAGES };
-}
-
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) console.log(JSON.stringify(repairRun(process.argv[2]), null, 2));

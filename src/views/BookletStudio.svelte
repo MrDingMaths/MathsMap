@@ -10,7 +10,7 @@
 
   onMount(async () => {
     try { bank = (await loadPracticeBank()).records; }
-    catch (e) { error = 'The private question bank is empty or the authoring server is not running. Start the dev server to open projects and source reconstructions.'; console.warn(e); }
+    catch (e) { error = 'The private question bank is empty or the authoring server is not running. Start the dev server to open projects.'; console.warn(e); }
     finally { loading = false; }
   });
 </script>

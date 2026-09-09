@@ -12,7 +12,7 @@ export const fixture=()=>normalizeEditableProject({format:'mathsmap-booklet-proj
 const measure=async page=>({capacity:100,height:page.blocks.reduce((h,b)=>h+(b.content?.children?.length?b.content.children.reduce((s,c)=>s+c.height,0):b.height??10),0)});
 
 test('Linear conversion preserves all source content and joins explicit continuations',()=>{
- const original=JSON.parse(readFileSync('booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-complete-v1.json','utf8')),before=JSON.stringify(original),p=convertToFlexible(original);
+ const original=JSON.parse(readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8')),before=JSON.stringify(original),p=convertToFlexible(original);
  assert.equal(p.settings.paginationMode,'flexible');assert.equal(p.topics.length,14);assert.equal(JSON.stringify(original),before);
  assert.equal(p.sections.flatMap(s=>s.blocks).length,original.sections.flatMap(s=>s.blocks).length);
  for(const b of p.sections.flatMap(s=>s.blocks)){const source=original.sections.flatMap(s=>s.blocks).find(x=>x.id===b.id);assert.deepEqual(b.content,source.content);assert.deepEqual(b.bankRef,source.bankRef);assert.deepEqual(b.classification,source.classification);}
@@ -32,7 +32,7 @@ test('moves preserve IDs and content; copies remap local layout references and k
 });
 
 test('source layout preserves every original page boundary, mixed page and question number',async()=>{
- const source=JSON.parse(readFileSync('booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-complete-v1.json','utf8')),p=convertToFlexible(source);
+ const source=JSON.parse(readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8')),p=convertToFlexible(source);
  const result=await paginateFlow(p,'student',async()=>({height:1,capacity:10000}));
  assert.deepEqual(result.pages.map(p=>p.blocks.map(b=>b.id)),source.sections.map(s=>s.blocks.map(b=>b.id)));
  assert.equal(result.pages.length,93);assert.equal(result.issues.length,0);
@@ -54,7 +54,7 @@ test('source layout preserves every original page boundary, mixed page and quest
 });
 
 test('whole-question arrangements retain intentional empty columns',()=>{
- const source=JSON.parse(readFileSync('booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-complete-v1.json','utf8'));
+ const source=JSON.parse(readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8'));
  const block=source.sections.flatMap(s=>s.blocks).find(b=>b.id==='page-49-q11');
  const layouts=source.settings.layoutOverrides.blockLayouts;
  assert.deepEqual(fragmentLayouts([block],layouts)[block.id],layouts[block.id]);
@@ -82,7 +82,7 @@ test('an existing continuation can begin beside the preceding question',async()=
  assert.equal(r.pages[1].blocks[0].sourceOrder,2);
 });
 test('copying an arranged real question preserves its editable diagrams and validates',()=>{
- const source=JSON.parse(readFileSync('booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-complete-v1.json','utf8')),p=convertToFlexible(source),blockId='page-39-q1',destination=p.sections.at(-1).id;
+ const source=JSON.parse(readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8')),p=convertToFlexible(source),blockId='page-39-q1',destination=p.sections.at(-1).id;
  const copied=flowCommand(p,{type:'paste',clipboard:captureFlowClipboard(p,[blockId]),sectionId:destination});
  assert.equal(validateEditableProject(copied).valid,true,validateEditableProject(copied).errors.join('; '));
  const b=copied.sections.at(-1).blocks.at(-1);assert.notEqual(b.id,blockId);assert.ok(copied.settings.layoutOverrides.blockLayouts[b.id]);

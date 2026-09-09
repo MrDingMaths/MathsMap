@@ -43,7 +43,7 @@ try {
  await page.evaluate(()=>document.querySelector('.me-content').style.transform='');
  await page.screenshot({path:'tmp/studio-menu-stability.png',fullPage:true});
  // Exercise the actual Svelte arrangement editor with read-only intercepted project data.
- const record=JSON.parse(fs.readFileSync('booklets/projects/linear-relationships-complete-v1.json'));
+ const record=JSON.parse(fs.readFileSync('tests/fixtures/booklets/linear-legacy-layout.json'));
  const section=record.sections.find(s=>s.blocks.some(b=>b.id==='page-4-q1'));
  section.blocks=section.blocks.filter(b=>b.id==='page-4-q1');record.sections=[record.sections[0],section];
  await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.continue():r.abort());

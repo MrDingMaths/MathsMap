@@ -33,9 +33,9 @@ const ready=async edition=>{
 };
 try{
  for(const kind of projects){
-  const id=kind==='baseline'?'linear-relationships-flexible-v1':kind==='trial'?'linear-relationships-compact-exercises-v1':kind;
+  const id=kind;
   if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Invalid project ID');
-  const projectFile=kind==='baseline'||kind==='trial'?`booklets/archives/2026-09-08-linear-relationships/projects/${id}.json`:`booklets/projects/${id}.json`;
+  const projectFile=`booklets/projects/${id}.json`;
   const record=JSON.parse(fs.readFileSync(projectFile));record.settings.flowEdition=editions[0];
   if(record.source?.inventory){
    const coverage=await inspectContentCoverage(record,{assetSignatures:await contentAssetSignatures(record)});

@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {normaliseQuestion,makeBankManifest,filterQuestionBank} from '../src/lib/practice-question-model.js';
 import {isTheoryReview} from '../src/lib/question-bank-eligibility.js';
-import {assessedClassification} from '../scripts/booklet/reassess-linear-bank.mjs';
+import {assessedClassification} from './fixtures/linear-assessment.mjs';
 import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
 import {createBookletProject,promoteProjectQuestion,promoteProjectModule,saveBookletProject} from '../scripts/booklet/project-studio-server.mjs';
 import {mathsMapCandidates} from '../scripts/booklet/assembly-bank.mjs';
