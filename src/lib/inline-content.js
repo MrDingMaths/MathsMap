@@ -182,7 +182,9 @@ export function groupTextBlocks(value, { alignRelations = true } = {}) {
     else for (const inner of run) blocks.push({ kind: 'line', value: `$${inner}$` });
     run = [];
   };
-  const lines=String(value ?? '').split(/\r?\n/);
+  // Display maths may span physical source lines. Keep its delimiters together
+  // so the renderer receives one expression rather than fragments of raw TeX.
+  const lines=String(value ?? '').replace(/(?<!\\)\$\$([\s\S]*?)(?<!\\)\$\$/g,block=>block.replace(/\r?\n/g,' ')).split(/\r?\n/);
   for (let index=0;index<lines.length;index++) {
     const line=lines[index],list=readSourceList(lines,index);
     if(list){flush();blocks.push({kind:'list',list:list.list});index=list.next-1;continue;}

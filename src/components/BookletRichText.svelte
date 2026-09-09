@@ -1,4 +1,6 @@
 <script>
+  import {getContext} from 'svelte';
+  const presentation=getContext('booklet-presentation');
   import { mountTabs } from '../../public/libs/maths-editor/tab-layout.mjs';
   import { mountEquationAnnotations } from '../../public/libs/maths-editor/annotated-equation.mjs';
   import { mountImageFeedback } from '../../public/libs/maths-editor/document-model.mjs';
@@ -16,7 +18,7 @@
 </script>
 
 {#if isDocument(text)}
-  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={text} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze })}</div>
+  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={text} use:mountEquationAnnotations={text} use:mountImageFeedback={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
 {:else if rules}
   <ol class="theory-rules">
     {#each rules as rule}

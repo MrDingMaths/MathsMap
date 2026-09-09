@@ -1,4 +1,5 @@
 import { normalizeBlockLayouts } from './booklet-layout.js';
+import {applyCreationPreset} from './booklet-creation.js';
 import {remapQuestionPresentation} from './question-presentation.js';
 import { deepCopy as copyQuestion, normaliseQuestion } from './practice-question-model.js';
 import { normalizeBookletProject } from './booklet-model.js';
@@ -63,9 +64,15 @@ function normalizeSettings(raw = {}) {
   return {
     ...(raw.paginationMode === 'flexible' ? {paginationMode:'flexible',flowEdition:['student','short','worked','with-short','with-worked'].includes(raw.flowEdition)?raw.flowEdition:'student'} : {}),
     ...(raw.exerciseOrganisation==='topic'?{exerciseOrganisation:'topic'}:{}),
+    ...(raw.includeTeachingAnswers===true?{includeTeachingAnswers:true}:{}),
+    ...(raw.teachingPresentationVersion===1?{teachingPresentationVersion:1}:{}),
+    ...(raw.mathsStyle==='display-glyphs'?{mathsStyle:'display-glyphs'}:{}),
+    ...(raw.generatedCover===true?{generatedCover:true}:{}),
+    ...(raw.cover?{cover:clone(raw.cover)}:{}),
     ...(raw.compactAnswers?{compactAnswers:{shortFontPt:9,workedFontPt:9.5,gutterMm:8,shortDiagramMm:45,workedDiagramMm:55,...clone(raw.compactAnswers),diagramWidths:clone(raw.compactAnswers.diagramWidths??{})}}:{}),
     ...(raw.houseStyleVersion ? {houseStyleVersion:String(raw.houseStyleVersion)} : {}),
     preserveSourcePages: raw.preserveSourcePages === true,
+    ...(raw.sourcePaginationPolicy==='source-boundaries'?{sourcePaginationPolicy:'source-boundaries'}:{}),
     showTheorySolutions: raw.showTheorySolutions !== false,
     showKeyIdeasAnswers: raw.showKeyIdeasAnswers === true,
     showReviewAnswers: raw.showReviewAnswers === true,
@@ -126,8 +133,8 @@ export function normalizeEditableProject(raw = {}) {
   };
 }
 
-export function createEditableProject({ id = null, title = 'Untitled booklet', subtitle = '', sections = null, source = null } = {}) {
-  return normalizeEditableProject({
+export function createEditableProject({ id = null, title = 'Untitled booklet', subtitle = '', sections = null, source = null, mode='compact' } = {}) {
+  return normalizeEditableProject(applyCreationPreset({
     id: id ?? uniqueId('booklet', title),
     title,
     subtitle,
@@ -135,7 +142,7 @@ export function createEditableProject({ id = null, title = 'Untitled booklet', s
     sections: sections ?? [{ id: uniqueId('section', title), title: 'First section', role: 'teaching', blocks: [] }],
     settings: {},
     status: 'draft',
-  });
+  },mode));
 }
 
 function sourcePageTitle(page, index) {
@@ -298,6 +305,10 @@ function sectionOf(project, sectionId) {
 export function addProjectSection(project, { afterIndex = null, title = 'New section' } = {}) {
   const next = normalizeEditableProject(project);
   const section = { id: uniqueId('section', title), title, role: 'teaching', blocks: [] };
+  if(next.settings.paginationMode==='flexible'){
+    section.phase='teaching';section.topicId=`topic-${section.id}`;
+    next.topics.push({id:section.topicId,title});
+  }
   const index = afterIndex == null ? next.sections.length : Math.max(0, Math.min(next.sections.length, Number(afterIndex) + 1));
   next.sections.splice(index, 0, section);
   return next;
@@ -488,7 +499,7 @@ export function validateEditableProject(raw) {
     if(!node||typeof node!=='object')return;
     if(isDocument(node)){try{normalizeDocument(node);}catch(error){errors.push(error.message);}}
     if(node.id){if(ids.has(node.id))errors.push(`Duplicate project node id: ${node.id}`);ids.add(node.id);}
-    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','source','sourceQuestionRef','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
+    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','sourceReview','source','sourceQuestionRef','sourceLayoutEvidence','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
   };
   scan(raw?.sections??[]);
   if(raw?.settings?.paginationMode==='flexible'){

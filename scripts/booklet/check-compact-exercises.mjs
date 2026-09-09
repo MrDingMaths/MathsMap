@@ -3,17 +3,20 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
-import {isPractice} from '../../src/lib/booklet-flow.js';
+import {isPractice,flowEditionSections} from '../../src/lib/booklet-flow.js';
 import {spawnSync} from 'node:child_process';
+import {rendererSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
+import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
 const editions=arg('--editions','student,short,worked,with-short,with-worked').split(',');
-const projects=arg('--projects','baseline,trial').split(',');
+const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
+const runtime=rendererSignature();
 fs.mkdirSync(out,{recursive:true});
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
 const cache=fs.existsSync(out+'/cache.json')?out+'/cache.json':'.booklet-work/flexible-check/cache.json';
 const context=await browser.newContext({viewport:{width:1600,height:1100},...(fs.existsSync(cache)?{storageState:cache}:{})});
-const page=await context.newPage(),errors=[],report=fs.existsSync(out+'/report.json')?JSON.parse(fs.readFileSync(out+'/report.json')).report:{};page.on('pageerror',e=>errors.push(e.message));
+const page=await context.newPage(),errors=[],report={};page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
 await page.route('**/__booklet/bank/manifest',r=>r.fulfill({json:{format:'mathsmap-practice-bank-v3',version:3,questions:[]}}));
 const ready=async edition=>{
@@ -30,15 +33,27 @@ const ready=async edition=>{
 };
 try{
  for(const kind of projects){
-  const id=kind==='baseline'?'linear-relationships-flexible-v1':'linear-relationships-compact-exercises-v1';
-  const record=JSON.parse(fs.readFileSync(`booklets/projects/${id}.json`));record.settings.flowEdition=editions[0];
+  const id=kind==='baseline'?'linear-relationships-flexible-v1':kind==='trial'?'linear-relationships-compact-exercises-v1':kind;
+  if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Invalid project ID');
+  const projectFile=kind==='baseline'||kind==='trial'?`booklets/archives/2026-09-08-linear-relationships/projects/${id}.json`:`booklets/projects/${id}.json`;
+  const record=JSON.parse(fs.readFileSync(projectFile));record.settings.flowEdition=editions[0];
+  if(record.source?.inventory){
+   const coverage=await inspectContentCoverage(record,{assetSignatures:await contentAssetSignatures(record)});
+   fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
+   if(!process.argv.includes('--draft'))assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
+  }
   await page.route('**/__booklet/projects/'+id,r=>r.fulfill({json:record}));
   await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
   await page.locator('.flow-document').waitFor({state:'attached'});
   const leaves=[];const visit=n=>n.children?.length?n.children.forEach(visit):leaves.push(n.id);
-  record.sections.flatMap(s=>s.blocks).filter(isPractice).forEach(b=>visit(b.content));
+  flowEditionSections(record,'short').flatMap(s=>s.blocks).forEach(b=>visit(b.content));
+  const studentPrompts=new Set();const practiceLeaf=n=>n.children?.length?n.children.forEach(practiceLeaf):!n.intentionalWorkedExample&&studentPrompts.add(n.id);
+  record.sections.flatMap(s=>s.blocks).filter(isPractice).forEach(b=>practiceLeaf(b.content));
   report[kind]??={};
   for(const edition of editions){
+   const file=`${out}/${kind}-${edition}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
+   const cached=process.argv.includes('--force')?null:readLayoutCache(cacheFile,key,file);
+   if(cached){report[kind][edition]=cached;console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;}
    console.log(`Checking ${kind} ${edition}`);
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await ready(edition);
    await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
@@ -49,13 +64,15 @@ try{
      pages:root.querySelectorAll('.print-page').length,
      labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent})),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
+     teachingGroups:[...root.querySelectorAll('[data-atom-id]')].map(e=>({id:e.dataset.atomId,headers:e.querySelectorAll(':scope > [data-header-kind]').length})),
+     teachingReferences:[...root.querySelectorAll('.teaching-activity-reference')].filter(e=>e.getClientRects().length).map(e=>e.textContent),
+     clozeSpaces:root.querySelectorAll('.key-ideas-cloze .answer-space,.key-ideas-cloze .arr-space').length,
      columns:[...root.querySelectorAll('.answer-columns')].map(e=>getComputedStyle(e).gridTemplateColumns),
      fonts:[...new Set([...root.querySelectorAll('.compact-answer')].map(e=>getComputedStyle(e).fontSize))],
      columnOverflow:[...root.querySelectorAll('.answer-column .katex-html > .base,.answer-column table')].filter(e=>{const r=e.getBoundingClientRect(),c=e.closest('.answer-column').getBoundingClientRect();return r.left<c.left-.5||r.right>c.right+.5;}).map(e=>({text:e.textContent,id:e.closest('[data-node-id]')?.dataset.nodeId})),
-     links:[...root.querySelectorAll('a[href^="#"]')].map(a=>({href:a.getAttribute('href'),exists:!!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)})),
+     links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).map(a=>({href:a.getAttribute('href'),exists:!!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)})),
      map:[...root.querySelectorAll('.print-page')].map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(',')}))
    }));
-   const file=`${out}/${kind}-${edition}.pdf`;
    await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
    const printed=inspectPrintedPdf(file),issues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
    const linkCheck=spawnSync('pdftohtml',['-i','-stdout',file],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
@@ -67,14 +84,29 @@ try{
    await context.storageState({path:out+'/cache.json',indexedDB:true});
    console.log(`${kind} ${edition}: ${info.pages} pages, ${issues.length} DOM issues, ${printed.flatMap(p=>p.issues).length} print issues`);
    assert.equal(info.pages,printed.length);assert.equal(info.badges,0);
+   if(record.settings.teachingPresentationVersion===1){
+    assert.deepEqual(info.teachingReferences,[],'Teaching activity references are not student content');
+    assert.equal(info.clozeSpaces,0,'Cloze-only Key Ideas have no additional working area');
+    if(!['short','worked'].includes(edition)){
+     const expected=[...new Set(record.sections.flatMap(s=>s.blocks).filter(b=>b.sourceAtom).map(b=>b.sourceAtom.id))].sort();
+     assert.deepEqual([...new Set(info.teachingGroups.map(g=>g.id))].sort(),expected,'Every teaching group uses its header template');
+     assert.ok(info.teachingGroups.every(g=>g.headers===1),'Exactly one header per teaching box');
+    }else assert.deepEqual(info.teachingGroups,[],'Answer-only editions contain practice, not teaching');
+   }
    assert.deepEqual(info.columnOverflow,[],'Answer content fits its column');
    if(edition!=='student')assert.deepEqual(info.labels.map(l=>l.id).sort(),[...leaves].sort(),'Every answer leaf appears exactly once');
+   else assert.deepEqual(info.labels.filter(l=>studentPrompts.has(l.id)),[],'Practice answers do not leak into the Questions edition');
    assert.ok(info.links.every(l=>l.exists),'All printed references have destinations');
+   assert.deepEqual(issues,[],'DOM layout/style checks');
+   assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
+   assert.deepEqual(errors,[],'Browser errors');
+   writeLayoutCache(cacheFile,key,file,report[kind][edition]);
    await page.emulateMedia({media:'screen'});
   }
  }
  assert.deepEqual(errors,[]);
+ fs.writeFileSync(out+'/report.json',JSON.stringify({report,errors},null,2));
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.issues)),[],'DOM layout/style checks');
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.printed.flatMap(p=>p.issues))),[],'Printed geometry');
- console.log('Compact exercise verification passed.');
+ console.log(process.argv.includes('--draft')?'Draft layout checks passed; see the separate readiness report.':'Compact exercise verification passed.');
 }finally{await context.storageState({path:out+'/cache.json',indexedDB:true}).catch(()=>{});await browser.close();}

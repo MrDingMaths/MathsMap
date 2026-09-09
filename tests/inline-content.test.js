@@ -13,6 +13,21 @@ import {
   PRACTICE_CARD_KEYS,
   QUIZ_QUESTION_KEYS
 } from '../src/lib/inline-content.js';
+import {renderMath} from '../src/lib/render-math.js';
+
+test('unknown maths commands are explicit render errors for the booklet gate',()=>{
+ assert.match(renderMath(String.raw`$a\timesa$`),/class="katex-error"/);
+ assert.doesNotMatch(renderMath(String.raw`$a\times a$`),/class="katex-error"/);
+});
+
+test('multiline display working reaches the maths renderer as one expression',()=>{
+ const source='A calculation\n$$\\begin{align*}\nx^2\\times x^3 &= x^{2+3} \\\\\n&=x^5\n\\end{align*}$$\nNext explanation';
+ const blocks=groupTextBlocks(source);
+ assert.equal(blocks.length,3);
+ assert.match(renderMath(blocks[1].value),/class="katex-display"/);
+ assert.doesNotMatch(renderMath(blocks[1].value),/class="katex-error"/);
+ assert.equal(blocks[2].value,'Next explanation');
+});
 
 test('expands a chained worked solution for vertical relation alignment', () => {
   assert.equal(setoutMathChain('$-2+(-3)=-2-3=-5$'), '$-2+(-3)=-2-3$\n$=-5$');

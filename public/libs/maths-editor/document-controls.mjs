@@ -48,7 +48,16 @@ export const layoutControls={
   this.button(area,'Paste tab settings',()=>{if(this.copiedTabs)this.modify(x=>x.tabStops=copy(this.copiedTabs));});
   if(this.host.hasAttribute('question-context'))this.button(area,"Apply to this question’s parts",()=>this.host.dispatchEvent(new CustomEvent('apply-question-tabs',{bubbles:true,detail:{tabStops:copy(n.tabStops??[])}})));
  },
- layoutProperties(n){for(let i=0;i<n.columns;i++)this.field(`Layout column ${i+1} proportion`,n.tracks?.[i]??1,v=>{if(v<=0)return;this.modify(x=>{x.tracks??=Array(x.columns).fill(1);x.tracks[i]=v;});});this.field('Layout gap (mm)',n.gap,v=>this.modify(x=>x.gap=v));},
+ layoutProperties(n){for(let i=0;i<n.columns;i++)this.field(`Layout column ${i+1} proportion`,n.tracks?.[i]??1,v=>{if(v<=0)return;this.modify(x=>{x.tracks??=Array(x.columns).fill(1);x.tracks[i]=v;});});this.field('Layout gap (mm)',n.gap,v=>this.modify(x=>x.gap=v));
+  if(n.arrangement==='cards'){
+   this.field('Cards width (mm)',n.widthMm??170,v=>this.modify(x=>x.widthMm=v));
+   this.field('Cards alignment',n.align??'center',v=>this.modify(x=>x.align=v),'text',['left','center','right']);
+   n.slots.forEach((s,i)=>{
+    this.field(`Card ${i+1} label`,s.label??'',v=>this.modify(x=>x.slots[i].label=v),'text');
+    this.field(`Card ${i+1} width (mm)`,s.widthMm??30,v=>this.modify(x=>x.slots[i].widthMm=v));
+   });
+  }
+ },
  colourField(label,value,action,special){
   const wrap=document.createElement('label');wrap.textContent=label+' ';const picker=document.createElement('input');picker.type='color';picker.disabled=this.host.readonly;picker.value=colours.test(value)?value:'#ffffff';picker.setAttribute('aria-label',label+' picker');
   const input=document.createElement('input');input.type='text';input.disabled=this.host.readonly;input.value=value??'';input.placeholder=value==null?'Mixed':'';input.setAttribute('aria-label',label);input.onchange=()=>{if(!colours.test(input.value)&&input.value!==special){input.setAttribute('aria-invalid','true');this.message.textContent='Use a six-digit hex colour'+(special?' or '+special:'')+'.';return;}action(input.value);};picker.onchange=()=>action(picker.value);wrap.append(picker,input);if(special)this.button(wrap,special==='transparent'?'No fill':'Inherit',()=>action(special));this.inspector.append(wrap);

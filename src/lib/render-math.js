@@ -2,6 +2,7 @@
 // `**bold**`. Extracted from src/components/Math.svelte so Node-side tools — the booklet
 // renderer above all — produce byte-identical HTML to the app. Math.svelte imports it.
 import katex from 'katex';
+import {spaceFractionSteps} from '../../public/libs/maths-editor/equation-spacing.mjs';
 
 // Split a mixed string into prose and `$...$` maths runs, render the maths
 // with KaTeX, and HTML-escape the prose. The result is a trusted HTML string
@@ -55,15 +56,15 @@ export function renderMath(text) {
       try {
         // Match MathsDatabase: every expression uses display-style glyphs
         // while its surrounding inline/block layout remains unchanged.
-        const displayMath = `\\displaystyle ${parts[i].replace(/\\(?:[,;:!]|q?quad)\s*(?=[\^_])/g, '')}`;
+        const displayMath = `\\displaystyle ${spaceFractionSteps(parts[i]).replace(/\\(?:[,;:!]|q?quad)\s*(?=[\^_])/g, '')}`;
         rendered = katex.renderToString(displayMath, {
-          throwOnError: false,
+          throwOnError: true,
           // AMS align requires display mode; ordinary formula layout stays inline.
           displayMode: /\\begin\{align\*?\}/.test(parts[i]),
           output: 'htmlAndMathml',
         });
       } catch {
-        rendered = escapeHtml(`$${parts[i]}$`);
+        rendered = `<span class="katex-error">${escapeHtml(`$${parts[i]}$`)}</span>`;
       }
       prose += PLACEHOLDER(mathHtml.length);
       mathHtml.push(rendered);

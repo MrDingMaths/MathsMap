@@ -15,6 +15,9 @@
   import FocusedBookletEditor from './FocusedBookletEditor.svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
   import BookletReviewInspector from './BookletReviewInspector.svelte';
+  import BookletCoverage from './BookletCoverage.svelte';
+  import {sourceReferences} from '../lib/booklet-source-content.js';
+  import {contentNodes} from '../lib/booklet-content-verification.js';
   import {shareUnchanged} from '../lib/booklet-arrangement.js';
   import {resolveArrangement,findContent} from '../lib/booklet-arrangement.js';
   import BookletAssemblyPanel from './BookletAssemblyPanel.svelte';
@@ -66,6 +69,7 @@
   }
   const labels=$derived(teachingLabels(project?.sections.flatMap(s=>s.blocks)??[]));
   setContext('booklet-labels',()=>labels);
+  setContext('booklet-presentation',()=>project?.settings);
   let printReady = $state(false);
   let printing = $state(false), printProgress = $state('');
   let inlineSession = $state.raw(null);
@@ -99,7 +103,20 @@
   let answerView=$state('student');
   let navigation=$state(true),comparison=$state(false),panel=$state(''),tool=$state(''),zoom=$state('width'),sourceZoom=$state('width'),workspaceWidth=$state(1400),workspace,focusedEditor=$state();
   let editSession=$state.raw(null),preferencesReady=$state(false);
-  const selectedSourcePage=$derived(selectedBlock?.sourcePageNumber??selectedSection?.sourcePageNumber);
+  let sourcePageChoice=$state(null);
+  const selectedSourceRefs=$derived.by(()=>{
+    const target=contentNodes(project).get(selectedTargetId)?.node;
+    const own=sourceReferences(target);
+    return own.length?own:sourceReferences(selectedBlock).length?sourceReferences(selectedBlock):sourceReferences(selectedSection);
+  });
+  $effect(()=>{selectedTargetId;selectedBlockId;sourcePageChoice=null;});
+  const selectedSourcePage=$derived(selectedSourceRefs.some(r=>r.pageNumber===sourcePageChoice)?sourcePageChoice:selectedSourceRefs[0]?.pageNumber);
+  function selectCoverageTarget(id){
+    for(const section of project.sections){const block=section.blocks.find(b=>b.id===(contentNodes(project).get(id)?.block.id??id));if(!block)continue;
+      selectedSectionId=section.id;selectedBlockId=block.id;selectedTargetId=id;
+      const page=projectPages.find(p=>p.blocks.some(b=>b.id===block.id));if(page){selectedPageId=page.id;flowPreview?.jumpTo(page.id);}break;
+    }
+  }
   const sourceUrl=$derived(project?.source?.runId && selectedSourcePage ? `/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSourcePage).padStart(3,'0')}.png` : '');
   const flagCount=$derived((project?.studio?.flags??[]).filter(f=>!f.resolved).length);
   const dockReview=$derived(panel==='review' && workspaceWidth-(navigation?240:0)-360>=794);
@@ -146,7 +163,7 @@
       colourMode:project.settings.layoutOverrides.diagramColourModes[d.id]??'original',assetBase:'/__booklet/full-imports/'+encodeURIComponent(project.source?.runId??project.id)+'/files/lanes/exact/',
       context:'Page '+previewPage?.pageNumber+' ? '+(d.alt??'Diagram'),sourceUrl,commit:draft=>{
         let next=project;
-        const diagram={...d,[d.format==='tikz'?'code':'src']:draft.code,widthMm:draft.width,mathematicalModel:draft.mathematicalModel,...(d.format!=='tikz'?{sourceRegion:draft.sourceRegion}:{} )};
+        const diagram={...d,[d.format==='tikz'?'code':'src']:draft.code,widthMm:draft.width,align:draft.align,mathematicalModel:draft.mathematicalModel,...(d.format!=='tikz'?{sourceRegion:draft.sourceRegion}:{} )};
         if(item.path)next=updateProjectContent(next,target.id,item.path,diagram);
         else next={...next,sections:next.sections.map(section=>({...section,blocks:section.blocks.map(block=>block.id===d.id?diagram:block)}))};
         if(d.format!=='tikz')next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramColourModes:{...next.settings.layoutOverrides.diagramColourModes,[d.id]:draft.colourMode}}});
@@ -596,14 +613,14 @@
     <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]} disabled={!!inlineSession} onclick={()=>answerView=mode[0]}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
     {/if}
     <div class="source-reconstruction" hidden={flexible&&!comparison} class:paired={comparison} style:--source-min-width={Number(sourceZoom)>0?210*Number(sourceZoom)+'mm':'0px'} style:--transcribed-min-width={Number(zoom)>0?210*Number(zoom)+'mm':'0px'}>
-     {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source</strong><select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+previewPage?.pageNumber} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
+     {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source · p{selectedSourcePage}</strong>{#if selectedSourceRefs.length>1}<label>Source page<select aria-label="Source page" value={selectedSourcePage} onchange={e=>sourcePageChoice=Number(e.currentTarget.value)}>{#each [...new Set(selectedSourceRefs.map(r=>r.pageNumber))] as page}<option value={page}>{page}</option>{/each}</select></label>{/if}<select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+selectedSourcePage} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
 
-     <section class="transcribed-evidence comparison-pane">{#if comparison}<header><strong>Transcribed page</strong><select aria-label="Transcribed zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option>{#if !['width','page','1','1.5','2'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></header>{/if}<div class="paper-scroll">{#if previewPage&&(!flexible||comparison)}{#if previewPage.compactAnswers}<FlowBookletPage {project} page={previewPage} pages={flowMap.pages} editMode={true} onContentEdit={editContent}/>{:else}<TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} blockLayouts={project.settings.layoutOverrides.blockLayouts} flow={!project.settings.preserveSourcePages} {zoom} page={previewPage} {bookletPages} runId={project.source?.runId??project.id} showKeyIdeasAnswers={exportSettings.showKeyIdeasAnswers} showTheorySolutions={exportSettings.showTheorySolutions} showReviewAnswers={exportSettings.showReviewAnswers} showIdentifyAnswers={exportSettings.showIdentifyAnswers} showGuidedPracticeAnswers={exportSettings.showGuidedPracticeAnswers} solutionMode={answerView} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={()=>false}/>{/if}{/if}</div></section>
+     <section class="transcribed-evidence comparison-pane">{#if comparison}<header><strong>Booklet content</strong><select aria-label="Transcribed zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option>{#if !['width','page','1','1.5','2'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></header>{/if}<div class="paper-scroll">{#if previewPage&&(!flexible||comparison)}{#if previewPage.compactAnswers}<FlowBookletPage {project} page={previewPage} pages={flowMap.pages} editMode={true} onContentEdit={editContent}/>{:else}<TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} blockLayouts={project.settings.layoutOverrides.blockLayouts} flow={!project.settings.preserveSourcePages} {zoom} page={previewPage} {bookletPages} runId={project.source?.runId??project.id} showKeyIdeasAnswers={exportSettings.showKeyIdeasAnswers} showTheorySolutions={exportSettings.showTheorySolutions} showReviewAnswers={exportSettings.showReviewAnswers} showIdentifyAnswers={exportSettings.showIdentifyAnswers} showGuidedPracticeAnswers={exportSettings.showGuidedPracticeAnswers} solutionMode={answerView} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={()=>false}/>{/if}{/if}</div></section>
     </div>
    </main>
    <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool} aria-label={panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
     <header><h2>{panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2><button aria-label="Close panel" onclick={()=>panel=''}>×</button></header>
-    <div hidden={panel!=='review'}><BookletReviewInspector {project} blockId={selectedBlockId} {selectedTargetId} onchange={change} tabbed onDiagramEdit={requestDiagram}/></div>
+    <div hidden={panel!=='review'}><BookletCoverage {project} onselect={selectCoverageTarget} layoutIssues={flowMap.issues??[]}/><BookletReviewInspector {project} blockId={selectedBlockId} {selectedTargetId} onchange={change} tabbed onDiagramEdit={requestDiagram}/></div>
     <div hidden={panel!=='pdf'}>        <div class="export-settings">
           <strong>PDF configuration</strong>
           <label><input type="checkbox" checked={exportSettings.showKeyIdeasAnswers} onchange={event=>setExportSetting({showKeyIdeasAnswers:event.currentTarget.checked})} /> Show Key Ideas answers</label>

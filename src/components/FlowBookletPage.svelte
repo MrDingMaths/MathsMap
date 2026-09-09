@@ -1,8 +1,10 @@
 <script>
+  import {setContext} from 'svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
   import CompactAnswerPage from './CompactAnswerPage.svelte';
   import { fragmentLayouts } from '../lib/booklet-pagination.js';
   let {project,page,pages=[],options={},compact=false,editMode=false,onContentEdit=null,onSpaceResize=null}=$props();
+  setContext('booklet-presentation',()=>project.settings);
   const anchorPrefix=$derived(editMode?'screen-':'print-');
   const layouts=$derived(fragmentLayouts(page.blocks,project.settings.layoutOverrides.blockLayouts));
   const spaces=$derived(options.showResponseSpaces===false ? Object.fromEntries(page.blocks.flatMap(b=>{const ids=[];const visit=n=>{if(!n)return;if(n.id)ids.push([n.id,0]);n.children?.forEach(visit);};visit(b.content);return ids;})) : project.settings.layoutOverrides.answerSpaces);

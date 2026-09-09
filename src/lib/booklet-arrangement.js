@@ -55,7 +55,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  function applyOverrides(n,available){
    const entry=entries.get(n.ref),layout=overrides.blockLayouts?.[entry?.ownerId??n.id.replace(/:(question|example)$/,'')];
    if(entry?.kind==='space'&&overrides.answerSpaces?.[entry.ownerId]!=null)n.height=overrides.answerSpaces[entry.ownerId];
-   if(entry?.kind==='diagram'){if(layout?.diagramSizing==='fit')n.align='stretch';else if(layout?.diagramWidthMm!=null)n.width=layout.diagramWidthMm;if(overrides.diagramWidths?.[entry.diagramId]!=null)n.width=overrides.diagramWidths[entry.diagramId];}
+   if(entry?.kind==='diagram'){if(entry.value.align)n.align=entry.value.align;if(layout?.diagramSizing==='fit')n.align='stretch';else if(layout?.diagramWidthMm!=null)n.width=layout.diagramWidthMm;if(overrides.diagramWidths?.[entry.diagramId]!=null)n.width=overrides.diagramWidths[entry.diagramId];}
    if(n.type==='group'){
     if(layout?.insetMm!=null)n.inset=layout.insetMm;
     if(n.id.endsWith(':beside')){const sourceId=n.id.slice(0,-7),saved=overrides.blockLayouts?.[sourceId],source=findContent(block,sourceId);if(saved){n.gap=saved.gapMm??n.gap;if(saved.textWidthMm!=null){const at=source?.diagramPlacement==='beside-prompt'?1:0;n.children[at].weight=Math.max(15,Math.min(available-15,saved.textWidthMm));n.children[1-at].weight=Math.max(15,available-n.children[at].weight-(n.gap??2));}}}
@@ -116,7 +116,7 @@ export function shareUnchanged(previous,next){
 export function applyArrangementContent(block,tree,selected,entry,value){
  if(entry.kind==='diagram'){
   const nextTree=JSON.parse(JSON.stringify(tree)),node=findArrangement(nextTree.root,selected);
-  if(node){node.width=value.widthMm;node.align='start';}
+  if(node){node.width=value.widthMm;if(['left','center','right','stretch'].includes(value.align))node.align=value.align;else if(node.align==='stretch'&&value.widthMm!==entry.value.widthMm)node.align='start';}
   return {block:replaceArrangementContent(block,entry,value),tree:nextTree,selected};
  }
  if(isDocument(value))value={...value,blocks:value.blocks.filter(n=>hasVisibleContent({...value,blocks:[n]}))};

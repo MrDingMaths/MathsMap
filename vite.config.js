@@ -26,6 +26,9 @@ function contentWritePlugin() {
 }
 
 export default defineConfig({
+  // Local PDF/editor evidence can contain standalone HTML with external imports.
+  // Only the application entry participates in dependency discovery.
+  optimizeDeps: { entries: ['index.html'] },
   plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
   server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });

@@ -1,0 +1,31 @@
+# Transcription feedback acceptance checklist
+
+This checklist records the user's general feedback from the Index Laws transcription session on 9 September 2026. It is required for every future transcription run, alongside the [direct compact workflow](booklet-direct-compact-import.md). Apply it to every occurrence in every book, including existing books, unless the user explicitly limits the change. A named example is evidence of a pattern, not a scope limit.
+
+## Source fidelity requirements
+
+1. **Alignment in every teaching box:** preserve source paragraph, label, equation and answer alignment. Centred labels remain centred. Check first expressions, first-line equalities and continuation equals-sign columns separately; do not simply left-align every line or centre every equation block.
+2. **Speech-bubble spacing:** match the source's spacing above and below the character/bubble row and between the surrounding question paragraphs. Use the shared editable bubble template. Do not inherit large generic diagram or paragraph gaps.
+3. **Space before box text:** remove unintended blank paragraphs and stacked template padding, table margins and cell padding. Preserve deliberate source spacing; do not remove all padding indiscriminately.
+4. **Source colours:** use the booklet's evidenced palette, including colours inside equations and answer labels. Do not substitute a generic red. Index Laws red is `#AA0505`; other booklets need their own source evidence. Editor warning styles must not leak into printed content.
+5. **Question grids:** preserve meaningful source column counts, row grouping and reading order. Do not default all questions to two columns. Check the resulting pagination; Index Laws Mixed Practice Q5 requires three columns.
+6. **Matching cards:** use editable cards with source-supported widths, spacing, placement and external labels. Avoid stretching small cards across the available page width.
+7. **Consistent mathematical typography:** ordinary equations, worked steps and mathematical scaffolds use native editable maths, not screenshots with different fonts or sizing. Power-of-product/quotient arrows use anchored native annotations. Retain original rasters as evidence. A necessary retained raster needs an explicit reason and a final-size visual check.
+   Presentation verifier v3 requires an occurrence-specific raster exception; images inside rich-text documents count too. Review the complete scaffold, not just its first expression. For consecutive fraction steps, allow readable vertical separation (the shared equation renderer uses at least 8 pt row spacing across all books and answer editions), preserving larger physical writing-space gaps, colours and equals-sign alignment.
+8. **Missing-value boxes:** use native LaTeX boxes with sufficient physical writing space, including in exponents and fractions. Preserve repeated-factor expansions, intermediate powers and final-answer steps. Reflow long working before shrinking writable boxes. Exercise 8 Q2, Q6, Q7a and Q13 are the reference corrections.
+9. **Numbered Key Ideas:** keep each number beside the first line of its text, with a consistent label gutter and hanging continuation text. Verify both editable and print views. Inline cloze blanks must not acquire additional working space.
+10. **Image alignment controls:** the focused image menu must expose Left/Centre/Right visibly. Block and inline images must also have a usable alignment route. Preserve placement through applying edits, resizing, saving and reopening; never silently reset it to left.
+11. **Repeated occurrences and future runs:** a reported problem triggers a whole-booklet search for the same pattern and a shared template/renderer correction when applicable. A local content patch alone does not close a recurring renderer defect.
+
+## Required completion evidence
+
+Also complete the [cross-session rules](booklet-cross-session-rules.md): handwriting capacity and dotted cloze, Key Ideas line spacing, numeric-table semantics, graph typography/strokes, complete annotations, question identity, editor/print parity and solution methods. These earlier Linear Relationships requirements apply equally to future subjects; their original feedback category of “specific” does not limit an explicitly recurring problem to that example.
+
+- Inventory applicable occurrences from the original source, independently of the transcription. Record source pages, reviewed expected alignment/colour/grid/dimension values and retained-raster exceptions. An absent feature is checked as not applicable, not silently skipped.
+- Compare all applicable occurrences against rendered output at its intended physical size. Check typography, spacing, labels, writing room and reading order as well as overflow. Check source page boundaries when explicitly requested; do not impose Index Laws pagination on other compact projects.
+- Record reviewed values in `sourceReview.presentationRequirements`, arrangements and visual audit categories using the direct compact workflow. Never regenerate expected values from the output merely to make a check pass.
+- Pass content reconciliation, presentation fidelity and rendered layout checks separately. Run the relevant edition/navigation checks listed in the direct compact workflow. Missing, ambiguous, unchecked or stale evidence remains an open finding; a successful import, matching counts or zero overflow is insufficient.
+- For shared editor/renderer changes, run the relevant regression tests and build. `node scripts/booklet/check-index-editing.mjs` checks all 20 Index Laws Key Ideas rows and image centring through apply/reopen without writing to a project. `tests/booklet-arrangement.test.js` covers alignment preservation; `tests/booklet-index-boxes.test.js` covers the native scaffold, card and grid reference corrections. These are regression fixtures, not automatic visual verification of a new source.
+
+The transcribing agent must complete these checks before describing a run as finished. Unresolved source interpretation or visual exceptions must be reported explicitly. Automated checks detect recorded-value regressions; source comparison is still required to establish that those values were correct in the first place.
+

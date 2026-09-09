@@ -23,6 +23,7 @@
     anchorPrefix = '',
   } = $props();
   const parentLabels=getContext('booklet-labels');
+  const presentation=getContext('booklet-presentation');
   const labels=$derived(parentLabels?.()??teachingLabels(bookletPages.length?bookletPages.flatMap(p=>p.blocks??[]):page.blocks??[]));
   setContext('booklet-labels',()=>labels);
   let previewFrame;
@@ -116,12 +117,15 @@
 {#snippet blockBody(block, index = 0, insideAtom = false)}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<h2 class="inline-exercise-heading">Exercise {block.flow.exerciseHeadingBefore}</h2>{/if}
   {#if block.type === 'question'}
-    {#if isGuided(block) && !insideAtom}
+    {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}
+    {#if block.pedagogyRole==='key-ideas'&&block.sourceReview?.responses?.every(r=>r.kind==='cloze')}
+      <div class="key-ideas-cloze" data-content-owner={block.id}>{#each block.content.children as part}<div class="cloze-statement"><span class="cloze-number">{part.label}.</span><div class="cloze-text"><EditableBookletText value={part.prompt} rootId={part.id} pointer="/prompt" fillCloze={showKeyIdeasAnswers} {...editProps()}/></div></div>{/each}</div>
+    {:else if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}
-      <section class:atom-practice={insideAtom} class="practice" id={block.flow?.exerciseNumber&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
+      <section class:atom-practice={insideAtom} class="practice" id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
         {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
-        {#if editMode&&block.flow?.exerciseNumber&&block.flow?.bankDifficulty}<span class="editor-difficulty" data-editor-difficulty title={`Question bank: ${block.flow.bankDifficulty.difficulty}, reasoning ${block.flow.bankDifficulty.reasoningScore}/100`}>{block.flow.bankDifficulty.difficulty}<br/>{block.flow.bankDifficulty.reasoningScore}/100</span>{/if}
+        {#if editMode&&block.flow?.exerciseNumber&&(block.flow?.bankDifficulty??block.flow?.localDifficulty)}<span class="editor-difficulty" data-editor-difficulty title={`Difficulty: ${(block.flow.bankDifficulty??block.flow.localDifficulty).difficulty}, reasoning ${(block.flow.bankDifficulty??block.flow.localDifficulty).reasoningScore}/100`}>{(block.flow.bankDifficulty??block.flow.localDifficulty).difficulty}<br/>{(block.flow.bankDifficulty??block.flow.localDifficulty).reasoningScore}/100</span>{/if}
         {#if block.flow?.answerMode}<a class="answer-jump" href={`#${anchorPrefix}answer-${block.flow.answerMode}-${block.id}`} aria-label={`Answers for Exercise ${block.flow.exerciseNumber}, question ${block.sourceOrder}`}>Answers</a>{/if}
         {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}
       </section>
@@ -219,6 +223,7 @@
 </div>
 
 <style>
+  .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
   .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}

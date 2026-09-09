@@ -15,7 +15,8 @@ Preserve wording, mathematics, block order, grids, cloze blanks, diagrams, teach
 Use exactly one rendered representation for each source item:
 
 - Transcribe text-only cards, number/symbol tiles, boxes, and tables natively. Their source images are `evidence-only`.
-- Keep genuinely graphical material such as number lines, graphs, geometry, illustrations, and spatial diagrams as source assets. A derived TikZ/SVG may only be proposed alongside the original asset and must be marked `derived: true` and `reviewStatus: needs-review`.
+- The source's storage format is not an output decision: ordinary equations, worked steps and complete mathematical scaffolds must be native even when supplied as images. Retaining a screenshot because it preserves appearance is not an exception. Inventory retained-image candidates separately and record their specific source-supported reason for final-size visual review. Never discard intermediate steps or writing boxes when converting an image.
+- Preserve original graphical assets as evidence. Reconstruct known mathematical graphs, blank grids, number lines and representable geometry as editable native diagrams, using equations and coordinates rather than pixel tracing. A derived TikZ/SVG retains its source link and is marked `derived: true` and `reviewStatus: needs-review` until compared with source and final-size output. Keep active rasters for illustrations, handwriting whose appearance is the task, or specifically recorded unresolved/unsupported visuals; do not retain reconstructible mathematical diagrams by default. Never guess uncertain mathematics.
 - Distinguish base/question diagrams, solution diagrams, and solution overlays. Never discard a visible graphical occurrence.
 - Convert dotted response rules and repeated placeholder dots to `answerSpaceMm` or structured cloze blanks. Do not copy them as prompt text. Preserve genuine mathematical ellipses.
 

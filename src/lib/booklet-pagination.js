@@ -61,7 +61,7 @@ export function fragmentLayouts(blocks, layouts={}) {
 
 export function makeFlowPage(section,blocks,index=0,reason='section') {
   return {id:`${section.id}:page-${index}`,pageNumber:index+1,section,blocks,mode:section.mode,flexible:true,breakReason:reason,
-    isCover:section.mode==='student'&&section.phase==='front-matter'&&blocks.some(b=>b.sourcePageNumber===1),
+    isCover:section.mode==='student'&&section.phase==='front-matter'&&(section.isCover===true||blocks.some(b=>b.sourcePageNumber===1)),
     continuation:0};
 }
 
@@ -92,7 +92,7 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
     check();const section=sections[sectionIndex];
     if(!section.blocks.length)continue;
     let current=[],reason='section',continuation=0;
-    const topicKey=JSON.stringify([section.mode,section.topicId??section.sourceSectionId]);
+    const topicKey=JSON.stringify([section.mode,section.phase==='front-matter'?section.sourceSectionId:section.topicId??section.sourceSectionId]);
     // Heading space is part of measurement: only the first page of a topic
     // carries its title, and only the first page of a section carries its tier.
     // Keep the section metadata on every page for navigation and the contents.

@@ -107,7 +107,7 @@
     {#if combined}
       {@render diagramView({ ...diagram, code: combined, overlayOf: null }, interactive)}
     {:else}
-    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
+    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       <div class="diagram-composite">
         {@render diagramView(source, false)}
         <div class="diagram-overlay">{@render diagramView({ ...diagram, overlayOf: null }, false)}</div>
@@ -116,7 +116,7 @@
     </div>
     {/if}
   {:else}
-    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
+    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       {#if diagram.format === 'tikz' && diagram.code}
         <div class="diagram diagram-tikz"><Tikz code={diagramCode(diagram)} eager={eagerDiagrams} /></div>
       {:else if diagram.src}

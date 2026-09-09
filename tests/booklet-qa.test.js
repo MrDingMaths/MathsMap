@@ -17,6 +17,8 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  const base='<style>*{box-sizing:border-box}article{position:relative;width:210mm;height:297mm;padding:10mm 15mm}main{width:180mm}footer{position:absolute;left:15mm;bottom:10mm;height:4mm}p{margin:0} .answer-space{height:40mm}</style>';
  async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn})=>(new Function('return ('+fn+')'))()(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString()});}
  assert.equal((await check('<p>Fits</p>')).issues.length,0);
+ assert.ok((await check('<div class="question-grid"><section class="question-node" data-node-id="part-a" style="width:40mm"><span class="katex-html"><span class="base" style="display:inline-block;width:50mm">Long formula</span></span></section></div>')).issues.some(i=>i.kind==='question-column-overflow'&&i.targetId==='part-a'));
+ assert.ok((await check('<div class="arr-item" data-content-owner="part-b" style="width:40mm"><span class="katex-html"><span class="base" style="display:inline-block;width:50mm">Long native formula</span></span></div>')).issues.some(i=>i.kind==='question-column-overflow'&&i.targetId==='part-b'));
  const strokeSvg=(width,tag='data-graph-stroke-pt="0.8"')=>`<div class="tikz-wrap"><svg width="100" height="50"><metadata data-graph-strokes="1"/><path ${tag} d="M0 20L90 20" fill="none" stroke="black" stroke-width="${width}"/></svg></div>`;
  assert.ok((await check(strokeSvg(2))).issues.some(i=>i.kind==='graph-stroke-weight'));
  assert.ok((await check(strokeSvg(1.0666667))).issues.every(i=>!i.kind.includes('stroke')));
@@ -31,6 +33,8 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok((await check(tickSvg(90).replaceAll('font-size="11.3333"','font-size="16"'))).issues.some(i=>i.kind==='large-graph-label'));
  assert.equal((await check('<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="tick"><text x="10" y="30" font-size="11.3333">1</text></g><text x="80" y="30" font-size="13.3333">x</text><text x="90" y="24" font-size="9.3333">2</text></svg></div>')).issues.length,0);
  assert.ok((await check('<table style="width:30mm;table-layout:fixed"><tr><td>Number of matches</td><td>1</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
+ assert.ok(!(await check('<table style="width:60mm;table-layout:fixed"><tr><td>When the numerator has a higher power, find the difference of the powers and retain the base in the numerator.</td><td>When the denominator has a higher power, retain the base in the denominator.</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
+ assert.ok(!(await check('<table style="width:30mm;table-layout:fixed"><tr><td><span class="katex">x/y</span><p>Law does not apply</p></td><td><span class="katex">x</span></td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.throws(()=>assertBookletFits([{page:73,issues:[{kind:'footer-overflow'}]}]),/QA failed/);
  }finally{await browser.close();}
 });

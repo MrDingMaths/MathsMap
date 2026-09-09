@@ -14,7 +14,7 @@ export function hasVisibleContent(value) {
     inline.type === 'text' ? nonblank(inline.text) : inline.type === 'math' ? nonblank(inline.latex) : !['break', 'tab'].includes(inline.type)
   ));
 }
-export const documentHtml = (value, options = {}) => renderDocument(value, { ...options, math:(latex,display) => renderMath((display?'$$':'$')+(display?'':'\\textstyle ')+latex+(display?'$$':'$')), annotationMath:(latex,display,ids)=>katex.renderToString(latex,{throwOnError:false,displayMode:false,strict:code=>code==='htmlExtension'?'ignore':'warn',trust:context=>context.command==='\\htmlId'&&ids.includes(context.id)}) });
+export const documentHtml = (value, options = {}) => renderDocument(value, { ...options, math:(latex,display) => renderMath((display?'$$':'$')+(display||options.mathsStyle==='display-glyphs'?'':'\\textstyle ')+latex+(display?'$$':'$')), annotationMath:(latex,display,ids)=>katex.renderToString((options.mathsStyle==='display-glyphs'?'\\displaystyle ':'')+latex,{throwOnError:false,displayMode:false,strict:code=>code==='htmlExtension'?'ignore':'warn',trust:context=>context.command==='\\htmlId'&&ids.includes(context.id)}) });
 export function storageValue(doc) {
   return normalizeDocument(doc);
 }

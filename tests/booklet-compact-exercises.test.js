@@ -45,7 +45,7 @@ test('compact measurements invalidate for settings and column assignment',()=>{
  const key=measurementKeyFor(p);assert.notEqual(key(page),key({...page,columns:[[],[entry]]}));
 });
 test('the existing flexible project remains opt-out',()=>{
- const p=JSON.parse(readFileSync('booklets/projects/linear-relationships-flexible-v1.json'));
+ const p=JSON.parse(readFileSync('booklets/archives/2026-09-08-linear-relationships/projects/linear-relationships-flexible-v1.json'));
  assert.equal(normalizeEditableProject(p).settings.compactAnswers,undefined);assert.deepEqual(exerciseNumbers(p),{});
 });
 

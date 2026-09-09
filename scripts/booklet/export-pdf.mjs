@@ -9,6 +9,7 @@ function arg(name, fallback = null) { const i = process.argv.indexOf(name); retu
 const base = arg('--base', 'http://localhost:5173').replace(/\/$/, '');
 const output = resolve(arg('--out', '.booklet-work/booklet.pdf'));
 const mode = arg('--mode', 'student');
+const draft=process.argv.includes('--draft');
 if (!['student', 'short', 'worked','with-short','with-worked'].includes(mode)) throw new Error('--mode must be student, short, worked, with-short or with-worked');
 const projectFile = arg('--project');
 let projectId = arg('--project-id');
@@ -48,7 +49,7 @@ try {
     const state=await page.locator('.project-print').getAttribute('data-pagination-state');
     if(state==='error')throw Error(await page.locator('.flow-document').innerText());
     const issues=JSON.parse(await page.locator('.project-print').getAttribute('data-layout-issues')||'[]');
-    if(issues.length)throw Error('Pagination needs attention: '+JSON.stringify(issues));
+    if(issues.length){if(!draft)throw Error('Pagination needs attention: '+JSON.stringify(issues));console.warn('Draft pagination findings: '+JSON.stringify(issues));}
   }else{
   if(mode.startsWith('with-'))throw Error('Combined editions require a flexible project.');
   if(!await page.getByLabel('Practice answers',{exact:true}).isVisible())await page.getByRole('button',{name:'PDF',exact:true}).click();
@@ -88,14 +89,14 @@ try {
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output+'.qa.json',JSON.stringify(qa,null,2));
   if(flexible)writeFileSync(output+'.pages.json',JSON.stringify(await page.locator('.project-print .print-page').evaluateAll(els=>els.map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(','),questions:[...e.querySelectorAll('[data-question-id]')].map(q=>q.dataset.questionId)}))),null,2));
-  if(qa.some(p=>p.issues.length))throw Error('Layout/style QA failed; see '+output+'.qa.json');
+  if(qa.some(p=>p.issues.length)){if(!draft)throw Error('Layout/style QA failed; see '+output+'.qa.json');console.warn('Draft layout findings: '+output+'.qa.json');}
   mkdirSync(dirname(output), { recursive: true });
   await page.pdf({ path: output+'.partial.pdf', format: 'A4', printBackground: true, preferCSSPageSize: true, margin: { top: '0', right: '0', bottom: '0', left: '0' } });
   const printed=inspectPrintedPdf(output+'.partial.pdf');
   writeFileSync(output+'.printed-qa.json',JSON.stringify(printed,null,2));
-  if(printed.some(p=>p.issues.length))throw Error('Printed PDF geometry failed; see '+output+'.printed-qa.json');
+  if(printed.some(p=>p.issues.length)){if(!draft)throw Error('Printed PDF geometry failed; see '+output+'.printed-qa.json');console.warn('Draft print findings: '+output+'.printed-qa.json');}
   renameSync(output+'.partial.pdf',output);
-  console.log(JSON.stringify({ output, projectId, mode }));
+  console.log(JSON.stringify({ output, projectId, mode, draft }));
 } catch (error) {
   console.error('Booklet PDF export failed:', error.message);
   if(renderErrors.length)console.error('Browser errors:',renderErrors.join('; '));

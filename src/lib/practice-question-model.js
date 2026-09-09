@@ -90,6 +90,7 @@ function normaliseDiagram(raw, role, index) {
     code: code == null ? null : String(code).replace(/^\s*\[tikz\]/i, '').replace(/\[\/tikz\]\s*$/i, '').trim(),
     src: src == null ? null : String(src),
     widthMm: clampSpace(value.widthMm, 95),
+    ...(['left','center','right'].includes(value.align)?{align:value.align}:{}),
     alt: text(value.alt ?? value.caption ?? 'Mathematical diagram') || 'Mathematical diagram',
       overlayOf: value.overlayOf ?? null,
       ...(value.sourceAssetOccurrenceId ? { sourceAssetOccurrenceId: String(value.sourceAssetOccurrenceId) } : {}),
@@ -333,7 +334,7 @@ function validateNode(node, path, errors, warnings, depth, diagramIds) {
   const children = Array.isArray(node.children) ? node.children : [];
   if (!text(node.prompt) && !children.length && !(node.questionDiagrams ?? []).length) errors.push(path + '.prompt is required');
   if (!NODE_LAYOUTS.includes(node.layout)) errors.push(path + '.layout must be list or grid');
-  if (node.layout === 'grid' && !(Number.isInteger(Number(node.columns)) && Number(node.columns) >= 2 && Number(node.columns) <= 4)) errors.push(path + '.columns must be 2, 3, or 4 for a grid');
+  if (node.layout === 'grid' && !(Number.isInteger(Number(node.columns)) && Number(node.columns) >= 2 && Number(node.columns) <= 6)) errors.push(path + '.columns must be between 2 and 6 for a grid');
   if (node.layout === 'list' && node.columns != null) errors.push(path + '.columns must be null for a list');
   if (depth > MAX_PART_DEPTH) errors.push(path + ' exceeds supported nesting depth');
   if (!Array.isArray(node.children)) errors.push(path + '.children must be an array');

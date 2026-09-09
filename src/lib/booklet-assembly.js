@@ -1,4 +1,6 @@
 import { studioProject, reviewTargets } from './booklet-review-model.js';
+import {applyCreationPreset} from './booklet-creation.js';
+import {isPractice} from './booklet-flow.js';
 import { normaliseQuestion, validateQuestion } from './practice-question-model.js';
 import { contentSource } from './document-content.js';
 import {remapQuestionPresentation} from './question-presentation.js';
@@ -86,6 +88,7 @@ export function assembleBooklet(project,recipe,candidates) {
   if(recipe.format!=='mathsmap-assembly-recipe-v1'||!recipe.chunks.length)throw new Error('Define at least one teaching chunk');
   if(Object.values(recipe.counts).some(n=>!Number.isInteger(Number(n))||Number(n)<0||Number(n)>100))throw new Error('Question counts must be integers from 0 to 100');
   const scope=new Set([...recipe.scopeSkillIds,...recipe.extensions]), taught=new Set(recipe.assumedPrerequisites??[]), used=new Set(), usedPrompts=new Set(), sections=[],lineage={},gaps=[];
+  const topics=[];let activeTopic=null;
   const allBlocks=new Map(project.sections.flatMap(s=>s.blocks.map(b=>[b.id,b])));
   const valid=candidates.filter(c=>candidateValid(c) && c.skillIds.length && c.skillIds.every(s=>scope.has(s)));
   const eligible=(c,ids,tiers)=>!used.has(c.question.id)&&c.skillIds.every(s=>ids.has(s))&&tiers.includes(c.tier)&&(c.prerequisiteIds??[]).every(s=>taught.has(s));
@@ -97,7 +100,7 @@ export function assembleBooklet(project,recipe,candidates) {
     if(group.some(c=>used.has(c.question.id)||exerciseSignatures(c.question).some(key=>usedPrompts.has(key))))continue;
     for(const c of group){used.add(c.question.id);exerciseSignatures(c.question).forEach(key=>usedPrompts.add(key));result.push(snapshot(c,role,lineage));}
   }return result;};
-  const add=(title,role,blocks,optional=false)=>sections.push({id:uid(),title:title+(optional?' (optional strand)':''),role,optional,blocks:blocks.length?blocks:[{id:uid(),type:'rich-text',content:'Coverage gap — select questions for this section.'}]});
+  const add=(title,role,blocks,optional=false)=>sections.push({id:uid(),topicId:activeTopic?.id,phase:blocks.some(isPractice)?'practice':'teaching',title:title+(optional?' (optional strand)':''),role,optional,blocks:blocks.length?blocks:[{id:uid(),type:'rich-text',content:'Coverage gap — select questions for this section.'}]});
   const mixed=(title,role,count,tiers,preferImported=false)=>{
     if(!Number(count))return;
     const pool=valid.filter(c=>eligible(c,taught,tiers));
@@ -105,9 +108,11 @@ export function assembleBooklet(project,recipe,candidates) {
     // Round-robin skill queues tests method selection while preserving whole questions.
     const queues=new Map();for(const c of pool){const key=c.skillIds[0]+':'+c.tier;if(!queues.has(key))queues.set(key,[]);queues.get(key).push(c);}
     const ordered=[];while([...queues.values()].some(q=>q.length))for(const q of queues.values())if(q.length)ordered.push(q.shift());
-    const blocks=choose(ordered,count,role);if(blocks.length<count)gaps.push({section:title,required:count,selected:blocks.length});if(role==='mixed-practice')for(const tier of tiers)if(!blocks.some(b=>b.classification.difficulty===tier))gaps.push({section:title,tier,reason:'No selected question at this tier'});add(title,role,blocks);
+    const blocks=choose(ordered,count,role);if(blocks.length<count)gaps.push({section:title,required:count,selected:blocks.length});if(role==='mixed-practice')for(const tier of tiers)if(!blocks.some(b=>b.classification.difficulty===tier))gaps.push({section:title,tier,reason:'No selected question at this tier'});
+    const previous=activeTopic;activeTopic={id:uid(),title};topics.push(activeTopic);add(title,role,blocks);activeTopic=previous;
   };
   recipe.chunks.forEach((chunk,index)=>{
+    activeTopic={id:uid(),title:chunk.title};topics.push(activeTopic);
     if(!chunk.skillIds.length || !chunk.archetypes.length)gaps.push({section:chunk.title,reason:'Missing skill or archetype mapping'});
     const untaught=(chunk.prerequisiteIds??[]).filter(p=>!taught.has(p)&&!chunk.skillIds.includes(p));if(untaught.length)throw new Error(`${chunk.title} has untaught prerequisites: ${untaught.join(', ')}`);
     if(chunk.skillIds.some(s=>!scope.has(s)))throw new Error(chunk.title+' includes skills outside the selected grouping or explicit extensions');
@@ -124,10 +129,10 @@ export function assembleBooklet(project,recipe,candidates) {
   });
   mixed('Cumulative interleaved practice','mixed-practice',recipe.counts.cumulative,ASSEMBLY_TIERS,true);
   mixed('Challenge exercise','challenge',recipe.counts.challenge,['Challenge'],true);
-  const assembled=studioProject({...project,id:'assembled-'+uid(),title:project.title+' — assembled',revision:0,status:'draft',sections,source:{type:'assembly',projectId:project.id,revision:project.revision,runId:project.source?.runId},studio:undefined});
+  const assembled=studioProject({...project,id:'assembled-'+uid(),title:project.title+' — assembled',revision:0,status:'draft',topics,sections,source:{type:'assembly',projectId:project.id,revision:project.revision,runId:project.source?.runId},studio:undefined});
   for(const target of reviewTargets(assembled)){if(target.node.teachingMapping)assembled.studio.atoms[target.id]=copy(target.node.teachingMapping);}
   assembled.studio.lineage=lineage;assembled.studio.recipe=copy(recipe);assembled.studio.assemblyGaps=gaps;
-  return {project:assembled,gaps,coverage:coverageMatrix(recipe,candidates),selectedQuestionCount:used.size};
+  return {project:applyCreationPreset(assembled),gaps,coverage:coverageMatrix(recipe,candidates),selectedQuestionCount:used.size};
 }
 
 // Explicit selections make a revision recipe reproducible without teaching sections.
@@ -152,12 +157,12 @@ export function assembleRevisionBooklet(project,recipe,candidates) {
     }
     sections.push({id:uid(),title:session.title,role:session.optional?'challenge':'mixed-practice',optional:Boolean(session.optional),blocks});
   }
-  const assembled=studioProject({...project,id:'assembled-'+uid(),title:recipe.title??project.title+' — revision',revision:0,status:'draft',sections,source:{type:'assembly',projectId:project.id,revision:project.revision},studio:undefined,settings:{...project.settings,preserveSourcePages:false}});
+  const assembled=studioProject({...project,id:'assembled-'+uid(),title:recipe.title??project.title+' — revision',revision:0,status:'draft',topics:[],sections,source:{type:'assembly',projectId:project.id,revision:project.revision},studio:undefined,settings:{...project.settings,preserveSourcePages:false}});
   assembled.studio.lineage=lineage;assembled.studio.recipe=copy(recipe);assembled.studio.assemblyGaps=[];
   // Layout references address both question nodes and rich-document fragments.
   const overrides={blockLayouts:{},answerSpaces:{},diagramColourModes:{}};
   for(const section of sections)for(const block of section.blocks)for(const key of Object.keys(overrides))Object.assign(overrides[key],block.presentation?.layoutOverrides?.[key]??{});
   assembled.settings.layoutOverrides=overrides;
   for(const target of reviewTargets(assembled))if(target.node.teachingMapping)assembled.studio.atoms[target.id]=copy(target.node.teachingMapping);
-  return {project:assembled,gaps:[],coverage:[],selectedQuestionCount:used.size};
+  return {project:applyCreationPreset(assembled),gaps:[],coverage:[],selectedQuestionCount:used.size};
 }

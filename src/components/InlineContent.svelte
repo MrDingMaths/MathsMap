@@ -1,4 +1,6 @@
 <script>
+  import {getContext} from 'svelte';
+  const presentation=getContext('booklet-presentation');
   import MathText from './Math.svelte';
   import Tikz from './Tikz.svelte';
   import { isDocument, documentHtml } from '../lib/document-content.js';
@@ -9,7 +11,7 @@
 </script>
 
 <div class="inline-content {className}">
-  {#if isDocument(text)}{@html documentHtml(text)}{:else}
+  {#if isDocument(text)}{@html documentHtml(text,{mathsStyle:presentation?.()?.mathsStyle})}{:else}
   {#each parsed.parts as part}
     {#if part.type === 'tikz'}
       <div class="inline-tikz"><Tikz code={part.value} /></div>

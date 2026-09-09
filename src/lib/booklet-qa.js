@@ -1,4 +1,5 @@
 import {calibrateGraphStrokes} from './graph-strokes.js';
+import {renderMath} from './render-math.js';
 // Shared browser-side acceptance checks. Preview and export call the same functions.
 export async function settleBooklet(root) {
  if(!root)throw Error('Booklet surface is missing');
@@ -21,6 +22,7 @@ export async function settleBooklet(root) {
  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
  calibrateGraphStrokes(root);
  if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
+ for(const latex of new Set([...root.querySelectorAll('.katex annotation[encoding="application/x-tex"]')].map(n=>n.textContent)))if(renderMath(`$${latex}$`).includes('katex-error'))throw Error('Invalid mathematical notation: '+latex);
  if([...root.querySelectorAll('.tikz-wrap')].some(e=>!e.querySelector('svg:not(:has(animate))')))throw Error('A diagram has not rendered');
 }
 export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={}) {
@@ -30,6 +32,11 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  const id=n=>n.dataset.id??n.dataset.arrangementId??n.dataset.diagramId??n.dataset.questionId??n.className?.baseVal??String(n.className);
  const visible=n=>{const s=getComputedStyle(n);return s.display!=='none'&&s.visibility!=='hidden'&&n.getBoundingClientRect().width>0&&n.getBoundingClientRect().height>0;};
  const add=(kind,n,detail={})=>issues.push({kind,id:id(n),...detail});
+ for(const n of main.querySelectorAll('.text-line'))if(visible(n)&&!n.querySelector('.katex')&&/\\(?:begin\{(?:align\*?|aligned|cases)\}|frac\{)/.test(n.textContent))add('unrendered-math',n,{targetId:n.closest('[data-node-id]')?.dataset.nodeId});
+ for(const n of main.querySelectorAll('.question-grid .question-node .katex-html > .base,.arr-item .katex-html > .base'))if(visible(n)){
+  const owner=n.closest('.question-node,.arr-item'),bounds=owner.getBoundingClientRect(),math=n.getBoundingClientRect();
+  if(math.left<bounds.left-.5||math.right>bounds.right+.5)add('question-column-overflow',n,{targetId:owner.dataset.nodeId??owner.dataset.contentOwner,excessMm:Math.max(bounds.left-math.left,math.right-bounds.right)/mm});
+ }
  const elements=[...main.querySelectorAll(':scope > *,p,table,img,.tikz-wrap,.arr-group,.answer-space,.arr-space,.space-edit,.representation,[data-type="annotated-equation"],[data-table-annotations]')].filter(visible);
  for(const n of elements){let b=n.getBoundingClientRect();
   // A source-image crop deliberately places the original bitmap outside its frame.
@@ -101,7 +108,14 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  }
  if(style){
   for(const c of main.querySelectorAll('[data-cloze]')){if(!visible(c))continue;const expected=c.dataset.expectedResponse??c.dataset.cloze;if(!expected?.trim()||c.dataset.reviewStatus==='needs-review')add('unknown-cloze-response',c);const available=c.getBoundingClientRect().width/mm*(Number(c.dataset.lines)||1);const compact=expected.replace(/\\(?:d?frac|tfrac)\{([^{}]+)\}\{([^{}]+)\}/g,'$1/$2').replace(/\\[a-z]+/gi,'').replace(/[$ {}]/g,'');if(available+.5<Math.max(8,Math.ceil(compact.length*2.2+6)))add('short-cloze',c,{requiredMm:Math.ceil(compact.length*2.2+6),availableMm:available});}
-  for(const table of main.querySelectorAll('table'))for(const row of table.rows){const c=row.cells[0];if(!c||!/\b[A-Za-z]{2,}\s+[A-Za-z]{2,}\b/.test(c.innerText)||c.colSpan>1)continue;const old=c.style.whiteSpace,h=c.getBoundingClientRect().height;c.style.whiteSpace='nowrap';const single=c.getBoundingClientRect().height,overflow=c.scrollWidth>c.clientWidth+1;c.style.whiteSpace=old;if(h>single+1||overflow)add('wrapped-table-label',c);}
+  for(const table of main.querySelectorAll('table'))for(const row of table.rows){
+   const c=row.cells[0];if(!c||c.colSpan>1)continue;
+   const words=/\b[A-Za-z]{2,}\s+[A-Za-z]{2,}\b/;
+   const explicit=c.matches('[scope="row"],[role="rowheader"],[data-table-label]');
+   const inferred=row.cells.length>1&&words.test(c.innerText)&&c.innerText.trim().length<=64&&!c.querySelector('.katex,math,[data-latex]')&&[...row.cells].slice(1).every(cell=>!words.test(cell.innerText));
+   if(!explicit&&!inferred)continue;
+   const old=c.style.whiteSpace,h=c.getBoundingClientRect().height;c.style.whiteSpace='nowrap';const single=c.getBoundingClientRect().height,overflow=c.scrollWidth>c.clientWidth+1;c.style.whiteSpace=old;if(h>single+1||overflow)add('wrapped-table-label',c);
+  }
  }
  return {page:article.dataset.pageNumber,issues,graphs,footerClearanceMm:flow?null:(f.top-Math.max(...elements.map(n=>n.getBoundingClientRect().bottom)))/mm};
 }

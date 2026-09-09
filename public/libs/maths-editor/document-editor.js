@@ -45,23 +45,25 @@ export class DocumentEditor {
   read(root, original = this.doc) {
     const originals=new Map(), seen=new Set(); visitDocument(original,n=>originals.set(n.id,n));
     const identity=el=>{let id=el.dataset.id;if(!id || seen.has(id))id=uid();seen.add(id);el.dataset.id=id;return id;};
-    const inline = (node, marks=[]) => {
-      if(node.nodeType===3) {const text=node.parentElement?.closest('[data-math-caret]')?node.textContent.replaceAll('\u200b',''):node.textContent;return text?[{type:'text',text,marks}]:[];}
+    const inline = (node, marks=[], colour=null) => {
+      if(node.nodeType===3) {const text=node.parentElement?.closest('[data-math-caret]')?node.textContent.replaceAll('\u200b',''):node.textContent;return text?[{type:'text',text,marks,...(colour?{colour}:{})}]:[];}
       if(node.nodeType!==1) return [];
+      if(node.getAttribute('aria-hidden')==='true')return [];
+      colour=node.dataset.colour??colour;
       if(node.matches('[data-type=inline-image],img')) {const img=node.matches('img')?node:node.querySelector('img');let data={};try{data=JSON.parse(node.dataset.image??'{}');}catch{}return [{...data,...copy(originals.get(node.dataset.id)??{}),id:identity(node),type:'inline-image',src:img?.getAttribute('src')??'',alt:img?.alt??'',width:data.width??Math.min(80,(img?.width||76)*25.4/96),aspectRatio:data.aspectRatio??((img?.width||1)/(img?.height||1))}];}
-      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? mf?.getValue?.('latex') ?? mf?.textContent ?? '',display:node.dataset.display==='true'}]; }
+      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? mf?.getValue?.('latex') ?? mf?.textContent ?? '',display:node.dataset.display==='true',...(colour?{colour}:{})}]; }
       if(node.hasAttribute('data-tab'))return [{type:'tab'}];
       if(node.hasAttribute('data-cloze')) return [{type:'cloze',answer:node.dataset.cloze,width:Number(node.dataset.width),lines:Number(node.dataset.lines)||1,expectedResponse:node.dataset.expectedResponse,reviewStatus:node.dataset.reviewStatus}];
       if(node.hasAttribute('data-image-pending'))return [];
       if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(node.tagName))return [];
       if(node.tagName==='BR') return [{type:'break'}];
       const m={STRONG:'bold',B:'bold',EM:'italic',I:'italic',U:'underline'}[node.tagName];
-      return [...node.childNodes].flatMap(n=>inline(n,m?[...new Set([...marks,m])]:marks));
+      return [...node.childNodes].flatMap(n=>inline(n,m?[...new Set([...marks,m])]:marks,colour));
     };
     const children = el => [...el.childNodes].flatMap(n=>block(n));
     const block = el => {
       if(el.nodeType===3) return el.textContent ? [paragraph(inline(el))] : [];
-      if(el.nodeType!==1 || ['SCRIPT','STYLE','IFRAME','OBJECT'].includes(el.tagName)) return [];
+      if(el.nodeType!==1 || el.getAttribute('aria-hidden')==='true' || ['SCRIPT','STYLE','IFRAME','OBJECT'].includes(el.tagName)) return [];
       const old=copy(originals.get(el.dataset.id) ?? {}), id=identity(el);
       if(el.hasAttribute('data-table-wrap')) return children(el);
       if(el.hasAttribute('data-inline-fragment'))return [paragraph([...el.childNodes].flatMap(n=>inline(n)))];
@@ -81,7 +83,7 @@ export class DocumentEditor {
       if(el.dataset.type==='image' || el.tagName==='IMG') { const img=el.tagName==='IMG'?el:el.querySelector('img'); return [{...old,id,type:'image',src:img?.getAttribute('src') ?? '',alt:img?.alt ?? '',caption:el.querySelector('figcaption')?.textContent ?? old.caption ?? ''}]; }
       if(el.dataset.type==='annotated-equation')return [{...old,id,annotations:(old.annotations??[]).map(a=>({...a,blocks:children(el.querySelector('[data-equation-label="'+CSS.escape(a.id)+'"]'))}))}];
       if(el.dataset.type==='spacer') return [old];
-      if(el.dataset.type==='layout') return [{...old,id,type:'layout',slots:[...el.querySelectorAll(':scope > div > [data-slot]')].map(s=>({id:s.dataset.slot,blocks:children(s)}))}];
+      if(el.dataset.type==='layout') return [{...old,id,type:'layout',slots:[...el.querySelectorAll(':scope > div > [data-slot]')].map(s=>({...old.slots?.find(slot=>slot.id===s.dataset.slot),id:s.dataset.slot,blocks:children(s.querySelector('[data-card-face]')??s)}))}];
       return [{...old,id,type:'paragraph',...(el.dataset.tabStops?{tabStops:JSON.parse(el.dataset.tabStops)}:{}),inlines:[...el.childNodes].flatMap(n=>inline(n))}];
     };
     return normalizeDocument({blocks:children(root)});
@@ -200,7 +202,7 @@ export class DocumentEditor {
     b('Image',()=>{this.saveRange();this.file.click();});b('Block figure',()=>{this.blockImage=true;this.file.click();}); this.file=document.createElement('input'); this.file.type='file'; this.file.accept='image/png,image/jpeg,image/webp,image/gif'; this.file.hidden=true; this.file.onchange=()=>{if(this.file.files[0])this.addImage(this.file.files[0],this.blockImage);this.blockImage=false;this.file.value='';}; this.toolbar.append(this.file);
     b('Annotated equation',()=>this.insert({id:uid(),type:'annotated-equation',latex:'y=mx+c',anchors:[],annotations:[]}));
     b('Working space',()=>this.insert({id:uid(),type:'spacer',height:15}));
-    for(const arrangement of ['investigation','parallel','worked-rows','scaffold','cards']) b(arrangement,()=>this.insert(template(arrangement)));
+    for(const arrangement of ['investigation','parallel','worked-rows','scaffold','cards','speech-bubble']) b(arrangement,()=>this.insert(template(arrangement)));
     this.contextualToolbar();
   }
   contextualToolbar() {
@@ -236,7 +238,7 @@ export class DocumentEditor {
     if(n.type==='inline-image'){this.liveField('Width (mm)',n.width,(doc,v)=>{if(!Number.isFinite(v)||v<.5||v>190)throw new Error('Image width must be between 0.5 and 190 mm.');visitDocument(doc,x=>{if(x.id===n.id)x.width=v;});});f('Vertical alignment','verticalAlign','text',['baseline','middle','top','bottom']);f('Alternative text','alt','text');}
     if(n.type==='image') {f('Width (mm)','width'); f('Placement','align','text',['left','center','right','inline','beside-left','beside-right']);f('Alternative text','alt','text');f('Caption','caption','text'); ['Top','Right','Bottom','Left'].forEach((label,i)=>this.field('Crop '+label+' (%)',n.crop[i],v=>this.modify(node=>node.crop[i]=v)));}
     if(n.type==='spacer') f('Height (mm)','height');
-    if(n.type==='layout') {f('Title','title','text'); f('Arrangement','arrangement','text',['investigation','parallel','worked-rows','scaffold','cards']);f('Columns','columns');this.layoutProperties(n);}
+    if(n.type==='layout') {f('Title','title','text'); f('Arrangement','arrangement','text',['investigation','parallel','worked-rows','scaffold','cards','speech-bubble']);f('Columns','columns');if(n.arrangement==='speech-bubble')f('Tail','tail','text',['left','right','none']);this.layoutProperties(n);}
     let table; visitDocument(this.doc,t=>{if(t.type==='table' && (t.id===n.id || this.surface.querySelector(`[data-id="${CSS.escape(n.id)}"]`)?.closest('table')?.dataset.id===t.id)) table=t;});
     if(table) {
       const edit=fn=>this.transact(doc=>visitDocument(doc,t=>{if(t.id===table.id)fn(t);}));
@@ -249,6 +251,7 @@ export class DocumentEditor {
       this.field('Table width (mm)',table.widthMm??80,v=>edit(t=>t.widthMm=Number(v)));
       this.field('Cell horizontal alignment',table.rows[ri][ci].align,v=>edit(t=>t.rows[ri][ci].align=v),'text',['left','center','right']);
       this.field('Cell vertical alignment',table.rows[ri][ci].verticalAlign,v=>edit(t=>t.rows[ri][ci].verticalAlign=v),'text',['top','middle','bottom']);
+      this.field('Cell top padding (mm)',cell.paddingTop??table.padding,v=>edit(t=>t.rows[ri][ci].paddingTop=Number(v)));
 
       this.annotationProperties(table,logical,edit);
       this.field('Row height (mm)',table.rowHeights[ri]??10,v=>edit(t=>t.rowHeights[ri]=Number(v)));

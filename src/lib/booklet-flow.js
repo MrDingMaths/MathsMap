@@ -206,10 +206,24 @@ export function flowEditionSections(project, edition='student') {
   const exercises=exerciseNumbers(project);
   const answers = edition.includes('short') ? 'short':'worked';
   const sections = project.sections.filter(s => s.role !== 'candidate-pool');
+  if(project.settings?.generatedCover&&!sections.some(s=>s.phase==='front-matter'&&(s.isCover||s.blocks.some(b=>b.sourcePageNumber===1)))){
+    const cover=project.settings.cover??{};
+    sections.unshift({id:`${project.id}-generated-cover`,title:project.title,phase:'front-matter',role:'front-matter',isCover:true,blocks:[{
+      id:`${project.id}-cover`,type:'rich-text',content:`Name: ______________________\n\n${cover.course??'Mathematics'}\n\n# ${project.title}\n\n**${cover.book??'Book 1'}**\n\nVersion: ${cover.version??''}\nFeedback: ${cover.feedback??'https://MrDingMaths.com'}`
+    }]});
+  }
+  const teachingLabels=new Map(),teachingCounts=new Map();
+  if(project.settings?.includeTeachingAnswers)for(const section of sections)for(const block of section.blocks){
+    const category=teachingAnswerCategory(block);
+    if(block.type!=='question'||!category||category==='theory')continue;
+    const prefix={review:'R',guided:'G',identify:'A',keyIdeas:'K'}[category],key=`${section.topicId}:${prefix}`;
+    const count=(teachingCounts.get(key)??0)+1;teachingCounts.set(key,count);
+    teachingLabels.set(block.id,`${prefix}${count}`);
+  }
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
-    exerciseNumber:exercises[section.topicId],
+    exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?`Exercise ${exercises[section.topicId]}`:section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
-    blocks:section.blocks.filter(b => mode === 'student' || isPractice(b)).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(exercises[section.topicId]&&section.phase==='practice'&&index===0?{exerciseHeadingBefore:exercises[section.topicId]}:{}),...(exercises[section.topicId]&&isPractice(b)?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
+    blocks:section.blocks.filter(b => mode === 'student' || isPractice(b)||teachingLabels.has(b.id)).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),...(exercises[section.topicId]&&section.phase==='practice'&&index===0?{exerciseHeadingBefore:exercises[section.topicId]}:{}),...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return [...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])];
 }

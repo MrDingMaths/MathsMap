@@ -8,6 +8,8 @@ import {captureQuestionPresentation} from '../../src/lib/question-presentation.j
 import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
 import {refreshBankRatings} from './bank-sync.mjs';
+import {contentProject} from '../../src/lib/booklet-source-content.js';
+import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun, editableTranscription,
 } from './transcription.mjs';
@@ -159,8 +161,9 @@ export async function resolveProjectBankSync(id,body,{projectRoot=PROJECT_ROOT,b
 
 export async function createBookletProject(raw = {}, options = {}) {
   const project = raw.format || raw.sections
-    ? normalizeEditableProject(raw)
-    : createEditableProject({ title: raw.title ?? 'Untitled booklet', subtitle: raw.subtitle ?? '' });
+    ? normalizeEditableProject(applyCreationPreset(raw,raw.mode??options.mode??'compact'))
+    : createEditableProject({ title: raw.title ?? 'Untitled booklet', subtitle: raw.subtitle ?? '', mode:raw.mode??options.mode??'compact' });
+  delete project.mode;
   return saveBookletProject(project, { ...options, create: true });
 }
 
@@ -229,13 +232,13 @@ async function materializeAssets(project, runDir, { assetRoot = PROJECT_ASSET_RO
 
 export async function materializeRunAsProject(runId, {
   projectRoot = PROJECT_ROOT, workRoot = WORK_ROOT, assetRoot = PROJECT_ASSET_ROOT,
-  candidate = null, projectId = null,
+  candidate = null, projectId = null, mode='compact',
 } = {}) {
   const { runDir, manifest } = loadRun(runId, workRoot);
   const raw = candidate ?? editableTranscription(runDir, manifest);
-  if (!Array.isArray(raw.pages) || !raw.pages.length) throw new Error('Reconstruction needs source pages');
+  if ((!Array.isArray(raw.pages) || !raw.pages.length)&&(!Array.isArray(raw.sections)||!raw.sections.length)) throw new Error('Import needs source pages or semantic sections');
   const pageNumbers = new Set();
-  for (const page of raw.pages) {
+  for (const page of raw.pages??[]) {
     if (!Number.isInteger(page.pageNumber) || !manifest.selectedPages.includes(page.pageNumber) || pageNumbers.has(page.pageNumber)) throw new Error('Reconstruction has duplicate or unexpected source pages');
     pageNumbers.add(page.pageNumber);
     if (!Array.isArray(page.blocks) || page.blocks.some(block => !PROJECT_BLOCK_TYPES.includes(block.type))) throw new Error('Reconstruction contains unsupported blocks');
@@ -247,10 +250,10 @@ export async function materializeRunAsProject(runId, {
   const existing = await readJson(fileFor(projectRoot, preferredId));
   if (existing && (candidate || projectId)) throw Object.assign(new Error('A project with this id already exists'), {statusCode:409});
   if (existing?.source?.runId === manifest.id) return normalizeEditableProject(existing);
-  const project = studioProject(materializeReconstruction(transcription, review, { projectId: existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId }));
-  project.studio.evidence={runId:manifest.id,answerEvidence:transcription.pages.flatMap(page=>(page.answerEvidence??[]).map(e=>({...e,studentPage:page.pageNumber}))),sourceReview:review};
+  const project = studioProject(contentProject(transcription, {runId:manifest.id,review,mode,selectedPages:manifest.selectedPages,projectId:existing ? `project-${safeId(manifest.id)}-${randomUUID().slice(0, 8)}` : preferredId}));
+  project.studio.evidence={runId:manifest.id,answerEvidence:(transcription.pages??[]).flatMap(page=>(page.answerEvidence??[]).map(e=>({...e,studentPage:page.pageNumber}))),sourceReview:review};
   const targets=reviewTargets(project),known=new Set(targets.map(t=>t.id));
-  for(const page of transcription.pages){
+  for(const page of transcription.pages??[]){
     const flags=[...(page.reviewFlags??[]).map(note=>({note})),...(review.flags??[]).filter(f=>!f.resolved&&(f.pageNumber===page.pageNumber||f.rootId===page.id||page.blocks.some(b=>b.id===f.rootId)))];
     for(const e of page.answerEvidence??[])if(e.conflict)flags.push({rootId:e.questionId,note:'Student/teacher disagreement: '+e.conflict});
     if(manifest.source?.teacherPdf)for(const block of page.blocks.filter(b=>b.type==='question')){const evidence=(page.answerEvidence??[]).find(e=>e.questionId===block.id);if(!evidence?.teacherReference||evidence.missing||evidence.status==='missing')flags.push({rootId:block.id,note:'Teacher answer alignment is missing or ambiguous; compare by question content against the source.'});}
@@ -267,6 +270,7 @@ export async function materializeRunAsProject(runId, {
   const checked = validateEditableProject(project);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), {statusCode:400});
   project.assets = await materializeAssets(project, runDir, { assetRoot });
+  project.source.inventory.selectedPages=manifest.selectedPages;
   return saveBookletProject(project, { projectRoot, create: true });
 }
 
@@ -409,7 +413,7 @@ export function projectStudioPlugin() {
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
           if (pathname === '/__booklet/projects/materialize' && req.method === 'POST') {
             const body = await readBody(req);
-            return send(res, 201, await materializeRunAsProject(body.runId));
+            return send(res, 201, await materializeRunAsProject(body.runId,{mode:body.mode??'compact'}));
           }
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);
           if (duplicateMatch && req.method === 'POST') return send(res, 201, await duplicateBookletProject(decodeURIComponent(duplicateMatch[1]), await readBody(req)));

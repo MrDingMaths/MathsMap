@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {sharedQuestion} from '../../src/lib/question-sync.js';
 import {normaliseQuestion} from '../../src/lib/practice-question-model.js';
 import {syncLinks,registerOwner,writeTransaction} from './bank-sync.mjs';
-const root='booklets/question-bank',sourceFile='booklets/projects/linear-relationships-complete-v1.json';
+const root='booklets/question-bank',sourceFile='booklets/projects/linear-relationships-v1.json';
 const raw=await fs.readFile(sourceFile,'utf8'),source=JSON.parse(raw);
 const receipt=JSON.parse(await fs.readFile('docs/linear-relationships-bank-sync.json','utf8'));
 const blocks=new Map(source.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),links=await syncLinks(root);

@@ -1,6 +1,6 @@
 # Automatic question-bank sync
 
-Saving an original booklet automatically updates its linked bank questions and worked solutions. The 168 original Linear Relationships questions are enabled; newly created bank questions are linked to the booklet that promotes them. Duplicating an original creates a consumer of its bank questions, not a second original.
+Saving an original booklet automatically updates its linked bank questions and worked solutions. The 168 original Linear Relationships questions are owned by the canonical **Linear Relationships v1** (`booklets/projects/linear-relationships-v1.json`); newly created bank questions are linked to the booklet that promotes them. Duplicating an original creates a consumer of its bank questions, not a second original.
 
 Page settings, answer spaces, local question arrangement, diagram sizes and bank classifications/teaching mappings are retained. Deleting a booklet question does not delete the bank question. A deleted bank question is not silently recreated by a later booklet save.
 

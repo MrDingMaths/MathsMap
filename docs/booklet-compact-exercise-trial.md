@@ -1,6 +1,8 @@
 # Compact exercise trial
 
-Open **Linear Relationships — Compact Exercise Trial** (`linear-relationships-compact-exercises-v1`). It is an independent consumer copy of **Linear Relationships — Flexible**, revision 3. All 237 blocks, question content, teaching mappings and pinned bank references match that source revision. Later source/bank updates remain pending until explicitly accepted.
+Open **Linear Relationships v1** (`linear-relationships-v1`), the canonical booklet from 8 September 2026. It preserves all content and layout from Compact Exercise Trial revision 8. Its 168 bank sync ownership links transferred with unchanged baselines. The original (now **Linear Relationships v0**), Flexible and Compact Exercise Trial are archived under `booklets/archives/2026-09-08-linear-relationships/`.
+
+The historical trial was an independent consumer copy of **Linear Relationships — Flexible**, revision 3. All 237 blocks, question content, teaching mappings and pinned bank references matched that source revision. Later source/bank updates remained pending until explicitly accepted. The specification and historical verification below describe that trial.
 
 The trial has 12 exercises, one per existing topic. Questions run from 1 within each exercise, including across teaching checkpoints. Practice runs were sorted stably by their pinned bank reasoning scores; linked continuations, paired questions and dependencies move together. Teaching pages and student response spaces retain their source settings. Practice can flow at safe part boundaries, including into unused space on the preceding page.
 
@@ -26,7 +28,7 @@ Calculated compact pages contain explicit `columns` of answer fragments, each ca
 
 - `node scripts/booklet/create-compact-linear.mjs` validates a new candidate; `--apply` creates it through the project API and refuses to overwrite an existing trial.
 - `node scripts/booklet/calibrate-compact-answers.mjs --apply` recalibrates answer-only graph presentation through the revision-checked save API. `--ids=id1,id2` restricts a refinement to named diagrams.
-- `node scripts/booklet/check-compact-exercises.mjs` renders all five editions of the flexible baseline and trial, checks every answer leaf, column bounds, graph typography, printed geometry and actual PDF destinations. `--projects trial --editions short,with-short` checks a subset.
+- `node scripts/booklet/check-compact-exercises.mjs` defaults to canonical v1 across all five editions; `--projects baseline,trial` selects archived comparison snapshots. It checks every answer leaf, column bounds, graph typography, printed geometry and actual PDF destinations. `--projects trial --editions short,with-short` checks a subset.
 - `node scripts/booklet/check-compact-navigation.mjs` checks virtualised contents/question/answer navigation, editor difficulty badges, zoom, a 390 px viewport and reload.
 - `node --test tests/booklet-compact-exercises.test.js tests/booklet-flow.test.js tests/booklet-measurement.test.js` covers sorting, checkpoints, grouping, numbering, fragmentation, source-preserving display transformations and cache invalidation.
 

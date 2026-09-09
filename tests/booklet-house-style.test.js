@@ -8,7 +8,7 @@ import { fromSource } from '../src/lib/document-content.js';
 const fixture=()=>studioProject(createEditableProject({id:'style',sections:[{id:'s',blocks:[{id:'a',type:'rich-text',content:fromSource('First $x$')},{id:'b',type:'rich-text',content:'Second'}]}]}));
 
 test('style adoption is explicit and preserves custom local geometry',()=>{
- const original=fixture();assert.equal(original.settings.houseStyleVersion,undefined);
+ const original=fixture();delete original.settings.houseStyleVersion;assert.equal(original.settings.houseStyleVersion,undefined);
  original.sections[0].blocks[0].sourceAtom={id:'key',kind:'key-ideas'};
  original.sections[0].blocks[0].content.blocks[0].indent=7;
  const styled=adoptHouseStyle(original);

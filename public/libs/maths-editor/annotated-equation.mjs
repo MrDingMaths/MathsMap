@@ -16,7 +16,9 @@ export function changeEquation(n,latex) {
  return n;
 }
 export function normalizeAnnotatedEquation(n,{id,blocks}) {
- return {id:id(n.id),type:'annotated-equation',latex:String(n.latex??'y=mx+c'),fontSize:limit(n.fontSize,20,10,36),gap:limit(n.gap,8,4,25),width:limit(n.width,150,50,190),
+ return {id:id(n.id),type:'annotated-equation',latex:String(n.latex??'y=mx+c'),fontSize:n.fontSize===null?null:limit(n.fontSize,20,10,36),gap:limit(n.gap,8,4,25),width:limit(n.width,150,5,190),
+  ...(n.margin!=null?{margin:limit(n.margin,2,0,20)}:{}),...(n.arrowSpace!=null?{arrowSpace:limit(n.arrowSpace,3,0,20)}:{}),...(n.align?{align:['left','center','right'].includes(n.align)?n.align:'center'}:{}),
+  ...(n.connections?{connections:n.connections.map(c=>({id:id(c.id),fromId:String(c.fromId??''),toId:String(c.toId??''),colour:hex(c.colour,'#ff616b'),height:limit(c.height,3,1,15)}))}:{}),
   anchors:(n.anchors??[]).map(a=>({id:id(a.id),start:Number(a.start),end:Number(a.end),text:String(a.text??''),unresolved:!!a.unresolved})),
   annotations:(n.annotations??[]).map(a=>({id:id(a.id),targetId:String(a.targetId??''),colour:hex(a.colour),placement:a.placement==='above'?'above':'below',decoration:['arrow','bracket','highlight','none'].includes(a.decoration)?a.decoration:'arrow',blocks:blocks(a.blocks)}))};
 }
@@ -27,7 +29,9 @@ export function renderAnnotatedEquation(n,{e,render,math,editable}) {
  latex+=n.latex.slice(end);
  const labels=side=>{const items=n.annotations.filter(a=>a.placement===side);return items.length?`<div data-equation-label-row="${side}" style="display:grid;grid-template-columns:repeat(${Math.min(3,items.length)},minmax(0,1fr));gap:4mm;margin:${side==='below'?n.gap+'mm 0 0':'0 0 '+n.gap+'mm'}">${items.map(a=>`<div data-equation-label="${e(a.id)}" data-target-index="${n.anchors.findIndex(x=>x.id===a.targetId)}" data-decoration="${a.decoration}" data-side="${side}" style="color:${a.colour};text-align:center;min-width:0" ${editable?'contenteditable="true"':''}>${render(a.blocks)}</div>`).join('')}</div>`:'';};
  const unresolved=n.annotations.filter(a=>!n.anchors.some(t=>t.id===a.targetId&&anchorResolved(n,t)));
- return `<figure data-id="${e(n.id)}" data-type="annotated-equation" data-equation-instance="${serial}" contenteditable="false" style="position:relative;width:${n.width}mm;max-width:100%;margin:2mm auto;break-inside:avoid">${labels('above')}<div data-equation-formula style="text-align:center;font-size:${n.fontSize}pt;line-height:1.5;white-space:nowrap">${math(latex,false,ids)}</div>${labels('below')}${unresolved.length?'<output data-equation-warning style="display:block;color:#9a3412">Annotation target missing. Select the annotation and attach it to a term.</output>':''}</figure>`;
+ const connections=(n.connections??[]).map(c=>({...c,from:n.anchors.findIndex(a=>a.id===c.fromId&&anchorResolved(n,a)),to:n.anchors.findIndex(a=>a.id===c.toId&&anchorResolved(n,a))}));
+ const missing=unresolved.length||connections.some(c=>c.from<0||c.to<0);
+ return `<figure data-id="${e(n.id)}" data-type="annotated-equation" data-equation-instance="${serial}" data-term-connections="${e(JSON.stringify(connections))}" contenteditable="false" style="position:relative;width:${n.width}mm;max-width:100%;margin:${n.margin??2}mm ${n.align==='left'?'auto '+(n.margin??2)+'mm 0':n.align==='right'?'0 '+(n.margin??2)+'mm auto':'auto'};padding-top:${n.arrowSpace??(connections.length?Math.max(...connections.map(c=>c.height)):0)}mm;break-inside:avoid">${labels('above')}<div data-equation-formula style="text-align:${n.align??'center'};${n.fontSize===null?'':`font-size:${n.fontSize}pt;`}line-height:1.5;white-space:nowrap">${math(latex,false,ids)}</div>${labels('below')}${missing?'<output data-equation-warning style="display:block;color:#9a3412">Annotation target missing. Select the annotation and attach it to a term.</output>':''}</figure>`;
 }
 export function mountEquationAnnotations(root,options={}) {
  let frame,disposed=false;const ns='http://www.w3.org/2000/svg';
@@ -47,6 +51,17 @@ export function mountEquationAnnotations(root,options={}) {
     else if(decoration==='highlight'){shape.setAttribute('d',`M${(r.left-outer.left)/scale-2},${ey} H${(r.right-outer.left)/scale+2}`);shape.setAttribute('stroke-width','3');}
     else continue;
     shape.setAttribute('stroke',colour);shape.setAttribute('fill','none');if(!shape.hasAttribute('stroke-width'))shape.setAttribute('stroke-width','1');shape.setAttribute('stroke-linecap','round');svg.append(shape);
+   }
+   for(const c of JSON.parse(figure.dataset.termConnections||'[]')){
+    const term=index=>figure.querySelector('[id="ae-'+figure.dataset.equationInstance+'-'+index+'"]');
+    const from=term(c.from),to=term(c.to);if(!from||!to)continue;
+    const f=from.getBoundingClientRect(),t=to.getBoundingClientRect();
+    const sx=(f.left+f.width/2-outer.left)/scale,sy=(f.top-outer.top)/scale;
+    const ex=(t.left+t.width/2-outer.left)/scale,ey=(t.top-outer.top)/scale-1;
+    const top=Math.min(sy,ey)-c.height*96/25.4;
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d',`M${sx},${sy} C${sx},${top} ${ex},${top} ${ex},${ey} M${ex-2.5},${ey-4} L${ex},${ey} L${ex+2.5},${ey-4}`);
+    path.setAttribute('stroke',c.colour);path.setAttribute('stroke-width','1');path.setAttribute('fill','none');svg.append(path);
    }
    figure.append(svg);
   }

@@ -285,7 +285,7 @@ function getPointer(root, pointer) {
 export function applyContentOverrides(transcription, review = {}, { strict = true, conflicts = [] } = {}) {
   const effective = clone(transcription);
   for (const [rootId, fields] of Object.entries(review.contentOverrides ?? {})) {
-    const root = findRoot(effective.pages, rootId);
+    const root = findRoot(effective.pages ?? effective.sections, rootId);
     if (!root) {
       conflicts.push({ rootId, reason: 'Edited content disappeared' });
       if (strict) throw new Error(`Content override root disappeared: ${rootId}`);

@@ -13,8 +13,8 @@ export async function importReconstruction({ runId, input, projectId, ...options
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const args = process.argv.slice(2), options = {};
   for (let i = 0; i < args.length; i += 2) {
-    const key = { '--run-id': 'runId', '--input': 'input', '--project-id': 'projectId' }[args[i]];
-    if (!key || !args[i + 1]) throw new Error('Use --run-id ID --input FILE [--project-id ID]');
+    const key = { '--run-id': 'runId', '--input': 'input', '--project-id': 'projectId', '--mode':'mode' }[args[i]];
+    if (!key || !args[i + 1]) throw new Error('Use --run-id ID --input FILE [--project-id ID] [--mode compact|exact]');
     options[key] = args[i + 1];
   }
   importReconstruction(options).then(project => console.log(JSON.stringify({

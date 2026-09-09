@@ -132,3 +132,15 @@ test('live structured paragraph edits retain the selected reference and neighbou
  assert.deepEqual(resolveArrangement(live.block,live.tree).missing,[]);
  assert.equal(block.examples[0].prompt.blocks[0].inlines[0].text,'First');
 });
+
+test('diagram content edits preserve alignment unless the image editor changes it',()=>{
+ const block={id:'b',type:'question',content:{id:'q',prompt:'',children:[],questionDiagrams:[{id:'d',format:'image',src:'/old.png',widthMm:50}]}};
+ const initial=resolveArrangement(block),entry=initial.entries.get('d');
+ const centered=transformArrangement(initial.tree,'properties','layout:d',{align:'center'});
+ const resized=applyArrangementContent(block,centered,'layout:d',entry,{...entry.value,widthMm:40,src:'/new.png'});
+ assert.equal(arrangementItems(resized.tree.root).find(n=>n.ref==='d').align,'center');
+ const right=applyArrangementContent(block,centered,'layout:d',entry,{...entry.value,align:'right'});
+ assert.equal(arrangementItems(right.tree.root).find(n=>n.ref==='d').align,'right');
+ assert.equal(resolveArrangement(right.block).tree.root.children.find(n=>n.ref==='d').align,'right');
+ assert.equal(arrangementItems(centered.root).find(n=>n.ref==='d').align,'center');
+});
