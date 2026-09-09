@@ -1,6 +1,7 @@
 import { logicalUnits, flowEditionSections } from './booklet-flow.js';
 import { resolveArrangement, arrangementCatalog } from './booklet-arrangement.js';
 import {paginateCompactAnswers} from './booklet-answer-pagination.js';
+import {paragraphSlice} from './booklet-document-fragments.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -150,6 +151,18 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
       const document=block.content?.format==='maths-editor-document-v1'?block.content:null;
       const stored=layouts[block.id]?.arrangement;
       const hasRow=n=>n?.direction==='row'||(n?.children??[]).some(hasRow);
+      if(blocks.length===1&&!block.flow?.keepTogether&&!stored&&document?.blocks.length===1&&document.blocks[0].type==='paragraph'&&!document._bookletSlice){
+        const text=document.blocks[0].inlines.map(i=>i.type==='text'?i.text:'\ufffc').join('');
+        const ends=[...text.matchAll(/\s+/g)].map(m=>m.index+m[0].length);if(ends.at(-1)!==text.length)ends.push(text.length);
+        let start=0,part=block.flow?.fragment??0;
+        while(start<text.length){const candidates=ends.filter(n=>n>start);let lo=0,hi=candidates.length-1,best=-1;
+          const fragment=end=>({...block,content:paragraphSlice(document,start,end),flow:{...block.flow,fragment:part}});
+          while(lo<=hi){const mid=Math.floor((lo+hi)/2),measured=await fits([fragment(candidates[mid])]);if(measured.height<=measured.capacity+.2){best=mid;lo=mid+1;}else hi=mid-1;}
+          if(best<0){await add([fragment(text.length)]);return;}
+          current=[fragment(candidates[best])];start=candidates[best];part++;if(start<text.length)flush();
+        }
+        if(text.length)return;
+      }
       if(blocks.length===1&&!block.flow?.keepTogether&&!hasRow(stored?.root)&&document?.blocks.length>1){
         let part=block.flow?.fragment??0;
         for(const paragraph of document.blocks){await add([{...block,content:{...document,blocks:[paragraph]},flow:{...block.flow,fragment:part++}}]);flush();}

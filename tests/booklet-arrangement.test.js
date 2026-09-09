@@ -6,6 +6,16 @@ import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 const fixture=()=>({version:1,root:group('root',[group('row',[group('left',[item('a'),item('b')]),group('right',[item('graph')])],'row')])});
 const textFixture=()=>({id:'activity',type:'question',sourceAtom:{kind:'investigation'},content:{id:'q',prompt:'Interpret Coordinates',children:[{id:'a',label:'a',prompt:'$(2,4)$',answer:{short:'right, up'},answerSpaceMm:8}]}});
 
+test('legacy-to-native editing retains the first rendered field slot with distinct keys for later paragraphs',()=>{
+ const block=textFixture(),before=arrangementCatalog(block),legacy=[...before.entries.values()].find(e=>e.ownerId==='a'&&e.field==='prompt');
+ block.content.children[0].prompt=fromSource('$(2,4)$\n\nAnother paragraph.');
+ const after=arrangementCatalog(block),native=[...after.entries.values()].filter(e=>e.ownerId==='a'&&e.field==='prompt');
+ assert.equal(native[0].editorKey,legacy.editorKey);
+ assert.notEqual(native[1].editorKey,native[0].editorKey);
+ assert.notEqual(native[0].ref,legacy.ref,'Stored content references still identify native nodes');
+ assert.equal(new Set([...after.entries.values()].map(e=>e.editorKey??e.ref)).size,after.entries.size);
+});
+
 test('clearing text removes its layout item and spacing while preserving parts and answers',()=>{
  for(const structured of [false,true]){
   const block=textFixture();if(structured)block.content.prompt=fromSource(block.content.prompt);

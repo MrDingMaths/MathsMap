@@ -1,5 +1,9 @@
 # Source presentation contract v2
 
+Preserve every syllabus outcome code and its full statement on Syllabus Content pages. Inventory each code separately from headings and bullets. Cover-summary omissions do not apply to syllabus content. Compare codes with original source evidence; never infer them from a topic title.
+
+For every question and nested part grid, independently record the original columns, rows/grouping and reading order before authoring. Use those source values for layout and acceptance, never a blanket two-column default or an expected value copied from the import. Check image-embedded and multi-letter labels as well as extracted text labels. Preserve meaningful arrangements through pagination and check their rendered output.
+
 ## Mandatory source-heading, table and exam-label review
 
 Distinguish navigation/topic metadata from visible source headings. Do not repeat a previous page's title on a continuation page. Record section.headingStyle as "none" when no page heading is printed (retain a useful section.title for navigation), "difficulty" for a printed difficulty heading, or "page-title" for a printed blue page title. A definition/theory block heading is not an additional page title. If both page title and difficulty heading appear, store section.difficultyTitle separately.

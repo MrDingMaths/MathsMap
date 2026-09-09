@@ -2,7 +2,7 @@
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import { onMount,getContext,setContext } from 'svelte';
-  import {teachingLabels,usesTeachingLetters,labelledTeachingQuestion} from '../lib/booklet-labels.js';
+  import {usesReviewNumbers,teachingLabels,usesTeachingLetters,labelledTeachingQuestion} from '../lib/booklet-labels.js';
   import BookletCover from './BookletCover.svelte';
   import BookletArrangement from './BookletArrangement.svelte';
   import BookletFooter from './BookletFooter.svelte';
@@ -24,6 +24,7 @@
   } = $props();
   const parentLabels=getContext('booklet-labels');
   const presentation=getContext('booklet-presentation');
+  const documentActions=getContext('booklet-document-actions');
   const labels=$derived(parentLabels?.()??teachingLabels(bookletPages.length?bookletPages.flatMap(p=>p.blocks??[]):page.blocks??[]));
   setContext('booklet-labels',()=>labels);
   let previewFrame;
@@ -103,7 +104,7 @@
 {/snippet}
 
 {#snippet questionView(block, number)}
-  {@const visibleNumber=usesTeachingLetters(block)?null:number}
+  {@const visibleNumber=usesReviewNumbers(block)?Number(labels[block.content.id]??1):usesTeachingLetters(block)?null:number}
   {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId)}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}
   {#if block.pedagogyRole === 'worked-example' && solutionMode === 'student'}
@@ -204,6 +205,15 @@
         {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<header class="section-band difficulty-heading"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></header>{/if}
         <main>
           {#each displayItems as item, index (item.id)}
+            {@const documentIds=item.blocks?.map(b=>b.id)??[item.block?.id??item.id]}
+            <div role="group" class="document-group" class:editable-group={editMode&&!!documentActions} class:group-selected={editMode&&documentActions?.selected?.some(id=>documentIds.includes(id))} data-document-group={documentIds.join(' ')}
+              ondragover={e=>{if(editMode&&documentActions&&e.dataTransfer.types.includes('application/x-booklet-block'))e.preventDefault();}}
+              ondrop={e=>{const id=e.dataTransfer.getData('application/x-booklet-block');if(editMode&&documentActions&&id){e.preventDefault();e.stopPropagation();documentActions.move(id,page.section?.sourceSectionId??page.section?.id,documentIds[0]);}}}>
+            {#if editMode&&documentActions}<div class="document-group-tools">
+              <button class="group-handle" aria-label="Select whole teaching group or question" aria-pressed={documentActions.selected?.some(id=>documentIds.includes(id))} draggable="true" ondragstart={e=>{documentActions.select(documentIds,e);e.dataTransfer.setData('application/x-booklet-block',documentIds[0]);}} onclick={e=>documentActions.select(documentIds,e)}>⠿</button>
+              <button aria-label="Insert text before this group" onclick={()=>documentActions.insert('text',documentIds[0])}>+</button>
+              {#if documentActions.commentsFor(documentIds).length}<button aria-label="Comments on this group" onclick={()=>documentActions.comment(documentIds)}>●</button>{/if}
+            </div>{/if}
             {#if item.type === 'teaching-atom'}
               <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
                 <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
@@ -214,7 +224,9 @@
             {:else}
               {@render blockBody(item.block, index, false)}
             {/if}
+            </div>
           {/each}
+          {#if editMode&&documentActions}<button class="document-end-insert" onclick={()=>documentActions.insert('text',null,page.blocks.at(-1)?.id)}>+ Write after this group</button>{/if}
         </main>
         <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback="https://MrDingMaths.com" />
       </article>
@@ -223,6 +235,7 @@
 </div>
 
 <style>
+  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid #438ccc;outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid #b7c9d6;border-radius:4px;background:#fff;color:#34546b;font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:#48697f;border:1px dashed #becbd7;background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:contents!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
   .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
@@ -238,7 +251,7 @@
   .flow .section-band{break-inside:avoid;break-after:avoid}.flow main{break-before:avoid}
   .copy-space{visibility:hidden;pointer-events:none;user-select:none}.solution-diagram-space,.theory-question-space{display:contents}
 
-  .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
+  .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>.document-group>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
   .preview-frame { position:relative; width:100%; height:var(--preview-height); overflow:hidden; }
   .preview-page { position:absolute; top:0; left:50%; width:210mm; transform:translateX(-50%) scale(var(--preview-scale)); transform-origin:top center; }
   .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:#fff; color:#24282d; font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }
@@ -248,7 +261,6 @@
   .theory-section { break-inside:avoid; }
   .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid #d3d7db; border-top:0; background:#fff; }
   .atom-body { display:grid; gap:1.8mm; }
-  .review-body :global(.question-depth-0 > .question-line)::before { content:""; display:inline-block; flex:none; width:3.5mm; height:3.5mm; border:.4mm solid currentColor; border-radius:.6mm; margin-top:.5mm; }
   .inside-atom { margin:0; }
   .example-row { display:grid; grid-template-columns:minmax(28mm,.55fr) minmax(0,1.45fr); gap:4mm; padding:1.4mm 0; border-top:.2mm solid #c9ddeb; }
   .example-row:first-child { border-top:0; }

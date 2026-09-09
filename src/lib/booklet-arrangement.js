@@ -13,10 +13,12 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  const add=(ref,data)=>{entries.set(ref,{ref,...data});return item(ref,data.title);};
  const field=(owner,key,role='content')=>{
    const value=key.split('/').reduce((x,k)=>x?.[k],owner);
-   if(!hasVisibleContent(value)){emptyRefs.add(owner.id+'/'+key);if(isDocument(value))value.blocks.forEach(n=>emptyRefs.add(owner.id+'/'+key+'#'+n.id));return [];}
+   if(!hasVisibleContent(value)&&!(overrides.editable&&isDocument(value))){emptyRefs.add(owner.id+'/'+key);if(isDocument(value))value.blocks.forEach(n=>emptyRefs.add(owner.id+'/'+key+'#'+n.id));return [];}
    const title=key.includes('prompt')?'Text':key.includes('Solution')?'Solution':key;
-   if(isDocument(value))return value.blocks.flatMap(n=>{const ref=owner.id+'/'+key+'#'+n.id,doc=normalizeDocument({...value,blocks:[n]});if(!hasVisibleContent(doc)){emptyRefs.add(ref);return [];}return [add(ref,{kind:'document',ownerId:owner.id,field:key,nodeId:n.id,value:doc,role,title:n.type==='paragraph'?'Text':n.type})];});
-   return [add(owner.id+'/'+key,{kind:'text',ownerId:owner.id,field:key,value,role,title})];
+   // The first native paragraph replaces the legacy field's rendered slot.
+   // Keep its editor mounted without changing stored arrangement references.
+   if(isDocument(value))return value.blocks.flatMap((n,index)=>{const ref=owner.id+'/'+key+'#'+n.id,doc=normalizeDocument({...value,blocks:[n]});if(!hasVisibleContent(doc)&&!overrides.editable){emptyRefs.add(ref);return [];}return [add(ref,{kind:'document',editorKey:owner.id+'/'+key+(index?'#'+n.id:''),ownerId:owner.id,field:key,nodeId:n.id,value:doc,role,title:n.type==='paragraph'?'Text':n.type})];});
+   return [add(owner.id+'/'+key,{kind:'text',editorKey:owner.id+'/'+key,ownerId:owner.id,field:key,value,role,title})];
  };
  const diagrams=(owner,key='questionDiagrams',role='content')=>(owner[key]??[]).map(d=>add(d.id,{kind:'diagram',ownerId:owner.id,field:key,diagramId:d.id,value:d,role,title:d.alt??'Diagram'}));
  function question(n,index=0,root=false){

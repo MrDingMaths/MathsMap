@@ -4,12 +4,22 @@
   import FlowBookletPreview from './FlowBookletPreview.svelte';
   import FlowBookletOutline from './FlowBookletOutline.svelte';
   import FlowBookletPage from './FlowBookletPage.svelte';
-  import {isFlexible,FLOW_EDITIONS,flowCommand,selectedFlowIds} from '../lib/booklet-flow.js';
+  import {isFlexible,FLOW_EDITIONS,flowCommand,selectedFlowIds,logicalUnits,captureFlowClipboard} from '../lib/booklet-flow.js';
+  import {createDocumentHistory,contentTarget,fieldValue,createTeachingGroup,createDocumentQuestion,TEACHING_TEMPLATES,replaceDocumentFragment} from '../lib/booklet-document-controller.js';
+  import {captureEditorSelection,restoreEditorSelection,placeEditorAtPoint,runEditorCommand} from '../lib/booklet-editor-dom.js';
+  import {createFeedback,reconcileFeedback,feedbackPrompt} from '../lib/booklet-feedback.js';
+  import BookletComments from './BookletComments.svelte';
+  import BookletQuestionSpacing from './BookletQuestionSpacing.svelte';
+  import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
+  import {captureBookletTextRange,applyBookletTextRange,copyBookletTextRange} from '../lib/booklet-text-selection.js';
+  import {replaceParagraphSlice} from '../lib/booklet-document-fragments.js';
+  import {canKeepPageEditor} from '../lib/booklet-pagination-work.js';
+  import {reconcileSyncLayout} from '../lib/question-sync-layout.js';
   import { adoptHouseStyle, BOOKLET_HOUSE_STYLE, houseStyleVariables } from '../lib/booklet-house-style.js';
   import {teachingLabels} from '../lib/booklet-labels.js';
   import { independentAnswerPages } from '../lib/booklet-answer-options.js';
   import { resolvePreviewAssets } from '../lib/booklet-preview.js';
-  import { fromSource, isDocument, normalizeDocument } from '../lib/document-content.js';
+  import { fromSource, isDocument, normalizeDocument, toSource } from '../lib/document-content.js';
   import { mergeProjectChanges } from '../lib/booklet-save-merge.js';
   import { onMount, tick, setContext } from 'svelte';
   import FocusedBookletEditor from './FocusedBookletEditor.svelte';
@@ -40,10 +50,10 @@
   let project = $state.raw(null);
   const flexible=$derived(isFlexible(project));
   let flowPreview=$state(),flowOutline=$state(),flowMap=$state.raw({pages:[],issues:[],ready:false}),flowEdition=$state('student'),flowActive=$state(1);
-  function selectFlow(id,sectionId){selectedBlockId=id;selectedSectionId=sectionId;selectedTargetId='';flowPreview?.jumpTo(id);}
+  function selectFlow(id,sectionId){finishInline();if(!groupSelection.includes(id))groupSelection=selectedFlowIds(project,[id]);selectedBlockId=id;selectedSectionId=sectionId;selectedTargetId='';documentSelection={rootId:id,edition:flexible?flowEdition:answerView};flowPreview?.jumpTo(id);}
   function flowSelected(page){selectedSectionId=page.section.sourceSectionId;}
   async function createFlexibleCopy(){
-    if(inlineSession||editSession)return;
+    finishInline();if(editSession)return;
     busy='Creating flexible copy';error='';
     try{if(saveState!=='Saved')await persist();if(saveState!=='Saved')throw Error('Resolve the current save before creating a copy.');
       const created=await duplicateBookletProject(project.id,{title:project.title+' — Flexible',flexible:true});await refreshProjects();await openProject(created.id);
@@ -58,11 +68,12 @@
     catch(e){if(project?.id===id)bankSyncError='Could not check bank updates. '+e.message;}
   }
   async function applyBankSync(item,action){
-    if(inlineSession||editSession||saveState!=='Saved'||saveInFlight){status='Save or cancel the current edit before resolving a bank update.';return;}
+    finishInline();
+    if(editSession||saveState!=='Saved'||saveInFlight){status='Save or cancel the current edit before resolving a bank update.';return;}
     syncBusy=true;error='';
     try{
       const saved=await resolveProjectBankSync(project.id,{blockId:item.blockId,action,bankRevision:item.bankRevision,localHash:item.localHash,expectedRevision:project.revision});
-      project=saved;savedBase=clone(saved);undoStack=[];redoStack=[];
+      project=saved;savedBase=clone(saved);history.reset();undoStack=[];redoStack=[];
       status=action==='use-bank'?'Bank version applied; local page layout retained.':action==='keep-local'?'Local version kept as a separate question.':'Booklet version saved to the bank.';
       await refreshBankSync();await refreshProjects();
     }catch(e){error=e.message;await refreshBankSync();}finally{syncBusy=false;}
@@ -73,12 +84,66 @@
   let printReady = $state(false);
   let printing = $state(false), printProgress = $state('');
   let inlineSession = $state.raw(null);
-  const inlineEditing={get session(){return inlineSession;},close(){const restore=inlineSession?.restoreFocus;inlineSession=null;tick().then(()=>restore?.());},focus(result){editSession={...inlineSession,value:result?.value??inlineSession.value,layout:result?.layout??inlineSession.layout};inlineSession=null;}};
+  let activeEditor=$state.raw(null),composing=$state(false),documentSelection=$state.raw(null),groupSelection=$state([]),groupClipboard=$state.raw(null),textSelection=null,nativeTable=$state(false);
+  const history=createDocumentHistory();
+  const documentColours=$derived(bookletColours(project));
+  let copiedDocumentTabs=null;
+  const inlineEditing={get session(){return inlineSession;},close:finishInline,
+    beforePagination(nextPages){if(!inlineSession)return null;const index=Number(activeEditor?.closest('[data-flow-index]')?.dataset.flowIndex);if(activeEditor?.isConnected&&canKeepPageEditor(inlineSession,flowMap.pages[index],nextPages?.[index]))return {keepMounted:true};const saved={...inlineSession,bookmark:clone(captureEditorSelection(activeEditor)??inlineSession.bookmark??null)};if(saved.paragraphSlice)for(const key of ['start','end'])if(saved.bookmark?.[key]?.nodeId===saved.paragraphSlice.nodeId)saved.bookmark[key].offset+=saved.paragraphSlice.start;documentSelection=currentAnchor();inlineSession=null;activeEditor=null;return saved;},
+    afterPagination(saved){if(!saved||saved.keepMounted)return;const fields=[...canvas.querySelectorAll(`[data-edit-root="${CSS.escape(saved.rootId)}"][data-edit-path="${CSS.escape(saved.pointer)}"]`)];const nodeId=saved.bookmark?.start?.nodeId,offset=saved.bookmark?.start?.offset??0;const field=fields.find(el=>nodeId&&el.querySelector(`[data-id="${CSS.escape(nodeId)}"]`)&&(!el.hasAttribute('data-fragment-start')||(offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd))))??fields.find(el=>el.closest('.flow-paper'));
+      const clickable=field?.querySelector('.clickable');if(clickable){window.getSelection()?.removeAllRanges();clickable.click();if(inlineSession){const bookmark=clone(saved.bookmark);if(field.hasAttribute('data-fragment-start'))for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===nodeId)bookmark[key].offset-=Number(field.dataset.fragmentStart);inlineSession.bookmark=bookmark;}}
+    },
+    host(session){return {
+      get copiedTabs(){return copiedDocumentTabs;},set copiedTabs(value){copiedDocumentTabs=value;},
+      ready(editor){activeEditor=editor;if(session.bookmark)restoreEditorSelection(editor,session.bookmark);else placeEditorAtPoint(editor,session.point);documentSelection=currentAnchor();},
+      selection(bookmark){if(inlineSession?.key===session.key){inlineSession.bookmark=bookmark;documentSelection=currentAnchor();const c=activeEditor?.documentController;nativeTable=!!(c?.selectedId&&c.surface.querySelector(`[data-id="${CSS.escape(c.selectedId)}"]`)?.closest('table'));}},
+      detached(bookmark){if(inlineSession?.key===session.key&&bookmark)inlineSession.bookmark=bookmark;},
+      composition(value){composing=value;if(!value)queueSave();}, undo:direction=>direction<0?undo():redo(),adjacent:editAdjacent,
+    };},
+  };
   setContext('booklet-inline-edit',inlineEditing);
+  const commentLocations=$derived((project?.studio?.flags??[]).filter(f=>!f.resolved).map(flag=>({flag,blockId:contentTarget(project,flag.targetId)?.block?.id??flag.targetId})));
+  setContext('booklet-document-actions',{
+    get selected(){return groupSelection;},select:selectDocumentGroup,insert:insertDocumentContent,
+    move(id,sectionId,beforeId){finishInline();change(flowCommand(project,{type:'move',ids:groupSelection.includes(id)?groupSelection:[id],sectionId:contentTarget(project,beforeId)?.section.id??sectionId,beforeId}));},
+    commentsFor(ids){return commentLocations.filter(item=>ids.includes(item.blockId)).map(item=>item.flag);},
+    comment(ids){finishInline();panel='comments';tick().then(()=>commentsPanel?.reveal(ids));},
+  });
   let selectedSectionId = $state('');
   let selectedPageId = $state('');
   let selectedBlockId = $state('');
   let selectedTargetId = $state('');
+  function currentAnchor(){const s=inlineSession;if(!s)return documentSelection;const bookmark=captureEditorSelection(activeEditor)??s.bookmark;return {rootId:s.rootId,pointer:s.pointer,edition:flexible?flowEdition:answerView,nodeId:bookmark?.start?.nodeId,quote:bookmark?.quote??'',bookmark};}
+  function finishInline(){if(inlineSession){documentSelection=currentAnchor();history.boundary();}inlineSession=null;activeEditor=null;composing=false;nativeTable=false;}
+  function selectionInspector(node,editor){const c=editor?.documentController;if(!c)return;node.append(c.inspector);c.inspector.querySelectorAll('details').forEach(d=>d.open=true);return {destroy(){if(editor.isConnected)editor.append(c.inspector);}};}
+  function editAdjacent(direction){const fields=[...canvas.querySelectorAll('.editable-booklet-text')].filter(e=>!e.closest('.flow-measure,[aria-hidden=true]')&&e.querySelector('.clickable,maths-editor'));const at=fields.findIndex(e=>e.contains(activeEditor));const next=fields[at+direction];if(next){finishInline();next.querySelector('.clickable')?.click();if(inlineSession)inlineSession.point={offset:direction<0?Number.MAX_SAFE_INTEGER:0};}}
+  function formatDocument(name,value){history.boundary();if(textSelection?.ranges.length>1&&['bold','italic','underline','colour'].includes(name)){const next=applyBookletTextRange(project,textSelection,name,value);finishInline();change(next);textSelection=null;return;}if(activeEditor&&inlineSession?.bookmark&&!activeEditor.contains(document.activeElement))restoreEditorSelection(activeEditor,inlineSession.bookmark);runEditorCommand(activeEditor,name,value);history.boundary();}
+  function spaceWholeQuestion(property,value){try{const next=applyQuestionSpacing(project,selectedBlockId,property,value);change(next);}catch(e){error=e.message;}}
+  function pasteAtSection(sectionId,beforeId){if(!groupClipboard)return;finishInline();change(flowCommand(project,{type:'paste',clipboard:groupClipboard,sectionId,beforeId}));if(groupClipboard.mode==='cut')groupClipboard=null;}
+  function selectDocumentGroup(ids,event={}){
+    finishInline();const units=logicalUnits(project),target=units.findIndex(u=>u.blocks.some(b=>b.id===ids[0])),start=units.findIndex(u=>u.blocks.some(b=>b.id===groupSelection[0]));
+    groupSelection=selectedFlowIds(project,event.shiftKey&&start>=0?units.slice(Math.min(start,target),Math.max(start,target)+1).flatMap(u=>u.blocks.map(b=>b.id)):ids);
+    const first=contentTarget(project,groupSelection[0]);selectedBlockId=first?.block?.id??ids[0];selectedSectionId=first?.section.id??selectedSectionId;
+    documentSelection={rootId:selectedBlockId,edition:flexible?flowEdition:answerView};
+  }
+  function groupCommand(type){try{finishInline();const ids=groupSelection.length?groupSelection:selectedFlowIds(project,[selectedBlockId]);
+    if(type==='copy'||type==='cut'){groupClipboard=captureFlowClipboard(project,ids,type);status=type==='cut'?'Ready to move selected content.':'Selected content copied.';return;}
+    const section=project.sections.find(s=>s.blocks.some(b=>ids.includes(b.id)))??selectedSection;const last=Math.max(-1,...section.blocks.map((b,i)=>ids.includes(b.id)?i:-1));
+    const beforeId=section.blocks[last+1]?.id;const next=flowCommand(project,{type,ids,sectionId:section.id,beforeId, ...(type==='paste'?{clipboard:groupClipboard}: {})});
+    change(next);if(type==='paste'&&groupClipboard?.mode==='cut')groupClipboard=null;if(type==='delete')groupSelection=[];
+  }catch(e){error=e.message;}}
+  async function insertDocumentContent(kind,beforeId=null,afterId=null){try{finishInline();let section=project.sections.find(s=>s.blocks.some(b=>b.id===(beforeId??afterId??selectedBlockId)))??selectedSection;
+    if(!section){error='Add a section first.';return;}
+    const block=kind==='text'?{...createProjectBlock('rich-text'),content:fromSource('')}:kind==='question'?createDocumentQuestion():createTeachingGroup(kind);
+    const ids=selectedFlowIds(project,[afterId??selectedBlockId]),at=beforeId?section.blocks.findIndex(b=>b.id===beforeId)-1:Math.max(-1,...section.blocks.map((b,i)=>ids.includes(b.id)?i:-1));
+    change(addProjectBlock(project,section.id,block,{afterIndex:at}));selectedBlockId=block.id;selectedSectionId=section.id;groupSelection=[];
+    await tick();await flowPreview?.waitUntilReady();flowPreview?.jumpTo(block.id);await tick();
+    document.querySelectorAll('.document-insert[open]').forEach(menu=>menu.open=false);const root=canvas.querySelector(`[data-document-group~="${CSS.escape(block.id)}"]`);const field=root?.querySelector('.atom-body .clickable,.body-box .clickable,.practice .clickable')??root?.querySelector('.clickable');field?.click();
+  }catch(e){error=e.message;}}
+  async function addComment(){const anchor=textSelection?{...textSelection.ranges[0],ranges:textSelection.ranges,quote:textSelection.quote,edition:flexible?flowEdition:answerView}:currentAnchor()??{rootId:selectedBlockId,edition:flexible?flowEdition:answerView};finishInline();documentSelection=anchor;panel='comments';await tick();commentsPanel?.start(anchor);}
+  let commentsPanel=$state(),exportedFeedback=$state('');
+  async function flushDocument(){if(composing)throw Error('Finish the current text input first.');clearTimeout(saveTimer);while(saveInFlight)await new Promise(r=>setTimeout(r,20));if(saveConflict)throw Error('Resolve the save conflict first.');if(saveState!=='Saved')await persist();while(saveInFlight)await new Promise(r=>setTimeout(r,20));if(saveState!=='Saved')throw Error('Save failed. Your comments and edits are retained; retry saving before copying feedback.');}
+  async function copyComments(ids){try{await flushDocument();exportedFeedback=feedbackPrompt(project,ids);try{await navigator.clipboard.writeText(exportedFeedback);status='Feedback prompt copied.';}catch{status='Select and copy the feedback prompt below.';}}catch(e){error=e.message;}}
   let canvas=$state(null);
   $effect(()=>{
     if(!canvas)return;
@@ -105,7 +170,7 @@
   let editSession=$state.raw(null),preferencesReady=$state(false);
   let sourcePageChoice=$state(null);
   const selectedSourceRefs=$derived.by(()=>{
-    const target=contentNodes(project).get(selectedTargetId)?.node;
+    const target=contentTarget(project,selectedTargetId)?.node;
     const own=sourceReferences(target);
     return own.length?own:sourceReferences(selectedBlock).length?sourceReferences(selectedBlock):sourceReferences(selectedSection);
   });
@@ -122,21 +187,25 @@
   const dockReview=$derived(panel==='review' && workspaceWidth-(navigation?240:0)-360>=794);
   const pageIndex=$derived(projectPages.indexOf(previewPage));
   function blockLabel(block,index=0){const value=block.title||block.label||block.content?.prompt||block.content?.stem||block.content?.text||block.content;const text=typeof value==='string'?value.replace(/[_*#`$\\{}]/g,'').replace(/\s+/g,' ').trim():'';return (block.type==='question'?`Question ${block.content?.label??index+1}`:block.type==='callout'?(typeof block.label==='string'?block.label:'Theory'):(block.type==='rich-text'?'Text':block.type.replaceAll('-',' ')))+(text?' · '+text.slice(0,65):'');}
-  function goPage(index){if(inlineSession){status="Save or cancel the current page edit before changing pages.";return;}const page=projectPages[index];if(!page)return;selectedPageId=page.id;selectedSectionId=page.section.id;selectedBlockId=page.blocks[0]?.id??'';selectedTargetId='';if(workspaceWidth<1100)navigation=false;}
+  function goPage(index){finishInline();const page=projectPages[index];if(!page)return;selectedPageId=page.id;selectedSectionId=page.section.id;selectedBlockId=page.blocks[0]?.id??'';selectedTargetId='';if(workspaceWidth<1100)navigation=false;}
   function zoomBy(delta){const actual=canvas?.querySelector('.preview-frame');const current=Number(zoom)||Number(actual&&getComputedStyle(actual).getPropertyValue('--preview-scale'))||1;zoom=String(Math.max(.25,Math.min(2,current+delta)).toFixed(2));}
   let comparisonScroll=null;
   async function toggleComparison(){if(!comparison){comparisonScroll={top:canvas.scrollTop,left:canvas.querySelector('.paper-scroll')?.scrollLeft??0};comparison=true;tool='';}else{comparison=false;await tick();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));canvas.scrollTop=comparisonScroll?.top??0;const paper=canvas.querySelector('.paper-scroll');if(paper)paper.scrollLeft=comparisonScroll?.left??0;}}
   function togglePanel(next){panel=panel===next?'':next;}
-  function editLocation(origin,target){const labels=[];for(let node=origin?.closest('.question-node');node;node=node.parentElement?.closest('.question-node')){const label=node.querySelector(':scope > .question-line > .part-label')?.textContent?.trim().replace(/[.)]$/,'');if(label)labels.unshift(label);}return `Page ${previewPage?.pageNumber} · ${labels.length?'Question '+labels.join(''):target?blockLabel(target.block,previewPage.blocks.indexOf(target.block)):'Content'}`;}
+  function editLocation(origin,target){const labels=[];for(let node=origin?.closest('.question-node');node;node=node.parentElement?.closest('.question-node')){const label=node.querySelector(':scope > .question-line > .part-label')?.textContent?.trim().replace(/[.)]$/,'');if(label)labels.unshift(label);}return `Page ${flexible?flowActive:previewPage?.pageNumber} · ${labels.length?'Question '+labels.join(''):target?blockLabel(target.block,target.section.blocks.indexOf(target.block)):'Content'}`;}
   function requestEdit(request){
-    if(inlineSession){status='Save or cancel the current page edit before editing another item.';return;}
+    if(inlineSession?.rootId===request.rootId&&inlineSession?.pointer===request.pointer)return;
+    finishInline();groupSelection=[];
+    diagramSelection=null;
     if(request.pointer==='/section/title')request={...request,rootId:flexible?(flowMap.pages[Number(request.origin?.closest('[data-flow-index]')?.dataset.flowIndex)]?.section.sourceSectionId??selectedSectionId):previewPage.section.id,pointer:'/title'};
     let target=reviewTargets(project).find(t=>t.id===request.rootId);
     if(!target){for(const section of project.sections){for(const block of section.blocks){const node=findContent(block,request.rootId);if(node){target={id:request.rootId,node,block,section,kind:'part'};break;}}if(target)break;}}
     if(flexible&&target?.section)selectedSectionId=target.section.id;
-    if(target&&['question','worked-example','callout','activity','guided-practice'].includes(target.block.type)&&!/^\/(title|label|sourceAtom|section)/.test(request.pointer)){openArrangement(target,request);return;}
     if(target){selectedBlockId=target.block.id;selectedTargetId=target.id;}
-    if(flexible&&target&&request.value!==undefined){const original=request.pointer.split('/').slice(1).reduce((v,k)=>v?.[k],target.node);if(original!==undefined)request={...request,value:original};}
+    if(flexible&&target&&request.value!==undefined){const original=request.pointer.split('/').slice(1).reduce((v,k)=>v?.[k],target.node);if(original!==undefined){
+      const fragmentIds=isDocument(original)&&isDocument(request.value)&&request.value.blocks.length<original.blocks.length?request.value.blocks.map(b=>b.id):null;
+      request={...request,value:fragmentIds||request.value?._bookletSlice?request.value:original,fragmentIds,paragraphSlice:request.value?._bookletSlice??null,paragraphBase:request.value?._bookletSlice?original:null};
+    }}
     const enclosing=request.origin?.closest('.question-node.diagrams-beside');
     const layoutId=enclosing?.dataset.nodeId??request.rootId;
     const layoutTarget=reviewTargets(project).find(t=>t.id===layoutId);
@@ -146,19 +215,25 @@
       restoreFocus:()=>canvas?.querySelector('[data-edit-root="'+CSS.escape(request.rootId)+'"][data-edit-path="'+CSS.escape(request.pointer)+'"] .clickable')?.focus({preventScroll:true}),context:editLocation(request.origin,target),sourceUrl,
       commit:result=>{
         let next=project;
-        for(const id of request.rootIds?.length?request.rootIds:[request.rootId])next=updateProjectContent(next,id,request.pointer,result.value);
+        const fragmentIds=inlineSession?.fragmentIds??request.fragmentIds;
+        const paragraphSlice=inlineSession?.paragraphSlice??request.paragraphSlice;
+        const stored=paragraphSlice?replaceParagraphSlice(request.paragraphBase,request.paragraphSlice,result.value):fragmentIds?replaceDocumentFragment(fieldValue(project,request),fragmentIds,result.value):result.value;
+        for(const id of request.rootIds?.length?request.rootIds:[request.rootId])next=updateProjectContent(next,id,request.pointer,stored);
         if(result.applyTabs&&target?.block.type==='question'){
           const visit=node=>{if(!node.children?.length&&node.id!==request.rootId){const doc=isDocument(node.prompt)?normalizeDocument(node.prompt):fromSource(node.prompt??'');for(const p of doc.blocks)if(p.type==='paragraph')p.tabStops=clone(result.applyTabs);next=updateProjectContent(next,node.id,'/prompt',doc);}else node.children?.forEach(visit);};visit(target.block.content);
         }
-        if(result.layout)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,blockLayouts:{...next.settings.layoutOverrides.blockLayouts,[layoutId]:result.layout}}});
-        change(next);
+        if(result.layout&&JSON.stringify(result.layout)!==JSON.stringify(next.settings.layoutOverrides.blockLayouts[layoutId]??{}))next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,blockLayouts:{...next.settings.layoutOverrides.blockLayouts,[layoutId]:result.layout}}});
+        if(/\/(title|label|visibleSubtitle|description)$/.test(request.pointer)&&isDocument(result.value)){
+          for(const id of request.rootIds?.length?request.rootIds:[request.rootId])next=updateProjectContent(next,id,request.pointer,toSource(result.value));
+        }
+        if(inlineSession){inlineSession={...inlineSession,value:result.value,bookmark:captureEditorSelection(activeEditor)??inlineSession.bookmark,fragmentIds:fragmentIds?result.value.blocks.map(b=>b.id):null};}
+        change(next,{typingKey:request.rootId+request.pointer});
       }};
-    editSession=nextSession;
+    inlineSession={...nextSession,key:crypto.randomUUID()};
   }
   function requestDiagram(request){
-    if(inlineSession){status='Save or cancel the current page edit first.';return;}
+    finishInline();
     const {target,item,origin}=request,d=item.diagram;
-    if(['question','worked-example','callout','activity','guided-practice'].includes(target.block.type)){openArrangement(target,{rootId:target.id,selectedDiagramId:d.id,origin});return;}
     editSession={key:[project.id,target.id,item.path,d.id].join(':'),projectId:project.id,targetId:target.id,path:item.path,diagram:d,origin,
       colourMode:project.settings.layoutOverrides.diagramColourModes[d.id]??'original',assetBase:'/__booklet/full-imports/'+encodeURIComponent(project.source?.runId??project.id)+'/files/lanes/exact/',
       context:'Page '+previewPage?.pageNumber+' ? '+(d.alt??'Diagram'),sourceUrl,commit:draft=>{
@@ -167,6 +242,7 @@
         if(item.path)next=updateProjectContent(next,target.id,item.path,diagram);
         else next={...next,sections:next.sections.map(section=>({...section,blocks:section.blocks.map(block=>block.id===d.id?diagram:block)}))};
         if(d.format!=='tikz')next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramColourModes:{...next.settings.layoutOverrides.diagramColourModes,[d.id]:draft.colourMode}}});
+        next=syncDiagramPresentation(next,target.block.id,d.id,{widthMm:draft.width,align:draft.align});
         change(next);
       }};
   }
@@ -195,8 +271,17 @@
       change({...project,sections,settings:{...project.settings,layoutOverrides:{...project.settings.layoutOverrides,answerSpaces,diagramWidths,blockLayouts:{...layouts,[block.id]:{...layouts[block.id],arrangement:result.arrangement}}}}});
     }};
   }
-  function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;for(const target of reviewTargets(project)){let item;const visit=(node,path='')=>{if(!node||typeof node!=='object'||item)return;if(node.id===id&&(node.format||node.type==='image')){item={diagram:node,path};return;}for(const [key,value] of Object.entries(node))if(value&&typeof value==='object')Array.isArray(value)?value.forEach((v,i)=>visit(v,path+'/'+key+'/'+i)):visit(value,path+'/'+key);};visit(target.node);if(item){event.preventDefault();requestDiagram({target,item,origin:element});return;}}}
-  $effect(()=>{if(!canvas)return;project;const decorate=()=>canvas.querySelectorAll('[data-diagram-id]').forEach(el=>{el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label','Edit diagram');});decorate();const observer=new MutationObserver(decorate);observer.observe(canvas,{childList:true,subtree:true});canvas.addEventListener('click',clickedDiagram);canvas.addEventListener('keydown',clickedDiagram);return()=>{observer.disconnect();canvas?.removeEventListener('click',clickedDiagram);canvas?.removeEventListener('keydown',clickedDiagram);};});
+  let diagramSelection=$state.raw(null);
+  const selectedDiagram=$derived(diagramSelection?fieldValue(project,diagramSelection):null);
+  function diagramRequest(){const target=contentTarget(project,diagramSelection?.rootId);return target?{target:{...target,id:diagramSelection.rootId},item:{diagram:selectedDiagram,path:diagramSelection.pointer},origin:canvas.querySelector(`[data-diagram-id="${CSS.escape(selectedDiagram.id)}"]`)}:null;}
+  function editSelectedDiagram(){const request=diagramRequest();if(request)requestDiagram(request);}
+  function changeDiagram(patch){if(!selectedDiagram)return;const width=patch.widthMm;if(width!=null&&(!Number.isFinite(width)||width<5||width>190)){error='Choose a diagram width between 5 and 190 mm.';return;}let next=diagramSelection.pointer?updateProjectContent(project,diagramSelection.rootId,diagramSelection.pointer,{...selectedDiagram,...patch}):{...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>b.id===selectedDiagram.id?{...b,...patch}:b)}))};if(width!=null)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramWidths:{...next.settings.layoutOverrides.diagramWidths,[selectedDiagram.id]:width}}});next=syncDiagramPresentation(next,contentTarget(project,diagramSelection.rootId)?.block?.id,selectedDiagram.id,patch);change(next);}
+  function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;for(const target of reviewTargets(project)){let item;const visit=(node,path='')=>{if(!node||typeof node!=='object'||item)return;if(node.id===id&&(node.format||node.type==='image')){item={diagram:node,path};return;}for(const [key,value] of Object.entries(node))if(value&&typeof value==='object')Array.isArray(value)?value.forEach((v,i)=>visit(v,path+'/'+key+'/'+i)):visit(value,path+'/'+key);};visit(target.node);if(item){event.preventDefault();finishInline();diagramSelection={rootId:target.id,pointer:item.path};documentSelection={...diagramSelection,edition:flexible?flowEdition:answerView};selectedBlockId=target.block.id;selectedSectionId=target.section.id;canvas.querySelectorAll('.document-diagram-selected').forEach(e=>e.classList.remove('document-diagram-selected'));element.classList.add('document-diagram-selected');if(event.type==='dblclick'||event.type==='keydown')editSelectedDiagram();return;}}}
+  $effect(()=>{if(!canvas)return;project;const decorate=()=>canvas.querySelectorAll('[data-diagram-id]').forEach(el=>{
+    el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label','Select diagram');
+    if(!el.querySelector(':scope > .document-diagram-resize')){const handle=document.createElement('button');handle.className='document-diagram-resize';handle.setAttribute('aria-label','Resize diagram');handle.textContent='↔';el.style.position='relative';el.append(handle);
+      handle.onpointerdown=e=>{e.preventDefault();e.stopPropagation();clickedDiagram({target:el,preventDefault(){},type:'click'});const start=e.clientX,initial=el.getBoundingClientRect().width,mm=selectedDiagram?.widthMm??78;let width=mm;handle.setPointerCapture(e.pointerId);const move=event=>{width=Math.max(5,Math.min(190,mm+(event.clientX-start)*mm/initial));el.style.width=width+'mm';};const end=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);changeDiagram({widthMm:Math.round(width*10)/10});};const cancel=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);el.style.width=mm+'mm';};handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',cancel);};}
+  });decorate();const observer=new MutationObserver(decorate);observer.observe(canvas,{childList:true,subtree:true});for(const type of ['click','dblclick','keydown'])canvas.addEventListener(type,clickedDiagram);return()=>{observer.disconnect();for(const type of ['click','dblclick','keydown'])canvas?.removeEventListener(type,clickedDiagram);};});
   setContext('booklet-edit-request',requestEdit);
   $effect(()=>{if(preferencesReady)try{sessionStorage.setItem('booklet-workspace',JSON.stringify({navigation,zoom,sourceZoom,panel,answerView}));}catch{}});
   onMount(()=>{try{const prefs=JSON.parse(sessionStorage.getItem('booklet-workspace')??'{}');navigation=prefs.navigation??innerWidth>=1100;zoom=prefs.zoom??'width';sourceZoom=prefs.sourceZoom??'width';panel=prefs.panel??'';answerView=['student','short','worked'].includes(prefs.answerView)?prefs.answerView:'student';}catch{}preferencesReady=true;const observer=new ResizeObserver(entries=>workspaceWidth=entries[0].contentRect.width);observer.observe(workspace);const closeMenu=e=>{const menu=e.target.closest('.menu');if(menu&&e.target.closest('button'))menu.open=false;};workspace.addEventListener('click',closeMenu);return()=>{observer.disconnect();workspace.removeEventListener('click',closeMenu);};});
@@ -223,7 +308,7 @@
   const projectPages = $derived(flexible?flowMap.pages.map(p=>({...p,section:{...p.section,id:p.section.sourceSectionId}})):buildPages(project?.sections ?? []));
   async function checkCurrentPage(){
     status='Checking page…';
-    try{const {settleBooklet,inspectBooklet}=await import('../lib/booklet-qa.js');const root=canvas.querySelector('.paper-scroll');await settleBooklet(root);const report=inspectBooklet(root,{style:project.settings.houseStyleVersion==='1.1.0'});const issues=report.flatMap(p=>p.issues);status=issues.length?'Page needs attention: '+issues.map(i=>`${i.kind} (${i.diagramId??i.id})`).join('; '):'Page QA passed: content fits above the footer and applicable style checks pass.';}catch(e){status='Page QA failed: '+e.message;}
+    try{const {settleBooklet,inspectBooklet}=await import('../lib/booklet-qa.js');document.querySelectorAll('.document-insert[open]').forEach(menu=>menu.open=false);const root=canvas.querySelector('.paper-scroll');await settleBooklet(root);const report=inspectBooklet(root,{style:project.settings.houseStyleVersion==='1.1.0'});const issues=report.flatMap(p=>p.issues);status=issues.length?'Page needs attention: '+issues.map(i=>`${i.kind} (${i.diagramId??i.id})`).join('; '):'Page QA passed: content fits above the footer and applicable style checks pass.';}catch(e){status='Page QA failed: '+e.message;}
   }
   const previewPage = $derived(projectPages.find(page=>page.id===selectedPageId&&page.section.id===selectedSection?.id&&(!selectedBlockId||page.blocks.some(b=>b.id===selectedBlockId))) ?? projectPages.find((page) => page.section.id === selectedSection?.id && (!selectedBlockId || page.blocks.some((block) => block.id === selectedBlockId))) ?? projectPages.find((page) => page.section.id === selectedSection?.id) ?? projectPages[0] ?? null);
   const bookletPages = $derived(project?.settings?.preserveSourcePages ? projectPages : [{ id: 'project-cover-anchor', pageNumber: 0, section: { title: project?.title ?? '' }, blocks: [] }, ...projectPages]);
@@ -265,15 +350,15 @@
   }
 
   async function openProject(id) {
-    if(inlineSession)return;
-    if(project&&saveState!=='Saved'){await persist();if(saveState!=='Saved'){status='Finish saving the current booklet before switching projects.';return;}}
+    finishInline();
+    if(project&&saveState!=='Saved'){try{await flushDocument();}catch(e){error=e.message;return;}}
     printReady = false;
     busy = 'Opening'; error = ''; status = '';
     try {
-      project = await loadBookletProject(id);savedBase=clone(project);saveConflict=false;mergeReview=null;
+      project = await loadBookletProject(id);savedBase=clone(project);saveState='Saved';saveConflict=false;mergeReview=null;
       bankSync={items:[]};showBankSync=false;await refreshBankSync();
       selectDefaults(project);
-      undoStack = []; redoStack = [];
+      history.reset();undoStack = []; redoStack = [];groupSelection=[];groupClipboard=null;documentSelection=null;exportedFeedback='';
       onprojectchange?.(project.id);
     } catch (exception) { error = exception.message; }
     finally { busy = ''; }
@@ -284,9 +369,10 @@
     if (!title) return;
     busy = 'Creating'; error = '';
     try {
+      finishInline();if(project)await flushDocument();
       const created = await createBookletProject({ title });
       await refreshProjects();
-      project = created;savedBase=clone(created); selectDefaults(created); onprojectchange?.(created.id);
+      project = created;savedBase=clone(created);history.reset();undoStack=[];redoStack=[];groupSelection=[];groupClipboard=null;documentSelection=null;exportedFeedback='';selectDefaults(created); onprojectchange?.(created.id);
     } catch (exception) { error = exception.message; }
     finally { busy = ''; }
   }
@@ -295,8 +381,9 @@
     if (!project) return;
     busy = 'Duplicating'; error = '';
     try {
+      finishInline();await flushDocument();
       const created = await duplicateBookletProject(project.id);
-      await refreshProjects(); project = created;savedBase=clone(created); selectDefaults(created); onprojectchange?.(created.id);
+      await refreshProjects(); project = created;savedBase=clone(created);history.reset();undoStack=[];redoStack=[];groupSelection=[];groupClipboard=null;documentSelection=null;exportedFeedback='';selectDefaults(created); onprojectchange?.(created.id);
     } catch (exception) { error = exception.message; }
     finally { busy = ''; }
   }
@@ -314,15 +401,19 @@
     finally { busy = ''; }
   }
 
-  function remember() {
+  function remember(typingKey=null) {
     if (!project) return;
-    undoStack = [...undoStack.slice(-39), clone(project)];
-    redoStack = [];
+    history.record(project,currentAnchor(),typingKey);undoStack=history.past;redoStack=history.future;
   }
 
-  function change(next, { rememberBefore = true } = {}) {
-    if (rememberBefore) remember();
-    project = next;
+  function change(next, { rememberBefore = true, typingKey=null } = {}) {
+    if(next===project)return;
+    const previousBlocks=new Map(project?.sections.flatMap(s=>s.blocks).map(b=>[b.id,b])??[]);
+    let layouts=next.settings.layoutOverrides.blockLayouts,layoutsChanged=false;
+    for(const block of next.sections.flatMap(s=>s.blocks)){const old=previousBlocks.get(block.id),holder=layouts[block.id];if(old&&old!==block&&holder?.arrangement){const updated=clone(holder);reconcileSyncLayout(old,block,updated,{editable:true});if(JSON.stringify(updated)!==JSON.stringify(holder)){if(!layoutsChanged)layouts={...layouts};layouts[block.id]=updated;layoutsChanged=true;}}}
+    if(layoutsChanged)next={...next,settings:{...next.settings,layoutOverrides:{...next.settings.layoutOverrides,blockLayouts:layouts}}};
+    if (rememberBefore) remember(typingKey);
+    project = reconcileFeedback(project,next);
     saveState = 'Unsaved changes';
     promotion = null;
     queueSave();
@@ -331,11 +422,12 @@
   function queueSave() {
     if (!project || saveConflict) return;
     if (saveTimer) clearTimeout(saveTimer);
+    if(composing)return;
     saveTimer = setTimeout(persist, 500);
   }
 
   async function persist() {
-    if (!project||saveConflict) return;
+    if (!project||saveConflict||composing) return;
     if (saveInFlight) { savePending = true; return; }
     saveInFlight = true; saveState = 'Saving…'; error = '';
     const savingProject = project;
@@ -344,7 +436,7 @@
       const saved = await saveBookletProject(snapshot);
       if(project.id!==snapshot.id)return;
       const editedDuringSave=project!==savingProject;
-      savedBase=clone(saved);project = editedDuringSave?{ ...project, revision: saved.revision, updatedAt: saved.updatedAt }:saved;
+      savedBase=saved;project = editedDuringSave?{ ...project, revision: saved.revision, updatedAt: saved.updatedAt }:shareUnchanged(savingProject,saved);
       saveState = editedDuringSave?'Unsaved changes':'Saved';
       if(editedDuringSave)savePending=true;
       await refreshBankSync();
@@ -373,19 +465,16 @@
   }
 
   function undo() {
-    if (!undoStack.length || !project) return;
-    const previous = undoStack.at(-1);
-    redoStack = [...redoStack, clone(project)];
-    undoStack = undoStack.slice(0, -1);
-    change({ ...previous, revision: project.revision }, { rememberBefore: false });
+    historyStep(-1);
   }
 
   function redo() {
-    if (!redoStack.length || !project) return;
-    const next = redoStack.at(-1);
-    undoStack = [...undoStack, clone(project)];
-    redoStack = redoStack.slice(0, -1);
-    change({ ...next, revision: project.revision }, { rememberBefore: false });
+    historyStep(1);
+  }
+  async function historyStep(direction){
+    if(!project||composing)return;const result=history.step(project,currentAnchor(),direction);if(!result)return;
+    finishInline();project=result.project;undoStack=history.past;redoStack=history.future;documentSelection=result.selection;saveState='Unsaved changes';queueSave();
+    await tick();const anchor=result.selection;if(anchor?.pointer&&contentTarget(project,anchor.rootId)){flowPreview?.jumpTo(contentTarget(project,anchor.rootId)?.block?.id);await tick();const el=canvas?.querySelector(`[data-edit-root="${CSS.escape(anchor.rootId)}"][data-edit-path="${CSS.escape(anchor.pointer)}"] .clickable`);if(el){el.click();if(inlineSession)inlineSession.bookmark=anchor.bookmark;}}
   }
 
   function editContent(event) {
@@ -451,7 +540,7 @@
   }
 
   function removeBlock() {
-    if (!selectedBlock || !window.confirm('Delete this block from the booklet?')) return;
+    if (!selectedBlock) return;
     const next = flexible?flowCommand(project,{type:'delete',ids:[selectedBlock.id]}):deleteProjectBlock(project, selectedSection.id, selectedBlock.id);
     change(next);
     selectedBlockId = next.sections.find((section) => section.id === selectedSection.id)?.blocks?.[0]?.id ?? '';
@@ -501,7 +590,7 @@
 
   async function printProject() {
     if(printing)return;
-    if(inlineSession||editSession){status='Save or cancel the current edit before printing.';return;}
+    finishInline();if(editSession){status='Apply or cancel the diagram/arrangement edit before printing.';return;}
     printing = true; printProgress = 'Preparing booklet…';
     busy = 'Preparing print'; error = '';
     let progressTimer;
@@ -539,13 +628,27 @@
   onMount(() => {
     const syncTimer=setInterval(()=>{if(project&&saveState==='Saved'&&!document.hidden)refreshBankSync();},15000);
     window.addEventListener('focus',refreshBankSync);
-    const key=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='p'){e.preventDefault();printProject();}};
+    const key=e=>{
+      if(editSession||!project)return;
+      const mod=e.ctrlKey||e.metaKey,k=e.key.toLowerCase();
+      if(textSelection?.ranges.length>1&&['Delete','Backspace'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();const next=applyBookletTextRange(project,textSelection,'delete');finishInline();change(next);textSelection=null;return;}
+      if(mod&&e.altKey&&k==='m'){e.preventDefault();addComment();return;}
+      if(mod&&k==='p'){e.preventDefault();printProject();return;}
+      if(mod&&k==='s'){e.preventDefault();flushDocument().catch(err=>error=err.message);return;}
+      if(e.target.closest('input,textarea,select,[contenteditable=true],math-field,maths-editor'))return;
+      if(mod&&['z','y'].includes(k)){e.preventDefault();k==='y'||e.shiftKey?redo():undo();}
+      else if(groupSelection.length&&mod&&['x','c','v','d'].includes(k)){e.preventDefault();groupCommand({x:'cut',c:'copy',v:'paste',d:'duplicate'}[k]);}
+      else if(groupSelection.length&&e.key==='Delete'){e.preventDefault();groupCommand('delete');}
+    };
     // Headless PDF exports explicitly request the same print surface.
     const preparePrint=()=>{printReady=true;};
     window.addEventListener('booklet-prepare-print',preparePrint);
-    const unload=e=>{if(inlineSession||editSession||saveState!=='Saved'){e.preventDefault();e.returnValue='';}};
-    window.addEventListener('keydown',key);window.addEventListener('beforeunload',unload);
-    return ()=>{clearInterval(syncTimer);window.removeEventListener('focus',refreshBankSync);window.removeEventListener('booklet-prepare-print',preparePrint);window.removeEventListener('keydown',key);window.removeEventListener('beforeunload',unload);clearTimeout(saveTimer);};
+    const unload=e=>{if(editSession||saveState!=='Saved'){e.preventDefault();e.returnValue='';}};
+    const selection=()=>{const next=captureBookletTextRange(canvas,project);if(next)textSelection=next;else if(canvas?.contains(document.activeElement))textSelection=null;};
+    const clipboard=e=>{if(textSelection?.ranges.length>1&&canvas?.contains(e.target)){e.preventDefault();e.stopImmediatePropagation();const data=copyBookletTextRange(project,textSelection);e.clipboardData.setData('text/plain',data.text);e.clipboardData.setData('text/html',data.html);if(e.type==='cut'){const next=applyBookletTextRange(project,textSelection,'delete');finishInline();change(next);textSelection=null;}}};
+    document.addEventListener('selectionchange',selection);window.addEventListener('copy',clipboard,true);window.addEventListener('cut',clipboard,true);
+    window.addEventListener('keydown',key,true);window.addEventListener('beforeunload',unload);
+    return ()=>{clearInterval(syncTimer);document.removeEventListener('selectionchange',selection);window.removeEventListener('copy',clipboard,true);window.removeEventListener('cut',clipboard,true);window.removeEventListener('focus',refreshBankSync);window.removeEventListener('booklet-prepare-print',preparePrint);window.removeEventListener('keydown',key,true);window.removeEventListener('beforeunload',unload);clearTimeout(saveTimer);};
   });
   onMount(async () => {
     try {
@@ -558,14 +661,29 @@
 <section class="project-shell" bind:this={workspace}>
  <header class="project-toolbar project-screen">
   <button aria-label="Toggle page navigation" aria-expanded={navigation&&!comparison} onclick={()=>navigation=!navigation}>☰ Pages</button>
-  <label class="project-picker"><span class="sr-only">Open booklet</span><select disabled={!!inlineSession} aria-label="Open booklet" value={project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
+  <label class="project-picker"><span class="sr-only">Open booklet</span><select  aria-label="Open booklet" value={project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
   <span class="save-state" role="status">{saveState}</span>
-  {#if project&&!flexible}<button disabled={!!inlineSession||!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
+  {#if project&&!flexible}<button disabled={!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
   {#if project}<button aria-expanded={showBankSync} onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button>{/if}
-  <div class="toolbar-actions"><button onclick={undo} disabled={!!inlineSession||!undoStack.length}>Undo</button><button onclick={redo} disabled={!!inlineSession||!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
-  <details inert={!!inlineSession} class="menu"><summary>Project</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>{panel='metadata';}}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details>
+  <div class="toolbar-actions"><button onclick={undo} disabled={!undoStack.length}>Undo</button><button onclick={redo} disabled={!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
+  <details  class="menu"><summary>Project</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>{panel='metadata';}}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details>
   <details class="menu"><summary>Tools</summary><div><button onclick={checkCurrentPage}>Check page</button><button onclick={()=>tool='assembly'}>Assembly</button></div></details></div>
  </header>
+ {#if project}<div class="document-toolbar project-screen" role="toolbar" tabindex="-1" aria-label="Document formatting" onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}>
+   <select aria-label="Text style" onchange={e=>formatDocument(e.currentTarget.value==='body'?'paragraph':'size',e.currentTarget.value)}><option value="body">Body text</option><option value="14">Heading</option><option value="11">Subheading</option></select>
+   <button aria-label="Bold" onclick={()=>formatDocument('bold')}><b>B</b></button><button aria-label="Italic" onclick={()=>formatDocument('italic')}><i>I</i></button><button aria-label="Underline" onclick={()=>formatDocument('underline')}><u>U</u></button>
+   <input type="color" aria-label="Text colour" value="#24282d" oninput={e=>formatDocument('colour',e.currentTarget.value)}/>
+   <div class="document-colours" role="group" aria-label="Booklet colour palette">{#each documentColours as colour}<button class="colour-swatch" aria-label={colour.name} title={`${colour.name} (${colour.value})`} style:background-color={colour.value} onclick={()=>formatDocument('colour',colour.value)}></button>{/each}</div>
+   <select aria-label="Text alignment" onchange={e=>formatDocument('align',e.currentTarget.value)}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select>
+   <button onclick={()=>formatDocument('bullets')}>Bullets</button><button onclick={()=>formatDocument('numbered')}>Numbering</button><button aria-label="Indent list" title="Indent list" onclick={()=>formatDocument('indent-list')}>⇥</button><button aria-label="Outdent list" title="Outdent list" onclick={()=>formatDocument('outdent-list')}>⇤</button><button onclick={()=>formatDocument('math')}>Maths</button>
+   <details class="document-insert"><summary>Insert</summary><div><button onclick={()=>insertDocumentContent('text')}>Text</button><button onclick={()=>insertDocumentContent('question')}>Question</button>{#each TEACHING_TEMPLATES as [kind,label]}<button onclick={()=>insertDocumentContent(kind)}>{label}</button>{/each}<button onclick={()=>formatDocument('table')}>Table</button><button onclick={()=>formatDocument('image')}>Image</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Insert tab')}>Tab</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Paragraph')}>Paragraph</button><details><summary>More insertions</summary>{#each DOCUMENT_INSERT_TOOLS as [label,command]}<button disabled={!activeEditor} onclick={()=>formatDocument('native',command)}>{label}</button>{/each}</details></div></details>
+   {#if selectedBlock?.type==='question'}<details class="document-insert question-spacing"><summary>Question spacing</summary><div><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/><button onclick={event=>openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin:event.currentTarget})}>Arrange question</button></div></details>{/if}
+   <button onclick={addComment}>Add comment</button><button aria-expanded={panel==='comments'} onclick={()=>togglePanel('comments')}>Comments {flagCount||''}</button>
+   <button onclick={()=>{panel=activeEditor?'format':'properties';}}>More options</button>
+   {#if nativeTable}{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}{/if}
+   {#if selectedDiagram}<span class="selection-tools"><label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
+   {#if groupSelection.length}<span class="selection-tools">{groupSelection.length} selected <button onclick={()=>groupCommand('cut')}>Cut</button><button onclick={()=>groupCommand('copy')}>Copy</button><button onclick={()=>groupCommand('paste')} disabled={!groupClipboard}>Paste</button><button onclick={()=>groupCommand('duplicate')}>Duplicate</button><button onclick={()=>groupCommand('delete')}>Delete</button></span>{/if}
+ </div>{/if}
   {#if error || status}<div class:error class="project-notice project-screen">{error || status}</div>{/if}
   {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank updates available.'} <button onclick={()=>showBankSync=true}>Review updates</button></div>{/if}
   {#if showBankSync&&project}
@@ -580,7 +698,7 @@
           <h3>{item.title??'Question'} — {item.state==='conflict'?'Both versions changed':item.state==='missing'?'Bank question removed':item.state==='pending'?'Waiting to sync':'Update available'}</h3>
           {#if item.state==='conflict'}<p>Automatic sync is paused for this question. Compare both versions before choosing which to keep.</p>{/if}
           {#if item.local&&item.bank}<details><summary>Compare question and worked solution</summary><div class="sync-comparison">{#each [{label:'This booklet',question:item.local},{label:'Question bank',question:item.bank}] as side}<section><h4>{side.label}</h4><PracticeQuestionRenderer question={side.question} showSpaces={false}/><h4>Worked solution</h4><PracticeQuestionRenderer question={side.question} showSpaces={false} showWorkedSolutions={true} answerColumnsLimit={1}/></section>{/each}</div></details>{/if}
-          {#if item.state!=='missing'}<div class="sync-actions"><button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'use-bank')}>Use bank version</button>{#if item.owner}<button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'use-booklet')}>Use booklet version</button>{:else}<button disabled={syncBusy||saveState!=='Saved'||!!inlineSession||!!editSession} onclick={()=>applyBankSync(item,'keep-local')}>Keep local version</button>{/if}</div>{/if}
+          {#if item.state!=='missing'}<div class="sync-actions"><button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'use-bank')}>Use bank version</button>{#if item.owner}<button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'use-booklet')}>Use booklet version</button>{:else}<button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'keep-local')}>Keep local version</button>{/if}</div>{/if}
         </article>
       {/each}
     </section>
@@ -592,25 +710,25 @@
 
  {#if project}
   <div class="project-editor project-screen" class:with-navigation={navigation&&!comparison} class:with-review={dockReview&&!comparison} class:comparison>
-   <section class="tool-view" hidden={!tool}><header><h2>Assembly</h2><button onclick={()=>tool=''}>Back to booklet</button></header><div hidden={tool!=='assembly'}><BookletAssemblyPanel {project} onchange={change} oncreated={openProject} expanded/></div></section>
+   <section class="tool-view" hidden={!tool}><header><h2>Assembly</h2><button onclick={()=>tool=''}>Back to booklet</button></header><div hidden={tool!=='assembly'}><BookletAssemblyPanel {project} active={tool==='assembly'} onchange={change} oncreated={openProject} expanded/></div></section>
    <aside class="project-outline" class:drawer={workspaceWidth<1100} hidden={!navigation||comparison||!!tool} aria-label="Page navigation">
-    {#if flexible}<FlowBookletOutline bind:this={flowOutline} {project} pages={flowMap.pages} {bank} {selectedBlockId} disabled={!!inlineSession||!!editSession} onchange={change} onselect={selectFlow} onsection={id=>selectedSectionId=id} onerror={message=>error=message}/>{:else}
+    {#if flexible}<FlowBookletOutline bind:this={flowOutline} {project} pages={flowMap.pages} {bank} {selectedBlockId} disabled={!!editSession} selectedIds={groupSelection} onselection={ids=>groupSelection=ids} documentClipboard={groupClipboard} onpaste={pasteAtSection} onchange={change} onselect={selectFlow} onsection={id=>selectedSectionId=id} onerror={message=>error=message}/>{:else}
     <div class="outline-heading"><strong>Pages</strong><button aria-label="Close page navigation" onclick={()=>navigation=false}>×</button></div>
     <nav class="section-list">{#each projectPages as page,index}<article class:active={page.id===previewPage?.id}>
      <button class="section-select" aria-current={page.id===previewPage?.id?'page':undefined} onclick={()=>goPage(index)}><b>{page.pageNumber}</b><span>{page.section.title}{page.continuation?` (continued ${page.continuation})`:""}</span></button>
      {#if page.id===previewPage?.id}
-      <details inert={!!inlineSession} class="page-menu"><summary>Page actions</summary><label>Page title<input disabled={!!inlineSession} aria-label="Page title" value={page.section.title} onchange={e=>change({...project,sections:project.sections.map(s=>s.id===page.section.id?{...s,title:e.currentTarget.value}:s)})}/></label><button onclick={()=>change(moveProjectSection(project,page.section.id,-1))}>Move page up</button><button onclick={()=>change(moveProjectSection(project,page.section.id,1))}>Move page down</button><button onclick={()=>change(duplicateProjectSection(project,page.section.id))}>Duplicate page</button><button onclick={removeSection}>Delete page</button><button onclick={promoteSection}>Save as reusable module</button></details>
-      <ol inert={!!inlineSession} class="block-list">{#each page.blocks as block,blockIndex}<li class:active={selectedBlockId===block.id}><button onclick={()=>{selectedBlockId=block.id;selectedTargetId='';}}>{blockLabel(block,blockIndex)}</button><details><summary aria-label={'Actions for '+blockLabel(block,blockIndex)}>⋯</summary><div><button onclick={()=>{selectedBlockId=block.id;panel='properties';}}>Block properties</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,-1))}>Move up</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,1))}>Move down</button><button onclick={()=>change(duplicateProjectBlock(project,page.section.id,block.id))}>Duplicate block</button><button onclick={()=>{selectedBlockId=block.id;removeBlock();}}>Delete block</button></div></details></li>{/each}</ol>
+      <details  class="page-menu"><summary>Page actions</summary><label>Page title<input  aria-label="Page title" value={page.section.title} onchange={e=>change({...project,sections:project.sections.map(s=>s.id===page.section.id?{...s,title:e.currentTarget.value}:s)})}/></label><button onclick={()=>change(moveProjectSection(project,page.section.id,-1))}>Move page up</button><button onclick={()=>change(moveProjectSection(project,page.section.id,1))}>Move page down</button><button onclick={()=>change(duplicateProjectSection(project,page.section.id))}>Duplicate page</button><button onclick={removeSection}>Delete page</button><button onclick={promoteSection}>Save as reusable module</button></details>
+      <ol  class="block-list">{#each page.blocks as block,blockIndex}<li class:active={selectedBlockId===block.id}><button onclick={()=>{selectedBlockId=block.id;selectedTargetId='';}}>{blockLabel(block,blockIndex)}</button><details><summary aria-label={'Actions for '+blockLabel(block,blockIndex)}>⋯</summary><div><button onclick={()=>{selectedBlockId=block.id;panel='properties';}}>Block properties</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,-1))}>Move up</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,1))}>Move down</button><button onclick={()=>change(duplicateProjectBlock(project,page.section.id,block.id))}>Duplicate block</button><button onclick={()=>{selectedBlockId=block.id;removeBlock();}}>Delete block</button></div></details></li>{/each}</ol>
       <details class="page-menu"><summary>Add content</summary><label>Block type<select aria-label="Block type" bind:value={addBlockType}><option value="rich-text">Text</option><option value="heading">Heading</option><option value="callout">Theory / callout</option><option value="review">Review activity</option><option value="activity">Activity (identify / proof / investigation)</option><option value="guided-practice">Guided practice</option><option value="worked-example">Worked example</option><option value="question">Local question</option><option value="grid">Table</option><option value="image">Image</option><option value="spacer">Spacing</option><option value="page-break">Page break</option></select></label><button onclick={addBlock}>Add block</button><label>Question bank<select bind:value={bankQuestionId}><option value="">Choose a question</option>{#each bank as question}<option value={question.id}>{question.title||question.id}</option>{/each}</select></label><button onclick={addBankQuestion} disabled={!bankQuestionId}>Add copy</button></details>
      {/if}
-    </article>{/each}</nav><button disabled={!!inlineSession} class="add-page" onclick={addSection}>Add page</button>{/if}
+    </article>{/each}</nav><button  class="add-page" onclick={addSection}>Add page</button>{/if}
    </aside>
    <main class="project-canvas" bind:this={canvas} hidden={!!tool}>
     {#if flexible}
-    <div class="canvas-heading"><strong>{flowMap.ready ? 'Page '+flowActive+' of '+flowMap.pages.length : 'Paginating…'}</strong><label>Jump to page<input type="number" min="1" max={flowMap.pages.length} value={flowActive} onchange={e=>flowPreview?.jumpTo(flowMap.pages[Number(e.currentTarget.value)-1]?.id)} style="width:80px"/></label><label>Edition<select aria-label="Booklet edition" bind:value={flowEdition} disabled={!!inlineSession||!!editSession}>{#each FLOW_EDITIONS as [value,title]}<option {value}>{title}</option>{/each}</select></label><label>Zoom<select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label></div>
-    <div hidden={comparison}><FlowBookletPreview bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/></div>
+    <div class="canvas-heading"><strong>{flowMap.ready ? 'Page '+flowActive+' of '+flowMap.pages.length : 'Paginating…'}</strong><label>Jump to page<input type="number" min="1" max={flowMap.pages.length} value={flowActive} onchange={e=>flowPreview?.jumpTo(flowMap.pages[Number(e.currentTarget.value)-1]?.id)} style="width:80px"/></label><label>Edition<select aria-label="Booklet edition" value={flowEdition} disabled={!!editSession} onchange={async e=>{const next=e.currentTarget.value;finishInline();try{await flushDocument();flowEdition=next;}catch(err){error=err.message;}}}>{#each FLOW_EDITIONS as [value,title]}<option {value}>{title}</option>{/each}</select></label><label>Zoom<select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label></div>
+    <div hidden={comparison}><FlowBookletPreview bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} {composing} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/></div>
     {:else}
-    <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]} disabled={!!inlineSession} onclick={()=>answerView=mode[0]}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
+    <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]}  onclick={()=>{finishInline();answerView=mode[0];}}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
     {/if}
     <div class="source-reconstruction" hidden={flexible&&!comparison} class:paired={comparison} style:--source-min-width={Number(sourceZoom)>0?210*Number(sourceZoom)+'mm':'0px'} style:--transcribed-min-width={Number(zoom)>0?210*Number(zoom)+'mm':'0px'}>
      {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source · p{selectedSourcePage}</strong>{#if selectedSourceRefs.length>1}<label>Source page<select aria-label="Source page" value={selectedSourcePage} onchange={e=>sourcePageChoice=Number(e.currentTarget.value)}>{#each [...new Set(selectedSourceRefs.map(r=>r.pageNumber))] as page}<option value={page}>{page}</option>{/each}</select></label>{/if}<select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+selectedSourcePage} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
@@ -619,7 +737,11 @@
     </div>
    </main>
    <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool} aria-label={panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
-    <header><h2>{panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2><button aria-label="Close panel" onclick={()=>panel=''}>×</button></header>
+    <header><h2>{panel==='format'?'Selection options':panel==='comments'?'Comments':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2><button aria-label="Close panel" onclick={()=>panel=''}>×</button></header>
+    {#if panel==='format'&&activeEditor}<button onclick={()=>formatDocument('native','Replace selected dots with tab leader')}>Replace selected dots with tab leader</button>{#key activeEditor}<div class="document-selection-properties" use:selectionInspector={activeEditor}></div>{/key}{/if}
+    <div hidden={panel!=='comments'}><BookletComments bind:this={commentsPanel} {project} onchange={change} oncopy={copyComments} onlocate={flag=>{const target=contentTarget(project,flag.targetId);if(target){finishInline();selectedBlockId=target.block?.id??selectedBlockId;selectedTargetId=flag.targetId;selectedSectionId=target.section.id;flowPreview?.jumpTo(selectedBlockId);}else status='The original target is no longer in this booklet.';}}/>
+      {#if exportedFeedback}<label>Feedback prompt<textarea aria-label="Feedback prompt" readonly rows="12" value={exportedFeedback} onclick={e=>e.currentTarget.select()}></textarea></label>{/if}
+    </div>
     <div hidden={panel!=='review'}><BookletCoverage {project} onselect={selectCoverageTarget} layoutIssues={flowMap.issues??[]}/><BookletReviewInspector {project} blockId={selectedBlockId} {selectedTargetId} onchange={change} tabbed onDiagramEdit={requestDiagram}/></div>
     <div hidden={panel!=='pdf'}>        <div class="export-settings">
           <strong>PDF configuration</strong>
@@ -656,7 +778,7 @@
             <label>Activity style<select value={selectedBlock.sourceAtom.kind} onchange={event => patchSelected('/sourceAtom/kind',event.currentTarget.value)}><option value="review">Review</option><option value="identify">Activity (identify / proof)</option><option value="investigation">Investigation / verification</option><option value="guided-practice">Guided practice</option><option value="definition">Theory / definition</option><option value="example">Worked example</option><option value="key-ideas">Key ideas</option></select></label>
           {/if}
           {#if selectedBlock.type === 'question'}
-            <button onclick={event=>openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin:event.currentTarget})}>Edit question content</button>
+            <button onclick={event=>openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin:event.currentTarget})}>Arrange question</button>
             {#if selectedBlock.content?.representations}<label>Teaching arrangement<select value={selectedBlock.content.layoutPreset??''} onchange={event=>patchSelected('/content/layoutPreset',event.currentTarget.value)}><option value="">Pattern and table above equation and graph</option><option value="pattern-top">Pattern above table, equation and graph</option></select></label>{/if}
             <label>Question title<input value={selectedBlock.title ?? ''} onchange={(event) => patchSelected('/title', event.currentTarget.value)} /></label>
             <label>Primary skill<select value={selectedBlock.classification?.primarySkillId ?? ''} onchange={(event) => patchSelected('/classification/primarySkillId', event.currentTarget.value)}><option value="">Choose a skill</option>{#each skills as skill}<option value={skill.id}>{skill.code} - {skill.name}</option>{/each}</select></label>
@@ -718,4 +840,19 @@
   @page booklet-source { size:A4; margin:0; }
   @media print { :global(.site-content:has(.project-shell)) { background:white; min-height:0; } }
   @media print{.project-print.source-pages{page:booklet-source}.source-pages .print-page{width:210mm;min-height:297mm}.source-pages .print-page:last-child{break-after:auto}:global(html),:global(body){color-scheme:light!important;background:white!important;color:#24282d!important}.project-shell :global(.project-screen){display:none!important}.project-screen{display:none!important}.project-shell{--ink:#23395d;max-width:none;margin:0;padding:0}.project-print{display:block;page:studio-flow;background:white}.project-cover,.answers-divider{display:block;width:180mm;height:270mm;padding:35mm 10mm}.print-page{display:block;width:180mm;min-height:0}.print-page:last-child{break-after:auto}}
+
+ /* Panels overlay the workspace; opening one never changes the paper width. */
+ .project-editor,.project-editor.with-navigation,.project-editor.with-review,.project-editor.with-navigation.with-review{display:block;position:relative}
+ .project-canvas{height:100%;box-sizing:border-box}.project-outline,.project-outline.drawer{position:absolute;inset:0 auto 0 0;width:240px;box-sizing:border-box;z-index:16;box-shadow:4px 0 16px #0002}.workspace-panel,.workspace-panel.docked{position:absolute;inset:0 0 0 auto;width:360px;max-width:calc(100% - 24px);z-index:17;box-shadow:-4px 0 16px #0002}
+ .document-toolbar{position:relative;z-index:20;display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:8px 16px;border-bottom:1px solid var(--border,#cbd5e1);background:var(--panel,#fff);font:14px system-ui}.document-toolbar button,.document-toolbar select,.document-toolbar summary{font:inherit;min-height:32px;padding:4px 8px}.document-toolbar input[type=color]{box-sizing:border-box;width:32px;height:32px;padding:2px}.document-insert{position:relative}.document-insert>div{position:absolute;top:100%;left:0;width:220px;padding:8px;display:grid;background:var(--panel,#fff);border:1px solid #b5c1cf;border-radius:6px;box-shadow:0 8px 20px #0002}.document-insert:not([open])>div{display:none}.document-insert>div button{text-align:left}.selection-tools{display:flex;gap:4px;align-items:center}.workspace-panel textarea{width:100%;box-sizing:border-box;font:13px system-ui}
+ :global(.booklet-document-field.me-document-editor){border:0!important;padding:0!important;margin:0!important;background:transparent!important;color:inherit!important;font:inherit!important;box-shadow:none!important}
+ :global(.booklet-document-field>.me-toolbar),:global(.booklet-document-field>.me-properties){display:none!important}
+ :global(.booklet-document-field>.me-content){min-height:1em!important;padding:0!important;border:0!important;outline:none!important;background:transparent!important;color:inherit!important;font:inherit!important}
+ :global(.booklet-document-field>.me-math-tools){position:absolute;z-index:25;bottom:100%;background:var(--panel,#fff);border:1px solid #b5c1cf;padding:4px;max-width:600px}
+ :global(.editable-booklet-text.edit-mode .clickable:empty){min-height:1em}:global(.editable-booklet-text.edit-mode .clickable:empty::before){content:'Write here';color:#90a0ad;pointer-events:none}
+ @media print{.document-toolbar{display:none!important}}
+ .document-colours{display:flex;gap:3px;max-width:230px;flex-wrap:wrap}.document-toolbar .colour-swatch{width:21px;height:21px;min-height:21px;padding:0;border:1px solid #8d98a7;border-radius:3px}.colour-swatch:focus-visible{outline:2px solid #438ccc;outline-offset:2px}.document-insert>div{max-height:65vh;overflow:auto}.document-insert>div details>button{display:block;width:100%;margin-block:3px}.question-spacing>div{width:290px}
+
+ :global(.document-diagram-resize){position:absolute;right:0;bottom:0;z-index:9;width:24px;height:24px;min-height:0!important;padding:0!important;background:white;color:#34546b;border:1px solid #b7c9d6;cursor:ew-resize;opacity:.15}:global([data-diagram-id]:hover>.document-diagram-resize),:global(.document-diagram-selected>.document-diagram-resize){opacity:1}:global(.document-diagram-selected){outline:2px solid #438ccc;outline-offset:2px}.selection-tools input[type=number]{width:65px}.document-selection-properties :global(.me-properties){display:block}.document-selection-properties :global(label){margin:8px 0}
+ @media print{:global(.document-diagram-resize){display:none!important}:global(.document-diagram-selected){outline:none!important}}
 </style>

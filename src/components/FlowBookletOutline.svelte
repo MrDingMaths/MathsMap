@@ -1,21 +1,25 @@
 <script>
   import {onMount,untrack} from 'svelte';
   import {logicalUnits,flowNumbers,flowCommand,captureFlowClipboard,flowId,exerciseNumbers} from '../lib/booklet-flow.js';
-  import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
-  let {project,pages=[],bank=[],selectedBlockId='',disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
+ import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
+  import {feedbackText} from '../lib/booklet-feedback.js';
+  let {project,pages=[],bank=[],selectedBlockId='',selectedIds=[],onselection=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
+  let organising=$state(false);
   let selected=$state([]),clipboard=$state.raw(null),destination=$state(''),beforeId=$state(''),blockType=$state('question'),bankId=$state('');
   const numbers=$derived(flowNumbers(project));
   const exercises=$derived(exerciseNumbers(project));
   const projectId=$derived(project.id);
   const units=$derived(logicalUnits(project));
   const selection=$derived(selected.length?selected:selectedBlockId?[selectedBlockId]:[]);
+  const availableClipboard=$derived(onselection?documentClipboard:clipboard);
   const target=$derived(project.sections.find(s=>s.id===destination)??project.sections.find(s=>s.blocks.some(b=>b.id===selectedBlockId))??project.sections[0]);
-  const label=b=>b.type==='question'?`Question ${numbers[b.id]??b.sourceOrder??''}`:b.title||b.label||b.sourceAtom?.kind||b.type;
+  const label=b=>b.sourceAtom?(b.sourceAtom.label||({definition:'Definition',identify:'Identify','key-ideas':'Key Ideas',example:'Example',review:'Review','guided-practice':'Guided Practice'}[b.sourceAtom.kind])||'Teaching')+(b.sourceAtom.visibleSubtitle?' · '+b.sourceAtom.visibleSubtitle:''):b.type==='question'?`Question ${numbers[b.id]??b.sourceOrder??''}`:b.title||b.label||(({'rich-text':'Text','worked-example':'Example',callout:'Theory','page-break':'Page break',image:'Image'}[b.type]??'Content')+(feedbackText(b.content)?' · '+feedbackText(b.content).replace(/\s+/g,' ').slice(0,45):''));
   $effect(()=>{projectId;clipboard=null;selected=[];destination='';beforeId='';});
   $effect(()=>{const id=selectedBlockId;untrack(()=>{if(id&&!selected.includes(id))selected=[id];});});
+  $effect(()=>{selected=[...selectedIds];});
   function attempt(fn){try{if(disabled)return;fn();}catch(e){onerror?.(e.message);}}
   function commit(next){onchange?.(next);}
-  function select(unit,checked){selected=checked?[...new Set([...selected,unit.id])]:selected.filter(id=>id!==unit.id);onselect?.(unit.blocks[0].id,unit.sectionId);}
+  function select(unit,checked){selected=checked?[...new Set([...selected,unit.id])]:selected.filter(id=>id!==unit.id);onselection?.(selected);if(checked)onselect?.(unit.blocks[0].id,unit.sectionId);}
   function afterSelection(){const section=project.sections.find(s=>s.blocks.some(b=>selection.includes(b.id)))??target;const ids=new Set(units.filter(u=>u.blocks.some(b=>selection.includes(b.id))).flatMap(u=>u.blocks.map(b=>b.id)));const last=Math.max(-1,...section.blocks.map((b,i)=>ids.has(b.id)?i:-1));return{sectionId:section.id,beforeId:section.blocks[last+1]?.id??null};}
   function command(type){attempt(()=>{
     if(type==='copy'||type==='cut'){clipboard=captureFlowClipboard(project,selection,type);return;}
@@ -37,17 +41,18 @@
   function moveSection(id,delta){attempt(()=>{const sections=[...project.sections],i=sections.findIndex(s=>s.id===id),to=i+delta;if(!sections[to]||sections[to].topicId!==sections[i].topicId)return;sections.splice(to,0,...sections.splice(i,1));commit({...project,sections});});}
   function joinPrevious(id){attempt(()=>{const i=project.sections.findIndex(s=>s.id===id);if(i<1)return;if(project.sections[i-1].topicId!==project.sections[i].topicId)throw Error('Assign these sections to the same topic before joining them.');const sections=structuredClone($state.snapshot(project.sections));sections[i-1].blocks.push(...sections[i].blocks);sections.splice(i,1);commit({...project,sections});});}
   function reassignSection(id,topicId){attempt(()=>{const sections=project.sections.map(s=>s.id===id?{...s,topicId}:s);commit({...project,sections:project.topics.flatMap(t=>sections.filter(s=>s.topicId===t.id))});});}
-  onMount(()=>{const key=e=>{if(disabled||e.target.closest('input,textarea,select,[contenteditable=true],.maths-editor,.focused-editor,[role=dialog]'))return;if(e.key==='Escape'){clipboard=null;return;}if((e.ctrlKey||e.metaKey)&&['x','c','v'].includes(e.key.toLowerCase())&&selection.length){e.preventDefault();command({x:'cut',c:'copy',v:'paste'}[e.key.toLowerCase()]);}else if(e.key==='Delete'&&selection.length){e.preventDefault();command('delete');}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);});
+  onMount(()=>{const key=e=>{if(onselection||disabled||e.target.closest('input,textarea,select,[contenteditable=true],.maths-editor,.focused-editor,[role=dialog]'))return;if(e.key==='Escape'){clipboard=null;return;}if((e.ctrlKey||e.metaKey)&&['x','c','v'].includes(e.key.toLowerCase())&&selection.length){e.preventDefault();command({x:'cut',c:'copy',v:'paste'}[e.key.toLowerCase()]);}else if(e.key==='Delete'&&selection.length){e.preventDefault();command('delete');}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);});
 </script>
-<div class="flow-outline" inert={disabled}>
+<div class="flow-outline" class:document-outline={!!onselection} class:organising inert={disabled}>
   <strong>Topics and content</strong>
+  {#if onselection}<button aria-pressed={organising} onclick={()=>organising=!organising}>Organise booklet</button>{/if}
   <div class="commands">{#each [['cut','Cut'],['copy','Copy'],['paste','Paste'],['duplicate','Duplicate'],['delete','Delete']] as [type,title]}<button disabled={type==='paste'?!clipboard:!selection.length} onclick={()=>command(type)}>{title}</button>{/each}</div>
   {#if clipboard}<p role="status">{clipboard.mode==='cut'?'Ready to move':'Copied'} {clipboard.blocks.length} block(s). {#if clipboard.mode==='cut'}<button onclick={()=>clipboard=null}>Cancel cut</button>{/if}</p>{/if}
   <details open><summary>Insert / move to</summary>
     <label>Destination section<select aria-label="Destination section" value={target?.id??''} onchange={e=>{destination=e.currentTarget.value;beforeId='';}}>{#each project.topics as topic}<optgroup label={topic.title}>{#each project.sections.filter(s=>s.topicId===topic.id) as s}<option value={s.id}>{s.title}</option>{/each}</optgroup>{/each}</select></label>
     <label>Insert before<select aria-label="Insert before" bind:value={beforeId}><option value="">End of section</option>{#each target?.blocks??[] as b}<option value={b.id}>{label(b)}</option>{/each}</select></label>
     <button disabled={!selection.length} onclick={()=>command('move')}>Move selected here</button>
-    <button disabled={!clipboard} onclick={()=>attempt(()=>{commit(flowCommand(project,{type:'paste',clipboard,sectionId:target.id,beforeId:beforeId||null}));if(clipboard.mode==='cut')clipboard=null;})}>Paste here</button>
+    <button disabled={!availableClipboard} onclick={()=>attempt(()=>{if(onpaste){onpaste(target.id,beforeId||null);return;}commit(flowCommand(project,{type:'paste',clipboard,sectionId:target.id,beforeId:beforeId||null}));if(clipboard.mode==='cut')clipboard=null;})}>Paste here</button>
     <label>New content<select aria-label="New content" bind:value={blockType}>{#each [['question','Question'],['rich-text','Text'],['callout','Definition / theory'],['worked-example','Worked example'],['guided-practice','Guided practice'],['activity','Activity'],['image','Image'],['page-break','Page break']] as [value,title]}<option {value}>{title}</option>{/each}</select></label><button onclick={()=>insert()}>Insert content</button>
     <label>Question bank<select bind:value={bankId}><option value="">Choose a question</option>{#each bank as b}<option value={b.id}>{b.title||b.id}</option>{/each}</select></label><button disabled={!bankId} onclick={()=>insert(true)}>Insert bank copy</button>
   </details>
@@ -83,5 +88,6 @@
   <button onclick={newTopic}>Add topic</button>
 </div>
 <style>
+ .document-outline>.commands,.document-outline:not(.organising)>details:not(.topic),.document-outline:not(.organising) .topic>label,.document-outline:not(.organising) .topic>.commands,.document-outline:not(.organising) .section>details{display:none}.document-outline .topic,.document-outline .section{border:0;margin:4px 0;padding:0}.document-outline .content-item{margin:2px 0}.document-outline .content-item button{border:0;background:transparent}.document-outline .section>summary{font-size:12px;color:#718096}.document-outline strong{display:block;margin-bottom:12px}
 .flow-outline{font:14px system-ui;color:inherit}.flow-outline button,.flow-outline input,.flow-outline select{font:inherit;color:inherit;background:var(--panel,#fff);border:1px solid #b5c1cf;border-radius:4px;padding:6px;max-width:100%;min-height:32px}.commands{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}label{display:grid;gap:4px;margin:8px 0}details{margin:8px 0;padding:4px;border:1px solid #d5dde7;border-radius:5px}summary{cursor:pointer;font-weight:600;padding:4px}.section{margin-left:4px}.content-item{display:flex;gap:4px;margin:4px 0}.content-item button{flex:1;text-align:left}.content-item small{display:block;color:#66758d}.active{border-left:3px solid #286647}.cut{opacity:.5}p{font-size:12px}button{cursor:pointer}button:disabled{opacity:.45}
 </style>

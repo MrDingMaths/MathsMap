@@ -7,7 +7,8 @@
   import { onMount, untrack } from 'svelte';
   import { loadDocumentEditor, isDocument, normalizeDocument, fromSource, storageValue, toSource } from '../lib/document-content.js';
   import { serializeRichText } from '../lib/maths-editor.js';
-  let { value='', sourceFallback='', label='Editable maths prose', placeholder='Write text and maths', onchange=()=>{}, onfocus=()=>{}, onblur=()=>{}, onsave=null, oncancel=null, inline=false, focused=false, sourceUrl='', selectedNodeId=null, selectedType=null, session=null }=$props();
+  import {installBookletEditorHost} from '../lib/booklet-editor-dom.js';
+  let { value='', sourceFallback='', label='Editable maths prose', placeholder='Write text and maths', onchange=()=>{}, onfocus=()=>{}, onblur=()=>{}, onsave=null, oncancel=null, inline=false, focused=false, sourceUrl='', selectedNodeId=null, selectedType=null, session=null, documentHost=null }=$props();
   let preview=$state(null),previewTimer;
   let layoutDraft=$state(untrack(()=>session?.layout??{})),applyTabs=$state(null);
   const previewQuestion=$derived.by(()=>{if(!session?.question)return null;const question=JSON.parse(JSON.stringify(session.question));const visit=node=>{if(node.id===session.rootId&&preview){const parts=session.pointer.split('/').slice(1);let owner=node;for(const key of parts.slice(0,-1))owner=owner[key];owner[parts.at(-1)]=preview;}node.children?.forEach(visit);};visit(question);return question;});
@@ -19,11 +20,12 @@
   export function getValue(){return editor?result():null;}
   export function save(){if(ready)onsave?.(result());}
   onMount(()=>{
-    let disposed=false;
+    let disposed=false,detachHost;
     loadDocumentEditor().then(()=>{
       if(disposed)return;
       editor=document.createElement('maths-editor');editor.setAttribute('structured','');editor.setAttribute('aria-label',label);editor.setAttribute('placeholder',placeholder);
       if(focused||inline)editor.setAttribute('controls','contextual');
+      if(documentHost)editor.classList.add('booklet-document-field');
       editor.style.cssText=houseStyleVariables(session?.houseStyleVersion);
       if(session?.houseStyleVersion)editor.dataset.houseStyleVersion=session.houseStyleVersion;
       if(session?.question)editor.setAttribute('question-context','');
@@ -37,14 +39,16 @@
       }
       editor.document=initialDocument;
       preview=editor.document;
-      editor.addEventListener('document-change',event=>{const next=result();onchange(next);clearTimeout(previewTimer);if(event.detail.layout)preview=next.document;else previewTimer=setTimeout(()=>preview=next.document,300);});
-      editor.addEventListener('apply-question-tabs',event=>{applyTabs=event.detail.tabStops;onchange(result());editor.documentController.message.textContent='Tab settings will apply to this question’s parts on Save.';});
+      let lastDocumentChange=JSON.stringify(result());
+      editor.addEventListener('document-change',event=>{const next=result(),signature=JSON.stringify(next);if(documentHost&&signature===lastDocumentChange)return;lastDocumentChange=signature;onchange(next);clearTimeout(previewTimer);if(event.detail.layout)preview=next.document;else previewTimer=setTimeout(()=>preview=next.document,300);});
+      editor.addEventListener('apply-question-tabs',event=>{applyTabs=event.detail.tabStops;onchange(result());if(documentHost)applyTabs=null;editor.documentController.message.textContent=documentHost?'Tab settings applied to this question’s parts.':'Tab settings will apply to this question’s parts on Save.';});
       editor.addEventListener('focusin',()=>onfocus());editor.addEventListener('focusout',()=>onblur());
       editor.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();onsave?.(result());}});
       ready=true;editor.focus();
       if(selectedNodeId||selectedType){const target=selectedNodeId?editor.querySelector('[data-id="'+CSS.escape(selectedNodeId)+'"]'):editor.querySelector(selectedType==='table'?'td [data-id],td':'[data-type=inline-image],[data-type=image]');if(target)editor.documentController.select(target);}
+      if(documentHost)detachHost=installBookletEditorHost(editor,documentHost);
     }).catch(e=>error=e.message);
-    return ()=>{disposed=true;clearTimeout(previewTimer);editor?.remove();};
+    return ()=>{disposed=true;detachHost?.();clearTimeout(previewTimer);editor?.remove();};
   });
 </script>
 <div class="maths-editor" class:inline style:--document-ink={session?.renderContext?.colour} style:--document-font={session?.renderContext?.fontFamily} style:--document-size={session?.renderContext?.fontSize}>

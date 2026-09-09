@@ -25,6 +25,14 @@ Current user instructions take precedence. Apply explicit general house-style ch
 
 Source-specific corrections remain source-specific: deleting a supplied column on Linear p17, a particular 25 mm tab stop, merging selected questions, Index source-page boundaries, and individual mathematical corrections. Generalise the underlying checks (fit, alignment, fidelity), not those edits.
 
+## Review groups (9 September 2026)
+
+Use one existing Review heading and enclosing panel per teaching group, preserving its palette. Number top-level prompts 1, 2, …, restarting within each source activity group (`sourceAtom.id`). Even a single prompt has number 1. Retain subpart labels and the original number on continuations. Review numbers are presentation labels, independent of practice numbering and stored source order. Do not print small checkboxes or embed checkbox glyphs in prompt prose. Preserve mathematical writing boxes. This user-requested house-style change applies to Linear Relationships v1, Index Laws and future booklets. The shared teaching-label helper supplies numbers in editing, preview and print, including saved arrangements; teaching-answer controls keep their existing behaviour.
+
+`scripts/booklet/normalise-review-prompts.mjs` audits both current books and removes leading source checkbox glyphs with `--apply`, syncing only affected owner questions through the shared bank transaction helpers. Historical source evidence and archived projects retain their original appearance.
+
+Verification: all 26 prompts across Linear's 6 groups and Index Laws' 8 groups have been checked. Five embedded Linear checkbox glyphs were removed and the five owner questions report synced; Index Laws required no content edits. All 85 targeted label, arrangement, flow, compact-exercise, measurement, source-presentation and bank-sync tests passed, as did the production build. `scripts/booklet/check-review-numbering.mjs` verified every prompt's number/alignment, an existing custom arrangement without its label, inline edit/save/reload and teaching-answer controls using isolated in-memory copies. Practice-only answer editions contain no Review groups. Full question PDFs (Linear 92 pages; Index Laws 65 pages) passed DOM and printed geometry checks. Every Review page was visually inspected: Linear 3, 12, 14, 41, 49, 80; Index Laws 3, 9, 16, 21, 25, 31, 49, 56. Local PDFs, rendered page images and browser reports are in `.booklet-work/review-numbering/`.
+
 ## Audit findings and enforcement
 
 Most table, cloze, graph and layout rules already exist in the shared `public/libs/maths-editor/house-style.mjs` and renderer/QA. Their discovery was fragmented between Linear feedback, graph reports and newer Index instructions. The main checklist and AGENTS.md now link this register.

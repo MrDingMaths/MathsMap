@@ -6,7 +6,7 @@
   let { project, blockId, selectedTargetId='', onchange, ondraftchange=()=>{}, tabbed=false, onDiagramEdit=null }=$props();
   let reviewTab=$state('Mapping');
   let selected=$state(''), role=$state('teaches'), atomTitle=$state(''), skillText=$state(''), prereqText=$state(''), rationale=$state(''), archetype=$state(''), flag=$state(''), error=$state('');
-  const targets=$derived(reviewTargets(project).filter(t=>t.block.id===blockId));
+  const targets=$derived(reviewTargets({...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.filter(b=>b.id===blockId)})).filter(s=>s.blocks.length)}));
   const target=$derived(targets.find(t=>t.id===selected) ?? targets[0]);
   const mapping=$derived(project.studio?.atoms?.[target?.id] ?? {});
   let loaded='';

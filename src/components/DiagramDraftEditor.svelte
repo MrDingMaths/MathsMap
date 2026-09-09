@@ -8,8 +8,9 @@
   let code=$state(untrack(()=>initialDraft?.code??diagram.code??diagram.src??'')),width=$state(untrack(()=>initialDraft?.width??diagram.widthMm??78)),error=$state('');
   let crop=$state(untrack(()=>initialDraft?.sourceRegion??diagram.sourceRegion??null)),colour=$state(untrack(()=>initialDraft?.colourMode??colourMode));
   let align=$state(untrack(()=>initialDraft?.align??alignment??diagram.align??'left'));
-  let model=$state(null);
+  let model=$state(untrack(()=>initialDraft?.mathematicalModel??diagram.mathematicalModel??null));
   let naturalSize=$state(null);
+  let compilation=$state({state:'pending',error:''});
   let history=$state([]),future=$state([]),beforeChange=$state(null);
   const copy=v=>JSON.parse(JSON.stringify(v));
   function beginChange(){beforeChange??=copy(getValue());}
@@ -20,7 +21,7 @@
   const region=$derived(sourceRegionStyles(crop));
   const src=$derived(code.startsWith('evidence/')?assetBase+code:code);
   export function getValue(){return {code,width,align,sourceRegion:crop,colourMode:colour,mathematicalModel:model?copy(model):null,valid:!error};}
-  export function save(){error='';if(!Number.isFinite(width)||width<5||width>190){error='Diagram width must be between 5 and 190 mm.';return;}if(crop&&!validSourceRegion(crop)){error='Crop must lie within the original image.';return;}onsave(getValue());}
+  export function save(){error='';if(diagram.format==='tikz'&&code!==diagram.code&&compilation.state!=='ready'){error=compilation.state==='error'?'Fix the TikZ preview error before applying this draft.':'Wait for the current TikZ preview before applying.';return;}if(!Number.isFinite(width)||width<5||width>190){error='Diagram width must be between 5 and 190 mm.';return;}if(crop&&!validSourceRegion(crop)){error='Crop must lie within the original image.';return;}onsave(getValue());}
   function changed(){error='';ondraft(getValue());}
   function cancel(){model=null;code=diagram.code??diagram.src??'';width=diagram.widthMm??78;align=alignment??diagram.align??'left';crop=diagram.sourceRegion??null;colour=colourMode;error='';ondraft(null);}
 </script>
@@ -36,7 +37,7 @@
   {#if !focused}<button onclick={save}>Save</button><button onclick={cancel}>Cancel</button>{/if}
   {#if error}<p role="alert">{error}</p>{/if}<p class="hint">Save applies your edit. Cancel restores the starting diagram.</p>
  </div>{/snippet}
- {#snippet previewPane()}<div class="diagram-preview" style:margin-left={align==='center'||align==='right'?'auto':'0'} style:margin-right={align==='center'?'auto':'0'} style:width={Math.max(5,Math.min(190,width||78))+'mm'}>{#if diagram.format==='tikz'}<Tikz {code} eager={true} draft={true}/>{:else}<div style={region?.frame} class:grayscale={colour==='grayscale'}><img onload={e=>{naturalSize={width:e.currentTarget.naturalWidth,height:e.currentTarget.naturalHeight};}} style={region?.image} {src} alt={diagram.alt??'Diagram preview'}/></div>{/if}</div>{/snippet}
+ {#snippet previewPane()}<div class="diagram-preview" style:margin-left={align==='center'||align==='right'?'auto':'0'} style:margin-right={align==='center'?'auto':'0'} style:width={Math.max(5,Math.min(190,width||78))+'mm'}>{#if diagram.format==='tikz'}<Tikz {code} eager={true} draft={true} onstate={value=>compilation=value}/>{:else}<div style={region?.frame} class:grayscale={colour==='grayscale'}><img onload={e=>{naturalSize={width:e.currentTarget.naturalWidth,height:e.currentTarget.naturalHeight};}} style={region?.image} {src} alt={diagram.alt??'Diagram preview'}/></div>{/if}</div>{/snippet}
  {#if focused}<EditorSplitView editor={editPane} preview={previewPane} {sourceUrl}/>{:else}{@render editPane()}{@render previewPane()}{/if}
 </div>
 <style>

@@ -1,9 +1,10 @@
 <script>
   import { watchGraphStrokes } from '../lib/graph-strokes.js';
   import { renderTikzCode, cancelTikzJob } from '../lib/tikz.js';
-  let { code, eager=false, draft=false }=$props();
+  let { code, eager=false, draft=false, onstate=null }=$props();
   let el=$state(null),staging=$state(null),state=$state(''),error=$state(''),hasSuccess=$state(false);
   let sequence=0;
+  $effect(()=>{if(draft)onstate?.({state,error});});
   $effect(()=>{if(el&&draft)return watchGraphStrokes(el);});
   $effect(()=>{
     const source=code,host=el,stage=staging,isDraft=draft,immediate=eager;

@@ -1,15 +1,18 @@
 <script>
-  import {tick,onMount} from 'svelte';
+  import {tick,onMount,getContext,untrack} from 'svelte';
+  import {createPaginationKey,createWorkYield} from '../lib/booklet-pagination-work.js';
   import FlowBookletPage from './FlowBookletPage.svelte';
   import {paginateFlow} from '../lib/booklet-pagination.js';
   import {settleBookletMeasurement,measurementKeyFor} from '../lib/booklet-measurement.js';
-  let {project,edition='student',options={},zoom='width',selectedBlockId='',editing=false,onmap=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null}=$props();
+  let {project,edition='student',options={},zoom='width',selectedBlockId='',editing=false,composing=false,onmap=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null}=$props();
   let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),error=$state('');
   let metrics=$state.raw(null);
   let measureRoot,root=$state(),width=$state(794),active=$state(0),visible=$state(new Set()),generation=0,queue=Promise.resolve(),scrollRoot;
   const cache=new Map();
+  const documentEditor=getContext('booklet-inline-edit');
   const scale=$derived(zoom==='width'||zoom==='page'?Math.min(1,width/794):Number(zoom)||1);
-  const signature=$derived(JSON.stringify([project.id,project.sections,project.topics,project.settings,edition,options]));
+  const paginationKey=createPaginationKey();
+  const signature=$derived(paginationKey(project,edition,options));
   export function jumpTo(id){const index=result.pages.findIndex(p=>p.id===id||p.blocks.some(b=>b.id===id));if(index<0)return;visible=new Set([...visible,index]);tick().then(()=>root?.querySelector(`[data-flow-index="${index}"]`)?.scrollIntoView({block:'start'}));}
   async function followReference(event){
     const link=event.target.closest('a[href^="#"]');if(!link)return;
@@ -27,14 +30,19 @@
   export async function waitUntilReady(){await queue;if(error)throw Error(error);if(!ready)throw Error('Pagination is still updating.');if(result.issues.length)throw Error(result.issues.map(i=>`${i.id}: ${i.message}`).join('\n'));return result;}
   $effect(()=>{
     signature;
-    const snapshot=project,currentEdition=edition,currentOptions={...options},token=++generation,controller=new AbortController();
-    ready=false;error='';onmap?.({pages:[],issues:[],ready:false});
+    if(composing)return;
+    const snapshot=untrack(()=>project),currentEdition=untrack(()=>edition),currentOptions=untrack(()=>({...options})),token=++generation,controller=new AbortController();
+    ready=false;error='';onmap?.({...untrack(()=>result),ready:false});
     queue=queue.catch(()=>{}).then(async()=>{
+      // Superseded edits must not each add their own debounce delay to the queue.
+      if(token!==generation)return;
+      if(editing)await new Promise(resolve=>setTimeout(resolve,250));
       if(token!==generation)return;
       const started=performance.now(),stats={measurements:0,cacheHits:0,keyMs:0,renderMs:0,assetsMs:0,layoutMs:0};
-      const keyFor=measurementKeyFor(snapshot,currentOptions);let lastYield=started;
+      const keyFor=measurementKeyFor(snapshot,currentOptions),yieldWork=createWorkYield();
       const anchor=root?.querySelector(`[data-flow-index="${active}"]`),anchorId=result.pages[active]?.blocks[0]?.id,offset=anchor?.getBoundingClientRect().top;
       const measure=async page=>{
+        await yieldWork();if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});
         let timing=performance.now();
         const key=keyFor(page);
         stats.keyMs+=performance.now()-timing;
@@ -49,16 +57,19 @@
         const value={height:end-start,capacity:footer?footer.getBoundingClientRect().top-start-12:970};
         stats.layoutMs+=performance.now()-timing;
         cache.set(key,value);if(cache.size>1500)cache.delete(cache.keys().next().value);
-        if(performance.now()-lastYield>32){await new Promise(resolve=>setTimeout(resolve,0));lastYield=performance.now();}
         return value;
       };
       try{
         const next=await paginateFlow(snapshot,currentEdition,measure,{cancelled:()=>token!==generation,onprogress:p=>progress=`Paginating section ${p.complete} of ${p.total}…`});
         if(token!==generation)return;
         metrics={...stats,totalMs:performance.now()-started};
-        result=next;ready=true;progress='';measurement=null;visible=new Set([0,1,2,active-1,active,active+1]);onmap?.({...next,ready:true});await tick();
+        const editingBookmark=documentEditor?.beforePagination(next.pages);
+        result=next;ready=true;progress='';measurement=null;visible=new Set([0,1,2,active-1,active,active+1]);
+        if(editingBookmark){const editedPage=next.pages.findIndex(p=>p.blocks.some(b=>b.id===selectedBlockId));if(editedPage>=0)visible.add(editedPage);}
+        onmap?.({...next,ready:true});await tick();
         if(anchorId&&offset!=null){const index=next.pages.findIndex(p=>p.blocks.some(b=>b.id===anchorId));if(index>=0){visible=new Set([...visible,index]);await tick();const el=root?.querySelector(`[data-flow-index="${index}"]`);if(el&&scrollRoot)scrollRoot.scrollTop+=el.getBoundingClientRect().top-offset;}}
         updateVisible();
+        documentEditor?.afterPagination(editingBookmark);
       }catch(e){if(e.cancelled||token!==generation)return;error=e.message;measurement=null;onmap?.({pages:[],issues:[],ready:false,error:e.message});}
     });
     return()=>{generation++;controller.abort();};

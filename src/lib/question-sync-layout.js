@@ -2,9 +2,9 @@ import {arrangementCatalog} from './booklet-arrangement.js';
 
 // Layout belongs to the destination. Only replace its content pointers; retain
 // group structure, item IDs, sizing and spacing when a field changes format.
-export function reconcileSyncLayout(before, after, holder) {
- const oldCatalog=arrangementCatalog({...before,type:'question'});
- const catalog=arrangementCatalog({...after,type:'question'});
+export function reconcileSyncLayout(before, after, holder, {editable=false}={}) {
+ const oldCatalog=arrangementCatalog({...before,type:before.type??'question'},{editable});
+ const catalog=arrangementCatalog({...after,type:after.type??'question'},{editable});
  const fieldRefs=entries=>{
   const fields=new Map();
   for(const [ref,e] of entries)if(e.kind==='text'||e.kind==='document'){

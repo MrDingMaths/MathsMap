@@ -1,5 +1,7 @@
 # Booklet Studio: human editing workflow
 
+The September 9 document workspace update adds direct page writing and integrated comments. See [Document-first Booklet Studio](booklet-document-editing.md) for its current interactions, persistence and verification. The chat-driven import and bank-assembly principles below remain applicable.
+
 Current direction, 7 September 2026. This replaces the earlier review queues, AI audits, proposal lifecycle and approval gates.
 
 ## Workflow

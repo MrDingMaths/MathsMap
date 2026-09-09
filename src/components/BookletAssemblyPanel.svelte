@@ -4,13 +4,13 @@
   import { createBookletProject } from '../lib/booklet-project-storage.js';
   import { skills, topics, dotpoints } from '../lib/data.js';
   import {contentSource} from '../lib/document-content.js';
-  let {project,onchange,oncreated,expanded=false}=$props();
+  let {project,onchange,oncreated,expanded=false,active=true}=$props();
   let recipe=$state(null),external=$state([]),error=$state(''),busy=$state(false),preview=$state(null),topicId=$state(''),groupId=$state('');
   let loaded='';
   const clone=value=>JSON.parse(JSON.stringify(value));
   $effect(()=>{if(project.id!==loaded){loaded=project.id;recipe=clone(project.studio?.recipe??defaultRecipe(project));preview=null;external=[];}});
-  const candidates=$derived([...external,...candidatesFromProject(project)]);
-  const coverage=$derived(recipe&&recipe.mode!=='revision'?coverageMatrix(recipe,candidates):[]);
+  const candidates=$derived(active?[...external,...candidatesFromProject(project)]:[]);
+  const coverage=$derived(active&&recipe&&recipe.mode!=='revision'?coverageMatrix(recipe,candidates):[]);
   const theoryBlocks=$derived(project.sections.flatMap(s=>s.blocks.filter(b=>b.type!=='question'&&!['heading','page-break','spacer'].includes(b.type)).map(b=>({id:b.id,title:b.title||s.title}))));
   const groups=$derived(dotpoints.filter(d=>!topicId||d.topicId===topicId));
   function saveRecipe(){const p=studioProject(project);p.studio.recipe=clone(recipe);onchange(p);}

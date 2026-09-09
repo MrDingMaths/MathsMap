@@ -180,6 +180,8 @@ export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, 
     updatedAt: null,
   });
   if(flexible)copy=convertToFlexible(copy,{linear:source.id==='linear-relationships-complete-v1',assignments});
+  // Review comments belong to the source project, not its new class copy.
+  if(copy.studio)copy.studio={...copy.studio,flags:[]};
   const links=await syncLinks(options.bankRoot??BANK_ROOT);
   for(const block of copy.sections.flatMap(s=>s.blocks)){
     const match=Object.entries(links).find(([,link])=>link.projectId===source.id&&link.blockId===block.id);

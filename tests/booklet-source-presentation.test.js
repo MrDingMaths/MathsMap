@@ -15,7 +15,10 @@ test('source pagination policy survives project save normalization',()=>{
 test('source p34 formulas have their own i–l labels and p18 has no duplicate raster row',()=>{
  const p=JSON.parse(fs.readFileSync('booklets/projects/index-laws-complete-v1.json')),blocks=p.sections.flatMap(s=>s.blocks);
  const parts=blocks.find(b=>b.id==='index-t6-q5').content.children.slice(8);
- assert.deepEqual(parts.map(n=>[n.label,n.questionDiagrams.map(d=>d.id)]),[['i',['index-doc-1055']],['j',['index-doc-1056']],['k',['index-doc-1057']],['l',['index-doc-1058']]]);
+ // The accepted native-maths sweep replaced these equation images. Check the
+ // formula/label association rather than requiring the retired raster IDs.
+ assert.deepEqual(parts.map(n=>[n.label,n.prompt]),[['i','$\\frac{s^4v}{v^2s^2}=$'],['j','$\\frac{xy^2}{x^2y}=$'],['k','$\\frac{a^4e}{e^2a^3}=$'],['l','$\\frac{c^2f^2}{cf^7}=$']]);
+ assert.ok(parts.every(n=>n.questionDiagrams.length===0));
  const q=blocks.find(b=>b.id==='index-t3-q3').content;assert.equal(q.questionDiagrams.length,0);assert.equal(q.children[0].children.length,5);
 });
 

@@ -1,6 +1,6 @@
 # Focused booklet editing
 
-Click text, a table or a diagram in a question to open the whole question. The clicked item is selected. The left panel shows its structure; the right panel controls the selection. **Save** applies the question as one booklet change. **Cancel** discards its draft.
+Ordinary writing now happens directly on the page; see [Document-first Booklet Studio](booklet-document-editing.md). Select a question and open its block properties to access the specialist arrangement editor described below. **Save** applies that specialist draft as one booklet change; **Cancel** discards it. TikZ code editing is available directly from a selected diagram.
 
 ## Rearrange a question
 
@@ -25,6 +25,6 @@ Image controls show the full original with a crop rectangle as well as the rende
 
 Select a paragraph in its content editor and open **How tab stops work**. Add a stop, then put the caret between the items and use **Insert tab**. A stop defines a position; inserting the tab moves text to that position. Dots fills the gap with a dotted leader. Copy tab settings to align other paragraphs.
 
-Pending AI proposals appear in the focused question. After saving or cancelling, use **Review → Proposals**, select the relevant block or part, then **Accept** or **Reject**. The separate Approvals tab records review status. Manual edits do not create proposals.
+AI corrections are requested through document comments and **Copy feedback prompt**. Studio does not run models or use proposal/approval gates. Specialist arrangement edits apply directly and can be undone in the document.
 
 Source pagination, stable content IDs, original diagram evidence and answer associations remain in the project. Existing arrangements change when explicitly edited; loading a project does not convert all its pages. Retained source images still carry their existing review flags.

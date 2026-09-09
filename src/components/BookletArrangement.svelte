@@ -1,16 +1,18 @@
 <script>
  import {getContext} from 'svelte';
  import BookletRichText from './BookletRichText.svelte';
+ import EditableBookletText from './EditableBookletText.svelte';
  import Tikz from './Tikz.svelte';
  import {sourceRegionStyles} from '../lib/diagram-source-region.js';
  import {resolveArrangement} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
  let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
  const requestEdit=getContext('booklet-edit-request');
+ const documentActions=getContext('booklet-document-actions');
  const getLabels=getContext('booklet-labels');
  let contentWidth=$state(0);
- const resolved=$derived(resolveArrangement(block,arrangement,{...layoutOverrides,labels:getLabels?.()??layoutOverrides.labels},contentWidth>0?contentWidth*25.4/96:180));
- function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(requestEdit){event.stopPropagation();const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
+ const resolved=$derived(resolveArrangement(block,arrangement,{...layoutOverrides,editable:editMode&&!!documentActions&&!onselect,labels:getLabels?.()??layoutOverrides.labels},contentWidth>0?contentWidth*25.4/96:180));
+ function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){documentActions.select([block.id],event);return;}const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
  function key(event,n){if(['Enter',' '].includes(event.key)){event.preventDefault();choose(event,n);}}
  function start(event,n,index){
   event.preventDefault();event.stopPropagation();const el=event.currentTarget.parentElement,box=el.getBoundingClientRect(),children=n.children,total=children.reduce((a,c)=>a+(c.weight??1),0),left=children[index].weight??1,right=children[index+1].weight??1,start=event.clientX;
@@ -48,7 +50,7 @@
  <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
  <div data-arrangement-id={n.id} data-content-owner={entry?.ownerId} class:arr-group={n.type==='group'} class:arr-row={n.direction==='row'} class:arr-item={n.type==='item'} class:zero-space={entry?.kind==='space'&&spaceHeight(n,entry)===0} class:hidden-space={entry?.kind==='space'&&(!showSpaces||spaceHeight(n,entry)===0)&&!onselect&&!editMode} class:selected={selected===n.id} class:interactive={!!onselect} class:theory-solution={entry?.role==='solution'&&entry?.kind!=='diagram'} class:solution-hidden={entry?.role==='solution'&&!showSolutions} class:labelled={n.children?.[0]&&resolved.entries.get(n.children[0].ref)?.kind==='label'&&resolved.entries.get(n.children[0].ref)?.value} class:label-item={entry?.kind==='label'} style={style(n)+(n.direction==='row'?`grid-template-columns:${n.children.map(c=>`minmax(0,${c.weight??1}fr)`).join(' ')};`:'')} role="group" aria-label={n.title??entry?.title??(n.direction==='row'?'Row':'Group')} tabindex={onselect||requestEdit?0:undefined} onclick={e=>choose(e,n)} onkeydown={e=>key(e,n)} draggable={!!onmove} ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} ondragover={e=>{if(onmove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drop-target');e.currentTarget.dataset.dropPosition=n.type==='group'?'Move into group':e.clientY-e.currentTarget.getBoundingClientRect().top<e.currentTarget.clientHeight/2?'Move before':'Move after';}}} ondragleave={e=>e.currentTarget.classList.remove('drop-target')} ondrop={e=>{if(onmove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.remove('drop-target');onmove(e.dataTransfer.getData('text/plain'),n.id,n.type==='group'?'inside':e.clientY-e.currentTarget.getBoundingClientRect().top<e.currentTarget.clientHeight/2?'before':'after');}}}>
  {#if n.type==='group'}
-  {#each n.children as child (child.id)}{@render renderNode(child)}{/each}
+  {#each n.children as child (editMode&&documentActions&&!onselect ? resolved.entries.get(child.ref)?.editorKey??child.id : child.id)}{@render renderNode(child)}{/each}
   {#if onresize&&n.direction==='row'}{#each n.children.slice(0,-1) as child,i}<button class="column-handle" onclick={e=>e.stopPropagation()} style:left={n.children.slice(0,i+1).reduce((a,c)=>a+(c.weight??1),0)/n.children.reduce((a,c)=>a+(c.weight??1),0)*100+'%'} aria-label={'Resize column boundary '+(i+1)} onpointerdown={e=>start(e,n,i)} onkeydown={e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();e.stopPropagation();const w=n.children.map(c=>c.weight??1),d=e.key==='ArrowLeft'?-.1:.1;if(w[i]+d>.1&&w[i+1]-d>.1){w[i]+=d;w[i+1]-=d;onresize(n.id,w);}}}}>↔</button>{/each}{/if}
  {:else if !entry}<span role="alert">Content reference needs review: {n.ref}</span>
  {:else if entry.kind==='diagram'}
@@ -60,7 +62,7 @@
  {:else if entry.kind==='label'}<b>{entry.value}</b>
  {:else if entry.kind==='space'}
   {#if showSpaces||onselect}<div class="arr-space" class:space-edit={!!onselect||editMode&&!!onSpaceResize} style:height={spaceHeight(n,entry)+'mm'}></div>{/if}
- {:else}<BookletRichText alignRelations={!/prompt$/i.test(entry.field ?? "")} text={entry.value} {fillCloze}/>{#if onselect&&entry.kind==='document'&&entry.value.blocks[0]?.type==='paragraph'&&!entry.value.blocks[0]?.inlines?.length}<span class="empty-label">Empty paragraph</span>{/if}
+ {:else}{#if editMode&&!onselect&&documentActions}<EditableBookletText value={entry.value} rootId={entry.ownerId} pointer={'/'+entry.field} {fillCloze} {editMode}/>{:else}<BookletRichText alignRelations={!/prompt$/i.test(entry.field ?? "")} text={entry.value} {fillCloze}/>{/if}{#if onselect&&entry.kind==='document'&&entry.value.blocks[0]?.type==='paragraph'&&!entry.value.blocks[0]?.inlines?.length}<span class="empty-label">Empty paragraph</span>{/if}
  {/if}
  {#if onmeasure&&selected===n.id||onSpaceResize&&editMode&&showSpaces&&entry?.kind==='space'}
   {@const property=entry?.kind==='space'?'height':'after'}

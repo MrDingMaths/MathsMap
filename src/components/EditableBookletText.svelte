@@ -3,6 +3,7 @@
   import BookletRichText from './BookletRichText.svelte';
   import MathsEditor from './MathsEditor.svelte';
   import { splitBookletTables } from '../lib/booklet-preview.js';
+  import {hasVisibleContent} from '../lib/document-content.js';
 
   let {
     value = '',
@@ -24,7 +25,7 @@
 
   const workspaceEdit=getContext('booklet-edit-request');
   const workspaceInline=getContext('booklet-inline-edit');
-  const inlineSession=$derived(workspaceInline?.session?.rootId===rootId&&workspaceInline?.session?.pointer===pointer?workspaceInline.session:null);
+  const inlineSession=$derived(editMode&&workspaceInline?.session?.rootId===rootId&&workspaceInline?.session?.pointer===pointer&&(!workspaceInline.session.paragraphSlice||value?._bookletSlice?.start===workspaceInline.session.paragraphSlice.start)&&(!workspaceInline.session.fragmentIds?.length||value?.blocks?.some(b=>b.id===workspaceInline.session.fragmentIds[0]))?workspaceInline.session:null);
   let inlineEditor=$state();
   let active = $state('');
   let reportedActive = false;
@@ -33,10 +34,11 @@
 
   function cancel() { active = ''; }
   function activate(event) {
+    if(event.type==='click'&&window.getSelection()?.toString())return;
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
     const request=oneditrequest??workspaceEdit;
-    if(request){const css=getComputedStyle(event.currentTarget);request({renderContext:{colour:css.color,fontFamily:css.fontFamily,fontSize:css.fontSize,lineHeight:css.lineHeight},rootId,rootIds,pointer,value,selectedNodeId:event.target.closest('[data-id]')?.dataset.id,selectedType:event.target.closest('table')?'table':event.target.closest('img')?'image':null,origin:event.currentTarget,commit:oncommit});return;}
+    if(request){const css=getComputedStyle(event.currentTarget),equations=[...event.currentTarget.querySelectorAll('.katex')],equation=event.target.closest('.katex')??event.target.closest('[data-math]')?.querySelector('.katex')??equations.find(el=>{const r=el.getBoundingClientRect();return event.clientX>=r.left&&event.clientX<=r.right&&event.clientY>=r.top&&event.clientY<=r.bottom;}),mathIndex=equations.indexOf(equation);request({point:{x:event.clientX,y:event.clientY,mathIndex:mathIndex>=0?mathIndex:null},renderContext:{colour:css.color,fontFamily:css.fontFamily,fontSize:css.fontSize,lineHeight:css.lineHeight},rootId,rootIds,pointer,value,selectedNodeId:event.target.closest('[data-id]')?.dataset.id,selectedType:event.target.closest('table')?'table':event.target.closest('img')?'image':null,origin:event.currentTarget,commit:oncommit});return;}
     active = 'document';
   }
 
@@ -51,10 +53,11 @@
   onDestroy(() => { if (reportedActive) oneditingchange?.(false); });
 </script>
 
-<span class:edit-mode={editMode} class:edited class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer}>
+<span class:edit-mode={editMode} class:edited class:empty-field={!hasVisibleContent(value)} class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer} data-fragment-start={value?._bookletSlice?.start} data-fragment-end={value?._bookletSlice?.end}>
   {#if inlineSession}
-    <MathsEditor bind:this={inlineEditor} {value} inline session={inlineSession} selectedNodeId={inlineSession.selectedNodeId} selectedType={inlineSession.selectedType} onsave={result=>{inlineSession.commit(result);workspaceInline.close();}} oncancel={()=>workspaceInline.close()} />
-    <button class="focus-edit" type="button" onclick={()=>workspaceInline.focus(inlineEditor?.getValue())}>Open focused editor</button>
+    {#key inlineSession.key}
+    <MathsEditor bind:this={inlineEditor} value={inlineSession.value} inline session={inlineSession} documentHost={workspaceInline.host(inlineSession)} selectedNodeId={inlineSession.selectedNodeId} selectedType={inlineSession.selectedType} onchange={result=>inlineSession.commit(result)} />
+    {/key}
   {:else if active === 'document'}
     <MathsEditor {value} onsave={(result) => { active = ''; oncommit?.({ rootId, pointer, value: result.value }); }} oncancel={cancel} />
   {:else}
@@ -83,6 +86,7 @@
 </span>
 
 <style>
+  .edit-mode.empty-field :global(.clickable){min-height:1.2em;position:relative}.edit-mode.empty-field :global(.clickable::before){content:'Write here';position:absolute;inset:0 auto auto 0;color:#899cab;pointer-events:none;font-weight:400}@media print{.empty-field :global(.clickable::before){display:none!important}}
   .focus-edit{font:12px system-ui;padding:5px 10px;background:white;color:#245f91;border:1px solid #becbd7;border-radius:4px}
   .editable-booklet-text { position: relative; display: block; min-width: 0; }
   .clickable { display: block; min-width: 0; }
