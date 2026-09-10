@@ -1,5 +1,6 @@
 // Read-only browser/PDF acceptance check. Generated evidence stays local.
 import fs from 'node:fs';
+import path from 'node:path';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
@@ -7,11 +8,16 @@ import {isPractice,flowEditionSections} from '../../src/lib/booklet-flow.js';
 import {spawnSync} from 'node:child_process';
 import {rendererSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
+import {loadRun} from './transcription.mjs';
+import {liveWorkflow} from './workflow-review.mjs';
+import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest} from './page-review.mjs';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
 const editions=arg('--editions','student,short,worked,with-short,with-worked').split(',');
 const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
 const runtime=rendererSignature();
+const development=process.argv.includes('--development'),draft=process.argv.includes('--draft');
+const reportFile=out+(development?'/development-report.json':'/report.json');
 fs.mkdirSync(out,{recursive:true});
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
 const cache=fs.existsSync(out+'/cache.json')?out+'/cache.json':'.booklet-work/flexible-check/cache.json';
@@ -37,10 +43,14 @@ try{
   if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Invalid project ID');
   const projectFile=`booklets/projects/${id}.json`;
   const record=JSON.parse(fs.readFileSync(projectFile));record.settings.flowEdition=editions[0];
+  const projectHash=projectReviewHash(record),workflowRef=record.source?.workflow??record.source?.inventory?.workflow;
+  const workflow=workflowRef?liveWorkflow(loadRun(workflowRef.runId).runDir):null;
+  if(workflow&&!development&&!draft)assert.ok(workflow.settled?.project.hash===projectHash,'Settle current content before the complete final five-edition review. Use --development during editing.');
+  const workflowKey=workflow?.settled?.key??null,assets=await contentAssetSignatures(record);
   if(record.source?.inventory){
-   const coverage=await inspectContentCoverage(record,{assetSignatures:await contentAssetSignatures(record)});
+   const coverage=await inspectContentCoverage(record,{assetSignatures:assets});
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
-   if(!process.argv.includes('--draft'))assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
+   if(!draft&&!development)assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
   }
   await page.route('**/__booklet/projects/'+id,r=>r.fulfill({json:record}));
   await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
@@ -51,8 +61,11 @@ try{
   record.sections.flatMap(s=>s.blocks).filter(isPractice).forEach(b=>practiceLeaf(b.content));
   report[kind]??={};
   for(const edition of editions){
-   const file=`${out}/${kind}-${edition}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
-   const cached=process.argv.includes('--force')?null:readLayoutCache(cacheFile,key,file);
+   const file=`${out}/${kind}-${edition}${development?'-development':''}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
+   const manifestFile=`${out}/${kind}-${edition}.full.pages.json`,hashFile=`${out}/${kind}-${edition}.development.pages.json`;
+   const fullManifest=readPageManifest(manifestFile);
+   const manifestCurrent=fullManifest?.mode==='full'&&fullManifest.passed===true&&fullManifest.edition===edition&&fullManifest.workflowKey===workflowKey&&fullManifest.projectHash===projectHash&&fullManifest.renderer===runtime&&fs.existsSync(file)&&fullManifest.pdf?.hash===artifactHash(file);
+   const cached=development||draft||process.argv.includes('--force')||!manifestCurrent?null:readLayoutCache(cacheFile,key,file);
    if(cached){report[kind][edition]=cached;console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;}
    console.log(`Checking ${kind} ${edition}`);
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await ready(edition);
@@ -73,6 +86,26 @@ try{
      links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).map(a=>({href:a.getAttribute('href'),exists:!!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)})),
      map:[...root.querySelectorAll('.print-page')].map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(',')}))
    }));
+   const domPages=await page.locator('.project-print .print-page').evaluateAll(elements=>elements.map(e=>({html:e.outerHTML,blocks:e.dataset.flowBlocks?.split(',')??[]})));
+   const hashes=renderedPageHashes(domPages,{renderer:runtime,settings:record.settings,assets});
+   if(development){
+    const previous=readPageManifest(hashFile)?.pages??fullManifest?.pages;
+    const selected=process.argv.includes('--force')?hashes.map(p=>p.page):affectedPages(previous,hashes);
+    const issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).filter(i=>selected.includes(i.page));
+    let printed=[];
+    if(selected.length){
+     await page.pdf({path:file,pageRanges:selected.join(','),format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
+     printed=inspectPrintedPdf(file);
+     assert.equal(printed.length,selected.length,'Development export includes every selected physical page');
+    }
+    report[kind][edition]={mode:'development',selectedPages:selected,pageHashes:hashes,issues,printed};
+    fs.writeFileSync(reportFile,JSON.stringify({report,errors},null,2));
+    // A failed subset is never a reusable baseline or a full-edition cache hit.
+    assert.deepEqual(issues,[]);assert.deepEqual(printed.flatMap(p=>p.issues),[]);assert.deepEqual(errors,[]);
+    fs.writeFileSync(hashFile,JSON.stringify({mode:'development',projectHash,edition,renderer:runtime,pages:hashes},null,2));
+    console.log(`${kind} ${edition}: ${selected.length}/${hashes.length} affected/neighbour pages exported; final acceptance unchanged`);
+    await page.emulateMedia({media:'screen'});continue;
+   }
    await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
    const printed=inspectPrintedPdf(file),issues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
    const linkCheck=spawnSync('pdftohtml',['-i','-stdout',file],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
@@ -80,7 +113,7 @@ try{
    const pdfLinks=(linkCheck.stdout.match(/href="[^"\n]*#\d+"/g)??[]).length;
    if(info.links.length)assert.ok(pdfLinks>=info.links.length,'PDF retains every internal link');
    report[kind][edition]={...info,pdfLinks,qa,printed,issues};
-   fs.writeFileSync(out+'/report.json',JSON.stringify({report,errors},null,2));
+   fs.writeFileSync(reportFile,JSON.stringify({report,errors},null,2));
    await context.storageState({path:out+'/cache.json',indexedDB:true});
    console.log(`${kind} ${edition}: ${info.pages} pages, ${issues.length} DOM issues, ${printed.flatMap(p=>p.issues).length} print issues`);
    assert.equal(info.pages,printed.length);assert.equal(info.badges,0);
@@ -100,13 +133,16 @@ try{
    assert.deepEqual(issues,[],'DOM layout/style checks');
    assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
    assert.deepEqual(errors,[],'Browser errors');
-   writeLayoutCache(cacheFile,key,file,report[kind][edition]);
+   if(!draft){
+    writeLayoutCache(cacheFile,key,file,report[kind][edition]);
+    fs.writeFileSync(manifestFile,JSON.stringify({mode:'full',passed:true,edition,renderer:runtime,projectHash,workflowKey,pages:hashes,pdf:{path:path.resolve(file),hash:artifactHash(file)}},null,2));
+   }
    await page.emulateMedia({media:'screen'});
   }
  }
  assert.deepEqual(errors,[]);
- fs.writeFileSync(out+'/report.json',JSON.stringify({report,errors},null,2));
+ fs.writeFileSync(reportFile,JSON.stringify({report,errors},null,2));
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.issues)),[],'DOM layout/style checks');
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.printed.flatMap(p=>p.issues))),[],'Printed geometry');
- console.log(process.argv.includes('--draft')?'Draft layout checks passed; see the separate readiness report.':'Compact exercise verification passed.');
+ console.log(development?'Development subset checks passed; full final visual inspection is still required.':draft?'Draft layout checks passed; see the separate readiness report.':'Compact exercise verification passed; visual acceptance is recorded separately.');
 }finally{await context.storageState({path:out+'/cache.json',indexedDB:true}).catch(()=>{});await browser.close();}

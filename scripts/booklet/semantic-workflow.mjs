@@ -7,6 +7,7 @@ import {DEFAULT_CONCURRENCY} from './transcription.mjs';
 import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription} from './transcription-settings.mjs';
 import {COMPACT_RECONSTRUCTION_PROMPT,COMPACT_SCHEMA,COMPACT_SOLUTIONS,compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {rankEvidence,textWindows,readableEvidence} from './transcription-packet.mjs';
+import {reviewEnabled,liveWorkflow,pageGate,effectiveInventory,effectiveAuthor,registerInventory,registerAuthor,updateWorkflow,sourceEvidence,geometryEvidence,validatePacketGeometry} from './workflow-review.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
@@ -31,12 +32,14 @@ export function wordExcerpts(word,query,{windowChars=2400,count=2}={}){
  return ranges.map(({start,end})=>({start,end,text:word.slice(start,end),reference:`Word evidence characters ${start}-${end}`}));
 }
 
-export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=1}){
+export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,representative=false}){
  if(!['inventory','author'].includes(stage))throw Error('Stage must be inventory or author');
  requireCurrentTranscription(manifest);positive(attempt,'Attempt');
  if(!Array.isArray(pages)||!pages.length||new Set(pages).size!==pages.length)throw Error('Select distinct source pages');
  if(!config.title||!Array.isArray(config.topics))throw Error('Config needs title and topics');
  const packetRoot=path.join(runDir,'semantic-packets');
+ const reviewed=reviewEnabled(manifest,config),workflow=reviewed?liveWorkflow(runDir):null;
+ if(reviewed&&config.sourceDecisions)throw Error('Review-first source corrections belong in the structured editorial register, not config.sourceDecisions');
  const pageFile=(p,ext)=>path.join(runDir,'evidence/pages',`page-${String(p).padStart(3,'0')}.${ext}`);
  const wordFile=path.join(runDir,'evidence/word/document.md');
  const word=stage==='author'&&fs.existsSync(wordFile)?read(wordFile):'';
@@ -57,9 +60,14 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   const images=[...new Set([...previewPages.map(p=>pageFile(p,'png')),pageFile(page,'png'),...(config.pageEvidence?.[page]?.images??[]).map(p=>path.resolve(runDir,p))])];
   const imagePages=[...new Set([...previewPages,page])];
   let inventory=null;
-  if(stage==='author'){inventory=JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page});}
+  if(stage==='author'){inventory=reviewed?effectiveInventory(runDir,page,workflow):JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page});}
+  const blockers=reviewed&&stage==='author'?pageGate(workflow,page,{representative,authoring:true}):[];
   const sections=[],add=(name,text)=>{if(text)sections.push({name,text});};
   add('contract',stage==='author'?COMPACT_RECONSTRUCTION_PROMPT:SOURCE_CONTRACT+'\n'+INVENTORY_CONTRACT);
+  if(reviewed){
+   add('early-review','Retain redundant measurements: unused is not a defect. Check mathematical consistency against diagram relationships and stated precision before proposing a correction; do not silently repair source evidence. Record uncertain precision or unsupported mathematics for review. Editorial decisions are reviewed together before bulk authoring.');
+   if(stage==='inventory')add('review-schema','Also return layoutPatterns:[{id,description}] for every distinct final-size layout pattern (stable IDs shared across pages, including plain/cover). Triangle diagrams require entry.mathematicalModel:{type:"triangle",sides:{a:MEASUREMENT,b:MEASUREMENT,c:MEASUREMENT},angles:{A:MEASUREMENT,B:MEASUREMENT,C:MEASUREMENT}}; omit unknowns, never guess. a=BC,b=CA,c=AB. MEASUREMENT={value,unit?,quantum} for stated rounding increment, or {value,exact:true} only with source support. Preserve redundant givens and vertex/label pairings in description. Other asserted numeric equalities may use mathematicalChecks:[{left,right,quantum|exact:true}] with decimal arithmetic +-*/(). Unsupported relationships remain findings for manual review.');
+  }
   if(stage==='author'){add('schema',COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);}
   // Shared prefix precedes page-specific diagram rules, IDs and payload.
   add('teaching',teaching?'SHARED TEACHING CONTEXT: inspect any referenced image needed for the taught method, including pages beyond the attached previews.\n'+teaching:'Teaching context unavailable; record a finding if needed to establish the taught method.');
@@ -69,6 +77,12 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   else{
    add('envelope',`Return {pageNumber:${page},sections:[{id,topicId:${JSON.stringify(topic?.id??'front-matter')},title:nonemptyTopicOrSourceTitle,phase:"teaching|practice|front-matter",role:"teaching|mixed-practice|front-matter",headingStyle:"none",sourcePageNumber:${page},blocks:[BLOCK]}],inventoryMappings:[{inventoryId,targetId,field?,derived?}],corrections:[],findings:[]}. Map EVERY non-excluded inventory item to an actual content ID (diagrams to diagram IDs). Generated topic headings and editor-only difficulty may have explained exclusion mappings. A source cover replaced by calculated metadata may omit body sections; never assume page 1 is a cover. Preserve cover wording in inventory/config. Findings are unresolved defects only. Corrections: {sourcePage,sourceLabel,original,replacement,reason,targetId,field}; distinguish source errors from extraction errors and preserve original evidence.`);
    add('inventory','INDEPENDENT SOURCE INVENTORY:\n'+JSON.stringify(inventory));
+  }
+  if(reviewed&&stage==='author'&&!blockers.length){
+   try{
+    const geometry=geometryEvidence(inventory).map(({inventoryId,coordinates})=>({inventoryId,coordinates}));
+    if(geometry.length)add('geometry','TRIANGLE CONSTRUCTIONS (use numeric A/B/C coordinates with uniform scaling; preserve printed labels separately; label placement and appearance still need visual review):\n'+JSON.stringify(geometry));
+   }catch(error){blockers.push('Numerical construction pending: '+error.message);}
   }
   if(!contextPages.includes(page))add('source','SOURCE PAGE TEXT:\n'+sourceText);
   add('palette',config.palette?'SOURCE PALETTE (apply only at evidenced occurrences): '+JSON.stringify(config.palette):'');
@@ -80,11 +94,11 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   add('decisions',config.sourceDecisions?'USER SOURCE CORRECTION DECISIONS: '+JSON.stringify(config.sourceDecisions):'');
   const prompt=sections.map(s=>s.text).join('\n\n');
   const inputs={version:2,stage,page,configuration:TRANSCRIPTION_DEFAULT,executionHash,prompt,images:images.map(file=>[file,hash(file)]),teachingImages:contextPages.map(p=>hash(pageFile(p,'png'))),wordHash:stage==='author'&&fs.existsSync(wordFile)?hash(wordFile):null};
-  return {stage,page,stem,inventory,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify(inputs)),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
+  return {stage,page,stem,inventory,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify(inputs)),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
  });
 }
 
-export function validateSemanticResult(result,{stage,page,inventory}){
+export function validateSemanticResult(result,{stage,page,inventory,reviewed=false}){
  if(!result||result.pageNumber!==page)throw Error('Source page identity mismatch');
  if(stage==='inventory'){
   if(result.inventoried!==true||!Array.isArray(result.entries)||!result.entries.length)throw Error('Incomplete source inventory');
@@ -96,6 +110,7 @@ export function validateSemanticResult(result,{stage,page,inventory}){
   return;
  }
  if(!Array.isArray(result.sections)||!Array.isArray(result.inventoryMappings))throw Error('Incomplete semantic author envelope');
+ if(reviewed&&result.confirmedCorrections?.length)throw Error('Author output cannot approve corrections; use the structured editorial register');
  const ids=new Map();
  function walk(value){
   if(!value||typeof value!=='object')return;
@@ -139,11 +154,12 @@ export function semanticCacheInfo(task){
  return {kind:'legacy'};
 }
 
-export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false},{runner=runCodexTranscription,log=console.log}={}){
+export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false},{runner=runCodexTranscription,log=console.log}={}){
  attempt=positive(attempt,'Attempt');concurrency=positive(concurrency,'Concurrency');
- const tasks=createSemanticTasks({runDir,manifest,config,stage,pages,attempt}),states=tasks.map(task=>({task,cache:semanticCacheInfo(task),originalHash:fs.existsSync(task.resultFile)?fileHash(task.resultFile):null}));
- if(dryRun){const report={stage,dryRun:true,concurrency,pages:states.map(({task,cache})=>({page:task.page,cache:cache.kind,inputHash:task.inputHash,...task.promptStats}))};log(JSON.stringify(report));return report;}
+ const tasks=createSemanticTasks({runDir,manifest,config,stage,pages,attempt,representative}),states=tasks.map(task=>({task,cache:semanticCacheInfo(task),originalHash:fs.existsSync(task.resultFile)?fileHash(task.resultFile):null}));
+ if(dryRun){const report={stage,dryRun:true,concurrency,pages:states.map(({task,cache})=>({page:task.page,blockers:task.blockers,cache:cache.kind,inputHash:task.inputHash,...task.promptStats}))};log(JSON.stringify(report));return report;}
  for(const {task,cache}of states){
+  if(task.blockers.length)continue;
   if(attempt===1&&!['hit','missing'].includes(cache.kind))throw Error(`Page ${task.page} cache is ${cache.kind}; inspect it and use a new immutable --attempt.`);
   if(!(cache.kind==='hit'&&(attempt===1||attempt===cache.attempt))){
    if(fs.existsSync(task.out))throw Error('Attempt already exists; use a new --attempt: '+task.out);
@@ -153,22 +169,40 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
   }
  }
  let cursor=0;const outcomes=[];
+ async function register(task){
+  if(!task.reviewed)return;
+  await updateWorkflow(runDir,`${stage} page ${task.page}`,state=>{
+   const inventory=effectiveInventory(runDir,task.page,state);
+   registerInventory(state,inventory,sourceEvidence(runDir,task.page));
+   if(stage==='author')registerAuthor(state,inventory,effectiveAuthor(runDir,task.page,state));
+  });
+ }
  async function worker(){
   while(cursor<states.length){
    const {task,cache,originalHash}=states[cursor++];
-   if(cache.kind==='hit'&&(attempt===1||attempt===cache.attempt)){outcomes.push({page:task.page,ok:true,cached:true});continue;}
+   if(task.blockers.length){outcomes.push({page:task.page,ok:false,blocked:task.blockers});continue;}
    try{
+    if(cache.kind==='hit'&&(attempt===1||attempt===cache.attempt)){await register(task);outcomes.push({page:task.page,ok:true,cached:true});continue;}
     fs.mkdirSync(task.out,{recursive:true});
     fs.writeFileSync(path.join(task.out,'prompt.md'),task.prompt,{flag:'wx'});
     fs.writeFileSync(path.join(task.out,'config.json'),JSON.stringify(config,null,2),{flag:'wx'});
     log(JSON.stringify({stage,page:task.page,status:'started',attempt,concurrency,...task.promptStats}));
     const reply=await runner({cwd:runDir,prompt:task.prompt,images:task.images,out:task.out});
     validateSemanticResult(reply.result,task);
+    if(task.reviewed){
+     if(stage==='author')validatePacketGeometry(task.inventory,reply.result);
+     else registerInventory({pages:{},issues:{},representatives:{}},reply.result);
+    }
     const bytes=JSON.stringify(reply.result,null,2)+'\n';
     fs.writeFileSync(path.join(task.out,'result.json'),bytes,{flag:'wx'});
+    if(task.reviewed){
+     const current=createSemanticTasks({runDir,manifest,config,stage,pages:[task.page],attempt,representative})[0];
+     if(current.inputHash!==task.inputHash||current.blockers.length)throw Error('Source, corrections or review gates changed during generation; preserved attempt needs reconciliation');
+    }
     if((fs.existsSync(task.resultFile)?fileHash(task.resultFile):null)!==originalHash)throw Error('Canonical result changed during transcription; reconcile the preserved attempt manually');
     fs.writeFileSync(path.join(task.out,'result.meta.json'),JSON.stringify({version:2,stage,page:task.page,inputHash:task.inputHash,resultHash:digest(bytes),...TRANSCRIPTION_DEFAULT,promptStats:task.promptStats,metrics:reply.metrics,createdAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
     fs.writeFileSync(task.resultFile,bytes);
+    await register(task);
     fs.appendFileSync(path.join(task.packetRoot,'ledger.jsonl'),JSON.stringify({stage,page:task.page,attempt,ok:true,inputHash:task.inputHash,promptStats:task.promptStats,...reply.metrics})+'\n');
     outcomes.push({page:task.page,ok:true,metrics:reply.metrics});
    }catch(error){

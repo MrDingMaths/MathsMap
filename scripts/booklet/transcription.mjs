@@ -226,7 +226,7 @@ export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, p
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
     ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, continuations,
-    exactResultFormat: EXACT_RESULT_FORMAT,
+    exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1',
     source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy), ...(teacherPdf ? { teacherPdf:path.resolve(teacherPdf), teacherDocx:path.resolve(teacherDocx) } : {}) },
     pins: {
       model: hashValue(TRANSCRIPTION_DEFAULT.model),

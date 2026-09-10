@@ -1,0 +1,247 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {inspectTriangle,triangleConstruction,measuredTriangle,verifyTriangleCode} from '../scripts/booklet/triangle-constraints.mjs';
+import {loadWorkflow,liveWorkflow,updateWorkflow,registerInventory,registerAuthor,pageGate,recordMathReview,applyDecisions,approveRepresentative,representativeKey,settlementKey,settleWorkflow,acceptFinalReview,materializeCorrections,synchronizeProject,bytesHash,PATTERN_CHECKS,FINAL_EDITIONS,REVIEW_POLICY} from '../scripts/booklet/workflow-review.mjs';
+import {rendererSignature} from '../scripts/booklet/verification-cache.mjs';
+import {affectedPages,renderedPageHashes,projectReviewHash,validateFinalManifest} from '../scripts/booklet/page-review.mjs';
+import {refreshRegister,correctionOutputs} from '../scripts/booklet/review-workflow.mjs';
+import {createSemanticTasks,runSemanticPackets} from '../scripts/booklet/semantic-workflow.mjs';
+import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
+import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {createBookletProject,promoteProjectQuestion,saveBookletProject} from '../scripts/booklet/project-studio-server.mjs';
+
+const exact=value=>({value,exact:true});
+const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
+const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
+const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+function fixture(t){
+ const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-review-'));
+ t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const write=(name,value)=>{const file=path.join(runDir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof value==='string'?value:JSON.stringify(value));return file;};
+ for(let page=1;page<=2;page++){write(`evidence/pages/page-00${page}.png`,'source image '+page);write(`evidence/pages/page-00${page}.txt`,'Source '+page);write(`semantic-packets/page-00${page}.inventory.json`,inv(page));}
+ const artifact=write('review.txt','Actual reviewer evidence fixture');
+ const evidence={reviewer:'Test reviewer',note:'Source and output inspected in fixture',artifacts:[{path:artifact,hash:bytesHash(artifact)}]};
+ const options={runDir,manifest:{...TRANSCRIPTION_DEFAULT,id:'review-fixture',workflowPolicy:REVIEW_POLICY,selectedPages:[1,2]},config:{title:'Triangles',topics:[{id:'triangles',title:'Triangles',start:1,end:2,teachingPages:[1]}]},stage:'author',pages:[1,2]};
+ return {runDir,write,evidence,options};
+}
+function approveMath(state,evidence){recordMathReview(state,{...evidence,pages:Object.entries(state.pages).map(([page,p])=>({page:Number(page),key:p.inventoryHash}))});}
+function representative(state,evidence,runtime=rendererSignature()){
+ return {...evidence,pattern:'short-question',page:1,key:representativeKey(state,1),renderer:runtime,checks:Object.fromEntries(PATTERN_CHECKS.map(k=>[k,true])),sourceCompared:true,finalSize:true};
+}
+
+test('100-degree geometry is constructed numerically; a plausible 80-degree drawing is rejected',()=>{
+ const construction=triangleConstruction(triangle);
+ assert.ok(Math.abs(measuredTriangle(construction.vertices).angles.A-100)<1e-9);
+ assert.equal(verifyTriangleCode(triangle,construction.coordinates).checked,true);
+ const wrong=triangleConstruction({...triangle,angles:{A:exact(80)}});
+ assert.throws(()=>verifyTriangleCode(triangle,wrong.coordinates),/authored .*80.*required 100/);
+ assert.throws(()=>verifyTriangleCode(triangle,'[xscale=2]'+construction.coordinates),/Non-uniform/);
+ assert.throws(()=>verifyTriangleCode(triangle,construction.coordinates+'\n\\coordinate (A) at (0,0);'),/exactly one/);
+});
+
+test('redundant measurements are retained and checked at stated precision',()=>{
+ const rounded={...triangle,sides:{...triangle.sides,a:{value:7.7,quantum:0.1,redundant:true}}};
+ const before=structuredClone(rounded);
+ assert.equal(inspectTriangle(rounded).consistent,true);
+ const actual=measuredTriangle(triangleConstruction(rounded).vertices);
+ assert.ok(Math.abs(actual.angles.A-100)<1e-8,'rounded redundant side must not distort the specified angle');
+ assert.deepEqual(rounded,before);
+ const wrong={...rounded,sides:{...rounded.sides,a:exact(5)}};
+ assert.ok(inspectTriangle(wrong).issues.some(i=>i.kind==='cosine-law'));
+ assert.throws(()=>triangleConstruction(wrong),/satisfies all givens/);
+ assert.ok(inspectTriangle({...triangle,sides:{b:5,c:5}}).issues.every(i=>i.kind==='unknown-precision'));
+ assert.throws(()=>triangleConstruction({sides:{a:exact(5),b:exact(6)},angles:{A:exact(30)}}),/SSA-ambiguous/);
+});
+
+test('early mathematical findings block only affected pages, and unused givens do not become findings',t=>{
+ const {runDir,evidence}=fixture(t),state=loadWorkflow(runDir),a=inv(1),b=inv(2);
+ a.entries[0].mathematicalChecks=[{left:'2+3',right:'6',exact:true}];
+ b.entries[0].redundantMeasurements=[{value:7}];
+ registerInventory(state,a);registerInventory(state,b);
+ const issue=Object.values(state.issues)[0];assert.equal(issue.page,1);
+ assert.throws(()=>recordMathReview(state,{...evidence,pages:[{page:1,key:state.pages[1].inventoryHash}]}),/Resolve editorial/);
+ recordMathReview(state,{...evidence,pages:[{page:2,key:state.pages[2].inventoryHash}]});
+ assert.ok(pageGate(state,1,{representative:true}).some(r=>r.includes('Mathematical')));
+ assert.ok(!pageGate(state,2).some(r=>r.includes('Mathematical')));
+ applyDecisions(state,{...evidence,expectedRevision:0,key:settlementKey(state),resolutions:[{id:issue.id,status:'retained',reason:'Source discrepancy explicitly retained for discussion'}]});
+ recordMathReview(state,{...evidence,pages:[{page:1,key:state.pages[1].inventoryHash}]});
+ assert.deepEqual(pageGate(state,1,{representative:true}),[]);
+ assert.throws(()=>applyDecisions(state,{...evidence,expectedRevision:99}),/stale/);
+});
+
+test('representative approval needs every physical-size check and is invalidated by content changes',t=>{
+ const {runDir,evidence}=fixture(t),state=loadWorkflow(runDir);
+ registerInventory(state,inv(1));registerInventory(state,inv(2));approveMath(state,evidence);
+ assert.deepEqual(pageGate(state,1,{representative:true}),[]);
+ assert.ok(pageGate(state,2,{representative:true}).some(r=>r.includes('Representative')));
+ registerAuthor(state,inv(1),author(1));
+ const record=representative(state,evidence,'fixture-renderer');
+ const incomplete=structuredClone(record);delete incomplete.checks.writingBoxes;
+ assert.throws(()=>approveRepresentative(state,incomplete,'fixture-renderer'),/writingBoxes/);
+ assert.throws(()=>approveRepresentative(state,{...record,finalSize:false},'fixture-renderer'),/final-size/);
+ approveRepresentative(state,record,'fixture-renderer');assert.deepEqual(pageGate(state,2),[]);
+ const changed=author(1);changed.sections[0].blocks[0].content.prompt='New prompt';registerAuthor(state,inv(1),changed);
+ assert.ok(pageGate(state,2).some(r=>r.includes('Representative')));
+});
+
+test('inventory ambiguities and later author correction proposals join the one pending register',t=>{
+ const {runDir}=fixture(t),state=loadWorkflow(runDir),inventory=inv(1);
+ inventory.entries[0].ambiguity='Stated precision is unclear';registerInventory(state,inventory);
+ const packet=author(1);packet.corrections=[{targetId:'q-1',field:'/prompt',original:'Find x.',replacement:'Find y.',reason:'Possible source typo'}];
+ registerAuthor(state,inventory,packet);
+ assert.equal(Object.values(state.issues).filter(i=>i.status==='pending').length,2);
+ assert.equal(state.issues['author-1-correction-0'].proposal.replacement,'Find y.');
+ assert.ok(pageGate(state,1).includes('author-1-correction-0'));
+ assert.ok(!pageGate(state,1,{authoring:true}).includes('author-1-correction-0'),'pending author findings must not block their own repair');
+});
+
+test('one correction bundle updates inventory, authored content and project, preserves originals, and invalidates only affected checks',t=>{
+ const {runDir,evidence}=fixture(t),state=loadWorkflow(runDir),inventory=inv(1),packet=author(1);
+ registerInventory(state,inventory);
+ const correction={id:'source-correction',reason:'Confirmed source typo',sourceRefs:[{pageNumber:1}],patches:[
+  {scope:'inventory',page:1,targetId:'src-1',field:'/description',original:'Find x.',corrected:'Find y.'},
+  {scope:'author',page:1,targetId:'q-1',field:'/prompt',original:'Find x.',corrected:'Find y.'},
+ ]};
+ applyDecisions(state,{...evidence,expectedRevision:0,key:settlementKey(state),corrections:[correction]});
+ const correctedInventory=materializeCorrections(inventory,state,'inventory',1),correctedPacket=materializeCorrections(packet,state,'author',1);
+ assert.equal(correctedInventory.entries[0].description,'Find y.');assert.equal(correctedPacket.sections[0].blocks[0].content.prompt,'Find y.');
+ assert.equal(inventory.entries[0].description,'Find x.');assert.equal(packet.sections[0].blocks[0].content.prompt,'Find x.');
+ const project=structuredClone(packet);project.source={inventory:{entries:[{...inventory.entries[0],verification:{checked:true}}]}};
+ project.sections[0].blocks[0].sourceReview={verification:{checked:true},visualAudit:{checked:true}};
+ project.sections[0].blocks.push({...author(2).sections[0].blocks[0],sourceReview:{verification:{checked:true}}});
+ const updated=materializeCorrections(project,state,'project');
+ assert.equal(updated.source.inventory.entries[0].verification,undefined);
+ assert.equal(updated.sections[0].blocks[0].sourceReview.verification,undefined);
+ assert.equal(updated.sections[0].blocks[1].sourceReview.verification.checked,true);
+ updated.sections[0].blocks[0].sourceReview.verification={checked:true};
+ updated.source.inventory.entries[0].verification={checked:true};
+ assert.deepEqual(materializeCorrections(updated,state,'project'),updated,'replaying an already applied correction must not erase fresh acceptance');
+ const edited=structuredClone(project);edited.sections[0].blocks[0].content.prompt='Concurrent user edit';
+ assert.throws(()=>materializeCorrections(edited,state,'project'),/Stale correction/);
+ assert.equal(edited.sections[0].blocks[0].content.prompt,'Concurrent user edit');
+});
+
+test('current register separates issue history and does not resurrect resolved author findings',async t=>{
+ const {runDir,write,evidence}=fixture(t),packet={...author(1),findings:[{id:'question',note:'Confirm wording'}]};
+ write('semantic-packets/page-001.author.json',packet);
+ await updateWorkflow(runDir,'inventory',state=>refreshRegister(runDir,[1,2],state));
+ await updateWorkflow(runDir,'decision',state=>applyDecisions(state,{...evidence,expectedRevision:state.revision,key:settlementKey(state),resolutions:[{id:'author-1-question',status:'retained',reason:'Original wording confirmed'}]}));
+ const state=liveWorkflow(runDir);
+ assert.equal(state.issues['author-1-question'].status,'retained');
+ const history=JSON.parse(fs.readFileSync(path.join(runDir,'workflow/history.json')));
+ assert.equal(history.events[1].previousIssues['author-1-question'].status,'pending');
+ const before=fs.readFileSync(path.join(runDir,'semantic-packets/page-001.author.json'),'utf8');
+ correctionOutputs(runDir,[1,2],state);
+ assert.equal(fs.readFileSync(path.join(runDir,'semantic-packets/page-001.author.json'),'utf8'),before);
+});
+
+test('a bundled correction closes its unchanged source finding during propagation, but later edits reopen it',t=>{
+ const {runDir,write,evidence}=fixture(t),inventory={...inv(1),findings:[{id:'wording',message:'Confirm wording'}]};
+ write('semantic-packets/page-001.inventory.json',inventory);
+ const state=refreshRegister(runDir,[1],loadWorkflow(runDir)),id='inventory-1-wording';
+ const key=settlementKey(state);
+ applyDecisions(state,{...evidence,key,expectedRevision:0,corrections:[{id:'wording',reason:'Approved wording',sourceRefs:[{pageNumber:1}],patches:[{scope:'inventory',page:1,targetId:'src-1',field:'/description',original:'Find x.',corrected:'Find y.'}]}],resolutions:[{id,status:'corrected',correctionId:'wording',reason:'Confirmed replacement'}]});
+ refreshRegister(runDir,[1],state,{decisions:[id]});
+ assert.equal(state.issues[id].status,'corrected');
+ refreshRegister(runDir,[1],state);assert.equal(state.issues[id].status,'corrected');
+ assert.throws(()=>applyDecisions(state,{...evidence,key,expectedRevision:0}),/inputs changed/);
+ write('semantic-packets/page-001.inventory.json',{...inventory,palette:['new evidence']});
+ refreshRegister(runDir,[1],state);assert.equal(state.issues[id].status,'pending');
+});
+
+test('project propagation refreshes only workflow flags and uses the normal bank-safe save',async t=>{
+ const {runDir}=fixture(t),options={projectRoot:path.join(runDir,'projects'),bankRoot:path.join(runDir,'bank'),moduleRoot:path.join(runDir,'modules')};
+ let project=createEditableProject({id:'review-bank-owner',title:'Original'});
+ const block=createProjectBlock('question');block.id='q-owner';block.classification={primarySkillId:'solve-linear-1-step'};
+ block.content.prompt='Solve $x+1=3$';block.content.answer={short:'2',worked:'$x=2$',solutionDiagrams:[]};
+ project.sections[0].blocks=[block];project.source={runId:'fixture-run'};
+ project.studio={version:1,flags:[{id:'user-note',note:'Keep this independent flag',resolved:true},{id:'old-workflow',workflowIssue:true,note:'Old pending statement',resolved:false}]};
+ project=await createBookletProject(project,options);
+ const published=await promoteProjectQuestion(project.id,{blockId:block.id,mode:'create'},options);project=published.project;
+ const content=project.sections[0].blocks[0].content,state=loadWorkflow(runDir);
+ state.corrections=[{id:'corrected-sum',status:'approved',reason:'Confirmed source correction',sourceRefs:[{pageNumber:1}],patches:[
+  {scope:'author',page:1,targetId:content.id,field:'/prompt',original:'Solve $x+1=3$',corrected:'Solve $x+1=4$'},
+  {scope:'author',page:1,targetId:content.id,field:'/answer/short',original:'2',corrected:'3'},
+  {scope:'author',page:1,targetId:content.id,field:'/answer/worked',original:'$x=2$',corrected:'$x=3$'},
+ ]}];
+ const corrected=synchronizeProject(project,state,[],'fixture-run');
+ assert.equal(corrected.studio.flags.length,1);assert.equal(corrected.studio.flags[0].id,'user-note');
+ const saved=await saveBookletProject(corrected,{...options,expectedRevision:project.revision});
+ const bank=JSON.parse(fs.readFileSync(path.join(options.bankRoot,published.question.id+'.json')));
+ assert.equal(bank.content.answer.short,'3');assert.equal(saved.sections[0].blocks[0].classification.primarySkillId,'solve-linear-1-step');
+ await assert.rejects(()=>saveBookletProject(corrected,{...options,expectedRevision:project.revision}),/another session/);
+});
+
+test('source-byte and review-artifact edits invalidate live mathematical approval',async t=>{
+ const {runDir,write,evidence}=fixture(t);
+ await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);approveMath(state,evidence);});
+ assert.ok(liveWorkflow(runDir).pages[1].mathReview);
+ write('evidence/pages/page-001.png','changed source');
+ assert.equal(liveWorkflow(runDir).pages[1].mathReview,null);
+ assert.ok(liveWorkflow(runDir).pages[2].mathReview);
+ write('review.txt','replaced reviewer evidence');
+ assert.equal(liveWorkflow(runDir).pages[2].mathReview,null);
+});
+
+test('review-first authoring reports blocked pages and still runs an unaffected representative',async t=>{
+ const {runDir,evidence,options}=fixture(t);
+ await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);recordMathReview(state,{...evidence,pages:[{page:1,key:state.pages[1].inventoryHash}]});});
+ let calls=0;
+ const report=await runSemanticPackets({...options,representative:true},{log:()=>{},runner:async()=>{calls++;return {result:author(1),metrics:{}};}});
+ assert.equal(calls,1);assert.equal(report.pages[0].ok,true);assert.ok(report.pages[1].blocked.length);
+ assert.equal(report.ok,false);
+ assert.ok(!fs.existsSync(path.join(runDir,'semantic-packets/page-002.author.1')));
+ const [task]=createSemanticTasks({...options,stage:'inventory',pages:[1]});
+ assert.match(task.prompt,/unused is not a defect/);assert.match(task.prompt,/layoutPatterns/);assert.match(task.prompt,/quantum/);
+});
+
+test('a source change during review-first generation preserves the attempt without publishing stale content',async t=>{
+ const {runDir,write,evidence,options}=fixture(t);
+ await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);approveMath(state,evidence);});
+ const report=await runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:async()=>{write('evidence/pages/page-001.txt','Source changed during generation');return {result:author(1),metrics:{}};}});
+ assert.equal(report.ok,false);assert.match(report.pages[0].error,/changed during generation/);
+ assert.ok(!fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.json')));
+ assert.ok(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.1/result.json')));
+});
+
+test('development hashes select changed pages and pagination neighbours, including a removed tail',()=>{
+ const before=[1,2,3,4,5].map(page=>({page,hash:String(page)}));
+ const changed=structuredClone(before);changed[2].hash='changed';
+ assert.deepEqual(affectedPages(before,changed),[2,3,4]);
+ assert.deepEqual(affectedPages(before,before),[]);
+ assert.deepEqual(affectedPages(null,before),[1,2,3,4,5]);
+ assert.deepEqual(affectedPages(before,before.slice(0,3)),[2,3]);
+ const options={renderer:'one',settings:{flowEdition:'student',font:9},assets:{}};
+ const pages=[{html:'<p>one</p>',blocks:['a']},{html:'<p>two</p>',blocks:['b']}];
+ const hashes=renderedPageHashes(pages,options);
+ assert.notDeepEqual(hashes,renderedPageHashes(pages,{...options,renderer:'two'}));
+ assert.deepEqual(hashes,renderedPageHashes(pages,{...options,settings:{...options.settings,flowEdition:'worked'}}));
+});
+
+test('settlement and all-five final acceptance require current full manifests and every checked page',t=>{
+ const {runDir,write,evidence}=fixture(t),state=loadWorkflow(runDir),runtime=rendererSignature();
+ registerInventory(state,inv(1));approveMath(state,evidence);registerAuthor(state,inv(1),author(1));
+ approveRepresentative(state,representative(state,evidence,runtime),runtime);
+ const project=author(1),file=write('project.json',project),projectHash=projectReviewHash(project);
+ const key=settlementKey(state);
+ settleWorkflow(state,[1],{...evidence,key,project:{file,hash:projectHash}});
+ const record={...evidence,key,sourceCompared:true,contentVerified:true,presentationVerified:true,editions:{}};
+ for(const edition of FINAL_EDITIONS){
+  const pdf=write(edition+'.pdf','PDF fixture '+edition),pages=[{page:1,hash:'page-one'},{page:2,hash:'page-two'}];
+  const manifest=write(edition+'.pages.json',{mode:'full',passed:true,edition,renderer:runtime,workflowKey:key,projectHash,pages,pdf:{path:pdf,hash:bytesHash(pdf)}});
+  record.editions[edition]={allPagesVisuallyInspected:true,pages:pages.map(p=>({...p,checked:true})),artifacts:evidence.artifacts,manifest:{path:manifest,hash:bytesHash(manifest)}};
+ }
+ const incomplete=structuredClone(record);delete incomplete.editions.worked;
+ assert.throws(()=>acceptFinalReview(state,incomplete),/Incomplete final visual review: worked/);
+ const subset=structuredClone(record);subset.editions.worked.pages.pop();
+ assert.throws(()=>acceptFinalReview(state,subset),/every rendered page/);
+ const wrong=structuredClone(record);wrong.editions.worked.pages[0].hash='changed';
+ assert.throws(()=>acceptFinalReview(state,wrong),/every rendered page/);
+ acceptFinalReview(state,record);assert.ok(state.finalReview);
+ write('student.pdf','replaced PDF');
+ assert.throws(()=>validateFinalManifest(record.editions.student,{edition:'student',key,projectHash,renderer:runtime}),/PDF changed/);
+ assert.equal(projectReviewHash({...project,revision:20,updatedAt:'later'}),projectHash);
+});

@@ -14,6 +14,8 @@ Review of `020d8a64` (Luna's speed/token changes), 10 September 2026.
 
 ## Offline measurement
 
+The subsequent [review-first workflow](booklet-review-first-workflow.md) adds early mathematical decisions, stricter final-size pattern gates, numerical triangle construction, structured correction propagation, current issue/history separation and changed-page/neighbour exports. It retains independent inventory and final full five-edition visual review. These new checks have regression coverage, but their end-to-end token/time savings have not been measured; the historical character-count comparison below is not a measurement of the expanded workflow.
+
 The reproducible benchmark compares complete assembled author prompts against `020d8a64`, using the existing local Non-Right-Angled Trigonometry inventory/source pages 1–59 and `semantic-packets/page-010.author.1/config.json` from that run. It reads original evidence and performs no model calls or evidence writes.
 
 | Measure | Luna version | Reviewed version |

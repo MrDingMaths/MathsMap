@@ -7,23 +7,26 @@ import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
+import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
 if(arg('--out')&&!arg('--out').endsWith('.json'))throw Error('--out must end in .json');
 if(!runId||!selected.length||!arg('--out'))throw Error('Use --run-id ID --pages RANGE --config FILE --out FILE [--project-id ID]');
 const {runDir,manifest}=loadRun(runId),config=JSON.parse(fs.readFileSync(arg('--config'),'utf8'));
+const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
+const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
 const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],flags=[],corrections=[],confirmedCorrections=[];
 for(const page of selected){
  const stem=`page-${String(page).padStart(3,'0')}`;
- const inv=JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
- const packet=JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
+ const inv=workflow?effectiveInventory(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
+ const packet=workflow?effectiveAuthor(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
  if(inv.pageNumber!==page||packet.pageNumber!==page)throw Error('Wrong packet page');
  let first=true;
  for(const section of packet.sections){
   section.sourcePageNumber=page;
   // A teaching/practice transition within one source page is semantic, not a
   // physical page break. Existing section flow permits these groups to share.
-  section.pageBreakBefore=first;
+  section.pageBreakBefore=first&&sourceBoundaries;
   // Pagination shows this calculated topic band only at the topic's start.
   // Packet body headings are omitted, but the generated topic title must print.
   if(section.phase!=='front-matter')section.headingStyle='page-title';
@@ -49,11 +52,13 @@ for(const page of selected){
    entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
   }
  }
- for(const finding of packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});
+ for(const finding of workflow?[]:packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});
  corrections.push(...(packet.corrections??[]));
  confirmedCorrections.push(...(packet.confirmedCorrections??[]));
 }
+if(workflow)flags.push(...workflowFlags(workflow,selected));
 const candidate={title:config.title,topics:config.topics.map(({id,title})=>({id,title})),settings:{...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),sourcePaginationPolicy:'source-boundaries',preserveSourcePages:true,cover:{course:'Mathematics Stage 5 Path',book:'Book 2',version:'260905',feedback:'https://MrDingMaths.com'}},sections,sourceInventory:{version:1,selectedPages:selected,pages:inventoryPages,entries},studio:{version:1,flags}};
+if(workflow)candidate.settings={...config.settings,...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),...(sourceBoundaries?{sourcePaginationPolicy:'source-boundaries'}:{}),preserveSourcePages:sourceBoundaries,cover:{...config.settings?.cover,...config.cover}};
 // Reviewed packets contain the corrected value. Emit a source-valued candidate
 // and let the existing import interface apply its stale-checked correction log.
 const nodes=contentNodes(candidate);
@@ -67,7 +72,9 @@ for(const correction of confirmedCorrections){
  parent[key]=correction.original;
 }
 candidate.sourceCorrections=confirmedCorrections;
-const project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
+if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,correctionIds:workflow.corrections.map(c=>c.id)};
+let project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
+if(workflow){project=materializeCorrections(project,workflow,'project');project.source.workflow=candidate.sourceInventory.workflow;}
 if(config.compactAnswers)project.settings.compactAnswers={...project.settings.compactAnswers,...structuredClone(config.compactAnswers)};
 project.source.sourceHashes={pdf:manifest.source.pdfHash,docx:manifest.source.docxHash};
 const validation=validateEditableProject(project),output=path.resolve(arg('--out'));
