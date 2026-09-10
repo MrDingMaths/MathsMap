@@ -7,10 +7,21 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {runTranscriptionTasks} from '../scripts/booklet/codex-transcription.mjs';
+import {COMPACT_RECONSTRUCTION_PROMPT,compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficient-prompts.mjs';
 test('production transcription requires Codex Astra Low, without provider or effort substitution',()=>{
  assert.deepEqual(TRANSCRIPTION_DEFAULT,{provider:'codex',model:'gpt-6-astra',effort:'low'});
  assert.equal(requireCurrentTranscription({...TRANSCRIPTION_DEFAULT}).model,'gpt-6-astra');
  for(const override of [{provider:'agy'},{effort:'high'},{model:'gpt-5.6-luna'},{model:'gemini-3.8-flash-high'}])assert.throws(()=>requireCurrentTranscription({...TRANSCRIPTION_DEFAULT,...override}),/fresh Astra Low/);
+});
+test('semantic authoring uses a compact contract and adds TikZ rules only for visual inventory',()=>{
+ const textPage={entries:[{kind:'question',description:'Solve the equation and give a short answer.'}]};
+ const diagramPage={entries:[{kind:'diagram',description:'coordinate graph with labelled axes'}]};
+ assert.ok(COMPACT_RECONSTRUCTION_PROMPT.length<8000);
+ assert.equal(hasTikzVisual(textPage,'The question contains an angle value.'),false);
+ assert.match(compactTikzPrompt({inventory:textPage}),/No TikZ visual is expected/);
+ assert.equal(hasTikzVisual(diagramPage),true);
+ assert.match(compactTikzPrompt({inventory:diagramPage}),/Conditional TikZ contract/);
+ assert.match(compactTikzPrompt({inventory:diagramPage}),/Graph\/coordinate rules/);
 });
 test('origin lettering is omitted without deleting axes or a named O elsewhere',()=>{
  const source=String.raw`\node[right] at (5,0) {$x$};\node[below left] at (0,0) {$O$};\node at (2,3) {$O$};`;

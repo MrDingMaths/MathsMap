@@ -12,7 +12,11 @@ import { validSourceRegion } from '../../src/lib/diagram-source-region.js';
 import { loadDraftPreview } from './transcription-preview.mjs';
 
 export const BOOKLET_AGY_MODEL = 'gemini-3.8-flash-high';
-export const DEFAULT_CONCURRENCY = 1;
+// Source pages are independent after continuation groups have been identified.
+// Keep this deliberately bounded: page-level model calls can be expensive and
+// an unbounded pool amplifies provider throttling and makes failures harder to
+// diagnose.
+export const DEFAULT_CONCURRENCY = 3;
 export const FULL_IMPORT_FORMAT = 'mathsmap-full-booklet-import-v1';
 export const RUN_MANIFEST_FORMAT = 'mathsmap-booklet-transcription-run-v1';
 export const EXACT_RESULT_FORMAT = 'mathsmap-exact-transcription-result-v2';
@@ -110,7 +114,15 @@ export function shardQuestions(items, maxQuestions = MAX_QUESTIONS_PER_TASK) {
 
 function commandExists(command) {
   const result = spawnSync(process.platform === 'win32' ? 'where.exe' : 'which', [command], { encoding: 'utf8' });
-  return result.status === 0;
+  if (result.status === 0) return true;
+  // Windows sandbox command aliases can be executable without being enumerable
+  // by where.exe. Poppler does not accept --version, so an ordinary nonzero exit
+  // still establishes that the executable was launched.
+  if (process.platform === 'win32') {
+    const probe = spawnSync(command, ['--version'], { encoding: 'utf8', windowsHide: true, timeout: 10000 });
+    return !probe.error && Number.isInteger(probe.status);
+  }
+  return false;
 }
 
 function runCommand(command, args, options = {}) {
@@ -158,8 +170,10 @@ export function assertPinnedInputs(runDir) {
   return manifest;
 }
 
-export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, pages, runId = null, workRoot = WORK_ROOT, continuations = [] }) {
+export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, pages, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY }) {
   assertTooling();
+  concurrency = Number(concurrency);
+  if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('Concurrency must be a positive integer');
   const selectedPages = Array.isArray(pages) ? pages : parsePageSelection(pages);
   if (!selectedPages.length) throw new Error('At least one source page must be selected');
   for (const file of [pdf, docx]) if (!file || !fs.existsSync(file)) throw new Error(`Source file not found: ${file}`);
@@ -211,7 +225,7 @@ export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, p
   }
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
-    ...TRANSCRIPTION_DEFAULT, concurrency: DEFAULT_CONCURRENCY, selectedPages, continuations,
+    ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, continuations,
     exactResultFormat: EXACT_RESULT_FORMAT,
     source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy), ...(teacherPdf ? { teacherPdf:path.resolve(teacherPdf), teacherDocx:path.resolve(teacherDocx) } : {}) },
     pins: {
@@ -638,7 +652,7 @@ function parseArgs(argv) {
 }
 
 function usage() {
-  console.log('Source evidence: prepare --pdf FILE --docx FILE --pages 1-3 --run-id ID [--teacher-pdf FILE --teacher-docx FILE]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
+  console.log('Source evidence: prepare --pdf FILE --docx FILE --pages 1-3 --run-id ID [--concurrency 3] [--teacher-pdf FILE --teacher-docx FILE]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -647,7 +661,7 @@ export async function main(argv = process.argv.slice(2)) {
   let output;
   if (args.command === 'prepare') {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
-    output = prepareRun({ pdf: path.resolve(args.pdf), docx: path.resolve(args.docx), teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, runId: args.runId, continuations });
+    output = prepareRun({ pdf: path.resolve(args.pdf), docx: path.resolve(args.docx), teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY });
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'merge') output = mergeLane(args.runId, { lane: args.lane ?? 'exact' });

@@ -31,9 +31,9 @@ function fakeRun() {
   return { workRoot, runDir };
 }
 
-test('historical Gemini identity remains readable while new transcription runs serially', () => {
+test('historical Gemini identity remains readable while new transcription uses bounded parallelism', () => {
   assert.equal(BOOKLET_AGY_MODEL, 'gemini-3.8-flash-high');
-  assert.equal(DEFAULT_CONCURRENCY, 1);
+  assert.equal(DEFAULT_CONCURRENCY, 3);
 });
 
 test('page selection and structural sharding are deterministic and continuation-safe', () => {
