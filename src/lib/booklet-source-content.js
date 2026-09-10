@@ -52,7 +52,7 @@ export function contentProject(candidate,{runId,projectId,mode='compact',review=
     for(const section of project.sections){
       section.blocks=section.blocks.filter(b=>!(['spacer','page-break'].includes(b.type)&&b.sourceLayoutOnly===true));
       for(const b of section.blocks){
-        if(b.flow?.sourcePageBreakBefore){b.sourceLayoutEvidence={...b.sourceLayoutEvidence,pageBreakBefore:true};b.flow.sourcePageBreakBefore=false;}
+        if(b.flow?.sourcePageBreakBefore&&project.settings.sourcePaginationPolicy!=='source-boundaries'){b.sourceLayoutEvidence={...b.sourceLayoutEvidence,pageBreakBefore:true};b.flow.sourcePageBreakBefore=false;}
       }
     }
     project=organiseExercises(applyCreationPreset(project,mode),candidate.ratings??{});

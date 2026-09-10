@@ -10,7 +10,7 @@
   import Tikz from './Tikz.svelte';
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
-  import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz } from '../lib/booklet-preview.js';
+  import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
   import {compactAnswerDisplay,answerDiagramStyle} from '../lib/booklet-exercises.js';
 
   let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts = {}, answerSpaceOverrides = {}, diagramWidthOverrides = {}, diagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
@@ -146,7 +146,7 @@
       </div>
     {:else}
     {#if label&&node.diagramPlacement==='before-prompt'}<span class="leading-label part-label">{label}</span>{/if}
-    {#if label || node.prompt}<div class="question-line">{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{question.title}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
+    {#if label || node.prompt}<div class="question-line">{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
     {#if node.questionDiagrams?.length}<div class="question-diagrams">{#each node.questionDiagrams as diagram}{@render diagramView(diagram)}{/each}</div>{/if}
     {#if node.afterDiagramPrompt}<div class="after-diagram-prompt"><EditableBookletText value={node.afterDiagramPrompt} rootId={node.id} pointer="/afterDiagramPrompt" {editMode} oncommit={onContentEdit}/></div>{/if}
     {#if node.layoutPreset==='scenario'&&node.children?.length===2}
@@ -195,7 +195,7 @@
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions)}
-    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement block={arrangementQuestionBlock(question,number)} arrangement={blockLayouts[question.id]?.arrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
+    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={blockLayouts[question.id]?.arrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
   {:else if question?.content}{@render renderAnswerNode(question.content)}{#if trailingQuestion}<PracticeQuestionRenderer question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
 </div>
 

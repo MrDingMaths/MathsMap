@@ -32,6 +32,17 @@ export function organiseExercises(source, ratings={}) {
   for(let i=0;i<project.sections.length;i++){
     const section=project.sections[i];
     if(section.phase!=='practice'){sections.push(section);continue;}
+    // Explicit source boundaries preserve page groups and their question order.
+    // Difficulty remains editable metadata, not a request to reorder the source.
+    if(project.settings.sourcePaginationPolicy==='source-boundaries'){
+      for(const block of section.blocks){
+        if(!isPractice(block))continue;
+        const rating=ratings[block.bankRef?.id]??ratings[block.id]??block.flow?.localDifficulty??block.flow?.bankDifficulty;
+        if(rating&&Number.isFinite(rating.reasoningScore))block.flow={...block.flow,[block.bankRef?.id?'bankDifficulty':'localDifficulty']:{...rating}};
+      }
+      sections.push(section);
+      continue;
+    }
     const run=[section];
     while(project.sections[i+1]?.phase==='practice'&&project.sections[i+1].topicId===section.topicId)run.push(project.sections[++i]);
     const blocks=run.flatMap(s=>s.blocks);

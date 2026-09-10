@@ -3,6 +3,30 @@ import assert from 'node:assert/strict';
 import {group,item,transformArrangement,arrangementItems,normalizeArrangement} from '../public/libs/maths-editor/arrangement-model.mjs';
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
+import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';
+
+test('editing resolves active content instead of preserved source evidence with matching IDs',()=>{
+ const evidence={id:'example',blocks:[{id:'paragraph',type:'paragraph',inlines:[{type:'text',text:'Original'}]}]};
+ const active={id:'example',prompt:fromSource('Editable formula $x$\n\nKeep this paragraph.')};
+ const block={id:'methods',type:'worked-example',sourceLayoutEvidence:{original:evidence},sourceReview:{original:evidence},examples:[active]};
+ assert.equal(findContent(block,'example'),active);
+ assert.equal(findContent({id:'evidence-only',sourceLayoutEvidence:{original:evidence}},'example'),undefined);
+ const catalog=arrangementCatalog(block),entry=[...catalog.entries.values()].find(e=>e.ownerId==='example'&&e.field==='prompt');
+ const edited=replaceArrangementContent(block,entry,fromSource('Changed $y$'));
+ assert.equal(edited.sourceLayoutEvidence.original.blocks[0].inlines[0].text,'Original');
+ assert.deepEqual(edited.examples[0].prompt.blocks[1],active.prompt.blocks[1]);
+ assert.match(JSON.stringify(edited.examples[0].prompt.blocks[0]),/Changed/);
+});
+
+test('exam attribution accompanies only the first root prompt in native arrangements',()=>{
+ for(const native of [false,true]){
+  const block={id:'exam',type:'question',title:'2021 HSC Standard 2 Band 5',content:{id:'stem',prompt:native?fromSource('Find the angle.\n\nGive a reason.'):'Find the angle.',children:[{id:'part',prompt:'Explain.'}]}};
+  const labels=[...arrangementCatalog(block).entries.values()].map(e=>arrangementExamTitle(block,e)).filter(Boolean);
+  assert.deepEqual(labels,['2021 HSC Standard 2']);
+  block.title='Development';
+  assert.equal([...arrangementCatalog(block).entries.values()].some(e=>arrangementExamTitle(block,e)),false);
+ }
+});
 const fixture=()=>({version:1,root:group('root',[group('row',[group('left',[item('a'),item('b')]),group('right',[item('graph')])],'row')])});
 const textFixture=()=>({id:'activity',type:'question',sourceAtom:{kind:'investigation'},content:{id:'q',prompt:'Interpret Coordinates',children:[{id:'a',label:'a',prompt:'$(2,4)$',answer:{short:'right, up'},answerSpaceMm:8}]}});
 

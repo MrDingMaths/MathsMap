@@ -16,9 +16,34 @@ import {
 } from '../scripts/booklet/project-studio-server.mjs';
 import { normaliseQuestion } from '../src/lib/practice-question-model.js';
 import { importReconstruction } from '../scripts/booklet/import-reconstruction.mjs';
-import { studioProject, editFields } from '../src/lib/booklet-review-model.js';
+import { studioProject, editFields, findEditableDiagram } from '../src/lib/booklet-review-model.js';
 import { loadBookletProject as loadProjectClient } from '../src/lib/booklet-project-storage.js';
 import { independentAnswerPages, teachingAnswerCategory, teachingQuestionMode } from '../src/lib/booklet-answer-options.js';
+
+test('project edits ignore preserved source evidence with reused content IDs', () => {
+  const evidence={id:'example',content:'Original source'};
+  const project={sections:[{id:'section',blocks:[
+    {id:'intro',sourceLayoutEvidence:{original:evidence}},
+    {id:'methods',examples:[{id:'example',prompt:'Editable formula'},{id:'neighbour',prompt:'Unchanged'}]},
+  ]}]};
+  const edited=updateProjectContent(project,'example','/prompt','Updated formula');
+  assert.equal(edited.sections[0].blocks[1].examples[0].prompt,'Updated formula');
+  assert.deepEqual(edited.sections[0].blocks[0],project.sections[0].blocks[0]);
+  assert.deepEqual(edited.sections[0].blocks[1].examples[1],project.sections[0].blocks[1].examples[1]);
+  assert.equal(project.sections[0].blocks[1].examples[0].prompt,'Editable formula');
+});
+
+test('diagram selection and edits preserve matching diagrams in source evidence', () => {
+  const original={id:'triangle',format:'tikz',code:'Original'};
+  const block={id:'methods',sourceLayoutEvidence:{originalDiagram:original},examples:[{id:'example',questionDiagrams:[{...original,code:'Editable'}]}]};
+  const item=findEditableDiagram(block,'triangle');
+  assert.equal(item.path,'/examples/0/questionDiagrams/0');
+  const project={sections:[{id:'section',blocks:[block]}]};
+  const edited=updateProjectContent(project,'methods',item.path,{...item.diagram,code:'Updated'});
+  assert.equal(edited.sections[0].blocks[0].examples[0].questionDiagrams[0].code,'Updated');
+  assert.deepEqual(edited.sections[0].blocks[0].sourceLayoutEvidence,block.sourceLayoutEvidence);
+  assert.equal(findEditableDiagram({sourceLayoutEvidence:{original}},'triangle'),null);
+});
 
 test('teaching answer switches are independent and survive saved defaults', () => {
   let project=createEditableProject({title:'Teaching'});

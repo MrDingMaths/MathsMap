@@ -4,6 +4,14 @@ import {
   isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle,
 } from '../src/lib/booklet-preview.js';
 
+test('printed exam attribution omits the Band rating without changing source metadata', () => {
+  const question={title:'2016 HSC Standard 2 Band 4',content:{prompt:'Find the area.'}};
+  assert.equal(visibleImportedQuestionTitle(question),'2016 HSC Standard 2');
+  assert.equal(question.title,'2016 HSC Standard 2 Band 4');
+  assert.equal(visibleImportedQuestionTitle({title:'HSC Mathematics Band 6'}),'HSC Mathematics');
+  assert.equal(visibleImportedQuestionTitle({title:'2023 HSC Standard 2'}),'2023 HSC Standard 2');
+});
+
 test('question previews can copy reactive proxies without mutating transcription state', () => {
   const source = {
     id: 'page-30-q1',

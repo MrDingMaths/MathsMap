@@ -18,6 +18,16 @@ export function reviewTargets(project) {
   return result;
 }
 export const targetById=(project,targetId)=>reviewTargets(project).find(t=>t.id===targetId);
+export function findEditableDiagram(node, diagramId, path='') {
+  if (!node || typeof node !== 'object') return null;
+  if (node.id===diagramId && (node.format || node.type==='image')) return {diagram:node,path};
+  for (const [key,value] of Object.entries(node)) {
+    if (['source','sourceAtom','sourceReview','sourceLayoutEvidence','originalDiagram','originalGraph','mathematicalModel','spec'].includes(key)) continue;
+    const found=findEditableDiagram(value,diagramId,path+'/'+key.replace(/~/g,'~0').replace(/\//g,'~1'));
+    if (found) return found;
+  }
+  return null;
+}
 function pointer(node,path) {
   const parts=String(path).split('/').slice(1).map(p=>p.replace(/~1/g,'/').replace(/~0/g,'~'));
   if(!parts.length || parts.some(p=>['__proto__','prototype','constructor','id','source','bankRef','canonicalId'].includes(p)))throw new Error('Protected or invalid edit path');

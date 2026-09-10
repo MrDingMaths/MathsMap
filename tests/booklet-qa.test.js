@@ -17,6 +17,13 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  const base='<style>*{box-sizing:border-box}article{position:relative;width:210mm;height:297mm;padding:10mm 15mm}main{width:180mm}footer{position:absolute;left:15mm;bottom:10mm;height:4mm}p{margin:0} .answer-space{height:40mm}</style>';
  async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn})=>(new Function('return ('+fn+')'))()(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString()});}
  assert.equal((await check('<p>Fits</p>')).issues.length,0);
+ const sourceColour=(metadata='',colour='#4654B5')=>`<div class="tikz-wrap"><svg width="100" height="50">${metadata}<path d="M0 20L90 20" fill="none" stroke="${colour}"/></svg></div>`;
+ assert.ok((await check(sourceColour())).issues.some(i=>i.kind==='graph-palette'));
+ const paletteEvidence='<metadata data-graph-source-palette="#4654B5" data-graph-source-reference="source page 8, example triangle"/>';
+ assert.ok(!(await check(sourceColour(paletteEvidence))).issues.some(i=>i.kind==='graph-palette'));
+ assert.ok(!(await check(sourceColour(paletteEvidence.replace('#4654B5','4654B5')))).issues.some(i=>i.kind==='graph-palette'));
+ assert.ok((await check(sourceColour(paletteEvidence,'#AA0505'))).issues.some(i=>i.kind==='graph-palette'));
+ assert.ok((await check(sourceColour(paletteEvidence.replace('source page 8, example triangle','')))).issues.some(i=>i.kind==='graph-palette'));
  assert.ok((await check('<div class="question-grid"><section class="question-node" data-node-id="part-a" style="width:40mm"><span class="katex-html"><span class="base" style="display:inline-block;width:50mm">Long formula</span></span></section></div>')).issues.some(i=>i.kind==='question-column-overflow'&&i.targetId==='part-a'));
  assert.ok((await check('<div class="arr-item" data-content-owner="part-b" style="width:40mm"><span class="katex-html"><span class="base" style="display:inline-block;width:50mm">Long native formula</span></span></div>')).issues.some(i=>i.kind==='question-column-overflow'&&i.targetId==='part-b'));
  const strokeSvg=(width,tag='data-graph-stroke-pt="0.8"')=>`<div class="tikz-wrap"><svg width="100" height="50"><metadata data-graph-strokes="1"/><path ${tag} d="M0 20L90 20" fill="none" stroke="black" stroke-width="${width}"/></svg></div>`;

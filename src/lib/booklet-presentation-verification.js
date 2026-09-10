@@ -1,6 +1,7 @@
 import {contentSource} from './document-content.js';
 import {signature} from './booklet-content-verification.js';
 import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
+import {resolveArrangement} from './booklet-arrangement.js';
 
 export const PRESENTATION_VERIFIER_VERSION='3';
 // Review every rendered occurrence; preserved originals are evidence, not output.
@@ -21,11 +22,12 @@ export function questionNodes(root){
   const result=[];const visit=n=>{if(!n)return;result.push(n);n.children?.forEach(visit);};visit(root);return result;
 }
 export async function presentationVerificationKey(block,sourceHashes,settings={}){
-  return signature({version:PRESENTATION_VERIFIER_VERSION,sourceHashes,atom:block.sourceAtom,role:block.pedagogyRole,
+  return signature({version:PRESENTATION_VERIFIER_VERSION,sourceHashes,atom:block.sourceAtom,role:block.pedagogyRole,title:block.title,
     pagination:{sourcePage:block.sourcePageNumber,sourceBreak:block.flow?.sourcePageBreakBefore,manualBreak:block.flow?.pageBreakBefore,policy:settings.sourcePaginationPolicy,preserveSourcePages:settings.sourcePaginationPolicy?settings.preserveSourcePages:undefined},
     sourceRefs:block.sourceRefs,review:{...block.sourceReview,verification:undefined},
     nodes:questionNodes(block.type==='question'?block.content:null).map(n=>({id:n.id,prompt:n.prompt,layout:n.layout,columns:n.columns,order:n.children?.map(c=>c.id),questionDiagrams:n.questionDiagrams,sharedSolutionDiagrams:n.sharedSolutionDiagrams,answerSpaceMm:n.answerSpaceMm})),
-    content:block.type==='question'?undefined:block.content});
+    content:block.type==='question'?undefined:block.content,examples:block.examples,presentation:block.presentation,
+    activeArrangement:settings.layoutOverrides?.blockLayouts?.[block.id]?.arrangement});
 }
 export async function inspectPresentationFidelity(project){
   const issues=[];let checked=0;
@@ -49,6 +51,7 @@ export async function inspectPresentationFidelity(project){
     if(review?.teachingGroup&&Object.entries(review.teachingGroup).some(([key,value])=>block.sourceAtom?.[key]!==value))issue('source-teaching-group-mismatch',block.id,'The source activity heading or group has been replaced. Preserve its meaning and shared demonstrations/responses.');
     if(review?.sourcePagination&&project.settings.sourcePaginationPolicy==='source-boundaries'&&(review.sourcePagination.page!==block.sourcePageNumber||review.sourcePagination.breakBefore!==!!block.flow?.sourcePageBreakBefore||block.flow?.pageBreakBefore===false&&review.sourcePagination.breakBefore))issue('source-page-boundary-mismatch',block.id,'Restore the reviewed source page boundary.');
     const activeArrangement=project.settings?.layoutOverrides?.blockLayouts?.[block.id]?.arrangement;
+    if(activeArrangement)for(const missing of resolveArrangement(block,activeArrangement).missing)issue('unresolved-arrangement-reference',block.id,`The layout references missing content ${missing.ref}; restore the actual prompt, diagram or response-space reference.`);
     if(JSON.stringify(normalizeArrangement(activeArrangement))!==JSON.stringify(normalizeArrangement(review?.arrangementOverride)))issue('unreviewed-source-arrangement',block.id,'The active custom arrangement differs from the reviewed source arrangement.');
     if(section.phase==='teaching'&&!block.sourceAtom?.id)issue('missing-teaching-template',block.id,'Assign a source teaching group and header template.');
     if(block.sourceAtom){
@@ -66,6 +69,7 @@ export async function inspectPresentationFidelity(project){
         if(!RESPONSE_KINDS.includes(response?.kind))issue('unreviewed-response-space',node.id,'Identify the response requirement from the source before allocating working space.');
         if(response&&['cloze','inline','none'].includes(response.kind)&&node.answerSpaceMm>0)issue('unnecessary-response-space',node.id,'An inline response or cloze already supplies its response space.');
         if(response?.kind==='tick-cross'&&node.answerSpaceMm>6)issue('excessive-response-space',node.id,'A tick/cross response needs at most 6 mm, not a working area.');
+        if(node.responseSpace==='scaffold'&&node.answerSpaceMm>0&&['working','short','tick-cross'].includes(response?.kind))issue('suppressed-response-space',node.id,'Scaffold mode hides the requested answer space. Retain native scaffold space or restore the source-supported writing area.');
       }
     }
     if(!review?.verification?.checked||review.verification.signature!==await presentationVerificationKey(block,project.source?.sourceHashes,project.settings))issue('unchecked-teaching-arrangement',block.id,'Verify teaching presentation and response arrangements against the source and accepted templates.');

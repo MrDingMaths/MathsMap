@@ -37,9 +37,18 @@ function walk(value, visit, seen = new Set()) {
 }
 
 export function findProjectNode(project, id) {
-  let found = null;
-  walk(project?.sections ?? [], (node) => { if (!found && node?.id === id) found = node; });
-  return found;
+  const visit = node => {
+    if (!node || typeof node !== 'object') return null;
+    if (node.id === id) return node;
+    for (const [key, value] of Object.entries(node)) {
+      if (['source', 'sourceAtom', 'sourceReview', 'sourceLayoutEvidence', 'originalDiagram', 'originalGraph', 'mathematicalModel'].includes(key)) continue;
+      for (const child of Array.isArray(value) ? value : [value]) {
+        const found = visit(child); if (found) return found;
+      }
+    }
+    return null;
+  };
+  return visit(project?.sections ?? []);
 }
 
 function pointerParts(pointer) {

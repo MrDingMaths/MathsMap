@@ -11,6 +11,7 @@ export function creationSettings(mode='compact') {
 export function applyCreationPreset(raw, mode='compact') {
   const project=structuredClone(raw);
   project.settings={...project.settings,...creationSettings(mode)};
+  if(mode==='compact'&&raw.settings?.sourcePaginationPolicy==='source-boundaries')project.settings.preserveSourcePages=true;
   if(mode==='exact'){
     for(const key of ['paginationMode','exerciseOrganisation','compactAnswers','includeTeachingAnswers','teachingPresentationVersion','mathsStyle','generatedCover','flowEdition'])delete project.settings[key];
     return project;

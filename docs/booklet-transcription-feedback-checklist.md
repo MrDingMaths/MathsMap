@@ -18,6 +18,8 @@ This checklist records the user's general feedback from the Index Laws transcrip
 11. **Repeated occurrences and future runs:** a reported problem triggers a whole-booklet search for the same pattern and a shared template/renderer correction when applicable. A local content patch alone does not close a recurring renderer defect.
 12. **Syllabus outcomes:** transcribe every source syllabus code together with its complete outcome statement and content bullets. Inventory these separately from the cover and topic titles. The cover's omission of syllabus-summary lines does not authorise dropping the Syllabus Content page's outcomes. Compare the exact code against original evidence; do not infer a replacement from topic names.
 
+13. **Redundant measurements:** retain source-given numerical measurements even when they are not needed for the solution. Identifying which givens are relevant is an assessed skill. Do not delete redundant measurements or replace them with symbolic labels merely to simplify a diagram. Correct confirmed numerical inconsistencies with recorded replacement values while preserving the selection task; keep uncertain repairs open for review.
+
 ## Required completion evidence
 
 Also complete the [cross-session rules](booklet-cross-session-rules.md): handwriting capacity and dotted cloze, Key Ideas line spacing, numeric-table semantics, graph typography/strokes, complete annotations, question identity, editor/print parity and solution methods. These earlier Linear Relationships requirements apply equally to future subjects; their original feedback category of “specific” does not limit an explicitly recurring problem to that example.

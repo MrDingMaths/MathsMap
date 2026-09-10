@@ -75,6 +75,27 @@ test('semantic import preserves source references while local ratings sort indep
   assert.equal(sourceReferences(p.sections[0].blocks[0])[0].pageNumber,2);
   assert.equal(p.sections[0].blocks[0].bankRef,null);
 });
+
+test('explicit source boundaries survive compact import with source order and compact answers',()=>{
+  const raw=candidate();raw.settings={sourcePaginationPolicy:'source-boundaries'};
+  raw.sections[0].sourcePageNumber=2;
+  raw.sections[0].blocks[0].flow.sourcePageBreakBefore=true;
+  const second=question('c',1);second.sourceRefs=[{pageNumber:3}];second.flow.sourcePageBreakBefore=true;
+  raw.sections.push({...raw.sections[0],id:'s3',sourcePageNumber:3,blocks:[second]});
+  const p=contentProject(raw,{runId:'run',projectId:'new',selectedPages:[2,3]});
+  assert.equal(p.settings.paginationMode,'flexible');
+  assert.equal(p.settings.preserveSourcePages,true);
+  assert.deepEqual(p.sections.map(s=>s.blocks.map(b=>b.id)),[['a','b'],['c']]);
+  assert.ok(p.sections.every(s=>s.blocks[0].flow.sourcePageBreakBefore));
+  assert.equal(p.settings.compactAnswers.shortFontPt,9);
+  assert.ok(!p.settings.includeTeachingAnswers);
+  assert.ok(!(p.studio?.flags??[]).some(f=>f.id.startsWith('sequence-')));
+  const normal=candidate();normal.sections[0].blocks[0].flow.sourcePageBreakBefore=true;
+  const compact=contentProject(normal,{selectedPages:[2]});
+  assert.equal(compact.settings.preserveSourcePages,false);
+  assert.deepEqual(compact.sections[0].blocks.map(b=>b.id),['b','a']);
+  assert.ok(compact.sections[0].blocks.every(b=>!b.flow.sourcePageBreakBefore));
+});
 test('uncertain and unrated runs keep their source sequence',()=>{
   const raw=candidate();delete raw.sections[0].blocks[1].flow;
   const p=contentProject(raw,{runId:'run',projectId:'new',selectedPages:[2]});

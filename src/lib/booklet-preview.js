@@ -76,7 +76,7 @@ export function visibleImportedQuestionTitle(question) {
   const title = String(question?.title ?? '').trim();
   const prompt = String(question?.content?.prompt ?? '').trim().replace(/\*\*/g, '');
   if (!title || title === prompt || prompt.startsWith(title + '\n') || prompt.startsWith(title + ':')) return '';
-  return /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(title) ? title : '';
+  return /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(title) ? title.replace(/\s+Band\s+\d+\s*$/i, '') : '';
 }
 
 // Explicit layout opt-in: keep source text editable as one field, but present

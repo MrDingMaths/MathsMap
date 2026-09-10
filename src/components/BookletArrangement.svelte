@@ -4,9 +4,9 @@
  import EditableBookletText from './EditableBookletText.svelte';
  import Tikz from './Tikz.svelte';
  import {sourceRegionStyles} from '../lib/diagram-source-region.js';
- import {resolveArrangement} from '../lib/booklet-arrangement.js';
+ import {resolveArrangement,arrangementExamTitle} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
- let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
+ let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
  const requestEdit=getContext('booklet-edit-request');
  const documentActions=getContext('booklet-document-actions');
  const getLabels=getContext('booklet-labels');
@@ -62,7 +62,7 @@
  {:else if entry.kind==='label'}<b>{entry.value}</b>
  {:else if entry.kind==='space'}
   {#if showSpaces||onselect}<div class="arr-space" class:space-edit={!!onselect||editMode&&!!onSpaceResize} style:height={spaceHeight(n,entry)+'mm'}></div>{/if}
- {:else}{#if editMode&&!onselect&&documentActions}<EditableBookletText value={entry.value} rootId={entry.ownerId} pointer={'/'+entry.field} {fillCloze} {editMode}/>{:else}<BookletRichText alignRelations={!/prompt$/i.test(entry.field ?? "")} text={entry.value} {fillCloze}/>{/if}{#if onselect&&entry.kind==='document'&&entry.value.blocks[0]?.type==='paragraph'&&!entry.value.blocks[0]?.inlines?.length}<span class="empty-label">Empty paragraph</span>{/if}
+ {:else}{#if showTitle&&arrangementExamTitle(block,entry)}<strong class="exam-label" style:display="block">{arrangementExamTitle(block,entry)}</strong>{/if}{#if editMode&&!onselect&&documentActions}<EditableBookletText value={entry.value} rootId={entry.ownerId} pointer={'/'+entry.field} {fillCloze} {editMode}/>{:else}<BookletRichText alignRelations={!/prompt$/i.test(entry.field ?? "")} text={entry.value} {fillCloze}/>{/if}{#if onselect&&entry.kind==='document'&&entry.value.blocks[0]?.type==='paragraph'&&!entry.value.blocks[0]?.inlines?.length}<span class="empty-label">Empty paragraph</span>{/if}
  {/if}
  {#if onmeasure&&selected===n.id||onSpaceResize&&editMode&&showSpaces&&entry?.kind==='space'}
   {@const property=entry?.kind==='space'?'height':'after'}

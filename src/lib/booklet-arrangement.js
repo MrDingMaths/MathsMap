@@ -2,6 +2,12 @@ import {group,item,arrangementItems,normalizeArrangement,arrangementParent,findA
 import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './document-content.js';
 import {teachingLabels} from './booklet-labels.js';
 import {estimateAnswerSpaceMm} from './practice-question-model.js';
+import {visibleImportedQuestionTitle} from './booklet-preview.js';
+
+export function arrangementExamTitle(block,entry){
+ if(block.type!=='question'||entry?.ownerId!==block.content?.id||entry?.editorKey!==block.content.id+'/prompt')return '';
+ return visibleImportedQuestionTitle(block);
+}
 
 export function arrangementQuestionBlock(question,number=null){
  return {...question,type:'question',sourceOrder:number??question.sourceOrder};
@@ -87,7 +93,7 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
  const missing=arrangementItems(tree.root).filter(n=>!catalog.entries.has(n.ref));
  return {...catalog,tree,missing};
 }
-export function findContent(root,id){if(root?.id===id)return root;for(const [key,v]of Object.entries(root??{})){if(['spec','sourceAtom','originalDiagram'].includes(key))continue;if(v&&typeof v==='object'){const found=(Array.isArray(v)?v:[v]).map(x=>findContent(x,id)).find(Boolean);if(found)return found;}}}
+export function findContent(root,id){if(root?.id===id)return root;for(const [key,v]of Object.entries(root??{})){if(['spec','sourceAtom','sourceLayoutEvidence','sourceReview','originalDiagram','originalGraph','mathematicalModel'].includes(key))continue;if(v&&typeof v==='object'){const found=(Array.isArray(v)?v:[v]).map(x=>findContent(x,id)).find(Boolean);if(found)return found;}}}
 export function setGroupAnswerSpaceHeight(tree,entries,groupId,height){
  if(!Number.isFinite(height)||height<0||height>180)throw Error('Answer space height must be between 0 and 180 mm');
  const next=JSON.parse(JSON.stringify(tree)),group=findArrangement(next.root,groupId);

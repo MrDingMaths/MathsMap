@@ -98,6 +98,12 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
   if(style){
    for(let a=wrap;a&&a!==article;a=a.parentElement)if(/grayscale\(/.test(getComputedStyle(a).filter)){add('graph-palette-filter',wrap,{diagramId});break;}
    const palette=new Set(['38,140,255','239,96,104','79,155,99']);
+   // Source-specific colours remain explicit, occurrence-scoped evidence. This
+   // extends the allowed colours only; all geometry and typography checks stay.
+   for(const evidence of svg.querySelectorAll('[data-graph-source-palette][data-graph-source-reference]')){
+    if(!evidence.dataset.graphSourceReference.trim())continue;
+    for(const token of evidence.dataset.graphSourcePalette.split(/[ ,;]+/)){const hex=token.replace(/^#/,'');if(/^[0-9a-f]{6}$/i.test(hex))palette.add([0,2,4].map(i=>parseInt(hex.slice(i,i+2),16)).join(','));}
+   }
    const bad=new Set();
    for(const shape of svg.querySelectorAll('path,line,polyline,polygon,rect,circle')){
     const stroke=getComputedStyle(shape).stroke,rgb=stroke.match(/^rgba?\((\d+)[, ]+\s*(\d+)[, ]+\s*(\d+)/);

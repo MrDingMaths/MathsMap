@@ -12,12 +12,41 @@ import fs from 'node:fs';
 const fixture=()=>({settings:creationSettings(),source:{sourceHashes:{pdf:'source'}},sections:[{phase:'teaching',blocks:[{
  id:'guided',type:'question',pedagogyRole:'guided-practice',sourceRefs:[{pageNumber:3}],content:{id:'root',prompt:'Guided Practice',layout:'grid',columns:2,children:[{id:'a',prompt:'$x^2x^3$',answerSpaceMm:14}]}
 }]}]});
+test('worked-example colours, geometry and arrangements invalidate presentation evidence',async()=>{
+ const block={id:'example',type:'worked-example',examples:[{id:'e',prompt:'Calculate.',theorySolution:'$x=5$',questionDiagrams:[{id:'d',format:'tikz',code:'original',widthMm:40}]}],presentation:{layout:'worked-rows'}};
+ const key=await presentationVerificationKey(block,{pdf:'source'});
+ for(const change of [b=>b.examples[0].theorySolution='$\\color{red}x=5$',b=>b.examples[0].questionDiagrams[0].code='changed',b=>b.examples[0].questionDiagrams[0].widthMm=20,b=>b.presentation.layout='columns']){
+  const edited=structuredClone(block);change(edited);assert.notEqual(await presentationVerificationKey(edited,{pdf:'source'}),key);
+ }
+ assert.notEqual(await presentationVerificationKey(block,{pdf:'source'},{layoutOverrides:{blockLayouts:{example:{arrangement:{version:1,root:{id:'changed',type:'group',children:[]}}}}}}),key);
+});
+test('source header colour survives project normalization and invalidates a presentation check',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0];
+ b.sourceAtom={id:'review',kind:'review',headerFill:'#E1FAE1'};
+ b.sourceReview={presentationRequirements:[{path:'/sourceAtom/headerFill',value:'#E1FAE1'}]};
+ const reopened=normalizeEditableProject(JSON.parse(JSON.stringify(p)));
+ assert.equal(reopened.sections[0].blocks[0].sourceAtom.headerFill,'#E1FAE1');
+ const signature=await presentationVerificationKey(b,p.source.sourceHashes);
+ b.sourceAtom.headerFill='#FEE0E0';
+ assert.notEqual(await presentationVerificationKey(b,p.source.sourceHashes),signature);
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='source-presentation-mismatch'));
+});
 test('untemplated teaching, duplicate headings and blanket spaces cannot pass acceptance',async()=>{
  const p=fixture(),b=p.sections[0].blocks[0];
  assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='missing-teaching-template'));
  b.sourceAtom={id:'group',kind:'guided-practice'};b.sourceReview={headerOwnedByTemplate:true,responses:[{targetId:'a',kind:'cloze'}]};
  const kinds=(await inspectPresentationFidelity(p)).issues.map(i=>i.kind);
  for(const kind of ['duplicate-teaching-header','unnecessary-response-space','unreviewed-source-arrangement'])assert.ok(kinds.includes(kind));
+});
+test('a declared working area cannot pass when scaffold mode suppresses it',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0],part=b.content.children[0];
+ b.sourceReview={responses:[{targetId:part.id,kind:'working'}]};
+ part.responseSpace='scaffold';
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='suppressed-response-space'&&i.targetId===part.id));
+ delete part.responseSpace;
+ assert.ok(!(await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='suppressed-response-space'));
+ part.responseSpace='scaffold';part.answerSpaceMm=0;b.sourceReview.responses[0].kind='cloze';
+ assert.ok(!(await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='suppressed-response-space'));
 });
 test('changing source columns, order or response requirements invalidates presentation independently',async()=>{
  const p=fixture(),b=p.sections[0].blocks[0],entry={targetId:'a'},content=await contentVerificationKey(p,entry);
@@ -66,6 +95,14 @@ test('custom source arrangements are checked against active layout overrides',as
  const p=fixture(),b=p.sections[0].blocks[0];
  p.settings.layoutOverrides={blockLayouts:{guided:{arrangement:{version:1,root:{id:'a',type:'group',direction:'row',children:[]}}}}};
  assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.targetId==='guided'&&i.kind==='unreviewed-source-arrangement'));
+});
+test('a matching custom arrangement cannot certify references that omit the actual part prompt',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0];
+ const arrangement={version:1,root:{id:'layout',type:'group',direction:'stack',children:[{id:'part',type:'item',ref:'a'}]}};
+ p.settings.layoutOverrides={blockLayouts:{guided:{arrangement}}};b.sourceReview={arrangementOverride:structuredClone(arrangement)};
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='unresolved-arrangement-reference'));
+ arrangement.root.children[0].ref='a/prompt';
+ assert.ok(!(await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='unresolved-arrangement-reference'));
 });
 
 test('an out-of-bounds Word crop cannot pass as a readable source diagram',async()=>{

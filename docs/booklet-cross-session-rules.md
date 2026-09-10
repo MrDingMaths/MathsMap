@@ -25,6 +25,10 @@ Current user instructions take precedence. Apply explicit general house-style ch
 
 Source-specific corrections remain source-specific: deleting a supplied column on Linear p17, a particular 25 mm tab stop, merging selected questions, Index source-page boundaries, and individual mathematical corrections. Generalise the underlying checks (fit, alignment, fidelity), not those edits.
 
+## Redundant measurements (10 September 2026)
+
+Retain redundant numerical measurements in source diagrams: identifying which givens are needed is a skill being assessed. This applies across booklets. Redundancy alone is not a reason to remove a given or replace it with a symbolic label. When measurements are mathematically inconsistent, retain their roles and record any confirmed numerical corrections; uncertain replacement choices remain open for review. Preserve original evidence.
+
 ## Review groups (9 September 2026)
 
 Use one existing Review heading and enclosing panel per teaching group, preserving its palette. Number top-level prompts 1, 2, …, restarting within each source activity group (`sourceAtom.id`). Even a single prompt has number 1. Retain subpart labels and the original number on continuations. Review numbers are presentation labels, independent of practice numbering and stored source order. Do not print small checkboxes or embed checkbox glyphs in prompt prose. Preserve mathematical writing boxes. This user-requested house-style change applies to Linear Relationships v1, Index Laws and future booklets. The shared teaching-label helper supplies numbers in editing, preview and print, including saved arrangements; teaching-answer controls keep their existing behaviour.
