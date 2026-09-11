@@ -249,6 +249,7 @@
       }};
   }
   function openArrangement(target,request){
+    target={...target,section:target.section??project.sections.find(s=>s.blocks.some(b=>b.id===target.block.id))};
     const block=target.block;
     const related=new Set(reviewTargets(project).filter(t=>t.block.id===block.id).map(t=>t.id));
     selectedBlockId=block.id;selectedTargetId=target.id;
@@ -277,6 +278,13 @@
   const selectedDiagram=$derived(diagramSelection?fieldValue(project,diagramSelection):null);
   function diagramRequest(){const target=contentTarget(project,diagramSelection?.rootId);return target?{target:{...target,id:diagramSelection.rootId},item:{diagram:selectedDiagram,path:diagramSelection.pointer},origin:canvas.querySelector(`[data-diagram-id="${CSS.escape(selectedDiagram.id)}"]`)}:null;}
   function editSelectedDiagram(){const request=diagramRequest();if(request)requestDiagram(request);}
+  function arrangeSelectedQuestion(event){
+    if(selectedBlock?.type!=='question')return;
+    const diagram=diagramRequest();
+    const origin=diagram?.target.block.id===selectedBlock.id?diagram.origin:canvas.querySelector(`[data-edit-root="${CSS.escape(selectedBlock.content.id)}"]`)??event.currentTarget;
+    finishInline();
+    openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin,rootId:selectedBlock.content.id,pointer:'/prompt',selectedDiagramId:diagram?.target.block.id===selectedBlock.id?selectedDiagram.id:undefined});
+  }
   function changeDiagram(patch){if(!selectedDiagram)return;const width=patch.widthMm;if(width!=null&&(!Number.isFinite(width)||width<5||width>190)){error='Choose a diagram width between 5 and 190 mm.';return;}let next=diagramSelection.pointer?updateProjectContent(project,diagramSelection.rootId,diagramSelection.pointer,{...selectedDiagram,...patch}):{...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>b.id===selectedDiagram.id?{...b,...patch}:b)}))};if(width!=null)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramWidths:{...next.settings.layoutOverrides.diagramWidths,[selectedDiagram.id]:width}}});next=syncDiagramPresentation(next,contentTarget(project,diagramSelection.rootId)?.block?.id,selectedDiagram.id,patch);change(next);}
   function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;for(const target of reviewTargets(project)){const item=findEditableDiagram(target.node,id);if(item){event.preventDefault();finishInline();diagramSelection={rootId:target.id,pointer:item.path};documentSelection={...diagramSelection,edition:flexible?flowEdition:answerView};selectedBlockId=target.block.id;selectedSectionId=target.section.id;canvas.querySelectorAll('.document-diagram-selected').forEach(e=>e.classList.remove('document-diagram-selected'));element.classList.add('document-diagram-selected');if(event.type==='dblclick'||event.type==='keydown')editSelectedDiagram();return;}}}
   $effect(()=>{if(!canvas)return;project;const decorate=()=>canvas.querySelectorAll('[data-diagram-id]').forEach(el=>{
@@ -675,11 +683,11 @@
   <span class="save-state" role="status">{saveState}</span>
   {#if project&&!flexible}<button disabled={!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
   {#if project}<button aria-expanded={showBankSync} onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button>{/if}
-  <div class="toolbar-actions"><button onclick={undo} disabled={!undoStack.length}>Undo</button><button onclick={redo} disabled={!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
+  <div class="toolbar-actions"><button data-equation-control onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control onclick={redo} disabled={!redoStack.length}>Redo</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>PDF</button>
   <details  class="menu"><summary>Project</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>{panel='metadata';}}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details>
   <details class="menu"><summary>Tools</summary><div><button onclick={checkCurrentPage}>Check page</button><button onclick={()=>tool='assembly'}>Assembly</button></div></details></div>
  </header>
- {#if project}<div class="document-toolbar project-screen" role="toolbar" tabindex="-1" aria-label="Document formatting" onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}>
+ {#if project}<div class="document-toolbar project-screen" data-equation-control role="toolbar" tabindex="-1" aria-label="Document formatting" onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}>
    <select aria-label="Text style" onchange={e=>formatDocument(e.currentTarget.value==='body'?'paragraph':'size',e.currentTarget.value)}><option value="body">Body text</option><option value="14">Heading</option><option value="11">Subheading</option></select>
    <button aria-label="Bold" onclick={()=>formatDocument('bold')}><b>B</b></button><button aria-label="Italic" onclick={()=>formatDocument('italic')}><i>I</i></button><button aria-label="Underline" onclick={()=>formatDocument('underline')}><u>U</u></button>
    <input type="color" aria-label="Text colour" value="#24282d" oninput={e=>formatDocument('colour',e.currentTarget.value)}/>
@@ -687,7 +695,7 @@
    <select aria-label="Text alignment" onchange={e=>formatDocument('align',e.currentTarget.value)}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select>
    <button onclick={()=>formatDocument('bullets')}>Bullets</button><button onclick={()=>formatDocument('numbered')}>Numbering</button><button aria-label="Indent list" title="Indent list" onclick={()=>formatDocument('indent-list')}>⇥</button><button aria-label="Outdent list" title="Outdent list" onclick={()=>formatDocument('outdent-list')}>⇤</button><button onclick={()=>formatDocument('math')}>Maths</button>
    <details class="document-insert"><summary>Insert</summary><div><button onclick={()=>insertDocumentContent('text')}>Text</button><button onclick={()=>insertDocumentContent('question')}>Question</button>{#each TEACHING_TEMPLATES as [kind,label]}<button onclick={()=>insertDocumentContent(kind)}>{label}</button>{/each}<button onclick={()=>formatDocument('table')}>Table</button><button onclick={()=>formatDocument('image')}>Image</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Insert tab')}>Tab</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Paragraph')}>Paragraph</button><details><summary>More insertions</summary>{#each DOCUMENT_INSERT_TOOLS as [label,command]}<button disabled={!activeEditor} onclick={()=>formatDocument('native',command)}>{label}</button>{/each}</details></div></details>
-   {#if selectedBlock?.type==='question'}<details class="document-insert question-spacing"><summary>Question spacing</summary><div><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/><button onclick={event=>openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin:event.currentTarget})}>Arrange question</button></div></details>{/if}
+   {#if selectedBlock?.type==='question'}<button onclick={arrangeSelectedQuestion}>Arrange question</button><details class="document-insert question-spacing"><summary>Question spacing</summary><div><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/></div></details>{/if}
    <button onclick={addComment}>Add comment</button><button aria-expanded={panel==='comments'} onclick={()=>togglePanel('comments')}>Comments {flagCount||''}</button>
    <button onclick={()=>{panel=activeEditor?'format':'properties';}}>More options</button>
    {#if nativeTable}{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}{/if}
@@ -748,7 +756,7 @@
    </main>
    <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool} aria-label={panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
     <header><h2>{panel==='format'?'Selection options':panel==='comments'?'Comments':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2><button aria-label="Close panel" onclick={()=>panel=''}>×</button></header>
-    {#if panel==='format'&&activeEditor}<button onclick={()=>formatDocument('native','Replace selected dots with tab leader')}>Replace selected dots with tab leader</button>{#key activeEditor}<div class="document-selection-properties" use:selectionInspector={activeEditor}></div>{/key}{/if}
+    {#if panel==='format'&&activeEditor}<button onclick={()=>formatDocument('native','Replace selected dots with tab leader')}>Replace selected dots with tab leader</button>{#key activeEditor}<div class="document-selection-properties" data-equation-control use:selectionInspector={activeEditor}></div>{/key}{/if}
     <div hidden={panel!=='comments'}><BookletComments bind:this={commentsPanel} {project} onchange={change} oncopy={copyComments} onlocate={flag=>{const target=contentTarget(project,flag.targetId);if(target){finishInline();selectedBlockId=target.block?.id??selectedBlockId;selectedTargetId=flag.targetId;selectedSectionId=target.section.id;flowPreview?.jumpTo(selectedBlockId);}else status='The original target is no longer in this booklet.';}}/>
       {#if exportedFeedback}<label>Feedback prompt<textarea aria-label="Feedback prompt" readonly rows="12" value={exportedFeedback} onclick={e=>e.currentTarget.select()}></textarea></label>{/if}
     </div>
@@ -858,7 +866,10 @@
  :global(.booklet-document-field.me-document-editor){border:0!important;padding:0!important;margin:0!important;background:transparent!important;color:inherit!important;font:inherit!important;box-shadow:none!important}
  :global(.booklet-document-field>.me-toolbar),:global(.booklet-document-field>.me-properties){display:none!important}
  :global(.booklet-document-field>.me-content){min-height:1em!important;padding:0!important;border:0!important;outline:none!important;background:transparent!important;color:inherit!important;font:inherit!important}
- :global(.booklet-document-field>.me-math-tools){position:absolute;z-index:25;bottom:100%;background:var(--panel,#fff);border:1px solid #b5c1cf;padding:4px;max-width:600px}
+ .document-toolbar :global(.me-math-tools){position:absolute;z-index:25;top:calc(100% + 4px);right:16px;width:min(850px,calc(100vw - 32px));max-height:50vh;overflow:auto;box-sizing:border-box;background:#edf5fc;color:#24364b;box-shadow:0 6px 18px #0002}
+ .document-toolbar :global(.me-math-tools button){background:#fff;color:#24364b}
+ :global(.booklet-document-field .me-content [data-math]){max-width:100%}
+ :global(.booklet-document-field .me-content [data-math] math-field){max-width:100%;box-sizing:border-box}
  :global(.editable-booklet-text.edit-mode .clickable:empty){min-height:1em}:global(.editable-booklet-text.edit-mode .clickable:empty::before){content:'Write here';color:#90a0ad;pointer-events:none}
  @media print{.document-toolbar{display:none!important}}
  .document-colours{display:flex;gap:3px;max-width:230px;flex-wrap:wrap}.document-toolbar .colour-swatch{width:21px;height:21px;min-height:21px;padding:0;border:1px solid #8d98a7;border-radius:3px}.colour-swatch:focus-visible{outline:2px solid #438ccc;outline-offset:2px}.document-insert>div{max-height:65vh;overflow:auto}.document-insert>div details>button{display:block;width:100%;margin-block:3px}.question-spacing>div{width:290px}

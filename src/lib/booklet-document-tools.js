@@ -1,4 +1,5 @@
 import {BOOKLET_HOUSE_STYLE} from './booklet-house-style.js';
+import {bookletColourChoices} from '../../public/libs/maths-editor/booklet-palette.mjs';
 import {resolveArrangement,setGroupAnswerSpaceHeight} from './booklet-arrangement.js';
 import {arrangementItems} from '../../public/libs/maths-editor/arrangement-model.mjs';
 
@@ -10,17 +11,7 @@ export const DOCUMENT_INSERT_TOOLS = [
   ['Worked rows','worked-rows'],['Mathematical scaffold','scaffold'],
 ];
 const names={ink:'Ink',blue:'Booklet blue',red:'Booklet red',green:'Booklet green',orange:'Booklet orange',tableLabel:'Label blue',border:'Border grey',skipped:'Skipped-value grey',white:'White'};
-export function bookletColours(project){
-  const palette=Object.entries({...BOOKLET_HOUSE_STYLE.colours,white:'#ffffff'}).map(([key,value])=>({name:names[key],value}));
-  const found=new Map(),skip=new Set(['source','sourceReview','sourceLayoutEvidence','originalDiagram','bankRef','classification']);
-  const scan=value=>{
-    if(typeof value==='string'){for(const hex of value.match(/#[\da-f]{6}\b/gi)??[]){const colour=hex.toLowerCase();found.set(colour,(found.get(colour)??0)+1);}}
-    else if(value&&typeof value==='object')for(const [key,v] of Object.entries(value))if(!skip.has(key)&&key!=='src')scan(v);
-  };
-  scan(project?.sections);
-  const existing=new Set(palette.map(c=>c.value));
-  return [...palette,...[...found].filter(([v])=>!existing.has(v)).sort((a,b)=>b[1]-a[1]).map(([value])=>({name:'Source colour '+value.toUpperCase(),value}))];
-}
+export function bookletColours(){return bookletColourChoices.map(c=>({...c,name:names[c.name]??c.name}));}
 
 export function questionSpacing(project,block){
   const overrides=project.settings.layoutOverrides;

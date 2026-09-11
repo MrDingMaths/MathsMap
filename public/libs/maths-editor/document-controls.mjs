@@ -1,4 +1,5 @@
 import { BOOKLET_HOUSE_STYLE } from './house-style.mjs';
+import {bookletColourChoices} from './booklet-palette.mjs';
 import {copy,uid,normalizeDocument,paragraph,visitDocument} from './document-model.mjs';
 import {tableGrid} from './table-model.mjs';
 const colours=/^#[0-9a-f]{6}$/i;
@@ -63,8 +64,8 @@ export const layoutControls={
   const input=document.createElement('input');input.type='text';input.disabled=this.host.readonly;input.value=value??'';input.placeholder=value==null?'Mixed':'';input.setAttribute('aria-label',label);input.onchange=()=>{if(!colours.test(input.value)&&input.value!==special){input.setAttribute('aria-invalid','true');this.message.textContent='Use a six-digit hex colour'+(special?' or '+special:'')+'.';return;}action(input.value);};picker.onchange=()=>action(picker.value);wrap.append(picker,input);if(special)this.button(wrap,special==='transparent'?'No fill':'Inherit',()=>action(special));this.inspector.append(wrap);
   const swatches=document.createElement('div');swatches.className='me-colour-swatches';swatches.setAttribute('role','group');swatches.setAttribute('aria-label',label+' booklet colours');
   const names={ink:'Ink',blue:'Booklet blue',red:'Booklet red',green:'Booklet green',orange:'Booklet orange',tableLabel:'Label blue',border:'Border grey',skipped:'Skipped-value grey',white:'White'};
-  for(const [key,hex] of Object.entries({...BOOKLET_HOUSE_STYLE.colours,white:'#ffffff'})){
-   const button=this.button(swatches,'',()=>action(hex));button.style.backgroundColor=hex;button.title=names[key]+' ('+hex+')';button.setAttribute('aria-label',label+': '+names[key]);button.setAttribute('aria-pressed',String(value?.toLowerCase()===hex));
+  for(const {name:key,value:hex} of bookletColourChoices){
+   const name=names[key]??key.replace('Fill',' fill');const button=this.button(swatches,'',()=>action(hex));button.style.backgroundColor=hex;button.title=name+' ('+hex+')';button.setAttribute('aria-label',label+': '+name);button.setAttribute('aria-pressed',String(value?.toLowerCase()===hex));
   }
   this.inspector.append(swatches);
  },

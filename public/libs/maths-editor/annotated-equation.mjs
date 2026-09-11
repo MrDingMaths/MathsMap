@@ -18,7 +18,7 @@ export function changeEquation(n,latex) {
 export function normalizeAnnotatedEquation(n,{id,blocks}) {
  return {id:id(n.id),type:'annotated-equation',latex:String(n.latex??'y=mx+c'),fontSize:n.fontSize===null?null:limit(n.fontSize,20,10,36),gap:limit(n.gap,8,4,25),width:limit(n.width,150,5,190),
   ...(n.margin!=null?{margin:limit(n.margin,2,0,20)}:{}),...(n.arrowSpace!=null?{arrowSpace:limit(n.arrowSpace,3,0,20)}:{}),...(n.align?{align:['left','center','right'].includes(n.align)?n.align:'center'}:{}),
-  ...(n.connections?{connections:n.connections.map(c=>({id:id(c.id),fromId:String(c.fromId??''),toId:String(c.toId??''),colour:hex(c.colour,'#ff616b'),height:limit(c.height,3,1,15)}))}:{}),
+  ...(n.connections?{connections:n.connections.map(c=>({id:id(c.id),fromId:String(c.fromId??''),toId:String(c.toId??''),colour:hex(c.colour,'#ef6068'),height:limit(c.height,3,1,15)}))}:{}),
   anchors:(n.anchors??[]).map(a=>({id:id(a.id),start:Number(a.start),end:Number(a.end),text:String(a.text??''),unresolved:!!a.unresolved})),
   annotations:(n.annotations??[]).map(a=>({id:id(a.id),targetId:String(a.targetId??''),colour:hex(a.colour),placement:a.placement==='above'?'above':'below',decoration:['arrow','bracket','highlight','none'].includes(a.decoration)?a.decoration:'arrow',blocks:blocks(a.blocks)}))};
 }

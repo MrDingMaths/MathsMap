@@ -1,5 +1,11 @@
 # MathsEditor structured-document integration
 
+## Equation selection and history (1.6.1, 11 September 2026)
+
+Selected equations have a screen-only blue wrapper highlight that persists through equation controls and dialogs. Shared transient bookmarks retain the caret and selected range; equation-only undo updates MathLive in place. Structural undo restores the field or a neighbouring prose position. The booklet adapter also restores legacy source fields whose paragraph IDs are regenerated when reopened, using the saved equation ordinal only when the equation count is unchanged.
+
+The standalone source now includes the former embedded editing and palette changes, source-colour support and shared fraction spacing. The sync manifest includes `math-editing.mjs`, `math-selection.mjs`, `equation-spacing.mjs` and the palette files; MathsMap's current house style is preserved. See [equation editing and its regression checks](embedded-equation-editing.md). This release changes no stored document schema or public change-event shape.
+
 ## Numbered theory lists and teaching labels (2026-09-07)
 
 Numbered source lines (`1.` or `1)`) now use the same semantic list pipeline as bullets, retaining start numbers, explicit number changes, nested bullets and a 7 mm hanging indent. Format includes Numbered list. The specialised numbered-rules theory layout also uses native `ol`/`li` while retaining its paired detail/maths columns.

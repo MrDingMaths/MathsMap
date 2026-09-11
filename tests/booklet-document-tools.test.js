@@ -21,9 +21,9 @@ test('question-wide spacing preserves content, horizontal arrangements and bank 
  assert.deepEqual(rows,oldRows);assert.ok(questionSpacing(gaps,block).stacks.every(n=>n.gap===5));
  for(const value of [-1,181,NaN,Infinity])assert.throws(()=>applyQuestionSpacing(p,'q','height',value));
 });
-test('quick palette includes house and actual source colours without reading source evidence as active content',()=>{
+test('quick palette offers standard tokens without promoting source evidence or custom shades',()=>{
  const p=fixture();p.sections[0].blocks.push({id:'source',type:'rich-text',content:'$\\textcolor{#AA0505}{x}$',sourceReview:{colour:'#123456'}});
- const palette=bookletColours(p);assert.ok(palette.some(c=>c.name==='Booklet blue'&&c.value==='#268cff'));assert.ok(palette.some(c=>c.value==='#aa0505'));assert.ok(!palette.some(c=>c.value==='#123456'));assert.equal(new Set(palette.map(c=>c.value)).size,palette.length);
+ const palette=bookletColours(p);assert.ok(palette.some(c=>c.name==='Booklet blue'&&c.value==='#268cff'));assert.ok(!palette.some(c=>c.value==='#aa0505'));assert.ok(palette.some(c=>c.value==='#ef6068'));assert.ok(!palette.some(c=>c.value==='#123456'));assert.equal(new Set(palette.map(c=>c.value)).size,palette.length);
 });
 test('direct diagram properties update saved arrangement geometry without changing other items or original evidence',()=>{
  const p=fixture(),block=p.sections[0].blocks[0];block.content.questionDiagrams=[{id:'diagram',format:'image',src:'test.png',widthMm:50,align:'left',originalDiagram:{src:'original.png'}}];

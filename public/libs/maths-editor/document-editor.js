@@ -1,3 +1,5 @@
+import {standardBookletContent} from './booklet-palette.mjs';
+import {captureSelection,restoreSelection,patchMathValues} from './math-selection.mjs';
 import {mountEquationAnnotations} from './annotated-equation.mjs';
 import {installMathEditing} from './math-editing.mjs';
 import {equationControls} from './equation-controls.mjs';
@@ -13,7 +15,7 @@ import { copy, uid, paragraph, normalizeDocument, fromSource, toSource, renderDo
 export class DocumentEditor {
   constructor(host, initial = '') {
     this.host = host; this.doc = normalizeDocument(typeof initial === 'string' ? fromSource(initial) : initial);
-    this.history = []; this.index = -1; this.selectedId = this.doc.blocks[0]?.id; this.range = null;
+    this.history = []; this.historySelections = []; this.index = -1; this.selectedId = this.doc.blocks[0]?.id; this.range = null;
     host.replaceChildren(); host.classList.add('me-document-editor');
     this.toolbar = document.createElement('div'); this.toolbar.className = 'me-toolbar'; this.toolbar.setAttribute('role','toolbar'); this.toolbar.setAttribute('aria-label','Document formatting');
     this.surface = document.createElement('div'); this.surface.className = 'me-content editor-surface'; this.surface.contentEditable = String(!host.readonly); this.surface.setAttribute('role','textbox'); this.surface.setAttribute('aria-label','Document content'); this.surface.setAttribute('aria-multiline','true');
@@ -22,6 +24,7 @@ export class DocumentEditor {
     host.append(this.toolbar,this.inspector,this.surface,this.message);
     this.buildToolbar(); this.installLayoutEvents(); this.render(); this.remember();
     this.destroyMathEditing=installMathEditing(this);
+    this.surface.addEventListener('beforeinput',e=>{if(!this.host.readonly&&e.target.matches?.('math-field')){this.capture();this.remember();}});
     this.surface.addEventListener('input', () => { try { this.capture(); this.styleLists(); this.remember(); this.emit(); } catch(e) { this.message.textContent=e.message; } });
     this.surface.addEventListener('keydown',e=>{const image=e.target.closest?.('[data-type=inline-image]');if(image&&['Enter',' '].includes(e.key)){e.preventDefault();this.select(image);this.inspector.querySelector('input')?.focus();}if(image&&['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const r=document.createRange();e.key==='ArrowLeft'?r.setStartBefore(image):r.setStartAfter(image);r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r);this.surface.focus();this.saveRange();}});
     this.surface.addEventListener('focusin', e => { this.select(e.target); });
@@ -41,7 +44,7 @@ export class DocumentEditor {
   restoreRange() { if(this.range && this.surface.contains(this.range.commonAncestorContainer)) { const s=window.getSelection(); s.removeAllRanges(); s.addRange(this.range); } }
   select(target) { if(target.closest?.('[data-resize-handles],[data-table-annotations]'))return;const n=target.closest?.('[data-id]'); const changed=n&&this.selectedId!==n.dataset.id;if(n) this.selectedId=n.dataset.id; if(n?.dataset.type!=='inline-image')this.saveRange(); if(changed)this.properties(); }
   get selected() { let found; visitDocument(this.doc,n=>{if(n.id===this.selectedId)found=n;}); return found; }
-  capture() { this.doc = this.read(this.surface); }
+  capture() { this.doc = this.read(this.surface); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(JSON.stringify(previous)!==JSON.stringify(next)){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
   read(root, original = this.doc) {
     const originals=new Map(), seen=new Set(); visitDocument(original,n=>originals.set(n.id,n));
     const identity=el=>{let id=el.dataset.id;if(!id || seen.has(id))id=uid();seen.add(id);el.dataset.id=id;return id;};
@@ -88,12 +91,12 @@ export class DocumentEditor {
     };
     return normalizeDocument({blocks:children(root)});
   }
-  render() { this.rendering=true;try{ this.range=null;this.imageFeedback?.destroy();this.annotationObserver?.destroy(); this.equationObserver?.destroy();this.surface.innerHTML=renderDocument(this.doc,{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});this.equationObserver=mountEquationAnnotations(this.surface);this.annotationObserver=mountTableAnnotations(this.surface,{onselect:(tableId,annotationId)=>{this.selectedId=tableId;this.annotationId=annotationId;this.properties();}});this.tabsObserver?.destroy();this.tabsObserver=mountTabs(this.surface); this.imageFeedback=mountImageFeedback(this.surface);this.updateReadonly(); this.properties();this.installBoundaries();}finally{this.rendering=false;} }
-  updateReadonly() { this.surface.querySelectorAll('[data-resize-handles]').forEach(e=>e.remove());this.surface.contentEditable=String(!this.host.readonly);this.surface.querySelectorAll('[data-slot],[data-equation-label]').forEach(s=>s.contentEditable=String(!this.host.readonly));this.surface.querySelectorAll('math-field').forEach(m=>m.readOnly=this.host.readonly);this.toolbar.querySelectorAll('button,input').forEach(b=>b.disabled=this.host.readonly);this.properties();this.installBoundaries(); }
-  remember() { const value=JSON.stringify(this.doc); if(this.history[this.index]===value)return; this.history=this.history.slice(0,this.index+1); this.history.push(value); if(this.history.length>200)this.history.shift(); this.index=this.history.length-1; }
+  render(bookmark=captureSelection(this)) { if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field'))this.doc=standardBookletContent(this.doc);this.mathEditing?.reset(); this.rendering=true;try{ this.range=null;this.imageFeedback?.destroy();this.annotationObserver?.destroy(); this.equationObserver?.destroy();this.surface.innerHTML=renderDocument(this.doc,{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});this.equationObserver=mountEquationAnnotations(this.surface);this.annotationObserver=mountTableAnnotations(this.surface,{onselect:(tableId,annotationId)=>{this.selectedId=tableId;this.annotationId=annotationId;this.properties();}});this.tabsObserver?.destroy();this.tabsObserver=mountTabs(this.surface); this.imageFeedback=mountImageFeedback(this.surface);this.updateReadonly(); this.properties();this.installBoundaries();}finally{this.rendering=false;} restoreSelection(this,bookmark); }
+  updateReadonly() { this.surface.querySelectorAll('[data-resize-handles]').forEach(e=>e.remove());this.surface.contentEditable=String(!this.host.readonly);this.surface.querySelectorAll('[data-slot],[data-equation-label]').forEach(s=>s.contentEditable=String(!this.host.readonly));this.surface.querySelectorAll('math-field').forEach(m=>m.readOnly=this.host.readonly);this.toolbar.querySelectorAll('button,input').forEach(b=>b.disabled=this.host.readonly);this.properties();this.installBoundaries();this.mathEditing?.refresh(); }
+  remember() { const value=JSON.stringify(this.doc),bookmark=captureSelection(this); if(this.history[this.index]===value){if(bookmark)this.historySelections[this.index]=bookmark;return;} this.history=this.history.slice(0,this.index+1);this.historySelections=this.historySelections.slice(0,this.index+1); this.history.push(value);this.historySelections.push(bookmark); if(this.history.length>200){this.history.shift();this.historySelections.shift();} this.index=this.history.length-1; }
   emit() { this.host.dispatchEvent(new CustomEvent('document-change',{bubbles:true,detail:{document:copy(this.doc),source:toSource(this.doc),losses:exportSource(this.doc).losses,layout:this.layoutChange===true}})); }
-  set(value) { this.surface.querySelectorAll('[data-image-pending]').forEach(e=>e.remove());this.doc=normalizeDocument(value); this.selectedId=this.doc.blocks[0]?.id; this.render(); this.history=[]; this.index=-1; this.remember(); }
-  undo(direction=-1) { if(this.host.readonly)return;this.finishEquationEdit?.(); const index=this.index+direction; if(index<0 || index>=this.history.length)return; this.index=index; this.doc=JSON.parse(this.history[index]); this.render(); this.emit(); }
+  set(value) { this.surface.querySelectorAll('[data-image-pending]').forEach(e=>e.remove());this.doc=normalizeDocument(value); this.selectedId=this.doc.blocks[0]?.id; this.render(null); this.history=[]; this.historySelections=[]; this.index=-1; this.remember(); }
+  undo(direction=-1) { if(this.host.readonly)return;this.finishEquationEdit?.();if(this.mathEditing?.field()){this.capture();this.remember();} const index=this.index+direction; if(index<0 || index>=this.history.length)return; const present=captureSelection(this);if(present)this.historySelections[this.index]=present;this.index=index; const previous=this.doc;this.doc=JSON.parse(this.history[index]);const bookmark=this.historySelections[index]??present;if(patchMathValues(this,previous,this.doc))restoreSelection(this,bookmark);else this.render(bookmark); this.emit(); }
   transact(fn) { if(this.host.readonly)return;this.finishEquationEdit?.(); try { this.capture(); const next=copy(this.doc); fn(next); this.doc=normalizeDocument(next); this.render(); this.remember(); this.emit(); this.message.textContent=''; } catch(e) {this.message.textContent=e.message;} }
   modify(fn) { if(this.host.readonly)return;if(this.selected?.type==='inline-image'){this.capture();fn(this.selected);this.doc=normalizeDocument(this.doc);this.patchLayout();this.remember();this.emit();return;}this.transact(doc=>visitDocument(doc,n=>{if(n.id===this.selectedId)fn(n);})); }
   insert(node) { this.transact(doc=>{ const at=doc.blocks.findIndex(n=>n.id===this.selectedId); doc.blocks.splice(at<0?doc.blocks.length:at+1,0,node); this.selectedId=node.id; }); }

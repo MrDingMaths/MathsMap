@@ -63,7 +63,7 @@ export function mountTableAnnotations(root, options = {}) {
           if(['start','both'].includes(a.heads))add('path',{fill:stroke,d:geometry.startHead});
           if(options?.onselect)add('path',{d:geometry.path,fill:'none',stroke:'transparent','stroke-width':16,'pointer-events':'stroke'});
           const {labelX,labelY}=geometry;
-          if(a.labelBox)add('rect',{x:labelX-12,y:labelY-10,width:24,height:22,fill:'white',stroke:'#888','stroke-width':1});
+          if(a.labelBox)add('rect',{x:labelX-12,y:labelY-10,width:24,height:22,fill:'white',stroke:'#cccccc','stroke-width':1});
           if(a.label){const text=add('text',{x:labelX,y:labelY+5,'text-anchor':'middle',fill:stroke,'font-size':14});text.textContent=a.label;}
         }
       }

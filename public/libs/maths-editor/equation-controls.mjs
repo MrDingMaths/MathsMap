@@ -6,7 +6,7 @@ export const equationControls={
   const finish=()=>{this.finishEquationEdit?.();};
   const apply=()=>{if(this.rendering||this.host.readonly||!field.isConnected)return;this.capture();let current;visitDocument(this.doc,x=>{if(x.id===n.id)current=x;});if(!current||current.latex===field.value)return;changeEquation(current,field.value);this.doc=normalizeDocument(this.doc);
    const element=this.surface.querySelector('[data-id="'+CSS.escape(n.id)+'"]');if(element)element.outerHTML=renderDocument({blocks:[current]},{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});
-   this.equationObserver?.update();this.finishEquationEdit=()=>{this.remember();this.finishEquationEdit=null;};refreshTargets(field.value);this.emit();
+   this.equationObserver?.update();this.mathEditing?.selectBlock(this.surface.querySelector(`[data-id="${CSS.escape(n.id)}"]`));this.finishEquationEdit=()=>{this.remember();this.finishEquationEdit=null;};refreshTargets(field.value);this.emit();
   };
   field.addEventListener('input',apply);field.addEventListener('change',()=>{if(field.isConnected){apply();finish();}});field.addEventListener('focusout',finish);wrap.append(field);this.inspector.append(wrap);
   this.field('Equation size (pt)',n.fontSize,v=>this.modify(x=>x.fontSize=v));this.field('Equation width (mm)',n.width,v=>this.modify(x=>x.width=v));this.field('Annotation gap (mm)',n.gap,v=>this.modify(x=>x.gap=v));

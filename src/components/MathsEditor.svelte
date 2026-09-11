@@ -1,4 +1,5 @@
 ﻿<script>
+  import {standardBookletContent} from '../../public/libs/maths-editor/booklet-palette.mjs';
   import BookletLayoutControls from './BookletLayoutControls.svelte';
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
@@ -16,7 +17,7 @@
   function changeLayout(value){layoutDraft=value;onchange(getValue());}
 
   let container, editor, error=$state(''), ready=$state(false);
-  function result(){const richText=editor.document;return {richText,document:richText,source:toSource(richText),value:storageValue(richText),...(session?.layoutContext?{layout:JSON.parse(JSON.stringify(layoutDraft))}:{}),...(applyTabs?{applyTabs:JSON.parse(JSON.stringify(applyTabs))}:{})};}
+  function result(){const richText=standardBookletContent(editor.document);return {richText,document:richText,source:toSource(richText),value:storageValue(richText),...(session?.layoutContext?{layout:JSON.parse(JSON.stringify(layoutDraft))}:{}),...(applyTabs?{applyTabs:JSON.parse(JSON.stringify(applyTabs))}:{})};}
   export function getValue(){return editor?result():null;}
   export function save(){if(ready)onsave?.(result());}
   onMount(()=>{
@@ -30,7 +31,7 @@
       if(session?.houseStyleVersion)editor.dataset.houseStyleVersion=session.houseStyleVersion;
       if(session?.question)editor.setAttribute('question-context','');
       container.append(editor);
-      const initialDocument=isDocument(value)?normalizeDocument(value):fromSource(sourceFallback || (typeof value==='string'?value:serializeRichText(value)));
+      const initialDocument=isDocument(value)?normalizeDocument(standardBookletContent(value)):fromSource(standardBookletContent(sourceFallback || (typeof value==='string'?value:serializeRichText(value))));
       if(session&&!isDocument(value)&&initialDocument.blocks.length===1&&initialDocument.blocks[0].type==='paragraph'){
         initialDocument.blocks[0].spaceAfter=0;
         const height=parseFloat(session.renderContext?.lineHeight)/parseFloat(session.renderContext?.fontSize);

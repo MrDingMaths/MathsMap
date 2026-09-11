@@ -35,5 +35,27 @@ try{
  await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.deepEqual(fieldValue(record,anchor),firstSaved);
  await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.deepEqual(fieldValue(record,anchor),originalValue);
  await page.getByRole('button',{name:'Redo',exact:true}).click();await saved();assert.deepEqual(fieldValue(record,anchor),firstSaved);
+ // The external booklet toolbar preserves the selected term, and the complete
+ // structured value survives a real reload through the intercepted endpoint.
+ await page.waitForFunction(()=>document.activeElement?.matches('math-field'));
+ await page.keyboard.press('End');await page.keyboard.type('+q');await saved();
+ await page.keyboard.press('Shift+ArrowLeft');
+ await page.locator('.document-toolbar button[aria-label="Bold"]').click();await saved();
+ assert.match(await page.locator('maths-editor .me-content math-field').first().evaluate(m=>m.value),/mathbf\{q\}/,'external formatting acts on the selected term');
+ assert.equal(await page.locator('maths-editor .me-equation-selected').count(),1);
+ const tools=page.locator('.document-toolbar .me-math-tools');await tools.waitFor();
+ const bounds=await tools.boundingBox();assert.ok(bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=1700&&bounds.y+bounds.height<=1100,'equation tools remain in the viewport');
+ assert.equal(await tools.getByRole('button',{name:'Edit LaTeX',exact:true}).evaluate(e=>getComputedStyle(e).color),'rgb(36, 54, 75)');
+ await tools.getByRole('button',{name:'Edit LaTeX',exact:true}).click();await page.getByRole('dialog',{name:'Edit equation LaTeX',exact:true}).waitFor();
+ assert.equal(await page.locator('maths-editor .me-equation-selected').count(),1);
+ await page.getByRole('button',{name:'Cancel',exact:true}).click();
+ await page.waitForFunction(()=>!document.querySelector('.me-latex-dialog')&&document.activeElement?.matches('math-field'));
+ await page.screenshot({path:out+'/equation-highlight-booklet.png'});
+ const reopened=structuredClone(fieldValue(record,anchor));
+ await page.reload();await ready();assert.deepEqual(fieldValue(record,anchor),reopened);
+ await page.locator(`.flow-outline [data-block-id="${blockId}"] > button`).click();
+ await page.locator(`.flow-paper [data-edit-root^="${blockId}-"] .katex`).first().click();
+ await page.waitForFunction(()=>document.activeElement?.matches('math-field'));
+ assert.match(await page.locator('maths-editor .me-content math-field').first().evaluate(m=>m.value),/mathbf\{q\}/);
  assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,writes,undoRestored:true}));
 }catch(e){await page.screenshot({path:out+'/failure.png'});throw e;}finally{await browser.close();}

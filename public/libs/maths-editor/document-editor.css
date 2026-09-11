@@ -66,5 +66,15 @@
 .me-math-tools[hidden]{display:none!important}
 .me-math-tools{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px;background:#edf5fc;border:1px solid #b7c9d6;border-radius:6px;color:#24364b}
 .me-math-tools button{min-height:34px;cursor:pointer}.me-math-tools input[type=color]{width:36px;height:34px;padding:2px}.me-math-tools span{font-size:12px}
-.me-document-editor math-field:focus-within{outline:2px solid #438ccc;outline-offset:2px}
+.me-document-editor .me-content [data-math].me-equation-selected,
+.me-document-editor .me-content [data-type="annotated-equation"].me-equation-selected{outline:2px solid #438ccc;outline-offset:2px;background-color:rgba(74,144,226,.12);border-radius:3px}
+.me-document-editor .me-content [data-math] math-field:focus-within{outline:none}
+.me-document-editor .me-properties math-field:focus-within{outline:2px solid #438ccc;outline-offset:2px}
+@media print{.me-document-editor .me-content .me-equation-selected{outline:none!important;background-color:transparent!important}.me-math-tools,.me-latex-dialog{display:none!important}}
 .me-latex-dialog{width:min(620px,85vw);padding:20px;border:1px solid #b7c9d6;border-radius:8px;background:white;color:#24364b}.me-latex-dialog::backdrop{background:#0005}.me-latex-dialog label{display:grid;gap:8px}.me-latex-dialog textarea{box-sizing:border-box;width:100%;min-height:110px;font:16px monospace}.me-latex-preview{padding:18px;overflow:auto;min-height:40px}.me-latex-dialog button{margin:6px;min-height:36px}
+
+.me-math-tools,.me-latex-dialog{color-scheme:light}
+.me-math-tools button,.me-latex-dialog button{background:#fff;color:#24364b;border:1px solid #b7c9d6;border-radius:4px;padding:6px 10px}
+.me-math-tools button:hover,.me-latex-dialog button:hover{background:#dcecf9}
+.me-math-tools button:focus-visible,.me-latex-dialog button:focus-visible{outline:2px solid #438ccc;outline-offset:2px}
+.me-latex-dialog textarea{background:#fff;color:#24364b}

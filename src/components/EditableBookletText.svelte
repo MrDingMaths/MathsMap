@@ -1,4 +1,5 @@
 <script>
+  import {standardBookletContent} from '../../public/libs/maths-editor/booklet-palette.mjs';
   import { onDestroy, getContext } from 'svelte';
   import BookletRichText from './BookletRichText.svelte';
   import MathsEditor from './MathsEditor.svelte';
@@ -6,7 +7,7 @@
   import {hasVisibleContent} from '../lib/document-content.js';
 
   let {
-    value = '',
+    value: sourceValue = '',
     displayValue = null,
     rootId,
     rootIds = [],
@@ -23,6 +24,7 @@
     class: className = '',
   } = $props();
 
+  const value=$derived(standardBookletContent(sourceValue));
   const workspaceEdit=getContext('booklet-edit-request');
   const workspaceInline=getContext('booklet-inline-edit');
   const inlineSession=$derived(editMode&&workspaceInline?.session?.rootId===rootId&&workspaceInline?.session?.pointer===pointer&&(!workspaceInline.session.paragraphSlice||value?._bookletSlice?.start===workspaceInline.session.paragraphSlice.start)&&(!workspaceInline.session.fragmentIds?.length||value?.blocks?.some(b=>b.id===workspaceInline.session.fragmentIds[0]))?workspaceInline.session:null);
