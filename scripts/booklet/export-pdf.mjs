@@ -96,7 +96,10 @@ try {
   writeFileSync(output+'.printed-qa.json',JSON.stringify(printed,null,2));
   if(printed.some(p=>p.issues.length)){if(!draft)throw Error('Printed PDF geometry failed; see '+output+'.printed-qa.json');console.warn('Draft print findings: '+output+'.printed-qa.json');}
   renameSync(output+'.partial.pdf',output);
-  console.log(JSON.stringify({ output, projectId, mode, draft }));
+  const cacheOutput=arg('--save-cache-state');
+  let cacheMetrics;
+  if(cacheOutput){mkdirSync(dirname(resolve(cacheOutput)),{recursive:true});await context.storageState({path:resolve(cacheOutput),indexedDB:true});cacheMetrics=await page.evaluate(()=>{const s=window.TikZ?.stats?.();return s?{compiles:s.compiles,memoryHits:s.memoryHits,idbHits:s.idbHits,driverHits:s.driverHits}:null;});writeFileSync(output+'.render-metrics.json',JSON.stringify({cacheOutput:resolve(cacheOutput),tikz:cacheMetrics},null,2));}
+  console.log(JSON.stringify({ output, projectId, mode, draft, ...(cacheOutput?{cacheOutput:resolve(cacheOutput),tikz:cacheMetrics}:{}) }));
 } catch (error) {
   console.error('Booklet PDF export failed:', error.message);
   if(renderErrors.length)console.error('Browser errors:',renderErrors.join('; '));

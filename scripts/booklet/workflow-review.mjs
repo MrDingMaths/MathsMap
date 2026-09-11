@@ -22,6 +22,13 @@ export const reviewFile=runDir=>path.join(runDir,'workflow','issues.json');
 export function loadWorkflow(runDir){return json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});}
 export const reviewEnabled=(manifest,config={})=>manifest.workflowPolicy===REVIEW_POLICY||config.workflowPolicy===REVIEW_POLICY;
 
+// A representative candidate contains only selected pages. Keep the complete
+// register immutable while applying only corrections whose targets are present.
+export function workflowForPages(state,pages,scopes=['inventory','author','project']){
+ const selected=new Set(pages);
+ return {...state,corrections:state.corrections.map(c=>({...c,patches:c.patches.filter(p=>selected.has(p.page)&&scopes.includes(p.scope))})).filter(c=>c.patches.length)};
+}
+
 export async function updateWorkflow(runDir,action,change){
  return withBankLock(async()=>{
   const dir=path.join(runDir,'workflow');fs.mkdirSync(dir,{recursive:true});

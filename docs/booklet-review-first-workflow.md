@@ -128,6 +128,8 @@ New review-first assembly uses configured cover metadata and flexible compact pa
 
 ## Development and final acceptance
 
+Use the [booklet change runbook](booklet-change-runbook.md) to organise scoped development checks, cache reuse, stable final inputs and run metrics. It preserves the complete final five-edition review and re-settlement requirements below.
+
 ```text
 node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .booklet-work/review/PROJECT --development
 ```

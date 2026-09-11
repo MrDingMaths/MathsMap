@@ -7,7 +7,7 @@ import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
-import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,REVIEW_POLICY} from './workflow-review.mjs';
+import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
 if(arg('--out')&&!arg('--out').endsWith('.json'))throw Error('--out must end in .json');
@@ -74,7 +74,9 @@ for(const correction of confirmedCorrections){
 candidate.sourceCorrections=confirmedCorrections;
 if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,correctionIds:workflow.corrections.map(c=>c.id)};
 let project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
-if(workflow){project=materializeCorrections(project,workflow,'project');project.source.workflow=candidate.sourceInventory.workflow;}
+// Inventory and author patches were already applied in order by the effective
+// packet readers. Replaying them here would reject a valid A -> B -> C chain.
+if(workflow){project=materializeCorrections(project,workflowForPages(workflow,selected,['project']),'project');project.source.workflow=candidate.sourceInventory.workflow;}
 if(config.compactAnswers)project.settings.compactAnswers={...project.settings.compactAnswers,...structuredClone(config.compactAnswers)};
 project.source.sourceHashes={pdf:manifest.source.pdfHash,docx:manifest.source.docxHash};
 const validation=validateEditableProject(project),output=path.resolve(arg('--out'));
