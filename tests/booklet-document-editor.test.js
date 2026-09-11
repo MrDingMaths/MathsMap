@@ -6,9 +6,27 @@ import {transformTextRange,applyBookletTextRange} from '../src/lib/booklet-text-
 import {fromSource,toSource} from '../public/libs/maths-editor/document-model.mjs';
 import {paragraphSlice,replaceParagraphSlice} from '../src/lib/booklet-document-fragments.js';
 import {paginateFlow} from '../src/lib/booklet-pagination.js';
-import {createFeedback,reconcileFeedback,feedbackPrompt,feedbackStatus} from '../src/lib/booklet-feedback.js';
+import {bookletComments,createFeedback,reconcileFeedback,feedbackPrompt,feedbackStatus} from '../src/lib/booklet-feedback.js';
 import {flowCommand} from '../src/lib/booklet-flow.js';
 const fixture=()=>createEditableProject({id:'document-test',title:'Document test',sections:[{id:'s',title:'Theory',blocks:[{id:'b',type:'rich-text',content:'Keep this equation.'},{id:'other',type:'rich-text',content:'Other paragraph.'}]}]});
+test('automatic review records never become comments or exported feedback',()=>{
+ const p=fixture(),user=createFeedback(p,{rootId:'b'},'My feedback');
+ const legacy={id:'legacy',note:'Older personal note',resolved:false};
+ const resolved={id:'resolved-user',note:'Completed personal note',resolved:true};
+ const generated=[{id:'workflow',workflowIssue:true,note:'Pending source review',resolved:false},{id:'sequence',automatic:true,note:'Sequence notice',resolved:false},{id:'done',workflowIssue:true,note:'Completed review',resolved:true}];
+ p.studio={flags:[...generated,user,legacy,resolved]};
+ const before=JSON.stringify(p);
+ assert.deepEqual(bookletComments(p),[user,legacy,resolved]);
+ const prompt=feedbackPrompt(p);
+ assert.match(prompt,/My feedback/);assert.match(prompt,/Older personal note/);
+ for(const flag of [...generated,resolved])assert.ok(!prompt.includes(flag.note));
+ assert.throws(()=>feedbackPrompt(p,['workflow','sequence']),/no unresolved comments/);
+ assert.equal(JSON.stringify(p),before);
+ p.studio.flags=generated;
+ assert.deepEqual(bookletComments(p),[]);
+ assert.throws(()=>feedbackPrompt(p),/no unresolved comments/);
+ assert.deepEqual(bookletComments(null),[]);
+});
 test('typing groups across events; commands and fields break groups; undo preserves current revision',()=>{
  const h=createDocumentHistory(),p=fixture();p.revision=4;
  h.record(p,{rootId:'b'},'b/content',100);

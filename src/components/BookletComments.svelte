@@ -1,11 +1,11 @@
 <script>
-  import {createFeedback,updateFeedback,feedbackStatus} from '../lib/booklet-feedback.js';
+  import {bookletComments,createFeedback,updateFeedback,feedbackStatus} from '../lib/booklet-feedback.js';
   import {contentTarget} from '../lib/booklet-document-controller.js';
   let {project,onchange,oncopy,onlocate}= $props();
   let filter=$state('open'),selected=$state([]),note=$state(''),scope=$state('all'),anchor=$state.raw(null),editing=$state(null),writing=$state(false),input=$state();
-  const flags=$derived((project.studio?.flags??[]).filter(f=>filter==='all'||(filter==='resolved'?f.resolved:!f.resolved)));
+  const flags=$derived(bookletComments(project).filter(f=>filter==='all'||(filter==='resolved'?f.resolved:!f.resolved)));
   export function start(target=null){anchor=target;note='';scope='all';editing=null;writing=true;setTimeout(()=>input?.focus(),0);}
-  export function reveal(ids){filter='all';writing=false;const flag=(project.studio?.flags??[]).find(f=>ids.includes(contentTarget(project,f.targetId)?.block?.id??f.targetId));if(flag)setTimeout(()=>document.querySelector(`[data-comment-id="${CSS.escape(flag.id)}"]`)?.scrollIntoView({block:'nearest'}),0);}
+  export function reveal(ids){filter='all';writing=false;const flag=bookletComments(project).find(f=>ids.includes(contentTarget(project,f.targetId)?.block?.id??f.targetId));if(flag)setTimeout(()=>document.querySelector(`[data-comment-id="${CSS.escape(flag.id)}"]`)?.scrollIntoView({block:'nearest'}),0);}
   function save(){if(!note.trim())return;if(editing)onchange(updateFeedback(project,editing,{note:note.trim(),scope}));else onchange({...project,studio:{version:1,...project.studio,flags:[...(project.studio?.flags??[]),createFeedback(project,anchor,note,scope)]}});writing=false;note='';editing=null;}
   function edit(flag){editing=flag.id;note=flag.note;scope=flag.scope??'all';anchor=flag.anchor;writing=true;setTimeout(()=>input?.focus(),0);}
 </script>

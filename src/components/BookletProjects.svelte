@@ -7,7 +7,7 @@
   import {isFlexible,FLOW_EDITIONS,flowCommand,selectedFlowIds,logicalUnits,captureFlowClipboard} from '../lib/booklet-flow.js';
   import {createDocumentHistory,contentTarget,fieldValue,createTeachingGroup,createDocumentQuestion,TEACHING_TEMPLATES,replaceDocumentFragment} from '../lib/booklet-document-controller.js';
   import {captureEditorSelection,restoreEditorSelection,placeEditorAtPoint,runEditorCommand} from '../lib/booklet-editor-dom.js';
-  import {createFeedback,reconcileFeedback,feedbackPrompt} from '../lib/booklet-feedback.js';
+  import {bookletComments,createFeedback,reconcileFeedback,feedbackPrompt} from '../lib/booklet-feedback.js';
   import BookletComments from './BookletComments.svelte';
   import BookletQuestionSpacing from './BookletQuestionSpacing.svelte';
   import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
@@ -104,7 +104,7 @@
     };},
   };
   setContext('booklet-inline-edit',inlineEditing);
-  const commentLocations=$derived((project?.studio?.flags??[]).filter(f=>!f.resolved).map(flag=>({flag,blockId:contentTarget(project,flag.targetId)?.block?.id??flag.targetId})));
+  const commentLocations=$derived(bookletComments(project).filter(f=>!f.resolved).map(flag=>({flag,blockId:contentTarget(project,flag.targetId)?.block?.id??flag.targetId})));
   setContext('booklet-document-actions',{
     get selected(){return groupSelection;},select:selectDocumentGroup,insert:insertDocumentContent,
     move(id,sectionId,beforeId){finishInline();change(flowCommand(project,{type:'move',ids:groupSelection.includes(id)?groupSelection:[id],sectionId:contentTarget(project,beforeId)?.section.id??sectionId,beforeId}));},
@@ -696,7 +696,7 @@
    <button onclick={()=>formatDocument('bullets')}>Bullets</button><button onclick={()=>formatDocument('numbered')}>Numbering</button><button aria-label="Indent list" title="Indent list" onclick={()=>formatDocument('indent-list')}>⇥</button><button aria-label="Outdent list" title="Outdent list" onclick={()=>formatDocument('outdent-list')}>⇤</button><button onclick={()=>formatDocument('math')}>Maths</button>
    <details class="document-insert"><summary>Insert</summary><div><button onclick={()=>insertDocumentContent('text')}>Text</button><button onclick={()=>insertDocumentContent('question')}>Question</button>{#each TEACHING_TEMPLATES as [kind,label]}<button onclick={()=>insertDocumentContent(kind)}>{label}</button>{/each}<button onclick={()=>formatDocument('table')}>Table</button><button onclick={()=>formatDocument('image')}>Image</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Insert tab')}>Tab</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Paragraph')}>Paragraph</button><details><summary>More insertions</summary>{#each DOCUMENT_INSERT_TOOLS as [label,command]}<button disabled={!activeEditor} onclick={()=>formatDocument('native',command)}>{label}</button>{/each}</details></div></details>
    {#if selectedBlock?.type==='question'}<button onclick={arrangeSelectedQuestion}>Arrange question</button><details class="document-insert question-spacing"><summary>Question spacing</summary><div><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/></div></details>{/if}
-   <button onclick={addComment}>Add comment</button><button aria-expanded={panel==='comments'} onclick={()=>togglePanel('comments')}>Comments {flagCount||''}</button>
+   <button onclick={addComment}>Add comment</button><button aria-expanded={panel==='comments'} onclick={()=>togglePanel('comments')}>Comments {commentLocations.length||''}</button>
    <button onclick={()=>{panel=activeEditor?'format':'properties';}}>More options</button>
    {#if nativeTable}{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}{/if}
    {#if selectedDiagram}<span class="selection-tools"><label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}

@@ -1,6 +1,7 @@
 <script>
 
   import DiagramDraftEditor from './DiagramDraftEditor.svelte';
+  import {bookletComments,isAutomaticReviewFlag} from '../lib/booklet-feedback.js';
   import { reviewTargets, studioProject, editFields, splitTheory, mergeTheory, splitQuestionParts, mergeQuestionParts, mergeQuestionContinuation } from '../lib/booklet-review-model.js';
   import { skills } from '../lib/data.js';
   let { project, blockId, selectedTargetId='', onchange, ondraftchange=()=>{}, tabbed=false, onDiagramEdit=null }=$props();
@@ -9,6 +10,7 @@
   const targets=$derived(reviewTargets({...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.filter(b=>b.id===blockId)})).filter(s=>s.blocks.length)}));
   const target=$derived(targets.find(t=>t.id===selected) ?? targets[0]);
   const mapping=$derived(project.studio?.atoms?.[target?.id] ?? {});
+  const automaticFlags=$derived((project.studio?.flags??[]).filter(isAutomaticReviewFlag));
   let loaded='';
   let diagramDrafts=$state({});
   const diagrams=$derived((()=>{const found=[];const visit=(node,path='')=>{if(!node||typeof node!=='object')return;if(node.format&&['tikz','svg','image'].includes(node.format))found.push({diagram:node,path});for(const [key,value] of Object.entries(node))if(value&&typeof value==='object')Array.isArray(value)?value.forEach((item,index)=>visit(item,path+'/'+key+'/'+index)):visit(value,path+'/'+key);};visit(target?.node);return found;})());
@@ -34,7 +36,14 @@
       <p class="hint">Question parts keep their shared stem and diagrams. Audit each part separately; a teaching atom does not automatically create a public skill.</p>
     </details>
     <details open={tabbed} hidden={tabbed&&reviewTab!=='Diagrams'}><summary>Diagrams ({diagrams.length})</summary><p class="hint">Use known equations and domains, or known geometric constraints. Keep the source image when a faithful reconstruction is uncertain.</p>{#each diagrams as item (project.id+':'+target.id+':'+item.path+':'+item.diagram.id)}{@const d=item.diagram}<article><strong>{d.alt??d.id}</strong>{#if d.format!=='tikz'&&d.src}<img src={assetUrl(d.src)} alt={d.alt??'Source diagram'} style="max-width:100%"/>{/if}{#if d.mathematicalModel}<details><summary>Constraints and model</summary><pre>{JSON.stringify(d.mathematicalModel,null,2)}</pre></details>{/if}{#if d.overlayOf}<p class="hint">Overlay on {d.overlayOf}</p>{/if}{#if onDiagramEdit}<p class="hint">{d.format.toUpperCase()} · {d.role??'Diagram'} · {d.widthMm??78} mm</p><button onclick={event=>onDiagramEdit({target,item,origin:event.currentTarget})}>Edit diagram: {d.alt??d.id??'Diagram'}</button>{:else}<DiagramDraftEditor diagram={d} initialDraft={diagramDrafts[project.id+':'+target.id+':'+item.path+':'+d.id]} ondraft={draft=>{const key=project.id+':'+target.id+':'+item.path+':'+d.id;diagramDrafts[key]=draft;ondraftchange({key,projectId:project.id,targetId:target.id,diagramId:d.id,path:item.path,draft});}} onsave={draft=>act(()=>editFields(project,[{targetId:target.id,path:item.path+(d.format==='tikz'?'/code':'/src'),after:draft.code},{targetId:target.id,path:item.path+'/widthMm',after:draft.width},{targetId:target.id,path:item.path+'/align',after:draft.align}]))}/>{/if}</article>{/each}</details>
-    <details open hidden={tabbed&&reviewTab!=='Flags'}><summary>Flags</summary><label>Comparison or correction<textarea bind:value={flag} rows="2"></textarea></label><button onclick={addFlag}>Add flag</button>{#each (project.studio?.flags??[]).filter(f=>f.targetId===target.id) as f}<p>{f.resolved?'Resolved: ':''}{f.note} {#if !f.resolved}<button onclick={()=>resolveFlag(f.id)}>Resolve after review</button>{/if}</p>{/each}</details>
+    <details open hidden={tabbed&&reviewTab!=='Flags'}><summary>Flags</summary><label>Comparison or correction<textarea bind:value={flag} rows="2"></textarea></label><button onclick={addFlag}>Add flag</button>{#each bookletComments(project).filter(f=>f.targetId===target.id) as f}<p>{f.resolved?'Resolved: ':''}{f.note} {#if !f.resolved}<button onclick={()=>resolveFlag(f.id)}>Resolve after review</button>{/if}</p>{/each}</details>
+  {/if}
+  {#if automaticFlags.length}
+    <details hidden={tabbed&&reviewTab!=='Flags'}>
+      <summary>Automatic review records ({automaticFlags.filter(f=>!f.resolved).length} unresolved)</summary>
+      <p class="hint">Generated import and review records for the whole booklet. These are separate from your comments.</p>
+      {#each automaticFlags as f (f.id)}<article data-review-flag-id={f.id}><small>{f.resolved?'Resolved':'Unresolved'}{f.targetId?' · '+f.targetId:''}</small><p>{f.note}</p>{#if f.resolution}<p>{f.resolution}</p>{/if}</article>{/each}
+    </details>
   {/if}
   {#if error}<p class="error" role="alert">{error}</p>{/if}
 </section>

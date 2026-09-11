@@ -2,6 +2,12 @@ import { contentTarget, fieldValue } from './booklet-document-controller.js';
 import { sourceReferences } from './booklet-source-content.js';
 import { toSource } from '../../public/libs/maths-editor/document-model.mjs';
 const copy = value => JSON.parse(JSON.stringify(value));
+export function isAutomaticReviewFlag(flag) {
+  return Boolean(flag.workflowIssue || flag.automatic);
+}
+export function bookletComments(project) {
+  return (project?.studio?.flags??[]).filter(flag=>!isAutomaticReviewFlag(flag));
+}
 export function feedbackText(value) {
   if (value == null) return '';
   if (typeof value === 'string') return value;
@@ -57,7 +63,7 @@ export function updateFeedback(project, id, patch) {
   return {...project,studio:{version:1,...project.studio,flags:(project.studio?.flags??[]).map(f=>f.id===id?{...f,...patch,updatedAt:new Date().toISOString()}:f)}};
 }
 export function feedbackPrompt(project, ids = []) {
-  const flags=(project.studio?.flags??[]).filter(f=>!f.resolved&&(!ids.length||ids.includes(f.id)));
+  const flags=bookletComments(project).filter(f=>!f.resolved&&(!ids.length||ids.includes(f.id)));
   if(!flags.length)throw Error('There are no unresolved comments to copy.');
   const order=new Map();let i=0;
   const visit=v=>{if(!v||typeof v!=='object')return;if(v.id)order.set(v.id,i++);Object.values(v).forEach(x=>Array.isArray(x)?x.forEach(visit):visit(x));};project.sections.forEach(visit);
