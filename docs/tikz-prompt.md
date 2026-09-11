@@ -733,8 +733,9 @@ Every leg, arc, and label is computed from the bearings — nothing is guessed, 
 
 ### 3D solids
 
-**Default approach: `tikz-3dplot` with proper view transforms.** Set `\tdplotsetmaincoords{θ}{φ}` (typical: `{70}{120}`) and work in 3D coordinates `(x,y,z)` inside a `[tdplot_main_coords]` scope.
+**Default approach: explicit geometry with a checked viewing direction.** Use MathsMap’s `src/lib/solid-geometry.js` authoring helper to generate editable projected 2D TikZ with versioned construction metadata. A legacy `tikz-3dplot` drawing is also valid when visibility is derived for its actual view. Set `\tdplotsetmaincoords{θ}{φ}` (typical: `{70}{120}`) and work in 3D coordinates `(x,y,z)` inside a `[tdplot_main_coords]` scope.
 
+- Derive convex edge visibility from adjacent outward face normals and the viewing vector. At least one viewer-facing adjacent face makes an edge visible; silhouettes remain solid. Concave solids need occlusion splitting. Never use vertex names (`f0`, `b0`) to infer visibility, and recalculate when the view changes.
 - **Visible edges** are solid `\draw`.
 - **Hidden edges** (behind a face) are `\draw[dashed]`.
 - Label every named vertex with `\node` just outside the face.
@@ -769,7 +770,7 @@ Every leg, arc, and label is computed from the bearings — nothing is guessed, 
 \end{tikzpicture}
 ```
 
-**Cones, cylinders, spheres** in tikz-3dplot: use `\tdplotdrawarc` for circular bases, dashed for the back half. For a sphere, draw the silhouette circle in 2D plus a dashed equator ellipse.
+**Cones, cylinders, spheres:** use the checked analytic templates in `curvedSolidTikz`. An upright cylinder has a visible top rim and a lower rim split into front solid/back hidden halves. A cone rim splits at its true tangent endpoints, not ellipse extrema or arbitrary semicircles. A sphere silhouette is solid; a reference equator uses visible/hidden arcs or an explicitly reviewed construction-guide style. Open rims, cutaways and transparent teaching sections must state their roles. Unsupported curved orientations/composites need recorded geometric and visual review.
 
 #### Curved surfaces: silhouette, not apex
 
@@ -779,7 +780,7 @@ That apex-to-apex line is not an edge. It is one ruling among infinitely many ly
 
 **Locating the silhouette in oblique projection.** With the depth offset along direction $\alpha$ (house default $\alpha = 30°$) and a circular cross-section of radius $r$ centred at the origin, the silhouette ruling touches the circle where the radius is **perpendicular to the offset direction** — at polar angle $\alpha + 90°$. For the default $\alpha = 30°$ that is **120°**, i.e. `\coordinate (S) at (120:r);`, *not* the apex at `90°`.
 
-The rule generalises: apex is at 90° only when the offset is horizontal ($\alpha = 0$), which never happens in an oblique view. Any solid drawn with a 30° depth axis has its silhouette at 120°.
+The rule generalises: apex is at 90° only when the offset is horizontal ($\alpha = 0$), which never happens in an oblique view. For a circular extrusion, retain tangent rulings at 120° and/or 300° only where they lie on the actual curved surface; sector endpoints remain genuine straight boundaries.
 
 **Worked example — half-cylinder (semicircular prism), diameter 1.4, length 3.5, lying flat side down:**
 
@@ -791,13 +792,15 @@ The rule generalises: apex is at 90° only when the offset is horizontal ($\alph
 \coordinate (A2) at ($(A)+(30:2.2)$);
 \coordinate (B2) at ($(B)+(30:2.2)$);
 \coordinate (S2) at ($(S)+(30:2.2)$);
-\draw (A) -- (B) node[midway, below] {$1.4\text{ m}$};
+\draw (A) -- (B);
+\path (A) -- (B) node[midway, below] {$1.4\text{ m}$};
 \draw (A) arc (180:0:0.7);
 \draw[dashed] (A2) -- (B2);
 \draw[dashed] (A2) arc (180:120:0.7);
-\draw[dashed] (B2) arc (0:120:0.7);
-\draw (A) -- (A2);
-\draw (B) -- (B2) node[midway, below right] {$3.5\text{ m}$};
+\draw (B2) arc (0:120:0.7);
+\draw[dashed] (A) -- (A2);
+\draw (B) -- (B2);
+\path (B) -- (B2) node[midway, below right] {$3.5\text{ m}$};
 \draw (S) -- (S2);
 \end{tikzpicture}
 ```
@@ -818,7 +821,7 @@ Note two details:
 
 A cone is the one case where a genuine apex exists — but it is the apex of the *solid*, and the tangent lines run from it to the base ellipse's tangent points, which are not the base's extreme coordinates.
 
-**Lighter form — manual oblique projection** when a 3D view is overkill (small isometric thumbnails, very simple prisms). Depth axis at 30° below horizontal, depth-scale 0.5:
+**Lighter form — manual oblique projection** when a 3D view is overkill (small isometric thumbnails, very simple prisms). Depth axis at 30° above horizontal, depth-scale 0.5:
 
 ```
 \begin{tikzpicture}[every node/.style={font=\large}, scale=0.7]
@@ -841,14 +844,17 @@ A cone is the one case where a genuine apex exists — but it is the apex of the
 **Labelling this box: put the height on the front-*left* edge (`D--A`), never the front-right edge (`B--C`).** The front-right edge sits right where the hidden dashed cross-edges (`E--F`, `E--H`) pass through — on a shallow/thin prism (front-face height comparable to or less than the depth offset's vertical rise, `2·sin(angle)·r`) a `node[midway, right]` label there lands in that clutter and reads as ambiguous, or on very flat boxes collides outright with the depth label. The front-left edge is always clear:
 
 ```
-\draw (A) -- (B) node[midway, below] {$25\text{ cm}$};   % length — bottom edge, fine
+\path (A) -- (B) node[midway, below] {$25\text{ cm}$};   % length — bottom edge, fine
 \draw (B) -- (C);                                         % right edge — leave unlabelled
 \draw (C) -- (D);
-\draw (D) -- (A) node[midway, left] {$10\text{ cm}$};     % height — front-LEFT edge
-\draw (B) -- (F) node[midway, below right] {$16\text{ cm}$}; % depth — fine, already clear of the hidden lines
+\path (D) -- (A) node[midway, left] {$10\text{ cm}$};     % height — front-LEFT edge
+\path (B) -- (F) node[midway, below right] {$16\text{ cm}$}; % depth — fine, already clear of the hidden lines
 ```
 
 For a solid where the box's vertical edges aren't A–D-style (composites, roofs on a box, etc.), apply the same rule: label the wall-height dimension on whichever vertical edge sits **furthest from the hidden/dashed cluster**, not the one nearest it.
+
+
+Use label-only `\path` commands after boundary drawing; never redraw an edge to attach a label. Preserve dimensions, redundant measurements, units, vertex identities and semantic colours. Move measurements only to geometrically equivalent edges. Project angle arms into 2D before building marks; never construct an angle pic in a tdplot scope. Inspect at final 10 pt label size, including resized and printed variants.
 
 ### Networks and graphs
 
@@ -1073,7 +1079,7 @@ The tangent line direction must be perpendicular to $\vec{OT}$, i.e. $\vec{OT} \
 - Flag: `[GEOM ERROR — Tangent at T not perpendicular to radius OT: OT·d = {value}]`
 
 **Curved solid — silhouette ruling, not apex ruling:**
-For any solid whose cross-section is drawn with `arc` (cylinder, half-cylinder, cone, curved-roof prism), find every `\draw (P) -- (Q)` where P lies on the front arc and Q on the back arc. Let $\alpha$ be the depth-offset direction (the angle in `($(X)+(\alpha:d)$)`, house default 30°). Each such ruling is legal only if P sits at polar angle $\alpha + 90°$ (or $\alpha + 270°$) on its arc's centre. A ruling at the arc's apex (90°) is the apex-to-apex error and must be moved to $\alpha + 90°$.
+For any solid whose cross-section is drawn with `arc` (cylinder, half-cylinder, cone, curved-roof prism), find every `\draw (P) -- (Q)` where P lies on the front arc and Q on the back arc. Let $\alpha$ be the depth-offset direction (the angle in `($(X)+(\alpha:d)$)`, house default 30°). Each non-boundary contour ruling is legal only if P sits at polar angle $\alpha + 90°$ (or $\alpha + 270°$) on its arc's centre. A ruling at the arc's apex (90°) is the apex-to-apex error and must be moved to $\alpha + 90°$.
 Also verify the back arc is split at $\alpha + 90°$ so the ruling terminates on an arc endpoint.
 - Flag: `[GEOM ERROR — Apex-to-apex ruling on a curved surface: {PQ} joins the arc apexes; silhouette ruling belongs at {α+90}°]`
 - Flag: `[GEOM ERROR — Silhouette ruling at {PQ} does not terminate on an arc endpoint: back arc not split at {α+90}°]`
@@ -1081,6 +1087,11 @@ Also verify the back arc is split at $\alpha + 90°$ so the ruling terminates on
 **Curved solid — radius versus labelled diameter:**
 When a label on the flat chord/base of a curved cross-section states a width $w$, the arc radius must be $w/2$.
 - Flag: `[GEOM ERROR — Base labelled {w} but arc drawn with radius {r}; expected {w/2}]`
+
+
+**Edge visibility against the view:** verify silhouettes are solid and obscured boundaries dashed. For convex models inspect outward normals of both adjacent faces; for concave/open models check occlusion. At circular rear arcs, classify each segment by its outward normal and the depth offset; being on the back cross-section does not make a silhouette hidden. Keep construction lines, internal diagonals, dimension guides and cutaway highlights separate. Check every solid in a multi-solid drawing.
+- Flag: `[GEOM ERROR — Visibility disagrees with the viewing direction]`
+- Flag: `[GEOM REVIEW — Unsupported or ambiguous construction requires source-hash-bound geometric and final-size visual acceptance]`
 
 **Polygon interior-angle sum** (for marked or labelled angles):
 Sum of stated interior angles equals $(n-2) \cdot 180°$.
@@ -1219,6 +1230,9 @@ Before writing the output, verify every item:
 - [ ] **For circle geometry:** centre marked and labelled; equal radii/chords have matching tick marks; right angles use small squares.
 - [ ] **For 3D solids:** hidden edges dashed, visible edges solid, every vertex labelled.
 - [ ] **For curved solids (cylinder, half-cylinder, cone, curved-roof prism):** no line joins the two arc apexes. Straight lines along the curved surface sit at the silhouette angle (depth direction + 90°, i.e. 120° for the default 30° offset), the back arc is split there so the ruling lands on an endpoint, and the arc radius is half any labelled base width.
+- [ ] Explicit vertices/faces/view or a checked curved template; versioned metadata is current. Visibility follows geometry, silhouettes stay solid, labels do not repaint edges, and no duplicate boundary strokes remain.
+- [ ] Construction guides, open rims, cutaways and internal diagonals retain their teaching meaning. Project angle annotations to 2D first.
+- [ ] Run MathsMap `node scripts/audit-solid-visibility.mjs --strict`; unsupported geometry requires a recorded review bound to the exact source hash. Inspect question/solution variants at final size, with 10 pt labels and the current palette.
 - [ ] **For directed network diagrams:** arrowheads are mid-line (via `decorations.markings` at position 0.5), not at edge endpoints. `->` is not used on network edges.
 - [ ] **For angle figures:** divider count = labelled parts − 1; ray/segment/line arrowheads match the notation; parallel marks collinear and on the correct lines (never the transversal); no right-angle square under split-angle labels; reflex arcs sweep the reflex sector; A1 instantiations follow the position/relationship map; canonical templates instantiated verbatim (labels substituted only).
 - [ ] **For data displays:** data re-derived from the drawing matches the source (dots recounted); axis starts at zero (unless broken-scale is the skill); title/y-label/x-label at their fixed anchors; category labels fit without touching; scenario, column count, and value pattern follow the variety rules; growing-pattern stages individually countable and equation-consistent.
@@ -1227,3 +1241,14 @@ Before writing the output, verify every item:
 Output the TikZ code now.
 
 Graph strokes at final printed size: plotted relationships 0.8 pt (including dashed relationships), axes 0.5 pt, ticks 0.4 pt, major grids 0.25 pt, minor grids 0.15 pt, construction guides 0.4 pt. Use explicit line widths by role, never thin/thick keywords. Include \special{dvisvgm:raw <metadata data-graph-strokes="1"/>} inside the tikzpicture so preview and PDF compensate stroke widths for SVG fitting. Preserve colours, dashes, arrowheads and labels.
+
+## General diagram colours (11 September 2026)
+
+Ordinary diagram outlines, angle marks, ticks, arrows and labels use solid black `#000000`, across all booklets and editions. Preserve only semantic colours and meaningful fills; graph series and legends retain their separate palette. Source hue alone does not justify an exception. Follow the native role metadata and occurrence-review contract in `docs/booklet-diagram-colours.md`. This overrides earlier requests to reproduce decorative source diagram palettes.
+
+## MathsMap final-print typography override
+
+For MathsMap booklets this local house-style override takes precedence over the generated manual's source font-size suggestions: all complete native diagram labels print at 10 pt (tolerance 0.1 pt), regardless of SVG width. Keep natural script/fraction proportions and rotation/alignment. Graph ticks remain 8.5 pt (reviewed 8 pt exceptions). The shared rendering path handles calibration; fix collisions through placement/space, not smaller type. Review raster labels separately.
+
+
+Current palette precedence: all editable booklet text, maths, marks, fills, backgrounds and semantic highlights use the shared standard palette in `docs/booklet-standard-palette.md`. Preserve source shades only as original evidence. This includes teaching responses and worked solutions. Pink maps to red; use available accents and line/marker distinctions for purple/teal identities, matching equations and legends. Custom shades fail acceptance; retained raster pixels require separate review.

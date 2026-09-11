@@ -115,6 +115,11 @@ export const STANDING_HAZARDS = [
       + '`audit-figure-scale.mjs` recognises the repeated oblique offset and skips the figure.',
   },
   {
+    id: 'solid-visibility',
+    lanes: ['gen', 'repair', 'figure'],
+    text: '3D SOLID VISIBILITY: use the shared MathsMap solid-geometry helper and its versioned model metadata. Visible boundaries and silhouettes are solid; only genuinely occluded edges are dashed. Derive visibility from faces and the actual viewing direction, never vertex names or a remembered front/back edge list. Label with a non-drawing path so adding a dimension cannot repaint a hidden edge. Preserve construction guides and semantic highlights separately. Run audit-solid-visibility.mjs; unsupported or ambiguous geometry needs an occurrence-specific, source-hashed review. Follow docs/solid-visibility.md. Project angle annotations into plain 2D before drawing them.',
+  },
+  {
     id: 'ties-and-boundaries',
     lanes: ['gen', 'repair'],
     text:

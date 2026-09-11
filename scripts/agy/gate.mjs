@@ -41,6 +41,7 @@ const GATE = [
   ['scripts/audit-option-hygiene.mjs', true],
   ['scripts/audit-intersecting-features.mjs', true],
   ['scripts/audit-figure-scale.mjs', true],
+  ['scripts/audit-solid-visibility.mjs', true],
   ['scripts/audit-figure-quota.mjs', true],
   ['scripts/audit-angle-arms.mjs', true],
   ['scripts/audit-tangent-lines.mjs', true],

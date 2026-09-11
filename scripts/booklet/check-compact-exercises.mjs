@@ -4,13 +4,14 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
-import {isPractice,flowEditionSections} from '../../src/lib/booklet-flow.js';
+import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
 import {spawnSync} from 'node:child_process';
 import {rendererSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {loadRun} from './transcription.mjs';
 import {liveWorkflow} from './workflow-review.mjs';
 import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest} from './page-review.mjs';
+import {solidAcceptance} from '../audit-solid-visibility.mjs';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
 const editions=arg('--editions','student,short,worked,with-short,with-worked').split(',');
@@ -43,6 +44,10 @@ try{
   if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Invalid project ID');
   const projectFile=`booklets/projects/${id}.json`;
   const record=JSON.parse(fs.readFileSync(projectFile));record.settings.flowEdition=editions[0];
+  const visibilityFile='booklets/provenance/solid-visibility-2026-09-12.json';
+  const visibilityReviews=fs.existsSync(visibilityFile)?JSON.parse(fs.readFileSync(visibilityFile,'utf8')).reviews:{};
+  const visibilityIssues=solidAcceptance(record,visibilityReviews);
+  assert.equal(visibilityIssues.length,0,'3D visibility acceptance: '+JSON.stringify(visibilityIssues.map(i=>({location:i.location,status:i.status,reason:i.reason,issues:i.issues}))));
   const projectHash=projectReviewHash(record),workflowRef=record.source?.workflow??record.source?.inventory?.workflow;
   const workflow=workflowRef?liveWorkflow(loadRun(workflowRef.runId).runDir):null;
   if(workflow&&!development&&!draft)assert.ok(workflow.settled?.project.hash===projectHash,'Settle current content before the complete final five-edition review. Use --development during editing.');
@@ -75,6 +80,7 @@ try{
    const qa=await page.evaluate(async()=>{const {settleBooklet,inspectBooklet}=await import('/src/lib/booklet-qa.js');const root=document.querySelector('.project-print');await settleBooklet(root);return inspectBooklet(root,{style:true});});
    const info=await page.locator('.project-print').evaluate(root=>({
      pages:root.querySelectorAll('.print-page').length,
+     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \d+$/.test(t)),
      labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent})),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
      teachingGroups:[...root.querySelectorAll('[data-atom-id]')].map(e=>({id:e.dataset.atomId,headers:e.querySelectorAll(':scope > [data-header-kind]').length})),
@@ -86,6 +92,7 @@ try{
      links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).map(a=>({href:a.getAttribute('href'),exists:!!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)})),
      map:[...root.querySelectorAll('.print-page')].map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(',')}))
    }));
+   if(record.settings.exerciseOrganisation==='topic')assert.deepEqual(info.exerciseHeadings,['short','worked'].includes(edition)?[]:Object.values(exerciseNumbers(record)).map(n=>`Exercise ${n}`),'Exactly one question-side heading per exercise, across source sections and teaching checkpoints');
    const domPages=await page.locator('.project-print .print-page').evaluateAll(elements=>elements.map(e=>({html:e.outerHTML,blocks:e.dataset.flowBlocks?.split(',')??[]})));
    const hashes=renderedPageHashes(domPages,{renderer:runtime,settings:record.settings,assets});
    if(development){
