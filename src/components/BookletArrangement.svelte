@@ -13,7 +13,11 @@
  let contentWidth=$state(0);
  const resolved=$derived(resolveArrangement(block,arrangement,{...layoutOverrides,editable:editMode&&!!documentActions&&!onselect,labels:getLabels?.()??layoutOverrides.labels},contentWidth>0?contentWidth*25.4/96:180));
  function choose(event,n){if(onselect){event.stopPropagation();onselect(n.id);}else if(editMode&&requestEdit){if(event.target.closest('.editable-booklet-text,[data-diagram-id]'))return;event.stopPropagation();if(documentActions){documentActions.select([block.id],event);return;}const e=resolved.entries.get(n.ref);requestEdit({rootId:block.type==='question'?block.content.id:block.id,pointer:'/content',selectedArrangementId:n.id,selectedNodeId:e?.nodeId,selectedDiagramId:e?.diagramId,origin:event.currentTarget});}}
- function key(event,n){if(['Enter',' '].includes(event.key)){event.preventDefault();choose(event,n);}}
+ function key(event,n){
+  // Descendant editors and controls own their keys, including Space and Enter.
+  if(event.target!==event.currentTarget||event.defaultPrevented||event.isComposing)return;
+  if(['Enter',' '].includes(event.key)){event.preventDefault();choose(event,n);}
+ }
  function start(event,n,index){
   event.preventDefault();event.stopPropagation();const el=event.currentTarget.parentElement,box=el.getBoundingClientRect(),children=n.children,total=children.reduce((a,c)=>a+(c.weight??1),0),left=children[index].weight??1,right=children[index+1].weight??1,start=event.clientX;
   let weights=children.map(c=>c.weight??1);const old=el.style.gridTemplateColumns;
