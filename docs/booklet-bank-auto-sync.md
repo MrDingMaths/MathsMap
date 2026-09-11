@@ -6,6 +6,8 @@ The 149 whole practice questions from accepted **Index Laws revision 200** are a
 
 Page settings, answer spaces, local question arrangement, diagram sizes and bank classifications/teaching mappings are retained. Deleting a booklet question does not delete the bank question. A deleted bank question is not silently recreated by a later booklet save.
 
+The 91 whole practice questions from **Non-Right-Angled Trigonometry v1 revision 167** are registered originals, owned by that project. Revision 168 adds bank links and individual classifications while preserving content, ordering and local presentation. Teaching content is excluded. See the [import acceptance record](../booklets/provenance/non-right-angled-trigonometry-v1/bank-import.md) and its source-to-bank receipt. The reusable `scripts/booklet/import-project-bank.mjs` route takes `--project`, `--assessments` and `--out`; `--apply` publishes the verified stage, and a completed rerun verifies without writing.
+
 When synced text changes between plain text and editor paragraphs, the destination's arrangement references are reconciled with the new content. Existing layout item IDs, spacing and sizing are retained; extra paragraphs receive additional items. Unresolved references stop the sync write with a review error instead of saving a broken layout. Repeated publication reuses previously mapped content IDs.
 
 ## Reviewing updates
