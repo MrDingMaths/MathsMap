@@ -11,12 +11,16 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,compactAnswerLabel,answerNodePath} from '../lib/booklet-exercises.js';
+  import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
+  import {teachingAnswerCategory} from '../lib/booklet-answer-options.js';
+  import {hasEmbeddedResponseLabel} from '../lib/booklet-labels.js';
 
   let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts = {}, answerSpaceOverrides = {}, diagramWidthOverrides = {}, diagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   const letter = (index) => String.fromCharCode(97 + index);
+  const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
-  const leafLabel = (path) => number == null ? path.join('') : [String(number), ...path].join('');
+  const leafLabel = (path) => compactAnswerLabel(number,path);
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
   const spaceFor = (node) => node.responseSpace === 'scaffold' ? 0 : Number.isFinite(Number(answerSpaceOverrides[node.id])) ? answerSpaceOverrides[node.id] : estimateAnswerSpaceMm(node);
   const widthFor = (diagram) => {
@@ -129,7 +133,7 @@
 {/snippet}
 
 {#snippet renderQuestionNode(node, depth = 0, index = 0, applications = null)}
-  {@const label = nodeLabel(node, index, depth)}
+  {@const label = hasEmbeddedResponseLabel(node) ? '' : nodeLabel(node, index, depth)}
   {@const space = resizeSpaces[node.id] ?? spaceFor(node)}
   <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:diagrams-first={node.diagramPlacement === 'before-prompt'} class:diagrams-beside={['beside-prompt','right-of-prompt'].includes(node.diagramPlacement)} class:diagrams-right={node.diagramPlacement === 'right-of-prompt'} class:compact class="question-node question-depth-{depth}" data-node-id={node.id} style={questionLayoutStyle(node,blockLayouts)}>
     {#if node.representations}
@@ -161,7 +165,7 @@
 {/snippet}
 
 {#snippet renderAnswerNode(node, path = [], index = 0)}
-  {@const nextPath = node.type === 'question' && path.length === 0 ? path : node.children?.length && node.label == null ? path : [...path, String(node.label ?? letter(index))]}
+  {@const nextPath = answerNodePath(question.content,node,path,index)}
   {#if node.children?.length}
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex)}{/each}
@@ -169,7 +173,7 @@
     {#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
   {:else}
     <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label">{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
-      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(node.answer.short)} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(node.answer.short)):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
+      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>
@@ -182,7 +186,7 @@
     {#each [question.content.children.slice(0, Math.ceil(question.content.children.length / 2)), question.content.children.slice(Math.ceil(question.content.children.length / 2))] as rows}
       <table><thead><tr><th>Calculation</th><th>Rewritten</th></tr></thead><tbody>
         {#each rows as row, rowIndex}<tr><td><div class="rewrite-calculation"><b>{row.label ?? letter(rowIndex)}</b><EditableBookletText value={row.prompt} rootId={row.id} pointer="/prompt" {editMode} edited={isEdited(row.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div></td><td>
-          {#if showShortAnswers && row.answer?.short}<InlineContent text={row.answer.short} />
+          {#if showShortAnswers && row.answer?.short}<InlineContent text={shortValue(row.answer.short)} />
           {:else if showWorkedSolutions && row.answer?.worked}<InlineContent text={setoutMathChain(row.answer.worked)} />
           {:else}<span class="rewrite-blank" aria-label="Write the rewritten calculation"></span>{/if}
         </td></tr>{/each}
@@ -191,7 +195,7 @@
   </div>
 {/snippet}
 
-<div class:answer-key={showShortAnswers || showWorkedSolutions} class:compact-answer={!!compactAnswerSettings} class="practice-question" data-question-id={question?.id ?? ''} style={compactAnswerSettings?`--type-body:${showShortAnswers?compactAnswerSettings.shortFontPt:compactAnswerSettings.workedFontPt}pt;--answer-label-width:${answerLabelWidthMm}mm`:''}>
+<div class:short-answer-key={showShortAnswers&&!teachingAnswerCategory(question)&&!question.sourceAtom} style:--short-answer-ink={SHORT_ANSWER_INK} class:answer-key={showShortAnswers || showWorkedSolutions} class:compact-answer={!!compactAnswerSettings} class="practice-question" data-question-id={question?.id ?? ''} style={compactAnswerSettings?`--type-body:${showShortAnswers?compactAnswerSettings.shortFontPt:compactAnswerSettings.workedFontPt}pt;--answer-label-width:${answerLabelWidthMm}mm`:''}>
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions)}
@@ -200,9 +204,12 @@
 </div>
 
 <style>
+  .practice-question.short-answer-key,.short-answer-key .answer-label,.short-answer-key .answer-label a{color:var(--short-answer-ink)}
+  .short-answer-key :global(.editable-table th),.short-answer-key :global(.booklet-content th){color:inherit}
+
   .practice-question.compact-answer{line-height:1.22}
   .compact-answer .answer-children{display:block;margin:0}
-  .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{grid-template-columns:var(--answer-label-width) minmax(0,1fr);gap:2mm;padding:.8mm 0;border-bottom:.15mm solid #e0e5ea}
+  .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{grid-template-columns:var(--answer-label-width) minmax(0,1fr);gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
   .compact-answer .answer-content{text-align:left}
   .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important;text-align:left!important}
@@ -210,9 +217,9 @@
   .compact-answer :global(.katex-display > .katex){text-align:left!important}
   .compact-answer .diagram-resize-shell{margin:1mm 0}
   .pattern-top .representation-pattern{grid-column:1 / span 2;grid-row:1}.pattern-top .representation-table{grid-column:1;grid-row:2}.pattern-top .representation-equation{grid-column:1;grid-row:3}.pattern-top .representation-graph{grid-column:2;grid-row:2 / span 2}
-  .representations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3mm;margin-left:calc(var(--label-width) + var(--label-gap));break-inside:avoid}.representation{min-width:0;padding:1mm 2mm;border-top:.2mm solid #ddd}.representation-pattern{grid-column:1;grid-row:1;min-height:24mm}.representation-table{grid-column:2;grid-row:1}.representation-equation{grid-column:1;grid-row:2;min-height:28mm}.representation-graph{grid-column:2;grid-row:2}.without-pattern .representation-pattern{display:none}.without-pattern .representation-table{grid-column:1;grid-row:1}.without-pattern .representation-graph{grid-column:2;grid-row:1 / span 2}.representation-pattern .diagram-resize-shell{margin-left:0}.representation :global(p){margin-top:0}
+  .representations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3mm;margin-left:calc(var(--label-width) + var(--label-gap));break-inside:avoid}.representation{min-width:0;padding:1mm 2mm;border-top:.2mm solid var(--booklet-border)}.representation-pattern{grid-column:1;grid-row:1;min-height:24mm}.representation-table{grid-column:2;grid-row:1}.representation-equation{grid-column:1;grid-row:2;min-height:28mm}.representation-graph{grid-column:2;grid-row:2}.without-pattern .representation-pattern{display:none}.without-pattern .representation-table{grid-column:1;grid-row:1}.without-pattern .representation-graph{grid-column:2;grid-row:1 / span 2}.representation-pattern .diagram-resize-shell{margin-left:0}.representation :global(p){margin-top:0}
 
-  .practice-question { --label-width: 8mm; --label-gap: 2mm; --type-meta:8pt; --type-body:11pt; box-sizing: border-box; color: #172033; font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: var(--type-body); line-height: 1.38; }
+  .practice-question { --label-width: 8mm; --label-gap: 2mm; --type-meta:8pt; --type-body:11pt; box-sizing: border-box; color: var(--booklet-ink); font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: var(--type-body); line-height: 1.38; }
   .question-node { --question-tracks:initial;--question-gap:initial;--question-diagram-width:initial;break-inside: avoid; margin: 0 0 2.2mm; }
   .practice-question > .question-node { break-inside: auto; }
   .question-node.part { margin: 1mm 0 1.5mm; }
@@ -245,17 +252,17 @@
   .diagram-composite > .diagram-resize-shell { width: 100% !important; margin: 0; }
   .diagram-overlay { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
   .diagram-overlay .diagram-resize-shell { width: 100% !important; margin: 0; }
-  .diagram-resize-handle { position: absolute; right: -5px; bottom: -5px; width: 12px; height: 12px; padding: 0; border: 1px solid #4f6f9f; border-radius: 50%; background: #fff; cursor: ew-resize; }
-  .answer-space { position: relative; display: grid; place-items: center; width: 100%; box-sizing: border-box; margin: 1mm 0 1.5mm; overflow: visible; border: 1px dashed #aab8c8; border-radius: 4px; background: #fff; color: #7d8999; cursor: ns-resize; }
-  .space-label { padding: 0 2mm; background: #fff; font-size: var(--type-meta); }
-  .space-handle { position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; border: 1px solid #aab8c8; border-radius: 50%; background: #fff; transform: translateX(-50%); }
-  @media screen { .answer-space.resizable { min-height:18px; touch-action:none; } .answer-space.collapsed { border-color:#268cff; color:#2466ac; } }
-  .answer-key { background: #fff; }
+  .diagram-resize-handle { position: absolute; right: -5px; bottom: -5px; width: 12px; height: 12px; padding: 0; border: 1px solid var(--booklet-blue); border-radius: 50%; background: var(--booklet-white); cursor: ew-resize; }
+  .answer-space { position: relative; display: grid; place-items: center; width: 100%; box-sizing: border-box; margin: 1mm 0 1.5mm; overflow: visible; border: 1px dashed var(--booklet-border); border-radius: 4px; background: var(--booklet-white); color: var(--booklet-muted); cursor: ns-resize; }
+  .space-label { padding: 0 2mm; background: var(--booklet-white); font-size: var(--type-meta); }
+  .space-handle { position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; border: 1px solid var(--booklet-border); border-radius: 50%; background: var(--booklet-white); transform: translateX(-50%); }
+  @media screen { .answer-space.resizable { min-height:18px; touch-action:none; } .answer-space.collapsed { border-color:var(--booklet-blue); color:var(--booklet-blue); } }
+  .answer-key { background: var(--booklet-white); }
   .answer-children { margin: 1mm 0; }
   .answer-children > .answer-item { min-width: 0; grid-template-columns:8mm minmax(0,1fr); gap:2mm; }
-  .answer-item { display: grid; grid-template-columns: 18mm minmax(0, 1fr); gap: 3mm; padding: 3mm 0; border-bottom: 1px solid #dfe4ea; break-inside: avoid; }
+  .answer-item { display: grid; grid-template-columns: 18mm minmax(0, 1fr); gap: 3mm; padding: 3mm 0; border-bottom: 1px solid var(--booklet-border); break-inside: avoid; }
   .answer-children > .answer-item { padding:1.5mm 0; }
-  .answer-label { color: #23395d; font-weight: 800; }
+  .answer-label { color: var(--booklet-ink); font-weight: 800; }
   .answer-content { min-width: 0; }
   .worked-content { margin-top: 1.5mm; }
   .rewrite-intro { display: flex; gap: var(--label-gap); margin-bottom: 2mm; }
@@ -263,16 +270,16 @@
   .rewrite-tables { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5mm; margin-left: calc(var(--label-width) + var(--label-gap)); }
   .rewrite-tables table { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .rewrite-calculation { display: grid; grid-template-columns: 3.5mm minmax(0, 1fr); gap: 2mm; align-items: baseline; }
-  .rewrite-tables th, .rewrite-tables td { padding: 1.4mm; border: .25mm solid #25364a; vertical-align: top; text-align: left; }
-  .rewrite-tables th { background: #e8f1f7; color: #245f91; }
+  .rewrite-tables th, .rewrite-tables td { padding: 1.4mm; border: .25mm solid var(--booklet-border); vertical-align: top; text-align: left; }
+  .rewrite-tables th { background: var(--booklet-blueFill); color: var(--booklet-blue); }
   .rewrite-blank { display: block; min-height: 5mm; }
-  .muted { color: #68768a; }
+  .muted { color: var(--booklet-muted); }
   .compact { margin-bottom: 1mm; }
   .question-node.part.compact { margin:.5mm 0; }
   @media print {
     .answer-space.collapsed { display:none; }
-    .answer-space { overflow: visible; border: none; background: #fff; }
-    .answer-space.boxed-response { border: .25mm solid #bbb; border-radius:0; }
+    .answer-space { overflow: visible; border: none; background: var(--booklet-white); }
+    .answer-space.boxed-response { border: .25mm solid var(--booklet-border); border-radius:0; }
     .space-label, .space-handle, .diagram-resize-handle { display: none; }
     .diagram-resize-shell { max-width: 100%; }
   }

@@ -15,7 +15,7 @@
     'review': 'green',
     'investigation': 'red',
     'definition': 'blue',
-    'identify': 'pink',
+    'identify': 'red',
     'example': 'orange',
     'guided-practice': 'orange',
     'key-ideas': 'blue',
@@ -36,7 +36,7 @@
   const revert = (event) => onContentRevert?.({ ...event, rootIds: rootIds.length ? rootIds : undefined });
 </script>
 
-<div class="accent-header {tone}" data-header-kind={kind} style:background={/^#[0-9a-f]{6}$/i.test(headerFill??'')?headerFill:undefined}>
+<div class="accent-header {tone}" data-header-kind={kind} style:background={'var(--booklet-'+tone+'Fill)'}>
   <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
     {#if kind === 'identify'}
       <circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2" />
@@ -62,24 +62,24 @@
     gap: 1.4mm;
     padding: .9mm 1.6mm .9mm 2.1mm;
     border-left: 2.2mm solid currentColor;
-    border-bottom: 1px solid #d3d7db;
+    border-bottom: 1px solid var(--booklet-border);
     font-size: 10.1pt;
     line-height: 1.05;
   }
-  .accent-header.blue { color: #2f6fb2; background: #eef5fc; }
-  .accent-header.green { color: #4f9b63; background: #eef8f1; }
-  .accent-header.red { color: #d65e65; background: #fde1e2; }
-  .accent-header.pink { color: #d05f84; background: #fdf0f4; }
-  .accent-header.orange { color: #df8b38; background: #fff4e8; }
+  .accent-header.blue { color: var(--booklet-blue); background: var(--booklet-blueFill); }
+  .accent-header.green { color: var(--booklet-green); background: var(--booklet-greenFill); }
+  .accent-header.red { color: var(--booklet-red); background: var(--booklet-redFill); }
+  .accent-header.pink { color: var(--booklet-red); background: var(--booklet-redFill); }
+  .accent-header.orange { color: var(--booklet-orange); background: var(--booklet-orangeFill); }
   .header-icon {
     display: block;
     width: 4.7mm;
     height: 4.7mm;
     flex: 0 0 4.7mm;
-    color: #24282d;
+    color: var(--booklet-ink);
   }
-  .header-main { color: #24282d; font-weight: 700; }
-  .header-sub { min-width: 0; flex: 1; color: #24282d; font-weight: 400; }
+  .header-main { color: var(--booklet-ink); font-weight: 700; }
+  .header-sub { min-width: 0; flex: 1; color: var(--booklet-ink); font-weight: 400; }
   /* Nunito's visible capitals sit above the centre of its line box. */
   .header-main, .header-sub { position: relative; top: .1em; }
   .header-sub :global(.booklet-content) { display: inline; }

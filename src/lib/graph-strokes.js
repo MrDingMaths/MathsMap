@@ -1,4 +1,7 @@
 import {BOOKLET_HOUSE_STYLE} from '../../public/libs/maths-editor/house-style.mjs';
+import {calibrateDiagramTypography,graphPageScale} from './diagram-typography.js';
+import {scopeSvgPaintReferences} from './svg-paint-scope.js';
+export {graphPageScale} from './diagram-typography.js';
 
 export const GRAPH_STROKES = BOOKLET_HOUSE_STYLE.graphs.strokes;
 // Metadata opts a diagram into final-size calibration; unadopted/manual art is untouched.
@@ -13,11 +16,9 @@ export function strokeWidthForScale(targetPt,svgScale,pageScale=1) {
   if(!(svgScale>0&&pageScale>0))return null;
   return targetPt*96/72*pageScale/svgScale;
 }
-export function graphPageScale(svg) {
-  const article=svg.closest('.booklet-page');
-  return article ? article.getBoundingClientRect().width/((article.closest('.flow')?180:210)*96/25.4) : 1;
-}
 export function calibrateGraphStrokes(root) {
+  for(const svg of root.querySelectorAll('svg'))scopeSvgPaintReferences(svg);
+  calibrateDiagramTypography(root);
   for(const svg of root.querySelectorAll('svg')) {
     if(!svg.querySelector('[data-graph-strokes="1"]'))continue;
     const pageScale=graphPageScale(svg);
@@ -45,8 +46,11 @@ export function watchGraphStrokes(root) {
   const print=()=>calibrateGraphStrokes(root);
   const resize=new ResizeObserver(update),mutation=new MutationObserver(update);
   resize.observe(root);mutation.observe(root,{childList:true,subtree:true});
+  // Page zoom can change without resizing this slot's CSS layout box.
+  const page=root.closest('.booklet-page'),zoom=new MutationObserver(update);
+  for(let node=page;node;node=node.parentElement)zoom.observe(node,{attributes:true,attributeFilter:['style','class']});
   window.addEventListener('beforeprint',print);window.addEventListener('afterprint',update);
-  const stop=()=>{cancelAnimationFrame(frame);resize.disconnect();mutation.disconnect();window.removeEventListener('beforeprint',print);window.removeEventListener('afterprint',update);};
+  const stop=()=>{cancelAnimationFrame(frame);resize.disconnect();mutation.disconnect();zoom.disconnect();window.removeEventListener('beforeprint',print);window.removeEventListener('afterprint',update);};
   update();
   return stop;
 }

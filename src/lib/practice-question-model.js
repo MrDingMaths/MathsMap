@@ -316,7 +316,11 @@ export function mathSpans(value) {
 }
 
 export function invalidFractionSpans(value) {
-  return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(span.body));
+  // A slash inside a plain textual unit is not an arithmetic fraction. Keep
+  // checking everything else, including arithmetic alongside that unit.
+  return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(
+    span.body.replace(/\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\/\s*[A-Za-z]+\s*\}/g, ''),
+  ));
 }
 
 function validateDiagram(diagram, path, errors, warnings, diagramIds) {

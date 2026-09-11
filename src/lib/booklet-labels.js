@@ -3,6 +3,17 @@ const letterKinds=new Set(['activity','investigation','identify','proof','verify
 export const usesReviewNumbers=block=>block?.type==='question'&&(block.sourceAtom?.kind??block.pedagogyRole??block.variant)==='review';
 export const usesTeachingLetters=block=>block?.type==='worked-example'||[block?.sourceAtom?.kind,block?.pedagogyRole,block?.variant].some(kind=>letterKinds.has(kind));
 export function alphabeticLabel(index){let label='';for(let n=index+1;n>0;n=Math.floor((n-1)/26))label=String.fromCharCode(97+(n-1)%26)+label;return label;}
+// A named response cell can carry its visible heading inside its native table.
+// Keep the stored label for answer references without printing it twice.
+export function hasEmbeddedResponseLabel(node){
+ if(node?.responseSpace!=='scaffold'||!node.label||node.children?.length)return false;
+ const table=node.prompt?.blocks?.[0];
+ if(table?.type!=='table'||table.rows?.[0]?.length!==1)return false;
+ const blocks=table.rows[0][0]?.blocks;
+ if(blocks?.length!==1||blocks[0].type!=='paragraph')return false;
+ const inlines=blocks[0].inlines;
+ return inlines?.length>0&&inlines.every(i=>i.type==='text')&&inlines.map(i=>i.text).join('').trim()===String(node.label).trim();
+}
 export function teachingLabels(blocks=[]){
  const labels={},counts=new Map(),seen=new Set();
  for(const block of blocks){
@@ -17,7 +28,17 @@ export function teachingLabels(blocks=[]){
    continue;
   }
   const next=()=>{const index=counts.get(key)??0;counts.set(key,index+1);return alphabeticLabel(index);};
-  const visit=node=>{if(!node)return;if(node.children?.length){labels[node.id]='';node.children.forEach(visit);}else labels[node.id]=next();};
+  const visit=node=>{
+   if(!node)return;
+   if(node.label===''&&!node.children?.length&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='cloze')){labels[node.id]='';return;}
+   // A source-labelled task can contain explicitly unlabelled response slots,
+   // such as Front/Back/Side/Top views of one solid. Letter the task once.
+   if(node.label&&node.children?.length&&node.children.every(c=>!c.children?.length)
+      &&(node.children.every(c=>c.label==='')||/^[a-z]$/i.test(String(node.label))&&node.children.every(c=>/^\d+$/.test(String(c.label??''))))){
+    labels[node.id]=next();node.children.forEach(c=>{labels[c.id]=String(c.label);});
+   }else if(node.children?.length){labels[node.id]='';node.children.forEach(visit);}
+   else labels[node.id]=next();
+  };
   if(block.type==='question')visit(block.content);
   for(const example of block.examples??[])labels[example.id]='';
  }

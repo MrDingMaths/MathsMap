@@ -1,6 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {teachingLabels,alphabeticLabel,labelledTeachingQuestion} from '../src/lib/booklet-labels.js';
+import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel} from '../src/lib/booklet-labels.js';
+
+test('embedded response heading prints once while retaining its answer-reference label',()=>{
+ const node={id:'front',type:'part',label:'Front',responseSpace:'scaffold',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',rows:[[{blocks:[{type:'paragraph',inlines:[{type:'text',text:'Front'}]}]}]]}]}};
+ assert.equal(hasEmbeddedResponseLabel(node),true);
+ assert.equal(node.label,'Front');
+ assert.equal(hasEmbeddedResponseLabel({...node,label:'a'}),false);
+ assert.equal(hasEmbeddedResponseLabel({...node,responseSpace:'working'}),false);
+ assert.equal(hasEmbeddedResponseLabel({...node,children:[{id:'child'}]}),false);
+ const block={id:'views',type:'question',sourceOrder:1,content:{id:'root',children:[node]}};
+ const catalog=arrangementCatalog(block);
+ assert.equal(catalog.entries.get('front/label').value,'');
+ assert.equal(resolveArrangement(block,catalog.initial).missing.length,0);
+});
+
+test('one source-labelled drawing task retains four explicitly unlabelled view responses',()=>{
+ const blocks=[{id:'views',type:'question',pedagogyRole:'guided-practice',content:{id:'root',children:['a','b'].map(label=>({id:label,label,children:['front','back','side','top'].map(view=>({id:label+'-'+view,label:''}))}))}}];
+ const labels=teachingLabels(blocks);
+ assert.equal(labels.a,'a');assert.equal(labels.b,'b');
+ for(const letter of ['a','b'])for(const view of ['front','back','side','top'])assert.equal(labels[letter+'-'+view],'');
+});
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 const question=(id,kind='guided-practice')=>({id,type:'question',sourceOrder:9,sourceAtom:{id:'box',kind},content:{id:id+'-root',label:'9',prompt:'Shared instruction',children:[{id:id+'-a',label:'1',prompt:'First',children:[]},{id:id+'-b',label:'2',prompt:'Second',children:[]}]}});
 test('teaching boxes label parts continuously across blocks and omit root question numbers',()=>{

@@ -1,9 +1,12 @@
+import {standardBookletContent} from '../../public/libs/maths-editor/booklet-palette.mjs';
 import { normalizeBlockLayouts } from './booklet-layout.js';
 import {applyCreationPreset} from './booklet-creation.js';
 import {remapQuestionPresentation} from './question-presentation.js';
 import { deepCopy as copyQuestion, normaliseQuestion } from './practice-question-model.js';
 import { normalizeBookletProject } from './booklet-model.js';
 import { isDocument, normalizeDocument } from './document-content.js';
+import {normaliseShortAnswer} from './short-answer-style.js';
+import {teachingAnswerCategory} from './booklet-answer-options.js';
 
 export const EDITABLE_BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v4';
 export const EDITABLE_BOOKLET_PROJECT_VERSION = 4;
@@ -288,12 +291,15 @@ export function materializeLegacyProject(raw, { bank = [], modules = [] } = {}) 
 }
 
 export function updateProjectContent(project, rootId, pointer, value) {
+  value=standardBookletContent(value);
   let found=false;
   const sections=project.sections.map(section=>{
     if(section.id===rootId){found=true;const next=clone(section);setPointer(next,pointer,value);return next;}
     const blocks=section.blocks.map(block=>{
       if(!findProjectNode({sections:[block]},rootId))return block;
-      found=true;const next=clone(block);setPointer(findProjectNode({sections:[next]},rootId),pointer,value);return next;
+      found=true;const next=clone(block);
+      const stored=pointer.endsWith('/answer/short')&&!teachingAnswerCategory(block)&&!block.sourceAtom?normaliseShortAnswer(value):value;
+      setPointer(findProjectNode({sections:[next]},rootId),pointer,stored);return next;
     });
     return blocks.some((block,i)=>block!==section.blocks[i])?{...section,blocks}:section;
   });

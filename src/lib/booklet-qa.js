@@ -1,5 +1,8 @@
+import {inspectBookletPalette} from './booklet-palette-qa.js';
 import {calibrateGraphStrokes} from './graph-strokes.js';
+import {inspectDiagramColours} from './diagram-colours.js';
 import {renderMath} from './render-math.js';
+import {inspectShortAnswerColours} from './short-answer-style.js';
 // Shared browser-side acceptance checks. Preview and export call the same functions.
 export async function settleBooklet(root) {
  if(!root)throw Error('Booklet surface is missing');
@@ -53,15 +56,16 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  }
  const graphs=[];
  for(const wrap of main.querySelectorAll('.tikz-wrap')){if(!visible(wrap))continue;const svg=wrap.querySelector('svg');if(!svg){add('missing-diagram',wrap);continue;}
-  const textSizes=[...svg.querySelectorAll('text')].map(t=>{const m=t.getScreenCTM(),localPx=parseFloat(getComputedStyle(t).fontSize);return {localPx,pt:m?localPx*Math.hypot(m.c,m.d)/scale*72/96:0,tick:!!t.closest('[data-graph-text="tick"]')};}).filter(n=>n.pt>0);
+  const labelGroups=[...svg.querySelectorAll('g[data-diagram-label="1"]')].filter(g=>g.querySelector('text'));
+  const textSizes=labelGroups.length?labelGroups.map(g=>{const m=g.getScreenCTM();return {localPx:10,pt:Number(g.dataset.labelFont)*Math.hypot(m.c,m.d)/scale*72/96,tick:!!g.querySelector('[data-graph-text="tick"]'),target:g.querySelector('[data-graph-text="tick"]')?Number(g.dataset.tickTarget):10};}):[...svg.querySelectorAll('text')].map(t=>{const m=t.getScreenCTM(),localPx=parseFloat(getComputedStyle(t).fontSize);return {localPx,pt:m?localPx*Math.hypot(m.c,m.d)/scale*72/96:0,tick:!!t.closest('[data-graph-text="tick"]')};}).filter(n=>n.pt>0);
   // TeX math scripts use smaller design sizes; compare the surrounding base text.
   const baseLocalPx=Math.max(...textSizes.map(t=>t.localPx)),baseText=textSizes.filter(t=>t.localPx>=baseLocalPx*.8);
   const fonts=textSizes.map(t=>t.pt),tagged=!!svg.querySelector('[data-graph-text="tick"]');
   const minimumPt=fonts.length?Math.min(...fonts):null,diagramId=wrap.closest('[data-diagram-id]')?.dataset.diagramId;
   const tickMinimumPt=Math.min(...baseText.filter(t=>t.tick).map(t=>t.pt)),labelMinimumPt=Math.min(...baseText.filter(t=>!t.tick).map(t=>t.pt));
   graphs.push({id:diagramId,minimumPt,tickMinimumPt:Number.isFinite(tickMinimumPt)?tickMinimumPt:null,labelMinimumPt:Number.isFinite(labelMinimumPt)?labelMinimumPt:null,widthMm:wrap.getBoundingClientRect().width/mm});
-  if(style&&baseText.some(t=>t.pt<(t.tick||!tagged?7.9:9.9)))add('small-graph-label',wrap,{diagramId,minimumPt,tickMinimumPt,labelMinimumPt});
-  if(style&&tagged&&textSizes.some(t=>t.pt>(t.tick?8.65:10.15)))add('large-graph-label',wrap,{diagramId,tickMaximumPt:Math.max(...textSizes.filter(t=>t.tick).map(t=>t.pt)),labelMaximumPt:Math.max(...textSizes.filter(t=>!t.tick).map(t=>t.pt))});
+  if(style&&baseText.some(t=>t.pt<(t.tick?(t.target??8)-.1:9.9)))add('small-graph-label',wrap,{diagramId,minimumPt,tickMinimumPt,labelMinimumPt});
+  if(style&&baseText.some(t=>t.pt>(t.tick?(t.target??8.5)+.1:10.1)))add('large-graph-label',wrap,{diagramId,tickMaximumPt:Math.max(...textSizes.filter(t=>t.tick).map(t=>t.pt)),labelMaximumPt:Math.max(...textSizes.filter(t=>!t.tick).map(t=>t.pt))});
   // Use painted glyph bounds: Computer Modern's minus has a tall, mostly empty em box.
   if(style&&tagged){
    const context=document.createElement('canvas').getContext('2d');
@@ -96,20 +100,16 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
    graphs[graphs.length-1].strokeCount=measured;
   }
   if(style){
+   const diagramColours=inspectDiagramColours(svg);
+   if(diagramColours.length)add('diagram-palette',wrap,{diagramId,colours:diagramColours});
    for(let a=wrap;a&&a!==article;a=a.parentElement)if(/grayscale\(/.test(getComputedStyle(a).filter)){add('graph-palette-filter',wrap,{diagramId});break;}
-   const palette=new Set(['38,140,255','239,96,104','79,155,99']);
-   // Source-specific colours remain explicit, occurrence-scoped evidence. This
-   // extends the allowed colours only; all geometry and typography checks stay.
-   for(const evidence of svg.querySelectorAll('[data-graph-source-palette][data-graph-source-reference]')){
-    if(!evidence.dataset.graphSourceReference.trim())continue;
-    for(const token of evidence.dataset.graphSourcePalette.split(/[ ,;]+/)){const hex=token.replace(/^#/,'');if(/^[0-9a-f]{6}$/i.test(hex))palette.add([0,2,4].map(i=>parseInt(hex.slice(i,i+2),16)).join(','));}
-   }
+   const palette=new Set(['38,140,255','239,96,104','79,155,99','239,139,44']);
    const bad=new Set();
    for(const shape of svg.querySelectorAll('path,line,polyline,polygon,rect,circle')){
     const stroke=getComputedStyle(shape).stroke,rgb=stroke.match(/^rgba?\((\d+)[, ]+\s*(\d+)[, ]+\s*(\d+)/);
     if(rgb){const [red,green,blue]=rgb.slice(1,4).map(Number);if(!(red===green&&green===blue)&&!palette.has([red,green,blue].join(',')))bad.add(stroke);}
    }
-   if(bad.size)add('graph-palette',wrap,{diagramId,colours:[...bad]});
+   if(bad.size&&!svg.querySelector('[data-diagram-kind="geometry"]'))add('graph-palette',wrap,{diagramId,colours:[...bad]});
   }
  }
  if(style){
@@ -125,5 +125,5 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  }
  return {page:article.dataset.pageNumber,issues,graphs,footerClearanceMm:flow?null:(f.top-Math.max(...elements.map(n=>n.getBoundingClientRect().bottom)))/mm};
 }
-export function inspectBooklet(root,options={}) {return [...root.querySelectorAll('.booklet-page')].map(p=>inspectBookletPage(p,options));}
+export function inspectBooklet(root,options={}) {return [...root.querySelectorAll('.booklet-page,.booklet-cover')].map(p=>{const report=p.matches('.booklet-cover')?{page:'cover',issues:[],graphs:[]}:inspectBookletPage(p,options),answers=inspectShortAnswerColours(p);report.issues.push(...answers.issues,...inspectBookletPalette(p));report.shortAnswerRuns=answers.runs;return report;});}
 export function assertBookletFits(report) {const failed=report.filter(p=>p.issues.length);if(failed.length)throw Error('Booklet QA failed: '+JSON.stringify(failed.map(p=>({page:p.page,issues:p.issues}))));return report;}

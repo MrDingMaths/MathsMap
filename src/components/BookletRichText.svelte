@@ -1,4 +1,5 @@
 <script>
+  import {standardBookletContent} from '../../public/libs/maths-editor/booklet-palette.mjs';
   import {getContext} from 'svelte';
   const presentation=getContext('booklet-presentation');
   import { mountTabs } from '../../public/libs/maths-editor/tab-layout.mjs';
@@ -10,7 +11,8 @@
   import { renderRichTextHtml } from '../lib/maths-editor.js';
   import { splitBookletTables, numberedTheoryRules } from '../lib/booklet-preview.js';
 
-  let { text = '', class: className = '', fillCloze = false, layout = null, alignRelations = true } = $props();
+  let { text: sourceText = '', class: className = '', fillCloze = false, layout = null, alignRelations = true } = $props();
+  const text=$derived(standardBookletContent(sourceText));
   let rules = $derived(layout === 'numbered-rules' ? numberedTheoryRules(text) : null);
   let isRich = $derived(Boolean(text && typeof text === 'object' && (text.paragraphs || text.inlines || text.segments)));
   let html = $derived(isRich ? renderRichTextHtml(text, { fillCloze }) : '');
@@ -54,8 +56,8 @@
   .theory-rule ul { margin: 0; padding-left: 7.5mm; list-style-type: circle; }
   .rule-detail { display: grid; grid-template-columns: minmax(0, 1fr) 43mm; gap: 3mm; }
   .booklet-content table { width: 100%; margin: 2mm 0; border-collapse: collapse; table-layout: fixed; }
-  .booklet-content th, .booklet-content td { padding: 1.5mm 2mm; border: .25mm solid #2f4058; vertical-align: top; text-align: left; }
-  .booklet-content th { background: #edf4f9; color: #244e74; font-weight: 800; }
+  .booklet-content th, .booklet-content td { padding: 1.5mm 2mm; border: .25mm solid var(--booklet-border); vertical-align: top; text-align: left; }
+  .booklet-content th { background: var(--booklet-tableLabel); color: var(--booklet-ink); font-weight: 800; }
   .rich-content :global(p) { margin: 0 0 0.55rem; }
   .rich-content :global(p:last-child) { margin-bottom: 0; }
   .rich-content :global(.math-island) { white-space: nowrap; }

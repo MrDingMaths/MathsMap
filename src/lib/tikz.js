@@ -663,7 +663,14 @@ export function renderTikzCode(outerEl, code, { eager = false, onSuccess=null, o
   // Source normalisation, package detection and the cache key all live in
   // src/lib/tikz-prepare.js, shared with the Node-side booklet renderer so a figure is
   // prepared identically on screen and on paper.
-  const { cleanCode, pkgJson, extraPreamble, key } = prepareTikz(code);
+  let prepared;
+  try { prepared=prepareTikz(code); }
+  catch(error){
+    const message='Diagram source: '+error.message,notice=document.createElement('pre');
+    notice.className='tikz-error';notice.textContent=message;outerEl.appendChild(notice);
+    _stat('failures');onError?.(message);return;
+  }
+  const { cleanCode, pkgJson, extraPreamble, key } = prepared;
 
   // Insert a script-less .tikz-loading wrapper and defer everything else (IDB lookup,
   // engine load, script injection) until the wrapper nears the viewport.

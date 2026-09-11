@@ -8,6 +8,9 @@
 
 // CM design sizes bundled in public/libs/tikzjax/fonts/. `\fontsize{N}{M}` requests
 // outside this set can fail in the worker → silent stall → infinite spinner.
+import {applyDiagramColourPolicy} from './diagram-colours.js';
+import {standardTikzColours} from '../../public/libs/maths-editor/booklet-palette.mjs';
+import {prepareDiagramTypography} from './diagram-typography.js';
 export const TIKZ_CM_DESIGN_SIZES = [5, 6, 7, 8, 9, 10, 12, 17];
 
 // Packages that change font encoding are dropped entirely: TikZJax bundles only CM fonts
@@ -80,7 +83,8 @@ export function prepareTikz(code) {
   // \begin{document}…\end{document}, so a \usepackage inside it is
   // "Can be used only in preamble".
   const extraPreamble = [];
-  let cleanCode = String(code)
+  const source=applyDiagramColourPolicy(String(code));
+  let cleanCode = (source.includes('% mathsmap-diagram-colours ')?standardTikzColours(source):source)
     .replace(/^[ \t]*\\usepackage(\[.*?\])?\{([^}]+)\}[ \t]*\n?/gm, (match, _opts, pkgName) => {
       if (!TIKZJAX_UNSUPPORTED_PKG.test(pkgName.trim())) extraPreamble.push(match.trim());
       return '';
@@ -105,6 +109,7 @@ export function prepareTikz(code) {
   }
 
   // Which packages the renderer must inject, detected from the source exactly as the app
+  cleanCode=prepareDiagramTypography(cleanCode);
   // detects them (docs/tikz-prompt.md: the author never writes \usepackage for these).
   const pkgs = {};
   if (/\\begin\{axis\}|\\addplot|\\pgfplots/.test(cleanCode)) pkgs.pgfplots = '';

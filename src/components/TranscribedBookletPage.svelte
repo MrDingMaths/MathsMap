@@ -235,10 +235,10 @@
 </div>
 
 <style>
-  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid #438ccc;outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid #b7c9d6;border-radius:4px;background:#fff;color:#34546b;font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:#48697f;border:1px dashed #becbd7;background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:contents!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
+  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:contents!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
   .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
-  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:#6d7784;text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:#586a81;text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
+  .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:var(--booklet-muted);text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:var(--booklet-muted);text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
 .compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}
@@ -254,17 +254,17 @@
   .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>.document-group>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
   .preview-frame { position:relative; width:100%; height:var(--preview-height); overflow:hidden; }
   .preview-page { position:absolute; top:0; left:50%; width:210mm; transform:translateX(-50%) scale(var(--preview-scale)); transform-origin:top center; }
-  .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:#fff; color:#24282d; font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }
-  .section-band { display:flex; min-height:12mm; box-sizing:border-box; align-items:center; margin:0 0 4mm; padding:2.2mm 2.4mm; background:#2f6fb2; color:#fff; font-size:13pt; font-weight:700; line-height:1.05; letter-spacing:.02em; }
-  .section-band.difficulty-heading { min-height:6mm; justify-content:flex-end; padding:0; margin-bottom:1mm; border-top:.25mm solid #2f6fb2; background:transparent; color:#111; text-transform:uppercase; }
-  main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:#245f91; font-size:var(--type-subheading); }
+  .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:var(--booklet-white); color:var(--booklet-ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }
+  .section-band { display:flex; min-height:12mm; box-sizing:border-box; align-items:center; margin:0 0 4mm; padding:2.2mm 2.4mm; background:var(--booklet-headerBlue); color:var(--booklet-white); font-size:13pt; font-weight:700; line-height:1.05; letter-spacing:.02em; }
+  .section-band.difficulty-heading { min-height:6mm; justify-content:flex-end; padding:0; margin-bottom:1mm; border-top:.25mm solid var(--booklet-blue); background:transparent; color:var(--booklet-ink); text-transform:uppercase; }
+  main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:var(--booklet-blue); font-size:var(--type-subheading); }
   .theory-section { break-inside:avoid; }
-  .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid #d3d7db; border-top:0; background:#fff; }
+  .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid var(--booklet-border); border-top:0; background:var(--booklet-white); }
   .atom-body { display:grid; gap:1.8mm; }
   .inside-atom { margin:0; }
-  .example-row { display:grid; grid-template-columns:minmax(28mm,.55fr) minmax(0,1.45fr); gap:4mm; padding:1.4mm 0; border-top:.2mm solid #c9ddeb; }
+  .example-row { display:grid; grid-template-columns:minmax(28mm,.55fr) minmax(0,1.45fr); gap:4mm; padding:1.4mm 0; border-top:.2mm solid var(--booklet-border); }
   .example-row:first-child { border-top:0; }
-  .theory-solution { line-height:1.8; color:#1769aa; font-weight:400; }
+  .theory-solution { line-height:1.8; color:var(--booklet-blue); font-weight:400; }
   .theory-step { display:grid; grid-template-columns:5mm minmax(0,1fr); align-items:baseline; margin-bottom:.6mm; }
   .theory-step.unnumbered { grid-template-columns:minmax(0,1fr); }
   .example-columns { display:grid; grid-template-columns:repeat(var(--example-columns),minmax(0,1fr)); }
@@ -272,16 +272,16 @@
   .stacked-prompt { padding-left:5mm; margin-bottom:1.5mm; }
   .worked-example-row { display:grid; grid-template-columns:minmax(25mm,.7fr) minmax(38mm,1.15fr) minmax(0,1.85fr); gap:3mm; padding:2mm 0 4mm; min-height:29mm; align-items:start; }
   .worked-example-row:not(:has(.example-explanation)) { grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); }
-  .worked-example-row + .worked-example-row { border-top:.2mm solid #ddd; }
+  .worked-example-row + .worked-example-row { border-top:.2mm solid var(--booklet-border); }
   /* These prompts have no separate number cell: the legacy 6 mm label track
      otherwise receives the entire explanation and stretches the page. */
   .worked-example-row .example-prompt { display:block; }
   .example-working .stacked-prompt { padding-left:0; }
   .booklet-page :global(.katex) { white-space:nowrap; }
   .example-working .theory-step { margin-bottom:2mm; }
-  .example-working .theory-step b { color:#e66c70; font-weight:400; }
+  .example-working .theory-step b { color:var(--booklet-red); font-weight:400; }
   .example-illustration { align-self:center; min-width:0; }
-  .example-explanation { align-self:stretch; padding:4mm 1mm 1mm 2mm; border-left:.2mm solid #ddd; color:#53627a; font-style:italic; }
+  .example-explanation { align-self:stretch; padding:4mm 1mm 1mm 2mm; border-left:.2mm solid var(--booklet-border); color:var(--booklet-muted); font-style:italic; }
   .number-line, .example-diagram { max-width:100%; margin:1mm auto; }
   .number-line :global(svg), .example-diagram :global(svg), .example-diagram img { display:block; width:100%; height:auto; }
   .example-diagram :global(.tikz-wrap) { margin:0; min-height:0; overflow:visible; }
@@ -295,9 +295,9 @@
   .example-diagram.grayscale img { filter:grayscale(1) contrast(1.12); }
   .practice { break-inside:avoid; }
   .atom-practice { margin:0; }
-  figure { margin:0; text-align:center; } figure img { max-height:150mm; object-fit:contain; } figcaption { color:#66758d; font-size:var(--type-meta); }
+  figure { margin:0; text-align:center; } figure img { max-height:150mm; object-fit:contain; } figcaption { color:var(--booklet-muted); font-size:var(--type-meta); }
   .practice :global(.practice-question) { font-size:var(--type-body); }
-  hr { width:100%; border:0; border-top:.3mm dashed #9cb8cd; }
+  hr { width:100%; border:0; border-top:.3mm dashed var(--booklet-border); }
   @media screen{.zoomed.preview-frame{width:var(--preview-width);min-height:var(--preview-height)}.zoomed.flow .preview-page{width:210mm;transform:scale(var(--preview-scale));transform-origin:top left}.zoomed.flow .booklet-page{width:210mm}.zoomed .preview-page{left:0;transform:scale(var(--preview-scale));transform-origin:top left}}
   @media print { .preview-frame { width:210mm; height:297mm; overflow:visible; } .preview-page { position:static; transform:none; } }
 </style>

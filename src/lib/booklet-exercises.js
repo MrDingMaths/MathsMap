@@ -1,11 +1,21 @@
 import {isPractice, logicalUnits} from './booklet-flow.js';
+import {graphSourceWithoutColourMetadata} from './diagram-colours.js';
 
 import {COMPACT_ANSWERS} from './booklet-creation.js';
 export {COMPACT_ANSWERS} from './booklet-creation.js';
 
+export function compactAnswerLabel(number,parts=[]){
+ const labels=[...(number==null?[]:[String(number)]),...parts.map(String)].filter(Boolean);
+ return labels.reduce((text,label,index)=>text+(index&&label.length>1&&!/^[ivxlcdm]+$/i.test(label)?' ':'')+label,'');
+}
+
+export function answerNodePath(root,node,path=[],index=0){
+ return node===root||node.children?.length&&node.label==null?path:[...path,String(node.label??String.fromCharCode(97+index))];
+}
+
 export function answerDiagramSignature(diagram) {
   let hash=2166136261;
-  for(const c of JSON.stringify([diagram.code,diagram.mathematicalModel]))hash=Math.imul(hash^c.charCodeAt(0),16777619);
+  for(const c of JSON.stringify([graphSourceWithoutColourMetadata(diagram.code),diagram.mathematicalModel]))hash=Math.imul(hash^c.charCodeAt(0),16777619);
   return (hash>>>0).toString(16);
 }
 export function answerDiagramStyle(settings,mode,diagram) {
@@ -115,10 +125,10 @@ export function answerFragments(block) {
 export function exerciseLabelWidth(blocks) {
   let length=1;
   for(const block of blocks){
-    const walk=(node,path='',index=0)=>{
-      const next=node===block.content?path:node.children?.length&&node.label==null?path:path+String(node.label??String.fromCharCode(97+index));
+    const walk=(node,path=[],index=0)=>{
+      const next=answerNodePath(block.content,node,path,index);
       if(node.children?.length)node.children.forEach((c,i)=>walk(c,next,i));
-      else length=Math.max(length,String(block.sourceOrder??'').length+next.length);
+      else length=Math.max(length,compactAnswerLabel(block.sourceOrder,next).length);
     };
     walk(block.content);
   }

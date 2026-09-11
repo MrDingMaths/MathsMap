@@ -38,26 +38,26 @@
 
 <style>
   .contents-row a{color:inherit;text-decoration:none}
-  .booklet-cover { --accent:#f28f94; --ink:#111; --muted:#777; --line:#d8d8d8; --type-meta:8.5pt; --type-label:9pt; --type-body:11.5pt; --type-subheading:17pt; --type-heading:16pt; --type-display:36pt; position:relative; width:210mm; min-height:297mm; overflow:hidden; box-sizing:border-box; background:#fff; color:var(--ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11pt; line-height:1.38; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  .booklet-cover { --accent:var(--booklet-red); --ink:var(--booklet-ink); --muted:var(--booklet-muted); --line:var(--booklet-border); --type-meta:8.5pt; --type-label:9pt; --type-body:11.5pt; --type-subheading:17pt; --type-heading:16pt; --type-display:36pt; position:relative; width:210mm; min-height:297mm; overflow:hidden; box-sizing:border-box; background:var(--booklet-white); color:var(--ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:11pt; line-height:1.38; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
   .accent-bar { position:absolute; top:10mm; bottom:16mm; left:15mm; width:6mm; border-radius:1.8mm; background:var(--accent); }
   .cover-inner { display:flex; min-height:297mm; box-sizing:border-box; padding:10mm 15mm 10mm 30mm; flex-direction:column; }
   .top-row { display:flex; min-height:16mm; align-items:flex-start; justify-content:flex-end; }
-  .name-field { display:flex; width:66mm; height:14mm; padding:2.3mm 3.2mm; box-sizing:border-box; align-items:flex-start; justify-content:flex-end; border:.45mm solid #777; border-radius:4mm; }
+  .name-field { display:flex; width:66mm; height:14mm; padding:2.3mm 3.2mm; box-sizing:border-box; align-items:flex-start; justify-content:flex-end; border:.45mm solid var(--booklet-muted); border-radius:4mm; }
   .name-field span { color:var(--muted); font-size:var(--type-label); line-height:1; }
   .title-block { margin-top:10mm; padding:0 2.5mm 8mm; border-bottom:.35mm solid var(--line); }
-  .title-block p { margin:0 0 4.5mm; color:#333; font-size:var(--type-subheading); letter-spacing:-.01em; }
+  .title-block p { margin:0 0 4.5mm; color:var(--booklet-ink); font-size:var(--type-subheading); letter-spacing:-.01em; }
   .title-block h1 { margin:0; font-size:var(--type-display); font-weight:800; line-height:1.08; letter-spacing:-.025em; }
   .book-info { display:grid; min-height:29mm; margin-top:8mm; grid-template-columns:31mm 1fr 58mm; }
   .book-badge,.topics,.meta { padding:5mm 4mm; }
   .book-badge { display:flex; align-items:flex-start; }
-  .book-badge span { display:inline-block; padding:1.5mm 2.4mm; background:color-mix(in srgb,var(--accent) 18%,white); font-size:12.5pt; font-weight:700; line-height:1.1; white-space:nowrap; }
+  .book-badge span { display:inline-block; padding:1.5mm 2.4mm; background:var(--booklet-redFill); font-size:12.5pt; font-weight:700; line-height:1.1; white-space:nowrap; }
   .topics { font-size:10pt; line-height:1.4; }
   .topics div + div { margin-top:.8mm; }
   .meta { color:var(--muted); font-size:var(--type-meta); line-height:1.45; }
   .no-topics { grid-template-columns:31mm minmax(0,1fr) max-content; }
   .no-topics .book-badge { padding-left:.1mm; }
   .no-topics .meta { padding-right:0; text-align:left; }
-  .meta strong { color:#5f5f5f; font-weight:600; }
+  .meta strong { color:var(--booklet-muted); font-weight:600; }
   .feedback { margin-top:2mm; }
   .contents { margin-top:6.5mm; padding:0 2.5mm; }
   .contents h2 { margin:0 0 4mm; color:var(--ink); font-size:var(--type-heading); font-weight:700; line-height:1; letter-spacing:.01em; }
@@ -65,6 +65,6 @@
   .contents-row { display:grid; grid-template-columns:max-content 1fr max-content; align-items:end; gap:2mm; font-size:var(--type-body); line-height:1.15; }
   .contents-row.numbered { grid-template-columns:8mm minmax(0,1fr) 8mm; align-items:start; font-size:10pt; }
   .contents-number { font-variant-numeric:tabular-nums; }
-  .leader { border-bottom:.45mm dotted #777; transform:translateY(-1.25mm); }
+  .leader { border-bottom:.45mm dotted var(--booklet-muted); transform:translateY(-1.25mm); }
   .page-no { min-width:5mm; text-align:right; font-variant-numeric:tabular-nums; }
 </style>

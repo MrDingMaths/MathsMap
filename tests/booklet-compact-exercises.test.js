@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,readdirSync} from 'node:fs';
 import {organiseExercises,answerFragments,exerciseLabelWidth,compactAnswerDisplay,answerDiagramStyle,answerDiagramSignature} from '../src/lib/booklet-exercises.js';
-import {flowNumbers,exerciseNumbers} from '../src/lib/booklet-flow.js';
+import {flowNumbers,exerciseNumbers,flowEditionSections} from '../src/lib/booklet-flow.js';
 import {paginateFlow} from '../src/lib/booklet-pagination.js';
 import {measurementKeyFor} from '../src/lib/booklet-measurement.js';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
@@ -65,4 +65,44 @@ test('trial question flow uses spare space without splitting a part',async()=>{
  assert.equal(r.pages.length,2);
  assert.deepEqual(r.pages[0].blocks.map(b=>[b.id,b.content.children.length]),[['easy',2],['tie',1]]);
  assert.deepEqual(r.pages[1].blocks.map(b=>[b.id,b.content.children.length]),[['tie',1],['hard',2]]);
+});
+
+test('one exercise heading survives source sections, checkpoints and page fragments',async()=>{
+ for(const joined of [false,true]){
+  const p=organiseExercises(fixture(),ratings);
+  p.sections.unshift(section('empty','t',[]));
+  // Exercise starts halfway down a teaching page when sections are joined.
+  p.sections.splice(1,0,section('intro','t',[{id:'intro-text',type:'rich-text',content:'Introduction'}],'teaching'));
+  if(joined)p.sections.forEach(s=>s.pageBreakBefore=false);
+  p.sections.find(s=>s.id==='b').blocks[0].flow.exerciseHeadingBefore=1; // stale derived metadata
+  const before=structuredClone(p);
+  for(const edition of ['student','with-short','with-worked','short','worked']){
+   const sections=flowEditionSections(p,edition);
+   for(const mode of new Set(sections.map(s=>s.mode))){
+    const group=sections.filter(s=>s.mode===mode);
+    assert.deepEqual(group.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),['Exercise 1','Exercise 2']);
+    assert.deepEqual(group.flatMap(s=>s.blocks).filter(b=>b.flow.exerciseHeadingBefore).map(b=>b.id),['easy','next']);
+   }
+  }
+  const result=await paginateFlow(p,'student',async page=>({height:page.blocks.reduce((sum,b)=>sum+(b.content?.children?.length??1)*30,0),capacity:100}));
+  const printed=result.pages.flatMap(page=>[
+   ...(page.showDifficultyHeading&&page.section.difficultyTitle?[page.section.difficultyTitle]:[]),
+   ...page.blocks.filter(b=>b.flow.exerciseHeadingBefore&&!(page.showDifficultyHeading&&page.section.difficultyTitle===`Exercise ${b.flow.exerciseHeadingBefore}`)).map(b=>`Exercise ${b.flow.exerciseHeadingBefore}`)
+  ]);
+  assert.deepEqual(printed,['Exercise 1','Exercise 2']);
+  assert.deepEqual(p,before,'heading derivation must not change stored questions or layouts');
+ }
+});
+
+test('every active compact booklet derives exactly one question heading per exercise',()=>{
+ for(const file of readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){
+  const p=JSON.parse(readFileSync(`booklets/projects/${file}`));
+  if(p.settings.exerciseOrganisation!=='topic')continue;
+  const expected=Object.values(exerciseNumbers(p));
+  for(const edition of ['student','with-short','with-worked']){
+   const sections=flowEditionSections(p,edition).filter(s=>s.mode==='student');
+   assert.deepEqual(sections.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),expected.map(n=>`Exercise ${n}`),`${file}: ${edition}`);
+   assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseHeadingBefore).filter(Boolean),expected);
+  }
+ }
 });

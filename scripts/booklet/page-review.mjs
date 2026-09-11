@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
+import {normaliseSvgPaintScopes} from '../../src/lib/svg-paint-scope.js';
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 export const artifactHash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 export function readPageManifest(file){
@@ -12,7 +13,7 @@ export function projectReviewHash(project){
 }
 export function renderedPageHashes(pages,{renderer,settings,assets}){
  const global=structuredClone(settings);delete global.flowEdition;
- return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:p.html,renderer,settings:global,assets})}));
+ return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseSvgPaintScopes(p.html),renderer,settings:global,assets})}));
 }
 // Compare physical positions, not source-page IDs: pagination may shift a tail.
 export function affectedPages(previous,current){

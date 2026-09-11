@@ -23,7 +23,7 @@
     align-items: baseline;
     justify-content: space-between;
     gap: 6mm;
-    color: #b4b4b4;
+    color: var(--booklet-muted);
     font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: 7.5pt;
     line-height: 1;

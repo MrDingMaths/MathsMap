@@ -100,6 +100,15 @@ test('v3 validation rejects marks, parent answers, source metadata, and slash fr
 });
 
 
+test('fraction validation retains textual units without allowing arithmetic slashes', () => {
+  for (const value of [String.raw`$8\text{ km/h}$`, String.raw`$8\mathrm{km/h}$`, String.raw`$\frac{8}{2}\text{km/h}$`, 'https://example.test/a/b']) {
+    assert.equal(invalidFractionSpans(value).length, 0, value);
+  }
+  for (const value of [String.raw`$x/2$`, String.raw`$8/2\text{km/h}$`, String.raw`$\text{8/2}$`, String.raw`$\frac{x/2}{3}$`]) {
+    assert.equal(invalidFractionSpans(value).length, 1, value);
+  }
+});
+
 test('v3 format is required and parent spacing or source metadata block validation', () => {
   const missingFormat = { ...nested, format: undefined };
   assert.equal(validateQuestion(missingFormat).valid, false);

@@ -3,6 +3,10 @@
 export function teachingAnswerCategory(block) {
   if(isKeyIdeas(block))return 'keyIdeas';
   const kind = block?.sourceAtom?.kind ?? block?.pedagogyRole ?? block?.variant;
+  // A source Example may contain both its demonstration and separate student
+  // responses. Keep one source header while giving those responses a switch.
+  if (block?.type === 'question' && ['example', 'worked-example'].includes(kind)
+      && block.sourceReview?.responses?.some(response => ['cloze','tick-cross','inline','short','working'].includes(response.kind))) return 'guided';
   if (kind === 'review') return 'review';
   if (kind === 'guided-practice') return 'guided';
   if (['identify', 'activity', 'investigation', 'proof', 'verify'].includes(kind)) return 'identify';

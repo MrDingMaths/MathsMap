@@ -1,6 +1,6 @@
 import {group,item,arrangementItems,normalizeArrangement,arrangementParent,findArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './document-content.js';
-import {teachingLabels} from './booklet-labels.js';
+import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
 import {estimateAnswerSpaceMm} from './practice-question-model.js';
 import {visibleImportedQuestionTitle} from './booklet-preview.js';
 
@@ -28,6 +28,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  };
  const diagrams=(owner,key='questionDiagrams',role='content')=>(owner[key]??[]).map(d=>add(d.id,{kind:'diagram',ownerId:owner.id,field:key,diagramId:d.id,value:d,role,title:d.alt??'Diagram'}));
  function question(n,index=0,root=false){
+   if(hasEmbeddedResponseLabel(n))labels[n.id]='';
    const label=labels[n.id]??(root?block.sourceOrder??n.label:n.label??(n.children?.length?'':String.fromCharCode(97+index)));
    const labelItem=(label==null||label==='')&&!(n.id in labels)?[]:[add(n.id+'/label',{kind:'label',ownerId:n.id,value:String(label??''),title:label?'Label '+label:'Unlabelled stem'})];
    const prose=field(n,'prompt'),pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
@@ -91,7 +92,29 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
   reconcile(catalog.initial.root);
  }
  const missing=arrangementItems(tree.root).filter(n=>!catalog.entries.has(n.ref));
- return {...catalog,tree,missing};
+ return {...catalog,tree,missing,labelIndents:questionLabelIndents(block,tree,catalog.entries)};
+}
+
+// A saved visual arrangement may move a part outside its numbered parent.
+// Restore only the missing label gutter from the semantic question hierarchy;
+// keep the saved tree, columns, diagrams and content references untouched.
+export function questionLabelIndents(block,tree,entries){
+ const indents=new Map();
+ if(block.type!=='question'||!block.content)return indents;
+ const visible=new Set(arrangementItems(tree.root).map(n=>entries.get(n.ref)).filter(e=>e?.kind==='label'&&e.value).map(e=>e.ownerId));
+ const depths=new Map();
+ const content=(n,depth)=>{depths.set(n.id,depth);for(const child of n.children??[])content(child,depth+(visible.has(n.id)?1:0));};
+ content(block.content,0);
+ const visit=(n,inherited)=>{
+  if(n.type!=='group')return;
+  const label=entries.get(n.children[0]?.ref),labelled=label?.kind==='label'&&!!label.value;
+  const missing=labelled?Math.max(0,(depths.get(label.ownerId)??0)*7-inherited):0;
+  if(missing)indents.set(n.id,missing);
+  const padding=(n.inset??(labelled?7:0))+missing;
+  for(const child of n.children)visit(child,inherited+padding);
+ };
+ visit(tree.root,0);
+ return indents;
 }
 export function findContent(root,id){if(root?.id===id)return root;for(const [key,v]of Object.entries(root??{})){if(['spec','sourceAtom','sourceLayoutEvidence','sourceReview','originalDiagram','originalGraph','mathematicalModel'].includes(key))continue;if(v&&typeof v==='object'){const found=(Array.isArray(v)?v:[v]).map(x=>findContent(x,id)).find(Boolean);if(found)return found;}}}
 export function setGroupAnswerSpaceHeight(tree,entries,groupId,height){

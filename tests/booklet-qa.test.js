@@ -1,5 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {chromium} from 'playwright-core';
 import {inspectBookletPage,assertBookletFits} from '../src/lib/booklet-qa.js';
+import {BOOKLET_PALETTE} from '../public/libs/maths-editor/booklet-palette.mjs';
+import {inspectDiagramColours} from '../src/lib/diagram-colours.js';
 import {clozeLayout} from '../public/libs/maths-editor/house-style.mjs';
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
 import {styleGraph,graphTikz,readGraphModel} from '../src/lib/graph-model.js';
@@ -15,13 +17,13 @@ test('explicit graph style preserves mathematics, applies palette and survives r
 test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and wrapped labels',async()=>{
  const browser=await chromium.launch({headless:true,channel:'chrome'});try{const page=await browser.newPage();
  const base='<style>*{box-sizing:border-box}article{position:relative;width:210mm;height:297mm;padding:10mm 15mm}main{width:180mm}footer{position:absolute;left:15mm;bottom:10mm;height:4mm}p{margin:0} .answer-space{height:40mm}</style>';
- async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn})=>(new Function('return ('+fn+')'))()(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString()});}
+ async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn,colours,palette})=>(new Function('inspectDiagramColours','return ('+fn+')'))((new Function('BOOKLET_PALETTE','return ('+colours+')'))(palette))(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString(),colours:inspectDiagramColours.toString(),palette:BOOKLET_PALETTE});}
  assert.equal((await check('<p>Fits</p>')).issues.length,0);
  const sourceColour=(metadata='',colour='#4654B5')=>`<div class="tikz-wrap"><svg width="100" height="50">${metadata}<path d="M0 20L90 20" fill="none" stroke="${colour}"/></svg></div>`;
  assert.ok((await check(sourceColour())).issues.some(i=>i.kind==='graph-palette'));
  const paletteEvidence='<metadata data-graph-source-palette="#4654B5" data-graph-source-reference="source page 8, example triangle"/>';
- assert.ok(!(await check(sourceColour(paletteEvidence))).issues.some(i=>i.kind==='graph-palette'));
- assert.ok(!(await check(sourceColour(paletteEvidence.replace('#4654B5','4654B5')))).issues.some(i=>i.kind==='graph-palette'));
+ assert.ok((await check(sourceColour(paletteEvidence))).issues.some(i=>i.kind==='graph-palette'));
+ assert.ok((await check(sourceColour(paletteEvidence.replace('#4654B5','4654B5')))).issues.some(i=>i.kind==='graph-palette'));
  assert.ok((await check(sourceColour(paletteEvidence,'#AA0505'))).issues.some(i=>i.kind==='graph-palette'));
  assert.ok((await check(sourceColour(paletteEvidence.replace('source page 8, example triangle','')))).issues.some(i=>i.kind==='graph-palette'));
  assert.ok((await check('<div class="question-grid"><section class="question-node" data-node-id="part-a" style="width:40mm"><span class="katex-html"><span class="base" style="display:inline-block;width:50mm">Long formula</span></span></section></div>')).issues.some(i=>i.kind==='question-column-overflow'&&i.targetId==='part-a'));
@@ -34,6 +36,7 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok((await check('<div style="height:250mm"></div><div class="answer-space"></div>')).issues.some(i=>i.kind==='footer-overflow'));
  assert.ok((await check('<div class="arr-group"><div style="height:30mm">A</div><div style="height:30mm;margin-top:-20mm">B</div></div>')).issues.some(i=>i.kind==='sibling-overlap'));
  assert.ok((await check('<div class="tikz-wrap"><svg width="100" height="100" viewBox="0 0 200 200"><text x="10" y="20" font-size="14.667">1</text></svg></div>')).issues.some(i=>i.kind==='small-graph-label'));
+ for(const [size,kind]of [[12,'small-graph-label'],[15,'large-graph-label']])assert.ok((await check(`<div class="tikz-wrap"><svg width="100" height="50"><text x="10" y="20" font-size="${size}">A</text></svg></div>`)).issues.some(i=>i.kind===kind),'Geometry labels need both bounds without graph tick metadata');
  const tickSvg=x=>'<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="tick"><text x="20" y="30" font-size="11.3333">11</text></g><g data-graph-text="tick"><text x="'+x+'" y="30" font-size="11.3333">12</text></g></svg></div>';
  assert.ok((await check(tickSvg(23))).issues.some(i=>i.kind==='graph-tick-overlap'));
  assert.ok(!(await check(tickSvg(90))).issues.some(i=>i.kind==='graph-tick-overlap'));

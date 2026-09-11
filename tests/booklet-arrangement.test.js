@@ -4,6 +4,38 @@ import {group,item,transformArrangement,arrangementItems,normalizeArrangement} f
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';
+import fs from 'node:fs';
+
+test('flattened custom parts retain semantic gutters without changing the saved layout',()=>{
+ const block={id:'b',type:'question',sourceOrder:1,content:{id:'q',prompt:'Stem',children:[{id:'a',label:'a',prompt:'Part',children:[{id:'i',label:'i',prompt:'Nested'}]},{id:'b',label:'b',prompt:'Part'}]}};
+ const stem=id=>group(id+'-row',[item(id+'/label'),item(id+'/prompt')]);
+ const saved={version:1,root:group('custom',[stem('q'),stem('a'),stem('i'),group('columns',[item('unused'),stem('b')],'row')])};
+ const before=structuredClone(saved),resolved=resolveArrangement(block,saved);
+ assert.deepEqual([...resolved.labelIndents],[['a-row',7],['i-row',14],['b-row',7]]);
+ assert.deepEqual(saved,before);
+ assert.deepEqual(resolveArrangement(block,JSON.parse(JSON.stringify(resolved.tree))).labelIndents,resolved.labelIndents);
+ assert.equal(resolveArrangement(block).labelIndents.size,0,'Default nesting already supplies the gutter');
+ saved.root.children[1]=group('inset-wrapper',[stem('a')]);saved.root.children[1].inset=7;
+ assert.equal(resolveArrangement(block,saved).labelIndents.has('a-row'),false,'Existing wrapper inset supplies the gutter');
+ saved.root.children[1].inset=3;
+ assert.equal(resolveArrangement(block,saved).labelIndents.get('a-row'),4,'Only the missing inset is restored');
+ assert.equal(resolveArrangement({...block,type:'worked-example'},saved).labelIndents.size,0,'Teaching example arrangements are independent');
+});
+
+test('every active question arrangement preserves each labelled semantic ancestor gutter',()=>{
+ for(const file of fs.readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){
+  const project=JSON.parse(fs.readFileSync('booklets/projects/'+file));
+  for(const block of project.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question')){
+   const overrides={...block.presentation?.layoutOverrides,blockLayouts:{...block.presentation?.layoutOverrides?.blockLayouts,...project.settings?.layoutOverrides?.blockLayouts}};
+   const resolved=resolveArrangement(block,overrides.blockLayouts[block.id]?.arrangement,overrides);
+   const positions=new Map();
+   const visit=(n,x)=>{if(n.type!=='group')return;const label=resolved.entries.get(n.children[0]?.ref),labelled=label?.kind==='label'&&!!label.value,extra=resolved.labelIndents.get(n.id)??0;if(labelled)positions.set(label.ownerId,x+extra);for(const child of n.children)visit(child,x+(n.inset??(labelled?7:0))+extra);};
+   visit(resolved.tree.root,0);
+   const check=(n,depth)=>{if(positions.has(n.id))assert.ok(positions.get(n.id)>=depth*7-.001,`${file}: ${block.id}/${n.id}`);for(const child of n.children??[])check(child,depth+(positions.has(n.id)?1:0));};
+   check(block.content,0);
+  }
+ }
+});
 
 test('editing resolves active content instead of preserved source evidence with matching IDs',()=>{
  const evidence={id:'example',blocks:[{id:'paragraph',type:'paragraph',inlines:[{type:'text',text:'Original'}]}]};

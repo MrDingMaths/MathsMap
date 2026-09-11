@@ -35,10 +35,10 @@
   </div>
 </div>
 <style>
-  .preview-frame{width:210mm}.preview-page{width:210mm}.booklet-page{position:relative;box-sizing:border-box;width:210mm;height:297mm;padding:10mm 15mm;background:white;color:#24282d;font-family:'Nunito',system-ui,sans-serif;overflow:visible}
-  header{font-size:13pt;font-weight:800;margin:0 0 3mm;padding-bottom:2mm;border-bottom:.25mm solid #aebdcd}
+  .preview-frame{width:210mm}.preview-page{width:210mm}.booklet-page{position:relative;box-sizing:border-box;width:210mm;height:297mm;padding:10mm 15mm;background:white;color:var(--booklet-ink);font-family:'Nunito',system-ui,sans-serif;overflow:visible}
+  header{font-size:13pt;font-weight:800;margin:0 0 3mm;padding-bottom:2mm;border-bottom:.25mm solid var(--booklet-border)}
   .answer-columns{display:grid;align-items:start}.answer-column{min-width:0}.answer-fragment{min-width:0}
-  h2{font-size:10pt;line-height:1.25;margin:3mm 0 1.5mm;padding-bottom:1mm;border-bottom:.2mm solid #aebdcd;font-weight:800}
+  h2{font-size:10pt;line-height:1.25;margin:3mm 0 1.5mm;padding-bottom:1mm;border-bottom:.2mm solid var(--booklet-border);font-weight:800}
   .answer-fragment:first-child h2{margin-top:0}
   .booklet-page :global(.tikz-wrap svg){filter:none!important;display:block}.booklet-page :global(.tikz-wrap){margin:0;min-height:0;overflow:visible}
   .compact-pages .booklet-page{height:auto;min-height:0;padding-bottom:3mm}.compact-pages :global(.booklet-footer){position:static;margin-top:4mm}
