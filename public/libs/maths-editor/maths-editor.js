@@ -69,6 +69,12 @@ class MathsEditor extends HTMLElement {
   }
 
   disconnectedCallback() {
+    // Keyed page/layout updates can move the same live editor synchronously.
+    // Only tear it down once it has actually left the document.
+    queueMicrotask(()=>{if(!this.isConnected)this.#disconnect();});
+  }
+
+  #disconnect() {
     this.documentController?.destroy();
     if (!this._content) return;
     document.removeEventListener('selectionchange', this._onSelectionChange);

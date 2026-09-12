@@ -16,8 +16,8 @@ function resolve(surface, bookmark) {
     node = node.childNodes[index];
   }
   // A removed equation must leave a prose caret, not a caret inside MathLive.
-  const island = (node.nodeType === 1 ? node : node.parentElement)?.closest('[data-math]');
-  if (island) return [island.parentNode, [...island.parentNode.childNodes].indexOf(island)];
+  const island = (node.nodeType === 1 ? node : node.parentElement)?.closest('[data-math],[data-tab],[data-cloze],[data-native-handle],[data-type="inline-image"]');
+  if (island) return [island.parentNode, [...island.parentNode.childNodes].indexOf(island)+(island.matches('[data-tab]')&&bookmark?.offset>0?1:0)];
   return [node, Math.min(bookmark?.offset ?? 0, node.nodeType === 3 ? node.length : node.childNodes.length)];
 }
 export function captureSelection(editor) {

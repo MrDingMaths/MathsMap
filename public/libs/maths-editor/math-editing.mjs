@@ -1,13 +1,17 @@
+import {equationRowSpacing,setEquationRowSpacing} from './equation-spacing.mjs';
 import {captureSelection} from './math-selection.mjs';
 // MathLive interaction shared by structured prose, tables and question editors.
 export function installMathEditing(editor) {
  const {host,surface}=editor, bar=document.createElement('div');bar.className='me-math-tools';bar.hidden=true;bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Equation tools');editor.inspector.after(bar);
  let active=null,dialog=null,selection=null;
+ const spacingLabel=document.createElement('label'),spacing=document.createElement('input');spacingLabel.textContent='Equation row spacing (mm) ';spacing.type='number';spacing.min='0';spacing.max='30';spacing.step='.5';spacing.setAttribute('aria-label','Equation row spacing (mm)');spacingLabel.append(spacing);bar.append(spacingLabel);
+ const refreshSpacing=()=>{const state=active?equationRowSpacing(active.getValue('latex')):{supported:false};spacingLabel.hidden=!state.supported;spacing.value=state.valueMm==null?'':Number(state.valueMm.toFixed(3));spacing.placeholder=state.mixed?'Mixed':'';spacing.title='Extra space between equation rows; paragraph line spacing does not change this.';};
+ spacing.onchange=()=>{const mf=field();if(!mf||!spacing.value.trim())return;try{rememberLocation();mf.setValue(setEquationRowSpacing(mf.getValue('latex'),Number(spacing.value)),{silenceNotifications:true});commit();refreshSpacing();}catch(e){editor.message.textContent=e.message;refreshSpacing();}};
  const setActive=mf=>{
   surface.querySelectorAll('.me-equation-selected').forEach(node=>node.classList.remove('me-equation-selected'));
   active=mf?.isConnected&&!host.readonly?mf:null;
   active?.closest('[data-math]')?.classList.add('me-equation-selected');
-  bar.hidden=!active;
+  bar.hidden=!active;refreshSpacing();
   if(!active)selection=null;
  };
  const field=()=>document.activeElement?.matches('math-field')&&surface.contains(document.activeElement)?document.activeElement:active?.isConnected?active:null;
@@ -21,7 +25,7 @@ export function installMathEditing(editor) {
  editor.mathEditing={field,activate:setActive,reset:()=>setActive(null),refresh:()=>setActive(field()),applyStyle:style,selectBlock};
  editor.formatMath=mark=>{const mf=restoreField();if(!mf)return false;if(mark==='underline'){mf.executeCommand(['insert','\\underline{#0}']);rememberSelection();commit();}else style(mark==='bold'?{variantStyle:'bold'}:{variantStyle:'italic'});return true;};
  const palette=()=>{const mf=field(),api=window.MathsEditor?.Palette;if(!mf||!api||host.readonly)return;rememberSelection();api.open(mf,{onInsert:latex=>{if(!mf.isConnected||host.readonly)return;restoreField();mf.executeCommand(['insert',latex]);rememberSelection();commit();},onClose:()=>{if(mf.isConnected&&!host.readonly)restoreField();}});};
- button('Symbols (Tab)',palette);button('Bold maths',()=>style({variantStyle:'bold'}));button('Italic maths',()=>style({variantStyle:'italic'}));
+ button('Symbols',palette);button('Bold maths',()=>style({variantStyle:'bold'}));button('Italic maths',()=>style({variantStyle:'italic'}));
  button('Text before equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,false);});
  button('Text after equation',()=>{const mf=field();if(mf&&!host.readonly)exit(mf,true);});
  button('Delete equation',()=>{const mf=field();if(mf&&!host.readonly)remove(mf);});
@@ -63,7 +67,7 @@ export function installMathEditing(editor) {
    candidate=(forward?candidate.firstChild:candidate.lastChild)??outside(candidate);
   }
  };
- const key=e=>{if(host.readonly||e.isComposing||dialog)return;const mf=e.target.closest?.('math-field');if(mf){if(!surface.contains(mf))return;if(e.key==='Tab'){if(window.MathsEditor?.Palette?.isOpen())return;e.preventDefault();e.stopImmediatePropagation();palette();}else if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();exit(mf,!e.shiftKey);}else if(['Backspace','Delete'].includes(e.key)&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!mf.getValue('latex').trim()){e.preventDefault();e.stopImmediatePropagation();remove(mf);}return;}if(!surface.contains(e.target)||e.ctrlKey||e.metaKey||e.altKey)return;if(['ArrowLeft','ArrowRight','Backspace','Delete'].includes(e.key)&&!e.shiftKey){const forward=['ArrowRight','Delete'].includes(e.key),next=adjacent(forward);if(next){e.preventDefault();e.stopImmediatePropagation();if(['Backspace','Delete'].includes(e.key))remove(next);else{next.focus();queueMicrotask(()=>{next.position=forward?0:-1;});}}}else if(e.key==='Tab'&&!e.shiftKey&&!editor.leaveWithTab&&!editor.selected?.tabStops?.length&&!e.target.closest('td,th')&&!getSelection()?.anchorNode?.parentElement?.closest('li,td,th')){e.preventDefault();e.stopImmediatePropagation();editor.insertMath();}};
+ const key=e=>{if(host.readonly||e.isComposing||dialog)return;const mf=e.target.closest?.('math-field');if(mf){if(!surface.contains(mf))return;if(e.key==='Tab'&&(e.ctrlKey||e.metaKey||e.altKey))return;if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();exit(mf,!e.shiftKey);}else if(['Backspace','Delete'].includes(e.key)&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!mf.getValue('latex').trim()){e.preventDefault();e.stopImmediatePropagation();remove(mf);}return;}if(!surface.contains(e.target)||e.ctrlKey||e.metaKey)return;if(e.altKey&&(e.key==='='||e.code==='Equal')){e.preventDefault();e.stopImmediatePropagation();editor.insertMath();return;}if(e.altKey)return;if(['ArrowLeft','ArrowRight','Backspace','Delete'].includes(e.key)&&!e.shiftKey){const forward=['ArrowRight','Delete'].includes(e.key),next=adjacent(forward);if(next){e.preventDefault();e.stopImmediatePropagation();if(['Backspace','Delete'].includes(e.key))remove(next);else{next.focus();queueMicrotask(()=>{next.position=forward?0:-1;});}}}};
  const move=e=>{if(!e.target.matches?.('math-field')||!['forward','backward'].includes(e.detail?.direction))return;e.preventDefault();exit(e.target,e.detail.direction==='forward');};host.addEventListener('keydown',key,true);surface.addEventListener('move-out',move);
  return ()=>{host.removeEventListener('keydown',key,true);document.removeEventListener('focusin',focus);document.removeEventListener('pointerdown',pointer,true);surface.removeEventListener('selection-change',rememberSelection);surface.removeEventListener('keyup',rememberLocation);surface.removeEventListener('mouseup',rememberLocation);surface.removeEventListener('move-out',move);if(active&&window.MathsEditor?.Palette?.isOpen())window.MathsEditor.Palette.close('editor-closed');setActive(null);dialog?.remove();bar.remove();};
 }

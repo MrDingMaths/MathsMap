@@ -1,14 +1,26 @@
 import { BOOKLET_HOUSE_STYLE } from './house-style.mjs';
 import {bookletColourChoices} from './booklet-palette.mjs';
 import {copy,uid,normalizeDocument,paragraph,visitDocument} from './document-model.mjs';
-import {tableGrid} from './table-model.mjs';
+import {tableGrid,editTrack} from './table-model.mjs';
 const colours=/^#[0-9a-f]{6}$/i;
 export const layoutControls={
  installLayoutEvents(){
   this.surface.addEventListener('keydown',e=>{
-   if(e.target.closest('math-field,button,input,select'))return;
+   if(e.target.closest('math-field,button,input,select')||e.isComposing||e.ctrlKey||e.metaKey||e.altKey)return;
    if(e.key==='Escape'){if(this.leaveWithTab){this.leaveWithTab=false;return;}this.leaveWithTab=true;e.preventDefault();e.stopPropagation();return;}
-   if(e.key==='Tab'){if(this.leaveWithTab){this.leaveWithTab=false;return;}if(e.target.closest('li')||getSelection()?.anchorNode?.parentElement?.closest('li')){e.preventDefault();this.saveRange();this.listCommand(e.shiftKey?'outdent':'indent');return;}if(e.shiftKey)return;e.preventDefault();this.saveRange();this.insertTab();}else this.leaveWithTab=false;
+   if(e.key==='Tab'){
+    if(this.leaveWithTab){this.leaveWithTab=false;e.preventDefault();e.stopPropagation();const target=this.host.closest('.project-shell')?.querySelector('.document-toolbar')??this.toolbar;target.tabIndex=-1;target.focus();return;}
+    const a=getSelection()?.anchorNode,element=a?.nodeType===1?a:a?.parentElement,cell=element?.closest('td,th');
+    if(cell){
+     e.preventDefault();this.capture();const tableEl=cell.closest('table');let table;visitDocument(this.doc,n=>{if(n.id===tableEl.dataset.id)table=n;});if(!table)return;
+     const cells=tableGrid(table).entries,at=cells.findIndex(c=>c.cell.id===cell.dataset.id);let next=cells[at+(e.shiftKey?-1:1)]?.cell.id;
+     if(!next&&!e.shiftKey){this.transact(doc=>{let t;visitDocument(doc,n=>{if(n.id===table.id)t=n;});editTrack(t,'row',tableGrid(t).rows,false);next=t.rows.at(-1)[0].id;});}
+     const target=next?this.surface.querySelector(`[data-id="${CSS.escape(next)}"]`):tableEl;
+     if(target){this.surface.focus();const r=document.createRange();next?r.selectNodeContents(target):r.setStartBefore(target);r.collapse(true);getSelection().removeAllRanges();getSelection().addRange(r);this.saveRange();this.select(target.querySelector('p')??target);}return;
+    }
+    if(element?.closest('li')){e.preventDefault();this.saveRange();this.listCommand(e.shiftKey?'outdent':'indent');return;}
+    if(e.shiftKey)return;e.preventDefault();this.saveRange();this.insertTab();
+   }else this.leaveWithTab=false;
   });
   this.surface.addEventListener('mouseup',()=>{const r=getSelection()?.rangeCount?getSelection().getRangeAt(0):null;if(!r||r.collapsed){this.selectedCells=null;return;}const cells=[...this.surface.querySelectorAll('td[data-id],th[data-id]')].filter(c=>r.intersectsNode(c)).map(c=>c.dataset.id);if(JSON.stringify(cells)!==JSON.stringify(this.selectedCells)){this.selectedCells=cells;this.properties();}});
  },
@@ -22,7 +34,7 @@ export const layoutControls={
  tabProperties(n){
   if(this.host.getAttribute('controls')==='contextual'){
    const hint=document.createElement('p');hint.className='me-tab-default';hint.textContent='Tab advances to the next 1 cm stop (1, 2, 3 cm…). Escape, then Tab leaves the editor.';this.inspector.append(hint);
-   if(n.tabStops?.length){const note=document.createElement('p');note.textContent='This paragraph uses saved custom stops.';this.inspector.append(note);this.button(this.inspector,'Use 1 cm default tabs',()=>this.modify(x=>delete x.tabStops));}
+   if(n.tabStops?.length){const note=document.createElement('p');note.textContent='Saved tab alignment is retained.';this.inspector.append(note);this.button(this.inspector,'Reset to 1 cm tabs',()=>this.modify(x=>delete x.tabStops));}
    return;
   }
   const area=document.createElement('div');area.className='me-tab-properties';this.inspector.append(area);

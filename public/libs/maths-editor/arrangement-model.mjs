@@ -20,8 +20,9 @@ export function normalizeArrangement(value){
     if(n.type==='item'){if(typeof n.ref!=='string'||refs.has(n.ref))throw Error('Duplicate content reference');refs.add(n.ref);out.ref=n.ref;}
     else {out.direction=n.direction==='row'?'row':'stack';out.children=(n.children??[]).map(c=>visit(c,depth+1));}
     if(n.title)out.title=String(n.title);
-    for(const [key,max]of [['gap',30],['before',80],['after',80],['inset',60],['width',190],['weight',100],['height',180]])if(Number.isFinite(n[key]))out[key]=Math.max(key==='weight'?.1:0,Math.min(max,n[key]));
+    for(const [key,max]of [['gap',30],['before',80],['after',80],['inset',60],['width',190],['weight',100],['height',180],['minHeight',180]])if(Number.isFinite(n[key]))out[key]=Math.max(key==='weight'?.1:0,Math.min(max,n[key]));
     if(['left','center','right','stretch'].includes(n.align))out.align=n.align;
+    if(['top','middle','bottom'].includes(n.verticalAlign))out.verticalAlign=n.verticalAlign;
     if(n.keepTogether!=null)out.keepTogether=!!n.keepTogether;if(n.keepInline!=null)out.keepInline=!!n.keepInline;
     return out;
   }
@@ -31,7 +32,16 @@ export function transformArrangement(value,command,id,options={}){
   const next=copy(value),root=next.root,node=findArrangement(root,id),parent=arrangementParent(root,id);
   if(!node)throw Error('Select an item first');
   const index=parent?.children.indexOf(node);
-  if(command==='properties')Object.assign(node,options);
+  if(command==='properties'){
+    Object.assign(node,options);
+    // A diagram may sit inside a stack within a row (for example an example
+    // column). Align that column, rather than silently doing nothing in flex.
+    if(['top','middle','bottom'].includes(options.verticalAlign)){
+      let target=node,container=parent;
+      while(container&&container.direction!=='row'){target=container;container=arrangementParent(root,container.id);}
+      if(container)target.verticalAlign=options.verticalAlign;
+    }
+  }
   else if(command==='group'){if(!parent)throw Error('The question is already a group');const selected=options.ids??[id];const children=parent.children.filter(c=>selected.includes(c.id));if(children.length!==selected.length)throw Error('Group items from the same parent');const at=parent.children.indexOf(children[0]);parent.children=parent.children.filter(c=>!selected.includes(c.id));parent.children.splice(at,0,group(options.id??'group:'+crypto.randomUUID(),children,options.direction));}
   else if(command==='ungroup'){if(!parent||node.type!=='group')throw Error('Select a nested group');parent.children.splice(index,1,...node.children);}
   else if(command==='before'||command==='after'){if(!parent)return next;const to=index+(command==='before'?-1:1);if(to>=0&&to<parent.children.length){parent.children.splice(index,1);parent.children.splice(to,0,node);}}

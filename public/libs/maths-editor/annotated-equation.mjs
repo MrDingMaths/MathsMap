@@ -27,11 +27,18 @@ export function renderAnnotatedEquation(n,{e,render,math,editable}) {
  const serial=++instance,ids=[],ranges=n.anchors.filter(a=>anchorResolved(n,a)).sort((a,b)=>a.start-b.start);let latex='',end=0;
  for(const a of ranges){if(a.start<end)continue;const index=n.anchors.indexOf(a),id='ae-'+serial+'-'+index;ids.push(id);const colour=n.annotations.find(x=>x.targetId===a.id)?.colour??'#24282d';latex+=n.latex.slice(end,a.start)+`\\htmlId{${id}}{\\textcolor{${colour}}{${a.text}}}`;end=a.end;}
  latex+=n.latex.slice(end);
- const labels=side=>{const items=n.annotations.filter(a=>a.placement===side);return items.length?`<div data-equation-label-row="${side}" style="display:grid;grid-template-columns:repeat(${Math.min(3,items.length)},minmax(0,1fr));gap:4mm;margin:${side==='below'?n.gap+'mm 0 0':'0 0 '+n.gap+'mm'}">${items.map(a=>`<div data-equation-label="${e(a.id)}" data-target-index="${n.anchors.findIndex(x=>x.id===a.targetId)}" data-decoration="${a.decoration}" data-side="${side}" style="color:${a.colour};text-align:center;min-width:0" ${editable?'contenteditable="true"':''}>${render(a.blocks)}</div>`).join('')}</div>`:'';};
+ const labels=side=>{const items=n.annotations.filter(a=>a.placement===side);return items.length?`<div data-equation-label-row="${side}" style="position:relative;min-height:1em;margin:${side==='below'?n.gap+'mm 0 0':'0 0 '+n.gap+'mm'}">${items.map(a=>`<div data-equation-label="${e(a.id)}" data-target-index="${n.anchors.findIndex(x=>x.id===a.targetId)}" data-decoration="${a.decoration}" data-side="${side}" style="position:absolute;width:max-content;max-width:100%;color:${a.colour};text-align:center;min-width:0" ${editable?'contenteditable="true"':''}>${render(a.blocks.map(b=>b.type==='paragraph'?{...b,align:'center',spaceAfter:0}:b))}</div>`).join('')}</div>`:'';};
  const unresolved=n.annotations.filter(a=>!n.anchors.some(t=>t.id===a.targetId&&anchorResolved(n,t)));
  const connections=(n.connections??[]).map(c=>({...c,from:n.anchors.findIndex(a=>a.id===c.fromId&&anchorResolved(n,a)),to:n.anchors.findIndex(a=>a.id===c.toId&&anchorResolved(n,a))}));
  const missing=unresolved.length||connections.some(c=>c.from<0||c.to<0);
  return `<figure data-id="${e(n.id)}" data-type="annotated-equation" data-equation-instance="${serial}" data-term-connections="${e(JSON.stringify(connections))}" contenteditable="false" style="position:relative;width:${n.width}mm;max-width:100%;margin:${n.margin??2}mm ${n.align==='left'?'auto '+(n.margin??2)+'mm 0':n.align==='right'?'0 '+(n.margin??2)+'mm auto':'auto'};padding-top:${n.arrowSpace??(connections.length?Math.max(...connections.map(c=>c.height)):0)}mm;break-inside:avoid">${labels('above')}<div data-equation-formula style="text-align:${n.align??'center'};${n.fontSize===null?'':`font-size:${n.fontSize}pt;`}line-height:1.5;white-space:nowrap">${math(latex,false,ids)}</div>${labels('below')}${missing?'<output data-equation-warning style="display:block;color:#9a3412">Annotation target missing. Select the annotation and attach it to a term.</output>':''}</figure>`;
+}
+// Keep labels over their terms where possible, separating neighbouring labels.
+export function placeEquationLabels(labels,width,gap=8){
+ const sorted=labels.map((label,index)=>({...label,index})).sort((a,b)=>a.center-b.center),result=[];
+ let edge=0;for(const label of sorted){label.left=Math.max(edge,Math.min(width-label.width,label.center-label.width/2));edge=label.left+label.width+gap;}
+ let right=width;for(const label of sorted.reverse()){label.left=Math.min(label.left,right-label.width);right=label.left-gap;result[label.index]=Math.max(0,label.left);}
+ return result;
 }
 export function mountEquationAnnotations(root,options={}) {
  let frame,disposed=false;const ns='http://www.w3.org/2000/svg';
@@ -39,6 +46,14 @@ export function mountEquationAnnotations(root,options={}) {
   for(const figure of root.querySelectorAll('[data-type="annotated-equation"]')){
    figure.querySelector(':scope > [data-equation-arrows]')?.remove();
    const outer=figure.getBoundingClientRect(),width=figure.clientWidth,scale=outer.width/width;if(!width||!scale)continue;
+   for(const row of figure.querySelectorAll('[data-equation-label-row]')){
+    const labels=[...row.querySelectorAll('[data-equation-label]')];
+    labels.forEach(label=>label.style.maxWidth=Math.max(1,(width-8*(labels.length-1))/labels.length)+'px');
+    const measured=labels.map(label=>{const target=figure.querySelector('[id="ae-'+figure.dataset.equationInstance+'-'+label.dataset.targetIndex+'"]'),r=target?.getBoundingClientRect();return {label,width:label.getBoundingClientRect().width/scale,center:r?(r.left+r.width/2-outer.left)/scale:width/2};});
+    const positions=placeEquationLabels(measured,width);
+    measured.forEach((m,i)=>m.label.style.left=positions[i]+'px');
+    row.style.height=Math.max(0,...labels.map(label=>label.getBoundingClientRect().height/scale))+'px';
+   }
    const svg=document.createElementNS(ns,'svg');svg.dataset.equationArrows='';svg.setAttribute('aria-hidden','true');svg.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible';
    for(const label of figure.querySelectorAll('[data-equation-label]')){
     const target=figure.querySelector('[id="ae-'+figure.dataset.equationInstance+'-'+label.dataset.targetIndex+'"]');if(!target)continue;
