@@ -99,3 +99,12 @@ Tab advances to the next 1 cm stop in prose, to the next table cell (adding a ro
 Enter splits a paragraph through one document transaction. Explicit blank paragraphs carry optional `preserveEmpty: true`; unmarked empty placeholders still collapse. Editing sessions own one rendered host and explicit canonical fragments. The active maths overlay shares the preview's layout metrics, including while selection controls are visible. Project endpoints and existing custom-tab layouts are unchanged.
 
 Regression commands: `node --test tests/booklet-smooth-editing.test.js` and `node scripts/booklet/check-smooth-editing.mjs` (`BOOKLET_TEST_BASE` selects the development server). Browser tests intercept all project writes in memory; reports and screenshots are local under `.booklet-work/smooth-editing/`.
+
+
+## Editing the cover directly
+
+In a questions edition, click the printed title, course, Book number, version or feedback text on the cover. Type the replacement and press Enter or click outside the field to save. Escape cancels the current field. Ctrl+S saves the current field before saving the project; Ctrl+P includes it in printing. Use the Studio Undo/Redo buttons after leaving the field.
+
+The printed cover title is independent of Project ? Project details ? Title (the name in the project picker). Cover edits are stored in `settings.cover`; the original cover transcription and source documents remain unchanged. Title and Book number cannot be emptied. Contents, exercise numbering and answer-section navigation remain calculated from the chosen edition. The short-answer-only and worked-solution-only editions have no cover.
+
+Validation uses `node scripts/booklet/check-cover-editing.mjs` with in-memory project copies, all four current cover patterns, save/reopen, cancellation, undo/redo, zoom and all five edition paths. It does not modify saved booklets or claim a new full-content transcription acceptance.

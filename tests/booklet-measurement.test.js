@@ -7,6 +7,15 @@ const fixture=()=>({id:'booklet',source:{runId:'source'},settings:{houseStyleVer
 const pageFor=project=>({section:{title:'Linear',difficultyTitle:'Foundation'},showTopicHeading:true,showDifficultyHeading:true,mode:'student',blocks:project.sections[0].blocks});
 const key=(project,options={})=>measurementKeyFor(project,options)(pageFor(project));
 
+test('editing cover metadata retains body measurements but invalidates the cover',()=>{
+ const p=fixture(),body=pageFor(p),cover={...body,isCover:true};
+ const before=measurementKeyFor(p),bodyKey=before(body),coverKey=before(cover);
+ p.settings={...p.settings,cover:{title:'Changed cover',book:'Book 2'}};
+ const after=measurementKeyFor(p);
+ assert.equal(after(body),bodyKey);
+ assert.notEqual(after(cover),coverKey);
+});
+
 test('measurement cache retains unaffected content after another item is copied or edited',()=>{
  const project=fixture(),before=key(project);
  project.sections.push({blocks:[{id:'copy',type:'question',content:{id:'copy-root',prompt:'New question'}}]});

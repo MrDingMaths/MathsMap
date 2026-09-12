@@ -1,5 +1,6 @@
 <script>
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
+  import {updateBookletCover} from '../lib/booklet-cover.js';
   import {applyBankRatings,questionDifficulty} from '../lib/booklet-bank-ratings.js';
   import FlowBookletPreview from './FlowBookletPreview.svelte';
   import BookletPageGuide from './BookletPageGuide.svelte';
@@ -103,6 +104,10 @@
   const labels=$derived(teachingLabels(project?.sections.flatMap(s=>s.blocks)??[]));
   setContext('booklet-labels',()=>labels);
   setContext('booklet-presentation',()=>project?.settings);
+  setContext('booklet-cover-edit', {
+    start: () => finishInline(),
+    commit: (field, value) => change(updateBookletCover(project, field, value)),
+  });
   let printReady = $state(false);
   let printing = $state(false), printProgress = $state('');
   let inlineSession = $state.raw(null);

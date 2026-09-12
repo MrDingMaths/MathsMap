@@ -33,7 +33,7 @@
   let previewFrame;
   let frameWidth=$state(794),frameHeight=$state(900);
   let previewScale = $derived(zoom===null?Math.min(1,frameWidth/(210*96/25.4)):zoom==='width'?frameWidth/(210*96/25.4):zoom==='page'?Math.min(frameWidth/(210*96/25.4),Math.max(100,frameHeight)/(297*96/25.4)):Number(zoom)||1);
-  let cover = $derived(deriveBookletCover(bookletPages));
+  let cover = $derived(deriveBookletCover(bookletPages, presentation?.()?.cover));
   let orderedPages = $derived([...bookletPages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber)));
   let bookletPageNumber = $derived(Math.max(1, orderedPages.findIndex((item) => item.id === page.id) + 1));
   let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id))));
@@ -204,7 +204,7 @@
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
     {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
-      <BookletCover pages={bookletPages} {anchorPrefix}/>
+      <BookletCover pages={bookletPages} {anchorPrefix} {editMode} settings={presentation?.()?.cover}/>
     {:else}
       <article class="booklet-page" data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
         {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<BookletHeading id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} kind={page.section?.headingStyle === 'difficulty'?'exercise':'main'}><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></BookletHeading>{/if}
@@ -233,7 +233,7 @@
             </div>
           {/each}
         </main>
-        <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback="https://MrDingMaths.com" />
+        <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback={cover.feedback} />
       </article>
       {#if editMode&&documentActions}<button class="document-end-insert" onclick={()=>documentActions.insert('text',null,page.blocks.at(-1)?.id)}>+ Write after this group</button>{/if}
     {/if}

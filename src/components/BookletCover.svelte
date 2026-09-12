@@ -2,26 +2,32 @@
   import { deriveBookletCover } from '../lib/booklet-cover.js';
   import InlineContent from './InlineContent.svelte';
   import BookletFooter from './BookletFooter.svelte';
+  import {getContext} from 'svelte';
+  import BookletCoverField from './BookletCoverField.svelte';
 
-  let { pages = [],anchorPrefix='' } = $props();
-  let cover = $derived(deriveBookletCover(pages));
+  let { pages = [],anchorPrefix='', settings = {}, editMode = false } = $props();
+  const editor = getContext('booklet-cover-edit');
+  const editable = $derived(editMode && !!editor);
+  let cover = $derived(deriveBookletCover(pages, settings));
 </script>
+
+{#snippet field(name, label)}<BookletCoverField value={cover[name]} {label} {editable} onstart={() => editor?.start()} oncommit={value => editor?.commit(name, value)}/>{/snippet}
 
 <article class="booklet-cover" aria-label="Booklet cover">
   <div class="accent-bar" aria-hidden="true"></div>
   <div class="cover-inner">
     <header class="top-row"><div class="name-field"><span>Name</span></div></header>
     <section class="title-block">
-      <p>{cover.course}</p>
-      <h1>{cover.title}</h1>
+      <p>{@render field('course', 'Cover course')}</p>
+      <h1>{@render field('title', 'Cover title')}</h1>
     </section>
     <section class="book-info" class:no-topics={!cover.topics.length} aria-label="Book information">
-      <div class="book-badge"><span>{cover.book}</span></div>
+      <div class="book-badge"><span>{@render field('book', 'Book number')}</span></div>
       <div class="topics">{#each cover.topics as topic}<div>{topic}</div>{/each}</div>
       <div class="meta">
-        {#if cover.version}<div><strong>Version:</strong> {cover.version}</div>{/if}
+        {#if cover.version || editable}<div><strong>Version:</strong> {@render field('version', 'Cover version')}</div>{/if}
         <div class="feedback"><strong>Feedback</strong></div>
-        <div>{cover.feedback}</div>
+        <div>{@render field('feedback', 'Cover feedback')}</div>
       </div>
     </section>
     <section class="contents" aria-labelledby="booklet-contents-heading">
@@ -33,7 +39,7 @@
       </div>
     </section>
   </div>
-  <BookletFooter pageNumber={1} totalPages={cover.totalPages} version={cover.version} feedback="https://MrDingMaths.com" />
+  <BookletFooter pageNumber={1} totalPages={cover.totalPages} version={cover.version} feedback={cover.feedback} />
 </article>
 
 <style>

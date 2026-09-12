@@ -9,7 +9,19 @@ export function parseImportedContents(value) {
   }).filter(Boolean);
 }
 
-export function deriveBookletCover(pages = []) {
+export const COVER_FIELDS = ['title', 'course', 'book', 'version', 'feedback'];
+
+// Keep the imported cover and source evidence intact. These are local, editable
+// presentation overrides; contents still come from the selected edition.
+export function updateBookletCover(project, field, value) {
+  if (!COVER_FIELDS.includes(field)) throw new Error('Unknown cover field');
+  const text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  if (['title', 'book'].includes(field) && !text) return project;
+  if (project.settings?.cover?.[field] === text) return project;
+  return {...project, settings: {...project.settings, cover: {...project.settings?.cover, [field]: text}}};
+}
+
+export function deriveBookletCover(pages = [], overrides = {}) {
   const ordered = [...pages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber));
   const first = ordered[0] ?? {};
   const coverBlock = first.blocks?.find((block) => block.id?.includes('cover')) ?? first.blocks?.[0] ?? {};
@@ -76,5 +88,6 @@ export function deriveBookletCover(pages = []) {
     feedback,
     contents,
     totalPages: ordered.length || 1,
+    ...Object.fromEntries(COVER_FIELDS.filter(field => typeof overrides?.[field] === 'string').map(field => [field, overrides[field]])),
   };
 }
