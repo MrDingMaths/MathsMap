@@ -1,7 +1,9 @@
+import {standaloneDifficultyHeading} from './booklet-difficulty-headings.js';
 import {contentSource} from './document-content.js';
 import {signature} from './booklet-content-verification.js';
 import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {resolveArrangement} from './booklet-arrangement.js';
+import {underlinedQuestionScaffolds} from '../../public/libs/maths-editor/question-scaffolds.mjs';
 
 export const PRESENTATION_VERIFIER_VERSION='3';
 // Review every rendered occurrence; preserved originals are evidence, not output.
@@ -36,6 +38,8 @@ export async function inspectPresentationFidelity(project){
   if(templateChecks&&project.settings.includeTeachingAnswers)issue('teaching-in-practice-answers',null,'Use practice-only answer editions; teaching answers have their own controls.');
   for(const section of project.sections??[])for(const block of section.blocks??[]){
     const review=block.sourceReview;
+    if(project.settings?.exerciseOrganisation==='topic'&&standaloneDifficultyHeading(block)&&!block.presentation?.editorOnly)issue('printed-difficulty-heading',block.id,'Keep standalone source difficulty headings as editor metadata, not printable content.');
+    for(const field of underlinedQuestionScaffolds(block))issue('underlined-question-scaffold',block.id,`Replace the underlined writing blank at ${field.location} with a native dotted cloze or dotted maths, preserving handwriting space and source evidence.`);
     for(const occurrence of activeRasterOccurrences(block)){
       const exception=review?.rasterExceptions?.find(e=>e.path===occurrence.path);
       const authorised=exception?.kind==='authorised-exception'&&exception.authorization?.trim();

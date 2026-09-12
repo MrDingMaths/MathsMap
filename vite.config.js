@@ -6,6 +6,7 @@ import { buildManifest } from './scripts/build-manifest.mjs';
 import { practiceStudioPlugin } from './scripts/booklet/practice-studio-server.mjs';
 import { fullBookletImportPlugin } from './scripts/booklet/full-import-server.mjs';
 import { projectStudioPlugin } from './scripts/booklet/project-studio-server.mjs';
+import { renderCachePlugin } from './scripts/booklet/render-cache-server.mjs';
 
 function tikzjaxRawGzPlugin() {
   const rawGz = (req, res, next) => {
@@ -29,6 +30,6 @@ export default defineConfig({
   // Local PDF/editor evidence can contain standalone HTML with external imports.
   // Only the application entry participates in dependency discovery.
   optimizeDeps: { entries: ['index.html'] },
-  plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
+  plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), renderCachePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
   server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });

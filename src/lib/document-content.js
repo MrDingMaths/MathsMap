@@ -10,7 +10,7 @@ export const contentValue = value => isDocument(value) ? normalizeDocument(value
 export function hasVisibleContent(value) {
   const nonblank = text => String(text ?? '').replace(/[\s\u200b\ufeff]/g, '').length > 0;
   if (!isDocument(value)) return nonblank(value);
-  return value.blocks.some(block => block.type !== 'paragraph' || block.inlines?.some(inline =>
+  return value.blocks.some(block => block.type !== 'paragraph' || block.preserveEmpty || block.inlines?.some(inline =>
     inline.type === 'text' ? nonblank(inline.text) : inline.type === 'math' ? nonblank(inline.latex) : !['break', 'tab'].includes(inline.type)
   ));
 }

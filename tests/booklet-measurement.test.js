@@ -19,6 +19,8 @@ test('measurement cache retains unaffected content after another item is copied 
 test('measurement cache invalidates content, labels, relevant overrides and rendering context',()=>{
  const changes=[
   p=>p.sections[0].blocks[0].content.children[0].prompt='A longer question.',
+  p=>p.sections[0].blocks[0].content.children[0].diagram.widthMm=45,
+  p=>p.sections[0].blocks[0].content.children[0].diagram.code='Changed geometry',
   p=>p.sections[0].blocks[0].displayNumber='100',
   p=>p.settings.layoutOverrides.blockLayouts.q.columns=1,
   p=>p.settings.layoutOverrides.answerSpaces.part=40,
@@ -89,4 +91,11 @@ test('measurement cancels stale asset waits and reports failed or timed-out asse
   },settleBookletMeasurement.toString());
   assert.deepEqual(result,{cancelled:true,timeout:'Diagram queue timed out',failed:'Mathematics failed to render',decodeStarted:true,brokenImage:'Image failed to decode: broken.png',fontCancelled:true});
  }finally{await browser.close();}
+});
+
+
+test('failed fonts never produce reusable measurements',async()=>{
+ const fonts=[{status:'error'}];fonts.ready=Promise.resolve();
+ const root={querySelectorAll:()=>[],querySelector:()=>null,getBoundingClientRect:()=>({}),ownerDocument:{fonts}};
+ await assert.rejects(settleBookletMeasurement(root,{calibrate:()=>{}}),/font failed to load/);
 });

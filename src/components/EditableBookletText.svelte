@@ -27,7 +27,8 @@
   const value=$derived(standardBookletContent(sourceValue));
   const workspaceEdit=getContext('booklet-edit-request');
   const workspaceInline=getContext('booklet-inline-edit');
-  const inlineSession=$derived(editMode&&workspaceInline?.session?.rootId===rootId&&workspaceInline?.session?.pointer===pointer&&(!workspaceInline.session.paragraphSlice||value?._bookletSlice?.start===workspaceInline.session.paragraphSlice.start)&&(!workspaceInline.session.fragmentIds?.length||value?.blocks?.some(b=>b.id===workspaceInline.session.fragmentIds[0]))?workspaceInline.session:null);
+  const hostId=crypto.randomUUID();
+  const inlineSession=$derived(editMode&&workspaceInline?.session?.hostId===hostId?workspaceInline.session:null);
   let inlineEditor=$state();
   let active = $state('');
   let reportedActive = false;
@@ -39,7 +40,8 @@
     if(event.type==='click'&&window.getSelection()?.toString())return;
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
-    const request=oneditrequest??workspaceEdit;
+    const handler=oneditrequest??workspaceEdit;
+    const request=handler?(detail=>handler({...detail,hostId})):null;
     if(request){const css=getComputedStyle(event.currentTarget),equations=[...event.currentTarget.querySelectorAll('.katex')],equation=event.target.closest('.katex')??event.target.closest('[data-math]')?.querySelector('.katex')??equations.find(el=>{const r=el.getBoundingClientRect();return event.clientX>=r.left&&event.clientX<=r.right&&event.clientY>=r.top&&event.clientY<=r.bottom;}),mathIndex=equations.indexOf(equation);request({point:{x:event.clientX,y:event.clientY,mathIndex:mathIndex>=0?mathIndex:null},renderContext:{colour:css.color,fontFamily:css.fontFamily,fontSize:css.fontSize,lineHeight:css.lineHeight},rootId,rootIds,pointer,value,selectedNodeId:event.target.closest('[data-id]')?.dataset.id,selectedType:event.target.closest('table')?'table':event.target.closest('img')?'image':null,origin:event.currentTarget,commit:oncommit});return;}
     active = 'document';
   }

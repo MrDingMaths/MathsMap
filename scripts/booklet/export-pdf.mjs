@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/env node
 // Export the current project surface; --project is a read-only in-memory preview.
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
+import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import { chromium } from 'playwright-core';
 import { mkdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -31,6 +32,8 @@ try {
   if (projectFile) {
     const project = materializeLegacyProject(JSON.parse(readFileSync(resolve(projectFile), 'utf8').replace(/^\uFEFF/, '')));
     projectId = project.id;
+    await page.route('**/__booklet/projects?*', (route)=>route.fulfill({json:[{id:project.id,title:project.title}]}));
+    await page.route('**/__booklet/projects/'+encodeURIComponent(projectId)+'/open',route=>route.fulfill({json:{project,bankSync:{items:[]},bankSyncError:''}}));
     await page.route('**/__booklet/projects', (route) => route.request().method() === 'GET' ? route.fulfill({ json: [project] }) : route.abort());
     await page.route('**/__booklet/projects/' + encodeURIComponent(projectId), (route) => route.request().method() === 'GET' ? route.fulfill({ json: project }) : route.abort());
   }
@@ -96,10 +99,11 @@ try {
   writeFileSync(output+'.printed-qa.json',JSON.stringify(printed,null,2));
   if(printed.some(p=>p.issues.length)){if(!draft)throw Error('Printed PDF geometry failed; see '+output+'.printed-qa.json');console.warn('Draft print findings: '+output+'.printed-qa.json');}
   renameSync(output+'.partial.pdf',output);
+  const sharedCache=await publishBrowserDiagrams(page);
   const cacheOutput=arg('--save-cache-state');
   let cacheMetrics;
   if(cacheOutput){mkdirSync(dirname(resolve(cacheOutput)),{recursive:true});await context.storageState({path:resolve(cacheOutput),indexedDB:true});cacheMetrics=await page.evaluate(()=>{const s=window.TikZ?.stats?.();return s?{compiles:s.compiles,memoryHits:s.memoryHits,idbHits:s.idbHits,driverHits:s.driverHits}:null;});writeFileSync(output+'.render-metrics.json',JSON.stringify({cacheOutput:resolve(cacheOutput),tikz:cacheMetrics},null,2));}
-  console.log(JSON.stringify({ output, projectId, mode, draft, ...(cacheOutput?{cacheOutput:resolve(cacheOutput),tikz:cacheMetrics}:{}) }));
+  console.log(JSON.stringify({ output, projectId, mode, draft, sharedCache, ...(cacheOutput?{cacheOutput:resolve(cacheOutput),tikz:cacheMetrics}:{}) }));
 } catch (error) {
   console.error('Booklet PDF export failed:', error.message);
   if(renderErrors.length)console.error('Browser errors:',renderErrors.join('; '));

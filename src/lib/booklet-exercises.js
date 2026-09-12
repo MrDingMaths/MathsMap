@@ -1,3 +1,4 @@
+import {retainDifficultyAsMetadata} from './booklet-difficulty-headings.js';
 import {isPractice, logicalUnits} from './booklet-flow.js';
 import {graphSourceWithoutColourMetadata} from './diagram-colours.js';
 
@@ -93,7 +94,7 @@ export function organiseExercises(source, ratings={}) {
       project.studio.flags=project.studio.flags.filter(f=>f.id!==id);
       project.studio.flags.push({id,targetId:blocks.find(isPractice)?.id??blocks[0]?.id,note:'Practice run retained in source order: review missing difficulty ratings, topic boundaries or dependencies.',resolved:false,automatic:true});
     }
-    const next={...section,title:'Exercise',difficulty:null,showDifficultyHeading:false,blocks:groups.flatMap(u=>u.blocks)};
+    const next={...section,title:'Exercise',difficulty:null,showDifficultyHeading:false,blocks:groups.flatMap(u=>u.blocks).map(retainDifficultyAsMetadata)};
     delete next.numberingStart;
     sections.push(next);
   }

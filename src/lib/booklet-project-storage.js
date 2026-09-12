@@ -14,7 +14,7 @@ async function request(url, options = {}, fetchImpl = globalThis.fetch) {
 }
 
 export function listBookletProjects(fetchImpl = globalThis.fetch) {
-  return request('/__booklet/projects', {}, fetchImpl);
+  return request('/__booklet/projects?summary=1', {}, fetchImpl);
 }
 
 export function getProjectBankSync(id,fetchImpl=globalThis.fetch){
@@ -22,6 +22,15 @@ export function getProjectBankSync(id,fetchImpl=globalThis.fetch){
 }
 export function resolveProjectBankSync(id,body,fetchImpl=globalThis.fetch){
   return request('/__booklet/projects/'+encodeURIComponent(id)+'/bank-sync',{method:'POST',body:JSON.stringify(body)},fetchImpl);
+}
+
+export async function openBookletProject(id,fetchImpl=globalThis.fetch){
+  try{const value=await request('/__booklet/projects/'+encodeURIComponent(id)+'/open',{},fetchImpl);if(value?.project)return value;}
+  catch(error){if(error.status!==404)throw error;}
+  // Compatibility with earlier authoring servers and isolated renderer fixtures.
+  const project=await loadBookletProject(id,fetchImpl);
+  try{return {project,bankSync:await getProjectBankSync(id,fetchImpl),bankSyncError:''};}
+  catch(error){return {project,bankSync:{items:[]},bankSyncError:'Could not check bank updates. '+error.message};}
 }
 
 export function loadBookletProject(id, fetchImpl = globalThis.fetch) {

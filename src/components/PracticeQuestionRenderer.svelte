@@ -16,7 +16,14 @@
   import {teachingAnswerCategory} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel} from '../lib/booklet-labels.js';
 
-  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts = {}, answerSpaceOverrides = {}, diagramWidthOverrides = {}, diagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
+  let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
+  // Bank records retain their source owner ID and local presentation. Explicit
+  // editor/worksheet overrides take precedence over the captured defaults.
+  const blockLayouts = $derived({...question.presentation?.layoutOverrides?.blockLayouts, ...suppliedBlockLayouts});
+  const answerSpaceOverrides = $derived({...question.presentation?.layoutOverrides?.answerSpaces, ...suppliedAnswerSpaceOverrides});
+  const diagramWidthOverrides = $derived({...question.presentation?.layoutOverrides?.diagramWidths, ...suppliedDiagramWidthOverrides});
+  const diagramColourModes = $derived({...question.presentation?.layoutOverrides?.diagramColourModes, ...suppliedDiagramColourModes});
+  const questionArrangement = $derived(blockLayouts[question.id]?.arrangement ?? blockLayouts[question.presentation?.ownerId]?.arrangement);
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
@@ -199,7 +206,7 @@
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions)}
-    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={blockLayouts[question.id]?.arrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
+    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
   {:else if question?.content}{@render renderAnswerNode(question.content)}{#if trailingQuestion}<PracticeQuestionRenderer question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
 </div>
 

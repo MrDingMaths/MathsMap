@@ -14,12 +14,13 @@ function harness() {
     localStorage: { getItem: () => '1' },
     indexedDB: { open: () => ({}) },
     URL, performance, console,
+    renderEnvironment:()=>new Promise(()=>{}),cacheMode:()=> 'normal',serverDiagram:async()=>null,digestKey:async value=>'checksum:'+value,
     setTimeout: (fn, ms) => { const id = {}; timers.set(id, { fn, ms }); return id; },
     clearTimeout: id => timers.delete(id),
   });
   const source = readFileSync(new URL('../src/lib/tikz.js', import.meta.url), 'utf8')
     .replace(/^import .*;$/gm, '').replace(/export function/g, 'function');
-  vm.runInContext(source + '\n globalThis.api = { _loadEngineScript, _ensureTikzFonts, _startJob, _resetAndReinjectAll, tikzActiveJobs };', context);
+  vm.runInContext(source + '\n globalThis.api = { _loadEngineScript, _ensureTikzFonts, _startJob, _resetAndReinjectAll, tikzActiveJobs, _idbOpen, _idbGet };', context);
   return { ...context, timers, listeners, elements, fire(ms) { for (const [id, timer] of timers) if (timer.ms === ms) { timers.delete(id); timer.fn(); } } };
 }
 
@@ -57,4 +58,18 @@ test('hard deadline settles a job even while IndexedDB startup is pending', () =
   assert.equal(job.done, true);
   assert.match(failure, /timed out/);
   assert.equal(h.api.tikzActiveJobs.size, 0);
+});
+
+
+test('IndexedDB startup timeout falls back without waiting for the diagram deadline',async()=>{
+ const h=harness(),pending=h.api._idbOpen();h.fire(1000);assert.equal(await pending,null);
+});
+
+test('persisted SVG checksum rejects corruption and accepts intact diagrams',async()=>{
+ for(const checksum of ['broken','checksum:<svg/>']){
+  const h=harness(),row={svg:'<svg/>',checksum,ts:Date.now()};
+  const request=result=>{const req={result};queueMicrotask(()=>req.onsuccess?.());return req;};
+  h.indexedDB.open=()=>request({transaction:()=>({objectStore:()=>({get:()=>request(row)})})});
+  assert.equal(await h.api._idbGet('a'.repeat(64)+'-diagram'),checksum==='broken'?null:'<svg/>');
+ }
 });

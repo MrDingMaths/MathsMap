@@ -5,9 +5,11 @@
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import EditorSplitView from './EditorSplitView.svelte';
   import BookletRichText from './BookletRichText.svelte';
-  import { onMount, untrack } from 'svelte';
+  import { onMount, untrack, getContext } from 'svelte';
   import { loadDocumentEditor, isDocument, normalizeDocument, fromSource, storageValue, toSource } from '../lib/document-content.js';
   import { serializeRichText } from '../lib/maths-editor.js';
+  import {renderMath} from '../lib/render-math.js';
+  const presentation=getContext('booklet-presentation');
   import {installBookletEditorHost} from '../lib/booklet-editor-dom.js';
   let { value='', sourceFallback='', label='Editable maths prose', placeholder='Write text and maths', onchange=()=>{}, onfocus=()=>{}, onblur=()=>{}, onsave=null, oncancel=null, inline=false, focused=false, sourceUrl='', selectedNodeId=null, selectedType=null, session=null, documentHost=null }=$props();
   let preview=$state(null),previewTimer;
@@ -26,7 +28,7 @@
       if(disposed)return;
       editor=document.createElement('maths-editor');editor.setAttribute('structured','');editor.setAttribute('aria-label',label);editor.setAttribute('placeholder',placeholder);
       if(focused||inline)editor.setAttribute('controls','contextual');
-      if(documentHost)editor.classList.add('booklet-document-field');
+      if(documentHost){editor.classList.add('booklet-document-field');editor.renderMathPreview=(latex,display)=>renderMath((display?'$$':'$')+(display||presentation?.()?.mathsStyle==='display-glyphs'?'':'\\textstyle ')+latex+(display?'$$':'$'));}
       editor.style.cssText=houseStyleVariables(session?.houseStyleVersion);
       if(session?.houseStyleVersion)editor.dataset.houseStyleVersion=session.houseStyleVersion;
       if(session?.question)editor.setAttribute('question-context','');
@@ -57,7 +59,7 @@
   {#snippet previewPane()}<div class="production-preview" style:color={session?.renderContext?.colour} style:font-family={session?.renderContext?.fontFamily} style:font-size={session?.renderContext?.fontSize}>{#if previewQuestion}<PracticeQuestionRenderer eagerDiagrams={true} question={{id:previewQuestion.id,content:previewQuestion}} number={previewQuestion.label} blockLayouts={layouts} showSpaces={false} showShortAnswers={session?.pointer?.startsWith('/answer/short')} showWorkedSolutions={session?.pointer?.startsWith('/answer/worked')}/>{:else if preview}<div style:padding-left={session?.layoutContext?.inset?(layoutDraft.insetMm??5)+'mm':undefined}><BookletRichText text={preview}/></div>{/if}</div>{/snippet}
   {#if inline}{@render editPane()}{:else if focused}<EditorSplitView editor={editPane} preview={previewPane} {sourceUrl}/>{:else}<div class="editor-pair">{@render editPane()}<section class="editor-preview" aria-label="Rendered preview"><strong>Preview</strong>{@render previewPane()}</section></div>{/if}
   {#if error}<p role="alert">{error}</p>{:else if !ready}<p>Loading maths editor…</p>{/if}
-  {#if !focused}<div class="editor-actions">{#if onsave}<button type="button" disabled={!ready} onclick={()=>onsave(result())}>Save</button>{/if}{#if oncancel}<button type="button" onclick={oncancel}>Cancel</button>{/if}</div>{/if}
+  {#if !focused&&(onsave||oncancel)}<div class="editor-actions">{#if onsave}<button type="button" disabled={!ready} onclick={()=>onsave(result())}>Save</button>{/if}{#if oncancel}<button type="button" onclick={oncancel}>Cancel</button>{/if}</div>{/if}
 </div>
 <style>.production-preview{background:white;padding:12px;min-width:0;overflow:auto;min-height:150px}
 .editor-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}.editor-preview{min-width:0;padding:.5rem;background:white;border:1px solid #dbe3eb}.editor-preview strong{font-size:.75rem;color:#52697b}@media(max-width:1000px){.editor-pair{grid-template-columns:1fr}}@media print{.editor-preview{display:none}}.maths-editor{min-width:0;width:100%}.editor-actions{display:flex;gap:.5rem;margin:.5rem 0}button{padding:.4rem .8rem;border:1px solid #becbd7;border-radius:5px;background:white;color:#234;cursor:pointer}.inline{font-size:inherit}</style>

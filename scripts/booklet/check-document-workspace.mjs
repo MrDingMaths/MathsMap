@@ -37,11 +37,11 @@ try{
  const handle=page.locator('[data-document-group="next"] .group-handle');await handle.click();await page.keyboard.press('Delete');await saved();assert.equal(record.sections[0].blocks.length,2);
  await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.equal(record.sections[0].blocks.length,3);
  // A new template is immediately writable and has no printed placeholder text.
- await page.locator('.document-insert > summary').click();await page.locator('.document-insert').getByRole('button',{name:'Definition / Theory',exact:true}).click();
+ await page.locator('.document-insert > summary').filter({hasText:/^Insert$/}).click();await page.locator('.document-insert').getByRole('button',{name:'Definition / Theory',exact:true}).click();
  await page.locator('maths-editor .me-content').waitFor();await page.keyboard.type('A new definition.');await saved();
  assert.ok(record.sections[0].blocks.some(b=>b.sourceAtom?.kind==='definition'));
  assert.ok(record.sections[0].blocks.some(b=>b.content?.format&&toSource(b.content).includes('A new definition.')));
- await page.getByRole('button',{name:'Maths',exact:true}).click();await page.locator('.me-content math-field').last().waitFor();await page.keyboard.type('x+1');await page.keyboard.press('Escape');await saved();
+ await page.getByRole('button',{name:'Maths',exact:true}).click();await page.locator('.me-content math-field').last().waitFor({state:'attached'});await page.keyboard.type('x+1');await page.keyboard.press('Escape');await saved();
  assert.match(JSON.stringify(record.sections[0].blocks),/x\+1/);
  // Select across two independently structured fields and format them together.
  await page.getByRole('button',{name:'More options',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
@@ -74,4 +74,4 @@ try{
  const longValue=()=>toSource(record.sections[0].blocks.find(b=>b.id==='long-prose').content);assert.equal(longValue(),before.slice(0,start)+'CONTINUED '+before.slice(start));
  const revision=record.revision;await page.locator('maths-editor .me-content').dispatchEvent('compositionstart');await page.keyboard.type('IME ');await page.waitForTimeout(650);assert.equal(record.revision,revision);await page.locator('maths-editor .me-content').dispatchEvent('compositionend');await saved();assert.match(longValue(),/CONTINUED IME /);
  assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,writes:writes.length,errors}));fs.writeFileSync(out+'/report.json',JSON.stringify({passed:true,writes:writes.length,errors},null,2));
-}catch(e){await page.screenshot({path:out+'/failure.png'});console.log((await page.locator('body').innerText()).slice(-3500));throw e;}finally{await browser.close();}
+}catch(e){fs.writeFileSync(out+'/failure-record.json',JSON.stringify(record,null,2));await page.screenshot({path:out+'/failure.png'});console.log((await page.locator('body').innerText()).slice(-3500));throw e;}finally{await browser.close();}

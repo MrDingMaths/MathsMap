@@ -32,7 +32,7 @@ export function inspectBookletPalette(root){
    let rgb=paint.match(/^rgba?\((\d+)[, ]+\s*(\d+)[, ]+\s*(\d+)(?:\s*[,/]\s*([\d.]+))?\)/);
    const srgb=paint.match(/^color\(srgb ([\d.]+) ([\d.]+) ([\d.]+)(?: \/ ([\d.]+))?\)/);
    if(srgb)rgb=[paint,...srgb.slice(1,4).map(v=>String(Math.round(Number(v)*255))),srgb[4]];
-   const band=el.closest('.section-band:not(.difficulty-heading)');
+   const band=el.closest('.section-band:not(.difficulty-heading):not(.exercise-heading)');
    const headerRole=band&&(role==='text'?'white':role==='background'&&el===band?'headerBlue':null);
    if(headerRole){
     const expected=[1,3,5].map(i=>parseInt(BOOKLET_PALETTE[headerRole].slice(i,i+2),16)).join(',');

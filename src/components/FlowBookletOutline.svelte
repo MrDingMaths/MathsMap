@@ -1,9 +1,10 @@
 <script>
+  import {questionDifficulty} from '../lib/booklet-bank-ratings.js';
   import {onMount,untrack} from 'svelte';
   import {logicalUnits,flowNumbers,flowCommand,captureFlowClipboard,flowId,exerciseNumbers} from '../lib/booklet-flow.js';
  import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
   import {feedbackText} from '../lib/booklet-feedback.js';
-  let {project,pages=[],bank=[],selectedBlockId='',selectedIds=[],onselection=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
+  let {project,pages=[],bank=[],onrequestbank=null,selectedBlockId='',selectedIds=[],onselection=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
   let organising=$state(false);
   let selected=$state([]),clipboard=$state.raw(null),destination=$state(''),beforeId=$state(''),blockType=$state('question'),bankId=$state('');
   const numbers=$derived(flowNumbers(project));
@@ -45,10 +46,10 @@
 </script>
 <div class="flow-outline" class:document-outline={!!onselection} class:organising inert={disabled}>
   <strong>Topics and content</strong>
-  {#if onselection}<button aria-pressed={organising} onclick={()=>organising=!organising}>Organise booklet</button>{/if}
+  {#if onselection}<button aria-pressed={organising} onclick={()=>{organising=!organising;if(organising)onrequestbank?.();}}>Organise booklet</button>{/if}
   <div class="commands">{#each [['cut','Cut'],['copy','Copy'],['paste','Paste'],['duplicate','Duplicate'],['delete','Delete']] as [type,title]}<button disabled={type==='paste'?!clipboard:!selection.length} onclick={()=>command(type)}>{title}</button>{/each}</div>
   {#if clipboard}<p role="status">{clipboard.mode==='cut'?'Ready to move':'Copied'} {clipboard.blocks.length} block(s). {#if clipboard.mode==='cut'}<button onclick={()=>clipboard=null}>Cancel cut</button>{/if}</p>{/if}
-  <details open><summary>Insert / move to</summary>
+  <details open onfocusin={()=>onrequestbank?.()}><summary>Insert / move to</summary>
     <label>Destination section<select aria-label="Destination section" value={target?.id??''} onchange={e=>{destination=e.currentTarget.value;beforeId='';}}>{#each project.topics as topic}<optgroup label={topic.title}>{#each project.sections.filter(s=>s.topicId===topic.id) as s}<option value={s.id}>{s.title}</option>{/each}</optgroup>{/each}</select></label>
     <label>Insert before<select aria-label="Insert before" bind:value={beforeId}><option value="">End of section</option>{#each target?.blocks??[] as b}<option value={b.id}>{label(b)}</option>{/each}</select></label>
     <button disabled={!selection.length} onclick={()=>command('move')}>Move selected here</button>
@@ -78,7 +79,7 @@
           {#each units.filter(u=>u.sectionId===section.id) as unit (unit.id)}
             {@const p=pages.find(p=>p.blocks.some(b=>unit.blocks.some(u=>u.id===b.id)))}
             <div class="content-item" data-block-id={unit.id} class:active={unit.blocks.some(b=>b.id===selectedBlockId)} class:cut={clipboard?.mode==='cut'&&clipboard.ids.includes(unit.id)} draggable={true} ondragstart={e=>e.dataTransfer.setData('application/x-booklet-block',unit.id)} ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();e.stopPropagation();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,unit.id);}} role="group" aria-label={label(unit.blocks[0])}>
-              <input type="checkbox" aria-label={`Select ${label(unit.blocks[0])}`} checked={selected.includes(unit.id)} onchange={e=>select(unit,e.currentTarget.checked)}/><button onclick={()=>{selected=[unit.id];destination=section.id;beforeId=section.blocks[section.blocks.indexOf(unit.blocks.at(-1))+1]?.id??'';onselect?.(unit.id,section.id);}}>{label(unit.blocks[0])}{unit.blocks.length>1?' (group)':''}<small>{p?`p${p.pageNumber}`:''}{(unit.blocks[0].flow?.bankDifficulty??unit.blocks[0].flow?.localDifficulty)?` - ${(unit.blocks[0].flow.bankDifficulty??unit.blocks[0].flow.localDifficulty).difficulty} ${(unit.blocks[0].flow.bankDifficulty??unit.blocks[0].flow.localDifficulty).reasoningScore}/100`:''}</small></button>
+              <input type="checkbox" aria-label={`Select ${label(unit.blocks[0])}`} checked={selected.includes(unit.id)} onchange={e=>select(unit,e.currentTarget.checked)}/><button onclick={()=>{selected=[unit.id];destination=section.id;beforeId=section.blocks[section.blocks.indexOf(unit.blocks.at(-1))+1]?.id??'';onselect?.(unit.id,section.id);}}>{label(unit.blocks[0])}{unit.blocks.length>1?' (group)':''}<small>{p?`p${p.pageNumber}`:''}{section.phase==='practice'&&questionDifficulty(unit.blocks[0])?` - ${questionDifficulty(unit.blocks[0]).difficulty} ${questionDifficulty(unit.blocks[0]).reasoningScore}/100`:''}</small></button>
             </div>
           {/each}
         </details>

@@ -1,3 +1,4 @@
+import {teachingAnswerCategory} from './booklet-answer-options.js';
 import {group,item,arrangementItems,normalizeArrangement,arrangementParent,findArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './document-content.js';
 import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
@@ -12,6 +13,8 @@ export function arrangementExamTitle(block,entry){
 export function arrangementQuestionBlock(question,number=null){
  return {...question,type:'question',sourceOrder:number??question.sourceOrder};
 }
+
+export const practiceContinuation=block=>block.type==='question'&&(block.flow?.fragment>0||block.flow?.continuationOf||block.continuationOf)&&!block.sourceAtom&&!teachingAnswerCategory(block);
 
 export function arrangementCatalog(block,overrides={},widthMm=180){
  const labels={...teachingLabels([block]),...overrides.labels};
@@ -29,11 +32,17 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  const diagrams=(owner,key='questionDiagrams',role='content')=>(owner[key]??[]).map(d=>add(d.id,{kind:'diagram',ownerId:owner.id,field:key,diagramId:d.id,value:d,role,title:d.alt??'Diagram'}));
  function question(n,index=0,root=false){
    if(hasEmbeddedResponseLabel(n))labels[n.id]='';
+   const continuation=root&&practiceContinuation(block);
+   const hideStem=continuation&&(block.flow?.hideRepeatedStem||(!block.flow?.continuationOf&&!block.continuationOf)||typeof n.prompt==='string'&&/^Question \d+ continued\.?$/i.test(n.prompt));
+   if(continuation)labels[n.id]='';
    const label=labels[n.id]??(root?block.sourceOrder??n.label:n.label??(n.children?.length?'':String.fromCharCode(97+index)));
    const labelItem=(label==null||label==='')&&!(n.id in labels)?[]:[add(n.id+'/label',{kind:'label',ownerId:n.id,value:String(label??''),title:label?'Label '+label:'Unlabelled stem'})];
-   const prose=field(n,'prompt'),pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
+   const prose=field(n,'prompt');
+   if(hideStem)for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}
+   const pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
    if(n.layout==='grid'&&Math.max(2,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(2,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(2,n.columns||2)),'row'));}
+   if(hideStem)prose.length=0;
    let body;
    if(n.representations){
     const slots=['pattern','table','equation','graph'].map(slot=>group(n.id+':'+slot,[...field(n,'representations/'+slot),...pics.filter(p=>(n.representations.diagramSlots?.[p.ref]??'graph')===slot),...(slot==='equation'?children:[])]));
@@ -72,11 +81,13 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
     n.children.forEach(c=>applyOverrides(c,n.direction==='row'?(width-(n.gap??2)*(n.children.length-1))*(c.weight??1)/sum:width));
    }
  }
+ if(practiceContinuation(block))root.inset??=7;
  applyOverrides(root,widthMm);
  return {entries,emptyRefs,initial:{version:1,root}};
 }
 export function resolveArrangement(block,stored,overrides={},widthMm=180){
  const catalog=arrangementCatalog(block,overrides,widthMm),tree=normalizeArrangement(stored)??catalog.initial;
+ if(practiceContinuation(block))tree.root.inset??=catalog.initial.root.inset;
  // Also collapse blanks saved by older editor versions, including their margins
  // and any groups made empty by removing them. Unknown references still warn.
  const collapse=node=>{

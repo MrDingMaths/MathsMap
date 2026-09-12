@@ -1,3 +1,5 @@
+import {renderEnvironment,serverDiagram,cacheMode,digestKey} from './booklet-render-cache.js';
+
 // TikZ rendering — content-addressed cache (memory + IndexedDB) + lazy viewport injection
 // with shared-reset watchdog. Full port of mathsdatabase/js/tikz.js (757-line version),
 // adapted for Svelte/ESM: the entry point is renderTikzCode(outerEl, code, {eager}) instead
@@ -113,7 +115,7 @@ if (!_tikzCleanupDone) {
   } catch (_) {}
 }
 const tikzStats = {
-  validPlaceholders: 0, memoryHits: 0, idbHits: 0, driverHits: 0, compiles: 0, failures: 0,
+  validPlaceholders: 0, memoryHits: 0, idbHits: 0, serverHits: 0, driverHits: 0, compiles: 0, failures: 0, resets: 0,
   firstDriverLoadMs: null, workerReadyMs: null, engineTimings: {}, lastRenderTimings: null,
   rawJobLatenciesMs: [], pending: 0, firstPlaceholderToSettledMs: null, firstPlaceholderAt: null,
 };
@@ -154,14 +156,15 @@ const _statsSnapshot = () => {
     rawJobLatenciesMs: Object.freeze([...tikzStats.rawJobLatenciesMs]),
     p50Ms: at(.5),
     p95Ms: at(.95),
-    hitRate: (tikzStats.memoryHits + tikzStats.idbHits + tikzStats.driverHits) /
-      Math.max(1, tikzStats.memoryHits + tikzStats.idbHits + tikzStats.driverHits + tikzStats.compiles),
+    hitRate: (tikzStats.memoryHits + tikzStats.idbHits + tikzStats.driverHits + tikzStats.serverHits) /
+      Math.max(1, tikzStats.memoryHits + tikzStats.idbHits + tikzStats.driverHits + tikzStats.serverHits + tikzStats.compiles),
   });
 };
+const cacheRequest=work=>new Promise(resolve=>{let finished=false;const done=value=>{if(!finished){finished=true;clearTimeout(timer);resolve(value);}};const timer=setTimeout(()=>done(null),1000);try{work(done);}catch{done(null);}});
 let _tikzIdb = null;   // Promise<IDBDatabase|null>
 const _idbOpen = () => {
   if (_tikzIdb) return _tikzIdb;
-  _tikzIdb = new Promise((resolve) => {
+  _tikzIdb = cacheRequest((resolve) => {
     try {
       const req = indexedDB.open(TIKZ_IDB_NAME, 1);
       req.onupgradeneeded = () => {
@@ -179,23 +182,26 @@ const _idbOpen = () => {
   return _tikzIdb;
 };
 const _idbGet = async (key) => {
+  if(!/^[a-f0-9]{64}-/.test(key)||cacheMode()==='off')return null;
   const db = await _idbOpen();
   if (!db) return null;
-  return new Promise((resolve) => {
+  return cacheRequest((resolve) => {
     try {
       const req = db.transaction(TIKZ_IDB_STORE, 'readonly').objectStore(TIKZ_IDB_STORE).get(key);
-      req.onsuccess = () => { const row = req.result; if (row?.svg && Date.now() - (row.ts || 0) > 3600000) _idbTouch(key); resolve(row ? row.svg : null); };
+      req.onsuccess = async () => {try{const row=req.result;if(typeof row?.svg!=='string'||row.checksum!==await digestKey(row.svg))return resolve(null);if(Date.now()-(row.ts||0)>3600000)_idbTouch(key);resolve(row.svg);}catch{resolve(null);}};
       req.onerror = () => resolve(null);
     } catch (_) { resolve(null); }
   });
 };
 const _idbPut = async (key, svg) => {
+  if(!/^[a-f0-9]{64}-/.test(key)||cacheMode()==='off')return;
   const db = await _idbOpen();
   if (!db) return;
   try {
+    const checksum=await digestKey(svg);
     const tx = db.transaction(TIKZ_IDB_STORE, 'readwrite');
     const store = tx.objectStore(TIKZ_IDB_STORE);
-    store.put({ key, svg, ts: Date.now() });
+    store.put({ key, svg, checksum, ts: Date.now() });
     const countReq = store.count();
     countReq.onsuccess = () => {
       let excess = countReq.result - TIKZ_IDB_CAP;
@@ -275,7 +281,7 @@ const _applyCachedToNode = (node, svgHtml) => {
   const wrapper = document.createElement('div');
   wrapper.className = 'tikz-loading';
   wrapper.innerHTML = svgHtml;
-  if (!wrapper.firstElementChild) return false;
+  if (wrapper.firstElementChild?.tagName.toLowerCase() !== 'svg'||wrapper.querySelector('script,animate')) return false;
   // Tag the SVG itself so styling can target the diagram directly, independent of
   // the wrapper surviving DOM churn. Old cache entries may predate this tagging.
   wrapper.firstElementChild.classList.add('tikz-svg');
@@ -450,6 +456,7 @@ const _watchdogFor = (job) => {
 // (each batch awaits the previous one), so partial recovery is impossible — the whole
 // in-flight set must be resubmitted. Non-culprit peers keep their attempt count.
 const _resetAndReinjectAll = () => {
+  _stat('resets');
   if (tikzResetting) return tikzResetting;
   tikzResetting = (async () => {
     const pending = [...tikzActiveJobs].filter(j => j.started && !j.done);
@@ -577,8 +584,12 @@ const _startJob = async (job) => {
 
   // Persistent-cache check (memory layer was already checked at render time, but a peer
   // with the same key may have compiled since).
-  const cachedMemory = tikzCache.get(job.key);
-  const cached = cachedMemory || await _idbGet(job.key);
+  const environment=await renderEnvironment();
+  if(job.done)return;
+  if(!job.versioned){job.key=(environment?.version??'unversioned')+'-'+job.key;job.versioned=true;job.wrapper.dataset.cacheKey=job.key;}
+  const cachedMemory=cacheMode()==='off'?null:tikzCache.get(job.key);
+  const cachedLocal=cachedMemory||await _idbGet(job.key);
+  const cached=cachedLocal||await serverDiagram(environment?.version,job.key);
   if (job.done) return;
   if (cached) {
     tikzCache.set(job.key, cached);
@@ -586,7 +597,8 @@ const _startJob = async (job) => {
     if (job.done || !job.wrapper.isConnected) { _finishJob(job); return; }
     if (_applyCachedToNode(job.wrapper, cached)) {
       TLOG('cache HIT job#' + job.seq, 'key:', job.key);
-      _stat(cachedMemory ? 'memoryHits' : 'idbHits');
+      _stat(cachedMemory?'memoryHits':cachedLocal?'idbHits':'serverHits');
+      if(!cachedLocal)_idbPut(job.key,cached);
       _finishJob(job);
       return;
     }
@@ -631,6 +643,7 @@ window.TikZ = {
     return false;
   },
   stats: _statsSnapshot,
+  cacheEntries: async()=>{const environment=await renderEnvironment();return {version:environment?.version,entries:[...tikzCache].filter(([key])=>key.startsWith(environment?.version+'-')).map(([key,svg])=>({key,svg}))};},
   _test: Object.freeze({ forceReset: _resetAndReinjectAll }),
 };
 window.addEventListener('pagehide', () => { try { if (localStorage.getItem('mathsmap_tikz_telemetry') === '1') console.info('[tikz] telemetry', _statsSnapshot()); } catch (_) {} });

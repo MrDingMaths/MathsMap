@@ -6,7 +6,8 @@ import {teachingLabels} from './booklet-labels.js';
 export function measurementKeyFor(project,options={}) {
   const signatures=new WeakMap(),overrides=project.settings.layoutOverrides??{};
   const labels=teachingLabels(project.sections.flatMap(s=>s.blocks));
-  const context=JSON.stringify([project.id,project.source?.runId,project.settings.houseStyleVersion,project.settings.compactAnswers,project.settings.exerciseOrganisation,options]);
+  const {layoutOverrides,...settings}=project.settings;
+  const context=JSON.stringify([project.id,project.source?.runId,settings,options]);
   const signature=block=>{
     if(signatures.has(block))return signatures.get(block);
     const ids=new Set();
@@ -16,7 +17,7 @@ export function measurementKeyFor(project,options={}) {
     const value=JSON.stringify([block,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
     signatures.set(block,value);return value;
   };
-  return page=>JSON.stringify([context,page.section.title,page.section.difficultyTitle,page.section.headingStyle,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment])),page.blocks.map(signature)]);
+  return page=>JSON.stringify([context,Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks')),page.isCover,page.compactAnswers,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment])),page.blocks.map(signature)]);
 }
 
 // Measurements need settled assets and a synchronous layout, not several paint
@@ -52,6 +53,8 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   // Force style/layout to request fonts used by newly inserted SVG and maths.
   root.getBoundingClientRect();
   await wait(root.ownerDocument.fonts.ready);
+  const fonts=root.ownerDocument.fonts;
+  if(fonts[Symbol.iterator]&&[...fonts].some(font=>font.status==='error'))throw Error('A booklet font failed to load; reload after restoring font access.');
   check();calibrate(root);
   if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
   if(!diagramsReady())throw Error('A diagram has not rendered');

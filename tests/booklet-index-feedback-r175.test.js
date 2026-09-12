@@ -34,6 +34,9 @@ test('method labels sit beside steps and the locally requested underline removal
   assert.doesNotThrow(()=>katex.renderToString(prompt.slice(1,-1),{throwOnError:true}));
  }
  for(const n of get('index-t8-q16').content.children)assert.doesNotMatch(contentSource(n.prompt),/\\underline|_{3,}/);
- // Q15's separate completion lines are an explicitly different local scope.
- assert.match(contentSource(get('index-t8-q15').content.children[1].prompt),/\\underline/);
+ // Q15 retains its separate completion line, using the later shared dotted scaffold convention.
+ const completion=contentSource(get('index-t8-q15').content.children[1].prompt);
+ assert.match(completion,/\(5y\^3\)\^2=/);
+ assert.match(completion,/\\ldotp/);
+ assert.doesNotMatch(completion,/\\underline\{(?:\\hspace|\\quad|\\phantom)/);
 });

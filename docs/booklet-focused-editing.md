@@ -23,7 +23,7 @@ Image controls show the full original with a crop rectangle as well as the rende
 
 ## Tabs and proposals
 
-Select a paragraph in its content editor and open **How tab stops work**. Add a stop, then put the caret between the items and use **Insert tab**. A stop defines a position; inserting the tab moves text to that position. Dots fills the gap with a dotted leader. Copy tab settings to align other paragraphs.
+Tab inserts the next 1 cm tab in prose, navigates table cells, and indents lists. Shift+Tab reverses table/list navigation; Alt+= inserts maths. Escape then Tab leaves the writing area. Existing custom stops retain their layout until **Reset to 1 cm tabs** is chosen. Custom-stop authoring controls are retired from booklet editing.
 
 AI corrections are requested through document comments and **Copy feedback prompt**. Studio does not run models or use proposal/approval gates. Specialist arrangement edits apply directly and can be undone in the document.
 

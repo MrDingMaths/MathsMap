@@ -24,9 +24,9 @@ export function transformTextRange(value,start,end,command,argument) {
   };
   visit(doc);return normalizeDocument(doc);
 }
-const atom=el=>el.nodeType===1&&el.matches('[data-math],.katex,[data-cloze],img,math-field');
-function domLength(node){if(node.nodeType===3)return node.length;if(atom(node))return 1;if(node.nodeType===1&&node.matches('[aria-hidden=true],.edit-badge,.me-toolbar,.me-properties,.me-math-tools,output'))return 0;return [...node.childNodes].reduce((n,c)=>n+domLength(c),0);}
-function offsetAt(root,node,offset){let count=0,done=false;const scan=n=>{if(done)return;if(n===node){count+=n.nodeType===3?offset:[...n.childNodes].slice(0,offset).reduce((v,c)=>v+domLength(c),0);done=true;return;}if(n.contains?.(node)){if(atom(n)){done=true;return;}for(const child of n.childNodes)scan(child);}else count+=domLength(n);};scan(root);return count;}
+const atom=el=>el.nodeType===1&&el.matches('[data-math],.katex,[data-tab],[data-cloze],[data-type=inline-image],img,math-field');
+function domLength(node){if(node.nodeType===3)return node.textContent.replaceAll('\u200b','').length;if(atom(node))return 1;if(node.nodeType===1&&node.matches('[aria-hidden=true],[data-native-handle],[data-layout-handle],.edit-badge,.me-toolbar,.me-properties,.me-math-tools,output'))return 0;return [...node.childNodes].reduce((n,c)=>n+domLength(c),0);}
+function offsetAt(root,node,offset){let count=0,done=false;const scan=n=>{if(done)return;if(n===node){count+=n.nodeType===3?n.textContent.slice(0,offset).replaceAll('\u200b','').length:[...n.childNodes].slice(0,offset).reduce((v,c)=>v+domLength(c),0);done=true;return;}if(n.contains?.(node)){if(atom(n)){done=true;return;}for(const child of n.childNodes)scan(child);}else count+=domLength(n);};scan(root);return count;}
 export function captureBookletTextRange(canvas,project){
   const s=window.getSelection();if(!s?.rangeCount||s.isCollapsed)return null;
   const range=s.getRangeAt(0);if(!canvas?.contains(range.startContainer)||!canvas.contains(range.endContainer))return null;

@@ -1,9 +1,12 @@
 <script>
+  import {questionDifficulty} from '../lib/booklet-bank-ratings.js';
+  import {isTheoryReview} from '../lib/question-bank-eligibility.js';
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import { onMount,getContext,setContext } from 'svelte';
   import {usesReviewNumbers,teachingLabels,usesTeachingLetters,labelledTeachingQuestion} from '../lib/booklet-labels.js';
   import BookletCover from './BookletCover.svelte';
+  import BookletHeading from './BookletHeading.svelte';
   import BookletArrangement from './BookletArrangement.svelte';
   import BookletFooter from './BookletFooter.svelte';
   import BookletSectionHeader from './BookletSectionHeader.svelte';
@@ -116,7 +119,8 @@
 {/snippet}
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
-  {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<h2 class="inline-exercise-heading">Exercise {block.flow.exerciseHeadingBefore}</h2>{/if}
+  {@const rating=questionDifficulty(block)}
+  {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<BookletHeading kind="exercise">Exercise {block.flow.exerciseHeadingBefore}</BookletHeading>{/if}
   {#if block.type === 'question'}
     {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}
     {#if block.pedagogyRole==='key-ideas'&&block.sourceReview?.responses?.every(r=>r.kind==='cloze')}
@@ -126,7 +130,7 @@
     {:else}
       <section class:atom-practice={insideAtom} class="practice" id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
         {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
-        {#if editMode&&block.flow?.exerciseNumber&&(block.flow?.bankDifficulty??block.flow?.localDifficulty)}<span class="editor-difficulty" data-editor-difficulty title={`Difficulty: ${(block.flow.bankDifficulty??block.flow.localDifficulty).difficulty}, reasoning ${(block.flow.bankDifficulty??block.flow.localDifficulty).reasoningScore}/100`}>{(block.flow.bankDifficulty??block.flow.localDifficulty).difficulty}<br/>{(block.flow.bankDifficulty??block.flow.localDifficulty).reasoningScore}/100</span>{/if}
+        {#if editMode&&page.section?.phase==='practice'&&!isTheoryReview(block,page.section)&&rating}<span class="editor-difficulty" data-editor-difficulty={block.id} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.difficulty}<br/>{rating.reasoningScore}/100</span>{/if}
         {#if block.flow?.answerMode}<a class="answer-jump" href={`#${anchorPrefix}answer-${block.flow.answerMode}-${block.id}`} aria-label={`Answers for Exercise ${block.flow.exerciseNumber}, question ${block.sourceOrder}`}>Answers</a>{/if}
         {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1)}
       </section>
@@ -186,6 +190,8 @@
     {@render diagramView(block)}
   {:else if block.type === 'image'}
     <figure>{@render diagramView({...block,widthMm:block.widthMm??150})}{#if block.caption}<figcaption>{block.caption}</figcaption>{/if}</figure>
+  {:else if block.presentation?.kind === 'main-section-header'}
+    <BookletHeading><EditableBookletText value={block.content} rootId={block.id} pointer="/content" {...editProps()} /></BookletHeading>
   {:else if block.type === 'page-break'}
     <hr />
   {:else if block.type === 'spacer'}
@@ -201,8 +207,8 @@
       <BookletCover pages={bookletPages} {anchorPrefix}/>
     {:else}
       <article class="booklet-page" data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
-        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<header id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} class:difficulty-heading={page.section?.headingStyle === 'difficulty'} class="section-band"><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></header>{/if}
-        {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<header class="section-band difficulty-heading"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></header>{/if}
+        {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<BookletHeading id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} kind={page.section?.headingStyle === 'difficulty'?'exercise':'main'}><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></BookletHeading>{/if}
+        {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<BookletHeading kind="exercise"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></BookletHeading>{/if}
         <main>
           {#each displayItems as item, index (item.id)}
             {@const documentIds=item.blocks?.map(b=>b.id)??[item.block?.id??item.id]}
@@ -226,18 +232,18 @@
             {/if}
             </div>
           {/each}
-          {#if editMode&&documentActions}<button class="document-end-insert" onclick={()=>documentActions.insert('text',null,page.blocks.at(-1)?.id)}>+ Write after this group</button>{/if}
         </main>
         <BookletFooter pageNumber={page.flexible?page.pageNumber:bookletPageNumber} totalPages={page.totalPages??cover.totalPages} sourcePage={!page.flexible&&(page.continuation||bookletPageNumber!==Number(page.pageNumber))?page.pageNumber:null} version={cover.version} feedback="https://MrDingMaths.com" />
       </article>
+      {#if editMode&&documentActions}<button class="document-end-insert" onclick={()=>documentActions.insert('text',null,page.blocks.at(-1)?.id)}>+ Write after this group</button>{/if}
     {/if}
   </div>
 </div>
 
 <style>
-  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:contents!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
+  .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
   .cloze-statement{display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:baseline}.cloze-number{grid-column:1;grid-row:1}.cloze-text{grid-column:2;grid-row:1;min-width:0}
-  .inline-exercise-heading{font-size:13pt;margin:3mm 0 2mm;break-after:avoid}
+  @media screen{.document-end-insert{position:absolute;left:0;top:calc(297mm + var(--studio-overflow-height,0px) + 4px);max-width:45%;white-space:nowrap}}
   .practice{position:relative}.editor-difficulty{position:absolute;right:-14mm;top:4mm;width:13mm;font:7px/1.3 system-ui;color:var(--booklet-muted);text-align:right;pointer-events:none}.answer-jump{position:absolute;right:-14mm;top:0;width:13mm;text-align:right;font-size:6.5pt;color:var(--booklet-muted);text-decoration:none}@media print{.editor-difficulty,.answer-jump{display:none!important}}
 .compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
@@ -248,15 +254,13 @@
 
   .preview-frame:has(:global(.maths-editor.inline)){overflow:visible;z-index:12}.booklet-page:has(:global(.maths-editor.inline)){overflow:visible}.preview-page[data-house-style] :global(.key-ideas-body){line-height:1.5}
 
-  .flow .section-band{break-inside:avoid;break-after:avoid}.flow main{break-before:avoid}
+  .flow main{break-before:avoid}
   .copy-space{visibility:hidden;pointer-events:none;user-select:none}.solution-diagram-space,.theory-question-space{display:contents}
 
   .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>.document-group>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
   .preview-frame { position:relative; width:100%; height:var(--preview-height); overflow:hidden; }
   .preview-page { position:absolute; top:0; left:50%; width:210mm; transform:translateX(-50%) scale(var(--preview-scale)); transform-origin:top center; }
   .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:var(--booklet-white); color:var(--booklet-ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }
-  .section-band { display:flex; min-height:12mm; box-sizing:border-box; align-items:center; margin:0 0 4mm; padding:2.2mm 2.4mm; background:var(--booklet-headerBlue); color:var(--booklet-white); font-size:13pt; font-weight:700; line-height:1.05; letter-spacing:.02em; }
-  .section-band.difficulty-heading { min-height:6mm; justify-content:flex-end; padding:0; margin-bottom:1mm; border-top:.25mm solid var(--booklet-blue); background:transparent; color:var(--booklet-ink); text-transform:uppercase; }
   main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:var(--booklet-blue); font-size:var(--type-subheading); }
   .theory-section { break-inside:avoid; }
   .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid var(--booklet-border); border-top:0; background:var(--booklet-white); }

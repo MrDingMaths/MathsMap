@@ -33,6 +33,7 @@ export function fragmentQuestion(block, groups, continuation=0) {
   visit(next.content);
   next.flow={...next.flow,fragment:continuation};
   if(continuation!==(block.flow?.fragment??0)){
+    next.flow.hideRepeatedStem=true;
     next.flow.sourceContinuationLabel=false;next.flow.sourcePageBreakBefore=false;next.flow.pageBreakBefore=false;
     delete next.flow.exerciseHeadingBefore;
     if(typeof next.content?.prompt==='string'&&/^Question \d+ continued\.?$/i.test(next.content.prompt))next.content.prompt='';
@@ -70,9 +71,9 @@ export function makeFlowPage(section,blocks,index=0,reason='section') {
 // capacity at print width. It must settle fonts, images and diagrams first.
 export async function paginateFlow(project,edition,measure,{cancelled=()=>false,onprogress=()=>{}}={}) {
   if(project.settings.compactAnswers&&edition!=='student'){
-    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,onprogress});
+    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,onprogress:p=>onprogress({...p,phase:edition.includes('short')?'short answers':'worked solutions'})});
     if(!edition.startsWith('with-'))return answers;
-    const student=await paginateFlow(project,'student',measure,{cancelled,onprogress});
+    const student=await paginateFlow(project,'student',measure,{cancelled,onprogress:p=>onprogress({...p,phase:'questions'})});
     // Cross-edition links are derived after both maps are complete.
     const answerMode=edition.includes('short')?'short':'worked';
     const pages=[...student.pages,...answers.pages];

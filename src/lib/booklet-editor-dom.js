@@ -1,5 +1,17 @@
 // Browser-only adapter. Booklet selection survives replacement of rendered page fragments.
 import {captureSelection,restoreSelection} from '../../public/libs/maths-editor/math-selection.mjs';
+const atom='[data-math],[data-tab],[data-cloze],[data-type="inline-image"]';
+const chrome='[data-native-handle],[data-resize-handles],[data-table-annotations],[data-math-preview]';
+function visibleLength(node){if(node.nodeType===3)return node.textContent.replaceAll('\u200b','').length;if(node.nodeType!==1&&node.nodeType!==11)return 0;if(node.matches?.(chrome))return 0;if(node.matches?.(atom))return 1;return [...node.childNodes].reduce((n,c)=>n+visibleLength(c),0);}
+function prosePoint(root,offset){
+ let remaining=offset,last=[root,0],found;
+ const walk=node=>{
+  if(found||node.matches?.(chrome))return;
+  if(node.matches?.(atom)){const index=[...node.parentNode.childNodes].indexOf(node);if(remaining===0)found=[node.parentNode,index];else if(remaining===1)found=[node.parentNode,index+1];else remaining--;last=[node.parentNode,index+1];return;}
+  if(node.nodeType===3){const text=node.textContent;let used=0,index=0;while(index<text.length&&used<remaining){if(text[index]!=='\u200b')used++;index++;}if(used===remaining)found=[node,index];else remaining-=used;last=[node,text.length];return;}
+  for(const child of node.childNodes)walk(child);
+ };walk(root);return found??last;
+}
 export function captureEditorSelection(editor) {
   const surface=editor?.documentController?.surface;
   if(!surface)return null;
@@ -10,7 +22,7 @@ export function captureEditorSelection(editor) {
   const point=(node,offset)=>{
     const el=(node.nodeType===1?node:node.parentElement).closest('[data-id]')??surface;
     const r=document.createRange();r.selectNodeContents(el);r.setEnd(node,offset);
-    return {nodeId:el.dataset.id,offset:r.toString().length};
+    return {nodeId:el.dataset.id,offset:visibleLength(r.cloneContents())};
   };
   return {start:point(s.anchorNode,s.anchorOffset),end:point(s.focusNode,s.focusOffset),quote:s.toString()};
 }
@@ -29,9 +41,7 @@ export function restoreEditorSelection(editor, bookmark) {
   if(bookmark?.mathIndex!=null){const mf=surface.querySelectorAll('math-field')[bookmark.mathIndex];if(mf){focusMathField(mf,surface,bookmark.position);return;}}
   const point=entry=>{
     const root=entry?.nodeId?surface.querySelector(`[data-id="${CSS.escape(entry.nodeId)}"]`)??surface:surface;
-    let remaining=entry?.offset??0,last=null;const walk=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    while(walk.nextNode()){last=walk.currentNode;if(remaining<=last.length)return [last,remaining];remaining-=last.length;}
-    return last?[last,last.length]:[root,0];
+    return prosePoint(root,entry?.offset??0);
   };
   const a=point(bookmark?.start),b=point(bookmark?.end??bookmark?.start);
   surface.focus({preventScroll:true});window.getSelection().setBaseAndExtent(...a,...b);editor.documentController.saveRange();
@@ -41,7 +51,7 @@ function focusMathField(field, surface, position, selection) {
   const focus=()=>{field.focus({preventScroll:true});if(selection)field.selection=JSON.parse(JSON.stringify(selection));else if(position!=null)field.position=position;};
   focus();
   // MathLive finishes mounting after the host's synchronous document render.
-  requestAnimationFrame(()=>{if(field.isConnected&&[field,surface,document.body].includes(document.activeElement))focus();});
+  requestAnimationFrame(()=>{if(field.isConnected&&document.activeElement===field)focus();});
 }
 export function placeEditorAtPoint(editor, point) {
   const surface=editor.documentController.surface;
@@ -56,15 +66,21 @@ export function installBookletEditorHost(editor, host) {
   const c=editor.documentController, originalUndo=c.undo.bind(c);
   const originalTabs=c.tabProperties,originalCopiedTabs=Object.getOwnPropertyDescriptor(c,'copiedTabs');
   Object.defineProperty(c,'copiedTabs',{configurable:true,get:()=>host.copiedTabs,set:value=>host.copiedTabs=value});
-  c.tabProperties=function(node){const controls=editor.getAttribute('controls');editor.removeAttribute('controls');try{return originalTabs.call(c,node);}finally{if(controls!=null)editor.setAttribute('controls',controls);}};
+  c.tabProperties=function(node){return originalTabs.call(c,node);};
   c.properties();
   // Keep equation controls outside scaled paper and narrow question columns.
   const equationTools=editor.querySelector('.me-math-tools'),toolbar=editor.closest('.project-shell')?.querySelector('.document-toolbar');
   if(equationTools&&toolbar){equationTools.dataset.equationControl='';toolbar.append(equationTools);}
   c.undo=direction=>host.undo(direction??-1);
+  // One structural command per history entry; changing between typing and deletion
+  // also starts a new word-processing undo group.
+  const transactions=new Map();for(const name of ['transact','splitParagraph','insertMath','insertDocument','listCommand']){const original=c[name];if(!original)continue;transactions.set(name,original);c[name]=function(...args){host.boundary?.();try{return original.apply(c,args);}finally{host.boundary?.();}};}
+  let inputType;const beforeInput=e=>{if(e.inputType!==inputType){host.boundary?.();inputType=e.inputType;}};
+  const boundary=()=>{inputType=null;host.boundary?.();};
+  editor.addEventListener('beforeinput',beforeInput,true);editor.addEventListener('pointerdown',boundary,true);editor.addEventListener('paste',boundary,true);editor.addEventListener('cut',boundary,true);
   const select=()=>host.selection(captureEditorSelection(editor));
   const key=e=>{
-    if(e.isComposing||e.target.closest('math-field'))return;
+    if(e.isComposing||e.target.closest('math-field,button,input,select'))return;
     const s=getSelection();if(!s?.isCollapsed||!c.surface.contains(s.anchorNode))return;
     const r=s.getRangeAt(0),prefix=document.createRange(),suffix=document.createRange();
     prefix.selectNodeContents(c.surface);prefix.setEnd(r.startContainer,r.startOffset);
@@ -77,7 +93,7 @@ export function installBookletEditorHost(editor, host) {
   editor.addEventListener('keyup',select);editor.addEventListener('mouseup',select);editor.addEventListener('click',select);editor.addEventListener('focusin',select);
   editor.addEventListener('compositionstart',composition);editor.addEventListener('compositionend',composition);
   host.ready(editor);
-  return ()=>{host.detached(captureEditorSelection(editor));if(equationTools&&toolbar)equationTools.remove();c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
+  return ()=>{host.detached(captureEditorSelection(editor));if(equationTools&&toolbar)equationTools.remove();for(const [name,original]of transactions)c[name]=original;editor.removeEventListener('beforeinput',beforeInput,true);editor.removeEventListener('pointerdown',boundary,true);editor.removeEventListener('paste',boundary,true);editor.removeEventListener('cut',boundary,true);c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
 }
 
 export function runEditorCommand(editor, name, value) {

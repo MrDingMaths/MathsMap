@@ -25,7 +25,7 @@
     writeWorksheetDraft,
   } from '../lib/practice-question-storage.js';
 
-  let { initialBank = [], initialDifficulty = 'all', initialError = '', initialStage = 'builder', initialOutput = null, initialProjectId = null } = $props();
+  let { initialBank = [], onrequestbank = null, initialDifficulty = 'all', initialError = '', initialStage = 'builder', initialOutput = null, initialProjectId = null } = $props();
 
   let stage = $state('builder');
   let bank = $state([]);
@@ -130,6 +130,7 @@
     const query = new URLSearchParams(window.location.hash.split('?')[1] ?? '');
     const route = bookletStudioRoute(window.location.hash, initialStage, currentProjectId ?? initialProjectId);
     stage = route.stage;
+    if(stage==='builder')onrequestbank?.();
     currentProjectId = route.projectId;
     if (route.redirect) window.history.replaceState(null, '', route.redirect);
     const requestedOutput = query.get('output') ?? initialOutput;
@@ -180,7 +181,7 @@
     });
   }
 
-  function goBuilder() { stage = 'builder'; error = ''; status = ''; }
+  function goBuilder() { onrequestbank?.(); stage = 'builder'; error = ''; status = ''; }
   function openProjects(projectId = currentProjectId) {
     stage = 'projects'; currentProjectId = projectId ?? null; error = ''; status = '';
   }
@@ -417,7 +418,7 @@
   {/if}
 
   {#if stage === 'projects'}
-    <BookletProjects bank={initialBank} initialProjectId={currentProjectId} onprojectchange={(id) => (currentProjectId = id)} />
+    <BookletProjects {onrequestbank} bank={initialBank} initialProjectId={currentProjectId} onprojectchange={(id) => (currentProjectId = id)} />
   {:else if stage === 'builder'}
     <h1 class="sr-only">Build a worksheet</h1>
 

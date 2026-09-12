@@ -1,6 +1,7 @@
 import { promises as fs } from 'node:fs';
 import { isTheoryReview, isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
 import path from 'node:path';
+import {applyBankRatings} from '../../src/lib/booklet-bank-ratings.js';
 import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model.js';
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
@@ -81,7 +82,7 @@ async function projectLibraries({ bankRoot = BANK_ROOT, moduleRoot = MODULE_ROOT
   return { bank: await readRecords(bankRoot), modules: await readRecords(moduleRoot) };
 }
 
-export async function listBookletProjects({ projectRoot = PROJECT_ROOT } = {}) {
+export async function listBookletProjects({ projectRoot = PROJECT_ROOT, summary = false } = {}) {
   const records = await readRecords(projectRoot);
   return records.map((raw) => ({
     id: raw.id,
@@ -93,7 +94,7 @@ export async function listBookletProjects({ projectRoot = PROJECT_ROOT } = {}) {
     revision: Number(raw.revision) || 0,
     sections: raw.sections?.length ?? 0,
     updatedAt: raw.updatedAt ?? null,
-    source: raw.source ?? null,
+    ...(!summary?{source:raw.source??null}:{}),
   })).sort((left, right) => String(right.updatedAt ?? '').localeCompare(String(left.updatedAt ?? '')) || left.title.localeCompare(right.title));
 }
 
@@ -101,9 +102,15 @@ export async function loadBookletProject(id, options = {}) {
   const projectRoot = options.projectRoot ?? PROJECT_ROOT;
   const raw = await readJson(fileFor(projectRoot, id));
   if (!raw) throw Object.assign(new Error('Booklet project not found'), { statusCode: 404 });
-  if (Number(raw.version) === 4) return refreshBankRatings(normalizeEditableProject(raw),options.bankRoot??BANK_ROOT);
+  if (Number(raw.version) === 4) {const project=normalizeEditableProject(raw);return options.refreshRatings===false?project:refreshBankRatings(project,options.bankRoot??BANK_ROOT);}
   const libraries = await projectLibraries(options);
   return materializeLegacyProject(raw, libraries);
+}
+
+export async function openBookletProject(id,options={}) {
+  let project=await loadBookletProject(id,{...options,refreshRatings:false});
+  try{const bankSync=await projectSyncStatus(project,options.bankRoot??BANK_ROOT);project=applyBankRatings(project,bankSync.items);return {project,bankSync,bankSyncError:''};}
+  catch(error){return {project,bankSync:{items:[]},bankSyncError:'Could not check bank updates. '+error.message};}
 }
 
 async function hydrateBankRevisions(project, bankRoot) {
@@ -358,7 +365,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   reviewedBlock.presentation=captureQuestionPresentation(placement.block,project.settings?.layoutOverrides);
   placement.block.presentation=reviewedBlock.presentation;
   const mapping=project.studio?.atoms?.[placement.block.id];
-  if(mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
+  if(!reviewedBlock.classification?.primarySkillId && mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
   const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
   const approved = canonicalFromProjectBlock(reviewedBlock, targetId);
   if (previous) await writeJson(path.join(bankRoot, '.revisions', safeId(targetId), `${revisionOf(previous)}.json`), previous);
@@ -410,8 +417,10 @@ export function projectStudioPlugin() {
         if (!pathname.startsWith('/__booklet/projects')) return next();
         try {
           if (pathname === '/__booklet/projects/assembly-bank' && req.method === 'GET') return send(res, 200, { candidates: await mathsMapCandidates((new URL(req.url,'http://localhost').searchParams.get('skills') ?? '').split(',').filter(Boolean)) });
-          if (pathname === '/__booklet/projects' && req.method === 'GET') return send(res, 200, await listBookletProjects());
+          if (pathname === '/__booklet/projects' && req.method === 'GET') return send(res, 200, await listBookletProjects({summary:new URL(req.url,'http://localhost').searchParams.get('summary')==='1'}));
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
+          const openMatch=pathname.match(/^\/__booklet\/projects\/([^/]+)\/open$/);
+          if(openMatch&&req.method==='GET')return send(res,200,await openBookletProject(decodeURIComponent(openMatch[1])));
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);
           if (duplicateMatch && req.method === 'POST') return send(res, 201, await duplicateBookletProject(decodeURIComponent(duplicateMatch[1]), await readBody(req)));
           const promoteMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/promote-question$/);

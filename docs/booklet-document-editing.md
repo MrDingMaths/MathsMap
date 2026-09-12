@@ -18,7 +18,7 @@ The toolbar's quick colour swatches include the house palette and colours alread
 
 Click a question or its margin handle, then open **Question spacing**. **Answer space height** updates all nested answer spaces in one undoable change; **Vertical gap** updates stacked-item gaps while retaining horizontal arrangements. Embedded cloze/writing boxes retain their own dimensions. **Arrange question** opens more detailed group/item controls.
 
-**Insert → More insertions** restores display equations, annotated equations, writing space, block figures, matching cards, speech bubbles and the investigation, parallel, worked-row and scaffold templates. List indent/outdent are beside Bullets and Numbering. **More options** includes the tab ruler, custom positions/alignment/leaders, copy/paste of tab settings across fields and applying tabs to the question's parts.
+**Insert → More insertions** restores display equations, annotated equations, writing space, block figures, matching cards, speech bubbles and the investigation, parallel, worked-row and scaffold templates. List indent/outdent are beside Bullets and Numbering. **More options** retains specialised formatting; custom tab authoring controls are retired. Existing custom stops remain until **Reset to 1 cm tabs** is chosen.
 
 In the outline, **Organise booklet** reveals destination-based moves/pastes, bank insertion, topic renaming/reordering, section settings, numbering and pagination controls. It uses the document's clipboard and undo history.
 
@@ -87,3 +87,15 @@ Superseded pagination jobs are discarded before their debounce delay begins. A b
 `node scripts/booklet/check-equation-performance.mjs` profiles a full isolated Index Laws copy, checks that the same math field remains focused across edit/pause/continue, and verifies two Undo steps plus Redo against the saved content. Use `BOOKLET_PERF_BLOCK` for another question and `BOOKLET_TEST_BASE` for the running server. The measured post-typing save/pagination wait fell from about 4.6 seconds to 1.2 seconds; individual equation key responses in this local check were around 5–12 ms. Timing reports and CPU profiles remain under `.booklet-work/equation-performance/`.
 
 This follow-up passes all 593 model tests, the production build and the workspace, restored-tools and standalone-editor browser checks. Source-content regressions accept both legacy strings and native documents, as normal page editing may change the representation without changing the mathematics.
+
+## Smooth editing controls
+
+Click prose to place a caret. Block handles select text, equations, tables, images or groups without changing their printed geometry; Delete removes the selected item and document Undo restores it. Nested text is removable. Removing the sole table row or column removes the table, leaving a caret paragraph only where its container requires one.
+
+**Layout** exposes before/after, destination moves, grouping, stack/side-by-side, full width, spacing, widths and column alignment directly. It supports teaching groups and questions, plus blocks inside native layout slots. Ctrl+click sibling handles to group them. Drag a handle onto an indicated before/after/inside destination; use the equivalent buttons with a keyboard. Column boundaries preview while dragging, commit on release and cancel with Escape. Detailed arrangement and specialist image/TikZ controls remain available. **Paragraph** exposes font size, line spacing, spacing before/after and indent.
+
+Tab advances to the next 1 cm stop in prose, to the next table cell (adding a row at the end), or indents a list. Shift+Tab reverses cell navigation or outdents a list. Use **Insert > Tab** for a literal tab inside a table cell. **Alt+=** inserts mathematics. Inside maths, Tab retains MathLive navigation; **Symbols** opens the palette. Escape returns to prose; Escape then Tab leaves the editor. Browser Ctrl+Tab remains unchanged.
+
+Enter splits a paragraph through one document transaction. Explicit blank paragraphs carry optional `preserveEmpty: true`; unmarked empty placeholders still collapse. Editing sessions own one rendered host and explicit canonical fragments. The active maths overlay shares the preview's layout metrics, including while selection controls are visible. Project endpoints and existing custom-tab layouts are unchanged.
+
+Regression commands: `node --test tests/booklet-smooth-editing.test.js` and `node scripts/booklet/check-smooth-editing.mjs` (`BOOKLET_TEST_BASE` selects the development server). Browser tests intercept all project writes in memory; reports and screenshots are local under `.booklet-work/smooth-editing/`.
