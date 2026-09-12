@@ -1,5 +1,51 @@
 # General diagram colour contract
 
+## Purposeful shading (12 September 2026)
+
+Across all current booklets, reusable bank content and future transcriptions,
+diagrams are **unshaded by default**. Keep restrained standard-palette shading
+only to communicate mathematical meaning (a selected base, cross-section,
+measured region, water level or relevant material) or where a final-size
+outline-only comparison demonstrates a material improvement in clarity. Use the
+minimum necessary fill. Source shading, generic face differentiation and a
+three-dimensional appearance alone do not establish a need for shading.
+
+Review every occurrence in its question or teaching context. White occlusion
+masks, point markers, arrowheads and meaningful graph regions are not decorative
+surface shading. Keep them, together with all solid/hidden edges, constructions,
+10 pt labels and mathematical colour roles. Preserve original photographs and
+source evidence; review retained illustrations separately. Never strip SVG fills
+globally: doing so can expose hidden geometry or erase glyphs and point markers.
+
+`node scripts/booklet/check-diagram-shading.mjs` inventories current project and
+bank figures, including inline TikZ, answer overrides and retained images. Every
+paint candidate needs occurrence-specific, exact-source-hashed evidence in
+`booklets/provenance/diagram-shading-2026-09-12.json`. The source scanner detects
+candidates; it cannot certify their mathematical purpose or visual quality.
+Retained fills record mathematical, clarity or structural purposes; clarity
+decisions require the actual outline-only comparison. Missing and stale evidence
+fail the audit. For new candidates use `--project FILE --reviews FILE`, with the
+candidate's occurrence paths in the reviewed register. Run this gate before
+accepting an import, edit or restore, then perform the usual final-size and
+edition reviews. Do not copy acceptance onto a changed source hash.
+
+Completed acceptance (12 September 2026): [purposeful shading register](../booklets/provenance/diagram-shading-2026-09-12.json).
+The audit covers 1,629 current project/bank figure occurrences. Reviewed edits
+update 101 Volume diagrams, one trigonometry diagram and two Linear diagrams,
+with linked bank content reconciled. Meaningful bases, cross-sections, water,
+graph regions, masks and markers remain. The register records each decision,
+source departure, printed-edition coverage, test results and measured timings.
+Shading reviews also expire when surrounding plain-text or native-document
+prompts change. The separate visibility gate retains its pre-existing unresolved
+findings; shading acceptance does not waive geometry or content-fidelity review.
+
+`node scripts/booklet/normalise-diagram-shading.mjs` previews the exact reviewed
+source changes; `--apply` uses the guarded project/bank transaction helpers.
+Source-hashed solid visibility reviews are a separate gate and must be renewed
+when diagram code changes. Original evidence and unrelated open findings remain
+unchanged. The shading register records intentional departures from source
+appearance; local comparisons and run timings stay under `.booklet-work/`.
+
 The user requested this house style on 11 September 2026 for **all existing and future booklets**, and confirmed that ordinary labels change along with lines.
 
 Use solid black `#000000` for ordinary outlines, angle marks, ticks, arrows and labels. Keep their geometry, weights, dashes and positions. Preserve colours that communicate mathematical meaning, including highlighted constructions, unknowns, matched objects/equations, compass reference directions and meaningful region shading. Source hue alone is not semantic evidence. Graph series, legends, axes, ticks and grids keep their separate rules. No grayscale filter is used.

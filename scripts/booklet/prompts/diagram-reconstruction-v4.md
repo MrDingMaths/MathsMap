@@ -18,6 +18,15 @@ Graph strokes at final printed size: plotted relationships 0.8 pt (including das
 
 ## General diagram colours (11 September 2026)
 
+Purposeful shading (12 September 2026): diagrams are unshaded by default. Retain
+the minimum standard-palette shading only for a specific mathematical purpose or
+when an outline-only comparison at final printed size demonstrates a clarity
+benefit. Source face colouring or gradients alone do not justify shading.
+Preserve white occlusion masks, markers, arrowheads and meaningful graph regions.
+Record source-hashed, occurrence-specific decisions and pass
+`scripts/booklet/check-diagram-shading.mjs --project FILE --reviews FILE` before
+acceptance. Keep original evidence and apply the solid visibility gate separately.
+
 Ordinary diagram outlines, angle marks, ticks, arrows and labels use solid black `#000000`, across all booklets and editions. Preserve only semantic colours and meaningful fills; graph series and legends retain their separate palette. Source hue alone does not justify an exception. Follow the native role metadata and occurrence-review contract in `docs/booklet-diagram-colours.md`. This overrides earlier requests to reproduce decorative source diagram palettes.
 
 ## Diagram typography and ordinary short-answer ink (11 September 2026)
