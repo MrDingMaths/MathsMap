@@ -10,6 +10,8 @@ import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
 import {refreshBankRatings} from './bank-sync.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
+import {maintainProjectHistory} from './storage-archive.mjs';
+import {projectCheckpointEntries} from './project-checkpoints.mjs';
 import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun,
@@ -125,7 +127,7 @@ async function hydrateBankRevisions(project, bankRoot) {
 export async function saveBookletProject(raw, options = {}) {
   return withBankLock(()=>saveProjectUnlocked(raw,options));
 }
-async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false } = {}) {
+async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false, checkpoint = false } = {}) {
   const checked = validateEditableProject(raw);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
   const file = fileFor(projectRoot, checked.project.id);
@@ -145,10 +147,19 @@ async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot =
   await hydrateBankRevisions(project, bankRoot);
   const entries=await prepareAutomaticSync(project,bankRoot);
   await refreshBankRatings(project,bankRoot);
-  if (previous) entries.push([path.join(projectRoot, '.revisions', safeId(project.id), `${previous.revision ?? 0}.json`), previous]);
+  const checkpoints = await projectCheckpointEntries(projectRoot, previous, {force:checkpoint});
+  entries.push(...checkpoints);
   entries.push([file,project]);
   await writeTransaction(entries);
+  if (checkpoints.length) await retainHistory(projectRoot, project.id);
   return project;
+}
+
+async function retainHistory(projectRoot, id) {
+  // The save has committed. Archive trouble must preserve loose recovery files
+  // and must not tell the editor that its successful save failed.
+  try { await maintainProjectHistory(projectRoot, id); }
+  catch (error) { console.warn('Booklet saved; revision archive deferred:', error.message); }
 }
 
 export async function getProjectBankSync(id,{projectRoot=PROJECT_ROOT,bankRoot=BANK_ROOT}={}){
@@ -161,8 +172,8 @@ export async function resolveProjectBankSync(id,body,{projectRoot=PROJECT_ROOT,b
     const previous=structuredClone(project),entries=await prepareSyncResolution(project,bankRoot,body);
     const checked=validateEditableProject(project);if(!checked.valid)throw new Error(checked.errors.join('; '));
     project.revision++;project.updatedAt=new Date().toISOString();
-    entries.push([path.join(projectRoot,'.revisions',safeId(project.id),previous.revision+'.json'),previous],[fileFor(projectRoot,project.id),project]);
-    await writeTransaction(entries);return project;
+    entries.push(...await projectCheckpointEntries(projectRoot,previous,{force:true}),[fileFor(projectRoot,project.id),project]);
+    await writeTransaction(entries);await retainHistory(projectRoot, project.id);return project;
   });
 }
 

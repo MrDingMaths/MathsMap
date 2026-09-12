@@ -28,7 +28,9 @@ function visit(directory){
 visit(root);
 const size=prefix=>files.filter(f=>f.path===prefix||f.path.startsWith(prefix+'/')).reduce((n,f)=>n+f.bytes,0);
 const candidates=[
-  ['booklets/projects/.revisions','Archive/compress older automatic snapshots, then prune under an agreed retention policy. Current projects are separate; retain recent undo/recovery checkpoints.'],
+  ['booklets/projects/.revisions','Keep latest 20 per active project plus milestones; archive older snapshots with storage.mjs revisions --apply. Use --retired to archive retired histories completely.'],
+  ['.booklet-work/recovery','Keep sources/reports and consolidate remaining recovery payloads into verified archives.'],
+  ['booklets/.storage-archives','Verified local recovery archive. Retain indexes and objects together; do not delete without a verified external backup.'],
   ['booklets/archives','Compress and retain useful legacy recovery material. These are not the current project workspace.'],
   ['.booklet-work/studio-load/verification','Completed isolated verification copy of the application. Confirm its report is retained and the copy is not in use before removing it.'],
   ['.booklet-work/trig-bank/stage','Completed bank staging snapshot. Compare with the accepted stage-final receipt; retain receipts and any unique input evidence.'],
