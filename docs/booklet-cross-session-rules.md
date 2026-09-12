@@ -41,6 +41,8 @@ Verification: all 26 prompts across Linear's 6 groups and Index Laws' 8 groups h
 
 ## Audit findings and enforcement
 
+The [Volume feedback prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work) extend this register to source-relative diagram/calculation/photo arrangements, equal scaffold starts, anchored formula annotations, isolated cut orientation and curved/composite silhouettes. Retain source-supported placement, with house-style dotted writing blanks and shared headers. The named Volume repairs retain their local dimensions; do not copy those dimensions into unrelated books.
+
 Question-side numbered exercise headings appear once at the start of each exercise, never again at source-page sections, teaching checkpoints or pagination continuations. This applies to all current compact books and future transcriptions. `flowEditionSections` derives the first non-empty practice section per topic without changing stored content; compact answer columns retain exercise context. Regression coverage in `booklet-compact-exercises.test.js` includes all active books and joined/separate sections.
 
 Most table, cloze, graph and layout rules already exist in the shared `public/libs/maths-editor/house-style.mjs` and renderer/QA. Their discovery was fragmented between Linear feedback, graph reports and newer Index instructions. The main checklist and AGENTS.md now link this register.
@@ -52,6 +54,13 @@ Completion still requires independent source comparison, content reconciliation,
 Primary records: [Linear feedback](linear-booklet-feedback-2026-09-06.json), [house style](booklet-house-style-1.1.md), [graph typography](booklet-graph-typography-2026-09.md), [graph strokes](booklet-graph-strokes-2026-09.md), [compact style](booklet-compact-exercise-trial.md), [Index feedback](../booklets/provenance/index-laws-complete-v1/feedback-review.md).
 
 ## General diagram ink (11 September 2026)
+
+The 12 September 2026 [purposeful shading convention](booklet-diagram-colours.md#purposeful-shading-12-september-2026)
+applies to all current booklets, bank content and future transcriptions: unshaded
+by default, with minimal shading only for mathematical meaning or demonstrated
+final-size clarity. Source shading alone is not justification. Preserve white
+occlusion masks, markers and meaningful graph regions. Record exact-source and
+occurrence-specific reviews and run the shading audit before acceptance.
 
 Across every current and future booklet and answer edition, ordinary diagram lines and labels use solid black `#000000`. Retain semantic colours and meaningful shading; graphs retain their existing curve/legend/axis/grid rules. This explicit user house-style instruction overrides source-palette fidelity for ordinary geometry. Use the shared [diagram colour contract](booklet-diagram-colours.md), audit every active occurrence, preserve original evidence, and record semantic exceptions by role and meaning.
 
@@ -66,3 +75,8 @@ Current palette precedence (11 September 2026): all editable content in every cu
 
 
 Main section-header precedence (11 September 2026): across all current booklets and future transcriptions, main section bands use desaturated blue `#52769a` with white `#ffffff` text through the shared `headerBlue` token. Preserve existing header geometry. Light teaching-group headers and unfilled exercise/answer headings retain near-black text; mathematical blue remains `#268cff`. This overrides the earlier blanket near-black heading rule in palette standardisation.
+
+
+## Header and continuation prevention (Volume revision 198)
+
+Use the [revision 198 prevention rules](booklet-volume-feedback-r198.md) for shared exercise/main headings, editor-only source difficulty labels, single opening question numbers, equation row spacing, empty-paragraph deletion and image spacing. Preserve substantive continuation instructions and intentional blank lines. The accepted exercise reference is Linear Relationships v1, not a new left-aligned style.

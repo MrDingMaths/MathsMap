@@ -24,7 +24,17 @@ This checklist records the user's general feedback from the Index Laws transcrip
 
 15. **Question part indents:** every labelled ancestor supplies a 7 mm indent, including custom arrangements and full-width follow-up parts. Check label positions independently of diagram/column placement. Shared rendering restores missing semantic gutters without double-indenting existing nested layouts; see [question part indentation](booklet-question-part-indents.md).
 
+16. **Diagram and working relationships:** apply the [Volume prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work). Record source-relative left/right placement of diagrams, calculations and photos, paired-figure rows, and scaffold baseline alignment before layout. Compare isolated cross-sections with the actual cut and verify curved/composite solid silhouettes independently. Use shared annotation and vertical-alignment controls; inspect every complete label and writing blank at final size. Source appearance does not override dotted-scaffold or section-header house style.
+
 ## Required completion evidence
+
+- **Purposeful diagram shading:** use unshaded diagrams by default. Retain only
+  mathematical region/face/material highlights or a demonstrated final-size
+  clarity benefit, using the minimum standard-palette fill. Source shading is
+  insufficient evidence. Preserve masks, markers and mathematical graph regions.
+  Review every occurrence and retained illustration; pass the source-hashed
+  [shading audit](booklet-diagram-colours.md#purposeful-shading-12-september-2026).
+  Shading acceptance does not replace solid visibility or final visual review.
 
 For new runs, complete the [review-first gates](booklet-review-first-workflow.md): early mathematical inventory review and bundled editorial decisions; final-size representatives for every distinct layout pattern; numerical triangle construction checks separate from appearance; structured correction propagation and current issue status. Use affected-page/neighbour exports while editing, then inspect all pages in all five editions after content settles. Hash reuse and a representative checkpoint do not replace whole-booklet fidelity checks.
 

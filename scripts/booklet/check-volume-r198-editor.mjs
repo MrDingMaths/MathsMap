@@ -1,0 +1,43 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright-core';
+const out='.booklet-work/volume-r198',start=Date.now(),checks=[],errors=[];
+let record=JSON.parse(fs.readFileSync('booklets/projects/volume-v1.json'));
+record.id='volume-r198-editor';record.settings.flowEdition='student';record.settings.generatedCover=false;
+record.sections=record.sections.map(s=>({...s,blocks:s.blocks.filter(b=>['p20-q1','p24-example','p24-example-demonstrations'].includes(b.id))})).filter(s=>s.blocks.length);
+const question=()=>record.sections.flatMap(s=>s.blocks).find(b=>b.id==='p20-q1');
+question().content.children=question().content.children.filter(p=>['a','b','c','l'].includes(p.label));
+const find=(value,id)=>{if(value?.id===id)return value;if(value&&typeof value==='object')for(const [k,v]of Object.entries(value)){if(['source','sourceReview','sourceLayoutEvidence','spec','studio'].includes(k))continue;const found=find(v,id);if(found)return found;}};
+const baseline=JSON.parse(fs.readFileSync(out+'/original.json'));
+find(record,'p20-q1-l').prompt=structuredClone(find(baseline,'p20-q1-l').prompt);
+let writes=0,browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+const page=await browser.newPage({viewport:{width:1650,height:1200}});page.setDefaultTimeout(30000);page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/__booklet/**',async r=>{const req=r.request(),p=new URL(req.url()).pathname;if(p==='/__booklet/projects')return r.fulfill({json:[record]});if(p.endsWith('/projects/'+record.id)){if(req.method()==='PUT'){const body=req.postDataJSON();assert.equal(body.expectedRevision,record.revision);record={...body.project,revision:record.revision+1};writes++;}return r.fulfill({json:record});}if(p.endsWith('/bank-sync'))return r.fulfill({json:{items:[]}});if(req.method()!=='GET')return r.abort();return r.continue();});
+const ready=()=>page.waitForFunction(()=>document.querySelector('.flow-document')?.dataset.paginationState==='ready',{},{timeout:600000});
+const saved=()=>page.waitForFunction(()=>document.querySelector('.save-state')?.textContent==='Saved');
+const field=id=>page.locator(`.flow-paper [data-edit-root="${id}"][data-edit-path="/prompt"]`);
+try{
+ await page.goto((process.env.BOOKLET_TEST_BASE??'http://127.0.0.1:5173')+'/#/booklet?stage=projects&project='+record.id,{waitUntil:'domcontentloaded'});await ready();
+ await field('p20-q1-a').locator('.katex').click();
+ const spacing=page.getByLabel('Equation row spacing (mm)',{exact:true});await spacing.waitFor();assert.equal(await spacing.inputValue(),'3');
+ await spacing.fill('4.5');await spacing.press('Tab');await saved();
+ assert.match(JSON.stringify(find(record,'p20-q1-a').prompt),/4.5mm/);
+ await page.keyboard.press('Control+z');await saved();assert.match(JSON.stringify(find(record,'p20-q1-a').prompt),/3mm/);
+ await page.keyboard.press('Control+y');await saved();assert.match(JSON.stringify(find(record,'p20-q1-a').prompt),/4.5mm/);
+ await page.reload();await ready();assert.match(JSON.stringify(find(record,'p20-q1-a').prompt),/4.5mm/);checks.push('Actual a equation: row spacing, undo, redo, saved reopen');
+ const l=field('p20-q1-l');await l.locator('.clickable').first().click();
+ const beforeDiagram=JSON.stringify(find(record,'p20-q1-l').questionDiagrams);
+ await page.getByRole('button',{name:'Delete paragraph',exact:true}).first().click();await saved();
+ assert.ok(!JSON.stringify(find(record,'p20-q1-l').prompt).includes('c37e37ac-3c97-4adc-a000-7dc8e1cc07bc'));assert.equal(JSON.stringify(find(record,'p20-q1-l').questionDiagrams),beforeDiagram);
+ await page.keyboard.press('Control+z');await saved();assert.ok(JSON.stringify(find(record,'p20-q1-l').prompt).includes('c37e37ac-3c97-4adc-a000-7dc8e1cc07bc'));
+ await field('p20-q1-l').locator('.me-content').focus();await page.keyboard.press('Control+Home');await page.keyboard.press('Backspace');await saved();
+ assert.ok(!JSON.stringify(find(record,'p20-q1-l').prompt).includes('c37e37ac-3c97-4adc-a000-7dc8e1cc07bc'));
+ checks.push('Actual l paragraph: visible delete, keyboard delete and undo retain the diagram');
+ await page.locator('[data-layout-handle="layout:p24-example-left-diagram"]').click({force:true});
+ if(!await page.getByLabel('Space above image (mm)',{exact:true}).isVisible())await page.locator('.direct-layout > summary').click();
+ const above=page.getByLabel('Space above image (mm)',{exact:true});assert.equal(await above.inputValue(),'2');await above.fill('4');await above.press('Tab');await saved();
+ const layout=()=>find(record.settings.layoutOverrides.blockLayouts['p24-example-demonstrations'].arrangement,'layout:p24-example-left-diagram');assert.equal(layout().before,4);await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.equal(layout().before,2);await page.getByRole('button',{name:'Redo',exact:true}).click();await saved();assert.equal(layout().before,4);
+ await page.reload();await ready();assert.equal(layout().before,4);checks.push('Actual cylinder: independent image spacing saves and reopens');
+ await page.getByLabel('Booklet zoom',{exact:true}).selectOption('0.75');await page.screenshot({path:out+'/editor-controls.png',fullPage:true});
+ assert.deepEqual(errors,[]);console.log(JSON.stringify({checks,writes,elapsedMs:Date.now()-start}));
+}catch(e){await page.screenshot({path:out+'/editor-failure.png',fullPage:true});throw e;}finally{fs.writeFileSync(out+'/editor-report.json',JSON.stringify({checks,writes,errors,elapsedMs:Date.now()-start},null,2));await browser.close();}
