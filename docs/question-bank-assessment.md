@@ -12,3 +12,13 @@ The library classification describes the main task and other directly assessed s
 
 
 New theory reviews are blocked from individual question promotion and can be saved inline in teaching modules. New publications require individual assessments rather than ratings inferred from page numbers. Current owner saves follow `booklet-bank-auto-sync.md`; the completed Linear migration tool is retired.
+
+## Source-guided classification (12 September 2026)
+
+Identify each question's main assessed skill using the booklet's stage, topic, exercise heading and relevant teaching examples together with the student-facing task. Use this teaching context to distinguish the intended assessment from supporting calculations or incidental skills. Do not classify a question from its wording or solution alone. Record the context and rationale supporting the primary skill in the assessment register; assign secondary skills only when directly assessed. If the context is missing or conflicts with the task, flag the classification for review rather than guessing.
+
+Use the accepted source booklet's stage/course, topic, exercise purpose and relevant teaching examples to select the main assessed skill. Check the actual question and required response; a booklet title alone is not enough. Keep genuine cross-topic tasks, with an explicit reason. Supporting prerequisites belong in teaching mappings, not library secondary tags, because either tag can place a question in a topic filter.
+
+New import-project-bank.mjs publications require sourceContext evidence tied to the complete current project hash, with syllabus courseIds/topicIds and inspected evidenceBlockIds. Every question needs mappingNote; out-of-scope skills require sourceContextException. Missing, stale or conflicting evidence stops publication for review. Completed import receipts remain historical evidence. Individual promotion preserves an explicit question classification over teaching-map defaults.
+
+The Linear Relationships correction register is booklets/provenance/linear-relationships-v1/source-classification-review.json. It reviews all seven records tagged find-rule-from-table, including the adapted two-part record. Tables requiring linear equations use find-equation-from-table; graph/coordinate relationships use the relevant Stage 4 representation skill. Genuine unit-conversion and geometric tasks elsewhere retain their directly assessed skills. Questions, solutions, teaching mappings, difficulty scores and layouts are unchanged.

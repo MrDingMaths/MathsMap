@@ -1,5 +1,6 @@
 // Stage ordinary whole-question promotions once, then verify and publish that stage.
 import fs from 'node:fs/promises';
+import {validateSourceClassificationReview} from './source-classification-review.mjs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
@@ -20,7 +21,7 @@ export function preservedProject(project){
   const p=structuredClone(project);delete p.revision;delete p.updatedAt;
   for(const b of practiceQuestions(p)){
     for(const k of ['bankRef','canonicalId','snapshotKind','classification','presentation'])delete b[k];
-    if(b.flow){delete b.flow.localDifficulty;delete b.flow.bankDifficulty;}
+    if(b.flow){delete b.flow.localDifficulty;delete b.flow.bankDifficulty;if(!Object.keys(b.flow).length)delete b.flow;}
   }
   return p;
 }
@@ -40,7 +41,7 @@ async function snapshot(root,projectId,assessments){
   const source=await read(path.join(root,'booklets/projects',projectId+'.json'));
   const files=[...names,'manifest.json','.sync/links.json'];
   const implementation=await Promise.all(['src/lib','scripts/booklet','package-lock.json'].map(f=>treeHash(path.join(path.dirname(fileURLToPath(import.meta.url)),'../..',f))));
-  return {project:revisionHash(source),assessments:revisionHash(assessments),implementation:revisionHash(implementation),assets:await assetHashes(source,root),bank:Object.fromEntries(await Promise.all(files.map(async n=>[n,digest(await fs.readFile(path.join(bank,n)))])))};
+  return {taxonomy:revisionHash(await Promise.all(['data/skills.json','data/dotpoints.json'].map(f=>read(path.join(root,f))))),project:revisionHash(source),assessments:revisionHash(assessments),implementation:revisionHash(implementation),assets:await assetHashes(source,root),bank:Object.fromEntries(await Promise.all(files.map(async n=>[n,digest(await fs.readFile(path.join(bank,n)))])))};
 }
 export async function verifyProjectBank(project,bankRoot,{root=process.cwd(),baseline=project,assessments,receipt}={}){
   const questions=practiceQuestions(project),originals=new Map(practiceQuestions(baseline).map(b=>[b.id,b]));
@@ -93,6 +94,7 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
     const receipt=await read(receiptFile);
     return {...await verifyProjectBank(source,bankRoot,{root,assessments,receipt}),created:0,applied:false,alreadyImported:true};
   }
+  validateSourceClassificationReview(source,assessments,{skills:await read(path.join(root,'data/skills.json')),dotpoints:await read(path.join(root,'data/dotpoints.json'))});
   assert.ok(questions.length>0);assert.ok(questions.every(b=>!b.bankRef?.id),'Partial links require explicit reconciliation');
   assert.equal(questions.length,assessments.questions.length);assert.equal(new Set(assessments.questions.map(q=>q.sourceBlockId)).size,questions.length);
   assert.ok(!(source.studio?.flags??[]).some(f=>!f.resolved),'Unresolved source feedback');
@@ -121,7 +123,7 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
     for(const n of Object.keys(current.bank).filter(n=>/^q-/.test(n)))assert.equal(digest(await fs.readFile(path.join(options.bankRoot,n))),current.bank[n],'Unrelated staged bank changed');
     staged.revision=source.revision+1;await write(path.join(options.projectRoot,projectId+'.json'),staged);
     const summary=await verifyProjectBank(staged,options.bankRoot,{root,baseline:source,assessments});
-    const receipt={version:1,projectId,sourceRevision:source.revision,sourceSha256:revisionHash(source),publishedRevision:staged.revision,createdAt:new Date().toISOString(),authorization:'User requested all 91 whole practice questions; teaching content excluded.',method:'Ordinary promotion in isolated staging, verified once and published through a checked transaction.',sourceHashes:source.source?.sourceHashes??null,summary,questions:questions.map(b=>{const linked=practiceQuestions(staged).find(q=>q.id===b.id);return {sourceBlockId:b.id,bankId:linked.bankRef.id,bankRevision:linked.bankRef.revision,sourceContentHash:revisionHash(b.content),sourceRefs:b.sourceRefs??[],sourcePages:b.sourceReview?.sourcePages??[],classification:linked.classification,previousLocalDifficulty:b.flow?.localDifficulty??null};})};
+    const receipt={version:1,projectId,sourceRevision:source.revision,sourceSha256:revisionHash(source),publishedRevision:staged.revision,createdAt:new Date().toISOString(),authorization:`User requested all ${questions.length} whole practice questions from ${source.title||projectId}; teaching content excluded.`,method:'Ordinary promotion in isolated staging, verified once and published through a checked transaction.',sourceHashes:source.source?.sourceHashes??null,sourceContext:assessments.sourceContext,summary,questions:questions.map(b=>{const linked=practiceQuestions(staged).find(q=>q.id===b.id);return {sourceBlockId:b.id,bankId:linked.bankRef.id,bankRevision:linked.bankRef.revision,sourceContentHash:revisionHash(b.content),sourceRefs:b.sourceRefs??[],sourcePages:b.sourceReview?.sourcePages??[],classification:linked.classification,mappingNote:byId.get(b.id).mappingNote,...(byId.get(b.id).sourceContextException?{sourceContextException:byId.get(b.id).sourceContextException}:{}),previousLocalDifficulty:b.flow?.localDifficulty??null};})};
     await write(path.join(out,'receipt.json'),receipt);
     assert.deepEqual(await snapshot(root,projectId,assessments),current,'Live inputs changed during staging');
     state={version:1,inputs:current,started,stagedAt:new Date().toISOString(),artifacts:await stagedArtifacts(out,projectId),summary};await write(stateFile,state);

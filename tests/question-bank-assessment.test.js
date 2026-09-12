@@ -60,3 +60,32 @@ test('theory reviews stay in modules and sync without reappearing as assembly ca
  await fs.mkdir(path.join(root,'data'),{recursive:true});await fs.writeFile(path.join(root,'data/skills.json'),'[]');
  assert.deepEqual(await mathsMapCandidates(['pattern-to-equation'],{root}),[]);
 });
+
+
+test('promotion preserves an explicit library classification over supporting teaching tags',async t=>{
+ const parent=path.resolve('.booklet-work/classification-tests');await fs.mkdir(parent,{recursive:true});
+ const root=await fs.mkdtemp(path.join(parent,'case-'));t.after(()=>{assert.ok(root.startsWith(parent+path.sep));return fs.rm(root,{recursive:true,force:true});});
+ const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank'),moduleRoot:path.join(root,'modules')};
+ const project=createEditableProject({id:'source-context',title:'Linear Relationships'}),block=createProjectBlock('question');
+ block.id='linear-table';block.classification={primarySkillId:'find-equation-from-table',secondarySkillIds:[],reasoningScore:25,difficultyReason:'Infer a linear equation from a table.'};
+ block.content.prompt='Find the linear equation for the table.';block.content.answer={short:'y=3x',worked:'The output is three times the input.',solutionDiagrams:[]};
+ project.sections[0].blocks=[block];
+ project.studio={version:1,atoms:{[block.id]:{skillIds:['find-rule-from-table']},[block.content.id]:{skillIds:['find-rule-from-table']}},flags:[]};
+ await createBookletProject(project,options);
+ const result=await promoteProjectQuestion(project.id,{blockId:block.id,mode:'create'},options);
+ assert.equal(result.question.classification.primarySkillId,'find-equation-from-table');
+ assert.deepEqual(result.question.classification.secondarySkillIds,[]);
+ assert.deepEqual(result.question.content.teachingMapping.skillIds,['find-rule-from-table']);
+});
+
+test('reviewed Linear records appear in Linear Relationships and not Multiplicative relations B',async()=>{
+ const read=async f=>JSON.parse(await fs.readFile(f,'utf8'));
+ const review=await read('booklets/provenance/linear-relationships-v1/source-classification-review.json');
+ const records=await Promise.all(review.questions.map(a=>read('booklets/question-bank/'+a.id+'.json')));
+ const taxonomy={skills:await read('data/skills.json'),topics:await read('data/topics.json'),dotpoints:await read('data/dotpoints.json')};
+ assert.equal(filterQuestionBank(records,{topicId:'t-s3-mr-b'},taxonomy).length,0);
+ assert.equal(filterQuestionBank(records,{topicId:'t-s4-lin'},taxonomy).length,7);
+ for(const a of review.questions){const q=records.find(q=>q.id===a.id);assert.deepEqual(q.classification,a.after);}
+ const stage3=normaliseQuestion({...question(),classification:{primarySkillId:'find-rule-from-table'}});
+ assert.equal(filterQuestionBank([stage3],{topicId:'t-s3-mr-b'},taxonomy).length,1);
+});

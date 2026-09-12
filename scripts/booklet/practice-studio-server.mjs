@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import {readBankManifest} from './bank-manifest-cache.mjs';
 import {withBankLock,readSyncJson,revisionHash,writeTransaction,bankManifestEntry} from './bank-sync.mjs';
 import { allDiagrams, makeBankManifest, normaliseQuestion, validateQuestion } from '../../src/lib/practice-question-model.js';
 
@@ -59,7 +60,7 @@ export function practiceStudioPlugin() {
           || pathname.startsWith('/__booklet/imports/');
         if (!ownsPath) return next();
         try {
-          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(writeManifest));
+          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(()=>readBankManifest(BANK_ROOT)));
 
           const questionMatch = pathname.match(/^\/__booklet\/bank\/questions\/([^/]+)$/);
           if (questionMatch && req.method === 'GET') {

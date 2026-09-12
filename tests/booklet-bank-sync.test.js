@@ -13,17 +13,19 @@ import {fromSource} from '../src/lib/document-content.js';
 import {reconcileSyncLayout} from '../src/lib/question-sync-layout.js';
 import {applyBankRatings} from '../src/lib/booklet-bank-ratings.js';
 
-test('linked display ratings refresh on load, polling and save without accepting content',async t=>{
+for(const initialRating of [false,true]) test('linked display ratings refresh on load, polling and save without accepting content',async t=>{
  const f=await fixture(t);
  const copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'ratings-copy'});
  const b=copy.sections[0].blocks[0];
- b.flow={...b.flow,bankDifficulty:{difficulty:'Foundation',reasoningScore:1,revision:'old'}};
+ if(initialRating)b.flow={...b.flow,bankDifficulty:{difficulty:'Foundation',reasoningScore:1,revision:'old'}};
+ else delete b.flow;
  const saved=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
- const bank={...f.bank,classification:{...f.bank.classification,difficulty:'Mastery',reasoningScore:75},content:{...f.bank.content,prompt:'Unaccepted bank content'}};
+ const bank={...f.bank,classification:{...f.bank.classification,difficulty:'Mastery',reasoningScore:75,difficultyReason:'Connect representations'},content:{...f.bank.content,prompt:'Unaccepted bank content'}};
  await writeTransaction([[path.join(f.bankRoot,bank.id+'.json'),bank]]);
  const loaded=await loadBookletProject(copy.id,f.options);
  const rating=loaded.sections[0].blocks[0].flow.bankDifficulty;
  assert.equal(rating.reasoningScore,75);
+ assert.equal(rating.difficultyReason,'Connect representations');
  assert.equal(rating.revision,revisionHash(bank));
  assert.deepEqual(loaded.sections[0].blocks[0].content,b.content);
  assert.deepEqual(loaded.sections[0].blocks[0].bankRef,b.bankRef);

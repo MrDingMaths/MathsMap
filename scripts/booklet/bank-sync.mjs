@@ -26,9 +26,9 @@ export async function registerBankOwner(root,project,block,bank){const links=awa
 const blocks=p=>p.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
 export async function refreshBankRatings(project,bankRoot){
  for(const block of blocks(project)){
-  if(!block.flow?.bankDifficulty||!block.bankRef?.id)continue;
+  if(!block.bankRef?.id)continue;
   const bank=await readSyncJson(path.join(bankRoot,segment(block.bankRef.id)+'.json'));
-  if(bank&&Number.isFinite(bank.classification?.reasoningScore))block.flow.bankDifficulty={difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,revision:revisionHash(bank)};
+  if(bank&&Number.isFinite(bank.classification?.reasoningScore))block.flow={...block.flow,bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',revision:revisionHash(bank)}};
  }
  return project;
 }
@@ -68,7 +68,7 @@ export async function projectSyncStatus(project,bankRoot){
     state=base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
    }else state='local';
   }
-  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
+  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
  }
  return {projectRevision:project.revision,items};
 }

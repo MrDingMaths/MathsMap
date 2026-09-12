@@ -15,13 +15,15 @@ async function fixture(t){
   const root=await fs.mkdtemp(path.join(parent,'case-'));
   t.after(async()=>{assert.ok(root.startsWith(parent+path.sep));await fs.rm(root,{recursive:true,force:true});});
   const options={projectRoot:path.join(root,'booklets/projects'),bankRoot:path.join(root,'booklets/question-bank')};
-  await write(path.join(root,'data/skills.json'),[{id:'sine-rule'},{id:'cosine-rule'}]);
+  await write(path.join(root,'data/skills.json'),[{id:'sine-rule',courses:['s5-core'],dotPointIds:['trig']},{id:'cosine-rule',courses:['s5-core'],dotPointIds:['trig']},{id:'find-rule-from-table',courses:['s3'],dotPointIds:['patterns']}]);
+  await write(path.join(root,'data/dotpoints.json'),[{id:'trig',topicId:'t-s5-trig'},{id:'patterns',topicId:'t-s3-mr-b'}]);
   await write(path.join(options.bankRoot,'manifest.json'),makeBankManifest([]));
   await write(path.join(options.bankRoot,'.sync/links.json'),{});
   const p=createEditableProject({id:'test-transfer',title:'Transfer'});
   const b=createProjectBlock('question');b.id='q-source';b.content.prompt='Find the side.';b.content.answer={short:'2',worked:'The side is 2.',solutionDiagrams:[]};
-  p.sections[0].phase='practice';p.sections[0].blocks=[b];
-  const saved=await createBookletProject(p,options),assessments={projectId:p.id,questions:practiceQuestions(saved).map(b=>({sourceBlockId:b.id,contentHash:revisionHash(b.content),classification:{primarySkillId:'sine-rule',secondarySkillIds:[],difficulty:'Foundation',reasoningScore:20,difficultyReason:'Direct side calculation.'}}))};
+  p.sections[0].phase='practice';p.sections[0].blocks=[{...createProjectBlock('callout'),id:'source-teaching',content:'Sine rule connects each side with its opposite angle.'},b];
+  const saved=await createBookletProject(p,options),assessments={projectId:p.id,questions:practiceQuestions(saved).map(b=>({sourceBlockId:b.id,mappingNote:'Apply the sine rule taught in the source example.',contentHash:revisionHash(b.content),classification:{primarySkillId:'sine-rule',secondarySkillIds:[],difficulty:'Foundation',reasoningScore:20,difficultyReason:'Direct side calculation.'}}))};
+  assessments.sourceContext={projectHash:revisionHash(saved),courseIds:['s5-core'],topicIds:['t-s5-trig'],evidenceBlockIds:['source-teaching']};
   const assessmentsFile=path.join(root,'assessments.json');await write(assessmentsFile,assessments);
   const args={root,projectId:p.id,assessmentsFile,out:path.join(root,'stage')};return {root,options,args,assessments,saved};
 }
@@ -47,7 +49,7 @@ test('stage reuse preserves IDs; publication is idempotent and owner saves sync'
 test('stale source and edited staging cannot publish',async t=>{
   const f=await fixture(t);await importProjectBank(f.args);
   const p=await loadBookletProject(f.saved.id,f.options);p.title='Concurrent edit';await saveBookletProject(p,{...f.options,expectedRevision:p.revision});
-  await assert.rejects(importProjectBank({...f.args,apply:true}),/Staging inputs changed/);
+  await assert.rejects(importProjectBank({...f.args,apply:true}),/Source classification context is stale/);
   assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
   const g=await fixture(t);await importProjectBank(g.args);
   const receipt=await read(path.join(g.args.out,'receipt.json'));receipt.method='Tampered';await write(path.join(g.args.out,'receipt.json'),receipt);
@@ -71,4 +73,16 @@ test('shared transaction rolls back an earlier write when a later rename fails',
   await fs.mkdir(blocked+'.sync-tmp');
   await assert.rejects(writeTransaction([[first,{after:true}],[blocked,{after:true}]]));
   assert.deepEqual(await read(first),{before:true});assert.deepEqual(await read(blocked),{before:true});
+});
+
+
+test('new imports require source evidence and review out-of-topic secondary tags',async t=>{
+ const f=await fixture(t),context=f.assessments.sourceContext;
+ delete f.assessments.sourceContext;await write(f.args.assessmentsFile,f.assessments);
+ await assert.rejects(importProjectBank(f.args),/Source classification context is required/);
+ f.assessments.sourceContext=context;f.assessments.questions[0].classification.secondarySkillIds=['find-rule-from-table'];await write(f.args.assessmentsFile,f.assessments);
+ await assert.rejects(importProjectBank(f.args),/outside the source/);
+ assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
+ f.assessments.questions[0].sourceContextException='A separate part explicitly assesses a prerequisite table pattern.';await write(f.args.assessmentsFile,f.assessments);
+ assert.equal((await importProjectBank(f.args)).questions,1);
 });
