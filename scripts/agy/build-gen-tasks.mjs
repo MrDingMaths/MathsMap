@@ -1,3 +1,4 @@
+import {currentBookletSourcePath} from '../booklet/source-paths.mjs';
 // Wave 3: build fully self-contained agy generation task files for one batch.
 //
 //   node scripts/agy/build-gen-tasks.mjs --config .agywork/W3-1/batch.json --out .agywork/W3-1/gen
@@ -11,7 +12,7 @@
 //     "sections": [ {
 //       "name": "managing-money-1",
 //       "skillIds": ["…", "…"],                       // 2–4 skills per section/task
-//       "bookletPaths": ["booklets/Stage 6 Standard/….md"],  // repo-relative; [] = anchor:none
+//       "bookletPaths": ["booklets/mathsmap-sources/Stage 6 Standard/….md"],  // repo-relative; [] = anchor:none
 //       "model": "gemini-3.7-flash-high",              // optional note, recorded in ids.json
 //       "tikzSections": ["curve"],                    // playbook sections; [] = figure-free
 //       "hazards": ["free text stated verbatim in the task"]
@@ -147,7 +148,7 @@ function bookletBlock(paths) {
   }
   const parts = ['## Booklet section(s)', ''];
   for (const rel of paths) {
-    const abs = path.join(rootDir, rel);
+    const abs = path.join(rootDir, currentBookletSourcePath(rel));
     if (!fs.existsSync(abs)) throw new Error(`booklet not found: ${rel}`);
     const stem = path.basename(rel, '.md');
     const mediaDir = path.join(path.dirname(abs), 'media', stem, 'media');

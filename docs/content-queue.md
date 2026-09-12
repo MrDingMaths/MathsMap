@@ -115,7 +115,7 @@ with `stage: 3` living on a Stage-4-course dot point; these already have a conte
 so their `theory` is copied **byte-for-byte** and only practice + quiz are added (STAGE 3
 rule). The named stage-3 skills are listed under each affected batch.
 
-**Booklet paths** in Wave 1 are relative to `booklets/Stage 4/` (Wave 2 rows carry
+**Booklet paths** in Wave 1 are relative to `booklets/mathsmap-sources/Stage 4/` (Wave 2 rows carry
 explicit `Stage 5`/`Stage 5 Core`/`Stage 5 Path` prefixes) and were cross-checked against the
 TRIAGE KEEP / ALREADY-ATOMISED list — every file below is a surviving booklet in that
 folder. `anchor: none` skills (booklet under-covers the skill; generated from the syllabus
@@ -1742,7 +1742,7 @@ flag it to the human.)
   classification (`dp-s4-dat-1`); `Data Classification and Visualisation 2/3` cover
   display (`dp-2`) and interpretation (`dp-3`). Per-skill, pick the section matching the
   skill's own dot point. Both DCV2/DCV3 are TRIAGE **KEEP** (partial-overlap, not
-  superseded) — confirmed present in `booklets/Stage 4/`.
+  superseded) — confirmed present in `booklets/mathsmap-sources/Stage 4/`.
 - **t-s4-pyt** — topic id is `t-s4-pyt` (Right-angled triangles / Pythagoras); its single
   booklet is `Right-angled Triangles.md`.
 - No topic is unmapped and no booklet path is ambiguous — every Stage-4 topic title maps
@@ -1767,8 +1767,8 @@ No theory-only STAGE-3-rule files in this wave.
   span 2–4 topics, capped ~20 skills. Order = curriculum order (`booklets/QUEUE.md`
   rows 8–45), with `t-s5c-mag` inserted at its topics.json position (it was never in the
   atomisation QUEUE) and the two zero-booklet topics last.
-- **Booklets span three directories** — `booklets/Stage 5/` (NEW-origin, supersedes),
-  `booklets/Stage 5 Core/`, `booklets/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
+- **Booklets span three directories** — `booklets/mathsmap-sources/Stage 5/` (NEW-origin, supersedes),
+  `booklets/mathsmap-sources/Stage 5 Core/`, `booklets/mathsmap-sources/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
   below are explicit full filenames; do **not** glob by topic title — five filenames
   don't match their topic (`Financial Maths B…`, `Data Anaylsis A 3…` [sic, typo kept],
   `Functions 2_Graph Regions`, `Variation and Rates of Change 1/2` [no A/B letter]).
@@ -2949,7 +2949,7 @@ with `stage: 3` living on a Stage-4-course dot point; these already have a conte
 so their `theory` is copied **byte-for-byte** and only practice + quiz are added (STAGE 3
 rule). The named stage-3 skills are listed under each affected batch.
 
-**Booklet paths** in Wave 1 are relative to `booklets/Stage 4/` (Wave 2 rows carry
+**Booklet paths** in Wave 1 are relative to `booklets/mathsmap-sources/Stage 4/` (Wave 2 rows carry
 explicit `Stage 5`/`Stage 5 Core`/`Stage 5 Path` prefixes) and were cross-checked against the
 TRIAGE KEEP / ALREADY-ATOMISED list — every file below is a surviving booklet in that
 folder. `anchor: none` skills (booklet under-covers the skill; generated from the syllabus
@@ -4576,7 +4576,7 @@ flag it to the human.)
   classification (`dp-s4-dat-1`); `Data Classification and Visualisation 2/3` cover
   display (`dp-2`) and interpretation (`dp-3`). Per-skill, pick the section matching the
   skill's own dot point. Both DCV2/DCV3 are TRIAGE **KEEP** (partial-overlap, not
-  superseded) — confirmed present in `booklets/Stage 4/`.
+  superseded) — confirmed present in `booklets/mathsmap-sources/Stage 4/`.
 - **t-s4-pyt** — topic id is `t-s4-pyt` (Right-angled triangles / Pythagoras); its single
   booklet is `Right-angled Triangles.md`.
 - No topic is unmapped and no booklet path is ambiguous — every Stage-4 topic title maps
@@ -4601,8 +4601,8 @@ No theory-only STAGE-3-rule files in this wave.
   span 2–4 topics, capped ~20 skills. Order = curriculum order (`booklets/QUEUE.md`
   rows 8–45), with `t-s5c-mag` inserted at its topics.json position (it was never in the
   atomisation QUEUE) and the two zero-booklet topics last.
-- **Booklets span three directories** — `booklets/Stage 5/` (NEW-origin, supersedes),
-  `booklets/Stage 5 Core/`, `booklets/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
+- **Booklets span three directories** — `booklets/mathsmap-sources/Stage 5/` (NEW-origin, supersedes),
+  `booklets/mathsmap-sources/Stage 5 Core/`, `booklets/mathsmap-sources/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
   below are explicit full filenames; do **not** glob by topic title — five filenames
   don't match their topic (`Financial Maths B…`, `Data Anaylsis A 3…` [sic, typo kept],
   `Functions 2_Graph Regions`, `Variation and Rates of Change 1/2` [no A/B letter]).
@@ -5783,7 +5783,7 @@ with `stage: 3` living on a Stage-4-course dot point; these already have a conte
 so their `theory` is copied **byte-for-byte** and only practice + quiz are added (STAGE 3
 rule). The named stage-3 skills are listed under each affected batch.
 
-**Booklet paths** in Wave 1 are relative to `booklets/Stage 4/` (Wave 2 rows carry
+**Booklet paths** in Wave 1 are relative to `booklets/mathsmap-sources/Stage 4/` (Wave 2 rows carry
 explicit `Stage 5`/`Stage 5 Core`/`Stage 5 Path` prefixes) and were cross-checked against the
 TRIAGE KEEP / ALREADY-ATOMISED list — every file below is a surviving booklet in that
 folder. `anchor: none` skills (booklet under-covers the skill; generated from the syllabus
@@ -7410,7 +7410,7 @@ flag it to the human.)
   classification (`dp-s4-dat-1`); `Data Classification and Visualisation 2/3` cover
   display (`dp-2`) and interpretation (`dp-3`). Per-skill, pick the section matching the
   skill's own dot point. Both DCV2/DCV3 are TRIAGE **KEEP** (partial-overlap, not
-  superseded) — confirmed present in `booklets/Stage 4/`.
+  superseded) — confirmed present in `booklets/mathsmap-sources/Stage 4/`.
 - **t-s4-pyt** — topic id is `t-s4-pyt` (Right-angled triangles / Pythagoras); its single
   booklet is `Right-angled Triangles.md`.
 - No topic is unmapped and no booklet path is ambiguous — every Stage-4 topic title maps
@@ -7435,8 +7435,8 @@ No theory-only STAGE-3-rule files in this wave.
   span 2–4 topics, capped ~20 skills. Order = curriculum order (`booklets/QUEUE.md`
   rows 8–45), with `t-s5c-mag` inserted at its topics.json position (it was never in the
   atomisation QUEUE) and the two zero-booklet topics last.
-- **Booklets span three directories** — `booklets/Stage 5/` (NEW-origin, supersedes),
-  `booklets/Stage 5 Core/`, `booklets/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
+- **Booklets span three directories** — `booklets/mathsmap-sources/Stage 5/` (NEW-origin, supersedes),
+  `booklets/mathsmap-sources/Stage 5 Core/`, `booklets/mathsmap-sources/Stage 5 Path/` (per `booklets/TRIAGE.md`). Paths
   below are explicit full filenames; do **not** glob by topic title — five filenames
   don't match their topic (`Financial Maths B…`, `Data Anaylsis A 3…` [sic, typo kept],
   `Functions 2_Graph Regions`, `Variation and Rates of Change 1/2` [no A/B letter]).
@@ -8706,13 +8706,13 @@ charts, crashing, brokerage, dividends, minimum cut, dummy activities, logarithm
 trapezoidal rule, points of inflection, differentiability) and all resolved. Two adjacent
 gaps are recorded because they cost time in Wave 3 and will be asked about again:
 
-- **`Introduction to Differentiation 2_` does not exist** in `booklets/Stage 6 Advanced/`.
+- **`Introduction to Differentiation 2_` does not exist** in `booklets/mathsmap-sources/Stage 6 Advanced/`.
   It sits under the Year-11 topic `t-s6adv11-diff`, already generated in W3-8; every Year-12
   differentiation dot point is covered by Differential Calculus 1–4, so **no W4 skill is
   affected**. Recorded in W4-4's config note so it is not re-investigated.
-- **`Further Trigonometry 2_` does not exist** in `booklets/Stage 6 Extension 1/` — the W3-11
+- **`Further Trigonometry 2_` does not exist** in `booklets/mathsmap-sources/Stage 6 Extension 1/` — the W3-11
   near-`anchor: none` already recorded at the close of Wave 3. No Year-12 skill depends on it.
-- **`booklets/Stage 6 Advanced/Financial Mathematics.md`** is the merged replacement for the
+- **`booklets/mathsmap-sources/Stage 6 Advanced/Financial Mathematics.md`** is the merged replacement for the
   deleted `Financial Mathematics 1_Reducing balance loans.md` and `2_Annuities.md`; it carries
   Annuities, Annuity Future Value Tables, Annuities as a Geometric Series, Other Annuity
   Problems and Reducing Balance Loans in one 160 KB file. W4-1's two Advanced finance sections

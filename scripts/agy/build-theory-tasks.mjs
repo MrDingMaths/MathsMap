@@ -1,3 +1,4 @@
+import {currentBookletSourcePath} from '../booklet/source-paths.mjs';
 // Theory pass: make a skill's TEACHING section read like the booklet — plain English, tight
 // definitions, and the diagram the booklet draws beside the fact it teaches.
 //
@@ -295,7 +296,7 @@ function bookletBlock(paths) {
   }
   const parts = ['## Booklet section(s)', ''];
   for (const rel of paths) {
-    const abs = path.join(rootDir, rel);
+    const abs = path.join(rootDir, currentBookletSourcePath(rel));
     if (!fs.existsSync(abs)) throw new Error(`booklet not found: ${rel}`);
     const stem = path.basename(rel, '.md');
     const mediaDir = path.join(path.dirname(abs), 'media', stem, 'media');

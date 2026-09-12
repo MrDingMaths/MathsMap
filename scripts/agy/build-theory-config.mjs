@@ -1,3 +1,4 @@
+import {currentBookletSourcePath, MATHSMAP_SOURCE_ROOT} from '../booklet/source-paths.mjs';
 // Theory pass, Stage 4/5: build the batch config the theory lane needs for skills that ALREADY
 // have content.
 //
@@ -69,10 +70,10 @@ function bookletDirs(topicId) {
 function bookletsIn(dirs) {
   const out = [];
   for (const dir of dirs) {
-    const abs = path.join(rootDir, 'booklets', dir);
+    const abs = path.join(rootDir, MATHSMAP_SOURCE_ROOT, dir);
     if (!fs.existsSync(abs)) continue;
     for (const f of fs.readdirSync(abs)) {
-      if (f.endsWith('.md')) out.push(`booklets/${dir}/${f}`);
+      if (f.endsWith('.md')) out.push(`${MATHSMAP_SOURCE_ROOT}/${dir}/${f}`);
     }
   }
   return out;
@@ -84,7 +85,7 @@ function queueBooklets(topicId) {
   const row = queueLines.find((l) => new RegExp(`(^|[^\\w-])${topicId}([^\\w-]|$)`).test(l));
   if (!row) return null;
   const cells = row.split('|');
-  const paths = [...(cells[3] || '').matchAll(/`([^`]+\.md)`/g)].map((m) => `booklets/${m[1]}`)
+  const paths = [...(cells[3] || '').matchAll(/`([^`]+\.md)`/g)].map((m) => currentBookletSourcePath(`booklets/${m[1]}`))
     .filter((p) => {
       if (fs.existsSync(path.join(rootDir, p))) return true;
       console.error(`  ! QUEUE.md lists a booklet that does not exist: ${p}`);

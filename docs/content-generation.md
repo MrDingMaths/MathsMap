@@ -78,16 +78,16 @@ The session then:
    **notation and tone continuity**. New content must read as the same voice, the same
    house style, the same step-note vocabulary as the skills it builds on.
 7. **The mapped booklet section(s)** from `docs/content-queue.md` — the queue row lists
-   the **explicit file paths** (Wave 1 files live under `booklets/Stage 4/`; Wave 2
-   spans THREE directories — `booklets/Stage 5/` (NEW-origin, supersedes),
-   `booklets/Stage 5 Core/` and `booklets/Stage 5 Path/` — per `booklets/TRIAGE.md`.
+   the **explicit file paths** (Wave 1 files live under `booklets/mathsmap-sources/Stage 4/`; Wave 2
+   spans THREE directories — `booklets/mathsmap-sources/Stage 5/` (NEW-origin, supersedes),
+   `booklets/mathsmap-sources/Stage 5 Core/` and `booklets/mathsmap-sources/Stage 5 Path/` — per `booklets/TRIAGE.md`.
    Use the queue row's paths verbatim; do not glob by topic title, several Stage-5
    filenames don't match their topic name). Read the worked examples **and** the
    practice questions. Worked examples alone do not show the routine's full range.
 8. **The booklet's diagram PNGs** — **resolve the booklet's own image link relative to the
    booklet's directory**; that always works and the layout differs by wave. Wave 1
-   (`booklets/Stage 4/`) puts PNGs at `<booklet-dir>/media/<booklet-stem>/imageN.png`;
-   **Wave 2 (`booklets/Stage 5*/`) nests one level deeper —
+   (`booklets/mathsmap-sources/Stage 4/`) puts PNGs at `<booklet-dir>/media/<booklet-stem>/imageN.png`;
+   **Wave 2 (`booklets/mathsmap-sources/Stage 5*/`) nests one level deeper —
    `<booklet-dir>/media/<booklet-stem>/media/imageN.png`** (confirmed in W2-1 by five
    independent generation agents, each of which would have hit a non-existent directory
    had it trusted the Wave-1 path). Booklet stems contain spaces and a `_` that is a

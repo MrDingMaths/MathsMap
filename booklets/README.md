@@ -1,44 +1,22 @@
-# Booklets
+# Booklet Studio and MathsMap sources
 
-Source inputs for enriching the skill graph in [`../data/skills.json`](../data/skills.json).
+The two source collections have different purposes. Editing a Studio project does not edit the original source files or the MathsMap site content.
 
-- Booklets live as markdown in stage folders: `Stage 4/`, `Stage 5/` (new
-  syllabus), `Stage 5 Core/`, `Stage 5 Path/`, `Stage 6 Advanced/`,
-  `Stage 6 Extension 1/`, `Stage 6 Standard/`. Each stage folder has a
-  `media/<booklet>/` subtree with the booklet's extracted images (gitignored);
-  image links in the markdown resolve to those PNGs.
-- Generated proposal docs land in [`proposals/`](proposals/), one per booklet
-  or topic group.
-- The atomisation rubric applied to every booklet lives in
-  [`../docs/atomisation-principles.md`](../docs/atomisation-principles.md).
+| Folder | Purpose |
+| --- | --- |
+| [projects/](projects/) | Current editable Booklet Studio projects. Open these through Studio; save through its revision-checked project/bank transaction. |
+| [studio-sources/](studio-sources/) | Original PDFs and Word documents for Studio, grouped by booklet topic. |
+| [mathsmap-sources/](mathsmap-sources/) | Stage-organised Markdown source booklets and their extracted media for building MathsMap content and skills. |
+| [question-bank/](question-bank/) and [module-bank/](module-bank/) | Studio's reusable question and teaching libraries. Bank revision baselines can still be live dependencies. |
+| [provenance/](provenance/) | Durable source reviews, corrections and acceptance records. |
+| [proposals/](proposals/), [QUEUE.md](QUEUE.md), [PROMPT.md](PROMPT.md), [TRIAGE.md](TRIAGE.md) | MathsMap atomisation workflow and its history. |
 
-## Workflow (semi-automated)
+The site uses `data/`, `public/content/` and `public/quizzes/` as its generated/runtime content. Original source booklets remain useful for corrections, teaching methods and regeneration; successful site generation is not a reason to delete them.
 
-- [`QUEUE.md`](QUEUE.md) — the ordered atomisation queue of topic groups with
-  live status (`pending / proposed / applied / nil`). One group per session.
-- [`PROMPT.md`](PROMPT.md) — session prompt. Queue mode: paste one line, the
-  session takes the next pending group, produces one combined proposal, and
-  pauses for review. Apply + `npm run validate` after approval, then the queue
-  status is updated.
-- [`TRIAGE.md`](TRIAGE.md) — the audit record of which old booklets were
-  superseded/already-atomised (and deleted) vs kept.
+Place new Studio source documents in `studio-sources/<topic>/`. Place new MathsMap source material in `mathsmap-sources/<stage>/`, retaining the relative paths to its media. Keep editable projects in `projects/`; do not place PDF exports in either source collection.
 
-Per pass: read booklets + principles → atomise worked examples and practice
-questions → dedup against existing skills → propose new skills and missing
-prereq edges → **review** → apply → `npm run validate`.
+`public/booklet-assets/` contains referenced Studio assets. `.booklet-work/full-imports/` contains local source evidence still used by Compare source. Local rendering/test output belongs in `.booklet-work/<run>/` or `output/`. Recovery material and automatic project histories are local, not release files.
 
-## Ordering rationale
+[sources.json](sources.json) records the 12 September 2026 relocations and original PDF/Word hashes. Historical provenance and completed batch files keep their original paths; the generation tools resolve those known old names to the current locations. The source files themselves were not rewritten.
 
-The queue finishes started units first, then goes upstream before downstream:
-new skills need prerequisite edges pointing into already-refined upstream
-nodes, and atomising a downstream unit before its upstream feeders are settled
-means those edges attach to still-coarse nodes and get reworked later.
-Stage 4 remainder → Stage 5 (dependency order, Core before Path within a
-topic) → Stage 6 (Standard, then Advanced, then Extension 1 — respecting the
-Stage-6 course-split rules: Year 11/12 split ids, no Standard prereqs for
-Advanced).
-
-All 20 original Stage-4 booklets are audited. Four have no proposal doc
-because the pass recommended no changes (Algebraic Techniques 1 & 2, FDP 3,
-FDP 6) — nil-change passes now get a short nil-result proposal doc so coverage
-stays auditable (see `PROMPT.md`).
+See [the storage audit and retention proposal](../docs/booklet-storage.md) before cleanup. Do not blanket-delete `.booklet-work/`, `media/`, or bank `.revisions/`.

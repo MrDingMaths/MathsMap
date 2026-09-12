@@ -1,3 +1,4 @@
+import {currentBookletSourcePath} from '../booklet/source-paths.mjs';
 // Generate a Wave-3 batch config skeleton from the taxonomy + booklets/QUEUE.md, instead of
 // transcribing skill ids and booklet paths by hand.
 //
@@ -61,7 +62,7 @@ function bookletsForTopic(topicId) {
   const cells = row.split('|');
   const bookletCell = cells[3] || '';
   return [...bookletCell.matchAll(/`([^`]+\.md)`/g)]
-    .map(m => `booklets/${m[1]}`)
+    .map(m => currentBookletSourcePath(`booklets/${m[1]}`))
     .filter(p => {
       if (fs.existsSync(path.join(rootDir, p))) return true;
       console.error(`  ! booklet listed in QUEUE.md does not exist: ${p}`);
