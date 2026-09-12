@@ -7,6 +7,10 @@
         <span class="other-site__name">MathsBase</span>
         <span class="other-site__arrow" aria-hidden="true">&rarr;</span>
       </a>
+      <a href="https://mrdingmaths.com/" class="other-site" target="_blank" rel="noopener">
+        <span class="other-site__name">MrDingMaths</span>
+        <span class="other-site__arrow" aria-hidden="true">&rarr;</span>
+      </a>
     </div>
   </div>
 </footer>
