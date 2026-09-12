@@ -1,0 +1,69 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cb91ca79-f649-422e-b036-3f3f49ac45b5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-of-cylinder",
+    "secondarySkillIds": [],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Recognise that rolling changes which sheet dimension becomes circumference, recover both radii and justify the volume comparison."
+  },
+  "content": {
+    "id": "p28-q15-response",
+    "type": "question",
+    "label": "15",
+    "prompt": "Which cylinder would have a greater volume? Justify your answer with mathematical reasoning.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q15-rolling-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% source-component p28-q15-sheet: Landscape rectangle representing an A4 sheet. Bold A4 is centred inside. The top horizontal side is labelled 297mm; the left vertical side is labelled 210mm, with rotated text. A right-pointing arrow leads to a short upright rolled cylinder. A downward arrow leads to a longer horizontal rolled cylinder.\n% source-component p28-q15-long-curl: Short upright rolled sheet forming a cylinder, shown with a narrow longitudinal opening at the front and a visible elliptical upper rim. Caption: Curl up the long side.\n% source-component p28-q15-short-curl: Long horizontal rolled sheet forming a cylinder, with a longitudinal opening and visible curved end at the right. Caption: Curl up the short side.\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q15-rolling-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (SBL) at (0,2.5);\\coordinate (SBR) at (3,2.5);\\coordinate (STR) at (3,4.6212);\\coordinate (STL) at (0,4.6212);\n\\draw (SBL)--(SBR)--(STR)--(STL)--cycle;\n\\path (STL)--node[above] {$297\\,\\mathrm{mm}$}(STR);\n\\path (SBL)--node[left,rotate=90,anchor=south] {$210\\,\\mathrm{mm}$}(STL);\n\\node[font=\\bfseries\\fontsize{10}{12}\\selectfont] at (1.5,3.5606) {A4};\n\\draw[->,line width=.8pt] (3.3,3.7)--(3.85,3.7);\n\\draw[->,line width=.8pt] (1.5,2.28)--(1.5,1.75);\n\\begin{scope}[shift={(4.8,3.15)}]\n\\draw plot[domain=-80:260,samples=80] ({.7*cos(\\x)},{1+.22*sin(\\x)});\n\\draw plot[domain=180:260,samples=24] ({.7*cos(\\x)},{.22*sin(\\x)});\n\\draw plot[domain=280:360,samples=24] ({.7*cos(\\x)},{.22*sin(\\x)});\n\\draw (-.7,0)--(-.7,1) (.7,0)--(.7,1);\n\\draw ({.7*cos(260)},{.22*sin(260)})--++(0,1);\n\\draw ({.7*cos(280)},{.22*sin(280)})--++(0,1);\n\\node[below,align=center] at (0,-.35) {Curl up the long side};\n\\end{scope}\n\\begin{scope}[shift={(.35,.25)}]\n\\draw plot[domain=-80:260,samples=80] ({3+.22*sin(\\x)},{.6*cos(\\x)});\n\\draw plot[domain=180:260,samples=24] ({.22*sin(\\x)},{.6*cos(\\x)});\n\\draw plot[domain=280:360,samples=24] ({.22*sin(\\x)},{.6*cos(\\x)});\n\\draw (0,.6)--(3,.6) (0,-.6)--(3,-.6);\n\\draw ({.22*sin(260)},{.6*cos(260)})--++(3,0);\n\\draw ({.22*sin(280)},{.6*cos(280)})--++(3,0);\n\\node[below,align=center] at (1.5,-.78) {Curl up the short side};\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 98,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 15, branching A4 rolling illustration at lower left",
+          "description": "Landscape A4 sheet, 297 mm across and 210 mm high. A right arrow leads to an upright rolled cylinder captioned Curl up the long side; a downward arrow leads to a horizontal rolled cylinder captioned Curl up the short side.",
+          "mathematics": "Sheet side ratio 297:210. Long-side rolling gives circumference 297 mm and height 210 mm; short-side rolling gives circumference 210 mm and height 297 mm. Narrow longitudinal openings illustrate the rolling operation and do not specify a measured gap. Upright rolled surface uses cylindrical angular domain -80 to 260 degrees, omitting the front sector from 260 to 280 degrees. Horizontal surface is viewed from the positive axial direction; its front slit uses the same angular omission. Both are open rolled surfaces, not closed solids with filled end disks.",
+          "answerVisibility": "Sheet dimensions and source outcome captions only. Circumferences, radii, volumes and comparison are answer content."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The cylinder labelled “Curl up the long side” has the greater volume.",
+      "worked": "Curl up the short side:\n$$\\begin{align*}C&=2\\pi r\\\\210&=2\\pi r\\\\r&=\\frac{210}{2\\pi}\\,\\mathrm{mm}\\\\V_{\\text{curl short side}}&=\\pi r^2h\\\\V_{\\text{curl short side}}&=\\pi\\left(\\frac{210}{2\\pi}\\right)^2(297)\\\\V_{\\text{curl short side}}&=\\frac{13\\,097\\,700}{4\\pi}\\,\\mathrm{mm}^3\\end{align*}$$\nCurl up the long side:\n$$\\begin{align*}C&=2\\pi r\\\\297&=2\\pi r\\\\r&=\\frac{297}{2\\pi}\\,\\mathrm{mm}\\\\V_{\\text{curl long side}}&=\\pi r^2h\\\\V_{\\text{curl long side}}&=\\pi\\left(\\frac{297}{2\\pi}\\right)^2(210)\\\\V_{\\text{curl long side}}&=\\frac{18\\,523\\,890}{4\\pi}\\,\\mathrm{mm}^3\\end{align*}$$\nSince $18\\,523\\,890>13\\,097\\,700$, $\\therefore$ the cylinder curled up the long side has the larger volume.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 40
+  },
+  "presentation": {
+    "ownerId": "p28-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-12T05:25:57.709Z",
+  "updatedAt": "2026-09-12T05:25:57.709Z"
+}

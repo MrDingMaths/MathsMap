@@ -211,6 +211,7 @@
 </div>
 
 <style>
+  .practice-question :global(.tikz-wrap){margin:0;min-height:0;overflow:visible}
   .practice-question.short-answer-key,.short-answer-key .answer-label,.short-answer-key .answer-label a{color:var(--short-answer-ink)}
   .short-answer-key :global(.editable-table th),.short-answer-key :global(.booklet-content th){color:inherit}
 
