@@ -5,7 +5,7 @@ Audit and implementation: 12 September 2026. The original audit and source reorg
 ## Where things belong
 
 - `booklets/projects/`: the four current editable Studio booklets. Keep their IDs, local layouts and bank sync intact.
-- `booklets/studio-sources/<topic>/`: original PDF/Word pairs for Studio, including Linear's student and teacher editions.
+- `booklets/studio-sources/<stage>/<topic>/`: original PDF/Word pairs for Studio, including Linear's student and teacher editions.
 - `booklets/mathsmap-sources/<stage>/`: the source Markdown booklets and linked media used to author the MathsMap site.
 - `booklets/question-bank/`, `booklets/module-bank/`, `booklets/provenance/`, `public/booklet-assets/`: reusable Studio content, durable reviews and referenced assets.
 - `data/`, `public/content/`, `public/quizzes/`: taxonomy and generated content used by the MathsMap site.

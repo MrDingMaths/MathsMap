@@ -6,6 +6,9 @@ import os from 'node:os';
 import {createSemanticTasks,runSemanticPackets,semanticCacheInfo,validateSemanticResult,wordExcerpts} from '../scripts/booklet/semantic-workflow.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficient-prompts.mjs';
+import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
+import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
+import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
 
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'semantic-workflow-'));
@@ -25,6 +28,22 @@ const inventory=page=>({pageNumber:page,inventoried:true,entries:[{id:`src-${pag
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+test('semantic layouts reject sibling labels that share one positioning group',()=>{
+ const a=author(1);a.sections[0].blocks[0].presentation={arrangement:{id:'bad-layout',type:'group',direction:'stack',children:[{id:'label-a',type:'item',ref:'a/label'},{id:'label-b',type:'item',ref:'b/label'}]}};
+ assert.throws(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:inventory(1)}),/Multiple structural labels/);
+ a.sections[0].blocks[0].presentation.arrangement.children=a.sections[0].blocks[0].presentation.arrangement.children.map((n,i)=>({id:'cell-'+i,type:'group',direction:'stack',children:[n]}));
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:inventory(1)}));
+});
+test('shared-content inventory continuations require an existing matching target and a reason',()=>{
+ const i=inventory(1),a=author(1);
+ i.entries.push({id:'second-region',kind:'question',description:'Another region of the same source figure.'});
+ a.inventoryMappings.push({inventoryId:'second-region',targetId:'q-1',continuationOf:'src-1',continuationReason:'Both independently inventoried regions belong to the same source figure.'});
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:i}));
+ delete a.inventoryMappings[1].continuationReason;
+ assert.throws(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:i}),/continuation/);
+ a.inventoryMappings[1].continuationReason='Shared figure';a.inventoryMappings[1].continuationOf='missing';
+ assert.throws(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:i}),/continuation/);
+});
 
 test('complete prompts share a stable prefix, preserve context, and never duplicate target evidence',t=>{
  const options=fixture(t),[a,b]=createSemanticTasks(options);
@@ -131,4 +150,111 @@ test('a concurrent canonical edit survives an in-flight transcription',async t=>
  }});
  assert.equal(report.ok,false);assert.equal(fs.readFileSync(task.resultFile,'utf8'),'user edit');
  assert.ok(fs.existsSync(path.join(task.out,'result.json')));
+});
+
+test('validation and publication failures retain model usage, phase outcomes and immutable generation',async t=>{
+ const options={...fixture(t),pages:[4]},metrics={usage:{input_tokens:100,cached_input_tokens:60,output_tokens:25},elapsedMs:50};
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:{pageNumber:4},metrics})});
+ const root=path.join(options.runDir,'semantic-packets');
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root,'page-004.author.1/generation.json'))),{pageNumber:4});
+ let ledger=fs.readFileSync(path.join(root,'ledger.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+ assert.deepEqual(ledger[0].usage,metrics.usage);assert.equal(ledger[0].canonicalWritten,false);
+ const task=createSemanticTasks({...options,attempt:2})[0];
+ await runSemanticPackets({...options,attempt:2},{...quiet,runner:async()=>{fs.writeFileSync(task.resultFile,'concurrent edit');return {result:author(4),metrics};}});
+ const events=fs.readFileSync(path.join(root,'attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+ assert.deepEqual(events.filter(e=>e.event==='finished').map(e=>e.failedPhase),['validation','publication']);
+ const receipt=readAttemptReceipt(root);assert.equal(receipt.calls,2);assert.equal(receipt.usage.input_tokens,200);assert.equal(receipt.usage.cached_input_tokens,120);assert.equal(receipt.missingUsage,0);
+ assert.equal(fs.readFileSync(task.resultFile,'utf8'),'concurrent edit');
+});
+
+test('generation errors record missing usage honestly and unfinished events survive resume',async t=>{
+ const options={...fixture(t),pages:[4]},root=path.join(options.runDir,'semantic-packets');
+ await runSemanticPackets(options,{...quiet,runner:async()=>{const error=Error('runner failed');error.metrics={elapsedMs:12,usage:null};throw error;}});
+ const before=readAttemptReceipt(root);assert.equal(before.missingUsage,1);assert.equal(before.callElapsedMs,12);
+ const unfinished=recordAttempt(root,{stage:'author',page:5,attempt:1});unfinished.phase('generation');
+ const after=readAttemptReceipt(root);assert.equal(after.unfinished.length,1);assert.equal(after.calls,2);assert.equal(after.missingUsage,2);
+ fs.appendFileSync(path.join(root,'attempt-events.jsonl'),'{"attemptId":');
+ assert.equal(readAttemptReceipt(root).incompleteTail,true);
+ assert.throws(()=>recordAttempt(root,{stage:'author',page:5,attempt:2}),/incomplete tail/);
+});
+
+test('concurrent attempt time is a union, not a sum of model call durations',()=>{
+ const events=[['a',0,100],['b',50,150]].flatMap(([attemptId,start,end])=>[
+  {attemptId,event:'started',time:start},{attemptId,event:'phase-started',phase:'generation',time:start},
+  {attemptId,event:'phase-finished',phase:'generation',time:end,elapsedMs:end-start,metrics:{elapsedMs:100,usage:{input_tokens:10,cached_input_tokens:6,output_tokens:3}}},
+  {attemptId,event:'finished',time:end},
+ ]);
+ const receipt=summarizeAttemptEvents(events);assert.equal(receipt.completedAttemptActiveWallMs,150);assert.equal(receipt.callElapsedMs,200);assert.equal(receipt.usage.input_tokens,20);assert.equal(receipt.usage.cached_input_tokens,12);
+});
+
+test('mapping-only repair preserves content and valid mappings, records reasons, and revalidates',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4);
+ bad.inventoryMappings.push({inventoryId:'p4-generated-heading',targetId:'s-4'});
+ const metrics={usage:{input_tokens:30,output_tokens:10}};
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics})});
+ const repair={edits:[{index:1,original:bad.inventoryMappings[1],replacement:null,reason:'Generated section heading is not an independently inventoried item; all actual entries retain mappings.'}]};
+ const report=await runSemanticPackets({...options,attempt:2,repairFrom:1},{...quiet,runner:async({prompt,images})=>{
+  assert.match(prompt,/Repair unknown inventory references only/);assert.deepEqual(images,[]);return {result:repair,metrics};
+ }});
+ assert.equal(report.ok,true);
+ const task=createSemanticTasks({...options,attempt:2})[0];
+ assert.deepEqual(JSON.parse(fs.readFileSync(task.resultFile)),author(4));
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(task.out,'repair.json'))),repair);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.author.1/generation.json'))),bad);
+ assert.equal(readAttemptReceipt(task.packetRoot).calls,2);
+ assert.throws(()=>applyMappingRepair(bad,inventory(4),{edits:[{...repair.edits[0],index:0,original:bad.inventoryMappings[0]}]}),/invalid/);
+ assert.throws(()=>applyMappingRepair(bad,inventory(4),{edits:[{...repair.edits[0],reason:''}]}),/invalid/);
+ fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-004.txt'),'changed source');
+ await assert.rejects(()=>runSemanticPackets({...options,attempt:3,repairFrom:1},{...quiet,runner:()=>assert.fail('stale repair called runner')}),/inputs changed/);
+});
+
+test('a targeted repair cannot hide other content defects or drop known inventory coverage',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4);delete bad.sections[0].blocks[0].content.answer;
+ bad.inventoryMappings.push({inventoryId:'generated',targetId:'s-4'});
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ const report=await runSemanticPackets({...options,attempt:2,repairFrom:1},{...quiet,runner:async()=>({result:{edits:[{index:1,original:bad.inventoryMappings[1],replacement:null,reason:'Generated layout'}]},metrics:{}})});
+ assert.equal(report.ok,false);assert.match(report.pages[0].error,/lacks short\/worked/);
+ assert.equal(fs.existsSync(createSemanticTasks(options)[0].resultFile),false);
+ assert.equal(mappingRepairContext(bad,inventory(4)).invalid.length,1);
+});
+
+const sharedAuthor=()=>{
+ const p=author(4);p.authoringFormat=SHARED_DIAGRAM_FORMAT;
+ p.diagramLibrary={base:'\\begin{tikzpicture}\\draw (0,0)--(1,0);',end:'\\end{tikzpicture}'};
+ p.sections[0].blocks[0].content.questionDiagrams=[{id:'q4-diagram',format:'tikz',role:'question',codeParts:['base','end'],spec:{sourcePage:4}}];
+ return p;
+};
+
+test('shared authoring is opt-in, fingerprints its format, and publishes only ordinary editable code',async t=>{
+ const options={...fixture(t),pages:[4]},enabled={...options,config:{...options.config,authoringFormat:SHARED_DIAGRAM_FORMAT}};
+ const normalTask=createSemanticTasks(options)[0],sharedTask=createSemanticTasks(enabled)[0];
+ assert.notEqual(normalTask.inputHash,sharedTask.inputHash);assert.doesNotMatch(normalTask.prompt,/Optional internal shared-diagram/);assert.match(sharedTask.prompt,/NO inserted spaces\/newlines/);
+ assert.deepEqual(createSemanticTasks({...options,stage:'inventory'})[0].prompt,createSemanticTasks({...enabled,stage:'inventory'})[0].prompt);
+ assert.throws(()=>createSemanticTasks({...options,config:{...options.config,authoringFormat:'unknown'}}),/Unsupported/);
+ const raw=sharedAuthor(),report=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ assert.equal(report.ok,true);
+ const canonical=JSON.parse(fs.readFileSync(sharedTask.resultFile));assert.equal(canonical.authoringFormat,undefined);assert.equal(canonical.diagramLibrary,undefined);
+ assert.equal(canonical.sections[0].blocks[0].content.questionDiagrams[0].code,raw.diagramLibrary.base+raw.diagramLibrary.end);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(sharedTask.out,'generation.json'))),raw);
+ assert.deepEqual(JSON.parse(fs.readFileSync(path.join(sharedTask.out,'materialized.json'))),canonical);
+ const events=fs.readFileSync(path.join(sharedTask.packetRoot,'attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+ assert.equal(events[0].authoringFormat,SHARED_DIAGRAM_FORMAT);
+ assert.equal(events.find(e=>e.event==='phase-finished'&&e.phase==='generation').generatedCharacters,JSON.stringify(raw).length);
+ assert.equal(events.find(e=>e.event==='phase-finished'&&e.phase==='validation').materializedCharacters,JSON.stringify(canonical).length);
+ assert.equal(semanticCacheInfo(sharedTask).kind,'hit');
+ await runSemanticPackets(enabled,{...quiet,runner:()=>assert.fail('materialized cache caused regeneration')});
+});
+
+test('shared materialization failures retain metrics and bounded mapping repairs consume expanded content',async t=>{
+ const options={...fixture(t),pages:[4]},raw=sharedAuthor();
+ const disabled=await runSemanticPackets(options,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:20}}})});
+ assert.equal(disabled.ok,false);assert.match(disabled.pages[0].error,/explicit config/);
+ const enabled={...options,config:{...options.config,authoringFormat:SHARED_DIAGRAM_FORMAT},attempt:2};
+ raw.inventoryMappings.push({inventoryId:'generated-heading',targetId:'s-4'});
+ const failed=await runSemanticPackets(enabled,{...quiet,runner:async()=>({result:raw,metrics:{usage:{output_tokens:30}}})});
+ assert.equal(failed.ok,false);assert.match(failed.pages[0].error,/Unknown inventory mapping/);
+ const repair=await runSemanticPackets({...enabled,attempt:3,repairFrom:2},{...quiet,runner:async()=>({result:{edits:[{index:1,original:raw.inventoryMappings[1],replacement:null,reason:'Generated heading is not a source inventory entry.'}]},metrics:{usage:{output_tokens:5}}})});
+ assert.equal(repair.ok,true);
+ const saved=JSON.parse(fs.readFileSync(createSemanticTasks(enabled)[0].resultFile));assert.equal(saved.authoringFormat,undefined);assert.equal(saved.inventoryMappings.length,1);assert.equal(typeof saved.sections[0].blocks[0].content.questionDiagrams[0].code,'string');
+ const receipt=readAttemptReceipt(path.join(options.runDir,'semantic-packets'));assert.equal(receipt.calls,3);assert.equal(receipt.usage.output_tokens,55);
 });

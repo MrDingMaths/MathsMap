@@ -7,12 +7,14 @@ import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
-import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,REVIEW_POLICY} from './workflow-review.mjs';
+import {trackProcessPhase} from './run-observability.mjs';
+import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
 if(arg('--out')&&!arg('--out').endsWith('.json'))throw Error('--out must end in .json');
 if(!runId||!selected.length||!arg('--out'))throw Error('Use --run-id ID --pages RANGE --config FILE --out FILE [--project-id ID]');
 const {runDir,manifest}=loadRun(runId),config=JSON.parse(fs.readFileSync(arg('--config'),'utf8'));
+trackProcessPhase(runDir,'assembly',{artifact:arg('--out'),pages:selected,projectId});
 const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
 const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
 const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],flags=[],corrections=[],confirmedCorrections=[];
@@ -49,14 +51,14 @@ for(const page of selected){
   }
   for(let i=0;i<mappings.length;i++){
    const m=mappings[i];
-   entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
+   entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(m.continuationOf?{continuationOf:m.continuationOf,continuationReason:m.continuationReason}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
   }
  }
  for(const finding of workflow?[]:packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});
  corrections.push(...(packet.corrections??[]));
  confirmedCorrections.push(...(packet.confirmedCorrections??[]));
 }
-if(workflow)flags.push(...workflowFlags(workflow,selected));
+if(workflow){synchronizeInventoryAmbiguities(entries,workflow);flags.push(...workflowFlags(workflow,selected));}
 const candidate={title:config.title,topics:config.topics.map(({id,title})=>({id,title})),settings:{...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),sourcePaginationPolicy:'source-boundaries',preserveSourcePages:true,cover:{course:'Mathematics Stage 5 Path',book:'Book 2',version:'260905',feedback:'https://MrDingMaths.com'}},sections,sourceInventory:{version:1,selectedPages:selected,pages:inventoryPages,entries},studio:{version:1,flags}};
 if(workflow)candidate.settings={...config.settings,...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),...(sourceBoundaries?{sourcePaginationPolicy:'source-boundaries'}:{}),preserveSourcePages:sourceBoundaries,cover:{...config.settings?.cover,...config.cover}};
 // Reviewed packets contain the corrected value. Emit a source-valued candidate

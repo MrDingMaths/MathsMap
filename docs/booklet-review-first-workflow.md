@@ -124,6 +124,18 @@ node scripts/booklet/review-workflow.mjs approve-pattern --run-id RUN --input re
 
 Never mark these checks from counts or absence of overflow. Evidence must show the actual current source and authored pattern at intended physical size. Author/source/renderer/evidence changes invalidate the relevant approval. Changes made directly in the project still require affected-pattern inspection; final settlement additionally binds the complete project hash. Then run ordinary author batches for approved patterns. Generated triangles reuse supplied numeric coordinates, and publication checks their actual angles and side ratios; non-uniform scaling is rejected. This validates the declared construction, not arbitrary TeX, labels or final rendered appearance, which still require visual review.
 
+Before approving native-diagram patterns, use the isolated final-size preflight on the assembled representative candidate:
+
+```text
+node scripts/booklet/check-compact-exercises.mjs --diagram-preflight --project PROJECT --project-file CANDIDATE.json --out .booklet-work/RUN/preflight
+```
+
+It renders question, short-answer and worked-solution compositions at their actual widths, checks calibrated label bounds and source-bound answer-width overrides, and saves PDFs/page images plus measurements. Inspect angle regions, overlays, raster labels and source arrangements separately. Preflight is development evidence; it never writes final acceptance. Label-bounds checks also run during ordinary compact development/final checks.
+
+Unknown inventory mappings can use one bounded `author ... --attempt NEW --repair-from OLD` call against a preserved attempt with a matching input snapshot. It edits only unknown mappings, retains explicit reasons and reruns full validation; real mappings and content cannot change. Other defects require a normal reviewed author attempt. `semantic-packets.mjs metrics --run-id RUN` reports recorded usage and unfinished calls without generation. See the [first implementation package](booklet-angle-relationships-efficiency-review.md#first-package-implemented-tools) for exact boundaries and offline replay.
+
+An isolated author config may opt into `authoringFormat: "shared-diagrams-v1"` to reference shared TikZ source fragments. The runner expands these into ordinary complete diagrams before every existing validator; canonical packets and project schemas do not change. Keep it opt-in pending generation/fidelity measurements. See the [shared-diagram experiment](booklet-angle-relationships-efficiency-review.md#second-package-opt-in-shared-diagrams-and-an-offline-benchmark); its character-count results do not establish token or elapsed-time savings.
+
 New review-first assembly uses configured cover metadata and flexible compact pagination; set `sourcePaginationPolicy: "source-boundaries"` explicitly when required. Historical assembly compatibility retains its previous defaults.
 
 ## Development and final acceptance
@@ -166,3 +178,62 @@ Inspect **every page in all five full PDFs** against source and rendered expecta
 Supply all five edition records and **every** actual page, not just the abbreviated example. Run `review-workflow.mjs final-review --run-id RUN --input final-reviewed.json`. It rejects development manifests, stale project/renderer/settlement/PDF hashes, missing editions, changed page hashes and incomplete page inspection. Page hashes identify later edits; they never waive the required complete final visual review after content changes and re-settlement.
 
 Compact prompts, reused teaching context, cached inputs and bounded concurrency remain. These controls aim to reduce repair cycles and review payloads, but this change has **not measured end-to-end token or time savings**. Retain actual per-call input/cached/output usage and elapsed times; include retries and review work in any future comparison.
+
+## Resumable run and visual-review tools
+
+Start with environment/source checks and inspect the runnable queue:
+
+```text
+node scripts/booklet/run-workflow.mjs preflight --run-id RUN --out .booklet-work/RUN/preflight.json
+node scripts/booklet/run-workflow.mjs status --run-id RUN --config CONFIG.json
+node scripts/booklet/run-workflow.mjs drain --run-id RUN --config CONFIG.json --pages 1-10
+```
+
+`drain` runs actual inventory/author model calls at the existing configured concurrency. It exits when work finishes or remaining pages need explicit review/retry. Complete mathematical review through the existing commands, use `--representative` for the first pattern candidates, inspect/approve those patterns, then drain the remaining pages. Repeat `status`/`drain` to resume. Valid cached generations are retained. After inspecting a failed or stale attempt, `--retry` permits one newer immutable attempt per affected page/stage; it never loops automatically. Targeted mapping repairs still use `semantic-packets.mjs author --repair-from N`. Publication/registration is serialized across processes, with fresh dependency checks inside the lock. Never remove an owned lock to bypass a conflict.
+
+Assembly records its phase automatically. Pass `--run-dir .booklet-work/full-imports/RUN` to `check-compact-exercises.mjs` to record export execution in the same run journal. Its normal full manifests now include individual full-page images; unchanged verified PDF/images are reused. Browser reports retain compile/cache counters and timings. Read the combined receipt at any time:
+
+```text
+node scripts/booklet/run-workflow.mjs receipt --run-id RUN --out .booklet-work/RUN/receipt.json
+```
+
+Receipts are derived from append-only model and run events. Completed overlapping work counts once. Unfinished attempts/reviews remain visible. Review duration is measured only between an explicit `begin` and `record`; cancel an interrupted session and begin again when ready. Canceled reviews have no completed inspection credit. Unrecorded offline work and historical missing usage remain unavailable.
+
+Prepare a review descriptor JSON with these fields (paths resolve from the working directory):
+
+```json
+{
+  "projectFile": "booklets/projects/PROJECT.json",
+  "sourceFiles": [".booklet-work/full-imports/RUN/source/booklet.pdf"],
+  "manifestFiles": [".booklet-work/RUN/PROJECT-student.full.pages.json"],
+  "key": "current settlement key"
+}
+```
+
+For final review, list all five full manifests and retain access to all relevant source evidence. For development preflight, replace `manifestFiles`/`key` with `preflightFile` pointing to `diagram-preflight.json`, plus `outDir` for derived development manifests. Optionally supply `projectId` if the report's key differs from the project ID. This path cannot create a final queue. Then:
+
+```text
+node scripts/booklet/visual-review.mjs describe --run-id RUN --input descriptor.json --out review-input.json
+node scripts/booklet/visual-review.mjs prepare --run-id RUN --input review-input.json
+node scripts/booklet/visual-review.mjs status --run-id RUN --out review-status.json
+```
+
+Status lists pending page keys with direct full-page image and source paths, the current revision/session key, previous findings and any active inspection. Open the actual source and full-page output to inspect; the queue never infers inspection from hashes. `begin --input begin.json` accepts:
+
+```json
+{"expectedRevision":1,"sessionKey":"from status","pageKeys":["current page key"]}
+```
+
+After inspecting those pages, use `record --input inspection.json` with the updated revision from `begin`, its `active.id` as `reviewId`, and actual observations:
+
+```json
+{
+  "expectedRevision":2,"sessionKey":"from status","reviewId":"active id",
+  "reviewer":"Actual reviewer","note":"Specific checks and observations",
+  "outcome":"accepted","sourceCompared":true,"contentVerified":true,"presentationVerified":true
+}
+```
+
+Use `outcome: "needs-change"` to retain a defect for correction; it remains pending. `cancel` takes the current `expectedRevision` and `sessionKey`. Inspection records are immutable artifacts, while queue state is updated atomically. Stale project/source/asset/render/PDF/image or inspection evidence is rejected. During development, preparing new evidence invalidates changed pages and pagination neighbours and retains other current inspection records. The same unchanged final settlement can resume inspection; any new final project or settlement resets every page, including pixel-identical pages.
+
+Once every page of all five final editions has actually been inspected, `final-record --input signer.json --out final-reviewed.json` takes current `expectedRevision`, `sessionKey`, `reviewer` and `note`. It emits the full record for the existing `review-workflow.mjs final-review` command above. Its acceptance dependencies retain the source, image and individual inspection artifacts. Describing, preparing or completing a queue never independently certifies content or bypasses the original acceptance gates. All queue artifacts, render caches and event journals remain local, ignored evidence under `.booklet-work/`.

@@ -11,12 +11,25 @@ import {refreshRegister,correctionOutputs} from '../scripts/booklet/review-workf
 import {createSemanticTasks,runSemanticPackets} from '../scripts/booklet/semantic-workflow.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
+import {synchronizeInventoryAmbiguities} from '../scripts/booklet/workflow-review.mjs';
 import {createBookletProject,promoteProjectQuestion,saveBookletProject} from '../scripts/booklet/project-studio-server.mjs';
 
 const exact=value=>({value,exact:true});
 const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
 const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+test('approved correction chains replay on saved content without hiding concurrent edits',()=>{
+ const patch=(original,corrected)=>({scope:'author',page:1,targetId:'q-1',field:'/prompt',original,corrected});
+ const state={corrections:[{id:'first',status:'approved',reason:'Approved source correction',sourceRefs:[{pageNumber:1}],patches:[patch('Find x.','Find y.')]},{id:'second',status:'approved',reason:'Approved follow-up correction',sourceRefs:[{pageNumber:1}],patches:[patch('Find y.','Find z.')]}]};
+ const packet=author(1),updated=materializeCorrections(packet,state,'author',1);
+ assert.equal(updated.sections[0].blocks[0].content.prompt,'Find z.');
+ updated.sections[0].blocks[0].sourceReview={verification:{checked:true}};
+ assert.deepEqual(materializeCorrections(updated,state,'author',1),updated);
+ const edited=structuredClone(updated);edited.sections[0].blocks[0].content.prompt='My local edit';
+ assert.throws(()=>materializeCorrections(edited,state,'author',1),/Stale correction/);
+ const disconnected=structuredClone(state);disconnected.corrections[1].patches[0].original='Another original';
+ assert.throws(()=>materializeCorrections(updated,disconnected,'author',1),/Stale correction/);
+});
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-review-'));
  t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
@@ -28,6 +41,23 @@ function fixture(t){
  return {runDir,write,evidence,options};
 }
 function approveMath(state,evidence){recordMathReview(state,{...evidence,pages:Object.entries(state.pages).map(([page,p])=>({page:Number(page),key:p.inventoryHash}))});}
+test('resolved source ambiguities propagate to every mapping and reopen on stale evidence',t=>{
+ const {runDir,write,evidence}=fixture(t),state=loadWorkflow(runDir);
+ const inventory=inv(1);inventory.entries[0].ambiguity='The intended angle is unclear.';
+ registerInventory(state,inventory,'source-hash');
+ const issue=Object.values(state.issues)[0];
+ const entries=[inventory.entries[0],{...inventory.entries[0],id:'src-1-mapping-1'}].map(e=>({...e,pageNumber:1}));
+ synchronizeInventoryAmbiguities(entries,state);
+ assert.equal(entries[0].ambiguous,inventory.entries[0].ambiguity);
+ applyDecisions(state,{...evidence,expectedRevision:state.revision,key:settlementKey(state),resolutions:[{id:issue.id,status:'retained',reason:'The source arc identifies the intended angle.'}]});
+ synchronizeInventoryAmbiguities(entries,state);
+ for(const entry of entries){assert.equal(entry.ambiguous,undefined);assert.equal(entry.ambiguity,inventory.entries[0].ambiguity);assert.equal(entry.ambiguityResolution.issueId,issue.id);}
+ issue.inputHash='stale';synchronizeInventoryAmbiguities(entries,state);
+ assert.ok(entries.every(e=>e.ambiguous&&!e.ambiguityResolution));
+ issue.inputHash=state.pages[1].inventoryHash;
+ write('review.txt','changed evidence');synchronizeInventoryAmbiguities(entries,state);
+ assert.ok(entries.every(e=>e.ambiguous&&!e.ambiguityResolution));
+});
 function representative(state,evidence,runtime=rendererSignature()){
  return {...evidence,pattern:'short-question',page:1,key:representativeKey(state,1),renderer:runtime,checks:Object.fromEntries(PATTERN_CHECKS.map(k=>[k,true])),sourceCompared:true,finalSize:true};
 }
@@ -205,6 +235,43 @@ test('a source change during review-first generation preserves the attempt witho
  assert.equal(report.ok,false);assert.match(report.pages[0].error,/changed during generation/);
  assert.ok(!fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.json')));
  assert.ok(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.1/result.json')));
+});
+
+test('registration failure reports an already-published packet and retains usage for safe resume',async t=>{
+ const {runDir,write,evidence,options}=fixture(t);
+ await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);approveMath(state,evidence);});
+ const report=await runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:async()=>{
+  write('workflow/review.lock','another process');return {result:author(1),metrics:{usage:{input_tokens:10,output_tokens:5},elapsedMs:7}};
+ }});
+ assert.equal(report.ok,false);assert.match(report.pages[0].error,/another process/);
+ const ledger=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/ledger.jsonl'),'utf8').trim());
+ assert.equal(ledger.canonicalWritten,true);assert.equal(ledger.registered,false);assert.equal(ledger.usage.output_tokens,5);
+ const events=fs.readFileSync(path.join(runDir,'semantic-packets/attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+ assert.equal(events.at(-1).failedPhase,'registration');
+ fs.unlinkSync(path.join(runDir,'workflow/review.lock'));
+ const resumed=await runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:()=>assert.fail('registration resume regenerated content')});
+ assert.equal(resumed.ok,true);assert.equal(resumed.pages[0].cached,true);
+});
+
+test('shared diagram expansion still runs review-first numerical geometry validation',async t=>{
+ const {runDir,write,evidence,options}=fixture(t),inventory=inv(1);
+ inventory.entries.push({id:'triangle-source',targetId:'triangle-diagram',kind:'diagram',description:'Triangle with a 100 degree angle and two 5 unit sides.',mathematicalModel:triangle});
+ write('semantic-packets/page-001.inventory.json',inventory);
+ await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);approveMath(state,evidence);});
+ const request={...options,pages:[1],representative:true,config:{...options.config,authoringFormat:'shared-diagrams-v1'}};
+ const make=angle=>{
+  const p=author(1);p.authoringFormat='shared-diagrams-v1';
+  p.diagramLibrary={base:'\\begin{tikzpicture}'+triangleConstruction({...triangle,angles:{A:exact(angle)}}).coordinates,end:'\\draw (A)--(B)--(C)--cycle;\\end{tikzpicture}'};
+  p.sections[0].blocks[0].content.questionDiagrams=[{id:'triangle-diagram',format:'tikz',codeParts:['base','end']}];
+  p.inventoryMappings.push({inventoryId:'triangle-source',targetId:'triangle-diagram'});return p;
+ };
+ const failed=await runSemanticPackets(request,{log:()=>{},runner:async()=>({result:make(80),metrics:{}})});
+ assert.equal(failed.ok,false);assert.match(failed.pages[0].error,/authored .*80.*required 100/);
+ assert.equal(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.json')),false);
+ const passed=await runSemanticPackets({...request,attempt:2},{log:()=>{},runner:async()=>({result:make(100),metrics:{}})});
+ assert.equal(passed.ok,true);
+ const canonical=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/page-001.author.json')));
+ assert.equal(canonical.authoringFormat,undefined);assert.equal(typeof canonical.sections[0].blocks[0].content.questionDiagrams[0].code,'string');
 });
 
 test('development hashes select changed pages and pagination neighbours, including a removed tail',()=>{

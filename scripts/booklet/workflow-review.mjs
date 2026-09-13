@@ -75,6 +75,23 @@ function patchField(target,patch){
 }
 export function materializeCorrections(source,state,scope,page){
  let result=structuredClone(source);const affected=new Set();
+ const approvedPatches=state.corrections.filter(c=>c.status==='approved').flatMap(c=>c.patches);
+ // Saved projects may already contain the last value in an approved correction
+ // chain. Only exact, consecutive replacements can supersede an earlier patch;
+ // an unrelated local edit must still fail the ordinary conflict check.
+ const superseded=(target,patch)=>{
+  const keys=patch.field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
+  if(keys.some(k=>['__proto__','constructor','prototype'].includes(k)))return false;
+  const current=keys.reduce((value,key)=>value?.[key],target);
+  let value=patch.corrected;
+  for(const next of approvedPatches.slice(approvedPatches.indexOf(patch)+1)){
+   if(next.scope!==patch.scope||next.page!==patch.page||next.targetId!==patch.targetId||next.field!==patch.field)continue;
+   if(fingerprint(next.original)!==fingerprint(value))break;
+   value=next.corrected;
+   if(fingerprint(current)===fingerprint(value))return true;
+  }
+  return false;
+ };
  for(const correction of state.corrections){
   if(correction.status!=='approved')continue;
   for(const patch of correction.patches.filter(p=>(p.scope===scope||scope==='project'&&['author','inventory'].includes(p.scope))&&(page===undefined||p.page===page))){
@@ -82,10 +99,11 @@ export function materializeCorrections(source,state,scope,page){
     const entries=scope==='inventory'?result.entries:result.source?.inventory?.entries;
     const targets=entries?.filter(e=>e.id===patch.targetId||scope==='project'&&e.id.startsWith(patch.targetId+'-mapping-'))??[];
     if(!targets.length)throw Error('Missing correction target '+patch.targetId);
-    for(const target of targets){const before=fingerprint(target);patchField(target,patch);if(scope==='project'&&before!==fingerprint(target))delete target.verification;}
+    for(const target of targets){const before=fingerprint(target);if(!superseded(target,patch))patchField(target,patch);if(scope==='project'&&before!==fingerprint(target))delete target.verification;}
    }
    else{
     const target=contentNodes(result).get(patch.targetId);if(!target)throw Error('Missing correction target '+patch.targetId);
+    if(superseded(target.node,patch))continue;
     const originalValue=fingerprint(target.node);
     // Reuse the existing string correction conflict contract when possible.
     if(typeof patch.original==='string'&&typeof patch.corrected==='string'){
@@ -284,8 +302,27 @@ export function workflowFlags(state,pages){
  for(const page of pages)for(const [i,reason]of pageGate(state,page).filter(r=>!state.issues[r]).entries())flags.push({id:`workflow-gate-${page}-${i}`,workflowIssue:true,note:reason,resolved:false});
  return flags;
 }
+// Keep the original ambiguity as evidence, while deriving its active state from
+// the current source-hashed decision. Stale decisions must reopen the item.
+export function synchronizeInventoryAmbiguities(entries,state){
+ for(const entry of entries){
+  if(!entry.ambiguity)continue;
+  const page=entry.pageNumber,sourceId=entry.id.replace(/-mapping-\d+$/,'');
+  const issue=state.issues[`inventory-${page}-${sourceId}-ambiguity`];
+  const current=issue?.kind==='source-ambiguity'&&issue.entryId===sourceId&&issue.page===page&&issue.inputHash===state.pages[page]?.inventoryHash&&['retained','corrected'].includes(issue.status)&&issue.resolution?.reason&&evidenceCurrent(issue.resolution.evidence);
+  if(current){
+   delete entry.ambiguous;
+   entry.ambiguityResolution={issueId:issue.id,inputHash:issue.inputHash,status:issue.status,resolution:structuredClone(issue.resolution)};
+  }else{
+   entry.ambiguous=entry.ambiguity;
+   delete entry.ambiguityResolution;
+  }
+ }
+ return entries;
+}
 export function synchronizeProject(project,state,pages,runId){
  const result=materializeCorrections(project,state,'project');
+ synchronizeInventoryAmbiguities(result.source?.inventory?.entries??[],state);
  result.source??={};result.source.workflow={policy:REVIEW_POLICY,runId,correctionIds:state.corrections.map(c=>c.id)};
  result.studio??={};result.studio.flags=[...(result.studio.flags??[]).filter(f=>!f.workflowIssue),...workflowFlags(state,pages)];
  return result;

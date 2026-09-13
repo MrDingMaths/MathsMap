@@ -21,7 +21,7 @@ function treeSignature(root){
 // Include renderer dependencies and fonts, not just the project presentation.
 // This is deliberately conservative: a runtime change forces a fresh layout check.
 export function rendererSignature(){
-  return treeSignature('src')+treeSignature('public/libs')+treeSignature('node_modules/katex/dist/fonts')+treeSignature('scripts/booklet/pdf-layout-qa.mjs')+treeSignature('scripts/booklet/check-compact-exercises.mjs')+treeSignature('package-lock.json');
+  return treeSignature('src')+treeSignature('public/libs')+treeSignature('node_modules/katex/dist/fonts')+treeSignature('scripts/booklet/pdf-layout-qa.mjs')+treeSignature('scripts/booklet/check-compact-exercises.mjs')+treeSignature('scripts/booklet/diagram-preflight.mjs')+treeSignature('package-lock.json');
 }
 export async function layoutCacheKey(project,edition,runtime){
   const assets=[];let unresolved=false;
