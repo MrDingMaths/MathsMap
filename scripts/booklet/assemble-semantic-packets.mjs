@@ -89,6 +89,8 @@ for(const block of project.sections.flatMap(s=>s.blocks)){
  if(arrangement){
   const resolved=resolveArrangement(block,arrangement);
   for(const missing of resolved.missing)semanticErrors.push(`Missing layout reference ${missing.ref} in ${block.id}`);
+  const placed=new Set();const collect=n=>{if(n.type==='item')placed.add(n.ref);else n.children.forEach(collect);};collect(resolved.tree.root);
+  for(const entry of resolved.entries.values())if(['text','document','diagram'].includes(entry.kind)&&(!entry.role||entry.role==='content')&&!placed.has(entry.ref))semanticErrors.push(`Unplaced content reference ${entry.ref} in ${block.id}`);
   if(block.type==='question'&&!block.pedagogyRole){
    const refs=new Set();const visit=n=>{if(n.type==='item')refs.add(n.ref);else n.children.forEach(visit);};visit(resolved.tree.root);
    for(const entry of resolved.entries.values())if(entry.kind==='label'&&entry.value&&!refs.has(entry.ref))semanticErrors.push(`Missing structural question label ${entry.ref} in ${block.id}`);

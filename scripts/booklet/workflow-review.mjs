@@ -64,13 +64,14 @@ export function mathematicalFindings(inventory){
 }
 
 // Patches use exact originals; partial substring substitutions are never guessed.
+const patchFingerprint=(value,patch)=>fingerprint(patch.field==='/sourceReview'&&value?{...value,verification:undefined,visualAudit:undefined}:value);
 function patchField(target,patch){
  const keys=patch.field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
  if(!keys.length||keys.some(k=>['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid correction field');
  let parent=target;for(const k of keys.slice(0,-1))parent=parent?.[k];
  const key=keys.at(-1);if(!parent||!(key in parent))throw Error('Missing correction target '+patch.targetId);
- if(fingerprint(parent[key])===fingerprint(patch.corrected))return;
- if(fingerprint(parent[key])!==fingerprint(patch.original))throw Error('Stale correction '+patch.targetId+patch.field);
+ if(patchFingerprint(parent[key],patch)===patchFingerprint(patch.corrected,patch))return;
+ if(patchFingerprint(parent[key],patch)!==patchFingerprint(patch.original,patch))throw Error('Stale correction '+patch.targetId+patch.field);
  parent[key]=structuredClone(patch.corrected);
 }
 export function materializeCorrections(source,state,scope,page){
@@ -83,12 +84,29 @@ export function materializeCorrections(source,state,scope,page){
   const keys=patch.field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
   if(keys.some(k=>['__proto__','constructor','prototype'].includes(k)))return false;
   const current=keys.reduce((value,key)=>value?.[key],target);
-  let value=patch.corrected;
+  let probe=structuredClone(target);
+  let owner=probe;for(const key of keys.slice(0,-1))owner=owner?.[key];
+  if(!owner)return false;
+  owner[keys.at(-1)]=structuredClone(patch.corrected);
   for(const next of approvedPatches.slice(approvedPatches.indexOf(patch)+1)){
-   if(next.scope!==patch.scope||next.page!==patch.page||next.targetId!==patch.targetId||next.field!==patch.field)continue;
-   if(fingerprint(next.original)!==fingerprint(value))break;
-   value=next.corrected;
-   if(fingerprint(current)===fingerprint(value))return true;
+   if((next.scope!==patch.scope&&!(scope==='project'&&next.scope==='project'))||next.page!==patch.page)continue;
+   const value=keys.reduce((v,key)=>v?.[key],probe);
+   // A later approved ancestor replacement can carry this field forward too.
+   // Compare its exact embedded original, rather than trusting an applied ID.
+   const embedded=v=>contentNodes({sections:[{blocks:[{id:'correction-probe',content:v}]}]}).get(patch.targetId)?.node;
+   const before=embedded(next.original),after=embedded(next.corrected);
+   if(before&&after){
+    if(patchFingerprint(keys.reduce((v,key)=>v?.[key],before),patch)!==patchFingerprint(value,patch))return false;
+    probe=structuredClone(after);
+    if(patchFingerprint(current,patch)===patchFingerprint(keys.reduce((v,key)=>v?.[key],probe),patch))return true;
+    continue;
+   }
+   const descendant=contentNodes({sections:[{blocks:[{id:'correction-probe',content:value}]}]}).get(next.targetId)?.node;
+   const sameTarget=next.targetId===patch.targetId&&(next.field===patch.field||next.field.startsWith(patch.field+'/'));
+   const nextTarget=sameTarget?probe:descendant;
+   if(!nextTarget)continue;
+   try{patchField(nextTarget,next);}catch{return false;}
+   if(patchFingerprint(current,patch)===patchFingerprint(keys.reduce((v,key)=>v?.[key],probe),patch))return true;
   }
   return false;
  };
@@ -102,7 +120,22 @@ export function materializeCorrections(source,state,scope,page){
     for(const target of targets){const before=fingerprint(target);if(!superseded(target,patch))patchField(target,patch);if(scope==='project'&&before!==fingerprint(target))delete target.verification;}
    }
    else{
-    const target=contentNodes(result).get(patch.targetId);if(!target)throw Error('Missing correction target '+patch.targetId);
+    const target=contentNodes(result).get(patch.targetId);
+    if(!target){
+     // An explicitly approved ancestor replacement may remove an old scaffold.
+     // Require both its exact saved replacement and the earlier corrected value
+     // inside its original; an absent target alone never counts as approval.
+     const fieldValue=(value,field)=>field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~')).reduce((v,k)=>v?.[k],value);
+     const removedByApprovedParent=approvedPatches.slice(approvedPatches.indexOf(patch)+1).some(next=>{
+      if(next.page!==patch.page||next.scope!==scope&&!(scope==='project'&&['author','project'].includes(next.scope)))return false;
+      const embedded=value=>contentNodes({sections:[{blocks:[{id:'correction-probe',content:value}]}]}).get(patch.targetId)?.node;
+      const original=embedded(next.original);if(!original||embedded(next.corrected))return false;
+      const parent=contentNodes(result).get(next.targetId)?.node;
+      return parent&&patchFingerprint(fieldValue(original,patch.field),patch)===patchFingerprint(patch.corrected,patch)&&patchFingerprint(fieldValue(parent,next.field),next)===patchFingerprint(next.corrected,next);
+     });
+     if(removedByApprovedParent)continue;
+     throw Error('Missing correction target '+patch.targetId);
+    }
     if(superseded(target.node,patch))continue;
     const originalValue=fingerprint(target.node);
     // Reuse the existing string correction conflict contract when possible.
@@ -307,7 +340,7 @@ export function workflowFlags(state,pages){
 export function synchronizeInventoryAmbiguities(entries,state){
  for(const entry of entries){
   if(!entry.ambiguity)continue;
-  const page=entry.pageNumber,sourceId=entry.id.replace(/-mapping-\d+$/,'');
+  const page=entry.pageNumber,sourceId=entry.derived&&entry.continuationOf?entry.continuationOf:entry.id.replace(/-mapping-\d+$/,'');
   const issue=state.issues[`inventory-${page}-${sourceId}-ambiguity`];
   const current=issue?.kind==='source-ambiguity'&&issue.entryId===sourceId&&issue.page===page&&issue.inputHash===state.pages[page]?.inventoryHash&&['retained','corrected'].includes(issue.status)&&issue.resolution?.reason&&evidenceCurrent(issue.resolution.evidence);
   if(current){

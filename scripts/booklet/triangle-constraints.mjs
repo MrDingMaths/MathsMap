@@ -38,6 +38,11 @@ export function inspectTriangle(model){
 }
 
 function constructBasis(model){
+ if(model.construction?.type==='base-altitude'){
+  const {height,foot}=model.construction,base=value(model.sides?.a);
+  if(!(Number.isFinite(base)&&base>0&&Number.isFinite(height)&&height>0&&Number.isFinite(foot)))throw Error('Base-altitude construction needs positive base/height and finite foot offset');
+  return {A:[foot,height],B:[0,0],C:[base,0]};
+ }
  const s=Object.fromEntries(Object.entries(model.sides??{}).map(([k,m])=>[k,value(m)]));
  const a=Object.fromEntries(Object.entries(model.angles??{}).map(([k,m])=>[k,value(m)]));
  let b=s.b,c=s.c,A=a.A;

@@ -18,6 +18,21 @@ const exact=value=>({value,exact:true});
 const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
 const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+test('explicit ancestor removal supersedes an old scaffold correction without accepting missing or edited content',()=>{
+ const packet=author(1),node=packet.sections[0].blocks[0].content;
+ node.prompt={blocks:[{id:'stem',text:'Find x.'},{id:'blank',width:145}]};
+ const original=structuredClone(node);original.prompt.blocks[1].width=120;
+ const corrected=structuredClone(original);corrected.prompt.blocks.pop();
+ const state={corrections:[{status:'approved',patches:[{scope:'author',page:1,targetId:'blank',field:'/width',original:145,corrected:120}]},{status:'approved',patches:[{scope:'project',page:1,targetId:'b-1',field:'/content',original,corrected}]}]};
+ const updated=materializeCorrections(packet,state,'project');
+ assert.deepEqual(updated.sections[0].blocks[0].content,corrected);
+ assert.deepEqual(materializeCorrections(updated,state,'project'),updated);
+ const local=structuredClone(updated);local.sections[0].blocks[0].content.prompt.blocks[0].text='Local edit';
+ assert.throws(()=>materializeCorrections(local,state,'project'),/Missing correction target/);
+ const disconnected=structuredClone(state);disconnected.corrections[1].patches[0].original.prompt.blocks[1].width=99;
+ assert.throws(()=>materializeCorrections(updated,disconnected,'project'),/Missing correction target/);
+ assert.throws(()=>materializeCorrections(updated,{corrections:state.corrections.slice(0,1)},'project'),/Missing correction target/);
+});
 test('approved correction chains replay on saved content without hiding concurrent edits',()=>{
  const patch=(original,corrected)=>({scope:'author',page:1,targetId:'q-1',field:'/prompt',original,corrected});
  const state={corrections:[{id:'first',status:'approved',reason:'Approved source correction',sourceRefs:[{pageNumber:1}],patches:[patch('Find x.','Find y.')]},{id:'second',status:'approved',reason:'Approved follow-up correction',sourceRefs:[{pageNumber:1}],patches:[patch('Find y.','Find z.')]}]};
@@ -29,6 +44,34 @@ test('approved correction chains replay on saved content without hiding concurre
  assert.throws(()=>materializeCorrections(edited,state,'author',1),/Stale correction/);
  const disconnected=structuredClone(state);disconnected.corrections[1].patches[0].original='Another original';
  assert.throws(()=>materializeCorrections(updated,disconnected,'author',1),/Stale correction/);
+});
+test('approved parent and descendant corrections replay without overwriting local edits',()=>{
+ const packet=author(1),original=structuredClone(packet.sections[0].blocks[0].content);
+ const corrected={...original,prompt:{type:'doc',blocks:[{id:'cloze',type:'paragraph',width:145,text:'Explain'}]}};
+ const state={corrections:[{id:'parent',status:'approved',patches:[{scope:'author',page:1,targetId:'b-1',field:'/content',original,corrected}]},{id:'child',status:'approved',patches:[{scope:'author',page:1,targetId:'cloze',field:'/width',original:145,corrected:120}]}]};
+ const updated=materializeCorrections(packet,state,'author',1);
+ assert.equal(updated.sections[0].blocks[0].content.prompt.blocks[0].width,120);
+ assert.deepEqual(materializeCorrections(updated,state,'author',1),updated);
+ const edited=structuredClone(updated);edited.sections[0].blocks[0].content.prompt.blocks[0].text='Local edit';
+ assert.throws(()=>materializeCorrections(edited,state,'author',1),/Stale correction/);
+ const final=structuredClone(updated.sections[0].blocks[0].content);final.prompt.blocks[0].width=125;
+ state.corrections.push({id:'ancestor',status:'approved',patches:[{scope:'author',page:1,targetId:'b-1',field:'/content',original:structuredClone(updated.sections[0].blocks[0].content),corrected:final}]});
+ const last=materializeCorrections(packet,state,'author',1);
+ assert.equal(last.sections[0].blocks[0].content.prompt.blocks[0].width,125);
+ assert.deepEqual(materializeCorrections(last,state,'author',1),last);
+ const local=structuredClone(last);local.sections[0].blocks[0].content.prompt.blocks[0].width=126;
+ assert.throws(()=>materializeCorrections(local,state,'author',1),/Stale correction/);
+});
+test('source-review correction replay retains later acceptance but rejects changed arrangements',()=>{
+ const packet=author(1);packet.sections[0].blocks[0].sourceReview={arrangements:[]};
+ const corrected={arrangements:[{targetId:'q-1',layout:'grid'}]};
+ const state={corrections:[{id:'review',status:'approved',patches:[{scope:'author',page:1,targetId:'b-1',field:'/sourceReview',original:{arrangements:[]},corrected}]}]};
+ const updated=materializeCorrections(packet,state,'author',1);
+ updated.sections[0].blocks[0].sourceReview.verification={checked:true,signature:'fresh'};
+ updated.sections[0].blocks[0].sourceReview.visualAudit={checked:true};
+ assert.deepEqual(materializeCorrections(updated,state,'author',1),updated);
+ updated.sections[0].blocks[0].sourceReview.arrangements[0].layout='local-grid';
+ assert.throws(()=>materializeCorrections(updated,state,'author',1),/Stale correction/);
 });
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-review-'));
@@ -46,7 +89,7 @@ test('resolved source ambiguities propagate to every mapping and reopen on stale
  const inventory=inv(1);inventory.entries[0].ambiguity='The intended angle is unclear.';
  registerInventory(state,inventory,'source-hash');
  const issue=Object.values(state.issues)[0];
- const entries=[inventory.entries[0],{...inventory.entries[0],id:'src-1-mapping-1'}].map(e=>({...e,pageNumber:1}));
+ const entries=[inventory.entries[0],{...inventory.entries[0],id:'src-1-mapping-1'},{...inventory.entries[0],id:'src-1-derived-wrapper',derived:true,continuationOf:'src-1'}].map(e=>({...e,pageNumber:1}));
  synchronizeInventoryAmbiguities(entries,state);
  assert.equal(entries[0].ambiguous,inventory.entries[0].ambiguity);
  applyDecisions(state,{...evidence,expectedRevision:state.revision,key:settlementKey(state),resolutions:[{id:issue.id,status:'retained',reason:'The source arc identifies the intended angle.'}]});

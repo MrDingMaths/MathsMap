@@ -56,6 +56,8 @@ test('complete prompts share a stable prefix, preserve context, and never duplic
  assert.ok(!a.prompt.includes('PILOT-VERIFIED'));
  assert.ok(!a.prompt.includes('pageBreakBefore:true'));
  assert.ok(!a.prompt.includes('#AA0505'));
+ assert.match(a.prompt,/#4f9b63/);
+ assert.match(a.prompt,/Unresolved custom colours fail acceptance/);
  assert.equal(a.images.length,3); // Bounded previews plus target; all context is linked.
  assert.match(a.prompt,/page-003.png/);
  assert.equal(createSemanticTasks({...options,config:{...options.config,teachingImageLimit:3}})[0].images.length,4);
@@ -75,6 +77,22 @@ test('visual routing includes requested answer sketches without triggering on to
  assert.ok(prompt.includes('\\special{dvisvgm:raw'));
  assert.match(prompt,/90-b/);
  assert.match(prompt,/outer response remains JSON/);
+});
+
+test('reviewed author prompts explain corrected source and teaching context without exposing unrelated decisions',t=>{
+ const options=fixture(t);
+ options.config.workflowPolicy='review-first-v1';
+ const correction=(page,original,corrected)=>({id:'fix-'+page,status:'approved',reason:'Reviewed numerical error',patches:[{scope:'inventory',page,targetId:'src-'+page,field:'/description',original,corrected}]});
+ const workflowState={pages:{4:{patterns:[]}},issues:{a:{id:'a',page:1,status:'retained',message:'Teaching convention',resolution:{reason:'Use the taught method'}},b:{id:'b',page:5,status:'retained',message:'Unrelated secret',resolution:{reason:'Do not send'}}},corrections:[correction(4,'Solve the equation.','Find the corrected probability.'),correction(1,'Solve the equation.','Correct teaching formula'),correction(5,'Solve the equation.','Unrelated correction')],representatives:{}};
+ const [task]=createSemanticTasks({...options,pages:[4],workflowState});
+ assert.match(task.prompt,/Apply these decisions even when original PDF pixels or Word text differ/);
+ assert.match(task.prompt,/Correct teaching formula/);
+ assert.match(task.prompt,/Find the corrected probability/);
+ assert.match(task.prompt,/Use the taught method/);
+ assert.doesNotMatch(task.prompt,/Unrelated secret|Unrelated correction/);
+ assert.equal(task.inventory.entries[0].description,'Find the corrected probability.');
+ const [inv]=createSemanticTasks({...options,pages:[4],stage:'inventory',workflowState});
+ assert.doesNotMatch(inv.prompt,/APPROVED EDITORIAL DECISIONS/);
 });
 
 test('Word retrieval merges overlap while preserving source offsets and whitespace',()=>{
@@ -141,6 +159,24 @@ test('result validation rejects omissions, nonexistent targets, incomplete diagr
  assert.throws(()=>validateSemanticResult(answerless,task),/lacks short\/worked/);
  const visualInventory=inventory(4);visualInventory.entries[0].kind='diagram';
  assert.throws(()=>validateSemanticResult(author(4),{...task,inventory:visualInventory}),/non-diagram target/);
+});
+
+test('source card diagrams may map to individual editable card slots, not arbitrary prose slots',()=>{
+ const a=author(4),i=inventory(4);i.entries.push({id:'source-card',kind:'diagram',description:'Letter M card'});
+ const layout={id:'cards',type:'layout',arrangement:'cards',slots:[{id:'card-m',blocks:[{id:'letter-m',type:'paragraph',inlines:[{type:'text',text:'M'}]}]}]};
+ a.sections[0].blocks.push({id:'native-cards',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[layout]}});
+ a.inventoryMappings.push({inventoryId:'source-card',targetId:'card-m'});
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ layout.arrangement='parallel';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+
+test('source tables may map to populated native tables but not empty placeholders',()=>{
+ const a=author(4),i=inventory(4);i.entries.push({id:'source-table',kind:'diagram',description:'Outcome table'});
+ const table={id:'native-table',type:'table',rows:[[{blocks:[{id:'heading',type:'paragraph',inlines:[{type:'text',text:'Outcome'}]}]}]]};
+ a.sections[0].blocks.push({id:'table-block',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[table]}});
+ a.inventoryMappings.push({inventoryId:'source-table',targetId:'native-table'});
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ table.rows=[];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
 });
 
 test('a concurrent canonical edit survives an in-flight transcription',async t=>{

@@ -86,6 +86,12 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
    add('envelope',`Return {pageNumber:${page},sections:[{id,topicId:${JSON.stringify(topic?.id??'front-matter')},title:nonemptyTopicOrSourceTitle,phase:"teaching|practice|front-matter",role:"teaching|mixed-practice|front-matter",headingStyle:"none",sourcePageNumber:${page},blocks:[BLOCK]}],inventoryMappings:[{inventoryId,targetId,field?,derived?}],corrections:[],findings:[]}. Map EVERY non-excluded inventory item to an actual content ID (diagrams to diagram IDs). inventoryId MUST belong to inventory.entries, including exclusions. Source groups and generated layout/heading IDs are NOT inventory IDs unless independently present in entries. Keep source arrangements in content; do not invent mappings for generated wrappers, topic headings or editor-only difficulty. Template-owned teaching headers appear once through sourceAtom, not duplicated body headings. A source cover replaced by calculated metadata may omit body sections; never assume page 1 is a cover. Preserve cover wording in inventory/config. Findings are unresolved defects only. Corrections: {sourcePage,sourceLabel,original,replacement,reason,targetId,field}; distinguish source errors from extraction errors and preserve original evidence.`);
    add('allowed-inventory-ids','ALLOWED inventoryId VALUES (distinct from generated content/layout IDs): '+JSON.stringify(inventory.entries.map(e=>e.id)));
    add('inventory','INDEPENDENT SOURCE INVENTORY:\n'+JSON.stringify(inventory));
+   if(reviewed){
+    const relevant=new Set([page,...contextPages]);
+    const corrections=workflow.corrections.filter(c=>c.status==='approved').map(c=>({id:c.id,reason:c.reason,patches:c.patches.filter(p=>relevant.has(p.page))})).filter(c=>c.patches.length);
+    const decisions=Object.values(workflow.issues).filter(i=>relevant.has(i.page)&&i.status!=='pending').map(i=>({id:i.id,page:i.page,status:i.status,issue:i.message,reason:i.resolution?.reason,correctionId:i.resolution?.correctionId}));
+    add('reviewed-decisions','APPROVED EDITORIAL DECISIONS: The inventory above already incorporates approved source corrections. Apply these decisions even when original PDF pixels or Word text differ; those originals remain evidence, not instructions to undo a reviewed correction. Preserve original evidence and correction IDs. Do not re-propose or reverse an approved decision as an extraction error. A genuinely new conflict must be a finding.\n'+JSON.stringify({corrections,decisions}));
+   }
   }
   if(reviewed&&stage==='author'&&!blockers.length){
    try{
@@ -120,10 +126,11 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
  }
  if(!Array.isArray(result.sections)||!Array.isArray(result.inventoryMappings))throw Error('Incomplete semantic author envelope');
  if(reviewed&&result.confirmedCorrections?.length)throw Error('Author output cannot approve corrections; use the structured editorial register');
- const ids=new Map();
+ const ids=new Map(),nativeCards=new Set();
  function walk(value){
   if(!value||typeof value!=='object')return;
   if(value.id){if(ids.has(value.id))throw Error('Duplicate content ID '+value.id);ids.set(value.id,value);}
+  if(value.type==='layout'&&value.arrangement==='cards')for(const slot of value.slots??[])if(slot.id&&slot.blocks?.length)nativeCards.add(slot.id);
   if(value.type==='group'&&value.children?.filter(n=>n.type==='item'&&n.ref?.endsWith('/label')).length>1)throw Error('Multiple structural labels share a layout group; give each response its own group: '+value.id);
   if(['question','part','group'].includes(value.type)&&'prompt' in value){
    if(value.children?.length){if(value.answer)throw Error('Parent node carries answers '+value.id);}
@@ -140,7 +147,8 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   if(!mapping.exclusionReason){
    const target=ids.get(mapping.targetId);
    if(!target)throw Error('Missing mapping target '+mapping.targetId);
-   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram')throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
+   const nativeTable=target.type==='table'&&target.rows?.length>0&&target.rows.every(row=>Array.isArray(row)&&row.length>0);
+   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeTable)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
   }
  }
  for(const entry of inventory.entries)if(!entry.exclusionReason&&!result.inventoryMappings.some(m=>m.inventoryId===entry.id))throw Error('Missing inventory mapping '+entry.id);

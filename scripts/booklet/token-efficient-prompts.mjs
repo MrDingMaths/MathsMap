@@ -1,4 +1,4 @@
-import {DIAGRAM_COLOUR_PROMPT} from '../../public/libs/maths-editor/house-style.mjs';
+import {DIAGRAM_COLOUR_PROMPT,STANDARD_PALETTE_PROMPT} from '../../public/libs/maths-editor/house-style.mjs';
 // Token-efficient authoring prompts. The full contracts remain in the source
 // files and are used for local review; these compact modules carry the rules
 // needed for the page-level authoring call.
@@ -15,7 +15,7 @@ Each topic has one numbered exercise. The shared renderer owns its heading at th
 
 Use the supported v4 block/node/document fields below. Retain redundant numerical givens: deciding which measurements matter is assessed. Preserve mathematical colour meaning through the standard booklet palette, including inside equations; ordinary diagram lines and labels use black. Use one Identify/activity group for red demonstrations plus responses when the source groups them. Keep source paragraph alignment, relation-sign alignment and meaningful whitespace. Key Ideas use hanging numbered text and 1.5 prose line spacing. Cloze width is at least max(8, ceil(2.2 * missing-response characters + 6)) mm; allow handwriting in fractions and exponents, and reflow before shrinking. Use native cards and speech bubbles. Do not add empty paragraphs or compound table/template padding.
 
-Return the page envelope requested by the caller, omit defaults and provenance from student-facing prose, and return only JSON. Successful generation is not acceptance: source comparison, content reconciliation, presentation review and final-size rendering remain separate.`;
+Return the page envelope requested by the caller, omit defaults and provenance from student-facing prose, and return only JSON. Successful generation is not acceptance: source comparison, content reconciliation, presentation review and final-size rendering remain separate.${STANDARD_PALETTE_PROMPT}`;
 
 // Keep the schema explicit: removing it saves input but causes invented fields
 // and expensive repairs. Optional/default fields need not repeat in output.
