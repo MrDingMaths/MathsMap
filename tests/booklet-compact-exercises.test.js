@@ -10,6 +10,13 @@ const q=(id,flow={})=>({id,type:'question',bankRef:{id},content:{id:id+'root',ty
 const section=(id,topicId,blocks,phase='practice')=>({id,topicId,blocks,phase,title:phase,role:phase,pageBreakBefore:true});
 const fixture=()=>normalizeEditableProject({id:'trial-test',settings:{paginationMode:'flexible'},topics:[{id:'t',title:'Topic'},{id:'u',title:'Next'}],sections:[section('a','t',[q('hard'),q('easy'),q('tie')]),section('teach','t',[{id:'teaching',type:'rich-text',content:'Method'}],'teaching'),section('b','t',[q('last')]),section('c','u',[q('next')])]});
 const ratings={hard:{reasoningScore:70,difficulty:'Mastery'},easy:{reasoningScore:10,difficulty:'Foundation'},tie:{reasoningScore:10,difficulty:'Foundation'},last:{reasoningScore:1,difficulty:'Foundation'},next:{reasoningScore:20,difficulty:'Development'}};
+
+test('a teaching-only topic retains an exercise destination without practice answers',()=>{
+ const p=fixture();p.settings.exerciseOrganisation='topic';p.sections.splice(3,0,section('investigation','law',[{id:'law',type:'rich-text',content:'Investigate relative frequency.'}],'teaching'));
+ assert.deepEqual(exerciseNumbers(p),{t:1,law:2,u:3});
+ const student=flowEditionSections(p,'student'),law=student.find(s=>s.topicId==='law');assert.equal(law.exerciseNumber,2);assert.equal(law.blocks[0].flow.exerciseHeadingBefore,2);
+ assert.ok(!flowEditionSections(p,'short').some(s=>s.topicId==='law'));
+});
 test('exercise sorting preserves teaching checkpoints, stable ties and source content',()=>{
  const source=fixture(),before=structuredClone(source),p=organiseExercises(source,ratings);
  assert.deepEqual(source,before);assert.deepEqual(p.sections[0].blocks.map(b=>b.id),['easy','tie','hard']);
@@ -99,9 +106,11 @@ test('every active compact booklet derives exactly one question heading per exer
   const p=JSON.parse(readFileSync(`booklets/projects/${file}`));
   if(p.settings.exerciseOrganisation!=='topic')continue;
   const expected=Object.values(exerciseNumbers(p));
+  const practiceTopics=new Set(p.sections.filter(s=>s.phase==='practice').map(s=>s.topicId));
+  const practiceExpected=Object.entries(exerciseNumbers(p)).filter(([id])=>practiceTopics.has(id)).map(([,n])=>n);
   for(const edition of ['student','with-short','with-worked']){
    const sections=flowEditionSections(p,edition).filter(s=>s.mode==='student');
-   assert.deepEqual(sections.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),expected.map(n=>`Exercise ${n}`),`${file}: ${edition}`);
+   assert.deepEqual(sections.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),practiceExpected.map(n=>`Exercise ${n}`),`${file}: ${edition}`);
    assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseHeadingBefore).filter(Boolean),expected);
   }
  }

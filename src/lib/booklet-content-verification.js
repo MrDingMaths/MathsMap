@@ -82,7 +82,11 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
   for(const {node,block,ancestors}of nodes.values()){
     if((node===block||['part','subpart'].includes(node.type)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
     if(node!==block&&['question','part','subpart'].includes(node.type)&&!node.children?.length&&block.type==='question'){
-      if(!hasVisibleContent(node.prompt)&&![...ancestors,node].some(n=>n.questionDiagrams?.length))issue('missing-prompt',node.id,'Response has no visible prompt or shared question diagram.');
+      const scaffoldRef=block.sourceReview?.responses?.find(r=>r.targetId===node.id)?.scaffoldTargetId;
+      const scaffold=scaffoldRef?nodes.get(scaffoldRef):null;
+      const boundScaffold=node.responseSpace==='scaffold'&&scaffold?.block===block&&
+        (scaffold.node.type==='table'||scaffold.node.type==='paragraph'&&scaffold.node.inlines?.some(i=>i.type==='cloze'));
+      if(!hasVisibleContent(node.prompt)&&![...ancestors,node].some(n=>n.questionDiagrams?.length)&&!boundScaffold)issue('missing-prompt',node.id,'Response has no visible prompt, shared question diagram or explicitly bound native scaffold.');
       for(const mode of ['short','worked'])if(!hasAnswer(node.answer?.[mode]))issue('missing-answer',node.id,`Missing ${mode} answer.`);
       if(node.answer?.provenance?.worked==='source-short-only')issue('missing-worked-solution',node.id,'A supplied short answer still needs a worked solution.');
     }

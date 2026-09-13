@@ -4,6 +4,28 @@ This register consolidates earlier recorded user feedback for every future bookl
 
 ## Precedence and scope
 
+### Activity correctness markers and numbered working (13 September 2026)
+
+All current and future activity correctness ticks and crosses use 14 pt at final
+printed size, with standard green/red semantic colours. Author native maths with
+`semanticRole: 'correctness-marker'` using `correctnessMarker` in
+`public/libs/maths-editor/teaching-style.mjs`. Multiplication signs are ordinary
+maths and must never acquire this role. Preserve the role through rich editing,
+clipboard, save/reopen and print; avoid embedded LaTeX size commands.
+
+Numbered teaching calculations keep a separate left-aligned red number gutter
+and blue working aligned at relation signs. Use `numberedTeachingWorking` from
+the same shared authoring module; a null number continues the preceding step.
+Retain all equations, annotations, fraction separation and writable scaffolds.
+Do not place numbers inside the right-aligned equation left-hand-side column.
+This does not recolour ordinary practice short answers or explanatory Key Ideas
+numbered lists.
+
+Booklet Studio exposes arrangement and spacing through **Layout & spacing**.
+Its question-wide controls, selected object controls, paragraph settings and
+detailed arrangement entry share one panel. Table row minimum heights and cell
+padding belong here too: paragraph spacing cannot override a taller table row.
+
 Use the [booklet change runbook](booklet-change-runbook.md) for efficient execution: inspect representative cases early, iterate on affected pages and neighbours, reuse valid evidence, settle inputs before final checks, and record actual costs. Existing source-fidelity and required complete final review gates remain in force.
 
 Current user instructions take precedence. Apply explicit general house-style choices to new imports; preserve source mathematics, pedagogical meaning, ordering and evidence. Record any intentional departure from source appearance. Specific dimensions, topic methods, source palettes, deletions and merges are not universal defaults. Existing projects retain their content and pagination settings unless a change is authorised; this does not exempt shared rendering defects from general fixes. Historical run evidence stays unchanged.
@@ -40,6 +62,21 @@ Use one existing Review heading and enclosing panel per teaching group, preservi
 Verification: all 26 prompts across Linear's 6 groups and Index Laws' 8 groups have been checked. Five embedded Linear checkbox glyphs were removed and the five owner questions report synced; Index Laws required no content edits. All 85 targeted label, arrangement, flow, compact-exercise, measurement, source-presentation and bank-sync tests passed, as did the production build. `scripts/booklet/check-review-numbering.mjs` verified every prompt's number/alignment, an existing custom arrangement without its label, inline edit/save/reload and teaching-answer controls using isolated in-memory copies. Practice-only answer editions contain no Review groups. Full question PDFs (Linear 92 pages; Index Laws 65 pages) passed DOM and printed geometry checks. Every Review page was visually inspected: Linear 3, 12, 14, 41, 49, 80; Index Laws 3, 9, 16, 21, 25, 31, 49, 56. Local PDFs, rendered page images and browser reports are in `.booklet-work/review-numbering/`.
 
 ## Audit findings and enforcement
+
+### Open responses and question-part borders (13 September 2026)
+
+Do not convert ordinary unruled exercise response space into clozes. Clozes are
+for source-supported completion blanks and mathematical scaffolds, sized for the
+missing response. A complete open-response prompt does not acquire an appended
+cloze or empty line. Retain separately intended working areas and explicit local
+exceptions. Probability revision 39 feedback selects compact spacing when removing
+its extraneous clozes.
+
+Question-part arrangements and tables used only to lay out independent parts are
+borderless, even when the source shows separators. Preserve meaningful columns,
+reading order and working space. Keep borders in actual value/comparison tables,
+dedicated writable boxes and solutions. Shared rendering must continue to support
+those legitimate bordered structures; do not suppress all borders with CSS.
 
 The [Volume feedback prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work) extend this register to source-relative diagram/calculation/photo arrangements, equal scaffold starts, anchored formula annotations, isolated cut orientation and curved/composite silhouettes. Retain source-supported placement, with house-style dotted writing blanks and shared headers. The named Volume repairs retain their local dimensions; do not copy those dimensions into unrelated books.
 

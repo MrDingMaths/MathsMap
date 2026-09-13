@@ -1,0 +1,20 @@
+﻿import fs from 'node:fs';import assert from 'node:assert/strict';import {chromium} from 'playwright-core';
+import {createEditableProject} from '../../src/lib/editable-booklet-model.js';import {correctnessMarker} from '../../public/libs/maths-editor/teaching-style.mjs';
+let record=createEditableProject({id:'layout-panel-check',title:'Layout panel check',settings:{paginationMode:'flexible',generatedCover:false},sections:[{id:'s',title:'Layout',blocks:[{id:'q',type:'question',content:{id:'root',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',border:false,rowHeights:[15,15],padding:2,rows:[[{id:'cell1',blocks:[{id:'p1',type:'paragraph',inlines:[{type:'text',text:'First scaffold line'}]}]}],[{id:'cell2',blocks:[{id:'p2',type:'paragraph',inlines:[correctnessMarker(true)]}]}]]}]},answerSpaceMm:10}}]}]});record.revision=1;
+const browser=await chromium.launch({headless:true,channel:'chrome'}),page=await browser.newPage({viewport:{width:1500,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/__booklet/**',async r=>{const req=r.request(),url=new URL(req.url());if(url.pathname.endsWith('/open'))return r.fulfill({json:{project:record,bankSync:{items:[]}}});if(url.pathname==='/__booklet/projects')return r.fulfill({json:[{id:record.id,title:record.title}]});if(url.pathname==='/__booklet/projects/'+record.id){if(req.method()==='PUT'){const b=req.postDataJSON();assert.equal(b.expectedRevision,record.revision);record={...b.project,revision:record.revision+1};}return r.fulfill({json:record});}return r.fulfill({json:{items:[]}});});
+const saved=()=>page.waitForFunction(()=>document.querySelector('.save-state')?.textContent==='Saved');
+const table=()=>record.sections[0].blocks[0].content.prompt.blocks[0];
+try{
+await page.goto('http://127.0.0.1:5174/#/booklet?stage=projects&project='+record.id);await page.locator('.flow-paper [data-edit-root="root"] .clickable').first().click();await page.locator('maths-editor .me-content p').first().click();
+const button=page.getByRole('button',{name:'Layout & spacing',exact:true}).first();await button.click();const panel=page.getByRole('complementary',{name:'Layout & spacing',exact:true});await panel.waitFor({state:'visible'});
+await panel.getByLabel('Table row 1 minimum height (mm)',{exact:true}).fill('8');await panel.getByLabel('Table row 1 minimum height (mm)',{exact:true}).press('Tab');await saved();assert.equal(table().rowHeights[0],8);
+await panel.getByLabel('Table cell padding (mm)',{exact:true}).fill('1');await panel.getByLabel('Table cell padding (mm)',{exact:true}).press('Tab');await saved();assert.equal(table().padding,1);
+await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.equal(table().padding,2);await page.getByRole('button',{name:'Redo',exact:true}).click();await saved();assert.equal(table().padding,1);
+await panel.getByLabel('Table cell padding (mm)',{exact:true}).focus();await page.keyboard.press('Escape');assert.equal(await button.getAttribute('aria-expanded'),'false');assert.ok(await button.evaluate(e=>e===document.activeElement));
+await button.click();await panel.getByRole('button',{name:'Close panel',exact:true}).click();assert.ok(await button.evaluate(e=>e===document.activeElement));
+await page.reload();await page.locator('.flow-paper [data-edit-root="root"] .clickable').first().click();assert.equal(table().rowHeights[0],8);assert.equal(table().padding,1);
+await page.locator('maths-editor .me-content').evaluate(e=>e.closest('maths-editor').documentController.capture());await saved();assert.equal(table().rows[1][0].blocks[0].inlines[0].semanticRole,'correctness-marker');
+await page.setViewportSize({width:390,height:844});await button.click();const bounds=await panel.boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=391);await page.screenshot({path:'.booklet-work/angle-feedback-20260913/panel-mobile.png'});
+assert.deepEqual(errors,[]);console.log('PASS table row/padding edit, undo/redo, save/reopen, marker role, Escape focus and mobile panel');
+}finally{await browser.close();}

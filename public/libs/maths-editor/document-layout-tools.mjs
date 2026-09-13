@@ -28,6 +28,12 @@ export const documentLayoutTools={
    panel.replaceChildren();const at=locateDocumentNode(this.doc,this.selectedId);if(!at)return;
    const title=document.createElement('strong');title.textContent='Selected '+at.node.type;panel.append(title);
    const command=(name,options={})=>this.transact(doc=>{this.selectedId=transformDocumentLayout(doc,this.selectedId,name,options);});
+   const table=at.node.type==='table'?at.node:[...at.ancestors].reverse().find(n=>n.type==='table');
+   if(table){
+    const field=(label,value,change)=>{const wrap=document.createElement('label'),input=document.createElement('input');wrap.textContent=label;input.type='number';input.min='0';input.max='80';input.step='.5';input.value=value;input.setAttribute('aria-label',label);input.onchange=()=>{if(input.value!==''&&input.validity.valid)this.transact(doc=>change(locateDocumentNode(doc,table.id).node,Number(input.value)));};wrap.append(input);panel.append(wrap);};
+    field('Table cell padding (mm)',table.padding??2,(n,v)=>n.padding=v);
+    table.rows.forEach((row,i)=>field(`Table row ${i+1} minimum height (mm)`,table.rowHeights?.[i]??4,(n,v)=>{n.rowHeights??=[];n.rowHeights[i]=Math.max(4,v);}));
+   }
    const buttons=document.createElement('div');buttons.className='me-layout-actions';panel.append(buttons);
    for(const [label,name]of [['Move block before','before'],['Move block after','after'],['Move block out','out'],['Full-width block','full-width'],['Group blocks','group'],['Ungroup blocks','ungroup']])this.button(buttons,label,()=>command(name,{ids:this.objectIds?.includes(this.selectedId)?this.objectIds:[this.selectedId]}));
    if(at.node.type==='layout'){this.button(buttons,'Stack blocks',()=>command('direction',{value:'stack'}));this.button(buttons,'Blocks side by side',()=>command('direction',{value:'row'}));}

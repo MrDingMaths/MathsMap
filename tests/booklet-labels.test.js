@@ -2,6 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel} from '../src/lib/booklet-labels.js';
 
+test('answer-only scaffold leaves keep answer labels without an empty student label',()=>{
+ const node={id:'table-row-a',label:'a',responseSpace:'scaffold',answer:{short:'1/5'}};
+ assert.equal(hasEmbeddedResponseLabel(node),true);
+ assert.equal(hasEmbeddedResponseLabel({...node,responseSpace:'working'}),false);
+ assert.equal(hasEmbeddedResponseLabel({...node,prompt:'Calculate this probability.'}),false);
+ assert.equal(hasEmbeddedResponseLabel({...node,questionDiagrams:[{id:'spinner'}]}),false);
+});
+
 test('embedded response heading prints once while retaining its answer-reference label',()=>{
  const node={id:'front',type:'part',label:'Front',responseSpace:'scaffold',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',rows:[[{blocks:[{type:'paragraph',inlines:[{type:'text',text:'Front'}]}]}]]}]}};
  assert.equal(hasEmbeddedResponseLabel(node),true);
@@ -29,6 +37,14 @@ test('teaching boxes label parts continuously across blocks and omit root questi
  for(const b of blocks){const catalog=arrangementCatalog(b,{labels});assert.equal(catalog.entries.get(b.content.id+'/label').value,'');}
  const preview=labelledTeachingQuestion(blocks[1],labels);assert.equal(preview.sourceOrder,null);assert.equal(preview.content.children[0].label,'c');assert.equal(blocks[1].content.children[0].label,'1');
 });
+
+test('separately prompted nested teaching tasks retain their repeated source part labels',()=>{
+ const block={id:'paired',type:'question',pedagogyRole:'guided-practice',content:{id:'pair',children:['die','lollies'].map(id=>({id,prompt:'Separate source task',children:['a','b','c'].map(label=>({id:id+'-'+label,label,prompt:'Respond'}))}))}};
+ const original=structuredClone(block),labels=teachingLabels([block]);
+ for(const id of ['die','lollies'])for(const label of ['a','b','c'])assert.equal(labels[id+'-'+label],label);
+ assert.equal(arrangementCatalog(block).entries.get('lollies-a/label').value,'a');
+ assert.deepEqual(block,original);
+});
 test('teaching examples omit labels globally, activity leaves use letters, and regular questions keep numbers',()=>{
  const examples=[{id:'e1',type:'worked-example',sourceAtom:{id:'ex',kind:'example'},examples:[{id:'a',label:'1'}]},{id:'e2',type:'worked-example',sourceAtom:{id:'ex',kind:'example'},examples:[{id:'b',label:'2'}]}];
  assert.deepEqual(teachingLabels(examples),{a:'',b:''});
@@ -46,4 +62,11 @@ test('saved arrangements retain references while suppressed numeric labels and m
 test('example labels can be suppressed for an example/non-example activity',()=>{
  const block={id:'identify',type:'worked-example',presentation:{showLabels:false},examples:[{id:'a'},{id:'b'}]};
  assert.deepEqual(teachingLabels([block]),{a:'',b:''});
+});
+
+test('explicitly unlettered teaching tasks stay unlettered without consuming a label',()=>{
+ const block={id:'guided',type:'question',sourceAtom:{kind:'guided-practice'},sourceReview:{responses:[{targetId:'unlettered',kind:'working',label:''}]},content:{id:'root',children:[{id:'unlettered',label:'',prompt:'Spin the spinner',answerSpaceMm:30},{id:'next',prompt:'Explain'}]}};
+ assert.deepEqual(teachingLabels([block]),{root:'',unlettered:'',next:'a'});
+ delete block.sourceReview;
+ assert.deepEqual(teachingLabels([block]),{root:'',unlettered:'a',next:'b'});
 });

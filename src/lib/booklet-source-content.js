@@ -56,6 +56,9 @@ export function contentProject(candidate,{runId,projectId,mode='compact',review=
       }
     }
     project=organiseExercises(applyCreationPreset(project,mode),candidate.ratings??{});
+    // Explicit, reviewed import settings (particularly final-size diagram
+    // widths) must survive the same creation path used by Studio and the CLI.
+    if(candidate.settings?.compactAnswers)project.settings.compactAnswers={...project.settings.compactAnswers,...structuredClone(candidate.settings.compactAnswers)};
   }else project=applyCreationPreset(project,mode);
   return normalizeEditableProject(project);
 }

@@ -120,7 +120,7 @@ export function flowNumbers(project) {
 export function exerciseNumbers(project) {
   if(project.settings?.exerciseOrganisation!=='topic')return {};
   const result={};let number=0;
-  for(const section of project.sections)if(section.blocks.some(isPractice)&&result[section.topicId]==null)result[section.topicId]=++number;
+  for(const section of project.sections)if(section.topicId&&section.phase!=='front-matter'&&section.role!=='candidate-pool'&&section.blocks.some(b=>!b.presentation?.editorOnly)&&result[section.topicId]==null)result[section.topicId]=++number;
   return result;
 }
 
@@ -224,6 +224,9 @@ export function flowEditionSections(project, edition='student') {
   // sections. Its heading belongs to the first non-empty practice section only.
   const exerciseStarts = new Map();
   for (const section of sections) if (section.phase==='practice' && section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
+  // A topic made entirely of an investigation/teaching activity still owns its
+  // exercise number and navigation destination, without becoming practice.
+  for (const section of sections) if (section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
   const startsExercise = section => exerciseStarts.get(section.topicId)===section;
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,

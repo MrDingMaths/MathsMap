@@ -11,6 +11,16 @@ const question=(id,score)=>({id,type:'question',sourceRefs:[{pageNumber:2}],flow
 const candidate=()=>({title:'New topic',topics:[{id:'t',title:'Powers'}],sections:[{id:'s',title:'Practice',role:'practice',phase:'practice',topicId:'t',blocks:[question('a',30),question('b',10)]}],sourceInventory:{version:1,pages:[{pageNumber:2,inventoried:true}],entries:[{id:'src-a',pageNumber:2,kind:'question',targetId:'a'},{id:'src-b',pageNumber:2,kind:'question',targetId:'b'}]}});
 const imported=()=>contentProject(candidate(),{runId:'run',projectId:'new',selectedPages:[2]});
 
+test('semantic creation retains reviewed answer diagram widths alongside compact defaults',()=>{
+  const c=candidate();c.settings={compactAnswers:{diagramWidths:{spinner:{short:75,worked:110}}}};
+  const p=contentProject(c,{runId:'run',projectId:'new',selectedPages:[2]});
+  assert.deepEqual(p.settings.compactAnswers.diagramWidths,c.settings.compactAnswers.diagramWidths);
+  assert.equal(p.settings.compactAnswers.shortFontPt,9);
+  assert.equal(p.settings.flowEdition,'with-short');
+  p.settings.compactAnswers.diagramWidths.spinner.short=50;
+  assert.equal(c.settings.compactAnswers.diagramWidths.spinner.short,75);
+});
+
 test('historical source layout identities do not collide with active content',()=>{
   const p=imported(),block=p.sections[0].blocks[0];
   block.sourceLayoutEvidence={original:structuredClone(block)};

@@ -7,6 +7,10 @@ export function alphabeticLabel(index){let label='';for(let n=index+1;n>0;n=Math
 // Keep the stored label for answer references without printing it twice.
 export function hasEmbeddedResponseLabel(node){
  if(node?.responseSpace!=='scaffold'||!node.label||node.children?.length)return false;
+ // Answer-only leaves bind to a supplied scaffold elsewhere in the question.
+ // Their labels remain available to answer editions, but do not create a
+ // second empty labelled response below the native table.
+ if(!node.prompt&&!node.questionDiagrams?.length&&node.answer)return true;
  const table=node.prompt?.blocks?.[0];
  if(table?.type!=='table'||table.rows?.[0]?.length!==1)return false;
  const blocks=table.rows[0][0]?.blocks;
@@ -30,7 +34,13 @@ export function teachingLabels(blocks=[]){
   const next=()=>{const index=counts.get(key)??0;counts.set(key,index+1);return alphabeticLabel(index);};
   const visit=node=>{
    if(!node)return;
-   if(node.label===''&&!node.children?.length&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&r.kind==='cloze')){labels[node.id]='';return;}
+   // Separately prompted tasks inside one teaching box can each restart a–c.
+   // Their explicit source labels are local to that task, unlike a flat set
+   // of activity responses continued across blocks.
+   if(node!==block.content&&!node.label&&node.prompt&&node.children?.length&&node.children.every((c,i)=>!c.children?.length&&c.label===alphabeticLabel(i))){
+    labels[node.id]='';node.children.forEach(c=>{labels[c.id]=c.label;});return;
+   }
+   if(node.label===''&&!node.children?.length&&block.sourceReview?.responses?.some(r=>r.targetId===node.id&&(r.kind==='cloze'||r.label===''))){labels[node.id]='';return;}
    // A source-labelled task can contain explicitly unlabelled response slots,
    // such as Front/Back/Side/Top views of one solid. Letter the task once.
    if(node.label&&node.children?.length&&node.children.every(c=>!c.children?.length)

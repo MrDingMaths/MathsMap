@@ -6,7 +6,7 @@ const p=JSON.parse(fs.readFileSync('booklets/projects/index-laws-complete-v1.jso
 const browser=await chromium.launch({headless:true,channel:'chrome'}),page=await browser.newPage({viewport:{width:1450,height:1100}});
 page.setDefaultTimeout(20000);
 try{
-await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());await page.route('**/__booklet/projects/'+p.id,r=>r.fulfill({json:p}));
+await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());await page.route('**/__booklet/projects/'+p.id,r=>r.request().method()==='GET'?r.fulfill({json:p}):r.fallback());
 await page.goto((process.env.BOOKLET_TEST_BASE??'http://127.0.0.1:5174')+'/#/booklet?stage=projects&project='+p.id);await page.waitForFunction(()=>document.querySelector('.flow-document')?.dataset.paginationState==='ready');
 await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
 await page.emulateMedia({media:'print'});await page.evaluate(()=>document.fonts.ready);
@@ -23,5 +23,6 @@ assert.equal(await page.getByLabel('Diagram width (mm)',{exact:true}).inputValue
 const alignment=page.getByLabel('Image alignment',{exact:true});await alignment.selectOption('center');
 await page.locator('dialog[open]').getByRole('button',{name:'Save',exact:true}).click();
 const shell=page.locator('.project-canvas .arr-diagram').filter({has:page.locator('img[src*="image11.png"]')}).first();
+await page.waitForFunction(()=>[...document.querySelectorAll('.project-canvas .arr-diagram')].some(e=>e.querySelector('img[src*="image11.png"]')&&e.style.marginLeft==='auto'&&e.style.marginRight==='auto'));
 const item=shell.locator('..');assert.equal(await item.evaluate(e=>e.style.marginInline),'auto');await shell.locator('img').click();await page.getByRole('button',{name:'Edit image',exact:true}).click();assert.equal(await alignment.inputValue(),'center');console.log('PASS centre control applies and is retained when reopened');
 }finally{await browser.close()}

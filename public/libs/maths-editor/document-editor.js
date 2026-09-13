@@ -65,7 +65,7 @@ export class DocumentEditor {
       if(node.getAttribute('aria-hidden')==='true')return [];
       colour=node.dataset.colour??colour;
       if(node.matches('[data-type=inline-image],img')) {const img=node.matches('img')?node:node.querySelector('img');let data={};try{data=JSON.parse(node.dataset.image??'{}');}catch{}return [{...data,...copy(originals.get(node.dataset.id)??{}),id:identity(node),type:'inline-image',src:img?.getAttribute('src')??'',alt:img?.alt??'',width:data.width??Math.min(80,(img?.width||76)*25.4/96),aspectRatio:data.aspectRatio??((img?.width||1)/(img?.height||1))}];}
-      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? mf?.getValue?.('latex') ?? mf?.textContent ?? '',display:node.dataset.display==='true',...(colour?{colour}:{})}]; }
+      if(node.matches('[data-math],math-field')) { const mf=node.matches('math-field')?node:node.querySelector('math-field'); return [{type:'math',latex:(!root.isConnected?mf?.dataset.clipboardLatex:undefined) ?? mf?.getValue?.('latex') ?? mf?.textContent ?? '',display:node.dataset.display==='true',...(node.dataset.semanticRole==='correctness-marker'?{semanticRole:'correctness-marker'}:{}),...(colour?{colour}:{})}]; }
       if(node.hasAttribute('data-tab'))return [{type:'tab'}];
       if(node.hasAttribute('data-cloze')) return [{type:'cloze',answer:node.dataset.cloze,width:Number(node.dataset.width),lines:Number(node.dataset.lines)||1,expectedResponse:node.dataset.expectedResponse,reviewStatus:node.dataset.reviewStatus}];
       if(node.hasAttribute('data-image-pending'))return [];

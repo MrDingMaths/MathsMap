@@ -84,6 +84,10 @@ try{
   record.sections.flatMap(s=>s.blocks).filter(isPractice).forEach(b=>practiceLeaf(b.content));
   report[kind]??={};
   for(const edition of editions){
+   if(preflight&&['short','worked'].includes(edition)&&leaves.length===0){
+    report[kind][edition]={mode:'diagram-preflight',projectId:id,projectHash,renderer:runtime,notApplicable:'This representative candidate has no practice answers in this edition.',pageHashes:[],screenshots:[],issues:[],printed:[]};
+    writeReport();console.log(`${kind} ${edition}: no practice-answer composition in this candidate`);continue;
+   }
    const started=Date.now(),beforeStats=await page.evaluate(()=>window.TikZ?.stats?.()??null);
    const file=`${out}/${kind}-${edition}${preflight?'-preflight':development?'-development':''}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
    const manifestFile=`${out}/${kind}-${edition}.full.pages.json`,hashFile=`${out}/${kind}-${edition}.development.pages.json`;

@@ -1,6 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {group,item,transformArrangement,arrangementItems,normalizeArrangement} from '../public/libs/maths-editor/arrangement-model.mjs';
+
+test('internal source-grid rules survive normalisation without becoming outer borders',()=>{
+ const raw={version:1,root:{...group('rows',[group('row',[item('a'),item('b')],'row')]),rules:'internal'}};
+ raw.root.children[0].rules='internal';const result=normalizeArrangement(raw);
+ assert.equal(result.root.rules,'internal');assert.equal(result.root.children[0].rules,'internal');
+ raw.root.rules='outer';assert.equal(normalizeArrangement(raw).root.rules,undefined);
+});
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 import {arrangementExamTitle,findContent} from '../src/lib/booklet-arrangement.js';

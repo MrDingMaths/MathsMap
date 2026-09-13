@@ -20,7 +20,7 @@
   function redo(){if(!future.length)return;history=[...history,copy(getValue())];restore(future.at(-1));future=future.slice(0,-1);}
   const region=$derived(sourceRegionStyles(crop));
   const src=$derived(code.startsWith('evidence/')?assetBase+code:code);
-  export function getValue(){return {code,width,align,sourceRegion:crop,colourMode:colour,mathematicalModel:model?copy(model):null,valid:!error};}
+  export function getValue(){return {code,width,align,sourceRegion:crop?copy(crop):null,colourMode:colour,mathematicalModel:model?copy(model):null,valid:!error};}
   export function save(){error='';if(diagram.format==='tikz'&&code!==diagram.code&&compilation.state!=='ready'){error=compilation.state==='error'?'Fix the TikZ preview error before applying this draft.':'Wait for the current TikZ preview before applying.';return;}if(!Number.isFinite(width)||width<5||width>190){error='Diagram width must be between 5 and 190 mm.';return;}if(crop&&!validSourceRegion(crop)){error='Crop must lie within the original image.';return;}onsave(getValue());}
   function changed(){error='';ondraft(getValue());}
   function cancel(){model=null;code=diagram.code??diagram.src??'';width=diagram.widthMm??78;align=alignment??diagram.align??'left';crop=diagram.sourceRegion??null;colour=colourMode;error='';ondraft(null);}

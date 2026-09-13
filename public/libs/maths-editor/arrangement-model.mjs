@@ -23,6 +23,7 @@ export function normalizeArrangement(value){
     for(const [key,max]of [['gap',30],['before',80],['after',80],['inset',60],['width',190],['weight',100],['height',180],['minHeight',180]])if(Number.isFinite(n[key]))out[key]=Math.max(key==='weight'?.1:0,Math.min(max,n[key]));
     if(['left','center','right','stretch'].includes(n.align))out.align=n.align;
     if(['top','middle','bottom'].includes(n.verticalAlign))out.verticalAlign=n.verticalAlign;
+    if(n.type==='group'&&n.rules==='internal')out.rules='internal';
     if(n.keepTogether!=null)out.keepTogether=!!n.keepTogether;if(n.keepInline!=null)out.keepInline=!!n.keepInline;
     return out;
   }
