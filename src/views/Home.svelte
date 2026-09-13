@@ -1,8 +1,7 @@
 <script>
   import { untrack } from 'svelte';
-  import { courses, coursesByStage, topicsForCourse, skillById } from '../lib/data.js';
-  import { topicStats, subscribe, allProgress } from '../lib/store.js';
-  import { nextSkills } from '../lib/recommender.js';
+  import { courses, coursesByStage, topicsForCourse } from '../lib/data.js';
+  import { topicStats, subscribe } from '../lib/store.js';
   import { route, href, go } from '../lib/router.svelte.js';
   import TopicCard from '../components/TopicCard.svelte';
   import MasteryBar from '../components/MasteryBar.svelte';
@@ -25,16 +24,6 @@
     return stageCourses.find((course) => course.id === requested) ?? stageCourses[0] ?? orderedCourses[0];
   });
   let selectedTopics = $derived(selectedCourse ? topicsForCourse(selectedCourse.id) : []);
-
-  let continueSkill = $derived.by(() => {
-    tick;
-    const recent = Object.entries(allProgress())
-      .filter(([, record]) => record.level !== 'mastered')
-      .sort((a, b) => b[1].at - a[1].at)
-      .map(([id]) => skillById.get(id))
-      .find(Boolean);
-    return recent ?? nextSkills({ limit: 1 })[0] ?? null;
-  });
 
   function masteryFor(courseId) {
     tick;
@@ -92,22 +81,17 @@
 </script>
 
 <div class="container browse-page">
-  <section class="home-hero">
+  <section class="home-hero" aria-labelledby="hero-title">
     <div class="hero-copy">
-      <h1>Find the next maths skill that makes sense</h1>
-      <p class="lede">Choose your stage, explore a course, and see the topics that connect your next steps.</p>
+      <h1 id="hero-title">Build your maths skill tree</h1>
+      <p class="lede">Discover what you know and what to learn next with a diagnostic quiz.</p>
     </div>
     <div class="hero-actions">
-      {#if continueSkill}
-        <a class="continue-cta" href={href(`/skill/${continueSkill.id}`)}>
-          <span class="cta-icon" aria-hidden="true">&rarr;</span>
-          <span><small>Continue learning</small><strong>{continueSkill.title}</strong></span>
-        </a>
-      {/if}
-      <a class="quiz-cta" href={href('/quiz')}>
-        <span class="cta-icon quiz-icon" aria-hidden="true">&#10003;</span>
-        <span><small>Not sure where to start?</small><strong>Take a diagnostic quiz</strong></span>
+      <a class="hero-cta quiz-cta" href={href('/quiz')}>
+        <span>Take a diagnostic quiz</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
       </a>
+      <a class="hero-cta map-cta" href={href('/map')}><span>Explore the skill map</span><span class="cta-arrow" aria-hidden="true">&rarr;</span></a>
     </div>
   </section>
 
@@ -171,8 +155,7 @@
       <section class="topic-explorer" aria-labelledby="topic-explorer-title">
       <header>
         <div>
-          <span class="course-context" style="--course-color:{selectedCourse.color}">{selectedCourse.title}</span>
-          <h2 id="topic-explorer-title">Pick a topic to explore</h2>
+          <h2 id="topic-explorer-title">Explore {selectedCourse.title}</h2>
           <p>Each topic shows how much you have mastered in this course.</p>
         </div>
         <a class="all-topics" href={href(`/course/${selectedCourse.id}`)}>See the full course <span aria-hidden="true">&rarr;</span></a>
@@ -197,21 +180,17 @@
 
 <style>
   .browse-page { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 2.8rem); }
-  .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 2rem; align-items: end; padding: clamp(1.35rem, 4vw, 2.4rem); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(135% 160% at 100% 0%, color-mix(in srgb, var(--accent) 12%, var(--panel)) 0%, var(--surface-warm) 48%, var(--panel) 100%); box-shadow: var(--shadow); animation: route-enter var(--motion-base) var(--ease-out) both; }
+  .home-hero { position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 310px); gap: clamp(2rem, 5vw, 4rem); align-items: center; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--border-strong); border-radius: var(--radius-xl); background: radial-gradient(100% 180% at 100% 0%, color-mix(in srgb, var(--accent) 13%, var(--panel)) 0%, var(--surface-warm) 65%, var(--panel) 100%); box-shadow: var(--shadow-rest); animation: route-enter var(--motion-base) var(--ease-out) both; }
   .hero-copy, .hero-actions { position: relative; z-index: 1; }
-  h1 { max-width: 690px; margin: 0 0 0.5rem; font-size: clamp(1.9rem, 4.5vw, 3rem); }
-  .lede { max-width: 580px; margin: 0; color: var(--muted); }
-  .hero-actions { display: grid; gap: 0.65rem; }
-  .continue-cta, .quiz-cta { display: grid; grid-template-columns: 2rem 1fr; align-items: center; gap: 0.8rem; min-height: 70px; padding: 0.8rem 1rem; border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--panel); color: var(--text); transition: transform var(--motion-fast) var(--ease-snap), border-color var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast); }
-  .continue-cta { border-color: transparent; background: var(--accent); color: #fff; }
-  .continue-cta:hover, .quiz-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow); text-decoration: none; }
-  .quiz-cta:hover { border-color: var(--border-strong); background: var(--panel-2); }
-  .continue-cta:active, .quiz-cta:active { transform: scale(0.98); }
-  .cta-icon { display: grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid currentColor; border-radius: 10px; font-weight: 800; }
-  .quiz-icon { color: var(--status-proficient); }
-  .hero-actions small, .hero-actions strong { display: block; }
-  .hero-actions small { margin-bottom: 0.12rem; font-size: 0.68rem; opacity: 0.78; }
-  .hero-actions strong { font-size: 0.86rem; }
+  h1 { max-width: 580px; margin: 0 0 0.85rem; font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.12; text-wrap: balance; }
+  .lede { max-width: 440px; margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+  .hero-actions { display: flex; flex-direction: column; align-items: stretch; gap: 0.8rem; }
+  .hero-cta { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-height: 60px; padding: 0.9rem 1.2rem; border: 1px solid transparent; border-radius: var(--radius-md); background: var(--accent); color: #fff; font-size: 0.9rem; font-weight: 750; box-shadow: var(--shadow-rest); transition: transform var(--motion-fast) var(--ease-snap), box-shadow var(--motion-fast); }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow); text-decoration: none; }
+  .hero-cta:active { transform: scale(0.98); }
+  .map-cta { background: var(--panel); color: var(--text); border-color: var(--border-strong); }
+  .cta-arrow { font-size: 1.35rem; line-height: 1; }
+  .hero-cta:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 
   .dashboard { display: flex; flex-direction: column; gap: 1rem; }
   .dashboard-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; }
@@ -245,7 +224,6 @@
   .topic-explorer > header { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
   .topic-explorer h2 { margin: 0.35rem 0 0.25rem; font-size: 1.45rem; }
   .topic-explorer header p { margin: 0; color: var(--muted); font-size: 0.82rem; }
-  .course-context { display: inline-flex; padding: 0.28rem 0.6rem; border-radius: 999px; background: color-mix(in srgb, var(--course-color) 12%, var(--panel)); color: var(--course-color); font-size: 0.68rem; font-weight: 750; }
   .all-topics { flex: none; font-size: 0.78rem; font-weight: 750; }
   .strand-group { margin-top: 1.25rem; animation: card-enter var(--motion-base) var(--ease-out) calc(var(--enter-index) * 45ms) both; }
   .strand-heading { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.65rem; }
@@ -256,12 +234,15 @@
 
   @media (max-width: 820px) {
     .home-hero { grid-template-columns: 1fr; gap: 1.25rem; }
-    .hero-actions { grid-template-columns: 1fr 1fr; }
+    .hero-actions { width: min(100%, 310px); }
+    
   }
   @media (max-width: 640px) {
     .dashboard-head, .topic-explorer > header { align-items: flex-start; flex-direction: column; }
     .dashboard-hint { text-align: left; }
-    .hero-actions, .course-grid { grid-template-columns: 1fr; }
+    .course-grid { grid-template-columns: 1fr; }
+    .hero-actions { width: 100%; }
+    
     .stage-tabs { margin-inline: -1rem; padding-inline: 1rem; }
     .course-card { min-height: 0; }
     .topic-explorer { margin-inline: -0.25rem; }
