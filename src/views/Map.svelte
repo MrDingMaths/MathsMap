@@ -207,9 +207,15 @@
   function syncFar() {
     if (!cy || cy.destroyed()) return;
     const next = cy.zoom() < FAR_ZOOM;
-    if (next === farState) return;
-    farState = next;
-    cy.edges().toggleClass('far', next);
+    cy.batch(() => {
+      if (next) cy.nodes().forEach((node) => {
+        node.data('overviewSize', Math.max(node.data('size'), 6 / cy.zoom()));
+        node.data('overviewBorder', 0.8 / cy.zoom());
+      });
+      if (next === farState) return;
+      farState = next;
+      cy.elements().toggleClass('far', next);
+    });
   }
 
   const FOCUS_CLASSES = 'dim focus-root focus-chain path-lit incoming-lit outgoing-lit';
@@ -624,14 +630,8 @@
 
   <aside class="sidebar" class:open={sidebarOpen} aria-label="Map filters">
     <div class="sidebar-head">
-      <div>
-        <h1>Maths map</h1>
-      </div>
       <button class="drawer-close" aria-label="Close map filters" onclick={() => (sidebarOpen = false)}>×</button>
     </div>
-    <p class="muted hint">
-      Choose courses to compare, then select a node to trace what comes before and after it.
-    </p>
 
     <div class="section-label">View</div>
     <div class="seg">
@@ -856,8 +856,7 @@
     background: linear-gradient(165deg, var(--surface-warm), var(--panel) 32%);
     z-index: 7;
   }
-  .sidebar-head { display: flex; align-items: center; justify-content: space-between; }
-  .sidebar h1 { margin: 0.08rem 0 0; font-family: var(--font-display); font-size: 1.35rem; }
+  .sidebar-head { display: flex; align-items: center; justify-content: flex-end; }
   .drawer-close { display: none; }
   .hint { font-size: 0.76rem; line-height: 1.5; margin: 0.45rem 0 0; }
   .section-label {

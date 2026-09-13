@@ -1,5 +1,5 @@
 // Builds Cytoscape elements (nodes + prerequisite edges) from the taxonomy.
-import { skills, courseById, skillById, strandForSkill, topicsForSkill, bandOrderFor, bandLabelFor } from './data.js';
+import { skills, courseById, courseMapColour, skillById, strandForSkill, topicsForSkill, bandOrderFor, bandLabelFor } from './data.js';
 import { getMastery } from './store.js';
 import { plainMath } from './mathText.js';
 import { ringSvg, trackColour } from './ring.js';
@@ -107,6 +107,7 @@ export function buildElements({ courseIds = null, stage = null, topicIds = null,
         courseId: course?.id || '',
         course: course?.title || '',
         colour: course?.color || '#64748b',
+        mapColour: courseMapColour(course?.color, isDark),
         masteryKey: mastery,
         masteryLabel: masteryLabel[mastery],
         mastery: masteryColour[mastery],
@@ -301,11 +302,7 @@ export function getCyStyle(isDark = true) {
   const ready = isDark ? '#22d3ee' : '#0e7490'; // theme-safe "ready now" halo
   return [
     {
-      // Circle whose face is a mastery progress ring (data(ring), an SVG data URI
-      // baked at build time) and whose diameter (data(size)) grows with connection
-      // count. Course colour is intentionally not shown — strand grouping comes from
-      // the lane tints. Labels are drawn by a KaTeX HTML overlay (see Map.svelte), not
-      // by Cytoscape's canvas text, so no label styling lives here.
+      // Detailed view shows mastery rings; overview uses course-coloured dots.
       selector: 'node',
       style: {
         // Solid disc (white in light, dark in dark) so the band tint and crossing
@@ -319,6 +316,17 @@ export function getCyStyle(isDark = true) {
         'border-color': nodeBorder,
         width: 'data(size)',
         height: 'data(size)'
+      }
+    },
+    {
+      selector: 'node.far',
+      style: {
+        'background-color': 'data(mapColour)',
+        'background-image': 'none',
+        'border-color': '#334155',
+        'border-width': 'data(overviewBorder)',
+        width: 'data(overviewSize)',
+        height: 'data(overviewSize)'
       }
     },
     {
@@ -351,7 +359,7 @@ export function getCyStyle(isDark = true) {
     // dedicated cross-course.far rule below re-softens their opacity.
     { selector: 'edge.edge-visible', style: { opacity: 1, 'line-opacity': 0.36, 'arrow-scale': 0.95 } },
     { selector: 'edge.backbone.edge-visible', style: { width: 2.15, 'line-opacity': 0.42 } },
-    { selector: 'edge.edge-visible.far', style: { width: 2.6, 'line-opacity': 0.56, 'arrow-scale': 1 } },
+    { selector: 'edge.edge-visible.far', style: { width: 2, 'line-opacity': 0.3, 'arrow-scale': 0.7 } },
     // Focus state: the chain of the hovered/clicked node comes to full strength —
     // bold near-black (light) / near-white (dark), thicker, fully opaque.
     {
@@ -386,7 +394,7 @@ export function getCyStyle(isDark = true) {
     },
     // Zoomed-out variant, softer than plain edge.far so the dashed amber layer
     // doesn't overwhelm the in-course structure. Before .lit so lit still wins.
-    { selector: 'edge.cross-course.edge-visible.far', style: { 'line-opacity': 0.5 } },
+    { selector: 'edge.cross-course.edge-visible.far', style: { 'line-opacity': 0.3 } },
     {
       selector: 'edge.interdependent.edge-visible',
       style: {

@@ -5,8 +5,9 @@ import dotpoints from '../../data/dotpoints.json';
 import skills from '../../data/skills.json';
 import meta from '../../data/meta.json';
 import { topoSortSkills } from './skillOrder.js';
+import { courseMapColour } from './courseColours.js';
 
-export { courses, topics, dotpoints, skills, meta };
+export { courses, topics, dotpoints, skills, meta, courseMapColour };
 
 export const courseById = new Map(courses.map((c) => [c.id, c]));
 export const topicById = new Map(topics.map((t) => [t.id, t]));
