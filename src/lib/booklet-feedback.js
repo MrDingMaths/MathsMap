@@ -46,7 +46,7 @@ export function reconcileFeedback(before, after) {
     if (!flag.anchor) return flag;
     if(flag.anchor.ranges?.length>1&&flag.anchor.ranges.some(r=>feedbackSignature(fieldValue(before,r))!==feedbackSignature(fieldValue(after,r)))){changed=true;return {...flag,needsAttention:flag.anchor.ranges.some(r=>fieldValue(after,r)===undefined)?'Target removed':'Content changed — check comment'};}
     const old=fieldValue(before,flag.anchor),next=fieldValue(after,flag.anchor);
-    if(feedbackSignature(old)===feedbackSignature(next))return flag;
+    if(old===next||feedbackSignature(old)===feedbackSignature(next))return flag;
     let result={...flag};changed=true;
     if(next===undefined)return {...result,needsAttention:'Target removed'};
     // Only reanchor within the same stable field and uniquely matching quote.

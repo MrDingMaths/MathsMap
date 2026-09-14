@@ -7,7 +7,9 @@
  import {createProjectBlock,snapshotBankQuestion,normalizeEditableProject} from '../lib/editable-booklet-model.js';
   import {feedbackText} from '../lib/booklet-feedback.js';
   let {project,pages=[],bank=[],onrequestbank=null,onbank=null,onboundary=null,selectedBlockId='',selectedIds=[],onselection=null,documentClipboard=null,onpaste=null,disabled=false,onchange=null,onselect=null,onsection=null,onerror=null}=$props();
-  let organising=$state(false),expandedTopic=$state('');
+  let openMenus=$state({});
+  let organising=$state(false),expandedTopic=$state(''),outlineQuery=$state('');
+  const matches=unit=>!outlineQuery||unit.blocks.some(b=>(label(b)+' '+contentExcerpt(b.content,10000)).toLowerCase().includes(outlineQuery.toLowerCase()));
   $effect(()=>{const id=selectedBlockId;const topic=project.sections.find(s=>s.blocks.some(b=>b.id===id))?.topicId;expandedTopic=topic??project.topics[0]?.id??'';});
   const currentTopic=$derived(project.sections.find(s=>s.blocks.some(b=>b.id===selectedBlockId))?.topicId);
   function boundary(id,action){attempt(()=>commit(setPageBoundary(project,id,action)));}
@@ -52,34 +54,35 @@
 </script>
 <nav class="flow-outline" aria-label="Booklet outline" inert={disabled}>
  <div class="outline-title"><strong>Outline</strong><details class="item-menu"><summary aria-label="Booklet organisation">•••</summary><div><button onclick={newTopic}>Add topic</button></div></details></div>
- {#each project.topics as topic (topic.id)}
+ <input class="outline-search" aria-label="Search outline" placeholder="Search outline" bind:value={outlineQuery}/>
+ {#each project.topics.filter(t=>!outlineQuery||units.some(u=>project.sections.find(s=>s.id===u.sectionId)?.topicId===t.id&&matches(u))) as topic (topic.id)}
   <section class="topic">
    <div class="topic-heading"><button class="topic-toggle" aria-expanded={expandedTopic===topic.id} onclick={()=>expandedTopic=expandedTopic===topic.id?'':topic.id}><span aria-hidden="true">{expandedTopic===topic.id?'▾':'▸'}</span><strong>{exercises[topic.id]?exercises[topic.id]+'. ':''}{topic.title}</strong></button>
-    <details class="item-menu"><summary aria-label={'Actions for '+topic.title}>•••</summary><div>
+    <details class="item-menu" ontoggle={e=>openMenus[topic.id]=e.currentTarget.open}><summary aria-label={'Actions for '+topic.title}>•••</summary>{#if openMenus[topic.id]}<div>
      <label>Topic title<input value={topic.title} onchange={e=>attempt(()=>commit({...project,topics:project.topics.map(t=>t.id===topic.id?{...t,title:e.currentTarget.value||t.title}:t)}))}/></label>
      <button onclick={()=>attempt(()=>commit(startExerciseOnNewPage(project,topic.id)))}>Start exercise on new page</button><button onclick={()=>moveTopic(topic.id,-1)}>Move topic up</button><button onclick={()=>moveTopic(topic.id,1)}>Move topic down</button><button onclick={()=>newSection(topic.id)}>Add section</button>
-    </div></details>
+    </div>{/if}</details>
    </div>
-   {#if expandedTopic===topic.id}
+   {#if outlineQuery||expandedTopic===topic.id}
     {#each project.sections.filter(s=>s.topicId===topic.id) as section (section.id)}
      <div class="section" ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,null);}} role="group" aria-label={section.title}>
-      <div class="section-heading"><button onclick={()=>{destination=section.id;onsection?.(section.id);}}>{section.phase==='practice'?'Practice':section.title}</button><details class="item-menu"><summary aria-label={'Section settings: '+section.title}>•••</summary><div>
+      <div class="section-heading"><button onclick={()=>{destination=section.id;onsection?.(section.id);}}>{section.phase==='practice'?'Practice':section.title}</button><details class="item-menu" ontoggle={e=>openMenus[section.id]=e.currentTarget.open}><summary aria-label={'Section settings: '+section.title}>•••</summary>{#if openMenus[section.id]}<div>
        <label>Title<input value={section.title} onchange={e=>patchSection(section.id,{title:e.currentTarget.value||section.title})}/></label>
        <label>Topic<select value={section.topicId} onchange={e=>reassignSection(section.id,e.currentTarget.value)}>{#each project.topics as t}<option value={t.id}>{t.title}</option>{/each}</select></label>
        <label>Phase<select value={section.phase} onchange={e=>patchSection(section.id,{phase:e.currentTarget.value,role:e.currentTarget.value})}><option value="teaching">Teaching</option><option value="practice">Practice</option><option value="front-matter">Front matter</option></select></label>
        <label class="check"><input type="checkbox" checked={section.pageBreakBefore!==false} onchange={e=>patchSection(section.id,{pageBreakBefore:e.currentTarget.checked})}/>Start on new page</label>
        {#if !exercises[topic.id]}<label>Start numbering<input type="number" min="1" placeholder="Continue" value={section.numberingStart??''} onchange={e=>patchSection(section.id,{numberingStart:e.currentTarget.value?Math.max(1,Math.trunc(Number(e.currentTarget.value))):null})}/></label><label>Difficulty<select value={section.difficulty??''} onchange={e=>patchSection(section.id,{difficulty:e.currentTarget.value||null})}><option value="">None</option>{#each ['Foundation','Development','Mastery','Challenge'] as tier}<option>{tier}</option>{/each}</select></label><label class="check"><input type="checkbox" checked={section.showDifficultyHeading!==false} onchange={e=>patchSection(section.id,{showDifficultyHeading:e.currentTarget.checked})}/>Show difficulty heading</label>{/if}
        <button onclick={()=>moveSection(section.id,-1)}>Move section up</button><button onclick={()=>moveSection(section.id,1)}>Move section down</button><button onclick={()=>joinPrevious(section.id)}>Join previous section</button>
-      </div></details></div>
-      {#each units.filter(u=>u.sectionId===section.id) as unit (unit.id)}
+      </div>{/if}</details></div>
+      {#each units.filter(u=>u.sectionId===section.id&&matches(u)) as unit (unit.id)}
        {@const b=unit.blocks[0]}{@const p=pages.find(p=>p.blocks.some(b=>unit.blocks.some(u=>u.id===b.id)))}
        <div class="content-item" data-block-id={unit.id} class:active={unit.blocks.some(b=>b.id===selectedBlockId)} draggable={true} ondragstart={e=>e.dataTransfer.setData('application/x-booklet-block',unit.id)} ondragover={e=>e.preventDefault()} ondrop={e=>{e.preventDefault();e.stopPropagation();drop(e.dataTransfer.getData('application/x-booklet-block'),section.id,unit.id);}} role="group" aria-label={label(b)}>
         <button class="content-select" onclick={()=>{selected=[unit.id];onselection?.(selected);destination=section.id;beforeId=section.blocks[section.blocks.indexOf(unit.blocks.at(-1))+1]?.id??'';onselect?.(unit.id,section.id);}}><span class="content-label">{label(b).split(' · ')[0]}<small>{p?'p'+p.pageNumber:''}</small></span>{#if contentExcerpt(b.content)}<div class="excerpt"><BookletRichText text={contentExcerpt(b.content,85)}/></div>{/if}</button>
-        <details class="item-menu"><summary aria-label={'Actions for '+label(b)}>•••</summary><div>
+        <details class="item-menu" ontoggle={e=>openMenus[unit.id]=e.currentTarget.open}><summary aria-label={'Actions for '+label(b)}>•••</summary>{#if openMenus[unit.id]}<div>
          <button onclick={()=>boundary(unit.id,'before')}>Page break before</button><button onclick={()=>boundary(unit.id,'after')}>Page break after</button><button onclick={()=>boundary(unit.id,'remove')}>Remove break before</button>
          <button onclick={()=>{selected=[unit.id];onselection?.(selected);command('duplicate');}}>Duplicate</button><button onclick={()=>{selected=[unit.id];onselection?.(selected);command('delete');}}>Delete</button>
          <details><summary>Move to…</summary><label>Section<select value={target?.id??''} onchange={e=>{destination=e.currentTarget.value;beforeId='';}}>{#each project.topics as t}<optgroup label={t.title}>{#each project.sections.filter(s=>s.topicId===t.id) as dest}<option value={dest.id}>{dest.title}</option>{/each}</optgroup>{/each}</select></label><label>Before<select bind:value={beforeId}><option value="">End of section</option>{#each target?.blocks??[] as targetBlock}<option value={targetBlock.id}>{label(targetBlock)}</option>{/each}</select></label><button onclick={()=>{selected=[unit.id];command('move');}}>Move here</button></details>
-        </div></details>
+        </div>{/if}</details>
        </div>
       {/each}
      </div>

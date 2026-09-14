@@ -3,7 +3,7 @@ import {captureSelection,restoreSelection} from '../../public/libs/maths-editor/
 const atom='[data-math],[data-tab],[data-cloze],[data-type="inline-image"]';
 const chrome='[data-native-handle],[data-resize-handles],[data-table-annotations],[data-math-preview]';
 function visibleLength(node){if(node.nodeType===3)return node.textContent.replaceAll('\u200b','').length;if(node.nodeType!==1&&node.nodeType!==11)return 0;if(node.matches?.(chrome))return 0;if(node.matches?.(atom))return 1;return [...node.childNodes].reduce((n,c)=>n+visibleLength(c),0);}
-function prosePoint(root,offset){
+export function prosePoint(root,offset){
  let remaining=offset,last=[root,0],found;
  const walk=node=>{
   if(found||node.matches?.(chrome))return;
@@ -56,8 +56,9 @@ function focusMathField(field, surface, position, selection) {
 export function placeEditorAtPoint(editor, point) {
   const surface=editor.documentController.surface;
   if(point?.mathIndex!=null){const mf=surface.querySelectorAll('math-field')[point.mathIndex];if(mf){focusMathField(mf,surface);return;}}
-  const hit=point&&document.caretPositionFromPoint?.(point.x,point.y);
-  const range=point&&!hit&&document.caretRangeFromPoint?.(point.x,point.y);
+  const coordinates=Number.isFinite(point?.x)&&Number.isFinite(point?.y);
+  const hit=coordinates&&document.caretPositionFromPoint?.(point.x,point.y);
+  const range=coordinates&&!hit&&document.caretRangeFromPoint?.(point.x,point.y);
   const node=hit?.offsetNode??range?.startContainer,offset=hit?.offset??range?.startOffset;
   if(node&&surface.contains(node)){surface.focus({preventScroll:true});getSelection().collapse(node,offset);editor.documentController.saveRange();}
   else restoreEditorSelection(editor,{start:{offset:point?.offset??0}});
@@ -70,30 +71,35 @@ export function installBookletEditorHost(editor, host) {
   c.properties();
   // Keep equation controls outside scaled paper and narrow question columns.
   const equationTools=editor.querySelector('.me-math-tools'),toolbar=editor.closest('.project-shell')?.querySelector('.document-toolbar');
-  if(equationTools&&toolbar){equationTools.dataset.equationControl='';toolbar.append(equationTools);}
+  let equationMenu,equationObserver;if(equationTools&&toolbar){equationTools.dataset.equationControl='';equationMenu=document.createElement('details');equationMenu.className='document-insert equation-menu';const summary=document.createElement('summary');summary.textContent='Equation';equationMenu.append(summary,equationTools);toolbar.append(equationMenu);const update=()=>{equationMenu.hidden=equationTools.hidden;};equationObserver=new MutationObserver(update);equationObserver.observe(equationTools,{attributes:true,attributeFilter:['hidden']});update();}
   c.undo=direction=>host.undo(direction??-1);
   // One structural command per history entry; changing between typing and deletion
   // also starts a new word-processing undo group.
   const transactions=new Map();for(const name of ['transact','splitParagraph','insertMath','insertDocument','listCommand']){const original=c[name];if(!original)continue;transactions.set(name,original);c[name]=function(...args){host.boundary?.();try{return original.apply(c,args);}finally{host.boundary?.();}};}
-  let inputType;const beforeInput=e=>{if(e.inputType!==inputType){host.boundary?.();inputType=e.inputType;}};
+  let inputType;const beforeInput=e=>{host.beforeInput?.();if(e.inputType!==inputType){host.boundary?.();inputType=e.inputType;}};
   const boundary=()=>{inputType=null;host.boundary?.();};
   editor.addEventListener('beforeinput',beforeInput,true);editor.addEventListener('pointerdown',boundary,true);editor.addEventListener('paste',boundary,true);editor.addEventListener('cut',boundary,true);
   const select=()=>host.selection(captureEditorSelection(editor));
   const key=e=>{
     if(e.isComposing||e.target.closest('math-field,button,input,select'))return;
-    const s=getSelection();if(!s?.isCollapsed||!c.surface.contains(s.anchorNode))return;
-    const r=s.getRangeAt(0),prefix=document.createRange(),suffix=document.createRange();
+    const s=getSelection();if(!s?.rangeCount||!c.surface.contains(s.focusNode))return;
+    const r=document.createRange();r.setStart(s.focusNode,s.focusOffset);r.collapse(true);const prefix=document.createRange(),suffix=document.createRange();
     prefix.selectNodeContents(c.surface);prefix.setEnd(r.startContainer,r.startOffset);
     suffix.selectNodeContents(c.surface);suffix.setStart(r.endContainer,r.endOffset);
-    if((e.key==='Backspace'&&!prefix.toString())||(e.key==='Delete'&&!suffix.toString())){e.preventDefault();return;}
-    if((e.key==='ArrowLeft'&&!prefix.toString())||(e.key==='ArrowRight'&&!suffix.toString())){e.preventDefault();host.adjacent(e.key==='ArrowLeft'?-1:1);}
+    const atStart=!visibleLength(prefix.cloneContents()),atEnd=!visibleLength(suffix.cloneContents());
+    if(s.isCollapsed&&((e.key==='Backspace'&&atStart)||(e.key==='Delete'&&atEnd))){e.preventDefault();host.adjacent(e.key==='Backspace'?-1:1,{deleting:true});return;}
+    const bounds=c.surface.getBoundingClientRect(),caret=r.getBoundingClientRect(),line=parseFloat(getComputedStyle(c.surface).lineHeight)||20;
+    const backward=e.key==='ArrowLeft'&&atStart||e.key==='ArrowUp'&&caret.top<=bounds.top+line/2;
+    const forward=e.key==='ArrowRight'&&atEnd||e.key==='ArrowDown'&&caret.bottom>=bounds.bottom-line/2;
+    const documentEdge=(e.ctrlKey||e.metaKey)&&['Home','End'].includes(e.key);
+    if(backward||forward||documentEdge){e.preventDefault();e.stopPropagation();host.adjacent(documentEdge?(e.key==='Home'?-1:1):backward?-1:1,{extend:e.shiftKey,documentEdge,x:caret.x,vertical:['ArrowUp','ArrowDown'].includes(e.key)});}
   };
   const composition=e=>host.composition(e.type==='compositionstart');
   editor.addEventListener('keydown',key,true);
   editor.addEventListener('keyup',select);editor.addEventListener('mouseup',select);editor.addEventListener('click',select);editor.addEventListener('focusin',select);
   editor.addEventListener('compositionstart',composition);editor.addEventListener('compositionend',composition);
   host.ready(editor);
-  return ()=>{host.detached(captureEditorSelection(editor));if(equationTools&&toolbar)equationTools.remove();for(const [name,original]of transactions)c[name]=original;editor.removeEventListener('beforeinput',beforeInput,true);editor.removeEventListener('pointerdown',boundary,true);editor.removeEventListener('paste',boundary,true);editor.removeEventListener('cut',boundary,true);c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
+  return ()=>{host.detached(captureEditorSelection(editor));equationObserver?.disconnect();equationMenu?.remove();for(const [name,original]of transactions)c[name]=original;editor.removeEventListener('beforeinput',beforeInput,true);editor.removeEventListener('pointerdown',boundary,true);editor.removeEventListener('paste',boundary,true);editor.removeEventListener('cut',boundary,true);c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
 }
 
 export function runEditorCommand(editor, name, value) {

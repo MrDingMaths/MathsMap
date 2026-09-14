@@ -1,6 +1,9 @@
 import {documentLayoutTools} from './document-layout-tools.mjs';
+import {shareDocument,sameDocumentStructure} from './document-sharing.mjs';
 import {locateDocumentNode,removeDocumentNode} from './document-operations.mjs';
 import {standardBookletContent} from './booklet-palette.mjs';
+import {readClipboard,plainTextDocument} from './document-clipboard.mjs';
+import {reconcileDocumentDOM} from './document-dom.mjs';
 import {captureSelection,restoreSelection,patchMathValues} from './math-selection.mjs';
 import {mountEquationAnnotations} from './annotated-equation.mjs';
 import {installMathEditing} from './math-editing.mjs';
@@ -28,6 +31,7 @@ export class DocumentEditor {
     this.destroyMathEditing=installMathEditing(this);
     this.surface.addEventListener('beforeinput',e=>{if(!this.host.readonly&&e.target.matches?.('math-field')){this.capture();this.remember();}});
     this.surface.addEventListener('beforeinput',e=>{if(e.inputType==='insertParagraph'&&!e.isComposing&&!this.host.readonly&&this.splitParagraph())e.preventDefault();});
+    this.surface.addEventListener('click',e=>{if(e.target.closest('a')&&!e.ctrlKey&&!e.metaKey)e.preventDefault();});
     this.surface.addEventListener('input', () => { try { this.capture(); this.styleLists(); this.installObjectHandles(); this.remember(); this.emit(); } catch(e) { this.message.textContent=e.message; } });
     this.surface.addEventListener('keydown',e=>{const image=e.target.closest?.('[data-type=inline-image]');if(image&&['Enter',' '].includes(e.key)){e.preventDefault();this.select(image);this.inspector.querySelector('input')?.focus();}if(image&&['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const r=document.createRange();e.key==='ArrowLeft'?r.setStartBefore(image):r.setStartAfter(image);r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r);this.surface.focus();this.saveRange();}});
     this.surface.addEventListener('focusin', e => { this.select(e.target); });
@@ -42,6 +46,7 @@ export class DocumentEditor {
     });
     this.surface.addEventListener('keyup', () => this.saveRange());
     this.surface.addEventListener('mouseup', () => this.saveRange());
+    this.host.addEventListener('keydown',e=>{this.plainPaste=(e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key.toLowerCase()==='v';},true);
     this.surface.addEventListener('paste', e => this.paste(e));
     this.surface.addEventListener('copy', e => this.clipboard(e));
     this.surface.addEventListener('cut', e => { if(e.target.closest?.('math-field'))return;if (this.host.readonly) return; this.clipboard(e); const sel=window.getSelection(); if(sel?.rangeCount) { sel.getRangeAt(0).deleteContents(); this.capture(); this.remember(); this.emit(); } });
@@ -55,12 +60,12 @@ export class DocumentEditor {
   restoreRange() { if(this.range && this.surface.contains(this.range.commonAncestorContainer)) { const s=window.getSelection(); s.removeAllRanges(); s.addRange(this.range); } }
   select(target) { if(target.closest?.('[data-resize-handles],[data-table-annotations]'))return;const n=target.closest?.('[data-id]'); const changed=n&&this.selectedId!==n.dataset.id;if(n) this.selectedId=n.dataset.id; if(n?.dataset.type!=='inline-image')this.saveRange(); if(changed)this.properties(); }
   get selected() { let found; visitDocument(this.doc,n=>{if(n.id===this.selectedId)found=n;}); return found; }
-  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{const mf=el.querySelector('math-field'),preview=el.querySelector('[data-math-preview]');if(preview&&this.host.renderMathPreview){const value=mf.getValue('latex');if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(value,el.dataset.display==='true');preview.dataset.latex=value;}}}); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(JSON.stringify(previous)!==JSON.stringify(next)){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
+  capture() { this.surface.querySelectorAll('p:has([data-editor-placeholder])').forEach(p=>{if(p.textContent.replaceAll('\u200b','').trim()||p.querySelector('[data-math],[data-cloze],img'))p.querySelectorAll('[data-editor-placeholder]').forEach(n=>n.remove());});this.surface.querySelectorAll('[data-math-caret]').forEach(n=>n.toggleAttribute('data-empty-caret',!n.textContent.replaceAll('\u200b','')&&!n.querySelector('[data-math],br,img')));this.doc = this.read(this.surface); this.surface.querySelectorAll('[data-math-preview-host]').forEach(el=>{const mf=el.querySelector('math-field'),preview=el.querySelector('[data-math-preview]');if(preview&&this.host.renderMathPreview){const value=mf.getValue('latex');if(preview.dataset.latex!==value){preview.innerHTML=this.host.renderMathPreview(value,el.dataset.display==='true');preview.dataset.latex=value;}}}); if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field')){const previous=this.doc,next=standardBookletContent(previous);if(shareDocument(previous,next)!==previous){this.doc=next;if(!patchMathValues(this,previous,next))this.render();}} }
   read(root, original = this.doc) {
     const originals=new Map(), seen=new Set(); visitDocument(original,n=>originals.set(n.id,n));
     const identity=el=>{let id=el.dataset.id;if(!id || seen.has(id))id=uid();seen.add(id);el.dataset.id=id;return id;};
     const inline = (node, marks=[], colour=null) => {
-      if(node.nodeType===3) {const text=node.parentElement?.closest('[data-math-caret]')?node.textContent.replaceAll('\u200b',''):node.textContent;return text?[{type:'text',text,marks,...(colour?{colour}:{})}]:[];}
+      if(node.nodeType===3) {const text=node.parentElement?.closest('[data-math-caret]')?node.textContent.replaceAll('\u200b',''):node.textContent;return text?[{type:'text',text,marks,...(node.parentElement?.closest('a[href]')?{href:node.parentElement.closest('a[href]').getAttribute('href')}:{ }),...(colour?{colour}:{})}]:[];}
       if(node.nodeType!==1 || node.hasAttribute('data-native-handle')) return [];
       if(node.getAttribute('aria-hidden')==='true')return [];
       colour=node.dataset.colour??colour;
@@ -104,10 +109,22 @@ export class DocumentEditor {
     };
     return normalizeDocument({blocks:children(root)});
   }
-  render(bookmark=captureSelection(this)) { if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field'))this.doc=standardBookletContent(this.doc);this.mathEditing?.reset(); this.rendering=true;try{ this.range=null;this.imageFeedback?.destroy();this.annotationObserver?.destroy(); this.equationObserver?.destroy();this.surface.innerHTML=renderDocument(this.doc,{editable:true,...(this.host.renderMathPreview?{math:this.host.renderMathPreview,editableMathPreview:true}:{}),annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});this.equationObserver=mountEquationAnnotations(this.surface);this.annotationObserver=mountTableAnnotations(this.surface,{onselect:(tableId,annotationId)=>{this.selectedId=tableId;this.annotationId=annotationId;this.properties();}});this.tabsObserver?.destroy();this.tabsObserver=mountTabs(this.surface); this.imageFeedback=mountImageFeedback(this.surface);this.updateReadonly(); this.properties();this.installBoundaries();this.installObjectHandles();}finally{this.rendering=false;} restoreSelection(this,bookmark); }
+  render(bookmark=captureSelection(this)) { if(this.host.dataset.houseStyleVersion||this.host.classList.contains('booklet-document-field'))this.doc=standardBookletContent(this.doc);this.mathEditing?.reset(); this.rendering=true;try{ this.range=null;this.imageFeedback?.destroy();this.annotationObserver?.destroy(); this.equationObserver?.destroy();const html=renderDocument(this.doc,{editable:true,...(this.host.renderMathPreview?{math:this.host.renderMathPreview,editableMathPreview:true}:{}),annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});if(this.host.documentHost)reconcileDocumentDOM(this.surface,html);else this.surface.innerHTML=html;this.equationObserver=mountEquationAnnotations(this.surface);this.annotationObserver=mountTableAnnotations(this.surface,{onselect:(tableId,annotationId)=>{this.selectedId=tableId;this.annotationId=annotationId;this.properties();}});this.tabsObserver?.destroy();this.tabsObserver=mountTabs(this.surface); this.imageFeedback=mountImageFeedback(this.surface);this.updateReadonly(); this.properties();this.installBoundaries();this.installObjectHandles();}finally{this.rendering=false;} restoreSelection(this,bookmark); }
   updateReadonly() { this.surface.querySelectorAll('[data-resize-handles]').forEach(e=>e.remove());this.surface.contentEditable=String(!this.host.readonly);this.surface.querySelectorAll('[data-slot],[data-equation-label]').forEach(s=>s.contentEditable=String(!this.host.readonly));this.surface.querySelectorAll('math-field').forEach(m=>m.readOnly=this.host.readonly);this.toolbar.querySelectorAll('button,input').forEach(b=>b.disabled=this.host.readonly);this.properties();this.installBoundaries();this.mathEditing?.refresh(); }
-  remember() { const value=JSON.stringify(this.doc),bookmark=captureSelection(this); if(this.history[this.index]===value){if(bookmark)this.historySelections[this.index]=bookmark;return;} this.history=this.history.slice(0,this.index+1);this.historySelections=this.historySelections.slice(0,this.index+1); this.history.push(value);this.historySelections.push(bookmark); if(this.history.length>200){this.history.shift();this.historySelections.shift();} this.index=this.history.length-1; }
-  emit() { this.host.dispatchEvent(new CustomEvent('document-change',{bubbles:true,detail:{document:copy(this.doc),source:toSource(this.doc),losses:exportSource(this.doc).losses,layout:this.layoutChange===true}})); }
+  remember() { if(this.host.documentHost)return;const value=JSON.stringify(this.doc),bookmark=captureSelection(this); if(this.history[this.index]===value){if(bookmark)this.historySelections[this.index]=bookmark;return;} this.history=this.history.slice(0,this.index+1);this.historySelections=this.historySelections.slice(0,this.index+1); this.history.push(value);this.historySelections.push(bookmark); if(this.history.length>200){this.history.shift();this.historySelections.shift();} this.index=this.history.length-1; }
+  emit() {
+    if(this.host.documentHost){
+      if(this.layoutChange)return;
+      const previous=this.lastHostDocument,next=shareDocument(previous,this.doc);this.doc=next;
+      if(previous===next)return;
+      this.lastHostDocument=next;
+      const detail={document:next,structural:!previous||!sameDocumentStructure(previous,next),changedIds:next.blocks.filter((n,i)=>n!==previous?.blocks[i]).map(n=>n.id),layout:this.layoutChange===true};
+      this.host.dispatchEvent(new CustomEvent('document-transaction',{bubbles:true,detail}));
+      // Selection/layout integrations use the light event; no source export or clone.
+      this.host.dispatchEvent(new CustomEvent('document-change',{bubbles:true,detail}));return;
+    }
+    this.host.dispatchEvent(new CustomEvent('document-change',{bubbles:true,detail:{document:copy(this.doc),source:toSource(this.doc),losses:exportSource(this.doc).losses,layout:this.layoutChange===true}}));
+  }
   set(value) { this.surface.querySelectorAll('[data-image-pending]').forEach(e=>e.remove());this.doc=normalizeDocument(value); this.selectedId=this.doc.blocks[0]?.id; this.render(null); this.history=[]; this.historySelections=[]; this.index=-1; this.remember(); }
   undo(direction=-1) { if(this.host.readonly)return;this.finishEquationEdit?.();if(this.mathEditing?.field()){this.capture();this.remember();} const index=this.index+direction; if(index<0 || index>=this.history.length)return; const present=captureSelection(this);if(present)this.historySelections[this.index]=present;this.index=index; const previous=this.doc;this.doc=JSON.parse(this.history[index]);const bookmark=this.historySelections[index]??present;if(patchMathValues(this,previous,this.doc))restoreSelection(this,bookmark);else this.render(bookmark); this.emit(); }
   transact(fn) { if(this.host.readonly)return;this.finishEquationEdit?.(); try { this.capture(); const next=copy(this.doc); fn(next); this.doc=normalizeDocument(next); this.render(); this.remember(); this.emit(); this.message.textContent=''; } catch(e) {this.message.textContent=e.message;} }
@@ -182,14 +199,17 @@ export class DocumentEditor {
     if(e.target.closest?.('math-field'))return;
     e.preventDefault(); if(this.host.readonly)return;
     this.saveRange();const data=e.clipboardData, image=[...data.files].find(f=>/^image\/(png|jpeg|webp|gif)$/.test(f.type));
-    if(image) { this.addImage(image); return; }
     try {
-      const rich=data.getData('application/x-maths-editor+json');
-      let doc;if(rich)doc=normalizeDocument(JSON.parse(rich));else if(data.getData('text/html')){const root=new DOMParser().parseFromString(data.getData('text/html'),'text/html').body;const encoded=root.querySelector('[data-maths-document]')?.dataset.mathsDocument;doc=encoded?normalizeDocument(JSON.parse(encoded)):this.read(root);}else doc=fromSource(data.getData('text/plain'));
-      doc=freshDocument(doc);
-      this.insertDocument(doc);
+      const plain=this.plainPaste;this.plainPaste=false;const parsed=readClipboard(data,{plain});
+      if(parsed.unsupported.length){
+        const dialog=document.createElement('dialog');dialog.className='me-latex-dialog';dialog.setAttribute('aria-label','Paste options');const message=document.createElement('p');message.textContent='This clipboard contains '+parsed.unsupported.join(', ')+'. Studio can paste the available text, or you can cancel and keep your selection.';dialog.append(message);
+        const bookmark=this.range?.cloneRange();this.button(dialog,'Paste text only',()=>{this.range=bookmark;this.insertDocument(freshDocument(plainTextDocument(parsed.text)));dialog.close();});this.button(dialog,'Cancel',()=>dialog.close());dialog.addEventListener('close',()=>{dialog.remove();this.surface.focus({preventScroll:true});});this.host.append(dialog);dialog.showModal();return;
+      }
+      if(image&&!plain&&!data.getData('text/html')){this.addImage(image);return;}
+      this.insertDocument(freshDocument(parsed.document));
     } catch(error) { this.message.textContent=error.message; }
   }
+
   insertDocument(doc) {
     this.restoreRange();const wrapper=document.createElement('div');wrapper.innerHTML=renderDocument(doc,{editable:true,annotationMath:latex=>MathLive.convertLatexToMarkup(latex)});
     const selection=window.getSelection(), range=selection?.rangeCount&&this.surface.contains(selection.anchorNode)?selection.getRangeAt(0):null;
@@ -327,9 +347,9 @@ export class DocumentEditor {
   liveField(label,value,apply){
     const wrap=document.createElement('label');wrap.textContent=label+' ';const input=document.createElement('input');input.type='number';input.step='.1';input.value=value;input.setAttribute('aria-label',label);input.disabled=this.host.readonly;wrap.append(input);this.inspector.append(wrap);
     let before=null,valid=true;
-    input.onfocus=()=>{this.capture();before=copy(this.doc);};
+    input.onfocus=()=>{this.host.documentHost?.boundary?.();this.capture();before=copy(this.doc);};
     input.oninput=()=>{try{before??=copy(this.doc);const next=copy(before);if(input.value==='')throw new Error('Enter a width in millimetres.');apply(next,Number(input.value));this.doc=normalizeDocument(next);this.patchLayout();this.layoutChange=true;this.emit();this.layoutChange=false;input.setAttribute('aria-invalid','false');this.message.textContent='';valid=true;}catch(e){valid=false;input.setAttribute('aria-invalid','true');this.message.textContent=e.message;}};
-    const finish=cancel=>{if(!before)return;if(cancel||!valid){this.doc=before;this.patchLayout();this.emit();input.value=value;}else{this.remember();value=input.value;}before=null;};
+    const finish=cancel=>{if(!before)return;if(cancel||!valid){this.doc=before;this.patchLayout();this.emit();input.value=value;}else{this.remember();if(this.host.documentHost)this.emit();value=input.value;}before=null;this.host.documentHost?.boundary?.();};
     input.onblur=()=>finish(false);input.onkeydown=e=>{if(['Enter','Escape'].includes(e.key)){e.preventDefault();finish(e.key==='Escape');input.blur();}};return input;
   }
   installBoundaries(){
@@ -340,7 +360,7 @@ export class DocumentEditor {
       widths.slice(0,-1).forEach((w,i)=>{sum+=w;const handle=document.createElement('button');handle.type='button';handle.dataset.boundary=i;handle.className='me-column-handle';handle.style.left=sum/total*100+'%';handle.setAttribute('role','separator');handle.setAttribute('aria-orientation','vertical');handle.setAttribute('aria-label',`Resize boundary after column ${i+1}`);handle.setAttribute('aria-valuenow',w.toFixed(2));handle.setAttribute('aria-valuemin',Math.min(5,w));handle.setAttribute('aria-valuemax',total-Math.min(5,widths[i+1]));controls.append(handle);
         let start=null;
         const move=delta=>{this.doc=copy(start.doc);let current;visitDocument(this.doc,n=>{if(n.id===t.id)current=n;});moveBoundary(current,i,delta,start.total);this.patchLayout();this.layoutChange=true;this.emit();this.layoutChange=false;};
-        const finish=cancel=>{if(!start)return;if(cancel){this.doc=start.doc;this.patchLayout();this.emit();}else this.remember();start=null;};
+        const finish=cancel=>{if(!start)return;if(cancel){this.doc=start.doc;this.patchLayout();this.emit();}else{this.remember();if(this.host.documentHost)this.emit();}start=null;};
         handle.onpointerdown=e=>{e.preventDefault();this.capture();start={doc:copy(this.doc),x:e.clientX,total:this.tableTotal(t)};handle.setPointerCapture(e.pointerId);};
         handle.onpointermove=e=>{if(start)move((e.clientX-start.x)*25.4/96);};handle.onpointerup=()=>finish(false);handle.onpointercancel=()=>finish(true);
         handle.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();finish(true);}else if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();this.capture();start={doc:copy(this.doc),total:this.tableTotal(t)};move((e.key==='ArrowLeft'?-1:1)*(e.shiftKey?5:1));finish(false);}};

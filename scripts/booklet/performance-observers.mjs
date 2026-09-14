@@ -1,0 +1,9 @@
+// Browser-only diagnostics used by the isolated local benchmark runners.
+export function observeBookletPerformance(){
+ const timing=window.bookletTiming={lastInput:null,layoutSettledMs:null,saveDurationsMs:[],editorMounts:0,editorReattachments:0,pageMounts:0,events:[]};let saveStarted=null;const editors=new WeakSet(document.querySelectorAll('maths-editor'));
+ const input=()=>{timing.lastInput=performance.now();};document.addEventListener('beforeinput',input,true);document.addEventListener('keydown',e=>{if(e.target.matches('math-field'))input();},true);
+ const flow=document.querySelector('.flow-document');new MutationObserver(()=>{if(flow.dataset.paginationState==='ready'&&timing.lastInput!=null)timing.layoutSettledMs=performance.now()-timing.lastInput;}).observe(flow,{attributes:true,attributeFilter:['data-pagination-state']});
+ const save=document.querySelector('.save-state');new MutationObserver(()=>{const state=save.textContent;if(state==='Saving…')saveStarted=performance.now();else if(state==='Saved'&&saveStarted!=null){timing.saveDurationsMs.push(performance.now()-saveStarted);saveStarted=null;}}).observe(save,{subtree:true,childList:true,characterData:true});
+ new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node.nodeType===1){for(const editor of [...(node.matches('maths-editor')?[node]:[]),...node.querySelectorAll('maths-editor')]){if(editors.has(editor))timing.editorReattachments++;else{editors.add(editor);timing.editorMounts++;}}timing.pageMounts+=Number(node.matches('.flow-page-content'))+node.querySelectorAll('.flow-page-content').length;}}).observe(flow,{subtree:true,childList:true});
+ if(PerformanceObserver.supportedEntryTypes.includes('event'))new PerformanceObserver(list=>timing.events.push(...list.getEntries().filter(e=>e.interactionId).map(e=>({name:e.name,duration:e.duration,processingMs:e.processingEnd-e.processingStart})))).observe({type:'event',durationThreshold:16});
+}

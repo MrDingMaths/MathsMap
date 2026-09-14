@@ -19,10 +19,10 @@
     const controller=new AbortController();let observer,frame;
     updating=true;failure='';
     const reportReady=untrack(()=>onready),reportError=untrack(()=>onerror);
-    const update=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(measure);};
+    const update=()=>{if(pending)return;cancelAnimationFrame(frame);frame=requestAnimationFrame(measure);};
     (async()=>{
       try{
-        await tick();await settleBookletMeasurement(root,{signal:controller.signal});
+        await tick();if(pending)return;await settleBookletMeasurement(root,{signal:controller.signal});
         if(controller.signal.aborted)return;
         measure();updating=false;
         observer=new ResizeObserver(update);

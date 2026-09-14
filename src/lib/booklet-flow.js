@@ -3,6 +3,7 @@
 import { normalizeEditableProject } from './editable-booklet-model.js';
 import { teachingAnswerCategory } from './booklet-answer-options.js';
 import { captureQuestionPresentation, remapQuestionPresentation } from './question-presentation.js';
+import {shareFlowProjection} from './booklet-pagination-cache.js';
 
 const copy = value => JSON.parse(JSON.stringify(value));
 export const flowId = () => `flow-${globalThis.crypto.randomUUID()}`;
@@ -142,7 +143,7 @@ export function captureFlowClipboard(project, ids, mode='copy') {
   if (!blocks.length) throw Error('Select content first.');
   const nodeIds=new Set();const scan=value=>{if(!value||typeof value!=='object')return;if(value.id)nodeIds.add(value.id);Object.values(value).forEach(v=>Array.isArray(v)?v.forEach(scan):scan(v));};blocks.forEach(scan);
   const mappings=Object.fromEntries(Object.entries(project.studio?.atoms??{}).filter(([id])=>nodeIds.has(id)).map(([id,value])=>[id,copy(value)]));
-  return {projectId:project.id,mode,ids:[...selected],blocks,mappings};
+  return {projectId:project.id,sourceRunId:project.source?.runId??project.id,mode,ids:[...selected],blocks,mappings};
 }
 
 function duplicateBlocks(blocks) {
@@ -179,13 +180,17 @@ export function flowCommand(project, command) {
   } else if (['move','paste','duplicate'].includes(command.type)) {
     if (!section) throw Error('Choose a destination section.');
     const clip = command.clipboard ?? captureFlowClipboard(project,[...ids],command.type === 'move' ? 'cut':'copy');
-    if (clip.projectId !== project.id) throw Error('Paste is available within the current booklet.');
+    if (clip.projectId !== project.id&&clip.mode==='cut') throw Error('Moving between booklets needs both documents saved together. Copy this question to the other booklet instead.');
     const moving = clip.mode === 'cut';
     const currentIds = new Set(project.sections.flatMap(s => s.blocks.map(b => b.id)));
     if (moving && clip.ids.some(id => !currentIds.has(id))) throw Error('Cut content changed or was deleted. Select it again.');
     if (moving && clip.ids.includes(command.beforeId)) return project;
     const duplicated=moving?null:duplicateBlocks(clip.blocks);
     const blocks = moving ? project.sections.flatMap(s => s.blocks).filter(b => clip.ids.includes(b.id)).map(copy) : duplicated.blocks;
+    if(clip.projectId!==project.id){
+      // Keep the source asset owner when a copied question enters another book.
+      const rebase=node=>{if(!node||typeof node!=='object')return;for(const [key,value] of Object.entries(node)){if(['source','sourceAtom','sourceReview','originalDiagram','originalGraph'].includes(key))continue;if(key==='src'&&typeof value==='string'&&value.startsWith('evidence/'))node[key]='/__booklet/full-imports/'+encodeURIComponent(clip.sourceRunId??clip.projectId)+'/files/lanes/exact/'+value;else if(Array.isArray(value))value.forEach(rebase);else if(value&&typeof value==='object')rebase(value);}};blocks.forEach(rebase);
+    }
     // Imported numbering exceptions belong to the original position. Moving or
     // copying content uses the destination's running question numbers.
     for(const block of blocks)if(block.flow){delete block.flow.numberGapBefore;delete block.flow.numberResetBefore;}
@@ -234,5 +239,5 @@ export function flowEditionSections(project, edition='student') {
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)?`Exercise ${exercises[section.topicId]}`:null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
     blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),exerciseHeadingBefore:startsExercise(section)&&index===0?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
-  return [...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])];
+  return shareFlowProjection(project,edition,[...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])]);
 }

@@ -9,7 +9,7 @@ let record=createEditableProject({id:'document-check',title:'Document editor che
 const errors=[],writes=[];let failSave=false;
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
 const page=await browser.newPage({viewport:{width:1700,height:1100}});page.on('pageerror',e=>{errors.push(e.message);console.log('PAGE ERROR',e.stack);});
-await page.route('**/__booklet/**',async route=>{
+await page.context().route('**/__booklet/**',async route=>{
  const req=route.request(),url=new URL(req.url()),method=req.method();
  if(url.pathname==='/__booklet/projects'&&method==='GET')return route.fulfill({json:[{id:record.id,title:record.title,revision:record.revision}]});
  if(url.pathname===`/__booklet/projects/${record.id}`){if(method==='PUT'){if(failSave)return route.fulfill({status:503,json:{error:'Simulated save failure'}});const body=req.postDataJSON();assert.equal(body.expectedRevision,record.revision);record={...body.project,revision:record.revision+1};writes.push(record.revision);}return route.fulfill({json:record});}
@@ -31,7 +31,7 @@ try{
  assert.match(toSource(record.sections[0].blocks[1].content),/Second edit/);
  await page.getByRole('button',{name:'Undo',exact:true}).click();await saved();assert.doesNotMatch(toSource(record.sections[0].blocks[1].content),/Second edit/);
  await page.getByRole('button',{name:'Redo',exact:true}).click();await saved();assert.match(toSource(record.sections[0].blocks[1].content),/Second edit/);
- await page.getByRole('button',{name:'Add comment',exact:true}).click();await page.getByLabel('Comment',{exact:true}).fill('Keep the alignment consistent across the booklet.');await page.getByRole('button',{name:'Add comment',exact:true}).last().click();await saved();assert.equal(record.studio.flags.length,1);
+ await page.locator('.document-insert > summary').filter({hasText:/^Comments(?:\s|$)/}).click();await page.getByRole('button',{name:'Add comment',exact:true}).click();await page.getByLabel('Comment',{exact:true}).fill('Keep the alignment consistent across the booklet.');await page.getByRole('button',{name:'Add comment',exact:true}).last().click();await saved();assert.equal(record.studio.flags.length,1);
  await page.getByRole('button',{name:'Copy feedback prompt',exact:true}).click();await page.getByLabel('Feedback prompt',{exact:true}).waitFor();assert.match(await page.getByLabel('Feedback prompt',{exact:true}).inputValue(),/Saved revision/);
  await page.getByRole('button',{name:'Close panel',exact:true}).click();
  const handle=page.locator('[data-document-group="next"] .group-handle');await handle.click();await page.keyboard.press('Delete');await saved();assert.equal(record.sections[0].blocks.length,2);
@@ -44,11 +44,11 @@ try{
  await page.getByRole('button',{name:'Maths',exact:true}).click();await page.locator('.me-content math-field').last().waitFor({state:'attached'});await page.keyboard.type('x+1');await page.keyboard.press('Escape');await saved();
  assert.match(JSON.stringify(record.sections[0].blocks),/x\+1/);
  // Select across two independently structured fields and format them together.
- await page.getByRole('button',{name:'More options',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.getByRole('button',{name:'Spacing',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
  await page.evaluate(()=>{const a=document.querySelector('[data-edit-root="theory"] .clickable'),b=document.querySelector('[data-edit-root="next"] .clickable');const r=document.createRange();r.setStart(a,0);r.setEnd(b,b.childNodes.length);getSelection().removeAllRanges();getSelection().addRange(r);});
  await page.getByRole('button',{name:'Bold',exact:true}).click();await saved();assert.match(JSON.stringify(record.sections[0].blocks.find(b=>b.id==='next').content),/bold/);
  // Save failure must not export a stale revision or discard local comments.
- await page.getByRole('button',{name:'Add comment',exact:true}).click();await page.getByLabel('Comment',{exact:true}).fill('Unsaved feedback survives a failed save.');failSave=true;await page.getByRole('button',{name:'Add comment',exact:true}).last().click();
+ await page.locator('.document-insert > summary').filter({hasText:/^Comments(?:\s|$)/}).click();await page.getByRole('button',{name:'Add comment',exact:true}).click();await page.getByLabel('Comment',{exact:true}).fill('Unsaved feedback survives a failed save.');failSave=true;await page.getByRole('button',{name:'Add comment',exact:true}).last().click();
  await page.waitForFunction(()=>document.querySelector('.save-state')?.textContent==='Save failed');
  await page.getByRole('button',{name:'Copy feedback prompt',exact:true}).click();await page.waitForFunction(()=>document.body.textContent.includes('Your comments and edits are retained'));
  failSave=false;await page.keyboard.press('Control+s');await saved();assert.equal(record.studio.flags.length,2);
@@ -70,7 +70,7 @@ try{
  await page.reload({waitUntil:'networkidle'});await page.locator('.flow-document[data-pagination-state="ready"]').waitFor();
  const fragments=page.locator('.flow-paper [data-edit-root="long-prose"][data-fragment-start]');assert.ok(await fragments.count()>1);
  const continuation=fragments.nth(1),start=Number(await continuation.getAttribute('data-fragment-start')),before=toSource(longDocument);
- await continuation.locator('.clickable').click();await page.locator('maths-editor .me-content').waitFor();await page.keyboard.press('Control+Home');await page.keyboard.type('CONTINUED ');await saved();await page.locator('.flow-document[data-pagination-state="ready"]').waitFor();
+ await continuation.locator('.clickable').click();await page.locator('maths-editor .me-content').waitFor();await page.locator('maths-editor .me-content').evaluate(s=>{const r=document.createRange();r.selectNodeContents(s);r.collapse(true);s.focus();getSelection().removeAllRanges();getSelection().addRange(r);});await page.keyboard.type('CONTINUED ');await saved();await page.locator('.flow-document[data-pagination-state="ready"]').waitFor();
  const longValue=()=>toSource(record.sections[0].blocks.find(b=>b.id==='long-prose').content);assert.equal(longValue(),before.slice(0,start)+'CONTINUED '+before.slice(start));
  const revision=record.revision;await page.locator('maths-editor .me-content').dispatchEvent('compositionstart');await page.keyboard.type('IME ');await page.waitForTimeout(650);assert.equal(record.revision,revision);await page.locator('maths-editor .me-content').dispatchEvent('compositionend');await saved();assert.match(longValue(),/CONTINUED IME /);
  assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,writes:writes.length,errors}));fs.writeFileSync(out+'/report.json',JSON.stringify({passed:true,writes:writes.length,errors},null,2));

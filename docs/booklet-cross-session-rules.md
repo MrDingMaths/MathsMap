@@ -21,7 +21,7 @@ Do not place numbers inside the right-aligned equation left-hand-side column.
 This does not recolour ordinary practice short answers or explanatory Key Ideas
 numbered lists.
 
-Booklet Studio exposes arrangement and spacing through **Layout & spacing**.
+Booklet Studio exposes arrangement and spacing through **Spacing**.
 Its question-wide controls, selected object controls, paragraph settings and
 detailed arrangement entry share one panel. Table row minimum heights and cell
 padding belong here too: paragraph spacing cannot override a taller table row.
@@ -129,7 +129,7 @@ additional exercise breaks. Compact answer pagination is unchanged.
 
 Layout containers default to borderless; explicit meaningful borders, individual
 card outlines and actual table cells retain their own border controls. In Studio,
-select the question, open **Layout & spacing ? Detailed arrangement?**, select
+select the question, open **Spacing → Detailed arrangement…**, select
 the row/group in **Question structure**, and adjust **Minimum height (mm)**.
 Zero fits content; **Gap (mm)** controls separation between children. Separate
 answer spaces and table row heights can also reserve writing room.

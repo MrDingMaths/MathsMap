@@ -2,6 +2,7 @@ import { logicalUnits, flowEditionSections } from './booklet-flow.js';
 import { resolveArrangement, arrangementCatalog } from './booklet-arrangement.js';
 import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 import {paragraphSlice} from './booklet-document-fragments.js';
+import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -41,7 +42,10 @@ export function fragmentQuestion(block, groups, continuation=0) {
   return next;
 }
 
+const fragmentLayoutCache=new WeakMap();
 export function fragmentLayouts(blocks, layouts={}) {
+  let byBlocks=fragmentLayoutCache.get(layouts);if(!byBlocks){byBlocks=new WeakMap();fragmentLayoutCache.set(layouts,byBlocks);}
+  if(byBlocks.has(blocks))return byBlocks.get(blocks);
   const result={...layouts};
   for(const block of blocks){
     const stored=layouts[block.id]?.arrangement;
@@ -58,7 +62,7 @@ export function fragmentLayouts(blocks, layouts={}) {
     };
     result[block.id]={...layouts[block.id],arrangement:{...stored,root:prune(stored.root)??{...stored.root,children:[]}}};
   }
-  return result;
+  byBlocks.set(blocks,result);return result;
 }
 
 export function makeFlowPage(section,blocks,index=0,reason='section') {
@@ -69,17 +73,23 @@ export function makeFlowPage(section,blocks,index=0,reason='section') {
 
 // measure(page) returns height of the actual main children and available body
 // capacity at print width. It must settle fonts, images and diagrams first.
-export async function paginateFlow(project,edition,measure,{cancelled=()=>false,onprogress=()=>{}}={}) {
+const combinedSnapshots=new WeakMap(),combinedBodies=new WeakMap();
+function combinedPageBody(page,answerMode){
+ if(page.mode!=='student')return page.blocks;
+ let modes=combinedBodies.get(page.blocks);if(!modes){modes=new Map();combinedBodies.set(page.blocks,modes);}
+ if(!modes.has(answerMode))modes.set(answerMode,page.blocks.map(block=>block.flow?.exerciseNumber?{...block,flow:{...block.flow,answerMode}}:block));return modes.get(answerMode);
+}
+export async function paginateFlow(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}) {
   if(project.settings.compactAnswers&&edition!=='student'){
-    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,onprogress:p=>onprogress({...p,phase:edition.includes('short')?'short answers':'worked solutions'})});
+    const prior=combinedSnapshots.get(previous);
+    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,previous:prior?.answers??previous,context,onprogress:p=>onprogress({...p,phase:edition.includes('short')?'short answers':'worked solutions'})});
     if(!edition.startsWith('with-'))return answers;
-    const student=await paginateFlow(project,'student',measure,{cancelled,onprogress:p=>onprogress({...p,phase:'questions'})});
+    const student=await paginateFlow(project,'student',measure,{cancelled,previous:prior?.student,context,onprogress:p=>onprogress({...p,phase:'questions'})});
     // Cross-edition links are derived after both maps are complete.
     const answerMode=edition.includes('short')?'short':'worked';
-    const pages=[...student.pages,...answers.pages];
-    for(const page of student.pages)for(const block of page.blocks)if(block.flow?.exerciseNumber)block.flow={...block.flow,answerMode};
+    const pages=[...student.pages,...answers.pages].map(p=>({...p,blocks:combinedPageBody(p,answerMode)}));
     pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
-    return {pages,issues:[...student.issues,...answers.issues],edition};
+    const result={pages,issues:[...student.issues,...answers.issues],edition};combinedSnapshots.set(result,{student,answers});return result;
   }
   const editionSections=flowEditionSections(project,edition),sections=[],pages=[],issues=[],seenTopics=new Set();
   const sectionById=new Map(editionSections.map(s=>[s.id,s]));
@@ -89,6 +99,7 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
     else sections.push({...section,blocks:[...section.blocks]});
   }
   const layouts=project.settings.layoutOverrides.blockLayouts ?? {};
+  const reuse=paginationReuse(project,edition,previous,context);
   const check=()=>{if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});};
   for(let sectionIndex=0;sectionIndex<sections.length;sectionIndex++){
     check();const section=sections[sectionIndex];
@@ -102,8 +113,18 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
       showTopicHeading:!seenTopics.has(topicKey),showDifficultyHeading:continuation===0});
     const flush=()=>{if(current.length){pages.push(pageFor(current));seenTopics.add(topicKey);continuation++;current=[];}reason='overflow';};
     const fits=async blocks=>{check();const value=await measure(pageFor(blocks));check();return value;};
-    if(pageFor(section.blocks).isCover){current=section.blocks;flush();continue;}
     const units=logicalUnits({sections:[section]});
+    const groupStart=pages.length,issueStart=issues.length;
+    const cached=reuse.get(section.id,section,units,seenTopics.has(topicKey));
+    const appendPages=items=>items.forEach(p=>pages.push({...p,id:`${p.section.id}:page-${pages.length}`,pageNumber:pages.length+1}));
+    if(cached.unchanged){appendPages(cached.prior.pages);issues.push(...cached.prior.issues);if(cached.prior.seenTopic)seenTopics.add(topicKey);Object.assign(cached.entry,cached.prior);onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length,reused:cached.prior.pages.length});continue;}
+    const retain=()=>{cached.entry.pages=pages.slice(groupStart);cached.entry.issues=issues.slice(issueStart);cached.entry.seenTopic=seenTopics.has(topicKey);};
+    if(pageFor(section.blocks).isCover){current=section.blocks;flush();retain();continue;}
+    let begin=0;
+    // Resume before the first changed logical unit. Its preceding partial page
+    // stays in the carry, so keep-with-next and safe question fragments still fit.
+    const resume=cached.prior?.checkpoints.filter(c=>c.index<=cached.first).at(-1);
+    if(resume){begin=resume.index;appendPages(cached.prior.pages.slice(0,resume.pageCount));issues.push(...cached.prior.issues.slice(0,resume.issueCount));current=[...resume.current];continuation=resume.continuation;reason=resume.reason;if(resume.seenTopic)seenTopics.add(topicKey);cached.entry.checkpoints=cached.prior.checkpoints.filter(c=>c.index<begin);}
     const add=async (blocks,force=false)=>{
       check();
       // A source continuation is one editing unit, but its first fragment may
@@ -178,7 +199,13 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
       issues.push({kind:'oversized-content',id:block.id,sectionId:section.sourceSectionId,message:'Content has no safe page break. Add a continuation point or adjust its arrangement/working space.'});
       current=blocks;flush();
     };
-    for(let i=0;i<units.length;i++){
+    for(let i=begin;i<units.length;i++){
+      const checkpoint={index:i,pageCount:pages.length-groupStart,issueCount:issues.length-issueStart,current:[...current],continuation,reason,seenTopic:seenTopics.has(topicKey)};
+      const oldCheckpoint=cached.prior?.checkpoints.find(c=>c.index===i);
+      if(i>begin&&oldCheckpoint&&cached.suffix(i)&&continuation===oldCheckpoint.continuation&&reason===oldCheckpoint.reason&&checkpoint.seenTopic===oldCheckpoint.seenTopic&&samePageCarry(current,oldCheckpoint.current)){
+        appendPages(cached.prior.pages.slice(oldCheckpoint.pageCount));issues.push(...cached.prior.issues.slice(oldCheckpoint.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.filter(c=>c.index>=i));current=[];break;
+      }
+      cached.entry.checkpoints.push(checkpoint);
       const unit=units[i];
       if(unit.blocks[0].type==='page-break'){flush();reason='manual';continue;}
       const blocks=[...unit.blocks];
@@ -187,8 +214,8 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
       for(let j=0;j<blocks.length;j++)if(blocks[j].flow?.continuationOf||blocks[j].continuationOf){blocks[j]={...blocks[j],content:{...blocks[j].content,prompt:typeof blocks[j].content?.prompt==='string'&&/^Question \d+ continued\.?$/i.test(blocks[j].content.prompt)?blocks[j].flow?.sourceContinuationLabel?blocks[j].content.prompt.replace(/\d+/,blocks[j].flow.displayNumber??blocks[j].sourceOrder):'':blocks[j].content?.prompt},flow:{...blocks[j].flow,fragment:j||1}};}
       await add(blocks);
     }
-    flush();onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length});
+    flush();retain();onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length});
   }
-  pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
-  return {pages,issues,edition};
+  pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;p.section=sectionById.get(p.section.id)??p.section;});
+  return reuse.finish({pages,issues,edition});
 }

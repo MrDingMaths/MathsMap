@@ -28,7 +28,7 @@
       if(disposed)return;
       editor=document.createElement('maths-editor');editor.setAttribute('structured','');editor.setAttribute('aria-label',label);editor.setAttribute('placeholder',placeholder);
       if(focused||inline)editor.setAttribute('controls','contextual');
-      if(documentHost){editor.classList.add('booklet-document-field');editor.renderMathPreview=(latex,display)=>renderMath((display?'$$':'$')+(display||presentation?.()?.mathsStyle==='display-glyphs'?'':'\\textstyle ')+latex+(display?'$$':'$'));}
+      if(documentHost){editor.documentHost=documentHost;editor.classList.add('booklet-document-field');editor.renderMathPreview=(latex,display)=>renderMath((display?'$$':'$')+(display||presentation?.()?.mathsStyle==='display-glyphs'?'':'\\textstyle ')+latex+(display?'$$':'$'));}
       editor.style.cssText=houseStyleVariables(session?.houseStyleVersion);
       if(session?.houseStyleVersion)editor.dataset.houseStyleVersion=session.houseStyleVersion;
       if(session?.question)editor.setAttribute('question-context','');
@@ -41,9 +41,13 @@
         if(session.defaultLineHeight)initialDocument.blocks[0].lineHeight=session.defaultLineHeight;
       }
       editor.document=initialDocument;
-      preview=editor.document;
-      let lastDocumentChange=JSON.stringify(result());
-      editor.addEventListener('document-change',event=>{const next=result(),signature=JSON.stringify(next);if(documentHost&&signature===lastDocumentChange)return;lastDocumentChange=signature;onchange(next);clearTimeout(previewTimer);if(event.detail.layout)preview=next.document;else previewTimer=setTimeout(()=>preview=next.document,300);});
+      if(documentHost){
+        editor.documentController.lastHostDocument=editor.documentController.doc;
+        editor.addEventListener('document-transaction',event=>{const value=event.detail.document;onchange({value,document:value,richText:value,structural:event.detail.structural,changedIds:event.detail.changedIds,...(event.detail.layout?{layout:layoutDraft}:{}),...(applyTabs?{applyTabs}:{})});});
+      }else{
+        preview=editor.document;
+        editor.addEventListener('document-change',event=>{const next=result();onchange(next);clearTimeout(previewTimer);if(event.detail.layout)preview=next.document;else previewTimer=setTimeout(()=>preview=next.document,300);});
+      }
       editor.addEventListener('apply-question-tabs',event=>{applyTabs=event.detail.tabStops;onchange(result());if(documentHost)applyTabs=null;editor.documentController.message.textContent=documentHost?'Tab settings applied to this question’s parts.':'Tab settings will apply to this question’s parts on Save.';});
       editor.addEventListener('focusin',()=>onfocus());editor.addEventListener('focusout',()=>onblur());
       editor.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();onsave?.(result());}});

@@ -161,7 +161,9 @@ test('null preview numbering preserves saved question label references',()=>{
  assert.equal(preview.entries.get('page-44-q1-root/label').value,'1');
  assert.equal(arrangementQuestionBlock(b,6).sourceOrder,6);
  const unnumbered=arrangementQuestionBlock({...b,sourceOrder:undefined});
- assert.equal(resolveArrangement(unnumbered).entries.has('page-44-q1-root/label'),false);
+ const blank=resolveArrangement(unnumbered);
+ assert.equal(blank.entries.get('page-44-q1-root/label').value,'');
+ assert.ok(!arrangementItems(blank.tree.root).some(item=>item.ref==='page-44-q1-root/label'),'Empty labels remain addressable by saved arrangements but are not inserted into new layouts');
  assert.equal(b.sourceOrder,1);
 });
 

@@ -96,7 +96,7 @@ try {
   // Teaching layout content stays inside its slot through insert/delete/history.
   await page.evaluate(async()=>{const {template}=await import('/libs/maths-editor/document-model.mjs');const d=template('investigation');testEditor.document={blocks:[d]};});
   await page.locator('.me-content [data-slot] p').first().click();
-  await page.keyboard.press('End');await page.keyboard.press('Tab');await page.keyboard.type('x');
+  await page.keyboard.press('End');await page.keyboard.press('Alt+=');await page.keyboard.type('x');
   await tool('Delete equation').click();await page.keyboard.press('Control+z');await page.waitForFunction(()=>document.activeElement?.matches('math-field'));
   assert.equal(await fields().first().evaluate(e=>Boolean(e.closest('[data-slot]'))),true);
   const saved=await doc();await page.evaluate(d=>testEditor.document=d,saved);assert.deepEqual(await doc(),saved);

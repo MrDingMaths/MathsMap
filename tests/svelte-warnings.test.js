@@ -18,6 +18,10 @@ const activeComponents = [
   'src/components/BookletReviewInspector.svelte',
   'src/components/BookletAssemblyPanel.svelte',
   'src/components/BookletProjects.svelte',
+  'src/components/BookletSelectionSpacing.svelte',
+  'src/components/BookletRangeSpacing.svelte',
+  'src/components/FlowBookletPreview.svelte',
+  'src/components/FlowBookletOutline.svelte',
   'src/components/TranscribedBookletPage.svelte',
 ];
 

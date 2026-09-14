@@ -28,6 +28,7 @@
   const workspaceEdit=getContext('booklet-edit-request');
   const workspaceInline=getContext('booklet-inline-edit');
   const hostId=crypto.randomUUID();
+  $effect(()=>{if(!editMode||!workspaceInline?.registerView)return;return workspaceInline.registerView(hostId,{rootId,rootIds,pointer,value});});
   const inlineSession=$derived(editMode&&workspaceInline?.session?.hostId===hostId?workspaceInline.session:null);
   let inlineEditor=$state();
   let active = $state('');
@@ -37,6 +38,7 @@
 
   function cancel() { active = ''; }
   function activate(event) {
+    if(event.target.closest?.('a')){if(event.ctrlKey||event.metaKey)return;event.preventDefault();}
     if(event.type==='click'&&window.getSelection()?.toString())return;
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
     if (event.type === 'keydown') event.preventDefault();
@@ -57,11 +59,13 @@
   onDestroy(() => { if (reportedActive) oneditingchange?.(false); });
 </script>
 
-<span class:edit-mode={editMode} class:edited class:empty-field={!hasVisibleContent(value)} class="editable-booklet-text {className}" data-edit-root={rootId} data-edit-path={pointer} data-fragment-start={value?._bookletSlice?.start} data-fragment-end={value?._bookletSlice?.end}>
+<span class:edit-mode={editMode} class:edited class:empty-field={!hasVisibleContent(value)} class="editable-booklet-text {className}" data-host-id={hostId} data-edit-root={rootId} data-edit-path={pointer} data-fragment-start={value?._bookletSlice?.start} data-fragment-end={value?._bookletSlice?.end}>
   {#if inlineSession}
+    {#if workspaceInline.attach}<span class="document-editor-slot" use:workspaceInline.attach={inlineSession}></span>{:else}
     {#key inlineSession.key}
     <MathsEditor bind:this={inlineEditor} value={inlineSession.value} inline session={inlineSession} documentHost={workspaceInline.host(inlineSession)} selectedNodeId={inlineSession.selectedNodeId} selectedType={inlineSession.selectedType} onchange={result=>inlineSession.commit(result)} />
     {/key}
+    {/if}
   {:else if active === 'document'}
     <MathsEditor {value} onsave={(result) => { active = ''; oncommit?.({ rootId, pointer, value: result.value }); }} oncancel={cancel} />
   {:else}

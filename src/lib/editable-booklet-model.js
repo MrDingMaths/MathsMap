@@ -7,6 +7,7 @@ import { normalizeBookletProject } from './booklet-model.js';
 import { isDocument, normalizeDocument } from './document-content.js';
 import {normaliseShortAnswer} from './short-answer-style.js';
 import {teachingAnswerCategory} from './booklet-answer-options.js';
+import {locateBookletContent,replaceAtPath} from './booklet-content-index.js';
 
 export const EDITABLE_BOOKLET_PROJECT_FORMAT = 'mathsmap-booklet-project-v4';
 export const EDITABLE_BOOKLET_PROJECT_VERSION = 4;
@@ -292,19 +293,15 @@ export function materializeLegacyProject(raw, { bank = [], modules = [] } = {}) 
 
 export function updateProjectContent(project, rootId, pointer, value) {
   value=standardBookletContent(value);
-  let found=false;
-  const sections=project.sections.map(section=>{
-    if(section.id===rootId){found=true;const next=clone(section);setPointer(next,pointer,value);return next;}
-    const blocks=section.blocks.map(block=>{
-      if(!findProjectNode({sections:[block]},rootId))return block;
-      found=true;const next=clone(block);
-      const stored=pointer.endsWith('/answer/short')&&!teachingAnswerCategory(block)&&!block.sourceAtom?normaliseShortAnswer(value):value;
-      setPointer(findProjectNode({sections:[next]},rootId),pointer,stored);return next;
-    });
-    return blocks.some((block,i)=>block!==section.blocks[i])?{...section,blocks}:section;
-  });
-  if (!found) throw new Error(`Project content root is missing: ${rootId}`);
-  return {...project,sections};
+  const target=locateBookletContent(project,rootId);
+  if(!target)throw new Error(`Project content root is missing: ${rootId}`);
+  const parts=pointerParts(pointer);
+  if(!parts.length)throw new Error('A project edit needs a field pointer');
+  if(parts.some(p=>['__proto__','prototype','constructor'].includes(p)))throw new Error('Invalid project edit path');
+  const stored=pointer.endsWith('/answer/short')&&target.block&&!teachingAnswerCategory(target.block)&&!target.block.sourceAtom?normaliseShortAnswer(value):value;
+  // Only the path to the edited value is copied. Source evidence, diagrams and
+  // other questions retain their identity and do not enter the keystroke path.
+  return replaceAtPath(project,[...target.path,...parts],clone(stored));
 }
 
 export function updateProjectSettings(project, patch = {}) {

@@ -1,6 +1,7 @@
 ﻿#!/usr/bin/env node
 // Export the current project surface; --project is a read-only in-memory preview.
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
+import {inspectFinalSizeDiagrams} from './diagram-preflight.mjs';
 import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import { chromium } from 'playwright-core';
 import { mkdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
@@ -27,15 +28,15 @@ try {
   // A frozen production preview has no source-module route; retain the same QA checks.
   if(arg('--qa-module'))await page.route('**/src/lib/booklet-qa.js',route=>route.fulfill({contentType:'text/javascript',body:readFileSync(resolve(arg('--qa-module')),'utf8')}));
   if(baselineRuntime)await page.route('**/libs/maths-editor/document-model.mjs',route=>route.fulfill({contentType:'text/javascript',body:readFileSync(resolve(baselineRuntime,'document-model.mjs'),'utf8')}));
-  await page.route('**/__booklet/bank/manifest',r=>r.fulfill({json:{format:'mathsmap-practice-bank-v3',version:3,questions:[]}}));
- await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
+  await context.route('**/__booklet/bank/manifest',r=>r.fulfill({json:{format:'mathsmap-practice-bank-v3',version:3,questions:[]}}));
+ await context.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
   if (projectFile) {
     const project = materializeLegacyProject(JSON.parse(readFileSync(resolve(projectFile), 'utf8').replace(/^\uFEFF/, '')));
     projectId = project.id;
-    await page.route('**/__booklet/projects?*', (route)=>route.fulfill({json:[{id:project.id,title:project.title}]}));
-    await page.route('**/__booklet/projects/'+encodeURIComponent(projectId)+'/open',route=>route.fulfill({json:{project,bankSync:{items:[]},bankSyncError:''}}));
-    await page.route('**/__booklet/projects', (route) => route.request().method() === 'GET' ? route.fulfill({ json: [project] }) : route.abort());
-    await page.route('**/__booklet/projects/' + encodeURIComponent(projectId), (route) => route.request().method() === 'GET' ? route.fulfill({ json: project }) : route.abort());
+    await context.route('**/__booklet/projects?*', (route)=>route.fulfill({json:[{id:project.id,title:project.title}]}));
+    await context.route('**/__booklet/projects/'+encodeURIComponent(projectId)+'/open',route=>route.fulfill({json:{project,bankSync:{items:[]},bankSyncError:''}}));
+    await context.route('**/__booklet/projects', (route) => route.request().method() === 'GET' ? route.fulfill({ json: [project] }) : route.abort());
+    await context.route('**/__booklet/projects/' + encodeURIComponent(projectId), (route) => route.request().method() === 'GET' ? route.fulfill({ json: project }) : route.abort());
   }
   const query = new URLSearchParams({ stage: 'projects' });
   if (projectId) query.set('project', projectId);
@@ -86,6 +87,9 @@ try {
     return {collisions,tabs:[...document.querySelectorAll('.project-print p:has([data-tab])')].map(p=>({paragraph:rect(p),width:getComputedStyle(p).width,html:p.innerHTML,stops:p.dataset.tabStops,tabs:[...p.querySelectorAll('[data-tab]')].map(t=>({rect:rect(t),style:t.getAttribute('style')}))})),pages:[...document.querySelectorAll('.project-print .print-page')].map(p=>({page:rect(p),footer:p.querySelector('footer')?rect(p.querySelector('footer')):null,content:p.querySelector('main')?rect(p.querySelector('main')):null}))};
   }),null,2));
   const qa=await page.evaluate(async()=>{const {settleBooklet,inspectBooklet}=await import('/src/lib/booklet-qa.js');const root=document.querySelector('.project-print');await settleBooklet(root);return inspectBooklet(root,{style:document.querySelector('[data-house-style="1.1.0"]')!=null});});
+  mkdirSync(dirname(output),{recursive:true});
+  if(process.argv.includes('--verify-diagrams')){const diagrams=await inspectFinalSizeDiagrams(page);writeFileSync(output+'.diagrams.json',JSON.stringify(diagrams,null,2));if(diagrams.issues.length)throw Error('Final-size diagram QA failed; see '+output+'.diagrams.json');}
+  if(process.argv.includes('--verify-navigation')){const links=await page.locator('.project-print').evaluate(root=>[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length&&getComputedStyle(a).visibility!=='hidden').map(a=>({text:a.textContent,href:a.getAttribute('href'),exists:!!root.querySelector('[id="'+CSS.escape(a.getAttribute('href').slice(1))+'"]')})));writeFileSync(output+'.navigation.json',JSON.stringify(links,null,2));if(links.some(l=>!l.exists))throw Error('A printed navigation link has no destination');}
   const edition=await page.evaluate(()=>({mode:document.querySelector('[aria-label="Practice answers"]')?.value,worked:document.querySelectorAll('.project-print .worked-content').length}));
   if(flexible){if(await page.locator('.project-print').getAttribute('data-flow-edition')!==mode)throw Error('The requested edition changed');}
   else if(edition.mode!==(mode==='student'?'none':mode)||(mode==='worked'&&!edition.worked))throw Error('The requested answer edition did not remain selected');

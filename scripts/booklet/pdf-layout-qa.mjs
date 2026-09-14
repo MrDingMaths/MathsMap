@@ -1,9 +1,11 @@
 import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
 // The DOM cannot expose Chromium's final fragmentation of flowing answer sheets.
 // Poppler supplies actual printed word bounds, including SVG graph labels.
 export function inspectPrintedPdf(file) {
- const result=spawnSync('pdftotext',['-bbox','-enc','UTF-8',file,'-'],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
- if(result.error||result.status!==0)throw Error('PDF geometry validation requires Poppler pdftotext: '+(result.error?.message??result.stderr));
+ const command=process.env.BOOKLET_PDF_PYTHON??'pdftotext',args=process.env.BOOKLET_PDF_PYTHON?[fileURLToPath(new URL('./pdf-word-bounds.py',import.meta.url)),file]:['-bbox','-enc','UTF-8',file,'-'];
+ const result=spawnSync(command,args,{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
+ if(result.error||result.status!==0)throw Error('PDF geometry validation requires the configured word-bounds backend: '+(result.error?.message??result.stderr));
  const pages=[];
  for(const match of result.stdout.matchAll(/<page width="([\d.]+)" height="([\d.]+)">([\s\S]*?)<\/page>/g)){
   const width=Number(match[1]),height=Number(match[2]),words=[...match[3].matchAll(/<word xMin="([\d.-]+)" yMin="([\d.-]+)" xMax="([\d.-]+)" yMax="([\d.-]+)">([\s\S]*?)<\/word>/g)].map(m=>({left:+m[1],top:+m[2],right:+m[3],bottom:+m[4],text:m[5]}));

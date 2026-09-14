@@ -23,7 +23,7 @@
 
   $effect(() => {
     const openFinder = (event) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      if (!event.defaultPrevented && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         searchOpen = true;
       }
@@ -101,7 +101,7 @@
           <Quiz skillId={route.query.skill ?? null} topicId={route.query.topic ?? null} courseId={route.query.course ?? null} />
         {:else if route.name === 'quiz-history'}
           <QuizHistory id={route.params[0] ?? null} />
-        {:else if route.name === 'booklet' && import.meta.env.DEV}
+        {:else if route.name === 'booklet' && (import.meta.env.DEV || import.meta.env.VITE_BOOKLET_STUDIO === 'true')}
           <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'builder'} initialOutput={route.query.output ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
           <TikzCheck

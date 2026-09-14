@@ -1,5 +1,6 @@
 import { createProjectBlock } from './editable-booklet-model.js';
 import { fromSource } from '../../public/libs/maths-editor/document-model.mjs';
+import {locateBookletContent} from './booklet-content-index.js';
 
 const copy = value => value == null ? value : JSON.parse(JSON.stringify(value));
 const fields = ['title','subtitle','sections','topics','settings','studio'];
@@ -14,21 +15,23 @@ export function documentFrame(project, selection = null, previous = null) {
   return { content: Object.fromEntries(fields.map(key => [key, snapshotShare(previous?.[key],project[key])])), selection: copy(selection) };
 }
 // Revisions and asynchronously refreshed bank metadata are not editing history.
-export function restoreDocumentFrame(project, frame) {
+export function restoreDocumentFrame(project, frame, immutable=false) {
   const current = new Map();
   for (const section of project.sections) for (const block of section.blocks) current.set(block.id, block);
-  const next = { ...project, ...copy(frame.content) };
-  for (const section of next.sections) for (const block of section.blocks) {
+  const next = { ...project, ...(immutable?frame.content:copy(frame.content)) };
+  next.sections=next.sections.map(section=>({...section,blocks:section.blocks.map(original=>{
+    const block={...original};
     const live = current.get(block.id);
-    if (!live) continue;
+    if (!live) return block;
     for (const key of ['bankRef','classification']) if (key in live) block[key] = copy(live[key]);
     if (live.flow?.bankDifficulty) block.flow = { ...block.flow, bankDifficulty: copy(live.flow.bankDifficulty) };
-  }
+    return block;
+  })}));
   return next;
 }
-export function createDocumentHistory({ limit = 100, typingPause = 750 } = {}) {
+export function createDocumentHistory({ limit = 100, typingPause = 750, immutable=false } = {}) {
   let past = [], future = [], group = null, at = 0, lastContent = null;
-  const frame=(project,selection)=>{const value=documentFrame(project,selection,lastContent);lastContent=value.content;return value;};
+  const frame=(project,selection)=>{const value=immutable?{content:Object.fromEntries(fields.map(key=>[key,project[key]])),selection:copy(selection)}:documentFrame(project,selection,lastContent);lastContent=value.content;return value;};
   return {
     get past() { return past; }, get future() { return future; },
     reset() { past = []; future = []; group = null; lastContent=null; },
@@ -44,31 +47,15 @@ export function createDocumentHistory({ limit = 100, typingPause = 750 } = {}) {
       if (direction < 0) { past = past.slice(0,-1); future = [...future,present]; }
       else { future = future.slice(0,-1); past = [...past,present]; }
       group = null;
-      return { project: restoreDocumentFrame(project, target), selection: target.selection };
+      return { project: restoreDocumentFrame(project, target,immutable), selection: target.selection };
     },
   };
 }
 
 // Remember locations, never content objects. Validate the ID against the current
 // document so moves, undo, deletions and project switches cannot return stale nodes.
-const targetPaths=new Map();
 export function contentTarget(project, id) {
-  if(!id||id===project?.id)return undefined;
-  const cached=targetPaths.get(id);
-  if(cached){const section=project?.sections?.[cached.section],block=section?.blocks?.[cached.block];let node=block;for(const key of cached.path)node=node?.[key];if(node?.id===id)return {node,section,block};}
-  let result;
-  const visit = (node, section, block, path, sectionIndex, blockIndex) => {
-    if (!node || typeof node !== 'object' || result) return;
-    if (node.id === id) { result = { node, section, block };targetPaths.set(id,{section:sectionIndex,block:blockIndex,path});if(targetPaths.size>2000)targetPaths.delete(targetPaths.keys().next().value);return; }
-    for (const [key, value] of Object.entries(node)) if (!['source','sourceReview','sourceLayoutEvidence','bankRef','classification','originalDiagram'].includes(key)) {
-      if (Array.isArray(value)) value.forEach((v,i) => visit(v,section,block,[...path,key,i],sectionIndex,blockIndex)); else visit(value,section,block,[...path,key],sectionIndex,blockIndex);
-    }
-  };
-  for (const [sectionIndex,section] of (project?.sections ?? []).entries()) {
-    if (section.id === id) return { node: section, section, block: null };
-    for (const [blockIndex,block] of section.blocks.entries()) {visit(block,section,block,[],sectionIndex,blockIndex);if(result)return result;}
-  }
-  return result;
+  const found=locateBookletContent(project,id);return found?{node:found.node,section:found.section,block:found.block}:undefined;
 }
 export function fieldValue(project, anchor) {
   const target = contentTarget(project,anchor?.rootId ?? anchor?.targetId);

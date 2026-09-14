@@ -26,7 +26,7 @@ let browser;try{browser=await chromium.launch({headless:true});}catch{browser=aw
 const report=[],errors=[];
 try{for(const [id,initial] of [...records]){
  const page=await browser.newPage({viewport:{width:1700,height:1100}});page.setDefaultTimeout(60000);page.on('pageerror',e=>{errors.push(e.stack);console.log(e.stack);});
- await page.route('**/__booklet/**',async route=>{
+ await page.context().route('**/__booklet/**',async route=>{
    const req=route.request(),url=new URL(req.url());
    if(url.pathname==='/__booklet/projects')return route.fulfill({json:[...records.values()].map(p=>({id:p.id,title:p.title,revision:p.revision}))});
    if(url.pathname===`/__booklet/projects/${id}`){if(req.method()==='PUT'){const body=req.postDataJSON();assert.equal(body.expectedRevision,records.get(id).revision);const valid=validateEditableProject(body.project);assert.equal(valid.valid,true,valid.errors.join('; '));records.set(id,{...body.project,revision:body.expectedRevision+1});}return route.fulfill({json:records.get(id)});}
@@ -39,10 +39,10 @@ try{for(const [id,initial] of [...records]){
  await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
  const ready=()=>page.locator('.flow-document[data-pagination-state="ready"]').waitFor({timeout:240000});
  await ready();console.log('Initial pagination ready:',id);
- await page.getByRole('button',{name:'Compare source',exact:true}).click();
+ await page.locator('.project-toolbar summary').filter({hasText:/^File$/}).click();await page.getByRole('button',{name:'Compare source',exact:true}).click();
  const evidence=page.locator('.source-evidence img');await evidence.waitFor();
  await evidence.evaluate(img=>img.decode());assert.ok(await evidence.evaluate(img=>img.naturalWidth>0));
- await page.getByRole('button',{name:'Exit comparison',exact:true}).click();
+ await page.locator('.project-toolbar summary').filter({hasText:/^File$/}).click();await page.getByRole('button',{name:'Exit comparison',exact:true}).click();
  // Work on the first visible actual content field, including saved arrangements.
  const field=page.locator('.flow-paper [data-edit-path="/prompt"] .clickable,.flow-paper [data-edit-path="/content"] .clickable').first();
  await field.scrollIntoViewIfNeeded();const owner=field.locator('xpath=..');const anchor={rootId:await owner.getAttribute('data-edit-root'),pointer:await owner.getAttribute('data-edit-path')};
@@ -56,8 +56,8 @@ try{for(const [id,initial] of [...records]){
  assert.deepEqual(fieldValue(records.get(id),anchor),originalValue);
  // Panels never change the physical paper width.
  const width=await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width);
- await page.locator('.document-toolbar').getByRole('button',{name:/^Comments/}).click();assert.equal(await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width),width);await page.getByRole('button',{name:'Close panel',exact:true}).click();
- await page.getByRole('button',{name:'More options',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.locator('.document-toolbar summary').filter({hasText:'Comments'}).click();await page.getByRole('button',{name:'Show comments',exact:true}).click();assert.equal(await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width),width);await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.getByRole('button',{name:'Spacing',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
  const editions=[];
  for(const edition of smoke?['student','short','worked','with-short','with-worked']:['student','short','worked']){
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await page.locator(`.flow-document[data-pagination-state="ready"][data-paginated-edition="${edition}"]`).waitFor({timeout:240000});

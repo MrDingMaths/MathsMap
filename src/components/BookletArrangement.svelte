@@ -10,7 +10,7 @@
  const requestEdit=getContext('booklet-edit-request');
  const documentActions=getContext('booklet-document-actions');
  const inlineEditing=getContext('booklet-inline-edit');
- function covered(n){const e=resolved.entries.get(n.ref),s=inlineEditing?.session;return editMode&&s?.hostNodeId&&e?.ownerId===s.rootId&&'/'+e.field===s.pointer&&s.fragmentIds?.includes(e.nodeId)&&e.nodeId!==s.hostNodeId;}
+ function covered(n){const e=resolved.entries.get(n.ref),s=inlineEditing?.session;return editMode&&!s?.redistributing&&s?.hostNodeId&&e?.ownerId===s.rootId&&'/'+e.field===s.pointer&&s.fragmentIds?.includes(e.nodeId)&&e.nodeId!==s.hostNodeId;}
  const direct=$derived(editMode&&!!documentActions&&!onselect);
  const canMove=$derived(!!onmove||direct),canResize=$derived(!!onresize||direct);
  const runMove=(id,target,position)=>onmove?onmove(id,target,position):documentActions.moveLayout(block.id,id,target,position);
