@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {createMeasurementStore,boundedCache} from '../src/lib/booklet-cache-store.js';
-import {publishRenderEntries,readRenderEntry,rendererFingerprint,assetFingerprint} from '../scripts/booklet/render-cache-server.mjs';
+import {publishRenderEntries,readRenderEntry,rendererFingerprint,diagramFingerprint,DIAGRAM_RENDER_INPUTS,assetFingerprint} from '../scripts/booklet/render-cache-server.mjs';
 import {createBankManifestReader} from '../scripts/booklet/bank-manifest-cache.mjs';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
@@ -54,4 +54,35 @@ test('opening client uses one request and falls back only for legacy endpoints',
  const loaded=await openClient('p',async url=>{calls.push(url);return {ok:true,json:async()=>({project,bankSync:{items:[]}})};});assert.deepEqual(loaded.project,project);assert.equal(calls.length,1);
  const fallback=[];await openClient('p',async url=>{fallback.push(url);return url.endsWith('/open')?{ok:false,status:404,json:async()=>({error:'not found'})}:{ok:true,json:async()=>url.endsWith('/bank-sync')?{items:[]}:project};});assert.equal(fallback.length,3);
  await assert.rejects(openClient('p',async()=>({ok:false,status:500,json:async()=>({error:'server failure'})})),/server failure/);
+});
+
+
+test('diagram versions survive UI/layout edits while measurements and runtime inputs invalidate',()=>temporary(async root=>{
+ for(const file of [...DIAGRAM_RENDER_INPUTS,'src/App.svelte','src/components/FlowBookletPage.svelte','public/libs/tikzjax/font.woff','index.html','package-lock.json']){
+  await fs.mkdir(path.dirname(path.join(root,file)),{recursive:true});await fs.writeFile(path.join(root,file),'one');
+ }
+ const diagram=await diagramFingerprint(root),layout=await rendererFingerprint(root);
+ for(const file of ['src/App.svelte','src/components/FlowBookletPage.svelte'])await fs.writeFile(path.join(root,file),'two');
+ assert.equal(await diagramFingerprint(root),diagram);
+ assert.notEqual(await rendererFingerprint(root),layout);
+ for(const file of [...DIAGRAM_RENDER_INPUTS,'public/libs/tikzjax/font.woff','package-lock.json']){
+  const before=await diagramFingerprint(root);await fs.writeFile(path.join(root,file),'two');
+  assert.notEqual(await diagramFingerprint(root),before,file+' must invalidate compiled diagrams');
+ }
+ await fs.writeFile(path.join(root,'public/libs/tikzjax/new-runtime.js'),'new');
+ const added=await diagramFingerprint(root);await fs.unlink(path.join(root,'public/libs/tikzjax/new-runtime.js'));
+ assert.notEqual(await diagramFingerprint(root),added,'runtime additions/deletions invalidate diagrams');
+}));
+
+test('the diagram fingerprint covers every relative runtime import and re-export',async()=>{
+ const root=path.resolve('.'),covered=new Set(DIAGRAM_RENDER_INPUTS.map(file=>path.resolve(file))),queue=[...covered],seen=new Set();
+ while(queue.length){
+  const file=queue.pop();if(seen.has(file))continue;seen.add(file);
+  const source=await fs.readFile(file,'utf8');
+  for(const match of source.matchAll(/\b(?:from\s*|import\s*(?:\(\s*)?)['"](\.[^'"]+)['"]/g)){
+   const dependency=path.resolve(path.dirname(file),match[1]);
+   assert.ok(covered.has(dependency)||dependency.startsWith(path.join(root,'public/libs')+path.sep),'Add diagram dependency to DIAGRAM_RENDER_INPUTS: '+path.relative(root,dependency));
+   queue.push(dependency);
+  }
+ }
 });

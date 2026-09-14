@@ -1,4 +1,4 @@
-import installedVersion from 'virtual:booklet-render-version';
+import installedVersion,{diagramVersion as installedDiagramVersion} from 'virtual:booklet-render-version';
 import {createMeasurementStore} from './booklet-cache-store.js';
 export const measurementStore=createMeasurementStore();
 export const cacheMode=()=>globalThis.__bookletCacheMode??'normal';
@@ -7,7 +7,7 @@ export async function renderEnvironment(){
   if(cacheMode()==='off')return null;
   return runtime??=(async()=>{try{
     const r=await fetch('/__booklet/render-cache/version',{signal:AbortSignal.timeout(5000)}),v=await r.json();
-    return r.ok&&v.version===installedVersion?v:null;
+    return r.ok&&v.diagramVersion===installedDiagramVersion?{version:v.diagramVersion}:null;
   }catch{return null;}})();
 }
 export function measurementAssets(project){

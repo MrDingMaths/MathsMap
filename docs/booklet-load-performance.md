@@ -16,8 +16,10 @@ Project and bank save/conflict semantics are unchanged.
 
 Compiled diagrams use memory, IndexedDB, then a read-only local server cache before
 falling back to the existing TikZ compiler. Cache keys bind prepared diagram
-source to the loaded renderer fingerprint, including rendering code, catalog
-data, bundled libraries and fonts. Checksums reject corrupt persisted SVGs;
+source to a dedicated diagram-runtime fingerprint, including preparation, SVG
+calibration, cache code, bundled libraries/fonts and the dependency lockfile.
+Catalog-derived diagram changes participate through the prepared source key.
+Page measurements retain the broader renderer fingerprint. Checksums reject corrupt persisted SVGs;
 bounded storage/network waits cannot hold up compilation indefinitely.
 
 Only trusted warming/export tools publish compiled SVG entries under
@@ -166,3 +168,80 @@ the concurrent source-review updates. The 82 review findings above describe the
 frozen benchmark snapshot and are resolved in the later current-tree audit
 receipts (`current-shading-audit.json`, `current-solid-audit.json`). Those source
 repairs were concurrent work, not performed by the cache implementation.
+
+
+## Startup follow-up (13 September 2026)
+
+The current renderer had no prepared diagram cache when this investigation began.
+A read-only Index Laws opening took 8.895 seconds, compiled four diagrams and
+performed 1,270 measurements. The strict prepared-cache benchmark correctly
+rejected that run because compilation occurred. This is one diagnostic sample,
+not a replacement for the historical three-repetition medians above.
+
+Diagram compilation now has its own version, independent of unrelated application
+screens and booklet page-layout components. Page measurements still invalidate
+against the full renderer, content, fonts, assets and settings. The explicit
+runtime input list in `render-cache-server.mjs` has a dependency-coverage regression;
+new runtime imports must remain covered. All bundled library files are retained
+conservatively in the diagram fingerprint. A prepared-source edit still changes
+that individual diagram's key. Old broad-version cache directories are preserved
+locally and never relabelled as accepted under the new version.
+
+The version endpoint adds `diagramVersion`; its existing `version` remains the
+page renderer version. Trusted warming/export publication checks the diagram
+version. Browser code checks its installed version independently for each cache.
+This avoids reusing stale page dimensions when compilation alone remains valid.
+
+The Vite development resolver also maps the host's filesystem imports of the
+standalone editor to the same `/libs/maths-editor/` URLs used by the editor itself.
+This removes the `/public/libs/...` warnings and duplicate module identities.
+Node authoring imports and production bundling remain unchanged. The real-browser
+cache check now opens the standalone editor and verifies shared document-model
+identity and zero `/public/libs/` requests.
+
+Validation and current warm/profile receipts are kept locally in
+`.booklet-work/studio-startup-2026-09-13/`. This change concerns cache ownership and
+module URLs; it does not change booklet content, layout algorithms or diagram
+geometry, and is not new source-fidelity or geometry acceptance.
+
+The next substantial first-opening improvement is reusable, source-hashed page
+measurements prepared outside the user's browser: browser IndexedDB is empty on
+a first visit, so Studio still measures the complete selected edition before
+opening. Such a change needs independent stale-input and complete-pagination
+parity checks. The complete-document loading behaviour remains in place.
+
+
+### Current default-edition verification
+
+All six current books were warmed for Questions and short answers (456 pages
+checked in total). Warming took 530.309 seconds of wall time across two overlapping
+workers. All navigation targets passed. Volume page 26 has a 0.395 mm shortfall
+against the 3 mm footer-clearance target; the same finding remains with measurement
+caching disabled. That bypass run matched complete page placement, rendered
+content and navigation hashes. This finding is recorded, not accepted as a new
+layout change or silently omitted from the checks.
+
+The final three-repetition benchmark passed all 36 opening/reload runs, with zero
+diagram compilation, zero new measurements on reload, zero browser errors and
+zero /public/libs/ requests. Project and bank source hashes remained unchanged.
+HTTP caching was disabled consistently by write-blocking interception. Prepared
+opening uses an empty browser cache; reload reuses that browser's measurements.
+
+| Booklet | Prepared opening median | Reload median |
+|---|---:|---:|
+| Angle Relationships | 8.6 s | 2.0 s |
+| Index Laws | 6.9 s | 2.4 s |
+| Linear Relationships | 10.6 s | 3.5 s |
+| Non-Right-Angled Trigonometry | 4.2 s | 1.4 s |
+| Probability | 3.9 s | 1.4 s |
+| Volume | 3.9 s | 1.2 s |
+
+These are local current-input measurements, not a claimed speedup against the
+historical frozen inputs. Raw samples and phase timings are in `after.json` in
+the local run directory. All 23 focused unit tests, the real-browser cache/module
+check and fresh/cached/corrupt/unavailable diagram pixel/resize checks passed.
+The settled production build passed with its existing large-chunk advisory;
+repository storage checks passed. Native standalone-library edits trigger a full
+reload so browser module caching cannot retain the old runtime under a new cache
+version. Detailed phase coverage, retry reasons and unavailable timing/token
+metrics are recorded in `receipt.json`.

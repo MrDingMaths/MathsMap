@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { publicLibraryModulesPlugin } from './scripts/vite-public-modules.mjs';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -30,6 +31,6 @@ export default defineConfig({
   // Local PDF/editor evidence can contain standalone HTML with external imports.
   // Only the application entry participates in dependency discovery.
   optimizeDeps: { entries: ['index.html'] },
-  plugins: [svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), renderCachePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
+  plugins: [publicLibraryModulesPlugin(), svelte(), tikzjaxRawGzPlugin(), contentWritePlugin(), renderCachePlugin(), practiceStudioPlugin(), fullBookletImportPlugin(), projectStudioPlugin()],
   server: { open: true, watch: { ignored: ['**/.booklet-work/**', '**/output/**', '**/public/content/**', '**/public/quizzes/**', '**/public/content-manifest.json'] } },
 });
