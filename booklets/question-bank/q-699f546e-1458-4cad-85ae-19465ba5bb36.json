@@ -1,0 +1,292 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-699f546e-1458-4cad-85ae-19465ba5bb36",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "theoretical-probability",
+    "secondarySkillIds": [
+      "probability-range"
+    ],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Convert sector counts to tenths and place each colour on the shared probability scale."
+  },
+  "content": {
+    "id": "p13-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Consider this spinner. Mark on the number line the probability of spinning:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "p13-q12-spinner",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"categoryY\",\"hex\":\"EF8B2C\",\"reason\":\"source yellow outcome category identified by Y\"},{\"name\":\"categoryG\",\"hex\":\"4F9B63\",\"reason\":\"green outcome category identified by G\"},{\"name\":\"categoryP\",\"hex\":\"268CFF\",\"reason\":\"source purple outcome category identified by P\"}],\"reference\":\"source page 13 p13-q12-spinner\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{categoryY}{HTML}{EF8B2C}\n\\definecolor{categoryG}{HTML}{4F9B63}\n\\definecolor{categoryP}{HTML}{268CFF}\n\\foreach \\i/\\cat/\\lab in {0/categoryY/Y,1/categoryG/G,2/categoryY/Y,3/categoryG/G,4/categoryY/Y,5/categoryG/G,6/categoryY/Y,7/categoryP/P,8/categoryY/Y,9/categoryY/Y}{\n\\pgfmathsetmacro{\\start}{90-36*\\i}\n\\pgfmathsetmacro{\\finish}{\\start-36}\n\\pgfmathsetmacro{\\mid}{\\start-18}\n\\fill[\\cat] (0,0)--(\\start:20) arc[start angle=\\start,end angle=\\finish,radius=20]--cycle;\n\\path (\\mid:14) node {\\lab};\n}\n\\draw[black,line width=0.8pt] (0,0) circle[radius=20];\n\\foreach \\i in {0,...,9}{\\pgfmathsetmacro{\\ang}{90-36*\\i}\\draw[black,line width=0.8pt] (0,0)--(\\ang:20);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 12, right",
+          "description": "Ten sectors with a boundary vertically upward. Clockwise labels Y,G,Y,G,Y,G,Y,P,Y,Y. No pointer. Source yellow category maps to orange and purple category maps to blue; original category letters and names remain.",
+          "mathematics": "Six Y, three G and one P. Equal sectors implement the approved unbiased equal-sector interpretation; no angle givens are printed.",
+          "answerVisibility": "Sector categories are givens; no probabilities appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p13-q12-number-line",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 p13-q12-number-line\"}\n\\begin{tikzpicture}[x=12mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.4,-7) rectangle (10.4,12);\n\\draw[black,line width=0.5pt] (0,0)--(10,0);\n\\foreach \\x/\\lab in {0/0,1/0.1,2/0.2,3/0.3,4/0.4,5/0.5,6/0.6,7/0.7,8/0.8,9/0.9,10/1}{\\draw[black,line width=0.4pt] (\\x,-1.5)--(\\x,1.5);\\path (\\x,-2) node[below,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\lab$};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 130,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 12, lower left",
+          "description": "Shared horizontal number line from 0 to 1, labelled at every tenth, without arrowheads. Blank space above ticks for responses.",
+          "mathematics": "Eleven equally spaced ticks; common coordinate frame x=0 to x=10.",
+          "answerVisibility": "No P(P), P(G) or P(Y) annotations in the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Yellow",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p13-q12-completed-number-line",
+        "answer": {
+          "short": "$0.6$; mark $P(Y)$ at $0.6$.",
+          "worked": "$$\\begin{align*}P(Y)&=\\frac6{10}\\\\P(Y)&=\\frac35\\\\P(Y)&=0.6\\end{align*}$$\nMark $P(Y)$ above $0.6$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p13-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Green",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p13-q12-completed-number-line",
+        "answer": {
+          "short": "$0.3$; mark $P(G)$ at $0.3$.",
+          "worked": "$$\\begin{align*}P(G)&=\\frac3{10}\\\\P(G)&=0.3\\end{align*}$$\nMark $P(G)$ above $0.3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p13-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Purple",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p13-q12-completed-number-line",
+        "answer": {
+          "short": "$0.1$; mark $P(P)$ at $0.1$.",
+          "worked": "$$\\begin{align*}P(P)&=\\frac1{10}\\\\P(P)&=0.1\\end{align*}$$\nMark $P(P)$ above $0.1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p13-q12-completed-number-line",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13 p13-q12-completed-number-line\"}\n\\begin{tikzpicture}[x=12mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.4,-7) rectangle (10.4,12);\n\\draw[black,line width=0.5pt] (0,0)--(10,0);\n\\foreach \\x/\\lab in {0/0,1/0.1,2/0.2,3/0.3,4/0.4,5/0.5,6/0.6,7/0.7,8/0.8,9/0.9,10/1}{\\draw[black,line width=0.4pt] (\\x,-1.5)--(\\x,1.5);\\path (\\x,-2) node[below,text=black,font=\\fontsize{8.5}{10}\\selectfont] {$\\lab$};}\n\\foreach \\x/\\lab in {1/P,3/G,6/Y}{\\path (\\x,6) node[above,text=black,font=\\fontsize{10}{12}\\selectfont] {$P(\\lab)$};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 130,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 12, shared answer annotations",
+          "description": "Complete shared number line with P(P) over 0.1, P(G) over 0.3 and P(Y) over 0.6.",
+          "mathematics": "P(P)=0.1, P(G)=0.3, P(Y)=0.6.",
+          "answerVisibility": "Solution-only completed figure, shared by all three leaves."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q12-layout",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p13-q12-root:labelled-content",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q12-root:label",
+                      "type": "item",
+                      "ref": "p13-q12-root/label"
+                    },
+                    {
+                      "id": "p13-q12-stem-item",
+                      "type": "item",
+                      "ref": "p13-q12-root/prompt",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 1
+                },
+                {
+                  "id": "p13-q12-body-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p13-q12-left-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p13-q12-parts-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p13-q12-a:labelled-content",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p13-q12-a:label",
+                                  "type": "item",
+                                  "ref": "p13-q12-a/label"
+                                },
+                                {
+                                  "id": "p13-q12-a-item",
+                                  "type": "item",
+                                  "ref": "p13-q12-a/prompt",
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p13-q12-b:labelled-content",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p13-q12-b:label",
+                                  "type": "item",
+                                  "ref": "p13-q12-b/label"
+                                },
+                                {
+                                  "id": "p13-q12-b-item",
+                                  "type": "item",
+                                  "ref": "p13-q12-b/prompt",
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p13-q12-c:labelled-content",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p13-q12-c:label",
+                                  "type": "item",
+                                  "ref": "p13-q12-c/label"
+                                },
+                                {
+                                  "id": "p13-q12-c-item",
+                                  "type": "item",
+                                  "ref": "p13-q12-c/prompt",
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "p13-q12-line-item",
+                          "type": "item",
+                          "ref": "p13-q12-number-line",
+                          "width": 130,
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 6,
+                      "weight": 3
+                    },
+                    {
+                      "id": "p13-q12-spinner-item",
+                      "type": "item",
+                      "ref": "p13-q12-spinner",
+                      "width": 40,
+                      "align": "right"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p13-q12"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-14T06:56:56.935Z",
+  "updatedAt": "2026-09-14T06:56:56.935Z"
+}

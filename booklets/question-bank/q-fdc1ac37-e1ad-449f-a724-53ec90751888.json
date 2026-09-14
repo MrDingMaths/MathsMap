@@ -1,0 +1,299 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fdc1ac37-e1ad-449f-a724-53ec90751888",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expected-frequency",
+    "secondarySkillIds": [],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Read half and five-sevenths colour proportions from paired spinners and scale to 1400 trials."
+  },
+  "content": {
+    "id": "p22-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p22-q5-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Each spinner is spun 1400 times.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p22-q5-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Estimate how many times",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q5-spinner-a",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"outcomeBlue\",\"hex\":\"268CFF\",\"reason\":\"blue outcome region\"},{\"name\":\"outcomeOrange\",\"hex\":\"EF8B2C\",\"reason\":\"orange outcome region\"}],\"reference\":\"source page 22 p22-q5-spinner-a\"}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{outcomeBlue}{HTML}{268CFF}\n\\definecolor{outcomeOrange}{HTML}{EF8B2C}\n\\fill[outcomeBlue] (0,0)--(90:1.25) arc[start angle=90,end angle=-90,radius=1.25]--cycle;\n\\fill[outcomeOrange] (0,0)--(90:1.25) arc[start angle=90,end angle=270,radius=1.25]--cycle;\n\\draw (0,0) circle[radius=1.25];\n\\draw (0,-1.25)--(0,1.25);\n\\node at (-0.65,0) {O};\n\\node at (0.65,0) {B};\n\\node[anchor=south] at (0,1.42) {Spinner A};\n\\begin{scope}[rotate=-22]\n\\draw[fill=white,line width=0.4pt] (-0.045,0)--(-0.045,0.77)--(-0.12,0.77)--(0,0.97)--(0.12,0.77)--(0.045,0.77)--(0.045,0)--cycle;\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 24.1,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 5, upper-right pair, left spinner",
+          "description": "Spinner A has an orange left semicircle labelled O and a blue right semicircle labelled B; a white pointer points upwards into blue.",
+          "mathematics": "Two equal semicircular outcome regions; P(blue)=1/2.",
+          "answerVisibility": "Outcome labels and pointer are permanent question content; no supplied answer appears.",
+          "sourceColourEvidence": "Orange and cyan-blue identify outcomes; white pointer provides structural contrast.",
+          "shadingDecision": "Retain blue and orange outcome fills and the white pointer interior because they identify the named outcomes and pointer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p22-q5-spinner-b",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"outcomeBlue\",\"hex\":\"268CFF\",\"reason\":\"blue outcome regions\"},{\"name\":\"outcomeOrange\",\"hex\":\"EF8B2C\",\"reason\":\"orange outcome regions\"}],\"reference\":\"source page 22 p22-q5-spinner-b\"}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{outcomeBlue}{HTML}{268CFF}\n\\definecolor{outcomeOrange}{HTML}{EF8B2C}\n\\foreach \\i/\\shade/\\lab in {0/outcomeBlue/B,1/outcomeOrange/O,2/outcomeBlue/B,3/outcomeOrange/O,4/outcomeOrange/O,5/outcomeOrange/O,6/outcomeOrange/O}{\n\\pgfmathsetmacro{\\start}{90-360*\\i/7}\n\\pgfmathsetmacro{\\finish}{90-360*(\\i+1)/7}\n\\pgfmathsetmacro{\\mid}{90-360*(\\i+0.5)/7}\n\\fill[\\shade] (0,0)--(\\start:1.25) arc[start angle=\\start,end angle=\\finish,radius=1.25]--cycle;\n\\node at (\\mid:0.84) {\\lab};\n}\n\\draw (0,0) circle[radius=1.25];\n\\foreach \\i in {0,...,6}{\\draw (0,0)--({90-360*\\i/7}:1.25);}\n\\node[anchor=south] at (0,1.42) {Spinner B};\n\\begin{scope}[rotate={-360/7}]\n\\draw[fill=white,line width=0.4pt] (-0.045,0)--(-0.045,0.77)--(-0.12,0.77)--(0,0.99)--(0.12,0.77)--(0.045,0.77)--(0.045,0)--cycle;\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 24.1,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 5, upper-right pair, right spinner",
+          "description": "Seven sectors ordered clockwise from the top radius: B, O, B, O, O, O, O. White pointer lies approximately along the first blue/orange boundary.",
+          "mathematics": "Approved intended equal-sector model: two blue and five orange sectors. Angles are construction parameters, not printed givens.",
+          "answerVisibility": "No supplied answer is printed in the diagram.",
+          "sourceColourEvidence": "Blue and orange fills identify outcome categories.",
+          "shadingDecision": "Retain semantic outcome fills and structural white pointer interior."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "spinner A will land on blue",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "700 times",
+          "worked": "$$\\begin{align*}P(\\text{blue})&=\\frac12\\\\f&=np\\\\f&=1400\\times\\frac12\\\\f&=700\\end{align*}$$Expected frequency: 700 times.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p22-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "spinner B will land on orange.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "1000 times",
+          "worked": "$$\\begin{align*}P(\\text{orange})&=\\frac57\\\\f&=np\\\\f&=1400\\times\\frac57\\\\f&=1000\\end{align*}$$Expected frequency: 1000 times.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q5-root/label",
+                  "type": "item",
+                  "ref": "p22-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p22-q5-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p22-q5-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q5-root/prompt#p22-q5-stem",
+                          "type": "item",
+                          "ref": "p22-q5-root/prompt#p22-q5-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q5-root/prompt#p22-q5-instruction",
+                          "type": "item",
+                          "ref": "p22-q5-root/prompt#p22-q5-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p22-q5-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p22-q5-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q5-a/label",
+                                  "type": "item",
+                                  "ref": "p22-q5-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p22-q5-a/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q5-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q5-a/space",
+                                  "type": "item",
+                                  "ref": "p22-q5-a/space",
+                                  "title": "Answer space",
+                                  "height": 10
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p22-q5-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q5-b/label",
+                                  "type": "item",
+                                  "ref": "p22-q5-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p22-q5-b/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q5-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q5-b/space",
+                                  "type": "item",
+                                  "ref": "p22-q5-b/space",
+                                  "title": "Answer space",
+                                  "height": 10
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p22-q5-root:diagrams",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "layout:p22-q5-spinner-a",
+                          "type": "item",
+                          "ref": "p22-q5-spinner-a",
+                          "title": "Diagram",
+                          "width": 24.1
+                        },
+                        {
+                          "id": "layout:p22-q5-spinner-b",
+                          "type": "item",
+                          "ref": "p22-q5-spinner-b",
+                          "title": "Diagram",
+                          "width": 24.1
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p22-q5-a": 10,
+        "p22-q5-b": 10
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p22-q5"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-14T06:57:15.447Z",
+  "updatedAt": "2026-09-14T06:57:15.448Z"
+}

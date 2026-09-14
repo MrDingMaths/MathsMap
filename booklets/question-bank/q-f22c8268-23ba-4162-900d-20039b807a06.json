@@ -1,0 +1,390 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f22c8268-23ba-4162-900d-20039b807a06",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "theoretical-probability",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Count repeated letters, calculate probabilities including zero, and check the total and most likely outcome."
+  },
+  "content": {
+    "id": "p12-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The spinner is spun. Calculate:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q7-spinner",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"sectorA\",\"hex\":\"EF8B2C\",\"reason\":\"identifies the three A outcomes\"},{\"name\":\"sectorB\",\"hex\":\"268CFF\",\"reason\":\"identifies the two B outcomes; source yellow mapped to an available standard accent\"},{\"name\":\"sectorC\",\"hex\":\"4F9B63\",\"reason\":\"identifies the single C outcome\"}],\"reference\":\"source page 12, p12-q7-spinner\"}\n\\begin{tikzpicture}[x={(1.1cm,-0.4cm)},y={(0.2cm,0.9cm)},line width=0.8pt,draw=black,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sectorA}{HTML}{EF8B2C}\n\\definecolor{sectorB}{HTML}{268CFF}\n\\definecolor{sectorC}{HTML}{4F9B63}\n\\coordinate (O) at (0,0);\n\\coordinate (V0) at (0,1);\n\\coordinate (V1) at ({sqrt(3)/2},0.5);\n\\coordinate (V2) at ({sqrt(3)/2},-0.5);\n\\coordinate (V3) at (0,-1);\n\\coordinate (V4) at ({-sqrt(3)/2},-0.5);\n\\coordinate (V5) at ({-sqrt(3)/2},0.5);\n\\path[fill=sectorC!20!white] (O)--(V0)--(V1)--cycle;\n\\path[fill=sectorA!20!white] (O)--(V1)--(V2)--cycle;\n\\path[fill=sectorB!20!white] (O)--(V2)--(V3)--cycle;\n\\path[fill=sectorA!20!white] (O)--(V3)--(V4)--cycle;\n\\path[fill=sectorB!20!white] (O)--(V4)--(V5)--cycle;\n\\path[fill=sectorA!20!white] (O)--(V5)--(V0)--cycle;\n\\draw (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--cycle;\n\\foreach \\v in {V0,V1,V2,V3,V4,V5} {\\draw (O)--(\\v);}\n\\node at ({sqrt(3)/6},0.5) {C};\n\\node at ({sqrt(3)/3},0) {A};\n\\node at ({sqrt(3)/6},-0.5) {B};\n\\node at ({-sqrt(3)/6},-0.5) {A};\n\\node at ({-sqrt(3)/3},0) {B};\n\\node at ({-sqrt(3)/6},0.5) {A};\n\\draw[line width=0.8pt,line cap=round] (0,0)--(0.65,-1.25);\n\\draw[line width=0.8pt,line cap=round] (0,0)--(-0.65,1.25);\n\\fill[black] (O) circle[radius=1.2pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 30,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 7, spinner to the left of parts a–f",
+          "description": "Projected regular six-sector hexagonal spinner. Clockwise from the upper-right sector: C, A, B, A, B, A. Black pivot and pointer; the thick upper pointer extends beyond the upper-left perimeter and its thinner continuation extends below the opposite side.",
+          "mathematics": "Six equally likely sectors under the approved editorial interpretation. A occurs three times, B twice and C once. Geometry is an affine projection of a regular hexagon; projected angles do not determine probabilities. No angle or dimension labels are added.",
+          "answerVisibility": "Category labels, fills, boundaries and pointer are permanent question content. No probabilities appear in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-q7-responses",
+        "type": "group",
+        "label": null,
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p12-q7-top-row",
+            "type": "group",
+            "label": null,
+            "prompt": "",
+            "layout": "grid",
+            "columns": 4,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p12-q7-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "$P(\\mathrm{A}) =$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{1}{2}$",
+                  "worked": "$$\\begin{align*}P(\\mathrm{A}) &= \\frac{3}{6}\\\\P(\\mathrm{A}) &= \\frac{1}{2}\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 15
+              },
+              {
+                "id": "p12-q7-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "$P(\\mathrm{C}) =$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{1}{6}$",
+                  "worked": "There is one C sector among six equally likely sectors.\n$$P(\\mathrm{C}) = \\frac{1}{6}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 15
+              },
+              {
+                "id": "p12-q7-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "$P(\\mathrm{B}) =$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{1}{3}$",
+                  "worked": "$$\\begin{align*}P(\\mathrm{B}) &= \\frac{2}{6}\\\\P(\\mathrm{B}) &= \\frac{1}{3}\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 15
+              },
+              {
+                "id": "p12-q7-d",
+                "type": "part",
+                "label": "d",
+                "prompt": "$P(\\mathrm{D}) =$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$0$",
+                  "worked": "There are no D sectors.\n$$\\begin{align*}P(\\mathrm{D}) &= \\frac{0}{6}\\\\P(\\mathrm{D}) &= 0\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 15
+              }
+            ]
+          },
+          {
+            "id": "p12-q7-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "Do all probabilities sum to 1?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Yes.",
+              "worked": "$$\\begin{align*}P(\\mathrm{A})+P(\\mathrm{C})+P(\\mathrm{B})+P(\\mathrm{D}) &= \\frac{1}{2}+\\frac{1}{6}+\\frac{1}{3}+0\\\\P(\\mathrm{A})+P(\\mathrm{C})+P(\\mathrm{B})+P(\\mathrm{D}) &= \\frac{3+1+2}{6}\\\\P(\\mathrm{A})+P(\\mathrm{C})+P(\\mathrm{B})+P(\\mathrm{D}) &= 1\\end{align*}$$\nYes.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p12-q7-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "Which event is the most likely?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Getting an A.",
+              "worked": "Getting an A. It occupies three of the six equally likely sectors, giving the greatest probability, $\\frac{1}{2}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p12-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q7-final",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q7-root/label",
+                  "type": "item",
+                  "ref": "p12-q7-root/label"
+                },
+                {
+                  "id": "p12-q7-restored-stem",
+                  "type": "item",
+                  "ref": "p12-q7-root/prompt"
+                },
+                {
+                  "id": "p12-q7-paired",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p12-q7-spinner",
+                      "type": "item",
+                      "ref": "p12-q7-spinner",
+                      "width": 30,
+                      "weight": 30
+                    },
+                    {
+                      "id": "p12-q7-all-responses",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p12-q7-four-prompts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p12-q7-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q7-a/label",
+                                  "type": "item",
+                                  "ref": "p12-q7-a/label"
+                                },
+                                {
+                                  "id": "layout:p12-q7-a/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q7-a/prompt"
+                                },
+                                {
+                                  "id": "layout:p12-q7-a/space",
+                                  "type": "item",
+                                  "ref": "p12-q7-a/space",
+                                  "height": 6
+                                }
+                              ],
+                              "gap": 3
+                            },
+                            {
+                              "id": "p12-q7-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q7-b/label",
+                                  "type": "item",
+                                  "ref": "p12-q7-b/label"
+                                },
+                                {
+                                  "id": "layout:p12-q7-b/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q7-b/prompt"
+                                },
+                                {
+                                  "id": "layout:p12-q7-b/space",
+                                  "type": "item",
+                                  "ref": "p12-q7-b/space",
+                                  "height": 6
+                                }
+                              ],
+                              "gap": 3
+                            },
+                            {
+                              "id": "p12-q7-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q7-c/label",
+                                  "type": "item",
+                                  "ref": "p12-q7-c/label"
+                                },
+                                {
+                                  "id": "layout:p12-q7-c/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q7-c/prompt"
+                                },
+                                {
+                                  "id": "layout:p12-q7-c/space",
+                                  "type": "item",
+                                  "ref": "p12-q7-c/space",
+                                  "height": 6
+                                }
+                              ],
+                              "gap": 3
+                            },
+                            {
+                              "id": "p12-q7-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q7-d/label",
+                                  "type": "item",
+                                  "ref": "p12-q7-d/label"
+                                },
+                                {
+                                  "id": "layout:p12-q7-d/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q7-d/prompt"
+                                },
+                                {
+                                  "id": "layout:p12-q7-d/space",
+                                  "type": "item",
+                                  "ref": "p12-q7-d/space",
+                                  "height": 6
+                                }
+                              ],
+                              "gap": 3
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p12-q7-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q7-e/label",
+                              "type": "item",
+                              "ref": "p12-q7-e/label"
+                            },
+                            {
+                              "id": "layout:p12-q7-e/prompt",
+                              "type": "item",
+                              "ref": "p12-q7-e/prompt"
+                            },
+                            {
+                              "id": "layout:p12-q7-e/space",
+                              "type": "item",
+                              "ref": "p12-q7-e/space",
+                              "height": 6
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p12-q7-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q7-f/label",
+                              "type": "item",
+                              "ref": "p12-q7-f/label"
+                            },
+                            {
+                              "id": "layout:p12-q7-f/prompt",
+                              "type": "item",
+                              "ref": "p12-q7-f/prompt"
+                            },
+                            {
+                              "id": "layout:p12-q7-f/space",
+                              "type": "item",
+                              "ref": "p12-q7-f/space",
+                              "height": 6
+                            }
+                          ],
+                          "gap": 3
+                        }
+                      ],
+                      "gap": 3,
+                      "weight": 100
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p12-q7-a": 6,
+        "p12-q7-b": 6,
+        "p12-q7-c": 6,
+        "p12-q7-d": 6,
+        "p12-q7-e": 6,
+        "p12-q7-f": 6
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-14T06:56:53.046Z",
+  "updatedAt": "2026-09-14T06:56:53.046Z"
+}
