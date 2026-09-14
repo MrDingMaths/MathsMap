@@ -60,3 +60,19 @@ Current palette precedence (11 September 2026): all editable content in every cu
 
 
 Main section-header precedence (11 September 2026): across all current booklets and future transcriptions, main section bands use desaturated blue `#52769a` with white `#ffffff` text through the shared `headerBlue` token. Preserve existing header geometry. Light teaching-group headers and unfilled exercise/answer headings retain near-black text; mathematical blue remains `#268cff`. This overrides the earlier blanket near-black heading rule in palette standardisation.
+
+
+## Exercise starts and layout spacing (13 September 2026)
+
+Every exercise opening in a questions edition starts on a new page, including
+when teaching and practice sections are stored as joined. This supersedes the
+earlier mid-page exercise-start convention for current books and future imports.
+Show the exercise heading once; checkpoints and continuations do not create
+additional exercise breaks. Compact answer pagination is unchanged.
+
+Layout containers default to borderless; explicit meaningful borders, individual
+card outlines and actual table cells retain their own border controls. In Studio,
+select the question, open **Layout & spacing ? Detailed arrangement?**, select
+the row/group in **Question structure**, and adjust **Minimum height (mm)**.
+Zero fits content; **Gap (mm)** controls separation between children. Separate
+answer spaces and table row heights can also reserve writing room.

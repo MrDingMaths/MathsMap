@@ -117,3 +117,19 @@ Main section-header precedence (11 September 2026): across all current booklets 
 ## Header and continuation prevention (Volume revision 198)
 
 Use the [revision 198 prevention rules](booklet-volume-feedback-r198.md) for shared exercise/main headings, editor-only source difficulty labels, single opening question numbers, equation row spacing, empty-paragraph deletion and image spacing. Preserve substantive continuation instructions and intentional blank lines. The accepted exercise reference is Linear Relationships v1, not a new left-aligned style.
+
+
+## Exercise starts and layout spacing (13 September 2026)
+
+Every exercise opening in a questions edition starts on a new page, including
+when teaching and practice sections are stored as joined. This supersedes the
+earlier mid-page exercise-start convention for current books and future imports.
+Show the exercise heading once; checkpoints and continuations do not create
+additional exercise breaks. Compact answer pagination is unchanged.
+
+Layout containers default to borderless; explicit meaningful borders, individual
+card outlines and actual table cells retain their own border controls. In Studio,
+select the question, open **Layout & spacing ? Detailed arrangement?**, select
+the row/group in **Question structure**, and adjust **Minimum height (mm)**.
+Zero fits content; **Gap (mm)** controls separation between children. Separate
+answer spaces and table row heights can also reserve writing room.

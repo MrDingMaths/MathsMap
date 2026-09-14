@@ -13,3 +13,19 @@ The accepted reference is **Linear Relationships v1** (`linear-relationships-v1`
 - Native maths uses the new-project display-glyph policy. Shared fraction spacing applies across all books and editions. Stored content stays whole even when its rendered fragments cross pages.
 
 The creation preset lives in `src/lib/booklet-creation.js`; normalization does not apply it to existing projects. See [direct compact import](booklet-direct-compact-import.md) for creation, content/presentation verification, all five edition checks, navigation checks and cache rules. Regression coverage includes `booklet-compact-exercises`, `booklet-flow` and `booklet-measurement` tests.
+
+
+## Exercise starts and layout spacing (13 September 2026)
+
+Every exercise opening in a questions edition starts on a new page, including
+when teaching and practice sections are stored as joined. This supersedes the
+earlier mid-page exercise-start convention for current books and future imports.
+Show the exercise heading once; checkpoints and continuations do not create
+additional exercise breaks. Compact answer pagination is unchanged.
+
+Layout containers default to borderless; explicit meaningful borders, individual
+card outlines and actual table cells retain their own border controls. In Studio,
+select the question, open **Layout & spacing ? Detailed arrangement?**, select
+the row/group in **Question structure**, and adjust **Minimum height (mm)**.
+Zero fits content; **Gap (mm)** controls separation between children. Separate
+answer spaces and table row heights can also reserve writing room.
