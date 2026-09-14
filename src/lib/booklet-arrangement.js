@@ -37,6 +37,10 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    if(continuation)labels[n.id]='';
    const label=labels[n.id]??(root?block.sourceOrder??n.label:n.label??(n.children?.length?'':String.fromCharCode(97+index)));
    const labelItem=(label==null||label==='')&&!(n.id in labels)?[]:[add(n.id+'/label',{kind:'label',ownerId:n.id,value:String(label??''),title:label?'Label '+label:'Unlabelled stem'})];
+   // Saved booklet arrangements may retain a label slot supplied by exercise
+   // numbering. A standalone bank preview has no such number; keep that slot
+   // resolvable without adding an extra item to newly generated arrangements.
+   if(!entries.has(n.id+'/label'))entries.set(n.id+'/label',{ref:n.id+'/label',kind:'label',ownerId:n.id,value:'',title:'Unlabelled stem'});
    const prose=field(n,'prompt');
    if(hideStem)for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}
    const pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));

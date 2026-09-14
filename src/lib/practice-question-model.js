@@ -337,11 +337,11 @@ function validateDiagram(diagram, path, errors, warnings, diagramIds) {
   if (diagram.widthMm == null || !Number.isFinite(Number(diagram.widthMm)) || Number(diagram.widthMm) <= 0 || Number(diagram.widthMm) > 190) errors.push(path + '.widthMm must be between 1 and 190');
 }
 
-function validateNode(node, path, errors, warnings, depth, diagramIds) {
+function validateNode(node, path, errors, warnings, depth, diagramIds, inheritedTask = false, ancestorTask = false) {
   if (!node || typeof node !== 'object') return errors.push(path + ' must be an object');
   if (!NODE_TYPES.includes(node.type)) errors.push(path + '.type must be question, group, or part');
   const children = Array.isArray(node.children) ? node.children : [];
-  if (!text(node.prompt) && !children.length && !(node.questionDiagrams ?? []).length) errors.push(path + '.prompt is required');
+  if (!text(node.prompt) && !children.length && !(node.questionDiagrams ?? []).length && !inheritedTask) errors.push(path + '.prompt is required');
   if (!NODE_LAYOUTS.includes(node.layout)) errors.push(path + '.layout must be list or grid');
   if (node.layout === 'grid' && !(Number.isInteger(Number(node.columns)) && Number(node.columns) >= 2 && Number(node.columns) <= 6)) errors.push(path + '.columns must be between 2 and 6 for a grid');
   if (node.layout === 'list' && node.columns != null) errors.push(path + '.columns must be null for a list');
@@ -364,7 +364,13 @@ function validateNode(node, path, errors, warnings, depth, diagramIds) {
   }
   for (const [index, diagram] of (node.questionDiagrams ?? []).entries()) validateDiagram(diagram, path + '.questionDiagrams[' + index + ']', errors, warnings, diagramIds);
   for (const [index, diagram] of (node.answer?.solutionDiagrams ?? []).entries()) validateDiagram(diagram, path + '.answer.solutionDiagrams[' + index + ']', errors, warnings, diagramIds);
-  children.forEach((child, index) => validateNode(child, path + '.children[' + index + ']', errors, warnings, depth + 1, diagramIds));
+  // Table-bound responses and a sole answer child inherit the visible parent
+  // task. Repeating that prompt would duplicate the saved editable scaffold.
+  const tableLabels = isDocument(node.prompt) ? new Set(node.prompt.blocks.filter(b=>b.type==='table').flatMap(b=>b.rows??[]).map(row=>
+    text({format:'maths-editor-document-v1',version:1,blocks:row[0]?.blocks??[]}).replace(/[*_]/g,'').trim())) : new Set();
+  children.forEach((child, index) => validateNode(child, path + '.children[' + index + ']', errors, warnings, depth + 1, diagramIds,
+    (ancestorTask || Boolean(text(node.prompt))) && (child.responseSpace === 'scaffold' || children.length === 1 || Boolean(child.label)&&tableLabels.has(child.label)),
+    ancestorTask || Boolean(text(node.prompt))));
 }
 
 export function validateQuestion(raw, { skillIds = null, allowDraft = true } = {}) {
