@@ -1,4 +1,8 @@
 <script>
+  import BookletInspectorTabs from './BookletInspectorTabs.svelte';
+  import BookletPageControls from './BookletPageControls.svelte';
+  import BookletBankPicker from './BookletBankPicker.svelte';
+  import {contentExcerpt,setPageBoundary} from '../lib/booklet-workspace.js';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import {updateBookletCover} from '../lib/booklet-cover.js';
   import {applyBankRatings,questionDifficulty} from '../lib/booklet-bank-ratings.js';
@@ -73,7 +77,7 @@
   let project = $state.raw(null);
   const flexible=$derived(isFlexible(project));
   let flowPreview=$state(),flowOutline=$state(),flowMap=$state.raw({pages:[],issues:[],ready:false}),flowEdition=$state('student'),flowActive=$state(1);
-  function selectFlow(id,sectionId){finishInline();if(!groupSelection.includes(id))groupSelection=selectedFlowIds(project,[id]);selectedBlockId=id;selectedSectionId=sectionId;selectedTargetId='';documentSelection={rootId:id,edition:flexible?flowEdition:answerView};flowPreview?.jumpTo(id);}
+  function selectFlow(id,sectionId){finishInline();if(!groupSelection.includes(id))groupSelection=selectedFlowIds(project,[id]);selectedBlockId=id;selectedSectionId=sectionId;selectedTargetId='';const block=project.sections.flatMap(s=>s.blocks).find(b=>b.id===id);if(block){const tree=resolveArrangement(block,project.settings.layoutOverrides.blockLayouts?.[id]?.arrangement,project.settings.layoutOverrides).tree;layoutSelection={blockId:id,id:tree.root.id,ids:[tree.root.id]};}documentSelection={rootId:id,edition:flexible?flowEdition:answerView};flowPreview?.jumpTo(id);}
   function flowSelected(page){selectedSectionId=page.section.sourceSectionId;}
   async function createFlexibleCopy(){
     finishInline();if(editSession)return;
@@ -114,13 +118,29 @@
   let activeEditor=$state.raw(null),composing=$state(false),documentSelection=$state.raw(null),groupSelection=$state([]),groupClipboard=$state.raw(null),textSelection=null,nativeTable=$state(false);
   const history=createDocumentHistory();
   const documentColours=$derived(bookletColours(project));
+  let inspectorTab=$state('layout'), spacingScope=$state('selection'), bankPicker=$state(false);
+  let workspaceTop=$state(120);
+  $effect(()=>{if(!status)return;const timer=setTimeout(()=>status='',5000);return()=>clearTimeout(timer);});
+  const selectionLabel=$derived(activeEditor?.documentController?.selected?.type??directLayout?.entry?.title??(selectedBlock?selectedBlock.sourceAtom?.label||selectedBlock.title||contentExcerpt(selectedBlock.content)||directLayout?.node.title||'Selected block':'Nothing selected'));
+  const bankDestination=$derived(selectedBlock?'After '+(contentExcerpt(selectedBlock.content,60)||selectedBlock.title||'selected block'):'End of '+(selectedSection?.title??'section'));
+  function pageBoundary(action,id=selectedBlockId){if(!id)return;finishInline();change(setPageBoundary(project,id,action));}
+  function pageLayout(patch){if(!selectedBlockId)return;finishInline();change(flowCommand(project,{type:'layout',ids:[selectedBlockId],patch}));}
+  async function insertBank(question){
+    finishInline();const unit=logicalUnits(project).find(u=>u.blocks.some(b=>b.id===selectedBlockId));
+    const last=unit?.blocks.at(-1),section=project.sections.find(s=>s.blocks.some(b=>b.id===last?.id))??selectedSection;
+    if(!section)throw Error('Add a section first.');
+    const block=snapshotBankQuestion(question),at=last?section.blocks.findIndex(b=>b.id===last.id):section.blocks.length-1;
+    change(addProjectBlock(project,section.id,block,{afterIndex:at}));selectedBlockId=block.id;selectedSectionId=section.id;groupSelection=[];
+    await tick();await flowPreview?.waitUntilReady();flowPreview?.jumpTo(block.id);
+  }
+  onMount(()=>{const measure=()=>workspaceTop=workspace.getBoundingClientRect().top+window.scrollY;const observer=new ResizeObserver(measure);observer.observe(workspace.parentElement);window.addEventListener('resize',measure);measure();return()=>{observer.disconnect();window.removeEventListener('resize',measure);};});
   let copiedDocumentTabs=null;
   let layoutSelection=$state.raw(null),layoutPanelButton=$state();
   function closeLayoutPanel(){panel='';layoutPanelButton?.focus({preventScroll:true});}
   const directLayout=$derived(bookletLayoutSelection(project,layoutSelection));
   function selectLayout(blockId,id,event){finishInline();groupSelection=[];diagramSelection=null;selectedBlockId=blockId;layoutSelection={blockId,id,ids:event?.ctrlKey&&layoutSelection?.blockId===blockId?[...new Set([...(layoutSelection.ids??[]),id])]:[id]};}
   function layoutCommand(command,options={}){try{finishInline();history.boundary();const previous=bookletLayoutSelection(project,layoutSelection),next=applyBookletLayout(project,layoutSelection,command,options);change(next);const current=bookletLayoutSelection(next,layoutSelection),id=command==='group'?current?.parent?.id:command==='ungroup'?previous?.node.children?.[0]?.id:current?.node.id??previous?.parent?.id;if(id)layoutSelection={blockId:layoutSelection.blockId,id,ids:[id]};history.boundary();}catch(e){error=e.message;}}
-  function nativeLayoutPanel(node,editor){return editor?.documentController.mountLayoutPanel(node);}
+  function nativeLayoutPanel(node,config){return config.editor?.documentController.mountLayoutPanel(node,{category:config.category});}
   function deleteSelectedParagraph(){const c=activeEditor?.documentController;if(c?.selected?.type==='paragraph'){history.boundary();c.deleteNode(c.selectedId);history.boundary();}}
   function paragraphProperty(key,value){if(!activeEditor)return;history.boundary();activeEditor.documentController.modify(n=>{if(n.type==='paragraph')n[key]=Number(value);});history.boundary();}
   const inlineEditing={get session(){return inlineSession;},close:finishInline,
@@ -296,7 +316,7 @@
     const container=request.origin?.closest('.atom-body,.body-box,.practice');
     const widthMm=arrangementContainer?arrangementContainer.clientWidth*25.4/96:container?Math.round(Math.min(190,Math.max(80,(container.getBoundingClientRect().width/scale-parseFloat(getComputedStyle(container).paddingLeft)-parseFloat(getComputedStyle(container).paddingRight))*25.4/96))*10)/10:180;
     const initialArrangement=resolveArrangement(block,project.settings.layoutOverrides.blockLayouts?.[block.id]?.arrangement,{...project.settings.layoutOverrides,labels},widthMm).tree;
-    editSession={...request,block:clone(block),arrangement:initialArrangement,widthMm,houseStyleVersion:project.settings.houseStyleVersion,diagramColourModes:project.settings.layoutOverrides.diagramColourModes,sourceUrl,assetBase:'/__booklet/full-imports/'+encodeURIComponent(project.source?.runId??project.id)+'/files/lanes/exact/',context:editLocation(request.origin,target),commit:result=>{
+    editSession={...request,pageControls:flexible,block:clone(block),arrangement:initialArrangement,widthMm,houseStyleVersion:project.settings.houseStyleVersion,diagramColourModes:project.settings.layoutOverrides.diagramColourModes,sourceUrl,assetBase:'/__booklet/full-imports/'+encodeURIComponent(project.source?.runId??project.id)+'/files/lanes/exact/',context:editLocation(request.origin,target),commit:result=>{
       const sections=project.sections.map(section=>section.blocks.some(b=>b.id===block.id)?{...section,blocks:section.blocks.map(b=>b.id===block.id?shareUnchanged(b,result.block):b)}:section);
       const layouts=project.settings.layoutOverrides.blockLayouts??{};
       const answerSpaces={...project.settings.layoutOverrides.answerSpaces};
@@ -309,7 +329,9 @@
       const visitDiagrams=(value,visit)=>{if(!value||typeof value!=='object')return;if(value.id&&value.format&&value.widthMm!=null)visit(value);for(const [key,child] of Object.entries(value))if(!['sourceAtom','originalDiagram','spec'].includes(key))visitDiagrams(child,visit);};
       visitDiagrams(block,d=>previousDiagrams.set(d.id,d));
       visitDiagrams(result.block,d=>{const previous=previousDiagrams.get(d.id);if(previous&&previous.widthMm!==d.widthMm)diagramWidths[d.id]=d.widthMm;});
-      change({...project,sections,settings:{...project.settings,layoutOverrides:{...project.settings.layoutOverrides,answerSpaces,diagramWidths,blockLayouts:{...layouts,[block.id]:{...layouts[block.id],arrangement:result.arrangement}}}}});
+      let next={...project,sections,settings:{...project.settings,layoutOverrides:{...project.settings.layoutOverrides,answerSpaces,diagramWidths,blockLayouts:{...layouts,[block.id]:{...layouts[block.id],arrangement:result.arrangement}}}}};
+      for(const action of result.pageActions??[])next=setPageBoundary(next,block.id,action);
+      change(next);
     }};
   }
   let diagramSelection=$state.raw(null);
@@ -317,11 +339,13 @@
   function diagramRequest(){const target=contentTarget(project,diagramSelection?.rootId);return target?{target:{...target,id:diagramSelection.rootId},item:{diagram:selectedDiagram,path:diagramSelection.pointer},origin:canvas.querySelector(`[data-diagram-id="${CSS.escape(selectedDiagram.id)}"]`)}:null;}
   function editSelectedDiagram(){const request=diagramRequest();if(request)requestDiagram(request);}
   function arrangeSelectedQuestion(event){
-    if(selectedBlock?.type!=='question')return;
-    const diagram=diagramRequest();
-    const origin=diagram?.target.block.id===selectedBlock.id?diagram.origin:canvas.querySelector(`[data-edit-root="${CSS.escape(selectedBlock.content.id)}"]`)??event.currentTarget;
-    finishInline();
-    openArrangement({id:selectedBlock.content.id,block:selectedBlock},{origin,rootId:selectedBlock.content.id,pointer:'/prompt',selectedDiagramId:diagram?.target.block.id===selectedBlock.id?selectedDiagram.id:undefined});
+    if(!selectedBlock)return;
+    const diagram=!activeEditor?diagramRequest():null;
+    const selectedNodeId=activeEditor?.documentController?.selectedId;
+    const selectedArrangementId=!activeEditor&&layoutSelection?.blockId===selectedBlock.id?layoutSelection.id:undefined;
+    const origin=diagram?.target.block.id===selectedBlock.id?diagram.origin:canvas.querySelector(`[data-edit-root="${CSS.escape(selectedBlock.content?.id??selectedBlock.id)}"]`)??event.currentTarget;
+    const request={origin,rootId:inlineSession?.rootId??selectedBlock.content?.id??selectedBlock.id,pointer:inlineSession?.pointer??'/prompt',selectedNodeId,selectedArrangementId,selectedDiagramId:diagram?.target.block.id===selectedBlock.id?selectedDiagram.id:undefined};
+    finishInline();openArrangement({id:selectedBlock.content?.id??selectedBlock.id,block:selectedBlock},request);
   }
   function changeDiagram(patch){if(!selectedDiagram)return;const width=patch.widthMm;if(width!=null&&(!Number.isFinite(width)||width<5||width>190)){error='Choose a diagram width between 5 and 190 mm.';return;}let next=diagramSelection.pointer?updateProjectContent(project,diagramSelection.rootId,diagramSelection.pointer,{...selectedDiagram,...patch}):{...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>b.id===selectedDiagram.id?{...b,...patch}:b)}))};if(width!=null)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramWidths:{...next.settings.layoutOverrides.diagramWidths,[selectedDiagram.id]:width}}});next=syncDiagramPresentation(next,contentTarget(project,diagramSelection.rootId)?.block?.id,selectedDiagram.id,patch);change(next);}
   function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;const arr=element.closest('[data-arrangement-id]'),ab=arr?.closest('[data-arrangement-block]');if(arr&&ab)layoutSelection={blockId:ab.dataset.arrangementBlock,id:arr.dataset.arrangementId,ids:[arr.dataset.arrangementId]};for(const target of reviewTargets(project)){const item=findEditableDiagram(target.node,id);if(item){event.preventDefault();finishInline();diagramSelection={rootId:target.id,pointer:item.path};documentSelection={...diagramSelection,edition:flexible?flowEdition:answerView};selectedBlockId=target.block.id;selectedSectionId=target.section.id;canvas.querySelectorAll('.document-diagram-selected').forEach(e=>e.classList.remove('document-diagram-selected'));element.classList.add('document-diagram-selected');if(event.type==='dblclick'||event.type==='keydown')editSelectedDiagram();return;}}}
@@ -332,7 +356,7 @@
   });decorate();const observer=new MutationObserver(decorate);observer.observe(canvas,{childList:true,subtree:true});for(const type of ['click','dblclick','keydown'])canvas.addEventListener(type,clickedDiagram);return()=>{observer.disconnect();for(const type of ['click','dblclick','keydown'])canvas?.removeEventListener(type,clickedDiagram);};});
   setContext('booklet-edit-request',requestEdit);
   $effect(()=>{if(preferencesReady)try{sessionStorage.setItem('booklet-workspace',JSON.stringify({navigation,zoom,sourceZoom,panel,answerView}));}catch{}});
-  onMount(()=>{try{const prefs=JSON.parse(sessionStorage.getItem('booklet-workspace')??'{}');navigation=prefs.navigation??innerWidth>=1100;zoom=prefs.zoom??'width';sourceZoom=prefs.sourceZoom??'width';panel=prefs.panel??'';answerView=['student','short','worked'].includes(prefs.answerView)?prefs.answerView:'student';}catch{}preferencesReady=true;const observer=new ResizeObserver(entries=>workspaceWidth=entries[0].contentRect.width);observer.observe(workspace);const closeMenu=e=>{const menu=e.target.closest('.menu');if(menu&&e.target.closest('button'))menu.open=false;};workspace.addEventListener('click',closeMenu);return()=>{observer.disconnect();workspace.removeEventListener('click',closeMenu);};});
+  onMount(()=>{try{const prefs=JSON.parse(sessionStorage.getItem('booklet-workspace')??'{}');navigation=prefs.navigation??innerWidth>=1100;zoom=prefs.zoom??'width';sourceZoom=prefs.sourceZoom??'width';panel=prefs.panel??'';answerView=['student','short','worked'].includes(prefs.answerView)?prefs.answerView:'student';}catch{}preferencesReady=true;const observer=new ResizeObserver(entries=>workspaceWidth=entries[0].contentRect.width);observer.observe(workspace);const closeMenu=e=>{const menu=e.target.closest('.menu,.document-insert,.item-menu');if(menu&&e.target.closest('button'))menu.open=false;};workspace.addEventListener('click',closeMenu);return()=>{observer.disconnect();workspace.removeEventListener('click',closeMenu);};});
 
   const selectedSection = $derived(project?.sections?.find((section) => section.id === selectedSectionId) ?? project?.sections?.[0] ?? null);
   const selectedBlock = $derived(selectedSection?.blocks?.find((block) => block.id === selectedBlockId) ?? null);
@@ -728,7 +752,8 @@
   });
   onMount(() => {initialiseProjects();});
 </script>
-<section class="project-shell" class:is-opening={!!opening} bind:this={workspace}>
+{#if bankPicker}<BookletBankPicker {bank} {onrequestbank} destination={bankDestination} oninsert={insertBank} onclose={()=>bankPicker=false}/>{/if}
+<section class="project-shell" class:is-opening={!!opening} bind:this={workspace} style:--workspace-top={workspaceTop+'px'}>
  <header class="project-toolbar project-screen">
   <button disabled={!!opening} aria-label="Toggle page navigation" aria-expanded={navigation&&!comparison} onclick={()=>navigation=!navigation}>☰ Pages</button>
   <label class="project-picker"><span class="sr-only">Open booklet</span><select  aria-label="Open booklet" disabled={!!editSession} value={opening?.id??project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
@@ -749,22 +774,22 @@
    </div>
  </div>{/if}
  {#if project}<div class="document-toolbar project-screen" inert={!!opening} data-equation-control role="toolbar" tabindex="-1" aria-label="Document formatting" onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}>
-   <select aria-label="Text style" onchange={e=>formatDocument(e.currentTarget.value==='body'?'paragraph':'size',e.currentTarget.value)}><option value="body">Body text</option><option value="14">Heading</option><option value="11">Subheading</option></select>
+   {#if !selectedDiagram}<select aria-label="Text style" onchange={e=>formatDocument(e.currentTarget.value==='body'?'paragraph':'size',e.currentTarget.value)}><option value="body">Body text</option><option value="14">Heading</option><option value="11">Subheading</option></select>
    <button aria-label="Bold" onclick={()=>formatDocument('bold')}><b>B</b></button><button aria-label="Italic" onclick={()=>formatDocument('italic')}><i>I</i></button><button aria-label="Underline" onclick={()=>formatDocument('underline')}><u>U</u></button>
-   <input type="color" aria-label="Text colour" value="#24282d" oninput={e=>formatDocument('colour',e.currentTarget.value)}/>
-   <div class="document-colours" role="group" aria-label="Booklet colour palette">{#each documentColours as colour}<button class="colour-swatch" aria-label={colour.name} title={`${colour.name} (${colour.value})`} style:background-color={colour.value} onclick={()=>formatDocument('colour',colour.value)}></button>{/each}</div>
+   <details class="document-insert colour-menu"><summary title="Text colour">Colour</summary><div><input type="color" aria-label="Text colour" value="#24282d" oninput={e=>formatDocument('colour',e.currentTarget.value)}/>
+   <div class="document-colours" role="group" aria-label="Booklet colour palette">{#each documentColours as colour}<button class="colour-swatch" aria-label={colour.name} title={`${colour.name} (${colour.value})`} style:background-color={colour.value} onclick={()=>formatDocument('colour',colour.value)}></button>{/each}</div></div></details>
    <select aria-label="Text alignment" onchange={e=>formatDocument('align',e.currentTarget.value)}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select>
-   <button onclick={()=>formatDocument('bullets')}>Bullets</button><button onclick={()=>formatDocument('numbered')}>Numbering</button><button aria-label="Indent list" title="Indent list" onclick={()=>formatDocument('indent-list')}>⇥</button><button aria-label="Outdent list" title="Outdent list" onclick={()=>formatDocument('outdent-list')}>⇤</button><button onclick={()=>formatDocument('math')}>Maths</button>
-   <details class="document-insert"><summary>Insert</summary><div><button onclick={()=>insertDocumentContent('text')}>Text</button><button onclick={()=>insertDocumentContent('question')}>Question</button>{#each TEACHING_TEMPLATES as [kind,label]}<button onclick={()=>insertDocumentContent(kind)}>{label}</button>{/each}<button onclick={()=>formatDocument('table')}>Table</button><button onclick={()=>formatDocument('image')}>Image</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Insert tab')}>Tab</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Paragraph')}>Paragraph</button><details><summary>More insertions</summary>{#each DOCUMENT_INSERT_TOOLS as [label,command]}<button disabled={!activeEditor} onclick={()=>formatDocument('native',command)}>{label}</button>{/each}</details></div></details>
+   <button onclick={()=>formatDocument('bullets')}>Bullets</button><button onclick={()=>formatDocument('numbered')}>Numbering</button><button aria-label="Indent list" title="Indent list" onclick={()=>formatDocument('indent-list')}>⇥</button><button aria-label="Outdent list" title="Outdent list" onclick={()=>formatDocument('outdent-list')}>⇤</button><button onclick={()=>formatDocument('math')}>Maths</button>{/if}
+   <details class="document-insert"><summary>Insert</summary><div><button onclick={()=>bankPicker=true}>From question bank…</button><button disabled={!selectedBlock} onclick={()=>pageBoundary('before')}>Page break before</button><button disabled={!selectedBlock} onclick={()=>pageBoundary('after')}>Page break after</button><button onclick={()=>insertDocumentContent('text')}>Text</button><button onclick={()=>insertDocumentContent('question')}>Question</button>{#each TEACHING_TEMPLATES as [kind,label]}<button onclick={()=>insertDocumentContent(kind)}>{label}</button>{/each}<button onclick={()=>formatDocument('table')}>Table</button><button onclick={()=>formatDocument('image')}>Image</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Insert tab')}>Tab</button><button disabled={!activeEditor} onclick={()=>formatDocument('native','Paragraph')}>Paragraph</button><details><summary>More insertions</summary>{#each DOCUMENT_INSERT_TOOLS as [label,command]}<button disabled={!activeEditor} onclick={()=>formatDocument('native',command)}>{label}</button>{/each}</details></div></details>
    <button bind:this={layoutPanelButton} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>togglePanel('layout')}>Layout &amp; spacing</button>
    {#if activeEditor&&!nativeTable}<button onclick={deleteSelectedParagraph}>Delete paragraph</button>{/if}
    <button onclick={addComment}>Add comment</button><button aria-expanded={panel==='comments'} onclick={()=>togglePanel('comments')}>Comments {commentLocations.length||''}</button>
    <button onclick={()=>{panel=activeEditor?'format':'properties';}}>More options</button>
-   {#if nativeTable}{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}{/if}
+   {#if nativeTable}<details class="document-insert"><summary>Table</summary><div>{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}</div></details>{/if}
    {#if selectedDiagram}<span class="selection-tools">{#if directLayout?.entry?.kind==='diagram'}<label>Space above image <input aria-label="Space above image on page (mm)" type="number" min="0" max="80" step=".5" value={directLayout.node.before??0} onchange={e=>layoutCommand('properties',{before:Number(e.currentTarget.value)})}/> mm</label>{/if}<label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
-   {#if groupSelection.length}<span class="selection-tools">{groupSelection.length} selected <button onclick={()=>groupCommand('cut')}>Cut</button><button onclick={()=>groupCommand('copy')}>Copy</button><button onclick={()=>groupCommand('paste')} disabled={!groupClipboard}>Paste</button><button onclick={()=>groupCommand('duplicate')}>Duplicate</button><button onclick={()=>groupCommand('delete')}>Delete</button></span>{/if}
+   {#if groupSelection.length}<details class="document-insert"><summary>Selection ({groupSelection.length})</summary><div><button onclick={()=>groupCommand('cut')}>Cut</button><button onclick={()=>groupCommand('copy')}>Copy</button><button onclick={()=>groupCommand('paste')} disabled={!groupClipboard}>Paste</button><button onclick={()=>groupCommand('duplicate')}>Duplicate</button><button onclick={()=>groupCommand('delete')}>Delete</button></div></details>{/if}
  </div>{/if}
-  {#if error || status}<div class:error class="project-notice project-screen">{error || status}</div>{/if}
+  {#if error}<div class="project-notice error project-screen" role="alert">{error}</div>{:else if status}<div class="workspace-toast project-screen" role="status">{status}</div>{/if}
   {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank updates available.'} <button onclick={()=>showBankSync=true}>Review updates</button></div>{/if}
   {#if showBankSync&&project}
     <section class="bank-sync-panel project-screen" aria-label="Question bank sync">
@@ -789,24 +814,24 @@
   </section>{/if}
 
  {#if project}
-  <div class="project-editor project-screen" inert={!!opening} aria-busy={!!opening&&!opening.error} class:with-navigation={navigation&&!comparison} class:with-review={dockReview&&!comparison} class:comparison>
+  <div class="project-editor project-screen" inert={!!opening} aria-busy={!!opening&&!opening.error} class:with-navigation={navigation&&!comparison} class:with-review={!!panel&&!comparison} class:comparison>
    <section class="tool-view" hidden={!tool}><header><h2>Assembly</h2><button onclick={()=>tool=''}>Back to booklet</button></header><div hidden={tool!=='assembly'}><BookletAssemblyPanel {project} active={tool==='assembly'} onchange={change} oncreated={openProject} expanded/></div></section>
    <aside class="project-outline" class:drawer={workspaceWidth<1100} hidden={!navigation||comparison||!!tool} aria-label="Page navigation">
-    {#if flexible}<FlowBookletOutline {onrequestbank} bind:this={flowOutline} {project} pages={flowMap.pages} {bank} {selectedBlockId} disabled={!!editSession} selectedIds={groupSelection} onselection={ids=>groupSelection=ids} documentClipboard={groupClipboard} onpaste={pasteAtSection} onchange={change} onselect={selectFlow} onsection={id=>selectedSectionId=id} onerror={message=>error=message}/>{:else}
+    {#if flexible}<FlowBookletOutline onbank={()=>bankPicker=true} onboundary={pageBoundary} {onrequestbank} bind:this={flowOutline} {project} pages={flowMap.pages} {bank} {selectedBlockId} disabled={!!editSession} selectedIds={groupSelection} onselection={ids=>groupSelection=ids} documentClipboard={groupClipboard} onpaste={pasteAtSection} onchange={change} onselect={selectFlow} onsection={id=>selectedSectionId=id} onerror={message=>error=message}/>{:else}
     <div class="outline-heading"><strong>Pages</strong><button aria-label="Close page navigation" onclick={()=>navigation=false}>×</button></div>
     <nav class="section-list">{#each projectPages as page,index}<article class:active={page.id===previewPage?.id}>
      <button class="section-select" aria-current={page.id===previewPage?.id?'page':undefined} onclick={()=>goPage(index)}><b>{page.pageNumber}</b><span>{page.section.title}{page.continuation?` (continued ${page.continuation})`:""}</span></button>
      {#if page.id===previewPage?.id}
       <details  class="page-menu"><summary>Page actions</summary><label>Page title<input  aria-label="Page title" value={page.section.title} onchange={e=>change({...project,sections:project.sections.map(s=>s.id===page.section.id?{...s,title:e.currentTarget.value}:s)})}/></label><button onclick={()=>change(moveProjectSection(project,page.section.id,-1))}>Move page up</button><button onclick={()=>change(moveProjectSection(project,page.section.id,1))}>Move page down</button><button onclick={()=>change(duplicateProjectSection(project,page.section.id))}>Duplicate page</button><button onclick={removeSection}>Delete page</button><button onclick={promoteSection}>Save as reusable module</button></details>
       <ol  class="block-list">{#each page.blocks as block,blockIndex}<li class:active={selectedBlockId===block.id}><button onclick={()=>{selectedBlockId=block.id;selectedTargetId='';}}>{blockLabel(block,blockIndex)}</button><details><summary aria-label={'Actions for '+blockLabel(block,blockIndex)}>⋯</summary><div><button onclick={()=>{selectedBlockId=block.id;panel='properties';}}>Block properties</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,-1))}>Move up</button><button onclick={()=>change(moveProjectBlock(project,page.section.id,block.id,1))}>Move down</button><button onclick={()=>change(duplicateProjectBlock(project,page.section.id,block.id))}>Duplicate block</button><button onclick={()=>{selectedBlockId=block.id;removeBlock();}}>Delete block</button></div></details></li>{/each}</ol>
-      <details class="page-menu" ontoggle={e=>{if(e.currentTarget.open)onrequestbank?.();}}><summary>Add content</summary><label>Block type<select aria-label="Block type" bind:value={addBlockType}><option value="rich-text">Text</option><option value="heading">Heading</option><option value="callout">Theory / callout</option><option value="review">Review activity</option><option value="activity">Activity (identify / proof / investigation)</option><option value="guided-practice">Guided practice</option><option value="worked-example">Worked example</option><option value="question">Local question</option><option value="grid">Table</option><option value="image">Image</option><option value="spacer">Spacing</option><option value="page-break">Page break</option></select></label><button onclick={addBlock}>Add block</button><label>Question bank<select bind:value={bankQuestionId}><option value="">Choose a question</option>{#each bank as question}<option value={question.id}>{question.title||question.id}</option>{/each}</select></label><button onclick={addBankQuestion} disabled={!bankQuestionId}>Add copy</button></details>
+      <details class="page-menu" ontoggle={e=>{if(e.currentTarget.open)onrequestbank?.();}}><summary>Add content</summary><label>Block type<select aria-label="Block type" bind:value={addBlockType}><option value="rich-text">Text</option><option value="heading">Heading</option><option value="callout">Theory / callout</option><option value="review">Review activity</option><option value="activity">Activity (identify / proof / investigation)</option><option value="guided-practice">Guided practice</option><option value="worked-example">Worked example</option><option value="question">Local question</option><option value="grid">Table</option><option value="image">Image</option><option value="spacer">Spacing</option><option value="page-break">Page break</option></select></label><button onclick={addBlock}>Add block</button><button onclick={()=>bankPicker=true}>From question bank…</button></details>
      {/if}
     </article>{/each}</nav><button  class="add-page" onclick={addSection}>Add page</button>{/if}
    </aside>
    <main class="project-canvas" bind:this={canvas} hidden={!!tool}>
     {#if flexible}
     <div class="canvas-heading"><strong>{flowMap.ready ? 'Page '+flowActive+' of '+flowMap.pages.length : 'Paginating…'}</strong><label>Jump to page<input type="number" min="1" max={flowMap.pages.length} value={flowActive} onchange={e=>flowPreview?.jumpTo(flowMap.pages[Number(e.currentTarget.value)-1]?.id)} style="width:80px"/></label><label>Edition<select aria-label="Booklet edition" value={flowEdition} disabled={!!editSession} onchange={async e=>{const next=e.currentTarget.value;finishInline();try{await flushDocument();flowEdition=next;}catch(err){error=err.message;}}}>{#each FLOW_EDITIONS as [value,title]}<option {value}>{title}</option>{/each}</select></label><label>Zoom<select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label></div>
-    <div hidden={comparison}>{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<FlowBookletPreview onprogress={info=>previewProgress(info,attempt)} bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} {composing} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/>{/key}</div>
+    <div hidden={comparison}>{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<FlowBookletPreview onremovebreak={id=>pageBoundary('remove',id)} onprogress={info=>previewProgress(info,attempt)} bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} {composing} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/>{/key}</div>
     {:else}
     <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]}  onclick={()=>{finishInline();answerView=mode[0];}}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
     {/if}
@@ -820,13 +845,20 @@
     <header><h2>{panel==='layout'?'Layout & spacing':panel==='format'?'Selection options':panel==='comments'?'Comments':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2><button aria-label="Close panel" onclick={()=>panel==='layout'?closeLayoutPanel():panel=''}>×</button></header>
     {#if panel==='layout'}
     <div id="booklet-layout-spacing" class="layout-spacing-panel" data-equation-control>
-     <p>Selected: {directLayout?.entry?.title??activeEditor?.documentController?.selected?.type??selectedBlock?.id??'Nothing selected'}</p>
-     {#if selectedBlock?.type==='question'}<BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/>{/if}
-     <section><h3>Selected item/group</h3>
-      {#if activeEditor}{#key activeEditor}<div use:nativeLayoutPanel={activeEditor}></div>{/key}{:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} oncommand={layoutCommand}/>{/if}
-     </section>
-     <section><h3>Text</h3><p>Applies to the selected paragraph.</p>{#each [['fontSize','Font size (pt)',11],['lineHeight','Line spacing',1.4],['spaceBefore','Space before (mm)',0],['spaceAfter','Space after (mm)',0],['indent','Indent (mm)',0]] as [key,label,value]}<label>{label}<input aria-label={'Paragraph '+label} disabled={!activeEditor} type="number" min={key==='fontSize'?6:key==='lineHeight'?1:0} step={key==='lineHeight'?.1:.5} value={activeEditor?.documentController?.selected?.[key]??value} onchange={e=>paragraphProperty(key,e.currentTarget.value)}/></label>{/each}</section>
-     <section><h3>Detailed arrangement</h3><button disabled={!selectedBlock} onclick={event=>{finishInline();openArrangement({id:selectedBlock.content?.id??selectedBlock.id,block:selectedBlock},{origin:event.currentTarget});}}>Open detailed arrangement</button></section>
+     <div class="selection-breadcrumb" title={selectionLabel}>{selectionLabel}</div>
+     <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="booklet-inspector"/>
+     <div id="booklet-inspector-content" role="tabpanel" aria-labelledby={'booklet-inspector-'+inspectorTab}>
+      {#if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout}/>
+      {:else}
+       {#if inspectorTab==='layout'&&selectedBlock?.type==='question'}<label class="scope-control">Scope<select aria-label="Spacing scope" bind:value={spacingScope}><option value="selection">Selected item</option><option value="question">Whole question</option></select></label>{/if}
+       {#if inspectorTab==='layout'&&spacingScope==='question'&&selectedBlock?.type==='question'}<BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/>
+       {:else}
+        {#if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}{:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{/if}
+        {#if inspectorTab==='layout'&&!nativeTable&&activeEditor?.documentController?.selected?.type==='paragraph'}<div class="property-grid">{#each [['fontSize','Font size (pt)',11],['lineHeight','Line spacing',1.4],['spaceBefore','Above',0],['spaceAfter','Below',0],['indent','Indent',0]] as [key,label,value]}<label>{label}<input aria-label={'Paragraph '+label} type="number" min={key==='fontSize'?6:key==='lineHeight'?1:0} step={key==='lineHeight'?.1:.5} value={activeEditor?.documentController?.selected?.[key]??value} onchange={e=>paragraphProperty(key,e.currentTarget.value)}/></label>{/each}</div>{/if}
+       {/if}
+      {/if}
+     </div>
+     <button class="detail-arrangement" disabled={!selectedBlock} onclick={arrangeSelectedQuestion}>Detailed arrangement…</button>
     </div>
     {/if}
     {#if panel==='format'&&activeEditor}{#key activeEditor}<div class="document-selection-properties" data-equation-control use:selectionInspector={activeEditor}></div>{/key}{/if}
@@ -913,7 +945,7 @@
 </section>
 
 <style>
- .layout-spacing-panel{display:grid;gap:16px}.layout-spacing-panel section{border-top:1px solid var(--border,#ccc);padding-top:10px}.layout-spacing-panel h3{font-size:14px;margin:0 0 8px}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.layout-spacing-panel p{font-size:13px}
+ .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}
 
 .project-shell{position:relative}.is-opening{min-height:calc(100dvh - 100px)}
 .is-opening>.project-toolbar{z-index:31}
@@ -941,7 +973,12 @@
  .short-answers .print-page{break-after:auto;margin-bottom:5mm}.answer-heading{font-size:20pt;color:#24282d;margin:0 0 6mm}.export-help{font-size:14px;line-height:1.4}
   @page studio-flow{background:white;size:A4;margin:10mm 15mm 15mm;@bottom-right{vertical-align:bottom;padding-bottom:3mm;content:counter(page) " / " counter(pages);font-size:8pt;color:#66758d}}
   @page booklet-source { size:A4; margin:0; }
-  @media print { :global(.site-content:has(.project-shell)) { background:white; min-height:0; } }
+  @media print {
+    /* Printing snapshots the first animation frame. Keep the document visible
+       when leaving the screen-only workspace, without a transformed page root. */
+    :global(.route-stage:has(.project-shell)) { animation:none!important; opacity:1!important; transform:none!important; }
+    :global(.site-content:has(.project-shell)) { background:white; min-height:0; }
+  }
   @media print{.project-print.source-pages{page:booklet-source}.source-pages .print-page{width:210mm;min-height:297mm}.source-pages .print-page:last-child{break-after:auto}:global(html),:global(body){color-scheme:light!important;background:white!important;color:#24282d!important}.project-shell :global(.project-screen){display:none!important}.project-screen{display:none!important}.project-shell{--ink:#23395d;max-width:none;margin:0;padding:0}.project-print{display:block;page:studio-flow;background:white}.project-cover,.answers-divider{display:block;width:180mm;height:270mm;padding:35mm 10mm}.print-page{display:block;width:180mm;min-height:0}.print-page:last-child{break-after:auto}}
 
  /* Panels overlay the workspace; opening one never changes the paper width. */
@@ -961,5 +998,21 @@
 
  :global(.document-diagram-resize){position:absolute;right:0;bottom:0;z-index:9;width:24px;height:24px;min-height:0!important;padding:0!important;background:white;color:#34546b;border:1px solid #b7c9d6;cursor:ew-resize;opacity:.15}:global([data-diagram-id]:hover>.document-diagram-resize),:global(.document-diagram-selected>.document-diagram-resize){opacity:1}:global(.document-diagram-selected){outline:2px solid #438ccc;outline-offset:2px}.selection-tools input[type=number]{width:65px}.document-selection-properties :global(.me-properties){display:block}.document-selection-properties :global(label){margin:8px 0}
  @media print{:global(.document-diagram-resize){display:none!important}:global(.document-diagram-selected){outline:none!important}}
+
+
+ @media screen {
+ :global(.route-stage:has(.project-shell)){animation:none}:global(.site-content:has(.project-shell)){min-height:0;padding-bottom:0}
+ .project-shell{height:calc(100dvh - var(--workspace-top));min-height:0;display:flex;flex-direction:column;overflow:hidden;font-size:14px}
+ .project-toolbar{flex:none;position:relative;min-height:48px;padding:6px 12px;gap:8px}.project-toolbar button,.project-toolbar select,.project-toolbar summary{min-height:32px;font-size:14px}.project-picker{max-width:320px}.toolbar-actions{gap:5px}
+ .document-toolbar{height:auto;min-height:44px;flex:none;padding:6px 12px;gap:4px;align-content:center;font-size:14px}.document-colours{max-width:none}.document-toolbar .selection-tools{gap:4px}.selection-tools label{font-size:14px}.document-toolbar .colour-menu>div{width:230px}.document-toolbar .colour-menu input[type=color]{width:100%}
+ .project-editor,.project-editor.with-navigation,.project-editor.with-review,.project-editor.with-navigation.with-review{display:grid;grid-template-columns:minmax(0,1fr);flex:1;min-height:0;height:auto;overflow:hidden}
+ .project-editor.with-navigation{grid-template-columns:240px minmax(0,1fr)}.project-editor.with-review{grid-template-columns:minmax(0,1fr) 320px}.project-editor.with-navigation.with-review{grid-template-columns:240px minmax(0,1fr) 320px}
+ .project-outline,.project-outline.drawer{position:relative;inset:auto;width:auto;box-shadow:none;overflow:auto;padding:12px}.workspace-panel,.workspace-panel.docked{position:relative;inset:auto;width:auto;max-width:none;box-shadow:none;min-height:0;overflow:auto;padding:12px}
+ .workspace-panel>header{margin-bottom:8px}.workspace-panel h2{font-size:16px}.workspace-panel label{margin:6px 0;gap:4px}.workspace-panel input,.workspace-panel select,.workspace-panel button{min-height:32px;font-size:14px}.selection-breadcrumb{font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.scope-control{display:flex!important;align-items:center;justify-content:space-between}.scope-control select{width:auto}
+ .layout-spacing-panel .property-grid,.native-layout-fields :global(.me-layout-fields){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px}.layout-spacing-panel .property-grid label{min-width:0;font-size:14px}.detail-arrangement{width:100%;margin-top:12px}.workspace-toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:50;padding:8px 16px;background:var(--panel,#fff);border:1px solid var(--border);border-radius:6px;box-shadow:0 3px 16px #0002;font-size:14px}
+ .project-canvas{height:auto;min-height:0;box-sizing:border-box;padding:12px}.canvas-heading{top:-12px;padding-bottom:8px;gap:8px;min-height:36px;font-size:13px}.canvas-heading label{display:flex;align-items:center;gap:6px}.canvas-heading input,.canvas-heading select{min-height:30px;font-size:13px;padding:3px 6px}.project-notice{flex:none;padding:8px 12px}.bank-sync-panel{max-height:40vh;overflow:auto}
+ }
+ @media screen and (max-width:1099px){.project-editor.with-navigation,.project-editor.with-review,.project-editor.with-navigation.with-review{grid-template-columns:minmax(0,1fr)}.project-outline,.project-outline.drawer{position:absolute;inset:0 auto 0 0;width:240px;z-index:16;box-shadow:4px 0 16px #0002}.workspace-panel,.workspace-panel.docked{position:absolute;inset:0 0 0 auto;width:320px;max-width:95%;z-index:17;box-shadow:-4px 0 16px #0002}.toolbar-actions{flex-wrap:wrap}.document-toolbar{max-height:140px;overflow:visible}}
+ @media screen and (pointer:coarse){.project-shell button,.project-shell select{min-height:44px}}
 
 </style>

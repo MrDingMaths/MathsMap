@@ -1,10 +1,11 @@
 <script>
- let {info,selection,oncommand}= $props();
+ let {info,selection,oncommand,category='all'}= $props();
  let destination=$state('');
  const act=(command,options={})=>oncommand(command,options);
 </script>
 {#if info}
- <strong>{info.entry?.title??info.node.title??'Selected group'}</strong>
+ {#if category==='all'}<strong>{info.entry?.title??info.node.title??'Selected group'}</strong>{/if}
+ {#if category!=='layout'}
  <div class="commands">
   <button onclick={()=>act('before')}>Move before</button><button onclick={()=>act('after')}>Move after</button>
   <button onclick={()=>act('out')}>Move out of column</button><button onclick={()=>act('full-width')}>Full width</button>
@@ -17,14 +18,16 @@
   <button disabled={!destination} onclick={()=>act('beside',{targetId:destination,side:'left'})}>Left of destination</button><button disabled={!destination} onclick={()=>act('beside',{targetId:destination,side:'right'})}>Right of destination</button>
   <button disabled={!info.options.find(o=>o.id===destination)?.group} onclick={()=>act('move',{targetId:destination,position:'inside'})}>Move into group</button>
  </div>
- {#each [['width','Width (mm)'],['before',info.entry?.kind==='diagram'?'Space above image (mm)':'Space above (mm)'],['after','Space below (mm)'],['inset','Indent (mm)']] as [key,label]}<label>{label}<input aria-label={label==='Space above image (mm)'?label:'Layout '+label} type="number" min="0" max="190" step=".5" value={info.node[key]??(key==='width'?info.entry?.value?.widthMm:0)??0} onchange={e=>act('properties',{[key]:Number(e.currentTarget.value)})}/></label>{/each}
+ {/if}
+ {#if category!=='arrange'}<small class="units">Size and spacing (mm)</small><div class="fields">
+ {#each [['width','Width (mm)'],['before',info.entry?.kind==='diagram'?'Space above image (mm)':'Space above (mm)'],['after','Space below (mm)'],['inset','Indent (mm)']] as [key,label]}<label>{label.replace(' (mm)','').replace('Space above image','Above').replace('Space above','Above').replace('Space below','Below')}<input aria-label={label==='Space above image (mm)'?label:'Layout '+label} type="number" min="0" max="190" step=".5" placeholder={key==='width'?'Auto':'0'} value={key==='width'?(info.node[key]||info.entry?.value?.widthMm||''):info.node[key]??0} onchange={e=>act('properties',{[key]:Number(e.currentTarget.value)})}/></label>{/each}
  {#if info.parent?.direction==='row'}<label>Column proportion<input aria-label="Column proportion" type="number" min=".1" step=".1" value={info.node.weight??1} onchange={e=>act('properties',{weight:Number(e.currentTarget.value)})}/></label>{/if}
- {#if info.node.type==='group'}<label>Gap (mm)<input type="number" min="0" max="30" step=".5" value={info.node.gap??2} onchange={e=>act('properties',{gap:Number(e.currentTarget.value)})}/></label>{/if}
+ {#if info.node.type==='group'}<label>Gap<input aria-label="Gap (mm)" type="number" min="0" max="30" step=".5" value={info.node.gap??2} onchange={e=>act('properties',{gap:Number(e.currentTarget.value)})}/></label>{/if}
  <label>Alignment<select aria-label="Layout alignment" value={info.node.align??'left'} onchange={e=>act('properties',{align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option><option value="stretch">Stretch</option></select></label>
  <label>Vertical alignment<select aria-label="Layout vertical alignment" value={info.verticalAlign} onchange={e=>act('properties',{verticalAlign:e.currentTarget.value})}><option value="top">Top</option><option value="middle">Middle</option><option value="bottom">Bottom</option></select></label>
- <small>Aligns: {info.verticalScope}</small>
- <button onclick={()=>act('delete')}>{info.entry?.value?.blocks?.[0]?.type==='paragraph'?'Delete paragraph':'Delete selected item'}</button>
+ </div>{/if}
+ {#if category!=='layout'}<button onclick={()=>act('delete')}>{info.entry?.value?.blocks?.[0]?.type==='paragraph'?'Delete paragraph':'Delete selected item'}</button>{/if}
 {:else}<p>Select a block handle on the page, or click its text or image.</p>{/if}
 <style>
  .commands{display:flex;flex-wrap:wrap;gap:4px}label{display:flex;justify-content:space-between;align-items:center;gap:8px;font:13px system-ui}input{width:72px}select{max-width:190px}small{font:12px system-ui}button,input,select{font:13px system-ui;color:var(--text,#24282d);background:var(--panel,#fff);border:1px solid var(--border,#aab5c2);border-radius:4px;min-height:30px;box-sizing:border-box}button{padding:4px 7px;cursor:pointer}button:disabled{opacity:.45;cursor:default}input,select{padding:3px 5px}label{margin-block:4px}strong{display:block;margin-bottom:5px}
-</style>
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 12px}.fields label{display:grid;align-content:start;font-size:14px;margin:3px 0}.fields input,.fields select{width:100%;max-width:100%;font-size:14px;min-height:32px}.commands{margin:8px 0}button{font-size:14px;min-height:32px}.units{display:block;font:12px system-ui;color:var(--text-muted,#647181);margin:6px 0}.fields input[type=number]{width:100%}</style>

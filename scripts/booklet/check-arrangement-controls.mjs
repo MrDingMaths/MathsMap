@@ -33,12 +33,12 @@ try{
  // Select a diagram in the current editor, then use the visible toolbar route.
  const selected=diagram?page.locator(`.flow-paper [data-diagram-id="${diagram.id}"]`).first():page.locator(`.flow-paper [data-edit-root="${first.content.id}"] .clickable`).first();
  await selected.scrollIntoViewIfNeeded();await selected.click();
- await page.locator('.document-toolbar').getByRole('button',{name:'Arrange question',exact:true}).click();
+ if(await page.locator('.document-toolbar').getByRole('button',{name:'Layout & spacing',exact:true}).getAttribute('aria-expanded')!=='true')await page.locator('.document-toolbar').getByRole('button',{name:'Layout & spacing',exact:true}).click();await page.getByRole('button',{name:/^Detailed arrangement/}).click();
  const dialog=page.getByRole('dialog'),properties=dialog.getByRole('complementary',{name:'Selection properties'});
  await properties.waitFor();
  if(diagram){assert.equal(await dialog.locator(`.arr-canvas .selected [data-diagram-id="${diagram.id}"]`).count(),1);checks.push('Selected diagram opens directly with move and spacing controls');}
  // Move and undo are reachable for an item, and restore its content order.
- if(diagram){await properties.getByRole('button',{name:'Move before',exact:true}).click();await dialog.getByRole('button',{name:'Undo edit',exact:true}).click();}
+ if(diagram){await properties.getByRole('tab',{name:'Arrange',exact:true}).click();await properties.getByRole('button',{name:'Move before',exact:true}).click();await dialog.getByRole('button',{name:'Undo edit',exact:true}).click();await properties.getByRole('tab',{name:'Layout',exact:true}).click();}
  await properties.getByRole('button',{name:'Edit selected content',exact:true}).click();
  await dialog.getByRole('region',{name:'Selected content editor'}).waitFor();
  await dialog.getByRole('button',{name:'Apply to question',exact:true}).click();
@@ -54,7 +54,7 @@ try{
  assert.ok(writes.length);
  await page.reload();await prepare();
  const target=diagram?page.locator(`.flow-paper [data-diagram-id="${diagram.id}"]`).first():page.locator(`.flow-paper [data-edit-root="${first.content.id}"] .clickable`).first();
- await target.scrollIntoViewIfNeeded();await target.click();await page.locator('.document-toolbar').getByRole('button',{name:'Arrange question',exact:true}).click();
+ await target.scrollIntoViewIfNeeded();await target.click();if(await page.locator('.document-toolbar').getByRole('button',{name:'Layout & spacing',exact:true}).getAttribute('aria-expanded')!=='true')await page.locator('.document-toolbar').getByRole('button',{name:'Layout & spacing',exact:true}).click();await page.getByRole('button',{name:/^Detailed arrangement/}).click();
  assert.equal(await properties.getByLabel('Space below (mm)',{exact:true}).inputValue(),'1.5');
  await dialog.locator(':scope > header').getByRole('button',{name:'Cancel',exact:true}).click();checks.push('Spacing persists through save/reopen; cancel closes cleanly');
  for(const zoom of ['0.5','1']){await page.getByLabel('Booklet zoom',{exact:true}).selectOption(zoom);await ready();}checks.push('Preview at 50% and 100%');

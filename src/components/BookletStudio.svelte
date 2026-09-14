@@ -714,5 +714,5 @@
   .worksheet-header__title-row:hover .worksheet-header__title-edit,.worksheet-header__title-edit:focus-visible{opacity:1}
   .preview-question.manual-order-item{cursor:grab}
   @media print{.worksheet-header__editable-title{border-color:transparent;box-shadow:none!important}.worksheet-header__title-edit{display:none!important}}
-  .studio-shell.project-workspace{padding:0;overflow-x:clip}.project-workspace>.studio-header{display:none}.project-workspace>.workspace-tabs{max-width:none;margin:0;padding:4px 16px;flex-wrap:wrap}.project-workspace>.workspace-tabs button{font-size:14px;min-height:36px}@media(max-width:600px){.project-workspace>.workspace-tabs{padding:4px 8px}.project-workspace>.workspace-tabs button{min-height:44px}}
+  .studio-shell.project-workspace{min-height:0;padding:0;overflow-x:clip}.project-workspace>.studio-header{display:none}.project-workspace>.workspace-tabs{max-width:none;margin:0;padding:4px 16px;flex-wrap:wrap}.project-workspace>.workspace-tabs button{font-size:14px;min-height:36px}@media(max-width:600px){.project-workspace>.workspace-tabs{padding:4px 8px}.project-workspace>.workspace-tabs button{min-height:44px}}
 </style>

@@ -11,7 +11,7 @@
     if(loaded)return Promise.resolve();if(pending)return pending;
     loading=true;error='';
     pending=(async()=>{try{bank=(await loadPracticeBank()).records;loaded=true;}
-      catch(e){error='Could not load the question bank. Open the bank or insertion controls to retry.';console.warn(e);}
+      catch(e){error='Could not load the question bank. Open the bank or insertion controls to retry.';console.warn(e);return {error};}
       finally{loading=false;pending=null;}})();return pending;
   }
 </script>

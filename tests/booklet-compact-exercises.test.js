@@ -78,7 +78,7 @@ test('one exercise heading survives source sections, checkpoints and page fragme
  for(const joined of [false,true]){
   const p=organiseExercises(fixture(),ratings);
   p.sections.unshift(section('empty','t',[]));
-  // Exercise starts halfway down a teaching page when sections are joined.
+  // Exercise starts on a new page even when stored sections are joined.
   p.sections.splice(1,0,section('intro','t',[{id:'intro-text',type:'rich-text',content:'Introduction'}],'teaching'));
   if(joined)p.sections.forEach(s=>s.pageBreakBefore=false);
   p.sections.find(s=>s.id==='b').blocks[0].flow.exerciseHeadingBefore=1; // stale derived metadata
@@ -97,6 +97,7 @@ test('one exercise heading survives source sections, checkpoints and page fragme
    ...page.blocks.filter(b=>b.flow.exerciseHeadingBefore&&!(page.showDifficultyHeading&&page.section.difficultyTitle===`Exercise ${b.flow.exerciseHeadingBefore}`)).map(b=>`Exercise ${b.flow.exerciseHeadingBefore}`)
   ]);
   assert.deepEqual(printed,['Exercise 1','Exercise 2']);
+  for(const page of result.pages)for(const [index,block] of page.blocks.entries())if(block.flow.exerciseHeadingBefore)assert.equal(index,0,'Exercise starts at the top of a page');
   assert.deepEqual(p,before,'heading derivation must not change stored questions or layouts');
  }
 });

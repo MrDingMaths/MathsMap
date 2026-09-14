@@ -1,4 +1,5 @@
 <script>
+  import BookletBankPicker from './BookletBankPicker.svelte';
   import { defaultRecipe, candidatesFromProject, coverageMatrix, assembleBooklet, candidateValid } from '../lib/booklet-assembly.js';
   import { studioProject } from '../lib/booklet-review-model.js';
   import { createBookletProject } from '../lib/booklet-project-storage.js';
@@ -6,7 +7,7 @@
   import {contentSource} from '../lib/document-content.js';
   let {project,onchange,oncreated,expanded=false,active=true}=$props();
   let recipe=$state(null),external=$state([]),error=$state(''),busy=$state(false),preview=$state(null),topicId=$state(''),groupId=$state('');
-  let loaded='';
+  let loaded='',pickerSession=$state(null);
   const clone=value=>JSON.parse(JSON.stringify(value));
   $effect(()=>{if(project.id!==loaded){loaded=project.id;recipe=clone(project.studio?.recipe??defaultRecipe(project));preview=null;external=[];}});
   const candidates=$derived(active?[...external,...candidatesFromProject(project)]:[]);
@@ -23,12 +24,13 @@
   function questionTitle(id){const c=candidates.find(c=>c.question.id===id);return c?(c.question.title||contentSource(c.question.content.prompt).slice(0,110)||'Question with diagrams'): 'Unavailable question';}
   function addQuestion(session,id){if(!id)return;session.questionIds.push(id);const c=candidates.find(c=>c.question.id===id);recipe.questionRevisions??={};if(c?.revision)recipe.questionRevisions[id]=c.revision;preview=null;saveRecipe();}
 </script>
+{#if pickerSession}<BookletBankPicker title="Choose a revision question" actionLabel="Add to session" destination={pickerSession.title} bank={candidates.filter(c=>candidateValid(c)&&!recipe.sessions.some(s=>s.questionIds.includes(c.question.id))).map(c=>c.question)} oninsert={question=>addQuestion(pickerSession,question.id)} onclose={()=>pickerSession=null}/>{/if}
 <details open={expanded} class="assembly-panel project-screen"><summary>Assemble booklet</summary>
   {#if recipe}
     <label>Booklet type<select value={recipe.mode??'teaching'} onchange={e=>{recipe.mode=e.currentTarget.value;recipe.sessions??=[{title:'Session 1',questionIds:[],optional:false},{title:'Session 2',questionIds:[],optional:false},{title:'Optional challenge',questionIds:[],optional:true}];preview=null;saveRecipe();}}><option value="teaching">Teaching sequence</option><option value="revision">Revision practice</option></select></label>
     {#if recipe.mode==='revision'}
       <p>Select questions in the order they should appear. Remove empty sessions before assembling. Existing booklets retain their saved bank versions.</p>
-      {#each recipe.sessions??[] as session,index}<fieldset><legend>Revision session {index+1}</legend><label>Title<input bind:value={session.title} onchange={saveRecipe}/></label><ol>{#each session.questionIds as id,position}<li>{questionTitle(id)}<button disabled={position===0} onclick={()=>{[session.questionIds[position-1],session.questionIds[position]]=[id,session.questionIds[position-1]];preview=null;saveRecipe();}}>Move earlier</button><button onclick={()=>{session.questionIds.splice(position,1);preview=null;saveRecipe();}}>Remove</button></li>{/each}</ol><label>Add question<select value="" onchange={e=>{addQuestion(session,e.currentTarget.value);e.currentTarget.value='';}}><option value="">Choose a question</option>{#each candidates.filter(c=>candidateValid(c)&&!recipe.sessions.some(s=>s.questionIds.includes(c.question.id))) as c}<option value={c.question.id}>{questionTitle(c.question.id)}</option>{/each}</select></label><label class="inline"><input type="checkbox" bind:checked={session.optional} onchange={saveRecipe}/>Optional challenge</label><button onclick={()=>{recipe.sessions.splice(index,1);preview=null;saveRecipe();}}>Remove session</button></fieldset>{/each}
+      {#each recipe.sessions??[] as session,index}<fieldset><legend>Revision session {index+1}</legend><label>Title<input bind:value={session.title} onchange={saveRecipe}/></label><ol>{#each session.questionIds as id,position}<li>{questionTitle(id)}<button disabled={position===0} onclick={()=>{[session.questionIds[position-1],session.questionIds[position]]=[id,session.questionIds[position-1]];preview=null;saveRecipe();}}>Move earlier</button><button onclick={()=>{session.questionIds.splice(position,1);preview=null;saveRecipe();}}>Remove</button></li>{/each}</ol><button onclick={()=>pickerSession=session}>Choose question...</button><label class="inline"><input type="checkbox" bind:checked={session.optional} onchange={saveRecipe}/>Optional challenge</label><button onclick={()=>{recipe.sessions.splice(index,1);preview=null;saveRecipe();}}>Remove session</button></fieldset>{/each}
     {/if}
     <p>Build a draft from theory and whole questions. The question bank can cover more than the syllabus grouping selected here.</p>
     <div class="scope"><label>NSW topic<select bind:value={topicId}><option value="">Choose topic</option>{#each topics as topic}<option value={topic.id}>{topic.title??topic.name}</option>{/each}</select></label><label>Content grouping<select bind:value={groupId} onchange={setScope}><option value="">Choose grouping</option>{#each groups as group}<option value={group.id}>{group.title??group.text??group.id}</option>{/each}</select></label><label>Explicit extension skill IDs<input value={recipe.extensions.join(', ')} onchange={e=>{recipe.extensions=ids(e.currentTarget.value);saveRecipe();}} /></label><label>Already-taught prerequisite IDs<input value={recipe.assumedPrerequisites.join(', ')} onchange={e=>{recipe.assumedPrerequisites=ids(e.currentTarget.value);saveRecipe();}} /></label></div>
