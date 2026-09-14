@@ -3,7 +3,7 @@ import {standardBookletContent} from '../public/libs/maths-editor/booklet-palett
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {loadTikzEngine} from '../scripts/booklet/check-pgfplots-engine.mjs';
-import {calibrateDiagramTypography,measureDiagramLabels} from '../src/lib/diagram-typography.js';
+import {calibrateDiagramTypography,measureDiagramLabels,inspectDiagramLabelLayout} from '../src/lib/diagram-typography.js';
 import {graphPageScale} from '../src/lib/graph-strokes.js';
 import {BOOKLET_HOUSE_STYLE} from '../public/libs/maths-editor/house-style.mjs';
 import {normaliseShortAnswer} from '../src/lib/short-answer-style.js';
@@ -23,8 +23,8 @@ test('complete TeX labels retain scripts, fraction rules, rotation and size afte
   try{
     const page=await browser.newPage();
     await page.setContent('<style>.booklet-page{width:210mm;transform-origin:top left} .slot svg{width:100%;height:auto}</style><article class="booklet-page"><div class="slot">'+svg+'</div></article>');
-    const results=await page.evaluate(({calibrate,measure,scale,style})=>{
-      const f=new Function('BOOKLET_HOUSE_STYLE',`const graphPageScale=${scale};return {calibrate:${calibrate},measure:${measure}}`)(style);
+    const results=await page.evaluate(({calibrate,measure,inspect,scale,style})=>{
+      const f=new Function('BOOKLET_HOUSE_STYLE',`const graphPageScale=${scale};return {calibrate:${calibrate},measure:${measure},inspect:${inspect}}`)(style);
       const article=document.querySelector('article'),slot=document.querySelector('.slot'),rows=[];
       for(const zoom of [1,.65,2,1])for(const width of [40,120,60,40]){
         article.style.transform=`scale(${zoom})`;slot.style.width=width+'mm';
@@ -38,8 +38,17 @@ test('complete TeX labels retain scripts, fraction rules, rotation and size afte
         slot.innerHTML=slot.innerHTML;f.calibrate(article);
         rows.push({zoom,width,labels:f.measure(slot.querySelector('svg'))});
       }
+      // Exceed the SVG viewport while remaining well inside the printed page.
+      article.style.height='297mm';
+      slot.style.transform='translate(300px,200px)';
+      slot.style.width='1mm';f.calibrate(article);
+      const small=slot.querySelector('svg');
+      if(getComputedStyle(small).overflow!=='visible')throw Error('Fixed-size glyphs must remain visible');
+      if(f.inspect(small).some(i=>i.kind==='diagram-label-clipping'))throw Error('Visible SVG viewport is not a clip');
+      slot.style.overflow='hidden';
+      if(!f.inspect(small).some(i=>i.kind==='diagram-label-clipping'))throw Error('Real ancestor clipping must remain a failure');
       return rows;
-    },{calibrate:calibrateDiagramTypography.toString(),measure:measureDiagramLabels.toString(),scale:graphPageScale.toString(),style:BOOKLET_HOUSE_STYLE});
+    },{calibrate:calibrateDiagramTypography.toString(),measure:measureDiagramLabels.toString(),inspect:inspectDiagramLabelLayout.toString(),scale:graphPageScale.toString(),style:BOOKLET_HOUSE_STYLE});
     for(const row of results){assert.equal(row.labels.length,3);for(const label of row.labels)assert.ok(Math.abs(label.pt-10)<.001,JSON.stringify(row));}
     assert.ok(results[0].scripts>0);assert.ok(results[0].fraction>0);
   }finally{await browser.close();}

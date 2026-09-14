@@ -19,6 +19,9 @@ export function prepareDiagramTypography(code) {
 export function calibrateDiagramTypography(root) {
   for(const group of root.querySelectorAll('g[data-diagram-label="1"]')) {
     const svg=group.ownerSVGElement, font=Number(group.dataset.labelFont);
+    // Fixed-size labels may extend slightly beyond the source's TeX viewport.
+    // Keep geometry, placement and pagination fixed while retaining the whole glyph.
+    if(svg.style.overflow!=='visible')svg.style.overflow='visible';
     if(!font||!group.querySelector('text'))continue;
     // Always measure the original group. Repeated resizing and cached/reopened
     // SVGs must never multiply a previous correction.
@@ -64,7 +67,11 @@ export function inspectDiagramLabelLayout(svg,{strokes=false}={}) {
     return {index,rectangles,left:Math.min(...rectangles.map(r=>r.left)),right:Math.max(...rectangles.map(r=>r.right)),top:Math.min(...rectangles.map(r=>r.top)),bottom:Math.max(...rectangles.map(r=>r.bottom))};
   });
   const issues=[],bounds=svg.getBoundingClientRect(),tolerance=.5*scale;
-  for(const label of labels)if(label.left<bounds.left-tolerance||label.right>bounds.right+tolerance||label.top<bounds.top-tolerance||label.bottom>bounds.bottom+tolerance)issues.push({kind:'diagram-label-clipping',label:label.index});
+  const clipping=[];for(let element=svg;element;element=element.parentElement){const css=getComputedStyle(element),paper=element.matches('.booklet-page');const x=paper||['hidden','clip','auto','scroll'].includes(css.overflowX),y=paper||['hidden','clip','auto','scroll'].includes(css.overflowY);if(x||y)clipping.push({bounds:element.getBoundingClientRect(),x,y});if(paper)break;}
+  for(const label of labels){
+    if(clipping.some(({bounds:b,x,y})=>x&&(label.left<b.left-tolerance||label.right>b.right+tolerance)||y&&(label.top<b.top-tolerance||label.bottom>b.bottom+tolerance)))issues.push({kind:'diagram-label-clipping',label:label.index});
+    else if(label.left<bounds.left-tolerance||label.right>bounds.right+tolerance||label.top<bounds.top-tolerance||label.bottom>bounds.bottom+tolerance)issues.push({kind:'diagram-label-viewport',label:label.index,overflowMm:Math.max(bounds.left-label.left,label.right-bounds.right,bounds.top-label.top,label.bottom-bounds.bottom)/scale*25.4/96});
+  }
   for(let a=0;a<labels.length;a++)for(let b=a+1;b<labels.length;b++){
     const x=labels[a],y=labels[b];
     if(x.rectangles.some(r=>y.rectangles.some(s=>Math.min(r.right,s.right)-Math.max(r.left,s.left)>tolerance&&Math.min(r.bottom,s.bottom)-Math.max(r.top,s.top)>tolerance)))issues.push({kind:'diagram-label-overlap',labels:[a,b]});

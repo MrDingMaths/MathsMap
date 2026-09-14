@@ -36,3 +36,10 @@ The complete regression suite passed: 643 tests. The production build passed wit
 - `scripts/booklet/check-diagram-colours.mjs` and `scripts/booklet/review-diagram-colour-editions.mjs` accept `BOOKLET_DIAGRAM_REVIEW_OUT` and optional `BOOKLET_REVIEW_PROJECT` for isolated review output.
 
 Detailed PDFs, page images, font/colour measurements, editor receipts and logs are retained locally under `.booklet-work/diagram-typography/`; final trig exports are under its `trig/editions/` directory. These caches and run artifacts are not release files. Follow the shared transcription feedback checklist for future imports.
+
+
+## SVG paint bounds — 14 September 2026
+
+Fixed-size native labels may extend beyond the original TeX SVG viewport after calibration. The shared calibration sets the root SVG overflow to visible so complete 10 pt glyphs remain painted, without changing the diagram viewport, coordinates, stored dimensions or pagination. Actual clipping by an ancestor or printed page remains a failing preflight. Viewport spill is reported separately for final-size visual review, alongside label overlaps; it is never accepted solely because the font size is correct.
+
+The Word-workspace acceptance run found and reviewed these occurrences across the current books. Regression fixtures distinguish a visible SVG viewport from an actual clipping container, including repeated resizing, zoom and cache reopen. Source geometry and project/bank content were retained. Evidence is local under .booklet-work/word-studio/final/ and .booklet-work/word-studio/clipping/.

@@ -28,6 +28,10 @@ test('candidate routing uses the open envelope, blocks writes, and inspects cali
   assert.deepEqual(open,{project,bankSync:{items:[]},bankSyncError:''});
   assert.equal(await page.evaluate(async()=>{try{await fetch('/__booklet/projects/candidate',{method:'POST',body:'{}'});return 'written';}catch{return 'blocked';}}),'blocked');
   await page.evaluate(async()=>{const {calibrateDiagramTypography}=await import('/src/lib/diagram-typography.js');calibrateDiagramTypography(document);});
+  const visible=await inspectFinalSizeDiagrams(page);
+  assert.deepEqual(visible.issues,[]);
+  assert.ok(visible.visualFindings.some(i=>i.kind==='diagram-label-viewport'&&i.diagramId==='d'));
+  await page.evaluate(()=>{document.querySelector('.tikz-wrap').style.overflow='hidden';});
   const clipped=await inspectFinalSizeDiagrams(page);
   assert.equal(clipped.figures.length,1);assert.ok(clipped.issues.some(i=>i.kind==='diagram-label-clipping'&&i.diagramId==='d'&&i.page===1));
   assert.ok(Math.abs(clipped.figures[0].labels[0].pt-10)<.1);

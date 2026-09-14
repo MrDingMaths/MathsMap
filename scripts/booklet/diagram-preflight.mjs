@@ -47,8 +47,8 @@ export async function inspectFinalSizeDiagrams(page) {
    reviewRequired:'Separate SVG layers require visual coordinate-frame and angle-region review.'
   }));
   return {figures,overlays,rasterOccurrences:[...root.querySelectorAll('img')].filter(visible).length,
-   issues:figures.flatMap(f=>f.issues.filter(i=>i.kind!=='diagram-label-overlap').map(i=>({page:f.page,diagramId:f.id,...i}))),
-   visualFindings:figures.flatMap(f=>f.issues.filter(i=>i.kind==='diagram-label-overlap').map(i=>({page:f.page,diagramId:f.id,...i}))),
-   note:'Measurements detect bounds and label-size defects. Overlaps, overlays, raster labels and mathematical angle regions require source comparison and visual review.'};
+   issues:figures.flatMap(f=>f.issues.filter(i=>!['diagram-label-overlap','diagram-label-viewport'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
+   visualFindings:figures.flatMap(f=>f.issues.filter(i=>['diagram-label-overlap','diagram-label-viewport'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
+   note:'Measurements detect bounds and label-size defects. Viewport spill, overlaps, overlays, raster labels and mathematical angle regions require source comparison and visual review.'};
  });
 }

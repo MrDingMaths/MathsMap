@@ -32,7 +32,7 @@ export function imageSourceHash(src,root=process.cwd()){
   return solidHash(fs.readFileSync(file));
 }
 export function isSolidCandidate(code,context='') {
-  if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|3d|3-d)/i.test(context+' '+code))return true;
+  if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
   if(/ellipse|x radius|y radius/.test(code))return true;
   const pts=[...coordinates(code).values()];if(pts.some(p=>p.length===3))return true;
   const offsets=new Map();

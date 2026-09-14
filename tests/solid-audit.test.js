@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {inspectSolid,repairSolid} from '../scripts/lib/solid-audit.mjs';
 import {solidTikz,prismModel,curvedSolidTikz} from '../src/lib/solid-geometry.js';
 import {repairValue} from '../scripts/repair-solid-visibility.mjs';
-import {solidHash,visitFigures} from '../scripts/audit-solid-visibility.mjs';
+import {solidHash,visitFigures,isSolidCandidate} from '../scripts/audit-solid-visibility.mjs';
 const box=()=>solidTikz(prismModel([[0,0],[3,0],[3,2],[0,2]]));
 test('current model detects flipped edge styles and cannot be fooled by a label stroke',()=>{
  const code=box(),wrong=code.replace(/\\draw\[dashed\]/,'\\draw');
@@ -45,4 +45,10 @@ test('guarded migration preserves prose/evidence and is idempotent, conflicts st
  const {next,records}=repairValue(source,[record]);assert.equal(records.length,1);assert.equal(next.id,'stable');assert.deepEqual(next.sourceReview,source.sourceReview);assert.ok(next.prompt.startsWith('Keep current edits'));assert.equal(repairValue(next,[record]).records.length,0);
  assert.throws(()=>repairValue({...source,prompt:source.prompt.replace('(A0) at (0,0)','(A0) at (1,0)')},[record]),/Conflicting/);
  const found=[];visitFigures(source,r=>found.push(r));assert.equal(found.length,1);
+});
+
+test('question UUIDs cannot turn planar figures into 3D candidates',()=>{
+ const plane=String.raw`\begin{tikzpicture}\coordinate (A) at (0,0);\coordinate (B) at (1,1);\draw (A)--(B);\end{tikzpicture}`;
+ for(const id of ['q-01f9954f-23d9-4a9f-96a2-adc0bdb4f137','q-dc804bf3-d9ca-4914-9623-57d3721e667d'])assert.equal(isSolidCandidate(plane,'booklets/question-bank/'+id+'.json'),false);
+ for(const context of ['3D diagram','3-D diagram','a solid prism'])assert.equal(isSolidCandidate(plane,context),true);
 });
