@@ -17,6 +17,17 @@ and exact ownership only. Preserve whole questions, shared stems and meaningful
 exercise/category boundaries. Publication still uses the existing serialized
 project/bank transactions.
 
+Essential assignment diagram and supplemental guidance travels inline in a
+stable prompt prefix; its retained file references are provenance. Count that
+guidance within the 24,000-character variable budget and report an explicit
+exception for an indivisible question or teaching context. Do not trade away
+required instructions when a worker cannot read a linked file. This delivery
+rule follows actual read-command policy rejections in the September paired
+trial; the frozen trial prompts predate the correction.
+Relevant corrected field values also travel inline, with their register references.
+Available source-page images accompany visual-review batches; any additional
+inaccessible source or composition evidence must remain a reported blocker.
+
 `scripts/booklet/bounded-stages.mjs` exports these executable interfaces:
 
 - `nextBoundedWork({runDir, selectedPages?, projectFile?, config?, configFile?})` derives pending jobs,
@@ -173,6 +184,8 @@ alone is insufficient: examine `unavailableSessions`, `partialSessions`,
 attempt, phase and waiting intervals. Unknown cached input, output, tool counts
 or timings must remain unknown; partial coverage cannot be reported as a complete
 total. Keep the original artifact references and actual failed/retried work.
+Completed tool calls and rejected tool attempts are separate observations; policy
+rejections can appear in stderr without a completed call in the JSON event stream.
 Compare measured accepted work on the paired trial and next required full import;
 the approximately two-hour/10%-allowance goals remain targets until verified.
 
