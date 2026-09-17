@@ -10,7 +10,7 @@ const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const current=r=>r?.path&&path.isAbsolute(r.path)&&fs.existsSync(r.path)&&bytes(r.path)===r.hash;
-export function questionTeachingDependencies(state,project,question){
+export function questionTeachingDependencies(state,project,question,{artifactHash=bytes}={}){
  const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
  const scope=owner?.exerciseId??owner?.topicId??owner?.id;
  const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId??s.id)===scope):sections;
@@ -32,12 +32,12 @@ export function questionTeachingDependencies(state,project,question){
   for(const name of ['page','pageNumber','pdfPage'])if(Number.isInteger(value[name]))pages.add(value[name]);
   for(const name of ['pages','pdfPages','teachingPages'])if(Array.isArray(value[name]))for(const page of value[name])if(Number.isInteger(page))pages.add(page);
   for(const [file,expected]of [[value.pdfPath,value.pdfSha256??value.pdfHash??value.hash??value.sha256],[value.imagePath,value.imageSha256??value.imageHash??value.hash??value.sha256],[value.path,value.hash??value.sha256]])if(typeof file==='string'&&expected){
-   const absolute=path.resolve(file);artifacts.set(absolute,{path:absolute,expected,hash:fs.existsSync(absolute)&&fs.statSync(absolute).isFile()?bytes(absolute):null});
+   const absolute=path.resolve(file);artifacts.set(absolute,{path:absolute,expected,hash:fs.existsSync(absolute)&&fs.statSync(absolute).isFile()?artifactHash(absolute):null});
   }
   for(const child of Object.values(value))if(child&&typeof child==='object')refs(child);
  }
  const reviewed=state.verification?.teachingContexts?.[scope],binding=reviewed?.dependencyScope;
- const readDependency=file=>{if(!fs.existsSync(file))return {unavailable:true};try{return JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));}catch{return {invalid:true,hash:bytes(file)};}};
+ const readDependency=file=>{if(!fs.existsSync(file))return {unavailable:true};try{return JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));}catch{return {invalid:true,hash:artifactHash(file)};}};
  let currentConfig=null,currentIndex=null;
  if(binding?.configFile){
   const config=readDependency(binding.configFile);
@@ -60,9 +60,12 @@ export function questionTeachingDependencies(state,project,question){
 }
 export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
+ // Shared PDFs/images are read once per current snapshot, never cached across
+ // calls. A large exercise must not rehash the same source for every question.
+ const artifactHashes=new Map(),artifactHash=file=>{const absolute=path.resolve(file);if(!artifactHashes.has(absolute))artifactHashes.set(absolute,bytes(absolute));return artifactHashes.get(absolute);};
  return {source:hash(Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
   project:project?projectReviewHash(project):null,renderer,...implementation,
-  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q)}:{})})]))};
+  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash})}:{})})]))};
 }
 export function recordVerification(state,record,deps){
  if(!state.pipelinePolicy)throw Error('Verification register enforcement is for new-policy runs');
