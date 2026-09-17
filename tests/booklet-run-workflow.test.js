@@ -12,6 +12,7 @@ import {prepareReviewQueue,reviewQueueStatus,beginPageReview,recordPageReview,ca
 import {recordMathReview,updateWorkflow,loadWorkflow,reviewFile,liveWorkflow,REVIEW_POLICY,approveRepresentative,representativeKey,PATTERN_CHECKS,settlementKey,acceptFinalReview} from '../scripts/booklet/workflow-review.mjs';
 import {rendererSignature,contentAssetSignatures} from '../scripts/booklet/verification-cache.mjs';
 import {spawn} from 'node:child_process';
+import {representativePlan} from '../scripts/booklet/efficiency-tools.mjs';
 import {pathToFileURL} from 'node:url';
 const editions=['student','short','worked','with-short','with-worked'];
 function fixture(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-run-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const write=(name,data)=>{const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof data==='string'?data:JSON.stringify(data));return file;};return {dir,write};}
@@ -104,11 +105,23 @@ test('review-first drain stops at maths then representative gates and resumes af
  await updateWorkflow(f.dir,'fixture pattern',state=>{approveRepresentative(state,{...evidence,pattern:'plain',page:1,key:representativeKey(state,1),renderer:rendererSignature(),checks:Object.fromEntries(PATTERN_CHECKS.map(k=>[k,true])),sourceCompared:true,finalSize:true});});
  r=await drainDependencies(f.options,{runner:f.runner,log:()=>{}});assert.equal(r.ok,true,JSON.stringify(r));assert.equal(liveWorkflow(f.dir).pages[2].authorHash?.length>0,true);
 });
+
+test('CLI scheduling policy requires current complete coverage before bulk authoring',async t=>{
+ const f=generationFixture(t,{review:true}),policy={requireRepresentativePlan:true,runner:f.runner,log:()=>{}},evidence={reviewer:'Test reviewer',note:'Explicit fixture review',artifacts:[ref(f.write('review.txt','Fixture only'))]};
+ await drainDependencies(f.options,policy);
+ await updateWorkflow(f.dir,'fixture maths',state=>recordMathReview(state,{...evidence,pages:Object.entries(state.pages).map(([p,v])=>({page:Number(p),key:v.inventoryHash}))}));
+ await drainDependencies({...f.options,pages:[1]},{...policy,representative:true});
+ await updateWorkflow(f.dir,'fixture pattern',state=>approveRepresentative(state,{...evidence,pattern:'plain',page:1,key:representativeKey(state,1),renderer:rendererSignature(),checks:Object.fromEntries(PATTERN_CHECKS.map(k=>[k,true])),sourceCompared:true,finalSize:true}));
+ assert.ok(dependencyStatus(f.options,policy).blocked.some(b=>b.reasons.some(r=>r.includes('--plan'))));
+ const plan=representativePlan(liveWorkflow(f.dir),[1,2]);plan.coverage.forEach(c=>{c.status='not-applicable';c.notApplicableReason='No such visual in this plain-text fixture.';});
+ const planFile=f.write('plan.json',plan);assert.equal(dependencyStatus(f.options,{...policy,planFile}).jobs.length,1);
+ plan.inventoryKeys[1]='stale';f.write('plan.json',plan);assert.ok(dependencyStatus(f.options,{...policy,planFile}).blocked.some(b=>b.reasons.some(r=>r.includes('changed'))));
+});
 test('preflight reports all failures without exposing authentication output or making generation calls',async t=>{
  const f=fixture(t),source=f.write('source.txt','source'),probe=async(exe,args)=>({ok:!exe.includes('pdf'),code:exe.includes('pdf')?1:0,output:args.includes('status')?'private identity':'version fixture'});
  const browserType={launch:async()=>{throw Error('Fixture browser unavailable');}};
  const r=await workflowPreflight({runDir:f.dir,manifest:{...TRANSCRIPTION_DEFAULT,pins:{runFiles:{'source.txt':artifactHash(source)}}}},{probe,browserType,compileEngine:async()=>async()=>({svg:'<svg/>'})});
- assert.equal(r.ok,false);assert.equal(r.checks.length,10);assert.doesNotMatch(JSON.stringify(r),/private identity/);assert.equal(r.checks.find(c=>c.name==='codex-auth').authenticated,true);assert.equal(buildRunReceipt(f.dir).model.calls,0);
+ assert.equal(r.ok,false);assert.deepEqual(r.checks.map(c=>c.name),['artifact-write-read','model-policy','source-pins','node','codex','codex-auth','pdftotext','pdfinfo','pdftohtml','pdftoppm','bundled-tikz','browser-routes']);assert.equal(r.checks.find(c=>c.name==='artifact-write-read').roundTrip,true);assert.doesNotMatch(JSON.stringify(r),/private identity/);assert.equal(r.checks.find(c=>c.name==='codex-auth').authenticated,true);assert.equal(buildRunReceipt(f.dir).model.calls,0);
 });
 test('generated final record passes the existing acceptance API and retains underlying evidence dependencies',async t=>{
  const f=reviewFixture(t),state=loadWorkflow(f.dir),key=settlementKey(state),renderer=rendererSignature();

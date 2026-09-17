@@ -38,6 +38,24 @@ test('complete TeX labels retain scripts, fraction rules, rotation and size afte
         slot.innerHTML=slot.innerHTML;f.calibrate(article);
         rows.push({zoom,width,labels:f.measure(slot.querySelector('svg'))});
       }
+      const transforms=()=>[...slot.querySelectorAll('[data-diagram-label]')].map(g=>g.getAttribute('transform'));
+      const corrected=JSON.stringify(transforms());
+      const unchanged=reason=>{if(JSON.stringify(transforms())!==corrected)throw Error(reason);};
+      article.style.display='none';f.calibrate(article);unchanged('Hidden print pages lost their label corrections');
+      article.style.display='';
+      // Editor previews also hide without a booklet-page ancestor.
+      article.classList.remove('booklet-page');slot.style.display='none';
+      f.calibrate(article);unchanged('Hidden standalone preview lost its label corrections');
+      slot.style.display='';article.classList.add('booklet-page');
+      const group=slot.querySelector('[data-diagram-label]');
+      group.getScreenCTM=()=>null;f.calibrate(article);unchanged('Missing CTM lost the previous correction');
+      group.getScreenCTM=()=>({c:NaN,d:NaN});f.calibrate(article);unchanged('Invalid CTM lost the previous correction');
+      delete group.getScreenCTM;
+      group.getBBox=()=>{throw new DOMException('Geometry unavailable');};
+      try{f.calibrate(article);}catch(e){if(e.message!=='Geometry unavailable')throw e;}
+      unchanged('Failed geometry measurement lost the previous correction');delete group.getBBox;
+      slot.style.width='80mm';f.calibrate(article);
+      rows.push({afterHidden:true,labels:f.measure(slot.querySelector('svg'))});
       // Exceed the SVG viewport while remaining well inside the printed page.
       article.style.height='297mm';
       slot.style.transform='translate(300px,200px)';

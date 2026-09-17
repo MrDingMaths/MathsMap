@@ -1,8 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createPaginationKey,createWorkYield,canKeepPageEditor} from '../src/lib/booklet-pagination-work.js';
+import {createPaginationKey,createWorkYield,canKeepPageEditor,paginationDelay} from '../src/lib/booklet-pagination-work.js';
 import {fromSource} from '../public/libs/maths-editor/document-model.mjs';
 import {contentTarget} from '../src/lib/booklet-document-controller.js';
+
+test('explicit layout changes bypass typing debounce even with an editor mounted',()=>{
+ assert.equal(paginationDelay(true,true),0);assert.equal(paginationDelay(true,false),250);assert.equal(paginationDelay(false,false),0);
+});
 
 test('cached content locations follow edits, moves and undo without retaining deleted or other-project nodes',()=>{
  const first={id:'cached-child',prompt:'first'},block={id:'cached-block',content:{children:[first]}},p={id:'book',sections:[{id:'s',blocks:[block]}]};

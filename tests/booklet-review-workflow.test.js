@@ -12,12 +12,39 @@ import {createSemanticTasks,runSemanticPackets} from '../scripts/booklet/semanti
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
 import {synchronizeInventoryAmbiguities} from '../scripts/booklet/workflow-review.mjs';
+import {recordMaterializedCorrections} from '../scripts/booklet/workflow-review.mjs';
 import {createBookletProject,promoteProjectQuestion,saveBookletProject} from '../scripts/booklet/project-studio-server.mjs';
 
 const exact=value=>({value,exact:true});
 const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
 const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+test('reviewed compact materialisation survives normalisation and certification but rejects local edits and changed patches',t=>{
+ const f=fixture(t),packet=author(1),original=structuredClone(packet.sections[0].blocks);
+ const state={corrections:[{status:'approved',patches:[{scope:'author',page:1,targetId:'s-1',field:'/blocks',original,corrected:original.map(b=>({...b,title:'Revised'}))}]}]};
+ const project=materializeCorrections(packet,state,'author',1);
+ project.sections[0].id='merged-exercise';project.sections[0].blocks[0].flow={keepTogether:true};
+ project.sections[0].blocks[0].sourceReview={responses:[]};
+ recordMaterializedCorrections(project,state,{...f.evidence,sourceCompared:true});
+ Object.assign(project.sections[0].blocks[0].sourceReview,{verification:{checked:true},visualAudit:{checked:true}});
+ // Existing review metadata is part of the bound assembly; certification alone
+ // may be added without changing the reviewed node or its physical layout.
+ assert.deepEqual(materializeCorrections(project,state,'project'),project);
+ const promoted=structuredClone(project),linked=promoted.sections[0].blocks[0];
+ Object.assign(linked,{bankRef:{id:'bank-q1',revision:'verified'},canonicalId:'bank-q1',snapshotKind:'owned',classification:{primarySkillId:'reviewed-skill'}});linked.flow.bankDifficulty='Development';
+ assert.deepEqual(materializeCorrections(promoted,state,'project'),promoted,'Ownership metadata does not invalidate a source correction');
+ linked.presentation={widthMm:99};assert.throws(()=>materializeCorrections(promoted,state,'project'),/Stale compact correction materialisation/,'A layout change still needs review');
+ const local=structuredClone(project);local.sections[0].blocks[0].content.prompt='My edit';
+ assert.throws(()=>materializeCorrections(local,state,'project'),/Stale compact correction materialisation/);
+ const changed=structuredClone(state);changed.corrections[0].patches[0].corrected[0].title='Different';
+ assert.throws(()=>materializeCorrections(project,changed,'project'),/changed or unapproved/);
+ state.corrections.push({status:'approved',reason:'Reviewed later correction',sourceRefs:[{pageNumber:1}],patches:[{scope:'project',page:1,targetId:'q-1',field:'/prompt',original:'Find x.',corrected:'Find y.'}]});
+ const updated=materializeCorrections(project,state,'project');
+ assert.equal(updated.sections[0].blocks[0].content.prompt,'Find y.');
+ assert.deepEqual(materializeCorrections(updated,state,'project'),updated);
+ fs.writeFileSync(f.evidence.artifacts[0].path,'changed evidence');
+ assert.throws(()=>materializeCorrections(updated,state,'project'),/Stale compact correction materialisation/);
+});
 test('explicit ancestor removal supersedes an old scaffold correction without accepting missing or edited content',()=>{
  const packet=author(1),node=packet.sections[0].blocks[0].content;
  node.prompt={blocks:[{id:'stem',text:'Find x.'},{id:'blank',width:145}]};
@@ -280,18 +307,22 @@ test('a source change during review-first generation preserves the attempt witho
  assert.ok(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.1/result.json')));
 });
 
-test('registration failure reports an already-published packet and retains usage for safe resume',async t=>{
+test('publication waits for review ownership and registers the packet atomically without regeneration',async t=>{
  const {runDir,write,evidence,options}=fixture(t);
  await updateWorkflow(runDir,'review',state=>{refreshRegister(runDir,[1,2],state);approveMath(state,evidence);});
- const report=await runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:async()=>{
-  write('workflow/review.lock','another process');return {result:author(1),metrics:{usage:{input_tokens:10,output_tokens:5},elapsedMs:7}};
+ let notify;const generated=new Promise(resolve=>{notify=resolve;});
+ const pending=runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:async()=>{
+  write('workflow/review.lock','another process');notify();return {result:author(1),metrics:{usage:{input_tokens:10,output_tokens:5},elapsedMs:7}};
  }});
- assert.equal(report.ok,false);assert.match(report.pages[0].error,/another process/);
- const ledger=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/ledger.jsonl'),'utf8').trim());
- assert.equal(ledger.canonicalWritten,true);assert.equal(ledger.registered,false);assert.equal(ledger.usage.output_tokens,5);
- const events=fs.readFileSync(path.join(runDir,'semantic-packets/attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
- assert.equal(events.at(-1).failedPhase,'registration');
+ await generated;await new Promise(resolve=>setTimeout(resolve,150));
+ assert.equal(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.json')),false);
+ assert.equal(fs.existsSync(path.join(runDir,'semantic-packets/page-001.author.meta.json')),false);
  fs.unlinkSync(path.join(runDir,'workflow/review.lock'));
+ const report=await pending;assert.equal(report.ok,true);
+ const ledger=JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets/ledger.jsonl'),'utf8').trim());
+ assert.equal(ledger.canonicalWritten,true);assert.equal(ledger.registered,true);assert.equal(ledger.usage.output_tokens,5);
+ const events=fs.readFileSync(path.join(runDir,'semantic-packets/attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+ assert.ok(events.some(event=>event.phase==='publication'&&event.event==='phase-finished'&&event.registered));
  const resumed=await runSemanticPackets({...options,pages:[1],representative:true},{log:()=>{},runner:()=>assert.fail('registration resume regenerated content')});
  assert.equal(resumed.ok,true);assert.equal(resumed.pages[0].cached,true);
 });

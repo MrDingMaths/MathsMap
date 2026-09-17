@@ -20,6 +20,14 @@ test('measurement storage degrades to bounded memory for unavailable and hung In
  }
  const cache=boundedCache(2);cache.set('a',1);cache.set('b',2);cache.get('a');cache.set('c',3);assert.equal(cache.get('b'),undefined);
 });
+
+test('measurement caching retains intrinsic short-answer widths and rejects partial probes',async()=>{
+ const store=createMeasurementStore({indexedDB:null});
+ const probe={height:20,capacity:900,answerColumnWidthMm:86,answerWidthsMm:[18,30,48]};
+ store.enqueue('probe',probe);assert.deepEqual(store.peek('probe'),probe);
+ probe.answerWidthsMm[0]=999;assert.equal((await store.get('probe')).answerWidthsMm[0],18);
+ await store.set('partial',{height:20,capacity:900,answerWidthsMm:[18]});assert.equal(await store.get('partial'),null);
+});
 test('server cache rejects corrupted entries, mismatched runtimes and traversal',()=>temporary(async root=>{
  const version='a'.repeat(64),svg='<svg viewBox="0 0 10 10"><path d="M0 0L10 10"/></svg>';
  await publishRenderEntries(version,[{key:'diagram',svg}],{cacheRoot:root});assert.equal((await readRenderEntry(version,'diagram',{cacheRoot:root})).svg,svg);
@@ -32,7 +40,7 @@ test('renderer, fonts and image content invalidate hashes; remote/missing images
  for(const name of ['src/render.js','public/libs/font.woff','index.html','package-lock.json'])await fs.writeFile(path.join(root,name),'one');
  let before=await rendererFingerprint(root);await fs.writeFile(path.join(root,'src/render.js'),'two');let after=await rendererFingerprint(root);assert.notEqual(after,before);before=after;
  await fs.writeFile(path.join(root,'public/libs/font.woff'),'two');assert.notEqual(await rendererFingerprint(root),before);
- await fs.writeFile(path.join(root,'public/image.png'),'one');before=await assetFingerprint(['/image.png'],root);await fs.writeFile(path.join(root,'public/image.png'),'two');assert.notEqual(await assetFingerprint(['/image.png'],root),before);
+ await fs.writeFile(path.join(root,'public/image.png'),'one');before=await assetFingerprint(['/image.png'],root);const originalStat=await fs.stat(path.join(root,'public/image.png'));await fs.writeFile(path.join(root,'public/image.png'),'two');await fs.utimes(path.join(root,'public/image.png'),originalStat.atime,originalStat.mtime);assert.notEqual(await assetFingerprint(['/image.png'],root),before);
  assert.equal(await assetFingerprint(['https://external/image.png'],root),null);assert.equal(await assetFingerprint(['/missing.png'],root),null);
 }));
 test('manifest reads are non-writing and detect edits, approval changes and deletion',()=>temporary(async root=>{

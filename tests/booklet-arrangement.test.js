@@ -219,3 +219,11 @@ test('diagram content edits preserve alignment unless the image editor changes i
  assert.equal(resolveArrangement(right.block).tree.root.children.find(n=>n.ref==='d').align,'right');
  assert.equal(arrangementItems(centered.root).find(n=>n.ref==='d').align,'center');
 });
+
+test('question part arrangements suppress legacy dividers and retain real table borders',()=>{
+ const block={id:'b',type:'question',content:{id:'q',prompt:fromSource('Stem'),children:[{id:'a',label:'a',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'t',type:'table',border:true,rows:[[{id:'c',blocks:[]}]]}]}},{id:'b',label:'b',prompt:'Second'}]}};
+ const saved=arrangementCatalog(block).initial;const mark=n=>{if(n.type==='group'){n.rules='internal';n.children.forEach(mark);}};mark(saved.root);
+ const before=structuredClone(saved),content=structuredClone(block.content),resolved=resolveArrangement(block,saved);
+ const check=n=>{assert.equal(n.rules,undefined);n.children?.forEach(check);};check(resolved.tree.root);
+ assert.deepEqual(saved,before);assert.deepEqual(block.content,content);assert.equal(block.content.children[0].prompt.blocks[0].border,true);
+});

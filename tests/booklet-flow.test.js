@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {convertToFlexible,matchSourceLayout,flowNumbers,flowCommand,captureFlowClipboard,logicalUnits,flowEditionSections,isPractice} from '../src/lib/booklet-flow.js';
+import {convertToFlexible,matchSourceLayout,flowNumbers,flowCommand,captureFlowClipboard,logicalUnits,flowEditionSections,isPractice,exerciseNumbers} from '../src/lib/booklet-flow.js';
 import {paginateFlow,questionSplitGroups,fragmentQuestion,fragmentLayouts} from '../src/lib/booklet-pagination.js';
 import {normalizeEditableProject,validateEditableProject} from '../src/lib/editable-booklet-model.js';
 import {mergeProjectChanges} from '../src/lib/booklet-save-merge.js';
@@ -10,6 +10,13 @@ import {deriveBookletCover} from '../src/lib/booklet-cover.js';
 const question=(id,parts=[])=>({id,type:'question',bankRef:{id:'bank-'+id,revision:'r1'},snapshotKind:'bank',content:{id:id+'-root',type:'question',prompt:'Find $x$.',children:parts.map((height,i)=>({id:id+'-'+i,type:'part',label:String.fromCharCode(97+i),prompt:'Part',height,answer:{short:'1',worked:'$x=1$'}})),answer:{short:'1',worked:'$x=1$'}},height:20});
 export const fixture=()=>normalizeEditableProject({format:'mathsmap-booklet-project-v4',version:4,id:'flow-test',title:'Flexible fixture',settings:{paginationMode:'flexible'},topics:[{id:'topic-a',title:'First topic'},{id:'topic-b',title:'Second topic'}],sections:[{id:'a',topicId:'topic-a',title:'Foundation',phase:'practice',role:'practice',blocks:[question('q1'),question('q2')]},{id:'b',topicId:'topic-b',title:'Development',phase:'practice',role:'practice',blocks:[question('q3')]}]});
 const measure=async page=>({capacity:100,height:page.blocks.reduce((h,b)=>h+(b.content?.children?.length?b.content.children.reduce((s,c)=>s+c.height,0):b.height??10),0)});
+
+test('source exercise labels survive normalisation without changing question numbering',()=>{
+ const p=fixture();p.settings.exerciseOrganisation='topic';p.topics[0].exerciseLabel='1A';p.topics[1].exerciseLabel='1B';
+ const saved=normalizeEditableProject(p);assert.deepEqual(exerciseNumbers(saved),{'topic-a':'1A','topic-b':'1B'});
+ assert.deepEqual(flowNumbers(saved),{q1:1,q2:2,q3:1});
+ assert.deepEqual(flowEditionSections(saved,'student').map(s=>s.difficultyTitle),['Exercise 1A','Exercise 1B']);
+});
 
 test('Linear conversion preserves all source content and joins explicit continuations',()=>{
  const original=JSON.parse(readFileSync('tests/fixtures/booklets/linear-legacy-layout.json','utf8')),before=JSON.stringify(original),p=convertToFlexible(original);

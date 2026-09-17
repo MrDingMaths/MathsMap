@@ -3,8 +3,19 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from '../scripts/booklet/verification-cache.mjs';
+import {layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures,sourceDependencySignature} from '../scripts/booklet/verification-cache.mjs';
 import {contentVerificationKey,inspectContentCoverage} from '../src/lib/booklet-content-verification.js';
+
+test('render dependency graph ignores unused authoring files and widens unknown imports',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-render-deps-'));
+ try{
+  const root=path.join(dir,'main.js'),helper=path.join(dir,'helper.js'),unused=path.join(dir,'unused.js');
+  fs.writeFileSync(root,"import {\n n\n} from './helper.js';");fs.writeFileSync(helper,'export const n=1;');
+  const initial=sourceDependencySignature(root);fs.writeFileSync(unused,'authoring only');assert.equal(sourceDependencySignature(root),initial);
+  fs.writeFileSync(helper,'export const n=2;');assert.notEqual(sourceDependencySignature(root),initial);
+  fs.writeFileSync(root,"import(modulePath);");const unknown=sourceDependencySignature(root);fs.writeFileSync(unused,'changed');assert.notEqual(sourceDependencySignature(root),unknown);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
 
 test('content verification tracks diagram bytes and source references, and rejects unavailable assets',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-content-cache-'));

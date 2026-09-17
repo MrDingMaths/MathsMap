@@ -21,7 +21,7 @@ await page.route('**/__booklet/**',async route=>{
 });
 try{
   await page.goto(base+'/#/booklet?stage=builder',{waitUntil:'networkidle'});
-  await page.addStyleTag({content:'header,nav,.navbar,.nav,.worksheet-controls {visibility:hidden!important}'});await page.locator('.question-card').first().waitFor();assert.equal(await page.locator('.question-card').count(),records.length);
+  const captureStyle=await page.addStyleTag({content:'header,nav,.navbar,.nav,.worksheet-controls {visibility:hidden!important}'});await page.locator('.question-card').first().waitFor();assert.equal(await page.locator('.question-card').count(),records.length);
   for(const sourceId of arg('--ids','p7-q4,p7-q5,p16-q1,p16-q2,p20-q1').split(',')){
     const entry=receipt.questions.find(q=>q.sourceBlockId===sourceId);
     await page.getByLabel('Search question text or question ID',{exact:true}).fill(entry.bankId);
@@ -38,6 +38,45 @@ try{
     assert.ok((await page.locator('.question-card__body .tikz-wrap').evaluateAll(els=>els.map(e=>getComputedStyle(e).overflow))).every(x=>x==='visible'),'Final-size labels must not be clipped by diagram containers');
     const clipping=await page.locator('.question-card__body').evaluate(async root=>{const {inspectDiagramLabelLayout}=await import('/src/lib/diagram-typography.js');return [...root.querySelectorAll('svg.tikz-svg')].flatMap(svg=>inspectDiagramLabelLayout(svg).filter(i=>i.kind==='diagram-label-clipping'));});assert.deepEqual(clipping,[],sourceId+' label bounds');
     report.push({sourceId,bankId:entry.bankId,questionAndSolutionRendered:true});
+  }
+  const worksheetIds=arg('--worksheet-ids','').split(',').filter(Boolean);
+  if(worksheetIds.length){
+    await captureStyle.evaluate(el=>el.remove());
+    // Real bank records exercise native diagrams in all three worksheet sections.
+    for(const sourceId of worksheetIds){
+      const entry=receipt.questions.find(q=>q.sourceBlockId===sourceId);assert.ok(entry,sourceId);
+      await page.getByLabel('Search question text or question ID',{exact:true}).fill(entry.bankId);
+      await page.locator('.apply-filters-btn').click();
+      await page.locator('.question-card__summary').click();
+      await page.getByLabel('Select '+entry.bankId,{exact:true}).check();
+    }
+    await page.getByRole('button',{name:'Clear filters',exact:true}).click();
+    await page.locator('.worksheet-controls').getByRole('button',{name:'Answers',exact:true}).click();
+    await page.locator('.worksheet-controls').getByRole('button',{name:'Solutions',exact:true}).click();
+    await page.locator('.worksheet-controls').getByRole('button',{name:'Preview',exact:true}).click();
+    await page.locator('#worksheet-title-input').fill('Diagram theme regression');
+    const measure=async()=>{
+      await page.waitForTimeout(150);
+      const hosts=page.locator('.a4-preview .tikz-wrap');assert.ok(await hosts.count());
+      for(let i=0;i<await hosts.count();i++){await hosts.nth(i).scrollIntoViewIfNeeded();await hosts.nth(i).locator('svg.tikz-svg').waitFor({state:'attached',timeout:180000});}
+      return page.locator('.a4-preview svg.tikz-svg').evaluateAll(svgs=>svgs.map(svg=>({section:svg.closest('.answer-page')?.querySelector('h2')?.textContent??'Questions',filter:getComputedStyle(svg).filter,ink:[...svg.querySelectorAll('path,line,circle,ellipse,rect,polygon,polyline')].filter(n=>!n.closest('defs')).map(n=>({fill:getComputedStyle(n).fill,stroke:getComputedStyle(n).stroke}))})));
+    };
+    let baseline;
+    for(const theme of ['light','dark']){
+      await page.evaluate(theme=>document.documentElement.setAttribute('data-theme',theme),theme);
+      const rendered=await measure();assert.ok(rendered.every(svg=>svg.filter==='none'),theme+' white worksheet must not invert native diagrams');
+      assert.deepEqual([...new Set(rendered.map(svg=>svg.section))].sort(),['Questions','Short answers','Worked solutions']);
+      assert.ok(rendered.some(svg=>svg.ink.some(n=>n.stroke==='rgb(0, 0, 0)'||n.fill==='rgb(0, 0, 0)')),'Native black ink present');
+      if(baseline)assert.deepEqual(rendered,baseline,'Theme changes preserve diagram ink and semantic fills');else baseline=rendered;
+    }
+    await page.reload({waitUntil:'networkidle'});await page.locator('.question-card').first().waitFor();
+    assert.match(await page.locator('.selection-summary').innerText(),new RegExp('^'+worksheetIds.length+' selected'));
+    for(const name of ['Answers','Solutions'])assert.equal(await page.locator('.worksheet-controls').getByRole('button',{name,exact:true}).getAttribute('aria-pressed'),'true');
+    await page.locator('.worksheet-controls').getByRole('button',{name:'Preview',exact:true}).click();
+    assert.equal(await page.locator('#worksheet-title-input').innerText(),'Diagram theme regression');
+    await page.evaluate(()=>document.documentElement.setAttribute('data-theme','dark'));
+    assert.deepEqual(await measure(),baseline,'Saved worksheet retains complete native diagram ink after reopening');
+    report.push({worksheetIds,themes:['light','dark'],questionShortWorkedDiagrams:true,saveReopen:true});
   }
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({questionsAvailable:records.length,representativePreviews:report.length,errors}));

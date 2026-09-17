@@ -9,6 +9,7 @@ import {compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficien
 import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
 import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
+import {attemptRepairContext,repairAttempt,applyAttemptPatches} from '../scripts/booklet/local-attempt-repair.mjs';
 
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'semantic-workflow-'));
@@ -28,6 +29,42 @@ const inventory=page=>({pageNumber:page,inventoried:true,entries:[{id:`src-${pag
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+
+test('a preserved structural failure is repaired locally with exact fields and all normal validators',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4);bad.inventoryMappings[0].targetId='missing-target';
+ let calls=0;
+ const failed=await runSemanticPackets(options,{...quiet,runner:async()=>{calls++;return {result:bad,metrics:{usage:{input_tokens:10,output_tokens:5}}};}});
+ assert.equal(failed.ok,false);
+ const context=attemptRepairContext(options,{page:4,fromAttempt:1,targets:[{targetId:'$packet',fields:['/inventoryMappings']}]});
+ const record={context,patches:[{...context.targets[0],corrected:author(4).inventoryMappings,reason:'Use the existing question ID matched to the independently inventoried source.'}],review:{reviewer:'Test reviewer',note:'Compared existing source and content identity.',artifacts:[context.evidence[0]]}};
+ const stale=structuredClone(record);stale.patches[0].original=[];
+ await assert.rejects(repairAttempt({...options,attempt:2},stale,quiet),/original/);
+ const passed=await repairAttempt({...options,attempt:2},record,quiet);
+ assert.equal(passed.ok,true);assert.equal(calls,1);
+ const canonical=JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
+ assert.deepEqual(canonical.sections,bad.sections);assert.deepEqual(canonical.inventoryMappings,author(4).inventoryMappings);
+ const receipt=readAttemptReceipt(path.join(options.runDir,'semantic-packets'));
+ assert.equal(receipt.calls,1);assert.equal(receipt.localReplays,1);assert.equal(receipt.missingUsage,0);
+ assert.throws(()=>attemptRepairContext(options,{page:4,fromAttempt:1,targets:[{targetId:'$packet',fields:['/inventoryMappings']}]}),/Published content/);
+});
+
+test('local repairs reject stale source dependencies, missing evidence and ID changes',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4);delete bad.sections[0].blocks[0].content.answer;
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ const request={page:4,fromAttempt:1,targets:[{targetId:'s-4',fields:['/blocks']}]},context=attemptRepairContext(options,request);
+ const replacement=structuredClone(context.targets[0].original);replacement[0].id='changed-id';
+ assert.throws(()=>applyAttemptPatches(bad,context,[{...context.targets[0],corrected:replacement,reason:'Bad identity change'}]),/preserve every content ID/);
+ await assert.rejects(repairAttempt({...options,attempt:2},{context,patches:[]},quiet),/named reviewer/);
+ fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-004.txt'),'Changed source');
+ assert.throws(()=>attemptRepairContext(options,request),/source inputs changed/);
+});
+
+test('external full-page retries require a recorded reason before any new attempt starts',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4);bad.inventoryMappings=[];
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ await assert.rejects(runSemanticPackets({...options,attempt:2},quiet),/targeted repair is insufficient/);
+ assert.equal(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.2')),false);
+});
 test('semantic layouts reject sibling labels that share one positioning group',()=>{
  const a=author(1);a.sections[0].blocks[0].presentation={arrangement:{id:'bad-layout',type:'group',direction:'stack',children:[{id:'label-a',type:'item',ref:'a/label'},{id:'label-b',type:'item',ref:'b/label'}]}};
  assert.throws(()=>validateSemanticResult(a,{stage:'author',page:1,inventory:inventory(1)}),/Multiple structural labels/);

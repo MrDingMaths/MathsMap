@@ -290,6 +290,19 @@ test('Booklets workspace exposes projects, structural editing, promotion and exp
   assert.match(projects, /exportSettings\.practiceAnswers !== 'none'/);
   assert.doesNotMatch(projects, /solutionMode="student"[^\n]*practiceAnswers/);
 });
+
+test('spacing inspector keeps whole-question and selected-item controls visible in order', () => {
+  const projects = fs.readFileSync('src/components/BookletProjects.svelte', 'utf8');
+  assert.doesNotMatch(projects, /aria-label="Spacing scope"/);
+  assert.doesNotMatch(projects, /spacingScope/);
+  const whole = projects.indexOf('>Whole question</h3>');
+  const selected = projects.indexOf('>Selected item</h3>');
+  assert.ok(whole >= 0, 'whole-question heading is present');
+  assert.ok(selected > whole, 'selected-item heading follows whole-question controls');
+  assert.ok(projects.indexOf('<BookletQuestionSpacing', whole) < selected, 'whole-question editor is above selected-item controls');
+  assert.ok(projects.indexOf('<BookletSelectionSpacing', selected) >= 0, 'selected-item editor remains wired');
+  assert.ok(projects.indexOf('<BookletRangeSpacing', selected) >= 0, 'selected-range editor remains wired');
+});
 import { normalizeBlockLayouts, questionLayoutStyle } from '../src/lib/booklet-layout.js';
 
 test('block layout overrides retain zero insets and use stable target widths', () => {

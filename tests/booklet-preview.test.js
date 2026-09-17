@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle,
+  isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle, groupBookletBlocks,
 } from '../src/lib/booklet-preview.js';
 
 test('printed exam attribution omits the Band rating without changing source metadata', () => {
@@ -10,6 +10,23 @@ test('printed exam attribution omits the Band rating without changing source met
   assert.equal(question.title,'2016 HSC Standard 2 Band 4');
   assert.equal(visibleImportedQuestionTitle({title:'HSC Mathematics Band 6'}),'HSC Mathematics');
   assert.equal(visibleImportedQuestionTitle({title:'2023 HSC Standard 2'}),'2023 HSC Standard 2');
+});
+
+test('paired teaching retains distinct headers, both editable groups and question roles', () => {
+  const blocks=[
+    {id:'theory',sourceAtom:{id:'theory-group',kind:'definition',label:'Theory'}},
+    {id:'model',type:'rich-text',sourceAtom:{id:'example-group',kind:'example',label:'Worked Example'}},
+    {id:'model-more',type:'rich-text',sourceAtom:{id:'example-group',kind:'example',label:'Worked Example'},pairedBlockId:'guided'},
+    {id:'guided',type:'question',pedagogyRole:'guided-practice',sourceAtom:{id:'guided-group',kind:'guided-practice',label:'Guided Practice'}},
+    {id:'practice',type:'question',pairedBlockId:'practice-next'},
+    {id:'practice-next',type:'question'},
+  ];
+  const before=structuredClone(blocks),items=groupBookletBlocks(blocks);
+  assert.deepEqual(items.map(item=>item.type),['teaching-atom','teaching-pair','block','block']);
+  assert.deepEqual(items[1].groups.map(group=>group.atom.label),['Worked Example','Guided Practice']);
+  assert.deepEqual(items[1].blocks.map(block=>block.id),['model','model-more','guided']);
+  assert.equal(items[1].groups[1].blocks[0].pedagogyRole,'guided-practice');
+  assert.deepEqual(blocks,before);
 });
 
 test('question previews can copy reactive proxies without mutating transcription state', () => {
