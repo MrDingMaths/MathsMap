@@ -13,7 +13,7 @@ function toolDiagnosticCounter(){
  const line=text=>{
   const clean=text.replace(/\u001b\[[0-9;]*m/g,''),match=clean.match(/^\d{4}-\d\d-\d\dT\S+\s+(?:ERROR|WARN)\s+\S*tools\S*:\s+(?:error=)?[\w.:/-]+ failed:\s*(.*)$/);
   if(!match)return;
-  if(/\brejected:\s*blocked by policy\s*$/i.test(match[1])){rejected++;reasons['blocked-by-policy']=(reasons['blocked-by-policy']??0)+1;}
+  if(/\brejected:\s*blocked by policy[\s\\"')\]}]*$/i.test(match[1])){rejected++;reasons['blocked-by-policy']=(reasons['blocked-by-policy']??0)+1;}
   else unclassified++;
  };
  return {write(chunk){pending+=decoder.write(Buffer.isBuffer(chunk)?chunk:Buffer.from(chunk));let end;while((end=pending.indexOf('\n'))>=0){line(pending.slice(0,end));pending=pending.slice(end+1);}},
