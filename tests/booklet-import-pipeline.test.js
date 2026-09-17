@@ -36,13 +36,16 @@ test('merging rejects ownership and mapping mistakes',()=>{
  const duplicate=structuredClone(fragments);duplicate[0].packet.inventoryMappings.push(duplicate[0].packet.inventoryMappings[0]);assert.throws(()=>mergeAssignmentPackets(inventory,duplicate),/Duplicate inventory/);
 });
 
-test('shared guidance is referenced once and a context page never imports unrelated question repairs',t=>{
- const dir=temp(t),inventory=inv(1,5),task={page:1,inventory,packetRoot:dir,promptSections:[{name:'contract',text:'Contract'},{name:'supplement',text:'Shared teaching guidance. '.repeat(2000)}],images:[],evidence:[],contextPages:[1],teacherPages:[],editorial:{corrections:[{id:'unrelated',patches:[{targetId:'q1-4',page:1,field:'/prompt'}],reason:'Unrelated question'}],currentValues:[{targetId:'q1-4',page:1,field:'/prompt',key:'other'}]}};
+test('required guidance is self-contained and a context page never imports unrelated question repairs',t=>{
+ const dir=temp(t),inventory=inv(1,5),task={page:1,inventory,packetRoot:dir,promptSections:[{name:'contract',text:'Contract'},{name:'supplement',text:'Shared teaching guidance. '.repeat(200)}],images:[],evidence:[],contextPages:[1],teacherPages:[],editorial:{corrections:[{id:'unrelated',patches:[{targetId:'q1-4',page:1,field:'/prompt'}],reason:'Unrelated question'}],currentValues:[{targetId:'q1-4',page:1,field:'/prompt',key:'other'}]}};
  inventory.groups=[{id:'shared-stem',instruction:'Simplify each expression.',questionIds:['p1-q0','p1-q1','p1-q2']}];
  task.editorialDecisions=[{id:'retained',page:1,entryId:'p1-q0',status:'retained',reason:'The stated precision is intentional.'},{id:'unrelated',page:1,entryId:'p1-q4',status:'retained',reason:'Other question.'}];
  const plan=planTaskAssignments([task]),payload=assignmentPayload(plan.assignments[0],[task]);
- assert.equal(plan.assignments.length,2);assert.ok(payload.promptStats.sections.assignment<24000);assert.equal(payload.resources.length,1);assert.equal(payload.context.decisions.length,0);assert.equal(payload.context.currentValues.length,0);assert.equal(payload.context.groups[0].instruction,'Simplify each expression.');assert.equal(payload.prompt.includes(task.promptSections[1].text),false);
+ assert.equal(plan.assignments.length,2);assert.ok(payload.promptStats.sections.assignment<24000);assert.equal(payload.resources.length,1);assert.equal(payload.context.decisions.length,0);assert.equal(payload.context.currentValues.length,0);assert.equal(payload.context.groups[0].instruction,'Simplify each expression.');assert.equal(payload.prompt.includes(task.promptSections[1].text),true);
  assert.deepEqual(payload.context.resolutions.map(d=>d.id),['retained']);assert.equal(payload.context.resolutions[0].reason,'The stated precision is intentional.');
+ task.promptSections[1].text='Required indivisible teaching context. '.repeat(1000);
+ const large=planTaskAssignments([task]);assert.ok(large.assignments.every(a=>a.oversized));
+ const complete=assignmentPayload(large.assignments[0],[task]);assert.ok(complete.promptStats.sections.assignment>24000);assert.ok(complete.prompt.includes(task.promptSections[1].text));
 });
 test('failed assignment repair reuses successful work and publishes one validated page',async t=>{
  const runDir=temp(t),inventory=inv(1);fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));
