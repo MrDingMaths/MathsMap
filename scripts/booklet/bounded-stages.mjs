@@ -72,16 +72,16 @@ export function exerciseTeachingContext(project,state,exerciseId,{runDir,config,
  const explicitIds=unique([...mappings.flatMap(e=>e.teachingContextIds??[]),...questions.flatMap(q=>[...(q.teachingContextIds??[]),...(q.sourceReview?.teachingContextIds??[])])]);
  const blocks=[...new Map([...sections.filter(s=>s.phase==='teaching').flatMap(s=>s.blocks??[]),...explicitIds.map(id=>nodes.get(id)?.block).filter(Boolean)].map(b=>[b.id,b])).values()];
  const external=externalTeachingContext(project,questions,exerciseId,{runDir,config});
- const ids=allNodeIds(blocks),pages=unique([...blocks.flatMap(sourcePages),...external.pages]),evidence=references([...(runDir?evidenceForPages(runDir,pages):[]),...external.evidence]);
+ const ids=allNodeIds(blocks),pages=unique([...blocks.flatMap(sourcePages),...external.pages]),decisions=relevantDecisions(state,ids,pages,external.pages),evidence=references([...(runDir?evidenceForPages(runDir,pages):[]),...external.evidence,...decisions.flatMap(c=>c.evidence??[])]);
  const context={exerciseId,title:project?.topics?.find(t=>t.id===exerciseId)?.title??exerciseId,teaching:blocks,
   explicitContextIds:explicitIds,missingContextIds:explicitIds.filter(id=>!nodes.has(id)),
   suppliedNotes:external.notes,externalReferences:external.externalReferences,externalIndex:external.indexPath,configPages:external.configPages,problems:external.problems,
-  pages,evidence,dependencyScope:{exerciseId,pages,sourcePages:external.questionPages,...(configFile?{configFile:path.resolve(configFile)}:{}),...(external.indexPath?{externalIndex:external.indexPath}:{})},decisions:relevantDecisions(state,ids,pages,external.pages)};
+  pages,evidence,dependencyScope:{exerciseId,pages,sourcePages:external.questionPages,...(configFile?{configFile:path.resolve(configFile)}:{}),...(external.indexPath?{externalIndex:external.indexPath}:{})},decisions};
  const dependencyHash=fingerprint({...context,sourceDependencies:Object.fromEntries(pages.map(p=>[p,state.pages?.[p]?.sourceEvidence??null]))});
  return {...context,dependencyHash};
 }
 export const teachingDependencyHash=(project,state,exerciseId,options)=>exerciseTeachingContext(project,state,exerciseId,options).dependencyHash;
-function teachingCurrent(record,context){return record?.outcome==='accepted'&&record.dependencyHash===context.dependencyHash&&record.artifacts?.length>0&&record.artifacts.every(current);}
+function teachingCurrent(record,context){return record?.outcome==='accepted'&&record.dependencyHash===context.dependencyHash&&record.artifacts?.length>0&&record.artifacts.every(current)&&(record.sourceArtifacts??[]).every(current);}
 
 // Never group unrelated findings merely because they share a type or source page.
 // A named shared cause or explicitly reviewed register scope establishes grouping.
@@ -134,7 +134,9 @@ function chunks(values,maxCount=4,maxCharacters=24000){
 }
 function publicJob({context,images,...job}){return job;}
 function makeJob(stage,ownershipIds,context,{evidence=[],blockers=[],done=false,images=[],dependencies={},id=stageId(stage,ownershipIds)}={}){
+ evidence=references([...evidence,...(context.decisions??[]).flatMap(c=>c.evidence??[]),...(context.occurrenceScope?.artifacts??[])]);
  const dependencyHash=fingerprint({stage,ownershipIds,context,dependencies,evidence}),characters=JSON.stringify(context).length;
+ blockers=[...blockers,...evidence.filter(a=>!current(a)).map(a=>'Evidence missing or changed: '+a.path)];
  return {id,stage,ownershipIds,dependencyHash,dependencies,evidence:references(evidence),blockers,done,profile:REVIEW_PROFILE,context,images:unique(images),
   variableCharacters:characters,...(characters>BOUNDED_LIMITS.characters?{exception:'Indivisible exercise teaching context or complete question retained; context exceeds 24,000 characters'}:{})};
 }
@@ -297,13 +299,14 @@ export async function recordBoundedStage(options,input,overrides={}){
  const runDir=path.resolve(options.runDir),request=requireTicket(runDir,input.ticket),result=input.result??(input.resultFile?read(input.resultFile):null);
  if(!result)throw Error('Explicit stage result is required');
  const resultFile=path.join(path.dirname(input.ticket.path),'result-'+randomUUID()+'.json');fs.writeFileSync(resultFile,json(result),{flag:'wx'});
- const artifact=ref(resultFile),record=resultEvidence(result,artifact),selectedPages=request.selectedPages;
+ const artifact=ref(resultFile);let record=resultEvidence(result,artifact);const selectedPages=request.selectedPages;
  // Keep the original result even when validation rejects it; repairs never need a new model call solely to recover output.
  let recorded;
  try{await updateWorkflow(runDir,'record bounded '+request.job.stage,async state=>{
   Object.assign(state,liveWorkflow(runDir,selectedPages));
   const claim=state.verification?.stageClaims?.[request.job.id];if(claim?.id!==request.id||claim.ticket.hash!==input.ticket.hash)throw Error('Stage ownership is missing, stale or already recorded');
   const s=await snapshot({...options,config:options.config??request.config,configFile:options.configFile??request.configFile,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
+  record={...record,artifacts:references([...record.artifacts,...job.evidence.filter(a=>a.path!==guideFile)])};
   const failedFinding=['needs-review','needs-context'].includes(record.outcome)&&job.stage!=='theory';
   if(failedFinding){recorded={ok:false,needsReview:true,artifact,findings:record.findings??[],note:record.note};state.verification.stageClaims[request.job.id].blockedResult=recorded;}
   else if(job.stage==='maths'){
