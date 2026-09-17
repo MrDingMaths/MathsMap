@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import {publicLibraryModulesPlugin} from '../scripts/vite-public-modules.mjs';
 
@@ -10,6 +11,12 @@ test('browser imports use canonical public URLs without changing Node/build impo
  for(const name of ['table-model','arrangement-model','math-selection','tab-layout','table-annotations','question-scaffolds']){
   assert.deepEqual(plugin.resolveId('../../public/libs/maths-editor/'+name+'.mjs',importer),{id:'/libs/maths-editor/'+name+'.mjs',external:true});
  }
+ const nested=plugin.resolveId('./equation-spacing.mjs','/libs/maths-editor/document-model.mjs');
+ assert.deepEqual(nested,{id:'/libs/maths-editor/equation-spacing.mjs',external:true});
+ assert.equal(plugin.load(nested.id),fs.readFileSync(path.join(root,'public/libs/maths-editor/equation-spacing.mjs'),'utf8'));
+ assert.equal(plugin.load('/libs/maths-editor/equation-spacing.mjs?import'),fs.readFileSync(path.join(root,'public/libs/maths-editor/equation-spacing.mjs'),'utf8'));
+ assert.equal(plugin.load('/libs/maths-editor/document-editor.css'),null);
+ assert.equal(plugin.load('/libs/other/file.mjs'),null);
  assert.equal(plugin.resolveId('../../public/libs/maths-editor/table-model.mjs',importer,{ssr:true}),null);
  assert.equal(plugin.resolveId('./document-content.js',importer),null);
  assert.equal(plugin.resolveId('svelte',importer),null);
