@@ -97,6 +97,13 @@ idempotency, then finish. Existing-run and ordinary-maintenance scope remains as
 
 ## 6. Record evidence and actual costs
 
+Use the [bounded Astra workflow](booklet-bounded-workflow.md) for compact next-work
+handoffs, current exercise teaching summaries and explicit session links. Its
+complete-job receipt separates known/missing model usage, active elapsed time,
+human waiting and concurrent call durations. Supply `--run-dir` to export checks
+to record actual PDF creation and verified reuse automatically; no export receipt
+is a visual inspection.
+
 Keep one compact run receipt under `.booklet-work/RUN/` with:
 
 - Input revisions/hashes, affected occurrence/page/edition coverage and representative cases.

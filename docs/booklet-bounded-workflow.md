@@ -19,7 +19,7 @@ project/bank transactions.
 
 `scripts/booklet/bounded-stages.mjs` exports these executable interfaces:
 
-- `nextBoundedWork({runDir, selectedPages?, projectFile?})` derives pending jobs,
+- `nextBoundedWork({runDir, selectedPages?, projectFile?, config?, configFile?})` derives pending jobs,
   ownership, dependency hashes, evidence references, blockers and the verification
   checklist from the current register and visual queue. It does not grant review
   credit or write an alternative checklist.
@@ -47,6 +47,12 @@ unsettled assembled project, `--project-file PROJECT.json`. `record-stage` and
 result artifacts remain under the ignored run directory; keep them for recovery,
 not in Git.
 
+Use `--config CONFIG.json` for the current run configuration. A `configFile`
+reference is read again before recording or reusing work, so changing an
+exercise's teaching-page selection invalidates that exercise's evidence. An
+in-memory `config` is captured as a frozen ticket input. `feedback-scope` records
+the reviewed shared-cause scope using `--input`.
+
 ## Substantive stage contracts
 
 **Mathematical inventory review.** Inspect each independent source inventory
@@ -66,6 +72,16 @@ contradictory context remains `outcome:"needs-context"`. The register stores the
 summary in `verification.teachingContexts`; its content, source dependencies and
 evidence must still match before reuse. This summary cannot approve an answer or
 replace question-level review. See the [worked-solution contract](booklet-worked-solution-style.md).
+
+Practice-only imports use source references instead of imported teaching blocks.
+The projection preserves configured `teachingPages`/`pageTeachingPages`, individual
+`teachingContext.pdfPages` and method/mapping notes, including grouped questions'
+constituent provenance. When present, the retained provenance
+`teaching-context-index.json` contributes only the exercise's selected external
+references and inspected page records. PDF/image hashes must match. These older
+observations are context for a new review, never an automatic fresh approval.
+Stored teaching records bind the selection, original source artifacts and relevant
+index content; unrelated exercise changes preserve reusable work.
 
 **Question assessment.** Review at most four complete question blocks per job.
 Check every part's short/worked answer, classification and taught method; include

@@ -26,6 +26,13 @@ Use the [import efficiency workflow](booklet-import-efficiency.md) for a complet
 representative plan, targeted repairs, isolated save/reopen preflight, resumable
 exports, bounded preview diagnostics and measured retry costs.
 
+Use the [bounded Astra stage guidance](booklet-bounded-workflow.md) for current
+dispatch, teaching-context reuse, review tickets, session accounting and closeout.
+New-policy authoring schedules unique complete assignments directly across pages;
+all author and review calls share a maximum of three Standard-speed Astra slots.
+Explicit worker counts must be from one to three. The register remains authoritative
+for source decisions and acceptance.
+
 New runs must also follow the [review-first workflow](booklet-review-first-workflow.md). It supplies early mathematical review, bundled editorial decisions, final-size representative-pattern gates, one structured correction/issue register, dependent-output invalidation and incremental development exports. Redundant measurements remain source content: unused is not a defect; review consistency at stated precision. Independent inventory and complete final edition coverage remain mandatory under the [unique-layout acceptance policy](booklet-review-first-workflow.md#unique-layout-final-acceptance): inspect three standalone layouts, verify duplicate combined bodies against actual PDF pixels, inspect exceptions and separately review both combined compositions.
 
 Prepare a fresh source run with `npm run booklet:prepare -- --pdf SOURCE.pdf --docx SOURCE.docx --pages 1-N --run-id RUN`. Keep originals, hashes, extracted media and page images local. Do not overwrite an earlier evidence run.
