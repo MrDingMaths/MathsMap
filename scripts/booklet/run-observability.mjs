@@ -66,6 +66,7 @@ export function trackProcessPhase(runDir,phase,{artifact,...details}={}) {
   const evidence=artifact&&fs.existsSync(artifact)?{path:path.resolve(artifact),hash:createHash('sha256').update(fs.readFileSync(artifact)).digest('hex')}:null;
   endRunPhase(runDir,id,{ok:code===0,exitCode:code,artifact:evidence});
  });
+ return id;
 }
 const identity=(value,label)=>{if(typeof value!=='string'||!/^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,199}$/.test(value))throw Error('Invalid '+label);return value;};
 const iso=(value,label)=>{const time=timestamp(value);if(time===null)throw Error('Invalid '+label);return new Date(time).toISOString();};
@@ -84,13 +85,13 @@ export async function linkRunSession(runDir,input) {
  return withRunLock(runDir,'observability',()=>{
   const links=readRunEvents(runDir).events.filter(event=>event.event==='session-linked');
   const prior=links.find(event=>event.id===id);
-  if(prior){if(eventHash(prior.link)!==eventHash(link))throw Error('Session link already exists with different attribution');return {ok:true,id,reused:true,...link};}
+  if(prior){const {canonicalSessionId,...attribution}=prior.link;if(eventHash(attribution)!==eventHash(link))throw Error('Session link already exists with different attribution');return {ok:true,id,reused:true,...link};}
   const a=startedAt?Date.parse(startedAt):-Infinity,b=endedAt?Date.parse(endedAt):Infinity;
-  for(const entry of links)if(entry.link.sessionId===sessionId){const c=entry.link.startedAt?Date.parse(entry.link.startedAt):-Infinity,d=entry.link.endedAt?Date.parse(entry.link.endedAt):Infinity;if(Math.min(b,d)>Math.max(a,c))throw Error('Session stage links overlap; use disjoint explicit intervals');}
   // Missing historical logs are legitimate unavailable evidence. Existing files
   // must match the declared session before their metadata can be attributed.
-  if(fs.existsSync(link.rolloutPath))readCodexSessionUsage(link.rolloutPath,link);
-  appendRunEvent(runDir,{event:'session-linked',id,link});return {ok:true,id,reused:false,...link};
+  const metadata=fs.existsSync(link.rolloutPath)?readCodexSessionUsage(link.rolloutPath,link):null,aliases=new Set([sessionId,...(metadata?.sessionAliases??[])]);
+  for(const entry of links)if(aliases.has(entry.link.sessionId)||aliases.has(entry.link.canonicalSessionId)){const c=entry.link.startedAt?Date.parse(entry.link.startedAt):-Infinity,d=entry.link.endedAt?Date.parse(entry.link.endedAt):Infinity;if(Math.min(b,d)>Math.max(a,c))throw Error('Session stage links overlap; use disjoint explicit intervals');}
+  appendRunEvent(runDir,{event:'session-linked',id,link:{...link,canonicalSessionId:metadata?.canonicalSessionId??sessionId}});return {ok:true,id,reused:false,...link};
  });
 }
 
