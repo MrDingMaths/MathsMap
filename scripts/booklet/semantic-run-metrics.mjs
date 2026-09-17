@@ -33,6 +33,7 @@ export function summarizeAttemptEvents(events) {
   if(generation){
    generationAttempts++;
    const metrics=rows.findLast(e=>e.event==='phase-finished'&&e.phase==='generation')?.metrics??finish?.metrics;
+   const knownUsage=Object.fromEntries(Object.entries(normalizeUsage(metrics?.usage)).filter(([,value])=>value!==null)),unavailable=!Object.keys(knownUsage).length;
    const local=metrics?.externalModelCalls===0;
    if(local){localReplays++;const reason=start?.retryReason??'unrecorded';localByRetryReason[reason]=(localByRetryReason[reason]??0)+1;}
    else if(seenCalls.has(attemptCallIdentity(attemptId,metrics,start))){duplicateCalls++;}
@@ -43,13 +44,13 @@ export function summarizeAttemptEvents(events) {
    const repeated=Number(start?.attempt)>1;
    for(const [groups,key] of [[byStage,start?.stage??'unknown'],[byOutcome,outcome],[byAttempt,repeated?'repeat':'first'],[byRetryReason,repeated?(start?.retryReason??(start?.repairFrom?'mapping-repair':'unrecorded')):'initial']]){
     const group=groups[key]??={calls:0,missingUsage:0,usage:{},callElapsedMs:0};group.calls++;
-    if(!metrics?.usage)group.missingUsage++;
-    for(const [name,value] of Object.entries(metrics?.usage??{}))if(typeof value==='number'&&Number.isFinite(value))group.usage[name]=(group.usage[name]??0)+value;
-    group.callElapsedMs+=metrics?.elapsedMs??0;
+    if(unavailable)group.missingUsage++;
+    for(const [name,value] of Object.entries(knownUsage))group.usage[name]=(group.usage[name]??0)+value;
+    if(typeof metrics?.elapsedMs==='number'&&Number.isFinite(metrics.elapsedMs)&&metrics.elapsedMs>=0)group.callElapsedMs+=metrics.elapsedMs;
    }
    for(const [name,value] of Object.entries(start?.promptStats?.sections??{}))if(Number.isFinite(value))promptCharacters[name]=(promptCharacters[name]??0)+value;
-   if(!metrics?.usage)missingUsage++;
-   for(const [key,value] of Object.entries(metrics?.usage??{}))if(typeof value==='number')usage[key]=(usage[key]??0)+value;
+   if(unavailable)missingUsage++;
+   for(const [key,value] of Object.entries(knownUsage))usage[key]=(usage[key]??0)+value;
    if(typeof metrics?.elapsedMs!=='number'||!Number.isFinite(metrics.elapsedMs)||metrics.elapsedMs<0)missingCallElapsedMs++;else callElapsedMs+=metrics.elapsedMs;
    }
   }
