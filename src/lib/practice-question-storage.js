@@ -9,10 +9,23 @@ function jsonResponse(response) {
 
 export async function loadPracticeBank(fetchImpl = globalThis.fetch) {
   const manifest = await jsonResponse(await fetchImpl('/__booklet/bank/manifest'));
-  const records = await Promise.all((manifest.questions ?? []).map(async (entry) => {
-    const response = await fetchImpl('/__booklet/bank/questions/' + encodeURIComponent(entry.id));
-    return normaliseQuestion(await jsonResponse(response));
-  }));
+  const entries = manifest.questions ?? [];
+  const records = new Array(entries.length);
+  let next = 0, failed = false, failure;
+  // Bound requests through body parsing too, and drain active workers before retry.
+  async function worker() {
+    while (!failed && next < entries.length) {
+      const index = next++;
+      try {
+        const response = await fetchImpl('/__booklet/bank/questions/' + encodeURIComponent(entries[index].id));
+        records[index] = normaliseQuestion(await jsonResponse(response));
+      } catch (error) {
+        if (!failed) { failed = true; failure = error; }
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(8, entries.length) }, worker));
+  if (failed) throw failure;
   return { manifest, records };
 }
 
