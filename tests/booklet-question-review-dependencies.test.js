@@ -57,3 +57,10 @@ test('an outstanding stage finding remains a closeout blocker',t=>{
  const result=verificationStatus(f.state,f.project,{renderer:'fixture'});
  assert.equal(result.checks.find(c=>c.id==='stage-handoffs').passed,false);
 });
+
+test('a retained source interpretation invalidates its question without affecting a neighbour',t=>{
+ const f=fixture(t),first=f.dependencies(),file=f.write('decision.txt','Source precision review');
+ f.state.issues.precision={id:'precision',origin:'review',targetId:'node-1',page:1,status:'retained',message:'Source precision is intentional.',resolution:{status:'retained',reason:'Retain the stated two significant figures.',evidence:[{path:file,hash:hash(file)}]}};
+ const second=f.dependencies();assert.notEqual(second.q1,first.q1);assert.equal(second.q2,first.q2);
+ f.state.issues.precision.resolution.reason='Use the explicitly given exact value.';assert.notEqual(f.dependencies().q1,second.q1);
+});
