@@ -4,7 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {withRunLock} from './run-observability.mjs';
 import {recordAttempt} from './semantic-run-metrics.mjs';
-import {runBoundedJobs,withWorkerSlot} from './worker-pool.mjs';
+import {runBoundedJobs,withWorkerSlot,workerConcurrency} from './worker-pool.mjs';
 
 export const ASSIGNMENT_FORMAT='mathsmap-author-assignments-v1';
 const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
@@ -84,7 +84,7 @@ export function assignmentPayload(assignment,tasks){
   decisions:relevant.flatMap(t=>(t.editorial?.corrections??[]).map(c=>({id:c.id,reason:c.reason,patches:c.patches.filter(p=>targets.has(p.targetId)||t.contextPages.includes(p.page)&&!assignment.pages.includes(p.page))})).filter(c=>c.patches.length)),
   currentValues:relevant.flatMap(t=>(t.editorial?.currentValues??[]).filter(v=>targets.has(v.targetId)||t.contextPages.includes(v.page)&&!assignment.pages.includes(v.page)).map(v=>({id:v.key,targetId:v.targetId,field:v.field,path:t.editorialFile,hash:t.editorialHash}))),
   geometry:relevant.flatMap(t=>(t.geometry??[]).filter(g=>owned.has(g.inventoryId)))};
- const rules=`Author only the assigned inventory entries. Inspect their source/answer images and relevant exercise teaching evidence. Other visible questions are context only. Keep all assigned subparts, shared instructions, figures and continuations together. Preserve IDs and source order. Evidence IDs resolve to the immutable paths below; read relevant linked images even when not attached. Missing teaching or answer context is a finding. Do not copy evidence or historical corrections into output.\nReturn {packets:[PAGE_PACKET]} with one packet for each assigned source page, each shaped {pageNumber,sections:[{id,title,topicId,phase,role,headingStyle:"none",blocks:[BLOCK]}],inventoryMappings:[{inventoryId,targetId,field?}],findings:[],corrections:[],answerEvidence:[]}. Use section IDs prefixed ${assignment.id}-. Each packet maps exactly its assigned page entries. Keep cross-page activity fragments identified consistently for source reconciliation; never omit continuation text. No author output grants approval.\nTopics: ${JSON.stringify(relevant.map(t=>({page:t.page,topic:t.topic})))}`;
+ const rules=`Author only the assigned inventory entries. Inspect their source/answer images and relevant exercise teaching evidence. Other visible questions are context only. Keep all assigned subparts, shared instructions, figures and continuations together. Preserve IDs and source order. Evidence IDs resolve to the immutable paths below; read relevant linked images even when not attached. Missing teaching or answer context is a finding. Do not copy evidence or historical corrections into output.\nReturn {packets:[PAGE_PACKET]} with one packet for each assigned source page, each shaped {pageNumber,sections:[{id,title:nonemptyTopicOrSourceTitle,topicId,phase:"teaching|practice|front-matter",role:"teaching|mixed-practice|front-matter",headingStyle:"none",blocks:[BLOCK]}],inventoryMappings:[{inventoryId,targetId,field?}],findings:[],corrections:[],answerEvidence:[]}. Use section IDs prefixed ${assignment.id}-. Each packet maps exactly its assigned page entries. Keep cross-page activity fragments identified consistently for source reconciliation; never omit continuation text. No author output grants approval.\nTopics: ${JSON.stringify(relevant.map(t=>({page:t.page,topic:t.topic})))}`;
  const prompt=contracts.map(s=>s.text).join('\n\n')+'\n\n'+rules.replace(/\nTopics:.*$/,'')+'\n\n'+JSON.stringify(context);
  const images=[...new Set(relevant.flatMap(t=>t.images))],dependencies={context,contracts,rules,generation:relevant.map(t=>t.generationDependencies),images:images.map(f=>[f,bytes(f)])};
  return {prompt,images,context,resources,inputHash:hash(dependencies),promptStats:{characters:prompt.length,imageCount:images.length,sections:{contract:contracts.reduce((n,s)=>n+s.text.length,0),assignment:JSON.stringify(context).length}}};
@@ -138,7 +138,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
 }
 
 export function createAuthorAssignmentQueue(options){
- const {runDir,tasks,plan,concurrency=3}=options,root=prepareAssignmentRun(runDir,tasks,plan),pending=new Map(),resolvers=new Map();
+ const {runDir,tasks,plan}=options,concurrency=workerConcurrency(options.concurrency??3),root=prepareAssignmentRun(runDir,tasks,plan),pending=new Map(),resolvers=new Map();
  for(const a of plan.assignments){if(pending.has(a.id))throw Error('Duplicate assignment ownership: '+a.id);pending.set(a.id,new Promise(resolve=>resolvers.set(a.id,resolve)));}
  const completion=runBoundedJobs(plan.assignments,async assignment=>{
   try{const result=await runAuthorAssignment({...options,root,assignment});resolvers.get(assignment.id)({ok:true,result});return result;}
