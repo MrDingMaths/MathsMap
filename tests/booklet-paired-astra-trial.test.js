@@ -30,7 +30,9 @@ test('paired queues retain successes, bound concurrency and never silently repla
  const runner=async options=>{active++;calls++;max=Math.max(max,active);await new Promise(r=>setTimeout(r,5));active--;if(JSON.parse(options.prompt)==='s2')throw Error('preserved failure');return reply(options);};
  const report=await runPairedTrial({out:root,arm:'baseline'},{runner,log:()=>{}});assert.equal(report.scheduled,5);assert.equal(calls,6);assert.ok(max<=3);assert.equal(report.results.filter(r=>r.status==='failed').length,1,JSON.stringify(report.results.map(r=>r.error)));
  await runPairedTrial({out:root,arm:'baseline'},{runner,log:()=>{}});assert.equal(calls,6);
+ fs.writeFileSync(path.join(root,'baseline','s0','1','stderr.txt'),'ERROR codex_core::tools::router: error=exec_command failed: rejected: blocked by policy\n');
  const result=pairedTrialReport(root);assert.equal(result.arms.baseline.modelInvocations,6);assert.equal(result.arms.baseline.usage.inputTokens.unavailableCalls,1);assert.equal(result.arms.baseline.acceptedAssignments,0);assert.equal(result.comparisonEligible,false);
+ assert.equal(result.arms.baseline.rejectedToolAttempts[0].count,1);assert.ok(result.comparisonBlockers.some(x=>/Tool-access rejections/.test(x)));
 });
 test('review requires current revision, output and real render evidence; repair invalidates acceptance',async t=>{
  const root=fixture(t);await runPairedTrial({out:root,arm:'bounded'},{runner:reply,log:()=>{}});
@@ -40,6 +42,7 @@ test('review requires current revision, output and real render evidence; repair 
  const png=path.join(root,'inspected.png');fs.writeFileSync(png,'test raster');record.artifacts.push({path:png,hash:hash(png)});
  assert.equal(recordTrialReview({out:root,record}).accepted,true);
  assert.throws(()=>recordTrialReview({out:root,record}),/revision changed/);
+ fs.writeFileSync(png,'changed raster');assert.equal(pairedTrialReport(root).arms.bounded.acceptedAssignments,0);fs.writeFileSync(png,'test raster');
  const context={targets:[{targetId:'q0',field:'/answer/short',original:'$1$'}]},patches=[{...context.targets[0],corrected:'$x=1$',reason:'Clarify variable in answer'}];
  const repaired=repairTrialPacket({out:root,arm:'bounded',id:'s0',expectedOutputHash:output.hash,context,patches,reviewer:'Test',note:'Exact answer repair',elapsedMs:5});
  assert.equal(repaired.attempt,2);assert.equal(pairedTrialReport(root).arms.bounded.acceptedAssignments,0);
