@@ -17,6 +17,14 @@ import {pairedTrialReport,materializeTrialCandidate} from './paired-astra-trial.
 
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const ref=f=>({path:path.resolve(f),hash:createHash('sha256').update(fs.readFileSync(f)).digest('hex')});
+export function namespaceTrialReference(value,prefix,ids,topics=new Map()){
+ if(topics.has(value))return topics.get(value);
+ if(ids.has(value))return prefix+'-'+value;
+ const owner=[...ids].filter(id=>value.startsWith(id+'/')||value.startsWith(id+'#')).sort((a,b)=>b.length-a.length)[0];
+ if(!owner)return value;
+ const tail=value.slice(owner.length).replace(/#([^#]+)$/,(_,id)=>'#'+(ids.has(id)?prefix+'-'+id:id));
+ return prefix+'-'+owner+tail;
+}
 export function composeTrialProjects({out,arm}){
  const root=path.resolve(out),summary=pairedTrialReport(root);if(!summary.arms[arm])throw Error('Unknown paired arm');
  const items=summary.arms[arm].rows.filter(r=>r.output).map(r=>{
@@ -30,7 +38,7 @@ export function composeTrialProjects({out,arm}){
  for(const item of items){
   const ids=new Set(),collect=v=>{if(!v||typeof v!=='object')return;if(v.id)ids.add(v.id);for(const x of Object.values(v))if(x&&typeof x==='object')collect(x);};collect(item.project.sections);collect(item.project.settings.layoutOverrides);
   const topics=new Map(item.project.topics.map(t=>[t.id,item.id+'-'+t.id]));
-  const renameString=v=>topics.get(v)??(ids.has(v)?item.id+'-'+v:[...ids].some(id=>v.startsWith(id+'/')||v.startsWith(id+'#'))?item.id+'-'+v:v);
+  const renameString=v=>namespaceTrialReference(v,item.id,ids,topics);
   const rename=v=>typeof v==='string'?renameString(v):Array.isArray(v)?v.map(rename):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[renameString(k),rename(x)])):v;
   const sections=rename(item.project.sections);combined.sections.push(...sections);combined.topics.push(...item.project.topics.map(t=>({...t,id:topics.get(t.id),title:t.title})));
   Object.assign(combined.settings.layoutOverrides.blockLayouts,rename(item.project.settings.layoutOverrides?.blockLayouts??{}));bindings.push({id:item.id,source:item.source,diagnosticMaterialization:item.diagnosticMaterialization??false,sectionIds:sections.map(s=>s.id),blockIds:sections.flatMap(s=>s.blocks.map(b=>b.id))});
