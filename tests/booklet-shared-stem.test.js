@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {estimateWorkedWritingSpace,sizeQuestionWorking} from '../src/lib/booklet-working-space.js';
+import {contentSource} from '../src/lib/document-content.js';
 import {splitSharedPrompt,groupConceptQuestions} from '../scripts/booklet/group-concept-questions.mjs';
 import {validatePracticeAuthor} from '../scripts/booklet/practice-only-scope.mjs';
 
@@ -36,7 +37,12 @@ test('source shared-stem inventory permits distinct child mappings and rejects f
 });
 test('Chapter 1 repair preserves response answers, source group boundaries and repeat safety',()=>{
  let p=JSON.parse(fs.readFileSync('booklets/projects/concept-maths-adv11-ch01.json'));
- if(p.source?.groupingRepair){assert.equal(p.source.groupingRepair.groups,117);assert.equal(p.source.groupingRepair.responses,861);assert.equal(groupConceptQuestions(p).alreadyApplied,true);return;}
+ if(p.source?.groupingRepair){
+  assert.equal(p.source.groupingRepair.groups,117);assert.equal(p.source.groupingRepair.responses,861);assert.equal(groupConceptQuestions(p).alreadyApplied,true);
+  const tickCross=p.sections.flatMap(s=>s.blocks).filter(b=>/^True or False\?/.test(contentSource(b.content?.prompt))).flatMap(b=>b.sourceReview?.responses??[]);
+  assert.equal(tickCross.length,80);assert.ok(tickCross.every(r=>r.kind==='tick-cross'));
+  return;
+ }
  const r=groupConceptQuestions(p);
  assert.equal(r.groups.length,117);assert.equal(r.mapping.length,760);assert.equal(r.spacing.length,861);
  assert.equal(r.next.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question').length,246);
@@ -46,6 +52,13 @@ test('Chapter 1 repair preserves response answers, source group boundaries and r
  const after=r.next.sections.flatMap(s=>s.blocks).find(b=>b.id===nested.id);assert.deepEqual(after.content.children.map(n=>n.id),nested.content.children.map(n=>n.id));
  assert.equal(groupConceptQuestions(r.next).alreadyApplied,true);
  assert.deepEqual(groupConceptQuestions(r.next).next,r.next);
+});
+test('grouped true-or-false responses persist the tick-cross requirement',()=>{
+ const block=(id,label,expression)=>({id,type:'question',sourcePageNumber:1,sourceReview:{sourceIdentity:{questionLabel:label},responses:[{targetId:id+'-content',kind:'short'}]},classification:{primarySkillId:'algebra',secondarySkillIds:[],reasoningScore:20},content:{id:id+'-content',type:'question',prompt:`True or False? $${expression}$`,answer:{short:'True.',worked:'$x=x$'}}});
+ const p={id:'concept-maths-adv11-ch01',revision:1,sections:[{topicId:'t',blocks:[block('q1','1','x=x'),block('q2','2','x=1')]}]};
+ const r=groupConceptQuestions(p,{register:{t:[[1,2,2]]}}),group=r.next.sections[0].blocks[0];
+ assert.deepEqual(group.sourceReview.responses.map(response=>response.kind),['tick-cross','tick-cross']);
+ assert.ok(group.content.children.every(node=>node.answerSpaceMm===6));
 });
 test('grouping preserves nested responses and cannot merge adjacent distinct source ranges',()=>{
  const node=id=>({id,type:'question',prompt:'Solve. $x=1$',answer:{short:'1',worked:'$x=1$'},answerSpaceMm:12});
