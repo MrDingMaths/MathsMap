@@ -125,6 +125,13 @@ test('active time unions concurrent work and excludes explicit human waiting',t=
  const result=buildRunReceipt(f.dir);assert.equal(result.recordedActiveWallMs,100);assert.equal(result.humanWaitingMs,50);assert.equal(result.calendarSpanMs,150);assert.equal(result.summedModelCallMs,200);assert.equal(result.recordedReviewWallMs,50);assert.equal(result.unfinished.length,1);
 });
 
+test('review invocation time contributes without a linked rollout and unions overlapping reviews',t=>{
+ const f=fixture(t),metrics={role:'review',elapsedMs:100,usage:usage(100,60,20)};
+ f.write('semantic-packets/attempt-events.jsonl',attempts([{id:'a',start:0,end:100,stage:'maths',metrics},{id:'b',start:50,end:150,stage:'theory',metrics},{id:'c',start:100,end:200,metrics:{...metrics,role:'transcription'}}]));
+ f.write('workflow/run-events.jsonl',phase('wait','human-wait',75,125,{activity:'human-wait',excludedFromActive:true}));
+ const result=buildRunReceipt(f.dir);assert.equal(result.recordedReviewWallMs,100);assert.equal(result.recordedActiveWallMs,150);assert.equal(result.summedModelCallMs,300);assert.equal(result.completeJob.byRole.review.usage.input_tokens,200);
+});
+
 test('weekly allowance comparison requires one reset window and discloses unrelated usage',async t=>{
  const f=fixture(t),base={resetAt:'2026-09-20T00:00:00Z',windowMinutes:10080,unrelatedConcurrentUsage:'none'};
  const first={...base,id:'before',at:'2026-09-17T00:00:00Z',usedPercent:10},last={...base,id:'after',at:'2026-09-17T02:00:00Z',usedPercent:18};
