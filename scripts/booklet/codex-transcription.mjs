@@ -31,7 +31,7 @@ async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProg
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;
-   const timer=setTimeout(()=>{failure=new Error('Transcription invocation exceeded 15 minutes');child.kill();},timeoutMs);
+   const timer=setTimeout(()=>{failure=new Error(`Astra ${stage} invocation exceeded ${timeoutMs} ms`);child.kill();},timeoutMs);
    const consume=line=>{let e;try{e=JSON.parse(line);}catch{return;}if(e.usage)usage=e.usage;if(e.model)observedModel=e.model;if(e.type==='thread.started')sessionId=e.thread_id??e.session_id??null;
     if(e.type==='item.completed'&&['command_execution','mcp_tool_call','tool_call','web_search'].includes(e.item?.type))toolIds.add(e.item.id??JSON.stringify(e.item));try{onProgress(e);}catch(error){failure=error;child.kill();}};
    const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Astra worker aborted');child.kill();};

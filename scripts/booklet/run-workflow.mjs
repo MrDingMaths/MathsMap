@@ -99,4 +99,4 @@ export async function main(args=process.argv.slice(2)){
  printWorkflowOutput(result,{full:!!flags['--full'],out:flags['--out'],exclusive:['representatives','repair-context','attempt-context','closeout'].includes(command)});
  if(result.ok===false)process.exitCode=1;return result;
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error.message);process.exitCode=1;});
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error.ticket?JSON.stringify({ok:false,error:error.message,ticket:error.ticket,retainedOutput:error.retainedOutput??null}):error.message);process.exitCode=1;});
