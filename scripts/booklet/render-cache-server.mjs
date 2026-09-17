@@ -4,6 +4,14 @@ import {createHash,randomUUID} from 'node:crypto';
 export const RENDER_CACHE_ROOT=path.resolve('.booklet-work/render-cache');
 const hash=v=>createHash('sha256').update(v).digest('hex');
 const fileHash=async file=>hash(await fs.readFile(file));
+// Read every input on every validation, with bounded I/O concurrency. Hash order
+// stays deterministic; neither timestamps nor a time window establish validity.
+async function hashRows(files,root,readHash=fileHash){
+  const rows=new Array(files.length);let index=0;
+  await Promise.all(Array.from({length:Math.min(32,files.length)},async()=>{
+    while(index<files.length){const i=index++,file=files[i];rows[i]=[path.relative(root,file),await readHash(file)];}
+  }));return rows;
+}
 // Cached SVGs are captured before page layout/calibration. Prepared TeX is
 // already in the entry key; unrelated screens must not invalidate compilation.
 // Keep the runtime dependency closure covered by booklet-load-cache.test.js.
@@ -13,14 +21,14 @@ export const DIAGRAM_RENDER_INPUTS=[
   'src/lib/booklet-render-cache.js','src/lib/booklet-cache-store.js',
 ];
 async function filesUnder(root){return (await Promise.all((await fs.readdir(root,{withFileTypes:true})).map(e=>e.isDirectory()?filesUnder(path.join(root,e.name)):path.join(root,e.name)))).flat().sort();}
-export async function diagramFingerprint(root=process.cwd()){
+export async function diagramFingerprint(root=process.cwd(),readHash=fileHash){
   const files=[...DIAGRAM_RENDER_INPUTS.map(file=>path.join(root,file)),...await filesUnder(path.join(root,'public/libs')),path.join(root,'package-lock.json')].sort(),rows=[];
-  for(const file of files)rows.push([path.relative(root,file),await fileHash(file)]);
+  rows.push(...await hashRows(files,root,readHash));
   return hash(JSON.stringify(['booklet-diagram-cache-v1',rows]));
 }
-export async function rendererFingerprint(root=process.cwd()){
+export async function rendererFingerprint(root=process.cwd(),readHash=fileHash){
   const files=[...await filesUnder(path.join(root,'src')),...await filesUnder(path.join(root,'data')).catch(()=>[]),...await filesUnder(path.join(root,'public/libs')),...await filesUnder(path.join(root,'node_modules/katex/dist/fonts')).catch(()=>[]),path.join(root,'index.html'),path.join(root,'package-lock.json')],rows=[];
-  for(const file of files)rows.push([path.relative(root,file),await fileHash(file)]);
+  rows.push(...await hashRows(files,root,readHash));
   return hash(JSON.stringify(['booklet-render-cache-v2',rows]));
 }
 function assetFile(url,root){
@@ -31,10 +39,9 @@ function assetFile(url,root){
   const target=path.resolve(base,relative);if(!target.startsWith(path.resolve(base)+path.sep))throw Error('Invalid cache asset path');return target;
 }
 export async function assetFingerprint(urls,root=process.cwd()){
-  const rows=[];for(const url of [...new Set(urls)].sort()){
-    if(!url.startsWith('/')||url.startsWith('//'))return null;
-    try{rows.push([url,await fileHash(assetFile(url,root))]);}catch{return null;}
-  }return hash(JSON.stringify(rows));
+  const sorted=[...new Set(urls)].sort();
+  if(sorted.some(url=>!url.startsWith('/')||url.startsWith('//')))return null;
+  try{const rows=await hashRows(sorted.map(url=>assetFile(url,root)),root);return hash(JSON.stringify(sorted.map((url,i)=>[url,rows[i][1]])));}catch{return null;}
 }
 const validToken=v=>/^[a-z0-9-]{1,100}$/.test(v);
 export async function publishRenderEntries(version,entries,{cacheRoot=RENDER_CACHE_ROOT}={}){
@@ -58,7 +65,10 @@ export function renderCachePlugin(){
       if(req.method!=='GET'){res.statusCode=405;return res.end('{}');}
       if(url.pathname==='/__booklet/render-cache/version'){
         const assets=JSON.parse(url.searchParams.get('assets')??'[]');if(!Array.isArray(assets)||assets.length>1000||assets.some(v=>typeof v!=='string'))throw Error('Invalid assets');
-        const [version,diagramVersion,assetVersion]=await Promise.all([rendererFingerprint(),diagramFingerprint(),assetFingerprint(assets)]);
+        // Both fingerprints include the runtime libraries. Share their reads
+        // only within this request, then discard them before the next edit.
+        const reads=new Map(),readHash=file=>{if(!reads.has(file))reads.set(file,fileHash(file));return reads.get(file);};
+        const [version,diagramVersion,assetVersion]=await Promise.all([rendererFingerprint(process.cwd(),readHash),diagramFingerprint(process.cwd(),readHash),assetFingerprint(assets)]);
         return res.end(JSON.stringify({version,diagramVersion,assets:assetVersion}));
       }
       const match=/^\/__booklet\/render-cache\/([a-f0-9]{64})\/([a-z0-9-]+)$/.exec(url.pathname),entry=match&&await readRenderEntry(match[1],match[2]);

@@ -2,6 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {loadRun,parsePageSelection} from './transcription.mjs';
+import {validateSemanticResult} from './semantic-workflow.mjs';
+import {answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from './answer-evidence.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
@@ -14,6 +16,7 @@ const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePa
 if(arg('--out')&&!arg('--out').endsWith('.json'))throw Error('--out must end in .json');
 if(!runId||!selected.length||!arg('--out'))throw Error('Use --run-id ID --pages RANGE --config FILE --out FILE [--project-id ID]');
 const {runDir,manifest}=loadRun(runId),config=JSON.parse(fs.readFileSync(arg('--config'),'utf8'));
+if(selected.some(p=>!manifest.selectedPages.includes(p)))throw Error('Cannot assemble context-only pages');
 trackProcessPhase(runDir,'assembly',{artifact:arg('--out'),pages:selected,projectId});
 const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
 const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
@@ -23,6 +26,12 @@ for(const page of selected){
  const inv=workflow?effectiveInventory(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
  const packet=workflow?effectiveAuthor(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
  if(inv.pageNumber!==page||packet.pageNumber!==page)throw Error('Wrong packet page');
+ validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow});
+ if(config.contentScope==='practice-only'&&manifest.teacherPages?.length){
+  const questions=packet.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
+  for(const issue of answerMatchingIssues(questions.map(q=>q.id),packet.answerEvidence,manifest.teacherPages,{workflow,page}))flags.push({id:`answer-match-${page}-${flags.length}`,targetId:questions[0]?.id,note:issue,resolved:false});
+  for(const b of questions){b.sourceReview??={};b.sourceReview.answerEvidence=packet.answerEvidence?.find(e=>e.questionId===b.id)??null;const resolution=b.sourceReview.answerEvidence&&approvedAnswerConflict(b.sourceReview.answerEvidence,{workflow,page});if(resolution)b.sourceReview.answerResolution=resolution;}
+ }
  let first=true;
  for(const section of packet.sections){
   section.sourcePageNumber=page;
@@ -33,7 +42,7 @@ for(const page of selected){
   // Packet body headings are omitted, but the generated topic title must print.
   if(section.phase!=='front-matter')section.headingStyle='page-title';
   for(const block of section.blocks){
-   block.sourcePageNumber=page;block.sourceRefs=[{pageNumber:page}];
+   block.sourcePageNumber=page;block.sourceRefs=block.sourceRefs?.length?block.sourceRefs:[{pageNumber:page,...(config.printedPageOffset!==undefined?{printedPageNumber:page+config.printedPageOffset}:{})}];
    block.flow={...block.flow,sourcePageBreakBefore:first};
    // Source boundaries are student-edition constraints, not manual answer breaks.
    delete block.flow.pageBreakBefore;
@@ -41,7 +50,7 @@ for(const page of selected){
   }
   sections.push(section);
  }
- inventoryPages.push({pageNumber:page,inventoried:inv.inventoried===true});
+ inventoryPages.push({pageNumber:page,inventoried:inv.inventoried===true,...(inv.layoutPatterns?{layoutPatterns:structuredClone(inv.layoutPatterns)}:{})});
  for(const item of inv.entries){
   const mappings=(packet.inventoryMappings??[]).filter(m=>m.inventoryId===item.id);
   if(item.exclusionReason){entries.push({...item,pageNumber:page});continue;}
@@ -59,8 +68,11 @@ for(const page of selected){
  confirmedCorrections.push(...(packet.confirmedCorrections??[]));
 }
 if(workflow){synchronizeInventoryAmbiguities(entries,workflow);flags.push(...workflowFlags(workflow,selected));}
+entries.push(...derivedAnswerDiagramEntries(sections,entries));
 const candidate={title:config.title,topics:config.topics.map(({id,title})=>({id,title})),settings:{...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),sourcePaginationPolicy:'source-boundaries',preserveSourcePages:true,cover:{course:'Mathematics Stage 5 Path',book:'Book 2',version:'260905',feedback:'https://MrDingMaths.com'}},sections,sourceInventory:{version:1,selectedPages:selected,pages:inventoryPages,entries},studio:{version:1,flags}};
 if(workflow)candidate.settings={...config.settings,...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),...(sourceBoundaries?{sourcePaginationPolicy:'source-boundaries'}:{}),preserveSourcePages:sourceBoundaries,cover:{...config.settings?.cover,...config.cover}};
+if(config.contentScope)candidate.contentScope=config.contentScope;
+candidate.topics=config.topics.map(({id,title,exerciseLabel})=>({id,title,...(exerciseLabel?{exerciseLabel}:{})}));
 // Reviewed packets contain the corrected value. Emit a source-valued candidate
 // and let the existing import interface apply its stale-checked correction log.
 const nodes=contentNodes(candidate);
@@ -74,13 +86,15 @@ for(const correction of confirmedCorrections){
  parent[key]=correction.original;
 }
 candidate.sourceCorrections=confirmedCorrections;
-if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,correctionIds:workflow.corrections.map(c=>c.id)};
+if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy}:{}),correctionIds:workflow.corrections.map(c=>c.id)};
 let project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
 // Inventory and author patches were already applied in order by the effective
 // packet readers. Replaying them here would reject a valid A -> B -> C chain.
 if(workflow){project=materializeCorrections(project,workflowForPages(workflow,selected,['project']),'project');project.source.workflow=candidate.sourceInventory.workflow;}
 if(config.compactAnswers)project.settings.compactAnswers={...project.settings.compactAnswers,...structuredClone(config.compactAnswers)};
-project.source.sourceHashes={pdf:manifest.source.pdfHash,docx:manifest.source.docxHash};
+project.source.sourceHashes={pdf:manifest.source.pdfHash,...(manifest.source.docxHash?{docx:manifest.source.docxHash}:{}),...(manifest.source.teacherPdfHash?{teacherPdf:manifest.source.teacherPdfHash}:{})};
+project.source.contentScope=config.contentScope??'all';
+project.source.referencePages={context:manifest.contextPages??[],teacher:manifest.teacherPages??[]};
 const validation=validateEditableProject(project),output=path.resolve(arg('--out'));
 const mathErrors=[];
 const semanticErrors=[];

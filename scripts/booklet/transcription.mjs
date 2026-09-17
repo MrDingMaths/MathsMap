@@ -69,7 +69,7 @@ export function parsePageSelection(value) {
     const range = token.match(/^(\d+)\s*-\s*(\d+)$/);
     if (range) {
       const start = Number(range[1]); const end = Number(range[2]);
-      if (start < 1 || end < start) throw new Error(`Invalid page range: ${token}`);
+      if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start < 1 || end < start || end - start > 100000) throw new Error(`Invalid page range: ${token}`);
       for (let page = start; page <= end; page += 1) pages.add(page);
     } else if (/^\d+$/.test(token) && Number(token) > 0) pages.add(Number(token));
     else throw new Error(`Invalid page selection token: ${token}`);
@@ -131,9 +131,9 @@ function runCommand(command, args, options = {}) {
   return String(result.stdout ?? '');
 }
 
-function assertTooling() {
+function assertTooling({ word = false } = {}) {
   const errors = [];
-  for (const command of ['pdftoppm', 'pdftotext', 'pandoc']) if (!commandExists(command)) errors.push(`${command} is unavailable`);
+  for (const command of ['pdfinfo', 'pdftoppm', 'pdftotext', ...(word ? ['pandoc'] : [])]) if (!commandExists(command)) errors.push(`${command} is unavailable`);
   for (const file of [...SCHEMA_FILES, ...TAXONOMY_FILES]) if (!fs.existsSync(file)) errors.push(`Required pinned input is missing: ${path.relative(REPO_ROOT, file)}`);
   if (errors.length) throw new Error(errors.join('; '));
 }
@@ -170,77 +170,91 @@ export function assertPinnedInputs(runDir) {
   return manifest;
 }
 
-export function prepareRun({ pdf, docx, teacherPdf = null, teacherDocx = null, pages, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY }) {
-  assertTooling();
+export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY }, { command = runCommand, checkTooling = assertTooling } = {}) {
   concurrency = Number(concurrency);
   if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('Concurrency must be a positive integer');
-  const selectedPages = Array.isArray(pages) ? pages : parsePageSelection(pages);
+  const selection = (value, name) => {
+    const result = Array.isArray(value) ? [...new Set(value)].sort((a, b) => a - b) : parsePageSelection(value);
+    if (result.some(page => !Number.isSafeInteger(page) || page < 1)) throw new Error(`Invalid ${name} page selection`);
+    return result;
+  };
+  const selectedPages = selection(pages, 'source');
+  contextPages = selection(contextPages, 'context');
   if (!selectedPages.length) throw new Error('At least one source page must be selected');
-  for (const file of [pdf, docx]) if (!file || !fs.existsSync(file)) throw new Error(`Source file not found: ${file}`);
+  if (!pdf) throw new Error('Source PDF is required');
+  if (teacherPages !== null && !teacherPdf) throw new Error('Teacher page selection requires a teacher PDF');
+  for (const file of [pdf, docx, teacherPdf, teacherDocx].filter(Boolean)) if (!fs.existsSync(file) || !fs.statSync(file).isFile()) throw new Error(`Source file not found: ${file}`);
+  checkTooling({ word: Boolean(docx || teacherDocx) });
+  const pageCount = file => {
+    const count = Number(command('pdfinfo', [path.resolve(file)]).match(/^Pages:\s+(\d+)/m)?.[1]);
+    if (!Number.isSafeInteger(count) || count < 1) throw new Error(`Cannot determine PDF page count: ${file}`);
+    return count;
+  };
+  const sourcePageCount = pageCount(pdf);
+  const teacherPageCount = teacherPdf ? pageCount(teacherPdf) : null;
+  teacherPages = teacherPdf ? (teacherPages === null ? Array.from({ length: teacherPageCount }, (_, i) => i + 1) : selection(teacherPages, 'teacher')) : [];
+  for (const [name, values, count] of [['source', selectedPages, sourcePageCount], ['context', contextPages, sourcePageCount], ['teacher', teacherPages, teacherPageCount]]) {
+    if (values.some(page => page > count)) throw new Error(`${name} page selection exceeds PDF page count ${count}`);
+  }
+  if (teacherPdf && !teacherPages.length) throw new Error('At least one teacher page must be selected');
+  shardPages(selectedPages, { continuations });
   const id = safeId(runId || `booklet-${new Date().toISOString().replace(/[:.]/g, '-')}`);
   const runDir = path.join(workRoot, id);
   if (fs.existsSync(runDir)) throw new Error(`Run already exists: ${id}`);
-  const sourceDir = path.join(runDir, 'source');
-  const evidenceDir = path.join(runDir, 'evidence');
-  const pagesDir = path.join(evidenceDir, 'pages');
-  fs.mkdirSync(pagesDir, { recursive: true });
-  const pdfCopy = path.join(sourceDir, 'booklet.pdf');
-  const docxCopy = path.join(sourceDir, 'booklet.docx');
-  fs.mkdirSync(sourceDir, { recursive: true });
-  fs.copyFileSync(path.resolve(pdf), pdfCopy);
-  fs.copyFileSync(path.resolve(docx), docxCopy);
-  const pdfText = runCommand('pdftotext', ['-layout', pdfCopy, '-']).split('\f');
-  for (const page of selectedPages) {
-    const prefix = path.join(pagesDir, `page-${String(page).padStart(3, '0')}`);
-    runCommand('pdftoppm', ['-f', String(page), '-l', String(page), '-singlefile', '-png', '-r', '170', pdfCopy, prefix]);
-    fs.writeFileSync(`${prefix}.txt`, String(pdfText[page - 1] ?? '').trim() + '\n', 'utf8');
+  const runFiles = [];
+  const save = (relative, value) => {
+    const file = path.join(runDir, relative);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, value); runFiles.push(relative);
+  };
+  const source = { pdf: path.resolve(pdf), pdfHash: hashFile(pdf), pageCount: sourcePageCount };
+  for (const [key, file, relative] of [['pdf', pdf, 'source/booklet.pdf'], ['docx', docx, 'source/booklet.docx'], ['teacherPdf', teacherPdf, 'source/teacher.pdf'], ['teacherDocx', teacherDocx, 'source/teacher.docx']]) {
+    if (!file) continue;
+    save(relative, fs.readFileSync(file));
+    source[key] = path.resolve(file); source[`${key}Hash`] = hashFile(path.join(runDir, relative));
   }
-  const wordDir = path.join(evidenceDir, 'word');
-  fs.mkdirSync(wordDir, { recursive: true });
-  runCommand('pandoc', [docxCopy, '-t', 'markdown', `--extract-media=${path.join(wordDir, 'media')}`, '-o', path.join(wordDir, 'document.md')]);
-  const wordMarkdown = fs.readFileSync(path.join(wordDir, 'document.md'), 'utf8');
-  writeJson(path.join(wordDir, 'asset-occurrences.json'), { format: 'mathsmap-word-asset-occurrences-v1', occurrences: extractWordAssetOccurrences(wordMarkdown) });
-  writeJson(path.join(evidenceDir, 'continuations.json'), { continuations });
-  const runFiles = [
-    path.relative(runDir, pdfCopy), path.relative(runDir, docxCopy),
-    ...selectedPages.flatMap((page) => [
-      path.relative(runDir, path.join(pagesDir, `page-${String(page).padStart(3, '0')}.png`)),
-      path.relative(runDir, path.join(pagesDir, `page-${String(page).padStart(3, '0')}.txt`)),
-    ]),
-    path.relative(runDir, path.join(wordDir, 'document.md')),
-    path.relative(runDir, path.join(wordDir, 'asset-occurrences.json')),
-    path.relative(runDir, path.join(evidenceDir, 'continuations.json')),
-  ];
-  if (teacherPdf || teacherDocx) {
-    if (!teacherPdf || !teacherDocx || !fs.existsSync(teacherPdf) || !fs.existsSync(teacherDocx)) throw new Error('Provide both teacher PDF and DOCX');
-    const teacherDir = path.join(evidenceDir, 'teacher');
-    fs.mkdirSync(teacherDir, { recursive: true });
-    fs.copyFileSync(teacherPdf, path.join(sourceDir, 'teacher.pdf'));
-    fs.copyFileSync(teacherDocx, path.join(sourceDir, 'teacher.docx'));
-    fs.writeFileSync(path.join(teacherDir, 'pages.txt'), runCommand('pdftotext', ['-layout', teacherPdf, '-']));
-    runCommand('pandoc', [teacherDocx, '-t', 'markdown', `--extract-media=${path.join(teacherDir,'media')}`, '-o', path.join(teacherDir,'document.md')]);
-    const contract = 'Student pages define prompts, layouts, scaffolds and answer visibility. Teacher material supplies answer evidence only. Match questions by stem, labels and mathematical content, never by page number alone. Teacher text is in evidence/teacher/pages.txt (form-feed page boundaries), with Word evidence in evidence/teacher/document.md. Store page.answerEvidence records {questionId,teacherReference,matchEvidence,conflict}. Flag ambiguous matches, contradictions or absent answers; never silently substitute teacher prompts or leak answers into student questions. Preserve teacher answers separately under the canonical answer fields. Known equations and domains define graphs: use equation-based TikZ, not curve tracing; retain images when the mathematics is uncertain.';
-    fs.writeFileSync(path.join(teacherDir, 'authority.txt'), contract);
-    runFiles.push('source/teacher.pdf','source/teacher.docx','evidence/teacher/pages.txt','evidence/teacher/document.md','evidence/teacher/authority.txt');
+  const render = (relativePdf, values, directory) => {
+    const file = path.join(runDir, relativePdf);
+    const text = command('pdftotext', ['-layout', file, '-']).split('\f');
+    for (const page of values) {
+      const prefix = `${directory}/page-${String(page).padStart(3, '0')}`;
+      fs.mkdirSync(path.join(runDir, directory), { recursive: true });
+      command('pdftoppm', ['-f', String(page), '-l', String(page), '-singlefile', '-png', '-r', '170', file, path.join(runDir, prefix)]);
+      runFiles.push(`${prefix}.png`);
+      save(`${prefix}.txt`, String(text[page - 1] ?? '').trim() + '\n');
+    }
+    return text;
+  };
+  render('source/booklet.pdf', [...new Set([...selectedPages, ...contextPages])].sort((a, b) => a - b), 'evidence/pages');
+  const extractWord = (relative, directory) => {
+    fs.mkdirSync(path.join(runDir, directory), { recursive: true });
+    command('pandoc', [path.join(runDir, relative), '-t', 'markdown', `--extract-media=${path.join(runDir, directory, 'media')}`, '-o', path.join(runDir, directory, 'document.md')]);
+    runFiles.push(`${directory}/document.md`);
+    const markdown = fs.readFileSync(path.join(runDir, directory, 'document.md'), 'utf8');
+    save(`${directory}/asset-occurrences.json`, json({ format: 'mathsmap-word-asset-occurrences-v1', occurrences: extractWordAssetOccurrences(markdown) }));
+    const pinMedia = dir => { if (fs.existsSync(dir)) for (const entry of fs.readdirSync(dir, { withFileTypes: true })) { const file = path.join(dir, entry.name); if (entry.isDirectory()) pinMedia(file); else runFiles.push(path.relative(runDir, file)); } };
+    pinMedia(path.join(runDir, directory, 'media'));
+  };
+  if (docx) extractWord('source/booklet.docx', 'evidence/word');
+  save('evidence/continuations.json', json({ continuations }));
+  if (teacherPdf) {
+    source.teacherPageCount = teacherPageCount;
+    const text = render('source/teacher.pdf', teacherPages, 'evidence/teacher/pages');
+    // Blank unselected slots retain original PDF page identity for legacy readers.
+    save('evidence/teacher/pages.txt', Array.from({ length: teacherPageCount }, (_, i) => teacherPages.includes(i + 1) ? text[i] ?? '' : '').join('\f') + '\f');
   }
+  if (teacherDocx) extractWord('source/teacher.docx', 'evidence/teacher');
+  if (teacherPdf || teacherDocx) save('evidence/teacher/authority.txt', 'Student pages define prompts, layouts, scaffolds and answer visibility. Teacher material supplies answer evidence only. Match questions by stem, labels and mathematical content, never by page number alone. Teacher PDF page numbers retain their original identity; only selected teacher pages are evidence. Word evidence is optional. Store page.answerEvidence records {questionId,teacherReference,matchEvidence,conflict}. Flag ambiguous matches, contradictions or absent answers; never silently substitute teacher prompts or leak answers into student questions. Preserve teacher answers separately under the canonical answer fields. Known equations and domains define graphs: use equation-based TikZ, not curve tracing; retain images when the mathematics is uncertain.');
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
-    ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, continuations,
-    exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1',
-    source: { pdf: path.resolve(pdf), docx: path.resolve(docx), pdfHash: hashFile(pdfCopy), docxHash: hashFile(docxCopy), ...(teacherPdf ? { teacherPdf:path.resolve(teacherPdf), teacherDocx:path.resolve(teacherDocx) } : {}) },
-    pins: {
-      model: hashValue(TRANSCRIPTION_DEFAULT.model),
-      files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
-      runFiles: Object.fromEntries(runFiles.map((relative) => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])),
-    },
-    lanes: {},
+    ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, contextPages, teacherPages, continuations,
+    exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
+    evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
+    pins: { model: hashValue(TRANSCRIPTION_DEFAULT.model), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
+      runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},
   };
   writeJson(manifestPath(runDir), manifest);
-  writeJson(reviewPath(runDir), {
-    format: 'mathsmap-booklet-review-v1', runId: id,
-    flags: [], history: [],
-    contentOverrides: {}, layoutOverrides: { answerSpaces: {}, diagramColourModes: {} },
-  });
+  writeJson(reviewPath(runDir), { format: 'mathsmap-booklet-review-v1', runId: id, flags: [], history: [], contentOverrides: {}, layoutOverrides: { answerSpaces: {}, diagramColourModes: {} } });
   return { runDir, manifest };
 }
 
@@ -652,7 +666,7 @@ function parseArgs(argv) {
 }
 
 function usage() {
-  console.log('Source evidence: prepare --pdf FILE --docx FILE --pages 1-3 --run-id ID [--concurrency 3] [--teacher-pdf FILE --teacher-docx FILE]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
+  console.log('Source evidence: prepare --pdf FILE [--docx FILE] --pages 1-3 [--context-pages 4-5] --run-id ID [--concurrency 3] [--teacher-pdf FILE] [--teacher-docx FILE] [--teacher-pages 1-8]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -661,7 +675,7 @@ export async function main(argv = process.argv.slice(2)) {
   let output;
   if (args.command === 'prepare') {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
-    output = prepareRun({ pdf: path.resolve(args.pdf), docx: path.resolve(args.docx), teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY });
+    output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY });
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'merge') output = mergeLane(args.runId, { lane: args.lane ?? 'exact' });

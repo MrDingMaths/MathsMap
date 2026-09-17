@@ -5,15 +5,17 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
-import {spawnSync} from 'node:child_process';
 import {rendererSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,contentAssetSignatures} from './verification-cache.mjs';
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {loadRun} from './transcription.mjs';
 import {liveWorkflow} from './workflow-review.mjs';
-import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest} from './page-review.mjs';
+import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest,requireFinalCandidateSettlement} from './page-review.mjs';
 import {solidAcceptance} from '../audit-solid-visibility.mjs';
 import {routeCandidateProject,inspectFinalSizeDiagrams,diagramSourcePreflight} from './diagram-preflight.mjs';
 import {trackProcessPhase} from './run-observability.mjs';
+import {publishBrowserDiagrams} from './render-cache-server.mjs';
+import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
+import {ensurePdfRasters} from './pdf-rasters.mjs';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
 const preflight=process.argv.includes('--diagram-preflight'),candidateFile=arg('--project-file');
@@ -21,7 +23,6 @@ const editions=arg('--editions',preflight?'student,short,worked':'student,short,
 const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
 const runtime=rendererSignature();
 const development=process.argv.includes('--development'),draft=process.argv.includes('--draft');
-if(candidateFile&&!preflight&&!development&&!draft)throw Error('Isolated candidates require --diagram-preflight, --development or --draft');
 if(candidateFile&&projects.length!==1)throw Error('Use one project with --project-file');
 if(editions.some(e=>!['student','short','worked','with-short','with-worked'].includes(e))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
 if(preflight&&!['student','short','worked'].every(e=>editions.includes(e)))throw Error('Diagram preflight requires student, short and worked compositions');
@@ -64,6 +65,7 @@ try{
   assert.equal(visibilityIssues.length,0,'3D visibility acceptance: '+JSON.stringify(visibilityIssues.map(i=>({location:i.location,status:i.status,reason:i.reason,issues:i.issues}))));
   const projectHash=projectReviewHash(record),workflowRef=record.source?.workflow??record.source?.inventory?.workflow;
   const workflow=workflowRef?liveWorkflow(loadRun(workflowRef.runId).runDir):null;
+  if(candidateFile&&!development&&!draft&&!preflight)requireFinalCandidateSettlement(record,workflow);
   if(workflow&&!development&&!draft&&!preflight)assert.ok(workflow.settled?.project.hash===projectHash,'Settle current content before the complete final five-edition review. Use --development during editing.');
   const workflowKey=workflow?.settled?.key??null,assets=await contentAssetSignatures(record);
   if(record.source?.inventory){
@@ -73,8 +75,11 @@ try{
   }
   const loadStarted=Date.now();
   await routeCandidateProject(page,record);
+  // The project picker keeps its initial inventory for the lifetime of the app.
+  // Start a fresh document so the next candidate cannot retain the previous book.
+  await page.goto('about:blank');
   await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
-  await page.locator('.flow-document').waitFor({state:'attached'});
+  await page.locator('.flow-document').waitFor({state:'attached',timeout:600000});
   // Fresh native diagrams can still be paginating behind the opening overlay.
   await page.getByLabel('Booklet edition',{exact:true}).waitFor({state:'visible',timeout:600000});
   runMeasurements.projectLoads.push({id,elapsedMs:Date.now()-loadStarted,tikz:await page.evaluate(()=>window.TikZ?.stats?.()??null)});
@@ -92,9 +97,14 @@ try{
    const file=`${out}/${kind}-${edition}${preflight?'-preflight':development?'-development':''}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
    const manifestFile=`${out}/${kind}-${edition}.full.pages.json`,hashFile=`${out}/${kind}-${edition}.development.pages.json`;
    const fullManifest=readPageManifest(manifestFile);
-   const manifestCurrent=fullManifest?.mode==='full'&&fullManifest.passed===true&&fullManifest.edition===edition&&fullManifest.workflowKey===workflowKey&&fullManifest.projectHash===projectHash&&fullManifest.renderer===runtime&&fs.existsSync(file)&&fullManifest.pdf?.hash===artifactHash(file)&&fullManifest.images?.length===fullManifest.pages.length&&fullManifest.images.every(i=>fs.existsSync(i.path)&&artifactHash(i.path)===i.hash);
+   const manifestCurrent=fullManifest?.mode==='full'&&fullManifest.passed===true&&fullManifest.edition===edition&&fullManifest.workflowKey===workflowKey&&fullManifest.projectHash===projectHash&&fullManifest.renderer===runtime&&fs.existsSync(file)&&fullManifest.pdf?.hash===artifactHash(file);
    const cached=preflight||development||draft||process.argv.includes('--force')||!manifestCurrent?null:readLayoutCache(cacheFile,key,file);
-   if(cached){report[kind][edition]=cached;console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;}
+   if(cached){
+    const rasters=ensurePdfRasters(fullManifest.pdf,fullManifest.pages.length,path.join(out,'pdf-rasters'));
+    const next={...fullManifest,version:2,images:rasters.images,rasterization:rasters.rasterization};
+    if(JSON.stringify(next)!==JSON.stringify(fullManifest))fs.writeFileSync(manifestFile,JSON.stringify(next,null,2));
+    report[kind][edition]={...cached,rasterMetrics:rasters.metrics};console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;
+   }
    console.log(`Checking ${kind} ${edition}`);
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await ready(edition);
    await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
@@ -105,7 +115,7 @@ try{
    for(const issue of diagrams.issues){const report=qa[issue.page-1];assert.ok(report,'Diagram belongs to a physical page');report.issues.push(issue);}
    const info=await page.locator('.project-print').evaluate(root=>({
      pages:root.querySelectorAll('.print-page').length,
-     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \d+$/.test(t)),
+     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \S+$/.test(t)),
      labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent})),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
      teachingGroups:[...root.querySelectorAll('[data-atom-id]')].map(e=>({id:e.dataset.atomId,headers:e.querySelectorAll(':scope > [data-header-kind]').length})),
@@ -154,14 +164,12 @@ try{
    }
    await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
    const printed=inspectPrintedPdf(file),issues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
-   const linkCheck=spawnSync('pdftohtml',['-i','-stdout',file],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
-   assert.equal(linkCheck.status,0);assert.doesNotMatch(linkCheck.stderr,/Bad named destination|failed to look up/i);
-   const pdfLinks=(linkCheck.stdout.match(/href="[^"\n]*#\d+"/g)??[]).length;
-   if(info.links.length)assert.ok(pdfLinks>=info.links.length,'PDF retains every internal link');
-   report[kind][edition]={...info,pdfLinks,qa,printed,issues,diagrams};
+   const pdfNavigation=inspectPdfNavigation(file,info.links),pdfLinks=pdfNavigation.annotations;
+   report[kind][edition]={...info,pdfLinks,pdfNavigation,qa,printed,issues,diagrams};
    writeReport();
    await context.storageState({path:out+'/cache.json',indexedDB:true});
    console.log(`${kind} ${edition}: ${info.pages} pages, ${issues.length} DOM issues, ${printed.flatMap(p=>p.issues).length} print issues`);
+   await publishBrowserDiagrams(page);
    assert.equal(info.pages,printed.length);assert.equal(info.badges,0);
    if(record.settings.teachingPresentationVersion===1){
     assert.deepEqual(info.teachingReferences,[],'Teaching activity references are not student content');
@@ -180,10 +188,15 @@ try{
    assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
    assert.deepEqual(errors,[],'Browser errors');
    if(!draft){
-    const images=[];
-    for(let p=0;p<hashes.length;p++){const image=`${out}/${kind}-${edition}-page-${p+1}.png`;await page.locator('.project-print .print-page').nth(p).screenshot({path:image});images.push({page:p+1,path:path.resolve(image),hash:artifactHash(image)});}
+    const pdf={path:path.resolve(file),hash:artifactHash(file)};
     writeLayoutCache(cacheFile,key,file,report[kind][edition]);
-    fs.writeFileSync(manifestFile,JSON.stringify({mode:'full',passed:true,edition,renderer:runtime,projectHash,workflowKey,assets,images,pages:hashes,pdf:{path:path.resolve(file),hash:artifactHash(file)}},null,2));
+    // Commit PDF verification before rasterization so an interrupted raster pass
+    // resumes without printing another PDF. No review queue accepts missing images.
+    const manifest={version:2,mode:'full',passed:true,edition,renderer:runtime,projectHash,workflowKey,assets,pages:hashes,pdf};
+    fs.writeFileSync(manifestFile,JSON.stringify(manifest,null,2));
+    const rasters=ensurePdfRasters(pdf,hashes.length,path.join(out,'pdf-rasters'));
+    report[kind][edition].rasterMetrics=rasters.metrics;
+    fs.writeFileSync(manifestFile,JSON.stringify({...manifest,images:rasters.images,rasterization:rasters.rasterization},null,2));
    }
    await page.emulateMedia({media:'screen'});
   }

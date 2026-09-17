@@ -11,6 +11,8 @@ import {evaluateExpression} from '../audit-arithmetic.mjs';
 import {inspectTriangle,triangleConstruction,verifyTriangleCode} from './triangle-constraints.mjs';
 import {rendererSignature} from './verification-cache.mjs';
 import {projectReviewHash,validateFinalManifest} from './page-review.mjs';
+import {withRunLock} from './run-observability.mjs';
+import {UNIQUE_LAYOUT_REVIEW,validateUniqueLayoutReview} from './edition-comparison.mjs';
 
 export const REVIEW_POLICY='review-first-v1';
 export const FINAL_EDITIONS=['student','short','worked','with-short','with-worked'];
@@ -19,7 +21,7 @@ export const fingerprint=value=>createHash('sha256').update(JSON.stringify(value
 export const bytesHash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const json=(file,fallback)=>fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8')):fallback;
 export const reviewFile=runDir=>path.join(runDir,'workflow','issues.json');
-export function loadWorkflow(runDir){return json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});}
+export function loadWorkflow(runDir){const state=json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});const policy=json(path.join(runDir,'manifest.json'),{}).pipelinePolicy;if(policy)state.pipelinePolicy=policy;return state;}
 export const reviewEnabled=(manifest,config={})=>manifest.workflowPolicy===REVIEW_POLICY||config.workflowPolicy===REVIEW_POLICY;
 
 // A representative candidate contains only selected pages. Keep the complete
@@ -30,19 +32,15 @@ export function workflowForPages(state,pages,scopes=['inventory','author','proje
 }
 
 export async function updateWorkflow(runDir,action,change){
- return withBankLock(async()=>{
+ return withRunLock(runDir,'review',()=>withBankLock(async()=>{
   const dir=path.join(runDir,'workflow');fs.mkdirSync(dir,{recursive:true});
-  const lock=path.join(dir,'review.lock');let fd;
-  try{fd=fs.openSync(lock,'wx');}catch{throw Error('Workflow is being updated by another process; retry after it finishes');}
-  try{
    const state=loadWorkflow(runDir),before=fingerprint(state),oldIssues=structuredClone(state.issues),result=await change(state);
    if(fingerprint(state)===before){if(result?.outputs)await writeTransaction(result.outputs);return result??state;}
    state.revision++;const historyFile=path.join(dir,'history.json'),history=json(historyFile,{events:[]});
    history.events.push({at:new Date().toISOString(),action,revision:state.revision,before,after:fingerprint(state),previousIssues:Object.fromEntries(Object.entries(oldIssues).filter(([id,v])=>fingerprint(v)!==fingerprint(state.issues[id])))});
    await writeTransaction([[reviewFile(runDir),state],[historyFile,history],...(result?.outputs??[])]);
    return result??state;
-  }finally{fs.closeSync(fd);fs.unlinkSync(lock);}
- });
+ }));
 }
 
 export function mathematicalFindings(inventory){
@@ -74,9 +72,39 @@ function patchField(target,patch){
  if(patchFingerprint(parent[key],patch)!==patchFingerprint(patch.original,patch))throw Error('Stale correction '+patch.targetId+patch.field);
  parent[key]=structuredClone(patch.corrected);
 }
+// Compact assembly normalises nodes and merges source-page sections. Bind an
+// explicitly reviewed materialisation to its complete saved value; correction
+// IDs alone cannot prove that a patch was applied or protect a concurrent edit.
+function materializedProjectHash(project){
+ const strip=value=>Array.isArray(value)?value.map(strip):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>!['verification','visualAudit'].includes(key)).map(([key,v])=>[key,strip(v)])):value;
+ // Ordinary bank promotion attaches ownership/classification metadata without
+ // changing the reviewed source correction. Keep content and captured layout
+ // bound, while allowing that separately validated transaction.
+ const sections=structuredClone(project.sections);
+ for(const section of sections??[])for(const block of section.blocks??[])if(block.type==='question'){
+  for(const key of ['bankRef','canonicalId','snapshotKind','classification'])delete block[key];
+  if(block.flow){delete block.flow.localDifficulty;delete block.flow.bankDifficulty;if(!Object.keys(block.flow).length)delete block.flow;}
+ }
+ const settings={...project.settings};delete settings.flowEdition;
+ return fingerprint(strip({title:project.title,topics:project.topics,sections,settings,entries:project.source?.inventory?.entries,sourceHashes:project.source?.sourceHashes}));
+}
+export function recordMaterializedCorrections(project,state,review){
+ reviewEvidence(review);
+ if(review.sourceCompared!==true)throw Error('Compare the assembled project with the corrected source packets before recording materialisation');
+ project.source??={};
+ project.source.correctionMaterialization={version:1,...review,projectHash:materializedProjectHash(project),patchHashes:state.corrections.filter(c=>c.status==='approved').flatMap(c=>c.patches.map(fingerprint))};
+ return project;
+}
 export function materializeCorrections(source,state,scope,page){
  let result=structuredClone(source);const affected=new Set();
  const approvedPatches=state.corrections.filter(c=>c.status==='approved').flatMap(c=>c.patches);
+ const receipt=scope==='project'?result.source?.correctionMaterialization:null;
+ const materialized=new Set(receipt?.patchHashes??[]);
+ if(receipt){
+  if(receipt.version!==1||receipt.projectHash!==materializedProjectHash(result)||!evidenceCurrent(receipt.artifacts))throw Error('Stale compact correction materialisation; review the changed project before propagation');
+  const approved=new Set(approvedPatches.map(fingerprint));
+  if([...materialized].some(hash=>!approved.has(hash)))throw Error('Compact correction materialisation refers to changed or unapproved patches');
+ }
  // Saved projects may already contain the last value in an approved correction
  // chain. Only exact, consecutive replacements can supersede an earlier patch;
  // an unrelated local edit must still fail the ordinary conflict check.
@@ -113,7 +141,14 @@ export function materializeCorrections(source,state,scope,page){
  for(const correction of state.corrections){
   if(correction.status!=='approved')continue;
   for(const patch of correction.patches.filter(p=>(p.scope===scope||scope==='project'&&['author','inventory'].includes(p.scope))&&(page===undefined||p.page===page))){
+   if(materialized.has(fingerprint(patch)))continue;
    if(patch.scope==='inventory'){
+    if(patch.targetId==='$inventory'){
+     if(patch.field!=='/layoutPatterns')throw Error('Inventory envelope corrections only support layoutPatterns');
+     const target=scope==='inventory'?result:result.source?.inventory?.pages?.find(p=>p.pageNumber===patch.page);
+     if(!target)throw Error('Missing inventory page metadata '+patch.page);
+     patchField(target,patch);continue;
+    }
     const entries=scope==='inventory'?result.entries:result.source?.inventory?.entries;
     const targets=entries?.filter(e=>e.id===patch.targetId||scope==='project'&&e.id.startsWith(patch.targetId+'-mapping-'))??[];
     if(!targets.length)throw Error('Missing correction target '+patch.targetId);
@@ -161,6 +196,9 @@ export function materializeCorrections(source,state,scope,page){
    if(affected.has(nodes.get(entry.targetId)?.block.id)||(entry.teachingContextIds??[]).some(id=>affected.has(nodes.get(id)?.block.id)))delete entry.verification;
   }
  }
+ if(receipt){
+  result.source.correctionMaterialization={...receipt,projectHash:materializedProjectHash(result),patchHashes:[...new Set([...materialized,...approvedPatches.filter(p=>page===undefined||p.page===page).map(fingerprint)])]};
+ }
  return result;
 }
 
@@ -178,7 +216,7 @@ export function sourceEvidence(runDir,page,hash=bytesHash){
 }
 export function registerInventory(state,inventory,evidence=state.pages[inventory.pageNumber]?.sourceEvidence){
  const page=inventory.pageNumber,key=fingerprint({inventory,evidence}),previous=state.pages[page];
- const patterns=inventory.layoutPatterns??[];
+ const patterns=(inventory.layoutPatterns??[]).filter(p=>!p.exclusionReason?.trim());
  if(!patterns.length||patterns.some(p=>typeof p.id!=='string'||!p.description))throw Error('Inventory needs explicit layoutPatterns with IDs and descriptions, including a plain/cover pattern where applicable');
  state.pages[page]={...previous,inventoryHash:key,sourceEvidence:evidence,patterns,mathReview:previous?.inventoryHash===key?previous.mathReview:null};
  const findings=mathematicalFindings(inventory);
@@ -193,12 +231,30 @@ export function registerInventory(state,inventory,evidence=state.pages[inventory
 }
 
 export function representativePage(state,pattern){
+ const selected=state.verification?.representativePlan?.patterns?.find(p=>p.id===pattern)?.representativePage;
+ if(selected&&state.pages[selected]?.patterns.some(p=>p.id===pattern))return selected;
  return Math.min(...Object.entries(state.pages).filter(([,p])=>p.patterns.some(x=>x.id===pattern)).map(([p])=>Number(p)));
 }
 export function representativeKey(state,page){const p=state.pages[page];return fingerprint({inventory:p?.inventoryHash,author:p?.authorHash});}
 export function pageGate(state,page,{representative=false,authoring=false}={}){
  const p=state.pages[page],reasons=[];
  if(!p)return ['Inventory not registered'];
+ if(state.pipelinePolicy&&representative){
+  const plan=state.verification?.representativePlan,selected=new Set([...(plan?.representativePages??[]),...(plan?.patterns??[]).map(p=>p.representativePage),...(plan?.coverage??[]).flatMap(c=>c.pages??[])]);
+  if(!plan||!selected.has(page))reasons.push('Representative scheduling is limited to the recorded coverage pages');
+ }
+ if(state.pipelinePolicy&&!representative){
+  const plan=state.verification?.representativePlan;
+  if(!plan)reasons.push('Accepted representative coverage plan required');
+  else {const runtime=rendererSignature();
+   if(!plan.inventoryKeys||Object.entries(plan.inventoryKeys).some(([page,key])=>state.pages[page]?.inventoryHash!==key))reasons.push('Representative coverage plan is stale');
+   for(const item of plan.coverage){
+   if(item.status==='not-applicable')continue;
+   const approval=state.verification?.coverage?.[item.id];
+   if(!approval||approval.renderer!==runtime||!evidenceCurrent(approval.artifacts)||fingerprint(approval.keys)!==fingerprint(Object.fromEntries(item.pages.map(p=>[p,representativeKey(state,p)]))))reasons.push('Representative coverage inspection pending: '+item.id);
+   }
+  }
+ }
  if(p.mathReview?.key!==p.inventoryHash)reasons.push('Mathematical inventory review pending');
  for(const issue of Object.values(state.issues))if(issue.page===page&&issue.status==='pending'&&!(authoring&&issue.origin==='author'))reasons.push(issue.id);
  if(!authoring&&p.geometryError)reasons.push('Numerical triangle validation pending: '+p.geometryError);
@@ -279,6 +335,13 @@ export function approveRepresentative(state,record,runtime=rendererSignature()){
  if(record.finalSize!==true||record.sourceCompared!==true)throw Error('Compare representative source and final-size output before approval');
  state.representatives[record.pattern]={...record};state.settled=null;state.finalReview=null;
 }
+export function approveCoverage(state,record,runtime=rendererSignature()){
+ reviewEvidence(record);const item=state.verification?.representativePlan?.coverage.find(c=>c.id===record.id);
+ if(!item||item.status!=='planned'||record.renderer!==runtime||record.finalSize!==true||record.sourceCompared!==true)throw Error('Coverage requires a planned case and actual current final-size inspection');
+ const keys=Object.fromEntries(item.pages.map(p=>[p,representativeKey(state,p)]));
+ if(item.pages.some(p=>!state.pages[p]?.authorHash)||fingerprint(keys)!==fingerprint(record.keys))throw Error('Representative coverage content changed');
+ state.verification.coverage??={};state.verification.coverage[item.id]=structuredClone(record);
+}
 export function settleWorkflow(state,selectedPages,record){
  reviewEvidence(record);
  if(!selectedPages.length)throw Error('Select all source pages');
@@ -293,13 +356,15 @@ export function acceptFinalReview(state,record){
  if(!state.settled||state.settled.key!==settlementKey(state)||record.key!==state.settled.key)throw Error('Settle current content before final review');
  if(record.sourceCompared!==true||record.contentVerified!==true||record.presentationVerified!==true)throw Error('Independent source, content and presentation checks are required');
  const artifacts=[...record.artifacts],renderer=rendererSignature();
+ if(record.reviewPolicy&&record.reviewPolicy!==UNIQUE_LAYOUT_REVIEW)throw Error('Unknown final review policy');
  for(const edition of FINAL_EDITIONS){
   const review=record.editions?.[edition];
-  if(review?.allPagesVisuallyInspected!==true||!review.pages?.length||!evidenceCurrent(review.artifacts)||review.pages.some(p=>!Number.isInteger(p.page)||!p.hash||p.checked!==true))throw Error('Incomplete final visual review: '+edition);
+  if((record.reviewPolicy?review?.allPagesCovered!==true:review?.allPagesVisuallyInspected!==true)||!review.pages?.length||!evidenceCurrent(review.artifacts)||review.pages.some(p=>!Number.isInteger(p.page)||!p.hash||p.checked!==true))throw Error('Incomplete final visual review: '+edition);
   const numbers=review.pages.map(p=>p.page).sort((a,b)=>a-b);
   if(numbers.some((p,i)=>p!==i+1))throw Error('Final review must cover every page exactly once: '+edition);
   artifacts.push(...review.artifacts,...validateFinalManifest(review,{edition,key:state.settled.key,projectHash:state.settled.project.hash,renderer}));
  }
+ if(record.reviewPolicy)artifacts.push(...validateUniqueLayoutReview(record));
  state.finalReview={...record,artifacts};
 }
 

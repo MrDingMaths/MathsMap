@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {normaliseSvgPaintScopes} from '../../src/lib/svg-paint-scope.js';
+import {validatePdfRasters} from './pdf-rasters.mjs';
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 export const artifactHash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 export function readPageManifest(file){
@@ -10,6 +11,9 @@ export function projectReviewHash(project){
  const value=structuredClone(project);delete value.revision;delete value.updatedAt;
  if(value.settings)delete value.settings.flowEdition;
  return hash(value);
+}
+export function requireFinalCandidateSettlement(project,workflow){
+ if(!workflow?.settled?.project?.file||workflow.settled.project.hash!==projectReviewHash(project)||!fs.existsSync(workflow.settled.project.file)||projectReviewHash(JSON.parse(fs.readFileSync(workflow.settled.project.file,'utf8')))!==workflow.settled.project.hash)throw Error('A final isolated candidate requires a current review-first settlement of that exact project.');
 }
 export function renderedPageHashes(pages,{renderer,settings,assets}){
  const global=structuredClone(settings);delete global.flowEdition;
@@ -29,5 +33,5 @@ export function validateFinalManifest(review,{edition,key,projectHash,renderer})
  if(manifest.mode!=='full'||manifest.passed!==true||manifest.edition!==edition||manifest.workflowKey!==key||manifest.projectHash!==projectHash||manifest.renderer!==renderer)throw Error('Final manifest is not a current full-edition check: '+edition);
  if(!manifest.pdf?.path||!fs.existsSync(manifest.pdf.path)||artifactHash(manifest.pdf.path)!==manifest.pdf.hash)throw Error('Final PDF changed: '+edition);
  if(!manifest.pages?.length||manifest.pages.length!==review.pages.length||manifest.pages.some((p,i)=>p.page!==i+1||p.hash!==review.pages[i]?.hash||review.pages[i]?.page!==p.page||review.pages[i]?.checked!==true))throw Error('Final visual review must match every rendered page: '+edition);
- return [reference,manifest.pdf];
+ return [reference,manifest.pdf,...validatePdfRasters(manifest)];
 }

@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
+import {randomUUID} from 'node:crypto';
 import {chromium} from 'playwright-core';
 import {artifactHash} from './page-review.mjs';
 import {requireCurrentTranscription} from './transcription-settings.mjs';
@@ -25,6 +26,12 @@ export async function workflowPreflight({runDir,manifest,base='http://127.0.0.1:
  return measureRunPhase(runDir,'preflight',async()=>{
   const checks=[];
   const check=async(name,action)=>{const start=Date.now();try{const result=await action();checks.push({name,ok:true,...result,elapsedMs:Date.now()-start});}catch(error){checks.push({name,ok:false,error:error.message,elapsedMs:Date.now()-start});}};
+  await check('artifact-write-read',async()=>{
+   const file=path.join(runDir,'.preflight-'+randomUUID()+'.json'),value={encoding:'UTF-8',sample:'Maths α ≤ 2'};
+   try{fs.writeFileSync(file,JSON.stringify(value)+'\n',{encoding:'utf8',flag:'wx'});if(JSON.parse(fs.readFileSync(file,'utf8')).sample!==value.sample)throw Error('Artifact round trip failed');}
+   finally{if(fs.existsSync(file))fs.unlinkSync(file);}
+   return {encoding:'utf8',roundTrip:true};
+  });
   await check('model-policy',async()=>{requireCurrentTranscription(manifest);return {model:manifest.model,effort:manifest.effort};});
   await check('source-pins',async()=>{
    const entries=Object.entries(manifest.pins?.runFiles??{});if(!entries.length)throw Error('Run has no pinned source evidence');
@@ -35,7 +42,8 @@ export async function workflowPreflight({runDir,manifest,base='http://127.0.0.1:
    ['node',process.execPath,['--version']],
    ['codex',process.env.BOOKLET_CODEX_BIN??'codex',['--version']],
    ['codex-auth',process.env.BOOKLET_CODEX_BIN??'codex',['login','status']],
-   ['pdfinfo','pdfinfo',['-v']],['pdftohtml','pdftohtml',['-v']],['pdftoppm','pdftoppm',['-v']]
+   ...(manifest.source?.docx || manifest.source?.teacherDocx ? [['pandoc','pandoc',['--version']]] : []),
+   ['pdftotext','pdftotext',['-v']],['pdfinfo','pdfinfo',['-v']],['pdftohtml','pdftohtml',['-v']],['pdftoppm','pdftoppm',['-v']]
   ])await check(name,async()=>{const result=await probe(executable,args);if(!result.ok)throw Error(/Could not find home directory|failed to resolve.*home/i.test(result.output)?'The process home directory is unavailable; authentication status could not be checked.':'Command unavailable or unsuccessful (exit '+result.code+'); inspect locally.');return name==='codex-auth'?{authenticated:true}:{version:result.output.trim().split(/\r?\n/).find(line=>/^(v\d|codex(?:-cli)? \d|pdf\w+ version)/i.test(line))??'Command succeeded; version unavailable'};});
   await check('bundled-tikz',async()=>{const compile=await compileEngine(),result=await compile(smoke);if(!result.svg?.includes('<svg'))throw Error('TikZ smoke test produced no SVG');return {libraries:['angles','quotes','calc','arrows.meta','positioning','intersections'],svgCharacters:result.svg.length};});
   await check('browser-routes',async()=>{

@@ -40,6 +40,17 @@ Each block: sourcePageNumber, sourceRefs:[{pageNumber}], sourceReview:{sourcePag
 
 export const COMPACT_SOLUTIONS = String.raw`Worked solutions: use the booklet's worked examples, Key Ideas and scaffolds for method, sequence and level. MathsDatabase governs concise notation. Missing or conflicting teaching context must be an actionable finding; never silently substitute an algebraic shortcut for a graphical/table method. Use align* with & at relation signs and one step per row, retaining the full left-hand side; prose stays outside maths. Do not chain routine working with \implies, \Rightarrow or \Longrightarrow. Retain substitutions, requested checks, units, reasons, exact values and requested rounding. Verify arithmetic and agreement with short answers. Do not repeat the question or narrate routine actions. Multiple choice alone ends with one "Correct answer: X." suffix.`;
 
+// Current-page inventory is already materialized above. Do not resend its full
+// replacements or obsolete original structures in every author prompt. Keep
+// teaching-page replacements because teaching evidence itself remains original.
+export function compactEditorialCorrections(corrections,page,contextPages=[]){
+ const relevant=new Set([page,...contextPages]);
+ return corrections.filter(c=>c.status==='approved').map(c=>({id:c.id,reason:c.reason,
+  patches:c.patches.filter(p=>relevant.has(p.page)).map(p=>({scope:p.scope,page:p.page,targetId:p.targetId,field:p.field,
+   ...(p.scope==='inventory'&&p.page===page?{appliedToInventory:true}:{corrected:p.corrected})}))
+ })).filter(c=>c.patches.length);
+}
+
 const TIKZ_CORE=`${DIAGRAM_COLOUR_PROMPT}
 # Conditional TikZ contract
 Include TikZ only for a mathematical visual. Each diagram.code contains a complete tikzpicture; the outer response remains JSON. Use TikZJax-supported libraries (calc, angles, quotes, arrows.meta, positioning); no document preamble, external images or raster effects. Trust the supplied source image for visual meaning and preserve question-versus-solution visibility. Do not invent unspecified lengths, angles, coordinates, labels or geometry.
@@ -54,7 +65,7 @@ const TYPE_RULES={
  graph:`## Graph/coordinate rules
 - Distinguish categorical data displays from equation/function graphs. Plot a known equation mathematically over a bounded domain; do not trace pixels.
 - Preserve the source's axes, tick presence, grid, scale, arrows, points, dashes and semantic series colours. Omit the Cartesian-origin O label.
-- Keep axis numbers readable at final size (normally 8.5 pt), other labels around 10 pt, and prevent axis titles colliding with tick labels. Use role-specific strokes: plots 0.8 pt, axes 0.5 pt, ticks/guides 0.4 pt, major grid 0.25 pt, minor grid 0.15 pt.`,
+- Numeric axis labels, including number-line ticks, must carry the native tick role: wrap each node's label contents in \\special{dvisvgm:raw <g data-graph-text="tick">} and \\special{dvisvgm:raw </g>}. A font-size option alone does not identify a tick for final-size calibration. Tick labels print at 8.5 pt; ordinary labels print at 10 pt. Prevent axis titles colliding with tick labels. Use role-specific strokes: plots 0.8 pt, axes 0.5 pt, ticks/guides 0.4 pt, major grid 0.25 pt, minor grid 0.15 pt.`,
  angle:`## Angle/triangle/geometry rules
 - Preserve the source topology, point names, side labels, angle sectors, equal-length marks, parallel marks and right-angle marks.
 - Derive marks from the actual edges and coordinates; use the correct angle winding and keep labels inside or outside their intended regions. Do not replace a complete scaffold with only the final result.

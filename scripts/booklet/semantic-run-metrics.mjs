@@ -23,26 +23,40 @@ export function recordAttempt(packetRoot, identity, {now=Date.now}={}) {
 export function summarizeAttemptEvents(events) {
  const attempts=new Map();
  for(const e of events){if(!attempts.has(e.attemptId))attempts.set(e.attemptId,[]);attempts.get(e.attemptId).push(e);}
- const usage={},phases={},unfinished=[],intervals=[];let calls=0,missingUsage=0,callElapsedMs=0;
+ const usage={},phases={},unfinished=[],intervals=[],byStage={},byOutcome={},byAttempt={},byRetryReason={},promptCharacters={},localByRetryReason={};let calls=0,missingUsage=0,callElapsedMs=0,generationAttempts=0,localReplays=0;
  for(const [attemptId,rows] of attempts){
   const start=rows.find(e=>e.event==='started'),finish=rows.findLast(e=>e.event==='finished');
   if(start&&finish)intervals.push([start.time,finish.time]);
   if(!finish)unfinished.push({attemptId,stage:start?.stage,page:start?.page,attempt:start?.attempt,lastEvent:rows.at(-1)});
   const generation=rows.find(e=>e.event==='phase-started'&&e.phase==='generation');
   if(generation){
-   calls++;
+   generationAttempts++;
    const metrics=rows.findLast(e=>e.event==='phase-finished'&&e.phase==='generation')?.metrics??finish?.metrics;
+   const local=metrics?.externalModelCalls===0;
+   if(local){localReplays++;const reason=start?.retryReason??'unrecorded';localByRetryReason[reason]=(localByRetryReason[reason]??0)+1;}
+   else{
+   calls++;
+   const outcome=!finish?'unfinished':finish.ok?'passed':'failed';
+   const repeated=Number(start?.attempt)>1;
+   for(const [groups,key] of [[byStage,start?.stage??'unknown'],[byOutcome,outcome],[byAttempt,repeated?'repeat':'first'],[byRetryReason,repeated?(start?.retryReason??(start?.repairFrom?'mapping-repair':'unrecorded')):'initial']]){
+    const group=groups[key]??={calls:0,missingUsage:0,usage:{},callElapsedMs:0};group.calls++;
+    if(!metrics?.usage)group.missingUsage++;
+    for(const [name,value] of Object.entries(metrics?.usage??{}))if(typeof value==='number'&&Number.isFinite(value))group.usage[name]=(group.usage[name]??0)+value;
+    group.callElapsedMs+=metrics?.elapsedMs??0;
+   }
+   for(const [name,value] of Object.entries(start?.promptStats?.sections??{}))if(Number.isFinite(value))promptCharacters[name]=(promptCharacters[name]??0)+value;
    if(!metrics?.usage)missingUsage++;
    for(const [key,value] of Object.entries(metrics?.usage??{}))if(typeof value==='number')usage[key]=(usage[key]??0)+value;
    callElapsedMs+=metrics?.elapsedMs??0;
+   }
   }
   for(const e of rows.filter(e=>e.event==='phase-finished'))phases[e.phase]=(phases[e.phase]??0)+e.elapsedMs;
  }
  // Union of completed attempt intervals, never the sum of concurrent durations.
  let activeWallMs=0,end=-Infinity;
  for(const [a,b] of intervals.sort((a,b)=>a[0]-b[0])){activeWallMs+=Math.max(0,b-Math.max(a,end));end=Math.max(end,b);}
- return {version:1,attempts:attempts.size,calls,missingUsage,usage,callElapsedMs,phaseElapsedMs:phases,completedAttemptActiveWallMs:activeWallMs,unfinished,
-  note:'Usage is incomplete when unavailable; cached input is a subset of input. Phase sums are not wall time. Active wall time covers completed runner attempts only; review, render, offline work and unfinished intervals are excluded.'};
+ return {version:3,attempts:attempts.size,generationAttempts,calls,localReplays,localByRetryReason,missingUsage,usage,callElapsedMs,byStage,byOutcome,byAttempt,byRetryReason,promptCharacters,phaseElapsedMs:phases,completedAttemptActiveWallMs:activeWallMs,unfinished,
+  note:'Calls and prompt characters count external model generation only. Explicit zero-call local replays are separate and do not imply missing usage. Other unavailable usage remains unknown; cached input is a subset of input. Phase sums are not wall time. Active wall time covers completed runner attempts only; review, render, offline work and unfinished intervals are excluded.'};
 }
 
 export function readAttemptReceipt(packetRoot) {

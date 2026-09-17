@@ -78,3 +78,11 @@ export function buildRunReceipt(runDir) {
   recordedActiveWallMs:union(intervals),calendarSpanMs:intervals.length?Math.max(...intervals.map(i=>i[1]))-Math.min(...intervals.map(i=>i[0])):0,
   note:'Derived only from recorded events. Active time is the union of completed work intervals; overlapping phases count once. Unrecorded/offline work, unresolved review sessions and historical missing usage remain unavailable. Readiness, render checks and actual visual inspection are separate evidence.'};
 }
+
+export function summarizeRunReceipt(receipt){
+ const model=receipt.model;
+ return {version:3,generatedAt:receipt.generatedAt,recordedActiveWallMs:receipt.recordedActiveWallMs,calendarSpanMs:receipt.calendarSpanMs,
+  phases:Object.fromEntries(Object.entries(receipt.phases).map(([name,rows])=>[name,{runs:rows.length,failed:rows.filter(r=>!r.ok).length,elapsedMs:rows.reduce((sum,r)=>sum+r.elapsedMs,0)}])),
+  model:{attempts:model.attempts,generationAttempts:model.generationAttempts,calls:model.calls,localReplays:model.localReplays,localByRetryReason:model.localByRetryReason,missingUsage:model.missingUsage,usage:model.usage,byStage:model.byStage,byAttempt:model.byAttempt,byOutcome:model.byOutcome,byRetryReason:model.byRetryReason,promptCharacters:model.promptCharacters},
+  unfinished:{phases:receipt.unfinished.length,attempts:model.unfinished.length},incompleteTail:receipt.incompleteTail||model.incompleteTail,note:receipt.note};
+}

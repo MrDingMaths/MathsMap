@@ -281,8 +281,9 @@ export async function materializeRunAsProject(runId, {
   project.source = {
     ...project.source,
     exactResultFormat: manifest.exactResultFormat,
-    sourceHashes: { pdf: manifest.source?.pdfHash ?? null, docx: manifest.source?.docxHash ?? null },
-    ...(manifest.source?.teacherPdf?{teacherSource:manifest.source.teacherPdf,teacherHashes:{pdf:manifest.pins?.files?.['source/teacher.pdf'],docx:manifest.pins?.files?.['source/teacher.docx']}}:{}),
+    sourceHashes: { pdf: manifest.source?.pdfHash ?? null, docx: manifest.source?.docxHash ?? null, ...(manifest.source?.teacherPdfHash?{teacherPdf:manifest.source.teacherPdfHash}:{}) },
+    referencePages:{context:manifest.contextPages??[],teacher:manifest.teacherPages??[]},
+    ...(manifest.source?.teacherPdf?{teacherSource:manifest.source.teacherPdf,teacherHashes:{pdf:manifest.source.teacherPdfHash??manifest.pins?.runFiles?.['source/teacher.pdf'],docx:manifest.source.teacherDocxHash??manifest.pins?.runFiles?.['source/teacher.docx']}}:{}),
     reconstructionHash: hashValue(raw),
     materializedAt: new Date().toISOString(),
   };
@@ -354,6 +355,10 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   if (isTheoryReview(placement.block, placement.section)) throw Object.assign(new Error('Review questions belong to theory. Save them in a teaching module rather than the practice question bank.'), { statusCode: 400 });
   const candidates = await duplicateCandidates(placement.block, bankRoot);
   if (!body.mode || body.mode === 'inspect') return { project, candidates };
+  if(path.resolve(bankRoot)===path.resolve(BANK_ROOT)){
+   if(project.source?.pipelinePilot)throw Error('Regression pilot content cannot be published to the live bank');
+   if((project.source?.workflow??project.source?.inventory?.workflow)?.pipelinePolicy&&!placement.block.bankRef)throw Error('New PDF imports must publish through import-project-bank with the current verification register');
+  }
 
   if (body.mode === 'link-existing') {
     const target = await readJson(fileFor(bankRoot, body.targetId));

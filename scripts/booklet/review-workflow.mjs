@@ -7,6 +7,8 @@ import {loadBookletProject,saveBookletProject} from './project-studio-server.mjs
 import {rendererSignature} from './verification-cache.mjs';
 import {projectReviewHash} from './page-review.mjs';
 import {loadWorkflow,liveWorkflow,updateWorkflow,currentStatus,registerInventory,registerAuthor,sourceEvidence,effectiveInventory,effectiveAuthor,synchronizeProject,recordMathReview,applyDecisions,approveRepresentative,settleWorkflow,acceptFinalReview,fingerprint,bytesHash} from './workflow-review.mjs';
+import {importPreFinal} from './import-pre-final.mjs';
+import {printWorkflowOutput} from './workflow-output.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 export function refreshRegister(runDir,pages,state,{decisions=[]}={}){
@@ -39,11 +41,13 @@ export async function main(args=process.argv.slice(2)){
  const command=args[0],options={};
  if(!['status','inventory','review-maths','decide','approve-pattern','propagate','settle','final-review'].includes(command))throw Error('Use status|inventory|review-maths|decide|approve-pattern|propagate|settle|final-review --run-id ID [--input REVIEW.json] [--project ID]');
  for(let i=1;i<args.length;i++){
-  if(!['--run-id','--input','--project'].includes(args[i])||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+args[i]);
+  if(args[i]==='--full'){options['--full']=true;continue;}
+  if(!['--run-id','--input','--project','--out'].includes(args[i])||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+args[i]);
   options[args[i]]=args[++i];
  }
  const {runDir,manifest}=loadRun(options['--run-id']),pages=manifest.selectedPages;
- if(command==='status'){const state=liveWorkflow(runDir,pages);const report={...currentStatus(state,pages),renderer:rendererSignature()};console.log(JSON.stringify(report,null,2));return report;}
+ const display=report=>printWorkflowOutput(report,{out:options['--out'],full:!!options['--full']});
+ if(command==='status'){const state=liveWorkflow(runDir,pages);const report={...currentStatus(state,pages),renderer:rendererSignature()};display(report);return report;}
  const record=options['--input']?read(options['--input']):null;
  if(!['inventory','propagate'].includes(command)&&!record)throw Error('This command needs --input with explicit review evidence');
  const projectId=options['--project']??loadWorkflow(runDir).projectId;
@@ -60,6 +64,8 @@ export async function main(args=process.argv.slice(2)){
   if(command==='decide')applyDecisions(state,record);
   if(command==='approve-pattern')approveRepresentative(state,record);
   if(command==='settle'){
+   const early=importPreFinal(project,{reviews:record.preFinalReviews??[]});
+   if(!early.ok)throw Error('Pre-final checks failed; inspect run-workflow pre-final output before settlement: '+early.issues.map(i=>i.rule+' '+i.path).join('; '));
    if(fingerprint(synchronizeProject(project,state,pages,manifest.id))!==fingerprint(project))throw Error('Propagate current corrections/status before settling the project');
    settleWorkflow(state,pages,{...record,project:{id:projectId,file:projectFile,hash:projectReviewHash(read(projectFile))}});
   }
@@ -78,6 +84,6 @@ export async function main(args=process.argv.slice(2)){
   const state=liveWorkflow(runDir),updated=synchronizeProject(project,state,pages,manifest.id);
   if(fingerprint(updated)!==fingerprint(project))await saveBookletProject(updated,{expectedRevision:project.revision});
  }
- const report=currentStatus(liveWorkflow(runDir),pages);console.log(JSON.stringify(report,null,2));return report;
+ const report=currentStatus(liveWorkflow(runDir),pages);display(report);return report;
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error.message);process.exitCode=1;});
