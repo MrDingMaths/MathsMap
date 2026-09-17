@@ -15,7 +15,8 @@ import {SHARED_DIAGRAM_FORMAT,SHARED_DIAGRAM_PROMPT,materializeAuthorDiagrams} f
 import {withRunLock} from './run-observability.mjs';
 import {writeTransaction} from './bank-sync.mjs';
 import {validateContentScope,PRACTICE_ONLY_PROMPT,validatePracticeInventory,validatePracticeAuthor} from './practice-only-scope.mjs';
-import {planTaskAssignments,runAuthorAssignments,assignmentPayload} from './author-assignments.mjs';
+import {planTaskAssignments,createAuthorAssignmentQueue,assignmentPayload} from './author-assignments.mjs';
+import {workerConcurrency,withWorkerSlot} from './worker-pool.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
@@ -206,7 +207,7 @@ export function semanticCacheInfo(task){
 
 export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false,repairFrom=null,retryReason=null,regenerationReason=null,pageReplay=false},{runner=runCodexTranscription,log=console.log,verifyPublication=()=>{}}={}){
  if(retryReason!==null&&(!['source-correction','content-repair','mapping-repair','renderer-change','infrastructure','input-change','validation-repair'].includes(retryReason)))throw Error('Unsupported retry reason');
- attempt=positive(attempt,'Attempt');concurrency=positive(concurrency,'Concurrency');
+ attempt=positive(attempt,'Attempt');concurrency=workerConcurrency(concurrency);
  if(regenerationReason!==null&&(typeof regenerationReason!=='string'||!regenerationReason.trim()))throw Error('Explain why targeted repair is insufficient');
  const tasks=createSemanticTasks({runDir,manifest,config,stage,pages,attempt,representative}),states=tasks.map(task=>({task,cache:semanticCacheInfo(task),originalHash:fs.existsSync(task.resultFile)?fileHash(task.resultFile):null}));
  const assigned=!!manifest.pipelinePolicy&&stage==='author'&&repairFrom===null&&!pageReplay;
@@ -242,6 +243,11 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
    if(stage==='author'&&latest&&repairFrom===null&&!assigned&&runner===runCodexTranscription&&!regenerationReason)throw Error('Review the preserved attempt with attempt-context/repair-context first. Full-page regeneration requires --regenerate-reason explaining why targeted repair is insufficient.');
   }
  }
+ let authorQueue;
+ if(assigned){
+  const activePages=new Set(states.filter(({task,cache})=>!task.blockers.length&&!(cache.kind==='hit'&&(attempt===1||attempt===cache.attempt))).map(({task})=>task.page));
+  if(activePages.size)authorQueue=createAuthorAssignmentQueue({runDir,tasks:assignmentTasks,plan:{...assignmentPlan,assignments:assignmentPlan.assignments.filter(a=>a.pages.some(p=>activePages.has(p)))},runner,attempt,regenerationReason,log,concurrency,validate:validateSemanticResult,materialize:v=>materializeAuthorDiagrams(v,{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT})});
+ }
  let cursor=0;const outcomes=[],queuedAt=Date.now();
  async function register(task){
   if(!task.reviewed)return;
@@ -268,7 +274,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     log(JSON.stringify({stage,page:task.page,status:'started',attempt,concurrency,...task.promptStats}));
     events.phase('generation');
     if(assigned)metrics={provider:'assignment-assembly',externalModelCalls:0,usage:null,elapsedMs:0};
-    const reply=assigned?await runAuthorAssignments({runDir,task,tasks:assignmentTasks,plan:assignmentPlan,runner,attempt,regenerationReason,log,validate:validateSemanticResult,materialize:v=>materializeAuthorDiagrams(v,{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT})}):await runner({cwd:runDir,prompt:task.prompt,images:task.images,out:task.out});
+    const reply=assigned?await authorQueue.pageResult(task):await withWorkerSlot(runDir,{stage,page:task.page},()=>runner({cwd:runDir,runDir,prompt:task.prompt,images:task.images,out:task.out}));
     metrics=reply.metrics??null;events.end({metrics,generatedCharacters:JSON.stringify(reply.result)?.length??null});
     events.phase('validation');
     fs.writeFileSync(path.join(task.out,task.repair?'repair.json':'generation.json'),JSON.stringify(reply.result,null,2)+'\n',{flag:'wx'});
@@ -321,6 +327,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
   }
  }
  await Promise.all(Array.from({length:Math.min(concurrency,tasks.length)},worker));
+ if(authorQueue)await authorQueue.completion;
  const receipt=readAttemptReceipt(tasks[0].packetRoot),receiptFile=path.join(tasks[0].packetRoot,'attempt-receipt.json');
  fs.mkdirSync(tasks[0].packetRoot,{recursive:true});fs.writeFileSync(receiptFile,JSON.stringify(receipt,null,2)+'\n');
  const report={stage,ok:outcomes.every(o=>o.ok),concurrency,pages:outcomes.sort((a,b)=>a.page-b.page),receiptFile};log(JSON.stringify(report));return report;

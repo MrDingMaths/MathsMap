@@ -4,6 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {withRunLock} from './run-observability.mjs';
 import {recordAttempt} from './semantic-run-metrics.mjs';
+import {runBoundedJobs,withWorkerSlot} from './worker-pool.mjs';
 
 export const ASSIGNMENT_FORMAT='mathsmap-author-assignments-v1';
 const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
@@ -101,12 +102,15 @@ export function planTaskAssignments(tasks,options={}){
  return plan;
 }
 
-export async function runAuthorAssignments({runDir,task,tasks,plan,runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{}}){
- const fragments=[];
+function prepareAssignmentRun(runDir,tasks,plan){
  const root=path.join(runDir,'semantic-packets','assignments');fs.mkdirSync(root,{recursive:true});
  const planFile=path.join(root,'plan-'+hash(plan)+'.json');if(!fs.existsSync(planFile))fs.writeFileSync(planFile,JSON.stringify(plan,null,2));
  for(const t of tasks)if(t.editorialFile){fs.mkdirSync(path.dirname(t.editorialFile),{recursive:true});const value=JSON.stringify(t.editorial);if(!fs.existsSync(t.editorialFile))fs.writeFileSync(t.editorialFile,value);if(bytes(t.editorialFile)!==t.editorialHash)throw Error('Shared editorial evidence changed');}
- for(const assignment of plan.assignments.filter(a=>a.pages.includes(task.page))){
+ return root;
+}
+
+export async function runAuthorAssignment({runDir,assignment,tasks,root=path.join(runDir,'semantic-packets','assignments'),runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{}}){
+  fs.mkdirSync(root,{recursive:true});
   const payload=assignmentPayload(assignment,tasks),dir=path.join(root,assignment.id),cacheFile=path.join(dir,'accepted.json');
   for(const resource of payload.resources){fs.mkdirSync(path.dirname(resource.path),{recursive:true});if(!fs.existsSync(resource.path))fs.writeFileSync(resource.path,resource.text);if(bytes(resource.path)!==resource.hash)throw Error('Shared context evidence changed');}
   // The same indivisible activity may be requested by two page workers.
@@ -118,9 +122,9 @@ export async function runAuthorAssignments({runDir,task,tasks,plan,runner,valida
    if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient');
    fs.mkdirSync(out);fs.writeFileSync(path.join(out,'prompt.md'),payload.prompt);fs.writeFileSync(path.join(out,'task-input.json'),JSON.stringify({inputHash:payload.inputHash,assignment}));
    const catalog=path.join(root,'evidence-'+hash(payload.context.evidence)+'.json');if(!fs.existsSync(catalog))fs.writeFileSync(catalog,JSON.stringify(payload.context.evidence,null,2));
-   const events=recordAttempt(path.join(runDir,'semantic-packets'),{stage:'author',page:task.page,assignmentId:assignment.id,attempt,inputHash:payload.inputHash,promptStats:payload.promptStats,regenerationReason,retryReason:attempt>1?'content-repair':'initial'});let metrics,ok=false,error;
+   const events=recordAttempt(path.join(runDir,'semantic-packets'),{stage:'author',page:assignment.pages[0],pages:assignment.pages,assignmentId:assignment.id,attempt,inputHash:payload.inputHash,promptStats:payload.promptStats,regenerationReason,retryReason:attempt>1?'content-repair':'initial'});let metrics,ok=false,error;
    try{
-    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await runner({cwd:runDir,prompt:payload.prompt,images:payload.images,out});metrics=reply.metrics;events.end({metrics});
+    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,prompt:payload.prompt,images:payload.images,out}));metrics=reply.metrics;events.end({metrics});
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
     const packets=reply.result?.packets?.map(materialize);
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
@@ -129,8 +133,28 @@ export async function runAuthorAssignments({runDir,task,tasks,plan,runner,valida
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
     fs.writeFileSync(cacheFile,JSON.stringify({inputHash:payload.inputHash,result:{path:resultFile,hash:bytes(resultFile)}}));ok=true;events.end();return packets;
    }catch(e){error=e.message;metrics??=e.metrics;throw e;}finally{events.finish({ok,error,metrics});}
-  },{timeoutMs:600000});
-  fragments.push({assignment,packet:packets.find(p=>p.pageNumber===task.page)});
- }
- return {result:mergeAssignmentPackets(task.inventory,fragments),metrics:{provider:'assignment-assembly',externalModelCalls:0,usage:null,elapsedMs:0}};
+  },{timeoutMs:1800000});
+  return {assignment,packets};
+}
+
+export function createAuthorAssignmentQueue(options){
+ const {runDir,tasks,plan,concurrency=3}=options,root=prepareAssignmentRun(runDir,tasks,plan),pending=new Map(),resolvers=new Map();
+ for(const a of plan.assignments){if(pending.has(a.id))throw Error('Duplicate assignment ownership: '+a.id);pending.set(a.id,new Promise(resolve=>resolvers.set(a.id,resolve)));}
+ const completion=runBoundedJobs(plan.assignments,async assignment=>{
+  try{const result=await runAuthorAssignment({...options,root,assignment});resolvers.get(assignment.id)({ok:true,result});return result;}
+  catch(error){resolvers.get(assignment.id)({ok:false,error});throw error;}
+ },{concurrency});
+ return {completion,async pageResult(task){
+  const assigned=plan.assignments.filter(a=>a.pages.includes(task.page)),rows=await Promise.all(assigned.map(a=>pending.get(a.id)));
+  const failed=rows.find(r=>!r.ok);if(failed)throw failed.error;
+  const fragments=rows.map(r=>({assignment:r.result.assignment,packet:r.result.packets.find(p=>p.pageNumber===task.page)}));
+  return {result:mergeAssignmentPackets(task.inventory,fragments),metrics:{provider:'assignment-assembly',externalModelCalls:0,usage:null,elapsedMs:0}};
+ }};
+}
+
+// Compatibility entry point for callers assembling one page. The semantic
+// runner uses one shared queue for all pages so dense pages can fill every slot.
+export async function runAuthorAssignments(options){
+ const queue=createAuthorAssignmentQueue({...options,plan:{...options.plan,assignments:options.plan.assignments.filter(a=>a.pages.includes(options.task.page))}});
+ try{return await queue.pageResult(options.task);}finally{await queue.completion;}
 }
