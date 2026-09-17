@@ -128,7 +128,7 @@ export async function runPairedTrial({out,arm,concurrency=3,timeoutMs=900000},{r
    const reply=await runner({cwd:sample.runDir,runDir:root,prompt:fs.readFileSync(item[arm].prompt.path,'utf8'),images:item[arm].images.map(i=>i.path),out:directory,profile:'transcription',stage:'paired-trial-author',timeoutMs});record.metrics=reply.metrics;
    save(path.join(directory,'generation.json'),reply.result);
    if(reply.result?.packets?.length!==1)throw Error('Return one assigned source-page packet');
-   const packet=reply.result.packets[0];validateTrialPacket(packet,sample);save(path.join(directory,'packet.json'),packet);
+   const packet=reply.result.packets[0];save(path.join(directory,'packet.json'),packet);record.output=ref(path.join(directory,'packet.json'));validateTrialPacket(packet,sample);
    const built=materialize(packet,sample,'trial-'+arm+'-'+item.id);for(const [name,value] of Object.entries(built))save(path.join(directory,name+'.json'),value);
    record.status=built.validation.valid?'generated':'invalid';record.output=ref(path.join(directory,'packet.json'));record.project=ref(path.join(directory,'project.json'));record.validation=built.validation;
   }catch(error){record.status='failed';record.error=error.message;record.metrics??=error.metrics??null;}
