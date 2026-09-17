@@ -7,7 +7,7 @@ The booklet editor uses a compact outline, contextual Layout / Arrange / Page in
 - **Insert a bank question:** Insert -> From question bank. Search by skill, wording or ID, inspect the full question/answers, then Insert question. Copies are inserted after the selected logical group using the existing bank snapshot workflow.
 - **Manual page break:** select a question or teaching block, then Layout & spacing -> Page -> Page break before/after. The same actions are in outline block menus. Use the topic menu's Start exercise on new page for an exercise boundary.
 - **Remove a break:** use Remove on its manual-break marker or Page -> Remove break before. Automatic and source boundaries are labelled separately; explicit actions can override a source boundary. Keeping with next does not defeat an explicit break.
-- **Spacing:** Layout controls affect the selected item. Choose Whole question in Scope to change all its answer spaces or stacked gaps. Units are shown once per field group; Auto width retains automatic sizing.
+- **Spacing:** Layout shows Whole question controls first for question blocks, followed by the selected item or selected-paragraph controls. Whole-question changes affect all answer spaces or stacked gaps; selected-item changes remain local. Units are shown once per field group; Auto width retains automatic sizing.
 - **Arrangement:** Detailed arrangement preserves the selected item. Layout changes dimensions; Arrange changes order/grouping; Page changes booklet boundaries when the draft is saved. Cancel leaves the project unchanged. Use Structure on smaller screens to open the tree.
 - **Tables:** select a cell and use the Table row selector to edit one row's minimum height. The inspector does not grow with the number of rows.
 

@@ -12,6 +12,26 @@ If the relevant example is outside the supplied pages, obtain that teaching cont
 
 ## MathsDatabase conventions
 
+### Back-of-book methods (16 September 2026)
+
+Current and future practice short answers retain the final result and include a
+brief method where it helps with a harder question. Review Mastery/Challenge and
+non-routine method selection, proof and justification questions; ratings alone
+do not decide. Use one concise sentence, normally no more than 25 words, drawn
+from the booklet's examples, Key Ideas, scaffolds and worked solution. Reuse an
+existing explanation, and flag missing or conflicting teaching context. Preserve
+required reasons, exact values, units and stated precision. A shared method may
+appear alongside the first applicable part; do not repeat it across routine
+siblings. Keep result and method together in editable `answer.short`, using a
+separate paragraph for the method. No runtime truncation or automatic extraction
+from worked solutions is permitted. The full worked answer remains intact.
+
+Short-answer rows adapt to three, two or one entries within each page column.
+Methods and explanatory sentences span the column. Remove grey divider rules
+between questions and parts; retain exercise separators and actual table borders.
+
+### Full worked answers
+
 - Show the calculation or mathematical observation directly. Keep the essential intermediate steps, units, reasons and requested checks.
 - Avoid repeating the question, instructions already evident from the working, redundant conclusions and commentary about source material.
 - Use `align*` for multi-step calculations; keep explanatory prose outside the equation block. Short single-line answers may remain inline.

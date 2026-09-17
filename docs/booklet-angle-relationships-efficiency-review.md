@@ -1,5 +1,7 @@
 # Angle Relationships import: speed and token-efficiency review
 
+Current-policy note (16 September 2026): the historical measurements and implementation record below are retained. Earlier statements requiring every identical combined page to be manually reread are superseded by [unique-layout final acceptance](booklet-review-first-workflow.md#unique-layout-final-acceptance). All five exports still receive automated checks; current standalone inspections can cover matching combined bodies only with exact PDF-pixel evidence and separate composition review.
+
 Reviewed 13 September 2026. Scope: completed Angle Relationships v1 run. The implemented workflow is described below; it does not modify booklet content, the renderer, acceptance contracts or model configuration.
 
 ## Evidence and measurement limits

@@ -4,6 +4,23 @@ This register consolidates earlier recorded user feedback for every future bookl
 
 ## Precedence and scope
 
+### Adaptive back-of-book answers (16 September 2026)
+
+All current and future compact short-answer editions use two 9 pt columns with
+an 8 mm gutter and measured three/two/one-entry rows within each column, with
+3 mm between cells. Preserve full labels and reading order. Explanations,
+methods, tables and diagrams use the full column width. Short answers have no
+grey divider rules between questions or parts; keep exercise separators and
+meaningful table/diagram borders. Retain the final result and add one concise,
+booklet-supported method sentence where useful for harder questions. Existing
+worked-solution presentation and question pagination settings remain intact.
+
+### Edition review (16 September 2026)
+
+Feedback-maintenance precedence: select only the checks required by the [minimum verification matrix](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance). Ordinary repairs do not create a new import settlement. Conditional diagram, bank, interaction and edition checks replace blanket reruns; preserve source/teaching fidelity and audit shared causes across applicable books. The full-acceptance requirements in the next paragraph apply only when full acceptance is required.
+
+Use [scoped checks](booklet-change-runbook.md) for ordinary edits and editor-only changes. Required full acceptance retains all five automated export checks, with [unique-layout visual acceptance](booklet-review-first-workflow.md#unique-layout-final-acceptance): inspect the three standalone layouts completely, verify duplicate combined bodies using exact actual-PDF pixels, inspect exceptions/covers/answer boundaries, and explicitly check combined contents, transitions, numbering, every footer and links. Matching bodies can inherit only current completed standalone inspection, never an automatic/source-hash pass. This supersedes earlier blanket five-edition rereading requirements, including trig-specific wording. Full manual review remains supported. New settlements require fresh actual inspections and composition review; source, mathematical and teaching/arrangement gates remain independent.
+
 ### Activity correctness markers and numbered working (13 September 2026)
 
 All current and future activity correctness ticks and crosses use 14 pt at final
@@ -25,6 +42,32 @@ Booklet Studio exposes arrangement and spacing through **Spacing**.
 Its question-wide controls, selected object controls, paragraph settings and
 detailed arrangement entry share one panel. Table row minimum heights and cell
 padding belong here too: paragraph spacing cannot override a taller table row.
+
+Related teaching equations use explicit, source-reviewed `equationAlignment`
+metadata on each example. `mode: 'relation'` aligns the black prompt and supplied
+response at their relation signs; `align: 'center'` centres the complete pair.
+`mode: 'continuation'` reserves an equals-sign gutter in the initial expression,
+matching the right-hand expressions of subsequent working. The renderer derives
+display values from separately editable prompts and solutions. Independent
+equations and source-centred demonstrations retain their own arrangements.
+Compare fraction baselines, row heights and the whole teaching box in the PDF.
+Align question labels to the first text baseline only when the leading content is
+text or a paragraph. Diagram, table and structured-layout prompts keep their label
+at the top; an SVG's bottom baseline must not pull its label below the figure.
+
+Explain-the-mistake portraits follow the Index Laws convention: an editable crop,
+17 mm printed portrait width, proportional height and 5 mm character-to-bubble
+gap. The native speech-bubble template uses a fixed character track. Statement
+widths exclude the character and gap. Preserve original image files; review each
+project and bank occurrence at final size. Logarithms page 47's compact paired
+operations are a local source arrangement, not a global table-spacing change.
+
+Answer-diagram widths can be legacy numbers or `{short, worked}` values in
+`compactAnswers.diagramWidths`. A resize changes the current answer layout and
+its combined edition. Explicit widths override default caps within the available
+column; mathematical diagram edits remain shared. Verify code edits, resizing,
+keyboard deletion, undo/redo and save/reopen while retaining the rendered mode,
+content fragment and viewport offset. Failed commits keep the draft open.
 
 Use the [booklet change runbook](booklet-change-runbook.md) for efficient execution: inspect representative cases early, iterate on affected pages and neighbours, reuse valid evidence, settle inputs before final checks, and record actual costs. Existing source-fidelity and required complete final review gates remain in force.
 
@@ -133,3 +176,25 @@ select the question, open **Spacing → Detailed arrangement…**, select
 the row/group in **Question structure**, and adjust **Minimum height (mm)**.
 Zero fits content; **Gap (mm)** controls separation between children. Separate
 answer spaces and table row heights can also reserve writing room.
+
+## Question-part separators and practice teaching headings (15 September 2026)
+
+Question arrangements never draw borders between question parts, including imported
+arrangements with explicit internal rules. The shared arrangement resolver suppresses
+these separators across current books, bank previews, answer editions and future
+imports. Preserve real table-cell borders, individual card outlines and teaching-panel
+outlines. Keep original source rules as evidence; source appearance does not override
+this convention. Logarithms v1 page 3 is the reference example.
+
+Practice teaching blocks use the shared **Guided Practice** heading regardless of the
+source heading. Preserve source activity identity and original labels in source evidence.
+This does not rename exercise sections or change which questions enter answer editions.
+
+Teaching-panel grids must allow their content column to fit the available width;
+minimum-content sizing must not push tables into the margins. The tighter margins and
+table after-spacing accepted for Logarithms page 4 are local, not global defaults.
+
+
+## Shared-stem question groups and working space (17 September 2026)
+
+Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).

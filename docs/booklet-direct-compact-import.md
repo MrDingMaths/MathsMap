@@ -22,7 +22,11 @@ New compact projects also calculate a cover when no existing source cover is pre
 
 ## Prepare and create
 
-New runs must also follow the [review-first workflow](booklet-review-first-workflow.md). It supplies early mathematical review, bundled editorial decisions, final-size representative-pattern gates, one structured correction/issue register, dependent-output invalidation and incremental development exports. Redundant measurements remain source content: unused is not a defect; review consistency at stated precision. Independent inventory and complete final five-edition visual inspection remain mandatory.
+Use the [import efficiency workflow](booklet-import-efficiency.md) for a complete
+representative plan, targeted repairs, isolated save/reopen preflight, resumable
+exports, bounded preview diagnostics and measured retry costs.
+
+New runs must also follow the [review-first workflow](booklet-review-first-workflow.md). It supplies early mathematical review, bundled editorial decisions, final-size representative-pattern gates, one structured correction/issue register, dependent-output invalidation and incremental development exports. Redundant measurements remain source content: unused is not a defect; review consistency at stated precision. Independent inventory and complete final edition coverage remain mandatory under the [unique-layout acceptance policy](booklet-review-first-workflow.md#unique-layout-final-acceptance): inspect three standalone layouts, verify duplicate combined bodies against actual PDF pixels, inspect exceptions and separately review both combined compositions.
 
 Prepare a fresh source run with `npm run booklet:prepare -- --pdf SOURCE.pdf --docx SOURCE.docx --pages 1-N --run-id RUN`. Keep originals, hashes, extracted media and page images local. Do not overwrite an earlier evidence run.
 
@@ -127,7 +131,7 @@ The general tools accept project IDs and local output directories:
 
 - `calibrate-compact-answers.mjs --project ID --editions short,worked --out DIR [--apply]`
 - `check-compact-exercises.mjs --project ID --editions student,short,worked,with-short,with-worked --out DIR [--force] [--draft]`
-- Add `--development` during editing to export changed physical pages and pagination neighbours using separate non-acceptance caches; run complete five-edition checks and visual inspection after content settles.
+- Add `--development` during editing to export changed physical pages and pagination neighbours using separate non-acceptance caches; after content settles, run all five automated edition checks once and complete unique-layout visual/composition acceptance.
 - `check-teaching-presentation.mjs --project ID --out DIR`
 - `check-compact-navigation.mjs --project ID --out DIR`
 - `export-pdf.mjs --project-id ID --mode EDITION --out FILE.pdf`
@@ -154,3 +158,8 @@ Current palette precedence (11 September 2026): all editable content in every cu
 
 
 Main section-header precedence (11 September 2026): across all current booklets and future transcriptions, main section bands use desaturated blue `#52769a` with white `#ffffff` text through the shared `headerBlue` token. Preserve existing header geometry. Light teaching-group headers and unfilled exercise/answer headings retain near-black text; mathematical blue remains `#268cff`. This overrides the earlier blanket near-black heading rule in palette standardisation.
+
+
+## Shared-stem question groups and working space (17 September 2026)
+
+Group related source items under their shared instruction or definition as one editable question with a, b, c parts and a native grid, even when the source numbers them individually. Preserve meaningful range, exercise and category boundaries, nested parts and original source identities in provenance. Renumber displayed questions within each exercise. Generate/review worked solutions first and estimate per-part handwriting space from mathematical steps (including TeX rows), cell-width wrapping, fractions and required drawings; save editable estimates and retain manual overrides. Inspect representative grids at final size, including pagination. Do not repeat the stem per item or use question-type allowances alone. See [practice-only import contract](booklet-practice-only-import.md).

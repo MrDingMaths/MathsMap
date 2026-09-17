@@ -4,11 +4,13 @@ Required for new semantic runs (`workflowPolicy: "review-first-v1"` in new manif
 
 ## Initial contract
 
+Scope: ordinary feedback maintenance uses the [minimum verification matrix](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance). A feedback save, comment resolution or unrelated renderer edit does not require a new full-import settlement. The complete five-edition and fresh-inspection rules below apply when new-import/full acceptance is actually required; maintenance evidence must not be represented as that acceptance.
+
 - Keep independent source inventory and complete final visual inspection. Counts, generation caches and numerical checks do not establish fidelity.
 - Retain every printed measurement, including redundant givens. **Unused is not a defect.** Check consistency with the diagram and stated rounding precision before proposing a correction. Unknown precision is a review question, not permission to change a value.
 - Inventory mathematical relationships early, bundle editorial decisions, and author unaffected pages while decisions are pending. An explicit decision to retain an unusual source value does not certify incorrect authored geometry.
 - Approve final-size representatives of every distinct pattern before bulk authoring that pattern. Include writing boxes (including superscripts/fractions), label clearance, diagram size, attribution headings, source colours, alignment and native maths. State why an absent category is not applicable. Review label placement and appearance separately from numerical geometry.
-- Render affected pages and pagination neighbours during development. Settle content, then check and visually inspect **all pages of all five editions**: `student`, `short`, `worked`, `with-short`, `with-worked`.
+- Render affected pages and pagination neighbours during development. Settle content, check all five export formats, and cover every final page under the [unique-layout policy](#unique-layout-final-acceptance): inspect the three standalone layouts and reuse verified duplicate bodies in combined editions with explicit composition review.
 
 ## Inventory and early mathematical review
 
@@ -100,6 +102,12 @@ Passing `--project` binds only that run's project. Later review commands automat
 
 ## Representative-page checkpoint
 
+Before bulk authoring, prepare the complete source-pattern and cross-cutting
+coverage plan using [the efficiency workflow](booklet-import-efficiency.md).
+Use its read-only repair context for known content defects before choosing
+another whole-page author attempt. Existing approval and propagation commands
+remain the sole acceptance and mutation path.
+
 Pattern IDs are shared across pages. Review their grouping during inventory; distinct source arrangements need distinct patterns. The first inventoried occurrence is the representative. Author it with:
 
 ```text
@@ -140,7 +148,7 @@ New review-first assembly uses configured cover metadata and flexible compact pa
 
 ## Development and final acceptance
 
-Use the [booklet change runbook](booklet-change-runbook.md) to organise scoped development checks, cache reuse, stable final inputs and run metrics. It preserves the complete final five-edition review and re-settlement requirements below.
+Use the [booklet change runbook](booklet-change-runbook.md) to organise scoped development checks, cache reuse, stable final inputs and run metrics. Ordinary edits use affected output; final acceptance covers all five editions under the policy below.
 
 ```text
 node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .booklet-work/review/PROJECT --development
@@ -160,7 +168,23 @@ node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .bookle
 
 Settlement requires all selected source pages authored, mathematical review and pattern approvals complete, and no pending issues. `settle` binds the current saved project. A subsequent project edit invalidates it. Non-draft full checks for review-first projects require settled content; original content/presentation readiness checks still apply independently.
 
-Inspect **every page in all five full PDFs** against source and rendered expectations. Final review extends the common reviewer fields with `key`, `sourceCompared: true`, `contentVerified: true`, `presentationVerified: true`, and:
+### Unique-layout final acceptance
+
+Apply this section only to required full acceptance. Ordinary feedback follows the scoped change runbook; it does not require complete pixel comparisons, all-page footer sheets or a fresh whole-booklet review by default.
+
+Accepted 16 September 2026. This supersedes earlier instructions to manually reread identical pages in all five editions, including trig-specific requirements. It does not reduce mathematical, source-content, teaching/arrangement or final-size diagram checks.
+
+1. Inspect every page of `student`, `short` and `worked` against source and rendered expectations. These are the three standalone content layouts.
+2. Retain passed full manifests and automated PDF geometry/navigation checks for **all five** editions. Compare actual PDF RGB pixels at 144 dpi, with zero differing body pixels allowed. The fixed bottom 15 mm footer strip is excluded; no other masks, tolerances, resizing or source/DOM-hash substitutes are allowed. Only A4 portrait pages qualify. Existing printed footer glyphs begin about 12.5 mm above the bottom, so a 12 mm strip is insufficient.
+3. Match combined question pages to the same student page and combined answer pages to their standalone answer offset. Different page counts disable reuse for that combined edition. Cover page 1, the final question page and the first answer page always need full inspection. Any other unmatched or different page also needs full inspection.
+4. Explicitly review both combined documents' covers, contents, question/answer transitions, numbering, **every footer including the excluded strip**, and links/destinations. Review any content extending into the excluded strip as part of this check. Pixel equivalence does not establish these checks.
+5. Credit a duplicate body only after its exact standalone page has an accepted visual inspection and its combined edition has an accepted composition review. An unresolved finding cannot inherit acceptance. Report actual inspections and reused bodies separately; do not mark reused pages `allPagesVisuallyInspected`.
+
+`visual-review.mjs describe` prepares this default policy (`unique-layouts-v1`) using `edition-comparison.mjs`. It retains gzip-compressed full Poppler RGB rasters, PDF/manifest hashes, the comparison implementation hash and measured body fingerprints. Later validation recomputes fingerprints from current raster bytes. Raster caches bind PDF bytes, page, Poppler version, resolution and comparison implementation. Changed inputs invalidate their dependent evidence; unchanged reports and inspections resume without repeat exports.
+
+Implementation verification (16 September 2026): 51 focused comparison, queue, review-workflow and cache regressions passed. A read-only comparison of the existing Probability revision 39 PDFs covered 243 physical pages: 143 combined bodies matched exactly, with six combined cover/boundary pages remaining for full inspection alongside 94 standalone pages. This identifies reuse candidates; it is not renewed booklet/source acceptance or a completed composition review. First rasterisation took 37.535 s, comparison validation 2.062 s and cached preparation 3.018 s on this run. No end-to-end time saving is inferred. The local receipt is `.booklet-work/edition-review-policy-20260916/full-comparison-receipt.json`.
+
+Set `"fullVisual": true` in the descriptor for the supported full-manual fallback. If Poppler/comparison evidence is unavailable, choose this explicit fallback and inspect all five PDFs; never infer a match. Existing full-manual acceptance records remain compatible. For this fallback, final review extends the common reviewer fields with `key`, `sourceCompared: true`, `contentVerified: true`, `presentationVerified: true`, and:
 
 ```json
 {
@@ -175,7 +199,7 @@ Inspect **every page in all five full PDFs** against source and rendered expecta
 }
 ```
 
-Supply all five edition records and **every** actual page, not just the abbreviated example. Run `review-workflow.mjs final-review --run-id RUN --input final-reviewed.json`. It rejects development manifests, stale project/renderer/settlement/PDF hashes, missing editions, changed page hashes and incomplete page inspection. Page hashes identify later edits; they never waive the required complete final visual review after content changes and re-settlement.
+Supply all five edition records and **every** actual page, not just the abbreviated example. Prefer `visual-review.mjs final-record` to emit the correct record. Under `unique-layouts-v1`, pages have `reviewMethod: "visual"` or `"equivalent"` with their verified standalone reference; the record also retains the comparison and explicit composition inspections. Run `review-workflow.mjs final-review --run-id RUN --input final-reviewed.json`. It rejects development manifests, stale project/renderer/settlement/PDF or comparison evidence, missing editions, changed page hashes, unreviewed standalone references and incomplete composition checks. A new settlement requires fresh standalone and exception inspection, current PDF comparison and new composition review; identical pixels do not carry an old settlement's inspection forward.
 
 Compact prompts, reused teaching context, cached inputs and bounded concurrency remain. These controls aim to reduce repair cycles and review payloads, but this change has **not measured end-to-end token or time savings**. Retain actual per-call input/cached/output usage and elapsed times; include retries and review work in any future comparison.
 
@@ -218,7 +242,7 @@ node scripts/booklet/visual-review.mjs prepare --run-id RUN --input review-input
 node scripts/booklet/visual-review.mjs status --run-id RUN --out review-status.json
 ```
 
-Status lists pending page keys with direct full-page image and source paths, the current revision/session key, previous findings and any active inspection. Open the actual source and full-page output to inspect; the queue never infers inspection from hashes. `begin --input begin.json` accepts:
+Status prints a compact pending-page sample with the current revision/session key and any active inspection. `pending` contains pages needing actual inspection; `awaitingReuse` contains matching bodies waiting for standalone/composition acceptance; `pendingComposition` lists combined editions still needing structural review. `reviewed` counts actual full-page inspections and `reused` counts accepted duplicate bodies. `--out review-status.json` or `--full` retains the complete lists, image/source paths and previous findings. Open the actual source and full-page output to inspect; the queue never infers inspection from source hashes. `begin --input begin.json` accepts:
 
 ```json
 {"expectedRevision":1,"sessionKey":"from status","pageKeys":["current page key"]}
@@ -234,6 +258,14 @@ After inspecting those pages, use `record --input inspection.json` with the upda
 }
 ```
 
-Use `outcome: "needs-change"` to retain a defect for correction; it remains pending. `cancel` takes the current `expectedRevision` and `sessionKey`. Inspection records are immutable artifacts, while queue state is updated atomically. Stale project/source/asset/render/PDF/image or inspection evidence is rejected. During development, preparing new evidence invalidates changed pages and pagination neighbours and retains other current inspection records. The same unchanged final settlement can resume inspection; any new final project or settlement resets every page, including pixel-identical pages.
+To review composition, use `begin` with `compositionEditions: ["with-short", "with-worked"]` instead of `pageKeys`. Inspect their actual PDFs, then use `record` with current revision/session/review ID, reviewer, note, `outcome: "accepted"`, and:
 
-Once every page of all five final editions has actually been inspected, `final-record --input signer.json --out final-reviewed.json` takes current `expectedRevision`, `sessionKey`, `reviewer` and `note`. It emits the full record for the existing `review-workflow.mjs final-review` command above. Its acceptance dependencies retain the source, image and individual inspection artifacts. Describing, preparing or completing a queue never independently certifies content or bypasses the original acceptance gates. All queue artifacts, render caches and event journals remain local, ignored evidence under `.booklet-work/`.
+```json
+{"compositionChecks":{"covers":true,"contents":true,"transitions":true,"numbering":true,"footers":true,"links":true}}
+```
+
+These fields record completed observations, not a checklist to prefill. Composition inspection receives its own timed phase and immutable artifact; it does not count as full-page content inspection. Source/standalone content checks are still required independently.
+
+Use `outcome: "needs-change"` to retain a defect for correction; it remains pending even when its body matches. `cancel` takes the current `expectedRevision` and `sessionKey`. Inspection records are immutable artifacts, while queue state is updated atomically. Stale project/source/asset/render/PDF/image, comparison or inspection evidence is rejected. During development, preparing new evidence invalidates changed pages and pagination neighbours and retains other current inspection records. The same unchanged final settlement can resume inspection; a new final project or settlement resets actual inspection and composition credit, including for pixel-identical pages.
+
+Once every final page is covered by actual inspection or verified duplicate reuse, and both combined composition reviews pass, `final-record --input signer.json --out final-reviewed.json` takes current `expectedRevision`, `sessionKey`, `reviewer` and `note`. It emits the complete record for `review-workflow.mjs final-review`. Dependencies retain source, images, comparisons, rasters and individual inspection artifacts. Describing or preparing a queue never independently certifies content. All queue artifacts, render caches and event journals remain local, ignored evidence under `.booklet-work/`.
