@@ -55,6 +55,12 @@ test('missing optional fields do not count a response and its cumulative mirror 
  assert.equal(readCodexSessionUsage(log,{sessionId:'s'}).usage.input_tokens,100);
 });
 
+test('response records stay authoritative when UI totals omit compaction usage',t=>{
+ const f=fixture(t),first=usage(100,60,20),compaction=usage(300,80,30),next=usage(40,20,10);
+ const log=f.write('compaction.jsonl',[meta('s'),call(10,'first',first),snapshot(11,first,first),call(20,'compaction',compaction,usage(400,140,50)),snapshot(21,first,usage(0,0,0)),call(30,'next',next,usage(440,160,60)),snapshot(31,usage(140,80,30),next)]);
+ const result=readCodexSessionUsage(log,{sessionId:'s'});assert.equal(result.usage.input_tokens,440);assert.equal(result.calls,3);assert.equal(result.cumulativeObservations,0);assert.equal(result.coverage,'recorded');
+});
+
 test('stage windows use prior cumulative baselines and completed task intervals',t=>{
  const f=fixture(t),log=f.write('window.jsonl',[meta('s'),event(0,'event_msg',{type:'task_started',turn_id:'turn-1'}),snapshot(10,usage(100,60,20),usage(100,60,20)),snapshot(60,usage(140,80,30),usage(40,20,10)),event(100,'event_msg',{type:'task_complete',turn_id:'turn-1'})]);
  const result=readCodexSessionUsage(log,{sessionId:'s',startedAt:at(50),endedAt:at(90)});
@@ -108,6 +114,7 @@ test('session registration is idempotent and overlapping stage ownership is reje
  assert.equal((await linkRunSession(f.dir,input)).reused,false);assert.equal((await linkRunSession(f.dir,input)).reused,true);
  await assert.rejects(()=>linkRunSession(f.dir,{...input,role:'review'}),/different attribution/);
  await assert.rejects(()=>linkRunSession(f.dir,{...input,stage:'review',startedAt:at(40),endedAt:at(100)}),/overlap/);
+ await assert.rejects(()=>linkRunSession(f.dir,{...input,sessionId:'s-runtime',stage:'review',startedAt:at(40),endedAt:at(100)}),/overlap/);
  await linkRunSession(f.dir,{...input,stage:'review',role:'review',startedAt:at(50),endedAt:at(100)});
  assert.equal(buildRunReceipt(f.dir).completeJob.usage.input_tokens,10);
 });
@@ -122,7 +129,7 @@ test('weekly allowance comparison requires one reset window and discloses unrela
  const f=fixture(t),base={resetAt:'2026-09-20T00:00:00Z',windowMinutes:10080,unrelatedConcurrentUsage:'none'};
  const first={...base,id:'before',at:'2026-09-17T00:00:00Z',usedPercent:10},last={...base,id:'after',at:'2026-09-17T02:00:00Z',usedPercent:18};
  await recordWeeklyUsage(f.dir,first);assert.equal((await recordWeeklyUsage(f.dir,first)).reused,true);await recordWeeklyUsage(f.dir,last);
- assert.equal(buildRunReceipt(f.dir).weeklyAllowance.attributedToRunPercentagePoints,8);
+ assert.equal(buildRunReceipt(f.dir).weeklyAllowance.attributedToRunPercentagePoints,8);assert.equal(buildRunReceipt(f.dir).weeklyAllowance.reason,null);
  const contaminated=summarizeWeeklyUsage([first,{...last,unrelatedConcurrentUsage:'present',unrelatedSessionIds:['unrelated']}]);assert.equal(contaminated.observedChangePercentagePoints,8);assert.equal(contaminated.attributedToRunPercentagePoints,null);
  const resets=summarizeWeeklyUsage([first,{...last,resetAt:'2026-09-27T00:00:00Z'}]);assert.equal(resets.observedChangePercentagePoints,null);assert.equal(resets.reason,'different-reset-windows');
  await assert.rejects(()=>recordWeeklyUsage(f.dir,{...last,usedPercent:19}),/different values/);
