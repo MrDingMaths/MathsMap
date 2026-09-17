@@ -13,14 +13,16 @@ import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {ensurePdfRasters} from './pdf-rasters.mjs';
 import {solidAcceptance} from '../audit-solid-visibility.mjs';
 import {rendererSignature} from './verification-cache.mjs';
-import {pairedTrialReport} from './paired-astra-trial.mjs';
+import {pairedTrialReport,materializeTrialCandidate} from './paired-astra-trial.mjs';
 
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const ref=f=>({path:path.resolve(f),hash:createHash('sha256').update(fs.readFileSync(f)).digest('hex')});
 export function composeTrialProjects({out,arm}){
  const root=path.resolve(out),summary=pairedTrialReport(root);if(!summary.arms[arm])throw Error('Unknown paired arm');
  const items=summary.arms[arm].rows.filter(r=>r.output).map(r=>{
-  const dir=path.dirname(r.output.path),file=path.join(dir,'project.json');return fs.existsSync(file)?{id:r.id,source:ref(file),project:read(file)}:null;
+  const dir=path.dirname(r.output.path),file=path.join(dir,'project.json');
+  if(fs.existsSync(file))return {id:r.id,source:ref(file),project:read(file)};
+  try{const sample=read(path.join(root,'samples',r.id+'.json')),built=materializeTrialCandidate(read(r.output.path),sample,'trial-'+arm+'-'+r.id);return {id:r.id,source:r.output,project:built.project,diagnosticMaterialization:true};}catch{return null;}
  }).filter(Boolean);
  if(!items.length)throw Error('No materialized trial candidates to render');
  const combined=structuredClone(items[0].project);combined.id='trial-'+arm;combined.title='Astra paired authoring trial';combined.sections=[];combined.topics=[];combined.source={type:'paired-trial',trialOnly:true,unaccepted:true};combined.settings.layoutOverrides={blockLayouts:{}};
@@ -31,7 +33,7 @@ export function composeTrialProjects({out,arm}){
   const renameString=v=>topics.get(v)??(ids.has(v)?item.id+'-'+v:[...ids].some(id=>v.startsWith(id+'/')||v.startsWith(id+'#'))?item.id+'-'+v:v);
   const rename=v=>typeof v==='string'?renameString(v):Array.isArray(v)?v.map(rename):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[renameString(k),rename(x)])):v;
   const sections=rename(item.project.sections);combined.sections.push(...sections);combined.topics.push(...item.project.topics.map(t=>({...t,id:topics.get(t.id),title:t.title})));
-  Object.assign(combined.settings.layoutOverrides.blockLayouts,rename(item.project.settings.layoutOverrides?.blockLayouts??{}));bindings.push({id:item.id,source:item.source,sectionIds:sections.map(s=>s.id),blockIds:sections.flatMap(s=>s.blocks.map(b=>b.id))});
+  Object.assign(combined.settings.layoutOverrides.blockLayouts,rename(item.project.settings.layoutOverrides?.blockLayouts??{}));bindings.push({id:item.id,source:item.source,diagnosticMaterialization:item.diagnosticMaterialization??false,sectionIds:sections.map(s=>s.id),blockIds:sections.flatMap(s=>s.blocks.map(b=>b.id))});
  }
  const project=normalizeEditableProject(combined),validation=validateEditableProject(project),file=path.join(root,arm,'combined-'+Date.now()+'.json');fs.writeFileSync(file,JSON.stringify(project,null,2));return {project,file,validation,bindings,omitted:summary.arms[arm].rows.filter(r=>!items.some(i=>i.id===r.id)).map(r=>r.id)};
 }
@@ -48,7 +50,10 @@ export async function renderTrialArm({out,arm,base,editions=['student','short','
   await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
   for(const label of editions){
    const edition=label==='teaching'?'student':label,project=structuredClone(composed.project),began=Date.now(),record={label,edition,status:'pending'};
-   project.settings.flowEdition=edition;if(label==='teaching')Object.assign(project.settings,{showKeyIdeasAnswers:true,showReviewAnswers:true,showIdentifyAnswers:true,showGuidedPracticeAnswers:true,showTheorySolutions:true});
+   project.settings.flowEdition=edition;if(label==='teaching'){
+    project.sections=project.sections.filter(s=>s.phase==='teaching');const topicIds=new Set(project.sections.map(s=>s.topicId));project.topics=project.topics.filter(t=>topicIds.has(t.id));
+    Object.assign(project.settings,{showKeyIdeasAnswers:true,showReviewAnswers:true,showIdentifyAnswers:true,showGuidedPracticeAnswers:true,showTheorySolutions:true});
+   }
    await routeCandidateProject(page,project);
    try{
     await page.goto('about:blank');await page.goto(base+'/#/booklet?stage=projects&project='+project.id,{waitUntil:'domcontentloaded',timeout:60000});

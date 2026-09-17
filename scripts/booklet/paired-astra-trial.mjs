@@ -9,6 +9,7 @@ import {runAstraTask} from './codex-transcription.mjs';
 import {runBoundedJobs,workerConcurrency} from './worker-pool.mjs';
 import {applyAttemptPatches} from './local-attempt-repair.mjs';
 import {TRANSCRIPTION_DEFAULT} from './transcription-settings.mjs';
+import {loadWorkflow,updateWorkflow,applyDecisions,materializeCorrections,workflowForPages} from './workflow-review.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 
@@ -106,15 +107,27 @@ function loadTrial(out){
  for(const artifact of protocol.sourceDependencies??[])if(hash(fs.readFileSync(artifact.path))!==artifact.hash)throw Error('Referenced source evidence changed: '+artifact.path);
  return {root,protocol};
 }
+function reviewedSample(root,entry){
+ const sample=read(entry.input.path),state=workflowForPages(loadWorkflow(root),[sample.page],['inventory']);
+ state.corrections=state.corrections.map(c=>({...c,patches:c.patches.filter(p=>sample.inventory.entries.some(e=>e.id===p.targetId))})).filter(c=>c.patches.length);
+ for(const c of state.corrections)for(const evidence of c.evidence??[])if(hash(fs.readFileSync(evidence.path))!==evidence.hash)throw Error('Inventory correction evidence changed');
+ sample.inventory=materializeCorrections(sample.inventory,state,'inventory',sample.page);
+ sample.assignment={...sample.assignment,entries:sample.inventory.entries.map(e=>({...e,pageNumber:sample.page}))};return sample;
+}
+export async function recordTrialInventoryCorrection({out,record}){
+ const {root,protocol}=loadTrial(out),allowed=new Set(protocol.samples.flatMap(s=>s.ownership??read(s.input.path).inventory.entries.map(e=>e.id)));
+ for(const correction of record.corrections??[])for(const patch of correction.patches??[])if(patch.scope!=='inventory'||!allowed.has(patch.targetId))throw Error('Trial corrections must target owned source inventory');
+ return updateWorkflow(root,'paired-trial inventory correction',state=>{applyDecisions(state,record);for(const s of protocol.samples){const sample=read(s.input.path),local=workflowForPages(state,[sample.page],['inventory']);local.corrections=local.corrections.map(c=>({...c,patches:c.patches.filter(p=>sample.inventory.entries.some(e=>e.id===p.targetId))}));materializeCorrections(sample.inventory,local,'inventory',sample.page);}});
+}
 function currentAttempt(root,arm,id){
  const dir=path.join(root,arm,id);if(!fs.existsSync(dir))return null;
  const attempts=fs.readdirSync(dir).filter(n=>/^\d+$/.test(n)).map(Number).sort((a,b)=>b-a);
  for(const attempt of attempts){const file=path.join(dir,String(attempt),'attempt.json');if(fs.existsSync(file))return {...read(file),directory:path.dirname(file),attempt};}
  return null;
 }
-function materialize(packet,sample,id){
+export function materializeTrialCandidate(packet,sample,id){
  const candidate={title:'Astra paired trial '+sample.title,topics:[{id:sample.topic,title:sample.titleTopic}],sections:packet.sections,settings:{preserveSourcePages:false},sourceInventory:{version:1,selectedPages:[sample.page],pages:[{pageNumber:sample.page,inventoried:true}],entries:sample.inventory.entries.map(e=>({...e,pageNumber:sample.page,targetId:packet.inventoryMappings.find(m=>m.inventoryId===e.id)?.targetId??e.targetId}))}};
- const project=contentProject(candidate,{runId:id,projectId:id,selectedPages:[sample.page]});project.source={...project.source,trialOnly:true,unaccepted:true};return {candidate,project,validation:validateEditableProject(project)};
+ const project=contentProject(candidate,{runId:id,projectId:id,selectedPages:[sample.page]});project.source={...project.source,trialOnly:true,unaccepted:true};const {valid,errors}=validateEditableProject(project);return {candidate,project,validation:{valid,errors}};
 }
 export async function runPairedTrial({out,arm,concurrency=3,timeoutMs=900000},{runner=runAstraTask,log=console.log}={}){
  const {root,protocol}=loadTrial(out);if(!protocol.arms.includes(arm))throw Error('Use baseline or bounded');workerConcurrency(concurrency);
@@ -129,7 +142,7 @@ export async function runPairedTrial({out,arm,concurrency=3,timeoutMs=900000},{r
    save(path.join(directory,'generation.json'),reply.result);
    if(reply.result?.packets?.length!==1)throw Error('Return one assigned source-page packet');
    const packet=reply.result.packets[0];save(path.join(directory,'packet.json'),packet);record.output=ref(path.join(directory,'packet.json'));validateTrialPacket(packet,sample);
-   const built=materialize(packet,sample,'trial-'+arm+'-'+item.id);for(const [name,value] of Object.entries(built))save(path.join(directory,name+'.json'),value);
+   const built=materializeTrialCandidate(packet,sample,'trial-'+arm+'-'+item.id);for(const [name,value] of Object.entries(built))save(path.join(directory,name+'.json'),value);
    record.status=built.validation.valid?'generated':'invalid';record.output=ref(path.join(directory,'packet.json'));record.project=ref(path.join(directory,'project.json'));record.validation=built.validation;
   }catch(error){record.status='failed';record.error=error.message;record.metrics??=error.metrics??null;}
   record.endedAt=new Date().toISOString();record.elapsedMs=Date.parse(record.endedAt)-Date.parse(record.startedAt);save(path.join(directory,'attempt.json'),record);results.push(record);log(JSON.stringify({event:'trial-finished',arm,sample:item.id,status:record.status,elapsedMs:record.elapsedMs,error:record.error}));return record;
@@ -151,8 +164,9 @@ export function recordTrialReview({out,record}){
  for(const a of record.artifacts)if(!a.path||hash(fs.readFileSync(a.path))!==a.hash)throw Error('Review evidence changed');
  if(record.checks.rendered==='passed'&&!record.artifacts.some(a=>/\.(png|pdf)$/i.test(a.path)))throw Error('Rendered acceptance needs inspected image/PDF evidence');
  if(!Array.isArray(record.issues)||record.issues.some(i=>!i.trim()))throw Error('List unresolved issues explicitly');
- const accepted=checks.every(c=>record.checks[c]==='passed')&&!record.issues.length&&attempt.status==='generated';
- register.records.push({...record,accepted,attempt:attempt.attempt,at:new Date().toISOString()});register.revision++;
+ const sample=reviewedSample(root,protocol.samples.find(s=>s.id===record.id));let schemaValid=true;try{validateTrialPacket(read(attempt.output.path),sample);schemaValid=materializeTrialCandidate(read(attempt.output.path),sample,'trial-'+record.arm+'-'+record.id).validation.valid;}catch{schemaValid=false;}
+ const accepted=checks.every(c=>record.checks[c]==='passed')&&!record.issues.length&&schemaValid;
+ register.records.push({...record,accepted,inventoryHash:hash(sample.inventory),attempt:attempt.attempt,at:new Date().toISOString()});register.revision++;
  // Trial metadata only; publication APIs are intentionally never called.
  fs.writeFileSync(file,JSON.stringify(register,null,2)+'\n');return {accepted,revision:register.revision};
 }
@@ -161,24 +175,24 @@ export function repairTrialPacket({out,arm,id,expectedOutputHash,context,patches
  const {root,protocol}=loadTrial(out),entry=protocol.samples.find(s=>s.id===id);if(!entry||!protocol.arms.includes(arm))throw Error('Unknown trial assignment');
  const current=currentAttempt(root,arm,id);if(!current?.output||current.output.hash!==expectedOutputHash||hash(fs.readFileSync(current.output.path))!==expectedOutputHash)throw Error('Repair output changed');
  if(!reviewer?.trim()||!note?.trim())throw Error('Record repair reviewer and reason');
- const packet=applyAttemptPatches(read(current.output.path),context,patches),sample=read(entry.input.path);validateTrialPacket(packet,sample);
+ const packet=applyAttemptPatches(read(current.output.path),context,patches),sample=reviewedSample(root,entry);let semanticError=null;try{validateTrialPacket(packet,sample);}catch(error){semanticError=error.message;}
  const attempt=current.attempt+1,directory=path.join(root,arm,id,String(attempt));
  save(path.join(directory,'packet.json'),packet);save(path.join(directory,'repair.json'),{expectedOutputHash,context,patches,reviewer,note});
- const built=materialize(packet,sample,'trial-'+arm+'-'+id);for(const [name,value] of Object.entries(built))save(path.join(directory,name+'.json'),value);
- const record={id,arm,attempt,kind:'reviewed-exact-field-repair',status:built.validation.valid?'generated':'invalid',elapsedMs,metrics:null,output:ref(path.join(directory,'packet.json')),project:ref(path.join(directory,'project.json')),validation:built.validation,at:new Date().toISOString()};save(path.join(directory,'attempt.json'),record);return record;
+ let built,materializationError=null;try{built=materializeTrialCandidate(packet,sample,'trial-'+arm+'-'+id);for(const [name,value] of Object.entries(built))save(path.join(directory,name+'.json'),value);}catch(error){materializationError=error.message;}
+ const record={id,arm,attempt,kind:'reviewed-exact-field-repair',status:built?.validation.valid&&!semanticError?'generated':'invalid',error:semanticError??materializationError,elapsedMs,metrics:null,output:ref(path.join(directory,'packet.json')),project:built?ref(path.join(directory,'project.json')):null,validation:built?.validation??{valid:false,errors:[materializationError]},at:new Date().toISOString()};save(path.join(directory,'attempt.json'),record);return record;
 }
 
 export function pairedTrialReport(out){
  const {root,protocol}=loadTrial(out),register=read(path.join(root,'review-register.json')),arms={};
  for(const arm of protocol.arms){
-  const rows=protocol.samples.map(s=>{const current=currentAttempt(root,arm,s.id),reviews=register.records.filter(r=>r.arm===arm&&r.id===s.id&&r.outputHash===current?.output?.hash),review=reviews.at(-1);return {id:s.id,status:current?.status??'not-run',attempts:current?.attempt??0,accepted:review?.accepted??false,checks:review?.checks??Object.fromEntries(checks.map(c=>[c,'pending'])),issues:review?.issues??[],output:current?.output??null};});
+  const rows=protocol.samples.map(s=>{const current=currentAttempt(root,arm,s.id),inventoryHash=hash(reviewedSample(root,s).inventory),reviews=register.records.filter(r=>r.arm===arm&&r.id===s.id&&r.outputHash===current?.output?.hash&&r.inventoryHash===inventoryHash),review=reviews.at(-1);return {id:s.id,status:current?.status??'not-run',attempts:current?.attempt??0,accepted:review?.accepted??false,checks:review?.checks??Object.fromEntries(checks.map(c=>[c,'pending'])),issues:review?.issues??[],output:current?.output??null};});
   const attempts=protocol.samples.flatMap(s=>{const d=path.join(root,arm,s.id);return fs.existsSync(d)?fs.readdirSync(d).filter(n=>/^\d+$/.test(n)).map(n=>path.join(d,n,'attempt.json')).filter(fs.existsSync).map(read):[];});
   const calls=[...new Map(attempts.filter(a=>a.kind==='generation').map(a=>[a.metrics?.callId??a.metrics?.sessionId??arm+':'+a.id+':'+a.attempt,a.metrics??{}])).values()];
   const tokenFields={inputTokens:'input_tokens',cachedInputTokens:'cached_input_tokens',outputTokens:'output_tokens'},usage={};
   for(const [name,key] of Object.entries(tokenFields)){const known=calls.filter(c=>Number.isFinite(c.usage?.[key]));usage[name]={knownTotal:known.reduce((n,c)=>n+c.usage[key],0),availableCalls:known.length,unavailableCalls:calls.length-known.length};}
   arms[arm]={rows,acceptedAssignments:rows.filter(r=>r.accepted).length,totalAssignments:rows.length,modelInvocations:calls.length,observedSessionCalls:calls.filter(c=>c.sessionId).length,repairs:attempts.filter(a=>a.kind!=='generation').length,usage,concurrentCallDurationMs:calls.reduce((n,c)=>n+(c.elapsedMs??0),0),unavailableCallDurations:calls.filter(c=>!Number.isFinite(c.elapsedMs)).length,knownRepairDurationMs:attempts.filter(a=>a.kind!=='generation'&&Number.isFinite(a.elapsedMs)).reduce((n,a)=>n+a.elapsedMs,0),unavailableRepairDurations:attempts.filter(a=>a.kind!=='generation'&&!Number.isFinite(a.elapsedMs)).length,toolCalls:calls.every(c=>Number.isFinite(c.toolCalls))?calls.reduce((n,c)=>n+c.toolCalls,0):null};
  }
- return {version:1,protocol:ref(path.join(root,'protocol.json')),arms,comparisonEligible:Object.values(arms).every(a=>a.acceptedAssignments===6),weeklyAllowanceMeasurement:null,fullBookletElapsedMeasurement:null,note:'All attempts and repairs count. Concurrent call durations are not wall time. Acceptance requires current source, maths, taught-method, editability, presentation and actual rendered review. Pending or failed work is not a speed saving; one pair does not establish whole-import throughput.'};
+ return {version:1,protocol:ref(path.join(root,'protocol.json')),arms,sharedInventoryCorrections:loadWorkflow(root).corrections.length,comparisonEligible:Object.values(arms).every(a=>a.acceptedAssignments===6),weeklyAllowanceMeasurement:null,fullBookletElapsedMeasurement:null,note:'All attempts and repairs count. Concurrent call durations are not wall time. Acceptance requires current source, maths, taught-method, editability, presentation and actual rendered review. Pending or failed work is not a speed saving; one pair does not establish whole-import throughput.'};
 }
 
 export async function main(args=process.argv.slice(2)){
@@ -187,8 +201,12 @@ export async function main(args=process.argv.slice(2)){
  if(command==='prepare')return preparePairedTrial({out:flags['--out'],benchmarkDir:flags['--benchmark-dir']});
  if(command==='run')return runPairedTrial({out:flags['--out'],arm:flags['--arm'],concurrency:Number(flags['--concurrency']??3),timeoutMs:Number(flags['--timeout-ms']??900000)});
  if(command==='review')return recordTrialReview({out:flags['--out'],record:read(flags['--input'])});
+ if(command==='correct-inventory')return recordTrialInventoryCorrection({out:flags['--out'],record:read(flags['--input'])});
  if(command==='repair')return repairTrialPacket({out:flags['--out'],...read(flags['--input'])});
  if(command==='report')return pairedTrialReport(flags['--out']);
  throw Error('Use prepare, run, review, repair or report');
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().then(value=>console.log(JSON.stringify(value))).catch(error=>{console.error(error.stack);process.exitCode=1;});
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().then(value=>{
+ const compact=value?.results?{arm:value.arm,elapsedMs:value.elapsedMs,concurrency:value.concurrency,results:value.results.map(r=>({id:r.id,status:r.status,error:r.error})),queueErrors:value.queueErrors}:value?.samples?{samples:value.samples.map(s=>({id:s.id,owned:s.ownership.length,baselineCharacters:s.baseline.characters,boundedCharacters:s.bounded.characters})),notes:value.notes}:value;
+ console.log(JSON.stringify(compact));
+}).catch(error=>{console.error(error.stack);process.exitCode=1;});
