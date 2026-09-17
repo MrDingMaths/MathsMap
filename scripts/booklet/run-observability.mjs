@@ -52,7 +52,12 @@ export function beginRunPhase(runDir,phase,details={}) {
 }
 export function endRunPhase(runDir,id,{ok=true,...details}={}) {appendRunEvent(runDir,{event:'phase-finished',id,ok,details});}
 export function beginHumanWait(runDir,details={}) {return beginRunPhase(runDir,'human-wait',{...details,activity:'human-wait',excludedFromActive:true});}
-export function endHumanWait(runDir,id,details={}) {endRunPhase(runDir,id,details);}
+export function endHumanWait(runDir,id,details={}) {
+ const events=readRunEvents(runDir).events,start=events.find(event=>event.event==='phase-started'&&event.id===id);
+ if(!start||start.phase!=='human-wait')throw Error('Human wait id is missing or belongs to another phase');
+ // Retried acknowledgements must not extend an already completed wait.
+ if(!events.some(event=>event.event==='phase-finished'&&event.id===id))endRunPhase(runDir,id,details);
+}
 export async function measureRunPhase(runDir,phase,action,details={}) {
  const id=beginRunPhase(runDir,phase,details);
  try{const result=await action();endRunPhase(runDir,id,{ok:result?.ok!==false});return result;}catch(error){endRunPhase(runDir,id,{ok:false,error:error.message});throw error;}
@@ -168,7 +173,7 @@ function completeJobAccounting(events,attempts) {
   summedModelCallMs:knownDurations.length?knownDurations.reduce((sum,value)=>sum+value,0):null,missingModelCallDurations:durations.filter(value=>value===null).length,
   retryInvocations:attempts.filter(row=>Number(row.attempt)>1).length,byRetryReason:Object.fromEntries([...new Set(attempts.map(row=>row.retryReason))].map(reason=>[reason,attempts.filter(row=>row.retryReason===reason).length])),
   coverage:{missingRoles,unavailableSessions:sources.filter(source=>!source.data.available).length,partialSessions:sources.filter(source=>source.data.available&&source.data.coverage!=='recorded').length,unlinkedRunnerInvocations:attempts.filter(row=>!sources.some(source=>(mapped.get(source.link.id)??[]).includes(row))).length,overlapConflicts},
-  intervals:sources.flatMap(source=>source.data.intervals),reviewIntervals:sources.filter(source=>source.link.role==='review').flatMap(source=>source.data.intervals),note:'Known usage across explicitly linked sessions and runner invocations, deduplicated by session/call identity. Partial sums carry unavailable counts; response counts and invocation counts are separate. Timing and allowance are separate from token usage.'};
+  intervals:sources.flatMap(source=>source.data.intervals),reviewIntervals:[...sources.filter(source=>source.link.role==='review').flatMap(source=>source.data.intervals),...attempts.filter(row=>row.role==='review'&&Number.isFinite(row.startedAt)&&Number.isFinite(row.endedAt)).map(row=>[row.startedAt,row.endedAt])],note:'Known usage across explicitly linked sessions and runner invocations, deduplicated by session/call identity. Partial sums carry unavailable counts; response counts and invocation counts are separate. Timing and allowance are separate from token usage.'};
 }
 
 function exportReuseSummary(events,phases) {
