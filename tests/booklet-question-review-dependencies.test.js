@@ -64,3 +64,14 @@ test('a retained source interpretation invalidates its question without affectin
  const second=f.dependencies();assert.notEqual(second.q1,first.q1);assert.equal(second.q2,first.q2);
  f.state.issues.precision.resolution.reason='Use the explicitly given exact value.';assert.notEqual(f.dependencies().q1,second.q1);
 });
+
+test('shared source bytes are hashed once per projection and read again after a change',t=>{
+ const f=fixture(t),file=f.write('shared-source.pdf','Shared teaching PDF');
+ for(const section of f.project.sections.filter(s=>s.phase==='practice'))section.blocks[0].sourceReview={teachingContext:{pdfPath:file,pdfSha256:hash(file)}};
+ const original=fs.readFileSync;let reads=0;
+ fs.readFileSync=(candidate,...args)=>{if(path.resolve(String(candidate))===file)reads++;return original(candidate,...args);};
+ try{
+  const first=f.dependencies();assert.equal(reads,1);
+  f.write('shared-source.pdf','Changed shared teaching PDF');const second=f.dependencies();assert.equal(reads,2);assert.notEqual(first.q1,second.q1);assert.notEqual(first.q2,second.q2);
+ }finally{fs.readFileSync=original;}
+});
