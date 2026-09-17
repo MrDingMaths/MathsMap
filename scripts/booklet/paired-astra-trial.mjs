@@ -122,7 +122,7 @@ export async function recordTrialInventoryCorrection({out,record}){
 function currentAttempt(root,arm,id){
  const dir=path.join(root,arm,id);if(!fs.existsSync(dir))return null;
  const attempts=fs.readdirSync(dir).filter(n=>/^\d+$/.test(n)).map(Number).sort((a,b)=>b-a);
- for(const attempt of attempts){const file=path.join(dir,String(attempt),'attempt.json');if(fs.existsSync(file))return {...read(file),directory:path.dirname(file),attempt};}
+ for(const attempt of attempts){const file=path.join(dir,String(attempt),'attempt.json'),started=path.join(dir,String(attempt),'started.json');if(fs.existsSync(file))return {...read(file),directory:path.dirname(file),attempt};if(fs.existsSync(started))return {...read(started),directory:path.dirname(started),attempt,status:'interrupted',error:'A started call has no completion receipt; preserve it for explicit reconciliation, not automatic replay.'};}
  return null;
 }
 export function materializeTrialCandidate(packet,sample,id){
@@ -186,7 +186,7 @@ export function pairedTrialReport(out){
  const {root,protocol}=loadTrial(out),register=read(path.join(root,'review-register.json')),arms={};
  for(const arm of protocol.arms){
   const rows=protocol.samples.map(s=>{const current=currentAttempt(root,arm,s.id),inventoryHash=hash(reviewedSample(root,s).inventory),reviews=register.records.filter(r=>r.arm===arm&&r.id===s.id&&r.outputHash===current?.output?.hash&&r.inventoryHash===inventoryHash&&(r.artifacts??[]).every(a=>fs.existsSync(a.path)&&hash(fs.readFileSync(a.path))===a.hash)),review=reviews.at(-1);return {id:s.id,status:current?.status??'not-run',attempts:current?.attempt??0,accepted:review?.accepted??false,checks:review?.checks??Object.fromEntries(checks.map(c=>[c,'pending'])),issues:review?.issues??[],output:current?.output??null};});
-  const attempts=protocol.samples.flatMap(s=>{const d=path.join(root,arm,s.id);return fs.existsSync(d)?fs.readdirSync(d).filter(n=>/^\d+$/.test(n)).map(n=>path.join(d,n,'attempt.json')).filter(fs.existsSync).map(read):[];});
+  const attempts=protocol.samples.flatMap(s=>{const d=path.join(root,arm,s.id);return fs.existsSync(d)?fs.readdirSync(d).filter(n=>/^\d+$/.test(n)).map(n=>{const file=path.join(d,n,'attempt.json'),started=path.join(d,n,'started.json');return fs.existsSync(file)?read(file):fs.existsSync(started)?{...read(started),status:'interrupted'}:null;}).filter(Boolean):[];});
   const rejectedToolAttempts=protocol.samples.flatMap(s=>{const d=path.join(root,arm,s.id);return fs.existsSync(d)?fs.readdirSync(d).filter(n=>/^\d+$/.test(n)).flatMap(n=>{const file=path.join(d,n,'stderr.txt');if(!fs.existsSync(file))return [];const lines=fs.readFileSync(file,'utf8').split(/\r?\n/).filter(l=>/tools::router.*(?:failed|rejected)/i.test(l));return lines.length?[{id:s.id,attempt:Number(n),count:lines.length,evidence:ref(file)}]:[];}):[];});
   const calls=[...new Map(attempts.filter(a=>a.kind==='generation').map(a=>[a.metrics?.callId??a.metrics?.sessionId??arm+':'+a.id+':'+a.attempt,a.metrics??{}])).values()];
   const tokenFields={inputTokens:'input_tokens',cachedInputTokens:'cached_input_tokens',outputTokens:'output_tokens'},usage={};
