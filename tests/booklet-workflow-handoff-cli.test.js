@@ -12,11 +12,11 @@ import {loadWorkflow} from '../scripts/booklet/workflow-review.mjs';
 const repo=fileURLToPath(new URL('../',import.meta.url)),entry=fileURLToPath(new URL('../scripts/booklet/run-workflow.mjs',import.meta.url));
 const base=Date.parse('2026-09-17T00:00:00Z'),at=offset=>new Date(base+offset).toISOString();
 const values=(input,cached,output)=>({input_tokens:input,cached_input_tokens:cached,output_tokens:output,reasoning_output_tokens:0,total_tokens:input+output});
-function fixture(t,{pages=0}={}){
+function fixture(t,{pages=0,manifestBom=false}={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-cli-handoff-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));let sequence=0;
  const write=(name,value,{bom=false}={})=>{const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,(bom?'\uFEFF':'')+(typeof value==='string'?value:JSON.stringify(value)));return file;};
  if(pages){
-  write('manifest.json',{id:'cli-fixture',pipelinePolicy:PIPELINE_POLICY,selectedPages:Array.from({length:pages},(_,i)=>i+1)},{bom:true});
+  write('manifest.json',{id:'cli-fixture',pipelinePolicy:PIPELINE_POLICY,selectedPages:Array.from({length:pages},(_,i)=>i+1)},{bom:manifestBom});
   for(let page=1;page<=pages;page++){
    const stem='page-'+String(page).padStart(3,'0');write('evidence/pages/'+stem+'.png','Synthetic original image fixture '+page);write('evidence/pages/'+stem+'.txt','SOURCE-CONTENT-NOT-ON-STDOUT '+page);
    write('semantic-packets/'+stem+'.inventory.json',{pageNumber:page,inventoried:true,layoutPatterns:[{id:'plain',description:'A source exercise'}],entries:[{id:'entry-'+page,kind:'question',targetId:'q'+page,description:'Find the value.'}]});
@@ -45,7 +45,7 @@ function rollout(id,usage){return [
  ];}
 
 test('CLI next, prepare, record and cancel preserve bounded ownership through run-dir and BOM input',t=>{
- const f=fixture(t,{pages:2}),next=f.cli('next',{output:true});
+ const f=fixture(t,{pages:2,manifestBom:true}),next=f.cli('next',{output:true});
  assert.equal(next.printed.jobs.count,2);assert.ok(next.full.jobs.every(job=>job.stage==='maths'));
  assert.doesNotMatch(next.stdout,/SOURCE-CONTENT-NOT-ON-STDOUT/);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  const prepared=f.cli('prepare-stage',{args:['--job',next.full.jobs[0].id],output:true});
