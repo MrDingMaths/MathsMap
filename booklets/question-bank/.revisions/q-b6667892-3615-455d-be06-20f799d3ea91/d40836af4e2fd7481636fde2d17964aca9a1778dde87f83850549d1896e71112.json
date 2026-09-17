@@ -1,0 +1,76 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b6667892-3615-455d-be06-20f799d3ea91",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "counterexamples"
+    ],
+    "reasoningScore": 83,
+    "difficulty": "Challenge",
+    "difficultyReason": "Prove all integer solutions by parity and disprove the arbitrary-base generalisation with a counterexample."
+  },
+  "content": {
+    "id": "p6-q87-root",
+    "type": "question",
+    "label": "87",
+    "prompt": "Consider the equation\n$$2^x+2^y=2^z.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p6-q87-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the only integer solutions are in the form\n$$x=n,\\quad y=n,\\quad z=n+1,$$\nwhere $n$ is an integer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=y=n$, $z=n+1$, where $n\\in\\mathbb Z$.\n\nDivide by $2^x$ with $x\\le y$. Parity forces $y=x$, so $2^{z-x}=2$ and $z=x+1$.",
+          "worked": "By symmetry, assume $x\\le y$. Dividing by $2^x$ gives\n$$1+2^{y-x}=2^{z-x}.$$\nThe left side is at least $2$, so the integer $z-x$ is positive. If $y-x\\ge1$, the left side is odd while the right side is even. This is impossible, so $y=x$.\n$$\\begin{align*}2^{z-x}&=2^1\\\\z-x&=1\\\\z&=x+1\\end{align*}$$\nThus $x=y=n$ and $z=n+1$ for an integer $n$. Conversely,\n$$\\begin{align*}2^n+2^n&=2\\times2^n\\\\2^n+2^n&=2^{n+1},\\end{align*}$$\nso every such triple is a solution.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p6-q87-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Would this result still work for the general case\n$$b^x+b^y=b^z,$$\nwhere $b$ is any integer base?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. For $b=3$, the proposed triple $x=y=0$, $z=1$ gives $1+1\\ne3$.",
+          "worked": "Take $b=3$ and $n=0$. The proposed form gives $x=y=0$ and $z=1$, but\n$$\\begin{align*}3^0+3^0&=2\\\\3^1&=3.\\end{align*}$$\nThe two sides are unequal, so the result does not hold for every integer base.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p6-q87",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-16T17:17:17.455Z",
+  "updatedAt": "2026-09-16T17:17:17.455Z"
+}
