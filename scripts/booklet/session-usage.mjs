@@ -32,6 +32,15 @@ export function aggregateUsage(records) {
  return {usage,missingUsage,unavailableByMetric};
 }
 
+export function aggregateToolMetrics(records){
+ const result={};
+ for(const [field,missing]of [['completedToolCalls','missingCompletedToolCounts'],['rejectedToolAttempts','missingRejectedToolCounts']]){
+  const known=records.map(row=>number(row[field])).filter(value=>value!==null);result[field]=known.length?known.reduce((sum,value)=>sum+value,0):null;
+  result[missing]=records.reduce((sum,row)=>sum+(number(row[missing])??(number(row[field])===null?1:0)),0);
+ }
+ return result;
+}
+
 export function unionDuration(intervals) {
  let total=0,end=-Infinity;
  for(const [a,b]of intervals.filter(([a,b])=>Number.isFinite(a)&&Number.isFinite(b)&&b>=a).toSorted((a,b)=>a[0]-b[0])){total+=Math.max(0,b-Math.max(a,end));end=Math.max(end,b);}
@@ -104,7 +113,7 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  const lower=startedAt===null?-Infinity:timestamp(startedAt),upper=endedAt===null?Infinity:timestamp(endedAt);
  if(lower===null||upper===null||upper<=lower)throw Error('Invalid linked session interval');
  if(!fs.existsSync(file))return {sessionId,available:false,reason:'rollout-unavailable',records:[],intervals:[],unfinished:[],toolCalls:null,compactions:null,usage:normalizeUsage(null),missingUsage:1};
- const identities=new Set(),direct=[],directTotals=new Set(),directIds=new Set(),pendingDirect=new Set(),snapshots=[],toolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
+ const identities=new Set(),direct=[],directTotals=new Set(),directIds=new Set(),pendingDirect=new Set(),snapshots=[],toolRows=new Map(),completedToolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
  let currentTurn=null,canonicalSessionId=null,incompleteTail=false,unidentifiedUsageRecords=0;
  const keep=time=>time!==null&&time>=lower&&time<upper;
  const addDirect=(payload,time)=>{
@@ -129,6 +138,8 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
    const id=payload.turn_id??currentTurn;if(id)ends.set(id,{time:time??taskTime(payload.completed_at,null),turnId:id});
   }else if(event.type==='response_item'&&['function_call','custom_tool_call','tool_call'].includes(payload.type)){
    const id=payload.call_id??payload.id??'tool-line-'+line;if(!toolRows.has(id))toolRows.set(id,{id,time});
+  }else if(event.type==='response_item'&&['function_call_output','custom_tool_call_output','tool_call_output'].includes(payload.type)){
+   const id=payload.call_id??payload.id??'tool-output-line-'+line;if(!completedToolRows.has(id))completedToolRows.set(id,{id,time});
   }else if(event.type==='compacted'){
    const id=payload.compaction_response_id??payload.window_id??'compaction-line-'+line;if(!compactionRows.has(id))compactionRows.set(id,{id,time});
    if(payload.latest_token_usage_record)addDirect(payload.latest_token_usage_record,time);
@@ -142,12 +153,12 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
   if(!finish){if(start.time!==null&&start.time<upper)unfinished.push({turnId:id,startedAt:new Date(start.time).toISOString()});continue;}
   if(start.time!==null&&finish.time!==null&&finish.time>=start.time&&finish.time>lower&&start.time<upper)intervals.push([Math.max(start.time,lower),Math.min(finish.time,upper)]);
  }
- const tools=[...toolRows.values()].filter(row=>keep(row.time)),compactions=[...compactionRows.values()].filter(row=>keep(row.time));
- return {sessionId,canonicalSessionId,sessionAliases:[...identities],available:true,records,intervals,unfinished,...aggregateUsage(records),toolCalls:tools.length,toolRecords:tools,compactions:compactions.length,compactionRecords:compactions,
+ const tools=[...toolRows.values()].filter(row=>keep(row.time)),completedTools=[...completedToolRows.values()].filter(row=>keep(row.time)),compactions=[...compactionRows.values()].filter(row=>keep(row.time));
+ return {sessionId,canonicalSessionId,sessionAliases:[...identities],available:true,records,intervals,unfinished,...aggregateUsage(records),toolCalls:tools.length,toolRecords:tools,completedToolCalls:completedTools.length,completedToolRecords:completedTools,rejectedToolAttempts:null,missingCompletedToolCounts:incompleteTail?1:0,missingRejectedToolCounts:1,compactions:compactions.length,compactionRecords:compactions,
   calls:records.length,responseCalls:records.filter(row=>row.kind==='response').length,cumulativeObservations:records.filter(row=>row.kind!=='response').length,
   duplicatedRecords:merged.duplicates,conflictingMetrics:merged.conflicts,incompleteTail,baselineUnavailable:fallback.baselineUnavailable,counterRegressions:fallback.counterRegressions,unidentifiedUsageRecords,
   coverage:!records.length?'unavailable':incompleteTail||fallback.baselineUnavailable||fallback.counterRegressions||merged.conflicts||unidentifiedUsageRecords||records.some(row=>normalizeUsage(row.usage).input_tokens===null||normalizeUsage(row.usage).output_tokens===null)?'partial':'recorded',
-  note:'Numeric metadata only. Response IDs are deduplicated; legacy cumulative observations are deltas, not necessarily individual model calls. Cached input and reasoning output are subsets. Completed task intervals measure active session work; missing call durations and human waiting are not inferred.'};
+  note:'Numeric metadata only. Response IDs are deduplicated; legacy cumulative observations are deltas, not necessarily individual model calls. Cached input and reasoning output are subsets. Legacy toolCalls counts observed requests; completedToolCalls counts observed outputs. Rejected attempts are unavailable without separate diagnostics. Completed task intervals measure active session work; missing call durations and human waiting are not inferred.'};
 }
 
 export function summarizeWeeklyUsage(observations) {

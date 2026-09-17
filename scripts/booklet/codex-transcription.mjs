@@ -6,6 +6,27 @@ import {randomUUID} from 'node:crypto';
 import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription} from './transcription-settings.mjs';
 import {reconcileIds} from '../agy/lib/agy-run.mjs';
 import {withWorkerSlot} from './worker-pool.mjs';
+import {StringDecoder} from 'node:string_decoder';
+
+function toolDiagnosticCounter(){
+ const decoder=new StringDecoder('utf8');let pending='',rejected=0,unclassified=0,complete=false;const reasons={};
+ const line=text=>{
+  const clean=text.replace(/\u001b\[[0-9;]*m/g,''),match=clean.match(/^\d{4}-\d\d-\d\dT\S+\s+(?:ERROR|WARN)\s+\S*tools\S*:\s+(?:error=)?[\w.:/-]+ failed:\s*(.*)$/);
+  if(!match)return;
+  if(/\brejected:\s*blocked by policy\s*$/i.test(match[1])){rejected++;reasons['blocked-by-policy']=(reasons['blocked-by-policy']??0)+1;}
+  else unclassified++;
+ };
+ return {write(chunk){pending+=decoder.write(Buffer.isBuffer(chunk)?chunk:Buffer.from(chunk));let end;while((end=pending.indexOf('\n'))>=0){line(pending.slice(0,end));pending=pending.slice(end+1);}},
+  finish(){if(complete)return;pending+=decoder.end();if(pending.trim())line(pending);pending='';complete=true;},
+  snapshot(){return {rejectedToolAttempts:complete||rejected?rejected:null,rejectedToolReasons:{...reasons},unclassifiedToolFailures:complete||unclassified?unclassified:null,stderrCaptured:complete,missingRejectedToolCounts:!complete||unclassified>0?1:0};}};
+}
+
+// Read existing trial diagnostics without regenerating work or returning command
+// bodies. A missing/unsupported diagnostic is unavailable, never a zero total.
+export function readToolDiagnostics(file){
+ const counter=toolDiagnosticCounter();if(!fs.existsSync(file))return counter.snapshot();
+ const fd=fs.openSync(file,'r'),buffer=Buffer.alloc(64*1024);try{let size;while((size=fs.readSync(fd,buffer,0,buffer.length,null)))counter.write(buffer.subarray(0,size));counter.finish();return counter.snapshot();}finally{fs.closeSync(fd);}
+}
 
 export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6-astra',effort:'low'}),review:Object.freeze({model:'gpt-6-astra',effort:'high'}),coordinator:Object.freeze({model:'gpt-6-astra',effort:'low'})});
 export function astraCommandArgs({cwd,images=[],raw,profile='transcription'}){
@@ -23,11 +44,11 @@ export async function runCodexTranscription(options){return runAstraTask({...opt
 
 async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProgress,signal,callId,queueWaitMs},spawnProcess){
  fs.mkdirSync(out,{recursive:true});
- const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,sessionId=null;const toolIds=new Set();
+ const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,sessionId=null,completedCapture=false;const toolIds=new Set(),toolDiagnostics=toolDiagnosticCounter();
  const args=astraCommandArgs({cwd,images,raw,profile});
  // Exclusive creation makes a failed attempt visible and prevents silent retries.
  const eventFd=fs.openSync(path.join(out,'events.jsonl'),'wx'),errorFd=fs.openSync(path.join(out,'stderr.txt'),'wx');
- const metrics=()=>({provider:'codex',...ASTRA_PROFILES[profile],requestedModel:ASTRA_PROFILES[profile].model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,toolCalls:toolIds.size,queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
+ const metrics=()=>({provider:'codex',...ASTRA_PROFILES[profile],requestedModel:ASTRA_PROFILES[profile].model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;
@@ -37,8 +58,8 @@ async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProg
    const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Astra worker aborted');child.kill();};
    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
    child.stdout.on('data',chunk=>{fs.writeSync(eventFd,chunk);buffer+=chunk;let end;while((end=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,end);buffer=buffer.slice(end+1);consume(line);}});
-   child.stderr.on('data',chunk=>fs.writeSync(errorFd,chunk));child.stdin.on('error',e=>{failure=e;});child.on('error',e=>{failure=e;});
-   child.on('close',code=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);if(buffer.trim())consume(buffer);if(failure)reject(failure);else if(code!==0)reject(new Error('Codex exited '+code));else resolve();});
+   child.stderr.on('data',chunk=>{fs.writeSync(errorFd,chunk);toolDiagnostics.write(chunk);});child.stdin.on('error',e=>{failure=e;});child.on('error',e=>{failure=e;});
+   child.on('close',code=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);if(buffer.trim())consume(buffer);completedCapture=true;toolDiagnostics.finish();if(failure)reject(failure);else if(code!==0)reject(new Error('Codex exited '+code));else resolve();});
    child.stdin.end(prompt);
   });
   const result=JSON.parse(fs.readFileSync(raw,'utf8').trim().replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));return{result,metrics:metrics()};

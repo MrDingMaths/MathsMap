@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {aggregateUsage,normalizeUsage,timestamp,unionDuration} from './session-usage.mjs';
+import {aggregateUsage,aggregateToolMetrics,normalizeUsage,timestamp,unionDuration} from './session-usage.mjs';
 
 export function recordAttempt(packetRoot, identity, {now=Date.now}={}) {
  const attemptId=randomUUID(),started=now(),file=path.join(packetRoot,'attempt-events.jsonl');
@@ -58,7 +58,7 @@ export function summarizeAttemptEvents(events) {
  }
  // Union of completed attempt intervals, never the sum of concurrent durations.
  const records=attemptCallRecords(events),measured=aggregateUsage(records);
- return {version:4,attempts:attempts.size,generationAttempts,calls,localReplays,localByRetryReason,missingUsage,usage,normalizedUsage:measured.usage,unavailableByMetric:measured.unavailableByMetric,callElapsedMs,missingCallElapsedMs,duplicateCalls,byStage,byOutcome,byAttempt,byRetryReason,promptCharacters,phaseElapsedMs:phases,completedAttemptActiveWallMs:unionDuration(intervals),unfinished,
+ return {version:4,attempts:attempts.size,generationAttempts,calls,localReplays,localByRetryReason,missingUsage,usage,normalizedUsage:measured.usage,unavailableByMetric:measured.unavailableByMetric,...aggregateToolMetrics(records),callElapsedMs,missingCallElapsedMs,duplicateCalls,byStage,byOutcome,byAttempt,byRetryReason,promptCharacters,phaseElapsedMs:phases,completedAttemptActiveWallMs:unionDuration(intervals),unfinished,
   note:'Calls and prompt characters count external model generation only. Explicit zero-call local replays are separate and do not imply missing usage. Other unavailable usage remains unknown; cached input is a subset of input. Phase sums are not wall time. Active wall time covers completed runner attempts only; review, render, offline work and unfinished intervals are excluded.'};
 }
 
@@ -82,7 +82,7 @@ export function attemptCallRecords(events) {
   const started=timestamp(metrics?.startedAt)??timestamp(generation.time),ended=timestamp(metrics?.endedAt)??timestamp(end?.time);
   records.set(id,{id,attemptId,sessionId:metrics?.sessionId??start?.sessionId??null,callId:metrics?.callId??start?.callId??null,stage:start?.stage??metrics?.stage??'unknown',role:metrics?.role??(metrics?.profile==='review'?'review':'transcription'),
    attempt:start?.attempt??null,retryReason:Number(start?.attempt)>1?(start?.retryReason??(start?.repairFrom?'mapping-repair':'unrecorded')):'initial',outcome:!finish?'unfinished':finish.ok?'passed':'failed',
-   usage:normalizeUsage(metrics?.usage),elapsedMs:measured(metrics?.elapsedMs),toolCalls:measured(metrics?.toolCalls),compactions:measured(metrics?.compactions),startedAt:started,endedAt:ended,kind:'runner-invocation'});
+   usage:normalizeUsage(metrics?.usage),elapsedMs:measured(metrics?.elapsedMs),toolCalls:measured(metrics?.toolCalls),completedToolCalls:measured(metrics?.completedToolCalls),missingCompletedToolCounts:measured(metrics?.missingCompletedToolCounts),rejectedToolAttempts:measured(metrics?.rejectedToolAttempts),missingRejectedToolCounts:measured(metrics?.missingRejectedToolCounts),compactions:measured(metrics?.compactions),startedAt:started,endedAt:ended,kind:'runner-invocation'});
  }
  return [...records.values()];
 }
