@@ -9,7 +9,7 @@ import {runAstraTask,readToolDiagnostics} from '../scripts/booklet/codex-transcr
 import {buildRunReceipt,linkRunSession,summarizeRunReceipt} from '../scripts/booklet/run-observability.mjs';
 
 function fixture(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-tool-metrics-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const write=(name,value)=>{const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof value==='string'?value:value.map(row=>JSON.stringify(row)).join('\n')+'\n');return file;};return {dir,write};}
-const diagnostic='2026-09-17T08:54:21.048547Z ERROR codex_core::tools::router: error=exec_command failed: SECRET-COMMAND rejected: blocked by policy';
+const diagnostic='2026-09-17T08:54:21.048547Z ERROR codex_core::tools::router: error=exec_command failed: SECRET-COMMAND rejected: blocked by policy\\")" }';
 const usage={input_tokens:100,cached_input_tokens:80,output_tokens:20};
 function invocation(metrics){return [{attemptId:'a',event:'started',stage:'author',attempt:1,time:0},{attemptId:'a',event:'phase-started',phase:'generation',time:0},{attemptId:'a',event:'phase-finished',phase:'generation',time:100,elapsedMs:100,metrics},{attemptId:'a',event:'finished',time:100,ok:true}];}
 
