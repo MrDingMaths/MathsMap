@@ -31,10 +31,10 @@ const guideFile=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..
 function evidenceForPages(runDir,pages){
  return unique(pages).sort((a,b)=>a-b).flatMap(page=>['png','txt'].map(ext=>path.join(runDir,'evidence/pages',`page-${String(page).padStart(3,'0')}.${ext}`)).filter(fs.existsSync).map(file=>({...ref(file),page})));
 }
-function relevantDecisions(state,ids,pages=[]){
- const owned=new Set(ids),selected=new Set(pages);
+function relevantDecisions(state,ids,pages=[],wholePages=[]){
+ const owned=new Set(ids),selected=new Set(pages),whole=new Set(wholePages);
  return (state.corrections??[]).filter(c=>c.status==='approved').map(c=>({id:c.id,reason:c.reason,sourceRefs:c.sourceRefs,evidence:c.evidence,
-  patches:c.patches.filter(p=>owned.has(p.targetId)||p.targetId==='$inventory'&&selected.has(p.page)).map(({original,...patch})=>patch)})).filter(c=>c.patches.length);
+  patches:c.patches.filter(p=>owned.has(p.targetId)||whole.has(p.page)||p.targetId==='$inventory'&&selected.has(p.page)).map(({original,...patch})=>patch)})).filter(c=>c.patches.length);
 }
 function allNodeIds(blocks){return [...contentNodes({sections:[{blocks}]}).keys()];}
 function teachingNotes(value,found=[]){
@@ -76,7 +76,7 @@ export function exerciseTeachingContext(project,state,exerciseId,{runDir,config,
  const context={exerciseId,title:project?.topics?.find(t=>t.id===exerciseId)?.title??exerciseId,teaching:blocks,
   explicitContextIds:explicitIds,missingContextIds:explicitIds.filter(id=>!nodes.has(id)),
   suppliedNotes:external.notes,externalReferences:external.externalReferences,externalIndex:external.indexPath,configPages:external.configPages,problems:external.problems,
-  pages,evidence,dependencyScope:{exerciseId,pages,sourcePages:external.questionPages,...(configFile?{configFile:path.resolve(configFile)}:{}),...(external.indexPath?{externalIndex:external.indexPath}:{})},decisions:relevantDecisions(state,ids,pages)};
+  pages,evidence,dependencyScope:{exerciseId,pages,sourcePages:external.questionPages,...(configFile?{configFile:path.resolve(configFile)}:{}),...(external.indexPath?{externalIndex:external.indexPath}:{})},decisions:relevantDecisions(state,ids,pages,external.pages)};
  const dependencyHash=fingerprint({...context,sourceDependencies:Object.fromEntries(pages.map(p=>[p,state.pages?.[p]?.sourceEvidence??null]))});
  return {...context,dependencyHash};
 }
@@ -102,14 +102,23 @@ function fieldValue(node,pointer){
  if(keys.some(k=>['__proto__','constructor','prototype'].includes(k)))throw Error('Unsafe feedback field pointer');
  let value=node;for(const k of keys){if(value===null||typeof value!=='object'||!Object.hasOwn(value,k))throw Error('Missing feedback field '+pointer);value=value[k];}return value;
 }
+function feedbackNode(runDir,state,project,target){
+ const packet=target.scope==='inventory'?effectiveInventory(runDir,target.page,state):target.scope==='author'?effectiveAuthor(runDir,target.page,state):project?materializeCorrections(project,state,'project'):null;
+ const located=target.scope==='inventory'?null:packet?contentNodes(packet).get(target.targetId):null;
+ const node=target.scope==='inventory'?(target.targetId==='$inventory'?packet:packet?.entries?.find(e=>e.id===target.targetId)):located?.node;
+ if(!node)throw Error('Missing current feedback target '+target.targetId);
+ if(target.scope==='project'){
+  const mapped=(project.source?.inventory?.entries??[]).filter(e=>e.targetId===target.targetId).map(e=>e.pageNumber);
+  if(![...sourcePages(located.block),...mapped].includes(target.page))throw Error('Project feedback target is not mapped to its assigned source page');
+ }
+ return node;
+}
 function feedbackTargets(runDir,state,group,project){
  const result=[],seen=new Set();
  for(const target of group.targets){
   if(!['author','inventory','project'].includes(target.scope)||!Number.isInteger(target.page)||!target.targetId||!target.fields?.length)throw Error('Feedback targets need scope, page, targetId and exact fields');
   const id=target.scope+':'+target.page+':'+target.targetId;
-  const packet=target.scope==='inventory'?effectiveInventory(runDir,target.page,state):target.scope==='author'?effectiveAuthor(runDir,target.page,state):project?materializeCorrections(project,state,'project'):null;
-  const node=target.scope==='inventory'?packet?.entries?.find(e=>e.id===target.targetId):packet?contentNodes(packet).get(target.targetId)?.node:null;
-  if(!node)throw Error('Missing current feedback target '+target.targetId);
+  const node=feedbackNode(runDir,state,project,target);
   for(const field of target.fields){const key=id+field;if(seen.has(key))throw Error('Duplicate feedback target field');seen.add(key);result.push({...target,fields:undefined,field,original:structuredClone(fieldValue(node,field))});}
  }
  return result;
@@ -206,7 +215,7 @@ export async function nextBoundedWork(options,overrides={}){
 }
 
 export async function registerFeedbackScope(options,record){
- if(!record?.sharedCauseId?.trim()||!record.issueIds?.length||!record.targets?.length||record.occurrenceAudit!==true)throw Error('Feedback grouping needs a named shared cause, audited issue IDs and exact targets');
+ if(!record?.sharedCauseId?.trim()||['__proto__','constructor','prototype'].includes(record.sharedCauseId)||!record.issueIds?.length||!record.targets?.length||record.occurrenceAudit!==true)throw Error('Feedback grouping needs a named shared cause, audited issue IDs and exact targets');
  if(!record.reviewer?.trim()||!record.note?.trim()||!record.artifacts?.length||!record.artifacts.every(current))throw Error('Feedback scope requires explicit source-hashed review evidence');
  await updateWorkflow(options.runDir,'register shared feedback scope',async state=>{
   Object.assign(state,liveWorkflow(options.runDir,options.selectedPages));
@@ -265,12 +274,13 @@ function resultEvidence(result,artifact){
  const artifacts=references([artifact,...(result.artifacts??[])]);if(!artifacts.every(current))throw Error('Review evidence changed');return {...result,artifacts};
 }
 function exactOwnership(expected,actual,label){if(!Array.isArray(actual)||new Set(actual).size!==actual.length||fingerprint([...expected].sort())!==fingerprint([...actual].sort()))throw Error('Stage must return each assigned '+label+' exactly once');}
-function validateFeedback(job,record,state){
+function validateFeedback(job,record,state,s){
  const ids=job.context.issues.map(i=>i.id);exactOwnership(ids,record.resolutions?.map(r=>r.id),'issue');
  const pages=new Set(job.context.issues.map(i=>i.page)),targets=job.context.targets;
  for(const correction of record.corrections??[])for(const patch of correction.patches??[]){
   if(!pages.has(patch.page)&&!targets.some(t=>t.page===patch.page))throw Error('Correction is outside assigned feedback pages');
   if(targets.length&&!targets.some(t=>t.scope===patch.scope&&t.page===patch.page&&t.targetId===patch.targetId&&t.field===patch.field))throw Error('Correction is outside exact feedback targets');
+  const node=feedbackNode(s.runDir,state,s.project,patch);if(fingerprint(fieldValue(node,patch.field))!==fingerprint(patch.original))throw Error('Correction original is not the exact current feedback field');
  }
  applyDecisions(state,{...record,expectedRevision:state.revision,key:settlementKey(state)});
 }
@@ -290,13 +300,14 @@ export async function recordBoundedStage(options,input,overrides={}){
  const artifact=ref(resultFile),record=resultEvidence(result,artifact),selectedPages=request.selectedPages;
  // Keep the original result even when validation rejects it; repairs never need a new model call solely to recover output.
  let recorded;
- await updateWorkflow(runDir,'record bounded '+request.job.stage,async state=>{
+ try{await updateWorkflow(runDir,'record bounded '+request.job.stage,async state=>{
   Object.assign(state,liveWorkflow(runDir,selectedPages));
   const claim=state.verification?.stageClaims?.[request.job.id];if(claim?.id!==request.id||claim.ticket.hash!==input.ticket.hash)throw Error('Stage ownership is missing, stale or already recorded');
   const s=await snapshot({...options,config:options.config??request.config,configFile:options.configFile??request.configFile,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
   const failedFinding=['needs-review','needs-context'].includes(record.outcome)&&job.stage!=='theory';
   if(failedFinding){recorded={ok:false,needsReview:true,artifact,findings:record.findings??[],note:record.note};state.verification.stageClaims[request.job.id].blockedResult=recorded;}
   else if(job.stage==='maths'){
+   if(record.outcome!==undefined&&record.outcome!=='accepted')throw Error('Invalid mathematical review outcome');
    exactOwnership([job.context.page],record.pages?.map(p=>p.page),'inventory page');
    if(record.sourceCompared!==true||record.mathematicsVerified!==true)throw Error('Mathematical acceptance requires explicit source and mathematics checks');recordMathReview(state,record);
   }else if(job.stage==='theory')recordTeaching(state,job,record);
@@ -305,7 +316,7 @@ export async function recordBoundedStage(options,input,overrides={}){
    const deps=verificationDependencies(state,s.project);
    for(const assessment of record.records){if(!['passed','failed'].includes(assessment.outcome))throw Error('Question review requires passed or failed');recordVerification(state,{...assessment,reviewer:record.reviewer,note:assessment.note??record.note,artifacts:record.artifacts,exerciseId:job.context.exerciseId,teachingContextHash:job.dependencies.teaching,dependencies:{question:job.context.questionDependencies[assessment.id.slice(9)]}},deps);}
   }else if(job.stage==='feedback'){
-   validateFeedback(job,record,state);refreshRegister(runDir,selectedPages,state,{decisions:record.resolutions.map(r=>r.id)});
+   validateFeedback(job,record,state,s);refreshRegister(runDir,selectedPages,state,{decisions:record.resolutions.map(r=>r.id)});
    // Preflight project corrections against the captured current project before the transaction commits.
    if(s.project)materializeCorrections(s.project,state,'project');
   }else if(['visual','composition'].includes(job.stage)){
@@ -315,7 +326,7 @@ export async function recordBoundedStage(options,input,overrides={}){
   if(!failedFinding)delete state.verification.stageClaims[request.job.id];
   const outputs=job.stage==='feedback'&&!failedFinding?correctionOutputs(runDir,selectedPages,state):[];
   return {outputs};
- });
+ });}catch(error){error.ticket=input.ticket;error.retainedOutput=resultFile;throw error;}
  return {ok:recorded?.needsReview?false:result.outcome!=='needs-context'&&result.outcome!=='needs-change'&&!result.records?.some(r=>r.outcome==='failed'),ticket:input.ticket,artifact,stage:request.job.stage,...(recorded?{recorded}:{}),...(request.job.stage==='feedback'?{next:'Propagate approved corrections through the existing revision-safe project/bank save workflow'}:{})};
 }
 export async function cancelBoundedStage(options,input){
@@ -335,5 +346,6 @@ export async function runBoundedStage(options,jobId,{runner,...overrides}={}){
   const reply=await execute(prepared);metrics=reply.metrics;events.end({metrics});
   const file=path.join(dir,'generation.json');fs.writeFileSync(file,json(reply.result),{flag:'wx'});events.phase('validation');
   const result=await recordBoundedStage(options,{ticket:prepared.ticket,resultFile:file},overrides);events.end();events.finish({ok:result.ok,metrics});return {...result,metrics};
- }catch(error){events.finish({ok:false,metrics:metrics??error.metrics});error.ticket=prepared.ticket;error.retainedOutput=path.join(dir,'generation.json');throw error;}
+ }catch(error){events.finish({ok:false,metrics:metrics??error.metrics});error.ticket=prepared.ticket;
+  const retained=[path.join(dir,'generation.json'),path.join(prepared.out,'last-message.txt'),prepared.out].find(fs.existsSync);if(retained)error.retainedOutput=retained;throw error;}
 }
