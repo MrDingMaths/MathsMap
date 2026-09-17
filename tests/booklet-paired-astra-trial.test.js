@@ -59,3 +59,8 @@ test('trial composition namespaces native paragraph fragments and their owner to
  assert.equal(namespaceTrialReference('question-part/label','sample',ids),'sample-question-part/label');
  assert.equal(namespaceTrialReference('unrelated/prompt#paragraph','sample',ids),'unrelated/prompt#paragraph');
 });
+test('interrupted calls retain explicitly unavailable usage and are never silently replayed',async t=>{
+ const root=fixture(t);write(path.join(root,'bounded','s0','1','started.json'),{id:'s0',arm:'bounded',attempt:1,kind:'generation',metrics:null,status:'pending'});
+ let calls=0;await runPairedTrial({out:root,arm:'bounded'},{runner:args=>{calls++;return reply(args);},log:()=>{}});
+ const report=pairedTrialReport(root);assert.equal(calls,5);assert.equal(report.arms.bounded.rows[0].status,'interrupted');assert.equal(report.arms.bounded.usage.inputTokens.unavailableCalls,1);assert.equal(report.arms.bounded.modelInvocations,6);
+});
