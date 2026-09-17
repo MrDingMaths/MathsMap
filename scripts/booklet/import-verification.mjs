@@ -12,8 +12,8 @@ const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const current=r=>r?.path&&path.isAbsolute(r.path)&&fs.existsSync(r.path)&&bytes(r.path)===r.hash;
 export function questionTeachingDependencies(state,project,question){
  const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
- const scope=owner?.exerciseId??owner?.topicId;
- const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId)===scope):sections;
+ const scope=owner?.exerciseId??owner?.topicId??owner?.id;
+ const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId??s.id)===scope):sections;
  const ids=new Set(),targets=new Set(),contexts=[];
  function collectTargets(value){if(!value||typeof value!=='object')return;if(value.id)targets.add(value.id);for(const child of Object.values(value))if(child&&typeof child==='object')collectTargets(child);}
  function collectContext(value){
@@ -36,10 +36,23 @@ export function questionTeachingDependencies(state,project,question){
   }
   for(const child of Object.values(value))if(child&&typeof child==='object')refs(child);
  }
- refs(question.sourceRefs);contexts.forEach(refs);inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));
+ const reviewed=state.verification?.teachingContexts?.[scope],binding=reviewed?.dependencyScope;
+ const readDependency=file=>{if(!fs.existsSync(file))return {unavailable:true};try{return JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));}catch{return {invalid:true,hash:bytes(file)};}};
+ let currentConfig=null,currentIndex=null;
+ if(binding?.configFile){
+  const config=readDependency(binding.configFile);
+  currentConfig=config.unavailable||config.invalid?config:{teachingPages:config.topics?.find(t=>t.id===binding.exerciseId)?.teachingPages??[],pageTeachingPages:Object.fromEntries((binding.sourcePages??[]).map(p=>[p,config.pageTeachingPages?.[p]??[]]))};
+ }
+ if(binding?.externalIndex){
+  const index=readDependency(binding.externalIndex),selected=new Set(binding.pages??[]);
+  currentIndex=index.unavailable||index.invalid?index:(index.externalTeachingReferences??[]).map(r=>({...r,pages:(r.pages??[]).filter(p=>selected.has(p.pdfPage??p.pageNumber))})).filter(r=>r.pages.length);
+  refs(currentIndex);
+ }
+ refs(question.sourceRefs);contexts.forEach(refs);inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));refs(reviewed?.sourceArtifacts);refs(reviewed?.artifacts);
  for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
  const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
- return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path))};
+ return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
+  reviewedTeaching:reviewed?{dependencyHash:reviewed.dependencyHash,outcome:reviewed.outcome,methods:reviewed.methods,scope:binding,currentConfig,currentIndex}:null};
 }
 export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
@@ -92,6 +105,7 @@ export function verificationStatus(state,project,{phase='prepublication',rendere
   add(id,passed,reason);
  }
  add('task-findings',!Object.values(state.issues).some(i=>i.status==='pending'),'Resolve remaining import findings');
+ add('stage-handoffs',!Object.keys(state.verification?.stageClaims??{}).length,'Complete or explicitly cancel outstanding stage tickets; retain and resolve their findings');
  if(phase==='complete'&&state.verification?.publishedSource){
   const ref=state.verification.publishedSource;let valid=false;
   try{valid=hash(read(ref.path))===ref.hash;}catch{}
