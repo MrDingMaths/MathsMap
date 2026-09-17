@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {selectCompleteUnit,runPairedTrial,recordTrialReview,pairedTrialReport,repairTrialPacket} from '../scripts/booklet/paired-astra-trial.mjs';
+import {namespaceTrialReference} from '../scripts/booklet/paired-astra-trial-render.mjs';
 const hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const write=(f,v)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,JSON.stringify(v));return {path:f,hash:hash(f)};};
 function fixture(t){
@@ -48,4 +49,10 @@ test('changed frozen evidence blocks calls and reporting',async t=>{
  const root=fixture(t);fs.writeFileSync(path.join(root,'s0.txt'),'changed');let calls=0;
  await assert.rejects(runPairedTrial({out:root,arm:'bounded'},{runner:()=>{calls++;},log:()=>{}}),/Frozen trial input changed/);assert.equal(calls,0);
  assert.throws(()=>pairedTrialReport(root),/Frozen trial input changed/);
+});
+test('trial composition namespaces native paragraph fragments and their owner together',()=>{
+ const ids=new Set(['question','question-part','paragraph']);
+ assert.equal(namespaceTrialReference('question-part/prompt#paragraph','sample',ids),'sample-question-part/prompt#sample-paragraph');
+ assert.equal(namespaceTrialReference('question-part/label','sample',ids),'sample-question-part/label');
+ assert.equal(namespaceTrialReference('unrelated/prompt#paragraph','sample',ids),'unrelated/prompt#paragraph');
 });
