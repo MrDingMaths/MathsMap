@@ -84,13 +84,16 @@ function cumulativeRecords(snapshots,directTotals) {
   if(seen.has(key))continue;seen.add(key);
   const fields=USAGE_FIELDS.filter(field=>total[field]!==null&&previous?.[field]!==null&&previous?.[field]!==undefined);
   if(previous&&fields.some(field=>total[field]<previous[field])){
-   counterRegressions++;rows.push({id:'cumulative:'+key,time:snapshot.time,turnId:snapshot.turnId,usage:null,kind:'unavailable-cumulative-regression'});continue;
+   if(!snapshot.coveredByDirect&&!directTotals.has(key)){counterRegressions++;rows.push({id:'cumulative:'+key,time:snapshot.time,turnId:snapshot.turnId,usage:null,kind:'unavailable-cumulative-regression'});}
+   continue;
   }
   let usage;
-  if(!previous){usage=normalizeUsage(snapshot.last);baselineUnavailable=USAGE_FIELDS.some(field=>total[field]!==null&&(usage[field]===null||total[field]!==usage[field]));}
+  if(!previous){usage=normalizeUsage(snapshot.last);if(!snapshot.coveredByDirect&&!directTotals.has(key))baselineUnavailable=USAGE_FIELDS.some(field=>total[field]!==null&&(usage[field]===null||total[field]!==usage[field]));}
   else usage=Object.fromEntries(USAGE_FIELDS.map(field=>[field,total[field]!==null&&previous[field]!==null?total[field]-previous[field]:null]));
   previous=total;
-  if(directTotals.has(key))continue;
+  // UI cumulative counters can omit compaction usage while authoritative response
+  // records include it. Match event coverage as well as cumulative checkpoints.
+  if(snapshot.coveredByDirect||directTotals.has(key))continue;
   if(USAGE_FIELDS.every(field=>usage[field]===null)||USAGE_FIELDS.some(field=>(usage[field]??0)>0))rows.push({id:'cumulative:'+key,time:snapshot.time,turnId:snapshot.turnId,usage,kind:'cumulative-delta'});
  }
  return {rows,baselineUnavailable,counterRegressions};
@@ -101,11 +104,12 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  const lower=startedAt===null?-Infinity:timestamp(startedAt),upper=endedAt===null?Infinity:timestamp(endedAt);
  if(lower===null||upper===null||upper<=lower)throw Error('Invalid linked session interval');
  if(!fs.existsSync(file))return {sessionId,available:false,reason:'rollout-unavailable',records:[],intervals:[],unfinished:[],toolCalls:null,compactions:null,usage:normalizeUsage(null),missingUsage:1};
- const identities=new Set(),direct=[],directTotals=new Set(),snapshots=[],toolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
+ const identities=new Set(),direct=[],directTotals=new Set(),directIds=new Set(),pendingDirect=new Set(),snapshots=[],toolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
  let currentTurn=null,canonicalSessionId=null,incompleteTail=false,unidentifiedUsageRecords=0;
  const keep=time=>time!==null&&time>=lower&&time<upper;
  const addDirect=(payload,time)=>{
   if(!payload?.response_id){unidentifiedUsageRecords++;return;}
+  if(!directIds.has(payload.response_id)){pendingDirect.add(payload.response_id);directIds.add(payload.response_id);}
   direct.push({id:'response:'+payload.response_id,responseId:payload.response_id,turnId:payload.turn_id??currentTurn,time,usage:payload.usage,elapsedMs:number(payload.duration_ms??payload.elapsed_ms),kind:'response'});
   if(payload.thread_token_usage)directTotals.add(counterKey(normalizeUsage(payload.thread_token_usage)));
  };
@@ -117,7 +121,7 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
   else if(event.type==='turn_context')currentTurn=payload.turn_id??currentTurn;
   else if(event.type==='token_usage_record')addDirect(payload,time);
   else if(event.type==='event_msg'&&payload.type==='token_count'){
-   if(payload.info?.total_token_usage)snapshots.push({time,turnId:currentTurn,total:payload.info.total_token_usage,last:payload.info.last_token_usage});
+   if(payload.info?.total_token_usage){snapshots.push({time,turnId:currentTurn,total:payload.info.total_token_usage,last:payload.info.last_token_usage,coveredByDirect:pendingDirect.size>0});pendingDirect.clear();}
   }else if(event.type==='event_msg'&&payload.type==='task_started'){
    currentTurn=payload.turn_id??currentTurn;const id=payload.turn_id??'turn-line-'+line;
    if(!starts.has(id))starts.set(id,{time:time??taskTime(payload.started_at,null),turnId:id});
@@ -142,7 +146,7 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  return {sessionId,canonicalSessionId,sessionAliases:[...identities],available:true,records,intervals,unfinished,...aggregateUsage(records),toolCalls:tools.length,toolRecords:tools,compactions:compactions.length,compactionRecords:compactions,
   calls:records.length,responseCalls:records.filter(row=>row.kind==='response').length,cumulativeObservations:records.filter(row=>row.kind!=='response').length,
   duplicatedRecords:merged.duplicates,conflictingMetrics:merged.conflicts,incompleteTail,baselineUnavailable:fallback.baselineUnavailable,counterRegressions:fallback.counterRegressions,unidentifiedUsageRecords,
-  coverage:!records.length?'unavailable':incompleteTail||fallback.baselineUnavailable||fallback.counterRegressions||merged.conflicts||unidentifiedUsageRecords?'partial':'recorded',
+  coverage:!records.length?'unavailable':incompleteTail||fallback.baselineUnavailable||fallback.counterRegressions||merged.conflicts||unidentifiedUsageRecords||records.some(row=>normalizeUsage(row.usage).input_tokens===null||normalizeUsage(row.usage).output_tokens===null)?'partial':'recorded',
   note:'Numeric metadata only. Response IDs are deduplicated; legacy cumulative observations are deltas, not necessarily individual model calls. Cached input and reasoning output are subsets. Completed task intervals measure active session work; missing call durations and human waiting are not inferred.'};
 }
 
@@ -158,5 +162,5 @@ export function summarizeWeeklyUsage(observations) {
  });
  const single=summaries.length===1?summaries[0]:null;
  return {windows:summaries,observedChangePercentagePoints:single?.observedChangePercentagePoints??null,attributedToRunPercentagePoints:single?.attributedToRunPercentagePoints??null,
-  reason:summaries.length>1?'different-reset-windows':single?.reason??'no-recorded-observations',note:'Allowance changes are compared only inside one reset window. Attribution requires an explicit assertion that unrelated concurrent usage was absent; token counts do not establish allowance consumption.'};
+  reason:summaries.length>1?'different-reset-windows':single?single.reason:'no-recorded-observations',note:'Allowance changes are compared only inside one reset window. Attribution requires an explicit assertion that unrelated concurrent usage was absent; token counts do not establish allowance consumption.'};
 }
