@@ -60,7 +60,8 @@ export function groupConceptQuestions(original,{register=sourceGroups}={}){
         assert.equal(members.length,last-first+1,`${section.topicId} ${first}–${last}: incomplete range`);
         assert.deepEqual(old.slice(old.indexOf(b),old.indexOf(b)+members.length),members,'Group is not consecutive');
         const {stem,parts}=splitSharedPrompt(members.map(m=>m.content));
-        if(/^True or False\?/.test(contentSource(stem)))for(const m of members)for(const leaf of leaves(m.content))responseKinds[leaf.id]='tick-cross';
+        const tickCrossGroup=/^True or False\?/.test(contentSource(stem));
+        if(tickCrossGroup)for(const m of members)for(const leaf of leaves(m.content))responseKinds[leaf.id]='tick-cross';
         const id=b.id+'-group',children=members.map((m,i)=>({...copy(m.content),type:'part',label:String.fromCharCode(97+i),prompt:parts[i]}));
         for(let i=0;i<members.length;i++)assert.equal(clean(contentSource(stem)+' '+contentSource(parts[i])),clean(contentSource(members[i].content.prompt)),'Prompt meaning changed '+members[i].id);
         // A single local source column occupies half the source page. In the
@@ -72,9 +73,10 @@ export function groupConceptQuestions(original,{register=sourceGroups}={}){
         const classifications=members.map(m=>m.classification),frequency=new Map();
         for(const c of classifications)frequency.set(c.primarySkillId,(frequency.get(c.primarySkillId)||0)+1);
         const primary=[...frequency].sort((a,b)=>b[1]-a[1])[0][0],score=Math.max(...classifications.map(c=>c.reasoningScore));
+        const responses=members.flatMap(m=>m.sourceReview?.responses??[]).map(response=>tickCrossGroup?{...response,kind:'tick-cross'}:response);
         result={...copy(b),id,content:{id:id+'-root',type:'question',prompt:stem,layout:columns>1?'grid':'list',columns:columns>1?columns:null,children},
           classification:{primarySkillId:primary,secondarySkillIds:[...new Set(classifications.flatMap(c=>[c.primarySkillId,...c.secondarySkillIds]))].filter(x=>x!==primary),reasoningScore:score,difficulty:difficultyBandForScore(score),difficultyReason:'Shared source task; retains all constituent skill mappings and the highest constituent reasoning demand.'},
-          sourceRefs:members.flatMap(m=>copy(m.sourceRefs??[])),sourceReview:{sourcePages:[...new Set(members.map(m=>m.sourcePageNumber))],sourceIdentity:{...b.sourceReview.sourceIdentity,questionLabel:`${first}–${last}`},grouping:{policy,sourceColumns,columns,layoutReason:columns===1?'Full-width parts required by expression width.':'Source groups reflow across the full worksheet width with per-cell working allowances.',sourceBlockIds:members.map(m=>m.id)},constituents:members.map(m=>({blockId:m.id,bankRef:m.bankRef,classification:m.classification,sourceRefs:m.sourceRefs,sourceReview:m.sourceReview})),responses:members.flatMap(m=>m.sourceReview?.responses??[])}};
+          sourceRefs:members.flatMap(m=>copy(m.sourceRefs??[])),sourceReview:{sourcePages:[...new Set(members.map(m=>m.sourcePageNumber))],sourceIdentity:{...b.sourceReview.sourceIdentity,questionLabel:`${first}–${last}`},grouping:{policy,sourceColumns,columns,layoutReason:columns===1?'Full-width parts required by expression width.':'Source groups reflow across the full worksheet width with per-cell working allowances.',sourceBlockIds:members.map(m=>m.id)},constituents:members.map(m=>({blockId:m.id,bankRef:m.bankRef,classification:m.classification,sourceRefs:m.sourceRefs,sourceReview:m.sourceReview})),responses}};
         for(const key of ['bankRef','canonicalId','snapshotKind','presentation','sourceLayoutEvidence'])delete result[key];
         result.flow={...b.flow};delete result.flow.bankDifficulty;
         const record={topicId:section.topicId,blockId:id,sourceRange:[first,last],sourcePages:result.sourceReview.sourcePages,sourceColumns,columns,sourceBlockIds:members.map(m=>m.id),sourceBankIds:members.map(m=>m.bankRef?.id)};
