@@ -159,20 +159,21 @@ function buildJobs(s){
  }
  const deps=project&&state.pipelinePolicy?verificationDependencies(state,project):null,reusedQuestions=[];
  if(project){
-  const exercises=unique(project.sections.filter(s=>s.phase==='practice'&&(s.blocks??[]).some(b=>b.type==='question')).map(s=>s.topicId??s.id));
+  const exercises=unique(project.sections.filter(s=>s.phase==='practice'&&(s.blocks??[]).some(b=>b.type==='question')).map(s=>s.exerciseId??s.topicId??s.id));
   for(const exerciseId of exercises){
    const context=exerciseTeachingContext(project,state,exerciseId,{runDir,config:s.config}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
    jobs.push(makeJob('theory',['exercise:'+exerciseId],context,{evidence:[...context.evidence,guidance],dependencies:{teaching:context.dependencyHash},done:theoryDone,
-    blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
+    blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(previous?.outcome==='needs-context'&&previous.dependencyHash===context.dependencyHash?['Teaching context needs clarification: '+previous.note]:[]),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    if(!deps)continue;
-   const questions=project.sections.filter(s=>s.phase==='practice'&&(s.topicId??s.id)===exerciseId).flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
+   const questions=project.sections.filter(s=>s.phase==='practice'&&(s.exerciseId??s.topicId??s.id)===exerciseId).flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
    for(const group of chunks(questions)){
     const pending=group.filter(q=>!acceptedQuestion(state,q.id,deps));reusedQuestions.push(...group.filter(q=>!pending.includes(q)).map(q=>q.id));
     const source=unique(pending.flatMap(sourcePages)),evidence=evidenceForPages(runDir,source),ids=allNodeIds(pending);
-    const contextValue={exerciseId,questions:pending,teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null,
+    const failed=pending.map(q=>state.verification?.entries?.['question:'+q.id]).filter(r=>r?.outcome==='failed'&&r.dependencies?.question===deps.questions[r.id.slice(9)]);
+    const contextValue={exerciseId,questions:pending,previousFindings:failed.map(r=>({id:r.id,note:r.note,artifacts:r.artifacts})),teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null,
      questionDependencies:Object.fromEntries(pending.map(q=>[q.id,deps.questions[q.id]])),decisions:relevantDecisions(state,ids,source)};
     jobs.push(makeJob('assessment',group.map(q=>'question:'+q.id),contextValue,{evidence:[...evidence,...(theoryDone?previous.artifacts:[]),guidance],dependencies:{questions:contextValue.questionDependencies,teaching:context.dependencyHash},done:!pending.length,
-     blockers:[...(!theoryDone?['Complete current teaching-method review for '+exerciseId]:[]),...source.filter(p=>!evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source image missing for page '+p)],images:evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
+     blockers:[...(!theoryDone?['Complete current teaching-method review for '+exerciseId]:[]),...failed.map(r=>'Repair '+r.id+' before reassessment: '+r.note),...source.filter(p=>!evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source image missing for page '+p)],images:evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    }
   }
  }else blockers.push({stage:'theory',reason:'Supply the current assembled project with projectFile, or settle the current project, to review exercise teaching and answers'});
