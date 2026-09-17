@@ -3,6 +3,7 @@
 // renderer above all — produce byte-identical HTML to the app. Math.svelte imports it.
 import katex from 'katex';
 import {spaceFractionSteps} from '../../public/libs/maths-editor/equation-spacing.mjs';
+import {prepareMathWritingBoxes,trustMathWritingBox} from './math-writing-box.js';
 
 // Split a mixed string into prose and `$...$` maths runs, render the maths
 // with KaTeX, and HTML-escape the prose. The result is a trusted HTML string
@@ -57,7 +58,9 @@ export function renderMath(text) {
         // Match MathsDatabase: every expression uses display-style glyphs
         // while its surrounding inline/block layout remains unchanged.
         const displayMath = `\\displaystyle ${spaceFractionSteps(parts[i]).replace(/\\(?:[,;:!]|q?quad)\s*(?=[\^_])/g, '')}`;
-        rendered = katex.renderToString(displayMath, {
+        rendered = katex.renderToString(prepareMathWritingBoxes(displayMath), {
+          trust: trustMathWritingBox,
+          strict: code => code === 'htmlExtension' ? 'ignore' : 'warn',
           throwOnError: true,
           // AMS align requires display mode; ordinary formula layout stays inline.
           displayMode: /\\begin\{align\*?\}/.test(parts[i]),

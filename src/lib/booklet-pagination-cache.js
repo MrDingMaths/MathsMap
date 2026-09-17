@@ -9,7 +9,7 @@ function ids(block){
   const scan=n=>{if(!n||typeof n!=='object')return;if(n.id)found.add(n.id);for(const [key,v]of Object.entries(n))if(!['source','sourceReview','sourceLayoutEvidence','originalDiagram','originalGraph','mathematicalModel','bankRef','classification'].includes(key))Array.isArray(v)?v.forEach(scan):scan(v);};
   scan(block);nodeIds.set(block,[...found]);return [...found];
 }
-export function paginationReuse(project,edition,previous,context=''){
+export function paginationReuse(project,edition,previous,context='',{compactAnswers=false}={}){
   const old=snapshots.get(previous),runs=new Map();
   const settings=project.settings??{},globalKey=JSON.stringify([project.id,project.title,project.subtitle,project.source?.runId,without(settings,['layoutOverrides','cover']),project.assets,context,edition]);
   const eligible=old?.globalKey===globalKey;
@@ -17,12 +17,18 @@ export function paginationReuse(project,edition,previous,context=''){
     get(key,section,units,seenTopic){
       const overrides=settings.layoutOverrides??{};
       const metadata=JSON.stringify([without(section,['blocks']),seenTopic,section.isCover?settings.cover:null]);
-      const inputs=units.map(unit=>({blocks:unit.blocks,layout:JSON.stringify(unit.blocks.map(block=>ids(block).map(id=>[id,...Object.keys(overrides).sort().map(key=>overrides[key]?.[id])])))}));
+      // Compact answers do not render question arrangements or response spaces.
+      // Their diagram widths and colour modes still affect the rendered result.
+      const keys=Object.keys(overrides).filter(key=>!compactAnswers||key!=='answerSpaces').sort();
+      const value=(key,id)=>compactAnswers&&key==='blockLayouts'?overrides[key]?.[id]?.diagramWidthMm:overrides[key]?.[id];
+      const inputs=units.map(unit=>({blocks:unit.blocks,layout:JSON.stringify(unit.blocks.map(block=>ids(block).map(id=>[id,...keys.map(key=>value(key,id))])))}));
       const prior=eligible&&old.runs.get(key),compatible=prior?.metadata===metadata;
       const matches=i=>compatible&&same(inputs[i]?.blocks,prior.inputs[i]?.blocks)&&inputs[i]?.layout===prior.inputs[i]?.layout;
       let first=0;while(first<inputs.length&&matches(first))first++;
+      const changedIds=new Set(inputs.flatMap((input,i)=>matches(i)?[]:input.blocks.map(b=>b.id)));
       const entry={metadata,inputs,checkpoints:[],pages:[],issues:[]};runs.set(key,entry);
       return {entry,prior:compatible?prior:null,first,unchanged:compatible&&first===inputs.length&&inputs.length===prior.inputs.length,
+        carryUnchanged:blocks=>blocks.every(block=>!changedIds.has(block.id)),
         suffix:from=>compatible&&inputs.length===prior.inputs.length&&inputs.slice(from).every((_,i)=>matches(from+i))};
     },
     finish(result){snapshots.set(result,{globalKey,runs});return result;},

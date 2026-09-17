@@ -50,10 +50,17 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  }
  if(flow)for(const n of main.querySelectorAll('.question-node,.me-layout,tr,.tikz-wrap')){if(visible(n)&&getComputedStyle(n).breakInside==='avoid'&&n.getBoundingClientRect().height>272*mm)add('unbreakable-flow-overflow',n);}
  // Structural siblings only: labels, overlays and inline mathematics intentionally overlap.
- for(const group of main.querySelectorAll('.arr-group,.question-grid,.representations,.atom-body')){
+ for(const group of main.querySelectorAll('.arr-group,.question-grid,.representations,.atom-body,.answer-row-grid')){
   const children=[...group.children].filter(n=>visible(n)&&getComputedStyle(n).position!=='absolute'&&!n.matches('.label-item,.column-handle,button,.hidden-space'));
   for(let i=0;i<children.length;i++)for(let j=i+1;j<children.length;j++){const a=children[i].getBoundingClientRect(),b=children[j].getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>mm&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>mm)add('sibling-overlap',children[i],{other:id(children[j])});}
  }
+ for(const cell of main.querySelectorAll('.answer-row-grid .answer-fragment')){
+  const bounds=cell.getBoundingClientRect();
+  for(const n of cell.querySelectorAll('.katex-html > .base'))if(visible(n)){
+   const math=n.getBoundingClientRect();if(math.left<bounds.left-.5||math.right>bounds.right+.5)add('answer-cell-overflow',n,{targetId:n.closest('[data-node-id]')?.dataset.nodeId});
+  }
+ }
+ if(style)for(const n of main.querySelectorAll('.short-answer-key .answer-item'))if(parseFloat(getComputedStyle(n).borderBottomWidth)>0)add('short-answer-divider',n);
  const graphs=[];
  for(const wrap of main.querySelectorAll('.tikz-wrap')){if(!visible(wrap))continue;const svg=wrap.querySelector('svg');if(!svg){add('missing-diagram',wrap);continue;}
   const labelGroups=[...svg.querySelectorAll('g[data-diagram-label="1"]')].filter(g=>g.querySelector('text'));

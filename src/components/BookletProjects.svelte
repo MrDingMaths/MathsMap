@@ -10,6 +10,7 @@
   import {applyBankRatings,questionDifficulty} from '../lib/booklet-bank-ratings.js';
   import FlowBookletPreview from './FlowBookletPreview.svelte';
   import BookletPageGuide from './BookletPageGuide.svelte';
+  import {settleBookletMeasurement} from '../lib/booklet-measurement.js';
   import FlowBookletOutline from './FlowBookletOutline.svelte';
   import FlowBookletPage from './FlowBookletPage.svelte';
   import {isFlexible,FLOW_EDITIONS,flowCommand,flowNumbers,selectedFlowIds,logicalUnits,captureFlowClipboard} from '../lib/booklet-flow.js';
@@ -30,6 +31,7 @@
   import {locateDocumentNode} from '../../public/libs/maths-editor/document-operations.mjs';
   import {replaceParagraphSlice} from '../lib/booklet-document-fragments.js';
   import {canKeepPageEditor} from '../lib/booklet-pagination-work.js';
+  import {answerDiagramWidth,withAnswerDiagramWidth} from '../lib/booklet-exercises.js';
   import {reconcileSyncLayout} from '../lib/question-sync-layout.js';
   import { adoptHouseStyle, BOOKLET_HOUSE_STYLE, houseStyleVariables } from '../lib/booklet-house-style.js';
   import {teachingLabels} from '../lib/booklet-labels.js';
@@ -131,7 +133,7 @@
   const editorSlots=new Map();
   function attachEditor(){const slot=editorSlots.get(inlineSession?.hostId);if(slot&&editorPortal)moveConnected(slot,editorPortal);}
   let activeEditor=$state.raw(null),composing=$state(false),selecting=$state(false),pasteFallback=$state.raw(null),documentSelection=$state.raw(null),groupSelection=$state([]),groupClipboard=$state.raw(null),textSelection=$state.raw(null),nativeTable=$state(false);
-  let documentGeneration=$state(0);
+  let documentGeneration=$state(0),immediateLayoutGeneration=$state(-1);
   const documentSession=createBookletDocumentSession({read:()=>project,publish:next=>project=next,ontransaction:t=>documentGeneration=t.generation});
   const history=documentSession.history;
   const persistence=createBookletPersistence();
@@ -139,9 +141,7 @@
   const rangeParagraphs=$derived(textSelection?.crossSurface?selectedBookletParagraphs(project,textSelection):[]);
   function spaceSelectedParagraphs(targets,key,value){const next=setBookletParagraphSpacing(project,targets,key,value);finishInline();history.boundary();change(next);history.boundary();}
   const documentColours=$derived(bookletColours(project));
-  let inspectorTab=$state('layout'), spacingScope=$state('selection'), bankPicker=$state(false);
-  const spacingTarget=$derived([selectedBlockId,layoutSelection?.id,inlineSession?.key].join('|'));
-  $effect(()=>{spacingTarget;spacingScope='selection';});
+  let inspectorTab=$state('layout'), bankPicker=$state(false);
   let workspaceTop=$state(120),layoutStatus=$state.raw({pending:true}),finder=$state(''),findQuery=$state(''),findEntries=$state.raw([]),finderInput=$state(),finderDialog=$state(),goPageValue=$state('1');
   const wordWorkspace=typeof window==='undefined'||localStorage.getItem('booklet-word-workspace')!=='off';
   const commands=[
@@ -196,7 +196,7 @@
     registerView(id,value){return documentSession.register(id,value);},
     attach(node,session){editorSlots.set(session.hostId,node);attachEditor();return {destroy(){if(editorPortal?.parentElement===node&&editorParking)moveConnected(editorParking,editorPortal);editorSlots.delete(session.hostId);}};},
     beforePagination(nextPages){if(!inlineSession)return null;const index=Number(activeEditor?.closest('[data-flow-index]')?.dataset.flowIndex);if(!paginationSelection&&activeEditor?.isConnected&&(inlineSession.fragmentIds?.length??0)<=1&&canKeepPageEditor(inlineSession,flowMap.pages[index],nextPages?.[index]))return {keepMounted:true};const saved={...inlineSession,bookmark:clone(paginationSelection??captureEditorSelection(activeEditor)??inlineSession.bookmark??null)};if(!paginationSelection&&saved.paragraphSlice)for(const key of ['start','end'])if(saved.bookmark?.[key]?.nodeId===saved.paragraphSlice.nodeId)saved.bookmark[key].offset+=saved.paragraphSlice.start;inlineSession={...inlineSession,redistributing:true};documentSelection=currentAnchor();if(editorPortal&&editorParking)moveConnected(editorParking,editorPortal);return saved;},
-    afterPagination(saved){if(!saved||saved.keepMounted)return;const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(saved.rootId)+'"][data-edit-path="'+CSS.escape(saved.pointer)+'"]')];const nodeId=saved.bookmark?.start?.nodeId,offset=saved.bookmark?.start?.offset??0;const field=fields.find(el=>{const value=documentSession.hosts.get(el.dataset.hostId)?.value;return nodeId&&(value?.blocks&&locateDocumentNode(value,nodeId)||el.querySelector('[data-id="'+CSS.escape(nodeId)+'"]'))&&(!el.hasAttribute('data-fragment-start')||offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd));})??fields.find(el=>el.closest('.flow-paper'));paginationSelection=saved.bookmark;const view=field&&documentSession.hosts.get(field.dataset.hostId);if(view){requestEdit({...saved,...view,hostId:field.dataset.hostId,origin:field});}else{attachEditor();restoreEditorSelection(activeEditor,saved.bookmark);}paginationSelection=null;},
+    afterPagination(saved){if(!saved||saved.keepMounted)return;const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(saved.rootId)+'"][data-edit-path="'+CSS.escape(saved.pointer)+'"]')].filter(el=>!saved.renderMode||el.closest('[data-page-mode]')?.dataset.pageMode===saved.renderMode);const nodeId=saved.bookmark?.start?.nodeId,offset=saved.bookmark?.start?.offset??0;const field=fields.find(el=>{const value=documentSession.hosts.get(el.dataset.hostId)?.value;return nodeId&&(value?.blocks&&locateDocumentNode(value,nodeId)||el.querySelector('[data-id="'+CSS.escape(nodeId)+'"]'))&&(!el.hasAttribute('data-fragment-start')||offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd));})??fields.find(el=>el.closest('.flow-paper'));paginationSelection=saved.bookmark;const view=field&&documentSession.hosts.get(field.dataset.hostId);if(view){requestEdit({...saved,...view,hostId:field.dataset.hostId,origin:field});}else{finishInline();documentSelection=null;}paginationSelection=null;},
     host(session){return {
       get copiedTabs(){return copiedDocumentTabs;},set copiedTabs(value){copiedDocumentTabs=value;},
       ready(editor){activeEditor=editor;attachEditor();if(session.bookmark)restoreEditorSelection(editor,session.bookmark);else placeEditorAtPoint(editor,session.point);documentSelection=currentAnchor();},
@@ -220,7 +220,7 @@
   let selectedPageId = $state('');
   let selectedBlockId = $state('');
   let selectedTargetId = $state('');
-  function currentAnchor(){const s=inlineSession;if(!s)return documentSelection;const bookmark=clone(captureEditorSelection(activeEditor)??s.bookmark??null);if(s.paragraphSlice)for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===s.paragraphSlice.nodeId)bookmark[key].offset+=s.paragraphSlice.start;return {rootId:s.rootId,pointer:s.pointer,edition:flexible?flowEdition:answerView,nodeId:bookmark?.start?.nodeId,quote:bookmark?.quote??'',bookmark};}
+  function currentAnchor(){const s=inlineSession;if(!s)return documentSelection;const bookmark=clone(captureEditorSelection(activeEditor)??s.bookmark??null);if(s.paragraphSlice)for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===s.paragraphSlice.nodeId)bookmark[key].offset+=s.paragraphSlice.start;return {rootId:s.rootId,pointer:s.pointer,renderMode:s.renderMode,edition:flexible?flowEdition:answerView,nodeId:bookmark?.start?.nodeId,quote:bookmark?.quote??'',bookmark};}
   function finishInline(){if(inlineSession){documentSelection=currentAnchor();history.boundary();}inlineSession=null;activeEditor=null;composing=false;selecting=false;nativeTable=false;}
   async function editAdjacent(direction,options={}){
     const current=activeEditor?.closest('.editable-booklet-text');if(!current)return;
@@ -254,7 +254,7 @@
   }
   function formatDocument(name,value){history.boundary();if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&['bold','italic','underline','colour'].includes(name)){const next=applyBookletTextRange(project,textSelection,name,value);finishInline();change(next);textSelection=null;return;}if(activeEditor&&inlineSession?.bookmark&&!activeEditor.contains(document.activeElement))restoreEditorSelection(activeEditor,inlineSession.bookmark);runEditorCommand(activeEditor,name,value);history.boundary();}
   async function replaceSelection(doc){const selection=textSelection;if(!selection)return;const first=selection.ranges[0],next=replaceBookletTextRange(project,selection,doc);finishInline();history.boundary();change(next);history.boundary();textSelection=null;window.getSelection()?.removeAllRanges();await tick();try{await flowPreview?.waitUntilReady();}catch{}const field=canvas?.querySelector('[data-edit-root="'+CSS.escape(first.rootId)+'"][data-edit-path="'+CSS.escape(first.pointer)+'"]');field?.querySelector('.clickable')?.click();if(inlineSession)inlineSession.point={offset:first.start+documentTextLength(doc)};}
-  function spaceWholeQuestion(property,value){try{const next=applyQuestionSpacing(project,selectedBlockId,property,value);change(next);}catch(e){error=e.message;}}
+  function spaceWholeQuestion(property,value){try{const next=applyQuestionSpacing(project,selectedBlockId,property,value);if(next===project)return;change(next);immediateLayoutGeneration=documentGeneration;}catch(e){error=e.message;}}
   function pasteAtSection(sectionId,beforeId){if(!groupClipboard)return;finishInline();change(flowCommand(project,{type:'paste',clipboard:groupClipboard,sectionId,beforeId}));if(groupClipboard.mode==='cut')groupClipboard=null;}
   function selectDocumentGroup(ids,event={}){
     finishInline();const units=logicalUnits(project),target=units.findIndex(u=>u.blocks.some(b=>b.id===ids[0])),start=units.findIndex(u=>u.blocks.some(b=>b.id===groupSelection[0]));
@@ -330,6 +330,7 @@
   function togglePanel(next){panel=panel===next?'':next;}
   function editLocation(origin,target){const labels=[];for(let node=origin?.closest('.question-node');node;node=node.parentElement?.closest('.question-node')){const label=node.querySelector(':scope > .question-line > .part-label')?.textContent?.trim().replace(/[.)]$/,'');if(label)labels.unshift(label);}return `Page ${flexible?flowActive:previewPage?.pageNumber} · ${labels.length?'Question '+labels.join(''):target?blockLabel(target.block,target.section.blocks.indexOf(target.block)):'Content'}`;}
   function requestEdit(request){
+    request={...request,renderMode:request.renderMode??request.origin?.closest('[data-page-mode]')?.dataset.pageMode};
     if(inlineSession?.rootId===request.rootId&&inlineSession?.pointer===request.pointer){
       if(request.hostId===inlineSession.hostId&&!paginationSelection)return;
       const original=fieldValue(project,request),value=request.value??original,slice=value?._bookletSlice??null,bookmark=clone(paginationSelection);
@@ -379,16 +380,23 @@
   function requestDiagram(request){
     finishInline();
     const {target,item,origin}=request,d=item.diagram;
-    editSession={key:[project.id,target.id,item.path,d.id].join(':'),projectId:project.id,targetId:target.id,path:item.path,diagram:d,origin,
+    const answerMode=origin?.dataset.answerMode??request.answerMode;
+    const effectiveWidth=answerMode?(origin?.offsetWidth?origin.offsetWidth*25.4/96:answerDiagramWidth(project.settings.compactAnswers,answerMode,d)):d.widthMm??78;
+    const maxWidthMm=answerMode&&origin?.parentElement?Math.min(190,origin.parentElement.clientWidth*25.4/96):190;
+    editSession={key:[project.id,target.id,item.path,d.id].join(':'),projectId:project.id,targetId:target.id,path:item.path,diagram:d,origin,answerMode,maxWidthMm,initialDraft:{width:Math.round(effectiveWidth*10)/10},
       colourMode:project.settings.layoutOverrides.diagramColourModes[d.id]??'original',assetBase:'/__booklet/full-imports/'+encodeURIComponent(project.source?.runId??project.id)+'/files/lanes/exact/',
-      context:'Page '+previewPage?.pageNumber+' ? '+(d.alt??'Diagram'),sourceUrl,commit:draft=>{
+      context:'Page '+previewPage?.pageNumber+' · '+(d.alt??'Diagram'),sourceUrl,commit:async draft=>{
         let next=project;
-        const diagram={...d,[d.format==='tikz'?'code':'src']:draft.code,widthMm:draft.width,align:draft.align,mathematicalModel:draft.mathematicalModel,...(d.format!=='tikz'?{sourceRegion:draft.sourceRegion}:{} )};
+        const diagram={...d,[d.format==='tikz'?'code':'src']:draft.code,widthMm:answerMode?d.widthMm:draft.width,align:draft.align,mathematicalModel:draft.mathematicalModel,...(d.format!=='tikz'?{sourceRegion:draft.sourceRegion}:{} )};
         if(item.path)next=updateProjectContent(next,target.id,item.path,diagram);
         else next={...next,sections:next.sections.map(section=>({...section,blocks:section.blocks.map(block=>block.id===d.id?diagram:block)}))};
         if(d.format!=='tikz')next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramColourModes:{...next.settings.layoutOverrides.diagramColourModes,[d.id]:draft.colourMode}}});
-        next=syncDiagramPresentation(next,target.block.id,d.id,{widthMm:draft.width,align:draft.align});
+        if(answerMode)next=updateProjectSettings(next,{compactAnswers:withAnswerDiagramWidth(next.settings.compactAnswers,answerMode,d.id,draft.width)});
+        next=syncDiagramPresentation(next,target.block.id,d.id,{...(!answerMode?{widthMm:draft.width}:{}),align:draft.align});
         change(next);
+        clearTimeout(saveTimer);
+        await persist({waitForLatest:true});
+        if(saveState!=='Saved')throw Error(error||'The diagram has not been saved yet');
       }};
   }
   function openArrangement(target,request){
@@ -421,7 +429,7 @@
   }
   let diagramSelection=$state.raw(null);
   const selectedDiagram=$derived(diagramSelection?fieldValue(project,diagramSelection):null);
-  function diagramRequest(){const target=contentTarget(project,diagramSelection?.rootId);return target?{target:{...target,id:diagramSelection.rootId},item:{diagram:selectedDiagram,path:diagramSelection.pointer},origin:canvas.querySelector(`[data-diagram-id="${CSS.escape(selectedDiagram.id)}"]`)}:null;}
+  function diagramRequest(){const target=contentTarget(project,diagramSelection?.rootId);return target?{target:{...target,id:diagramSelection.rootId},item:{diagram:selectedDiagram,path:diagramSelection.pointer},answerMode:diagramSelection.answerMode,origin:[...canvas.querySelectorAll('[data-diagram-id]')].find(el=>el.dataset.diagramId===selectedDiagram.id&&el.dataset.answerMode===diagramSelection.answerMode)}:null;}
   function editSelectedDiagram(){const request=diagramRequest();if(request)requestDiagram(request);}
   function arrangeSelectedQuestion(event){
     if(!selectedBlock)return;
@@ -432,12 +440,13 @@
     const request={origin,rootId:inlineSession?.rootId??selectedBlock.content?.id??selectedBlock.id,pointer:inlineSession?.pointer??'/prompt',selectedNodeId,selectedArrangementId,selectedDiagramId:diagram?.target.block.id===selectedBlock.id?selectedDiagram.id:undefined};
     finishInline();openArrangement({id:selectedBlock.content?.id??selectedBlock.id,block:selectedBlock},request);
   }
-  function changeDiagram(patch){if(!selectedDiagram)return;const width=patch.widthMm;if(width!=null&&(!Number.isFinite(width)||width<5||width>190)){error='Choose a diagram width between 5 and 190 mm.';return;}let next=diagramSelection.pointer?updateProjectContent(project,diagramSelection.rootId,diagramSelection.pointer,{...selectedDiagram,...patch}):{...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>b.id===selectedDiagram.id?{...b,...patch}:b)}))};if(width!=null)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramWidths:{...next.settings.layoutOverrides.diagramWidths,[selectedDiagram.id]:width}}});next=syncDiagramPresentation(next,contentTarget(project,diagramSelection.rootId)?.block?.id,selectedDiagram.id,patch);change(next);}
-  function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;const arr=element.closest('[data-arrangement-id]'),ab=arr?.closest('[data-arrangement-block]');if(arr&&ab)layoutSelection={blockId:ab.dataset.arrangementBlock,id:arr.dataset.arrangementId,ids:[arr.dataset.arrangementId]};for(const target of reviewTargets(project)){const item=findEditableDiagram(target.node,id);if(item){event.preventDefault();finishInline();diagramSelection={rootId:target.id,pointer:item.path};documentSelection={...diagramSelection,edition:flexible?flowEdition:answerView};selectedBlockId=target.block.id;selectedSectionId=target.section.id;canvas.querySelectorAll('.document-diagram-selected').forEach(e=>e.classList.remove('document-diagram-selected'));element.classList.add('document-diagram-selected');if(event.type==='dblclick'||event.type==='keydown')editSelectedDiagram();return;}}}
+  function changeDiagram(patch){if(!selectedDiagram)return;
+    if(diagramSelection.answerMode&&patch.widthMm!=null){const mode=diagramSelection.answerMode,origin=diagramRequest()?.origin,max=origin?.parentElement?.clientWidth*25.4/96||190;if(!Number.isFinite(patch.widthMm)||patch.widthMm<5||patch.widthMm>max){error=`Choose a width between 5 and ${Math.floor(max*10)/10} mm for this answer layout.`;return;}change(updateProjectSettings(project,{compactAnswers:withAnswerDiagramWidth(project.settings.compactAnswers,mode,selectedDiagram.id,patch.widthMm)}));return;}const width=patch.widthMm;if(width!=null&&(!Number.isFinite(width)||width<5||width>190)){error='Choose a diagram width between 5 and 190 mm.';return;}let next=diagramSelection.pointer?updateProjectContent(project,diagramSelection.rootId,diagramSelection.pointer,{...selectedDiagram,...patch}):{...project,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>b.id===selectedDiagram.id?{...b,...patch}:b)}))};if(width!=null)next=updateProjectSettings(next,{layoutOverrides:{...next.settings.layoutOverrides,diagramWidths:{...next.settings.layoutOverrides.diagramWidths,[selectedDiagram.id]:width}}});next=syncDiagramPresentation(next,contentTarget(project,diagramSelection.rootId)?.block?.id,selectedDiagram.id,patch);change(next);}
+  function clickedDiagram(event){if(event.type==='keydown'&&!['Enter',' '].includes(event.key))return;const element=event.target.closest('[data-diagram-id]');if(!element||event.target.closest('button'))return;const id=element.dataset.diagramId;const arr=element.closest('[data-arrangement-id]'),ab=arr?.closest('[data-arrangement-block]');if(arr&&ab)layoutSelection={blockId:ab.dataset.arrangementBlock,id:arr.dataset.arrangementId,ids:[arr.dataset.arrangementId]};for(const target of reviewTargets(project)){const item=findEditableDiagram(target.node,id);if(item){event.preventDefault();finishInline();diagramSelection={rootId:target.id,pointer:item.path,answerMode:element.dataset.answerMode};documentSelection={...diagramSelection,edition:flexible?flowEdition:answerView};selectedBlockId=target.block.id;selectedSectionId=target.section.id;canvas.querySelectorAll('.document-diagram-selected').forEach(e=>e.classList.remove('document-diagram-selected'));element.classList.add('document-diagram-selected');if(event.type==='dblclick'||event.type==='keydown')editSelectedDiagram();return;}}}
   $effect(()=>{if(!canvas)return;project;const decorate=()=>canvas.querySelectorAll('[data-diagram-id]').forEach(el=>{
     el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label','Select diagram');
     if(!el.querySelector(':scope > .document-diagram-resize')){const handle=document.createElement('button');handle.className='document-diagram-resize';handle.setAttribute('aria-label','Resize diagram');handle.textContent='↔';el.style.position='relative';el.append(handle);
-      handle.onpointerdown=e=>{e.preventDefault();e.stopPropagation();clickedDiagram({target:el,preventDefault(){},type:'click'});const start=e.clientX,initial=el.getBoundingClientRect().width,mm=selectedDiagram?.widthMm??78;let width=mm;handle.setPointerCapture(e.pointerId);const move=event=>{width=Math.max(5,Math.min(190,mm+(event.clientX-start)*mm/initial));el.style.width=width+'mm';};const end=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);changeDiagram({widthMm:Math.round(width*10)/10});};const cancel=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);el.style.width=mm+'mm';};handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',cancel);};}
+      handle.onpointerdown=e=>{e.preventDefault();e.stopPropagation();clickedDiagram({target:el,preventDefault(){},type:'click'});const start=e.clientX,initial=el.getBoundingClientRect().width,mm=el.offsetWidth*25.4/96,max=diagramSelection?.answerMode?Math.min(190,el.parentElement.clientWidth*25.4/96):190;let width=mm;handle.setPointerCapture(e.pointerId);const move=event=>{width=Math.max(5,Math.min(max,mm+(event.clientX-start)*mm/initial));el.style.width=width+'mm';};const end=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);el.style.width=mm+'mm';changeDiagram({widthMm:Math.min(Math.floor(max*10)/10,Math.round(width*10)/10)});};const cancel=()=>{handle.removeEventListener('pointermove',move);handle.removeEventListener('pointerup',end);handle.removeEventListener('pointercancel',cancel);el.style.width=mm+'mm';};handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',cancel);};}
   });decorate();const observer=new MutationObserver(decorate);observer.observe(canvas,{childList:true,subtree:true});for(const type of ['click','dblclick','keydown'])canvas.addEventListener(type,clickedDiagram);return()=>{observer.disconnect();for(const type of ['click','dblclick','keydown'])canvas?.removeEventListener(type,clickedDiagram);};});
   setContext('booklet-edit-request',requestEdit);
   $effect(()=>{if(preferencesReady)try{sessionStorage.setItem('booklet-workspace-v2',JSON.stringify({navigation,zoom,sourceZoom,panel,answerView}));}catch{}});
@@ -598,16 +607,18 @@
     saveTimer = setTimeout(persist, 500);
   }
 
-  async function persist() {
+  let activeSaveRequest=null;
+  async function persist({waitForLatest=false}={}) {
     if (!project||saveConflict||composing) return;
-    if (saveInFlight) { savePending = true; return; }
+    if (saveInFlight) { savePending = true;if(waitForLatest){await activeSaveRequest;return persist({waitForLatest:true});}return; }
     saveInFlight = true; saveState = 'Saving…'; error = '';
     const savingProject = project;
     // The project tree is immutable; persistence sends changed branches to its
     // worker. Later edits replace branches without changing this snapshot.
     const snapshot = project;
     try {
-      const saved = await persistence.save(snapshot);
+      activeSaveRequest=persistence.save(snapshot);
+      const saved = await activeSaveRequest;
       if(project.id!==snapshot.id)return;
       const editedDuringSave=project!==savingProject;
       savedBase=saved;const canonical=shareUnchanged(savingProject,saved);project=editedDuringSave?reconcileSaveAcknowledgement(snapshot,project,canonical):canonical;
@@ -617,10 +628,12 @@
       // Bank status refresh remains available on focus, its 15 s timer and Review.
     } catch (exception) {
       error = exception.message;saveConflict=exception.status===409;if(saveConflict){clearTimeout(saveTimer);savePending=false;} saveState = saveConflict ? 'Conflict - edits retained' : 'Save failed';
+      if(waitForLatest)throw exception;
     } finally {
       saveInFlight = false;
       if (savePending) { savePending = false; queueSave(); }
     }
+    if(waitForLatest&&saveState==='Unsaved changes'){clearTimeout(saveTimer);return persist({waitForLatest:true});}
   }
 
   function downloadRecovery(){
@@ -648,8 +661,8 @@
   async function historyStep(direction){
     if(!project||composing)return;const result=history.step(project,currentAnchor(),direction);if(!result)return;
     finishInline();documentSession.dispatch(result.project,{remember:false,selectionAfter:result.selection});undoStack=history.past;redoStack=history.future;documentSelection=result.selection;saveState='Unsaved changes';queueSave();
-    await tick();const anchor=result.selection;if(anchor?.pointer&&contentTarget(project,anchor.rootId)){try{await flowPreview?.waitUntilReady();}catch{}const id=contentTarget(project,anchor.rootId)?.block?.id;for(const [i,page]of flowMap.pages.entries())if(page.blocks.some(b=>b.id===id))await flowPreview?.revealPage(i);await tick();
-      const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(anchor.rootId)+'"][data-edit-path="'+CSS.escape(anchor.pointer)+'"]')],offset=anchor.bookmark?.start?.offset??0,nodeId=anchor.bookmark?.start?.nodeId;const field=fields.find(el=>{const value=documentSession.hosts.get(el.dataset.hostId)?.value;return (!nodeId||value?.blocks&&locateDocumentNode(value,nodeId))&&(!el.hasAttribute('data-fragment-start')||offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd));})??fields[0];
+    await tick();const anchor=result.selection;if(anchor?.pointer&&contentTarget(project,anchor.rootId)){try{await flowPreview?.waitUntilReady();}catch{}const id=contentTarget(project,anchor.rootId)?.block?.id;for(const [i,page]of flowMap.pages.entries())if((!anchor.renderMode||(page.mode??'student')===anchor.renderMode)&&page.blocks.some(b=>b.id===id))await flowPreview?.revealPage(i);await tick();
+      const fields=[...canvas.querySelectorAll('[data-edit-root="'+CSS.escape(anchor.rootId)+'"][data-edit-path="'+CSS.escape(anchor.pointer)+'"]')].filter(el=>!anchor.renderMode||el.closest('[data-page-mode]')?.dataset.pageMode===anchor.renderMode),offset=anchor.bookmark?.start?.offset??0,nodeId=anchor.bookmark?.start?.nodeId;const field=fields.find(el=>{const value=documentSession.hosts.get(el.dataset.hostId)?.value;return (!nodeId||value?.blocks&&locateDocumentNode(value,nodeId))&&(!el.hasAttribute('data-fragment-start')||offset>=Number(el.dataset.fragmentStart)&&offset<=Number(el.dataset.fragmentEnd));})??fields[0];
       field?.querySelector('.clickable')?.click();if(inlineSession){const bookmark=clone(anchor.bookmark);if(inlineSession.paragraphSlice)for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===inlineSession.paragraphSlice.nodeId)bookmark[key].offset-=inlineSession.paragraphSlice.start;inlineSession.bookmark=bookmark;await tick();restoreEditorSelection(activeEditor,bookmark);}
     }
   }
@@ -799,6 +812,9 @@
         try { await image.decode(); }
         catch { throw new Error(`Could not load an image for printing: ${image.alt || image.getAttribute('src')}. Retry after it has loaded.`); }
       }));
+      // The screen-only preparation surface has the final print dimensions.
+      // Calibrate synchronously before the browser snapshots its print layout.
+      await settleBookletMeasurement(root);
       if(exportGeneration!==documentSession.generation||exportEdition!==flowEdition)throw Error('The document changed while export was being prepared. Retry export for the latest revision.');
       printProgress = 'Opening print dialog…';
       window.print();
@@ -896,7 +912,7 @@
    <button bind:this={layoutPanelButton} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button>
    <details class="document-insert"><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment}>Add comment</button><button onclick={()=>togglePanel('comments')}>Show comments</button></div></details>
    {#if nativeTable}<details class="document-insert"><summary>Table</summary><div>{#each ['Add row','Remove row','Add column','Remove column','Merge right','Split cell'] as action}<button onclick={()=>formatDocument('table-action',action)}>{action}</button>{/each}</div></details>{/if}
-   {#if selectedDiagram}<span class="selection-tools">{#if directLayout?.entry?.kind==='diagram'}<label>Space above image <input aria-label="Space above image on page (mm)" type="number" min="0" max="80" step=".5" value={directLayout.node.before??0} onchange={e=>layoutCommand('properties',{before:Number(e.currentTarget.value)})}/> mm</label>{/if}<label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
+   {#if selectedDiagram}<span class="selection-tools">{#if directLayout?.entry?.kind==='diagram'}<label>Space above image <input aria-label="Space above image on page (mm)" type="number" min="0" max="80" step=".5" value={directLayout.node.before??0} onchange={e=>layoutCommand('properties',{before:Number(e.currentTarget.value)})}/> mm</label>{/if}<label>Diagram width <input aria-label="Diagram width on page" type="number" min="5" max="190" value={diagramSelection.answerMode?answerDiagramWidth(project.settings.compactAnswers,diagramSelection.answerMode,selectedDiagram):selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/> mm</label><select aria-label="Diagram alignment on page" value={selectedDiagram.align??'left'} onchange={e=>changeDiagram({align:e.currentTarget.value})}><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button></span>{/if}
    {#if groupSelection.length}<details class="document-insert"><summary>Selection ({groupSelection.length})</summary><div><button onclick={()=>groupCommand('cut')}>Cut</button><button onclick={()=>groupCommand('copy')}>Copy</button><button onclick={()=>groupCommand('paste')} disabled={!groupClipboard}>Paste</button><button onclick={()=>groupCommand('duplicate')}>Duplicate</button><button onclick={()=>groupCommand('delete')}>Delete</button></div></details>{/if}
  </div>{/if}
   {#if error}<div class="project-notice error project-screen" role="alert">{error}</div>{:else if status}<div class="workspace-toast project-screen" role="status">{status}</div>{/if}
@@ -940,7 +956,7 @@
    </aside>
    <main class="project-canvas" bind:this={canvas} hidden={!!tool}>
     {#if flexible}
-    <div hidden={comparison}>{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<FlowBookletPreview onremovebreak={id=>pageBoundary('remove',id)} onprogress={info=>previewProgress(info,attempt)} bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} {composing} {selecting} {documentGeneration} onstatus={layoutChanged} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/>{/key}</div>
+    <div hidden={comparison}>{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<FlowBookletPreview onremovebreak={id=>pageBoundary('remove',id)} onprogress={info=>previewProgress(info,attempt)} bind:this={flowPreview} {project} edition={flowEdition} options={exportSettings} {zoom} {selectedBlockId} editing={!!inlineSession||!!editSession} {composing} {selecting} {documentGeneration} {immediateLayoutGeneration} onstatus={layoutChanged} onmap={map=>flowMap=map} onpage={page=>{if(page){flowActive=page.pageNumber;selectedPageId=page.id;}}} onselect={flowSelected} onContentEdit={editContent} onSpaceResize={setAnswerSpace} onmove={(id,section,before)=>flowOutline?.drop(id,section,before)}/>{/key}</div>
     {:else}
     <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]}  onclick={()=>{finishInline();answerView=mode[0];}}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
     {/if}
@@ -959,12 +975,14 @@
      <div id="booklet-inspector-content" role="tabpanel" aria-labelledby={'booklet-inspector-'+inspectorTab}>
       {#if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout}/>
       {:else}
-       {#if inspectorTab==='layout'&&selectedBlock?.type==='question'}<label class="scope-control">Scope<select aria-label="Spacing scope" bind:value={spacingScope}><option value="selection">Selected item</option><option value="question">Whole question</option></select></label>{/if}
-       {#if inspectorTab==='layout'&&spacingScope==='question'&&selectedBlock?.type==='question'}<BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/>
-       {:else}
-        {#if rangeParagraphs.length&&inspectorTab==='layout'}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor&&inspectorTab==='layout'}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()}/>{/key}
-        {:else if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}
-        {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{#if selectedDiagram}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
+       {#if inspectorTab==='layout'}
+        {#if selectedBlock?.type==='question'}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">Whole question</h3><BookletQuestionSpacing {project} block={selectedBlock} onchange={spaceWholeQuestion}/></section>{/if}
+        <section class="spacing-scope-section" aria-labelledby="selected-item-spacing-heading"><h3 id="selected-item-spacing-heading">Selected item</h3>
+         {#if rangeParagraphs.length}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()}/>{/key}
+         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{#if selectedDiagram}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
+        </section>
+       {:else if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}
+       {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>{#if selectedDiagram}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label><button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}
        {/if}
       {/if}
      </div>
@@ -1029,7 +1047,7 @@
   </div>
    {#if flexible}<div class="document-status project-screen"><button aria-label="Go to page" onclick={()=>openFinder('goto')}>Page {flowActive} of {flowMap.pages.length||'…'}</button><label>Edition<select aria-label="Booklet edition" value={flowEdition} disabled={!!editSession||printing} onchange={async e=>{const next=e.currentTarget.value;finishInline();try{await flushDocument();flowEdition=next;}catch(err){error=err.message;}}}>{#each FLOW_EDITIONS as [value,title]}<option {value}>{title}</option>{/each}</select></label><span class="layout-state" role="status">{layoutStatus.error?'Layout failed — edits retained':layoutStatus.pending?'Layout updating…':''}</span>{#if layoutStatus.error}<button onclick={()=>flowPreview?.retryLayout()}>Retry layout</button>{/if}{#if flowMap.issues?.length}<button onclick={()=>panel='review'}>{flowMap.issues.length} layout checks</button>{/if}<label class="status-zoom">Zoom<select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="1">100%</option><option value="0.75">75%</option><option value="0.5">50%</option></select></label></div>{/if}
    {#if editSession}<FocusedBookletEditor bind:this={focusedEditor} session={editSession} onclose={()=>editSession=null}/>{/if}
-    <section class="project-print" data-pagination-state={flexible?(flowMap.error?'error':flowMap.ready&&flowMap.edition===flowEdition?'ready':'pending'):undefined} data-flow-edition={flexible?flowMap.edition:undefined} data-layout-issues={flexible?JSON.stringify(flowMap.issues):undefined} class:flexible-print={flexible} class:short-answers={!flexible&&exportSettings.practiceAnswers === 'short'} class:source-pages={project.settings.preserveSourcePages && exportSettings.practiceAnswers !== 'short'} aria-hidden="true">
+    <section class="project-print" class:preparing-print={printReady} data-pagination-state={flexible?(flowMap.error?'error':flowMap.ready&&flowMap.edition===flowEdition?'ready':'pending'):undefined} data-flow-edition={flexible?flowMap.edition:undefined} data-layout-issues={flexible?JSON.stringify(flowMap.issues):undefined} class:flexible-print={flexible} class:short-answers={!flexible&&exportSettings.practiceAnswers === 'short'} class:source-pages={project.settings.preserveSourcePages && exportSettings.practiceAnswers !== 'short'} aria-hidden="true">
       {#if printReady}
       {#if flexible}
         {#each flowMap.pages as page}<div class="print-page" data-flow-page={page.pageNumber} data-flow-blocks={page.blocks.map(b=>b.id).join(',')}><FlowBookletPage {project} {page} pages={flowMap.pages} options={exportSettings}/></div>{/each}
@@ -1057,7 +1075,7 @@
 <style>
  .editor-parking{position:fixed;left:-20000px;top:0;width:180mm;visibility:hidden;pointer-events:none}
  .document-toolbar :global(.equation-menu:not([open])>.me-math-tools){display:none!important}.document-toolbar :global(.equation-menu>.me-math-tools){top:100%;right:0;width:280px;display:grid;gap:6px;padding:10px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools>label){display:none}.document-toolbar :global(.equation-menu .me-math-tools button){text-align:left}
- .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}
+ .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.spacing-scope-section{display:grid;gap:8px}.spacing-scope-section+ .spacing-scope-section{border-top:1px solid var(--border,#cbd5e1);margin-top:16px;padding-top:16px}.spacing-scope-section>h3{margin:0;font-size:14px}
 
 .project-shell{position:relative}.is-opening{min-height:calc(100dvh - 100px)}
 .is-opening>.project-toolbar{z-index:31}
@@ -1085,6 +1103,22 @@
  .short-answers .print-page{break-after:auto;margin-bottom:5mm}.answer-heading{font-size:20pt;color:#24282d;margin:0 0 6mm}.export-help{font-size:14px;line-height:1.4}
   @page studio-flow{background:white;size:A4;margin:10mm 15mm 15mm;@bottom-right{vertical-align:bottom;padding-bottom:3mm;content:counter(page) " / " counter(pages);font-size:8pt;color:#66758d}}
   @page booklet-source { size:A4; margin:0; }
+  @media screen {
+    /* Measurable before beforeprint fires; never position or hide printed pages. */
+    .project-print.preparing-print{display:block;position:fixed;left:-100000px;top:0;width:210mm;visibility:hidden;pointer-events:none}
+    .preparing-print .print-page{width:180mm;min-height:0}
+    .preparing-print.source-pages .print-page{width:210mm;min-height:297mm}
+    .preparing-print :global(.preview-frame){width:210mm;height:297mm;overflow:visible}
+    .preparing-print :global(.preview-page){position:static;transform:none}
+    .preparing-print :global(.flow.preview-frame),.preparing-print :global(.flow .preview-page),.preparing-print :global(.flow .booklet-page){width:180mm;height:auto;min-height:0;overflow:visible}
+    .preparing-print :global(.flow .booklet-page){display:block;padding:0}
+    .preparing-print :global(.flow .booklet-page main){padding:0}
+    .preparing-print :global(.flow .booklet-footer){display:none}
+    .preparing-print .project-cover,.preparing-print .answers-divider{width:180mm;height:270mm;padding:35mm 10mm}
+    .preparing-print.flexible-print .print-page{width:210mm;height:297mm;min-height:297mm}
+    .preparing-print.flexible-print :global(.preview-frame){width:210mm!important;height:297mm!important}
+    .preparing-print.flexible-print :global(.booklet-page){height:297mm!important;overflow:visible!important}
+  }
   @media print {
     /* Printing snapshots the first animation frame. Keep the document visible
        when leaving the screen-only workspace, without a transformed page root. */
@@ -1120,7 +1154,7 @@
  .project-editor,.project-editor.with-navigation,.project-editor.with-review,.project-editor.with-navigation.with-review{display:grid;grid-template-columns:minmax(0,1fr);flex:1;min-height:0;height:auto;overflow:hidden}
  .project-editor.with-navigation{grid-template-columns:240px minmax(0,1fr)}.project-editor.with-review{grid-template-columns:minmax(0,1fr) 320px}.project-editor.with-navigation.with-review{grid-template-columns:240px minmax(0,1fr) 320px}
  .project-outline,.project-outline.drawer{position:relative;inset:auto;width:auto;box-shadow:none;overflow:auto;padding:12px}.workspace-panel,.workspace-panel.docked{position:relative;inset:auto;width:auto;max-width:none;box-shadow:none;min-height:0;overflow:auto;padding:12px}
- .workspace-panel>header{margin-bottom:8px}.workspace-panel h2{font-size:16px}.workspace-panel label{margin:6px 0;gap:4px}.workspace-panel input,.workspace-panel select,.workspace-panel button{min-height:32px;font-size:14px}.selection-breadcrumb{font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.scope-control{display:flex!important;align-items:center;justify-content:space-between}.scope-control select{width:auto}
+ .workspace-panel>header{margin-bottom:8px}.workspace-panel h2{font-size:16px}.workspace-panel label{margin:6px 0;gap:4px}.workspace-panel input,.workspace-panel select,.workspace-panel button{min-height:32px;font-size:14px}.selection-breadcrumb{font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
  .native-layout-fields :global(.me-layout-fields){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px}.detail-arrangement{width:100%;margin-top:12px}.workspace-toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:50;padding:8px 16px;background:var(--panel,#fff);border:1px solid var(--border);border-radius:6px;box-shadow:0 3px 16px #0002;font-size:14px}
  .project-canvas{height:auto;min-height:0;box-sizing:border-box;padding:12px}.canvas-heading{top:-12px;padding-bottom:8px;gap:8px;min-height:36px;font-size:13px}.canvas-heading label{display:flex;align-items:center;gap:6px}.canvas-heading select{min-height:30px;font-size:13px;padding:3px 6px}.project-notice{flex:none;padding:8px 12px}.bank-sync-panel{max-height:40vh;overflow:auto}
  }

@@ -45,7 +45,10 @@ export function fragmentQuestion(block, groups, continuation=0) {
 const fragmentLayoutCache=new WeakMap();
 export function fragmentLayouts(blocks, layouts={}) {
   let byBlocks=fragmentLayoutCache.get(layouts);if(!byBlocks){byBlocks=new WeakMap();fragmentLayoutCache.set(layouts,byBlocks);}
-  if(byBlocks.has(blocks))return byBlocks.get(blocks);
+  // Pagination extends the current page's array while testing safe cuts.
+  // Its identity alone cannot establish that cached fragment layouts still fit.
+  const cached=byBlocks.get(blocks);
+  if(cached&&cached.blocks.length===blocks.length&&cached.blocks.every((block,i)=>block===blocks[i]))return cached.result;
   const result={...layouts};
   for(const block of blocks){
     const stored=layouts[block.id]?.arrangement;
@@ -62,7 +65,7 @@ export function fragmentLayouts(blocks, layouts={}) {
     };
     result[block.id]={...layouts[block.id],arrangement:{...stored,root:prune(stored.root)??{...stored.root,children:[]}}};
   }
-  byBlocks.set(blocks,result);return result;
+  byBlocks.set(blocks,{blocks:[...blocks],result});return result;
 }
 
 export function makeFlowPage(section,blocks,index=0,reason='section') {
@@ -202,7 +205,7 @@ export async function paginateFlow(project,edition,measure,{cancelled=()=>false,
     for(let i=begin;i<units.length;i++){
       const checkpoint={index:i,pageCount:pages.length-groupStart,issueCount:issues.length-issueStart,current:[...current],continuation,reason,seenTopic:seenTopics.has(topicKey)};
       const oldCheckpoint=cached.prior?.checkpoints.find(c=>c.index===i);
-      if(i>begin&&oldCheckpoint&&cached.suffix(i)&&continuation===oldCheckpoint.continuation&&reason===oldCheckpoint.reason&&checkpoint.seenTopic===oldCheckpoint.seenTopic&&samePageCarry(current,oldCheckpoint.current)){
+      if(i>begin&&oldCheckpoint&&cached.suffix(i)&&cached.carryUnchanged(current)&&continuation===oldCheckpoint.continuation&&reason===oldCheckpoint.reason&&checkpoint.seenTopic===oldCheckpoint.seenTopic&&samePageCarry(current,oldCheckpoint.current)){
         appendPages(cached.prior.pages.slice(oldCheckpoint.pageCount));issues.push(...cached.prior.issues.slice(oldCheckpoint.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.filter(c=>c.index>=i));current=[];break;
       }
       cached.entry.checkpoints.push(checkpoint);

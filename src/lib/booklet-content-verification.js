@@ -8,7 +8,8 @@ export async function signature(value){
   const bytes=new TextEncoder().encode(JSON.stringify(canonical(value)));
   return [...new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
 }
-const presentation=new Set(['flow','presentation','layout','columns','widthMm','heightMm','fontSize','lineHeight','spaceBefore','spaceAfter','indent','align','verification','sourceLayoutEvidence','sourceReview','answerSpaceMm','sourceOrder','classification','bankRef','diagramColourModes']);
+// Ownership changes during bank promotion do not change inspected source content.
+const presentation=new Set(['flow','presentation','layout','columns','widthMm','heightMm','fontSize','lineHeight','spaceBefore','spaceAfter','indent','align','verification','sourceLayoutEvidence','sourceReview','answerSpaceMm','sourceOrder','classification','bankRef','canonicalId','snapshotKind','diagramColourModes']);
 function contentOnly(value){
   return Array.isArray(value)?value.map(contentOnly):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([k])=>!presentation.has(k)).map(([k,v])=>[k,contentOnly(v)])):value;
 }
@@ -20,7 +21,13 @@ export function contentNodes(project){
     const parents=[...ancestors,value];
     for(const [key,v]of Object.entries(value))if(!['sourceRefs','sourceAtom','sourceLayoutEvidence','sourceReview','verification','mathematicalModel','originalDiagram','presentation'].includes(key))Array.isArray(v)?v.forEach(n=>visit(n,block,parents)):typeof v==='object'&&visit(v,block,parents);
   };
-  for(const s of project?.sections??[])for(const b of s.blocks)visit(b,b);
+  for(const s of project?.sections??[]){
+    // Calculated topic bands and editor-only source section headings are
+    // legitimate inventory targets. Follow them to their first visible block
+    // when the review panel opens the source comparison.
+    if(s.id)nodes.set(s.id,{node:s,block:s.blocks[0]??s,ancestors:[]});
+    for(const b of s.blocks)visit(b,b);
+  }
   return nodes;
 }
 function assetSources(value,found=new Set()){

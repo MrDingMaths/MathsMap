@@ -17,7 +17,7 @@ export function measurementKeyFor(project,options={}) {
     const value=JSON.stringify([block,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
     signatures.set(block,value);return value;
   };
-  return page=>JSON.stringify([context,page.isCover?cover:null,Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks')),page.isCover,page.compactAnswers,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment])),page.blocks.map(signature)]);
+  return page=>JSON.stringify([context,page.isCover?cover:null,Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks')),page.isCover,page.compactAnswers,page.shortAnswerProbe,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment,e.shortRow,e.shortColumns])),page.blocks.map(signature)]);
 }
 
 // Measurements need settled assets and a synchronous layout, not several paint

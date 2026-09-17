@@ -1,5 +1,20 @@
 import {fieldValue} from './booklet-document-controller.js';
 
+export const paginationDelay=(editing,immediate)=>editing&&!immediate?250:0;
+
+// Include an actual paint opportunity in feedback timings. Abort promptly when
+// a newer edit arrives; background tabs must not hold the pagination queue open.
+export function nextPaginationPaint(signal){
+  return new Promise(resolve=>{
+    let frame,timer;
+    const finish=()=>{cancelAnimationFrame(frame);clearTimeout(timer);signal?.removeEventListener('abort',finish);resolve();};
+    signal?.addEventListener('abort',finish,{once:true});
+    timer=setTimeout(finish,100);
+    frame=requestAnimationFrame(()=>{frame=requestAnimationFrame(finish);});
+    if(signal?.aborted)finish();
+  });
+}
+
 export function canKeepPageEditor(session,previous,next){
   if(!session||session.paragraphSlice||!previous||previous.id!==next?.id)return false;
   const value=fieldValue({sections:[{blocks:next.blocks}]},session);

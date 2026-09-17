@@ -11,7 +11,7 @@
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
   import { setoutMathChain } from '../lib/inline-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
-  import {compactAnswerDisplay,answerDiagramStyle,compactAnswerLabel,answerNodePath} from '../lib/booklet-exercises.js';
+  import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
   import {teachingAnswerCategory} from '../lib/booklet-answer-options.js';
   import {hasEmbeddedResponseLabel} from '../lib/booklet-labels.js';
@@ -31,8 +31,9 @@
   const sourceDiagram = (id) => id ? allDiagrams(question).find((diagram) => diagram.id === id) : null;
   const spaceFor = (node) => node.responseSpace === 'scaffold' ? 0 : Number.isFinite(Number(answerSpaceOverrides[node.id])) ? answerSpaceOverrides[node.id] : estimateAnswerSpaceMm(node);
   const widthFor = (diagram) => {
-    const width=blockLayouts[diagram.id]?.diagramWidthMm ?? (Number.isFinite(Number(diagramWidthOverrides[diagram.id])) ? diagramWidthOverrides[diagram.id] : (showShortAnswers || showWorkedSolutions ? Math.min(Number(diagram.widthMm) || 60,60) : Number(diagram.widthMm) || 95));
-    return compactAnswerSettings ? answerDiagramStyle(compactAnswerSettings,showShortAnswers?'short':'worked',diagram)?.widthMm??compactAnswerSettings.diagramWidths?.[diagram.id]??Math.min(width,showShortAnswers?compactAnswerSettings.shortDiagramMm:compactAnswerSettings.workedDiagramMm):width;
+    const teachingAnswer=!!(teachingAnswerCategory(question)||question.sourceAtom);
+    const width=blockLayouts[diagram.id]?.diagramWidthMm ?? (Number.isFinite(Number(diagramWidthOverrides[diagram.id])) ? diagramWidthOverrides[diagram.id] : ((showShortAnswers || showWorkedSolutions)&&!teachingAnswer ? Math.min(Number(diagram.widthMm) || 60,60) : Number(diagram.widthMm) || 95));
+    return compactAnswerSettings ? answerDiagramWidth(compactAnswerSettings,showShortAnswers?'short':'worked',diagram,width):width;
   };
   const diagramCode=diagram=>answerDiagramStyle(compactAnswerSettings,showShortAnswers?'short':'worked',diagram)?.code??diagram.code;
   const isPattern = diagram => /pattern|sequence|matchstick|chairs/i.test(diagram.alt??'')&&!/graph|grid|Cartesian|axes/i.test(diagram.alt??'');
@@ -118,7 +119,7 @@
     {#if combined}
       {@render diagramView({ ...diagram, code: combined, overlayOf: null }, interactive)}
     {:else}
-    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
+    <div data-diagram-id={diagram.id} data-answer-mode={compactAnswerSettings?(showShortAnswers?'short':'worked'):undefined} data-diagram-width-mm={width} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       <div class="diagram-composite">
         {@render diagramView(source, false)}
         <div class="diagram-overlay">{@render diagramView({ ...diagram, overlayOf: null }, false)}</div>
@@ -127,7 +128,7 @@
     </div>
     {/if}
   {:else}
-    <div data-diagram-id={diagram.id} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
+    <div data-diagram-id={diagram.id} data-answer-mode={compactAnswerSettings?(showShortAnswers?'short':'worked'):undefined} data-diagram-width-mm={width} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       {#if diagram.format === 'tikz' && diagram.code}
         <div class="diagram diagram-tikz"><Tikz code={diagramCode(diagram)} eager={eagerDiagrams} /></div>
       {:else if diagram.src}
@@ -179,7 +180,7 @@
     </div>
     {#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}
   {:else}
-    <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label">{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
+    <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
@@ -217,8 +218,13 @@
 
   .practice-question.compact-answer{line-height:1.22}
   .compact-answer .answer-children{display:block;margin:0}
-  .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{grid-template-columns:var(--answer-label-width) minmax(0,1fr);gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
+  /* Nested grid paints some first-column answer text inside the label gutter in
+     Chromium PDFs despite correct DOM bounds. Flex preserves the measured gutter. */
+  .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{display:flex!important;gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
+  .compact-answer .answer-label{flex:0 0 var(--answer-label-width)}
+  .compact-answer .answer-content{flex:1;min-width:0}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
+  .short-answer-key .answer-item,.short-answer-key .answer-children > .answer-item{border-bottom:0}
   .compact-answer .answer-content{text-align:left}
   .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important;text-align:left!important}
   .compact-answer :global(.katex-display){margin:.5mm 0!important;text-align:left!important}
@@ -243,7 +249,7 @@
   .diagrams-right > .question-line { grid-column:1; }
   .diagrams-right > .question-diagrams { grid-column:2; }
   .diagrams-beside > .answer-space { grid-column:1 / -1; }
-  .question-line { display: flex; align-items: flex-start; gap: var(--label-gap); }
+  .question-line { display: flex; align-items: baseline; gap: var(--label-gap); }
   .part-label { flex: none; min-width: var(--label-width); font-weight: 700; }
   .exam-label { display: block; font: inherit; font-weight: 800; }
   .prompt { min-width: 0; flex: 1; }

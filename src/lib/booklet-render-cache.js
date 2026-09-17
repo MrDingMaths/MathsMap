@@ -21,10 +21,11 @@ export function measurementAssets(project){
     }
   };visit(project.sections);return [...urls];
 }
-export async function dimensionCacheContext(project){
+export async function dimensionCacheContext(project,{signal}={}){
   if(['measurements-off','off'].includes(cacheMode()))return null;
   try{
-    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(JSON.stringify(measurementAssets(project))),{signal:AbortSignal.timeout(5000)}),v=await r.json();
+    const timeout=AbortSignal.timeout(5000);
+    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(JSON.stringify(measurementAssets(project))),{signal:signal?AbortSignal.any([signal,timeout]):timeout}),v=await r.json();
     if(!r.ok||!v.assets||v.version!==installedVersion)return null;
     return JSON.stringify([v.version,v.assets,navigator.userAgent,devicePixelRatio]);
   }catch{return null;}

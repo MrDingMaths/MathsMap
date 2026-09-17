@@ -1,15 +1,17 @@
 import {flowEditionSections} from './booklet-flow.js';
 import {answerFragments,exerciseLabelWidth} from './booklet-exercises.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
+import {paginateShortAnswerGrid} from './booklet-short-answer-grid.js';
 
 export async function paginateCompactAnswers(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}) {
+  if(edition.includes('short'))return paginateShortAnswerGrid(project,edition,measure,{cancelled,onprogress,previous,context});
   const mode=edition.includes('short')?'short':'worked',count=mode==='short'?2:1;
   const sections=flowEditionSections(project,mode),pages=[],issues=[];
   const widths=new Map(sections.map(s=>[s.topicId,exerciseLabelWidth(sections.filter(t=>t.topicId===s.topicId).flatMap(t=>t.blocks))]));
-  const reuse=paginationReuse(project,edition,previous,context);
+  const reuse=paginationReuse(project,edition,previous,context,{compactAnswers:true});
   const units=sections.flatMap(section=>section.blocks.map(block=>({blocks:[block],section})));
   const cached=reuse.get('answers',{id:'answers',metadata:sections.map(s=>({...s,blocks:undefined,labelWidthMm:widths.get(s.topicId)}))},units,false);
-  if(cached.unchanged)return reuse.finish({pages:cached.prior.pages.map(p=>({...p})),issues:cached.prior.issues,edition});
+  if(cached.unchanged){Object.assign(cached.entry,cached.prior);return reuse.finish({pages:cached.prior.pages.map(p=>({...p})),issues:cached.prior.issues,edition});}
   let columns=Array.from({length:count},()=>[]),column=0;
   const check=()=>{if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});};
   const make=()=>({id:`compact-${mode}-${pages.length}`,pageNumber:pages.length+1,mode,flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:columns.map(c=>[...c]),blocks:columns.flat().map(e=>e.block),section:columns.flat()[0]?.section,breakReason:'overflow'});

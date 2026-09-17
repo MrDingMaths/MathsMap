@@ -120,8 +120,8 @@ export function flowNumbers(project) {
 
 export function exerciseNumbers(project) {
   if(project.settings?.exerciseOrganisation!=='topic')return {};
-  const result={};let number=0;
-  for(const section of project.sections)if(section.topicId&&section.phase!=='front-matter'&&section.role!=='candidate-pool'&&section.blocks.some(b=>!b.presentation?.editorOnly)&&result[section.topicId]==null)result[section.topicId]=++number;
+  const result={},labels=new Map((project.topics??[]).map(t=>[t.id,t.exerciseLabel]));let number=0;
+  for(const section of project.sections)if(section.topicId&&section.phase!=='front-matter'&&section.role!=='candidate-pool'&&section.blocks.some(b=>!b.presentation?.editorOnly)&&result[section.topicId]==null){number++;result[section.topicId]=labels.get(section.topicId)||number;}
   return result;
 }
 

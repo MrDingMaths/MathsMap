@@ -21,6 +21,10 @@ export function measureBookletPage(root) {
   const height = (Math.max(...ends) - body.top) / scale;
   return {
     height, capacity,
+    ...(paper.hasAttribute?.('data-short-answer-probe')?{
+      answerColumnWidthMm:columnElements[0].getBoundingClientRect().width/scale/BOOKLET_PX_PER_MM,
+      answerWidthsMm:[...main.querySelectorAll('.answer-width-probe')].map(e=>e.getBoundingClientRect().width/scale/BOOKLET_PX_PER_MM),
+    }:{}),
     remainingMm: (capacity - height) / BOOKLET_PX_PER_MM,
     columns: ends.map(end => (bottom - end) / scale / BOOKLET_PX_PER_MM),
     overflowHeight: Math.max(0, (Math.max(...ends) - paperRect.bottom) / scale),

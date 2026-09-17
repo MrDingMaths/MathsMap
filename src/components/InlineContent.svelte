@@ -27,6 +27,9 @@
 <style>
   .inline-content { width: 100%; }
   .text-line { min-height: 1.25em; }
+  /* Separate adjacent fraction-bearing lines, including equation-to-prose
+     transitions. Rows inside one aligned equation keep their own spacing. */
+  .text-line:has(:global(.mfrac)) + .text-line:has(:global(.mfrac)) { margin-top: 8pt; }
   .blank-line { height: 0.55rem; }
   .inline-tikz { width: 100%; display: flex; justify-content: center; overflow-x: auto; margin: 0.45rem 0; }
   .inline-tikz :global(svg) { max-width: 100%; height: auto; }

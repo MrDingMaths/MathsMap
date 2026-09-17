@@ -36,7 +36,7 @@
   let cover = $derived(deriveBookletCover(bookletPages, presentation?.()?.cover));
   let orderedPages = $derived([...bookletPages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber)));
   let bookletPageNumber = $derived(Math.max(1, orderedPages.findIndex((item) => item.id === page.id) + 1));
-  let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id))));
+  let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id&&!(other.sourceAtom&&block.sourceAtom)))));
 
   const assetUrl = (src) => src?.startsWith('evidence/') ? `/__booklet/full-imports/${encodeURIComponent(runId)}/files/lanes/exact/${src}` : src;
   const previewQuestion = (question) => labelledTeachingQuestion(resolvePreviewAssets(question, assetUrl),labels);
@@ -108,7 +108,7 @@
 
 {#snippet questionView(block, number)}
   {@const visibleNumber=usesReviewNumbers(block)?Number(labels[block.content.id]??1):usesTeachingLetters(block)?null:number}
-  {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId)}
+  {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId&&!(block.sourceAtom&&b.sourceAtom))}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}
   {#if block.pedagogyRole === 'worked-example' && solutionMode === 'student'}
     <PracticeQuestionRenderer answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={false} showSpaces={false} eagerDiagrams={true} {...editProps()} />
@@ -139,7 +139,7 @@
     <section class:inside-atom={insideAtom} class="theory-section">
       {#if !insideAtom}<BookletSectionHeader kind="example" subtitle={block.title} editMode={editMode} rootId={block.id} pointer="/title" {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />{/if}
       <div class:body-box={!insideAtom} class:example-columns={block.presentation?.layout === 'columns'} class="example" style={'--example-columns:' + (block.presentation?.columns ?? 3)}>
-        {#if blockLayouts[block.id]?.arrangement || block.examples?.length && block.presentation?.layout === 'columns'}
+        {#if blockLayouts[block.id]?.arrangement || block.examples?.some(example=>example.equationAlignment) || block.examples?.length && block.presentation?.layout === 'columns'}
           <BookletArrangement {block} arrangement={blockLayouts[block.id]?.arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} showSolutions={showTheorySolutions} {assetUrl} {diagramColourModes} {editMode}/>
         {:else if block.examples?.length && block.presentation?.layout === 'worked-rows'}
           {#each block.examples as example, exampleIndex}
@@ -201,6 +201,15 @@
   {/if}
 {/snippet}
 
+{#snippet teachingAtom(item)}
+  <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
+    <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
+    <div class="body-box atom-body" class:review-body={item.atom.kind === "review"}>
+      {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
+    </div>
+  </section>
+{/snippet}
+
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
     {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
@@ -220,13 +229,10 @@
               <button aria-label="Insert text before this group" onclick={()=>documentActions.insert('text',documentIds[0])}>+</button>
               {#if documentActions.commentsFor(documentIds).length}<button aria-label="Comments on this group" onclick={()=>documentActions.comment(documentIds)}>●</button>{/if}
             </div>{/if}
-            {#if item.type === 'teaching-atom'}
-              <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
-                <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
-                <div class="body-box atom-body" class:review-body={item.atom.kind === "review"}>
-                  {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
-                </div>
-              </section>
+            {#if item.type === 'teaching-pair'}
+              <div class="teaching-pair">{#each item.groups as group (group.id)}{@render teachingAtom(group)}{/each}</div>
+            {:else if item.type === 'teaching-atom'}
+              {@render teachingAtom(item)}
             {:else}
               {@render blockBody(item.block, index, false)}
             {/if}
@@ -264,7 +270,9 @@
   main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:var(--booklet-blue); font-size:var(--type-subheading); }
   .theory-section { break-inside:avoid; }
   .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid var(--booklet-border); border-top:0; background:var(--booklet-white); }
-  .atom-body { display:grid; gap:1.8mm; }
+  .atom-body { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; }
+  .teaching-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; margin-bottom:3mm; }
+  .teaching-pair > .teaching-atom { min-width:0; }
   .inside-atom { margin:0; }
   .example-row { display:grid; grid-template-columns:minmax(28mm,.55fr) minmax(0,1.45fr); gap:4mm; padding:1.4mm 0; border-top:.2mm solid var(--booklet-border); }
   .example-row:first-child { border-top:0; }

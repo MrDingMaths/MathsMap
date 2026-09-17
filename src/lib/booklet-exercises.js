@@ -24,6 +24,25 @@ export function answerDiagramStyle(settings,mode,diagram) {
   return style?.sourceSignature===answerDiagramSignature(diagram)?style:null;
 }
 
+export function answerDiagramWidth(settings,mode,diagram,fallback=Number(diagram.widthMm)||60) {
+  const saved=settings?.diagramWidths?.[diagram.id];
+  const explicit=typeof saved==='number'?saved:saved?.[mode];
+  if(Number.isFinite(explicit)&&explicit>=5)return explicit;
+  const calibrated=answerDiagramStyle(settings,mode,diagram)?.widthMm;
+  return calibrated??Math.min(fallback,settings?.[mode==='short'?'shortDiagramMm':'workedDiagramMm']??(mode==='short'?45:55));
+}
+
+export function withAnswerDiagramWidth(settings,mode,id,width) {
+  if(!['short','worked'].includes(mode)||!Number.isFinite(width)||width<5||width>190)throw Error('Invalid answer diagram size');
+  const old=settings?.diagramWidths?.[id];
+  const widths=typeof old==='number'?{short:old,worked:old}:old??{};
+  const styles={...settings?.diagramStyles,[mode]:{...settings?.diagramStyles?.[mode]}};
+  // A calibrated code variant was prepared for its old size. Render the native
+  // source again so label calibration agrees with the explicit new size.
+  delete styles[mode][id];
+  return {...settings,diagramWidths:{...settings?.diagramWidths,[id]:{...widths,[mode]:width}},diagramStyles:styles};
+}
+
 // Allow wrapping between complete coordinates/values, never within a fraction
 // or coordinate pair. This changes only the display value passed to the renderer.
 export function compactAnswerDisplay(value) {
@@ -87,8 +106,8 @@ export function organiseExercises(source, ratings={}) {
     }));
     const groups=[];units.forEach((u,j)=>{if(j&&joined.has(j-1))groups.at(-1).blocks.push(...u.blocks);else groups.push(u);});
     const score=u=>Math.max(0,...u.blocks.filter(isPractice).map(b=>(b.flow.bankDifficulty??b.flow.localDifficulty).reasoningScore));
-    if(!uncertain)groups.sort((a,b)=>score(a)-score(b)); // Stable ties retain the source sequence.
-    if(uncertain){
+    if(!uncertain&&project.settings.questionOrder!=='source')groups.sort((a,b)=>score(a)-score(b)); // Stable ties retain the source sequence.
+    if(uncertain&&project.settings.questionOrder!=='source'){
       project.studio??={version:1,flags:[]};project.studio.flags??=[];
       const id=`sequence-${section.id}`;
       project.studio.flags=project.studio.flags.filter(f=>f.id!==id);

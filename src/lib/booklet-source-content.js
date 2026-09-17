@@ -2,6 +2,7 @@ import {applyCreationPreset} from './booklet-creation.js';
 import {normalizeEditableProject,materializeReconstruction,PROJECT_BLOCK_TYPES} from './editable-booklet-model.js';
 import {organiseExercises} from './booklet-exercises.js';
 import {applySourceCorrection} from './booklet-source-corrections.js';
+import {isTheoryReview} from './question-bank-eligibility.js';
 
 export function sourceReferences(node) {
   const refs=node?.sourceRefs??(node?.sourcePageNumber?[{pageNumber:node.sourcePageNumber}]:[]);
@@ -15,6 +16,7 @@ export function contentProject(candidate,{runId,projectId,mode='compact',review=
     const topics=new Set(candidate.topics.map(t=>t.id));
     if(topics.size!==candidate.topics.length)throw Error('Duplicate topic identity');
     for(const section of candidate.sections){
+      if(candidate.contentScope==='practice-only'&&(section.phase!=='practice'||section.blocks?.some(b=>b.type!=='question'||b.pedagogyRole||isTheoryReview(b,section))))throw Error('Practice-only candidate contains standalone teaching or non-selectable review content');
       if(!['practice','teaching','front-matter'].includes(section.phase))throw Error('Semantic section needs a teaching/practice phase');
       if(section.phase!=='front-matter'&&!topics.has(section.topicId))throw Error('Section references an unknown topic');
       for(const block of section.blocks??[]){
@@ -45,6 +47,7 @@ export function contentProject(candidate,{runId,projectId,mode='compact',review=
   project.source.inventory=structuredClone(candidate.sourceInventory??{version:1,entries:[],pages:[]});
   delete project.sourceInventory;delete project.ratings;
   project.source.importMode=mode;
+  if(candidate.contentScope)project.source.contentScope=candidate.contentScope;
   for(const correction of candidate.sourceCorrections??[])project=applySourceCorrection(project,correction);
   delete project.sourceCorrections;
   if(mode==='compact'){

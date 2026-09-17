@@ -22,21 +22,32 @@ export function calibrateDiagramTypography(root) {
     // Fixed-size labels may extend slightly beyond the source's TeX viewport.
     // Keep geometry, placement and pagination fixed while retaining the whole glyph.
     if(svg.style.overflow!=='visible')svg.style.overflow='visible';
-    if(!font||!group.querySelector('text'))continue;
+    const text=group.querySelector('text'),pageScale=graphPageScale(svg),bounds=svg.getBoundingClientRect();
+    // beforeprint may still be in screen media, where the print copy is hidden.
+    // Never discard a valid correction when there is no layout to measure.
+    if(!(font>0&&pageScale>0&&bounds.width>0&&bounds.height>0)||!text)continue;
     // Always measure the original group. Repeated resizing and cached/reopened
     // SVGs must never multiply a previous correction.
+    const previous=group.getAttribute('transform');
+    let calibrated=false;
     group.removeAttribute('transform');
-    const matrix=group.getScreenCTM(),pageScale=graphPageScale(svg);
-    if(!matrix||!(pageScale>0))continue;
-    const tick=!!group.querySelector('[data-graph-text="tick"]');
-    const target=tick?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt;
-    const current=font*Math.hypot(matrix.c,matrix.d)*72/96/pageScale;
-    if(!(current>0))continue;
-    const factor=target/current,box=group.getBBox(),anchor=group.dataset.labelAnchor??'center';
-    const x=box.x+box.width*(/west/.test(anchor)?0:/east/.test(anchor)?1:.5);
-    const y=/base|mid/.test(anchor)?(group.querySelector('text').y.baseVal[0]?.value??box.y+box.height/2):box.y+box.height*(/north/.test(anchor)?0:/south/.test(anchor)?1:.5);
-    group.setAttribute('transform',`translate(${x} ${y}) scale(${factor}) translate(${-x} ${-y})`);
-    group.dataset.labelTargetPt=String(target);
+    try {
+      const matrix=group.getScreenCTM();
+      if(!matrix)continue;
+      const tick=!!group.querySelector('[data-graph-text="tick"]');
+      const target=tick?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt;
+      const current=font*Math.hypot(matrix.c,matrix.d)*72/96/pageScale;
+      if(!(current>0))continue;
+      const factor=target/current,box=group.getBBox(),anchor=group.dataset.labelAnchor??'center';
+      const x=box.x+box.width*(/west/.test(anchor)?0:/east/.test(anchor)?1:.5);
+      const y=/base|mid/.test(anchor)?(text.y.baseVal[0]?.value??box.y+box.height/2):box.y+box.height*(/north/.test(anchor)?0:/south/.test(anchor)?1:.5);
+      if(!(factor>0)||![factor,x,y].every(Number.isFinite))continue;
+      group.setAttribute('transform',`translate(${x} ${y}) scale(${factor}) translate(${-x} ${-y})`);
+      group.dataset.labelTargetPt=String(target);
+      calibrated=true;
+    } finally {
+      if(!calibrated&&previous!==null)group.setAttribute('transform',previous);
+    }
   }
 }
 

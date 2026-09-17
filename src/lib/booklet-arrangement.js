@@ -4,6 +4,7 @@ import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './docum
 import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
 import {estimateAnswerSpaceMm} from './practice-question-model.js';
 import {visibleImportedQuestionTitle} from './booklet-preview.js';
+import {teachingEquationDisplays} from './booklet-teaching-alignment.js';
 
 export function arrangementExamTitle(block,entry){
  if(block.type!=='question'||entry?.ownerId!==block.content?.id||entry?.editorKey!==block.content.id+'/prompt')return '';
@@ -22,12 +23,13 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  const add=(ref,data)=>{entries.set(ref,{ref,...data});return item(ref,data.title);};
  const field=(owner,key,role='content')=>{
    const value=key.split('/').reduce((x,k)=>x?.[k],owner);
+   const displayValue=teachingEquationDisplays(owner)?.[key];
    if(!hasVisibleContent(value)&&!(overrides.editable&&isDocument(value))){emptyRefs.add(owner.id+'/'+key);if(isDocument(value))value.blocks.forEach(n=>emptyRefs.add(owner.id+'/'+key+'#'+n.id));return [];}
    const title=key.includes('prompt')?'Text':key.includes('Solution')?'Solution':key;
    // The first native paragraph replaces the legacy field's rendered slot.
    // Keep its editor mounted without changing stored arrangement references.
-   if(isDocument(value))return value.blocks.flatMap((n,index)=>{const ref=owner.id+'/'+key+'#'+n.id,doc=normalizeDocument({...value,blocks:[n]});if(!hasVisibleContent(doc)&&!overrides.editable){emptyRefs.add(ref);return [];}return [add(ref,{kind:'document',editorKey:owner.id+'/'+key+(index?'#'+n.id:''),ownerId:owner.id,field:key,nodeId:n.id,value:doc,role,title:n.type==='paragraph'?'Text':n.type})];});
-   return [add(owner.id+'/'+key,{kind:'text',editorKey:owner.id+'/'+key,ownerId:owner.id,field:key,value,role,title})];
+   if(isDocument(value))return value.blocks.flatMap((n,index)=>{const ref=owner.id+'/'+key+'#'+n.id,doc=normalizeDocument({...value,blocks:[n]});if(!hasVisibleContent(doc)&&!overrides.editable){emptyRefs.add(ref);return [];}return [add(ref,{kind:'document',editorKey:owner.id+'/'+key+(index?'#'+n.id:''),ownerId:owner.id,field:key,nodeId:n.id,value:doc,...(displayValue?{displayValue:{...displayValue,blocks:[displayValue.blocks[index]]}}:{}),role,title:n.type==='paragraph'?'Text':n.type})];});
+   return [add(owner.id+'/'+key,{kind:'text',editorKey:owner.id+'/'+key,ownerId:owner.id,field:key,value,displayValue,role,title})];
  };
  const diagrams=(owner,key='questionDiagrams',role='content')=>(owner[key]??[]).map(d=>add(d.id,{kind:'diagram',ownerId:owner.id,field:key,diagramId:d.id,value:d,role,title:d.alt??'Diagram'}));
  function question(n,index=0,root=false){
@@ -96,6 +98,9 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
  // and any groups made empty by removing them. Unknown references still warn.
  const collapse=node=>{
   if(node.type==='item')return !catalog.emptyRefs.has(node.ref);
+  // Arrangements position question/teaching parts; rules belong to real tables/cards.
+  // Ignore legacy source-grid separators without altering preserved evidence.
+  delete node.rules;
   const hadChildren=node.children.length>0;
   node.children=node.children.filter(collapse);
   return !hadChildren||node.children.length>0;

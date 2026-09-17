@@ -135,6 +135,18 @@ export function groupBookletBlocks(blocks = []) {
       blocks: [block],
     });
   }
-  return result;
+  // The existing pair reference can keep two teaching groups beside one another
+  // while each retains its own header and answer controls. Practice pairs keep
+  // their established question renderer path.
+  const grouped = [];
+  for (let index = 0; index < result.length; index++) {
+    const item = result[index], next = result[index + 1];
+    if (item.type === 'teaching-atom' && next?.type === 'teaching-atom'
+      && item.blocks.at(-1).pairedBlockId === next.blocks[0].id) {
+      grouped.push({type:'teaching-pair',id:item.id,groups:[item,next],blocks:[...item.blocks,...next.blocks]});
+      index++;
+    } else grouped.push(item);
+  }
+  return grouped;
 }
 import { tableCells } from '../../public/libs/maths-editor/document-model.mjs';

@@ -576,6 +576,8 @@
   /* Bank solutions use a white paper surface in either application theme. */
   .question-card__solution-content { background:#fff; color:#24282d; }
   .question-card__solution-content :global(.tikz-wrap svg) { filter:none!important; }
+  /* Worksheet questions and answers also remain white paper in both themes. */
+  .a4-preview :global(.tikz-wrap svg) { filter:none!important; }
   .questions-grid .question-card__body { background:#fff; }
   .questions-grid .question-card__body :global(.practice-question) { color:#24282d; }
   .studio-shell { min-height: calc(100dvh - 70px); padding: 2rem 1.5rem 4rem; background: var(--app-canvas, #f8fafc); color: var(--text, #1e293b); font-family: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif; }

@@ -31,7 +31,7 @@
   };
   let path = $derived(paths[kind] ?? paths.definition);
   let tone = $derived(tones[kind] ?? tones.definition);
-  let heading = $derived(label !== undefined ? label : labels[kind] ?? labels.definition);
+  let heading = $derived(kind === 'guided-practice' || /^practice$/i.test(String(label ?? '').trim()) ? 'Guided Practice' : label !== undefined ? label : labels[kind] ?? labels.definition);
   const commit = (event) => onContentEdit?.({ ...event, rootIds: rootIds.length ? rootIds : undefined });
   const revert = (event) => onContentRevert?.({ ...event, rootIds: rootIds.length ? rootIds : undefined });
 </script>
