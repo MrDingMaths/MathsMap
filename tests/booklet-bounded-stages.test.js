@@ -82,12 +82,22 @@ test('practice-only exercises use configured and nested source-linked teaching e
  const pdf=f.write('source.pdf','Original teaching PDF fixture');const external={id:'teaching-reference',pdfPath:pdf,pdfSha256:bytesHash(pdf),pages:[1,2].map(p=>({pdfPage:p,imagePath:path.join(f.dir,`evidence/pages/page-00${p}.png`),imageSha256:bytesHash(path.join(f.dir,`evidence/pages/page-00${p}.png`)),inspection:{reviewer:'Earlier fixture reviewer',note:'Retained source observation '+p}}))};
  f.book.source={contentScope:'practice-only',provenance:{directory:f.dir}};f.write('teaching-context-index.json',{externalTeachingReferences:[external]});f.write('project.json',f.book);
  const before=exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2]),'t1',{runDir:f.dir});assert.equal(before.teaching.length,0);assert.deepEqual(before.pages,[1]);assert.equal(before.suppliedNotes[0].methodNote,'Retained source method 1');assert.equal(before.externalReferences[0].pages.length,1);
- const next=await nextBoundedWork(f.options);assert.equal(job(next,'theory','exercise:t1').blockers.length,0);await acceptTheory(f,'t1');
+ const next=await nextBoundedWork(f.options);assert.equal(job(next,'theory','exercise:t1').blockers.length,0);await acceptTheory(f,'t1');await acceptAssessment(f,'q1');
  external.pages[1].inspection.note='An unrelated exercise observation';f.write('teaching-context-index.json',{externalTeachingReferences:[external]});
  assert.equal(exerciseTeachingContext(f.book,liveWorkflow(f.dir),'t1',{runDir:f.dir}).dependencyHash,before.dependencyHash);
+ assert.ok((await nextBoundedWork(f.options)).reuse.questions.includes('q1'));
+ external.pages[0].inspection.note='Changed source method mapping for this exercise';f.write('teaching-context-index.json',{externalTeachingReferences:[external]});assert.ok(!(await nextBoundedWork(f.options)).reuse.questions.includes('q1'));
  f.write('evidence/pages/page-001.png','Changed original teaching image');assert.ok(job(await nextBoundedWork(f.options),'theory','exercise:t1').blockers.some(b=>b.includes('changed')));
  const configured=structuredClone(f.book);delete configured.sections[0].blocks[0].sourceReview;delete configured.source;
  assert.deepEqual(exerciseTeachingContext(configured,liveWorkflow(f.dir),'t1',{runDir:f.dir,config:{topics:[{id:'t1',teachingPages:[2]}]}}).pages,[2]);
+});
+
+test('changing only an exercise config teaching selection invalidates its accepted question',async t=>{
+ const f=fixture(t),config={topics:[{id:'t1',teachingPages:[1]},{id:'t2',teachingPages:[2]}]};f.options.configFile=f.write('config.json',config);
+ await acceptTheory(f,'t1');await acceptTheory(f,'t2');await acceptAssessment(f,'q1');await acceptAssessment(f,'q2');
+ const record=loadWorkflow(f.dir).verification.teachingContexts.t1;assert.equal(record.dependencyScope.configFile,f.options.configFile);assert.deepEqual(record.dependencyScope.sourcePages,[1]);assert.ok(record.sourceArtifacts.length);
+ config.topics[0].teachingPages=[1,2];f.write('config.json',config);
+ const next=await nextBoundedWork(f.options);assert.deepEqual(next.reuse.questions,['q2']);assert.deepEqual(next.reuse.teaching,['exercise:t2']);assert.ok(job(next,'assessment','question:q1').blockers.some(b=>b.includes('teaching-method')));
 });
 
 test('named shared feedback causes preserve exact boundaries and reject foreign fields atomically',async t=>{
