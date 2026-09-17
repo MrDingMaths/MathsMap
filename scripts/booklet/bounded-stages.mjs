@@ -60,12 +60,12 @@ function externalTeachingContext(project,questions,exerciseId,{runDir,config={}}
  }
  // The index is a projection of previously inspected source pages, not fresh
  // acceptance. Hash only relevant entries so another exercise's edit is local.
- return {pages,notes,externalReferences:external,indexPath:indexFile,configPages:topic?.teachingPages??[],evidence:references(evidence),problems};
+ return {pages,questionPages,notes,externalReferences:external,indexPath:indexFile,configPages:topic?.teachingPages??[],evidence:references(evidence),problems};
 }
 
 // The exercise is the compact booklet's topic, even across teaching checkpoints.
 // Only teaching and explicit teaching-context mappings enter this reusable summary.
-export function exerciseTeachingContext(project,state,exerciseId,{runDir,config}={}){
+export function exerciseTeachingContext(project,state,exerciseId,{runDir,config,configFile}={}){
  const sections=(project?.sections??[]).filter(s=>(s.exerciseId??s.topicId??s.id)===exerciseId),questions=sections.filter(s=>s.phase==='practice').flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
  const nodes=contentNodes(project??{sections:[]}),questionIds=new Set(allNodeIds(questions));
  const mappings=(project?.source?.inventory?.entries??[]).filter(e=>questionIds.has(e.targetId));
@@ -76,7 +76,7 @@ export function exerciseTeachingContext(project,state,exerciseId,{runDir,config}
  const context={exerciseId,title:project?.topics?.find(t=>t.id===exerciseId)?.title??exerciseId,teaching:blocks,
   explicitContextIds:explicitIds,missingContextIds:explicitIds.filter(id=>!nodes.has(id)),
   suppliedNotes:external.notes,externalReferences:external.externalReferences,externalIndex:external.indexPath,configPages:external.configPages,problems:external.problems,
-  pages,evidence,decisions:relevantDecisions(state,ids,pages)};
+  pages,evidence,dependencyScope:{exerciseId,pages,sourcePages:external.questionPages,...(configFile?{configFile:path.resolve(configFile)}:{}),...(external.indexPath?{externalIndex:external.indexPath}:{})},decisions:relevantDecisions(state,ids,pages)};
  const dependencyHash=fingerprint({...context,sourceDependencies:Object.fromEntries(pages.map(p=>[p,state.pages?.[p]?.sourceEvidence??null]))});
  return {...context,dependencyHash};
 }
@@ -114,9 +114,9 @@ function feedbackTargets(runDir,state,group,project){
  }
  return result;
 }
-function acceptedQuestion(state,id,deps){
+function acceptedQuestion(state,id,deps,teachingHash){
  const record=state.verification?.entries?.['question:'+id];
- if(!record||record.outcome!=='passed')return false;
+ if(!record||record.outcome!=='passed'||record.teachingContextHash&&record.teachingContextHash!==teachingHash)return false;
  try{recordVerification({pipelinePolicy:state.pipelinePolicy},record,deps);return (record.dependencyArtifacts??[]).every(current)&&(!record.dependencies.source||record.dependencies.source===deps.source)&&(!record.dependencies.unknown||record.dependencies.unknown===fingerprint(deps));}catch{return false;}
 }
 function chunks(values,maxCount=4,maxCharacters=24000){
@@ -136,7 +136,8 @@ async function snapshot(options,overrides={}){
  const projectFile=options.projectFile??state.settled?.project?.file??(state.projectId?path.resolve('booklets/projects',state.projectId+'.json'):null),project=overrides.project??(projectFile&&fs.existsSync(projectFile)?read(projectFile):null);
  let queue=overrides.queue??null,queueInput=overrides.queueInput??null,queueError=null;
  if(!queue&&fs.existsSync(queuePath(runDir)))try{queue=await reviewQueueStatus(runDir,overrides.queueDependencies);queueInput=read(queuePath(runDir)).input;}catch(error){queueError=error.message;}
- return {runDir,manifest,config:options.config??{},state,pages,project,projectFile,queue,queueInput,queueError};
+ const configFile=options.configFile?path.resolve(options.configFile):null,config=configFile?read(configFile):options.config??{};
+ return {runDir,manifest,config,configFile,state,pages,project,projectFile,queue,queueInput,queueError};
 }
 function buildJobs(s){
  const {runDir,state,pages,project,projectFile,queue,queueInput}=s,jobs=[],blockers=[];
@@ -161,13 +162,13 @@ function buildJobs(s){
  if(project){
   const exercises=unique(project.sections.filter(s=>s.phase==='practice'&&(s.blocks??[]).some(b=>b.type==='question')).map(s=>s.exerciseId??s.topicId??s.id));
   for(const exerciseId of exercises){
-   const context=exerciseTeachingContext(project,state,exerciseId,{runDir,config:s.config}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
+   const context=exerciseTeachingContext(project,state,exerciseId,{runDir,config:s.config,configFile:s.configFile}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
    jobs.push(makeJob('theory',['exercise:'+exerciseId],context,{evidence:[...context.evidence,guidance],dependencies:{teaching:context.dependencyHash},done:theoryDone,
     blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(previous?.outcome==='needs-context'&&previous.dependencyHash===context.dependencyHash?['Teaching context needs clarification: '+previous.note]:[]),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    if(!deps)continue;
    const questions=project.sections.filter(s=>s.phase==='practice'&&(s.exerciseId??s.topicId??s.id)===exerciseId).flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
    for(const group of chunks(questions)){
-    const pending=group.filter(q=>!acceptedQuestion(state,q.id,deps));reusedQuestions.push(...group.filter(q=>!pending.includes(q)).map(q=>q.id));
+    const pending=group.filter(q=>!acceptedQuestion(state,q.id,deps,context.dependencyHash));reusedQuestions.push(...group.filter(q=>!pending.includes(q)).map(q=>q.id));
     const source=unique(pending.flatMap(sourcePages)),evidence=evidenceForPages(runDir,source),ids=allNodeIds(pending);
     const failed=pending.map(q=>state.verification?.entries?.['question:'+q.id]).filter(r=>r?.outcome==='failed'&&r.dependencies?.question===deps.questions[r.id.slice(9)]);
     const contextValue={exerciseId,questions:pending,previousFindings:failed.map(r=>({id:r.id,note:r.note,artifacts:r.artifacts})),teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null,
@@ -246,7 +247,7 @@ export async function prepareBoundedStage(options,jobId,overrides={}){
   let active;
   if(['visual','composition'].includes(job.stage))active=await beginPageReview(s.runDir,{expectedRevision:s.queue.revision,sessionKey:s.queue.sessionKey,...(job.stage==='visual'?{pageKeys:job.context.pages.map(r=>r.key)}:{compositionEditions:[job.context.edition]})},overrides.queueDependencies);
   const id=randomUUID(),file=path.join(s.runDir,'workflow/stages',job.id,id,'request.json');
-  const request={version:BOUNDED_STAGE_VERSION,id,runDir:s.runDir,projectFile:s.projectFile,selectedPages:s.pages,config:s.config,expectedRevision:s.state.revision,createdAt:new Date().toISOString(),job,...(active?{reviewId:active.active.id}:{}),prompt:promptFor(job),images:job.images};
+  const request={version:BOUNDED_STAGE_VERSION,id,runDir:s.runDir,projectFile:s.projectFile,selectedPages:s.pages,config:s.config,configFile:s.configFile,expectedRevision:s.state.revision,createdAt:new Date().toISOString(),job,...(active?{reviewId:active.active.id}:{}),prompt:promptFor(job),images:job.images};
   const ticket=requestRef(file,request);
   try{await updateWorkflow(s.runDir,'prepare bounded '+job.stage,async state=>{
    Object.assign(state,liveWorkflow(s.runDir,s.pages));
@@ -280,7 +281,7 @@ function recordTeaching(state,job,record){
   const pages=new Set(job.context.pages),ids=new Set(allNodeIds(job.context.teaching));
   for(const method of record.methods)if(!method.statement?.trim()||!method.sourceRefs?.length||method.sourceRefs.some(r=>!pages.has(r.pageNumber)||r.targetId&&!ids.has(r.targetId)))throw Error('Teaching methods need assigned source references');
  }
- state.verification??={version:1,entries:{}};state.verification.teachingContexts??={};state.verification.teachingContexts[job.context.exerciseId]={...record,dependencyHash:job.context.dependencyHash};
+ state.verification??={version:1,entries:{}};state.verification.teachingContexts??={};state.verification.teachingContexts[job.context.exerciseId]={...record,dependencyHash:job.context.dependencyHash,dependencyScope:job.context.dependencyScope,sourceArtifacts:job.context.evidence};
 }
 export async function recordBoundedStage(options,input,overrides={}){
  const runDir=path.resolve(options.runDir),request=requireTicket(runDir,input.ticket),result=input.result??(input.resultFile?read(input.resultFile):null);
@@ -292,7 +293,7 @@ export async function recordBoundedStage(options,input,overrides={}){
  await updateWorkflow(runDir,'record bounded '+request.job.stage,async state=>{
   Object.assign(state,liveWorkflow(runDir,selectedPages));
   const claim=state.verification?.stageClaims?.[request.job.id];if(claim?.id!==request.id||claim.ticket.hash!==input.ticket.hash)throw Error('Stage ownership is missing, stale or already recorded');
-  const s=await snapshot({...options,config:options.config??request.config,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
+  const s=await snapshot({...options,config:options.config??request.config,configFile:options.configFile??request.configFile,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
   const failedFinding=['needs-review','needs-context'].includes(record.outcome)&&job.stage!=='theory';
   if(failedFinding){recorded={ok:false,needsReview:true,artifact,findings:record.findings??[],note:record.note};state.verification.stageClaims[request.job.id].blockedResult=recorded;}
   else if(job.stage==='maths'){
@@ -302,7 +303,7 @@ export async function recordBoundedStage(options,input,overrides={}){
   else if(job.stage==='assessment'){
    exactOwnership(job.context.questions.map(q=>'question:'+q.id),record.records?.map(r=>r.id),'question');
    const deps=verificationDependencies(state,s.project);
-   for(const assessment of record.records){if(!['passed','failed'].includes(assessment.outcome))throw Error('Question review requires passed or failed');recordVerification(state,{...assessment,reviewer:record.reviewer,note:assessment.note??record.note,artifacts:record.artifacts,dependencies:{question:job.context.questionDependencies[assessment.id.slice(9)]}},deps);}
+   for(const assessment of record.records){if(!['passed','failed'].includes(assessment.outcome))throw Error('Question review requires passed or failed');recordVerification(state,{...assessment,reviewer:record.reviewer,note:assessment.note??record.note,artifacts:record.artifacts,exerciseId:job.context.exerciseId,teachingContextHash:job.dependencies.teaching,dependencies:{question:job.context.questionDependencies[assessment.id.slice(9)]}},deps);}
   }else if(job.stage==='feedback'){
    validateFeedback(job,record,state);refreshRegister(runDir,selectedPages,state,{decisions:record.resolutions.map(r=>r.id)});
    // Preflight project corrections against the captured current project before the transaction commits.
