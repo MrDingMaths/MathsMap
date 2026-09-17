@@ -81,7 +81,7 @@ test('practice-only exercises use configured and nested source-linked teaching e
  for(const [i,s]of f.book.sections.entries())s.blocks[0].sourceReview={constituents:[{sourceReview:{teachingContext:{pdfPages:[i+1],methodNote:'Retained source method '+(i+1),mappingNote:'Question-specific mapping'}}}]};
  const pdf=f.write('source.pdf','Original teaching PDF fixture');const external={id:'teaching-reference',pdfPath:pdf,pdfSha256:bytesHash(pdf),pages:[1,2].map(p=>({pdfPage:p,imagePath:path.join(f.dir,`evidence/pages/page-00${p}.png`),imageSha256:bytesHash(path.join(f.dir,`evidence/pages/page-00${p}.png`)),inspection:{reviewer:'Earlier fixture reviewer',note:'Retained source observation '+p}}))};
  f.book.source={contentScope:'practice-only',provenance:{directory:f.dir}};f.write('teaching-context-index.json',{externalTeachingReferences:[external]});f.write('project.json',f.book);
- const before=exerciseTeachingContext(f.book,liveWorkflow(f.dir),'t1',{runDir:f.dir});assert.equal(before.teaching.length,0);assert.deepEqual(before.pages,[1]);assert.equal(before.suppliedNotes[0].methodNote,'Retained source method 1');assert.equal(before.externalReferences[0].pages.length,1);
+ const before=exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2]),'t1',{runDir:f.dir});assert.equal(before.teaching.length,0);assert.deepEqual(before.pages,[1]);assert.equal(before.suppliedNotes[0].methodNote,'Retained source method 1');assert.equal(before.externalReferences[0].pages.length,1);
  const next=await nextBoundedWork(f.options);assert.equal(job(next,'theory','exercise:t1').blockers.length,0);await acceptTheory(f,'t1');
  external.pages[1].inspection.note='An unrelated exercise observation';f.write('teaching-context-index.json',{externalTeachingReferences:[external]});
  assert.equal(exerciseTeachingContext(f.book,liveWorkflow(f.dir),'t1',{runDir:f.dir}).dependencyHash,before.dependencyHash);
@@ -91,7 +91,7 @@ test('practice-only exercises use configured and nested source-linked teaching e
 });
 
 test('named shared feedback causes preserve exact boundaries and reject foreign fields atomically',async t=>{
- const f=fixture(t,{pages:3,ambiguity:true});await updateWorkflow(f.dir,'load fixture inventory',state=>Object.assign(state,liveWorkflow(f.dir)));
+ const f=fixture(t,{pages:3,ambiguity:true});f.book.source={inventory:{entries:[1,2,3].flatMap(page=>JSON.parse(fs.readFileSync(path.join(f.dir,`semantic-packets/page-00${page}.inventory.json`))).entries.map(e=>({...e,pageNumber:page})))}};f.write('project.json',f.book);await updateWorkflow(f.dir,'load fixture inventory',state=>Object.assign(state,liveWorkflow(f.dir,[1,2,3])));
  const state=loadWorkflow(f.dir),issues=Object.values(state.issues),issueIds=issues.filter(i=>i.page<=2).map(i=>i.id);
  await registerFeedbackScope(f.options,{...signed,expectedRevision:state.revision,sharedCauseId:'source-description',issueIds,targets:[1,2].map(page=>({page,scope:'inventory',targetId:'entry-'+page,fields:['/description']})),occurrenceAudit:true,artifacts:[f.evidence]});
  const groups=groupFeedbackByCause(loadWorkflow(f.dir));assert.equal(groups.length,2);assert.deepEqual(groups.find(g=>g.sharedCauseId).pages,[1,2]);
