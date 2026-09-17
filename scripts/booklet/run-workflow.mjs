@@ -3,7 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadRun,parsePageSelection} from './transcription.mjs';
 import {dependencyStatus,drainDependencies} from './dependency-runner.mjs';
-import {buildRunReceipt,summarizeRunReceipt} from './run-observability.mjs';
+import {buildRunReceipt,summarizeRunReceipt,linkRunSession,recordWeeklyUsage,recordExportReuse,beginHumanWait,endHumanWait} from './run-observability.mjs';
 import {workflowPreflight} from './workflow-preflight.mjs';
 import {liveWorkflow,loadWorkflow,updateWorkflow,approveCoverage,acceptFinalReview} from './workflow-review.mjs';
 import {verificationStatus,verificationDependencies,recordVerification} from './import-verification.mjs';
@@ -12,23 +12,50 @@ import {attemptRepairContext,repairAttempt} from './local-attempt-repair.mjs';
 import {printWorkflowOutput} from './workflow-output.mjs';
 import {importCloseout} from './import-closeout.mjs';
 import {importPreFinal} from './import-pre-final.mjs';
+const jsonFile=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
+const boundedCommands=['next','prepare-stage','run-stage','record-stage','cancel-stage','feedback-scope'];
+const accountingCommands=['link-session','weekly-usage','export-observation','wait-start','wait-end'];
 export async function main(args=process.argv.slice(2)){
  if(args[0]==='--help'){
-  console.log('run-workflow status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|pre-final|closeout|receipt --run-id RUN [--input JSON --out JSON --full]. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-import-efficiency.md.');return;
+  console.log('run-workflow next|prepare-stage|run-stage|record-stage|cancel-stage|feedback-scope|status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|pre-final|closeout|receipt|link-session|weekly-usage|export-observation|wait-start|wait-end --run-id RUN [--input JSON --out JSON --full]. Bounded stages use --job ID and optional --project-file/--config. Accounting and bounded commands also accept --run-dir. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-bounded-workflow.md.');return;
  }
  const command=args[0],flags={};
  for(let i=1;i<args.length;i++){
   const key=args[i];if(['--retry','--representative','--summary','--full'].includes(key)){flags[key]=true;continue;}
-  if(!['--run-id','--run-dir','--pages','--config','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
+  if(!['--run-id','--run-dir','--pages','--config','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason','--job','--project-file'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
  }
  if(command==='pre-final'){
   if(!flags['--input'])throw Error('Pre-final requires --input PROJECT.json');
   const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'')),result=importPreFinal(read(flags['--input']));
   printWorkflowOutput(result,{out:flags['--out'],full:!!flags['--full']});if(!result.ok)process.exitCode=1;return result;
  }
- if(!flags['--run-id']&&!(command==='receipt'&&flags['--run-dir']))throw Error('Use status|drain|preflight --run-id ID [--config JSON --pages RANGE --concurrency N --retry --representative], or receipt --run-dir DIR');
- const loaded=flags['--run-id']?loadRun(flags['--run-id']):{runDir:flags['--run-dir']};let result;
- if(command==='receipt'){
+ if(!flags['--run-id']&&!(flags['--run-dir']&&['receipt',...accountingCommands,...boundedCommands].includes(command)))throw Error('Supply --run-id, or --run-dir for receipt, accounting and bounded stage commands');
+ if(flags['--run-id']&&flags['--run-dir'])throw Error('Choose either --run-id or --run-dir');
+ const loaded=flags['--run-id']?loadRun(flags['--run-id']):{runDir:path.resolve(flags['--run-dir'])};let result;
+ if(!loaded.manifest&&fs.existsSync(path.join(loaded.runDir,'manifest.json')))loaded.manifest=jsonFile(path.join(loaded.runDir,'manifest.json'));
+ if(accountingCommands.includes(command)){
+  if(!flags['--input'])throw Error(command+' requires --input JSON');const input=jsonFile(flags['--input']);
+  if(command==='link-session')result=await linkRunSession(loaded.runDir,input);
+  else if(command==='weekly-usage')result=await recordWeeklyUsage(loaded.runDir,input);
+  else if(command==='export-observation')result=await recordExportReuse(loaded.runDir,input);
+  else if(command==='wait-start')result={ok:true,id:beginHumanWait(loaded.runDir,input)};
+  else {if(!input.id)throw Error('wait-end requires the wait-start id');endHumanWait(loaded.runDir,input.id,input);result={ok:true,id:input.id};}
+ }
+ else if(boundedCommands.includes(command)){
+  const stages=await import('./bounded-stages.mjs');
+  const options={...loaded,selectedPages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest?.selectedPages,projectFile:flags['--project-file']?path.resolve(flags['--project-file']):undefined,...(flags['--config']?{config:jsonFile(flags['--config']),configFile:path.resolve(flags['--config'])}:{})};
+  if(command==='next'){
+   result=await stages.nextBoundedWork(options);
+   if(options.config&&loaded.manifest){const generation=dependencyStatus({...options,pages:options.selectedPages},{retry:!!flags['--retry'],representative:!!flags['--representative'],requireRepresentativePlan:true,planFile:flags['--plan']});result.generation={jobs:generation.jobs,blocked:generation.blocked,complete:generation.complete.length};}
+  }else if(['prepare-stage','run-stage'].includes(command)){
+   if(!flags['--job'])throw Error(command+' requires --job ID');
+   result=command==='prepare-stage'?await stages.prepareBoundedStage(options,flags['--job']):await stages.runBoundedStage(options,flags['--job']);
+  }else{
+   if(!flags['--input'])throw Error(command+' requires --input JSON');const input=jsonFile(flags['--input']);
+   result=command==='record-stage'?await stages.recordBoundedStage(options,input):command==='cancel-stage'?await stages.cancelBoundedStage(options,input):await stages.registerFeedbackScope(options,input);
+  }
+ }
+ else if(command==='receipt'){
   result=buildRunReceipt(loaded.runDir);if(flags['--summary'])result=summarizeRunReceipt(result);
   if(loadWorkflow(loaded.runDir).pipelinePolicy){const closeout=importCloseout(loaded.runDir,loaded.manifest?.selectedPages??[]);result={...result,verification:closeout.verification,checklist:closeout.checklist};}
  }

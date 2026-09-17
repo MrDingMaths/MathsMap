@@ -79,7 +79,7 @@ export function attemptCallRecords(events) {
   const id=attemptCallIdentity(attemptId,metrics,start);if(records.has(id))continue;
   const measured=value=>typeof value==='number'&&Number.isFinite(value)&&value>=0?value:null;
   const started=timestamp(metrics?.startedAt)??timestamp(generation.time),ended=timestamp(metrics?.endedAt)??timestamp(end?.time);
-  records.set(id,{id,attemptId,sessionId:metrics?.sessionId??start?.sessionId??null,callId:metrics?.callId??start?.callId??null,stage:start?.stage??metrics?.stage??'unknown',role:metrics?.profile==='review'?'review':'transcription',
+  records.set(id,{id,attemptId,sessionId:metrics?.sessionId??start?.sessionId??null,callId:metrics?.callId??start?.callId??null,stage:start?.stage??metrics?.stage??'unknown',role:metrics?.role??(metrics?.profile==='review'?'review':'transcription'),
    attempt:start?.attempt??null,retryReason:Number(start?.attempt)>1?(start?.retryReason??(start?.repairFrom?'mapping-repair':'unrecorded')):'initial',outcome:!finish?'unfinished':finish.ok?'passed':'failed',
    usage:normalizeUsage(metrics?.usage),elapsedMs:measured(metrics?.elapsedMs),toolCalls:measured(metrics?.toolCalls),compactions:measured(metrics?.compactions),startedAt:started,endedAt:ended,kind:'runner-invocation'});
  }

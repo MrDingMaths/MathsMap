@@ -7,6 +7,8 @@ export const USAGE_FIELDS=Object.freeze(['input_tokens','cached_input_tokens','c
 const number=value=>typeof value==='number'&&Number.isFinite(value)&&value>=0?value:null;
 export const timestamp=value=>typeof value==='number'&&Number.isFinite(value)?value:typeof value==='string'&&Number.isFinite(Date.parse(value))?Date.parse(value):null;
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const counterKey=value=>digest([value.input_tokens,value.output_tokens,value.total_tokens]);
+const taskTime=(value,fallback)=>typeof value==='number'&&value>=0&&value<1e11?value*1000:timestamp(value)??fallback;
 
 export function normalizeUsage(value) {
  const usage=Object.fromEntries(USAGE_FIELDS.map(key=>[key,number(value?.[key]) ]));
@@ -77,7 +79,7 @@ function mergeRecords(records) {
 function cumulativeRecords(snapshots,directTotals) {
  const rows=[],seen=new Set();let previous=null,baselineUnavailable=false,counterRegressions=0;
  for(const snapshot of snapshots){
-  const total=normalizeUsage(snapshot.total),key=digest(total);
+  const total=normalizeUsage(snapshot.total),key=counterKey(total);
   if(USAGE_FIELDS.every(field=>total[field]===null)){baselineUnavailable=true;continue;}
   if(seen.has(key))continue;seen.add(key);
   const fields=USAGE_FIELDS.filter(field=>total[field]!==null&&previous?.[field]!==null&&previous?.[field]!==undefined);
@@ -100,27 +102,27 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  if(lower===null||upper===null||upper<=lower)throw Error('Invalid linked session interval');
  if(!fs.existsSync(file))return {sessionId,available:false,reason:'rollout-unavailable',records:[],intervals:[],unfinished:[],toolCalls:null,compactions:null,usage:normalizeUsage(null),missingUsage:1};
  const identities=new Set(),direct=[],directTotals=new Set(),snapshots=[],toolRows=new Map(),compactionRows=new Map(),starts=new Map(),ends=new Map();
- let currentTurn=null,incompleteTail=false,unidentifiedUsageRecords=0;
+ let currentTurn=null,canonicalSessionId=null,incompleteTail=false,unidentifiedUsageRecords=0;
  const keep=time=>time!==null&&time>=lower&&time<upper;
  const addDirect=(payload,time)=>{
   if(!payload?.response_id){unidentifiedUsageRecords++;return;}
   direct.push({id:'response:'+payload.response_id,responseId:payload.response_id,turnId:payload.turn_id??currentTurn,time,usage:payload.usage,elapsedMs:number(payload.duration_ms??payload.elapsed_ms),kind:'response'});
-  if(payload.thread_token_usage)directTotals.add(digest(normalizeUsage(payload.thread_token_usage)));
+  if(payload.thread_token_usage)directTotals.add(counterKey(normalizeUsage(payload.thread_token_usage)));
  };
  for(const {raw,line,tail}of jsonLines(file)){
   let event;try{event=JSON.parse(raw);}catch{if(tail){incompleteTail=true;break;}throw Error('Invalid session event JSON at line '+line);}
   const payload=event.payload??{},time=timestamp(event.timestamp??event.at??event.time);
-  if(event.type==='session_meta'){for(const key of ['id','session_id'])if(typeof payload[key]==='string')identities.add(payload[key]);}
-  else if(event.type==='thread.started'&&event.thread_id)identities.add(event.thread_id);
+  if(event.type==='session_meta'){canonicalSessionId=payload.id??payload.session_id;for(const key of ['id','session_id'])if(typeof payload[key]==='string')identities.add(payload[key]);}
+  else if(event.type==='thread.started'&&event.thread_id){identities.add(event.thread_id);canonicalSessionId??=event.thread_id;}
   else if(event.type==='turn_context')currentTurn=payload.turn_id??currentTurn;
   else if(event.type==='token_usage_record')addDirect(payload,time);
   else if(event.type==='event_msg'&&payload.type==='token_count'){
    if(payload.info?.total_token_usage)snapshots.push({time,turnId:currentTurn,total:payload.info.total_token_usage,last:payload.info.last_token_usage});
   }else if(event.type==='event_msg'&&payload.type==='task_started'){
    currentTurn=payload.turn_id??currentTurn;const id=payload.turn_id??'turn-line-'+line;
-   if(!starts.has(id))starts.set(id,{time:timestamp(payload.started_at)??time,turnId:id});
+   if(!starts.has(id))starts.set(id,{time:time??taskTime(payload.started_at,null),turnId:id});
   }else if(event.type==='event_msg'&&payload.type==='task_complete'){
-   const id=payload.turn_id??currentTurn;if(id)ends.set(id,{time:timestamp(payload.completed_at)??time,turnId:id});
+   const id=payload.turn_id??currentTurn;if(id)ends.set(id,{time:time??taskTime(payload.completed_at,null),turnId:id});
   }else if(event.type==='response_item'&&['function_call','custom_tool_call','tool_call'].includes(payload.type)){
    const id=payload.call_id??payload.id??'tool-line-'+line;if(!toolRows.has(id))toolRows.set(id,{id,time});
   }else if(event.type==='compacted'){
@@ -130,17 +132,17 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  }
  if(!identities.has(sessionId))throw Error('Linked session identity does not match rollout metadata');
  const fallback=cumulativeRecords(snapshots,directTotals),merged=mergeRecords([...direct,...fallback.rows]);
- const records=merged.records.filter(row=>keep(row.time)).map(row=>({...row,sessionId})),intervals=[],unfinished=[];
+ const records=merged.records.filter(row=>keep(row.time)).map(row=>({...row,sessionId:canonicalSessionId??sessionId})),intervals=[],unfinished=[];
  for(const [id,start]of starts){
   const finish=ends.get(id);
   if(!finish){if(start.time!==null&&start.time<upper)unfinished.push({turnId:id,startedAt:new Date(start.time).toISOString()});continue;}
   if(start.time!==null&&finish.time!==null&&finish.time>=start.time&&finish.time>lower&&start.time<upper)intervals.push([Math.max(start.time,lower),Math.min(finish.time,upper)]);
  }
  const tools=[...toolRows.values()].filter(row=>keep(row.time)),compactions=[...compactionRows.values()].filter(row=>keep(row.time));
- return {sessionId,available:true,records,intervals,unfinished,...aggregateUsage(records),toolCalls:tools.length,toolRecords:tools,compactions:compactions.length,compactionRecords:compactions,
+ return {sessionId,canonicalSessionId,sessionAliases:[...identities],available:true,records,intervals,unfinished,...aggregateUsage(records),toolCalls:tools.length,toolRecords:tools,compactions:compactions.length,compactionRecords:compactions,
   calls:records.length,responseCalls:records.filter(row=>row.kind==='response').length,cumulativeObservations:records.filter(row=>row.kind!=='response').length,
   duplicatedRecords:merged.duplicates,conflictingMetrics:merged.conflicts,incompleteTail,baselineUnavailable:fallback.baselineUnavailable,counterRegressions:fallback.counterRegressions,unidentifiedUsageRecords,
-  coverage:incompleteTail||fallback.baselineUnavailable||fallback.counterRegressions||merged.conflicts||unidentifiedUsageRecords?'partial':'recorded',
+  coverage:!records.length?'unavailable':incompleteTail||fallback.baselineUnavailable||fallback.counterRegressions||merged.conflicts||unidentifiedUsageRecords?'partial':'recorded',
   note:'Numeric metadata only. Response IDs are deduplicated; legacy cumulative observations are deltas, not necessarily individual model calls. Cached input and reasoning output are subsets. Completed task intervals measure active session work; missing call durations and human waiting are not inferred.'};
 }
 

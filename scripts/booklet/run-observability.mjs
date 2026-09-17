@@ -134,7 +134,7 @@ function completeJobAccounting(events,attempts) {
  const covered=new Set(),mapped=new Map(),overlapConflicts=[];
  for(const source of sources){
   const {link,data}=source,a=link.startedAt?Date.parse(link.startedAt):-Infinity,b=link.endedAt?Date.parse(link.endedAt):Infinity;
-  const matching=attempts.filter(row=>link.attemptIds.includes(row.attemptId)||row.sessionId===link.sessionId);
+  const matching=attempts.filter(row=>link.attemptIds.includes(row.attemptId)||row.sessionId===link.sessionId||data.sessionAliases?.includes(row.sessionId));
   const contained=matching.filter(row=>link.attemptIds.includes(row.attemptId)||(a===-Infinity&&b===Infinity)||(row.startedAt!==null&&row.endedAt!==null&&row.startedAt>=a&&row.endedAt<=b));
   const overlap=matching.filter(row=>!contained.includes(row)&&(row.startedAt===null||row.endedAt===null||Math.min(b,row.endedAt)>Math.max(a,row.startedAt)));
   source.attempts=contained;mapped.set(source.link.id,contained);
@@ -145,11 +145,12 @@ function completeJobAccounting(events,attempts) {
   if(source.useUsage)for(const row of contained)covered.add(row.id);
  }
  const records=new Map();
- for(const source of sources)if(source.useUsage)for(const record of source.data.records){const id=source.link.sessionId+':'+record.id;if(!records.has(id))records.set(id,{...record,id,stage:source.link.stage,role:source.link.role});}
+ for(const source of sources)if(source.useUsage)for(const record of source.data.records){const id=(source.data.canonicalSessionId??source.link.sessionId)+':'+record.id;if(!records.has(id))records.set(id,{...record,id,stage:source.link.stage,role:source.link.role});}
+ for(const source of sources)if(!source.data.records.length&&!source.attempts.length)records.set('unavailable:'+source.link.id,{id:'unavailable:'+source.link.id,kind:'unavailable-session',stage:source.link.stage,role:source.link.role,usage:null});
  for(const attempt of attempts)if(!covered.has(attempt.id))records.set(attempt.id,attempt);
  const rows=[...records.values()],groupBy=key=>Object.fromEntries([...new Set(rows.map(row=>row[key]))].map(name=>{const selected=rows.filter(row=>row[key]===name);return [name,{records:selected.length,...aggregateUsage(selected)}];}));
  const countedSessionTools=new Set(),countedCompactions=new Set(),toolFallback=[],compactionFallback=[];
- for(const source of sources)if(source.data.available){for(const row of source.data.toolRecords??[])countedSessionTools.add(source.link.sessionId+':'+row.id);for(const row of source.data.compactionRecords??[])countedCompactions.add(source.link.sessionId+':'+row.id);}
+ for(const source of sources)if(source.data.available){for(const row of source.data.toolRecords??[])countedSessionTools.add((source.data.canonicalSessionId??source.link.sessionId)+':'+row.id);for(const row of source.data.compactionRecords??[])countedCompactions.add((source.data.canonicalSessionId??source.link.sessionId)+':'+row.id);}
  for(const attempt of attempts){const source=sources.find(entry=>entry.data.available&&(mapped.get(entry.link.id)??[]).includes(attempt));if(!source){toolFallback.push(attempt.toolCalls);compactionFallback.push(attempt.compactions);}}
  const toolMissing=toolFallback.filter(value=>value===null).length+sources.filter(source=>!source.data.available&&!source.attempts.length).length;
  const compactionMissing=compactionFallback.filter(value=>value===null).length+sources.filter(source=>!source.data.available&&!source.attempts.length).length;
@@ -166,7 +167,7 @@ function completeJobAccounting(events,attempts) {
   summedModelCallMs:knownDurations.length?knownDurations.reduce((sum,value)=>sum+value,0):null,missingModelCallDurations:durations.filter(value=>value===null).length,
   retryInvocations:attempts.filter(row=>Number(row.attempt)>1).length,byRetryReason:Object.fromEntries([...new Set(attempts.map(row=>row.retryReason))].map(reason=>[reason,attempts.filter(row=>row.retryReason===reason).length])),
   coverage:{missingRoles,unavailableSessions:sources.filter(source=>!source.data.available).length,partialSessions:sources.filter(source=>source.data.available&&source.data.coverage!=='recorded').length,unlinkedRunnerInvocations:attempts.filter(row=>!sources.some(source=>(mapped.get(source.link.id)??[]).includes(row))).length,overlapConflicts},
-  intervals:sources.flatMap(source=>source.data.intervals),note:'Known usage across explicitly linked sessions and runner invocations, deduplicated by session/call identity. Partial sums carry unavailable counts; response counts and invocation counts are separate. Timing and allowance are separate from token usage.'};
+  intervals:sources.flatMap(source=>source.data.intervals),reviewIntervals:sources.filter(source=>source.link.role==='review').flatMap(source=>source.data.intervals),note:'Known usage across explicitly linked sessions and runner invocations, deduplicated by session/call identity. Partial sums carry unavailable counts; response counts and invocation counts are separate. Timing and allowance are separate from token usage.'};
 }
 
 function exportReuseSummary(events,phases) {
@@ -186,11 +187,13 @@ export function buildRunReceipt(runDir) {
  const attemptEvents=readAttemptEvents(path.join(runDir,'semantic-packets')),attempts=attemptEvents.events,model={...summarizeAttemptEvents(attempts),incompleteTail:attemptEvents.incompleteTail};
  const attemptStarts=new Map(attempts.filter(e=>e.event==='started').map(e=>[e.attemptId,e]));
  for(const e of attempts.filter(e=>e.event==='finished'))if(attemptStarts.has(e.attemptId))intervals.push([attemptStarts.get(e.attemptId).time,e.time]);
- const completeJob=completeJobAccounting(events,attemptCallRecords(attempts));intervals.push(...completeJob.intervals);delete completeJob.intervals;
+ const completeJob=completeJobAccounting(events,attemptCallRecords(attempts));intervals.push(...completeJob.intervals);
+ const reviews=[...completeJob.reviewIntervals,...Object.entries(phases).filter(([name])=>/review/.test(name)).flatMap(([,rows])=>rows.filter(row=>!row.excludedFromActive).map(row=>[timestamp(row.startedAt),timestamp(row.endedAt)]))];
+ delete completeJob.intervals;delete completeJob.reviewIntervals;
  const calendar=[...intervals,...waits];
  return {version:2,generatedAt:new Date().toISOString(),model,completeJob,phases,unfinished,incompleteTail,
   recordedActiveWallMs:unionDuration(intervals)-overlapDuration(intervals,waits),humanWaitingMs:unionDuration(waits),summedModelCallMs:completeJob.summedModelCallMs,
-  recordedReviewWallMs:unionDuration(Object.entries(phases).filter(([name])=>/review/.test(name)).flatMap(([,rows])=>rows.filter(row=>!row.excludedFromActive).map(row=>[timestamp(row.startedAt),timestamp(row.endedAt)])))-overlapDuration(Object.entries(phases).filter(([name])=>/review/.test(name)).flatMap(([,rows])=>rows.filter(row=>!row.excludedFromActive).map(row=>[timestamp(row.startedAt),timestamp(row.endedAt)])),waits),
+  recordedReviewWallMs:unionDuration(reviews)-overlapDuration(reviews,waits),
   calendarSpanMs:calendar.length?Math.max(...calendar.map(i=>i[1]))-Math.min(...calendar.map(i=>i[0])):0,
   exportReuse:exportReuseSummary(events,phases),weeklyAllowance:summarizeWeeklyUsage(events.filter(event=>event.event==='weekly-usage-observed').map(event=>event.observation)),
   note:'Derived only from recorded events. Active time unions completed work intervals and subtracts explicitly recorded human waiting. Concurrent model call durations are summed separately. Unrecorded/offline work, unfinished intervals and historical missing usage remain unavailable. Metrics never establish source review or visual inspection.'};
