@@ -33,8 +33,10 @@ function evidenceForPages(runDir,pages){
 }
 function relevantDecisions(state,ids,pages=[],wholePages=[]){
  const owned=new Set(ids),selected=new Set(pages),whole=new Set(wholePages);
- return (state.corrections??[]).filter(c=>c.status==='approved').map(c=>({id:c.id,reason:c.reason,sourceRefs:c.sourceRefs,evidence:c.evidence,
+ const corrections=(state.corrections??[]).filter(c=>c.status==='approved').map(c=>({id:c.id,reason:c.reason,sourceRefs:c.sourceRefs,evidence:c.evidence,
   patches:c.patches.filter(p=>owned.has(p.targetId)||whole.has(p.page)||p.targetId==='$inventory'&&selected.has(p.page)).map(({original,...patch})=>patch)})).filter(c=>c.patches.length);
+ const resolutions=Object.values(state.issues??{}).filter(i=>i.status!=='pending'&&i.resolution&&([i.targetId,i.entryId].some(id=>owned.has(id))||(i.pages??[i.page]).some(p=>whole.has(p)||!i.targetId&&!i.entryId&&selected.has(p)))).map(i=>({id:i.id,kind:'editorial-resolution',reason:i.resolution.reason,sourceRefs:(i.pages??[i.page]).map(pageNumber=>({pageNumber})),evidence:i.resolution.evidence,resolution:i.resolution}));
+ return [...corrections,...resolutions];
 }
 function allNodeIds(blocks){return [...contentNodes({sections:[{blocks}]}).keys()];}
 function teachingNotes(value,found=[]){
@@ -175,7 +177,7 @@ function buildJobs(s){
   for(const exerciseId of exercises){
    const context=exerciseTeachingContext(project,state,exerciseId,{runDir,config:s.config,configFile:s.configFile}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
    jobs.push(makeJob('theory',['exercise:'+exerciseId],context,{evidence:[...context.evidence,guidance],dependencies:{teaching:context.dependencyHash},done:theoryDone,
-    blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(previous?.outcome==='needs-context'&&previous.dependencyHash===context.dependencyHash?['Teaching context needs clarification: '+previous.note]:[]),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
+    blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(previous?.outcome==='needs-context'&&previous.dependencyHash===context.dependencyHash&&(!previous.issueIds?.length||previous.issueIds.some(id=>state.issues[id]?.status==='pending'))?['Teaching context needs clarification: '+previous.note]:[]),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    if(!deps)continue;
    const questions=project.sections.filter(s=>s.phase==='practice'&&(s.exerciseId??s.topicId??s.id)===exerciseId).flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
    for(const group of chunks(questions)){
@@ -185,7 +187,7 @@ function buildJobs(s){
     const contextValue={exerciseId,questions:pending,previousFindings:failed.map(r=>({id:r.id,note:r.note,artifacts:r.artifacts})),teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null,
      questionDependencies:Object.fromEntries(pending.map(q=>[q.id,deps.questions[q.id]])),decisions:relevantDecisions(state,ids,source)};
     jobs.push(makeJob('assessment',group.map(q=>'question:'+q.id),contextValue,{evidence:[...evidence,...(theoryDone?previous.artifacts:[]),guidance],dependencies:{questions:contextValue.questionDependencies,teaching:context.dependencyHash},done:!pending.length,
-     blockers:[...(!theoryDone?['Complete current teaching-method review for '+exerciseId]:[]),...failed.map(r=>'Repair '+r.id+' before reassessment: '+r.note),...source.filter(p=>!evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source image missing for page '+p)],images:evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
+     blockers:[...(!theoryDone?['Complete current teaching-method review for '+exerciseId]:[]),...failed.filter(r=>!r.issueIds?.length||r.issueIds.some(id=>state.issues[id]?.status==='pending')).map(r=>'Repair '+r.id+' before reassessment: '+r.note),...source.filter(p=>!evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source image missing for page '+p)],images:evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    }
   }
  }else blockers.push({stage:'theory',reason:'Supply the current assembled project with projectFile, or settle the current project, to review exercise teaching and answers'});
@@ -331,12 +333,12 @@ export async function recordBoundedStage(options,input,overrides={}){
    if(record.outcome!==undefined&&record.outcome!=='accepted')throw Error('Invalid mathematical review outcome');
    exactOwnership([job.context.page],record.pages?.map(p=>p.page),'inventory page');
    if(record.sourceCompared!==true||record.mathematicsVerified!==true)throw Error('Mathematical acceptance requires explicit source and mathematics checks');recordMathReview(state,record);
-  }else if(job.stage==='theory'){recordTeaching(state,job,record);if(record.outcome==='needs-context')recorded={issues:registerStageFindings(state,request,job,record,s)};}
+  }else if(job.stage==='theory'){recordTeaching(state,job,record);if(record.outcome==='needs-context'){recorded={issues:registerStageFindings(state,request,job,record,s)};state.verification.teachingContexts[job.context.exerciseId].issueIds=recorded.issues;}}
   else if(job.stage==='assessment'){
    exactOwnership(job.context.questions.map(q=>'question:'+q.id),record.records?.map(r=>r.id),'question');
    const deps=verificationDependencies(state,s.project);
    for(const assessment of record.records){if(!['passed','failed'].includes(assessment.outcome))throw Error('Question review requires passed or failed');recordVerification(state,{...assessment,reviewer:record.reviewer,note:assessment.note??record.note,artifacts:record.artifacts,exerciseId:job.context.exerciseId,teachingContextHash:job.dependencies.teaching,dependencies:{question:job.context.questionDependencies[assessment.id.slice(9)]}},deps);}
-   const failed=record.records.filter(r=>r.outcome==='failed');if(failed.length)recorded={issues:registerStageFindings(state,request,job,record,s,failed.map(r=>({id:r.id,targetId:r.id.slice(9),message:r.note??record.note,pages:sourcePages(job.context.questions.find(q=>q.id===r.id.slice(9)))})))};
+   const failed=record.records.filter(r=>r.outcome==='failed');if(failed.length){recorded={issues:registerStageFindings(state,request,job,record,s,failed.map(r=>({id:r.id,targetId:r.id.slice(9),message:r.note??record.note,pages:sourcePages(job.context.questions.find(q=>q.id===r.id.slice(9)))})))};failed.forEach((r,i)=>{state.verification.entries[r.id].issueIds=[recorded.issues[i]];});}
   }else if(job.stage==='feedback'){
    validateFeedback(job,record,state,s);refreshRegister(runDir,selectedPages,state,{decisions:record.resolutions.map(r=>r.id)});
    // Preflight project corrections against the captured current project before the transaction commits.

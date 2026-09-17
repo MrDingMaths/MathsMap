@@ -50,8 +50,12 @@ export function questionTeachingDependencies(state,project,question){
  }
  refs(question.sourceRefs);contexts.forEach(refs);inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));refs(reviewed?.sourceArtifacts);refs(reviewed?.artifacts);
  for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
+ for(const {block}of teaching)collectTargets(block);
+ for(const entry of project?.source?.inventory?.entries??[])if(targets.has(entry.targetId))targets.add(entry.id);
+ const resolutions=Object.values(state.issues??{}).filter(issue=>['retained','corrected'].includes(issue.status)&&(targets.has(issue.entryId)||targets.has(issue.targetId)||!issue.entryId&&!issue.targetId&&(issue.pages??[issue.page]).some(page=>pages.has(page))))
+  .map(issue=>{refs(issue.resolution?.evidence);return {id:issue.id,status:issue.status,message:issue.message,reason:issue.resolution?.reason,correctionId:issue.resolution?.correctionId};}).sort((a,b)=>a.id.localeCompare(b.id));
  const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
- return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
+ return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),resolutions,source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
   reviewedTeaching:reviewed?{dependencyHash:reviewed.dependencyHash,outcome:reviewed.outcome,methods:reviewed.methods,scope:binding,currentConfig,currentIndex}:null};
 }
 export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){

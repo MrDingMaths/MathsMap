@@ -19,7 +19,7 @@ export const FINAL_EDITIONS=['student','short','worked','with-short','with-worke
 export const PATTERN_CHECKS=['writingBoxes','labelClearance','diagramSizing','attribution','sourceColours','alignment','nativeMaths'];
 export const fingerprint=value=>createHash('sha256').update(JSON.stringify(value)??'undefined').digest('hex');
 export const bytesHash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
-const json=(file,fallback)=>fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8')):fallback;
+const json=(file,fallback)=>fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'')):fallback;
 export const reviewFile=runDir=>path.join(runDir,'workflow','issues.json');
 export function loadWorkflow(runDir){const state=json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});const policy=json(path.join(runDir,'manifest.json'),{}).pipelinePolicy;if(policy)state.pipelinePolicy=policy;return state;}
 export const reviewEnabled=(manifest,config={})=>manifest.workflowPolicy===REVIEW_POLICY||config.workflowPolicy===REVIEW_POLICY;
@@ -224,6 +224,10 @@ export function registerInventory(state,inventory,evidence=state.pages[inventory
  for(const [i,f]of (inventory.findings??[]).entries())findings.push({id:`inventory-${page}-${f.id??i}`,kind:'source-finding',message:typeof f==='string'?f:f.message??f.note??JSON.stringify(f)});
  const active=new Set(findings.map(f=>f.id));
  for(const [id,issue]of Object.entries(state.issues))if(issue.page===page&&!['author','review'].includes(issue.origin)&&!active.has(id))delete state.issues[id];
+ for(const issue of Object.values(state.issues))if(issue.origin==='review'&&issue.status!=='pending'){
+  const bound=(issue.resolution?.sourceHashes??issue.sourceHashes)?.[page];
+  if(bound&&bound.source!==evidence){issue.previousResolution=issue.resolution;issue.resolution=null;issue.status='pending';issue.reopenedReason='Source evidence changed for page '+page;state.settled=null;state.finalReview=null;}
+ }
  for(const finding of findings){
   const old=state.issues[finding.id];state.issues[finding.id]={...finding,page,inputHash:key,status:old?.inputHash===key?old.status:'pending',resolution:old?.inputHash===key?old.resolution:null};
  }
@@ -256,7 +260,7 @@ export function pageGate(state,page,{representative=false,authoring=false}={}){
   }
  }
  if(p.mathReview?.key!==p.inventoryHash)reasons.push('Mathematical inventory review pending');
- for(const issue of Object.values(state.issues))if(issue.page===page&&issue.status==='pending'&&!(authoring&&issue.origin==='author'))reasons.push(issue.id);
+ for(const issue of Object.values(state.issues))if((issue.pages??[issue.page]).includes(page)&&issue.status==='pending'&&!(authoring&&issue.origin==='author'))reasons.push(issue.id);
  if(!authoring&&p.geometryError)reasons.push('Numerical triangle validation pending: '+p.geometryError);
  for(const pattern of p.patterns){
   const first=representativePage(state,pattern.id),approval=state.representatives[pattern.id];
@@ -301,7 +305,7 @@ export function recordMathReview(state,record){
  if(!record.pages?.length)throw Error('Select pages for mathematical review');
  for(const {page,key}of record.pages??[]){
   if(state.pages[page]?.inventoryHash!==key)throw Error('Stale mathematical review for page '+page);
-  if(Object.values(state.issues).some(i=>i.page===page&&i.status==='pending'))throw Error('Resolve editorial decisions first for page '+page);
+  if(Object.values(state.issues).some(i=>(i.pages??[i.page]).includes(page)&&i.status==='pending'))throw Error('Resolve editorial decisions first for page '+page);
   state.pages[page].mathReview={key,reviewer:record.reviewer,note:record.note,artifacts:record.artifacts};
  }
  state.settled=null;state.finalReview=null;
@@ -322,7 +326,7 @@ export function applyDecisions(state,record){
   const issue=state.issues[resolution.id];
   if(!issue||!resolution.reason||!['retained','corrected'].includes(resolution.status))throw Error('Invalid editorial resolution');
   if(resolution.status==='corrected'&&!state.corrections.some(c=>c.id===resolution.correctionId))throw Error('A corrected issue needs an approved structured patch');
-  issue.status=resolution.status;issue.resolution={...resolution,reviewer:record.reviewer,evidence:record.artifacts};
+  issue.status=resolution.status;issue.resolution={...resolution,reviewer:record.reviewer,evidence:record.artifacts,...(issue.origin==='review'?{sourceHashes:Object.fromEntries((issue.pages??[issue.page]).map(page=>[page,{source:state.pages[page]?.sourceEvidence??issue.sourceHashes?.[page]?.source??null}]))}:{})};
  }
  state.settled=null;state.finalReview=null;
 }
