@@ -9,6 +9,14 @@ under the [unique-layout visual/composition policy](booklet-review-first-workflo
 They do not migrate accepted projects or invalidate unchanged
 render evidence merely by being installed.
 
+For current execution use the [bounded Astra workflow](booklet-bounded-workflow.md):
+direct assignment scheduling, fresh stage tickets, reusable exercise teaching
+reviews, exact feedback scopes and complete-job receipts. The
+[September paired trial](booklet-astra-paired-trial-2026-09-17.md) records the live
+authoring experiment and its acceptance/access limitations. The two-hour initial
+import and 10%-weekly targets are not demonstrated savings. Next-import rollout
+must retain the existing source, mathematical, edition and bank acceptance gates.
+
 ## New-run pipeline policy (17 September 2026)
 
 Newly prepared runs record `pipelinePolicy: "pdf-import-efficient-v1"`. Existing
