@@ -1,6 +1,7 @@
 // Read-only browser/PDF acceptance check. Generated evidence stays local.
 import fs from 'node:fs';
 import path from 'node:path';
+import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
@@ -12,7 +13,7 @@ import {liveWorkflow} from './workflow-review.mjs';
 import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest,requireFinalCandidateSettlement} from './page-review.mjs';
 import {solidAcceptance} from '../audit-solid-visibility.mjs';
 import {routeCandidateProject,inspectFinalSizeDiagrams,diagramSourcePreflight} from './diagram-preflight.mjs';
-import {trackProcessPhase} from './run-observability.mjs';
+import {trackProcessPhase,recordExportReuse} from './run-observability.mjs';
 import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters} from './pdf-rasters.mjs';
@@ -27,8 +28,13 @@ if(candidateFile&&projects.length!==1)throw Error('Use one project with --projec
 if(editions.some(e=>!['student','short','worked','with-short','with-worked'].includes(e))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
 if(preflight&&!['student','short','worked'].every(e=>editions.includes(e)))throw Error('Diagram preflight requires student, short and worked compositions');
 const reportFile=out+(preflight?'/diagram-preflight.json':development?'/development-report.json':'/report.json');
-trackProcessPhase(arg('--run-dir'),'render-export',{artifact:reportFile,projects,editions,preflight,development,draft});
-const runStarted=Date.now(),runMeasurements={startedAt:new Date(runStarted).toISOString(),projectLoads:[],note:'Durations exclude manual visual review. TikZ counters are cumulative snapshots, not inferred cache reuse.'};
+const runDir=arg('--run-dir'),phaseId=trackProcessPhase(runDir,'render-export',{artifact:reportFile,projects,editions,preflight,development,draft});
+const runStarted=Date.now(),runMeasurements={startedAt:new Date(runStarted).toISOString(),projectLoads:[],exports:[],note:'Durations exclude manual visual review. TikZ counters are cumulative snapshots, not inferred cache reuse.'};
+const observeExport=async(edition,file,dependencyKey,reused)=>{
+ const observation={id:randomUUID(),edition,reused,artifact:{path:path.resolve(file),hash:artifactHash(file)},dependencyKey,phaseId};
+ runMeasurements.exports.push(observation);
+ if(runDir)await recordExportReuse(runDir,observation);
+};
 fs.mkdirSync(out,{recursive:true});
 let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
 const cache=fs.existsSync(out+'/cache.json')?out+'/cache.json':'.booklet-work/flexible-check/cache.json';
@@ -103,6 +109,7 @@ try{
     const rasters=ensurePdfRasters(fullManifest.pdf,fullManifest.pages.length,path.join(out,'pdf-rasters'));
     const next={...fullManifest,version:2,images:rasters.images,rasterization:rasters.rasterization};
     if(JSON.stringify(next)!==JSON.stringify(fullManifest))fs.writeFileSync(manifestFile,JSON.stringify(next,null,2));
+    await observeExport(edition,file,key,true);
     report[kind][edition]={...cached,rasterMetrics:rasters.metrics};console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;
    }
    console.log(`Checking ${kind} ${edition}`);
@@ -133,6 +140,7 @@ try{
    if(preflight){
     const renderMs=Date.now()-started,exportStarted=Date.now();
     await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
+    await observeExport(edition,file,key??[projectHash,runtime,edition].join(':'),false);
     const screenshots=[];
     for(let p=0;p<hashes.length;p++){const image=`${out}/${kind}-${edition}-preflight-page-${p+1}.png`;await page.locator('.project-print .print-page').nth(p).screenshot({path:image});screenshots.push({page:p+1,path:path.resolve(image),hash:artifactHash(image)});}
     const printed=inspectPrintedPdf(file),issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue})));
@@ -151,6 +159,7 @@ try{
     let printed=[];
     if(selected.length){
      await page.pdf({path:file,pageRanges:selected.join(','),format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
+     await observeExport(edition,file,key??[projectHash,runtime,edition].join(':'),false);
      printed=inspectPrintedPdf(file);
      assert.equal(printed.length,selected.length,'Development export includes every selected physical page');
     }
@@ -163,6 +172,7 @@ try{
     await page.emulateMedia({media:'screen'});continue;
    }
    await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
+   await observeExport(edition,file,key??[projectHash,runtime,edition].join(':'),false);
    const printed=inspectPrintedPdf(file),issues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
    const pdfNavigation=inspectPdfNavigation(file,info.links),pdfLinks=pdfNavigation.annotations;
    report[kind][edition]={...info,pdfLinks,pdfNavigation,qa,printed,issues,diagrams};
