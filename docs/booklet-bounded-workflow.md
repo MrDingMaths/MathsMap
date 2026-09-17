@@ -62,7 +62,9 @@ findings must be resolved first. A successful worker returns the actual reviewer
 observations, `sourceCompared:true`, `mathematicsVerified:true`, and the assigned
 `pages:[{page,key}]`. `recordMathReview` remains the gate. A newly discovered
 ambiguity returns `outcome:"needs-review"` with specific findings, leaving the
-ticket visibly blocked and the mathematical review unapproved.
+ticket visibly blocked and the mathematical review unapproved. New findings are
+stored in the ordinary issue register with their assigned source scope, job hash
+and actual evidence; cancelling a ticket cannot delete or resolve them.
 
 **Teaching-method review.** Review the exercise's teaching blocks, worked examples,
 Key Ideas, scaffolds and explicitly mapped context once. Methods must have concise
@@ -121,6 +123,59 @@ pixel evidence for reused bodies, both combined compositions, and all five
 automated edition checks. Eight-page batches never reduce that coverage. See the
 [unique-layout acceptance policy](booklet-review-first-workflow.md#unique-layout-final-acceptance).
 
+## Complete-job accounting
+
+Measure the whole accepted import and feedback cycle, including coordinator work,
+failed attempts, substantive review, repairs and exports. Do not infer the full
+job's cost from transcription workers alone. All accounting commands below accept
+`--run-id RUN` or `--run-dir RUN_DIRECTORY` and an explicit `--input RECORD.json`.
+
+At the start, link each participating local session with `link-session`. Its
+record is `{sessionId, role, stage, rolloutPath}`, where `role` is `coordinator`,
+`transcription` or `review`. Link the actual coordinator and review rollouts as
+well as independently recorded worker attempts. Optional `startedAt`/`endedAt`
+boundaries attribute disjoint stage windows within one session; overlapping stage
+links are rejected. Optional `attemptIds` connect known worker attempts to their
+session evidence for deduplication. A nonexistent historical log remains explicitly
+unavailable; do not replace it with guessed token counts or a different session.
+
+Record real allowance observations before and after the same job with
+`weekly-usage`. Each record includes `{id, at, resetAt, windowMinutes:10080,
+usedPercent, limitId, unrelatedConcurrentUsage, unrelatedSessionIds?}`. Use the same
+weekly reset window and limit identity for a comparison. Label concurrent usage
+as `none`, `present` or `unknown`; list unrelated session identities only when
+known. A reset crossing or concurrent use cannot support an attributable weekly
+saving. Never convert a weighted token proxy into a measured allowance percentage.
+
+Use `wait-start` when human feedback begins waiting and retain its returned `id`;
+call `wait-end` with that `id` when work resumes. Include a concise reason or note
+in those input records. These are observed boundaries, not retrospective estimates.
+The receipt separates active elapsed time, human waiting, review time, calendar
+span and the sum of concurrent model-call durations. Overlapping workers do not
+multiply active wall time.
+
+Run the existing `check-compact-exercises.mjs` export/check command with
+`--run-dir RUN_DIRECTORY` so actual generated/reused PDF observations are recorded
+with their artifact hashes, edition and dependency keys. `export-observation`
+accepts explicit equivalent evidence using `{id, edition, reused, artifact,
+dependencyKey, phaseId?}`. An existing PDF file, phase label or cache path alone
+never establishes export reuse.
+
+Save the complete receipt using:
+
+```text
+node scripts/booklet/run-workflow.mjs receipt --run-id RUN --out RECEIPT.json
+```
+
+Inspect full `completeJob` metadata as well as the compact display. `missingRoles`
+alone is insufficient: examine `unavailableSessions`, `partialSessions`,
+`unavailableByMetric`, duplicate/overlap diagnostics and unfinished session,
+attempt, phase and waiting intervals. Unknown cached input, output, tool counts
+or timings must remain unknown; partial coverage cannot be reported as a complete
+total. Keep the original artifact references and actual failed/retried work.
+Compare measured accepted work on the paired trial and next required full import;
+the approximately two-hour/10%-allowance goals remain targets until verified.
+
 ## Concurrent edits, interruption and stopping
 
 Work ownership is stored with the register under `verification.stageClaims`.
@@ -135,8 +190,12 @@ Failed or stale output remains available beside its immutable request. Correct
 the structured result and use `record-stage` when the evidence itself is still
 current. Do not repeat a model call just to recover existing output. A result
 that identifies unresolved editorial choices remains a blocked active ticket;
-resolve those choices through the register, or explicitly cancel and prepare
-current work. There is no silent lease expiry or automatic acceptance. Cancel a
+resolve those choices through the register, or explicitly cancel before preparing
+the corresponding feedback job. New findings, failed question checks and missing
+teaching context remain ordinary pending issues after cancellation. Resolve them
+through the existing reviewed `retained` or `corrected` decision API. Later worker
+contexts carry the relevant decision reasons and evidence. There is no silent
+lease expiry or automatic acceptance. Cancel a
 visual ticket before preparing a different snapshot; cancellation credits no
 inspection.
 
