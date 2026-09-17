@@ -223,7 +223,7 @@ export function registerInventory(state,inventory,evidence=state.pages[inventory
  for(const entry of inventory.entries)if(entry.ambiguity)findings.push({id:`inventory-${page}-${entry.id}-ambiguity`,entryId:entry.id,kind:'source-ambiguity',message:entry.ambiguity});
  for(const [i,f]of (inventory.findings??[]).entries())findings.push({id:`inventory-${page}-${f.id??i}`,kind:'source-finding',message:typeof f==='string'?f:f.message??f.note??JSON.stringify(f)});
  const active=new Set(findings.map(f=>f.id));
- for(const [id,issue]of Object.entries(state.issues))if(issue.page===page&&issue.origin!=='author'&&!active.has(id))delete state.issues[id];
+ for(const [id,issue]of Object.entries(state.issues))if(issue.page===page&&!['author','review'].includes(issue.origin)&&!active.has(id))delete state.issues[id];
  for(const finding of findings){
   const old=state.issues[finding.id];state.issues[finding.id]={...finding,page,inputHash:key,status:old?.inputHash===key?old.status:'pending',resolution:old?.inputHash===key?old.resolution:null};
  }
