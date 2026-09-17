@@ -37,19 +37,45 @@ function relevantDecisions(state,ids,pages=[]){
   patches:c.patches.filter(p=>owned.has(p.targetId)||p.targetId==='$inventory'&&selected.has(p.page)).map(({original,...patch})=>patch)})).filter(c=>c.patches.length);
 }
 function allNodeIds(blocks){return [...contentNodes({sections:[{blocks}]}).keys()];}
+function teachingNotes(value,found=[]){
+ if(!value||typeof value!=='object')return found;
+ for(const [key,child]of Object.entries(value)){
+  if(key==='teachingContext'&&child)found.push(child);
+  else if(child&&typeof child==='object')teachingNotes(child,found);
+ }return found;
+}
+function notePages(note){return unique([...(note?.pdfPages??[]),...(note?.pages??[]).map(p=>typeof p==='number'?p:p.pdfPage??p.pageNumber)].filter(Number.isInteger));}
+function externalTeachingContext(project,questions,exerciseId,{runDir,config={}}={}){
+ const notes=[...new Map(questions.flatMap(q=>teachingNotes(q.sourceReview)).map(n=>[fingerprint(n),n])).values()];
+ const topic=config.topics?.find(t=>t.id===exerciseId),questionPages=unique(questions.flatMap(sourcePages));
+ const pages=unique([...(topic?.teachingPages??[]),...questionPages.flatMap(p=>config.pageTeachingPages?.[p]??[]),...notes.flatMap(notePages)]).sort((a,b)=>a-b),selected=new Set(pages);
+ const indexFile=project?.source?.provenance?.directory?path.resolve(project.source.provenance.directory,'teaching-context-index.json'):null;
+ const index=indexFile&&fs.existsSync(indexFile)?read(indexFile):null;
+ const referencesFrom=questions.flatMap(q=>q.sourceReview?.externalTeachingReferences??[]);
+ const external=[...(index?.externalTeachingReferences??[]),...referencesFrom].map(r=>({...r,pages:(r.pages??[]).filter(p=>selected.has(p.pdfPage??p.pageNumber))})).filter(r=>r.pages.length);
+ const evidence=runDir?evidenceForPages(runDir,pages):[],problems=[];
+ for(const item of external){
+  if(item.pdfPath){const artifact={path:path.resolve(item.pdfPath),hash:item.pdfSha256??item.hash};if(!current(artifact))problems.push('External teaching PDF is missing or changed: '+item.pdfPath);else evidence.push(artifact);}
+  for(const p of item.pages)if(p.imagePath){const artifact={path:path.resolve(p.imagePath),hash:p.imageSha256??p.hash,page:p.pdfPage??p.pageNumber};if(!current(artifact))problems.push('External teaching image is missing or changed: '+p.imagePath);else evidence.push(artifact);}
+ }
+ // The index is a projection of previously inspected source pages, not fresh
+ // acceptance. Hash only relevant entries so another exercise's edit is local.
+ return {pages,notes,externalReferences:external,indexPath:indexFile,configPages:topic?.teachingPages??[],evidence:references(evidence),problems};
+}
 
 // The exercise is the compact booklet's topic, even across teaching checkpoints.
 // Only teaching and explicit teaching-context mappings enter this reusable summary.
-export function exerciseTeachingContext(project,state,exerciseId,{runDir}={}){
- const sections=(project?.sections??[]).filter(s=>s.topicId===exerciseId),questions=sections.filter(s=>s.phase==='practice').flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
+export function exerciseTeachingContext(project,state,exerciseId,{runDir,config}={}){
+ const sections=(project?.sections??[]).filter(s=>(s.exerciseId??s.topicId??s.id)===exerciseId),questions=sections.filter(s=>s.phase==='practice').flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
  const nodes=contentNodes(project??{sections:[]}),questionIds=new Set(allNodeIds(questions));
  const mappings=(project?.source?.inventory?.entries??[]).filter(e=>questionIds.has(e.targetId));
- const explicitIds=unique(mappings.flatMap(e=>e.teachingContextIds??[]));
+ const explicitIds=unique([...mappings.flatMap(e=>e.teachingContextIds??[]),...questions.flatMap(q=>[...(q.teachingContextIds??[]),...(q.sourceReview?.teachingContextIds??[])])]);
  const blocks=[...new Map([...sections.filter(s=>s.phase==='teaching').flatMap(s=>s.blocks??[]),...explicitIds.map(id=>nodes.get(id)?.block).filter(Boolean)].map(b=>[b.id,b])).values()];
- const ids=allNodeIds(blocks),pages=unique(blocks.flatMap(sourcePages)),evidence=runDir?evidenceForPages(runDir,pages):[];
+ const external=externalTeachingContext(project,questions,exerciseId,{runDir,config});
+ const ids=allNodeIds(blocks),pages=unique([...blocks.flatMap(sourcePages),...external.pages]),evidence=references([...(runDir?evidenceForPages(runDir,pages):[]),...external.evidence]);
  const context={exerciseId,title:project?.topics?.find(t=>t.id===exerciseId)?.title??exerciseId,teaching:blocks,
   explicitContextIds:explicitIds,missingContextIds:explicitIds.filter(id=>!nodes.has(id)),
-  suppliedNotes:unique(questions.map(q=>q.sourceReview?.teachingContext).filter(Boolean)),
+  suppliedNotes:external.notes,externalReferences:external.externalReferences,externalIndex:external.indexPath,configPages:external.configPages,problems:external.problems,
   pages,evidence,decisions:relevantDecisions(state,ids,pages)};
  const dependencyHash=fingerprint({...context,sourceDependencies:Object.fromEntries(pages.map(p=>[p,state.pages?.[p]?.sourceEvidence??null]))});
  return {...context,dependencyHash};
@@ -110,7 +136,7 @@ async function snapshot(options,overrides={}){
  const projectFile=options.projectFile??state.settled?.project?.file??(state.projectId?path.resolve('booklets/projects',state.projectId+'.json'):null),project=overrides.project??(projectFile&&fs.existsSync(projectFile)?read(projectFile):null);
  let queue=overrides.queue??null,queueInput=overrides.queueInput??null,queueError=null;
  if(!queue&&fs.existsSync(queuePath(runDir)))try{queue=await reviewQueueStatus(runDir,overrides.queueDependencies);queueInput=read(queuePath(runDir)).input;}catch(error){queueError=error.message;}
- return {runDir,manifest,state,pages,project,projectFile,queue,queueInput,queueError};
+ return {runDir,manifest,config:options.config??{},state,pages,project,projectFile,queue,queueInput,queueError};
 }
 function buildJobs(s){
  const {runDir,state,pages,project,projectFile,queue,queueInput}=s,jobs=[],blockers=[];
@@ -135,9 +161,9 @@ function buildJobs(s){
  if(project){
   const exercises=unique(project.sections.filter(s=>s.phase==='practice'&&(s.blocks??[]).some(b=>b.type==='question')).map(s=>s.topicId??s.id));
   for(const exerciseId of exercises){
-   const context=exerciseTeachingContext(project,state,exerciseId,{runDir}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
+   const context=exerciseTeachingContext(project,state,exerciseId,{runDir,config:s.config}),previous=state.verification?.teachingContexts?.[exerciseId],theoryDone=teachingCurrent(previous,context);
    jobs.push(makeJob('theory',['exercise:'+exerciseId],context,{evidence:[...context.evidence,guidance],dependencies:{teaching:context.dependencyHash},done:theoryDone,
-    blockers:[...context.missingContextIds.map(id=>'Missing teaching context '+id),...(!context.teaching.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...(!context.evidence.some(e=>e.path.endsWith('.png'))?['Source teaching images missing']:[])],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
+    blockers:[...context.problems,...context.missingContextIds.map(id=>'Missing teaching context '+id),...(!context.teaching.length&&!context.pages.length?['No source-linked teaching context; supply or explicitly review missing teaching context']:[]),...context.pages.filter(p=>!context.evidence.some(e=>e.page===p&&e.path.endsWith('.png'))).map(p=>'Source teaching image missing for page '+p)],images:context.evidence.filter(e=>e.path.endsWith('.png')).map(e=>e.path)}));
    if(!deps)continue;
    const questions=project.sections.filter(s=>s.phase==='practice'&&(s.topicId??s.id)===exerciseId).flatMap(s=>s.blocks??[]).filter(b=>b.type==='question');
    for(const group of chunks(questions)){
@@ -219,7 +245,7 @@ export async function prepareBoundedStage(options,jobId,overrides={}){
   let active;
   if(['visual','composition'].includes(job.stage))active=await beginPageReview(s.runDir,{expectedRevision:s.queue.revision,sessionKey:s.queue.sessionKey,...(job.stage==='visual'?{pageKeys:job.context.pages.map(r=>r.key)}:{compositionEditions:[job.context.edition]})},overrides.queueDependencies);
   const id=randomUUID(),file=path.join(s.runDir,'workflow/stages',job.id,id,'request.json');
-  const request={version:BOUNDED_STAGE_VERSION,id,runDir:s.runDir,projectFile:s.projectFile,selectedPages:s.pages,expectedRevision:s.state.revision,createdAt:new Date().toISOString(),job,...(active?{reviewId:active.active.id}:{}),prompt:promptFor(job),images:job.images};
+  const request={version:BOUNDED_STAGE_VERSION,id,runDir:s.runDir,projectFile:s.projectFile,selectedPages:s.pages,config:s.config,expectedRevision:s.state.revision,createdAt:new Date().toISOString(),job,...(active?{reviewId:active.active.id}:{}),prompt:promptFor(job),images:job.images};
   const ticket=requestRef(file,request);
   try{await updateWorkflow(s.runDir,'prepare bounded '+job.stage,async state=>{
    Object.assign(state,liveWorkflow(s.runDir,s.pages));
@@ -265,7 +291,7 @@ export async function recordBoundedStage(options,input,overrides={}){
  await updateWorkflow(runDir,'record bounded '+request.job.stage,async state=>{
   Object.assign(state,liveWorkflow(runDir,selectedPages));
   const claim=state.verification?.stageClaims?.[request.job.id];if(claim?.id!==request.id||claim.ticket.hash!==input.ticket.hash)throw Error('Stage ownership is missing, stale or already recorded');
-  const s=await snapshot({...options,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
+  const s=await snapshot({...options,config:options.config??request.config,projectFile:request.projectFile,selectedPages},{...overrides,state}),job=requireJob(buildJobs(s),request);
   const failedFinding=['needs-review','needs-context'].includes(record.outcome)&&job.stage!=='theory';
   if(failedFinding){recorded={ok:false,needsReview:true,artifact,findings:record.findings??[],note:record.note};state.verification.stageClaims[request.job.id].blockedResult=recorded;}
   else if(job.stage==='maths'){
