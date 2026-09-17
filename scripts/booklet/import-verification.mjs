@@ -10,11 +10,32 @@ const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const current=r=>r?.path&&path.isAbsolute(r.path)&&fs.existsSync(r.path)&&bytes(r.path)===r.hash;
+export function questionTeachingDependencies(state,project,question){
+ const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
+ const scope=owner?.exerciseId??owner?.topicId;
+ const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId)===scope):sections;
+ const ids=new Set([...(question.teachingContextIds??[]),...(question.sourceReview?.teachingContextIds??[])]);
+ const teaching=sections.flatMap(s=>(s.blocks??[]).filter(b=>ids.has(b.id)||(relevant.includes(s)&&(s.phase!=='practice'||b.type!=='question'))).map(b=>({sectionId:s.id,block:b})));
+ const pages=new Set(),artifacts=[];
+ function refs(value){
+  if(!value||typeof value!=='object')return;
+  for(const name of ['page','pageNumber','pdfPage'])if(Number.isInteger(value[name]))pages.add(value[name]);
+  const file=value.pdfPath??value.path;
+  if(typeof file==='string'&&(value.hash||value.sha256||value.pdfSha256)){
+   const absolute=path.resolve(file);artifacts.push({path:absolute,hash:fs.existsSync(absolute)?bytes(absolute):null});
+  }
+  for(const child of Object.values(value))if(child&&typeof child==='object')refs(child);
+ }
+ refs(question.sourceRefs);refs(question.sourceReview?.teachingContext);refs(question.sourceReview?.externalTeachingReferences);
+ for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview?.teachingContext);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
+ const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
+ return {scope:scope??null,teaching,source:dependencies,artifacts};
+}
 export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
  return {source:hash(Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
   project:project?projectReviewHash(project):null,renderer,...implementation,
-  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs})]))};
+  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q)}:{})})]))};
 }
 export function recordVerification(state,record,deps){
  if(!state.pipelinePolicy)throw Error('Verification register enforcement is for new-policy runs');

@@ -5,6 +5,7 @@ import {createSemanticTasks,semanticCacheInfo,runSemanticPackets,positive} from 
 import {measureRunPhase} from './run-observability.mjs';
 import {reviewEnabled,liveWorkflow,loadWorkflow} from './workflow-review.mjs';
 import {checkRepresentativePlan} from './efficiency-tools.mjs';
+import {workerConcurrency} from './worker-pool.mjs';
 
 function latestAttempt(root,page,stage) {
  const prefix=`page-${String(page).padStart(3,'0')}.${stage}.`;
@@ -44,7 +45,7 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
 }
 
 export async function drainDependencies(options,{runner,log=console.log,retry=false,representative=false,retryReason=null,regenerationReason=null,requireRepresentativePlan=false,planFile}={}) {
- const concurrency=positive(options.concurrency??options.manifest.concurrency??3,'Concurrency'),attempted=new Set(),active=new Map(),results=[];
+ const concurrency=workerConcurrency(options.concurrency??options.manifest.concurrency??3),attempted=new Set(),active=new Map(),results=[];
  return measureRunPhase(options.runDir,'dependency-drain',async()=>{
   while(true){
    const state=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile});
@@ -52,9 +53,12 @@ export async function drainDependencies(options,{runner,log=console.log,retry=fa
     const key=job.stage+':'+job.page;
     if(active.size>=concurrency)break;
     if(active.has(key)||attempted.has(key))continue;
-    attempted.add(key);
-    const work=runSemanticPackets({...options,stage:job.stage,pages:[job.page],attempt:job.attempt,concurrency:1,representative,retryReason,regenerationReason},{...(runner?{runner}:{}),log})
-     .then(report=>results.push({page:job.page,stage:job.stage,report}),error=>results.push({page:job.page,stage:job.stage,error:error.message})).finally(()=>active.delete(key));
+    // New-policy author jobs share one assignment queue. A dense source page
+    // can fill all three worker slots without spawning duplicate page workers.
+    const batch=job.stage==='author'&&options.manifest.pipelinePolicy?state.jobs.filter(other=>other.stage==='author'&&other.attempt===job.attempt&&!attempted.has('author:'+other.page)):[job];
+    for(const item of batch)attempted.add(item.stage+':'+item.page);
+    const work=runSemanticPackets({...options,stage:job.stage,pages:batch.map(item=>item.page),attempt:job.attempt,concurrency:job.stage==='author'&&options.manifest.pipelinePolicy?concurrency:1,representative,retryReason,regenerationReason},{...(runner?{runner}:{}),log})
+     .then(report=>{for(const item of batch)results.push({page:item.page,stage:item.stage,report:{...report,pages:report.pages.filter(p=>p.page===item.page)}});},error=>{for(const item of batch)results.push({page:item.page,stage:item.stage,error:error.message});}).finally(()=>active.delete(key));
     active.set(key,work);
    }
    if(!active.size){const status=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile});return {...status,results,concurrency,ok:status.complete.length===options.pages.length};}
