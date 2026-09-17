@@ -146,4 +146,18 @@ test('an unresolved reviewer finding blocks retry and injected runners retain me
  const events=fs.readFileSync(path.join(f.dir,'semantic-packets/attempt-events.jsonl'),'utf8').trim().split('\n').map(JSON.parse);assert.equal(events.filter(e=>e.event==='started').length,1);assert.ok(events.some(e=>e.metrics?.usage?.input_tokens===50));
  await cancelBoundedStage(f.options,{ticket:result.ticket,reason:'Bundle the new editorial finding before another review'});
  assert.equal((await nextBoundedWork(f.options)).active.length,0);
+ const persisted=Object.values(liveWorkflow(f.dir).issues).find(i=>i.origin==='review');assert.equal(persisted.status,'pending');assert.equal(persisted.reviewJob.id,pending.id);assert.ok(persisted.sourceHashes[1].source);
+ const feedback=job(await nextBoundedWork(f.options),'feedback'),review=await prepareBoundedStage(f.options,feedback.id);
+ await recordBoundedStage(f.options,{ticket:review.ticket,result:{...signed,resolutions:[{id:persisted.id,status:'retained',reason:'The inspected source definition resolves the interpretation.'}],corrections:[]}});
+ assert.equal(liveWorkflow(f.dir).issues[persisted.id].status,'retained');assert.equal(job(await nextBoundedWork(f.options),'maths').blockers.length,0);
+ const revised=await prepareBoundedStage(f.options,pending.id);assert.ok(readTicket(revised).job.context.decisions.some(d=>d.id===persisted.id&&d.reason.includes('source definition')));
+ await cancelBoundedStage(f.options,{ticket:revised.ticket,reason:'Fixture inspected the retained-decision handoff'});
+});
+
+test('review findings reject foreign source ownership without writing an issue',async t=>{
+ const f=fixture(t,{pages:1}),prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'maths').id);
+ await assert.rejects(()=>recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,outcome:'needs-review',findings:[{id:'foreign',page:2,message:'Another source page'}]}}),/assigned source pages/);
+ assert.equal(Object.keys(loadWorkflow(f.dir).issues).length,0);
+ await assert.rejects(()=>recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,outcome:'needs-review',findings:[{id:'foreign',page:1,targetId:'unassigned-question',message:'Another question'}]}}),/outside the assigned ownership/);
+ assert.equal(Object.keys(loadWorkflow(f.dir).issues).length,0);
 });
