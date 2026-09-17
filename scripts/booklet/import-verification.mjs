@@ -14,22 +14,32 @@ export function questionTeachingDependencies(state,project,question){
  const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
  const scope=owner?.exerciseId??owner?.topicId;
  const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId)===scope):sections;
- const ids=new Set([...(question.teachingContextIds??[]),...(question.sourceReview?.teachingContextIds??[])]);
+ const ids=new Set(),targets=new Set(),contexts=[];
+ function collectTargets(value){if(!value||typeof value!=='object')return;if(value.id)targets.add(value.id);for(const child of Object.values(value))if(child&&typeof child==='object')collectTargets(child);}
+ function collectContext(value){
+  if(!value||typeof value!=='object')return;
+  if(Array.isArray(value.teachingContextIds))for(const id of value.teachingContextIds)ids.add(id);
+  for(const name of ['teachingContext','externalTeachingReferences'])if(value[name])contexts.push(value[name]);
+  for(const child of Object.values(value))if(child&&typeof child==='object')collectContext(child);
+ }
+ collectTargets(question);collectContext(question);
+ const inventory=(project?.source?.inventory?.entries??[]).filter(entry=>targets.has(entry.targetId));
+ inventory.forEach(collectContext);
  const teaching=sections.flatMap(s=>(s.blocks??[]).filter(b=>ids.has(b.id)||(relevant.includes(s)&&(s.phase!=='practice'||b.type!=='question'))).map(b=>({sectionId:s.id,block:b})));
- const pages=new Set(),artifacts=[];
+ const pages=new Set(),artifacts=new Map();
  function refs(value){
   if(!value||typeof value!=='object')return;
   for(const name of ['page','pageNumber','pdfPage'])if(Number.isInteger(value[name]))pages.add(value[name]);
-  const file=value.pdfPath??value.path;
-  if(typeof file==='string'&&(value.hash||value.sha256||value.pdfSha256)){
-   const absolute=path.resolve(file);artifacts.push({path:absolute,hash:fs.existsSync(absolute)?bytes(absolute):null});
+  for(const name of ['pages','pdfPages','teachingPages'])if(Array.isArray(value[name]))for(const page of value[name])if(Number.isInteger(page))pages.add(page);
+  for(const [file,expected]of [[value.pdfPath,value.pdfSha256??value.pdfHash??value.hash??value.sha256],[value.imagePath,value.imageSha256??value.imageHash??value.hash??value.sha256],[value.path,value.hash??value.sha256]])if(typeof file==='string'&&expected){
+   const absolute=path.resolve(file);artifacts.set(absolute,{path:absolute,expected,hash:fs.existsSync(absolute)&&fs.statSync(absolute).isFile()?bytes(absolute):null});
   }
   for(const child of Object.values(value))if(child&&typeof child==='object')refs(child);
  }
- refs(question.sourceRefs);refs(question.sourceReview?.teachingContext);refs(question.sourceReview?.externalTeachingReferences);
- for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview?.teachingContext);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
+ refs(question.sourceRefs);contexts.forEach(refs);inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));
+ for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
  const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
- return {scope:scope??null,teaching,source:dependencies,artifacts};
+ return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path))};
 }
 export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
