@@ -4,7 +4,7 @@ Audit and implementation: 12 September 2026. The original audit and source reorg
 
 ## Where things belong
 
-- `booklets/projects/`: the four current editable Studio booklets. Keep their IDs, local layouts and bank sync intact.
+- `booklets/projects/`: current editable Studio booklets. Keep their IDs, local layouts and bank sync intact.
 - `booklets/studio-sources/<stage>/<topic>/`: original PDF/Word pairs for Studio, including Linear's student and teacher editions.
 - `booklets/mathsmap-sources/<stage>/`: the source Markdown booklets and linked media used to author the MathsMap site.
 - `booklets/question-bank/`, `booklets/module-bank/`, `booklets/provenance/`, `public/booklet-assets/`: reusable Studio content, durable reviews and referenced assets.
@@ -102,6 +102,25 @@ The pre-implementation checkpoint is `3eaa767d`. The fresh baseline was **18.67 
 Completed scopes: older active-project revisions, all retired-project revisions, recovery payloads, legacy archives, both nominated Trig stages, and Volume's nominated staged/round-trip copies. Publication and sync receipts were checked; no live project/bank/module/content or app-source references to these cleanup trees were found. Staging payloads were archived in full, so unique versions were retained as well as duplicates. The isolated Studio verification copy and `dist/` were retained because several development servers were running and their usage could not be ruled out. Active imports, source media and other render/evidence runs were retained.
 
 Every archived entry passed full extraction and SHA-256 verification before pruning. The largest entry from each of the seven manifests also passed restoration to disk and a second byte-hash check. Current tracked project/bank/module/provenance/source/asset files match the checkpoint; no booklet content, layout or rendering changed. All 61 focused storage/project/bank/workflow tests and the production build passed (the existing bundle-size warning remains). The post-cleanup retention preview has no remaining candidates. Local audit reports, per-pass measured durations, restore checks, execution retries and detailed receipts are recorded in `.booklet-work/storage-run-receipt.json`; archive manifests and receipts remain with the archive store.
+
+## 25 September 2026 cleanup
+
+Snapshot commit `c27b0d86` records the then-current project, bank, code, tests and
+eligible sources before cleanup. Twelve oversized original source documents stay
+at their referenced local paths with SHA-256 hashes in
+`.booklet-work/repo-cleanup-20260925/source-hashes.json`; narrow ignore rules
+exclude them from Git without moving the originals.
+
+Completed Volume staging copies, old review renders, benchmark outputs and
+scratch/export files were put in the verified local archive store before their
+loose copies were removed. One current Linear provenance file remains at
+`output/linear-complete/provenance.json`. Retired trial runners, detailed
+protocols, applied one-off repairs and unreferenced assets were archived before
+Git removal; the snapshot commit also retains them. The Logarithms feedback and
+Data Visualisation teaching work trees remain loose because live projects still
+refer to them. Current projects, banks, pinned bank revisions, original sources,
+active full-import evidence and the archive store were not pruned. Archive
+manifests and receipts are under `booklets/.storage-archives/`.
 
 ## Keep the old MathsMap booklets
 

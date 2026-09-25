@@ -60,11 +60,7 @@ The author may include `authoringFormat: "shared-diagrams-v1"` and a page-local 
 
 `shared-diagram-authoring.mjs` expands every referenced occurrence to one complete `tikzpicture` before semantic and numerical validation. It rejects unknown fragments, recursive definitions, simultaneous `code`/`codeParts`, incomplete/nested pictures and separately scaled `overlayOf`/`solution-overlay` references. Ordinary complete `code` strings remain supported, including within opt-in packets. Raw generation is retained in `generation.json`, expanded output in `materialized.json`, and only normal editable code reaches canonical packets and assembly. Mapping repairs consume expanded content without modifying the original generation. Input hashes bind the materializer implementation; attempt events record format and generated/expanded character counts alongside actual available model usage.
 
-The offline benchmark is repeatable without model calls or project writes:
-
-```text
-node scripts/booklet/benchmark-shared-authoring.mjs --run-dir .booklet-work/full-imports/angle-relationships-v1-20260912 --out .booklet-work/RUN/shared-authoring-benchmark.json
-```
+The offline benchmark implementation is archived in snapshot commit c27b0d86 and the local verified archive. Its measured result follows.
 
 On the 79 preserved Angle Relationships author packets, conservative factoring of identical contiguous code lines reduced compact JSON from **2,569,235 to 2,465,105 characters (4.05%)**. Seventy-three pages contained reusable fragments. Expansion preserved every packet field and all **863 diagram code strings exactly**; every expanded packet passed semantic validation. Page 7's reduction was 16.32%. These are representation measurements on existing output, not demonstrated model-token, latency, cost or first-pass-fidelity savings. The opt-in instructions also add input characters, reported by the benchmark. No default adoption is justified by this result alone.
 

@@ -11,11 +11,14 @@ render evidence merely by being installed.
 
 For current execution use the [bounded Sol workflow](booklet-bounded-workflow.md):
 direct assignment scheduling, fresh stage tickets, reusable exercise teaching
-reviews, exact feedback scopes and complete-job receipts. The
-[September paired trial](booklet-astra-paired-trial-2026-09-17.md) records the live
-authoring experiment and its acceptance/access limitations. The two-hour initial
-import and 10%-weekly targets are not demonstrated savings. Next-import rollout
-must retain the existing source, mathematical, edition and bank acceptance gates.
+reviews, exact feedback scopes and complete-job receipts. The September paired Astra trial accepted two of six scoped assignments in each
+arm; unequal access to linked guidance invalidated its performance comparison.
+The completed 24 September model rerun found major or blocking defects in eight
+of ten samples for both Astra Low and Sol XHigh. Neither trial establishes
+accepted-import throughput or the two-hour and 10%-weekly targets. Their detailed
+protocols and runners are recoverable from snapshot commit c27b0d86 and the
+local verified archive. Next-import rollout must retain the existing source,
+mathematical, edition and bank acceptance gates.
 
 ## New-run pipeline policy (17 September 2026)
 

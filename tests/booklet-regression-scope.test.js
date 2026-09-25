@@ -11,20 +11,20 @@ const fixture=t=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'regression-scope-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const write=(file,content)=>{const target=path.join(root,file);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,content);return target;};
  write('package-lock.json','{}');write('tests/selected.test.js',"import '../scripts/booklet/relevant.mjs';\n");
- write('scripts/booklet/relevant.mjs','export const value = 1;\n');write('scripts/booklet/benchmark-report.mjs','export const report = 1;\n');
+ write('scripts/booklet/relevant.mjs','export const value = 1;\n');write('scripts/booklet/unrelated-tool.mjs','export const report = 1;\n');
  return {root,write};
 };
 
 test('scoped regression evidence follows selected tests and their imported code',t=>{
  const f=fixture(t),scope={testFiles:['tests/selected.test.js']},first=regressionScopeSignature(scope,f.root);
- f.write('scripts/booklet/benchmark-report.mjs','export const report = 2;\n');assert.equal(regressionScopeSignature(scope,f.root),first);
+ f.write('scripts/booklet/unrelated-tool.mjs','export const report = 2;\n');assert.equal(regressionScopeSignature(scope,f.root),first);
  f.write('scripts/booklet/relevant.mjs','export const value = 2;\n');assert.notEqual(regressionScopeSignature(scope,f.root),first);
 });
 
 test('unknown dynamic imports widen the regression signature',t=>{
  const f=fixture(t);f.write('tests/selected.test.js',"const file = '../scripts/booklet/relevant.mjs'; await import(file);\n");
  const scope={testFiles:['tests/selected.test.js']},first=regressionScopeSignature(scope,f.root);
- f.write('scripts/booklet/benchmark-report.mjs','export const report = 2;\n');assert.notEqual(regressionScopeSignature(scope,f.root),first);
+ f.write('scripts/booklet/unrelated-tool.mjs','export const report = 2;\n');assert.notEqual(regressionScopeSignature(scope,f.root),first);
 });
 
 test('explicit support files are dependencies and scope cannot escape the repository',t=>{

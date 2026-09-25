@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {factorAuthorDiagrams,materializeAuthorDiagrams,SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
-import {measureInventoryProjection} from '../scripts/booklet/benchmark-shared-authoring.mjs';
 import {loadTikzEngine} from '../scripts/booklet/check-pgfplots-engine.mjs';
 
 const base=String.raw`\begin{tikzpicture}[draw=black,text=black,line width=0.8pt]
@@ -54,12 +53,4 @@ test('offline factoring round-trips complete repeated code and retains normal fa
  assert.deepEqual(materializeAuthorDiagrams(compact,{enabled:true}),p);assert.deepEqual(p,before);
  const simple={pageNumber:1,sections:[],inventoryMappings:[]};assert.deepEqual(factorAuthorDiagrams(simple),simple);
  assert.deepEqual(materializeAuthorDiagrams(simple),simple);
-});
-
-test('inventory experiment preserves givens, ambiguity, arrangements and future unknown fields',()=>{
- const text='A repeated full source instruction, including every unit and stated precision. '.repeat(5);
- const inv={entries:[{id:'a',description:text,ambiguity:'Keep 7.7 to one decimal place.',model:{given:7.7,quantum:.1},presentation:{columns:3}},{id:'b',parentId:'a',description:text}],future:{nested:text}};
- const before=structuredClone(inv),result=measureInventoryProjection(inv);
- assert.equal(result.roundTripEqual,true);assert.ok(result.potentialCharacterSaving>0);assert.deepEqual(inv,before);
- const collision=measureInventoryProjection({entries:[{$sharedText:'source field'}]});assert.equal(collision.eligible,false);assert.equal(collision.potentialCharacterSaving,0);
 });
