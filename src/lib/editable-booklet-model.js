@@ -512,7 +512,8 @@ export function validateEditableProject(raw) {
     if(!node||typeof node!=='object')return;
     if(isDocument(node)){try{normalizeDocument(node);}catch(error){errors.push(error.message);}}
     if(node.id){if(ids.has(node.id))errors.push(`Duplicate project node id: ${node.id}`);ids.add(node.id);}
-    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','sourceReview','source','sourceQuestionRef','sourceLayoutEvidence','generationEvidence','teachingMapping','classification'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
+    // A retained source diagram is evidence, not another live editor node.
+    for(const [key,value] of Object.entries(node))if(!['bankRef','sourceAtom','sourceReview','source','sourceQuestionRef','sourceLayoutEvidence','generationEvidence','teachingMapping','classification','originalDiagram'].includes(key))Array.isArray(value)?value.forEach(scan):scan(value);
   };
   scan(raw?.sections??[]);
   if(raw?.settings?.paginationMode==='flexible'){

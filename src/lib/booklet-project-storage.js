@@ -48,6 +48,13 @@ export function saveBookletProject(project, fetchImpl = globalThis.fetch) {
   }, fetchImpl);
 }
 
+export function updateBookletProjectLibrary(id, library, expectedRevision, fetchImpl = globalThis.fetch) {
+  return request('/__booklet/projects/' + encodeURIComponent(id) + '/library', {
+    method: 'PATCH',
+    body: JSON.stringify({ library, expectedRevision }),
+  }, fetchImpl);
+}
+
 export function duplicateBookletProject(id, title = null, fetchImpl = globalThis.fetch) {
   return request('/__booklet/projects/' + encodeURIComponent(id) + '/duplicate', { method: 'POST', body: JSON.stringify(typeof title==='object'&&title?title:{ title }) }, fetchImpl);
 }

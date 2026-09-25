@@ -36,8 +36,8 @@
     {#each parts as part}
       {#if part.type === 'table'}
         <table>
-          {#if part.header}<thead><tr>{#each part.header as cell}<th>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</th>{/each}</tr></thead>{/if}
-          <tbody>{#each part.rows as row}<tr>{#each row as cell}<td>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</td>{/each}</tr>{/each}</tbody>
+          {#if part.header}<thead><tr>{#each part.header as cell, cellIndex}<th style:text-align={part.alignments?.[cellIndex] ?? "left"}>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</th>{/each}</tr></thead>{/if}
+          <tbody>{#each part.rows as row}<tr>{#each row as cell, cellIndex}<td style:text-align={part.alignments?.[cellIndex] ?? "left"}>{#if cell.includes("[[")}{@html renderRichTextHtml(cell, { fillCloze })}{:else}<InlineContent {alignRelations} text={cell} />{/if}</td>{/each}</tr>{/each}</tbody>
         </table>
       {:else if part.value.includes('[[')}
         <div class="rich-content">{@html renderRichTextHtml(part.value, { fillCloze })}</div>
@@ -63,4 +63,6 @@
   .rich-content :global(.math-island) { white-space: nowrap; }
   :global(.cloze-island) { position:relative; display: inline-block; min-width: var(--cloze-width, 24mm); border-bottom: 1px var(--document-cloze-line,solid) currentColor; color: transparent; vertical-align: baseline; }
   :global(.cloze-island:not(:empty)) { color: inherit; }
+  .booklet-content th :global(.katex) { font-weight: 700; }
+  .document-content :global([data-math-bold] .katex) { font-weight: 700; }
 </style>

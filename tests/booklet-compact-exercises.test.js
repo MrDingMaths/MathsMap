@@ -2,6 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
 import {organiseExercises,answerFragments,exerciseLabelWidth,compactAnswerDisplay,answerDiagramStyle,answerDiagramSignature} from '../src/lib/booklet-exercises.js';
+
+test('an editable group answer stays together only in its supplied edition',()=>{
+ const block={id:'grouped-table',content:{id:'root',children:[{id:'a',label:'',answer:{short:'10–19: 3',worked:'Count three values.'}},{id:'b',label:'',answer:{short:'20–29: 5',worked:'Count five values.'}}],answer:{short:'Range | Frequency\n10–19 | 3\n20–29 | 5'}}};
+ const before=structuredClone(block);
+ const short=answerFragments(block,'short');
+ assert.equal(short.length,1);
+ assert.deepEqual(short[0].content,block.content);
+ assert.equal(answerFragments(block,'worked').length,2);
+ assert.deepEqual(block,before);
+ block.content.answer.worked='Count each interval, then total the frequencies.';
+ assert.equal(answerFragments(block,'worked').length,1);
+});
 import {flowNumbers,exerciseNumbers,flowEditionSections} from '../src/lib/booklet-flow.js';
 import {paginateFlow} from '../src/lib/booklet-pagination.js';
 import {measurementKeyFor} from '../src/lib/booklet-measurement.js';
@@ -14,7 +26,7 @@ const ratings={hard:{reasoningScore:70,difficulty:'Mastery'},easy:{reasoningScor
 test('a teaching-only topic retains an exercise destination without practice answers',()=>{
  const p=fixture();p.settings.exerciseOrganisation='topic';p.sections.splice(3,0,section('investigation','law',[{id:'law',type:'rich-text',content:'Investigate relative frequency.'}],'teaching'));
  assert.deepEqual(exerciseNumbers(p),{t:1,law:2,u:3});
- const student=flowEditionSections(p,'student'),law=student.find(s=>s.topicId==='law');assert.equal(law.exerciseNumber,2);assert.equal(law.blocks[0].flow.exerciseHeadingBefore,2);
+ const student=flowEditionSections(p,'student'),law=student.find(s=>s.topicId==='law');assert.equal(law.exerciseNumber,2);assert.equal(law.blocks[0].flow.exerciseHeadingBefore,undefined);assert.equal(law.blocks[0].flow.exerciseAnchorBefore,2);
  assert.ok(!flowEditionSections(p,'short').some(s=>s.topicId==='law'));
 });
 test('exercise sorting preserves teaching checkpoints, stable ties and source content',()=>{
@@ -112,7 +124,8 @@ test('every active compact booklet derives exactly one question heading per exer
   for(const edition of ['student','with-short','with-worked']){
    const sections=flowEditionSections(p,edition).filter(s=>s.mode==='student');
    assert.deepEqual(sections.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),practiceExpected.map(n=>`Exercise ${n}`),`${file}: ${edition}`);
-   assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseHeadingBefore).filter(Boolean),expected);
+   assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseHeadingBefore).filter(Boolean),practiceExpected);
+   assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseAnchorBefore).filter(Boolean),expected);
   }
  }
 });

@@ -1,3 +1,4 @@
+import {selectLibraryProject} from './project-library-browser.mjs';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -39,7 +40,7 @@ await page.route('**/__booklet/**',async route=>{
 });
 const ready=()=>page.waitForFunction(()=>!document.querySelector('.workspace-loading')&&document.querySelector('.flow-document[data-pagination-state="ready"]'),{},{timeout:240000});
 const add=message=>{checks.push(message);console.log('PASS',message);};
-const choose=async id=>{await page.getByLabel('Open booklet',{exact:true}).selectOption(id);await ready();};
+const choose=async id=>{await selectLibraryProject(page,id);await ready();};
 async function capture(name){
  await page.getByLabel('Booklet zoom',{exact:true}).selectOption('0.75');
  await page.locator('.project-canvas').evaluate(el=>el.scrollTop=0);
@@ -62,7 +63,7 @@ try{
  await page.getByLabel('Booklet edition',{exact:true}).selectOption('worked');await ready();await capture('worked-solutions');add('worked solutions keep single-column A4 geometry');
  await choose('overflow');await page.waitForFunction(()=>document.querySelector('.page-space-status.overflow')?.textContent.includes('Overflow by'));
  await capture('overflow');assert.ok(await page.locator('.layout-issue').count()>0);add('oversized content retains A4 boundary and explicit warning');
- await page.getByLabel('Open booklet',{exact:true}).selectOption('image');await page.locator('.workspace-loading [role="alert"]').waitFor({timeout:30000});
+ await selectLibraryProject(page,'image');await page.locator('.workspace-loading [role="alert"]').waitFor({timeout:30000});
  imageFails=false;await page.getByRole('button',{name:'Retry',exact:true}).click();await ready();await capture('diagram-ready');add('image rendering failure and retry preserve loading until assets settle');
  for(const entry of evidence){
   const p=JSON.parse(fs.readFileSync('booklets/projects/'+entry.file));await choose(p.id);

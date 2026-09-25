@@ -1,6 +1,7 @@
 // Read-only browser/PDF acceptance check. Generated evidence stays local.
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
@@ -17,6 +18,24 @@ import {trackProcessPhase,recordExportReuse} from './run-observability.mjs';
 import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters} from './pdf-rasters.mjs';
+// Enumerate semantic answer ownership independently of pagination/fragments.
+// A group owns one rendered answer only in the edition with its override.
+export function expectedAnswerNodeIds(project,mode){
+ assert.ok(['short','worked'].includes(mode),'Select an answer mode');
+ const ids=[];
+ const visit=node=>{
+  if(node.children?.length&&!node.answer?.[mode])node.children.forEach(visit);
+  else ids.push(node.id);
+ };
+ flowEditionSections(project,mode).flatMap(section=>section.blocks).forEach(block=>visit(block.content));
+ assert.equal(new Set(ids).size,ids.length,'Expected answer nodes have unique identities');
+ return ids;
+}
+export function assertAnswerNodeCoverage(actualIds,expectedIds){
+ assert.deepEqual([...actualIds].sort(),[...expectedIds].sort(),'Every expected answer node appears exactly once, including edition-specific group answers');
+}
+
+async function runCompactExerciseCheck(){
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const out=arg('--out','.booklet-work/compact-exercises'),base=arg('--base','http://127.0.0.1:5173');
 const preflight=process.argv.includes('--diagram-preflight'),candidateFile=arg('--project-file');
@@ -89,13 +108,12 @@ try{
   // Fresh native diagrams can still be paginating behind the opening overlay.
   await page.getByLabel('Booklet edition',{exact:true}).waitFor({state:'visible',timeout:600000});
   runMeasurements.projectLoads.push({id,elapsedMs:Date.now()-loadStarted,tikz:await page.evaluate(()=>window.TikZ?.stats?.()??null)});
-  const leaves=[];const visit=n=>n.children?.length?n.children.forEach(visit):leaves.push(n.id);
-  flowEditionSections(record,'short').flatMap(s=>s.blocks).forEach(b=>visit(b.content));
+  const answerNodes={short:expectedAnswerNodeIds(record,'short'),worked:expectedAnswerNodeIds(record,'worked')};
   const studentPrompts=new Set();const practiceLeaf=n=>n.children?.length?n.children.forEach(practiceLeaf):!n.intentionalWorkedExample&&studentPrompts.add(n.id);
   record.sections.flatMap(s=>s.blocks).filter(isPractice).forEach(b=>practiceLeaf(b.content));
   report[kind]??={};
   for(const edition of editions){
-   if(preflight&&['short','worked'].includes(edition)&&leaves.length===0){
+   if(preflight&&['short','worked'].includes(edition)&&answerNodes[edition].length===0){
     report[kind][edition]={mode:'diagram-preflight',projectId:id,projectHash,renderer:runtime,notApplicable:'This representative candidate has no practice answers in this edition.',pageHashes:[],screenshots:[],issues:[],printed:[]};
     writeReport();console.log(`${kind} ${edition}: no practice-answer composition in this candidate`);continue;
    }
@@ -191,7 +209,7 @@ try{
     }else assert.deepEqual(info.teachingGroups,[],'Answer-only editions contain practice, not teaching');
    }
    assert.deepEqual(info.columnOverflow,[],'Answer content fits its column');
-   if(edition!=='student')assert.deepEqual(info.labels.map(l=>l.id).sort(),[...leaves].sort(),'Every answer leaf appears exactly once');
+   if(edition!=='student')assertAnswerNodeCoverage(info.labels.map(l=>l.id),answerNodes[edition.endsWith('worked')?'worked':'short']);
    else assert.deepEqual(info.labels.filter(l=>studentPrompts.has(l.id)),[],'Practice answers do not leak into the Questions edition');
    assert.ok(info.links.every(l=>l.exists),'All printed references have destinations');
    assert.deepEqual(issues,[],'DOM layout/style checks');
@@ -217,3 +235,6 @@ try{
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.printed.flatMap(p=>p.issues))),[],'Printed geometry');
  console.log(preflight?'Diagram preflight passed automated checks; source comparison and final-size visual review remain pending.':development?'Development subset checks passed; full final visual inspection is still required.':draft?'Draft layout checks passed; see the separate readiness report.':'Compact exercise verification passed; visual acceptance is recorded separately.');
 }finally{writeReport();await context.storageState({path:out+'/cache.json',indexedDB:true}).catch(()=>{});await browser.close();}
+
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)await runCompactExerciseCheck();

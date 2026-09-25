@@ -25,6 +25,13 @@ test('actual widths choose three, two or one cells without reordering or crossin
   assert.deepEqual(shortAnswerRows(rows.flat()).map(r=>r.length),[3,2,1,2,1]);
 });
 
+test('a consolidated group answer occupies a whole column even with one child',()=>{
+ const grouped={content:{id:'group',answer:{short:'a → B; b → C'},children:[block('a').content]}};
+ assert.equal(canShareShortAnswer(grouped),false);
+ delete grouped.content.answer;
+ assert.equal(canShareShortAnswer(grouped),true);
+});
+
 test('complete answer rows paginate left then right and retain every original node',async()=>{
   const p=fixture(),before=structuredClone(p),result=await paginateFlow(p,'short',measure);
   assert.equal(result.pages.length,2);assert.deepEqual(result.pages[0].columns.map(c=>c.length),[9,9]);

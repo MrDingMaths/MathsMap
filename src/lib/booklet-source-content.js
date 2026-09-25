@@ -3,10 +3,41 @@ import {normalizeEditableProject,materializeReconstruction,PROJECT_BLOCK_TYPES} 
 import {organiseExercises} from './booklet-exercises.js';
 import {applySourceCorrection} from './booklet-source-corrections.js';
 import {isTheoryReview} from './question-bank-eligibility.js';
+import {remapQuestionPresentation} from './question-presentation.js';
 
 export function sourceReferences(node) {
   const refs=node?.sourceRefs??(node?.sourcePageNumber?[{pageNumber:node.sourcePageNumber}]:[]);
   return refs.filter(r=>Number.isInteger(r.pageNumber)&&r.pageNumber>0);
+}
+
+// Page identity includes the source run; merged booklets can have several p2s.
+export function sourcePageOptions(project, refs) {
+  const seen=new Set();
+  return refs.map(ref=>({...ref,runId:ref.runId??project?.source?.runId})).filter(ref=>{
+    if(!ref.runId||!Number.isInteger(ref.pageNumber)||ref.pageNumber<1)return false;
+    const key=JSON.stringify([ref.runId,ref.pageNumber]);
+    if(seen.has(key))return false;seen.add(key);return true;
+  }).map(ref=>{
+    const title=project?.source?.imports?.find(item=>item.runId===ref.runId)?.title;
+    return {...ref,key:JSON.stringify([ref.runId,ref.pageNumber]),label:`${title??ref.runId} · p${ref.pageNumber}`,url:`/__booklet/full-imports/${encodeURIComponent(ref.runId)}/files/evidence/pages/page-${String(ref.pageNumber).padStart(3,'0')}.png`};
+  });
+}
+
+// Original inventories remain intact in provenance. The review view addresses
+// imported content through its recorded namespace map without rewriting evidence.
+export function sourceInventories(project) {
+  const original=project?.source?.inventory;
+  return [...(original?[original]:[]),...(project?.source?.imports??[]).map(item=>{
+    const ids=new Map(Object.entries(item.idMap??{}));
+    const inventory=structuredClone(item.source?.inventory??{entries:[],pages:[]});
+    inventory.runId=item.runId;
+    inventory.entries=(inventory.entries??[]).map(entry=>{
+      const mapped={...entry};
+      for(const key of ['targetId','parentId','continuationOf','teachingContextIds','field'])if(entry[key]!==undefined)mapped[key]=remapQuestionPresentation(entry[key],ids);
+      return {...mapped,id:ids.get(entry.id)??`${item.namespace}--${entry.id}`,runId:item.runId};
+    });
+    return inventory;
+  })];
 }
 
 export function contentProject(candidate,{runId,projectId,mode='compact',review={},selectedPages=[]}={}) {

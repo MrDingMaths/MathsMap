@@ -151,7 +151,7 @@ test('dry run performs no model calls or writes, and fingerprints only relevant 
  assert.equal(a.inputHash,b.inputHash);
  fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-003.png'),'changed teaching image');
  assert.notEqual(createSemanticTasks(options)[0].inputHash,a.inputHash);
- assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'high'}}),/fresh Astra Low/);
+ assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'high'}}),/fresh Sol xhigh/);
 });
 
 test('bounded workers resume completed pages, reject edited caches, and preserve failed retries',async t=>{

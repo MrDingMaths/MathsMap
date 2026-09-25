@@ -28,7 +28,7 @@ export async function withWorkerSlot(runDir,details,action,{timeoutMs=1800000,po
    fs.closeSync(fd);lease={file,id,slot,directory,queueWaitMs:Date.now()-waitingAt};break;
   }
   if(lease)break;
-  if(Date.now()-waitingAt>=timeoutMs)throw Error('All three Astra worker slots are busy. Inspect workflow/worker-slots and reconcile interrupted owners before resuming; leases are never stolen.');
+  if(Date.now()-waitingAt>=timeoutMs)throw Error('All three booklet worker slots are busy. Inspect workflow/worker-slots and reconcile interrupted owners before resuming; leases are never stolen.');
   await new Promise(resolve=>setTimeout(resolve,pollMs));
  }
  try{return await leaseContext.run(lease,()=>action(lease));}

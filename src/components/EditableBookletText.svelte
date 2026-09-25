@@ -105,6 +105,7 @@
   .edit-badge button { margin-left: 3px; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
   .editable-table { width: 100%; margin: 2mm 0; border-collapse: collapse; table-layout: fixed; }
   .editable-table th, .editable-table td { padding: 1.5mm 2mm; border: .25mm solid var(--booklet-border,#cccccc); vertical-align: top; text-align: left; }
-  .editable-table th { background: var(--booklet-tableLabel,#d3e8fc); color: var(--booklet-blue,#268cff); font-weight: 400; }
+  .editable-table th { background: var(--booklet-tableLabel,#d3e8fc); color: var(--booklet-blue,#268cff); font-weight: 700; }
   .editable-table.borderless th, .editable-table.borderless td { border: 0; background: transparent; color: inherit; }
+  .editable-table th :global(.katex) { font-weight: 700; }
 </style>

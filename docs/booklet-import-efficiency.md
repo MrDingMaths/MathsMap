@@ -9,7 +9,7 @@ under the [unique-layout visual/composition policy](booklet-review-first-workflo
 They do not migrate accepted projects or invalidate unchanged
 render evidence merely by being installed.
 
-For current execution use the [bounded Astra workflow](booklet-bounded-workflow.md):
+For current execution use the [bounded Sol workflow](booklet-bounded-workflow.md):
 direct assignment scheduling, fresh stage tickets, reusable exercise teaching
 reviews, exact feedback scopes and complete-job receipts. The
 [September paired trial](booklet-astra-paired-trial-2026-09-17.md) records the live

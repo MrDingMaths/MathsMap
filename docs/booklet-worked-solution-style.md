@@ -4,6 +4,8 @@ Use concise student-facing working throughout the booklet. This applies the user
 
 ## Method comes from the booklet
 
+Every worked example presents an explicit task before its answer. A shared example heading may supply that task when it clearly applies to the whole group. Store givens and questions in the editable prompt and working in the existing solution fields; do not place completed working in a prompt merely to make it visible. Ordinary question text is black and teaching solutions use standard mathematical blue. Preserve meaningful colours within diagrams. Check both shown and hidden teaching-answer states, including custom arrangements, so moving working does not hide a question or leave an answer visible in the question field.
+
 Before generating an answer, inspect the corresponding worked examples, Key Ideas and scaffolds in the supplied booklet evidence. Identify the taught method and level of detail, and use that method for the new solution. MathsDatabase governs notation and concise voice; the booklet governs method, sequence and level.
 
 Graphical solving must identify the relevant lines and read their intersection. Finding a rule from a table must follow the table increments and intercept approach when that is what the booklet teaches. Retain substitution checks when requested. Do not replace these with algebraic shortcuts, a different formula, or methods taught later merely because they are faster.

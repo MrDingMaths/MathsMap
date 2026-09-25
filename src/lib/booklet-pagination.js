@@ -56,6 +56,9 @@ export function fragmentLayouts(blocks, layouts={}) {
     const allowed=arrangementCatalog(block).entries;
     const missing=n=>n.type==='item'?!allowed.has(n.ref):n.children.some(missing);
     if(!missing(stored.root))continue;
+    // Resolve whole native-field aliases before pruning absent fragment parts.
+    // Otherwise valid rich prompts disappear before the renderer sees them.
+    const projected=resolveArrangement(block,stored).tree;
     const prune=n=>{
       if(n.type==='item')return allowed.has(n.ref)?copy(n):null;
       const children=n.children.map(prune).filter(Boolean);
@@ -63,7 +66,7 @@ export function fragmentLayouts(blocks, layouts={}) {
       // Remove only groups emptied by this fragment's missing content.
       return n.children.length&&!children.length?null:{...n,children};
     };
-    result[block.id]={...layouts[block.id],arrangement:{...stored,root:prune(stored.root)??{...stored.root,children:[]}}};
+    result[block.id]={...layouts[block.id],arrangement:{...projected,root:prune(projected.root)??{...projected.root,children:[]}}};
   }
   byBlocks.set(blocks,{blocks:[...blocks],result});return result;
 }

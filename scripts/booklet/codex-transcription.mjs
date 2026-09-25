@@ -28,15 +28,16 @@ export function readToolDiagnostics(file){
  const fd=fs.openSync(file,'r'),buffer=Buffer.alloc(64*1024);try{let size;while((size=fs.readSync(fd,buffer,0,buffer.length,null)))counter.write(buffer.subarray(0,size));counter.finish();return counter.snapshot();}finally{fs.closeSync(fd);}
 }
 
-export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6-astra',effort:'low'}),review:Object.freeze({model:'gpt-6-astra',effort:'high'}),coordinator:Object.freeze({model:'gpt-6-astra',effort:'low'})});
+// Legacy export names are retained for callers; every production profile uses Sol xhigh.
+export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6-sol',effort:'xhigh'}),review:Object.freeze({model:'gpt-6-sol',effort:'xhigh'}),coordinator:Object.freeze({model:'gpt-6-sol',effort:'xhigh'})});
 export function astraCommandArgs({cwd,images=[],raw,profile='transcription'}){
- const configuration=ASTRA_PROFILES[profile];if(!configuration)throw Error('Unknown Astra worker profile');
+ const configuration=ASTRA_PROFILES[profile];if(!configuration)throw Error('Unknown booklet worker profile');
  const args=['exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only','-C',cwd,'--model',configuration.model,'-c',`model_reasoning_effort="${configuration.effort}"`,'-c','service_tier="default"','-c','features.fast_mode=false','--json','--output-last-message',raw];
  for(const image of images)args.push('--image',image);args.push('-');return args;
 }
 
 export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',stage=profile,timeoutMs=900000,onProgress=()=>{},signal},{spawnProcess=spawn}={}){
- if(!ASTRA_PROFILES[profile])throw Error('Unknown Astra worker profile');
+ if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');
  const callId=randomUUID();
  return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs},spawnProcess),{signal});
 }
@@ -52,10 +53,10 @@ async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProg
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;
-   const timer=setTimeout(()=>{failure=new Error(`Astra ${stage} invocation exceeded ${timeoutMs} ms`);child.kill();},timeoutMs);
+   const timer=setTimeout(()=>{failure=new Error(`Sol ${stage} invocation exceeded ${timeoutMs} ms`);child.kill();},timeoutMs);
    const consume=line=>{let e;try{e=JSON.parse(line);}catch{return;}if(e.usage)usage=e.usage;if(e.model)observedModel=e.model;if(e.type==='thread.started')sessionId=e.thread_id??e.session_id??null;
     if(e.type==='item.completed'&&['command_execution','mcp_tool_call','tool_call','web_search'].includes(e.item?.type))toolIds.add(e.item.id??JSON.stringify(e.item));try{onProgress(e);}catch(error){failure=error;child.kill();}};
-   const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Astra worker aborted');child.kill();};
+   const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Sol worker aborted');child.kill();};
    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
    child.stdout.on('data',chunk=>{fs.writeSync(eventFd,chunk);buffer+=chunk;let end;while((end=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,end);buffer=buffer.slice(end+1);consume(line);}});
    child.stderr.on('data',chunk=>{fs.writeSync(errorFd,chunk);toolDiagnostics.write(chunk);});child.stdin.on('error',e=>{failure=e;});child.on('error',e=>{failure=e;});

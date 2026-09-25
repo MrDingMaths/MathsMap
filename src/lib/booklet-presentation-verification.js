@@ -76,7 +76,9 @@ export async function inspectPresentationFidelity(project){
         if(node.responseSpace==='scaffold'&&node.answerSpaceMm>0&&['working','short','tick-cross'].includes(response?.kind))issue('suppressed-response-space',node.id,'Scaffold mode hides the requested answer space. Retain native scaffold space or restore the source-supported writing area.');
       }
     }
-    if(!review?.verification?.checked||review.verification.signature!==await presentationVerificationKey(block,project.source?.sourceHashes,project.settings))issue('unchecked-teaching-arrangement',block.id,'Verify teaching presentation and response arrangements against the source and accepted templates.');
+    const runId=block.sourceRefs?.find(ref=>ref.runId)?.runId;
+    const source=runId&&runId!==project.source?.runId?project.source?.imports?.find(item=>item.runId===runId)?.source:project.source;
+    if(!review?.verification?.checked||review.verification.signature!==await presentationVerificationKey(block,source?.sourceHashes,project.settings))issue('unchecked-teaching-arrangement',block.id,'Verify teaching presentation and response arrangements against the source and accepted templates.');
     else checked++;
   }
   return {required:templateChecks||issues.length>0,complete:issues.length===0,issues,checked};

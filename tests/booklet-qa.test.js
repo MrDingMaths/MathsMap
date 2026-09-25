@@ -43,6 +43,8 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok((await check(tickSvg(90).replaceAll('font-size="11.3333"','font-size="16"'))).issues.some(i=>i.kind==='large-graph-label'));
  assert.equal((await check('<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="tick"><text x="10" y="30" font-size="11.3333">1</text></g><text x="80" y="30" font-size="13.3333">x</text><text x="90" y="24" font-size="9.3333">2</text></svg></div>')).issues.length,0);
  assert.ok((await check('<table style="width:30mm;table-layout:fixed"><tr><td>Number of matches</td><td>1</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
+ assert.ok(!(await check('<table style="width:60mm;table-layout:fixed"><tr><td>Serves each of the displayed numbers of aces equally often.</td><td>d</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
+ assert.ok((await check('<table style="width:30mm;table-layout:fixed"><tr><td scope="row">Number of matches.</td><td>1</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.ok(!(await check('<table style="width:60mm;table-layout:fixed"><tr><td>When the numerator has a higher power, find the difference of the powers and retain the base in the numerator.</td><td>When the denominator has a higher power, retain the base in the denominator.</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.ok(!(await check('<table style="width:30mm;table-layout:fixed"><tr><td><span class="katex">x/y</span><p>Law does not apply</p></td><td><span class="katex">x</span></td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.throws(()=>assertBookletFits([{page:73,issues:[{kind:'footer-overflow'}]}]),/QA failed/);

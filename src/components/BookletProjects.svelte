@@ -1,4 +1,8 @@
 <script>
+  import BookletProjectPicker from './BookletProjectPicker.svelte';
+  import BookletLibraryFields from './BookletLibraryFields.svelte';
+  import BookletCreateDialog from './BookletCreateDialog.svelte';
+  import { normalizeProjectLibrary } from '../lib/booklet-library.js';
   import BookletInspectorTabs from './BookletInspectorTabs.svelte';
   import {createBookletPersistence} from '../lib/booklet-persistence.js';
   import {createBookletDocumentSession} from '../lib/booklet-document-session.js';
@@ -46,14 +50,14 @@
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
   import BookletReviewInspector from './BookletReviewInspector.svelte';
   import BookletCoverage from './BookletCoverage.svelte';
-  import {sourceReferences} from '../lib/booklet-source-content.js';
+  import {sourceReferences,sourcePageOptions} from '../lib/booklet-source-content.js';
   import {contentNodes} from '../lib/booklet-content-verification.js';
   import {shareUnchanged} from '../lib/booklet-arrangement.js';
   import {reconcileSaveAcknowledgement} from '../lib/booklet-save-patch.js';
   import {resolveArrangement,findContent} from '../lib/booklet-arrangement.js';
   import BookletAssemblyPanel from './BookletAssemblyPanel.svelte';
   import { reviewTargets, findEditableDiagram } from '../lib/booklet-review-model.js';
-  import { skills } from '../lib/data.js';
+  import { skills, courses } from '../lib/data.js';
   import {
     addProjectBlock, addProjectSection, createProjectBlock, deleteProjectBlock,
     deleteProjectSection, duplicateProjectBlock, duplicateProjectSection, moveProjectBlock,
@@ -64,10 +68,12 @@
     createBookletProject, deleteBookletProject, duplicateBookletProject,
     listBookletProjects, loadBookletProject, openBookletProject, promoteProjectModule,
     promoteProjectQuestion, saveBookletProject, getProjectBankSync, resolveProjectBankSync,
+    updateBookletProjectLibrary,
   } from '../lib/booklet-project-storage.js';
 
   let { initialProjectId = null, bank = [], onrequestbank = null, onprojectchange = null } = $props();
   let projects = $state([]);
+  let creation = $state(null);
   let projectsReady = $state(false);
   let opening=$state.raw({id:null,title:'',stage:'Loading booklets'}),loadGeneration=0,previewAttempt=$state(0);
   function previewProgress(info,attempt){
@@ -298,6 +304,8 @@
   let redoStack = $state.raw([]);
   let saveTimer = null;
   let saveInFlight = false;
+  let librarySaveInFlight = $state(false);
+  let librarySavePending = null;
   let savePending = false;
   let savedBase=null;let saveConflict=$state(false),mergeReview=$state(null),mergeChoices=$state({}),diagramRecovery=$state({});
 
@@ -311,14 +319,16 @@
     return own.length?own:sourceReferences(selectedBlock).length?sourceReferences(selectedBlock):sourceReferences(selectedSection);
   });
   $effect(()=>{selectedTargetId;selectedBlockId;sourcePageChoice=null;});
-  const selectedSourcePage=$derived(selectedSourceRefs.some(r=>r.pageNumber===sourcePageChoice)?sourcePageChoice:selectedSourceRefs[0]?.pageNumber);
+  const sourceOptions=$derived(sourcePageOptions(project,selectedSourceRefs));
+  const selectedSource=$derived(sourceOptions.find(r=>r.key===sourcePageChoice)??sourceOptions[0]);
+  const selectedSourcePage=$derived(selectedSource?.pageNumber);
   function selectCoverageTarget(id){
     for(const section of project.sections){const block=section.blocks.find(b=>b.id===(contentNodes(project).get(id)?.block.id??id));if(!block)continue;
       selectedSectionId=section.id;selectedBlockId=block.id;selectedTargetId=id;
       const page=projectPages.find(p=>p.blocks.some(b=>b.id===block.id));if(page){selectedPageId=page.id;flowPreview?.jumpTo(page.id);}break;
     }
   }
-  const sourceUrl=$derived(project?.source?.runId && selectedSourcePage ? `/__booklet/full-imports/${encodeURIComponent(project.source.runId)}/files/evidence/pages/page-${String(selectedSourcePage).padStart(3,'0')}.png` : '');
+  const sourceUrl=$derived(selectedSource?.url??'');
   const flagCount=$derived((project?.studio?.flags??[]).filter(f=>!f.resolved).length);
   const dockReview=$derived(panel==='review' && workspaceWidth-(navigation?240:0)-360>=794);
   const pageIndex=$derived(projectPages.indexOf(previewPage));
@@ -518,6 +528,7 @@
   async function openProject(id) {
     if(!id)return;
     if(editSession){error='Finish the current focused edit before switching booklets.';return;}
+    if(librarySaveInFlight){error='Finish saving project details before switching booklets.';return;}
     const token=++loadGeneration;
     window.scrollTo({top:0});
     opening={id,title:projects.find(p=>p.id===id)?.title??id,stage:project&&(saveState!=='Saved'||saveInFlight)?'Saving current booklet':'Loading booklet'};
@@ -545,17 +556,60 @@
     } catch (exception) {if(current()){opening={...opening,error:exception.message};busy='';}}
   }
 
-  async function createNew() {
-    const title = window.prompt('Booklet title', 'Untitled booklet');
-    if (!title) return;
+  function createNew() { if(!editSession)creation={source:null}; }
+  async function createLibraryBooklet(value) {
     busy = 'Creating'; error = '';
     try {
       finishInline();if(project)await flushDocument();
-      const created = await createBookletProject({ title });
+      const created = creation?.source
+        ? await duplicateBookletProject(project.id,{...value,expectedRevision:project.revision})
+        : await createBookletProject(value);
       await refreshProjects();
-      project = created;savedBase=clone(created);documentSession.reset();persistence.reset(project);documentGeneration=documentSession.generation;undoStack=[];redoStack=[];groupSelection=[];groupClipboard=null;documentSelection=null;exportedFeedback='';selectDefaults(created); onprojectchange?.(created.id);
-    } catch (exception) { error = exception.message; }
+      creation=null;
+      await openProject(created.id);
+    } catch (exception) { error = exception.message; throw exception; }
     finally { busy = ''; }
+  }
+
+  async function saveLibrary(library) {
+    if(!project||editSession)return false;
+    librarySavePending=library;
+    if(librarySaveInFlight)return true;
+    librarySaveInFlight=true;error='';
+    try{
+      while(librarySavePending){
+        const nextLibrary=librarySavePending;librarySavePending=null;
+        finishInline();await flushDocument();
+        const current=project;if(!current)return false;
+        saveState='Saving…';
+        const saved=await updateBookletProjectLibrary(current.id,nextLibrary,current.revision);
+        if(project?.id!==current.id)return false;
+        const editedDuringSave=project!==current;
+        const next={...project,library:saved.library,revision:saved.revision,updatedAt:saved.updatedAt};
+        savedBase=clone(saved);
+        documentSession.dispatch(next,{remember:false,changedIds:[],selectionBefore:documentSession.selection,selectionAfter:documentSession.selection,layoutImpact:'content'});
+        persistence.reset(saved);
+        saveState=editedDuringSave?'Unsaved changes':'Saved';saveConflict=false;mergeReview=null;
+        if(editedDuringSave)queueSave();
+        projects=projects.map(item=>item.id===next.id?{...item,title:next.title,library:next.library,revision:next.revision,updatedAt:next.updatedAt}:item);
+      }
+      return true;
+    }catch(exception){
+      error=exception.message;saveConflict=exception.status===409;saveState=saveConflict?'Conflict - edits retained':'Save failed';return false;
+    }finally{
+      librarySaveInFlight=false;
+      if(librarySavePending){const pending=librarySavePending;librarySavePending=null;void saveLibrary(pending);}
+    }
+  }
+
+  async function toggleArchived() {
+    if(!project||editSession||librarySaveInFlight)return;
+    try {
+      const archivedAt=project.library?.archivedAt?null:new Date().toISOString();
+      if(await saveLibrary({...normalizeProjectLibrary(project.library),archivedAt})){
+        await refreshProjects();status=archivedAt?'Booklet archived. Find it using Archived projects in the picker.':'Booklet restored.';
+      }
+    } catch(exception){error=exception.message;}
   }
 
   async function duplicateCurrent() {
@@ -577,7 +631,8 @@
     try {
       await deleteBookletProject(project.id, confirmId);
       project = null; await refreshProjects();
-      if (projects[0]) await openProject(projects[0].id);
+      const next=projects.find(item=>!item.library?.archivedAt);
+      if (next) await openProject(next.id);
     } catch (exception) { error = exception.message; }
     finally { busy = ''; }
   }
@@ -872,6 +927,7 @@
   });
   onMount(() => {initialiseProjects();});
 </script>
+{#if creation}<BookletCreateDialog source={creation.source} {courses} onsubmit={createLibraryBooklet} oncancel={()=>creation=null}/>{/if}
 {#if pasteFallback}<div class="document-finder" role="dialog" aria-modal="true" aria-label="Paste options"><p>This clipboard contains {pasteFallback.unsupported.join(', ')}. Paste the available text, or cancel to keep your selection.</p><button onclick={()=>{const value=pasteFallback.text;pasteFallback=null;selecting=false;replaceSelection(plainTextDocument(value));}}>Paste text only</button><button onclick={()=>pasteFallback=null}>Cancel</button></div>{/if}
 {#if finder}<dialog bind:this={finderDialog} oncancel={e=>{e.preventDefault();closeFinder();}} class="document-finder project-screen" aria-label={finder==='commands'?'Search commands':finder==='goto'?'Go to page':'Find in document'}>
  <header><strong>{finder==='commands'?'Commands':finder==='goto'?'Go to page':'Find in document'}</strong><button aria-label="Close search" onclick={closeFinder}>×</button></header>
@@ -885,12 +941,12 @@
  <header class="project-toolbar project-screen">
   {#if project&&wordWorkspace}<button class="back-booklets" onclick={closeProject} aria-label="Back to booklets">← Booklets</button>{/if}
   <button disabled={!!opening} aria-label="Toggle page navigation" aria-expanded={navigation&&!comparison} onclick={()=>navigation=!navigation}>☰ Outline</button>
-  <label class="project-picker"><span class="sr-only">Open booklet</span><select  aria-label="Open booklet" disabled={!!editSession} value={opening?.id??project?.id??''} onchange={e=>openProject(e.currentTarget.value)}><option value="">Choose a project</option>{#each projects as item}<option value={item.id}>{item.title}</option>{/each}</select></label>
+  <BookletProjectPicker {projects} {courses} selectedId={opening?.id??project?.id??''} disabled={!!editSession||librarySaveInFlight} onselect={openProject}/>
   <span class="save-state" role="status">{opening?'Loading…':saveState}</span>
   {#if project&&!flexible}<button disabled={!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
    <div class="toolbar-actions" inert={!!opening||printing}><button data-equation-control onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control onclick={redo} disabled={!redoStack.length}>Redo</button><button aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button>
    <button title="Find in document (Ctrl+F)" aria-label="Find in document" onclick={()=>openFinder('find')}>Find</button><button title="Commands (Ctrl+K)" aria-label="Search commands" onclick={()=>openFinder('commands')}>Commands</button>
-   <details class="menu"><summary>File</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button><button onclick={duplicateCurrent}>Duplicate booklet</button><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Specialist block properties</button><button onclick={()=>theme.toggle()}>Toggle theme</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details></div>
+   <details class="menu"><summary>File</summary><div><button onclick={createNew}>New booklet</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Specialist block properties</button><button onclick={()=>theme.toggle()}>Toggle theme</button><button class="danger" onclick={removeCurrent}>Delete booklet</button>{/if}</div></details></div>
  </header>
  {#if opening}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
    <div class="loading-card">
@@ -961,7 +1017,7 @@
     <div class="canvas-heading"><div class="page-controls"><button aria-label="Previous page" onclick={()=>goPage(pageIndex-1)} disabled={pageIndex<=0}>←</button><strong>Page {previewPage?.pageNumber}</strong><button aria-label="Next page" onclick={()=>goPage(pageIndex+1)} disabled={pageIndex>=projectPages.length-1}>→</button></div><div class="answer-views" role="group" aria-label="Canvas answer view">{#each [['student','Questions'],['short','Short answers'],['worked','Worked solutions']] as mode}<button aria-pressed={answerView===mode[0]}  onclick={()=>{finishInline();answerView=mode[0];}}>{mode[1]}</button>{/each}</div><div class="zoom-controls" hidden={comparison}><label><span class="sr-only">Booklet zoom</span><select aria-label="Booklet zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option>{#if !['width','page','1'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></label><button aria-label="Zoom out" onclick={()=>zoomBy(-.1)}>−</button><button aria-label="Zoom in" onclick={()=>zoomBy(.1)}>+</button></div></div>
     {/if}
     <div class="source-reconstruction" hidden={flexible&&!comparison} class:paired={comparison} style:--source-min-width={Number(sourceZoom)>0?210*Number(sourceZoom)+'mm':'0px'} style:--transcribed-min-width={Number(zoom)>0?210*Number(zoom)+'mm':'0px'}>
-     {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source · p{selectedSourcePage}</strong>{#if selectedSourceRefs.length>1}<label>Source page<select aria-label="Source page" value={selectedSourcePage} onchange={e=>sourcePageChoice=Number(e.currentTarget.value)}>{#each [...new Set(selectedSourceRefs.map(r=>r.pageNumber))] as page}<option value={page}>{page}</option>{/each}</select></label>{/if}<select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+selectedSourcePage} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
+     {#if sourceUrl}<section class="source-evidence comparison-pane" hidden={!comparison}><header><strong>Original source · {project.source?.imports?.length?selectedSource.label:'p'+selectedSourcePage}</strong>{#if sourceOptions.length>1}<label>Source page<select aria-label="Source page" value={selectedSource.key} onchange={e=>sourcePageChoice=e.currentTarget.value}>{#each sourceOptions as option}<option value={option.key}>{project.source?.imports?.length?option.label:option.pageNumber}</option>{/each}</select></label>{/if}<select aria-label="Source zoom" bind:value={sourceZoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option></select></header><div class="source-scroll"><img src={sourceUrl} alt={'Original source page '+selectedSourcePage} style:width={sourceZoom==='width'?'100%':sourceZoom==='page'?'auto':210*Number(sourceZoom)+'mm'} style:max-height={sourceZoom==='page'?'max(240px, calc(100dvh - 320px))':'none'} style:max-width={sourceZoom==='page'?'100%':'none'}/></div></section>{/if}
 
      <section class="transcribed-evidence comparison-pane">{#if comparison}<header><strong>Booklet content</strong><select aria-label="Transcribed zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option>{#if !['width','page','1','1.5','2'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></header>{/if}<div class="paper-scroll">{#if previewPage&&(!flexible||comparison)}{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<BookletPageGuide revision={[project,previewPage,answerView,exportSettings,zoom]} onready={()=>{if(!flexible)previewProgress({projectId:project.id,ready:true},attempt);}} onerror={error=>{if(!flexible)previewProgress({projectId:project.id,stage:'Preparing page preview',error},attempt);}}>{#if previewPage.compactAnswers}<FlowBookletPage {project} page={previewPage} pages={flowMap.pages} editMode={true} onContentEdit={editContent}/>{:else}<TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} blockLayouts={project.settings.layoutOverrides.blockLayouts} {zoom} page={previewPage} {bookletPages} runId={project.source?.runId??project.id} showKeyIdeasAnswers={exportSettings.showKeyIdeasAnswers} showTheorySolutions={exportSettings.showTheorySolutions} showReviewAnswers={exportSettings.showReviewAnswers} showIdentifyAnswers={exportSettings.showIdentifyAnswers} showGuidedPracticeAnswers={exportSettings.showGuidedPracticeAnswers} solutionMode={answerView} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={()=>false}/>{/if}</BookletPageGuide>{/key}{/if}</div></section>
     </div>
@@ -1008,7 +1064,7 @@
 <button class="primary" onclick={printProject} disabled={printing}>{printing?'Preparing PDF…':'Print / save PDF'}</button>
 {#if printing}<p role="status" aria-live="polite">{printProgress}</p>{/if}
 {#if error}<p role="alert">{error}</p>{/if}</div>
-    <div hidden={panel!=='metadata'}><label>Title<input value={project.title} onchange={e=>change({...project,title:e.currentTarget.value})}/></label><label>Subtitle<input value={project.subtitle} onchange={e=>change({...project,subtitle:e.currentTarget.value})}/></label><p>House style: {project.settings.houseStyleVersion??'Original formatting'}</p><button onclick={()=>change(adoptHouseStyle(project))} disabled={project.settings.houseStyleVersion===BOOKLET_HOUSE_STYLE.version}>Apply house style {BOOKLET_HOUSE_STYLE.version}</button><p>Applies shared defaults in one undoable change. Custom layout overrides are retained.</p></div>
+    <div hidden={panel!=='metadata'}><BookletLibraryFields library={project.library} {courses} disabled={!!editSession||librarySaveInFlight} onchange={saveLibrary}/>{#if project.library?.archivedAt}<p>Archived: available in the archive picker.</p>{/if}<label>Title<input value={project.title} onchange={e=>change({...project,title:e.currentTarget.value})}/></label><label>Subtitle<input value={project.subtitle} onchange={e=>change({...project,subtitle:e.currentTarget.value})}/></label><p>House style: {project.settings.houseStyleVersion??'Original formatting'}</p><button onclick={()=>change(adoptHouseStyle(project))} disabled={project.settings.houseStyleVersion===BOOKLET_HOUSE_STYLE.version}>Apply house style {BOOKLET_HOUSE_STYLE.version}</button><p>Applies shared defaults in one undoable change. Custom layout overrides are retained.</p></div>
     <div hidden={panel!=='properties'}>        <h3>Selected block</h3>
         {#if selectedBlock}
           <p><code>{selectedBlock.id}</code></p>
@@ -1094,9 +1150,9 @@
 
 .answer-views{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.answer-views button[aria-pressed=true]{background:#245f93;color:white;border-color:#245f93}
 
- .project-shell{--ink:var(--text-strong,#23395d);--muted:var(--text-muted,#66758d);--border:var(--line,#d5dde7);--surface:var(--panel,#fff);color:var(--text,#243348);font-size:16px;min-width:0;width:100%;box-sizing:border-box}.project-toolbar{position:sticky;top:0;z-index:21;display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap}.project-picker{flex:1;min-width:180px;max-width:420px}.project-picker select{width:100%}.toolbar-actions,.canvas-heading,.page-controls,.zoom-controls,.outline-heading,.row-actions{display:flex;align-items:center;gap:8px}.toolbar-actions{margin-left:auto;flex-wrap:wrap}.save-state{font-size:14px;color:var(--muted)}button,select,input,summary{box-sizing:border-box;font:inherit;min-height:36px}button,select,input{border:1px solid var(--border);border-radius:6px;background:var(--surface);color:inherit;padding:6px 10px;max-width:100%}button,summary{cursor:pointer}button:disabled{opacity:.45;cursor:default}button.primary{background:#286647;color:#fff}button.danger{color:#bc5149}button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #438ccc;outline-offset:2px}summary{display:flex;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px}details[open]>summary{font-weight:700}.menu{position:relative}.menu>div{position:absolute;right:0;top:100%;z-index:25;width:230px;display:grid;gap:8px;padding:12px;background:var(--surface);box-shadow:0 6px 24px #0003;border:1px solid var(--border);border-radius:8px}.project-editor{position:relative;display:grid;grid-template-columns:minmax(0,1fr);height:calc(100dvh - 190px);min-height:420px;overflow:hidden}.project-editor.with-navigation{grid-template-columns:240px minmax(0,1fr)}.project-editor.with-review{grid-template-columns:minmax(0,1fr) 360px}.project-editor.with-navigation.with-review{grid-template-columns:240px minmax(0,1fr) 360px}.project-outline{min-width:0;overflow:auto;padding:12px;background:var(--surface);border-right:1px solid var(--border)}[hidden]{display:none!important}.outline-heading{justify-content:space-between;margin-bottom:12px}.section-list article{margin:4px 0 12px;border:1px solid var(--border);border-radius:8px}.section-list article.active{border-color:#438ccc}.section-select{display:flex;gap:10px;text-align:left;width:100%;border:0;background:transparent;align-items:start;padding:10px}.section-select span{overflow-wrap:anywhere}.section-select b{color:#438ccc}.block-list{list-style:none;padding:0 6px;margin:8px 0}.block-list li{display:grid;grid-template-columns:minmax(0,1fr) 36px;margin:6px 0;align-items:start}.block-list li.active{box-shadow:inset 3px 0 #438ccc}.block-list li>button{border:0;text-align:left;font-size:14px;background:transparent;overflow-wrap:anywhere}.block-list details[open]{grid-column:1/-1}.block-list details>div{display:grid;padding:6px;gap:4px}.page-menu{margin:6px}.page-menu button{width:100%;margin-top:6px}.page-menu label{display:grid;font-size:14px;margin-top:8px}.page-menu input,.page-menu select{width:100%;min-width:0}.add-page{width:100%;margin-top:8px}.project-canvas{min-width:0;overflow:auto;background:var(--app-canvas,#e9eef4);padding:16px}.canvas-heading{justify-content:space-between;position:sticky;top:-16px;z-index:8;background:var(--app-canvas,#e9eef4);padding:0 0 16px;flex-wrap:wrap}.source-reconstruction{min-width:0}.source-reconstruction.paired{display:grid;grid-template-columns:minmax(var(--source-min-width,0px),1fr) minmax(var(--transcribed-min-width,0px),1fr);gap:24px;align-items:start}.source-evidence,.paper-scroll{min-width:0;overflow:auto}.comparison-pane{min-width:0}.comparison-pane header{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:36px;margin-bottom:12px}.paired .source-evidence,.paired .source-scroll,.paired .paper-scroll{height:auto;overflow:visible}.paired .paper-scroll :global(.preview-frame){margin-inline:auto}.source-scroll{overflow:auto}.source-scroll img{display:block;margin:auto;background:white}.paper-scroll{background:transparent}.workspace-panel{box-sizing:border-box;position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);z-index:15;padding:16px;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 32px #0002;overflow:auto}.workspace-panel.docked{position:relative;width:360px;box-shadow:none}.workspace-panel>header,.tool-view>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.workspace-panel h2,.tool-view h2{font-size:20px;margin:0}.workspace-panel label{display:grid;gap:6px;margin:12px 0;font-size:14px}.workspace-panel input,.workspace-panel select{width:100%}.workspace-panel input[type=checkbox]{width:auto}.export-settings label:has(input[type=checkbox]){display:flex;align-items:center}.export-settings{margin-bottom:20px}.project-notice{padding:16px;background:var(--surface);border:1px solid #b98539;overflow-wrap:anywhere}.project-notice pre{white-space:pre-wrap;font-size:14px}.tool-view{grid-column:1/-1;overflow:auto;padding:24px}.sr-only{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}.project-print{display:none}.project-cover,.answers-divider{box-sizing:border-box;width:210mm;height:297mm;padding:45mm 24mm;background:#fff;color:var(--ink);break-after:page}.project-cover h1,.answers-divider h1{font-size:30pt}.project-cover p{font-size:16pt}.print-page{break-after:page}
+ .project-shell{--ink:var(--text-strong,#23395d);--muted:var(--text-muted,#66758d);--border:var(--line,#d5dde7);--surface:var(--panel,#fff);color:var(--text,#243348);font-size:16px;min-width:0;width:100%;box-sizing:border-box}.project-toolbar{position:sticky;top:0;z-index:21;display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap}.toolbar-actions,.canvas-heading,.page-controls,.zoom-controls,.outline-heading,.row-actions{display:flex;align-items:center;gap:8px}.toolbar-actions{margin-left:auto;flex-wrap:wrap}.save-state{font-size:14px;color:var(--muted)}button,select,input,summary{box-sizing:border-box;font:inherit;min-height:36px}button,select,input{border:1px solid var(--border);border-radius:6px;background:var(--surface);color:inherit;padding:6px 10px;max-width:100%}button,summary{cursor:pointer}button:disabled{opacity:.45;cursor:default}button.primary{background:#286647;color:#fff}button.danger{color:#bc5149}button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #438ccc;outline-offset:2px}summary{display:flex;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px}details[open]>summary{font-weight:700}.menu{position:relative}.menu>div{position:absolute;right:0;top:100%;z-index:25;width:230px;display:grid;gap:8px;padding:12px;background:var(--surface);box-shadow:0 6px 24px #0003;border:1px solid var(--border);border-radius:8px}.project-editor{position:relative;display:grid;grid-template-columns:minmax(0,1fr);height:calc(100dvh - 190px);min-height:420px;overflow:hidden}.project-editor.with-navigation{grid-template-columns:240px minmax(0,1fr)}.project-editor.with-review{grid-template-columns:minmax(0,1fr) 360px}.project-editor.with-navigation.with-review{grid-template-columns:240px minmax(0,1fr) 360px}.project-outline{min-width:0;overflow:auto;padding:12px;background:var(--surface);border-right:1px solid var(--border)}[hidden]{display:none!important}.outline-heading{justify-content:space-between;margin-bottom:12px}.section-list article{margin:4px 0 12px;border:1px solid var(--border);border-radius:8px}.section-list article.active{border-color:#438ccc}.section-select{display:flex;gap:10px;text-align:left;width:100%;border:0;background:transparent;align-items:start;padding:10px}.section-select span{overflow-wrap:anywhere}.section-select b{color:#438ccc}.block-list{list-style:none;padding:0 6px;margin:8px 0}.block-list li{display:grid;grid-template-columns:minmax(0,1fr) 36px;margin:6px 0;align-items:start}.block-list li.active{box-shadow:inset 3px 0 #438ccc}.block-list li>button{border:0;text-align:left;font-size:14px;background:transparent;overflow-wrap:anywhere}.block-list details[open]{grid-column:1/-1}.block-list details>div{display:grid;padding:6px;gap:4px}.page-menu{margin:6px}.page-menu button{width:100%;margin-top:6px}.page-menu label{display:grid;font-size:14px;margin-top:8px}.page-menu input,.page-menu select{width:100%;min-width:0}.add-page{width:100%;margin-top:8px}.project-canvas{min-width:0;overflow:auto;background:var(--app-canvas,#e9eef4);padding:16px}.canvas-heading{justify-content:space-between;position:sticky;top:-16px;z-index:8;background:var(--app-canvas,#e9eef4);padding:0 0 16px;flex-wrap:wrap}.source-reconstruction{min-width:0}.source-reconstruction.paired{display:grid;grid-template-columns:minmax(var(--source-min-width,0px),1fr) minmax(var(--transcribed-min-width,0px),1fr);gap:24px;align-items:start}.source-evidence,.paper-scroll{min-width:0;overflow:auto}.comparison-pane{min-width:0}.comparison-pane header{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:36px;margin-bottom:12px}.paired .source-evidence,.paired .source-scroll,.paired .paper-scroll{height:auto;overflow:visible}.paired .paper-scroll :global(.preview-frame){margin-inline:auto}.source-scroll{overflow:auto}.source-scroll img{display:block;margin:auto;background:white}.paper-scroll{background:transparent}.workspace-panel{box-sizing:border-box;position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);z-index:15;padding:16px;background:var(--surface);border-left:1px solid var(--border);box-shadow:-8px 0 32px #0002;overflow:auto}.workspace-panel.docked{position:relative;width:360px;box-shadow:none}.workspace-panel>header,.tool-view>header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.workspace-panel h2,.tool-view h2{font-size:20px;margin:0}.workspace-panel label{display:grid;gap:6px;margin:12px 0;font-size:14px}.workspace-panel input,.workspace-panel select{width:100%}.workspace-panel input[type=checkbox]{width:auto}.export-settings label:has(input[type=checkbox]){display:flex;align-items:center}.export-settings{margin-bottom:20px}.project-notice{padding:16px;background:var(--surface);border:1px solid #b98539;overflow-wrap:anywhere}.project-notice pre{white-space:pre-wrap;font-size:14px}.tool-view{grid-column:1/-1;overflow:auto;padding:24px}.sr-only{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}.project-print{display:none}.project-cover,.answers-divider{box-sizing:border-box;width:210mm;height:297mm;padding:45mm 24mm;background:#fff;color:var(--ink);break-after:page}.project-cover h1,.answers-divider h1{font-size:30pt}.project-cover p{font-size:16pt}.print-page{break-after:page}
  @media(max-width:1099px){.project-editor.with-navigation{grid-template-columns:minmax(0,1fr)}.project-outline.drawer{position:absolute;inset:0 auto 0 0;width:240px;box-sizing:border-box;z-index:16;box-shadow:8px 0 32px #0003}.project-editor{height:calc(100dvh - 230px)}}
- @media(max-width:600px){.project-toolbar{padding:8px;gap:8px}.project-picker{min-width:150px;max-width:none}.save-state{font-size:14px}.toolbar-actions{margin:0;gap:6px}button,summary,select,input{min-height:44px}.toolbar-actions button,.toolbar-actions summary{font-size:14px;padding:6px 8px}.project-canvas{padding:8px}.canvas-heading{top:-8px;gap:8px}.source-reconstruction.paired{grid-template-columns:1fr}.project-editor{height:calc(100dvh - 280px)}.zoom-controls{gap:4px}.block-list li{grid-template-columns:minmax(0,1fr) 44px}.menu>div{position:fixed;left:8px;right:8px;top:auto;width:auto}}
+ @media(max-width:600px){.project-toolbar{padding:8px;gap:8px}.save-state{font-size:14px}.toolbar-actions{margin:0;gap:6px}button,summary,select,input{min-height:44px}.toolbar-actions button,.toolbar-actions summary{font-size:14px;padding:6px 8px}.project-canvas{padding:8px}.canvas-heading{top:-8px;gap:8px}.source-reconstruction.paired{grid-template-columns:1fr}.project-editor{height:calc(100dvh - 280px)}.zoom-controls{gap:4px}.block-list li{grid-template-columns:minmax(0,1fr) 44px}.menu>div{position:fixed;left:8px;right:8px;top:auto;width:auto}}
   @media(pointer:coarse){button,select,input,summary{min-height:44px}}
   .tool-view :global(.assembly-panel){background:var(--surface);color:inherit}.tool-view :global(label),.tool-view :global(table),.tool-view :global(pre),.tool-view :global(.hint){font-size:14px}.tool-view :global(button),.tool-view :global(input),.tool-view :global(select){min-height:36px;font:inherit;background:var(--surface);color:inherit}.tool-view :global(table){display:block;overflow:auto;max-width:100%}@media(pointer:coarse){.tool-view :global(button),.tool-view :global(input),.tool-view :global(select){min-height:44px}}
   .project-print:global(.qa-print){display:block;position:absolute;left:-100000px;top:0;width:210mm}.project-print:global(.qa-print) :global(.preview-page){position:static;transform:none}.project-print:global(.qa-print) :global(.preview-frame){width:210mm;height:297mm;overflow:visible}.project-print:global(.qa-print) :global(.flow.preview-frame),.project-print:global(.qa-print) :global(.flow .preview-page),.project-print:global(.qa-print) :global(.flow .booklet-page){width:180mm;height:auto;min-height:0;overflow:visible}.project-print:global(.qa-print) :global(.flow .booklet-page){display:block;padding:0}.project-print:global(.qa-print) :global(.flow .booklet-page main){padding:0}.project-print:global(.qa-print) :global(.flow .booklet-footer){display:none}
@@ -1149,7 +1205,7 @@
  @media screen {
  :global(.route-stage:has(.project-shell)){animation:none}:global(.site-content:has(.project-shell)){min-height:0;padding-bottom:0}
  .project-shell{height:calc(100dvh - var(--workspace-top));min-height:0;display:flex;flex-direction:column;overflow:hidden;font-size:14px}
- .project-toolbar{flex:none;position:relative;min-height:48px;padding:6px 12px;gap:8px}.project-toolbar button,.project-toolbar select,.project-toolbar summary{min-height:32px;font-size:14px}.project-picker{max-width:320px}.toolbar-actions{gap:5px}
+ .project-toolbar{flex:none;position:relative;min-height:48px;padding:6px 12px;gap:8px}.project-toolbar button,.project-toolbar summary{min-height:32px;font-size:14px}.toolbar-actions{gap:5px}
  .document-toolbar{height:auto;min-height:44px;flex:none;padding:6px 12px;gap:4px;align-content:center;font-size:14px}.document-colours{max-width:none}.document-toolbar .selection-tools{gap:4px}.selection-tools label{font-size:14px}.document-toolbar .colour-menu>div{width:230px}.document-toolbar .colour-menu input[type=color]{width:100%}
  .project-editor,.project-editor.with-navigation,.project-editor.with-review,.project-editor.with-navigation.with-review{display:grid;grid-template-columns:minmax(0,1fr);flex:1;min-height:0;height:auto;overflow:hidden}
  .project-editor.with-navigation{grid-template-columns:240px minmax(0,1fr)}.project-editor.with-review{grid-template-columns:minmax(0,1fr) 320px}.project-editor.with-navigation.with-review{grid-template-columns:240px minmax(0,1fr) 320px}
@@ -1166,7 +1222,7 @@
  :global(body:has(.word-workspace)),:global(body:has(.word-workspace) .site-content),:global(body:has(.word-workspace) .studio-shell){margin:0;padding:0;min-height:0;overflow:hidden}
  .word-workspace{height:100dvh;--workspace-top:0px!important}
  .word-workspace .project-toolbar{height:48px;min-height:48px;flex-wrap:nowrap;padding:5px 10px;gap:6px}
- .word-workspace .project-picker{min-width:120px;max-width:320px}.word-workspace .toolbar-actions{flex-wrap:nowrap;white-space:nowrap}
+ .word-workspace .toolbar-actions{flex-wrap:nowrap;white-space:nowrap}
  .word-workspace .document-toolbar{height:44px;min-height:44px;max-height:44px;flex-wrap:nowrap;padding:5px 10px;white-space:nowrap;gap:4px}
  .word-workspace .document-toolbar select{width:auto}.word-workspace .document-toolbar .selection-tools{min-width:0}.word-workspace .document-toolbar label{white-space:nowrap}
  .word-workspace .project-editor,.word-workspace .project-editor.with-navigation,.word-workspace .project-editor.with-review,.word-workspace .project-editor.with-navigation.with-review{display:block;position:relative}
@@ -1177,6 +1233,6 @@
  .word-workspace :global(.editable-booklet-text .clickable:hover){outline-color:transparent;background:transparent}.word-workspace :global([data-layout-handle]),.word-workspace :global(.document-diagram-resize){opacity:0}.word-workspace :global([data-arrangement-id]:hover>[data-layout-handle]),.word-workspace :global([data-layout-handle]:focus-visible),.word-workspace :global(.document-diagram-selected>.document-diagram-resize){opacity:1}
  .document-finder{margin:0;position:fixed;z-index:100;top:100px;left:50%;transform:translateX(-50%);box-sizing:border-box;width:min(540px,calc(100% - 32px));padding:16px;border:1px solid var(--line,#cbd5e1);border-radius:10px;background:var(--panel,#fff);color:var(--text,#243348);box-shadow:0 12px 48px #0004;font:14px system-ui}.document-finder header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.document-finder input{width:100%}.document-finder form{display:flex;gap:8px}.finder-results{display:grid;gap:4px;max-height:50vh;overflow:auto;margin-top:8px}.finder-results button{text-align:left;white-space:normal}.finder-results small{display:block;color:var(--text-muted,#64748b);margin-bottom:3px}
  }
- @media screen and (max-width:1000px){.word-workspace .project-toolbar,.word-workspace .document-toolbar{overflow-x:auto;overflow-y:clip}.word-workspace .project-picker{min-width:140px}.word-workspace .document-toolbar .document-insert>div,.word-workspace .project-toolbar .menu>div{position:fixed;top:92px;left:auto;right:12px;max-height:65vh}.document-status{gap:3px}.document-status label{gap:2px}.document-status label>select{max-width:220px}}
+ @media screen and (max-width:1000px){.word-workspace .project-toolbar,.word-workspace .document-toolbar{overflow-x:auto;overflow-y:clip}.word-workspace .document-toolbar .document-insert>div,.word-workspace .project-toolbar .menu>div{position:fixed;top:92px;left:auto;right:12px;max-height:65vh}.document-status{gap:3px}.document-status label{gap:2px}.document-status label>select{max-width:220px}}
  @media screen and (pointer:coarse){.word-workspace .project-toolbar,.word-workspace .document-toolbar{height:52px;max-height:52px;min-height:52px}.word-workspace button,.word-workspace select{min-height:44px}.document-status{height:44px}}
 </style>

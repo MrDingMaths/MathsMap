@@ -12,16 +12,24 @@ function walk(x,fn){if(!x||typeof x!=='object')return;fn(x);for(const [k,v]of Ob
 function find(x,id){let result;walk(x,n=>{if(n.id===id)result=n;});assert.ok(result,id);return result;}
 function marker(latex){const bare=latex.replace(/\\(?:textcolor|color)\{[^}]*\}/g,'').replace(/\\(?:large|Large|small|normalsize)\b/g,'').replace(/[{}\s]/g,'');return bare==='\\checkmark'?true:bare==='\\times'?false:null;}
 function isMarker(n){const m=marker(n.latex??'');return m===true||m===false&&(n.semanticRole==='correctness-marker'||/^#(?:ef6068|ff0000)$/i.test(n.colour??'')||/\\(?:textcolor|color)\{#(?:ef6068|ff0000)\}/i.test(n.latex));}
-function markTeaching(block){let count=0;
- const visit=x=>{if(!x||typeof x!=='object')return;
+export function stableMarkerId(blockId,fieldPath,source,index){
+ return `marker-${createHash('sha256').update(JSON.stringify([blockId,fieldPath,source,index])).digest('hex').slice(0,12)}-${index}`;
+}
+export function markTeaching(block){let count=0;
+ const visit=(x,path=[])=>{if(!x||typeof x!=='object')return;
+  const nodePath=x.id?[...path,String(x.id)]:path;
   if(x.type==='text'&&/^[\u2713\u2714\u2716\u2717\u2718]$/.test(x.text?.trim()??'')){const correct=/[\u2713\u2714]/.test(x.text);delete x.text;delete x.marks;Object.assign(x,correctnessMarker(correct));count++;}
 
   for(const [key,value]of Object.entries(x)){
    if(skip.has(key))continue;
+   const fieldPath=[...nodePath,key];
    if(typeof value==='string'&&['prompt','theorySolution','short','worked'].includes(key)&&/\\(?:checkmark|times)/.test(value)){
     const doc=fromSource(value);let found=false;walk(doc,n=>{if(n.type==='math'&&isMarker(n)){Object.assign(n,correctnessMarker(marker(n.latex)));found=true;count++;}});
-    if(found){let i=0;walk(doc,n=>{if(n.id)n.id=`marker-${createHash('sha256').update(block.id+'/'+key+'/'+value).digest('hex').slice(0,12)}-${i++}`;});x[key]=doc;}
-   }else if(value&&typeof value==='object')visit(value);
+    if(found){let i=0;walk(doc,n=>{if(n.id)n.id=stableMarkerId(block.id,fieldPath,value,i++);});x[key]=doc;}
+   }else if(value&&typeof value==='object'){
+    if(Array.isArray(value))value.forEach((child,index)=>visit(child,[...nodePath,key,String(index)]));
+    else visit(value,fieldPath);
+   }
   }
   if(x.type==='math'&&isMarker(x)&&x.semanticRole!=='correctness-marker'){Object.assign(x,correctnessMarker(marker(x.latex)));count++;}
  };visit(block);return count;

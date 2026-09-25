@@ -44,17 +44,18 @@ test('nested runner uses its existing slot; interrupted ownership is never stole
  assert.equal(fs.readdirSync(slots).length,3);
 });
 
-test('fresh Astra execution fixes profile and Standard speed and preserves usage on invalid JSON',async t=>{
+test('fresh Sol xhigh execution fixes profile and Standard speed and preserves usage on invalid JSON',async t=>{
  const dir=fixture(t);let captured;
  const spawnProcess=(binary,args)=>{
   captured=args;const child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.stdin=new Writable({write(chunk,encoding,callback){callback();}});child.kill=()=>child.emit('close',1);
   setTimeout(()=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'invalid JSON');child.stdout.write(JSON.stringify({type:'thread.started',thread_id:'thread-fixture'})+'\n'+JSON.stringify({type:'item.completed',item:{id:'tool-1',type:'command_execution'}})+'\n'+JSON.stringify({type:'turn.completed',usage:{input_tokens:100,cached_input_tokens:80,output_tokens:10}}));child.emit('close',0);},5);return child;
  };
  await assert.rejects(()=>runAstraTask({cwd:dir,prompt:'Bounded source fixture',out:path.join(dir,'attempt'),profile:'review'},{spawnProcess}),error=>{
-  assert.equal(error.metrics.sessionId,'thread-fixture');assert.equal(error.metrics.toolCalls,1);assert.equal(error.metrics.usage.output_tokens,10);assert.equal(error.metrics.effort,'high');assert.ok(error.metrics.callId);return true;
+  assert.equal(error.metrics.sessionId,'thread-fixture');assert.equal(error.metrics.toolCalls,1);assert.equal(error.metrics.usage.output_tokens,10);assert.equal(error.metrics.effort,'xhigh');assert.ok(error.metrics.callId);return true;
  });
- assert.ok(captured.includes('--ephemeral'));assert.ok(captured.includes('--ignore-user-config'));assert.ok(captured.includes('service_tier="default"'));assert.ok(captured.includes('features.fast_mode=false'));assert.ok(captured.includes('model_reasoning_effort="high"'));
- assert.ok(astraCommandArgs({cwd:dir,raw:'result',profile:'coordinator'}).includes('model_reasoning_effort="low"'));assert.equal(captured.includes('resume'),false);
+ for(const profile of ['transcription','review','coordinator']){const args=astraCommandArgs({cwd:dir,raw:'result',profile});assert.equal(args[args.indexOf('--model')+1],'gpt-6-sol');assert.ok(args.includes('model_reasoning_effort="xhigh"'));}
+ assert.ok(captured.includes('--ephemeral'));assert.ok(captured.includes('--ignore-user-config'));assert.ok(captured.includes('service_tier="default"'));assert.ok(captured.includes('features.fast_mode=false'));assert.ok(captured.includes('model_reasoning_effort="xhigh"'));
+ assert.ok(astraCommandArgs({cwd:dir,raw:'result',profile:'coordinator'}).includes('model_reasoning_effort="xhigh"'));assert.equal(captured.includes('resume'),false);
  assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
 });
 

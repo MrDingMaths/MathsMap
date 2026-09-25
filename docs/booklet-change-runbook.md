@@ -97,7 +97,7 @@ idempotency, then finish. Existing-run and ordinary-maintenance scope remains as
 
 ## 6. Record evidence and actual costs
 
-Use the [bounded Astra workflow](booklet-bounded-workflow.md) for compact next-work
+Use the [bounded Sol workflow](booklet-bounded-workflow.md) for compact next-work
 handoffs, current exercise teaching summaries and explicit session links. Its
 complete-job receipt separates known/missing model usage, active elapsed time,
 human waiting and concurrent call durations. Supply `--run-dir` to export checks

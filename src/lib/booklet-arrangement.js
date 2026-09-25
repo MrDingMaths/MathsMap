@@ -44,7 +44,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    // resolvable without adding an extra item to newly generated arrangements.
    if(!entries.has(n.id+'/label'))entries.set(n.id+'/label',{ref:n.id+'/label',kind:'label',ownerId:n.id,value:'',title:'Unlabelled stem'});
    const prose=field(n,'prompt');
-   if(hideStem)for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}
+   if(hideStem){emptyRefs.add(n.id+'/prompt');for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}}
    const pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
    if(n.layout==='grid'&&Math.max(2,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(2,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(2,n.columns||2)),'row'));}
@@ -93,6 +93,28 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
 }
 export function resolveArrangement(block,stored,overrides={},widthMm=180){
  const catalog=arrangementCatalog(block,overrides,widthMm),tree=normalizeArrangement(stored)??catalog.initial;
+ // Older/custom arrangements name a whole native field instead of its blocks.
+ // Project that slot into a stack, retaining its sizing and margins just once.
+ // Explicit block placements win; unreferenced fields stay deliberately omitted.
+ const aliases=new Map(),used=new Set(arrangementItems(tree.root).map(n=>n.ref)),ids=new Set();
+ const collectIds=n=>{ids.add(n.id);n.children?.forEach(collectIds);};collectIds(tree.root);
+ for(const entry of catalog.entries.values())if(entry.kind==='document'){
+  const ref=entry.ownerId+'/'+entry.field;
+  if(!aliases.has(ref))aliases.set(ref,[]);
+  aliases.get(ref).push(entry.ref);
+ }
+ const expand=node=>{
+  if(node.type==='group'){node.children=node.children.flatMap(expand);return [node];}
+  const refs=aliases.get(node.ref)?.filter(ref=>!used.has(ref));
+  if(!refs)return [node];
+  if(!refs.length)return [];
+  refs.forEach(ref=>used.add(ref));
+  if(refs.length===1)return [{...node,ref:refs[0]}];
+  const children=refs.map(ref=>{const child=item(ref,catalog.entries.get(ref).title);while(ids.has(child.id))child.id+=':field';ids.add(child.id);return child;});
+  const {ref,...properties}=node;
+  return [{...properties,type:'group',direction:'stack',gap:node.gap??0,children}];
+ };
+ tree.root=expand(tree.root)[0]??group(tree.root.id,[]);
  if(practiceContinuation(block))tree.root.inset??=catalog.initial.root.inset;
  // Also collapse blanks saved by older editor versions, including their margins
  // and any groups made empty by removing them. Unknown references still warn.

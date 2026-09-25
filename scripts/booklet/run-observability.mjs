@@ -189,6 +189,18 @@ function exportReuseSummary(events,phases) {
   note:'Only explicit observations with artifact/dependency evidence establish export reuse; phase presence or an existing file does not.'};
 }
 
+export function summarizeControllerEvents(runDir){
+ const file=path.join(runDir,'workflow','controller-events.jsonl');if(!fs.existsSync(file))return {events:0,byKind:{},dispatchByStage:{},incompleteTail:false};
+ const contents=fs.readFileSync(file,'utf8'),lines=contents.split('\n'),byKind={},dispatchByStage={};let count=0,incompleteTail=false;
+ for(let i=0;i<lines.length;i++){
+  if(!lines[i].trim())continue;let row;
+  try{row=JSON.parse(lines[i]);}catch(error){if(i===lines.length-1){incompleteTail=true;break;}throw error;}
+  count++;byKind[row.event]=(byKind[row.event]??0)+1;
+  if(row.event==='dispatch')dispatchByStage[row.stage]=(dispatchByStage[row.stage]??0)+1;
+ }
+ return {events:count,byKind,dispatchByStage,incompleteTail};
+}
+
 export function buildRunReceipt(runDir) {
  const {events,incompleteTail}=readRunEvents(runDir),starts=new Map(),ends=new Map(),intervals=[],waits=[],phases={},unfinished=[];
  for(const e of events){if(e.event==='phase-started')starts.set(e.id,e);if(e.event==='phase-finished')ends.set(e.id,e);}
@@ -207,7 +219,7 @@ export function buildRunReceipt(runDir) {
   recordedActiveWallMs:unionDuration(intervals)-overlapDuration(intervals,waits),humanWaitingMs:unionDuration(waits),summedModelCallMs:completeJob.summedModelCallMs,
   recordedReviewWallMs:unionDuration(reviews)-overlapDuration(reviews,waits),
   calendarSpanMs:calendar.length?Math.max(...calendar.map(i=>i[1]))-Math.min(...calendar.map(i=>i[0])):0,
-  exportReuse:exportReuseSummary(events,phases),weeklyAllowance:summarizeWeeklyUsage(events.filter(event=>event.event==='weekly-usage-observed').map(event=>event.observation)),
+  exportReuse:exportReuseSummary(events,phases),weeklyAllowance:summarizeWeeklyUsage(events.filter(event=>event.event==='weekly-usage-observed').map(event=>event.observation)),controller:summarizeControllerEvents(runDir),
   note:'Derived only from recorded events. Active time unions completed work intervals and subtracts explicitly recorded human waiting. Concurrent model call durations are summed separately. Unrecorded/offline work, unfinished intervals and historical missing usage remain unavailable. Metrics never establish source review or visual inspection.'};
 }
 
@@ -216,6 +228,6 @@ export function summarizeRunReceipt(receipt){
  return {version:4,generatedAt:receipt.generatedAt,recordedActiveWallMs:receipt.recordedActiveWallMs,humanWaitingMs:receipt.humanWaitingMs??null,recordedReviewWallMs:receipt.recordedReviewWallMs??null,summedModelCallMs:receipt.summedModelCallMs??null,calendarSpanMs:receipt.calendarSpanMs,
   phases:Object.fromEntries(Object.entries(receipt.phases).map(([name,rows])=>[name,{runs:rows.length,failed:rows.filter(r=>!r.ok).length,elapsedMs:rows.reduce((sum,r)=>sum+r.elapsedMs,0)}])),
   model:{attempts:model.attempts,generationAttempts:model.generationAttempts,calls:model.calls,localReplays:model.localReplays,localByRetryReason:model.localByRetryReason,missingUsage:model.missingUsage,usage:model.usage,normalizedUsage:model.normalizedUsage,unavailableByMetric:model.unavailableByMetric,completedToolCalls:model.completedToolCalls,missingCompletedToolCounts:model.missingCompletedToolCounts,rejectedToolAttempts:model.rejectedToolAttempts,missingRejectedToolCounts:model.missingRejectedToolCounts,duplicateCalls:model.duplicateCalls,callElapsedMs:model.callElapsedMs,missingCallElapsedMs:model.missingCallElapsedMs,byStage:model.byStage,byAttempt:model.byAttempt,byOutcome:model.byOutcome,byRetryReason:model.byRetryReason,promptCharacters:model.promptCharacters},
-  completeJob:receipt.completeJob?{...receipt.completeJob,sessions:receipt.completeJob.sessions.map(({rolloutPath,...session})=>session)}:null,exportReuse:receipt.exportReuse??null,weeklyAllowance:receipt.weeklyAllowance??null,
+  completeJob:receipt.completeJob?{...receipt.completeJob,sessions:receipt.completeJob.sessions.map(({rolloutPath,...session})=>session)}:null,exportReuse:receipt.exportReuse??null,weeklyAllowance:receipt.weeklyAllowance??null,controller:receipt.controller??null,
   unfinished:{phases:receipt.unfinished.length,attempts:model.unfinished.length},incompleteTail:receipt.incompleteTail||model.incompleteTail,note:receipt.note};
 }

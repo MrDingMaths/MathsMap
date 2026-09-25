@@ -123,7 +123,7 @@ export function organiseExercises(source, ratings={}) {
 
 // A compact answer fragment preserves its ancestor path and original part labels.
 // Nodes sharing a solution diagram, or explicit dependencies, stay atomic.
-export function answerFragments(block) {
+export function answerFragments(block, mode = null) {
   const root=structuredClone(block.content),units=[];
   const label=(node,index=0)=>{
     if(node!==root&&node.label==null&&!node.children?.length)node.label=String.fromCharCode(97+index);
@@ -131,7 +131,7 @@ export function answerFragments(block) {
   };
   label(root);
   const visit=(node,path=[])=>{
-    if(node.children?.length&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
+    if(node.children?.length&&!(mode&&node.answer?.[mode])&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});
   };
   visit(root);

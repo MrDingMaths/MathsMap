@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import { normalizeProjectLibrary } from '../../src/lib/booklet-library.js';
 import { isTheoryReview, isSelectableBankQuestion } from '../../src/lib/question-bank-eligibility.js';
 import path from 'node:path';
 import {applyBankRatings} from '../../src/lib/booklet-bank-ratings.js';
@@ -38,10 +39,10 @@ const PROJECT_ASSET_ROOT = path.join(REPO_ROOT, 'public', 'booklet-assets', 'pro
 const safeId = (value) => String(value ?? '').replace(/[^a-zA-Z0-9._-]/g, '-').slice(0, 120);
 const json = (value) => JSON.stringify(value, null, 2) + '\n';
 const send = (res, code, value) => { res.statusCode = code; res.setHeader('Content-Type', 'application/json; charset=utf-8'); res.end(JSON.stringify(value)); };
-const readBody = (req) => new Promise((resolve, reject) => {
-  let raw = '';
-  req.on('data', (chunk) => { raw += chunk; if (raw.length > MAX_BODY) { reject(new Error('request body too large')); req.destroy(); } });
-  req.on('end', () => { try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('invalid JSON')); } });
+export const readBody = (req) => new Promise((resolve, reject) => {
+  const chunks = []; let bytes = 0;
+  req.on('data', (chunk) => { const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk); bytes += buffer.length; if (bytes > MAX_BODY) { reject(new Error('request body too large')); req.destroy(); } else chunks.push(buffer); });
+  req.on('end', () => { try { resolve(JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}')); } catch { reject(new Error('invalid JSON')); } });
   req.on('error', reject);
 });
 
@@ -94,6 +95,7 @@ export async function listBookletProjects({ projectRoot = PROJECT_ROOT, summary 
     version: raw.version,
     status: raw.status ?? 'draft',
     revision: Number(raw.revision) || 0,
+    library: normalizeProjectLibrary(raw.library),
     sections: raw.sections?.length ?? 0,
     updatedAt: raw.updatedAt ?? null,
     ...(!summary?{source:raw.source??null}:{}),
@@ -182,17 +184,20 @@ export async function createBookletProject(raw = {}, options = {}) {
     ? normalizeEditableProject(applyCreationPreset(raw,raw.mode??options.mode??'compact'))
     : createEditableProject({ title: raw.title ?? 'Untitled booklet', subtitle: raw.subtitle ?? '', mode:raw.mode??options.mode??'compact' });
   delete project.mode;
+  project.library = normalizeProjectLibrary(raw.library ?? { category: 'master' });
   return saveBookletProject(project, { ...options, create: true });
 }
 
-export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, title = null, flexible = false, assignments = {}, copyId = null, ...options } = {}) {
+export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, title = null, flexible = false, assignments = {}, copyId = null, library = null, expectedRevision = null, ...options } = {}) {
   const source = await loadBookletProject(id, { projectRoot, ...options });
+  if(expectedRevision != null && Number(expectedRevision)!==source.revision) throw Object.assign(new Error('Source booklet changed; reload before copying.'), {statusCode:409});
   let copy = normalizeEditableProject({
     ...source,
     id: copyId ? safeId(copyId) : `project-${randomUUID()}`,
     title: title ?? `${source.title} copy`,
     revision: 0,
     status: 'draft',
+    library: normalizeProjectLibrary({...source.library, ...library, archivedAt:null}),
     source: { ...source.source, type: 'project-copy', projectId: source.id, revision: source.revision },
     createdAt: null,
     updatedAt: null,
@@ -206,6 +211,22 @@ export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, 
     if(match){block.bankRef={id:match[0],revision:match[1].bankRevision??''};block.canonicalId=match[0];block.snapshotKind='bank';}
   }
   return saveBookletProject(copy, { projectRoot, bankRoot: options.bankRoot, create: true });
+}
+
+// Library-only maintenance never publishes pending question changes to the bank.
+export async function updateProjectLibrary(id, library, {projectRoot = PROJECT_ROOT, expectedRevision} = {}) {
+  return withBankLock(async()=>{
+    const file=fileFor(projectRoot,id), previous=await readJson(file);
+    if(!previous)throw Object.assign(new Error('Booklet project not found'),{statusCode:404});
+    if(expectedRevision==null || Number(expectedRevision)!==Number(previous.revision))throw Object.assign(new Error('Project changed; reload before updating its library details.'),{statusCode:409});
+    const nextLibrary=normalizeProjectLibrary(library);
+    if(JSON.stringify(previous.library)===JSON.stringify(nextLibrary))return previous;
+    const project={...previous,library:nextLibrary,revision:Number(previous.revision)+1,updatedAt:new Date().toISOString()};
+    const checkpoints=await projectCheckpointEntries(projectRoot,previous);
+    await writeTransaction([...checkpoints,[file,project]]);
+    if(checkpoints.length)await retainHistory(projectRoot,id);
+    return project;
+  });
 }
 
 export async function deleteBookletProject(id, confirmId, { projectRoot = PROJECT_ROOT } = {}) {
@@ -435,6 +456,11 @@ export function projectStudioPlugin() {
           if (pathname === '/__booklet/projects/assembly-bank' && req.method === 'GET') return send(res, 200, { candidates: await mathsMapCandidates((new URL(req.url,'http://localhost').searchParams.get('skills') ?? '').split(',').filter(Boolean)) });
           if (pathname === '/__booklet/projects' && req.method === 'GET') return send(res, 200, await listBookletProjects({summary:new URL(req.url,'http://localhost').searchParams.get('summary')==='1'}));
           if (pathname === '/__booklet/projects' && req.method === 'POST') return send(res, 201, await createBookletProject(await readBody(req)));
+          const libraryMatch=pathname.match(/^\/__booklet\/projects\/([^/]+)\/library$/);
+          if(libraryMatch&&req.method==='PATCH'){
+            const body=await readBody(req);
+            return send(res,200,await updateProjectLibrary(decodeURIComponent(libraryMatch[1]),body.library,{expectedRevision:body.expectedRevision}));
+          }
           const openMatch=pathname.match(/^\/__booklet\/projects\/([^/]+)\/open$/);
           if(openMatch&&req.method==='GET')return send(res,200,await openBookletProject(decodeURIComponent(openMatch[1])));
           const duplicateMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/duplicate$/);

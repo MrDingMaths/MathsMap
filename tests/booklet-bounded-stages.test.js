@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {nextBoundedWork,prepareBoundedStage,recordBoundedStage,cancelBoundedStage,runBoundedStage,exerciseTeachingContext,groupFeedbackByCause,registerFeedbackScope,BOUNDED_LIMITS} from '../scripts/booklet/bounded-stages.mjs';
+import {nextBoundedWork,prepareBoundedStage,recordBoundedStage,cancelBoundedStage,runBoundedStage,executePreparedBoundedStage,exerciseTeachingContext,groupFeedbackByCause,registerFeedbackScope,BOUNDED_LIMITS} from '../scripts/booklet/bounded-stages.mjs';
 import {loadWorkflow,liveWorkflow,updateWorkflow,bytesHash} from '../scripts/booklet/workflow-review.mjs';
 import {PIPELINE_POLICY} from '../scripts/booklet/import-verification.mjs';
 import {prepareReviewQueue,reviewQueueStatus,finalReviewRecord} from '../scripts/booklet/visual-review-queue.mjs';
@@ -37,7 +37,7 @@ test('next work is a read-only compact projection with stable unique ownership',
  assert.deepEqual(a.jobs,b.jobs);assert.deepEqual(fs.readdirSync(f.dir),before);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  assert.equal(a.jobs.filter(j=>j.stage==='maths').length,2);assert.ok(a.jobs.every(j=>!Object.hasOwn(j,'context')&&!Object.hasOwn(j,'images')));
  assert.equal(new Set(a.jobs.flatMap(j=>j.ownershipIds)).size,a.jobs.flatMap(j=>j.ownershipIds).length);
- assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6-astra'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
+ assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6-sol'&&j.profile.effort==='xhigh'&&j.profile.freshContext&&j.profile.speed==='standard'));
 });
 
 test('independent reviews rebase unrelated register revisions, while duplicate ownership blocks',async t=>{
@@ -160,4 +160,15 @@ test('review findings reject foreign source ownership without writing an issue',
  assert.equal(Object.keys(loadWorkflow(f.dir).issues).length,0);
  await assert.rejects(()=>recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,outcome:'needs-review',findings:[{id:'foreign',page:1,targetId:'unassigned-question',message:'Another question'}]}}),/outside the assigned ownership/);
  assert.equal(Object.keys(loadWorkflow(f.dir).issues).length,0);
+});
+
+test('a prepared review ticket resumes with its original request and records once',async t=>{
+ const f=fixture(t,{pages:1}),pending=job(await nextBoundedWork(f.options),'maths');
+ const prepared=await prepareBoundedStage(f.options,pending.id);let calls=0;
+ const result=await executePreparedBoundedStage(f.options,prepared.ticket,{runner:async request=>{
+  calls++;assert.equal(request.prompt,readTicket(prepared).prompt);
+  return {result:{...signed,sourceCompared:true,mathematicsVerified:true,pages:[{page:1,key:readTicket(prepared).job.context.key}]},metrics:{usage:{input_tokens:50,cached_input_tokens:20,output_tokens:10},elapsedMs:5}};
+ }});
+ assert.equal(result.ok,true);assert.equal(calls,1);assert.equal(loadWorkflow(f.dir).pages[1].mathReview.key,readTicket(prepared).job.context.key);
+ await assert.rejects(()=>executePreparedBoundedStage(f.options,prepared.ticket,{runner:()=>assert.fail('Duplicate generation')}),/ownership/);
 });

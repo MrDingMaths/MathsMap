@@ -3,14 +3,21 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {projectReviewHash} from './page-review.mjs';
-import {rendererSignature,implementationSignatures} from './verification-cache.mjs';
+import {rendererSignature,implementationSignatures,regressionScopeSignature} from './verification-cache.mjs';
+import {isMultiSource,blockRunIds,sourceReviewViews} from './multi-source-review.mjs';
 
 export const PIPELINE_POLICY='pdf-import-efficient-v1';
 const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const current=r=>r?.path&&path.isAbsolute(r.path)&&fs.existsSync(r.path)&&bytes(r.path)===r.hash;
-export function questionTeachingDependencies(state,project,question,{artifactHash=bytes}={}){
+export function questionTeachingDependencies(state,project,question,{artifactHash=bytes,sourceViews}={}){
+ if(isMultiSource(project)){
+  const runs=new Set(blockRunIds(project,question)),views=sourceViews??sourceReviewViews(project,state);
+  const selected=views.filter(v=>runs.has(v.runId));
+  if(selected.length!==runs.size)throw Error('Question references an unknown source run: '+question.id);
+  return {sources:selected.map(v=>({runId:v.runId,available:v.available,dependencies:questionTeachingDependencies(v.state,v.project,question,{artifactHash})}))};
+ }
  const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
  const scope=owner?.exerciseId??owner?.topicId??owner?.id;
  const relevant=scope?sections.filter(s=>(s.exerciseId??s.topicId??s.id)===scope):sections;
@@ -58,14 +65,15 @@ export function questionTeachingDependencies(state,project,question,{artifactHas
  return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),resolutions,source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
   reviewedTeaching:reviewed?{dependencyHash:reviewed.dependencyHash,outcome:reviewed.outcome,methods:reviewed.methods,scope:binding,currentConfig,currentIndex}:null};
 }
-export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures()}={}){
+export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures(),runDir,sourceViews:providedViews}={}){
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
  // Shared PDFs/images are read once per current snapshot, never cached across
  // calls. A large exercise must not rehash the same source for every question.
  const artifactHashes=new Map(),artifactHash=file=>{const absolute=path.resolve(file);if(!artifactHashes.has(absolute))artifactHashes.set(absolute,bytes(absolute));return artifactHashes.get(absolute);};
- return {source:hash(Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
+ const sourceViews=isMultiSource(project)?providedViews??sourceReviewViews(project,state,{runDir}):undefined;
+ return {source:hash(sourceViews?sourceViews.map(v=>({runId:v.runId,available:v.available,pages:Object.fromEntries(Object.entries(v.state.pages??{}).map(([p,r])=>[p,r.inventoryHash]))})):Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
   project:project?projectReviewHash(project):null,renderer,...implementation,
-  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash})}:{})})]))};
+  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash,sourceViews})}:{})})]))};
 }
 export function recordVerification(state,record,deps){
  if(!state.pipelinePolicy)throw Error('Verification register enforcement is for new-policy runs');
@@ -80,20 +88,24 @@ export function recordVerification(state,record,deps){
   if(!deps.questions[questionId]||record.dependencies?.question!==deps.questions[questionId])throw Error('Question assessment is missing or stale');
   if(record.outcome==='passed'&&!['answer','skillMapping','taughtMethod'].every(k=>record.checks?.[k]===true))throw Error('Each question needs answer, skill mapping and taught-method review');
  }else if(!supported.includes(record.id))throw Error('Unknown verification check');
+ const scopedRegression=record.id==='regressions'&&record.regressionScope?regressionScopeSignature(record.regressionScope):null;
+ if(scopedRegression&&record.checks?.coverageReviewed!==true)throw Error('Scoped regression evidence needs explicit test-coverage review');
  const required=questionId?['question']:record.id==='storage'?['storage']:['project',...(record.id==='ui'||record.id==='build'||record.id==='regressions'?['renderer']:[]),...(record.id==='build'?['build']:record.id==='regressions'?['authoring','assessment','regression']:[])];
- for(const key of required)if(record.dependencies?.[key]!== (key==='question'?deps.questions[questionId]:deps[key]))throw Error('Missing or stale verification dependency: '+key);
+ for(const key of required)if(record.dependencies?.[key]!== (key==='question'?deps.questions[questionId]:key==='regression'&&scopedRegression?scopedRegression:deps[key]))throw Error('Missing or stale verification dependency: '+key);
  if(record.id==='ui'&&record.outcome==='passed'&&!['filtering','solutions','worksheet','saveReopen','ownershipSync'].every(k=>record.checks?.[k]===true))throw Error('Combined UI scenario is incomplete');
  if(record.outcome==='not-applicable'&&!['build'].includes(record.id))throw Error('This verification check cannot be waived');
  if(record.id==='build'&&record.outcome==='not-applicable'&&record.codeChanged!==false)throw Error('Build exemption requires no code changes');
  state.verification??={version:1,entries:{}};state.verification.entries??={};
  state.verification.entries[record.id]=structuredClone(record);
 }
-export function verificationStatus(state,project,{phase='prepublication',renderer,validateFinal}={}){
+export function verificationStatus(state,project,{phase='prepublication',renderer,validateFinal,runDir,sourceViews:providedViews}={}){
  if(!state.pipelinePolicy)return {policy:'legacy',ok:true,required:[],checks:[],issues:[]};
  if(state.pipelinePolicy!==PIPELINE_POLICY)throw Error('Unsupported import pipeline policy');
- const deps=verificationDependencies(state,project,{renderer}),entries=state.verification?.entries??{},checks=[],issues=[];
+ const sourceViews=isMultiSource(project)?providedViews??sourceReviewViews(project,state,{runDir}):null;
+ const deps=verificationDependencies(state,project,{renderer,runDir,sourceViews}),entries=state.verification?.entries??{},checks=[],issues=[];
+ const sourceStates=sourceViews??[{available:true,state}];
  const add=(id,passed,reason)=>{checks.push({id,passed,reason:passed?null:reason});if(!passed)issues.push(id+': '+reason);};
- add('inventory',Object.keys(state.pages).length>0&&Object.values(state.pages).every(p=>p.mathReview?.key===p.inventoryHash),'Independent inventory and mathematical review required');
+ add('inventory',sourceStates.every(v=>v.available&&Object.keys(v.state.pages??{}).length>0&&Object.values(v.state.pages).every(p=>p.mathReview?.key===p.inventoryHash)),'Independent inventory and mathematical review required for every source run');
  add('settlement',!!state.settled&&state.settled.project.hash===deps.project,'Current settled content required');
  let finalValid=!!state.finalReview;
  if(finalValid&&validateFinal)try{validateFinal();}catch{finalValid=false;}
@@ -111,7 +123,7 @@ export function verificationStatus(state,project,{phase='prepublication',rendere
   }catch(error){reason=error.message;}
   add(id,passed,reason);
  }
- add('task-findings',!Object.values(state.issues).some(i=>i.status==='pending'),'Resolve remaining import findings');
+ add('task-findings',![state,...(sourceViews??[]).map(v=>v.state)].some(s=>Object.values(s.issues??{}).some(i=>i.status==='pending')),'Resolve remaining import findings in every source run');
  add('stage-handoffs',!Object.keys(state.verification?.stageClaims??{}).length,'Complete or explicitly cancel outstanding stage tickets; retain and resolve their findings');
  if(phase==='complete'&&state.verification?.publishedSource){
   const ref=state.verification.publishedSource;let valid=false;

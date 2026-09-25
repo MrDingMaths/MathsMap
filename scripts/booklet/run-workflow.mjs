@@ -13,16 +13,16 @@ import {printWorkflowOutput} from './workflow-output.mjs';
 import {importCloseout} from './import-closeout.mjs';
 import {importPreFinal} from './import-pre-final.mjs';
 const jsonFile=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
-const boundedCommands=['next','prepare-stage','run-stage','record-stage','cancel-stage','feedback-scope'];
+const boundedCommands=['next','prepare-stage','run-stage','record-stage','cancel-stage','feedback-scope','drive'];
 const accountingCommands=['link-session','weekly-usage','export-observation','wait-start','wait-end'];
 export async function main(args=process.argv.slice(2)){
  if(args[0]==='--help'){
-  console.log('run-workflow next|prepare-stage|run-stage|record-stage|cancel-stage|feedback-scope|status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|pre-final|closeout|receipt|link-session|weekly-usage|export-observation|wait-start|wait-end --run-id RUN [--input JSON --out JSON --full]. Bounded stages use --job ID and optional --project-file/--config. Accounting and bounded commands also accept --run-dir. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-bounded-workflow.md.');return;
+  console.log('run-workflow next|drive|prepare-stage|run-stage|record-stage|cancel-stage|feedback-scope|status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|pre-final|closeout|receipt|link-session|weekly-usage|export-observation|wait-start|wait-end --run-id RUN [--input JSON --out JSON --full]. Drive requires --budget BUDGET.json and accepts --concurrency. Bounded stages use --job ID and optional --project-file/--config. Accounting and bounded commands also accept --run-dir. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-workflow-controller.md and docs/booklet-bounded-workflow.md.');return;
  }
  const command=args[0],flags={};
  for(let i=1;i<args.length;i++){
   const key=args[i];if(['--retry','--representative','--summary','--full'].includes(key)){flags[key]=true;continue;}
-  if(!['--run-id','--run-dir','--pages','--config','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason','--job','--project-file'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
+  if(!['--run-id','--run-dir','--pages','--config','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason','--job','--project-file','--budget'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
  }
  if(command==='pre-final'){
   if(!flags['--input'])throw Error('Pre-final requires --input PROJECT.json');
@@ -44,7 +44,11 @@ export async function main(args=process.argv.slice(2)){
  else if(boundedCommands.includes(command)){
   const stages=await import('./bounded-stages.mjs');
   const options={...loaded,selectedPages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest?.selectedPages,projectFile:flags['--project-file']?path.resolve(flags['--project-file']):undefined,...(flags['--config']?{config:jsonFile(flags['--config']),configFile:path.resolve(flags['--config'])}:{})};
-  if(command==='next'){
+  if(command==='drive'){
+   if(!flags['--budget'])throw Error('Drive requires --budget JSON with dispatch limits');
+   const {driveBoundedWorkflow}=await import('./workflow-controller.mjs');
+   result=await driveBoundedWorkflow(options,{budget:jsonFile(flags['--budget']),...(flags['--concurrency']?{concurrency:Number(flags['--concurrency'])}:{}),...(flags['--plan']?{planFile:path.resolve(flags['--plan'])}:{})});
+  }else if(command==='next'){
    result=await stages.nextBoundedWork(options);
    if(options.config&&loaded.manifest){const generation=dependencyStatus({...options,pages:options.selectedPages},{retry:!!flags['--retry'],representative:!!flags['--representative'],requireRepresentativePlan:true,planFile:flags['--plan']});result.generation={jobs:generation.jobs,blocked:generation.blocked,complete:generation.complete.length};}
   }else if(['prepare-stage','run-stage'].includes(command)){
@@ -65,9 +69,12 @@ export async function main(args=process.argv.slice(2)){
   const input=flags['--input']?JSON.parse(fs.readFileSync(flags['--input'],'utf8')):null;
   const projectFor=state=>state.settled?.project?.file?JSON.parse(fs.readFileSync(state.settled.project.file,'utf8')):null;
   if(command==='verification'){const state=liveWorkflow(loaded.runDir);result=verificationStatus(state,projectFor(state),{validateFinal:()=>acceptFinalReview(structuredClone(state),state.finalReview)});}
-  else {if(!input)throw Error('Explicit review input required');await updateWorkflow(loaded.runDir,command,state=>{
+  else {if(!input)throw Error('Explicit review input required');await updateWorkflow(loaded.runDir,command,async state=>{
    Object.assign(state,liveWorkflow(loaded.runDir));
-   if(command==='approve-coverage')approveCoverage(state,input);else recordVerification(state,input,verificationDependencies(state,projectFor(state)));
+   if(command==='approve-coverage')approveCoverage(state,input);else{
+    if(input.id==='regressions'&&input.regressionScope){const {regressionScopeSignature}=await import('./verification-cache.mjs');input.dependencies??={};input.dependencies.regression??=regressionScopeSignature(input.regressionScope);}
+    recordVerification(state,input,verificationDependencies(state,projectFor(state)));
+   }
   });result={ok:true,recorded:input.id};}
  }
  else if(command==='check-representatives'){

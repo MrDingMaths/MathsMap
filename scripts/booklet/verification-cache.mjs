@@ -41,6 +41,34 @@ export function sourceDependencySignature(root='src/main.js'){
 export function rendererSignature(){
   return sourceDependencySignature()+treeSignature('public/libs')+treeSignature('node_modules/katex/dist/fonts')+treeSignature('scripts/booklet/pdf-layout-qa.mjs')+treeSignature('scripts/booklet/check-compact-exercises.mjs')+treeSignature('scripts/booklet/diagram-preflight.mjs')+treeSignature('package-lock.json')+treeSignature('scripts/booklet/pdf-navigation-qa.mjs');
 }
+// An explicitly reviewed regression run may bind its selected tests and their
+// local import graph. Unknown imports widen to the historical whole-tree key.
+export function regressionScopeSignature({testFiles,supportFiles=[]}={},root=process.cwd()){
+ if(!Array.isArray(testFiles)||!testFiles.length||!Array.isArray(supportFiles))throw Error('Regression scope needs selected test files and support files');
+ const broad=()=>digest(JSON.stringify(['scripts/booklet','tests','src','public','package-lock.json'].map(file=>[file,treeSignature(path.resolve(root,file))])));
+ const inside=(file,folder)=>{const relative=path.relative(path.resolve(root,folder),file);return relative&&!relative.startsWith('..')&&!path.isAbsolute(relative);};
+ const selected=testFiles.map(file=>path.resolve(root,file));
+ if(selected.some(file=>!inside(file,'tests')||!/\.test\.[cm]?js$/.test(file)||!fs.existsSync(file)))throw Error('Regression test selection must name existing tests/*.test.js files');
+ const support=supportFiles.map(file=>path.resolve(root,file));
+ if(support.some(file=>!inside(file,'.')||!fs.existsSync(file)))throw Error('Regression support files must exist inside the repository');
+ const visited=new Set(),pending=[...selected];let unknown=false;
+ while(pending.length){
+  const file=pending.pop();if(visited.has(file))continue;visited.add(file);
+  if(!fs.existsSync(file)){unknown=true;continue;}
+  if(!/\.(?:[cm]?js|ts|svelte|css)$/.test(file))continue;
+  const source=fs.readFileSync(file,'utf8');
+  if(/import\.meta\.glob|\bimport\s*\(\s*[^'"\s]|\brequire\s*\(/.test(source)){unknown=true;continue;}
+  const refs=[...source.matchAll(/(?:\b(?:import|export)\s+(?:[^;'"]*?\s+from\s*)?|\bimport\s*\(\s*|@import\s*)['"]([^'"]+)['"]/g)].map(match=>match[1]);
+  for(const ref of refs){
+   if(!ref.startsWith('.')&&!ref.startsWith('/'))continue;
+   const base=ref.startsWith('/')?path.resolve(root,'.'+ref):path.resolve(path.dirname(file),ref.split('?')[0]);
+   const resolved=[base,base+'.js',base+'.mjs',base+'.svelte',base+'.json',path.join(base,'index.js')].find(candidate=>fs.existsSync(candidate)&&fs.statSync(candidate).isFile());
+   if(!resolved||!inside(resolved,'.'))unknown=true;else pending.push(resolved);
+  }
+ }
+ if(unknown)return broad();
+ return digest(JSON.stringify({files:[...visited,...support].sort().map(file=>[path.relative(root,file).replaceAll('\\','/'),treeSignature(file)]),lock:treeSignature(path.resolve(root,'package-lock.json'))}));
+}
 export function implementationSignatures(){
  const group=files=>digest(JSON.stringify(files.map(file=>[file,treeSignature(file)])));
  return {authoring:group(['scripts/booklet/semantic-workflow.mjs','scripts/booklet/author-assignments.mjs','scripts/booklet/local-attempt-repair.mjs','scripts/booklet/assemble-semantic-packets.mjs']),

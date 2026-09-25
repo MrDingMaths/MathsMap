@@ -26,14 +26,14 @@ try{
  await page.goto(base+'/#/booklet',{waitUntil:'domcontentloaded'});
  await page.getByRole('button',{name:'Booklets',exact:true}).click();
  await page.getByLabel('Open booklet',{exact:true}).waitFor();
- assert.equal(await page.getByLabel('Open booklet',{exact:true}).inputValue(),'');
+ assert.equal(await page.getByLabel('Open booklet',{exact:true}).getAttribute('data-project-id'),'');
  assert.equal(await page.locator('.flow-document').count(),0,'No arbitrary project opens while the bank is loading');
  releaseBank();
  for(const stage of ['full-import','import','review']){
   await page.goto(`${base}/#/booklet?stage=${stage}&run=old&page=3&project=${project.id}`,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(id=>location.hash===`#/booklet?stage=projects&project=${id}`,project.id);
   await page.locator('.flow-document[data-pagination-state="ready"]').waitFor().catch(async error=>{console.error((await page.locator('body').innerText()).slice(-2500));throw error;});
-  assert.equal(await page.getByLabel('Open booklet',{exact:true}).inputValue(),project.id);
+  assert.equal(await page.getByLabel('Open booklet',{exact:true}).getAttribute('data-project-id'),project.id);
   assert.equal(await page.getByRole('button',{name:'Source reconstructions',exact:true}).count(),0);
  }
  assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);

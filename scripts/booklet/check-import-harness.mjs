@@ -73,7 +73,16 @@ export async function checkImportHarness({candidateFile,diagramId,out,base,runDi
     await page.locator('.flow-document[data-pagination-state=ready]').waitFor({timeout:120000});
     await page.locator('.workspace-loading').waitFor({state:'detached',timeout:120000});
    };
+   const revealBlock=async ownerId=>{
+    // Long booklets mount only nearby pages. Reveal the owning page through
+    // normal scrolling before looking for the editable diagram element.
+    const groups=page.locator('.flow-document [data-flow-blocks]');
+    const groupIndex=await groups.evaluateAll((nodes,id)=>nodes.findIndex(n=>JSON.parse(n.dataset.flowBlocks??'[]').some(row=>row[0]===id)),ownerId);
+    if(groupIndex>=0)await groups.nth(groupIndex).scrollIntoViewIfNeeded();
+   };
    const select=async()=>{
+    await revealBlock(contentNodes(project).get(diagramId)?.block?.id);
+    await page.waitForFunction(id=>[...document.querySelectorAll('.flow-document [data-diagram-id]')].some(n=>n.dataset.diagramId===id&&n.getBoundingClientRect().height>0),diagramId,{timeout:30000});
     const target=page.locator('.flow-document [data-diagram-id]');
     // Resolve by exact attribute without interpolating a source ID into CSS.
     const index=await target.evaluateAll((nodes,id)=>nodes.findIndex(n=>n.dataset.diagramId===id&&n.getBoundingClientRect().height>0),diagramId);
@@ -92,6 +101,8 @@ export async function checkImportHarness({candidateFile,diagramId,out,base,runDi
    }
    if(scenario==='combined'){
     const q=project.sections.flatMap(s=>s.blocks).find(b=>b.id===questions[0].id),rootId=q.content.id;
+    await ready();await revealBlock(q.id);
+    await page.waitForFunction(id=>[...document.querySelectorAll('.flow-document [data-edit-root][data-edit-path="/prompt"]')].some(n=>n.dataset.editRoot===id&&n.getBoundingClientRect().height>0),rootId,{timeout:30000});
     const hosts=page.locator('.flow-document [data-edit-root][data-edit-path="/prompt"]');
     const index=await hosts.evaluateAll((nodes,id)=>nodes.findIndex(n=>n.dataset.editRoot===id&&n.getBoundingClientRect().height>0),rootId);
     assert.ok(index>=0,'Practice prompt is editable');await hosts.nth(index).locator('.clickable').first().click();

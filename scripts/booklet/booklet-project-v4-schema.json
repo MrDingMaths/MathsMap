@@ -12,6 +12,15 @@
     "subtitle": { "type": "string" },
     "status": { "enum": ["draft", "published", "archived"] },
     "revision": { "type": "integer", "minimum": 0 },
+    "library": {
+      "type": "object",
+      "properties": {
+        "category": { "enum": ["master", "class", "import-review", null] },
+        "courseId": { "type": "string" },
+        "classLabel": { "type": "string" },
+        "archivedAt": { "type": ["string", "null"] }
+      }
+    },
     "topics": {
       "type": "array",
       "items": { "type": "object", "required": ["id", "title"], "properties": { "id": { "type": "string", "minLength": 1 }, "title": { "type": "string", "minLength": 1 } } }

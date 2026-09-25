@@ -1,3 +1,4 @@
+import {selectLibraryProject} from './project-library-browser.mjs';
 // Exercises the real sync/save functions in isolated stores through the browser UI.
 import fs from 'node:fs/promises';
 import os from 'node:os';
@@ -38,7 +39,7 @@ try{
  assert.equal((await loadBookletProject(copy.id,options)).sections[0].blocks[0].content.answer.worked,source.sections[0].blocks[0].content.answer.worked);
  bank=await readBank();bank.content.answer.worked='Separate bank change';await fs.writeFile(bankFile,JSON.stringify(bank));
  source.sections[0].blocks[0].content.answer.worked='Separate original change';source=await saveBookletProject(source,{...options,expectedRevision:source.revision});
- await page.getByLabel('Open booklet',{exact:true}).selectOption(source.id);
+ await selectLibraryProject(page,source.id);
  await page.getByRole('button',{name:'Review updates',exact:true}).click();await panel.getByText('Compare question and worked solution',{exact:true}).click();
  await panel.getByText('Separate bank change',{exact:true}).waitFor();await panel.getByText('Separate original change',{exact:true}).waitFor();
  await page.setViewportSize({width:650,height:900});

@@ -120,11 +120,12 @@
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
   {@const rating=questionDifficulty(block)}
+  {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===`Exercise ${block.flow.exerciseHeadingBefore}`)}<BookletHeading kind="exercise">Exercise {block.flow.exerciseHeadingBefore}</BookletHeading>{/if}
   {#if block.type === 'question'}
     {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}
     {#if block.pedagogyRole==='key-ideas'&&block.sourceReview?.responses?.every(r=>r.kind==='cloze')}
-      <div class="key-ideas-cloze" data-content-owner={block.id}>{#each block.content.children as part}<div class="cloze-statement"><span class="cloze-number">{part.label}.</span><div class="cloze-text"><EditableBookletText value={part.prompt} rootId={part.id} pointer="/prompt" fillCloze={showKeyIdeasAnswers} {...editProps()}/></div></div>{/each}</div>
+      <div class="key-ideas-cloze" data-content-owner={block.id}>{#each block.content.children?.length ? block.content.children : [block.content] as part}<div class="cloze-statement"><span class="cloze-number">{part.label}.</span><div class="cloze-text"><EditableBookletText value={part.prompt} rootId={part.id} pointer="/prompt" fillCloze={showKeyIdeasAnswers} {...editProps()}/></div></div>{/each}</div>
     {:else if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}

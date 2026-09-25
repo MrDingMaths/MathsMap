@@ -1,3 +1,4 @@
+import {selectLibraryProject} from './project-library-browser.mjs';
 // Read-only opening benchmarks. All API writes are blocked; routing disables
 // HTTP caching consistently, so "warm" refers to diagram/measurement caches.
 import fs from 'node:fs';
@@ -37,7 +38,7 @@ async function run(page,id,scenario,repetition){
  const heartbeat=setInterval(()=>console.log(id+' '+scenario+': '+Math.round((Date.now()-start)/1000)+'s'),30000);
  try{
   if(scenario==='reload')await page.reload({waitUntil:'domcontentloaded'});
-  else if(scenario==='switch')await page.getByLabel('Open booklet',{exact:true}).selectOption(id);
+  else if(scenario==='switch')await selectLibraryProject(page,id);
   else await page.goto(base+'/#/booklet?stage=projects&project='+id,{waitUntil:'domcontentloaded'});
   await ready(page);result.readyMs=Date.now()-start;
   Object.assign(result,await page.evaluate(offset=>({
@@ -69,7 +70,7 @@ try{
    try{
     await run(page,id,'prepared',repetition);
     if(scenarios.includes('reload'))await run(page,id,'reload',repetition);
-    if(scenarios.includes('switch')){const other=all.find(v=>v!==id);await page.getByLabel('Open booklet',{exact:true}).selectOption(other);await ready(page);await run(page,id,'switch',repetition);}
+    if(scenarios.includes('switch')){const other=all.find(v=>v!==id);await selectLibraryProject(page,other);await ready(page);await run(page,id,'switch',repetition);}
    }finally{await context.close();}
   }
  }

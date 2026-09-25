@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import katex from 'katex';
 import {correctnessMarker,numberedTeachingWorking} from '../public/libs/maths-editor/teaching-style.mjs';
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
-import {repairAngle} from '../scripts/booklet/repair-angle-feedback.mjs';
+import {markTeaching,repairAngle} from '../scripts/booklet/repair-angle-feedback.mjs';
+import {validateEditableProject} from '../src/lib/editable-booklet-model.js';
 test('correctness markers retain explicit role through normalization and print while multiplication keeps ordinary size',()=>{
  const doc=normalizeDocument({blocks:[{id:'p',type:'paragraph',inlines:[correctnessMarker(true),correctnessMarker(false),{type:'math',latex:'2\\times3'}]}]});
  const html=renderDocument(doc);assert.equal((html.match(/data-semantic-role="correctness-marker"/g)||[]).length,2);assert.equal((html.match(/font-size:14pt/g)||[]).length,2);assert.equal(doc.blocks[0].inlines[2].semanticRole,undefined);
@@ -12,6 +13,17 @@ test('correctness markers retain explicit role through normalization and print w
 test('numbered working uses independent number and relation columns including unnumbered continuations',()=>{
  const latex=numberedTeachingWorking([{number:1,lhs:'m+70+65',rhs:'=360'},{number:2,lhs:'m',rhs:'=225'},{number:null,lhs:'m',rhs:'=225'}]);
  assert.ok(latex.includes('alignedat}{2}'));assert.match(latex,/textcolor\{#ef6068\}\{\\mathrlap\{1\.\}/);assert.ok(!katex.renderToString(latex,{throwOnError:true}).includes('katex-error'));
+});
+test('feedback conversion gives repeated answer strings distinct stable paragraph IDs',()=>{
+ const source='$\\checkmark$ Yes.';
+ const block={id:'shared-question',type:'question',content:{id:'shared-question-root',children:[{id:'part-a',type:'part',answer:{short:source}},{id:'part-b',type:'part',answer:{short:source}}]}};
+ markTeaching(block);
+ const first=block.content.children[0].answer.short.blocks[0].id,second=block.content.children[1].answer.short.blocks[0].id;
+ assert.notEqual(first,second);const once=JSON.stringify(block);markTeaching(block);assert.equal(JSON.stringify(block),once);
+});
+test('current non-right trigonometry project has unique live node IDs',()=>{
+ const project=JSON.parse(fs.readFileSync('booklets/projects/non-right-angled-trigonometry-v1.json','utf8')),result=validateEditableProject(project);
+ assert.equal(result.valid,true,result.errors.join('; '));
 });
 test('local feedback repair preserves evidence and mathematics and is idempotent',()=>{
  const p=JSON.parse(fs.readFileSync('booklets/projects/angle-relationships-v1.json')),before=structuredClone(p.source);repairAngle(p);const once=JSON.stringify(p);repairAngle(p);assert.equal(JSON.stringify(p),once);assert.deepEqual(p.source,before);

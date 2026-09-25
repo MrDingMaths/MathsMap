@@ -174,7 +174,8 @@
 
 {#snippet renderAnswerNode(node, path = [], index = 0)}
   {@const nextPath = answerNodePath(question.content,node,path,index)}
-  {#if node.children?.length}
+  {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short : showWorkedSolutions ? node.answer?.worked : false)}
+  {#if node.children?.length && !groupAnswer}
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex)}{/each}
     </div>
@@ -185,6 +186,7 @@
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>
+    {#if groupAnswer}{#each node.sharedSolutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
   {/if}
 {/snippet}
 
@@ -226,9 +228,12 @@
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
   .short-answer-key .answer-item,.short-answer-key .answer-children > .answer-item{border-bottom:0}
   .compact-answer .answer-content{text-align:left}
-  .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important;text-align:left!important}
+  .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important}
+  /* Native table paragraphs already carry the cell's editable alignment. */
+  .compact-answer :global(p:not(table p)){text-align:left!important}
   .compact-answer :global(.katex-display){margin:.5mm 0!important;text-align:left!important}
   .compact-answer :global(.katex-display > .katex){text-align:left!important}
+  .compact-answer :global(table .katex-display){text-align:inherit!important}
   .compact-answer .diagram-resize-shell{margin:1mm 0}
   .pattern-top .representation-pattern{grid-column:1 / span 2;grid-row:1}.pattern-top .representation-table{grid-column:1;grid-row:2}.pattern-top .representation-equation{grid-column:1;grid-row:3}.pattern-top .representation-graph{grid-column:2;grid-row:2 / span 2}
   .representations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3mm;margin-left:calc(var(--label-width) + var(--label-gap));break-inside:avoid}.representation{min-width:0;padding:1mm 2mm;border-top:.2mm solid var(--booklet-border)}.representation-pattern{grid-column:1;grid-row:1;min-height:24mm}.representation-table{grid-column:2;grid-row:1}.representation-equation{grid-column:1;grid-row:2;min-height:28mm}.representation-graph{grid-column:2;grid-row:2}.without-pattern .representation-pattern{display:none}.without-pattern .representation-table{grid-column:1;grid-row:1}.without-pattern .representation-graph{grid-column:2;grid-row:1 / span 2}.representation-pattern .diagram-resize-shell{margin-left:0}.representation :global(p){margin-top:0}

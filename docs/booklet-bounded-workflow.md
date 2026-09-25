@@ -1,4 +1,4 @@
-# Bounded Astra import and review stages
+# Bounded Sol import, review and repair stages
 
 This is the stage handoff guide for the existing efficient import workflow. It
 does not change accepted projects, question-bank schemas or historical run
@@ -8,9 +8,12 @@ and the [change runbook](booklet-change-runbook.md). The current instructions in
 
 ## One coordinator, small fresh contexts
 
-The coordinator reads `run-workflow next` and handles exceptions. Authoring and
-bookkeeping use Astra Low; mathematical, teaching-method, question and visual
-reviews use Astra High. All use Standard speed, ephemeral contexts and the same
+The coordinator reads `run-workflow next` and handles exceptions. As of
+25 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
+mathematical, teaching-method, question and visual review, and repair work uses
+exclusively Sol (`gpt-6-sol`) with `xhigh` reasoning. Do not substitute another
+model or lower effort. Historical trial records retain their original provenance;
+they do not authorize production model choices. All use Standard speed, ephemeral contexts and the same
 three-worker pool. Do not fork the conversation history into a worker. Provide
 the current ticket, relevant source images, taught context, approved decisions
 and exact ownership only. Preserve whole questions, shared stems and meaningful
@@ -36,7 +39,7 @@ inaccessible source or composition evidence must remain a reported blocker.
   credit or write an alternative checklist.
 - `prepareBoundedStage(options, jobId)` reserves the ownership and writes one
   immutable request ticket. It returns `ticket`, `prompt`, `images`, `cwd`,
-  `runDir`, `out` and `profile: "review"` for the generic Astra runner.
+  `runDir`, `out` and `profile: "review"` for the generic booklet runner (legacy `runAstraTask` export name).
 - `runBoundedStage(options, jobId, {runner?})` prepares, invokes the fresh review
   worker, saves its output, and submits the explicit result to the existing
   review APIs. Attempts, failures and usage use the existing attempt ledger.

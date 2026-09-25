@@ -125,7 +125,10 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
    const c=row.cells[0];if(!c||c.colSpan>1)continue;
    const words=/\b[A-Za-z]{2,}\s+[A-Za-z]{2,}\b/;
    const explicit=c.matches('[scope="row"],[role="rowheader"],[data-table-label]');
-   const inferred=row.cells.length>1&&words.test(c.innerText)&&c.innerText.trim().length<=64&&!c.querySelector('.katex,math,[data-latex]')&&[...row.cells].slice(1).every(cell=>!words.test(cell.innerText));
+   // Sentence descriptions in matching/answer tables may wrap. Only infer a
+   // compact row label from non-sentence text; explicit row headers still win.
+   const sentence=/[.!?][\s\u201d\u2019"')\]]*$/.test(c.innerText.trim());
+   const inferred=row.cells.length>1&&words.test(c.innerText)&&!sentence&&c.innerText.trim().length<=64&&!c.querySelector('.katex,math,[data-latex]')&&[...row.cells].slice(1).every(cell=>!words.test(cell.innerText));
    if(!explicit&&!inferred)continue;
    const old=c.style.whiteSpace,h=c.getBoundingClientRect().height;c.style.whiteSpace='nowrap';const single=c.getBoundingClientRect().height,overflow=c.scrollWidth>c.clientWidth+1;c.style.whiteSpace=old;if(h>single+1||overflow)add('wrapped-table-label',c);
   }

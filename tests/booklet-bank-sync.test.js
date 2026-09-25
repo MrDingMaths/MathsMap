@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {createEditableProject,createProjectBlock,snapshotBankQuestion} from '../src/lib/editable-booklet-model.js';
-import {createBookletProject,saveBookletProject,promoteProjectQuestion,loadBookletProject,getProjectBankSync,resolveProjectBankSync,duplicateBookletProject} from '../scripts/booklet/project-studio-server.mjs';
+import {createBookletProject,saveBookletProject,promoteProjectQuestion,loadBookletProject,getProjectBankSync,resolveProjectBankSync,duplicateBookletProject,updateProjectLibrary} from '../scripts/booklet/project-studio-server.mjs';
 import {revisionHash,writeTransaction,bankManifestEntry} from '../scripts/booklet/bank-sync.mjs';
 import {sharedQuestion,mergeQuestionContent} from '../src/lib/question-sync.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
@@ -54,6 +54,22 @@ async function fixture(t){
  const result=await promoteProjectQuestion(p.id,{blockId:b.id,mode:'create'},options);
  return{...options,options,project:result.project,bank:result.question,readBank:async()=>JSON.parse(await fs.readFile(path.join(options.bankRoot,result.question.id+'.json'),'utf8'))};
 }
+
+test('class library copies isolate content and archived originals retain bank ownership',async t=>{
+ const f=await fixture(t), before=await f.readBank();
+ const linksFile=path.join(f.bankRoot,'.sync','links.json'),links=await fs.readFile(linksFile,'utf8');
+ const master=await updateProjectLibrary(f.project.id,{category:'master',courseId:'s4'}, {...f.options,expectedRevision:f.project.revision});
+ const copy=await duplicateBookletProject(master.id,{...f.options,expectedRevision:master.revision,library:{category:'class',classLabel:'8MAT6'}});
+ assert.deepEqual(copy.sections[0].blocks[0].bankRef,master.sections[0].blocks[0].bankRef);
+ copy.sections[0].blocks[0].content.prompt='Class-specific wording';
+ await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision});
+ assert.deepEqual(await f.readBank(),before);
+ assert.equal((await loadBookletProject(master.id,f.options)).sections[0].blocks[0].content.prompt,master.sections[0].blocks[0].content.prompt);
+ await updateProjectLibrary(master.id,{...master.library,archivedAt:'2026-09-17T00:00:00Z'},{...f.options,expectedRevision:master.revision});
+ assert.equal(await fs.readFile(linksFile,'utf8'),links);
+ assert.equal((await getProjectBankSync(master.id,f.options)).items[0].owner,true);
+ assert.equal((await getProjectBankSync(copy.id,f.options)).items[0].owner,false);
+});
 
 test('rich-text publication and conflict acceptance preserve valid destination layouts',async t=>{
  const f=await fixture(t),block=f.project.sections[0].blocks[0];

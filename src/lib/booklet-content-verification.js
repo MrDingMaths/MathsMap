@@ -1,6 +1,7 @@
 import {hasVisibleContent} from './document-content.js';
 import {inspectPresentationFidelity} from './booklet-presentation-verification.js';
 import {validSourceRegion} from './diagram-source-region.js';
+import {sourceInventories} from './booklet-source-content.js';
 
 export const CONTENT_VERIFIER_VERSION='3';
 const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
@@ -52,13 +53,14 @@ export async function contentVerificationKey(project,entry,nodes=contentNodes(pr
   const sharedContext=(target?.ancestors??[]).filter(n=>n.prompt||n.questionDiagrams?.length||n.sharedSolutionDiagrams?.length).map(n=>contentOnly({id:n.id,prompt:n.prompt,questionDiagrams:n.questionDiagrams,sharedSolutionDiagrams:n.sharedSolutionDiagrams,answer:n.children?.length?n.answer:undefined}));
   const content=contentOnly(target?.node??null);
   const assets=[...assetSources([content,context,sharedContext])].sort().map(src=>[src,assetSignatures[src]??null]);
-  return signature({version:CONTENT_VERIFIER_VERSION,source:project.source?.sourceHashes,entry:{...entry,verification:undefined},content,context,sharedContext,assets});
+  const source=entry.runId&&entry.runId!==project.source?.runId?project.source?.imports?.find(item=>item.runId===entry.runId)?.source:project.source;
+  return signature({version:CONTENT_VERIFIER_VERSION,source:source?.sourceHashes,entry:{...entry,verification:undefined},content,context,sharedContext,assets});
 }
 export async function layoutVerificationKey(project,{renderer,fonts,edition}){
   return signature({project:{sections:project.sections,topics:project.topics,settings:project.settings,assets:project.assets},renderer,fonts,edition});
 }
 export async function inspectContentCoverage(project,{assetSignatures={}}={}){
-  const inventory=project.source?.inventory,entries=inventory?.entries??[],nodes=contentNodes(project),issues=[],rows=[];
+  const inventories=sourceInventories(project),entries=inventories.flatMap(inventory=>inventory.entries??[]),nodes=contentNodes(project),issues=[],rows=[];
   const targetIds=new Set(entries.filter(e=>!e.exclusionReason).map(e=>e.targetId));
   const issue=(kind,targetId,note)=>issues.push({kind,targetId,note});
   if(!entries.length)issue('missing-inventory',null,'Source inventory has not been recorded.');
@@ -81,9 +83,12 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
       }
       for(const id of entry.teachingContextIds??[])if(!nodes.has(id))issue('missing-teaching-context',entry.targetId,`Missing teaching context ${id}`);
     }
-    rows.push({id:entry.id,targetId:entry.targetId,pageNumber:entry.pageNumber,kind:entry.kind,state});
+    rows.push({id:entry.id,targetId:entry.targetId,pageNumber:entry.pageNumber,...(entry.runId?{runId:entry.runId}:{}),kind:entry.kind,state});
   }
-  for(const page of inventory?.selectedPages??[])if(!inventory.pages?.some(p=>p.pageNumber===page&&p.inventoried))issue('unchecked-page',null,`Source p${page} has not been inventoried.`);
+  for(const inventory of inventories){
+    if(!inventory.entries?.length)issue('missing-inventory',null,`Source ${inventory.runId??project.source?.runId??''} inventory has not been recorded.`);
+    for(const page of inventory.selectedPages??[])if(!inventory.pages?.some(p=>p.pageNumber===page&&p.inventoried))issue('unchecked-page',null,`Source ${inventory.runId?inventory.runId+' ':''}p${page} has not been inventoried.`);
+  }
   const hasAnswer=value=>value!=null&&hasVisibleContent(value);
   for(const flag of project.studio?.flags??[])if(!flag.resolved)issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
   for(const {node,block,ancestors}of nodes.values()){

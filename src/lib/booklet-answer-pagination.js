@@ -25,7 +25,7 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     const prior=cached.prior?.checkpoints[i];
     if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&columns.every((c,j)=>samePageCarry(c,prior.columns[j]))){pages.push(...cached.prior.pages.slice(prior.pageCount).map(p=>({...p})));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=Array.from({length:count},()=>[]);break;}
     cached.entry.checkpoints.push(checkpoint);
-      for(const fragment of answerFragments(block)){
+      for(const fragment of answerFragments(block,mode)){
         check();
         const entry={block:fragment,section,labelWidthMm:widths.get(section.topicId)};
         while(true){
