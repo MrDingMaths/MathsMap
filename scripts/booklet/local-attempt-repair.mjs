@@ -13,6 +13,10 @@ import {pointerParts,exactField} from './editorial-context.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const ref=file=>({path:path.resolve(file),hash:bytesHash(file)});
+// These are author-created references into the editable structure. A reviewed
+// reparenting may update them; original source facts and review approvals remain
+// protected. Immutable generation and the exact patch record retain old values.
+const reviewReferenceFields=new Set(['/sourceReview/presentationRequirements','/sourceReview/arrangements']);
 const checkRef=artifact=>{
  if(!artifact?.path||!artifact.hash||bytesHash(artifact.path)!==artifact.hash)throw Error('Missing or changed repair evidence: '+artifact?.path);
 };
@@ -24,7 +28,8 @@ function sourceAttempt(options,request){
   if(!/^assignment-[a-f0-9]{20}$/.test(request.assignmentId))throw Error('Invalid assignment identity');
   const root=path.join(task.packetRoot,'assignments',request.assignmentId),dir=path.join(root,String(fromAttempt)),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json'),snapshot=read(input);
   const tasks=createSemanticTasks({...options,stage:'author',pages:snapshot.assignment.pages});
-  const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:(options.manifest.continuations??[]).filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>snapshot.assignment.pages.includes(p)))});
+  const continuations=options.config.assignmentLimits?.continuations??options.manifest.continuations??[];
+  const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>snapshot.assignment.pages.includes(p)))});
   const assignment=plan.assignments.find(a=>a.id===request.assignmentId);
   if(!assignment||assignmentPayload(assignment,tasks).inputHash!==snapshot.inputHash)throw Error('Assignment source inputs changed');
   if(fs.existsSync(task.resultFile))throw Error('Published content uses repair-context');
@@ -46,7 +51,7 @@ function targetNode(packet,targetId,field){
  const node=contentNodes(packet).get(targetId)?.node;
  if(!node)throw Error('Missing repair target '+targetId);
  const key=pointerParts(field)[0];
- if(['id','sourceRefs','sourceAtom','sourceReview','sourceLayoutEvidence','provenance'].includes(key))throw Error('Preserve identity and source evidence in local repairs');
+ if(['id','sourceRefs','sourceAtom','sourceReview','sourceLayoutEvidence','provenance'].includes(key)&&!reviewReferenceFields.has(field))throw Error('Preserve identity and source evidence in local repairs');
  return node;
 }
 export function attemptRepairContext(options,request){
@@ -79,6 +84,20 @@ export function applyAttemptPatches(packet,context,patches){
  }
  const ids=value=>{const rows=[];const walk=n=>{if(!n||typeof n!=='object')return;if(n.id)rows.push(n.id);for(const child of Object.values(n))walk(child);};walk(value.sections);return rows.sort();};
  if(!isDeepStrictEqual(ids(packet),ids(result)))throw Error('Local repair must preserve every content ID');
+ for(const patch of patches.filter(p=>reviewReferenceFields.has(p.field))){
+  if(!Array.isArray(patch.original)||!Array.isArray(patch.corrected))throw Error('Review reference repairs require arrays');
+  const node=targetNode(result,patch.targetId,patch.field);
+  if(patch.field.endsWith('/presentationRequirements')){
+   const values=rows=>rows.map(({path,...rest})=>JSON.stringify(rest)).sort();
+   if(!isDeepStrictEqual(values(patch.original),values(patch.corrected)))throw Error('Review reference repair must preserve every requirement value');
+   for(const requirement of patch.corrected)if(!requirement.path?.startsWith('/')||!isDeepStrictEqual(exactField(node,requirement.path),requirement.value))throw Error('Repaired presentation reference must resolve to its unchanged required value');
+  }else{
+   const targets=rows=>rows.map(r=>r.targetId).sort();
+   if(!isDeepStrictEqual(targets(patch.original),targets(patch.corrected)))throw Error('Arrangement reference repair must preserve every reviewed target');
+   const nodes=contentNodes(result);
+   for(const row of patch.corrected)if(!nodes.has(row.targetId)||(row.order??[]).some(id=>!nodes.has(id)))throw Error('Repaired arrangement reference does not resolve');
+  }
+ }
  return result;
 }
 export async function repairAttempt(options,record,{log=console.log}={}){

@@ -1,0 +1,63 @@
+# Import duration controls and Chapter 2 lessons
+
+Applies to new imports and remaining work that has not yet been reviewed. Preserve the quality gates in the bounded workflow, review-first policy and change runbook. These controls do not authorize lower model effort, incomplete page coverage or question-bank publication.
+
+## Before bulk work
+
+- Inventory independently, establish shared-stem groups, and map original teaching and answer evidence before authoring. Resolve inaccessible evidence and notation prerequisites early; deliver required text inline when tool access is unavailable.
+- Plan representative layouts by distinct pattern. One actual representative can cover several applicable checks. Record the expected source pages, groups, representative exports and final editions before launching bulk calls.
+- Review the taught methods once per stable exercise context. Classify using complete catalogue definitions, including restrictions such as translations versus reflected graphs.
+- Use the existing bounded batches: up to four complete questions or eight rendered pages, within the handoff budget. Investigate audit/history payloads that force routine questions into oversized one-question calls. Never split a shared question or omit necessary source evidence merely to meet a budget.
+
+## During the run
+
+At each ten authored source pages, each completed review phase, and at least every thirty minutes of active work, inspect the existing run receipt and queue. Record completed and remaining work, model calls, retries, exports, actual cache reuse and the cause of any repeat work. If progress stalls or the same cause fails twice, diagnose the cause before another attempt. This is a coordinator checkpoint, not a new user-approval requirement.
+
+Preserve immutable successful assignments and their actual evidence. Metadata-only changes require a scoped comparison, not a fresh mathematical or visual inspection by default. Newly recorded classification-only assessment findings carry validated checks. Retaining such a finding leaves the failed classification visible and does not invalidate the exercise teaching summary or unrelated answers. Answer/method failures and legacy findings without structured evidence remain conservative. This behaviour is regression-tested in booklet-bounded-stages.test.js.
+
+When renderer dependencies or evidence bytes change, the workflow removes the representative's active approval but retains its last inspection record in `staleRepresentatives`. Inspect the actual dependency diff and affected content before explicit reapproval or a new inspection. Never treat the retained record as current acceptance automatically. Regression tests cover renderer changes, changed evidence bytes, repeated resume and explicit reapproval; successful evidence must not disappear merely because another worker resumes the queue.
+
+Settle each shared-cause repair before exporting. Use the current affected-page baseline and pagination neighbours. Reuse unchanged answer or student layouts only with the required evidence. Do not request a full development export to repair an unusable baseline without first explaining and recording the selection. After content settles, perform the required five-edition automated checks and unique-layout final inspection once; rerun only checks actually invalidated by subsequent repairs.
+
+## Specific prevention
+
+- Check active mathematics delimiters before sending bulk answer reviews. JavaScript replacement strings interpret $$ as one dollar; use callback replacements when inserting literal TeX display delimiters. Preserve original source pixels and historical evidence.
+- Supply the exact assigned original prerequisite pages to teaching reviewers. A correct method with an unassigned citation is a handoff defect; retain the returned result and repair its evidence scope.
+- Keep live review projects local, without bank references, ownership registrations or synchronization bindings. Verify bank isolation after revision-safe saves.
+- Track repeated failures separately from accepted work. Export generation, exact pixel reuse, metadata retention and actual visual inspection are different metrics.
+
+The unfinished Chapter 2 receipt at 27 September 2026 12:49 UTC already recorded 1,311 runner invocations and 154 generated exports. That is a warning baseline, not an accepted efficiency benchmark. The two-hour and weekly-allowance targets remain unproven. Report complete-job usage including coordinator work, repairs and final acceptance before making savings claims.
+
+Measured payload example: the source-page 131 questions 40–41 assessment carried 167,590 prompt characters, including 99,643 characters of correction decisions and 54,987 characters of question data. Prior scaffold and working-space snapshots dominated the repeated decisions. Diagnose this before a future bulk run: preserve immutable evidence, supply current mathematical values, and keep superseded presentation history out of the routine mathematical handoff where the stage contract permits. Raising the character limit alone does not solve the repeated-work cost.
+
+Dispatch visual review with `stages: ["visual", "composition"]` after source authoring and mathematics settle; this skips unrelated prompt construction while preserving the full checklist, ownership, dependencies and evidence gates. Stage scope is pinned in the ticket and cannot change at record time.
+
+Status and workflow-flag calculations share renderer and evidence checks only within a synchronous operation. The next operation reads fresh evidence; do not introduce an unvalidated process-wide cache. Regression coverage requires changed artifact bytes to invalidate the next status and flag checks.
+
+Before a full final export, explicitly reconcile content-verification and presentation-verification records with the assembled project. Mathematical answer assessments alone are not source-entry or source-visual acceptance. Plan the source comparison handoff during authoring, so omitted acceptance metadata does not first appear at the export gate.
+
+The artifact verifier also caches existence checks within its synchronous snapshot, alongside byte hashes. It still compares every expected hash, and a new snapshot detects changed, deleted or newly created files. Retained draft export reports include the exact project, renderer, assets, page hashes and PDF hash so source review can use actual PDF rasters without an extra render or a false full-acceptance manifest.
+
+## Review handoff without premature publication
+
+For an editable Import review with explicitly retained decisions, export with `check-compact-exercises.mjs --review-only`. It requires local `import-review` content and runs complete edition layout, geometry, response-coverage and navigation checks. It emits separate `review` manifests, retains the readiness report and leaves flags unchanged. A `review` visual queue can compare exact combined PDF pixels and record actual standalone and composition inspections; it cannot be submitted through `finalReviewRecord` or final bank acceptance. All five editions and every required actual inspection remain mandatory.
+
+Use the bounded visual-stage API with up to three disjoint workers after content freezes. Preserve failed batch evidence, continue independent batches, then repair and inspect affected pages. Send current source corrections for author and project scopes. Native document traversal must include `children` and `inlines`; a filtered correction summary that loses these values can make a reviewer rediscover an already corrected printed answer. Send concise current short answers where the original answer key is disputed.
+
+Probe mixed text/fraction baselines, labelled text stacks and punctuation adjacent to inline mathematics before bulk authoring. Preserve manual vertical alignment and handwriting space. Metadata binding for grouped native questions must carry complete source identities; split response canvases are derived checks and must not increase the independently inventoried source count.
+
+Before a full export, seed the output directory from the latest compatible Playwright diagram cache. Preserve completed edition manifests. If switching editions remains pending far beyond the measured standalone baseline, retain the successful PDF and restart only the pending edition in a fresh document; do not reprint completed editions or wait through repeated ten-minute timeouts. Record this retry and actual cache/export reuse separately.
+
+Run source-binding and presentation coverage on the first representative grouped exercise before bulk authoring. Native `question` roots with separately numbered children need complete `sourceQuestionIdentities` and whole-question mappings. An answer leaf whose task is printed in an ancestor needs an exact inventoried `promptBinding`; copied drawing canvases and authored response splits use `derived:true` links. These bindings describe provenance and never establish visual acceptance. Catching these schema requirements early avoids a whole-book metadata repair at handoff.
+
+Keep queue preparation and bounded dispatch in one long-lived coordinator process where possible. Full PNG/PPM validation is deterministic and expensive; its existing in-process verification cache should survive between prepare, next, claim and record. A fresh process must revalidate the same artifact closure. This cache saves verification work only; it never supplies human/model visual-inspection credit.
+
+Measured final-dispatch bottleneck (28 September 2026 Sydney): a warm `nextBoundedWork` took 64.993 seconds; its CPU profile attributed about 43 seconds to repeated teaching-artifact existence/type checks. `verificationDependencies` now shares existence/type results only within its synchronous projection, as it already shares byte hashes. An actual before/after run on the same 520-question snapshot took 43.916 s and 4.673 s respectively, with every dependency value identical. Twenty-five targeted tests passed, including changed, missing, newly created and non-file evidence between calls. This is a measured dependency-projection improvement, not an accepted whole-import duration claim.
+
+Keep the three-worker pool supplied as each worker finishes; avoid a wave barrier that leaves two slots idle behind one slow batch. Preserve exact ticket ownership and serialize claims/results. A dispatcher must support a graceful drain and recording an already completed immutable result after restart, without another model call. Measure the complete delivered prompt, including source/answer supplements; the canonical ticket character count alone does not include custom appended evidence.
+
+Visual-stage prompt projection now indexes repeated path/hash evidence while preserving every source mapping, pixel descriptor, prior finding and native corrected value. Two positive/negative tests cover lossless reconstruction and missing or inconsistent image evidence. On 11 retained eight-page Chapter 2 tickets, the first canonical prompt fell from 22,291 to 15,017 characters. Appended source/answer supplements still brought complete deliveries to 24,845–32,001 characters, so this is not a claim that all handoffs meet the 24,000-character budget. Plan future batches using the complete delivery size, with smaller page groups where possible and explicitly justified indivisible-context exceptions. Do not silently omit necessary evidence.
+
+Focused feedback workers must receive the complete occurrence audit inline, including excluded occurrences and their semantic reasons. A linked file is provenance, not readable evidence. If a worker has already inspected the supplied pixels but cannot read an audit file, retain those observations and complete the missing audit explicitly; never repeat accepted visual work or describe inaccessible evidence as checked.
+
+For scoped project corrections, calculate verification signatures from the effective entries returned by `sourceInventories`, including overrides. Preserve unchanged, already reviewed metadata and genuine user flags. Do not repopulate a review project with repeated whole-renderer workflow-gate warnings during a two-question save; keep those gate states in the workflow register and preserve actual pending user decisions in Studio. Validate coverage immediately after the scoped save, before final export. Metadata-only repairs retain passed PDF bytes with an explicit printable-content and settings comparison; they do not trigger new rendering.

@@ -9,6 +9,7 @@ import {compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficien
 import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
 import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
+import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs';
 import {attemptRepairContext,repairAttempt,applyAttemptPatches} from '../scripts/booklet/local-attempt-repair.mjs';
 
 function fixture(t){
@@ -57,6 +58,24 @@ test('local repairs reject stale source dependencies, missing evidence and ID ch
  await assert.rejects(repairAttempt({...options,attempt:2},{context,patches:[]},quiet),/named reviewer/);
  fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-004.txt'),'Changed source');
  assert.throws(()=>attemptRepairContext(options,request),/source inputs changed/);
+});
+
+test('local structural repair may update author review references without changing evidence or required values',async t=>{
+ const options={...fixture(t),pages:[4]},bad=author(4),block=bad.sections[0].blocks[0];
+ block.content.children=[{...block.content,id:'response',type:'part'}];delete block.content.answer;
+ block.sourceReview={sourcePages:[4],sourceCompared:false,presentationRequirements:[{path:'/content/children/0/prompt',value:'Solve.'}],arrangements:[{targetId:'q-4',layout:'list',order:['response']}]};
+ bad.inventoryMappings[0].targetId='missing';
+ await runSemanticPackets(options,{...quiet,runner:async()=>({result:bad,metrics:{}})});
+ const targets=[{targetId:'b-4',fields:['/content','/sourceReview/presentationRequirements','/sourceReview/arrangements']}];
+ const context=attemptRepairContext(options,{page:4,fromAttempt:1,targets});
+ const child=block.content.children[0],changed={...block.content,children:[],answer:child.answer,prompt:child.prompt};
+ // Move the existing parent ID into a native prompt paragraph, retaining IDs.
+ changed.id='response';changed.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'q-4',type:'paragraph',inlines:[{type:'text',text:'Solve.'}]}]};
+ const patches=context.targets.map(t=>({...t,reason:'Reviewed reparenting; preserve source facts and required content.',corrected:t.field==='/content'?changed:t.field.endsWith('presentationRequirements')?[{path:'/content/prompt/blocks/0/inlines/0/text',value:'Solve.'}]:[{targetId:'q-4',layout:'list',order:['response']}]}));
+ assert.doesNotThrow(()=>applyAttemptPatches(bad,context,patches));
+ const altered=structuredClone(patches);altered[1].corrected[0].value='Different source';assert.throws(()=>applyAttemptPatches(bad,context,altered),/preserve every requirement value/);
+ const stale=structuredClone(patches);stale[1].corrected[0].path='/content/missing';assert.throws(()=>applyAttemptPatches(bad,context,stale),/Missing|resolve/);
+ for(const field of ['/sourceReview','/sourceReview/sourcePages','/sourceReview/sourceCompared','/sourceLayoutEvidence'])assert.throws(()=>attemptRepairContext(options,{page:4,fromAttempt:1,targets:[{targetId:'b-4',fields:[field]}]}),/Preserve identity/);
 });
 
 test('external full-page retries require a recorded reason before any new attempt starts',async t=>{
@@ -141,6 +160,24 @@ test('Word retrieval merges overlap while preserving source offsets and whitespa
  assert.equal(wordExcerpts(word,'unrelated zebra').length,0);
 });
 
+test('author handoffs scope method clarifications to the assigned exercise without hiding shared corrections',t=>{
+ const options=fixture(t);options.config.workflowPolicy='review-first-v1';
+ const workflowState={pages:{4:{patterns:[]}},issues:{},corrections:[],representatives:{}};
+ const task=()=>createSemanticTasks({...options,pages:[4],workflowState})[0];
+ const before=task();
+ const issue=(id,extra={})=>({id,page:1,status:'retained',message:id,resolution:{reason:'Use the supplied method'},...extra});
+ workflowState.issues.other=issue('foreign-method',{reviewJob:{stage:'theory',ownershipIds:['exercise:another']}});
+ assert.equal(task().inputHash,before.inputHash);
+ workflowState.issues.own=issue('assigned-method',{reviewJob:{stage:'theory',ownershipIds:['exercise:algebra']}});
+ workflowState.issues.source=issue('shared-source');
+ workflowState.issues.target=issue('explicit-target',{targetId:'q-4',reviewJob:{stage:'theory',ownershipIds:['exercise:another']}});
+ const current=task();
+ assert.deepEqual(current.editorialDecisions.map(d=>d.id),['assigned-method','shared-source','explicit-target']);
+ assert.notEqual(current.inputHash,before.inputHash);
+ fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-001.png'),'changed source pixels');
+ assert.notEqual(task().inputHash,current.inputHash);
+});
+
 test('dry run performs no model calls or writes, and fingerprints only relevant evidence',async t=>{
  const options=fixture(t),before=fs.readdirSync(path.join(options.runDir,'semantic-packets'));
  const report=await runSemanticPackets({...options,dryRun:true},{...quiet,runner:()=>assert.fail('dry run called model')});
@@ -198,12 +235,26 @@ test('result validation rejects omissions, nonexistent targets, incomplete diagr
  assert.throws(()=>validateSemanticResult(author(4),{...task,inventory:visualInventory}),/non-diagram target/);
 });
 
+test('a retained source portrait maps to its native speech-template image after document normalization',()=>{
+ const a=author(4),i=inventory(4);i.entries.push({id:'source-portrait',kind:'diagram',description:'Portrait beside a speech bubble'});
+ let portrait={id:'portrait',type:'image',src:'/booklet-assets/portrait.png',alt:'Edward',width:18,aspectRatio:1};
+ a.sections[0].blocks[0].content.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'bubble',type:'layout',arrangement:'speech-bubble',columns:2,slots:[{id:'character',blocks:[portrait]},{id:'statement',blocks:[{id:'text',type:'paragraph',inlines:[{type:'text',text:'A mode is a data value.'}]}]}]}]};
+ a.inventoryMappings.push({inventoryId:'source-portrait',targetId:'portrait'});
+ a.sections[0].blocks[0].content.prompt=normalizeDocument(a.sections[0].blocks[0].content.prompt);
+ portrait=a.sections[0].blocks[0].content.prompt.blocks[0].slots[0].blocks[0];
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ portrait.src=' ';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ portrait.src='/booklet-assets/portrait.png';portrait.width=0;assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+
 test('source card diagrams may map to individual editable card slots, not arbitrary prose slots',()=>{
  const a=author(4),i=inventory(4);i.entries.push({id:'source-card',kind:'diagram',description:'Letter M card'});
  const layout={id:'cards',type:'layout',arrangement:'cards',slots:[{id:'card-m',blocks:[{id:'letter-m',type:'paragraph',inlines:[{type:'text',text:'M'}]}]}]};
  a.sections[0].blocks.push({id:'native-cards',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[layout]}});
  a.inventoryMappings.push({inventoryId:'source-card',targetId:'card-m'});
  assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ a.inventoryMappings.at(-1).targetId='cards';assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ const saved=layout.slots;layout.slots=[];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);layout.slots=saved;
  layout.arrangement='parallel';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
 });
 
@@ -214,6 +265,46 @@ test('source tables may map to populated native tables but not empty placeholder
  a.inventoryMappings.push({inventoryId:'source-table',targetId:'native-table'});
  assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
  table.rows=[];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+
+test('equation and writing-scaffold visuals can retain editable native maths',()=>{
+ const i=inventory(4),a=author(4);
+ i.entries.push({id:'source-scaffold',kind:'diagram',description:'Range equals three handwritten boxes with subtraction and equals signs.'});
+ const scaffold={id:'native-scaffold',type:'paragraph',inlines:[{type:'math',latex:'\\mathrm{Range}=\\boxed{\\phantom{7}}-\\boxed{\\phantom{3}}=\\boxed{\\phantom{4}}'}]};
+ a.sections[0].blocks.push({id:'scaffold-block',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[scaffold]}});
+ a.inventoryMappings.push({inventoryId:'source-scaffold',targetId:scaffold.id});
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ scaffold.inlines=[{type:'text',text:'Range = '},{type:'cloze',answer:'4',width:15}];
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ scaffold.inlines=[{type:'math',latex:'  '}];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ scaffold.inlines=[{type:'text',text:'Diagram goes here'}];assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+
+test('a populated native scaffold can replace a source equation visual',()=>{
+ const i=inventory(4),a=author(4);
+ i.entries.push({id:'source-scaffold',kind:'diagram',description:'Range calculation with writable boxes'});
+ const scaffold={id:'native-scaffold',type:'layout',arrangement:'scaffold',slots:[
+  {id:'formula-slot',blocks:[{id:'formula',type:'paragraph',inlines:[{type:'math',latex:'R='}]}]},
+  {id:'box-slot',blocks:[{id:'box',type:'table',rows:[[{blocks:[{id:'answer',type:'paragraph',inlines:[{type:'cloze',answer:'4',width:12}]}]}]]}]}
+ ]};
+ a.sections[0].blocks.push({id:'scaffold-block',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[scaffold]}});
+ a.inventoryMappings.push({inventoryId:'source-scaffold',targetId:scaffold.id});
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ scaffold.arrangement='parallel';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ scaffold.arrangement='scaffold';scaffold.slots[1].blocks=[];
+ assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ scaffold.slots=[{id:'empty-prose-slot',blocks:[{id:'empty-prose',type:'paragraph',inlines:[{type:'text',text:'Scaffold goes here'}]}]}];
+ assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+});
+
+test('an inventoried response grid maps explicitly to its native grid layout',()=>{
+ const i=inventory(4),a=author(4);i.entries.push({id:'source-grid',kind:'diagram',description:'Two response cells'});
+ const grid={id:'native-grid',type:'group',prompt:'Find each range.',layout:'grid',children:['a','b'].map(id=>({id,type:'part',prompt:'$1, 2$',answer:{short:'1',worked:'$2-1=1$'}}))};
+ a.sections[0].blocks.push({id:'grid-block',type:'question',content:grid});
+ const mapping={inventoryId:'source-grid',targetId:grid.id,field:'/layout'};a.inventoryMappings.push(mapping);
+ assert.doesNotThrow(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}));
+ mapping.field='/prompt';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
+ mapping.field='/layout';grid.layout='stack';assert.throws(()=>validateSemanticResult(a,{stage:'author',page:4,inventory:i}),/non-diagram/);
 });
 
 test('a concurrent canonical edit survives an in-flight transcription',async t=>{
@@ -330,4 +421,17 @@ test('shared materialization failures retain metrics and bounded mapping repairs
  assert.equal(repair.ok,true);
  const saved=JSON.parse(fs.readFileSync(createSemanticTasks(enabled)[0].resultFile));assert.equal(saved.authoringFormat,undefined);assert.equal(saved.inventoryMappings.length,1);assert.equal(typeof saved.sections[0].blocks[0].content.questionDiagrams[0].code,'string');
  const receipt=readAttemptReceipt(path.join(options.runDir,'semantic-packets'));assert.equal(receipt.calls,3);assert.equal(receipt.usage.output_tokens,55);
+});
+
+test('reviewed publication honours its bounded wait without stealing another writer lock',async t=>{
+ for(const [waitMs,releaseMs,success]of [[10,180,false],[1000,180,true]]){
+  const base=fixture(t),page=1,canonical=path.join(base.runDir,'semantic-packets/page-001.inventory.json');fs.unlinkSync(canonical);
+  const options={...base,manifest:{...base.manifest,workflowPolicy:'review-first-v1'},stage:'inventory',pages:[page],reviewLockTimeoutMs:waitMs};let release;
+  const report=await runSemanticPackets(options,{...quiet,runner:async()=>{
+   const file=path.join(base.runDir,'workflow/review.lock');fs.mkdirSync(path.dirname(file),{recursive:true});const owner=JSON.stringify({pid:process.pid,note:'Fixture writer owns this lock'});fs.writeFileSync(file,owner,{flag:'wx'});
+   release=new Promise(resolve=>setTimeout(()=>{assert.equal(fs.readFileSync(file,'utf8'),owner);fs.unlinkSync(file);resolve();},releaseMs));
+   return {result:{...inventory(page),layoutPatterns:[{id:'plain',description:'Plain source question'}]},metrics:{}};
+  }});
+  await release;assert.equal(report.ok,success);assert.equal(fs.existsSync(canonical),success);if(!success)assert.match(report.pages[0].error,/review lock is busy/);
+ }
 });

@@ -20,6 +20,71 @@ protocols and runners are recoverable from snapshot commit c27b0d86 and the
 local verified archive. Next-import rollout must retain the existing source,
 mathematical, edition and bank acceptance gates.
 
+## Preventing repeated final passes (Data Analysis follow-up)
+
+Before final settlement, establish one stable implementation snapshot. If another
+task is changing shared booklet code, use an isolated worktree or checkout with
+the required current edits preserved, or coordinate an explicit code freeze. Do
+not repeatedly chase unrelated changes in a live shared tree. Integrate required
+shared fixes in one reviewed batch and rerun only their affected checks. Keep
+project and bank publication serialized against the current canonical revisions.
+
+Include the actual rendering mechanism in representative coverage before bulk
+authoring. A TikZ label check does not cover native KaTeX arrays or raster labels.
+For statistical booklets, include native stem-and-leaf arrays and their keys,
+paired independent datasets, fraction-position scaffolds, and annotations that
+point to handwriting boxes. Check the printed label size, independent-dataset
+separation, complete equation baselines and arrow endpoints at final size. Native
+KaTeX uses its own font scale: measure the resulting PDF text instead of treating
+the paragraph's point size as the printed label size.
+
+Measure the original rendered geometry without inserting probe elements. A
+temporary baseline marker can change a KaTeX inline block's intrinsic baseline
+and produce a false pass. Fraction scaffolds must compare the actual fraction
+and equality axes and positive horizontal clearance between prose labels and
+equality signs, then pass inspection of the unmodified printed output. Preserve
+the width of handwriting boxes when widening an undersized label column. Keep
+the original failed measurement in the run record when replacing such a check.
+
+When a final pass discovers a shared defect, audit its complete occurrence scope
+once and consolidate related repairs before the next settlement. Continuing a
+known-invalid full pass guarantees another full pass under the settlement policy.
+Use the existing cancellation API at a safe job boundary when the remaining
+discovery work is not needed to establish scope. Retain every actual inspection,
+failure and finding; cancellation grants no inspection credit. Continue unrelated
+source, mathematical or teaching assignments while repairs are prepared.
+
+After repairs, compare dependency values once and retain successful source,
+mathematical and teaching judgments whose inputs remain exact. Bind changed
+presentation evidence to the actual affected output. Do not regenerate content
+or replay unrelated checks because a shared implementation file changed. Save
+through the normal revision-safe API, settle once, and perform the required fresh
+standalone review and combined comparison/composition on that settled snapshot.
+
+Before beginning the timed visual queue, preflight context delivery and identify
+indivisible oversized pages. A coordinator may approve an explicit policy for
+bounded one-page context exceptions, pinned to the actual saved candidate,
+settlement, renderer and implementation. Each issued exception must retain its
+own exact delivery hash and reason. Such a policy permits delivery only; it
+cannot approve a page or omit source evidence. Inputs outside its scope stop for
+review.
+
+Avoid reconstructing the same source delivery repeatedly inside one synchronous
+validation operation. Any reuse must preserve the original validation predicates,
+check current dependency bytes on entry and exit, and end before a model call,
+human wait or another operation. Record source reconstruction time separately
+from model, export and tool-handoff time. Synthetic validation tests demonstrate
+correctness; only complete accepted runs can establish a speed improvement.
+
+The reusable helpers are `scripts/booklet/manual-read-boundary.mjs` and
+`scripts/booklet/single-page-context-policy.mjs`. A delivery adapter must still
+validate the source, ownership and current authorization before using them.
+Their focused regressions run with:
+
+```text
+node --experimental-test-module-mocks --test tests/booklet/manual-read-boundary.test.mjs tests/booklet/single-page-context-policy.test.mjs
+```
+
 ## New-run pipeline policy (17 September 2026)
 
 Newly prepared runs record `pipelinePolicy: "pdf-import-efficient-v1"`. Existing

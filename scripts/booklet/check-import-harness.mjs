@@ -28,7 +28,8 @@ export async function checkImportHarness({candidateFile,diagramId,out,base,runDi
   const started=Date.now(),sourceHash=artifactHash(candidateFile),directory=isolatedHarnessDirectory(out);
   const candidate=JSON.parse(fs.readFileSync(candidateFile,'utf8').replace(/^\uFEFF/,''));
   const diagram=contentNodes(candidate).get(diagramId)?.node,width=Number(diagram?.widthMm);
-  if(!diagram||!Number.isFinite(width)||width<10||width>170)throw Error('Select a diagram with an explicit width between 10 and 170 mm');
+  // The editor accepts up to190mm; retain room for the +4mm resize probe.
+  if(!diagram||!Number.isFinite(width)||width<10||width>186)throw Error('Select a diagram with an explicit width between 10 and 186 mm');
   fs.mkdirSync(directory,{recursive:true});
   const projectRoot=path.join(directory,'projects'),bankRoot=path.join(directory,'bank');
   fs.mkdirSync(projectRoot);fs.mkdirSync(bankRoot);

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {inspectTriangle,triangleConstruction,measuredTriangle,verifyTriangleCode} from '../scripts/booklet/triangle-constraints.mjs';
-import {loadWorkflow,liveWorkflow,updateWorkflow,registerInventory,registerAuthor,pageGate,recordMathReview,applyDecisions,approveRepresentative,representativeKey,settlementKey,settleWorkflow,acceptFinalReview,materializeCorrections,synchronizeProject,bytesHash,PATTERN_CHECKS,FINAL_EDITIONS,REVIEW_POLICY} from '../scripts/booklet/workflow-review.mjs';
+import {loadWorkflow,liveWorkflow,updateWorkflow,registerInventory,registerAuthor,pageGate,currentStatus,workflowFlags,recordMathReview,applyDecisions,approveRepresentative,representativeKey,settlementKey,settleWorkflow,acceptFinalReview,materializeCorrections,synchronizeProject,bytesHash,PATTERN_CHECKS,FINAL_EDITIONS,REVIEW_POLICY} from '../scripts/booklet/workflow-review.mjs';
 import {rendererSignature} from '../scripts/booklet/verification-cache.mjs';
 import {affectedPages,renderedPageHashes,projectReviewHash,validateFinalManifest} from '../scripts/booklet/page-review.mjs';
 import {refreshRegister,correctionOutputs} from '../scripts/booklet/review-workflow.mjs';
@@ -12,13 +12,114 @@ import {createSemanticTasks,runSemanticPackets} from '../scripts/booklet/semanti
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 import {createEditableProject,createProjectBlock} from '../src/lib/editable-booklet-model.js';
 import {synchronizeInventoryAmbiguities} from '../scripts/booklet/workflow-review.mjs';
-import {recordMaterializedCorrections} from '../scripts/booklet/workflow-review.mjs';
+import {recordMaterializedCorrections,authorMappingTarget} from '../scripts/booklet/workflow-review.mjs';
 import {createBookletProject,promoteProjectQuestion,saveBookletProject} from '../scripts/booklet/project-studio-server.mjs';
+import {nextBoundedWork,registerFeedbackScope,prepareBoundedStage,recordBoundedStage} from '../scripts/booklet/bounded-stages.mjs';
 
 const exact=value=>({value,exact:true});
 const triangle={type:'triangle',sides:{b:exact(5),c:exact(5)},angles:{A:exact(100)}};
 const inv=page=>({pageNumber:page,inventoried:true,layoutPatterns:[{id:'short-question',description:'Single short prompt and response'}],entries:[{id:`src-${page}`,targetId:`q-${page}`,kind:'question',description:'Find x.'}]});
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Triangles',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
+
+test('stale representative evidence is recoverable without granting current approval',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-stale-evidence-'));
+ assert.equal(path.dirname(dir),path.resolve(os.tmpdir()));
+ try{
+  fs.mkdirSync(path.join(dir,'workflow'));
+  const evidence=path.join(dir,'inspection.json');fs.writeFileSync(evidence,'actual inspection');
+  const artifacts=[{path:evidence,hash:bytesHash(evidence)}];
+  const state={version:1,revision:1,pages:{1:{inventoryHash:'inventory',authorHash:'author',patterns:[{id:'grid'}],mathReview:{key:'inventory',artifacts}}},issues:{},corrections:[],representatives:{}};
+  const approval={pattern:'grid',page:1,key:representativeKey(state,1),renderer:'previous renderer',reviewer:'Actual reviewer',note:'Observed all labels and working space.',artifacts,checks:Object.fromEntries(PATTERN_CHECKS.map(k=>[k,true])),finalSize:true,sourceCompared:true};
+  state.representatives.grid=approval;
+  const file=path.join(dir,'workflow/issues.json');fs.writeFileSync(file,JSON.stringify(state));
+  const stale=liveWorkflow(dir);
+  assert.deepEqual(stale.staleRepresentatives.grid,approval);
+  assert.equal(stale.representatives.grid,undefined);
+  assert.ok(pageGate(stale,1).some(reason=>reason.includes('Representative pattern pending')));
+  fs.writeFileSync(file,JSON.stringify(stale));
+  assert.deepEqual(liveWorkflow(dir).staleRepresentatives,{grid:approval},'Repeated resumes retain one record, not growing copies');
+  approveRepresentative(stale,{...approval,renderer:rendererSignature()});
+  assert.equal(stale.staleRepresentatives.grid,undefined,'Only explicit current approval clears the retained record');
+  assert.deepEqual(pageGate(stale,1),[]);
+  fs.writeFileSync(file,JSON.stringify(stale));fs.writeFileSync(evidence,'changed evidence');
+  const changed=liveWorkflow(dir);
+  assert.equal(changed.representatives.grid,undefined);
+  assert.equal(changed.staleRepresentatives.grid.artifacts[0].hash,artifacts[0].hash,'Original hashes remain evidence, never refreshed automatically');
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('review publication can wait for a known writer without stealing its lock',async()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-review-wait-'));
+ const folder=path.join(dir,'workflow');fs.mkdirSync(folder);
+ const file=path.join(folder,'review.lock'),owner=JSON.stringify({pid:process.pid,startedAt:new Date().toISOString()});fs.writeFileSync(file,owner);
+ await assert.rejects(updateWorkflow(dir,'blocked',()=>{throw Error('must not run');},{lockTimeoutMs:0}),/lock is busy/);
+ assert.equal(fs.readFileSync(file,'utf8'),owner,'A timeout preserves the active writer');
+ const release=setTimeout(()=>fs.unlinkSync(file),100);
+ try{await updateWorkflow(dir,'wait for known writer',state=>{state.waited=true;},{lockTimeoutMs:2000});assert.equal(loadWorkflow(dir).waited,true);assert.equal(fs.existsSync(file),false);}finally{clearTimeout(release);fs.rmSync(dir,{recursive:true,force:true});}
+});
+test('author mapping corrections preserve provenance, reject conflicts and invalidate affected project acceptance',()=>{
+ const packet=author(1);packet.inventoryMappings[0].field='/prompt';
+ const patches=[{scope:'author',page:1,targetId:'$mapping:src-1',field:'/targetId',original:'q-1',corrected:'part-a'},{scope:'author',page:1,targetId:'$mapping:src-1',field:'/field',original:'/prompt',corrected:null}];
+ const state={corrections:[{status:'approved',patches}]},updated=materializeCorrections(packet,state,'author',1);
+ assert.deepEqual(updated.inventoryMappings,[{inventoryId:'src-1',targetId:'part-a',field:null}]);
+ assert.equal(packet.inventoryMappings[0].targetId,'q-1','Original packet remains evidence');
+ assert.deepEqual(materializeCorrections(updated,state,'author',1),updated);
+ const edited=structuredClone(packet);edited.inventoryMappings[0].targetId='local-node';
+ assert.throws(()=>materializeCorrections(edited,state,'author',1),/Stale correction/);
+ const ambiguous=structuredClone(packet);ambiguous.inventoryMappings.push({...ambiguous.inventoryMappings[0]});
+ assert.throws(()=>materializeCorrections(ambiguous,state,'author',1),/ambiguous author mapping/);
+ assert.throws(()=>materializeCorrections(packet,{corrections:[{status:'approved',patches:[{...patches[0],field:'/inventoryId'}]}]},'author',1),/only support/);
+ const project=author(1);project.sections[0].blocks[0].content.parts=[{id:'part-a',prompt:'Part a'}];project.sections[0].blocks[0].sourceReview={verification:{passed:true}};
+ project.source={inventory:{entries:[{id:'src-1',pageNumber:1,targetId:'q-1',field:'/prompt',verification:{passed:true}}]}};
+ const mapped=materializeCorrections(project,state,'project');
+ assert.equal(mapped.source.inventory.entries[0].targetId,'part-a');
+ assert.equal(mapped.source.inventory.entries[0].verification,undefined);
+ assert.equal(mapped.sections[0].blocks[0].sourceReview.verification,undefined);
+ assert.deepEqual(materializeCorrections(mapped,state,'project'),mapped);
+ const noField=author(1),clear={corrections:[{status:'approved',patches:[{...patches[1],original:null}]}]};
+ assert.equal(materializeCorrections(noField,clear,'author',1).inventoryMappings[0].field,null);
+});
+test('constituent mapping corrections keep content and identities, require a matching canonical mapping and reject stale metadata',()=>{
+ const packet=author(1);packet.inventoryMappings.push({inventoryId:'src-label',targetId:'q-1'});
+ const patches=[{scope:'author',page:1,targetId:'$mapping:src-label',field:'/continuationOf',original:null,corrected:'src-1'},{scope:'author',page:1,targetId:'$mapping:src-label',field:'/continuationReason',original:null,corrected:'The source label is part of the same supplied diagram.'}];
+ const state={corrections:[{status:'approved',patches}]},updated=materializeCorrections(packet,state,'author',1);
+ assert.deepEqual(updated.sections,packet.sections);
+ assert.deepEqual(updated.inventoryMappings.map(m=>m.inventoryId),['src-1','src-label']);
+ assert.deepEqual(updated.inventoryMappings[0],packet.inventoryMappings[0]);
+ assert.equal(Object.hasOwn(updated.inventoryMappings[1],'field'),false,'Whole-node mapping stays omitted like its canonical mapping');
+ assert.equal(updated.inventoryMappings[1].continuationOf,'src-1');
+ assert.deepEqual(materializeCorrections(updated,state,'author',1),updated);
+ assert.equal(packet.inventoryMappings[1].continuationOf,undefined,'Original evidence is unchanged');
+ const projected=authorMappingTarget(structuredClone(packet),'$mapping:src-label','author',1,['/continuationOf','/continuationReason']);
+ assert.equal(projected.continuationOf,null);assert.equal(projected.continuationReason,null);
+ const changed=structuredClone(updated);changed.inventoryMappings[1].continuationReason='Local explanation';
+ assert.throws(()=>materializeCorrections(changed,state,'author',1),/Stale correction/);
+ for(const canonical of ['src-label','missing'])assert.throws(()=>materializeCorrections(packet,{corrections:[{status:'approved',patches:[{...patches[0],corrected:canonical},patches[1]]}]},'author',1),/Invalid shared-content continuation/);
+ assert.throws(()=>materializeCorrections(packet,{corrections:[{status:'approved',patches:[patches[0]]}]},'author',1),/Invalid shared-content continuation/);
+ const wrongField=structuredClone(packet);wrongField.inventoryMappings[0].field='/prompt';
+ assert.throws(()=>materializeCorrections(wrongField,state,'author',1),/Invalid shared-content continuation/);
+ const project=structuredClone(packet);project.source={inventory:{entries:packet.inventoryMappings.map(({inventoryId,...m})=>({id:inventoryId,pageNumber:1,...m,verification:{passed:true}}))}};project.sections[0].blocks[0].sourceReview={verification:{passed:true},visualAudit:{checked:true}};
+ const mapped=materializeCorrections(project,state,'project');
+ assert.equal(mapped.source.inventory.entries[1].continuationOf,'src-1');assert.equal(mapped.source.inventory.entries[1].verification,undefined);
+ assert.equal(mapped.sections[0].blocks[0].sourceReview.verification,undefined);assert.equal(mapped.sections[0].blocks[0].sourceReview.visualAudit,undefined);
+ assert.deepEqual(materializeCorrections(mapped,state,'project'),mapped);
+});
+
+test('bounded feedback exposes absent constituent fields as null and records guarded mapping patches',async t=>{
+ const f=fixture(t),packet=author(1),inventory=inv(1);packet.inventoryMappings.push({inventoryId:'src-label',targetId:'q-1'});inventory.entries.push({id:'src-label',kind:'teaching',description:'A label in the supplied diagram.'});
+ f.write('semantic-packets/page-001.inventory.json',inventory);f.write('semantic-packets/page-001.author.json',packet);
+ const options={runDir:f.runDir,selectedPages:[1]};
+ await updateWorkflow(f.runDir,'fixture duplicate source mapping',state=>{Object.assign(state,liveWorkflow(f.runDir,[1]));state.issues['duplicate-label']={id:'duplicate-label',page:1,origin:'review',status:'pending',message:'Check the source label mapping.'};});
+ const fields=['/continuationOf','/continuationReason'];
+ await registerFeedbackScope(options,{...f.evidence,expectedRevision:loadWorkflow(f.runDir).revision,sharedCauseId:'constituent-label',issueIds:['duplicate-label'],targets:[{scope:'author',page:1,targetId:'$mapping:src-label',fields}],occurrenceAudit:true});
+ const pending=(await nextBoundedWork(options)).jobs.find(j=>j.stage==='feedback'),prepared=await prepareBoundedStage(options,pending.id),ticket=JSON.parse(fs.readFileSync(prepared.ticket.path));
+ assert.deepEqual(ticket.job.context.targets.map(t=>[t.field,t.original]),fields.map(field=>[field,null]));
+ const patches=fields.map((field,i)=>({scope:'author',page:1,targetId:'$mapping:src-label',field,original:null,corrected:i?'The source label is part of the same supplied diagram.':'src-1'}));
+ await recordBoundedStage(options,{ticket:prepared.ticket,result:{...f.evidence,corrections:[{id:'constituent-label',reason:'Preserve constituent source identity without duplicating its diagram.',sourceRefs:[{pageNumber:1}],patches}],resolutions:[{id:'duplicate-label',status:'corrected',correctionId:'constituent-label',reason:'Source label belongs to the same diagram.'}]}});
+ const state=loadWorkflow(f.runDir);assert.equal(state.issues['duplicate-label'].status,'corrected');
+ const updated=materializeCorrections(packet,state,'author',1);assert.equal(updated.inventoryMappings[1].continuationOf,'src-1');assert.deepEqual(updated.sections,packet.sections);
+});
+
 test('reviewed compact materialisation survives normalisation and certification but rejects local edits and changed patches',t=>{
  const f=fixture(t),packet=author(1),original=structuredClone(packet.sections[0].blocks);
  const state={corrections:[{status:'approved',patches:[{scope:'author',page:1,targetId:'s-1',field:'/blocks',original,corrected:original.map(b=>({...b,title:'Revised'}))}]}]};
@@ -88,6 +189,36 @@ test('approved parent and descendant corrections replay without overwriting loca
  assert.deepEqual(materializeCorrections(last,state,'author',1),last);
  const local=structuredClone(last);local.sections[0].blocks[0].content.prompt.blocks[0].width=126;
  assert.throws(()=>materializeCorrections(local,state,'author',1),/Stale correction/);
+});
+test('restoring a leaf value still replays intervening parent replacements and reuses the exact saved result',()=>{
+ for(const fieldParent of [false,true]){
+  const packet=author(1),block=packet.sections[0].blocks[0],node=block.content;
+  const originalWorked=node.answer.worked,formatted={type:'doc',blocks:[{type:'paragraph',text:'x=1'}]};
+  const leaf={scope:'author',page:1,targetId:node.id,field:'/answer/worked',original:originalWorked,corrected:formatted};
+  const parentOriginal=structuredClone(fieldParent?node.answer:node);
+  if(fieldParent)parentOriginal.worked=formatted;else parentOriginal.answer.worked=formatted;
+  const parentCorrected={...structuredClone(parentOriginal),ownership:'continuation'};
+  const parent={scope:'author',page:1,targetId:fieldParent?node.id:block.id,field:fieldParent?'/answer':'/content',original:parentOriginal,corrected:parentCorrected};
+  const corrections=[leaf,parent,{...leaf,original:formatted,corrected:originalWorked}].map((patch,i)=>({id:`chain-${i}`,status:'approved',reason:'Reviewed exact replacement',sourceRefs:[{pageNumber:1}],patches:[patch]}));
+  const state={corrections},before=structuredClone(packet),beforeState=structuredClone(state);
+  const expected=structuredClone(packet),expectedNode=expected.sections[0].blocks[0].content;
+  (fieldParent?expectedNode.answer:expectedNode).ownership='continuation';
+  const updated=materializeCorrections(packet,state,'author',1);
+  assert.deepEqual(updated,expected);
+  assert.deepEqual(packet,before,'Canonical source evidence stays immutable');
+  assert.deepEqual(state,beforeState,'Correction originals stay immutable');
+  updated.sections[0].blocks[0].sourceReview={verification:{checked:true}};
+  for(const scope of ['author','project'])assert.deepEqual(materializeCorrections(updated,state,scope,1),updated,'Reusing the exact final packet preserves acceptance');
+  for(const index of [1,2]){
+   const intermediate=materializeCorrections(packet,{corrections:corrections.slice(0,index)},'author',1);
+   assert.deepEqual(materializeCorrections(intermediate,state,'author',1),expected);
+  }
+  const edited=structuredClone(updated);edited.sections[0].blocks[0].content.answer.short='Local answer edit';
+  assert.throws(()=>materializeCorrections(edited,state,'author',1),/Stale correction/,'A sibling edit inside the parent replacement is still a conflict');
+  const disconnected=structuredClone(state);
+  (fieldParent?disconnected.corrections[1].patches[0].original:disconnected.corrections[1].patches[0].original.answer).worked='Unreviewed original';
+  assert.throws(()=>materializeCorrections(packet,disconnected,'author',1),/Stale correction/,'The parent original must continue the exact leaf chain');
+ }
 });
 test('source-review correction replay retains later acceptance but rejects changed arrangements',()=>{
  const packet=author(1);packet.sections[0].blocks[0].sourceReview={arrangements:[]};
@@ -385,4 +516,23 @@ test('settlement and all-five final acceptance require current full manifests an
  write('student.pdf','replaced PDF');
  assert.throws(()=>validateFinalManifest(record.editions.student,{edition:'student',key,projectHash,renderer:runtime}),/PDF changed/);
  assert.equal(projectReviewHash({...project,revision:20,updatedAt:'later'}),projectHash);
+});
+
+test('status and flags reuse evidence reads only within the current operation',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-gate-evidence-'));
+ assert.equal(path.dirname(dir),path.resolve(os.tmpdir()));
+ const file=path.join(dir,'inspection.json');fs.writeFileSync(file,'reviewed pixels');
+ const artifacts=[{path:file,hash:bytesHash(file)}],pages=[1,2,3];
+ const state={pipelinePolicy:'compact',revision:1,pages:Object.fromEntries(pages.map(page=>[page,{inventoryHash:'inventory-'+page,authorHash:'author-'+page,patterns:[],mathReview:{key:'inventory-'+page}}])),issues:{},corrections:[],representatives:{},verification:{representativePlan:{inventoryKeys:Object.fromEntries(pages.map(page=>[page,'inventory-'+page])),coverage:[{id:'layout',status:'planned',pages}]},coverage:{}}};
+ state.verification.coverage.layout={renderer:rendererSignature(),artifacts,keys:Object.fromEntries(pages.map(page=>[page,representativeKey(state,page)]))};
+ const read=fs.readFileSync,exists=fs.existsSync;let reads=0,existenceChecks=0;
+ fs.readFileSync=function(target,...args){if(String(target)===file)reads++;return read.call(this,target,...args);};
+ fs.existsSync=function(target){if(String(target)===file)existenceChecks++;return exists.call(this,target);};
+ try{
+  assert.ok(currentStatus(state,pages).pages.every(page=>page.reasons.length===0));assert.equal(reads,1,'One artifact read for the whole status operation');assert.equal(existenceChecks,1,'One evidence existence check for the whole operation');
+  reads=0;assert.deepEqual(workflowFlags(state,pages),[]);assert.equal(reads,1,'Flags start fresh and share their own reads');
+  fs.writeFileSync(file,'changed pixels');reads=0;
+  assert.ok(currentStatus(state,pages).pages.every(page=>page.reasons.includes('Representative coverage inspection pending: layout')));assert.equal(reads,1,'The next status detects changed evidence');
+  reads=0;assert.equal(workflowFlags(state,pages).length,3);assert.equal(reads,1,'The next flags operation detects changed evidence');
+ }finally{fs.readFileSync=read;fs.existsSync=exists;fs.rmSync(dir,{recursive:true,force:true});}
 });

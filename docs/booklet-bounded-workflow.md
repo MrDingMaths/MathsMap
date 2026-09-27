@@ -33,7 +33,7 @@ inaccessible source or composition evidence must remain a reported blocker.
 
 `scripts/booklet/bounded-stages.mjs` exports these executable interfaces:
 
-- `nextBoundedWork({runDir, selectedPages?, projectFile?, config?, configFile?})` derives pending jobs,
+- `nextBoundedWork({runDir, selectedPages?, projectFile?, config?, configFile?, stages?, visualConcurrency?, visualPageLimits?})` derives pending jobs,
   ownership, dependency hashes, evidence references, blockers and the verification
   checklist from the current register and visual queue. It does not grant review
   credit or write an alternative checklist.
@@ -54,6 +54,23 @@ inaccessible source or composition evidence must remain a reported blocker.
   Targets are `{scope, page, targetId, fields:["/exact/pointer"]}`. Scope is
   `inventory`, `author` or `project`. Unrelated findings are never grouped merely
   because their kinds or page numbers match.
+
+For visual-only dispatch, the JavaScript API accepts a nonempty, distinct
+`stages` subset of `['visual','composition']`. This skips unrelated job/prompt
+construction while retaining the complete verification checklist; omitted stages
+receive no acceptance. Omission preserves the full default dispatch. Stage scope
+and `visualConcurrency` are captured in each immutable ticket. Execute, record
+and cancel inherit omitted options from the ticket and reject explicit changes.
+These opt-ins do not add CLI flags.
+
+`visualPageLimits` optionally sets per-edition batch limits from one to eight
+pages, for example `{short:2, 'with-short':2}` for dense answers. Other editions
+retain the eight-page limit. When supplied, batches preserve edition boundaries
+and page order. The immutable ticket captures this map; execution, recording and
+cancellation inherit omitted values and reject explicit changes. Page coverage
+and inspection requirements are unchanged. Count the complete delivered prompt,
+including custom source supplements, against the variable budget; record any
+indivisible exception rather than silently omitting evidence.
 
 CLI stage actions use `--run-id RUN`, `--job JOB_ID`, and, when reviewing an
 unsettled assembled project, `--project-file PROJECT.json`. `record-stage` and
@@ -121,15 +138,46 @@ them to the current project using the normal revision-safe project/bank save.
 Never overwrite a canonical packet or live project from a worker.
 
 **Visual review.** Each job owns at most eight actual rendered pages. Preparing
-it begins the existing queue's timed inspection. There is only one active visual
-queue session, so another visual job waits while mathematical or theory workers
-may continue. Inspect each whole page against the source at final size, including
+it begins the existing queue's timed inspection. The default remains one active
+visual job. The JavaScript API may opt in with `visualConcurrency:2` or
+`visualConcurrency:3` for disjoint page batches in the same immutable queue
+snapshot. Include these workers in the shared three-worker limit; mathematical,
+teaching or other review workers consume the same pool. Inspect each whole page
+against the source at final size, including
 all labels, answer parts, footers, writing space, arrangements and pagination.
 Return `outcome:"accepted"` or `"needs-change"`, actual observations, and explicit
 `sourceCompared`, `contentVerified`, `presentationVerified` checks. Neither the
 worker model's presence nor a dependency hash establishes inspection.
 
-Combined composition is a separate job per edition after pending page inspection.
+To run a visual wave, call `nextBoundedWork(options)`, select at most the available
+worker count of disjoint, unblocked visual jobs, and run
+`Promise.allSettled(jobs.map(job => runBoundedStage(options, job.id, {runner})))`.
+For sustained work, refill each free worker slot as soon as a result is recorded;
+do not wait for the slowest worker in a wave. Preparation, result recording and cancellation share the bounded mutation lock;
+only the independent worker executions overlap. Each result rechecks current
+project, renderer, source, page evidence and ownership before serialized recording.
+Overlapping claims, a fourth claim and stale snapshots are rejected. Existing or
+default single-review claims remain exclusive: let them finish or explicitly
+cancel them before opting in. Completed inspection records are preserved.
+
+Before changing dispatch policy or pinned guidance, request a graceful drain:
+stop assigning new jobs, let active workers finish, and serialize their results.
+Confirm that no stage or page claims remain before restarting. Recover completed
+immutable output with `record-stage`; do not repeat the model call.
+
+For direct queue calls, `beginPageReview` accepts the same `visualConcurrency`
+option and returns `startedReviewId`. Status exposes every claim in
+`activeReviews`; the legacy `active` pointer remains the first outstanding claim
+so old callers still see a busy queue. Refresh `expectedRevision` and
+`sessionKey` for every direct mutation. Cancellation must identify `reviewId`
+when multiple claims exist; bounded cancellation selects its own ticket's claim.
+A cancellation grants no inspection credit. Keep failed batches and their
+findings visible while independent batches continue, then repair and inspect the
+affected pages before acceptance. The final gate waits for every claim to finish
+and every required page to pass.
+
+Combined composition is a separate, exclusive job per edition after pending page inspection.
+It cannot overlap any page claim or another composition claim.
 It explicitly checks covers, contents, transitions, numbering, every footer and
 links. The existing final queue and acceptance APIs still require complete
 coverage: all standalone pages, combined exceptions and boundaries, exact PDF

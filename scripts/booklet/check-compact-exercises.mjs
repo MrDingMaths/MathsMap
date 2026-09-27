@@ -11,7 +11,7 @@ import {rendererSignature,layoutCacheKey,readLayoutCache,writeLayoutCache,conten
 import {inspectContentCoverage} from '../../src/lib/booklet-content-verification.js';
 import {loadRun} from './transcription.mjs';
 import {liveWorkflow} from './workflow-review.mjs';
-import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest,requireFinalCandidateSettlement} from './page-review.mjs';
+import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest,requireBoundedDevelopmentExport,requireFinalCandidateSettlement} from './page-review.mjs';
 import {solidAcceptance} from '../audit-solid-visibility.mjs';
 import {routeCandidateProject,inspectFinalSizeDiagrams,diagramSourcePreflight} from './diagram-preflight.mjs';
 import {trackProcessPhase,recordExportReuse} from './run-observability.mjs';
@@ -34,6 +34,25 @@ export function expectedAnswerNodeIds(project,mode){
 export function assertAnswerNodeCoverage(actualIds,expectedIds){
  assert.deepEqual([...actualIds].sort(),[...expectedIds].sort(),'Every expected answer node appears exactly once, including edition-specific group answers');
 }
+export function assertAnswerRenderCoverage(labels,diagramIds,project,mode){
+ const primary=labels.filter(label=>!label.continuation);
+ assertAnswerNodeCoverage(primary.map(label=>label.id),expectedAnswerNodeIds(project,mode));
+ for(const label of labels.filter(label=>label.continuation)){
+  assert.equal(mode,'worked','Only worked answers may have figure continuations');
+  assert.equal(label.continuation,'solution-diagrams','Only explicit figure projections repeat an answer identity');
+  assert.equal(label.editableFields,0,'A figure continuation cannot edit an omitted answer field');
+  assert.ok(label.diagrams>0,'A figure continuation retains its diagrams');
+  assert.equal(label.label,primary.find(answer=>answer.id===label.id)?.label,'A continuation retains its complete answer label');
+ }
+ const expected=[];
+ const visit=node=>{
+  if(node.children?.length&&!node.answer?.[mode])node.children.forEach(visit);
+  else expected.push(...(node.answer?.solutionDiagrams??[]).map(d=>d.id));
+  expected.push(...(node.sharedSolutionDiagrams??[]).map(d=>d.id));
+ };
+ flowEditionSections(project,mode).flatMap(section=>section.blocks).forEach(block=>visit(block.content));
+ assert.deepEqual([...diagramIds].sort(),expected.sort(),'Every complete answer diagram appears exactly once per semantic occurrence');
+}
 
 async function runCompactExerciseCheck(){
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
@@ -42,13 +61,17 @@ const preflight=process.argv.includes('--diagram-preflight'),candidateFile=arg('
 const editions=arg('--editions',preflight?'student,short,worked':'student,short,worked,with-short,with-worked').split(',');
 const projects=arg('--projects',arg('--project','linear-relationships-v1')).split(',');
 const runtime=rendererSignature();
-const development=process.argv.includes('--development'),draft=process.argv.includes('--draft');
+const development=process.argv.includes('--development'),reviewOnly=process.argv.includes('--review-only'),draft=process.argv.includes('--draft')||reviewOnly;
+if(reviewOnly&&(development||preflight))throw Error('--review-only requires complete edition checks');
+const fullDevelopmentReason=arg('--full-development-reason');
+if(fullDevelopmentReason!==undefined&&(!development||!fullDevelopmentReason.trim()||fullDevelopmentReason.trim().startsWith('--')))throw Error('Use --full-development-reason with a nonempty reason and --development.');
 if(candidateFile&&projects.length!==1)throw Error('Use one project with --project-file');
 if(editions.some(e=>!['student','short','worked','with-short','with-worked'].includes(e))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
 if(preflight&&!['student','short','worked'].every(e=>editions.includes(e)))throw Error('Diagram preflight requires student, short and worked compositions');
 const reportFile=out+(preflight?'/diagram-preflight.json':development?'/development-report.json':'/report.json');
 const runDir=arg('--run-dir'),phaseId=trackProcessPhase(runDir,'render-export',{artifact:reportFile,projects,editions,preflight,development,draft});
 const runStarted=Date.now(),runMeasurements={startedAt:new Date(runStarted).toISOString(),projectLoads:[],exports:[],note:'Durations exclude manual visual review. TikZ counters are cumulative snapshots, not inferred cache reuse.'};
+if(fullDevelopmentReason)runMeasurements.fullDevelopmentReason=fullDevelopmentReason.trim();
 const observeExport=async(edition,file,dependencyKey,reused)=>{
  const observation={id:randomUUID(),edition,reused,artifact:{path:path.resolve(file),hash:artifactHash(file)},dependencyKey,phaseId};
  runMeasurements.exports.push(observation);
@@ -83,6 +106,11 @@ try{
   if(!/^[a-zA-Z0-9._-]+$/.test(id))throw Error('Invalid project ID');
   const projectFile=`booklets/projects/${id}.json`;
   const record=candidate??JSON.parse(fs.readFileSync(projectFile));record.settings.flowEdition=editions[0];
+  if(reviewOnly&&(record.library?.category!=='import-review'||record.sections.some(s=>s.blocks.some(b=>b.bankRef||b.canonicalId))))throw Error('--review-only requires local Import review content');
+  if(development)for(const edition of editions){
+   const baseline=readPageManifest(`${out}/${id}-${edition}.development.pages.json`)??readPageManifest(`${out}/${id}-${edition}.full.pages.json`);
+   requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!baseline,baselineRenderer:baseline?.renderer,currentRenderer:runtime,reason:fullDevelopmentReason});
+  }
   const sourceDiagrams=diagramSourcePreflight(record);
   const visibilityFile='booklets/provenance/solid-visibility-2026-09-12.json';
   const visibilityReviews=fs.existsSync(visibilityFile)?JSON.parse(fs.readFileSync(visibilityFile,'utf8')).reviews:{};
@@ -92,7 +120,7 @@ try{
   const workflow=workflowRef?liveWorkflow(loadRun(workflowRef.runId).runDir):null;
   if(candidateFile&&!development&&!draft&&!preflight)requireFinalCandidateSettlement(record,workflow);
   if(workflow&&!development&&!draft&&!preflight)assert.ok(workflow.settled?.project.hash===projectHash,'Settle current content before the complete final five-edition review. Use --development during editing.');
-  const workflowKey=workflow?.settled?.key??null,assets=await contentAssetSignatures(record);
+  const workflowKey=reviewOnly?null:workflow?.settled?.key??null,assets=await contentAssetSignatures(record);
   if(record.source?.inventory){
    const coverage=await inspectContentCoverage(record,{assetSignatures:assets});
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
@@ -119,7 +147,7 @@ try{
    }
    const started=Date.now(),beforeStats=await page.evaluate(()=>window.TikZ?.stats?.()??null);
    const file=`${out}/${kind}-${edition}${preflight?'-preflight':development?'-development':''}.pdf`,cacheFile=`${out}/${kind}-${edition}.verification.json`,key=await layoutCacheKey(record,edition,runtime);
-   const manifestFile=`${out}/${kind}-${edition}.full.pages.json`,hashFile=`${out}/${kind}-${edition}.development.pages.json`;
+   const manifestFile=`${out}/${kind}-${edition}.${reviewOnly?'review':'full'}.pages.json`,hashFile=`${out}/${kind}-${edition}.development.pages.json`;
    const fullManifest=readPageManifest(manifestFile);
    const manifestCurrent=fullManifest?.mode==='full'&&fullManifest.passed===true&&fullManifest.edition===edition&&fullManifest.workflowKey===workflowKey&&fullManifest.projectHash===projectHash&&fullManifest.renderer===runtime&&fs.existsSync(file)&&fullManifest.pdf?.hash===artifactHash(file);
    const cached=preflight||development||draft||process.argv.includes('--force')||!manifestCurrent?null:readLayoutCache(cacheFile,key,file);
@@ -140,8 +168,9 @@ try{
    for(const issue of diagrams.issues){const report=qa[issue.page-1];assert.ok(report,'Diagram belongs to a physical page');report.issues.push(issue);}
    const info=await page.locator('.project-print').evaluate(root=>({
      pages:root.querySelectorAll('.print-page').length,
-     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \S+$/.test(t)),
-     labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent})),
+     exerciseHeadings:[...root.querySelectorAll('.difficulty-heading,.inline-exercise-heading,.exercise-heading')].map(e=>e.textContent.trim()).filter(t=>/^Exercise \S+(?:\s+\S+)*$/.test(t)),
+     labels:[...root.querySelectorAll('.answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
+     answerDiagramIds:[...root.querySelectorAll('.compact-answer [data-diagram-id]')].filter(e=>!e.parentElement.closest('[data-diagram-id]')).map(e=>e.dataset.diagramId),
      badges:root.querySelectorAll('[data-editor-difficulty]').length,
      teachingGroups:[...root.querySelectorAll('[data-atom-id]')].map(e=>({id:e.dataset.atomId,headers:e.querySelectorAll(':scope > [data-header-kind]').length})),
      teachingReferences:[...root.querySelectorAll('.teaching-activity-reference')].filter(e=>e.getClientRects().length).map(e=>e.textContent),
@@ -152,7 +181,12 @@ try{
      links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).map(a=>({href:a.getAttribute('href'),exists:!!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)})),
      map:[...root.querySelectorAll('.print-page')].map(e=>({page:Number(e.dataset.flowPage),blocks:e.dataset.flowBlocks.split(',')}))
    }));
-   if(record.settings.exerciseOrganisation==='topic')assert.deepEqual(info.exerciseHeadings,['short','worked'].includes(edition)?[]:Object.values(exerciseNumbers(record)).map(n=>`Exercise ${n}`),'Exactly one question-side heading per exercise, across source sections and teaching checkpoints');
+   if(record.settings.exerciseOrganisation==='topic'){
+    const numbers=exerciseNumbers(record);
+    const practiceTopics=new Set(record.sections.filter(s=>s.phase==='practice'&&s.blocks.some(b=>!b.presentation?.editorOnly)).map(s=>s.topicId));
+    const expected=['short','worked'].includes(edition)?[]:Object.entries(numbers).filter(([topic])=>practiceTopics.has(topic)).map(([,n])=>`Exercise ${n}`);
+    assert.deepEqual(info.exerciseHeadings,expected,'Exactly one question-side heading per practice exercise, across source sections and teaching checkpoints');
+   }
    const domPages=await page.locator('.project-print .print-page').evaluateAll(elements=>elements.map(e=>({html:e.outerHTML,blocks:e.dataset.flowBlocks?.split(',')??[]})));
    const hashes=renderedPageHashes(domPages,{renderer:runtime,settings:record.settings,assets});
    if(preflight){
@@ -173,6 +207,7 @@ try{
    if(development){
     const previous=readPageManifest(hashFile)?.pages??fullManifest?.pages;
     const selected=process.argv.includes('--force')?hashes.map(p=>p.page):affectedPages(previous,hashes);
+    requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!previous,selectedPages:selected.length,totalPages:hashes.length,reason:fullDevelopmentReason});
     const issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).filter(i=>selected.includes(i.page));
     let printed=[];
     if(selected.length){
@@ -193,7 +228,7 @@ try{
    await observeExport(edition,file,key??[projectHash,runtime,edition].join(':'),false);
    const printed=inspectPrintedPdf(file),issues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
    const pdfNavigation=inspectPdfNavigation(file,info.links),pdfLinks=pdfNavigation.annotations;
-   report[kind][edition]={...info,pdfLinks,pdfNavigation,qa,printed,issues,diagrams};
+   report[kind][edition]={...info,pdfLinks,pdfNavigation,qa,printed,issues,diagrams,...(draft?{mode:'draft',projectHash,renderer:runtime,assets,pageHashes:hashes,pdf:{path:path.resolve(file),hash:artifactHash(file)},visualReview:'pending',sourceComparison:'pending'}:{})};
    writeReport();
    await context.storageState({path:out+'/cache.json',indexedDB:true});
    console.log(`${kind} ${edition}: ${info.pages} pages, ${issues.length} DOM issues, ${printed.flatMap(p=>p.issues).length} print issues`);
@@ -209,18 +244,18 @@ try{
     }else assert.deepEqual(info.teachingGroups,[],'Answer-only editions contain practice, not teaching');
    }
    assert.deepEqual(info.columnOverflow,[],'Answer content fits its column');
-   if(edition!=='student')assertAnswerNodeCoverage(info.labels.map(l=>l.id),answerNodes[edition.endsWith('worked')?'worked':'short']);
+   if(edition!=='student')assertAnswerRenderCoverage(info.labels,info.answerDiagramIds,record,edition.endsWith('worked')?'worked':'short');
    else assert.deepEqual(info.labels.filter(l=>studentPrompts.has(l.id)),[],'Practice answers do not leak into the Questions edition');
    assert.ok(info.links.every(l=>l.exists),'All printed references have destinations');
    assert.deepEqual(issues,[],'DOM layout/style checks');
    assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
    assert.deepEqual(errors,[],'Browser errors');
-   if(!draft){
+   if(!draft||reviewOnly){
     const pdf={path:path.resolve(file),hash:artifactHash(file)};
-    writeLayoutCache(cacheFile,key,file,report[kind][edition]);
+    if(!reviewOnly)writeLayoutCache(cacheFile,key,file,report[kind][edition]);
     // Commit PDF verification before rasterization so an interrupted raster pass
     // resumes without printing another PDF. No review queue accepts missing images.
-    const manifest={version:2,mode:'full',passed:true,edition,renderer:runtime,projectHash,workflowKey,assets,pages:hashes,pdf};
+    const manifest={version:2,mode:reviewOnly?'review':'full',...(reviewOnly?{reviewOnly:true,readiness:{path:path.resolve(`${out}/${id}-readiness.json`),hash:artifactHash(`${out}/${id}-readiness.json`)}}:{}),passed:true,edition,renderer:runtime,projectHash,workflowKey,assets,pages:hashes,pdf};
     fs.writeFileSync(manifestFile,JSON.stringify(manifest,null,2));
     const rasters=ensurePdfRasters(pdf,hashes.length,path.join(out,'pdf-rasters'));
     report[kind][edition].rasterMetrics=rasters.metrics;

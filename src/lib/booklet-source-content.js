@@ -27,14 +27,16 @@ export function sourcePageOptions(project, refs) {
 // imported content through its recorded namespace map without rewriting evidence.
 export function sourceInventories(project) {
   const original=project?.source?.inventory;
-  return [...(original?[original]:[]),...(project?.source?.imports??[]).map(item=>{
+  const overrides=project?.sourceInventoryOverrides??{};
+  const apply=entry=>overrides[entry.id]?{...entry,...overrides[entry.id]}:entry;
+  return [...(original?[{...original,entries:(original.entries??[]).map(apply)}]:[]),...(project?.source?.imports??[]).map(item=>{
     const ids=new Map(Object.entries(item.idMap??{}));
     const inventory=structuredClone(item.source?.inventory??{entries:[],pages:[]});
     inventory.runId=item.runId;
     inventory.entries=(inventory.entries??[]).map(entry=>{
       const mapped={...entry};
       for(const key of ['targetId','parentId','continuationOf','teachingContextIds','field'])if(entry[key]!==undefined)mapped[key]=remapQuestionPresentation(entry[key],ids);
-      return {...mapped,id:ids.get(entry.id)??`${item.namespace}--${entry.id}`,runId:item.runId};
+      return apply({...mapped,id:ids.get(entry.id)??`${item.namespace}--${entry.id}`,runId:item.runId});
     });
     return inventory;
   })];

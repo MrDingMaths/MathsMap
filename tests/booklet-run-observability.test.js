@@ -119,6 +119,22 @@ test('session registration is idempotent and overlapping stage ownership is reje
  assert.equal(buildRunReceipt(f.dir).completeJob.usage.input_tokens,10);
 });
 
+test('parallel subagent threads do not alias their inherited parent session',async t=>{
+ const f=fixture(t),root=f.write('root.jsonl',[meta('root'),call(20,'root-call',usage(10,0,2))]);
+ const child=(id,nested)=>f.write(id+'.jsonl',[
+  event(0,'session_meta',{id,session_id:'root',...(nested?{source:{subagent:{thread_spawn:{parent_thread_id:'root'}}}}:{parent_thread_id:'root'})}),
+  call(20,id+'-call',usage(20,5,3)),
+ ]);
+ await linkRunSession(f.dir,{sessionId:'root',stage:'dispatch',role:'coordinator',rolloutPath:root});
+ for(const [id,nested]of [['child-a',false],['child-b',true]]){
+  const rolloutPath=child(id,nested),result=readCodexSessionUsage(rolloutPath,{sessionId:id});
+  assert.deepEqual(result.sessionAliases,[id]);assert.equal(result.canonicalSessionId,id);
+  assert.throws(()=>readCodexSessionUsage(rolloutPath,{sessionId:'root'}),/identity/);
+  await linkRunSession(f.dir,{sessionId:id,stage:'inventory',role:'transcription',rolloutPath});
+ }
+ assert.equal(buildRunReceipt(f.dir).completeJob.usage.input_tokens,50);
+});
+
 test('active time unions concurrent work and excludes explicit human waiting',t=>{
  const f=fixture(t);f.write('workflow/run-events.jsonl',[...phase('compile','compile',0,100),...phase('review','visual-review',50,150),...phase('wait','human-wait',75,125,{activity:'human-wait',excludedFromActive:true}),{id:'open',event:'phase-started',phase:'review',time:origin+200,at:at(200),details:{}}]);
  f.write('semantic-packets/attempt-events.jsonl',attempts([{id:'a',start:0,end:100,metrics:{elapsedMs:100,usage:null}},{id:'b',start:50,end:150,metrics:{elapsedMs:100,usage:null}}]));

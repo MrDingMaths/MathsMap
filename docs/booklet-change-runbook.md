@@ -59,6 +59,8 @@ Render changed pages and their pagination neighbours during development. Use the
 node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .booklet-work/RUN/PROJECT --development
 ```
 
+Before starting a development export, inspect the existing page baseline and planned editions. The command now stops before rendering if a baseline is absent or has a different renderer signature, and it stops before printing if the page comparison selects the entire edition. For a deliberate full development render, pass `--full-development-reason "WHY"`; the reason is recorded in the run report. For ordinary maintenance, reuse a valid baseline and avoid duplicate student/combined exports when their affected page bodies are the same. A missing baseline does not by itself justify a full-book check.
+
 Use `--editions student` for a question-only representative checkpoint when appropriate; include answer editions whenever they are affected. Missing baselines and global dependencies can legitimately require wider coverage. Development output remains separate from final acceptance.
 
 Reuse valid compiled diagrams. Cache validity must include relevant source, preparation/renderer version, fonts, assets, settings and dimensions. A renderer change invalidates dependent results even if the diagram's source text is unchanged. Exercise both fresh and cached paths where the change could affect their parity.

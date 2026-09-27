@@ -154,6 +154,8 @@ Use the [booklet change runbook](booklet-change-runbook.md) to organise scoped d
 node scripts/booklet/check-compact-exercises.mjs --project PROJECT --out .booklet-work/review/PROJECT --development
 ```
 
+For a deliberate first full development baseline, add `--full-development-reason "Initial import baseline"`. The ordinary development path refuses absent or stale baselines and whole-edition selections without a recorded reason; check the edition and page scope before authorising one.
+
 All editions remain the default; select `--editions student` for an early representative checkpoint. The renderer still paginates the document to discover shifts, but exports/inspects only affected physical pages plus immediate neighbours. First export, missing baselines or `--force` exports all pages. Deleted/inserted pages and shifted tails are included. Page hashes bind rendered DOM, renderer, settings and assets; they are conservative change detectors, not a pixel-equivalence or fidelity certificate. Global style/asset edits can intentionally invalidate more pages.
 
 Development PDFs, page manifests and reports have separate names and never populate final acceptance caches. Partial PDF page numbers in the inspection report are relative to the subset; `selectedPages` maps them back to physical edition pages. Draft/full exports likewise do not become visual acceptance automatically.

@@ -14,3 +14,11 @@ test('PDF navigation rejects missing annotations, unresolved targets and empty r
  assert.throws(()=>verifyPdfNavigation(links,new Map(),expected),/no named destination/);
  assert.throws(()=>pdfLinkAnnotations(Buffer.from(annotation(1,'question','0 0 0 10'))),/rectangle/);
 });
+
+test('PDF navigation accepts Chromium URL-encoded names without hiding missing links',()=>{
+ const destination='print-exercise-topic-Review%20Set%20One';
+ const links=pdfLinkAnnotations(Buffer.from(annotation(1,destination))),destinations=new Map([[destination,304]]),expected=[{href:'#print-exercise-topic-Review Set One',exists:true}];
+ assert.deepEqual(verifyPdfNavigation(links,destinations,expected),{annotations:1,expectedLinks:1,destinations:1});
+ assert.throws(()=>verifyPdfNavigation([],destinations,expected),/lost links/);
+ assert.throws(()=>verifyPdfNavigation(links,new Map(),expected),/no named destination/);
+});

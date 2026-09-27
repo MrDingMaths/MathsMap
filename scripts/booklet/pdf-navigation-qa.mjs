@@ -27,7 +27,12 @@ export function verifyPdfNavigation(annotations,destinations,expectedLinks){
   actual.set(link.destination,(actual.get(link.destination)??0)+1);
  }
  for(const link of expectedLinks){
-  const destination=decodeURIComponent(link.href.slice(1));
+  const fragment=link.href.slice(1),decoded=decodeURIComponent(fragment);
+  // Chromium may serialize a named PDF destination with URL-encoded spaces
+  // even though the DOM ID contains literal spaces. Resolve against the actual
+  // PDF name tree; all annotations must still have an existing destination.
+  const encoded=new URL(link.href,'http://localhost/').hash.slice(1);
+  const destination=destinations.has(decoded)?decoded:destinations.has(encoded)?encoded:decoded;
   if(!link.exists)throw Error('DOM link has no destination: '+destination);
   expected.set(destination,(expected.get(destination)??0)+1);
  }

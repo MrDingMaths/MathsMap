@@ -3,13 +3,32 @@ import assert from 'node:assert/strict';
 import {createEditableProject,normalizeEditableProject,validateEditableProject} from '../src/lib/editable-booklet-model.js';
 import {contentProject,sourceReferences} from '../src/lib/booklet-source-content.js';
 import {organiseExercises} from '../src/lib/booklet-exercises.js';
-import {inspectContentCoverage,contentVerificationKey,layoutVerificationKey} from '../src/lib/booklet-content-verification.js';
+import {inspectContentCoverage,contentVerificationKey,layoutVerificationKey,contentNodes} from '../src/lib/booklet-content-verification.js';
 import {applySourceCorrection} from '../src/lib/booklet-source-corrections.js';
 import {flowEditionSections,flowNumbers} from '../src/lib/booklet-flow.js';
 import {makeFlowPage,paginateFlow} from '../src/lib/booklet-pagination.js';
 const question=(id,score)=>({id,type:'question',sourceRefs:[{pageNumber:2}],flow:{localDifficulty:{reasoningScore:score,difficulty:'Foundation'}},content:{id:id+'-root',type:'question',prompt:'Simplify $x^2x^3$.',children:[],answer:{short:'$x^5$',worked:'$x^{2+3}=x^5$'}}});
 const candidate=()=>({title:'New topic',topics:[{id:'t',title:'Powers'}],sections:[{id:'s',title:'Practice',role:'practice',phase:'practice',topicId:'t',blocks:[question('a',30),question('b',10)]}],sourceInventory:{version:1,pages:[{pageNumber:2,inventoried:true}],entries:[{id:'src-a',pageNumber:2,kind:'question',targetId:'a'},{id:'src-b',pageNumber:2,kind:'question',targetId:'b'}]}});
 const imported=()=>contentProject(candidate(),{runId:'run',projectId:'new',selectedPages:[2]});
+
+test('compact coalescing preserves source section identities including empty difficulty headings',async()=>{
+  const c=candidate();c.settings={questionOrder:'source'};
+  c.sections.push({id:'development',title:'DEVELOPMENT',phase:'practice',topicId:'t',sourcePageNumber:2,blocks:[]},
+    {id:'later-source-section',title:'Later practice',phase:'practice',topicId:'t',sourcePageNumber:2,blocks:[question('later',40)]});
+  c.sourceInventory.entries.push({id:'source-development',pageNumber:2,kind:'teaching',targetId:'development'},
+    {id:'source-later-section',pageNumber:2,kind:'teaching',targetId:'later-source-section'});
+  const p=contentProject(c,{runId:'run',projectId:'new',selectedPages:[2]}),nodes=contentNodes(p);
+  assert.equal(p.sections.length,1);
+  assert.equal(nodes.get('development').node.title,'DEVELOPMENT');
+  assert.equal(nodes.get('development').block.id,'later');
+  assert.equal(nodes.get('later-source-section').node.title,'Later practice');
+  assert.equal(validateEditableProject(p).valid,true);
+  assert.ok(!(await inspectContentCoverage(p)).rows.some(row=>row.state==='missing'));
+  assert.deepEqual(organiseExercises(p).sections[0].sourceSections,p.sections[0].sourceSections);
+  assert.equal(c.sections[1].blocks.length,0);
+  const exact=contentProject(c,{runId:'run',projectId:'exact',mode:'exact',selectedPages:[2]});
+  assert.equal(exact.sections.length,3);assert.equal(exact.sections[0].sourceSections,undefined);
+});
 
 test('semantic creation retains reviewed answer diagram widths alongside compact defaults',()=>{
   const c=candidate();c.settings={compactAnswers:{diagramWidths:{spinner:{short:75,worked:110}}}};
@@ -124,6 +143,92 @@ test('coverage never treats successful import as source verification',async()=>{
   for(const e of p.source.inventory.entries)e.verification={checked:true,signature:await contentVerificationKey(p,e)};
   const checked=await inspectContentCoverage(p);assert.equal(checked.contentComplete,true,JSON.stringify(checked));assert.equal(checked.complete,false,'Content verification does not establish teaching/arrangement fidelity');
   p.sections[0].blocks.pop();assert.equal((await inspectContentCoverage(p)).counts.missing,1);
+});
+
+test('mapped whole question roots cover their wrappers but isolated parts do not',async()=>{
+ const p=imported(),block=p.sections[0].blocks[0];
+ const entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
+ entry.targetId=block.content.id;
+ assert.ok(!(await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===block.id));
+ entry.kind='part';
+ assert.ok((await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===block.id));
+});
+
+test('syllabus wrappers require all paragraph and list branches to be inventoried',async()=>{
+ const p=imported();
+ const syllabus={id:'syllabus',type:'rich-text',content:{format:'maths-editor-document-v1',blocks:[
+  {id:'outcome',type:'paragraph',inlines:[{type:'text',text:'Outcome statement'}]},
+  {id:'bullets',type:'list',items:[{id:'bullet',type:'list-item',blocks:[{id:'bullet-text',type:'paragraph',inlines:[{type:'text',text:'Content bullet'}]}]}]}
+ ]}};
+ p.sections.unshift({id:'source-contents-continuation',blocks:[]},{id:'syllabus-section',blocks:[syllabus]});
+ p.source.inventory.entries.push(...['outcome','bullet'].map(id=>({id:'source-'+id,targetId:id,kind:'syllabus',pageNumber:2})));
+ let report=await inspectContentCoverage(p);
+ assert.ok(!report.issues.some(i=>i.kind==='unmapped-content'&&['syllabus','source-contents-continuation'].includes(i.targetId)));
+ syllabus.content.blocks.push({id:'unrecorded',type:'paragraph',inlines:[{type:'text',text:'An extra statement'}]});
+ assert.ok((await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId==='syllabus'));
+});
+
+test('grouped question ownership requires every original whole-question identity',async()=>{
+ const p=imported(),block=p.sections[0].blocks[0],entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
+ const a={id:'source-q3-root',type:'part',prompt:'First dataset',answer:{short:'3',worked:'Count three.'}},b={...structuredClone(a),id:'source-q4-root',prompt:'Second dataset'};
+ block.content={id:'combined',type:'group',prompt:'Complete each frequency table.',children:[a,b]};
+ entry.targetId=a.id;entry.sourceLabel='3';
+ p.source.inventory.entries.push({id:'src-q4',targetId:b.id,kind:'question',sourceLabel:'4',pageNumber:2});
+ block.sourceReview={sourceQuestionIdentities:[{targetId:a.id,sourceLabel:'3',pageNumber:2},{targetId:b.id,sourceLabel:'4',pageNumber:2}]};
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===block.id);
+ assert.equal(await unmapped(),false);
+ block.sourceReview.sourceQuestionIdentities[1].pageNumber=3;assert.equal(await unmapped(),true);
+ block.sourceReview.sourceQuestionIdentities[1].pageNumber=2;
+ p.source.inventory.entries.at(-1).kind='part';assert.equal(await unmapped(),true);
+ p.source.inventory.entries.at(-1).kind='question';p.source.inventory.entries.at(-1).field='/prompt';assert.equal(await unmapped(),true);
+ delete p.source.inventory.entries.at(-1).field;
+ block.content.children.push({...structuredClone(a),id:'unrecorded-third'});assert.equal(await unmapped(),true);
+});
+
+test('worked-example ownership covers all complete examples or all permanent payloads',async()=>{
+ const p=imported(),paragraph={id:'example-prompt',type:'paragraph',inlines:[{type:'text',text:'Compare these distributions.'}]};
+ const block={id:'examples',type:'worked-example',examples:[{id:'left-example',label:'',prompt:'Find the mode.'},{id:'right-example',label:'',prompt:'Find both modes.'}]};
+ p.sections[0].blocks.push(block);
+ p.source.inventory.entries.push(...block.examples.map(e=>({id:'src-'+e.id,targetId:e.id,kind:'example',pageNumber:2})));
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===block.id);
+ assert.equal(await unmapped(),false);
+ p.source.inventory.entries.at(-1).field='/prompt';assert.equal(await unmapped(),true);
+ p.source.inventory.entries.splice(-2);
+ block.examples=[{id:'permanent-content',label:'',prompt:{format:'maths-editor-document-v1',blocks:[paragraph]},questionDiagrams:[{id:'shape',format:'svg',code:'<svg/>'}]}];
+ p.source.inventory.entries.push({id:'source-caption',targetId:paragraph.id,field:'/inlines',kind:'teaching',pageNumber:2},{id:'source-shape',targetId:'shape',kind:'diagram',pageNumber:2});
+ assert.equal(await unmapped(),false);
+ block.examples[0].prompt.blocks.push({id:'extra-caption',type:'paragraph',inlines:[{type:'text',text:'Extra unrecorded claim.'}]});assert.equal(await unmapped(),true);
+ block.examples[0].prompt.blocks.pop();block.examples[0].theorySolution='Unrecorded explanation.';assert.equal(await unmapped(),true);
+ delete block.examples[0].theorySolution;p.source.inventory.entries.pop();assert.equal(await unmapped(),true);
+ p.source.inventory.entries.push({id:'source-shape',targetId:'shape',kind:'diagram',pageNumber:2});block.title='Unrecorded heading';assert.equal(await unmapped(),true);
+});
+
+test('native scaffold response ownership requires the exact source completion and parent',async()=>{
+ const p=imported(),block=p.sections[0].blocks[0],entry=p.source.inventory.entries.find(e=>e.targetId===block.id);
+ entry.targetId=block.content.id;
+ const table={id:'completion-table',type:'table',rows:[[{type:'cell',blocks:[{type:'paragraph',inlines:[{type:'cloze',answer:'4',width:10}]}]}]]};
+ const response={id:'table-response',type:'part',label:'',prompt:{format:'maths-editor-document-v1',blocks:[table]},responseSpace:'scaffold',answerSpaceMm:0,answer:{short:'4',worked:'Complete the table with 4.'}};
+ block.content.children=[response];block.sourceReview={responses:[{targetId:response.id,kind:'cloze'}]};
+ const source={id:'source-table',targetId:table.id,kind:'diagram',pageNumber:2,parentId:entry.id,responseKind:'cloze',expectedAnswer:'4'};
+ p.source.inventory.entries.push(source);
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===response.id);
+ assert.equal(await unmapped(),false);
+ source.parentId='another-question';assert.equal(await unmapped(),true);source.parentId=entry.id;
+ delete source.expectedAnswer;assert.equal(await unmapped(),true);source.expectedAnswer='4';
+ response.prompt.blocks.push({id:'extra',type:'paragraph',inlines:[{type:'text',text:'Additional task.'}]});assert.equal(await unmapped(),true);response.prompt.blocks.pop();
+ response.label='a';assert.equal(await unmapped(),true);response.label='';
+ response.answer.worked='';assert.ok((await inspectContentCoverage(p)).issues.some(i=>i.kind==='missing-answer'&&i.targetId===response.id));
+});
+
+test('only an empty block matching its exact excluded source footer is evidence-only',async()=>{
+ const p=imported(),footer={id:'source-footer',type:'rich-text',content:'',sourcePageNumber:2};
+ p.sections[0].blocks.push(footer);p.source.inventory.entries.push({id:footer.id,kind:'footer',pageNumber:2,exclusionReason:'Renderer owns page numbering.'});
+ const unmapped=async()=> (await inspectContentCoverage(p)).issues.some(i=>i.kind==='unmapped-content'&&i.targetId===footer.id);
+ assert.equal(await unmapped(),false);
+ footer.content='Additional source text';assert.equal(await unmapped(),true);footer.content='';
+ footer.sourcePageNumber=3;assert.equal(await unmapped(),true);footer.sourcePageNumber=2;
+ p.source.inventory.entries.at(-1).kind='teaching';assert.equal(await unmapped(),true);
+ p.source.inventory.entries.at(-1).kind='footer';footer.sourceAtom={id:'extra-heading',label:'Additional heading'};assert.equal(await unmapped(),true);
 });
 test('coverage detects duplicate mappings and supplied-answer gaps',async()=>{
   const p=imported();p.source.inventory.entries.push({...p.source.inventory.entries[0],id:'duplicate'});

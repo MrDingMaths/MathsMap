@@ -138,7 +138,7 @@ The general tools accept project IDs and local output directories:
 
 - `calibrate-compact-answers.mjs --project ID --editions short,worked --out DIR [--apply]`
 - `check-compact-exercises.mjs --project ID --editions student,short,worked,with-short,with-worked --out DIR [--force] [--draft]`
-- Add `--development` during editing to export changed physical pages and pagination neighbours using separate non-acceptance caches; after content settles, run all five automated edition checks once and complete unique-layout visual/composition acceptance.
+- Add `--development` during editing to export changed physical pages and pagination neighbours using separate non-acceptance caches. A first run without a page baseline, a stale renderer baseline, or a whole-edition selection requires `--full-development-reason "WHY"`; record why that wider run is necessary. After content settles, run all five automated edition checks once and complete unique-layout visual/composition acceptance.
 - `check-teaching-presentation.mjs --project ID --out DIR`
 - `check-compact-navigation.mjs --project ID --out DIR`
 - `export-pdf.mjs --project-id ID --mode EDITION --out FILE.pdf`

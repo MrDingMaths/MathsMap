@@ -89,7 +89,7 @@ test('reported defects cannot be silently accepted through matching pixels',asyn
 test('changed rasters, forged comparison hashes and stale dependencies invalidate reuse',async t=>{
  const f=await fixture(t);await prepareReviewQueue(f.dir,f.input,f.deps);
  const report=JSON.parse(fs.readFileSync(f.input.comparison.path)),raster=report.editions['with-short'].pages[1].raster,old=fs.readFileSync(raster.path);
- fs.writeFileSync(raster.path,gzipSync(ppm(22)));await assert.rejects(()=>reviewQueueStatus(f.dir,f.deps),/stale PDF comparison/);
+ fs.writeFileSync(raster.path,gzipSync(ppm(22)));await assert.rejects(()=>reviewQueueStatus(f.dir,f.deps),error=>error.message==='Missing or stale review dependency: '+raster.path);
  report.editions['with-short'].pages[1].raster=ref(raster.path);f.write(path.basename(f.input.comparison.path),report);
  const forged=ref(path.join(f.dir,path.basename(f.input.comparison.path)));assert.throws(()=>validateEditionComparison(forged,f.input.editions),/pixels changed/);
  fs.writeFileSync(raster.path,old);
@@ -132,4 +132,31 @@ test('the normal descriptor defaults to unique-layout review and keeps a full-ma
  assert.equal(first.reviewPolicy,UNIQUE_LAYOUT_REVIEW);assert.deepEqual(first,again);assert.deepEqual(first.comparison,f.input.comparison);
  const manual=await describeReview({...descriptor,fullVisual:true},{compare:()=>assert.fail('Full manual review must not require pixel comparison')});
  assert.equal(manual.reviewPolicy,undefined);assert.equal(manual.comparison,undefined);assert.equal(Object.keys(manual.editions).length,5);
+});
+
+test('composition and concurrent page claims remain mutually exclusive',async t=>{
+ const f=await fixture(t);let s=await prepareReviewQueue(f.dir,f.input,f.deps);const keys=s.pending.map(r=>r.key);
+ s=await beginPageReview(f.dir,{...expected(s),compositionEditions:['with-short']},f.deps);
+ await assert.rejects(()=>beginPageReview(f.dir,{...expected(s),pageKeys:[keys[0]],visualConcurrency:3},f.deps),/already active/);
+ s=await cancelPageReview(f.dir,expected(s));
+ s=await beginPageReview(f.dir,{...expected(s),pageKeys:[keys[0]],visualConcurrency:3},f.deps);
+ s=await beginPageReview(f.dir,{...expected(s),pageKeys:[keys[1]],visualConcurrency:3},f.deps);
+ await assert.rejects(()=>beginPageReview(f.dir,{...expected(s),compositionEditions:['with-short']},f.deps),/already active/);
+ for(const claim of [...s.activeReviews])s=await cancelPageReview(f.dir,{...expected(s),reviewId:claim.id});
+ assert.equal(s.reviewed,0);assert.deepEqual(s.activeReviews,[]);
+});
+
+
+test('Import review can inspect all layouts with visible findings but cannot grant final acceptance',async t=>{
+ const f=await fixture(t);
+ const project=JSON.parse(fs.readFileSync(f.input.project.path));project.library={category:'import-review'};project.studio={flags:[{id:'open',resolved:false,message:'User decision remains visible'}]};
+ fs.writeFileSync(f.input.project.path,JSON.stringify(project));const projectHash=projectReviewHash(project);f.input.project={...ref(f.input.project.path),contentHash:projectHash};f.input.mode='review';delete f.input.key;
+ for(const e of editions){const file=f.input.editions[e].manifest.path,m=JSON.parse(fs.readFileSync(file));Object.assign(m,{mode:'review',reviewOnly:true,projectHash,workflowKey:null});fs.writeFileSync(file,JSON.stringify(m));f.input.editions[e].manifest=ref(file);}
+ f.options.reviewOnly=true;f.input.comparison=(await buildEditionComparison(f.input.editions,path.join(f.dir,'review-rasters'),f.options)).reference;
+ assert.throws(()=>validateEditionComparison(f.input.comparison,f.input.editions),/full manifests/);
+ let s=await prepareReviewQueue(f.dir,f.input,f.deps);s=await inspect(f,s);s=await compose(f,s);assert.equal(s.pending.length,0);assert.equal(s.reused,4);
+ await assert.rejects(()=>finish(f,s),/Every page/);
+ assert.equal(JSON.parse(fs.readFileSync(f.input.project.path)).studio.flags[0].resolved,false);
+ const final={...f.input,mode:'final',key:f.state.settled.key};await assert.rejects(()=>prepareReviewQueue(f.dir,final,f.deps),/settled|full manifests/);
+ project.sections=[{blocks:[{id:'banked',bankRef:{id:'q'}}]}];fs.writeFileSync(f.input.project.path,JSON.stringify(project));f.input.project={...ref(f.input.project.path),contentHash:projectReviewHash(project)};await assert.rejects(()=>prepareReviewQueue(f.dir,f.input,f.deps),/local Import review/);
 });

@@ -75,3 +75,13 @@ test('shared source bytes are hashed once per projection and read again after a 
   f.write('shared-source.pdf','Changed shared teaching PDF');const second=f.dependencies();assert.equal(reads,2);assert.notEqual(first.q1,second.q1);assert.notEqual(first.q2,second.q2);
  }finally{fs.readFileSync=original;}
 });
+
+
+test('shared teaching artifact existence and type are checked once per projection, with fresh checks next time',t=>{
+ const f=fixture(t),file=f.write('repeated-source.pdf','Shared source'),expected=hash(file);
+ for(const section of f.project.sections.filter(s=>s.phase==='practice'))section.blocks[0].sourceReview={teachingContext:{pdfPath:file,pdfSha256:expected,nested:Array.from({length:12},()=>({path:file,hash:expected}))}};
+ const originals={exists:fs.existsSync,stat:fs.statSync};let exists=0,stats=0;
+ fs.existsSync=(candidate,...args)=>{if(path.resolve(String(candidate))===file)exists++;return originals.exists(candidate,...args);};
+ fs.statSync=(candidate,...args)=>{if(path.resolve(String(candidate))===file)stats++;return originals.stat(candidate,...args);};
+ try{const before=f.dependencies();assert.equal(exists,1);assert.equal(stats,1);fs.unlinkSync(file);const missing=f.dependencies();assert.equal(exists,2);assert.equal(stats,1);assert.notEqual(missing.q1,before.q1);assert.notEqual(missing.q2,before.q2);fs.mkdirSync(file);assert.deepEqual(f.dependencies(),missing);assert.equal(exists,3);assert.equal(stats,2);fs.rmdirSync(file);fs.writeFileSync(file,'Changed source');const changed=f.dependencies();assert.equal(exists,4);assert.equal(stats,3);assert.notEqual(changed.q1,before.q1);assert.notEqual(changed.q1,missing.q1);}finally{fs.existsSync=originals.exists;fs.statSync=originals.stat;}
+});

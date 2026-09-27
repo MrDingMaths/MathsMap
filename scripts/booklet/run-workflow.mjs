@@ -12,27 +12,29 @@ import {attemptRepairContext,repairAttempt} from './local-attempt-repair.mjs';
 import {printWorkflowOutput} from './workflow-output.mjs';
 import {importCloseout} from './import-closeout.mjs';
 import {importPreFinal} from './import-pre-final.mjs';
+import {recordInventoryReuse} from './inventory-reuse.mjs';
 const jsonFile=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const boundedCommands=['next','prepare-stage','run-stage','record-stage','cancel-stage','feedback-scope','drive'];
 const accountingCommands=['link-session','weekly-usage','export-observation','wait-start','wait-end'];
 export async function main(args=process.argv.slice(2)){
  if(args[0]==='--help'){
-  console.log('run-workflow next|drive|prepare-stage|run-stage|record-stage|cancel-stage|feedback-scope|status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|pre-final|closeout|receipt|link-session|weekly-usage|export-observation|wait-start|wait-end --run-id RUN [--input JSON --out JSON --full]. Drive requires --budget BUDGET.json and accepts --concurrency. Bounded stages use --job ID and optional --project-file/--config. Accounting and bounded commands also accept --run-dir. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-workflow-controller.md and docs/booklet-bounded-workflow.md.');return;
+  console.log('run-workflow next|drive|prepare-stage|run-stage|record-stage|cancel-stage|feedback-scope|status|drain|preflight|representatives|check-representatives|approve-coverage|verification|record-verification|repair-context|attempt-context|repair-attempt|record-inventory-reuse|pre-final|closeout|receipt|link-session|weekly-usage|export-observation|wait-start|wait-end --run-id RUN [--input JSON --out JSON --full]. Drive requires --budget BUDGET.json and accepts --concurrency. Bounded stages use --job ID and optional --project-file/--config. Accounting and bounded commands also accept --run-dir. Pre-final uses --input PROJECT.json without a run. Status/drain and attempt commands require --config. Bulk drain requires --plan and current representative inspections. Reviewed inventory reuse is explicit: record-inventory-reuse requires --input, --config and --inventory-config; scheduling adds --inventory-reuse RECEIPT.json. --inventory-config accepts an original config or a mathsmap-inventory-config-selection-v1 file mapping pages to immutable config references. repair-attempt requires --attempt. Receipt supports --run-dir and legacy --summary. See docs/booklet-workflow-controller.md and docs/booklet-bounded-workflow.md.');return;
  }
  const command=args[0],flags={};
  for(let i=1;i<args.length;i++){
   const key=args[i];if(['--retry','--representative','--summary','--full'].includes(key)){flags[key]=true;continue;}
-  if(!['--run-id','--run-dir','--pages','--config','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason','--job','--project-file','--budget'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
+  if(!['--run-id','--run-dir','--pages','--config','--inventory-config','--inventory-reuse','--concurrency','--base','--out','--retry-reason','--input','--attempt','--plan','--regenerate-reason','--job','--project-file','--budget'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);flags[key]=args[++i];
  }
  if(command==='pre-final'){
   if(!flags['--input'])throw Error('Pre-final requires --input PROJECT.json');
   const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'')),result=importPreFinal(read(flags['--input']));
   printWorkflowOutput(result,{out:flags['--out'],full:!!flags['--full']});if(!result.ok)process.exitCode=1;return result;
  }
- if(!flags['--run-id']&&!(flags['--run-dir']&&['receipt',...accountingCommands,...boundedCommands].includes(command)))throw Error('Supply --run-id, or --run-dir for receipt, accounting and bounded stage commands');
+ if(!flags['--run-id']&&!(flags['--run-dir']&&['receipt','record-inventory-reuse',...accountingCommands,...boundedCommands].includes(command)))throw Error('Supply --run-id, or --run-dir for receipt, accounting and bounded stage commands');
  if(flags['--run-id']&&flags['--run-dir'])throw Error('Choose either --run-id or --run-dir');
  const loaded=flags['--run-id']?loadRun(flags['--run-id']):{runDir:path.resolve(flags['--run-dir'])};let result;
  if(!loaded.manifest&&fs.existsSync(path.join(loaded.runDir,'manifest.json')))loaded.manifest=jsonFile(path.join(loaded.runDir,'manifest.json'));
+ const reuseOptions={...(flags['--inventory-config']?{inventoryConfigFile:path.resolve(flags['--inventory-config'])}:{}),...(flags['--inventory-reuse']?{inventoryReuseFile:path.resolve(flags['--inventory-reuse'])}:{})};
  if(accountingCommands.includes(command)){
   if(!flags['--input'])throw Error(command+' requires --input JSON');const input=jsonFile(flags['--input']);
   if(command==='link-session')result=await linkRunSession(loaded.runDir,input);
@@ -43,14 +45,14 @@ export async function main(args=process.argv.slice(2)){
  }
  else if(boundedCommands.includes(command)){
   const stages=await import('./bounded-stages.mjs');
-  const options={...loaded,selectedPages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest?.selectedPages,projectFile:flags['--project-file']?path.resolve(flags['--project-file']):undefined,...(flags['--config']?{config:jsonFile(flags['--config']),configFile:path.resolve(flags['--config'])}:{})};
+  const options={...loaded,...reuseOptions,selectedPages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest?.selectedPages,projectFile:flags['--project-file']?path.resolve(flags['--project-file']):undefined,...(flags['--config']?{config:jsonFile(flags['--config']),configFile:path.resolve(flags['--config'])}:{})};
   if(command==='drive'){
    if(!flags['--budget'])throw Error('Drive requires --budget JSON with dispatch limits');
    const {driveBoundedWorkflow}=await import('./workflow-controller.mjs');
    result=await driveBoundedWorkflow(options,{budget:jsonFile(flags['--budget']),...(flags['--concurrency']?{concurrency:Number(flags['--concurrency'])}:{}),...(flags['--plan']?{planFile:path.resolve(flags['--plan'])}:{})});
   }else if(command==='next'){
    result=await stages.nextBoundedWork(options);
-   if(options.config&&loaded.manifest){const generation=dependencyStatus({...options,pages:options.selectedPages},{retry:!!flags['--retry'],representative:!!flags['--representative'],requireRepresentativePlan:true,planFile:flags['--plan']});result.generation={jobs:generation.jobs,blocked:generation.blocked,complete:generation.complete.length};}
+   if(options.config&&loaded.manifest){const generation=dependencyStatus({...options,pages:options.selectedPages},{retry:!!flags['--retry'],representative:!!flags['--representative'],requireRepresentativePlan:true,planFile:flags['--plan']});result.generation={...generation,complete:generation.complete.length};}
   }else if(['prepare-stage','run-stage'].includes(command)){
    if(!flags['--job'])throw Error(command+' requires --job ID');
    result=command==='prepare-stage'?await stages.prepareBoundedStage(options,flags['--job']):await stages.runBoundedStage(options,flags['--job']);
@@ -58,6 +60,10 @@ export async function main(args=process.argv.slice(2)){
    if(!flags['--input'])throw Error(command+' requires --input JSON');const input=jsonFile(flags['--input']);
    result=command==='record-stage'?await stages.recordBoundedStage(options,input):command==='cancel-stage'?await stages.cancelBoundedStage(options,input):await stages.registerFeedbackScope(options,input);
   }
+ }
+ else if(command==='record-inventory-reuse'){
+  if(!flags['--input']||!flags['--config']||!flags['--inventory-config'])throw Error('Reviewed inventory reuse requires --input, --config and --inventory-config');
+  result=await recordInventoryReuse({...loaded,...reuseOptions,configFile:path.resolve(flags['--config']),config:jsonFile(flags['--config'])},jsonFile(flags['--input']));
  }
  else if(command==='receipt'){
   result=buildRunReceipt(loaded.runDir);if(flags['--summary'])result=summarizeRunReceipt(result);
@@ -99,7 +105,7 @@ export async function main(args=process.argv.slice(2)){
  else if(command==='preflight')result=await workflowPreflight({...loaded,base:flags['--base']});
  else if(['status','drain'].includes(command)){
   if(!flags['--config'])throw Error('Status/drain requires --config');
-  const options={...loaded,config:JSON.parse(fs.readFileSync(flags['--config'],'utf8').replace(/^\uFEFF/,'')),pages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest.selectedPages,concurrency:flags['--concurrency']};
+  const options={...loaded,...reuseOptions,configFile:path.resolve(flags['--config']),config:JSON.parse(fs.readFileSync(flags['--config'],'utf8').replace(/^\uFEFF/,'')),pages:flags['--pages']?parsePageSelection(flags['--pages']):loaded.manifest.selectedPages,concurrency:flags['--concurrency']};
   const policy={retry:!!flags['--retry'],representative:!!flags['--representative'],retryReason:flags['--retry-reason']??null,regenerationReason:flags['--regenerate-reason']??null,requireRepresentativePlan:true,planFile:flags['--plan']};
   result=command==='status'?dependencyStatus(options,policy):await drainDependencies(options,policy);
  }else throw Error('Unknown workflow command');

@@ -59,6 +59,27 @@ test('fresh Sol xhigh execution fixes profile and Standard speed and preserves u
  assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
 });
 
+test('all booklet profiles disable nested agents and send the bounded-worker contract to the CLI',async t=>{
+ const dir=fixture(t),prompt='Assigned source evidence only.\n\n{"assignment":"whole-question"}';
+ for(const profile of ['transcription','review','coordinator']){
+  let sent='';
+  const spawnProcess=(_binary,args,options)=>{
+   assert.equal(args[args.indexOf('--sandbox')+1],'read-only');assert.equal(options.shell,false);
+   const overrides=args.flatMap((value,index)=>value==='-c'?[args[index+1]]:[]);
+   assert.ok(overrides.includes('features.multi_agent=false'));assert.ok(overrides.includes('features.multi_agent_v2=false'));
+   assert.equal(overrides.some(value=>/^features\.multi_agent(?:_v2)?=true$/.test(value)),false);
+   const child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.stdin=new Writable({write(chunk,_encoding,done){sent+=chunk.toString();done();}});child.kill=()=>child.emit('close',1);
+   child.stdin.on('finish',()=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'{"ok":true}');child.emit('close',0);});return child;
+  };
+  const reply=await runAstraTask({cwd:dir,prompt,out:path.join(dir,profile),profile},{spawnProcess});
+  assert.equal(reply.result.ok,true);assert.ok(sent.endsWith('\n\n'+prompt));
+  assert.match(sent,/already occupy one slot in the shared three-worker pool/);
+  assert.match(sent,/Do not spawn sub-agents, delegate work, or launch another Codex CLI, model runner or model\/API call/);
+  assert.match(sent,/Only the parent coordinator schedules workers/);assert.match(sent,/report the specific blocker/);
+ }
+ assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
+});
+
 function authorFixture(t,{pages=1,questions=13,continuations=[]}={}){
  const runDir=fixture(t),inventories=[];
  fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});fs.mkdirSync(path.join(runDir,'semantic-packets'));

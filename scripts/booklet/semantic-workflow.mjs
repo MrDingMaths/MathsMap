@@ -6,7 +6,7 @@ import {runCodexTranscription} from './codex-transcription.mjs';
 import {DEFAULT_CONCURRENCY} from './transcription.mjs';
 import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription} from './transcription-settings.mjs';
 import {COMPACT_RECONSTRUCTION_PROMPT,COMPACT_SCHEMA,COMPACT_SOLUTIONS,compactTikzPrompt} from './token-efficient-prompts.mjs';
-import {currentEditorialContext} from './editorial-context.mjs';
+import {currentEditorialContext,decisionInventoryIds} from './editorial-context.mjs';
 import {rankEvidence,textWindows,readableEvidence} from './transcription-packet.mjs';
 import {reviewEnabled,liveWorkflow,pageGate,effectiveInventory,effectiveAuthor,materializeCorrections,registerInventory,registerAuthor,updateWorkflow,sourceEvidence,geometryEvidence,validatePacketGeometry} from './workflow-review.mjs';
 import {recordAttempt,readAttemptReceipt} from './semantic-run-metrics.mjs';
@@ -18,6 +18,7 @@ import {validateContentScope,PRACTICE_ONLY_PROMPT,validatePracticeInventory,vali
 import {planTaskAssignments,createAuthorAssignmentQueue,assignmentPayload} from './author-assignments.mjs';
 import {workerConcurrency,withWorkerSlot} from './worker-pool.mjs';
 import {FIRST_PASS_PATTERNS} from './first-pass-patterns.mjs';
+import {reviewIssueMatchesExercise} from './import-verification.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
@@ -63,9 +64,13 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
  return pages.map(page=>{
   if(!Number.isInteger(page)||!manifest.selectedPages.includes(page))throw Error('Unexpected source page '+page);
   const stem=`page-${String(page).padStart(3,'0')}`,topic=config.topics.find(t=>page>=t.start&&page<=t.end);
+  let inventory=null,editorial=null,editorialDecisions=[],geometry=[];
+  if(stage==='author'){inventory=reviewed?effectiveInventory(runDir,page,workflow):JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page,contentScope:config.contentScope});}
+  const authoringContextScoped=stage==='author'&&config.authoringContextByInventoryId!==undefined;
+  const authoringContextSelections=authoringContextScoped?Object.fromEntries(inventory.entries.filter(e=>e.kind==='question'&&!e.exclusionReason&&config.authoringContextByInventoryId[e.id]).map(e=>[e.id,config.authoringContextByInventoryId[e.id]])):undefined;
   // Keep all configured teaching text and image references. Attach a bounded
   // preview set; workers can read later images when the taught method needs them.
-  const contextPages=[...new Set(config.pageTeachingPages?.[page]??topic?.teachingPages??[])];
+  const contextPages=[...new Set([...(config.pageTeachingPages?.[page]??topic?.teachingPages??[]),...Object.values(authoringContextSelections??{}).flatMap(s=>s.teachingPages??[])])];
   contextPages.forEach(p=>positive(p,'Teaching page'));
   const contextKey=JSON.stringify(contextPages);
   if(!contextCache.has(contextKey))contextCache.set(contextKey,contextPages.map(p=>`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`).join('\n\n'));
@@ -73,8 +78,6 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   const previewPages=contextPages.slice(0,positive(config.teachingImageLimit??2,'Teaching image limit'));
   const images=[...new Set([...previewPages.map(p=>pageFile(p,'png')),pageFile(page,'png'),...(config.pageEvidence?.[page]?.images??[]).map(p=>path.resolve(runDir,p))])];
   const imagePages=[...new Set([...previewPages,page])];
-  let inventory=null,editorial=null,editorialDecisions=[],geometry=[];
-  if(stage==='author'){inventory=reviewed?effectiveInventory(runDir,page,workflow):JSON.parse(read(path.join(packetRoot,`${stem}.inventory.json`)));validateSemanticResult(inventory,{stage:'inventory',page,contentScope:config.contentScope});}
   const related=new Set([page]);let expanded=true;
   while(expanded){expanded=false;for(const pair of manifest.continuations??[]){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>related.has(p)))for(const p of values)if(!related.has(p)){related.add(p);expanded=true;}}}
   const blockers=reviewed&&stage==='author'?(manifest.pipelinePolicy?[...related].flatMap(p=>pageGate(workflow,p,{representative,authoring:true}).map(reason=>`Page ${p}: ${reason}`)):pageGate(workflow,page,{representative,authoring:true})):[];
@@ -85,7 +88,7 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
    add('early-review','Retain redundant measurements: unused is not a defect. Check mathematical consistency against diagram relationships and stated precision before proposing a correction; do not silently repair source evidence. Record uncertain precision or unsupported mathematics for review. Editorial decisions are reviewed together before bulk authoring.');
    if(stage==='inventory')add('review-schema','Also return layoutPatterns:[{id,description}] for every distinct final-size layout pattern (stable IDs shared across pages, including plain/cover). Triangle diagrams require entry.mathematicalModel:{type:"triangle",sides:{a:MEASUREMENT,b:MEASUREMENT,c:MEASUREMENT},angles:{A:MEASUREMENT,B:MEASUREMENT,C:MEASUREMENT}}; omit unknowns, never guess. a=BC,b=CA,c=AB. MEASUREMENT={value,unit?,quantum} for stated rounding increment, or {value,exact:true} only with source support. Preserve redundant givens and vertex/label pairings in description. Other asserted numeric equalities may use mathematicalChecks:[{left,right,quantum|exact:true}] with decimal arithmetic +-*/(). Unsupported relationships remain findings for manual review.');
   }
-  if(stage==='author'){add('schema',COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);add('first-pass-patterns',FIRST_PASS_PATTERNS);}
+  if(stage==='author'){add('execution','You are the assigned Sol xhigh authoring worker. Complete this assignment directly; do not spawn, delegate to, or wait for other agents, and do not call collaboration tools. Return the final required JSON when finished. Report missing evidence as a finding instead of waiting.');add('schema',COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);add('first-pass-patterns',FIRST_PASS_PATTERNS);}
   if(stage==='inventory')add('header-identity','Record each visible teaching group kind, exact header/subtitle, and whether its heading is a main topic band or a light activity band. Preserve red identify/investigation groups containing demonstrations and responses as one group; do not call them guided-practice merely because pupils respond. Standard information, light-bulb, review-arrow and question-mark header icons are renderer-owned template decorations: record them with an explicit exclusionReason, not as mathematical diagrams requiring a new diagram target. Never exclude a mathematical figure, coordinate cue, graph, meaningful symbol or label by this rule. Record paired diagram/scaffold orientation, table column meanings and required response spaces. Supplied canonical layout decisions override decorative source appearance, never source mathematics.');
   if(stage==='author'&&config.contentScope==='practice-only')add('practice-answer-evidence','Also return answerEvidence:[{questionId:questionBlockId,teacherReference:[{pdfPage,printedPage,exercise,questionLabel}],matchEvidence:individualPixelComparison,conflict:null}]. Cover every authored whole question once, citing every original printed item in a shared-stem group; multiple answer-book pages are allowed for split answers. Missing/conflicting answers require a finding. Include an individual sourceReview.teachingContext:{pdfPages:[actuallyInspectedTeachingPages],methodNote,mappingNote}; retain relevant definitions or supplied working inside the question. Harder short answers retain the result and add a concise taught-method sentence where useful, in a separate paragraph within editable answer.short. Worked align* steps repeat the full left-hand side on each row. Generate/review worked solutions before allocating answerSpaceMm. Use the authoring-time estimateWorkedWritingSpace helper in src/lib/booklet-working-space.js with the selected grid cell width and response kind. Count mathematical rows including align* row separators, wrapped prose, tall fractions and student constructions with handwriting allowance. Record sourceReview.workingSpaceEstimate with the method, widths and per-node estimates. Short True/False needs little space; cloze-only parts use 0 extra space. Keep saved manual overrides. These are authored dimensions, not source measurements. Native list arrangement evidence uses columns:null, and order lists actual child IDs only. Never put reference or review notes in student-facing prose.');
   if(sharedDiagrams)add('shared-diagrams',SHARED_DIAGRAM_PROMPT);
@@ -106,7 +109,8 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
      if(scope!=='project'||!workflow.projectId||!/^[a-zA-Z0-9._-]+$/.test(workflow.projectId))throw Error('Project correction context requires its bound project');
      return materializeCorrections(JSON.parse(read(path.resolve('booklets/projects',workflow.projectId+'.json'))),workflow,'project');
     });
-    const decisions=editorialDecisions=Object.values(workflow.issues).filter(i=>(i.pages??[i.page]).some(p=>relevant.has(p))&&i.status!=='pending').map(i=>({id:i.id,page:i.page,pages:i.pages,entryId:i.entryId,targetId:i.targetId,status:i.status,issue:i.message,reason:i.resolution?.reason,correctionId:i.resolution?.correctionId}));
+    const targets=new Set(inventory.entries.flatMap(e=>[e.id,e.targetId]).filter(Boolean));
+    const decisions=editorialDecisions=Object.values(workflow.issues).filter(i=>(i.pages??[i.page]).some(p=>relevant.has(p))&&i.status!=='pending'&&reviewIssueMatchesExercise(i,topic?.id,targets)).map(i=>({id:i.id,page:i.page,pages:i.pages,entryId:i.entryId,targetId:i.targetId,inventoryIds:decisionInventoryIds(i,inventory),status:i.status,issue:i.message,reason:i.resolution?.reason,correctionId:i.resolution?.correctionId}));
     add('reviewed-decisions','APPROVED EDITORIAL DECISIONS: The inventory above already incorporates approved source corrections. Apply these decisions even when original PDF pixels or Word text differ; those originals remain evidence, not instructions to undo a reviewed correction. Preserve original evidence and correction IDs. Do not re-propose or reverse an approved decision as an extraction error. A genuinely new conflict must be a finding.\n'+JSON.stringify({register:path.join(runDir,'workflow/issues.json'),note:'currentValues contains each affected current field once, after all approved corrections. currentValueRef and within locate the effective value; superseded targets must not be restored. appliedToInventory values already appear above. Exact originals and historical replacements remain in the linked register.',...editorial,decisions}));
    }
   }
@@ -137,10 +141,10 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   add('decisions',config.sourceDecisions?'USER SOURCE CORRECTION DECISIONS: '+JSON.stringify(config.sourceDecisions):'');
   const prompt=sections.map(s=>s.text).join('\n\n');
   const continuationDependencies=stage==='author'&&manifest.pipelinePolicy?[...related].filter(p=>p!==page).map(p=>[p,hash(pageFile(p,'png')),reviewed?effectiveInventory(runDir,p,workflow):JSON.parse(read(path.join(packetRoot,`page-${String(p).padStart(3,'0')}.inventory.json`)))]):[];
-  const inputs={version:2,stage,page,configuration:TRANSCRIPTION_DEFAULT,executionHash,...(continuationDependencies.length?{continuationDependencies}:{}),...(teacherHashes.length?{teacherHashes}:{}),...(sharedDiagrams?{sharedDiagramHash}:{}),prompt,images:images.map(file=>[file,hash(file)]),teachingImages:contextPages.map(p=>hash(pageFile(p,'png'))),wordHash:stage==='author'&&fs.existsSync(wordFile)?hash(wordFile):null};
+  const inputs={version:2,stage,page,configuration:TRANSCRIPTION_DEFAULT,executionHash,...(authoringContextScoped?{authoringContextSelections}:{}),...(continuationDependencies.length?{continuationDependencies}:{}),...(teacherHashes.length?{teacherHashes}:{}),...(sharedDiagrams?{sharedDiagramHash}:{}),prompt,images:images.map(file=>[file,hash(file)]),teachingImages:contextPages.map(p=>hash(pageFile(p,'png'))),wordHash:stage==='author'&&fs.existsSync(wordFile)?hash(wordFile):null};
   const evidence=[...new Set([...images,...contextPages.map(p=>pageFile(p,'png')),...teacherPages.map(p=>path.join(runDir,'evidence/teacher/pages',`page-${String(p).padStart(3,'0')}.png`))])].map(file=>({id:'evidence-'+hash(file),path:path.resolve(file),hash:hash(file)}));
   const editorialHash=editorial?digest(JSON.stringify(editorial)):null,editorialFile=editorial?path.resolve(packetRoot,'evidence','editorial-'+editorialHash+'.json'):null;
-  return {stage,page,stem,inventory,topic,contextPages,teacherPages,editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration:TRANSCRIPTION_DEFAULT,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:fileHash(new URL('./author-assignments.mjs',import.meta.url))}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
+  return {stage,page,stem,inventory,topic,contextPages,teacherPages,...(authoringContextScoped?{authoringContextScoped,authoringContextSelections,sourceImage:pageFile(page,'png'),teachingImageLimit:config.teachingImageLimit??2,teachingSources:contextPages.map(p=>({page:p,image:pageFile(p,'png'),text:`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`}))}:{}),editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration:TRANSCRIPTION_DEFAULT,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:fileHash(new URL('./author-assignments.mjs',import.meta.url))}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
  });
 }
 
@@ -164,7 +168,10 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
  function walk(value){
   if(!value||typeof value!=='object')return;
   if(value.id){if(ids.has(value.id))throw Error('Duplicate content ID '+value.id);ids.set(value.id,value);}
-  if(value.type==='layout'&&value.arrangement==='cards')for(const slot of value.slots??[])if(slot.id&&slot.blocks?.length)nativeCards.add(slot.id);
+  if(value.type==='layout'&&value.arrangement==='cards'){
+   if(value.id&&value.slots?.length&&value.slots.every(slot=>slot.blocks?.length))nativeCards.add(value.id);
+   for(const slot of value.slots??[])if(slot.id&&slot.blocks?.length)nativeCards.add(slot.id);
+  }
   if(value.type==='group'&&value.children?.filter(n=>n.type==='item'&&n.ref?.endsWith('/label')).length>1)throw Error('Multiple structural labels share a layout group; give each response its own group: '+value.id);
   if(['question','part','group'].includes(value.type)&&'prompt' in value){
    if(value.children?.length){if(value.answer)throw Error('Parent node carries answers '+value.id);}
@@ -182,7 +189,20 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
    const target=ids.get(mapping.targetId);
    if(!target)throw Error('Missing mapping target '+mapping.targetId);
    const nativeTable=target.type==='table'&&target.rows?.length>0&&target.rows.every(row=>Array.isArray(row)&&row.length>0);
-   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeTable)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
+   const nativeImage=target.type==='image'&&typeof target.src==='string'&&target.src.trim()&&Number(target.width)>0;
+   // Source visuals include equation/scaffold images. Their editable native
+   // reconstruction is a supported target, without allowing empty prose to
+   // stand in for an inventoried mathematical figure.
+   const nativeMathNode=n=>n?.type==='math'&&typeof n.latex==='string'&&n.latex.trim()||n?.type==='cloze'&&typeof n.answer==='string'&&Number(n.width)>0;
+   const nativeMath=!!nativeMathNode(target)||target.type==='paragraph'&&target.inlines?.some(nativeMathNode);
+   const hasNativeMath=value=>{
+    if(nativeMathNode(value))return true;
+    if(Array.isArray(value))return value.some(hasNativeMath);
+    return !!value&&typeof value==='object'&&Object.values(value).some(v=>v&&typeof v==='object'&&hasNativeMath(v));
+   };
+   const nativeScaffold=target.type==='layout'&&target.arrangement==='scaffold'&&target.slots?.length>0&&target.slots.every(s=>s.blocks?.length>0)&&target.slots.some(s=>hasNativeMath(s.blocks));
+   const nativeResponseGrid=mapping.field==='/layout'&&['question','group','part'].includes(target.type)&&target.layout==='grid'&&target.children?.length>1&&target.children.every(n=>Object.hasOwn(n,'prompt'));
+   if(sourceIds.get(mapping.inventoryId).kind==='diagram'&&!['tikz','image'].includes(target.format)&&target.type!=='diagram'&&!nativeCards.has(mapping.targetId)&&!nativeTable&&!nativeImage&&!nativeMath&&!nativeScaffold&&!nativeResponseGrid)throw Error('Diagram mapped to non-diagram target '+mapping.targetId);
   }
  }
  for(const entry of inventory.entries)if(!entry.exclusionReason&&!result.inventoryMappings.some(m=>m.inventoryId===entry.id))throw Error('Missing inventory mapping '+entry.id);
@@ -207,7 +227,8 @@ export function semanticCacheInfo(task){
  return {kind:'legacy'};
 }
 
-export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false,repairFrom=null,retryReason=null,regenerationReason=null,pageReplay=false},{runner=runCodexTranscription,log=console.log,verifyPublication=()=>{}}={}){
+export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false,repairFrom=null,retryReason=null,regenerationReason=null,pageReplay=false,reviewLockTimeoutMs=30000},{runner=runCodexTranscription,log=console.log,verifyPublication=()=>{}}={}){
+ if(!Number.isFinite(reviewLockTimeoutMs)||reviewLockTimeoutMs<=0)throw Error('Review lock timeout must be positive');
  if(retryReason!==null&&(!['source-correction','content-repair','mapping-repair','renderer-change','infrastructure','input-change','validation-repair'].includes(retryReason)))throw Error('Unsupported retry reason');
  attempt=positive(attempt,'Attempt');concurrency=workerConcurrency(concurrency);
  if(regenerationReason!==null&&(typeof regenerationReason!=='string'||!regenerationReason.trim()))throw Error('Explain why targeted repair is insufficient');
@@ -218,7 +239,8 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
   const selected=new Set(pages);let changed=true;
   while(changed){changed=false;for(const pair of manifest.continuations??[]){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>selected.has(p)))for(const p of values)if(!selected.has(p)){selected.add(p);changed=true;}}}
   assignmentTasks=createSemanticTasks({runDir,manifest,config,stage,pages:[...selected].sort((a,b)=>a-b),attempt,representative});
-  assignmentPlan=planTaskAssignments(assignmentTasks,{continuations:(manifest.continuations??[]).filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>selected.has(p))),...config.assignmentLimits});
+  const assignmentContinuations=config.assignmentLimits?.continuations??manifest.continuations??[];
+  assignmentPlan=planTaskAssignments(assignmentTasks,{...config.assignmentLimits,continuations:assignmentContinuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>selected.has(p)))});
   for(const a of assignmentPlan.assignments){const payload=assignmentPayload(a,assignmentTasks);a.variableCharacters=payload.promptStats.sections.assignment;a.oversized ||= a.variableCharacters>assignmentPlan.limits.maxCharacters;if(a.oversized)a.exception??='Indivisible question/activity plus required evidence exceeds the budget; retained in full';}
  }
  if(repairFrom!==null){
@@ -312,7 +334,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     };
     // Fresh dependencies, canonical content and review registration share the
     // same review lock and rollback transaction. No edit can enter the gap.
-    if(task.reviewed)await updateWorkflow(runDir,`${stage} page ${task.page}`,publish);
+    if(task.reviewed)await updateWorkflow(runDir,`${stage} page ${task.page}`,publish,{lockTimeoutMs:reviewLockTimeoutMs});
     else await writeTransaction(publish(null).outputs);
     canonicalWritten=true;registered=task.reviewed;events.end({canonicalWritten,registered});ok=true;
     });

@@ -6,6 +6,7 @@ import {measureRunPhase} from './run-observability.mjs';
 import {reviewEnabled,liveWorkflow,loadWorkflow} from './workflow-review.mjs';
 import {checkRepresentativePlan} from './efficiency-tools.mjs';
 import {workerConcurrency} from './worker-pool.mjs';
+import {freshGenerationOptions,inventoryReuseInfo,generationPublicationGuard} from './inventory-reuse.mjs';
 
 function latestAttempt(root,page,stage) {
  const prefix=`page-${String(page).padStart(3,'0')}.${stage}.`;
@@ -13,7 +14,8 @@ function latestAttempt(root,page,stage) {
 }
 
 export function dependencyStatus(options,{retry=false,representative=false,requireRepresentativePlan=false,planFile}={}) {
- const {runDir,pages}=options,root=path.join(runDir,'semantic-packets'),jobs=[],blocked=[],complete=[];
+ options=freshGenerationOptions(options,'author');
+ const {runDir,pages}=options,root=path.join(runDir,'semantic-packets'),jobs=[],blocked=[],complete=[],observations=[];
  if(!Array.isArray(pages)||!pages.length||new Set(pages).size!==pages.length)throw Error('Select distinct source pages');
  // One current dependency snapshot per scheduling pass. Publication always
  // builds its own fresh snapshot inside the serialized publication lock.
@@ -28,11 +30,17 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
   for(const stage of ['inventory','author']){
    if(stage==='author'&&!inventoryReady)break;
    try{
-    const task=createSemanticTasks({...options,stage,pages:[page],representative,workflowState})[0],cache=semanticCacheInfo(task),latest=latestAttempt(root,page,stage);
+    const task=createSemanticTasks({...freshGenerationOptions(options,stage,page),stage,pages:[page],representative,workflowState})[0],cache=semanticCacheInfo(task),latest=latestAttempt(root,page,stage);
     if(task.blockers.length){blocked.push({page,stage,reasons:task.blockers});break;}
     if(cache.kind==='hit'){
      if(reviewed&&(!persisted.pages[page]||stage==='author'&&!persisted.pages[page].authorHash)){jobs.push({page,stage,attempt:cache.attempt,kind:'registration',inputHash:task.inputHash});break;}
      if(stage==='inventory')inventoryReady=true;else complete.push(page);continue;
+    }
+    if(stage==='inventory'&&options.inventoryReuseFile){
+     const reuse=inventoryReuseInfo(options,page,workflowState);
+     observations.push({page,stage,generationCache:cache,generationInputHash:task.inputHash,...reuse});
+     if(reuse.kind==='reviewed-inventory-reuse'){inventoryReady=true;continue;}
+     blocked.push({page,stage,reasons:['Reviewed inventory reuse is invalid: '+(reuse.reason??reuse.kind)]});break;
     }
     if(stage==='author'&&planIssues.length){blocked.push({page,stage,reasons:planIssues});break;}
     if(cache.kind!=='missing'&&!retry){blocked.push({page,stage,reasons:[`Cache is ${cache.kind}; inspect current evidence and explicitly retry with a new immutable attempt.`]});break;}
@@ -41,7 +49,7 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
    }catch(error){blocked.push({page,stage,reasons:[error.message]});break;}
   }
  }
- return {jobs,blocked,complete};
+ return {jobs,blocked,complete,...(observations.length?{observations}:{})};
 }
 
 export async function drainDependencies(options,{runner,log=console.log,retry=false,representative=false,retryReason=null,regenerationReason=null,requireRepresentativePlan=false,planFile}={}) {
@@ -57,7 +65,8 @@ export async function drainDependencies(options,{runner,log=console.log,retry=fa
     // can fill all three worker slots without spawning duplicate page workers.
     const batch=job.stage==='author'&&options.manifest.pipelinePolicy?state.jobs.filter(other=>other.stage==='author'&&other.attempt===job.attempt&&!attempted.has('author:'+other.page)):[job];
     for(const item of batch)attempted.add(item.stage+':'+item.page);
-    const work=runSemanticPackets({...options,stage:job.stage,pages:batch.map(item=>item.page),attempt:job.attempt,concurrency:job.stage==='author'&&options.manifest.pipelinePolicy?concurrency:1,representative,retryReason,regenerationReason},{...(runner?{runner}:{}),log})
+    const generationOptions=freshGenerationOptions(options,job.stage,job.page);
+    const work=runSemanticPackets({...generationOptions,stage:job.stage,pages:batch.map(item=>item.page),attempt:job.attempt,concurrency:job.stage==='author'&&options.manifest.pipelinePolicy?concurrency:1,representative,retryReason,regenerationReason},{...(runner?{runner}:{}),log,verifyPublication:generationPublicationGuard(options,job.stage,job.page)})
      .then(report=>{for(const item of batch)results.push({page:item.page,stage:item.stage,report:{...report,pages:report.pages.filter(p=>p.page===item.page)}});},error=>{for(const item of batch)results.push({page:item.page,stage:item.stage,error:error.message});}).finally(()=>active.delete(key));
     active.set(key,work);
    }

@@ -50,11 +50,11 @@ export function renderPdfPage(pdf,page){
 }
 function popplerVersion(){const r=spawnSync('pdftoppm',['-v'],{windowsHide:true,encoding:'utf8'});if(r.error||r.status!==0)throw Error('PDF comparison requires pdftoppm');return (r.stderr+r.stdout).trim();}
 
-function manifestsFor(editions){
+function manifestsFor(editions,{reviewOnly=false}={}){
  const manifests={};
  for(const edition of EDITIONS){
   const ref=current(editions?.[edition]?.manifest),m=read(ref.path);
-  if(m.mode!=='full'||m.passed!==true||m.edition!==edition||!m.pages?.length||m.pages.some((p,i)=>p.page!==i+1))throw Error('PDF comparison requires all five passed full manifests');
+  if(m.mode!==(reviewOnly?'review':'full')||(reviewOnly&&m.reviewOnly!==true)||m.passed!==true||m.edition!==edition||!m.pages?.length||m.pages.some((p,i)=>p.page!==i+1))throw Error('PDF comparison requires all five passed '+(reviewOnly?'review-only':'full')+' manifests');
   current(m.pdf);validatePdfRasters(m);manifests[edition]=m;
  }
  const first=manifests.student;
@@ -64,10 +64,10 @@ function manifestsFor(editions){
 
 // Cache only immutable rendered bytes, with PDF, engine and implementation keys.
 // A corrupt cached raster is regenerated, never credited as a match.
-export async function buildEditionComparison(editions,outDir,{render=renderPdfPage,engine=popplerVersion(),onProgress=()=>{}}={}){
- const manifests=manifestsFor(editions),algorithm=reference(implementation);
+export async function buildEditionComparison(editions,outDir,{render=renderPdfPage,engine=popplerVersion(),onProgress=()=>{},reviewOnly=false}={}){
+ const manifests=manifestsFor(editions,{reviewOnly}),algorithm=reference(implementation);
  fs.mkdirSync(outDir,{recursive:true});
- const report={version:1,policy:UNIQUE_LAYOUT_REVIEW,dpi:DPI,footerMm:FOOTER_MM,algorithm,engine,editions:{}};
+ const report={version:1,policy:UNIQUE_LAYOUT_REVIEW,dpi:DPI,footerMm:FOOTER_MM,algorithm,engine,...(reviewOnly?{reviewOnly:true}:{}),editions:{}};
  let rendered=0,reused=0;
  for(const edition of EDITIONS){
   const m=manifests[edition],pages=[];
@@ -94,8 +94,9 @@ export async function buildEditionComparison(editions,outDir,{render=renderPdfPa
 
 // Recompute the pixel fingerprints from retained full rasters. A passed flag or
 // caller-supplied body hash never establishes equivalence.
-export function validateEditionComparison(ref,editions){
- const report=read(current(ref).path),manifests=manifestsFor(editions);
+export function validateEditionComparison(ref,editions,{reviewOnly=false}={}){
+ const report=read(current(ref).path),manifests=manifestsFor(editions,{reviewOnly});
+ if((report.reviewOnly===true)!==reviewOnly)throw Error('Review-only comparison cannot establish final acceptance');
  if(report.policy!==UNIQUE_LAYOUT_REVIEW||report.version!==1||report.dpi!==DPI||report.footerMm!==FOOTER_MM||!same(report.algorithm,reference(implementation)))throw Error('PDF comparison policy or implementation changed');
  const artifacts=[ref,current(report.algorithm)],pages={};
  for(const edition of EDITIONS){

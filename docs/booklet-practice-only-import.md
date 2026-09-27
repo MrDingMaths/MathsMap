@@ -39,6 +39,19 @@ creation also rejects non-practice blocks. One block represents one shared sourc
 
 Use native part grids, beginning with source-supported columns and reducing columns for width or working needs. Generate/review solutions first, then use `estimateWorkedWritingSpace` in `src/lib/booklet-working-space.js` at the actual cell width. It counts TeX mathematical rows, wrapped explanation, tall fractions and drawing space with handwriting allowance. Persist editable `answerSpaceMm` values and `sourceReview.workingSpaceEstimate` evidence; do not run the estimator on load or overwrite later manual adjustments. Tick-only, inline and cloze responses do not need a full working area. Final-size representative inspection must check the row's tallest cell, readable maths and page splits.
 
+Use 8 mm per required handwritten line, with additional fraction and drawing clearance; tick/cross responses use 6 mm. Pass the reviewed required response as `studentWork` and any required drawings as `studentDiagrams` when the full worked solution includes teacher-only explanations or optional figures. An explicit student-work projection excludes solution figures unless they are explicitly supplied as required drawings. Retain the full worked answer and record the projection in the editable estimate evidence. `sizeQuestionWorking` accepts the corresponding `studentWorkById` and `studentDiagramsById` maps; saved manual dimensions retain precedence.
+
+For a question continued across pages, identify its independent inventory roots
+in `assignmentLimits.continuations: [{from, to, entryIds}]`. That assignment owns
+the complete question and all its descendants. Each page packet contains the
+same complete editable block and maps its own inventory entries locally. Later
+packets declare `sharedContentContinuations: [{blockId, canonicalPageNumber,
+reason}]`; the block must retain both pages in `sourceRefs`. Assembly checks the
+explicit ownership, exact agreement of the complete blocks and answer evidence,
+then emits one question with all original source mappings. A disagreement or an
+undeclared duplicate fails validation. The independent inventories and original
+packet evidence remain intact; this is not permission to merge unrelated items.
+
 `settings.questionOrder: "source"` preserves order independently of cognitive
 demand ratings and compact pagination. Optional topic `exerciseLabel` preserves
 labels such as 1A in headings, contents and navigation; existing projects retain

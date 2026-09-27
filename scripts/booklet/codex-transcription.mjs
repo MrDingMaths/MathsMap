@@ -30,9 +30,10 @@ export function readToolDiagnostics(file){
 
 // Legacy export names are retained for callers; every production profile uses Sol xhigh.
 export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6-sol',effort:'xhigh'}),review:Object.freeze({model:'gpt-6-sol',effort:'xhigh'}),coordinator:Object.freeze({model:'gpt-6-sol',effort:'xhigh'})});
+const BOUNDED_WORKER_INSTRUCTIONS='Bounded worker execution: you already occupy one slot in the shared three-worker pool. Complete only the assigned task yourself. Do not spawn sub-agents, delegate work, or launch another Codex CLI, model runner or model/API call through any tool or shell command. Only the parent coordinator schedules workers. If the assigned evidence or task cannot be completed, report the specific blocker in the required result rather than delegating. Use read-only source access and return the required final response; the caller writes the result.';
 export function astraCommandArgs({cwd,images=[],raw,profile='transcription'}){
  const configuration=ASTRA_PROFILES[profile];if(!configuration)throw Error('Unknown booklet worker profile');
- const args=['exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only','-C',cwd,'--model',configuration.model,'-c',`model_reasoning_effort="${configuration.effort}"`,'-c','service_tier="default"','-c','features.fast_mode=false','--json','--output-last-message',raw];
+ const args=['exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only','-C',cwd,'--model',configuration.model,'-c',`model_reasoning_effort="${configuration.effort}"`,'-c','service_tier="default"','-c','features.fast_mode=false','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','--json','--output-last-message',raw];
  for(const image of images)args.push('--image',image);args.push('-');return args;
 }
 
@@ -61,7 +62,7 @@ async function invokeAstra({cwd,prompt,images,out,profile,stage,timeoutMs,onProg
    child.stdout.on('data',chunk=>{fs.writeSync(eventFd,chunk);buffer+=chunk;let end;while((end=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,end);buffer=buffer.slice(end+1);consume(line);}});
    child.stderr.on('data',chunk=>{fs.writeSync(errorFd,chunk);toolDiagnostics.write(chunk);});child.stdin.on('error',e=>{failure=e;});child.on('error',e=>{failure=e;});
    child.on('close',code=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);if(buffer.trim())consume(buffer);completedCapture=true;toolDiagnostics.finish();if(failure)reject(failure);else if(code!==0)reject(new Error('Codex exited '+code));else resolve();});
-   child.stdin.end(prompt);
+   child.stdin.end(BOUNDED_WORKER_INSTRUCTIONS+'\n\n'+prompt);
   });
   const result=JSON.parse(fs.readFileSync(raw,'utf8').trim().replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));return{result,metrics:metrics()};
  }catch(error){error.metrics=metrics();throw error;}finally{fs.closeSync(eventFd);fs.closeSync(errorFd);}

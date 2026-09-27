@@ -125,7 +125,13 @@ export function readCodexSessionUsage(file,{sessionId,startedAt=null,endedAt=nul
  for(const {raw,line,tail}of jsonLines(file)){
   let event;try{event=JSON.parse(raw);}catch{if(tail){incompleteTail=true;break;}throw Error('Invalid session event JSON at line '+line);}
   const payload=event.payload??{},time=timestamp(event.timestamp??event.at??event.time);
-  if(event.type==='session_meta'){canonicalSessionId=payload.id??payload.session_id;for(const key of ['id','session_id'])if(typeof payload[key]==='string')identities.add(payload[key]);}
+  if(event.type==='session_meta'){
+   canonicalSessionId=payload.id??payload.session_id;
+   const parentThreadId=payload.parent_thread_id??payload.source?.subagent?.thread_spawn?.parent_thread_id;
+   // Subagent logs inherit the root session_id, but own a distinct thread id.
+   // Keep historical runtime aliases without treating a parent as this session.
+   for(const key of ['id','session_id'])if(typeof payload[key]==='string'&&(payload[key]!==parentThreadId||payload[key]===canonicalSessionId))identities.add(payload[key]);
+  }
   else if(event.type==='thread.started'&&event.thread_id){identities.add(event.thread_id);canonicalSessionId??=event.thread_id;}
   else if(event.type==='turn_context')currentTurn=payload.turn_id??currentTurn;
   else if(event.type==='token_usage_record')addDirect(payload,time);

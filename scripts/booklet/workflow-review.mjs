@@ -31,7 +31,7 @@ export function workflowForPages(state,pages,scopes=['inventory','author','proje
  return {...state,corrections:state.corrections.map(c=>({...c,patches:c.patches.filter(p=>selected.has(p.page)&&scopes.includes(p.scope))})).filter(c=>c.patches.length)};
 }
 
-export async function updateWorkflow(runDir,action,change){
+export async function updateWorkflow(runDir,action,change,{lockTimeoutMs=30000}={}){
  return withRunLock(runDir,'review',()=>withBankLock(async()=>{
   const dir=path.join(runDir,'workflow');fs.mkdirSync(dir,{recursive:true});
    const state=loadWorkflow(runDir),before=fingerprint(state),oldIssues=structuredClone(state.issues),result=await change(state);
@@ -40,7 +40,7 @@ export async function updateWorkflow(runDir,action,change){
    history.events.push({at:new Date().toISOString(),action,revision:state.revision,before,after:fingerprint(state),previousIssues:Object.fromEntries(Object.entries(oldIssues).filter(([id,v])=>fingerprint(v)!==fingerprint(state.issues[id])))});
    await writeTransaction([[reviewFile(runDir),state],[historyFile,history],...(result?.outputs??[])]);
    return result??state;
- }));
+ }),{timeoutMs:lockTimeoutMs});
 }
 
 export function mathematicalFindings(inventory){
@@ -95,8 +95,24 @@ export function recordMaterializedCorrections(project,state,review){
  project.source.correctionMaterialization={version:1,...review,projectHash:materializedProjectHash(project),patchHashes:state.corrections.filter(c=>c.status==='approved').flatMap(c=>c.patches.map(fingerprint))};
  return project;
 }
+// Grouping source questions can change their mapped editable node. Keep that
+// provenance change in the same guarded correction transaction as the content.
+export function authorMappingTarget(source,targetId,scope,page,fields=[]){
+ if(!targetId?.startsWith('$mapping:'))return null;
+ const inventoryId=targetId.slice('$mapping:'.length);
+ const candidates=scope==='author'?source?.inventoryMappings?.filter(m=>m.inventoryId===inventoryId&&!m.derived):scope==='project'?source?.source?.inventory?.entries?.filter(e=>e.id===inventoryId&&e.pageNumber===page&&!e.derived):null;
+ if(!inventoryId||candidates?.length!==1)throw Error('Missing or ambiguous author mapping '+targetId);
+ const target=candidates[0];
+ // A null field maps the whole node; the assembler omits this optional value.
+ // Constituent metadata is optional too. Normalize only its requested fields,
+ // preserving an omitted whole-node field when adding a continuation.
+ const continuationFields=fields.filter(field=>['/continuationOf','/continuationReason'].includes(field));
+ if(!continuationFields.length||fields.includes('/field'))target.field??=null;
+ for(const field of continuationFields)target[field.slice(1)]??=null;
+ return target;
+}
 export function materializeCorrections(source,state,scope,page){
- let result=structuredClone(source);const affected=new Set();
+ let result=structuredClone(source);const affected=new Set(),mappingContinuations=new Map();
  const approvedPatches=state.corrections.filter(c=>c.status==='approved').flatMap(c=>c.patches);
  const receipt=scope==='project'?result.source?.correctionMaterialization:null;
  const materialized=new Set(receipt?.patchHashes??[]);
@@ -109,32 +125,43 @@ export function materializeCorrections(source,state,scope,page){
  // chain. Only exact, consecutive replacements can supersede an earlier patch;
  // an unrelated local edit must still fail the ordinary conflict check.
  const superseded=(target,patch)=>{
-  const keys=patch.field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
+  const fieldKeys=field=>field.split('/').filter(Boolean).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
+  const fieldValue=(value,field)=>fieldKeys(field).reduce((v,key)=>v?.[key],value);
+  const embedded=(value,id)=>contentNodes({sections:[{blocks:[{id:'correction-probe',content:value}]}]}).get(id)?.node;
+  const keys=fieldKeys(patch.field);
   if(keys.some(k=>['__proto__','constructor','prototype'].includes(k)))return false;
-  const current=keys.reduce((value,key)=>value?.[key],target);
-  let probe=structuredClone(target);
+  let current=fieldValue(target,patch.field),tracked=patch,probe=structuredClone(target);
   let owner=probe;for(const key of keys.slice(0,-1))owner=owner?.[key];
   if(!owner)return false;
   owner[keys.at(-1)]=structuredClone(patch.corrected);
   for(const next of approvedPatches.slice(approvedPatches.indexOf(patch)+1)){
    if((next.scope!==patch.scope&&!(scope==='project'&&next.scope==='project'))||next.page!==patch.page)continue;
-   const value=keys.reduce((v,key)=>v?.[key],probe);
-   // A later approved ancestor replacement can carry this field forward too.
-   // Compare its exact embedded original, rather than trusting an applied ID.
-   const embedded=v=>contentNodes({sections:[{blocks:[{id:'correction-probe',content:v}]}]}).get(patch.targetId)?.node;
-   const before=embedded(next.original),after=embedded(next.corrected);
-   if(before&&after){
-    if(patchFingerprint(keys.reduce((v,key)=>v?.[key],before),patch)!==patchFingerprint(value,patch))return false;
-    probe=structuredClone(after);
-    if(patchFingerprint(current,patch)===patchFingerprint(keys.reduce((v,key)=>v?.[key],probe),patch))return true;
+   const value=fieldValue(probe,tracked.field);
+   const ancestorField=next.targetId===tracked.targetId&&tracked.field.startsWith(next.field+'/');
+   const before=ancestorField?next.original:embedded(next.original,tracked.targetId);
+   if(ancestorField||before){
+    const original=fieldValue(before,ancestorField?tracked.field.slice(next.field.length):tracked.field);
+    if(patchFingerprint(original,tracked)!==patchFingerprint(value,tracked))return false;
+    // Widen the comparison to the whole replaced parent. A restored leaf may
+    // equal its canonical original while ownership or sibling content still
+    // needs the intervening replacement; leaf equality cannot prove reuse.
+    const parent=contentNodes(result).get(next.targetId)?.node;
+    if(!parent)return false;
+    current=fieldValue(parent,next.field);probe=structuredClone(parent);tracked=next;
+    let parentOwner=probe;const parentKeys=fieldKeys(next.field);
+    if(parentKeys.some(k=>['__proto__','constructor','prototype'].includes(k)))return false;
+    for(const key of parentKeys.slice(0,-1))parentOwner=parentOwner?.[key];
+    if(!parentOwner)return false;
+    parentOwner[parentKeys.at(-1)]=structuredClone(next.corrected);
+    if(patchFingerprint(current,tracked)===patchFingerprint(next.corrected,tracked))return true;
     continue;
    }
-   const descendant=contentNodes({sections:[{blocks:[{id:'correction-probe',content:value}]}]}).get(next.targetId)?.node;
-   const sameTarget=next.targetId===patch.targetId&&(next.field===patch.field||next.field.startsWith(patch.field+'/'));
+   const descendant=embedded(value,next.targetId);
+   const sameTarget=next.targetId===tracked.targetId&&(next.field===tracked.field||next.field.startsWith(tracked.field+'/'));
    const nextTarget=sameTarget?probe:descendant;
    if(!nextTarget)continue;
    try{patchField(nextTarget,next);}catch{return false;}
-   if(patchFingerprint(current,patch)===patchFingerprint(keys.reduce((v,key)=>v?.[key],probe),patch))return true;
+   if(patchFingerprint(current,tracked)===patchFingerprint(fieldValue(probe,tracked.field),tracked))return true;
   }
   return false;
  };
@@ -142,6 +169,18 @@ export function materializeCorrections(source,state,scope,page){
   if(correction.status!=='approved')continue;
   for(const patch of correction.patches.filter(p=>(p.scope===scope||scope==='project'&&['author','inventory'].includes(p.scope))&&(page===undefined||p.page===page))){
    if(materialized.has(fingerprint(patch)))continue;
+   if(patch.targetId?.startsWith('$mapping:')){
+    if(patch.scope!=='author'||!['author','project'].includes(scope)||!['/targetId','/field','/continuationOf','/continuationReason'].includes(patch.field))throw Error('Author mapping corrections only support targetId, field, continuationOf and continuationReason');
+    const target=authorMappingTarget(result,patch.targetId,scope,patch.page,[patch.field]),before=fingerprint(target),oldTargetId=target.targetId;
+    if(['/continuationOf','/continuationReason'].includes(patch.field))mappingContinuations.set(patch.page+':'+patch.targetId,{target,page:patch.page});
+    if(!superseded(target,patch))patchField(target,patch);
+    if(before!==fingerprint(target)&&scope==='project'){
+     delete target.verification;
+     const nodes=contentNodes(result);
+     for(const id of [oldTargetId,target.targetId])if(nodes.get(id)?.block?.id)affected.add(nodes.get(id).block.id);
+    }
+    continue;
+   }
    if(patch.scope==='inventory'){
     if(patch.targetId==='$inventory'){
      if(patch.field!=='/layoutPatterns')throw Error('Inventory envelope corrections only support layoutPatterns');
@@ -186,6 +225,15 @@ export function materializeCorrections(source,state,scope,page){
     if(originalValue!==fingerprint(contentNodes(result).get(patch.targetId)?.node))affected.add(target.block.id);
    }
   }
+ }
+ // Validate the completed pair after both guarded fields have been applied.
+ // A continuation records another source constituent of the same target/field;
+ // it cannot silently suppress a duplicate mapping to unrelated content.
+ for(const {target,page:sourcePage}of mappingContinuations.values()){
+  const mappings=scope==='author'?result.inventoryMappings:result.source?.inventory?.entries;
+  const id=scope==='author'?target.inventoryId:target.id;
+  if(target.continuationOf==null&&target.continuationReason==null)continue;
+  if(typeof target.continuationOf!=='string'||!target.continuationOf.trim()||typeof target.continuationReason!=='string'||!target.continuationReason.trim()||target.continuationOf===id||!mappings?.some(m=>(scope==='author'?m.inventoryId:m.id)===target.continuationOf&&(scope==='author'||m.pageNumber===sourcePage)&&!m.derived&&!m.exclusionReason&&!m.continuationOf&&m.targetId===target.targetId&&(m.field??null)===(target.field??null)))throw Error('Invalid shared-content continuation '+id);
  }
  if(scope!=='inventory'&&affected.size){
   for(const block of result.sections.flatMap(s=>s.blocks))if(affected.has(block.id)){
@@ -240,7 +288,14 @@ export function representativePage(state,pattern){
  return Math.min(...Object.entries(state.pages).filter(([,p])=>p.patterns.some(x=>x.id===pattern)).map(([p])=>Number(p)));
 }
 export function representativeKey(state,page){const p=state.pages[page];return fingerprint({inventory:p?.inventoryHash,author:p?.authorHash});}
-export function pageGate(state,page,{representative=false,authoring=false}={}){
+// One synchronous status/flag operation shares evidence reads. Each public call
+// starts fresh, so changed files and renderer inputs are checked again.
+function gateEvidence(){
+ const hashes=new Map(),reviews=new Map();let runtime;
+ const hash=file=>{if(!hashes.has(file))hashes.set(file,bytesHash(file));return hashes.get(file);};
+ return {renderer:()=>runtime??=(rendererSignature()),current:artifacts=>{if(!reviews.has(artifacts))reviews.set(artifacts,evidenceCurrent(artifacts,hash));return reviews.get(artifacts);}};
+}
+export function pageGate(state,page,{representative=false,authoring=false}={},evidence=gateEvidence()){
  const p=state.pages[page],reasons=[];
  if(!p)return ['Inventory not registered'];
  if(state.pipelinePolicy&&representative){
@@ -250,12 +305,12 @@ export function pageGate(state,page,{representative=false,authoring=false}={}){
  if(state.pipelinePolicy&&!representative){
   const plan=state.verification?.representativePlan;
   if(!plan)reasons.push('Accepted representative coverage plan required');
-  else {const runtime=rendererSignature();
+  else {const runtime=evidence.renderer();
    if(!plan.inventoryKeys||Object.entries(plan.inventoryKeys).some(([page,key])=>state.pages[page]?.inventoryHash!==key))reasons.push('Representative coverage plan is stale');
    for(const item of plan.coverage){
    if(item.status==='not-applicable')continue;
    const approval=state.verification?.coverage?.[item.id];
-   if(!approval||approval.renderer!==runtime||!evidenceCurrent(approval.artifacts)||fingerprint(approval.keys)!==fingerprint(Object.fromEntries(item.pages.map(p=>[p,representativeKey(state,p)]))))reasons.push('Representative coverage inspection pending: '+item.id);
+   if(!approval||approval.renderer!==runtime||!evidence.current(approval.artifacts)||fingerprint(approval.keys)!==fingerprint(Object.fromEntries(item.pages.map(p=>[p,representativeKey(state,p)]))))reasons.push('Representative coverage inspection pending: '+item.id);
    }
   }
  }
@@ -270,8 +325,9 @@ export function pageGate(state,page,{representative=false,authoring=false}={}){
  return reasons;
 }
 export function currentStatus(state,selectedPages){
+ const evidence=gateEvidence();
  const issues=Object.values(state.issues).filter(i=>i.status==='pending');
- const pages=selectedPages.map(page=>({page,inventoryKey:state.pages[page]?.inventoryHash,representativeKey:representativeKey(state,page),patterns:state.pages[page]?.patterns,reasons:pageGate(state,page),author:!!state.pages[page]?.authorHash}));
+ const pages=selectedPages.map(page=>({page,inventoryKey:state.pages[page]?.inventoryHash,representativeKey:representativeKey(state,page),patterns:state.pages[page]?.patterns,reasons:pageGate(state,page,{},evidence),author:!!state.pages[page]?.authorHash}));
  return {revision:state.revision,issues,pages,reviewKey:settlementKey(state),contentSettled:!!state.settled,finalAccepted:!!state.finalReview};
 }
 
@@ -290,7 +346,12 @@ export function liveWorkflow(runDir,selectedPages=[]){
   else if(state.pages[page].authorHash){state.pages[page].authorHash=null;state.settled=null;state.finalReview=null;}
  }
  for(const [id,approval]of Object.entries(state.representatives)){
-  if(approval.renderer!==runtime||!evidenceCurrent(approval.artifacts,hash))delete state.representatives[id];
+  if(approval.renderer!==runtime||!evidenceCurrent(approval.artifacts,hash)){
+   // Preserve the actual inspection for an explicit scoped reuse review.
+   // Stale evidence never remains in the active approval map.
+   state.staleRepresentatives??={};state.staleRepresentatives[id]=approval;
+   delete state.representatives[id];
+  }
  }
  if(state.settled?.key!==settlementKey(state)||state.settled&&(!evidenceCurrent(state.settled.artifacts,hash)||!state.settled.project?.file||!fs.existsSync(state.settled.project.file)||projectReviewHash(json(state.settled.project.file))!==state.settled.project.hash)){state.settled=null;state.finalReview=null;}
  if(state.finalReview&&!evidenceCurrent(state.finalReview.artifacts,hash))state.finalReview=null;
@@ -337,7 +398,9 @@ export function approveRepresentative(state,record,runtime=rendererSignature()){
  if(record.renderer!==runtime)throw Error('Representative renderer signature is stale');
  for(const check of PATTERN_CHECKS)if(record.checks?.[check]!==true&&!record.notApplicable?.[check]?.trim())throw Error('Missing final-size representative check: '+check);
  if(record.finalSize!==true||record.sourceCompared!==true)throw Error('Compare representative source and final-size output before approval');
- state.representatives[record.pattern]={...record};state.settled=null;state.finalReview=null;
+ state.representatives[record.pattern]={...record};
+ if(state.staleRepresentatives)delete state.staleRepresentatives[record.pattern];
+ state.settled=null;state.finalReview=null;
 }
 export function approveCoverage(state,record,runtime=rendererSignature()){
  reviewEvidence(record);const item=state.verification?.representativePlan?.coverage.find(c=>c.id===record.id);
@@ -379,6 +442,9 @@ export function validatePacketGeometry(inventory,packet){
  const nodes=contentNodes(packet),results=[];
  for(const entry of inventory.entries.filter(e=>e.mathematicalModel?.type==='triangle')){
   const mappings=packet.inventoryMappings.filter(m=>m.inventoryId===entry.id&&!m.derived);
+  // External teaching evidence stays inventoried without an authored diagram.
+  // An actual mapping still requires native geometry validation, even if excluded.
+  if(entry.exclusionReason?.trim()&&!mappings.length)continue;
   if(!mappings.length)throw Error('Triangle has no authored mapping: '+entry.id);
   for(const mapping of mappings){const diagram=nodes.get(mapping.targetId)?.node;if(!diagram?.code)throw Error('Triangle needs native code '+mapping.targetId);results.push({id:diagram.id,...verifyTriangleCode(entry.mathematicalModel,diagram.code)});}
  }
@@ -400,8 +466,9 @@ export function registerAuthor(state,inventory,packet,{strict=true}={}){
 }
 
 export function workflowFlags(state,pages){
+ const evidence=gateEvidence();
  const flags=Object.values(state.issues).map(i=>({id:'workflow-'+i.id,workflowIssue:true,note:i.message??i.kind,resolved:i.status!=='pending',...(i.resolution?{resolution:i.resolution.reason}:{})}));
- for(const page of pages)for(const [i,reason]of pageGate(state,page).filter(r=>!state.issues[r]).entries())flags.push({id:`workflow-gate-${page}-${i}`,workflowIssue:true,note:reason,resolved:false});
+ for(const page of pages)for(const [i,reason]of pageGate(state,page,{},evidence).filter(r=>!state.issues[r]).entries())flags.push({id:`workflow-gate-${page}-${i}`,workflowIssue:true,note:reason,resolved:false});
  return flags;
 }
 // Keep the original ambiguity as evidence, while deriving its active state from

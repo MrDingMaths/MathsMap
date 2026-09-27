@@ -11,12 +11,30 @@ const hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const current=r=>r?.path&&path.isAbsolute(r.path)&&fs.existsSync(r.path)&&bytes(r.path)===r.hash;
-export function questionTeachingDependencies(state,project,question,{artifactHash=bytes,sourceViews}={}){
+// One synchronous verification snapshot may reference the same source/PDF in
+// many records. Read its actual bytes once in that snapshot, never across calls.
+export function createArtifactVerifier(){
+ const hashes=new Map();
+ return artifact=>{
+  if(!artifact?.path||!path.isAbsolute(artifact.path))return false;
+  const file=path.resolve(artifact.path);
+  if(!hashes.has(file))hashes.set(file,fs.existsSync(file)?bytes(file):null);
+  return hashes.get(file)!==null&&hashes.get(file)===artifact.hash;
+ };
+}
+// Missing-method handoffs belong to the reviewed exercise. A shared source
+// page alone does not transfer that ownership; explicit targets still do.
+export function reviewIssueMatchesExercise(issue,exerciseId,targetIds=new Set()){
+ if(targetIds.has(issue.entryId)||targetIds.has(issue.targetId))return true;
+ const job=issue.reviewJob;
+ return job?.stage!=='theory'||!job.ownershipIds?.length||!exerciseId||job.ownershipIds.includes('exercise:'+exerciseId);
+}
+export function questionTeachingDependencies(state,project,question,{artifactHash=bytes,artifactIsFile=file=>fs.existsSync(file)&&fs.statSync(file).isFile(),sourceViews}={}){
  if(isMultiSource(project)){
   const runs=new Set(blockRunIds(project,question)),views=sourceViews??sourceReviewViews(project,state);
   const selected=views.filter(v=>runs.has(v.runId));
   if(selected.length!==runs.size)throw Error('Question references an unknown source run: '+question.id);
-  return {sources:selected.map(v=>({runId:v.runId,available:v.available,dependencies:questionTeachingDependencies(v.state,v.project,question,{artifactHash})}))};
+  return {sources:selected.map(v=>({runId:v.runId,available:v.available,dependencies:questionTeachingDependencies(v.state,v.project,question,{artifactHash,artifactIsFile})}))};
  }
  const sections=project?.sections??[],owner=sections.find(s=>(s.blocks??[]).some(b=>b.id===question.id));
  const scope=owner?.exerciseId??owner?.topicId??owner?.id;
@@ -34,14 +52,19 @@ export function questionTeachingDependencies(state,project,question,{artifactHas
  inventory.forEach(collectContext);
  const teaching=sections.flatMap(s=>(s.blocks??[]).filter(b=>ids.has(b.id)||(relevant.includes(s)&&(s.phase!=='practice'||b.type!=='question'))).map(b=>({sectionId:s.id,block:b})));
  const pages=new Set(),artifacts=new Map();
- function refs(value){
+ function refs(value,localPages=true){
   if(!value||typeof value!=='object')return;
-  for(const name of ['page','pageNumber','pdfPage'])if(Number.isInteger(value[name]))pages.add(value[name]);
-  for(const name of ['pages','pdfPages','teachingPages'])if(Array.isArray(value[name]))for(const page of value[name])if(Number.isInteger(page))pages.add(page);
-  for(const [file,expected]of [[value.pdfPath,value.pdfSha256??value.pdfHash??value.hash??value.sha256],[value.imagePath,value.imageSha256??value.imageHash??value.hash??value.sha256],[value.path,value.hash??value.sha256]])if(typeof file==='string'&&expected){
-   const absolute=path.resolve(file);artifacts.set(absolute,{path:absolute,expected,hash:fs.existsSync(absolute)&&fs.statSync(absolute).isFile()?artifactHash(absolute):null});
+  // External PDF page numbers are not pages in this source run. Their actual
+  // files remain hashed dependencies, including nested references.
+  const local=localPages&&!value.externalReferenceId&&!(value.pdfPath&&Array.isArray(value.pages));
+  if(local){
+   for(const name of ['page','pageNumber','pdfPage'])if(Number.isInteger(value[name]))pages.add(value[name]);
+   for(const name of ['pages','pdfPages','teachingPages'])if(Array.isArray(value[name]))for(const page of value[name])if(Number.isInteger(page))pages.add(page);
   }
-  for(const child of Object.values(value))if(child&&typeof child==='object')refs(child);
+  for(const [file,expected]of [[value.pdfPath,value.pdfSha256??value.pdfHash??value.hash??value.sha256],[value.imagePath,value.imageSha256??value.imageHash??value.hash??value.sha256],[value.path,value.hash??value.sha256]])if(typeof file==='string'&&expected){
+   const absolute=path.resolve(file);artifacts.set(absolute,{path:absolute,expected,hash:artifactIsFile(absolute)?artifactHash(absolute):null});
+  }
+  for(const child of Object.values(value))if(child&&typeof child==='object')refs(child,local);
  }
  const reviewed=state.verification?.teachingContexts?.[scope],binding=reviewed?.dependencyScope;
  const readDependency=file=>{if(!fs.existsSync(file))return {unavailable:true};try{return JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));}catch{return {invalid:true,hash:artifactHash(file)};}};
@@ -53,14 +76,19 @@ export function questionTeachingDependencies(state,project,question,{artifactHas
  if(binding?.externalIndex){
   const index=readDependency(binding.externalIndex),selected=new Set(binding.pages??[]);
   currentIndex=index.unavailable||index.invalid?index:(index.externalTeachingReferences??[]).map(r=>({...r,pages:(r.pages??[]).filter(p=>selected.has(p.pdfPage??p.pageNumber))})).filter(r=>r.pages.length);
-  refs(currentIndex);
+  refs(currentIndex,false);
  }
- refs(question.sourceRefs);contexts.forEach(refs);inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));refs(reviewed?.sourceArtifacts);refs(reviewed?.artifacts);
+ refs(question.sourceRefs);contexts.forEach(context=>refs(context));inventory.forEach(entry=>refs(entry.sourceRefs??entry.source));
+ // The accepted teaching binding explicitly identifies this run's pages.
+ // Evidence artifacts also include foreign PDFs, so their bare page metadata
+ // cannot extend that local scope.
+ for(const page of binding?.pages??[])if(Number.isInteger(page))pages.add(page);
+ refs(reviewed?.sourceArtifacts,false);refs(reviewed?.artifacts,false);
  for(const {sectionId,block}of teaching){refs(block.sourceRefs);refs(block.sourceReview);refs(sections.find(s=>s.id===sectionId)?.sourceRefs);}
  for(const {block}of teaching)collectTargets(block);
  for(const entry of project?.source?.inventory?.entries??[])if(targets.has(entry.targetId))targets.add(entry.id);
- const resolutions=Object.values(state.issues??{}).filter(issue=>['retained','corrected'].includes(issue.status)&&(targets.has(issue.entryId)||targets.has(issue.targetId)||!issue.entryId&&!issue.targetId&&(issue.pages??[issue.page]).some(page=>pages.has(page))))
-  .map(issue=>{refs(issue.resolution?.evidence);return {id:issue.id,status:issue.status,message:issue.message,reason:issue.resolution?.reason,correctionId:issue.resolution?.correctionId};}).sort((a,b)=>a.id.localeCompare(b.id));
+ const resolutions=Object.values(state.issues??{}).filter(issue=>['retained','corrected'].includes(issue.status)&&reviewIssueMatchesExercise(issue,scope,targets)&&(targets.has(issue.entryId)||targets.has(issue.targetId)||!issue.entryId&&!issue.targetId&&(issue.pages??[issue.page]).some(page=>pages.has(page))))
+  .map(issue=>{refs(issue.resolution?.evidence,false);return {id:issue.id,status:issue.status,message:issue.message,reason:issue.resolution?.reason,correctionId:issue.resolution?.correctionId};}).sort((a,b)=>a.id.localeCompare(b.id));
  const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
  return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),resolutions,source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
   reviewedTeaching:reviewed?{dependencyHash:reviewed.dependencyHash,outcome:reviewed.outcome,methods:reviewed.methods,scope:binding,currentConfig,currentIndex}:null};
@@ -69,16 +97,17 @@ export function verificationDependencies(state,project,{renderer=rendererSignatu
  const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
  // Shared PDFs/images are read once per current snapshot, never cached across
  // calls. A large exercise must not rehash the same source for every question.
+ const artifactFiles=new Map(),artifactIsFile=file=>{const absolute=path.resolve(file);if(!artifactFiles.has(absolute))artifactFiles.set(absolute,fs.existsSync(absolute)&&fs.statSync(absolute).isFile());return artifactFiles.get(absolute);};
  const artifactHashes=new Map(),artifactHash=file=>{const absolute=path.resolve(file);if(!artifactHashes.has(absolute))artifactHashes.set(absolute,bytes(absolute));return artifactHashes.get(absolute);};
  const sourceViews=isMultiSource(project)?providedViews??sourceReviewViews(project,state,{runDir}):undefined;
  return {source:hash(sourceViews?sourceViews.map(v=>({runId:v.runId,available:v.available,pages:Object.fromEntries(Object.entries(v.state.pages??{}).map(([p,r])=>[p,r.inventoryHash]))})):Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
   project:project?projectReviewHash(project):null,renderer,...implementation,
-  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash,sourceViews})}:{})})]))};
+  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash,artifactIsFile,sourceViews})}:{})})]))};
 }
-export function recordVerification(state,record,deps){
+export function recordVerification(state,record,deps,{artifactCurrent=current}={}){
  if(!state.pipelinePolicy)throw Error('Verification register enforcement is for new-policy runs');
  if(state.verification?.version!==undefined&&state.verification.version!==1)throw Error('Unsupported verification register version');
- if(!record?.id||!record.reviewer?.trim()||!record.note?.trim()||!record.artifacts?.length||!record.artifacts.every(current))throw Error('Verification requires a reviewer, observations and current artifacts');
+ if(!record?.id||!record.reviewer?.trim()||!record.note?.trim()||!record.artifacts?.length||!record.artifacts.every(artifactCurrent))throw Error('Verification requires a reviewer, observations and current artifacts');
  if(!['passed','failed','not-applicable'].includes(record.outcome))throw Error('Invalid verification outcome');
  const supported=['ui','regressions','build','storage','publication','readback','repeat-import'];
  const unclassified=Object.keys(record.dependencies??{}).filter(k=>!Object.hasOwn(deps,k)&&!['question','unknown'].includes(k));
@@ -101,6 +130,7 @@ export function recordVerification(state,record,deps){
 export function verificationStatus(state,project,{phase='prepublication',renderer,validateFinal,runDir,sourceViews:providedViews}={}){
  if(!state.pipelinePolicy)return {policy:'legacy',ok:true,required:[],checks:[],issues:[]};
  if(state.pipelinePolicy!==PIPELINE_POLICY)throw Error('Unsupported import pipeline policy');
+ const artifactCurrent=createArtifactVerifier();
  const sourceViews=isMultiSource(project)?providedViews??sourceReviewViews(project,state,{runDir}):null;
  const deps=verificationDependencies(state,project,{renderer,runDir,sourceViews}),entries=state.verification?.entries??{},checks=[],issues=[];
  const sourceStates=sourceViews??[{available:true,state}];
@@ -114,9 +144,9 @@ export function verificationStatus(state,project,{phase='prepublication',rendere
   const entry=entries[id];let passed=false,reason='Current evidence required';
   try{
    if(!entry)throw Error(reason);
-   recordVerification({pipelinePolicy:state.pipelinePolicy},entry,deps);
+   recordVerification({pipelinePolicy:state.pipelinePolicy},entry,deps,{artifactCurrent});
    // Extra file dependencies bind tests/build/storage and unknown mechanisms.
-   if(!(entry.dependencyArtifacts??[]).every(current))throw Error('Dependency artifacts changed');
+   if(!(entry.dependencyArtifacts??[]).every(artifactCurrent))throw Error('Dependency artifacts changed');
    if(entry.dependencies?.source&&entry.dependencies.source!==deps.source)throw Error('Source dependencies changed');
    if(entry.dependencies?.unknown&&entry.dependencies.unknown!==hash(deps))throw Error('Unclassified dependencies changed');
    passed=entry.outcome==='passed'||entry.outcome==='not-applicable';reason=entry.outcome==='failed'?'Recorded check failed':reason;

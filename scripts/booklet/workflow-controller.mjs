@@ -9,6 +9,7 @@ import {dependencyStatus} from './dependency-runner.mjs';
 import {runSemanticPackets} from './semantic-workflow.mjs';
 import {runCodexTranscription} from './codex-transcription.mjs';
 import {readAttemptEvents} from './semantic-run-metrics.mjs';
+import {freshGenerationOptions,generationPublicationGuard} from './inventory-reuse.mjs';
 
 const defaults={warningFraction:0.8,reserveTokensPerJob:100000,maxWaves:100};
 const positive=(value,name)=>{if(value===undefined)return null;if(!Number.isSafeInteger(value)||value<1)throw Error(name+' must be a positive integer');return value;};
@@ -95,7 +96,7 @@ export async function driveBoundedWorkflow(options,{budget={},concurrency=3,runn
      generationBlockers=generation.blocked??[];
      const job=generation.jobs.find(j=>!attempted.has('generation:'+j.stage+':'+j.page));
      if(job){
-      const argumentsForRun={...generationOptions,stage:job.stage,pages:[job.page],attempt:job.attempt,concurrency:1};
+      const argumentsForRun={...freshGenerationOptions(generationOptions,job.stage,job.page),stage:job.stage,pages:[job.page],attempt:job.attempt,concurrency:1};
       let preview;
       try{preview=job.kind==='registration'?null:await generationRun({...argumentsForRun,dryRun:true},{log:()=>{}});}
       catch(error){const failure={jobId:'generation:'+job.stage+':'+job.page,reason:'Generation preflight: '+error.message};log('generation-preflight-failed',failure);
@@ -123,7 +124,7 @@ export async function driveBoundedWorkflow(options,{budget={},concurrency=3,runn
        }catch(error){unknown=true;throw error;}finally{reserved--;}
       };
       try{
-       const report=await generationRun(argumentsForRun,{runner:guardedRunner,log:()=>{}});
+       const report=await generationRun(argumentsForRun,{runner:guardedRunner,log:()=>{},verifyPublication:generationPublicationGuard(generationOptions,job.stage,job.page)});
        log('generation-finished',{stage:job.stage,page:job.page,ok:report.ok,completed:report.pages?.filter(p=>p.ok).length??0});
        if(!report.ok)failures.push({jobId:'generation:'+job.stage+':'+job.page,reason:report.pages?.filter(p=>!p.ok).map(p=>`Page ${p.page}: ${p.error??p.blocked?.join(', ')??'failed'}`).join('; ')||'Generation returned failed pages; inspect the retained attempts'});
       }catch(error){const failure={jobId:'generation:'+job.stage+':'+job.page,reason:error.message};failures.push(failure);log('generation-failed',failure);}

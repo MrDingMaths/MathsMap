@@ -126,3 +126,14 @@ test('assessment method artifacts share the indexed provenance without repeating
  const before=JSON.stringify(job),result=boundedPromptPayload(job);
  assert.equal(JSON.stringify(job),before);assert.deepEqual(result.context.questions,job.context.questions);assert.deepEqual(result.context.teaching.methods,job.context.teaching.methods);assert.deepEqual(result.context.teaching.artifactRefs,[0]);assert.equal(result.context.teaching.artifacts,undefined);assert.deepEqual(result.artifactIndex,[{...artifact,path:path.basename(artifact.path)}]);
 });
+
+test('assessment teacher evidence retains its owning source run despite colliding page labels',async t=>{
+ const f=fixture(t);for(const s of f.project.sections.filter(s=>s.phase==='practice'))s.blocks[0].sourceReview={answerEvidence:{teacherReference:{pdfPage:6}}};
+ const original=f.write('original','evidence/teacher/pages/page-006.png','original answer'),file=f.write('primary','project.json',f.project),options={runDir:f.runDir,projectFile:file,selectedPages:[]};
+ let plan=await nextBoundedWork(options);assert.ok(!plan.jobs.find(j=>j.stage==='assessment'&&j.ownershipIds.includes('question:q')).blockers.some(b=>b.includes('Teacher answer image missing')));
+ assert.ok(plan.jobs.find(j=>j.stage==='assessment'&&j.ownershipIds.includes('question:new--q')).blockers.some(b=>b.includes('Teacher answer image missing for primary page 6')));
+ const theory=plan.jobs.find(j=>j.stage==='theory'&&j.ownershipIds.includes('exercise:topic')),preparedTheory=await prepareBoundedStage(options,theory.id);
+ await recordBoundedStage(options,{ticket:preparedTheory.ticket,result:{reviewer:'Fixture reviewer',note:'Fixture teaching evidence',outcome:'accepted',sourceCompared:true,methods:[{statement:'Use the original taught method',sourceRefs:[{runId:'original',pageNumber:6}]}]}});
+ plan=await nextBoundedWork(options);const assessment=plan.jobs.find(j=>j.stage==='assessment'&&j.ownershipIds.includes('question:q')),prepared=await prepareBoundedStage(options,assessment.id),ticket=JSON.parse(fs.readFileSync(prepared.ticket.path));
+ const answer=ticket.job.evidence.find(e=>e.role==='teacher-answer');assert.equal(answer.path,original);assert.equal(answer.runId,'original');assert.equal(answer.hash,bytesHash(original));assert.ok(ticket.job.images.includes(original));assert.ok(!ticket.job.images.some(p=>p.includes(path.join('primary','evidence','teacher'))));
+});

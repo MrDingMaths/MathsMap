@@ -10,6 +10,8 @@ import {renderMath} from '../../src/lib/render-math.js';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
 import {trackProcessPhase} from './run-observability.mjs';
+import {coalescePacketContinuations} from './packet-continuations.mjs';
+import {projectPracticeCategoryMappings} from './practice-category-headings.mjs';
 import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
@@ -21,16 +23,26 @@ trackProcessPhase(runDir,'assembly',{artifact:arg('--out'),pages:selected,projec
 const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
 const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
 const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],flags=[],corrections=[],confirmedCorrections=[];
+const inventories=new Map(),rawPackets=[];
 for(const page of selected){
  const stem=`page-${String(page).padStart(3,'0')}`;
  const inv=workflow?effectiveInventory(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.inventory.json'),'utf8'));
  const packet=workflow?effectiveAuthor(runDir,page,workflow):JSON.parse(fs.readFileSync(path.join(root,stem+'.author.json'),'utf8'));
  if(inv.pageNumber!==page||packet.pageNumber!==page)throw Error('Wrong packet page');
  validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow});
+ inventories.set(page,inv);rawPackets.push(packet);
+}
+const packets=coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations});
+for(const packet of packets){
+ const page=packet.pageNumber,inv=inventories.get(page);
+ const projectedMappings=projectPracticeCategoryMappings(packet,inv);
  if(config.contentScope==='practice-only'&&manifest.teacherPages?.length){
   const questions=packet.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
-  for(const issue of answerMatchingIssues(questions.map(q=>q.id),packet.answerEvidence,manifest.teacherPages,{workflow,page}))flags.push({id:`answer-match-${page}-${flags.length}`,targetId:questions[0]?.id,note:issue,resolved:false});
-  for(const b of questions){b.sourceReview??={};b.sourceReview.answerEvidence=packet.answerEvidence?.find(e=>e.questionId===b.id)??null;const resolution=b.sourceReview.answerEvidence&&approvedAnswerConflict(b.sourceReview.answerEvidence,{workflow,page});if(resolution)b.sourceReview.answerResolution=resolution;}
+  for(const issue of answerMatchingIssues(questions.map(q=>q.id),packet.answerEvidence,manifest.teacherPages,{workflow,page,packet,inventory:inv})){
+   const question=questions.find(q=>issue.startsWith(q.id+':'));
+   flags.push({id:`answer-match-${page}-${flags.length}`,...(question?{targetId:question.id}:{}),note:issue,resolved:false});
+  }
+  for(const b of questions){b.sourceReview??={};b.sourceReview.answerEvidence=packet.answerEvidence?.find(e=>e.questionId===b.id)??null;const resolution=b.sourceReview.answerEvidence&&approvedAnswerConflict(b.sourceReview.answerEvidence,{workflow,page,packet,inventory:inv});if(resolution)b.sourceReview.answerResolution=resolution;}
  }
  let first=true;
  for(const section of packet.sections){
@@ -52,7 +64,7 @@ for(const page of selected){
  }
  inventoryPages.push({pageNumber:page,inventoried:inv.inventoried===true,...(inv.layoutPatterns?{layoutPatterns:structuredClone(inv.layoutPatterns)}:{})});
  for(const item of inv.entries){
-  const mappings=(packet.inventoryMappings??[]).filter(m=>m.inventoryId===item.id);
+  const mappings=projectedMappings.filter(m=>m.inventoryId===item.id);
   if(item.exclusionReason){entries.push({...item,pageNumber:page});continue;}
   if(!mappings.length){
    entries.push({...item,pageNumber:page,targetId:item.targetId});
@@ -60,7 +72,7 @@ for(const page of selected){
   }
   for(let i=0;i<mappings.length;i++){
    const m=mappings[i];
-   entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(m.continuationOf?{continuationOf:m.continuationOf,continuationReason:m.continuationReason}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
+   entries.push({...item,id:i?item.id+'-mapping-'+i:item.id,pageNumber:page,targetId:m.targetId,...(m.field?{field:m.field}:{}),...(m.sourceCategoryHeadingMapping?{sourceCategoryHeadingMapping:m.sourceCategoryHeadingMapping}:{}),...(m.exclusionReason?{exclusionReason:m.exclusionReason}:{}),...(m.derived?{derived:true}:{}),...(m.continuationOf?{continuationOf:m.continuationOf,continuationReason:m.continuationReason}:{}),...(item.ambiguity?{ambiguous:item.ambiguity}:{})});
   }
  }
  for(const finding of workflow?[]:packet.findings??[])flags.push({id:finding.id??`nr-p${page}-finding-${flags.length}`,targetId:finding.targetId??packet.sections[0]?.blocks[0]?.id,note:typeof finding==='string'?finding:finding.note??finding.message??finding.description??finding.reason??JSON.stringify(finding),resolved:finding.status==='resolved'&&!!finding.resolution?.trim(),...(finding.resolution?{resolution:finding.resolution}:{})});

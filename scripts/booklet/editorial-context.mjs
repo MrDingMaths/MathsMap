@@ -46,3 +46,24 @@ export function currentEditorialContext(corrections,page,contextPages,resolvePac
  }
  return {corrections:records,currentValues:roots.map(({identity,location,correctionIds,...v})=>({...v,correctionIds:[...new Set(correctionIds)]}))};
 }
+// Scope a decision only when its recorded structured identities resolve in the
+// current page inventory. Unknown/prose-only scope stays page-wide; never infer
+// ownership from a finding's title or a casual number in its explanation.
+export function decisionInventoryIds(issue,inventory){
+ let details={};try{details=JSON.parse(issue.message);}catch{}
+ const ids=[details?.questionId,details?.entryId,details?.targetId,...(details?.questionIds??[]),...(details?.entryIds??[]),...(details?.targetIds??[]),...(issue.resolution?.projectReviewFlags??[]).flatMap(f=>f.sourceInventoryIds??[])].filter(Boolean);
+ const entries=inventory.entries??[],resolve=id=>entries.find(e=>e.id===id||e.targetId===id)?.id;
+ if(ids.length){const resolved=ids.map(resolve);return resolved.every(Boolean)?[...new Set(resolved)]:undefined;}
+ const mappings=issue.resolution?.questionMappings;
+ if(!mappings?.length)return undefined;
+ const resolved=[];
+ for(const mapping of mappings){
+  const label=mapping.questionLabel,match=typeof label==='string'&&label.match(/^(?:[\w -]+ )?Q(\d+)(?:\s*[-–]\s*Q?(\d+))?(?:\([^)]*\))?$/);
+  if(!match)return undefined;
+  const from=Number(match[1]),to=Number(match[2]??match[1]);if(to<from)return undefined;
+  const questions=entries.filter(e=>e.kind==='question'&&!e.exclusionReason),found=questions.filter(e=>{const n=String(e.sourceReview?.sourceIdentity?.questionLabel??e.sourceLabel??'').match(/^(?:Q)?(\d+)(?:\([^)]*\))?$/);return n&&Number(n[1])>=from&&Number(n[1])<=to;});
+  if(new Set(found.map(e=>String(e.sourceReview?.sourceIdentity?.questionLabel??e.sourceLabel).match(/\d+/)[0])).size!==to-from+1)return undefined;
+  resolved.push(...found.map(e=>e.id));
+ }
+ return [...new Set(resolved)];
+}
