@@ -1,5 +1,5 @@
 import {standaloneDifficultyHeading} from './booklet-difficulty-headings.js';
-import {contentSource} from './document-content.js';
+import {contentSource,hasVisibleContent} from './document-content.js';
 import {signature} from './booklet-content-verification.js';
 import {normalizeArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {resolveArrangement} from './booklet-arrangement.js';
@@ -57,7 +57,11 @@ export async function inspectPresentationFidelity(project){
     const activeArrangement=project.settings?.layoutOverrides?.blockLayouts?.[block.id]?.arrangement;
     if(activeArrangement)for(const missing of resolveArrangement(block,activeArrangement).missing)issue('unresolved-arrangement-reference',block.id,`The layout references missing content ${missing.ref}; restore the actual prompt, diagram or response-space reference.`);
     if(JSON.stringify(normalizeArrangement(activeArrangement))!==JSON.stringify(normalizeArrangement(review?.arrangementOverride)))issue('unreviewed-source-arrangement',block.id,'The active custom arrangement differs from the reviewed source arrangement.');
-    if(section.phase==='teaching'&&!block.sourceAtom?.id)issue('missing-teaching-template',block.id,'Assign a source teaching group and header template.');
+    // A manual page break is a nonprinting boundary, not a teaching group.
+    // It still needs the source/pagination review and current signature below.
+    const sectionHeader=block.sourceLayoutEvidence?.sharedSectionHeader;
+    const sectionHeaderOnly=block.type==='rich-text'&&!hasVisibleContent(block.content)&&section.headingStyle==='page-title'&&sectionHeader?.sectionId===section.id&&sectionHeader.title===section.title;
+    if(section.phase==='teaching'&&block.type!=='page-break'&&!sectionHeaderOnly&&!block.sourceAtom?.id)issue('missing-teaching-template',block.id,'Assign a source teaching group and header template.');
     if(block.sourceAtom){
       if(!review?.headerOwnedByTemplate)issue('unchecked-header',block.id,'Check that the template owns the heading and the body contains only the teaching content.');
       const body=contentSource(block.type==='question'?block.content.prompt:block.content).replace(/[*#]/g,'').trim();

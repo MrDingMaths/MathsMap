@@ -10,6 +10,7 @@ const fixture=()=>normalizeDocument({blocks:[{id:'statistics',type:'table',rows:
 
 test('semantic headers render bold text and maths without changing editable content or body cells',()=>{
  const doc=fixture(),before=JSON.stringify(doc),calls=[];
+ assert.equal(doc.blocks[0].rows[0][0].background,'#d3e8fc');
  const html=renderDocument(doc,{math:latex=>{calls.push(latex);return katex.renderToString(latex,{throwOnError:true});}});
  assert.match(html,/<th data-id="heading"[^>]*font-weight:700/);
  assert.match(html,/<td data-id="body"[^>]*font-weight:400/);
@@ -20,6 +21,20 @@ test('semantic headers render bold text and maths without changing editable cont
  assert.equal(JSON.stringify(doc),before);
  assert.equal(toSource(doc).includes('\\boldsymbol'),false);
  assert.deepEqual(normalizeDocument(JSON.parse(before)),doc);
+});
+
+test('table header fill respects explicit transparent cells and borderless layouts',()=>{
+ const doc=normalizeDocument({blocks:[
+  {id:'bordered',type:'table',rows:[[cell('default',{header:true}),cell('exception',{header:true,background:'transparent'})]]},
+  {id:'layout',type:'table',border:false,rows:[[cell('layout-header',{header:true})]]},
+ ]});
+ assert.equal(doc.blocks[0].rows[0][0].background,'#d3e8fc');
+ assert.equal(doc.blocks[0].rows[0][1].background,'transparent');
+ assert.equal(doc.blocks[1].rows[0][0].background,'transparent');
+ const html=renderDocument(doc);
+ assert.match(html,/<th data-id="default"[^>]*background:#d3e8fc/);
+ assert.match(html,/<th data-id="exception"[^>]*background:transparent/);
+ assert.match(html,/<th data-id="layout-header"[^>]*background:transparent/);
 });
 
 test('header previews keep the source field unwrapped and carry formatting through live updates',()=>{

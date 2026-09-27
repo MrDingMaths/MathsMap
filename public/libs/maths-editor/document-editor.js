@@ -251,7 +251,7 @@ export class DocumentEditor {
     b('Undo',()=>this.undo()); b('Redo',()=>this.undo(1)); ['bold','italic','underline'].forEach(m=>b(m[0].toUpperCase()+m.slice(1),()=>this.mark(m)));
     b('Bulleted list',()=>this.listCommand());b('Numbered list',()=>this.listCommand('insertOrderedList'));b('Indent list',()=>this.listCommand('indent'));b('Outdent list',()=>this.listCommand('outdent'));
     b('Insert tab',()=>this.insertTab());if(this.host.getAttribute('controls')!=='contextual')b('Replace selected dots with tab leader',()=>this.replaceDots());b('Math',()=>this.insertMath()); b('Display math',()=>this.insertMath('',true)); b('Paragraph',()=>this.insert({...paragraph(),preserveEmpty:true}));
-    b('Table',()=>{const style=this.host.dataset.houseStyleVersion===BOOKLET_HOUSE_STYLE.version?BOOKLET_HOUSE_STYLE:null;this.insert({id:uid(),type:'table',...(style?{borderColour:style.colours.border,borderWidthMm:style.tables.borderMm,padding:style.tables.paddingMm,widthMm:60,widths:[30,30]}:{}),rows:Array.from({length:2},()=>Array.from({length:2},(_,i)=>({id:uid(),type:'cell',...(style&&i===0?{background:style.colours.tableLabel}:{}),blocks:[paragraph()]})))});});
+    b('Table',()=>{const style=this.host.dataset.houseStyleVersion===BOOKLET_HOUSE_STYLE.version?BOOKLET_HOUSE_STYLE:null;this.insert({id:uid(),type:'table',...(style?{borderColour:style.colours.border,borderWidthMm:style.tables.borderMm,padding:style.tables.paddingMm,widthMm:60,widths:[30,30]}:{}),rows:Array.from({length:2},()=>Array.from({length:2},(_,i)=>({id:uid(),type:'cell',...(style&&i===0?{header:true,background:style.colours.tableLabel}:{}),blocks:[paragraph()]})))});});
     b('Image',()=>{this.saveRange();this.file.click();});b('Block figure',()=>{this.blockImage=true;this.file.click();}); this.file=document.createElement('input'); this.file.type='file'; this.file.accept='image/png,image/jpeg,image/webp,image/gif'; this.file.hidden=true; this.file.onchange=()=>{if(this.file.files[0])this.addImage(this.file.files[0],this.blockImage);this.blockImage=false;this.file.value='';}; this.toolbar.append(this.file);
     b('Annotated equation',()=>this.insert({id:uid(),type:'annotated-equation',latex:'y=mx+c',anchors:[],annotations:[]}));
     b('Working space',()=>this.insert({id:uid(),type:'spacer',height:15}));
@@ -303,7 +303,7 @@ export class DocumentEditor {
 
       this.field('Table width (mm)',table.widthMm??80,v=>edit(t=>t.widthMm=Number(v)));
       this.field('Cell horizontal alignment',table.rows[ri][ci].align,v=>edit(t=>t.rows[ri][ci].align=v),'text',['left','center','right']);
-      this.field('Cell vertical alignment',table.rows[ri][ci].verticalAlign,v=>edit(t=>t.rows[ri][ci].verticalAlign=v),'text',['top','middle','bottom']);
+      this.field('Cell vertical alignment',table.rows[ri][ci].verticalAlign,v=>edit(t=>t.rows[ri][ci].verticalAlign=v),'text',['top','middle','bottom','baseline']);
       this.field('Cell top padding (mm)',cell.paddingTop??table.padding,v=>edit(t=>t.rows[ri][ci].paddingTop=Number(v)));
 
       this.annotationProperties(table,logical,edit);
@@ -311,7 +311,8 @@ export class DocumentEditor {
       this.field('Annotations (JSON)',JSON.stringify(table.annotations),v=>edit(t=>t.annotations=JSON.parse(v)),'text');
       this.button(this.inspector,'Toggle cell bold',()=>edit(t=>t.rows[ri][ci].bold=!t.rows[ri][ci].bold));
       this.field('Cell rotation',table.rows[ri][ci].rotation,v=>edit(t=>t.rows[ri][ci].rotation=Number(v)),'text',['0','-90','90']);
-      this.button(this.inspector,'Toggle cell border',()=>edit(t=>{const c=t.rows[ri][ci];c.border=!(c.border??t.border);}));
+      this.button(this.inspector,'Toggle cell border',()=>edit(t=>{const c=t.rows[ri][ci];c.border=!(c.border??t.border);delete c.borders;}));
+      for(const side of ['top','right','bottom','left'])this.field('Cell '+side+' border',cell.borders?.[side]==null?'inherit':cell.borders[side]?'show':'hide',v=>edit(t=>{const c=t.rows[ri][ci];c.borders??={};if(v==='inherit')delete c.borders[side];else c.borders[side]=v==='show';}),'text',['inherit','show','hide']);
       this.button(this.inspector,'Add row',()=>edit(t=>editTrack(t,'row',logical.row+logical.rows)));
       this.button(this.inspector,'Remove row',()=>map.rows===1?this.deleteNode(table.id):edit(t=>editTrack(t,'row',logical.row,true)));
       this.button(this.inspector,'Add column',()=>edit(t=>{t.widthMm=this.tableTotal(t);editTrack(t,'column',logical.col+logical.cols,false,this.tableLimit(t));}));

@@ -40,6 +40,24 @@ export function placeEquationLabels(labels,width,gap=8){
  let right=width;for(const label of sorted.reverse()){label.left=Math.min(label.left,right-label.width);right=label.left-gap;result[label.index]=Math.max(0,label.left);}
  return result;
 }
+// A boxed anchor's inline KaTeX wrapper can have only the ordinary line height.
+// Use the outline only when that box is the entire selected expression.
+// Mixed expressions and all ordinary terms retain the original wrapper bounds.
+export function equationAnnotationTargetBounds(target) {
+ const fallback=()=>target.getBoundingClientRect();
+ const boxes=target.querySelectorAll('.fbox');
+ if(boxes.length!==1)return fallback();
+ const box=boxes[0],expression=box.closest('.vlist-t');
+ if(!expression||!target.contains(expression)||!box.closest('.katex-html'))return fallback();
+ for(let node=expression;node!==target;){
+  const parent=node.parentElement;
+  if(!parent||parent.children.length!==1||parent.firstElementChild!==node||
+   [...parent.childNodes].some(child=>child.nodeType===3&&child.textContent.replace(/[\s\u200b]/g,'')))return fallback();
+  node=parent;
+ }
+ const rect=box.getBoundingClientRect(),style=getComputedStyle(box);
+ return rect.width>0&&rect.height>0&&style.visibility!=='hidden'&&style.display!=='none'?rect:fallback();
+}
 export function mountEquationAnnotations(root,options={}) {
  let frame,disposed=false;const ns='http://www.w3.org/2000/svg';
  const draw=()=>{frame=null;if(disposed)return;
@@ -57,7 +75,7 @@ export function mountEquationAnnotations(root,options={}) {
    const svg=document.createElementNS(ns,'svg');svg.dataset.equationArrows='';svg.setAttribute('aria-hidden','true');svg.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible';
    for(const label of figure.querySelectorAll('[data-equation-label]')){
     const target=figure.querySelector('[id="ae-'+figure.dataset.equationInstance+'-'+label.dataset.targetIndex+'"]');if(!target)continue;
-    const r=target.getBoundingClientRect(),l=label.getBoundingClientRect(),above=label.dataset.side==='above',decoration=label.dataset.decoration;
+    const r=label.dataset.decoration==='arrow'?equationAnnotationTargetBounds(target):target.getBoundingClientRect(),l=label.getBoundingClientRect(),above=label.dataset.side==='above',decoration=label.dataset.decoration;
     const x=(r.left+r.width/2-outer.left)/scale,y=(above?r.top-2:r.bottom+2)-outer.top;
     const sx=(l.left+l.width/2-outer.left)/scale,sy=((above?l.bottom:l.top)-outer.top)/scale,ey=y/scale;
     const shape=document.createElementNS(ns,'path');const colour=getComputedStyle(label).color;
@@ -84,6 +102,8 @@ export function mountEquationAnnotations(root,options={}) {
  const update=()=>{if(!frame&&!disposed)frame=requestAnimationFrame(draw);};
  const observer=new ResizeObserver(update);observer.observe(root);
  const mutations=new MutationObserver(records=>{if(records.some(r=>![...r.addedNodes,...r.removedNodes].every(n=>n.nodeType===1&&n.hasAttribute?.('data-equation-arrows')))){for(const f of root.querySelectorAll('[data-type="annotated-equation"]'))observer.observe(f);update();}});mutations.observe(root,{childList:true,subtree:true});
+ // The offscreen print copy is measurable but hidden until print media applies.
+ const printMedia=globalThis.matchMedia?.('print'),printRedraw=()=>{cancelAnimationFrame(frame);draw();};printMedia?.addEventListener('change',printRedraw);
  document.fonts?.ready.then(update);document.fonts?.addEventListener('loadingdone',update);update();
- return {update,destroy(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();mutations.disconnect();document.fonts?.removeEventListener('loadingdone',update);}};
+ return {update,destroy(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();mutations.disconnect();document.fonts?.removeEventListener('loadingdone',update);printMedia?.removeEventListener('change',printRedraw);}};
 }

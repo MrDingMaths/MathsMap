@@ -9,6 +9,11 @@ measured region, water level or relevant material) or where a final-size
 outline-only comparison demonstrates a material improvement in clarity. Use the
 minimum necessary fill. Source shading, generic face differentiation and a
 three-dimensional appearance alone do not establish a need for shading.
+For outcome categories and other retained diagram regions, prefer the light
+fill of the matching booklet accent. Purple categories use the purple accent
+`#8b5cc7` and light purple fill `#e8def4`, including spinners; do not substitute
+blue, orange or pink for purple. Keep black category labels and outlines legible.
+Strong accent strokes remain appropriate when they encode a line or series.
 
 Review every occurrence in its question or teaching context. White occlusion
 masks, point markers, arrowheads and meaningful graph regions are not decorative

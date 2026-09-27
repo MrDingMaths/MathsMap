@@ -44,5 +44,6 @@
  .grayscale{filter:grayscale(1) contrast(1.12)}select{font:inherit;padding:6px}fieldset{display:flex;flex-wrap:wrap;gap:8px}fieldset label{max-width:120px}
  .diagram-draft.focused{display:block}.focused textarea{min-height:45vh;font-size:14px;background:var(--panel,#fff);color:inherit;padding:12px}.focused input{min-height:36px}.focused .hint{font-size:14px}
  .diagram-draft{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}label{display:grid;gap:4px;margin:8px 0}textarea,input{box-sizing:border-box;width:100%;font:inherit}textarea{font-family:monospace;resize:vertical}button{margin:4px;padding:6px}.diagram-preview{max-width:100%;align-self:start}.diagram-preview :global(svg),img{width:100%;max-width:100%;height:auto}.hint{font-size:.75rem;color:#52697b}@media(max-width:1000px){.diagram-draft{grid-template-columns:1fr}}
+ .diagram-preview :global(.tikz-wrap){overflow:visible}
 @media(pointer:coarse){button,input{min-height:44px}}
 </style>

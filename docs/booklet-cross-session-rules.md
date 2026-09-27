@@ -4,6 +4,12 @@ This register consolidates earlier recorded user feedback for every future bookl
 
 ## Precedence and scope
 
+### Opening syllabus and multiple-choice options (25 September 2026)
+
+Keep all syllabus content in one editable block at the start of each booklet, with its source outcomes, focus statements and bullets intact. The shared section header remains separate from that content block. Preserve original source blocks and review evidence when consolidating existing projects.
+
+Render all multiple-choice option letters in uppercase bold, including table and parallel layouts. Keep option wording at its source-supported weight. The local Data Classification number plate omits its state slogan and uses an enlarged 14 pt identifier; this is an explicit feedback exception for that figure only.
+
 ### Adaptive back-of-book answers (16 September 2026)
 
 All current and future compact short-answer editions use two 9 pt columns with

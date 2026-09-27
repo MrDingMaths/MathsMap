@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {inspectPresentationFidelity,presentationVerificationKey} from '../src/lib/booklet-presentation-verification.js';
+import {inspectPresentationFidelity,presentationVerificationKey,SOURCE_VISUAL_CATEGORIES} from '../src/lib/booklet-presentation-verification.js';
 import {contentVerificationKey} from '../src/lib/booklet-content-verification.js';
 import {inspectContentCoverage} from '../src/lib/booklet-content-verification.js';
 import {documentHtml,normalizeDocument} from '../src/lib/document-content.js';
@@ -37,6 +37,35 @@ test('untemplated teaching, duplicate headings and blanket spaces cannot pass ac
  b.sourceAtom={id:'group',kind:'guided-practice'};b.sourceReview={headerOwnedByTemplate:true,responses:[{targetId:'a',kind:'cloze'}]};
  const kinds=(await inspectPresentationFidelity(p)).issues.map(i=>i.kind);
  for(const kind of ['duplicate-teaching-header','unnecessary-response-space','unreviewed-source-arrangement'])assert.ok(kinds.includes(kind));
+});
+
+test('an empty source topic-band record uses its matching calculated section header',async()=>{
+ const block={id:'topic-evidence',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[]},sourceLayoutEvidence:{sharedSectionHeader:{sectionId:'topic-section',title:'Range'}}};
+ const p={settings:creationSettings(),source:{inventory:{entries:[]}},sections:[{id:'topic-section',title:'Range',phase:'teaching',headingStyle:'page-title',blocks:[block]}]};
+ let report=await inspectPresentationFidelity(p);
+ assert.ok(!report.issues.some(i=>i.kind==='missing-teaching-template'));
+ for(const kind of ['unchecked-source-visuals','unchecked-teaching-arrangement'])assert.ok(report.issues.some(i=>i.kind===kind));
+ block.sourceLayoutEvidence.sharedSectionHeader.title='Different topic';
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='missing-teaching-template'));
+ block.sourceLayoutEvidence.sharedSectionHeader.title='Range';block.content='Actual teaching needs a group.';
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.kind==='missing-teaching-template'));
+});
+test('manual teaching-page boundaries need source review, while teaching content still needs a header template',async()=>{
+ const boundary={id:'manual-boundary',type:'page-break',label:'Manual page break'};
+ const teaching={id:'definition',type:'rich-text',content:'A variable records an observed characteristic.'};
+ const p={settings:creationSettings(),source:{sourceHashes:{pdf:'source'},inventory:{entries:[]}},sections:[{phase:'teaching',blocks:[boundary,teaching]}]};
+ let report=await inspectPresentationFidelity(p);
+ assert.ok(!report.issues.some(i=>i.targetId===boundary.id&&i.kind==='missing-teaching-template'));
+ for(const kind of ['unchecked-source-visuals','unchecked-teaching-arrangement'])assert.ok(report.issues.some(i=>i.targetId===boundary.id&&i.kind===kind));
+ assert.ok(report.issues.some(i=>i.targetId===teaching.id&&i.kind==='missing-teaching-template'));
+ boundary.sourceReview={visualAudit:{checked:true,categories:[...SOURCE_VISUAL_CATEGORIES]}};
+ boundary.sourceReview.verification={checked:true,signature:await presentationVerificationKey(boundary,p.source.sourceHashes,p.settings)};
+ report=await inspectPresentationFidelity(p);
+ assert.deepEqual(report.issues.filter(i=>i.targetId===boundary.id),[]);
+ assert.ok(report.issues.some(i=>i.targetId===teaching.id&&i.kind==='missing-teaching-template'));
+ assert.equal(boundary.sourceAtom,undefined);
+ boundary.flow={pageBreakBefore:true};
+ assert.ok((await inspectPresentationFidelity(p)).issues.some(i=>i.targetId===boundary.id&&i.kind==='unchecked-teaching-arrangement'));
 });
 test('a declared working area cannot pass when scaffold mode suppresses it',async()=>{
  const p=fixture(),b=p.sections[0].blocks[0],part=b.content.children[0];

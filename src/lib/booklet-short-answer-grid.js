@@ -20,6 +20,19 @@ export function canShareShortAnswer(block){
   if(isDocument(value)&& (value.blocks.length!==1||value.blocks[0].type!=='paragraph'||value.blocks[0].inlines.some(i=>!['text','math'].includes(i.type))))return false;
   const source=contentSource(value).trim();
   if(!source||/\n|\[tikz\]|<\/?(?:table|img)|\\begin\s*\{|\|.*\|/i.test(source))return false;
+  // A calculation such as 30a/5 = 6a is a brief method, even without prose.
+  // Simple labelled results (x = 2) may still share a row.
+  const maths=[...source.matchAll(/(?<!\\)\$\$?([\s\S]*?)(?<!\\)\$\$?/g)].map(m=>m[1]);
+  if((maths.length?maths:[source]).some(latex=>{
+    // Independent labelled results are not a chain of working. An approximate
+    // result with no left side and geometric equalities are also final results.
+    return latex.split(/;|,(?!\d)|\\q(?:quad|uad)(?![a-zA-Z])/).some(clause=>{
+      const steps=clause.split(/=|\\approx(?![a-zA-Z])|≈/).map(s=>s.trim());
+      if(steps.length<2||steps.some(s=>!s))return false;
+      const arithmetic=s=>/\\(?:[dt]?frac|times|div|cdot)(?![a-zA-Z])|\S\s*[+\-/]\s*\S|\d\s*\^/.test(s);
+      return steps.slice(0,-1).some(arithmetic);
+    });
+  }))return false;
   const prose=source.replace(/(?<!\\)\$\$?[\s\S]*?(?<!\\)\$\$?/g,'').replace(/\\(?:text|mathrm)\{[^}]*\}/g,'').trim();
   // Sentences/methods get a full column. Short literal responses and units can
   // share a row, including plain numeric answers and legacy bare TeX.

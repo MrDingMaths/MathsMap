@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {loadTikzEngine} from '../scripts/booklet/check-pgfplots-engine.mjs';
 import {calibrateDiagramTypography,measureDiagramLabels,inspectDiagramLabelLayout} from '../src/lib/diagram-typography.js';
+import {convexPolygonsOverlap} from '../src/lib/diagram-label-geometry.js';
 import {graphPageScale} from '../src/lib/graph-strokes.js';
 import {BOOKLET_HOUSE_STYLE} from '../public/libs/maths-editor/house-style.mjs';
 import {normaliseShortAnswer} from '../src/lib/short-answer-style.js';
@@ -17,14 +18,15 @@ test('complete TeX labels retain scripts, fraction rules, rotation and size afte
   \node[above,rotate=30] at (1,0) {$x_1^2+\frac{a}{b}$};
   \node[right,font=\small] at (3,0) {$45^\circ$};
   \node[left,font=\Large] at (0,0) {A};
+  \special{dvisvgm:raw <g data-graph-text="value">}\node at (4,1) {16.7\%};\special{dvisvgm:raw </g>}
   \end{tikzpicture}`);
-  assert.equal((svg.match(/data-diagram-label=/g)||[]).length,3);
+  assert.equal((svg.match(/data-diagram-label=/g)||[]).length,4);
   const browser=await chromium.launch({headless:true,channel:'chrome'});
   try{
     const page=await browser.newPage();
     await page.setContent('<style>.booklet-page{width:210mm;transform-origin:top left} .slot svg{width:100%;height:auto}</style><article class="booklet-page"><div class="slot">'+svg+'</div></article>');
-    const results=await page.evaluate(({calibrate,measure,inspect,scale,style})=>{
-      const f=new Function('BOOKLET_HOUSE_STYLE',`const graphPageScale=${scale};return {calibrate:${calibrate},measure:${measure},inspect:${inspect}}`)(style);
+    const results=await page.evaluate(({calibrate,measure,inspect,scale,overlap,style})=>{
+      const f=new Function('BOOKLET_HOUSE_STYLE',`const graphPageScale=${scale},convexPolygonsOverlap=${overlap};return {calibrate:${calibrate},measure:${measure},inspect:${inspect}}`)(style);
       const article=document.querySelector('article'),slot=document.querySelector('.slot'),rows=[];
       for(const zoom of [1,.65,2,1])for(const width of [40,120,60,40]){
         article.style.transform=`scale(${zoom})`;slot.style.width=width+'mm';
@@ -66,8 +68,8 @@ test('complete TeX labels retain scripts, fraction rules, rotation and size afte
       slot.style.overflow='hidden';
       if(!f.inspect(small).some(i=>i.kind==='diagram-label-clipping'))throw Error('Real ancestor clipping must remain a failure');
       return rows;
-    },{calibrate:calibrateDiagramTypography.toString(),measure:measureDiagramLabels.toString(),inspect:inspectDiagramLabelLayout.toString(),scale:graphPageScale.toString(),style:BOOKLET_HOUSE_STYLE});
-    for(const row of results){assert.equal(row.labels.length,3);for(const label of row.labels)assert.ok(Math.abs(label.pt-10)<.001,JSON.stringify(row));}
+    },{calibrate:calibrateDiagramTypography.toString(),measure:measureDiagramLabels.toString(),inspect:inspectDiagramLabelLayout.toString(),scale:graphPageScale.toString(),overlap:convexPolygonsOverlap.toString(),style:BOOKLET_HOUSE_STYLE});
+    for(const row of results){assert.equal(row.labels.length,4);for(const label of row.labels)assert.ok(Math.abs(label.pt-(label.value?8.5:10))<.001,JSON.stringify(row));}
     assert.ok(results[0].scripts>0);assert.ok(results[0].fraction>0);
   }finally{await browser.close();}
 });

@@ -1,4 +1,5 @@
 import {BOOKLET_HOUSE_STYLE} from '../../public/libs/maths-editor/house-style.mjs';
+import {convexPolygonsOverlap} from './diagram-label-geometry.js';
 export function graphPageScale(svg) {
   const article=svg.closest('.booklet-page');
   return article ? article.getBoundingClientRect().width/((article.closest('.flow')?180:210)*96/25.4) : 1;
@@ -34,8 +35,10 @@ export function calibrateDiagramTypography(root) {
     try {
       const matrix=group.getScreenCTM();
       if(!matrix)continue;
-      const tick=!!group.querySelector('[data-graph-text="tick"]');
-      const target=tick?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt;
+    const tick=!!group.querySelector('[data-graph-text="tick"]');
+    const value=!!group.closest('[data-graph-text="value"]');
+    const requested=Number(group.querySelector('[data-diagram-label-target-pt]')?.dataset.diagramLabelTargetPt);
+    const target=requested>=10&&requested<=16?requested:tick||value?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt;
       const current=font*Math.hypot(matrix.c,matrix.d)*72/96/pageScale;
       if(!(current>0))continue;
       const factor=target/current,box=group.getBBox(),anchor=group.dataset.labelAnchor??'center';
@@ -53,8 +56,9 @@ export function calibrateDiagramTypography(root) {
 
 export function measureDiagramLabels(svg,pageScale=graphPageScale(svg)) {
   return [...svg.querySelectorAll('g[data-diagram-label="1"]')].filter(g=>g.querySelector('text')).map(group=>{
-    const m=group.getScreenCTM(),tick=!!group.querySelector('[data-graph-text="tick"]');
-    return {pt:m?Number(group.dataset.labelFont)*Math.hypot(m.c,m.d)*72/96/pageScale:0,tick,targetPt:tick?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt};
+    const m=group.getScreenCTM(),tick=!!group.querySelector('[data-graph-text="tick"]'),value=!!group.closest('[data-graph-text="value"]');
+    const requested=Number(group.querySelector('[data-diagram-label-target-pt]')?.dataset.diagramLabelTargetPt);
+    return {pt:m?Number(group.dataset.labelFont)*Math.hypot(m.c,m.d)*72/96/pageScale:0,tick,value,targetPt:requested>=10&&requested<=16?requested:tick||value?Number(group.dataset.tickTarget):BOOKLET_HOUSE_STYLE.diagrams.labelPt};
   });
 }
 
@@ -72,8 +76,8 @@ export function inspectDiagramLabelLayout(svg,{strokes=false}={}) {
         box={x:x-ink.actualBoundingBoxLeft,y:y-ink.actualBoundingBoxAscent,width:ink.actualBoundingBoxLeft+ink.actualBoundingBoxRight,height:ink.actualBoundingBoxAscent+ink.actualBoundingBoxDescent};
       }else box=node.getBBox();
       const m=node.getScreenCTM();if(!m)continue;
-      const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x,box.y+box.height],[box.x+box.width,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(m));
-      rectangles.push({box,inverse:m.inverse(),left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});
+      const points=[[box.x,box.y],[box.x+box.width,box.y],[box.x+box.width,box.y+box.height],[box.x,box.y+box.height]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(m));
+      rectangles.push({box,points,inverse:m.inverse(),left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});
     }
     return {index,rectangles,left:Math.min(...rectangles.map(r=>r.left)),right:Math.max(...rectangles.map(r=>r.right)),top:Math.min(...rectangles.map(r=>r.top)),bottom:Math.max(...rectangles.map(r=>r.bottom))};
   });
@@ -85,7 +89,7 @@ export function inspectDiagramLabelLayout(svg,{strokes=false}={}) {
   }
   for(let a=0;a<labels.length;a++)for(let b=a+1;b<labels.length;b++){
     const x=labels[a],y=labels[b];
-    if(x.rectangles.some(r=>y.rectangles.some(s=>Math.min(r.right,s.right)-Math.max(r.left,s.left)>tolerance&&Math.min(r.bottom,s.bottom)-Math.max(r.top,s.top)>tolerance)))issues.push({kind:'diagram-label-overlap',labels:[a,b]});
+    if(x.rectangles.some(r=>y.rectangles.some(s=>convexPolygonsOverlap(r.points,s.points,tolerance))))issues.push({kind:'diagram-label-overlap',labels:[a,b]});
   }
   if(strokes)for(const path of svg.querySelectorAll('path')){
     if(path.closest('[data-diagram-label],defs,clipPath,marker')||getComputedStyle(path).stroke==='none')continue;

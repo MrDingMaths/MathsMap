@@ -51,18 +51,18 @@ export function graphSourceWithoutColourMetadata(source) {
     .replace(/\\special\{dvisvgm:raw <metadata data-diagram-colours="1"[^\n]*?\/>(?:\s*)\}\n?/g,'');
 }
 
-export function inspectDiagramColours(svg) {
+export function inspectDiagramColours(svg,{graphStrokes=false}={}) {
   const marker=svg.querySelector('[data-diagram-colours="1"]');
-  if(!marker||marker.dataset.diagramKind!=='geometry')return [];
+  if(!graphStrokes&&(!marker||marker.dataset.diagramKind!=='geometry'))return [];
   const allowed=new Set(Object.values(BOOKLET_PALETTE).map(hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)).join(',')));
   const bad=new Set();
   for(const shape of svg.querySelectorAll('path,line,polyline,polygon,rect,circle,ellipse,use,text,tspan')){
     if(shape.closest('defs,clipPath'))continue;
     const css=getComputedStyle(shape);
     // Fills can be region shading, material or white masks. Text fill is ink.
-    for(const paint of [css.stroke,css.fill]){
+    for(const paint of graphStrokes?[css.stroke]:[css.stroke,css.fill]){
       const rgb=paint.match(/^rgba?\((\d+)[, ]+\s*(\d+)[, ]+\s*(\d+)/);
-      if(rgb&&!allowed.has(rgb.slice(1,4).join(',')))bad.add(paint);
+      if(rgb){const values=rgb.slice(1,4),grey=values.every(v=>v===values[0]);if(!allowed.has(values.join(','))&&!(graphStrokes&&grey))bad.add(paint);}
     }
   }
   return [...bad];

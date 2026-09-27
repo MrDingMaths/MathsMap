@@ -28,6 +28,10 @@ For ordinary feedback maintenance, use the [minimum verification matrix](booklet
 
 16. **Diagram and working relationships:** apply the [Volume prevention rules](booklet-volume-feedback-2026-09-12.md#prevention-in-future-work). Record source-relative left/right placement of diagrams, calculations and photos, paired-figure rows, and scaffold baseline alignment before layout. Compare isolated cross-sections with the actual cut and verify curved/composite solid silhouettes independently. Use shared annotation and vertical-alignment controls; inspect every complete label and writing blank at final size. Source appearance does not override dotted-scaffold or section-header house style.
 
+17. **Opening syllabus:** combine all syllabus outcomes, focus statements and bullets into one editable rich-text block at the start of the booklet. Use the section title for the shared header. Preserve every source block and any repeated source furniture in provenance, and update inventory mappings for content moved into the combined block. Check the opening page and its teaching neighbour in affected editions.
+
+18. **Multiple-choice options:** option letters are uppercase and bold in every arrangement, including table cells and parallel inline layouts. Keep the option wording regular unless the source gives it independent emphasis. Audit repeated choices across current books and future imports; inspect final-size output.
+
 ## Required completion evidence
 
 - **Purposeful diagram shading:** use unshaded diagrams by default. Retain only

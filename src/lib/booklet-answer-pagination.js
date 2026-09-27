@@ -1,5 +1,5 @@
 import {flowEditionSections} from './booklet-flow.js';
-import {answerFragments,exerciseLabelWidth} from './booklet-exercises.js';
+import {answerFragments,exerciseLabelWidth,workedAnswerDiagramFragments} from './booklet-exercises.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
 import {paginateShortAnswerGrid} from './booklet-short-answer-grid.js';
 
@@ -25,7 +25,9 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     const prior=cached.prior?.checkpoints[i];
     if(i>begin&&prior&&cached.suffix(i)&&column===prior.column&&columns.every((c,j)=>samePageCarry(c,prior.columns[j]))){pages.push(...cached.prior.pages.slice(prior.pageCount).map(p=>({...p})));issues.push(...cached.prior.issues.slice(prior.issueCount));cached.entry.checkpoints.push(...cached.prior.checkpoints.slice(i));columns=Array.from({length:count},()=>[]);break;}
     cached.entry.checkpoints.push(checkpoint);
-      for(const fragment of answerFragments(block,mode)){
+      const fragments=answerFragments(block,mode);
+      for(let f=0;f<fragments.length;f++){
+        const fragment=fragments[f];
         check();
         const entry={block:fragment,section,labelWidthMm:widths.get(section.topicId)};
         while(true){
@@ -34,6 +36,17 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
           if(size.height<=size.capacity+.2)break;
           columns[column].pop();
           if(!columns[column].length){
+            const split=workedAnswerDiagramFragments(fragment);
+            if(split){
+              let fits=true;
+              for(const part of split){
+                columns[column].push({...entry,block:part});
+                const partSize=await measure(make());check();
+                columns[column].pop();
+                if(partSize.height>partSize.capacity+.2){fits=false;break;}
+              }
+              if(fits){fragments.splice(f,1,...split);f--;break;}
+            }
             issues.push({kind:'oversized-content',id:block.id,sectionId:section.sourceSectionId,message:'An answer part cannot fit safely. Adjust its answer diagram or working layout.'});
             columns[column].push(entry);break;
           }

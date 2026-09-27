@@ -27,7 +27,8 @@
                   {/if}
                   <div class="answer-row-grid" style={`grid-template-columns:repeat(${row.length},minmax(0,1fr));column-gap:${SHORT_ANSWER_GRID_GAP_MM}mm`}>
                     {#each row as entry}
-                      <section class="answer-fragment" class:answer-width-probe={page.shortAnswerProbe} id={!page.shortAnswerProbe&&firstFragment(entry)?`${anchorPrefix}answer-${page.mode}-${entry.block.id}`:undefined} data-answer-fragment={entry.block.flow.answerFragment}>
+                      <section class="answer-fragment" class:answer-width-probe={page.shortAnswerProbe} id={!page.shortAnswerProbe&&firstFragment(entry)?`${anchorPrefix}answer-${page.mode}-${entry.block.id}`:undefined} data-answer-fragment={entry.block.flow.answerFragment} data-answer-continuation={entry.block.flow.answerContinuation}>
+                        {#if entry.block.flow.answerContinuation==='solution-diagrams'}<div class="answer-continuation">Worked solution continued</div>{/if}
                         <PracticeQuestionRenderer question={resolvePreviewAssets(entry.block,assetUrl)} number={entry.block.sourceOrder} showSpaces={false} showTitle={false} showShortAnswers={page.mode==='short'} showWorkedSolutions={page.mode==='worked'} answerColumnsLimit={1} compactAnswerSettings={settings} answerLabelWidthMm={entry.labelWidthMm} answerLink={questionLink(entry)} blockLayouts={project.settings.layoutOverrides.blockLayouts} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} eagerDiagrams={true} {editMode} {onContentEdit}/>
                       </section>
                     {/each}
@@ -47,6 +48,7 @@
   header{font-size:13pt;font-weight:800;margin:0 0 3mm;padding-bottom:2mm;border-bottom:.25mm solid var(--booklet-border)}
   .answer-columns{display:grid;align-items:start}.answer-column{min-width:0}.answer-fragment{min-width:0}
   .answer-row{break-inside:avoid;min-width:0}.answer-row-grid{display:grid;align-items:start;min-width:0}
+  .answer-continuation{font-size:9.5pt;line-height:1.22;margin:0 0 1mm}
   .answer-width-probe{width:max-content}
   .answer-width-probe :global(.answer-content){width:max-content;max-width:none}
   .answer-width-probe :global(p){white-space:nowrap}

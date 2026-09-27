@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel} from '../src/lib/booklet-labels.js';
+import {teachingLabels,alphabeticLabel,labelledTeachingQuestion,hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../src/lib/booklet-labels.js';
 
 test('answer-only scaffold leaves keep answer labels without an empty student label',()=>{
  const node={id:'table-row-a',label:'a',responseSpace:'scaffold',answer:{short:'1/5'}};
@@ -31,6 +31,18 @@ test('one source-labelled drawing task retains four explicitly unlabelled view r
 });
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 const question=(id,kind='guided-practice')=>({id,type:'question',sourceOrder:9,sourceAtom:{id:'box',kind},content:{id:id+'-root',label:'9',prompt:'Shared instruction',children:[{id:id+'-a',label:'1',prompt:'First',children:[]},{id:id+'-b',label:'2',prompt:'Second',children:[]}]}});
+
+test('review source numbering preserves unnumbered objectives and stems without shifting numbered tasks',()=>{
+ const blocks=['','', '2'].map((label,i)=>({...question('review'+i,'review'),presentation:{reviewNumbering:'source'},content:{id:'review'+i+'-root',label,prompt:'Review item'}}));
+ const original=structuredClone(blocks),labels=teachingLabels(blocks);
+ assert.deepEqual(Object.values(labels),['','','2']);
+ assert.equal(labelledTeachingQuestion(blocks[0],labels).sourceOrder,null);
+ assert.equal(labelledTeachingQuestion(blocks[2],labels).sourceOrder,2);
+ assert.equal(arrangementCatalog(blocks[0],{labels}).entries.get('review0-root/label').value,'');
+ assert.deepEqual(blocks,original);
+ const defaults=blocks.map(({presentation,...b})=>b);
+ assert.deepEqual(Object.values(teachingLabels(defaults)),['1','2','3']);
+});
 test('teaching boxes label parts continuously across blocks and omit root question numbers',()=>{
  const blocks=[question('q1'),question('q2')],labels=teachingLabels(blocks);
  assert.deepEqual(Object.values(labels),['','a','b','','c','d']);
@@ -69,4 +81,15 @@ test('explicitly unlettered teaching tasks stay unlettered without consuming a l
  assert.deepEqual(teachingLabels([block]),{root:'',unlettered:'',next:'a'});
  delete block.sourceReview;
  assert.deepEqual(teachingLabels([block]),{root:'',unlettered:'a',next:'b'});
+});
+
+test('standalone math tables use top labels while prose and equations keep their baselines',()=>{
+ const doc=inlines=>({format:'maths-editor-document-v1',blocks:[{type:'paragraph',inlines}]});
+ const array={type:'math',latex:'\\begin{array}{r|ll}5&1&2\\\\6&3&4\\end{array}'};
+ assert.equal(hasStandaloneMathTable(doc([array])),true);
+ assert.equal(hasStandaloneMathTable(doc([{type:'text',text:' '},array])),true);
+ assert.equal(hasStandaloneMathTable(doc([{type:'text',text:'Complete '},array])),false);
+ for(const latex of ['\\frac{1}{2}','x=3','\\begin{pmatrix}1&2\\end{pmatrix}',array.latex+'=3','3+'+array.latex])assert.equal(hasStandaloneMathTable(doc([{type:'math',latex}])),false);
+ assert.equal(hasStandaloneMathTable('ordinary prompt'),false);
+ assert.equal(hasStandaloneMathTable({blocks:[{type:'table'}]}),false);
 });

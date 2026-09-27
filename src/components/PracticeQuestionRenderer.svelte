@@ -2,7 +2,7 @@
   import { onDestroy } from 'svelte';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import BookletArrangement from './BookletArrangement.svelte';
-  import { arrangementQuestionBlock } from '../lib/booklet-arrangement.js';
+  import { arrangementQuestionBlock, teachingAnswerArrangement } from '../lib/booklet-arrangement.js';
   import { questionLayoutStyle } from '../lib/booklet-layout.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import InlineContent from './InlineContent.svelte';
@@ -13,8 +13,8 @@
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
   import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,compactAnswerLabel,answerNodePath} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
-  import {teachingAnswerCategory} from '../lib/booklet-answer-options.js';
-  import {hasEmbeddedResponseLabel} from '../lib/booklet-labels.js';
+  import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from '../lib/booklet-answer-options.js';
+  import {hasEmbeddedResponseLabel,hasStandaloneMathTable} from '../lib/booklet-labels.js';
 
   let { question, trailingQuestion = null, number = null, showSpaces = true, showShortAnswers = false, showWorkedSolutions = false, answerColumnsLimit = null, compactAnswerSettings=null, answerLabelWidthMm=8, answerLink=null, compact = false, blockLayouts: suppliedBlockLayouts = {}, answerSpaceOverrides: suppliedAnswerSpaceOverrides = {}, diagramWidthOverrides: suppliedDiagramWidthOverrides = {}, diagramColourModes: suppliedDiagramColourModes = {}, onSpaceResize = null, onDiagramResize = null, showTitle = true, eagerDiagrams = false, editMode = false, onContentEdit = null, onContentRevert = null, onEditingChange = null, isEdited = () => false } = $props();
   // Bank records retain their source owner ID and local presentation. Explicit
@@ -24,6 +24,7 @@
   const diagramWidthOverrides = $derived({...question.presentation?.layoutOverrides?.diagramWidths, ...suppliedDiagramWidthOverrides});
   const diagramColourModes = $derived({...question.presentation?.layoutOverrides?.diagramColourModes, ...suppliedDiagramColourModes});
   const questionArrangement = $derived(blockLayouts[question.id]?.arrangement ?? blockLayouts[question.presentation?.ownerId]?.arrangement);
+  const teachingResponses = $derived(!compactAnswerSettings&&(showShortAnswers||showWorkedSolutions)?teachingAnswerArrangement(arrangementQuestionBlock(question,number),questionArrangement,{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides},showShortAnswers?'short':'worked'):null);
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
   const nodeLabel = (node, index, depth) => depth === 0 && number != null ? String(number) : node.label != null ? String(node.label) : node.children?.length ? '' : letter(index);
@@ -145,7 +146,7 @@
   {@const space = resizeSpaces[node.id] ?? spaceFor(node)}
   <section class:part={depth > 0} class:numbered-root={depth === 0 && number != null} class:diagrams-first={node.diagramPlacement === 'before-prompt'} class:diagrams-beside={['beside-prompt','right-of-prompt'].includes(node.diagramPlacement)} class:diagrams-right={node.diagramPlacement === 'right-of-prompt'} class:compact class="question-node question-depth-{depth}" data-node-id={node.id} style={questionLayoutStyle(node,blockLayouts)}>
     {#if node.representations}
-      <div class="question-line"><span class="part-label">{label}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
+      <div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}><span class="part-label">{label}</span><EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} oncommit={onContentEdit}/></div>
       <div class:pattern-top={node.layoutPreset==='pattern-top'} class="representations" class:without-pattern={!node.representations.pattern&&!Object.values(node.representations.diagramSlots).includes('pattern')}>
         {#each ['pattern','table','equation','graph'] as slot}
           <section class={'representation representation-'+slot}>
@@ -158,7 +159,7 @@
       </div>
     {:else}
     {#if label&&node.diagramPlacement==='before-prompt'}<span class="leading-label part-label">{label}</span>{/if}
-    {#if label || node.prompt}<div class="question-line">{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
+    {#if label || node.prompt}<div class="question-line" class:tabular-prompt={hasStandaloneMathTable(node.prompt)}>{#if label&&node.diagramPlacement!=='before-prompt'}<span class="part-label">{depth === 0 && number != null ? label : depth > 0 && label ? label : ''}</span>{/if}{#if node.prompt}<div class="prompt">{#if depth === 0 && showTitle && /^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question?.title ?? "")}<strong class="exam-label">{visibleImportedQuestionTitle(question)}</strong>{/if}<EditableBookletText value={node.prompt} rootId={node.id} pointer="/prompt" {editMode} edited={isEdited(node.id, '/prompt')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} /></div>{/if}</div>{/if}
     {#if node.questionDiagrams?.length}<div class="question-diagrams">{#each node.questionDiagrams as diagram}{@render diagramView(diagram)}{/each}</div>{/if}
     {#if node.afterDiagramPrompt}<div class="after-diagram-prompt"><EditableBookletText value={node.afterDiagramPrompt} rootId={node.id} pointer="/afterDiagramPrompt" {editMode} oncommit={onContentEdit}/></div>{/if}
     {#if node.layoutPreset==='scenario'&&node.children?.length===2}
@@ -210,7 +211,7 @@
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions)}
     {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
-  {:else if question?.content}{@render renderAnswerNode(question.content)}{#if trailingQuestion}<PracticeQuestionRenderer question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
+  {:else if question?.content}{#if teachingResponses}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={teachingResponses} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{:else}{#if retainsTeachingPromptWithAnswers(question)&&!compactAnswerSettings}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{/if}{@render renderAnswerNode(question.content)}{/if}{#if trailingQuestion}<PracticeQuestionRenderer question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
 </div>
 
 <style>
@@ -255,6 +256,7 @@
   .diagrams-right > .question-diagrams { grid-column:2; }
   .diagrams-beside > .answer-space { grid-column:1 / -1; }
   .question-line { display: flex; align-items: baseline; gap: var(--label-gap); }
+  .question-line.tabular-prompt { align-items: flex-start; }
   .part-label { flex: none; min-width: var(--label-width); font-weight: 700; }
   .exam-label { display: block; font: inherit; font-weight: 800; }
   .prompt { min-width: 0; flex: 1; }

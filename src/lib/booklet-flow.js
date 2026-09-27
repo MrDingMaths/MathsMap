@@ -120,8 +120,9 @@ export function flowNumbers(project) {
 
 export function exerciseNumbers(project) {
   if(project.settings?.exerciseOrganisation!=='topic')return {};
+  const practiceTopics=project.settings.numberPracticeTopicsOnly?new Set(project.sections.filter(s=>s.role!=='candidate-pool'&&s.phase==='practice'&&s.blocks.some(b=>!b.presentation?.editorOnly&&isPractice(b))).map(s=>s.topicId)):null;
   const result={},labels=new Map((project.topics??[]).map(t=>[t.id,t.exerciseLabel]));let number=0;
-  for(const section of project.sections)if(section.topicId&&section.phase!=='front-matter'&&section.role!=='candidate-pool'&&section.blocks.some(b=>!b.presentation?.editorOnly)&&result[section.topicId]==null){number++;result[section.topicId]=labels.get(section.topicId)||number;}
+  for(const section of project.sections)if(section.topicId&&(!practiceTopics||practiceTopics.has(section.topicId))&&section.phase!=='front-matter'&&section.role!=='candidate-pool'&&section.blocks.some(b=>!b.presentation?.editorOnly)&&result[section.topicId]==null){number++;result[section.topicId]=labels.get(section.topicId)||number;}
   return result;
 }
 
@@ -238,6 +239,7 @@ export function flowEditionSections(project, edition='student') {
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
     pageBreakBefore:mode==='student'&&startsExercise(section)?true:section.pageBreakBefore,
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
+    ...(project.settings?.numberPracticeTopicsOnly&&section.phase!=='front-matter'&&!exercises[section.topicId]?{unnumberedTopic:true}:{}),
     difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)?`Exercise ${exercises[section.topicId]}`:null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
     blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),exerciseHeadingBefore:startsExercise(section)&&index===0?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&index===0?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return shareFlowProjection(project,edition,[...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])]);

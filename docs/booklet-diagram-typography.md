@@ -2,7 +2,19 @@
 
 Native diagram labels use 10 pt at final printed size, with a measured tolerance of 0.1 pt. This applies to ordinary geometry and graph labels at every diagram width. Graph ticks retain their separate 8.5 pt default and reviewed 8 pt exceptions. Raster labels require separate review; automatic text calibration does not apply to images.
 
-`public/libs/maths-editor/house-style.mjs` owns the targets. `src/lib/diagram-typography.js` wraps each complete TikZ node during compilation and calibrates its SVG group. The correction includes fraction rules and scripts, retaining their relative sizes, rotation and anchor. It starts from the uncorrected group each time, removes page zoom from the measurement, and runs through the shared resize/print observer. The preparation participates in the render cache key. `booklet-qa.js` checks both undersized and oversized labels without requiring graph tick metadata.
+`public/libs/maths-editor/house-style.mjs` owns the targets. `src/lib/diagram-typography.js` wraps each complete TikZ node during compilation and calibrates its SVG group. The correction includes fraction rules and scripts, retaining their relative sizes, rotation and anchor. It starts from the uncorrected group each time, removes page zoom from the measurement, and runs through the shared resize/print observer. The preparation participates in the render cache key. `booklet-qa.js` checks both undersized and oversized labels against their semantic target; numeric graph ticks need the explicit marker below.
+
+## Explicit native graph tick roles
+
+A TeX declaration such as `\fontsize{8.5}{10}` does not identify a tick to the shared calibrator. Wrap the complete numeric, time or measurement tick label, including its units and scripts, inside the node:
+
+```tex
+\node[anchor=east,font=\fontsize{8.5}{10}\selectfont] at (-2,\y) {
+  \special{dvisvgm:raw <g data-graph-text="tick">}\v\special{dvisvgm:raw </g>}
+};
+```
+
+Apply this to practice questions, short answers, worked solutions and teaching graphs. Nominal category names such as A-D remain ordinary 10 pt labels. A font declaration or a passing measurement against the wrong target is not tick acceptance: confirm the semantic role, the rendered `tick` flag and the actual PDF font size. Preserve coordinates, scale values, widths and current answer-style bindings when adding markers. `scripts/booklet/graph-tick-roles.mjs` applies reviewed node ranges with exact source guards; its offsets are Unicode code points. Final visual review still checks placement and readability.
 
 Practice short answers inherit `#24282d`, including answer numbers, part labels, prose and mathematics. `src/lib/short-answer-style.js` removes known decorative blue declarations from legacy text and structured editor content, while retaining mathematical colour and inline diagrams. The practice renderer and content-edit save path share this policy. Teaching answers, worked solutions and diagram palettes retain their existing colours. Both answer editions remain practice-only.
 

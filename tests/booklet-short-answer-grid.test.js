@@ -25,6 +25,11 @@ test('actual widths choose three, two or one cells without reordering or crossin
   assert.deepEqual(shortAnswerRows(rows.flat()).map(r=>r.length),[3,2,1,2,1]);
 });
 
+test('brief mathematical methods span the column while final results can share',()=>{
+ for(const value of ['$\\frac{30a}{5}=6a$',fromSource('$\\frac{3a+21}{3}=a+7$'),'$6+4=10$','$x=8/2=4$','$\\frac{80}{3}\\approx26.67$'])assert.equal(canShareShortAnswer(block('q',value)),false);
+ for(const value of ['$6a$','$\\frac{3a+21}{3}$','$x=-2$',fromSource('$\\bar{x}=15$'),'$x_1=3$','$\\approx63.6\\%$','$\\angle XYZ=\\angle XZY$','$m=2,\\ c=3,\\ y=2x+3$','$3=\\log_2 8$','$x=2; y=3$'])assert.equal(canShareShortAnswer(block('q',value)),true,value);
+});
+
 test('a consolidated group answer occupies a whole column even with one child',()=>{
  const grouped={content:{id:'group',answer:{short:'a → B; b → C'},children:[block('a').content]}};
  assert.equal(canShareShortAnswer(grouped),false);

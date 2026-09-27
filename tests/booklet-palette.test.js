@@ -11,6 +11,8 @@ import {inspectStoredBookletPalette} from '../scripts/booklet/audit-booklet-pale
 test('palette preserves roles, maps legacy prose/maths/fills and leaves unknowns reviewable',()=>{
  assert.equal(standardBookletColour('#AA0505'),BOOKLET_PALETTE.red);
  assert.equal(standardBookletColour('pink'),BOOKLET_PALETTE.red);
+ assert.equal(standardBookletColour('purple'),BOOKLET_PALETTE.purple);
+ assert.equal(standardBookletColour('violet',{background:true}),BOOKLET_PALETTE.purpleFill);
  assert.equal(standardBookletColour('#abcdef'),'#abcdef');
  const source={id:'a',text:String.raw`$\color{#056FDB}x$`,background:'#FABDA6',source:{colour:'#AA0505'},sourceAtom:{headerFill:'#AA0505'},type:'paragraph'};
  const next=standardBookletContent(source);assert.equal(next.text,String.raw`$\color{#268cff}x$`);assert.equal(next.background,BOOKLET_PALETTE.orangeFill);assert.deepEqual(next.source,source.source);assert.deepEqual(next.sourceAtom,source.sourceAtom);
@@ -24,6 +26,14 @@ test('palette acceptance covers editable paints and backgrounds, rejects source 
  const issues=await page.evaluate(({fn,palette})=>new Function('BOOKLET_PALETTE','return ('+fn+')')(palette)(document.querySelector('main')),{fn:inspectBookletPalette.toString(),palette:BOOKLET_PALETTE});
  assert.deepEqual(new Set(issues.map(i=>i.role)),new Set(['text','background','fill']));assert.equal(issues.length,4);assert.ok(issues.every(i=>!['rgb(18, 49, 35)','rgb(50, 19, 33)'].includes(i.colour)));
  }finally{await browser.close();}
+});
+
+test('purple TikZ colours and light fills stay in the booklet palette',()=>{
+ const code=String.raw`\begin{tikzpicture}\fill[purple] (0,0) circle (1);\end{tikzpicture}`;
+ const prepared=standardTikzColours(code);
+ assert.match(prepared,/\\fill\[purple\]/);
+ assert.match(prepared,/\\definecolor\{purple\}\{HTML\}\{8B5CC7\}/);
+ assert.match(prepared,/\\definecolor\{purpleFill\}\{HTML\}\{E8DEF4\}/);
 });
 
 test('palette definitions stay outside drawing commands in single-line and nested-option TikZ',()=>{

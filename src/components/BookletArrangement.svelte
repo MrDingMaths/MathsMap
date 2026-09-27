@@ -6,6 +6,7 @@
  import {sourceRegionStyles} from '../lib/diagram-source-region.js';
  import {resolveArrangement,arrangementExamTitle} from '../lib/booklet-arrangement.js';
  import {combinedExampleTikz} from '../lib/booklet-preview.js';
+ import {hasStandaloneMathTable} from '../lib/booklet-labels.js';
  let {block,arrangement,layoutOverrides={},selected='',onselect=null,onresize=null,onmeasure=null,onSpaceResize=null,onmove=null,assetUrl=s=>s,showSolutions=true,showSpaces=true,showTitle=true,fillCloze=false,answerSpaceOverrides={},diagramColourModes={},editMode=false}=$props();
  const requestEdit=getContext('booklet-edit-request');
  const documentActions=getContext('booklet-document-actions');
@@ -28,7 +29,13 @@
  const rowChildren=n=>n.children.filter(c=>resolved.entries.get(c.ref)?.kind!=='label');
  function labelHasTextBaseline(n){
   const first=resolved.entries.get(n.children?.[1]?.ref);
-  return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph';
+  return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(first.value);
+ }
+ function labelBodyHasTextBaseline(n){
+  const body=n.children?.[1];
+  if(n.direction!=='row'||n.children?.length!==2||resolved.entries.get(n.children[0]?.ref)?.kind!=='label'||body?.type!=='group'||body.direction==='row'||n.verticalAlign&&n.verticalAlign!=='top')return false;
+  const first=resolved.entries.get(body.children?.[0]?.ref);
+  return first?.kind==='text'||first?.kind==='document'&&first.value?.blocks?.[0]?.type==='paragraph'&&!hasStandaloneMathTable(first.value);
  }
  function start(event,n,index){
   event.preventDefault();event.stopPropagation();const el=event.currentTarget.parentElement,box=el.getBoundingClientRect(),children=rowChildren(n),total=children.reduce((a,c)=>a+(c.weight??1),0),left=children[index].weight??1,right=children[index+1].weight??1,start=event.clientX;
@@ -64,17 +71,17 @@
  {#if !(entry?.kind==='label'&&!entry.value)}
  <!-- Selectable structural groups have keyboard equivalents in the adjacent structure panel. -->
  <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_no_noninteractive_element_interactions -->
- <div data-arrangement-id={n.id} data-content-owner={entry?.ownerId} class:arr-group={n.type==='group'} class:internal-rules={n.rules==='internal'} class:arr-row={n.direction==='row'} class:inline-row={n.direction==='row'&&n.keepInline} class:arr-item={n.type==='item'} class:zero-space={entry?.kind==='space'&&spaceHeight(n,entry)===0} class:hidden-space={entry?.kind==='space'&&(!showSpaces||spaceHeight(n,entry)===0)&&!onselect&&!editMode} class:selected={selected===n.id||direct&&documentActions.layoutSelection?.id===n.id} class:interactive={!!onselect} class:theory-solution={entry?.role==='solution'&&entry?.kind!=='diagram'} class:solution-hidden={entry?.role==='solution'&&!showSolutions} class:labelled={n.children?.[0]&&resolved.entries.get(n.children[0].ref)?.kind==='label'&&resolved.entries.get(n.children[0].ref)?.value} class:baseline-label={labelHasTextBaseline(n)} class:label-item={entry?.kind==='label'} style={style(n)+(entry?.kind==='space'&&showSpaces?'min-height:'+spaceHeight(n,entry)+'mm;':'')+(n.direction==='row'?`grid-template-columns:${rowChildren(n).map(c=>`minmax(0,${c.weight??1}fr)`).join(' ')};`:'')} role="group" aria-label={n.title??entry?.title??(n.direction==='row'?'Row':'Group')} tabindex={onselect||requestEdit?0:undefined} onclick={e=>choose(e,n)} onkeydown={e=>key(e,n)} draggable={!!onmove} ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} ondragover={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drop-target');e.currentTarget.dataset.dropPosition={inside:'Move into group',before:'Move before',after:'Move after'}[dropPosition(e,n)];}}} ondragleave={e=>e.currentTarget.classList.remove('drop-target')} ondrop={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.remove('drop-target');runMove(e.dataTransfer.getData('text/plain'),n.id,dropPosition(e,n));}}}>
+ <div data-arrangement-id={n.id} data-content-owner={entry?.ownerId} class:arr-group={n.type==='group'} class:internal-rules={n.rules==='internal'} class:arr-row={n.direction==='row'} class:inline-row={n.direction==='row'&&n.keepInline} class:arr-item={n.type==='item'} class:zero-space={entry?.kind==='space'&&spaceHeight(n,entry)===0} class:hidden-space={entry?.kind==='space'&&(!showSpaces||spaceHeight(n,entry)===0)&&!onselect&&!editMode} class:selected={selected===n.id||direct&&documentActions.layoutSelection?.id===n.id} class:interactive={!!onselect} class:theory-solution={entry?.role==='solution'&&entry?.kind!=='diagram'} class:solution-hidden={entry?.role==='solution'&&!showSolutions} class:labelled={n.children?.[0]&&resolved.entries.get(n.children[0].ref)?.kind==='label'&&resolved.entries.get(n.children[0].ref)?.value} class:baseline-label={labelHasTextBaseline(n)} class:baseline-body-row={labelBodyHasTextBaseline(n)} class:baseline-direct-row={n.direction==='row'&&n.children?.length===2&&(n.verticalAlign==null||n.verticalAlign==='top')&&labelHasTextBaseline(n)} class:auto-row-baseline={n.verticalAlign==null&&n.direction!=='row'&&resolved.entries.get(n.children?.[0]?.ref)?.kind==='label'&&labelHasTextBaseline(n)&&!hasStandaloneMathTable(resolved.entries.get(n.children?.[1]?.ref)?.value)} class:label-item={entry?.kind==='label'} style={style(n)+(entry?.kind==='space'&&showSpaces?'min-height:'+spaceHeight(n,entry)+'mm;':'')+(n.direction==='row'?`grid-template-columns:${rowChildren(n).map(c=>`minmax(0,${c.weight??1}fr)`).join(' ')};`:'')} role="group" aria-label={n.title??entry?.title??(n.direction==='row'?'Row':'Group')} tabindex={onselect||requestEdit?0:undefined} onclick={e=>choose(e,n)} onkeydown={e=>key(e,n)} draggable={!!onmove} ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} ondragover={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.add('drop-target');e.currentTarget.dataset.dropPosition={inside:'Move into group',before:'Move before',after:'Move after'}[dropPosition(e,n)];}}} ondragleave={e=>e.currentTarget.classList.remove('drop-target')} ondrop={e=>{if(canMove){e.preventDefault();e.stopPropagation();e.currentTarget.classList.remove('drop-target');runMove(e.dataTransfer.getData('text/plain'),n.id,dropPosition(e,n));}}}>
  {#if direct&&entry?.kind!=='label'}<button type="button" class="layout-handle" style={n.type==='group'?`right:${depth*18}px;top:-16px`:undefined} data-layout-handle={n.id} aria-label={'Select layout '+(entry?.title??n.title??'group')} title="Select block; Ctrl+click to group; drag to move" draggable="true" ondragstart={e=>{e.stopPropagation();e.dataTransfer.setData('text/plain',n.id);}} onclick={e=>{e.preventDefault();e.stopPropagation();documentActions.selectLayout(block.id,n.id,e);}}></button>{/if}
  {#if n.type==='group'}
   {#each n.children as child (editMode&&documentActions&&!onselect ? resolved.entries.get(child.ref)?.editorKey??child.id : child.id)}{#if !covered(child)}{@render renderNode(child,depth+1)}{/if}{/each}
   {#if canResize&&n.direction==='row'}{#each rowChildren(n).slice(0,-1) as child,i}<button class="column-handle" onclick={e=>e.stopPropagation()} style:left={rowChildren(n).slice(0,i+1).reduce((a,c)=>a+(c.weight??1),0)/rowChildren(n).reduce((a,c)=>a+(c.weight??1),0)*100+'%'} aria-label={'Resize column boundary '+(i+1)} onpointerdown={e=>start(e,n,i)} onkeydown={e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();e.stopPropagation();const children=rowChildren(n),w=children.map(c=>c.weight??1),d=e.key==='ArrowLeft'?-.1:.1;if(w[i]+d>.1&&w[i+1]-d>.1){w[i]+=d;w[i+1]-=d;runResize(n.id,n.children.map(c=>w[children.indexOf(c)]??c.weight??1));}}}}>↔</button>{/each}{/if}
  {:else if !entry}<span role="alert">Content reference needs review: {n.ref}</span>
  {:else if entry.kind==='diagram'}
-  {@const d=entry.value}{@const region=sourceRegionStyles(d.sourceRegion)}{@const combined=entry.overlays?.length===1?combinedExampleTikz(d,entry.overlays[0]):null}
+  {@const d=entry.value}{@const overlayBase=d.overlayOf?resolved.entries.get(d.overlayOf)?.value:null}{@const drawn=overlayBase??d}{@const region=sourceRegionStyles(drawn.sourceRegion)}{@const overlays=overlayBase?[d]:entry.overlays??[]}{@const combined=overlays.length===1?combinedExampleTikz(drawn,overlays[0]):null}
   <div data-diagram-id={d.id} style:width={n.align==='stretch'?'100%':(n.width??d.widthMm??78)+'mm'} style:margin-left={n.align==='center'||n.align==='right'?'auto':'0'} style:margin-right={n.align==='center'?'auto':'0'} class="arr-diagram" class:grayscale={(d.colourMode??diagramColourModes[d.id])==='grayscale'}>
-   {#if d.format==='tikz'}<Tikz code={showSolutions&&combined?combined:d.code} eager={true}/>{:else}<div style={region?.frame}><img style={region?.image} src={assetUrl(d.src)} alt={d.alt??'Diagram'}/></div>{/if}
-   {#if !combined&&showSolutions}{#each entry.overlays??[] as overlay}<div class="arr-overlay">{#if overlay.format==='tikz'}<Tikz code={overlay.code} eager={true}/>{:else}<img src={assetUrl(overlay.src)} alt={overlay.alt??'Solution overlay'}/>{/if}</div>{/each}{/if}
+   {#if drawn.format==='tikz'}<Tikz code={showSolutions&&combined?combined:drawn.code} eager={true}/>{:else}<div style={region?.frame}><img style={region?.image} src={assetUrl(drawn.src)} alt={drawn.alt??'Diagram'}/></div>{/if}
+   {#if !combined&&showSolutions}{#each overlays as overlay}<div class="arr-overlay">{#if overlay.format==='tikz'}<Tikz code={overlay.code} eager={true}/>{:else}<img src={assetUrl(overlay.src)} alt={overlay.alt??'Solution overlay'}/>{/if}</div>{/each}{/if}
   </div>
  {:else if entry.kind==='label'}<b>{entry.value}</b>
  {:else if entry.kind==='space'}
@@ -117,6 +124,8 @@
  .labelled:not(.arr-row)>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:start}
  .labelled:not(.arr-row)>.label-item+div{grid-row:1;align-self:start}
  .labelled.baseline-label:not(.arr-row)>.label-item,.labelled.baseline-label:not(.arr-row)>.label-item+div{align-self:first baseline}
+ /* Native question-grid cells share their first text baseline; explicit vertical alignment remains authoritative. */
+ .arr-row>:global(.auto-row-baseline){align-self:first baseline}
  /* Chromium can collapse later flex-column writing areas when printing a
     page with several teaching groups. A single grid column preserves the
     measured item heights and gaps in the PDF. Row grids retain their tracks. */
@@ -132,5 +141,16 @@
  @media print{.diagram-height-handle{display:none}}
 .layout-handle{position:absolute;right:100%;top:0;width:16px;min-height:16px;padding:0;border:0;background:#eaf2fa;color:#345;opacity:0;z-index:8;cursor:grab;font:14px system-ui}.arr-item:hover>.layout-handle,.arr-group:hover>.layout-handle,.layout-handle:focus-visible,.selected>.layout-handle{opacity:1}@media print{.layout-handle{display:none!important}}
 .layout-handle::before{content:'\283f'}.layout-handle{user-select:none}
+ /* A label and one prose stack share their first baseline without changing
+    the stored stack, its writing heights or explicit middle/bottom alignment. */
+ .labelled.baseline-body-row{grid-template-columns:6mm minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
+ .labelled.baseline-body-row>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:first baseline}
+ .labelled.baseline-body-row>.arr-group{grid-column:2;grid-row:1;align-self:first baseline}
+
+ /* Direct label/prose rows share the text baseline beside tall inline maths.
+    Explicit middle/bottom alignment and stored writing areas remain intact. */
+ .labelled.baseline-direct-row{grid-template-columns:6mm minmax(0,1fr)!important;padding-left:var(--arr-label-left,0mm)!important;column-gap:1mm}
+ .labelled.baseline-direct-row>.label-item{position:static;grid-column:1;grid-row:1;width:6mm;align-self:first baseline}
+ .labelled.baseline-direct-row>.label-item+div{grid-column:2;grid-row:1;align-self:first baseline}
 </style>
 

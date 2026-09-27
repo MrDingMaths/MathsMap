@@ -111,6 +111,19 @@ test('layout reconciliation expands and collapses rich text without hiding unkno
  holder.arrangement.root.children.push({id:'bad',type:'item',ref:'root/prompt#unknown'});
  assert.throws(()=>reconcileSyncLayout(before,after,holder),/could not preserve layout references/);
 });
+test('layout edits retain whole native prompt aliases and their single-slot geometry',()=>{
+ const before={id:'q',type:'question',sourceOrder:1,content:{id:'root',prompt:'Match the graphs.',layout:'grid',columns:2,children:[{id:'part-a',prompt:fromSource('A native expression\n\nGraph response'),children:[]}]}};
+ const holder={arrangement:{version:1,root:{id:'layout',type:'group',direction:'stack',children:[{id:'whole-prompt',type:'item',ref:'part-a/prompt',width:72,before:3,after:4}]}}};
+ const saved=structuredClone(holder),after=structuredClone(before);after.content.columns=3;
+ reconcileSyncLayout(before,after,holder,{editable:true});
+ assert.deepEqual(holder,saved,'An already valid whole-field placement remains unchanged');
+ let resolved=resolveArrangement(after,holder.arrangement,{editable:true});assert.deepEqual(resolved.missing,[]);
+ const slot=resolved.tree.root.children[0];assert.equal(slot.type,'group');assert.equal(slot.width,72);assert.equal(slot.before,3);assert.equal(slot.after,4);assert.equal(slot.children.length,2);assert.ok(slot.children.every(n=>n.width==null&&n.before==null&&n.after==null));
+ const changed=structuredClone(after);changed.content.children[0].prompt=fromSource('Replacement first paragraph\n\nSecond\n\nThird');
+ reconcileSyncLayout(after,changed,holder,{editable:true});assert.deepEqual(holder,saved);resolved=resolveArrangement(changed,holder.arrangement,{editable:true});assert.deepEqual(resolved.missing,[]);assert.equal(resolved.tree.root.children[0].children.length,3);
+ holder.arrangement.root.children.push({id:'unknown',type:'item',ref:'part-a/prompt#missing'});assert.throws(()=>reconcileSyncLayout(after,changed,holder,{editable:true}),/could not preserve layout references/);
+});
+
 test('original saves sync content and solutions, preserve bank layout, and retain old revision',async t=>{
  const f=await fixture(t),p=f.project;p.sections[0].blocks[0].content.answer.worked='$x=3-1=2$';p.sections[0].blocks[0].content.answerSpaceMm=90;
  await saveBookletProject(p,{...f.options,expectedRevision:p.revision});const bank=await f.readBank();

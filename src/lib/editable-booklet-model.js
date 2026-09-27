@@ -78,6 +78,7 @@ function normalizeSettings(raw = {}) {
     ...(raw.questionOrder==='source'?{questionOrder:'source'}:{}),
     ...(raw.paginationMode === 'flexible' ? {paginationMode:'flexible',flowEdition:['student','short','worked','with-short','with-worked'].includes(raw.flowEdition)?raw.flowEdition:'student'} : {}),
     ...(raw.exerciseOrganisation==='topic'?{exerciseOrganisation:'topic'}:{}),
+    ...(raw.numberPracticeTopicsOnly===true?{numberPracticeTopicsOnly:true}:{}),
     ...(raw.includeTeachingAnswers===true?{includeTeachingAnswers:true}:{}),
     ...(raw.teachingPresentationVersion===1?{teachingPresentationVersion:1}:{}),
     ...(raw.mathsStyle==='display-glyphs'?{mathsStyle:'display-glyphs'}:{}),

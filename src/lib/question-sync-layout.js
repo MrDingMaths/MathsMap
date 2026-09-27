@@ -46,7 +46,9 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
    }
    const replace=n=>{if(n.children)n.children=n.children.flatMap(c=>{replace(c);return replacements.get(c)??[c];});};replace(tree);
    const updated=[];const check=n=>{if(n.type==='item')updated.push(n);else n.children?.forEach(check);};check(tree);
-   const missing=updated.filter(n=>!catalog.entries.has(n.ref)&&!catalog.emptyRefs.has(n.ref)&&!n.ref.endsWith('/label'));
+   // Custom arrangements can still point at a whole native field. The renderer
+   // expands that alias into its paragraphs while retaining the slot's geometry.
+   const missing=updated.filter(n=>!catalog.entries.has(n.ref)&&!catalog.emptyRefs.has(n.ref)&&!newFields.has(n.ref)&&!n.ref.endsWith('/label'));
    if(missing.length)throw new Error('Bank sync could not preserve layout references; review '+missing.map(n=>n.ref).join(', '));
   }
   for(const [key,child] of Object.entries(value))if(key!=='arrangement')visit(child);

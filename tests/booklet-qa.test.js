@@ -1,5 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {chromium} from 'playwright-core';
 import {inspectBookletPage,assertBookletFits} from '../src/lib/booklet-qa.js';
+import {convexPolygonsOverlap} from '../src/lib/diagram-label-geometry.js';
+import {inspectDiagramLabelLayout} from '../src/lib/diagram-typography.js';
+import {graphPageScale} from '../src/lib/graph-strokes.js';
 import {BOOKLET_PALETTE} from '../public/libs/maths-editor/booklet-palette.mjs';
 import {inspectDiagramColours} from '../src/lib/diagram-colours.js';
 import {clozeLayout} from '../public/libs/maths-editor/house-style.mjs';
@@ -17,10 +20,11 @@ test('explicit graph style preserves mathematics, applies palette and survives r
 test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and wrapped labels',async()=>{
  const browser=await chromium.launch({headless:true,channel:'chrome'});try{const page=await browser.newPage();
  const base='<style>*{box-sizing:border-box}article{position:relative;width:210mm;height:297mm;padding:10mm 15mm}main{width:180mm}footer{position:absolute;left:15mm;bottom:10mm;height:4mm}p{margin:0} .answer-space{height:40mm}</style>';
- async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn,colours,palette})=>(new Function('inspectDiagramColours','return ('+fn+')'))((new Function('BOOKLET_PALETTE','return ('+colours+')'))(palette))(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString(),colours:inspectDiagramColours.toString(),palette:BOOKLET_PALETTE});}
+ async function check(html){await page.setContent(base+'<article data-page-number="62"><main>'+html+'</main><footer>Footer</footer></article>');return page.evaluate(({fn,colours,overlap,palette})=>(new Function('inspectDiagramColours','convexPolygonsOverlap','return ('+fn+')'))((new Function('BOOKLET_PALETTE','return ('+colours+')'))(palette),(new Function('return ('+overlap+')'))())(document.querySelector('article'),{style:true}),{fn:inspectBookletPage.toString(),colours:inspectDiagramColours.toString(),overlap:convexPolygonsOverlap.toString(),palette:BOOKLET_PALETTE});}
  assert.equal((await check('<p>Fits</p>')).issues.length,0);
  const sourceColour=(metadata='',colour='#4654B5')=>`<div class="tikz-wrap"><svg width="100" height="50">${metadata}<path d="M0 20L90 20" fill="none" stroke="${colour}"/></svg></div>`;
  assert.ok((await check(sourceColour())).issues.some(i=>i.kind==='graph-palette'));
+ for(const colour of [BOOKLET_PALETTE.blueFill,BOOKLET_PALETTE.redFill,BOOKLET_PALETTE.greenFill,BOOKLET_PALETTE.orangeFill,BOOKLET_PALETTE.purpleFill,BOOKLET_PALETTE.purple])assert.ok((await check(sourceColour('',colour))).issues.every(i=>i.kind!=='graph-palette'),'Canonical graph colour '+colour+' is accepted');
  const paletteEvidence='<metadata data-graph-source-palette="#4654B5" data-graph-source-reference="source page 8, example triangle"/>';
  assert.ok((await check(sourceColour(paletteEvidence))).issues.some(i=>i.kind==='graph-palette'));
  assert.ok((await check(sourceColour(paletteEvidence.replace('#4654B5','4654B5')))).issues.some(i=>i.kind==='graph-palette'));
@@ -41,6 +45,9 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok((await check(tickSvg(23))).issues.some(i=>i.kind==='graph-tick-overlap'));
  assert.ok(!(await check(tickSvg(90))).issues.some(i=>i.kind==='graph-tick-overlap'));
  assert.ok((await check(tickSvg(90).replaceAll('font-size="11.3333"','font-size="16"'))).issues.some(i=>i.kind==='large-graph-label'));
+ const valueSvg='<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="value"><text x="20" y="30" font-size="11.3333">16.7%</text></g></svg></div>';
+ assert.ok(!(await check(valueSvg)).issues.some(i=>i.kind==='small-graph-label'));
+ assert.ok((await check(valueSvg.replace('11.3333','9'))).issues.some(i=>i.kind==='small-graph-label'));
  assert.equal((await check('<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="tick"><text x="10" y="30" font-size="11.3333">1</text></g><text x="80" y="30" font-size="13.3333">x</text><text x="90" y="24" font-size="9.3333">2</text></svg></div>')).issues.length,0);
  assert.ok((await check('<table style="width:30mm;table-layout:fixed"><tr><td>Number of matches</td><td>1</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.ok(!(await check('<table style="width:60mm;table-layout:fixed"><tr><td>Serves each of the displayed numbers of aces equally often.</td><td>d</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
@@ -48,6 +55,24 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok(!(await check('<table style="width:60mm;table-layout:fixed"><tr><td>When the numerator has a higher power, find the difference of the powers and retain the base in the numerator.</td><td>When the denominator has a higher power, retain the base in the denominator.</td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.ok(!(await check('<table style="width:30mm;table-layout:fixed"><tr><td><span class="katex">x/y</span><p>Law does not apply</p></td><td><span class="katex">x</span></td></tr></table>')).issues.some(i=>i.kind==='wrapped-table-label'));
  assert.throws(()=>assertBookletFits([{page:73,issues:[{kind:'footer-overflow'}]}]),/QA failed/);
+ }finally{await browser.close();}
+});
+
+test('both label QA paths distinguish rotated time-label gaps from actual intersections',async()=>{
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();
+  const functions={qa:inspectBookletPage.toString(),layout:inspectDiagramLabelLayout.toString(),scale:graphPageScale.toString(),overlap:convexPolygonsOverlap.toString(),colours:inspectDiagramColours.toString(),palette:BOOKLET_PALETTE};
+  for(const angle of [0,45,-45,50,90])for(const zoom of [.65,1,2])for(const intersects of [false,true]){
+   const gap=intersects?3:angle===0?85:22;
+   const label=x=>`<g data-diagram-label="1" data-label-font="11.3333" data-tick-target="8.5" transform="translate(${x} 100) rotate(${angle})"><g data-graph-text="tick"><text x="0" y="0" font-size="11.3333">12 a.m.</text></g></g>`;
+   await page.setContent(`<style>article{width:210mm;transform:scale(${zoom});transform-origin:top left}footer{margin-top:100px}svg{overflow:visible}</style><article class="booklet-page"><main><div class="tikz-wrap"><svg width="240" height="220">${label(80)}${label(80+gap)}</svg></div></main><footer>Footer</footer></article>`);
+   const actual=await page.evaluate(functions=>{
+    const f=new Function('BOOKLET_PALETTE',`const convexPolygonsOverlap=${functions.overlap},graphPageScale=${functions.scale},inspectDiagramColours=${functions.colours};return {qa:${functions.qa},layout:${functions.layout}}`)(functions.palette);
+    return {ticks:f.qa(document.querySelector('article'),{style:true}).issues.filter(i=>i.kind==='graph-tick-overlap'),labels:f.layout(document.querySelector('svg')).filter(i=>i.kind==='diagram-label-overlap')};
+   },functions);
+   for(const [kind,issues] of Object.entries(actual))assert.equal(issues.length,intersects?1:0,JSON.stringify({kind,angle,zoom,intersects,issues}));
+  }
  }finally{await browser.close();}
 });
 

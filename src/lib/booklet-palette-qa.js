@@ -1,6 +1,7 @@
 import {BOOKLET_PALETTE} from '../../public/libs/maths-editor/booklet-palette.mjs';
 export function inspectBookletPalette(root){
  const allowed=new Set(Object.values(BOOKLET_PALETTE).map(hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)).join(','))),issues=[],seen=new Set();
+ const sourceCoverAccent='252,162,162';
  const gradientStops=(el,paint)=>{
   const match=/^url\(\s*["']?#([^"')\s]+)["']?\s*\)$/.exec(paint);
   if(!match||!el.ownerSVGElement)return null;
@@ -40,6 +41,7 @@ export function inspectBookletPalette(root){
      issues.push({kind:'booklet-section-header',role,colour:paint,expected:BOOKLET_PALETTE[headerRole]});continue;
     }
    }
+   if(rgb&&role==='background'&&el.matches('.booklet-cover .accent-bar')&&rgb.slice(1,4).join(',')===sourceCoverAccent)continue;
    if(rgb&&(Number(rgb[4])===0||allowed.has(rgb.slice(1,4).join(','))))continue;
    const id=el.closest('[data-diagram-id],[data-edit-root],[data-node-id]')?.getAttribute('data-diagram-id')??el.closest('[data-edit-root]')?.dataset.editRoot??el.tagName;
    const key=id+'|'+role+'|'+paint;if(seen.has(key))continue;seen.add(key);issues.push({kind:'booklet-palette',id,role,colour:paint});

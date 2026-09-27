@@ -92,13 +92,20 @@ export const layoutControls={
  annotationProperties(table,logical,edit){
   const a=table.annotations.find(a=>a.id===this.annotationId),entries=tableGrid(table).entries;
   this.button(this.inspector,'Add arrow',()=>edit(t=>{const id=uid();this.annotationId=id;t.annotations.push({id,type:'arrow',cellId:logical.cell.id,toCellId:entries.find(e=>e.row===logical.row&&e.col>logical.col)?.cell.id??logical.cell.id,side:'bottom',label:'',colour:'#268cff'});}));
-  for(const item of table.annotations)this.button(this.inspector,'Edit arrow '+(item.label||table.annotations.indexOf(item)+1),()=>{this.annotationId=item.id;this.properties();});if(!a)return;
+  for(const item of table.annotations)this.button(this.inspector,'Edit '+item.type+' '+(item.label||table.annotations.indexOf(item)+1),()=>{this.annotationId=item.id;this.properties();});if(!a)return;
   const set=(key,value)=>edit(t=>t.annotations.find(x=>x.id===a.id)[key]=value);
+  if(a.type==='circle'){
+   this.field('Outline width (mm)',a.widthMm??null,v=>set('widthMm',v));this.field('Outline height (mm)',a.heightMm??null,v=>set('heightMm',v));
+   this.colourField('Outline colour',a.colour,v=>set('colour',v));this.field('Outline thickness (mm)',a.thicknessMm??.45,v=>set('thicknessMm',v));
+   this.button(this.inspector,'Reset outline size',()=>edit(t=>{const x=t.annotations.find(x=>x.id===a.id);delete x.widthMm;delete x.heightMm;}));
+   this.button(this.inspector,'Delete outline',()=>edit(t=>t.annotations=t.annotations.filter(x=>x.id!==a.id)));return;
+  }
   for(const [label,key] of [['Arrow start cell','cellId'],['Arrow end cell','toCellId']]){
    const options=entries.map(e=>`Row ${e.row+1}, column ${e.col+1}`),at=entries.findIndex(e=>e.cell.id===a[key]);if(at<0)options.unshift('Unresolved: '+a[key]);this.field(label,at<0?options[0]:options[at],v=>{const index=options.indexOf(v)-(at<0?1:0);if(index>=0)set(key,entries[index].cell.id);},'text',options);
   }
   this.field('Arrow label',a.label,v=>set('label',v),'text');this.colourField('Arrow colour',a.colour,v=>set('colour',v));
-  this.field('Arrow thickness (mm)',a.thicknessMm??.45,v=>set('thicknessMm',v));this.field('Arrow curve (mm)',a.curveMm??null,v=>set('curveMm',v));this.field('Arrow distance (mm)',a.distanceMm??.794,v=>set('distanceMm',v));this.field('Arrowheads',a.heads??'end',v=>set('heads',v),'text',['none','start','end','both']);this.field('Arrow side',a.side,v=>set('side',v),'text',['top','bottom']);
-  this.button(this.inspector,'Reset arrow geometry',()=>edit(t=>{const x=t.annotations.find(x=>x.id===a.id);for(const k of ['thicknessMm','curveMm','distanceMm','heads'])delete x[k];}));this.button(this.inspector,'Delete arrow',()=>edit(t=>t.annotations=t.annotations.filter(x=>x.id!==a.id)));
+  for(const [label,key]of [['Arrow start anchor','startAnchor'],['Arrow end anchor','endAnchor']])this.field(label,a[key]==='math-box'?'maths box':'cell',v=>set(key,v==='maths box'?'math-box':'cell'),'text',['cell','maths box']);
+  this.field('Arrow thickness (mm)',a.thicknessMm??.45,v=>set('thicknessMm',v));this.field('Arrow curve (mm)',a.curveMm??null,v=>set('curveMm',v));this.field('Arrow distance (mm)',a.distanceMm??.794,v=>set('distanceMm',v));this.field('Arrowheads',a.heads??'end',v=>set('heads',v),'text',['none','start','end','both']);this.field('Arrow side',a.side,v=>set('side',v),'text',['top','bottom','middle']);
+  this.button(this.inspector,'Reset arrow geometry',()=>edit(t=>{const x=t.annotations.find(x=>x.id===a.id);for(const k of ['thicknessMm','curveMm','distanceMm','heads','startAnchor','endAnchor'])delete x[k];}));this.button(this.inspector,'Delete arrow',()=>edit(t=>t.annotations=t.annotations.filter(x=>x.id!==a.id)));
  }
 };

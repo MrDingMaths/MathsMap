@@ -114,6 +114,11 @@ export function organiseExercises(source, ratings={}) {
       project.studio.flags.push({id,targetId:blocks.find(isPractice)?.id??blocks[0]?.id,note:'Practice run retained in source order: review missing difficulty ratings, topic boundaries or dependencies.',resolved:false,automatic:true});
     }
     const next={...section,title:'Exercise',difficulty:null,showDifficultyHeading:false,blocks:groups.flatMap(u=>u.blocks).map(retainDifficultyAsMetadata)};
+    if(run.length>1)next.sourceSections=run.flatMap(sourceSection=>sourceSection.sourceSections??[{
+      sourceId:sourceSection.id,title:sourceSection.title,phase:sourceSection.phase,topicId:sourceSection.topicId,
+      sourcePageNumber:sourceSection.sourcePageNumber,difficulty:sourceSection.difficulty,
+      blockIds:sourceSection.blocks.map(block=>block.id),
+    }]);
     delete next.numberingStart;
     sections.push(next);
   }
@@ -140,6 +145,31 @@ export function answerFragments(block, mode = null) {
     for(const ancestor of [...path].reverse())content={...ancestor,children:[content]};
     return {...block,content,flow:{...block.flow,answerFragment:index}};
   });
+}
+
+// Last-resort presentation split for a measured oversized worked leaf. Keep the
+// whole editable field and the whole ordered figure group; never slice either.
+// Shared/dependent groups and consolidated parent answers remain atomic.
+export function workedAnswerDiagramFragments(fragment) {
+  if(fragment.flow?.answerContinuation)return null;
+  const atomic=node=>node.dependsOn?.length||node.pairedBlockId||node.sharedSolutionDiagrams?.length||node.flow?.keepTogether||node.flow?.keepWithNext||node.flow?.continuationOf||node.continuationOf;
+  if(atomic(fragment))return null;
+  let leaf=fragment.content;
+  while(leaf){
+    if(atomic(leaf))return null;
+    if(!leaf.children?.length)break;
+    if(leaf.children.length!==1||leaf.answer?.worked||leaf.answer?.solutionDiagrams?.length)return null;
+    leaf=leaf.children[0];
+  }
+  if(!leaf?.answer?.worked||!leaf.answer.solutionDiagrams?.length)return null;
+  if(atomic(leaf.answer)||leaf.answer.solutionDiagrams.some(atomic))return null;
+  const project=(node,figures)=>node===leaf
+    ?{...node,answer:figures?{...node.answer,worked:undefined}:{...node.answer,solutionDiagrams:[]}}
+    :{...node,children:node.children.map(child=>project(child,figures))};
+  return [
+    {...fragment,content:project(fragment.content,false)},
+    {...fragment,content:project(fragment.content,true),flow:{...fragment.flow,answerFragment:`${fragment.flow.answerFragment}:diagrams`,answerContinuation:'solution-diagrams'}},
+  ];
 }
 
 export function exerciseLabelWidth(blocks) {

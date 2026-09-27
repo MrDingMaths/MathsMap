@@ -1,4 +1,4 @@
-import {teachingAnswerCategory} from './booklet-answer-options.js';
+import {teachingAnswerCategory,retainsTeachingPromptWithAnswers} from './booklet-answer-options.js';
 import {group,item,arrangementItems,normalizeArrangement,arrangementParent,findArrangement} from '../../public/libs/maths-editor/arrangement-model.mjs';
 import {isDocument,normalizeDocument,fromSource,hasVisibleContent} from './document-content.js';
 import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
@@ -135,6 +135,35 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
  }
  const missing=arrangementItems(tree.root).filter(n=>!catalog.entries.has(n.ref));
  return {...catalog,tree,missing,labelIndents:questionLabelIndents(block,tree,catalog.entries)};
+}
+
+// Mixed teaching activities place demonstrations and responses in one source
+// grid. Replace each response's writing slot in that grid, so an unlabelled
+// response cannot move underneath the neighbouring demonstration.
+export function teachingAnswerArrangement(block,stored,overrides={},mode='worked'){
+ if(!retainsTeachingPromptWithAnswers(block)||!['short','worked'].includes(mode))return null;
+ const resolved=resolveArrangement(block,stored,overrides),leaves=[];
+ const visit=n=>{if(n.children?.length)n.children.forEach(visit);else if(hasVisibleContent(n.answer?.[mode])||n.answer?.solutionDiagrams?.length)leaves.push(n);};
+ visit(block.content);
+ const positions=arrangementItems(resolved.tree.root),refs=new Set(positions.map(n=>n.ref));
+ const responses=new Map();
+ for(const leaf of leaves){
+  const fields=[...resolved.entries.values()].filter(e=>e.ownerId===leaf.id&&e.field==='answer/'+mode);
+  const diagrams=(leaf.answer?.solutionDiagrams??[]).map(d=>resolved.entries.get(d.id)).filter(Boolean);
+  const entries=[...fields,...diagrams];
+  // An older custom layout may deliberately omit writing slots or explicitly
+  // place answers. Leave its existing answer rendering in charge in that case.
+  if(!entries.length||positions.filter(n=>n.ref===leaf.id+'/space').length!==1||entries.some(e=>refs.has(e.ref)))return null;
+  responses.set(leaf.id+'/space',entries);
+ }
+ if(!responses.size||resolved.missing.length)return null;
+ const replace=n=>{
+  if(n.type==='group'){n.children=n.children.map(replace);return n;}
+  const entries=responses.get(n.ref);if(!entries)return n;
+  const {ref,height,minHeight,keepInline,...placement}=n;
+  return {...placement,type:'group',direction:'stack',gap:1,children:entries.map(e=>({...item(e.ref,e.title),...(e.kind==='diagram'?{width:overrides.diagramWidths?.[e.diagramId]??overrides.blockLayouts?.[e.diagramId]?.diagramWidthMm??e.value.widthMm,align:e.value.align??'center'}:{})}))};
+ };
+ return {version:1,root:replace(resolved.tree.root)};
 }
 
 // A saved visual arrangement may move a part outside its numbered parent.

@@ -3,6 +3,7 @@ import {calibrateGraphStrokes} from './graph-strokes.js';
 import {inspectDiagramColours} from './diagram-colours.js';
 import {renderMath} from './render-math.js';
 import {inspectShortAnswerColours} from './short-answer-style.js';
+import {convexPolygonsOverlap} from './diagram-label-geometry.js';
 // Shared browser-side acceptance checks. Preview and export call the same functions.
 export async function settleBooklet(root) {
  if(!root)throw Error('Booklet surface is missing');
@@ -64,31 +65,31 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
  const graphs=[];
  for(const wrap of main.querySelectorAll('.tikz-wrap')){if(!visible(wrap))continue;const svg=wrap.querySelector('svg');if(!svg){add('missing-diagram',wrap);continue;}
   const labelGroups=[...svg.querySelectorAll('g[data-diagram-label="1"]')].filter(g=>g.querySelector('text'));
-  const textSizes=labelGroups.length?labelGroups.map(g=>{const m=g.getScreenCTM();return {localPx:10,pt:Number(g.dataset.labelFont)*Math.hypot(m.c,m.d)/scale*72/96,tick:!!g.querySelector('[data-graph-text="tick"]'),target:g.querySelector('[data-graph-text="tick"]')?Number(g.dataset.tickTarget):10};}):[...svg.querySelectorAll('text')].map(t=>{const m=t.getScreenCTM(),localPx=parseFloat(getComputedStyle(t).fontSize);return {localPx,pt:m?localPx*Math.hypot(m.c,m.d)/scale*72/96:0,tick:!!t.closest('[data-graph-text="tick"]')};}).filter(n=>n.pt>0);
+  const textSizes=labelGroups.length?labelGroups.map(g=>{const m=g.getScreenCTM(),tick=!!g.querySelector('[data-graph-text="tick"]'),value=!!g.closest('[data-graph-text="value"]'),requested=Number(g.querySelector('[data-diagram-label-target-pt]')?.dataset.diagramLabelTargetPt);return {localPx:10,pt:Number(g.dataset.labelFont)*Math.hypot(m.c,m.d)/scale*72/96,tick,value,target:requested>=10&&requested<=16?requested:tick||value?Number(g.dataset.tickTarget):10};}):[...svg.querySelectorAll('text')].map(t=>{const m=t.getScreenCTM(),localPx=parseFloat(getComputedStyle(t).fontSize),tick=!!t.closest('[data-graph-text="tick"]'),value=!!t.closest('[data-graph-text="value"]');return {localPx,pt:m?localPx*Math.hypot(m.c,m.d)/scale*72/96:0,tick,value,target:tick||value?8.5:10};}).filter(n=>n.pt>0);
   // TeX math scripts use smaller design sizes; compare the surrounding base text.
   const baseLocalPx=Math.max(...textSizes.map(t=>t.localPx)),baseText=textSizes.filter(t=>t.localPx>=baseLocalPx*.8);
   const fonts=textSizes.map(t=>t.pt),tagged=!!svg.querySelector('[data-graph-text="tick"]');
   const minimumPt=fonts.length?Math.min(...fonts):null,diagramId=wrap.closest('[data-diagram-id]')?.dataset.diagramId;
   const tickMinimumPt=Math.min(...baseText.filter(t=>t.tick).map(t=>t.pt)),labelMinimumPt=Math.min(...baseText.filter(t=>!t.tick).map(t=>t.pt));
   graphs.push({id:diagramId,minimumPt,tickMinimumPt:Number.isFinite(tickMinimumPt)?tickMinimumPt:null,labelMinimumPt:Number.isFinite(labelMinimumPt)?labelMinimumPt:null,widthMm:wrap.getBoundingClientRect().width/mm});
-  if(style&&baseText.some(t=>t.pt<(t.tick?(t.target??8)-.1:9.9)))add('small-graph-label',wrap,{diagramId,minimumPt,tickMinimumPt,labelMinimumPt});
-  if(style&&baseText.some(t=>t.pt>(t.tick?(t.target??8.5)+.1:10.1)))add('large-graph-label',wrap,{diagramId,tickMaximumPt:Math.max(...textSizes.filter(t=>t.tick).map(t=>t.pt)),labelMaximumPt:Math.max(...textSizes.filter(t=>!t.tick).map(t=>t.pt))});
+  if(style&&baseText.some(t=>t.pt<(t.target??(t.tick||t.value?8.5:10))-.1))add('small-graph-label',wrap,{diagramId,minimumPt,tickMinimumPt,labelMinimumPt});
+  if(style&&baseText.some(t=>t.pt>(t.target??(t.tick||t.value?8.5:10))+.1))add('large-graph-label',wrap,{diagramId,tickMaximumPt:Math.max(...textSizes.filter(t=>t.tick).map(t=>t.pt)),labelMaximumPt:Math.max(...textSizes.filter(t=>!t.tick).map(t=>t.pt))});
   // Use painted glyph bounds: Computer Modern's minus has a tall, mostly empty em box.
   if(style&&tagged){
    const context=document.createElement('canvas').getContext('2d');
    const ticks=[...svg.querySelectorAll('[data-graph-text="tick"]')].map(group=>{
-    const bounds=[...group.querySelectorAll('text')].map(t=>{
+    return [...group.querySelectorAll('text')].map(t=>{
      const css=getComputedStyle(t);context.font=css.fontSize+' '+css.fontFamily;
      const ink=context.measureText(t.textContent),matrix=t.getScreenCTM(),x=t.x.baseVal[0]?.value??0,y=t.y.baseVal[0]?.value??0;
-     const a=new DOMPoint(x-ink.actualBoundingBoxLeft,y-ink.actualBoundingBoxAscent).matrixTransform(matrix),b=new DOMPoint(x+ink.actualBoundingBoxRight,y+ink.actualBoundingBoxDescent).matrixTransform(matrix);
-     return {left:Math.min(a.x,b.x),right:Math.max(a.x,b.x),top:Math.min(a.y,b.y),bottom:Math.max(a.y,b.y)};
-    });
-    return {left:Math.min(...bounds.map(r=>r.left)),right:Math.max(...bounds.map(r=>r.right)),top:Math.min(...bounds.map(r=>r.top)),bottom:Math.max(...bounds.map(r=>r.bottom))};
-   }).filter(r=>r.right>r.left&&r.bottom>r.top);
+     const left=x-ink.actualBoundingBoxLeft,right=x+ink.actualBoundingBoxRight,top=y-ink.actualBoundingBoxAscent,bottom=y+ink.actualBoundingBoxDescent;
+     if(right<=left||bottom<=top)return [];
+     return [[left,top],[right,top],[right,bottom],[left,bottom]].map(([x,y])=>new DOMPoint(x,y).matrixTransform(matrix));
+    }).filter(polygon=>polygon.length);
+   });
    let collisions=0;
    for(let a=0;a<ticks.length;a++)for(let b=a+1;b<ticks.length;b++){
     const x=ticks[a],y=ticks[b];
-    if(Math.min(x.right,y.right)-Math.max(x.left,y.left)>.5*scale&&Math.min(x.bottom,y.bottom)-Math.max(x.top,y.top)>.5*scale)collisions++;
+    if(x.some(polygon=>y.some(other=>convexPolygonsOverlap(polygon,other,.5*scale))))collisions++;
    }
    if(collisions)add('graph-tick-overlap',wrap,{diagramId,collisions});
   }
@@ -110,13 +111,8 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
    const diagramColours=inspectDiagramColours(svg);
    if(diagramColours.length)add('diagram-palette',wrap,{diagramId,colours:diagramColours});
    for(let a=wrap;a&&a!==article;a=a.parentElement)if(/grayscale\(/.test(getComputedStyle(a).filter)){add('graph-palette-filter',wrap,{diagramId});break;}
-   const palette=new Set(['38,140,255','239,96,104','79,155,99','239,139,44']);
-   const bad=new Set();
-   for(const shape of svg.querySelectorAll('path,line,polyline,polygon,rect,circle')){
-    const stroke=getComputedStyle(shape).stroke,rgb=stroke.match(/^rgba?\((\d+)[, ]+\s*(\d+)[, ]+\s*(\d+)/);
-    if(rgb){const [red,green,blue]=rgb.slice(1,4).map(Number);if(!(red===green&&green===blue)&&!palette.has([red,green,blue].join(',')))bad.add(stroke);}
-   }
-   if(bad.size&&!svg.querySelector('[data-diagram-kind="geometry"]'))add('graph-palette',wrap,{diagramId,colours:[...bad]});
+   const bad=inspectDiagramColours(svg,{graphStrokes:true});
+   if(bad.length&&!svg.querySelector('[data-diagram-kind="geometry"]'))add('graph-palette',wrap,{diagramId,colours:bad});
   }
  }
  if(style){

@@ -22,7 +22,7 @@ function rebuild(table,entries,rows) {
   entries.sort((a,b)=>a.row-b.row||a.col-b.col).forEach(e=>table.rows[e.row].push(e.cell));
   tableGrid(table);
 }
-const style=cell=>Object.fromEntries(['header','align','verticalAlign','background','colour','bold','rotation','border','borderColour','borderWidthMm'].filter(k=>cell[k]!==undefined).map(k=>[k,clone(cell[k])]));
+const style=cell=>Object.fromEntries(['header','align','verticalAlign','background','colour','bold','rotation','border','borders','borderColour','borderWidthMm'].filter(k=>cell[k]!==undefined).map(k=>[k,clone(cell[k])]));
 function styles(e) {return Array.from({length:e.rows},(_,r)=>Array.from({length:e.cols},(_,c)=>({row:r,col:c,style:clone(e.cell.splitStyles?.find(s=>s.row===r&&s.col===c)?.style??style(e.cell))}))).flat();}
 export function mergeCells(table,cellId,direction) {
   const map=tableGrid(table),a=map.byId.get(cellId);

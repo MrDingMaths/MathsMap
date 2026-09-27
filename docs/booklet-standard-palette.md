@@ -2,6 +2,8 @@
 
 Accepted 11 September 2026 for Index Laws, Linear Relationships, Non-Right-Angled Trigonometry, all five editions, reusable question-bank content and future transcriptions. This contract supersedes earlier instructions to preserve source shades. Preserve mathematical colour **meaning**, source evidence, content, stable IDs, classifications, local layouts and pagination settings.
 
+25 September 2026 extension: the user's Probability feedback adds a real purple accent and light purple fill. The earlier orange/blue/pink proxies for purple are superseded. Future transcriptions use the light matching theme fill where diagram shading has a mathematical purpose. [Probability review evidence](../booklets/provenance/probability-v1/feedback-2026-09-25-purple.json) records the affected figures and editions.
+
 | Role | Colour |
 | --- | --- |
 | Ordinary text, short answers and light/unfilled heading text | `#24282d` |
@@ -12,17 +14,18 @@ Accepted 11 September 2026 for Index Laws, Linear Relationships, Non-Right-Angle
 | Red | `#ef6068` |
 | Green | `#4f9b63` |
 | Orange | `#ef8b2c` |
+| Purple | `#8b5cc7` |
 | Table labels | `#d3e8fc` |
 | Borders and grids | `#cccccc` |
 | Skipped cells | `#c7c7c7` |
 | Muted text | `#777777` |
 | White | `#ffffff` |
 
-Light accent fills are 20% accent mixed with white, rounded to RGB bytes: blue `#d4e8ff`, red `#fcdfe1`, green `#dcebe0`, orange `#fce8d5`. Main section bands use desaturated blue `#52769a` with white `#ffffff` text, restoring the earlier white-on-blue treatment across every current booklet and future transcription. Preserve their existing geometry. Light teaching-group headers and unfilled exercise/answer headings retain near-black text. The dedicated `headerBlue` token is reserved for section bands; mathematical blue stays `#268cff`. The shared definitions live in `public/libs/maths-editor/house-style.mjs`; `booklet-palette.mjs` supplies tokens, reviewed legacy mappings and normalization.
+Light accent fills are 20% accent mixed with white, rounded to RGB bytes: blue `#d4e8ff`, red `#fcdfe1`, green `#dcebe0`, orange `#fce8d5`, purple `#e8def4`. Main section bands use desaturated blue `#52769a` with white `#ffffff` text, restoring the earlier white-on-blue treatment across every current booklet and future transcription. Preserve their existing geometry. Light teaching-group headers and unfilled exercise/answer headings retain near-black text. The dedicated `headerBlue` token is reserved for section bands; mathematical blue stays `#268cff`. The shared definitions live in `public/libs/maths-editor/house-style.mjs`; `booklet-palette.mjs` supplies tokens, reviewed legacy mappings and normalization.
 
 Apply to covers, headings, prose, inline/display mathematics, teaching responses, worked solutions, short answers, tables, cards, speech bubbles, annotations, native diagrams and graph legends. Ordinary short answers, including numbers and part labels, stay near-black; meaningful series and correctness symbols use standard accents. Both answer sections remain practice-only. Ordinary diagram labels remain 10 ± 0.1 pt at final printed size; graph ticks retain 8.5 pt and reviewed 8 pt exceptions.
 
-Preserve relationships by role. Pink maps to red. Reviewed purple distinctions use orange and teal distinctions use blue; assign different available accents within a figure when that would merge identities. Match equation, curve and legend colours. Add dash or marker distinctions where four accents are insufficient. In Linear Relationships page 93 question 4, labels A/B/C match the corresponding blue/red/green lines. Retain source hue and original evidence separately; semantic diagram metadata cannot authorise a custom output shade. Index Laws source red `#AA0505` intentionally becomes standard red `#ef6068`.
+Preserve relationships by role. Pink maps to red, purple categories use purple, and teal distinctions use blue. Prefer light palette fills for diagram areas while keeping solid accents for lines and labels where needed; assign different available accents within a figure when that would merge identities. Match equation, curve and legend colours. Add dash or marker distinctions where needed. In Linear Relationships page 93 question 4, labels A/B/C match the corresponding blue/red/green lines. Retain source hue and original evidence separately; semantic diagram metadata cannot authorise a custom output shade. Index Laws source red `#AA0505` intentionally becomes standard red `#ef6068`.
 
 Photographs, screenshots and retained raster diagrams remain unchanged and need separate occurrence-specific review. Do not alter historical revisions, recovery copies or original source evidence. A restored project must be normalized and pass current palette acceptance before receiving new export acceptance.
 

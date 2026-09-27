@@ -1,3 +1,5 @@
+import {hasVisibleContent} from './document-content.js';
+
 function plain(value) {
   return String(value ?? '').replace(/^#+\s*/, '').replace(/^\*\*(.*?)\*\*$/, '$1').trim();
 }
@@ -10,6 +12,30 @@ export function parseImportedContents(value) {
 }
 
 export const COVER_FIELDS = ['title', 'course', 'book', 'version', 'feedback'];
+
+// Share the actual first rendered page between contents, print anchors and
+// virtual screen navigation. Source-only empty cover/contents blocks stay out.
+export function frontMatterDestinations(pages = []) {
+  const seen = new Set();
+  return [...pages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber)).flatMap(page => {
+    const sectionId = page.section?.sourceSectionId ?? page.section?.id;
+    if (page.mode !== 'student' || page.section?.phase !== 'front-matter' || page.isCover || page.section?.isCover || !sectionId || seen.has(sectionId)) return [];
+    const visible = page.blocks?.some(block => !block.presentation?.editorOnly && !['page-break', 'spacer'].includes(block.type)
+      && (['rich-text', 'narrative', undefined].includes(block.type) ? hasVisibleContent(block.content) : true));
+    if (!visible || !String(page.section?.title ?? '').trim()) return [];
+    seen.add(sectionId);
+    return [{id: `front-matter-${sectionId}`, page}];
+  });
+}
+
+export function unnumberedTopicDestinations(pages = []) {
+  const seen=new Set();
+  return [...pages].sort((a,b)=>Number(a.pageNumber)-Number(b.pageNumber)).flatMap(page=>{
+    const topic=page.section?.topicId;
+    if(page.mode!=='student'||!page.section?.unnumberedTopic||!topic||seen.has(topic)||!page.blocks?.some(b=>!b.presentation?.editorOnly&&!['page-break','spacer'].includes(b.type)))return [];
+    seen.add(topic);return [{id:`teaching-topic-${topic}`,page}];
+  });
+}
 
 // Keep the imported cover and source evidence intact. These are local, editable
 // presentation overrides; contents still come from the selected edition.
@@ -65,14 +91,18 @@ export function deriveBookletCover(pages = [], overrides = {}) {
     });
     const newTopics=topicContents.filter(entry=>!coveredTopics.has(ordered.find(page=>page.pageNumber===entry.pageNumber)?.section?.topicId));
     contents=anchoredContents.length?[...anchoredContents,...newTopics].sort((a,b)=>a.pageNumber-b.pageNumber):topicContents;
-    if(ordered.some(p=>p.section?.exerciseNumber)){
+    if(ordered.some(p=>p.section?.exerciseNumber||p.section?.unnumberedTopic)){
       const seenExercises=new Set();
-      contents=ordered.filter(p=>p.mode==='student').flatMap(p=>{
+      const frontMatter=frontMatterDestinations(ordered).map(({id,page})=>({title:page.section.title,frontMatter:true,pageNumber:page.pageNumber,href:`#${id}`}));
+      const unnumbered=new Map(unnumberedTopicDestinations(ordered).map(destination=>[destination.page,destination.id]));
+      contents=[...frontMatter,...ordered.filter(p=>p.mode==='student').flatMap(p=>{
+        if(unnumbered.has(p))return [{title:p.section.topicTitle,unnumberedTopic:true,pageNumber:p.pageNumber,href:`#${unnumbered.get(p)}`}];
         const number=p.section?.exerciseNumber;
         if(!number||seenExercises.has(number))return [];
         seenExercises.add(number);
+        if(/\S\s+\S/.test(String(number)))return [{namedExercise:true,title:p.section.topicTitle??number,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
         return [{number,title:p.section.topicTitle,pageNumber:p.pageNumber,href:`#exercise-topic-${number}`}];
-      });
+      })];
     }
   }
   for(const mode of ['short','worked']){

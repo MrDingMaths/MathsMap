@@ -9,6 +9,7 @@
   import {paginateFlow} from '../lib/booklet-pagination.js';
   import {settleBookletMeasurement,measurementKeyFor} from '../lib/booklet-measurement.js';
   import {captureFlowViewport,resolveFlowPageAnchor,restoreFlowViewport} from '../lib/booklet-viewport.js';
+  import {frontMatterDestinations,unnumberedTopicDestinations} from '../lib/booklet-cover.js';
   let {project,edition='student',options={},zoom='width',selectedBlockId='',editing=false,composing=false,selecting=false,immediateLayoutGeneration=-1,documentGeneration=0,onstatus=null,onmap=null,onprogress=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null,onremovebreak=null}=$props();
   let renderProject=$state.raw(null),renderOptions=$state.raw({});
   let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),error=$state(''),retry=$state(0);
@@ -28,6 +29,8 @@
     const anchorId=link.getAttribute('href').slice(1),id=anchorId.replace(/^screen-/,'');
     let index=-1;
     if(id.startsWith('answer-section-'))index=result.pages.findIndex(p=>p.mode===id.slice(15));
+    else if(id.startsWith('front-matter-'))index=result.pages.indexOf(frontMatterDestinations(result.pages).find(destination=>destination.id===id)?.page);
+    else if(id.startsWith('teaching-topic-'))index=result.pages.indexOf(unnumberedTopicDestinations(result.pages).find(destination=>destination.id===id)?.page);
     else if(id.startsWith('exercise-topic-'))index=result.pages.findIndex(p=>p.mode==='student'&&String(p.section.exerciseNumber)===id.slice(15));
     else if(id.startsWith('question-'))index=result.pages.findIndex(p=>p.mode==='student'&&p.blocks.some(b=>b.id===id.slice(9)));
     else {const match=/^answer-(short|worked)-(.*)$/.exec(id);if(match)index=result.pages.findIndex(p=>p.mode===match[1]&&p.blocks.some(b=>b.id===match[2]));}

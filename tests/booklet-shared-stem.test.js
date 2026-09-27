@@ -25,6 +25,23 @@ test('common mathematical premises stay in the stem; different expressions remai
  const s=splitSharedPrompt(nodes);assert.equal(s.stem,'True or False? Let $x,y>=0$.');assert.equal(s.parts[0],'$x+y=1$');
  assert.equal(splitSharedPrompt([{prompt:'Solve. $x+1=2$'},{prompt:'Solve. $x+2=3$'}]).stem,'Solve.');
 });
+
+test('student writing uses eight-mm lines and excludes reviewed teacher-only material',()=>{
+ const studentWork=String.raw`$$\begin{align*}2x+3&=5\\2x&=2\\x&=1\end{align*}$$`;
+ const node={id:'student',answer:{worked:studentWork+'\n'+('Optional teacher explanation. '.repeat(30)),solutionDiagrams:[{id:'teacher-graph',heightMm:60}]}};
+ assert.equal(estimateWorkedWritingSpace(node,{widthMm:160,studentWork}),28);
+ assert.ok(estimateWorkedWritingSpace(node,{widthMm:160})>28);
+ assert.equal(estimateWorkedWritingSpace(node,{studentWork:'',studentDiagrams:[{id:'required-graph',heightMm:40}]}),44);
+ assert.equal(estimateWorkedWritingSpace(node,{studentWork:'',studentDiagrams:[{id:'voronoi-construction',heightMm:100}]}),104);
+ assert.equal(estimateWorkedWritingSpace(node,{studentWork:'',studentDiagrams:[{id:'voronoi-construction',requiredHeightMm:100}]}),104);
+ assert.equal(estimateWorkedWritingSpace({...node,answerSpaceMm:120},{studentWork:'',studentDiagrams:[{heightMm:100}]}),120);
+ assert.equal(estimateWorkedWritingSpace({...node,answerSpaceMm:31},{studentWork}),31);
+ const question={layout:'grid',columns:2,children:[structuredClone(node)]};
+ sizeQuestionWorking(question,{studentWorkById:{student:studentWork}});
+ assert.equal(question.children[0].answerSpaceMm,28);
+ assert.equal(question.children[0].answer.worked,node.answer.worked);
+ assert.deepEqual(question.children[0].answer.solutionDiagrams,node.answer.solutionDiagrams);
+});
 test('source shared-stem inventory permits distinct child mappings and rejects flattening',()=>{
  const inventory={entries:['a','b'].map(id=>({id,kind:'question',sharedStemId:'solve'}))};
  const child=id=>({id,type:'part',prompt:'$x=1$',answer:{short:'1',worked:'$x=1$'}});

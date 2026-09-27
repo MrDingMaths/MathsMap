@@ -13,7 +13,7 @@ const shades={
  blueFill:['adbfde','adbfdf','b8c3e1','b8c2e1','bbbbd9','eef5fc','edf4f9','e8f1f7'],
  redFill:['ffc4c9','fde1e2','fdf0f4'],greenFill:['eef8f1'],orangeFill:['ffbb90','fabda6','fff4e8']
 };
-const aliases={blue:'blue',answerblue:'blue',red:'red',pink:'red',magenta:'red',green:'green',orange:'orange',purple:'orange',violet:'orange',teal:'blue',cyan:'blue',yellow:'orange',brown:'orange',black:'black',white:'white',gray:'muted',grey:'muted',housegrid:'border',sourcegray:'muted','green!70!black':'green','black!70':'muted','black!45':'muted','black!80':'muted','black!5':'border'};
+const aliases={blue:'blue',answerblue:'blue',red:'red',pink:'red',magenta:'red',green:'green',orange:'orange',purple:'purple',violet:'purple',teal:'blue',cyan:'blue',yellow:'orange',brown:'orange',black:'black',white:'white',gray:'muted',grey:'muted',housegrid:'border',sourcegray:'muted','green!70!black':'green','black!70':'muted','black!45':'muted','black!80':'muted','black!5':'border'};
 const map=new Map(Object.entries(shades).flatMap(([role,values])=>values.map(v=>['#'+v,role])));
 export function standardBookletColour(value,{background=false,diagram=false}={}){
  if(typeof value!=='string')return value;
@@ -22,7 +22,7 @@ export function standardBookletColour(value,{background=false,diagram=false}={})
  let role=aliases[key]??map.get(key);
  if(!role)return value;
  if(!diagram&&role==='black')role='ink';
- if(background&&['blue','red','green','orange'].includes(role))role+='Fill';
+ if(background&&['blue','red','green','orange','purple'].includes(role))role+='Fill';
  return BOOKLET_PALETTE[role];
 }
 export function standardMathColours(text){

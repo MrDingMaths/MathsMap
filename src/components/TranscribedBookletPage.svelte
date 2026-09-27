@@ -15,7 +15,7 @@
   import Tikz from './Tikz.svelte';
   import { isDocument } from '../lib/document-content.js';
   import { teachingQuestionMode, blockClozeAnswers } from '../lib/booklet-answer-options.js';
-  import { deriveBookletCover } from '../lib/booklet-cover.js';
+  import { deriveBookletCover, frontMatterDestinations, unnumberedTopicDestinations } from '../lib/booklet-cover.js';
   import { combinedExampleTikz, groupBookletBlocks, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
 
   let {
@@ -34,6 +34,7 @@
   let frameWidth=$state(794),frameHeight=$state(900);
   let previewScale = $derived(zoom===null?Math.min(1,frameWidth/(210*96/25.4)):zoom==='width'?frameWidth/(210*96/25.4):zoom==='page'?Math.min(frameWidth/(210*96/25.4),Math.max(100,frameHeight)/(297*96/25.4)):Number(zoom)||1);
   let cover = $derived(deriveBookletCover(bookletPages, presentation?.()?.cover));
+  const frontMatterAnchor = $derived([...frontMatterDestinations(bookletPages),...unnumberedTopicDestinations(bookletPages)].find(destination => destination.page === page)?.id);
   let orderedPages = $derived([...bookletPages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber)));
   let bookletPageNumber = $derived(Math.max(1, orderedPages.findIndex((item) => item.id === page.id) + 1));
   let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id&&!(other.sourceAtom&&block.sourceAtom)))));
@@ -107,7 +108,7 @@
 {/snippet}
 
 {#snippet questionView(block, number)}
-  {@const visibleNumber=usesReviewNumbers(block)?Number(labels[block.content.id]??1):usesTeachingLetters(block)?null:number}
+  {@const visibleNumber=usesReviewNumbers(block)?(labels[block.content.id]===''?null:Number(labels[block.content.id]??1)):usesTeachingLetters(block)?null:number}
   {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId&&!(block.sourceAtom&&b.sourceAtom))}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}
   {#if block.pedagogyRole === 'worked-example' && solutionMode === 'student'}
@@ -216,7 +217,7 @@
     {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
       <BookletCover pages={bookletPages} {anchorPrefix} {editMode} settings={presentation?.()?.cover}/>
     {:else}
-      <article class="booklet-page" data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
+      <article class="booklet-page" id={frontMatterAnchor?anchorPrefix+frontMatterAnchor:undefined} data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
         {#if page.section?.headingStyle !== 'none' && page.showTopicHeading !== false}<BookletHeading id={page.section?.exerciseNumber?`${anchorPrefix}exercise-topic-${page.section.exerciseNumber}`:undefined} kind={page.section?.headingStyle === 'difficulty'?'exercise':'main'}><EditableBookletText value={page.section?.title ?? ''} rootId={page.id} pointer="/section/title" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/title')} /></BookletHeading>{/if}
         {#if page.showDifficultyHeading !== false && page.section?.difficultyTitle && !(page.section?.headingStyle === 'difficulty' && page.section.title?.trim().toLowerCase() === page.section.difficultyTitle.trim().toLowerCase())}<BookletHeading kind="exercise"><EditableBookletText value={page.section.difficultyTitle} rootId={page.id} pointer="/section/difficultyTitle" {...editProps()} editMode={editMode&&!page.flexible} edited={isEdited(page.id, '/section/difficultyTitle')} /></BookletHeading>{/if}
         <main>

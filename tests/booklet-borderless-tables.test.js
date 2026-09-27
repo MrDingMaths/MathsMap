@@ -19,3 +19,16 @@ test('numeric zero borders survive normalization, nested tables and editor/print
   assert.match(html,/data-id="default-cell"[^>]*border:0\.26mm solid/);
  }
 });
+
+test('individual cell borders retain only meaningful heading and column rules through save/reopen',()=>{
+ const t=table('frequency',false);t.borderColour='#000000';t.borderWidthMm=.3;
+ const cell=t.rows[0][0];cell.borders={right:true,bottom:true,top:false,left:'invalid',unknown:true};
+ const doc=normalizeDocument({blocks:[t]});
+ assert.deepEqual(doc.blocks[0].rows[0][0].borders,{right:true,bottom:true,top:false});
+ assert.deepEqual(normalizeDocument(JSON.parse(JSON.stringify(doc))),doc);
+ for(const editable of [false,true]){
+  const html=renderDocument(doc,{editable});
+  assert.match(html,/data-id="frequency-cell"[^>]*border:0;border-top:0;border-right:0\.3mm solid #000000;border-bottom:0\.3mm solid #000000;/);
+  assert.doesNotMatch(html,/border-left:/);
+ }
+});
