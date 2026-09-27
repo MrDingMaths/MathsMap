@@ -127,3 +127,7 @@ manifests and receipts are under `booklets/.storage-archives/`.
 The MathsMap source collection is about **627 MiB**, of which its **250 Markdown files are only 33 MiB**; most of the remainder is their linked extracted media. They remain useful for tracing teaching methods, correcting generated questions and regenerating content. The surviving collection has already been through the older triage process; “old” does not mean “unneeded”. Keep it separate from Studio and retain it. Archive an individual source only after confirming it is superseded, preserving its provenance and a recoverable copy.
 
 Deleting Markdown while retaining media would save little and lose context. Deleting media would break source diagrams. The much larger automatic-history and duplicated-work areas should be addressed first.
+
+## 28 September 2026 current-project growth
+
+The tracked-file budget is 500 MiB to accommodate the current editable Data Analysis and Concept Maths Advanced 11 Chapter 2 projects (about 19.2 and 27.1 MiB), their referenced assets, and the existing project/bank updates. These are current content, not render caches or automatic project history. The two project-specific file limits in `booklets/storage-policy.json` preserve the default 10 MiB limit for other files. Original oversized Data Analysis sources and temporary Word owner files remain local. This storage allowance does not establish import or visual acceptance.
