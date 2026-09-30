@@ -1,5 +1,6 @@
 // Independent inventory/author calls; cached generation is not acceptance.
 import fs from 'node:fs';
+import {isLeanReview,LEAN_EDITORIAL_PROMPT} from './lean-profile.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {runCodexTranscription} from './codex-transcription.mjs';
@@ -82,13 +83,14 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
   while(expanded){expanded=false;for(const pair of manifest.continuations??[]){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>related.has(p)))for(const p of values)if(!related.has(p)){related.add(p);expanded=true;}}}
   const blockers=reviewed&&stage==='author'?(manifest.pipelinePolicy?[...related].flatMap(p=>pageGate(workflow,p,{representative,authoring:true}).map(reason=>`Page ${p}: ${reason}`)):pageGate(workflow,page,{representative,authoring:true})):[];
   const sections=[],add=(name,text)=>{if(text)sections.push({name,text});};
-  add('contract',stage==='author'?COMPACT_RECONSTRUCTION_PROMPT:SOURCE_CONTRACT+'\n'+INVENTORY_CONTRACT);
+  add('contract',stage==='author'?COMPACT_RECONSTRUCTION_PROMPT:SOURCE_CONTRACT+'\n'+(isLeanReview(manifest)?'Make a concise source coverage checklist: every question/part, teaching group, supplied answer, meaningful diagram/table and source identity. Preserve full text, given values, order and source references. Do not independently solve questions at this stage or create a pattern-approval register. Exclude renderer-owned decorations explicitly.':INVENTORY_CONTRACT));
+  if(isLeanReview(manifest))add('three-pass-precedence',LEAN_EDITORIAL_PROMPT+' Author questions, worked and short answers and classifications together. Check a small initial difficult-layout sample, repair shared problems, then continue. No pattern approval records. The independent content review follows authoring.');
   if(config.contentScope==='practice-only')add('content-scope',PRACTICE_ONLY_PROMPT);
-  if(reviewed){
+  if(reviewed&&!isLeanReview(manifest)){
    add('early-review','Retain redundant measurements: unused is not a defect. Check mathematical consistency against diagram relationships and stated precision before proposing a correction; do not silently repair source evidence. Record uncertain precision or unsupported mathematics for review. Editorial decisions are reviewed together before bulk authoring.');
    if(stage==='inventory')add('review-schema','Also return layoutPatterns:[{id,description}] for every distinct final-size layout pattern (stable IDs shared across pages, including plain/cover). Triangle diagrams require entry.mathematicalModel:{type:"triangle",sides:{a:MEASUREMENT,b:MEASUREMENT,c:MEASUREMENT},angles:{A:MEASUREMENT,B:MEASUREMENT,C:MEASUREMENT}}; omit unknowns, never guess. a=BC,b=CA,c=AB. MEASUREMENT={value,unit?,quantum} for stated rounding increment, or {value,exact:true} only with source support. Preserve redundant givens and vertex/label pairings in description. Other asserted numeric equalities may use mathematicalChecks:[{left,right,quantum|exact:true}] with decimal arithmetic +-*/(). Unsupported relationships remain findings for manual review.');
   }
-  if(stage==='author'){add('execution','You are the assigned Sol xhigh authoring worker. Complete this assignment directly; do not spawn, delegate to, or wait for other agents, and do not call collaboration tools. Return the final required JSON when finished. Report missing evidence as a finding instead of waiting.');add('schema',COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);add('first-pass-patterns',FIRST_PASS_PATTERNS);}
+  if(stage==='author'){add('execution','You are the assigned Sol high authoring worker. Complete this assignment directly; do not spawn, delegate to, or wait for other agents, and do not call collaboration tools. Return the final required JSON when finished. Report missing evidence as a finding instead of waiting.');add('schema',isLeanReview(manifest)?COMPACT_SCHEMA.split('Each block: sourcePageNumber')[0]+'Each block retains sourcePageNumber and sourceRefs:[{pageNumber}]. Use sourceAtom for teaching headers and sourceReview.responses:[{targetId,kind:"none|cloze|inline|short|working|tick-cross"}] where response requirements control printed labels or space. Retain meaningful shared-source identities and taught-method references. Do not create per-block visualAudit, presentationRequirements, approval signatures or an exhaustive arrangement-review register. Preserve source-supported arrangements in editable content.':COMPACT_SCHEMA);add('solutions',COMPACT_SOLUTIONS);add('first-pass-patterns',FIRST_PASS_PATTERNS);}
   if(stage==='inventory')add('header-identity','Record each visible teaching group kind, exact header/subtitle, and whether its heading is a main topic band or a light activity band. Preserve red identify/investigation groups containing demonstrations and responses as one group; do not call them guided-practice merely because pupils respond. Standard information, light-bulb, review-arrow and question-mark header icons are renderer-owned template decorations: record them with an explicit exclusionReason, not as mathematical diagrams requiring a new diagram target. Never exclude a mathematical figure, coordinate cue, graph, meaningful symbol or label by this rule. Record paired diagram/scaffold orientation, table column meanings and required response spaces. Supplied canonical layout decisions override decorative source appearance, never source mathematics.');
   if(stage==='author'&&config.contentScope==='practice-only')add('practice-answer-evidence','Also return answerEvidence:[{questionId:questionBlockId,teacherReference:[{pdfPage,printedPage,exercise,questionLabel}],matchEvidence:individualPixelComparison,conflict:null}]. Cover every authored whole question once, citing every original printed item in a shared-stem group; multiple answer-book pages are allowed for split answers. Missing/conflicting answers require a finding. Include an individual sourceReview.teachingContext:{pdfPages:[actuallyInspectedTeachingPages],methodNote,mappingNote}; retain relevant definitions or supplied working inside the question. Harder short answers retain the result and add a concise taught-method sentence where useful, in a separate paragraph within editable answer.short. Worked align* steps repeat the full left-hand side on each row. Generate/review worked solutions before allocating answerSpaceMm. Use the authoring-time estimateWorkedWritingSpace helper in src/lib/booklet-working-space.js with the selected grid cell width and response kind. Count mathematical rows including align* row separators, wrapped prose, tall fractions and student constructions with handwriting allowance. Record sourceReview.workingSpaceEstimate with the method, widths and per-node estimates. Short True/False needs little space; cloze-only parts use 0 extra space. Keep saved manual overrides. These are authored dimensions, not source measurements. Native list arrangement evidence uses columns:null, and order lists actual child IDs only. Never put reference or review notes in student-facing prose.');
   if(sharedDiagrams)add('shared-diagrams',SHARED_DIAGRAM_PROMPT);
@@ -102,8 +104,14 @@ export function createSemanticTasks({runDir,manifest,config,stage,pages,attempt=
    add('allowed-inventory-ids','ALLOWED inventoryId VALUES (distinct from generated content/layout IDs): '+JSON.stringify(inventory.entries.map(e=>e.id)));
    add('inventory','INDEPENDENT SOURCE INVENTORY:\n'+JSON.stringify(inventory));
    if(reviewed){
-    const relevant=new Set([page,...contextPages]);
-    editorial=currentEditorialContext(workflow.corrections,page,contextPages,(scope,p)=>{
+    // In practice-only three-pass runs a mixed practice page can also supply
+    // external theory pixels. Reviews of its other practice questions do not
+    // change those pixels or the taught method for this authoring assignment.
+    // Keep actual external teaching-page decisions and this page's decisions.
+    const editorialContextPages=isLeanReview(manifest)&&config.contentScope==='practice-only'
+     ?contextPages.filter(p=>p===page||!manifest.selectedPages.includes(p)):contextPages;
+    const relevant=new Set([page,...editorialContextPages]);
+    editorial=currentEditorialContext(workflow.corrections,page,editorialContextPages,(scope,p)=>{
      if(scope==='inventory')return effectiveInventory(runDir,p,workflow);
      if(scope==='author')return effectiveAuthor(runDir,p,workflow);
      if(scope!=='project'||!workflow.projectId||!/^[a-zA-Z0-9._-]+$/.test(workflow.projectId))throw Error('Project correction context requires its bound project');
@@ -227,13 +235,15 @@ export function semanticCacheInfo(task){
  return {kind:'legacy'};
 }
 
-export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false,repairFrom=null,retryReason=null,regenerationReason=null,pageReplay=false,reviewLockTimeoutMs=30000},{runner=runCodexTranscription,log=console.log,verifyPublication=()=>{}}={}){
+export async function runSemanticPackets({runDir,manifest,config,stage,pages,attempt=1,concurrency=manifest.concurrency??DEFAULT_CONCURRENCY,dryRun=false,representative=false,repairFrom=null,retryReason=null,regenerationReason=null,pageReplay=false,localReplay=false,reviewLockTimeoutMs=30000},{runner=runCodexTranscription,log=console.log,verifyPublication=()=>{}}={}){
+ if(typeof localReplay!=='boolean'||localReplay&&runner===runCodexTranscription)throw Error('Local replay requires an explicit local result runner');
  if(!Number.isFinite(reviewLockTimeoutMs)||reviewLockTimeoutMs<=0)throw Error('Review lock timeout must be positive');
  if(retryReason!==null&&(!['source-correction','content-repair','mapping-repair','renderer-change','infrastructure','input-change','validation-repair'].includes(retryReason)))throw Error('Unsupported retry reason');
  attempt=positive(attempt,'Attempt');concurrency=workerConcurrency(concurrency);
  if(regenerationReason!==null&&(typeof regenerationReason!=='string'||!regenerationReason.trim()))throw Error('Explain why targeted repair is insufficient');
  const tasks=createSemanticTasks({runDir,manifest,config,stage,pages,attempt,representative}),states=tasks.map(task=>({task,cache:semanticCacheInfo(task),originalHash:fs.existsSync(task.resultFile)?fileHash(task.resultFile):null}));
  const assigned=!!manifest.pipelinePolicy&&stage==='author'&&repairFrom===null&&!pageReplay;
+ if(localReplay&&assigned)throw Error('Local replay cannot dispatch authoring assignments; select explicit pageReplay');
  let assignmentTasks,assignmentPlan;
  if(assigned){
   const selected=new Set(pages);let changed=true;
@@ -298,8 +308,13 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     log(JSON.stringify({stage,page:task.page,status:'started',attempt,concurrency,...task.promptStats}));
     events.phase('generation');
     if(assigned)metrics={provider:'assignment-assembly',externalModelCalls:0,usage:null,elapsedMs:0};
-    const reply=assigned?await authorQueue.pageResult(task):await withWorkerSlot(runDir,{stage,page:task.page},()=>runner({cwd:runDir,runDir,prompt:task.prompt,images:task.images,out:task.out}));
-    metrics=reply.metrics??null;events.end({metrics,generatedCharacters:JSON.stringify(reply.result)?.length??null});
+    const invoke=()=>runner({cwd:runDir,runDir,prompt:task.prompt,images:task.images,out:task.out});
+    // Retained-result normalization is local work. It still passes every input,
+    // validation and serialized publication gate, without queuing for a model.
+    const reply=assigned?await authorQueue.pageResult(task):localReplay?await invoke():await withWorkerSlot(runDir,{stage,page:task.page},invoke);
+    metrics=reply.metrics??null;
+    if(localReplay&&(metrics?.provider!=='local-replay'||metrics.externalModelCalls!==0||metrics.usage!=null))throw Error('Local replay must report provider local-replay, zero external model calls and no new model usage');
+    events.end({metrics,generatedCharacters:JSON.stringify(reply.result)?.length??null});
     events.phase('validation');
     fs.writeFileSync(path.join(task.out,task.repair?'repair.json':'generation.json'),JSON.stringify(reply.result,null,2)+'\n',{flag:'wx'});
     const result=task.repair?applyMappingRepair(task.repair.packet,task.inventory,reply.result):stage==='author'?materializeAuthorDiagrams(reply.result,{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT}):reply.result;
@@ -308,7 +323,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     validateSemanticResult(result,task);
     if(task.reviewed){
      if(stage==='author')validatePacketGeometry(task.inventory,result);
-     else registerInventory({pages:{},issues:{},representatives:{}},result);
+     else registerInventory({reviewProfile:manifest.reviewProfile,pages:{},issues:{},representatives:{}},result);
     }
     events.end({materializedCharacters:JSON.stringify(result).length});
     events.phase('publication-queue');

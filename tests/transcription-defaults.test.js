@@ -8,10 +8,10 @@ import os from 'node:os';
 import path from 'node:path';
 import {runTranscriptionTasks} from '../scripts/booklet/codex-transcription.mjs';
 import {COMPACT_RECONSTRUCTION_PROMPT,compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficient-prompts.mjs';
-test('production transcription requires Codex Sol xhigh, without provider or effort substitution',()=>{
- assert.deepEqual(TRANSCRIPTION_DEFAULT,{provider:'codex',model:'gpt-6-sol',effort:'xhigh'});
+test('production transcription requires Codex Sol high, without provider or effort substitution',()=>{
+ assert.deepEqual(TRANSCRIPTION_DEFAULT,{provider:'codex',model:'gpt-6-sol',effort:'high'});
  assert.equal(requireCurrentTranscription({...TRANSCRIPTION_DEFAULT}).model,'gpt-6-sol');
- for(const override of [{provider:'agy'},{effort:'high'},{model:'gpt-5.6-luna'},{model:'gemini-3.8-flash-high'}])assert.throws(()=>requireCurrentTranscription({...TRANSCRIPTION_DEFAULT,...override}),/fresh Sol xhigh/);
+ for(const override of [{provider:'agy'},{effort:'xhigh'},{effort:'medium'},{model:'gpt-5.6-luna'},{model:'gemini-3.8-flash-high'}])assert.throws(()=>requireCurrentTranscription({...TRANSCRIPTION_DEFAULT,...override}),/fresh Sol high/);
 });
 test('semantic authoring uses a compact contract and adds TikZ rules only for visual inventory',()=>{
  const textPage={entries:[{kind:'question',description:'Solve the equation and give a short answer.'}]};
@@ -32,9 +32,9 @@ test('transcription routing preserves existing outputs, rejects missing coverage
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'astra-transcription-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  for(const n of [1,2,3]){const stem='task-00'+n;fs.writeFileSync(path.join(dir,stem+'.md'),'Transcribe page '+n);fs.writeFileSync(path.join(dir,stem+'.ids.json'),JSON.stringify({ids:['page-'+n]}));}
  const original=JSON.stringify({id:'page-1',userEdit:'Keep me'});fs.writeFileSync(path.join(dir,'task-001.result.json'),original);let calls=0;
- const result=await runTranscriptionTasks(dir,TRANSCRIPTION_DEFAULT,{runner:async({prompt})=>{calls++;assert.match(prompt,/8\.5 pt axis numbers/);assert.match(prompt,/10 pt axis, coordinate and equation labels/);assert.match(prompt,/do not add them automatically/);assert.ok(!prompt.includes('at least 11 pt'));return{result:{id:prompt.includes('page 2')?'page-2':'wrong-page'},metrics:{requestedModel:'gpt-6-sol',effort:'xhigh'}};}});
+ const result=await runTranscriptionTasks(dir,TRANSCRIPTION_DEFAULT,{runner:async({prompt})=>{calls++;assert.match(prompt,/8\.5 pt axis numbers/);assert.match(prompt,/10 pt axis, coordinate and equation labels/);assert.match(prompt,/do not add them automatically/);assert.ok(!prompt.includes('at least 11 pt'));return{result:{id:prompt.includes('page 2')?'page-2':'wrong-page'},metrics:{requestedModel:'gpt-6-sol',effort:'high'}};}});
  assert.equal(calls,2);assert.equal(result.ok,false);assert.equal(fs.readFileSync(path.join(dir,'task-001.result.json'),'utf8'),original);assert.ok(fs.existsSync(path.join(dir,'task-002.result.json')));assert.equal(fs.existsSync(path.join(dir,'task-003.result.json')),false);assert.match(fs.readFileSync(path.join(dir,'ledger.jsonl'),'utf8'),/Missing expected ids/);
- await assert.rejects(()=>runTranscriptionTasks(dir,{provider:'agy',model:'gemini-3.8-flash-high',effort:'high'},{runner:()=>{throw new Error('must never start');}}),/fresh Sol xhigh/);
+ await assert.rejects(()=>runTranscriptionTasks(dir,{provider:'agy',model:'gemini-3.8-flash-high',effort:'high'},{runner:()=>{throw new Error('must never start');}}),/fresh Sol high/);
 });
 
 

@@ -26,9 +26,14 @@ export function validatePracticeAuthor(result,inventory) {
     for(const b of s.blocks)if(b.type!=='question'||b.pedagogyRole||isTheoryReview(b,s))throw Error('Practice-only author contains teaching/non-selectable content: '+b.id);
   }
   const excluded=new Set(inventory.entries.filter(e=>e.exclusionReason).map(e=>e.id));
+  // Some preserved inventories put reference-only answer/footer notes inside
+  // presentation. They may stay as provenance without entering student prompts;
+  // this never permits excluding a practice question, part or diagram.
+  const referenceExclusions=new Set(inventory.entries.filter(e=>e.presentation?.exclusionReason?.trim()&&
+    (['answer','footer'].includes(e.kind)||e.kind==='cover'&&/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher/i.test(e.presentation.exclusionReason))).map(e=>e.id));
   for(const m of result.inventoryMappings) {
     if(excluded.has(m.inventoryId)&&!m.exclusionReason)throw Error('Excluded teaching was mapped to authored content: '+m.inventoryId);
-    if(!excluded.has(m.inventoryId)&&m.exclusionReason)throw Error('Practice content was excluded during authoring: '+m.inventoryId);
+    if(!excluded.has(m.inventoryId)&&m.exclusionReason&&!referenceExclusions.has(m.inventoryId))throw Error('Practice content was excluded during authoring: '+m.inventoryId);
   }
   const questions=inventory.entries.filter(e=>e.kind==='question'&&!e.exclusionReason),owners=new Map(),targets=new Set();
   const ids=n=>[n?.id,...(n?.children??[]).flatMap(ids)].filter(Boolean);
@@ -39,10 +44,26 @@ export function validatePracticeAuthor(result,inventory) {
     const block=owned[0], prior=owners.get(block.id)??[];
     if(prior.length&&(!q.sharedStemId||prior.some(p=>p.sharedStemId!==q.sharedStemId)))throw Error('Each printed question needs its own whole question block unless source sharedStemId agrees: '+q.id);
     if(q.sharedStemId){
+      const localParts=inventory.entries.filter(e=>e.kind==='part'&&e.parentId===q.id&&!e.exclusionReason);
+      const localTargets=localParts.map(e=>result.inventoryMappings.find(m=>m.inventoryId===e.id&&!m.exclusionReason&&m.targetId!==block.id&&m.targetId!==block.content.id&&ids(block.content).includes(m.targetId))?.targetId);
+      const distinctLocalParts=localParts.length>0&&localTargets.every(Boolean)&&new Set(localTargets).size===localParts.length;
+      const range=String(q.sourceLabel??q.sourceReview?.sourceIdentity?.questionLabel??'').match(/^\s*Q?(\d+)\s*[-–—]\s*Q?(\d+)\s*$/i);
+      const partNumbers=new Set(localParts.map(e=>String(e.sourceLabel??'').match(/^\s*Q?(\d+)(?:\b|\()/i)?.[1]).filter(Boolean).map(Number));
+      const groupedRangeRoot=distinctLocalParts&&range&&Number(range[2])>=Number(range[1])&&partNumbers.size===Number(range[2])-Number(range[1])+1&&[...partNumbers].every(n=>n>=Number(range[1])&&n<=Number(range[2]));
+      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*Q?\d+\.?\s*$/i.test(String(q.sourceLabel??''))&&
+       questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
+       (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1;
+      const continuedRoot=distinctLocalParts&&
+       result.sharedContentContinuations?.some(ref=>ref.blockId===block.id&&ref.reason?.trim()&&ref.canonicalPageNumber<inventory.pageNumber&&
+        [ref.canonicalPageNumber,inventory.pageNumber].every(page=>q.sourceReview?.sourceIdentity?.pdfPages?.includes(page)&&block.sourceRefs?.some(r=>r.pageNumber===page)));
       const part=mappings.find(m=>m.targetId!==block.id&&m.targetId!==block.content.id&&ids(block.content).includes(m.targetId));
-      if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);
-      targets.add(part.targetId);
-      if(block.content.layout!=='grid'&&!(block.content.layout==='list'&&block.sourceReview?.grouping?.layoutReason?.trim()))throw Error('Shared-stem question requires an editable part grid or a reviewed full-width layout: '+block.id);
+      // An independently inventoried continuation root represents the whole
+      // shared question. Its individual parts still map locally; the assignment
+      // coalescer checks explicit ownership and byte-identical complete copies.
+      if(!continuedRoot&&!groupedRangeRoot&&!numberedNestedRoot){if(!part||targets.has(part.targetId))throw Error('Shared-stem items require distinct part targets: '+q.id);targets.add(part.targetId);}
+      const fullWidthReason=block.sourceReview?.grouping?.layoutReason??
+       (Array.isArray(block.sourceReview?.arrangements)?block.sourceReview.arrangements.find(row=>row.targetId===block.content.id&&row.layout==='list'&&(row.columns==null||row.columns===1)&&row.description?.trim())?.description:null);
+      if(block.content.layout!=='grid'&&!(block.content.layout==='list'&&fullWidthReason?.trim()))throw Error('Shared-stem question requires an editable part grid or a reviewed full-width layout: '+block.id);
       if(!block.sourceReview?.workingSpaceEstimate)throw Error('Shared-stem question requires reviewed solution-informed spacing: '+block.id);
     }
     owners.set(block.id,[...prior,q]);

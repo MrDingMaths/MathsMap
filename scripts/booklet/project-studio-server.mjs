@@ -7,6 +7,7 @@ import { studioProject, reviewTargets } from '../../src/lib/booklet-review-model
 import { mathsMapCandidates } from './assembly-bank.mjs';
 import { createHash, randomUUID } from 'node:crypto';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
+import {bankProjectionPolicy,projectBankQuestion} from '../../src/lib/question-bank-projection.js';
 import {convertToFlexible} from '../../src/lib/booklet-flow.js';
 import {withBankLock,prepareAutomaticSync,writeTransaction,registerBankOwner,projectSyncStatus,prepareSyncResolution,syncLinks} from './bank-sync.mjs';
 import {refreshBankRatings} from './bank-sync.mjs';
@@ -338,8 +339,8 @@ function canonicalFromProjectBlock(block, id) {
   return { ...ready.question, status: 'approved', updatedAt: new Date().toISOString() };
 }
 
-async function duplicateCandidates(block, bankRoot) {
-  const local = normaliseQuestion({ ...block, id: block.canonicalId ?? block.id, content: block.content });
+async function duplicateCandidates(block, bankRoot, projection=bankProjectionPolicy(block)) {
+  const local = normaliseQuestion({ ...projectBankQuestion(block,{policy:projection}), id: block.canonicalId ?? block.id });
   const localContent = revisionOf(local.content);
   const records = await readRecords(bankRoot);
   return records.filter(isSelectableBankQuestion).map((question) => ({
@@ -374,7 +375,9 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   const placement = topLevelQuestion(project, body.blockId);
   if (!placement) throw Object.assign(new Error('Select a top-level project question to promote'), { statusCode: 404 });
   if (isTheoryReview(placement.block, placement.section)) throw Object.assign(new Error('Review questions belong to theory. Save them in a teaching module rather than the practice question bank.'), { statusCode: 400 });
-  const candidates = await duplicateCandidates(placement.block, bankRoot);
+  const link=placement.block.bankRef?.id?(await syncLinks(bankRoot))[placement.block.bankRef.id]:null;
+  const projection=body.mode==='create'?(body.bankProjection??bankProjectionPolicy(placement.block)):link?.projection??bankProjectionPolicy(placement.block);
+  const candidates = await duplicateCandidates(placement.block, bankRoot,projection);
   if (!body.mode || body.mode === 'inspect') return { project, candidates };
   if(path.resolve(bankRoot)===path.resolve(BANK_ROOT)){
    if(project.source?.pipelinePilot)throw Error('Regression pilot content cannot be published to the live bank');
@@ -404,7 +407,8 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   const mapping=project.studio?.atoms?.[placement.block.id];
   if(!reviewedBlock.classification?.primarySkillId && mapping?.skillIds?.length)reviewedBlock.classification={...reviewedBlock.classification,primarySkillId:mapping.skillIds[0],secondarySkillIds:mapping.skillIds.slice(1),archetype:mapping.archetype};
   const attach=node=>{if(!node)return;const atom=project.studio?.atoms?.[node.id];if(atom)node.teachingMapping=atom;(node.children??[]).forEach(attach);};attach(reviewedBlock.content);
-  const approved = canonicalFromProjectBlock(reviewedBlock, targetId);
+  const publicationProjection=body.mode==='create'?projection:link?.projection??null;
+  const approved = canonicalFromProjectBlock(projectBankQuestion(reviewedBlock,{policy:publicationProjection}), targetId);
   if (previous) await writeJson(path.join(bankRoot, '.revisions', safeId(targetId), `${revisionOf(previous)}.json`), previous);
   await writeJson(file, approved);
   await writeBankManifest(bankRoot);
@@ -412,7 +416,7 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
   placement.block.canonicalId = approved.id;
   placement.block.snapshotKind = 'bank';
   const saved = await saveProjectUnlocked(project, { projectRoot, bankRoot, expectedRevision: project.revision });
-  if(body.mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved);
+  if(body.mode==='create')await registerBankOwner(bankRoot,saved,placement.block,approved,publicationProjection);
   return { project: saved, question: approved, candidates };
 }
 

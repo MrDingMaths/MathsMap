@@ -128,7 +128,7 @@ export function groupBookletBlocks(blocks = []) {
       id: atom.id,
       atom: {
         ...atom,
-        label: atom.visibleSubtitle !== undefined ? atom.label : atom.kind === 'investigation' ? '' : atom.label,
+        label: atom.visibleSubtitle !== undefined ? atom.label : atom.kind === 'investigation' && (atom.description || atom.sourceText || /^investigation$/i.test(String(atom.label ?? '').trim())) ? '' : atom.label,
         description: atom.description,
         visibleSubtitle: atom.visibleSubtitle ?? (['review','guided-practice','definition','key-ideas'].includes(atom.kind) ? '' : atom.kind === 'investigation' ? investigationDescription(atom.description || atom.sourceText) : atom.description),
       },

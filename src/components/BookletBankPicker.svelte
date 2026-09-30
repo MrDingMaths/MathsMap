@@ -24,7 +24,7 @@
   </section>
   <section class="preview" aria-label="Question preview">
    {#if current}<div class="preview-tools"><strong>{current.title}</strong><select aria-label="Preview question or answers" bind:value={answers}><option value="question">Question</option><option value="short">Short answers</option><option value="worked">Worked solution</option></select></div>
-    {#key current.question.id+answers}<div class="preview-paper"><PracticeQuestionRenderer question={current.question} showTitle={false} showSpaces={answers==='question'} showShortAnswers={answers==='short'} showWorkedSolutions={answers==='worked'} answerColumnsLimit={1} blockLayouts={current.question.presentation?.layoutOverrides?.blockLayouts??{}} diagramWidthOverrides={current.question.presentation?.layoutOverrides?.diagramWidths??{}}/></div>{/key}
+    {#key current.question.id+answers}<div class="preview-paper"><PracticeQuestionRenderer preserveDiagramWidths={true} question={current.question} showTitle={false} showSpaces={answers==='question'} showShortAnswers={answers==='short'} showWorkedSolutions={answers==='worked'} answerColumnsLimit={1} blockLayouts={current.question.presentation?.layoutOverrides?.blockLayouts??{}} diagramWidthOverrides={current.question.presentation?.layoutOverrides?.diagramWidths??{}}/></div>{/key}
     <details><summary>Question details</summary><p>{current.source}</p><code>{current.question.id}</code></details>
    {:else}<p>Select a question to preview it.</p>{/if}
   </section>

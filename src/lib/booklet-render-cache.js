@@ -1,5 +1,6 @@
-import installedVersion,{diagramVersion as installedDiagramVersion} from 'virtual:booklet-render-version';
+import installedVersion,{diagramVersion as installedDiagramVersion,leanVersion as installedLeanVersion} from 'virtual:booklet-render-version';
 import {createMeasurementStore} from './booklet-cache-store.js';
+import {isLeanReview} from './booklet-review-profile.js';
 export const measurementStore=createMeasurementStore();
 export const cacheMode=()=>globalThis.__bookletCacheMode??'normal';
 let runtime;
@@ -25,8 +26,9 @@ export async function dimensionCacheContext(project,{signal}={}){
   if(['measurements-off','off'].includes(cacheMode()))return null;
   try{
     const timeout=AbortSignal.timeout(5000);
-    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(JSON.stringify(measurementAssets(project))),{signal:signal?AbortSignal.any([signal,timeout]):timeout}),v=await r.json();
-    if(!r.ok||!v.assets||v.version!==installedVersion)return null;
+    const lean=isLeanReview(project);
+    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(JSON.stringify(measurementAssets(project)))+(lean?'&lean=1':''),{signal:signal?AbortSignal.any([signal,timeout]):timeout}),v=await r.json();
+    if(!r.ok||!v.assets||v.version!==(lean?installedLeanVersion:installedVersion))return null;
     return JSON.stringify([v.version,v.assets,navigator.userAgent,devicePixelRatio]);
   }catch{return null;}
 }

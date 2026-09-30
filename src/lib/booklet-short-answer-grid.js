@@ -114,7 +114,9 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     cached.entry.checkpoints.push({pageCount:pages.length,issueCount:issues.length,columns:columns.map(c=>[...c]),column});
     while(true){
       columns[column].push(...row);const size=await measure(make());check();
-      if(size.height<=size.capacity+.2)break;
+      // Inline fractions can paint below the measured row box. Retain half a
+      // millimetre beyond the shared footer reserve instead of fitting past it.
+      if(size.height<=size.capacity-(96/25.4*0.5))break;
       columns[column].splice(-row.length);
       if(!columns[column].length){
         issues.push({kind:'oversized-content',id:row[0].block.id,sectionId:row[0].section.sourceSectionId,message:'An answer row cannot fit safely. Adjust its answer diagram or working layout.'});

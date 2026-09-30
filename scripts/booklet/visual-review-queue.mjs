@@ -2,6 +2,7 @@
 // reviewer records establish inspection. Duplicate combined bodies may reuse a
 // reviewed standalone page after PDF comparison and explicit composition review.
 import fs from 'node:fs';
+import {isLeanReview,LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import path from 'node:path';
 import {randomUUID,createHash} from 'node:crypto';
 import {artifactHash,projectReviewHash,affectedPages} from './page-review.mjs';
@@ -42,10 +43,10 @@ function checkArtifact(ref){if(!ref?.path||!path.isAbsolute(ref.path)||!fs.exist
 function checkReview(row){
  if(!row.review)return;
  const record=read(checkArtifact(row.review.artifact).path);
- if(!record.pageKeys?.includes(row.key)||['outcome','reviewer','note'].some(k=>record[k]!==row.review[k])||record.outcome==='accepted'&&!['sourceCompared','contentVerified','presentationVerified'].every(k=>record[k]===true))throw Error('Stored inspection does not match this page');
+ if(!record.pageKeys?.includes(row.key)||['outcome','reviewer','note'].some(k=>record[k]!==row.review[k])||record.outcome==='accepted'&&!(isLeanReview(record)?['presentationVerified']:['sourceCompared','contentVerified','presentationVerified']).every(k=>record[k]===true))throw Error('Stored inspection does not match this page');
 }
 
-export async function reviewSnapshot(runDir,input,{renderer=rendererSignature(),workflow}={}) {
+export async function reviewSnapshot(runDir,input,{renderer=rendererSignature({lean:isLeanReview(input)}),workflow}={}) {
  if(!['final','development','review'].includes(input.mode))throw Error('Review queue mode must be final, development or review');
  const project=read(checkArtifact(input.project).path),projectHash=projectReviewHash(project);
  if(input.project.contentHash!==projectHash||input.renderer!==renderer)throw Error('Review project or renderer changed');
@@ -76,11 +77,13 @@ export async function reviewSnapshot(runDir,input,{renderer=rendererSignature(),
   if(input.mode==='review'&&(manifest.mode!=='review'||manifest.reviewOnly!==true||manifest.passed!==true))throw Error('Review-only queue requires passed review manifests: '+edition);
   checkArtifact(manifest.pdf);
   validatePdfRasters(manifest);
-  if(!manifest.pages?.length||entry.images?.length!==manifest.pages.length)throw Error('Every physical page needs a full-page image: '+edition);
-  for(let i=0;i<manifest.pages.length;i++){
-   const page=manifest.pages[i],image=entry.images[i];checkArtifact(image);
+  if(!manifest.pages?.length||(!isLeanReview(input)&&entry.images?.length!==manifest.pages.length))throw Error('Every physical page needs a full-page image: '+edition);
+  const selected=isLeanReview(input)?manifest.visualPages:manifest.pages.map(p=>p.page);
+  if(!selected?.length||new Set(selected).size!==selected.length||selected.length!==entry.images.length)throw Error('Selected visual pages do not match images: '+edition);
+  for(const number of selected){
+   const i=number-1,page=manifest.pages[i],image=entry.images.find(image=>image.page===number);checkArtifact(image);
    if(page.page!==i+1||image.page!==page.page||typeof page.hash!=='string')throw Error('Page/image sequence is incomplete: '+edition);
-   const key=hash({mode:input.mode,project:input.mode!=='development'?projectHash:null,settlement:input.mode==='final'?input.key:null,renderer,assets,sources:input.sourceArtifacts,edition,page:page.page,pageHash:page.hash,imageHash:image.hash,pdf:input.mode!=='development'?manifest.pdf.hash:null});
+   const key=isLeanReview(input)?hash({edition,page:page.page,imageHash:image.hash}):hash({mode:input.mode,project:input.mode!=='development'?projectHash:null,settlement:input.mode==='final'?input.key:null,renderer,assets,sources:input.sourceArtifacts,edition,page:page.page,pageHash:page.hash,imageHash:image.hash,pdf:input.mode!=='development'?manifest.pdf.hash:null});
    rows.push({key,edition,page:page.page,pageHash:page.hash,image,sources:input.sourceArtifacts,...(comparison?{equivalentTo:comparison.matches[edition+':'+page.page]??null,inspectionReason:comparison.manual[edition+':'+page.page]??null}:{}),review:null});
   }
  }
@@ -96,7 +99,7 @@ async function current(runDir,deps){const queue=read(queueFile(runDir)),snapshot
 function expected(queue,record){if(record.expectedRevision!==queue.revision||record.sessionKey!==queue.sessionKey)throw Error('Review request is stale; refresh queue status');}
 function reused(queue,row){return row.review?.outcome!=='accepted'&&row.review?.outcome!=='needs-change'&&row.equivalentTo&&queue.compositionReviews?.[row.edition]&&queue.rows.some(r=>r.edition===row.equivalentTo.edition&&r.page===row.equivalentTo.page&&r.review?.outcome==='accepted');}
 const covered=(queue,row)=>row.review?.outcome==='accepted'||reused(queue,row);
-const summary=queue=>({revision:queue.revision,mode:queue.input.mode,sessionKey:queue.sessionKey,total:queue.rows.length,reviewed:queue.rows.filter(r=>r.review?.outcome==='accepted').length,reused:queue.rows.filter(r=>reused(queue,r)).length,pending:queue.rows.filter(r=>!covered(queue,r)&&(!r.equivalentTo||r.review?.outcome==='needs-change')).map(({review,...r})=>({...r,previousFinding:review?.note??null})),awaitingReuse:queue.rows.filter(r=>!covered(queue,r)&&r.equivalentTo&&r.review?.outcome!=='needs-change').map(({review,...r})=>r),pendingComposition:queue.input.reviewPolicy?COMBINED_EDITIONS.filter(e=>!queue.compositionReviews?.[e]):[],active:activeReviewClaims(queue)[0]??null,activeReviews:activeReviewClaims(queue)});
+const summary=queue=>({revision:queue.revision,mode:queue.input.mode,sessionKey:queue.sessionKey,total:queue.rows.length,reviewed:queue.rows.filter(r=>r.review?.outcome==='accepted').length,reused:queue.rows.filter(r=>reused(queue,r)).length,pending:queue.rows.filter(r=>!covered(queue,r)&&(!r.equivalentTo||r.review?.outcome==='needs-change')).map(({review,...r})=>({...r,previousFinding:review?.note??null})),awaitingReuse:queue.rows.filter(r=>!covered(queue,r)&&r.equivalentTo&&r.review?.outcome!=='needs-change').map(({review,...r})=>r),reviewProfile:queue.input.reviewProfile,pendingComposition:queue.input.reviewPolicy?COMBINED_EDITIONS.filter(e=>!queue.compositionReviews?.[e]):[],active:activeReviewClaims(queue)[0]??null,activeReviews:activeReviewClaims(queue)});
 
 export async function prepareReviewQueue(runDir,input,deps={}) {
  return withRunLock(runDir,'visual-queue',async()=>{
@@ -107,7 +110,7 @@ export async function prepareReviewQueue(runDir,input,deps={}) {
    const pages=rows=>rows.filter(r=>r.edition===edition).map(r=>({page:r.page,hash:r.image.hash}));
    for(const p of affectedPages(pages(old.rows),pages(snapshot.rows)))neighbours.add(edition+':'+p);
   }
-  const mayReuse=input.mode==='development'||old?.sessionKey===snapshot.sessionKey;
+  const mayReuse=isLeanReview(input)||input.mode==='development'||old?.sessionKey===snapshot.sessionKey;
   for(const row of snapshot.rows)if(mayReuse&&!neighbours.has(row.edition+':'+row.page)){row.review=oldRows.get(row.key)?.review??null;checkReview(row);}
   const compositionReviews=old?.sessionKey===snapshot.sessionKey?old.compositionReviews??{}:{};
   for(const [edition,review]of Object.entries(compositionReviews))validateCompositionReview(review,{edition,sessionKey:snapshot.sessionKey,comparison:input.comparison,manifest:input.editions[edition].manifest});
@@ -139,9 +142,9 @@ export async function recordPageReview(runDir,record,deps={}) {
   if(!active)throw Error('Begin this review before recording inspection');
   if(!record.reviewer?.trim()||!record.note?.trim()||!['accepted','needs-change'].includes(record.outcome))throw Error('Actual reviewer, note and outcome are required');
   const composition=active.kind==='composition';
-  if(record.outcome==='accepted'&&!(composition?COMPOSITION_CHECKS.every(k=>record.compositionChecks?.[k]===true):['sourceCompared','contentVerified','presentationVerified'].every(k=>record[k]===true)))throw Error('Record '+(composition?'covers, contents, transitions, numbering, footers and links':'source, content and presentation')+' inspection explicitly');
+  if(record.outcome==='accepted'&&!(composition?COMPOSITION_CHECKS.every(k=>record.compositionChecks?.[k]===true):(isLeanReview(queue.input)?['presentationVerified']:['sourceCompared','contentVerified','presentationVerified']).every(k=>record[k]===true)))throw Error('Record '+(composition?'covers, contents, transitions, numbering, footers and links':'source, content and presentation')+' inspection explicitly');
   const evidence=path.join(runDir,'visual-review','inspection-'+active.id+'.json');
-  fs.writeFileSync(evidence,JSON.stringify({...record,...active,sessionKey:queue.sessionKey,...(composition?{comparison:queue.input.comparison,manifests:Object.fromEntries(active.compositionEditions.map(e=>[e,queue.input.editions[e].manifest]))}:{}),recordedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
+  fs.writeFileSync(evidence,JSON.stringify({...record,...active,...(isLeanReview(queue.input)?{reviewProfile:LEAN_REVIEW_PROFILE}:{}),sessionKey:queue.sessionKey,...(composition?{comparison:queue.input.comparison,manifests:Object.fromEntries(active.compositionEditions.map(e=>[e,queue.input.editions[e].manifest]))}:{}),recordedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
   const review={outcome:record.outcome,reviewer:record.reviewer,note:record.note,artifact:{path:path.resolve(evidence),hash:artifactHash(evidence)}};
   if(composition){for(const edition of active.compositionEditions){if(record.outcome==='accepted')queue.compositionReviews[edition]=review;else delete queue.compositionReviews[edition];}}
   else for(const row of queue.rows)if(active.pageKeys.includes(row.key))row.review=review;
@@ -169,7 +172,9 @@ export async function finalReviewRecord(runDir,signer,deps={}) {
   for(const row of queue.rows)if(row.review)checkArtifact(row.review.artifact);
   const evidence=path.resolve(runDir,'visual-review','completed-'+randomUUID()+'.json');fs.writeFileSync(evidence,JSON.stringify(queue,null,2)+'\n',{flag:'wx'});
   const artifact={path:evidence,hash:artifactHash(evidence)},editions={};
-  for(const edition of FINAL_EDITIONS){const rows=queue.rows.filter(r=>r.edition===edition);editions[edition]={allPagesVisuallyInspected:rows.every(r=>r.review?.outcome==='accepted'),allPagesCovered:true,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:rows.map(r=>({page:r.page,hash:r.pageHash,checked:true,...(queue.input.reviewPolicy?(r.review?.outcome==='accepted'?{reviewMethod:'visual'}:{reviewMethod:'equivalent',equivalentTo:r.equivalentTo}):{})}))};}
+  for(const edition of FINAL_EDITIONS){const rows=queue.rows.filter(r=>r.edition===edition);
+   if(isLeanReview(queue.input)){const manifest=read(queue.input.editions[edition].manifest.path);editions[edition]={allPagesVisuallyInspected:false,allPagesCovered:true,visualPages:manifest.visualPages,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:manifest.pages.map(p=>({page:p.page,hash:p.hash,checked:true,reviewMethod:rows.some(r=>r.page===p.page&&r.review?.outcome==='accepted')?'visual':'automated'}))};continue;}
+   editions[edition]={allPagesVisuallyInspected:rows.every(r=>r.review?.outcome==='accepted'),allPagesCovered:true,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:rows.map(r=>({page:r.page,hash:r.pageHash,checked:true,...(queue.input.reviewPolicy?(r.review?.outcome==='accepted'?{reviewMethod:'visual'}:{reviewMethod:'equivalent',equivalentTo:r.equivalentTo}):{})}))};}
   // Keep the underlying evidence in the existing acceptance register, so later
   // source/image/inspection edits invalidate acceptance as well as queue status.
   const assetArtifacts=Object.keys(queue.input.assets).filter(src=>!src.startsWith('data:')).map(src=>{
@@ -178,6 +183,6 @@ export async function finalReviewRecord(runDir,signer,deps={}) {
   });
   const comparisonArtifacts=queue.input.reviewPolicy?validateEditionComparison(queue.input.comparison,queue.input.editions).artifacts:[];
   const artifacts=[artifact,...queue.input.sourceArtifacts,...assetArtifacts,...queue.rows.flatMap(r=>[r.image,...(r.review?[r.review.artifact]:[])]),...comparisonArtifacts,...Object.values(queue.compositionReviews??{}).map(r=>r.artifact)];
-  return {reviewer:signer.reviewer,note:signer.note,artifacts:[...new Map(artifacts.map(a=>[a.path,a])).values()],key:queue.input.key,sourceCompared:true,contentVerified:true,presentationVerified:true,editions,...(queue.input.reviewPolicy?{reviewPolicy:queue.input.reviewPolicy,sessionKey:queue.sessionKey,comparison:queue.input.comparison,compositionReviews:queue.compositionReviews}:{} )};
+  return {...(isLeanReview(queue.input)?{reviewProfile:LEAN_REVIEW_PROFILE}:{}),reviewer:signer.reviewer,note:signer.note,artifacts:[...new Map(artifacts.map(a=>[a.path,a])).values()],key:queue.input.key,sourceCompared:true,contentVerified:true,presentationVerified:true,editions,...(queue.input.reviewPolicy?{reviewPolicy:queue.input.reviewPolicy,sessionKey:queue.sessionKey,comparison:queue.input.comparison,compositionReviews:queue.compositionReviews}:{} )};
  });
 }

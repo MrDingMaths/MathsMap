@@ -1,5 +1,6 @@
 // Drain runnable work; review decisions remain explicit and are never fabricated.
 import fs from 'node:fs';
+import {isLeanReview} from './lean-profile.mjs';
 import path from 'node:path';
 import {createSemanticTasks,semanticCacheInfo,runSemanticPackets,positive} from './semantic-workflow.mjs';
 import {measureRunPhase} from './run-observability.mjs';
@@ -13,7 +14,7 @@ function latestAttempt(root,page,stage) {
  return fs.existsSync(root)?Math.max(0,...fs.readdirSync(root).filter(n=>n.startsWith(prefix)&&/^\d+$/.test(n.slice(prefix.length))).map(n=>Number(n.slice(prefix.length)))):0;
 }
 
-export function dependencyStatus(options,{retry=false,representative=false,requireRepresentativePlan=false,planFile}={}) {
+export function dependencyStatus(options,{retry=false,representative=false,requireRepresentativePlan=false,planFile,retryDiagnosis}={}) {
  options=freshGenerationOptions(options,'author');
  const {runDir,pages}=options,root=path.join(runDir,'semantic-packets'),jobs=[],blocked=[],complete=[],observations=[];
  if(!Array.isArray(pages)||!pages.length||new Set(pages).size!==pages.length)throw Error('Select distinct source pages');
@@ -21,7 +22,7 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
  // builds its own fresh snapshot inside the serialized publication lock.
  const reviewed=reviewEnabled(options.manifest,options.config),workflowState=reviewed?liveWorkflow(runDir,pages):undefined,persisted=reviewed?loadWorkflow(runDir):null;
  let planIssues=[];
- if(reviewed&&!representative&&requireRepresentativePlan){
+ if(reviewed&&!isLeanReview(options.manifest)&&!representative&&requireRepresentativePlan){
   if(!planFile)planIssues=['Complete representative coverage and supply --plan before bulk authoring'];
   else try{planIssues=checkRepresentativePlan(workflowState,options.manifest.selectedPages,JSON.parse(fs.readFileSync(planFile,'utf8').replace(/^\uFEFF/,''))).issues;}catch(error){planIssues=[error.message];}
  }
@@ -45,6 +46,7 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
     if(stage==='author'&&planIssues.length){blocked.push({page,stage,reasons:planIssues});break;}
     if(cache.kind!=='missing'&&!retry){blocked.push({page,stage,reasons:[`Cache is ${cache.kind}; inspect current evidence and explicitly retry with a new immutable attempt.`]});break;}
     if(latest&&!retry){blocked.push({page,stage,reasons:['A previous attempt exists; explicit retry is required.']});break;}
+    if(isLeanReview(options.manifest)&&latest>=2&&!retryDiagnosis?.trim()){blocked.push({page,stage,reasons:['Before a third attempt, diagnose the repeated failure and provide retryDiagnosis (cause and changed approach).']});break;}
     jobs.push({page,stage,attempt:latest+1,inputHash:task.inputHash});break;
    }catch(error){blocked.push({page,stage,reasons:[error.message]});break;}
   }
@@ -52,11 +54,11 @@ export function dependencyStatus(options,{retry=false,representative=false,requi
  return {jobs,blocked,complete,...(observations.length?{observations}:{})};
 }
 
-export async function drainDependencies(options,{runner,log=console.log,retry=false,representative=false,retryReason=null,regenerationReason=null,requireRepresentativePlan=false,planFile}={}) {
+export async function drainDependencies(options,{runner,log=console.log,retry=false,representative=false,retryReason=null,regenerationReason=null,requireRepresentativePlan=false,planFile,retryDiagnosis}={}) {
  const concurrency=workerConcurrency(options.concurrency??options.manifest.concurrency??3),attempted=new Set(),active=new Map(),results=[];
  return measureRunPhase(options.runDir,'dependency-drain',async()=>{
   while(true){
-   const state=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile});
+   const state=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile,retryDiagnosis:retryDiagnosis??regenerationReason});
    for(const job of state.jobs){
     const key=job.stage+':'+job.page;
     if(active.size>=concurrency)break;
@@ -70,7 +72,7 @@ export async function drainDependencies(options,{runner,log=console.log,retry=fa
      .then(report=>{for(const item of batch)results.push({page:item.page,stage:item.stage,report:{...report,pages:report.pages.filter(p=>p.page===item.page)}});},error=>{for(const item of batch)results.push({page:item.page,stage:item.stage,error:error.message});}).finally(()=>active.delete(key));
     active.set(key,work);
    }
-   if(!active.size){const status=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile});return {...status,results,concurrency,ok:status.complete.length===options.pages.length};}
+   if(!active.size){const status=dependencyStatus(options,{retry,representative,requireRepresentativePlan,planFile,retryDiagnosis:retryDiagnosis??regenerationReason});return {...status,results,concurrency,ok:status.complete.length===options.pages.length};}
    await Promise.race(active.values());
   }
  },{concurrency,pages:options.pages,retry,representative});

@@ -1,6 +1,7 @@
 // A review record is an explicit assertion by the reviewer, never generated from
 // an automated pass. The existing final-review command remains the acceptance gate.
 import fs from 'node:fs';
+import {isLeanReview,LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadRun} from './transcription.mjs';
@@ -15,19 +16,19 @@ const reference=file=>({path:path.resolve(file),hash:artifactHash(file)});
 // Describe already-rendered evidence. Preflight can only make development input.
 // Full manifests, with associated full-page images, come from the normal exporter.
 export async function describeReview({projectFile,sourceFiles,manifestFiles,preflightFile,projectId,outDir,key,fullVisual=false},{compare=buildEditionComparison}={}){
- const project=read(projectFile),projectHash=projectReviewHash(project),renderer=rendererSignature(),assets=await contentAssetSignatures(project),editions={};
+ const project=read(projectFile),projectHash=projectReviewHash(project),renderer=rendererSignature({lean:isLeanReview(project)}),assets=await contentAssetSignatures(project),editions={};
  if(preflightFile){
   const report=read(preflightFile),values=report.report?.[projectId??project.id];if(!values||report.errors.length)throw Error('Missing project or failed preflight');
   fs.mkdirSync(outDir,{recursive:true});
   for(const [edition,r]of Object.entries(values)){
    if(r.mode!=='diagram-preflight'||r.issues.length||r.printed.some(p=>p.issues.length)||r.projectHash!==projectHash||r.renderer!==renderer)throw Error('Preflight evidence failed or changed: '+edition);
-   const file=path.join(outDir,edition+'.review-manifest.json'),manifest={mode:'development',edition,projectHash,renderer,assets:r.assets,pdf:r.pdf,pages:r.pageHashes,images:r.screenshots,preflight:reference(preflightFile)};
+   const file=path.join(outDir,edition+'.review-manifest.json'),manifest={mode:'development',...(isLeanReview(project)?{reviewProfile:LEAN_REVIEW_PROFILE,visualPages:r.screenshots.map(image=>image.page)}:{}),edition,projectHash,renderer,assets:r.assets,pdf:r.pdf,pages:r.pageHashes,images:r.screenshots,preflight:reference(preflightFile)};
    fs.writeFileSync(file,JSON.stringify(manifest,null,2)+'\n');editions[edition]={manifest:reference(file),images:r.screenshots};
   }
  }else for(const file of manifestFiles??[]){const m=read(file);if(editions[m.edition])throw Error('Duplicate edition');editions[m.edition]={manifest:reference(file),images:m.images};}
  let comparison;
- if(!preflightFile&&!fullVisual){if(!outDir)throw Error('Set outDir for retained PDF comparison rasters');let last=0;comparison=await compare(editions,outDir,{onProgress:p=>{if(Date.now()-last>15000){console.error(`Comparing PDF pixels: ${p.edition} ${p.page}/${p.pages}`);last=Date.now();}}});}
- return {mode:preflightFile?'development':'final',project:{...reference(projectFile),contentHash:projectHash},renderer,assets,sourceArtifacts:sourceFiles.map(reference),editions,...(key?{key}:{}),...(comparison?{reviewPolicy:UNIQUE_LAYOUT_REVIEW,comparison:comparison.reference}: {})};
+ if(!preflightFile&&!fullVisual&&!isLeanReview(project)){if(!outDir)throw Error('Set outDir for retained PDF comparison rasters');let last=0;comparison=await compare(editions,outDir,{onProgress:p=>{if(Date.now()-last>15000){console.error(`Comparing PDF pixels: ${p.edition} ${p.page}/${p.pages}`);last=Date.now();}}});}
+ return {...(isLeanReview(project)?{reviewProfile:LEAN_REVIEW_PROFILE}:{}),mode:preflightFile?'development':'final',project:{...reference(projectFile),contentHash:projectHash},renderer,assets,sourceArtifacts:sourceFiles.map(reference),editions,...(key?{key}:{}),...(comparison?{reviewPolicy:UNIQUE_LAYOUT_REVIEW,comparison:comparison.reference}: {})};
 }
 export async function main(args=process.argv.slice(2)){
  const command=args[0],options={};for(let i=1;i<args.length;i++){if(args[i]==='--full'){options['--full']=true;continue;}if(!['--run-id','--run-dir','--input','--out'].includes(args[i])||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+args[i]);options[args[i]]=args[++i];}

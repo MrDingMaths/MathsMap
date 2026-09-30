@@ -1,3 +1,4 @@
+import {reserveDiagramLabelSpace} from './diagram-label-space.js';
 import {BOOKLET_HOUSE_STYLE} from '../../public/libs/maths-editor/house-style.mjs';
 import {calibrateDiagramTypography,graphPageScale} from './diagram-typography.js';
 import {scopeSvgPaintReferences} from './svg-paint-scope.js';
@@ -36,6 +37,7 @@ export function calibrateGraphStrokes(root) {
       shape.style.strokeWidth=String(width);
     }
   }
+  reserveDiagramLabelSpace(root);
 }
 
 // Both cached and freshly compiled SVGs pass through this observer. Refit on slot

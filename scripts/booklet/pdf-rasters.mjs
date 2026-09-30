@@ -3,10 +3,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
-import {spawnSync} from 'node:child_process';
+import {spawn,spawnSync} from 'node:child_process';
 import {gzipSync,gunzipSync,deflateSync} from 'node:zlib';
 
 export const RASTER_FORMAT='mathsmap-pdf-rasters-v1',DPI=144,FOOTER_MM=15;
+export const TARGETED_RASTER_FORMAT='mathsmap-pdf-targeted-rasters-v1';
 const digest=b=>createHash('sha256').update(b).digest('hex');
 const ref=file=>({path:path.resolve(file),hash:digest(fs.readFileSync(file))});
 const implementation=()=>ref(fileURLToPath(import.meta.url));
@@ -29,6 +30,91 @@ export function rgbPng({width,height,pixels}){
 }
 export function popplerVersion(){const r=spawnSync('pdftoppm',['-v'],{windowsHide:true,encoding:'utf8'});if(r.error||r.status!==0)throw Error('PDF rasterization requires pdftoppm: '+(r.error?.message??r.stderr));return (r.stderr+r.stdout).trim();}
 export function renderPdfPage(pdf,page){const r=spawnSync('pdftoppm',['-r',String(DPI),'-f',String(page),'-l',String(page),'-singlefile',pdf],{windowsHide:true,maxBuffer:64*1024*1024});if(r.error||r.status!==0)throw Error('PDF rasterization failed: '+(r.error?.message??r.stderr?.toString()));decodePpm(r.stdout);return r.stdout;}
+// Native PNG output is retained verbatim. Cache validation reads its hash and
+// header, never inflates pixels or re-encodes an already accepted image.
+function pngSize(bytes){
+ if(bytes.length<33||!bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]))||bytes.readUInt32BE(8)!==13||bytes.toString('ascii',12,16)!=='IHDR')throw Error('Invalid PDF PNG raster');
+ const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);
+ if(width<1||height<1||width*height>20000000)throw Error('Invalid PDF PNG dimensions');
+ return {width,height};
+}
+export function selectedPageRanges(pages,count,{maxPages=8}={}){
+ if(!Number.isInteger(count)||count<1||!Number.isInteger(maxPages)||maxPages<1)throw Error('PDF page count and range size required');
+ if(!Array.isArray(pages)||!pages.length||pages.some(page=>!Number.isInteger(page)||page<1||page>count)||new Set(pages).size!==pages.length)throw Error('Select distinct physical PDF pages within the page count');
+ const ranges=[];
+ for(const page of [...pages].sort((a,b)=>a-b)){
+  const last=ranges.at(-1);
+  if(last&&page===last.last+1&&last.last-last.first+1<maxPages)last.last=page;
+  else ranges.push({first:page,last:page});
+ }
+ return ranges;
+}
+export async function renderPdfRange(pdf,first,last,{out}){
+ const dir=fs.mkdtempSync(path.join(path.resolve(out),'range-')),prefix=path.join(dir,'page');
+ try{
+  await new Promise((resolve,reject)=>{
+   const child=spawn('pdftoppm',['-r',String(DPI),'-f',String(first),'-l',String(last),'-png',pdf,prefix],{windowsHide:true,stdio:['ignore','ignore','pipe']});let errors='';
+   child.stderr.on('data',bytes=>{errors=(errors+bytes.toString()).slice(-8192);});
+   child.on('error',reject);child.on('close',code=>code===0?resolve():reject(Error('PDF rasterization failed: '+errors)));
+  });
+  const files=new Map(fs.readdirSync(dir).map(name=>[Number(/^page-(\d+)\.png$/.exec(name)?.[1]),path.join(dir,name)]));
+  return Array.from({length:last-first+1},(_,i)=>({page:first+i,bytes:fs.readFileSync(files.get(first+i))}));
+ }finally{
+  if(path.dirname(path.resolve(dir))!==path.resolve(out)||!path.basename(dir).startsWith('range-'))throw Error('Unsafe PDF raster temporary path');
+  fs.rmSync(dir,{recursive:true,force:true});
+ }
+}
+function targetedKey(pdf,page,engine,algorithm){return digest(JSON.stringify({format:TARGETED_RASTER_FORMAT,pdf:pdf.hash,page,engine,dpi:DPI,implementation:algorithm.hash}));}
+function readTargetedImage(pdf,page,out,engine,algorithm){
+ const key=targetedKey(pdf,page,engine,algorithm),base=path.resolve(out,key),receiptFile=base+'.json',imageFile=base+'.png';
+ const saved=JSON.parse(fs.readFileSync(receiptFile,'utf8'));
+ if(saved.key!==key||saved.page!==page||saved.pdfHash!==pdf.hash||saved.image?.path!==imageFile)throw Error('PDF raster generation identity changed');
+ const bytes=fs.readFileSync(imageFile),size=pngSize(bytes);
+ if(digest(bytes)!==saved.image.hash||size.width!==saved.image.width||size.height!==saved.image.height)throw Error('Missing or stale PDF PNG raster');
+ return {page,...saved.image,pdfHash:pdf.hash,receipt:ref(receiptFile)};
+}
+export async function ensureSelectedPdfRasters(pdf,count,out,{pages,renderRange=renderPdfRange,engine=popplerVersion()}={}){
+ const started=Date.now();check(pdf);selectedPageRanges(pages,count);fs.mkdirSync(out,{recursive:true});
+ const algorithm=implementation(),images=new Map(),missing=[];
+ for(const page of [...pages].sort((a,b)=>a-b)){
+  try{images.set(page,readTargetedImage(pdf,page,out,engine,algorithm));}catch{missing.push(page);}
+ }
+ const ranges=missing.length?selectedPageRanges(missing,count):[],reused=images.size;
+ let cursor=0;
+ const worker=async()=>{
+  while(cursor<ranges.length){
+   const {first,last}=ranges[cursor++],rendered=await renderRange(pdf.path,first,last,{out});
+   if(!Array.isArray(rendered)||rendered.length!==last-first+1||rendered.some((item,i)=>item.page!==first+i))throw Error('PDF raster range did not return its exact physical pages');
+   for(const {page,bytes} of rendered){
+    const size=pngSize(bytes),key=targetedKey(pdf,page,engine,algorithm),base=path.resolve(out,key),imageFile=base+'.png',receiptFile=base+'.json';
+    fs.writeFileSync(imageFile,bytes);
+    fs.writeFileSync(receiptFile,JSON.stringify({key,page,pdfHash:pdf.hash,image:{path:imageFile,hash:digest(bytes),...size}}));
+    images.set(page,readTargetedImage(pdf,page,out,engine,algorithm));
+   }
+  }
+ };
+ const workers=await Promise.allSettled(Array.from({length:Math.min(2,ranges.length)},worker));
+ const failed=workers.find(result=>result.status==='rejected');if(failed)throw failed.reason;
+ return {images:[...images.values()].sort((a,b)=>a.page-b.page),rasterization:{format:TARGETED_RASTER_FORMAT,dpi:DPI,engine,implementation:algorithm,pdfHash:pdf.hash,selection:'physical-pages',footerSheets:[]},metrics:{rendered:missing.length,reused,ranges,processes:ranges.length,maxConcurrency:Math.min(2,ranges.length),elapsedMs:Date.now()-started}};
+}
+function validateTargetedRasters(manifest){
+ const r=manifest.rasterization;
+ if(manifest.version!==2||manifest.reviewProfile!=='textbook-three-pass-v1'||r.dpi!==DPI||!r.engine||r.pdfHash!==manifest.pdf?.hash||r.implementation?.hash!==implementation().hash||r.selection!=='physical-pages')throw Error('Invalid or stale targeted PDF raster manifest');
+ check(manifest.pdf);check(r.implementation);
+ if(!manifest.pages?.length||manifest.pages.some((page,i)=>page.page!==i+1))throw Error('Incomplete PDF raster page inventory');
+ selectedPageRanges(manifest.visualPages,manifest.pages.length);
+ if(manifest.visualPages.some((page,i)=>i>0&&page<=manifest.visualPages[i-1])||manifest.images?.length!==manifest.visualPages.length)throw Error('Incomplete targeted PDF raster pages');
+ const artifacts=[r.implementation];
+ manifest.images.forEach((image,i)=>{
+  if(image.page!==manifest.visualPages[i]||image.pdfHash!==manifest.pdf.hash)throw Error('PDF raster page identity changed');
+  check(image.receipt);const saved=JSON.parse(fs.readFileSync(image.receipt.path,'utf8'));
+  if(saved.key!==targetedKey(manifest.pdf,image.page,r.engine,r.implementation)||saved.page!==image.page||saved.pdfHash!==manifest.pdf.hash||saved.image?.path!==image.path||saved.image.hash!==image.hash||saved.image.width!==image.width||saved.image.height!==image.height)throw Error('PDF raster generation identity changed');
+  check(image);const size=pngSize(fs.readFileSync(image.path));
+  if(size.width!==image.width||size.height!==image.height)throw Error('Review PNG dimensions changed');
+  artifacts.push(image,image.receipt);
+ });
+ return artifacts;
+}
 export function ensurePdfRasters(pdf,count,out,{render=renderPdfPage,engine=popplerVersion()}={}){
  check(pdf);if(!Number.isInteger(count)||count<1)throw Error('PDF page count required');fs.mkdirSync(out,{recursive:true});
  const algorithm=implementation(),images=[],footerSheets=[];let rendered=0,reused=0;
@@ -51,6 +137,7 @@ export function ensurePdfRasters(pdf,count,out,{render=renderPdfPage,engine=popp
  return {images,rasterization:{format:RASTER_FORMAT,dpi:DPI,engine,implementation:algorithm,pdfHash:pdf.hash,footerMm:FOOTER_MM,footerSheets},metrics:{rendered,reused}};
 }
 export function validatePdfRasters(manifest){
+ if(manifest.rasterization?.format===TARGETED_RASTER_FORMAT)return validateTargetedRasters(manifest);
  if(manifest.version!==2&&!manifest.rasterization)return []; // Legacy evidence keeps its original contract.
  const r=manifest.rasterization;
  if(manifest.version!==2||r?.format!==RASTER_FORMAT||r.dpi!==DPI||r.footerMm!==FOOTER_MM||!r.engine||r.pdfHash!==manifest.pdf?.hash||r.implementation?.hash!==implementation().hash)throw Error('Invalid or stale PDF raster manifest');

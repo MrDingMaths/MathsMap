@@ -4,6 +4,7 @@ import {inspectDiagramColours} from './diagram-colours.js';
 import {renderMath} from './render-math.js';
 import {inspectShortAnswerColours} from './short-answer-style.js';
 import {convexPolygonsOverlap} from './diagram-label-geometry.js';
+import {settleBookletFonts} from './booklet-fonts.js';
 // Shared browser-side acceptance checks. Preview and export call the same functions.
 export async function settleBooklet(root) {
  if(!root)throw Error('Booklet surface is missing');
@@ -14,7 +15,7 @@ export async function settleBooklet(root) {
   if([...root.querySelectorAll('.tikz-wrap')].every(e=>e.querySelector('svg:not(:has(animate)),.tikz-error')))break;
   await new Promise(r=>setTimeout(r,100));
  }while(Date.now()<deadline);
- await document.fonts.ready;
+ await settleBookletFonts(root);
  await Promise.all([...root.querySelectorAll('img')].map(async i=>{
   try{await i.decode();}catch(error){
    if(!root.contains(i))return;

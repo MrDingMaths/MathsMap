@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
 import {measurementKeyFor,settleBookletMeasurement} from '../src/lib/booklet-measurement.js';
+import {settleBookletFonts} from '../src/lib/booklet-fonts.js';
 
 const fixture=()=>({id:'booklet',source:{runId:'source'},settings:{houseStyleVersion:1,layoutOverrides:{blockLayouts:{q:{columns:2}},answerSpaces:{part:20},diagramColourModes:{diagram:'colour'}}},sections:[{blocks:[{id:'q',type:'question',content:{id:'root',children:[{id:'part',prompt:'Calculate.',diagram:{id:'diagram'}}]}}]}]});
 const pageFor=project=>({section:{title:'Linear',difficultyTitle:'Foundation'},showTopicHeading:true,showDifficultyHeading:true,mode:'student',blocks:project.sections[0].blocks});
@@ -55,13 +56,15 @@ test('measurement waits for late diagrams, images and fonts without fixed animat
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{
   const page=await browser.newPage();await page.setContent('<main><div class="tikz-wrap"><svg><animate/></svg></div></main>');
-  const result=await page.evaluate(async fn=>{
-   const settle=(new Function('return ('+fn+')'))(),root=document.querySelector('main'),events=[];
+  const result=await page.evaluate(async ({fn,fontFn})=>{
+   const fontSettle=(new Function('nunitoLoads','return ('+fontFn+')'))(new WeakMap());
+   const settle=(new Function('settleBookletFonts','return ('+fn+')'))(fontSettle),root=document.querySelector('main'),events=[];
    window.requestAnimationFrame=()=>{throw Error('Measurement must not wait for paint frames');};
    let imageReady,fontReady;
    const image={complete:false,decode:()=>new Promise(resolve=>{imageReady=resolve;events.push('decode');})};
    const fonts=new Promise(resolve=>{fontReady=resolve;});
-   const surface={querySelectorAll:s=>s==='img'?[image]:root.querySelectorAll(s),querySelector:s=>root.querySelector(s),contains:()=>true,ownerDocument:{fonts:{ready:fonts}},getBoundingClientRect:()=>{events.push('layout');return root.getBoundingClientRect();}};
+   const faces=[];faces.ready=fonts;
+   const surface={querySelectorAll:s=>s==='img'?[image]:root.querySelectorAll(s),querySelector:s=>root.querySelector(s),contains:()=>true,ownerDocument:{fonts:faces,defaultView:{getComputedStyle:()=>({fontFamily:'serif'})}},getBoundingClientRect:()=>{events.push('layout');return root.getBoundingClientRect();}};
    // The observer needs an actual DOM node; delay its SVG first, then exercise
    // image/font promises through a surface with controlled asset completion.
    const diagrams=settle(root,{calibrate:()=>events.push('diagram-ready')});
@@ -71,7 +74,7 @@ test('measurement waits for late diagrams, images and fonts without fixed animat
    await Promise.resolve();imageReady();await new Promise(resolve=>setTimeout(resolve,0));
    const heldForFont=!events.includes('calibrated');fontReady();await assets;
    return{pending,heldForFont,events};
-  },settleBookletMeasurement.toString());
+  },{fn:settleBookletMeasurement.toString(),fontFn:settleBookletFonts.toString()});
   assert.equal(result.pending,true);assert.equal(result.heldForFont,true);
   assert.deepEqual(result.events,['diagram-ready','decode','layout','calibrated']);
  }finally{await browser.close();}
@@ -81,8 +84,9 @@ test('measurement cancels stale asset waits and reports failed or timed-out asse
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{
   const page=await browser.newPage();await page.setContent('<main><div class="tikz-wrap"></div></main>');
-  const result=await page.evaluate(async fn=>{
-   const settle=(new Function('return ('+fn+')'))(),root=document.querySelector('main'),controller=new AbortController();
+  const result=await page.evaluate(async ({fn,fontFn})=>{
+   const fontSettle=(new Function('nunitoLoads','return ('+fontFn+')'))(new WeakMap());
+   const settle=(new Function('settleBookletFonts','return ('+fn+')'))(fontSettle),root=document.querySelector('main'),controller=new AbortController();
    const pending=settle(root,{signal:controller.signal,calibrate:()=>{}}).catch(e=>e.cancelled);controller.abort();
    const cancelled=await pending;
    const timeout=await settle(root,{timeoutMs:10,calibrate:()=>{}}).catch(e=>e.message);
@@ -93,11 +97,12 @@ test('measurement cancels stale asset waits and reports failed or timed-out asse
    const surface={querySelectorAll:s=>s==='img'?[image]:[],contains:()=>true};
    const brokenImage=await settle(surface,{calibrate:()=>{}}).catch(e=>e.message);
    const fontController=new AbortController();
-   const fontSurface={querySelectorAll:()=>[],ownerDocument:{fonts:{ready:new Promise(()=>{})}},getBoundingClientRect:()=>({})};
+   const faces=[];faces.ready=new Promise(()=>{});
+   const fontSurface={querySelectorAll:()=>[],ownerDocument:{fonts:faces,defaultView:{getComputedStyle:()=>({fontFamily:'serif'})}},getBoundingClientRect:()=>({})};
    const fontPending=settle(fontSurface,{signal:fontController.signal,calibrate:()=>{}}).catch(e=>e.cancelled);
    await new Promise(resolve=>setTimeout(resolve,0));fontController.abort();
    return{cancelled,timeout,failed,decodeStarted,brokenImage,fontCancelled:await fontPending};
-  },settleBookletMeasurement.toString());
+  },{fn:settleBookletMeasurement.toString(),fontFn:settleBookletFonts.toString()});
   assert.deepEqual(result,{cancelled:true,timeout:'Diagram queue timed out',failed:'Mathematics failed to render',decodeStarted:true,brokenImage:'Image failed to decode: broken.png',fontCancelled:true});
  }finally{await browser.close();}
 });
@@ -105,6 +110,6 @@ test('measurement cancels stale asset waits and reports failed or timed-out asse
 
 test('failed fonts never produce reusable measurements',async()=>{
  const fonts=[{status:'error'}];fonts.ready=Promise.resolve();
- const root={querySelectorAll:()=>[],querySelector:()=>null,getBoundingClientRect:()=>({}),ownerDocument:{fonts}};
+ const root={querySelectorAll:()=>[],querySelector:()=>null,getBoundingClientRect:()=>({}),ownerDocument:{fonts,defaultView:{getComputedStyle:()=>({fontFamily:'serif'})}}};
  await assert.rejects(settleBookletMeasurement(root,{calibrate:()=>{}}),/font failed to load/);
 });

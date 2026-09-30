@@ -3,6 +3,7 @@ import { resolveArrangement, arrangementCatalog } from './booklet-arrangement.js
 import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 import {paragraphSlice} from './booklet-document-fragments.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
+import {isLeanReview,printableProject} from './booklet-review-profile.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -85,14 +86,35 @@ function combinedPageBody(page,answerMode){
  let modes=combinedBodies.get(page.blocks);if(!modes){modes=new Map();combinedBodies.set(page.blocks,modes);}
  if(!modes.has(answerMode))modes.set(answerMode,page.blocks.map(block=>block.flow?.exerciseNumber?{...block,flow:{...block.flow,answerMode}}:block));return modes.get(answerMode);
 }
-export async function paginateFlow(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context=''}={}) {
+export async function paginateFlow(project,edition,measure,options={}) {
+  const {editionMaps,context='',cancelled=()=>false}=options;
+  const standalone=!edition.startsWith('with-');
+  if(standalone&&editionMaps&&isLeanReview(project)){
+    const printableKey=JSON.stringify([printableProject(project,edition),context]);
+    const projectSnapshot=JSON.stringify(project),cached=editionMaps.get(edition);
+    if(cached?.printableKey===printableKey&&cached.projectSnapshot===projectSnapshot){
+      if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});
+      return cached.result;
+    }
+    // Identity-based continuation reuse is unsafe after an in-place content
+    // change. A distinct immutable project can reuse its prior checkpoints.
+    const previous=cached?.project===project&&cached.printableKey!==printableKey?null:cached?.result??options.previous;
+    const result=await paginateFlowLayout(project,edition,measure,{...options,previous});
+    editionMaps.set(edition,{project,projectSnapshot,printableKey,result});
+    return result;
+  }
+  return paginateFlowLayout(project,edition,measure,options);
+}
+
+async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,onprogress=()=>{},previous=null,context='',editionMaps=null}={}) {
   if(project.settings.compactAnswers&&edition!=='student'){
     const prior=combinedSnapshots.get(previous);
-    const answers=await paginateCompactAnswers(project,edition,measure,{cancelled,previous:prior?.answers??previous,context,onprogress:p=>onprogress({...p,phase:edition.includes('short')?'short answers':'worked solutions'})});
-    if(!edition.startsWith('with-'))return answers;
-    const student=await paginateFlow(project,'student',measure,{cancelled,previous:prior?.student,context,onprogress:p=>onprogress({...p,phase:'questions'})});
-    // Cross-edition links are derived after both maps are complete.
     const answerMode=edition.includes('short')?'short':'worked';
+    const answerOptions={cancelled,previous:prior?.answers??previous,context,onprogress:p=>onprogress({...p,phase:answerMode==='short'?'short answers':'worked solutions'}),editionMaps};
+    const answers=edition.startsWith('with-')&&editionMaps&&isLeanReview(project)?await paginateFlow(project,answerMode,measure,answerOptions):await paginateCompactAnswers(project,edition,measure,answerOptions);
+    if(!edition.startsWith('with-'))return answers;
+    const student=await paginateFlow(project,'student',measure,{cancelled,previous:prior?.student,context,editionMaps,onprogress:p=>onprogress({...p,phase:'questions'})});
+    // Cross-edition links are derived after both maps are complete.
     const pages=[...student.pages,...answers.pages].map(p=>({...p,blocks:combinedPageBody(p,answerMode)}));
     pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
     const result={pages,issues:[...student.issues,...answers.issues],edition};combinedSnapshots.set(result,{student,answers});return result;

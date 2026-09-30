@@ -24,6 +24,15 @@ export function approvedAnswerConflict(e,{workflow,page,packet,inventory}={}) {
  return null;
 }
 
+// Keep detailed per-item comparisons when converting generated metadata to the
+// existing text field. Empty/malformed metadata is still an incomplete match.
+export function answerMatchText(value) {
+ if(typeof value==='string')return value;
+ const comparisons=value?.individualPixelComparison;
+ if(!Array.isArray(comparisons)||!comparisons.length||comparisons.some(row=>!String(row?.sourceLabel??'').trim()||typeof row?.comparison!=='string'||!row.comparison.trim()))return '';
+ return JSON.stringify(value);
+}
+
 // Evidence completeness is separate from the reviewer checking the mathematics.
 export function answerMatchingIssues(questionIds,evidence=[],teacherPages=[],review={}) {
  const issues=[],ids=new Set(questionIds);
@@ -32,9 +41,14 @@ export function answerMatchingIssues(questionIds,evidence=[],teacherPages=[],rev
   const rows=evidence.filter(e=>e.questionId===id);
   if(rows.length!==1){issues.push(id+': exactly one question answer-match record is required');continue;}
   const e=rows[0],refs=Array.isArray(e.teacherReference)?e.teacherReference:[e.teacherReference];
-  if(!e.matchEvidence?.trim())issues.push(id+': match the exercise, label and mathematical content');
-  if(!refs.length||refs.some(r=>!r||!teacherPages.includes(r.pdfPage)||!r.exercise?.trim()||!String(r.questionLabel??'').trim()||!String(r.printedPage??'').trim()))issues.push(id+': answer reference must identify a selected PDF page, printed page, exercise and question');
-  if(e.missing||e.status==='missing'||e.conflict&&!approvedAnswerConflict(e,review))issues.push(id+': unresolved answer match '+(typeof e.conflict==='string'?e.conflict:e.conflict?JSON.stringify(e.conflict):'missing'));
+  const resolution=e.conflict&&approvedAnswerConflict(e,review);
+  // A damaged/absent answer key has no honest teacher-page match. An explicit
+  // reviewed source omission can establish provenance for independently derived
+  // answers; it does not supply the separate mathematical-review acceptance.
+  const reviewedOmission=e.status==='independently-derived'&&e.conflict?.kind==='source-answer-unavailable'&&Array.isArray(e.teacherReference)&&refs.length===0&&!!resolution;
+  if(!answerMatchText(e.matchEvidence).trim())issues.push(id+': match the exercise, label and mathematical content');
+  if(!reviewedOmission&&(!refs.length||refs.some(r=>!r||!teacherPages.includes(r.pdfPage)||!r.exercise?.trim()||!String(r.questionLabel??'').trim()||!String(r.printedPage??'').trim())))issues.push(id+': answer reference must identify a selected PDF page, printed page, exercise and question');
+  if(e.missing||e.status==='missing'||e.conflict&&!resolution)issues.push(id+': unresolved answer match '+(typeof e.conflict==='string'?e.conflict:e.conflict?JSON.stringify(e.conflict):'missing'));
  }
  return issues;
 }
@@ -42,7 +56,7 @@ export function answerMatchingIssues(questionIds,evidence=[],teacherPages=[],rev
 // Authored solution figures are derived responses, not additional printed
 // questions or imported answer-book/theory regions. Bind them to the existing
 // independently inventoried whole question without changing that inventory.
-export function derivedAnswerDiagramEntries(sections,entries) {
+export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroups=[]}={}) {
  const mapped=new Set(entries.filter(e=>!e.exclusionReason).map(e=>e.targetId)),result=[];
  for(const block of sections.flatMap(s=>s.blocks??[]).filter(b=>b.type==='question')){
   // Authors may map the independently inventoried whole question to its native
@@ -59,9 +73,26 @@ export function derivedAnswerDiagramEntries(sections,entries) {
   const promptIds=value=>{if(!value||typeof value!=='object')return;if(value.id)promptTargets.add(value.id);Object.values(value).forEach(promptIds);};
   const questionIds=node=>{if(!node)return;if(node.id)promptTargets.add(node.id);promptIds(node.prompt);for(const child of node.children??[])questionIds(child);};
   questionIds(block.content);
-  const groups=new Set(entries.filter(e=>!e.exclusionReason&&e.kind==='group'&&promptTargets.has(e.targetId)).map(e=>e.id));
+  // Native teaching activities also group independently inventoried tasks
+  // under one source heading. The heading establishes the parent group only;
+  // each derived figure still needs its own explicit source-question owner.
+  const groups=new Set(entries.filter(e=>!e.exclusionReason&&(e.kind==='group'||block.pedagogyRole&&e.kind==='teaching')&&promptTargets.has(e.targetId)).map(e=>e.id));
+  // Some original inventories store range instructions in their groups table,
+  // separately from numbered entries. Use only a complete explicit membership
+  // declaration; never invent a group entry or infer an arbitrary descendant.
+  const responseTargets=new Set(),collectResponses=node=>{for(const child of node?.children??[]){if(child.id)responseTargets.add(child.id);collectResponses(child);}};
+  collectResponses(block.content);const metadataOwners=new Set();
+  for(const group of sourceGroups){
+   const originalPage=group.sourceIdentity?.pdfPage??group.sourceReview?.sourceIdentity?.pdfPage,page=group.pageNumber??originalPage;
+   const instruction=group.header??group.instruction;
+   const target=!Object.hasOwn(group,'targetId')&&group.id===block.id&&group.sharedStemId===group.id?block.id:group.targetId;
+   if(group.kind!=='practice'||group.exclusionReason||!group.id||typeof instruction!=='string'||!instruction.trim()||!promptTargets.has(target)||!Number.isInteger(page)||originalPage!==undefined&&originalPage!==page||!Array.isArray(group.items)||group.items.length<2||new Set(group.items).size!==group.items.length)continue;
+   const members=group.items.map(id=>entries.find(e=>e.id===id&&!e.exclusionReason&&e.kind==='question'&&e.pageNumber===page&&e.sharedStemId===group.id&&(e.parentId===group.id||e.parentId===target)&&responseTargets.has(e.targetId)));
+   if(members.some(member=>!member)||new Set(members.map(member=>member.targetId)).size!==members.length)continue;
+   members.forEach(member=>metadataOwners.add(member));
+  }
   const visit=(node,owner=source)=>{
-   if(groups.size)owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===node?.id&&(groups.has(e.parentId)||groups.has(e.sharedStemId)))??owner;
+   if(groups.size||metadataOwners.size)owner=entries.find(e=>!e.exclusionReason&&e.kind==='question'&&e.targetId===node?.id&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId)))??owner;
    for(const diagram of [...(node?.answer?.solutionDiagrams??[]),...(node?.sharedSolutionDiagrams??[])]){
     if(!diagram.id)throw Error('Authored answer diagram requires a stable identity: '+block.id);
     if(mapped.has(diagram.id))continue;

@@ -1,5 +1,7 @@
 # Review-first transcription
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 Required for new semantic runs (`workflowPolicy: "review-first-v1"` in new manifests). Existing projects, historical evidence and exact-mode compatibility are unchanged. An older semantic run can opt in through its config, but its independent inventory must first supply the review fields below. This adds gates to the [direct compact workflow](booklet-direct-compact-import.md), not a replacement for the [feedback checklist](booklet-transcription-feedback-checklist.md).
 
 ## Initial contract

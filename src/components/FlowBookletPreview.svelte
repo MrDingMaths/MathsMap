@@ -8,6 +8,7 @@
   import {measureBookletPage} from '../lib/booklet-page-space.js';
   import {paginateFlow} from '../lib/booklet-pagination.js';
   import {settleBookletMeasurement,measurementKeyFor} from '../lib/booklet-measurement.js';
+  import {isLeanReview} from '../lib/booklet-review-profile.js';
   import {captureFlowViewport,resolveFlowPageAnchor,restoreFlowViewport} from '../lib/booklet-viewport.js';
   import {frontMatterDestinations,unnumberedTopicDestinations} from '../lib/booklet-cover.js';
   let {project,edition='student',options={},zoom='width',selectedBlockId='',editing=false,composing=false,selecting=false,immediateLayoutGeneration=-1,documentGeneration=0,onstatus=null,onmap=null,onprogress=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null,onremovebreak=null}=$props();
@@ -16,6 +17,7 @@
   let metrics=$state.raw(null);
   let measureRoot,root=$state(),width=$state(794),active=$state(0),visible=$state(new Set()),generation=0,queue=Promise.resolve(),scrollRoot;
   const cache=new Map();
+  const editionMaps=new Map();
   let paginationRuns=0;
   const loadTimings=[],workTimings=[];let memoryContext;
   const documentEditor=getContext('booklet-inline-edit');
@@ -68,7 +70,7 @@
       if(token!==generation)return;
       // The validated environment owns both memory sizes and continuation reuse.
       // Failed validation cannot accept dimensions from an earlier generation.
-      if(!cacheContext||cacheContext!==memoryContext){cache.clear();memoryContext=cacheContext;}
+      if(!cacheContext||cacheContext!==memoryContext){cache.clear();editionMaps.clear();memoryContext=cacheContext;}
       const keyFor=measurementKeyFor(snapshot,currentOptions),yieldWork=createWorkYield();
       const measure=async page=>{
         await yieldWork();if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});
@@ -92,7 +94,7 @@
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
         return value;
       };
-        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:cacheContext?result:null,context:JSON.stringify([cacheContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;reportProgress({stage,complete:p.complete,total:p.total,ready:false});}});
+        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:cacheContext?result:null,editionMaps:cacheContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([cacheContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;reportProgress({stage,complete:p.complete,total:p.total,ready:false});}});
         if(token!==generation)return;
         const paginationMs=performance.now()-started;
         metrics={...stats,paginationMs,totalMs:paginationMs};

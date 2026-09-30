@@ -14,17 +14,17 @@ test('teaching responses retain readable diagram widths while practice answers s
    const {mount,unmount}=await import('/node_modules/svelte/src/index-client.js');
    const {default:Renderer}=await import('/src/components/PracticeQuestionRenderer.svelte');
    const results=[];
-   for(const kind of ['investigation','review','practice']){
+   for(const kind of ['investigation','review','practice','bank-preview','bank-override']){
     const target=document.createElement('div');target.style.width='180mm';document.body.append(target);
     const question={id:'width-'+kind,type:'question',pedagogyRole:kind,content:{id:'root-'+kind,type:'question',prompt:'Plot the curve.',answer:{worked:'The curve has positive inputs.',solutionDiagrams:[{id:'diagram-'+kind,format:'image',widthMm:104,src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"/>')}]}}};
     if(kind==='investigation')question.sourceAtom={id:'source-investigation',kind};
-    const component=mount(Renderer,{target,props:{question,showWorkedSolutions:true}});
+    const component=mount(Renderer,{target,props:{question,showWorkedSolutions:true,preserveDiagramWidths:kind.startsWith('bank-'),...(kind==='bank-override'?{diagramWidthOverrides:{['diagram-'+kind]:84}}:{})}});
     await new Promise(requestAnimationFrame);
     results.push({kind,width:target.querySelector('.diagram-resize-shell').getBoundingClientRect().width*25.4/96});
     await unmount(component);target.remove();
    }
    return results;
   });
-  for(const {kind,width}of widths)assert.ok(Math.abs(width-(kind==='practice'?60:104))<0.1,`${kind}: ${width}mm`);
+  for(const {kind,width}of widths)assert.ok(Math.abs(width-(kind==='practice'?60:kind==='bank-override'?84:104))<0.1,`${kind}: ${width}mm`);
  }finally{await browser.close();await server.close();}
 });

@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {isLeanReview,printableProject} from './lean-profile.mjs';
 import {createHash} from 'node:crypto';
 import {normaliseSvgPaintScopes} from '../../src/lib/svg-paint-scope.js';
 import {validatePdfRasters} from './pdf-rasters.mjs';
@@ -8,6 +9,7 @@ export function readPageManifest(file){
  try{const value=JSON.parse(fs.readFileSync(file,'utf8'));return Array.isArray(value.pages)&&value.pages.every((p,i)=>p.page===i+1&&typeof p.hash==='string')?value:null;}catch{return null;}
 }
 export function projectReviewHash(project){
+ if(isLeanReview(project))return hash(printableProject(project));
  const value=structuredClone(project);delete value.revision;delete value.updatedAt;
  if(value.settings)delete value.settings.flowEdition;
  return hash(value);
@@ -41,7 +43,7 @@ function normaliseEditorHostIds(html){
 }
 export function renderedPageHashes(pages,{renderer,settings,assets}){
  const global=structuredClone(settings);delete global.flowEdition;
- return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(p.html)),renderer,settings:global,assets})}));
+ return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(p.html)),renderer,settings:global,assets}),...(p.mode?{mode:p.mode,isAnswer:p.isAnswer,isCover:p.isCover,answerSectionStart:p.answerSectionStart}:{})}));
 }
 // Compare physical positions, not source-page IDs: pagination may shift a tail.
 export function affectedPages(previous,current){
@@ -63,5 +65,9 @@ export function validateFinalManifest(review,{edition,key,projectHash,renderer})
  if(manifest.mode!=='full'||manifest.passed!==true||manifest.edition!==edition||manifest.workflowKey!==key||manifest.projectHash!==projectHash||manifest.renderer!==renderer)throw Error('Final manifest is not a current full-edition check: '+edition);
  if(!manifest.pdf?.path||!fs.existsSync(manifest.pdf.path)||artifactHash(manifest.pdf.path)!==manifest.pdf.hash)throw Error('Final PDF changed: '+edition);
  if(!manifest.pages?.length||manifest.pages.length!==review.pages.length||manifest.pages.some((p,i)=>p.page!==i+1||p.hash!==review.pages[i]?.hash||review.pages[i]?.page!==p.page||review.pages[i]?.checked!==true))throw Error('Final visual review must match every rendered page: '+edition);
+ if(review.visualPages&&!isLeanReview(manifest))throw Error('Targeted review requires a three-pass manifest');
+ if(isLeanReview(manifest)){
+  if(!manifest.visualPages?.length||JSON.stringify(review.visualPages)!==JSON.stringify(manifest.visualPages)||manifest.visualPages.some(page=>review.pages[page-1]?.reviewMethod!=='visual'))throw Error('Selected pages require actual visual inspection: '+edition);
+ }
  return [reference,manifest.pdf,...validatePdfRasters(manifest)];
 }

@@ -8,7 +8,7 @@ import {fromSource} from '../src/lib/document-content.js';
 
 const block=(id,short='$315^\\circ$')=>({id,type:'question',content:{id:id+'root',answer:{short,worked:'Full working.'}}});
 const fixture=()=>normalizeEditableProject({id:'answer-grid',title:'Answers',settings:{paginationMode:'flexible',exerciseOrganisation:'topic',compactAnswers:{}},topics:[{id:'t',title:'Angles'}],sections:[{id:'s',topicId:'t',phase:'practice',blocks:Array.from({length:30},(_,i)=>block('q'+i))}]});
-const measure=async page=>page.shortAnswerProbe?{height:0,capacity:60,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(b=>b.content.answer.short.includes('wide')?55:18)}:{height:Math.max(0,...page.columns.map(c=>shortAnswerRows(c).length*20)),capacity:60};
+const measure=async page=>page.shortAnswerProbe?{height:0,capacity:64,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(b=>b.content.answer.short.includes('wide')?55:18)}:{height:Math.max(0,...page.columns.map(c=>shortAnswerRows(c).length*20)),capacity:64};
 
 test('maths and short literal answers can share; explanations, rich structures and diagrams stay full width',()=>{
   for(const value of ['$315^\\circ$','$\\frac{x+2}{x-1}$','True','True.','9 people.','12 cm','Line CD or DC',fromSource('$x=2$')])assert.equal(canShareShortAnswer(block('q',value)),true);
@@ -53,6 +53,14 @@ test('unchanged runs retain row checkpoints; a longer answer reflows exactly lik
   let pagesMeasured=0;
   const next=await paginateFlow(p,'short',page=>{if(!page.shortAnswerProbe)pagesMeasured++;return measure(page);},{previous});
   assert.deepEqual(next,await paginateFlow(p,'short',measure));assert.ok(pagesMeasured<10,'Resume before the affected row instead of repaginating the prefix');
+});
+
+test('near-footer fraction rows move intact to the next column with every answer preserved',async()=>{
+  const p=fixture();p.sections[0].blocks.forEach(b=>b.content.answer.short='$\\frac{11\\pi}{6}$ radians');
+  const result=await paginateFlow(p,'short',async page=>({...await measure(page),capacity:61}));
+  assert.deepEqual(result.pages[0].columns.map(c=>c.length),[6,6]);
+  assert.deepEqual(result.pages.flatMap(page=>page.columns.flat()).map(e=>e.block.id),p.sections[0].blocks.map(b=>b.id));
+  assert.ok(result.pages.every(page=>page.columns.every(c=>shortAnswerRows(c).every(row=>row.length===3))));
 });
 
 test('row shape and width probes have distinct measurement keys',()=>{

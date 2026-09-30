@@ -15,7 +15,14 @@ export async function withRunLock(runDir,name,action,{timeoutMs=30000}={}) {
   fs.mkdirSync(path.dirname(file),{recursive:true});const started=Date.now();let fd;
   while(fd===undefined){
    try{fd=fs.openSync(file,'wx');}catch(error){
-    if(error.code!=='EEXIST')throw error;
+    if(error.code!=='EEXIST'){
+     // Windows can report EPERM for an exclusive open of an occupied lock.
+     // Only a verified regular file represents another owner; absent,
+     // unreadable and directory targets retain the original permission error.
+     let occupied=false;
+     if(error.code==='EPERM'){try{occupied=fs.statSync(file).isFile();}catch{/* Preserve the original permission error. */}}
+     if(!occupied)throw error;
+    }
     if(Date.now()-started>=timeoutMs)throw Error(name+' lock is busy; reconcile the owner before retrying');
     await new Promise(resolve=>setTimeout(resolve,50));
    }

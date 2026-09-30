@@ -515,7 +515,7 @@
                       <summary>{expandedSolutionIds.has(question.id) ? 'Hide solution' : 'Show solution'}</summary>
                       {#if expandedSolutionIds.has(question.id)}
                         <div class="question-card__solution-content">
-                          <PracticeQuestionRenderer question={question} showSpaces={false} showWorkedSolutions={true} showTitle={false} answerColumnsLimit={1} compact={true} diagramWidthOverrides={diagramWidths} blockLayouts={question.presentation?.layoutOverrides?.blockLayouts ?? {}} />
+                          <PracticeQuestionRenderer preserveDiagramWidths={true} question={question} showSpaces={false} showWorkedSolutions={true} showTitle={false} answerColumnsLimit={1} compact={true} diagramWidthOverrides={diagramWidths} blockLayouts={question.presentation?.layoutOverrides?.blockLayouts ?? {}} />
                         </div>
                       {/if}
                     </details>
@@ -547,8 +547,8 @@
                 {#if pageBreakAfter(index)}<div class="page-break-indicator">Page break</div>{/if}
                 </div>
               {/each}
-              {#if showShortAnswers}<section class="answer-page"><h2>Short answers</h2>{#each selectedQuestions as question, index (question.id)}<PracticeQuestionRenderer question={worksheetQuestion(question)} number={index + 1} showSpaces={false} showShortAnswers={true} diagramWidthOverrides={diagramWidths} />{/each}</section>{/if}
-              {#if showWorkedSolutions}<section class="answer-page"><h2>Worked solutions</h2>{#each selectedQuestions as question, index (question.id)}<PracticeQuestionRenderer question={worksheetQuestion(question)} number={index + 1} showSpaces={false} showWorkedSolutions={true} diagramWidthOverrides={diagramWidths} />{/each}</section>{/if}
+              {#if showShortAnswers}<section class="answer-page"><h2>Short answers</h2>{#each selectedQuestions as question, index (question.id)}<PracticeQuestionRenderer preserveDiagramWidths={true} question={worksheetQuestion(question)} number={index + 1} showSpaces={false} showShortAnswers={true} diagramWidthOverrides={diagramWidths} />{/each}</section>{/if}
+              {#if showWorkedSolutions}<section class="answer-page"><h2>Worked solutions</h2>{#each selectedQuestions as question, index (question.id)}<PracticeQuestionRenderer preserveDiagramWidths={true} question={worksheetQuestion(question)} number={index + 1} showSpaces={false} showWorkedSolutions={true} diagramWidthOverrides={diagramWidths} />{/each}</section>{/if}
             {:else}<div class="empty-preview"><strong>Select questions to begin</strong></div>{/if}
           </article>
         </aside>

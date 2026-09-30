@@ -272,7 +272,7 @@ test('failed continuation repair retains configured question scope and cached un
   calls++;const a=JSON.parse(prompt.slice(prompt.lastIndexOf('\n\n')+2)).assignment;
   const packets=a.pages.map(page=>{
    const entries=a.inventory.filter(e=>e.pageNumber===page);
-   if(!entries.some(e=>e.id===`p${page}-q`))return packet(page,entries,a.id+'-'+page);
+   if(!entries.some(e=>e.id===`p${page}-q`)){const result=packet(page,entries,a.id+'-'+page);if(page===2)result.inventoryMappings[0].targetId='missing';return result;}
    const copy=structuredClone(block);if(page===1)copy.content.children[0].answer.worked='Result\\n\nConclusion';
    return {pageNumber:page,sections:[{id:a.id+'-'+page,title:'Review',phase:'practice',blocks:[copy]}],inventoryMappings:entries.map(e=>({inventoryId:e.id,targetId:e.kind==='part'?'whole-a':'whole-root'})),...(page===2?{sharedContentContinuations:[{blockId:block.id,canonicalPageNumber:1,reason:'The question continues on page 2'}]}:{})};
   });return {result:{packets},metrics:{}};
@@ -283,6 +283,10 @@ test('failed continuation repair retains configured question scope and cached un
  assert.equal(context.assignmentId,assignmentId);
  const record={context,patches:[{...context.targets[0],corrected:correct,reason:'Replace a literal newline escape with the existing correct continuation paragraph break'}],review:{reviewer:'Regression fixture',note:'Retain the complete shared question and unrelated successful assignments',artifacts:[context.evidence[0]]}};
  await repairAttempt({...options,attempt:2},record);
+ const otherId=createAssignmentPlan(inventories,options.config.assignmentLimits).assignments.find(a=>a.inventoryIds.includes('p2-other')).id;
+ const other=attemptRepairContext(options,{page:2,assignmentId:otherId,fromAttempt:1,targets:[{targetId:'$packet',fields:['/inventoryMappings']}]});
+ assert.equal(other.assignmentId,otherId);
+ await repairAttempt({...options,attempt:2},{context:other,patches:[{...other.targets[0],corrected:[{inventoryId:'p2-other',targetId:'other-2'}],reason:'Restore the existing unrelated question mapping without expanding ownership to the continuation'}],review:{reviewer:'Regression fixture',note:'Rebuild the continuation-page plan while retaining the unrelated immutable assignment payload',artifacts:[other.evidence[0]]}});
  const resumed=await runSemanticPackets({...options,attempt:2,regenerationReason:'Assemble repaired continuation and retained unrelated assignments'},{log:()=>{},runner:()=>assert.fail('Existing assignments must be reused')});
  assert.equal(resumed.ok,true,JSON.stringify(resumed));assert.equal(calls,3);
  const published=[1,2].map(page=>JSON.parse(fs.readFileSync(path.join(runDir,'semantic-packets',`page-00${page}.author.json`))));

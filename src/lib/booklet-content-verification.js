@@ -1,3 +1,4 @@
+import {isLeanReview} from './booklet-review-profile.js';
 import {hasVisibleContent} from './document-content.js';
 import {inspectPresentationFidelity} from './booklet-presentation-verification.js';
 import {validSourceRegion} from './diagram-source-region.js';
@@ -162,7 +163,7 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
       if(entry.ambiguous){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
       else if(state!=='duplicate'){
         const key=await contentVerificationKey(project,entry,nodes,assetSignatures);
-        state=entry.verification?.signature===key&&entry.verification?.checked===true?'verified':'unchecked';
+        state=isLeanReview(project)?'mapped':entry.verification?.signature===key&&entry.verification?.checked===true?'verified':'unchecked';
         if(state==='unchecked')issue(state,entry.targetId,`Check source p${entry.pageNumber}: ${entry.id}`);
       }
       for(const id of entry.teachingContextIds??[])if(!nodes.has(id))issue('missing-teaching-context',entry.targetId,`Missing teaching context ${id}`);
@@ -189,5 +190,5 @@ export async function inspectContentCoverage(project,{assetSignatures={}}={}){
     for(const id of [...(node.dependsOn??[]),node.pairedBlockId,node.flow?.continuationOf??node.continuationOf].filter(Boolean))if(!nodes.has(id))issue('broken-reference',node.id,`Missing dependency ${id}`);
   }
   const contentComplete=entries.length>0&&!issues.length, presentationReport=await inspectPresentationFidelity(project);
-  return {version:2,complete:contentComplete&&presentationReport.complete,contentComplete,presentation:presentationReport,total:entries.length,counts:Object.fromEntries(['verified','excluded','missing','duplicate','ambiguous','unchecked'].map(s=>[s,rows.filter(r=>r.state===s).length])),rows,issues:[...issues,...presentationReport.issues]};
+  return {version:2,...(isLeanReview(project)?{reviewProfile:project.source?.reviewProfile??project.source?.workflow?.reviewProfile,reviewRequired:'Independent content review is recorded in the workflow, not inferred from mappings.'}:{}),complete:contentComplete&&presentationReport.complete,contentComplete,presentation:presentationReport,total:entries.length,counts:Object.fromEntries(['verified','mapped','excluded','missing','duplicate','ambiguous','unchecked'].map(s=>[s,rows.filter(r=>r.state===s).length])),rows,issues:[...issues,...presentationReport.issues]};
 }

@@ -15,6 +15,12 @@ node scripts/booklet/check-compact-navigation.mjs --project booklet-v1 --out .bo
 node scripts/booklet/export-pdf.mjs --project-id booklet-v1 --mode with-short --out output/pdf/booklet-v1.pdf
 ```
 
+`check-compact-exercises.mjs --visibility-reviews FILE.json` uses a run-local
+`reviews` object keyed by exact native diagram code hashes. Omitting it retains
+the historical visibility register. An explicit missing or malformed file stops
+the check; accepted review decisions do not override detected geometry defects.
+The export report retains the input file and hash.
+
 The lower-level `npm run booklet:import` also requires an explicit `--input` candidate and supports `--mode compact|exact`. Source history cannot create a project. Projects use v4; existing schemas remain readable. Export editions are `student`, `short`, `worked`, `with-short` and `with-worked`.
 
 PDF-only sources may omit both Word companions; select question, teaching-context and answer pages separately. Practice-only assembly keeps teaching evidence external and accepts an answer-book discrepancy only when its explicitly cited, question-specific workflow decision has current hashed evidence. The original discrepancy remains in provenance.
@@ -29,6 +35,6 @@ Final review defaults to [unique-layout acceptance](../../docs/booklet-review-fi
 
 Keep source preparation/extraction, candidate validation, correction checks, source inspection, answer calibration, bank transactions, editor checks and export QA reusable. `candidate-validation.mjs` contains pure prompt/validation helpers extracted from retired benchmarks. `codex-transcription.mjs` remains an optional explicit batch-authoring helper with coverage and model-contract tests, independent of Studio.
 
-New runs use the [bounded assignment, shared PDF raster and verification-register contracts](../../docs/booklet-import-efficiency.md#new-run-pipeline-policy-17-september-2026) and the [canonical bounded Sol xhigh stage guidance](../../docs/booklet-bounded-workflow.md). Use `run-workflow next` for compact ownership/dependency handoffs, `prepare-stage|run-stage|record-stage` for substantive review, and `link-session|weekly-usage|receipt` for complete-job accounting. Representative approval, exact-field repairs and closeout remain register-derived; `check-import-harness` combines the isolated UI scenario. `prepare-pipeline-pilot` freezes existing whole questions for reusable tooling regressions and cannot authorize a live bank import. Stop after required checks, publication, readback and repeat-import pass.
+New runs use the [bounded assignment, shared PDF raster and verification-register contracts](../../docs/booklet-import-efficiency.md#new-run-pipeline-policy-17-september-2026) and the [canonical bounded Sol high stage guidance](../../docs/booklet-bounded-workflow.md). Use `run-workflow next` for compact ownership/dependency handoffs, `prepare-stage|run-stage|record-stage` for substantive review, and `link-session|weekly-usage|receipt` for complete-job accounting. Representative approval, exact-field repairs and closeout remain register-derived; `check-import-harness` combines the isolated UI scenario. `prepare-pipeline-pilot` freezes existing whole questions for reusable tooling regressions and cannot authorize a live bank import. Stop after required checks, publication, readback and repeat-import pass.
 
 PDF/editor checks require a local Vite server and the tools documented in the direct workflow. Run relevant regressions and one production build after shared changes settle. Browser checks should intercept writes or use isolated stores. Completed one-off pilots, applied repair commands and benchmark runners are retired; useful originals are in ignored local recovery storage, not production commands.

@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {layoutVerificationKey,verificationAssetSignatures} from '../../src/lib/booklet-content-verification.js';
+import {layoutVerificationKey,verificationAssetSignatures,signature} from '../../src/lib/booklet-content-verification.js';
+import {isLeanReview,printableProject} from '../../src/lib/booklet-review-profile.js';
 
 export const contentAssetSignatures=project=>verificationAssetSignatures(project,async src=>{
   if(src.startsWith('data:'))return new Uint8Array(await (await fetch(src)).arrayBuffer());
@@ -38,8 +39,15 @@ export function sourceDependencySignature(root='src/main.js'){
   }
   return unknown?treeSignature(path.dirname(root)):digest(JSON.stringify([...files].sort().map(file=>[path.relative(process.cwd(),file).replaceAll('\\','/'),treeSignature(file)])));
 }
-export function rendererSignature(){
+export function rendererSignature({lean=false}={}){
+  // Bind the print/measurement import closure and its host without pulling in
+  // unrelated bank/classification screens. Checker revisions do not change PDF pixels.
+  if(lean)return digest(JSON.stringify({profile:'textbook-three-pass-v1',sources:sourceDependencySignature('src/components/FlowBookletPreview.svelte'),hosts:['src/components/BookletProjects.svelte','src/App.svelte','src/main.js','src/app.css','index.html'].map(file=>[file,treeSignature(file)]),runtime:['public/libs','node_modules/katex/dist','package-lock.json'].map(file=>[file,treeSignature(file)])}));
   return sourceDependencySignature()+treeSignature('public/libs')+treeSignature('node_modules/katex/dist/fonts')+treeSignature('scripts/booklet/pdf-layout-qa.mjs')+treeSignature('scripts/booklet/check-compact-exercises.mjs')+treeSignature('scripts/booklet/diagram-preflight.mjs')+treeSignature('package-lock.json')+treeSignature('scripts/booklet/pdf-navigation-qa.mjs');
+}
+export function qaSignature(){
+  // Checker helpers can change the verdict even when the entry script does not.
+  return digest(JSON.stringify(['scripts/booklet/pdf-layout-qa.mjs','scripts/booklet/check-compact-exercises.mjs','scripts/booklet/diagram-preflight.mjs','scripts/booklet/pdf-navigation-qa.mjs','src/lib/booklet-qa.js','src/lib/booklet-content-verification.js','src/lib/booklet-presentation-verification.js'].map(file=>[file,sourceDependencySignature(file)])));
 }
 // An explicitly reviewed regression run may bind its selected tests and their
 // local import graph. Unknown imports widen to the historical whole-tree key.
@@ -76,6 +84,7 @@ export function implementationSignatures(){
   regression:group(['scripts/booklet','tests','package-lock.json']),build:group(['src','public/libs','package-lock.json','vite.config.js']),storage:group(['booklets/storage-policy.json','scripts/check-repo-storage.mjs'])};
 }
 export async function layoutCacheKey(project,edition,runtime){
+  const lean=isLeanReview(project),printable=lean?printableProject(project,edition):project;
   const assets=[];let unresolved=false;
   const visit=n=>{
     if(!n||typeof n!=='object')return;
@@ -87,8 +96,9 @@ export async function layoutCacheKey(project,edition,runtime){
       assets.push([n.src,file?treeSignature(file):digest(n.src)]);
     }
     Object.values(n).forEach(v=>Array.isArray(v)?v.forEach(visit):typeof v==='object'&&visit(v));
-  };visit(project.sections);
-  return unresolved?null:layoutVerificationKey(project,{renderer:runtime,fonts:assets,edition});
+  };visit(printable.sections);
+  if(unresolved)return null;
+  return lean?signature({profile:'textbook-three-pass-v1',project:printable,renderer:runtime,fonts:assets,edition}):layoutVerificationKey(project,{renderer:runtime,fonts:assets,edition});
 }
 export function readLayoutCache(file,key,pdf){
   if(!key||!fs.existsSync(file)||!fs.existsSync(pdf))return null;

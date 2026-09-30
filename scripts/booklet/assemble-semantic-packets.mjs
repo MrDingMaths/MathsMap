@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {loadRun,parsePageSelection} from './transcription.mjs';
 import {validateSemanticResult} from './semantic-workflow.mjs';
-import {answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from './answer-evidence.mjs';
+import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from './answer-evidence.mjs';
 import {contentProject} from '../../src/lib/booklet-source-content.js';
 import {validateEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {renderMath} from '../../src/lib/render-math.js';
@@ -12,6 +12,7 @@ import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
 import {trackProcessPhase} from './run-observability.mjs';
 import {coalescePacketContinuations} from './packet-continuations.mjs';
 import {projectPracticeCategoryMappings} from './practice-category-headings.mjs';
+import {reconcileReviewedCategoryLayouts} from './reviewed-category-layout.mjs';
 import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
@@ -22,7 +23,7 @@ if(selected.some(p=>!manifest.selectedPages.includes(p)))throw Error('Cannot ass
 trackProcessPhase(runDir,'assembly',{artifact:arg('--out'),pages:selected,projectId});
 const workflow=reviewEnabled(manifest,config)?liveWorkflow(runDir):null;
 const sourceBoundaries=!workflow||(config.sourcePaginationPolicy??config.settings?.sourcePaginationPolicy)==='source-boundaries';
-const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],flags=[],corrections=[],confirmedCorrections=[];
+const root=path.join(runDir,'semantic-packets'),sections=[],entries=[],inventoryPages=[],sourceGroups=[],flags=[],corrections=[],confirmedCorrections=[];
 const inventories=new Map(),rawPackets=[];
 for(const page of selected){
  const stem=`page-${String(page).padStart(3,'0')}`;
@@ -35,6 +36,7 @@ for(const page of selected){
 const packets=coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations});
 for(const packet of packets){
  const page=packet.pageNumber,inv=inventories.get(page);
+ for(const record of packet.answerEvidence??[])record.matchEvidence=answerMatchText(record.matchEvidence);
  const projectedMappings=projectPracticeCategoryMappings(packet,inv);
  if(config.contentScope==='practice-only'&&manifest.teacherPages?.length){
   const questions=packet.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
@@ -63,6 +65,7 @@ for(const packet of packets){
   sections.push(section);
  }
  inventoryPages.push({pageNumber:page,inventoried:inv.inventoried===true,...(inv.layoutPatterns?{layoutPatterns:structuredClone(inv.layoutPatterns)}:{})});
+ sourceGroups.push(...(inv.groups??[]).map(group=>({...structuredClone(group),pageNumber:group.pageNumber??page})));
  for(const item of inv.entries){
   const mappings=projectedMappings.filter(m=>m.inventoryId===item.id);
   if(item.exclusionReason){entries.push({...item,pageNumber:page});continue;}
@@ -80,7 +83,7 @@ for(const packet of packets){
  confirmedCorrections.push(...(packet.confirmedCorrections??[]));
 }
 if(workflow){synchronizeInventoryAmbiguities(entries,workflow);flags.push(...workflowFlags(workflow,selected));}
-entries.push(...derivedAnswerDiagramEntries(sections,entries));
+entries.push(...derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroups}));
 const candidate={title:config.title,topics:config.topics.map(({id,title})=>({id,title})),settings:{...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),sourcePaginationPolicy:'source-boundaries',preserveSourcePages:true,cover:{course:'Mathematics Stage 5 Path',book:'Book 2',version:'260905',feedback:'https://MrDingMaths.com'}},sections,sourceInventory:{version:1,selectedPages:selected,pages:inventoryPages,entries},studio:{version:1,flags}};
 if(workflow)candidate.settings={...config.settings,...(config.compactAnswers?{compactAnswers:structuredClone(config.compactAnswers)}:{}),...(sourceBoundaries?{sourcePaginationPolicy:'source-boundaries'}:{}),preserveSourcePages:sourceBoundaries,cover:{...config.settings?.cover,...config.cover}};
 if(config.contentScope)candidate.contentScope=config.contentScope;
@@ -98,15 +101,16 @@ for(const correction of confirmedCorrections){
  parent[key]=correction.original;
 }
 candidate.sourceCorrections=confirmedCorrections;
-if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy}:{}),correctionIds:workflow.corrections.map(c=>c.id)};
+if(workflow)candidate.sourceInventory.workflow={policy:REVIEW_POLICY,runId,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,...(manifest.reviewProfile?{reviewProfile:manifest.reviewProfile}:{})}:{}),correctionIds:workflow.corrections.map(c=>c.id)};
 let project=contentProject(candidate,{runId,projectId,selectedPages:manifest.selectedPages});
 // Inventory and author patches were already applied in order by the effective
 // packet readers. Replaying them here would reject a valid A -> B -> C chain.
-if(workflow){project=materializeCorrections(project,workflowForPages(workflow,selected,['project']),'project');project.source.workflow=candidate.sourceInventory.workflow;}
+if(workflow){if(!args.includes('--defer-project-corrections'))project=materializeCorrections(project,workflowForPages(workflow,selected,['project']),'project');project.source.workflow=candidate.sourceInventory.workflow;if(manifest.reviewProfile)project.source.reviewProfile=manifest.reviewProfile;}
 if(config.compactAnswers)project.settings.compactAnswers={...project.settings.compactAnswers,...structuredClone(config.compactAnswers)};
 project.source.sourceHashes={pdf:manifest.source.pdfHash,...(manifest.source.docxHash?{docx:manifest.source.docxHash}:{}),...(manifest.source.teacherPdfHash?{teacherPdf:manifest.source.teacherPdfHash}:{})};
 project.source.contentScope=config.contentScope??'all';
 project.source.referencePages={context:manifest.contextPages??[],teacher:manifest.teacherPages??[]};
+reconcileReviewedCategoryLayouts(project);
 const validation=validateEditableProject(project),output=path.resolve(arg('--out'));
 const mathErrors=[];
 const semanticErrors=[];

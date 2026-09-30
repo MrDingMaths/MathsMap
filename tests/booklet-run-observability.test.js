@@ -6,7 +6,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {normalizeUsage,aggregateUsage,readCodexSessionUsage,summarizeWeeklyUsage} from '../scripts/booklet/session-usage.mjs';
 import {summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
-import {linkRunSession,recordWeeklyUsage,recordExportReuse,buildRunReceipt,summarizeRunReceipt} from '../scripts/booklet/run-observability.mjs';
+import {linkRunSession,recordWeeklyUsage,recordExportReuse,buildRunReceipt,summarizeRunReceipt,withRunLock} from '../scripts/booklet/run-observability.mjs';
 
 const origin=Date.parse('2026-09-17T00:00:00Z'),at=offset=>new Date(origin+offset).toISOString();
 const usage=(input,cached,output,reasoning=0)=>({input_tokens:input,cached_input_tokens:cached,output_tokens:output,reasoning_output_tokens:reasoning,total_tokens:input+output});
@@ -15,6 +15,32 @@ const meta=id=>event(0,'session_meta',{id,session_id:id+'-runtime',base_instruct
 const call=(offset,id,values,total=values)=>event(offset,'token_usage_record',{response_id:id,turn_id:'turn-1',usage:values,thread_token_usage:total});
 const snapshot=(offset,total,last)=>event(offset,'event_msg',{type:'token_count',info:{total_token_usage:total,last_token_usage:last},rate_limits:{credits:{balance:'SECRET-CREDIT'}}});
 function fixture(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-accounting-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const write=(name,body)=>{const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof body==='string'?body:body.map(row=>JSON.stringify(row)).join('\n')+'\n');return file;};return {dir,write};}
+
+test('Windows exclusive-open contention waits for the run-lock owner without stealing its bytes',async t=>{
+ const f=fixture(t);assert.ok(path.resolve(f.dir).startsWith(path.resolve(os.tmpdir())+path.sep));
+ const file=f.write('workflow/review.lock','{"pid":9999,"owner":"retained"}'),owned=fs.readFileSync(file,'utf8'),open=fs.openSync;let calls=0;
+ t.mock.method(fs,'openSync',(target,flags,...args)=>{if(target===file&&flags==='wx'&&fs.existsSync(file))throw Object.assign(Error('Windows exclusive open'),{code:'EPERM'});return open(target,flags,...args);});
+ const timer=setTimeout(()=>{assert.equal(fs.readFileSync(file,'utf8'),owned);fs.unlinkSync(file);},70);t.after(()=>clearTimeout(timer));
+ await withRunLock(f.dir,'review',()=>{calls++;assert.equal(JSON.parse(fs.readFileSync(file)).pid,process.pid);},{timeoutMs:1000});
+ assert.equal(calls,1);assert.equal(fs.existsSync(file),false);
+});
+
+test('Windows contention still times out and preserves the occupied run lock',async t=>{
+ const f=fixture(t);assert.ok(path.resolve(f.dir).startsWith(path.resolve(os.tmpdir())+path.sep));
+ const file=f.write('workflow/review.lock','{"pid":9999}'),owned=fs.readFileSync(file,'utf8'),open=fs.openSync;
+ t.mock.method(fs,'openSync',(target,flags,...args)=>{if(target===file&&flags==='wx')throw Object.assign(Error('Windows exclusive open'),{code:'EPERM'});return open(target,flags,...args);});
+ await assert.rejects(()=>withRunLock(f.dir,'review',()=>assert.fail('Occupied lock cannot run the action'),{timeoutMs:1}),/review lock is busy/);
+ assert.equal(fs.readFileSync(file,'utf8'),owned);
+});
+
+test('absent, directory and uninspectable targets retain the original run-lock permission error',async t=>{
+ const f=fixture(t);assert.ok(path.resolve(f.dir).startsWith(path.resolve(os.tmpdir())+path.sep));
+ const file=path.join(f.dir,'workflow/review.lock'),open=fs.openSync,stat=fs.statSync,error=Object.assign(Error('Denied lock creation'),{code:'EPERM'});let unreadable=false;
+ t.mock.method(fs,'openSync',(target,flags,...args)=>{if(target===file&&flags==='wx')throw error;return open(target,flags,...args);});
+ t.mock.method(fs,'statSync',target=>{if(target===file&&unreadable)throw Object.assign(Error('Cannot inspect target'),{code:'EACCES'});return stat(target);});
+ const check=()=>assert.rejects(()=>withRunLock(f.dir,'review',()=>assert.fail('Permission failure cannot run the action')),e=>e===error);
+ await check();fs.mkdirSync(file);await check();unreadable=true;await check();
+});
 function attempts(rows){return rows.flatMap(({id,start=0,end=100,metrics,attempt=1,stage='author'})=>[
  {attemptId:id,event:'started',time:origin+start,at:at(start),stage,attempt,retryReason:attempt>1?'content-repair':'initial'},
  {attemptId:id,event:'phase-started',phase:'generation',time:origin+start,at:at(start)},

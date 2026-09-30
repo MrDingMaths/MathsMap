@@ -4,9 +4,10 @@ import {createHash} from 'node:crypto';
 import {sharedQuestion,mergeQuestionContent} from '../../src/lib/question-sync.js';
 import {normaliseQuestion,validateQuestion,makeBankManifest} from '../../src/lib/practice-question-model.js';
 import {reconcileSyncLayout} from '../../src/lib/question-sync-layout.js';
+import {projectBankQuestion,mergeBankIntoBooklet} from '../../src/lib/question-bank-projection.js';
 
 export const revisionHash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
-const sharedHash=q=>revisionHash(sharedQuestion(normaliseQuestion(q)));
+const sharedHash=(q,policy=null)=>revisionHash(sharedQuestion(normaliseQuestion(policy?projectBankQuestion(q,{policy}):q)));
 const json=v=>JSON.stringify(v,null,2)+'\n';
 const segment=value=>{if(typeof value!=='string'||!value||!/^[a-zA-Z0-9._-]+$/.test(value)||value==='.'||value==='..')throw Object.assign(new Error('Invalid bank reference'),{statusCode:400});return value;};
 const linksPath=root=>path.join(root,'.sync','links.json');
@@ -21,8 +22,8 @@ export async function writeTransaction(entries){
 }
 async function bankRecords(root){const names=await fs.readdir(root).catch(()=>[]);return Promise.all(names.filter(n=>n.endsWith('.json')&&n!=='manifest.json').map(n=>readSyncJson(path.join(root,n))));}
 export async function bankManifestEntry(root,updates){const records=await bankRecords(root),byId=new Map(records.filter(Boolean).map(q=>[q.id,q]));for(const q of updates)byId.set(q.id,q);return [path.join(root,'manifest.json'),makeBankManifest([...byId.values()].sort((a,b)=>a.id.localeCompare(b.id)))];}
-export function registerOwner(links,project,block,bank){links[bank.id]={projectId:project.id,blockId:block.id,sourceHash:sharedHash(block),bankHash:sharedHash(bank),bankRevision:revisionHash(bank)};}
-export async function registerBankOwner(root,project,block,bank){const links=await syncLinks(root);if(!links[bank.id]){registerOwner(links,project,block,bank);await writeTransaction([[linksPath(root),links]]);}}
+export function registerOwner(links,project,block,bank,projection=links[bank.id]?.projection){links[bank.id]={projectId:project.id,blockId:block.id,sourceHash:sharedHash(block,projection),bankHash:sharedHash(bank),bankRevision:revisionHash(bank),...(projection?{projection}: {})};}
+export async function registerBankOwner(root,project,block,bank,projection){const links=await syncLinks(root);if(!links[bank.id]){registerOwner(links,project,block,bank,projection);await writeTransaction([[linksPath(root),links]]);}}
 const blocks=p=>p.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
 export async function refreshBankRatings(project,bankRoot){
  for(const block of blocks(project)){
@@ -37,10 +38,10 @@ export async function prepareAutomaticSync(project,bankRoot){
  for(const block of blocks(project)){
   const pair=Object.entries(links).find(([,l])=>l.projectId===project.id&&l.blockId===block.id);if(!pair)continue;
   const[id,link]=pair;segment(id);const current=await readSyncJson(path.join(bankRoot,id+'.json'));if(!current)continue;
-  const localHash=sharedHash(block),bankHash=sharedHash(current);
+  const localHash=sharedHash(block,link.projection),bankHash=sharedHash(current);
   if(localHash===bankHash){if(block.bankRef?.id===id)block.bankRef.revision=revisionHash(current);if(link.sourceHash!==localHash||link.bankHash!==bankHash||link.bankRevision!==revisionHash(current)){registerOwner(links,project,block,current);changed=true;}continue;}
   if(localHash===link.sourceHash||bankHash!==link.bankHash)continue; // local save succeeds; conflicting question pauses.
-  const next=normaliseQuestion({...current,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(block).content,current.content),updatedAt:new Date().toISOString()});
+  const next=normaliseQuestion({...current,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(projectBankQuestion(block,{policy:link.projection??null})).content,current.content),updatedAt:new Date().toISOString()});
   reconcileSyncLayout(current,next,next.presentation);
   const check=validateQuestion(next);if(!check.valid)throw new Error('Bank sync: '+check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',id,revisionHash(current)+'.json'),current],[path.join(bankRoot,id+'.json'),next]);updated.push(next);
@@ -59,7 +60,7 @@ export async function projectSyncStatus(project,bankRoot){
   segment(id);if(block.bankRef?.revision)segment(block.bankRef.revision);
   const bank=await readSyncJson(path.join(bankRoot,id+'.json')),link=ownerEntry?.[1];
   if(!bank){items.push({blockId:block.id,bankId:id,state:'missing',owner:!!link});continue;}
-  const localHash=sharedHash(block),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
+  const localHash=sharedHash(block,link?.projection),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
   let state='synced';
   if(localHash!==bankHash){
    if(link)state=localHash!==link.sourceHash&&bankHash!==link.bankHash?'conflict':bankHash!==link.bankHash?'update':'pending';
@@ -80,13 +81,13 @@ export async function prepareSyncResolution(project,bankRoot,body){
  if(body.action==='use-bank'){
   const base=block.bankRef?.revision?await readSyncJson(path.join(bankRoot,'.revisions',item.bankId,block.bankRef.revision+'.json')):null;
   const before=structuredClone(block);
-  block.content=mergeQuestionContent(bank.content,block.content,base?.content);block.title=bank.title;
+  block.content=mergeBankIntoBooklet(bank.content,block,base?.content,item.owner?links[item.bankId]?.projection:null);block.title=bank.title;
   reconcileSyncLayout(before,block,block.presentation);
   reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
   if(block.bankRef)block.bankRef.revision=item.bankRevision;
   if(item.owner)registerOwner(links,project,block,bank);
  }else if(body.action==='use-booklet'&&item.owner){
-  const next=normaliseQuestion({...bank,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(block).content,bank.content),updatedAt:new Date().toISOString()});
+  const next=normaliseQuestion({...bank,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(projectBankQuestion(block,{policy:links[item.bankId]?.projection??null})).content,bank.content),updatedAt:new Date().toISOString()});
   reconcileSyncLayout(bank,next,next.presentation);
   const check=validateQuestion(next);if(!check.valid)throw new Error(check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',bank.id,item.bankRevision+'.json'),bank],[path.join(bankRoot,bank.id+'.json'),next],await bankManifestEntry(bankRoot,[next]));

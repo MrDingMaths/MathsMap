@@ -40,6 +40,24 @@ Compare every normalized bank question and captured presentation with the settle
 
 Keep verbose payloads and evidence local. Show compact counts, hashes, durations and actionable exceptions; read full questions only for assessment or investigation. One local run receipt records staging reuse, final artifacts, timings and retries; durable provenance records source-to-bank IDs, classifications and intentional repairs. Record unavailable token metrics as unavailable, and do not infer time or token savings without a comparable measured baseline.
 
+For an already accepted master booklet whose component source workflow cannot
+represent its current scoped maintenance, the assessment register may include
+`existingTransferReview` with profile `existing-booklet-transfer-v1`. Bind it to
+the current project hash, hashed current/baseline project snapshots, the booklet's
+earlier completed edition-acceptance record, current maintenance artifacts and
+individual whole-question answer/skill/method checks with observations. The
+importer verifies unchanged practice content, presentation and source evidence,
+and rechecks these artifacts before publication. This route retains historical
+workflow registers; new imports and Import review candidates still require their
+full import gates. Record the scoped review in the durable bank receipt.
+
+After an implementation-only repair, `--reverify-stage` rechecks unchanged stage
+artifacts, complete normalized content/presentation, classifications, ownership
+and sync, and records the updated implementation signature without repeating
+promotion. Source, taxonomy, assessment, asset or live-bank changes remain stale
+inputs, and edited stage artifacts are rejected. Complete the affected UI/visual
+checks separately before publication; this flag grants no visual acceptance.
+
 ## 2. Prove representative cases before bulk work
 
 For new imports, use the [efficiency tools](booklet-import-efficiency.md) to plan

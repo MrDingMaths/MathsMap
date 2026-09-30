@@ -1,5 +1,6 @@
 // Verification lives in workflow/issues.json; reports are projections, not approvals.
 import fs from 'node:fs';
+import {isLeanReview,questionReviewContent,blockingIssue} from './lean-profile.mjs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {projectReviewHash} from './page-review.mjs';
@@ -66,7 +67,11 @@ export function questionTeachingDependencies(state,project,question,{artifactHas
   }
   for(const child of Object.values(value))if(child&&typeof child==='object')refs(child,local);
  }
- const reviewed=state.verification?.teachingContexts?.[scope],binding=reviewed?.dependencyScope;
+ // In three-pass runs a teaching summary is an inspection receipt. Its
+ // publication must not become a new question/source dependency. Each question
+ // already retains its explicit teaching context and original source hashes.
+ const lean=isLeanReview(state)||isLeanReview(project);
+ const reviewed=lean?null:state.verification?.teachingContexts?.[scope],binding=reviewed?.dependencyScope;
  const readDependency=file=>{if(!fs.existsSync(file))return {unavailable:true};try{return JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));}catch{return {invalid:true,hash:artifactHash(file)};}};
  let currentConfig=null,currentIndex=null;
  if(binding?.configFile){
@@ -88,13 +93,19 @@ export function questionTeachingDependencies(state,project,question,{artifactHas
  for(const {block}of teaching)collectTargets(block);
  for(const entry of project?.source?.inventory?.entries??[])if(targets.has(entry.targetId))targets.add(entry.id);
  const resolutions=Object.values(state.issues??{}).filter(issue=>['retained','corrected'].includes(issue.status)&&reviewIssueMatchesExercise(issue,scope,targets)&&(targets.has(issue.entryId)||targets.has(issue.targetId)||!issue.entryId&&!issue.targetId&&(issue.pages??[issue.page]).some(page=>pages.has(page))))
-  .map(issue=>{refs(issue.resolution?.evidence,false);return {id:issue.id,status:issue.status,message:issue.message,reason:issue.resolution?.reason,correctionId:issue.resolution?.correctionId};}).sort((a,b)=>a.id.localeCompare(b.id));
+  .map(issue=>{if(!isLeanReview(state)&&!isLeanReview(project))refs(issue.resolution?.evidence,false);return {id:issue.id,status:issue.status,message:issue.message,reason:issue.resolution?.reason,correctionId:issue.resolution?.correctionId};}).sort((a,b)=>a.id.localeCompare(b.id));
  const dependencies=pages.size?[...pages].sort((a,b)=>a-b).map(p=>[p,state.pages?.[p]?.sourceEvidence??null,state.pages?.[p]?.inventoryHash??null]):Object.entries(state.pages??{}).map(([p,v])=>[p,v.sourceEvidence??null,v.inventoryHash??null]);
+ if(isLeanReview(state)||isLeanReview(project)){
+  const visitAssets=value=>{if(!value||typeof value!=='object')return;for(const [key,child]of Object.entries(value)){if(key==='src'&&typeof child==='string'&&!child.startsWith('data:')){const relative=child.replace(/^\//,'');const file=[path.join('public',relative),relative].find(artifactIsFile);const absolute=path.resolve(file??relative);artifacts.set(absolute,{path:absolute,hash:file?artifactHash(file):null});}else if(child&&typeof child==='object')visitAssets(child);}};
+  visitAssets(questionReviewContent(question));for(const {block}of teaching)visitAssets(questionReviewContent(block));
+ }
+ if(isLeanReview(state)||isLeanReview(project))return {scope:scope??null,teaching:teaching.map(({sectionId,block})=>({sectionId,id:block.id,content:questionReviewContent(block)})),contexts,source:dependencies.map(([page,evidence])=>[page,evidence]),artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path))};
  return {scope:scope??null,teaching,contexts,teachingContextIds:[...ids].sort(),resolutions,source:dependencies,artifacts:[...artifacts.values()].sort((a,b)=>a.path.localeCompare(b.path)),
   reviewedTeaching:reviewed?{dependencyHash:reviewed.dependencyHash,outcome:reviewed.outcome,methods:reviewed.methods,scope:binding,currentConfig,currentIndex}:null};
 }
-export function verificationDependencies(state,project,{renderer=rendererSignature(),implementation=implementationSignatures(),runDir,sourceViews:providedViews}={}){
- const questions=project?.sections?.filter(s=>s.phase==='practice').flatMap(s=>s.blocks.filter(b=>b.type==='question'))??[];
+export function verificationDependencies(state,project,{renderer=rendererSignature({lean:isLeanReview(state)||isLeanReview(project)}),implementation=implementationSignatures(),runDir,sourceViews:providedViews}={}){
+ const lean=isLeanReview(state)||isLeanReview(project);
+ const questions=project?.sections?.filter(s=>lean||s.phase==='practice').flatMap(s=>s.blocks.filter(b=>lean||b.type==='question'))??[];
  // Shared PDFs/images are read once per current snapshot, never cached across
  // calls. A large exercise must not rehash the same source for every question.
  const artifactFiles=new Map(),artifactIsFile=file=>{const absolute=path.resolve(file);if(!artifactFiles.has(absolute))artifactFiles.set(absolute,fs.existsSync(absolute)&&fs.statSync(absolute).isFile());return artifactFiles.get(absolute);};
@@ -102,7 +113,7 @@ export function verificationDependencies(state,project,{renderer=rendererSignatu
  const sourceViews=isMultiSource(project)?providedViews??sourceReviewViews(project,state,{runDir}):undefined;
  return {source:hash(sourceViews?sourceViews.map(v=>({runId:v.runId,available:v.available,pages:Object.fromEntries(Object.entries(v.state.pages??{}).map(([p,r])=>[p,r.inventoryHash]))})):Object.fromEntries(Object.entries(state.pages).map(([p,r])=>[p,r.inventoryHash]))),
   project:project?projectReviewHash(project):null,renderer,...implementation,
-  questions:Object.fromEntries(questions.map(q=>[q.id,hash({content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext,source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash,artifactIsFile,sourceViews})}:{})})]))};
+  questions:Object.fromEntries(questions.map(q=>[q.id,hash({...(lean?{content:questionReviewContent(q)}:{content:q.content,classification:q.classification,teaching:q.sourceReview?.teachingContext}),source:q.sourceRefs,...(state.pipelinePolicy?{teachingDependencies:questionTeachingDependencies(state,project,q,{artifactHash,artifactIsFile,sourceViews})}:{})})]))};
 }
 export function recordVerification(state,record,deps,{artifactCurrent=current}={}){
  if(!state.pipelinePolicy)throw Error('Verification register enforcement is for new-policy runs');
@@ -115,7 +126,14 @@ export function recordVerification(state,record,deps,{artifactCurrent=current}={
  const questionId=record.id.startsWith('question:')?record.id.slice(9):null;
  if(questionId){
   if(!deps.questions[questionId]||record.dependencies?.question!==deps.questions[questionId])throw Error('Question assessment is missing or stale');
-  if(record.outcome==='passed'&&!['answer','skillMapping','taughtMethod'].every(k=>record.checks?.[k]===true))throw Error('Each question needs answer, skill mapping and taught-method review');
+  const requiredChecks=isLeanReview(state)?['answer','skillMapping','taughtMethod','sourceCompared','contentVerified']:['answer','skillMapping','taughtMethod'];
+  // The three-pass worker contract returns source/content attestations beside
+  // checks. Retain support for existing records carrying them inside checks,
+  // and reject either representation when it explicitly reports a failed check.
+  const checked=k=>['sourceCompared','contentVerified'].includes(k)&&isLeanReview(state)
+   ?(record[k]===true||record.checks?.[k]===true)&&record[k]!==false&&record.checks?.[k]!==false
+   :record.checks?.[k]===true;
+  if(record.outcome==='passed'&&!requiredChecks.every(checked))throw Error('Each question needs answer, skill mapping and taught-method review');
  }else if(!supported.includes(record.id))throw Error('Unknown verification check');
  const scopedRegression=record.id==='regressions'&&record.regressionScope?regressionScopeSignature(record.regressionScope):null;
  if(scopedRegression&&record.checks?.coverageReviewed!==true)throw Error('Scoped regression evidence needs explicit test-coverage review');
@@ -135,16 +153,16 @@ export function verificationStatus(state,project,{phase='prepublication',rendere
  const deps=verificationDependencies(state,project,{renderer,runDir,sourceViews}),entries=state.verification?.entries??{},checks=[],issues=[];
  const sourceStates=sourceViews??[{available:true,state}];
  const add=(id,passed,reason)=>{checks.push({id,passed,reason:passed?null:reason});if(!passed)issues.push(id+': '+reason);};
- add('inventory',sourceStates.every(v=>v.available&&Object.keys(v.state.pages??{}).length>0&&Object.values(v.state.pages).every(p=>p.mathReview?.key===p.inventoryHash)),'Independent inventory and mathematical review required for every source run');
+ add('inventory',sourceStates.every(v=>v.available&&Object.keys(v.state.pages??{}).length>0&&Object.values(v.state.pages).every(p=>isLeanReview(state)?!!p.inventoryHash:p.mathReview?.key===p.inventoryHash)),'Independent inventory and mathematical review required for every source run');
  add('settlement',!!state.settled&&state.settled.project.hash===deps.project,'Current settled content required');
  let finalValid=!!state.finalReview;
  if(finalValid&&validateFinal)try{validateFinal();}catch{finalValid=false;}
  add('final-editions',finalValid,'Five automated checks and actual visual/composition acceptance required');
- for(const id of [...Object.keys(deps.questions).map(q=>'question:'+q),'ui','regressions','build','storage',...(phase==='complete'?['publication','readback','repeat-import']:[])]){
+ for(const id of [...Object.keys(deps.questions).map(q=>'question:'+q),...(isLeanReview(state)?[]:['ui','regressions','build','storage',...(phase==='complete'?['publication','readback','repeat-import']:[])])]){
   const entry=entries[id];let passed=false,reason='Current evidence required';
   try{
    if(!entry)throw Error(reason);
-   recordVerification({pipelinePolicy:state.pipelinePolicy},entry,deps,{artifactCurrent});
+   recordVerification({pipelinePolicy:state.pipelinePolicy,reviewProfile:state.reviewProfile},entry,deps,{artifactCurrent});
    // Extra file dependencies bind tests/build/storage and unknown mechanisms.
    if(!(entry.dependencyArtifacts??[]).every(artifactCurrent))throw Error('Dependency artifacts changed');
    if(entry.dependencies?.source&&entry.dependencies.source!==deps.source)throw Error('Source dependencies changed');
@@ -153,7 +171,7 @@ export function verificationStatus(state,project,{phase='prepublication',rendere
   }catch(error){reason=error.message;}
   add(id,passed,reason);
  }
- add('task-findings',![state,...(sourceViews??[]).map(v=>v.state)].some(s=>Object.values(s.issues??{}).some(i=>i.status==='pending')),'Resolve remaining import findings in every source run');
+ add('task-findings',![state,...(sourceViews??[]).map(v=>v.state)].some(s=>Object.values(s.issues??{}).some(i=>blockingIssue(i,s))),'Resolve remaining import findings in every source run');
  add('stage-handoffs',!Object.keys(state.verification?.stageClaims??{}).length,'Complete or explicitly cancel outstanding stage tickets; retain and resolve their findings');
  if(phase==='complete'&&state.verification?.publishedSource){
   const ref=state.verification.publishedSource;let valid=false;

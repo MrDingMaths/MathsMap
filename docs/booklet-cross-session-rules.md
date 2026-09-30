@@ -1,5 +1,7 @@
 # Cross-session transcription and rendering rules
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 This register consolidates earlier recorded user feedback for every future booklet and every applicable occurrence. Read it with the [acceptance checklist](booklet-transcription-feedback-checklist.md), [compact import workflow](booklet-direct-compact-import.md) and [worked-solution contract](booklet-worked-solution-style.md). This is an audit of repository feedback records and instructions, not a claim to have retrieved every historical conversation or visually rechecked every existing book.
 
 ## Precedence and scope

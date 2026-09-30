@@ -93,7 +93,7 @@ test('rehashed forged comparison body/algorithm and manifest dependencies cannot
 test('loaded implementation/algorithm/artifactHash dependency bytes are pinned in an isolated subprocess',t=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-review-dependency-'));
  t.after(()=>{assert.equal(path.dirname(path.resolve(dir)),path.resolve(os.tmpdir()));assert(path.basename(dir).startsWith('mathsmap-review-dependency-'));fs.rmSync(dir,{recursive:true,force:true});});
- const files=['scripts/booklet/pdf-rasters.mjs','scripts/booklet/edition-comparison.mjs','scripts/booklet/page-review.mjs','scripts/booklet/review-evidence-cache.mjs','src/lib/svg-paint-scope.js'];
+ const files=['scripts/booklet/pdf-rasters.mjs','scripts/booklet/edition-comparison.mjs','scripts/booklet/page-review.mjs','scripts/booklet/review-evidence-cache.mjs','scripts/booklet/lean-profile.mjs','src/lib/booklet-review-profile.js','src/lib/svg-paint-scope.js'];
  for(const relative of files){const from=fileURLToPath(new URL('../'+relative,import.meta.url)),to=path.join(dir,relative);fs.mkdirSync(path.dirname(to),{recursive:true});fs.copyFileSync(from,to);assert.equal(hash(fs.readFileSync(from)),hash(fs.readFileSync(to)));}
  fs.writeFileSync(path.join(dir,'package.json'),JSON.stringify({type:'module',private:true}));
  const script=`import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';

@@ -12,9 +12,29 @@ import {loadWorkflow,liveWorkflow,registerInventory,registerAuthor,sourceEvidenc
 import {verificationDependencies,recordVerification,verificationStatus} from '../scripts/booklet/import-verification.mjs';
 import {rendererSignature} from '../scripts/booklet/verification-cache.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
+import {fromSource} from '../src/lib/document-content.js';
+import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
 
 const read=async f=>JSON.parse(await fs.readFile(f,'utf8'));
 const write=async(f,v)=>{await fs.mkdir(path.dirname(f),{recursive:true});await fs.writeFile(f,JSON.stringify(v,null,2)+'\n');};
+test('bank transfer verifies projected prompts and layouts while retaining owner headings',async t=>{
+ const f=await fixture(t),b=practiceQuestions(f.saved)[0];
+ b.content.prompt=fromSource('Find the side.');
+ b.content.prompt.blocks.unshift({id:'source-category',type:'paragraph',inlines:[{type:'text',text:'Essential problems'}]});
+ b.sourceReview={sourceCategoryHeading:{text:'Essential problems',paragraphId:'source-category'}};
+ f.saved.settings.layoutOverrides={blockLayouts:{[b.id]:{arrangement:arrangementCatalog(b).initial}},answerSpaces:{},diagramColourModes:{}};
+ await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ f.assessments.questions[0].contentHash=revisionHash(b.content);f.assessments.sourceContext.projectHash=revisionHash(f.saved);
+ await write(f.args.assessmentsFile,f.assessments);
+ await importProjectBank(f.args);await importProjectBank({...f.args,apply:true});
+ const live=await loadBookletProject(f.saved.id,f.options),block=practiceQuestions(live)[0];
+ assert.equal(block.content.prompt.blocks[0].id,'source-category');
+ const bank=await read(path.join(f.options.bankRoot,block.bankRef.id+'.json'));
+ assert.equal(bank.content.prompt.blocks.length,1);
+ assert.deepEqual(resolveArrangement({...bank,type:'question'},bank.presentation.layoutOverrides.blockLayouts[b.id].arrangement).missing,[]);
+ const receipt=await read(path.join(f.args.out,'receipt.json'));assert.equal(receipt.bankProjection.questions.length,1);
+ assert.equal((await importProjectBank({...f.args,apply:true})).created,0);
+});
 async function fixture(t){
   const parent=path.resolve('.booklet-work/bank-import-tests');await fs.mkdir(parent,{recursive:true});
   const root=await fs.mkdtemp(path.join(parent,'case-'));
@@ -84,6 +104,57 @@ test('new-policy runs cannot stage or publish with absent verification evidence'
  const run=path.join(f.root,'.booklet-work/full-imports/new-policy');await write(path.join(run,'manifest.json'),{id:'new-policy',pipelinePolicy:'pdf-import-efficient-v1',selectedPages:[]});
  for(const apply of [false,true])await assert.rejects(importProjectBank({...f.args,apply}),/Import verification pending/);
  assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
+});
+
+async function existingTransferFixture(t){
+ const f=await fixture(t);f.saved.source={type:'full-booklet-import',workflow:{runId:'component-run',pipelinePolicy:'pdf-import-efficient-v1'}};f.saved.library={category:'master'};f.saved.revision=3;
+ await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);
+ const acceptance=path.join(f.root,'historical-acceptance.json'),snapshot=path.join(f.root,'reviewed-project.json'),proof=path.join(f.root,'maintenance.json');
+ await write(acceptance,{project:{id:f.saved.id,revision:1},acceptedAt:'2026-09-01T00:00:00Z',checks:[{id:'final-editions',passed:true}]});await write(snapshot,f.saved);await write(proof,{outcome:'passed',note:'Synthetic scoped-maintenance evidence'});
+ const ref=file=>({path:file,hash:bytesHash(file)});
+ f.assessments.sourceContext.projectHash=revisionHash(f.saved);
+ f.assessments.existingTransferReview={profile:'existing-booklet-transfer-v1',projectHash:revisionHash(f.saved),reviewer:'Synthetic transfer reviewer',note:'Published booklet, unchanged practice content and presentation.',historicalAcceptance:ref(acceptance),projectSnapshot:ref(snapshot),baselineSnapshot:ref(snapshot),artifacts:[ref(proof)],questions:practiceQuestions(f.saved).map(q=>({sourceBlockId:q.id,contentHash:revisionHash(q.content),reviewer:'Synthetic question reviewer',outcome:'passed',checks:{answer:true,skillMapping:true,taughtMethod:true},note:'Source question and teaching context checked.'}))};
+ await write(f.args.assessmentsFile,f.assessments);return {...f,acceptance,snapshot,proof};
+}
+
+test('existing accepted transfers use scoped evidence without rewriting component workflow registers',async t=>{
+ const f=await existingTransferFixture(t),ordinaryFile=path.join(f.root,'ordinary.json'),ordinary=structuredClone(f.assessments);delete ordinary.existingTransferReview;await write(ordinaryFile,ordinary);
+ await assert.rejects(importProjectBank({...f.args,assessmentsFile:ordinaryFile}),/verification run is unavailable/);
+ assert.equal((await importProjectBank(f.args)).questions,1);await importProjectBank({...f.args,apply:true});assert.equal((await importProjectBank({...f.args,apply:true})).created,0);
+ const receipt=await read(path.join(f.root,'booklets/provenance',f.saved.id,'bank-import.json'));assert.equal(receipt.existingTransferReview.profile,'existing-booklet-transfer-v1');
+ assert.deepEqual((await read(path.join(f.options.projectRoot,f.saved.id+'.json'))).source,f.saved.source);
+ await assert.rejects(fs.access(path.join(f.root,'.booklet-work/full-imports/component-run/workflow/issues.json')));
+});
+
+test('scoped transfer rejects missing acceptance, stale evidence and incomplete question review',async t=>{
+ for(const kind of ['acceptance','snapshot','question','import-review']){
+  const f=await existingTransferFixture(t),r=f.assessments.existingTransferReview;
+  if(kind==='acceptance'){await write(f.acceptance,{project:{id:f.saved.id,revision:1},acceptedAt:'2026-09-01T00:00:00Z',checks:[{id:'final-editions',passed:false}]});r.historicalAcceptance.hash=bytesHash(f.acceptance);}
+  if(kind==='snapshot')await write(f.proof,{outcome:'changed'});
+  if(kind==='question')r.questions[0].checks.taughtMethod=false;
+  if(kind==='import-review'){f.saved.library.category='import-review';await write(path.join(f.options.projectRoot,f.saved.id+'.json'),f.saved);r.projectHash=revisionHash(f.saved);f.assessments.sourceContext.projectHash=r.projectHash;}
+  await write(f.args.assessmentsFile,f.assessments);await assert.rejects(importProjectBank(f.args));assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
+ }
+});
+
+test('scoped transfer rechecks maintenance evidence before publication',async t=>{
+ const f=await existingTransferFixture(t);await importProjectBank(f.args);await write(f.proof,{outcome:'changed after staging'});await assert.rejects(importProjectBank({...f.args,apply:true}),/evidence is stale/);assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
+});
+
+test('implementation-only stage reverification retains promoted IDs and checks all staged records',async t=>{
+ const f=await fixture(t);await importProjectBank(f.args);const file=path.join(f.args.out,'stage.json'),state=await read(file),receipt=await read(path.join(f.args.out,'receipt.json'));state.inputs.implementation='0'.repeat(64);await write(file,state);
+ await assert.rejects(importProjectBank(f.args),/Staging inputs changed/);
+ assert.equal((await importProjectBank({...f.args,reverifyStage:true})).reused,true);assert.deepEqual(await read(path.join(f.args.out,'receipt.json')),receipt);assert.equal((await read(file)).reverifications.length,1);
+ await importProjectBank({...f.args,reverifyStage:true,apply:true});assert.equal((await importProjectBank({...f.args,apply:true})).created,0);
+});
+
+test('stage reverification cannot accept changed inputs or edited bank artifacts',async t=>{
+ for(const kind of ['bank-input','stage-bank']){
+  const f=await fixture(t);await importProjectBank(f.args);
+  if(kind==='bank-input')await write(path.join(f.options.bankRoot,'manifest.json'),{format:'changed',questions:[]});
+  else{const receipt=await read(path.join(f.args.out,'receipt.json')),file=path.join(f.args.out,'bank',receipt.questions[0].bankId+'.json'),bank=await read(file);bank.content.answer.worked='Unreviewed';await write(file,bank);}
+  await assert.rejects(importProjectBank({...f.args,reverifyStage:true,apply:true}));assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
+ }
 });
 
 test('new-policy publication pins accepted evidence and requires one idempotent readback',async t=>{
@@ -175,6 +246,21 @@ test('interrupted-stage reuse rejects altered bank records and stale previous re
   await assert.rejects(importProjectBank({...f.args,out:path.join(f.root,'retry'),resumeFrom:f.args.out,resumeAssessmentsFile:priorAssessments}));
   assert.equal((await read(path.join(f.options.bankRoot,'manifest.json'))).questions.length,0);
  }
+});
+
+test('interrupted-stage reuse retains IDs when only stale score-derived bands are reconciled',async t=>{
+ const f=await fixture(t),prior=path.join(f.root,'previous-assessments.json');
+ f.assessments.questions[0].classification.difficulty='Development';
+ await write(prior,f.assessments);await write(f.args.assessmentsFile,f.assessments);
+ await assert.rejects(importProjectBank({...f.args,onProgress:()=>{throw Error('Interrupted');}}),/Interrupted/);
+ const interrupted=await read(path.join(f.args.out,'projects',f.saved.id+'.json')),id=practiceQuestions(interrupted)[0].bankRef.id;
+ f.assessments.questions[0].classification.difficulty='Foundation';await write(f.args.assessmentsFile,f.assessments);
+ const retry={...f.args,out:path.join(f.root,'retry-bands'),resumeFrom:f.args.out,resumeAssessmentsFile:prior};
+ await importProjectBank(retry);
+ const staged=await read(path.join(retry.out,'projects',f.saved.id+'.json'));
+ assert.equal(practiceQuestions(staged)[0].bankRef.id,id);
+ assert.equal((await read(path.join(retry.out,'bank',id+'.json'))).classification.difficulty,'Foundation');
+ assert.equal((await read(path.join(retry.out,'receipt.json'))).resume.reusedQuestions,1);
 });
 
 test('interrupted reuse requires the same source, inventory, classification and captured presentation',async t=>{

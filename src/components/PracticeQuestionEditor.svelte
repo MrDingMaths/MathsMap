@@ -167,9 +167,9 @@
       <div class="preview-pane__label">Live preview</div>
       <div class="editor-live-preview__pane"><PracticeQuestionRenderer question={draft} showSpaces={false} compact={true} /></div>
       <div class="preview-pane__label">Short answer</div>
-      <div class="editor-live-preview__pane"><PracticeQuestionRenderer question={draft} showSpaces={false} showShortAnswers={true} compact={true} /></div>
+      <div class="editor-live-preview__pane"><PracticeQuestionRenderer preserveDiagramWidths={true} question={draft} showSpaces={false} showShortAnswers={true} compact={true} /></div>
       <div class="preview-pane__label">Worked solution</div>
-      <div class="editor-live-preview__pane"><PracticeQuestionRenderer question={draft} showSpaces={false} showWorkedSolutions={true} compact={true} /></div>
+      <div class="editor-live-preview__pane"><PracticeQuestionRenderer preserveDiagramWidths={true} question={draft} showSpaces={false} showWorkedSolutions={true} compact={true} /></div>
     </aside>
   </div>
 </section>

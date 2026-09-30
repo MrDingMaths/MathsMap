@@ -73,6 +73,16 @@ duplicate, unselected or page-number-only references and unresolved conflicts
 produce assembly findings. Assembly retains the record in the question's
 `sourceReview`. Evidence completeness is not mathematical verification.
 
+When an original answer-key region is damaged or absent, never invent a teacher
+reference. Retain the source defect with a question-specific, evidence-hashed
+workflow decision. Independently derived answers use `teacherReference: []`,
+`status: "independently-derived"` and
+`conflict: {kind: "source-answer-unavailable", decisionId: "RETAINED_ISSUE_ID"}`,
+with actual absence and derivation observations in `matchEvidence`. Only the
+current reviewed decision permits this empty reference; separate mathematical
+review and all applicable acceptance checks remain required. Pending decisions,
+stale evidence and generic missing-answer claims remain findings.
+
 For classification, use the external teaching PDF schema in
 [`question-enrichment.md`](../scripts/booklet/prompts/question-enrichment.md).
 PDF hashes and page bounds are verified, each question cites inspected teaching

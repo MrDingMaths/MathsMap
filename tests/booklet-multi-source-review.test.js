@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import {bytesHash} from '../scripts/booklet/workflow-review.mjs';
 import {sourceReviewViews} from '../scripts/booklet/multi-source-review.mjs';
 import {questionTeachingDependencies,verificationDependencies,verificationStatus,PIPELINE_POLICY} from '../scripts/booklet/import-verification.mjs';
-import {boundedPromptPayload,exerciseTeachingContext,nextBoundedWork,prepareBoundedStage,recordBoundedStage} from '../scripts/booklet/bounded-stages.mjs';
+import {assessmentQuestionGroups,boundedPromptPayload,exerciseTeachingContext,nextBoundedWork,prepareBoundedStage,recordBoundedStage} from '../scripts/booklet/bounded-stages.mjs';
 function fixture(t){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'multi-source-review-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const write=(run,file,value)=>{const f=path.join(dir,run,file);fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,typeof value==='string'?value:JSON.stringify(value));return f};
@@ -125,6 +125,42 @@ test('assessment method artifacts share the indexed provenance without repeating
  const job={stage:'assessment',dependencyHash:'stable',ownershipIds:['question:q'],evidence:[artifact],context:{questions:[{id:'q',content:{prompt:'Read the plot',answer:{short:'2',worked:'Count two leaves.'}}}],teaching:{methods:[{statement:'Count the leaves',sourceRefs:[{pageNumber:25}]}],artifacts:[artifact]},decisions:[]}};
  const before=JSON.stringify(job),result=boundedPromptPayload(job);
  assert.equal(JSON.stringify(job),before);assert.deepEqual(result.context.questions,job.context.questions);assert.deepEqual(result.context.teaching.methods,job.context.teaching.methods);assert.deepEqual(result.context.teaching.artifactRefs,[0]);assert.equal(result.context.teaching.artifacts,undefined);assert.deepEqual(result.artifactIndex,[{...artifact,path:path.basename(artifact.path)}]);
+});
+
+test('teaching source and summary indexing preserves exact scoped metadata and rejects conflicting hashes',()=>{
+ const source={path:'/evidence/pages/page-006.png',hash:'source-hash',page:6,role:'primary-source',runId:'original'},summary={path:'/long/local/result.json',hash:'review-hash',reviewer:'Actual independent reviewer'};
+ const content={prompt:'Preserve the exact task',answer:{short:'2',worked:'1+1=2'},diagrams:[{code:'Exact editable diagram'}]};
+ const job={stage:'assessment',ownershipIds:['question:q'],dependencyHash:'unchanged',evidence:[{...source,role:'delivered-image'}],images:[source.path],context:{questions:[{id:'q',content}],teaching:{methods:[{statement:'Use the taught method',sourceRefs:[{pageNumber:6}]}],sourceArtifacts:[source],summaryArtifacts:[summary]}}};
+ const before=structuredClone(job),payload=boundedPromptPayload(job);
+ const expand=reference=>{const {artifactRef,...metadata}=reference,artifact=payload.artifactIndex[artifactRef];return {path:artifact.path,hash:artifact.hash,...metadata};};
+ assert.deepEqual(job,before);assert.deepEqual(payload.context.questions,job.context.questions);assert.deepEqual(payload.context.teaching.methods,job.context.teaching.methods);assert.equal(payload.dependencyHash,job.dependencyHash);
+ assert.deepEqual(expand(payload.context.teaching.sourceArtifacts[0]),{...source,path:'evidence/pages/page-006.png'});
+ assert.deepEqual(expand(payload.context.teaching.summaryArtifacts[0]),{...summary,path:'result.json'});
+ assert.equal(payload.context.teaching.sourceArtifacts[0].artifactRef,payload.inputImages[0].artifactRef);assert.equal(payload.artifactIndex.length,2);
+ const conflict=structuredClone(job);conflict.context.teaching.sourceArtifacts[0].hash='changed-source';assert.throws(()=>boundedPromptPayload(conflict),/conflicting source hashes/);
+});
+
+test('assessment projection changes preserve claimed ownership while future batches use the same limits',()=>{
+ const questions=Array.from({length:7},(_,index)=>({id:'q'+index,content:{prompt:'Question '+index}}));
+ const claim={stage:'assessment',ownershipIds:['question:q1','question:q2'],dependencyHash:'original-dependencies'},claims={existing:claim},before=structuredClone({questions,claims});
+ const groups=assessmentQuestionGroups(questions,claims,group=>group.length*100);
+ assert.deepEqual(groups.map(group=>group.map(q=>q.id)),[['q0'],['q1','q2'],['q3','q4','q5','q6']]);
+ assert.deepEqual({questions,claims},before);assert.equal(claim.dependencyHash,'original-dependencies');assert.equal(new Set(groups.flat().map(q=>q.id)).size,questions.length);
+ const changed=structuredClone(questions);changed[2].content.prompt='Changed source-facing task';
+ const rebuilt=assessmentQuestionGroups(changed,claims,group=>group.length*100);assert.equal(rebuilt[1][1].content.prompt,'Changed source-facing task');assert.equal(claim.dependencyHash,'original-dependencies');
+ assert.deepEqual(assessmentQuestionGroups(questions,{},group=>group.length*100).map(group=>group.map(q=>q.id)),[['q0','q1','q2','q3'],['q4','q5','q6']]);
+ assert.throws(()=>assessmentQuestionGroups(questions,{one:claim,two:{stage:'assessment',ownershipIds:['question:q2']}},()=>0),/claims overlap/);
+});
+
+test('assessment deduplicates exact repeated decisions across teaching and question scopes',()=>{
+ const artifact={path:'/source.png',hash:'source'},decision={id:'resolved',reason:'Preserve the source interpretation',evidence:[artifact],resolution:{status:'retained',reason:'Preserve the source interpretation',evidence:[artifact]}};
+ const unique={id:'teaching-only',reason:'Use the taught method',resolution:{status:'retained',reason:'Use the taught method'}};
+ const job={stage:'assessment',ownershipIds:['question:q'],dependencyHash:'stable',evidence:[artifact],context:{questions:[{id:'q',content:{prompt:'Calculate',answer:{short:'2',worked:'1+1=2'}}}],decisions:[decision],teaching:{decisions:[structuredClone(decision),unique]}}};
+ const before=structuredClone(job),result=boundedPromptPayload(job);
+ assert.deepEqual(job,before);assert.deepEqual(result.context.teaching.decisions[0],{decisionValueRef:'/context/decisions/0'});
+ assert.equal(result.context.decisions[0].resolution.status,'retained');assert.equal(result.context.decisions[0].reason,decision.reason);
+ assert.equal(result.context.teaching.decisions[1].id,'teaching-only');assert.equal(result.context.teaching.decisions[1].reason,unique.reason);
+ assert.equal(result.dependencyHash,'stable');assert.deepEqual(result.context.questions,job.context.questions);
 });
 
 test('assessment teacher evidence retains its owning source run despite colliding page labels',async t=>{

@@ -18,6 +18,21 @@ export function prepareDiagramTypography(code) {
 }
 
 export function calibrateDiagramTypography(root) {
+  const isRectangle=shape=>{
+    if(shape.tagName==='rect')return true;
+    if(shape.tagName!=='path')return false;
+    const d=shape.getAttribute('d')??'';
+    if(/^\s*M\s+[-\d.]+\s+[-\d.]+\s+h\s+[-\d.]+\s+v\s+[-\d.]+\s+h\s+[-\d.]+\s+Z\s*$/.test(d))return true;
+    // Rotated PGF node rectangles use four explicit corners and may finish with
+    // a nonpainting move back to one corner. Reject arbitrary polygons/regions.
+    const match=d.match(/^\s*M\s+([-\d.]+)\s+([-\d.]+)\s+L\s+([-\d.]+)\s+([-\d.]+)\s+L\s+([-\d.]+)\s+([-\d.]+)\s+L\s+([-\d.]+)\s+([-\d.]+)\s+Z(?:\s+M\s+([-\d.]+)\s+([-\d.]+))?\s*$/);
+    if(!match)return false;
+    const points=Array.from({length:4},(_,i)=>[Number(match[1+2*i]),Number(match[2+2*i])]);
+    const edges=points.map((p,i)=>[points[(i+1)%4][0]-p[0],points[(i+1)%4][1]-p[1]]);
+    if(edges.some(e=>!(Math.hypot(...e)>0)))return false;
+    if(edges.some((a,i)=>{const b=edges[(i+1)%4];return Math.abs(a[0]*b[0]+a[1]*b[1])>1e-5*Math.hypot(...a)*Math.hypot(...b);}))return false;
+    return !match[9]||points.some(p=>Math.abs(p[0]-Number(match[9]))<1e-5&&Math.abs(p[1]-Number(match[10]))<1e-5);
+  };
   for(const group of root.querySelectorAll('g[data-diagram-label="1"]')) {
     const svg=group.ownerSVGElement, font=Number(group.dataset.labelFont);
     // Fixed-size labels may extend slightly beyond the source's TeX viewport.
@@ -47,6 +62,35 @@ export function calibrateDiagramTypography(root) {
       if(!(factor>0)||![factor,x,y].every(Number.isFinite))continue;
       group.setAttribute('transform',`translate(${x} ${y}) scale(${factor}) translate(${-x} ${-y})`);
       group.dataset.labelTargetPt=String(target);
+      // PGF emits a filled node's rectangle beside its text, outside the complete
+      // label group. Keep that specific white background with the calibrated
+      // label; otherwise compact fitting can enlarge fractions beyond the mask.
+      // Only a single-label native node with one plain white rectangle qualifies.
+      for(let node=group.parentElement;node&&node!==svg;node=node.parentElement){
+        if(node.querySelectorAll('g[data-diagram-label="1"]').length!==1)break;
+        const shapes=[...node.querySelectorAll('path,rect,circle,ellipse,polygon,polyline,line,use')].filter(shape=>!group.contains(shape));
+        if(!shapes.length)continue;
+        if(shapes.length!==1)break;
+        const mask=shapes[0],css=getComputedStyle(mask);
+        if(!isRectangle(mask)||css.fill!=='rgb(255, 255, 255)'||css.stroke!=='none')break;
+        if(!mask.hasAttribute('data-label-background-original-transform'))mask.dataset.labelBackgroundOriginalTransform=mask.getAttribute('transform')??'';
+        const original=mask.dataset.labelBackgroundOriginalTransform;
+        if(original)mask.setAttribute('transform',original);else mask.removeAttribute('transform');
+        const maskMatrix=mask.getScreenCTM();
+        if(!maskMatrix)break;
+        const maskWorld=new DOMMatrix([maskMatrix.a,maskMatrix.b,maskMatrix.c,maskMatrix.d,maskMatrix.e,maskMatrix.f]);
+        const labelWorld=new DOMMatrix([matrix.a,matrix.b,matrix.c,matrix.d,matrix.e,matrix.f]);
+        const affine=new DOMMatrix().translate(x,y).scale(factor).translate(-x,-y);
+        const local=mask.transform.baseVal.consolidate()?.matrix;
+        const sourceTransform=local?new DOMMatrix([local.a,local.b,local.c,local.d,local.e,local.f]):new DOMMatrix();
+        const correction=maskWorld.inverse().multiply(labelWorld).multiply(affine).multiply(labelWorld.inverse()).multiply(maskWorld);
+        const transformed=sourceTransform.multiply(correction);
+        if([transformed.a,transformed.b,transformed.c,transformed.d,transformed.e,transformed.f].every(Number.isFinite)){
+          mask.setAttribute('transform',transformed.toString());
+          mask.dataset.diagramLabelBackground='1';
+        }
+        break;
+      }
       calibrated=true;
     } finally {
       if(!calibrated&&previous!==null)group.setAttribute('transform',previous);

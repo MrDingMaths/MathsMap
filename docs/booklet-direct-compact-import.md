@@ -1,5 +1,7 @@
 # Direct compact import
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 Read the [cross-session transcription and rendering rules](booklet-cross-session-rules.md) as well: earlier table, handwriting, graph, attribution and editor-parity feedback remains applicable to every new subject. Shared production authoring prompts carry these rules through `HOUSE_STYLE_PROMPT`; direct compact authoring must perform the same checks.
 
 Every run must complete the [transcription feedback acceptance checklist](booklet-transcription-feedback-checklist.md). Its source comparisons and completion evidence are required, including speech-bubble vertical spacing, all-box alignment, numbered Key Ideas and consistent native mathematical scaffolds. Existing Index Laws regression fixtures supplement, but do not replace, review of the new source.
@@ -29,7 +31,7 @@ exports, bounded preview diagnostics and measured retry costs.
 Use the [bounded Sol stage guidance](booklet-bounded-workflow.md) for current
 dispatch, teaching-context reuse, review tickets, session accounting and closeout.
 New-policy authoring schedules unique complete assignments directly across pages;
-all author and review calls share a maximum of three Standard-speed Sol xhigh slots.
+all author and review calls share a maximum of three Standard-speed Sol high slots.
 Explicit worker counts must be from one to three. The register remains authoritative
 for source decisions and acceptance.
 

@@ -1,5 +1,7 @@
 # Bounded Sol import, review and repair stages
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 This is the stage handoff guide for the existing efficient import workflow. It
 does not change accepted projects, question-bank schemas or historical run
 policies. Use it with the [import efficiency guide](booklet-import-efficiency.md)
@@ -9,16 +11,27 @@ and the [change runbook](booklet-change-runbook.md). The current instructions in
 ## One coordinator, small fresh contexts
 
 The coordinator reads `run-workflow next` and handles exceptions. As of
-25 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
+28 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
 mathematical, teaching-method, question and visual review, and repair work uses
-exclusively Sol (`gpt-6-sol`) with `xhigh` reasoning. Do not substitute another
-model or lower effort. Historical trial records retain their original provenance;
+exclusively Sol (`gpt-6-sol`) with `high` reasoning. Do not substitute another
+model or effort, or automatically escalate to xhigh. Historical trial records retain their original provenance;
 they do not authorize production model choices. All use Standard speed, ephemeral contexts and the same
 three-worker pool. Do not fork the conversation history into a worker. Provide
 the current ticket, relevant source images, taught context, approved decisions
 and exact ownership only. Preserve whole questions, shared stems and meaningful
 exercise/category boundaries. Publication still uses the existing serialized
 project/bank transactions.
+
+Worker queue waits default to 30 minutes. For a sustained import whose three
+owners are verified to be progressing, a coordinator may set the process-local
+`MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS` before launching resumed work (for
+example `7200000` for two hours). It accepts a positive integer up to 12 hours;
+explicit `withWorkerSlot` timeouts take precedence. Record the diagnosed queue
+failure and chosen limit in the run receipt. This changes only the wait for a
+free slot, never the three-worker cap, model execution limit or lease ownership.
+The lease records the selected timeout. Preserve completed outputs and resume
+only assignments that never generated output; reconcile interrupted owners
+before restarting their work. Do not silently change historical run settings.
 
 Essential assignment diagram and supplemental guidance travels inline in a
 stable prompt prefix; its retained file references are provenance. Count that
@@ -62,6 +75,14 @@ receive no acceptance. Omission preserves the full default dispatch. Stage scope
 and `visualConcurrency` are captured in each immutable ticket. Execute, record
 and cancel inherit omitted options from the ticket and reject explicit changes.
 These opt-ins do not add CLI flags.
+
+For normalization of an already retained result, the `runSemanticPackets` API
+accepts `localReplay: true` with an explicit local runner. The runner must report
+`metrics: {provider: 'local-replay', externalModelCalls: 0, usage: null}`. This
+does not acquire a model-worker lease; input hashes, immutable attempts, all
+validators and revision-safe serialized publication still apply. Authoring
+replays must select `pageReplay: true` rather than dispatch new assignments.
+The default model runner and ordinary external runners retain the worker pool.
 
 `visualPageLimits` optionally sets per-edition batch limits from one to eight
 pages, for example `{short:2, 'with-short':2}` for dense answers. Other editions

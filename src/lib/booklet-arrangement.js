@@ -47,7 +47,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
    if(hideStem){emptyRefs.add(n.id+'/prompt');for(const item of prose){entries.delete(item.ref);emptyRefs.add(item.ref);}}
    const pics=diagrams(n),children=(n.children??[]).map((c,i)=>question(c,i));
    const childGroup=group(n.id+':parts',children,n.layout==='grid'?'row':'stack');
-   if(n.layout==='grid'&&Math.max(2,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(2,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(2,n.columns||2)),'row'));}
+   if(n.layout==='grid'&&Math.max(1,n.columns||2)<children.length){childGroup.direction='stack';childGroup.children=[];for(let i=0;i<children.length;i+=Math.max(1,n.columns||2))childGroup.children.push(group(n.id+':row:'+i,children.slice(i,i+Math.max(1,n.columns||2)),'row'));}
    if(hideStem)prose.length=0;
    let body;
    if(n.representations){

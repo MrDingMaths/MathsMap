@@ -12,7 +12,15 @@ export function workerConcurrency(value=MAX_ASTRA_WORKERS){
  return n;
 }
 
-export async function withWorkerSlot(runDir,details,action,{timeoutMs=1800000,pollMs=50,signal}={}){
+export function workerQueueTimeoutMs(environment=process.env){
+ const value=environment.MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS;
+ if(value===undefined)return 1800000;
+ const milliseconds=Number(value);
+ if(!String(value).trim()||!Number.isSafeInteger(milliseconds)||milliseconds<1||milliseconds>43200000)throw Error('MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS must be an integer from 1 to 43200000');
+ return milliseconds;
+}
+
+export async function withWorkerSlot(runDir,details,action,{timeoutMs=workerQueueTimeoutMs(),pollMs=50,signal}={}){
  const directory=path.resolve(runDir,'workflow','worker-slots');
  const inherited=leaseContext.getStore();
  if(inherited?.directory===directory)return action(inherited);
@@ -22,8 +30,14 @@ export async function withWorkerSlot(runDir,details,action,{timeoutMs=1800000,po
   signal?.throwIfAborted();
   for(let slot=0;slot<MAX_ASTRA_WORKERS;slot++){
    const file=path.join(directory,slot+'.json');let fd;
-   try{fd=fs.openSync(file,'wx');}catch(error){if(error.code==='EEXIST')continue;throw error;}
-   try{fs.writeSync(fd,JSON.stringify({...details,id,pid:process.pid,startedAt:new Date().toISOString()}));}
+   try{fd=fs.openSync(file,'wx');}catch(error){
+    if(error.code==='EEXIST')continue;
+    // Windows may report EPERM instead of EEXIST for an exclusively opened
+    // lease. Treat only a verified existing regular file as an occupied slot.
+    if(error.code==='EPERM'){try{if(fs.statSync(file).isFile())continue;}catch{/* Preserve the original permission failure. */}}
+    throw error;
+   }
+   try{fs.writeSync(fd,JSON.stringify({...details,id,pid:process.pid,startedAt:new Date().toISOString(),queueTimeoutMs:timeoutMs}));}
    catch(error){fs.closeSync(fd);fs.unlinkSync(file);throw error;}
    fs.closeSync(fd);lease={file,id,slot,directory,queueWaitMs:Date.now()-waitingAt};break;
   }

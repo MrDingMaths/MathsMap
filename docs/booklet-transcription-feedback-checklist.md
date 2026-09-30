@@ -1,5 +1,7 @@
 # Transcription feedback acceptance checklist
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 This checklist records the user's general feedback from the Index Laws transcription session on 9 September 2026. It is required for every future transcription run, alongside the [direct compact workflow](booklet-direct-compact-import.md). Apply it to every occurrence in every book, including existing books, unless the user explicitly limits the change. A named example is evidence of a pattern, not a scope limit.
 
 ## Source fidelity requirements

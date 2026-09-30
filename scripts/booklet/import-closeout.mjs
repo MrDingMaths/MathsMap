@@ -1,5 +1,6 @@
 // Summarize existing acceptance, never infer visual review from an automated pass.
 import path from 'node:path';
+import {isLeanReview,blockingIssue} from './lean-profile.mjs';
 import {liveWorkflow,currentStatus,acceptFinalReview,bytesHash} from './workflow-review.mjs';
 import {buildRunReceipt,summarizeRunReceipt} from './run-observability.mjs';
 import fs from 'node:fs';
@@ -11,6 +12,10 @@ export function importCloseout(runDir,pages){
  const project=state.settled?.project?.file&&fs.existsSync(state.settled.project.file)?JSON.parse(fs.readFileSync(state.settled.project.file,'utf8')):null;
  const verification=verificationStatus(state,project,{phase:'complete',validateFinal:()=>acceptFinalReview(structuredClone(state),state.finalReview)});
  issues.push(...verification.issues);
+ if(isLeanReview(state)){
+  const receipt=buildRunReceipt(runDir);
+  return {deliverables:issues.length?[]:Object.entries(state.finalReview.editions).map(([edition,review])=>({edition,pdf:JSON.parse(fs.readFileSync(review.manifest.path,'utf8')).pdf.path})),substantiveCorrections:state.corrections.filter(c=>c.status==='approved').map(c=>({reason:c.reason,sourceRefs:c.sourceRefs})),unresolvedDecisions:[...Object.values(state.issues).filter(i=>blockingIssue(i,state)).map(i=>i.message),...issues],elapsed:{recordedActiveMs:receipt.recordedActiveWallMs,calendarSpanMs:receipt.calendarSpanMs,humanWaitingMs:receipt.humanWaitingMs??null,unfinishedIntervals:receipt.unfinished.length}};
+ }
  const register=path.resolve(runDir,'workflow/issues.json');
  return {version:1,generatedAt:new Date().toISOString(),ok:issues.length===0,issues,projectId:state.projectId??null,
   register:{path:register,hash:bytesHash(register)},revision:state.revision,reviewKey:status.reviewKey,

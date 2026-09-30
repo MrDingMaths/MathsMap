@@ -12,6 +12,16 @@ import fs from 'node:fs';
 const fixture=()=>({settings:creationSettings(),source:{sourceHashes:{pdf:'source'}},sections:[{phase:'teaching',blocks:[{
  id:'guided',type:'question',pedagogyRole:'guided-practice',sourceRefs:[{pageNumber:3}],content:{id:'root',prompt:'Guided Practice',layout:'grid',columns:2,children:[{id:'a',prompt:'$x^2x^3$',answerSpaceMm:14}]}
 }]}]});
+test('object-shaped optional review metadata reports missing legacy evidence without crashing',async()=>{
+ const p=fixture(),b=p.sections[0].blocks[0];
+ b.sourceReview={arrangements:{layout:'grid',columns:2,order:['a']},responses:{a:'working'}};
+ const report=await inspectPresentationFidelity(p);
+ assert.ok(report.issues.some(i=>i.kind==='unreviewed-source-arrangement'));
+ assert.ok(report.issues.some(i=>i.kind==='unreviewed-response-space'));
+ p.source.reviewProfile='textbook-three-pass-v1';
+ const lean=await inspectPresentationFidelity(p);
+ assert.ok(!lean.issues.some(i=>['unreviewed-source-arrangement','unreviewed-response-space'].includes(i.kind)));
+});
 test('worked-example colours, geometry and arrangements invalidate presentation evidence',async()=>{
  const block={id:'example',type:'worked-example',examples:[{id:'e',prompt:'Calculate.',theorySolution:'$x=5$',questionDiagrams:[{id:'d',format:'tikz',code:'original',widthMm:40}]}],presentation:{layout:'worked-rows'}};
  const key=await presentationVerificationKey(block,{pdf:'source'});

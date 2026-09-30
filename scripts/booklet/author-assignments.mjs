@@ -195,7 +195,7 @@ function prepareAssignmentRun(runDir,tasks,plan){
  return root;
 }
 
-export async function runAuthorAssignment({runDir,assignment,tasks,root=path.join(runDir,'semantic-packets','assignments'),runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{}}){
+export async function runAuthorAssignment({runDir,assignment,tasks,root=path.join(runDir,'semantic-packets','assignments'),runner,validate,attempt,regenerationReason,materialize=v=>v,log=()=>{},workerSlotOptions}){
   fs.mkdirSync(root,{recursive:true});
   const payload=assignmentPayload(assignment,tasks),dir=path.join(root,assignment.id),cacheFile=path.join(dir,'accepted.json');
   for(const resource of payload.resources){fs.mkdirSync(path.dirname(resource.path),{recursive:true});if(!fs.existsSync(resource.path))fs.writeFileSync(resource.path,resource.text);if(bytes(resource.path)!==resource.hash)throw Error('Shared context evidence changed');}
@@ -210,7 +210,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
    const catalog=path.join(root,'evidence-'+hash(payload.context.evidence)+'.json');if(!fs.existsSync(catalog))fs.writeFileSync(catalog,JSON.stringify(payload.context.evidence,null,2));
    const events=recordAttempt(path.join(runDir,'semantic-packets'),{stage:'author',page:assignment.pages[0],pages:assignment.pages,assignmentId:assignment.id,attempt,inputHash:payload.inputHash,promptStats:payload.promptStats,regenerationReason,retryReason:attempt>1?'content-repair':'initial'});let metrics,ok=false,error;
    try{
-    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,prompt:payload.prompt,images:payload.images,out}));metrics=reply.metrics;events.end({metrics});
+    events.phase('generation');const reply=assignment.evidenceOnly?{result:{packets:assignment.pages.map(pageNumber=>({pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]}))},metrics:{provider:'local-inventory-exclusions',externalModelCalls:0,usage:null,elapsedMs:0}}:await withWorkerSlot(runDir,{stage:'author',assignmentId:assignment.id},()=>runner({cwd:runDir,runDir,prompt:payload.prompt,images:payload.images,out}),workerSlotOptions);metrics=reply.metrics;events.end({metrics});
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
     const packets=reply.result?.packets?.map(materialize);
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');

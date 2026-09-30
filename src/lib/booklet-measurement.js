@@ -1,23 +1,33 @@
 import {calibrateGraphStrokes} from './graph-strokes.js';
 import {teachingLabels} from './booklet-labels.js';
+import {isLeanReview,printableProject} from './booklet-review-profile.js';
+import {settleBookletFonts} from './booklet-fonts.js';
 
 // Only presentation settings used by these blocks invalidate their dimensions.
 // Build each block signature once per calculation, including calculated labels.
 export function measurementKeyFor(project,options={}) {
+  const lean=isLeanReview(project);
   const signatures=new WeakMap(),overrides=project.settings.layoutOverrides??{};
   const labels=teachingLabels(project.sections.flatMap(s=>s.blocks));
-  const {layoutOverrides,cover,...settings}=project.settings;
+  const {layoutOverrides,cover,...settings}=lean?printableProject({settings:project.settings}).settings:project.settings;
   const context=JSON.stringify([project.id,project.source?.runId,settings,options]);
-  const signature=block=>{
-    if(signatures.has(block))return signatures.get(block);
+  const signature=(block,mode,phase)=>{
+    const variant=mode+':'+phase;
+    const cached=signatures.get(block);
+    if(cached?.has(variant))return cached.get(variant);
     const ids=new Set();
     const visit=value=>{if(!value||typeof value!=='object')return;if(value.id)ids.add(value.id);for(const child of Object.values(value))Array.isArray(child)?child.forEach(visit):visit(child);};
     visit(block);
     const pick=map=>[...ids].filter(id=>Object.hasOwn(map??{},id)).map(id=>[id,map[id]]);
-    const value=JSON.stringify([block,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
-    signatures.set(block,value);return value;
+    const printable=lean?printableProject({sections:[{phase,blocks:[block]}]},mode).sections[0].blocks[0]:block;
+    const value=JSON.stringify([printable,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
+    const modes=cached??new Map();modes.set(variant,value);signatures.set(block,modes);return value;
   };
-  return page=>JSON.stringify([context,page.isCover?cover:null,Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks')),page.isCover,page.compactAnswers,page.shortAnswerProbe,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment,e.shortRow,e.shortColumns])),page.blocks.map(signature)]);
+  return page=>{
+    const section=Object.fromEntries(Object.entries(page.section).filter(([key])=>key!=='blocks'));
+    const metadata=lean?printableProject({sections:[{...section,blocks:[]}]},page.mode).sections[0]:section;
+    return JSON.stringify([context,page.isCover?cover:null,metadata,page.isCover,page.compactAnswers,page.shortAnswerProbe,page.showTopicHeading,page.showDifficultyHeading,page.showAnswerHeading,page.mode,page.columns?.map(c=>c.map(e=>[e.section.exerciseNumber,e.section.topicTitle,e.labelWidthMm,e.block.flow?.answerFragment,e.shortRow,e.shortColumns])),page.blocks.map(block=>signature(block,page.mode,page.section.phase))]);
+  };
 }
 
 // Measurements need settled assets and a synchronous layout, not several paint
@@ -52,9 +62,7 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   })));
   // Force style/layout to request fonts used by newly inserted SVG and maths.
   root.getBoundingClientRect();
-  await wait(root.ownerDocument.fonts.ready);
-  const fonts=root.ownerDocument.fonts;
-  if(fonts[Symbol.iterator]&&[...fonts].some(font=>font.status==='error'))throw Error('A booklet font failed to load; reload after restoring font access.');
+  await wait(settleBookletFonts(root));
   check();calibrate(root);
   if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
   if(!diagramsReady())throw Error('A diagram has not rendered');

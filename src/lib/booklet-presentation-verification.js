@@ -1,3 +1,4 @@
+import {isLeanReview} from './booklet-review-profile.js';
 import {standaloneDifficultyHeading} from './booklet-difficulty-headings.js';
 import {contentSource,hasVisibleContent} from './document-content.js';
 import {signature} from './booklet-content-verification.js';
@@ -33,7 +34,8 @@ export async function presentationVerificationKey(block,sourceHashes,settings={}
 }
 export async function inspectPresentationFidelity(project){
   const issues=[];let checked=0;
-  const issue=(kind,targetId,note)=>issues.push({kind,targetId,note});
+  const auditOnly=new Set(['unchecked-source-visuals','unchecked-header','unreviewed-source-arrangement','unreviewed-response-space','unchecked-teaching-arrangement','unreviewed-raster-exception']);
+  const issue=(kind,targetId,note)=>{if(isLeanReview(project)&&auditOnly.has(kind))return;issues.push({kind,targetId,note});};
   const templateChecks=project.settings?.teachingPresentationVersion===1;
   if(templateChecks&&project.settings.includeTeachingAnswers)issue('teaching-in-practice-answers',null,'Use practice-only answer editions; teaching answers have their own controls.');
   for(const section of project.sections??[])for(const block of section.blocks??[]){
@@ -70,10 +72,10 @@ export async function inspectPresentationFidelity(project){
     const nodes=questionNodes(block.type==='question'?block.content:null);
     for(const node of nodes){
       if(node.children?.length){
-        const arrangement=review?.arrangements?.find(a=>a.targetId===node.id);
+        const arrangement=Array.isArray(review?.arrangements)?review.arrangements.find(a=>a.targetId===node.id):null;
         if(!arrangement||!arrangement.reason||arrangement.layout!==node.layout||arrangement.columns!==(node.columns??null)||JSON.stringify(arrangement.order)!==JSON.stringify(node.children.map(n=>n.id)))issue('unreviewed-source-arrangement',node.id,'Review source columns, row/column reading order and meaningful groups. Record why the active arrangement is faithful.');
       }else{
-        const response=review?.responses?.find(r=>r.targetId===node.id);
+        const response=Array.isArray(review?.responses)?review.responses.find(r=>r.targetId===node.id):null;
         if(!RESPONSE_KINDS.includes(response?.kind))issue('unreviewed-response-space',node.id,'Identify the response requirement from the source before allocating working space.');
         if(response&&['cloze','inline','none'].includes(response.kind)&&node.answerSpaceMm>0)issue('unnecessary-response-space',node.id,'An inline response or cloze already supplies its response space.');
         if(response?.kind==='tick-cross'&&node.answerSpaceMm>6)issue('excessive-response-space',node.id,'A tick/cross response needs at most 6 mm, not a working area.');

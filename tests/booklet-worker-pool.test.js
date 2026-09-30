@@ -7,13 +7,39 @@ import {EventEmitter} from 'node:events';
 import {PassThrough,Writable} from 'node:stream';
 import {spawn} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
-import {withWorkerSlot,runBoundedJobs} from '../scripts/booklet/worker-pool.mjs';
+import {withWorkerSlot,runBoundedJobs,workerQueueTimeoutMs} from '../scripts/booklet/worker-pool.mjs';
 import {runAstraTask,astraCommandArgs} from '../scripts/booklet/codex-transcription.mjs';
 import {runSemanticPackets} from '../scripts/booklet/semantic-workflow.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
 
 function fixture(t){const directory=fs.mkdtempSync(path.join(os.tmpdir(),'astra-pool-'));t.after(()=>{assert.ok(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep));fs.rmSync(directory,{recursive:true,force:true});});return directory;}
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+
+test('worker queue timeout is bounded and retains the historical default',()=>{
+ assert.equal(workerQueueTimeoutMs({}),1800000);
+ assert.equal(workerQueueTimeoutMs({MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS:'7200000'}),7200000);
+ for(const value of ['', ' ', '0', '-1', '1.5', 'Infinity', '43200001', 'invalid'])assert.throws(()=>workerQueueTimeoutMs({MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS:value}),/integer from 1 to 43200000/);
+});
+
+test('process-local queue limit preserves explicit timeouts and all occupied leases',async t=>{
+ const dir=fixture(t),slots=path.join(dir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});
+ const key='MATHSMAP_BOOKLET_WORKER_QUEUE_TIMEOUT_MS',original=process.env[key];
+ t.after(()=>{if(original===undefined)delete process.env[key];else process.env[key]=original;});
+ process.env[key]='2000';
+ const owners=Array.from({length:3},(_,i)=>JSON.stringify({id:'owner-'+i,pid:process.pid}));
+ for(const [i,owner]of owners.entries())fs.writeFileSync(path.join(slots,i+'.json'),owner);
+ await assert.rejects(()=>withWorkerSlot(dir,{},()=>assert.fail('Explicit timeout cannot launch a worker'),{timeoutMs:5,pollMs:2}),/All three/);
+ for(const [i,owner]of owners.entries())assert.equal(fs.readFileSync(path.join(slots,i+'.json'),'utf8'),owner);
+ const released=path.join(slots,'1.json'),timer=setTimeout(()=>fs.unlinkSync(released),25);
+ t.after(()=>clearTimeout(timer));
+ await withWorkerSlot(dir,{},lease=>{
+  assert.equal(lease.slot,1);assert.ok(lease.queueWaitMs>=20);
+  assert.equal(JSON.parse(fs.readFileSync(lease.file)).queueTimeoutMs,2000);
+  assert.equal(fs.readFileSync(path.join(slots,'0.json'),'utf8'),owners[0]);
+  assert.equal(fs.readFileSync(path.join(slots,'2.json'),'utf8'),owners[2]);
+ },{pollMs:2});
+ assert.deepEqual(fs.readdirSync(slots),['0.json','2.json']);
+});
 
 test('bounded queue keeps successes after a failure, preserves order and rejects duplicate ownership',async()=>{
  let active=0,peak=0;const visited=[];
@@ -44,18 +70,40 @@ test('nested runner uses its existing slot; interrupted ownership is never stole
  assert.equal(fs.readdirSync(slots).length,3);
 });
 
-test('fresh Sol xhigh execution fixes profile and Standard speed and preserves usage on invalid JSON',async t=>{
+test('Windows EPERM on an existing lease preserves ownership and uses another slot',async t=>{
+ const dir=fixture(t),slots=path.join(dir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});
+ const owned=path.join(slots,'0.json'),bytes=JSON.stringify({id:'existing-owner',pid:-1});fs.writeFileSync(owned,bytes);
+ const open=fs.openSync;t.mock.method(fs,'openSync',(file,flags,...args)=>{
+  if(file===owned&&flags==='wx')throw Object.assign(Error('Exclusive Windows lease'),{code:'EPERM'});
+  return open(file,flags,...args);
+ });
+ await withWorkerSlot(dir,{},lease=>{assert.equal(lease.slot,1);assert.equal(fs.readFileSync(owned,'utf8'),bytes);});
+ assert.equal(fs.readFileSync(owned,'utf8'),bytes);assert.deepEqual(fs.readdirSync(slots),['0.json']);
+});
+
+test('permission failures without an existing regular lease remain errors',async t=>{
+ const dir=fixture(t),slots=path.join(dir,'workflow','worker-slots'),target=path.join(slots,'0.json');
+ const open=fs.openSync;t.mock.method(fs,'openSync',(file,flags,...args)=>{
+  if(file===target&&flags==='wx')throw Object.assign(Error('Denied slot creation'),{code:'EPERM'});
+  return open(file,flags,...args);
+ });
+ await assert.rejects(()=>withWorkerSlot(dir,{},()=>assert.fail('Permission error must not claim a later slot')),/Denied slot creation/);
+ fs.mkdirSync(target);
+ await assert.rejects(()=>withWorkerSlot(dir,{},()=>assert.fail('A directory is not an occupied lease')),/Denied slot creation/);
+});
+
+test('fresh Sol high execution fixes profile and Standard speed and preserves usage on invalid JSON',async t=>{
  const dir=fixture(t);let captured;
  const spawnProcess=(binary,args)=>{
   captured=args;const child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.stdin=new Writable({write(chunk,encoding,callback){callback();}});child.kill=()=>child.emit('close',1);
   setTimeout(()=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'invalid JSON');child.stdout.write(JSON.stringify({type:'thread.started',thread_id:'thread-fixture'})+'\n'+JSON.stringify({type:'item.completed',item:{id:'tool-1',type:'command_execution'}})+'\n'+JSON.stringify({type:'turn.completed',usage:{input_tokens:100,cached_input_tokens:80,output_tokens:10}}));child.emit('close',0);},5);return child;
  };
  await assert.rejects(()=>runAstraTask({cwd:dir,prompt:'Bounded source fixture',out:path.join(dir,'attempt'),profile:'review'},{spawnProcess}),error=>{
-  assert.equal(error.metrics.sessionId,'thread-fixture');assert.equal(error.metrics.toolCalls,1);assert.equal(error.metrics.usage.output_tokens,10);assert.equal(error.metrics.effort,'xhigh');assert.ok(error.metrics.callId);return true;
+  assert.equal(error.metrics.sessionId,'thread-fixture');assert.equal(error.metrics.toolCalls,1);assert.equal(error.metrics.usage.output_tokens,10);assert.equal(error.metrics.effort,'high');assert.ok(error.metrics.callId);return true;
  });
- for(const profile of ['transcription','review','coordinator']){const args=astraCommandArgs({cwd:dir,raw:'result',profile});assert.equal(args[args.indexOf('--model')+1],'gpt-6-sol');assert.ok(args.includes('model_reasoning_effort="xhigh"'));}
- assert.ok(captured.includes('--ephemeral'));assert.ok(captured.includes('--ignore-user-config'));assert.ok(captured.includes('service_tier="default"'));assert.ok(captured.includes('features.fast_mode=false'));assert.ok(captured.includes('model_reasoning_effort="xhigh"'));
- assert.ok(astraCommandArgs({cwd:dir,raw:'result',profile:'coordinator'}).includes('model_reasoning_effort="xhigh"'));assert.equal(captured.includes('resume'),false);
+ for(const profile of ['transcription','review','coordinator']){const args=astraCommandArgs({cwd:dir,raw:'result',profile});assert.equal(args[args.indexOf('--model')+1],'gpt-6-sol');assert.ok(args.includes('model_reasoning_effort="high"'));}
+ assert.ok(captured.includes('--ephemeral'));assert.ok(captured.includes('--ignore-user-config'));assert.ok(captured.includes('service_tier="default"'));assert.ok(captured.includes('features.fast_mode=false'));assert.ok(captured.includes('model_reasoning_effort="high"'));
+ assert.ok(astraCommandArgs({cwd:dir,raw:'result',profile:'coordinator'}).includes('model_reasoning_effort="high"'));assert.equal(captured.includes('resume'),false);
  assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
 });
 

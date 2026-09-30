@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
@@ -248,7 +249,7 @@ export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = 
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
     ...TRANSCRIPTION_DEFAULT, concurrency, selectedPages, contextPages, teacherPages, continuations,
-    exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
+    reviewProfile: LEAN_REVIEW_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
     evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
     pins: { model: hashValue(TRANSCRIPTION_DEFAULT.model), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},

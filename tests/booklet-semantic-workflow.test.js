@@ -11,6 +11,7 @@ import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semant
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
 import {normalizeDocument} from '../public/libs/maths-editor/document-model.mjs';
 import {attemptRepairContext,repairAttempt,applyAttemptPatches} from '../scripts/booklet/local-attempt-repair.mjs';
+import {planTaskAssignments,runAuthorAssignment} from '../scripts/booklet/author-assignments.mjs';
 
 function fixture(t){
  const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'semantic-workflow-'));
@@ -30,6 +31,69 @@ const inventory=page=>({pageNumber:page,inventoried:true,entries:[{id:`src-${pag
 const author=page=>({pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]});
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+
+test('author assignment passes explicit worker wait options without changing lease ownership',async t=>{
+ const options={...fixture(t),pages:[4]},tasks=createSemanticTasks(options),assignment=planTaskAssignments(tasks).assignments[0];
+ const slots=path.join(options.runDir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});
+ for(let slot=0;slot<3;slot++)fs.writeFileSync(path.join(slots,slot+'.json'),JSON.stringify({id:'original-owner-'+slot}));
+ const owners=fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8'));
+ const controller=new AbortController();controller.abort(new Error('Explicit queued assignment cancellation'));
+ let calls=0;
+ await assert.rejects(runAuthorAssignment({runDir:options.runDir,tasks,assignment,attempt:1,validate:validateSemanticResult,
+  workerSlotOptions:{pollMs:1,signal:controller.signal},runner:()=>{calls++;assert.fail('No slot was acquired');}}),/Explicit queued assignment cancellation/);
+ assert.equal(calls,0);assert.deepEqual(fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8')),owners);
+ fs.unlinkSync(path.join(slots,'0.json'));
+ const result=await runAuthorAssignment({runDir:options.runDir,tasks,assignment,attempt:2,regenerationReason:'Original explicit cancellation had no generation.',validate:validateSemanticResult,
+  workerSlotOptions:{pollMs:1,timeoutMs:1234},runner:async()=>{
+   const lease=JSON.parse(fs.readFileSync(path.join(slots,'0.json')));assert.equal(lease.assignmentId,assignment.id);assert.equal(lease.queueTimeoutMs,1234);
+   return {result:{packets:[author(4)]},metrics:{provider:'test',externalModelCalls:0}};
+  }});
+ assert.equal(result.packets.length,1);assert.equal(fs.existsSync(path.join(slots,'0.json')),false);
+ assert.equal(fs.readFileSync(path.join(slots,'1.json'),'utf8'),owners[1]);assert.equal(fs.readFileSync(path.join(slots,'2.json'),'utf8'),owners[2]);
+});
+
+test('three-pass inventory accepts a source checklist without legacy layout approvals and reuses it',async t=>{
+ const options={...fixture(t),stage:'inventory',pages:[4]};
+ options.manifest={...options.manifest,workflowPolicy:'review-first-v1',reviewProfile:'textbook-three-pass-v1'};
+ fs.writeFileSync(path.join(options.runDir,'manifest.json'),JSON.stringify(options.manifest));
+ fs.unlinkSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'));
+ let calls=0;
+ const runner=async()=>{calls++;return {result:inventory(4),metrics:{}};};
+ const first=await runSemanticPackets(options,{...quiet,runner});
+ assert.equal(first.ok,true);
+ const second=await runSemanticPackets(options,{...quiet,runner});
+ assert.equal(second.ok,true);assert.equal(calls,1);
+ const state=JSON.parse(fs.readFileSync(path.join(options.runDir,'workflow/issues.json')));
+ assert.equal(state.reviewProfile,'textbook-three-pass-v1');
+ assert.ok(state.pages['4'].inventoryHash);
+});
+
+test('explicit zero-call replay validates and publishes while model slots stay owned',async t=>{
+ const options={...fixture(t),stage:'inventory',pages:[4],attempt:2,localReplay:true};
+ const slots=path.join(options.runDir,'workflow','worker-slots');fs.mkdirSync(slots,{recursive:true});
+ for(let i=0;i<3;i++)fs.writeFileSync(path.join(slots,i+'.json'),JSON.stringify({id:'model-owner-'+i}));
+ const before=fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8'));
+ const report=await runSemanticPackets(options,{...quiet,runner:async()=>({result:inventory(4),metrics:{provider:'local-replay',externalModelCalls:0,usage:null,elapsedMs:0}})});
+ assert.equal(report.ok,true);assert.equal(report.pages[0].metrics.externalModelCalls,0);
+ assert.deepEqual(fs.readdirSync(slots).map(file=>fs.readFileSync(path.join(slots,file),'utf8')),before);
+ assert.equal(JSON.parse(fs.readFileSync(path.join(options.runDir,'semantic-packets/page-004.inventory.json'))).pageNumber,4);
+ const badOptions={...fixture(t),stage:'inventory',pages:[4],attempt:2,localReplay:true};
+ const invalid=await runSemanticPackets(badOptions,{...quiet,runner:async()=>({result:{pageNumber:4},metrics:{provider:'local-replay',externalModelCalls:0,usage:null}})});
+ assert.equal(invalid.ok,false);assert.equal(JSON.parse(fs.readFileSync(path.join(badOptions.runDir,'semantic-packets/page-004.inventory.json'))).inventoried,true);
+});
+
+test('local replay cannot use the model runner or conceal external generation metrics',async t=>{
+ const options={...fixture(t),stage:'inventory',pages:[4],attempt:2,localReplay:true};
+ await assert.rejects(()=>runSemanticPackets(options,quiet),/explicit local result runner/);
+ for(const metrics of [{provider:'codex',externalModelCalls:0},{provider:'local-replay',externalModelCalls:1},{provider:'local-replay',externalModelCalls:0,usage:{output_tokens:1}}]){
+  const isolated={...fixture(t),stage:'inventory',pages:[4],attempt:2,localReplay:true};
+  const report=await runSemanticPackets(isolated,{...quiet,runner:async()=>({result:inventory(4),metrics})});
+  assert.equal(report.ok,false);assert.match(report.pages[0].error,/zero external model calls/);
+  assert.equal(fs.existsSync(path.join(isolated.runDir,'semantic-packets/page-004.inventory.2/result.meta.json')),false);
+ }
+ const assigned={...fixture(t),localReplay:true};assigned.manifest.pipelinePolicy='pdf-import-efficient-v1';
+ await assert.rejects(()=>runSemanticPackets(assigned,{...quiet,runner:()=>assert.fail()}),/cannot dispatch authoring assignments/);
+});
 
 test('a preserved structural failure is repaired locally with exact fields and all normal validators',async t=>{
  const options={...fixture(t),pages:[4]},bad=author(4);bad.inventoryMappings[0].targetId='missing-target';
@@ -159,6 +223,18 @@ test('Word retrieval merges overlap while preserving source offsets and whitespa
  assert.ok(excerpts[0].text.startsWith('alpha   beta'));
  assert.equal(wordExcerpts(word,'unrelated zebra').length,0);
 });
+test('practice-only three-pass authoring retains source pixels but excludes reviews of other practice on mixed context pages',t=>{
+ const options=fixture(t);
+ options.config={...options.config,workflowPolicy:'review-first-v1',contentScope:'practice-only'};
+ options.manifest={...options.manifest,selectedPages:[1,4,5],reviewProfile:'textbook-three-pass-v1'};
+ const workflowState={reviewProfile:'textbook-three-pass-v1',pipelinePolicy:'pdf-import-efficient-v1',pages:{4:{inventoryHash:'source4',patterns:[]}},issues:{},corrections:[],representatives:{}};
+ const task=()=>createSemanticTasks({...options,pages:[4],workflowState})[0],before=task();
+ workflowState.corrections.push({id:'other-practice',status:'approved',reason:'Reviewed another practice prompt.',patches:[{scope:'project',page:1,targetId:'unbound-other-question',field:'/prompt',original:'Old prompt',corrected:'Corrected other practice'}]});
+ workflowState.issues.other={id:'other',page:1,status:'retained',message:'Other practice wording',resolution:{reason:'Reviewed separately'}};
+ const after=task();assert.equal(after.inputHash,before.inputHash);assert.ok(after.images.includes(path.join(options.runDir,'evidence/pages/page-001.png')));assert.doesNotMatch(after.prompt,/Corrected other practice|Other practice wording/);
+ workflowState.corrections.push({id:'external-teaching',status:'approved',reason:'Reviewed external teaching convention.',patches:[{scope:'inventory',page:2,targetId:'src-2',field:'/description',original:'Solve the equation.',corrected:'Current external teaching convention'}]});
+ assert.match(task().prompt,/Current external teaching convention/);assert.notEqual(task().inputHash,before.inputHash);
+});
 
 test('author handoffs scope method clarifications to the assigned exercise without hiding shared corrections',t=>{
  const options=fixture(t);options.config.workflowPolicy='review-first-v1';
@@ -188,7 +264,7 @@ test('dry run performs no model calls or writes, and fingerprints only relevant 
  assert.equal(a.inputHash,b.inputHash);
  fs.writeFileSync(path.join(options.runDir,'evidence/pages/page-003.png'),'changed teaching image');
  assert.notEqual(createSemanticTasks(options)[0].inputHash,a.inputHash);
- assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'high'}}),/fresh Sol xhigh/);
+ assert.throws(()=>createSemanticTasks({...options,manifest:{...options.manifest,effort:'xhigh'}}),/fresh Sol high/);
 });
 
 test('bounded workers resume completed pages, reject edited caches, and preserve failed retries',async t=>{

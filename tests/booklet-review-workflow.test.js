@@ -536,3 +536,55 @@ test('status and flags reuse evidence reads only within the current operation',(
   reads=0;assert.equal(workflowFlags(state,pages).length,3);assert.equal(reads,1,'The next flags operation detects changed evidence');
  }finally{fs.readFileSync=read;fs.existsSync=exists;fs.rmSync(dir,{recursive:true,force:true});}
 });
+
+test('sourceReview replay ignores referenced child IDs while preserving editable descendants and exact conflicts',()=>{
+ const project=author(1);
+ project.source={inventory:{entries:inv(1).entries}};
+ const parent=project.sections[0].blocks[0].content;
+ const childId='replay-child';
+ parent.parts=[{id:childId,type:'question',prompt:'Find x.',answer:{short:'1',worked:'x=1'}}];
+ const originalReview={reviewed:false,workingSpaceEstimate:{perNode:[{id:childId,rows:2}]}};
+ const correctedReview={...structuredClone(originalReview),reviewed:true};
+ const measuredEstimate={perNode:[{id:childId,rows:3}]};
+ parent.sourceReview=structuredClone(originalReview);
+ const answerPatch={scope:'project',page:1,targetId:childId,field:'/answer/worked',original:'x=1',corrected:'x=1; checked.'};
+ const patches=[
+  {scope:'project',page:1,targetId:parent.id,field:'/sourceReview',original:originalReview,corrected:correctedReview},
+  answerPatch,
+  {scope:'project',page:1,targetId:parent.id,field:'/sourceReview/workingSpaceEstimate',original:correctedReview.workingSpaceEstimate,corrected:measuredEstimate}
+ ];
+ const stateFor=items=>({version:1,revision:1,pages:{},issues:{},corrections:items.map((patch,index)=>({id:'replay-'+index,status:'approved',patches:[patch]})),representatives:{},settled:null,finalReview:null});
+ const state=stateFor(patches);
+ const current=structuredClone(project);
+ const currentParent=current.sections[0].blocks[0].content;
+ currentParent.sourceReview={...structuredClone(correctedReview),workingSpaceEstimate:structuredClone(measuredEstimate)};
+ currentParent.parts[0].answer.worked=answerPatch.corrected;
+ const snapshot=structuredClone(current);
+ const replayed=materializeCorrections(current,state,'project',1);
+ const replayedParent=replayed.sections[0].blocks[0].content;
+ assert.deepEqual(replayedParent.sourceReview,currentParent.sourceReview);
+ assert.deepEqual(replayedParent.parts,currentParent.parts);
+ assert.deepEqual(current,snapshot,'replay must not mutate the input project');
+
+ const localAnswer=structuredClone(current);
+ localAnswer.sections[0].blocks[0].content.parts[0].answer.worked='Unrelated local answer';
+ assert.throws(()=>materializeCorrections(localAnswer,state,'project',1),/Stale correction replay-child\/answer\/worked/);
+ const localEstimate=structuredClone(current);
+ localEstimate.sections[0].blocks[0].content.sourceReview.workingSpaceEstimate.perNode[0].rows=99;
+ assert.throws(()=>materializeCorrections(localEstimate,state,'project',1),/Stale correction q-1\/sourceReview/);
+
+ // A replacement of actual editable children must still absorb their exact
+ // subsequent answer correction when the saved project is already current.
+ const originalParts=structuredClone(parent.parts);
+ const correctedParts=structuredClone(originalParts);
+ correctedParts[0].prompt='Find x and check it.';
+ const nestedCurrent=structuredClone(project);
+ nestedCurrent.sections[0].blocks[0].content.parts=structuredClone(correctedParts);
+ nestedCurrent.sections[0].blocks[0].content.parts[0].answer.worked=answerPatch.corrected;
+ const nestedState=stateFor([
+  {scope:'project',page:1,targetId:parent.id,field:'/parts',original:originalParts,corrected:correctedParts},
+  answerPatch
+ ]);
+ const nestedReplayed=materializeCorrections(nestedCurrent,nestedState,'project',1);
+ assert.deepEqual(nestedReplayed.sections[0].blocks[0].content.parts,nestedCurrent.sections[0].blocks[0].content.parts);
+});

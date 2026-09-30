@@ -1,5 +1,7 @@
 # Import duration controls and Chapter 2 lessons
 
+> Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.
+
 Applies to new imports and remaining work that has not yet been reviewed. Preserve the quality gates in the bounded workflow, review-first policy and change runbook. These controls do not authorize lower model effort, incomplete page coverage or question-bank publication.
 
 ## Before bulk work

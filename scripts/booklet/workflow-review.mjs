@@ -2,6 +2,8 @@
 // Source inventories and author attempts remain immutable evidence. Approved
 // patches are materialized on read, so every consumer gets the same correction.
 import fs from 'node:fs';
+import {isLeanReview,blockingIssue,printableProject} from './lean-profile.mjs';
+import {verificationDependencies,recordVerification,createArtifactVerifier} from './import-verification.mjs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {withBankLock,writeTransaction} from './bank-sync.mjs';
@@ -21,7 +23,7 @@ export const fingerprint=value=>createHash('sha256').update(JSON.stringify(value
 export const bytesHash=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const json=(file,fallback)=>fs.existsSync(file)?JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'')):fallback;
 export const reviewFile=runDir=>path.join(runDir,'workflow','issues.json');
-export function loadWorkflow(runDir){const state=json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});const policy=json(path.join(runDir,'manifest.json'),{}).pipelinePolicy;if(policy)state.pipelinePolicy=policy;return state;}
+export function loadWorkflow(runDir){const state=json(reviewFile(runDir),{version:1,revision:0,pages:{},issues:{},corrections:[],representatives:{},settled:null,finalReview:null});const manifest=json(path.join(runDir,'manifest.json'),{});if(manifest.pipelinePolicy)state.pipelinePolicy=manifest.pipelinePolicy;if(manifest.reviewProfile)state.reviewProfile=manifest.reviewProfile;return state;}
 export const reviewEnabled=(manifest,config={})=>manifest.workflowPolicy===REVIEW_POLICY||config.workflowPolicy===REVIEW_POLICY;
 
 // A representative candidate contains only selected pages. Keep the complete
@@ -156,7 +158,8 @@ export function materializeCorrections(source,state,scope,page){
     if(patchFingerprint(current,tracked)===patchFingerprint(next.corrected,tracked))return true;
     continue;
    }
-   const descendant=embedded(value,next.targetId);
+   // sourceReview contains node references, never editable descendants.
+   const descendant=fieldKeys(tracked.field)[0]==='sourceReview'?undefined:embedded(value,next.targetId);
    const sameTarget=next.targetId===tracked.targetId&&(next.field===tracked.field||next.field.startsWith(tracked.field+'/'));
    const nextTarget=sameTarget?probe:descendant;
    if(!nextTarget)continue;
@@ -263,9 +266,9 @@ export function sourceEvidence(runDir,page,hash=bytesHash){
  return fingerprint([`evidence/pages/page-${String(page).padStart(3,'0')}.png`,`evidence/pages/page-${String(page).padStart(3,'0')}.txt`,'evidence/word/document.md','evidence/teacher/pages.txt'].map(f=>{const file=path.join(runDir,f);return [f,fs.existsSync(file)?hash(file):null];}));
 }
 export function registerInventory(state,inventory,evidence=state.pages[inventory.pageNumber]?.sourceEvidence){
- const page=inventory.pageNumber,key=fingerprint({inventory,evidence}),previous=state.pages[page];
+ const page=inventory.pageNumber,key=fingerprint({inventory:isLeanReview(state)?printableProject(inventory):inventory,evidence}),previous=state.pages[page];
  const patterns=(inventory.layoutPatterns??[]).filter(p=>!p.exclusionReason?.trim());
- if(!patterns.length||patterns.some(p=>typeof p.id!=='string'||!p.description))throw Error('Inventory needs explicit layoutPatterns with IDs and descriptions, including a plain/cover pattern where applicable');
+ if(!isLeanReview(state)&&(!patterns.length||patterns.some(p=>typeof p.id!=='string'||!p.description)))throw Error('Inventory needs explicit layoutPatterns with IDs and descriptions, including a plain/cover pattern where applicable');
  state.pages[page]={...previous,inventoryHash:key,sourceEvidence:evidence,patterns,mathReview:previous?.inventoryHash===key?previous.mathReview:null};
  const findings=mathematicalFindings(inventory);
  for(const entry of inventory.entries)if(entry.ambiguity)findings.push({id:`inventory-${page}-${entry.id}-ambiguity`,entryId:entry.id,kind:'source-ambiguity',message:entry.ambiguity});
@@ -298,6 +301,11 @@ function gateEvidence(){
 export function pageGate(state,page,{representative=false,authoring=false}={},evidence=gateEvidence()){
  const p=state.pages[page],reasons=[];
  if(!p)return ['Inventory not registered'];
+ if(isLeanReview(state)){
+  if(!authoring)for(const issue of Object.values(state.issues))if((issue.pages??[issue.page]).includes(page)&&blockingIssue(issue,state))reasons.push(issue.id);
+  if(!authoring&&p.geometryError)reasons.push('Numerical triangle validation pending: '+p.geometryError);
+  return reasons;
+ }
  if(state.pipelinePolicy&&representative){
   const plan=state.verification?.representativePlan,selected=new Set([...(plan?.representativePages??[]),...(plan?.patterns??[]).map(p=>p.representativePage),...(plan?.coverage??[]).flatMap(c=>c.pages??[])]);
   if(!plan||!selected.has(page))reasons.push('Representative scheduling is limited to the recorded coverage pages');
@@ -326,14 +334,14 @@ export function pageGate(state,page,{representative=false,authoring=false}={},ev
 }
 export function currentStatus(state,selectedPages){
  const evidence=gateEvidence();
- const issues=Object.values(state.issues).filter(i=>i.status==='pending');
+ const issues=Object.values(state.issues).filter(i=>blockingIssue(i,state));
  const pages=selectedPages.map(page=>({page,inventoryKey:state.pages[page]?.inventoryHash,representativeKey:representativeKey(state,page),patterns:state.pages[page]?.patterns,reasons:pageGate(state,page,{},evidence),author:!!state.pages[page]?.authorHash}));
  return {revision:state.revision,issues,pages,reviewKey:settlementKey(state),contentSettled:!!state.settled,finalAccepted:!!state.finalReview};
 }
 
-export function settlementKey(state){return fingerprint({pages:state.pages,issues:state.issues,corrections:state.corrections,representatives:state.representatives});}
+export function settlementKey(state){if(isLeanReview(state))return fingerprint({pages:Object.fromEntries(Object.entries(state.pages).map(([p,v])=>[p,{source:v.sourceEvidence,inventory:v.inventoryHash,author:v.authorHash}])),issues:Object.values(state.issues).filter(i=>blockingIssue(i,state))});return fingerprint({pages:state.pages,issues:state.issues,corrections:state.corrections,representatives:state.representatives});}
 export function liveWorkflow(runDir,selectedPages=[]){
- const state=loadWorkflow(runDir),runtime=rendererSignature();
+ const state=loadWorkflow(runDir),runtime=rendererSignature({lean:isLeanReview(state)});
  const hashes=new Map(),hash=file=>{if(!hashes.has(file))hashes.set(file,bytesHash(file));return hashes.get(file);};
  for(const page of [...new Set([...Object.keys(state.pages).map(Number),...selectedPages])]){
   const inventory=effectiveInventory(runDir,page,state);
@@ -353,7 +361,7 @@ export function liveWorkflow(runDir,selectedPages=[]){
    delete state.representatives[id];
   }
  }
- if(state.settled?.key!==settlementKey(state)||state.settled&&(!evidenceCurrent(state.settled.artifacts,hash)||!state.settled.project?.file||!fs.existsSync(state.settled.project.file)||projectReviewHash(json(state.settled.project.file))!==state.settled.project.hash)){state.settled=null;state.finalReview=null;}
+ if(state.settled?.key!==settlementKey(state)||state.settled&&(!(isLeanReview(state)?state.settled.artifacts.every(a=>path.resolve(a.path)===path.resolve(state.settled.project?.file??'')||evidenceCurrent([a],hash)):evidenceCurrent(state.settled.artifacts,hash))||!state.settled.project?.file||!fs.existsSync(state.settled.project.file)||projectReviewHash(json(state.settled.project.file))!==state.settled.project.hash)){state.settled=null;state.finalReview=null;}
  if(state.finalReview&&!evidenceCurrent(state.finalReview.artifacts,hash))state.finalReview=null;
  return state;
 }
@@ -416,17 +424,23 @@ export function settleWorkflow(state,selectedPages,record){
  if(status.pages.some(p=>p.reasons.length||!p.author)||status.issues.length)throw Error('Content cannot settle while inventory, mathematical review, representatives or authoring are pending');
  if(record.key!==settlementKey(state))throw Error('Content changed since settlement review');
  if(!record.project?.file||!fs.existsSync(record.project.file)||projectReviewHash(json(record.project.file))!==record.project.hash)throw Error('Settlement needs the current project hash and file');
+ if(isLeanReview(state)){
+  const project=json(record.project.file),deps=verificationDependencies(state,project),artifactCurrent=createArtifactVerifier();
+  for(const id of Object.keys(deps.questions)){const entry=state.verification?.entries?.['question:'+id];if(entry?.outcome!=='passed')throw Error('Complete content review required: '+id);recordVerification({pipelinePolicy:state.pipelinePolicy,reviewProfile:state.reviewProfile},entry,deps,{artifactCurrent});}
+ }
  state.settled={...record};state.finalReview=null;
 }
 export function acceptFinalReview(state,record){
  reviewEvidence(record);
  if(!state.settled||state.settled.key!==settlementKey(state)||record.key!==state.settled.key)throw Error('Settle current content before final review');
  if(record.sourceCompared!==true||record.contentVerified!==true||record.presentationVerified!==true)throw Error('Independent source, content and presentation checks are required');
- const artifacts=[...record.artifacts],renderer=rendererSignature();
+ const artifacts=[...record.artifacts],renderer=rendererSignature({lean:isLeanReview(state)});
+ if(isLeanReview(state)&&(!isLeanReview(record)||record.reviewPolicy))throw Error('Three-pass imports require targeted visual acceptance');
  if(record.reviewPolicy&&record.reviewPolicy!==UNIQUE_LAYOUT_REVIEW)throw Error('Unknown final review policy');
  for(const edition of FINAL_EDITIONS){
   const review=record.editions?.[edition];
-  if((record.reviewPolicy?review?.allPagesCovered!==true:review?.allPagesVisuallyInspected!==true)||!review.pages?.length||!evidenceCurrent(review.artifacts)||review.pages.some(p=>!Number.isInteger(p.page)||!p.hash||p.checked!==true))throw Error('Incomplete final visual review: '+edition);
+  if(isLeanReview(state)&&!review?.visualPages?.length)throw Error('Targeted inspection selection is missing: '+edition);
+  if(((record.reviewPolicy||isLeanReview(state))?review?.allPagesCovered!==true:review?.allPagesVisuallyInspected!==true)||!review.pages?.length||!evidenceCurrent(review.artifacts)||review.pages.some(p=>!Number.isInteger(p.page)||!p.hash||p.checked!==true))throw Error('Incomplete final visual review: '+edition);
   const numbers=review.pages.map(p=>p.page).sort((a,b)=>a-b);
   if(numbers.some((p,i)=>p!==i+1))throw Error('Final review must cover every page exactly once: '+edition);
   artifacts.push(...review.artifacts,...validateFinalManifest(review,{edition,key:state.settled.key,projectHash:state.settled.project.hash,renderer}));
@@ -452,7 +466,7 @@ export function validatePacketGeometry(inventory,packet){
 }
 
 export function registerAuthor(state,inventory,packet,{strict=true}={}){
- const page=inventory.pageNumber,hash=fingerprint(packet);
+ const page=inventory.pageNumber,hash=fingerprint(isLeanReview(state)?printableProject(packet):packet);
  let geometry=[],geometryError;
  try{geometry=validatePacketGeometry(inventory,packet);}catch(error){if(strict)throw error;geometryError=error.message;}
  if(!state.pages[page])throw Error('Inventory not registered');
@@ -467,7 +481,7 @@ export function registerAuthor(state,inventory,packet,{strict=true}={}){
 
 export function workflowFlags(state,pages){
  const evidence=gateEvidence();
- const flags=Object.values(state.issues).map(i=>({id:'workflow-'+i.id,workflowIssue:true,note:i.message??i.kind,resolved:i.status!=='pending',...(i.resolution?{resolution:i.resolution.reason}:{})}));
+ const flags=Object.values(state.issues).map(i=>({id:'workflow-'+i.id,workflowIssue:true,note:i.message??i.kind,resolved:!blockingIssue(i,state),...(i.resolution?{resolution:i.resolution.reason}:{})}));
  for(const page of pages)for(const [i,reason]of pageGate(state,page,{},evidence).filter(r=>!state.issues[r]).entries())flags.push({id:`workflow-gate-${page}-${i}`,workflowIssue:true,note:reason,resolved:false});
  return flags;
 }
@@ -492,7 +506,7 @@ export function synchronizeInventoryAmbiguities(entries,state){
 export function synchronizeProject(project,state,pages,runId){
  const result=materializeCorrections(project,state,'project');
  synchronizeInventoryAmbiguities(result.source?.inventory?.entries??[],state);
- result.source??={};result.source.workflow={policy:REVIEW_POLICY,runId,correctionIds:state.corrections.map(c=>c.id)};
+ result.source??={};if(state.reviewProfile)result.source.reviewProfile=state.reviewProfile;result.source.workflow={policy:REVIEW_POLICY,runId,correctionIds:state.corrections.map(c=>c.id)};
  result.studio??={};result.studio.flags=[...(result.studio.flags??[]).filter(f=>!f.workflowIssue),...workflowFlags(state,pages)];
  return result;
 }

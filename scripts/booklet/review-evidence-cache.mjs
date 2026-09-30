@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {validatePdfRasters as validateOriginalRasters} from './pdf-rasters.mjs';
+import {validatePdfRasters as validateOriginalRasters,TARGETED_RASTER_FORMAT} from './pdf-rasters.mjs';
 import {validateEditionComparison as validateOriginalComparison} from './edition-comparison.mjs';
 
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -33,7 +33,7 @@ function scope(){
 }
 function rasterClosure(manifest,check){
  check(manifest.pdf);check(manifest.rasterization?.implementation);
- for(const image of manifest.images??[]){check(image);check(image.raster);check(image.receipt);}
+ for(const image of manifest.images??[]){check(image);if(manifest.rasterization?.format!==TARGETED_RASTER_FORMAT)check(image.raster);check(image.receipt);}
  for(const footer of manifest.rasterization?.footerSheets??[])check(footer);
 }
 function remember(cache,key,value,limit){

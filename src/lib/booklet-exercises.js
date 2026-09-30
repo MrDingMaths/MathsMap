@@ -1,3 +1,4 @@
+import {compactAnswerProseGlue} from './compact-answer-glue.js';
 import {retainDifficultyAsMetadata} from './booklet-difficulty-headings.js';
 import {isPractice, logicalUnits} from './booklet-flow.js';
 import {graphSourceWithoutColourMetadata} from './diagram-colours.js';
@@ -46,12 +47,13 @@ export function withAnswerDiagramWidth(settings,mode,id,width) {
 // Allow wrapping between complete coordinates/values, never within a fraction
 // or coordinate pair. This changes only the display value passed to the renderer.
 export function compactAnswerDisplay(value) {
-  if(typeof value!=='string')return value;
-  return value.replace(/(?<![\\$])\$(?!\$)((?:\\.|[^$])*?)(?<!\\)\$(?!\$)/g,(_,math)=>{
+  if(typeof value!=='string')return compactAnswerProseGlue(value);
+  const wrapped=value.replace(/(?<![\\$])\$(?!\$)((?:\\.|[^$])*?)(?<!\\)\$(?!\$)/g,(_,math)=>{
     let depth=0,result='';
     for(const c of math){if('({['.includes(c))depth++;if(')}]'.includes(c))depth--;result+=c;if(depth===0&&',;'.includes(c))result+='\\allowbreak ';}
     return '$'+result+'$';
   });
+  return compactAnswerProseGlue(wrapped);
 }
 
 // Ratings are pinned presentation metadata, not edits to a bank classification.

@@ -4,6 +4,17 @@ import {
   isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle, groupBookletBlocks,
 } from '../src/lib/booklet-preview.js';
 
+test('investigation titles survive a missing optional subtitle without duplicating legacy headings',()=>{
+ const group=sourceAtom=>groupBookletBlocks([{id:'activity',sourceAtom:{id:'header',kind:'investigation',...sourceAtom}}])[0].atom;
+ const current=group({label:'Sketching the Reciprocal of a Function'});
+ assert.equal(current.label,'Sketching the Reciprocal of a Function');
+ assert.ok(!current.visibleSubtitle);
+ const legacy=group({label:'Investigation',description:'Investigation Sketching the Reciprocal of a Function'});
+ assert.equal(legacy.label,'');assert.equal(legacy.visibleSubtitle,'Sketching the Reciprocal of a Function');
+ assert.equal(group({label:'',visibleSubtitle:'Custom title'}).label,'');
+ assert.equal(group({label:'Investigation'}).label,'');
+});
+
 test('printed exam attribution omits the Band rating without changing source metadata', () => {
   const question={title:'2016 HSC Standard 2 Band 4',content:{prompt:'Find the area.'}};
   assert.equal(visibleImportedQuestionTitle(question),'2016 HSC Standard 2');

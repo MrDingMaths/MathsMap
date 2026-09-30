@@ -48,7 +48,91 @@ test('next work is a read-only compact projection with stable unique ownership',
  assert.deepEqual(a.jobs,b.jobs);assert.deepEqual(fs.readdirSync(f.dir),before);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  assert.equal(a.jobs.filter(j=>j.stage==='maths').length,2);assert.ok(a.jobs.every(j=>!Object.hasOwn(j,'context')&&!Object.hasOwn(j,'images')));
  assert.equal(new Set(a.jobs.flatMap(j=>j.ownershipIds)).size,a.jobs.flatMap(j=>j.ownershipIds).length);
- assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6-sol'&&j.profile.effort==='xhigh'&&j.profile.freshContext&&j.profile.speed==='standard'));
+ assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6-sol'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
+});
+
+test('three-pass structured finding identities stay with their actual question instead of the first page question',async t=>{
+ const f=fixture(t),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));
+ manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.source={reviewProfile:manifest.reviewProfile,inventory:{entries:[{id:'source-part',targetId:'q2-root',pageNumber:1}]}};
+ f.book.sections[3].blocks[0].sourceRefs=[{pageNumber:1}];f.write('project.json',f.book);
+ const inventory=JSON.parse(fs.readFileSync(path.join(f.dir,'semantic-packets/page-001.inventory.json')));
+ inventory.findings=[{id:'specific',targetId:'q2-root',description:'Inspect the later question.'},{id:'question-specific',questionId:'source-part',description:'Inspect the independently inventoried later part.'},{id:'general',description:'Preserve the page-wide source note.'}];
+ f.write('semantic-packets/page-001.inventory.json',inventory);
+ const plan=await nextBoundedWork(f.options),first=job(plan,'assessment','question:q1'),later=job(plan,'assessment','question:q2');
+ const one=readTicket(await prepareBoundedStage(f.options,first.id)),two=readTicket(await prepareBoundedStage(f.options,later.id));
+ assert.ok(one.job.context.pendingIssues.some(i=>i.id.includes('general')));
+ assert.ok(!one.job.context.pendingIssues.some(i=>i.id.includes('specific')));
+ assert.ok(two.job.context.pendingIssues.some(i=>i.id.includes('specific')));
+ assert.ok(two.job.context.pendingIssues.some(i=>i.id.includes('question-specific')));
+});
+
+test('three-pass reference findings use explicit answer parents, category owners and teaching context, while unknown identities stay separate',async t=>{
+ const f=fixture(t),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.source={reviewProfile:manifest.reviewProfile};
+ f.book.sections[1].blocks[0].sourceReview={sourceIdentity:{category:'Concept Check'}};
+ f.book.sections[3].blocks[0].sourceRefs=[{pageNumber:1}];f.book.sections[3].blocks[0].sourceReview={sourceIdentity:{category:'Enrichment'}};
+ f.write('project.json',f.book);
+ const inventory=JSON.parse(fs.readFileSync(path.join(f.dir,'semantic-packets/page-001.inventory.json')));
+ inventory.entries.push({id:'answer-reference',kind:'answer',parentId:'q2-root',exclusionReason:'Teacher answer evidence only.'},{id:'enrichment-heading',kind:'teaching',sourceLabel:'enrichment',exclusionReason:'Practice category heading.'},{id:'context-example',kind:'example',exclusionReason:'Excluded standalone teaching context.'});
+ inventory.findings=[{id:'answer-parent',targetId:'answer-reference',description:'Check the matching teacher answer.'},{id:'category-owner',targetId:'enrichment-heading',description:'Restore the source heading once.'},{id:'context-error',targetId:'context-example',description:'Retain the original teaching-reference typo as evidence.'},{id:'unknown',targetId:'missing-later-question',description:'This explicit unknown identity must not be assigned to another question.'}];
+ f.write('semantic-packets/page-001.inventory.json',inventory);
+ const plan=await nextBoundedWork(f.options),one=readTicket(await prepareBoundedStage(f.options,job(plan,'assessment','question:q1').id)),two=readTicket(await prepareBoundedStage(f.options,job(plan,'assessment','question:q2').id));
+ assert.ok(one.job.context.pendingIssues.some(issue=>issue.id.endsWith('context-error')));
+ assert.ok(two.job.context.pendingIssues.some(issue=>issue.id.endsWith('answer-parent')));
+ assert.ok(two.job.context.pendingIssues.some(issue=>issue.id.endsWith('category-owner')));
+ assert.ok(![...one.job.context.pendingIssues,...two.job.context.pendingIssues].some(issue=>issue.id.endsWith('unknown')));
+ assert.ok(plan.jobs.some(job=>job.stage==='feedback'&&job.ownershipIds.some(id=>id.endsWith('unknown'))));
+});
+
+test('lean assessment scopes author mapping notes to owned questions while retaining all teaching evidence',async t=>{
+ const f=fixture(t,{pages:5}),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.sections=f.book.sections.filter(section=>section.phase==='practice');
+ for(const [index,section]of f.book.sections.entries()){section.topicId='t1';section.blocks[0].sourceReview={teachingContext:{pdfPages:[1,2,3,4,5],methodNote:'Use the retained taught method.',mappingNote:'Owned question mapping '+(index+1)}};}
+ f.book.source={reviewProfile:manifest.reviewProfile,contentScope:'practice-only'};f.write('project.json',f.book);
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[1,2,3,4,5]}]});
+ const plan=await nextBoundedWork(f.options),first=plan.jobs.find(job=>job.stage==='assessment'&&job.ownershipIds.includes('question:q1'));
+ assert.equal(first.ownershipIds.length,4);
+ const prepared=await prepareBoundedStage(f.options,first.id),ticket=readTicket(prepared);
+ assert.equal(ticket.job.context.teaching.suppliedNotes.length,4);
+ assert.ok(ticket.job.context.teaching.suppliedNotes.every(note=>!note.mappingNote.endsWith('5')));
+ assert.deepEqual(ticket.job.context.teaching.pages,[1,2,3,4,5]);
+ for(let page=1;page<=5;page++)assert.ok(prepared.images.includes(path.join(f.dir,`evidence/pages/page-00${page}.png`)));
+ assert.equal(exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2,3,4,5]),'t1',{runDir:f.dir}).suppliedNotes.length,5);
+});
+
+test('lean decision projection keeps owned answer references and source context without repeating another question review',async t=>{
+ const f=fixture(t),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.sections=f.book.sections.filter(section=>section.phase==='practice');
+ for(const section of f.book.sections){section.topicId='t1';section.blocks[0].sourceRefs=[{pageNumber:1}];section.blocks[0].content.prompt+=' '.repeat(12000);section.blocks[0].sourceReview={teachingContext:{pdfPages:[1],methodNote:'Retained source method.'}};}
+ const entries=[{id:'teacher-owned',kind:'answer',parentId:'q1-root',exclusionReason:'Teacher reference only.'}];
+ f.book.source={reviewProfile:manifest.reviewProfile,contentScope:'practice-only',inventory:{entries}};f.write('project.json',f.book);
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[1]}]});
+ await updateWorkflow(f.dir,'fixture retained source decisions',state=>{
+  for(const [id,identity]of [['owned','q1-root'],['other','q2-root'],['context','context-example'],['answer','teacher-owned']])state.issues[id]={id,origin:'review',page:1,status:'retained',message:JSON.stringify({targetId:identity,description:'Synthetic scoped source observation.'}),resolution:{status:'retained',reason:'Explicit test observation '+id,reviewer:'Fixture reviewer',evidence:[f.evidence]}};
+ });
+ const plan=await nextBoundedWork(f.options),prepared=await prepareBoundedStage(f.options,job(plan,'assessment','question:q1').id),context=readTicket(prepared).job.context;
+ assert.deepEqual(context.questions.map(question=>question.id),['q1']);
+ assert.ok(context.decisions.some(decision=>decision.id==='owned'));
+ assert.ok(context.decisions.some(decision=>decision.id==='answer'));
+ assert.ok(context.decisions.some(decision=>decision.id==='context'));
+ assert.ok(!context.decisions.some(decision=>decision.id==='other'));
+ assert.ok(!context.teaching.decisions.some(decision=>['owned','other','answer'].includes(decision.id)));
+ assert.ok(context.teaching.decisions.some(decision=>decision.id==='context'));
+ const legacy=structuredClone(f.book),state=structuredClone(liveWorkflow(f.dir));delete legacy.source.reviewProfile;delete state.reviewProfile;
+ assert.ok(exerciseTeachingContext(legacy,state,'t1',{runDir:f.dir,config:{topics:[{id:'t1',teachingPages:[1]}]}}).decisions.some(decision=>decision.id==='other'));
+});
+
+test('partial lean review applies only source-page corrections present in its project and retains missing-target guards',async t=>{
+ const f=fixture(t),manifest=JSON.parse(fs.readFileSync(path.join(f.dir,'manifest.json')));f.options.selectedPages=[1];manifest.reviewProfile='textbook-three-pass-v1';f.write('manifest.json',manifest);
+ f.book.source={reviewProfile:manifest.reviewProfile};f.book.sections=f.book.sections.slice(0,2);f.write('project.json',f.book);
+ const inventory=JSON.parse(fs.readFileSync(path.join(f.dir,'semantic-packets/page-001.inventory.json')));inventory.findings=[{id:'general',description:'Synthetic page-wide note'}];f.write('semantic-packets/page-001.inventory.json',inventory);
+ await updateWorkflow(f.dir,'fixture later-page correction',state=>{state.corrections.push({id:'later',status:'approved',reason:'Synthetic later-page repair',sourceRefs:[{pageNumber:2}],evidence:[f.evidence],patches:[{scope:'author',page:2,targetId:'q2-root',field:'/prompt',original:'Find the value.',corrected:'Calculate the value.'}]});});
+ assert.ok((await nextBoundedWork(f.options)).jobs.some(j=>j.ownershipIds.includes('question:q1')));
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment','question:q1').id),request=readTicket(prepared);
+ await recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,records:request.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}})),resolutions:request.job.context.pendingIssues.map(i=>({id:i.id,status:'retained',reason:'Synthetic explicit source note resolution'}))}});
+ await updateWorkflow(f.dir,'fixture malformed local correction',state=>{state.corrections.push({id:'missing',status:'approved',reason:'Synthetic missing local target',sourceRefs:[{pageNumber:1}],evidence:[f.evidence],patches:[{scope:'author',page:1,targetId:'missing',field:'/prompt',original:'Find',corrected:'Calculate'}]});});
+ await assert.rejects(()=>nextBoundedWork(f.options),/Missing correction target missing/);
 });
 
 test('independent reviews rebase unrelated register revisions, while duplicate ownership blocks',async t=>{
@@ -411,3 +495,175 @@ test('tickets without a stage scope retain the full default and cannot acquire a
 });
 
 test('visual page limits are captured in tickets and remain immutable across execute, record and cancel',async t=>{const f=visualFixture(t);await prepareReviewQueue(f.dir,f.input,f.overrides.queueDependencies);const options={...f.options,stages:['visual'],visualPageLimits:{student:2}},plan=await nextBoundedWork(options,f.overrides);assert.equal(plan.visualPageLimits.student,2);assert.deepEqual(plan.jobs.filter(j=>j.stage==='visual').map(j=>j.ownershipIds.length),[2,2,1,5,5,5,5]);const prepared=await prepareBoundedStage(options,plan.jobs[0].id,f.overrides);assert.deepEqual(readTicket(prepared).visualPageLimits,{student:2});const accepted={...signed,outcome:'accepted',sourceCompared:true,contentVerified:true,presentationVerified:true},changed={...options,visualPageLimits:{student:3}};await assert.rejects(()=>executePreparedBoundedStage(changed,prepared.ticket,{...f.overrides,runner:()=>assert.fail('Changed page limits invoked runner')}),/page limits differ/);await assert.rejects(()=>recordBoundedStage(changed,{ticket:prepared.ticket,result:accepted},f.overrides),/page limits differ/);await assert.rejects(()=>cancelBoundedStage(changed,{ticket:prepared.ticket,reason:'Fixture mismatch'}),/page limits differ/);const recorded=await recordBoundedStage(f.options,{ticket:prepared.ticket,result:accepted},f.overrides);assert.equal(recorded.ok,true);const queue=await reviewQueueStatus(f.dir,f.overrides.queueDependencies);assert.equal(queue.reviewed,2);assert.equal(queue.pending.length,23);});
+
+
+test('lean assessment combines source, teaching and practice once and reuses direct corrections',async t=>{
+ const f=fixture(t,{pages:1});
+ f.book.reviewProfile='textbook-three-pass-v1';
+ f.write('project.json',f.book);
+ let plan=await nextBoundedWork(f.options);
+ assert.equal(plan.jobs.some(j=>j.stage==='maths'||j.stage==='theory'),false);
+ const assessment=job(plan,'assessment');
+ assert.ok(assessment);
+ assert.deepEqual(assessment.blockers,[]);
+ const prepared=await prepareBoundedStage(f.options,assessment.id);
+ const ticket=readTicket(prepared);
+ assert.deepEqual(ticket.job.context.questions.map(b=>b.id),['method1','q1']);
+ assert.ok(ticket.job.context.teaching.teaching.some(b=>b.id==='method1'));
+ assert.match(prepared.prompt,/one complete source, mathematics, content, answer, taught-method and taxonomy pass/);
+ assert.match(prepared.prompt,/otherwise 2 decimal places/);
+ const records=ticket.job.context.questions.map(b=>({id:'question:'+b.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}));
+ const corrected={...signed,records,corrections:[{id:'fix-lean-answer',reason:'Correct the calculated result',sourceRefs:[{pageNumber:1}],patches:[{scope:'project',page:1,targetId:'q1-root',field:'/answer/short',original:'1',corrected:'2'}]}]};
+ await recordBoundedStage(f.options,{ticket:prepared.ticket,result:corrected});
+ const state=loadWorkflow(f.dir);
+ assert.equal(state.corrections[0].status,'approved');
+ assert.equal(state.verification.entries['question:q1'].outcome,'passed');
+ assert.equal(state.verification.entries['question:method1'].outcome,'passed');
+ plan=await nextBoundedWork(f.options);
+ assert.equal(plan.jobs.some(j=>j.stage==='assessment'),false);
+ assert.deepEqual(plan.reuse.questions,['method1','q1']);
+ f.book.sections.find(section=>section.phase==='practice').blocks[0].classification.primarySkillId='different-skill';
+ f.write('project.json',f.book);
+ plan=await nextBoundedWork(f.options);
+ assert.equal(plan.jobs.some(j=>j.stage==='assessment'),false);
+ f.book.sections.find(section=>section.phase==='practice').blocks[0].content.prompt='Find the revised value.';
+ f.write('project.json',f.book);
+ plan=await nextBoundedWork(f.options);
+ assert.ok(job(plan,'assessment','question:q1'));
+ assert.deepEqual(plan.reuse.questions,['method1']);
+});
+
+
+test('lean content review resolves inventoried ambiguity without a separate feedback job',async t=>{
+ const f=fixture(t,{pages:1,ambiguity:true});
+ f.book.reviewProfile='textbook-three-pass-v1';
+ f.write('project.json',f.book);
+ const plan=await nextBoundedWork(f.options);
+ assert.equal(plan.jobs.some(j=>j.stage==='feedback'),false);
+ const pending=job(plan,'assessment');
+ const prepared=await prepareBoundedStage(f.options,pending.id);
+ const context=readTicket(prepared).job.context;
+ assert.equal(context.pendingIssues.length,1);
+ assert.match(prepared.prompt,/Resolve every pendingIssues item in the same review/);
+ const result={...signed,records:context.questions.map(block=>({id:'question:'+block.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}})),resolutions:[{id:context.pendingIssues[0].id,status:'retained',reason:'The given source phrasing is mathematically unambiguous in this task.'}]};
+ await recordBoundedStage(f.options,{ticket:prepared.ticket,result});
+ const state=loadWorkflow(f.dir);
+ assert.equal(state.issues[context.pendingIssues[0].id].status,'retained');
+ assert.equal((await nextBoundedWork(f.options)).jobs.some(j=>j.stage==='feedback'||j.stage==='assessment'),false);
+});
+
+test('lean first assessment retains source-bound teaching for later batches without dropping question images',async t=>{
+ const f=fixture(t,{pages:5});f.book.reviewProfile='textbook-three-pass-v1';
+ f.book.sections=f.book.sections.filter(s=>s.phase==='practice');for(const s of f.book.sections)s.topicId='t1';
+ f.write('project.json',f.book);f.write('evidence/pages/page-006.png','Stable teaching image');
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[6]}]});
+ let plan=await nextBoundedWork(f.options);assert.equal(plan.jobs.some(j=>j.stage==='theory'),false);
+ const first=await prepareBoundedStage(f.options,job(plan,'assessment','question:q1').id),ticket=readTicket(first);
+ assert.ok(ticket.job.images.some(file=>file.endsWith('page-006.png')));
+ const records=ticket.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}));
+ await recordBoundedStage(f.options,{ticket:first.ticket,result:{...signed,records,teachingSummary:{outcome:'accepted',sourceCompared:true,note:'Source method checked once.',methods:[{statement:'Apply the method demonstrated on the teaching page.',sourceRefs:[{pageNumber:6}]}]}}});
+ plan=await nextBoundedWork(f.options);assert.deepEqual(plan.reuse.questions,['q1','q2','q3','q4']);
+ const second=await prepareBoundedStage(f.options,job(plan,'assessment','question:q5').id),next=readTicket(second);
+ assert.equal(next.job.context.teaching.reused,true);assert.ok(next.job.context.teaching.methods.length);
+ assert.ok(next.job.images.some(file=>file.endsWith('page-005.png')));
+ assert.equal(next.job.images.some(file=>file.endsWith('page-006.png')),false);
+ assert.equal(loadWorkflow(f.dir).verification.entries['question:q5'],undefined);
+ await cancelBoundedStage(f.options,{ticket:second.ticket,reason:'Check source invalidation.'});
+ f.write('evidence/pages/page-006.png','Changed teaching method image');
+ plan=await nextBoundedWork(f.options);const changed=readTicket(await prepareBoundedStage(f.options,job(plan,'assessment','question:q5').id));
+ assert.equal(changed.job.context.teaching.reused,undefined);assert.ok(changed.job.images.some(file=>file.endsWith('page-006.png')));
+});
+
+test('configured lean teaching survives practice appends and delivers extra methods only to their owner',async t=>{
+ const f=fixture(t,{pages:5});f.book.reviewProfile='textbook-three-pass-v1';
+ const later=f.book.sections.find(s=>s.id==='practice5');
+ later.blocks[0].sourceReview={teachingContext:{pdfPages:[7],methodNote:'Use this question-specific prior method.',mappingNote:'Only the fifth question needs page7.'}};
+ f.book.sections=f.book.sections.filter(s=>s.phase==='practice'&&s.id!=='practice5');for(const s of f.book.sections)s.topicId='t1';later.topicId='t1';
+ f.write('project.json',f.book);f.write('evidence/pages/page-006.png','Stable configured teaching');f.write('evidence/pages/page-007.png','Additional prior method');
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[6]}]});
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment','question:q1').id),ticket=readTicket(prepared);
+ const records=ticket.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}));
+ await recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,records,teachingSummary:{outcome:'accepted',sourceCompared:true,note:'Configured source inspected.',methods:[{statement:'Use the configured demonstration.',sourceRefs:[{pageNumber:6}]}]}}});
+ const before=exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2,3,4,5]),'t1',{runDir:f.dir,config:{topics:[{id:'t1',teachingPages:[6]}]},configFile:f.options.configFile});
+ f.book.sections.unshift(later);f.write('project.json',f.book);
+ const after=exerciseTeachingContext(f.book,liveWorkflow(f.dir,[1,2,3,4,5]),'t1',{runDir:f.dir,config:{topics:[{id:'t1',teachingPages:[6]}]},configFile:f.options.configFile});
+ assert.equal(after.dependencyHash,before.dependencyHash);assert.deepEqual(after.pages,[6]);assert.deepEqual(after.suppliedNotes,[]);
+ const plan=await nextBoundedWork(f.options);assert.deepEqual(new Set(plan.reuse.questions),new Set(['q1','q2','q3','q4']));
+ const next=await prepareBoundedStage(f.options,job(plan,'assessment','question:q5').id),owned=readTicket(next);
+ assert.equal(owned.job.context.teaching.reused,true);assert.equal(owned.job.context.teaching.suppliedNotes[0].pdfPages[0],7);
+ assert.ok(owned.job.images.some(file=>file.endsWith('page-007.png')));assert.ok(!owned.job.images.some(file=>file.endsWith('page-006.png')));
+ assert.ok(owned.job.context.questionTeachingEvidence.some(a=>a.path.endsWith('page-007.png')));
+ await recordBoundedStage(f.options,{ticket:next.ticket,result:{...signed,records:[{id:'question:q5',outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}]}});
+ f.write('evidence/pages/page-007.png','Changed prior method');
+ assert.deepEqual(new Set((await nextBoundedWork(f.options)).reuse.questions),new Set(['q1','q2','q3','q4']));
+ f.write('evidence/pages/page-006.png','Changed configured source');
+ assert.equal((await nextBoundedWork(f.options)).reuse.teaching.includes('exercise:t1'),false);
+});
+
+test('lean teaching summary rejects unassigned citations and preserves unresolved question ownership',async t=>{
+ const f=fixture(t,{pages:1});f.book.reviewProfile='textbook-three-pass-v1';f.write('project.json',f.book);
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment').id),ticket=readTicket(prepared);
+ const records=ticket.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}));
+ await assert.rejects(()=>recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,records,teachingSummary:{outcome:'accepted',sourceCompared:true,methods:[{statement:'Unsupported method citation',sourceRefs:[{pageNumber:99}]}]}}}),/assigned source references/);
+ assert.equal(loadWorkflow(f.dir).verification?.teachingContexts?.t1,undefined);
+ assert.equal(loadWorkflow(f.dir).verification?.entries?.['question:q1'],undefined);
+});
+
+test('lean summary survives same-review answer-evidence repairs and retained question issues',async t=>{
+ const f=fixture(t,{pages:5,ambiguity:true});f.book.reviewProfile='textbook-three-pass-v1';
+ const inventory=JSON.parse(fs.readFileSync(path.join(f.dir,'semantic-packets/page-001.inventory.json')));
+ inventory.findings=[{id:'page-answer-coverage',description:'Retain the missing answer-key evidence for this practice page.'},{id:'page-working-space',description:'Keep historical handwriting estimates distinct from rendered acceptance.'}];
+ f.write('semantic-packets/page-001.inventory.json',inventory);
+ f.book.sections=f.book.sections.filter(s=>s.phase==='practice');for(const s of f.book.sections)s.topicId='t1';
+ const original={status:'missing',teacherReference:[]};f.book.sections[0].blocks[0].sourceReview={answerEvidence:original};
+ f.write('project.json',f.book);f.write('evidence/pages/page-006.png','Stable teaching image');
+ f.options.configFile=f.write('config.json',{topics:[{id:'t1',teachingPages:[1,2,3,4,5,6]}]});
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment','question:q1').id),ticket=readTicket(prepared);
+ const records=ticket.job.context.questions.map(q=>({id:'question:'+q.id,outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}));
+ const correction={id:'missing-key-metadata',reason:'Record independent derivation where source answers are absent.',sourceRefs:[{pageNumber:1}],patches:[{scope:'project',page:1,targetId:'q1',field:'/sourceReview/answerEvidence',original,corrected:{status:'independently-derived',teacherReference:[],conflict:{kind:'source-answer-unavailable',decisionId:'missing-key-metadata'}}}]};
+ await recordBoundedStage(f.options,{ticket:prepared.ticket,result:{...signed,records,corrections:[correction],resolutions:ticket.job.context.pendingIssues.map(issue=>({id:issue.id,status:'retained',reason:'Preserve source wording after independent inspection.'})),teachingSummary:{outcome:'accepted',sourceCompared:true,note:'Unchanged teaching source inspected.',methods:[{statement:'Use the source demonstration.',sourceRefs:[{pageNumber:6}]}]}}});
+ const state=loadWorkflow(f.dir);assert.equal(state.corrections[0].status,'approved');assert.ok(Object.values(state.issues).some(issue=>issue.status==='retained'));
+ assert.ok(Object.values(state.issues).some(issue=>issue.id.includes('page-answer-coverage')&&issue.status==='retained'));
+ const plan=await nextBoundedWork(f.options);assert.deepEqual(plan.reuse.questions,['q1','q2','q3','q4']);
+ const second=await prepareBoundedStage(f.options,job(plan,'assessment','question:q5').id),next=readTicket(second);
+ assert.equal(next.job.context.teaching.reused,true);assert.equal(next.job.images.some(file=>file.endsWith('page-006.png')),false);
+ assert.ok(next.job.images.some(file=>file.endsWith('page-005.png')));
+ await recordBoundedStage(f.options,{ticket:second.ticket,result:{...signed,records:[{id:'question:q5',outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}],resolutions:next.job.context.pendingIssues.map(issue=>({id:issue.id,status:'retained',reason:'Preserve the source after this assigned review.'}))}});
+ const final=await nextBoundedWork(f.options);assert.deepEqual(final.reuse.questions,['q1','q2','q3','q4','q5']);assert.equal(final.jobs.some(j=>j.stage==='assessment'),false);
+});
+
+test('same-review summary cannot bind a newly introduced uninspected teaching page',async t=>{
+ const f=fixture(t,{pages:1});f.book.reviewProfile='textbook-three-pass-v1';f.book.sections=f.book.sections.filter(s=>s.phase==='practice');
+ const original={teachingContext:{pdfPages:[2]}};f.book.sections[0].blocks[0].sourceReview=original;
+ f.write('project.json',f.book);f.write('evidence/pages/page-002.png','Delivered method source');f.write('evidence/pages/page-003.png','Uninspected different method source');
+ const prepared=await prepareBoundedStage(f.options,job(await nextBoundedWork(f.options),'assessment').id),ticket=readTicket(prepared);
+ const result={...signed,records:[{id:'question:q1',outcome:'passed',sourceCompared:true,contentVerified:true,checks:{answer:true,skillMapping:true,taughtMethod:true}}],teachingSummary:{outcome:'accepted',sourceCompared:true,methods:[{statement:'Use the delivered method.',sourceRefs:[{pageNumber:2}]}]},corrections:[{id:'new-context',reason:'Introduce a different teaching page.',sourceRefs:[{pageNumber:1}],patches:[{scope:'project',page:1,targetId:'q1',field:'/sourceReview',original,corrected:{teachingContext:{pdfPages:[3]}}}]}]};
+ await assert.rejects(()=>recordBoundedStage(f.options,{ticket:prepared.ticket,result}),/uninspected final source/);
+ const state=loadWorkflow(f.dir);assert.equal(state.verification?.entries?.['question:q1'],undefined);assert.equal(state.verification?.teachingContexts?.t1,undefined);assert.equal(state.corrections?.length??0,0);
+});
+
+test('lean visual job only carries selected rendered blocks source pages',async t=>{
+ const f=fixture(t,{pages:2});
+ f.book.reviewProfile='textbook-three-pass-v1';
+ f.write('project.json',f.book);
+ const manifest=f.write('student-layout.json',{pages:[{page:1,blocks:['q1']}]});
+ const image=ref(f.write('student-page-1.png','Rendered page'));
+ const unrelated=ref(f.write('unrelated-source.txt','Unrelated source material'));
+ const queue={sessionKey:'layout-fixture',mode:'final',pending:[{edition:'student',page:1,key:'render-one',image,sources:[unrelated]}],pendingComposition:[],reviewed:0,reused:0,total:1};
+ const plan=await nextBoundedWork(f.options,{queue,queueInput:{editions:{student:{manifest:ref(manifest)}}}});
+ const visual=job(plan,'visual');
+ assert.ok(visual);
+ assert.ok(visual.evidence.some(artifact=>artifact.path.endsWith('page-001.png')));
+ assert.equal(visual.evidence.some(artifact=>artifact.path===unrelated.path),false);
+});
+
+
+test('lean teaching-summary receipts preserve completed question dependencies while explicit method sources remain bound',t=>{
+ const f=fixture(t,{pages:2});f.book.reviewProfile='textbook-three-pass-v1';
+ const q=f.book.sections.find(s=>s.phase==='practice').blocks[0];q.sourceReview={teachingContext:{pdfPages:[2]}};
+ const state=loadWorkflow(f.dir);state.pages[2]={sourceEvidence:{hash:'original-teaching-source'}};const before=questionTeachingDependencies(state,f.book,q);
+ state.verification??={entries:{}};state.verification.teachingContexts={t1:{reviewProfile:'textbook-three-pass-v1',dependencyScope:{pages:[2]},artifacts:[f.evidence],sourceArtifacts:[f.evidence],note:'New inspection receipt'}};
+ assert.deepEqual(questionTeachingDependencies(state,f.book,q),before);
+ state.pages[2].sourceEvidence={...state.pages[2].sourceEvidence,hash:'changed-original-teaching-source'};
+ assert.notDeepEqual(questionTeachingDependencies(state,f.book,q),before);
+});

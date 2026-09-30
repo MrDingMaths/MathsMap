@@ -27,9 +27,15 @@ function sourceAttempt(options,request){
  if(request.assignmentId){
   if(!/^assignment-[a-f0-9]{20}$/.test(request.assignmentId))throw Error('Invalid assignment identity');
   const root=path.join(task.packetRoot,'assignments',request.assignmentId),dir=path.join(root,String(fromAttempt)),input=path.join(dir,'task-input.json'),file=path.join(dir,'generation.json'),snapshot=read(input);
-  const tasks=createSemanticTasks({...options,stage:'author',pages:snapshot.assignment.pages});
   const continuations=options.config.assignmentLimits?.continuations??options.manifest.continuations??[];
-  const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>snapshot.assignment.pages.includes(p)))});
+  // A noncontinued assignment on a continuation page still needs the full
+  // neighbouring inventory while rebuilding the original ownership plan.
+  // Its own payload/hash remains scoped to its immutable assigned pages.
+  const planningPages=new Set(snapshot.assignment.pages);
+  let expanded;
+  do{expanded=false;for(const pair of continuations){const pages=Array.isArray(pair)?pair:[pair.from,pair.to];if(pages.some(p=>planningPages.has(p)))for(const p of pages)if(!planningPages.has(p)){planningPages.add(p);expanded=true;}}}while(expanded);
+  const tasks=createSemanticTasks({...options,stage:'author',pages:[...planningPages]});
+  const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).every(p=>planningPages.has(p)))});
   const assignment=plan.assignments.find(a=>a.id===request.assignmentId);
   if(!assignment||assignmentPayload(assignment,tasks).inputHash!==snapshot.inputHash)throw Error('Assignment source inputs changed');
   if(fs.existsSync(task.resultFile))throw Error('Published content uses repair-context');

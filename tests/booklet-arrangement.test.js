@@ -227,3 +227,46 @@ test('question part arrangements suppress legacy dividers and retain real table 
  const check=n=>{assert.equal(n.rules,undefined);n.children?.forEach(check);};check(resolved.tree.root);
  assert.deepEqual(saved,before);assert.deepEqual(block.content,content);assert.equal(block.content.children[0].prompt.blocks[0].border,true);
 });
+
+import {questionSplitGroups,fragmentQuestion} from '../src/lib/booklet-pagination.js';
+test('native grids preserve full-width one-column rows, two-column defaults and safe pagination cuts',()=>{
+ const cases=[
+  {name:'explicit one',columns:1,rows:[['a'],['b'],['c'],['d'],['e']]},
+  {name:'omitted default',rows:[['a','b'],['c','d'],['e']]},
+  {name:'null default',columns:null,rows:[['a','b'],['c','d'],['e']]},
+  {name:'explicit two',columns:2,rows:[['a','b'],['c','d'],['e']]},
+  {name:'explicit three',columns:3,rows:[['a','b','c'],['d','e']]}
+ ];
+ const find=(node,id)=>node.id===id?node:(node.children??[]).map(child=>find(child,id)).find(Boolean);
+ for(const scenario of cases){
+  const content={id:'grid-root',prompt:'Shared instruction',layout:'grid',children:['a','b','c','d','e'].map((id,i)=>({id,type:'part',label:id,prompt:'Response '+id,answerSpaceMm:24+i}))};
+  if(Object.hasOwn(scenario,'columns'))content.columns=scenario.columns;
+  const block={id:'grid-block',type:'question',sourceOrder:1,content};
+  const before=JSON.stringify(block);
+  const catalog=arrangementCatalog(block);
+  const parts=find(catalog.initial.root,'grid-root:parts');
+  assert.equal(parts.direction,'stack',scenario.name);
+  assert.deepEqual(parts.children.map(row=>row.children.map(child=>child.id)),scenario.rows.map(ids=>ids.map(id=>id+':question')),scenario.name);
+  for(const row of parts.children){
+   assert.equal(row.direction,'row',scenario.name);
+   if(scenario.columns===1){
+    assert.equal(row.children.length,1,'each explicit one-column row has one full-width child');
+    assert.equal(row.width,undefined);
+    assert.equal(row.children[0].width,undefined);
+    assert.equal(row.children[0].weight,undefined);
+   }
+  }
+  const groups=questionSplitGroups(block);
+  assert.deepEqual(groups,scenario.rows.map(ids=>({parentId:'grid-root',ids})),scenario.name+' safe cuts');
+  groups.forEach((split,index)=>{
+   const fragment=fragmentQuestion(block,[split],index);
+   assert.deepEqual(fragment.content.children,block.content.children.filter(child=>split.ids.includes(child.id)),scenario.name+' fragment preserves complete response leaves');
+   const fragmentCatalog=arrangementCatalog(fragment);
+   for(const id of split.ids){
+    assert.ok(fragmentCatalog.entries.has(id+'/prompt'));
+    assert.ok(fragmentCatalog.entries.has(id+'/space'));
+   }
+  });
+  assert.equal(JSON.stringify(block),before,scenario.name+' leaves source content unchanged');
+ }
+});
