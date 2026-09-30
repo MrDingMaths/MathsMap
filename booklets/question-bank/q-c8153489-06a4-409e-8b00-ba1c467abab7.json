@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c8153489-06a4-409e-8b00-ba1c467abab7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 90,
+    "difficulty": "Challenge",
+    "difficultyReason": "Build a graph through successive sums and three nested absolute values, retaining closely spaced corners."
+  },
+  "content": {
+    "id": "p38-q63-response",
+    "type": "question",
+    "label": "63",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p38-q63-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Sketch the graph of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=\\left|x+\\left|x+|x+1|\\right|\\right|",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$$y=\\begin{cases}-x-1,&x<-1,\\\\x+1,&-1\\le x<-\\tfrac12,\\\\-3x-1,&-\\tfrac12\\le x<-\\tfrac13,\\\\3x+1,&x\\ge-\\tfrac13.\\end{cases}$$\n\nCorners: $(-1,0)$, $(-\\tfrac12,\\tfrac12)$ and $(-\\tfrac13,0)$; $y$-intercept $(0,1)$. Work from the innermost absolute value, adding $x$ and reflecting negative portions upwards at each stage.",
+      "worked": "Start with $y=|x+1|$, then add the ordinates of $y=x$.\n\n$$x+|x+1|=\\begin{cases}-1,&x<-1,\\\\2x+1,&x\\ge-1.\\end{cases}$$\n\nReflect the negative portions upwards.\n\n$$\\left|x+|x+1|\\right|=\\begin{cases}1,&x<-1,\\\\-2x-1,&-1\\le x<-\\tfrac12,\\\\2x+1,&x\\ge-\\tfrac12.\\end{cases}$$\n\nAdd $x$ again and reflect any negative portions upwards to apply the outer absolute value.\n\n$$y=\\begin{cases}-x-1,&x<-1,\\\\x+1,&-1\\le x<-\\tfrac12,\\\\-3x-1,&-\\tfrac12\\le x<-\\tfrac13,\\\\3x+1,&x\\ge-\\tfrac13.\\end{cases}$$\n\nJoin the corners $(-1,0)$, $(-\\tfrac12,\\tfrac12)$ and $(-\\tfrac13,0)$ with straight segments. Extend the left ray with slope $-1$ and the right ray with slope $3$; the latter passes through $(0,1)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p38-q63-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"resultBlue\",\"hex\":\"268CFF\",\"reason\":\"final nested absolute-value graph\"},{\"name\":\"constructionPurple\",\"hex\":\"8B5CC7\",\"reason\":\"graph before the outer absolute-value reflection\"}],\"reference\":\"source PDF page 38 question 63; teacher PDF page 8 question 63\"}\n\\begin{tikzpicture}[x=1.8cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{resultBlue}{HTML}{268CFF}\n\\definecolor{constructionPurple}{HTML}{8B5CC7}\n\\path[use as bounding box] (-2.5,-1.7) rectangle (0.8,2.6);\n\\draw[black,line width=0.5pt,->] (-2.4,0)--(0.7,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.5)--(0,2.4) node[left] {$y$};\n\\draw[constructionPurple,dashed,line width=0.4pt] (-2.3,-1.3)--(-1,0);\n\\draw[constructionPurple,dashed,line width=0.4pt] (-1,0)--(-0.5,-0.5)--(-0.3333333333,0);\n\\draw[resultBlue,line width=0.8pt,<->] (-2.3,1.3)--(-1,0)--(-0.5,0.5)--(-0.3333333333,0)--(0.4333333333,2.3);\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 80,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 38,
+            "sourceRegion": "Question 63, first enrichment question",
+            "description": "Complete piecewise-linear graph with two negative-x intercepts and a small peak between them; dashed segments show the final reflection.",
+            "mathematics": "Vertices (-1,0), (-1/2,1/2), (-1/3,0); left slope -1 and right slope 3. Drawing decimals encode exact fractional vertices.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 120
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q63": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q63-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p38-q63-label-item",
+                  "type": "item",
+                  "ref": "p38-q63-response/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p38-q63-task-item",
+                  "type": "item",
+                  "ref": "p38-q63-response/prompt#p38-q63-task",
+                  "align": "left"
+                },
+                {
+                  "id": "p38-q63-space-item",
+                  "type": "item",
+                  "ref": "p38-q63-response/space"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p38-q63"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:50.652Z",
+  "updatedAt": "2026-09-29T12:46:50.652Z"
+}

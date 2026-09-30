@@ -1,0 +1,100 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-93bd9804-5134-48e6-b33a-8de7d2167238",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "domain-range-inverse",
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Select the inverse branch, relate its domain to the original range, and establish that the reflected graphs do not intersect."
+  },
+  "content": {
+    "id": "p52-q34-stem",
+    "type": "question",
+    "label": "34",
+    "prompt": "Let $f(x)=x^2+2x+2$ for $x\\geq -1$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p52-q34-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $f^{-1}(x)$ and state its domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=-1+\\sqrt{x-1}$, with domain $[1,\\infty)$.",
+          "worked": "$$\\begin{align*}y&=(x+1)^2+1\\\\x&=(y+1)^2+1\\\\\\sqrt{x-1}&=y+1\\\\y&=-1+\\sqrt{x-1}\\end{align*}$$\nThe positive square root is required because the original domain gives $y\\geq-1$ after interchanging the variables. Thus $f^{-1}(x)=-1+\\sqrt{x-1}$, with domain $[1,\\infty)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p52-q34-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs do not intersect.\n\nSince $f$ is strictly increasing, intersections would lie on $y=x$, but $x^2+x+2=0$ has no real solutions. In the sketch, blue dashed is $y=f(x)$ and red solid is $y=f^{-1}(x)$.",
+          "worked": "The restricted parabola is strictly increasing, so any intersection with its inverse must lie on $y=x$.\n$$\\begin{align*}f(x)&=x\\\\x^2+x+2&=0\\end{align*}$$\nThe discriminant is $1-8=-7<0$, so there are no real intersection points. Reflect the branch $y=(x+1)^2+1$, $x\\geq-1$, in $y=x$ to obtain the inverse. The included endpoints are $(-1,1)$ and $(1,-1)$ respectively. Blue dashed is $y=f(x)$; red solid is $y=f^{-1}(x)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q34-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function series\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function series\"}],\"reference\":\"source PDF52 question34; teacher PDF10 question34(b)\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2.3,-2.3) rectangle (3.6,3.6);\n\\draw[black,line width=0.5pt,->] (-2.1,0)--(3.3,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.1)--(0,3.3) node[above] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-2,-2)--(3.2,3.2);\n\\foreach \\v in {-1,1,2}{\n\\draw[black,line width=0.4pt] (\\v,0.055)--(\\v,-0.055);\n\\node[below] at (\\v,-0.055) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.055,\\v)--(-0.055,\\v);\n\\node[left] at (-0.055,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[functionBlue,line width=0.8pt,dashed,->] plot[domain=-1:0.5,samples=70] (\\x,{(\\x+1)^2+1});\n\\draw[inverseRed,line width=0.8pt,->] plot[domain=0:1.47,samples=70,variable=\\t] ({\\t*\\t+1},{\\t-1});\n\\fill[functionBlue] (-1,1) circle[radius=1.3pt];\n\\fill[inverseRed] (1,-1) circle[radius=1.3pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 72,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 34(b); answer-book PDF10, printed314, question34(b)",
+                "description": "Restricted increasing parabola and its reflected square-root inverse, with included endpoints, source ticks and dashed reflection line.",
+                "mathematics": "Original: y=(x+1)^2+1 for x>=-1. Inverse: y=-1+sqrt(x-1) for x>=1. Endpoints (-1,1) and (1,-1). No intersections.",
+                "answerVisibility": "Complete answer graph; absent from the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p52-q34",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:47:57.886Z",
+  "updatedAt": "2026-09-29T12:47:57.886Z"
+}

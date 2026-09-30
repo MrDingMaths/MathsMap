@@ -1,0 +1,108 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b58ea8d7-9919-4d44-8674-c13e262042ca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-cubic-inequalities",
+    "secondarySkillIds": [],
+    "reasoningScore": 88,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires a parameter threshold for a polynomial-versus-radical inequality, with justification of both necessity and sufficiency. Polynomial inequality analysis is the closest available catalogue match."
+  },
+  "content": {
+    "id": "p89-q72-root",
+    "type": "question",
+    "label": "72",
+    "prompt": "For what values of $a$ will the solution set of $x^2-a\\le\\sqrt{x+a}$ be non-empty?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p89-q72-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "a\\ge-\\frac14",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p89-q72-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "At a = −1/4 the curves touch at (1/2, 1/2). Increasing a lowers the parabola and raises the radical graph; decreasing a separates them.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Sketch $y=x^2-a$ and $y=\\sqrt{x+a}$, whose common domain is $x\\ge-a$. At $a=-\\frac{1}{4}$ they touch at $(\\frac{1}{2},\\frac{1}{2})$.\nFor $a<-\\frac{1}{4}$, every admissible $x$ is positive and\n$$\\begin{align*}x^2-a-x&=\\left(x-\\frac12\\right)^2-a-\\frac14\\\\x^2-a-x&>0\\end{align*}$$\nThus $x^2-a>x$. Also $x^2>x+a$, so $x>\\sqrt{x+a}$. The parabola lies strictly above the radical graph throughout their common domain, giving no solutions.\nFor $a\\ge-\\frac{1}{4}$, choose $x=\\frac{1}{2}$. Then\n$$\\begin{align*}\\frac14-a&\\le\\frac12\\\\\\sqrt{\\frac12+a}&\\ge\\frac12\\end{align*}$$\nso $x^2-a\\le\\sqrt{x+a}$ at this admissible value. Therefore the solution set is non-empty exactly when $a\\ge-\\frac{1}{4}$.",
+      "solutionDiagrams": [
+        {
+          "id": "p89-q72-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=40mm,y=18mm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\path[use as bounding box] (-0.35,-0.5) rectangle (2.05,6.1);\n\\draw[->,black] (-0.15,0)--(1.95,0) node[below] {$x$};\n\\draw[->,black] (0,-0.25)--(0,3.45) node[left] {$y$};\n\\draw[black,dashed] (0,0)--(1.85,1.85);\n\\node[anchor=west] at (1.45,1.9) {$y=x$};\n\\draw[black,dashed] (0.5,0)--(0.5,0.5)--(0,0.5);\n\n\n\\draw[color={rgb,255:red,38;green,140;blue,255},thick,->,domain=0:1.75,samples=100] plot (\\x,{\\x*\\x+0.25});\n\\draw[color={rgb,255:red,239;green,139;blue,44},thick,->,domain=0.25:1.9,samples=160] plot (\\x,{sqrt(\\x-0.25)});\n\\fill[black] (0.5,0.5) circle[radius=1.2pt];\n\\node[,text={rgb,255:red,38;green,140;blue,255},anchor=south] at (0.8,5.3) {$y=x^2+\\frac14$};\n\\node[,text={rgb,255:red,239;green,139;blue,44},anchor=south] at (0.8,4.1) {$y=\\sqrt{x-\\frac14}$};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below,font=\\fontsize{8.5}{10}\\selectfont] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 96,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 89,
+            "sourceRegion": "Question 72; authored critical-parameter answer graph",
+            "description": "The two curves at a=−1/4, with their common tangent y=x and contact point marked.",
+            "mathematics": "At (1/2,1/2), x²+1/4 and √(x−1/4) have equal value and derivative 1. The parabola is on or above y=x, and the radical graph is on or below it.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 84
+  },
+  "presentation": {
+    "ownerId": "p89-q72",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:56:57.799Z",
+  "updatedAt": "2026-09-29T12:56:57.800Z"
+}

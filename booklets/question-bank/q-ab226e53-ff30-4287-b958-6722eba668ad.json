@@ -1,0 +1,351 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ab226e53-ff30-4287-b958-6722eba668ad",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "parametric-to-cartesian",
+    "secondarySkillIds": [],
+    "reasoningScore": 83,
+    "difficulty": "Challenge",
+    "difficultyReason": "Combines perpendicular gradients, an exact chord length and elimination of related parameters."
+  },
+  "content": {
+    "id": "p70-q72-root",
+    "type": "question",
+    "label": "72",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p70-q72-stem-first",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Two points ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(p,p^2)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "Q(q,q^2)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " lie on the parabola ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=x^2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p70-q72-stem-second",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The origin and points ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "Q",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " form a right-angled triangle.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p70-q72-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"parabola series\"}],\"reference\":\"PDF page 70, p70-q72-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.05,-0.45) rectangle (2.05,3.35);\n\\coordinate (V) at (0,0);\n\\coordinate (P) at (1.5,2.25);\n\\coordinate (Q) at (-0.6666667,0.4444444);\n\\draw[black,line width=0.5pt,->] (-1.9,0)--(1.95,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.4)--(0,3.2) node[left] {$y$};\n\\draw[curveBlue,line width=0.8pt,<->] plot[domain=-1.75:1.75,samples=100] (\\x,{\\x*\\x});\n\\draw[black,line width=0.8pt] (P)--(V)--(Q);\n\\draw[black,line width=0.4pt,dashed] (Q)--(P);\n\\coordinate (R1) at ($(V)!0.16cm!(P)$);\n\\coordinate (R3) at ($(V)!0.16cm!(Q)$);\n\\draw[black,line width=0.4pt] (R1)--($(R1)+(R3)-(V)$)--(R3);\n\\fill[black] (P) circle (1.3pt) node[right] {$P$};\n\\fill[black] (Q) circle (1.3pt) node[below left] {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 70,
+          "sourceRegion": "Left column, question 72, between the two stem paragraphs",
+          "description": "Upward-opening parabola, labelled axes, marked P on the right and Q on the left, solid origin-to-point segments, dashed PQ and a right-angle marker at the unlabelled origin.",
+          "mathematics": "Equation-driven y=x^2. Representative unlabelled drawing coordinates use p=3/2 and q=-2/3, satisfying pq=-1, solely to construct the source topology and perpendicular mark.",
+          "answerVisibility": "Permanent supplied question diagram; no numerical coordinates or answers are displayed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p70-q72-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $pq=-1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$m_{OP}=p$ and $m_{OQ}=q$. Since $OP\\perp OQ$, $pq=-1$.",
+          "worked": "Neither point is the origin, so $p,q\\ne0$.\n$$\\begin{align*}m_{OP}&=\\frac{p^2}{p}=p\\\\m_{OQ}&=\\frac{q^2}{q}=q\\\\m_{OP}m_{OQ}&=-1\\\\pq&=-1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p70-q72-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, find the coordinates of $P$ and $Q$ if the length of the hypotenuse $PQ$ is exactly $\\frac{3\\sqrt{3}}{2}$ units.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p70-q72-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "P(\\sqrt2,2),\\ Q\\left(-\\frac1{\\sqrt2},\\frac12\\right)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " or ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "P\\left(\\frac1{\\sqrt2},\\frac12\\right),\\ Q(-\\sqrt2,2)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p70-q72-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "q=-\\frac{1}{p}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " in the squared distance formula; ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p^2=2",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " or ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p^2=\\frac{1}{2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "From (a), $q=-\\frac{1}{p}$. Put $s=p^2+q^2$. Since $pq=-1$, $s\\ge2$.\n$$\\begin{align*}PQ^2&=(p-q)^2+(p^2-q^2)^2\\\\PQ^2&=(p-q)^2\\bigl(1+(p+q)^2\\bigr)\\\\PQ^2&=(s+2)(s-1)\\\\\\frac{27}{4}&=s^2+s-2\\\\0&=(2s-5)(2s+7)\\\\s&=\\frac52\\end{align*}$$\nHence\n$$\\begin{align*}p^2+\\frac1{p^2}&=\\frac52\\\\2p^4-5p^2+2&=0\\\\(2p^2-1)(p^2-2)&=0\\\\p^2&=\\frac12\\text{ or }2.\\end{align*}$$\nWith $P$ on the right branch and $Q$ on the left branch, $p>0$ and $q<0$. Thus\n$$P(\\sqrt2,2),\\quad Q\\left(-\\frac1{\\sqrt2},\\frac12\\right)$$\nor\n$$P\\left(\\frac1{\\sqrt2},\\frac12\\right),\\quad Q(-\\sqrt2,2).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 138
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p70-q72": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p70-q72-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p70-q72-label-placement",
+                  "type": "item",
+                  "ref": "p70-q72-root/label"
+                },
+                {
+                  "id": "p70-q72-first-stem-placement",
+                  "type": "item",
+                  "ref": "p70-q72-root/prompt#p70-q72-stem-first"
+                },
+                {
+                  "id": "p70-q72-figure-placement",
+                  "type": "item",
+                  "ref": "p70-q72-diagram",
+                  "width": 65,
+                  "align": "center"
+                },
+                {
+                  "id": "p70-q72-second-stem-placement",
+                  "type": "item",
+                  "ref": "p70-q72-root/prompt#p70-q72-stem-second"
+                },
+                {
+                  "id": "p70-q72-a-arrangement",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p70-q72-a-label-placement",
+                      "type": "item",
+                      "ref": "p70-q72-a/label"
+                    },
+                    {
+                      "id": "p70-q72-a-prompt-placement",
+                      "type": "item",
+                      "ref": "p70-q72-a/prompt"
+                    },
+                    {
+                      "id": "p70-q72-a-space-placement",
+                      "type": "item",
+                      "ref": "p70-q72-a/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p70-q72-b-arrangement",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p70-q72-b-label-placement",
+                      "type": "item",
+                      "ref": "p70-q72-b/label"
+                    },
+                    {
+                      "id": "p70-q72-b-prompt-placement",
+                      "type": "item",
+                      "ref": "p70-q72-b/prompt"
+                    },
+                    {
+                      "id": "p70-q72-b-space-placement",
+                      "type": "item",
+                      "ref": "p70-q72-b/space"
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p70-q72"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:50:34.133Z",
+  "updatedAt": "2026-09-29T12:50:34.133Z"
+}

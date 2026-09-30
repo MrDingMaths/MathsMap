@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-00a75cab-d3f9-46bc-b50a-89d60ba6d3d4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-inverse-function",
+    "secondarySkillIds": [
+      "one-to-one-functions",
+      "domain-range-inverse"
+    ],
+    "reasoningScore": 80,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires derivative-based monotonicity and finding an exponential inverse by solving a quadratic in the exponential and selecting its positive root."
+  },
+  "content": {
+    "id": "p53-q49-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $f(x)=\\frac{e^x-e^{-x}}{2}$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p53-q49-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $f'(x)$, and hence show that $f^{-1}$ exists.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=\\frac12(e^x+e^{-x})>0$ for all $x\\in\\mathbb R$. Thus $f$ is strictly increasing and one-to-one, so $f^{-1}$ exists.",
+          "worked": "$$f'(x)=\\frac{e^x+e^{-x}}{2}>0\\qquad(x\\in\\mathbb R).$$ Both exponential terms are positive. Hence $f$ is strictly increasing throughout its domain and passes the horizontal line test, so $f^{-1}$ exists.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p53-q49-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Sketch the graph of $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An increasing odd curve through $(0,0)$, extending downwards to the left and upwards to the right.",
+          "worked": "$f(0)=0$ and $f(-x)=-f(x)$, so the graph passes through $(0,0)$ and has rotational symmetry about the origin. From part a it is strictly increasing. Also $f(x)\\to\\infty$ as $x\\to\\infty$ and $f(x)\\to-\\infty$ as $x\\to-\\infty$.",
+          "solutionDiagrams": [
+            {
+              "id": "p53-q49-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve distinguished from coordinate axes\"}],\"reference\":\"source PDF page 53 question 49(b); teacher PDF page 10 question 49(b)\"}\n\\begin{tikzpicture}[x=1cm,y=0.65cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.5,-4.3) rectangle (2.65,4.5);\n\\draw[black,line width=0.5pt,->] (-2.35,0)--(2.35,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-4.05)--(0,4.05) node[above left] {$y$};\n\\draw[graphBlue,line width=0.8pt,<->,domain=-2:2,samples=101,smooth] plot (\\x,{(exp(\\x)-exp(-\\x))/2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 53,
+                "sourceRegion": "Question 49(b); keyed sketch on teacher PDF page 10, printed page 314.",
+                "description": "Unshaded increasing S-shaped curve through the origin, with arrowheads at both ends and unnumbered Cartesian axes.",
+                "mathematics": "y=(e^x-e^{-x})/2, domain and range R; odd and strictly increasing.",
+                "answerVisibility": "Complete graph appears only in answer editions."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p53-q49-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find $f^{-1}(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=\\ln\\!\\left(x+\\sqrt{x^2+1}\\right)$, where $x\\in\\mathbb R$.\n\nInterchange $x$ and $y$, solve the quadratic in $e^y$, and retain its positive root.",
+          "worked": "Interchange $x$ and $y$ and multiply by $2e^y$.\n$$\\begin{align*}x&=\\frac{e^y-e^{-y}}{2}\\\\2xe^y&=e^{2y}-1\\\\e^{2y}-2xe^y-1&=0\\\\e^y&=x\\pm\\sqrt{x^2+1}\\end{align*}$$\nSince $\\sqrt{x^2+1}>|x|$, the minus sign gives a negative value and is impossible for $e^y$.\n$$\\begin{align*}e^y&=x+\\sqrt{x^2+1}\\\\y&=\\ln\\!\\left(x+\\sqrt{x^2+1}\\right)\\end{align*}$$\nTherefore $f^{-1}(x)=\\ln\\!\\left(x+\\sqrt{x^2+1}\\right)$ for all $x\\in\\mathbb R$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p53-q49",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:48:37.410Z",
+  "updatedAt": "2026-09-29T12:48:37.410Z"
+}

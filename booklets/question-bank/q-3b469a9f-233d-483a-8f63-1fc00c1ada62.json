@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3b469a9f-233d-483a-8f63-1fc00c1ada62",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 82,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires combining exponential and rational graph ordinates while tracking different end behaviour and shallow changes near a horizontal asymptote."
+  },
+  "content": {
+    "id": "p38-q59-root",
+    "type": "question",
+    "label": "59",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q59-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Graph $y=\\dfrac{1}{2^{-x}+1}$ and $y=\\dfrac{1}{x^2+1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The first graph increases from the horizontal asymptote $y=0$ to the horizontal asymptote $y=1$, passing through $(0,\\tfrac12)$. The second is symmetric about the $y$-axis, has maximum $(0,1)$ and approaches $y=0$ at both ends. Both domains are $\\mathbb R$.",
+          "worked": "For $y=\\frac{1}{2^{-x}+1}$, the denominator decreases as $x$ increases, so the graph increases. Its value at $x=0$ is $\\frac{1}{2}$; its horizontal asymptotes are $y=0$ on the left and $y=1$ on the right.\n\nFor $y=\\frac{1}{x^2+1}$, equal positive and negative $x$-values give equal ordinates. The graph has maximum $(0,1)$, passes through $(\\pm1,\\frac{1}{2})$ and approaches $y=0$ at both ends.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q59-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"logisticBlue\",\"hex\":\"268CFF\",\"reason\":\"first requested function\"},{\"name\":\"rationalRed\",\"hex\":\"EF6068\",\"reason\":\"second requested function\"}],\"reference\":\"PDF38 question59a; teacherPDF8 printed312 answer59a\"}\n\\begin{tikzpicture}[x=0.5cm,y=3.3cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{logisticBlue}{HTML}{268CFF}\n\\definecolor{rationalRed}{HTML}{EF6068}\n\\path[use as bounding box] (-6.7,-0.45) rectangle (6.7,1.35);\n\\draw[black,line width=0.4pt,dashed] (-6,1)--(6,1);\n\\draw[black,line width=0.5pt,->] (-6.25,0)--(6.3,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.35)--(0,1.2) node[above left] {$y$};\n\\draw[black,line width=0.4pt] (-0.1,1)--(0.1,1);\n\\node[black,left] at (-0.12,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[logisticBlue,line width=0.8pt,<->] plot[domain=-6:6,samples=240] (\\x,{1/(pow(2,-\\x)+1)});\n\\draw[rationalRed,line width=0.8pt,<->] plot[domain=-6:6,samples=240] (\\x,{1/(\\x*\\x+1)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 76,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 59(a); teacher PDF page 8, answer 59(a)",
+                "description": "A blue increasing sigmoid and a red symmetric rational hump on the same axes, with a dashed horizontal line at y=1.",
+                "mathematics": "Equation-driven plots of 1/(2^(-x)+1) and 1/(x^2+1). No vertical asymptotes.",
+                "answerVisibility": "Complete solution graph of both requested functions."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 86
+      },
+      {
+        "id": "p38-q59-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, graph $y=\\dfrac{1}{2^{-x}+1}+\\dfrac{1}{x^2+1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph passes through $(0,\\tfrac32)$, tends to $0$ as $x\\to-\\infty$ and approaches $1$ from above as $x\\to\\infty$. It has a main maximum just right of the $y$-axis, dips below $y=1$ between $x=2$ and $x=4$, then has a shallow second maximum.\n\nAdd the ordinates of the two curves in (a).",
+          "worked": "Add the ordinates of the two graphs in (a) at each $x$.\n\n$$\\begin{align*}y(0)&=\\frac{1}{2^0+1}+\\frac{1}{0^2+1}\\\\y(0)&=\\frac32.\\end{align*}$$\n\nUseful points are $(-1,\\frac{5}{6})$, $(1,\\frac{7}{6})$, $(2,1)$, $(3,\\frac{89}{90})$ and $(4,1)$. These show the shallow dip below $y=1$ between $x=2$ and $x=4$.\n\nOn the left, both components tend to zero. On the right, the first tends to one and the second to zero; after $x=4$, the sum is above one and eventually approaches one from above. Join the added ordinates smoothly, retaining the main peak and the shallow dip and second peak.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q59-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"resultBlue\",\"hex\":\"268CFF\",\"reason\":\"sum graph\"},{\"name\":\"logisticBlue\",\"hex\":\"268CFF\",\"reason\":\"first construction function distinguished by dashed stroke\"},{\"name\":\"rationalRed\",\"hex\":\"EF6068\",\"reason\":\"second construction function\"}],\"reference\":\"PDF38 question59b; teacherPDF8 printed312 answer59b\"}\n\\begin{tikzpicture}[x=0.38cm,y=2.5cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{resultBlue}{HTML}{268CFF}\n\\definecolor{logisticBlue}{HTML}{268CFF}\n\\definecolor{rationalRed}{HTML}{EF6068}\n\\path[use as bounding box] (-6.9,-2.2) rectangle (12.9,1.9);\n\\draw[black,line width=0.4pt,dashed,opacity=1] (-6,1)--(12,1);\n\\draw[black,line width=0.5pt,->] (-6.3,0)--(12.4,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.35)--(0,1.75) node[above left] {$y$};\n\\foreach \\t in {2,4}{\\draw[black,line width=0.4pt] (\\t,-0.025)--(\\t,0.025);\\node[black,below] at (\\t,-0.025) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.4pt] (-0.15,1)--(0.15,1);\n\\node[black,left] at (-0.18,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.15,1.5)--(0.15,1.5);\n\\node[black,left] at (-0.18,1.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac32$\\special{dvisvgm:raw </g>}};\n\\draw[logisticBlue,line width=0.8pt,dashed,opacity=1,<->] plot[domain=-6:12,samples=360] (\\x,{1/(pow(2,-\\x)+1)});\n\\draw[rationalRed,line width=0.8pt,dashed,opacity=1,<->] plot[domain=-6:12,samples=360] (\\x,{1/(\\x*\\x+1)});\n\\draw[resultBlue,line width=0.8pt,<->] plot[domain=-6:12,samples=500] (\\x,{1/(pow(2,-\\x)+1)+1/(\\x*\\x+1)});\n\\begin{scope}[shift={(-2.5cm,-3.7cm)},x=0.8cm,y=45cm]\n\\draw[black,line width=0.4pt,dashed] (0,0)--(7,0);\n\\draw[black,line width=0.4pt] (0,-0.017) rectangle (7,0.017);\n\\begin{scope}\\clip (0,-0.0165) rectangle (7,0.0165);\n\\draw[resultBlue,line width=0.8pt] plot[domain=2:9,samples=500] ({\\x-2},{1/(pow(2,-\\x)+1)+1/(\\x*\\x+1)-1});\n\\end{scope}\n\\foreach \\t in {2,4,6,8}{\\draw[black,line width=0.4pt] ({\\t-2},-0.001)--({\\t-2},0.001);\\node[below,yshift=-2mm] at ({\\t-2},-0.017) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v/\\label in {-0.01/0.99,0/1,0.01/1.01}{\\node[left,xshift=-2mm] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\label$\\special{dvisvgm:raw </g>}};}\n\\node[above,yshift=3mm] at (3.5,0.017) {Magnified near $y=1$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Question 59(b); teacher PDF page 8, answer 59(b)",
+                "description": "Equation-driven sum, faint dashed component curves and a dashed y=1 reference. The broad domain preserves the shallow dip and second maximum.",
+                "mathematics": "Plot of 1/(2^(-x)+1)+1/(x^2+1). Positive-x crossings of y=1 occur at x=2 and x=4. Independent numerical verification found extrema near x=0.087906, 2.655057 and 6.810418; these are verification values, not required rounded student answers.",
+                "answerVisibility": "Complete solution graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 78
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {
+        "p38-q59-a": 86,
+        "p38-q59-b": 78
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p38-q59"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:40.411Z",
+  "updatedAt": "2026-09-29T12:46:40.412Z"
+}

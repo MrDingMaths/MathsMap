@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5789b163-5943-4c4b-81cc-378d827056a1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "graph-inverse-function",
+      "domain-range-inverse"
+    ],
+    "reasoningScore": 94,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires parameter conditions for a reflected pair of decreasing graphs, separation of diagonal and off-diagonal intersections, and careful treatment of coincident roots and endpoints."
+  },
+  "content": {
+    "id": "p53-q52-response",
+    "type": "question",
+    "label": "52",
+    "prompt": "Let $f(x)=\\sqrt{k-x}$. For what values of $k$ does $f(x)=f^{-1}(x)$ have three distinct solutions?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p53-q52-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\frac34<k\\le1",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p53-q52-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Besides the fixed point, the reflected graphs need two distinct nonnegative intersections on ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x+y=1",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "The inverse is $f^{-1}(x)=k-x^2$ for $x\\ge0$. Compare the decreasing square-root graph with this reflection in $y=x$; intersections need not lie on $y=x$.\n\nAt a common point $(x,y)$, both coordinates are nonnegative and\n\n$$\\begin{align*}x^2+y&=k\\\\y^2+x&=k\\\\x^2-y^2+y-x&=0\\\\(x-y)(x+y-1)&=0.\\end{align*}$$\n\nFor $k>0$, the diagonal case $x=y$ gives exactly one nonnegative intersection:\n\n$$\\begin{align*}x^2+x&=k\\\\x&=\\frac{-1+\\sqrt{1+4k}}2.\\end{align*}$$\n\nOff-diagonal intersections have $y=1-x$, so\n\n$$\\begin{align*}x^2-x+1&=k\\\\x&=\\frac{1\\pm\\sqrt{4k-3}}2.\\end{align*}$$\n\nThese two values are distinct when $k>\\tfrac34$. Both coordinates must be nonnegative, so both roots must lie in $[0,1]$. This requires $\\sqrt{4k-3}\\le1$, giving $k\\le1$.\n\nAt $k=\\tfrac34$, all three candidate values coincide at $x=\\tfrac12$, so exclude that endpoint. At $k=1$, the off-diagonal points are $(0,1)$ and $(1,0)$, and both are valid. For $\\tfrac34<k\\le1$, the off-diagonal pair is distinct from the diagonal point. If $k<0$, the graphs have no common nonnegative point; at $k=0$, only $(0,0)$ is possible.\n\nTherefore $\\boxed{\\tfrac34<k\\le1}$.",
+      "solutionDiagrams": [
+        {
+          "id": "p53-q52-solution-boundary-graphs",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function\"}],\"reference\":\"source PDF53 question52; method PDF48–49\"}\n\\begin{tikzpicture}[x=1.8cm,y=1.8cm]\n\\path[use as bounding box] (-0.7,-1.7) rectangle (4.1,4.4);\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\begin{scope}\n\\draw[black,line width=0.5pt,->] (-0.45,0)--(1.35,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.45)--(0,1.35) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-0.35,-0.35)--(1.15,1.15);\n\\draw[functionBlue,line width=0.8pt,<-] plot[variable=\\t,domain=1.05:0,samples=80] ({0.75-\\t*\\t},{\\t});\n\\draw[inverseRed,line width=0.8pt,->] plot[variable=\\t,domain=0:1.05,samples=80] ({\\t},{0.75-\\t*\\t});\n\\fill[black] (0.75,0) circle[radius=1.2pt];\n\\fill[black] (0,0.75) circle[radius=1.2pt];\n\\fill[black] (0.5,0.5) circle[radius=1.4pt];\n\\node[below,align=center] at (0.45,-0.58) {$k=\\frac34$\\\\one\\\\intersection};\n\\end{scope}\n\\begin{scope}[xshift=4.3cm]\n\\draw[black,line width=0.5pt,->] (-0.45,0)--(1.35,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.45)--(0,1.35) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-0.35,-0.35)--(1.15,1.15);\n\\draw[functionBlue,line width=0.8pt,<-] plot[variable=\\t,domain=1.15:0,samples=80] ({1-\\t*\\t},{\\t});\n\\draw[inverseRed,line width=0.8pt,->] plot[variable=\\t,domain=0:1.15,samples=80] ({\\t},{1-\\t*\\t});\n\\fill[black] (0,1) circle[radius=1.4pt];\n\\fill[black] (1,0) circle[radius=1.4pt];\n\\fill[black] ({(sqrt(5)-1)/2},{(sqrt(5)-1)/2}) circle[radius=1.4pt];\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below,align=center] at (0.45,-0.58) {$k=1$\\\\three\\\\intersections};\n\\end{scope}\n\\node[functionBlue,anchor=south] at (1.7,3.7) {$y=\\sqrt{k-x}$};\n\\node[inverseRed,anchor=south] at (1.7,2.9) {$y=k-x^2,\\ x\\ge0$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 125,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 53,
+            "sourceRegion": "Question 52; graphical method from teaching PDF48–49",
+            "description": "Paired authored boundary illustrations: all intersections coincide for k=3/4; three distinct intersections remain at k=1.",
+            "mathematics": "Each panel plots y=sqrt(k-x) and y=k-x^2 for x>=0 on the inverse. Left k=3/4 has intersection (1/2,1/2); right k=1 has intersections (0,1), (1,0), and (r,r).",
+            "answerVisibility": "Solution only. These boundary illustrations are authored, not supplied source figures."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 172
+  },
+  "presentation": {
+    "ownerId": "p53-q52",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:48:45.343Z",
+  "updatedAt": "2026-09-29T12:48:45.343Z"
+}

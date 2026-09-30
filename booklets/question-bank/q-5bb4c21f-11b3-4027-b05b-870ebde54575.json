@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5bb4c21f-11b3-4027-b05b-870ebde54575",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 80,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires all intersections of decreasing inverse graphs, including two intersections away from y=x, and rejection of an extraneous negative root."
+  },
+  "content": {
+    "id": "p53-q51-response",
+    "type": "question",
+    "label": "51",
+    "prompt": "Let $f(x)=\\sqrt{1-x}$. Solve $f(x)=f^{-1}(x)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p53-q51-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "x=0,\\ 1,\\ \\frac{\\sqrt5-1}{2}",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p53-q51-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Reflect the decreasing graph in ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y=x",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; two intersections lie away from that line. Check all roots in the original equation.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Interchange $x$ and $y$:\n\n$$\\begin{align*}x&=\\sqrt{1-y}\\\\y&=1-x^2,\\qquad x\\ge0.\\end{align*}$$\n\nThus $f^{-1}(x)=1-x^2$ for $x\\ge0$. Reflecting the decreasing graph in $y=x$ shows intersections at $(0,1)$ and $(1,0)$ as well as one on $y=x$.\n\nCommon points require $0\\le x\\le1$. Solve the intersection equation:\n\n$$\\begin{align*}\\sqrt{1-x}&=1-x^2\\\\1-x&=(1-x^2)^2\\\\0&=x(x-1)(x^2+x-1)\\\\x&=0,\\ 1,\\ \\frac{-1\\pm\\sqrt5}{2}.\\end{align*}$$\n\nThe negative quadratic root is outside $[0,1]$. The remaining roots satisfy the original equation.\n\nTherefore $x=0,\\ 1,\\ \\dfrac{\\sqrt5-1}{2}$.",
+      "solutionDiagrams": [
+        {
+          "id": "p53-q51-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function\"}],\"reference\":\"source PDF53 question51; method PDF48–49\"}\n\\begin{tikzpicture}[x=2.8cm,y=2.8cm]\n\\path[use as bounding box] (-0.8,-0.8) rectangle (2.0,3.5);\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,->] (-0.43,0)--(1.38,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.43)--(0,1.38) node[above] {$y$};\n\\draw[black,dashed,line width=0.4pt] (-0.35,-0.35)--(1.2,1.2);\n\\node[above right] at (1.08,1.08) {$y=x$};\n\\draw[functionBlue,line width=0.8pt,<-] plot[variable=\\t,domain=1.15:0,samples=90] ({1-\\t*\\t},{\\t});\n\\draw[inverseRed,line width=0.8pt,->] plot[variable=\\t,domain=0:1.15,samples=90] ({\\t},{1-\\t*\\t});\n\\fill[black] (0,1) circle[radius=1.4pt];\n\\fill[black] (1,0) circle[radius=1.4pt];\n\\fill[black] ({(sqrt(5)-1)/2},{(sqrt(5)-1)/2}) circle[radius=1.4pt];\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[functionBlue,anchor=south] at (0.5,2.9) {$y=\\sqrt{1-x}$};\n\\node[inverseRed,anchor=south] at (0.5,2.2) {$y=1-x^2,\\ x\\ge0$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 53,
+            "sourceRegion": "Question 51; graphical method from teaching PDF48–49",
+            "description": "The decreasing square-root graph and its reflected inverse, with closed endpoints and all three intersections marked.",
+            "mathematics": "Blue: y=sqrt(1-x), x<=1. Red: y=1-x^2, x>=0. Intersections (0,1), (1,0), (r,r), r=(sqrt(5)-1)/2.",
+            "answerVisibility": "Authored solution graph only; no supplied question graph."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 110
+  },
+  "presentation": {
+    "ownerId": "p53-q51",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:48:42.690Z",
+  "updatedAt": "2026-09-29T12:48:42.690Z"
+}

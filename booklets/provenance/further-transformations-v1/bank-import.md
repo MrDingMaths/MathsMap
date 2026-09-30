@@ -1,0 +1,15 @@
+# Further Transformations: question-bank import
+
+Published **33 whole practice questions**: 11 reciprocal, 10 absolute-value, 3 mixed and 9 sum/difference questions. Every part, shared stem, answer, worked solution, native diagram, retained portrait, source reference and captured presentation is retained through the reviewed normalization policy. Teaching remains in the booklet. All 33 records are approved, selectable and owned by Further Transformations v1; all report synced.
+
+The [source-to-bank receipt](bank-import.json) maps source IDs to bank IDs. The [individual assessment register](bank-assessments-20260929.json) records Stage 6 Extension 1 Year 11 skill, cognitive demand and taught-method reviews. Foundation: 9; Development: 24; Mastery: 0; Challenge: 0. No distribution was imposed.
+
+Revision 128 and its original hash were captured before work. Three p13-q7 short answers were qualified to exclude vertical or horizontal asymptotes; 18 existing overlays received transparent metadata. Revision 130 is the settled transfer snapshot; revision 131 adds classifications and ownership links. Twelve worked-answer leaves use 16 equivalent native-fraction projections in the bank, while the booklet retains its original notation. The existing category-heading projection omits “HSC Sample Question Band 4” from p16-q11's bank prompt only; the source heading and provenance remain. A bounded validator repair recognizes the opening unlabelled shared sketch in p34-q6 and preserves 70mm of working space.
+
+All 33 normalized records and captured presentations match the settled source under their explicit projections. Twenty representative question/solution pairs and four close-up solution rows passed independent Sol high Standard review. The three short-answer repairs passed scoped checks on 11 affected or neighbouring pages across the short and combined-short editions; page counts remain 25 and 61. Earlier booklet acceptance is retained at its actual revision 21, without claiming it accepts revision 128. No new full-book PDF exports were required.
+
+Current source and transferred bank shading checks passed, including the portrait in practice p16-q9. Save/reopen, original-owner synchronization, bank-only notation projection and pinned-consumer preservation passed in isolation. The live manifest, selectability, five skill filters and four difficulty filters passed. Publication reused the exact verified stage through the checked transaction; the repeated import created **zero additional questions**, with all 33 still synced. All 46 focused tests, the production build and repository storage check passed.
+
+Detailed verification and hash-bound local evidence are recorded in [bank-verification-20260929.json](bank-verification-20260929.json). Local original snapshots, review outputs, scoped PDFs and caches remain under `.booklet-work/further-bank-20260929/`. No unrelated workspace changes were committed.
+
+No unresolved decisions remain. Actual elapsed time: **57 minutes** (2026-09-29T12:28:28.511Z to 2026-09-29T13:25:31.404Z).

@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3128e5c0-87ee-48f1-8c95-80e53f1cec9e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-rational-inequalities",
+    "secondarySkillIds": [
+      "solve-cubic-inequalities"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Convert a rational inequality into a cubic comparison while retaining two excluded denominator zeroes."
+  },
+  "content": {
+    "id": "p88-q64-response",
+    "type": "question",
+    "label": null,
+    "prompt": "Solve $\\dfrac{2x^2+1}{x^2+x-2}\\ge2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p88-q64-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "x<-2\\quad\\text{or}\\quad 1<x\\le\\frac52",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p88-q64-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Multiply by the denominator squared, sketch the resulting cubic, and exclude ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=-2,1",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "The denominator is $(x+2)(x-1)$, so $x\\ne-2,1$. For these values, its square is positive:\n$$\\begin{align*}(2x^2+1)(x^2+x-2)&\\ge2(x^2+x-2)^2\\\\(x^2+x-2)\\bigl[2x^2+1-2(x^2+x-2)\\bigr]&\\ge0\\\\(x+2)(x-1)(5-2x)&\\ge0.\\end{align*}$$\nSketch $y=(x+2)(x-1)(5-2x)$. Its zeroes satisfy\n$$\\begin{align*}(x+2)(x-1)(5-2x)&=0\\\\x&=-2,\\ 1,\\ \\frac52.\\end{align*}$$\nThe cubic is on or above the $x$-axis for $x\\le-2$ or $1\\le x\\le\\frac52$. Excluding the denominator zeroes gives\n$$x<-2\\quad\\text{or}\\quad 1<x\\le\\frac52.$$",
+      "solutionDiagrams": [
+        {
+          "id": "p88-q64-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"transformed cubic\"}],\"reference\":\"source page 88 question 64; teaching page 85 denominator-squared method\"}\n\\begin{tikzpicture}[x=1.2cm,y=0.14cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (-2.65,0)--(3.35,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-15.5)--(0,10.8) node[left] {$y$};\n\\draw[functionBlue,line width=0.8pt,<->] plot[domain=-2.3:3,samples=150] (\\x,{(\\x+2)*(\\x-1)*(5-2*\\x)});\n\\node[text=functionBlue] at (0.3,14.2) {$y=(x+2)(x-1)(5-2x)$};\n\\foreach \\v in {-2,1,2.5} {\\draw[black,line width=0.4pt] (\\v,-0.7)--(\\v,0.7);}\n\\draw[black,fill=white,line width=0.4pt] (-2,0) circle[radius=1.4pt];\n\\draw[black,fill=white,line width=0.4pt] (1,0) circle[radius=1.4pt];\n\\fill[black] (2.5,0) circle[radius=1.4pt];\n\n\n\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (-2,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (1,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (2.5,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac52$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 105,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 88,
+            "sourceRegion": "Question 64; no supplied question figure",
+            "description": "Cubic obtained by multiplying the rational inequality by the denominator squared. Open markers distinguish excluded poles from the included equality value.",
+            "mathematics": "p(x)=(x+2)(x-1)(5-2x). Select p(x)>=0, then exclude x=-2 and x=1.",
+            "answerVisibility": "Solution only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {
+        "p88-q64-response": 108
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p88-q64"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:56:30.124Z",
+  "updatedAt": "2026-09-29T12:56:30.124Z"
+}

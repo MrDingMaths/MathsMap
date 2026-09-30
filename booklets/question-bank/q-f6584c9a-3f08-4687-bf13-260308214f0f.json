@@ -1,0 +1,96 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f6584c9a-3f08-4687-bf13-260308214f0f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Checks two component intersections and constructs an exponential-minus-quadratic graph with three zeros and changing sign."
+  },
+  "content": {
+    "id": "p37-q53-task",
+    "type": "question",
+    "label": null,
+    "prompt": "Consider $f(x)=2^x$ and $g(x)=x^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q53-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(2)=g(2)$ and $f(4)=g(4)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f(2)=g(2)=4$ and $f(4)=g(4)=16$.",
+          "worked": "$$\\begin{align*}f(2)&=2^2=4,\\\\g(2)&=2^2=4,\\\\f(4)&=2^4=16,\\\\g(4)&=4^2=16.\\end{align*}$$\nThus $f(2)=g(2)$ and $f(4)=g(4)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p37-q53-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Graph $y=2^x-x^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph passes through $(0,1)$ and crosses the $x$-axis at $x=2$, $x=4$ and once between $-1$ and $0$. Both ends are unbounded: downwards to the left and upwards to the right.\n\nSubtract the ordinates of $y=x^2$ from those of $y=2^x$, as shown.",
+          "worked": "Draw $y=2^x$ and $y=x^2$ lightly, then subtract the quadratic ordinate from the exponential ordinate at each $x$. Equivalently, reflect the quadratic in the x-axis and add its ordinates to the exponential.\n\nPart a gives zeros at $x=2$ and $x=4$. At $x=0$, the difference is $1$. At $x=-1$, the difference is $-\\frac12$, so there is also a crossing between $-1$ and $0$.\n\nThe difference is positive from that negative crossing to $2$, negative between $2$ and $4$, and positive after $4$. As $x\\to-\\infty$, the exponential tends to zero while $-x^2\\to-\\infty$. As $x\\to\\infty$, the exponential eventually dominates the quadratic, so the difference tends to $+\\infty$. Join the ordinate points smoothly.",
+          "solutionDiagrams": [
+            {
+              "id": "p37-q53-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"resultBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential-minus-quadratic result and exponential construction\"},{\"name\":\"componentRed\",\"hex\":\"EF6068\",\"reason\":\"reflected quadratic construction\"}],\"reference\":\"PDF37 Q53b; teacher PDF7 printed311 Q53b\"}\n\\begin{tikzpicture}[x=0.95cm,y=0.6cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{resultBlue}{HTML}{268CFF}\\definecolor{componentRed}{HTML}{EF6068}\\draw[black,line width=0.5pt,->] (-2.4,0)--(5.2,0) node[below] {$x$};\\draw[black,line width=0.5pt,->] (0,-4.6)--(0,5.8) node[above left] {$y$};\\draw[resultBlue,dashed,opacity=1,line width=0.4pt,domain=-2:2.45,samples=101] plot (\\x,{pow(2,\\x)});\\draw[componentRed,dashed,opacity=1,line width=0.4pt,domain=-2.1:2.1,samples=101] plot (\\x,{-\\x*\\x});\\draw[resultBlue,line width=0.8pt,<->,domain=-2:4.8,samples=301] plot (\\x,{pow(2,\\x)-\\x*\\x});\\foreach \\v in {2,4}{\\draw[black,line width=0.4pt] (\\v,-0.1)--(\\v,0.1);\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\draw[black,line width=0.4pt] (-0.08,1)--(0.08,1);\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 94,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 37,
+                "sourceRegion": "Question 53b; answer book PDF7 question 53b",
+                "description": "Curve with a negative-x zero, a local maximum above the axis, zeros at 2 and 4, and a local minimum below the axis between them.",
+                "mathematics": "Equation-driven graph of 2^x−x², with lightly dashed constructions y=2^x and y=−x². The negative zero is drawn without inventing a source-specified numerical label.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q53",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:24.991Z",
+  "updatedAt": "2026-09-29T12:46:24.991Z"
+}

@@ -1,0 +1,69 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5b4f0256-b7b6-4425-a20a-b18f5c757d51",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-sum-difference-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 75,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine an absolute-value graph with a reflected exponential graph, preserving the small curved section between two corners."
+  },
+  "content": {
+    "id": "p38-q60-response",
+    "type": "question",
+    "label": "60",
+    "prompt": "Graph $y=|x|+|2^x-2|$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$$y=\\begin{cases}-x+2-2^x,&x<0,\\\\x+2-2^x,&0\\le x\\le1,\\\\x+2^x-2,&x>1.\\end{cases}$$\n\nCorners at $(0,1)$ and $(1,1)$, with a small upward bump between them. Add the ordinates of $y=|x|$ and $y=|2^x-2|$.",
+      "worked": "Sketch $y=|x|$. Sketch $y=2^x-2$, then reflect its portion below the $x$-axis upwards to obtain $y=|2^x-2|$. Add the ordinates at each $x$.\n\n$$y=\\begin{cases}-x+2-2^x,&x<0,\\\\x+2-2^x,&0\\le x\\le1,\\\\x+2^x-2,&x>1.\\end{cases}$$\n\nThe graph passes through $(0,1)$ and $(1,1)$. At $x=\\tfrac12$, $y=\\tfrac52-\\sqrt2>1$, giving a small bump between these points. The left branch decreases towards $(0,1)$; the branch after $(1,1)$ increases.",
+      "solutionDiagrams": [
+        {
+          "id": "p38-q60-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"resultBlue\",\"hex\":\"268CFF\",\"reason\":\"final sum graph\"},{\"name\":\"componentRed\",\"hex\":\"EF6068\",\"reason\":\"absolute-value exponential component\"},{\"name\":\"componentPurple\",\"hex\":\"8B5CC7\",\"reason\":\"absolute-value linear component\"}],\"reference\":\"source PDF page 38 question 60; teacher PDF page 8 question 60\"}\n\\begin{tikzpicture}[x=1cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{resultBlue}{HTML}{268CFF}\n\\definecolor{componentRed}{HTML}{EF6068}\n\\definecolor{componentPurple}{HTML}{8B5CC7}\n\\path[use as bounding box] (-3,-0.6) rectangle (2.7,5.7);\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(2.6,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,5.5) node[left] {$y$};\n\\draw[componentPurple,dashed,line width=0.4pt] (-2.8,2.8)--(0,0)--(2.3,2.3);\n\\draw[componentRed,dashed,line width=0.4pt,domain=-2.8:1,samples=70] plot (\\x,{2-pow(2,\\x)});\n\\draw[componentRed,dashed,line width=0.4pt,domain=1:2.3,samples=55] plot (\\x,{pow(2,\\x)-2});\n\\draw[resultBlue,line width=0.8pt,<-,domain=-2.8:0,samples=70] plot (\\x,{-\\x+2-pow(2,\\x)});\n\\draw[resultBlue,line width=0.8pt,domain=0:1,samples=60] plot (\\x,{\\x+2-pow(2,\\x)});\n\\draw[resultBlue,line width=0.8pt,->,domain=1:2.3,samples=70] plot (\\x,{\\x+pow(2,\\x)-2});\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 80,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 38,
+            "sourceRegion": "Question 60, right column",
+            "description": "Complete sum graph with dashed component graphs, corners at x=0 and x=1, and the small upward bump between them.",
+            "mathematics": "Exact equation-driven plots of |x|, |2^x-2| and their sum. No calculus is used in the solution.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 98
+  },
+  "presentation": {
+    "ownerId": "p38-q60",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:46:42.951Z",
+  "updatedAt": "2026-09-29T12:46:42.951Z"
+}

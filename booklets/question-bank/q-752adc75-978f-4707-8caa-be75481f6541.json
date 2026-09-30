@@ -1,0 +1,249 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-752adc75-978f-4707-8caa-be75481f6541",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-inverse-function",
+    "secondarySkillIds": [
+      "restrict-domain-for-inverse",
+      "domain-range-inverse"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires an exponential substitution, a quadratic equation and selection of the correct inverse branch on each restricted domain."
+  },
+  "content": {
+    "id": "p53-q50-root",
+    "type": "question",
+    "label": "50",
+    "prompt": "Let $f(x)=2^{x-1}+2^{-x-1}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p53-q50-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An even, concave-up curve with minimum $(0,1)$, domain $\\mathbb R$ and range $[1,\\infty)$.",
+          "worked": "$f(-x)=f(x)$, so the graph is symmetric about the $y$-axis. Also, $f(0)=1$.\n\n$$\\begin{align*}f'(x)&=\\frac{\\ln 2}{2}\\left(2^x-2^{-x}\\right)\\\\f''(x)&=\\frac{(\\ln 2)^2}{2}\\left(2^x+2^{-x}\\right)>0.\\end{align*}$$\n\nThe curve decreases for $x<0$, increases for $x>0$ and has minimum $(0,1)$. Both ends rise without bound.",
+          "solutionDiagrams": [
+            {
+              "id": "p53-q50-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"function curve\"}],\"reference\":\"source PDF53 question50(a), answer PDF11 question50(a)\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(3,0) node[below left] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.35)--(0,3.35) node[above left] {$y$};\n\\draw[black,line width=0.4pt] (-0.07,1)--(0.07,1);\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt,<->] plot[domain=-2.5:2.5,samples=100] (\\x,{(pow(2,\\x)+pow(2,-\\x))/2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 53,
+                "sourceRegion": "Question 50(a); answer-book PDF page 11, upper-left graph",
+                "description": "Symmetric exponential curve with minimum at y=1 on the y-axis; no grid or x-axis numeric ticks.",
+                "mathematics": "y=(2^x+2^{-x})/2 for all real x",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 66
+      },
+      {
+        "id": "p53-q50-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By restricting $f$ to the domain $[0,\\infty)$, find $f^{-1}(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p53-q50-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "f^{-1}(x)=\\log_2\\left(x+\\sqrt{x^2-1}\\right),\\quad x\\ge1",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p53-q50-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Set ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "u=2^y",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " after interchanging variables; choose the root with ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "u\\ge1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Interchange $x$ and $y$, then put $u=2^y$. Since the original domain is $y\\ge0$, we require $u\\ge1$.\n\n$$\\begin{align*}x&=\\frac{2^y+2^{-y}}{2}\\\\2x&=u+\\frac1u\\\\u^2-2xu+1&=0\\\\u&=x\\pm\\sqrt{x^2-1}.\\end{align*}$$\n\nFor $x\\ge1$, the positive-sign root is at least $1$; the negative-sign root is at most $1$. Choose the positive sign.\n\n$$\\begin{align*}2^y&=x+\\sqrt{x^2-1}\\\\y&=\\log_2\\left(x+\\sqrt{x^2-1}\\right).\\end{align*}$$\n\nThus $f^{-1}(x)=\\log_2\\left(x+\\sqrt{x^2-1}\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 94
+      },
+      {
+        "id": "p53-q50-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By restricting $f$ to the domain $(-\\infty,0]$, find $f^{-1}(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p53-q50-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "f^{-1}(x)=\\log_2\\left(x-\\sqrt{x^2-1}\\right),\\quad x\\ge1",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p53-q50-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Choose the quadratic root with ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0<u\\le1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", since the original domain is ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y\\le0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Interchange $x$ and $y$ and put $u=2^y$. This restriction requires $0<u\\le1$.\n\n$$\\begin{align*}x&=\\frac{2^y+2^{-y}}2\\\\2x&=u+\\frac1u\\\\u^2-2xu+1&=0\\\\u&=x\\pm\\sqrt{x^2-1}.\\end{align*}$$\n\nFor $x\\ge1$, choose $u=x-\\sqrt{x^2-1}$, which is positive and at most $1$.\n\n$$\\begin{align*}2^y&=x-\\sqrt{x^2-1}\\\\y&=\\log_2\\left(x-\\sqrt{x^2-1}\\right).\\end{align*}$$\n\nThus $f^{-1}(x)=\\log_2\\left(x-\\sqrt{x^2-1}\\right)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p53-q50-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "In both cases, state the domain of $f^{-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$[1,\\infty)$ in both cases.",
+          "worked": "Both restricted branches of $f$ have range $[1,\\infty)$. This becomes the domain of each inverse.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p53-q50",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:48:40.084Z",
+  "updatedAt": "2026-09-29T12:48:40.084Z"
+}

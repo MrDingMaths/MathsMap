@@ -1,0 +1,100 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-27520873-08e4-46da-8fca-c8cc58b2a2c3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-inverse-function-problems",
+    "secondarySkillIds": [
+      "find-inverse-function",
+      "domain-range-inverse",
+      "graph-inverse-function"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Find the inverse of a decreasing square-root function and use reflection to check all intersections, including possible intersections away from y=x."
+  },
+  "content": {
+    "id": "p52-q35-stem",
+    "type": "question",
+    "label": "35",
+    "prompt": "Let $f(x)=\\sqrt{6-x}$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p52-q35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $f^{-1}(x)$ and state its domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f^{-1}(x)=6-x^2$, with domain $[0,\\infty)$.",
+          "worked": "$$\\begin{align*}y&=\\sqrt{6-x}\\\\x&=\\sqrt{6-y}\\\\x^2&=6-y\\\\y&=6-x^2\\end{align*}$$\nThe original range is $[0,\\infty)$, so the inverse has domain $[0,\\infty)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p52-q35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the point(s) where $y=f(x)$ cuts the graph of its inverse, and sketch both graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graphs intersect only at $(2,2)$.\n\nReflect in $y=x$ and check for intersections away from that line because $f$ is decreasing. Blue solid is $y=f(x)$; red dashed is $y=f^{-1}(x)$.",
+          "worked": "Sketch $y=\\sqrt{6-x}$ for $x\\leq6$ and reflect it in $y=x$ to obtain $y=6-x^2$ for $x\\geq0$. The reflected graphs have one intersection, on $y=x$.\n$$\\begin{align*}\\sqrt{6-x}&=x\\\\x^2+x-6&=0\\\\(x+3)(x-2)&=0\\end{align*}$$\nHere $x\\geq0$, so $x=2$ and $y=2$. Since $f$ is decreasing, intersections away from $y=x$ must also be checked; the two branches in the sketch have none. Therefore the only intersection is $(2,2)$. Blue solid is $y=f(x)$; red dashed is $y=f^{-1}(x)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p52-q35-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function series\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function series\"}],\"reference\":\"source PDF52 question35; teacher PDF10 question35(b)\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.6,-3.6) rectangle (7.6,7.6);\n\\draw[black,line width=0.5pt,->] (-3.1,0)--(7.1,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.1)--(0,7.1) node[above] {$y$};\n\\draw[black,line width=0.5pt,dashed,<->] (-3,-3)--(7,7);\n\\draw[black,line width=0.4pt] ({sqrt(6)},0.08)--({sqrt(6)},-0.08);\n\n\\draw[black,line width=0.4pt] (6,0.08)--(6,-0.08);\n\n\\draw[black,line width=0.4pt] (0.08,{sqrt(6)})--(-0.08,{sqrt(6)});\n\n\\draw[black,line width=0.4pt] (0.08,6)--(-0.08,6);\n\n\\draw[functionBlue,line width=0.8pt,->] plot[domain=0:3,samples=100,variable=\\t] ({6-\\t*\\t},\\t);\n\\draw[inverseRed,line width=0.8pt,dashed,->] plot[domain=0:3,samples=100,variable=\\t] (\\t,{6-\\t*\\t});\n\\fill[functionBlue] (6,0) circle[radius=1.3pt];\n\\fill[inverseRed] (0,6) circle[radius=1.3pt];\n\\fill[black] (2,2) circle[radius=1.5pt];\n\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at ({sqrt(6)},-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\sqrt{6}$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,below] at (6,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$6$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,left] at (-0.08,{sqrt(6)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\sqrt{6}$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,left] at (-0.08,6) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$6$\\special{dvisvgm:raw </g>}};\n\\node[fill=white,inner sep=1pt,outer sep=1pt,above right] at (2,2) {$(2,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 52,
+                "sourceRegion": "Question 35(b); answer-book PDF10, printed314, question35(b)",
+                "description": "Decreasing square-root function and reflected right-hand parabola, including exact intercepts, reflection line and the unique intersection.",
+                "mathematics": "Original: y=sqrt(6-x), x<=6. Inverse: y=6-x^2, x>=0. Included endpoints (6,0) and (0,6); other intercepts (0,sqrt(6)) and (sqrt(6),0). The only intersection is (2,2).",
+                "answerVisibility": "Complete answer graph; absent from the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 82
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p52-q35",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-29T12:48:00.478Z",
+  "updatedAt": "2026-09-29T12:48:00.478Z"
+}
