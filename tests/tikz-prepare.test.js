@@ -13,3 +13,10 @@ test('does not double-wrap complete TikZ figures', () => {
   assert.ok(prepareTikz(code).cleanCode.endsWith(code));
   assert.equal((prepareTikz(code).cleanCode.match(/\\begin\{tikzpicture\}/g)||[]).length,1);
 });
+
+test('requests amsmath for boldsymbol while ordinary diagrams remain package-free', () => {
+  const prepared = prepareTikz('\\begin{tikzpicture}\\node at (0,0) {$\\boldsymbol{x}$};\\end{tikzpicture}');
+  assert.deepEqual(JSON.parse(prepared.pkgJson), { amsmath: '' });
+  assert.match(prepared.cleanCode, /\\boldsymbol\{x\}/);
+  assert.equal(prepareTikz('\\begin{tikzpicture}\\draw (0,0) rectangle (1,1);\\end{tikzpicture}').pkgJson, null);
+});

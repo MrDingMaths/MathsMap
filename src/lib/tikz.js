@@ -276,6 +276,15 @@ const _buildTikzScript = (job) => {
   return s;
 };
 
+// PGF's viewport can omit a fraction of an ordinary border's painted stroke.
+// Labels already allow this ink to remain visible during typography calibration;
+// unlabelled diagrams need the same behavior, including old cached SVGs. This
+// changes only the outer viewport: source clipPaths and nested SVG clips remain.
+export function normalizeTikzSvgViewport(svg) {
+  svg.classList.add('tikz-svg');
+  svg.style.overflow = 'visible';
+}
+
 const _applyCachedToNode = (node, svgHtml) => {
   if (!node.parentNode) return false;
   const wrapper = document.createElement('div');
@@ -284,7 +293,7 @@ const _applyCachedToNode = (node, svgHtml) => {
   if (wrapper.firstElementChild?.tagName.toLowerCase() !== 'svg'||wrapper.querySelector('script,animate')) return false;
   // Tag the SVG itself so styling can target the diagram directly, independent of
   // the wrapper surviving DOM churn. Old cache entries may predate this tagging.
-  wrapper.firstElementChild.classList.add('tikz-svg');
+  normalizeTikzSvgViewport(wrapper.firstElementChild);
   node.replaceChildren(...wrapper.childNodes);
   return true;
 };
@@ -520,7 +529,7 @@ document.addEventListener('tikzjax-load-finished', (e) => {
   }
   // Tag the compiled SVG BEFORE caching so svg.outerHTML stored below already
   // carries the class for future cache hits.
-  svg.classList.add('tikz-svg');
+  normalizeTikzSvgViewport(svg);
   if (wrapper.dataset && wrapper.dataset.cacheKey) {
     tikzCache.set(wrapper.dataset.cacheKey, svg.outerHTML);
     _idbPut(wrapper.dataset.cacheKey, svg.outerHTML);   // fire-and-forget persistence

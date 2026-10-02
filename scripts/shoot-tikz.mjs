@@ -16,6 +16,7 @@
 import { chromium } from 'playwright-core';
 import { mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { join, resolve, relative } from 'node:path';
+import { captureTikzCard } from './lib/tikz-card-capture.mjs';
 
 function arg(name, fallback = null) {
   const index = process.argv.indexOf(name);
@@ -73,6 +74,7 @@ try {
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 const manifest = [];
+const renderEnvironment = { format: 'tikz-capture-environment-v1', browserVersion: browser.version(), viewports: [] };
 const batches = externalItems
   ? Array.from({ length: Math.ceil(externalItems.length / batchSize) }, (_, index) => ({ offset: index * batchSize, limit: batchSize }))
   : [{ offset: 0, limit: null }];
@@ -126,6 +128,7 @@ for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
     process.exit(3);
   }
   const settled = items.filter((item) => item.status !== 'pending').length;
+  await page.evaluate(() => document.fonts.ready);
   console.error(`[shoot-tikz] batch ${batchIndex + 1}: ${settled}/${items.length} settled; capturing...`);
 
   const cards = await page.$$('.grid .card');
@@ -140,7 +143,7 @@ for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
     const name = `${String(globalIndex).padStart(4, '0')}_${slug(label)}_${slug(item.field)}.png`;
     const file = join(outDir, name);
     await cards[index].scrollIntoViewIfNeeded();
-    await cards[index].screenshot({ path: file });
+    const captureBounds = await captureTikzCard(cards[index], { path: file });
     manifest.push({
       png: name,
       auditId: item.auditId || null,
@@ -153,14 +156,22 @@ for (let batchIndex = 0; batchIndex < batches.length; batchIndex++) {
       q: item.q,
       a: item.a,
       status: item.status,
+      captureBounds,
       verdict: null,
       reason: null
     });
   }
+  renderEnvironment.viewports.push(await page.evaluate(() => ({
+    userAgent: navigator.userAgent, devicePixelRatio,
+    viewport: { width: innerWidth, height: innerHeight },
+    fontStatus: document.fonts.status,
+    fonts: [...document.fonts].map(font => ({ family: font.family, style: font.style, weight: font.weight, status: font.status })),
+  })));
   await page.close();
 }
 
 writeFileSync(join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+writeFileSync(join(outDir, 'render-environment.json'), JSON.stringify(renderEnvironment, null, 2));
 const fails = manifest.filter((item) => item.status === 'fail');
 const pending = manifest.filter((item) => item.status === 'pending');
 console.error(`[shoot-tikz] wrote ${manifest.length} PNG(s) + manifest.json to ${outDir}`);

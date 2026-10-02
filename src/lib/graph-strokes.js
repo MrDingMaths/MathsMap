@@ -51,8 +51,15 @@ export function watchGraphStrokes(root) {
   // Page zoom can change without resizing this slot's CSS layout box.
   const page=root.closest('.booklet-page'),zoom=new MutationObserver(update);
   for(let node=page;node;node=node.parentElement)zoom.observe(node,{attributes:true,attributeFilter:['style','class']});
+  // A hidden flip back is initially mirrored in screen coordinates. Its slot
+  // keeps the same layout dimensions while turning, so ResizeObserver cannot
+  // settle the measured ink reservation once that face becomes visible.
+  const card=root.closest('.flip-card');
+  const settleFace=event=>{if(event.target.contains(root))update();};
+  card?.addEventListener('transitionend',settleFace);
+  card?.addEventListener('animationend',settleFace);
   window.addEventListener('beforeprint',print);window.addEventListener('afterprint',update);
-  const stop=()=>{cancelAnimationFrame(frame);resize.disconnect();mutation.disconnect();zoom.disconnect();window.removeEventListener('beforeprint',print);window.removeEventListener('afterprint',update);};
+  const stop=()=>{cancelAnimationFrame(frame);resize.disconnect();mutation.disconnect();zoom.disconnect();card?.removeEventListener('transitionend',settleFace);card?.removeEventListener('animationend',settleFace);window.removeEventListener('beforeprint',print);window.removeEventListener('afterprint',update);};
   update();
   return stop;
 }
