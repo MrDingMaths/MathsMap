@@ -11,11 +11,11 @@ and the [change runbook](booklet-change-runbook.md). The current instructions in
 ## One coordinator, small fresh contexts
 
 The coordinator reads `run-workflow next` and handles exceptions. As of
-28 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
+30 September 2026, all booklet transcription, authoring, dispatch, bookkeeping,
 mathematical, teaching-method, question and visual review, and repair work uses
-exclusively Sol (`gpt-6-sol`) with `high` reasoning. Do not substitute another
+exclusively Sol 6.1 (`gpt-6.1-sol`) with `high` reasoning. Do not substitute another
 model or effort, or automatically escalate to xhigh. Historical trial records retain their original provenance;
-they do not authorize production model choices. All use Standard speed, ephemeral contexts and the same
+they do not authorize production model choices. The user approved Sol 6.1 for future work on 30 September 2026; historical run settings and recorded model usage remain unchanged. All use Standard speed, ephemeral contexts and the same
 three-worker pool. Do not fork the conversation history into a worker. Provide
 the current ticket, relevant source images, taught context, approved decisions
 and exact ownership only. Preserve whole questions, shared stems and meaningful

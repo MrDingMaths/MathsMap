@@ -28,8 +28,8 @@ export function readToolDiagnostics(file){
  const fd=fs.openSync(file,'r'),buffer=Buffer.alloc(64*1024);try{let size;while((size=fs.readSync(fd,buffer,0,buffer.length,null)))counter.write(buffer.subarray(0,size));counter.finish();return counter.snapshot();}finally{fs.closeSync(fd);}
 }
 
-// Legacy export names are retained for callers; every production profile uses Sol high.
-export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6-sol',effort:'high'}),review:Object.freeze({model:'gpt-6-sol',effort:'high'}),coordinator:Object.freeze({model:'gpt-6-sol',effort:'high'})});
+// Legacy export names are retained for callers; every production profile uses Sol 6.1 high.
+export const ASTRA_PROFILES=Object.freeze({transcription:Object.freeze({model:'gpt-6.1-sol',effort:'high'}),review:Object.freeze({model:'gpt-6.1-sol',effort:'high'}),coordinator:Object.freeze({model:'gpt-6.1-sol',effort:'high'})});
 const BOUNDED_WORKER_INSTRUCTIONS='Bounded worker execution: you already occupy one slot in the shared three-worker pool. Complete only the assigned task yourself. Do not spawn sub-agents, delegate work, or launch another Codex CLI, model runner or model/API call through any tool or shell command. Only the parent coordinator schedules workers. If the assigned evidence or task cannot be completed, report the specific blocker in the required result rather than delegating. Use read-only source access and return the required final response; the caller writes the result.';
 export function astraCommandArgs({cwd,images=[],raw,profile='transcription'}){
  const configuration=ASTRA_PROFILES[profile];if(!configuration)throw Error('Unknown booklet worker profile');

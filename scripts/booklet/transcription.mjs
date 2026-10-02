@@ -156,7 +156,8 @@ export function loadRun(runIdOrDir, workRoot = WORK_ROOT) {
 
 export function assertPinnedInputs(runDir) {
   const manifest = readJson(manifestPath(runDir));
-  if (![BOOKLET_AGY_MODEL, TRANSCRIPTION_DEFAULT.model].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
+  // Historical runs remain verifiable; fresh execution still requires the current profile.
+  if (![BOOKLET_AGY_MODEL, 'gpt-6-sol', TRANSCRIPTION_DEFAULT.model].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
   if (manifest.model === TRANSCRIPTION_DEFAULT.model) requireCurrentTranscription(manifest);
   const mismatches = [];
   for (const [relative, expected] of Object.entries(manifest.pins.files ?? {})) {

@@ -101,7 +101,7 @@ test('fresh Sol high execution fixes profile and Standard speed and preserves us
  await assert.rejects(()=>runAstraTask({cwd:dir,prompt:'Bounded source fixture',out:path.join(dir,'attempt'),profile:'review'},{spawnProcess}),error=>{
   assert.equal(error.metrics.sessionId,'thread-fixture');assert.equal(error.metrics.toolCalls,1);assert.equal(error.metrics.usage.output_tokens,10);assert.equal(error.metrics.effort,'high');assert.ok(error.metrics.callId);return true;
  });
- for(const profile of ['transcription','review','coordinator']){const args=astraCommandArgs({cwd:dir,raw:'result',profile});assert.equal(args[args.indexOf('--model')+1],'gpt-6-sol');assert.ok(args.includes('model_reasoning_effort="high"'));}
+ for(const profile of ['transcription','review','coordinator']){const args=astraCommandArgs({cwd:dir,raw:'result',profile});assert.equal(args[args.indexOf('--model')+1],'gpt-6.1-sol');assert.ok(args.includes('model_reasoning_effort="high"'));}
  assert.ok(captured.includes('--ephemeral'));assert.ok(captured.includes('--ignore-user-config'));assert.ok(captured.includes('service_tier="default"'));assert.ok(captured.includes('features.fast_mode=false'));assert.ok(captured.includes('model_reasoning_effort="high"'));
  assert.ok(astraCommandArgs({cwd:dir,raw:'result',profile:'coordinator'}).includes('model_reasoning_effort="high"'));assert.equal(captured.includes('resume'),false);
  assert.deepEqual(fs.readdirSync(path.join(dir,'workflow/worker-slots')),[]);
