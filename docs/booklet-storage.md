@@ -89,6 +89,14 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The 2 October 2026 working-tree settlement raises the tracked-file budget to
+1100 MiB for 24 original Stage 4 Word/PDF sources (113,982,377 bytes), the current
+Pythagoras project and pinned bank baselines, published theory/practice updates,
+and durable content-campaign acceptance records. Operations with FDP.docx has a
+narrow 15 MiB allowance for its 13,493,835-byte original; the default remains
+10 MiB. Campaign progress snapshots and temporary renderer diagnostics stay
+local. This storage allowance does not establish content or visual acceptance.
+
 `.gitignore` excludes automatic project history, legacy local archives, compressed recovery, render caches and run outputs. Current projects, bank records and pinned bank baselines, reusable tools, durable provenance and referenced assets remain versioned.
 
 `npm run repo:check` checks actual Git index blobs (including staged content), rejecting local/generated paths, files over 10 MiB and a total tracked-file size over the current policy budget. `booklets/storage-policy.json` contains narrow 12/15 MiB allowances for the two existing Linear source Word documents. The current 450 MiB total budget records the justified September 2026 growth from the Advanced 11, Data Visualisation 1 and Logarithms imports plus pinned question-bank baselines; it does not admit oversized original source files or generated evidence unless they receive an individual review. Review further justified source/content growth explicitly in that policy rather than raising limits to accommodate generated files. The initial index was 299,173,415 bytes (about 285 MiB); this budget leaves space for ordinary content growth.
