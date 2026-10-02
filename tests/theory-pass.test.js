@@ -95,7 +95,7 @@ test('fieldAccessor resolves the theory where-grammar', () => {
   assert.equal(fieldAccessor(d, 'theory.facts[1]').get(), THEORY.facts[1]);
   fieldAccessor(d, 'theory.steps[0]').set('changed');
   assert.equal(d.theory.steps[0], 'changed');
-  assert.throws(() => fieldAccessor(d, 'theory.facts[9]'), /no theory entry/);
+  assert.throws(() => fieldAccessor(d, 'theory.facts[9]'), /no theory (?:entry|field).*theory\.facts\[9\]/);
 });
 
 // ---------------------------------------------------------------------------

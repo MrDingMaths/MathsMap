@@ -9,6 +9,8 @@
 import { promises as fs } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { withPublicationLock } from './content/publication.mjs';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const manifestPath = path.join(rootDir, 'public', 'content-manifest.json');
@@ -32,6 +34,11 @@ async function readJson(file) {
 }
 
 export async function buildManifest(options = {}) {
+  const buildRootDir = options.rootDir || rootDir;
+  return withPublicationLock(buildRootDir, () => buildManifestLocked(options), { ...options, recoverPending: true });
+}
+
+async function buildManifestLocked(options = {}) {
   const buildRootDir = options.rootDir || rootDir;
   const buildContentDir = path.join(buildRootDir, 'public', 'content');
   const buildQuizzesDir = path.join(buildRootDir, 'public', 'quizzes');
@@ -81,7 +88,13 @@ export async function buildManifest(options = {}) {
     quiz,
   };
 
-  await fs.writeFile(buildManifestPath, JSON.stringify(manifest, null, 2) + '\n');
+  await fs.mkdir(path.dirname(buildManifestPath), { recursive: true });
+  const temporary = `${buildManifestPath}.${randomUUID()}.tmp`;
+  try {
+    const handle = await fs.open(temporary, 'wx');
+    try { await handle.writeFile(JSON.stringify(manifest, null, 2) + '\n'); await handle.sync(); } finally { await handle.close(); }
+    await fs.rename(temporary, buildManifestPath);
+  } finally { await fs.rm(temporary, { force: true }); }
   return manifest;
 }
 

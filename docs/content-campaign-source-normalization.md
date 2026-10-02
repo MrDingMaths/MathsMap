@@ -1,0 +1,9 @@
+# Source-section normalization
+
+Author source references retain their explicit one-based inclusive line ranges. A prepared reference from the same file or with the same descriptive locator cannot supply image-gap declarations to a different explicit range. Both supplied and inferred boundaries must be integers within the actual source file and must be ordered; validation occurs again after inference. Preparation's unbounded non-Markdown start1/end0 sentinel retains its omitted end range. This exception applies only to that prepared default; an explicit raw zero, malformed prepared range or Markdown zero rejects.
+
+Omitted boundaries retain historical compatibility: one compatible prepared section can supply them. With several compatible sections, a unique exact descriptive-locator match is required. A locator matching another prepared section cannot override an explicit contradictory boundary. Different free wording alone does not contradict a sole prepared section; narrative locators are not authoritative ranges.
+
+Only the selected section supplies omitted unavailable-image metadata. Exact-span inheritance preserves the original decision; it does not approve a new gap. The ordinary source-image and staging checks still require actual source hashes, required original booklet figures, complete declared syllabus alternatives and explicit accepted decisions. Missing or altered final decisions reject. Raw model receipts, candidate content, item coverage and original source evidence remain unchanged.
+
+`node --test tests/content-campaign-source-span.test.js tests/content-campaign.test.js` exercises explicit and partial ranges, ambiguity, malformed boundaries, legacy narrative locators, required figures, and the complete retained Area Model author result through normalization and real staging/readback in a temporary workspace. It does not write the live campaign or publish content.

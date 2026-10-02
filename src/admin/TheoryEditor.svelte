@@ -1,5 +1,6 @@
 <script>
-  import InlineContent from '../components/InlineContent.svelte';
+  import TheoryView from '../components/TheoryView.svelte';
+  import { buildTheoryDraft, createTheoryEditorDraft, moveWorkedExample, workedExampleProblems } from '../lib/theory-content.js';
 
   let { theory = null, onSave } = $props();
 
@@ -7,27 +8,30 @@
   let intro = $state('');
   let facts = $state([]);
   let steps = $state([]);
+  let workedExamples = $state([]);
 
   // Re-seed the draft whenever the source theory changes (e.g. navigating skills).
   $effect(() => {
-    intro = theory?.intro ?? '';
-    facts = [...(theory?.facts ?? [])];
-    steps = [...(theory?.steps ?? [])];
+    const draft = createTheoryEditorDraft(theory);
+    intro = draft.intro;
+    facts = draft.facts;
+    steps = draft.steps;
+    workedExamples = draft.workedExamples;
   });
 
   let saving = $state(false);
   let error = $state('');
 
   function build() {
-    // Merge over the original so any unknown keys survive the round-trip.
-    const out = { ...(theory ?? {}) };
-    out.intro = intro;
-    out.facts = facts;
-    out.steps = steps;
-    return out;
+    return buildTheoryDraft(theory, { intro, facts, steps, workedExamples });
   }
 
   async function save() {
+    const problems = workedExampleProblems(build());
+    if (problems.length) {
+      error = 'Complete each worked example question and solution, or remove the example.';
+      return;
+    }
     saving = true;
     error = '';
     try {
@@ -82,25 +86,38 @@
           </div>
         {/each}
       </div>
+      <div class="list-block">
+        <div class="list-head">
+          <span>Worked examples</span>
+          <button class="mini" onclick={() => (workedExamples = [...workedExamples, { question_text: '', solution_text: '' }])}>+ add example</button>
+        </div>
+        {#each workedExamples as example, i}
+          <div class="example-fields">
+            <div class="list-head">
+              <span>Worked example {i + 1}</span>
+              <div class="example-actions">
+                <button class="mini" disabled={i === 0} onclick={() => (workedExamples = moveWorkedExample(workedExamples, i, i - 1))} aria-label={`Move worked example ${i + 1} up`}>↑</button>
+                <button class="mini" disabled={i === workedExamples.length - 1} onclick={() => (workedExamples = moveWorkedExample(workedExamples, i, i + 1))} aria-label={`Move worked example ${i + 1} down`}>↓</button>
+                <button class="mini del" onclick={() => (workedExamples = workedExamples.filter((_, j) => j !== i))} aria-label={`Remove worked example ${i + 1}`}>✕</button>
+              </div>
+            </div>
+            <label class="fld">
+              <span>Question</span>
+              <textarea aria-label={`Worked example ${i + 1} question`} bind:value={example.question_text} rows="4"></textarea>
+            </label>
+            <label class="fld">
+              <span>Solution</span>
+              <textarea aria-label={`Worked example ${i + 1} solution`} bind:value={example.solution_text} rows="6"></textarea>
+            </label>
+          </div>
+        {/each}
+      </div>
     </div>
 
     <!-- live preview (mirrors SkillDetail theory markup) -->
     <div class="ed-preview">
       <div class="pv-label">Preview</div>
-      <div class="theory">
-        {#if intro}<div class="theory-intro"><InlineContent text={intro} /></div>{/if}
-        {#if facts.length}
-          <ul class="theory-facts">
-            {#each facts as f}<li><InlineContent text={f} /></li>{/each}
-          </ul>
-        {/if}
-        {#if steps.length}
-          <div class="theory-sub">Procedure</div>
-          <ol class="theory-steps">
-            {#each steps as s}<li><InlineContent text={s} /></li>{/each}
-          </ol>
-        {/if}
-      </div>
+      <TheoryView theory={build()} />
     </div>
   </div>
 </div>
@@ -153,17 +170,12 @@
     font-size: 0.75rem; padding: 0.2rem 0.5rem;
   }
   .mini.del { color: var(--muted); flex: none; }
+  .mini:disabled { opacity: 0.4; cursor: default; }
+  .example-fields { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.7rem; border: 1px solid var(--border); border-radius: 8px; }
+  .example-actions { display: flex; gap: 0.3rem; }
 
   .pv-label {
     font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em;
     text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem;
   }
-  /* theory preview — copied from SkillDetail */
-  .theory { padding: 1.1rem 1.3rem; border: 1px solid var(--border); border-radius: 14px; background: var(--panel-2); }
-  .theory-intro { margin: 0 0 0.8rem; font-size: 1rem; }
-  .theory-facts { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .theory-facts li { font-size: 1rem; }
-  .theory-sub { margin: 1rem 0 0.5rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .theory-steps { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .theory-steps li { font-size: 1rem; }
 </style>

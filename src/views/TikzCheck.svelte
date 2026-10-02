@@ -2,10 +2,11 @@
   import { skills as allSkills, skillsForTopic, skillById } from '../lib/data.js';
   import { loadSkillContent, setContentCache } from '../lib/content.js';
   import { loadSkillQuiz, setQuizCache } from '../lib/quiz.js';
-  import { saveContent, saveQuiz } from '../lib/admin.svelte.js';
+  import { loadAdminSnapshot, saveContent, saveQuiz } from '../lib/admin.svelte.js';
   import { renderTikzCode } from '../lib/tikz.js';
   import InlineContent from '../components/InlineContent.svelte';
   import { extractTikzBlocks, stripTikzBlocks, replaceTikzBlock } from '../lib/inline-content.js';
+  import { theoryTextFields, theoryFieldAccessor } from '../lib/theory-content.js';
 
   // Dev-only visual diagram harness: loads every content/quiz TikZ in scope and
   // renders each into its OWN persistent card (question + expected answer beside
@@ -45,6 +46,8 @@
   let gathering = $state(true);
   let cardEls = $state([]);
   let cursor = $state(-1);
+  const snapshots = new Map();
+  let gatherGeneration = 0;
 
   function correctText(quizQ) {
     const opt = (quizQ.options || []).find((o) => o.correct);
@@ -52,6 +55,7 @@
   }
 
   $effect(() => {
+    gatherGeneration += 1;
     const ids2 = skillIds;
     const sourceUrl = inputUrl;
     const sourceOffset = externalOffset;
@@ -61,6 +65,10 @@
     items = [];
     cardEls = [];
     cursor = -1;
+    snapshots.clear();
+    editingIndex = null;
+    saving = false;
+    saveError = '';
     (async () => {
       if (sourceUrl) {
         const response = await fetch(sourceUrl, { cache: 'no-store' });
@@ -85,20 +93,18 @@
       }
       const out = [];
       for (const id of ids2) {
-        const [content, quiz] = await Promise.all([
-          loadSkillContent(id).catch(() => null),
-          loadSkillQuiz(id).catch(() => null)
+        const snapshot = await loadAdminSnapshot(id).catch(() => null);
+        if (cancelled) return;
+        if (snapshot) snapshots.set(id, snapshot);
+        const [content, quiz] = snapshot ? [snapshot.content, snapshot.quiz] : await Promise.all([
+          loadSkillContent(id).catch(() => null), loadSkillQuiz(id).catch(() => null)
         ]);
         // Theory figures: one generic reference diagram per skill, addressed by the
         // field it sits in (theory.intro, theory.facts[2]) so it matches the `where`
         // grammar scripts/lib/tikz-blocks.mjs produces.
         if (content?.theory) {
-          const theoryFields = [
-            ['intro', content.theory.intro],
-            ...(content.theory.facts || []).map((t, i) => [`facts[${i}]`, t]),
-            ...(content.theory.steps || []).map((t, i) => [`steps[${i}]`, t]),
-          ];
-          for (const [where, text] of theoryFields) {
+          for (const { obj, key, where } of theoryTextFields(content.theory)) {
+            const text = obj[key];
             extractTikzBlocks(text).blocks.forEach((code, j) => out.push({
               skillId: id, kind: 'theory', field: `theory.${where}[${j}]`,
               q: stripTikzBlocks(text), a: '', code, status: 'pending',
@@ -217,41 +223,46 @@
 
   // Recompile the card with the draft code without writing anything to disk —
   // for iterating on a diagram before committing it.
-  function preview(i) {
+  function preview(i, code = draftCode) {
     const el = cardEls[i];
     if (!el) return;
     items[i].status = 'pending';
-    compileInto(el, draftCode, (status) => { items[i].status = status; });
+    compileInto(el, code, (status) => { items[i].status = status; });
   }
 
   async function saveEdit(i) {
     const item = items[i];
     if (!item.loc) return;
+    const generation = gatherGeneration;
+    const savedCode = draftCode;
     saving = true;
     saveError = '';
     try {
-      const updatedText = replaceTikzBlock(item.sourceText, item.blockIndex, draftCode);
+      const updatedText = replaceTikzBlock(item.sourceText, item.blockIndex, savedCode);
       const { loc } = item;
+      const snapshot = snapshots.get(loc.skillId);
+      if (!snapshot) throw new Error('Reload this diagram review to obtain a current editing snapshot before saving.');
       if (loc.kind === 'theory') {
-        const content = await loadSkillContent(loc.skillId);
-        const next = structuredClone(content);
-        const m = loc.textKey.match(/^(facts|steps)\[(\d+)\]$/);
-        if (m) next.theory[m[1]][Number(m[2])] = updatedText;
-        else next.theory.intro = updatedText;
-        await saveContent(loc.skillId, next);
+        const next = structuredClone(snapshot.content);
+        theoryFieldAccessor(next.theory, loc.textKey).set(updatedText);
+        const result = await saveContent(loc.skillId, next, snapshot.expected);
+        if (gatherGeneration !== generation) return;
+        snapshots.set(loc.skillId, { ...snapshot, content: next, expected: result.expected });
         setContentCache(loc.skillId, next);
       } else if (loc.kind === 'practice') {
-        const content = await loadSkillContent(loc.skillId);
-        const next = structuredClone(content);
+        const next = structuredClone(snapshot.content);
         next.practice[loc.tier][loc.cardIndex][loc.textKey] = updatedText;
-        await saveContent(loc.skillId, next);
+        const result = await saveContent(loc.skillId, next, snapshot.expected);
+        if (gatherGeneration !== generation) return;
+        snapshots.set(loc.skillId, { ...snapshot, content: next, expected: result.expected });
         setContentCache(loc.skillId, next);
       } else {
-        const quiz = await loadSkillQuiz(loc.skillId);
-        const next = structuredClone(quiz);
+        const next = structuredClone(snapshot.quiz);
         const qq = next.questions.find((q) => q.id === loc.questionId);
         qq[loc.textKey] = updatedText;
-        await saveQuiz(loc.skillId, next);
+        const result = await saveQuiz(loc.skillId, next, snapshot.expected);
+        if (gatherGeneration !== generation) return;
+        snapshots.set(loc.skillId, { ...snapshot, quiz: next, expected: result.expected });
         setQuizCache(loc.skillId, next);
       }
       // Reflect the edit in every item sharing this same text field (a text
@@ -261,17 +272,18 @@
           && other.loc.textKey === loc.textKey
           && (loc.kind === 'practice' ? other.loc.tier === loc.tier && other.loc.cardIndex === loc.cardIndex : other.loc.questionId === loc.questionId)) {
           other.sourceText = updatedText;
-          if (other.blockIndex === item.blockIndex) other.code = draftCode;
-          if (other.textKey === 'question_text') other.q = updatedText;
+          if (other.blockIndex === item.blockIndex) other.code = savedCode;
+          if (loc.kind === 'theory') other.q = stripTikzBlocks(updatedText);
+          else if (other.textKey === 'question_text') other.q = updatedText;
           else if (loc.kind === 'practice') other.a = updatedText;
         }
       }
       editingIndex = null;
-      preview(i);
+      preview(i, savedCode);
     } catch (e) {
-      saveError = String(e.message ?? e);
+      if (gatherGeneration === generation) saveError = String(e.message ?? e);
     } finally {
-      saving = false;
+      if (gatherGeneration === generation) saving = false;
     }
   }
 
@@ -348,7 +360,7 @@
           </span>
         </div>
         {#if it.q}<div class="q"><InlineContent text={stripTikzBlocks(it.q)} /></div>{/if}
-        <div class="stage" bind:this={cardEls[i]}></div>
+        <div class="stage"><div class="tikz-wrap" bind:this={cardEls[i]}></div></div>
         {#if it.a}<div class="a">answer: <InlineContent text={stripTikzBlocks(it.a)} /></div>{/if}
 
         {#if editingIndex === i}
@@ -420,10 +432,13 @@
   .q { font-size: 0.9rem; overflow-wrap: anywhere; }
   .a { font-size: 0.82rem; color: var(--muted); overflow-wrap: anywhere; }
   .stage {
-    min-height: 3rem; display: flex; justify-content: center; align-items: center;
+    min-height: 3rem; container-type: inline-size;
     padding: 0.5rem; border-radius: 8px; background: #fff; overflow-x: auto;
   }
-  .stage :global(svg) { max-width: 100%; }
+  /* Fit against the stage before reserving label ink. The inner flow can grow
+     and scroll without feeding its added padding back into SVG fitting. */
+  .stage .tikz-wrap { width: max-content; margin-inline: auto; }
+  .stage :global(svg) { max-width: 100cqw; }
   .stage :global(.tikz-error) { color: #ef4444; font-family: monospace; font-size: 0.75rem; white-space: pre-wrap; }
   .card-btns { display: flex; gap: 0.4rem; }
   .copy { align-self: flex-start; font: inherit; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; }

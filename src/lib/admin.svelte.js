@@ -10,25 +10,32 @@ export const adminState = {
   }
 };
 
-// Save edited JSON back to disk via the dev-server endpoint. Returns true on
-// success. The caller is responsible for updating in-memory state/cache.
-async function writeAdmin(kind, skillId, body) {
+// Capture both files together at load time. Keep this revision with the editor
+// draft; fetching it only when saving would permit overwriting external edits.
+export async function loadAdminSnapshot(skillId) {
+  const res = await fetch(`/_admin/snapshot/${skillId}`, { cache: 'no-store' });
+  const detail = await res.json();
+  if (!res.ok) throw new Error(detail.error || `load failed (${res.status})`);
+  return detail;
+}
+
+async function writeAdmin(kind, skillId, value, expected) {
   const res = await fetch(`/_admin/${kind}/${skillId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ value, expected })
   });
   if (!res.ok) {
     const detail = await res.json().catch(() => ({}));
     throw new Error(detail.error || `save failed (${res.status})`);
   }
-  return true;
+  return res.json();
 }
 
-export function saveContent(skillId, content) {
-  return writeAdmin('content', skillId, content);
+export function saveContent(skillId, content, expected) {
+  return writeAdmin('content', skillId, content, expected);
 }
 
-export function saveQuiz(skillId, quiz) {
-  return writeAdmin('quizzes', skillId, quiz);
+export function saveQuiz(skillId, quiz, expected) {
+  return writeAdmin('quizzes', skillId, quiz, expected);
 }

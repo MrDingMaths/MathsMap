@@ -36,6 +36,12 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { standingHazardsBlock } from './lib/hazards.mjs';
 import { extractTikz } from '../lib/tikz-blocks.mjs';
+import { theoryTextFields } from '../../src/lib/theory-content.js';
+
+if (process.argv.includes('--content-campaign')) {
+  console.error('Published-content maintenance uses scripts/content/campaign.mjs; this historical task builder cannot provide staged, independently reviewed, serialized publication. Use campaign init/prepare/run instead.');
+  process.exit(2);
+}
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const MATHSDATABASE_ROOT = process.env.MATHSDATABASE_ROOT
@@ -62,7 +68,7 @@ const VISUAL = /\b(graph|graphs|graphed|graphing|sketch|sketches|sketching|plot|
 // is taught off the unit circle. These nouns, in the theory itself, name the drawing.
 const THEORY_VISUAL = /\b(number line|unit circle|network|spanning tree|tree diagram|box plot|box-and-whisker|histogram|stem[- ]and[- ]leaf|venn|scatter|dot plot|transversal|co-?interior|alternate angles|bearing|cross[- ]?section|quadrant|axes|shade[ds]?|shading|region|net of|scale drawing|similar triangles|right[- ]angled triangle|circle)\b/i;
 
-const theoryText = (theory) => [theory?.intro || '', ...(theory?.facts || []), ...(theory?.steps || [])].join('\n');
+const theoryText = theory => theoryTextFields(theory).map(({ obj, key }) => obj[key]).join('\n');
 
 export function practiceFigures(content) {
   const out = [];
@@ -172,6 +178,15 @@ booklet states the definition in a sentence and moves on. Rewrite it to that reg
 **theory.steps is FROZEN.** Return the steps array byte-identical, in the same order, with
 the same wording. Worked solutions cite these strings as step headers and are validated
 against them, so a reworded step breaks every solution that names it.
+
+**Existing worked examples survive.** Preserve the existing representation: the singular
+\`workedExample\` object or the ordered \`workedExamples\` array. Return every example,
+its fields and the array order unchanged, including each \`question_text\` and
+\`solution_text\`. Do not introduce the other representation or an empty array. These
+fields use the same rich-text and inline TikZ format. The generic-label restrictions
+for reference figures below do not apply to an example's specific values. Its figure
+placement may be \`workedExample.question_text\`, \`workedExample.solution_text\`,
+\`workedExamples[i].question_text\` or \`workedExamples[i].solution_text\`.
 
 ---
 
@@ -465,7 +480,7 @@ async function main() {
     const tikzRules = assembleTikzRules(sections);
 
     fs.writeFileSync(path.join(outDir, `task-${num}.md`), taskFor({ section, rows, num, tikzRules }));
-    fs.writeFileSync(path.join(outDir, `task-${num}.ids.json`), JSON.stringify({ ids: rows.map((r) => r.skillId), section: section.name }) + '\n');
+    fs.writeFileSync(path.join(outDir, `task-${num}.ids.json`), JSON.stringify({ ids: rows.map((r) => r.skillId), section: section.name, ...(process.argv.includes('--content-campaign') ? { model: 'gpt-6.1-sol', effort: 'high', serviceTier: 'default' } : {}) }) + '\n');
     const task = read(path.join(outDir, `task-${num}.md`));
     console.log(`task-${num}.md: ${section.name} — ${rows.length} skill(s), ${(task.length / 1024).toFixed(0)}KB`);
   }

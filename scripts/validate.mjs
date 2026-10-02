@@ -1,18 +1,24 @@
-#!/usr/bin/env node
+// Run with node; also imported by the revision-safe content publication API.
 // Validates the MathsMap taxonomy in /data: referential integrity, acyclic
 // prerequisite graph, stage-monotonic prereqs, and orphan reporting.
 // Also validates per-skill teaching content (public/content/*.json) and
 // quizzes (public/quizzes/*.json) against docs/content-schema.md.
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, mkdtempSync, mkdirSync, writeFileSync, copyFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { validateProcedureLabels, PRACTICE_CARD_KEYS, QUIZ_QUESTION_KEYS, unknownKeys, isStructureSlug } from '../src/lib/inline-content.js';
 import { rejectStrayPositionals } from './lib/argv.mjs';
 import { lintMathString, validateInlineText, validateTikz } from './lib/lint-math.mjs';
 import { voiceBreaches } from './lib/theory-voice.mjs';
 import { allNodes, containsForbiddenMarks, containsSourceMetadata, invalidFractionSpans, validateQuestion } from '../src/lib/practice-question-model.js';
+import { workedExampleEntries, workedExampleProblems } from '../src/lib/theory-content.js';
 
-const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..');
+const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+const rootIndex = isMain ? process.argv.indexOf('--root') : -1;
+const rootDir = rootIndex >= 0 ? resolve(process.argv[rootIndex + 1]) : repositoryRoot;
 const dataDir = join(rootDir, 'data');
 const contentDir = join(rootDir, 'public', 'content');
 const quizzesDir = join(rootDir, 'public', 'quizzes');
@@ -173,7 +179,7 @@ function validateContent(filterFn) {
     if (!theory || typeof theory !== 'object' || Array.isArray(theory)) {
       errs.push(`${tag}: theory is required and must be an object`);
     } else {
-      const allowedTheory = new Set(['intro', 'facts', 'steps']);
+      const allowedTheory = new Set(['intro', 'facts', 'steps', 'workedExample', 'workedExamples']);
       for (const key of Object.keys(theory)) {
         if (!allowedTheory.has(key)) errs.push(`${tag}: unknown theory key "${key}"`);
       }
@@ -181,6 +187,16 @@ function validateContent(filterFn) {
       // included, so they get the same treatment as a card's text fields:
       // balanced-tag check, validateTikz per block, prose linted as prose.
       validateInlineText(theory.intro, `${tag} theory.intro`, errs);
+      for (const problem of workedExampleProblems(theory)) errs.push(`${tag} theory: ${problem}`);
+      for (const { example, where: field } of workedExampleEntries(theory)) {
+        const where = `${tag} theory.${field}`;
+        if (example && typeof example === 'object' && !Array.isArray(example)) {
+          for (const key of unknownKeys(example, new Set(['question_text', 'solution_text']))) errs.push(`${where}: unknown key "${key}"`);
+          validateInlineText(example.question_text, `${where}.question_text`, errs);
+          validateInlineText(example.solution_text, `${where}.solution_text`, errs);
+          if (typeof example.solution_text === 'string') validateProcedure(example.solution_text, theory, `${where}.solution_text`, errs);
+        }
+      }
       if (!Array.isArray(theory.facts)) {
         errs.push(`${tag}: theory.facts is required and must be an array`);
       } else {
@@ -474,15 +490,40 @@ function parseOnlyArg(argv) {
   return (id) => id.startsWith(prefix);
 }
 
+export function validateCandidatePair({ skillId, content, quiz = null, rootDir: candidateRoot = repositoryRoot }) {
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9-]*$/.test(skillId || '')) return { errors: ['Invalid skillId'], warnings: [] };
+  const staging = mkdtempSync(join(tmpdir(), 'mathsmap-candidate-'));
+  try {
+    mkdirSync(join(staging, 'data'));
+    for (const name of ['courses', 'topics', 'dotpoints', 'skills']) copyFileSync(join(candidateRoot, 'data', `${name}.json`), join(staging, 'data', `${name}.json`));
+    for (const type of ['content', 'quizzes']) mkdirSync(join(staging, 'public', type), { recursive: true });
+    writeFileSync(join(staging, 'public', 'content', `${skillId}.json`), typeof content === 'string' ? content : JSON.stringify(content));
+    if (quiz !== null && quiz !== undefined) writeFileSync(join(staging, 'public', 'quizzes', `${skillId}.json`), typeof quiz === 'string' ? quiz : JSON.stringify(quiz));
+    const result = spawnSync(process.execPath, [fileURLToPath(import.meta.url), '--root', staging, '--only-exact', skillId, '--skip-bank', '--json'], { encoding: 'utf8', maxBuffer: 8 * 1024 * 1024, windowsHide: true });
+    if (result.error) throw result.error;
+    try { return JSON.parse(result.stdout); }
+    catch { throw new Error(`Candidate validator failed: ${result.stderr || result.stdout}`); }
+  } finally { rmSync(staging, { recursive: true, force: true }); }
+}
+
+if (isMain) {
 const argv = process.argv.slice(2);
-rejectStrayPositionals(argv, { valueFlags: ['--only'], boolFlags: [] });
-const filterFn = parseOnlyArg(argv);
+rejectStrayPositionals(argv, { valueFlags: ['--only', '--only-exact', '--root'], boolFlags: ['--skip-bank', '--json'] });
+const exactIndex = argv.indexOf('--only-exact');
+const exactIds = exactIndex >= 0 ? new Set(argv[exactIndex + 1].split(',').filter(Boolean)) : null;
+const filterFn = exactIds ? id => exactIds.has(id) : parseOnlyArg(argv);
 const contentResult = validateContent(filterFn);
 const quizResult = validateQuizzes(filterFn);
-const practiceBankResult = validatePracticeBank();
+const practiceBankResult = argv.includes('--skip-bank') ? { checked: 0, errors: [] } : validatePracticeBank();
 const crossErrors = crossCheckMastery(contentResult, quizResult);
 const parityWarnings = checkStructureParity(contentResult, quizResult);
 
+const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...practiceBankResult.errors, ...crossErrors];
+const allWarnings = [...warnings, ...contentResult.warnings, ...quizResult.warnings, ...parityWarnings];
+if (argv.includes('--json')) {
+  console.log(JSON.stringify({ errors: allErrors, warnings: allWarnings, checked: { content: contentResult.checked, quiz: quizResult.checked } }));
+  process.exitCode = allErrors.length ? 1 : 0;
+} else {
 // Report
 console.log(`Loaded: ${courses.length} courses, ${topics.length} topics, ${dotpoints.length} dot points, ${skills.length} skills.`);
 for (const w of warnings) console.log(`  ⚠ ${w}`);
@@ -498,7 +539,6 @@ if (parityWarnings.length) {
   for (const w of parityWarnings) console.log(`  ⚠ ${w}`);
 }
 
-const allErrors = [...errors, ...contentResult.errors, ...quizResult.errors, ...practiceBankResult.errors, ...crossErrors];
 const totalWarnings = warnings.length + contentResult.warnings.length + quizResult.warnings.length + parityWarnings.length;
 if (allErrors.length) {
   console.error(`\n✗ ${allErrors.length} error(s):`);
@@ -506,3 +546,5 @@ if (allErrors.length) {
   process.exit(1);
 }
 console.log(`\n✓ All checks passed (${totalWarnings} warning(s)).`);
+}
+}

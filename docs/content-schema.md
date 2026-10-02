@@ -21,7 +21,7 @@ as MathsBase.
 - Write a literal dollar as `\$`.
 - Every LaTeX backslash must be JSON-escaped: `\\frac`, `\\times`, `\\begin`, and so on.
 
-This same format applies to the three `theory` fields (`intro`, `facts[]`, `steps[]`).
+This same format applies to `theory.intro`, `theory.facts[]`, `theory.steps[]` and the question and solution fields of every `theory.workedExamples[]` entry (or the legacy `theory.workedExample`).
 
 ### Line breaks and spacing
 
@@ -81,8 +81,10 @@ example of this shape.
 
 - `skillId`: filename stem and an id from `data/skills.json`.
 - `atomType`: `R`, `T`, `Cat`, `Com`, or `F`.
-- `theory`: `{ intro: string, facts: string[], steps?: string[] }`. All three carry the
+- `theory`: `{ intro: string, facts: string[], steps?: string[], workedExamples?: { question_text: string, solution_text: string }[], workedExample?: { question_text: string, solution_text: string } }`. All fields carry the
   shared rich-text format above, inline `[tikz]` figures included.
+  - `workedExamples`, when present, is a nonempty ordered array. Every entry contains a nonempty `question_text` and `solution_text`. Examples appear after the key ideas and method, with working visible; a set of multiple examples has numbered headings. Each solution follows the same procedure-label and mathematical setout rules as practice. Both fields support inline diagrams and remain editable in the theory editor, including add, remove and reorder controls.
+  - The legacy singular `workedExample` remains supported for existing content and contains the same complete question/solution pair. **A theory object containing both representations is invalid.** New authoring and editor saves use `workedExamples`; editing a legacy example may normalize it to a one-entry array while preserving extension fields. A theory with no examples omits both keys; an empty array is invalid.
   - **Word budget** (validator warns; `scripts/check-theory.mjs` hard-fails a rewrite that
     breaches it): `intro` ≤ **45 words** and ≤ **3 sentences**; each fact is ONE sentence of
     ≤ **25 words** carrying ONE idea. A `$...$` span counts as one word. Plain English, with

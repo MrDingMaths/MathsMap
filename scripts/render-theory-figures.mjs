@@ -19,6 +19,7 @@ import process from 'node:process';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { extractTikz } from './lib/tikz-blocks.mjs';
+import { theoryTextFields } from '../src/lib/theory-content.js';
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => fs.readFileSync(f, 'utf8').replace(/^﻿/, '');
@@ -52,12 +53,8 @@ for (const id of ids) {
   if (!fs.existsSync(p)) continue;
   const theory = readJson(p).theory;
   if (!theory) continue;
-  const fields = [
-    ['intro', theory.intro],
-    ...(theory.facts || []).map((t, i) => [`facts[${i}]`, t]),
-    ...(theory.steps || []).map((t, i) => [`steps[${i}]`, t]),
-  ];
-  for (const [where, text] of fields) {
+  for (const { obj, key, where } of theoryTextFields(theory)) {
+    const text = obj[key];
     extractTikz(text).forEach((code, j) => items.push({
       skillId: id,
       kind: 'theory',

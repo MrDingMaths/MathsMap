@@ -27,13 +27,16 @@ import { parseResultFile } from './agy/lib/agy-run.mjs';
 import { findRawControlChars } from './agy/lib/json-splice.mjs';
 import { extractTikz } from './lib/tikz-blocks.mjs';
 import { voiceBreaches, countWords, countSentences, INTRO_WORDS, FACT_WORDS } from './lib/theory-voice.mjs';
+import { workedExampleEntries, workedExampleProblems, theoryFieldAccessor } from '../src/lib/theory-content.js';
+import { validateProcedureLabels } from '../src/lib/inline-content.js';
+import { createHash } from 'node:crypto';
 
 export { countWords, countSentences, INTRO_WORDS, FACT_WORDS };
 
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 
-const FIELDS = ['intro', 'facts', 'steps'];
+const FIELDS = ['intro', 'facts', 'steps', 'workedExample', 'workedExamples'];
 const stripTikz = (t) => String(t ?? '').replace(/\[tikz\][\s\S]*?\[\/tikz\]/g, '');
 
 // Every maths span, in order — the rewrite may reword prose but must not touch the maths.
@@ -44,6 +47,7 @@ export function checkRepair(skillId, repair) {
   const before = readJson(path.join(rootDir, 'public', 'content', `${skillId}.json`)).theory;
   const after = repair.replacement;
   if (!after || typeof after !== 'object' || Array.isArray(after)) return { faults: ['decision "rewrite" but no theory object'], warnings: [] };
+  if (workedExampleEntries(before).length > workedExampleEntries(after).length) faults.push('the rewrite dropped a worked example');
 
   for (const key of new Set([...Object.keys(before), ...Object.keys(after)])) {
     if (!FIELDS.includes(key)) faults.push(`unknown theory key "${key}"`);
@@ -94,8 +98,8 @@ export function checkRepair(skillId, repair) {
     .replace(/_\{?\d+\}?/g, ' ')
     .match(/\d+(?:\.\d+)?/g) || []);
   const had = new Set([...numbers(before.intro), ...(before.facts || []).flatMap(numbers),
-    ...(before.steps || []).flatMap(numbers)]);
-  const invented = [...new Set([...numbers(after.intro), ...after.facts.flatMap(numbers)])].filter((n) => !had.has(n));
+    ...(before.steps || []).flatMap(numbers), ...workedExampleEntries(before).flatMap(({ example }) => Object.values(example).flatMap(numbers))]);
+  const invented = [...new Set([...numbers(after.intro), ...after.facts.flatMap(numbers), ...workedExampleEntries(after).flatMap(({ example }) => Object.values(example).flatMap(numbers))])].filter((n) => !had.has(n));
   // Advisory, not fatal: re-expressing a formula legitimately moves numbers around, and every
   // fatal variant of this check fired on a correct rewrite. It is here to be READ in review.
   const warnings = [
@@ -115,6 +119,14 @@ export function checkRepair(skillId, repair) {
   // one-per-skill cap, and the end-of-string rule that made it one per field, were both
   // unmeasured judgements rather than findings.
   const at = { intro: extractTikz(after.intro).length };
+  faults.push(...workedExampleProblems(after));
+  for (const { example, where } of workedExampleEntries(after)) {
+      for (const key of Object.keys(example)) if (!['question_text', 'solution_text'].includes(key)) faults.push(`unknown ${where} key "${key}"`);
+      for (const key of ['question_text', 'solution_text']) {
+        if (typeof example[key] !== 'string' || !example[key].trim()) faults.push(`${where}.${key} is missing or empty`);
+        at[`${where}.${key}`] = extractTikz(example[key]).length;
+      }
+  }
   after.facts.forEach((text, i) => { at[`facts[${i}]`] = extractTikz(text).length; });
   const inSteps = (after.steps || []).reduce((n, s) => n + extractTikz(s).length, 0);
   if (inSteps) faults.push('a figure in theory.steps — steps are frozen, put it in intro or a fact');
@@ -133,7 +145,7 @@ export function checkRepair(skillId, repair) {
   // A field may hold any number of figures, but each must sit on its own line AFTER the prose
   // it illustrates — never spliced mid-sentence, and never ahead of the text it belongs to.
   for (const where of landed) {
-    const text = String(where === 'intro' ? after.intro : after.facts[Number(where.match(/\[(\d+)\]/)[1])]);
+    const text = String(theoryFieldAccessor(after, where).get());
     if (/^\s*\[tikz\]/.test(text)) {
       faults.push(`${where}: the figure comes before the prose it illustrates — put the text first`);
     }
@@ -178,6 +190,7 @@ export function checkRepair(skillId, repair) {
   };
   delimiters(after.intro, 'intro');
   after.facts.forEach((text, i) => delimiters(text, `facts[${i}]`));
+  for (const { example, where } of workedExampleEntries(after)) for (const key of ['question_text', 'solution_text']) delimiters(example[key] ?? '', `${where}.${key}`);
 
   // Currency must survive. Told that a bare `$1000` breaks the delimiters, the model's second
   // attempt "fixed" W3-1's money skills by DELETING the escaped dollars instead — `$\$45\,000$`
@@ -186,7 +199,7 @@ export function checkRepair(skillId, repair) {
   // escaped `\$` the original taught is a fault.
   const escapedDollars = (o) => ((stripTikz(JSON.stringify(o)).match(/\\\\\$/g) || []).length);
   const hadCurrency = escapedDollars(before);
-  const keptCurrency = escapedDollars({ intro: after.intro, facts: after.facts, steps: before.steps });
+  const keptCurrency = escapedDollars({ intro: after.intro, facts: after.facts, steps: before.steps, workedExamples: workedExampleEntries(after).map(({ example }) => example) });
   if (hadCurrency > keptCurrency) {
     faults.push(`${hadCurrency - keptCurrency} escaped currency sign(s) \\$ dropped — a money amount has lost its dollar sign`);
   }
@@ -197,6 +210,7 @@ export function checkRepair(skillId, repair) {
   const scan = (text, where) => { if (CTRL.test(String(text))) faults.push(`${where}: raw control character in the string`); };
   scan(after.intro, 'intro');
   after.facts.forEach((text, i) => scan(text, `facts[${i}]`));
+  for (const { example, where } of workedExampleEntries(after)) for (const key of ['question_text', 'solution_text']) scan(example[key], `${where}.${key}`);
   const bad = findRawControlChars(JSON.stringify(after, null, 2));
   if (bad.length) faults.push(`${bad.length} raw control character(s) in the serialised theory`);
 
@@ -206,6 +220,21 @@ export function checkRepair(skillId, repair) {
 function arg(flag, fallback) {
   const i = process.argv.indexOf(flag);
   return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
+}
+
+// Deliberately separate from ordinary prose maintenance, whose steps stay frozen.
+// Acceptance is tied to the full reviewed pair and every dependent solution header.
+export function checkCampaignStepsRepair({ beforeTheory, candidateContent, candidateQuiz, review }) {
+  const faults = [], hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+  const candidateHash = hash({ content: candidateContent, quiz: candidateQuiz });
+  if (!review?.accepted || !review.reason?.trim() || !review.reviewer || review.reviewer === review.author || review.beforeHash !== hash(beforeTheory) || review.candidateHash !== candidateHash) faults.push('explicit independent source-supported steps repair acceptance with current hashes required');
+  const steps = candidateContent?.theory?.steps || [];
+  const fields = [];
+  for (const tier of ['foundation', 'development', 'mastery']) (candidateContent?.practice?.[tier] || []).forEach((item, i) => fields.push({ where: `practice.${tier}[${i}]`, text: item.solution_text }));
+  (candidateQuiz?.questions || []).forEach(item => fields.push({ where: `quiz.${item.id}`, text: item.solution_text }));
+  for (const { example, where } of workedExampleEntries(candidateContent?.theory)) fields.push({ where: 'theory.' + where, text: example.solution_text });
+  for (const field of fields) for (const error of validateProcedureLabels(field.text || '', steps)) faults.push(field.where + ': ' + error);
+  return { faults, checked: fields.map(field => field.where) };
 }
 
 function main() {

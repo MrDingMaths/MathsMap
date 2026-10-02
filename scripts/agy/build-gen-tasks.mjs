@@ -33,6 +33,11 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { standingHazardsBlock } from './lib/hazards.mjs';
 
+if (process.argv.includes('--content-campaign')) {
+  console.error('Published-content maintenance uses scripts/content/campaign.mjs; this historical task builder cannot provide staged, independently reviewed, serialized publication. Use campaign init/prepare/run instead.');
+  process.exit(2);
+}
+
 const rootDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const MATHSDATABASE_ROOT = process.env.MATHSDATABASE_ROOT
   || path.resolve(rootDir, '..', 'MathsDatabase');
@@ -127,6 +132,10 @@ const HOUSE_RULES = `## House rules (non-negotiable)
   carries labels, not the numbers of a problem: if it carries a problem's values it is a
   practice card, not theory. Skip it for numeric/algebraic/procedural theory, and never draw
   one that pre-marks anything a practice or quiz item asks for.
+- **Worked examples**: put ordered examples in \`theory.workedExamples\` as an array of
+  \`{ question_text, solution_text }\`, using the same rich-text and inline TikZ format.
+  It renders after the key ideas and method; its specific values and solution diagrams
+  belong in these fields, where the generic-reference-figure restriction does not apply.
 - **Tables vs figures**: tabular data (rate tables, bills, budgets, frequency tables, two-way
   tables, spreadsheets) is a **KaTeX \`array\` inside \`$...$\`** per content-schema.md — NOT a
   \`[tikz]\` block, and never hand-drawn with raw \`\\draw\` lines. Use \`[tikz]\` only for genuine
@@ -256,7 +265,7 @@ for (const section of config.sections) {
   ].join('\n');
 
   fs.writeFileSync(path.join(outDir, `task-${num}.md`), task);
-  fs.writeFileSync(path.join(outDir, `task-${num}.ids.json`), JSON.stringify({ ids: section.skillIds, section: section.name, model: section.model || null }) + '\n');
+  fs.writeFileSync(path.join(outDir, `task-${num}.ids.json`), JSON.stringify({ ids: section.skillIds, section: section.name, ...(process.argv.includes('--content-campaign') ? { model: 'gpt-6.1-sol', effort: 'high', serviceTier: 'default', historicalConfiguredModel: section.model || null } : { model: section.model || null }) }) + '\n');
   console.log(`task-${num}.md: ${section.name} — ${section.skillIds.length} skill(s), ${(task.length / 1024).toFixed(0)}KB`);
 }
 fs.mkdirSync(path.join(outDir, 'out'), { recursive: true });

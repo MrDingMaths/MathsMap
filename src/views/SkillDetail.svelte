@@ -4,8 +4,8 @@
   import { lockedSkills } from '../lib/recommender.js';
   import { getMastery, subscribe } from '../lib/store.js';
   import { loadSkillContent, setContentCache } from '../lib/content.js';
-  import { loadSkillQuiz, setQuizCache } from '../lib/quiz.js';
-  import { adminState, saveContent, saveQuiz } from '../lib/admin.svelte.js';
+  import { setQuizCache } from '../lib/quiz.js';
+  import { adminState, loadAdminSnapshot, saveContent, saveQuiz } from '../lib/admin.svelte.js';
   import MasteryStatus from '../components/MasteryStatus.svelte';
   import SkillLink from '../components/SkillLink.svelte';
   import MapLink from '../components/MapLink.svelte';
@@ -41,25 +41,36 @@
   ];
 
   let content = $state(null);
+  let quiz = $state(null);
+  let revision = $state(null);
+  let loadError = $state('');
+  let loadGeneration = 0;
   $effect(() => {
+    loadGeneration += 1;
     let active = true;
+    const currentId = skill?.id;
+    const isAdmin = adminState.isAdmin;
     content = null;
-    if (skill) loadSkillContent(skill.id).then((loaded) => { if (active) content = loaded; });
+    quiz = null;
+    revision = null;
+    loadError = '';
+    if (currentId) {
+      const loading = isAdmin ? loadAdminSnapshot(currentId) : loadSkillContent(currentId).then((loaded) => ({ content: loaded }));
+      loading.then((loaded) => { if (active) { content = loaded.content; quiz = loaded.quiz ?? null; revision = loaded.expected ?? null; } })
+        .catch((error) => { if (active) loadError = error.message; });
+    }
     return () => { active = false; };
   });
   let hasPractice = $derived(Boolean(content?.practice && TIERS.some((tier) => content.practice[tier.key]?.length)));
 
-  let quiz = $state(null);
-  $effect(() => {
-    let active = true;
-    quiz = null;
-    if (skill && adminState.isAdmin) loadSkillQuiz(skill.id).then((loaded) => { if (active) quiz = loaded; });
-    return () => { active = false; };
-  });
   async function saveQuizContent(updated) {
-    await saveQuiz(skill.id, updated);
+    const currentId = skill.id;
+    const generation = loadGeneration;
+    const { expected } = await saveQuiz(currentId, updated, revision);
+    if (loadGeneration !== generation || skill?.id !== currentId) return;
+    setQuizCache(currentId, updated);
+    revision = expected;
     quiz = updated;
-    setQuizCache(skill.id, updated);
   }
 
   let theoryOpen = $state(true);
@@ -70,15 +81,20 @@
   }
 
   async function persist(updated) {
-    await saveContent(skill.id, updated);
+    const currentId = skill.id;
+    const generation = loadGeneration;
+    const { expected } = await saveContent(currentId, updated, revision);
+    if (loadGeneration !== generation || skill?.id !== currentId) return;
+    setContentCache(currentId, updated);
+    revision = expected;
     content = updated;
-    setContentCache(skill.id, updated);
   }
   async function saveTheory(theory) { await persist({ ...content, theory }); }
   async function savePractice(practice) { await persist({ ...content, practice }); }
 </script>
 
 <div class="container">
+  {#if loadError}<p role="alert">{loadError}</p>{/if}
   {#if skill}
     <div class="page-head">
       <div class="crumbs">
@@ -181,6 +197,7 @@
   .title-actions .primary-action { border-color: transparent; background: var(--accent); color: #fff; }
   .title-actions .primary-action:hover { background: var(--accent-strong); color: #fff; }
   .skill-grid { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 2.5rem; align-items: start; }
+  .skill-content { min-width: 0; }
   .skill-side { position: sticky; top: 142px; display: flex; flex-direction: column; gap: 0.8rem; }
   .learning-context { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--panel); }
   .context-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
@@ -208,6 +225,6 @@
   .snav.next { margin-left: auto; text-align: right; }
   .snav:hover { color: var(--accent); text-decoration: none; }
   .nav-direction { color: var(--muted); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
-  @media (max-width: 900px) { .skill-grid { grid-template-columns: 1fr; gap: 1.8rem; } .skill-side { position: static; } }
+  @media (max-width: 900px) { .skill-grid { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; } .skill-side { position: static; } }
   @media (max-width: 620px) { .page-head :global(.map-link) { padding-inline: 0.65rem; } .skill-header { margin-top: 0.8rem; } .title-actions .primary-action { width: 100%; justify-content: center; } .skill-nav { align-items: flex-start; } .snav { max-width: 46%; } }
 </style>

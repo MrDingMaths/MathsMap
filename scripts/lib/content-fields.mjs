@@ -7,6 +7,7 @@
 // JSON key order intact.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { workedExampleEntries } from '../../src/lib/theory-content.js';
 
 export const TIERS = ['foundation', 'development', 'mastery'];
 
@@ -68,6 +69,7 @@ export function visitTextFields(parsed, source, visit) {
   }
 
   const practice = parsed?.practice || {};
+  for (const { example, where } of workedExampleEntries(parsed?.theory)) emit(example, `theory.${where}`);
   for (const tier of TIERS) {
     const cards = Array.isArray(practice[tier]) ? practice[tier] : [];
     cards.forEach((card, i) => emit(card, `${tier[0]}${i + 1}`));

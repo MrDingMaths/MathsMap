@@ -7,6 +7,7 @@
 // where `where` is e.g. `foundation[3].question_text` or `q7.solution_text`.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { theoryTextFields } from '../../src/lib/theory-content.js';
 
 const TIER_KEYS = ['foundation', 'development', 'mastery'];
 const TEXT_KEYS = ['question_text', 'solution_text'];
@@ -66,13 +67,8 @@ export function collectBlocks(baseDir, filterFn) {
     // Theory carries figures too — one generic labelled reference diagram beside
     // the fact it teaches. `where` mirrors the field path so a redraw can be
     // spliced straight back: theory.intro, theory.facts[2], theory.steps[1].
-    const theory = doc.theory || {};
-    pushFrom(blocks, skillId, `content/${file}`, 'theory.intro', theory.intro);
-    for (const key of ['facts', 'steps']) {
-      const arr = Array.isArray(theory[key]) ? theory[key] : [];
-      arr.forEach((text, idx) => {
-        pushFrom(blocks, skillId, `content/${file}`, `theory.${key}[${idx}]`, text);
-      });
+    for (const { obj, key, where } of theoryTextFields(doc.theory)) {
+      pushFrom(blocks, skillId, `content/${file}`, `theory.${where}`, obj[key]);
     }
   }
 

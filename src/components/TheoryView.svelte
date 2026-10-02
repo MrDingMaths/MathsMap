@@ -4,7 +4,9 @@
   // MathText. InlineContent emits block-level divs, hence `.theory-intro` is a
   // div: a div inside a <p> would close the paragraph early.
   import InlineContent from './InlineContent.svelte';
+  import { getWorkedExamples } from '../lib/theory-content.js';
   let { theory } = $props();
+  let examples = $derived(getWorkedExamples(theory));
 </script>
 
 <div class="theory">
@@ -14,10 +16,20 @@
     <div class="theory-sub">Method</div>
     <ol class="theory-steps">{#each theory.steps as step}<li><InlineContent text={step} /></li>{/each}</ol>
   {/if}
+  {#each examples as example, i}
+    <section class="worked-example" aria-label={examples.length > 1 ? `Worked example ${i + 1}` : 'Worked example'}>
+      <div class="theory-sub">{examples.length > 1 ? `Worked example ${i + 1}` : 'Worked example'}</div>
+      <div class="example-question"><InlineContent text={example.question_text ?? ''} /></div>
+      <div class="example-solution"><InlineContent text={example.solution_text ?? ''} /></div>
+    </section>
+  {/each}
 </div>
 
 <style>
   .theory { padding: 1.2rem 1.35rem; border-radius: var(--radius-md); background: var(--surface-soft); }
+  .worked-example { margin-top: 1rem; border-top: 1px solid var(--border); }
+  .example-question { font-weight: 600; margin-bottom: 0.7rem; }
+  .example-solution { line-height: 1.55; }
   .theory-intro { margin: 0 0 0.8rem; font-size: 1rem; line-height: 1.65; }
   .theory-facts { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.45rem; }
   .theory-facts li { padding-left: 0.2rem; font-size: 1rem; line-height: 1.6; }
