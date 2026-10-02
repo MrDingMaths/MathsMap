@@ -112,7 +112,7 @@
   }
 </script>
 
-{#snippet diagramView(diagram, interactive = canResizeDiagrams())}
+{#snippet diagramView(diagram, interactive = canResizeDiagrams(), transparent = false)}
   {@const width = widthFor(diagram)}
   {#if diagram.overlayOf && sourceDiagram(diagram.overlayOf)}
     {@const source = sourceDiagram(diagram.overlayOf)}
@@ -123,7 +123,7 @@
     <div data-diagram-id={diagram.id} data-answer-mode={compactAnswerSettings?(showShortAnswers?'short':'worked'):undefined} data-diagram-width-mm={width} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       <div class="diagram-composite">
         {@render diagramView(source, false)}
-        <div class="diagram-overlay">{@render diagramView({ ...diagram, overlayOf: null }, false)}</div>
+        <div class="diagram-overlay">{@render diagramView({ ...diagram, overlayOf: null }, false, true)}</div>
       </div>
       {#if interactive}<button type="button" class="diagram-resize-handle" aria-label={'Resize diagram to ' + Math.round(width) + ' millimetres'} onpointerdown={(event) => beginDiagramResize(event, diagram)} onkeydown={(event) => resizeDiagramWithKeyboard(event, diagram)}></button>{/if}
     </div>
@@ -131,7 +131,7 @@
   {:else}
     <div data-diagram-id={diagram.id} data-answer-mode={compactAnswerSettings?(showShortAnswers?'short':'worked'):undefined} data-diagram-width-mm={width} class:pattern-sequence={isPattern(diagram)} class="diagram-resize-shell" style:margin-left={diagram.align==='left'?'0':diagram.align?'auto':undefined} style:margin-right={diagram.align==='right'?'0':diagram.align?'auto':undefined} style={'width:' + (showShortAnswers || showWorkedSolutions ? width + 'mm' : 'var(--question-diagram-width,' + width + 'mm)')}>
       {#if diagram.format === 'tikz' && diagram.code}
-        <div class="diagram diagram-tikz"><Tikz code={diagramCode(diagram)} eager={eagerDiagrams} /></div>
+        <div class="diagram diagram-tikz"><Tikz code={diagramCode(diagram)} eager={eagerDiagrams} {transparent} /></div>
       {:else if diagram.src}
         {@const region = sourceRegionStyles(diagram.sourceRegion)}
         <figure class="diagram" style={region?.frame} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'}><img style={region?.image} src={diagram.src} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
@@ -177,7 +177,7 @@
   {@const nextPath = answerNodePath(question.content,node,path,index)}
   {@const context = answerNodeContext(question.content,node,index,parent)}
   {@const nextContexts = context ? [...contexts,context] : contexts}
-  {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short : showWorkedSolutions ? node.answer?.worked : false)}
+  {@const groupAnswer = node.children?.length && (showShortAnswers ? node.answer?.short || node.answer?.solutionDiagrams?.length : showWorkedSolutions ? node.answer?.worked : false)}
   {#if node.children?.length && !groupAnswer}
     <div class:question-grid={node.layout === 'grid'} class="answer-children" style={node.layout === 'grid' ? '--columns:' + Math.min(answerColumnsLimit ?? Infinity, node.answerColumns ?? Math.min(node.columns, showWorkedSolutions ? 2 : node.columns)) : ''}>
       {#each node.children as child, childIndex}{@render renderAnswerNode(child, nextPath, childIndex, nextContexts, node)}{/each}
@@ -186,7 +186,7 @@
   {:else}
     <article class="answer-item" data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath)}</a>{:else}{leafLabel(nextPath)}{/if}</div><div class="answer-content">
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
-      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else}<span class="muted">No short answer supplied.</span>{/if}{/if}
+      {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}{/if}
       {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?setoutMathChain(node.answer.worked,{stackFirstTerm:false}):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{#each node.answer?.solutionDiagrams ?? [] as diagram}{@render diagramView(diagram, false)}{/each}</div>{/if}
     </div></article>

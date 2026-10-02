@@ -4,14 +4,15 @@ import {createServer} from 'vite';
 import {chromium} from 'playwright-core';
 
 test('teaching responses retain readable diagram widths while practice answers stay compact',async()=>{
- const server=await createServer({logLevel:'error',server:{port:0,open:false}});
+ const server=await createServer({logLevel:'error',server:{host:'127.0.0.1',port:0,open:false}});
  await server.listen();
  const browser=await chromium.launch({headless:true,channel:'chrome'});
  try{
   const page=await browser.newPage();
+  await page.route('**/',route=>route.fulfill({contentType:'text/html',body:'<!doctype html><html><body></body></html>'}));
   await page.goto('http://127.0.0.1:'+server.httpServer.address().port,{waitUntil:'domcontentloaded'});
   const widths=await page.evaluate(async()=>{
-   const {mount,unmount}=await import('/node_modules/svelte/src/index-client.js');
+   const {mount,unmount}=await import('/node_modules/.vite/deps/svelte.js');
    const {default:Renderer}=await import('/src/components/PracticeQuestionRenderer.svelte');
    const results=[];
    for(const kind of ['investigation','review','practice','bank-preview','bank-override']){

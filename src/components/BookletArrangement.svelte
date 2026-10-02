@@ -81,7 +81,7 @@
   {@const d=entry.value}{@const overlayBase=d.overlayOf?resolved.entries.get(d.overlayOf)?.value:null}{@const drawn=overlayBase??d}{@const region=sourceRegionStyles(drawn.sourceRegion)}{@const overlays=overlayBase?[d]:entry.overlays??[]}{@const combined=overlays.length===1?combinedExampleTikz(drawn,overlays[0]):null}
   <div data-diagram-id={d.id} style:width={n.align==='stretch'?'100%':(n.width??d.widthMm??78)+'mm'} style:margin-left={n.align==='center'||n.align==='right'?'auto':'0'} style:margin-right={n.align==='center'?'auto':'0'} class="arr-diagram" class:grayscale={(d.colourMode??diagramColourModes[d.id])==='grayscale'}>
    {#if drawn.format==='tikz'}<Tikz code={showSolutions&&combined?combined:drawn.code} eager={true}/>{:else}<div style={region?.frame}><img style={region?.image} src={assetUrl(drawn.src)} alt={drawn.alt??'Diagram'}/></div>{/if}
-   {#if !combined&&showSolutions}{#each overlays as overlay}<div class="arr-overlay">{#if overlay.format==='tikz'}<Tikz code={overlay.code} eager={true}/>{:else}<img src={assetUrl(overlay.src)} alt={overlay.alt??'Solution overlay'}/>{/if}</div>{/each}{/if}
+   {#if !combined&&showSolutions}{#each overlays as overlay}<div class="arr-overlay">{#if overlay.format==='tikz'}<Tikz code={overlay.code} eager={true} transparent={true}/>{:else}<img src={assetUrl(overlay.src)} alt={overlay.alt??'Solution overlay'}/>{/if}</div>{/each}{/if}
   </div>
  {:else if entry.kind==='label'}<b>{entry.value}</b>
  {:else if entry.kind==='space'}

@@ -25,7 +25,24 @@ export async function settleBooklet(root) {
   }
  }));
  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
- calibrateGraphStrokes(root);
+ // Reserving label/stroke space can change SVG scale after calibration.
+ // Wait for observer callbacks and require a stable calibration/layout pass.
+ const diagramState=()=>JSON.stringify([...root.querySelectorAll('svg')].map(svg=>{
+  const bounds=svg.getBoundingClientRect(),matrix=svg.getScreenCTM(),wrapper=svg.closest('.tikz-wrap');
+  const padding=wrapper?getComputedStyle(wrapper):null;
+  return [bounds.width,bounds.height,
+   matrix&&[matrix.a,matrix.b,matrix.c,matrix.d,matrix.e,matrix.f],
+   padding&&[padding.paddingTop,padding.paddingRight,padding.paddingBottom,padding.paddingLeft],
+   [...svg.querySelectorAll('g[data-diagram-label="1"],[data-diagram-label-background="1"],[data-graph-stroke-pt]')].map(n=>[n.getAttribute('transform'),n.style.strokeWidth])];
+ }));
+ let diagramsSettled=false;
+ for(let pass=0;pass<12;pass++){
+  const before=diagramState();
+  calibrateGraphStrokes(root);
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+  if(diagramState()===before){diagramsSettled=true;break;}
+ }
+ if(!diagramsSettled)throw Error('Diagram typography and padding did not stabilize');
  if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
  for(const latex of new Set([...root.querySelectorAll('.katex annotation[encoding="application/x-tex"]')].map(n=>n.textContent)))if(renderMath(`$${latex}$`).includes('katex-error'))throw Error('Invalid mathematical notation: '+latex);
  if([...root.querySelectorAll('.tikz-wrap')].some(e=>!e.querySelector('svg:not(:has(animate))')))throw Error('A diagram has not rendered');

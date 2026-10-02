@@ -14,7 +14,7 @@ const fragmentsFor=block=>{
 // widths, not character counts or TeX source length, decide how many cells fit.
 export function canShareShortAnswer(block){
   let node=block.content;
-  while(node?.children?.length===1&&!node.answer?.short&&!node.sharedSolutionDiagrams?.length)node=node.children[0];
+  while(node?.children?.length===1&&!node.answer?.short&&!node.answer?.solutionDiagrams?.length&&!node.sharedSolutionDiagrams?.length)node=node.children[0];
   if(!node||node.children?.length||node.sharedSolutionDiagrams?.length||node.answer?.solutionDiagrams?.length)return false;
   const value=node.answer?.short;
   if(isDocument(value)&& (value.blocks.length!==1||value.blocks[0].type!=='paragraph'||value.blocks[0].inlines.some(i=>!['text','math'].includes(i.type))))return false;

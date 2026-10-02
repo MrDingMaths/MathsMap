@@ -84,6 +84,10 @@ export function questionSplitGroups(block, layouts={}) {
   const join = indexes => {const sorted=[...new Set(indexes)].sort((a,b)=>a-b);for(let i=sorted[0];i<sorted.at(-1);i++)joined.add(i);};
   const arrangement = resolveArrangement(block,layouts[block.id]?.arrangement).tree;
   const scan = n => {
+    if(n.keepTogether){
+      const indexes=refs(n).map(ref=>owner.get(ref.split('/')[0])).filter(i=>i!==undefined);
+      if(indexes.length>1)join(indexes);
+    }
     if(n.direction === 'row'){
       const responseCells=(n.children??[])
         .map(child=>refs(child).map(ref=>owner.get(ref.split('/')[0])).filter(i=>i!==undefined))

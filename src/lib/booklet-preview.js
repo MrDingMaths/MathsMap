@@ -1,4 +1,5 @@
 import {contentSource} from './document-content.js';
+import {diagramColourPolicy, DIAGRAM_COLOUR_PREFIX} from './diagram-colours.js';
 
 export function resolvePreviewAssets(value, resolveAssetUrl) {
   const seen = new WeakMap();
@@ -101,11 +102,21 @@ export function numberedTheoryRules(value) {
 // margins cannot shift solution arrows relative to the question number line.
 export function combinedExampleTikz(base, overlay) {
   if (base?.format !== 'tikz' || overlay?.format !== 'tikz' || overlay.overlayOf !== base.id) return null;
-  const pattern = /^\s*\\begin\{tikzpicture\}(\[[^\]]*\])?([\s\S]*?)\\end\{tikzpicture\}\s*$/;
+  const pattern = /^(?:\s|%[^\n]*(?:\n|$))*\\begin\{tikzpicture\}(\[[^\]]*\])?([\s\S]*?)\\end\{tikzpicture\}\s*$/;
   const a = base.code?.match(pattern);
   const b = overlay.code?.match(pattern);
   if (!a || !b || (a[1] ?? '') !== (b[1] ?? '')) return null;
-  return `\\begin{tikzpicture}${a[1] ?? ''}${a[2]}${b[2]}\\end{tikzpicture}`;
+  const bounds = body => body.match(/\\path\[use as bounding box\][^;]*;/)?.[0]?.replace(/\s+/g,'');
+  if (bounds(a[2]) !== bounds(b[2])) return null;
+  const policies=[diagramColourPolicy(base.code),diagramColourPolicy(overlay.code)].filter(Boolean);
+  if(policies.length===2&&policies[0].kind!==policies[1].kind)return null;
+  const semantic=new Map();
+  for(const policy of policies)for(const entry of policy.semantic){
+    if(semantic.has(entry.name)&&semantic.get(entry.name).hex!==entry.hex)return null;
+    semantic.set(entry.name,entry);
+  }
+  const prefix=policies.length?DIAGRAM_COLOUR_PREFIX+JSON.stringify({version:1,kind:policies[0].kind,base:[...new Set(policies.flatMap(p=>p.base))],semantic:[...semantic.values()],reference:policies.map(p=>p.reference).filter(Boolean).join('; ')})+'\n':'';
+  return `${prefix}\\begin{tikzpicture}${a[1] ?? ''}${a[2]}${b[2]}\\end{tikzpicture}`;
 }
 
 export function investigationDescription(value) {

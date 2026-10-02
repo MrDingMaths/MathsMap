@@ -2,6 +2,7 @@ import {BOOKLET_HOUSE_STYLE} from './booklet-house-style.js';
 import {bookletColourChoices} from '../../public/libs/maths-editor/booklet-palette.mjs';
 import {resolveArrangement,setGroupAnswerSpaceHeight} from './booklet-arrangement.js';
 import {arrangementItems} from '../../public/libs/maths-editor/arrangement-model.mjs';
+import {teachingAnswerCategory} from './booklet-answer-options.js';
 
 export const DOCUMENT_INSERT_TOOLS = [
   ['Display equation','Display math'],['Annotated equation','Annotated equation'],
@@ -15,7 +16,11 @@ export function bookletColours(){return bookletColourChoices.map(c=>({...c,name:
 
 export function questionSpacing(project,block){
   const overrides=project.settings.layoutOverrides;
-  const resolved=resolveArrangement(block,overrides.blockLayouts?.[block.id]?.arrangement,overrides);
+  // The source block has no exercise number yet. Retain an empty label slot
+  // for its later numbering without adding labels to standalone bank previews.
+  const numbered=block.type==='question'&&!block.sourceAtom&&!teachingAnswerCategory(block);
+  const spacingOverrides=numbered?{...overrides,labels:{...overrides.labels,[block.content.id]:overrides.labels?.[block.content.id]??block.sourceOrder??block.content.label??''}}:overrides;
+  const resolved=resolveArrangement(block,overrides.blockLayouts?.[block.id]?.arrangement,spacingOverrides);
   const spaces=arrangementItems(resolved.tree.root).filter(n=>resolved.entries.get(n.ref)?.kind==='space');
   const stacks=[];const walk=n=>{if(n.type==='group'){if(n.direction!=='row'&&n.children.length>1)stacks.push(n);n.children.forEach(walk);}};walk(resolved.tree.root);
   const common=values=>values.length&&values.every(v=>v===values[0])?values[0]:'';
@@ -47,5 +52,6 @@ export function syncDiagramPresentation(project,blockId,diagramId,patch){
     for(const node of arrangementItems(tree.root))if(entries.get(node.ref)?.diagramId===diagramId){if(patch.align!=null)node.align=patch.align;if(patch.widthMm!=null)node.width=patch.widthMm;changed=true;}
     if(changed)blockLayouts={...blockLayouts,[blockId]:{...holder,arrangement:tree}};
   }
+  if(patch.widthMm!=null)blockLayouts={...blockLayouts,[diagramId]:{...blockLayouts[diagramId],diagramWidthMm:patch.widthMm}};
   return {...project,settings:{...project.settings,layoutOverrides:{...overrides,blockLayouts,...(patch.widthMm!=null?{diagramWidths:{...overrides.diagramWidths,[diagramId]:patch.widthMm}}:{})}}};
 }

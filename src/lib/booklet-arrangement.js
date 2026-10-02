@@ -82,7 +82,7 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  function applyOverrides(n,available){
    const entry=entries.get(n.ref),layout=overrides.blockLayouts?.[entry?.ownerId??n.id.replace(/:(question|example)$/,'')];
    if(entry?.kind==='space'&&overrides.answerSpaces?.[entry.ownerId]!=null)n.height=overrides.answerSpaces[entry.ownerId];
-   if(entry?.kind==='diagram'){if(entry.value.align)n.align=entry.value.align;if(layout?.diagramSizing==='fit')n.align='stretch';else if(layout?.diagramWidthMm!=null)n.width=layout.diagramWidthMm;if(overrides.diagramWidths?.[entry.diagramId]!=null)n.width=overrides.diagramWidths[entry.diagramId];}
+   if(entry?.kind==='diagram'){const diagramLayout=overrides.blockLayouts?.[entry.diagramId]??layout;if(entry.value.align)n.align=entry.value.align;if(diagramLayout?.diagramSizing==='fit')n.align='stretch';else if(diagramLayout?.diagramWidthMm!=null)n.width=diagramLayout.diagramWidthMm;if(overrides.diagramWidths?.[entry.diagramId]!=null)n.width=overrides.diagramWidths[entry.diagramId];}
    if(n.type==='group'){
     if(layout?.insetMm!=null)n.inset=layout.insetMm;
     if(n.id.endsWith(':beside')){const sourceId=n.id.slice(0,-7),saved=overrides.blockLayouts?.[sourceId],source=findContent(block,sourceId);if(saved){n.gap=saved.gapMm??n.gap;if(saved.textWidthMm!=null){const at=source?.diagramPlacement==='beside-prompt'?1:0;n.children[at].weight=Math.max(15,Math.min(available-15,saved.textWidthMm));n.children[1-at].weight=Math.max(15,available-n.children[at].weight-(n.gap??2));}}}
@@ -133,7 +133,17 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
  collapse(tree.root);
  if(stored){
   const labels={...teachingLabels([block]),...overrides.labels},refs=new Set(arrangementItems(tree.root).map(n=>n.ref));
-  const reconcile=node=>{if(node.type!=='group')return;const target=findArrangement(tree.root,node.id);if(target){for(const child of node.children){const entry=catalog.entries.get(child.ref);if(entry?.kind==='label'&&entry.ownerId in labels&&!refs.has(child.ref)){target.children.unshift({...child});refs.add(child.ref);}}}node.children.forEach(reconcile);};
+  const reconcile=node=>{
+   if(node.type!=='group')return;
+   const target=findArrangement(tree.root,node.id);
+   if(target)for(const child of node.children){
+    const entry=catalog.entries.get(child.ref);
+    if(entry?.kind!=='label'||refs.has(child.ref))continue;
+    const numberedRoot=block.type==='question'&&entry.ownerId===block.content?.id&&entry.value&&!practiceContinuation(block);
+    if(entry.ownerId in labels||numberedRoot){target.children.unshift({...child});refs.add(child.ref);}
+   }
+   node.children.forEach(reconcile);
+  };
   reconcile(catalog.initial.root);
  }
  const missing=arrangementItems(tree.root).filter(n=>!catalog.entries.has(n.ref));

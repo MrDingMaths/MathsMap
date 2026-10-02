@@ -2,8 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {bookletColours,applyQuestionSpacing,questionSpacing,syncDiagramPresentation} from '../src/lib/booklet-document-tools.js';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
+import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {createDocumentHistory} from '../src/lib/booklet-document-controller.js';
 import {arrangementItems} from '../public/libs/maths-editor/arrangement-model.mjs';
+import {resolveArrangement,arrangementQuestionBlock} from '../src/lib/booklet-arrangement.js';
+test('spacing retains dynamic numbers and repairs old layouts while suppressing continuation numbers',()=>{
+ for(const property of ['height','gap']){
+  const p=fixture(),block=p.sections[0].blocks[0],slot=block.content.id+'/label';
+  const next=applyQuestionSpacing(p,block.id,property,4);
+  const stored=next.settings.layoutOverrides.blockLayouts[block.id].arrangement;
+  assert.ok(arrangementItems(stored.root).some(n=>n.ref===slot));
+  const numbered=arrangementQuestionBlock(block,23),resolved=resolveArrangement(numbered,stored);
+  assert.equal(resolved.entries.get(slot).value,'23');
+  const legacy=structuredClone(stored);legacy.root.children=legacy.root.children.filter(n=>n.ref!==slot);
+  const repaired=resolveArrangement(numbered,legacy);
+  assert.equal(arrangementItems(repaired.tree.root).filter(n=>n.ref===slot).length,1);
+  assert.deepEqual(repaired.tree.root.children.slice(1),legacy.root.children);
+  assert.equal(resolveArrangement({...numbered,flow:{fragment:1}},stored).entries.get(slot).value,'');
+  assert.deepEqual(p.sections,next.sections);
+ }
+});
 const fixture=()=>createEditableProject({id:'spacing',title:'Spacing',sections:[{id:'s',title:'Section',blocks:[{id:'q',type:'question',content:{id:'root',prompt:'Simplify',layout:'columns',columns:2,children:[{id:'a',label:'a',prompt:'$x+x$',answerSpaceMm:10,answer:{short:'$2x$'}},{id:'nested',label:'b',prompt:'Continue',children:[{id:'b',label:'i',prompt:'$y+y$',answerSpaceMm:20,answer:{short:'$2y$'}}]}]}},{id:'other',type:'rich-text',content:'Unchanged'}]}]});
 test('question-wide spacing preserves content, horizontal arrangements and bank metadata and undoes as one change',()=>{
  const p=fixture(),block=p.sections[0].blocks[0];block.bankRef={id:'bank-question',revision:4};
@@ -31,4 +49,13 @@ test('direct diagram properties update saved arrangement geometry without changi
  const next=syncDiagramPresentation(p,'q','diagram',{widthMm:73,align:'center'}),resolved=questionSpacing(next,block);
  const diagram=arrangementItems(resolved.tree.root).find(n=>resolved.entries.get(n.ref)?.diagramId==='diagram');assert.equal(diagram.width,73);assert.equal(diagram.align,'center');assert.equal(next.settings.layoutOverrides.diagramWidths.diagram,73);assert.deepEqual(next.sections,p.sections);assert.deepEqual(p,before);
  assert.deepEqual(arrangementItems(resolved.tree.root).filter(n=>n.id!==diagram.id),arrangementItems(initial.tree.root).filter(n=>n.id!==diagram.id));
+});
+test('diagram widths survive normalized save and subsequent spacing edits without a stored arrangement',()=>{
+ const p=fixture(),block=p.sections[0].blocks[0];
+ block.content.questionDiagrams=[{id:'given',format:'tikz',code:'source',widthMm:110}];
+ const reopened=normalizeEditableProject(syncDiagramPresentation(p,'q','given',{widthMm:70}));
+ const resolved=questionSpacing(reopened,reopened.sections[0].blocks[0]);
+ assert.equal(arrangementItems(resolved.tree.root).find(n=>n.ref==='given').width,70);
+ const edited=applyQuestionSpacing(reopened,'q','gap',5);
+ assert.equal(arrangementItems(edited.settings.layoutOverrides.blockLayouts.q.arrangement.root).find(n=>n.ref==='given').width,70);
 });

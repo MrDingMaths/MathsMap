@@ -67,9 +67,9 @@
   });
 </script>
 
-{#snippet diagramView(diagram)}
+{#snippet diagramView(diagram, transparent=false)}
   {#if diagram?.format === 'tikz' && diagram.code}
-    <div data-diagram-id={diagram.id} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm'}><Tikz code={diagram.code} eager={true} /></div>
+    <div data-diagram-id={diagram.id} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm'}><Tikz code={diagram.code} eager={true} {transparent} /></div>
   {:else if diagram?.src}
     {@const region=sourceRegionStyles(diagram.sourceRegion)}
     <figure data-diagram-id={diagram.id} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm;'+(region?.frame??'')}><img style={region?.image} src={assetUrl(diagram.src)} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
@@ -86,7 +86,7 @@
     {:else if overlay}
       <div class="example-diagram-composite" style={'width:' + (base.widthMm ?? overlay.widthMm ?? 78) + 'mm'}>
         {@render diagramView(base)}
-        <div class="example-diagram-overlay" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>{@render diagramView(overlay)}</div>
+        <div class="example-diagram-overlay" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>{@render diagramView(overlay,true)}</div>
       </div>
     {:else}
       {@render diagramView(base)}

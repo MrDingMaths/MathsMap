@@ -215,7 +215,7 @@ export function answerFragments(block, mode = null) {
   };
   retainDisplay(root);
   const visit=(node,path=[])=>{
-    if(node.children?.length&&!(mode&&node.answer?.[mode])&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
+    if(node.children?.length&&!(mode&&(node.answer?.[mode]||mode==='short'&&node.answer?.solutionDiagrams?.length))&&!node.sharedSolutionDiagrams?.length&&!node.children.some(c=>c.dependsOn?.length))node.children.forEach(c=>visit(c,[...path,node]));
     else units.push({node,path});
   };
   visit(root);
