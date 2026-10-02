@@ -14,20 +14,24 @@ const hash=v=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v
 const bytes=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const groupAnchors=categoryGroupAnchors;
-const categoryLabel=value=>/^(concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value?.trim()??'');
-const practiceCategory=g=>g.kind==='practice-category'||g.kind==='practice'&&!g.indivisible&&!g.sharedActivity&&(
- !!g.category||categoryLabel(g.header));
+const categoryLabel=value=>/^(foundation|development|mastery|concept checks?|essential problems|additional practice|enrichment|chapter\s+\d+\s+review\s+set\s+(one|two|\d+))$/i.test(value?.trim()??'');
+const practiceCategory=(g,questionAnchors)=>!groupAnchors(g).some(id=>questionAnchors.has(id))&&(g.kind==='practice-category'||g.kind==='practice'&&!g.indivisible&&!g.sharedActivity&&(
+ !!g.category||categoryLabel(g.header)));
 export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=4,maxCharacters=24000,measure=values=>JSON.stringify(values).length}={}){
  if(![maxQuestions,maxCharacters].every(n=>Number.isInteger(n)&&n>0))throw Error('Assignment limits must be positive integers');
  const entries=inventories.flatMap(i=>i.entries.map(e=>({...e,pageNumber:i.pageNumber}))),byId=new Map(entries.map(e=>[e.id,e]));
  if(byId.size!==entries.length)throw Error('Inventory IDs must be unique across assignment pages');
+ // A numbered multipart question can carry its difficulty header in group
+ // metadata. Its actual question identity takes precedence over that header.
+ const questionAnchors=new Set(entries.filter(e=>e.kind==='question').flatMap(e=>[e.id,e.targetId].filter(Boolean)));
+ const isCategory=g=>practiceCategory(g,questionAnchors);
  // Inventories may name a declared activity group or an entry's targetId as
  // their parent. Keep those anchors in the ownership graph without inventing
  // extra inventory entries or dropping their children from the assignment.
  const anchors=new Set(entries.flatMap(e=>[e.id,e.targetId,e.sharedStemId]).filter(Boolean));
  const categories=new Set();
  for(const inventory of inventories)for(const group of inventory.groups??[]){
-  for(const id of groupAnchors(group)){anchors.add(id);if(practiceCategory(group))categories.add(id);}
+  for(const id of groupAnchors(group)){anchors.add(id);if(isCategory(group))categories.add(id);}
  }
  for(const e of entries)if(e.kind==='group'&&!e.sharedStemId&&!e.indivisible&&!e.sharedActivity&&(categoryLabel(e.sourceLabel)||categoryLabel(e.description)))categories.add(e.id);
  // Category ancestry supplies ordering/context, not one indivisible activity.
@@ -42,7 +46,7 @@ export function createAssignmentPlan(inventories,{continuations=[],maxQuestions=
   for(const id of [categories.has(e.parentId)?null:e.parentId,e.sharedStemId,e.continuationOf,...(e.sharedContextIds??[]),...(e.sharedWith??[])].filter(Boolean))join(e.id,id);
  }
  for(const inventory of inventories)for(const g of inventory.groups??[]){
-  if(practiceCategory(g))continue;
+  if(isCategory(g))continue;
   const ids=g.inventoryIds??g.entryIds??g.members??g.memberIds??((g.indivisible||g.sharedActivity)?g.questionIds:[])??[];
   if(ids.length&&ids.every(id=>typeof id==='string'))for(const id of ids)join(g.id??ids[0],id);
  }
@@ -150,7 +154,7 @@ export function assignmentPayload(assignment,tasks){
   const id='context-'+hash(text),file=path.resolve(t.packetRoot,'evidence',id+'.txt');
   return {id,page:t.page,name:s.name,path:file,hash:hash(text),text};
  }));
- const contracts=relevant[0].promptSections.filter(s=>['contract','content-scope','early-review','execution','schema','solutions','first-pass-patterns','practice-answer-evidence','shared-diagrams','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
+ const contracts=relevant[0].promptSections.filter(s=>['contract','three-pass-precedence','content-scope','early-review','execution','schema','solutions','first-pass-patterns','classification','working-space','native-grouping','practice-answer-evidence','shared-diagrams','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
  const categoryHeadings=relevant.flatMap(t=>assignmentCategoryHeadings(t.inventory,assignment.inventoryIds));
  const categoryGroups=new Set(categoryHeadings.map(h=>h.sourceGroupId));
  const context={assignment:{id:assignment.id,pages:assignment.pages,inventory:assignment.entries,...(assignment.continuations?{continuations:assignment.continuations}:{})},evidence:[...evidence.values()],

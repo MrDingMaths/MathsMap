@@ -1,18 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
-import {organiseExercises,answerFragments,exerciseLabelWidth,compactAnswerDisplay,answerDiagramStyle,answerDiagramSignature} from '../src/lib/booklet-exercises.js';
+import {organiseExercises,answerFragments,answerNodePath,exerciseLabelWidth,compactAnswerDisplay,answerDiagramStyle,answerDiagramSignature} from '../src/lib/booklet-exercises.js';
+import {shortAnswerRows} from '../src/lib/booklet-short-answer-grid.js';
 
 test('an editable group answer stays together only in its supplied edition',()=>{
  const block={id:'grouped-table',content:{id:'root',children:[{id:'a',label:'',answer:{short:'10–19: 3',worked:'Count three values.'}},{id:'b',label:'',answer:{short:'20–29: 5',worked:'Count five values.'}}],answer:{short:'Range | Frequency\n10–19 | 3\n20–29 | 5'}}};
+ const withoutAnswerDisplay=content=>{
+  const clone=structuredClone(content);
+  const visit=node=>{delete node._answerDisplay;node.children?.forEach(visit);};
+  visit(clone);
+  return clone;
+ };
  const before=structuredClone(block);
  const short=answerFragments(block,'short');
  assert.equal(short.length,1);
- assert.deepEqual(short[0].content,block.content);
+ assert.notStrictEqual(short[0].content,block.content);
+ assert.notStrictEqual(short[0].content.answer,block.content.answer);
+ short[0].content.children.forEach((child,index)=>assert.notStrictEqual(child,block.content.children[index]));
+ assert.deepEqual(withoutAnswerDisplay(short[0].content),before.content);
+ assert.deepEqual(short[0].content.children.map(child=>child.label),['','']);
  assert.equal(answerFragments(block,'worked').length,2);
  assert.deepEqual(block,before);
  block.content.answer.worked='Count each interval, then total the frequencies.';
- assert.equal(answerFragments(block,'worked').length,1);
+ const withWorked=structuredClone(block),worked=answerFragments(block,'worked');
+ assert.equal(worked.length,1);
+ assert.deepEqual(withoutAnswerDisplay(worked[0].content),withWorked.content);
+ assert.deepEqual(block,withWorked);
 });
 import {flowNumbers,exerciseNumbers,flowEditionSections} from '../src/lib/booklet-flow.js';
 import {paginateFlow} from '../src/lib/booklet-pagination.js';
@@ -41,21 +55,67 @@ test('sorting retains continuation chains and paired dependency groups',()=>{
  const result=organiseExercises(p,{...ratings,more:ratings.hard});
  assert.deepEqual(result.sections[0].blocks.map(b=>b.id),['easy','tie','hard','more']);assert.equal(flowNumbers(result).more,flowNumbers(result).hard);
 });
-test('answer fragments retain nested labels and shared solution diagrams',()=>{
+test('answer fragments retain stored labels, derive missing paths and preserve shared solution diagrams',()=>{
  const b=q('q');delete b.content.children[1].label;
- assert.equal(answerFragments(b)[1].content.children[0].label,'b');
- b.content.sharedSolutionDiagrams=[{id:'shared'}];assert.equal(answerFragments(b).length,1);
+ const before=structuredClone(b),fragments=answerFragments(b);
+ assert.equal(fragments.length,2);
+ const explicit=fragments[0].content.children[0],missing=fragments[1].content.children[0];
+ assert.equal(explicit.label,before.content.children[0].label);
+ assert.deepEqual(answerNodePath(fragments[0].content,explicit),['a']);
+ assert.equal(Object.hasOwn(missing,'label'),false);
+ assert.equal(missing._answerDisplay.label,'b');
+ assert.deepEqual(answerNodePath(fragments[1].content,missing),['b']);
+ assert.equal(missing.id,before.content.children[1].id);
+ assert.deepEqual(missing.answer,before.content.children[1].answer);
+ assert.notStrictEqual(fragments[1].content,b.content);
+ assert.notStrictEqual(missing,b.content.children[1]);
+ assert.deepEqual(b,before);
+ b.content.sharedSolutionDiagrams=[{id:'shared'}];
+ const sharedBefore=structuredClone(b),shared=answerFragments(b);
+ assert.equal(shared.length,1);
+ assert.deepEqual(shared[0].content.sharedSolutionDiagrams,sharedBefore.content.sharedSolutionDiagrams);
  assert.equal(exerciseLabelWidth([{...b,sourceOrder:12}]),8);
+ assert.deepEqual(b,sharedBefore);
 });
 test('explicit columns fill left then right and flow between exercises',async()=>{
- const p=organiseExercises(fixture(),ratings);
- const measure=async page=>({height:Math.max(0,...page.columns.map(c=>c.length*20)),capacity:60});
+ const source=fixture(),sourceBefore=structuredClone(source),p=organiseExercises(source,ratings),before=structuredClone(p);
+ // One measured row per column makes left-to-right overflow observable.
+ const capacity=24;
+ const measure=async page=>page.shortAnswerProbe
+  ?{height:0,capacity,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(()=>18)}
+  :{height:Math.max(0,...page.columns.map(column=>shortAnswerRows(column).length*20)),capacity};
  const r=await paginateFlow(p,'short',measure);
- assert.equal(r.issues.length,0);assert.equal(r.pages.length,2);
- assert.deepEqual(r.pages[0].columns.map(c=>c.map(e=>e.block.id)),[['easy','easy','tie'],['tie','hard','hard']]);
- assert.deepEqual(r.pages[1].columns[0].map(e=>e.section.exerciseNumber),[1,1,2]);
- const found=r.pages.flatMap(p=>p.columns.flat().map(e=>e.block.id+':'+e.block.flow.answerFragment));
- assert.equal(new Set(found).size,10);
+ assert.equal(r.issues.length,0);
+ assert.ok(r.pages.some(page=>page.columns[1].length>0),'Answers must flow into a right column');
+ for(const page of r.pages){
+  assert.equal(page.columns.length,2);
+  if(page.columns[1].length)assert.ok(page.columns[0].length>0,'Fill the left column before the right');
+  const measured=await measure(page);
+  assert.ok(measured.height<=measured.capacity,'Native answer rows must fit the declared capacity');
+  for(const column of page.columns)for(const row of shortAnswerRows(column)){
+   assert.ok(row.length>=1&&row.length<=3);
+   assert.equal(new Set(row.map(entry=>entry.section.exerciseNumber)).size,1,'Rows must preserve exercise boundaries');
+  }
+ }
+ const entries=r.pages.flatMap(page=>page.columns.flat());
+ assert.equal(entries.length,10);
+ assert.deepEqual(entries.map(entry=>[entry.block.id,entry.block.flow.answerFragment]),[
+  ['easy',0],['easy',1],['tie',0],['tie',1],['hard',0],['hard',1],['last',0],['last',1],['next',0],['next',1]
+ ]);
+ const leaves=entries.map(entry=>entry.block.content.children[0]);
+ const expectedIds=['easya','easyb','tiea','tieb','harda','hardb','lasta','lastb','nexta','nextb'];
+ assert.deepEqual(leaves.map(leaf=>leaf.id),expectedIds,'Read pages in order, with each left column before its right column');
+ assert.equal(new Set(leaves.map(leaf=>leaf.id)).size,10,'Every original response ID must occur exactly once');
+ assert.deepEqual(leaves.map(leaf=>leaf.label),['a','b','a','b','a','b','a','b','a','b']);
+ assert.deepEqual(entries.map(entry=>entry.section.exerciseNumber),[1,1,1,1,1,1,1,1,2,2]);
+ const originals=new Map(before.sections.flatMap(s=>s.blocks.flatMap(block=>block.content.children??[])).map(leaf=>[leaf.id,leaf]));
+ for(const leaf of leaves){
+  const stored=structuredClone(leaf);delete stored._answerDisplay;
+  assert.deepEqual(stored,originals.get(leaf.id));
+  assert.notStrictEqual(leaf,p.sections.flatMap(s=>s.blocks).find(block=>block.content.children?.some(child=>child.id===leaf.id)).content.children.find(child=>child.id===leaf.id));
+ }
+ assert.deepEqual(source,sourceBefore);
+ assert.deepEqual(p,before);
 });
 test('compact measurements invalidate for settings and column assignment',()=>{
  const p=organiseExercises(fixture(),ratings),b=p.sections[0].blocks[0],entry={block:b,section:{topicTitle:'Topic',exerciseNumber:1},labelWidthMm:8};

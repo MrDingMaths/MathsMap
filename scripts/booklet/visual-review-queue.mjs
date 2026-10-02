@@ -1,6 +1,6 @@
-// Persistent inspection bookkeeping. Hashes identify evidence; only explicit
-// reviewer records establish inspection. Duplicate combined bodies may reuse a
-// reviewed standalone page after PDF comparison and explicit composition review.
+// Persistent inspection bookkeeping. Only actual reviewer records establish
+// inspection. Lean final selected-body retention preserves that original credit;
+// legacy combined-body reuse retains its comparison/composition requirements.
 import fs from 'node:fs';
 import {isLeanReview,LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import path from 'node:path';
@@ -11,6 +11,7 @@ import {rendererSignature,contentAssetSignatures} from './verification-cache.mjs
 import {liveWorkflow,FINAL_EDITIONS} from './workflow-review.mjs';
 import {withRunLock,beginRunPhase,endRunPhase} from './run-observability.mjs';
 import {UNIQUE_LAYOUT_REVIEW,COMBINED_EDITIONS,COMPOSITION_CHECKS,validateCompositionReview} from './edition-comparison.mjs';
+import {selectedPageReusePlans,validateSelectedPageReuse,selectedPageReuseArtifacts,withSelectedPageReuseValidation} from './selected-page-review-reuse.mjs';
 
 const stable=value=>Array.isArray(value)?value.map(stable):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,stable(value[k])])):value;
 const hash=value=>createHash('sha256').update(JSON.stringify(stable(value??null))).digest('hex');
@@ -40,10 +41,34 @@ function validateActiveReviews(queue){
  }
 }
 function checkArtifact(ref){if(!ref?.path||!path.isAbsolute(ref.path)||!fs.existsSync(ref.path)||artifactHash(ref.path)!==ref.hash)throw Error('Missing or stale review artifact: '+ref?.path);return ref;}
-function checkReview(row){
+function checkReview(row,input){
  if(!row.review)return;
  const record=read(checkArtifact(row.review.artifact).path);
+ if(row.review.reuseKind==='selected-body'||record.reuseKind==='selected-body'){
+  if(row.review.reuseKind!=='selected-body'||['outcome','reviewer','note'].some(k=>record[k]!==row.review[k]))throw Error('Stored retention does not match this page');
+  validateSelectedPageReuse(record,row,input);return;
+ }
  if(!record.pageKeys?.includes(row.key)||['outcome','reviewer','note'].some(k=>record[k]!==row.review[k])||record.outcome==='accepted'&&!(isLeanReview(record)?['presentationVerified']:['sourceCompared','contentVerified','presentationVerified']).every(k=>record[k]===true))throw Error('Stored inspection does not match this page');
+}
+function selectedBodyProtectedPages(manifest,project){
+ const front=new Set((project.sections??[]).filter(s=>s.phase==='front-matter').flatMap(s=>(s.blocks??[]).map(b=>b.id)).filter(Boolean));
+ const boundaries=new Set([1,manifest.pages.length]);
+ for(const page of manifest.pages){
+  const ids=[...(page.blockIds??[]),...(page.blocks??[]).map(b=>typeof b==='string'?b:b.id)];
+  const reasons=[page.mode,page.inspectionReason,...(Array.isArray(page.visualReasons)?page.visualReasons:[])].filter(v=>typeof v==='string').join(' ');
+  if(page.isCover||page.answerSectionStart||page.contextBoundary||page.flagged||page.frontMatter||ids.some(id=>front.has(id))||/cover|front.matter|transition|boundary|flagged/i.test(reasons))boundaries.add(page.page);
+ }
+ return new Set([...boundaries].flatMap(page=>[page-1,page,page+1]));
+}
+function retainSelectedBodies(runDir,queue,previous=null){
+ return withSelectedPageReuseValidation(()=>{
+  for(const {key,record}of selectedPageReusePlans(previous,queue,{combinedEditions:COMBINED_EDITIONS})){
+   const evidence=path.resolve(runDir,'visual-review','retained-'+randomUUID()+'.json');
+   fs.mkdirSync(path.dirname(evidence),{recursive:true});
+   fs.writeFileSync(evidence,JSON.stringify({...record,recordedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
+   queue.rows.find(row=>row.key===key).review={outcome:record.outcome,reviewer:record.reviewer,note:record.note,reuseKind:'selected-body',artifact:{path:evidence,hash:artifactHash(evidence)}};
+  }
+ });
 }
 
 export async function reviewSnapshot(runDir,input,{renderer=rendererSignature({lean:isLeanReview(input)}),workflow}={}) {
@@ -80,11 +105,12 @@ export async function reviewSnapshot(runDir,input,{renderer=rendererSignature({l
   if(!manifest.pages?.length||(!isLeanReview(input)&&entry.images?.length!==manifest.pages.length))throw Error('Every physical page needs a full-page image: '+edition);
   const selected=isLeanReview(input)?manifest.visualPages:manifest.pages.map(p=>p.page);
   if(!selected?.length||new Set(selected).size!==selected.length||selected.length!==entry.images.length)throw Error('Selected visual pages do not match images: '+edition);
+  const protectedPages=isLeanReview(input)?selectedBodyProtectedPages(manifest,project):null;
   for(const number of selected){
    const i=number-1,page=manifest.pages[i],image=entry.images.find(image=>image.page===number);checkArtifact(image);
    if(page.page!==i+1||image.page!==page.page||typeof page.hash!=='string')throw Error('Page/image sequence is incomplete: '+edition);
    const key=isLeanReview(input)?hash({edition,page:page.page,imageHash:image.hash}):hash({mode:input.mode,project:input.mode!=='development'?projectHash:null,settlement:input.mode==='final'?input.key:null,renderer,assets,sources:input.sourceArtifacts,edition,page:page.page,pageHash:page.hash,imageHash:image.hash,pdf:input.mode!=='development'?manifest.pdf.hash:null});
-   rows.push({key,edition,page:page.page,pageHash:page.hash,image,sources:input.sourceArtifacts,...(comparison?{equivalentTo:comparison.matches[edition+':'+page.page]??null,inspectionReason:comparison.manual[edition+':'+page.page]??null}:{}),review:null});
+   rows.push({key,edition,page:page.page,pageHash:page.hash,image,sources:input.sourceArtifacts,...(isLeanReview(input)?{selectedBodyEligible:!protectedPages.has(page.page)}:{}),...(comparison?{equivalentTo:comparison.matches[edition+':'+page.page]??null,inspectionReason:comparison.manual[edition+':'+page.page]??null}:{}),review:null});
   }
  }
  return {input,projectHash,sessionKey:hash(input),rows};
@@ -95,11 +121,11 @@ function saveQueue(runDir,state,event) {
  const temporary=file+'.'+randomUUID()+'.tmp';fs.writeFileSync(temporary,JSON.stringify(state,null,2)+'\n',{flag:'wx'});fs.renameSync(temporary,file);
  fs.appendFileSync(path.join(path.dirname(file),'events.jsonl'),JSON.stringify({...event,revision:state.revision,at:new Date().toISOString()})+'\n');
 }
-async function current(runDir,deps){const queue=read(queueFile(runDir)),snapshot=await reviewSnapshot(runDir,queue.input,deps);const bare=rows=>rows.map(({review,...row})=>row);if(snapshot.sessionKey!==queue.sessionKey||hash(bare(queue.rows))!==hash(bare(snapshot.rows)))throw Error('Review queue is stale; prepare current inputs');queue.rows.forEach(checkReview);validateActiveReviews(queue);for(const [edition,review]of Object.entries(queue.compositionReviews??{}))validateCompositionReview(review,{edition,sessionKey:queue.sessionKey,comparison:queue.input.comparison,manifest:queue.input.editions[edition].manifest});return queue;}
+async function current(runDir,deps){const queue=read(queueFile(runDir)),snapshot=await reviewSnapshot(runDir,queue.input,deps);const bare=rows=>rows.map(({review,...row})=>row);if(snapshot.sessionKey!==queue.sessionKey||hash(bare(queue.rows))!==hash(bare(snapshot.rows)))throw Error('Review queue is stale; prepare current inputs');withSelectedPageReuseValidation(()=>queue.rows.forEach(row=>checkReview(row,queue.input)));validateActiveReviews(queue);for(const [edition,review]of Object.entries(queue.compositionReviews??{}))validateCompositionReview(review,{edition,sessionKey:queue.sessionKey,comparison:queue.input.comparison,manifest:queue.input.editions[edition].manifest});return queue;}
 function expected(queue,record){if(record.expectedRevision!==queue.revision||record.sessionKey!==queue.sessionKey)throw Error('Review request is stale; refresh queue status');}
-function reused(queue,row){return row.review?.outcome!=='accepted'&&row.review?.outcome!=='needs-change'&&row.equivalentTo&&queue.compositionReviews?.[row.edition]&&queue.rows.some(r=>r.edition===row.equivalentTo.edition&&r.page===row.equivalentTo.page&&r.review?.outcome==='accepted');}
+function reused(queue,row){return row.review?.reuseKind==='selected-body'&&row.review.outcome==='accepted'||row.review?.outcome!=='accepted'&&row.review?.outcome!=='needs-change'&&row.equivalentTo&&queue.compositionReviews?.[row.edition]&&queue.rows.some(r=>r.edition===row.equivalentTo.edition&&r.page===row.equivalentTo.page&&r.review?.outcome==='accepted');}
 const covered=(queue,row)=>row.review?.outcome==='accepted'||reused(queue,row);
-const summary=queue=>({revision:queue.revision,mode:queue.input.mode,sessionKey:queue.sessionKey,total:queue.rows.length,reviewed:queue.rows.filter(r=>r.review?.outcome==='accepted').length,reused:queue.rows.filter(r=>reused(queue,r)).length,pending:queue.rows.filter(r=>!covered(queue,r)&&(!r.equivalentTo||r.review?.outcome==='needs-change')).map(({review,...r})=>({...r,previousFinding:review?.note??null})),awaitingReuse:queue.rows.filter(r=>!covered(queue,r)&&r.equivalentTo&&r.review?.outcome!=='needs-change').map(({review,...r})=>r),reviewProfile:queue.input.reviewProfile,pendingComposition:queue.input.reviewPolicy?COMBINED_EDITIONS.filter(e=>!queue.compositionReviews?.[e]):[],active:activeReviewClaims(queue)[0]??null,activeReviews:activeReviewClaims(queue)});
+const summary=queue=>({revision:queue.revision,mode:queue.input.mode,sessionKey:queue.sessionKey,total:queue.rows.length,reviewed:queue.rows.filter(r=>r.review?.outcome==='accepted'&&r.review.reuseKind!=='selected-body').length,reused:queue.rows.filter(r=>reused(queue,r)).length,pending:queue.rows.filter(r=>!covered(queue,r)&&(!r.equivalentTo||r.review?.outcome==='needs-change')).map(({review,...r})=>({...r,previousFinding:review?.note??null})),awaitingReuse:queue.rows.filter(r=>!covered(queue,r)&&r.equivalentTo&&r.review?.outcome!=='needs-change').map(({review,...r})=>r),reviewProfile:queue.input.reviewProfile,pendingComposition:queue.input.reviewPolicy?COMBINED_EDITIONS.filter(e=>!queue.compositionReviews?.[e]):[],active:activeReviewClaims(queue)[0]??null,activeReviews:activeReviewClaims(queue)});
 
 export async function prepareReviewQueue(runDir,input,deps={}) {
  return withRunLock(runDir,'visual-queue',async()=>{
@@ -110,11 +136,20 @@ export async function prepareReviewQueue(runDir,input,deps={}) {
    const pages=rows=>rows.filter(r=>r.edition===edition).map(r=>({page:r.page,hash:r.image.hash}));
    for(const p of affectedPages(pages(old.rows),pages(snapshot.rows)))neighbours.add(edition+':'+p);
   }
-  const mayReuse=isLeanReview(input)||input.mode==='development'||old?.sessionKey===snapshot.sessionKey;
-  for(const row of snapshot.rows)if(mayReuse&&!neighbours.has(row.edition+':'+row.page)){row.review=oldRows.get(row.key)?.review??null;checkReview(row);}
+  if(old)withSelectedPageReuseValidation(()=>old.rows.forEach(row=>checkReview(row,old.input)));
+  const mayReuse=isLeanReview(input)?hash(old?.input.sourceArtifacts)===hash(input.sourceArtifacts):input.mode==='development'||old?.sessionKey===snapshot.sessionKey;
+  withSelectedPageReuseValidation(()=>{
+   for(const row of snapshot.rows)if(mayReuse&&!neighbours.has(row.edition+':'+row.page)){
+    const review=oldRows.get(row.key)?.review??null;
+    // Actual inspections survive identical page keys. Retention proofs bind
+    // their original manifests; retainSelectedBodies rebuilds them below.
+    row.review=old?.sessionKey!==snapshot.sessionKey&&review?.reuseKind==='selected-body'?null:review;
+    checkReview(row,input);
+   }
+  });
   const compositionReviews=old?.sessionKey===snapshot.sessionKey?old.compositionReviews??{}:{};
   for(const [edition,review]of Object.entries(compositionReviews))validateCompositionReview(review,{edition,sessionKey:snapshot.sessionKey,comparison:input.comparison,manifest:input.editions[edition].manifest});
-  const queue={version:1,...snapshot,compositionReviews,revision:(old?.revision??0)+1,active:null};saveQueue(runDir,queue,{event:'prepared',sessionKey:queue.sessionKey});return summary(queue);
+  const queue={version:1,...snapshot,compositionReviews,revision:(old?.revision??0)+1,active:null};retainSelectedBodies(runDir,queue,old);saveQueue(runDir,queue,{event:'prepared',sessionKey:queue.sessionKey});return summary(queue);
  });
 }
 export async function reviewQueueStatus(runDir,deps={}){return summary(await current(runDir,deps));}
@@ -144,10 +179,11 @@ export async function recordPageReview(runDir,record,deps={}) {
   const composition=active.kind==='composition';
   if(record.outcome==='accepted'&&!(composition?COMPOSITION_CHECKS.every(k=>record.compositionChecks?.[k]===true):(isLeanReview(queue.input)?['presentationVerified']:['sourceCompared','contentVerified','presentationVerified']).every(k=>record[k]===true)))throw Error('Record '+(composition?'covers, contents, transitions, numbering, footers and links':'source, content and presentation')+' inspection explicitly');
   const evidence=path.join(runDir,'visual-review','inspection-'+active.id+'.json');
-  fs.writeFileSync(evidence,JSON.stringify({...record,...active,...(isLeanReview(queue.input)?{reviewProfile:LEAN_REVIEW_PROFILE}:{}),sessionKey:queue.sessionKey,...(composition?{comparison:queue.input.comparison,manifests:Object.fromEntries(active.compositionEditions.map(e=>[e,queue.input.editions[e].manifest]))}:{}),recordedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
+  fs.writeFileSync(evidence,JSON.stringify({...record,...active,...(isLeanReview(queue.input)?{reviewProfile:LEAN_REVIEW_PROFILE,sourceArtifacts:queue.input.sourceArtifacts}:{}),sessionKey:queue.sessionKey,...(composition?{comparison:queue.input.comparison,manifests:Object.fromEntries(active.compositionEditions.map(e=>[e,queue.input.editions[e].manifest]))}:{}),recordedAt:new Date().toISOString()},null,2)+'\n',{flag:'wx'});
   const review={outcome:record.outcome,reviewer:record.reviewer,note:record.note,artifact:{path:path.resolve(evidence),hash:artifactHash(evidence)}};
   if(composition){for(const edition of active.compositionEditions){if(record.outcome==='accepted')queue.compositionReviews[edition]=review;else delete queue.compositionReviews[edition];}}
   else for(const row of queue.rows)if(active.pageKeys.includes(row.key))row.review=review;
+  if(!composition&&record.outcome==='accepted')retainSelectedBodies(runDir,queue);
   endRunPhase(runDir,active.id,{outcome:record.outcome,...(composition?{editionsInspected:active.compositionEditions.length}:{pagesInspected:active.pageKeys.length})});
   setActiveReviews(queue,claims.filter(claim=>claim.id!==active.id));queue.revision++;saveQueue(runDir,queue,{event:'inspection-recorded',reviewId:active.id,artifact:review.artifact});return summary(queue);
  });
@@ -173,7 +209,7 @@ export async function finalReviewRecord(runDir,signer,deps={}) {
   const evidence=path.resolve(runDir,'visual-review','completed-'+randomUUID()+'.json');fs.writeFileSync(evidence,JSON.stringify(queue,null,2)+'\n',{flag:'wx'});
   const artifact={path:evidence,hash:artifactHash(evidence)},editions={};
   for(const edition of FINAL_EDITIONS){const rows=queue.rows.filter(r=>r.edition===edition);
-   if(isLeanReview(queue.input)){const manifest=read(queue.input.editions[edition].manifest.path);editions[edition]={allPagesVisuallyInspected:false,allPagesCovered:true,visualPages:manifest.visualPages,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:manifest.pages.map(p=>({page:p.page,hash:p.hash,checked:true,reviewMethod:rows.some(r=>r.page===p.page&&r.review?.outcome==='accepted')?'visual':'automated'}))};continue;}
+   if(isLeanReview(queue.input)){const manifest=read(queue.input.editions[edition].manifest.path);editions[edition]={allPagesVisuallyInspected:false,allPagesCovered:true,visualPages:manifest.visualPages,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:manifest.pages.map(p=>({page:p.page,hash:p.hash,checked:true,reviewMethod:rows.some(r=>r.page===p.page&&r.review?.reuseKind==='selected-body')?'selected-body':rows.some(r=>r.page===p.page&&r.review?.outcome==='accepted')?'visual':'automated',...(rows.find(r=>r.page===p.page&&r.review?.reuseKind==='selected-body')?{reuseKind:'selected-body',provenance:rows.find(r=>r.page===p.page).review.artifact}:{})}))};continue;}
    editions[edition]={allPagesVisuallyInspected:rows.every(r=>r.review?.outcome==='accepted'),allPagesCovered:true,manifest:queue.input.editions[edition].manifest,artifacts:[artifact],pages:rows.map(r=>({page:r.page,hash:r.pageHash,checked:true,...(queue.input.reviewPolicy?(r.review?.outcome==='accepted'?{reviewMethod:'visual'}:{reviewMethod:'equivalent',equivalentTo:r.equivalentTo}):{})}))};}
   // Keep the underlying evidence in the existing acceptance register, so later
   // source/image/inspection edits invalidate acceptance as well as queue status.
@@ -182,7 +218,8 @@ export async function finalReviewRecord(runDir,signer,deps={}) {
    return checkArtifact({path:path.resolve(file),hash:queue.input.assets[src]});
   });
   const comparisonArtifacts=queue.input.reviewPolicy?validateEditionComparison(queue.input.comparison,queue.input.editions).artifacts:[];
-  const artifacts=[artifact,...queue.input.sourceArtifacts,...assetArtifacts,...queue.rows.flatMap(r=>[r.image,...(r.review?[r.review.artifact]:[])]),...comparisonArtifacts,...Object.values(queue.compositionReviews??{}).map(r=>r.artifact)];
+  const retainedArtifacts=withSelectedPageReuseValidation(()=>queue.rows.filter(r=>r.review?.reuseKind==='selected-body').flatMap(row=>selectedPageReuseArtifacts(read(checkArtifact(row.review.artifact).path),row,queue.input)));
+  const artifacts=[artifact,...queue.input.sourceArtifacts,...assetArtifacts,...queue.rows.flatMap(r=>[r.image,...(r.review?[r.review.artifact]:[])]),...retainedArtifacts,...comparisonArtifacts,...Object.values(queue.compositionReviews??{}).map(r=>r.artifact)];
   return {...(isLeanReview(queue.input)?{reviewProfile:LEAN_REVIEW_PROFILE}:{}),reviewer:signer.reviewer,note:signer.note,artifacts:[...new Map(artifacts.map(a=>[a.path,a])).values()],key:queue.input.key,sourceCompared:true,contentVerified:true,presentationVerified:true,editions,...(queue.input.reviewPolicy?{reviewPolicy:queue.input.reviewPolicy,sessionKey:queue.sessionKey,comparison:queue.input.comparison,compositionReviews:queue.compositionReviews}:{} )};
  });
 }

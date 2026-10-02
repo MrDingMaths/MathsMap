@@ -3,13 +3,43 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {nextBoundedWork,prepareBoundedStage,recordBoundedStage,cancelBoundedStage,runBoundedStage,executePreparedBoundedStage,exerciseTeachingContext,groupFeedbackByCause,registerFeedbackScope,BOUNDED_LIMITS} from '../scripts/booklet/bounded-stages.mjs';
+import {nextBoundedWork,prepareBoundedStage,recordBoundedStage,cancelBoundedStage,runBoundedStage,executePreparedBoundedStage,exerciseTeachingContext,groupFeedbackByCause,registerFeedbackScope,assessmentSkillDefinitions,boundedPromptPayload,deliveredTeachingPages,BOUNDED_LIMITS} from '../scripts/booklet/bounded-stages.mjs';
 import {loadWorkflow,liveWorkflow,updateWorkflow,bytesHash,applyDecisions,settlementKey} from '../scripts/booklet/workflow-review.mjs';
 import {PIPELINE_POLICY,createArtifactVerifier,questionTeachingDependencies} from '../scripts/booklet/import-verification.mjs';
 import {prepareReviewQueue,reviewQueueStatus,finalReviewRecord} from '../scripts/booklet/visual-review-queue.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 
 const ref=file=>({path:path.resolve(file),hash:bytesHash(file)});
+test('supplemental teaching citations require the assigned, delivered primary image with matching source hash',()=>{
+ const run=path.resolve('fixture-run'),image=path.join(run,'evidence/pages/page-007.png'),source={path:image,hash:'current-source',page:7};
+ const base={context:{pages:[6],evidence:[source]},images:[image],evidence:[source]};
+ assert.deepEqual([...deliveredTeachingPages(base,run)],[6,7]);
+ for(const change of [
+  {images:[]},
+  {evidence:[{...source,hash:'different-source'}]},
+  {context:{pages:[6],evidence:[{...source,path:path.join(run,'collateral/page-007.png')}]}},
+  {context:{pages:[6],evidence:[{...source,path:path.resolve('other-run/evidence/pages/page-007.png')}]}},
+  {context:{pages:[6],evidence:[{...source,page:99}]}}
+ ])assert.deepEqual([...deliveredTeachingPages({...base,...change},run)],[6]);
+ assert.deepEqual(base.context.pages,[6]);
+});
+test('lean repair prompts preserve exact metadata parents including pagination and artifact references',()=>{
+ const sourceReview={responses:[{targetId:'part-a',kind:'working'}],sourcePagination:{page:8,breakBefore:true},arrangements:[{targetId:'q',order:['part-a']}],artifacts:[{path:'/retained-source.png',hash:'original-source'}]};
+ const job={stage:'assessment',ownershipIds:['question:q'],dependencyHash:'unchanged',images:[],evidence:[],context:{lean:true,questions:[{id:'q',sourceReview}]}};
+ const payload=boundedPromptPayload(job);
+ assert.deepEqual(payload.context.questions[0].sourceReview,sourceReview);
+ assert.notEqual(payload.context.questions[0].sourceReview,sourceReview);
+ assert.equal(payload.dependencyHash,'unchanged');
+});
+test('content review receives real taxonomy alternatives for unclassified questions',()=>{
+ const catalog=[{id:'notation',blurb:'Use algebraic notation.'},{id:'factorise',blurb:'Extract the common factor.'}];
+ const questions=[{classification:{primarySkillId:'notation',secondarySkillIds:['missing']}},{}];
+ const result=assessmentSkillDefinitions(questions,catalog,['factorise','factorise']);
+ assert.deepEqual(result.skillDefinitions,catalog);
+ assert.deepEqual(result.missingSkillIds,['missing']);
+ assert.deepEqual(assessmentSkillDefinitions([{}],catalog,['factorise']).skillDefinitions,[catalog[1]]);
+ assert.deepEqual(assessmentSkillDefinitions(questions,catalog).skillDefinitions,[catalog[0]]);
+});
 function fixture(t,{pages=2,ambiguity=false,project=true}={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'bounded-stages-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const write=(name,value)=>{const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,typeof value==='string'?value:JSON.stringify(value));return file;};
@@ -48,7 +78,7 @@ test('next work is a read-only compact projection with stable unique ownership',
  assert.deepEqual(a.jobs,b.jobs);assert.deepEqual(fs.readdirSync(f.dir),before);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  assert.equal(a.jobs.filter(j=>j.stage==='maths').length,2);assert.ok(a.jobs.every(j=>!Object.hasOwn(j,'context')&&!Object.hasOwn(j,'images')));
  assert.equal(new Set(a.jobs.flatMap(j=>j.ownershipIds)).size,a.jobs.flatMap(j=>j.ownershipIds).length);
- assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6-sol'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
+ assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
 });
 
 test('three-pass structured finding identities stay with their actual question instead of the first page question',async t=>{
@@ -509,6 +539,8 @@ test('lean assessment combines source, teaching and practice once and reuses dir
  const prepared=await prepareBoundedStage(f.options,assessment.id);
  const ticket=readTicket(prepared);
  assert.deepEqual(ticket.job.context.questions.map(b=>b.id),['method1','q1']);
+ assert.deepEqual(ticket.job.context.sectionContext.map(section=>({title:section.title,blockIds:section.blockIds})),f.book.sections.map(section=>({title:section.title,blockIds:section.blocks.map(block=>block.id)})));
+ assert.match(prepared.prompt,/must not be duplicated in body content/);
  assert.ok(ticket.job.context.teaching.teaching.some(b=>b.id==='method1'));
  assert.match(prepared.prompt,/one complete source, mathematics, content, answer, taught-method and taxonomy pass/);
  assert.match(prepared.prompt,/otherwise 2 decimal places/);

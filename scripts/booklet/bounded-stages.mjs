@@ -18,7 +18,7 @@ import {isLeanReview,LEAN_EDITORIAL_PROMPT} from './lean-profile.mjs';
 
 export const BOUNDED_STAGE_VERSION=1;
 export const BOUNDED_LIMITS=Object.freeze({questions:4,characters:24000,renderedPages:8});
-export const REVIEW_PROFILE=Object.freeze({model:'gpt-6-sol',effort:'high',speed:'standard',freshContext:true});
+export const REVIEW_PROFILE=Object.freeze({model:'gpt-6.1-sol',effort:'high',speed:'standard',freshContext:true});
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const json=value=>JSON.stringify(value,null,2)+'\n';
 const projectCorrectionState=(state,project)=>workflowForPages(state,unique((project.sections??[]).flatMap(section=>(section.blocks??[]).flatMap(sourcePages))));
@@ -33,6 +33,11 @@ const references=values=>{
 };
 const sourcePages=value=>unique([...(value?.sourceRefs??[]).map(r=>r.pageNumber),...(value?.sourceReview?.sourcePages??[]),value?.sourcePageNumber,value?.pageNumber].filter(Number.isInteger));
 const stageId=(stage,ids)=>stage+'-'+fingerprint(ids).slice(0,20);
+export function assessmentSkillDefinitions(questions,catalog,additionalSkillIds=[]){
+ const ids=unique([...questions.flatMap(q=>[q.classification?.primarySkillId,...(q.classification?.secondarySkillIds??[])]),...additionalSkillIds].filter(Boolean));
+ const skillDefinitions=catalog.filter(skill=>ids.includes(skill.id));
+ return {skillDefinitions,missingSkillIds:ids.filter(id=>!skillDefinitions.some(skill=>skill.id===id))};
+}
 // Formatting changes may resize future batches. Existing tickets keep their
 // exact ownership until recorded/cancelled; all dependencies are rebuilt below.
 export function assessmentQuestionGroups(questions,claims,measure){
@@ -360,15 +365,15 @@ function buildJobs(s){
    const assessmentContext=pending=>{
     const failed=pending.map(q=>state.verification?.entries?.['question:'+q.id]).filter(r=>r?.outcome==='failed'&&r.dependencies?.question===deps.questions[r.id.slice(9)]);
     const groups=s.sourceViews?.map(v=>({...v,questions:pending.filter(q=>blockRunIds(project,q).includes(v.runId))})).filter(v=>v.questions.length);
-    const skillIds=unique(pending.flatMap(q=>[q.classification?.primarySkillId,...(q.classification?.secondarySkillIds??[])]).filter(Boolean));
-    const skillDefinitions=s.skillCatalog.entries.filter(skill=>skillIds.includes(skill.id));
+    const {skillDefinitions,missingSkillIds}=assessmentSkillDefinitions(pending,s.skillCatalog.entries,lean?s.config?.classificationSkillIds??[]:[]);
     const owned=new Set(pending.map(block=>block.id)),pendingIssues=lean?Object.values(state.issues??{}).filter(issue=>issue.status==='pending'&&initialIssue(issue)&&owned.has(issueOwner(issue))):[];
     // Keep every selected teaching page, source artifact and exercise decision.
     // Per-question author mapping notes belong only to their assigned questions;
     // unrelated practice mappings are not an indivisible teaching-method summary.
     const suppliedNotes=[...new Map(pending.flatMap(question=>teachingNotes(question.sourceReview)).map(note=>[fingerprint(note),note])).values()];
     const scopedTeaching=lean?(leanSummary?{exerciseId,dependencyHash:context.dependencyHash,reused:true,methods:leanSummary.methods,note:leanSummary.note,summaryArtifacts:leanSummary.summaryArtifacts,sourceArtifacts:leanSummary.sourceArtifacts,suppliedNotes}:{...context,suppliedNotes}):null;
-    return {exerciseId,questions:pending,...(lean?{pendingIssues}:{}),skillDefinitions,missingSkillIds:skillIds.filter(id=>!skillDefinitions.some(skill=>skill.id===id)),previousFindings:failed.map(r=>({id:r.id,note:r.note,artifacts:r.artifacts})),...(lean?{lean:true,teaching:scopedTeaching}:{teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null}),
+    const sectionContext=lean?project.sections.filter(section=>section.blocks?.some(block=>owned.has(block.id))).map(section=>({id:section.id,title:section.title,topicId:section.topicId,phase:section.phase,role:section.role,headingStyle:section.headingStyle,sourcePageNumber:section.sourcePageNumber,blockIds:section.blocks.filter(block=>owned.has(block.id)).map(block=>block.id)})):null;
+    return {exerciseId,questions:pending,...(lean?{pendingIssues,sectionContext}:{}),skillDefinitions,missingSkillIds,previousFindings:failed.map(r=>({id:r.id,note:r.note,artifacts:r.artifacts})),...(lean?{lean:true,teaching:scopedTeaching}:{teaching:theoryDone?{methods:previous.methods,note:previous.note,dependencyHash:previous.dependencyHash,artifacts:previous.artifacts}:null}),
      questionDependencies:Object.fromEntries(pending.map(q=>[q.id,deps.questions[q.id]])),decisions:groups?groups.flatMap(v=>relevantDecisions(v.state,allNodeIds(v.questions),unique(v.questions.flatMap(sourcePages)),[],exerciseId).map(d=>({...d,runId:v.runId}))):relevantDecisions(state,lean?questionScopeIds(project,pending):allNodeIds(pending),unique(pending.flatMap(sourcePages)),[],exerciseId,undefined,false,lean?{knownQuestionIds}:undefined)};
    };
    const pageArtifacts=new Map();
@@ -489,8 +494,11 @@ const STAGE_CONTRACTS={
  visual:'Actually inspect each of the at-most-eight complete rendered pages against linked original evidence at final size. Read every label, footer, stem, part and answer; check fidelity, mathematics, typography, clipping, collisions, handwriting space, arrangements and pagination. Return {reviewer,note,outcome:"accepted|needs-change",sourceCompared:true,contentVerified:true,presentationVerified:true}. True is allowed only for checks you completed. Hashes, prior acceptance, DOM checks and lack of overflow are not visual inspection. Mention observed exceptions in note.',
  composition:'Actually inspect the selected combined edition: covers, contents, answer-section boundaries, transitions, numbering, every footer and links. Use the passed current manifest, linked PDF and comparison evidence; verified body equivalence does not inspect composition. Return {reviewer,note,outcome:"accepted|needs-change",compositionChecks:{covers:true,contents:true,transitions:true,numbering:true,footers:true,links:true}} only after all checks were observed.'
 };
-STAGE_CONTRACTS.leanAssessment+=' Return exactly one record per context.questions block. ownershipIds can also contain already accepted blocks; do not return additional records for absent context questions. Repair format: patch.field is an RFC 6901 JSON Pointer relative to the exact target node, beginning with / (for example /content/prompt, /prompt or /sourceReview/answerEvidence/conflict). Never use dotted paths. Keep original and corrected values in their actual types. To add a missing metadata field, replace its nearest existing parent using that complete exact current object; a null original does not represent an absent field. Source references use pageNumber for a primary-source page; artifactRef alone or page is insufficient. Native editable paragraphs use {format:"maths-editor-document-v1",version:1,blocks:[{id:"unique-stable-paragraph-id",type:"paragraph",align:"left",inlines:[{type:"text",text:"paragraph text",bold:true}]}]}; preserve existing maths as native math inlines with latex. Do not embed HTML tags in question text. A source category heading is a native paragraph in the first owning prompt, with sourceReview.sourceCategoryHeading metadata; visual placement above the question number is handled in the layout stage. Only the originally assigned pending issues may be resolved; retain original source evidence separately.';
+STAGE_CONTRACTS.leanAssessment+=' Return exactly one record per context.questions block. ownershipIds can also contain already accepted blocks; do not return additional records for absent context questions. Repair format: patch.field is an RFC 6901 JSON Pointer relative to the exact target node, beginning with / (for example /content/prompt, /prompt or /sourceReview/answerEvidence/conflict). Never use dotted paths. Keep original and corrected values in their actual types. To add a missing metadata field, replace its nearest existing parent using that complete exact current object; a null original does not represent an absent field. Source references use pageNumber for a primary-source page; artifactRef alone or page is insufficient. Patch.page must be the integer authoritative PDF page from the owning question.sourcePageNumber/sourceRefs, never a section ID or assignment ID. Native editable paragraphs use {format:"maths-editor-document-v1",version:1,blocks:[{id:"unique-stable-paragraph-id",type:"paragraph",align:"left",inlines:[{type:"text",text:"paragraph text",bold:true}]}]}; preserve existing maths as native math inlines with latex. Do not embed HTML tags in question text. A source category heading is a native paragraph in the first owning prompt, with sourceReview.sourceCategoryHeading metadata; visual placement above the question number is handled in the layout stage. Only the originally assigned pending issues may be resolved; retain original source evidence separately.';
 STAGE_CONTRACTS.leanAssessment+=' When context.teaching.reused is absent, inspect all supplied stable exercise teaching images once. You may retain that inspection in teachingSummary:{outcome:"accepted",sourceCompared:true,note,methods:[{statement,sourceRefs:[{pageNumber,targetId?,externalReferenceId?,runId?}]}]}. Cite only actually delivered assigned teaching evidence; external pages require their externalReferenceId. This summary does not accept any question. When context.teaching.reused is true, use its source-hashed reviewed methods plus the assigned question-specific notes; still independently inspect every assigned question and answer against their original images. Do not return another teachingSummary for unchanged reused context. Missing or contradictory method context must be reported as a consequential question finding, never silently replaced.';
+STAGE_CONTRACTS.leanAssessment+=' sectionContext supplies the owning editable section titles and header settings. A source heading already represented by a page-title section or a sourceAtom teaching template must not be duplicated in body content. Foundation, Development and Mastery are editor difficulty metadata, not native practice-category paragraphs. Review source wording together with these supplied headers before reporting an omitted heading.';
+STAGE_CONTRACTS.leanVisual+=' Under the textbook-three-pass-v1 policy, optional wording and cosmetic improvements never delay delivery. Record cosmetic-only sparsity or a preference for fewer pages as optional observations and accept when source relationships, legibility, usable handwriting space and page transitions are sound. Meaningful source-arrangement losses, orphaned instructions, unreadable text, collisions, clipping and inadequate response space still require repair.';
+STAGE_CONTRACTS.leanVisual+=' Complete rendered PNGs are supplied directly as input images. Inspect those pixels; the caller separately verifies exact PDF, PNG, dimensions and raster-receipt hashes. Do not request shell access to receipt JSON or treat inaccessible machine receipts as a visual finding when the supplied page image was actually inspected. Missing or unreadable supplied pixels remain a real evidence blocker.';
 // Prompt projection only: tickets and dependency hashes retain the full context.
 // No content, diagram source, current correction value or source reference is cut.
 export function boundedPromptPayload(job){
@@ -512,6 +520,10 @@ export function boundedPromptPayload(job){
  function project(value,key){
   if(Array.isArray(value))return value.map(v=>project(v));
   if(!value||typeof value!=='object')return value;
+  // Lean reviewers may add provenance through an exact parent-field patch.
+  // Stripping that parent's pagination/arrangement fields makes their original
+  // incomplete and rejects an otherwise reusable reviewed repair.
+  if(key==='sourceReview'&&job.context.lean)return structuredClone(value);
   const result={};
   for(const [name,child]of Object.entries(value)){
    if(key==='sourceReview'&&['verification','visualAudit','authorisedRevision','presentationRequirements','arrangements','houseStyle','feedbackMaintenance','sourcePagination','arrangementOverride','headerOwnedByTemplate'].includes(name))continue;
@@ -650,11 +662,24 @@ function validateFeedback(job,record,state,s){
  }
  applyDecisions(state,{...record,expectedRevision:state.revision,key:settlementKey(state)});
 }
+export function deliveredTeachingPages(job,runDir){
+ const pages=new Set(job.context.pages);
+ // Supplemental teaching images can be part of the assigned evidence even
+ // when they are outside the configured stable-page list. Credit only the
+ // current primary-source artifact actually delivered with this ticket.
+ for(const e of job.context.evidence??[]){
+  if(!Number.isInteger(e.page))continue;
+  const image=path.resolve(runDir,'evidence','pages','page-'+String(e.page).padStart(3,'0')+'.png');
+  if(path.resolve(e.path)!==image||!job.images.includes(image))continue;
+  if(job.evidence.some(a=>path.resolve(a.path)===image&&a.hash===e.hash))pages.add(e.page);
+ }
+ return pages;
+}
 function recordTeaching(state,job,record,runDir){
  if(!['accepted','needs-context'].includes(record.outcome))throw Error('Teaching review requires an explicit outcome');
  if(record.outcome==='accepted'){
   if(record.sourceCompared!==true||!record.methods?.length)throw Error('Teaching acceptance requires actual source comparison and cited methods');
-  const pages=new Set(job.context.pages),ids=new Set(allNodeIds(job.context.teaching));
+  const pages=deliveredTeachingPages(job,runDir),ids=new Set(allNodeIds(job.context.teaching));
   // Practice questions may embed definitions or local conventions. A citation
   // may use that assigned question page only if its primary-source image was
   // actually delivered with this ticket. Collateral and answer PDFs do not count.

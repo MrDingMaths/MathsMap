@@ -506,6 +506,9 @@ export function synchronizeInventoryAmbiguities(entries,state){
 export function synchronizeProject(project,state,pages,runId){
  const result=materializeCorrections(project,state,'project');
  synchronizeInventoryAmbiguities(result.source?.inventory?.entries??[],state);
+ // The incoming receipt was validated above; bind the authorized derived
+ // ambiguity annotations without changing its evidence or approved patches.
+ if(result.source?.correctionMaterialization)result.source.correctionMaterialization.projectHash=materializedProjectHash(result);
  result.source??={};if(state.reviewProfile)result.source.reviewProfile=state.reviewProfile;result.source.workflow={policy:REVIEW_POLICY,runId,correctionIds:state.corrections.map(c=>c.id)};
  result.studio??={};result.studio.flags=[...(result.studio.flags??[]).filter(f=>!f.workflowIssue),...workflowFlags(state,pages)];
  return result;

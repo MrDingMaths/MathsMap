@@ -19,6 +19,7 @@ import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters,ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {LEAN_REVIEW_PROFILE,isLeanReview,selectLeanVisualPages} from './lean-profile.mjs';
+import {seedUnchangedFinalExports} from './seed-final-export-cache.mjs';
 // The compiler reports per-event durations; its public stats retain only the
 // last event, so exports accumulate the observed events without estimating time.
 export function accumulateTikzCompilation(state,detail){
@@ -72,6 +73,7 @@ export function expectedAnswerNodeIds(project,mode){
 export function assertAnswerNodeCoverage(actualIds,expectedIds){
  assert.deepEqual([...actualIds].sort(),[...expectedIds].sort(),'Every expected answer node appears exactly once, including edition-specific group answers');
 }
+export const expectedTeachingGroupIds=project=>[...new Set(project.sections.flatMap(s=>s.blocks).filter(b=>b.sourceAtom&&!b.presentation?.editorOnly).map(b=>b.sourceAtom.id))].sort();
 export function assertAnswerRenderCoverage(labels,diagramIds,project,mode){
  const primary=labels.filter(label=>!label.continuation);
  assertAnswerNodeCoverage(primary.map(label=>label.id),expectedAnswerNodeIds(project,mode));
@@ -170,6 +172,7 @@ try{
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
    if(!draft&&!development&&!preflight)assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
   }
+  if(lean&&runDir&&!development&&!preflight&&!draft&&path.dirname(path.resolve(out))===path.resolve(runDir)&&path.basename(out).startsWith('final-exports-'))await seedUnchangedFinalExports({runDir,projectFile:candidateFile??projectFile,out});
   const loadStarted=Date.now();
   await routeCandidateProject(page,record);
   // The project picker keeps its initial inventory for the lifetime of the app.
@@ -312,7 +315,7 @@ try{
     assert.deepEqual(info.teachingReferences,[],'Teaching activity references are not student content');
     assert.equal(info.clozeSpaces,0,'Cloze-only Key Ideas have no additional working area');
     if(!['short','worked'].includes(edition)){
-     const expected=[...new Set(record.sections.flatMap(s=>s.blocks).filter(b=>b.sourceAtom).map(b=>b.sourceAtom.id))].sort();
+     const expected=expectedTeachingGroupIds(record);
      assert.deepEqual([...new Set(info.teachingGroups.map(g=>g.id))].sort(),expected,'Every teaching group uses its header template');
      assert.ok(info.teachingGroups.every(g=>g.headers===1),'Exactly one header per teaching box');
     }else assert.deepEqual(info.teachingGroups,[],'Answer-only editions contain practice, not teaching');

@@ -242,6 +242,71 @@ function fixture(t){
  return {runDir,write,evidence,options};
 }
 function approveMath(state,evidence){recordMathReview(state,{...evidence,pages:Object.entries(state.pages).map(([page,p])=>({page:Number(page),key:p.inventoryHash}))});}
+test('project synchronization preserves guarded materialisation through ambiguity resolution and reopening',t=>{
+ const f=fixture(t),state=loadWorkflow(f.runDir),inventory=inv(1);
+ inventory.entries[0].ambiguity='The intended angle is unclear.';
+ registerInventory(state,inventory,'source-hash');
+ const issue=Object.values(state.issues)[0];
+ const entries=[inventory.entries[0],{...inventory.entries[0],id:'src-1-mapping-1'},{...inventory.entries[0],id:'src-1-derived-wrapper',derived:true,continuationOf:'src-1'}].map(e=>({...e,pageNumber:1}));
+ synchronizeInventoryAmbiguities(entries,state);
+ applyDecisions(state,{...f.evidence,expectedRevision:state.revision,key:settlementKey(state),resolutions:[{id:issue.id,status:'retained',reason:'The source arc identifies the intended angle.'}]});
+ const packet=author(1),original=structuredClone(packet.sections[0].blocks);
+ state.corrections.push({id:'correction-reopen-1',status:'approved',patches:[{scope:'author',page:1,targetId:'s-1',field:'/blocks',original,corrected:original.map(b=>({...b,title:'Revised'}))}]});
+ const project=materializeCorrections(packet,state,'author',1);
+ project.title='Triangles';project.topics=[{id:'triangles',title:'Triangles'}];project.settings={};
+ project.sections[0].blocks[0].flow={keepTogether:true};
+ project.source={inventory:{entries},sourceHashes:{1:'source-hash'}};
+ recordMaterializedCorrections(project,state,{...f.evidence,sourceCompared:true});
+ const receipt=structuredClone(project.source.correctionMaterialization),sections=structuredClone(project.sections);
+ const resolved=synchronizeProject(project,state,[1],'review-fixture');
+ for(const entry of resolved.source.inventory.entries){
+  assert.equal(entry.ambiguous,undefined);
+  assert.equal(entry.ambiguity,inventory.entries[0].ambiguity);
+  assert.equal(entry.ambiguityResolution.issueId,issue.id);
+  assert.equal(entry.ambiguityResolution.status,'retained');
+  assert.deepEqual(entry.ambiguityResolution.resolution,issue.resolution);
+ }
+ assert.notEqual(resolved.source.correctionMaterialization.projectHash,receipt.projectHash);
+ assert.deepEqual({...resolved.source.correctionMaterialization,projectHash:receipt.projectHash},receipt);
+ assert.deepEqual(resolved.sections,sections);
+ const assertReopens=value=>{
+  const reopened=JSON.parse(JSON.stringify(value));
+  assert.deepEqual(materializeCorrections(reopened,state,'project'),reopened);
+  assert.deepEqual(synchronizeProject(reopened,state,[1],'review-fixture'),reopened);
+ };
+ assertReopens(resolved);
+ issue.inputHash='stale';
+ const reopened=synchronizeProject(structuredClone(resolved),state,[1],'review-fixture');
+ for(const entry of reopened.source.inventory.entries){assert.equal(entry.ambiguous,entry.ambiguity);assert.equal(entry.ambiguityResolution,undefined);}
+ assert.notEqual(reopened.source.correctionMaterialization.projectHash,resolved.source.correctionMaterialization.projectHash);
+ assert.deepEqual({...reopened.source.correctionMaterialization,projectHash:receipt.projectHash},receipt);
+ assertReopens(reopened);
+ issue.inputHash=state.pages[1].inventoryHash;
+ const restored=synchronizeProject(reopened,state,[1],'review-fixture');
+ assert.equal(restored.source.correctionMaterialization.projectHash,resolved.source.correctionMaterialization.projectHash);
+ assertReopens(restored);
+ const edits=[
+  ['content',p=>{p.sections[0].blocks[0].content.prompt='My edit';}],
+  ['layout',p=>{p.sections[0].blocks[0].presentation={widthMm:99};}],
+  ['title',p=>{p.title='Changed title';}],
+  ['topic',p=>{p.topics[0].title='Changed topic';}],
+  ['settings',p=>{p.settings.questionFontSize=12;}],
+  ['source hash',p=>{p.source.sourceHashes[1]='changed source';}],
+  ['original ambiguity',p=>{p.source.inventory.entries[0].ambiguity='Changed source ambiguity';}],
+  ['derived annotation',p=>{p.source.inventory.entries[0].ambiguityResolution.status='corrected';}]
+ ];
+ for(const [label,edit] of edits){
+  const changed=structuredClone(restored);edit(changed);
+  assert.throws(()=>materializeCorrections(changed,state,'project'),/Stale compact correction materialisation/,label);
+  assert.throws(()=>synchronizeProject(changed,state,[1],'review-fixture'),/Stale compact correction materialisation/,`${label} must reject before metadata synchronization`);
+ }
+ const changedState=structuredClone(state);changedState.corrections[0].patches[0].corrected[0].title='Different';
+ assert.throws(()=>synchronizeProject(structuredClone(restored),changedState,[1],'review-fixture'),/changed or unapproved/);
+ f.write('review.txt','changed evidence');
+ assert.throws(()=>materializeCorrections(restored,state,'project'),/Stale compact correction materialisation/);
+ assert.throws(()=>synchronizeProject(structuredClone(restored),state,[1],'review-fixture'),/Stale compact correction materialisation/);
+});
+
 test('resolved source ambiguities propagate to every mapping and reopen on stale evidence',t=>{
  const {runDir,write,evidence}=fixture(t),state=loadWorkflow(runDir);
  const inventory=inv(1);inventory.entries[0].ambiguity='The intended angle is unclear.';
