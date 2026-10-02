@@ -2,15 +2,37 @@
   "skillId": "sequence-notation",
   "atomType": "T",
   "theory": {
-    "intro": "A **sequence** is an ordered list of terms formed according to a rule. We write $a_{n}$ (or $T_{n}$) for the value of the $n$th term, where the position number $n$ is a positive integer.",
-    "facts": [
-      "A **finite sequence** terminates at a final term $a_{m}$, while an **infinite sequence** continues indefinitely.",
-      "The subscript $n$ represents the term's position number, whereas $a_{n}$ is the term's actual value.",
-      "An **explicit rule** calculates any term $a_{n}$ directly from its position number $n$.",
-      "A **recursive rule** finds each new term using one or more preceding terms.",
-      "A number $k$ is a term of a sequence if solving $a_{n}=k$ gives a positive integer $n$."
-    ]
+"intro": "A **sequence** is an ordered list of terms formed according to a rule. We write $a_{n}$ (or $T_{n}$) for the value of the $n$th term, where the position number $n$ is a positive integer.",
+"facts": [
+"A **finite sequence** terminates at a final term $a_{m}$, while an **infinite sequence** continues indefinitely.",
+"The subscript $n$ represents the term's position number, whereas $a_{n}$ is the term's actual value.",
+"An **explicit rule** calculates any term $a_{n}$ directly from its position number $n$.",
+"A **recursive rule** finds each new term using one or more preceding terms.",
+"A number $k$ is a term of a sequence if solving $a_{n}=k$ gives a positive integer position $n$ within the sequence's stated range."
+],
+"workedExamples": [
+  {
+    "question_text": "(a) Find the first four terms of $a_{n}=5n+7$.\n(b) Find the first three terms of $b_{n}=(-1)^{n}(3n+4)$.\n(c) Find $c_{4}$ for $c_{n}=\\frac{n}{3n+2}$.",
+    "solution_text": "(a) Substitute the position numbers $1,2,3,4$.\n$a_{1}=5(1)+7=12$\n$a_{2}=5(2)+7=17$\n$a_{3}=5(3)+7=22$\n$a_{4}=5(4)+7=27$\n(b) Substitute each position, including in the power of $-1$.\n$b_{1}=(-1)^{1}(3(1)+4)=-7$\n$b_{2}=(-1)^{2}(3(2)+4)=10$\n$b_{3}=(-1)^{3}(3(3)+4)=-13$\n(c) $c_{4}=\\frac{4}{3(4)+2}$\n$c_{4}=\\frac{4}{14}=\\frac{2}{7}$"
   },
+  {
+    "question_text": "(a) A sequence has $a_{1}=8$ and $a_{n}=2a_{n-1}-3$ for $n\\ge2$. Find the first four terms.\n(b) A sequence has $b_{1}=4$, $b_{2}=9$ and $b_{n}=2b_{n-1}+b_{n-2}$ for $n\\ge3$. Find $b_{5}$.",
+    "solution_text": "(a) Use each term to find the next.\n$a_{1}=8$\n$a_{2}=2(8)-3=13$\n$a_{3}=2(13)-3=23$\n$a_{4}=2(23)-3=43$\n(b) Use the two preceding terms.\n$b_{3}=2b_{2}+b_{1}=2(9)+4=22$\n$b_{4}=2b_{3}+b_{2}=2(22)+9=53$\n$b_{5}=2b_{4}+b_{3}=2(53)+22=128$"
+  },
+  {
+    "question_text": "State whether each sequence is finite or infinite, and explain why.\n(a) $6,13,20,\\dots,83$\n(b) $a_{n}=4n+7$ for all positive integers $n$.",
+    "solution_text": "(a) The sequence stops at the stated final term $83$, so it is finite.\n(b) There is a term for every positive integer position, with no last position, so it is infinite."
+  },
+  {
+    "question_text": "Determine whether the given number is a term of each sequence.\n(a) $83$ in $a_{n}=5n+8$\n(b) $122$ in $b_{n}=3n^{2}+2$\n(c) $224$ in $c_{n}=7\\times2^{n-1}$",
+    "solution_text": "(a) Put $a_{n}=83$.\n$5n+8=83$\n$5n=75$\n$n=15$\nYes, $83$ is the 15th term.\n(b) Put $b_{n}=122$.\n$3n^{2}+2=122$\n$n^{2}=40$\nSince $6^{2}<40<7^{2}$, there is no positive integer position.\nNo, $122$ is not a term.\n(c) Put $c_{n}=224$.\n$7\\times2^{n-1}=224$\n$2^{n-1}=32=2^{5}$\n$n-1=5$\n$n=6$\nYes, $224$ is the 6th term."
+  },
+  {
+    "question_text": "(a) How many negative terms are in $a_{n}=7n-90$?\n(b) Find the position and value of the first term greater than $100$ in $b_{n}=8n-17$.",
+    "solution_text": "(a) Put $a_{n}<0$.\n$7n-90<0$\n$7n<90$\n$n<\\frac{90}{7}$\nThe positive integer positions are $1,2,\\dots,12$, so there are $12$ negative terms.\n(b) Put $b_{n}>100$.\n$8n-17>100$\n$8n>117$\n$n>\\frac{117}{8}$\nThe first integer position is $n=15$.\n$b_{15}=8(15)-17=103$\nPosition $15$, value $103$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

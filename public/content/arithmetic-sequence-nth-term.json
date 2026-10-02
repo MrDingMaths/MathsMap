@@ -2,14 +2,44 @@
   "skillId": "arithmetic-sequence-nth-term",
   "atomType": "R",
   "theory": {
-    "intro": "An **arithmetic sequence** (or **arithmetic progression**) has a constant **common difference** $d$ between consecutive terms. Each term is obtained by adding $d$ to the previous term.",
-    "facts": [
+"intro": "An **arithmetic sequence** (or **arithmetic progression**) has a constant **common difference** $d$ between consecutive terms. Each term is obtained by adding $d$ to the previous term.",
+"facts": [
       "The common difference is $d = a_{n} - a_{n-1}$ for any term index $n \\ge 2$.",
       "The $n$th term of an arithmetic sequence is $a_{n} = a + (n - 1)d$, where $a$ is the first term.",
       "If $d > 0$ the sequence increases, if $d < 0$ it decreases, and if $d = 0$ it is constant.",
       "The term $a_{n}$ is a linear function of $n$ with gradient $d$ restricted to positive integer inputs."
-    ]
+    ],
+"workedExamples": [
+  {
+    "question_text": "For each sequence, test whether it is an AP. If it is, state $a$ and $d$.\n(a) $6,13,20,27,\\ldots$\n(b) $42,34,26,18,\\ldots$\n(c) $5,14,24,\\ldots$",
+    "solution_text": "(a) $13-6=7$, $20-13=7$ and $27-20=7$.\nThe difference is constant, so $a=6$ and $d=7$.\n(b) $34-42=-8$, $26-34=-8$ and $18-26=-8$.\nThe difference is constant, so $a=42$ and $d=-8$.\n(c) $14-5=9$ but $24-14=10$.\nThe differences are not equal, so this is not an AP."
   },
+  {
+    "question_text": "An arithmetic sequence has first term $a=-17$ and common difference $d=4.5$.\n(a) Find a simplified formula for $a_n$.\n(b) Find $a_{16}$.",
+    "solution_text": "(a)\n$\\begin{aligned}a_n&=a+(n-1)d\\\\a_n&=-17+4.5(n-1)\\\\a_n&=-17+4.5n-4.5\\\\a_n&=4.5n-21.5\\end{aligned}$\nThe coefficient of $n$ is $4.5$: increasing $n$ by $1$ increases the term by $4.5$.\n(b)\n$\\begin{aligned}a_{16}&=4.5(16)-21.5\\\\a_{16}&=72-21.5\\\\a_{16}&=50.5\\end{aligned}$"
+  },
+  {
+    "question_text": "How many terms are in the finite AP $62,55,48,\\ldots,-71$?",
+    "solution_text": "$a=62$, $d=55-62=-7$.\n$\\begin{aligned}a_n&=a+(n-1)d\\\\-71&=62+(n-1)(-7)\\\\-133&=-7(n-1)\\\\19&=n-1\\\\n&=20\\end{aligned}$\nThere are $20$ terms."
+  },
+  {
+    "question_text": "Find the position and value of the first negative term in the AP $82,76,70,\\ldots$.",
+    "solution_text": "$a=82$, $d=-6$.\n$\\begin{aligned}a_n&=82+(n-1)(-6)\\\\a_n&=88-6n\\end{aligned}$\nFor a negative term, $a_n<0$.\n$\\begin{aligned}88-6n&<0\\\\6n&>88\\\\n&>\\frac{44}{3}\\end{aligned}$\nThe first integer position is $n=15$.\n$a_{15}=88-6(15)=-2$.\nThe preceding term is $a_{14}=88-6(14)=4$, so the first negative term is $-2$, at position $15$."
+  },
+  {
+    "question_text": "(a) An AP has $a_4=29$ and $a_{11}=78$. Find $a$, $d$ and $a_{18}$.\n(b) Another AP has $a_2+a_6=43$ and $a_9=38$. Find $a$ and $d$.",
+    "solution_text": "(a) $a+3d=29\\quad\\text{(1)}$\n$a+10d=78\\quad\\text{(2)}$\nSubtract (1) from (2).\n$\\begin{aligned}7d&=49\\\\d&=7\\end{aligned}$\nSubstitute into (1).\n$\\begin{aligned}a+3(7)&=29\\\\a&=8\\end{aligned}$\n$a_{18}=8+17(7)=127$.\n(b) $(a+d)+(a+5d)=43$, so $2a+6d=43\\quad\\text{(1)}$.\n$a+8d=38$, so $2a+16d=76\\quad\\text{(2)}$.\nSubtract (1) from (2).\n$\\begin{aligned}10d&=33\\\\d&=3.3\\end{aligned}$\nSubstitute into $a+8d=38$.\n$\\begin{aligned}a+8(3.3)&=38\\\\a+26.4&=38\\\\a&=11.6\\end{aligned}$"
+  },
+  {
+    "question_text": "For what value of $x$ is $3x-7,5x+4,8x-9$ an AP? Find its $10$th term.",
+    "solution_text": "The consecutive differences must be equal.\n$\\begin{aligned}(5x+4)-(3x-7)&=(8x-9)-(5x+4)\\\\2x+11&=3x-13\\\\x&=24\\end{aligned}$\nThe terms are $65,124,183$, so $a=65$ and $d=59$.\n$\\begin{aligned}a_{10}&=65+(10-1)(59)\\\\a_{10}&=65+531\\\\a_{10}&=596\\end{aligned}$"
+  },
+  {
+    "question_text": "(a) Find $d$ and a simplified formula for $a_n$ for the AP $\\log_3 11,\\log_3 44,\\log_3 176,\\ldots$.\n(b) An AP has $a=5\\sqrt{2}$ and $d=6\\sqrt{2}$. Find the exact value of $a_8$.",
+    "solution_text": "(a)\n$\\begin{aligned}d&=\\log_3 44-\\log_3 11\\\\d&=\\log_3\\left(\\frac{44}{11}\\right)\\\\d&=\\log_3 4\\end{aligned}$\nAlso, $\\log_3 176-\\log_3 44=\\log_3 4$.\n$\\begin{aligned}a_n&=a+(n-1)d\\\\a_n&=\\log_3 11+(n-1)\\log_3 4\\\\a_n&=\\log_3 11+n\\log_3 4-\\log_3 4\\end{aligned}$\n(b)\n$\\begin{aligned}a_8&=5\\sqrt{2}+(8-1)(6\\sqrt{2})\\\\a_8&=5\\sqrt{2}+42\\sqrt{2}\\\\a_8&=47\\sqrt{2}\\end{aligned}$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -54,63 +84,63 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "Find the common difference $d$ of the arithmetic sequence $\\dfrac{3}{2}, 2, \\dfrac{5}{2}, 3, \\dots$.",
         "structure": "identify-ap-common-diff",
         "solution_text": "$d = a_2 - a_1$\n$= 2 - \\dfrac{3}{2}$\n$= \\dfrac{1}{2}$"
       },
-      {
+{
         "question_text": "An arithmetic sequence has $a_1 = -18$ and common difference $d = 4.5$.\nFind the value of $a_{21}$.",
         "structure": "evaluate-nth-term",
         "solution_text": "$a_{21} = a + (21 - 1)d$\n$= -18 + 20(4.5)$\n$= -18 + 90$\n$= 72$"
       },
-      {
+{
         "question_text": "Find the formula for the $n$th term of the arithmetic sequence $-11, -5, 1, 7, \\dots$.",
         "structure": "find-nth-term-formula",
         "solution_text": "$a_n = a + (n - 1)d$\n$= -11 + (n - 1)(6)$\n$= -11 + 6n - 6$\n$= 6n - 17$"
       },
-      {
+{
         "question_text": "Which term of the arithmetic sequence $104, 98, 92, 86, \\dots$ is equal to $-28$?",
         "structure": "find-term-index",
         "solution_text": "$a = 104, d = -6$\n$a_n = 104 + (n - 1)(-6)$\n$-28 = 104 - 6(n - 1)$\n$-132 = -6(n - 1)$\n$22 = n - 1$\n$n = 23$\n$\\text{It is the } 23\\text{rd term.}$"
       },
-      {
+{
         "question_text": "Find the first negative term of the arithmetic sequence $85, 79, 73, 67, \\dots$.",
         "structure": "find-first-threshold-term",
         "solution_text": "$a = 85, d = -6$\n$a_n = 85 + (n - 1)(-6) = 91 - 6n$\n$91 - 6n < 0$\n$91 < 6n$\n$n > 15\\dfrac{1}{6}$\n$\\text{First integer is } n = 16:$\n$a_{16} = 91 - 6(16) = 91 - 96 = -5$"
       },
-      {
+{
         "question_text": "The $4$th term of an arithmetic progression is $23$ and the $9$th term is $58$.\nFind the first term $a$ and the common difference $d$.",
         "structure": "determine-ap-from-two-terms",
-        "solution_text": "$a + 3d = 23 \\quad \\text{--- (1)}$\n$a + 8d = 58 \\quad \\text{--- (2)}$\n$\\text{Subtracting (1) from (2): } 5d = 35 \\implies d = 7$\n$a + 3(7) = 23$\n$a + 21 = 23$\n$a = 2$"
+        "solution_text": "$a+3d=23\\quad\\text{(1)}$\n$a+8d=58\\quad\\text{(2)}$\nSubtract (1) from (2).\n$\\begin{aligned}5d&=35\\\\d&=7\\end{aligned}$\nSubstitute $d=7$ into (1).\n$\\begin{aligned}a+3(7)&=23\\\\a+21&=23\\\\a&=2\\end{aligned}$"
       },
-      {
+{
         "question_text": "In an arithmetic sequence, $a_3 = 41$ and $a_{10} = 6$.\nFind the $20$th term $a_{20}$.",
         "structure": "determine-ap-from-two-terms",
-        "solution_text": "$a + 2d = 41 \\quad \\text{--- (1)}$\n$a + 9d = 6 \\quad \\text{--- (2)}$\n$\\text{Subtracting (1) from (2): } 7d = -35 \\implies d = -5$\n$a + 2(-5) = 41 \\implies a = 51$\n$a_{20} = a + 19d$\n$= 51 + 19(-5)$\n$= 51 - 95$\n$= -44$"
+        "solution_text": "$a+2d=41\\quad\\text{(1)}$\n$a+9d=6\\quad\\text{(2)}$\nSubtract (1) from (2).\n$\\begin{aligned}7d&=-35\\\\d&=-5\\end{aligned}$\nSubstitute $d=-5$ into (1).\n$\\begin{aligned}a+2(-5)&=41\\\\a&=51\\end{aligned}$\n$\\begin{aligned}a_{20}&=a+19d\\\\a_{20}&=51+19(-5)\\\\a_{20}&=-44\\end{aligned}$"
       },
-      {
+{
         "question_text": "How many terms are in the sequence $-27, -21, -15, \\dots, 99$?",
         "structure": "find-term-index",
         "solution_text": "$a = -27, d = 6$\n$99 = -27 + (n - 1)(6)$\n$126 = 6(n - 1)$\n$21 = n - 1$\n$n = 22$"
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "Find a simplified expression for the $n$th term of the arithmetic progression $\\log_2 3, \\log_2 12, \\log_2 48, \\dots$.",
         "structure": "find-nth-term-formula",
         "solution_text": "$d = \\log_2 12 - \\log_2 3 = \\log_2\\left(\\dfrac{12}{3}\\right) = \\log_2 4 = 2$\n$a_n = a + (n - 1)d$\n$= \\log_2 3 + 2(n - 1)$\n$= \\log_2 3 + 2n - 2$"
       },
-      {
+{
         "question_text": "The sum of the $2$nd and $5$th terms of an AP is $26$, and the $8$th term is $31$.\nFind the first term $a$ and common difference $d$.",
         "structure": "determine-ap-from-two-terms",
-        "solution_text": "$(a + d) + (a + 4d) = 26 \\implies 2a + 5d = 26 \\quad \\text{--- (1)}$\n$a + 7d = 31 \\implies 2a + 14d = 62 \\quad \\text{--- (2)}$\n$\\text{Subtracting (1) from (2): } 9d = 36 \\implies d = 4$\n$2a + 5(4) = 26$\n$2a + 20 = 26$\n$2a = 6$\n$a = 3$"
+        "solution_text": "$(a+d)+(a+4d)=26$\n$2a+5d=26\\quad\\text{(1)}$\n$a+7d=31$\n$2a+14d=62\\quad\\text{(2)}$\nSubtract (1) from (2).\n$\\begin{aligned}9d&=36\\\\d&=4\\end{aligned}$\nSubstitute $d=4$ into (1).\n$\\begin{aligned}2a+5(4)&=26\\\\2a+20&=26\\\\2a&=6\\\\a&=3\\end{aligned}$"
       },
-      {
+{
         "question_text": "For what value of $x$ is the sequence $2x - 1, 3x + 2, 5x - 3$ an arithmetic progression, and what is its $10$th term?",
-        "structure": "find-first-threshold-term",
+        "structure": "determine-ap-parameter",
         "solution_text": "$(3x + 2) - (2x - 1) = (5x - 3) - (3x + 2)$\n$x + 3 = 2x - 5$\n$x = 8$\n$\\text{The sequence is } 15, 26, 37, \\dots \\text{ with } a = 15, d = 11:$\n$a_{10} = 15 + 9(11)$\n$= 15 + 99$\n$= 114$"
       }
-    ]
+]
   }
 }

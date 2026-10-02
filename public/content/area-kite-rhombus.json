@@ -2,8 +2,8 @@
   "skillId": "area-kite-rhombus",
   "atomType": "R",
   "theory": {
-        "intro": "The two **diagonals** of a kite or rhombus cross at right angles. A kite fills exactly half of the rectangle built on its diagonals, so its area is half the product of the diagonals.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (T) at (0,1);\n\\coordinate (B) at (0,-2);\n\\coordinate (P) at (-2.1,0);\n\\coordinate (Q) at (2.1,0);\n\\coordinate (O) at (0,0);\n\\draw[dotted] (-2.1,-2) -- (2.1,-2) -- (2.1,1) -- (-2.1,1) -- cycle;\n\\draw (T) -- (Q) -- (B) -- (P) -- cycle;\n\\draw[dashed] (P) -- (Q) node[pos=0.62,above,fill=white,inner sep=1pt] {$x$};\n\\draw[dashed] (T) -- (B) node[pos=0.68,right,fill=white,inner sep=1pt] {$y$};\n\\coordinate (ra) at ($(O)!0.25cm!(T)$);\n\\coordinate (rb) at ($(O)!0.25cm!(P)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "The two **diagonals** of a kite or rhombus cross at right angles. A kite fills exactly half of the rectangle built on its diagonals, so its area is half the product of the diagonals.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (T) at (0,1);\n\\coordinate (B) at (0,-2);\n\\coordinate (P) at (-2.1,0);\n\\coordinate (Q) at (2.1,0);\n\\coordinate (O) at (0,0);\n\\draw[dotted] (-2.1,-2) -- (2.1,-2) -- (2.1,1) -- (-2.1,1) -- cycle;\n\\draw (T) -- (Q) -- (B) -- (P) -- cycle;\n\\draw[dashed] (P) -- (Q) node[pos=0.62,above,fill=white,inner sep=1pt] {$x$};\n\\draw[dashed] (T) -- (B) node[pos=0.68,right,fill=white,inner sep=1pt] {$y$};\n\\coordinate (ra) at ($(O)!0.25cm!(T)$);\n\\coordinate (rb) at ($(O)!0.25cm!(P)$);\n\\draw (ra) -- ($(ra)+(rb)-(O)$) -- (rb);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "**Area $=\\dfrac{xy}{2}$**, where $x$ and $y$ are the lengths of the two diagonals.",
           "A diagonal joins two **non-adjacent** vertices, so it runs corner to corner across the inside of the shape.",
           "A rhombus is also a kite, so $A=\\dfrac{xy}{2}$ works for a rhombus whenever the diagonals are known.",
@@ -11,55 +11,73 @@
           "When a diagonal is split into two parts, add the parts to get the whole diagonal before substituting.",
           "Both diagonals must be in the same unit, and the area is written in square units: mm$^{2}$, cm$^{2}$, m$^{2}$."
         ],
-        "steps": [
+"steps": [
           "Identify the two diagonals $x$ and $y$, adding part lengths where a diagonal is split.",
           "Substitute the diagonals into $A=\\dfrac{xy}{2}$.",
           "Multiply, halve, and write the answer with squared units."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.05);\\coordinate (B) at (0,-1.05);\n\\coordinate (P) at (-1.95,0);\\coordinate (Q) at (1.95,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.75,above,fill=white,inner sep=1pt] {$13\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.7,right,fill=white,inner sep=1pt] {$7\\text{ cm}$};\n\\draw (-0.18,0)--(-0.18,0.18)--(0,0.18);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this rhombus, in square centimetres.",
+    "solution_text": "Use the two complete diagonals.\n$\\begin{aligned}A&=\\frac{xy}{2}\\\\A&=\\frac{13\\times7}{2}\\\\A&=\\frac{91}{2}\\\\A&=45.5\\text{ cm}^2\\end{aligned}$"
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.2);\\coordinate (B) at (0,-3.3);\n\\coordinate (P) at (-1.35,0);\\coordinate (Q) at (1.35,0);\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.77,above,fill=white,inner sep=1pt] {$9\\text{ cm}$};\n\\draw[dashed] (T)--(O) node[midway,right,fill=white,inner sep=1pt] {$4\\text{ cm}$};\n\\draw[dashed] (O)--(B) node[midway,right,fill=white,inner sep=1pt] {$11\\text{ cm}$};\n\\draw (-0.18,0)--(-0.18,0.18)--(0,0.18);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres.",
+    "solution_text": "Add the two parts of the vertical diagonal first.\n$\\begin{aligned}y&=4+11\\\\y&=15\\text{ cm}\\\\A&=\\frac{xy}{2}\\\\A&=\\frac{9\\times15}{2}\\\\A&=\\frac{135}{2}\\\\A&=67.5\\text{ cm}^2\\end{aligned}$"
+  },
+  {
+    "question_text": "A kite has diagonals of length $2.6$ cm and $37$ mm. Find its area, in square centimetres.",
+    "solution_text": "Write both diagonal lengths in centimetres before substituting.\n$\\begin{aligned}y&=37\\div10\\\\y&=3.7\\text{ cm}\\\\A&=\\frac{xy}{2}\\\\A&=\\frac{2.6\\times3.7}{2}\\\\A&=\\frac{9.62}{2}\\\\A&=4.81\\text{ cm}^2\\end{aligned}$"
+  },
+  {
+    "question_text": "A rhombus has a side of length $8.2$ cm and perpendicular height $6.3$ cm. Explain why $\\frac{8.2\\times6.3}{2}$ does not give its area.",
+    "solution_text": "The formula $A=\\frac{xy}{2}$ uses two diagonals, joining opposite corners. Here $8.2$ cm is a side and $6.3$ cm is a perpendicular height. They are not the diagonals, so they cannot be used as $x$ and $y$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,0.81);\n\\coordinate (B) at (0,-1.89);\n\\coordinate (P) at (-1.8,0);\n\\coordinate (Q) at (1.8,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$8\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$6\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres.",
         "structure": "kite-diagonals",
         "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{8 \\times 6}{2}$\n$=\\frac{48}{2}$\n$=24\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,0.771);\n\\coordinate (B) at (0,-1.8);\n\\coordinate (P) at (-1.8,0);\n\\coordinate (Q) at (1.8,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$7\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres.",
         "structure": "kite-diagonals",
         "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{7 \\times 5}{2}$\n$=\\frac{35}{2}$\n$=17.5\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.08);\n\\coordinate (B) at (0,-1.08);\n\\coordinate (P) at (-1.8,0);\n\\coordinate (Q) at (1.8,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$10\\text{ m}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$6\\text{ m}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this rhombus, in square metres.",
         "structure": "rhombus-diagonals",
         "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{10 \\times 6}{2}$\n$=\\frac{60}{2}$\n$=30\\text{ m}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.8);\n\\coordinate (B) at (0,-1.8);\n\\coordinate (P) at (-1.728,0);\n\\coordinate (Q) at (1.728,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$4.8\\text{ m}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$5\\text{ m}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this rhombus, in square metres.",
         "structure": "rhombus-diagonals",
         "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{4.8 \\times 5}{2}$\n$=\\frac{24}{2}$\n$=12\\text{ m}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (P) at (-2.52,0);\n\\coordinate (Q) at (1.08,0);\n\\coordinate (T) at (0,0.75);\n\\coordinate (B) at (0,-0.75);\n\\draw (P)--(T)--(Q)--(B)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.28,below,fill=white,inner sep=1pt] {$12\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.72,right,fill=white,inner sep=1pt] {$5\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres.",
         "structure": "kite-diagonals",
         "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{12 \\times 5}{2}$\n$=\\frac{60}{2}$\n$=30\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.56);\n\\coordinate (B) at (0,-3.64);\n\\coordinate (P) at (-1.17,0);\n\\coordinate (Q) at (1.17,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$9\\text{ cm}$};\n\\draw[dashed] (T)--(O) node[midway,right,fill=white,inner sep=1pt] {$6\\text{ cm}$};\n\\draw[dashed] (O)--(B) node[pos=0.45,right,fill=white,inner sep=1pt] {$14\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres.",
         "structure": "kite-diagonals",
         "solution_text": "$y=6+14$\n$=20\\text{ cm}$\n$A=\\frac{xy}{2}$\n$=\\frac{9 \\times 20}{2}$\n$=\\frac{180}{2}$\n$=90\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.8);\n\\coordinate (B) at (0,-1.8);\n\\coordinate (P) at (-1.286,0);\n\\coordinate (Q) at (1.286,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$10\\text{ cm}$};\n\\draw[dashed] (T)--(O) node[midway,right,fill=white,inner sep=1pt] {$7\\text{ cm}$};\n\\draw[dashed] (O)--(B);\n\\draw (-0.12,1.35)--(0.12,1.35);\n\\draw (-0.12,-1.35)--(0.12,-1.35);\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nThe tick marks show that the two halves of the vertical diagonal are equal.\nFind the area of this rhombus, in square centimetres.",
         "structure": "diagonal-from-parts",
         "solution_text": "$y=2 \\times 7$\n$=14\\text{ cm}$\n$A=\\frac{xy}{2}$\n$=\\frac{10 \\times 14}{2}$\n$=\\frac{140}{2}$\n$=70\\text{ cm}^2$"
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,0.888);\n\\coordinate (B) at (0,-2.072);\n\\coordinate (P) at (-1.8,0);\n\\coordinate (Q) at (1.8,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$4.5\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$3.7\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\end{tikzpicture}\n[/tikz]\nFind the area of this kite, in square centimetres, correct to $2$ decimal places.",
         "structure": "kite-diagonals",
-        "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{4.5 \\times 3.7}{2}$\n$=\\frac{16.65}{2}$\n$=8.325$\n$=8.33\\text{ cm}^2$"
+        "solution_text": "$A=\\frac{xy}{2}$\n$=\\frac{4.5 \\times 3.7}{2}$\n$=\\frac{16.65}{2}$\n$=8.325$\n$\\approx8.33\\text{ cm}^2$"
       }
-    ],
+],
     "development": [
       {
         "question_text": "[tikz]\n\\begin{tikzpicture}\n\\coordinate (T) at (0,1.35);\n\\coordinate (B) at (0,-1.35);\n\\coordinate (P) at (-1.8,0);\n\\coordinate (Q) at (1.8,0);\n\\coordinate (O) at (0,0);\n\\draw (T)--(Q)--(B)--(P)--cycle;\n\\draw[dashed] (P)--(Q) node[pos=0.78,above,fill=white,inner sep=1pt] {$16\\text{ cm}$};\n\\draw[dashed] (T)--(B) node[pos=0.62,right,fill=white,inner sep=1pt] {$12\\text{ cm}$};\n\\draw (-0.22,0)--(-0.22,0.22)--(0,0.22);\n\\draw (T)--(Q) node[midway,above right] {$10\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nFind the area of this rhombus, in square centimetres.",

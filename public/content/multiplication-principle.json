@@ -2,22 +2,41 @@
   "skillId": "multiplication-principle",
   "atomType": "R",
   "theory": {
-        "intro": "Choices are often made in **stages** — a meal deal is a main *and* a drink. The **multiplication principle** counts the results: if there are $p$ ways to make the first choice and $q$ ways to make the second, there are $p \\times q$ ways altogether.",
-        "facts": [
-          "**Multiplication principle** (or fundamental counting principle): $p$ ways to do one thing and $q$ ways to do another give $p \\times q$ ways to do both.",
-          "The principle extends to any number of stages: $p \\times q \\times r$ ways for three stages, and so on.",
-          "**Multiply, do not add**: adding counts the items on offer, while multiplying counts the different combinations.",
-          "Each of the $p$ first choices pairs with every one of the $q$ second choices, which is why the counts multiply.",
-          "When options may be **repeated**, such as each digit of a code from $0$ to $9$, every stage has the same number of options.",
-          "If a stage is **restricted**, such as a first digit that cannot be $0$, count only the options that stage allows.",
-          "To find a missing stage's count, divide the total number of ways by the product of the stages you know."
-        ],
-        "steps": [
+"intro": "Choices are often made in **stages** — a meal deal is a main *and* a drink. The **multiplication principle** counts the results: if each of $p$ first choices can be paired with any of $q$ second choices, there are $p \\times q$ ways altogether.",
+"facts": [
+"**Multiplication principle** (fundamental counting principle): Pair each of $p$ first choices with any of $q$ second choices to give $p \\times q$ ways.",
+"The principle extends to any number of stages: $p \\times q \\times r$ ways for three stages, and so on.",
+"**Multiply, do not add**: adding counts the items on offer, while multiplying counts the different combinations.",
+"Each of the $p$ first choices pairs with every one of the $q$ second choices, which is why the counts multiply.",
+"If **repeats** are allowed, using a choice does not remove it. Each digit in a code can still have $10$ options.",
+"If a stage is **restricted**, such as a first digit that cannot be $0$, count only the options that stage allows.",
+"To find a missing stage's count, divide the total number of ways by the product of the stages you know.",
+"Calculate the total for each case to compare choices. For an increase, subtract the old total from the new total."
+],
+"steps": [
           "Break the choice into its separate stages.",
           "Count the number of options available at each stage.",
           "Multiply the counts together."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A wardrobe contains $7$ shirts and $4$ pairs of trousers. Any shirt can be worn with any pair of trousers.\n(a) How many different outfits can be made by wearing one of each? Explain why the counts are multiplied rather than added.\n(b) There are also $3$ jackets, and any jacket can be worn with any of these outfits. How many outfits with a jacket can be made?",
+    "solution_text": "(a) Each shirt can be worn with each of the $4$ pairs of trousers.\n$7 \\times 4 = 28$ outfits.\nAdding counts the shirts and trousers, not the outfits.\n\n(b) Each of the $28$ shirt-and-trouser outfits can be worn with any of the $3$ jackets.\n$7 \\times 4 \\times 3 = 84$ outfits."
+  },
+  {
+    "question_text": "A code has one letter of the alphabet followed by two digits. Each digit can be any of $0$ to $9$, and digits may be repeated.\n(a) How many codes are possible?\n(b) How many codes are possible if the letter must be a vowel (A, E, I, O or U) and the last digit must be $2$, $4$ or $9$?",
+    "solution_text": "(a) The letter has $26$ options. Each digit has $10$ options.\n$26 \\times 10 \\times 10 = 2600$ codes.\n\n(b) There are $5$ vowels, $10$ options for the middle digit and $3$ options for the last digit.\n$5 \\times 10 \\times 3 = 150$ codes."
+  },
+  {
+    "question_text": "A restaurant offers a meal with one starter, one main and one dessert. Every starter can be paired with every main and dessert.\nThere are $4$ starters, $7$ mains and $252$ different meals altogether.\nHow many desserts are offered?",
+    "solution_text": "There are $4 \\times 7 = 28$ starter-and-main pairs.\nEach dessert can be paired with all $28$ pairs.\nNumber of desserts $= 252 \\div 28$\nNumber of desserts $= 9$."
+  },
+  {
+    "question_text": "A restaurant offers one starter, one main and one dessert. There are $5$ starters, $9$ mains and $7$ desserts, and any one of each can be chosen together.\nThe restaurant can add one new option to just one of these categories. Which choice creates the most new meals? Compare the totals.",
+    "solution_text": "Current total:\n$5 \\times 9 \\times 7 = 315$ meals.\n\nWith an extra starter:\n$6 \\times 9 \\times 7 = 378$ meals.\n$378-315=63$ extra meals.\n\nWith an extra main:\n$5 \\times 10 \\times 7 = 350$ meals.\n$350-315=35$ extra meals.\n\nWith an extra dessert:\n$5 \\times 9 \\times 8 = 360$ meals.\n$360-315=45$ extra meals.\n\nAn extra starter creates the most new meals: $63$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

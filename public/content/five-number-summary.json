@@ -2,22 +2,41 @@
   "skillId": "five-number-summary",
   "atomType": "R",
   "theory": {
-        "intro": "The **five-number summary** describes an ordered dataset with five values: the **minimum**, the **lower quartile** ($Q_1$), the **median** ($Q_2$), the **upper quartile** ($Q_3$) and the **maximum**. Together they show the spread of the data, not just its centre.",
-        "facts": [
-          "**Quartiles** split ordered data into four equal groups, so $25\\%$ of the data lies below $Q_1$, $50\\%$ below $Q_2$ and $75\\%$ below $Q_3$.",
-          "$\\text{Position of the median} = \\dfrac{n+1}{2}$ in the ordered data.",
-          "If that position is not a whole number, the median is the mean of the two middle values.",
-          "$Q_1$ is the median of the lower half and $Q_3$ the median of the upper half, excluding $Q_2$ itself when $n$ is odd.",
-          "The minimum and maximum are the smallest and largest values once the data is ordered."
-        ],
-        "steps": [
+"intro": "The **five-number summary** describes an ordered dataset with five values: the **minimum**, the **lower quartile** ($Q_1$), the **median** ($Q_2$), the **upper quartile** ($Q_3$) and the **maximum**. Together they show the spread of the data, not just its centre.",
+"facts": [
+"**Quartiles** mark the quarter points of ordered data. $Q_1$, $Q_2$ and $Q_3$ are about $25\\%$, $50\\%$ and $75\\%$ of the way through the data.",
+"$\\text{Position of the median} = \\dfrac{n+1}{2}$ in the ordered data.",
+"If that position is not a whole number, the median is the mean of the two middle values.",
+"$Q_1$ and $Q_3$ are medians of the lower and upper halves. For odd $n$, leave out only the single middle value.",
+"The minimum and maximum are the smallest and largest values once the data is ordered.",
+"Repeated values can affect how many observations are strictly below or above a quartile. Keep repeated values when ordering and splitting the data."
+],
+"steps": [
           "Sort the data in ascending order",
           "Find the median, $Q_2$",
           "Find $Q_1$, the median of the lower half",
           "Find $Q_3$, the median of the upper half",
           "State the minimum and maximum"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "Find the five-number summary of this dataset.\n$19, 3, 39, 14, 47, 26, 9, 32$",
+    "solution_text": "In ascending order:\n$3, 9, 14, 19, 26, 32, 39, 47$\n$Q_2 = \\frac{19+26}{2}$\n$= 22.5$\nLower half: $3, 9, 14, 19$\n$Q_1 = \\frac{9+14}{2}$\n$= 11.5$\nUpper half: $26, 32, 39, 47$\n$Q_3 = \\frac{32+39}{2}$\n$= 35.5$\nThe minimum is $3$ and the maximum is $47$.\nFive-number summary: $(3, 11.5, 22.5, 35.5, 47)$."
+  },
+  {
+    "question_text": "Find the five-number summary of this dataset.\n$29, 6, 18, 43, 11, 34, 24, 15, 38$",
+    "solution_text": "In ascending order:\n$6, 11, 15, 18, 24, 29, 34, 38, 43$\n$Q_2 = 24$\nLeave out the single middle value, $24$, before finding the quartiles.\nLower half: $6, 11, 15, 18$\n$Q_1 = \\frac{11+15}{2}$\n$= 13$\nUpper half: $29, 34, 38, 43$\n$Q_3 = \\frac{34+38}{2}$\n$= 36$\nThe minimum is $6$ and the maximum is $43$.\nFive-number summary: $(6, 13, 24, 36, 43)$."
+  },
+  {
+    "question_text": "The ordered data are $6, 14, x, 25, 32, 38, 43, 51, 60$.\nThe lower quartile is $Q_1 = 18.5$. Find $x$.",
+    "solution_text": "The median is the fifth value, $32$.\nLower half: $6, 14, x, 25$\n$Q_1 = \\frac{14+x}{2}$\n$18.5 = \\frac{14+x}{2}$\n$37 = 14+x$\n$x = 23$\n$14 < 23 < 25$, so the data remain in ascending order."
+  },
+  {
+    "question_text": "In a fun run with $52$ competitors, all finishing times are different.\n(a) How many runners finished in a faster time than $Q_1$?\n(b) How many runners finished in a faster time than $Q_3$?",
+    "solution_text": "(a) $25\\%$ of the times are below $Q_1$.\n$25\\% \\text{ of } 52 = 0.25 \\times 52$\n$= 13$\n$13$ runners finished in a faster time than $Q_1$.\n(b) $75\\%$ of the times are below $Q_3$.\n$75\\% \\text{ of } 52 = 0.75 \\times 52$\n$= 39$\n$39$ runners finished in a faster time than $Q_3$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -84,21 +103,21 @@
       }
     ],
     "mastery": [
-      {
+{
         "question_text": "The times (minutes) of $9$ runners, listed in ascending order, are:\n$118, 124, x, 137, 145, 158, 164, 171, 179$\nThe lower quartile of this dataset is $Q_1 = 129$ minutes.\nFind the value of $x$.",
         "structure": "fns-find-x-from-quartile",
         "solution_text": "$118, 124, x, 137$ is the lower half\n$Q_1 = \\frac{124+x}{2}$\n$129 = \\frac{124+x}{2}$\n$258 = 124+x$\n$x = 134$"
       },
-      {
+{
         "question_text": "The times (minutes) of $11$ runners, listed in ascending order, are:\n$118, 124, 131, 136, 142, 148, 155, 161, 168, 176, 210$\nThe result of $210$ minutes is removed from the dataset.\nFind the new median, and explain why it is calculated differently from the original median.",
         "structure": "fns-median-after-removal",
         "solution_text": "Original data has $11$ values (odd), so $\\text{Median} = 148$, the $6$th value\nNew data ($10$ values): $118, 124, 131, 136, 142, 148, 155, 161, 168, 176$\n$10$ is even, so the median is the mean of the two middle values\n$\\text{Median} = \\frac{142+148}{2}$\n$= 145$\nRemoving a value changes the count from odd to even, so the median changes from a single middle value to the mean of the two middle values."
       },
-      {
-        "question_text": "In a fun run with $40$ competitors, how many runners finished in a faster time than the upper quartile ($Q_3$) of the field?",
+{
+        "question_text": "In a fun run with $40$ competitors, all finishing times are different. How many runners finished in a faster time than the upper quartile ($Q_3$) of the field?",
         "structure": "fns-percentile-interpretation",
         "solution_text": "$Q_3$ has $75\\%$ of the data below it\n$75\\% \\text{ of } 40 = 0.75 \\times 40$\n$= 30$\n$30$ runners finished in a faster time than $Q_3$."
       }
-    ]
+]
   }
 }

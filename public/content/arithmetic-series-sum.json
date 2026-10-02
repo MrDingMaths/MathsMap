@@ -2,14 +2,48 @@
   "skillId": "arithmetic-series-sum",
   "atomType": "R",
   "theory": {
-    "intro": "An **arithmetic series** is the sum of the terms of an arithmetic sequence. The partial sum $S_n$ adds the first $n$ terms.",
-    "facts": [
-      "When the first term $a$ and last term $a_n$ (or $l$) are known, $S_n = \\dfrac{n}{2}(a + a_n)$.",
-      "When the first term $a$ and common difference $d$ are known, $S_n = \\dfrac{n}{2}[2a + (n - 1)d]$.",
-      "The sum $S_n$ can be derived by pairing terms after reversing the order of addition.",
-      "Sigma notation $\\sum_{k=1}^n (ak + b)$ represents an arithmetic series of $n$ terms."
-    ]
+"intro": "An **arithmetic series** is the sum of the terms of an arithmetic sequence. The partial sum $S_n$ adds the first $n$ terms.",
+"facts": [
+"When the first term $a$ and last term $a_n$ (or $l$) are known, $S_n = \\dfrac{n}{2}(a + a_n)$.",
+"When the first term $a$ and common difference $d$ are known, $S_n = \\dfrac{n}{2}[2a + (n - 1)d]$.",
+"The sum $S_n$ can be derived by pairing terms after reversing the order of addition.",
+"For $\\sum_{k=i}^{j}a_k$, find the terms at $k=i$ and $k=j$. There are $j-i+1$ terms, including both endpoints."
+],
+"workedExamples": [
+  {
+    "question_text": "Find each partial sum.\n(a) An AP has $a=19$, $d=4$. Find $S_{13}$.\n(b) An AP has $9$ terms, first term $-11$ and last term $47$. Find $S_9$.",
+    "solution_text": "(a) Use the common difference form.\n$S_{13}=\\frac{13}{2}[2(19)+(13-1)(4)]$\n$=\\frac{13}{2}(38+48)$\n$=559$\n(b) The first and last terms are given.\n$S_9=\\frac{9}{2}(-11+47)$\n$=\\frac{9}{2}(36)$\n$=162$"
   },
+  {
+    "question_text": "Find the sum $64+57+50+\\dots+(-76)$.",
+    "solution_text": "$a=64$, $d=-7$. First find the number of terms.\n$-76=64+(n-1)(-7)$\n$-140=-7(n-1)$\n$20=n-1$\n$n=21$\n$S_{21}=\\frac{21}{2}(64-76)$\n$=\\frac{21}{2}(-12)$\n$=-126$"
+  },
+  {
+    "question_text": "Evaluate $\\sum_{k=6}^{23}(5k-2)$.",
+    "solution_text": "$a=5(6)-2=28$\n$a_n=5(23)-2=113$\n$n=23-6+1=18$\n$S_{18}=\\frac{18}{2}(28+113)$\n$=9(141)$\n$=1269$"
+  },
+  {
+    "question_text": "Find a simplified expression for the sum of the first $n$ terms of $17+11+5+\\dots$.",
+    "solution_text": "$a=17$, $d=-6$.\n$S_n=\\frac{n}{2}[2(17)+(n-1)(-6)]$\n$=\\frac{n}{2}(34-6n+6)$\n$=\\frac{n}{2}(40-6n)$\n$=n(20-3n)$"
+  },
+  {
+    "question_text": "(a) An AP has $S_{14}=521.5$ and first term $8$. Find $d$.\n(b) An AP has $16$ terms, last term $53$ and sum $398.4$. Find $a$.",
+    "solution_text": "(a)\n$521.5=\\frac{14}{2}[2(8)+13d]$\n$521.5=7(16+13d)$\n$74.5=16+13d$\n$58.5=13d$\n$d=4.5$\n(b)\n$398.4=\\frac{16}{2}(a+53)$\n$49.8=a+53$\n$a=-3.2$"
+  },
+  {
+    "question_text": "An AP has $S_7=124.6$ and $S_{12}=285.6$. Find $a$ and $d$.",
+    "solution_text": "$124.6=\\frac{7}{2}(2a+6d)$, so $2a+6d=35.6\\quad\\text{(1)}$.\n$285.6=\\frac{12}{2}(2a+11d)$, so $2a+11d=47.6\\quad\\text{(2)}$.\nSubtract (1) from (2).\n$5d=12$\n$d=2.4$\nSubstitute into (1).\n$2a+6(2.4)=35.6$\n$2a=21.2$\n$a=10.6$"
+  },
+  {
+    "question_text": "An AP has $a_2=14.5$ and $a_{11}=82$. Find the sum of its first $21$ terms.",
+    "solution_text": "$a+d=14.5\\quad\\text{(1)}$\n$a+10d=82\\quad\\text{(2)}$\nSubtract (1) from (2).\n$9d=67.5$\n$d=7.5$\n$a=14.5-7.5=7$\n$S_{21}=\\frac{21}{2}[2(7)+20(7.5)]$\n$=\\frac{21}{2}(164)$\n$=1722$"
+  },
+  {
+    "question_text": "Evaluate $\\log_{10}18+\\log_{10}72+\\log_{10}288+\\dots+\\log_{10}4608$. Give an exact answer.",
+    "solution_text": "$d=\\log_{10}72-\\log_{10}18=\\log_{10}4$.\nAlso, $\\log_{10}288-\\log_{10}72=\\log_{10}4$, so the terms form an AP.\n$4608=18(4^4)$, so there are $5$ terms.\n$a=\\log_{10}18$, $a_n=\\log_{10}18+4\\log_{10}4$.\n$S_5=\\frac{5}{2}(2\\log_{10}18+4\\log_{10}4)$\n$=5\\log_{10}18+10\\log_{10}4$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

@@ -2,19 +2,33 @@
   "skillId": "compare-order-integers",
   "atomType": "R",
   "theory": {
-        "intro": "On a number line, values increase from left to right. Use that to compare and order integers.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-5.2,0) -- (5.2,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.15) -- (\\v,-0.15); \\node[below] at (\\v,-0.15) {$\\v$};}\n\\draw[-{Stealth}] (-0.4,0.7) -- (-4.2,0.7);\n\\node[above] at (-2.3,0.85) {smaller};\n\\draw[-{Stealth}] (0.4,0.7) -- (4.2,0.7);\n\\node[above] at (2.3,0.85) {larger};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
+"intro": "On a number line, values increase from left to right. Use that to compare and order integers.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-5.2,0) -- (5.2,0);\n\\foreach \\v in {-4,...,4} {\\draw (\\v,0.15) -- (\\v,-0.15); \\node[below] at (\\v,-0.15) {$\\v$};}\n\\draw[-{Stealth}] (-0.4,0.7) -- (-4.2,0.7);\n\\node[above] at (-2.3,0.85) {smaller};\n\\draw[-{Stealth}] (0.4,0.7) -- (4.2,0.7);\n\\node[above] at (2.3,0.85) {larger};\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
           "Further **left** (or lower) means **smaller**; further **right** (or higher) means **larger**.",
           "$<$ means 'less than' and $>$ means 'greater than'; the arrow points to the smaller number.",
           "Any negative is less than any positive, and $0$ sits between them.",
           "For two negatives, the one **further from zero** is the **smaller** number, e.g. $-8 < -3$."
         ],
-        "steps": [
-          "Picture the integers on a number line.",
-          "The one further left is smaller.",
-          "Write with $<$ (smaller first) or $>$ (larger first); to order, list from left to right."
-        ]
-      },
+"steps": [
+"Picture the integers on a number line.",
+"The one further left is smaller.",
+"Write with $<$ (smaller first) or $>$ (larger first). For ascending order, list from left to right; for descending order, list from right to left."
+],
+"workedExamples": [
+  {
+    "question_text": "Choose $<$ or $>$ to compare $-12$ and $-5$.",
+    "solution_text": "$-12$ is to the left of $-5$ on the number line, so it is smaller.\n$-12<-5$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-4.8,0)--(0.4,0);\n\\foreach \\v in {-15,...,0} {\\draw (0.29*\\v,0.1)--(0.29*\\v,-0.1);}\n\\foreach \\v in {-15,-10,-5,0} {\\node[below] at (0.29*\\v,-0.16) {$\\v$};}\n\\fill (-3.48,0) circle (2.2pt);\n\\node[above] at (-3.48,0.2) {$-12$};\n\\fill (-1.45,0) circle (2.2pt);\n\\node[above] at (-1.45,0.2) {$-5$};\n\\end{tikzpicture}\n[/tikz]"
+  },
+  {
+    "question_text": "Put $-17, \\; 8, \\; -3, \\; 11, \\; -9$ in:\n(a) ascending order\n(b) descending order.",
+    "solution_text": "(a) Read from left to right on a number line, smallest to largest:\n$-17, \\; -9, \\; -3, \\; 8, \\; 11$.\n(b) Read from right to left, largest to smallest:\n$11, \\; 8, \\; -3, \\; -9, \\; -17$."
+  },
+  {
+    "question_text": "List all integers greater than $-26$ and less than $-19$, in ascending order.",
+    "solution_text": "Do not include $-26$ or $-19$ because the comparisons are strict. Read the integers between them from left to right:\n$-25, \\; -24, \\; -23, \\; -22, \\; -21, \\; -20$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -49,37 +63,37 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "List these integers in ascending order (smallest to largest): $-13, \\; 6, \\; -2, \\; 11, \\; -7$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.76,0)--(3.28,0);\n\\foreach \\v in {-14,...,12} {\\draw (0.24*\\v,0.1)--(0.24*\\v,-0.1);}\n\\foreach \\v in {-10,-5,0,5,10} {\\node[below] at (0.24*\\v,-0.16) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "order-ascending",
         "solution_text": "The negatives, from furthest left: $-13$, then $-7$, then $-2$.\nThen the positives: $6$, then $11$.\n$-13, \\; -7, \\; -2, \\; 6, \\; 11$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.76,0)--(3.28,0);\n\\foreach \\v in {-14,...,12} {\\draw (0.24*\\v,0.1)--(0.24*\\v,-0.1);}\n\\foreach \\v in {-10,-5,0,5,10} {\\node[below] at (0.24*\\v,-0.16) {$\\v$};}\n\\fill (-3.12,0) circle (2.2pt);\n\\fill (-1.68,0) circle (2.2pt);\n\\fill (-0.48,0) circle (2.2pt);\n\\fill (1.44,0) circle (2.2pt);\n\\fill (2.64,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "List these integers in ascending order (smallest to largest): $3, \\; -5, \\; 1, \\; 0, \\; -2, \\; 4$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.4,0)--(2.9,0);\n\\foreach \\v in {-6,...,5} {\\draw (0.5*\\v,0.12)--(0.5*\\v,-0.12); \\node[below] at (0.5*\\v,-0.16) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "order-ascending",
         "solution_text": "The negatives first: $-5$, then $-2$.\nThen $0$, then the positives $1$, $3$, $4$.\n$-5, \\; -2, \\; 0, \\; 1, \\; 3, \\; 4$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.4,0)--(2.9,0);\n\\foreach \\v in {-6,...,5} {\\draw (0.5*\\v,0.12)--(0.5*\\v,-0.12); \\node[below] at (0.5*\\v,-0.16) {$\\v$};}\n\\fill (-2.5,0) circle (2.2pt);\n\\fill (-1.0,0) circle (2.2pt);\n\\fill (0,0) circle (2.2pt);\n\\fill (0.5,0) circle (2.2pt);\n\\fill (1.5,0) circle (2.2pt);\n\\fill (2.0,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "List these integers in descending order (largest to smallest): $-4, \\; 2, \\; -9, \\; 0, \\; 5$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.9,0)--(2.5,0);\n\\foreach \\v in {-10,...,6} {\\draw (0.35*\\v,0.12)--(0.35*\\v,-0.12);}\n\\foreach \\v in {-10,-5,0,5} {\\node[below] at (0.35*\\v,-0.16) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "order-descending",
         "solution_text": "The largest first: $5$, then $2$, then $0$.\nThen the negatives, from closest to zero: $-4$, then $-9$.\n$5, \\; 2, \\; 0, \\; -4, \\; -9$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.9,0)--(2.5,0);\n\\foreach \\v in {-10,...,6} {\\draw (0.35*\\v,0.12)--(0.35*\\v,-0.12);}\n\\foreach \\v in {-10,-5,0,5} {\\node[below] at (0.35*\\v,-0.16) {$\\v$};}\n\\fill (-3.15,0) circle (2.2pt);\n\\fill (-1.4,0) circle (2.2pt);\n\\fill (0,0) circle (2.2pt);\n\\fill (0.7,0) circle (2.2pt);\n\\fill (1.75,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "List these integers in ascending order (smallest to largest): $-11, \\; -7, \\; -6, \\; -14, \\; -8$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-5.2,0)--(0.4,0);\n\\foreach \\v in {-15,...,0} {\\draw (0.32*\\v,0.12)--(0.32*\\v,-0.12);}\n\\foreach \\v in {-15,-10,-5,0} {\\node[below] at (0.32*\\v,-0.16) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "order-ascending",
-        "solution_text": "All are negative, so the one with the largest digit is smallest.\n$-14, \\; -11, \\; -8, \\; -7, \\; -6$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-5.2,0)--(0.4,0);\n\\foreach \\v in {-15,...,0} {\\draw (0.32*\\v,0.12)--(0.32*\\v,-0.12);}\n\\foreach \\v in {-15,-10,-5,0} {\\node[below] at (0.32*\\v,-0.16) {$\\v$};}\n\\fill (-4.48,0) circle (2.2pt);\n\\fill (-3.52,0) circle (2.2pt);\n\\fill (-2.56,0) circle (2.2pt);\n\\fill (-2.24,0) circle (2.2pt);\n\\fill (-1.92,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
+        "solution_text": "All are negative. The one furthest left on the number line is smallest.\n$-14, \\; -11, \\; -8, \\; -7, \\; -6$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-5.2,0)--(0.4,0);\n\\foreach \\v in {-15,...,0} {\\draw (0.32*\\v,0.12)--(0.32*\\v,-0.12);}\n\\foreach \\v in {-15,-10,-5,0} {\\node[below] at (0.32*\\v,-0.16) {$\\v$};}\n\\fill (-4.48,0) circle (2.2pt);\n\\fill (-3.52,0) circle (2.2pt);\n\\fill (-2.56,0) circle (2.2pt);\n\\fill (-2.24,0) circle (2.2pt);\n\\fill (-1.92,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "List these integers in descending order (largest to smallest): $-1, \\; 8, \\; -5, \\; 2, \\; -9$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.4,0)--(3.1,0);\n\\foreach \\v in {-10,...,9} {\\draw (0.3*\\v,0.12)--(0.3*\\v,-0.12);}\n\\foreach \\v in {-10,-5,0,5} {\\node[below] at (0.3*\\v,-0.16) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "order-descending",
         "solution_text": "The largest first: $8$, then $2$.\nThen the negatives, from closest to zero: $-1$, then $-5$, then $-9$.\n$8, \\; 2, \\; -1, \\; -5, \\; -9$\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-3.4,0)--(3.1,0);\n\\foreach \\v in {-10,...,9} {\\draw (0.3*\\v,0.12)--(0.3*\\v,-0.12);}\n\\foreach \\v in {-10,-5,0,5} {\\node[below] at (0.3*\\v,-0.16) {$\\v$};}\n\\fill (-2.7,0) circle (2.2pt);\n\\fill (-1.5,0) circle (2.2pt);\n\\fill (-0.3,0) circle (2.2pt);\n\\fill (0.6,0) circle (2.2pt);\n\\fill (2.4,0) circle (2.2pt);\n\\end{tikzpicture}\n[/tikz]"
       },
-      {
+{
         "question_text": "Three lakes sit at altitudes of $-28$ m, $-408$ m and $-15$ m relative to sea level.\nWhich lake is the lowest?\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-6.25,0)--(1.05,0);\n\\foreach \\v in {-450,-400,...,50} {\\draw (0.013*\\v,0.12)--(0.013*\\v,-0.12);}\n\\foreach \\v in {-400,-300,-200,-100,0} {\\node[below] at (0.013*\\v,-0.18) {$\\v$};}\n\\end{tikzpicture}\n[/tikz]",
         "structure": "circle-greater",
         "solution_text": "The lowest altitude is the smallest integer, furthest left on the number line.\n$-408 < -28 < -15$\nThe lake at $-408$ m is the lowest.\n[tikz]\n\\begin{tikzpicture}\n\\draw[{Stealth}-{Stealth}] (-6.25,0)--(1.05,0);\n\\foreach \\v in {-450,-400,...,50} {\\draw (0.013*\\v,0.12)--(0.013*\\v,-0.12);}\n\\foreach \\v in {-400,-300,-200,-100,0} {\\node[below] at (0.013*\\v,-0.18) {$\\v$};}\n\\fill (-5.304,0) circle (2.2pt);\n\\node[above] at (-5.304,0.22) {$-408$};\n\\fill (-0.364,0) circle (2.2pt);\n\\node[below] at (-0.364,-0.5) {$-28$};\n\\fill (-0.195,0) circle (2.2pt);\n\\node[above] at (-0.195,0.22) {$-15$};\n\\end{tikzpicture}\n[/tikz]"
       }
-    ],
+],
     "mastery": [
       {
         "question_text": "List all integers that are greater than $-65$ and less than $-58$, in ascending order.",

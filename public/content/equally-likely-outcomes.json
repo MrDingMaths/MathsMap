@@ -2,18 +2,34 @@
   "skillId": "equally-likely-outcomes",
   "atomType": "R",
   "theory": {
-        "intro": "When every result of an experiment has the same chance of happening, the results are called **equally likely outcomes**. Listing them carefully is the first step in working out probabilities.",
-        "facts": [
-          "An **outcome** is one possible result of an experiment.",
-          "Outcomes are **equally likely** when no result is favoured over another (a fair coin, a fair die, equal spinner sectors).\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick] (0,0) circle (1.3);\n\\foreach \\a in {0,90,180,270} {\\draw (0,0) -- (\\a:1.3);}\n\\node at (45:0.75) {$A$};\n\\node at (135:0.75) {$B$};\n\\node at (225:0.75) {$C$};\n\\node at (315:0.75) {$D$};\n\\node[font=\\small] at (0,-1.85) {equal sectors};\n\\node[font=\\small] at (0,-2.35) {equally likely};\n\\begin{scope}[shift={(5,0)}]\n\\draw[thick] (0,0) circle (1.3);\n\\foreach \\a in {90,180,270} {\\draw (0,0) -- (\\a:1.3);}\n\\node at (0:0.8) {$A$};\n\\node at (135:0.75) {$B$};\n\\node at (225:0.75) {$C$};\n\\node[font=\\small] at (0,-1.85) {sectors not equal};\n\\node[font=\\small] at (0,-2.35) {not equally likely};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
-          "A fair coin has $2$ outcomes; a standard die has $6$; an equal spinner has as many outcomes as it has sectors."
-        ],
-        "steps": [
-          "Decide what one trial of the experiment is.",
-          "List every possible result once, with none left out or repeated.",
-          "Check the results are all equally likely (equal sectors, fair object)."
-        ]
-      },
+"intro": "An outcome is a possible result of a chance experiment. Outcomes are **equally likely** when each has the same chance of happening. Assume the spinners in these questions are spun fairly.",
+"facts": [
+"An **outcome** is one possible result of an experiment.",
+"A fair coin has equally likely heads and tails. A fair die has equally likely numbers. On a fairly spun spinner, each distinct label on one equal sector has the same chance.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw[thick] (0,0) circle (1.3);\n\\foreach \\a in {0,90,180,270} {\\draw (0,0) -- (\\a:1.3);}\n\\node at (45:0.75) {$A$};\n\\node at (135:0.75) {$B$};\n\\node at (225:0.75) {$C$};\n\\node at (315:0.75) {$D$};\n\\node[font=\\small] at (0,-1.85) {equal sectors};\n\\node[font=\\small] at (0,-2.35) {equally likely};\n\\begin{scope}[shift={(5,0)}]\n\\draw[thick] (0,0) circle (1.3);\n\\foreach \\a in {90,180,270} {\\draw (0,0) -- (\\a:1.3);}\n\\node at (0:0.8) {$A$};\n\\node at (135:0.75) {$B$};\n\\node at (225:0.75) {$C$};\n\\node[font=\\small] at (0,-1.85) {sectors not equal};\n\\node[font=\\small] at (0,-2.35) {not equally likely};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]",
+"A fair coin has $2$ possible results and a standard die has $6$. A spinner label can appear on more than one sector, so the number of different recorded results can be less than the number of sectors.",
+"For repeated labels on equal sectors, compare how many sectors have each label. Equal numbers of sectors give equal chances; a label on more sectors is more likely.",
+"With one different label on each sector, a larger sector gives that label a greater chance."
+],
+"steps": [
+"Decide what one trial of the experiment is.",
+"List every possible result once, with none left out or repeated.",
+"Decide whether the recorded results have the same chance. Compare the sizes of their sectors, or how many equal sectors carry each label."
+],
+"workedExamples": [
+  {
+    "question_text": "A fair coin is tossed once. Mia records heads, heads and toss as the possible results.\nState what one trial is, correct her list and say whether the results are equally likely.",
+    "solution_text": "One trial is one toss.\nHeads was repeated, toss is the action and tails was omitted.\nThe possible results are heads and tails.\nThey are equally likely because the coin is fair."
+  },
+  {
+    "question_text": "Each spinner is spun fairly and its label is recorded.\n(a) Seven equal sectors are labelled green, green, green, blue, blue, red and yellow.\n(b) Six equal sectors are labelled sun, sun, moon, moon, star and star.\nList the possible recorded results and decide whether they are equally likely.",
+    "solution_text": "(a) The possible results are green, blue, red and yellow.\nGreen appears on $3$ equal sectors, blue on $2$, and red and yellow on $1$ each.\nThe four results are not equally likely.\n(b) The possible results are sun, moon and star.\nEach label appears on $2$ equal sectors, so the three results are equally likely."
+  },
+  {
+    "question_text": "A spinner is spun fairly. Leaf covers half the wheel; acorn and flower each cover one quarter.\nList the possible results. Are all three equally likely? Which two have the same chance?",
+    "solution_text": "The possible results are leaf, acorn and flower.\nLeaf covers a larger part of the wheel, so the three results are not equally likely.\nAcorn and flower cover equal parts, so these two have the same chance."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -53,58 +69,58 @@
       }
     ],
     "development": [
-      {
+{
         "question_text": "An $8$-sector fair wheel is labelled N, NE, E, SE, S, SW, W and NW.\nRecord every outcome of one spin.",
         "structure": "list-all-outcomes",
         "solution_text": "The outcomes are N, NE, E, SE, S, SW, W and NW."
       },
-      {
+{
         "question_text": "A wheel has $4$ equal sectors labelled amber, blue, coral and denim.\nExplain why the recorded colours are equally likely.",
         "structure": "identify-equally-likely",
         "solution_text": "Each colour occupies exactly one equal sector.\nTherefore each colour has the same chance of being recorded."
       },
-      {
+{
         "question_text": "A wheel has four sectors.\nRed covers half the wheel, while blue, green and yellow each cover one sixth.\nList the possible colours and decide whether they are equally likely.",
         "structure": "unequal-sector-boundary",
         "solution_text": "The possible colours are red, blue, green and yellow.\nThey are not equally likely because red covers a larger part of the wheel."
       },
-      {
-        "question_text": "A fair $4$-sector spinner is labelled $1,1,2,3$, and the number is recorded.\nList the possible recorded numbers and decide whether those numbers are equally likely.",
+{
+        "question_text": "A fair spinner has $4$ equal sectors labelled $1,1,2,3$, and the number is recorded.\nList the possible recorded numbers and decide whether those numbers are equally likely.",
         "structure": "repeated-label-boundary",
         "solution_text": "The possible recorded numbers are $1,2,3$.\nThey are not equally likely because $1$ appears on two sectors, while $2$ and $3$ appear once each."
       },
-      {
+{
         "question_text": "Wheel A has $6$ equal sectors with six different labels.\nWheel B has $6$ equal sectors, but one label appears twice and another appears once.\nWhich wheel has equally likely recorded labels?",
         "structure": "repeated-label-boundary",
         "solution_text": "Wheel A has equally likely recorded labels because every label occupies one equal sector.\nWheel B does not because its repeated label is favoured."
       },
-      {
+{
         "question_text": "A fair wheel has sectors labelled oak, pine, gum, palm, cedar and birch.\nA list shows oak, pine, gum, cedar and birch.\nIdentify the missing outcome.",
         "structure": "complete-outcome-list",
         "solution_text": "Palm is the missing outcome."
       },
-      {
+{
         "question_text": "For a fair spinner labelled morning, afternoon and evening, Kim says the outcomes are spin and stop.\nExplain the error and record the outcomes.",
         "structure": "distinguish-trial-outcomes",
         "solution_text": "Spin is the experiment, not a result.\nThe outcomes are morning, afternoon and evening."
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "A fair $6$-sector wheel is labelled fox, hare, owl, mole, deer and swan.\nA student records fox, hare, owl, owl, deer and swan.\nDiagnose the list.",
         "structure": "audit-recorded-outcomes",
         "solution_text": "Owl has been repeated and mole has been omitted.\nThe outcomes are fox, hare, owl, mole, deer and swan."
       },
-      {
+{
         "question_text": "A wheel has $5$ sectors of equal size labelled $P,Q,R,S,T$.\nAnother wheel has sectors of different sizes with the same five labels.\nWhich wheel makes the five recorded labels equally likely, and why?",
         "structure": "unequal-sector-boundary",
         "solution_text": "Only the first wheel does.\nIts labels each occupy one equal sector; different sector sizes give the labels different chances on the second wheel."
       },
-      {
-        "question_text": "An $8$-sector fair wheel is labelled $A,A,B,B,C,C,D,D$.\nRecord the possible letters and decide whether the letters are equally likely.",
+{
+        "question_text": "A fair wheel has $8$ equal sectors labelled $A,A,B,B,C,C,D,D$.\nRecord the possible letters and decide whether the letters are equally likely.",
         "structure": "repeated-label-boundary",
         "solution_text": "The possible letters are $A,B,C,D$.\nEach letter appears on two equal sectors, so the four letters are equally likely."
       }
-    ]
+]
   }
 }

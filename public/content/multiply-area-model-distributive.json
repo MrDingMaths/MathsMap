@@ -2,51 +2,67 @@
   "skillId": "multiply-area-model-distributive",
   "atomType": "R",
   "theory": {
-        "intro": "You can multiply a large number by splitting it into its place-value parts, multiplying each part, then adding. This is the **distributive property**.",
-        "facts": [
-          "Partition by place value, e.g. $684 = 600 + 80 + 4$.",
-          "Multiply **each part** by the multiplier, then add the part-products.",
-          "An **area model** shows the parts as rectangles whose areas are the part-products.\n[tikz]\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\draw (0,0) rectangle (8,1.7);\n\\draw (3.4,0)--(3.4,1.7);\n\\draw (5.7,0)--(5.7,1.7);\n\\node[above] at (1.7,1.7) {hundreds};\n\\node[above] at (4.55,1.7) {tens};\n\\node[above] at (6.85,1.7) {ones};\n\\node[left] at (0,0.85) {other factor};\n\\node at (1.7,0.85) {part-product};\n\\node at (4.55,0.85) {part-product};\n\\node at (6.85,0.85) {part-product};\n\\end{tikzpicture}[/tikz]"
-        ],
-        "steps": [
-          "Split the larger number into hundreds, tens and ones.",
-          "Multiply each part by the other factor.",
-          "Add the part-products to get the total."
-        ]
-      },
+"intro": "You can multiply a large number by splitting it into its place-value parts, multiplying each part, then adding. This is the **distributive property**.",
+"facts": [
+"Partition by place value, e.g. $684 = 600 + 80 + 4$.",
+"Multiply **each part** by the multiplier, then add the part-products.",
+"An **area model** shows the parts as rectangles whose areas are the part-products. The diagrams show the parts and are not drawn to scale.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black]\n\\path[use as bounding box] (-1.7,-0.2) rectangle (8.2,2.4);\n\\draw (0,0) rectangle (8,1.7);\n\\draw (3.4,0)--(3.4,1.7);\n\\draw (5.7,0)--(5.7,1.7);\n\\node[above] at (1.7,1.7) {hundreds};\n\\node[above] at (4.55,1.7) {tens};\n\\node[above] at (6.85,1.7) {ones};\n\\node[left,align=center] at (0,0.85) {other\\\\factor};\n\\node[align=center] at (1.7,0.85) {part-\\\\product};\n\\node[align=center] at (4.55,0.85) {part-\\\\product};\n\\node[align=center] at (6.85,0.85) {part-\\\\product};\n\\end{tikzpicture}\n[/tikz]",
+"Include the thousands when partitioning a 4-digit number. A zero part gives a product of $0$, so it need not have a rectangle in the area model.",
+"If the part-products and one factor are known, divide each part-product by that factor, then add the parts to find the missing factor."
+],
+"steps": [
+"Partition the larger number by place value.",
+"Multiply each part by the other factor.",
+"Add the part-products to get the total."
+],
+"workedExamples": [
+  {
+    "question_text": "Use the area model to calculate $267\\times4$. Then check the product by partitioning $267$ as $260+7$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$200$};\n\\node[above] at (3,1.5) {$60$};\n\\node[above] at (4.6,1.5) {$7$};\n\\node[left] at (0,0.75) {$4$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "The place-value parts are $200$, $60$ and $7$.\n$200\\times4=800$\n$60\\times4=240$\n$7\\times4=28$\n$267\\times4=800+240+28=1068$.\nFor the different partition, $267=260+7$.\n$260\\times4=1040$ and $7\\times4=28$.\n$1040+28=1068$. Both partitions give the same product."
+  },
+  {
+    "question_text": "Use the area model to calculate $1406\\times7$. Explain why there is no rectangle for the tens part.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$1000$};\n\\node[above] at (3,1.5) {$400$};\n\\node[above] at (4.6,1.5) {$6$};\n\\node[left] at (0,0.75) {$7$};\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "$1406=1000+400+0+6$.\n$1000\\times7=7000$\n$400\\times7=2800$\n$6\\times7=42$\n$1406\\times7=7000+2800+42=9842$.\nThe tens part is $0$, and $0\\times7=0$. It adds nothing to the product, so the model has only the three nonzero parts."
+  },
+  {
+    "question_text": "The part-products for $\\square\\times8$ are $2400$, $560$ and $48$. Find the missing factor and check the total product.",
+    "solution_text": "Divide each part-product by the known factor $8$.\n$2400\\div8=300$\n$560\\div8=70$\n$48\\div8=6$\nThe missing factor is $300+70+6=376$.\nCheck: $376\\times8=2400+560+48=3008$."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
+{
         "question_text": "Use the area model to calculate $23 \\times 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$20$};\n\\node[above] at (3.25,1.5) {$3$};\n\\node[left] at (0,0.75) {$4$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "three-digit-partial-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$20$};\n\\node[above] at (3.25,1.5) {$3$};\n\\node[left] at (0,0.75) {$4$};\n\\node at (1.25,0.75) {$80$};\n\\node at (3.25,0.75) {$12$};\n\\end{tikzpicture}\n[/tikz]\n$23 \\times 4$\n$=(20 \\times 4)+(3 \\times 4)$\n$=80+12$\n$=92$"
       },
-      {
+{
         "question_text": "Partition $46$ in the area model, then calculate $46 \\times 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$40$};\n\\node[above] at (3.25,1.5) {$6$};\n\\node[left] at (0,0.75) {$3$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "three-digit-partial-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$40$};\n\\node[above] at (3.25,1.5) {$6$};\n\\node[left] at (0,0.75) {$3$};\n\\node at (1.25,0.75) {$120$};\n\\node at (3.25,0.75) {$18$};\n\\end{tikzpicture}\n[/tikz]\n$46 \\times 3$\n$=(40 \\times 3)+(6 \\times 3)$\n$=120+18$\n$=138$"
       },
-      {
+{
         "question_text": "Use the area model to calculate $132 \\times 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$100$};\n\\node[above] at (3,1.5) {$30$};\n\\node[above] at (4.6,1.5) {$2$};\n\\node[left] at (0,0.75) {$3$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "three-digit-partial-products",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$100$};\n\\node[above] at (3,1.5) {$30$};\n\\node[above] at (4.6,1.5) {$2$};\n\\node[left] at (0,0.75) {$3$};\n\\node at (1.1,0.75) {$300$};\n\\node at (3,0.75) {$90$};\n\\node at (4.6,0.75) {$6$};\n\\end{tikzpicture}\n[/tikz]\n$132 \\times 3$\n$=(100 \\times 3)+(30 \\times 3)+(2 \\times 3)$\n$=300+90+6$\n$=396$"
       },
-      {
+{
         "question_text": "Complete the area-model calculation for $215 \\times 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$200$};\n\\node[above] at (3,1.5) {$10$};\n\\node[above] at (4.6,1.5) {$5$};\n\\node[left] at (0,0.75) {$4$};\n\\node at (1.1,0.75) {$800$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "find-part-product",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$200$};\n\\node[above] at (3,1.5) {$10$};\n\\node[above] at (4.6,1.5) {$5$};\n\\node[left] at (0,0.75) {$4$};\n\\node at (1.1,0.75) {$800$};\n\\node at (3,0.75) {$40$};\n\\node at (4.6,0.75) {$20$};\n\\end{tikzpicture}\n[/tikz]\n$215 \\times 4$\n$=(200 \\times 4)+(10 \\times 4)+(5 \\times 4)$\n$=800+40+20$\n$=860$"
       },
-      {
+{
         "question_text": "Write a distributive-property number sentence for $307 \\times 6$, then find the product.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$300$};\n\\node[above] at (3.25,1.5) {$7$};\n\\node[left] at (0,0.75) {$6$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "choose-correct-partition",
         "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4,1.5);\n\\draw (2.5,0)--(2.5,1.5);\n\\node[above] at (1.25,1.5) {$300$};\n\\node[above] at (3.25,1.5) {$7$};\n\\node[left] at (0,0.75) {$6$};\n\\node at (1.25,0.75) {$1800$};\n\\node at (3.25,0.75) {$42$};\n\\end{tikzpicture}\n[/tikz]\n$307 \\times 6$\n$=(300 \\times 6)+(7 \\times 6)$\n$=1800+42$\n$=1842$"
       },
-      {
-        "question_text": "Use the area model to calculate $1240 \\times 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.8,1.5);\n\\draw (2.1,0)--(2.1,1.5);\n\\draw (3.6,0)--(3.6,1.5);\n\\draw (4.8,0)--(4.8,1.5);\n\\node[above] at (1.05,1.5) {$1000$};\n\\node[above] at (2.85,1.5) {$200$};\n\\node[above] at (4.2,1.5) {$40$};\n\\node[above] at (5.3,1.5) {$0$};\n\\node[left] at (0,0.75) {$3$};\n\\end{tikzpicture}\n[/tikz]",
+{
+        "question_text": "Use the area model to calculate $1240 \\times 3$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4.8,1.5);\n\\draw (2.1,0)--(2.1,1.5);\n\\draw (3.6,0)--(3.6,1.5);\n\\node[above] at (1.05,1.5) {$1000$};\n\\node[above] at (2.85,1.5) {$200$};\n\\node[above] at (4.2,1.5) {$40$};\n\\node[left] at (0,0.75) {$3$};\n\\end{tikzpicture}\n[/tikz]",
         "structure": "zero-place-partition",
-        "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.8,1.5);\n\\draw (2.1,0)--(2.1,1.5);\n\\draw (3.6,0)--(3.6,1.5);\n\\draw (4.8,0)--(4.8,1.5);\n\\node[above] at (1.05,1.5) {$1000$};\n\\node[above] at (2.85,1.5) {$200$};\n\\node[above] at (4.2,1.5) {$40$};\n\\node[above] at (5.3,1.5) {$0$};\n\\node[left] at (0,0.75) {$3$};\n\\node at (1.05,0.75) {$3000$};\n\\node at (2.85,0.75) {$600$};\n\\node at (4.2,0.75) {$120$};\n\\node at (5.3,0.75) {$0$};\n\\end{tikzpicture}\n[/tikz]\n$1240 \\times 3$\n$=(1000 \\times 3)+(200 \\times 3)+(40 \\times 3)$\n$=3000+600+120$\n$=3720$"
+        "solution_text": "[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (4.8,1.5);\n\\draw (2.1,0)--(2.1,1.5);\n\\draw (3.6,0)--(3.6,1.5);\n\\node[above] at (1.05,1.5) {$1000$};\n\\node[above] at (2.85,1.5) {$200$};\n\\node[above] at (4.2,1.5) {$40$};\n\\node[left] at (0,0.75) {$3$};\n\\node at (1.05,0.75) {$3000$};\n\\node at (2.85,0.75) {$600$};\n\\node at (4.2,0.75) {$120$};\n\\end{tikzpicture}\n[/tikz]\n$1240 \\times 3$\n$=(1000 \\times 3)+(200 \\times 3)+(40 \\times 3)$\n$=3000+600+120$\n$=3720$\nThe ones part is $0$, and $0\\times3=0$, so it adds nothing to the product."
       }
-    ],
+],
     "development": [
       {
         "question_text": "Use partial products to calculate $268 \\times 4$.\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\draw (0,0) rectangle (5.4,1.5);\n\\draw (2.2,0)--(2.2,1.5);\n\\draw (3.8,0)--(3.8,1.5);\n\\node[above] at (1.1,1.5) {$200$};\n\\node[above] at (3,1.5) {$60$};\n\\node[above] at (4.6,1.5) {$8$};\n\\node[left] at (0,0.75) {$4$};\n\\end{tikzpicture}\n[/tikz]",

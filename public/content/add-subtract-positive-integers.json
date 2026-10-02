@@ -2,18 +2,29 @@
   "skillId": "add-subtract-positive-integers",
   "atomType": "R",
   "theory": {
-        "intro": "Use a number line. The first number is where you start; the second tells you how far to move.",
-        "facts": [
+"intro": "Use a number line. The first number is where you start; the second tells you how far to move.",
+"facts": [
           "To **add** a positive integer: move **right**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.2,0) -- (4.2,0);\n\\foreach \\v in {-3,...,3} {\\draw (\\v,0.15) -- (\\v,-0.15);}\n\\node[below] at (0,-0.15) {$0$};\n\\fill (-2,0) circle (2.5pt);\n\\node[below] at (-2,-0.15) {$a$};\n\\draw[-{Stealth}] (-2,0.2) to[bend left=40] (1,0.2);\n\\node[above] at (-0.5,1) {add $b$: move right};\n\\end{tikzpicture}\n[/tikz]",
           "To **subtract** a positive integer: move **left**.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta}\n\\draw[{Stealth}-{Stealth}] (-4.2,0) -- (4.2,0);\n\\foreach \\v in {-3,...,3} {\\draw (\\v,0.15) -- (\\v,-0.15);}\n\\node[below] at (0,-0.15) {$0$};\n\\fill (2,0) circle (2.5pt);\n\\node[below] at (2,-0.15) {$a$};\n\\draw[-{Stealth}] (2,0.2) to[bend right=40] (-1,0.2);\n\\node[above] at (0.5,1) {subtract $b$: move left};\n\\end{tikzpicture}\n[/tikz]"
         ],
-        "steps": [
-          "Start at the first integer on the number line.",
-          "Add → move right by the second number.",
-          "Subtract → move left by the second number.",
-          "Read off where you land (you may pass zero)."
-        ]
-      },
+"steps": [
+"Start at the first integer on the number line.",
+"Add → move right by the second number.",
+"Subtract → move left by the second number.",
+"Read off where you land (you may pass zero).",
+"For more than one operation, continue from the last answer and work from left to right."
+],
+"workedExamples": [
+  {
+    "question_text": "Use a number line to evaluate each expression.\na) $-7 + 4$\nb) $-7 - 4$\nc) $-8 + 8$",
+    "solution_text": "a) Start at $-7$ and move $4$ units right.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Computation with Integers:934–983 and1097–1114; new source-adapted integer unit hops; ordinary lines and labels black, no shading\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,>=stealth]\n\\draw[<->,black] (-8.5,0)--(-1.5,0);\n\\foreach \\v in {-8,...,-2} {\\draw[black] (\\v,-0.12)--(\\v,0.12);\\node[below,black] at (\\v,-0.18) {$\\v$};}\n\\fill[black] (-7,0) circle (1.5pt);\n\\draw[->,black] (-7,0.25) .. controls (-6.82,1) and (-6.18,1) .. (-6,0.25);\n\\draw[->,black] (-6,0.25) .. controls (-5.82,1) and (-5.18,1) .. (-5,0.25);\n\\draw[->,black] (-5,0.25) .. controls (-4.82,1) and (-4.18,1) .. (-4,0.25);\n\\draw[->,black] (-4,0.25) .. controls (-3.82,1) and (-3.18,1) .. (-3,0.25);\n\\node[black] at (-5,1.35) {$+4$};\n\\end{tikzpicture}\n[/tikz]\n$-7 + 4$\n$= -3$\nb) Start at $-7$ and move $4$ units left.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Computation with Integers:934–983 and1097–1114; new source-adapted integer unit hops; ordinary lines and labels black, no shading\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,>=stealth]\n\\draw[<->,black] (-12.5,0)--(-5.5,0);\n\\foreach \\v in {-12,...,-6} {\\draw[black] (\\v,-0.12)--(\\v,0.12);\\node[below,black] at (\\v,-0.18) {$\\v$};}\n\\fill[black] (-7,0) circle (1.5pt);\n\\draw[->,black] (-7,0.25) .. controls (-7.18,1) and (-7.82,1) .. (-8,0.25);\n\\draw[->,black] (-8,0.25) .. controls (-8.18,1) and (-8.82,1) .. (-9,0.25);\n\\draw[->,black] (-9,0.25) .. controls (-9.18,1) and (-9.82,1) .. (-10,0.25);\n\\draw[->,black] (-10,0.25) .. controls (-10.18,1) and (-10.82,1) .. (-11,0.25);\n\\node[black] at (-9,1.35) {$-4$};\n\\end{tikzpicture}\n[/tikz]\n$-7 - 4$\n$= -11$\nc) Start at $-8$ and move $8$ units right, landing on zero.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Computation with Integers:934–983 and1097–1114; new source-adapted integer unit hops; ordinary lines and labels black, no shading\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,>=stealth]\n\\draw[<->,black] (-9.5,0)--(1.5,0);\n\\foreach \\v in {-9,...,1} {\\draw[black] (\\v,-0.12)--(\\v,0.12);\\node[below,black] at (\\v,-0.18) {$\\v$};}\n\\fill[black] (-8,0) circle (1.5pt);\n\\draw[->,black] (-8,0.25) .. controls (-7.82,1) and (-7.18,1) .. (-7,0.25);\n\\draw[->,black] (-7,0.25) .. controls (-6.82,1) and (-6.18,1) .. (-6,0.25);\n\\draw[->,black] (-6,0.25) .. controls (-5.82,1) and (-5.18,1) .. (-5,0.25);\n\\draw[->,black] (-5,0.25) .. controls (-4.82,1) and (-4.18,1) .. (-4,0.25);\n\\draw[->,black] (-4,0.25) .. controls (-3.82,1) and (-3.18,1) .. (-3,0.25);\n\\draw[->,black] (-3,0.25) .. controls (-2.82,1) and (-2.18,1) .. (-2,0.25);\n\\draw[->,black] (-2,0.25) .. controls (-1.82,1) and (-1.1800000000000002,1) .. (-1,0.25);\n\\draw[->,black] (-1,0.25) .. controls (-0.8200000000000001,1) and (-0.18000000000000005,1) .. (0,0.25);\n\\node[black] at (-4,1.35) {$+8$};\n\\end{tikzpicture}\n[/tikz]\n$-8 + 8$\n$= 0$"
+  },
+  {
+    "question_text": "Use a number line to evaluate $6 - 9 + 5$.",
+    "solution_text": "Start at $6$ and move $9$ units left to $-3$.\nFrom $-3$, move $5$ units right to $2$.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Computation with Integers:934–983 and1097–1114; new source-adapted integer unit hops; ordinary lines and labels black, no shading\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm,>=stealth]\n\\draw[<->,black] (-4.5,0)--(7.5,0);\n\\foreach \\v in {-4,...,7} {\\draw[black] (\\v,-0.12)--(\\v,0.12);\\node[below,black] at (\\v,-0.18) {$\\v$};}\n\\fill[black] (6,0) circle (1.5pt);\n\\draw[->,black] (6,0.25) .. controls (5.82,1) and (5.18,1) .. (5,0.25);\n\\draw[->,black] (5,0.25) .. controls (4.82,1) and (4.18,1) .. (4,0.25);\n\\draw[->,black] (4,0.25) .. controls (3.82,1) and (3.18,1) .. (3,0.25);\n\\draw[->,black] (3,0.25) .. controls (2.82,1) and (2.18,1) .. (2,0.25);\n\\draw[->,black] (2,0.25) .. controls (1.82,1) and (1.1800000000000002,1) .. (1,0.25);\n\\draw[->,black] (1,0.25) .. controls (0.8200000000000001,1) and (0.18000000000000005,1) .. (0,0.25);\n\\draw[->,black] (0,0.25) .. controls (-0.18,1) and (-0.82,1) .. (-1,0.25);\n\\draw[->,black] (-1,0.25) .. controls (-1.18,1) and (-1.8199999999999998,1) .. (-2,0.25);\n\\draw[->,black] (-2,0.25) .. controls (-2.18,1) and (-2.82,1) .. (-3,0.25);\n\\node[black] at (1.5,1.35) {$-9$};\n\\draw[->,black] (-3,-0.8) .. controls (-2.82,-1.55) and (-2.18,-1.55) .. (-2,-0.8);\n\\draw[->,black] (-2,-0.8) .. controls (-1.82,-1.55) and (-1.1800000000000002,-1.55) .. (-1,-0.8);\n\\draw[->,black] (-1,-0.8) .. controls (-0.8200000000000001,-1.55) and (-0.18000000000000005,-1.55) .. (0,-0.8);\n\\draw[->,black] (0,-0.8) .. controls (0.18,-1.55) and (0.82,-1.55) .. (1,-0.8);\n\\draw[->,black] (1,-0.8) .. controls (1.18,-1.55) and (1.8199999999999998,-1.55) .. (2,-0.8);\n\\node[black] at (-0.5,-1.85) {$+5$};\n\\end{tikzpicture}\n[/tikz]\n$6 - 9 + 5$\n$= -3 + 5$\n$= 2$"
+  }
+]
+},
   "practice": {
     "foundation": [
       {

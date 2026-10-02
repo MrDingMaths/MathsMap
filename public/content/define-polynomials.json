@@ -2,18 +2,41 @@
   "skillId": "define-polynomials",
   "atomType": "Cat",
   "theory": {
-        "intro": "A **polynomial** is an expression made by adding and subtracting terms of the form $ax^{n}$, where every index $n$ is a whole number. Words like **degree**, **leading term** and **monic** describe its parts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node[anchor=west] (lhs) at (0,0) {$P(x)=$};\n\\node[anchor=west, draw=blue, rounded corners, inner sep=2pt] (t1) at (lhs.east) {$a_{n}x^{n}$};\n\\node[anchor=west] (mid) at (t1.east) {$+a_{n-1}x^{n-1}+\\cdots+a_{1}x+$};\n\\node[anchor=west, draw=blue, rounded corners, inner sep=2pt] (ct) at (mid.east) {$a_{0}$};\n\\node[blue, font=\\small, align=center, anchor=south] (LC) at ([yshift=1.2cm]t1.north west) {Leading\\\\coefficient};\n\\node[blue, font=\\small, align=center, anchor=south] (DG) at ([xshift=2.2cm,yshift=1.2cm]t1.north east) {Degree\\\\(highest index)};\n\\node[blue, font=\\small, anchor=north] (LT) at ([yshift=-1.0cm]t1.south) {Leading term};\n\\node[blue, font=\\small, anchor=north] (CN) at ([yshift=-1.0cm]ct.south) {Constant term};\n\\draw[blue,->] (LC.south) -- (t1.north west);\n\\draw[blue,->] (DG.south west) -- (t1.north east);\n\\draw[blue,->] (LT.north) -- (t1.south);\n\\draw[blue,->] (CN.north) -- (ct.south);\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "A polynomial in $x$ has the form $a_{n}x^{n}+a_{n-1}x^{n-1}+\\ldots+a_{1}x+a_{0}$, where the indices are whole numbers ($0,1,2,\\ldots$) and the coefficients are real numbers.",
-          "An expression is **not** a polynomial if $x$ sits under a root $\\sqrt{x}$, has a fractional index, or is in a denominator (negative index).",
-          "The **degree** is the highest index of $x$.",
-          "Polynomials of degree $0,1,2,3,4$ are called **constant**, **linear**, **quadratic**, **cubic** and **quartic**.",
-          "The **leading term** is the term with the highest index, even when it is not written first.",
-          "The **leading coefficient** is the coefficient of the leading term.",
-          "The **constant term** is the term with no $x$.",
-          "A polynomial is **monic** when its leading coefficient is $1$, and **non-monic** otherwise."
-        ]
-      },
+"intro": "A **polynomial** is an expression made by adding and subtracting terms of the form $ax^{n}$, where every index $n$ is a whole number. Words like **degree**, **leading term** and **monic** describe its parts.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\node[anchor=west] (lhs) at (0,0) {$P(x)=$};\n\\node[anchor=west, draw=black, rounded corners, inner sep=2pt] (t1) at (lhs.east) {$a_{n}x^{n}$};\n\\node[anchor=west] (mid) at (t1.east) {$+a_{n-1}x^{n-1}+\\cdots+a_{1}x+$};\n\\node[anchor=west, draw=black, rounded corners, inner sep=2pt] (ct) at (mid.east) {$a_{0}$};\n\\node[black, font=\\small, align=center, anchor=south] (LC) at ([yshift=1.2cm]t1.north west) {Leading\\\\coefficient};\n\\node[black, font=\\small, align=center, anchor=south] (DG) at ([xshift=2.2cm,yshift=1.2cm]t1.north east) {Degree\\\\(highest index)};\n\\node[black, font=\\small, anchor=north] (LT) at ([yshift=-1.0cm]t1.south) {Leading term};\n\\node[black, font=\\small, anchor=north] (CN) at ([yshift=-1.0cm]ct.south) {Constant term};\n\\draw[black,->] (LC.south) -- (t1.north west);\n\\draw[black,->] (DG.south west) -- (t1.north east);\n\\draw[black,->] (LT.north) -- (t1.south);\n\\draw[black,->] (CN.north) -- (ct.south);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"A polynomial in $x$ has the form $a_{n}x^{n}+a_{n-1}x^{n-1}+\\ldots+a_{1}x+a_{0}$, where the indices are whole numbers ($0,1,2,\\ldots$) and the coefficients are real numbers.",
+"An expression is **not** a polynomial if $x$ sits under a root $\\sqrt{x}$, has a fractional index, or is in a denominator (negative index).",
+"The **degree** is the highest index of $x$.",
+"Polynomials of degree $0,1,2,3,4$ are called **constant**, **linear**, **quadratic**, **cubic** and **quartic**.",
+"The **leading term** is the term with the highest index, even when it is not written first.",
+"The **leading coefficient** is the coefficient of the leading term.",
+"The **constant term** is the term with no $x$.",
+"A polynomial is **monic** when its leading coefficient is $1$, and **non-monic** otherwise.",
+"A missing term has coefficient $0$. A term with coefficient $0$ is not counted when finding the degree."
+],
+"workedExamples": [
+  {
+    "question_text": "Determine whether each expression is a polynomial. If so, name it by its degree where possible.\n(a) $-\\dfrac{5}{7}x^{4}+13x-17$\n(b) $8x^{2}+\\sqrt{x}-19$\n(c) $x^{3}+\\dfrac{11}{x}+23$\n(d) $7^{x}+x^{2}$\n(e) $\\sqrt{11}\\,x^{2}-3x+29$\n(f) $31$",
+    "solution_text": "(a) All the indices of $x$ are whole numbers. The highest is $4$.\nQuartic polynomial. The coefficient $-\\dfrac{5}{7}$ is allowed.\n(b) $\\sqrt{x}=x^{\\frac{1}{2}}$ has a fractional index.\nNot a polynomial.\n(c) $\\dfrac{11}{x}=11x^{-1}$ has a negative index.\nNot a polynomial.\n(d) In $7^{x}$, $x$ is in the index.\nNot a polynomial.\n(e) The root is on the coefficient, not on $x$. The indices of $x$ are $2$ and $1$.\nQuadratic polynomial.\n(f) $31=31x^{0}$.\nConstant polynomial, degree $0$."
+  },
+  {
+    "question_text": "For each polynomial, state its degree, leading term, leading coefficient and constant term, and say whether it is monic or non-monic. Also state the coefficient of $x^{2}$.\n(a) $17+13x-5x^{6}$\n(b) $x^{4}-7x^{2}+19x$",
+    "solution_text": "(a) The term with the highest index is $-5x^{6}$, even though it is written last.\nDegree: $6$\nLeading term: $-5x^{6}$\nLeading coefficient: $-5$\nConstant term: $17$\nNon-monic.\nThere is no $x^{2}$ term, so its coefficient is $0$.\n(b) Degree: $4$\nLeading term: $x^{4}$\nLeading coefficient: $1$\nConstant term: $0$\nMonic.\nThe coefficient of $x^{2}$ is $-7$."
+  },
+  {
+    "question_text": "State the degree, leading term and leading coefficient of each polynomial.\n(a) $7x(x+5)(x-11)$\n(b) $\\dfrac{13x^{2}-17x^{5}}{19}$",
+    "solution_text": "(a) The highest-index term comes from multiplying the $x$-terms.\n$7x\\times x\\times x=7x^{3}$\nDegree: $3$\nLeading term: $7x^{3}$\nLeading coefficient: $7$\n(b) $\\dfrac{13x^{2}-17x^{5}}{19}=\\dfrac{13}{19}x^{2}-\\dfrac{17}{19}x^{5}$\nDegree: $5$\nLeading term: $-\\dfrac{17}{19}x^{5}$\nLeading coefficient: $-\\dfrac{17}{19}$"
+  },
+  {
+    "question_text": "The polynomial $(a+5)x^{4}+(b-8)x^{3}+c-13$ has degree $3$, is monic and has constant term $19$. Find $a$, $b$ and $c$.",
+    "solution_text": "Degree $3$ means the coefficient of $x^{4}$ must be $0$.\n$a+5=0$\n$a=-5$\nThe leading coefficient must be $1$ because the polynomial is monic.\n$b-8=1$\n$b=9$\nThe constant term is $19$.\n$c-13=19$\n$c=32$\nSo the polynomial is $x^{3}+19$."
+  },
+  {
+    "question_text": "Write down a monic polynomial of degree $5$ with exactly three terms and constant term $-23$.",
+    "solution_text": "The leading term must be $x^{5}$, and the constant term must be $-23$.\nChoose one more nonzero term of lower degree.\nFor example, $x^{5}+7x^{2}-23$.\nIt has degree $5$, leading coefficient $1$, three terms and constant term $-23$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

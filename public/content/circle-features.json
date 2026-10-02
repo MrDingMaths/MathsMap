@@ -2,123 +2,138 @@
   "skillId": "circle-features",
   "atomType": "Cat",
   "theory": {
-        "intro": "Every part of a circle has a name. The name depends on whether the part is a straight line, a curve or a region, and on how it meets the **centre** and the **circumference**.",
-        "facts": [
-          "The **centre** is the point that every point on the circle is the same distance from.",
-          "The **circumference** is the perimeter of the circle — the distance all the way around it.",
-          "A **radius** is a straight line from the centre to the circumference.",
-          "A **diameter** is a straight line through the centre joining two points on the circumference, so it is **double** the radius.",
-          "A **chord** joins two points on the circumference, and a diameter is the special chord that also passes through the centre.",
-          "A **tangent** is a straight line that touches the circumference at exactly one point and does not enter the circle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) circle (2.6);\n\\fill (O) circle (1.6pt);\n\\draw (-2.6,0) -- (2.6,0) node[pos=0.76,sloped,above] {diameter};\n\\draw (250:2.6) -- (O) node[midway,sloped,above] {radius};\n\\draw (25:2.6) -- (95:2.6) node[midway,sloped,below] {chord};\n\\draw ($(145:2.6)+(235:1.5)$) -- ($(145:2.6)+(55:1.5)$);\n\\node at (0.75,-0.4) {centre};\n\\node at (-2.1,3.3) {tangent};\n\\draw[-{Stealth}] (0.2,-2.95) -- (285:2.65);\n\\node[below] at (0.2,-3.0) {circumference};\n\\end{tikzpicture}\n[/tikz]",
-          "An **arc** is a part of the circumference.",
-          "A **sector** is the region between two radii and an arc.",
-          "A **segment** is the region between a chord and an arc.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) circle (2);\n\\fill (O) circle (1.6pt);\n\\draw (O) -- (30:2);\n\\draw (O) -- (130:2);\n\\draw[very thick] (30:2) arc[start angle=30,end angle=130,radius=2];\n\\node at (80:1.3) {sector};\n\\node at (80:2.35) {arc};\n\\coordinate (P) at (5,0);\n\\draw[thick] (P) circle (2);\n\\fill (P) circle (1.6pt);\n\\draw ($(P)+(205:2)$) -- ($(P)+(335:2)$) node[midway,above] {chord};\n\\node at (5,-1.42) {segment};\n\\end{tikzpicture}\n[/tikz]",
-          "A **semicircle** is half a circle — a sector whose straight edge is a diameter.",
-          "A **quadrant** is a quarter of a circle — a sector whose two radii meet at a right angle."
-        ],
-        "steps": [
-          "Decide whether the part is a straight line, a curve, or a region.",
-          "For a straight line, check how it meets the centre and the circumference.",
-          "For a curve, it is part of the circumference, so it is an arc.",
-          "For a region, check whether its straight edge is a chord or two radii."
-        ]
-      },
+"intro": "Every part of a circle has a name. The name depends on whether the part is a straight line, a curve or a region, and on how it meets the **centre** and the **circumference**.",
+"facts": [
+"The **centre** is the point that every point on the circle is the same distance from.",
+"The **circumference** is the perimeter of the circle — the distance all the way around it.",
+"A **radius** is a straight line from the centre to the circumference.",
+"A **diameter** is a straight line through the centre joining two points on the circumference, so it is **double** the radius.",
+"A **chord** joins two points on the circumference, and a diameter is the special chord that also passes through the centre.",
+"A **tangent** is a straight line that touches the circumference at exactly one point and does not enter the circle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{arrows.meta,calc}\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) circle (2.6);\n\\fill (O) circle (1.6pt);\n\\draw (-2.6,0) -- (2.6,0) node[pos=0.76,sloped,above] {diameter};\n\\draw (250:2.6) -- (O) node[midway,sloped,above] {radius};\n\\draw (25:2.6) -- (95:2.6) node[midway,sloped,below] {chord};\n\\draw ($(145:2.6)+(235:1.5)$) -- ($(145:2.6)+(55:1.5)$);\n\\node at (0.75,-0.4) {centre};\n\\node at (-2.1,3.3) {tangent};\n\\draw[-{Stealth}] (0.2,-2.95) -- (285:2.65);\n\\node[below] at (0.2,-3.0) {circumference};\n\\end{tikzpicture}\n[/tikz]",
+"An **arc** is a part of the circumference.",
+"A **sector** is the region between two radii and an arc.",
+"A **segment** is the region between a chord and an arc.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (O) at (0,0);\n\\draw[thick] (O) circle (2);\n\\fill (O) circle (1.6pt);\n\\draw (O) -- (30:2);\n\\draw (O) -- (130:2);\n\\draw[very thick] (30:2) arc[start angle=30,end angle=130,radius=2];\n\\node at (80:1.3) {sector};\n\\node at (80:2.35) {arc};\n\\coordinate (P) at (5,0);\n\\draw[thick] (P) circle (2);\n\\fill (P) circle (1.6pt);\n\\draw ($(P)+(205:2)$) -- ($(P)+(335:2)$) node[midway,above] {chord};\n\\node at (5,-1.42) {segment};\n\\end{tikzpicture}\n[/tikz]",
+"A **semicircle** is half a circle — a sector whose straight edge is a diameter.",
+"A **quadrant** is a quarter of a circle — a sector whose two radii meet at a right angle.",
+"A chord that misses the centre makes two unequal segments. The smaller is the **minor segment** and the larger is the **major segment**."
+],
+"steps": [
+"Identify the centre, or decide whether the marked part is a straight line, a curve or a region.",
+"For a straight line, check how it meets the centre and the circumference.",
+"For a curve, check whether the whole circumference or only an arc is shown.",
+"For a region, check whether its straight edge is a chord or two radii. Look for a half, a quarter, or the larger or smaller region."
+],
+"workedExamples": [
+  {
+    "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"circle-features theory.workedExamples[0].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\begin{tikzpicture}[scale=0.82]\n\\draw[thick] (0,0) circle (1.4);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick] (0,0)--(65:1.4);\n\\node[below] at (0,-1.55) {(a)};\n\\begin{scope}[xshift=4cm]\n\\draw[thick] (0,0) circle (1.4);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick] (15:1.4)--(195:1.4);\n\\node[below] at (0,-1.55) {(b)};\n\\end{scope}\n\\begin{scope}[xshift=8cm]\n\\draw[thick] (0,0) circle (1.4);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick] (35:1.4)--(145:1.4);\n\\node[below] at (0,-1.55) {(c)};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]\nFor each circle, name the straight line.\n(d) Explain why a diameter is also a chord.\n(e) Name the whole curve around a circle, then name a part of that curve.\n(f) Name a straight line that touches the circle at one point without entering it.",
+    "solution_text": "(a) The line joins the centre to the circumference. It is a radius.\n(b) The line joins two points on the circumference and passes through the centre. It is a diameter.\n(c) The line joins two points on the circumference but misses the centre. It is a chord.\n(d) A diameter joins two points on the circumference, so it is a special chord.\n(e) The whole curve is the circumference. A part of it is an arc.\n(f) It is a tangent."
+  },
+  {
+    "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features theory.workedExamples[1].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=0.88]\n\\fill[featureRegion] (0,0)--(20:1.55) arc[start angle=20,end angle=120,radius=1.55]--cycle;\n\\draw[thick] (0,0) circle (1.55);\n\\draw (0,0)--(20:1.55);\n\\draw (0,0)--(120:1.55);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0,-1.7) {(a)};\n\\begin{scope}[xshift=4.6cm]\n\\fill[featureRegion] (330:1.55) arc[start angle=330,end angle=570,radius=1.55]--cycle;\n\\draw[thick] (0,0) circle (1.55);\n\\draw (210:1.55)--(330:1.55);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0,-1.7) {(b)};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]\nName each shaded region and explain how its boundary shows the name. For (b), say whether it is the major or minor region.",
+    "solution_text": "(a) Two radii and an arc form the boundary. The region is a sector.\n(b) A chord and an arc form the boundary, so the region is a segment. It is the larger region made by the chord, so it is the major segment. The smaller unshaded region is the minor segment."
+  },
+  {
+    "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features theory.workedExamples[2].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=0.88]\n\\fill[featureRegion] (0:1.55) arc[start angle=0,end angle=180,radius=1.55]--cycle;\n\\draw[thick] (0,0) circle (1.55);\n\\draw (-1.55,0)--(1.55,0);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0,-1.7) {(a)};\n\\begin{scope}[xshift=4.6cm]\n\\fill[featureRegion] (0,0)--(90:1.55) arc[start angle=90,end angle=180,radius=1.55]--cycle;\n\\draw[thick] (0,0) circle (1.55);\n\\draw (0,0)--(0,1.55);\n\\draw (0,0)--(-1.55,0);\n\\draw (-0.24,0)--(-0.24,0.24)--(0,0.24);\n\\fill (0,0) circle (1.5pt);\n\\node[below] at (0,-1.7) {(b)};\n\\end{scope}\n\\end{tikzpicture}\n[/tikz]\nName each shaded region, using the special name for a half or a quarter of a circle.",
+    "solution_text": "(a) The diameter divides the circle into two equal halves. The shaded half is a semicircle.\n(b) The two radii meet at a right angle. The shaded quarter is a quadrant."
+  }
+]
+},
   "practice": {
     "foundation": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (0,0)--(55:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-chord-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.foundation[0].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (0,0)--(55:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-radius-in-figure",
         "solution_text": "The straight line joins the centre to a point on the circumference.\nIt is a radius."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (200:1.6)--(20:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-tangent-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.foundation[1].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (200:1.6)--(20:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-diameter-in-figure",
         "solution_text": "The straight line joins two points on the circumference and passes through the centre.\nIt is a diameter."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (150:1.6)--(30:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-arc-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.foundation[2].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (150:1.6)--(30:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-chord-in-figure",
         "solution_text": "The straight line joins two points on the circumference but does not pass through the centre.\nIt is a chord."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[very thick,red] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-chord-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.foundation[3].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[very thick,featureRed] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-circumference-in-figure",
         "solution_text": "The whole curve around the outside of the circle is highlighted.\nIt is the circumference."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (35:1.6) arc[start angle=35,end angle=125,radius=1.6];\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-tangent-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.foundation[4].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (35:1.6) arc[start angle=35,end angle=125,radius=1.6];\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-arc-in-figure",
         "solution_text": "Only a part of the curve around the outside is highlighted.\nIt is an arc."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[blue!25] (0,0) -- (25:1.6) arc[start angle=25,end angle=110,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(25:1.6);\n\\draw (0,0)--(110:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features practice.foundation[5].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=1]\n\\fill[featureRegion] (0,0) -- (25:1.6) arc[start angle=25,end angle=110,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(25:1.6);\n\\draw (0,0)--(110:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
         "structure": "name-sector-in-figure",
         "solution_text": "The region is bounded by two radii and an arc.\nIt is a sector."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[blue!25] (0:1.6) arc[start angle=0,end angle=180,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (-1.6,0)--(1.6,0);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
-        "structure": "name-segment-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features practice.foundation[6].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=1]\n\\fill[featureRegion] (0:1.6) arc[start angle=0,end angle=180,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (-1.6,0)--(1.6,0);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
+        "structure": "name-semicircle-in-figure",
         "solution_text": "The region is bounded by a diameter and an arc, so it is half of the circle.\nIt is a semicircle."
       }
-    ],
+],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (-2.0,-1.6)--(2.0,-1.6);\n\\fill (0,-1.6) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
-        "structure": "name-arc-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.development[0].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (-2.0,-1.6)--(2.0,-1.6);\n\\fill (0,-1.6) circle (1.5pt);\n\\end{tikzpicture}\n[/tikz]\nName the part of the circle shown in red.",
+        "structure": "name-tangent-in-figure",
         "solution_text": "The straight line touches the circumference at exactly one point and does not enter the circle.\nIt is a tangent."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[blue!25] (200:1.6) arc[start angle=200,end angle=340,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (200:1.6)--(340:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
-        "structure": "name-sector-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features practice.development[1].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=1]\n\\fill[featureRegion] (200:1.6) arc[start angle=200,end angle=340,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (200:1.6)--(340:1.6);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
+        "structure": "name-segment-in-figure",
         "solution_text": "The region is bounded by a chord and an arc.\nIt is a segment."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[blue!25] (0,0) -- (0:1.6) arc[start angle=0,end angle=90,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.6,0);\n\\draw (0,0)--(0,1.6);\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
-        "structure": "name-segment-in-figure",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features practice.development[2].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=1]\n\\fill[featureRegion] (0,0) -- (0:1.6) arc[start angle=0,end angle=90,radius=1.6] -- cycle;\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(1.6,0);\n\\draw (0,0)--(0,1.6);\n\\draw (0.28,0)--(0.28,0.28)--(0,0.28);\n\\end{tikzpicture}\n[/tikz]\nName the shaded region.",
+        "structure": "name-quadrant-in-figure",
         "solution_text": "The region is bounded by two radii that meet at a right angle, so it is a quarter of the circle.\nIt is a quadrant."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.7);\n\\fill (0,0) circle (1.5pt);\n\\draw (150:1.7)--(30:1.7) node[midway,above,fill=white,inner sep=1pt] {$1$};\n\\draw (-2.1,-1.7)--(2.1,-1.7) node[pos=0.78,below] {$2$};\n\\draw (0,0)--(20:1.7) node[midway,below right,fill=white,inner sep=1pt] {$3$};\n\\end{tikzpicture}\n[/tikz]\nWhich of the lines $1$, $2$ and $3$ is a tangent?",
         "structure": "judge-feature-shown",
         "solution_text": "Line $1$ joins two points on the circumference, so it is a chord.\nLine $3$ joins the centre to the circumference, so it is a radius.\nLine $2$ touches the circumference at one point only and does not enter the circle.\nLine $2$ is the tangent."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,red] (160:1.6)--(20:1.6);\n\\end{tikzpicture}\n[/tikz]\nAisha says the red line is a diameter.\nExplain why she is wrong, and name the line.",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRed\",\"hex\":\"FA4D56\",\"reason\":\"The question explicitly asks for the line or curve shown in red; colour selects that mathematical feature.\"}],\"reference\":\"circle-features practice.development[4].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRed}{HTML}{FA4D56}\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.6);\n\\fill (0,0) circle (1.5pt);\n\\draw[very thick,featureRed] (160:1.6)--(20:1.6);\n\\end{tikzpicture}\n[/tikz]\nAisha says the red line is a diameter.\nExplain why she is wrong, and name the line.",
         "structure": "judge-feature-shown",
         "solution_text": "A diameter must pass through the centre, but the red line passes above the centre dot.\nIt still joins two points on the circumference.\nIt is a chord."
       },
-      {
+{
         "question_text": "What name is given to a chord that passes through the centre of a circle?",
         "structure": "definition-to-name",
         "solution_text": "A chord joins two points on the circumference; the one that also passes through the centre is the longest chord of all.\nIt is a diameter."
       },
-      {
+{
         "question_text": "What name is given to the region between a chord and the circumference?",
         "structure": "definition-to-name",
-        "solution_text": "The region is cut off by a straight chord, not by two radii, so it is not a sector.\nIt is a segment."
+        "solution_text": "The region is between a chord and an arc.\nIt is a segment."
       },
-      {
+{
         "question_text": "What name is given to the point inside a circle that is the same distance from every point on the circumference?",
         "structure": "definition-to-name",
         "solution_text": "Every radius is drawn from this point, and every radius of a circle is the same length.\nIt is the centre."
       }
-    ],
+],
     "mastery": [
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\draw[thick] (0,0) circle (1.7);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(65:1.7) node[midway,above left,fill=white,inner sep=1pt] {$1$};\n\\draw (185:1.7)--(295:1.7) node[midway,below left,fill=white,inner sep=1pt] {$2$};\n\\draw (1.7,-1.4)--(1.7,1.4) node[pos=0.18,right] {$3$};\n\\draw[line width=1.4pt] (100:1.7) arc[start angle=100,end angle=160,radius=1.7];\n\\node at (130:2.05) {$4$};\n\\end{tikzpicture}\n[/tikz]\nName each of the parts labelled $1$, $2$, $3$ and $4$.",
         "structure": "distinguish-features-one-figure",
         "solution_text": "$1$ joins the centre to the circumference, so it is a radius.\n$2$ joins two points on the circumference without passing through the centre, so it is a chord.\n$3$ touches the circumference at one point only, so it is a tangent.\n$4$ is a part of the circumference, so it is an arc."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=1]\n\\fill[blue!25] (0,0) -- (40:1.7) arc[start angle=40,end angle=110,radius=1.7] -- cycle;\n\\fill[blue!25] (195:1.7) arc[start angle=195,end angle=295,radius=1.7] -- cycle;\n\\draw[thick] (0,0) circle (1.7);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(40:1.7);\n\\draw (0,0)--(110:1.7);\n\\draw (195:1.7)--(295:1.7);\n\\node at (75:1.05) {$P$};\n\\node at (245:1.42) {$Q$};\n\\end{tikzpicture}\n[/tikz]\nName the shaded region $P$ and the shaded region $Q$.",
+{
+        "question_text": "[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"featureRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Restrained fill identifies the region explicitly requested by the question; it distinguishes region from its boundary.\"}],\"reference\":\"circle-features practice.mastery[1].question_text; ordinary outlines/labels black; only requested feature or region selected\"}\n\\definecolor{featureRegion}{HTML}{D4E8FF}\n\\begin{tikzpicture}[scale=1]\n\\fill[featureRegion] (0,0) -- (40:1.7) arc[start angle=40,end angle=110,radius=1.7] -- cycle;\n\\fill[featureRegion] (195:1.7) arc[start angle=195,end angle=295,radius=1.7] -- cycle;\n\\draw[thick] (0,0) circle (1.7);\n\\fill (0,0) circle (1.5pt);\n\\draw (0,0)--(40:1.7);\n\\draw (0,0)--(110:1.7);\n\\draw (195:1.7)--(295:1.7);\n\\node at (75:1.05) {$P$};\n\\node at (245:1.42) {$Q$};\n\\end{tikzpicture}\n[/tikz]\nName the shaded region $P$ and the shaded region $Q$.",
         "structure": "distinguish-features-one-figure",
         "solution_text": "$P$ is bounded by two radii and an arc, so it is a sector.\n$Q$ is bounded by a chord and an arc, so it is a segment."
       },
-      {
+{
         "question_text": "Explain why every diameter is a chord, but not every chord is a diameter.",
         "structure": "explain-term-relationship",
         "solution_text": "A chord is any straight line joining two points on the circumference.\nA diameter joins two points on the circumference as well, so a diameter fits the definition of a chord.\nA chord counts as a diameter only when it also passes through the centre, and most chords miss the centre."
       }
-    ]
+]
   }
 }

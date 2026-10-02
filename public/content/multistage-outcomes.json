@@ -2,23 +2,37 @@
   "skillId": "multistage-outcomes",
   "atomType": "R",
   "theory": {
-        "intro": "A **multistage experiment** has two or more steps, such as tossing a coin and then spinning a spinner. Record every outcome in a **two-way array** or a **tree diagram** so that none is missed.",
-        "facts": [
-          "A **multistage experiment** has two or more steps, and one result from every step together makes one **outcome**.",
-          "A **two-way array** suits two stages: one stage's results head the columns, the other's head the rows, and each cell holds one outcome.",
-          "A **tree diagram** suits two or more stages: each branch is one result of one stage, and each complete path is one outcome.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (2.2,1.5);\n\\coordinate (F2) at (2.2,-1.5);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.6);\n\\coordinate (E3) at (4.8,-0.6);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$A$};\n\\draw (O)--(F2) node[midway,below,font=\\small] {$B$};\n\\draw (F1)--(E1) node[midway,above,font=\\small] {$1$};\n\\draw (F1)--(E2) node[midway,below,font=\\small] {$2$};\n\\draw (F2)--(E3) node[midway,above,font=\\small] {$1$};\n\\draw (F2)--(E4) node[midway,below,font=\\small] {$2$};\n\\node[right,font=\\small] at (E1) {$(A,1)$};\n\\node[right,font=\\small] at (E2) {$(A,2)$};\n\\node[right,font=\\small] at (E3) {$(B,1)$};\n\\node[right,font=\\small] at (E4) {$(B,2)$};\n\\node[font=\\small] at (2.2,3.2) {Stage $1$};\n\\node[font=\\small] at (4.8,3.2) {Stage $2$};\n\\node[font=\\small] at (6.4,3.2) {Outcome};\n\\end{tikzpicture}\n[/tikz]",
-          "Order is part of the outcome, so $HT$ and $TH$ are different outcomes and both are recorded.",
-          "The number of outcomes is the number of cells in the array, or the number of complete paths in the tree.",
-          "That count equals the number of results at the first stage multiplied by the number at each later stage.",
-          "Choosing without replacement removes the repeats: cross out cells holding the same entry twice, and give each second-stage branch one fewer result."
-        ],
-        "steps": [
+"intro": "A **multistage experiment** has two or more steps, such as tossing a coin and then spinning a spinner. Record every outcome in a **two-way array** or a **tree diagram** so that none is missed.",
+"facts": [
+"A **multistage experiment** has two or more steps, and one result from every step together makes one **outcome**.",
+"A **two-way array** suits two stages: one stage's results head the columns, the other's head the rows, and each cell holds one outcome.",
+"A **tree diagram** suits two or more stages: each branch is one result of one stage, and each complete path is one outcome.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\coordinate (O) at (0,0);\n\\coordinate (F1) at (2.2,1.5);\n\\coordinate (F2) at (2.2,-1.5);\n\\coordinate (E1) at (4.8,2.4);\n\\coordinate (E2) at (4.8,0.6);\n\\coordinate (E3) at (4.8,-0.6);\n\\coordinate (E4) at (4.8,-2.4);\n\\draw (O)--(F1) node[midway,above,font=\\small] {$A$};\n\\draw (O)--(F2) node[midway,below,font=\\small] {$B$};\n\\draw (F1)--(E1) node[midway,above,font=\\small] {$1$};\n\\draw (F1)--(E2) node[midway,below,font=\\small] {$2$};\n\\draw (F2)--(E3) node[midway,above,font=\\small] {$1$};\n\\draw (F2)--(E4) node[midway,below,font=\\small] {$2$};\n\\node[right,font=\\small] at (E1) {$(A,1)$};\n\\node[right,font=\\small] at (E2) {$(A,2)$};\n\\node[right,font=\\small] at (E3) {$(B,1)$};\n\\node[right,font=\\small] at (E4) {$(B,2)$};\n\\node[font=\\small] at (2.2,3.2) {Stage $1$};\n\\node[font=\\small] at (4.8,3.2) {Stage $2$};\n\\node[font=\\small] at (6.4,3.2) {Outcome};\n\\end{tikzpicture}\n[/tikz]",
+"Order is part of the outcome, so $HT$ and $TH$ are different outcomes and both are recorded.",
+"Each allowed cell or complete path records an outcome. If several record the same labelled outcome, list that outcome only once.",
+"Multiply the stage counts when every branch at a stage has the same number of choices and the paths record different outcomes.",
+"Without replacement, remove only the object already drawn. Different objects can share a label, so matching labels may still occur."
+],
+"steps": [
           "List the possible results of each stage.",
           "Draw a two-way array or a tree diagram with one heading or branch for every result.",
           "Write each complete outcome in its cell or at the end of its path.",
           "Count the outcomes and check the count against the number of results at each stage."
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A wardrobe has long-sleeved ($L$) and short-sleeved ($S$) shirts, and red ($R$), black ($B$) and green ($G$) trousers.\nOne shirt and one pair of trousers are chosen. Record the shirt first.\na) Use a two-way array and list all the outfits.\nb) State how many outfits there are and check the count.\nc) List the outfits with green trousers.",
+    "solution_text": "a) Put the shirt results down the side and the trouser results across the top.\n$\\begin{array}{c|ccc} & R & B & G \\\\ \\hline L & (L,R) & (L,B) & (L,G) \\\\ S & (S,R) & (S,B) & (S,G) \\end{array}$\nPair $L$ with each trouser result, then do the same for $S$.\nThe outfits are $(L,R)$, $(L,B)$, $(L,G)$, $(S,R)$, $(S,B)$ and $(S,G)$.\nb) The array has $6$ cells.\nNumber of outfits $= 2 \\times 3$\n$= 6$\nc) The $G$ column gives $(L,G)$ and $(S,G)$."
+  },
+  {
+    "question_text": "A coin is tossed three times and the results are recorded in order.\na) Draw a tree diagram showing every outcome.\nb) State how many outcomes there are and check the count.\nc) List the outcomes with exactly two heads.",
+    "solution_text": "a) Each branch splits into $H$ and $T$ at the next toss.\n[tikz]\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Probability A 2:405–504; unfilled source investigation completed as a new three-toss example; ordinary branches and labels black, no shading\"}\n\\begin{tikzpicture}[every node/.style={font=\\small}]\n\\coordinate (O) at (0,0);\n\\coordinate (A0) at (2.1,2);\n\\draw (O)--(A0) node[midway,above] {$H$};\n\\coordinate (A1) at (2.1,-2);\n\\draw (O)--(A1) node[midway,below] {$T$};\n\\coordinate (B0) at (4.2,3);\n\\draw (A0)--(B0) node[midway,above] {$H$};\n\\coordinate (B1) at (4.2,1);\n\\draw (A0)--(B1) node[midway,below] {$T$};\n\\coordinate (B2) at (4.2,-1);\n\\draw (A1)--(B2) node[midway,above] {$H$};\n\\coordinate (B3) at (4.2,-3);\n\\draw (A1)--(B3) node[midway,below] {$T$};\n\\coordinate (C0) at (6.3,3.5);\n\\draw (B0)--(C0) node[midway,above] {$H$};\n\\node[right] at (C0) {$HHH$};\n\\coordinate (C1) at (6.3,2.5);\n\\draw (B0)--(C1) node[midway,below] {$T$};\n\\node[right] at (C1) {$HHT$};\n\\coordinate (C2) at (6.3,1.5);\n\\draw (B1)--(C2) node[midway,above] {$H$};\n\\node[right] at (C2) {$HTH$};\n\\coordinate (C3) at (6.3,0.5);\n\\draw (B1)--(C3) node[midway,below] {$T$};\n\\node[right] at (C3) {$HTT$};\n\\coordinate (C4) at (6.3,-0.5);\n\\draw (B2)--(C4) node[midway,above] {$H$};\n\\node[right] at (C4) {$THH$};\n\\coordinate (C5) at (6.3,-1.5);\n\\draw (B2)--(C5) node[midway,below] {$T$};\n\\node[right] at (C5) {$THT$};\n\\coordinate (C6) at (6.3,-2.5);\n\\draw (B3)--(C6) node[midway,above] {$H$};\n\\node[right] at (C6) {$TTH$};\n\\coordinate (C7) at (6.3,-3.5);\n\\draw (B3)--(C7) node[midway,below] {$T$};\n\\node[right] at (C7) {$TTT$};\n\\node at (2.1,4.3) {Toss 1};\n\\node at (4.2,4.3) {Toss 2};\n\\node at (6.3,4.3) {Toss 3};\n\\node at (8.3,4.3) {Outcome};\n\\end{tikzpicture}\n[/tikz]\nb) There are $8$ complete paths.\nNumber of outcomes $= 2 \\times 2 \\times 2$\n$= 8$\nc) Read the paths with exactly two $H$ results: $HHT$, $HTH$ and $THH$."
+  },
+  {
+    "question_text": "Four separate cards show the letters M, O, O and N. Label the two O cards $O_1$ and $O_2$ so each card can be identified.\nTwo cards are drawn in order without replacement.\na) Record every ordered pair of cards in a two-way array, with the first draw down the side. Cross out the impossible cells.\nb) How many ordered card draws are there? Check the count.\nc) Could both drawn cards show the letter O? Explain.",
+    "solution_text": "a) Cross out only the cells that use the same physical card twice.\n$\\begin{array}{c|cccc} & M & O_1 & O_2 & N \\\\ \\hline M & \\times & (M,O_1) & (M,O_2) & (M,N) \\\\ O_1 & (O_1,M) & \\times & (O_1,O_2) & (O_1,N) \\\\ O_2 & (O_2,M) & (O_2,O_1) & \\times & (O_2,N) \\\\ N & (N,M) & (N,O_1) & (N,O_2) & \\times \\end{array}$\nb) The $4$ diagonal cells are crossed out.\nNumber of ordered card draws $= 16 - 4$\n$= 12$\nEach first card leaves $3$ cards for the second draw, so $4 \\times 3 = 12$.\nc) Yes. $(O_1,O_2)$ and $(O_2,O_1)$ use different cards. Both give $OO$ when only the letters are recorded."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

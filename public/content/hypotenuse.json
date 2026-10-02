@@ -2,15 +2,25 @@
   "skillId": "hypotenuse",
   "atomType": "T",
   "theory": {
-        "intro": "Every right-angled triangle has one side that stands out: the hypotenuse. Spotting it is the first step towards using Pythagoras' theorem.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (0,2.4);\n\\draw (A)--(B) node[midway,below] {$b$};\n\\draw (A)--(C) node[midway,left] {$a$};\n\\draw (C)--(B) node[midway,above right] {$h$};\n\\coordinate (ra) at ($(A)!0.3cm!(B)$);\n\\coordinate (rb) at ($(A)!0.3cm!(C)$);\n\\draw (ra)--($(ra)+(rb)-(A)$)--(rb);\n\\node[font=\\normalsize] at (1.15,0.65) {hypotenuse};\n\\end{tikzpicture}\n[/tikz]",
-        "facts": [
-          "A **right-angled triangle** has one $90^\\circ$ angle, marked in a diagram by a small square at that vertex.",
-          "The **hypotenuse** is the side **opposite** the right angle, so it never touches that angle.",
-          "The hypotenuse is always the **longest** side of a right-angled triangle.",
-          "The two shorter sides, which meet at the right angle, are the **legs**.",
-          "The hypotenuse can point in any direction: its position depends on where the right angle is, not on how the triangle is drawn.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (V) at (0,2.7);\n\\coordinate (P) at (3.6,3.9);\n\\coordinate (Q) at (0.9,0);\n\\draw (V)--(P) node[midway,above] {$b$};\n\\draw (V)--(Q) node[midway,left] {$a$};\n\\draw (P)--(Q) node[midway,right] {$h$};\n\\coordinate (rp) at ($(V)!0.3cm!(P)$);\n\\coordinate (rq) at ($(V)!0.3cm!(Q)$);\n\\draw (rp)--($(rp)+(rq)-(V)$)--(rq);\n\\end{tikzpicture}\n[/tikz]"
-        ]
-      },
+"intro": "The hypotenuse is the longest side of a right-angled triangle, opposite the right angle.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (0,2.4);\n\\draw (A)--(B) node[midway,below] {$b$};\n\\draw (A)--(C) node[midway,left] {$a$};\n\\draw[black] (C)--(B) node[midway,sloped,above] {hypotenuse $h$};\n\\coordinate (ra) at ($(A)!0.3cm!(B)$);\n\\coordinate (rb) at ($(A)!0.3cm!(C)$);\n\\draw (ra)--($(ra)+(rb)-(A)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+"facts": [
+"A **right-angled triangle** has one $90^\\circ$ angle, marked in a diagram by a small square at that vertex.",
+"The **hypotenuse** is the side **opposite** the right angle, so it never touches that angle.",
+"The hypotenuse is always the **longest** side of a right-angled triangle.",
+"The two shorter sides meet at the right angle.",
+"The hypotenuse can point in any direction: its position depends on where the right angle is, not on how the triangle is drawn.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (V) at (0,2.7);\n\\coordinate (P) at (3.6,3.9);\n\\coordinate (Q) at (0.9,0);\n\\draw (V)--(P) node[midway,above] {$b$};\n\\draw (V)--(Q) node[midway,left] {$a$};\n\\draw (P)--(Q) node[midway,right] {$h$};\n\\coordinate (rp) at ($(V)!0.3cm!(P)$);\n\\coordinate (rq) at ($(V)!0.3cm!(Q)$);\n\\draw (rp)--($(rp)+(rq)-(V)$)--(rq);\n\\end{tikzpicture}\n[/tikz]"
+],
+"workedExamples": [
+  {
+    "question_text": "Name the hypotenuse in each triangle.\n(a)\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.4,0);\n\\coordinate (C) at (0,2.2);\n\\draw[black] (A)--(B) node[midway,below,text=black] {$p$};\n\\draw[black] (A)--(C) node[midway,left,text=black] {$q$};\n\\draw[black] (B)--(C) node[midway,above right,text=black] {$r$};\n\\coordinate (ra) at ($(A)!0.3cm!(B)$);\n\\coordinate (rb) at ($(A)!0.3cm!(C)$);\n\\draw[black] (ra)--($(ra)+(rb)-(A)$)--(rb);\n\\end{tikzpicture}\n[/tikz]\n(b)\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\usetikzlibrary{calc}\n\\coordinate (D) at (0,2);\n\\coordinate (E) at (-2.8,0.4);\n\\coordinate (F) at (0.8,0.6);\n\\draw[black] (D)--(E)--(F)--cycle;\n\\node[above,text=black] at (D) {$D$};\n\\node[below left,text=black] at (E) {$E$};\n\\node[below right,text=black] at (F) {$F$};\n\\coordinate (ra) at ($(D)!0.3cm!(E)$);\n\\coordinate (rb) at ($(D)!0.3cm!(F)$);\n\\draw[black] (ra)--($(ra)+(rb)-(D)$)--(rb);\n\\end{tikzpicture}\n[/tikz]",
+    "solution_text": "(a) $r$, opposite the marked right angle.\n(b) $EF$, opposite the right angle at $D$."
+  },
+  {
+    "question_text": "This triangle is right-angled. The right angle is not marked.\n[tikz]\n\\begin{tikzpicture}[scale=0.8]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3,0);\n\\coordinate (C) at (0,3.15);\n\\draw[black] (A)--(B) node[midway,below,text=black] {$20\\text{ cm}$};\n\\draw[black] (A)--(C) node[midway,left,text=black] {$21\\text{ cm}$};\n\\draw[black] (B)--(C) node[midway,above right,text=black] {$29\\text{ cm}$};\n\\end{tikzpicture}\n[/tikz]\nWhich side length is the hypotenuse?",
+    "solution_text": "$29$ cm, the longest side of this right-angled triangle."
+  }
+]
+},
   "practice": {
     "foundation": [
       {
@@ -35,43 +45,43 @@
       }
     ],
     "development": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (J) at (1,1.732);\\coordinate (L) at (-2,0);\\coordinate (K) at (2,0);\\draw (J)--(L) node[midway,above left] {$q$};\\draw (J)--(K) node[midway,above right] {$r$};\\draw (L)--(K) node[midway,below] {$p$};\\coordinate (va) at ($(J)!0.3cm!(L)$);\\coordinate (vb) at ($(J)!0.3cm!(K)$);\\draw (va)--($(va)+(vb)-(J)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe right angle is at the top vertex.\nName the hypotenuse.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (J) at (1,{sqrt(3)});\\coordinate (L) at (-2,0);\\coordinate (K) at (2,0);\\draw (J)--(L) node[midway,above left] {$q$};\\draw (J)--(K) node[midway,above right] {$r$};\\draw (L)--(K) node[midway,below] {$p$};\\coordinate (va) at ($(J)!0.3cm!(L)$);\\coordinate (vb) at ($(J)!0.3cm!(K)$);\\draw (va)--($(va)+(vb)-(J)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe right angle is at the top vertex.\nName the hypotenuse.",
         "structure": "right-angle-varied-orientation",
         "solution_text": "The hypotenuse is $p$. Even though it is the horizontal base, it is the side opposite the right angle."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (0,3);\\draw (A)--(B) node[midway,below] {$8$};\\draw (A)--(C) node[midway,left] {$6$};\\draw (B)--(C) node[midway,above right] {$10$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nWhich side length is the hypotenuse?",
         "structure": "hypotenuse-is-longest-side",
         "solution_text": "$10$, the side opposite the right angle (also the longest side)."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (3,1);\\coordinate (C) at (-1,3);\\draw (A)--(B) node[midway,below right] {$f$};\\draw (A)--(C) node[midway,left] {$g$};\\draw (B)--(C) node[midway,above right] {$e$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThis right-angled triangle is drawn on a slant.\nName the hypotenuse.",
         "structure": "right-angle-varied-orientation",
-        "solution_text": "The hypotenuse is $e$, the side opposite the right angle at $A$."
+        "solution_text": "The hypotenuse is $e$, the side opposite the marked right angle."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (P) at (0,0);\\coordinate (Q) at (3,0);\\coordinate (R) at (3,2);\\draw (P)--(Q);\\draw (Q)--(R);\\draw (R)--(P);\\node[below left] at (P) {$P$};\\node[below right] at (Q) {$Q$};\\node[above right] at (R) {$R$};\\coordinate (va) at ($(Q)!0.3cm!(P)$);\\coordinate (vb) at ($(Q)!0.3cm!(R)$);\\draw (va)--($(va)+(vb)-(Q)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe right angle is at $Q$.\nName the hypotenuse using the vertex letters.",
         "structure": "right-angle-varied-orientation",
         "solution_text": "Side $PR$, the side opposite the right angle at $Q$."
       }
-    ],
+],
     "mastery": [
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (2,-1);\\coordinate (C) at (1,2);\\draw (A)--(B) node[midway,below] {$u$};\\draw (A)--(C) node[midway,left] {$v$};\\draw (B)--(C) node[midway,right] {$w$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThe triangle is rotated so the right angle points down.\nName the hypotenuse.",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (2,-1);\\coordinate (C) at (1,2);\\draw (A)--(B) node[midway,below] {$u$};\\draw (A)--(C) node[midway,left] {$v$};\\draw (B)--(C) node[midway,right] {$w$};\\coordinate (va) at ($(A)!0.3cm!(B)$);\\coordinate (vb) at ($(A)!0.3cm!(C)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nThis right-angled triangle is rotated.\nName the hypotenuse.",
         "structure": "right-angle-varied-orientation",
-        "solution_text": "The hypotenuse is $w$, the side opposite the right angle at $A$."
+        "solution_text": "The hypotenuse is $w$, the side opposite the marked right angle."
       },
-      {
+{
         "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.8]\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\\coordinate (C) at (0,3);\\draw (A)--(B) node[midway,below] {$12$};\\draw (A)--(C) node[midway,left] {$9$};\\draw (B)--(C) node[midway,above right] {$15$};\\end{tikzpicture}\n[/tikz]\nThis triangle is right-angled, but the right angle is not marked.\nWhich side is the hypotenuse?",
         "structure": "hypotenuse-is-longest-side",
         "solution_text": "$15$. The hypotenuse is the longest side, and it lies opposite the right angle."
       },
-      {
-        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\coordinate (A) at (0,0);\\coordinate (W) at (0,2.5);\\coordinate (F) at (2,0);\\draw (A)--(W) node[midway,left] {wall};\\draw (A)--(F) node[midway,below] {ground};\\draw (W)--(F) node[midway,above right] {ladder};\\coordinate (va) at ($(A)!0.3cm!(F)$);\\coordinate (vb) at ($(A)!0.3cm!(W)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nA ladder leans against a vertical wall, meeting the level ground at a right angle between the wall and the ground.\nWhich part of the diagram is the hypotenuse?",
+{
+        "question_text": "[tikz]\n\\begin{tikzpicture}[scale=0.9]\\coordinate (A) at (0,0);\\coordinate (W) at (0,2.5);\\coordinate (F) at (2,0);\\draw (A)--(W) node[midway,left] {wall};\\draw (A)--(F) node[midway,below] {ground};\\draw (W)--(F) node[midway,above right] {ladder};\\coordinate (va) at ($(A)!0.3cm!(F)$);\\coordinate (vb) at ($(A)!0.3cm!(W)$);\\draw (va)--($(va)+(vb)-(A)$)--(vb);\\end{tikzpicture}\n[/tikz]\nA ladder leans against a vertical wall. The wall and the level ground meet at a right angle.\nWhich part of the diagram is the hypotenuse?",
         "structure": "ladder-context",
         "solution_text": "The ladder. It is the side opposite the right angle formed by the wall and the ground."
       }
-    ]
+]
   }
 }

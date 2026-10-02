@@ -2,8 +2,8 @@
   "skillId": "calculate-mean-median-mode-range",
   "atomType": "R",
   "theory": {
-        "intro": "**Summary statistics** describe a dataset with a few numbers. The **range** says how spread out the data is; the **mean**, **median** and **mode** each give a typical value. Sorting the data first makes the median and the mode easy to see.",
-        "facts": [
+"intro": "**Summary statistics** describe a dataset with a few numbers. The **range** says how spread out the data is; the **mean**, **median** and **mode** each give a typical value. Sorting the data first makes the median and the mode easy to see.",
+"facts": [
           "$\\text{Range} = \\text{Max} - \\text{Min}$, the difference between the greatest and smallest data value.",
           "The **mode** is the most frequent value.",
           "If every value occurs once there is **no mode**; if several values tie for the most frequent, report **all** of them.",
@@ -15,14 +15,44 @@
           "The median and the mean do **not** have to be values from the dataset; the mode always is.",
           "All four statistics can be read from a list, a column graph or a stem-and-leaf plot."
         ],
-        "steps": [
+"steps": [
           "Sort the data in ascending order",
           "Find the range",
           "Find the mode",
           "Find the median",
           "Find the mean"
-        ]
-      },
+        ],
+"workedExamples": [
+  {
+    "question_text": "A player scored $14$, $9$, $26$, $9$, $12$, $18$ and $16$ points.\nFind the mode, range, median and mean. Give the mean correct to $1$ decimal place.",
+    "solution_text": "1. **Sort the data in ascending order**\n$9,9,12,14,16,18,26$\n2. **Find the range**\n$\\text{Range}=26-9=17$\n3. **Find the mode**\n$9$ occurs twice; each other value occurs once.\n$\\text{Mode}=9$\n4. **Find the median**\nThere are $7$ values. The middle value is the $4$th.\n$\\text{Median}=14$\n5. **Find the mean**\n$\\overline{x}=\\frac{14+9+26+9+12+18+16}{7}$\n$=\\frac{104}{7}\\approx14.9$"
+  },
+  {
+    "question_text": "The scores in eight games were $11$, $6$, $17$, $11$, $19$, $6$, $13$ and $22$.\nFind the mode, range, median and mean.",
+    "solution_text": "1. **Sort the data in ascending order**\n$6,6,11,11,13,17,19,22$\n2. **Find the range**\n$\\text{Range}=22-6=16$\n3. **Find the mode**\n$6$ and $11$ each occur twice; each other value occurs once.\n$\\text{Mode}=6\\text{ and }11$\n4. **Find the median**\nThe two middle values are the $4$th and $5$th values, $11$ and $13$.\n$\\text{Median}=\\frac{11+13}{2}=12$\n5. **Find the mean**\n$\\overline{x}=\\frac{11+6+17+11+19+6+13+22}{8}$\n$=\\frac{105}{8}=13.125$"
+  },
+  {
+    "question_text": "These two datasets are already in ascending order.\n(a) $4,8,13,17,24,29,35,42,51$\n(b) $3,7,12,18,25,31,39,46,54,63$\nUse $\\text{Position}=\\frac{n+1}{2}$ to find the median of each dataset. Also state the mode of each.",
+    "solution_text": "(a) There are $9$ data values.\n$\\text{Position}=\\frac{9+1}{2}=5$\nThe $5$th value is $24$, so the median is $24$.\nEach value occurs once, so there is no mode.\n(b) There are $10$ data values.\n$\\text{Position}=\\frac{10+1}{2}=5.5$\nUse the $5$th and $6$th values, $25$ and $31$.\n$\\text{Median}=\\frac{25+31}{2}=28$\nEach value occurs once, so there is no mode.\nThe position tells us where to look; it is not the median value."
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\node at (1.5,0.55) {Scores};\n\\node at (0,0) {Stem};\\node at (1.7,0) {Leaf};\n\\draw (-0.4,-0.25)--(3.1,-0.25);\\draw (0.55,0.25)--(0.55,-2.9);\n\\node at (0,-0.6) {$1$};\\node at (1.1,-0.6) {$8$};\n\\node at (0,-1.1) {$2$};\\node at (1.1,-1.1) {$1$};\\node at (1.65,-1.1) {$7$};\n\\node at (0,-1.6) {$3$};\\node at (1.1,-1.6) {$5$};\\node at (1.65,-1.6) {$5$};\n\\node at (0,-2.1) {$4$};\n\\node at (0,-2.6) {$5$};\\node at (1.1,-2.6) {$2$};\n\\node[anchor=west] at (-0.4,-3.2) {Key: $2|1$ means $21$};\n\\end{tikzpicture}\n[/tikz]\nFind the mode, range, median and mean. Give the mean correct to $1$ decimal place.",
+    "solution_text": "1. **Sort the data in ascending order**\nRead each whole score using the key, including repeated leaves.\n$18,21,27,35,35,52$\nThe empty stem $4$ contributes no scores.\n2. **Find the range**\n$\\text{Range}=52-18=34$\n3. **Find the mode**\n$35$ occurs twice; each other value occurs once.\n$\\text{Mode}=35$\n4. **Find the median**\n$\\text{Position}=\\frac{6+1}{2}=3.5$\n$\\text{Median}=\\frac{27+35}{2}=31$\n5. **Find the mean**\n$\\overline{x}=\\frac{18+21+27+35+35+52}{6}$\n$=\\frac{188}{6}\\approx31.3$"
+  },
+  {
+    "question_text": "[tikz]\n\\begin{tikzpicture}\n\\draw[->] (0,0)--(0,7.15);\\draw[->] (0,0)--(6.5,0);\n\\foreach \\v/\\y in {0/0,4/1,8/2,12/3,16/4,20/5,24/6,28/7} {\\draw (-0.12,\\y)--(0,\\y);\\node[left] at (-0.12,\\y) {$\\v$};}\n\\draw (0.5,0) rectangle (1.1,3.25);\\draw (1.5,0) rectangle (2.1,2);\n\\draw (2.5,0) rectangle (3.1,5.5);\\draw (3.5,0) rectangle (4.1,4.25);\n\\draw (4.5,0) rectangle (5.1,2.75);\\draw (5.5,0) rectangle (6.1,6.5);\n\\foreach \\g/\\x in {1/0.8,2/1.8,3/2.8,4/3.8,5/4.8,6/5.8} {\\node[below] at (\\x,0) {$\\g$};}\n\\node[rotate=90] at (-1,3.5) {Points scored};\\node at (3.3,-0.75) {Game};\n\\end{tikzpicture}\n[/tikz]\nThe graph shows the points scored in each of six games. Find the range, median and mean. Give the mean correct to $1$ decimal place.",
+    "solution_text": "Read each column's height using the points scale.\nThe six scores, in game order, are $13,8,22,17,11,26$.\nThe columns represent games, not frequencies.\nIn ascending order: $8,11,13,17,22,26$.\n$\\text{Range}=26-8=18$\n$\\text{Median}=\\frac{13+17}{2}=15$\n$\\overline{x}=\\frac{13+8+22+17+11+26}{6}$\n$=\\frac{97}{6}\\approx16.2$"
+  },
+  {
+    "question_text": "(a) The range of a player's scores is $28$ points and her lowest score is $13$ points. Find her highest score.\n(b) Six scores, in ascending order, are $8,11,19,x,29,34$. The median is $22.5$. Find $x$.",
+    "solution_text": "(a) $\\text{Range}=\\text{Max}-\\text{Min}$\n$28=\\text{Max}-13$\n$\\text{Max}=28+13=41$\nThe highest score is $41$ points. Check: $41-13=28$.\n(b) The two middle scores are $19$ and $x$.\n$22.5=\\frac{19+x}{2}$\n$45=19+x$\n$x=45-19=26$\nCheck: $\\frac{19+26}{2}=22.5$ and $19<26<29$, so the ascending order is correct."
+  },
+  {
+    "question_text": "Five scores in ascending order are $10,a,b,c,34$. Their mean, median and mode are all $19$. Find $a$, $b$ and $c$.",
+    "solution_text": "Use the mean to find the total.\n$19=\\frac{10+a+b+c+34}{5}$\n$95=44+a+b+c$\n$a+b+c=51$\nThe median is the $3$rd score, so $b=19$.\n$a+c=51-19=32$\nFor the mode to be $19$, one of $a$ and $c$ must also be $19$.\nThe other is $32-19=13$.\nAscending order puts $13$ before $19$, so $a=13$, $b=19$ and $c=19$.\nCheck: $10,13,19,19,34$ has total $95$, mean $19$, middle value $19$ and most frequent value $19$."
+  }
+]
+},
   "practice": {
     "foundation": [
       {

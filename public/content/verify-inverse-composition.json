@@ -2,127 +2,127 @@
   "skillId": "verify-inverse-composition",
   "atomType": "R",
   "theory": {
-        "intro": "Two functions are inverses when each undoes the other. This means $f(g(x)) = x$ for every $x$ in the domain of $g$, and $g(f(x)) = x$ for every $x$ in the domain of $f$.",
-        "facts": [
-          "To show that $g(x) = f^{-1}(x)$, check both $f(g(x)) = x$ and $g(f(x)) = x$.",
-          "$f(f^{-1}(x)) = x$ holds for every $x$ in the domain of $f^{-1}$, which is the range of $f$.",
-          "$f^{-1}(f(x)) = x$ holds for every $x$ in the domain of $f$.",
-          "One composition on its own is not enough when a domain is restricted, because it can hold on one side only.",
-          "For $f(x) = ax + b$ with $a \\ne 0$, the inverse $g(x) = \\dfrac{x - b}{a}$ gives $f(g(x)) = a\\left(\\dfrac{x - b}{a}\\right) + b = x$.",
-          "Substituting a number $c$ into $f(g(x))$ returns $c$ itself, provided $c$ lies in the valid domain."
-        ],
-        "steps": [
-          "Substitute the expression for $g(x)$ into $f(x)$ to form $f(g(x))$.",
-          "Algebraically simplify $f(g(x))$ to show it reduces to $x$.",
-          "Substitute the expression for $f(x)$ into $g(x)$ to form $g(f(x))$.",
-          "Algebraically simplify $g(f(x))$ to show it reduces to $x$, confirming both identities hold on their domains."
-        ]
-      },
+    "intro": "Two functions are inverses when each composition returns the original input on its domain.",
+    "facts": [
+      "Check both $f(g(x))=x$ and $g(f(x))=x$.",
+      "Check the domain of each composition separately.",
+      "$\\sqrt{x^2}=|x|$, so $\\sqrt{x^2}=x$ requires $x\\ge0$."
+    ],
+    "steps": [
+      "Substitute one rule into the other",
+      "Simplify both compositions",
+      "State the allowed inputs"
+    ],
+    "workedExample": {
+      "question_text": "For $f(x)=(x-2)^2,\\ x\\ge2$ and $g(x)=2+\\sqrt x$, verify both compositions and state their domains.",
+      "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=2+\\sqrt{(x-2)^2}=2+|x-2|=x\\quad(x\\ge2)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge2)$"
+    }
+  },
   "practice": {
     "foundation": [
       {
-        "question_text": "Verify that $f(x) = 3x - 7$ and $g(x) = \\dfrac{x + 7}{3}$ are inverse functions by evaluating $f(g(x))$ and $g(f(x))$.",
+        "question_text": "Verify that $f(x)=2x-1$ and $g(x)=\\frac{x+1}{2}$ are inverses.",
         "structure": "verify-linear-composition",
-        "solution_text": "$f(g(x)) = 3\\left(\\dfrac{x + 7}{3}\\right) - 7$\n$= x + 7 - 7$\n$= x$\n$g(f(x)) = \\dfrac{(3x - 7) + 7}{3}$\n$= \\dfrac{3x}{3}$\n$= x$"
+        "solution_text": "$f(g(x))=2\\left(\\frac{x+1}{2}\\right)-1=x$\n$g(f(x))=\\frac{2x-1+1}{2}=x$\n$f(g(x))=g(f(x))=x$"
       },
       {
-        "question_text": "Show that $f(x) = 5 - 2x$ and $g(x) = \\dfrac{5 - x}{2}$ satisfy $f(g(x)) = x$ and $g(f(x)) = x$.",
+        "question_text": "Verify that $f(x)=3x-2$ and $g(x)=\\frac{x+2}{3}$ are inverses.",
         "structure": "verify-linear-composition",
-        "solution_text": "$f(g(x)) = 5 - 2\\left(\\dfrac{5 - x}{2}\\right)$\n$= 5 - (5 - x)$\n$= x$\n$g(f(x)) = \\dfrac{5 - (5 - 2x)}{2}$\n$= \\dfrac{2x}{2}$\n$= x$"
+        "solution_text": "$f(g(x))=3\\left(\\frac{x+2}{3}\\right)-2=x$\n$g(f(x))=\\frac{3x-2+2}{3}=x$\n$f(g(x))=g(f(x))=x$"
       },
       {
-        "question_text": "Given $f(x) = \\dfrac{1}{x - 4}$ for $x \\ne 4$ and $g(x) = \\dfrac{1}{x} + 4$ for $x \\ne 0$, show that $f(g(x)) = x$.",
+        "question_text": "Verify that $f(x)=\\frac{4}{x-3}$ and $g(x)=3+\\frac{4}x$ are inverses.\nState the exclusions.",
         "structure": "verify-rational-composition",
-        "solution_text": "$f(g(x)) = \\dfrac{1}{\\left(\\frac{1}{x} + 4\\right) - 4}$\n$= \\dfrac{1}{\\frac{1}{x}}$\n$= x$"
+        "solution_text": "$f(g(x))=\\frac{4}{3+4/x-3}=x\\quad(x\\ne0)$\n$g(f(x))=3+\\frac{4}{4/(x-3)}=x\\quad(x\\ne3)$\n$f(g(x))=x\\ (x\\ne0),\\ g(f(x))=x\\ (x\\ne3)$"
       },
       {
-        "question_text": "Verify that $f(x) = x^3 + 2$ and $g(x) = \\sqrt[3]{x - 2}$ are inverse functions by calculating $f(g(x))$ and $g(f(x))$.",
+        "question_text": "For $f(x)=(x-4)^2,\\ x\\ge4$ and $g(x)=4+\\sqrt x$, verify both compositions and state their domains.",
         "structure": "verify-power-root-composition",
-        "solution_text": "$f(g(x)) = (\\sqrt[3]{x - 2})^3 + 2$\n$= x - 2 + 2$\n$= x$\n$g(f(x)) = \\sqrt[3]{(x^3 + 2) - 2}$\n$= \\sqrt[3]{x^3}$\n$= x$"
+        "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=4+\\sqrt{(x-4)^2}=4+|x-4|=x\\quad(x\\ge4)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge4)$"
       },
       {
-        "question_text": "Verify that $f(x) = 2x^3 - 5$ and $g(x) = \\sqrt[3]{\\dfrac{x + 5}{2}}$ satisfy $f(g(x)) = x$.",
+        "question_text": "For $f(x)=(x-5)^2,\\ x\\ge5$ and $g(x)=5+\\sqrt x$, verify both compositions and state their domains.",
         "structure": "verify-power-root-composition",
-        "solution_text": "$f(g(x)) = 2\\left(\\sqrt[3]{\\dfrac{x + 5}{2}}\\right)^3 - 5$\n$= 2\\left(\\dfrac{x + 5}{2}\\right) - 5$\n$= x + 5 - 5$\n$= x$"
+        "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=5+\\sqrt{(x-5)^2}=5+|x-5|=x\\quad(x\\ge5)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge5)$"
       },
       {
-        "question_text": "Given $f(x) = 4x - 1$ and $f^{-1}(x) = \\dfrac{x + 1}{4}$, calculate $f(f^{-1}(11))$ and $f^{-1}(f(-3))$.",
+        "question_text": "If $f(x)=7x-6$, evaluate $f^{-1}(f(8))$.",
         "structure": "evaluate-composite-inverse-value",
-        "solution_text": "$f^{-1}(11) = \\dfrac{11 + 1}{4} = 3$\n$f(3) = 4(3) - 1 = 11$\n$f(-3) = 4(-3) - 1 = -13$\n$f^{-1}(-13) = \\dfrac{-13 + 1}{4} = -3$"
+        "solution_text": "$f(8)=50$\n$f^{-1}(x)=\\frac{x+6}{7}$\n$8$"
       },
       {
-        "question_text": "Given $f(x) = x^3 + 7$, evaluate $f(f^{-1}(35))$ and $f^{-1}(f(4))$.",
+        "question_text": "If $f(x)=2x-1$, evaluate $f^{-1}(f(3))$.",
         "structure": "evaluate-composite-inverse-value",
-        "solution_text": "$f(f^{-1}(35)) = 35$\n$f^{-1}(f(4)) = 4$"
+        "solution_text": "$f(3)=5$\n$f^{-1}(x)=\\frac{x+1}{2}$\n$3$"
       },
       {
-        "question_text": "Explain why showing $f(g(x)) = x$ alone does not guarantee $g(x) = f^{-1}(x)$ on all real numbers for $f(x) = x^2$ and $g(x) = \\sqrt{x}$.",
+        "question_text": "A student claims $\\sqrt{(x-2)^2}=x-2$ for all real $x$.\nState the restriction needed to make this true.",
         "structure": "identify-verification-error-or-domain",
-        "solution_text": "$f(g(x)) = (\\sqrt{x})^2 = x \\text{ for } x \\ge 0$\n$g(f(x)) = \\sqrt{x^2} = |x|$\n$\\text{For } x < 0, g(f(x)) = -x \\ne x$\n$\\text{Both compositions must be checked on the full domain}$"
+        "solution_text": "$\\sqrt{(x-2)^2}=|x-2|$\n$x\\ge2$"
       }
     ],
     "development": [
       {
-        "question_text": "Let $f(x) = \\dfrac{2}{3}x + 4$.\nFind the inverse function $g(x)$ and verify that $g(f(x)) = x$.",
+        "question_text": "Verify that $f(x)=4x-3$ and $g(x)=\\frac{x+3}{4}$ are inverses.",
         "structure": "verify-linear-composition",
-        "solution_text": "$y = \\dfrac{2}{3}x + 4 \\implies x = \\dfrac{2}{3}y + 4 \\implies g(x) = \\dfrac{3(x - 4)}{2} = \\dfrac{3x - 12}{2}$\n$g(f(x)) = \\dfrac{3\\left(\\frac{2}{3}x + 4\\right) - 12}{2}$\n$= \\dfrac{2x + 12 - 12}{2}$\n$= \\dfrac{2x}{2}$\n$= x$"
+        "solution_text": "$f(g(x))=4\\left(\\frac{x+3}{4}\\right)-3=x$\n$g(f(x))=\\frac{4x-3+3}{4}=x$\n$f(g(x))=g(f(x))=x$"
       },
       {
-        "question_text": "Verify that $f(x) = \\dfrac{2x + 1}{x - 3}$ for $x \\ne 3$ and $g(x) = \\dfrac{3x + 1}{x - 2}$ for $x \\ne 2$ are inverse functions by evaluating $f(g(x))$.",
+        "question_text": "Verify that $f(x)=\\frac{5}{x-4}$ and $g(x)=4+\\frac{5}x$ are inverses.\nState the exclusions.",
         "structure": "verify-rational-composition",
-        "solution_text": "$f(g(x)) = \\dfrac{2\\left(\\frac{3x + 1}{x - 2}\\right) + 1}{\\left(\\frac{3x + 1}{x - 2}\\right) - 3}$\n$= \\dfrac{\\frac{6x + 2 + (x - 2)}{x - 2}}{\\frac{3x + 1 - 3(x - 2)}{x - 2}}$\n$= \\dfrac{7x}{7}$\n$= x$"
+        "solution_text": "$f(g(x))=\\frac{5}{4+5/x-4}=x\\quad(x\\ne0)$\n$g(f(x))=4+\\frac{5}{5/(x-4)}=x\\quad(x\\ne4)$\n$f(g(x))=x\\ (x\\ne0),\\ g(f(x))=x\\ (x\\ne4)$"
       },
       {
-        "question_text": "Show that $f(x) = \\dfrac{4 - x}{1 + 2x}$ is a self-inverse function by verifying $f(f(x)) = x$ for $x \\ne -\\dfrac{1}{2}$ and $x \\ne 2$.",
+        "question_text": "Verify that $f(x)=\\frac{6}{x-5}$ and $g(x)=5+\\frac{6}x$ are inverses.\nState the exclusions.",
         "structure": "verify-rational-composition",
-        "solution_text": "$f(f(x)) = \\dfrac{4 - \\frac{4 - x}{1 + 2x}}{1 + 2\\left(\\frac{4 - x}{1 + 2x}\\right)}$\n$= \\dfrac{\\frac{4(1 + 2x) - (4 - x)}{1 + 2x}}{\\frac{1 + 2x + 2(4 - x)}{1 + 2x}}$\n$= \\dfrac{4 + 8x - 4 + x}{1 + 2x + 8 - 2x}$\n$= \\dfrac{9x}{9}$\n$= x$"
+        "solution_text": "$f(g(x))=\\frac{6}{5+6/x-5}=x\\quad(x\\ne0)$\n$g(f(x))=5+\\frac{6}{6/(x-5)}=x\\quad(x\\ne5)$\n$f(g(x))=x\\ (x\\ne0),\\ g(f(x))=x\\ (x\\ne5)$"
       },
       {
-        "question_text": "Let $f(x) = \\sqrt{3x - 2}$ for $x \\ge \\dfrac{2}{3}$ and $g(x) = \\dfrac{x^2 + 2}{3}$ for $x \\ge 0$.\nVerify that $f(g(x)) = x$ for $x \\ge 0$ and $g(f(x)) = x$ for $x \\ge \\dfrac{2}{3}$.",
+        "question_text": "For $f(x)=(x-6)^2,\\ x\\ge6$ and $g(x)=6+\\sqrt x$, verify both compositions and state their domains.",
         "structure": "verify-power-root-composition",
-        "solution_text": "$f(g(x)) = \\sqrt{3\\left(\\dfrac{x^2 + 2}{3}\\right) - 2} = \\sqrt{x^2 + 2 - 2} = \\sqrt{x^2} = x \\quad (\\text{since } x \\ge 0)$\n$g(f(x)) = \\dfrac{(\\sqrt{3x - 2})^2 + 2}{3} = \\dfrac{3x - 2 + 2}{3} = \\dfrac{3x}{3} = x \\quad (\\text{since } x \\ge \\dfrac{2}{3})$"
+        "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=6+\\sqrt{(x-6)^2}=6+|x-6|=x\\quad(x\\ge6)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge6)$"
       },
       {
-        "question_text": "Show that $f(x) = (2x - 1)^5 + 3$ and $g(x) = \\dfrac{\\sqrt[5]{x - 3} + 1}{2}$ satisfy $f(g(x)) = x$.",
+        "question_text": "For $f(x)=(x-1)^2,\\ x\\ge1$ and $g(x)=1+\\sqrt x$, verify both compositions and state their domains.",
         "structure": "verify-power-root-composition",
-        "solution_text": "$f(g(x)) = \\left(2\\left(\\dfrac{\\sqrt[5]{x - 3} + 1}{2}\\right) - 1\\right)^5 + 3$\n$= (\\sqrt[5]{x - 3} + 1 - 1)^5 + 3$\n$= (\\sqrt[5]{x - 3})^5 + 3$\n$= x - 3 + 3$\n$= x$"
+        "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=1+\\sqrt{(x-1)^2}=1+|x-1|=x\\quad(x\\ge1)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge1)$"
       },
       {
-        "question_text": "For the rational function $f(x) = \\dfrac{x + 5}{2x - 3}$, its inverse is $f^{-1}(x) = \\dfrac{3x + 5}{2x - 1}$.\nEvaluate $(f \\circ f^{-1})(7)$ and $(f^{-1} \\circ f)(-2)$.",
+        "question_text": "If $f(x)=3x-2$, evaluate $f^{-1}(f(4))$.",
         "structure": "evaluate-composite-inverse-value",
-        "solution_text": "$(f \\circ f^{-1})(7) = 7$\n$(f^{-1} \\circ f)(-2) = -2$"
+        "solution_text": "$f(4)=10$\n$f^{-1}(x)=\\frac{x+2}{3}$\n$4$"
       },
       {
-        "question_text": "A student writes: 'Since $f(x) = x^2 - 1$ and $g(x) = \\sqrt{x + 1}$ satisfy $f(g(x)) = (\\sqrt{x + 1})^2 - 1 = x$, $g$ is the inverse of $f$ on $(-\\infty, \\infty)$.' Identify the error in this reasoning.",
+        "question_text": "A student claims $\\sqrt{(x-3)^2}=x-3$ for all real $x$.\nState the restriction needed to make this true.",
         "structure": "identify-verification-error-or-domain",
-        "solution_text": "$f(x) = x^2 - 1 \\text{ is not one-to-one on } (-\\infty, \\infty)$\n$g(f(x)) = \\sqrt{(x^2 - 1) + 1} = \\sqrt{x^2} = |x|$\n$\\text{For } x < 0, g(f(x)) = -x \\ne x$\n$\\text{The inverse relationship holds only when } f \\text{ is restricted to } x \\ge 0$"
+        "solution_text": "$\\sqrt{(x-3)^2}=|x-3|$\n$x\\ge3$"
       },
       {
-        "question_text": "Given $f(x) = \\ln(x - 2)$ for $x > 2$ and $g(x) = e^x + 2$ for all real $x$, state the domain on which $f(g(x)) = x$ is valid and verify the expression.",
+        "question_text": "A student claims $\\sqrt{(x-4)^2}=x-4$ for all real $x$.\nState the restriction needed to make this true.",
         "structure": "identify-verification-error-or-domain",
-        "solution_text": "$\\text{Domain of } g(x): x \\in (-\\infty, \\infty)$\n$f(g(x)) = \\ln((e^x + 2) - 2)$\n$= \\ln(e^x)$\n$= x$\n$\\text{Identity is valid for all } x \\in (-\\infty, \\infty)$"
+        "solution_text": "$\\sqrt{(x-4)^2}=|x-4|$\n$x\\ge4$"
       }
     ],
     "mastery": [
       {
-        "question_text": "For the linear fractional function $f(x) = \\dfrac{ax + b}{cx - a}$ where $a^2 + bc \\ne 0$ and $x \\ne \\dfrac{a}{c}$, verify that $f(f(x)) = x$, proving that every such function is self-inverse.",
+        "question_text": "Verify that $f(x)=\\frac{7}{x-6}$ and $g(x)=6+\\frac{7}x$ are inverses.\nState the exclusions.",
         "structure": "verify-rational-composition",
-        "solution_text": "$f(f(x)) = \\dfrac{a\\left(\\frac{ax + b}{cx - a}\\right) + b}{c\\left(\\frac{ax + b}{cx - a}\\right) - a}$\n$= \\dfrac{\\frac{a(ax + b) + b(cx - a)}{cx - a}}{\\frac{c(ax + b) - a(cx - a)}{cx - a}}$\n$= \\dfrac{a^2 x + ab + bcx - ab}{acx + bc - acx + a^2}$\n$= \\dfrac{(a^2 + bc)x}{a^2 + bc}$\n$= x$"
+        "solution_text": "$f(g(x))=\\frac{7}{6+7/x-6}=x\\quad(x\\ne0)$\n$g(f(x))=6+\\frac{7}{7/(x-6)}=x\\quad(x\\ne6)$\n$f(g(x))=x\\ (x\\ne0),\\ g(f(x))=x\\ (x\\ne6)$"
       },
       {
-        "question_text": "Given $f(x) = \\sqrt[3]{1 - x^3}$ for all real $x$, algebraically verify that $f(f(x)) = x$ and explain what this implies about the graph of $f(x)$.",
+        "question_text": "For $f(x)=(x-2)^2,\\ x\\ge2$ and $g(x)=2+\\sqrt x$, verify both compositions and state their domains.",
         "structure": "verify-power-root-composition",
-        "solution_text": "$f(f(x)) = \\sqrt[3]{1 - (\\sqrt[3]{1 - x^3})^3}$\n$= \\sqrt[3]{1 - (1 - x^3)}$\n$= \\sqrt[3]{x^3}$\n$= x$\n$\\text{Since } f(f(x)) = x, f \\text{ is self-inverse and its graph is symmetrical about } y = x$"
+        "solution_text": "$f(g(x))=(\\sqrt x)^2=x\\quad(x\\ge0)$\n$g(f(x))=2+\\sqrt{(x-2)^2}=2+|x-2|=x\\quad(x\\ge2)$\n$f(g(x))=x\\ (x\\ge0),\\ g(f(x))=x\\ (x\\ge2)$"
       },
       {
-        "question_text": "Define $f(x) = (\\sqrt{x})^2$ and $g(x) = \\sqrt{x^2}$.\nVerify where $f(x) = x$ and $g(x) = x$ hold, and explain why $g(x)$ is not the unrestricted inverse of any function.",
+        "question_text": "A student claims $\\sqrt{(x-1)^2}=x-1$ for all real $x$.\nState the restriction needed to make this true.",
         "structure": "identify-verification-error-or-domain",
-        "solution_text": "$f(x) = (\\sqrt{x})^2 = x \\text{ only for } x \\ge 0 \\text{ (undefined for } x < 0)$\n$g(x) = \\sqrt{x^2} = |x| = x \\text{ only for } x \\ge 0$\n$\\text{Since } g(x) = |x| \\ge 0 \\text{ for all } x, \\text{ its range contains no negative values and it is not one-to-one}$"
+        "solution_text": "$\\sqrt{(x-1)^2}=|x-1|$\n$x\\ge1$"
       },
       {
-        "question_text": "An invertible function $f(x)$ satisfies $f(2x + 1) = 4x - 3$ for all real $x$.\nFind an expression for $f^{-1}(x)$ and verify that $f(f^{-1}(x)) = x$.",
+        "question_text": "If $f(x)=4x-3$, evaluate $f^{-1}(f(5))$.",
         "structure": "evaluate-composite-inverse-value",
-        "solution_text": "$\\text{Let } u = 2x + 1 \\implies x = \\dfrac{u - 1}{2}$\n$f(u) = 4\\left(\\dfrac{u - 1}{2}\\right) - 3 = 2u - 5 \\implies f(x) = 2x - 5$\n$y = 2x - 5 \\implies f^{-1}(x) = \\dfrac{x + 5}{2}$\n$f(f^{-1}(x)) = 2\\left(\\dfrac{x + 5}{2}\\right) - 5 = x + 5 - 5 = x$"
+        "solution_text": "$f(5)=17$\n$f^{-1}(x)=\\frac{x+3}{4}$\n$5$"
       }
     ]
   }
